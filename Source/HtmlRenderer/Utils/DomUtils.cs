@@ -39,15 +39,8 @@ namespace HtmlRenderer.Utils
             {
                 if (!b.IsInline)
                 {
-                    //พบว่าไม่ได้เป็น inline แล้ว
-                    //ให้ return เลย 
-                    ////แปลว่าเรายัง test ไม่หมด ?
-
-                    //if (box.PassTestInlineOnly && box.InlineOnlyResult == true)
-                    //{
-
-                    //}
-
+                     
+                     
                     //box.SetInlineOnlyTestResult(false);
                     return false;
                 }
