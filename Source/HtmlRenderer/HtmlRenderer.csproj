@@ -63,7 +63,6 @@
   <ItemGroup>
     <Compile Include="CssData.cs" />
     <Compile Include="Dom\CssBox\CssBox_Corrector.cs" />
-    <Compile Include="Dom\CssBox\CssBoxBase_Bridge.cs" />
     <Compile Include="Dom\CssBox\CssBoxUserUtil.cs" />
     <Compile Include="Dom\CssBox\CssBox_Fields.cs" />
     <Compile Include="Dom\CssBox\CssBox_Paint.cs" />
