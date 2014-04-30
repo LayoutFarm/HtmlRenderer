@@ -355,7 +355,14 @@ namespace HtmlRenderer.Dom
         {
             get { return _boxWords; }
         }
+        public IEnumerable<CssRect> GetWordIter()
+        {
+            foreach (var w in this._boxWords)
+            {
+                yield return w;
+            }
 
+        }
         /// <summary>
         /// Gets the first word of the box
         /// </summary>
@@ -880,7 +887,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="attribute">Attribute to retrieve</param>
         /// <returns>Attribute value or string.Empty if no attribute specified</returns>
-        internal string GetAttribute(string attribute)
+        public string GetAttribute(string attribute)
         {
             return GetAttribute(attribute, string.Empty);
         }
@@ -891,7 +898,7 @@ namespace HtmlRenderer.Dom
         /// <param name="attribute">Attribute to retrieve</param>
         /// <param name="defaultValue">Value to return if attribute is not specified</param>
         /// <returns>Attribute value or defaultValue if no attribute specified</returns>
-        internal string GetAttribute(string attribute, string defaultValue)
+        public string GetAttribute(string attribute, string defaultValue)
         {
             return HtmlTag != null ? HtmlTag.TryGetAttribute(attribute, defaultValue) : defaultValue;
         }

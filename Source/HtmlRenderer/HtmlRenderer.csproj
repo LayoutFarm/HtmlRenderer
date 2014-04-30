@@ -58,9 +58,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CssData.cs" />
@@ -101,9 +99,7 @@
     <Compile Include="Entities\HtmlGenerationStyle.cs" />
     <Compile Include="Entities\CssDefaults.cs" />
     <Compile Include="Entities\Tupler.cs" />
-    <Compile Include="Handlers\ContextMenuHandler.cs" />
     <Compile Include="Handlers\ImageLoadHandler.cs" />
-    <Compile Include="Handlers\SelectionHandler.cs" />
     <Compile Include="Handlers\StylesheetLoadHandler.cs" />
     <Compile Include="IGraphics.cs" />
     <Compile Include="Handlers\BackgroundImageDrawHandler.cs" />
@@ -119,21 +115,11 @@
     </Compile>
     <Compile Include="Utils\ArgChecker.cs" />
     <Compile Include="Utils\FontsUtils.cs" />
-    <Compile Include="Utils\HtmlClipboardUtils.cs" />
     <Compile Include="Utils\RenderUtils.cs" />
     <Compile Include="Entities\CssConstants.cs" />
     <Compile Include="Entities\CssUnit.cs" />
     <Compile Include="Entities\HtmlConstants.cs" />
-    <Compile Include="HtmlLabel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="HtmlPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="HtmlRender.cs" />
-    <Compile Include="HtmlToolTip.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Utils\CssParser.cs" />
     <Compile Include="Parse\RegexParserUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -141,8 +127,9 @@
     <Compile Include="Utils\DomUtils.cs" />
     <Compile Include="Utils\HtmlUtils.cs" />
     <Compile Include="Utils\CommonUtils.cs" />
-    <Compile Include="WinGraphics.cs" />
     <Compile Include="Utils\Win32Utils.cs" />
+    <Compile Include="Handlers\ISelectHandler.cs" />
+    <Compile Include="WinGraphics.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

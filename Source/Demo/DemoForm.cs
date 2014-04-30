@@ -540,8 +540,11 @@ namespace HtmlRenderer.Demo
             {
                 foreach (var sampleNum in selectedSamples)
                 {
+
                     HtmlRenderer.dbugCounter.dbugStartRecord = true;
                     HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
+
+
                     _htmlPanel.Text = _perfTestSamples[sampleNum];
                     Application.DoEvents(); // so paint will be called
                 }

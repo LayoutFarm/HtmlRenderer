@@ -30,7 +30,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the container to render and handle the html shown in the tooltip
         /// </summary>
-        private HtmlContainer _htmlContainer;
+        private HtmlContainerImpl _htmlContainer;
 
         /// <summary>
         /// the raw base stylesheet data used in the control
@@ -82,7 +82,7 @@ namespace HtmlRenderer
         {
             OwnerDraw = true;
 
-            _htmlContainer = new HtmlContainer();
+            _htmlContainer = new HtmlContainerImpl();
             _htmlContainer.IsSelectionEnabled = false;
             _htmlContainer.IsContextMenuEnabled = false;
             _htmlContainer.AvoidGeometryAntialias = true;

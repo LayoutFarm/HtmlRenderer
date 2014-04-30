@@ -19,6 +19,12 @@ using System.Net;
 using System.Text;
 using HtmlRenderer.Entities;
 
+namespace System.Windows.Forms
+{
+    class dummy
+    {
+    }
+}
 namespace HtmlRenderer.Utils
 {
     internal delegate void ActionInt<in T>(T obj);

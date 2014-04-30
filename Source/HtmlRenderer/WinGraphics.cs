@@ -27,11 +27,7 @@ namespace HtmlRenderer
             get { return _dbugDrawStringCount; }
             set
             {
-                _dbugDrawStringCount = value;
-                if (dbugStartRecord && value >= 137)
-                {
-
-                }
+                _dbugDrawStringCount = value; 
             }
         }
 
@@ -40,7 +36,7 @@ namespace HtmlRenderer
     /// <summary>
     /// 
     /// </summary>
-    internal sealed class WinGraphics : IGraphics
+    public sealed class WinGraphics : IGraphics
     {
         #region Fields and Consts
 

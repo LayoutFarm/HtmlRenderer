@@ -261,10 +261,15 @@ namespace HtmlRenderer.Dom
                             b.Paint(g, args);
                         }
                     }
-
                 }
+                 
+                //------------------------------------------
                 //must! , 
                 RenderUtils.ReturnClip(g, prevClip);
+                if (_listItemBox != null)
+                {
+                    _listItemBox.Paint(g,args);
+                }
             }
         }
 

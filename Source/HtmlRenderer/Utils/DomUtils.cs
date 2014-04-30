@@ -25,7 +25,7 @@ namespace HtmlRenderer.Utils
     /// <summary>
     /// Utility class for traversing DOM structure and execution stuff on it.
     /// </summary>
-    internal sealed class DomUtils
+    public sealed class DomUtils
     {
         /// <summary>
         /// Check if the given box contains only inline child boxes.
@@ -128,8 +128,11 @@ namespace HtmlRenderer.Utils
         /// <returns>css link box if exists or null</returns>
         public static CssBox GetCssBox(CssBox box, Point location, bool visible = true)
         {
+            //------------------------------------
             //2014-04-27: temp remove
             //tobe replace by another technique
+            //------------------------------------
+
 
             //if (box != null)
             //{
@@ -159,8 +162,10 @@ namespace HtmlRenderer.Utils
         public static CssBox GetLinkBox(CssBox box, Point location)
         {
 
+            //------------------------------------
             //2014-04-27: temp remove 
             //to be replace by another technique
+            //------------------------------------
 
             //if (box != null)
             //{
@@ -216,6 +221,41 @@ namespace HtmlRenderer.Utils
             return null;
         }
 
+        public static CssRect GetWordOnLocation(CssBox box, Point loc)
+        {
+            var lineBox = DomUtils.GetCssLineBox(box, loc);
+            if (lineBox != null)
+            {
+                // get the word under the mouse
+                var word = DomUtils.GetCssBoxWordOnLocation(lineBox, loc);
+
+                // if no word found under the mouse use the last or the first word in the line
+                if (word == null && lineBox.Words.Count > 0)
+                {
+                    if (loc.Y > lineBox.LineBottom)
+                    {
+                        // under the line
+                        word = lineBox.Words[lineBox.Words.Count - 1];
+                    }
+                    else if (loc.X < lineBox.Words[0].Left)
+                    {
+                        // before the line
+                        word = lineBox.Words[0];
+                    }
+                    else if (loc.X > lineBox.Words[lineBox.Words.Count - 1].Right)
+                    {
+                        // at the end of the line
+                        word = lineBox.Words[lineBox.Words.Count - 1];
+                    }
+                }
+
+                return word;
+            }
+            else
+            {
+                return null;
+            }
+        }
         /// <summary>
         /// Get css line box under the given sub-tree at the given y location or the nearest line from the top.<br/>
         /// the location must be in correct scroll offset.
@@ -223,7 +263,7 @@ namespace HtmlRenderer.Utils
         /// <param name="box">the box to start search from</param>
         /// <param name="location">the location to find the box at</param>
         /// <returns>css word box if exists or null</returns>
-        public static CssLineBox GetCssLineBox(CssBox box, Point location)
+        internal static CssLineBox GetCssLineBox(CssBox box, Point location)
         {
             CssLineBox line = null;
             if (box != null)
@@ -318,7 +358,7 @@ namespace HtmlRenderer.Utils
         /// <param name="lineBox">the line box to search in</param>
         /// <param name="location">the location to find the box at</param>
         /// <returns>css word box if exists or null</returns>
-        public static CssRect GetCssBoxWordOnLocation(CssLineBox lineBox, Point location)
+        internal static CssRect GetCssBoxWordOnLocation(CssLineBox lineBox, Point location)
         {
             foreach (var word in lineBox.GetRectWordIter())
             {
@@ -345,16 +385,23 @@ namespace HtmlRenderer.Utils
             //}
             return null;
         }
-
+        public static bool IsOnTheSameLine(CssRect start, CssRect end)
+        {
+            return DomUtils.GetCssLineBoxByWord(start) == DomUtils.GetCssLineBoxByWord(end);
+        }
+        public static float GetLineBottom(CssRect cssRect)
+        {
+            return GetCssLineBoxByWord(cssRect).LineBottom;
+        }
         /// <summary>
         /// Find the css line box that the given word is in.
         /// </summary>
         /// <param name="word">the word to search for it's line box</param>
         /// <returns>line box that the word is in</returns>
-        public static CssLineBox GetCssLineBoxByWord(CssRect word)
+        internal static CssLineBox GetCssLineBoxByWord(CssRect word)
         {
             var box = word.OwnerBox;
-            while (box.LineBoxCount== 0)
+            while (box.LineBoxCount == 0)
             {
                 box = box.ParentBox;
             }

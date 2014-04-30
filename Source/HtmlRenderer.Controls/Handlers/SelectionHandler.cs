@@ -22,7 +22,7 @@ namespace HtmlRenderer.Handlers
     /// <summary>
     /// Handler for text selection in the html.
     /// </summary>
-    internal sealed class SelectionHandler : IDisposable
+    internal sealed class SelectionHandler : ISelectionHandler, IDisposable
     {
         #region Fields and Consts
 
@@ -171,7 +171,7 @@ namespace HtmlRenderer.Handlers
         public void HandleMouseDown(Control parent, Point loc, bool isMouseInContainer)
         {
             bool clear = !isMouseInContainer;
-            if(isMouseInContainer)
+            if (isMouseInContainer)
             {
                 _mouseDownInControl = true;
                 _isDoubleClickSelect = (DateTime.Now - _lastMouseDown).TotalMilliseconds < 400;
@@ -194,7 +194,7 @@ namespace HtmlRenderer.Handlers
                 {
                     var rect = DomUtils.GetCssBoxWord(_root, loc);
                     var link = DomUtils.GetLinkBox(_root, loc);
-                    if(_root.HtmlContainer.IsContextMenuEnabled)
+                    if (_root.HtmlContainer.IsContextMenuEnabled)
                     {
                         _contextMenuHandler.ShowContextMenu(parent, rect, link);
                     }
@@ -234,7 +234,7 @@ namespace HtmlRenderer.Handlers
             ignore = ignore || (DateTime.Now - _lastMouseDown > TimeSpan.FromSeconds(1));
             return ignore;
         }
-        
+
         /// <summary>
         /// Handle mouse move to handle hover cursor and text selection.
         /// </summary>
@@ -268,23 +268,23 @@ namespace HtmlRenderer.Handlers
                 else if (_root.HtmlContainer.IsSelectionEnabled)
                 {
                     var word = DomUtils.GetCssBoxWord(_root, loc);
-                    _cursorChanged = word != null && !word.IsImage && !( word.Selected && ( word.SelectedStartIndex < 0 || word.Left + word.SelectedStartOffset <= loc.X ) && ( word.SelectedEndOffset < 0 || word.Left + word.SelectedEndOffset >= loc.X ) );
+                    _cursorChanged = word != null && !word.IsImage && !(word.Selected && (word.SelectedStartIndex < 0 || word.Left + word.SelectedStartOffset <= loc.X) && (word.SelectedEndOffset < 0 || word.Left + word.SelectedEndOffset >= loc.X));
                     parent.Cursor = _cursorChanged ? Cursors.IBeam : Cursors.Default;
                 }
-                else if(_cursorChanged)
+                else if (_cursorChanged)
                 {
-                    parent.Cursor = Cursors.Default;                    
+                    parent.Cursor = Cursors.Default;
                 }
             }
         }
-        
+
         /// <summary>
         /// On mouse leave change the cursor back to default.
         /// </summary>
         /// <param name="parent">the control hosting the html to set cursor and invalidate</param>
         public void HandleMouseLeave(Control parent)
         {
-            if(_cursorChanged)
+            if (_cursorChanged)
             {
                 _cursorChanged = false;
                 parent.Cursor = Cursors.Default;
@@ -297,7 +297,7 @@ namespace HtmlRenderer.Handlers
         /// </summary>
         public void CopySelectedHtml()
         {
-            if(_root.HtmlContainer.IsSelectionEnabled)
+            if (_root.HtmlContainer.IsSelectionEnabled)
             {
                 var html = DomUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true);
                 var plainText = DomUtils.GetSelectedPlainText(_root);
@@ -397,65 +397,98 @@ namespace HtmlRenderer.Handlers
         private void HandleSelection(Control control, Point loc, bool allowPartialSelect)
         {
             // get the line under the mouse or nearest from the top
-            var lineBox = DomUtils.GetCssLineBox(_root, loc);
-            if (lineBox != null)
+            //var lineBox = DomUtils.GetCssLineBox(_root, loc);
+            var word = DomUtils.GetWordOnLocation(_root, loc);
+            if (word != null)
             {
-                // get the word under the mouse
-                var word = DomUtils.GetCssBoxWordOnLocation(lineBox, loc);
-
-                // if no word found under the mouse use the last or the first word in the line
-                if (word == null && lineBox.Words.Count > 0)
+                if (_selectionStart == null)
                 {
-                    if (loc.Y > lineBox.LineBottom)
-                    {
-                        // under the line
-                        word = lineBox.Words[lineBox.Words.Count - 1];
-                    }
-                    else if (loc.X < lineBox.Words[0].Left)
-                    {
-                        // before the line
-                        word = lineBox.Words[0];
-                    }
-                    else if (loc.X > lineBox.Words[lineBox.Words.Count - 1].Right)
-                    {
-                        // at the end of the line
-                        word = lineBox.Words[lineBox.Words.Count - 1];
-                    }
-                }
-
-                // if there is matching word
-                if (word != null)
-                {
-                    if (_selectionStart == null)
-                    {
-                        // on start set the selection start word
-                        _selectionStartPoint = loc;
-                        _selectionStart = word;
-                        if (allowPartialSelect)
-                            CalculateWordCharIndexAndOffset(control, word, loc, true);
-                    }
-
-                    // always set selection end word
-                    _selectionEnd = word;
+                    // on start set the selection start word
+                    _selectionStartPoint = loc;
+                    _selectionStart = word;
                     if (allowPartialSelect)
-                        CalculateWordCharIndexAndOffset(control, word, loc, false);
-
-                    ClearSelection(_root);
-                    if (CheckNonEmptySelection(loc, allowPartialSelect))
-                    {
-                        CheckSelectionDirection();
-                        SelectWordsInRange(_root, _backwardSelection ? _selectionEnd : _selectionStart, _backwardSelection ? _selectionStart : _selectionEnd);
-                    }
-                    else
-                    {
-                        _selectionEnd = null;
-                    }
-
-                    _cursorChanged = true;
-                    control.Cursor = Cursors.IBeam;
-                    control.Invalidate();
+                        CalculateWordCharIndexAndOffset(control, word, loc, true);
                 }
+
+                // always set selection end word
+                _selectionEnd = word;
+                if (allowPartialSelect)
+                    CalculateWordCharIndexAndOffset(control, word, loc, false);
+
+                ClearSelection(_root);
+                if (CheckNonEmptySelection(loc, allowPartialSelect))
+                {
+                    CheckSelectionDirection();
+                    SelectWordsInRange(_root, _backwardSelection ? _selectionEnd : _selectionStart, _backwardSelection ? _selectionStart : _selectionEnd);
+                }
+                else
+                {
+                    _selectionEnd = null;
+                }
+
+                _cursorChanged = true;
+                control.Cursor = Cursors.IBeam;
+                control.Invalidate();
             }
+
+            //if (lineBox != null)
+            //{
+            //    // get the word under the mouse
+            //    var word = DomUtils.GetCssBoxWordOnLocation(lineBox, loc);
+
+            //    // if no word found under the mouse use the last or the first word in the line
+            //    if (word == null && lineBox.Words.Count > 0)
+            //    {
+            //        if (loc.Y > lineBox.LineBottom)
+            //        {
+            //            // under the line
+            //            word = lineBox.Words[lineBox.Words.Count - 1];
+            //        }
+            //        else if (loc.X < lineBox.Words[0].Left)
+            //        {
+            //            // before the line
+            //            word = lineBox.Words[0];
+            //        }
+            //        else if (loc.X > lineBox.Words[lineBox.Words.Count - 1].Right)
+            //        {
+            //            // at the end of the line
+            //            word = lineBox.Words[lineBox.Words.Count - 1];
+            //        }
+            //    }
+
+            //    // if there is matching word
+            //    if (word != null)
+            //    {
+            //        if (_selectionStart == null)
+            //        {
+            //            // on start set the selection start word
+            //            _selectionStartPoint = loc;
+            //            _selectionStart = word;
+            //            if (allowPartialSelect)
+            //                CalculateWordCharIndexAndOffset(control, word, loc, true);
+            //        }
+
+            //        // always set selection end word
+            //        _selectionEnd = word;
+            //        if (allowPartialSelect)
+            //            CalculateWordCharIndexAndOffset(control, word, loc, false);
+
+            //        ClearSelection(_root);
+            //        if (CheckNonEmptySelection(loc, allowPartialSelect))
+            //        {
+            //            CheckSelectionDirection();
+            //            SelectWordsInRange(_root, _backwardSelection ? _selectionEnd : _selectionStart, _backwardSelection ? _selectionStart : _selectionEnd);
+            //        }
+            //        else
+            //        {
+            //            _selectionEnd = null;
+            //        }
+
+            //        _cursorChanged = true;
+            //        control.Cursor = Cursors.IBeam;
+            //        control.Invalidate();
+            //    }
+            //}
         }
 
         /// <summary>
@@ -484,7 +517,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="box">the css box to selectionStart clear at</param>
         private static void ClearSelection(CssBox box)
         {
-            foreach (var word in box.Words)
+            foreach (var word in box.GetWordIter())
             {
                 word.Selection = null;
             }
@@ -515,7 +548,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="box">the box to start select all at</param>
         public void SelectAllWords(CssBox box)
         {
-            foreach (var word in box.Words)
+            foreach (var word in box.GetWordIter())
             {
                 word.Selection = this;
             }
@@ -568,7 +601,7 @@ namespace HtmlRenderer.Handlers
         /// <returns></returns>
         private bool SelectWordsInRange(CssBox box, CssRect selectionStart, CssRect selectionEnd, ref bool inSelection)
         {
-            foreach (var boxWord in box.Words)
+            foreach (var boxWord in box.GetWordIter())
             {
                 if (!inSelection && boxWord == selectionStart)
                 {
@@ -610,7 +643,7 @@ namespace HtmlRenderer.Handlers
             float selectionOffset;
             CalculateWordCharIndexAndOffset(control, word, loc, selectionStart, out selectionIndex, out selectionOffset);
 
-            if(selectionStart)
+            if (selectionStart)
             {
                 _selectionStartIndex = selectionIndex;
                 _selectionStartOffset = selectionOffset;
@@ -646,7 +679,8 @@ namespace HtmlRenderer.Handlers
                 selectionIndex = -1;
                 selectionOffset = -1;
             }
-            else if (offset > word.Width - word.OwnerBox.ActualWordSpacing || loc.Y > DomUtils.GetCssLineBoxByWord(word).LineBottom)
+            else if (offset > word.Width - word.OwnerBox.ActualWordSpacing ||
+                    loc.Y > DomUtils.GetLineBottom(word))
             {
                 // mouse under the line, to the right of the word - set to the end of the word
                 selectionIndex = word.Text.Length;
@@ -656,11 +690,11 @@ namespace HtmlRenderer.Handlers
             {
                 // calculate partial word selection
                 var font = word.OwnerBox.ActualFont;
-                using (var g = new WinGraphics(control.CreateGraphics(),false))
+                using (var g = new WinGraphics(control.CreateGraphics(), false))
                 {
                     int charFit;
                     int charFitWidth;
-                    var maxWidth = offset + ( inclusive ? 0 : 1.5f*word.LeftGlyphPadding );
+                    var maxWidth = offset + (inclusive ? 0 : 1.5f * word.LeftGlyphPadding);
                     g.MeasureString(word.Text, font, maxWidth, out charFit, out charFitWidth);
 
                     selectionIndex = charFit;
@@ -679,7 +713,7 @@ namespace HtmlRenderer.Handlers
             {
                 _backwardSelection = _selectionStartIndex > _selectionEndIndex;
             }
-            else if (DomUtils.GetCssLineBoxByWord(_selectionStart) == DomUtils.GetCssLineBoxByWord(_selectionEnd))
+            else if (DomUtils.IsOnTheSameLine(_selectionStart, _selectionEnd))
             {
                 _backwardSelection = _selectionStart.Left > _selectionEnd.Left;
             }

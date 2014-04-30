@@ -207,6 +207,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HtmlRenderer.Controls\HtmlRenderer.Controls.csproj">
+      <Project>{4DBA38D8-D665-4C2C-908A-3C3C0498308D}</Project>
+      <Name>HtmlRenderer.Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HtmlRenderer\HtmlRenderer.csproj">
       <Project>{1B058920-24B4-4140-8AE7-C8C6C38CA52D}</Project>
       <Name>HtmlRenderer</Name>

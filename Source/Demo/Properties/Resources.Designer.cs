@@ -161,7 +161,7 @@ namespace HtmlRenderer.Demo.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;b&gt;HtmlPnael control showing &lt;u&gt;HTML Renderer&lt;/u&gt; capabilities&lt;/b&gt;
+        ///   Looks up a localized string similar to &lt;b&gt;HtmlPanel control showing &lt;u&gt;HTML Renderer&lt;/u&gt; capabilities&lt;/b&gt;
         ///		&lt;table border=&quot;0&quot; style=&quot;margin: 10px 20px;&quot;&gt;
         ///                &lt;tr&gt;
         ///                    &lt;td width=&quot;32&quot; style=&quot;padding: 2px 5px 0 0&quot;&gt;

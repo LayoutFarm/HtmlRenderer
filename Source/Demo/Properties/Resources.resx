@@ -137,7 +137,7 @@
     <value>..\Resources\property16.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Tooltip" xml:space="preserve">
-    <value>&lt;b&gt;HtmlPnael control showing &lt;u&gt;HTML Renderer&lt;/u&gt; capabilities&lt;/b&gt;
+    <value>&lt;b&gt;HtmlPanel control showing &lt;u&gt;HTML Renderer&lt;/u&gt; capabilities&lt;/b&gt;
 		&lt;table border="0" style="margin: 10px 20px;"&gt;
                 &lt;tr&gt;
                     &lt;td width="32" style="padding: 2px 5px 0 0"&gt;

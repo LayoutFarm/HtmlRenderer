@@ -83,7 +83,7 @@ namespace HtmlRenderer
     /// Raised when an error occurred during html rendering.<br/>
     /// </para>
     /// </remarks>
-    public sealed class HtmlContainer : IDisposable
+    public abstract class HtmlContainer : IDisposable
     {
         #region Fields and Consts
 
@@ -97,10 +97,7 @@ namespace HtmlRenderer
         /// </summary>
         private List<Tupler<CssBox, CssBlock>> _hoverBoxes;
 
-        /// <summary>
-        /// Handler for text selection in the html. 
-        /// </summary>
-        private SelectionHandler _selectionHandler;
+
 
         /// <summary>
         /// the text fore color use for selected text
@@ -173,12 +170,7 @@ namespace HtmlRenderer
         #endregion
 
 
-        /// <summary>
-        /// Raised when the user clicks on a link in the html.<br/>
-        /// Allows canceling the execution of the link.
-        /// </summary>
-        public event EventHandler<HtmlLinkClickedEventArgs> LinkClicked;
-
+       
         /// <summary>
         /// Raised when html renderer requires refresh of the control hosting (invalidation and re-layout).
         /// </summary>
@@ -187,12 +179,7 @@ namespace HtmlRenderer
         /// </remarks>
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
 
-        /// <summary>
-        /// Raised when Html Renderer request scroll to specific location.<br/>
-        /// This can occur on document anchor click.
-        /// </summary>
-        public event EventHandler<HtmlScrollEventArgs> ScrollChange;
-
+        
         /// <summary>
         /// Raised when an error occurred during html rendering.<br/>
         /// </summary>
@@ -214,10 +201,12 @@ namespace HtmlRenderer
         /// </summary>
         public event EventHandler<HtmlImageLoadEventArgs> ImageLoad;
 
+
         public HtmlContainer()
         {
 
         }
+
 
         /// <summary>
         /// the parsed stylesheet data used for handling the html
@@ -362,21 +351,15 @@ namespace HtmlRenderer
             internal set { _actualSize = value; }
         }
 
-        /// <summary>
-        /// Get the currently selected text segment in the html.
-        /// </summary>
-        public string SelectedText
+        public abstract string SelectedText
         {
-            get { return _selectionHandler.GetSelectedText(); }
+            get;
+        }
+        public abstract string SelectedHtml
+        {
+            get;
         }
 
-        /// <summary>
-        /// Copy the currently selected html segment with style.
-        /// </summary>
-        public string SelectedHtml
-        {
-            get { return _selectionHandler.GetSelectedHtml(); }
-        }
 
         /// <summary>
         /// the root css box of the parsed html
@@ -437,23 +420,14 @@ namespace HtmlRenderer
         /// <param name="htmlSource">the html to init with, init empty if not given</param>
         /// <param name="baseCssData">optional: the stylesheet to init with, init default if not given</param>
         public void SetHtml(string htmlSource, CssData baseCssData = null)
-        {
-
-
-            ////1. แทนที่ parser เดิมด้วย parse ของ silk ***
-            //var xhtmldoc = MyWebParse(htmlSource);
-            ////2. แปลงจาก html element ให้เป็น visual
-            //GenerateVisualPresentation(xhtmldoc);
-
+        { 
+         
             if (_root != null)
             {
                 _root.Dispose();
                 _root = null;
-                if (_selectionHandler != null)
-                {
-                    _selectionHandler.Dispose();
-                }
-                _selectionHandler = null;
+                //---------------------------
+                this.OnRootDisposed(); 
             }
 
             if (!string.IsNullOrEmpty(htmlSource))
@@ -465,11 +439,20 @@ namespace HtmlRenderer
                 _root = DomParser.GenerateCssTree(htmlSource, this, ref _cssData);
                 if (_root != null)
                 {
-                    _selectionHandler = new SelectionHandler(_root);
+                    this.OnRootCreated(_root);
                 }
             }
         }
+        protected virtual void OnRootDisposed()
+        {
 
+        }
+        protected virtual void OnRootCreated(CssBox root)
+        {
+        }
+        protected virtual void OnAllDisposed()
+        {
+        }
         /// <summary>
         /// Get html from the current DOM tree with style if requested.
         /// </summary>
@@ -573,16 +556,16 @@ namespace HtmlRenderer
                 g.SetClip(new RectangleF(_location, _maxSize));
             }
             if (_root != null)
-            {                 
+            {
                 PaintingArgs args = new PaintingArgs(this);
                 var bound = this.ViewportBound;
-                args.PushBound(0, 0, bound.Width, bound.Height); 
+                args.PushBound(0, 0, bound.Width, bound.Height);
                 using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
                 {
                     args.PushContainingBox(_root.ContainingBlock);
                     _root.Paint(ig, args);
                     args.PopContainingBox();
-                } 
+                }
             }
 
             if (prevClip != null)
@@ -591,178 +574,8 @@ namespace HtmlRenderer
             }
         }
 
-        /// <summary>
-        /// Handle mouse down to handle selection.
-        /// </summary>
-        /// <param name="parent">the control hosting the html to invalidate</param>
-        /// <param name="e">the mouse event args</param>
-        public void HandleMouseDown(Control parent, MouseEventArgs e)
-        {
-            ArgChecker.AssertArgNotNull(parent, "parent");
-            ArgChecker.AssertArgNotNull(e, "e");
 
-            try
-            {
-                if (_selectionHandler != null)
-                    _selectionHandler.HandleMouseDown(parent, OffsetByScroll(e.Location), IsMouseInContainer(e.Location));
-            }
-            catch (Exception ex)
-            {
-                ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed mouse down handle", ex);
-            }
-        }
 
-        /// <summary>
-        /// Handle mouse up to handle selection and link click.
-        /// </summary>
-        /// <param name="parent">the control hosting the html to invalidate</param>
-        /// <param name="e">the mouse event args</param>
-        public void HandleMouseUp(Control parent, MouseEventArgs e)
-        {
-            ArgChecker.AssertArgNotNull(parent, "parent");
-            ArgChecker.AssertArgNotNull(e, "e");
-
-            try
-            {
-                if (_selectionHandler != null && IsMouseInContainer(e.Location))
-                {
-                    var ignore = _selectionHandler.HandleMouseUp(parent, e.Button);
-                    if (!ignore && (e.Button & MouseButtons.Left) != 0)
-                    {
-                        var loc = OffsetByScroll(e.Location);
-                        var link = DomUtils.GetLinkBox(_root, loc);
-                        if (link != null)
-                        {
-                            HandleLinkClicked(parent, e, link);
-                        }
-                    }
-                }
-            }
-            catch (HtmlLinkClickedException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed mouse up handle", ex);
-            }
-        }
-
-        /// <summary>
-        /// Handle mouse double click to select word under the mouse.
-        /// </summary>
-        /// <param name="parent">the control hosting the html to set cursor and invalidate</param>
-        /// <param name="e">mouse event args</param>
-        public void HandleMouseDoubleClick(Control parent, MouseEventArgs e)
-        {
-            ArgChecker.AssertArgNotNull(parent, "parent");
-            ArgChecker.AssertArgNotNull(e, "e");
-
-            try
-            {
-                if (_selectionHandler != null && IsMouseInContainer(e.Location))
-                    _selectionHandler.SelectWord(parent, OffsetByScroll(e.Location));
-            }
-            catch (Exception ex)
-            {
-                ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed mouse double click handle", ex);
-            }
-        }
-
-        /// <summary>
-        /// Handle mouse move to handle hover cursor and text selection.
-        /// </summary>
-        /// <param name="parent">the control hosting the html to set cursor and invalidate</param>
-        /// <param name="e">the mouse event args</param>
-        public void HandleMouseMove(Control parent, MouseEventArgs e)
-        {
-            ArgChecker.AssertArgNotNull(parent, "parent");
-            ArgChecker.AssertArgNotNull(e, "e");
-
-            try
-            {
-                var loc = OffsetByScroll(e.Location);
-                if (_selectionHandler != null && IsMouseInContainer(e.Location))
-                    _selectionHandler.HandleMouseMove(parent, loc);
-
-                /*
-                if( _hoverBoxes != null )
-                {
-                    bool refresh = false;
-                    foreach(var hoverBox in _hoverBoxes)
-                    {
-                        foreach(var rect in hoverBox.Item1.Rectangles.Values)
-                        {
-                            if( rect.Contains(loc) )
-                            {
-                                //hoverBox.Item1.Color = "gold";
-                                refresh = true;
-                            }
-                        }
-                    }
-
-                    if(refresh)
-                        RequestRefresh(true);
-                }
-                 */
-            }
-            catch (Exception ex)
-            {
-                ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed mouse move handle", ex);
-            }
-        }
-
-        /// <summary>
-        /// Handle mouse leave to handle hover cursor.
-        /// </summary>
-        /// <param name="parent">the control hosting the html to set cursor and invalidate</param>
-        public void HandleMouseLeave(Control parent)
-        {
-            ArgChecker.AssertArgNotNull(parent, "parent");
-
-            try
-            {
-                if (_selectionHandler != null)
-                    _selectionHandler.HandleMouseLeave(parent);
-            }
-            catch (Exception ex)
-            {
-                ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed mouse leave handle", ex);
-            }
-        }
-
-        /// <summary>
-        /// Handle key down event for selection and copy.
-        /// </summary>
-        /// <param name="parent">the control hosting the html to invalidate</param>
-        /// <param name="e">the pressed key</param>
-        public void HandleKeyDown(Control parent, KeyEventArgs e)
-        {
-            ArgChecker.AssertArgNotNull(parent, "parent");
-            ArgChecker.AssertArgNotNull(e, "e");
-
-            try
-            {
-                if (e.Control && _selectionHandler != null)
-                {
-                    // select all
-                    if (e.KeyCode == Keys.A)
-                    {
-                        _selectionHandler.SelectAll(parent);
-                    }
-
-                    // copy currently selected text
-                    if (e.KeyCode == Keys.C)
-                    {
-                        _selectionHandler.CopySelectedHtml();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed key down handle", ex);
-            }
-        }
 
         /// <summary>
         /// Raise the stylesheet load event with the given event args.
@@ -827,7 +640,7 @@ namespace HtmlRenderer
         /// <param name="type">the type of error to report</param>
         /// <param name="message">the error message</param>
         /// <param name="exception">optional: the exception that occured</param>
-        internal void ReportError(HtmlRenderErrorType type, string message, Exception exception = null)
+        public void ReportError(HtmlRenderErrorType type, string message, Exception exception = null)
         {
             try
             {
@@ -840,51 +653,6 @@ namespace HtmlRenderer
             { }
         }
 
-        /// <summary>
-        /// Handle link clicked going over <see cref="LinkClicked"/> event and using <see cref="Process.Start()"/> if not canceled.
-        /// </summary>
-        /// <param name="parent">the control hosting the html to invalidate</param>
-        /// <param name="e">the mouse event args</param>
-        /// <param name="link">the link that was clicked</param>
-        internal void HandleLinkClicked(Control parent, MouseEventArgs e, CssBox link)
-        {
-            if (LinkClicked != null)
-            {
-                var args = new HtmlLinkClickedEventArgs(link.HrefLink, link.HtmlTag.Attributes);
-                try
-                {
-                    LinkClicked(this, args);
-                }
-                catch (Exception ex)
-                {
-                    throw new HtmlLinkClickedException("Error in link clicked intercept", ex);
-                }
-                if (args.Handled)
-                    return;
-            }
-
-            if (!string.IsNullOrEmpty(link.HrefLink))
-            {
-                if (link.HrefLink.StartsWith("#") && link.HrefLink.Length > 1)
-                {
-                    if (ScrollChange != null)
-                    {
-                        var rect = GetElementRectangle(link.HrefLink.Substring(1));
-                        if (rect.HasValue)
-                        {
-                            ScrollChange(this, new HtmlScrollEventArgs(Point.Round(rect.Value.Location)));
-                            HandleMouseMove(parent, e);
-                        }
-                    }
-                }
-                else
-                {
-                    var nfo = new ProcessStartInfo(link.HrefLink);
-                    nfo.UseShellExecute = true;
-                    Process.Start(nfo);
-                }
-            }
-        }
 
         /// <summary>
         /// Add css box that has ":hover" selector to be handled on mouse hover.
@@ -919,7 +687,7 @@ namespace HtmlRenderer
         /// </summary>
         /// <param name="location">the location to adjust</param>
         /// <returns>the adjusted location</returns>
-        private Point OffsetByScroll(Point location)
+        protected Point OffsetByScroll(Point location)
         {
             location.Offset(-(int)ScrollOffset.X, -(int)ScrollOffset.Y);
             return location;
@@ -929,7 +697,7 @@ namespace HtmlRenderer
         /// Check if the mouse is currently on the html container.<br/>
         /// Relevant if the html container is not filled in the hosted control (location is not zero and the size is not the full size of the control).
         /// </summary>
-        private bool IsMouseInContainer(Point location)
+        protected bool IsMouseInContainer(Point location)
         {
             return location.X >= _location.X && location.X <= _location.X + _actualSize.Width && location.Y >= _location.Y + ScrollOffset.Y && location.Y <= _location.Y + ScrollOffset.Y + _actualSize.Height;
         }
@@ -943,7 +711,9 @@ namespace HtmlRenderer
             {
                 if (all)
                 {
-                    LinkClicked = null;
+                    this.OnAllDisposed();
+
+                   
                     Refresh = null;
                     RenderError = null;
                     StylesheetLoad = null;
@@ -952,11 +722,16 @@ namespace HtmlRenderer
 
                 _cssData = null;
                 if (_root != null)
+                {
                     _root.Dispose();
-                _root = null;
-                if (_selectionHandler != null)
-                    _selectionHandler.Dispose();
-                _selectionHandler = null;
+                    _root = null;
+                    this.OnRootDisposed();
+                }
+               
+
+                //if (_selectionHandler != null)
+                //    _selectionHandler.Dispose();
+                //_selectionHandler = null;
             }
             catch
             { }

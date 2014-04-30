@@ -33,7 +33,7 @@ namespace HtmlRenderer.Dom
     /// imagine the performance when drawing char by char on the device.<br/>
     /// It may change for future versions of the library.
     /// </remarks>
-    internal abstract class CssRect
+    public abstract class CssRect
     {
         #region Fields and Consts
 
@@ -50,7 +50,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// If the word is selected this points to the selection handler for more data
         /// </summary>
-        private SelectionHandler _selection;
+        private ISelectionHandler _selection;
 
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// If the word is selected this points to the selection handler for more data
         /// </summary>
-        public SelectionHandler Selection
+        public ISelectionHandler Selection
         {
             get { return _selection; }
             set { _selection = value; }
@@ -312,7 +312,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets or sets an offset to be considered in measurements
         /// </summary>
-        internal float LeftGlyphPadding
+        public float LeftGlyphPadding
         {
             get { return OwnerBox != null ? FontsUtils.GetFontLeftPadding(OwnerBox.ActualFont) : 0; }
         }

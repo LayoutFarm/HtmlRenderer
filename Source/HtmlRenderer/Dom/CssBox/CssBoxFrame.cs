@@ -26,7 +26,7 @@ namespace HtmlRenderer.Dom
     /// CSS box for iframe element.<br/>
     /// If the iframe is of embedded YouTube or Vimeo video it will show image with play.
     /// </summary>
-    internal sealed class CssBoxFrame : CssBox
+    public sealed class CssBoxFrame : CssBox
     {
         #region Fields and Consts
 
@@ -73,7 +73,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxFrame(CssBox parent, HtmlTag tag)
+        internal CssBoxFrame(CssBox parent, HtmlTag tag)
             : base(parent, tag)
         {
             _imageWord = new CssRectImage(this);

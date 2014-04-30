@@ -13,19 +13,19 @@
 using System;
 using System.Drawing;
 using System.ComponentModel;
-using System.Drawing.Text;
 using System.Windows.Forms;
 using HtmlRenderer.Entities;
 using HtmlRenderer.Parse;
+using HtmlRenderer.Utils;
 
 namespace HtmlRenderer
 {
     /// <summary>
     /// Provides HTML rendering using the text property.<br/>
     /// WinForms control that will render html content in it's client rectangle.<br/>
-    /// Using <see cref="AutoSize"/> and <see cref="AutoSizeHeightOnly"/> client can control how the html content effects the
-    /// size of the label. Either case scrollbars are never shown and html content outside of client bounds will be cliped.
-    /// <see cref="MaximumSize"/> and <see cref="MinimumSize"/> with AutoSize can limit the max/min size of the control<br/>
+    /// If <see cref="AutoScroll"/> is true and the layout of the html resulted in its content beyond the client bounds 
+    /// of the panel it will show scrollbars (horizontal/vertical) allowing to scroll the content.<br/>
+    /// If <see cref="AutoScroll"/> is false html content outside the client bounds will be clipped.<br/>
     /// The control will handle mouse and keyboard events on it to support html text selection, copy-paste and mouse clicks.<br/>
     /// <para>
     /// The major differential to use HtmlPanel or HtmlLabel is size and scrollbars.<br/>
@@ -33,24 +33,17 @@ namespace HtmlRenderer
     /// If the size is set by some kind of layout then HtmlPanel is more suitable, also shows scrollbars if the html contents is larger than the control client rectangle.<br/>
     /// </para>
     /// <para>
-    /// <h4>AutoSize:</h4>
-    /// <u>AutoSize = AutoSizeHeightOnly = false</u><br/>
-    /// The label size will not change by the html content. MaximumSize and MinimumSize are ignored.<br/>
-    /// <br/>
-    /// <u>AutoSize = true</u><br/>
-    /// The width and height is adjustable by the html content, the width will be longest line in the html, MaximumSize.Width will restrict it but it can be lower than that.<br/>
-    /// <br/>
-    /// <u>AutoSizeHeightOnly = true</u><br/>
-    /// The width of the label is set and will not change by the content, the height is adjustable by the html content with restrictions to the MaximumSize.Height and MinimumSize.Height values.<br/>
+    /// <h4>AutoScroll:</h4>
+    /// Allows showing scrollbars if html content is placed outside the visible boundaries of the panel.
     /// </para>
     /// <para>
-    /// <h4>LinkClicked event</h4>
+    /// <h4>LinkClicked event:</h4>
     /// Raised when the user clicks on a link in the html.<br/>
     /// Allows canceling the execution of the link.
     /// </para>
     /// <para>
     /// <h4>StylesheetLoad event:</h4>
-    /// Raised when aa stylesheet is about to be loaded by file path or URI by link element.<br/>
+    /// Raised when a stylesheet is about to be loaded by file path or URI by link element.<br/>
     /// This event allows to provide the stylesheet manually or provide new source (file or uri) to load from.<br/>
     /// If no alternative data is provided the original source will be used.<br/>
     /// </para>
@@ -61,17 +54,17 @@ namespace HtmlRenderer
     /// </para>
     /// <para>
     /// <h4>RenderError event:</h4>
-    /// Raised when an error occured during html rendering.<br/>
+    /// Raised when an error occurred during html rendering.<br/>
     /// </para>
     /// </summary>
-    public class HtmlLabel : Control
+    public class HtmlPanel : ScrollableControl
     {
         #region Fields and Consts
 
         /// <summary>
         /// 
         /// </summary>
-        private HtmlContainer _htmlContainer;
+        private HtmlContainerImpl _htmlContainer;
 
         /// <summary>
         /// the raw base stylesheet data used in the control
@@ -79,42 +72,31 @@ namespace HtmlRenderer
         private string _baseRawCssData;
 
         /// <summary>
-        /// the base stylesheet data used in the panel
+        /// the base stylesheet data used in the control
         /// </summary>
         private CssData _baseCssData;
 
-        /// <summary>
-        /// is to handle auto size of the control height only
-        /// </summary>
-        private bool _autoSizeHight;
-
         #endregion
 
-        
+
         /// <summary>
-        /// Creates a new HTML Label
+        /// Creates a new HtmlPanel and sets a basic css for it's styling.
         /// </summary>
-        public HtmlLabel()
+        public HtmlPanel()
         {
-            SuspendLayout();
-            
-            AutoSize = true;
+            AutoScroll = true;
             BackColor = SystemColors.Window;
             DoubleBuffered = true;
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-            SetStyle(ControlStyles.Opaque, false);
 
-            _htmlContainer = new HtmlContainer();
-            _htmlContainer.AvoidImagesLateLoading = true;
-            _htmlContainer.MaxSize = MaximumSize;
+            _htmlContainer = new HtmlContainerImpl();
             _htmlContainer.LinkClicked += OnLinkClicked;
             _htmlContainer.RenderError += OnRenderError;
             _htmlContainer.Refresh += OnRefresh;
+            _htmlContainer.ScrollChange += OnScrollChange;
             _htmlContainer.StylesheetLoad += OnStylesheetLoad;
             _htmlContainer.ImageLoad += OnImageLoad;
-
-            ResumeLayout(false);
         }
 
         /// <summary>
@@ -129,7 +111,7 @@ namespace HtmlRenderer
         public event EventHandler<HtmlRenderErrorEventArgs> RenderError;
 
         /// <summary>
-        /// Raised when aa stylesheet is about to be loaded by file path or URI by link element.<br/>
+        /// Raised when a stylesheet is about to be loaded by file path or URI by link element.<br/>
         /// This event allows to provide the stylesheet manually or provide new source (file or uri) to load from.<br/>
         /// If no alternative data is provided the original source will be used.<br/>
         /// </summary>
@@ -140,6 +122,34 @@ namespace HtmlRenderer
         /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
         /// </summary>
         public event EventHandler<HtmlImageLoadEventArgs> ImageLoad;
+
+        /// <summary>
+        /// Gets or sets a value indicating if anti-aliasing should be avoided for geometry like backgrounds and borders (default - false).
+        /// </summary>
+        public bool AvoidGeometryAntialias
+        {
+            get { return _htmlContainer.AvoidGeometryAntialias; }
+            set { _htmlContainer.AvoidGeometryAntialias = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating if image loading only when visible should be avoided (default - false).<br/>
+        /// True - images are loaded as soon as the html is parsed.<br/>
+        /// False - images that are not visible because of scroll location are not loaded until they are scrolled to.
+        /// </summary>
+        /// <remarks>
+        /// Images late loading improve performance if the page contains image outside the visible scroll area, especially if there is large 
+        /// amount of images, as all image loading is delayed (downloading and loading into memory).<br/>
+        /// Late image loading may effect the layout and actual size as image without set size will not have actual size until they are loaded
+        /// resulting in layout change during user scroll.<br/>
+        /// Early image loading may also effect the layout if image without known size above the current scroll location are loaded as they
+        /// will push the html elements down.
+        /// </remarks>
+        public bool AvoidImagesLateLoading
+        {
+            get { return _htmlContainer.AvoidImagesLateLoading; }
+            set { _htmlContainer.AvoidImagesLateLoading = value; }
+        }
 
         /// <summary>
         /// Is content selection is enabled for the rendered html (default - true).<br/>
@@ -176,8 +186,8 @@ namespace HtmlRenderer
         /// Set base stylesheet to be used by html rendered in the panel.
         /// </summary>
         [Browsable(true)]
-        [Description("Set base stylesheet to be used by html rendered in the control.")]
         [Category("Appearance")]
+        [Description("Set base stylesheet to be used by html rendered in the control.")]
         public string BaseStylesheet
         {
             get { return _baseRawCssData; }
@@ -189,84 +199,20 @@ namespace HtmlRenderer
         }
 
         /// <summary>
-        /// Automatically sets the size of the label by content size
+        /// Gets or sets a value indicating whether the container enables the user to scroll to any controls placed outside of its visible boundaries. 
         /// </summary>
         [Browsable(true)]
-        [DefaultValue(true)]
-        [EditorBrowsable(EditorBrowsableState.Always)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        [Description("Automatically sets the size of the label by content size.")]
-        public override bool AutoSize
+        [Description("Sets a value indicating whether the container enables the user to scroll to any controls placed outside of its visible boundaries.")]
+        public override bool AutoScroll
         {
-            get { return base.AutoSize; }
-            set
-            {
-                base.AutoSize = value;
-                if (value)
-                {
-                    _autoSizeHight = false;
-                    PerformLayout();
-                    Invalidate();
-                }
-            }
+            get{return base.AutoScroll;}
+            set{base.AutoScroll = value;}
         }
 
         /// <summary>
-        /// Automatically sets the height of the label by content height (width is not effected).
+        /// Gets or sets the text of this panel
         /// </summary>
         [Browsable(true)]
-        [DefaultValue(false)]
-        [Category("Layout")]
-        [Description("Automatically sets the height of the label by content height (width is not effected)")]
-        public bool AutoSizeHeightOnly
-        {
-            get { return _autoSizeHight; }
-            set
-            {
-                _autoSizeHight = value;
-                if (value)
-                {
-                    AutoSize = false;
-                    PerformLayout();
-                    Invalidate();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the max size the control get be set by <see cref="AutoSize"/> or <see cref="AutoSizeHeightOnly"/>.
-        /// </summary>
-        /// <returns>An ordered pair of type <see cref="T:System.Drawing.Size"/> representing the width and height of a rectangle.</returns>
-        [Description("If AutoSize or AutoSizeHeightOnly is set this will restrict the max size of the control (0 is not restricted)")]
-        public override Size MaximumSize
-        {
-            get { return base.MaximumSize; }
-            set
-            {
-                base.MaximumSize = value;
-                if (_htmlContainer != null)
-                {
-                    _htmlContainer.MaxSize = value;
-                    PerformLayout();
-                    Invalidate();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the min size the control get be set by <see cref="AutoSize"/> or <see cref="AutoSizeHeightOnly"/>.
-        /// </summary>
-        /// <returns>An ordered pair of type <see cref="T:System.Drawing.Size"/> representing the width and height of a rectangle.</returns>
-        [Description("If AutoSize or AutoSizeHeightOnly is set this will restrict the min size of the control (0 is not restricted)")]
-        public override Size MinimumSize
-        {
-            get { return base.MinimumSize; }
-            set { base.MinimumSize = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the html of this control.
-        /// </summary>
         [Description("Sets the html of this control.")]
         public override string Text
         {
@@ -276,6 +222,7 @@ namespace HtmlRenderer
                 base.Text = value;
                 if (!IsDisposed)
                 {
+                    VerticalScroll.Value = VerticalScroll.Minimum;
                     _htmlContainer.SetHtml(Text, _baseCssData);
                     PerformLayout();
                     Invalidate();
@@ -322,6 +269,26 @@ namespace HtmlRenderer
             return _htmlContainer != null ? _htmlContainer.GetElementRectangle(elementId) : null;
         }
 
+        /// <summary>
+        /// Adjust the scrollbar of the panel on html element by the given id.<br/>
+        /// The top of the html element rectangle will be at the top of the panel, if there
+        /// is not enough height to scroll to the top the scroll will be at maximum.<br/>
+        /// </summary>
+        /// <param name="elementId">the id of the element to scroll to</param>
+        public void ScrollToElement(string elementId)
+        {
+            ArgChecker.AssertArgNotNullOrEmpty(elementId, "elementId");
+
+            if( _htmlContainer != null )
+            {
+                var rect = _htmlContainer.GetElementRectangle(elementId);
+                if (rect.HasValue)
+                {
+                    UpdateScroll(Point.Round(rect.Value.Location));
+                    _htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons, 0, MousePosition.X, MousePosition.Y, 0));
+                }
+            }
+        }
 
         #region Private methods
 
@@ -330,59 +297,34 @@ namespace HtmlRenderer
         /// </summary>
         protected override void OnLayout(LayoutEventArgs levent)
         {
-            if (_htmlContainer != null)
-            {
-                if (AutoSize)
-                    _htmlContainer.MaxSize = SizeF.Empty;
-                else if (AutoSizeHeightOnly)
-                    _htmlContainer.MaxSize = new SizeF(Width, 0);
-                else
-                    _htmlContainer.MaxSize = Size;
-
-                using (Graphics g = CreateGraphics())
-                {
-                    _htmlContainer.PerformLayout(g);
-
-                    if (AutoSize || _autoSizeHight)
-                    {
-                        if (AutoSize)
-                        {
-                            Size = Size.Round(_htmlContainer.ActualSize);
-                            if (MaximumSize.Width > 0 && MaximumSize.Width < _htmlContainer.ActualSize.Width)
-                            {
-                                // to allow the actual size be smaller than max we need to set max size only if it is really larger
-                                _htmlContainer.MaxSize = MaximumSize;
-                                _htmlContainer.PerformLayout(g);
-
-                                Size = Size.Round(_htmlContainer.ActualSize);
-                            }
-                            else if (MinimumSize.Width > 0 && MinimumSize.Width > _htmlContainer.ActualSize.Width)
-                            {
-                                // if min size is larger than the actual we need to re-layout so all 100% layouts will be correct
-                                _htmlContainer.MaxSize = new SizeF(MinimumSize.Width, 0);
-                                _htmlContainer.PerformLayout(g);
-
-                                Size = Size.Round(_htmlContainer.ActualSize);
-                            }
-                        }
-                        else if( _autoSizeHight && Height != (int)_htmlContainer.ActualSize.Height )
-                        {
-                            var prevWidth = Width;
-
-                            // make sure the height is not lower than min if given
-                            Height = MinimumSize.Height > 0 && MinimumSize.Height > _htmlContainer.ActualSize.Height
-                                         ? MinimumSize.Height
-                                         : (int)_htmlContainer.ActualSize.Height;
-
-                            // handle if changing the height of the label affects the desired width and those require re-layout
-                            if( prevWidth != Width )
-                                OnLayout(levent);
-                        }
-                    }
-                }
-            }
+            PerformHtmlLayout();
 
             base.OnLayout(levent);
+
+            // to handle if vertical scrollbar is appearing or disappearing
+            if (_htmlContainer != null && Math.Abs(_htmlContainer.MaxSize.Width - ClientSize.Width) > 0.1)
+            {
+                PerformHtmlLayout();
+                base.OnLayout(levent);
+            }
+        }
+
+        /// <summary>
+        /// Perform html container layout by the current panel client size.
+        /// </summary>
+        private void PerformHtmlLayout()
+        {
+            if (_htmlContainer != null)
+            {
+                _htmlContainer.MaxSize = new SizeF(ClientSize.Width, 0);
+
+                using (var g = CreateGraphics())
+                {
+                    _htmlContainer.PerformLayout(g);
+                }
+
+                AutoScrollMinSize = Size.Round(_htmlContainer.ActualSize);
+            }
         }
 
         /// <summary>
@@ -394,10 +336,23 @@ namespace HtmlRenderer
 
             if (_htmlContainer != null)
             {
-                e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+                _htmlContainer.ScrollOffset = AutoScrollPosition; 
                 _htmlContainer.ViewportBound = this.Bounds;
                 _htmlContainer.PerformPaint(e.Graphics);
+
+                // call mouse move to handle paint after scroll or html change affecting mouse cursor.
+                var mp = PointToClient(MousePosition);
+                _htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0));
             }
+        }
+
+        /// <summary>
+        /// Set focus on the control for keyboard scrrollbars handling.
+        /// </summary>
+        protected override void OnClick(EventArgs e)
+        {
+            base.OnClick(e);
+            Focus();
         }
 
         /// <summary>
@@ -406,18 +361,8 @@ namespace HtmlRenderer
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            if (_htmlContainer != null)
+            if( _htmlContainer != null )
                 _htmlContainer.HandleMouseMove(this, e);
-        }
-
-        /// <summary>
-        /// Handle mouse down to handle selection. 
-        /// </summary>
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-            base.OnMouseDown(e);
-            if (_htmlContainer != null)
-                _htmlContainer.HandleMouseDown(this, e);
         }
 
         /// <summary>
@@ -428,6 +373,16 @@ namespace HtmlRenderer
             base.OnMouseLeave(e);
             if (_htmlContainer != null)
                 _htmlContainer.HandleMouseLeave(this);
+        }
+
+        /// <summary>
+        /// Handle mouse down to handle selection. 
+        /// </summary>
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            if (_htmlContainer != null)
+                _htmlContainer.HandleMouseDown(this, e);
         }
 
         /// <summary>
@@ -451,7 +406,47 @@ namespace HtmlRenderer
         }
 
         /// <summary>
-        /// Propogate the LinkClicked event from root container.
+        /// Handle key down event for selection, copy and scrollbars handling.
+        /// </summary>
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            if (_htmlContainer != null)
+                _htmlContainer.HandleKeyDown(this, e);
+            if (e.KeyCode == Keys.Up)
+            {
+                VerticalScroll.Value = Math.Max(VerticalScroll.Value - 70, VerticalScroll.Minimum);
+                PerformLayout();                
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                VerticalScroll.Value = Math.Min(VerticalScroll.Value + 70, VerticalScroll.Maximum);
+                PerformLayout();
+            }
+            else if (e.KeyCode == Keys.PageDown)
+            {
+                VerticalScroll.Value = Math.Min(VerticalScroll.Value + 400, VerticalScroll.Maximum);
+                PerformLayout();
+            }
+            else if (e.KeyCode == Keys.PageUp)
+            {
+                VerticalScroll.Value = Math.Max(VerticalScroll.Value - 400, VerticalScroll.Minimum);
+                PerformLayout();
+            }
+            else if (e.KeyCode == Keys.End)
+            {
+                VerticalScroll.Value = VerticalScroll.Maximum;
+                PerformLayout();
+            }
+            else if (e.KeyCode == Keys.Home)
+            {
+                VerticalScroll.Value = VerticalScroll.Minimum;
+                PerformLayout();
+            }
+        }
+
+        /// <summary>
+        /// Propagate the LinkClicked event from root container.
         /// </summary>
         private void OnLinkClicked(object sender, HtmlLinkClickedEventArgs e)
         {
@@ -466,10 +461,10 @@ namespace HtmlRenderer
         /// </summary>
         private void OnRenderError(object sender, HtmlRenderErrorEventArgs e)
         {
-            if (RenderError != null)
+            if(RenderError != null)
             {
                 if (InvokeRequired)
-                    Invoke(RenderError);
+                    Invoke(RenderError, this, e);
                 else
                     RenderError(this, e);
             }
@@ -502,7 +497,7 @@ namespace HtmlRenderer
         /// </summary>
         private void OnRefresh(object sender, HtmlRefreshEventArgs e)
         {
-            if (e.Layout)
+            if(e.Layout)
             {
                 if (InvokeRequired)
                     Invoke(new MethodInvoker(PerformLayout));
@@ -510,9 +505,48 @@ namespace HtmlRenderer
                     PerformLayout();
             }
             if (InvokeRequired)
-                Invoke(new MethodInvoker(Invalidate));
-            else
-                Invalidate();
+                    Invoke(new MethodInvoker(Invalidate));
+                else
+                    Invalidate();
+        }
+        
+        /// <summary>
+        /// On html renderer scroll request adjust the scrolling of the panel to the requested location.
+        /// </summary>
+        private void OnScrollChange(object sender, HtmlScrollEventArgs e)
+        {
+            UpdateScroll(e.Location);
+        }
+
+        /// <summary>
+        /// Adjust the scrolling of the panel to the requested location.
+        /// </summary>
+        /// <param name="location">the location to adjust the scroll to</param>
+        private void UpdateScroll(Point location)
+        {
+            AutoScrollPosition = location;
+            _htmlContainer.ScrollOffset = AutoScrollPosition;
+        }
+
+        /// <summary>
+        /// Used to add arrow keys to the handled keys in <see cref="OnKeyDown"/>.
+        /// </summary>
+        protected override bool IsInputKey(Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Right:
+                case Keys.Left:
+                case Keys.Up:
+                case Keys.Down:
+                    return true;
+                case Keys.Shift | Keys.Right:
+                case Keys.Shift | Keys.Left:
+                case Keys.Shift | Keys.Up:
+                case Keys.Shift | Keys.Down:
+                    return true;
+            }
+            return base.IsInputKey(keyData);
         }
 
         /// <summary>
@@ -520,11 +554,12 @@ namespace HtmlRenderer
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if (_htmlContainer != null)
+            if(_htmlContainer != null)
             {
                 _htmlContainer.LinkClicked -= OnLinkClicked;
                 _htmlContainer.RenderError -= OnRenderError;
                 _htmlContainer.Refresh -= OnRefresh;
+                _htmlContainer.ScrollChange -= OnScrollChange;
                 _htmlContainer.StylesheetLoad -= OnStylesheetLoad;
                 _htmlContainer.ImageLoad -= OnImageLoad;
                 _htmlContainer.Dispose();
@@ -596,7 +631,6 @@ namespace HtmlRenderer
         }
 
         #endregion
-
 
         #endregion
     }

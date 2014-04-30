@@ -22,7 +22,7 @@ namespace HtmlRenderer.Parse
     /// <summary>
     /// Parser to parse CSS stylesheet source string into CSS objects.
     /// </summary>
-    internal static class CssParser
+    public static class CssParser
     {
         #region Fields and Consts
 
