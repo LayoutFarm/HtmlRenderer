@@ -171,7 +171,7 @@ namespace HtmlRenderer.Handlers
         public void HandleMouseDown(Control parent, Point loc, bool isMouseInContainer)
         {
             bool clear = !isMouseInContainer;
-            if (isMouseInContainer)
+            if(isMouseInContainer)
             {
                 _mouseDownInControl = true;
                 _isDoubleClickSelect = (DateTime.Now - _lastMouseDown).TotalMilliseconds < 400;
@@ -194,7 +194,7 @@ namespace HtmlRenderer.Handlers
                 {
                     var rect = DomUtils.GetCssBoxWord(_root, loc);
                     var link = DomUtils.GetLinkBox(_root, loc);
-                    if (_root.HtmlContainer.IsContextMenuEnabled)
+                    if(_root.HtmlContainer.IsContextMenuEnabled)
                     {
                         _contextMenuHandler.ShowContextMenu(parent, rect, link);
                     }
@@ -234,7 +234,7 @@ namespace HtmlRenderer.Handlers
             ignore = ignore || (DateTime.Now - _lastMouseDown > TimeSpan.FromSeconds(1));
             return ignore;
         }
-
+        
         /// <summary>
         /// Handle mouse move to handle hover cursor and text selection.
         /// </summary>
@@ -268,23 +268,23 @@ namespace HtmlRenderer.Handlers
                 else if (_root.HtmlContainer.IsSelectionEnabled)
                 {
                     var word = DomUtils.GetCssBoxWord(_root, loc);
-                    _cursorChanged = word != null && !word.IsImage && !(word.Selected && (word.SelectedStartIndex < 0 || word.Left + word.SelectedStartOffset <= loc.X) && (word.SelectedEndOffset < 0 || word.Left + word.SelectedEndOffset >= loc.X));
+                    _cursorChanged = word != null && !word.IsImage && !( word.Selected && ( word.SelectedStartIndex < 0 || word.Left + word.SelectedStartOffset <= loc.X ) && ( word.SelectedEndOffset < 0 || word.Left + word.SelectedEndOffset >= loc.X ) );
                     parent.Cursor = _cursorChanged ? Cursors.IBeam : Cursors.Default;
                 }
-                else if (_cursorChanged)
+                else if(_cursorChanged)
                 {
-                    parent.Cursor = Cursors.Default;
+                    parent.Cursor = Cursors.Default;                    
                 }
             }
         }
-
+        
         /// <summary>
         /// On mouse leave change the cursor back to default.
         /// </summary>
         /// <param name="parent">the control hosting the html to set cursor and invalidate</param>
         public void HandleMouseLeave(Control parent)
         {
-            if (_cursorChanged)
+            if(_cursorChanged)
             {
                 _cursorChanged = false;
                 parent.Cursor = Cursors.Default;
@@ -297,12 +297,12 @@ namespace HtmlRenderer.Handlers
         /// </summary>
         public void CopySelectedHtml()
         {
-            if (_root.HtmlContainer.IsSelectionEnabled)
+            if(_root.HtmlContainer.IsSelectionEnabled)
             {
                 var html = DomUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true);
                 var plainText = DomUtils.GetSelectedPlainText(_root);
                 if (!string.IsNullOrEmpty(plainText))
-                    ClipboardHelper.CopyToClipboard(html, plainText);
+                    HtmlClipboardUtils.CopyToClipboard(html, plainText);
             }
         }
 
@@ -401,7 +401,7 @@ namespace HtmlRenderer.Handlers
             if (lineBox != null)
             {
                 // get the word under the mouse
-                var word = DomUtils.GetCssBoxWord(lineBox, loc);
+                var word = DomUtils.GetCssBoxWordOnLocation(lineBox, loc);
 
                 // if no word found under the mouse use the last or the first word in the line
                 if (word == null && lineBox.Words.Count > 0)
@@ -488,7 +488,7 @@ namespace HtmlRenderer.Handlers
             {
                 word.Selection = null;
             }
-            foreach (var childBox in box.Boxes)
+            foreach (var childBox in box.GetChildBoxIter())
             {
                 ClearSelection(childBox);
             }
@@ -504,7 +504,7 @@ namespace HtmlRenderer.Handlers
             {
                 var html = DomUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true);
                 var plainText = DomUtils.GetSelectedPlainText(_root);
-                _dragDropData = ClipboardHelper.CreateDataObject(html, plainText);
+                _dragDropData = HtmlClipboardUtils.GetDataObject(html, plainText);
             }
             control.DoDragDrop(_dragDropData, DragDropEffects.Copy);
         }
@@ -520,7 +520,7 @@ namespace HtmlRenderer.Handlers
                 word.Selection = this;
             }
 
-            foreach (var childBox in box.Boxes)
+            foreach (var childBox in box.GetChildBoxIter())
             {
                 SelectAllWords(childBox);
             }
@@ -585,7 +585,7 @@ namespace HtmlRenderer.Handlers
                 }
             }
 
-            foreach (var childBox in box.Boxes)
+            foreach (var childBox in box.GetChildBoxIter())
             {
                 if (SelectWordsInRange(childBox, selectionStart, selectionEnd, ref inSelection))
                 {
@@ -598,7 +598,7 @@ namespace HtmlRenderer.Handlers
 
         /// <summary>
         /// Calculate the character index and offset by characters for the given word and given offset.<br/>
-        /// <seealso cref="CalculateWordCharIndexAndOffset(Control, CssRect, Point, bool, bool, out int, out float)"/>.
+        /// <seealso cref="CalculateWordCharIndexAndOffset(Control, CssRect, Point, bool, out int, out float)"/>.
         /// </summary>
         /// <param name="control">used to create graphics to measure string</param>
         /// <param name="word">the word to calculate its index and offset</param>
@@ -608,9 +608,9 @@ namespace HtmlRenderer.Handlers
         {
             int selectionIndex;
             float selectionOffset;
-            CalculateWordCharIndexAndOffset(control, word, loc, selectionStart, _root.HtmlContainer.UseGdiPlusTextRendering, out selectionIndex, out selectionOffset);
+            CalculateWordCharIndexAndOffset(control, word, loc, selectionStart, out selectionIndex, out selectionOffset);
 
-            if (selectionStart)
+            if(selectionStart)
             {
                 _selectionStartIndex = selectionIndex;
                 _selectionStartOffset = selectionOffset;
@@ -632,11 +632,10 @@ namespace HtmlRenderer.Handlers
         /// <param name="control">used to create graphics to measure string</param>
         /// <param name="word">the word to calculate its index and offset</param>
         /// <param name="loc">the location to calculate for</param>
-        /// <param name="inclusive">is to include the first character in the calculation</param>
-        /// <param name="useGdiPlusTextRendering">if to use GDI+ text rendering</param>
         /// <param name="selectionIndex">return the index of the char under the location</param>
         /// <param name="selectionOffset">return the offset of the char under the location</param>
-        private static void CalculateWordCharIndexAndOffset(Control control, CssRect word, Point loc, bool inclusive, bool useGdiPlusTextRendering, out int selectionIndex, out float selectionOffset)
+        /// <param name="inclusive">is to include the first character in the calculation</param>
+        private static void CalculateWordCharIndexAndOffset(Control control, CssRect word, Point loc, bool inclusive, out int selectionIndex, out float selectionOffset)
         {
             selectionIndex = 0;
             selectionOffset = 0f;
@@ -657,11 +656,11 @@ namespace HtmlRenderer.Handlers
             {
                 // calculate partial word selection
                 var font = word.OwnerBox.ActualFont;
-                using (var g = new WinGraphics(control.CreateGraphics(), useGdiPlusTextRendering))
+                using (var g = new WinGraphics(control.CreateGraphics(),false))
                 {
                     int charFit;
                     int charFitWidth;
-                    var maxWidth = offset + (inclusive ? 0 : 1.5f * word.LeftGlyphPadding);
+                    var maxWidth = offset + ( inclusive ? 0 : 1.5f*word.LeftGlyphPadding );
                     g.MeasureString(word.Text, font, maxWidth, out charFit, out charFitWidth);
 
                     selectionIndex = charFit;

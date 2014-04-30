@@ -77,6 +77,7 @@ namespace HtmlRenderer.Entities
         public const string PreLine = "pre-line";
         public const string Right = "right";
         public const string Rtl = "rtl";
+         
         public const string SansSerif = "sans-serif";
         public const string Serif = "serif";
         public const string Show = "show";
@@ -165,6 +166,14 @@ namespace HtmlRenderer.Entities
         /// Default font used for the generic 'serif' family
         /// </summary>
         public static string FontSerif = FontFamily.GenericSerif.Name;
+
+
+        //------------------------------------------------------------------
+        public const string Relative = "relative";
+        public const string Static = "static";
+        public const string Fixed = "fixed";
+        public const string Scroll = "scroll";
+        public const string Separate = "separate";
 
     }
 }

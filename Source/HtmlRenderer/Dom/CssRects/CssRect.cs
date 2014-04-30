@@ -16,6 +16,14 @@ using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
 {
+    public enum CssRectKind
+    {
+        Unknown,
+        Text,
+        Image,
+        LineBreak,
+        Space
+    }
     /// <summary>
     /// Represents a word inside an inline box
     /// </summary>
@@ -44,7 +52,13 @@ namespace HtmlRenderer.Dom
         /// </summary>
         private SelectionHandler _selection;
 
+
+        /// <summary>
+        /// each word has only one owner linebox!
+        /// </summary>
+        CssLineBox myOwnerLineBox;
         #endregion
+
 
 
         /// <summary>
@@ -55,7 +69,50 @@ namespace HtmlRenderer.Dom
         {
             _ownerBox = owner;
         }
+        internal CssLineBox ownerLineBox
+        {
+            get
+            {
+                return this.myOwnerLineBox;
+            }
+            set
+            {
+#if DEBUG
+                //if (value != null && this.myOwnerLineBox != null)
+                //{
+                //}
+#endif
 
+                this.myOwnerLineBox = value;
+            }
+        }
+#if DEBUG
+        //int dbugPaintCount;
+        //int dbugSnapPass;
+        public int debugPaintCount
+        {
+            get
+            {
+                return 0;
+                //return this.dbugPaintCount;
+            }
+            set
+            {
+                //if (dbugCounter.dbugStartRecord
+                //     && this.dbugPaintCount > 0)
+                //{
+                    
+                //}
+                //this.dbugSnapPass = dbugCounter.dbugDrawStringCount;
+                //this.dbugPaintCount = value;
+              
+            }
+        }
+#endif
+        public abstract CssRectKind RectKind
+        {
+            get;
+        }
         /// <summary>
         /// Gets the Box where this word belongs.
         /// </summary>
@@ -174,9 +231,9 @@ namespace HtmlRenderer.Dom
         public virtual Image Image
         {
             get { return null; }
-// ReSharper disable ValueParameterNotUsed
-            set {}
-// ReSharper restore ValueParameterNotUsed
+            // ReSharper disable ValueParameterNotUsed
+            set { }
+            // ReSharper restore ValueParameterNotUsed
         }
 
         /// <summary>

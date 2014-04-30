@@ -417,8 +417,10 @@ namespace HtmlRenderer
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the generated image of the html</returns>
         /// <exception cref="ArgumentOutOfRangeException">if <paramref name="backgroundColor"/> is <see cref="Color.Transparent"/></exception>.
-        public static Image RenderToImage(string html, Size minSize, Size maxSize, Color backgroundColor = new Color(), CssData cssData = null,
-                                          EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
+        public static Image RenderToImage(string html,
+            Size minSize, Size maxSize, 
+            Color backgroundColor = new Color(), CssData cssData = null,
+            EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
         {
             if( backgroundColor == Color.Transparent )
                 throw new ArgumentOutOfRangeException("backgroundColor", "Transparent background in not supported");
@@ -452,6 +454,7 @@ namespace HtmlRenderer
                     using(var memoryGraphics = Graphics.FromHdc(memoryHdc))
                     {
                         memoryGraphics.Clear(backgroundColor != Color.Empty ? backgroundColor : Color.White);
+                        container.ViewportBound = new RectangleF(0, 0, maxSize.Width, maxSize.Height);
                         container.PerformPaint(memoryGraphics);
                     }
 
@@ -566,6 +569,7 @@ namespace HtmlRenderer
                 using(var g = Graphics.FromImage(image))
                 {
                     g.TextRenderingHint = textRenderingHint;
+                    container.ViewportBound = new RectangleF(0, 0, finalSize.Width, finalSize.Height);
                     container.PerformPaint(g);
                 }
 

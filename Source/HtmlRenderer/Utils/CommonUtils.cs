@@ -165,7 +165,9 @@ namespace HtmlRenderer.Utils
             if(dic != null)
             {
                 foreach (var value in dic)
+                {
                     return value.Value;
+                }
             }
             return defaultValue;
         }
@@ -290,7 +292,7 @@ namespace HtmlRenderer.Utils
         }
         
         /// <summary>
-        /// Compare that the substring of <paramref name="str"/> is equal to <paramref name="str2"/>
+        /// Compare that the substring of <paramref name="str"/> is equal to <paramref name="str"/>
         /// Assume given substring is not empty and all indexes are valid!<br/>
         /// </summary>
         /// <returns>true - equals, false - not equals</returns>

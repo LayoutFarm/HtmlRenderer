@@ -28,10 +28,11 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxHr(CssBox parent, HtmlTag tag) 
+        public CssBoxHr(CssBox parent, HtmlTag tag)
             : base(parent, tag)
         {
-            Display = CssConstants.Block;
+            //Display = CssConstants.Block;
+            this.CssDisplay = CssBoxDisplayType.Block;
         }
 
         /// <summary>
@@ -41,12 +42,15 @@ namespace HtmlRenderer.Dom
         /// <param name="g">Device context to use</param>
         protected override void PerformLayoutImp(IGraphics g)
         {
-            if (Display == CssConstants.None)
+            //if (Display == CssConstants.None)
+            if (this.CssDisplay == CssBoxDisplayType.None)
+            {
                 return;
+            }
 
             RectanglesReset();
 
-            var prevSibling = DomUtils.GetPreviousSibling(this);
+            var prevSibling = CssBox.GetPreviousSibling(this);
             float left = ContainingBlock.Location.X + ContainingBlock.ActualPaddingLeft + ActualMarginLeft + ContainingBlock.ActualBorderLeftWidth;
             float top = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? Location.Y : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
             Location = new PointF(left, top);
@@ -60,16 +64,23 @@ namespace HtmlRenderer.Dom
                           - ActualMarginLeft - ActualMarginRight - ActualBorderLeftWidth - ActualBorderRightWidth;
 
             //Check width if not auto
-            if (Width != CssConstants.Auto && !string.IsNullOrEmpty(Width))
+            if (!this.Width.IsAuto && !this.Width.IsEmpty)
             {
                 width = CssValueParser.ParseLength(Width, width, this);
+
             }
+            //if (Width != CssConstants.Auto && !string.IsNullOrEmpty(Width))
+            //{
+            //    width = CssValueParser.ParseLength(Width, width, this);
+            //}
 
             if (width < minwidth || width >= 9999)
+            {
                 width = minwidth;
+            }
 
             float height = ActualHeight;
-            if(height < 1)
+            if (height < 1)
             {
                 height = Size.Height + ActualBorderTopWidth + ActualBorderBottomWidth;
             }
@@ -77,11 +88,11 @@ namespace HtmlRenderer.Dom
             {
                 height = 2;
             }
-            if(height<=2 && ActualBorderTopWidth < 1 && ActualBorderBottomWidth < 1)
+            if (height <= 2 && ActualBorderTopWidth < 1 && ActualBorderBottomWidth < 1)
             {
-                BorderTopStyle = BorderBottomStyle = CssConstants.Solid;
-                BorderTopWidth = "1px";
-                BorderBottomWidth = "1px";
+                BorderTopStyle = BorderBottomStyle = CssBorderStyle.Solid; //CssConstants.Solid;
+                BorderTopWidth = CssLength.MakePixelLength(1); //"1px";
+                BorderBottomWidth = CssLength.MakePixelLength(1);
             }
 
             Size = new SizeF(width, height);
@@ -93,7 +104,7 @@ namespace HtmlRenderer.Dom
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(IGraphics g)
+        protected override void PaintImp(IGraphics g,PaintingArgs args)
         {
             var offset = HtmlContainer != null ? HtmlContainer.ScrollOffset : PointF.Empty;
             var rect = new RectangleF(Bounds.X + offset.X, Bounds.Y + offset.Y, Bounds.Width, Bounds.Height);

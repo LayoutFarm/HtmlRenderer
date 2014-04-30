@@ -17,6 +17,26 @@ using HtmlRenderer.Utils;
 
 namespace HtmlRenderer
 {
+#if DEBUG
+    public static class dbugCounter
+    {
+        public static bool dbugStartRecord = false;
+        static int _dbugDrawStringCount;
+        public static int dbugDrawStringCount
+        {
+            get { return _dbugDrawStringCount; }
+            set
+            {
+                _dbugDrawStringCount = value;
+                if (dbugStartRecord && value >= 137)
+                {
+
+                }
+            }
+        }
+
+    }
+#endif
     /// <summary>
     /// 
     /// </summary>
@@ -45,11 +65,6 @@ namespace HtmlRenderer
         private static readonly StringFormat _stringFormat;
 
         /// <summary>
-        /// The string format to use for rendering strings for GDI+ text rendering
-        /// </summary>
-        private static readonly StringFormat _stringFormat2;
-
-        /// <summary>
         /// The wrapped WinForms graphics object
         /// </summary>
         private readonly Graphics _g;
@@ -64,23 +79,15 @@ namespace HtmlRenderer
         /// </summary>
         private IntPtr _hdc;
 
-        /// <summary>
-        /// If text alignment was set to RTL
-        /// </summary>
-        private bool _setRtl;
-
         #endregion
-
 
         /// <summary>
         /// Init static resources.
         /// </summary>
         static WinGraphics()
         {
-            _stringFormat = new StringFormat(StringFormat.GenericTypographic);
+            _stringFormat = new StringFormat(StringFormat.GenericDefault);
             _stringFormat.FormatFlags = StringFormatFlags.NoClip | StringFormatFlags.MeasureTrailingSpaces;
-
-            _stringFormat2 = new StringFormat(StringFormat.GenericTypographic);
         }
 
         /// <summary>
@@ -100,7 +107,7 @@ namespace HtmlRenderer
         /// <returns>The bounding rectangle for the clipping region</returns>
         public RectangleF GetClip()
         {
-            if( _hdc == IntPtr.Zero )
+            if (_hdc == IntPtr.Zero)
             {
                 return _g.ClipBounds;
             }
@@ -109,7 +116,7 @@ namespace HtmlRenderer
                 Rectangle lprc;
                 Win32Utils.GetClipBox(_hdc, out lprc);
                 return lprc;
-            } 
+            }
         }
 
         /// <summary>
@@ -132,7 +139,7 @@ namespace HtmlRenderer
         /// <returns>the size of the string</returns>
         public Size MeasureString(string str, Font font)
         {
-            if( _useGdiPlusTextRendering )
+            if (_useGdiPlusTextRendering)
             {
                 ReleaseHdc();
                 _characterRanges[0] = new CharacterRange(0, str.Length);
@@ -160,29 +167,14 @@ namespace HtmlRenderer
         /// <param name="font">the font to measure string with</param>
         /// <param name="maxWidth">the max width to render the string in</param>
         /// <param name="charFit">the number of characters that will fit under <see cref="maxWidth"/> restriction</param>
-        /// <param name="charFitWidth">the width that only the fitted characters take</param>
+        /// <param name="charFitWidth"></param>
         /// <returns>the size of the string</returns>
         public Size MeasureString(string str, Font font, float maxWidth, out int charFit, out int charFitWidth)
         {
-            charFit = 0;
-            charFitWidth = 0;
             if (_useGdiPlusTextRendering)
             {
                 ReleaseHdc();
-                
-                var size = MeasureString(str, font);
-                
-                for(int i = 1; i <= str.Length; i++)
-                {
-                    charFit = i - 1;
-                    Size pSize = MeasureString(str.Substring(0, i), font);
-                    if (pSize.Height <= size.Height && pSize.Width < maxWidth)
-                        charFitWidth = pSize.Width;
-                    else
-                        break;
-                }
-                
-                return size;
+                throw new NotSupportedException("Char fit string measuring is not supported for GDI+ text rendering");
             }
             else
             {
@@ -196,6 +188,7 @@ namespace HtmlRenderer
             }
         }
 
+
         /// <summary>
         /// Draw the given string using the given font and foreground color at given location.
         /// </summary>
@@ -204,29 +197,35 @@ namespace HtmlRenderer
         /// <param name="color">the text color to set</param>
         /// <param name="point">the location to start string draw (top-left)</param>
         /// <param name="size">used to know the size of the rendered text for transparent text support</param>
-        /// <param name="rtl">is to render the string right-to-left (true - RTL, false - LTR)</param>
-        public void DrawString(String str, Font font, Color color, PointF point, SizeF size, bool rtl)
+        public void DrawString(String str, Font font, Color color, PointF point, SizeF size)
         {
-            if( _useGdiPlusTextRendering )
+
+
+#if DEBUG
+            //if (dbugCounter.dbugStartRecord)
+            //{
+            //    Console.WriteLine(dbugCounter.dbugDrawStringCount + " " + str);
+
+            //}
+            dbugCounter.dbugDrawStringCount++;
+#endif
+            if (_useGdiPlusTextRendering)
             {
                 ReleaseHdc();
-                SetRtlAlign(rtl);
-                _g.DrawString(str, font, RenderUtils.GetSolidBrush(color), (int)Math.Round(point.X) + ( rtl ? size.Width : 0 ), (int)Math.Round(point.Y), _stringFormat2);
+                _g.DrawString(str, font, RenderUtils.GetSolidBrush(color), (int)Math.Round(point.X - FontsUtils.GetFontLeftPadding(font) * .8f), (int)Math.Round(point.Y));
             }
             else
             {
-                if( color.A == 255 )
+                if (color.A == 255)
                 {
                     SetFont(font);
                     SetTextColor(color);
-                    SetRtlAlign(rtl);
 
                     Win32Utils.TextOut(_hdc, (int)Math.Round(point.X), (int)Math.Round(point.Y), str, str.Length);
                 }
                 else
                 {
                     InitHdc();
-                    SetRtlAlign(rtl);
                     DrawTransparentText(_hdc, str, font, new Point((int)Math.Round(point.X), (int)Math.Round(point.Y)), Size.Round(size), color);
                 }
             }
@@ -238,11 +237,8 @@ namespace HtmlRenderer
         public void Dispose()
         {
             ReleaseHdc();
-
-            if(_useGdiPlusTextRendering && _setRtl)
-                _stringFormat2.FormatFlags ^= StringFormatFlags.DirectionRightToLeft;
         }
-        
+
 
         #region Delegate graphics methods
 
@@ -355,12 +351,11 @@ namespace HtmlRenderer
         /// </summary>
         private void InitHdc()
         {
-            if(_hdc == IntPtr.Zero)
+            if (_hdc == IntPtr.Zero)
             {
                 var clip = _g.Clip.GetHrgn(_g);
 
                 _hdc = _g.GetHdc();
-                _setRtl = false;
                 Win32Utils.SetBkMode(_hdc, 1);
 
                 Win32Utils.SelectClipRgn(_hdc, clip);
@@ -398,33 +393,8 @@ namespace HtmlRenderer
         private void SetTextColor(Color color)
         {
             InitHdc();
-            int rgb = ( color.B & 0xFF ) << 16 | ( color.G & 0xFF ) << 8 | color.R;
+            int rgb = (color.B & 0xFF) << 16 | (color.G & 0xFF) << 8 | color.R;
             Win32Utils.SetTextColor(_hdc, rgb);
-        }
-
-        /// <summary>
-        /// Change text align to Left-to-Right or Right-to-Left if required.
-        /// </summary>
-        private void SetRtlAlign(bool rtl)
-        {
-            if( _setRtl )
-            {
-                if( !rtl )
-                {
-                    if( _useGdiPlusTextRendering )
-                        _stringFormat2.FormatFlags ^= StringFormatFlags.DirectionRightToLeft;
-                    else
-                        Win32Utils.SetTextAlign(_hdc, Win32Utils.TextAlignDefault);
-                }
-            }
-            else if( rtl )
-            {
-                if( _useGdiPlusTextRendering )
-                    _stringFormat2.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
-                else
-                    Win32Utils.SetTextAlign(_hdc, Win32Utils.TextAlignRtl);
-            }
-            _setRtl = rtl;
         }
 
         /// <summary>
@@ -456,7 +426,7 @@ namespace HtmlRenderer
             }
             finally
             {
-                Win32Utils.ReleaseMemoryHdc(memoryHdc, dib);                
+                Win32Utils.ReleaseMemoryHdc(memoryHdc, dib);
             }
         }
 

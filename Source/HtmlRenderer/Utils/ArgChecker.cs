@@ -36,6 +36,8 @@ namespace HtmlRenderer.Utils
             }
         }
 
+
+        [System.Diagnostics.Conditional("DEBUG")]
         /// <summary>
         /// Validate given argument isn't Null.
         /// </summary>
@@ -64,6 +66,7 @@ namespace HtmlRenderer.Utils
             }
         }
 
+        [System.Diagnostics.Conditional("DEBUG")]
         /// <summary>
         /// Validate given argument isn't Null or empty.
         /// </summary>

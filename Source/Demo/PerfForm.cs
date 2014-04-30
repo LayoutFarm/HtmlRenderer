@@ -86,10 +86,13 @@ namespace HtmlRenderer.Demo
                             htmlContainer.SetHtml(html);
 
                             if (Layout)
+                            {
                                 htmlContainer.PerformLayout(g);
-
+                            }
                             if (Paint)
+                            {
                                 htmlContainer.PerformPaint(g);
+                            }
                         }
                     }
                 }

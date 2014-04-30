@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HtmlRenderer.Demo</RootNamespace>
     <AssemblyName>HtmlRendererDemo</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -108,6 +108,7 @@
     <Compile Include="SyntaxHilight.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Resources\CustomFont.ttf" />
     <None Include="Resources\Window.gif" />
   </ItemGroup>
@@ -220,12 +221,11 @@
     <EmbeddedResource Include="TestSamples\20.Fonts decorations.htm" />
     <EmbeddedResource Include="TestSamples\19.Many images.htm" />
     <EmbeddedResource Include="TestSamples\18.Anchors.htm" />
-    <EmbeddedResource Include="TestSamples\31.ACID 1.htm" />
+    <EmbeddedResource Include="TestSamples\00.ACID 1.htm" />
     <EmbeddedResource Include="TestSamples\17.Languages.htm" />
     <EmbeddedResource Include="Samples\08.Tooltip.htm" />
     <EmbeddedResource Include="TestSamples\16.Borders.htm" />
     <EmbeddedResource Include="PerfSamples\1.Big table.htm" />
-    <EmbeddedResource Include="PerfSamples\2.Lots blocks in inline.htm" />
     <Content Include="Resources\Event16.png" />
     <Content Include="Resources\html.ico" />
     <Content Include="Resources\html32.png" />

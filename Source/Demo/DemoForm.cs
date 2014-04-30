@@ -61,7 +61,7 @@ namespace HtmlRenderer.Demo
         /// used ignore html editor updates when updating seperatly
         /// </summary>
         private bool _updateLock;
-        
+
         #endregion
 
 
@@ -83,16 +83,17 @@ namespace HtmlRenderer.Demo
             _htmlToolTip.SetToolTip(_htmlPanel, Resources.Tooltip);
 
             _htmlEditor.Font = new Font(FontFamily.GenericMonospace, 10);
-            
+
             StartPosition = FormStartPosition.CenterScreen;
             var size = Screen.GetWorkingArea(Point.Empty);
-            Size = new Size((int) (size.Width*0.7), (int) (size.Height*0.8));
+            Size = new Size((int)(size.Width * 0.7), (int)(size.Height * 0.8));
 
             LoadSamples();
 
             LoadCustomFonts();
 
             _updateHtmlTimer = new Timer(OnUpdateHtmlTimerTick);
+            this.Text += " ME";
         }
 
 
@@ -105,13 +106,13 @@ namespace HtmlRenderer.Demo
         {
             var root = new TreeNode("HTML Renderer");
             _samplesTreeView.Nodes.Add(root);
-            
+
             var testSamplesRoot = new TreeNode("Test Samples");
             _samplesTreeView.Nodes.Add(testSamplesRoot);
 
             var perfTestSamplesRoot = new TreeNode("Performance Samples");
             _samplesTreeView.Nodes.Add(perfTestSamplesRoot);
-            
+
             var names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
             Array.Sort(names);
             foreach (string name in names)
@@ -151,7 +152,7 @@ namespace HtmlRenderer.Demo
                     }
                 }
             }
-           
+
             root.Expand();
             //testSamplesRoot.Expand();
 
@@ -202,16 +203,19 @@ namespace HtmlRenderer.Demo
 
                 Application.UseWaitCursor = true;
 
-                try
-                {
-                    _htmlPanel.AvoidImagesLateLoading = !name.Contains("Many images");
+                _htmlPanel.AvoidImagesLateLoading = !name.Contains("Many images");
+                _htmlPanel.Text = html;
 
-                    _htmlPanel.Text = html;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.ToString(), "Failed to render HTML");
-                }
+                //try
+                //{
+                //    _htmlPanel.AvoidImagesLateLoading = !name.Contains("Many images");
+
+                //    _htmlPanel.Text = html;
+                //}
+                //catch (Exception ex)
+                //{
+                //    MessageBox.Show(ex.ToString(), "Failed to render HTML");
+                //}
 
                 Application.UseWaitCursor = false;
                 _updateLock = false;
@@ -277,7 +281,7 @@ namespace HtmlRenderer.Demo
             _splitter.Visible = _webBrowser.Visible;
             _toggleWebBrowserButton.Text = _webBrowser.Visible ? "Hide IE View" : "Show IE View";
 
-            if(_webBrowser.Visible)
+            if (_webBrowser.Visible)
             {
                 _webBrowser.Width = _splitContainer2.Panel2.Width / 2;
                 UpdateWebBrowserHtml();
@@ -352,7 +356,7 @@ namespace HtmlRenderer.Demo
         private static void OnStylesheetLoad(object sender, HtmlStylesheetLoadEventArgs e)
         {
             var stylesheet = GetStylesheet(e.Src);
-            if(stylesheet != null)
+            if (stylesheet != null)
                 e.SetStyleSheet = stylesheet;
         }
 
@@ -390,7 +394,7 @@ namespace HtmlRenderer.Demo
         {
             var img = TryLoadResourceImage(e.Src);
 
-            if(!e.Handled && e.Attributes != null)
+            if (!e.Handled && e.Attributes != null)
             {
                 if (e.Attributes.ContainsKey("byevent"))
                 {
@@ -415,7 +419,7 @@ namespace HtmlRenderer.Demo
                 {
                     var split = e.Attributes["byrect"].Split(',');
                     var rect = new Rectangle(int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse(split[3]));
-                    e.Callback( img ?? Resources.html32, rect);
+                    e.Callback(img ?? Resources.html32, rect);
                     return;
                 }
             }
@@ -479,7 +483,7 @@ namespace HtmlRenderer.Demo
         /// </summary>
         private static void OnLinkClicked(object sender, HtmlLinkClickedEventArgs e)
         {
-            if(e.Link == "SayHello")
+            if (e.Link == "SayHello")
             {
                 MessageBox.Show("Hello you!");
                 e.Handled = true;
@@ -509,18 +513,40 @@ namespace HtmlRenderer.Demo
             AppDomain.MonitoringIsEnabled = true;
             var startMemory = AppDomain.CurrentDomain.MonitoringTotalAllocatedMemorySize;
 #endif
-            var sw = Stopwatch.StartNew();
 
-            const int iterations = 20;
-            for (int i = 0; i < iterations; i++)
+
+            const int iterations = 40;
+
+            //for (int i = 0; i < iterations; i++)
+            //{                
+            //    foreach (var html in _perfTestSamples)
+            //    {
+            //        _htmlPanel.Text = html;
+            //        Application.DoEvents(); // so paint will be called
+            //    }
+            //}
+            List<int> selectedSamples = new List<int>();
+            var allTestCount = _perfTestSamples.Count;
+            for (int i = 0; i < allTestCount; ++i)
             {
-                foreach (var html in _perfTestSamples)
-                {
-                    _htmlPanel.Text = html;
-                    Application.DoEvents(); // so paint will be called
-                }
+                selectedSamples.Add(2);
             }
 
+
+            var sw = Stopwatch.StartNew();
+            //HtmlRenderer.dbugCounter.dbugStartRecord = true;
+            //HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
+            for (int i = 0; i < iterations; i++)
+            {
+                foreach (var sampleNum in selectedSamples)
+                {
+                    HtmlRenderer.dbugCounter.dbugStartRecord = true;
+                    HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
+                    _htmlPanel.Text = _perfTestSamples[sampleNum];
+                    Application.DoEvents(); // so paint will be called
+                }
+
+            }
             sw.Stop();
 
             long endMemory = 0;
@@ -531,17 +557,19 @@ namespace HtmlRenderer.Demo
 #endif
             float htmlSize = 0;
             foreach (var sample in _perfTestSamples)
-                htmlSize += sample.Length*2;
-            htmlSize = htmlSize/1024f;
+            {
+                htmlSize += sample.Length * 2;
+            }
+            htmlSize = htmlSize / 1024f;
 
 
             var msg = string.Format("{0} HTMLs ({1:N0} KB)\r\n{2} Iterations", _perfTestSamples.Count, htmlSize, iterations);
             msg += "\r\n\r\n";
             msg += string.Format("CPU:\r\nTotal: {0} msec\r\nIterationAvg: {1:N2} msec\r\nSingleAvg: {2:N2} msec",
-                                    sw.ElapsedMilliseconds, sw.ElapsedMilliseconds/(double) iterations, sw.ElapsedMilliseconds/(double) iterations/_perfTestSamples.Count);
+                                    sw.ElapsedMilliseconds, sw.ElapsedMilliseconds / (double)iterations, sw.ElapsedMilliseconds / (double)iterations / _perfTestSamples.Count);
             msg += "\r\n\r\n";
             msg += string.Format("Memory:\r\nTotal: {0:N0} KB\r\nIterationAvg: {1:N0} KB\r\nSingleAvg: {2:N0} KB\r\nOverhead: {3:N0}%",
-                                 totalMem, totalMem/iterations, totalMem/iterations/_perfTestSamples.Count, 100*(totalMem/iterations)/htmlSize);
+                                 totalMem, totalMem / iterations, totalMem / iterations / _perfTestSamples.Count, 100 * (totalMem / iterations) / htmlSize);
 
             Clipboard.SetDataObject(msg);
             MessageBox.Show(msg, "Test run results");

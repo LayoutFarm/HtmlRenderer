@@ -12,7 +12,7 @@
     <AssemblyName>HtmlRenderer</AssemblyName>
     <StartupObject>
     </StartupObject>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -64,20 +64,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CssData.cs" />
-    <Compile Include="Dom\CssRectWord.cs" />
-    <Compile Include="Dom\CssRectImage.cs" />
-    <Compile Include="Dom\CssBoxFrame.cs" />
-    <Compile Include="Dom\CssBoxHr.cs" />
-    <Compile Include="Dom\CssBox.cs" />
-    <Compile Include="Dom\CssBoxImage.cs" />
-    <Compile Include="Dom\CssRect.cs" />
-    <Compile Include="Dom\CssBoxProperties.cs" />
-    <Compile Include="Dom\CssLayoutEngine.cs" />
-    <Compile Include="Dom\CssLength.cs" />
-    <Compile Include="Dom\CssLineBox.cs" />
-    <Compile Include="Dom\CssSpacingBox.cs" />
-    <Compile Include="Dom\CssLayoutEngineTable.cs" />
-    <Compile Include="Dom\HtmlTag.cs" />
+    <Compile Include="Dom\CssBox\CssBox_Corrector.cs" />
+    <Compile Include="Dom\CssBox\CssBoxBase_Bridge.cs" />
+    <Compile Include="Dom\CssBox\CssBoxUserUtil.cs" />
+    <Compile Include="Dom\CssBox\CssBox_Fields.cs" />
+    <Compile Include="Dom\CssBox\CssBox_Paint.cs" />
+    <Compile Include="Dom\CssBox\CssBox_PaintImpX.cs" />
+    <Compile Include="Dom\CssBox\CssProps.cs" />
+    <Compile Include="Dom\CssBox\CssBoxBase_Modified.cs" />
+    <Compile Include="Dom\CssRects\CssRectWord.cs" />
+    <Compile Include="Dom\CssRects\CssRectImage.cs" />
+    <Compile Include="Dom\CssBox\CssBoxFrame.cs" />
+    <Compile Include="Dom\CssBox\CssBoxHr.cs" />
+    <Compile Include="Dom\CssBox\CssBox.cs" />
+    <Compile Include="Dom\CssBox\CssBoxImage.cs" />
+    <Compile Include="Dom\CssRects\CssRect.cs" />
+    <Compile Include="Dom\CssBox\CssBoxBase.cs" />
+    <Compile Include="Dom\Layout\CssLayoutEngine.cs" />
+    <Compile Include="Dom\CssRects\CssLength.cs" />
+    <Compile Include="Dom\Layout\CssLineBox.cs" />
+    <Compile Include="Dom\Layout\CssSpacingBox.cs" />
+    <Compile Include="Dom\Layout\CssTableLayoutEngine.cs" />
+    <Compile Include="Entities\HtmlTag.cs" />
     <Compile Include="Entities\Border.cs" />
     <Compile Include="Entities\HtmlLinkClickedException.cs" />
     <Compile Include="Entities\HtmlImageLoadEventArgs.cs" />
@@ -111,7 +119,7 @@
     </Compile>
     <Compile Include="Utils\ArgChecker.cs" />
     <Compile Include="Utils\FontsUtils.cs" />
-    <Compile Include="Utils\ClipboardHelper.cs" />
+    <Compile Include="Utils\HtmlClipboardUtils.cs" />
     <Compile Include="Utils\RenderUtils.cs" />
     <Compile Include="Entities\CssConstants.cs" />
     <Compile Include="Entities\CssUnit.cs" />
@@ -126,7 +134,7 @@
     <Compile Include="HtmlToolTip.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Parse\CssParser.cs" />
+    <Compile Include="Utils\CssParser.cs" />
     <Compile Include="Parse\RegexParserUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\CssUtils.cs" />
@@ -157,12 +165,14 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\ErrorImage.png" />
     <Content Include="Images\LoadImage.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
