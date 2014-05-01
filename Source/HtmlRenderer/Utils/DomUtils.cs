@@ -39,9 +39,7 @@ namespace HtmlRenderer.Utils
             {
                 if (!b.IsInline)
                 {
-                     
-                     
-                    //box.SetInlineOnlyTestResult(false);
+                   
                     return false;
                 }
             }

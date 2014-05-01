@@ -170,7 +170,7 @@ namespace HtmlRenderer
         #endregion
 
 
-       
+
         /// <summary>
         /// Raised when html renderer requires refresh of the control hosting (invalidation and re-layout).
         /// </summary>
@@ -179,7 +179,7 @@ namespace HtmlRenderer
         /// </remarks>
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
 
-        
+
         /// <summary>
         /// Raised when an error occurred during html rendering.<br/>
         /// </summary>
@@ -420,14 +420,14 @@ namespace HtmlRenderer
         /// <param name="htmlSource">the html to init with, init empty if not given</param>
         /// <param name="baseCssData">optional: the stylesheet to init with, init default if not given</param>
         public void SetHtml(string htmlSource, CssData baseCssData = null)
-        { 
-         
+        {
+
             if (_root != null)
             {
                 _root.Dispose();
                 _root = null;
                 //---------------------------
-                this.OnRootDisposed(); 
+                this.OnRootDisposed();
             }
 
             if (!string.IsNullOrEmpty(htmlSource))
@@ -507,74 +507,149 @@ namespace HtmlRenderer
             //return box != null ? CommonUtils.GetFirstValueOrDefault(box.Rectangles, box.Bounds) : (RectangleF?)null;
         }
 
-        /// <summary>
-        /// Measures the bounds of box and children, recursively.
-        /// </summary>
-        /// <param name="g">Device context to draw</param>
-        public void PerformLayout(Graphics g)
+        ///// <summary>
+        ///// Measures the bounds of box and children, recursively.
+        ///// </summary>
+        ///// <param name="g">Device context to draw</param>
+        //public void PerformLayout(Graphics g)
+        //{
+        //    ArgChecker.AssertArgNotNull(g, "g");
+
+        //    if (_root != null)
+        //    {
+        //        using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
+        //        {
+        //            _actualSize = SizeF.Empty;
+
+        //            // if width is not restricted we set it to large value to get the actual later
+        //            _root.Size = new SizeF(_maxSize.Width > 0 ? _maxSize.Width : 99999, 0);
+        //            _root.Location = _location;
+        //            _root.PerformLayout(ig);
+
+        //            if (_maxSize.Width <= 0.1)
+        //            {
+        //                // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
+        //                _root.Size = new SizeF((int)Math.Ceiling(_actualSize.Width), 0);
+        //                _actualSize = SizeF.Empty;
+        //                _root.PerformLayout(ig);
+        //            }
+        //        }
+        //    }
+        //}
+        public void PerformLayout(IGraphics ig)
         {
-            ArgChecker.AssertArgNotNull(g, "g");
+            //ArgChecker.AssertArgNotNull(ig, "g");
 
-            if (_root != null)
+            //if (_root != null)
+            //{
+            //    using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
+            //    {
+
+
+            if (this._root == null)
             {
-                using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
-                {
-                    _actualSize = SizeF.Empty;
-
-                    // if width is not restricted we set it to large value to get the actual later
-                    _root.Size = new SizeF(_maxSize.Width > 0 ? _maxSize.Width : 99999, 0);
-                    _root.Location = _location;
-                    _root.PerformLayout(ig);
-
-                    if (_maxSize.Width <= 0.1)
-                    {
-                        // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
-                        _root.Size = new SizeF((int)Math.Ceiling(_actualSize.Width), 0);
-                        _actualSize = SizeF.Empty;
-                        _root.PerformLayout(ig);
-                    }
-                }
+                return;
             }
+            //-----------------------
+
+
+            _actualSize = SizeF.Empty;
+            // if width is not restricted we set it to large value to get the actual later
+            _root.Size = new SizeF(_maxSize.Width > 0 ? _maxSize.Width : 99999, 0);
+            _root.Location = _location;
+            _root.PerformLayout(ig);
+
+            if (_maxSize.Width <= 0.1)
+            {
+                // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
+                _root.Size = new SizeF((int)Math.Ceiling(_actualSize.Width), 0);
+                _actualSize = SizeF.Empty;
+                _root.PerformLayout(ig);
+            }
+
+            //    }
+
+            //}
         }
         public RectangleF ViewportBound
         {
             get;
             set;
         }
+        ///// <summary>
+        ///// Render the html using the given device.
+        ///// </summary>
+        ///// <param name="g">the device to use to render</param>
+        //public void PerformPaint(Graphics g)
+        //{
+        //    ArgChecker.AssertArgNotNull(g, "g");
+
+        //    Region prevClip = null;
+        //    if (MaxSize.Height > 0)
+        //    {
+        //        prevClip = g.Clip;
+        //        g.SetClip(new RectangleF(_location, _maxSize));
+        //    }
+        //    if (_root != null)
+        //    {
+        //        PaintingArgs args = new PaintingArgs(this);
+        //        var bound = this.ViewportBound;
+        //        args.PushBound(0, 0, bound.Width, bound.Height);
+        //        using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
+        //        {
+        //            args.PushContainingBox(_root.ContainingBlock);
+        //            _root.Paint(ig, args);
+        //            args.PopContainingBox();
+        //        }
+        //    }
+
+        //    if (prevClip != null)
+        //    {
+        //        g.SetClip(prevClip, CombineMode.Replace);
+        //    }
+        //}
         /// <summary>
         /// Render the html using the given device.
         /// </summary>
-        /// <param name="g">the device to use to render</param>
-        public void PerformPaint(Graphics g)
+        /// <param name="g"></param>
+        public void PerformPaint(IGraphics ig)
         {
-            ArgChecker.AssertArgNotNull(g, "g");
+            PaintingArgs args = new PaintingArgs(this);
+            var bound = this.ViewportBound;
+            args.PushBound(0, 0, bound.Width, bound.Height);
+            //using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))            //{
+            args.PushContainingBox(_root.ContainingBlock);
+            _root.Paint(ig, args);
+            args.PopContainingBox();
+            
+            //}
 
-            Region prevClip = null;
-            if (MaxSize.Height > 0)
-            {
-                prevClip = g.Clip;
-                g.SetClip(new RectangleF(_location, _maxSize));
-            }
-            if (_root != null)
-            {
-                PaintingArgs args = new PaintingArgs(this);
-                var bound = this.ViewportBound;
-                args.PushBound(0, 0, bound.Width, bound.Height);
-                using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
-                {
-                    args.PushContainingBox(_root.ContainingBlock);
-                    _root.Paint(ig, args);
-                    args.PopContainingBox();
-                }
-            }
+            //ArgChecker.AssertArgNotNull(g, "g");
 
-            if (prevClip != null)
-            {
-                g.SetClip(prevClip, CombineMode.Replace);
-            }
+            //Region prevClip = null;
+            //if (MaxSize.Height > 0)
+            //{
+            //    prevClip = g.Clip;
+            //    g.SetClip(new RectangleF(_location, _maxSize));
+            //}
+            //if (_root != null)
+            //{
+            //    PaintingArgs args = new PaintingArgs(this);
+            //    var bound = this.ViewportBound;
+            //    args.PushBound(0, 0, bound.Width, bound.Height);
+            //    using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
+            //    {
+            //        args.PushContainingBox(_root.ContainingBlock);
+            //        _root.Paint(ig, args);
+            //        args.PopContainingBox();
+            //    }
+            //}
+
+            //if (prevClip != null)
+            //{
+            //    g.SetClip(prevClip, CombineMode.Replace);
+            //}
         }
-
-
 
 
         /// <summary>
@@ -713,7 +788,7 @@ namespace HtmlRenderer
                 {
                     this.OnAllDisposed();
 
-                   
+
                     Refresh = null;
                     RenderError = null;
                     StylesheetLoad = null;
@@ -727,7 +802,7 @@ namespace HtmlRenderer
                     _root = null;
                     this.OnRootDisposed();
                 }
-               
+
 
                 //if (_selectionHandler != null)
                 //    _selectionHandler.Dispose();

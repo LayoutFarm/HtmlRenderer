@@ -61,27 +61,28 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CssData.cs" />
-    <Compile Include="Dom\CssBox\CssBox_Corrector.cs" />
-    <Compile Include="Dom\CssBox\CssBoxUserUtil.cs" />
-    <Compile Include="Dom\CssBox\CssBox_Fields.cs" />
-    <Compile Include="Dom\CssBox\CssBox_Paint.cs" />
-    <Compile Include="Dom\CssBox\CssBox_PaintImpX.cs" />
-    <Compile Include="Dom\CssBox\CssProps.cs" />
-    <Compile Include="Dom\CssBox\CssBoxBase_Modified.cs" />
-    <Compile Include="Dom\CssRects\CssRectWord.cs" />
-    <Compile Include="Dom\CssRects\CssRectImage.cs" />
-    <Compile Include="Dom\CssBox\CssBoxFrame.cs" />
-    <Compile Include="Dom\CssBox\CssBoxHr.cs" />
-    <Compile Include="Dom\CssBox\CssBox.cs" />
-    <Compile Include="Dom\CssBox\CssBoxImage.cs" />
-    <Compile Include="Dom\CssRects\CssRect.cs" />
-    <Compile Include="Dom\CssBox\CssBoxBase.cs" />
-    <Compile Include="Dom\Layout\CssLayoutEngine.cs" />
-    <Compile Include="Dom\CssRects\CssLength.cs" />
-    <Compile Include="Dom\Layout\CssLineBox.cs" />
-    <Compile Include="Dom\Layout\CssSpacingBox.cs" />
-    <Compile Include="Dom\Layout\CssTableLayoutEngine.cs" />
+    <Compile Include="Entities\CssData.cs" />
+    <Compile Include="Platform\dbug.cs" />
+    <Compile Include="Dom\CssBox_Corrector.cs" />
+    <Compile Include="Dom\CssBoxUserUtil.cs" />
+    <Compile Include="Dom\CssBox_Fields.cs" />
+    <Compile Include="Dom\CssBox_Paint.cs" />
+    <Compile Include="Dom\CssBox_PaintImpX.cs" />
+    <Compile Include="Dom\CssProps.cs" />
+    <Compile Include="Dom\CssBoxBase_Modified.cs" />
+    <Compile Include="Dom\CssRectWord.cs" />
+    <Compile Include="Dom\CssRectImage.cs" />
+    <Compile Include="Dom\CssBoxFrame.cs" />
+    <Compile Include="Dom\CssBoxHr.cs" />
+    <Compile Include="Dom\CssBox.cs" />
+    <Compile Include="Dom\CssBoxImage.cs" />
+    <Compile Include="Dom\CssRect.cs" />
+    <Compile Include="Dom\CssBoxBase.cs" />
+    <Compile Include="Dom\CssLayoutEngine.cs" />
+    <Compile Include="Dom\CssLength.cs" />
+    <Compile Include="Dom\CssLineBox.cs" />
+    <Compile Include="Dom\CssSpacingBox.cs" />
+    <Compile Include="Dom\CssTableLayoutEngine.cs" />
     <Compile Include="Entities\HtmlTag.cs" />
     <Compile Include="Entities\Border.cs" />
     <Compile Include="Entities\HtmlLinkClickedException.cs" />
@@ -100,13 +101,13 @@
     <Compile Include="Entities\Tupler.cs" />
     <Compile Include="Handlers\ImageLoadHandler.cs" />
     <Compile Include="Handlers\StylesheetLoadHandler.cs" />
-    <Compile Include="IGraphics.cs" />
+    <Compile Include="Platform\IGraphics.cs" />
     <Compile Include="Handlers\BackgroundImageDrawHandler.cs" />
     <Compile Include="Handlers\BordersDrawHandler.cs" />
     <Compile Include="Parse\DomParser.cs" />
     <Compile Include="Parse\CssValueParser.cs" />
     <Compile Include="Parse\HtmlParser.cs" />
-    <Compile Include="HtmlContainer.cs" />
+    <Compile Include="Platform\HtmlContainer.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -118,7 +119,6 @@
     <Compile Include="Entities\CssConstants.cs" />
     <Compile Include="Entities\CssUnit.cs" />
     <Compile Include="Entities\HtmlConstants.cs" />
-    <Compile Include="HtmlRender.cs" />
     <Compile Include="Utils\CssParser.cs" />
     <Compile Include="Parse\RegexParserUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -128,7 +128,6 @@
     <Compile Include="Utils\CommonUtils.cs" />
     <Compile Include="Utils\Win32Utils.cs" />
     <Compile Include="Handlers\ISelectHandler.cs" />
-    <Compile Include="WinGraphics.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

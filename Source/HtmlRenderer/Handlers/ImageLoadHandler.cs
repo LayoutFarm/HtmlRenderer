@@ -446,6 +446,7 @@ namespace HtmlRenderer.Handlers
             // can happen if some operation return after the handler was disposed
             if(_disposed)
                 ReleaseObjects();
+                
             else 
                 _loadCompleteCallback(_image, _imageRectangle, async);
         }

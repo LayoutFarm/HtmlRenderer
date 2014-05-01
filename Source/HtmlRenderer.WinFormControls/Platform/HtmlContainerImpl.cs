@@ -10,10 +10,12 @@ using HtmlRenderer.Entities;
 using HtmlRenderer.Handlers;
 using HtmlRenderer.Parse;
 using HtmlRenderer.Utils;
-
 using System.Windows.Forms;
+
+
 namespace HtmlRenderer
 {
+
     public class HtmlContainerImpl : HtmlContainer
     {
         /// <summary>
@@ -37,7 +39,31 @@ namespace HtmlRenderer
         {
         }
 
-  
+        public void PerformPaint(Graphics g)
+        {
+            using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
+            {
+                Region prevClip = null;
+                if (this.MaxSize.Height > 0)
+                {
+                    prevClip = g.Clip;
+                    g.SetClip(new RectangleF(this.Location, this.MaxSize));
+                } 
+                this.PerformPaint(gfx);
+                if (prevClip != null)
+                {
+                    g.SetClip(prevClip, System.Drawing.Drawing2D.CombineMode.Replace);
+                }
+            }
+        }
+        public void PerformLayout(Graphics g)
+        {
+            using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
+            {
+                this.PerformLayout(gfx);
+            }
+        }
+
         protected override void OnRootDisposed()
         {
 

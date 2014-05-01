@@ -59,6 +59,7 @@ namespace HtmlRenderer
     /// </summary>
     public class HtmlPanel : ScrollableControl
     {
+
         #region Fields and Consts
 
         /// <summary>
@@ -205,8 +206,8 @@ namespace HtmlRenderer
         [Description("Sets a value indicating whether the container enables the user to scroll to any controls placed outside of its visible boundaries.")]
         public override bool AutoScroll
         {
-            get{return base.AutoScroll;}
-            set{base.AutoScroll = value;}
+            get { return base.AutoScroll; }
+            set { base.AutoScroll = value; }
         }
 
         /// <summary>
@@ -279,7 +280,7 @@ namespace HtmlRenderer
         {
             ArgChecker.AssertArgNotNullOrEmpty(elementId, "elementId");
 
-            if( _htmlContainer != null )
+            if (_htmlContainer != null)
             {
                 var rect = _htmlContainer.GetElementRectangle(elementId);
                 if (rect.HasValue)
@@ -321,6 +322,7 @@ namespace HtmlRenderer
                 using (var g = CreateGraphics())
                 {
                     _htmlContainer.PerformLayout(g);
+                    
                 }
 
                 AutoScrollMinSize = Size.Round(_htmlContainer.ActualSize);
@@ -336,10 +338,10 @@ namespace HtmlRenderer
 
             if (_htmlContainer != null)
             {
-                _htmlContainer.ScrollOffset = AutoScrollPosition; 
+                _htmlContainer.ScrollOffset = AutoScrollPosition;
                 _htmlContainer.ViewportBound = this.Bounds;
+                
                 _htmlContainer.PerformPaint(e.Graphics);
-
                 // call mouse move to handle paint after scroll or html change affecting mouse cursor.
                 var mp = PointToClient(MousePosition);
                 _htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0));
@@ -361,7 +363,7 @@ namespace HtmlRenderer
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            if( _htmlContainer != null )
+            if (_htmlContainer != null)
                 _htmlContainer.HandleMouseMove(this, e);
         }
 
@@ -416,7 +418,7 @@ namespace HtmlRenderer
             if (e.KeyCode == Keys.Up)
             {
                 VerticalScroll.Value = Math.Max(VerticalScroll.Value - 70, VerticalScroll.Minimum);
-                PerformLayout();                
+                PerformLayout();
             }
             else if (e.KeyCode == Keys.Down)
             {
@@ -461,7 +463,7 @@ namespace HtmlRenderer
         /// </summary>
         private void OnRenderError(object sender, HtmlRenderErrorEventArgs e)
         {
-            if(RenderError != null)
+            if (RenderError != null)
             {
                 if (InvokeRequired)
                     Invoke(RenderError, this, e);
@@ -497,7 +499,7 @@ namespace HtmlRenderer
         /// </summary>
         private void OnRefresh(object sender, HtmlRefreshEventArgs e)
         {
-            if(e.Layout)
+            if (e.Layout)
             {
                 if (InvokeRequired)
                     Invoke(new MethodInvoker(PerformLayout));
@@ -505,11 +507,11 @@ namespace HtmlRenderer
                     PerformLayout();
             }
             if (InvokeRequired)
-                    Invoke(new MethodInvoker(Invalidate));
-                else
-                    Invalidate();
+                Invoke(new MethodInvoker(Invalidate));
+            else
+                Invalidate();
         }
-        
+
         /// <summary>
         /// On html renderer scroll request adjust the scrolling of the panel to the requested location.
         /// </summary>
@@ -554,7 +556,7 @@ namespace HtmlRenderer
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if(_htmlContainer != null)
+            if (_htmlContainer != null)
             {
                 _htmlContainer.LinkClicked -= OnLinkClicked;
                 _htmlContainer.RenderError -= OnRenderError;

@@ -94,7 +94,7 @@ namespace HtmlRenderer
         /// <param name="fontFamily">The font family to add.</param>
         public static void AddFontFamily(FontFamily fontFamily)
         {
-            ArgChecker.AssertArgNotNull(fontFamily, "fontFamily"); 
+            ArgChecker.AssertArgNotNull(fontFamily, "fontFamily");
             FontsUtils.AddFontFamily(fontFamily);
         }
 
@@ -462,7 +462,12 @@ namespace HtmlRenderer
                 {
                     memoryGraphics.Clear(backgroundColor != Color.Empty ? backgroundColor : Color.White);
                     container.ViewportBound = new RectangleF(0, 0, maxSize.Width, maxSize.Height);
-                    container.PerformPaint(memoryGraphics);
+
+                    using (var gfx = new WinGraphics(memoryGraphics, container.UseGdiPlusTextRendering))
+                    {
+                        container.PerformPaint(gfx);
+                    }
+
                 }
 
                 // copy from memory buffer to image
@@ -580,11 +585,13 @@ namespace HtmlRenderer
             {
                 g.TextRenderingHint = textRenderingHint;
                 container.ViewportBound = new RectangleF(0, 0, finalSize.Width, finalSize.Height);
-                container.PerformPaint(g);
+                using (var gfx = new WinGraphics(g, container.UseGdiPlusTextRendering))
+                {
+                    container.PerformPaint(gfx);
+
+                }
             }
-
             return image;
-
         }
 
 
@@ -621,7 +628,11 @@ namespace HtmlRenderer
                     container.ImageLoad += imageLoad;
 
                 container.SetHtml(html, cssData);
-                container.PerformLayout(g);
+                using (var gfx = new WinGraphics(g, container.UseGdiPlusTextRendering))
+                {
+                    container.PerformLayout(gfx);
+                }
+
 
                 actualSize = container.ActualSize;
 
@@ -641,27 +652,31 @@ namespace HtmlRenderer
             // use desktop created graphics to measure the HTML
             using (var measureGraphics = Graphics.FromHwnd(IntPtr.Zero))
             {
-                // first layout without size restriction to know html actual size
-                htmlContainer.PerformLayout(measureGraphics);
-
-                if (maxSize.Width > 0 && maxSize.Width < htmlContainer.ActualSize.Width)
+                int finalWidth = 0;
+                using (var winGfx = new WinGraphics(measureGraphics, htmlContainer.UseGdiPlusTextRendering))
                 {
-                    // to allow the actual size be smaller than max we need to set max size only if it is really larger
-                    htmlContainer.MaxSize = new SizeF(maxSize.Width, 0);
-                    htmlContainer.PerformLayout(measureGraphics);
+                    // first layout without size restriction to know html actual size
+                    htmlContainer.PerformLayout(winGfx);
+
+                    if (maxSize.Width > 0 && maxSize.Width < htmlContainer.ActualSize.Width)
+                    {
+                        // to allow the actual size be smaller than max we need to set max size only if it is really larger
+                        htmlContainer.MaxSize = new SizeF(maxSize.Width, 0);
+                        htmlContainer.PerformLayout(winGfx);
+                    }
+
+                    // restrict the final size by min/max
+                    finalWidth = Math.Max(maxSize.Width > 0 ? Math.Min(maxSize.Width, (int)htmlContainer.ActualSize.Width) : (int)htmlContainer.ActualSize.Width, minSize.Width);
+
+                    // if the final width is larger than the actual we need to re-layout so the html can take the full given width.
+                    if (finalWidth > htmlContainer.ActualSize.Width)
+                    {
+                        htmlContainer.MaxSize = new SizeF(finalWidth, 0);
+                        htmlContainer.PerformLayout(winGfx);
+                    }
                 }
 
-                // restrict the final size by min/max
-                var finalWidth = Math.Max(maxSize.Width > 0 ? Math.Min(maxSize.Width, (int)htmlContainer.ActualSize.Width) : (int)htmlContainer.ActualSize.Width, minSize.Width);
-
-                // if the final width is larger than the actual we need to re-layout so the html can take the full given width.
-                if (finalWidth > htmlContainer.ActualSize.Width)
-                {
-                    htmlContainer.MaxSize = new SizeF(finalWidth, 0);
-                    htmlContainer.PerformLayout(measureGraphics);
-                }
-
-                var finalHeight = Math.Max(maxSize.Height > 0 ? Math.Min(maxSize.Height, (int)htmlContainer.ActualSize.Height) : (int)htmlContainer.ActualSize.Height, minSize.Height);
+                int finalHeight = Math.Max(maxSize.Height > 0 ? Math.Min(maxSize.Height, (int)htmlContainer.ActualSize.Height) : (int)htmlContainer.ActualSize.Height, minSize.Height);
 
                 return new Size(finalWidth, finalHeight);
             }
@@ -743,7 +758,6 @@ namespace HtmlRenderer
                     container.SetHtml(html, cssData);
                     container.PerformLayout(g);
                     container.PerformPaint(g);
-
                     actualSize = container.ActualSize;
                 }
             }

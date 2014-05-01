@@ -42,7 +42,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 this._myCssDisplay = value;
-                //ถ้ามีการเปลี่ยนแปลงภายหลังเคย test ไปแล้ว
+
                 this.PassTestInlineOnlyDeep = this.PassTestInlineOnly = false; 
             } 
         }

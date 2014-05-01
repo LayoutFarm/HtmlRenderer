@@ -341,42 +341,45 @@ namespace HtmlRenderer
 
                 using (Graphics g = CreateGraphics())
                 {
-                    _htmlContainer.PerformLayout(g);
-
-                    if (AutoSize || _autoSizeHight)
+                    using (var gfx = new WinGraphics(g, this._htmlContainer.UseGdiPlusTextRendering))
                     {
-                        if (AutoSize)
+                        _htmlContainer.PerformLayout(gfx);
+
+                        if (AutoSize || _autoSizeHight)
                         {
-                            Size = Size.Round(_htmlContainer.ActualSize);
-                            if (MaximumSize.Width > 0 && MaximumSize.Width < _htmlContainer.ActualSize.Width)
+                            if (AutoSize)
                             {
-                                // to allow the actual size be smaller than max we need to set max size only if it is really larger
-                                _htmlContainer.MaxSize = MaximumSize;
-                                _htmlContainer.PerformLayout(g);
-
                                 Size = Size.Round(_htmlContainer.ActualSize);
+                                if (MaximumSize.Width > 0 && MaximumSize.Width < _htmlContainer.ActualSize.Width)
+                                {
+                                    // to allow the actual size be smaller than max we need to set max size only if it is really larger
+                                    _htmlContainer.MaxSize = MaximumSize;
+                                    _htmlContainer.PerformLayout(gfx);
+
+                                    Size = Size.Round(_htmlContainer.ActualSize);
+                                }
+                                else if (MinimumSize.Width > 0 && MinimumSize.Width > _htmlContainer.ActualSize.Width)
+                                {
+                                    // if min size is larger than the actual we need to re-layout so all 100% layouts will be correct
+                                    _htmlContainer.MaxSize = new SizeF(MinimumSize.Width, 0);
+                                    _htmlContainer.PerformLayout(gfx);
+
+                                    Size = Size.Round(_htmlContainer.ActualSize);
+                                }
                             }
-                            else if (MinimumSize.Width > 0 && MinimumSize.Width > _htmlContainer.ActualSize.Width)
+                            else if (_autoSizeHight && Height != (int)_htmlContainer.ActualSize.Height)
                             {
-                                // if min size is larger than the actual we need to re-layout so all 100% layouts will be correct
-                                _htmlContainer.MaxSize = new SizeF(MinimumSize.Width, 0);
-                                _htmlContainer.PerformLayout(g);
+                                var prevWidth = Width;
 
-                                Size = Size.Round(_htmlContainer.ActualSize);
+                                // make sure the height is not lower than min if given
+                                Height = MinimumSize.Height > 0 && MinimumSize.Height > _htmlContainer.ActualSize.Height
+                                             ? MinimumSize.Height
+                                             : (int)_htmlContainer.ActualSize.Height;
+
+                                // handle if changing the height of the label affects the desired width and those require re-layout
+                                if (prevWidth != Width)
+                                    OnLayout(levent);
                             }
-                        }
-                        else if( _autoSizeHight && Height != (int)_htmlContainer.ActualSize.Height )
-                        {
-                            var prevWidth = Width;
-
-                            // make sure the height is not lower than min if given
-                            Height = MinimumSize.Height > 0 && MinimumSize.Height > _htmlContainer.ActualSize.Height
-                                         ? MinimumSize.Height
-                                         : (int)_htmlContainer.ActualSize.Height;
-
-                            // handle if changing the height of the label affects the desired width and those require re-layout
-                            if( prevWidth != Width )
-                                OnLayout(levent);
                         }
                     }
                 }
@@ -397,6 +400,7 @@ namespace HtmlRenderer
                 e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
                 _htmlContainer.ViewportBound = this.Bounds;
                 _htmlContainer.PerformPaint(e.Graphics);
+                
             }
         }
 

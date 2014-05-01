@@ -22,7 +22,7 @@ namespace HtmlRenderer.Utils
     /// <summary>
     /// Provides some drawing functionallity
     /// </summary>
-    internal static class RenderUtils
+    public static class RenderUtils
     {
         #region Fields and Consts
 

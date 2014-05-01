@@ -207,9 +207,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HtmlRenderer.Controls\HtmlRenderer.Controls.csproj">
-      <Project>{4DBA38D8-D665-4C2C-908A-3C3C0498308D}</Project>
-      <Name>HtmlRenderer.Controls</Name>
+    <ProjectReference Include="..\HtmlRenderer.WinFormControls\HtmlRenderer.WinFormControls.csproj">
+      <Project>{0D90518E-B04A-460E-97C1-732197742A29}</Project>
+      <Name>HtmlRenderer.WinFormControls</Name>
     </ProjectReference>
     <ProjectReference Include="..\HtmlRenderer\HtmlRenderer.csproj">
       <Project>{1B058920-24B4-4140-8AE7-C8C6C38CA52D}</Project>
