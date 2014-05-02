@@ -96,8 +96,8 @@ namespace HtmlRenderer
             _htmlContainer.RenderError += OnRenderError;
             _htmlContainer.Refresh += OnRefresh;
             _htmlContainer.ScrollChange += OnScrollChange;
-            _htmlContainer.StylesheetLoad += OnStylesheetLoad;
-            _htmlContainer.ImageLoad += OnImageLoad;
+            _htmlContainer.StylesheetLoadingRequest += OnStylesheetLoad;
+            _htmlContainer.ImageLoadingRequest += OnImageLoad;
         }
 
         /// <summary>
@@ -562,8 +562,8 @@ namespace HtmlRenderer
                 _htmlContainer.RenderError -= OnRenderError;
                 _htmlContainer.Refresh -= OnRefresh;
                 _htmlContainer.ScrollChange -= OnScrollChange;
-                _htmlContainer.StylesheetLoad -= OnStylesheetLoad;
-                _htmlContainer.ImageLoad -= OnImageLoad;
+                _htmlContainer.StylesheetLoadingRequest -= OnStylesheetLoad;
+                _htmlContainer.ImageLoadingRequest -= OnImageLoad;
                 _htmlContainer.Dispose();
                 _htmlContainer = null;
             }

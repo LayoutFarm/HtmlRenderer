@@ -23,10 +23,7 @@ namespace HtmlRenderer.Dom
             this.htmlContainerScrollOffset = container.ScrollOffset;
         }
         //-----------------------------------------------------
-        public void PushBound(RectangleF rectF)
-        {
-            viewportBounds.Push(rectF);
-        }
+         
         public void PushBound(float x, float y, float w, float h)
         {
             viewportBounds.Push(new RectangleF(x, y, w, h));
@@ -108,6 +105,7 @@ namespace HtmlRenderer.Dom
                 rect.Intersect(args.PeekViewportBound());
 
                 clip.Intersect(rect);
+                 
                 if (clip != RectangleF.Empty)
                 {
                     PaintImp(g, args);

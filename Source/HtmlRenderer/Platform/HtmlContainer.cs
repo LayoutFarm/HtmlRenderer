@@ -193,13 +193,13 @@ namespace HtmlRenderer
         /// This event allows to provide the stylesheet manually or provide new source (file or Uri) to load from.<br/>
         /// If no alternative data is provided the original source will be used.<br/>
         /// </summary>
-        public event EventHandler<HtmlStylesheetLoadEventArgs> StylesheetLoad;
+        public event EventHandler<HtmlStylesheetLoadEventArgs> StylesheetLoadingRequest;
 
         /// <summary>
         /// Raised when an image is about to be loaded by file path or URI.<br/>
         /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
         /// </summary>
-        public event EventHandler<HtmlImageLoadEventArgs> ImageLoad;
+        public event EventHandler<HtmlImageLoadEventArgs> ImageLoadingRequest;
 
 
         public HtmlContainer()
@@ -432,16 +432,17 @@ namespace HtmlRenderer
 
             if (!string.IsNullOrEmpty(htmlSource))
             {
-                //2. มี css data หรือไม่ ถ้าไม่มีให้ใช้ default
+
                 _cssData = baseCssData ?? CssUtils.DefaultCssData;
 
-                //3. สร้าง dom node จากการนำ html element dom มารวมกันกับ css data
+
                 _root = DomParser.GenerateCssTree(htmlSource, this, ref _cssData);
                 if (_root != null)
                 {
                     this.OnRootCreated(_root);
                 }
             }
+
         }
         protected virtual void OnRootDisposed()
         {
@@ -614,14 +615,24 @@ namespace HtmlRenderer
         /// <param name="g"></param>
         public void PerformPaint(IGraphics ig)
         {
+            if (_root == null)
+            {
+                return;
+            }
+
+            //ig.FillRectangle(Brushes.Red, 0, 0, 70, 70);
+
             PaintingArgs args = new PaintingArgs(this);
             var bound = this.ViewportBound;
             args.PushBound(0, 0, bound.Width, bound.Height);
             //using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))            //{
+            this.PerformLayout(ig);
             args.PushContainingBox(_root.ContainingBlock);
             _root.Paint(ig, args);
             args.PopContainingBox();
-            
+
+            //ig.FillRectangle(Brushes.Black, 0, 0, 50, 50);
+
             //}
 
             //ArgChecker.AssertArgNotNull(g, "g");
@@ -660,9 +671,9 @@ namespace HtmlRenderer
         {
             try
             {
-                if (StylesheetLoad != null)
+                if (StylesheetLoadingRequest != null)
                 {
-                    StylesheetLoad(this, args);
+                    StylesheetLoadingRequest(this, args);
                 }
             }
             catch (Exception ex)
@@ -679,9 +690,9 @@ namespace HtmlRenderer
         {
             try
             {
-                if (ImageLoad != null)
+                if (ImageLoadingRequest != null)
                 {
-                    ImageLoad(this, args);
+                    ImageLoadingRequest(this, args);
                 }
             }
             catch (Exception ex)
@@ -791,8 +802,8 @@ namespace HtmlRenderer
 
                     Refresh = null;
                     RenderError = null;
-                    StylesheetLoad = null;
-                    ImageLoad = null;
+                    StylesheetLoadingRequest = null;
+                    ImageLoadingRequest = null;
                 }
 
                 _cssData = null;

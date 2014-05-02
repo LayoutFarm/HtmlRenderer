@@ -974,7 +974,10 @@ namespace HtmlRenderer.Dom
         public float ActualBottom
         {
             get { return Location.Y + Size.Height; }
-            set { Size = new SizeF(Size.Width, value - Location.Y); }
+            set
+            {
+                Size = new SizeF(Size.Width, value - Location.Y);
+            }
         }
 
         /// <summary>

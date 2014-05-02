@@ -12,7 +12,7 @@
     <AssemblyName>HtmlRenderer</AssemblyName>
     <StartupObject>
     </StartupObject>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -101,6 +101,7 @@
     <Compile Include="Entities\Tupler.cs" />
     <Compile Include="Handlers\ImageLoadHandler.cs" />
     <Compile Include="Handlers\StylesheetLoadHandler.cs" />
+    <Compile Include="Platform\ExtensionAttribute.cs" />
     <Compile Include="Platform\IGraphics.cs" />
     <Compile Include="Handlers\BackgroundImageDrawHandler.cs" />
     <Compile Include="Handlers\BordersDrawHandler.cs" />
@@ -126,7 +127,6 @@
     <Compile Include="Utils\DomUtils.cs" />
     <Compile Include="Utils\HtmlUtils.cs" />
     <Compile Include="Utils\CommonUtils.cs" />
-    <Compile Include="Utils\Win32Utils.cs" />
     <Compile Include="Handlers\ISelectHandler.cs" />
   </ItemGroup>
   <ItemGroup>

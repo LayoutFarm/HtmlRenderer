@@ -33,7 +33,7 @@ namespace HtmlRenderer
         /// <summary>
         /// used for <see cref="MeasureString(string,System.Drawing.Font,float,out int,out int)"/> calculation.
         /// </summary>
-        private static readonly int[] _charFitWidth = new int[1000];
+        private static  readonly int[] _charFitWidth = new int[1000];
 
         /// <summary>
         /// Used for GDI+ measure string.
@@ -162,8 +162,13 @@ namespace HtmlRenderer
                 SetFont(font);
 
                 var size = new Size();
-                Win32Utils.GetTextExtentExPoint(_hdc, str, str.Length, (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
+
+                Win32Utils.GetTextExtentExPoint(
+                    _hdc, str, str.Length, 
+                    (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
+
                 charFit = _charFit[0];
+
                 charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
                 return size;
             }
@@ -334,13 +339,10 @@ namespace HtmlRenderer
         {
             if (_hdc == IntPtr.Zero)
             {
-                var clip = _g.Clip.GetHrgn(_g);
-
+                var clip = _g.Clip.GetHrgn(_g); 
                 _hdc = _g.GetHdc();
-                Win32Utils.SetBkMode(_hdc, 1);
-
-                Win32Utils.SelectClipRgn(_hdc, clip);
-
+                Win32Utils.SetBkMode(_hdc, 1); 
+                Win32Utils.SelectClipRgn(_hdc, clip); 
                 Win32Utils.DeleteObject(clip);
             }
         }

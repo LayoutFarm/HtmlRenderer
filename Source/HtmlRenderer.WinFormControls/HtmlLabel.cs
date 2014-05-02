@@ -111,8 +111,8 @@ namespace HtmlRenderer
             _htmlContainer.LinkClicked += OnLinkClicked;
             _htmlContainer.RenderError += OnRenderError;
             _htmlContainer.Refresh += OnRefresh;
-            _htmlContainer.StylesheetLoad += OnStylesheetLoad;
-            _htmlContainer.ImageLoad += OnImageLoad;
+            _htmlContainer.StylesheetLoadingRequest += OnStylesheetLoad;
+            _htmlContainer.ImageLoadingRequest += OnImageLoad;
 
             ResumeLayout(false);
         }
@@ -529,8 +529,8 @@ namespace HtmlRenderer
                 _htmlContainer.LinkClicked -= OnLinkClicked;
                 _htmlContainer.RenderError -= OnRenderError;
                 _htmlContainer.Refresh -= OnRefresh;
-                _htmlContainer.StylesheetLoad -= OnStylesheetLoad;
-                _htmlContainer.ImageLoad -= OnImageLoad;
+                _htmlContainer.StylesheetLoadingRequest -= OnStylesheetLoad;
+                _htmlContainer.ImageLoadingRequest -= OnImageLoad;
                 _htmlContainer.Dispose();
                 _htmlContainer = null;
             }
