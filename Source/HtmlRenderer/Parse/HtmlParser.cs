@@ -29,7 +29,7 @@ namespace HtmlRenderer.Parse
         /// <param name="source">the html source to parse</param>
         public static CssBox ParseDocument(string source)
         {
-            var root = CssBox.CreateBlock();
+            var root = CssBox.CreateRootBlock();
             var curBox = root;
 
             int endIdx = 0;

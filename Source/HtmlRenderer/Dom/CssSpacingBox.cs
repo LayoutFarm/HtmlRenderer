@@ -22,18 +22,18 @@ namespace HtmlRenderer.Dom
         /// the index of the row where box ends
         /// </summary>
         private readonly int _endRow;
-
         #endregion
 
 
-        public CssSpacingBoxForTable(CssBox tableBox,  CssBox extendedBox, int startRow)
+        public CssSpacingBoxForTable(CssBox tableBox, CssBox extendedBox, int startRow)
             : base(tableBox, new HtmlTag("none",
                 new Dictionary<string, string> { { "colspan", "1" } }))
         {
+
             _extendedBox = extendedBox;
             //Display = CssConstants.None;
             this.CssDisplay = CssBoxDisplayType.None;
-            // _startRow = startRow;
+            // _startRow = startRow; 
             _endRow = startRow + Int32.Parse(extendedBox.GetAttribute("rowspan", "1")) - 1;
         }
 

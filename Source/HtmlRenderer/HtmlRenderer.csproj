@@ -61,6 +61,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dom\CssBoxCreator.cs" />
     <Compile Include="Entities\CssData.cs" />
     <Compile Include="Platform\dbug.cs" />
     <Compile Include="Dom\CssBox_Corrector.cs" />

@@ -34,7 +34,10 @@ namespace HtmlRenderer.Dom
         P,
         TABLE,
         TD,
-        TR
+        TR,
+        IFREAME,
+
+        X//test for extension 
     }
 
     public sealed class HtmlTag
@@ -120,7 +123,12 @@ namespace HtmlRenderer.Dom
                 case "html":
                     wellKnownTagName = WellknownHtmlTagName.HTML;
                     break;
-
+                case "iframe":
+                    wellKnownTagName = WellknownHtmlTagName.IFREAME;
+                    break;
+                case "x":
+                    wellKnownTagName = WellknownHtmlTagName.X;
+                    break;
             }
         }
         public WellknownHtmlTagName WellknownTagName

@@ -322,10 +322,13 @@ namespace HtmlRenderer.Utils
                     {
                         var wordBox = GetCssBoxWordOnLocation(lineBox, location);
                         if (wordBox != null)
+                        {
                             return wordBox;
+                        }
                     }
                 }
 
+                
                 if (box.ClientRectangle.IsEmpty || box.ClientRectangle.Contains(location))
                 {
                     foreach (var childBox in box.GetChildBoxIter())

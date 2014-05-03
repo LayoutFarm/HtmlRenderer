@@ -93,7 +93,7 @@ namespace HtmlRenderer.Demo
             LoadCustomFonts();
 
             _updateHtmlTimer = new Timer(OnUpdateHtmlTimerTick);
-            this.Text += " ME";
+            this.Text += " M";
         }
 
 

@@ -114,7 +114,9 @@ namespace HtmlRenderer
             try
             {
                 if (_selectionHandler != null)
+                {
                     _selectionHandler.HandleMouseDown(parent, OffsetByScroll(e.Location), IsMouseInContainer(e.Location));
+                }
             }
             catch (Exception ex)
             {

@@ -30,7 +30,7 @@ namespace HtmlRenderer.Dom
     /// </summary>
     public abstract partial class CssBoxBase
     {
-        //เราใช้ technique ของ beh object เข้ามาเก็บ property ต่าง ๆ 
+       
         #region CSS Fields
 
         private string _backgroundColor = "transparent";

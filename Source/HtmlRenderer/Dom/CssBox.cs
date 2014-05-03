@@ -317,26 +317,6 @@ namespace HtmlRenderer.Dom
             return this._lineBoxes.Last.Value;
             //return this._lineBoxes[this.LineBoxCount - 1];
         }
-        ///// <summary>
-        ///// Gets the linebox(es) that contains words of this box (if inline)
-        ///// </summary>
-        //internal List<CssLineBox> ParentLineBoxes
-        //{ 
-        //not used
-        //    get { return _parentLineBoxes; }
-        //}
-
-        /// <summary>
-        ///// Gets the rectangles where this box should be painted
-        ///// </summary>
-        //Dictionary<CssLineBox, RectangleF> Rectangles
-        //{
-        //    get
-        //    {
-
-        //        return _rectangles;
-        //    }
-        //}
 
         internal void UpdateStripInfo(RectangleF r)
         {
@@ -389,6 +369,8 @@ namespace HtmlRenderer.Dom
             set { _lastHostingLineBox = value; }
         }
 
+
+        //------------------------------------------------------------------
         /// <summary>
         /// Create new css box for the given parent with the given html tag.<br/>
         /// </summary>
@@ -397,27 +379,53 @@ namespace HtmlRenderer.Dom
         /// <returns>the new box</returns>
         public static CssBox CreateBox(HtmlTag tag, CssBox parent = null)
         {
-            ArgChecker.AssertArgNotNull(tag, "tag");
 
-            if (tag.Name == HtmlConstants.Img)
+            ArgChecker.AssertArgNotNull(tag, "tag");
+            switch (tag.WellknownTagName)
             {
-                return new CssBoxImage(parent, tag);
-            }
-            else if (tag.Name == HtmlConstants.Iframe)
-            {
-                return new CssBoxHr(parent, tag);
-                //return new CssBoxFrame(parent, tag);
-            }
-            else if (tag.Name == HtmlConstants.Hr)
-            {
-                return new CssBoxHr(parent, tag);
-            }
-            else
-            {
-                return new CssBox(parent, tag);
+                case WellknownHtmlTagName.IMG:
+                    return new CssBoxImage(parent, tag);
+                case WellknownHtmlTagName.IFREAME:
+                    return new CssBoxHr(parent, tag);
+                case WellknownHtmlTagName.HR:
+                    return new CssBoxHr(parent, tag);
+                //test extension box
+                case WellknownHtmlTagName.X:
+                    var customBox = CreateCustomBox(tag, parent);
+                    if (customBox == null)
+                    {
+                        return new CssBox(parent, tag);
+                    }
+                    else
+                    {
+                        return customBox;
+                    }                     
+                default:
+                    return new CssBox(parent, tag);
             }
         }
-
+        static CssBox CreateCustomBox(HtmlTag tag, CssBox parent)
+        {
+            for (int i = generators.Count - 1; i >= 0; --i)
+            {
+                var newbox = generators[i].CreateCssBox(tag, parent);
+                if (newbox != null)
+                {
+                    return newbox;
+                }
+            }
+            return null;
+        }
+        /// <summary>
+        /// Create new css block box.
+        /// </summary>
+        /// <returns>the new block box</returns>
+        internal static CssBox CreateRootBlock()
+        {
+            var box = new CssBox(null, null);
+            box.CssDisplay = CssBoxDisplayType.Block;
+            return box;
+        }
         /// <summary>
         /// Create new css box for the given parent with the given optional html tag and insert it either
         /// at the end or before the given optional box.<br/>
@@ -445,17 +453,7 @@ namespace HtmlRenderer.Dom
             return newBox;
         }
 
-        /// <summary>
-        /// Create new css block box.
-        /// </summary>
-        /// <returns>the new block box</returns>
-        public static CssBox CreateBlock()
-        {
-            var box = new CssBox(null, null);
-            //box.Display = CssConstants.Block;
-            box.CssDisplay = CssBoxDisplayType.Block;
-            return box;
-        }
+
 
         /// <summary>
         /// Create new css block box for the given parent with the given optional html tag and insert it either
@@ -472,7 +470,7 @@ namespace HtmlRenderer.Dom
         /// <param name="tag">optional: the html tag to define the box</param>
         /// <param name="before">optional: to insert as specific location in parent box</param>
         /// <returns>the new block box</returns>
-        public static CssBox CreateBlock(CssBox parent, HtmlTag tag = null, CssBox before = null)
+        internal static CssBox CreateBlock(CssBox parent, HtmlTag tag = null, CssBox before = null)
         {
             ArgChecker.AssertArgNotNull(parent, "parent");
 
@@ -498,10 +496,6 @@ namespace HtmlRenderer.Dom
                 HtmlContainer.ReportError(HtmlRenderErrorType.Layout, "Exception in box layout", ex);
             }
         }
-
-
-
-
 
         /// <summary>
         /// Set this box in 
@@ -536,6 +530,7 @@ namespace HtmlRenderer.Dom
                 {
                     startIdx++;
                 }
+
                 if (startIdx < _text.Length)
                 {
                     var endIdx = startIdx;
@@ -561,13 +556,11 @@ namespace HtmlRenderer.Dom
                             endIdx++;
                         }
 
-                        if (endIdx < _text.Length && (_text[endIdx] == '-' || this.WordBreak == CssWordBreak.BreakAll  // WordBreak == CssConstants.BreakAll
-                            || CommonUtils.IsAsianCharecter(_text[endIdx])))
+                        if (endIdx < _text.Length &&
+                            (_text[endIdx] == '-' || this.WordBreak == CssWordBreak.BreakAll || CommonUtils.IsAsianCharecter(_text[endIdx])))
                         {
                             endIdx++;
                         }
-
-
 
                         if (endIdx > startIdx)
                         {
@@ -986,11 +979,7 @@ namespace HtmlRenderer.Dom
             try
             {
                 float maxc2 = currentMaxBottom;
-                if (startBox == null)
-                {
-
-                }
-
+               
                 foreach (CssLineBox hostline in startBox.GetHostLineIter())
                 {
                     CssRectangleF r = hostline.GetStrip(this);
@@ -999,20 +988,14 @@ namespace HtmlRenderer.Dom
                         maxc2 = Math.Max(maxc2, r.rectF.Bottom);
                     }
                 }
-                currentMaxBottom = Math.Max(currentMaxBottom, startBox.SummaryBound.Bottom);
-                //foreach (var kp in startBox.Rectangles)
-                //{
-                //    currentMaxBottom = Math.Max(currentMaxBottom, kp.Value.Bottom);
-                //}
 
+                currentMaxBottom = Math.Max(currentMaxBottom, startBox.SummaryBound.Bottom);
+                
                 if (maxc2 != currentMaxBottom)
                 {
 
                 }
-                //foreach (var line in startBox.Rectangles.Keys)
-                //{  
-                //    currentMaxBottom = Math.Max(currentMaxBottom, startBox.Rectangles[line].Bottom);
-                //}
+                 
 
                 foreach (var b in startBox.Boxes)
                 {
@@ -1499,7 +1482,7 @@ namespace HtmlRenderer.Dom
                         y = rectangle.Top;
                     } break;
             }
-             
+
 
             y -= ActualPaddingBottom - ActualBorderBottomWidth;
 

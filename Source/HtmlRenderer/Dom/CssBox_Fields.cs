@@ -65,8 +65,7 @@ namespace HtmlRenderer.Dom
         WellknownHtmlTagName wellKnownTagName;
         #endregion
         //----------------------------------------------------
-
-        LinkedListNode<CssBox> _myLinkedNode = null;
+         
 
         private readonly List<CssRect> _boxWords = new List<CssRect>();
         private readonly List<CssBox> _boxes = new List<CssBox>();
@@ -84,7 +83,8 @@ namespace HtmlRenderer.Dom
             var thisboxes = this._boxes;
             if (thisboxes != null)
             {
-                //collection maybe modifier during iter
+                //collection maybe modifier during iter ****
+                //need to 'Count'.
                 for (int i = 0; i < thisboxes.Count; ++i)
                 {
                     yield return thisboxes[i];

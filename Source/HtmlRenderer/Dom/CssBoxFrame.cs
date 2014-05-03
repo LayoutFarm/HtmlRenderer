@@ -290,6 +290,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         private void LoadVimeoDataAsync(Uri uri)
         {
+            //plan use resource manager
             ThreadPool.QueueUserWorkItem(state =>
             {
                 try
