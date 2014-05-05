@@ -23,6 +23,8 @@ namespace HtmlRenderer.Dom
     /// </summary>
     internal static class CssLayoutEngine
     {
+
+
         /// <summary>
         /// Measure image box size by the width\height set on the box and the actual rendered image size.<br/>
         /// If no image exists for the box error icon will be set.

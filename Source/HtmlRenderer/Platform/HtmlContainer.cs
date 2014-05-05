@@ -97,8 +97,7 @@ namespace HtmlRenderer
         /// </summary>
         private List<Tupler<CssBox, CssBlock>> _hoverBoxes;
 
-
-
+         
         /// <summary>
         /// the text fore color use for selected text
         /// </summary>

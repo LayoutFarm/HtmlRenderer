@@ -68,7 +68,6 @@
     <Compile Include="Dom\CssBoxUserUtil.cs" />
     <Compile Include="Dom\CssBox_Fields.cs" />
     <Compile Include="Dom\CssBox_Paint.cs" />
-    <Compile Include="Dom\CssBox_PaintImpX.cs" />
     <Compile Include="Dom\CssProps.cs" />
     <Compile Include="Dom\CssBoxBase_Modified.cs" />
     <Compile Include="Dom\CssRectWord.cs" />

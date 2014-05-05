@@ -70,8 +70,7 @@ namespace HtmlRenderer.Utils
         /// <returns></returns>
         public static float WhiteSpace(IGraphics g, CssBoxBase box)
         {
-            float w = FontsUtils.MeasureWhitespace(g, box.ActualFont);
-            //if (!(String.IsNullOrEmpty(box.WordSpacing) || box.WordSpacing == CssConstants.Normal))
+            float w = FontsUtils.MeasureWhitespace(g, box.ActualFont);             
             if (!(box.WordSpacing.IsEmpty || box.WordSpacing.IsNormalWordSpacing))
             {
                 w += CssValueParser.ParseLength(box.WordSpacing, 0, box, true);
@@ -222,58 +221,18 @@ namespace HtmlRenderer.Utils
         }
         public static CssBorderStyle GetBorderStyle(string value)
         {
-            CssBorderStyle borderType;
-            switch (value)
-            {
-                default:
-                    borderType = CssBorderStyle.None;
-                    break;
-                case CssConstants.Solid:
-                    borderType = CssBorderStyle.Solid;
-                    break;
-                case CssConstants.Inset:
-                    borderType = CssBorderStyle.Inset;
-                    break;
-                case CssConstants.Outset:
-                    borderType = CssBorderStyle.Outset;
-                    break;
-                case CssConstants.Dashed:
-                    borderType = CssBorderStyle.Dashed;
-                    break;
-                case CssConstants.Dotted:
-                    borderType = CssBorderStyle.Dotted;
-                    break;
-                case CssConstants.Double:
-                    borderType = CssBorderStyle.Double;
-                    break;
-                case CssConstants.Groove:
-                    borderType = CssBorderStyle.Groove;
-                    break;
-                case CssConstants.Hidden:
-                    borderType = CssBorderStyle.Hidden;
-                    break;
-                case CssConstants.None:
-                    borderType = CssBorderStyle.None;
-                    break;
-                case CssConstants.Ridge:
-                    borderType = CssBorderStyle.Ridge;
-                    break;
-                case CssConstants.Visible:
-                    borderType = CssBorderStyle.Visible;
-                    break;
-            }
-            return borderType;
+            return CssBoxUserUtilExtension.GetBorderStyle(value); 
         }
-        public static CssBorderCollapse GetBorderCollapse(string str)
-        {
-            switch (str)
-            {
-                default:
-                    return CssBorderCollapse.Sepatate;
-                case CssConstants.Collapse:
-                    return CssBorderCollapse.Collapse;
-            }
-        }
+        //public static CssBorderCollapse GetBorderCollapse(string str)
+        //{
+        //    switch (str)
+        //    {
+        //        default:
+        //            return CssBorderCollapse.Sepatate;
+        //        case CssConstants.Collapse:
+        //            return CssBorderCollapse.Collapse;
+        //    }
+        //}
 
         /// <summary>
         /// Set CSS box property value by the CSS name.<br/>
@@ -300,6 +259,7 @@ namespace HtmlRenderer.Utils
                     break;
                 case "border-bottom-style":
                     cssBox.BorderBottomStyle = GetBorderStyle(value);
+
                     break;
                 case "border-left-style":
                     cssBox.BorderLeftStyle = GetBorderStyle(value);
@@ -325,8 +285,8 @@ namespace HtmlRenderer.Utils
                 case "border-spacing":
                     cssBox.BorderSpacing = value;
                     break;
-                case "border-collapse":
-                    cssBox.BorderCollapse = GetBorderCollapse(value);
+                case "border-collapse":                     
+                    cssBox.SetBorderCollapse(value);
                     break;
                 case "corner-radius":
                     cssBox.CornerRadius = value;
@@ -344,28 +304,28 @@ namespace HtmlRenderer.Utils
                     cssBox.CornerSWRadius = value;
                     break;
                 case "margin-bottom":
-                    cssBox.MarginBottom = new CssLength(HtmlRenderer.Parse.DomParser.TranslateLength(value));
+                    cssBox.MarginBottom = new CssLength(DomParser.TranslateLength(value));
                     break;
                 case "margin-left":
-                    cssBox.MarginLeft = new CssLength(HtmlRenderer.Parse.DomParser.TranslateLength(value));
+                    cssBox.MarginLeft = new CssLength(DomParser.TranslateLength(value));
                     break;
                 case "margin-right":
-                    cssBox.MarginRight = new CssLength(HtmlRenderer.Parse.DomParser.TranslateLength(value));
+                    cssBox.MarginRight = new CssLength(DomParser.TranslateLength(value));
                     break;
                 case "margin-top":
-                    cssBox.MarginTop = new CssLength(HtmlRenderer.Parse.DomParser.TranslateLength(value));
+                    cssBox.MarginTop = new CssLength(DomParser.TranslateLength(value));
                     break;
                 case "padding-bottom":
-                    cssBox.PaddingBottom = new CssLength(HtmlRenderer.Parse.DomParser.TranslateLength(value));
+                    cssBox.PaddingBottom = new CssLength(DomParser.TranslateLength(value));
                     break;
                 case "padding-left":
-                    cssBox.PaddingLeft = new CssLength(HtmlRenderer.Parse.DomParser.TranslateLength(value));//new CssLength(HtmlRenderer.Parse.DomParser.TranslateLength(value));value;
+                    cssBox.PaddingLeft = new CssLength(DomParser.TranslateLength(value));
                     break;
                 case "padding-right":
-                    cssBox.PaddingRight = new CssLength(HtmlRenderer.Parse.DomParser.TranslateLength(value));
+                    cssBox.PaddingRight = new CssLength(DomParser.TranslateLength(value));
                     break;
                 case "padding-top":
-                    cssBox.PaddingTop = new CssLength(HtmlRenderer.Parse.DomParser.TranslateLength(value));
+                    cssBox.PaddingTop = new CssLength(DomParser.TranslateLength(value));
                     break;
                 case "left":
                     cssBox.Left = value;
@@ -404,11 +364,9 @@ namespace HtmlRenderer.Utils
                     cssBox.Color = value;
                     break;
                 case "display":
-                    //cssBox.Display = value;
                     cssBox.SetDisplayType(value);
                     break;
                 case "direction":
-                    //cssBox.Direction = value;
                     cssBox.SetCssDirection(value);
                     break;
                 case "empty-cells":

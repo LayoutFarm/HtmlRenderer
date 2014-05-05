@@ -144,9 +144,7 @@ namespace HtmlRenderer.Dom
         BreakAll,
         [CssName(CssConstants.KeepAll)]
         KeepAll,
-
         Initial,
-
         [CssName(CssConstants.Inherit)]
         Inherit
     }
@@ -209,9 +207,13 @@ namespace HtmlRenderer.Dom
 
     public enum CssPositionType : byte
     {
+        [CssName(CssConstants.Static)]
         Static,
+        [CssName(CssConstants.Relative)]
         Relative,
+        [CssName(CssConstants.Absolute)]
         Absolute,
+        [CssName(CssConstants.Fixed)]
         Fixed
     }
     public enum CssTextDecoration : byte
@@ -246,7 +248,7 @@ namespace HtmlRenderer.Dom
         Sepatate,
         [CssName(CssConstants.Collapse)]
         Collapse,
-        
+
         Initial,
         [CssName(CssConstants.Inherit)]
         Inherit
