@@ -96,7 +96,7 @@ namespace HtmlRenderer.Handlers
         /// the css rect that context menu shown on
         /// </summary>
         private CssRect _currentRect;
-        
+
         /// <summary>
         /// the css link box that context menu shown on
         /// </summary>
@@ -110,7 +110,7 @@ namespace HtmlRenderer.Handlers
         /// </summary>
         static ContextMenuHandler()
         {
-            if(CultureInfo.CurrentUICulture.Name.StartsWith("fr",StringComparison.InvariantCultureIgnoreCase))
+            if (CultureInfo.CurrentUICulture.Name.StartsWith("fr", StringComparison.InvariantCultureIgnoreCase))
             {
                 _selectAll = "Tout sélectionner";
                 _copy = "Copier";
@@ -287,15 +287,15 @@ namespace HtmlRenderer.Handlers
                 _currentLink = link;
                 _contextMenu = new ContextMenuStrip();
                 _contextMenu.ShowImageMargin = false;
-            
-                if(rect != null)
+
+                if (rect != null)
                 {
                     bool isVideo = false;
                     if (link != null)
                     {
                         isVideo = link is CssBoxFrame && ((CssBoxFrame)link).IsVideo;
                         var openLink = _contextMenu.Items.Add(isVideo ? _openVideo : _openLink, null, OnOpenLinkClick);
-                        if(_htmlContainer.IsSelectionEnabled)
+                        if (_htmlContainer.IsSelectionEnabled)
                         {
                             var copyLink = _contextMenu.Items.Add(isVideo ? _copyVideoUrl : _copyLink, null, OnCopyLinkClick);
                             copyLink.Enabled = !string.IsNullOrEmpty(link.HrefLink);
@@ -307,7 +307,7 @@ namespace HtmlRenderer.Handlers
                     if (rect.IsImage && !isVideo)
                     {
                         var saveImage = _contextMenu.Items.Add(_saveImage, null, OnSaveImageClick);
-                        if(_htmlContainer.IsSelectionEnabled)
+                        if (_htmlContainer.IsSelectionEnabled)
                         {
                             var copyImageUrl = _contextMenu.Items.Add(_copyImageLink, null, OnCopyImageLinkClick);
                             var copyImage = _contextMenu.Items.Add(_copyImage, null, OnCopyImageClick);
@@ -318,23 +318,23 @@ namespace HtmlRenderer.Handlers
                         _contextMenu.Items.Add("-");
                     }
 
-                    if(_htmlContainer.IsSelectionEnabled)
+                    if (_htmlContainer.IsSelectionEnabled)
                     {
                         var copy = _contextMenu.Items.Add(_copy, null, OnCopyClick);
                         copy.Enabled = rect.Selected;
                     }
                 }
 
-                if(_htmlContainer.IsSelectionEnabled)
+                if (_htmlContainer.IsSelectionEnabled)
                 {
                     _contextMenu.Items.Add(_selectAll, null, OnSelectAllClick);
                 }
 
-                if(_contextMenu.Items.Count > 0)
+                if (_contextMenu.Items.Count > 0)
                 {
-                    if(_contextMenu.Items[_contextMenu.Items.Count-1].Text == string.Empty)
+                    if (_contextMenu.Items[_contextMenu.Items.Count - 1].Text == string.Empty)
                         _contextMenu.Items.RemoveAt(_contextMenu.Items.Count - 1);
-                    _contextMenu.Show(parent, parent.PointToClient(Control.MousePosition));                    
+                    _contextMenu.Show(parent, parent.PointToClient(Control.MousePosition));
                 }
             }
             catch (Exception ex)
@@ -370,7 +370,7 @@ namespace HtmlRenderer.Handlers
                 _currentLink = null;
             }
             catch
-            {}
+            { }
         }
 
         /// <summary>
@@ -381,7 +381,16 @@ namespace HtmlRenderer.Handlers
             try
             {
                 var mp = _parentControl.PointToClient(Control.MousePosition);
-                _currentLink.HtmlContainer.HandleLinkClicked(_parentControl, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0), _currentLink);
+                HtmlContainerImpl containerImpl = _currentLink.HtmlContainer as HtmlContainerImpl;
+                if (containerImpl != null)
+                {
+                    containerImpl.HandleLinkClicked(_parentControl, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0), _currentLink);
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+                //_currentLink.HtmlContainer.HandleLinkClicked(_parentControl, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0), _currentLink);
             }
             catch (HtmlLinkClickedException)
             {
@@ -393,7 +402,7 @@ namespace HtmlRenderer.Handlers
             }
             finally
             {
-                DisposeContextMenu();                
+                DisposeContextMenu();
             }
         }
 
@@ -408,7 +417,7 @@ namespace HtmlRenderer.Handlers
             }
             catch (Exception ex)
             {
-                _htmlContainer.ReportError(HtmlRenderErrorType.ContextMenu, "Failed to copy link url to clipboard", ex);                
+                _htmlContainer.ReportError(HtmlRenderErrorType.ContextMenu, "Failed to copy link url to clipboard", ex);
             }
             finally
             {
@@ -430,7 +439,7 @@ namespace HtmlRenderer.Handlers
                     saveDialog.FileName = Path.GetFileName(imageSrc) ?? "image";
                     saveDialog.Filter = "Images|*.png;*.bmp;*.jpg";
 
-                    if(saveDialog.ShowDialog(_parentControl) == DialogResult.OK)
+                    if (saveDialog.ShowDialog(_parentControl) == DialogResult.OK)
                     {
                         _currentRect.Image.Save(saveDialog.FileName);
                     }
@@ -457,7 +466,7 @@ namespace HtmlRenderer.Handlers
             }
             catch (Exception ex)
             {
-                _htmlContainer.ReportError(HtmlRenderErrorType.ContextMenu, "Failed to copy image url to clipboard", ex);                
+                _htmlContainer.ReportError(HtmlRenderErrorType.ContextMenu, "Failed to copy image url to clipboard", ex);
             }
             finally
             {
@@ -476,7 +485,7 @@ namespace HtmlRenderer.Handlers
             }
             catch (Exception ex)
             {
-                _htmlContainer.ReportError(HtmlRenderErrorType.ContextMenu, "Failed to copy image to clipboard", ex);                
+                _htmlContainer.ReportError(HtmlRenderErrorType.ContextMenu, "Failed to copy image to clipboard", ex);
             }
             finally
             {
@@ -495,7 +504,7 @@ namespace HtmlRenderer.Handlers
             }
             catch (Exception ex)
             {
-                _htmlContainer.ReportError(HtmlRenderErrorType.ContextMenu, "Failed to copy text to clipboard", ex);                
+                _htmlContainer.ReportError(HtmlRenderErrorType.ContextMenu, "Failed to copy text to clipboard", ex);
             }
             finally
             {

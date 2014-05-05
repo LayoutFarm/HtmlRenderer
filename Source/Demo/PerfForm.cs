@@ -70,7 +70,7 @@ namespace HtmlRenderer.Demo
 
                 LoadRunSamples();
 
-                var htmlContainer = new HtmlContainer();
+                var htmlContainer = new HtmlContainerImpl();
                 htmlContainer.MaxSize = new SizeF(800, 0);
 
                 GC.Collect();
@@ -86,10 +86,13 @@ namespace HtmlRenderer.Demo
                             htmlContainer.SetHtml(html);
 
                             if (Layout)
+                            {
                                 htmlContainer.PerformLayout(g);
-
+                            }
                             if (Paint)
+                            {
                                 htmlContainer.PerformPaint(g);
+                            }
                         }
                     }
                 }

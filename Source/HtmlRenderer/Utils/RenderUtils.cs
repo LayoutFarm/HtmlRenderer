@@ -22,7 +22,7 @@ namespace HtmlRenderer.Utils
     /// <summary>
     /// Provides some drawing functionallity
     /// </summary>
-    internal static class RenderUtils
+    public static class RenderUtils
     {
         #region Fields and Consts
 
@@ -123,7 +123,7 @@ namespace HtmlRenderer.Utils
             var containingBlock = box.ContainingBlock;
             while (true)
             {
-                if (containingBlock.Overflow == CssConstants.Hidden)
+                if (containingBlock.Overflow  == CssOverflow.Hidden)
                 {
                     var prevClip = g.GetClip();
                     var rect = box.ContainingBlock.ClientRectangle;
@@ -138,7 +138,9 @@ namespace HtmlRenderer.Utils
                 {
                     var cBlock = containingBlock.ContainingBlock;
                     if (cBlock == containingBlock)
+                    {
                         return RectangleF.Empty;
+                    }
                     containingBlock = cBlock;
                 }
             }

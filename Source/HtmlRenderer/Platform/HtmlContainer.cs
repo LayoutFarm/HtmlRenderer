@@ -23,6 +23,10 @@ using HtmlRenderer.Handlers;
 using HtmlRenderer.Parse;
 using HtmlRenderer.Utils;
 
+//-------
+using System.IO;
+using System.Text;
+
 namespace HtmlRenderer
 {
     /// <summary>
@@ -79,7 +83,7 @@ namespace HtmlRenderer
     /// Raised when an error occurred during html rendering.<br/>
     /// </para>
     /// </remarks>
-    public sealed class HtmlContainer : IDisposable
+    public abstract class HtmlContainer : IDisposable
     {
         #region Fields and Consts
 
@@ -93,11 +97,7 @@ namespace HtmlRenderer
         /// </summary>
         private List<Tupler<CssBox, CssBlock>> _hoverBoxes;
 
-        /// <summary>
-        /// Handler for text selection in the html. 
-        /// </summary>
-        private SelectionHandler _selectionHandler;
-
+         
         /// <summary>
         /// the text fore color use for selected text
         /// </summary>
@@ -169,11 +169,6 @@ namespace HtmlRenderer
         #endregion
 
 
-        /// <summary>
-        /// Raised when the user clicks on a link in the html.<br/>
-        /// Allows canceling the execution of the link.
-        /// </summary>
-        public event EventHandler<HtmlLinkClickedEventArgs> LinkClicked;
 
         /// <summary>
         /// Raised when html renderer requires refresh of the control hosting (invalidation and re-layout).
@@ -183,11 +178,6 @@ namespace HtmlRenderer
         /// </remarks>
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
 
-        /// <summary>
-        /// Raised when Html Renderer request scroll to specific location.<br/>
-        /// This can occur on document anchor click.
-        /// </summary>
-        public event EventHandler<HtmlScrollEventArgs> ScrollChange;
 
         /// <summary>
         /// Raised when an error occurred during html rendering.<br/>
@@ -202,13 +192,20 @@ namespace HtmlRenderer
         /// This event allows to provide the stylesheet manually or provide new source (file or Uri) to load from.<br/>
         /// If no alternative data is provided the original source will be used.<br/>
         /// </summary>
-        public event EventHandler<HtmlStylesheetLoadEventArgs> StylesheetLoad;
+        public event EventHandler<HtmlStylesheetLoadEventArgs> StylesheetLoadingRequest;
 
         /// <summary>
         /// Raised when an image is about to be loaded by file path or URI.<br/>
         /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
         /// </summary>
-        public event EventHandler<HtmlImageLoadEventArgs> ImageLoad;
+        public event EventHandler<HtmlImageLoadEventArgs> ImageLoadingRequest;
+
+
+        public HtmlContainer()
+        {
+
+        }
+
 
         /// <summary>
         /// the parsed stylesheet data used for handling the html
@@ -353,21 +350,15 @@ namespace HtmlRenderer
             internal set { _actualSize = value; }
         }
 
-        /// <summary>
-        /// Get the currently selected text segment in the html.
-        /// </summary>
-        public string SelectedText
+        public abstract string SelectedText
         {
-            get { return _selectionHandler.GetSelectedText(); }
+            get;
+        }
+        public abstract string SelectedHtml
+        {
+            get;
         }
 
-        /// <summary>
-        /// Copy the currently selected html segment with style.
-        /// </summary>
-        public string SelectedHtml
-        {
-            get { return _selectionHandler.GetSelectedHtml(); }
-        }
 
         /// <summary>
         /// the root css box of the parsed html
@@ -395,6 +386,33 @@ namespace HtmlRenderer
             set { _selectionBackColor = value; }
         }
 
+        //static Plernsoft.WebDom.XHtmlDocument MyWebParse(string htmlstring)
+        //{
+        //    //1. parse เอกสารทั้งหมด
+        //    Plernsoft.WebDom.XHtmlDocument xhtmldoc = null;
+        //    Plernsoft.WebDom.XHtmlCodeParserManager parserMan = new Plernsoft.WebDom.XHtmlCodeParserManager();
+        //    byte[] buffer = Encoding.UTF8.GetBytes(htmlstring.ToString().ToCharArray());
+        //    using (MemoryStream ms = new MemoryStream(buffer))
+        //    {
+        //        StreamReader reader = new StreamReader(ms);
+        //        xhtmldoc = parserMan.ParseXmlDoc(reader);
+        //        reader.Close();
+        //        ms.Close();
+        //    }
+        //    return xhtmldoc;
+        //}
+        //void GenerateVisualPresentation(Plernsoft.WebDom.XHtmlDocument htmldoc)
+        //{
+
+        //    //แสดง presentation ของ html doc ที่กำหนด ****
+        //    Plernsoft.Presentation.ArtUIRootContext rootContext = new Plernsoft.Presentation.ArtUIRootContext(null);
+        //    Plernsoft.Presentation.ArtUIHtmlBox htmlbox = new Plernsoft.Presentation.ArtUIHtmlBox(rootContext,
+        //        800, 600);
+
+        //    //-----------------------
+        //    htmlbox.LoadHtml(htmldoc); 
+        //    //----------------------- 
+        //}
         /// <summary>
         /// Init with optional document and stylesheet.
         /// </summary>
@@ -402,27 +420,48 @@ namespace HtmlRenderer
         /// <param name="baseCssData">optional: the stylesheet to init with, init default if not given</param>
         public void SetHtml(string htmlSource, CssData baseCssData = null)
         {
+<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
+=======
+
+>>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
             if (_root != null)
             {
                 _root.Dispose();
                 _root = null;
+<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
                 if (_selectionHandler != null)
                     _selectionHandler.Dispose();
                 _selectionHandler = null;
+=======
+                //---------------------------
+                this.OnRootDisposed();
+>>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
             }
 
             if (!string.IsNullOrEmpty(htmlSource))
             {
+
                 _cssData = baseCssData ?? CssUtils.DefaultCssData;
+
 
                 _root = DomParser.GenerateCssTree(htmlSource, this, ref _cssData);
                 if (_root != null)
                 {
-                    _selectionHandler = new SelectionHandler(_root);
+                    this.OnRootCreated(_root);
                 }
             }
-        }
 
+        }
+        protected virtual void OnRootDisposed()
+        {
+
+        }
+        protected virtual void OnRootCreated(CssBox root)
+        {
+        }
+        protected virtual void OnAllDisposed()
+        {
+        }
         /// <summary>
         /// Get html from the current DOM tree with style if requested.
         /// </summary>
@@ -468,6 +507,7 @@ namespace HtmlRenderer
         /// <returns>the rectangle of the element or null if not found</returns>
         public RectangleF? GetElementRectangle(string elementId)
         {
+<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
             ArgChecker.AssertArgNotNullOrEmpty(elementId, "elementId");
 
             var box = DomUtils.GetBoxById(_root, elementId.ToLower());
@@ -501,17 +541,64 @@ namespace HtmlRenderer
                         _root.PerformLayout(ig);
                     }
                 }
-            }
+=======
+            //2014-04-27
+            throw new NotSupportedException();
+            //temp remove ,
+            //
+            //ArgChecker.AssertArgNotNullOrEmpty(elementId, "elementId");
+            //var box = DomUtils.GetBoxById(_root, elementId.ToLower());
+            //return box != null ? CommonUtils.GetFirstValueOrDefault(box.Rectangles, box.Bounds) : (RectangleF?)null;
         }
 
-        /// <summary>
-        /// Render the html using the given device.
-        /// </summary>
-        /// <param name="g">the device to use to render</param>
-        public void PerformPaint(Graphics g)
-        {
-            ArgChecker.AssertArgNotNull(g, "g");
+        ///// <summary>
+        ///// Measures the bounds of box and children, recursively.
+        ///// </summary>
+        ///// <param name="g">Device context to draw</param>
+        //public void PerformLayout(Graphics g)
+        //{
+        //    ArgChecker.AssertArgNotNull(g, "g");
 
+        //    if (_root != null)
+        //    {
+        //        using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
+        //        {
+        //            _actualSize = SizeF.Empty;
+
+        //            // if width is not restricted we set it to large value to get the actual later
+        //            _root.Size = new SizeF(_maxSize.Width > 0 ? _maxSize.Width : 99999, 0);
+        //            _root.Location = _location;
+        //            _root.PerformLayout(ig);
+
+        //            if (_maxSize.Width <= 0.1)
+        //            {
+        //                // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
+        //                _root.Size = new SizeF((int)Math.Ceiling(_actualSize.Width), 0);
+        //                _actualSize = SizeF.Empty;
+        //                _root.PerformLayout(ig);
+        //            }
+        //        }
+        //    }
+        //}
+        public void PerformLayout(IGraphics ig)
+        {
+            //ArgChecker.AssertArgNotNull(ig, "g");
+
+            //if (_root != null)
+            //{
+            //    using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
+            //    {
+
+
+            if (this._root == null)
+            {
+                return;
+>>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
+            }
+            //-----------------------
+
+
+<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
             Region prevClip = null;
             if (MaxSize.Height > 0)
             {
@@ -528,18 +615,70 @@ namespace HtmlRenderer
             }
 
             if (prevClip != null)
-            {
-                g.SetClip(prevClip, CombineMode.Replace);
-            }
-        }
+=======
+            _actualSize = SizeF.Empty;
+            // if width is not restricted we set it to large value to get the actual later
+            _root.Size = new SizeF(_maxSize.Width > 0 ? _maxSize.Width : 99999, 0);
+            _root.Location = _location;
+            _root.PerformLayout(ig);
 
-        /// <summary>
-        /// Handle mouse down to handle selection.
-        /// </summary>
-        /// <param name="parent">the control hosting the html to invalidate</param>
-        /// <param name="e">the mouse event args</param>
-        public void HandleMouseDown(Control parent, MouseEventArgs e)
+            if (_maxSize.Width <= 0.1)
+>>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
+            {
+                // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
+                _root.Size = new SizeF((int)Math.Ceiling(_actualSize.Width), 0);
+                _actualSize = SizeF.Empty;
+                _root.PerformLayout(ig);
+            }
+
+            //    }
+
+            //}
+        }
+        public RectangleF ViewportBound
         {
+            get;
+            set;
+        }
+        ///// <summary>
+        ///// Render the html using the given device.
+        ///// </summary>
+        ///// <param name="g">the device to use to render</param>
+        //public void PerformPaint(Graphics g)
+        //{
+        //    ArgChecker.AssertArgNotNull(g, "g");
+
+        //    Region prevClip = null;
+        //    if (MaxSize.Height > 0)
+        //    {
+        //        prevClip = g.Clip;
+        //        g.SetClip(new RectangleF(_location, _maxSize));
+        //    }
+        //    if (_root != null)
+        //    {
+        //        PaintingArgs args = new PaintingArgs(this);
+        //        var bound = this.ViewportBound;
+        //        args.PushBound(0, 0, bound.Width, bound.Height);
+        //        using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
+        //        {
+        //            args.PushContainingBox(_root.ContainingBlock);
+        //            _root.Paint(ig, args);
+        //            args.PopContainingBox();
+        //        }
+        //    }
+
+        //    if (prevClip != null)
+        //    {
+        //        g.SetClip(prevClip, CombineMode.Replace);
+        //    }
+        //}
+        /// <summary>
+        /// Render the html using the given device.
+        /// </summary>
+        /// <param name="g"></param>
+        public void PerformPaint(IGraphics ig)
+        {
+<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
             ArgChecker.AssertArgNotNull(parent, "parent");
             ArgChecker.AssertArgNotNull(e, "e");
 
@@ -549,21 +688,16 @@ namespace HtmlRenderer
                     _selectionHandler.HandleMouseDown(parent, OffsetByScroll(e.Location), IsMouseInContainer(e.Location));
             }
             catch (Exception ex)
+=======
+            if (_root == null)
+>>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
             {
-                ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed mouse down handle", ex);
+                return;
             }
-        }
 
-        /// <summary>
-        /// Handle mouse up to handle selection and link click.
-        /// </summary>
-        /// <param name="parent">the control hosting the html to invalidate</param>
-        /// <param name="e">the mouse event args</param>
-        public void HandleMouseUp(Control parent, MouseEventArgs e)
-        {
-            ArgChecker.AssertArgNotNull(parent, "parent");
-            ArgChecker.AssertArgNotNull(e, "e");
+            //ig.FillRectangle(Brushes.Red, 0, 0, 70, 70);
 
+<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
             try
             {
                 if (_selectionHandler != null && IsMouseInContainer(e.Location))
@@ -589,17 +723,20 @@ namespace HtmlRenderer
                 ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed mouse up handle", ex);
             }
         }
+=======
+            PaintingArgs args = new PaintingArgs(this);
+            var bound = this.ViewportBound;
+            args.PushBound(0, 0, bound.Width, bound.Height);
+            //using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))            //{
+            this.PerformLayout(ig);
+            args.PushContainingBox(_root.ContainingBlock);
+            _root.Paint(ig, args);
+            args.PopContainingBox();
+>>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
 
-        /// <summary>
-        /// Handle mouse double click to select word under the mouse.
-        /// </summary>
-        /// <param name="parent">the control hosting the html to set cursor and invalidate</param>
-        /// <param name="e">mouse event args</param>
-        public void HandleMouseDoubleClick(Control parent, MouseEventArgs e)
-        {
-            ArgChecker.AssertArgNotNull(parent, "parent");
-            ArgChecker.AssertArgNotNull(e, "e");
+            //ig.FillRectangle(Brushes.Black, 0, 0, 50, 50);
 
+<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
             try
             {
                 if (_selectionHandler != null && IsMouseInContainer(e.Location))
@@ -653,15 +790,32 @@ namespace HtmlRenderer
                 ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed mouse move handle", ex);
             }
         }
+=======
+            //}
 
-        /// <summary>
-        /// Handle mouse leave to handle hover cursor.
-        /// </summary>
-        /// <param name="parent">the control hosting the html to set cursor and invalidate</param>
-        public void HandleMouseLeave(Control parent)
-        {
-            ArgChecker.AssertArgNotNull(parent, "parent");
+            //ArgChecker.AssertArgNotNull(g, "g");
+>>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
 
+            //Region prevClip = null;
+            //if (MaxSize.Height > 0)
+            //{
+            //    prevClip = g.Clip;
+            //    g.SetClip(new RectangleF(_location, _maxSize));
+            //}
+            //if (_root != null)
+            //{
+            //    PaintingArgs args = new PaintingArgs(this);
+            //    var bound = this.ViewportBound;
+            //    args.PushBound(0, 0, bound.Width, bound.Height);
+            //    using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
+            //    {
+            //        args.PushContainingBox(_root.ContainingBlock);
+            //        _root.Paint(ig, args);
+            //        args.PopContainingBox();
+            //    }
+            //}
+
+<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
             try
             {
                 if (_selectionHandler != null)
@@ -705,6 +859,14 @@ namespace HtmlRenderer
                 ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed key down handle", ex);
             }
         }
+=======
+            //if (prevClip != null)
+            //{
+            //    g.SetClip(prevClip, CombineMode.Replace);
+            //}
+        }
+
+>>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
 
         /// <summary>
         /// Raise the stylesheet load event with the given event args.
@@ -714,9 +876,13 @@ namespace HtmlRenderer
         {
             try
             {
+<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
                 if (StylesheetLoad != null)
+=======
+                if (StylesheetLoadingRequest != null)
+>>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
                 {
-                    StylesheetLoad(this, args);
+                    StylesheetLoadingRequest(this, args);
                 }
             }
             catch (Exception ex)
@@ -733,9 +899,13 @@ namespace HtmlRenderer
         {
             try
             {
+<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
                 if (ImageLoad != null)
+=======
+                if (ImageLoadingRequest != null)
+>>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
                 {
-                    ImageLoad(this, args);
+                    ImageLoadingRequest(this, args);
                 }
             }
             catch (Exception ex)
@@ -769,7 +939,7 @@ namespace HtmlRenderer
         /// <param name="type">the type of error to report</param>
         /// <param name="message">the error message</param>
         /// <param name="exception">optional: the exception that occured</param>
-        internal void ReportError(HtmlRenderErrorType type, string message, Exception exception = null)
+        public void ReportError(HtmlRenderErrorType type, string message, Exception exception = null)
         {
             try
             {
@@ -782,6 +952,7 @@ namespace HtmlRenderer
             { }
         }
 
+<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
         /// <summary>
         /// Handle link clicked going over <see cref="LinkClicked"/> event and using <see cref="Process.Start()"/> if not canceled.
         /// </summary>
@@ -827,6 +998,8 @@ namespace HtmlRenderer
                 }
             }
         }
+=======
+>>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
 
         /// <summary>
         /// Add css box that has ":hover" selector to be handled on mouse hover.
@@ -861,7 +1034,7 @@ namespace HtmlRenderer
         /// </summary>
         /// <param name="location">the location to adjust</param>
         /// <returns>the adjusted location</returns>
-        private Point OffsetByScroll(Point location)
+        protected Point OffsetByScroll(Point location)
         {
             location.Offset(-(int)ScrollOffset.X, -(int)ScrollOffset.Y);
             return location;
@@ -871,7 +1044,7 @@ namespace HtmlRenderer
         /// Check if the mouse is currently on the html container.<br/>
         /// Relevant if the html container is not filled in the hosted control (location is not zero and the size is not the full size of the control).
         /// </summary>
-        private bool IsMouseInContainer(Point location)
+        protected bool IsMouseInContainer(Point location)
         {
             return location.X >= _location.X && location.X <= _location.X + _actualSize.Width && location.Y >= _location.Y + ScrollOffset.Y && location.Y <= _location.Y + ScrollOffset.Y + _actualSize.Height;
         }
@@ -885,20 +1058,35 @@ namespace HtmlRenderer
             {
                 if (all)
                 {
-                    LinkClicked = null;
+                    this.OnAllDisposed();
+
+
                     Refresh = null;
                     RenderError = null;
-                    StylesheetLoad = null;
-                    ImageLoad = null;
+                    StylesheetLoadingRequest = null;
+                    ImageLoadingRequest = null;
                 }
 
                 _cssData = null;
                 if (_root != null)
+<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
                     _root.Dispose();
                 _root = null;
                 if (_selectionHandler != null)
                     _selectionHandler.Dispose();
                 _selectionHandler = null;
+=======
+                {
+                    _root.Dispose();
+                    _root = null;
+                    this.OnRootDisposed();
+                }
+
+
+                //if (_selectionHandler != null)
+                //    _selectionHandler.Dispose();
+                //_selectionHandler = null;
+>>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
             }
             catch
             { }

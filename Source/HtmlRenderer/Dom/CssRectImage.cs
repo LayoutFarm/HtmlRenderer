@@ -50,7 +50,10 @@ namespace HtmlRenderer.Dom
             get { return _image; }
             set { _image = value; }
         }
-
+        public override CssRectKind RectKind
+        {
+            get { return CssRectKind.Image; }
+        }
         /// <summary>
         /// Gets if the word represents an image.
         /// </summary>

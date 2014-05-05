@@ -169,9 +169,6 @@ namespace HtmlRenderer.Demo
             this._htmlPanel.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
             this._htmlPanel.Size = new System.Drawing.Size(273, 354);
             this._htmlPanel.TabIndex = 8;
-            this._htmlPanel.Text = null;
-            this._htmlPanel.UseGdiPlusTextRendering = false;
-            this._htmlPanel.UseSystemCursors = true;
             // 
             // _splitter
             // 
@@ -226,8 +223,6 @@ namespace HtmlRenderer.Demo
             this._htmlToolTip.MaximumSize = new System.Drawing.Size(0, 0);
             this._htmlToolTip.OwnerDraw = true;
             this._htmlToolTip.ReshowDelay = 100;
-            this._htmlToolTip.TooltipCssClass = "htmltooltip";
-            this._htmlToolTip.UseGdiPlusTextRendering = false;
             // 
             // DemoForm
             // 

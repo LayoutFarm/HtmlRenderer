@@ -19,7 +19,7 @@ namespace HtmlRenderer.Utils
     /// <summary>
     /// Utils for fonts and fonts families handling.
     /// </summary>
-    internal static class FontsUtils
+    public static class FontsUtils
     {
         #region Fields and Consts
         

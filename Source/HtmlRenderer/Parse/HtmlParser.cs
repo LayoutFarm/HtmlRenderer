@@ -29,7 +29,7 @@ namespace HtmlRenderer.Parse
         /// <param name="source">the html source to parse</param>
         public static CssBox ParseDocument(string source)
         {
-            var root = CssBox.CreateBlock();
+            var root = CssBox.CreateRootBlock();
             var curBox = root;
 
             int endIdx = 0;
@@ -61,21 +61,13 @@ namespace HtmlRenderer.Parse
                     {
                         // parse element tag to css box structure
                         endIdx = ParseHtmlTag(source, tagIdx, ref curBox) + 1;
-
-                        if( curBox.HtmlTag != null && curBox.HtmlTag.Name.Equals(HtmlConstants.Style, StringComparison.OrdinalIgnoreCase) )
-                        {
-                            var endIdxS = endIdx;
-                            endIdx = source.IndexOf("</style>", endIdx, StringComparison.OrdinalIgnoreCase);
-                            if(endIdx > -1)
-                                AddTextBox(source, endIdxS, endIdx, ref curBox);
-                        }
                     }
                 }
                 startIdx = tagIdx > -1 && endIdx > 0 ? endIdx : -1;
             }
 
-            // handle pieces of html without proper structure
-            if (endIdx > -1 && endIdx < source.Length)
+            // handle pices of html without proper structure
+            if (endIdx < source.Length)
             {
                 // there is text after the end of last element
                 var endText = new SubString(source, endIdx, source.Length - endIdx);
@@ -125,8 +117,7 @@ namespace HtmlRenderer.Parse
             {
                 string tagName;
                 Dictionary<string, string> tagAttributes;
-                var length = endIdx - tagIdx + 1 - (source[endIdx - 1] == '/' ? 1 : 0);
-                if (ParseHtmlTag(source, tagIdx, length, out tagName, out tagAttributes))
+                if (ParseHtmlTag(source, tagIdx, endIdx - tagIdx + 1, out tagName, out tagAttributes))
                 {
                     if (!HtmlUtils.IsSingleTag(tagName) && curBox.ParentBox != null)
                     {
@@ -137,10 +128,9 @@ namespace HtmlRenderer.Parse
                 else if (!string.IsNullOrEmpty(tagName))
                 {
                     //new SubString(source, lastEnd + 1, tagmatch.Index - lastEnd - 1)
-                    var isSingle = HtmlUtils.IsSingleTag(tagName) || source[endIdx - 1] == '/';
-                    var tag = new HtmlTag(tagName, isSingle, tagAttributes);
+                    var tag = new HtmlTag(tagName, tagAttributes);
 
-                    if (isSingle)
+                    if (tag.IsSingle)
                     {
                         // the current box is not changed
                         CssBox.CreateBox(tag, curBox);
@@ -220,38 +210,35 @@ namespace HtmlRenderer.Parse
                 while (endIdx < idx + length && !char.IsWhiteSpace(source, endIdx) && source[endIdx] != '=')
                     endIdx++;
 
-                if (startIdx < idx + length)
+                var key = source.Substring(startIdx, endIdx - startIdx);
+
+                startIdx = endIdx + 1;
+                while (startIdx < idx + length && (char.IsWhiteSpace(source, startIdx) || source[startIdx] == '='))
+                    startIdx++;
+
+                bool hasPChar = false;
+                char pChar = source[startIdx];
+                if (pChar == '"' || pChar == '\'')
                 {
-                    var key = source.Substring(startIdx, endIdx - startIdx);
-
-                    startIdx = endIdx + 1;
-                    while (startIdx < idx + length && (char.IsWhiteSpace(source, startIdx) || source[startIdx] == '='))
-                        startIdx++;
-
-                    bool hasPChar = false;
-                    char pChar = source[startIdx];
-                    if (pChar == '"' || pChar == '\'')
-                    {
-                        hasPChar = true;
-                        startIdx++;
-                    }
-
-                    endIdx = startIdx + (hasPChar ? 0 : 1);
-                    while (endIdx < idx + length && (hasPChar ? source[endIdx] != pChar : !char.IsWhiteSpace(source, endIdx)))
-                        endIdx++;
-
-                    var value = source.Substring(startIdx, endIdx - startIdx);
-                    value = HtmlUtils.DecodeHtml(value);
-
-                    if (!string.IsNullOrEmpty(key) && !string.IsNullOrEmpty(value))
-                    {
-                        if (attributes == null)
-                            attributes = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
-                        attributes[key.ToLower()] = value;
-                    }
-
-                    startIdx = endIdx + (hasPChar ? 2 : 1);
+                    hasPChar = true;
+                    startIdx++;
                 }
+
+                endIdx = startIdx + (hasPChar ? 0 : 1);
+                while (endIdx < idx + length && ( hasPChar ? source[endIdx] != pChar : !char.IsWhiteSpace(source, endIdx) ))
+                    endIdx++;
+                
+                var value = source.Substring(startIdx, endIdx - startIdx);
+                value = HtmlUtils.DecodeHtml(value);
+
+                if (!string.IsNullOrEmpty(key) && !string.IsNullOrEmpty(value))
+                {
+                    if (attributes == null)
+                        attributes = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+                    attributes[key.ToLower()] = value;
+                }
+
+                startIdx = endIdx + (hasPChar ? 2 : 1);
             }
         }
 

@@ -18,7 +18,7 @@ namespace HtmlRenderer.Entities
     /// <summary>
     /// Represents sub-string of a full string starting at specific location with a specific length.
     /// </summary>
-    internal sealed class SubString
+    public sealed class SubString
     {
         #region Fields and Consts
 
@@ -36,9 +36,11 @@ namespace HtmlRenderer.Entities
         /// the length of the sub-string starting at <see cref="_startIdx"/>
         /// </summary>
         private readonly int _length;
+        bool hasEvaluteWhitespace;
+        bool isWhiteSpaceCacheValue;
+        bool isEmptyOrWhitespaceCacehValue;
 
         #endregion
-
 
         /// <summary>
         /// Init sub-string that is the full string.
@@ -63,9 +65,9 @@ namespace HtmlRenderer.Entities
         public SubString(string fullString, int startIdx, int length)
         {
             ArgChecker.AssertArgNotNull(fullString, "fullString");
-            if(startIdx < 0 || startIdx >= fullString.Length)
+            if (startIdx < 0 || startIdx >= fullString.Length)
                 throw new ArgumentOutOfRangeException("startIdx", "Must within fullString boundries");
-            if(length < 0 || startIdx + length > fullString.Length)
+            if (length < 0 || startIdx + length > fullString.Length)
                 throw new ArgumentOutOfRangeException("length", "Must within fullString boundries");
 
             _fullString = fullString;
@@ -81,16 +83,16 @@ namespace HtmlRenderer.Entities
             get { return _fullString; }
         }
 
-        /// <summary>
-        /// the start index of the sub-string
-        /// </summary>
-        public int StartIdx
-        {
-            get { return _startIdx; }
-        }
+        ///// <summary>
+        ///// the start index of the sub-string
+        ///// </summary>
+        //public int StartIdx
+        //{
+        //    get { return _startIdx; }
+        //}
 
         /// <summary>
-        /// the length of the sub-string starting at <see cref="_startIdx"/>
+        /// the length of the sub-string starting at _startIdx
         /// </summary>
         public int Length
         {
@@ -107,7 +109,9 @@ namespace HtmlRenderer.Entities
             get
             {
                 if (idx < 0 || idx > _length)
+                {
                     throw new ArgumentOutOfRangeException("idx", "must be within the string range");
+                }
                 return _fullString[_startIdx + idx];
             }
         }
@@ -120,19 +124,38 @@ namespace HtmlRenderer.Entities
         {
             return _length < 1;
         }
-
+        void EvaluateWhitespace()
+        {
+            //init 
+            this.hasEvaluteWhitespace = true;
+            this.isWhiteSpaceCacheValue = true; 
+            for (int i = 0; i < _length; i++)
+            {
+                if (!char.IsWhiteSpace(_fullString, _startIdx + i))
+                {
+                    this.isWhiteSpaceCacheValue = false;
+                    break;
+                }
+            } 
+        }
         /// <summary>
         /// Is the sub-string is empty string or contains only whitespaces.
         /// </summary>
         /// <returns>true - empty or whitespace string, false - otherwise</returns>
         public bool IsEmptyOrWhitespace()
         {
-            for (int i = 0; i < _length; i++)
+            if (!hasEvaluteWhitespace)
             {
-                if (!char.IsWhiteSpace(_fullString, _startIdx + i))
-                    return false;
+                EvaluateWhitespace();
             }
-            return true;
+            return this.isWhiteSpaceCacheValue;
+
+            //for (int i = 0; i < _length; i++)
+            //{
+            //    if (!char.IsWhiteSpace(_fullString, _startIdx + i))
+            //        return false;
+            //}
+            //return true;
         }
 
         /// <summary>
@@ -141,14 +164,30 @@ namespace HtmlRenderer.Entities
         /// <returns>true - empty or whitespace string, false - otherwise</returns>
         public bool IsWhitespace()
         {
+            //----------------------
             if (_length < 1)
-                return false;
-            for (int i = 0; i < _length; i++)
             {
-                if (!char.IsWhiteSpace(_fullString, _startIdx + i))
-                    return false;
+                return false;
             }
-            return true;
+            //----------------------
+            if (!hasEvaluteWhitespace)
+            {
+                EvaluateWhitespace();
+            }
+            return this.isWhiteSpaceCacheValue;
+
+            //if (_length < 1)
+            //{
+            //    return false;
+            //}
+            //for (int i = 0; i < _length; i++)
+            //{
+            //    if (!char.IsWhiteSpace(_fullString, _startIdx + i))
+            //    {
+            //        return false;
+            //    }
+            //}
+            //return true;
         }
 
         /// <summary>
@@ -174,7 +213,7 @@ namespace HtmlRenderer.Entities
                 throw new ArgumentOutOfRangeException("startIdx");
             if (length > _length)
                 throw new ArgumentOutOfRangeException("length");
-            if(startIdx + length > _length)
+            if (startIdx + length > _length)
                 throw new ArgumentOutOfRangeException("length");
 
             return _fullString.Substring(_startIdx + startIdx, length);

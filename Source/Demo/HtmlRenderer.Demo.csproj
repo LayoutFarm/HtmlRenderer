@@ -108,6 +108,7 @@
     <Compile Include="SyntaxHilight.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Resources\CustomFont.ttf" />
     <None Include="Resources\Window.gif" />
   </ItemGroup>
@@ -206,6 +207,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HtmlRenderer.WinFormControls\HtmlRenderer.WinFormControls.csproj">
+      <Project>{0D90518E-B04A-460E-97C1-732197742A29}</Project>
+      <Name>HtmlRenderer.WinFormControls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HtmlRenderer\HtmlRenderer.csproj">
       <Project>{1B058920-24B4-4140-8AE7-C8C6C38CA52D}</Project>
       <Name>HtmlRenderer</Name>
@@ -220,12 +225,11 @@
     <EmbeddedResource Include="TestSamples\20.Fonts decorations.htm" />
     <EmbeddedResource Include="TestSamples\19.Many images.htm" />
     <EmbeddedResource Include="TestSamples\18.Anchors.htm" />
-    <EmbeddedResource Include="TestSamples\31.ACID 1.htm" />
+    <EmbeddedResource Include="TestSamples\00.ACID 1.htm" />
     <EmbeddedResource Include="TestSamples\17.Languages.htm" />
     <EmbeddedResource Include="Samples\08.Tooltip.htm" />
     <EmbeddedResource Include="TestSamples\16.Borders.htm" />
     <EmbeddedResource Include="PerfSamples\1.Big table.htm" />
-    <EmbeddedResource Include="PerfSamples\2.Lots blocks in inline.htm" />
     <Content Include="Resources\Event16.png" />
     <Content Include="Resources\html.ico" />
     <Content Include="Resources\html32.png" />

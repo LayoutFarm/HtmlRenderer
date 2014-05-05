@@ -95,7 +95,6 @@ namespace HtmlRenderer
         public static void AddFontFamily(FontFamily fontFamily)
         {
             ArgChecker.AssertArgNotNull(fontFamily, "fontFamily");
-
             FontsUtils.AddFontFamily(fontFamily);
         }
 
@@ -130,11 +129,12 @@ namespace HtmlRenderer
         /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the size required for the html</returns>
-        public static SizeF Measure(Graphics g, string html, float maxWidth = 0, CssData cssData = null,
-                                    EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
+        public static SizeF Measure(Graphics g, string html, HtmlContainer container,
+            float maxWidth = 0, CssData cssData = null,
+            EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
         {
             ArgChecker.AssertArgNotNull(g, "g");
-            return Measure(g, html, maxWidth, cssData, false, stylesheetLoad, imageLoad);
+            return Measure(g, html, container, maxWidth, cssData, false, stylesheetLoad, imageLoad);
         }
 
         /// <summary>
@@ -150,11 +150,14 @@ namespace HtmlRenderer
         /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the size required for the html</returns>
-        public static SizeF MeasureGdiPlus(Graphics g, string html, float maxWidth = 0, CssData cssData = null,
-                                           EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
+        public static SizeF MeasureGdiPlus(Graphics g, string html,
+            HtmlContainer container,
+            float maxWidth = 0, CssData cssData = null,
+            EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null,
+            EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
         {
             ArgChecker.AssertArgNotNull(g, "g");
-            return Measure(g, html, maxWidth, cssData, true, stylesheetLoad, imageLoad);
+            return Measure(g, html, container, maxWidth, cssData, true, stylesheetLoad, imageLoad);
         }
 
         /// <summary>
@@ -290,7 +293,7 @@ namespace HtmlRenderer
         {
             ArgChecker.AssertArgNotNull(image, "image");
 
-            if( !string.IsNullOrEmpty(html) )
+            if (!string.IsNullOrEmpty(html))
             {
                 // create memory buffer from desktop handle that supports alpha channel
                 IntPtr dib;
@@ -298,7 +301,7 @@ namespace HtmlRenderer
                 try
                 {
                     // create memory buffer graphics to use for HTML rendering
-                    using(var memoryGraphics = Graphics.FromHdc(memoryHdc))
+                    using (var memoryGraphics = Graphics.FromHdc(memoryHdc))
                     {
                         // draw the image to the memory buffer to be the background of the rendered html
                         memoryGraphics.DrawImageUnscaled(image, 0, 0);
@@ -336,13 +339,13 @@ namespace HtmlRenderer
         public static Image RenderToImage(string html, Size size, Color backgroundColor = new Color(), CssData cssData = null,
                                           EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
         {
-            if( backgroundColor == Color.Transparent )
+            if (backgroundColor == Color.Transparent)
                 throw new ArgumentOutOfRangeException("backgroundColor", "Transparent background in not supported");
 
             // create the final image to render into
             var image = new Bitmap(size.Width, size.Height, PixelFormat.Format32bppArgb);
 
-            if( !string.IsNullOrEmpty(html) )
+            if (!string.IsNullOrEmpty(html))
             {
                 // create memory buffer from desktop handle that supports alpha channel
                 IntPtr dib;
@@ -350,7 +353,7 @@ namespace HtmlRenderer
                 try
                 {
                     // create memory buffer graphics to use for HTML rendering
-                    using(var memoryGraphics = Graphics.FromHdc(memoryHdc))
+                    using (var memoryGraphics = Graphics.FromHdc(memoryHdc))
                     {
                         memoryGraphics.Clear(backgroundColor != Color.Empty ? backgroundColor : Color.White);
 
@@ -390,10 +393,13 @@ namespace HtmlRenderer
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the generated image of the html</returns>
         /// <exception cref="ArgumentOutOfRangeException">if <paramref name="backgroundColor"/> is <see cref="Color.Transparent"/></exception>.
-        public static Image RenderToImage(string html, int maxWidth = 0, int maxHeight = 0, Color backgroundColor = new Color(), CssData cssData = null,
-                                          EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
+        public static Image RenderToImage(string html,
+                        HtmlContainer container,
+                        int maxWidth = 0, int maxHeight = 0, Color backgroundColor = new Color(), CssData cssData = null,
+                        EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
         {
-            return RenderToImage(html, Size.Empty, new Size(maxWidth, maxHeight), backgroundColor, cssData, stylesheetLoad, imageLoad);
+            return RenderToImage(html, container,
+                Size.Empty, new Size(maxWidth, maxHeight), backgroundColor, cssData, stylesheetLoad, imageLoad);
         }
 
         /// <summary>
@@ -417,54 +423,63 @@ namespace HtmlRenderer
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the generated image of the html</returns>
         /// <exception cref="ArgumentOutOfRangeException">if <paramref name="backgroundColor"/> is <see cref="Color.Transparent"/></exception>.
-        public static Image RenderToImage(string html, Size minSize, Size maxSize, Color backgroundColor = new Color(), CssData cssData = null,
-                                          EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
+        public static Image RenderToImage(
+            string html,
+            HtmlContainer container,
+            Size minSize, Size maxSize,
+            Color backgroundColor = new Color(), CssData cssData = null,
+            EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
         {
-            if( backgroundColor == Color.Transparent )
+            if (backgroundColor == Color.Transparent)
                 throw new ArgumentOutOfRangeException("backgroundColor", "Transparent background in not supported");
 
-            if( string.IsNullOrEmpty(html) )
+            if (string.IsNullOrEmpty(html))
                 return new Bitmap(0, 0, PixelFormat.Format32bppArgb);
 
-            using(var container = new HtmlContainer())
+
+            container.AvoidAsyncImagesLoading = true;
+            container.AvoidImagesLateLoading = true;
+
+            if (stylesheetLoad != null)
+                container.StylesheetLoadingRequest += stylesheetLoad;
+            if (imageLoad != null)
+                container.ImageLoadingRequest += imageLoad;
+            container.SetHtml(html, cssData);
+
+            var finalSize = MeasureHtmlByRestrictions(container, minSize, maxSize);
+            container.MaxSize = finalSize;
+
+            // create the final image to render into by measured size
+            var image = new Bitmap(finalSize.Width, finalSize.Height, PixelFormat.Format32bppArgb);
+
+            // create memory buffer from desktop handle that supports alpha channel
+            IntPtr dib;
+            var memoryHdc = Win32Utils.CreateMemoryHdc(IntPtr.Zero, image.Width, image.Height, out dib);
+            try
             {
-                container.AvoidAsyncImagesLoading = true;
-                container.AvoidImagesLateLoading = true;
-
-                if( stylesheetLoad != null )
-                    container.StylesheetLoad += stylesheetLoad;
-                if( imageLoad != null )
-                    container.ImageLoad += imageLoad;
-                container.SetHtml(html, cssData);
-
-                var finalSize = MeasureHtmlByRestrictions(container, minSize, maxSize);
-                container.MaxSize = finalSize;
-
-                // create the final image to render into by measured size
-                var image = new Bitmap(finalSize.Width, finalSize.Height, PixelFormat.Format32bppArgb);
-
-                // create memory buffer from desktop handle that supports alpha channel
-                IntPtr dib;
-                var memoryHdc = Win32Utils.CreateMemoryHdc(IntPtr.Zero, image.Width, image.Height, out dib);
-                try
+                // render HTML into the memory buffer
+                using (var memoryGraphics = Graphics.FromHdc(memoryHdc))
                 {
-                    // render HTML into the memory buffer
-                    using(var memoryGraphics = Graphics.FromHdc(memoryHdc))
+                    memoryGraphics.Clear(backgroundColor != Color.Empty ? backgroundColor : Color.White);
+                    container.ViewportBound = new RectangleF(0, 0, maxSize.Width, maxSize.Height);
+
+                    using (var gfx = new WinGraphics(memoryGraphics, container.UseGdiPlusTextRendering))
                     {
-                        memoryGraphics.Clear(backgroundColor != Color.Empty ? backgroundColor : Color.White);
-                        container.PerformPaint(memoryGraphics);
+                        container.PerformPaint(gfx);
                     }
 
-                    // copy from memory buffer to image
-                    CopyBufferToImage(memoryHdc, image);
-                }
-                finally
-                {
-                    Win32Utils.ReleaseMemoryHdc(memoryHdc, dib);
                 }
 
-                return image;
+                // copy from memory buffer to image
+                CopyBufferToImage(memoryHdc, image);
             }
+            finally
+            {
+                Win32Utils.ReleaseMemoryHdc(memoryHdc, dib);
+            }
+
+            return image;
+
         }
 
         /// <summary>
@@ -486,7 +501,7 @@ namespace HtmlRenderer
         {
             var image = new Bitmap(size.Width, size.Height, PixelFormat.Format32bppArgb);
 
-            using(var g = Graphics.FromImage(image))
+            using (var g = Graphics.FromImage(image))
             {
                 g.TextRenderingHint = textRenderingHint;
                 RenderHtml(g, html, PointF.Empty, size, cssData, true, stylesheetLoad, imageLoad);
@@ -513,10 +528,12 @@ namespace HtmlRenderer
         /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the generated image of the html</returns>
-        public static Image RenderToImageGdiPlus(string html, int maxWidth = 0, int maxHeight = 0, TextRenderingHint textRenderingHint = TextRenderingHint.AntiAlias, CssData cssData = null,
-                                                 EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
+        public static Image RenderToImageGdiPlus(string html,
+                HtmlContainer container,
+                int maxWidth = 0, int maxHeight = 0, TextRenderingHint textRenderingHint = TextRenderingHint.AntiAlias, CssData cssData = null,
+                EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
         {
-            return RenderToImageGdiPlus(html, Size.Empty, new Size(maxWidth, maxHeight), textRenderingHint, cssData, stylesheetLoad, imageLoad);
+            return RenderToImageGdiPlus(html, container, Size.Empty, new Size(maxWidth, maxHeight), textRenderingHint, cssData, stylesheetLoad, imageLoad);
         }
 
         /// <summary>
@@ -538,39 +555,43 @@ namespace HtmlRenderer
         /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the generated image of the html</returns>
-        public static Image RenderToImageGdiPlus(string html, Size minSize, Size maxSize, TextRenderingHint textRenderingHint = TextRenderingHint.AntiAlias, CssData cssData = null,
-                                                 EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
+        public static Image RenderToImageGdiPlus(string html,
+                        HtmlContainer container,
+                        Size minSize, Size maxSize, TextRenderingHint textRenderingHint = TextRenderingHint.AntiAlias, CssData cssData = null,
+                        EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
         {
-            if( string.IsNullOrEmpty(html) )
+            if (string.IsNullOrEmpty(html))
                 return new Bitmap(0, 0, PixelFormat.Format32bppArgb);
 
-            using(var container = new HtmlContainer())
+
+            container.AvoidAsyncImagesLoading = true;
+            container.AvoidImagesLateLoading = true;
+            container.UseGdiPlusTextRendering = true;
+
+            if (stylesheetLoad != null)
+                container.StylesheetLoadingRequest += stylesheetLoad;
+            if (imageLoad != null)
+                container.ImageLoadingRequest += imageLoad;
+            container.SetHtml(html, cssData);
+
+            var finalSize = MeasureHtmlByRestrictions(container, minSize, maxSize);
+            container.MaxSize = finalSize;
+
+            // create the final image to render into by measured size
+            var image = new Bitmap(finalSize.Width, finalSize.Height, PixelFormat.Format32bppArgb);
+
+            // render HTML into the image
+            using (var g = Graphics.FromImage(image))
             {
-                container.AvoidAsyncImagesLoading = true;
-                container.AvoidImagesLateLoading = true;
-                container.UseGdiPlusTextRendering = true;
-                    
-                if( stylesheetLoad != null )
-                    container.StylesheetLoad += stylesheetLoad;
-                if( imageLoad != null )
-                    container.ImageLoad += imageLoad;
-                container.SetHtml(html, cssData);
-
-                var finalSize = MeasureHtmlByRestrictions(container, minSize, maxSize);
-                container.MaxSize = finalSize;
-
-                // create the final image to render into by measured size
-                var image = new Bitmap(finalSize.Width, finalSize.Height, PixelFormat.Format32bppArgb);
-
-                // render HTML into the image
-                using(var g = Graphics.FromImage(image))
+                g.TextRenderingHint = textRenderingHint;
+                container.ViewportBound = new RectangleF(0, 0, finalSize.Width, finalSize.Height);
+                using (var gfx = new WinGraphics(g, container.UseGdiPlusTextRendering))
                 {
-                    g.TextRenderingHint = textRenderingHint;
-                    container.PerformPaint(g);
-                }
+                    container.PerformPaint(gfx);
 
-                return image;
+                }
             }
+            return image;
         }
 
 
@@ -587,29 +608,34 @@ namespace HtmlRenderer
         /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the size required for the html</returns>
-        private static SizeF Measure(Graphics g, string html, float maxWidth, CssData cssData, bool useGdiPlusTextRendering,
-                                     EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad, EventHandler<HtmlImageLoadEventArgs> imageLoad)
+        private static SizeF Measure(Graphics g, string html,
+            HtmlContainer container,
+            float maxWidth, CssData cssData, bool useGdiPlusTextRendering,
+            EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad, EventHandler<HtmlImageLoadEventArgs> imageLoad)
         {
             SizeF actualSize = SizeF.Empty;
-            if( !string.IsNullOrEmpty(html) )
+            if (!string.IsNullOrEmpty(html))
             {
-                using(var container = new HtmlContainer())
+
+                container.MaxSize = new SizeF(maxWidth, 0);
+                container.AvoidAsyncImagesLoading = true;
+                container.AvoidImagesLateLoading = true;
+                container.UseGdiPlusTextRendering = useGdiPlusTextRendering;
+
+                if (stylesheetLoad != null)
+                    container.StylesheetLoadingRequest += stylesheetLoad;
+                if (imageLoad != null)
+                    container.ImageLoadingRequest += imageLoad;
+
+                container.SetHtml(html, cssData);
+                using (var gfx = new WinGraphics(g, container.UseGdiPlusTextRendering))
                 {
-                    container.MaxSize = new SizeF(maxWidth, 0);
-                    container.AvoidAsyncImagesLoading = true;
-                    container.AvoidImagesLateLoading = true;
-                    container.UseGdiPlusTextRendering = useGdiPlusTextRendering;
-
-                    if( stylesheetLoad != null )
-                        container.StylesheetLoad += stylesheetLoad;
-                    if( imageLoad != null )
-                        container.ImageLoad += imageLoad;
-
-                    container.SetHtml(html, cssData);
-                    container.PerformLayout(g);
-
-                    actualSize = container.ActualSize;
+                    container.PerformLayout(gfx);
                 }
+
+
+                actualSize = container.ActualSize;
+
             }
             return actualSize;
         }
@@ -624,29 +650,33 @@ namespace HtmlRenderer
         private static Size MeasureHtmlByRestrictions(HtmlContainer htmlContainer, Size minSize, Size maxSize)
         {
             // use desktop created graphics to measure the HTML
-            using(var measureGraphics = Graphics.FromHwnd(IntPtr.Zero))
+            using (var measureGraphics = Graphics.FromHwnd(IntPtr.Zero))
             {
-                // first layout without size restriction to know html actual size
-                htmlContainer.PerformLayout(measureGraphics);
-
-                if( maxSize.Width > 0 && maxSize.Width < htmlContainer.ActualSize.Width )
+                int finalWidth = 0;
+                using (var winGfx = new WinGraphics(measureGraphics, htmlContainer.UseGdiPlusTextRendering))
                 {
-                    // to allow the actual size be smaller than max we need to set max size only if it is really larger
-                    htmlContainer.MaxSize = new SizeF(maxSize.Width, 0);
-                    htmlContainer.PerformLayout(measureGraphics);
+                    // first layout without size restriction to know html actual size
+                    htmlContainer.PerformLayout(winGfx);
+
+                    if (maxSize.Width > 0 && maxSize.Width < htmlContainer.ActualSize.Width)
+                    {
+                        // to allow the actual size be smaller than max we need to set max size only if it is really larger
+                        htmlContainer.MaxSize = new SizeF(maxSize.Width, 0);
+                        htmlContainer.PerformLayout(winGfx);
+                    }
+
+                    // restrict the final size by min/max
+                    finalWidth = Math.Max(maxSize.Width > 0 ? Math.Min(maxSize.Width, (int)htmlContainer.ActualSize.Width) : (int)htmlContainer.ActualSize.Width, minSize.Width);
+
+                    // if the final width is larger than the actual we need to re-layout so the html can take the full given width.
+                    if (finalWidth > htmlContainer.ActualSize.Width)
+                    {
+                        htmlContainer.MaxSize = new SizeF(finalWidth, 0);
+                        htmlContainer.PerformLayout(winGfx);
+                    }
                 }
 
-                // restrict the final size by min/max
-                var finalWidth = Math.Max(maxSize.Width > 0 ? Math.Min(maxSize.Width, (int)htmlContainer.ActualSize.Width) : (int)htmlContainer.ActualSize.Width, minSize.Width);
-
-                // if the final width is larger than the actual we need to re-layout so the html can take the full given width.
-                if (finalWidth > htmlContainer.ActualSize.Width)
-                {
-                    htmlContainer.MaxSize = new SizeF(finalWidth, 0);
-                    htmlContainer.PerformLayout(measureGraphics);
-                }
-
-                var finalHeight = Math.Max(maxSize.Height > 0 ? Math.Min(maxSize.Height, (int)htmlContainer.ActualSize.Height) : (int)htmlContainer.ActualSize.Height, minSize.Height);
+                int finalHeight = Math.Max(maxSize.Height > 0 ? Math.Min(maxSize.Height, (int)htmlContainer.ActualSize.Height) : (int)htmlContainer.ActualSize.Height, minSize.Height);
 
                 return new Size(finalWidth, finalHeight);
             }
@@ -673,7 +703,7 @@ namespace HtmlRenderer
         private static SizeF RenderClip(Graphics g, string html, PointF location, SizeF maxSize, CssData cssData, bool useGdiPlusTextRendering, EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad, EventHandler<HtmlImageLoadEventArgs> imageLoad)
         {
             Region prevClip = null;
-            if( maxSize.Height > 0 )
+            if (maxSize.Height > 0)
             {
                 prevClip = g.Clip;
                 g.SetClip(new RectangleF(location, maxSize));
@@ -681,7 +711,7 @@ namespace HtmlRenderer
 
             var actualSize = RenderHtml(g, html, location, maxSize, cssData, useGdiPlusTextRendering, stylesheetLoad, imageLoad);
 
-            if( prevClip != null )
+            if (prevClip != null)
             {
                 g.SetClip(prevClip, CombineMode.Replace);
             }
@@ -710,9 +740,9 @@ namespace HtmlRenderer
         {
             SizeF actualSize = SizeF.Empty;
 
-            if( !string.IsNullOrEmpty(html) )
+            if (!string.IsNullOrEmpty(html))
             {
-                using(var container = new HtmlContainer())
+                using (var container = new HtmlContainerImpl())
                 {
                     container.Location = location;
                     container.MaxSize = maxSize;
@@ -720,15 +750,14 @@ namespace HtmlRenderer
                     container.AvoidImagesLateLoading = true;
                     container.UseGdiPlusTextRendering = useGdiPlusTextRendering;
 
-                    if( stylesheetLoad != null )
-                        container.StylesheetLoad += stylesheetLoad;
-                    if( imageLoad != null )
-                        container.ImageLoad += imageLoad;
+                    if (stylesheetLoad != null)
+                        container.StylesheetLoadingRequest += stylesheetLoad;
+                    if (imageLoad != null)
+                        container.ImageLoadingRequest += imageLoad;
 
                     container.SetHtml(html, cssData);
                     container.PerformLayout(g);
                     container.PerformPaint(g);
-
                     actualSize = container.ActualSize;
                 }
             }
@@ -743,7 +772,7 @@ namespace HtmlRenderer
         /// <param name="image">the destination bitmap image to copy to</param>
         private static void CopyBufferToImage(IntPtr memoryHdc, Image image)
         {
-            using(var imageGraphics = Graphics.FromImage(image))
+            using (var imageGraphics = Graphics.FromImage(image))
             {
                 var imgHdc = imageGraphics.GetHdc();
                 Win32Utils.BitBlt(imgHdc, 0, 0, image.Width, image.Height, memoryHdc, 0, 0, Win32Utils.BitBltCopy);

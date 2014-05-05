@@ -16,6 +16,14 @@ using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
 {
+    public enum CssRectKind
+    {
+        Unknown,
+        Text,
+        Image,
+        LineBreak,
+        Space
+    }
     /// <summary>
     /// Represents a word inside an inline box
     /// </summary>
@@ -25,7 +33,7 @@ namespace HtmlRenderer.Dom
     /// imagine the performance when drawing char by char on the device.<br/>
     /// It may change for future versions of the library.
     /// </remarks>
-    internal abstract class CssRect
+    public abstract class CssRect
     {
         #region Fields and Consts
 
@@ -42,9 +50,15 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// If the word is selected this points to the selection handler for more data
         /// </summary>
-        private SelectionHandler _selection;
+        private ISelectionHandler _selection;
 
+
+        /// <summary>
+        /// each word has only one owner linebox!
+        /// </summary>
+        CssLineBox myOwnerLineBox;
         #endregion
+
 
 
         /// <summary>
@@ -55,7 +69,50 @@ namespace HtmlRenderer.Dom
         {
             _ownerBox = owner;
         }
+        internal CssLineBox ownerLineBox
+        {
+            get
+            {
+                return this.myOwnerLineBox;
+            }
+            set
+            {
+#if DEBUG
+                //if (value != null && this.myOwnerLineBox != null)
+                //{
+                //}
+#endif
 
+                this.myOwnerLineBox = value;
+            }
+        }
+#if DEBUG
+        //int dbugPaintCount;
+        //int dbugSnapPass;
+        public int debugPaintCount
+        {
+            get
+            {
+                return 0;
+                //return this.dbugPaintCount;
+            }
+            set
+            {
+                //if (dbugCounter.dbugStartRecord
+                //     && this.dbugPaintCount > 0)
+                //{
+                    
+                //}
+                //this.dbugSnapPass = dbugCounter.dbugDrawStringCount;
+                //this.dbugPaintCount = value;
+              
+            }
+        }
+#endif
+        public abstract CssRectKind RectKind
+        {
+            get;
+        }
         /// <summary>
         /// Gets the Box where this word belongs.
         /// </summary>
@@ -146,7 +203,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// If the word is selected this points to the selection handler for more data
         /// </summary>
-        public SelectionHandler Selection
+        public ISelectionHandler Selection
         {
             get { return _selection; }
             set { _selection = value; }
@@ -174,9 +231,9 @@ namespace HtmlRenderer.Dom
         public virtual Image Image
         {
             get { return null; }
-// ReSharper disable ValueParameterNotUsed
-            set {}
-// ReSharper restore ValueParameterNotUsed
+            // ReSharper disable ValueParameterNotUsed
+            set { }
+            // ReSharper restore ValueParameterNotUsed
         }
 
         /// <summary>
@@ -255,7 +312,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets or sets an offset to be considered in measurements
         /// </summary>
-        internal float LeftGlyphPadding
+        public float LeftGlyphPadding
         {
             get { return OwnerBox != null ? FontsUtils.GetFontLeftPadding(OwnerBox.ActualFont) : 0; }
         }

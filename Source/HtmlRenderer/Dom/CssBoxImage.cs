@@ -40,15 +40,14 @@ namespace HtmlRenderer.Dom
         /// </summary>
         private bool _imageLoadingComplete;
 
-        #endregion
-
+        #endregion 
 
         /// <summary>
         /// Init.
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxImage(CssBox parent, HtmlTag tag) 
+        public CssBoxImage(CssBox parent, HtmlTag tag)
             : base(parent, tag)
         {
             _imageWord = new CssRectImage(this);
@@ -63,11 +62,68 @@ namespace HtmlRenderer.Dom
             get { return _imageWord.Image; }
         }
 
+        internal void PaintImage(IGraphics g, PointF offset, CssRect w)
+        {
+
+            if (_imageLoadHandler == null)
+            {
+                _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
+                _imageLoadHandler.LoadImage(GetAttribute("src"), HtmlTag != null ? HtmlTag.Attributes : null);
+            }
+
+            var rect = w.Rectangle;
+            //PointF offset = HtmlContainer.ScrollOffset;
+
+            rect.Offset(offset);
+
+            var prevClip = RenderUtils.ClipGraphicsByOverflow(g, this);
+
+            PaintBackground(g, rect, true, true);
+            BordersDrawHandler.DrawBoxBorders(g, this, rect, true, true);
+
+            RectangleF r = _imageWord.Rectangle;
+            r.Offset(offset);
+            r.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
+            r.Y += ActualBorderTopWidth + ActualPaddingTop;
+            r.X = (float)Math.Floor(r.X);
+            r.Y = (float)Math.Floor(r.Y);
+
+            if (_imageWord.Image != null)
+            {
+                if (_imageWord.ImageRectangle == Rectangle.Empty)
+                    g.DrawImage(_imageWord.Image, Rectangle.Round(r));
+                else
+                    g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
+
+                if (_imageWord.Selected)
+                {
+                    g.FillRectangle(GetSelectionBackBrush(true), _imageWord.Left + offset.X, _imageWord.Top + offset.Y, _imageWord.Width + 2, DomUtils.GetCssLineBoxByWord(_imageWord).LineHeight);
+                }
+            }
+            else if (_imageLoadingComplete)
+            {
+                if (_imageLoadingComplete && r.Width > 19 && r.Height > 19)
+                {
+                    RenderUtils.DrawImageErrorIcon(g, r);
+                }
+            }
+            else
+            {
+                RenderUtils.DrawImageLoadingIcon(g, r);
+                if (r.Width > 19 && r.Height > 19)
+                {
+                    g.DrawRectangle(Pens.LightGray, r.X, r.Y, r.Width, r.Height);
+                }
+            }
+
+            RenderUtils.ReturnClip(g, prevClip);
+
+        }
         /// <summary>
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(IGraphics g)
+        protected override void PaintImp(IGraphics g, PaintingArgs args)
         {
             // load image iff it is in visible rectangle
             if (_imageLoadHandler == null)
@@ -76,7 +132,10 @@ namespace HtmlRenderer.Dom
                 _imageLoadHandler.LoadImage(GetAttribute("src"), HtmlTag != null ? HtmlTag.Attributes : null);
             }
 
-            var rect = CommonUtils.GetFirstValueOrDefault(Rectangles);
+            //1. single image can't be splited 
+
+            //var rect = CommonUtils.GetFirstValueOrDefault(Rectangles);
+            var rect = this.Bounds;
             PointF offset = HtmlContainer.ScrollOffset;
             rect.Offset(offset);
 
@@ -89,9 +148,9 @@ namespace HtmlRenderer.Dom
             r.Offset(offset);
             r.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
             r.Y += ActualBorderTopWidth + ActualPaddingTop;
-            r.X = (float) Math.Floor(r.X);
+            r.X = (float)Math.Floor(r.X);
             r.Y = (float)Math.Floor(r.Y);
-            
+
             if (_imageWord.Image != null)
             {
                 if (_imageWord.ImageRectangle == Rectangle.Empty)
@@ -101,7 +160,9 @@ namespace HtmlRenderer.Dom
 
                 if (_imageWord.Selected)
                 {
-                    g.FillRectangle(GetSelectionBackBrush(true), _imageWord.Left + offset.X, _imageWord.Top + offset.Y, _imageWord.Width+2, DomUtils.GetCssLineBoxByWord(_imageWord).LineHeight);
+                    g.FillRectangle(GetSelectionBackBrush(true),
+                        _imageWord.Left + offset.X, _imageWord.Top + offset.Y, _imageWord.Width + 2,
+                        DomUtils.GetCssLineBoxByWord(_imageWord).LineHeight);
                 }
             }
             else if (_imageLoadingComplete)
@@ -140,7 +201,7 @@ namespace HtmlRenderer.Dom
                 MeasureWordSpacing(g);
                 _wordsSizeMeasured = true;
             }
-            
+
             CssLayoutEngine.MeasureImageSize(_imageWord);
         }
 
@@ -149,7 +210,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public override void Dispose()
         {
-            if(_imageLoadHandler != null)
+            if (_imageLoadHandler != null)
                 _imageLoadHandler.Dispose();
             base.Dispose();
         }
@@ -186,8 +247,8 @@ namespace HtmlRenderer.Dom
 
             if (!HtmlContainer.AvoidImagesLateLoading || async)
             {
-                var width = new CssLength(Width);
-                var height = new CssLength(Height);
+                var width = this.Width;//new CssLength(Width);
+                var height = this.Height;// new CssLength(Height);
                 var layout = (width.Number <= 0 || width.Unit != CssUnit.Pixels) || (height.Number <= 0 || height.Unit != CssUnit.Pixels);
                 HtmlContainer.RequestRefresh(layout);
             }

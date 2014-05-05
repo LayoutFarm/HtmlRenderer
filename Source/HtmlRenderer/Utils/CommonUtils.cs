@@ -19,6 +19,15 @@ using System.Net;
 using System.Text;
 using HtmlRenderer.Entities;
 
+<<<<<<< HEAD
+=======
+namespace System.Windows.Forms
+{
+    class dummy
+    {
+    }
+}
+>>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f
 namespace HtmlRenderer.Utils
 {
     internal delegate void ActionInt<in T>(T obj);
@@ -165,7 +174,13 @@ namespace HtmlRenderer.Utils
             if(dic != null)
             {
                 foreach (var value in dic)
+<<<<<<< HEAD
                     return value.Value;
+=======
+                {
+                    return value.Value;
+                }
+>>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f
             }
             return defaultValue;
         }
@@ -290,7 +305,11 @@ namespace HtmlRenderer.Utils
         }
         
         /// <summary>
+<<<<<<< HEAD
         /// Compare that the substring of <paramref name="str"/> is equal to <paramref name="str2"/>
+=======
+        /// Compare that the substring of <paramref name="str"/> is equal to <paramref name="str"/>
+>>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f
         /// Assume given substring is not empty and all indexes are valid!<br/>
         /// </summary>
         /// <returns>true - equals, false - not equals</returns>

@@ -31,7 +31,7 @@ namespace HtmlRenderer.Parse
         /// <returns>true - valid, false - invalid</returns>
         public static bool IsValidLength(string value)
         {
-            if(value.Length > 1)
+            if (value.Length > 1)
             {
                 string number = string.Empty;
                 if (value.EndsWith("%"))
@@ -60,11 +60,9 @@ namespace HtmlRenderer.Parse
             {
                 return 0f;
             }
-
             string toParse = number;
             bool isPercent = number.EndsWith("%");
             float result;
-
             if (isPercent) toParse = number.Substring(0, number.Length - 1);
 
             if (!float.TryParse(toParse, NumberStyles.Number, NumberFormatInfo.InvariantInfo, out result))
@@ -79,7 +77,41 @@ namespace HtmlRenderer.Parse
 
             return result;
         }
+        public static float ParseNumber(CssLength number, float hundredPercent)
+        {
+            if (number.IsEmpty)
+            {
+                return 0;
+            }
+            if (number.IsPercentage)
+            {
+                return (number.Number / 100f) * hundredPercent;
+            }
+            else
+            {
+                return number.Number;
+            }
+            //if (string.IsNullOrEmpty(number))
+            //{
+            //    return 0f;
+            //}
+            //string toParse = number;
+            //bool isPercent = number.EndsWith("%");
+            //float result;
+            //if (isPercent) toParse = number.Substring(0, number.Length - 1);
 
+            //if (!float.TryParse(toParse, NumberStyles.Number, NumberFormatInfo.InvariantInfo, out result))
+            //{
+            //    return 0f;
+            //}
+
+            //if (isPercent)
+            //{
+            //    result = (result / 100f) * hundredPercent;
+            //}
+
+            //return result;
+        }
         /// <summary>
         /// Parses a length. Lengths are followed by an unit identifier (e.g. 10px, 3.1em)
         /// </summary>
@@ -88,11 +120,14 @@ namespace HtmlRenderer.Parse
         /// <param name="fontAdjust">if the length is in pixels and the length is font related it needs to use 72/96 factor</param>
         /// <param name="box"></param>
         /// <returns>the parsed length value with adjustments</returns>
-        public static float ParseLength(string length, float hundredPercent, CssBoxProperties box, bool fontAdjust = false)
+        public static float ParseLength(string length, float hundredPercent, CssBoxBase box, bool fontAdjust = false)
         {
             return ParseLength(length, hundredPercent, box.GetEmHeight(), null, fontAdjust, false);
         }
-
+        public static float ParseLength(CssLength length, float hundredPercent, CssBoxBase box, bool fontAdjust = false)
+        {
+            return ParseLength(length, hundredPercent, box.GetEmHeight(), CssUnit.None, fontAdjust, false);
+        }
         /// <summary>
         /// Parses a length. Lengths are followed by an unit identifier (e.g. 10px, 3.1em)
         /// </summary>
@@ -101,7 +136,7 @@ namespace HtmlRenderer.Parse
         /// <param name="box"></param>
         /// <param name="defaultUnit"></param>
         /// <returns>the parsed length value with adjustments</returns>
-        public static float ParseLength(string length, float hundredPercent, CssBoxProperties box, string defaultUnit)
+        public static float ParseLength(string length, float hundredPercent, CssBoxBase box, string defaultUnit)
         {
             return ParseLength(length, hundredPercent, box.GetEmHeight(), defaultUnit, false, false);
         }
@@ -116,7 +151,8 @@ namespace HtmlRenderer.Parse
         /// <param name="fontAdjust">if the length is in pixels and the length is font related it needs to use 72/96 factor</param>
         /// <param name="returnPoints">Allows the return float to be in points. If false, result will be pixels</param>
         /// <returns>the parsed length value with adjustments</returns>
-        public static float ParseLength(string length, float hundredPercent, float emFactor, string defaultUnit, bool fontAdjust, bool returnPoints)
+        public static float ParseLength(string length, float hundredPercent,
+            float emFactor, string defaultUnit, bool fontAdjust, bool returnPoints)
         {
             //Return zero if no length specified, zero specified
             if (string.IsNullOrEmpty(length) || length == "0") return 0f;
@@ -141,7 +177,7 @@ namespace HtmlRenderer.Parse
                     factor = emFactor;
                     break;
                 case CssConstants.Ex:
-                    factor = emFactor/2;
+                    factor = emFactor / 2;
                     break;
                 case CssConstants.Px:
                     factor = fontAdjust ? 72f / 96f : 1f; //atodo: check support for hi dpi
@@ -175,6 +211,110 @@ namespace HtmlRenderer.Parse
             return factor * ParseNumber(number, hundredPercent);
         }
 
+        public static float ParseLength(CssLength length,
+            float hundredPercent, float emFactor,
+            CssUnit defaultUnit, bool fontAdjust, bool returnPoints)
+        {
+            //Return zero if no length specified, zero specified   
+            //if (string.IsNullOrEmpty(length) || length == "0") return 0f;
+            if (length.IsEmpty)
+            {
+                return 0;
+            }
+
+            //If percentage, use ParseNumber
+            //if (length.EndsWith("%")) return ParseNumber(length, hundredPercent);
+            if (length.IsPercentage)
+            {
+                return (length.Number / 100f) * hundredPercent;
+            }
+
+            //Get units of the length
+            //bool hasUnit;
+            //string unit = GetUnit(length, defaultUnit, out hasUnit);
+            //user default unit if not assign unit
+            bool hasUnit;
+            CssUnit unit;
+            if (length.Unit != CssUnit.None)
+            {
+                hasUnit = true;
+                unit = length.Unit;
+            }
+            else
+            {
+                hasUnit = false;
+                unit = length.Unit;
+            }
+
+            //Factor will depend on the unit
+            float factor;
+
+            //Number of the length
+            //string number = hasUnit ? length.Substring(0, length.Length - 2) : length;
+
+            //TODO: Units behave different in paper and in screen!
+            switch (unit)
+            {
+                //case CssConstants.Em:
+                case CssUnit.Ems:
+                    factor = emFactor;
+                    break;
+                //case CssConstants.Ex:
+                case CssUnit.Ex:
+                    factor = emFactor / 2;
+                    break;
+                //case CssConstants.Px:
+                case CssUnit.Pixels:
+                    factor = fontAdjust ? 72f / 96f : 1f; //atodo: check support for hi dpi
+                    break;
+                //case CssConstants.Mm:
+                case CssUnit.Milimeters:
+                    factor = 3.779527559f; //3 pixels per millimeter
+                    break;
+                //case CssConstants.Cm:
+                case CssUnit.Centimeters:
+                    factor = 37.795275591f; //37 pixels per centimeter
+                    break;
+                //case CssConstants.In:
+                case CssUnit.Inches:
+                    factor = 96f; //96 pixels per inch
+                    break;
+                //case CssConstants.Pt:
+                case CssUnit.Points:
+                    factor = 96f / 72f; // 1 point = 1/72 of inch 
+                    if (returnPoints)
+                    {
+                        if (length.IsPercentage)
+                        {
+                            return (length.Number / 100f) * hundredPercent;
+                        }
+                        else
+                        {
+                            return length.Number;
+                        }
+                        //return ParseNumber(length.Number, hundredPercent);
+                    }
+                    break;
+                //case CssConstants.Pc:
+                case CssUnit.Picas:
+                    factor = 16f; // 1 pica = 12 points
+                    break;
+                default:
+                    factor = 0f;
+                    return 0;//factor 0
+                //break;
+            }
+            if (length.IsPercentage)
+            {
+                return factor * ((length.Number / 100f) * hundredPercent);
+            }
+            else
+            {
+                return factor * length.Number;
+            }
+            //return factor * ParseNumber(length.Number, hundredPercent);
+
+        }
         /// <summary>
         /// Get the unit to use for the length, use default if no unit found in length string.
         /// </summary>
@@ -230,13 +370,12 @@ namespace HtmlRenderer.Parse
         /// <param name="borderValue"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static float GetActualBorderWidth(string borderValue, CssBoxProperties b)
+        public static float GetActualBorderWidth(string borderValue, CssBoxBase b)
         {
             if (string.IsNullOrEmpty(borderValue))
             {
                 return GetActualBorderWidth(CssConstants.Medium, b);
             }
-
             switch (borderValue)
             {
                 case CssConstants.Thin:
@@ -249,7 +388,40 @@ namespace HtmlRenderer.Parse
                     return Math.Abs(ParseLength(borderValue, 1, b));
             }
         }
-
+        public static float GetActualBorderWidth(CssLength borderValue, CssBoxBase b)
+        {
+            if (borderValue.IsEmpty)
+            {
+                return GetActualBorderWidth(CssConstants.Medium, b);
+            }
+            if (borderValue.IsMedium)
+            {
+                return 2f;
+            }
+            else if (borderValue.IsThin)
+            {
+                return 1f;
+            }
+            else if (borderValue.IsThick)
+            {
+                return 4f;
+            }
+            else
+            {
+                return Math.Abs(ParseLength(borderValue, 1, b));
+            }
+            //switch (borderValue)
+            //{
+            //    case CssConstants.Thin:
+            //        return 1f;
+            //    case CssConstants.Medium:
+            //        return 2f;
+            //    case CssConstants.Thick:
+            //        return 4f;
+            //    default:
+            //        return Math.Abs(ParseLength(borderValue, 1, b));
+            //}
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -264,7 +436,7 @@ namespace HtmlRenderer.Parse
             {
                 int idx = 0;
                 int length;
-                while ((idx = CommonUtils.GetNextSubString(value,idx,out length)) > -1)
+                while ((idx = CommonUtils.GetNextSubString(value, idx, out length)) > -1)
                 {
                     if (width == null)
                         width = ParseBorderWidth(value, idx, length);
@@ -307,7 +479,7 @@ namespace HtmlRenderer.Parse
                 else if (CommonUtils.SubStringEquals(str, idx + length - 2, 2, CssConstants.Pc))
                     unit = CssConstants.Pc;
 
-                if(unit != null)
+                if (unit != null)
                 {
                     if (IsFloat(str, idx, length - 2))
                         return str.Substring(idx, length);
@@ -354,7 +526,7 @@ namespace HtmlRenderer.Parse
                 return CssConstants.Outset;
             return null;
         }
-        
+
         /// <summary>
         /// Parse the given substring to extract border style substring.<br/>
         /// Assume given substring is not empty and all indexes are valid!<br/>
@@ -384,7 +556,7 @@ namespace HtmlRenderer.Parse
                     {
                         return GetColorByHex(str, idx, length, out color);
                     }
-                    else if (length > 10 && CommonUtils.SubStringEquals(str, idx, 4, "rgb(") && str[length-1] == ')')
+                    else if (length > 10 && CommonUtils.SubStringEquals(str, idx, 4, "rgb(") && str[length - 1] == ')')
                     {
                         return GetColorByRgb(str, idx, length, out color);
                     }
@@ -399,7 +571,7 @@ namespace HtmlRenderer.Parse
                 }
             }
             catch
-            {}
+            { }
             color = Color.Black;
             return false;
         }
@@ -415,20 +587,20 @@ namespace HtmlRenderer.Parse
             int b = -1;
             if (length == 7)
             {
-                r = ParseHexInt(str, idx+1, 2);
-                g = ParseHexInt(str, idx+3, 2);
-                b = ParseHexInt(str, idx+5, 2);
+                r = ParseHexInt(str, idx + 1, 2);
+                g = ParseHexInt(str, idx + 3, 2);
+                b = ParseHexInt(str, idx + 5, 2);
             }
             else if (length == 4)
             {
-                r = ParseHexInt(str, idx+1, 1);
+                r = ParseHexInt(str, idx + 1, 1);
                 r = r * 16 + r;
-                g = ParseHexInt(str, idx+2, 1);
+                g = ParseHexInt(str, idx + 2, 1);
                 g = g * 16 + g;
                 b = ParseHexInt(str, idx + 3, 1);
                 b = b * 16 + b;
             }
-            if(r > -1 && g > -1 && b > -1)
+            if (r > -1 && g > -1 && b > -1)
             {
                 color = Color.FromArgb(r, g, b);
                 return true;
@@ -447,7 +619,7 @@ namespace HtmlRenderer.Parse
             int g = -1;
             int b = -1;
 
-            if(length > 10)
+            if (length > 10)
             {
                 int s = idx + 4;
                 r = ParseIntAtIndex(str, ref s);
@@ -460,7 +632,7 @@ namespace HtmlRenderer.Parse
                     b = ParseIntAtIndex(str, ref s);
                 }
             }
-            
+
             if (r > -1 && g > -1 && b > -1)
             {
                 color = Color.FromArgb(r, g, b);
@@ -485,7 +657,7 @@ namespace HtmlRenderer.Parse
             {
                 int s = idx + 5;
                 r = ParseIntAtIndex(str, ref s);
-                
+
                 if (s < idx + length)
                 {
                     g = ParseIntAtIndex(str, ref s);

@@ -11,14 +11,12 @@
 // "The Art of War"
 
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.ComponentModel;
 using System.Drawing.Text;
 using System.Windows.Forms;
 using HtmlRenderer.Entities;
 using HtmlRenderer.Parse;
-using HtmlRenderer.Utils;
 
 namespace HtmlRenderer
 {
@@ -73,48 +71,33 @@ namespace HtmlRenderer
         /// <summary>
         /// 
         /// </summary>
-        protected HtmlContainer _htmlContainer;
-
-        /// <summary>
-        /// The current border style of the control
-        /// </summary>
-        protected BorderStyle _borderStyle;
+        private HtmlContainerImpl _htmlContainer;
 
         /// <summary>
         /// the raw base stylesheet data used in the control
         /// </summary>
-        protected string _baseRawCssData;
+        private string _baseRawCssData;
 
         /// <summary>
         /// the base stylesheet data used in the panel
         /// </summary>
-        protected CssData _baseCssData;
-
-        /// <summary>
-        /// the current html text set in the control
-        /// </summary>
-        protected string _text;
+        private CssData _baseCssData;
 
         /// <summary>
         /// is to handle auto size of the control height only
         /// </summary>
-        protected bool _autoSizeHight;
-
-        /// <summary>
-        /// If to use cursors defined by the operating system or .NET cursors
-        /// </summary>
-        protected bool _useSystemCursors;
+        private bool _autoSizeHight;
 
         #endregion
 
-
+        
         /// <summary>
         /// Creates a new HTML Label
         /// </summary>
         public HtmlLabel()
         {
             SuspendLayout();
-
+            
             AutoSize = true;
             BackColor = SystemColors.Window;
             DoubleBuffered = true;
@@ -122,23 +105,17 @@ namespace HtmlRenderer
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             SetStyle(ControlStyles.Opaque, false);
 
-            _htmlContainer = new HtmlContainer();
+            _htmlContainer = new HtmlContainerImpl();
             _htmlContainer.AvoidImagesLateLoading = true;
             _htmlContainer.MaxSize = MaximumSize;
             _htmlContainer.LinkClicked += OnLinkClicked;
             _htmlContainer.RenderError += OnRenderError;
             _htmlContainer.Refresh += OnRefresh;
-            _htmlContainer.StylesheetLoad += OnStylesheetLoad;
-            _htmlContainer.ImageLoad += OnImageLoad;
+            _htmlContainer.StylesheetLoadingRequest += OnStylesheetLoad;
+            _htmlContainer.ImageLoadingRequest += OnImageLoad;
 
             ResumeLayout(false);
         }
-
-        /// <summary>
-        ///   Raised when the BorderStyle property value changes.
-        /// </summary>
-        [Category("Property Changed")]
-        public event EventHandler BorderStyleChanged;
 
         /// <summary>
         /// Raised when the user clicks on a link in the html.<br/>
@@ -165,73 +142,6 @@ namespace HtmlRenderer
         public event EventHandler<HtmlImageLoadEventArgs> ImageLoad;
 
         /// <summary>
-        /// Gets or sets a value indicating if anti-aliasing should be avoided for geometry like backgrounds and borders (default - false).
-        /// </summary>
-        [Category("Behavior")]
-        [DefaultValue(false)]
-        [Description("If anti-aliasing should be avoided for geometry like backgrounds and borders")]
-        public virtual bool AvoidGeometryAntialias
-        {
-            get { return _htmlContainer.AvoidGeometryAntialias; }
-            set { _htmlContainer.AvoidGeometryAntialias = value; }
-        }
-
-        /// <summary>
-        /// Use GDI+ text rendering to measure/draw text.<br/>
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// GDI+ text rendering is less smooth than GDI text rendering but it natively supports alpha channel
-        /// thus allows creating transparent images.
-        /// </para>
-        /// <para>
-        /// While using GDI+ text rendering you can control the text rendering using <see cref="Graphics.TextRenderingHint"/>, note that
-        /// using <see cref="TextRenderingHint.ClearTypeGridFit"/> doesn't work well with transparent background.
-        /// </para>
-        /// </remarks>
-        [Category("Behavior")]
-        [EditorBrowsable(EditorBrowsableState.Always)]
-        [DefaultValue(false)]
-        [Description("If to use GDI+ text rendering to measure/draw text, false - use GDI")]
-        public bool UseGdiPlusTextRendering
-        {
-            get { return _htmlContainer.UseGdiPlusTextRendering; }
-            set { _htmlContainer.UseGdiPlusTextRendering = value; }
-        }
-
-        /// <summary>
-        /// If to use cursors defined by the operating system or .NET cursors
-        /// </summary>
-        [Category("Behavior")]
-        [EditorBrowsable(EditorBrowsableState.Always)]
-        [DefaultValue(false)]
-        [Description("If to use cursors defined by the operating system or .NET cursors")]
-        public bool UseSystemCursors
-        {
-            get { return _useSystemCursors; }
-            set { _useSystemCursors = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the border style.
-        /// </summary>
-        /// <value>The border style.</value>
-        [Category("Appearance")]
-        [DefaultValue(typeof(BorderStyle), "None")]
-        public virtual BorderStyle BorderStyle
-        {
-            get { return _borderStyle; }
-            set
-            {
-                if( BorderStyle != value )
-                {
-                    _borderStyle = value;
-                    OnBorderStyleChanged(EventArgs.Empty);
-                }
-            }
-        }
-
-        /// <summary>
         /// Is content selection is enabled for the rendered html (default - true).<br/>
         /// If set to 'false' the rendered html will be static only with ability to click on links.
         /// </summary>
@@ -241,7 +151,7 @@ namespace HtmlRenderer
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         [Description("Is content selection is enabled for the rendered html.")]
-        public virtual bool IsSelectionEnabled
+        public bool IsSelectionEnabled
         {
             get { return _htmlContainer.IsSelectionEnabled; }
             set { _htmlContainer.IsSelectionEnabled = value; }
@@ -256,7 +166,7 @@ namespace HtmlRenderer
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         [Description("Is the build-in context menu enabled and will be shown on mouse right click.")]
-        public virtual bool IsContextMenuEnabled
+        public bool IsContextMenuEnabled
         {
             get { return _htmlContainer.IsContextMenuEnabled; }
             set { _htmlContainer.IsContextMenuEnabled = value; }
@@ -268,8 +178,7 @@ namespace HtmlRenderer
         [Browsable(true)]
         [Description("Set base stylesheet to be used by html rendered in the control.")]
         [Category("Appearance")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", "System.Drawing.Design.UITypeEditor, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-        public virtual string BaseStylesheet
+        public string BaseStylesheet
         {
             get { return _baseRawCssData; }
             set
@@ -293,7 +202,7 @@ namespace HtmlRenderer
             set
             {
                 base.AutoSize = value;
-                if( value )
+                if (value)
                 {
                     _autoSizeHight = false;
                     PerformLayout();
@@ -309,13 +218,13 @@ namespace HtmlRenderer
         [DefaultValue(false)]
         [Category("Layout")]
         [Description("Automatically sets the height of the label by content height (width is not effected)")]
-        public virtual bool AutoSizeHeightOnly
+        public bool AutoSizeHeightOnly
         {
             get { return _autoSizeHight; }
             set
             {
                 _autoSizeHight = value;
-                if( value )
+                if (value)
                 {
                     AutoSize = false;
                     PerformLayout();
@@ -335,7 +244,7 @@ namespace HtmlRenderer
             set
             {
                 base.MaximumSize = value;
-                if( _htmlContainer != null )
+                if (_htmlContainer != null)
                 {
                     _htmlContainer.MaxSize = value;
                     PerformLayout();
@@ -361,14 +270,13 @@ namespace HtmlRenderer
         [Description("Sets the html of this control.")]
         public override string Text
         {
-            get { return _text; }
+            get { return base.Text; }
             set
             {
-                _text = value;
                 base.Text = value;
-                if( !IsDisposed )
+                if (!IsDisposed)
                 {
-                    _htmlContainer.SetHtml(_text, _baseCssData);
+                    _htmlContainer.SetHtml(Text, _baseCssData);
                     PerformLayout();
                     Invalidate();
                 }
@@ -379,7 +287,7 @@ namespace HtmlRenderer
         /// Get the currently selected text segment in the html.
         /// </summary>
         [Browsable(false)]
-        public virtual string SelectedText
+        public string SelectedText
         {
             get { return _htmlContainer.SelectedText; }
         }
@@ -388,7 +296,7 @@ namespace HtmlRenderer
         /// Copy the currently selected html segment with style.
         /// </summary>
         [Browsable(false)]
-        public virtual string SelectedHtml
+        public string SelectedHtml
         {
             get { return _htmlContainer.SelectedHtml; }
         }
@@ -397,7 +305,7 @@ namespace HtmlRenderer
         /// Get html from the current DOM tree with inline style.
         /// </summary>
         /// <returns>generated html</returns>
-        public virtual string GetHtml()
+        public string GetHtml()
         {
             return _htmlContainer != null ? _htmlContainer.GetHtml() : null;
         }
@@ -409,7 +317,7 @@ namespace HtmlRenderer
         /// </summary>
         /// <param name="elementId">the id of the element to get its rectangle</param>
         /// <returns>the rectangle of the element or null if not found</returns>
-        public virtual RectangleF? GetElementRectangle(string elementId)
+        public RectangleF? GetElementRectangle(string elementId)
         {
             return _htmlContainer != null ? _htmlContainer.GetElementRectangle(elementId) : null;
         }
@@ -418,80 +326,60 @@ namespace HtmlRenderer
         #region Private methods
 
         /// <summary>
-        /// Override to support border for the control.
-        /// </summary>
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams createParams = base.CreateParams;
-
-                switch( _borderStyle )
-                {
-                    case BorderStyle.FixedSingle:
-                        createParams.Style |= Win32Utils.WsBorder;
-                        break;
-
-                    case BorderStyle.Fixed3D:
-                        createParams.ExStyle |= Win32Utils.WsExClientEdge;
-                        break;
-                }
-
-                return createParams;
-            }
-        }
-
-        /// <summary>
         /// Perform the layout of the html in the control.
         /// </summary>
         protected override void OnLayout(LayoutEventArgs levent)
         {
-            if( _htmlContainer != null )
+            if (_htmlContainer != null)
             {
-                if( AutoSize )
+                if (AutoSize)
                     _htmlContainer.MaxSize = SizeF.Empty;
-                else if( AutoSizeHeightOnly )
-                    _htmlContainer.MaxSize = new SizeF(ClientSize.Width, 0);
+                else if (AutoSizeHeightOnly)
+                    _htmlContainer.MaxSize = new SizeF(Width, 0);
                 else
-                    _htmlContainer.MaxSize = ClientSize;
+                    _htmlContainer.MaxSize = Size;
 
-                using(Graphics g = CreateGraphics())
+                using (Graphics g = CreateGraphics())
                 {
-                    _htmlContainer.PerformLayout(g);
-
-                    if( AutoSize || _autoSizeHight )
+                    using (var gfx = new WinGraphics(g, this._htmlContainer.UseGdiPlusTextRendering))
                     {
-                        if( AutoSize )
+                        _htmlContainer.PerformLayout(gfx);
+
+                        if (AutoSize || _autoSizeHight)
                         {
-                            ClientSize = Size.Round(_htmlContainer.ActualSize);
-                            if( MaximumSize.Width > 0 && MaximumSize.Width < _htmlContainer.ActualSize.Width )
+                            if (AutoSize)
                             {
-                                // to allow the actual size be smaller than max we need to set max size only if it is really larger
-                                _htmlContainer.MaxSize = MaximumSize;
-                                _htmlContainer.PerformLayout(g);
+                                Size = Size.Round(_htmlContainer.ActualSize);
+                                if (MaximumSize.Width > 0 && MaximumSize.Width < _htmlContainer.ActualSize.Width)
+                                {
+                                    // to allow the actual size be smaller than max we need to set max size only if it is really larger
+                                    _htmlContainer.MaxSize = MaximumSize;
+                                    _htmlContainer.PerformLayout(gfx);
 
-                                ClientSize = Size.Round(_htmlContainer.ActualSize);
+                                    Size = Size.Round(_htmlContainer.ActualSize);
+                                }
+                                else if (MinimumSize.Width > 0 && MinimumSize.Width > _htmlContainer.ActualSize.Width)
+                                {
+                                    // if min size is larger than the actual we need to re-layout so all 100% layouts will be correct
+                                    _htmlContainer.MaxSize = new SizeF(MinimumSize.Width, 0);
+                                    _htmlContainer.PerformLayout(gfx);
+
+                                    Size = Size.Round(_htmlContainer.ActualSize);
+                                }
                             }
-                            else if( MinimumSize.Width > 0 && MinimumSize.Width > _htmlContainer.ActualSize.Width )
+                            else if (_autoSizeHight && Height != (int)_htmlContainer.ActualSize.Height)
                             {
-                                // if min size is larger than the actual we need to re-layout so all 100% layouts will be correct
-                                _htmlContainer.MaxSize = new SizeF(MinimumSize.Width, 0);
-                                _htmlContainer.PerformLayout(g);
+                                var prevWidth = Width;
 
-                                ClientSize = Size.Round(_htmlContainer.ActualSize);
+                                // make sure the height is not lower than min if given
+                                Height = MinimumSize.Height > 0 && MinimumSize.Height > _htmlContainer.ActualSize.Height
+                                             ? MinimumSize.Height
+                                             : (int)_htmlContainer.ActualSize.Height;
+
+                                // handle if changing the height of the label affects the desired width and those require re-layout
+                                if (prevWidth != Width)
+                                    OnLayout(levent);
                             }
-                        }
-                        else if( _autoSizeHight && ClientSize.Height != (int)Math.Round(_htmlContainer.ActualSize.Height) )
-                        {
-                            var prevWidth = ClientSize.Width;
-
-                            // make sure the height is not lower than min if given
-                            var newHeight = MinimumSize.Height > 0 && MinimumSize.Height > _htmlContainer.ActualSize.Height ? MinimumSize.Height : (int)Math.Round(_htmlContainer.ActualSize.Height);
-                            ClientSize = new Size(ClientSize.Width, newHeight);
-
-                            // handle if changing the height of the label affects the desired width and those require re-layout
-                            if( prevWidth != ClientSize.Width )
-                                OnLayout(levent);
                         }
                     }
                 }
@@ -507,10 +395,12 @@ namespace HtmlRenderer
         {
             base.OnPaint(e);
 
-            if( _htmlContainer != null )
+            if (_htmlContainer != null)
             {
                 e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+                _htmlContainer.ViewportBound = this.Bounds;
                 _htmlContainer.PerformPaint(e.Graphics);
+                
             }
         }
 
@@ -520,7 +410,7 @@ namespace HtmlRenderer
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            if( _htmlContainer != null )
+            if (_htmlContainer != null)
                 _htmlContainer.HandleMouseMove(this, e);
         }
 
@@ -530,7 +420,7 @@ namespace HtmlRenderer
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            if( _htmlContainer != null )
+            if (_htmlContainer != null)
                 _htmlContainer.HandleMouseDown(this, e);
         }
 
@@ -540,7 +430,7 @@ namespace HtmlRenderer
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            if( _htmlContainer != null )
+            if (_htmlContainer != null)
                 _htmlContainer.HandleMouseLeave(this);
         }
 
@@ -550,7 +440,7 @@ namespace HtmlRenderer
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseClick(e);
-            if( _htmlContainer != null )
+            if (_htmlContainer != null)
                 _htmlContainer.HandleMouseUp(this, e);
         }
 
@@ -560,94 +450,73 @@ namespace HtmlRenderer
         protected override void OnMouseDoubleClick(MouseEventArgs e)
         {
             base.OnMouseDoubleClick(e);
-            if( _htmlContainer != null )
+            if (_htmlContainer != null)
                 _htmlContainer.HandleMouseDoubleClick(this, e);
         }
 
         /// <summary>
-        ///   Raises the <see cref="BorderStyleChanged" /> event.
+        /// Propogate the LinkClicked event from root container.
         /// </summary>
-        protected virtual void OnBorderStyleChanged(EventArgs e)
+        private void OnLinkClicked(object sender, HtmlLinkClickedEventArgs e)
         {
-            UpdateStyles();
-
-            var handler = BorderStyleChanged;
-            if( handler != null )
-                handler(this, e);
-        }
-
-        /// <summary>
-        /// Propagate the LinkClicked event from root container.
-        /// </summary>
-        protected virtual void OnLinkClicked(HtmlLinkClickedEventArgs e)
-        {
-            var handler = LinkClicked;
-            if( handler != null )
-                handler(this, e);
+            if (LinkClicked != null)
+            {
+                LinkClicked(this, e);
+            }
         }
 
         /// <summary>
         /// Propagate the Render Error event from root container.
         /// </summary>
-        protected virtual void OnRenderError(HtmlRenderErrorEventArgs e)
+        private void OnRenderError(object sender, HtmlRenderErrorEventArgs e)
         {
-            var handler = RenderError;
-            if( handler != null )
-                handler(this, e);
+            if (RenderError != null)
+            {
+                if (InvokeRequired)
+                    Invoke(RenderError);
+                else
+                    RenderError(this, e);
+            }
         }
 
         /// <summary>
         /// Propagate the stylesheet load event from root container.
         /// </summary>
-        protected virtual void OnStylesheetLoad(HtmlStylesheetLoadEventArgs e)
+        private void OnStylesheetLoad(object sender, HtmlStylesheetLoadEventArgs e)
         {
-            var handler = StylesheetLoad;
-            if( handler != null )
-                handler(this, e);
+            if (StylesheetLoad != null)
+            {
+                StylesheetLoad(this, e);
+            }
         }
 
         /// <summary>
         /// Propagate the image load event from root container.
         /// </summary>
-        protected virtual void OnImageLoad(HtmlImageLoadEventArgs e)
+        private void OnImageLoad(object sender, HtmlImageLoadEventArgs e)
         {
-            var handler = ImageLoad;
-            if( handler != null )
-                handler(this, e);
+            if (ImageLoad != null)
+            {
+                ImageLoad(this, e);
+            }
         }
 
         /// <summary>
         /// Handle html renderer invalidate and re-layout as requested.
         /// </summary>
-        protected virtual void OnRefresh(HtmlRefreshEventArgs e)
+        private void OnRefresh(object sender, HtmlRefreshEventArgs e)
         {
-            if( e.Layout )
-                PerformLayout();
-            Invalidate();
-        }
-
-        /// <summary>
-        /// Override the proc processing method to set OS specific hand cursor.
-        /// </summary>
-        /// <param name="m">The Windows <see cref="T:System.Windows.Forms.Message"/> to process. </param>
-        [DebuggerStepThrough]
-        protected override void WndProc(ref Message m)
-        {
-            if( _useSystemCursors && m.Msg == Win32Utils.WmSetCursor && Cursor == Cursors.Hand )
+            if (e.Layout)
             {
-                try
-                {
-                    // Replace .NET's hand cursor with the OS cursor
-                    Win32Utils.SetCursor(Win32Utils.LoadCursor(0, Win32Utils.IdcHand));
-                    m.Result = IntPtr.Zero;
-                    return;
-                }
-                catch(Exception ex)
-                {
-                    OnRenderError(this, new HtmlRenderErrorEventArgs(HtmlRenderErrorType.General, "Failed to set OS hand cursor", ex));
-                }
+                if (InvokeRequired)
+                    Invoke(new MethodInvoker(PerformLayout));
+                else
+                    PerformLayout();
             }
-            base.WndProc(ref m);
+            if (InvokeRequired)
+                Invoke(new MethodInvoker(Invalidate));
+            else
+                Invalidate();
         }
 
         /// <summary>
@@ -655,55 +524,18 @@ namespace HtmlRenderer
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if( _htmlContainer != null )
+            if (_htmlContainer != null)
             {
                 _htmlContainer.LinkClicked -= OnLinkClicked;
                 _htmlContainer.RenderError -= OnRenderError;
                 _htmlContainer.Refresh -= OnRefresh;
-                _htmlContainer.StylesheetLoad -= OnStylesheetLoad;
-                _htmlContainer.ImageLoad -= OnImageLoad;
+                _htmlContainer.StylesheetLoadingRequest -= OnStylesheetLoad;
+                _htmlContainer.ImageLoadingRequest -= OnImageLoad;
                 _htmlContainer.Dispose();
                 _htmlContainer = null;
             }
             base.Dispose(disposing);
         }
-
-
-        #region Private event handlers
-
-        private void OnLinkClicked(object sender, HtmlLinkClickedEventArgs e)
-        {
-            OnLinkClicked(e);
-        }
-
-        private void OnRenderError(object sender, HtmlRenderErrorEventArgs e)
-        {
-            if( InvokeRequired )
-                Invoke(new MethodInvoker(() => OnRenderError(e)));
-            else
-                OnRenderError(e);
-        }
-
-        private void OnStylesheetLoad(object sender, HtmlStylesheetLoadEventArgs e)
-        {
-            OnStylesheetLoad(e);
-        }
-
-        private void OnImageLoad(object sender, HtmlImageLoadEventArgs e)
-        {
-            OnImageLoad(e);
-        }
-
-        private void OnRefresh(object sender, HtmlRefreshEventArgs e)
-        {
-            if( InvokeRequired )
-                Invoke(new MethodInvoker(() => OnRefresh(e)));
-            else
-                OnRefresh(e);
-        }
-
-        #endregion
-
 
         #region Hide not relevant properties from designer
 
