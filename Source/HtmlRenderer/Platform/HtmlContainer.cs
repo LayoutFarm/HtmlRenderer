@@ -420,22 +420,13 @@ namespace HtmlRenderer
         /// <param name="baseCssData">optional: the stylesheet to init with, init default if not given</param>
         public void SetHtml(string htmlSource, CssData baseCssData = null)
         {
-<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
-=======
 
->>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
             if (_root != null)
             {
                 _root.Dispose();
                 _root = null;
-<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
-                if (_selectionHandler != null)
-                    _selectionHandler.Dispose();
-                _selectionHandler = null;
-=======
                 //---------------------------
                 this.OnRootDisposed();
->>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
             }
 
             if (!string.IsNullOrEmpty(htmlSource))
@@ -507,41 +498,6 @@ namespace HtmlRenderer
         /// <returns>the rectangle of the element or null if not found</returns>
         public RectangleF? GetElementRectangle(string elementId)
         {
-<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
-            ArgChecker.AssertArgNotNullOrEmpty(elementId, "elementId");
-
-            var box = DomUtils.GetBoxById(_root, elementId.ToLower());
-            return box != null ? CommonUtils.GetFirstValueOrDefault(box.Rectangles, box.Bounds) : (RectangleF?)null;
-        }
-
-        /// <summary>
-        /// Measures the bounds of box and children, recursively.
-        /// </summary>
-        /// <param name="g">Device context to draw</param>
-        public void PerformLayout(Graphics g)
-        {
-            ArgChecker.AssertArgNotNull(g, "g");
-
-            if (_root != null)
-            {
-                using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
-                {
-                    _actualSize = SizeF.Empty;
-
-                    // if width is not restricted we set it to large value to get the actual later
-                    _root.Size = new SizeF(_maxSize.Width > 0 ? _maxSize.Width : 99999, 0);
-                    _root.Location = _location;
-                    _root.PerformLayout(ig);
-
-                    if (_maxSize.Width <= 0.1)
-                    {
-                        // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
-                        _root.Size = new SizeF((int)Math.Ceiling(_actualSize.Width), 0);
-                        _actualSize = SizeF.Empty;
-                        _root.PerformLayout(ig);
-                    }
-                }
-=======
             //2014-04-27
             throw new NotSupportedException();
             //temp remove ,
@@ -593,29 +549,10 @@ namespace HtmlRenderer
             if (this._root == null)
             {
                 return;
->>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
             }
             //-----------------------
 
 
-<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
-            Region prevClip = null;
-            if (MaxSize.Height > 0)
-            {
-                prevClip = g.Clip;
-                g.SetClip(new RectangleF(_location, _maxSize));
-            }
-
-            if (_root != null)
-            {
-                using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
-                {
-                    _root.Paint(ig);
-                }
-            }
-
-            if (prevClip != null)
-=======
             _actualSize = SizeF.Empty;
             // if width is not restricted we set it to large value to get the actual later
             _root.Size = new SizeF(_maxSize.Width > 0 ? _maxSize.Width : 99999, 0);
@@ -623,7 +560,6 @@ namespace HtmlRenderer
             _root.PerformLayout(ig);
 
             if (_maxSize.Width <= 0.1)
->>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
             {
                 // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
                 _root.Size = new SizeF((int)Math.Ceiling(_actualSize.Width), 0);
@@ -678,52 +614,13 @@ namespace HtmlRenderer
         /// <param name="g"></param>
         public void PerformPaint(IGraphics ig)
         {
-<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
-            ArgChecker.AssertArgNotNull(parent, "parent");
-            ArgChecker.AssertArgNotNull(e, "e");
-
-            try
-            {
-                if (_selectionHandler != null)
-                    _selectionHandler.HandleMouseDown(parent, OffsetByScroll(e.Location), IsMouseInContainer(e.Location));
-            }
-            catch (Exception ex)
-=======
             if (_root == null)
->>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
             {
                 return;
             }
 
             //ig.FillRectangle(Brushes.Red, 0, 0, 70, 70);
 
-<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
-            try
-            {
-                if (_selectionHandler != null && IsMouseInContainer(e.Location))
-                {
-                    var ignore = _selectionHandler.HandleMouseUp(parent, e.Button);
-                    if (!ignore && (e.Button & MouseButtons.Left) != 0)
-                    {
-                        var loc = OffsetByScroll(e.Location);
-                        var link = DomUtils.GetLinkBox(_root, loc);
-                        if (link != null)
-                        {
-                            HandleLinkClicked(parent, e, link);
-                        }
-                    }
-                }
-            }
-            catch (HtmlLinkClickedException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed mouse up handle", ex);
-            }
-        }
-=======
             PaintingArgs args = new PaintingArgs(this);
             var bound = this.ViewportBound;
             args.PushBound(0, 0, bound.Width, bound.Height);
@@ -732,69 +629,12 @@ namespace HtmlRenderer
             args.PushContainingBox(_root.ContainingBlock);
             _root.Paint(ig, args);
             args.PopContainingBox();
->>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
 
             //ig.FillRectangle(Brushes.Black, 0, 0, 50, 50);
 
-<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
-            try
-            {
-                if (_selectionHandler != null && IsMouseInContainer(e.Location))
-                    _selectionHandler.SelectWord(parent, OffsetByScroll(e.Location));
-            }
-            catch (Exception ex)
-            {
-                ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed mouse double click handle", ex);
-            }
-        }
-
-        /// <summary>
-        /// Handle mouse move to handle hover cursor and text selection.
-        /// </summary>
-        /// <param name="parent">the control hosting the html to set cursor and invalidate</param>
-        /// <param name="e">the mouse event args</param>
-        public void HandleMouseMove(Control parent, MouseEventArgs e)
-        {
-            ArgChecker.AssertArgNotNull(parent, "parent");
-            ArgChecker.AssertArgNotNull(e, "e");
-
-            try
-            {
-                var loc = OffsetByScroll(e.Location);
-                if (_selectionHandler != null && IsMouseInContainer(e.Location))
-                    _selectionHandler.HandleMouseMove(parent, loc);
-
-                /*
-                if( _hoverBoxes != null )
-                {
-                    bool refresh = false;
-                    foreach(var hoverBox in _hoverBoxes)
-                    {
-                        foreach(var rect in hoverBox.Item1.Rectangles.Values)
-                        {
-                            if( rect.Contains(loc) )
-                            {
-                                //hoverBox.Item1.Color = "gold";
-                                refresh = true;
-                            }
-                        }
-                    }
-
-                    if(refresh)
-                        RequestRefresh(true);
-                }
-                 */
-            }
-            catch (Exception ex)
-            {
-                ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed mouse move handle", ex);
-            }
-        }
-=======
             //}
 
             //ArgChecker.AssertArgNotNull(g, "g");
->>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
 
             //Region prevClip = null;
             //if (MaxSize.Height > 0)
@@ -815,58 +655,12 @@ namespace HtmlRenderer
             //    }
             //}
 
-<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
-            try
-            {
-                if (_selectionHandler != null)
-                    _selectionHandler.HandleMouseLeave(parent);
-            }
-            catch (Exception ex)
-            {
-                ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed mouse leave handle", ex);
-            }
-        }
-
-        /// <summary>
-        /// Handle key down event for selection and copy.
-        /// </summary>
-        /// <param name="parent">the control hosting the html to invalidate</param>
-        /// <param name="e">the pressed key</param>
-        public void HandleKeyDown(Control parent, KeyEventArgs e)
-        {
-            ArgChecker.AssertArgNotNull(parent, "parent");
-            ArgChecker.AssertArgNotNull(e, "e");
-
-            try
-            {
-                if (e.Control && _selectionHandler != null)
-                {
-                    // select all
-                    if (e.KeyCode == Keys.A)
-                    {
-                        _selectionHandler.SelectAll(parent);
-                    }
-
-                    // copy currently selected text
-                    if (e.KeyCode == Keys.C)
-                    {
-                        _selectionHandler.CopySelectedHtml();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed key down handle", ex);
-            }
-        }
-=======
             //if (prevClip != null)
             //{
             //    g.SetClip(prevClip, CombineMode.Replace);
             //}
         }
 
->>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
 
         /// <summary>
         /// Raise the stylesheet load event with the given event args.
@@ -876,11 +670,7 @@ namespace HtmlRenderer
         {
             try
             {
-<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
-                if (StylesheetLoad != null)
-=======
                 if (StylesheetLoadingRequest != null)
->>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
                 {
                     StylesheetLoadingRequest(this, args);
                 }
@@ -899,11 +689,7 @@ namespace HtmlRenderer
         {
             try
             {
-<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
-                if (ImageLoad != null)
-=======
                 if (ImageLoadingRequest != null)
->>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
                 {
                     ImageLoadingRequest(this, args);
                 }
@@ -952,54 +738,6 @@ namespace HtmlRenderer
             { }
         }
 
-<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
-        /// <summary>
-        /// Handle link clicked going over <see cref="LinkClicked"/> event and using <see cref="Process.Start()"/> if not canceled.
-        /// </summary>
-        /// <param name="parent">the control hosting the html to invalidate</param>
-        /// <param name="e">the mouse event args</param>
-        /// <param name="link">the link that was clicked</param>
-        internal void HandleLinkClicked(Control parent, MouseEventArgs e, CssBox link)
-        {
-            if (LinkClicked != null)
-            {
-                var args = new HtmlLinkClickedEventArgs(link.HrefLink, link.HtmlTag.Attributes);
-                try
-                {
-                    LinkClicked(this, args);
-                }
-                catch (Exception ex)
-                {
-                    throw new HtmlLinkClickedException("Error in link clicked intercept", ex);
-                }
-                if (args.Handled)
-                    return;
-            }
-
-            if (!string.IsNullOrEmpty(link.HrefLink))
-            {
-                if (link.HrefLink.StartsWith("#") && link.HrefLink.Length > 1)
-                {
-                    if (ScrollChange != null)
-                    {
-                        var rect = GetElementRectangle(link.HrefLink.Substring(1));
-                        if (rect.HasValue)
-                        {
-                            ScrollChange(this, new HtmlScrollEventArgs(Point.Round(rect.Value.Location)));
-                            HandleMouseMove(parent, e);
-                        }
-                    }
-                }
-                else
-                {
-                    var nfo = new ProcessStartInfo(link.HrefLink);
-                    nfo.UseShellExecute = true;
-                    Process.Start(nfo);
-                }
-            }
-        }
-=======
->>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
 
         /// <summary>
         /// Add css box that has ":hover" selector to be handled on mouse hover.
@@ -1069,13 +807,6 @@ namespace HtmlRenderer
 
                 _cssData = null;
                 if (_root != null)
-<<<<<<< HEAD:Source/HtmlRenderer/HtmlContainer.cs
-                    _root.Dispose();
-                _root = null;
-                if (_selectionHandler != null)
-                    _selectionHandler.Dispose();
-                _selectionHandler = null;
-=======
                 {
                     _root.Dispose();
                     _root = null;
@@ -1086,7 +817,6 @@ namespace HtmlRenderer
                 //if (_selectionHandler != null)
                 //    _selectionHandler.Dispose();
                 //_selectionHandler = null;
->>>>>>> 5733781d73f6542a4fbc2a60e78466dd24d9541f:Source/HtmlRenderer/Platform/HtmlContainer.cs
             }
             catch
             { }
