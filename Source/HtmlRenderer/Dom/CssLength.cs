@@ -19,12 +19,12 @@ namespace HtmlRenderer.Dom
         const int HAS_ERROR = 1 << (13 - 1);
         const int IS_ASSIGN = 1 << (14 - 1);
         const int NONE_VALUE = 1 << (15 - 1);
-        const int NORMAL_WORDSPACING = 1 << (16 - 1);
+        const int NORMAL = 1 << (16 - 1);
 
         const int MEDIUM = 1 << (17 - 1);
         const int THICK = 1 << (18 - 1);
         const int THIN = 1 << (19 - 1);
-
+         
 
         #region Fields
         private readonly float _number;
@@ -43,7 +43,8 @@ namespace HtmlRenderer.Dom
 
         public static readonly CssLength AutoLength = new CssLength(0, IS_ASSIGN | IS_AUTO);
         public static readonly CssLength NotAssign = new CssLength(0, 0);
-        public static readonly CssLength NormalWordSpacing = new CssLength(0, IS_ASSIGN | NORMAL_WORDSPACING);
+        public static readonly CssLength NormalWordOrLine = new CssLength(0, IS_ASSIGN | NORMAL);
+        
 
         public static readonly CssLength Medium = new CssLength(0, IS_ASSIGN | MEDIUM);
         public static readonly CssLength Thick = new CssLength(0, IS_ASSIGN | THICK);
@@ -71,11 +72,9 @@ namespace HtmlRenderer.Dom
             }
             else if (length == "normal")
             {
-                this._flags |= NORMAL_WORDSPACING;
+                this._flags |= NORMAL;
                 return;
-            }
-
-
+            } 
 
             //_isPercentage = false;
             //_isRelative = true;
@@ -310,10 +309,16 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return (this._flags & NORMAL_WORDSPACING) != 0;
+                return (this._flags & NORMAL) != 0;
             }
         }
-
+        public bool IsNormalLineHeight
+        {
+            get
+            {
+                return (this._flags & NORMAL) != 0;
+            }
+        }
         /// <summary>
         /// Gets if the length is specified in relative units
         /// </summary>

@@ -445,7 +445,9 @@ namespace HtmlRenderer.Parse
                             box.BorderLeftColor = box.BorderTopColor = box.BorderRightColor = box.BorderBottomColor = value.ToLower();
                             break;
                         case HtmlConstants.Cellspacing:
-                            box.BorderSpacing = TranslateLength(value);
+
+                            //box.BorderSpacing = TranslateLength(value);
+                            box.BorderSpacingHorizontal = box.BorderSpacingVertical = new CssLength(TranslateLength(value));
                             break;
                         case HtmlConstants.Cellpadding:
                             ApplyTablePadding(box, value);
@@ -570,7 +572,7 @@ namespace HtmlRenderer.Parse
             }
         }
 
-        
+
         /// <summary>
         /// Go over all image boxes and if its display style is set to block, put it inside another block but set the image to inline.
         /// </summary>
@@ -646,9 +648,9 @@ namespace HtmlRenderer.Parse
             }
         }
 
-        
 
-        
+
+
 
         #endregion
     }

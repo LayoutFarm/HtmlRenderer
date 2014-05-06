@@ -79,6 +79,7 @@ namespace HtmlRenderer.Dom
         static readonly CssValueMap<CssWhiteSpace> _cssWhitespaceMap = new CssValueMap<CssWhiteSpace>();
         static readonly CssValueMap<CssBorderCollapse> _cssCollapseBorderMap = new CssValueMap<CssBorderCollapse>();
         static readonly CssValueMap<CssBorderStyle> _cssBorderStyleMap = new CssValueMap<CssBorderStyle>();
+        static readonly CssValueMap<CssEmptyCell> _cssEmptyCell = new CssValueMap<CssEmptyCell>();
 
         static CssBoxUserUtilExtension()
         {
@@ -144,6 +145,82 @@ namespace HtmlRenderer.Dom
         public static void SetWhitespace(this CssBox box, string value)
         {
             box.WhiteSpace = _cssWhitespaceMap.GetValueFromString(value, CssWhiteSpace.Normal);
+        }
+        public static void SetBorderSpacing(this CssBox box, string value)
+        {
+            System.Text.RegularExpressions.MatchCollection r =
+             HtmlRenderer.Parse.RegexParserUtils.Match(HtmlRenderer.Parse.RegexParserUtils.CssLength, value);
+            switch (r.Count)
+            {
+                case 1:
+                    {
+                        box.BorderSpacingHorizontal = box.BorderSpacingVertical = new CssLength(r[0].Value);
+                    } break;
+                case 2:
+                    {
+                        box.BorderSpacingHorizontal = new CssLength(r[0].Value);
+                        box.BorderSpacingVertical = new CssLength(r[1].Value);
+                    } break;
+            }
+        }
+        public static string GetCornerRadius(this CssBox box)
+        {
+            // CornerNERadius = r[0].Value;
+            //                CornerNWRadius = r[1].Value;
+            //                CornerSERadius = r[2].Value;
+            //                CornerSWRadius = r[3].Value;
+            //CssLength[] corners = box.CornerRadius;
+            System.Text.StringBuilder stbuilder = new System.Text.StringBuilder();
+            stbuilder.Append(box.CornerNERadius);
+            stbuilder.Append(' ');
+            stbuilder.Append(box.CornerNWRadius);
+            stbuilder.Append(' ');
+            stbuilder.Append(box.CornerSERadius);
+            stbuilder.Append(' ');
+            stbuilder.Append(box.CornerSWRadius);
+            return stbuilder.ToString();
+        }
+        public static void SetCornerRadius(this CssBox box, string value)
+        {
+            //throw new NotSupportedException();
+
+            System.Text.RegularExpressions.MatchCollection r =
+                HtmlRenderer.Parse.RegexParserUtils.Match(HtmlRenderer.Parse.RegexParserUtils.CssLength, value);
+            switch (r.Count)
+            {
+                case 1:
+                    box.CornerNERadius = box.CornerNWRadius =
+                        box.CornerSERadius = box.CornerSWRadius = new CssLength(r[0].Value);
+                    break;
+                case 2:
+                    box.CornerNERadius = box.CornerNWRadius = new CssLength(r[0].Value);
+                    box.CornerSERadius = box.CornerSWRadius = new CssLength(r[1].Value);
+                    break;
+                case 3:
+                    box.CornerNERadius = new CssLength(r[0].Value);
+                    box.CornerNWRadius = new CssLength(r[1].Value);
+                    box.CornerSERadius = new CssLength(r[2].Value);
+                    break;
+                case 4:
+                    box.CornerNERadius = new CssLength(r[0].Value);
+                    box.CornerNWRadius = new CssLength(r[1].Value);
+                    box.CornerSERadius = new CssLength(r[2].Value);
+                    box.CornerSWRadius = new CssLength(r[3].Value);
+                    break;
+            }
+        }
+        public static CssEmptyCell GetEmptyCell(string value)
+        {
+            return _cssEmptyCell.GetValueFromString(value, CssEmptyCell.Show);
+        }
+        public static string GetEmptyCellString(CssEmptyCell value)
+        {
+            return _cssEmptyCell.GetStringFromValue(value);
+        }
+        public static CssLength SetLineHeight(this CssBox box, string value)
+        {
+            float lineHeight = HtmlRenderer.Parse.CssValueParser.ParseLength(value, box.Size.Height, box, CssConstants.Em);
+            return CssLength.MakePixelLength(lineHeight);
         }
     }
 }

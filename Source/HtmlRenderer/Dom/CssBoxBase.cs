@@ -30,7 +30,7 @@ namespace HtmlRenderer.Dom
     /// </summary>
     public abstract partial class CssBoxBase
     {
-       
+
         #region CSS Fields
 
         private string _backgroundColor = "transparent";
@@ -61,19 +61,25 @@ namespace HtmlRenderer.Dom
         CssBorderStyle borderBottomKind = CssBorderStyle.None;
 
 
-        private string _borderSpacing = "0";
+        //private string _borderSpacing = "0";
         //private string _borderCollapse = "separate";
         CssBorderCollapse _myBorderCollapse = CssBorderCollapse.Sepatate;
-        private string _bottom;
+        CssLength _borderSpacingH = CssLength.ZeroNoUnit;
+        CssLength _borderSpacingV = CssLength.ZeroNoUnit;
+
+
+        //private string _bottom;
+        CssLength _bottom = CssLength.NotAssign;
         private string _color = "black";
 
-        private string _cornerNWRadius = "0";
-        private string _cornerNERadius = "0";
-        private string _cornerSERadius = "0";
-        private string _cornerSWRadius = "0";
-        private string _cornerRadius = "0";
+        CssLength _cornerNWRadius = CssLength.ZeroNoUnit;
+        CssLength _cornerNERadius = CssLength.ZeroNoUnit;
+        CssLength _cornerSERadius = CssLength.ZeroNoUnit;
+        CssLength _cornerSWRadius = CssLength.ZeroNoUnit;
 
-        private string _emptyCells = "show";
+
+        //private string _emptyCells = "show";
+        CssEmptyCell _emptyCells = CssEmptyCell.Show;
         CssDirection _myDirection = CssDirection.Ltl;
         CssBoxDisplayType _myCssDisplay = CssBoxDisplayType.Inline;
         //private string _direction = "ltr";
@@ -85,17 +91,18 @@ namespace HtmlRenderer.Dom
         private string _fontWeight = "normal";
         private string _float = "none";
         //private string _height = "auto";
+
         CssLength _myHeight = CssLength.AutoLength;
 
-        private CssLength _marginBottom = CssLength.ZeroPx;
-        private CssLength _marginLeft = CssLength.ZeroPx;
-        private CssLength _marginRight = CssLength.ZeroPx;
-        private CssLength _marginTop = CssLength.ZeroPx;
+        CssLength _marginBottom = CssLength.ZeroPx;
+        CssLength _marginLeft = CssLength.ZeroPx;
+        CssLength _marginRight = CssLength.ZeroPx;
+        CssLength _marginTop = CssLength.ZeroPx;
 
-
-        private string _left = "auto";
-        private string _lineHeight = "normal";
-
+        CssLength _left = CssLength.AutoLength;
+        //private string _left = "auto";
+        //private string _lineHeight = "normal";
+        CssLength _lineHeight = CssLength.NormalWordOrLine;
         private string _listStyleType = "disc";
         private string _listStyleImage = string.Empty;
         private string _listStylePosition = "outside";
@@ -107,12 +114,12 @@ namespace HtmlRenderer.Dom
         //private string _paddingBottom = "0";
         //private string _paddingRight = "0";
         //private string _paddingTop = "0";
-        private CssLength _paddingLeft = CssLength.ZeroNoUnit;
-        private CssLength _paddingBottom = CssLength.ZeroNoUnit;
-        private CssLength _paddingRight = CssLength.ZeroNoUnit;
-        private CssLength _paddingTop = CssLength.ZeroNoUnit;
+        CssLength _paddingLeft = CssLength.ZeroNoUnit;
+        CssLength _paddingBottom = CssLength.ZeroNoUnit;
+        CssLength _paddingRight = CssLength.ZeroNoUnit;
+        CssLength _paddingTop = CssLength.ZeroNoUnit;
 
-        private string _right;
+        CssLength _right = CssLength.NotAssign;
 
         //private string _textAlign = string.Empty;
         CssTextAlign _textAlign = CssTextAlign.NotAssign;
@@ -121,7 +128,7 @@ namespace HtmlRenderer.Dom
         //private string _textIndent = "0";
 
         CssLength _myTextIndent = CssLength.ZeroNoUnit;
-        private string _top = "auto";
+        CssLength _top = CssLength.AutoLength;
         CssPositionType _position = CssPositionType.Static;
         //private string _position = "static";
 
@@ -132,7 +139,7 @@ namespace HtmlRenderer.Dom
         CssLength _myWidth = CssLength.AutoLength;
         CssLength _myMaxWidth = CssLength.NotAssign;
         //private string _maxWidth = "none";
-        CssLength _myWordSpacing = CssLength.NormalWordSpacing;
+        CssLength _myWordSpacing = CssLength.NormalWordOrLine;
         //private string _wordSpacing = "normal";
         CssWordBreak _myWordBreak = CssWordBreak.Normal;
         //private string _wordBreak = "normal";
@@ -391,12 +398,21 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        public string BorderSpacing
+        //public string BorderSpacing
+        //{
+        //    get { return _borderSpacing; }
+        //    set { _borderSpacing = value; }
+        //}
+        public CssLength BorderSpacingVertical
         {
-            get { return _borderSpacing; }
-            set { _borderSpacing = value; }
+            get { return _borderSpacingV; }
+            set { _borderSpacingV = value; }
         }
-
+        public CssLength BorderSpacingHorizontal
+        {
+            get { return _borderSpacingH; }
+            set { _borderSpacingH = value; }
+        }
         public CssBorderCollapse BorderCollapse
         {
             get { return this._myBorderCollapse; }
@@ -414,63 +430,63 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        public string CornerRadius
-        {
-            get { return _cornerRadius; }
-            set
-            {
-                MatchCollection r = RegexParserUtils.Match(RegexParserUtils.CssLength, value);
+        //public CssLength[] CornerRadius
+        //{
+        //    get { return 
+        //    set
+        //    {
+        //        MatchCollection r = RegexParserUtils.Match(RegexParserUtils.CssLength, value);
 
-                switch (r.Count)
-                {
-                    case 1:
-                        CornerNERadius = r[0].Value;
-                        CornerNWRadius = r[0].Value;
-                        CornerSERadius = r[0].Value;
-                        CornerSWRadius = r[0].Value;
-                        break;
-                    case 2:
-                        CornerNERadius = r[0].Value;
-                        CornerNWRadius = r[0].Value;
-                        CornerSERadius = r[1].Value;
-                        CornerSWRadius = r[1].Value;
-                        break;
-                    case 3:
-                        CornerNERadius = r[0].Value;
-                        CornerNWRadius = r[1].Value;
-                        CornerSERadius = r[2].Value;
-                        break;
-                    case 4:
-                        CornerNERadius = r[0].Value;
-                        CornerNWRadius = r[1].Value;
-                        CornerSERadius = r[2].Value;
-                        CornerSWRadius = r[3].Value;
-                        break;
-                }
+        //        switch (r.Count)
+        //        {
+        //            case 1:
+        //                CornerNERadius = r[0].Value;
+        //                CornerNWRadius = r[0].Value;
+        //                CornerSERadius = r[0].Value;
+        //                CornerSWRadius = r[0].Value;
+        //                break;
+        //            case 2:
+        //                CornerNERadius = r[0].Value;
+        //                CornerNWRadius = r[0].Value;
+        //                CornerSERadius = r[1].Value;
+        //                CornerSWRadius = r[1].Value;
+        //                break;
+        //            case 3:
+        //                CornerNERadius = r[0].Value;
+        //                CornerNWRadius = r[1].Value;
+        //                CornerSERadius = r[2].Value;
+        //                break;
+        //            case 4:
+        //                CornerNERadius = r[0].Value;
+        //                CornerNWRadius = r[1].Value;
+        //                CornerSERadius = r[2].Value;
+        //                CornerSWRadius = r[3].Value;
+        //                break;
+        //        }
 
-                _cornerRadius = value;
-            }
-        }
+        //        _cornerRadius = value;
+        //    }
+        //}
 
-        public string CornerNWRadius
+        public CssLength CornerNWRadius
         {
             get { return _cornerNWRadius; }
             set { _cornerNWRadius = value; }
         }
 
-        public string CornerNERadius
+        public CssLength CornerNERadius
         {
             get { return _cornerNERadius; }
             set { _cornerNERadius = value; }
         }
 
-        public string CornerSERadius
+        public CssLength CornerSERadius
         {
             get { return _cornerSERadius; }
             set { _cornerSERadius = value; }
         }
 
-        public string CornerSWRadius
+        public CssLength CornerSWRadius
         {
             get { return _cornerSWRadius; }
             set { _cornerSWRadius = value; }
@@ -540,13 +556,13 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        public string Left
+        public CssLength Left
         {
             get { return _left; }
             set { _left = value; }
         }
 
-        public string Top
+        public CssLength Top
         {
             get { return _top; }
             set { _top = value; }
@@ -624,7 +640,7 @@ namespace HtmlRenderer.Dom
             get { return _color; }
             set { _color = value; _actualColor = System.Drawing.Color.Empty; }
         }
-        public string EmptyCells
+        public CssEmptyCell EmptyCells
         {
             get { return _emptyCells; }
             set { _emptyCells = value; }
@@ -657,14 +673,13 @@ namespace HtmlRenderer.Dom
         }
 
         //----------------------------------------------------
-        public string LineHeight
+        public CssLength LineHeight
         {
             get { return _lineHeight; }
             set
             {
-                _lineHeight =
-                    string.Format(NumberFormatInfo.InvariantInfo, "{0}px",
-                    CssValueParser.ParseLength(value, Size.Height, this, CssConstants.Em));
+               
+                _lineHeight = value;
                 _actualLineHeight = float.NaN;
             }
         }
@@ -1637,16 +1652,17 @@ namespace HtmlRenderer.Dom
             {
                 if (float.IsNaN(_actualBorderSpacingHorizontal))
                 {
-                    MatchCollection matches = RegexParserUtils.Match(RegexParserUtils.CssLength, BorderSpacing);
+                    //MatchCollection matches = RegexParserUtils.Match(RegexParserUtils.CssLength, BorderSpacing);
 
-                    if (matches.Count == 0)
-                    {
-                        _actualBorderSpacingHorizontal = 0;
-                    }
-                    else if (matches.Count > 0)
-                    {
-                        _actualBorderSpacingHorizontal = CssValueParser.ParseLength(matches[0].Value, 1, this);
-                    }
+                    //if (matches.Count == 0)
+                    //{
+                    //    _actualBorderSpacingHorizontal = 0;
+                    //}
+                    //else if (matches.Count > 0)
+                    //{
+                    //    _actualBorderSpacingHorizontal = CssValueParser.ParseLength(matches[0].Value, 1, this);
+                    //}
+                    _actualBorderSpacingHorizontal = this._borderSpacingH.Number;
                 }
 
 
@@ -1663,20 +1679,22 @@ namespace HtmlRenderer.Dom
             {
                 if (float.IsNaN(_actualBorderSpacingVertical))
                 {
-                    MatchCollection matches = RegexParserUtils.Match(RegexParserUtils.CssLength, BorderSpacing);
+                    _actualBorderSpacingVertical = this._borderSpacingV.Number;
 
-                    if (matches.Count == 0)
-                    {
-                        _actualBorderSpacingVertical = 0;
-                    }
-                    else if (matches.Count == 1)
-                    {
-                        _actualBorderSpacingVertical = CssValueParser.ParseLength(matches[0].Value, 1, this);
-                    }
-                    else
-                    {
-                        _actualBorderSpacingVertical = CssValueParser.ParseLength(matches[1].Value, 1, this);
-                    }
+                    //MatchCollection matches = RegexParserUtils.Match(RegexParserUtils.CssLength, BorderSpacing);
+
+                    //if (matches.Count == 0)
+                    //{
+                    //    _actualBorderSpacingVertical = 0;
+                    //}
+                    //else if (matches.Count == 1)
+                    //{
+                    //    _actualBorderSpacingVertical = CssValueParser.ParseLength(matches[0].Value, 1, this);
+                    //}
+                    //else
+                    //{
+                    //    _actualBorderSpacingVertical = CssValueParser.ParseLength(matches[1].Value, 1, this);
+                    //}
                 }
                 return _actualBorderSpacingVertical;
             }
@@ -1774,8 +1792,10 @@ namespace HtmlRenderer.Dom
         {
             if (p != null)
             {
-                _borderSpacing = p._borderSpacing;
+                //_borderSpacing = p._borderSpacing;
                 //_borderCollapse = p._borderCollapse;
+                this._borderSpacingH = p._borderSpacingH;
+                this._borderSpacingV = p._borderSpacingV;
                 this.BorderCollapse = p.BorderCollapse;
                 _color = p._color;
                 _emptyCells = p._emptyCells;
@@ -1835,7 +1855,7 @@ namespace HtmlRenderer.Dom
                     _cornerNERadius = p._cornerNERadius;
                     _cornerSERadius = p._cornerSERadius;
                     _cornerSWRadius = p._cornerSWRadius;
-                    _cornerRadius = p._cornerRadius;
+                    //_cornerRadius = p._cornerRadius;
                     // _display = p._display;
                     this.CssDisplay = p.CssDisplay;
                     _float = p._float;

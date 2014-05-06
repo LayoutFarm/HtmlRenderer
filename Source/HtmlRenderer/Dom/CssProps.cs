@@ -253,6 +253,16 @@ namespace HtmlRenderer.Dom
         [CssName(CssConstants.Inherit)]
         Inherit
     }
+    public enum CssEmptyCell : byte
+    {
+        [CssName(CssConstants.Show)]
+        Show,
+        [CssName(CssConstants.Hide)]
+        Hide,
+        Initial,
+        [CssName(CssConstants.Inherit)]
+        Inherit
+    }
 
 
 }

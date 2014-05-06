@@ -160,7 +160,7 @@ namespace HtmlRenderer.Dom
         {
             if (this.CssDisplay != CssBoxDisplayType.None &&
                (this.CssDisplay != CssBoxDisplayType.TableCell ||
-                 EmptyCells != CssConstants.Hide || !IsSpaceOrEmpty))
+                 EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
             {
 
                 //1. check if this box is in viewport bound                 
