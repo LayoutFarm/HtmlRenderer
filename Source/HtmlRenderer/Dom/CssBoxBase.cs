@@ -39,6 +39,7 @@ namespace HtmlRenderer.Dom
         private string _backgroundImage = "none";
         private string _backgroundPosition = "0% 0%";
         private string _backgroundRepeat = "repeat";
+         
 
         private CssLength _borderTopWidth = CssLength.Medium;
         private CssLength _borderRightWidth = CssLength.Medium;
@@ -50,27 +51,19 @@ namespace HtmlRenderer.Dom
         private string _borderRightColor = "black";
         private string _borderBottomColor = "black";
         private string _borderLeftColor = "black";
-
-        //private string _borderTopStyle = "none";
-        //private string _borderRightStyle = "none";
-        //private string _borderBottomStyle = "none";
-        //private string _borderLeftStyle = "none";
+         
         CssBorderStyle borderTopKind = CssBorderStyle.None;
         CssBorderStyle borderRightKind = CssBorderStyle.None;
         CssBorderStyle borderLeftKind = CssBorderStyle.None;
         CssBorderStyle borderBottomKind = CssBorderStyle.None;
-
-
-        //private string _borderSpacing = "0";
-        //private string _borderCollapse = "separate";
+         
         CssBorderCollapse _myBorderCollapse = CssBorderCollapse.Sepatate;
         CssLength _borderSpacingH = CssLength.ZeroNoUnit;
         CssLength _borderSpacingV = CssLength.ZeroNoUnit;
-
-
-        //private string _bottom;
+         
         CssLength _bottom = CssLength.NotAssign;
         private string _color = "black";
+
 
         CssLength _cornerNWRadius = CssLength.ZeroNoUnit;
         CssLength _cornerNERadius = CssLength.ZeroNoUnit;
@@ -78,42 +71,39 @@ namespace HtmlRenderer.Dom
         CssLength _cornerSWRadius = CssLength.ZeroNoUnit;
 
 
-        //private string _emptyCells = "show";
+        
         CssEmptyCell _emptyCells = CssEmptyCell.Show;
         CssDirection _myDirection = CssDirection.Ltl;
-        CssBoxDisplayType _myCssDisplay = CssBoxDisplayType.Inline;
-        //private string _direction = "ltr";
-        //private string _display = "inline";
+        CssBoxDisplayType _myCssDisplay = CssBoxDisplayType.Inline; 
+
         private string _fontFamily = "serif";
         private string _fontSize = "medium";
         private string _fontStyle = "normal";
         private string _fontVariant = "normal";
         private string _fontWeight = "normal";
-        private string _float = "none";
-        //private string _height = "auto";
-
-        CssLength _myHeight = CssLength.AutoLength;
+         
+        CssFloat _float = CssFloat.None; 
+        CssLength _height = CssLength.AutoLength;
 
         CssLength _marginBottom = CssLength.ZeroPx;
         CssLength _marginLeft = CssLength.ZeroPx;
         CssLength _marginRight = CssLength.ZeroPx;
         CssLength _marginTop = CssLength.ZeroPx;
 
-        CssLength _left = CssLength.AutoLength;
-        //private string _left = "auto";
-        //private string _lineHeight = "normal";
+        CssLength _left = CssLength.AutoLength; 
         CssLength _lineHeight = CssLength.NormalWordOrLine;
+
+
         private string _listStyleType = "disc";
         private string _listStyleImage = string.Empty;
         private string _listStylePosition = "outside";
         private string _listStyle = string.Empty;
-        //private string _overflow = "visible";
-        CssOverflow _myOverflow = CssOverflow.Visible;
 
-        //private string _paddingLeft = "0";
-        //private string _paddingBottom = "0";
-        //private string _paddingRight = "0";
-        //private string _paddingTop = "0";
+
+         
+        CssOverflow _overflow = CssOverflow.Visible;
+         
+
         CssLength _paddingLeft = CssLength.ZeroNoUnit;
         CssLength _paddingBottom = CssLength.ZeroNoUnit;
         CssLength _paddingRight = CssLength.ZeroNoUnit;
@@ -121,33 +111,28 @@ namespace HtmlRenderer.Dom
 
         CssLength _right = CssLength.NotAssign;
 
-        //private string _textAlign = string.Empty;
+         
         CssTextAlign _textAlign = CssTextAlign.NotAssign;
-        //private string _textDecoration = string.Empty;
-        CssTextDecoration _myTextDecoration = CssTextDecoration.NotAssign;
-        //private string _textIndent = "0";
+         
+        CssTextDecoration _textDecoration = CssTextDecoration.NotAssign;
+         
 
-        CssLength _myTextIndent = CssLength.ZeroNoUnit;
+        CssLength _textIndent = CssLength.ZeroNoUnit;
         CssLength _top = CssLength.AutoLength;
-        CssPositionType _position = CssPositionType.Static;
-        //private string _position = "static";
+        CssPositionType _position = CssPositionType.Static; 
+         
+        CssVerticalAlign _verticalAlign = CssVerticalAlign.Baseline;
+         
+        CssLength _width = CssLength.AutoLength;
+        CssLength _maxWidth = CssLength.NotAssign;         
+        CssLength _wordSpacing = CssLength.NormalWordOrLine;         
+        CssWordBreak _wordBreak = CssWordBreak.Normal;
+         
 
-
-        //private string _verticalAlign = "baseline";
-        CssVerticalAlign myCssVerticalAlign = CssVerticalAlign.Baseline;
-        //private string _width = "auto";
-        CssLength _myWidth = CssLength.AutoLength;
-        CssLength _myMaxWidth = CssLength.NotAssign;
-        //private string _maxWidth = "none";
-        CssLength _myWordSpacing = CssLength.NormalWordOrLine;
-        //private string _wordSpacing = "normal";
-        CssWordBreak _myWordBreak = CssWordBreak.Normal;
-        //private string _wordBreak = "normal";
-
-        //private string _whiteSpace = "normal";
-        CssWhiteSpace _myWhiteSpace = CssWhiteSpace.Normal;
-        CssVisibility myCssVisibility = CssVisibility.Visible;
-        //private string _visibility = "visible";
+         
+        CssWhiteSpace _whitespace = CssWhiteSpace.Normal;
+        CssVisibility _visibility = CssVisibility.Visible;
+         
 
         #endregion
 
@@ -572,11 +557,11 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._myWidth;
+                return this._width;
             }
             set
             {
-                this._myWidth = value;
+                this._width = value;
             }
         }
         //public string MaxWidth
@@ -586,8 +571,8 @@ namespace HtmlRenderer.Dom
         //}
         public CssLength MaxWidth
         {
-            get { return _myMaxWidth; }
-            set { _myMaxWidth = value; }
+            get { return _maxWidth; }
+            set { _maxWidth = value; }
         }
         //public string Height
         //{
@@ -596,8 +581,8 @@ namespace HtmlRenderer.Dom
         //}
         public CssLength Height
         {
-            get { return this._myHeight; }
-            set { this._myHeight = value; }
+            get { return this._height; }
+            set { this._height = value; }
         }
         public string BackgroundColor
         {
@@ -646,7 +631,7 @@ namespace HtmlRenderer.Dom
             set { _emptyCells = value; }
         }
 
-        public string Float
+        public CssFloat Float
         {
             get { return _float; }
             set { _float = value; }
@@ -678,7 +663,7 @@ namespace HtmlRenderer.Dom
             get { return _lineHeight; }
             set
             {
-               
+
                 _lineHeight = value;
                 _actualLineHeight = float.NaN;
             }
@@ -688,13 +673,13 @@ namespace HtmlRenderer.Dom
 
         public CssVerticalAlign VerticalAlign
         {
-            get { return this.myCssVerticalAlign; }
-            set { this.myCssVerticalAlign = value; }
+            get { return this._verticalAlign; }
+            set { this._verticalAlign = value; }
         }
         public CssLength TextIndent
         {
-            get { return _myTextIndent; }
-            set { _myTextIndent = NoEms(value); }
+            get { return _textIndent; }
+            set { _textIndent = NoEms(value); }
         }
 
 
@@ -741,8 +726,8 @@ namespace HtmlRenderer.Dom
         //}
         public CssTextDecoration TextDecoration
         {
-            get { return _myTextDecoration; }
-            set { _myTextDecoration = value; }
+            get { return _textDecoration; }
+            set { _textDecoration = value; }
         }
 
         //-----------------------------------
@@ -750,11 +735,11 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._myWhiteSpace;
+                return this._whitespace;
             }
             set
             {
-                this._myWhiteSpace = value;
+                this._whitespace = value;
             }
         }
         //-----------------------------------
@@ -763,11 +748,11 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this.myCssVisibility;
+                return this._visibility;
             }
             set
             {
-                this.myCssVisibility = value;
+                this._visibility = value;
             }
 
         }
@@ -779,12 +764,12 @@ namespace HtmlRenderer.Dom
         //}
         public CssLength WordSpacing
         {
-            get { return this._myWordSpacing; }
-            set { this._myWordSpacing = value; }
+            get { return this._wordSpacing; }
+            set { this._wordSpacing = value; }
         }
         public void SetWordSpacing(string str)
         {
-            this._myWordSpacing = this.NoEms(new CssLength(str));
+            this._wordSpacing = this.NoEms(new CssLength(str));
         }
 
 
@@ -817,11 +802,11 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._myWordBreak;
+                return this._wordBreak;
             }
             set
             {
-                this._myWordBreak = value;
+                this._wordBreak = value;
             }
         }
 
@@ -896,8 +881,8 @@ namespace HtmlRenderer.Dom
         //}
         public CssOverflow Overflow
         {
-            get { return this._myOverflow; }
-            set { this._myOverflow = value; }
+            get { return this._overflow; }
+            set { this._overflow = value; }
         }
         public string ListStylePosition
         {
@@ -1802,7 +1787,7 @@ namespace HtmlRenderer.Dom
                 this.WhiteSpace = p.WhiteSpace;
                 this.CssVisibility = p.CssVisibility;
                 //_textIndent = p._textIndent;
-                this._myTextIndent = p._myTextIndent;
+                this._textIndent = p._textIndent;
                 //this.TextAlign = p._textAlign;
                 this.CssTextAlign = p.CssTextAlign;
                 this.VerticalAlign = p.VerticalAlign;
@@ -1882,7 +1867,7 @@ namespace HtmlRenderer.Dom
                     this.Width = p.Width;
                     this.MaxWidth = p.MaxWidth;
                     //_maxWidth = p._maxWidth;
-                    this._myWordSpacing = p._myWordSpacing;
+                    this._wordSpacing = p._wordSpacing;
                     //_wordSpacing = p._wordSpacing;
                 }
             }

@@ -179,7 +179,7 @@ namespace HtmlRenderer.Utils
                     return CssBoxUserUtilExtension.GetEmptyCellString(cssBox.EmptyCells);                     
 
                 case "float":
-                    return cssBox.Float;
+                    return CssBoxUserUtilExtension.GetFloatString(cssBox.Float);
                 case "position":
                     return cssBox.Position.ToString();
                 case "line-height":
@@ -379,7 +379,7 @@ namespace HtmlRenderer.Utils
                     cssBox.EmptyCells = CssBoxUserUtilExtension.GetEmptyCell(value);
                     break;
                 case "float":
-                    cssBox.Float = value;
+                    cssBox.Float = CssBoxUserUtilExtension.GetFloat(value);
                     break;
                 case "position":
                     cssBox.SetCssPosition(value);

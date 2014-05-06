@@ -34,6 +34,8 @@ namespace HtmlRenderer.Dom
 
 
 
+
+
     partial class CssBoxBase
     {
         public CssBoxDisplayType CssDisplay

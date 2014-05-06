@@ -1,6 +1,6 @@
-﻿using System;
+﻿//BSD, 2014 WinterCore
+using System;
 using System.Drawing;
-
 using System.Collections.Generic;
 
 using HtmlRenderer.Entities;
@@ -79,7 +79,8 @@ namespace HtmlRenderer.Dom
         static readonly CssValueMap<CssWhiteSpace> _cssWhitespaceMap = new CssValueMap<CssWhiteSpace>();
         static readonly CssValueMap<CssBorderCollapse> _cssCollapseBorderMap = new CssValueMap<CssBorderCollapse>();
         static readonly CssValueMap<CssBorderStyle> _cssBorderStyleMap = new CssValueMap<CssBorderStyle>();
-        static readonly CssValueMap<CssEmptyCell> _cssEmptyCell = new CssValueMap<CssEmptyCell>();
+        static readonly CssValueMap<CssEmptyCell> _cssEmptyCellMap = new CssValueMap<CssEmptyCell>();
+        static readonly CssValueMap<CssFloat> _cssFloatMap = new CssValueMap<CssFloat>();
 
         static CssBoxUserUtilExtension()
         {
@@ -101,7 +102,6 @@ namespace HtmlRenderer.Dom
         {
             box.CssDisplay = _cssDisplayMap.GetValueFromString(cssdisplayValue, CssBoxDisplayType.Inline);
         }
-
         //----------------------
         public static string GetCssDirection(this CssBox box)
         {
@@ -211,16 +211,26 @@ namespace HtmlRenderer.Dom
         }
         public static CssEmptyCell GetEmptyCell(string value)
         {
-            return _cssEmptyCell.GetValueFromString(value, CssEmptyCell.Show);
+            return _cssEmptyCellMap.GetValueFromString(value, CssEmptyCell.Show);
         }
         public static string GetEmptyCellString(CssEmptyCell value)
         {
-            return _cssEmptyCell.GetStringFromValue(value);
+            return _cssEmptyCellMap.GetStringFromValue(value);
         }
         public static CssLength SetLineHeight(this CssBox box, string value)
         {
             float lineHeight = HtmlRenderer.Parse.CssValueParser.ParseLength(value, box.Size.Height, box, CssConstants.Em);
             return CssLength.MakePixelLength(lineHeight);
         }
+        public static CssFloat GetFloat(string value)
+        {
+            return _cssFloatMap.GetValueFromString(value, CssFloat.None);
+        }
+        public static string GetFloatString(CssFloat floatString)
+        {
+            return _cssFloatMap.GetStringFromValue(floatString);
+        }
+
+
     }
 }

@@ -664,7 +664,7 @@ namespace HtmlRenderer.Dom
                 // if (Display == CssConstants.Table || Display == CssConstants.InlineTable)
                 if (this.CssDisplay == CssBoxDisplayType.Table || this.CssDisplay == CssBoxDisplayType.InlineTable)
                 {
-                    CssTableLayoutEngine.PerformLayout(g, this);
+                    CssLayoutEngineTable.PerformLayout(g, this);
                 }
                 else
                 {
@@ -1059,7 +1059,7 @@ namespace HtmlRenderer.Dom
             //if (box.Display == CssConstants.Table)
             if (box.CssDisplay == CssBoxDisplayType.Table)
             {
-                paddingSum += CssTableLayoutEngine.GetTableSpacing(box);
+                paddingSum += CssLayoutEngineTable.GetTableSpacing(box);
             }
 
             if (box.Words.Count > 0)

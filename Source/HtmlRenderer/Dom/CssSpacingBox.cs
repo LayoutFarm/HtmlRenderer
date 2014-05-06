@@ -40,16 +40,7 @@ namespace HtmlRenderer.Dom
         public CssBox ExtendedBox
         {
             get { return _extendedBox; }
-        }
-
-        ///// <summary>
-        ///// Gets the index of the row where box starts
-        ///// </summary>
-        //public int StartRow
-        //{
-        //    get { return _startRow; }
-        //}
-
+        } 
         /// <summary>
         /// Gets the index of the row where box ends
         /// </summary>

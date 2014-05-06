@@ -264,5 +264,17 @@ namespace HtmlRenderer.Dom
         Inherit
     }
 
+    public enum CssFloat : byte
+    {
+        [CssName(CssConstants.None)]
+        None,
+        [CssName(CssConstants.Left)]
+        Left,
+        [CssName(CssConstants.Right)]
+        Right,
+        Initial,
+        [CssName(CssConstants.Inherit)]
+        Inherit
 
+    }
 }

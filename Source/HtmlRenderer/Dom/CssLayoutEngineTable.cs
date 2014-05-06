@@ -22,7 +22,7 @@ namespace HtmlRenderer.Dom
     /// <summary>
     /// Layout engine for tables executing the complex layout of tables with rows/columns/headers/etc.
     /// </summary>
-    internal sealed class CssTableLayoutEngine
+    internal sealed class CssLayoutEngineTable
     {
         #region Fields and Consts
 
@@ -68,7 +68,7 @@ namespace HtmlRenderer.Dom
         /// Init.
         /// </summary>
         /// <param name="tableBox"></param>
-        private CssTableLayoutEngine(CssBox tableBox)
+        private CssLayoutEngineTable(CssBox tableBox)
         {
             _tableBox = tableBox;
         }
@@ -150,7 +150,7 @@ namespace HtmlRenderer.Dom
 
             try
             {
-                var table = new CssTableLayoutEngine(tableBox);
+                var table = new CssLayoutEngineTable(tableBox);
                 table.Layout(g);
             }
             catch (Exception ex)
