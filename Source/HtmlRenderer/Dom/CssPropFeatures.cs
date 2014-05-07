@@ -14,87 +14,63 @@ namespace HtmlRenderer.Dom
 {
 
     class CssBorderProp
-    {
-        CssLength _borderLeftWidth;
-        CssLength _borderTopWidth;
-        CssLength _borderRightWidth;
-        CssLength _borderBottomWidth;
-
-        CssBorderStyle _borderLeftStyle;
-        CssBorderStyle _borderTopStyle;
-        CssBorderStyle _borderRightStyle;
-        CssBorderStyle _borderBottomStyle;
-
-
-        Color _borderTopColor;// = "black";
-        Color _borderRightColor; //= "black";
-        Color _borderBottomColor; //= "black";
-        Color _borderLeftColor; //= "black";
-
-
-        public static readonly CssBorderProp Default = new CssBorderProp(null);
-
+    {  
+        
         object owner;
         public CssBorderProp(object owner)
         {
             this.owner = owner;
-            this._borderLeftWidth =
-                this._borderTopWidth =
-                this._borderRightWidth =
-                this._borderBottomWidth = CssLength.Medium;
+            this.LeftWidth =
+                this.TopWidth =
+                this.RightWidth =
+                this.BottomWidth = CssLength.Medium;
             //---------------------------------------------
-            this._borderLeftStyle =
-                this._borderTopStyle =
-                this._borderRightStyle =
-                this._borderBottomStyle = CssBorderStyle.None;
+            this.LeftStyle =
+                this.TopStyle =
+                this.RightStyle =
+                this.BottomStyle = CssBorderStyle.None;
             //---------------------------------------------
-            this._borderLeftColor =
-                this._borderTopColor =
-                this._borderRightColor =
-                this._borderBottomColor = Color.Black;
+            this.LeftColor =
+                this.TopColor =
+                this.RightColor =
+                this.BottomColor = Color.Black;
             //---------------------------------------------
 
         }
         private CssBorderProp(object owner, CssBorderProp inheritFrom)
         {
             this.owner = owner;
-            this._borderLeftWidth = inheritFrom._borderLeftWidth;
-            this._borderTopWidth = inheritFrom._borderTopWidth;
-            this._borderRightWidth = inheritFrom._borderRightWidth;
-            this._borderBottomWidth = inheritFrom._borderBottomWidth;
+            this.LeftWidth = inheritFrom.LeftWidth;
+            this.TopWidth = inheritFrom.TopWidth;
+            this.RightWidth = inheritFrom.RightWidth;
+            this.BottomWidth = inheritFrom.BottomWidth;
             //---------------------------------------------------------
-            this._borderLeftStyle = inheritFrom._borderLeftStyle;
-            this._borderTopStyle = inheritFrom._borderTopStyle;
-            this._borderRightStyle = inheritFrom._borderRightStyle;
-            this._borderBottomStyle = inheritFrom._borderBottomStyle;
+            this.LeftStyle = inheritFrom.LeftStyle;
+            this.TopStyle = inheritFrom.TopStyle;
+            this.RightStyle = inheritFrom.RightStyle;
+            this.BottomStyle = inheritFrom.BottomStyle;
             //---------------------------------------------------------
-            this._borderLeftColor = inheritFrom._borderLeftColor;
-            this._borderTopColor = inheritFrom._borderTopColor;
-            this._borderRightColor = inheritFrom._borderRightColor;
-            this._borderBottomColor = inheritFrom._borderBottomColor;
+            this.LeftColor = inheritFrom.LeftColor;
+            this.TopColor = inheritFrom.TopColor;
+            this.RightColor = inheritFrom.RightColor;
+            this.BottomColor = inheritFrom.BottomColor;
             //---------------------------------------------------------
 
         }
-        public CssLength LeftWidth
-        {
-            get { return this._borderLeftWidth; }
-            set { this._borderLeftWidth = value; }
-        }
-        public CssLength TopWidth
-        {
-            get { return this._borderTopWidth; }
-            set { this._borderTopWidth = value; }
-        }
-        public CssLength RightWidth
-        {
-            get { return this._borderRightWidth; }
-            set { this._borderRightWidth = value; }
-        }
-        public CssLength BottomWidth
-        {
-            get { return this._borderBottomWidth; }
-            set { this._borderBottomWidth = value; }
-        }
+        public CssLength LeftWidth { get; set; }
+        public CssLength TopWidth { get; set; }
+        public CssLength RightWidth { get; set; }
+        public CssLength BottomWidth { get; set; }
+    
+        public CssBorderStyle LeftStyle { get; set; }
+        public CssBorderStyle TopStyle { get; set; }
+        public CssBorderStyle RightStyle { get; set; }
+        public CssBorderStyle BottomStyle { get; set; }
+
+        public Color LeftColor { get; set; }
+        public Color TopColor { get; set; }
+        public Color RightColor { get; set; }
+        public Color BottomColor { get; set; } 
 
         public CssBorderProp GetMyOwnVersion(object checkOwner)
         {
@@ -108,75 +84,38 @@ namespace HtmlRenderer.Dom
                 return new CssBorderProp(checkOwner, this);
             }
         }
-
-        public CssBorderStyle LeftStyle
-        {
-            get { return this._borderLeftStyle; }
-            set { this._borderLeftStyle = value; }
-        }
-        public CssBorderStyle TopStyle
-        {
-            get { return this._borderTopStyle; }
-            set { this._borderTopStyle = value; }
-        }
-        public CssBorderStyle RightStyle
-        {
-            get { return this._borderRightStyle; }
-            set { this._borderRightStyle = value; }
-        }
-        public CssBorderStyle BottomStyle
-        {
-            get { return this._borderBottomStyle; }
-            set { this._borderBottomStyle = value; }
-        }
-        public Color LeftColor
-        {
-            get { return this._borderLeftColor; }
-            set { this._borderLeftColor = value; }
-        }
-        public Color TopColor
-        {
-            get { return this._borderTopColor; }
-            set { this._borderTopColor = value; }
-        }
-        public Color RightColor
-        {
-            get { return this._borderRightColor; }
-            set { this._borderRightColor = value; }
-        }
-        public Color BottomColor
-        {
-            get { return this._borderBottomColor; }
-            set { this._borderBottomColor = value; }
-        }
-
+        public static readonly CssBorderProp Default = new CssBorderProp(null);
     }
 
     class CssMarginProp
     {
         object owner;
-        CssLength _marginBottom;
-        CssLength _marginLeft;
-        CssLength _marginRight;
-        CssLength _marginTop;
+       
         public CssMarginProp(object owner)
         {
             this.owner = owner;
-            this._marginLeft =
-                this._marginTop =
-                this._marginRight =
-                this._marginBottom = CssLength.ZeroPx;
+            this.Left =
+                this.Top =
+                this.Right =
+                this.Bottom = CssLength.ZeroPx;
         }
         private CssMarginProp(object newOwner, CssMarginProp inheritFrom)
         {
             this.owner = newOwner;
 
-            this._marginLeft = inheritFrom._marginLeft;
-            this._marginTop = inheritFrom._marginTop;
-            this._marginRight = inheritFrom._marginRight;
-            this._marginBottom = inheritFrom._marginBottom;
+            this.Left = inheritFrom.Left;
+            this.Top = inheritFrom.Top;
+            this.Right = inheritFrom.Right;
+            this.Bottom = inheritFrom.Bottom;
         }
-        public static readonly CssMarginProp Default = new CssMarginProp(null);
+       
+        public CssLength Left { get; set; }
+        public CssLength Top { get; set; }
+        public CssLength Right { get; set; }
+        public CssLength Bottom { get; set; }
+
+
+       
         public CssMarginProp GetMyOwnVersion(object checkOwner)
         {
             if (this.owner == checkOwner)
@@ -188,73 +127,32 @@ namespace HtmlRenderer.Dom
                 return new CssMarginProp(checkOwner, this);
             }
         }
-
-
-        public CssLength Left
-        {
-            get { return this._marginLeft; }
-            set { this._marginLeft = value; }
-        }
-        public CssLength Top
-        {
-            get { return this._marginTop; }
-            set { this._marginTop = value; }
-        }
-        public CssLength Right
-        {
-            get { return this._marginRight; }
-            set { this._marginRight = value; }
-        }
-        public CssLength Bottom
-        {
-            get { return this._marginBottom; }
-            set { this._marginBottom = value; }
-        }
+        public static readonly CssMarginProp Default = new CssMarginProp(null);
     }
     class CssPaddingProp
     {
-        CssLength _paddingLeft;
-        CssLength _paddingBottom;
-        CssLength _paddingRight;
-        CssLength _paddingTop;
-
+       
         object owner;
         public CssPaddingProp(object owner)
         {
             this.owner = owner;
-            this._paddingLeft =
-                   _paddingBottom =
-                   _paddingRight =
-                   _paddingTop = CssLength.ZeroNoUnit;
+            this.Left =
+                   Top =
+                   Right =
+                   Bottom = CssLength.ZeroNoUnit;
         }
         private CssPaddingProp(object newOwner, CssPaddingProp inheritFrom)
         {
             this.owner = newOwner;
-            this._paddingLeft = inheritFrom._paddingLeft;
-            this._paddingTop = inheritFrom._paddingTop;
-            this._paddingRight = inheritFrom._paddingRight;
-            this._paddingBottom = inheritFrom._paddingBottom;
+            this.Left = inheritFrom.Left;
+            this.Left = inheritFrom.Left;
+            this.Right = inheritFrom.Right;
+            this.Bottom = inheritFrom.Bottom;
         }
-        public CssLength Left
-        {
-            get { return this._paddingLeft; }
-            set { this._paddingLeft = value; }
-        }
-        public CssLength Top
-        {
-            get { return this._paddingTop; }
-            set { this._paddingTop = value; }
-        }
-        public CssLength Right
-        {
-            get { return this._paddingRight; }
-            set { this._paddingRight = value; }
-        }
-        public CssLength Bottom
-        {
-            get { return this._paddingBottom; }
-            set { this._paddingBottom = value; }
-        }
+        public CssLength Left { get; set; }
+        public CssLength Top { get; set; }
+        public CssLength Right { get; set; }
+        public CssLength Bottom { get; set; }
 
         public CssPaddingProp GetMyOwnVersion(object checkOwner)
         {
@@ -266,37 +164,31 @@ namespace HtmlRenderer.Dom
             {
                 return new CssPaddingProp(checkOwner, this);
             }
-        }
-
-
-
+        } 
         public static readonly CssPaddingProp Default = new CssPaddingProp(null);
     }
 
 
     class CssListProp
     {
-        string _listStyleType;
-        string _listStyleImage;
-        string _listStylePosition;
-        string _listStyle;
+      
 
         object owner;
         public CssListProp(object owner)
         {
             this.owner = owner;
-            _listStyleType = "disc";
-            _listStyleImage = string.Empty;
-            _listStylePosition = "outside";
-            _listStyle = string.Empty;
+            ListStyleType = "disc";
+            ListStyleImage = string.Empty;
+            ListStylePosition = "outside";
+            ListStyle = string.Empty;
         }
         private CssListProp(object owner, CssListProp inheritFrom)
         {
             this.owner = owner;
-            _listStyleType = inheritFrom._listStyleType;
-            _listStyleImage = inheritFrom._listStyleImage;
-            _listStylePosition = inheritFrom._listStylePosition;
-            _listStyle = inheritFrom._listStyle;
+            ListStyleType = inheritFrom.ListStyleType;
+            ListStyleImage = inheritFrom.ListStyleImage;
+            ListStylePosition = inheritFrom.ListStylePosition;
+            ListStyle = inheritFrom.ListStyle;
         }
         public CssListProp GetMyOwnVersion(object checkOwner)
         {
@@ -311,55 +203,34 @@ namespace HtmlRenderer.Dom
         }
 
 
-        public string ListStyleType
-        {
-            get { return this._listStyleType; }
-            set { this._listStyleType = value; }
-        }
-        public string ListStyleImage
-        {
-            get { return this._listStyleImage; }
-            set { this._listStyleImage = value; }
-        }
-        public string ListStylePosition
-        {
-            get { return this._listStylePosition; }
-            set { this._listStylePosition = value; }
-        }
-        public string ListStyle
-        {
-            get { return this._listStyle; }
-            set { this._listStyle = value; }
-        }
+        public string ListStyleType { get; set; }
+        public string ListStyleImage { get; set; }
+        public string ListStylePosition { get; set; }
+        public string ListStyle { get; set; }
 
         public static readonly CssListProp Default = new CssListProp(null);
     }
 
-
-
     class CssCornerProp
     {
-        CssLength _cornerNWRadius;// = CssLength.ZeroNoUnit;
-        CssLength _cornerNERadius; //= CssLength.ZeroNoUnit;
-        CssLength _cornerSERadius;//= CssLength.ZeroNoUnit;
-        CssLength _cornerSWRadius; //= CssLength.ZeroNoUnit;
-
+       
         object owner;
         public CssCornerProp(object owner)
         {
             this.owner = owner;
-            this._cornerNERadius =
-                _cornerNWRadius =
-                _cornerSERadius =
-                _cornerSWRadius = CssLength.ZeroNoUnit;
+            this.NERadius =
+                NWRadius =
+                SERadius =
+                SWRadius = CssLength.ZeroNoUnit;
         }
         private CssCornerProp(object owner, CssCornerProp inheritFrom)
         {
             this.owner = owner;
-            this._cornerNERadius = inheritFrom._cornerNERadius;
-            this._cornerNWRadius = inheritFrom._cornerNWRadius;
-            this._cornerSERadius = inheritFrom._cornerSERadius;
-            this._cornerSWRadius = inheritFrom._cornerSWRadius;
+
+            this.NERadius = inheritFrom.NERadius;
+            this.NWRadius = inheritFrom.NWRadius;
+            this.SERadius = inheritFrom.SERadius;
+            this.SWRadius = inheritFrom.SWRadius;
 
         }
         public CssCornerProp GetMyOwnVersion(object checkOwner)
@@ -375,25 +246,94 @@ namespace HtmlRenderer.Dom
         }
         public static readonly CssCornerProp Default = new CssCornerProp(null);
 
-        public CssLength NERadius
+        public CssLength NERadius { get; set; }
+        public CssLength NWRadius { get; set; }
+        public CssLength SERadius { get; set; }
+        public CssLength SWRadius { get; set; }
+    }
+    class CssFontProp
+    {   
+        object owner;
+        public CssFontProp(object owner)
         {
-            get { return this._cornerNERadius; }
-            set { this._cornerNERadius = value; }
+            this.owner = owner;
+            FontFamily = "serif";
+            FontSize = "medium";
+            FontStyle = "normal";
+            FontVariant = "normal";
+            FontWeight = "normal";
         }
-        public CssLength NWRadius
+        private CssFontProp(object owner, CssFontProp inheritFrom)
         {
-            get { return this._cornerNWRadius; }
-            set { this._cornerNWRadius = value; }
+            this.owner = owner;
+            this.FontFamily = inheritFrom.FontFamily;
+            this.FontSize = inheritFrom.FontSize;
+            this.FontStyle = inheritFrom.FontStyle;
+            this.FontVariant = inheritFrom.FontVariant;
+            this.FontWeight = inheritFrom.FontWeight;
         }
-        public CssLength SERadius
+        public string FontFamily { get; set; }
+        public string FontSize { get; set; }
+        public string FontStyle { get; set; }
+        public string FontVariant { get; set; }
+        public string FontWeight { get; set; }
+
+        public CssFontProp GetMyOwnVersion(object checkOwner)
         {
-            get { return this._cornerSERadius; }
-            set { this._cornerSERadius = value; }
+            if (this.owner == checkOwner)
+            {
+                return this;
+            }
+            else
+            {
+                return new CssFontProp(checkOwner, this);
+            }
         }
-        public CssLength SWRadius
+        public static readonly CssFontProp Default = new CssFontProp(null);
+
+    }
+
+    class CssBackgroundProp
+    {
+        object owner;
+        public CssBackgroundProp(object owner)
         {
-            get { return this._cornerSWRadius; }
-            set { this._cornerSWRadius = value; }
+            this.owner = owner;
+            this.BackgroundColor = "transparent";
+            this.BackgroundGradient = "none";
+            this.BackgroundGradientAngle = "90";
+            this.BackgroundImage = "none";
+            this.BackgroundPosition = "0% 0%";
+            this.BackgroundRepeat = "repeat";
         }
+        private CssBackgroundProp(object owner, CssBackgroundProp inheritFrom)
+        {
+            this.owner = owner;
+            BackgroundColor = inheritFrom.BackgroundColor;
+            BackgroundGradient = inheritFrom.BackgroundGradient;
+            BackgroundGradientAngle = inheritFrom.BackgroundGradientAngle;
+            BackgroundImage = inheritFrom.BackgroundImage;
+            BackgroundPosition = inheritFrom.BackgroundPosition;
+            BackgroundRepeat = inheritFrom.BackgroundRepeat;
+        }
+
+        public CssBackgroundProp GetMyOwnVersion(object checkOwner)
+        {
+            if (this.owner == checkOwner)
+            {
+                return this;
+            }
+            else
+            {
+                return new CssBackgroundProp(checkOwner, this);
+            }
+        }
+        public string BackgroundColor { get; set; }
+        public string BackgroundGradient { get; set; }
+        public string BackgroundGradientAngle { get; set; }
+        public string BackgroundImage { get; set; }
+        public string BackgroundPosition { get; set; }
+        public string BackgroundRepeat { get; set; }
+        public static readonly CssBackgroundProp Default = new CssBackgroundProp(null);
     }
 }

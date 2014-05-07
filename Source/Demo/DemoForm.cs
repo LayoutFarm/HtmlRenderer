@@ -305,8 +305,7 @@ namespace HtmlRenderer.Demo
         /// <returns>fixed html</returns>
         private string GetFixedHtml()
         {
-            var html = _htmlEditor.Text;
-
+            var html = _htmlEditor.Text; 
             html = Regex.Replace(html, @"src=\""(\w.*?)\""", match =>
                 {
                     var img = TryLoadResourceImage(match.Groups[1].Value);
