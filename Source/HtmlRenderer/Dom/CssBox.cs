@@ -124,8 +124,8 @@ namespace HtmlRenderer.Dom
             //get { return (Display == CssConstants.Inline || Display == CssConstants.InlineBlock) && !IsBrElement; }
             get
             {
-                return (this.CssDisplay == CssBoxDisplayType.Inline
-                    || this.CssDisplay == CssBoxDisplayType.InlineBlock)
+                return (this.CssDisplay == CssDisplay.Inline
+                    || this.CssDisplay == CssDisplay.InlineBlock)
                     && !IsBrElement;
             }
         }
@@ -138,7 +138,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this.CssDisplay == CssBoxDisplayType.Block;
+                return this.CssDisplay == CssDisplay.Block;
             }
             //get { return Display == CssConstants.Block; }
         }
@@ -171,9 +171,9 @@ namespace HtmlRenderer.Dom
                 {
                     switch (this.CssDisplay)
                     {
-                        case CssBoxDisplayType.ListItem:
-                        case CssBoxDisplayType.Table:
-                        case CssBoxDisplayType.TableCell:
+                        case CssDisplay.ListItem:
+                        case CssDisplay.Table:
+                        case CssDisplay.TableCell:
                             return true;
                         default:
                             return false;
@@ -200,9 +200,9 @@ namespace HtmlRenderer.Dom
                 //        box.Display != CssConstants.TableCell &&
                 //        box.ParentBox != null)
                 while (!box.IsBlock &&
-                    box.CssDisplay != CssBoxDisplayType.ListItem &&
-                    box.CssDisplay != CssBoxDisplayType.Table &&
-                    box.CssDisplay != CssBoxDisplayType.TableCell &&
+                    box.CssDisplay != CssDisplay.ListItem &&
+                    box.CssDisplay != CssDisplay.Table &&
+                    box.CssDisplay != CssDisplay.TableCell &&
                     box.ParentBox != null)
                 {
                     box = box.ParentBox;
@@ -423,7 +423,7 @@ namespace HtmlRenderer.Dom
         internal static CssBox CreateRootBlock()
         {
             var box = new CssBox(null, null);
-            box.CssDisplay = CssBoxDisplayType.Block;
+            box.CssDisplay = CssDisplay.Block;
             return box;
         }
         /// <summary>
@@ -476,7 +476,7 @@ namespace HtmlRenderer.Dom
 
             var newBox = CreateBox(parent, tag, before);
             //newBox.Display = CssConstants.Block;
-            newBox.CssDisplay = CssBoxDisplayType.Block;
+            newBox.CssDisplay = CssDisplay.Block;
             return newBox;
         }
 
@@ -612,7 +612,7 @@ namespace HtmlRenderer.Dom
         protected virtual void PerformLayoutImp(IGraphics g)
         {
             //if (Display != CssConstants.None)
-            if (this.CssDisplay != CssBoxDisplayType.None)
+            if (this.CssDisplay != CssDisplay.None)
             {
                 RectanglesReset();
                 MeasureWordsSize(g);
@@ -621,14 +621,14 @@ namespace HtmlRenderer.Dom
             //if (IsBlock || Display == CssConstants.ListItem || Display == CssConstants.Table || Display == CssConstants.InlineTable || Display == CssConstants.TableCell)
 
             if (IsBlock ||
-                this.CssDisplay == CssBoxDisplayType.ListItem ||
-                this.CssDisplay == CssBoxDisplayType.Table ||
-                this.CssDisplay == CssBoxDisplayType.InlineTable ||
-                this.CssDisplay == CssBoxDisplayType.TableCell)
+                this.CssDisplay == CssDisplay.ListItem ||
+                this.CssDisplay == CssDisplay.Table ||
+                this.CssDisplay == CssDisplay.InlineTable ||
+                this.CssDisplay == CssDisplay.TableCell)
             {
                 // Because their width and height are set by CssTable
                 //if (Display != CssConstants.TableCell && Display != CssConstants.Table)
-                if (this.CssDisplay != CssBoxDisplayType.TableCell && this.CssDisplay != CssBoxDisplayType.TableCell)
+                if (this.CssDisplay != CssDisplay.TableCell && this.CssDisplay != CssDisplay.TableCell)
                 {
                     float width = ContainingBlock.Size.Width
                                   - ContainingBlock.ActualPaddingLeft - ContainingBlock.ActualPaddingRight
@@ -651,7 +651,7 @@ namespace HtmlRenderer.Dom
                 }
 
                 // if (Display != CssConstants.TableCell)
-                if (this.CssDisplay != CssBoxDisplayType.TableCell)
+                if (this.CssDisplay != CssDisplay.TableCell)
                 {
                     var prevSibling = CssBox.GetPreviousSibling(this);
                     float left = ContainingBlock.Location.X + ContainingBlock.ActualPaddingLeft + ActualMarginLeft + ContainingBlock.ActualBorderLeftWidth;
@@ -662,7 +662,7 @@ namespace HtmlRenderer.Dom
 
                 //If we're talking about a table here..
                 // if (Display == CssConstants.Table || Display == CssConstants.InlineTable)
-                if (this.CssDisplay == CssBoxDisplayType.Table || this.CssDisplay == CssBoxDisplayType.InlineTable)
+                if (this.CssDisplay == CssDisplay.Table || this.CssDisplay == CssDisplay.InlineTable)
                 {
                     CssLayoutEngineTable.PerformLayout(g, this);
                 }
@@ -759,7 +759,7 @@ namespace HtmlRenderer.Dom
                     foreach (CssBox b in ParentBox.Boxes)
                     {
                         //if (b.Display == CssConstants.ListItem)
-                        if (b.CssDisplay == CssBoxDisplayType.ListItem)
+                        if (b.CssDisplay == CssDisplay.ListItem)
                         {
                             index++;
                         }
@@ -777,7 +777,7 @@ namespace HtmlRenderer.Dom
                     return index;
 
                 //if (b.Display == CssConstants.ListItem)
-                if (b.CssDisplay == CssBoxDisplayType.ListItem)
+                if (b.CssDisplay == CssDisplay.ListItem)
                     index += reversed ? -1 : 1;
             }
 
@@ -791,14 +791,14 @@ namespace HtmlRenderer.Dom
         private void CreateListItemBox(IGraphics g)
         {
             //if (Display == CssConstants.ListItem && ListStyleType != CssConstants.None)
-            if (this.CssDisplay == CssBoxDisplayType.ListItem && ListStyleType != CssConstants.None)
+            if (this.CssDisplay == CssDisplay.ListItem && ListStyleType != CssConstants.None)
             {
                 if (_listItemBox == null)
                 {
                     _listItemBox = new CssBox(null, null);
                     _listItemBox.InheritStyle(this);
                     //_listItemBox.Display = CssConstants.Inline;
-                    _listItemBox.CssDisplay = CssBoxDisplayType.Inline;
+                    _listItemBox.CssDisplay = CssDisplay.Inline;
                     _listItemBox._htmlContainer = HtmlContainer;
 
                     if (ListStyleType.Equals(CssConstants.Disc, StringComparison.InvariantCultureIgnoreCase))
@@ -1043,8 +1043,8 @@ namespace HtmlRenderer.Dom
 
             // not inline (block) boxes start a new line so we need to reset the max sum
             //if (box.Display != CssConstants.Inline && box.Display != CssConstants.TableCell && box.WhiteSpace != CssConstants.NoWrap)
-            if (box.CssDisplay != CssBoxDisplayType.Inline &&
-                box.CssDisplay != CssBoxDisplayType.TableCell &&
+            if (box.CssDisplay != CssDisplay.Inline &&
+                box.CssDisplay != CssDisplay.TableCell &&
                 box.WhiteSpace != CssWhiteSpace.NoWrap)
             {
                 oldSum = maxSum;
@@ -1057,7 +1057,7 @@ namespace HtmlRenderer.Dom
 
             // for tables the padding also contains the spacing between cells
             //if (box.Display == CssConstants.Table)
-            if (box.CssDisplay == CssBoxDisplayType.Table)
+            if (box.CssDisplay == CssDisplay.Table)
             {
                 paddingSum += CssLayoutEngineTable.GetTableSpacing(box);
             }
@@ -1203,22 +1203,7 @@ namespace HtmlRenderer.Dom
             {
                 return;
             }
-            //---------------------------------------------
-            //1. select all line that it cover
-            //List<CssLineBox> lines = new List<CssLineBox>();
-
-            //foreach (CssLineBox line in Rectangles.Keys)
-            //{
-            //    lines.Add(line);
-            //}
-            ////2. update my rect data
-            //foreach (CssLineBox line in lines)
-            //{
-            //    //update back 
-            //    RectangleF r = Rectangles[line];
-            //    Rectangles[line] = new RectangleF(r.X, r.Y + amount, r.Width, r.Height);
-            //}
-            //3. update word rect in this
+         
             foreach (CssRect word in Words)
             {
                 word.Top += amount;
@@ -1226,92 +1211,19 @@ namespace HtmlRenderer.Dom
             foreach (var hostline in this.GetHostLineIter())
             {
                 hostline.OffsetTopRectsOf(this, amount);
-            }
-            ////4. notify rect strip in associate lines
-            //foreach (CssLineBox line in lines)
-            //{
-            //    line.OffsetTopRectsOf(this, amount);
-            //}
-            //--------------------------------------------
-            //offset ทุกอันที่อยู่ใน child ด้วยเช่นกัน
+            }              
             foreach (CssBox b in Boxes)
             {
                 b.OffsetTop(amount);
             }
 
             if (_listItemBox != null)
+            {
                 _listItemBox.OffsetTop(amount);
+            }
 
             Location = new PointF(Location.X, Location.Y + amount);
-        }
-
-        ///// <summary>
-        ///// Paints the fragment
-        ///// </summary>
-        ///// <param name="g">the device to draw to</param>
-        //protected virtual void PaintImp2(IGraphics g)
-        //{
-        //    //if (Display != CssConstants.None &&
-        //    //   (Display != CssConstants.TableCell || EmptyCells != CssConstants.Hide || !IsSpaceOrEmpty))
-        //    if (this.DisplayType != CssBoxDisplayType.None &&
-        //        (this.DisplayType != CssBoxDisplayType.TableCell ||
-        //         EmptyCells != CssConstants.Hide || !IsSpaceOrEmpty))
-        //    {
-        //        var prevClip = RenderUtils.ClipGraphicsByOverflow(g, this);
-
-        //        //area to draw ?
-        //        var areas = Rectangles.Count == 0 ?
-        //                    new List<RectangleF>(new[] { Bounds }) :
-        //                    new List<RectangleF>(Rectangles.Values);
-
-        //        RectangleF[] rects = areas.ToArray();
-        //        PointF offset = HtmlContainer.ScrollOffset;
-
-        //        for (int i = 0; i < rects.Length; i++)
-        //        {
-        //            var actualRect = rects[i];
-        //            actualRect.Offset(offset);
-
-        //            PaintBackground(g, actualRect, i == 0, i == rects.Length - 1);
-        //            BordersDrawHandler.DrawBoxBorders(g, this, actualRect, i == 0, i == rects.Length - 1);
-        //        }
-
-        //        PaintWords(g, offset);
-
-        //        for (int i = 0; i < rects.Length; i++)
-        //        {
-        //            var actualRect = rects[i];
-        //            actualRect.Offset(offset);
-        //            PaintDecoration(g, actualRect, i == 0, i == rects.Length - 1);
-        //        }
-
-        //        // split paint to handle z-order
-        //        foreach (CssBox b in Boxes)
-        //        {
-        //            //if (b.Position != CssConstants.Absolute)
-        //            if (!b.IsAbsolutePosition)
-        //            {
-        //                b.Paint(g);
-        //            }
-        //        }
-        //        foreach (CssBox b in Boxes)
-        //        {
-        //            if (b.IsAbsolutePosition)
-        //            { //b.Position == CssConstants.Absolute)
-        //                b.Paint(g);
-        //            }
-        //        }
-
-        //        RenderUtils.ReturnClip(g, prevClip);
-
-        //        if (_listItemBox != null)
-        //        {
-        //            _listItemBox.Paint(g);
-        //        }
-        //    }
-        //}
-
-
+        } 
         /// <summary>
         /// Paints the background of the box
         /// </summary>
@@ -1632,13 +1544,13 @@ namespace HtmlRenderer.Dom
             {
                 return string.Format("{0}{1} Block {2}, Children:{3}", ParentBox == null ? "Root: " : string.Empty, tag, FontSize, Boxes.Count);
             }
-            else if (this.CssDisplay == CssBoxDisplayType.None)
+            else if (this.CssDisplay == CssDisplay.None)
             {
                 return string.Format("{0}{1} None", ParentBox == null ? "Root: " : string.Empty, tag);
             }
             else
             {
-                return string.Format("{0}{1} {2}: {3}", ParentBox == null ? "Root: " : string.Empty, tag, this.GetDisplayString(), Text);
+                return string.Format("{0}{1} {2}: {3}", ParentBox == null ? "Root: " : string.Empty, tag, this.CssDisplay.ToCssStringValue(), Text);
             }
         }
 

@@ -593,7 +593,7 @@ namespace HtmlRenderer.Dom
         private void SetErrorBorder()
         {
             SetAllBorders(CssConstants.Solid, "2px", "#A0A0A0");
-            BorderRightColor = BorderBottomColor = "#E3E3E3";
+            BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
         }
 
         /// <summary>

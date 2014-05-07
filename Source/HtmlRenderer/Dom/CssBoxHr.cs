@@ -32,7 +32,7 @@ namespace HtmlRenderer.Dom
             : base(parent, tag)
         {
             //Display = CssConstants.Block;
-            this.CssDisplay = CssBoxDisplayType.Block;
+            this.CssDisplay = CssDisplay.Block;
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace HtmlRenderer.Dom
         protected override void PerformLayoutImp(IGraphics g)
         {
             //if (Display == CssConstants.None)
-            if (this.CssDisplay == CssBoxDisplayType.None)
+            if (this.CssDisplay == CssDisplay.None)
             {
                 return;
             }

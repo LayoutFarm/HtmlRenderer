@@ -29,10 +29,10 @@ namespace HtmlRenderer.Dom
 
             while (conBlock.ParentBox != null &&
                 index < 1 &&
-                conBlock.CssDisplay != CssBoxDisplayType.Block &&
-                conBlock.CssDisplay != CssBoxDisplayType.Table &&
-                conBlock.CssDisplay != CssBoxDisplayType.TableCell &&
-                conBlock.CssDisplay != CssBoxDisplayType.ListItem)
+                conBlock.CssDisplay != CssDisplay.Block &&
+                conBlock.CssDisplay != CssDisplay.Table &&
+                conBlock.CssDisplay != CssDisplay.TableCell &&
+                conBlock.CssDisplay != CssDisplay.ListItem)
             {
                 conBlock = conBlock.ParentBox;
                 index = conBlock.ParentBox != null ? conBlock.ParentBox.Boxes.IndexOf(conBlock) : -1;
@@ -46,13 +46,13 @@ namespace HtmlRenderer.Dom
 
                 //while ((sib.Display == CssConstants.None || 
                 //    sib.Position == CssConstants.Absolute) && index - diff - 1 >= 0)
-                while ((sib.CssDisplay == CssBoxDisplayType.None ||
+                while ((sib.CssDisplay == CssDisplay.None ||
                    sib.IsAbsolutePosition) && index - diff - 1 >= 0)
                 {
                     sib = conBlock.Boxes[index - ++diff];
                 }
 
-                return sib.CssDisplay == CssBoxDisplayType.None ? null : sib;
+                return sib.CssDisplay == CssDisplay.None ? null : sib;
             }
             return null;
         }
@@ -71,11 +71,11 @@ namespace HtmlRenderer.Dom
                     CssBox sib = b.ParentBox.Boxes[index - diff];
 
                     // while ((sib.Display == CssConstants.None || sib.Position == CssConstants.Absolute) && index - diff - 1 >= 0)
-                    while ((sib.CssDisplay == CssBoxDisplayType.None || sib.IsAbsolutePosition) && index - diff - 1 >= 0)
+                    while ((sib.CssDisplay == CssDisplay.None || sib.IsAbsolutePosition) && index - diff - 1 >= 0)
                     {
                         sib = b.ParentBox.Boxes[index - ++diff];
                     }
-                    return sib.CssDisplay == CssBoxDisplayType.None ? null : sib;
+                    return sib.CssDisplay == CssDisplay.None ? null : sib;
                     //return sib.Display == CssConstants.None ? null : sib;
                 }
             }
@@ -214,15 +214,15 @@ namespace HtmlRenderer.Dom
                 }
             }
             //else if (box.Boxes[0].Display == CssConstants.Inline)
-            else if (box.Boxes[0].CssDisplay == CssBoxDisplayType.Inline)
+            else if (box.Boxes[0].CssDisplay == CssDisplay.Inline)
             {
-                box.Boxes[0].CssDisplay = CssBoxDisplayType.Block;
+                box.Boxes[0].CssDisplay = CssDisplay.Block;
                 //box.Boxes[0].Display = CssConstants.Block;
             }
             //if (box.Display == CssConstants.Inline)
-            if (box.CssDisplay == CssBoxDisplayType.Inline)
+            if (box.CssDisplay == CssDisplay.Inline)
             {
-                box.CssDisplay = CssBoxDisplayType.Block;
+                box.CssDisplay = CssDisplay.Block;
                 //box.Display = CssConstants.Block;
             }
         }
@@ -292,7 +292,7 @@ namespace HtmlRenderer.Dom
                 if (splitBox.WellknownTagName == WellknownHtmlTagName.BR
                     && (had_new_leftbox || leftBlock.ChildCount > 1))
                 {
-                    splitBox.CssDisplay = CssBoxDisplayType.Inline;
+                    splitBox.CssDisplay = CssDisplay.Inline;
                     //splitBox.Display = CssConstants.Inline;
                 }
             }
@@ -368,7 +368,7 @@ namespace HtmlRenderer.Dom
                 {
                     var pSib = b.ParentBox.Boxes[index];
                     //if (pSib.Display != CssConstants.None && pSib.Position != CssConstants.Absolute)
-                    if (pSib.CssDisplay != CssBoxDisplayType.None && !pSib.IsAbsolutePosition)
+                    if (pSib.CssDisplay != CssDisplay.None && !pSib.IsAbsolutePosition)
                     {
                         sib = pSib;
                         break;

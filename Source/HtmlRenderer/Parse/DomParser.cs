@@ -442,7 +442,7 @@ namespace HtmlRenderer.Parse
                             }
                             break;
                         case HtmlConstants.Bordercolor:
-                            box.BorderLeftColor = box.BorderTopColor = box.BorderRightColor = box.BorderBottomColor = value.ToLower();
+                            box.BorderLeftColor = box.BorderTopColor = box.BorderRightColor = box.BorderBottomColor = CssValueParser.GetActualColor(value.ToLower());
                             break;
                         case HtmlConstants.Cellspacing:
 
@@ -582,14 +582,14 @@ namespace HtmlRenderer.Parse
             foreach (var childBox in box.GetChildBoxIter())
             {
                 //if (childBox is CssBoxImage &&  childBox.Display == CssConstants.Block)
-                if (childBox is CssBoxImage && childBox.CssDisplay == CssBoxDisplayType.Block)
+                if (childBox is CssBoxImage && childBox.CssDisplay == CssDisplay.Block)
                 {
                     //create new anonymous box
                     var block = CssBox.CreateBlock(childBox.ParentBox, null, childBox);
                     //move this imgbox to new child
                     childBox.ParentBox = block;
                     //childBox.Display = CssConstants.Inline;
-                    childBox.CssDisplay = CssBoxDisplayType.Inline;
+                    childBox.CssDisplay = CssDisplay.Inline;
                 }
                 else
                 {

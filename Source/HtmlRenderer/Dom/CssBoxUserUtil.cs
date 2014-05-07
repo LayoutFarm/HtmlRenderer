@@ -67,13 +67,13 @@ namespace HtmlRenderer.Dom
 
 
         static Type cssNameAttrType = typeof(CssNameAttribute);
-        static readonly CssValueMap<CssBoxDisplayType> _cssDisplayMap = new CssValueMap<CssBoxDisplayType>();
+        static readonly CssValueMap<CssDisplay> _cssDisplayMap = new CssValueMap<CssDisplay>();
         static readonly CssValueMap<CssDirection> _cssDirectionMap = new CssValueMap<CssDirection>();
-        static readonly CssValueMap<CssPositionType> _cssPositionMap = new CssValueMap<CssPositionType>();
+        static readonly CssValueMap<CssPosition> _cssPositionMap = new CssValueMap<CssPosition>();
         static readonly CssValueMap<CssWordBreak> _cssWordBreakMap = new CssValueMap<CssWordBreak>();
         static readonly CssValueMap<CssTextDecoration> _cssTextDecorationMap = new CssValueMap<CssTextDecoration>();
         static readonly CssValueMap<CssOverflow> _cssOverFlowMap = new CssValueMap<CssOverflow>();
-        static readonly CssValueMap<CssTextAlign> _csstextAlignMap = new CssValueMap<CssTextAlign>();
+        static readonly CssValueMap<CssTextAlign> _cssTextAlignMap = new CssValueMap<CssTextAlign>();
         static readonly CssValueMap<CssVerticalAlign> _cssVerticalAlignMap = new CssValueMap<CssVerticalAlign>();
         static readonly CssValueMap<CssVisibility> _cssVisibilityMap = new CssValueMap<CssVisibility>();
         static readonly CssValueMap<CssWhiteSpace> _cssWhitespaceMap = new CssValueMap<CssWhiteSpace>();
@@ -92,20 +92,20 @@ namespace HtmlRenderer.Dom
         }
         public static void SetBorderCollapse(this CssBox box, string value)
         {
-            box.BorderCollapse = _cssCollapseBorderMap.GetValueFromString(value, CssBorderCollapse.Sepatate);
+            box.BorderCollapse = _cssCollapseBorderMap.GetValueFromString(value, CssBorderCollapse.Separate);
         }
-        public static string GetDisplayString(this CssBox box)
+        public static string ToCssStringValue(this CssDisplay value)
         {
-            return _cssDisplayMap.GetStringFromValue(box.CssDisplay);
+            return _cssDisplayMap.GetStringFromValue(value);
         }
         public static void SetDisplayType(this CssBox box, string cssdisplayValue)
         {
-            box.CssDisplay = _cssDisplayMap.GetValueFromString(cssdisplayValue, CssBoxDisplayType.Inline);
+            box.CssDisplay = _cssDisplayMap.GetValueFromString(cssdisplayValue, CssDisplay.Inline);
         }
         //----------------------
-        public static string GetCssDirection(this CssBox box)
+        public static string ToCssStringValue(this CssDirection value)
         {
-            return _cssDirectionMap.GetStringFromValue(box.CssDirection);
+            return _cssDirectionMap.GetStringFromValue(value);
         }
         public static void SetCssDirection(this CssBox box, string value)
         {
@@ -114,7 +114,7 @@ namespace HtmlRenderer.Dom
         //----------------------
         public static void SetCssPosition(this CssBox box, string value)
         {
-            box.Position = _cssPositionMap.GetValueFromString(value, CssPositionType.Static);
+            box.Position = _cssPositionMap.GetValueFromString(value, CssPosition.Static);
         }
         public static void SetWordBreak(this CssBox box, string value)
         {
@@ -131,7 +131,7 @@ namespace HtmlRenderer.Dom
         }
         public static void SetTextAlign(this CssBox box, string value)
         {
-            box.CssTextAlign = _csstextAlignMap.GetValueFromString(value, CssTextAlign.NotAssign);
+            box.CssTextAlign = _cssTextAlignMap.GetValueFromString(value, CssTextAlign.NotAssign);
         }
         public static void SetVerticalAlign(this CssBox box, string value)
         {
@@ -213,24 +213,69 @@ namespace HtmlRenderer.Dom
         {
             return _cssEmptyCellMap.GetValueFromString(value, CssEmptyCell.Show);
         }
-        public static string GetEmptyCellString(CssEmptyCell value)
+
+        public static string ToCssStringValue(this CssEmptyCell value)
         {
             return _cssEmptyCellMap.GetStringFromValue(value);
+        }
+        public static string ToCssStringValue(this CssTextAlign value)
+        {
+            return _cssTextAlignMap.GetStringFromValue(value);
+        }
+        public static string ToCssStringValue(this CssTextDecoration value)
+        {
+            return _cssTextDecorationMap.GetStringFromValue(value);
+        }
+        public static string ToCssStringValue(this CssWordBreak value)
+        {
+            return _cssWordBreakMap.GetStringFromValue(value);
+        }
+        public static string ToCssStringValue(this CssWhiteSpace value)
+        {
+            return _cssWhitespaceMap.GetStringFromValue(value);
+
+        }
+        public static string ToCssStringValue(this CssVisibility value)
+        {
+            return _cssVisibilityMap.GetStringFromValue(value);
+
+        }
+        public static string ToCssStringValue(this CssVerticalAlign value)
+        {
+            return _cssVerticalAlignMap.GetStringFromValue(value);
+        }
+        public static string ToCssStringValue(this CssPosition value)
+        {
+            return _cssPositionMap.GetStringFromValue(value);
         }
         public static CssLength SetLineHeight(this CssBox box, string value)
         {
             float lineHeight = HtmlRenderer.Parse.CssValueParser.ParseLength(value, box.Size.Height, box, CssConstants.Em);
             return CssLength.MakePixelLength(lineHeight);
         }
+
         public static CssFloat GetFloat(string value)
         {
             return _cssFloatMap.GetValueFromString(value, CssFloat.None);
         }
-        public static string GetFloatString(CssFloat floatString)
+
+        public static string ToCssStringValue(this CssFloat cssFloat)
         {
-            return _cssFloatMap.GetStringFromValue(floatString);
+            return _cssFloatMap.GetStringFromValue(cssFloat);
+        }
+        public static string ToCssStringValue(this CssBorderStyle borderStyle)
+        {
+            return _cssBorderStyleMap.GetStringFromValue(borderStyle);
+        }
+        public static string ToCssStringValue(this CssBorderCollapse borderCollapse)
+        {
+            return _cssCollapseBorderMap.GetStringFromValue(borderCollapse);
         }
 
+        public static string ToHexColor(this Color color)
+        {
+            return string.Concat("#", color.R.ToString("X"), color.G.ToString("X"), color.B.ToString("X"));
+        }
 
     }
 }

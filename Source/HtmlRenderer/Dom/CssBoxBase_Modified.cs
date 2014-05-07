@@ -26,7 +26,7 @@ namespace HtmlRenderer.Dom
     public class CssPropSet
     {
         [AttrName(HtmlConstants.Display)]
-        public CssBoxDisplayType CssDisplayType { get; set; }
+        public CssDisplay CssDisplayType { get; set; }
 
         [AttrName(HtmlConstants.Dir)]
         public CssDirection CssDiretion { get; set; }
@@ -38,20 +38,19 @@ namespace HtmlRenderer.Dom
 
     partial class CssBoxBase
     {
-        public CssBoxDisplayType CssDisplay
+        public CssDisplay CssDisplay
         {
-            get { return this._myCssDisplay; }
+            get { return this._cssDisplay; }
             set
             {
-                this._myCssDisplay = value;
-
+                this._cssDisplay = value;
                 this.PassTestInlineOnlyDeep = this.PassTestInlineOnly = false; 
             } 
         }
         public CssDirection CssDirection
         {
-            get { return this._myDirection; }
-            set { this._myDirection = value; }
+            get { return this._cssDirection; }
+            set { this._cssDirection = value; }
         }
         //----------------------------------------------------
         internal bool PassTestInlineOnly

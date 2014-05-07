@@ -35,7 +35,7 @@ namespace HtmlRenderer.Dom
 
 
     //--------------------------------------------------
-    public enum CssBoxDisplayType : byte
+    public enum CssDisplay : byte
     {
         [CssName(CssConstants.Inline)]
         Inline,//default
@@ -205,7 +205,7 @@ namespace HtmlRenderer.Dom
         Inherit
     }
 
-    public enum CssPositionType : byte
+    public enum CssPosition : byte
     {
         [CssName(CssConstants.Static)]
         Static,
@@ -245,7 +245,7 @@ namespace HtmlRenderer.Dom
     public enum CssBorderCollapse : byte
     {
         [CssName(CssConstants.Separate)]
-        Sepatate,
+        Separate,
         [CssName(CssConstants.Collapse)]
         Collapse,
 

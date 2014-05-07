@@ -69,7 +69,7 @@ namespace HtmlRenderer.Dom
 
         public void Paint(IGraphics g, PaintingArgs args)
         {
-            if (this.CssDisplay != CssBoxDisplayType.None &&
+            if (this.CssDisplay != CssDisplay.None &&
                 this.CssVisibility == Dom.CssVisibility.Visible)
             {
                 //---------------------------------------------
@@ -158,8 +158,8 @@ namespace HtmlRenderer.Dom
         /// <param name="g">the device to draw to</param>
         void PaintImpY(IGraphics g, PaintingArgs args)
         {
-            if (this.CssDisplay != CssBoxDisplayType.None &&
-               (this.CssDisplay != CssBoxDisplayType.TableCell ||
+            if (this.CssDisplay != CssDisplay.None &&
+               (this.CssDisplay != CssDisplay.TableCell ||
                  EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
             {
 
@@ -194,7 +194,7 @@ namespace HtmlRenderer.Dom
                 //int i = 0;
                 //int lim = rectCount - 1; 
                 //---------------------------------------------
-                if (this.CssDisplay != CssBoxDisplayType.Inline)
+                if (this.CssDisplay != CssDisplay.Inline)
                 {
                     var bound = this.Bounds;
                     bound.Offset(offset);
@@ -237,7 +237,7 @@ namespace HtmlRenderer.Dom
                         args.PushContainingBox(this);
                         foreach (var b in this._boxes)
                         {
-                            if (b.CssDisplay == CssBoxDisplayType.None)
+                            if (b.CssDisplay == CssDisplay.None)
                             {
                                 continue;
                             }
@@ -251,7 +251,7 @@ namespace HtmlRenderer.Dom
                         //if not
                         foreach (var b in this._boxes)
                         {
-                            if (b.CssDisplay == CssBoxDisplayType.None)
+                            if (b.CssDisplay == CssDisplay.None)
                             {
                                 continue;
                             }

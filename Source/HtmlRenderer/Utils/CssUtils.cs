@@ -98,28 +98,31 @@ namespace HtmlRenderer.Utils
                     return cssBox.BorderRightWidth.ToString();
                 case "border-top-width":
                     return cssBox.BorderTopWidth.ToString();
+
                 case "border-bottom-style":
-                    return cssBox.BorderBottomStyle.ToString();
+                    return cssBox.BorderBottomStyle.ToCssStringValue();
                 case "border-left-style":
-                    return cssBox.BorderLeftStyle.ToString();
+                    return cssBox.BorderLeftStyle.ToCssStringValue();
                 case "border-right-style":
-                    return cssBox.BorderRightStyle.ToString();
+                    return cssBox.BorderRightStyle.ToCssStringValue();
                 case "border-top-style":
-                    return cssBox.BorderTopStyle.ToString();
+                    return cssBox.BorderTopStyle.ToCssStringValue();
+
                 case "border-bottom-color":
-                    return cssBox.BorderBottomColor;
+                    return cssBox.BorderBottomColor.ToHexColor();
                 case "border-left-color":
-                    return cssBox.BorderLeftColor;
+                    return cssBox.BorderLeftColor.ToHexColor();
                 case "border-right-color":
-                    return cssBox.BorderRightColor;
+                    return cssBox.BorderRightColor.ToHexColor();
                 case "border-top-color":
-                    return cssBox.BorderTopColor;
+                    return cssBox.BorderTopColor.ToHexColor();
+
                 case "border-spacing":
                     return cssBox.BorderSpacingHorizontal.ToString() + " " +
-                        cssBox.BorderSpacingVertical;
+                           cssBox.BorderSpacingVertical;
 
                 case "border-collapse":
-                    return cssBox.BorderCollapse.ToString();
+                    return cssBox.BorderCollapse.ToCssStringValue();
                 case "corner-radius":
                     return cssBox.GetCornerRadius();
 
@@ -131,6 +134,7 @@ namespace HtmlRenderer.Utils
                     return cssBox.CornerSERadius.ToString();
                 case "corner-sw-radius":
                     return cssBox.CornerSWRadius.ToString();
+
                 case "margin-bottom":
                     return cssBox.MarginBottom.ToString();
                 case "margin-left":
@@ -140,6 +144,7 @@ namespace HtmlRenderer.Utils
                 case "margin-top":
                     return cssBox.MarginTop.ToString();
                 case "padding-bottom":
+
                     return cssBox.PaddingBottom.ToString();
                 case "padding-left":
                     return cssBox.PaddingLeft.ToString();
@@ -147,6 +152,7 @@ namespace HtmlRenderer.Utils
                     return cssBox.PaddingRight.ToString();
                 case "padding-top":
                     return cssBox.PaddingTop.ToString();
+
                 case "left":
                     return cssBox.Left.ToString();
                 case "top":
@@ -157,6 +163,7 @@ namespace HtmlRenderer.Utils
                     return cssBox.MaxWidth.ToString();
                 case "height":
                     return cssBox.Height.ToString();
+
                 case "background-color":
                     return cssBox.BackgroundColor;
                 case "background-image":
@@ -172,32 +179,31 @@ namespace HtmlRenderer.Utils
                 case "color":
                     return cssBox.Color;
                 case "display":
-                    return cssBox.GetDisplayString();
+                    return cssBox.CssDisplay.ToCssStringValue();
                 case "direction":
-                    return cssBox.GetCssDirection();
+                    return cssBox.CssDirection.ToCssStringValue(); 
                 case "empty-cells":
-                    return CssBoxUserUtilExtension.GetEmptyCellString(cssBox.EmptyCells);                     
-
+                    return cssBox.EmptyCells.ToCssStringValue();                     
                 case "float":
-                    return CssBoxUserUtilExtension.GetFloatString(cssBox.Float);
+                    return cssBox.Float.ToCssStringValue();                     
                 case "position":
-                    return cssBox.Position.ToString();
+                    return cssBox.Position.ToCssStringValue();
                 case "line-height":
                     return cssBox.LineHeight.ToString();
                 case "vertical-align":
-                    return cssBox.VerticalAlign.ToString();
+                    return cssBox.VerticalAlign.ToCssStringValue();
                 case "text-indent":
                     return cssBox.TextIndent.ToString();
                 case "text-align":
-                    return cssBox.CssTextAlign.ToString();
+                    return cssBox.CssTextAlign.ToCssStringValue();
                 case "text-decoration":
-                    return cssBox.TextDecoration.ToString();
+                    return cssBox.TextDecoration.ToCssStringValue();
                 case "white-space":
-                    return cssBox.WhiteSpace.ToString();
+                    return cssBox.WhiteSpace.ToCssStringValue();
                 case "word-break":
-                    return cssBox.WordBreak.ToString();
+                    return cssBox.WordBreak.ToCssStringValue();
                 case "visibility":
-                    return cssBox.CssVisibility.ToString();
+                    return cssBox.CssVisibility.ToCssStringValue();
                 case "word-spacing":
                     return cssBox.WordSpacing.ToString();
                 case "font-family":
@@ -227,16 +233,7 @@ namespace HtmlRenderer.Utils
         {
             return CssBoxUserUtilExtension.GetBorderStyle(value);
         }
-        //public static CssBorderCollapse GetBorderCollapse(string str)
-        //{
-        //    switch (str)
-        //    {
-        //        default:
-        //            return CssBorderCollapse.Sepatate;
-        //        case CssConstants.Collapse:
-        //            return CssBorderCollapse.Collapse;
-        //    }
-        //}
+    
 
         /// <summary>
         /// Set CSS box property value by the CSS name.<br/>
@@ -275,16 +272,16 @@ namespace HtmlRenderer.Utils
                     cssBox.BorderTopStyle = GetBorderStyle(value);
                     break;
                 case "border-bottom-color":
-                    cssBox.BorderBottomColor = value;
+                    cssBox.BorderBottomColor = CssValueParser.GetActualColor(value);
                     break;
                 case "border-left-color":
-                    cssBox.BorderLeftColor = value;
+                    cssBox.BorderLeftColor = CssValueParser.GetActualColor(value);
                     break;
                 case "border-right-color":
-                    cssBox.BorderRightColor = value;
+                    cssBox.BorderRightColor = CssValueParser.GetActualColor(value);
                     break;
                 case "border-top-color":
-                    cssBox.BorderTopColor = value;
+                    cssBox.BorderTopColor = CssValueParser.GetActualColor(value);
                     break;
                 case "border-spacing":
                     //cssBox.BorderSpacing = value;
@@ -385,11 +382,11 @@ namespace HtmlRenderer.Utils
                     cssBox.SetCssPosition(value);
                     break;
                 case "line-height":
-                     
+
                     cssBox.SetLineHeight(value);
-                   // _lineHeight =
-                   //string.Format(NumberFormatInfo.InvariantInfo, "{0}px",
-                   //CssValueParser.ParseLength(value, Size.Height, this, CssConstants.Em));
+                    // _lineHeight =
+                    //string.Format(NumberFormatInfo.InvariantInfo, "{0}px",
+                    //CssValueParser.ParseLength(value, Size.Height, this, CssConstants.Em));
 
                     break;
                 case "vertical-align":

@@ -487,7 +487,7 @@ namespace HtmlRenderer.Utils
 
             // deep traversal
             if (box.CssVisibility != CssVisibility.Hidden && //box.Visibility != CssConstants.Hidden &&
-                box.CssDisplay != CssBoxDisplayType.None)// box.Display != CssConstants.None)
+                box.CssDisplay != CssDisplay.None)// box.Display != CssConstants.None)
             {
                 foreach (var childBox in box.GetChildBoxIter())
                 {
@@ -509,9 +509,9 @@ namespace HtmlRenderer.Utils
 
                 // new line for css block
                 //if (box.Display == CssConstants.Block || box.Display == CssConstants.ListItem || box.Display == CssConstants.TableRow)
-                if (box.CssDisplay == CssBoxDisplayType.Block ||
-                    box.CssDisplay == CssBoxDisplayType.ListItem ||
-                    box.CssDisplay == CssBoxDisplayType.TableRow)
+                if (box.CssDisplay == CssDisplay.Block ||
+                    box.CssDisplay == CssDisplay.ListItem ||
+                    box.CssDisplay == CssDisplay.TableRow)
                 {
                     if (!(box.IsBrElement && sb.Length > 1 && sb[sb.Length - 1] == '\n'))
                         sb.AppendLine();
@@ -519,7 +519,7 @@ namespace HtmlRenderer.Utils
 
                 // space between table cells
                 //if (box.Display == CssConstants.TableCell)
-                if (box.CssDisplay == CssBoxDisplayType.TableCell)
+                if (box.CssDisplay == CssDisplay.TableCell)
                 {
                     sb.Append(' ');
                 }
@@ -810,7 +810,7 @@ namespace HtmlRenderer.Utils
         /// <param name="indent">the current indent level to set indent of generated text</param>
         private static void GenerateBoxTree(CssBox box, StringBuilder builder, int indent)
         {
-            builder.AppendFormat("{0}<{1}", new string(' ', 2 * indent), box.GetDisplayString());
+            builder.AppendFormat("{0}<{1}", new string(' ', 2 * indent), box.CssDisplay.ToCssStringValue());
             if (box.HtmlTag != null)
                 builder.AppendFormat(" elm=\"{0}\"", box.HtmlTag != null ? box.HtmlTag.Name : string.Empty);
             if (box.Words.Count > 0)
@@ -822,7 +822,7 @@ namespace HtmlRenderer.Utils
                 {
                     GenerateBoxTree(childBox, builder, indent + 1);
                 }
-                builder.AppendFormat("{0}</{1}>\r\n", new string(' ', 2 * indent), box.GetDisplayString());
+                builder.AppendFormat("{0}</{1}>\r\n", new string(' ', 2 * indent), box.CssDisplay.ToCssStringValue());
             }
         }
 

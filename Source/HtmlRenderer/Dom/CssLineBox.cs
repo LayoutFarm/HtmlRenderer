@@ -559,7 +559,7 @@ namespace HtmlRenderer.Dom
             foreach (var kp in this._rects)
             {
                 var ownerBox = kp.Key;
-                if (ownerBox.CssDisplay != CssBoxDisplayType.Inline)
+                if (ownerBox.CssDisplay != CssDisplay.Inline)
                 {
                     continue;
                 }
@@ -612,7 +612,7 @@ namespace HtmlRenderer.Dom
             foreach (var kp in this._rects)
             {
                 var ownerBox = kp.Key;
-                if (ownerBox.CssDisplay != CssBoxDisplayType.Inline)
+                if (ownerBox.CssDisplay != CssDisplay.Inline)
                 {
                     continue;
                 }

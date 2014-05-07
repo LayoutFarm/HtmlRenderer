@@ -32,7 +32,7 @@ namespace HtmlRenderer.Dom
 
             _extendedBox = extendedBox;
             //Display = CssConstants.None;
-            this.CssDisplay = CssBoxDisplayType.None;
+            this.CssDisplay = CssDisplay.None;
             // _startRow = startRow; 
             _endRow = startRow + Int32.Parse(extendedBox.GetAttribute("rowspan", "1")) - 1;
         }

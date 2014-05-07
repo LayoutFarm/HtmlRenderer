@@ -88,20 +88,20 @@ namespace HtmlRenderer.Dom
                 //if( box.Display == CssConstants.TableColumn )
                 switch (box.CssDisplay)
                 {
-                    case CssBoxDisplayType.TableColumn:
+                    case CssDisplay.TableColumn:
                         {
                             columns += GetSpan(box);
                         } break;
-                    case CssBoxDisplayType.TableRowGroup:
+                    case CssDisplay.TableRowGroup:
                         {
                             foreach (CssBox cr in tableBox.GetChildBoxIter())
                             {
                                 count++;
-                                if (cr.CssDisplay == CssBoxDisplayType.TableRow)
+                                if (cr.CssDisplay == CssDisplay.TableRow)
                                     columns = Math.Max(columns, cr.ChildCount);
                             }
                         } break;
-                    case CssBoxDisplayType.TableRow:
+                    case CssDisplay.TableRow:
                         {
                             count++;
                             columns = Math.Max(columns, box.ChildCount);
@@ -258,23 +258,23 @@ namespace HtmlRenderer.Dom
             {
                 switch (box.CssDisplay)
                 {
-                    case CssBoxDisplayType.TableCaption:
+                    case CssDisplay.TableCaption:
                         _caption = box;
                         break;
-                    case CssBoxDisplayType.TableRow:
+                    case CssDisplay.TableRow:
                         _bodyrows.Add(box);
                         break;
-                    case CssBoxDisplayType.TableRowGroup:
+                    case CssDisplay.TableRowGroup:
                         foreach (CssBox childBox in box.GetChildBoxIter())
                         {
                             //if (childBox.Display == CssConstants.TableRow)
-                            if (childBox.CssDisplay == CssBoxDisplayType.TableRow)
+                            if (childBox.CssDisplay == CssDisplay.TableRow)
                             {
                                 _bodyrows.Add(childBox);
                             }
                         }
                         break;
-                    case CssBoxDisplayType.TableFooterGroup:
+                    case CssDisplay.TableFooterGroup:
                         if (_footerBox != null)
                         {
                             _bodyrows.Add(box);
@@ -284,7 +284,7 @@ namespace HtmlRenderer.Dom
                             _footerBox = box;
                         }
                         break;
-                    case CssBoxDisplayType.TableHeaderGroup:
+                    case CssDisplay.TableHeaderGroup:
                         if (_headerBox != null)
                         {
                             _bodyrows.Add(box);
@@ -294,7 +294,7 @@ namespace HtmlRenderer.Dom
                             _headerBox = box;
                         }
                         break;
-                    case CssBoxDisplayType.TableColumn:
+                    case CssDisplay.TableColumn:
                         {
                             int gspan = GetSpan(box);
                             //for (int i = 0; i < GetSpan(box); i++)
@@ -306,7 +306,7 @@ namespace HtmlRenderer.Dom
                                 _columns.Add(box);
                             }
                         } break;
-                    case CssBoxDisplayType.TableColumnGroup:
+                    case CssDisplay.TableColumnGroup:
                         {
                             if (box.ChildCount == 0)
                             {
@@ -453,7 +453,7 @@ namespace HtmlRenderer.Dom
                                 var childBox = row.GetChildBox(i);
                                 //if (i < row.Boxes.Count && 
                                 //    row.Boxes[i].Display == CssConstants.TableCell)
-                                if (childBox.CssDisplay == CssBoxDisplayType.TableCell)
+                                if (childBox.CssDisplay == CssDisplay.TableCell)
                                 {
                                     float len = CssValueParser.ParseLength(childBox.Width, availCellSpace, childBox);
                                     if (len > 0) //If some width specified

@@ -39,100 +39,61 @@ namespace HtmlRenderer.Dom
         private string _backgroundImage = "none";
         private string _backgroundPosition = "0% 0%";
         private string _backgroundRepeat = "repeat";
-         
 
-        private CssLength _borderTopWidth = CssLength.Medium;
-        private CssLength _borderRightWidth = CssLength.Medium;
-        private CssLength _borderBottomWidth = CssLength.Medium;
-        private CssLength _borderLeftWidth = CssLength.Medium;
+        CssBorderProp _borderProps = CssBorderProp.Default;
+        CssPaddingProp _paddingProps = CssPaddingProp.Default;
+        CssMarginProp _marginProps = CssMarginProp.Default;
+        CssListProp _listProps = CssListProp.Default;
+        CssCornerProp _cornerProps = CssCornerProp.Default;
 
-
-        private string _borderTopColor = "black";
-        private string _borderRightColor = "black";
-        private string _borderBottomColor = "black";
-        private string _borderLeftColor = "black";
-         
-        CssBorderStyle borderTopKind = CssBorderStyle.None;
-        CssBorderStyle borderRightKind = CssBorderStyle.None;
-        CssBorderStyle borderLeftKind = CssBorderStyle.None;
-        CssBorderStyle borderBottomKind = CssBorderStyle.None;
-         
-        CssBorderCollapse _myBorderCollapse = CssBorderCollapse.Sepatate;
+        CssBorderCollapse _borderCollapse = CssBorderCollapse.Separate;
         CssLength _borderSpacingH = CssLength.ZeroNoUnit;
         CssLength _borderSpacingV = CssLength.ZeroNoUnit;
-         
+
         CssLength _bottom = CssLength.NotAssign;
+
         private string _color = "black";
 
 
-        CssLength _cornerNWRadius = CssLength.ZeroNoUnit;
-        CssLength _cornerNERadius = CssLength.ZeroNoUnit;
-        CssLength _cornerSERadius = CssLength.ZeroNoUnit;
-        CssLength _cornerSWRadius = CssLength.ZeroNoUnit;
 
-
-        
         CssEmptyCell _emptyCells = CssEmptyCell.Show;
-        CssDirection _myDirection = CssDirection.Ltl;
-        CssBoxDisplayType _myCssDisplay = CssBoxDisplayType.Inline; 
+        CssDirection _cssDirection = CssDirection.Ltl;
+        CssDisplay _cssDisplay = CssDisplay.Inline;
+
 
         private string _fontFamily = "serif";
         private string _fontSize = "medium";
         private string _fontStyle = "normal";
         private string _fontVariant = "normal";
         private string _fontWeight = "normal";
-         
-        CssFloat _float = CssFloat.None; 
+
+        CssFloat _float = CssFloat.None;
         CssLength _height = CssLength.AutoLength;
 
-        CssLength _marginBottom = CssLength.ZeroPx;
-        CssLength _marginLeft = CssLength.ZeroPx;
-        CssLength _marginRight = CssLength.ZeroPx;
-        CssLength _marginTop = CssLength.ZeroPx;
-
-        CssLength _left = CssLength.AutoLength; 
+        CssLength _left = CssLength.AutoLength;
         CssLength _lineHeight = CssLength.NormalWordOrLine;
-
-
-        private string _listStyleType = "disc";
-        private string _listStyleImage = string.Empty;
-        private string _listStylePosition = "outside";
-        private string _listStyle = string.Empty;
-
-
-         
         CssOverflow _overflow = CssOverflow.Visible;
-         
-
-        CssLength _paddingLeft = CssLength.ZeroNoUnit;
-        CssLength _paddingBottom = CssLength.ZeroNoUnit;
-        CssLength _paddingRight = CssLength.ZeroNoUnit;
-        CssLength _paddingTop = CssLength.ZeroNoUnit;
-
         CssLength _right = CssLength.NotAssign;
 
-         
+
         CssTextAlign _textAlign = CssTextAlign.NotAssign;
-         
         CssTextDecoration _textDecoration = CssTextDecoration.NotAssign;
-         
 
         CssLength _textIndent = CssLength.ZeroNoUnit;
         CssLength _top = CssLength.AutoLength;
-        CssPositionType _position = CssPositionType.Static; 
-         
-        CssVerticalAlign _verticalAlign = CssVerticalAlign.Baseline;
-         
-        CssLength _width = CssLength.AutoLength;
-        CssLength _maxWidth = CssLength.NotAssign;         
-        CssLength _wordSpacing = CssLength.NormalWordOrLine;         
-        CssWordBreak _wordBreak = CssWordBreak.Normal;
-         
+        CssPosition _position = CssPosition.Static;
 
-         
+        CssVerticalAlign _verticalAlign = CssVerticalAlign.Baseline;
+
+        CssLength _width = CssLength.AutoLength;
+        CssLength _maxWidth = CssLength.NotAssign;
+        CssLength _wordSpacing = CssLength.NormalWordOrLine;
+        CssWordBreak _wordBreak = CssWordBreak.Normal;
+
+
         CssWhiteSpace _whitespace = CssWhiteSpace.Normal;
         CssVisibility _visibility = CssVisibility.Visible;
-         
+
 
         #endregion
 
@@ -201,193 +162,151 @@ namespace HtmlRenderer.Dom
 
         public CssLength BorderBottomWidth
         {
-            get { return _borderBottomWidth; }
+            get { return this._borderProps.BottomWidth; }
             set
             {
-                _borderBottomWidth = value;
+                CheckMyBorderVersion().BottomWidth = value;
                 _actualBorderBottomWidth = Single.NaN;
             }
         }
-
+        CssBorderProp CheckMyBorderVersion()
+        {
+            return this._borderProps = this._borderProps.GetMyOwnVersion(this);
+        }
+        CssMarginProp CheckMarginVersion()
+        {
+            return this._marginProps = this._marginProps.GetMyOwnVersion(this);
+        }
+        CssPaddingProp CheckPaddingVersion()
+        {
+            return this._paddingProps = this._paddingProps.GetMyOwnVersion(this);
+        }
+        CssCornerProp CheckCornerVersion()
+        {
+            return this._cornerProps = this._cornerProps.GetMyOwnVersion(this);
+             
+        }
+        CssListProp CheckListPropVersion()
+        {
+            return this._listProps = this._listProps.GetMyOwnVersion(this);
+        }
         public CssLength BorderLeftWidth
         {
-            get { return _borderLeftWidth; }
+            get { return this._borderProps.LeftWidth; }
             set
             {
-                _borderLeftWidth = value;
+
+                CheckMyBorderVersion().LeftWidth = value;
                 _actualBorderLeftWidth = Single.NaN;
             }
         }
 
         public CssLength BorderRightWidth
         {
-            get { return _borderRightWidth; }
+            get { return this._borderProps.RightWidth; }
             set
             {
-                _borderRightWidth = value;
+
+                CheckMyBorderVersion().RightWidth = value;
                 _actualBorderRightWidth = Single.NaN;
             }
         }
 
         public CssLength BorderTopWidth
         {
-            get { return _borderTopWidth; }
+            get { return this._borderProps.TopWidth; }
             set
             {
-                _borderTopWidth = value;
+
+                CheckMyBorderVersion().TopWidth = value;
                 _actualBorderTopWidth = Single.NaN;
             }
         }
-        //-------------------------------------------------------------
-        //public string BorderBottomStyle
-        //{
-        //    get { return _borderBottomStyle; }
-        //    set
-        //    {
-        //        _borderBottomStyle = value;
-        //        SetBorderStyle(ref this.borderBottomKind, value);
-        //    }
-        //}
-        //public string BorderLeftStyle
-        //{
-        //    get { return _borderLeftStyle; }
-        //    set
-        //    {
-        //        _borderLeftStyle = value;
-        //        SetBorderStyle(ref this.borderLeftKind, value);
-        //    }
-        //}
-        //public string BorderRightStyle
-        //{
-        //    get { return _borderRightStyle; }
-        //    set
-        //    {
-        //        _borderRightStyle = value;
-        //        SetBorderStyle(ref this.borderRightKind, value);
-        //    }
-        //}
-        //public string BorderTopStyle
-        //{
-        //    get { return _borderTopStyle; }
-        //    set
-        //    {
-        //        _borderTopStyle = value;
-        //        SetBorderStyle(ref this.borderTopKind, value);
-        //    }
-        //}
-
-
-        //static void SetBorderStyle(ref CssBorderType border, string value)
-        //{
-        //    switch (value)
-        //    {
-        //        case CssConstants.None:
-        //            border = CssBorderType.None;
-        //            break;
-        //        case CssConstants.Hidden:
-        //            border = CssBorderType.Hidden;
-        //            break;
-        //        case CssConstants.Dotted:
-        //            border = CssBorderType.Dotted;
-        //            break;
-        //        case CssConstants.Dashed:
-        //            border = CssBorderType.Dashed;
-        //            break;
-        //        case CssConstants.Solid:
-        //            border = CssBorderType.Solid;
-        //            break;
-        //        case CssConstants.Double:
-        //            border = CssBorderType.Double;
-        //            break;
-        //        case CssConstants.Groove:
-        //            border = CssBorderType.Groove;
-        //            break;
-        //        case CssConstants.Ridge:
-        //            border = CssBorderType.Ridge;
-        //            break;
-        //        case CssConstants.Inset:
-        //            border = CssBorderType.Inset;
-        //            break;
-        //        case CssConstants.Outset:
-        //            border = CssBorderType.Outset;
-        //            break;
-        //        case CssConstants.Inherit:
-        //            border = CssBorderType.Inherit;
-        //            break;
-        //        default:
-        //            {
-        //                throw new NotSupportedException();
-        //            }
-        //    }
-        //}
-        //-------------------------------------------------------------
 
         public CssBorderStyle BorderTopStyle
         {
-            get { return this.borderTopKind; }
-            set { this.borderTopKind = value; }
+            //get { return this._borderTopStyle; }
+            //set { this._borderTopStyle = value; }
+            get { return this._borderProps.TopStyle; }
+            set
+            {
+                CheckMyBorderVersion().TopStyle = value;
+            }
+
         }
         public CssBorderStyle BorderLeftStyle
         {
-            get { return this.borderLeftKind; }
-            set { this.borderLeftKind = value; }
+            //get { return this._borderLeftStyle; }
+            //set { this._borderLeftStyle = value; }
+            get { return this._borderProps.LeftStyle; }
+            set
+            {
+                CheckMyBorderVersion().LeftStyle = value;
+            }
         }
         public CssBorderStyle BorderRightStyle
         {
-            get { return this.borderRightKind; }
-            set { this.borderRightKind = value; }
+            //get { return this._borderRightStyle; }
+            //set { this._borderRightStyle = value; }
+            get { return this._borderProps.RightStyle; }
+            set
+            {
+                CheckMyBorderVersion().RightStyle = value;
+            }
         }
+
         public CssBorderStyle BorderBottomStyle
         {
-            get { return this.borderBottomKind; }
-            set { this.borderBottomKind = value; }
+            //get { return this._borderBottomStyle; }
+            //set { this._borderBottomStyle = value; }
+            get { return this._borderProps.BottomStyle; }
+            set
+            {
+                CheckMyBorderVersion().BottomStyle = value;
+            }
         }
 
         //--------------------------------------------
-        public string BorderBottomColor
+        public Color BorderBottomColor
         {
-            get { return _borderBottomColor; }
+            get { return this._borderProps.BottomColor; }
             set
             {
-                _borderBottomColor = value;
+
+                CheckMyBorderVersion().BottomColor = value;
                 _actualBorderBottomColor = System.Drawing.Color.Empty;
             }
         }
-        public string BorderLeftColor
+        public Color BorderLeftColor
         {
-            get { return _borderLeftColor; }
+            get { return this._borderProps.LeftColor; }
             set
             {
-                _borderLeftColor = value;
+                CheckMyBorderVersion().LeftColor = value;
                 _actualBorderLeftColor = System.Drawing.Color.Empty;
             }
         }
         //--------------------------------------------
-        public string BorderRightColor
+        public Color BorderRightColor
         {
-            get { return _borderRightColor; }
+            get { return this._borderProps.RightColor; }
             set
             {
-                _borderRightColor = value;
+
+                CheckMyBorderVersion().RightColor = value;
                 _actualBorderRightColor = System.Drawing.Color.Empty;
             }
         }
 
-        public string BorderTopColor
+        public Color BorderTopColor
         {
-            get { return _borderTopColor; }
+            get { return this._borderProps.TopColor; }
             set
             {
-                _borderTopColor = value;
+                CheckMyBorderVersion().TopColor = value;
                 _actualBorderTopColor = System.Drawing.Color.Empty;
             }
         }
-
-        //public string BorderSpacing
-        //{
-        //    get { return _borderSpacing; }
-        //    set { _borderSpacing = value; }
-        //}
         public CssLength BorderSpacingVertical
         {
             get { return _borderSpacingV; }
@@ -400,10 +319,10 @@ namespace HtmlRenderer.Dom
         }
         public CssBorderCollapse BorderCollapse
         {
-            get { return this._myBorderCollapse; }
+            get { return this._borderCollapse; }
             set
             {
-                this._myBorderCollapse = value;
+                this._borderCollapse = value;
             }
         }
 
@@ -411,132 +330,91 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._myBorderCollapse == CssBorderCollapse.Collapse;
+                return this._borderCollapse == CssBorderCollapse.Collapse;
             }
         }
-
-        //public CssLength[] CornerRadius
-        //{
-        //    get { return 
-        //    set
-        //    {
-        //        MatchCollection r = RegexParserUtils.Match(RegexParserUtils.CssLength, value);
-
-        //        switch (r.Count)
-        //        {
-        //            case 1:
-        //                CornerNERadius = r[0].Value;
-        //                CornerNWRadius = r[0].Value;
-        //                CornerSERadius = r[0].Value;
-        //                CornerSWRadius = r[0].Value;
-        //                break;
-        //            case 2:
-        //                CornerNERadius = r[0].Value;
-        //                CornerNWRadius = r[0].Value;
-        //                CornerSERadius = r[1].Value;
-        //                CornerSWRadius = r[1].Value;
-        //                break;
-        //            case 3:
-        //                CornerNERadius = r[0].Value;
-        //                CornerNWRadius = r[1].Value;
-        //                CornerSERadius = r[2].Value;
-        //                break;
-        //            case 4:
-        //                CornerNERadius = r[0].Value;
-        //                CornerNWRadius = r[1].Value;
-        //                CornerSERadius = r[2].Value;
-        //                CornerSWRadius = r[3].Value;
-        //                break;
-        //        }
-
-        //        _cornerRadius = value;
-        //    }
-        //}
-
-        public CssLength CornerNWRadius
-        {
-            get { return _cornerNWRadius; }
-            set { _cornerNWRadius = value; }
-        }
-
+        //------------------------------------------------------
         public CssLength CornerNERadius
         {
-            get { return _cornerNERadius; }
-            set { _cornerNERadius = value; }
+            get { return this._cornerProps.NERadius; }
+            set { CheckCornerVersion().NERadius = value; }
         }
-
+        public CssLength CornerNWRadius
+        {
+            get { return this._cornerProps.NWRadius; }
+            set { CheckCornerVersion().NWRadius = value; }
+        }        
         public CssLength CornerSERadius
         {
-            get { return _cornerSERadius; }
-            set { _cornerSERadius = value; }
+            get { return this._cornerProps.SERadius; }
+            set { CheckCornerVersion().SERadius = value; }
         }
-
         public CssLength CornerSWRadius
         {
-            get { return _cornerSWRadius; }
-            set { _cornerSWRadius = value; }
+            get { return this._cornerProps.SWRadius; }
+            set { CheckCornerVersion().SWRadius = value; }
         }
-
+        //------------------------------------------------------
         public CssLength MarginBottom
         {
-            get { return _marginBottom; }
-            set { _marginBottom = value; }
+            get { return this._marginProps.Bottom; }
+            set { CheckMarginVersion().Bottom = value; }
         }
 
         public CssLength MarginLeft
         {
-            get { return _marginLeft; }
-            set { _marginLeft = value; }
+            get { return this._marginProps.Left; }
+            set { CheckMarginVersion().Left = value; }
         }
 
         public CssLength MarginRight
         {
-            get { return _marginRight; }
-            set { _marginRight = value; }
+            get { return this._marginProps.Right; }
+            set { CheckMarginVersion().Right = value; }
         }
 
         public CssLength MarginTop
         {
-            get { return _marginTop; }
-            set { _marginTop = value; }
+            get { return this._marginProps.Top; }
+            set { CheckMarginVersion().Top = value; }
         }
 
         public CssLength PaddingBottom
         {
-            get { return _paddingBottom; }
+            get { return this._paddingProps.Bottom; }
             set
             {
-                _paddingBottom = value;
+                CheckPaddingVersion().Bottom = value;
                 _actualPaddingBottom = float.NaN;
             }
         }
 
         public CssLength PaddingLeft
         {
-            get { return _paddingLeft; }
+            get { return this._paddingProps.Left; }
             set
             {
-                _paddingLeft = value;
+                CheckPaddingVersion().Left = value;
                 _actualPaddingLeft = float.NaN;
             }
         }
 
         public CssLength PaddingRight
         {
-            get { return _paddingRight; }
+            get { return this._paddingProps.Right; }
             set
             {
-                _paddingRight = value;
+                CheckPaddingVersion().Right = value;
                 _actualPaddingRight = float.NaN;
             }
         }
 
         public CssLength PaddingTop
         {
-            get { return _paddingTop; }
+            get { return this._paddingProps.Top; }
             set
             {
-                _paddingTop = value;
+                CheckPaddingVersion().Top = value;
                 _actualPaddingTop = float.NaN;
             }
         }
@@ -638,7 +516,7 @@ namespace HtmlRenderer.Dom
         }
 
 
-        public CssPositionType Position
+        public CssPosition Position
         {
             get
             {
@@ -653,7 +531,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this.Position == CssPositionType.Absolute;
+                return this.Position == CssPosition.Absolute;
             }
         }
 
@@ -663,7 +541,6 @@ namespace HtmlRenderer.Dom
             get { return _lineHeight; }
             set
             {
-
                 _lineHeight = value;
                 _actualLineHeight = float.NaN;
             }
@@ -867,39 +744,33 @@ namespace HtmlRenderer.Dom
             get { return _fontWeight; }
             set { _fontWeight = value; }
         }
-
-        public string ListStyle
-        {
-            get { return _listStyle; }
-            set { _listStyle = value; }
-        }
-
-        //public string Overflow
-        //{
-        //    get { return _overflow; }
-        //    set { _overflow = value; }
-        //}
         public CssOverflow Overflow
         {
             get { return this._overflow; }
             set { this._overflow = value; }
         }
+        public string ListStyle
+        {
+            get { return this._listProps.ListStyle; }
+            set { CheckListPropVersion().ListStyle = value; }
+        }
+
         public string ListStylePosition
         {
-            get { return _listStylePosition; }
-            set { _listStylePosition = value; }
+            get { return this._listProps.ListStylePosition; }
+            set { CheckListPropVersion().ListStylePosition = value; }
         }
 
         public string ListStyleImage
         {
-            get { return _listStyleImage; }
-            set { _listStyleImage = value; }
+            get { return this._listProps.ListStyleImage; }
+            set { CheckListPropVersion().ListStyleImage = value; }
         }
 
         public string ListStyleType
         {
-            get { return _listStyleType; }
-            set { _listStyleType = value; }
+            get { return this._listProps.ListStyleType; }
+            set { CheckListPropVersion().ListStyleType = value; }
         }
 
         #endregion
@@ -1237,7 +1108,7 @@ namespace HtmlRenderer.Dom
                     //{
                     //    _actualBorderTopWidth = 0f;
                     //}
-                    if (this.borderTopKind == CssBorderStyle.None)
+                    if (this.BorderTopStyle == CssBorderStyle.None)
                     {
                         _actualBorderTopWidth = 0f;
                     }
@@ -1325,7 +1196,7 @@ namespace HtmlRenderer.Dom
             {
                 if (_actualBorderTopColor.IsEmpty)
                 {
-                    _actualBorderTopColor = CssValueParser.GetActualColor(BorderTopColor);
+                    _actualBorderTopColor = BorderTopColor;// CssValueParser.GetActualColor(BorderTopColor);
                 }
                 return _actualBorderTopColor;
             }
@@ -1340,7 +1211,7 @@ namespace HtmlRenderer.Dom
             {
                 if ((_actualBorderLeftColor.IsEmpty))
                 {
-                    _actualBorderLeftColor = CssValueParser.GetActualColor(BorderLeftColor);
+                    _actualBorderLeftColor = BorderLeftColor;// CssValueParser.GetActualColor(BorderLeftColor);
                 }
                 return _actualBorderLeftColor;
             }
@@ -1355,7 +1226,7 @@ namespace HtmlRenderer.Dom
             {
                 if ((_actualBorderBottomColor.IsEmpty))
                 {
-                    _actualBorderBottomColor = CssValueParser.GetActualColor(BorderBottomColor);
+                    _actualBorderBottomColor = BorderBottomColor;// CssValueParser.GetActualColor(BorderBottomColor);
                 }
                 return _actualBorderBottomColor;
             }
@@ -1370,7 +1241,7 @@ namespace HtmlRenderer.Dom
             {
                 if ((_actualBorderRightColor.IsEmpty))
                 {
-                    _actualBorderRightColor = CssValueParser.GetActualColor(BorderRightColor);
+                    _actualBorderRightColor = BorderRightColor;// CssValueParser.GetActualColor(BorderRightColor);
                 }
                 return _actualBorderRightColor;
             }
@@ -1742,8 +1613,7 @@ namespace HtmlRenderer.Dom
             }
             if (color != null)
             {
-
-                BorderLeftColor = BorderTopColor = BorderRightColor = BorderBottomColor = color;
+                BorderLeftColor = BorderTopColor = BorderRightColor = BorderBottomColor = CssValueParser.GetActualColor(color);
             }
         }
 
@@ -1797,10 +1667,8 @@ namespace HtmlRenderer.Dom
                 _fontVariant = p._fontVariant;
                 _fontWeight = p._fontWeight;
 
-                _listStyleImage = p._listStyleImage;
-                _listStylePosition = p._listStylePosition;
-                _listStyleType = p._listStyleType;
-                _listStyle = p._listStyle;
+                _listProps = p._listProps;
+
                 _lineHeight = p._lineHeight;
                 //_wordBreak = p.WordBreak;
                 this.WordBreak = p.WordBreak;
@@ -1817,14 +1685,19 @@ namespace HtmlRenderer.Dom
                     _backgroundImage = p._backgroundImage;
                     _backgroundPosition = p._backgroundPosition;
                     _backgroundRepeat = p._backgroundRepeat;
-                    _borderTopWidth = p._borderTopWidth;
-                    _borderRightWidth = p._borderRightWidth;
-                    _borderBottomWidth = p._borderBottomWidth;
-                    _borderLeftWidth = p._borderLeftWidth;
-                    _borderTopColor = p._borderTopColor;
-                    _borderRightColor = p._borderRightColor;
-                    _borderBottomColor = p._borderBottomColor;
-                    _borderLeftColor = p._borderLeftColor;
+
+                    //direct share border feature from parent
+                    _borderProps = p._borderProps;//***
+
+                    //_borderTopWidth = p._borderTopWidth;
+                    //_borderRightWidth = p._borderRightWidth;
+                    //_borderBottomWidth = p._borderBottomWidth;
+                    //_borderLeftWidth = p._borderLeftWidth;
+
+                    //_borderTopColor = p._borderTopColor;
+                    //_borderRightColor = p._borderRightColor;
+                    //_borderBottomColor = p._borderBottomColor;
+                    //_borderLeftColor = p._borderLeftColor;
                     this.BorderTopStyle = p.BorderTopStyle;
                     this.BorderLeftStyle = p.BorderLeftStyle;
                     this.BorderBottomStyle = p.BorderBottomStyle;
@@ -1836,27 +1709,25 @@ namespace HtmlRenderer.Dom
                     //_borderLeftStyle = p._borderLeftStyle;
 
                     _bottom = p._bottom;
-                    _cornerNWRadius = p._cornerNWRadius;
-                    _cornerNERadius = p._cornerNERadius;
-                    _cornerSERadius = p._cornerSERadius;
-                    _cornerSWRadius = p._cornerSWRadius;
+                    _cornerProps = p._cornerProps;
+
                     //_cornerRadius = p._cornerRadius;
                     // _display = p._display;
                     this.CssDisplay = p.CssDisplay;
                     _float = p._float;
                     //_height = p._height;
                     this.Height = p.Height;
-                    _marginBottom = p._marginBottom;
-                    _marginLeft = p._marginLeft;
-                    _marginRight = p._marginRight;
-                    _marginTop = p._marginTop;
+                    //_marginBottom = p._marginBottom;
+                    //_marginLeft = p._marginLeft;
+                    //_marginRight = p._marginRight;
+                    //_marginTop = p._marginTop;
                     _left = p._left;
                     _lineHeight = p._lineHeight;
                     this.Overflow = p.Overflow;
-                    _paddingLeft = p._paddingLeft;
-                    _paddingBottom = p._paddingBottom;
-                    _paddingRight = p._paddingRight;
-                    _paddingTop = p._paddingTop;
+                    //_paddingLeft = p._paddingLeft;
+                    //_paddingBottom = p._paddingBottom;
+                    //_paddingRight = p._paddingRight;
+                    //_paddingTop = p._paddingTop;
                     _right = p._right;
                     //_textDecoration = p._textDecoration;
                     this.TextDecoration = p.TextDecoration;
