@@ -56,7 +56,6 @@ namespace HtmlRenderer.Dom
         CssDisplay _cssDisplay = CssDisplay.Inline;
 
 
-
         CssFloat _float = CssFloat.None;
         CssLength _height = CssLength.AutoLength;
 
@@ -78,10 +77,10 @@ namespace HtmlRenderer.Dom
         CssLength _width = CssLength.AutoLength;
         CssLength _maxWidth = CssLength.NotAssign;
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
+
         CssWordBreak _wordBreak = CssWordBreak.Normal;
-
-
         CssWhiteSpace _whitespace = CssWhiteSpace.Normal;
+
         CssVisibility _visibility = CssVisibility.Visible;
 
 
@@ -106,8 +105,9 @@ namespace HtmlRenderer.Dom
         private float _actualCornerNE = float.NaN;
         private float _actualCornerSW = float.NaN;
         private float _actualCornerSE = float.NaN;
+
         private Color _actualColor = System.Drawing.Color.Empty;
-        private float _actualBackgroundGradientAngle = float.NaN;
+        //private float _actualBackgroundGradientAngle = float.NaN;
         private float _actualHeight = float.NaN;
         private float _actualWidth = float.NaN;
 
@@ -133,16 +133,18 @@ namespace HtmlRenderer.Dom
         private float _actualTextIndent = float.NaN;
         private float _actualBorderSpacingHorizontal = float.NaN;
         private float _actualBorderSpacingVertical = float.NaN;
-        private float _fontAscent = float.NaN;
-        private float _fontDescent = float.NaN;
-        private float _fontLineSpacing = float.NaN;
 
-        private Color _actualBackgroundGradient = System.Drawing.Color.Empty;
-        private Color _actualBorderTopColor = System.Drawing.Color.Empty;
-        private Color _actualBorderLeftColor = System.Drawing.Color.Empty;
-        private Color _actualBorderBottomColor = System.Drawing.Color.Empty;
-        private Color _actualBorderRightColor = System.Drawing.Color.Empty;
-        private Color _actualBackgroundColor = System.Drawing.Color.Empty;
+        //private float _fontAscent = float.NaN;
+        //private float _fontDescent = float.NaN;
+        //private float _fontLineSpacing = float.NaN;
+
+        //private Color _actualBackgroundGradient = System.Drawing.Color.Empty;
+        //private Color _actualBorderTopColor = System.Drawing.Color.Empty;
+        //private Color _actualBorderLeftColor = System.Drawing.Color.Empty;
+        //private Color _actualBorderBottomColor = System.Drawing.Color.Empty;
+        //private Color _actualBorderRightColor = System.Drawing.Color.Empty;
+        //private Color _actualBackgroundColor = System.Drawing.Color.Empty;
+
         private Font _actualFont;
 
         #endregion
@@ -250,7 +252,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckMyBorderVersion().BottomColor = value;
-                _actualBorderBottomColor = System.Drawing.Color.Empty;
+                //_actualBorderBottomColor = System.Drawing.Color.Empty;
             }
         }
         public Color BorderLeftColor
@@ -259,7 +261,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckMyBorderVersion().LeftColor = value;
-                _actualBorderLeftColor = System.Drawing.Color.Empty;
+                //_actualBorderLeftColor = System.Drawing.Color.Empty;
             }
         }
         //--------------------------------------------
@@ -270,7 +272,7 @@ namespace HtmlRenderer.Dom
             {
 
                 CheckMyBorderVersion().RightColor = value;
-                _actualBorderRightColor = System.Drawing.Color.Empty;
+                //_actualBorderRightColor = System.Drawing.Color.Empty;
             }
         }
 
@@ -280,7 +282,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckMyBorderVersion().TopColor = value;
-                _actualBorderTopColor = System.Drawing.Color.Empty;
+                //_actualBorderTopColor = System.Drawing.Color.Empty;
             }
         }
         public CssLength BorderSpacingVertical
@@ -419,7 +421,7 @@ namespace HtmlRenderer.Dom
             get { return this._height; }
             set { this._height = value; }
         }
-        public string BackgroundColor
+        public Color BackgroundColor
         {
             get { return this._backgroundProps.BackgroundColor; }
             set { CheckBgVersion().BackgroundColor = value; }
@@ -443,13 +445,13 @@ namespace HtmlRenderer.Dom
             set { CheckBgVersion().BackgroundRepeat = value; }
         }
 
-        public string BackgroundGradient
+        public Color BackgroundGradient
         {
             get { return this._backgroundProps.BackgroundGradient; }
             set { CheckBgVersion().BackgroundGradient = value; }
         }
 
-        public string BackgroundGradientAngle
+        public float BackgroundGradientAngle
         {
             get { return this._backgroundProps.BackgroundGradientAngle; }
             set { CheckBgVersion().BackgroundGradientAngle = value; }
@@ -927,16 +929,14 @@ namespace HtmlRenderer.Dom
             {
                 if (float.IsNaN(_actualMarginBottom))
                 {
-
-                    //if (MarginBottom == CssConstants.Auto)
-                    //  MarginBottom = "0";
                     if (MarginBottom.IsAuto)
                     {
                         MarginBottom = CssLength.ZeroPx;
                     }
+
                     var actualMarginBottom = CssValueParser.ParseLength(MarginBottom, Size.Width, this);
 
-                    if (MarginLeft.IsPercentage) //MarginLeft.EndsWith("%"))
+                    if (MarginLeft.IsPercentage)
                     {
                         return actualMarginBottom;
                     }
@@ -1074,11 +1074,12 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if (_actualBorderTopColor.IsEmpty)
-                {
-                    _actualBorderTopColor = BorderTopColor;// CssValueParser.GetActualColor(BorderTopColor);
-                }
-                return _actualBorderTopColor;
+                return this.BorderTopColor;
+                //if (_actualBorderTopColor.IsEmpty)
+                //{
+                //    _actualBorderTopColor = BorderTopColor;// CssValueParser.GetActualColor(BorderTopColor);
+                //}
+                //return _actualBorderTopColor;
             }
         }
 
@@ -1089,11 +1090,13 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((_actualBorderLeftColor.IsEmpty))
-                {
-                    _actualBorderLeftColor = BorderLeftColor;// CssValueParser.GetActualColor(BorderLeftColor);
-                }
-                return _actualBorderLeftColor;
+                return this.BorderLeftColor;
+
+                //if ((_actualBorderLeftColor.IsEmpty))
+                //{
+                //    _actualBorderLeftColor = BorderLeftColor;// CssValueParser.GetActualColor(BorderLeftColor);
+                //}
+                //return _actualBorderLeftColor;
             }
         }
 
@@ -1104,11 +1107,13 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((_actualBorderBottomColor.IsEmpty))
-                {
-                    _actualBorderBottomColor = BorderBottomColor;// CssValueParser.GetActualColor(BorderBottomColor);
-                }
-                return _actualBorderBottomColor;
+                return this.BorderBottomColor;
+
+                //if ((_actualBorderBottomColor.IsEmpty))
+                //{
+                //    _actualBorderBottomColor = BorderBottomColor;// CssValueParser.GetActualColor(BorderBottomColor);
+                //}
+                //return _actualBorderBottomColor;
             }
         }
 
@@ -1119,11 +1124,12 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((_actualBorderRightColor.IsEmpty))
-                {
-                    _actualBorderRightColor = BorderRightColor;// CssValueParser.GetActualColor(BorderRightColor);
-                }
-                return _actualBorderRightColor;
+                return this.BorderRightColor;
+                //if ((_actualBorderRightColor.IsEmpty))
+                //{
+                //    _actualBorderRightColor = BorderRightColor;// CssValueParser.GetActualColor(BorderRightColor);
+                //}
+                //return _actualBorderRightColor;
             }
         }
 
@@ -1229,13 +1235,13 @@ namespace HtmlRenderer.Dom
         {
             get
             {
+                return this._backgroundProps.BackgroundColor;
+                //if (_actualBackgroundColor.IsEmpty)
+                //{
+                //    _actualBackgroundColor = CssValueParser.GetActualColor(BackgroundColor);
+                //}
 
-                if (_actualBackgroundColor.IsEmpty)
-                {
-                    _actualBackgroundColor = CssValueParser.GetActualColor(BackgroundColor);
-                }
-
-                return _actualBackgroundColor;
+                //return _actualBackgroundColor;
             }
         }
 
@@ -1246,11 +1252,12 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if (_actualBackgroundGradient.IsEmpty)
-                {
-                    _actualBackgroundGradient = CssValueParser.GetActualColor(BackgroundGradient);
-                }
-                return _actualBackgroundGradient;
+                return this._backgroundProps.BackgroundGradient;
+                //if (_actualBackgroundGradient.IsEmpty)
+                //{
+                //    _actualBackgroundGradient = CssValueParser.GetActualColor(BackgroundGradient);
+                //}
+                //return _actualBackgroundGradient;
             }
         }
 
@@ -1261,12 +1268,14 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if (float.IsNaN(_actualBackgroundGradientAngle))
-                {
-                    _actualBackgroundGradientAngle = CssValueParser.ParseNumber(BackgroundGradientAngle, 360f);
-                }
+                return this._backgroundProps.BackgroundGradientAngle;
+                //if (float.IsNaN(_actualBackgroundGradientAngle))
+                //{
+                //    _actualBackgroundGradientAngle =
+                //        CssValueParser.ParseNumber(BackgroundGradientAngle, 360f);
+                //}
 
-                return _actualBackgroundGradientAngle;
+                //return _actualBackgroundGradientAngle;
             }
         }
 

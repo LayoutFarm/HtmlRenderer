@@ -14,8 +14,8 @@ namespace HtmlRenderer.Dom
 {
 
     class CssBorderProp
-    {  
-        
+    {
+
         object owner;
         public CssBorderProp(object owner)
         {
@@ -61,7 +61,7 @@ namespace HtmlRenderer.Dom
         public CssLength TopWidth { get; set; }
         public CssLength RightWidth { get; set; }
         public CssLength BottomWidth { get; set; }
-    
+
         public CssBorderStyle LeftStyle { get; set; }
         public CssBorderStyle TopStyle { get; set; }
         public CssBorderStyle RightStyle { get; set; }
@@ -70,7 +70,7 @@ namespace HtmlRenderer.Dom
         public Color LeftColor { get; set; }
         public Color TopColor { get; set; }
         public Color RightColor { get; set; }
-        public Color BottomColor { get; set; } 
+        public Color BottomColor { get; set; }
 
         public CssBorderProp GetMyOwnVersion(object checkOwner)
         {
@@ -90,7 +90,7 @@ namespace HtmlRenderer.Dom
     class CssMarginProp
     {
         object owner;
-       
+
         public CssMarginProp(object owner)
         {
             this.owner = owner;
@@ -108,14 +108,14 @@ namespace HtmlRenderer.Dom
             this.Right = inheritFrom.Right;
             this.Bottom = inheritFrom.Bottom;
         }
-       
+
         public CssLength Left { get; set; }
         public CssLength Top { get; set; }
         public CssLength Right { get; set; }
         public CssLength Bottom { get; set; }
 
 
-       
+
         public CssMarginProp GetMyOwnVersion(object checkOwner)
         {
             if (this.owner == checkOwner)
@@ -131,7 +131,7 @@ namespace HtmlRenderer.Dom
     }
     class CssPaddingProp
     {
-       
+
         object owner;
         public CssPaddingProp(object owner)
         {
@@ -164,14 +164,14 @@ namespace HtmlRenderer.Dom
             {
                 return new CssPaddingProp(checkOwner, this);
             }
-        } 
+        }
         public static readonly CssPaddingProp Default = new CssPaddingProp(null);
     }
 
 
     class CssListProp
     {
-      
+
 
         object owner;
         public CssListProp(object owner)
@@ -213,7 +213,7 @@ namespace HtmlRenderer.Dom
 
     class CssCornerProp
     {
-       
+
         object owner;
         public CssCornerProp(object owner)
         {
@@ -252,7 +252,7 @@ namespace HtmlRenderer.Dom
         public CssLength SWRadius { get; set; }
     }
     class CssFontProp
-    {   
+    {
         object owner;
         public CssFontProp(object owner)
         {
@@ -299,9 +299,9 @@ namespace HtmlRenderer.Dom
         public CssBackgroundProp(object owner)
         {
             this.owner = owner;
-            this.BackgroundColor = "transparent";
-            this.BackgroundGradient = "none";
-            this.BackgroundGradientAngle = "90";
+            this.BackgroundColor = Color.Transparent; //"transparent";
+            this.BackgroundGradient = Color.Transparent;// "none";
+            this.BackgroundGradientAngle = 90.0f;
             this.BackgroundImage = "none";
             this.BackgroundPosition = "0% 0%";
             this.BackgroundRepeat = "repeat";
@@ -328,12 +328,14 @@ namespace HtmlRenderer.Dom
                 return new CssBackgroundProp(checkOwner, this);
             }
         }
-        public string BackgroundColor { get; set; }
-        public string BackgroundGradient { get; set; }
-        public string BackgroundGradientAngle { get; set; }
+        public Color BackgroundColor { get; set; }
+        public Color BackgroundGradient { get; set; }
+        public float BackgroundGradientAngle { get; set; }
+
         public string BackgroundImage { get; set; }
         public string BackgroundPosition { get; set; }
         public string BackgroundRepeat { get; set; }
+
         public static readonly CssBackgroundProp Default = new CssBackgroundProp(null);
     }
 }

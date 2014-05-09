@@ -165,7 +165,7 @@ namespace HtmlRenderer.Utils
                     return cssBox.Height.ToString();
 
                 case "background-color":
-                    return cssBox.BackgroundColor;
+                    return cssBox.BackgroundColor.ToHexColor();
                 case "background-image":
                     return cssBox.BackgroundImage;
                 case "background-position":
@@ -173,19 +173,19 @@ namespace HtmlRenderer.Utils
                 case "background-repeat":
                     return cssBox.BackgroundRepeat;
                 case "background-gradient":
-                    return cssBox.BackgroundGradient;
+                    return cssBox.BackgroundGradient.ToHexColor();
                 case "background-gradient-angle":
-                    return cssBox.BackgroundGradientAngle;
+                    return cssBox.BackgroundGradientAngle.ToString();
                 case "color":
                     return cssBox.Color;
                 case "display":
                     return cssBox.CssDisplay.ToCssStringValue();
                 case "direction":
-                    return cssBox.CssDirection.ToCssStringValue(); 
+                    return cssBox.CssDirection.ToCssStringValue();
                 case "empty-cells":
-                    return cssBox.EmptyCells.ToCssStringValue();                     
+                    return cssBox.EmptyCells.ToCssStringValue();
                 case "float":
-                    return cssBox.Float.ToCssStringValue();                     
+                    return cssBox.Float.ToCssStringValue();
                 case "position":
                     return cssBox.Position.ToCssStringValue();
                 case "line-height":
@@ -233,7 +233,7 @@ namespace HtmlRenderer.Utils
         {
             return CssBoxUserUtilExtension.GetBorderStyle(value);
         }
-    
+
 
         /// <summary>
         /// Set CSS box property value by the CSS name.<br/>
@@ -346,7 +346,7 @@ namespace HtmlRenderer.Utils
                     cssBox.Height = new CssLength(value);
                     break;
                 case "background-color":
-                    cssBox.BackgroundColor = value;
+                    cssBox.BackgroundColor = CssValueParser.GetActualColor(value);
                     break;
                 case "background-image":
                     cssBox.BackgroundImage = value;
@@ -358,11 +358,16 @@ namespace HtmlRenderer.Utils
                     cssBox.BackgroundRepeat = value;
                     break;
                 case "background-gradient":
-                    cssBox.BackgroundGradient = value;
+                    cssBox.BackgroundGradient = CssValueParser.GetActualColor(value);
                     break;
                 case "background-gradient-angle":
-                    cssBox.BackgroundGradientAngle = value;
-                    break;
+                    {
+                        float angle;
+                        if (float.TryParse(value, out angle))
+                        {
+                            cssBox.BackgroundGradientAngle = angle;
+                        }
+                    } break;
                 case "color":
                     cssBox.Color = value;
                     break;

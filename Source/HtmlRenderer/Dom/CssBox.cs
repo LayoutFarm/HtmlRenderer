@@ -399,7 +399,7 @@ namespace HtmlRenderer.Dom
                     else
                     {
                         return customBox;
-                    }                     
+                    }
                 default:
                     return new CssBox(parent, tag);
             }
@@ -979,7 +979,7 @@ namespace HtmlRenderer.Dom
             try
             {
                 float maxc2 = currentMaxBottom;
-               
+
                 foreach (CssLineBox hostline in startBox.GetHostLineIter())
                 {
                     CssRectangleF r = hostline.GetStrip(this);
@@ -990,12 +990,12 @@ namespace HtmlRenderer.Dom
                 }
 
                 currentMaxBottom = Math.Max(currentMaxBottom, startBox.SummaryBound.Bottom);
-                
+
                 if (maxc2 != currentMaxBottom)
                 {
 
                 }
-                 
+
 
                 foreach (var b in startBox.Boxes)
                 {
@@ -1203,7 +1203,7 @@ namespace HtmlRenderer.Dom
             {
                 return;
             }
-         
+
             foreach (CssRect word in Words)
             {
                 word.Top += amount;
@@ -1211,7 +1211,7 @@ namespace HtmlRenderer.Dom
             foreach (var hostline in this.GetHostLineIter())
             {
                 hostline.OffsetTopRectsOf(this, amount);
-            }              
+            }
             foreach (CssBox b in Boxes)
             {
                 b.OffsetTop(amount);
@@ -1223,7 +1223,7 @@ namespace HtmlRenderer.Dom
             }
 
             Location = new PointF(Location.X, Location.Y + amount);
-        } 
+        }
         /// <summary>
         /// Paints the background of the box
         /// </summary>
@@ -1239,9 +1239,13 @@ namespace HtmlRenderer.Dom
                 bool dispose = false;
                 SmoothingMode smooth = g.SmoothingMode;
 
-                if (BackgroundGradient != CssConstants.None)
+                if (BackgroundGradient != System.Drawing.Color.Transparent)
                 {
-                    brush = new LinearGradientBrush(rect, ActualBackgroundColor, ActualBackgroundGradient, ActualBackgroundGradientAngle);
+                    brush = new LinearGradientBrush(rect,
+                        ActualBackgroundColor,
+                        ActualBackgroundGradient,
+                        ActualBackgroundGradientAngle);
+
                     dispose = true;
                 }
                 else if (RenderUtils.IsColorVisible(ActualBackgroundColor))
@@ -1272,7 +1276,6 @@ namespace HtmlRenderer.Dom
                     }
                     else
                     {
-
                         g.FillRectangle(brush, (float)Math.Ceiling(rect.X), (float)Math.Ceiling(rect.Y), rect.Width, rect.Height);
                     }
 

@@ -422,7 +422,7 @@ namespace HtmlRenderer.Parse
                             box.BackgroundImage = value.ToLower();
                             break;
                         case HtmlConstants.Bgcolor:
-                            box.BackgroundColor = value.ToLower();
+                            box.BackgroundColor = CssValueParser.GetActualColor(value.ToLower());
                             break;
                         case HtmlConstants.Border:
                             if (!string.IsNullOrEmpty(value) && value != "0")
