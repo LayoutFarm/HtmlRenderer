@@ -64,6 +64,10 @@ namespace HtmlRenderer.Dom
                 return this.wellKnownTagName;
             }
         }
+        internal CssBox GetParentBox()
+        {
+            return this._parentBox;
+        }
 
         /// <summary>
         /// Gets the HtmlContainer of the Box.

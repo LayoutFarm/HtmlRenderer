@@ -453,7 +453,8 @@ namespace HtmlRenderer.Parse
                             ApplyTablePadding(box, value);
                             break;
                         case HtmlConstants.Color:
-                            box.Color = value.ToLower();
+                            box.Color = CssValueParser.GetActualColor(value.ToLower());
+
                             break;
                         case HtmlConstants.Dir:
                             //box.Direction = value.ToLower();
@@ -472,10 +473,16 @@ namespace HtmlRenderer.Parse
                             box.WhiteSpace = CssWhiteSpace.NoWrap;
                             break;
                         case HtmlConstants.Size:
+
+
                             if (tag.Name.Equals(HtmlConstants.Hr, StringComparison.OrdinalIgnoreCase))
+                            {
                                 box.Height = new CssLength(TranslateLength(value));
+                            }
                             else if (tag.Name.Equals(HtmlConstants.Font, StringComparison.OrdinalIgnoreCase))
-                                box.FontSize = value;
+                            {
+                                box.SetFontSize(value);
+                            }
                             break;
                         case HtmlConstants.Valign:
                             box.SetVerticalAlign(value.ToLower());

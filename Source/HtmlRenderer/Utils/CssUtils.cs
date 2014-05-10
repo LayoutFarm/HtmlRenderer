@@ -177,7 +177,7 @@ namespace HtmlRenderer.Utils
                 case "background-gradient-angle":
                     return cssBox.BackgroundGradientAngle.ToString();
                 case "color":
-                    return cssBox.Color;
+                    return cssBox.Color.ToHexColor();
                 case "display":
                     return cssBox.CssDisplay.ToCssStringValue();
                 case "direction":
@@ -209,13 +209,13 @@ namespace HtmlRenderer.Utils
                 case "font-family":
                     return cssBox.FontFamily;
                 case "font-size":
-                    return cssBox.FontSize;
+                    return cssBox.FontSize.ToFontSizeString();
                 case "font-style":
-                    return cssBox.FontStyle;
+                    return cssBox.FontStyle.ToCssStringValue();
                 case "font-variant":
-                    return cssBox.FontVariant;
+                    return cssBox.FontVariant.ToCssStringValue();
                 case "font-weight":
-                    return cssBox.FontWeight;
+                    return cssBox.FontWeight.ToCssStringValue();
                 case "list-style":
                     return cssBox.ListStyle;
                 case "list-style-position":
@@ -369,7 +369,7 @@ namespace HtmlRenderer.Utils
                         }
                     } break;
                 case "color":
-                    cssBox.Color = value;
+                    cssBox.Color = CssValueParser.GetActualColor(value);
                     break;
                 case "display":
                     cssBox.SetDisplayType(value);
@@ -386,13 +386,8 @@ namespace HtmlRenderer.Utils
                 case "position":
                     cssBox.SetCssPosition(value);
                     break;
-                case "line-height":
-
+                case "line-height": 
                     cssBox.SetLineHeight(value);
-                    // _lineHeight =
-                    //string.Format(NumberFormatInfo.InvariantInfo, "{0}px",
-                    //CssValueParser.ParseLength(value, Size.Height, this, CssConstants.Em));
-
                     break;
                 case "vertical-align":
                     cssBox.SetVerticalAlign(value.ToLower());
@@ -422,16 +417,16 @@ namespace HtmlRenderer.Utils
                     cssBox.FontFamily = value;
                     break;
                 case "font-size":
-                    cssBox.FontSize = value;
+                    cssBox.SetFontSize(value);
                     break;
                 case "font-style":
-                    cssBox.FontStyle = value;
+                    cssBox.FontStyle = CssBoxUserUtilExtension.GetFontStyle(value);
                     break;
                 case "font-variant":
-                    cssBox.FontVariant = value;
+                    cssBox.FontVariant = CssBoxUserUtilExtension.GetFontVariant(value);
                     break;
                 case "font-weight":
-                    cssBox.FontWeight = value;
+                    cssBox.FontWeight = CssBoxUserUtilExtension.GetFontWeight(value);
                     break;
                 case "list-style":
                     cssBox.ListStyle = value;

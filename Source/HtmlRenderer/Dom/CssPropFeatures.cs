@@ -35,6 +35,10 @@ namespace HtmlRenderer.Dom
                 this.RightColor =
                 this.BottomColor = Color.Black;
             //---------------------------------------------
+            this.BorderCollapse = CssBorderCollapse.Separate;
+            this.BorderSpacingV = CssLength.ZeroNoUnit;
+            this.BorderSpacingH = CssLength.ZeroNoUnit;
+
 
         }
         private CssBorderProp(object owner, CssBorderProp inheritFrom)
@@ -55,7 +59,10 @@ namespace HtmlRenderer.Dom
             this.RightColor = inheritFrom.RightColor;
             this.BottomColor = inheritFrom.BottomColor;
             //---------------------------------------------------------
-
+            this.BorderCollapse = inheritFrom.BorderCollapse;
+            this.BorderSpacingH = inheritFrom.BorderSpacingH;
+            this.BorderSpacingV = inheritFrom.BorderSpacingV;
+            //---------------------------------------------------------
         }
         public CssLength LeftWidth { get; set; }
         public CssLength TopWidth { get; set; }
@@ -71,6 +78,11 @@ namespace HtmlRenderer.Dom
         public Color TopColor { get; set; }
         public Color RightColor { get; set; }
         public Color BottomColor { get; set; }
+        public CssBorderCollapse BorderCollapse { get; set; }
+        public CssLength BorderSpacingH { get; set; }
+        public CssLength BorderSpacingV { get; set; }
+
+
 
         public CssBorderProp GetMyOwnVersion(object checkOwner)
         {
@@ -84,6 +96,8 @@ namespace HtmlRenderer.Dom
                 return new CssBorderProp(checkOwner, this);
             }
         }
+
+
         public static readonly CssBorderProp Default = new CssBorderProp(null);
     }
 
@@ -254,14 +268,16 @@ namespace HtmlRenderer.Dom
     class CssFontProp
     {
         object owner;
+        Font _cacheFont;
+
         public CssFontProp(object owner)
         {
             this.owner = owner;
             FontFamily = "serif";
-            FontSize = "medium";
-            FontStyle = "normal";
-            FontVariant = "normal";
-            FontWeight = "normal";
+            FontSize = CssLength.FontSizeMedium;
+            FontStyle = CssFontStyle.Normal;
+            FontVariant = CssFontVariant.Normal;
+            FontWeight = CssFontWeight.Normal;
         }
         private CssFontProp(object owner, CssFontProp inheritFrom)
         {
@@ -273,11 +289,10 @@ namespace HtmlRenderer.Dom
             this.FontWeight = inheritFrom.FontWeight;
         }
         public string FontFamily { get; set; }
-        public string FontSize { get; set; }
-        public string FontStyle { get; set; }
-        public string FontVariant { get; set; }
-        public string FontWeight { get; set; }
-
+        public CssLength FontSize { get; set; }
+        public CssFontStyle FontStyle { get; set; }
+        public CssFontVariant FontVariant { get; set; }
+        public CssFontWeight FontWeight { get; set; }
         public CssFontProp GetMyOwnVersion(object checkOwner)
         {
             if (this.owner == checkOwner)
@@ -289,9 +304,126 @@ namespace HtmlRenderer.Dom
                 return new CssFontProp(checkOwner, this);
             }
         }
-        public static readonly CssFontProp Default = new CssFontProp(null);
 
+        //public bool FontSizeRelatedWithParent
+        //{
+        //    get
+        //    {
+        //        var fontsizeName = this.FontSize;
+        //        return fontsizeName.IsFontSizeName && (
+        //            fontsizeName.FontSizeName == CssFontSizeConst.FONTSIZE_SMALLER ||
+        //            fontsizeName.FontSizeName == CssFontSizeConst.FONTSIZE_LARGER);
+        //    }
+        //}
+        internal Font GetCacheFont(CssBoxBase parentBox)
+        {
+            if (this._cacheFont != null)
+            {
+                return _cacheFont;
+            }
+            //---------------------------------------
+            string fontFam = this.FontFamily;
+            if (string.IsNullOrEmpty(FontFamily))
+            {
+                fontFam = CssConstants.FontSerif;
+            }
+
+            CssLength fontsize = this.FontSize;
+            if (fontsize.IsEmpty)
+            {
+                fontsize = CssLength.MakeFontSizePtUnit(CssConstants.FontSize);
+            }
+
+            //if (this.FontSize.IsEmpty)
+            //{
+            //    //use default font size
+            //    FontSize = CssLength.MakeFontSizePtUnit(CssConstants.FontSize);
+            //}
+            //-----------------------------------------------------------------------------
+            FontStyle st = System.Drawing.FontStyle.Regular;
+            if (FontStyle == CssFontStyle.Italic || FontStyle == CssFontStyle.Oblique)
+            {
+                st |= System.Drawing.FontStyle.Italic;
+            }
+
+            CssFontWeight fontWight = this.FontWeight;
+            if (fontWight != CssFontWeight.Normal &&
+                fontWight != CssFontWeight.Lighter &&
+                fontWight != CssFontWeight.NotAssign &&
+                fontWight != CssFontWeight.Inherit)
+            {
+                st |= System.Drawing.FontStyle.Bold;
+            }
+
+            float fsize = CssConstants.FontSize;
+            bool relateToParent = false;
+
+            if (fontsize.IsFontSizeName)
+            {
+                switch (fontsize.FontSizeName)
+                {
+                    case CssFontSizeConst.FONTSIZE_MEDIUM:
+                        fsize = CssConstants.FontSize; break;
+                    case CssFontSizeConst.FONTSIZE_XX_SMALL:
+                        fsize = CssConstants.FontSize - 4; break;
+                    case CssFontSizeConst.FONTSIZE_X_SMALL:
+                        fsize = CssConstants.FontSize - 3; break;
+                    case CssFontSizeConst.FONTSIZE_LARGE:
+                        fsize = CssConstants.FontSize + 2; break;
+                    case CssFontSizeConst.FONTSIZE_X_LARGE:
+                        fsize = CssConstants.FontSize + 3; break;
+                    case CssFontSizeConst.FONTSIZE_XX_LARGE:
+                        fsize = CssConstants.FontSize + 4; break;
+                    case CssFontSizeConst.FONTSIZE_SMALLER:
+                        {
+                            relateToParent = true;
+                            float parentFontSize = CssConstants.FontSize;
+                            if (parentBox != null)
+                            {
+                                parentFontSize = parentBox.ActualFont.Size;
+                            }
+                            fsize = parentFontSize - 2;
+
+                        } break;
+                    case CssFontSizeConst.FONTSIZE_LARGER:
+                        {
+                            relateToParent = true;
+                            float parentFontSize = CssConstants.FontSize;
+                            if (parentBox != null)
+                            {
+                                parentFontSize = parentBox.ActualFont.Size;
+                            }
+                            fsize = parentFontSize + 2;
+
+                        } break;
+                    default:
+                        throw new NotSupportedException();
+                }
+            }
+            else
+            {
+                fsize = fontsize.Number;
+            }
+
+            if (fsize <= 1f)
+            {
+                fsize = CssConstants.FontSize;
+            }
+
+            if (!relateToParent)
+            {
+                return this._cacheFont = FontsUtils.GetCachedFont(fontFam, fsize, st);
+            }
+            else
+            {
+                //not store to cache font
+                return FontsUtils.GetCachedFont(fontFam, fsize, st);
+            }
+        }
+        public static readonly CssFontProp Default = new CssFontProp(null);
     }
+
+
 
     class CssBackgroundProp
     {

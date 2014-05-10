@@ -149,15 +149,6 @@ namespace HtmlRenderer.Dom
         }
         protected virtual void PaintImp(IGraphics g, PaintingArgs args)
         {
-            PaintImpY(g, args);
-            //PaintImpX(g, args);
-        }
-        /// <summary>
-        /// Paints the fragment
-        /// </summary>
-        /// <param name="g">the device to draw to</param>
-        void PaintImpY(IGraphics g, PaintingArgs args)
-        {
             if (this.CssDisplay != CssDisplay.None &&
                (this.CssDisplay != CssDisplay.TableCell ||
                  EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
@@ -205,9 +196,9 @@ namespace HtmlRenderer.Dom
                 }
 
                 if (this._lineBoxes.Count > 0)
-                {   
+                {
                     //render only line that in  
-                    viewport.Offset(offset.X, -offset.Y); 
+                    viewport.Offset(offset.X, -offset.Y);
                     float viewport_top = viewport.Top;
                     float viewport_bottom = viewport.Bottom;
 
@@ -215,7 +206,7 @@ namespace HtmlRenderer.Dom
                     {
                         //paint each line ***   
                         //line.PaintLine(g, offset); 
-                        if (line.CachedLineBottom >= viewport_top && 
+                        if (line.CachedLineBottom >= viewport_top &&
                             line.CachedLineTop <= viewport_bottom)
                         {
                             line.PaintLine(g, offset);
@@ -224,8 +215,8 @@ namespace HtmlRenderer.Dom
                         else
                         {
                             // line.dbugPaintRects2(g, offset);
-                        } 
-                    } 
+                        }
+                    }
 
                 }
                 else
@@ -260,114 +251,18 @@ namespace HtmlRenderer.Dom
                         }
                     }
                 }
-                 
+
                 //------------------------------------------
                 //must! , 
                 RenderUtils.ReturnClip(g, prevClip);
                 if (_listItemBox != null)
                 {
-                    _listItemBox.Paint(g,args);
+                    _listItemBox.Paint(g, args);
                 }
             }
         }
-
-        ///// <summary>
-        ///// Paints the fragment
-        ///// </summary>
-        ///// <param name="g">the device to draw to</param>
-        //void PaintImpY2(IGraphics g, PaintingArgs args)
-        //{
-        //    if (this.CssDisplay != CssBoxDisplayType.None &&
-        //       (this.CssDisplay != CssBoxDisplayType.TableCell ||
-        //         EmptyCells != CssConstants.Hide || !IsSpaceOrEmpty))
-        //    {
-
-        //        var prevClip = RenderUtils.ClipGraphicsByOverflow(g, this);
-        //        if (this.Overflow == CssOverflow.Hidden)
-        //        {
-        //            //in overflow mode ? 
-        //            var actualHeight = this.ActualHeight;
-        //            var actualWidth = this.ActualWidth;
-        //            if (actualHeight > 0)
-        //            {
-        //                if (prevClip.IsEmpty)
-        //                {
-        //                    prevClip = this.Bounds;
-        //                    g.SetClip(prevClip);
-        //                }
-        //                else
-        //                {
-
-        //                }
-        //            }
-
-        //        }
-
-        //        ////area to draw ?
-        //        //int rectCount = this.Rectangles.Count; 
-        //        PointF offset = HtmlContainer.ScrollOffset;
-        //        //int i = 0;
-        //        //int lim = rectCount - 1; 
-        //        //---------------------------------------------
-        //        if (this.CssDisplay != CssBoxDisplayType.Inline)
-        //        {
-        //            var bound = this.Bounds;
-        //            bound.Offset(offset);
-        //            //PaintBackground(g, bound, i == 0, i == lim);
-        //            PaintBackground(g, bound, true, true);
-        //            // i = 0;
-        //        }
-
-        //        if (this._lineBoxes.Count > 0)
-        //        {
-        //            var bound = this.Bounds;
-
-        //            //render only line that in 
-        //            foreach (var line in this._lineBoxes)
-        //            {
-        //                //paint each line ***  
-        //                if (line.LineBottom > bound.Bottom)
-        //                {
-
-        //                }
-        //                line.PaintLine(g, offset);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            foreach (var b in this._boxes)
-        //            {
-        //                if (b.CssDisplay == CssBoxDisplayType.None)
-        //                {
-        //                    continue;
-        //                }
-        //                if (b.ParentBox == null) //***
-        //                {
-        //                    args.PushContainingBox(b);
-
-        //                    b.Paint(g, args);
-
-        //                    args.PopContainingBox();
-
-        //                }
-        //                else
-        //                {
-        //                    b.Paint(g, args);
-        //                }
-
-        //                //else if (!b.IsInline)
-        //                //{
-        //                //    b.Paint(g);
-        //                //}
-        //                //else
-        //                //{
-        //                //}
-        //            }
-        //        }
-        //        //must! , 
-        //        RenderUtils.ReturnClip(g, prevClip);
-        //    }
-        //}
+         
+       
 
 
     }

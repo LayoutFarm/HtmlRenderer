@@ -81,6 +81,9 @@ namespace HtmlRenderer.Dom
         static readonly CssValueMap<CssBorderStyle> _cssBorderStyleMap = new CssValueMap<CssBorderStyle>();
         static readonly CssValueMap<CssEmptyCell> _cssEmptyCellMap = new CssValueMap<CssEmptyCell>();
         static readonly CssValueMap<CssFloat> _cssFloatMap = new CssValueMap<CssFloat>();
+        static readonly CssValueMap<CssFontStyle> _cssFontStyleMap = new CssValueMap<CssFontStyle>();
+        static readonly CssValueMap<CssFontVariant> _cssFontVariantMap = new CssValueMap<CssFontVariant>();
+        static readonly CssValueMap<CssFontWeight> _cssFontWeight = new CssValueMap<CssFontWeight>();
 
         static CssBoxUserUtilExtension()
         {
@@ -250,6 +253,11 @@ namespace HtmlRenderer.Dom
         }
         public static CssLength SetLineHeight(this CssBox box, string value)
         {
+
+            // _lineHeight =
+            //string.Format(NumberFormatInfo.InvariantInfo, "{0}px",
+            //CssValueParser.ParseLength(value, Size.Height, this, CssConstants.Em));
+
             float lineHeight = HtmlRenderer.Parse.CssValueParser.ParseLength(value, box.Size.Height, box, CssConstants.Em);
             return CssLength.MakePixelLength(lineHeight);
         }
@@ -276,6 +284,129 @@ namespace HtmlRenderer.Dom
         {
             return string.Concat("#", color.R.ToString("X"), color.G.ToString("X"), color.B.ToString("X"));
         }
+        public static string ToCssStringValue(this CssFontStyle fontstyle)
+        {
+            return _cssFontStyleMap.GetStringFromValue(fontstyle);
+        }
+        public static CssFontStyle GetFontStyle(string fontstyle)
+        {
+            return _cssFontStyleMap.GetValueFromString(fontstyle, CssFontStyle.Normal);
+        }
+        public static string ToCssStringValue(this CssFontVariant fontVariant)
+        {
+            return _cssFontVariantMap.GetStringFromValue(fontVariant);
+        }
+        public static CssFontVariant GetFontVariant(string fontVariant)
+        {
+            return _cssFontVariantMap.GetValueFromString(fontVariant, CssFontVariant.Normal);
+        }
+        public static string ToFontSizeString(this CssLength length)
+        {
+            if (length.IsFontSizeName)
+            {
+                switch (length.FontSizeName)
+                {
+                    case CssFontSizeConst.FONTSIZE_MEDIUM:
+                        return CssConstants.Medium;
+                    case CssFontSizeConst.FONTSIZE_SMALL:
+                        return CssConstants.Small;
+                    case CssFontSizeConst.FONTSIZE_X_SMALL:
+                        return CssConstants.XSmall;
+                    case CssFontSizeConst.FONTSIZE_XX_SMALL:
+                        return CssConstants.XXSmall;
+                    case CssFontSizeConst.FONTSIZE_LARGE:
+                        return CssConstants.Large;  
+                    case CssFontSizeConst.FONTSIZE_X_LARGE:
+                        return CssConstants.XLarge;
+                    case CssFontSizeConst.FONTSIZE_XX_LARGE:
+                        return CssConstants.XXLarge;
+                    case CssFontSizeConst.FONTSIZE_LARGER:
+                        return CssConstants.Larger;
+                    case CssFontSizeConst.FONTSIZE_SMALLER:
+                        return CssConstants.Smaller;
+                    default:
+                        return "";
+                }
+            }
+            else
+            {
+                return length.ToString();
+            }
+        }
+        public static void SetFontSize(this CssBox box, string value)
+        {
+            string length = HtmlRenderer.Parse.RegexParserUtils.Search(HtmlRenderer.Parse.RegexParserUtils.CssLength, value);
+            if (length != null)
+            {
 
+                CssLength len = new CssLength(length);
+                CssBox parentBox = null;
+                if (len.HasError)
+                {
+                    //str ไม่ได้อยู่ในรูป length
+                    //อาจอยู่ในรูป word อื่นๆ 
+                    len = CssLength.FontSizeMedium;
+                }
+                else if (len.Unit == CssUnit.Ems && ((parentBox = box.GetParentBox()) != null))
+                {
+                    len = len.ConvertEmToPoints(parentBox.ActualFont.SizeInPoints);
+                }
+                else
+                {
+
+                }
+                box.FontSize = len;
+            }
+            else
+            {
+                switch (value)
+                {
+                    default:
+                        {
+                            throw new NotSupportedException();
+                        }
+                    case CssConstants.Medium:
+                        box.FontSize = CssLength.FontSizeMedium;
+                        break;
+                    case CssConstants.Small:
+                        box.FontSize = CssLength.FontSizeSmall;
+                        break;
+                    case CssConstants.XSmall:
+                        box.FontSize = CssLength.FontSizeXSmall;
+                        break;
+                    case CssConstants.XXSmall:
+                        box.FontSize = CssLength.FontSizeXXSmall;
+                        break;
+                    case CssConstants.Large:
+                        box.FontSize = CssLength.FontSizeLarge;
+                        break;
+                    case CssConstants.XLarge:
+                        box.FontSize = CssLength.FontSizeLarge;
+                        break;
+                    case CssConstants.XXLarge:
+                        box.FontSize = CssLength.FontSizeLarger;
+                        break;
+                    case CssConstants.Smaller:
+                        box.FontSize = CssLength.FontSizeSmaller;
+                        break;
+                    case CssConstants.Larger:
+                        box.FontSize = CssLength.FontSizeLarger;
+                        break;
+                }
+
+            }
+        }
+
+
+        public static CssFontWeight GetFontWeight(string fontWeight)
+        {
+            return _cssFontWeight.GetValueFromString(fontWeight, CssFontWeight.NotAssign);
+        }
+        public static string ToCssStringValue(this CssFontWeight weight)
+        {
+            return _cssFontWeight.GetStringFromValue(weight);
+        }
     }
+
+
 }

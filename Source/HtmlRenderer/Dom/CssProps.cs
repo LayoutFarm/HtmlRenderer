@@ -1,4 +1,6 @@
-﻿using System;
+﻿//BSD, 2014, WinterCore
+
+using System;
 using System.Drawing;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -272,9 +274,63 @@ namespace HtmlRenderer.Dom
         Left,
         [CssName(CssConstants.Right)]
         Right,
+
         Initial,
         [CssName(CssConstants.Inherit)]
         Inherit
+    }
 
+    public enum CssFontStyle : byte
+    {
+        [CssName(CssConstants.Normal)]
+        Normal,
+        [CssName(CssConstants.Italic)]
+        Italic,
+        [CssName(CssConstants.Oblique)]
+        Oblique,
+        Initial,
+        [CssName(CssConstants.Inherit)]
+        Inherit
+    }
+    public enum CssFontVariant : byte
+    {
+        [CssName(CssConstants.Normal)]
+        Normal,
+        [CssName(CssConstants.SmallCaps)]
+        SmallCaps,
+        Initial,
+        [CssName(CssConstants.Inherit)]
+        Inherit
+    }
+    public enum CssFontWeight : byte
+    {
+        NotAssign,
+        [CssName(CssConstants.Normal)]
+        Normal,
+        [CssName(CssConstants.Bold)]
+        Bold,
+        [CssName(CssConstants.Bolder)]
+        Bolder,
+        [CssName(CssConstants.Lighter)]
+        Lighter,
+
+
+
+        [CssName("100")]
+        _100,
+        [CssName("200")]
+        _200,
+        [CssName("300")]
+        _300,
+        [CssName("400")]
+        _400,
+        [CssName("500")]
+        _500,
+        [CssName("600")]
+        _600,
+
+        Initial,        
+        [CssName(CssConstants.Inherit)]
+        Inherit
     }
 }

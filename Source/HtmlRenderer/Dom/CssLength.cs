@@ -5,6 +5,19 @@ using HtmlRenderer.Parse;
 
 namespace HtmlRenderer.Dom
 {
+    public static class CssFontSizeConst
+    {
+        public const int FONTSIZE_MEDIUM = 10;
+        public const int FONTSIZE_XX_SMALL = 11;
+        public const int FONTSIZE_X_SMALL = 12;
+        public const int FONTSIZE_SMALL = 13;
+        public const int FONTSIZE_LARGE = 14;
+        public const int FONTSIZE_X_LARGE = 15;
+        public const int FONTSIZE_XX_LARGE = 16;
+        public const int FONTSIZE_SMALLER = 17;
+        public const int FONTSIZE_LARGER = 18;
+    }
+
     /// <summary>
     /// Represents and gets info about a CSS Length
     /// </summary>
@@ -13,6 +26,9 @@ namespace HtmlRenderer.Dom
     /// </remarks>
     public struct CssLength
     {
+
+
+
         const int IS_AUTO = 1 << (10 - 1);
         const int IS_PERCENT = 1 << (11 - 1);
         const int IS_RELATIVE = 1 << (12 - 1);
@@ -24,19 +40,16 @@ namespace HtmlRenderer.Dom
         const int MEDIUM = 1 << (17 - 1);
         const int THICK = 1 << (18 - 1);
         const int THIN = 1 << (19 - 1);
-         
+
+        //-------------------------------------
+        //when used as font size
+        const int IS_FONT_SIZE_NAME = 1 << (20 - 1);
+        //------------------------------------- 
 
         #region Fields
         private readonly float _number;
         readonly int _flags;
 
-
-        //private readonly CssUnit _unit;
-        //private readonly bool _isPercentage;
-        //private readonly bool _hasError;
-        //private readonly bool _isRelative;
-        //readonly bool _isAuto;
-        //readonly bool _isAssign;
 
 
         #endregion
@@ -44,7 +57,7 @@ namespace HtmlRenderer.Dom
         public static readonly CssLength AutoLength = new CssLength(0, IS_ASSIGN | IS_AUTO);
         public static readonly CssLength NotAssign = new CssLength(0, 0);
         public static readonly CssLength NormalWordOrLine = new CssLength(0, IS_ASSIGN | NORMAL);
-        
+
 
         public static readonly CssLength Medium = new CssLength(0, IS_ASSIGN | MEDIUM);
         public static readonly CssLength Thick = new CssLength(0, IS_ASSIGN | THICK);
@@ -52,6 +65,20 @@ namespace HtmlRenderer.Dom
 
         public static readonly CssLength ZeroNoUnit = CssLength.MakeZeroLengthNoUnit();
         public static readonly CssLength ZeroPx = CssLength.MakePixelLength(0);
+        //-----------------------------------------------------------------------------------------
+
+        public static readonly CssLength FontSizeMedium = new CssLength(0, IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_MEDIUM);//default
+        public static readonly CssLength FontSizeXXSmall = new CssLength(0, IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_XX_SMALL);
+        public static readonly CssLength FontSizeXSmall = new CssLength(0, IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_X_SMALL);
+        public static readonly CssLength FontSizeSmall = new CssLength(0, IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_SMALL);
+        public static readonly CssLength FontSizeLarge = new CssLength(0, IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_LARGE);
+        public static readonly CssLength FontSizeXLarge = new CssLength(0, IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_X_LARGE);
+        public static readonly CssLength FontSizeXXLarge = new CssLength(0, IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_XX_LARGE);
+        
+        public static readonly CssLength FontSizeSmaller = new CssLength(0, IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_SMALLER);
+        public static readonly CssLength FontSizeLarger = new CssLength(0, IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_LARGE);
+
+
 
         #region Ctor
         /// <summary>
@@ -74,7 +101,7 @@ namespace HtmlRenderer.Dom
             {
                 this._flags |= NORMAL;
                 return;
-            } 
+            }
 
             //_isPercentage = false;
             //_isRelative = true;
@@ -195,7 +222,6 @@ namespace HtmlRenderer.Dom
         private CssLength(float num, CssUnit unit, bool isRelative)
         {
             this._number = num;
-
             this._flags = (int)unit | IS_ASSIGN;
             if (isRelative)
             {
@@ -221,6 +247,7 @@ namespace HtmlRenderer.Dom
             //this._hasError = false;
             //this._isAssign = true;
         }
+
 
         #endregion
 
@@ -248,7 +275,10 @@ namespace HtmlRenderer.Dom
         {
             return new CssLength(0, CssUnit.None, true);
         }
-
+        public static CssLength MakeFontSizePtUnit(float pointUnit)
+        {
+            return new CssLength(pointUnit, CssUnit.Points, false);
+        }
         /// <summary>
         /// Gets the number in the length
         /// </summary>
@@ -283,27 +313,21 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public bool IsPercentage
         {
-            //get { return _isPercentage; }
+
             get { return (this._flags & IS_PERCENT) != 0; }
         }
 
-
+        public bool IsFontSizeName
+        {
+            get { return (this._flags & IS_FONT_SIZE_NAME) != 0; }
+        }
         public bool IsAuto
         {
             get { return (this._flags & IS_AUTO) != 0; }
-            //get
-            //{
-
-            //    return this._isAuto;
-            //}
         }
         public bool IsEmpty
         {
             get { return (this._flags & IS_ASSIGN) == 0; }
-            //get
-            //{
-            //    return !this._isAssign;
-            //}
         }
         public bool IsNormalWordSpacing
         {
@@ -335,7 +359,10 @@ namespace HtmlRenderer.Dom
         {
             get { return (CssUnit)(this._flags & 0xFF); }
         }
-
+        public int FontSizeName
+        {
+            get { return (int)(this._flags & 0xFF); }
+        }
         ///// <summary>
         ///// Gets the length as specified in the string
         ///// </summary>

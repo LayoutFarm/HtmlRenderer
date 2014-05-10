@@ -1,14 +1,4 @@
-﻿// "Therefore those skilled at the unorthodox
-// are infinite as heaven and earth,
-// inexhaustible as the great rivers.
-// When they come to an end,
-// they begin again,
-// like the days and months;
-// they die and are reborn,
-// like the four seasons."
-// 
-// - Sun Tsu,
-// "The Art of War"
+﻿//BSD, 2014, WinterCore
 
 using System;
 using System.Drawing;
@@ -19,38 +9,37 @@ using HtmlRenderer.Parse;
 using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
-{
-    /// <summary>
-    /// css property set
-    /// </summary>
-    public class CssPropSet
-    {
-        [AttrName(HtmlConstants.Display)]
-        public CssDisplay CssDisplayType { get; set; }
-
-        [AttrName(HtmlConstants.Dir)]
-        public CssDirection CssDiretion { get; set; }
-    }
-
-
-
-
+{   
 
     partial class CssBoxBase
     {
-        public CssDisplay CssDisplay
+        CssBorderProp CheckBorderVersion()
         {
-            get { return this._cssDisplay; }
-            set
-            {
-                this._cssDisplay = value;
-                this.PassTestInlineOnlyDeep = this.PassTestInlineOnly = false; 
-            } 
+            return this._borderProps = this._borderProps.GetMyOwnVersion(this);
         }
-        public CssDirection CssDirection
+        CssMarginProp CheckMarginVersion()
         {
-            get { return this._cssDirection; }
-            set { this._cssDirection = value; }
+            return this._marginProps = this._marginProps.GetMyOwnVersion(this);
+        }
+        CssPaddingProp CheckPaddingVersion()
+        {
+            return this._paddingProps = this._paddingProps.GetMyOwnVersion(this);
+        }
+        CssCornerProp CheckCornerVersion()
+        {
+            return this._cornerProps = this._cornerProps.GetMyOwnVersion(this);
+        }
+        CssFontProp CheckFontVersion()
+        {
+            return this._fontProps = this._fontProps.GetMyOwnVersion(this);
+        }
+        CssListProp CheckListPropVersion()
+        {
+            return this._listProps = this._listProps.GetMyOwnVersion(this);
+        }
+        CssBackgroundProp CheckBgVersion()
+        {
+            return this._backgroundProps = this._backgroundProps.GetMyOwnVersion(this);
         }
         //----------------------------------------------------
         internal bool PassTestInlineOnly
