@@ -168,11 +168,7 @@ namespace HtmlRenderer.Dom
         }
         public static string GetCornerRadius(this CssBox box)
         {
-            // CornerNERadius = r[0].Value;
-            //                CornerNWRadius = r[1].Value;
-            //                CornerSERadius = r[2].Value;
-            //                CornerSWRadius = r[3].Value;
-            //CssLength[] corners = box.CornerRadius;
+         
             System.Text.StringBuilder stbuilder = new System.Text.StringBuilder();
             stbuilder.Append(box.CornerNERadius);
             stbuilder.Append(' ');
@@ -343,8 +339,7 @@ namespace HtmlRenderer.Dom
                 CssBox parentBox = null;
                 if (len.HasError)
                 {
-                    //str ไม่ได้อยู่ในรูป length
-                    //อาจอยู่ในรูป word อื่นๆ 
+                    
                     len = CssLength.FontSizeMedium;
                 }
                 else if (len.Unit == CssUnit.Ems && ((parentBox = box.GetParentBox()) != null))

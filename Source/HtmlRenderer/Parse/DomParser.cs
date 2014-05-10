@@ -431,7 +431,7 @@ namespace HtmlRenderer.Parse
                             }
                             box.BorderLeftWidth = box.BorderTopWidth = box.BorderRightWidth = box.BorderBottomWidth = TranslateLength(CssLength.MakeBorderLength(value));
 
-                            if (tag.Name == HtmlConstants.Table)
+                            if (tag.WellknownTagName == WellknownHtmlTagName.TABLE)
                             {
                                 if (value != "0")
                                     ApplyTableBorder(box, "1px");
@@ -474,15 +474,16 @@ namespace HtmlRenderer.Parse
                             break;
                         case HtmlConstants.Size:
 
-
-                            if (tag.Name.Equals(HtmlConstants.Hr, StringComparison.OrdinalIgnoreCase))
+                            if (tag.WellknownTagName == WellknownHtmlTagName.HR)
                             {
                                 box.Height = new CssLength(TranslateLength(value));
+
                             }
-                            else if (tag.Name.Equals(HtmlConstants.Font, StringComparison.OrdinalIgnoreCase))
+                            else if (tag.WellknownTagName == WellknownHtmlTagName.FONT)
                             {
                                 box.SetFontSize(value);
-                            }
+                            } 
+
                             break;
                         case HtmlConstants.Valign:
                             box.SetVerticalAlign(value.ToLower());

@@ -1167,13 +1167,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        ///// <summary>
-        ///// Gets the actual font of the parent
-        ///// </summary>
-        //public Font ActualParentFont
-        //{
-        //    get { return GetParent() == null ? ActualFont : GetParent().ActualFont; }
-        //}
+       
 
         /// <summary>
         /// Gets the font that should be actually used to paint the text of the box

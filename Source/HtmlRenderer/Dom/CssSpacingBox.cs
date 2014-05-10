@@ -30,10 +30,8 @@ namespace HtmlRenderer.Dom
                 new Dictionary<string, string> { { "colspan", "1" } }))
         {
 
-            _extendedBox = extendedBox;
-            //Display = CssConstants.None;
-            this.CssDisplay = CssDisplay.None;
-            // _startRow = startRow; 
+            _extendedBox = extendedBox; 
+            this.CssDisplay = CssDisplay.None; 
             _endRow = startRow + Int32.Parse(extendedBox.GetAttribute("rowspan", "1")) - 1;
         }
 

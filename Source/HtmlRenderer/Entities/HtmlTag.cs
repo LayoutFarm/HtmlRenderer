@@ -36,6 +36,7 @@ namespace HtmlRenderer.Dom
         TD,
         TR,
         IFREAME,
+        FONT,
 
         X//test for extension 
     }
@@ -126,8 +127,11 @@ namespace HtmlRenderer.Dom
                 case "iframe":
                     wellKnownTagName = WellknownHtmlTagName.IFREAME;
                     break;
+                case "font":
+                    wellKnownTagName = WellknownHtmlTagName.FONT;
+                    break;
                 case "x":
-                    wellKnownTagName = WellknownHtmlTagName.X;
+                    wellKnownTagName = WellknownHtmlTagName.X; //test for extension
                     break;
             }
         }
