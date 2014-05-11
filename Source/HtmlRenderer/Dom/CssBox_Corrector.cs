@@ -21,32 +21,48 @@ namespace HtmlRenderer.Dom
             CssBox curBox = box;
             CssBox parentBox = curBox.ParentBox;
             while (curBox.CssDisplay < CssDisplay.__CONTAINER_BEGIN_HERE && parentBox != null)
-            {   
+            {
                 //climbing up, find parent box the has container property 
                 curBox = parentBox;
                 parentBox = curBox.ParentBox;
-            }  
+            }
 
             //-----------------------------------------------------------
             box = parentBox;
-            int index = 0;
-            if (box != null && (index = box.Boxes.IndexOf(curBox)) > 0)
-            {                    
-                if (index > 0)
+            //int index = 0;
+            //if (box != null && (index = box.Boxes.IndexOf(curBox)) > 0)
+            //{
+            //    if (index > 0)
+            //    {
+            //        CssBox sib = null;
+            //        for (int i = index - 1; i >= 0; --i)
+            //        {
+            //            sib = box.Boxes[i];
+            //            if (sib.CssDisplay != CssDisplay.None && !sib.IsAbsolutePosition)
+            //            {
+            //                return sib;
+            //            }
+            //        }
+            //        return sib.CssDisplay == CssDisplay.None ? null : sib;
+            //    }
+            //}
+            CssBox sib = curBox.PrevSibling;
+            if (sib != null)
+            {
+                do
                 {
-                    CssBox sib = null; 
-                    for (int i = index - 1; i >= 0; --i)
-                    {   
-                        sib = box.Boxes[i];
-                        if (sib.CssDisplay != CssDisplay.None && !sib.IsAbsolutePosition)
-                        {
-                            return sib;
-                        }
+                    if (sib.CssDisplay != CssDisplay.None && !sib.IsAbsolutePosition)
+                    {
+                        return sib;
                     }
-                    return sib.CssDisplay == CssDisplay.None ? null : sib;
-                } 
+                    sib = sib.PrevSibling;
+
+                } while (sib != null);
+
+                //return sib.CssDisplay == CssDisplay.None ? null : sib;
             }
             return null;
+            //return null;
         }
         /// <summary>
         /// Gets the previous sibling of this box.
@@ -55,22 +71,40 @@ namespace HtmlRenderer.Dom
         public static CssBox GetPreviousSibling(CssBox b)
         {
             if (b.ParentBox != null)
-            {   
-                var parentChildBoxes = b.ParentBox.Boxes;
-                int index = parentChildBoxes.IndexOf(b);
-                if (index > 0)
+            {
+
+                CssBox sib = b.PrevSibling;
+                if (sib != null)
                 {
-                    CssBox sib = null;
-                    for (int i = index - 1; i >= 0; --i)
+                    do
                     {
-                        sib = parentChildBoxes[i];
                         if (sib.CssDisplay != CssDisplay.None && !sib.IsAbsolutePosition)
                         {
                             return sib;
                         }
-                    }
-                    return sib.CssDisplay == CssDisplay.None ? null : sib; 
+                        sib = sib.PrevSibling;
+                    } while (sib != null);
+
+                    //return sib.CssDisplay == CssDisplay.None ? null : sib;
                 }
+                return null;
+                
+
+                //var parentChildBoxes = b.ParentBox.Boxes;
+                //int index = parentChildBoxes.IndexOf(b);
+                //if (index > 0)
+                //{
+                //    CssBox sib = null;
+                //    for (int i = index - 1; i >= 0; --i)
+                //    {
+                //        sib = parentChildBoxes[i];
+                //        if (sib.CssDisplay != CssDisplay.None && !sib.IsAbsolutePosition)
+                //        {
+                //            return sib;
+                //        }
+                //    }
+                //    return sib.CssDisplay == CssDisplay.None ? null : sib; 
+                //}
             }
             return null;
         }
@@ -140,7 +174,8 @@ namespace HtmlRenderer.Dom
                     }
 
                     //remove this br box from parent ***
-                    brBox.ParentBox = null;
+                     
+                    brBox.SetNewParentBox(null);
                 }
 
             } while (brBox != null);
@@ -194,8 +229,8 @@ namespace HtmlRenderer.Dom
                 while (ContainsInlinesOnlyDeep(firstChild))
                 {
                     //if first box has only inline(deep) then
-                    //move first child to newLeftBlock ***
-                    firstChild.ParentBox = newLeftBlock;
+                    //move first child to newLeftBlock ***                     
+                    firstChild.SetNewParentBox(newLeftBlock);
                     //next
                     firstChild = box.GetFirstChild();
                 }
@@ -204,8 +239,8 @@ namespace HtmlRenderer.Dom
                 //newLeftBlock.SetBeforeBox(box.GetFirstChild());
                 newLeftBlock.ChangeSiblingOrder(0);
                 var splitBox = box.Boxes[1];
-                splitBox.ParentBox = null;
-
+                  
+                splitBox.SetNewParentBox(null);
                 CorrectBlockSplitBadBox(box, splitBox, newLeftBlock);
 
                 if (box.ChildCount > 2)
@@ -214,8 +249,7 @@ namespace HtmlRenderer.Dom
                     var rightBox = CssBox.CreateBox(box, null, 2);
                     while (box.ChildCount > 3)
                     {
-                        //move all 
-                        box.Boxes[3].ParentBox = rightBox;
+                        box.Boxes[3].SetNewParentBox(rightBox);
                     }
                 }
             }
@@ -248,7 +282,7 @@ namespace HtmlRenderer.Dom
             {
                 had_new_leftbox = true;
                 //move element that has only inline(deep) to leftbox
-                badBox.GetFirstChild().ParentBox = leftBox;
+                badBox.GetFirstChild().SetNewParentBox(leftBox);
             }
 
             var splitBox = badBox.GetFirstChild();
@@ -257,11 +291,11 @@ namespace HtmlRenderer.Dom
             {
                 //recursive
                 CorrectBlockSplitBadBox(parentBox, splitBox, leftBlock);
-                splitBox.ParentBox = null;
+                splitBox.SetNewParentBox(null);
             }
             else
             {
-                splitBox.ParentBox = parentBox;
+                splitBox.SetNewParentBox(parentBox);
             }
 
             if (badBox.ChildCount > 0)
@@ -290,7 +324,7 @@ namespace HtmlRenderer.Dom
 
                 while (badBox.ChildCount > 0)
                 {   //move all children to right box 
-                    badBox.Boxes[0].ParentBox = rightBox;
+                    badBox.Boxes[0].SetNewParentBox(rightBox);
                 }
             }
             else if (splitBox.ParentBox != null && parentBox.ChildCount > 1)
@@ -339,10 +373,10 @@ namespace HtmlRenderer.Dom
                         CssBox tomoveBox = null;
                         while (i < allChildren.Count && ((tomoveBox = allChildren[i]).IsInline))
                         {
-                            tomoveBox.ParentBox = newbox;
+                            tomoveBox.SetNewParentBox(newbox);
+                            ///tomoveBox.ParentBox = newbox;
                         }
                         //so new box contains inline that move from current line
-
                     }
                 }
                 //after correction , now all children in this box are block element 

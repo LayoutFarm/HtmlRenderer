@@ -596,7 +596,8 @@ namespace HtmlRenderer.Parse
                     //create new anonymous box
                     var block = CssBox.CreateBlock(childBox.ParentBox, null, childIndex);
                     //move this imgbox to new child
-                    childBox.ParentBox = block;
+                     
+                    childBox.SetNewParentBox(block);
                     //childBox.Display = CssConstants.Inline;
                     childBox.CssDisplay = CssDisplay.Inline;
                 }

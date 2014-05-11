@@ -22,31 +22,66 @@ namespace HtmlRenderer.Dom
                 yield return tmp[i];
             }
         }
+        
         public void Add(CssBox box)
         {
             if (this.owner == box)
             {
                 throw new NotSupportedException();
             }
-            CssBox.UnsafeSetNodes(box, owner);
-            this._boxes.Add(box);
+            int count = _boxes.Count;
+            if (count > 0)
+            {
+                CssBox.UnsafeSetNodes(box, owner, _boxes[count - 1]);
+                this._boxes.Add(box);
+            }
+            else
+            {
+                CssBox.UnsafeSetNodes(box, owner, null);
+                this._boxes.Add(box);
+            }
         }
         public void Insert(int index, CssBox box)
         {
-            this._boxes.Insert(index, box);
-            CssBox.UnsafeSetNodes(box, owner);
+            int count = _boxes.Count;
+
+            switch (index)
+            {
+                case 0:
+                    {
+                        //insert at pos
+                        if (count > 0)
+                        {
+                            CssBox currentBoxAtIndex = _boxes[0];
+                            CssBox.UnsafeSetNodes(currentBoxAtIndex, owner, box);
+                        }
+                        this._boxes.Insert(index, box);
+                        CssBox.UnsafeSetNodes(box, owner, null);
+
+                    } break;
+                default:
+                    {
+                        CssBox currentBoxAtIndex = _boxes[index];
+                        CssBox currentBoxAtPreIndex = _boxes[index - 1];
+
+                        CssBox.UnsafeSetNodes(currentBoxAtIndex, owner, box);
+                        CssBox.UnsafeSetNodes(box, owner, currentBoxAtPreIndex);
+
+                        this._boxes.Insert(index, box);
+
+                    } break;
+            }
         }
         internal void ChangeSiblingIndex(CssBox box, int toNewIndex)
         {
-            this._boxes.Remove(box);
-            this._boxes.Insert(toNewIndex, box);
-            //this._boxes.Insert(index, box);
-            //CssBox.UnsafeSetNodes(box, owner, null, null);
+            this.Remove(box);
+            this.Insert(toNewIndex, box);
+
         }
-        public int IndexOf(CssBox box)
-        {
-            return this._boxes.IndexOf(box);
-        }
+        //public int IndexOf(CssBox box)
+        //{
+        //    return this._boxes.IndexOf(box);
+        //}
         public int Count
         {
             get
@@ -54,23 +89,28 @@ namespace HtmlRenderer.Dom
                 return this._boxes.Count;
             }
         }
-        public bool Remove(CssBox box)
+        public void Remove(CssBox box)
         {
-            if (this._boxes.Remove(box))
-            {
-                CssBox.UnsafeSetNodes(box, null);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            this.RemoveAt(this._boxes.IndexOf(box));
         }
         public void RemoveAt(int index)
         {
+            
             CssBox tmp = this._boxes[index];
+            CssBox nextBox = null; 
+            if (index < _boxes.Count - 1)
+            { 
+                nextBox = this._boxes[index + 1]; 
+                CssBox preBox = null;
+                if (index > 0)
+                {
+                    preBox = this._boxes[index - 1];
+                }
+                CssBox.UnsafeSetNodes(nextBox, owner, preBox);
+
+            }
             this._boxes.RemoveAt(index);
-            CssBox.UnsafeSetNodes(tmp, null);
+            CssBox.UnsafeSetNodes(tmp, null, null);
         }
         public CssBox this[int index]
         {

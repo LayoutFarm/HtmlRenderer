@@ -12,10 +12,23 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the parent css box of this css box in the hierarchy
         /// </summary>
-        private CssBox _parentBox; 
-        internal static void UnsafeSetNodes(CssBox childNode, CssBox parent) 
+        CssBox _parentBox;
+        /// <summary>
+        /// store linked to prev sibling
+        /// </summary>
+        CssBox _prevSibling;
+
+        internal static void UnsafeSetNodes(CssBox childNode, CssBox parent, CssBox prevSibling)
         {
-            childNode._parentBox = parent;    
+            childNode._parentBox = parent;
+            childNode._prevSibling = prevSibling;
+        }
+        internal CssBox PrevSibling
+        {
+            get
+            {
+                return this._prevSibling;
+            }
         }
     }
 

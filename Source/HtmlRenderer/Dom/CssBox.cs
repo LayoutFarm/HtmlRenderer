@@ -87,27 +87,29 @@ namespace HtmlRenderer.Dom
         }
 
         /// <summary>
-        /// Gets or sets the parent box of this box
+        /// Gets  the parent box of this box
         /// </summary>
         public CssBox ParentBox
         {
             get { return _parentBox; }
-            set
-            {
-                //Remove from current parent
-
-                if (this._parentBox != null)
-                {
-                    this._parentBox.Boxes.Remove(this);
-                }
-                if (value != null)
-                {
-                    value.Boxes.Add(this);
-                    _htmlContainer = value.HtmlContainer;
-                }
-            }
         }
 
+        /// <summary>
+        /// remove this box from its parent and add to new parent box
+        /// </summary>
+        /// <param name="parentBox"></param>
+        public void SetNewParentBox(CssBox parentBox)
+        {
+            if (this._parentBox != null)
+            {
+                this._parentBox.Boxes.Remove(this);
+            }
+            if (parentBox != null)
+            {
+                parentBox.Boxes.Add(this);
+                _htmlContainer = parentBox.HtmlContainer;
+            }
+        }
 
         /// <summary>
         /// Is the box is of "br" element.
@@ -511,7 +513,7 @@ namespace HtmlRenderer.Dom
             {
                 throw new Exception("before box doesn't exist on parent");
             }
-            this._parentBox.Boxes.ChangeSiblingIndex(this, siblingIndex); 
+            this._parentBox.Boxes.ChangeSiblingIndex(this, siblingIndex);
         }
 
         /// <summary>
