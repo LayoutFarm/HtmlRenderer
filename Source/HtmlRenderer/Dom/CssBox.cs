@@ -37,7 +37,7 @@ namespace HtmlRenderer.Dom
     public partial class CssBox : CssBoxBase, IDisposable
     {
 
-        //test1.7
+
         /// <summary>
         /// Init.
         /// </summary>
@@ -45,17 +45,21 @@ namespace HtmlRenderer.Dom
         /// <param name="tag">optional: the html tag associated with this css box</param>
         public CssBox(CssBox parentBox, HtmlTag tag)
         {
+
+            this._boxes = new CssBoxCollection(this);
+
             if (parentBox != null)
             {
-                _parentBox = parentBox;
-                _parentBox.Boxes.Add(this);
+                parentBox.Boxes.Add(this);
             }
+
             _htmltag = tag;
-            //evaluate some aspected of html tag 
+
             if (tag != null)
             {
                 this.wellKnownTagName = tag.WellknownTagName;
             }
+
         }
         public WellknownHtmlTagName WellknownTagName
         {
@@ -90,17 +94,15 @@ namespace HtmlRenderer.Dom
             get { return _parentBox; }
             set
             {
-                //Remove from last parent
-                if (_parentBox != null && _parentBox.Boxes.Contains(this))
-                {
-                    _parentBox.Boxes.Remove(this);
-                }
-                _parentBox = value;
+                //Remove from current parent
 
-                //Add to new parent
-                if (value != null && !value.Boxes.Contains(this))
+                if (this._parentBox != null)
                 {
-                    _parentBox.Boxes.Add(this);
+                    this._parentBox.Boxes.Remove(this);
+                }
+                if (value != null)
+                {
+                    value.Boxes.Add(this);
                     _htmlContainer = value.HtmlContainer;
                 }
             }
@@ -115,8 +117,6 @@ namespace HtmlRenderer.Dom
             get
             {
                 return this.WellknownTagName == WellknownHtmlTagName.BR;
-                //return _htmltag != null
-                //    && _htmltag.Name.Equals("br", StringComparison.InvariantCultureIgnoreCase);
             }
         }
 
@@ -125,7 +125,6 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public bool IsInline
         {
-            //get { return (Display == CssConstants.Inline || Display == CssConstants.InlineBlock) && !IsBrElement; }
             get
             {
                 return (this.CssDisplay == CssDisplay.Inline
@@ -144,7 +143,6 @@ namespace HtmlRenderer.Dom
             {
                 return this.CssDisplay == CssDisplay.Block;
             }
-            //get { return Display == CssConstants.Block; }
         }
 
         /// <summary>
@@ -198,11 +196,6 @@ namespace HtmlRenderer.Dom
                 }
 
                 var box = ParentBox;
-                //while (!box.IsBlock &&
-                //        box.Display != CssConstants.ListItem &&
-                //        box.Display != CssConstants.Table &&
-                //        box.Display != CssConstants.TableCell &&
-                //        box.ParentBox != null)
                 while (!box.IsBlock &&
                     box.CssDisplay != CssDisplay.ListItem &&
                     box.CssDisplay != CssDisplay.Table &&
@@ -444,15 +437,14 @@ namespace HtmlRenderer.Dom
         /// <param name="tag">optional: the html tag to define the box</param>
         /// <param name="before">optional: to insert as specific location in parent box</param>
         /// <returns>the new box</returns>
-        public static CssBox CreateBox(CssBox parent, HtmlTag tag = null, CssBox before = null)
+        public static CssBox CreateBox(CssBox parent, HtmlTag tag = null, int insertAt = -1)
         {
             ArgChecker.AssertArgNotNull(parent, "parent");
-
             var newBox = new CssBox(parent, tag);
             newBox.InheritStyle();
-            if (before != null)
+            if (insertAt > -1)
             {
-                newBox.SetBeforeBox(before);
+                newBox.ChangeSiblingOrder(insertAt);
             }
             return newBox;
         }
@@ -474,12 +466,10 @@ namespace HtmlRenderer.Dom
         /// <param name="tag">optional: the html tag to define the box</param>
         /// <param name="before">optional: to insert as specific location in parent box</param>
         /// <returns>the new block box</returns>
-        internal static CssBox CreateBlock(CssBox parent, HtmlTag tag = null, CssBox before = null)
+        internal static CssBox CreateBlock(CssBox parent, HtmlTag tag = null, int insertAt = -1)
         {
             ArgChecker.AssertArgNotNull(parent, "parent");
-
-            var newBox = CreateBox(parent, tag, before);
-            //newBox.Display = CssConstants.Block;
+            var newBox = CreateBox(parent, tag, insertAt);
             newBox.CssDisplay = CssDisplay.Block;
             return newBox;
         }
@@ -501,18 +491,27 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        /// <summary>
-        /// Set this box in 
-        /// </summary>
-        /// <param name="before"></param>
-        public void SetBeforeBox(CssBox before)
-        {
-            int index = _parentBox.Boxes.IndexOf(before);
-            if (index < 0)
-                throw new Exception("before box doesn't exist on parent");
+        ///// <summary>
+        /////  
+        ///// </summary>
+        ///// <param name="before"></param>
+        //void SetBeforeBox(CssBox before)
+        //{
+        //    int index = _parentBox.Boxes.IndexOf(before);
+        //    if (index < 0)
+        //        throw new Exception("before box doesn't exist on parent");
 
-            _parentBox.Boxes.Remove(this);
-            _parentBox.Boxes.Insert(index, this);
+        //    var tmpParent = this._parentBox;
+        //    tmpParent.Boxes.Remove(this);
+        //    tmpParent.Boxes.Insert(index, this);
+        //} 
+        void ChangeSiblingOrder(int siblingIndex)
+        {
+            if (siblingIndex < 0)
+            {
+                throw new Exception("before box doesn't exist on parent");
+            }
+            this._parentBox.Boxes.ChangeSiblingIndex(this, siblingIndex); 
         }
 
         /// <summary>
@@ -805,7 +804,7 @@ namespace HtmlRenderer.Dom
         {
             //if (Display == CssConstants.ListItem && ListStyleType != CssConstants.None)
             if (this.CssDisplay == CssDisplay.ListItem && ListStyleType != CssListStyleType.None)
-            {   
+            {
                 if (_listItemBox == null)
                 {
                     _listItemBox = new CssBox(null, null);
@@ -840,7 +839,7 @@ namespace HtmlRenderer.Dom
                                 _listItemBox.Text = new SubString(CommonUtils.ConvertToAlphaNumber(GetIndexForList(), ListStyleType) + ".");
                             } break;
                     }
-                     
+
 
                     _listItemBox.ParseToWords();
                     _listItemBox.PerformLayoutImp(g);
@@ -1114,7 +1113,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-      
+
         /// <summary>
         /// Gets the rectangles where inline box will be drawn. See Remarks for more info.
         /// </summary>
@@ -1184,15 +1183,24 @@ namespace HtmlRenderer.Dom
                 return ActualRight;
             }
         }
+        bool IsLastChild
+        {
+            get
+            {
+                return this.ParentBox.Boxes[this.ParentBox.ChildCount - 1] == this;
+            }
 
+        }
         /// <summary>
         /// Gets the result of collapsing the vertical margins of the two boxes
         /// </summary>
         /// <returns>Resulting bottom margin</returns>
         private float MarginBottomCollapse()
         {
+
             float margin = 0;
-            if (ParentBox != null && ParentBox.Boxes.IndexOf(this) == ParentBox.Boxes.Count - 1 && _parentBox.ActualMarginBottom < 0.1)
+            //if (ParentBox != null && ParentBox.Boxes.IndexOf(this) == ParentBox.Boxes.Count - 1 && _parentBox.ActualMarginBottom < 0.1)
+            if (ParentBox != null && this.IsLastChild && _parentBox.ActualMarginBottom < 0.1)
             {
                 var lastChildBottomMargin = _boxes[_boxes.Count - 1].ActualMarginBottom;
                 //margin = Height == "auto" ? Math.Max(ActualMarginBottom, lastChildBottomMargin) : lastChildBottomMargin;
@@ -1451,7 +1459,7 @@ namespace HtmlRenderer.Dom
                         y = rectangle.Top;
                     } break;
             }
-             
+
 
             y -= ActualPaddingBottom - ActualBorderBottomWidth;
 
@@ -1467,7 +1475,7 @@ namespace HtmlRenderer.Dom
             var pen = RenderUtils.GetPen(ActualColor);
             g.DrawLine(pen, x1, y, x2, y);
         }
- 
+
         internal void RectanglesReset()
         {
             this.SummaryBound = RectangleF.Empty;

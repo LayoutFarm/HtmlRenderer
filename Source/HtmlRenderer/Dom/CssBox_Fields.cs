@@ -29,10 +29,7 @@ namespace HtmlRenderer.Dom
     {
         //----------------------------------------------------
         #region Fields and Consts
-        /// <summary>
-        /// the parent css box of this css box in the hierarchy
-        /// </summary>
-        private CssBox _parentBox;
+       
 
         /// <summary>
         /// the root container for the hierarchy
@@ -84,28 +81,19 @@ namespace HtmlRenderer.Dom
 
 
         private readonly List<CssRect> _boxWords = new List<CssRect>();
-        private readonly List<CssBox> _boxes = new List<CssBox>();
+        readonly CssBoxCollection _boxes;
         private readonly LinkedList<CssLineBox> _lineBoxes = new LinkedList<CssLineBox>();
 
         /// <summary>
         /// Gets the childrenn boxes of this box
         /// </summary>
-        List<CssBox> Boxes
+        CssBoxCollection Boxes
         {
             get { return _boxes; }
         }
         public IEnumerable<CssBox> GetChildBoxIter()
         {
-            var thisboxes = this._boxes;
-            if (thisboxes != null)
-            {
-                //collection maybe modifier during iter ****
-                //need to 'Count'.
-                for (int i = 0; i < thisboxes.Count; ++i)
-                {
-                    yield return thisboxes[i];
-                }
-            }
+            return this._boxes.GetChildBoxIter();             
         }
 
         internal IEnumerable<CssLineBox> GetHostLineIter()
@@ -121,7 +109,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._boxes.Count;
+                return this._boxes.Count;                 
             }
         }
 
@@ -183,7 +171,7 @@ namespace HtmlRenderer.Dom
                     string att = this.GetAttribute("colspan", "1");
                     int colspan;
                     if (!int.TryParse(att, out colspan))
-                    {   
+                    {
                         colspan = 1;
                     }
                     this._boxCompactFlags |= CssBoxFlagsConst.EVAL_COLSPAN;

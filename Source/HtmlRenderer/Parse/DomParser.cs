@@ -587,13 +587,14 @@ namespace HtmlRenderer.Parse
         /// <param name="box">the current box to correct its sub-tree</param>
         private static void CorrectImgBoxes(CssBox box)
         {
+            int childIndex = 0;
             foreach (var childBox in box.GetChildBoxIter())
             {
                 //if (childBox is CssBoxImage &&  childBox.Display == CssConstants.Block)
                 if (childBox is CssBoxImage && childBox.CssDisplay == CssDisplay.Block)
                 {
                     //create new anonymous box
-                    var block = CssBox.CreateBlock(childBox.ParentBox, null, childBox);
+                    var block = CssBox.CreateBlock(childBox.ParentBox, null, childIndex);
                     //move this imgbox to new child
                     childBox.ParentBox = block;
                     //childBox.Display = CssConstants.Inline;
@@ -604,6 +605,7 @@ namespace HtmlRenderer.Parse
                     // recursive
                     CorrectImgBoxes(childBox);
                 }
+                childIndex++;
             }
             //for (int i = box.ChildCount - 1; i >= 0; i--)
             //{

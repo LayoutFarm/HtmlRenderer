@@ -80,11 +80,17 @@ namespace HtmlRenderer.Utils
         /// <param name="box">the box to check</param>
         public static bool IsBoxHasWhitespace(CssBox box)
         {
-            if (!box.Words[0].IsImage && box.Words[0].HasSpaceBefore && box.IsInline)
+            if (box.IsInline)
             {
-                var sib = CssBox.GetPreviousContainingBlockSibling(box);
-                if (sib != null && sib.IsInline)
-                    return true;
+                var firstWord = box.FirstWord; 
+                if (!firstWord.IsImage && firstWord.HasSpaceBefore)
+                {
+                    var sib = CssBox.GetPreviousContainingBlockSibling(box);
+                    if (sib != null && sib.IsInline)
+                    {
+                        return true;
+                    }
+                }
             }
             return false;
         }

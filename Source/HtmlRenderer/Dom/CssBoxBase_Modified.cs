@@ -17,13 +17,14 @@ namespace HtmlRenderer.Dom
         public const int EVAL_ROWSPAN = 1 << (3 - 1);
         public const int EVAL_COLSPAN = 1 << (4 - 1);
     }
+  
 
     partial class CssBoxBase
     {
 
         int _compactFlags;
         //-------------------------------
-        
+
 
         internal bool HasAssignLocation
         {
@@ -92,7 +93,7 @@ namespace HtmlRenderer.Dom
             this.InlineOnlyDeepResult = inlineOnlyDeepResult;
         }
         //----------------------------------------------------
-        
+
 
     }
 

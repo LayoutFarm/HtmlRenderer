@@ -40,32 +40,14 @@ namespace HtmlRenderer.Dom
     public enum CssDisplay : byte
     {
         [CssName(CssConstants.Inline)]
-        Inline,//default
+        Inline,//default 
 
         [CssName(CssConstants.InlineBlock)]
         InlineBlock,
-
-        [CssName(CssConstants.Block)]
-        Block,
-
-        [CssName(CssConstants.ListItem)]
-        ListItem,
-
-        [CssName(CssConstants.None)]
-        None,
-
-        [CssName(CssConstants.Table)]
-        Table,
-
-        [CssName(CssConstants.TableCell)]
-        TableCell,
-
         [CssName(CssConstants.TableRow)]
         TableRow,
-
         [CssName(CssConstants.InlineTable)]
         InlineTable,
-
         [CssName(CssConstants.TableColumn)]
         TableColumn,
 
@@ -83,6 +65,25 @@ namespace HtmlRenderer.Dom
 
         [CssName(CssConstants.TableFooterGroup)]
         TableFooterGroup,
+
+        [CssName(CssConstants.None)]
+        None,
+
+        //===========================================
+        /// <summary>
+        ///following group act as Containing box : Block,Table,TableCell, ListItem
+        /// </summary>
+        __CONTAINER_BEGIN_HERE,
+
+        [CssName(CssConstants.Block)]
+        Block,
+        [CssName(CssConstants.Table)]
+        Table,
+        [CssName(CssConstants.TableCell)]
+        TableCell,
+        [CssName(CssConstants.ListItem)]
+        ListItem,
+        //===========================================
     }
     public enum CssWhiteSpace : byte
     {
@@ -348,11 +349,11 @@ namespace HtmlRenderer.Dom
         [CssName(CssConstants.None)]
         None,
         [CssName(CssConstants.Disc)]
-        Disc, 
-       
+        Disc,
+
         [CssName(CssConstants.Circle)]
         Circle,
-         [CssName(CssConstants.Separate)]
+        [CssName(CssConstants.Separate)]
         Square,
         //-----------------------------
         Initial,
@@ -376,8 +377,8 @@ namespace HtmlRenderer.Dom
         UpperLatin,
 
         [CssName(CssConstants.LowerGreek)]
-        LowerGreek,    
-     
+        LowerGreek,
+
         [CssName(CssConstants.LowerRoman)]
         LowerRoman,
         [CssName(CssConstants.UpperRoman)]
@@ -396,8 +397,8 @@ namespace HtmlRenderer.Dom
         [CssName(CssConstants.Katakana)]
         Katakana,
         [CssName(CssConstants.KatakanaIroha)]
-        KatakanaIroha,  
-       
+        KatakanaIroha,
+
     }
 
 }

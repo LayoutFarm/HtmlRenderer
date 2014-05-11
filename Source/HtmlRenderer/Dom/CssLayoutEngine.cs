@@ -303,7 +303,9 @@ namespace HtmlRenderer.Dom
                     }
 
                     if (DomUtils.IsBoxHasWhitespace(b))
+                    {
                         curx += box.ActualWordSpacing;
+                    }
 
                     foreach (var word in b.Words)
                     {
