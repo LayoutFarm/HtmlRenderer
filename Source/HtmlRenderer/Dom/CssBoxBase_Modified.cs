@@ -13,14 +13,17 @@ namespace HtmlRenderer.Dom
 
     static class CssBoxFlagsConst
     {
-        public const int HAS_ASSIGNED_LOCATION  = 1 << (2 - 1); 
-
+        public const int HAS_ASSIGNED_LOCATION = 1 << (2 - 1);
+        public const int EVAL_ROWSPAN = 1 << (3 - 1);
+        public const int EVAL_COLSPAN = 1 << (4 - 1);
     }
 
     partial class CssBoxBase
     {
 
         int _compactFlags;
+        //-------------------------------
+        
 
         internal bool HasAssignLocation
         {
@@ -88,6 +91,8 @@ namespace HtmlRenderer.Dom
             this.PassTestInlineOnlyDeep = true;
             this.InlineOnlyDeepResult = inlineOnlyDeepResult;
         }
+        //----------------------------------------------------
+        
 
     }
 

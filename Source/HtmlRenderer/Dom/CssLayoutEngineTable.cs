@@ -29,28 +29,26 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the main box of the table
         /// </summary>
-        private readonly CssBox _tableBox;
+        readonly CssBox _tableBox;
 
 
-        private CssBox _caption;
+        CssBox _caption;
 
-        private CssBox _headerBox;
+        CssBox _headerBox;
 
-        private CssBox _footerBox;
+        CssBox _footerBox;
 
         /// <summary>
         /// collection of all rows boxes
         /// </summary>
-        private readonly List<CssBox> _bodyrows = new List<CssBox>();
+        readonly List<CssBox> _bodyrows = new List<CssBox>();
 
         /// <summary>
         /// collection of all columns boxes
         /// </summary>
-        private readonly List<CssBox> _columns = new List<CssBox>();
+        readonly List<CssBox> _columns = new List<CssBox>();
 
-        /// <summary>
-        /// 
-        /// </summary>
+
         private readonly List<CssBox> _allRows = new List<CssBox>();
 
         private int _columnCount;
@@ -98,7 +96,9 @@ namespace HtmlRenderer.Dom
                             {
                                 count++;
                                 if (cr.CssDisplay == CssDisplay.TableRow)
+                                {
                                     columns = Math.Max(columns, cr.ChildCount);
+                                }
                             }
                         } break;
                     case CssDisplay.TableRow:
@@ -108,25 +108,6 @@ namespace HtmlRenderer.Dom
                         } break;
 
                 }
-                //if (box.DisplayType == CssBoxDisplayType.TableColumn)
-                //{
-                //    columns += GetSpan(box);
-                //}
-                //else if (box.DisplayType == CssBoxDisplayType.TableRowGroup)
-                //{
-                //    foreach (CssBox cr in tableBox.Boxes)
-                //    {
-                //        count++;
-                //        if (cr.DisplayType == CssBoxDisplayType.TableRow)
-                //            columns = Math.Max(columns, cr.Boxes.Count);
-                //    }
-                //}
-                //else if (box.DisplayType == CssBoxDisplayType.TableRow)
-                //{
-                //    count++;
-                //    columns = Math.Max(columns, box.Boxes.Count);
-                //}
-
                 // limit the amount of rows to process for performance ?
                 if (count > 30)
                 {
@@ -200,60 +181,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         private void AssignBoxKinds()
         {
-            //foreach (var box in _tableBox.Boxes)
-            //{    
-            //    switch (box.Display)
-            //    {
-            //        case CssConstants.TableCaption:
-            //            _caption = box;
-            //            break;
-            //        case CssConstants.TableRow:
-            //            _bodyrows.Add(box);
-            //            break;
-            //        case CssConstants.TableRowGroup:
-            //            foreach (CssBox childBox in box.Boxes)
-            //                if (childBox.Display == CssConstants.TableRow)
-            //                    _bodyrows.Add(childBox);
-            //            break;
-            //        case CssConstants.TableHeaderGroup:
-            //            if (_headerBox != null)
-            //                _bodyrows.Add(box);
-            //            else
-            //                _headerBox = box;
-            //            break;
-            //        case CssConstants.TableFooterGroup:
-            //            if (_footerBox != null)
-            //                _bodyrows.Add(box);
-            //            else
-            //                _footerBox = box;
-            //            break;
-            //        case CssConstants.TableColumn:
-            //            for (int i = 0; i < GetSpan(box); i++)
-            //                _columns.Add(box);
-            //            break;
-            //        case CssConstants.TableColumnGroup:
-            //            if (box.Boxes.Count == 0)
-            //            {
-            //                int gspan = GetSpan(box);
-            //                for (int i = 0; i < gspan; i++)
-            //                {
-            //                    _columns.Add(box);
-            //                }
-            //            }
-            //            else
-            //            {
-            //                foreach (CssBox bb in box.Boxes)
-            //                {
-            //                    int bbspan = GetSpan(bb);
-            //                    for (int i = 0; i < bbspan; i++)
-            //                    {
-            //                        _columns.Add(bb);
-            //                    }
-            //                }
-            //            }
-            //            break;
-            //    }
-            //}
+
             foreach (var box in _tableBox.GetChildBoxIter())
             {
                 switch (box.CssDisplay)
@@ -267,7 +195,7 @@ namespace HtmlRenderer.Dom
                     case CssDisplay.TableRowGroup:
                         foreach (CssBox childBox in box.GetChildBoxIter())
                         {
-                            //if (childBox.Display == CssConstants.TableRow)
+
                             if (childBox.CssDisplay == CssDisplay.TableRow)
                             {
                                 _bodyrows.Add(childBox);
@@ -297,10 +225,7 @@ namespace HtmlRenderer.Dom
                     case CssDisplay.TableColumn:
                         {
                             int gspan = GetSpan(box);
-                            //for (int i = 0; i < GetSpan(box); i++)
-                            //{
-                            //    _columns.Add(box);
-                            //}
+
                             for (int i = 0; i < gspan; i++)
                             {
                                 _columns.Add(box);
@@ -358,9 +283,8 @@ namespace HtmlRenderer.Dom
                     {
 
                         CssBox cell = row.GetChildBox(k);
-                        int rowspan = GetRowSpan(cell);
-                        int realcol = GetCellRealColumnIndex(row, cell); //Real column of the cell
-
+                        int rowspan = cell.RowSpan;
+                        int realcol = GetCellRealColumnIndex(row, cell); //Real column of the cell 
                         for (int i = currow + 1; i < currow + rowspan; i++)
                         {
                             if (rows.Count > i)
@@ -372,13 +296,14 @@ namespace HtmlRenderer.Dom
                                     {
                                         //insert new spacing box for table 
                                         //at 'colcount' index  
-                                        rows[i].InsertChild(colcount, new CssSpacingBoxForTable(_tableBox, cell, currow));
+                                        rows[i].InsertChild(colcount, new CssSpacingBox(_tableBox, cell, currow));
                                         //rows[i].Boxes.Insert(colcount,
                                         //    new CssSpacingBoxForTable(_tableBox, cell, currow));
                                         break;
                                     }
                                     colcount++;
-                                    realcol -= GetColSpan(rows[i].GetChildBox(j)) - 1;
+                                    //realcol -= GetColSpan(rows[i].GetChildBox(j)) - 1;
+                                    realcol -= (rows[i].GetChildBox(j)).RowSpan - 1;
                                 }
                             }
                         }
@@ -458,7 +383,7 @@ namespace HtmlRenderer.Dom
                                     float len = CssValueParser.ParseLength(childBox.Width, availCellSpace, childBox);
                                     if (len > 0) //If some width specified
                                     {
-                                        int colspan = GetColSpan(childBox);
+                                        int colspan = childBox.ColSpan;
                                         len /= Convert.ToSingle(colspan);
                                         for (int j = i; j < i + colspan; j++)
                                         {
@@ -735,7 +660,7 @@ namespace HtmlRenderer.Dom
             {
                 foreach (CssBox cell in row.GetChildBoxIter())
                 {
-                    int colspan = GetColSpan(cell);
+                    int colspan = cell.ColSpan;
                     int col = GetCellRealColumnIndex(row, cell);
                     int affectcol = col + colspan - 1;
 
@@ -776,7 +701,7 @@ namespace HtmlRenderer.Dom
                 {
                     if (curCol >= _columnWidths.Length) break;
 
-                    int rowspan = GetRowSpan(cell);
+                    int rowspan = cell.RowSpan;
                     var columnIndex = GetCellRealColumnIndex(row, cell);
                     float width = GetCellWidth(columnIndex, cell);
                     //cell.Location = new PointF(curx, cury);
@@ -785,7 +710,7 @@ namespace HtmlRenderer.Dom
                     cell.PerformLayout(g); //That will automatically set the bottom of the cell
 
                     //Alter max bottom only if row is cell's row + cell's rowspan - 1
-                    CssSpacingBoxForTable sb = cell as CssSpacingBoxForTable;
+                    CssSpacingBox sb = cell as CssSpacingBox;
                     if (sb != null)
                     {
                         if (sb.EndRow == currentrow)
@@ -801,41 +726,12 @@ namespace HtmlRenderer.Dom
                     curCol++;
                     curx = cell.ActualRight + GetHorizontalSpacing();
                 }
-                //for (int j = 0; j < row.ChildCount; j++)
-                //{
-                //    CssBox cell = row.Boxes[j];
-                //    if (curCol >= _columnWidths.Length) break;
-
-                //    int rowspan = GetRowSpan(cell);
-                //    var columnIndex = GetCellRealColumnIndex(row, cell);
-                //    float width = GetCellWidth(columnIndex, cell);
-                //    cell.Location = new PointF(curx, cury);
-                //    cell.Size = new SizeF(width, 0f);
-                //    cell.PerformLayout(g); //That will automatically set the bottom of the cell
-
-                //    //Alter max bottom only if row is cell's row + cell's rowspan - 1
-                //    CssSpacingBoxForTable sb = cell as CssSpacingBoxForTable;
-                //    if (sb != null)
-                //    {
-                //        if (sb.EndRow == currentrow)
-                //        {
-                //            maxBottom = Math.Max(maxBottom, sb.ExtendedBox.ActualBottom);
-                //        }
-                //    }
-                //    else if (rowspan == 1)
-                //    {
-                //        maxBottom = Math.Max(maxBottom, cell.ActualBottom);
-                //    }
-                //    maxRight = Math.Max(maxRight, cell.ActualRight);
-                //    curCol++;
-                //    curx = cell.ActualRight + GetHorizontalSpacing();
-                //}
 
                 foreach (CssBox cell in row.GetChildBoxIter())
                 {
-                    CssSpacingBoxForTable spacer = cell as CssSpacingBoxForTable;
+                    CssSpacingBox spacer = cell as CssSpacingBox;
 
-                    if (spacer == null && GetRowSpan(cell) == 1)
+                    if (spacer == null && cell.RowSpan  == 1)
                     {
                         cell.ActualBottom = maxBottom;
                         CssLayoutEngine.ApplyCellVerticalAlignment(g, cell);
@@ -885,7 +781,7 @@ namespace HtmlRenderer.Dom
                 {
                     break;
                 }
-                i += GetColSpan(b);
+                i += b.ColSpan;
             }
 
             return i;
@@ -899,7 +795,7 @@ namespace HtmlRenderer.Dom
         /// <returns></returns>
         private float GetCellWidth(int column, CssBox b)
         {
-            float colspan = Convert.ToSingle(GetColSpan(b));
+            float colspan = Convert.ToSingle(b.ColSpan);
             float sum = 0f;
 
             for (int i = column; i < column + colspan; i++)
@@ -914,38 +810,38 @@ namespace HtmlRenderer.Dom
             return sum; // -b.ActualBorderLeftWidth - b.ActualBorderRightWidth - b.ActualPaddingRight - b.ActualPaddingLeft;
         }
 
-        /// <summary>
-        /// Gets the colspan of the specified box
-        /// </summary>
-        /// <param name="b"></param>
-        private static int GetColSpan(CssBox b)
-        {
-            string att = b.GetAttribute("colspan", "1");
-            int colspan;
+        ///// <summary>
+        ///// Gets the colspan of the specified box
+        ///// </summary>
+        ///// <param name="b"></param>
+        //private static int GetColSpan(CssBox b)
+        //{
+        //    string att = b.GetAttribute("colspan", "1");
+        //    int colspan;
 
-            if (!int.TryParse(att, out colspan))
-            {
-                return 1;
-            }
+        //    if (!int.TryParse(att, out colspan))
+        //    {
+        //        return 1;
+        //    }
 
-            return colspan;
-        }
+        //    return colspan;
+        //}
 
-        /// <summary>
-        /// Gets the rowspan of the specified box
-        /// </summary>
-        /// <param name="b"></param>
-        private static int GetRowSpan(CssBox b)
-        {
-            string att = b.GetAttribute("rowspan", "1");
-            int rowspan;
-            if (!int.TryParse(att, out rowspan))
-            {
-                return 1;
-            }
+        ///// <summary>
+        ///// Gets the rowspan of the specified box
+        ///// </summary>
+        ///// <param name="b"></param>
+        //private static int GetRowSpan(CssBox b)
+        //{
+        //    string att = b.GetAttribute("rowspan", "1");
+        //    int rowspan;
+        //    if (!int.TryParse(att, out rowspan))
+        //    {
+        //        return 1;
+        //    }
 
-            return rowspan;
-        }
+        //    return rowspan;
+        //}
 
         /// <summary>
         /// Recursively measures words inside the box
@@ -1068,7 +964,7 @@ namespace HtmlRenderer.Dom
                         float minWidth, maxWidth;
                         childBox.GetMinMaxWidth(out minWidth, out maxWidth);
 
-                        var colSpan = GetColSpan(childBox);
+                        var colSpan = childBox.ColSpan;
                         minWidth = minWidth / colSpan;
                         maxWidth = maxWidth / colSpan;
                         for (int j = 0; j < colSpan; j++)
@@ -1151,8 +1047,7 @@ namespace HtmlRenderer.Dom
         /// <param name="b"></param>
         private static int GetSpan(CssBox b)
         {
-            float f = CssValueParser.ParseNumber(b.GetAttribute("span"), 1);
-
+            float f = CssValueParser.ParseNumber(b.GetAttribute("span"), 1); 
             return Math.Max(1, Convert.ToInt32(f));
         }
 
@@ -1169,7 +1064,7 @@ namespace HtmlRenderer.Dom
                 {
                     foreach (CssBox cell in row.GetChildBoxIter())
                     {
-                        int colspan = GetColSpan(cell);
+                        int colspan = cell.ColSpan;
                         int col = GetCellRealColumnIndex(row, cell);
                         int affectcol = Math.Min(col + colspan, _columnMinWidths.Length) - 1;
                         float spannedwidth = GetSpannedMinWidth(row, cell, col, colspan) + (colspan - 1) * GetHorizontalSpacing();

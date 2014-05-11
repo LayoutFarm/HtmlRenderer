@@ -9,7 +9,7 @@
 // 
 // - Sun Tsu,
 // "The Art of War"
- 
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -56,8 +56,8 @@ namespace HtmlRenderer.Dom
         /// Flag that indicates that CssTable algorithm already made fixes on it.
         /// </remarks>
         internal bool _tableFixed;
-        protected bool _wordsSizeMeasured;
 
+        protected bool _wordsSizeMeasured;
 
         private CssBox _listItemBox;
         //----------------------------------------------------
@@ -65,19 +65,23 @@ namespace HtmlRenderer.Dom
         //may be 'flowed' into more than one CssLineBox
         private CssLineBox _firstHostingLineBox;
         private CssLineBox _lastHostingLineBox;
-        //one CssBox may use more than one cssline  
-        //private readonly Dictionary<CssLineBox, RectangleF> _rectangles = new Dictionary<CssLineBox, RectangleF>();
-
+        //one CssBox may use more than one cssline     
         //----------------------------------------------------
+
+        int _boxCompactFlags;
+        int _rowSpan;
+        int _colSpan;
 
         /// <summary>
         /// handler for loading background image
         /// </summary>
         private ImageLoadHandler _imageLoadHandler;
         WellknownHtmlTagName wellKnownTagName;
+
+
         #endregion
         //----------------------------------------------------
-         
+
 
         private readonly List<CssRect> _boxWords = new List<CssRect>();
         private readonly List<CssBox> _boxes = new List<CssBox>();
@@ -103,7 +107,7 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-        
+
         internal IEnumerable<CssLineBox> GetHostLineIter()
         {
             var hostLine = this.FirstHostingLineBox;
@@ -146,6 +150,53 @@ namespace HtmlRenderer.Dom
             //}
             _lineBoxes.Clear();
         }
+        //-------------------------------------
+        internal int RowSpan
+        {
+            get
+            {
+                if ((this._boxCompactFlags & CssBoxFlagsConst.EVAL_ROWSPAN) == 0)
+                {
+                    string att = this.GetAttribute("rowspan", "1");
+                    int rowspan;
+                    if (!int.TryParse(att, out rowspan))
+                    {
+                        rowspan = 1;
+                    }
+                    this._boxCompactFlags |= CssBoxFlagsConst.EVAL_ROWSPAN;
+                    return this._rowSpan = rowspan;
+                }
+                return this._rowSpan;
+            }
+            set
+            {
+                this._rowSpan = value;
+                this._boxCompactFlags |= CssBoxFlagsConst.EVAL_ROWSPAN;
+            }
+        }
+        internal int ColSpan
+        {
+            get
+            {
+                if ((this._boxCompactFlags & CssBoxFlagsConst.EVAL_COLSPAN) == 0)
+                {
+                    string att = this.GetAttribute("colspan", "1");
+                    int colspan;
+                    if (!int.TryParse(att, out colspan))
+                    {   
+                        colspan = 1;
+                    }
+                    this._boxCompactFlags |= CssBoxFlagsConst.EVAL_COLSPAN;
+                    return this._colSpan = colspan;
+                }
+                return this._colSpan;
+            }
+            set
+            {
+                this._colSpan = value;
+            }
+        }
+        //-------------------------------------
     }
 
 }

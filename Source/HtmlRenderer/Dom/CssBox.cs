@@ -1114,15 +1114,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        ///// <summary>
-        ///// Gets if this box has only inline siblings (including itself)
-        ///// </summary>
-        ///// <returns></returns>
-        //internal bool HasJustInlineSiblings()
-        //{
-        //    return ParentBox != null && DomUtils.ContainsInlinesOnly(ParentBox);
-        //}
-
+      
         /// <summary>
         /// Gets the rectangles where inline box will be drawn. See Remarks for more info.
         /// </summary>
@@ -1459,23 +1451,7 @@ namespace HtmlRenderer.Dom
                         y = rectangle.Top;
                     } break;
             }
-
-            //if (string.IsNullOrEmpty(TextDecoration) || TextDecoration == CssConstants.None)
-            //    return; 
-            //if (TextDecoration == CssConstants.Underline)
-            //{
-            //    var h = g.MeasureString(" ", ActualFont).Height;
-            //    float desc = FontsUtils.GetDescent(ActualFont, g);
-            //    y = (float)Math.Round(rectangle.Top + h - desc + 0.5);
-            //}
-            //else if (TextDecoration == CssConstants.LineThrough)
-            //{
-            //    y = rectangle.Top + rectangle.Height / 2f;
-            //}
-            //else if (TextDecoration == CssConstants.Overline)
-            //{
-            //    y = rectangle.Top;
-            //}
+             
 
             y -= ActualPaddingBottom - ActualBorderBottomWidth;
 
@@ -1491,22 +1467,7 @@ namespace HtmlRenderer.Dom
             var pen = RenderUtils.GetPen(ActualColor);
             g.DrawLine(pen, x1, y, x2, y);
         }
-
-        /// <summary>
-        /// Offsets the rectangle of the specified linebox by the specified gap,
-        /// and goes deep for rectangles of children in that linebox.
-        /// </summary>
-        /// <param name="lineBox"></param>
-        /// <param name="gap"></param>
-        internal void OffsetRectangle(CssLineBox lineBox, float gap)
-        {
-            //send from line box to update
-            //if (Rectangles.ContainsKey(lineBox))
-            //{
-            //    var r = Rectangles[lineBox];
-            //    Rectangles[lineBox] = new RectangleF(r.X, r.Y + gap, r.Width, r.Height);
-            //}
-        }
+ 
         internal void RectanglesReset()
         {
             this.SummaryBound = RectangleF.Empty;

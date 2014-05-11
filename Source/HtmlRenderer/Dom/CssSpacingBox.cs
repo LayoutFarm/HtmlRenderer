@@ -7,7 +7,7 @@ namespace HtmlRenderer.Dom
     /// <summary>
     /// Used to make space on vertical cell combination
     /// </summary>
-    sealed class CssSpacingBoxForTable : CssBox
+    sealed class CssSpacingBox : CssBox
     {
         #region Fields and Consts
 
@@ -25,20 +25,20 @@ namespace HtmlRenderer.Dom
         #endregion
 
 
-        public CssSpacingBoxForTable(CssBox tableBox, CssBox extendedBox, int startRow)
-            : base(tableBox, new HtmlTag("none",
-                new Dictionary<string, string> { { "colspan", "1" } }))
+        public CssSpacingBox(CssBox tableBox, CssBox extendedBox, int startRow)
+            : base(tableBox, null)
         {
-
-            _extendedBox = extendedBox; 
-            this.CssDisplay = CssDisplay.None; 
-            _endRow = startRow + Int32.Parse(extendedBox.GetAttribute("rowspan", "1")) - 1;
+            _extendedBox = extendedBox;
+            this.ColSpan = 1;
+            this.CssDisplay = CssDisplay.None;
+            //_endRow = startRow + Int32.Parse(extendedBox.GetAttribute("rowspan", "1")) - 1;
+            _endRow = startRow + extendedBox.RowSpan - 1;
         }
 
         public CssBox ExtendedBox
         {
             get { return _extendedBox; }
-        } 
+        }
         /// <summary>
         /// Gets the index of the row where box ends
         /// </summary>
