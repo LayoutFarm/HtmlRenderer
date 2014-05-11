@@ -51,9 +51,10 @@ namespace HtmlRenderer.Dom
             RectanglesReset();
 
             var prevSibling = CssBox.GetPreviousSibling(this);
-            float left = ContainingBlock.Location.X + ContainingBlock.ActualPaddingLeft + ActualMarginLeft + ContainingBlock.ActualBorderLeftWidth;
-            float top = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? Location.Y : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
-            Location = new PointF(left, top);
+            this.LocationX = ContainingBlock.LocationX + ContainingBlock.ActualPaddingLeft + ActualMarginLeft + ContainingBlock.ActualBorderLeftWidth;
+            float top = this.LocationY = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? LocationY : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
+
+            //Location = new PointF(left, top);
             ActualBottom = top;
 
             //width at 100% (or auto)
@@ -97,14 +98,14 @@ namespace HtmlRenderer.Dom
 
             Size = new SizeF(width, height);
 
-            ActualBottom = Location.Y + ActualPaddingTop + ActualPaddingBottom + height;
+            ActualBottom = this.LocationY + ActualPaddingTop + ActualPaddingBottom + height;
         }
 
         /// <summary>
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(IGraphics g,PaintingArgs args)
+        protected override void PaintImp(IGraphics g, PaintingArgs args)
         {
             var offset = HtmlContainer != null ? HtmlContainer.ScrollOffset : PointF.Empty;
             var rect = new RectangleF(Bounds.X + offset.X, Bounds.Y + offset.Y, Bounds.Width, Bounds.Height);

@@ -130,8 +130,8 @@ namespace HtmlRenderer.Dom
             float limitRight = blockBox.ActualRight - blockBox.ActualPaddingRight - blockBox.ActualBorderRightWidth;
 
             //Get the start x and y of the blockBox
-            float startx = blockBox.Location.X + blockBox.ActualPaddingLeft - 0 + blockBox.ActualBorderLeftWidth;
-            float starty = blockBox.Location.Y + blockBox.ActualPaddingTop - 0 + blockBox.ActualBorderTopWidth;
+            float startx = blockBox.LocationX + blockBox.ActualPaddingLeft - 0 + blockBox.ActualBorderLeftWidth;
+            float starty = blockBox.LocationY + blockBox.ActualPaddingTop - 0 + blockBox.ActualBorderTopWidth;
             float curx = startx + blockBox.ActualTextIndent;
             float cury = starty;
 
@@ -154,8 +154,8 @@ namespace HtmlRenderer.Dom
 
 
             foreach (var linebox in blockBox.GetLineBoxIter())
-            {   
-                
+            {
+
                 //Gets the rectangles for each line-box
                 ApplyAlignment(g, linebox);
 
@@ -163,7 +163,7 @@ namespace HtmlRenderer.Dom
 
                 BubbleRectangles(blockBox, linebox);
 
-                
+
                 linebox.AssignRectanglesToBoxes();
                 linebox.CloseCollection();
             }
@@ -174,9 +174,9 @@ namespace HtmlRenderer.Dom
             //if (blockBox.Height != null && blockBox.Height != CssConstants.Auto && 
             if (!blockBox.Height.IsEmpty && !blockBox.Height.IsAuto &&
                 blockBox.Overflow == CssOverflow.Hidden &&
-                blockBox.ActualBottom - blockBox.Location.Y > blockBox.ActualHeight)
+                blockBox.ActualBottom - blockBox.LocationY > blockBox.ActualHeight)
             {
-                blockBox.ActualBottom = blockBox.Location.Y + blockBox.ActualHeight;
+                blockBox.ActualBottom = blockBox.LocationY + blockBox.ActualHeight;
             }
         }
 
@@ -432,7 +432,7 @@ namespace HtmlRenderer.Dom
 
             if (box.Words.Count > 0)
             {
-                float x = Single.MaxValue, y = Single.MaxValue, r = Single.MinValue, b = Single.MinValue; 
+                float x = Single.MaxValue, y = Single.MaxValue, r = Single.MinValue, b = Single.MinValue;
                 //one line may have word from more than one box 
                 bool foundSomeWord = false;
                 foreach (CssRect word in line.GetWordIterOf(box))
@@ -454,7 +454,7 @@ namespace HtmlRenderer.Dom
                 if (foundSomeWord)
                 {
                     line.BubbleUpdateRectangle(box, x, y, r, b);
-                } 
+                }
             }
             else
             {   //recursive
@@ -615,7 +615,7 @@ namespace HtmlRenderer.Dom
 
             float baseline = lineBox.CalculateTotalBoxBaseLine();
             //lineBox.ApplyBaseline(g, baseline);
-            lineBox.ApplyBaseline2(baseline); 
+            lineBox.ApplyBaseline2(baseline);
             ////var boxes = new List<CssBox>(lineBox.Rectangles.Keys);
             //foreach (CssBox box in boxes)
             //{

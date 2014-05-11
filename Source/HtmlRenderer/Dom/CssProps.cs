@@ -315,7 +315,6 @@ namespace HtmlRenderer.Dom
         Lighter,
 
 
-
         [CssName("100")]
         _100,
         [CssName("200")]
@@ -329,8 +328,76 @@ namespace HtmlRenderer.Dom
         [CssName("600")]
         _600,
 
-        Initial,        
+        Initial,
         [CssName(CssConstants.Inherit)]
         Inherit
     }
+    public enum CssListStylePoistion : byte
+    {
+        [CssName(CssConstants.Outset)]
+        Outside,
+        [CssName(CssConstants.Inside)]
+        Inside,
+
+        Initial,
+        [CssName(CssConstants.Inherit)]
+        Inherit
+    }
+    public enum CssListStyleType : byte
+    {
+        [CssName(CssConstants.None)]
+        None,
+        [CssName(CssConstants.Disc)]
+        Disc, 
+       
+        [CssName(CssConstants.Circle)]
+        Circle,
+         [CssName(CssConstants.Separate)]
+        Square,
+        //-----------------------------
+        Initial,
+        [CssName(CssConstants.Inherit)]
+        Inherit,
+
+        //-----------------------------
+        [CssName(CssConstants.Decimal)]
+        Decimal,
+        [CssName(CssConstants.DecimalLeadingZero)]
+        DecimalLeadingZero,
+
+        [CssName(CssConstants.LowerAlpha)]
+        LowerAlpha,
+        [CssName(CssConstants.UpperAlpha)]
+        UpperAlpha,
+
+        [CssName(CssConstants.LowerLatin)]
+        LowerLatin,
+        [CssName(CssConstants.UpperLatin)]
+        UpperLatin,
+
+        [CssName(CssConstants.LowerGreek)]
+        LowerGreek,    
+     
+        [CssName(CssConstants.LowerRoman)]
+        LowerRoman,
+        [CssName(CssConstants.UpperRoman)]
+        UpperRoman,
+
+        [CssName(CssConstants.Armenian)]
+        Armenian,
+        [CssName(CssConstants.Georgian)]
+        Georgian,
+        [CssName(CssConstants.Hebrew)]
+        Hebrew,
+        [CssName(CssConstants.Hiragana)]
+        Hiragana,
+        [CssName(CssConstants.HiraganaIroha)]
+        HiraganaIroha,
+        [CssName(CssConstants.Katakana)]
+        Katakana,
+        [CssName(CssConstants.KatakanaIroha)]
+        KatakanaIroha,  
+       
+    }
+
 }

@@ -219,11 +219,11 @@ namespace HtmlRenderer.Utils
                 case "list-style":
                     return cssBox.ListStyle;
                 case "list-style-position":
-                    return cssBox.ListStylePosition;
+                    return cssBox.ListStylePosition.ToCssStringValue();
                 case "list-style-image":
                     return cssBox.ListStyleImage;
                 case "list-style-type":
-                    return cssBox.ListStyleType;
+                    return cssBox.ListStyleType.ToCssStringValue();
                 case "overflow":
                     return cssBox.Overflow.ToString();
             }
@@ -432,13 +432,13 @@ namespace HtmlRenderer.Utils
                     cssBox.ListStyle = value;
                     break;
                 case "list-style-position":
-                    cssBox.ListStylePosition = value;
+                    cssBox.ListStylePosition = CssBoxUserUtilExtension.GetListStylePosition(value);
                     break;
                 case "list-style-image":
                     cssBox.ListStyleImage = value;
                     break;
                 case "list-style-type":
-                    cssBox.ListStyleType = value;
+                    cssBox.ListStyleType = CssBoxUserUtilExtension.GetListStyleType(value);
                     break;
                 case "overflow":
                     cssBox.SetOverflow(value);

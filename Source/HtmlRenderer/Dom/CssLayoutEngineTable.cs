@@ -779,7 +779,8 @@ namespace HtmlRenderer.Dom
                     int rowspan = GetRowSpan(cell);
                     var columnIndex = GetCellRealColumnIndex(row, cell);
                     float width = GetCellWidth(columnIndex, cell);
-                    cell.Location = new PointF(curx, cury);
+                    //cell.Location = new PointF(curx, cury);
+                    cell.SetLocation(curx, cury);
                     cell.Size = new SizeF(width, 0f);
                     cell.PerformLayout(g); //That will automatically set the bottom of the cell
 
@@ -850,7 +851,7 @@ namespace HtmlRenderer.Dom
                 currentrow++;
             }
 
-            maxRight = Math.Max(maxRight, _tableBox.Location.X + _tableBox.ActualWidth);
+            maxRight = Math.Max(maxRight, _tableBox.LocationX + _tableBox.ActualWidth);
             _tableBox.ActualRight = maxRight + GetHorizontalSpacing() + _tableBox.ActualBorderRightWidth;
             _tableBox.ActualBottom = Math.Max(maxBottom, starty) + GetVerticalSpacing() + _tableBox.ActualBorderBottomWidth;
         }

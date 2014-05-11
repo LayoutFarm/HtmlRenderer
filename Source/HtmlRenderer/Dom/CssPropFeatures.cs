@@ -191,9 +191,9 @@ namespace HtmlRenderer.Dom
         public CssListProp(object owner)
         {
             this.owner = owner;
-            ListStyleType = "disc";
+            ListStyleType = CssListStyleType.Disc;
             ListStyleImage = string.Empty;
-            ListStylePosition = "outside";
+            ListStylePosition = CssListStylePoistion.Outside;
             ListStyle = string.Empty;
         }
         private CssListProp(object owner, CssListProp inheritFrom)
@@ -216,10 +216,9 @@ namespace HtmlRenderer.Dom
             }
         }
 
-
-        public string ListStyleType { get; set; }
+        public CssListStyleType ListStyleType { get; set; }
         public string ListStyleImage { get; set; }
-        public string ListStylePosition { get; set; }
+        public CssListStylePoistion ListStylePosition { get; set; }
         public string ListStyle { get; set; }
 
         public static readonly CssListProp Default = new CssListProp(null);

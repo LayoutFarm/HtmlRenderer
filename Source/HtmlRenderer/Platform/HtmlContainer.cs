@@ -556,7 +556,9 @@ namespace HtmlRenderer
             _actualSize = SizeF.Empty;
             // if width is not restricted we set it to large value to get the actual later
             _root.Size = new SizeF(_maxSize.Width > 0 ? _maxSize.Width : 99999, 0);
-            _root.Location = _location;
+
+             
+            _root.SetLocation(_location.X, _location.Y);
             _root.PerformLayout(ig);
 
             if (_maxSize.Width <= 0.1)

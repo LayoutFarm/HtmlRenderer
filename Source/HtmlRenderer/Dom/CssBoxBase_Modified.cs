@@ -9,10 +9,26 @@ using HtmlRenderer.Parse;
 using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
-{   
+{
+
+    static class CssBoxFlagsConst
+    {
+        public const int HAS_ASSIGNED_LOCATION  = 1 << (2 - 1); 
+
+    }
 
     partial class CssBoxBase
     {
+
+        int _compactFlags;
+
+        internal bool HasAssignLocation
+        {
+            get
+            {
+                return (this._compactFlags & CssBoxFlagsConst.HAS_ASSIGNED_LOCATION) != 0;
+            }
+        }
         CssBorderProp CheckBorderVersion()
         {
             return this._borderProps = this._borderProps.GetMyOwnVersion(this);
@@ -47,7 +63,6 @@ namespace HtmlRenderer.Dom
             get;
             set;
         }
-
         internal bool InlineOnlyResult
         {
             get;

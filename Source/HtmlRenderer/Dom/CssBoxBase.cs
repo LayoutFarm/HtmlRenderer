@@ -89,11 +89,13 @@ namespace HtmlRenderer.Dom
 
         #region Fields
 
-        /// <summary>
-        /// Gets or sets the location of the box
-        /// </summary>
-        private PointF _location;
+        ///// <summary>
+        ///// Gets or sets the location of the box
+        ///// </summary>
+        //private PointF _location;
 
+        float _locationX;
+        float _locationY;
         /// <summary>
         /// Gets or sets the size of the box
         /// </summary>
@@ -134,7 +136,7 @@ namespace HtmlRenderer.Dom
         private float _actualTextIndent = float.NaN;
 
         private float _actualBorderSpacingHorizontal = float.NaN;
-        private float _actualBorderSpacingVertical = float.NaN; 
+        private float _actualBorderSpacingVertical = float.NaN;
 
         #endregion
 
@@ -167,7 +169,7 @@ namespace HtmlRenderer.Dom
             get { return this._cssDirection; }
             set { this._cssDirection = value; }
         }
-        
+
         public CssLength BorderLeftWidth
         {
             get { return this._borderProps.LeftWidth; }
@@ -588,7 +590,7 @@ namespace HtmlRenderer.Dom
             get { return this._listProps.ListStyle; }
             set { CheckListPropVersion().ListStyle = value; }
         }
-        public string ListStylePosition
+        public CssListStylePoistion ListStylePosition
         {
             get { return this._listProps.ListStylePosition; }
             set { CheckListPropVersion().ListStylePosition = value; }
@@ -599,24 +601,37 @@ namespace HtmlRenderer.Dom
             set { CheckListPropVersion().ListStyleImage = value; }
         }
 
-        public string ListStyleType
+        public CssListStyleType  ListStyleType
         {
             get { return this._listProps.ListStyleType; }
             set { CheckListPropVersion().ListStyleType = value; }
         }
 
-        #endregion
-
-
-        /// <summary>
-        /// Gets or sets the location of the box
-        /// </summary>
-        public PointF Location
+        #endregion 
+        public float LocationX
         {
-            get { return _location; }
-            set { _location = value; }
+            get { return this._locationX; }
+            set
+            {
+                this._locationX = value;
+                this._compactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
+            }
         }
-
+        public float LocationY
+        {
+            get { return this._locationY; }
+            set
+            {
+                this._locationY = value;
+                this._compactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
+            }
+        }
+        public void SetLocation(float x, float y)
+        {
+            this._locationX = x;
+            this._locationY = y;
+            this._compactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
+        }
         /// <summary>
         /// Gets or sets the size of the box
         /// </summary>
@@ -650,7 +665,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public RectangleF Bounds
         {
-            get { return new RectangleF(Location, Size); }
+            get { return new RectangleF(new PointF(this.LocationX, this.LocationY), Size); }
         }
 
         /// <summary>
@@ -666,8 +681,8 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float ActualRight
         {
-            get { return Location.X + Size.Width; }
-            set { Size = new SizeF(value - Location.X, Size.Height); }
+            get { return LocationX + Size.Width; }
+            set { Size = new SizeF(value - LocationX, Size.Height); }
         }
 
         /// <summary>
@@ -676,10 +691,10 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float ActualBottom
         {
-            get { return Location.Y + Size.Height; }
+            get { return this.LocationY + Size.Height; }
             set
             {
-                Size = new SizeF(Size.Width, value - Location.Y);
+                Size = new SizeF(Size.Width, value - this.LocationY);
             }
         }
 
@@ -688,7 +703,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float ClientLeft
         {
-            get { return Location.X + ActualBorderLeftWidth + ActualPaddingLeft; }
+            get { return this.LocationX + ActualBorderLeftWidth + ActualPaddingLeft; }
         }
 
         /// <summary>
@@ -696,7 +711,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float ClientTop
         {
-            get { return Location.Y + ActualBorderTopWidth + ActualPaddingTop; }
+            get { return this.LocationY + ActualBorderTopWidth + ActualPaddingTop; }
         }
 
         /// <summary>
@@ -1167,7 +1182,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-       
+
 
         /// <summary>
         /// Gets the font that should be actually used to paint the text of the box

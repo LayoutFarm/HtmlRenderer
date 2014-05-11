@@ -106,7 +106,7 @@ namespace HtmlRenderer.Utils
         /// <returns>true - is digit, false - not a digit</returns>
         public static bool IsDigit(char ch, bool hex = false)
         {
-            return ( ch >= '0' && ch <= '9' ) || ( hex && ( ( ch >= 'a' && ch <= 'f' ) || ( ch >= 'A' && ch <= 'F' ) ) );
+            return (ch >= '0' && ch <= '9') || (hex && ((ch >= 'a' && ch <= 'f') || (ch >= 'A' && ch <= 'F')));
         }
 
         /// <summary>
@@ -117,13 +117,13 @@ namespace HtmlRenderer.Utils
         /// <returns>true - is digit, false - not a digit</returns>
         public static int ToDigit(char ch, bool hex = false)
         {
-            if( ch >= '0' && ch <= '9' )
+            if (ch >= '0' && ch <= '9')
                 return ch - '0';
-            else if( hex )
+            else if (hex)
             {
-                if( ch >= 'a' && ch <= 'f' )
+                if (ch >= 'a' && ch <= 'f')
                     return ch - 'a' + 10;
-                else if(ch >= 'A' && ch <= 'F')
+                else if (ch >= 'A' && ch <= 'F')
                     return ch - 'A' + 10;
             }
 
@@ -153,7 +153,7 @@ namespace HtmlRenderer.Utils
                 }
             }
             catch
-            {}
+            { }
 
             return null;
         }
@@ -168,7 +168,7 @@ namespace HtmlRenderer.Utils
         /// <returns>first element or default value</returns>
         public static TValue GetFirstValueOrDefault<TKey, TValue>(IDictionary<TKey, TValue> dic, TValue defaultValue = default(TValue))
         {
-            if(dic != null)
+            if (dic != null)
             {
                 foreach (var value in dic)
                 {
@@ -296,7 +296,7 @@ namespace HtmlRenderer.Utils
             length = 0;
             return -1;
         }
-        
+
         /// <summary>
         /// Compare that the substring of <paramref name="str"/> is equal to <paramref name="str"/>
         /// Assume given substring is not empty and all indexes are valid!<br/>
@@ -338,48 +338,37 @@ namespace HtmlRenderer.Utils
         /// <param name="number">the number to convert</param>
         /// <param name="style">the css style to convert by</param>
         /// <returns>converted string</returns>
-        public static string ConvertToAlphaNumber(int number, string style = CssConstants.UpperAlpha)
+        public static string ConvertToAlphaNumber(int number, HtmlRenderer.Dom.CssListStyleType style) // =   string style = CssConstants.UpperAlpha)
         {
             if (number == 0)
                 return string.Empty;
-
-            if( style.Equals(CssConstants.LowerGreek,StringComparison.InvariantCultureIgnoreCase) )
+            switch (style)
             {
-                return ConvertToGreekNumber(number);
+                case Dom.CssListStyleType.LowerGreek:
+                    return ConvertToGreekNumber(number);
+                case Dom.CssListStyleType.LowerRoman:
+                    return ConvertToRomanNumbers(number, true);
+                case Dom.CssListStyleType.UpperRoman:
+                    return ConvertToRomanNumbers(number, false);
+                case Dom.CssListStyleType.Armenian:
+                    return ConvertToSpecificNumbers(number, _armenianDigitsTable);
+                case Dom.CssListStyleType.Georgian:
+                    return ConvertToSpecificNumbers(number, _georgianDigitsTable);
+                case Dom.CssListStyleType.Hebrew:
+                      return ConvertToSpecificNumbers(number, _hebrewDigitsTable);
+                case Dom.CssListStyleType.Hiragana:
+                case Dom.CssListStyleType.HiraganaIroha:
+                    return ConvertToSpecificNumbers2(number, _hiraganaDigitsTable);
+                case Dom.CssListStyleType.Katakana:
+                case Dom.CssListStyleType.KatakanaIroha:
+                   return ConvertToSpecificNumbers2(number, _satakanaDigitsTable);
+                case Dom.CssListStyleType.LowerAlpha:
+                case Dom.CssListStyleType.LowerLatin:
+                    return ConvertToEnglishNumber(number, true);
+                default:
+                    return ConvertToEnglishNumber(number, false);
             }
-            else if( style.Equals(CssConstants.LowerRoman ,StringComparison.InvariantCultureIgnoreCase) )
-            {
-                return ConvertToRomanNumbers(number, true);
-            }
-            else if( style.Equals(CssConstants.UpperRoman ,StringComparison.InvariantCultureIgnoreCase) )
-            {
-                return ConvertToRomanNumbers(number, false);
-            }
-            else if( style.Equals(CssConstants.Armenian ,StringComparison.InvariantCultureIgnoreCase) )
-            {
-                return ConvertToSpecificNumbers(number, _armenianDigitsTable);
-            }
-            else if( style.Equals(CssConstants.Georgian ,StringComparison.InvariantCultureIgnoreCase) )
-            {
-                return ConvertToSpecificNumbers(number, _georgianDigitsTable);
-            }
-            else if( style.Equals(CssConstants.Hebrew ,StringComparison.InvariantCultureIgnoreCase) )
-            {
-                return ConvertToSpecificNumbers(number, _hebrewDigitsTable);
-            }
-            else if( style.Equals(CssConstants.Hiragana,StringComparison.InvariantCultureIgnoreCase)  || style.Equals(CssConstants.HiraganaIroha ,StringComparison.InvariantCultureIgnoreCase) )
-            {
-                return ConvertToSpecificNumbers2(number, _hiraganaDigitsTable);
-            }
-            else if( style.Equals(CssConstants.Katakana,StringComparison.InvariantCultureIgnoreCase)  || style.Equals(CssConstants.KatakanaIroha ,StringComparison.InvariantCultureIgnoreCase) )
-            {
-                return ConvertToSpecificNumbers2(number, _satakanaDigitsTable);
-            }
-            else
-            {
-                var lowercase = style.Equals(CssConstants.LowerAlpha, StringComparison.InvariantCultureIgnoreCase) || style.Equals(CssConstants.LowerLatin, StringComparison.InvariantCultureIgnoreCase);
-                return ConvertToEnglishNumber(number, lowercase);
-            }
+             
         }
 
         /// <summary>
@@ -394,16 +383,16 @@ namespace HtmlRenderer.Utils
             int alphStart = lowercase ? 97 : 65;
             while (number > 0)
             {
-                var n = number % 26 -1;
+                var n = number % 26 - 1;
                 if (n >= 0)
                 {
-                    sb = (Char) (alphStart + n) + sb;
-                    number = number/26;
+                    sb = (Char)(alphStart + n) + sb;
+                    number = number / 26;
                 }
                 else
                 {
-                    sb = (Char) (alphStart + 25) + sb;
-                    number = (number - 1)/26;
+                    sb = (Char)(alphStart + 25) + sb;
+                    number = (number - 1) / 26;
                 }
             }
 
@@ -421,7 +410,7 @@ namespace HtmlRenderer.Utils
             while (number > 0)
             {
                 var n = number % 24 - 1;
-                if( n > 16 )
+                if (n > 16)
                     n++;
                 if (n >= 0)
                 {
@@ -447,11 +436,11 @@ namespace HtmlRenderer.Utils
         private static string ConvertToRomanNumbers(int number, bool lowercase)
         {
             var sb = string.Empty;
-            for(int i = 1000, j = 3; i > 0; i /= 10, j--)
+            for (int i = 1000, j = 3; i > 0; i /= 10, j--)
             {
-                int digit = number/i;
+                int digit = number / i;
                 sb += string.Format(_romanDigitsTable[j, digit]);
-                number -= digit*i;
+                number -= digit * i;
             }
             return lowercase ? sb.ToLower() : sb;
         }
@@ -469,7 +458,7 @@ namespace HtmlRenderer.Utils
             while (number > 0 && level < alphabet.GetLength(0))
             {
                 var n = number % 10;
-                if(n > 0)
+                if (n > 0)
                     sb = alphabet[level, number % 10 - 1].ToString(CultureInfo.InvariantCulture) + sb;
                 number /= 10;
                 level++;
@@ -494,8 +483,8 @@ namespace HtmlRenderer.Utils
             var sb = string.Empty;
             while (number > 0)
             {
-                
-                
+
+
                 sb = alphabet[Math.Max(0, number % 49 - 1)].ToString(CultureInfo.InvariantCulture) + sb;
                 number /= 49;
             }

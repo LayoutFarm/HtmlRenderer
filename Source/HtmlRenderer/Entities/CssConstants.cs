@@ -175,6 +175,6 @@ namespace HtmlRenderer.Entities
         public const string Scroll = "scroll";
         public const string Separate = "separate";
         public const string SmallCaps = "small-caps";
-
+        public const string Inside = "inside";
     }
 }

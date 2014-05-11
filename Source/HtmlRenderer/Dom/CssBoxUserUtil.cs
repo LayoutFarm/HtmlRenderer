@@ -83,7 +83,10 @@ namespace HtmlRenderer.Dom
         static readonly CssValueMap<CssFloat> _cssFloatMap = new CssValueMap<CssFloat>();
         static readonly CssValueMap<CssFontStyle> _cssFontStyleMap = new CssValueMap<CssFontStyle>();
         static readonly CssValueMap<CssFontVariant> _cssFontVariantMap = new CssValueMap<CssFontVariant>();
-        static readonly CssValueMap<CssFontWeight> _cssFontWeight = new CssValueMap<CssFontWeight>();
+        static readonly CssValueMap<CssFontWeight> _cssFontWeightMap = new CssValueMap<CssFontWeight>();
+        static readonly CssValueMap<CssListStylePoistion> _cssListStylePositionMap = new CssValueMap<CssListStylePoistion>();
+        static readonly CssValueMap<CssListStyleType> _cssListStyleTypeMap = new CssValueMap<CssListStyleType>();
+
 
         static CssBoxUserUtilExtension()
         {
@@ -395,11 +398,30 @@ namespace HtmlRenderer.Dom
 
         public static CssFontWeight GetFontWeight(string fontWeight)
         {
-            return _cssFontWeight.GetValueFromString(fontWeight, CssFontWeight.NotAssign);
+            return _cssFontWeightMap.GetValueFromString(fontWeight, CssFontWeight.NotAssign);
         }
         public static string ToCssStringValue(this CssFontWeight weight)
         {
-            return _cssFontWeight.GetStringFromValue(weight);
+            return _cssFontWeightMap.GetStringFromValue(weight);
+        }
+
+        public static string ToCssStringValue(this CssListStylePoistion listStylePosition)
+        {
+            return _cssListStylePositionMap.GetStringFromValue(listStylePosition);
+        }
+        public static CssListStylePoistion GetListStylePosition(string value)
+        {
+            return _cssListStylePositionMap.GetValueFromString(value, CssListStylePoistion.Outside);
+        }
+
+        public static string ToCssStringValue(this CssListStyleType listStyleType)
+        {
+            return _cssListStyleTypeMap.GetStringFromValue(listStyleType);
+        }
+        public static CssListStyleType GetListStyleType(string value)
+        {
+
+            return _cssListStyleTypeMap.GetValueFromString(value, CssListStyleType.Disc);
         }
     }
 

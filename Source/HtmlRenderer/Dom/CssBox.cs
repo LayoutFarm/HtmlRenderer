@@ -658,9 +658,10 @@ namespace HtmlRenderer.Dom
                 if (this.CssDisplay != CssDisplay.TableCell)
                 {
                     var prevSibling = CssBox.GetPreviousSibling(this);
-                    float left = ContainingBlock.Location.X + ContainingBlock.ActualPaddingLeft + ActualMarginLeft + ContainingBlock.ActualBorderLeftWidth;
-                    float top = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? Location.Y : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
-                    Location = new PointF(left, top);
+
+                    this.LocationX = ContainingBlock.LocationX + ContainingBlock.ActualPaddingLeft + ActualMarginLeft + ContainingBlock.ActualBorderLeftWidth;
+                    float top = this.LocationY = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? this.LocationY : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
+
                     ActualBottom = top;
                 }
 
@@ -675,7 +676,7 @@ namespace HtmlRenderer.Dom
                     //If there's just inline boxes, create LineBoxes
                     if (DomUtils.ContainsInlinesOnly(this))
                     {
-                        ActualBottom = Location.Y;
+                        ActualBottom = this.LocationY;//Location.Y;
                         CssLayoutEngine.CreateLineBoxes(g, this); //This will automatically set the bottom of this block
                     }
                     else if (_boxes.Count > 0)
@@ -691,22 +692,30 @@ namespace HtmlRenderer.Dom
             }
             else
             {
+
                 var prevSibling = CssBox.GetPreviousSibling(this);
                 if (prevSibling != null)
                 {
-                    if (Location == PointF.Empty)
-                        Location = prevSibling.Location;
+                    if (!this.HasAssignLocation)
+                    {
+
+                        this.SetLocation(prevSibling.LocationX, prevSibling.LocationY);
+                    }
+                    //if (Location == PointF.Empty)
+                    //{
+                    //    Location = prevSibling.Location;
+                    //}
                     ActualBottom = prevSibling.ActualBottom;
                 }
             }
-            ActualBottom = Math.Max(ActualBottom, Location.Y + ActualHeight);
+            ActualBottom = Math.Max(ActualBottom, this.LocationY + ActualHeight);
 
             CreateListItemBox(g);
 
             var actualWidth = Math.Max(GetMinimumWidth() + GetWidthMarginDeep(this), Size.Width < 90999 ? ActualRight : 0);
 
             //update back
-            HtmlContainer.ActualSize = CommonUtils.Max(HtmlContainer.ActualSize, new SizeF(actualWidth, ActualBottom - HtmlContainer.Root.Location.Y));
+            HtmlContainer.ActualSize = CommonUtils.Max(HtmlContainer.ActualSize, new SizeF(actualWidth, ActualBottom - HtmlContainer.Root.LocationY));
         }
 
         /// <summary>
@@ -795,47 +804,50 @@ namespace HtmlRenderer.Dom
         private void CreateListItemBox(IGraphics g)
         {
             //if (Display == CssConstants.ListItem && ListStyleType != CssConstants.None)
-            if (this.CssDisplay == CssDisplay.ListItem && ListStyleType != CssConstants.None)
-            {
+            if (this.CssDisplay == CssDisplay.ListItem && ListStyleType != CssListStyleType.None)
+            {   
                 if (_listItemBox == null)
                 {
                     _listItemBox = new CssBox(null, null);
                     _listItemBox.InheritStyle(this);
-                    //_listItemBox.Display = CssConstants.Inline;
                     _listItemBox.CssDisplay = CssDisplay.Inline;
                     _listItemBox._htmlContainer = HtmlContainer;
 
-                    if (ListStyleType.Equals(CssConstants.Disc, StringComparison.InvariantCultureIgnoreCase))
+                    switch (this.ListStyleType)
                     {
-                        _listItemBox.Text = new SubString("•");
+                        case CssListStyleType.Disc:
+                            {
+                                _listItemBox.Text = new SubString("•");
+                            } break;
+                        case CssListStyleType.Circle:
+                            {
+                                _listItemBox.Text = new SubString("o");
+                            } break;
+                        case CssListStyleType.Square:
+                            {
+                                _listItemBox.Text = new SubString("♠");
+                            } break;
+                        case CssListStyleType.Decimal:
+                            {
+                                _listItemBox.Text = new SubString(GetIndexForList().ToString(CultureInfo.InvariantCulture) + ".");
+                            } break;
+                        case CssListStyleType.DecimalLeadingZero:
+                            {
+                                _listItemBox.Text = new SubString(GetIndexForList().ToString("00", CultureInfo.InvariantCulture) + ".");
+                            } break;
+                        default:
+                            {
+                                _listItemBox.Text = new SubString(CommonUtils.ConvertToAlphaNumber(GetIndexForList(), ListStyleType) + ".");
+                            } break;
                     }
-                    else if (ListStyleType.Equals(CssConstants.Circle, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        _listItemBox.Text = new SubString("o");
-                    }
-                    else if (ListStyleType.Equals(CssConstants.Square, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        _listItemBox.Text = new SubString("♠");
-                    }
-                    else if (ListStyleType.Equals(CssConstants.Decimal, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        _listItemBox.Text = new SubString(GetIndexForList().ToString(CultureInfo.InvariantCulture) + ".");
-                    }
-                    else if (ListStyleType.Equals(CssConstants.DecimalLeadingZero, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        _listItemBox.Text = new SubString(GetIndexForList().ToString("00", CultureInfo.InvariantCulture) + ".");
-                    }
-                    else
-                    {
-                        _listItemBox.Text = new SubString(CommonUtils.ConvertToAlphaNumber(GetIndexForList(), ListStyleType) + ".");
-                    }
+                     
 
                     _listItemBox.ParseToWords();
                     _listItemBox.PerformLayoutImp(g);
                     _listItemBox.Size = new SizeF(_listItemBox.Words[0].Width, _listItemBox.Words[0].Height);
                 }
-                _listItemBox.Words[0].Left = Location.X - _listItemBox.Size.Width - 5;
-                _listItemBox.Words[0].Top = Location.Y + ActualPaddingTop;// +FontAscent;
+                _listItemBox.Words[0].Left = this.LocationX - _listItemBox.Size.Width - 5;
+                _listItemBox.Words[0].Top = this.LocationY + ActualPaddingTop;// +FontAscent;
             }
         }
 
@@ -1226,7 +1238,8 @@ namespace HtmlRenderer.Dom
                 _listItemBox.OffsetTop(amount);
             }
 
-            Location = new PointF(Location.X, Location.Y + amount);
+            //Location = new PointF(Location.X, Location.Y + amount);
+            this.LocationY += amount;
         }
         /// <summary>
         /// Paints the background of the box
