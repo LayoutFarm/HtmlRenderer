@@ -370,37 +370,9 @@ namespace HtmlRenderer.Dom
                     CorrectInlineBoxesParent(childBox);
                 }
             }
-            //if (!DomUtils.ContainsInlinesOnly(box))
-            //{ 
-            //    foreach (var childBox in box.Boxes)
-            //    {
-            //        CorrectInlineBoxesParent(childBox);
-            //    }
-            //}
+            
         }
-        ///// <summary>
-        ///// Gets the next sibling of this box.
-        ///// </summary>
-        ///// <returns>Box before this one on the tree. Null if its the first</returns>
-        //public static CssBox GetNextSibling(CssBox b)
-        //{
-        //    CssBox sib = null;
-        //    if (b.ParentBox != null)
-        //    {
-        //        var index = b.ParentBox.Boxes.IndexOf(b) + 1;
-        //        while (index <= b.ParentBox.ChildCount - 1)
-        //        {
-        //            var pSib = b.ParentBox.Boxes[index]; 
-        //            if (pSib.CssDisplay != CssDisplay.None && !pSib.IsAbsolutePosition)
-        //            {
-        //                sib = pSib;
-        //                break;
-        //            }
-        //            index++;
-        //        }
-        //    }
-        //    return sib;
-        //}
+       
         /// <summary>
         /// Check if the given box contains only inline child boxes in all subtree.
         /// </summary>
@@ -408,10 +380,7 @@ namespace HtmlRenderer.Dom
         /// <returns>true - only inline child boxes, false - otherwise</returns>
         internal static bool ContainsInlinesOnlyDeep(CssBox box)
         {
-            //if (box.PassTestInlineOnlyDeep && box.InlineOnlyDeepResult == true)
-            //{
-            //    return true;
-            //}
+            
 
             //recursive
             foreach (var childBox in box.GetChildBoxIter())

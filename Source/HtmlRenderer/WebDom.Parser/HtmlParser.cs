@@ -169,8 +169,7 @@ namespace HtmlRenderer.WebDom.Parser
 
         void ResetParser()
         {
-            //------------------------------------------  
-            //reset
+             
             this._resultHtmlDoc = null;
             this.htmlNodeStack.Clear();
             this.curHtmlNode = null;
@@ -178,7 +177,7 @@ namespace HtmlRenderer.WebDom.Parser
             this.curTextNode = null;
             this.parseState = 0;
             this.textSnapshot = null;
-            //------------------------------------------  
+            
         }
         /// <summary>
         /// parse to htmldom
@@ -196,8 +195,7 @@ namespace HtmlRenderer.WebDom.Parser
             this.curHtmlNode = htmldoc.RootNode;
             this._resultHtmlDoc = htmldoc;
             lexer.Analyze(textSnapshot);
-            lexer.EndLex();
-            //------------------------------------------  
+            lexer.EndLex(); 
 
         }
 

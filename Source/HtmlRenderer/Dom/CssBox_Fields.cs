@@ -115,9 +115,7 @@ namespace HtmlRenderer.Dom
         //-----------------------------------
         public CssBox GetChildBox(int index)
         {
-            //if (index > this._boxes.Count - 1)
-            //{
-            //}
+             
             return this._boxes[index];
         }
         public void InsertChild(int index, CssBox box)
@@ -127,10 +125,7 @@ namespace HtmlRenderer.Dom
         //--------
         internal void ResetLineBoxes()
         {
-            //for (int i = _lineBoxes.Count - 1; i >= 0; --i)
-            //{
-            //    _lineBoxes[i].RemoveAllReferencedContent();
-            //}
+            
             _lineBoxes.Clear();
         }
         //-------------------------------------
@@ -179,7 +174,7 @@ namespace HtmlRenderer.Dom
                 this._colSpan = value;
             }
         }
-        //-------------------------------------
+         
     }
 
 }

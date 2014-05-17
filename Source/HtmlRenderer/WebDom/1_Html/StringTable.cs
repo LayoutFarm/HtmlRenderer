@@ -40,11 +40,7 @@ namespace HtmlRenderer.WebDom
                 return -1;
             }
         }
-        /// <summary>
-        /// ขอ index ของ string ดังกล่าว ถ้ายังไม่มีก็ให้สร้างขึ้นใหม่
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
+        
         public int AddStringIfNotExist(string str)
         {
 
@@ -59,7 +55,7 @@ namespace HtmlRenderer.WebDom
                 return foundIndex;
             }
             else
-            {   //ถ้ายังไม่มีมาก่อนก็เติมเข้าไป
+            {   
                 int index = dic.Count;
                 dic.Add(str, index);
                 list.Add(str);
@@ -96,10 +92,7 @@ namespace HtmlRenderer.WebDom
             return list;
         }
 
-        /// <summary>
-        /// สร้างใหม่อีกอันหนึ่งด้วยข้อมูลเดิม
-        /// </summary>
-        /// <returns></returns>
+        
         public UniqueStringTable Clone()
         {
             UniqueStringTable newClone = new UniqueStringTable();

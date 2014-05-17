@@ -89,17 +89,10 @@ namespace HtmlRenderer.Dom
 
         #region Fields
 
-        ///// <summary>
-        ///// Gets or sets the location of the box
-        ///// </summary>
-        //private PointF _location;
+       
 
         float _locationX;
-        float _locationY;
-        /// <summary>
-        /// Gets or sets the size of the box
-        /// </summary>
-        //private SizeF _size;
+        float _locationY; 
         private float _sizeHeight;
         private float _sizeWidth;
 
@@ -233,7 +226,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckBorderVersion().BottomColor = value;
-                //_actualBorderBottomColor = System.Drawing.Color.Empty;
+              
             }
         }
         public Color BorderLeftColor
@@ -241,8 +234,7 @@ namespace HtmlRenderer.Dom
             get { return this._borderProps.LeftColor; }
             set
             {
-                CheckBorderVersion().LeftColor = value;
-                //_actualBorderLeftColor = System.Drawing.Color.Empty;
+                CheckBorderVersion().LeftColor = value; 
             }
         }
         //--------------------------------------------
@@ -252,8 +244,7 @@ namespace HtmlRenderer.Dom
             set
             {
 
-                CheckBorderVersion().RightColor = value;
-                //_actualBorderRightColor = System.Drawing.Color.Empty;
+                CheckBorderVersion().RightColor = value; 
             }
         }
 
@@ -922,14 +913,14 @@ namespace HtmlRenderer.Dom
             {
                 if (float.IsNaN(_actualMarginRight))
                 {
-                    //if (MarginRight == CssConstants.Auto)
+                   
                     if (MarginRight.IsAuto)
                     {
-                        //MarginRight = "0";
+                      
                         MarginRight = CssLength.ZeroPx;
                     }
                     var actualMarginRight = CssValueParser.ParseLength(MarginRight, Size.Width, this);
-                    if (MarginLeft.IsPercentage) //if (MarginLeft.EndsWith("%"))
+                    if (MarginLeft.IsPercentage) 
                     {
                         return actualMarginRight;
                     }
@@ -1212,9 +1203,7 @@ namespace HtmlRenderer.Dom
                 {
                     //if not calculate yet then calculate it
                     _actualLineHeight = .9f * CssValueParser.ParseLength(LineHeight, Size.Height, this);
-                    //if (_actualLineHeight > 0)
-                    //{
-                    //}
+                    
                 }
                 return _actualLineHeight;
             }

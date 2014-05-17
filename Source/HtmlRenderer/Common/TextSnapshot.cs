@@ -89,7 +89,7 @@ namespace HtmlRenderer
             int lim = length - 3;
             if (start < lim)
             {
-                //init 
+                
                 int i = start;
                 char ex1 = tmpChars[i];
                 char ex2 = tmpChars[i + 1];
