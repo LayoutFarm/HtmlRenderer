@@ -51,10 +51,9 @@ namespace HtmlRenderer.Entities
         /// </summary>
         private readonly string _src;
 
-        /// <summary>
-        /// collection of all the attributes that are defined on the image element
-        /// </summary>
-        private readonly Dictionary<string, string> _attributes;
+
+
+        HtmlRenderer.Dom.IHtmlTag _tag;
 
         /// <summary>
         /// Callback used to allow setting image externally and async.
@@ -70,10 +69,10 @@ namespace HtmlRenderer.Entities
         /// <param name="src">the source of the image (file path or uri)</param>
         /// <param name="attributes">collection of all the attributes that are defined on the image element</param>
         /// <param name="callback">Callback used to allow setting image externally and async.</param>
-        internal HtmlImageLoadEventArgs(string src, Dictionary<string, string> attributes, HtmlImageLoadCallback callback)
+        internal HtmlImageLoadEventArgs(string src, HtmlRenderer.Dom.IHtmlTag tag, HtmlImageLoadCallback callback)
         {
             _src = src;
-            _attributes = attributes;
+            this._tag = tag;
             _callback = callback;
         }
 
@@ -85,14 +84,11 @@ namespace HtmlRenderer.Entities
             get { return _src; }
         }
 
-        /// <summary>
-        /// collection of all the attributes that are defined on the image element or CSS style
-        /// </summary>
-        public Dictionary<string, string> Attributes
+       
+        public HtmlRenderer.Dom.IHtmlTag SourceHtmlTag
         {
-            get { return _attributes; }
+            get { return this._tag; }
         }
-
         /// <summary>
         /// Indicate the image load is handled asynchronously.
         /// Cancel this image loading and overwrite the image asynchronously using callback method.<br/>
@@ -124,7 +120,7 @@ namespace HtmlRenderer.Entities
         public void Callback(string path, Rectangle imageRectangle = new Rectangle())
         {
             ArgChecker.AssertArgNotNullOrEmpty(path, "path");
-            
+
             _handled = true;
             _callback(path, null, imageRectangle);
         }
@@ -140,7 +136,7 @@ namespace HtmlRenderer.Entities
         public void Callback(Image image, Rectangle imageRectangle = new Rectangle())
         {
             ArgChecker.AssertArgNotNull(image, "image");
-            
+
             _handled = true;
             _callback(null, image, imageRectangle);
         }

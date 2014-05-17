@@ -16,7 +16,7 @@ using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
 {
-    public enum CssRectKind
+    public enum CssRectKind : byte
     {
         Unknown,
         Text,
@@ -52,14 +52,12 @@ namespace HtmlRenderer.Dom
         /// </summary>
         private ISelectionHandler _selection;
 
-
         /// <summary>
         /// each word has only one owner linebox!
         /// </summary>
         CssLineBox myOwnerLineBox;
+
         #endregion
-
-
 
         /// <summary>
         /// Init.
@@ -101,11 +99,11 @@ namespace HtmlRenderer.Dom
                 //if (dbugCounter.dbugStartRecord
                 //     && this.dbugPaintCount > 0)
                 //{
-                    
+
                 //}
                 //this.dbugSnapPass = dbugCounter.dbugDrawStringCount;
                 //this.dbugPaintCount = value;
-              
+
             }
         }
 #endif

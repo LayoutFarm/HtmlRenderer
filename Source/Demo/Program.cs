@@ -26,20 +26,21 @@ namespace HtmlRenderer.Demo
         [STAThread]
         private static void Main()
         {
-//            TestPrint();
-//            TestImage1();
-//            return;
+            //            TestPrint();
+            //            TestImage1();
+            //            return;
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.Run(new DemoForm());
+            //Application.Run(new DemoForm());
+            Application.Run(new DevForm());
 
-//            Application.Run(new PerfForm());
+            //            Application.Run(new PerfForm());
 
-//            PerfForm.Run();
+            //            PerfForm.Run();
         }
-        
+
         private static void TestImage1()
         {
             var html1 = "<p><h2>Hellow</h2><img height='80' src='d:\\b.png'/><h2>world</h2><img height='80' src='http://i.tinyuploads.com/Co66A2.jpg'/><h2>bla</h2></p>";

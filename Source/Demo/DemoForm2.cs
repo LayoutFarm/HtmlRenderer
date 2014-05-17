@@ -26,9 +26,13 @@ using HtmlRenderer.Demo.Properties;
 using HtmlRenderer.Entities;
 using Timer = System.Threading.Timer;
 
+using HtmlRenderer.WebDom;
+using HtmlRenderer.WebDom.Parser;
+
+
 namespace HtmlRenderer.Demo
 {
-    public partial class DemoForm : Form
+    public partial class DemoForm2 : Form
     {
         #region Fields and Consts
 
@@ -68,19 +72,19 @@ namespace HtmlRenderer.Demo
         /// <summary>
         /// Init.
         /// </summary>
-        public DemoForm()
+        public DemoForm2()
         {
             InitializeComponent();
 
             Icon = Resources.html;
 
-            _htmlPanel.RenderError += OnRenderError;
-            _htmlPanel.LinkClicked += OnLinkClicked;
-            _htmlPanel.StylesheetLoad += OnStylesheetLoad;
-            _htmlPanel.ImageLoad += OnImageLoad;
-            _htmlToolTip.ImageLoad += OnImageLoad;
+            //_htmlPanel.RenderError += OnRenderError;
+            //_htmlPanel.LinkClicked += OnLinkClicked;
+            //_htmlPanel.StylesheetLoad += OnStylesheetLoad;
+            //_htmlPanel.ImageLoad += OnImageLoad;
+            //_htmlToolTip.ImageLoad += OnImageLoad;
 
-            _htmlToolTip.SetToolTip(_htmlPanel, Resources.Tooltip);
+            //_htmlToolTip.SetToolTip(_htmlPanel, Resources.Tooltip);
 
             _htmlEditor.Font = new Font(FontFamily.GenericMonospace, 10);
 
@@ -130,7 +134,8 @@ namespace HtmlRenderer.Demo
                         using (var sreader = new StreamReader(resourceStream, Encoding.Default))
                         {
                             var html = sreader.ReadToEnd();
-                            html = html.Replace("$$Release$$", _htmlPanel.GetType().Assembly.GetName().Version.ToString());
+                            html = html.Replace("$$Release$$",
+                                typeof(HtmlPanel).Assembly.GetName().Version.ToString());
                             _samples[name] = html;
                         }
 
@@ -184,6 +189,7 @@ namespace HtmlRenderer.Demo
             }
         }
 
+        string _currentSampleHtml = null;
         /// <summary>
         /// On tree view node click load the html to the html panel and html editor.
         /// </summary>
@@ -195,7 +201,7 @@ namespace HtmlRenderer.Demo
                 _updateLock = true;
 
                 string html = _samples[name];
-
+                _currentSampleHtml = html;
                 if (!name.Contains("PerfSamples"))
                     SyntaxHilight.AddColoredText(html, _htmlEditor);
                 else
@@ -203,8 +209,8 @@ namespace HtmlRenderer.Demo
 
                 Application.UseWaitCursor = true;
 
-                _htmlPanel.AvoidImagesLateLoading = !name.Contains("Many images");
-                _htmlPanel.Text = html;
+                //_htmlPanel.AvoidImagesLateLoading = !name.Contains("Many images");
+                //_htmlPanel.Text = html;
 
                 //try
                 //{
@@ -246,7 +252,7 @@ namespace HtmlRenderer.Demo
 
                 try
                 {
-                    _htmlPanel.Text = _htmlEditor.Text;
+                    //_htmlPanel.Text = _htmlEditor.Text;
                 }
                 catch (Exception ex)
                 {
@@ -266,37 +272,37 @@ namespace HtmlRenderer.Demo
         /// </summary>
         private void OnOpenExternalViewButtonClick(object sender, EventArgs e)
         {
-            var html = _showGeneratedHtmlCB.Checked ? _htmlPanel.GetHtml() : _htmlEditor.Text;
-            var tmpFile = Path.ChangeExtension(Path.GetTempFileName(), ".htm");
-            File.WriteAllText(tmpFile, html);
-            Process.Start(tmpFile);
+            //var html = _showGeneratedHtmlCB.Checked ? _htmlPanel.GetHtml() : _htmlEditor.Text;
+            //var tmpFile = Path.ChangeExtension(Path.GetTempFileName(), ".htm");
+            //File.WriteAllText(tmpFile, html);
+            //Process.Start(tmpFile);
         }
-
-        /// <summary>
-        /// Show\Hide the web browser viwer.
-        /// </summary>
-        private void OnToggleWebBrowserButton_Click(object sender, EventArgs e)
+        private void cmdParse_Click(object sender, EventArgs e)
         {
-            _webBrowser.Visible = !_webBrowser.Visible;
-            _splitter.Visible = _webBrowser.Visible;
-            _toggleWebBrowserButton.Text = _webBrowser.Visible ? "Hide IE View" : "Show IE View";
-
-            if (_webBrowser.Visible)
+            if (this._currentSampleHtml == null)
             {
-                _webBrowser.Width = _splitContainer2.Panel2.Width / 2;
-                UpdateWebBrowserHtml();
+                return;
             }
-        }
 
+             
+            HtmlParser parser = new HtmlParser(); 
+            //------------------------
+            parser.Parse(new TextSnapshot(this._currentSampleHtml.ToCharArray()));
+            WebDom.HtmlDocument resultHtmlDoc = parser.ResultHtmlDoc;
+            //------------------------
+            //then create render tree from dom 
+
+
+        }
         /// <summary>
         /// Update the html shown in the web browser
         /// </summary>
         private void UpdateWebBrowserHtml()
         {
-            if (_webBrowser.Visible)
-            {
-                _webBrowser.DocumentText = _showGeneratedHtmlCB.Checked ? _htmlPanel.GetHtml() : GetFixedHtml();
-            }
+            //if (_webBrowser.Visible)
+            //{
+            //    _webBrowser.DocumentText = _showGeneratedHtmlCB.Checked ? _htmlPanel.GetHtml() : GetFixedHtml();
+            //}
         }
 
         /// <summary>
@@ -305,7 +311,7 @@ namespace HtmlRenderer.Demo
         /// <returns>fixed html</returns>
         private string GetFixedHtml()
         {
-            var html = _htmlEditor.Text; 
+            var html = _htmlEditor.Text;
             html = Regex.Replace(html, @"src=\""(\w.*?)\""", match =>
                 {
                     var img = TryLoadResourceImage(match.Groups[1].Value);
@@ -547,8 +553,7 @@ namespace HtmlRenderer.Demo
                     HtmlRenderer.dbugCounter.dbugStartRecord = true;
                     HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
 
-
-                    _htmlPanel.Text = _perfTestSamples[sampleNum];
+                    //_htmlPanel.Text = _perfTestSamples[sampleNum];
                     Application.DoEvents(); // so paint will be called
                 }
 

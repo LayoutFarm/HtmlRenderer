@@ -1,4 +1,18 @@
-﻿using System;
+﻿//BSD 2014, WinterCore
+
+// "Therefore those skilled at the unorthodox
+// are infinite as heaven and earth,
+// inexhaustible as the great rivers.
+// When they come to an end,
+// they begin again,
+// like the days and months;
+// they die and are reborn,
+// like the four seasons."
+// 
+// - Sun Tsu,
+// "The Art of War"
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -28,24 +42,7 @@ namespace HtmlRenderer.Dom
             }
 
             //-----------------------------------------------------------
-            box = parentBox;
-            //int index = 0;
-            //if (box != null && (index = box.Boxes.IndexOf(curBox)) > 0)
-            //{
-            //    if (index > 0)
-            //    {
-            //        CssBox sib = null;
-            //        for (int i = index - 1; i >= 0; --i)
-            //        {
-            //            sib = box.Boxes[i];
-            //            if (sib.CssDisplay != CssDisplay.None && !sib.IsAbsolutePosition)
-            //            {
-            //                return sib;
-            //            }
-            //        }
-            //        return sib.CssDisplay == CssDisplay.None ? null : sib;
-            //    }
-            //}
+            box = parentBox; 
             CssBox sib = curBox.PrevSibling;
             if (sib != null)
             {
@@ -57,12 +54,9 @@ namespace HtmlRenderer.Dom
                     }
                     sib = sib.PrevSibling;
 
-                } while (sib != null);
-
-                //return sib.CssDisplay == CssDisplay.None ? null : sib;
+                } while (sib != null); 
             }
-            return null;
-            //return null;
+            return null; 
         }
         /// <summary>
         /// Gets the previous sibling of this box.
@@ -83,28 +77,9 @@ namespace HtmlRenderer.Dom
                             return sib;
                         }
                         sib = sib.PrevSibling;
-                    } while (sib != null);
-
-                    //return sib.CssDisplay == CssDisplay.None ? null : sib;
+                    } while (sib != null); 
                 }
-                return null;
-                
-
-                //var parentChildBoxes = b.ParentBox.Boxes;
-                //int index = parentChildBoxes.IndexOf(b);
-                //if (index > 0)
-                //{
-                //    CssBox sib = null;
-                //    for (int i = index - 1; i >= 0; --i)
-                //    {
-                //        sib = parentChildBoxes[i];
-                //        if (sib.CssDisplay != CssDisplay.None && !sib.IsAbsolutePosition)
-                //        {
-                //            return sib;
-                //        }
-                //    }
-                //    return sib.CssDisplay == CssDisplay.None ? null : sib; 
-                //}
+                return null; 
             }
             return null;
         }
@@ -165,17 +140,22 @@ namespace HtmlRenderer.Dom
 
                 if (brBox != null)
                 {
-                    //create new box then add to 'box'  before brbox  
-                    var anonBlock = CssBox.CreateBlock(box, new HtmlTag("br"), latestFoundBrAt);
-                    if (followingBlock)
-                    {
-                        //anonBlock.Height = ".95em"; // atodo: check the height to min-height when it is supported
-                        anonBlock.Height = new CssLength(0.95f, false, CssUnit.Ems);
-                    }
 
-                    //remove this br box from parent ***
-                     
-                    brBox.SetNewParentBox(null);
+
+                    brBox.CssDisplay = CssDisplay.Block;
+                    if (followingBlock)
+                    {   // atodo: check the height to min-height when it is supported
+                        brBox.Height = new CssLength(0.95f, false, CssUnit.Ems);
+                    }
+                    ////create new box then add to 'box'  before brbox  
+                    //var anonBlock = CssBox.CreateBlock(box, new HtmlTag("br"), latestFoundBrAt);
+                    //if (followingBlock)
+                    //{
+                    //    //anonBlock.Height = ".95em"; // atodo: check the height to min-height when it is supported
+                    //    anonBlock.Height = new CssLength(0.95f, false, CssUnit.Ems);
+                    //}
+                    ////remove this br box from parent *** 
+                    //brBox.SetNewParentBox(null); 
                 }
 
             } while (brBox != null);
@@ -239,7 +219,7 @@ namespace HtmlRenderer.Dom
                 //newLeftBlock.SetBeforeBox(box.GetFirstChild());
                 newLeftBlock.ChangeSiblingOrder(0);
                 var splitBox = box.Boxes[1];
-                  
+
                 splitBox.SetNewParentBox(null);
                 CorrectBlockSplitBadBox(box, splitBox, newLeftBlock);
 
@@ -461,10 +441,10 @@ namespace HtmlRenderer.Dom
             for (int i = box.ChildCount - 1; i >= 0; i--)
             {
                 var childBox = box.Boxes[i];
-                if (childBox.Text != null)
+                if (childBox.HasTextContent)
                 {
                     // is the box has text
-                    var keepBox = !childBox.Text.IsEmptyOrWhitespace();
+                    var keepBox = !childBox.TextContentIsWhitespaceOrEmptyText;
 
                     // is the box is pre-formatted
                     //keepBox = keepBox || childBox.WhiteSpace == CssConstants.Pre || childBox.WhiteSpace == CssConstants.PreWrap;

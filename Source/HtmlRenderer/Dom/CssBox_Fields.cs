@@ -29,7 +29,7 @@ namespace HtmlRenderer.Dom
     {
         //----------------------------------------------------
         #region Fields and Consts
-       
+
 
         /// <summary>
         /// the root container for the hierarchy
@@ -39,12 +39,8 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary>
-        private readonly HtmlTag _htmltag;
-
-        /// <summary>
-        /// the inner text of the box
-        /// </summary>
-        private SubString _text;
+        private readonly IHtmlTag _htmltag; 
+        char[] _textBuffer;
 
         /// <summary>
         /// Do not use or alter this flag
@@ -66,6 +62,7 @@ namespace HtmlRenderer.Dom
         //----------------------------------------------------
 
         int _boxCompactFlags;
+        //----------------------------------------------------
         int _rowSpan;
         int _colSpan;
 
@@ -74,12 +71,10 @@ namespace HtmlRenderer.Dom
         /// </summary>
         private ImageLoadHandler _imageLoadHandler;
         WellknownHtmlTagName wellKnownTagName;
-
-
-        #endregion
         //----------------------------------------------------
 
-
+        #endregion
+        //----------------------------------------------------  
         private readonly List<CssRect> _boxWords = new List<CssRect>();
         readonly CssBoxCollection _boxes;
         private readonly LinkedList<CssLineBox> _lineBoxes = new LinkedList<CssLineBox>();
@@ -93,7 +88,7 @@ namespace HtmlRenderer.Dom
         }
         public IEnumerable<CssBox> GetChildBoxIter()
         {
-            return this._boxes.GetChildBoxIter();             
+            return this._boxes.GetChildBoxIter();
         }
 
         internal IEnumerable<CssLineBox> GetHostLineIter()
@@ -109,7 +104,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._boxes.Count;                 
+                return this._boxes.Count;
             }
         }
 

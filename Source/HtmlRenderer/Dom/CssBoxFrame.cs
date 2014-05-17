@@ -73,7 +73,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        internal CssBoxFrame(CssBox parent, HtmlTag tag)
+        internal CssBoxFrame(CssBox parent, IHtmlTag tag)
             : base(parent, tag)
         {
             _imageWord = new CssRectImage(this);
@@ -445,7 +445,7 @@ namespace HtmlRenderer.Dom
                 if (_videoImageUrl != null)
                 {
                     _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
-                    _imageLoadHandler.LoadImage(_videoImageUrl, HtmlTag != null ? HtmlTag.Attributes : null);
+                    _imageLoadHandler.LoadImage(_videoImageUrl, HtmlTag);
                 }
                 else
                 {
@@ -468,7 +468,7 @@ namespace HtmlRenderer.Dom
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(IGraphics g,PaintingArgs args)
+        protected override void PaintImp(IGraphics g, PaintingArgs args)
         {
             //var rects = CommonUtils.GetFirstValueOrDefault(Rectangles);
             var rects = this.Bounds;

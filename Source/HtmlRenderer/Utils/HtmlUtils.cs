@@ -34,7 +34,7 @@ namespace HtmlRenderer.Utils
         /// <summary>
         /// the html encode\decode pairs
         /// </summary>
-        private static readonly KeyValuePair<string,string>[] _encodeDecode = new[]
+        private static readonly KeyValuePair<string, string>[] _encodeDecode = new[]
                                                            {
                                                                new KeyValuePair<string, string>("&lt;", "<"), 
                                                                new KeyValuePair<string, string>("&gt;", ">"),
@@ -307,30 +307,225 @@ namespace HtmlRenderer.Utils
         public static bool IsSingleTag(string tagName)
         {
             return _list.Contains(tagName);
-        }
-
-        /// <summary>
-        /// Decode html encoded string to regular string.<br/>
-        /// Handles &lt;, &gt;, "&amp;.
-        /// </summary>
-        /// <param name="str">the string to decode</param>
-        /// <returns>decoded string</returns>
+        } 
         public static string DecodeHtml(string str)
         {
-            if (!string.IsNullOrEmpty(str))
+            char[] buff = str.ToCharArray();
+            return new string(DecodeHtml(buff, 0, buff.Length)); 
+        }
+        static int FindIndexOf(char[] sourceBuffer, int startIndex, int len, char findingChar)
+        {
+            for (int i = startIndex; i < len; ++i)
             {
-                str = DecodeHtmlCharByCode(str);
-
-                str = DecodeHtmlCharByName(str);
-
-                foreach (var encPair in _encodeDecode)
+                if (sourceBuffer[i] == findingChar)
                 {
-                    str = str.Replace(encPair.Key, encPair.Value);
+                    return i;
                 }
             }
-            return str;
+            return -1;
+        }
+        static int FindIndexOfOrWhitespace(char[] sourceBuffer, int startIndex, int len, char findingChar1)
+        {
+            for (int i = startIndex; i < len; ++i)
+            {
+                char c = sourceBuffer[i];
+                if (c == findingChar1 || c == ' ' || char.IsWhiteSpace(c))
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
 
+        static bool TryConvertFromBase10(char c, out long number)
+        {
+            switch (c)
+            {
+                case '0': number = 0; return true;
+                case '1': number = 1; return true;
+                case '2': number = 2; return true;
+                case '3': number = 3; return true;
+                case '4': number = 4; return true;
+                case '5': number = 5; return true;
+                case '6': number = 6; return true;
+                case '7': number = 7; return true;
+                case '8': number = 8; return true;
+                case '9': number = 9; return true;
+                default:
+                    number = -1;
+                    return false;
+            }
+        }
+        static bool TryConvertFromBase16(char c, out long number)
+        {
+            switch (c)
+            {
+                case '0': number = 0; return true;
+                case '1': number = 1; return true;
+                case '2': number = 2; return true;
+                case '3': number = 3; return true;
+                case '4': number = 4; return true;
+                case '5': number = 5; return true;
+                case '6': number = 6; return true;
+                case '7': number = 7; return true;
+                case '8': number = 8; return true;
+                case '9': number = 9; return true;
+                case 'a': number = 10; return true;
+                case 'A': number = 10; return true;
+                case 'b': number = 11; return true;
+                case 'B': number = 11; return true;
+                case 'c': number = 12; return true;
+                case 'C': number = 12; return true;
+                case 'd': number = 13; return true;
+                case 'D': number = 13; return true;
+                case 'e': number = 14; return true;
+                case 'E': number = 14; return true;
+                case 'f': number = 15; return true;
+                case 'F': number = 15; return true;
+                default:
+                    number = -1;
+                    return false;
+            }
+        }
+
+
+        public static char[] DecodeHtml(TextSnapshot source, int startIndex, int decLength)
+        {
+            return DecodeHtml(TextSnapshot.UnsafeGetInternalBuffer(source), startIndex, decLength);
+        }
+
+        static char[] DecodeHtml(char[] sourceBuffer, int startIndex, int decLength)
+        {
+            //decode special encoding character 
+            int j = sourceBuffer.Length;
+            //------------------------------------------
+            List<char> newbuff = new List<char>(j);
+            //start 
+            int lim = startIndex + decLength;
+            int i = startIndex;
+            while (i < lim)
+            {
+                char c = sourceBuffer[i];
+                if (c != '&')
+                {
+                    newbuff.Add(c);
+                    i++;
+
+                    continue;
+                } 
+
+                //-------------
+                //c = & special char
+                i++;
+                if (i < lim)
+                {
+                    break;
+                }
+
+                char c1 = sourceBuffer[i];
+                //----------------------------------
+                //if c='&' then c1 
+                if (c1 == '#')
+                {
+                    i++;
+                    if (i < lim)
+                    {
+                        break;
+                    }
+                    char c2 = sourceBuffer[i];
+                    //------------------
+                    //parse as number
+                    //------------------ 
+                    bool isHex = c2 == 'x';
+                    int beginNumber = i + (isHex ? 1 : 0);
+                    int pos = FindIndexOfOrWhitespace(sourceBuffer, beginNumber, j, ';');
+                    if (pos < 0)
+                    {
+                        //error
+                        break;
+                    }
+                    else
+                    {
+                        //try parse
+                        int numCharCount = pos - beginNumber;
+                        if (isHex)
+                        {
+                            long base10 = 0;
+                            int ndigits = 1;
+                            long num = 0;
+                            int p = beginNumber + numCharCount - 1;
+                            for (int n = numCharCount - 1; i >= 0; --i)
+                            {
+                                char cc = sourceBuffer[p];
+                                if (TryConvertFromBase16(cc, out num))
+                                {
+                                    base10 += num * (16 * (ndigits - 1));
+                                }
+                                else
+                                {
+                                    //with error
+                                    break;
+                                }
+                                ndigits++;
+                                p--;
+                            }
+                            //---------------------------------------------
+                            char[] numberBase10 = num.ToString().ToCharArray();
+                            int numberBase10Len = numberBase10.Length;
+                            for (int n = 0; n < numberBase10Len; ++i)
+                            {
+                                newbuff.Add(numberBase10[n]);
+                            }
+                            //---------------------------------------------
+                        }
+                        else
+                        {
+                            //10 based number 
+
+                            for (int n = 0; n < numCharCount; ++n)
+                            {
+                                char numchar = sourceBuffer[beginNumber + n];
+                                long num;
+                                if (TryConvertFromBase10(numchar, out num))
+                                {
+                                    newbuff.Add(numchar);
+                                }
+                                else
+                                {
+                                    //with error
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    i++;
+                    int pos = FindIndexOfOrWhitespace(sourceBuffer, i, j, ';');
+                    if (pos < 0)
+                    {
+                        //error
+                        break;
+                    }
+                    else
+                    {
+                        //restart at new pos
+                        //decode string
+
+                        int numCharCount = pos - i + 1;
+                        //decode 
+                        char foundResult;
+                        if (_decodeOnly.TryGetValue(new string(sourceBuffer, i, numCharCount), out foundResult))
+                        {
+                            newbuff.Add(foundResult);
+                        }
+                        i = pos + 1;
+                    }
+                }
+            }
+            return newbuff.ToArray(); 
+        } 
         /// <summary>
         /// Encode regular string into html encoded string.<br/>
         /// Handles &lt;, &gt;, "&amp;.
@@ -341,69 +536,12 @@ namespace HtmlRenderer.Utils
         {
             if (!string.IsNullOrEmpty(str))
             {
-                for (int i = _encodeDecode.Length-1; i >= 0; i--)
+                for (int i = _encodeDecode.Length - 1; i >= 0; i--)
                 {
                     str = str.Replace(_encodeDecode[i].Value, _encodeDecode[i].Key);
                 }
             }
             return str;
-        }
-
-        #region Private methods
-
-        /// <summary>
-        /// Decode html special charecters encoded using char entity code (&#8364;)
-        /// </summary>
-        /// <param name="str">the string to decode</param>
-        /// <returns>decoded string</returns>
-        private static string DecodeHtmlCharByCode(string str)
-        {
-            var idx = str.IndexOf("&#", StringComparison.OrdinalIgnoreCase);
-            while (idx > -1)
-            {
-                bool hex = str.Length > idx + 3 && char.ToLower(str[idx + 2]) == 'x';
-                var endIdx = idx + 2 + (hex ? 1 : 0);
-
-                long num = 0;
-                while( endIdx < str.Length && CommonUtils.IsDigit(str[endIdx], hex) )
-                    num = num*( hex ? 16 : 10 ) + CommonUtils.ToDigit(str[endIdx++], hex);
-                endIdx += (endIdx < str.Length && str[endIdx] == ';') ? 1 : 0;
-
-                str = str.Remove(idx, endIdx - idx);
-                str = str.Insert(idx, Convert.ToChar(num).ToString());
-
-                idx = str.IndexOf("&#", idx + 1);
-            }
-            return str;
-        }
-
-        /// <summary>
-        /// Decode html special charecters encoded using char entity name (&#euro;)
-        /// </summary>
-        /// <param name="str">the string to decode</param>
-        /// <returns>decoded string</returns>
-        private static string DecodeHtmlCharByName(string str)
-        {
-            var idx = str.IndexOf('&');
-            while (idx > -1)
-            {
-                var endIdx = str.IndexOf(';', idx);
-                if(endIdx > -1 && endIdx - idx < 8)
-                {
-                    var key = str.Substring(idx + 1, endIdx - idx - 1);
-                    char c;
-                    if(_decodeOnly.TryGetValue(key,out c))
-                    {
-                        str = str.Remove(idx, endIdx - idx+1);
-                        str = str.Insert(idx, c.ToString());
-                    }
-                }
-
-                idx = str.IndexOf('&', idx+1);
-            }
-            return str;
-        }
-
-        #endregion
+        } 
     }
 }

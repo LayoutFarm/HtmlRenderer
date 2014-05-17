@@ -16,25 +16,21 @@ namespace HtmlRenderer.Dom
     /// <summary>
     /// Represents a word inside an inline box
     /// </summary>
-    internal sealed class CssRectWord : CssRect
+    sealed class CssRectWord : CssRect
     {
-        #region Fields and Consts
+        #region Fields and Consts 
+        int _textStartIndex;
+        int _textLength;
 
-        /// <summary>
-        /// The word text
-        /// </summary>
-        private readonly string _text;
         CssRectKind rectKind;
-
         /// <summary>
         /// was there a whitespace before the word chars (before trim)
         /// </summary>
-        private readonly bool _hasSpaceBefore;
-
+        readonly bool _hasSpaceBefore;
         /// <summary>
         /// was there a whitespace after the word chars (before trim)
         /// </summary>
-        private readonly bool _hasSpaceAfter;
+        readonly bool _hasSpaceAfter;
 
         #endregion
 
@@ -46,10 +42,14 @@ namespace HtmlRenderer.Dom
         /// <param name="text">the word chars </param>
         /// <param name="hasSpaceBefore">was there a whitespace before the word chars (before trim)</param>
         /// <param name="hasSpaceAfter">was there a whitespace after the word chars (before trim)</param>
-        public CssRectWord(CssBox owner, string text, bool hasSpaceBefore, bool hasSpaceAfter)
+        public CssRectWord(CssBox owner,
+            int start, int len,
+            bool hasSpaceBefore,
+            bool hasSpaceAfter)
             : base(owner)
         {
-            _text = text;
+            this._textStartIndex = start;
+            this._textLength = len;
             _hasSpaceBefore = hasSpaceBefore;
             _hasSpaceAfter = hasSpaceAfter;
         }
@@ -96,15 +96,7 @@ namespace HtmlRenderer.Dom
             get
             {
                 //eval once
-                switch (this.rectKind)
-                {   
-                    case CssRectKind.Unknown:
-                        return EvaluateText() == CssRectKind.Space;
-                    case CssRectKind.Space:
-                        return true;
-                    default:
-                        return false;
-                }                 
+                return this.rectKind == CssRectKind.Space;
             }
         }
         /// <summary>
@@ -115,27 +107,16 @@ namespace HtmlRenderer.Dom
             get
             {
                 //eval once
-                switch (this.rectKind)
-                {
-                    case CssRectKind.Unknown:
-                        return EvaluateText() == CssRectKind.Space;
-                    case CssRectKind.LineBreak:
-                        return true;
-                    default:
-                        return false;
-                }    
+                return this.rectKind == CssRectKind.LineBreak;
             }
         }
-
-
         CssRectKind EvaluateText()
         {
-            char[] arr = this._text.ToCharArray();
-
-            if (arr.Length == 1)
+            char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
+  
+            if (this._textLength == 1)
             {
-                char c = arr[0];
-
+                char c = ownerTextBuff[this._textStartIndex];
                 if (c == '\n')
                 {
                     return this.rectKind = CssRectKind.LineBreak;
@@ -152,30 +133,32 @@ namespace HtmlRenderer.Dom
             else
             {
                 bool is_space = true;
-                for (int i = arr.Length - 1; i >= 0; --i)
+                int realIndex = this._textStartIndex + this._textLength - 1;
+
+                for (int i = this._textLength - 1; i >= 0; --i)
                 {
-                    if (!char.IsWhiteSpace(arr[i]))
+                    if (!char.IsWhiteSpace(ownerTextBuff[realIndex]))
                     {
                         //if only one is not space
                         is_space = false;
                         break;
                     }
+                    realIndex--;
+
                 }
                 return this.rectKind = is_space ? CssRectKind.Space : CssRectKind.Text;
             }
-            //foreach (var c in Text)
-            //{
-            //    if (!char.IsWhiteSpace(c))
-            //        return false;
-            //}
-            //return true; 
         }
         /// <summary>
         /// Gets the text of the word
         /// </summary>
         public override string Text
         {
-            get { return _text; }
+            get
+            {
+                char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
+                return new string(ownerTextBuff, this._textStartIndex, this._textLength);
+            }
         }
 
         /// <summary>

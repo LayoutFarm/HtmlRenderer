@@ -39,7 +39,7 @@ namespace HtmlRenderer.Utils
             {
                 if (!b.IsInline)
                 {
-                   
+
                     return false;
                 }
             }
@@ -82,7 +82,7 @@ namespace HtmlRenderer.Utils
         {
             if (box.IsInline)
             {
-                var firstWord = box.FirstWord; 
+                var firstWord = box.FirstWord;
                 if (!firstWord.IsImage && firstWord.HasSpaceBefore)
                 {
                     var sib = CssBox.GetPreviousContainingBlockSibling(box);
@@ -334,7 +334,7 @@ namespace HtmlRenderer.Utils
                     }
                 }
 
-                
+
                 if (box.ClientRectangle.IsEmpty || box.ClientRectangle.Contains(location))
                 {
                     foreach (var childBox in box.GetChildBoxIter())
@@ -486,7 +486,7 @@ namespace HtmlRenderer.Utils
             }
 
             // empty span box
-            if (box.ChildCount < 1 && box.Text != null && box.Text.IsWhitespace())
+            if (box.ChildCount < 1 && box.HasTextContent && box.TextContentIsAllWhitespace)
             {
                 sb.Append(' ');
             }
@@ -550,10 +550,10 @@ namespace HtmlRenderer.Utils
         /// </summary>
         /// <param name="root">the box to check its sub-tree</param>
         /// <returns>the collection to add the selected tags to</returns>
-        private static Dictionary<HtmlTag, bool> CollectSelectedHtmlTags(CssBox root)
+        private static Dictionary<IHtmlTag, bool> CollectSelectedHtmlTags(CssBox root)
         {
-            var selectedTags = new Dictionary<HtmlTag, bool>();
-            var maybeTags = new Dictionary<HtmlTag, bool>();
+            var selectedTags = new Dictionary<IHtmlTag, bool>();
+            var maybeTags = new Dictionary<IHtmlTag, bool>();
             CollectSelectedHtmlTags(root, selectedTags, maybeTags);
             return selectedTags;
         }
@@ -565,7 +565,7 @@ namespace HtmlRenderer.Utils
         /// <param name="selectedTags">the collection to add the selected tags to</param>
         /// <param name="maybeTags">used to handle tags that are between selected words but don't have selected word inside</param>
         /// <returns>is the current box is in selected sub-tree</returns>
-        private static bool CollectSelectedHtmlTags(CssBox box, Dictionary<HtmlTag, bool> selectedTags, Dictionary<HtmlTag, bool> maybeTags)
+        private static bool CollectSelectedHtmlTags(CssBox box, Dictionary<IHtmlTag, bool> selectedTags, Dictionary<IHtmlTag, bool> maybeTags)
         {
             bool isInSelection = false;
             foreach (var word in box.Words)
@@ -612,19 +612,31 @@ namespace HtmlRenderer.Utils
         /// <param name="indent">the indent to use for nice formating</param>
         /// <param name="styleGen">Controls the way styles are generated when html is generated</param>
         /// <param name="selectedTags">Control if to generate only selected tags, if given only tags found in collection will be generated</param>
-        private static void WriteHtml(StringBuilder sb, CssBox box, int indent, HtmlGenerationStyle styleGen, Dictionary<HtmlTag, bool> selectedTags)
+        private static void WriteHtml(StringBuilder sb, CssBox box, int indent, HtmlGenerationStyle styleGen, Dictionary<IHtmlTag, bool> selectedTags)
         {
             if (box.HtmlTag != null && selectedTags != null && !selectedTags.ContainsKey(box.HtmlTag))
                 return;
 
             if (box.HtmlTag != null)
             {
-                if (box.WellknownTagName != WellknownHtmlTagName.LINK || !box.HtmlTag.Attributes.ContainsKey("href") ||
-                    (!box.HtmlTag.Attributes["href"].StartsWith("property") && !box.HtmlTag.Attributes["href"].StartsWith("method")))
+                string hrefAttrValue = null;
+                if (box.WellknownTagName != WellknownHtmlTagName.LINK ||
+                    ((hrefAttrValue = box.HtmlTag.TryGetAttribute("href")) == null) ||
+                    (!hrefAttrValue.StartsWith("property") && !hrefAttrValue.StartsWith("method"))
+                    )
                 {
                     WriteHtmlTag(sb, box, indent, styleGen);
                     indent = indent + (box.HtmlTag.IsSingle ? 0 : 1);
                 }
+
+                //if (box.WellknownTagName != WellknownHtmlTagName.LINK ||
+                //    !box.HtmlTag.Attributes.ContainsKey("href") ||
+                //    (!box.HtmlTag.Attributes["href"].StartsWith("property") && !box.HtmlTag.Attributes["href"].StartsWith("method")))
+                //{
+                //    WriteHtmlTag(sb, box, indent, styleGen);
+                //    indent = indent + (box.HtmlTag.IsSingle ? 0 : 1);
+                //}
+
 
                 if (styleGen == HtmlGenerationStyle.InHeader &&
                     box.WellknownTagName == WellknownHtmlTagName.HTML && box.HtmlContainer.CssData != null)
@@ -690,11 +702,15 @@ namespace HtmlRenderer.Utils
             if (box.HtmlTag.HasAttributes())
             {
                 sb.Append(" ");
-                foreach (var att in box.HtmlTag.Attributes)
+
+                bool isImageBox = box.HtmlTag.WellknownTagName == WellknownHtmlTagName.IMG;
+
+                foreach (var att in box.HtmlTag.GetAttributeIter())
                 {
+
                     // handle image tags by inserting the image using base64 data
                     //if (box.HtmlTag.Name == "img" && att.Key == "src" && (att.Value.StartsWith("property") || att.Value.StartsWith("method")))
-                    if (box.HtmlTag.WellknownTagName == WellknownHtmlTagName.IMG && att.Key == "src" && (att.Value.StartsWith("property") || att.Value.StartsWith("method")))
+                    if (isImageBox && att.Name == "src" && (att.Value.StartsWith("property") || att.Value.StartsWith("method")))
                     {
                         var img = ((CssBoxImage)box).Image;
                         if (img != null)
@@ -703,18 +719,18 @@ namespace HtmlRenderer.Utils
                             {
                                 img.Save(buffer, ImageFormat.Png);
                                 var base64 = Convert.ToBase64String(buffer.ToArray());
-                                sb.AppendFormat("{0}=\"data:image/png;base64, {1}\" ", att.Key, base64);
+                                sb.AppendFormat("{0}=\"data:image/png;base64, {1}\" ", att.Name, base64);
                             }
                         }
                     }
-                    else if (styleGen == HtmlGenerationStyle.Inline && att.Key == HtmlConstants.Style)
+                    else if (styleGen == HtmlGenerationStyle.Inline && att.Name == HtmlConstants.Style)
                     {
                         // if inline style add the styles to the collection
                         var block = CssParser.ParseCssBlock(box.HtmlTag.Name, box.HtmlTag.TryGetAttribute("style"));
                         foreach (var prop in block.Properties)
                             tagStyles[prop.Key] = prop.Value;
                     }
-                    else if (styleGen == HtmlGenerationStyle.Inline && att.Key == HtmlConstants.Class)
+                    else if (styleGen == HtmlGenerationStyle.Inline && att.Name == HtmlConstants.Class)
                     {
                         // if inline style convert the style class to actual properties and add to collection
                         var cssBlocks = box.HtmlContainer.CssData.GetCssBlock("." + att.Value);
@@ -728,7 +744,7 @@ namespace HtmlRenderer.Utils
                     }
                     else
                     {
-                        sb.AppendFormat("{0}=\"{1}\" ", att.Key, att.Value);
+                        sb.AppendFormat("{0}=\"{1}\" ", att.Name, att.Value);
                     }
                 }
 

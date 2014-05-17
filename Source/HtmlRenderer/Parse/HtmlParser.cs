@@ -18,16 +18,15 @@ using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Parse
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    internal static class HtmlParser
+
+    static partial class HtmlParser
     {
+        
         /// <summary>
         /// Parses the source html to css boxes tree structure.
         /// </summary>
         /// <param name="source">the html source to parse</param>
-        public static CssBox ParseDocument(string source)
+        public static CssBox ParseDocument(TextSnapshot source)
         {
             var root = CssBox.CreateRootBlock();
             var curBox = root;
@@ -37,23 +36,23 @@ namespace HtmlRenderer.Parse
             while (startIdx >= 0)
             {
                 var tagIdx = source.IndexOf('<', startIdx);
-                if(tagIdx >= 0 && tagIdx < source.Length)
+                if (tagIdx >= 0 && tagIdx < source.Length)
                 {
                     // add the html text as anon css box to the structure
                     AddTextBox(source, startIdx, tagIdx, ref curBox);
 
                     if (source[tagIdx + 1] == '!')
                     {
-                        if( source[tagIdx + 2] == '-' )
+                        if (source[tagIdx + 2] == '-')
                         {
                             // skip the html comment elements (<!-- bla -->)
-                            startIdx = source.IndexOf("-->", tagIdx + 2);
+                            startIdx = source.IndexOf('-', '-', '>', tagIdx + 2);
                             endIdx = startIdx > 0 ? startIdx + 3 : tagIdx + 2;
                         }
                         else
                         {
                             // skip the html crap elements (<!crap bla>)
-                            startIdx = source.IndexOf(">", tagIdx + 2);
+                            startIdx = source.IndexOf('>', tagIdx + 2);
                             endIdx = startIdx > 0 ? startIdx + 1 : tagIdx + 2;
                         }
                     }
@@ -71,10 +70,10 @@ namespace HtmlRenderer.Parse
             {
                 // there is text after the end of last element
                 var endText = new SubString(source, endIdx, source.Length - endIdx);
-                if(!endText.IsEmptyOrWhitespace())
+                if (!endText.IsEmptyOrWhitespace())
                 {
                     var abox = CssBox.CreateBox(root);
-                    abox.Text = endText;
+                    abox.SetTextContent(endText.CutSubstring());
                 }
             }
 
@@ -93,13 +92,12 @@ namespace HtmlRenderer.Parse
         /// <param name="startIdx">the start of the html part</param>
         /// <param name="tagIdx">the index of the next html tag</param>
         /// <param name="curBox">the current box in html tree parsing</param>
-        private static void AddTextBox(string source, int startIdx, int tagIdx, ref CssBox curBox)
+        private static void AddTextBox(TextSnapshot source, int startIdx, int tagIdx, ref CssBox curBox)
         {
-            var text = tagIdx > startIdx ? new SubString(source, startIdx, tagIdx - startIdx) : null;
-            if (text != null)
+            if (tagIdx > startIdx)
             {
-                var abox = CssBox.CreateBox(curBox);
-                abox.Text = text;
+                var textbox = CssBox.CreateBox(curBox);
+                textbox.SetTextContent(HtmlRenderer.Utils.HtmlUtils.DecodeHtml(source, startIdx, tagIdx - startIdx));
             }
         }
 
@@ -110,7 +108,7 @@ namespace HtmlRenderer.Parse
         /// <param name="tagIdx">the index of the next html tag</param>
         /// <param name="curBox">the current box in html tree parsing</param>
         /// <returns>the end of the parsed part, the new start index</returns>
-        private static int ParseHtmlTag(string source, int tagIdx, ref CssBox curBox)
+        private static int ParseHtmlTag(TextSnapshot source, int tagIdx, ref CssBox curBox)
         {
             var endIdx = source.IndexOf('>', tagIdx + 1);
             if (endIdx > 0)
@@ -128,7 +126,7 @@ namespace HtmlRenderer.Parse
                 else if (!string.IsNullOrEmpty(tagName))
                 {
                     //new SubString(source, lastEnd + 1, tagmatch.Index - lastEnd - 1)
-                    var tag = new HtmlTag(tagName, tagAttributes);
+                    var tag = new oldHtmlTag(tagName, tagAttributes);
 
                     if (tag.IsSingle)
                     {
@@ -159,7 +157,7 @@ namespace HtmlRenderer.Parse
         /// <param name="name">return the name of the html tag</param>
         /// <param name="attributes">return the dictionary of tag attributes</param>
         /// <returns>true - the tag is closing tag, false - otherwise</returns>
-        private static bool ParseHtmlTag(string source, int idx, int length, out string name, out Dictionary<string, string> attributes)
+        private static bool ParseHtmlTag(TextSnapshot source, int idx, int length, out string name, out Dictionary<string, string> attributes)
         {
             idx++;
             length = length - (source[idx + length - 3] == '/' ? 3 : 2);
@@ -174,14 +172,14 @@ namespace HtmlRenderer.Parse
             }
 
             int spaceIdx = idx;
-            while (spaceIdx < idx + length && !char.IsWhiteSpace(source,spaceIdx))
+            while (spaceIdx < idx + length && !char.IsWhiteSpace(source[spaceIdx]))
                 spaceIdx++;
 
             // Get the name of the tag
             name = source.Substring(idx, spaceIdx - idx).ToLower();
 
             attributes = null;
-            if(!isClosing && idx+length > spaceIdx)
+            if (!isClosing && idx + length > spaceIdx)
             {
                 ExtractAttributes(source, spaceIdx, length - (spaceIdx - idx), out attributes);
             }
@@ -196,24 +194,24 @@ namespace HtmlRenderer.Parse
         /// <param name="idx">the start index of the tag attributes in the source</param>
         /// <param name="length">the length of the tag attributes from the start index in the source</param>
         /// <param name="attributes">return the dictionary of tag attributes</param>
-        private static void ExtractAttributes(string source, int idx, int length, out Dictionary<string, string> attributes)
+        private static void ExtractAttributes(TextSnapshot source, int idx, int length, out Dictionary<string, string> attributes)
         {
             attributes = null;
 
             int startIdx = idx;
-            while (startIdx < idx  + length)
+            while (startIdx < idx + length)
             {
-                while (startIdx < idx + length && char.IsWhiteSpace(source, startIdx))
+                while (startIdx < idx + length && char.IsWhiteSpace(source[startIdx]))
                     startIdx++;
 
                 var endIdx = startIdx + 1;
-                while (endIdx < idx + length && !char.IsWhiteSpace(source, endIdx) && source[endIdx] != '=')
+                while (endIdx < idx + length && !char.IsWhiteSpace(source[endIdx]) && source[endIdx] != '=')
                     endIdx++;
 
                 var key = source.Substring(startIdx, endIdx - startIdx);
 
                 startIdx = endIdx + 1;
-                while (startIdx < idx + length && (char.IsWhiteSpace(source, startIdx) || source[startIdx] == '='))
+                while (startIdx < idx + length && (char.IsWhiteSpace(source[startIdx]) || source[startIdx] == '='))
                     startIdx++;
 
                 bool hasPChar = false;
@@ -225,9 +223,9 @@ namespace HtmlRenderer.Parse
                 }
 
                 endIdx = startIdx + (hasPChar ? 0 : 1);
-                while (endIdx < idx + length && ( hasPChar ? source[endIdx] != pChar : !char.IsWhiteSpace(source, endIdx) ))
+                while (endIdx < idx + length && (hasPChar ? source[endIdx] != pChar : !char.IsWhiteSpace(source[endIdx])))
                     endIdx++;
-                
+
                 var value = source.Substring(startIdx, endIdx - startIdx);
                 value = HtmlUtils.DecodeHtml(value);
 
@@ -244,4 +242,6 @@ namespace HtmlRenderer.Parse
 
         #endregion
     }
+
+  
 }

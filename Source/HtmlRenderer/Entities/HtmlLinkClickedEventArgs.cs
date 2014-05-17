@@ -25,10 +25,7 @@ namespace HtmlRenderer.Entities
         /// </summary>
         private readonly string _link;
 
-        /// <summary>
-        /// collection of all the attributes that are defined on the link element
-        /// </summary>
-        private readonly Dictionary<string, string> _attributes;
+   
 
         /// <summary>
         /// use to cancel the execution of the link
@@ -39,10 +36,9 @@ namespace HtmlRenderer.Entities
         /// Init.
         /// </summary>
         /// <param name="link">the link href that was clicked</param>
-        public HtmlLinkClickedEventArgs(string link, Dictionary<string, string> attributes)
+        public HtmlLinkClickedEventArgs(string link, HtmlRenderer.Dom.IHtmlTag tag)
         {
-            _link = link;
-            _attributes = attributes;
+            _link = link; 
         }
 
         /// <summary>
@@ -53,13 +49,7 @@ namespace HtmlRenderer.Entities
             get { return _link; }
         }
 
-        /// <summary>
-        /// collection of all the attributes that are defined on the link element
-        /// </summary>
-        public Dictionary<string, string> Attributes
-        {
-            get { return _attributes; }
-        }
+
 
         /// <summary>
         /// use to cancel the execution of the link
