@@ -125,6 +125,7 @@ namespace HtmlRenderer.Handlers
             get { return _imageRectangle; }
         }
 
+        
         /// <summary>
         /// Set image of this image box by analyzing the src attribute.<br/>
         /// Load the image from inline base64 encoded string.<br/>
@@ -132,18 +133,13 @@ namespace HtmlRenderer.Handlers
         /// Or from file path<br/>
         /// Or from URI.
         /// </summary>
-        /// <remarks>
-        /// File path and URI image loading is executed async and after finishing calling <see cref="ImageLoadComplete"/>
-        /// on the main thread and not thread-pool.
-        /// </remarks>
-        /// <param name="src">the source of the image to load</param>
-        /// <param name="attributes">the collection of attributes on the element to use in event</param>
-        /// <returns>the image object (null if failed)</returns>
-        public void LoadImage(string src, Dictionary<string, string> attributes)
+        /// <param name="src"></param>
+        /// <param name="tag"></param>
+        public void LoadImage(string src, HtmlRenderer.Dom.IHtmlTag tag)
         {
             try
             {
-                var args = new HtmlImageLoadEventArgs(src, attributes, OnHtmlImageLoadEventCallback);
+                var args = new HtmlImageLoadEventArgs(src, tag, OnHtmlImageLoadEventCallback);
                 _htmlContainer.RaiseHtmlImageLoadEvent(args);
                 _asyncCallback = !_htmlContainer.AvoidAsyncImagesLoading;
 

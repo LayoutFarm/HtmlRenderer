@@ -133,7 +133,7 @@ namespace HtmlRenderer
         {
             if (LinkClicked != null)
             {
-                var args = new HtmlLinkClickedEventArgs(link.HrefLink, link.HtmlTag.Attributes);
+                var args = new HtmlLinkClickedEventArgs(link.HrefLink, link.HtmlTag);
                 try
                 {
                     LinkClicked(this, args);

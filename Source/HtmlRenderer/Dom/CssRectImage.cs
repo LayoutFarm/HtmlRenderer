@@ -39,8 +39,8 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="owner">the CSS box owner of the word</param>
         public CssRectImage(CssBox owner)
-            :base(owner)
-        {}
+            : base(owner, CssRectKind.Image)
+        { }
 
         /// <summary>
         /// Gets the image this words represents (if one exists)
@@ -50,18 +50,7 @@ namespace HtmlRenderer.Dom
             get { return _image; }
             set { _image = value; }
         }
-        public override CssRectKind RectKind
-        {
-            get { return CssRectKind.Image; }
-        }
-        /// <summary>
-        /// Gets if the word represents an image.
-        /// </summary>
-        public override bool IsImage
-        {
-            get { return true; }
-        }
-
+       
         /// <summary>
         /// the image rectange restriction as returned from image load event
         /// </summary>

@@ -447,7 +447,7 @@ namespace HtmlRenderer.Dom
         {
             foreach (var cssRectF in this.Rectangles.Values)
             {
-                cssRectF.owner.UpdateStripInfo(cssRectF.rectF); 
+                cssRectF.owner.UpdateStripInfo(cssRectF.rectF);
                 //kp.Key.AddRectStripInfo(kp.Value.rectF);
             }
         }
@@ -488,20 +488,20 @@ namespace HtmlRenderer.Dom
                             CssBoxImage owner = (CssBoxImage)w.OwnerBox;
                             owner.PaintImage(g, offset, w);
                         } break;
-                    case CssRectKind.Space:
-                    case CssRectKind.LineBreak:
-                    case CssRectKind.Unknown:
-                        break;
                     case CssRectKind.Text:
                         {
                             w.OwnerBox.PaintTextWord(g, offset, w);
                         } break;
                     default:
-                        break;
+                        {
+#if DEBUG
+                            w.OwnerBox.dbugPaintTextWordArea(g, offset, w);
+#endif
+                        } break;
                 }
             }
         }
-        
+
 #if DEBUG
         internal void dbugPaintWords(IGraphics g, PointF offset)
         {
@@ -548,14 +548,10 @@ namespace HtmlRenderer.Dom
             }
         }
 #endif
-        /// <summary>
-        /// paint rect content in this line
-        /// </summary>
-        /// <param name="g"></param>
+
         void PaintBackgroundAndBorder(IGraphics g, PointF offset)
         {
-            //iterate from each rect
-
+            //iterate from each rect 
             foreach (var kp in this._rects)
             {
                 var ownerBox = kp.Key;
@@ -575,11 +571,11 @@ namespace HtmlRenderer.Dom
 
                         ownerBox.PaintBackground(g, rect, false, false);
                         //g.DrawRectangle(Pens, rect.X, rect.Y, rect.Width, rect.Height);//debug
-                        HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(g, ownerBox, rect, false, false); 
+                        HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(g, ownerBox, rect, false, false);
                     }
                     else
                     {
-                        ownerBox.PaintBackground(g, rect, true, true); 
+                        ownerBox.PaintBackground(g, rect, true, true);
                         //g.DrawRectangle(Pens.DeepPink, rect.X, rect.Y, rect.Width, rect.Height); //debug
                         HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(g, ownerBox, rect, true, true);
                     }
@@ -624,13 +620,13 @@ namespace HtmlRenderer.Dom
                     //if first line = last line 
                     //then this box is on single line
                     if (ownerBox.FirstHostingLineBox != null)
-                    { 
+                    {
                         ownerBox.PaintDecoration2(g, rect, false, false);
-                         
+
                     }
                     else
                     {
-                        ownerBox.PaintDecoration2(g, rect, true, true); 
+                        ownerBox.PaintDecoration2(g, rect, true, true);
                     }
                 }
                 else
@@ -638,11 +634,11 @@ namespace HtmlRenderer.Dom
                     //this box has multiple rect 
                     if (ownerBox.FirstHostingLineBox == this)
                     {
-                        ownerBox.PaintDecoration2(g, rect, true, false);      
+                        ownerBox.PaintDecoration2(g, rect, true, false);
                     }
                     else
                     {
-                        ownerBox.PaintDecoration2(g, rect, false, true);                                
+                        ownerBox.PaintDecoration2(g, rect, false, true);
                     }
                 }
                 //-------------------

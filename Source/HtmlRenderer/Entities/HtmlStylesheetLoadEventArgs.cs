@@ -29,12 +29,7 @@ namespace HtmlRenderer.Entities
         /// the source of the stylesheet as found in the HTML (file path or URL)
         /// </summary>
         private readonly string _src;
-
-        /// <summary>
-        /// collection of all the attributes that are defined on the link element
-        /// </summary>
-        private readonly Dictionary<string, string> _attributes;
-
+ 
         /// <summary>
         /// provide the new source (file path or URL) to load stylesheet from
         /// </summary>
@@ -58,10 +53,9 @@ namespace HtmlRenderer.Entities
         /// </summary>
         /// <param name="src">the source of the image (file path or URL)</param>
         /// <param name="attributes">collection of all the attributes that are defined on the image element</param>
-        internal HtmlStylesheetLoadEventArgs(string src, Dictionary<string, string> attributes)
+        internal HtmlStylesheetLoadEventArgs(string src)
         {
-            _src = src;
-            _attributes = attributes;
+            _src = src; 
         }
 
         /// <summary>
@@ -72,13 +66,13 @@ namespace HtmlRenderer.Entities
             get { return _src; }
         }
 
-        /// <summary>
-        /// collection of all the attributes that are defined on the link element
-        /// </summary>
-        public Dictionary<string, string> Attributes
-        {
-            get { return _attributes; }
-        }
+        ///// <summary>
+        ///// collection of all the attributes that are defined on the link element
+        ///// </summary>
+        //public Dictionary<string, string> Attributes
+        //{
+        //    get { return _attributes; }
+        //}
 
         /// <summary>
         /// provide the new source (file path or URL) to load stylesheet from

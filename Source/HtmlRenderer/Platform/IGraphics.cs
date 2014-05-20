@@ -57,6 +57,8 @@ namespace HtmlRenderer
         /// <param name="size">used to know the size of the rendered text for transparent text support</param>
         void DrawString(String str, Font font, Color color, PointF point, SizeF size);
 
+
+
         /// <summary>
         /// Draws a line connecting the two points specified by the coordinate pairs.
         /// </summary>

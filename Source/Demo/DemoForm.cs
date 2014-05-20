@@ -392,20 +392,22 @@ namespace HtmlRenderer.Demo
         private void OnImageLoad(object sender, HtmlImageLoadEventArgs e)
         {
             var img = TryLoadResourceImage(e.Src);
+            var htmlTag = e.SourceHtmlTag;
 
-            if (!e.Handled && e.Attributes != null)
+            if (!e.Handled && htmlTag != null)
             {
-                if (e.Attributes.ContainsKey("byevent"))
+                string attrValue = null;
+                if ((attrValue = htmlTag.TryGetAttribute("byevent", null)) != null)
                 {
                     int delay;
-                    if (int.TryParse(e.Attributes["byevent"], out delay))
+                    if (int.TryParse(attrValue, out delay))
                     {
                         e.Handled = true;
                         ThreadPool.QueueUserWorkItem(state =>
-                            {
-                                Thread.Sleep(delay);
-                                e.Callback("https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-snc7/c0.44.403.403/p403x403/318890_10151195988833836_1081776452_n.jpg");
-                            });
+                        {
+                            Thread.Sleep(delay);
+                            e.Callback("https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-snc7/c0.44.403.403/p403x403/318890_10151195988833836_1081776452_n.jpg");
+                        });
                         return;
                     }
                     else
@@ -414,9 +416,9 @@ namespace HtmlRenderer.Demo
                         return;
                     }
                 }
-                else if (e.Attributes.ContainsKey("byrect"))
+                else if ((attrValue = htmlTag.TryGetAttribute("byevent", null)) != null)
                 {
-                    var split = e.Attributes["byrect"].Split(',');
+                    var split = attrValue.Split(',');
                     var rect = new Rectangle(int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse(split[3]));
                     e.Callback(img ?? Resources.html32, rect);
                     return;
@@ -424,7 +426,9 @@ namespace HtmlRenderer.Demo
             }
 
             if (img != null)
+            {
                 e.Callback(img);
+            }
         }
 
         /// <summary>

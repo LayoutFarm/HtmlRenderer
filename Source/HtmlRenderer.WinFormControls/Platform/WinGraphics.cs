@@ -197,7 +197,7 @@ namespace HtmlRenderer
 #endif
             if (_useGdiPlusTextRendering)
             {
-                ReleaseHdc();
+                ReleaseHdc(); 
                 _g.DrawString(str, font, RenderUtils.GetSolidBrush(color), (int)Math.Round(point.X - FontsUtils.GetFontLeftPadding(font) * .8f), (int)Math.Round(point.Y));
             }
             else

@@ -303,7 +303,9 @@ namespace HtmlRenderer.Dom
                     }
 
                     if (DomUtils.IsBoxHasWhitespace(b))
+                    {
                         curx += box.ActualWordSpacing;
+                    }
 
                     foreach (var word in b.Words)
                     {
@@ -382,7 +384,7 @@ namespace HtmlRenderer.Dom
                 //line.Rectangles.Add(box, new CssRectangleF(new RectangleF(startX, startY, box.ActualWidth, box.ActualHeight)));
             }
             // handle box that is only a whitespace
-            if (box.Text != null && box.Text.IsWhitespace() && !box.IsImage && box.IsInline && box.ChildCount == 0 && box.Words.Count == 0)
+            if (box.MayHasSomeTextContent && box.TextContentIsAllWhitespace && !box.IsImage && box.IsInline && box.ChildCount == 0 && box.Words.Count == 0)
             {
                 curx += box.ActualWordSpacing;
             }

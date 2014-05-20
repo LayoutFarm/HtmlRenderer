@@ -25,6 +25,9 @@ namespace HtmlRenderer.Parse
     /// </summary>
     internal static class DomParser
     {
+
+
+
         /// <summary>
         /// Generate css tree by parsing the given html and applying the given css style data on it.
         /// </summary>
@@ -39,7 +42,13 @@ namespace HtmlRenderer.Parse
         {
 
             //1. generate css box  from html data
-            CssBox root = HtmlParser.ParseDocument(html);
+            CssBox root = HtmlParser2.ParseDocument(new TextSnapshot(html.ToCharArray()));
+
+#if DEBUG
+            dbugTestParsePerformance(html);
+#endif
+
+
             //2. decorate cssbox with styles
             if (root != null)
             {
@@ -70,7 +79,40 @@ namespace HtmlRenderer.Parse
         }
 
         #region Private methods
+#if DEBUG
+        static void dbugTestParsePerformance(string htmlstr)
+        {
+            return;
+            System.Diagnostics.Stopwatch sw1 = new System.Diagnostics.Stopwatch();
 
+
+            sw1.Reset();
+            GC.Collect();
+            sw1.Start();
+            int nround = 100;
+            var snapSource = new TextSnapshot(htmlstr.ToCharArray());
+            for (int i = nround; i >= 0; --i)
+            {
+                CssBox root1 = HtmlParser.ParseDocument(snapSource);
+            }
+            sw1.Stop();
+            long ee1 = sw1.ElapsedTicks;
+            long ee1_ms = sw1.ElapsedMilliseconds;
+
+
+            sw1.Reset();
+            GC.Collect();
+            sw1.Start();
+            for (int i = nround; i >= 0; --i)
+            {
+                CssBox root2 = HtmlParser2.ParseDocument(snapSource);
+            }
+            sw1.Stop();
+            long ee2 = sw1.ElapsedTicks;
+            long ee2_ms = sw1.ElapsedMilliseconds;
+
+        }
+#endif
         /// <summary>
         /// Applies style to all boxes in the tree.<br/>
         /// If the html tag has style defined for each apply that style to the css box of the tag.<br/>
@@ -120,7 +162,7 @@ namespace HtmlRenderer.Parse
                 if (box.WellknownTagName == WellknownHtmlTagName.STYLE && box.ChildCount == 1)
                 {
                     CloneCssData(ref cssData, ref cssDataChanged);
-                    CssParser.ParseStyleSheet(cssData, box.GetFirstChild().Text.CutSubstring());
+                    CssParser.ParseStyleSheet(cssData, box.GetFirstChild().CopyTextContent());
                 }
 
                 // Check for the <link rel=stylesheet> tag
@@ -131,9 +173,10 @@ namespace HtmlRenderer.Parse
                     CloneCssData(ref cssData, ref cssDataChanged);
                     string stylesheet;
                     CssData stylesheetData;
+
                     StylesheetLoadHandler.LoadStylesheet(htmlContainer,
                         box.GetAttribute("href", string.Empty),
-                        box.HtmlTag.Attributes, out stylesheet, out stylesheetData);
+                        out stylesheet, out stylesheetData);
 
                     if (stylesheet != null)
                         CssParser.ParseStyleSheet(cssData, stylesheet);
@@ -151,7 +194,7 @@ namespace HtmlRenderer.Parse
             //    }
             //    box.TextDecoration = string.Empty;
             //}
-            if (box.TextDecoration != CssTextDecoration.NotAssign && box.Text == null)
+            if (box.TextDecoration != CssTextDecoration.NotAssign && !box.MayHasSomeTextContent)
             {
                 foreach (var childBox in box.GetChildBoxIter())
                 {
@@ -397,15 +440,16 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="tag"></param>
         /// <param name="box"></param>
-        private static void TranslateAttributes(HtmlTag tag, CssBox box)
+        private static void TranslateAttributes(IHtmlTag tag, CssBox box)
         {
             if (tag.HasAttributes())
             {
-                foreach (string att in tag.Attributes.Keys)
-                {
-                    string value = tag.Attributes[att];
 
-                    switch (att)
+                foreach (var attr in tag.GetAttributeIter())
+                {
+                    string value = attr.Value;
+
+                    switch (attr.Name)
                     {
                         case HtmlConstants.Align:
                             if (value == HtmlConstants.Left || value == HtmlConstants.Center || value == HtmlConstants.Right || value == HtmlConstants.Justify)
@@ -482,7 +526,7 @@ namespace HtmlRenderer.Parse
                             else if (tag.WellknownTagName == WellknownHtmlTagName.FONT)
                             {
                                 box.SetFontSize(value);
-                            } 
+                            }
 
                             break;
                         case HtmlConstants.Valign:
@@ -587,15 +631,17 @@ namespace HtmlRenderer.Parse
         /// <param name="box">the current box to correct its sub-tree</param>
         private static void CorrectImgBoxes(CssBox box)
         {
+            int childIndex = 0;
             foreach (var childBox in box.GetChildBoxIter())
             {
                 //if (childBox is CssBoxImage &&  childBox.Display == CssConstants.Block)
                 if (childBox is CssBoxImage && childBox.CssDisplay == CssDisplay.Block)
                 {
                     //create new anonymous box
-                    var block = CssBox.CreateBlock(childBox.ParentBox, null, childBox);
+                    var block = CssBox.CreateBlock(childBox.ParentBox, null, childIndex);
                     //move this imgbox to new child
-                    childBox.ParentBox = block;
+
+                    childBox.SetNewParentBox(block);
                     //childBox.Display = CssConstants.Inline;
                     childBox.CssDisplay = CssDisplay.Inline;
                 }
@@ -604,6 +650,7 @@ namespace HtmlRenderer.Parse
                     // recursive
                     CorrectImgBoxes(childBox);
                 }
+                childIndex++;
             }
             //for (int i = box.ChildCount - 1; i >= 0; i--)
             //{
@@ -625,7 +672,9 @@ namespace HtmlRenderer.Parse
             //}
         }
 
-
+#if DEBUG
+        static int dbugCorrectCount = 0;
+#endif
         /// <summary>
         /// Correct DOM tree if there is block boxes that are inside inline blocks.<br/>
         /// Need to rearrange the tree so block box will be only the child of other block box.
@@ -633,6 +682,9 @@ namespace HtmlRenderer.Parse
         /// <param name="box">the current box to correct its sub-tree</param>
         private static void CorrectBlockInsideInline(CssBox box)
         {
+#if DEBUG
+            dbugCorrectCount++;
+#endif
             //recursive
             try
             {

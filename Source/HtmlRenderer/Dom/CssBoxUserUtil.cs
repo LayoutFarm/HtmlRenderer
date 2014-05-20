@@ -171,7 +171,7 @@ namespace HtmlRenderer.Dom
         }
         public static string GetCornerRadius(this CssBox box)
         {
-         
+
             System.Text.StringBuilder stbuilder = new System.Text.StringBuilder();
             stbuilder.Append(box.CornerNERadius);
             stbuilder.Append(' ');
@@ -314,7 +314,7 @@ namespace HtmlRenderer.Dom
                     case CssFontSizeConst.FONTSIZE_XX_SMALL:
                         return CssConstants.XXSmall;
                     case CssFontSizeConst.FONTSIZE_LARGE:
-                        return CssConstants.Large;  
+                        return CssConstants.Large;
                     case CssFontSizeConst.FONTSIZE_X_LARGE:
                         return CssConstants.XLarge;
                     case CssFontSizeConst.FONTSIZE_XX_LARGE:
@@ -342,7 +342,7 @@ namespace HtmlRenderer.Dom
                 CssBox parentBox = null;
                 if (len.HasError)
                 {
-                    
+
                     len = CssLength.FontSizeMedium;
                 }
                 else if (len.Unit == CssUnit.Ems && ((parentBox = box.GetParentBox()) != null))
@@ -361,6 +361,7 @@ namespace HtmlRenderer.Dom
                 {
                     default:
                         {
+
                             throw new NotSupportedException();
                         }
                     case CssConstants.Medium:
@@ -422,6 +423,50 @@ namespace HtmlRenderer.Dom
         {
 
             return _cssListStyleTypeMap.GetValueFromString(value, CssListStyleType.Disc);
+        }
+
+
+        public static WellknownHtmlTagName EvaluateTagName(string name)
+        {  
+            switch (name)
+            {
+                default:
+                    return WellknownHtmlTagName.Unknown;
+                case "hr":
+                    return WellknownHtmlTagName.HR;
+                case "a":
+                    return WellknownHtmlTagName.A;
+                case "script":
+                    return WellknownHtmlTagName.SCRIPT;
+                case "style":
+                    return WellknownHtmlTagName.STYLE;
+                case "div":
+                    return WellknownHtmlTagName.DIV;
+                case "span":
+                    return WellknownHtmlTagName.SPAN;
+                case "img":
+                    return WellknownHtmlTagName.IMG;
+                case "link":
+                    return WellknownHtmlTagName.LINK;
+                case "p":
+                    return WellknownHtmlTagName.P;
+                case "table":
+                    return WellknownHtmlTagName.TABLE;
+                case "td":
+                    return WellknownHtmlTagName.TD;
+                case "tr":
+                    return WellknownHtmlTagName.TR;
+                case "br":
+                    return WellknownHtmlTagName.BR;
+                case "html":
+                    return WellknownHtmlTagName.HTML;
+                case "iframe":
+                    return WellknownHtmlTagName.IFREAME;
+                case "font":
+                    return WellknownHtmlTagName.FONT;
+                case "x":
+                    return WellknownHtmlTagName.X; //test for extension                     
+            }
         }
     }
 

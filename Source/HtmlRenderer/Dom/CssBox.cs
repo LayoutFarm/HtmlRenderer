@@ -19,6 +19,7 @@ using HtmlRenderer.Entities;
 using HtmlRenderer.Handlers;
 using HtmlRenderer.Parse;
 using HtmlRenderer.Utils;
+using System.Text;
 
 namespace HtmlRenderer.Dom
 {
@@ -36,26 +37,27 @@ namespace HtmlRenderer.Dom
     /// </remarks>
     public partial class CssBox : CssBoxBase, IDisposable
     {
-
-        //test1.7
         /// <summary>
         /// Init.
         /// </summary>
         /// <param name="parentBox">optional: the parent of this css box in html</param>
         /// <param name="tag">optional: the html tag associated with this css box</param>
-        public CssBox(CssBox parentBox, HtmlTag tag)
+        public CssBox(CssBox parentBox, IHtmlTag tag)
         {
+
+            this._boxes = new CssBoxCollection(this);
             if (parentBox != null)
             {
-                _parentBox = parentBox;
-                _parentBox.Boxes.Add(this);
+                parentBox.Boxes.Add(this);
             }
+
             _htmltag = tag;
-            //evaluate some aspected of html tag 
+
             if (tag != null)
             {
                 this.wellKnownTagName = tag.WellknownTagName;
             }
+
         }
         public WellknownHtmlTagName WellknownTagName
         {
@@ -83,29 +85,29 @@ namespace HtmlRenderer.Dom
         }
 
         /// <summary>
-        /// Gets or sets the parent box of this box
+        /// Gets  the parent box of this box
         /// </summary>
         public CssBox ParentBox
         {
             get { return _parentBox; }
-            set
-            {
-                //Remove from last parent
-                if (_parentBox != null && _parentBox.Boxes.Contains(this))
-                {
-                    _parentBox.Boxes.Remove(this);
-                }
-                _parentBox = value;
-
-                //Add to new parent
-                if (value != null && !value.Boxes.Contains(this))
-                {
-                    _parentBox.Boxes.Add(this);
-                    _htmlContainer = value.HtmlContainer;
-                }
-            }
         }
 
+        /// <summary>
+        /// remove this box from its parent and add to new parent box
+        /// </summary>
+        /// <param name="parentBox"></param>
+        public void SetNewParentBox(CssBox parentBox)
+        {
+            if (this._parentBox != null)
+            {
+                this._parentBox.Boxes.Remove(this);
+            }
+            if (parentBox != null)
+            {
+                parentBox.Boxes.Add(this);
+                _htmlContainer = parentBox.HtmlContainer;
+            }
+        }
 
         /// <summary>
         /// Is the box is of "br" element.
@@ -115,8 +117,6 @@ namespace HtmlRenderer.Dom
             get
             {
                 return this.WellknownTagName == WellknownHtmlTagName.BR;
-                //return _htmltag != null
-                //    && _htmltag.Name.Equals("br", StringComparison.InvariantCultureIgnoreCase);
             }
         }
 
@@ -125,7 +125,6 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public bool IsInline
         {
-            //get { return (Display == CssConstants.Inline || Display == CssConstants.InlineBlock) && !IsBrElement; }
             get
             {
                 return (this.CssDisplay == CssDisplay.Inline
@@ -144,7 +143,6 @@ namespace HtmlRenderer.Dom
             {
                 return this.CssDisplay == CssDisplay.Block;
             }
-            //get { return Display == CssConstants.Block; }
         }
 
         /// <summary>
@@ -198,15 +196,7 @@ namespace HtmlRenderer.Dom
                 }
 
                 var box = ParentBox;
-                //while (!box.IsBlock &&
-                //        box.Display != CssConstants.ListItem &&
-                //        box.Display != CssConstants.Table &&
-                //        box.Display != CssConstants.TableCell &&
-                //        box.ParentBox != null)
-                while (!box.IsBlock &&
-                    box.CssDisplay != CssDisplay.ListItem &&
-                    box.CssDisplay != CssDisplay.Table &&
-                    box.CssDisplay != CssDisplay.TableCell &&
+                while (box.CssDisplay < CssDisplay.__CONTAINER_BEGIN_HERE &&
                     box.ParentBox != null)
                 {
                     box = box.ParentBox;
@@ -223,7 +213,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the HTMLTag that hosts this box
         /// </summary>
-        public HtmlTag HtmlTag
+        public IHtmlTag HtmlTag
         {
             get { return _htmltag; }
         }
@@ -259,33 +249,96 @@ namespace HtmlRenderer.Dom
                 return true;
             }
         }
-
-        /// <summary>
-        /// Gets or sets the inner text of the box
-        /// </summary>
-        public SubString Text
+        internal static char[] UnsafeGetTextBuffer(CssBox box)
         {
-            get { return _text; }
-            set
-            {
-                //when assign new value
-                _text = value;
-                //then clear previous box words
-                _boxWords.Clear();
-            }
+            return box._textBuffer;
         }
 
-        /// <summary>
-        ///// Gets the line-boxes of this box (if block box)
-        ///// </summary>
-        //List<CssLineBox> LineBoxes
-        //{
-        //    get { return _lineBoxes; }
-        //}
+        void ResetTextFlags()
+        {
+            int tmpFlags = this._boxCompactFlags;
+            tmpFlags &= ~CssBoxFlagsConst.HAS_EVAL_WHITESPACE;
+            tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
+            tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_EMPTY;
+            this._boxCompactFlags = tmpFlags;
+        }
+        internal void SetTextContent(string str)
+        {
+            this._textBuffer = str.ToCharArray();
+            ResetTextFlags();
+        }
+        internal void SetTextContent(char[] chars)
+        {
+            this._textBuffer = chars;
+            ResetTextFlags();
+        }
+        public bool MayHasSomeTextContent
+        {
+            get
+            {
+                return this._textBuffer != null;
+            }
+        }
+        void EvaluateWhitespace()
+        {
 
+            this._boxCompactFlags |= CssBoxFlagsConst.HAS_EVAL_WHITESPACE;
+            char[] tmp;
+
+            if ((tmp = this._textBuffer) == null)
+            {
+
+                this._boxCompactFlags |= CssBoxFlagsConst.TEXT_IS_EMPTY;
+                return;
+            }
+            for (int i = tmp.Length - 1; i >= 0; --i)
+            {
+                if (!char.IsWhiteSpace(tmp[i]))
+                {
+                    return;
+                }
+            }
+
+            //all is whitespace
+            this._boxCompactFlags |= CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
+        }
+        internal bool TextContentIsAllWhitespace
+        {
+            get
+            {
+                if ((this._boxCompactFlags & CssBoxFlagsConst.HAS_EVAL_WHITESPACE) == 0)
+                {
+                    EvaluateWhitespace();
+                }
+                return (this._boxCompactFlags & CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE) != 0;
+            }
+        }
+        internal bool TextContentIsWhitespaceOrEmptyText
+        {
+            get
+            {
+                if ((this._boxCompactFlags & CssBoxFlagsConst.HAS_EVAL_WHITESPACE) == 0)
+                {
+                    EvaluateWhitespace();
+                }
+                return ((this._boxCompactFlags & CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE) != 0) ||
+                        ((this._boxCompactFlags & CssBoxFlagsConst.TEXT_IS_EMPTY) != 0);
+            }
+        }
+        internal string CopyTextContent()
+        {
+            if (this._textBuffer != null)
+            {
+                return new string(this._textBuffer);
+            }
+            else
+            {
+                return null;
+            }
+        }
         internal void AddLineBox(CssLineBox linebox)
         {
-            //this._lineBoxes.Add(linebox);
+
             linebox.linkedNode = this._lineBoxes.AddLast(linebox);
         }
         internal int LineBoxCount
@@ -303,29 +356,19 @@ namespace HtmlRenderer.Dom
                 yield return node.Value;
                 node = node.Next;
             }
-            //var tmpLineBox = this._lineBoxes;
-
-            //int j = tmpLineBox.Count;
-            //for (int i = 0; i < j; ++i)
-            //{
-            //    yield return tmpLineBox[i];
-            //}
         }
         internal CssLineBox GetFirstLineBox()
         {
             return this._lineBoxes.First.Value;
-            //return this._lineBoxes[0];
         }
         internal CssLineBox GetLastLineBox()
         {
             return this._lineBoxes.Last.Value;
-            //return this._lineBoxes[this.LineBoxCount - 1];
         }
 
         internal void UpdateStripInfo(RectangleF r)
         {
             this.SummaryBound = RectangleF.Union(this.SummaryBound, r);
-            //this.Rectangles.Add(lineBox, r);
         }
         internal RectangleF SummaryBound
         {
@@ -381,7 +424,7 @@ namespace HtmlRenderer.Dom
         /// <param name="tag">the html tag to define the box</param>
         /// <param name="parent">the box to add the new box to it as child</param>
         /// <returns>the new box</returns>
-        public static CssBox CreateBox(HtmlTag tag, CssBox parent = null)
+        public static CssBox CreateBox(IHtmlTag tag, CssBox parent = null)
         {
 
             ArgChecker.AssertArgNotNull(tag, "tag");
@@ -408,7 +451,7 @@ namespace HtmlRenderer.Dom
                     return new CssBox(parent, tag);
             }
         }
-        static CssBox CreateCustomBox(HtmlTag tag, CssBox parent)
+        static CssBox CreateCustomBox(IHtmlTag tag, CssBox parent)
         {
             for (int i = generators.Count - 1; i >= 0; --i)
             {
@@ -444,15 +487,14 @@ namespace HtmlRenderer.Dom
         /// <param name="tag">optional: the html tag to define the box</param>
         /// <param name="before">optional: to insert as specific location in parent box</param>
         /// <returns>the new box</returns>
-        public static CssBox CreateBox(CssBox parent, HtmlTag tag = null, CssBox before = null)
+        public static CssBox CreateBox(CssBox parent, IHtmlTag tag = null, int insertAt = -1)
         {
             ArgChecker.AssertArgNotNull(parent, "parent");
-
             var newBox = new CssBox(parent, tag);
             newBox.InheritStyle();
-            if (before != null)
+            if (insertAt > -1)
             {
-                newBox.SetBeforeBox(before);
+                newBox.ChangeSiblingOrder(insertAt);
             }
             return newBox;
         }
@@ -474,12 +516,10 @@ namespace HtmlRenderer.Dom
         /// <param name="tag">optional: the html tag to define the box</param>
         /// <param name="before">optional: to insert as specific location in parent box</param>
         /// <returns>the new block box</returns>
-        internal static CssBox CreateBlock(CssBox parent, HtmlTag tag = null, CssBox before = null)
+        internal static CssBox CreateBlock(CssBox parent, IHtmlTag tag = null, int insertAt = -1)
         {
             ArgChecker.AssertArgNotNull(parent, "parent");
-
-            var newBox = CreateBox(parent, tag, before);
-            //newBox.Display = CssConstants.Block;
+            var newBox = CreateBox(parent, tag, insertAt);
             newBox.CssDisplay = CssDisplay.Block;
             return newBox;
         }
@@ -491,28 +531,24 @@ namespace HtmlRenderer.Dom
         /// <param name="g">Device context to use</param>
         public void PerformLayout(IGraphics g)
         {
-            try
-            {
-                PerformLayoutImp(g);
-            }
-            catch (Exception ex)
-            {
-                HtmlContainer.ReportError(HtmlRenderErrorType.Layout, "Exception in box layout", ex);
-            }
+            PerformLayoutImp(g);
+
+            //try
+            //{
+            //    PerformLayoutImp(g);
+            //}
+            //catch (Exception ex)
+            //{
+            //    HtmlContainer.ReportError(HtmlRenderErrorType.Layout, "Exception in box layout", ex);
+            //}
         }
-
-        /// <summary>
-        /// Set this box in 
-        /// </summary>
-        /// <param name="before"></param>
-        public void SetBeforeBox(CssBox before)
+        void ChangeSiblingOrder(int siblingIndex)
         {
-            int index = _parentBox.Boxes.IndexOf(before);
-            if (index < 0)
+            if (siblingIndex < 0)
+            {
                 throw new Exception("before box doesn't exist on parent");
-
-            _parentBox.Boxes.Remove(this);
-            _parentBox.Boxes.Insert(index, this);
+            }
+            this._parentBox.Boxes.ChangeSiblingIndex(this, siblingIndex);
         }
 
         /// <summary>
@@ -520,73 +556,9 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public void ParseToWords()
         {
+            //clear prev box
             _boxWords.Clear();
-
-            int startIdx = 0;
-            //bool preserveSpaces = WhiteSpace == CssConstants.Pre || WhiteSpace == CssConstants.PreWrap;
-            bool preserveSpaces = this.WhiteSpace == CssWhiteSpace.Pre || this.WhiteSpace == CssWhiteSpace.PreWrap;
-            // bool respoctNewline = preserveSpaces || WhiteSpace == CssConstants.PreLine;
-            bool respoctNewline = preserveSpaces || this.WhiteSpace == CssWhiteSpace.PreLine;
-
-            while (startIdx < _text.Length)
-            {
-                while (startIdx < _text.Length && _text[startIdx] == '\r')
-                {
-                    startIdx++;
-                }
-
-                if (startIdx < _text.Length)
-                {
-                    var endIdx = startIdx;
-                    while (endIdx < _text.Length && char.IsWhiteSpace(_text[endIdx]) && _text[endIdx] != '\n')
-                    {
-                        endIdx++;
-                    }
-
-                    if (endIdx > startIdx)
-                    {
-                        if (preserveSpaces)
-                        {
-                            _boxWords.Add(new CssRectWord(this, HtmlUtils.DecodeHtml(_text.Substring(startIdx, endIdx - startIdx)), false, false));
-                        }
-                    }
-                    else
-                    {
-                        endIdx = startIdx;
-                        while (endIdx < _text.Length && !char.IsWhiteSpace(_text[endIdx]) && _text[endIdx] != '-' &&
-                             this.WordBreak != CssWordBreak.BreakAll //WordBreak != CssConstants.BreakAll 
-                             && !CommonUtils.IsAsianCharecter(_text[endIdx]))
-                        {
-                            endIdx++;
-                        }
-
-                        if (endIdx < _text.Length &&
-                            (_text[endIdx] == '-' || this.WordBreak == CssWordBreak.BreakAll || CommonUtils.IsAsianCharecter(_text[endIdx])))
-                        {
-                            endIdx++;
-                        }
-
-                        if (endIdx > startIdx)
-                        {
-                            var hasSpaceBefore = !preserveSpaces && (startIdx > 0 && _boxWords.Count == 0 && char.IsWhiteSpace(_text[startIdx - 1]));
-                            var hasSpaceAfter = !preserveSpaces && (endIdx < _text.Length && char.IsWhiteSpace(_text[endIdx]));
-                            _boxWords.Add(new CssRectWord(this, HtmlUtils.DecodeHtml(_text.Substring(startIdx, endIdx - startIdx)), hasSpaceBefore, hasSpaceAfter));
-                        }
-                    }
-
-                    // create new-line word so it will effect the layout
-                    if (endIdx < _text.Length && _text[endIdx] == '\n')
-                    {
-                        endIdx++;
-                        if (respoctNewline)
-                        {
-                            _boxWords.Add(new CssRectWord(this, "\n", false, false));
-                        }
-                    }
-
-                    startIdx = endIdx;
-                }
-            }
+            CssTextSplitter.DefaultSplitter.ParseWordContent(this);
         }
 
         /// <summary>
@@ -729,7 +701,7 @@ namespace HtmlRenderer.Dom
                 if (BackgroundImage != CssConstants.None && _imageLoadHandler == null)
                 {
                     _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnImageLoadComplete);
-                    _imageLoadHandler.LoadImage(BackgroundImage, HtmlTag != null ? HtmlTag.Attributes : null);
+                    _imageLoadHandler.LoadImage(BackgroundImage, HtmlTag);
                 }
 
                 MeasureWordSpacing(g);
@@ -796,6 +768,10 @@ namespace HtmlRenderer.Dom
 
             return index;
         }
+        static readonly char[] discItem = new[] { '•' };
+        static readonly char[] circleItem = new[] { 'o' };
+        static readonly char[] squareItem = new[] { '♠' };
+
 
         /// <summary>
         /// Creates the <see cref="_listItemBox"/>
@@ -805,7 +781,7 @@ namespace HtmlRenderer.Dom
         {
             //if (Display == CssConstants.ListItem && ListStyleType != CssConstants.None)
             if (this.CssDisplay == CssDisplay.ListItem && ListStyleType != CssListStyleType.None)
-            {   
+            {
                 if (_listItemBox == null)
                 {
                     _listItemBox = new CssBox(null, null);
@@ -817,30 +793,30 @@ namespace HtmlRenderer.Dom
                     {
                         case CssListStyleType.Disc:
                             {
-                                _listItemBox.Text = new SubString("•");
+                                _listItemBox.SetTextContent(discItem);
                             } break;
                         case CssListStyleType.Circle:
                             {
-                                _listItemBox.Text = new SubString("o");
+                                _listItemBox.SetTextContent(circleItem);
                             } break;
                         case CssListStyleType.Square:
                             {
-                                _listItemBox.Text = new SubString("♠");
+                                _listItemBox.SetTextContent(squareItem);
                             } break;
                         case CssListStyleType.Decimal:
                             {
-                                _listItemBox.Text = new SubString(GetIndexForList().ToString(CultureInfo.InvariantCulture) + ".");
+                                _listItemBox.SetTextContent((GetIndexForList().ToString(CultureInfo.InvariantCulture) + ".").ToCharArray());
                             } break;
                         case CssListStyleType.DecimalLeadingZero:
                             {
-                                _listItemBox.Text = new SubString(GetIndexForList().ToString("00", CultureInfo.InvariantCulture) + ".");
+                                _listItemBox.SetTextContent((GetIndexForList().ToString("00", CultureInfo.InvariantCulture) + ".").ToCharArray());
                             } break;
                         default:
                             {
-                                _listItemBox.Text = new SubString(CommonUtils.ConvertToAlphaNumber(GetIndexForList(), ListStyleType) + ".");
+                                _listItemBox.SetTextContent((CommonUtils.ConvertToAlphaNumber(GetIndexForList(), ListStyleType) + ".").ToCharArray());
                             } break;
                     }
-                     
+
 
                     _listItemBox.ParseToWords();
                     _listItemBox.PerformLayoutImp(g);
@@ -1114,7 +1090,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-      
+
         /// <summary>
         /// Gets the rectangles where inline box will be drawn. See Remarks for more info.
         /// </summary>
@@ -1184,15 +1160,24 @@ namespace HtmlRenderer.Dom
                 return ActualRight;
             }
         }
+        bool IsLastChild
+        {
+            get
+            {
+                return this.ParentBox.Boxes[this.ParentBox.ChildCount - 1] == this;
+            }
 
+        }
         /// <summary>
         /// Gets the result of collapsing the vertical margins of the two boxes
         /// </summary>
         /// <returns>Resulting bottom margin</returns>
         private float MarginBottomCollapse()
         {
+
             float margin = 0;
-            if (ParentBox != null && ParentBox.Boxes.IndexOf(this) == ParentBox.Boxes.Count - 1 && _parentBox.ActualMarginBottom < 0.1)
+            //if (ParentBox != null && ParentBox.Boxes.IndexOf(this) == ParentBox.Boxes.Count - 1 && _parentBox.ActualMarginBottom < 0.1)
+            if (ParentBox != null && this.IsLastChild && _parentBox.ActualMarginBottom < 0.1)
             {
                 var lastChildBottomMargin = _boxes[_boxes.Count - 1].ActualMarginBottom;
                 //margin = Height == "auto" ? Math.Max(ActualMarginBottom, lastChildBottomMargin) : lastChildBottomMargin;
@@ -1336,10 +1321,20 @@ namespace HtmlRenderer.Dom
             {
 
                 g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
+#if DEBUG
+                //g.DrawRectangle(Pens.Red, word.Left, word.Top, word.Width, word.Height);
+#endif
                 word.debugPaintCount++;
             }
         }
 
+#if DEBUG
+        internal void dbugPaintTextWordArea(IGraphics g, PointF offset, CssRect word)
+        {
+            g.DrawRectangle(Pens.Blue, word.Left, word.Top, word.Width, word.Height);
+
+        }
+#endif
         /// <summary>
         /// Paint all the words in the box.
         /// </summary>
@@ -1451,7 +1446,7 @@ namespace HtmlRenderer.Dom
                         y = rectangle.Top;
                     } break;
             }
-             
+
 
             y -= ActualPaddingBottom - ActualBorderBottomWidth;
 
@@ -1467,7 +1462,7 @@ namespace HtmlRenderer.Dom
             var pen = RenderUtils.GetPen(ActualColor);
             g.DrawLine(pen, x1, y, x2, y);
         }
- 
+
         internal void RectanglesReset()
         {
             this.SummaryBound = RectangleF.Empty;
@@ -1531,7 +1526,16 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                return string.Format("{0}{1} {2}: {3}", ParentBox == null ? "Root: " : string.Empty, tag, this.CssDisplay.ToCssStringValue(), Text);
+                if (this.MayHasSomeTextContent)
+                {
+                    return string.Format("{0}{1} {2}: {3}", ParentBox == null ? "Root: " : string.Empty, tag,
+                        this.CssDisplay.ToCssStringValue(), this.CopyTextContent());
+                }
+                else
+                {
+                    return string.Format("{0}{1} {2}: {3}", ParentBox == null ? "Root: " : string.Empty, tag,
+                        this.CssDisplay.ToCssStringValue(), "");
+                }
             }
         }
 

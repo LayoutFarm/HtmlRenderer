@@ -29,10 +29,7 @@ namespace HtmlRenderer.Dom
     {
         //----------------------------------------------------
         #region Fields and Consts
-        /// <summary>
-        /// the parent css box of this css box in the hierarchy
-        /// </summary>
-        private CssBox _parentBox;
+
 
         /// <summary>
         /// the root container for the hierarchy
@@ -42,12 +39,8 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary>
-        private readonly HtmlTag _htmltag;
-
-        /// <summary>
-        /// the inner text of the box
-        /// </summary>
-        private SubString _text;
+        private readonly IHtmlTag _htmltag; 
+        char[] _textBuffer;
 
         /// <summary>
         /// Do not use or alter this flag
@@ -69,6 +62,7 @@ namespace HtmlRenderer.Dom
         //----------------------------------------------------
 
         int _boxCompactFlags;
+        //----------------------------------------------------
         int _rowSpan;
         int _colSpan;
 
@@ -77,35 +71,24 @@ namespace HtmlRenderer.Dom
         /// </summary>
         private ImageLoadHandler _imageLoadHandler;
         WellknownHtmlTagName wellKnownTagName;
-
-
-        #endregion
         //----------------------------------------------------
 
-
+        #endregion
+        //----------------------------------------------------  
         private readonly List<CssRect> _boxWords = new List<CssRect>();
-        private readonly List<CssBox> _boxes = new List<CssBox>();
+        readonly CssBoxCollection _boxes;
         private readonly LinkedList<CssLineBox> _lineBoxes = new LinkedList<CssLineBox>();
 
         /// <summary>
         /// Gets the childrenn boxes of this box
         /// </summary>
-        List<CssBox> Boxes
+        CssBoxCollection Boxes
         {
             get { return _boxes; }
         }
         public IEnumerable<CssBox> GetChildBoxIter()
         {
-            var thisboxes = this._boxes;
-            if (thisboxes != null)
-            {
-                //collection maybe modifier during iter ****
-                //need to 'Count'.
-                for (int i = 0; i < thisboxes.Count; ++i)
-                {
-                    yield return thisboxes[i];
-                }
-            }
+            return this._boxes.GetChildBoxIter();
         }
 
         internal IEnumerable<CssLineBox> GetHostLineIter()
@@ -132,9 +115,7 @@ namespace HtmlRenderer.Dom
         //-----------------------------------
         public CssBox GetChildBox(int index)
         {
-            //if (index > this._boxes.Count - 1)
-            //{
-            //}
+             
             return this._boxes[index];
         }
         public void InsertChild(int index, CssBox box)
@@ -144,10 +125,7 @@ namespace HtmlRenderer.Dom
         //--------
         internal void ResetLineBoxes()
         {
-            //for (int i = _lineBoxes.Count - 1; i >= 0; --i)
-            //{
-            //    _lineBoxes[i].RemoveAllReferencedContent();
-            //}
+            
             _lineBoxes.Clear();
         }
         //-------------------------------------
@@ -183,7 +161,7 @@ namespace HtmlRenderer.Dom
                     string att = this.GetAttribute("colspan", "1");
                     int colspan;
                     if (!int.TryParse(att, out colspan))
-                    {   
+                    {
                         colspan = 1;
                     }
                     this._boxCompactFlags |= CssBoxFlagsConst.EVAL_COLSPAN;
@@ -196,7 +174,7 @@ namespace HtmlRenderer.Dom
                 this._colSpan = value;
             }
         }
-        //-------------------------------------
+         
     }
 
 }

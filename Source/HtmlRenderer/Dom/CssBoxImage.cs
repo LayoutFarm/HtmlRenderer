@@ -47,7 +47,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxImage(CssBox parent, HtmlTag tag)
+        public CssBoxImage(CssBox parent, IHtmlTag tag)
             : base(parent, tag)
         {
             _imageWord = new CssRectImage(this);
@@ -68,7 +68,9 @@ namespace HtmlRenderer.Dom
             if (_imageLoadHandler == null)
             {
                 _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
-                _imageLoadHandler.LoadImage(GetAttribute("src"), HtmlTag != null ? HtmlTag.Attributes : null);
+                _imageLoadHandler.LoadImage(GetAttribute("src"),
+                    HtmlTag);
+
             }
 
             var rect = w.Rectangle;
@@ -129,7 +131,7 @@ namespace HtmlRenderer.Dom
             if (_imageLoadHandler == null)
             {
                 _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
-                _imageLoadHandler.LoadImage(GetAttribute("src"), HtmlTag != null ? HtmlTag.Attributes : null);
+                _imageLoadHandler.LoadImage(GetAttribute("src"), this.HtmlTag);
             }
 
             //1. single image can't be splited 
@@ -195,7 +197,7 @@ namespace HtmlRenderer.Dom
                 if (_imageLoadHandler == null && (HtmlContainer.AvoidAsyncImagesLoading || HtmlContainer.AvoidImagesLateLoading))
                 {
                     _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
-                    _imageLoadHandler.LoadImage(GetAttribute("src"), HtmlTag != null ? HtmlTag.Attributes : null);
+                    _imageLoadHandler.LoadImage(GetAttribute("src"), HtmlTag );
                 }
 
                 MeasureWordSpacing(g);

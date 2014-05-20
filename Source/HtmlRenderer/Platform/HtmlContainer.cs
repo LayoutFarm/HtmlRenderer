@@ -385,34 +385,7 @@ namespace HtmlRenderer
             get { return _selectionBackColor; }
             set { _selectionBackColor = value; }
         }
-
-        //static Plernsoft.WebDom.XHtmlDocument MyWebParse(string htmlstring)
-        //{
-        //    //1. parse เอกสารทั้งหมด
-        //    Plernsoft.WebDom.XHtmlDocument xhtmldoc = null;
-        //    Plernsoft.WebDom.XHtmlCodeParserManager parserMan = new Plernsoft.WebDom.XHtmlCodeParserManager();
-        //    byte[] buffer = Encoding.UTF8.GetBytes(htmlstring.ToString().ToCharArray());
-        //    using (MemoryStream ms = new MemoryStream(buffer))
-        //    {
-        //        StreamReader reader = new StreamReader(ms);
-        //        xhtmldoc = parserMan.ParseXmlDoc(reader);
-        //        reader.Close();
-        //        ms.Close();
-        //    }
-        //    return xhtmldoc;
-        //}
-        //void GenerateVisualPresentation(Plernsoft.WebDom.XHtmlDocument htmldoc)
-        //{
-
-        //    //แสดง presentation ของ html doc ที่กำหนด ****
-        //    Plernsoft.Presentation.ArtUIRootContext rootContext = new Plernsoft.Presentation.ArtUIRootContext(null);
-        //    Plernsoft.Presentation.ArtUIHtmlBox htmlbox = new Plernsoft.Presentation.ArtUIHtmlBox(rootContext,
-        //        800, 600);
-
-        //    //-----------------------
-        //    htmlbox.LoadHtml(htmldoc); 
-        //    //----------------------- 
-        //}
+         
         /// <summary>
         /// Init with optional document and stylesheet.
         /// </summary>
