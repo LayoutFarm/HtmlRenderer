@@ -74,14 +74,13 @@ namespace HtmlRenderer.Dom
         }
         internal void ChangeSiblingIndex(CssBox box, int toNewIndex)
         {
-            this.Remove(box);
-            this.Insert(toNewIndex, box);
-
-        }
-        //public int IndexOf(CssBox box)
-        //{
-        //    return this._boxes.IndexOf(box);
-        //}
+            int existingIndex = this._boxes.IndexOf(box);
+            if (existingIndex != toNewIndex)
+            {
+                this.RemoveAt(existingIndex);
+                this.Insert(toNewIndex, box);
+            }    
+        } 
         public int Count
         {
             get

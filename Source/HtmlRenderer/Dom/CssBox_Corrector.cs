@@ -42,7 +42,7 @@ namespace HtmlRenderer.Dom
             }
 
             //-----------------------------------------------------------
-            box = parentBox; 
+            box = parentBox;
             CssBox sib = curBox.PrevSibling;
             if (sib != null)
             {
@@ -54,9 +54,9 @@ namespace HtmlRenderer.Dom
                     }
                     sib = sib.PrevSibling;
 
-                } while (sib != null); 
+                } while (sib != null);
             }
-            return null; 
+            return null;
         }
         /// <summary>
         /// Gets the previous sibling of this box.
@@ -77,9 +77,9 @@ namespace HtmlRenderer.Dom
                             return sib;
                         }
                         sib = sib.PrevSibling;
-                    } while (sib != null); 
+                    } while (sib != null);
                 }
-                return null; 
+                return null;
             }
             return null;
         }
@@ -181,8 +181,7 @@ namespace HtmlRenderer.Dom
             var children = box.Boxes;
             for (int i = children.Count - 1; i >= 0; --i)
             {
-                if ((mixFlags |= children[i].IsInline ? HAS_IN_LINE : HAS_BLOCK)
-                    == (HAS_BLOCK | HAS_IN_LINE))
+                if ((mixFlags |= children[i].IsInline ? HAS_IN_LINE : HAS_BLOCK) == (HAS_BLOCK | HAS_IN_LINE))
                 {
                     return true;
                 }
@@ -193,6 +192,7 @@ namespace HtmlRenderer.Dom
         }
         const int HAS_BLOCK = 1 << (1 - 1);
         const int HAS_IN_LINE = 1 << (2 - 1);
+
         /// <summary>
         /// Rearrange the DOM of the box to have block box with boxes before the inner block box and after.
         /// </summary>
@@ -221,6 +221,7 @@ namespace HtmlRenderer.Dom
                 var splitBox = box.Boxes[1];
 
                 splitBox.SetNewParentBox(null);
+
                 CorrectBlockSplitBadBox(box, splitBox, newLeftBlock);
 
                 if (box.ChildCount > 2)
@@ -311,12 +312,12 @@ namespace HtmlRenderer.Dom
             {
                 //splitBox.SetBeforeBox(parentBox.Boxes[1]);
                 splitBox.ChangeSiblingOrder(1);
-                //if (splitBox.HtmlTag != null && splitBox.HtmlTag.Name == "br" && (hadLeft || leftBlock.Boxes.Count > 1))
+
                 if (splitBox.WellknownTagName == WellknownHtmlTagName.BR
                     && (had_new_leftbox || leftBlock.ChildCount > 1))
                 {
                     splitBox.CssDisplay = CssDisplay.Inline;
-                    //splitBox.Display = CssConstants.Inline;
+
                 }
             }
         }
@@ -354,7 +355,7 @@ namespace HtmlRenderer.Dom
                         while (i < allChildren.Count && ((tomoveBox = allChildren[i]).IsInline))
                         {
                             tomoveBox.SetNewParentBox(newbox);
-                            ///tomoveBox.ParentBox = newbox;
+
                         }
                         //so new box contains inline that move from current line
                     }
@@ -370,9 +371,9 @@ namespace HtmlRenderer.Dom
                     CorrectInlineBoxesParent(childBox);
                 }
             }
-            
+
         }
-       
+
         /// <summary>
         /// Check if the given box contains only inline child boxes in all subtree.
         /// </summary>
@@ -380,7 +381,7 @@ namespace HtmlRenderer.Dom
         /// <returns>true - only inline child boxes, false - otherwise</returns>
         internal static bool ContainsInlinesOnlyDeep(CssBox box)
         {
-            
+
 
             //recursive
             foreach (var childBox in box.GetChildBoxIter())
@@ -406,29 +407,41 @@ namespace HtmlRenderer.Dom
         /// <param name="box">the current box to correct its sub-tree</param>
         internal static void CorrectTextBoxes(CssBox box)
         {
-
-            for (int i = box.ChildCount - 1; i >= 0; i--)
+            CssBoxCollection boxes = box.Boxes;
+            
+            for (int i = boxes.Count - 1; i >= 0; i--)
             {
-                var childBox = box.Boxes[i];
-                if (childBox.HasTextContent)
+                var childBox = boxes[i];
+                if (childBox.MayHasSomeTextContent)
                 {
                     // is the box has text
-                    var keepBox = !childBox.TextContentIsWhitespaceOrEmptyText;
+                    // or is the box is pre-formatted
+                    // or is the box is only one in the parent
+                    bool keepBox = !childBox.TextContentIsWhitespaceOrEmptyText ||
+                        childBox.WhiteSpace == CssWhiteSpace.Pre || childBox.WhiteSpace == CssWhiteSpace.PreWrap ||
+                        box.ChildCount == 1; 
 
-                    // is the box is pre-formatted
-                    //keepBox = keepBox || childBox.WhiteSpace == CssConstants.Pre || childBox.WhiteSpace == CssConstants.PreWrap;
-                    keepBox = keepBox || childBox.WhiteSpace == CssWhiteSpace.Pre || childBox.WhiteSpace == CssWhiteSpace.PreWrap;
-
-                    // is the box is only one in the parent
-                    keepBox = keepBox || box.ChildCount == 1;
-
-                    // is it a whitespace between two inline boxes
-                    keepBox = keepBox || (i > 0 && i < box.ChildCount - 1 && box.Boxes[i - 1].IsInline && box.Boxes[i + 1].IsInline);
-
-                    // is first/last box where is in inline box and it's next/previous box is inline
-                    keepBox = keepBox || (i == 0 && box.ChildCount > 1 && box.Boxes[1].IsInline && box.IsInline) ||
-                        (i == box.ChildCount - 1 && box.ChildCount > 1 && box.Boxes[i - 1].IsInline && box.IsInline);
-
+                    if (!keepBox && box.ChildCount > 0)
+                    {
+                        if (i == 0)
+                        {
+                            //first
+                            // is first/last box where is in inline box and it's next/previous box is inline
+                            keepBox = box.IsInline && boxes[1].IsInline;
+                        }
+                        else if (i == box.ChildCount - 1)
+                        {
+                            //last
+                            // is first/last box where is in inline box and it's next/previous box is inline
+                            keepBox = box.IsInline && boxes[i - 1].IsInline;
+                        }
+                        else
+                        {
+                            //between
+                            // is it a whitespace between two inline boxes
+                            keepBox = boxes[i - 1].IsInline && boxes[i + 1].IsInline;
+                        }
+                    }
                     if (keepBox)
                     {
                         // valid text box, parse it to words
@@ -437,7 +450,8 @@ namespace HtmlRenderer.Dom
                     else
                     {
                         // remove text box that has no 
-                        childBox.ParentBox.Boxes.RemoveAt(i);
+                        boxes.RemoveAt(i);
+                        //childBox.ParentBox.Boxes.RemoveAt(i);
                     }
                 }
                 else
@@ -447,6 +461,51 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
+        //internal static void CorrectTextBoxes(CssBox box)
+        //{
 
+        //    for (int i = box.ChildCount - 1; i >= 0; i--)
+        //    {
+        //        var childBox = box.Boxes[i];
+        //        if (childBox.HasTextContent)
+        //        {
+        //            // is the box has text
+        //            var keepBox = !childBox.TextContentIsWhitespaceOrEmptyText;
+        //            if (childBox.WhiteSpace == CssWhiteSpace.Pre)
+        //            {
+        //            }
+
+        //            // is the box is pre-formatted
+        //            //keepBox = keepBox || childBox.WhiteSpace == CssConstants.Pre || childBox.WhiteSpace == CssConstants.PreWrap;
+        //            keepBox = keepBox || childBox.WhiteSpace == CssWhiteSpace.Pre || childBox.WhiteSpace == CssWhiteSpace.PreWrap;
+
+        //            // is the box is only one in the parent
+        //            keepBox = keepBox || box.ChildCount == 1;
+
+        //            // is it a whitespace between two inline boxes
+        //            keepBox = keepBox || (i > 0 && i < box.ChildCount - 1 && box.Boxes[i - 1].IsInline && box.Boxes[i + 1].IsInline);
+
+        //            // is first/last box where is in inline box and it's next/previous box is inline
+        //            keepBox = keepBox || (i == 0 && box.ChildCount > 1 && box.Boxes[1].IsInline && box.IsInline) ||
+        //                (i == box.ChildCount - 1 && box.ChildCount > 1 && box.Boxes[i - 1].IsInline && box.IsInline);
+
+        //            if (keepBox)
+        //            {
+        //                // valid text box, parse it to words
+        //                childBox.ParseToWords();
+        //            }
+        //            else
+        //            {
+        //                // remove text box that has no 
+        //                childBox.ParentBox.Boxes.RemoveAt(i);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            // recursive
+        //            CorrectTextBoxes(childBox);
+        //        }
+        //    }
+        //}
     }
 }

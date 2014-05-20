@@ -486,7 +486,7 @@ namespace HtmlRenderer.Utils
             }
 
             // empty span box
-            if (box.ChildCount < 1 && box.HasTextContent && box.TextContentIsAllWhitespace)
+            if (box.ChildCount < 1 && box.MayHasSomeTextContent && box.TextContentIsAllWhitespace)
             {
                 sb.Append(' ');
             }

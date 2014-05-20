@@ -40,13 +40,20 @@ namespace HtmlRenderer.WebDom.Parser
         {
             switch (lexEvent)
             {
+                case HtmlLexerEvent.CommentContent:
+                    {
+
+                        //var commentContent = this.textSnapshot.Copy(startIndex, len);
+
+
+                    } break;
                 case HtmlLexerEvent.FromContentPart:
                     {
-                        //
+
                         if (curTextNode == null)
                         {
                             curTextNode = _resultHtmlDoc.CreateTextNode(HtmlRenderer.Utils.HtmlUtils.DecodeHtml(this.textSnapshot, startIndex, len));
-                            //curTextNode.AppendTextContent(HtmlRenderer.Utils.HtmlUtils.DecodeHtml(this.textSnapshot, startIndex, len));
+
                             if (curHtmlNode != null)
                             {
                                 curHtmlNode.AddChild(curTextNode);
@@ -54,6 +61,7 @@ namespace HtmlRenderer.WebDom.Parser
                         }
                         else
                         {
+                            curTextNode.AppendTextContent(HtmlRenderer.Utils.HtmlUtils.DecodeHtml(this.textSnapshot, startIndex, len));
 
                         }
                     } break;
@@ -96,7 +104,6 @@ namespace HtmlRenderer.WebDom.Parser
                                     //node name after open slash
                                     if (curHtmlNode.LocalName == nodename)
                                     {
-
                                         if (htmlNodeStack.Count > 0)
                                         {
                                             curTextNode = null;
@@ -107,6 +114,38 @@ namespace HtmlRenderer.WebDom.Parser
                                     }
                                     else
                                     {
+                                        //if not equal then check if current node need close tag or not
+
+                                        if (HtmlRenderer.Utils.HtmlUtils.IsSingleTag(curHtmlNode.LocalName))
+                                        {
+                                            if (htmlNodeStack.Count > 0)
+                                            {
+
+                                                curHtmlNode = htmlNodeStack.Pop();
+                                                curAttr = null;
+                                                curTextNode = null;
+                                            }
+                                            if (curHtmlNode.LocalName == nodename)
+                                            {
+                                                if (htmlNodeStack.Count > 0)
+                                                {
+                                                    curTextNode = null;
+                                                    curAttr = null;
+                                                    curHtmlNode = htmlNodeStack.Pop();
+                                                }
+                                                parseState = 3;
+                                            }
+                                            else
+                                            {
+                                                throw new NotSupportedException();
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            throw new NotSupportedException();
+                                        }
+
 
                                     }
 
@@ -169,7 +208,7 @@ namespace HtmlRenderer.WebDom.Parser
 
         void ResetParser()
         {
-             
+
             this._resultHtmlDoc = null;
             this.htmlNodeStack.Clear();
             this.curHtmlNode = null;
@@ -177,7 +216,7 @@ namespace HtmlRenderer.WebDom.Parser
             this.curTextNode = null;
             this.parseState = 0;
             this.textSnapshot = null;
-            
+
         }
         /// <summary>
         /// parse to htmldom
@@ -195,7 +234,7 @@ namespace HtmlRenderer.WebDom.Parser
             this.curHtmlNode = htmldoc.RootNode;
             this._resultHtmlDoc = htmldoc;
             lexer.Analyze(textSnapshot);
-            lexer.EndLex(); 
+            lexer.EndLex();
 
         }
 

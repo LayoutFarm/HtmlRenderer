@@ -18,11 +18,7 @@ namespace HtmlRenderer.Dom
     /// </summary>
     sealed class CssRectWord : CssRect
     {
-        #region Fields and Consts 
-        int _textStartIndex;
-        int _textLength;
 
-        CssRectKind rectKind;
         /// <summary>
         /// was there a whitespace before the word chars (before trim)
         /// </summary>
@@ -32,8 +28,8 @@ namespace HtmlRenderer.Dom
         /// </summary>
         readonly bool _hasSpaceAfter;
 
-        #endregion
-
+        int _textStartIndex;
+        int _textLength;
 
         /// <summary>
         /// Init.
@@ -42,35 +38,65 @@ namespace HtmlRenderer.Dom
         /// <param name="text">the word chars </param>
         /// <param name="hasSpaceBefore">was there a whitespace before the word chars (before trim)</param>
         /// <param name="hasSpaceAfter">was there a whitespace after the word chars (before trim)</param>
-        public CssRectWord(CssBox owner,
+        private CssRectWord(CssBox owner, CssRectKind rectKind,
             int start, int len,
             bool hasSpaceBefore,
             bool hasSpaceAfter)
-            : base(owner)
+            : base(owner, rectKind)
         {
+
             this._textStartIndex = start;
             this._textLength = len;
             _hasSpaceBefore = hasSpaceBefore;
             _hasSpaceAfter = hasSpaceAfter;
         }
-        public override CssRectKind RectKind
+
+        private CssRectWord(CssBox owner, CssRectKind kind, bool hasSpaceBefore, bool hasSpaceAfter)
+            : base(owner, kind)
         {
-            get
+            //for single space only
+
+            this._textLength = 1;
+            _hasSpaceBefore = hasSpaceBefore;
+            _hasSpaceAfter = hasSpaceAfter;
+        }
+        private CssRectWord(CssBox owner, int whiteSpaceLength, bool hasSpaceBefore, bool hasSpaceAfter)
+            : base(owner, CssRectKind.Space)
+        {
+            //for space only
+           
+            this._textLength = whiteSpaceLength;
+            _hasSpaceBefore = hasSpaceBefore;
+            _hasSpaceAfter = hasSpaceAfter;
+        }
+
+        //================================================================
+        public static CssRectWord CreateRefText(CssBox owner, int startIndex, int len, bool hasSpaceBefore, bool hasSpaceAfter)
+        {
+            return new CssRectWord(owner, CssRectKind.Text, startIndex, len, hasSpaceBefore, hasSpaceAfter);
+        }
+        public static CssRectWord CreateSingleWhitespace(CssBox owner, bool hasSpaceBefore, bool hasSpaceAfter)
+        {
+            return new CssRectWord(owner, CssRectKind.SingleSpace, hasSpaceBefore, hasSpaceAfter);
+        }
+        public static CssRectWord CreateLineBreak(CssBox owner, bool hasSpaceBefore, bool hasSpaceAfter)
+        {
+            return new CssRectWord(owner, CssRectKind.LineBreak, hasSpaceBefore, hasSpaceAfter);
+        }
+        public static CssRectWord CreateWhitespace(CssBox owner, int count, bool hasSpaceBefore, bool hasSpaceAfter)
+        {
+            if (count == 1)
             {
-                switch (this.rectKind)
-                {
-                    case CssRectKind.Unknown:
-                        {
-                            EvaluateText();
-                            return this.rectKind;
-                        }
-                    default:
-                        {
-                            return this.rectKind;
-                        }
-                }
+                return new CssRectWord(owner, CssRectKind.SingleSpace, hasSpaceBefore, hasSpaceAfter);
+            }
+            else
+            {
+                return new CssRectWord(owner, count, hasSpaceBefore, hasSpaceAfter);
             }
         }
+        //================================================================
+
+       
         /// <summary>
         /// was there a whitespace before the word chars (before trim)
         /// </summary>
@@ -87,68 +113,7 @@ namespace HtmlRenderer.Dom
             get { return _hasSpaceAfter; }
         }
 
-        /// <summary>
-        /// Gets a bool indicating if this word is composed only by spaces.
-        /// Spaces include tabs and line breaks
-        /// </summary>
-        public override bool IsSpaces
-        {
-            get
-            {
-                //eval once
-                return this.rectKind == CssRectKind.Space;
-            }
-        }
-        /// <summary>
-        /// Gets if the word is composed by only a line break
-        /// </summary>
-        public override bool IsLineBreak
-        {
-            get
-            {
-                //eval once
-                return this.rectKind == CssRectKind.LineBreak;
-            }
-        }
-        CssRectKind EvaluateText()
-        {
-            char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
-  
-            if (this._textLength == 1)
-            {
-                char c = ownerTextBuff[this._textStartIndex];
-                if (c == '\n')
-                {
-                    return this.rectKind = CssRectKind.LineBreak;
-                }
-                else if (char.IsWhiteSpace(c))
-                {
-                    return this.rectKind = CssRectKind.Space;
-                }
-                else
-                {
-                    return this.rectKind = CssRectKind.Text;
-                }
-            }
-            else
-            {
-                bool is_space = true;
-                int realIndex = this._textStartIndex + this._textLength - 1;
-
-                for (int i = this._textLength - 1; i >= 0; --i)
-                {
-                    if (!char.IsWhiteSpace(ownerTextBuff[realIndex]))
-                    {
-                        //if only one is not space
-                        is_space = false;
-                        break;
-                    }
-                    realIndex--;
-
-                }
-                return this.rectKind = is_space ? CssRectKind.Space : CssRectKind.Text;
-            }
-        }
+        
         /// <summary>
         /// Gets the text of the word
         /// </summary>
@@ -156,8 +121,27 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
-                return new string(ownerTextBuff, this._textStartIndex, this._textLength);
+                switch (this.RectKind)
+                {
+                    case CssRectKind.Space:
+                        {
+                            return new string(' ', this._textLength);
+                        }
+                    case CssRectKind.Text:
+                        {
+                            char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
+                            return new string(ownerTextBuff, this._textStartIndex, this._textLength);
+                        }
+                    case CssRectKind.SingleSpace:
+                        {
+                            return " ";
+                        }
+                    default:
+                        {
+                            return "";
+                        }
+                }
+
             }
         }
 

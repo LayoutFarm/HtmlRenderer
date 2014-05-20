@@ -384,7 +384,7 @@ namespace HtmlRenderer.Dom
                 //line.Rectangles.Add(box, new CssRectangleF(new RectangleF(startX, startY, box.ActualWidth, box.ActualHeight)));
             }
             // handle box that is only a whitespace
-            if (box.HasTextContent && box.TextContentIsAllWhitespace && !box.IsImage && box.IsInline && box.ChildCount == 0 && box.Words.Count == 0)
+            if (box.MayHasSomeTextContent && box.TextContentIsAllWhitespace && !box.IsImage && box.IsInline && box.ChildCount == 0 && box.Words.Count == 0)
             {
                 curx += box.ActualWordSpacing;
             }

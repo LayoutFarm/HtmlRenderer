@@ -22,7 +22,11 @@ namespace HtmlRenderer.Dom
         Text,
         Image,
         LineBreak,
-        Space
+
+        //------------
+        //below here is space
+        SingleSpace,
+        Space,
     }
     /// <summary>
     /// Represents a word inside an inline box
@@ -40,7 +44,8 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the CSS box owner of the word
         /// </summary>
-        private readonly CssBox _ownerBox;
+        readonly CssBox _ownerBox;
+        readonly CssRectKind _rectKind;
 
         /// <summary>
         /// Rectangle
@@ -57,15 +62,17 @@ namespace HtmlRenderer.Dom
         /// </summary>
         CssLineBox myOwnerLineBox;
 
+
         #endregion
 
         /// <summary>
         /// Init.
         /// </summary>
         /// <param name="owner">the CSS box owner of the word</param>
-        protected CssRect(CssBox owner)
+        protected CssRect(CssBox owner, CssRectKind rectKind)
         {
-            _ownerBox = owner;
+            this._ownerBox = owner;
+            this._rectKind = rectKind;
         }
         internal CssLineBox ownerLineBox
         {
@@ -98,18 +105,19 @@ namespace HtmlRenderer.Dom
             {
                 //if (dbugCounter.dbugStartRecord
                 //     && this.dbugPaintCount > 0)
-                //{
-
+                //{ 
                 //}
                 //this.dbugSnapPass = dbugCounter.dbugDrawStringCount;
-                //this.dbugPaintCount = value;
-
+                //this.dbugPaintCount = value; 
             }
         }
 #endif
-        public abstract CssRectKind RectKind
+        public CssRectKind RectKind
         {
-            get;
+            get
+            {
+                return this._rectKind;
+            }
         }
         /// <summary>
         /// Gets the Box where this word belongs.
@@ -237,28 +245,35 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets if the word represents an image.
         /// </summary>
-        public virtual bool IsImage
+        public bool IsImage
         {
-            get { return false; }
+            get { return this._rectKind == CssRectKind.Image; }
         }
+
 
         /// <summary>
         /// Gets a bool indicating if this word is composed only by spaces.
         /// Spaces include tabs and line breaks
         /// </summary>
-        public virtual bool IsSpaces
+        public bool IsSpaces
         {
-            get { return true; }
+            get
+            {
+                //eval once
+                return this._rectKind >= CssRectKind.SingleSpace;
+            }
         }
-
         /// <summary>
         /// Gets if the word is composed by only a line break
         /// </summary>
-        public virtual bool IsLineBreak
+        public bool IsLineBreak
         {
-            get { return false; }
+            get
+            {
+                //eval once
+                return this._rectKind == CssRectKind.LineBreak;
+            }
         }
-
         /// <summary>
         /// Gets the text of the word
         /// </summary>

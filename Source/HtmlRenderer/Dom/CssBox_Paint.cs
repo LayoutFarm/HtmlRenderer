@@ -72,31 +72,7 @@ namespace HtmlRenderer.Dom
             if (this.CssDisplay != CssDisplay.None &&
                 this.CssVisibility == Dom.CssVisibility.Visible)
             {
-                //---------------------------------------------
-                //ImpY
-                //RectangleF clip = g.GetClip();
-
-                //RectangleF rect = args.LatestContaingBoxClientRect;
-                //rect.X -= 2;
-                //rect.Width += 2;
-                //rect.Offset(args.HtmlContainerScrollOffset);
-                //rect.Intersect(args.PeekViewportBound());
-
-                //clip.Intersect(rect);
-
-                //---------------------------------------------
-                //ImpX
-                //bool visible = false;// Rectangles.Count == 0;
-                //bool visible =  Rectangles.Count == 0;
-                //if (!visible)
-                //{
-                //var clip = g.GetClip();
-                //var rect = ContainingBlock.ClientRectangle;
-                //rect.X -= 2;
-                //rect.Width += 2;
-                //rect.Offset(HtmlContainer.ScrollOffset);
-                //clip.Intersect(rect);
-
+                
                 RectangleF clip = g.GetClip();
                 RectangleF rect = args.LatestContaingBoxClientRect;
                 rect.X -= 2;
@@ -108,25 +84,9 @@ namespace HtmlRenderer.Dom
                  
                 if (clip != RectangleF.Empty)
                 {
-                    PaintImp(g, args);
-                    //visible = true;
+                    PaintImp(g, args); 
                 }
-                //  }
-                //if (visible)
-                //{
-                //    PaintImp(g, args);
-                //}
-                //---------------------------------------------
-                ////if this rect is in rgn
-                //if (clip != RectangleF.Empty)
-                //{
-                //    PaintImp(g, args);
-                //}
-                //else
-                //{
-                //}
-                //-----------------------------------------------------
-
+                
             }
         }
         public void dbugPaint(IGraphics g)
@@ -204,8 +164,7 @@ namespace HtmlRenderer.Dom
 
                     foreach (var line in this._lineBoxes)
                     {
-                        //paint each line ***   
-                        //line.PaintLine(g, offset); 
+                        //paint each line ***    
                         if (line.CachedLineBottom >= viewport_top &&
                             line.CachedLineTop <= viewport_bottom)
                         {
@@ -231,8 +190,7 @@ namespace HtmlRenderer.Dom
                             if (b.CssDisplay == CssDisplay.None)
                             {
                                 continue;
-                            }
-
+                            } 
                             b.Paint(g, args);
                         }
                         args.PopContainingBox();
@@ -245,8 +203,7 @@ namespace HtmlRenderer.Dom
                             if (b.CssDisplay == CssDisplay.None)
                             {
                                 continue;
-                            }
-
+                            } 
                             b.Paint(g, args);
                         }
                     }

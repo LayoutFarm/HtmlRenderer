@@ -261,7 +261,7 @@ namespace HtmlRenderer.Dom
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_EMPTY;
             this._boxCompactFlags = tmpFlags;
-        } 
+        }
         internal void SetTextContent(string str)
         {
             this._textBuffer = str.ToCharArray();
@@ -272,7 +272,7 @@ namespace HtmlRenderer.Dom
             this._textBuffer = chars;
             ResetTextFlags();
         }
-        public bool HasTextContent
+        public bool MayHasSomeTextContent
         {
             get
             {
@@ -1321,10 +1321,20 @@ namespace HtmlRenderer.Dom
             {
 
                 g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
+#if DEBUG
+                //g.DrawRectangle(Pens.Red, word.Left, word.Top, word.Width, word.Height);
+#endif
                 word.debugPaintCount++;
             }
         }
 
+#if DEBUG
+        internal void dbugPaintTextWordArea(IGraphics g, PointF offset, CssRect word)
+        {
+            g.DrawRectangle(Pens.Blue, word.Left, word.Top, word.Width, word.Height);
+
+        }
+#endif
         /// <summary>
         /// Paint all the words in the box.
         /// </summary>
@@ -1516,7 +1526,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                if (this.HasTextContent)
+                if (this.MayHasSomeTextContent)
                 {
                     return string.Format("{0}{1} {2}: {3}", ParentBox == null ? "Root: " : string.Empty, tag,
                         this.CssDisplay.ToCssStringValue(), this.CopyTextContent());

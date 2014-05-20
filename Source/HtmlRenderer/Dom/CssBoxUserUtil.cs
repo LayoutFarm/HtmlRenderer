@@ -361,6 +361,7 @@ namespace HtmlRenderer.Dom
                 {
                     default:
                         {
+
                             throw new NotSupportedException();
                         }
                     case CssConstants.Medium:

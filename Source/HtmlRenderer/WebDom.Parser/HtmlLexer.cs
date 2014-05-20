@@ -30,7 +30,8 @@ namespace HtmlRenderer.WebDom.Parser
         AttributeValueAsLiteralString,
 
         SwitchToContentPart,
-        FromContentPart
+        FromContentPart,
+        CommentContent
     }
 
     delegate void HtmlLexerEventHandler(HtmlLexerEvent lexEvent, int startIndex, int len);
@@ -67,11 +68,11 @@ namespace HtmlRenderer.WebDom.Parser
             _appendCount = 0;
             _firstAppendAt = -1;
 
-        } 
+        }
         public void EndLex()
         {
 
-        } 
+        }
 
 #if  DEBUG
         void dbug_OnStartAnalyze()
@@ -112,7 +113,13 @@ namespace HtmlRenderer.WebDom.Parser
             //raise lexer event
             if (_appendCount > 0)
             {
+#if DEBUG
+                //Console.WriteLine(lexerEvent.ToString() + " : " +
+                //    new string(this.textSnapshot.Copy(this._firstAppendAt, (this._readIndex - this._firstAppendAt) + 1)));
+#endif
+
                 LexStateChanged(lexerEvent, this._firstAppendAt, (this._readIndex - this._firstAppendAt) + 1);
+
             }
 
             this._lastFlushAt = lastFlushAtIndex;
@@ -143,13 +150,15 @@ namespace HtmlRenderer.WebDom.Parser
             char[] sourceBuffer = TextSnapshot.UnsafeGetInternalBuffer(textSnapshot);
 
             int lim = sourceBuffer.Length;
-            
+
             char strEscapeChar = '"';
             int currentState = 0;
             //-----------------------------
 
             for (int i = 0; i < lim; i++)
             {
+
+
                 char c = sourceBuffer[i];
 #if DEBUG
                 dbug_currentLineCharIndex++;
@@ -184,8 +193,23 @@ namespace HtmlRenderer.WebDom.Parser
                             {
                                 case '!':
                                     {
-                                        //comment mode
-                                        currentState = 2;
+                                        //comment mode ?
+                                        if (i < lim - 1)
+                                        {
+                                            //may be comment
+                                            if (sourceBuffer[i + 1] == '-' &&
+                                                sourceBuffer[i + 2] == '-')
+                                            {
+                                                //emit comment node
+                                                i += 2;
+                                                currentState = 2;
+                                                continue;
+                                            }
+                                        }
+                                        //--------------------------
+                                        //emit unknown token  
+                                        currentState = 10;//unknown tag
+                                        //----------------------------
                                     } break;
                                 case '?':
                                     {
@@ -208,41 +232,36 @@ namespace HtmlRenderer.WebDom.Parser
                                         currentState = 5;
                                         //clear prev buffer 
                                         //then start collect node name
-                                        //currentBuffer.Append(c);
+
                                         AppendBuffer(c, i);
                                     } break;
                             }
                         } break;
                     case 2:
                         {
+                            //inside comment node
                             if (c == '-')
                             {
-                                currentState = 3;
+                                if (i < lim - 2)
+                                {
+                                    if (sourceBuffer[i + 1] == '-' && sourceBuffer[i + 2] == '>')
+                                    {
+                                        //end comment node  
+                                        FlushExisingBuffer(i, HtmlLexerEvent.CommentContent);
+                                        i += 2;
+                                        currentState = 0;
+                                        continue;
+                                    }
+                                }
                             }
-                            else
-                            {
-                                //error
-                                //
-                            }
-                        } break;
-                    case 3:
-                        {
-                            //second - after <!-
-                            if (c == '-')
-                            {
-                                currentState = 3;
-                            }
-                            else
-                            {
-                                currentState = 10;//inside comment node
-                            }
+                            //skip all comment  content ? 
+                            AppendBuffer(c, i);
 
                         } break;
                     case 5:
                         {
                             //name collecting
-                            //terminate with...
-
+                            //terminate with... 
                             switch (c)
                             {
                                 case '/':
@@ -279,8 +298,7 @@ namespace HtmlRenderer.WebDom.Parser
                                     } break;
                                 case '"':
                                     {
-                                        //start string escap with "
-                                        
+                                        //start string escap with " 
                                         currentState = 6;
                                         strEscapeChar = '"';
                                     } break;
@@ -294,7 +312,17 @@ namespace HtmlRenderer.WebDom.Parser
                                 default:
                                     {
                                         //else collect 
-                                        AppendBuffer(c, i);
+                                        //flush nodename
+
+                                        if (char.IsWhiteSpace(c))
+                                        {
+                                            FlushExisingBuffer(i, HtmlLexerEvent.NodeNameOrAttribute);
+
+                                        }
+                                        else
+                                        {
+                                            AppendBuffer(c, i);
+                                        }
                                     } break;
                             }
                         } break;
@@ -306,7 +334,7 @@ namespace HtmlRenderer.WebDom.Parser
                                 //stop string escape
                                 //flush 
                                 FlushExisingBuffer(i, HtmlLexerEvent.AttributeValueAsLiteralString);
-                                
+
                                 currentState = 5;
                             }
                             else
@@ -332,28 +360,14 @@ namespace HtmlRenderer.WebDom.Parser
                         } break;
                     case 10:
                         {
-                            //inside commmen node
-                            if (c == '-')
+                            //unknown tag
+                            //exit from this tag when found >
+                            if (c == '>')
                             {
-                                currentState = 11;
+                                currentState = 0;
                             }
-                            else
-                            {
-                                AppendBuffer(c, i);
-                            }
+
                         } break;
-                    case 11:
-                        {
-                            if (c == '-')
-                            {
-
-                            }
-                            else
-                            {
-
-                            }
-                        } break;
-
                 }
             }
 

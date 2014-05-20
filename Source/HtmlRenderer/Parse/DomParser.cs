@@ -84,12 +84,12 @@ namespace HtmlRenderer.Parse
         {
             return;
             System.Diagnostics.Stopwatch sw1 = new System.Diagnostics.Stopwatch();
-            
+
 
             sw1.Reset();
             GC.Collect();
             sw1.Start();
-            int nround = 100;            
+            int nround = 100;
             var snapSource = new TextSnapshot(htmlstr.ToCharArray());
             for (int i = nround; i >= 0; --i)
             {
@@ -99,7 +99,7 @@ namespace HtmlRenderer.Parse
             long ee1 = sw1.ElapsedTicks;
             long ee1_ms = sw1.ElapsedMilliseconds;
 
-            
+
             sw1.Reset();
             GC.Collect();
             sw1.Start();
@@ -194,7 +194,7 @@ namespace HtmlRenderer.Parse
             //    }
             //    box.TextDecoration = string.Empty;
             //}
-            if (box.TextDecoration != CssTextDecoration.NotAssign && !box.HasTextContent)
+            if (box.TextDecoration != CssTextDecoration.NotAssign && !box.MayHasSomeTextContent)
             {
                 foreach (var childBox in box.GetChildBoxIter())
                 {
@@ -672,7 +672,9 @@ namespace HtmlRenderer.Parse
             //}
         }
 
-
+#if DEBUG
+        static int dbugCorrectCount = 0;
+#endif
         /// <summary>
         /// Correct DOM tree if there is block boxes that are inside inline blocks.<br/>
         /// Need to rearrange the tree so block box will be only the child of other block box.
@@ -680,6 +682,9 @@ namespace HtmlRenderer.Parse
         /// <param name="box">the current box to correct its sub-tree</param>
         private static void CorrectBlockInsideInline(CssBox box)
         {
+#if DEBUG
+            dbugCorrectCount++;
+#endif
             //recursive
             try
             {
