@@ -23,46 +23,47 @@ namespace HtmlRenderer.Entities
     /// <remarks>
     /// To learn more about CSS blocks visit CSS spec: http://www.w3.org/TR/CSS21/syndata.html#block
     /// </remarks>
-    public sealed class CssBlock
+    public sealed class CssCodeBlock
     {
-        #region Fields and Consts
 
         /// <summary>
         /// the name of the css class of the block
         /// </summary>
-        private readonly string _class;
+        private readonly string _className;
+        /// <summary>
+        /// additional selectors to used in hierarchy (p className1 > className2)
+        /// </summary>
+        private readonly List<CssCodeBlockSelector> _selectors;
+
 
         /// <summary>
         /// the CSS block properties and values
         /// </summary>
-        private readonly Dictionary<string,string> _properties;
+        private readonly Dictionary<string, string> _properties;
 
-        /// <summary>
-        /// additional selectors to used in hierarchy (p className1 > className2)
-        /// </summary>
-        private readonly List<CssBlockSelectorItem> _selectors;
+  
 
         /// <summary>
         /// is the css block has :hover pseudo-class
         /// </summary>
         private readonly bool _hover;
 
-        #endregion
+
 
 
         /// <summary>
         /// Creates a new block from the block's source
         /// </summary>
-        /// <param name="class">the name of the css class of the block</param>
+        /// <param name="cssClassName">the name of the css class of the block</param>
         /// <param name="properties">the CSS block properties and values</param>
         /// <param name="selectors">optional: additional selectors to used in hierarchy</param>
         /// <param name="hover">optional: is the css block has :hover pseudo-class</param>
-        public CssBlock(string @class, Dictionary<string, string> properties, List<CssBlockSelectorItem> selectors = null, bool hover = false)
+        public CssCodeBlock(string cssClassName, Dictionary<string, string> properties, List<CssCodeBlockSelector> selectors = null, bool hover = false)
         {
-            ArgChecker.AssertArgNotNullOrEmpty(@class, "@class");
+            ArgChecker.AssertArgNotNullOrEmpty(cssClassName, "cssClassName");
             ArgChecker.AssertArgNotNull(properties, "properties");
 
-            _class = @class;
+            _className = cssClassName;
             _selectors = selectors;
             _properties = properties;
             _hover = hover;
@@ -71,15 +72,15 @@ namespace HtmlRenderer.Entities
         /// <summary>
         /// the name of the css class of the block
         /// </summary>
-        public string Class
+        public string CssClassName
         {
-            get { return _class; }
+            get { return _className; }
         }
 
         /// <summary>
         /// additional selectors to used in hierarchy (p className1 > className2)
         /// </summary>
-        public List<CssBlockSelectorItem> Selectors
+        public List<CssCodeBlockSelector> Selectors
         {
             get { return _selectors; }
         }
@@ -87,7 +88,7 @@ namespace HtmlRenderer.Entities
         /// <summary>
         /// Gets the CSS block properties and its values
         /// </summary>
-        public IDictionary<string,string> Properties
+        public IDictionary<string, string> Properties
         {
             get { return _properties; }
         }
@@ -105,7 +106,7 @@ namespace HtmlRenderer.Entities
         /// Other block properties can overwrite this block properties.
         /// </summary>
         /// <param name="other">the css block to merge with</param>
-        public void Merge(CssBlock other)
+        public void Merge(CssCodeBlock other)
         {
             ArgChecker.AssertArgNotNull(other, "other");
 
@@ -119,9 +120,9 @@ namespace HtmlRenderer.Entities
         /// Create deep copy of the CssBlock.
         /// </summary>
         /// <returns>new CssBlock with same data</returns>
-        public CssBlock Clone()
+        public CssCodeBlock Clone()
         {
-            return new CssBlock(_class, new Dictionary<string, string>(_properties), _selectors != null ? new List<CssBlockSelectorItem>(_selectors) : null);
+            return new CssCodeBlock(_className, new Dictionary<string, string>(_properties), _selectors != null ? new List<CssCodeBlockSelector>(_selectors) : null);
         }
 
         /// <summary>
@@ -129,15 +130,15 @@ namespace HtmlRenderer.Entities
         /// </summary>
         /// <param name="other">the other block to compare to</param>
         /// <returns>true - the two blocks are the same, false - otherwise</returns>
-        public bool Equals(CssBlock other)
+        public bool Equals(CssCodeBlock other)
         {
-            if (ReferenceEquals(null, other)) 
+            if (ReferenceEquals(null, other))
                 return false;
-            if (ReferenceEquals(this, other)) 
+            if (ReferenceEquals(this, other))
                 return true;
-            if (!Equals(other._class, _class))
+            if (!Equals(other._className, _className))
                 return false;
-            
+
             if (!Equals(other._properties.Count, _properties.Count))
                 return false;
 
@@ -160,14 +161,14 @@ namespace HtmlRenderer.Entities
         /// </summary>
         /// <param name="other">the other block to compare to</param>
         /// <returns>true - the selectors on blocks are the same, false - otherwise</returns>
-        public bool EqualsSelector(CssBlock other)
+        public bool EqualsSelector(CssCodeBlock other)
         {
             if (ReferenceEquals(null, other))
                 return false;
             if (ReferenceEquals(this, other))
                 return true;
 
-            if( other.Hover != Hover )
+            if (other.Hover != Hover)
                 return false;
             if (other._selectors == null && _selectors != null)
                 return false;
@@ -176,7 +177,7 @@ namespace HtmlRenderer.Entities
 
             if (other._selectors != null && _selectors != null)
             {
-                if (!Equals(other._selectors.Count,_selectors.Count))
+                if (!Equals(other._selectors.Count, _selectors.Count))
                     return false;
 
                 for (int i = 0; i < _selectors.Count; i++)
@@ -198,13 +199,13 @@ namespace HtmlRenderer.Entities
         /// <returns>true - the two blocks are the same, false - otherwise</returns>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) 
+            if (ReferenceEquals(null, obj))
                 return false;
-            if (ReferenceEquals(this, obj)) 
+            if (ReferenceEquals(this, obj))
                 return true;
-            if (obj.GetType() != typeof (CssBlock)) 
+            if (obj.GetType() != typeof(CssCodeBlock))
                 return false;
-            return Equals((CssBlock) obj);
+            return Equals((CssCodeBlock)obj);
         }
 
         /// <summary>
@@ -215,7 +216,7 @@ namespace HtmlRenderer.Entities
         {
             unchecked
             {
-                return ((_class != null ? _class.GetHashCode() : 0)*397) ^ (_properties != null ? _properties.GetHashCode() : 0);
+                return ((_className != null ? _className.GetHashCode() : 0) * 397) ^ (_properties != null ? _properties.GetHashCode() : 0);
             }
         }
 
@@ -224,7 +225,7 @@ namespace HtmlRenderer.Entities
         /// </summary>
         public override string ToString()
         {
-            var str = _class + " { ";
+            var str = _className + " { ";
             foreach (var property in _properties)
             {
                 str += string.Format("{0}={1}; ", property.Key, property.Value);

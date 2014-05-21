@@ -20,24 +20,24 @@ namespace HtmlRenderer
 {
     /// <summary>
     /// Holds parsed stylesheet css blocks arranged by media and classes.<br/>
-    /// <seealso cref="CssBlock"/>
+    /// <seealso cref="CssCodeBlock"/>
     /// </summary>
     /// <remarks>
     /// To learn more about CSS blocks visit CSS spec: http://www.w3.org/TR/CSS21/syndata.html#block
     /// </remarks>
-    public sealed class CssData
+    public sealed class CssStyleSheet
     {
         #region Fields and Consts
 
         /// <summary>
         /// used to return empty array
         /// </summary>
-        private static readonly List<CssBlock> _emptyArray = new List<CssBlock>();
+        private static readonly List<CssCodeBlock> _emptyList = new List<CssCodeBlock>();
 
         /// <summary>
         /// dictionary of media type to dictionary of css class name to the cssBlocks collection with all the data.
         /// </summary>
-        private readonly Dictionary<string, Dictionary<string, List<CssBlock>>> _mediaBlocks = new Dictionary<string, Dictionary<string, List<CssBlock>>>(StringComparer.InvariantCultureIgnoreCase);
+        private readonly Dictionary<string, Dictionary<string, List<CssCodeBlock>>> _mediaBlocks = new Dictionary<string, Dictionary<string, List<CssCodeBlock>>>(StringComparer.InvariantCultureIgnoreCase);
 
         #endregion
 
@@ -45,13 +45,13 @@ namespace HtmlRenderer
         /// <summary>
         /// Init.
         /// </summary>
-        internal CssData()
+        internal CssStyleSheet()
         {
-            _mediaBlocks.Add("all", new Dictionary<string, List<CssBlock>>(StringComparer.InvariantCultureIgnoreCase));
+            _mediaBlocks.Add("all", new Dictionary<string, List<CssCodeBlock>>(StringComparer.InvariantCultureIgnoreCase));
         }
 
         /// <summary>
-        /// Parse the given stylesheet to <see cref="CssData"/> object.<br/>
+        /// Parse the given stylesheet to <see cref="CssStyleSheet"/> object.<br/>
         /// If <paramref name="combineWithDefault"/> is true the parsed css blocks are added to the 
         /// default css data (as defined by W3), merged if class name already exists. If false only the data in the given stylesheet is returned.
         /// </summary>
@@ -59,7 +59,7 @@ namespace HtmlRenderer
         /// <param name="stylesheet">the stylesheet source to parse</param>
         /// <param name="combineWithDefault">true - combine the parsed css data with default css data, false - return only the parsed css data</param>
         /// <returns>the parsed css data</returns>
-        public static CssData Parse(string stylesheet, bool combineWithDefault = true)
+        public static CssStyleSheet Parse(string stylesheet, bool combineWithDefault = true)
         {
             return CssParser.ParseStyleSheet(stylesheet, combineWithDefault);
         }
@@ -67,7 +67,7 @@ namespace HtmlRenderer
         /// <summary>
         /// dictionary of media type to dictionary of css class name to the cssBlocks collection with all the data
         /// </summary>
-        internal IDictionary<string, Dictionary<string, List<CssBlock>>> MediaBlocks
+        internal IDictionary<string, Dictionary<string, List<CssCodeBlock>>> MediaBlocks
         {
             get { return _mediaBlocks; }
         }
@@ -80,7 +80,7 @@ namespace HtmlRenderer
         /// <returns>true - has css blocks for the class, false - otherwise</returns>
         public bool ContainsCssBlock(string className, string media = "all")
         {
-            Dictionary<string, List<CssBlock>> mid;
+            Dictionary<string, List<CssCodeBlock>> mid;
             return _mediaBlocks.TryGetValue(media, out mid) && mid.ContainsKey(className);
         }
 
@@ -94,15 +94,15 @@ namespace HtmlRenderer
         /// <param name="className">the class selector to get css blocks by</param>
         /// <param name="media">optinal: the css media type (default - all)</param>
         /// <returns>collection of css blocks, empty collection if no blocks exists (never null)</returns>
-        public IEnumerable<CssBlock> GetCssBlock(string className, string media = "all")
+        public IEnumerable<CssCodeBlock> GetCssBlock(string className, string media = "all")
         {
-            List<CssBlock> block = null;
-            Dictionary<string, List<CssBlock>> mid;
+            List<CssCodeBlock> blocks = null;
+            Dictionary<string, List<CssCodeBlock>> mid;
             if (_mediaBlocks.TryGetValue(media, out mid))
             {
-                mid.TryGetValue(className, out block);
+                mid.TryGetValue(className, out blocks);
             }
-            return block ?? _emptyArray;
+            return blocks ?? _emptyList;
         }
 
         /// <summary>
@@ -119,25 +119,25 @@ namespace HtmlRenderer
         /// </remarks>
         /// <param name="media">the media type to add the CSS to</param>
         /// <param name="cssBlock">the css block to add</param>
-        public void AddCssBlock(string media, CssBlock cssBlock)
+        public void AddCssBlock(string media, CssCodeBlock cssBlock)
         {
-            Dictionary<string, List<CssBlock>> mid;
+            Dictionary<string, List<CssCodeBlock>> mid;
             if(!_mediaBlocks.TryGetValue(media, out mid))
             {
-                mid = new Dictionary<string, List<CssBlock>>(StringComparer.InvariantCultureIgnoreCase);
+                mid = new Dictionary<string, List<CssCodeBlock>>(StringComparer.InvariantCultureIgnoreCase);
                 _mediaBlocks.Add(media, mid);
             }
 
-            if (!mid.ContainsKey(cssBlock.Class))
+            if (!mid.ContainsKey(cssBlock.CssClassName))
             {
-                var list = new List<CssBlock>();
+                var list = new List<CssCodeBlock>();
                 list.Add(cssBlock);
-                mid[cssBlock.Class] = list;
+                mid[cssBlock.CssClassName] = list;
             }
             else
             {
                 bool merged = false;
-                var list = mid[cssBlock.Class];
+                var list = mid[cssBlock.CssClassName];
                 foreach (var block in list)
                 {
                     if(block.EqualsSelector(cssBlock))
@@ -164,7 +164,7 @@ namespace HtmlRenderer
         /// Merge blocks if exists in both.
         /// </summary>
         /// <param name="other">the CSS data to combine with</param>
-        public void Combine(CssData other)
+        public void Combine(CssStyleSheet other)
         {
             ArgChecker.AssertArgNotNull(other, "other");
 
@@ -188,15 +188,15 @@ namespace HtmlRenderer
         /// Create deep copy of the css data with cloned css blocks.
         /// </summary>
         /// <returns>cloned object</returns>
-        public CssData Clone()
+        public CssStyleSheet Clone()
         {
-            var clone = new CssData();
+            var clone = new CssStyleSheet();
             foreach (var mid in _mediaBlocks)
             {
-                var cloneMid = new Dictionary<string, List<CssBlock>>(StringComparer.InvariantCultureIgnoreCase);
+                var cloneMid = new Dictionary<string, List<CssCodeBlock>>(StringComparer.InvariantCultureIgnoreCase);
                 foreach (var blocks in mid.Value)
                 {
-                    var cloneList = new List<CssBlock>();
+                    var cloneList = new List<CssCodeBlock>();
                     foreach (var cssBlock in blocks.Value)
                     {
                         cloneList.Add(cssBlock.Clone());

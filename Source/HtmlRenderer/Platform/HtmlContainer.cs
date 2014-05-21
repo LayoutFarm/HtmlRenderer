@@ -95,7 +95,7 @@ namespace HtmlRenderer
         /// <summary>
         /// dictionary of all css boxes that have ":hover" selector on them
         /// </summary>
-        private List<Tupler<CssBox, CssBlock>> _hoverBoxes;
+        private List<Tupler<CssBox, CssCodeBlock>> _hoverBoxes;
 
          
         /// <summary>
@@ -111,7 +111,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the parsed stylesheet data used for handling the html
         /// </summary>
-        private CssData _cssData;
+        private CssStyleSheet _cssData;
 
         /// <summary>
         /// Is content selection is enabled for the rendered html (default - true).<br/>
@@ -210,7 +210,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the parsed stylesheet data used for handling the html
         /// </summary>
-        public CssData CssData
+        public CssStyleSheet CssData
         {
             get { return _cssData; }
         }
@@ -391,7 +391,7 @@ namespace HtmlRenderer
         /// </summary>
         /// <param name="htmlSource">the html to init with, init empty if not given</param>
         /// <param name="baseCssData">optional: the stylesheet to init with, init default if not given</param>
-        public void SetHtml(string htmlSource, CssData baseCssData = null)
+        public void SetHtml(string htmlSource, CssStyleSheet baseCssData = null)
         {
 
             if (_root != null)
@@ -719,15 +719,15 @@ namespace HtmlRenderer
         /// </summary>
         /// <param name="box">the box that has the hover selector</param>
         /// <param name="block">the css block with the css data with the selector</param>
-        internal void AddHoverBox(CssBox box, CssBlock block)
+        internal void AddHoverBox(CssBox box, CssCodeBlock block)
         {
             ArgChecker.AssertArgNotNull(box, "box");
             ArgChecker.AssertArgNotNull(block, "block");
 
             if (_hoverBoxes == null)
-                _hoverBoxes = new List<Tupler<CssBox, CssBlock>>();
+                _hoverBoxes = new List<Tupler<CssBox, CssCodeBlock>>();
 
-            _hoverBoxes.Add(new Tupler<CssBox, CssBlock>(box, block));
+            _hoverBoxes.Add(new Tupler<CssBox, CssCodeBlock>(box, block));
         }
 
         /// <summary>

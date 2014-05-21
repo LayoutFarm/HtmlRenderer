@@ -17,9 +17,8 @@ namespace HtmlRenderer.Entities
     /// <summary>
     /// Holds single class selector in css block hierarchial selection (p class1 > div.class2)
     /// </summary>
-    public struct CssBlockSelectorItem
+    public struct CssCodeBlockSelector
     {
-        #region Fields and Consts
 
         /// <summary>
         /// the name of the css class of the block
@@ -31,18 +30,17 @@ namespace HtmlRenderer.Entities
         /// </summary>
         private readonly bool _directParent;
 
-        #endregion
 
         /// <summary>
         /// Creates a new block from the block's source
         /// </summary>
-        /// <param name="class">the name of the css class of the block</param>
+        /// <param name="cssClassName">the name of the css class of the block</param>
         /// <param name="directParent"> </param>
-        public CssBlockSelectorItem(string @class, bool directParent)
+        public CssCodeBlockSelector(string cssClassName, bool directParent)
         {
-            ArgChecker.AssertArgNotNullOrEmpty(@class, "@class");
+            ArgChecker.AssertArgNotNullOrEmpty(cssClassName, "cssClassName");
 
-            _class = @class;
+            _class = cssClassName;
             _directParent = directParent;
         }
 

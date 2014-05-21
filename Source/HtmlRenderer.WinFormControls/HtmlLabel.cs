@@ -81,7 +81,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the base stylesheet data used in the panel
         /// </summary>
-        private CssData _baseCssData;
+        private CssStyleSheet _baseCssData;
 
         /// <summary>
         /// is to handle auto size of the control height only

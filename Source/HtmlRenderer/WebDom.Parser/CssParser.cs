@@ -8,8 +8,9 @@ using System.IO;
 
 namespace HtmlRenderer.WebDom
 {
-    public class MyCssDocumentParser
+    public class CssParser
     {
+
 
     }
 }

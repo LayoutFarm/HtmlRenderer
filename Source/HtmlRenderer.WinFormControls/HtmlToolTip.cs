@@ -40,7 +40,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the base stylesheet data used in the panel
         /// </summary>
-        private CssData _baseCssData;
+        private CssStyleSheet _baseCssData;
 
         /// <summary>
         /// timer used to handle mouse move events when mouse is over the tooltip.<br/>

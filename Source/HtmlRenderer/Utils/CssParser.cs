@@ -44,9 +44,9 @@ namespace HtmlRenderer.Parse
         /// <param name="stylesheet">raw css stylesheet to parse</param>
         /// <param name="combineWithDefault">true - combine the parsed css data with default css data, false - return only the parsed css data</param>
         /// <returns>the CSS data with parsed CSS objects (never null)</returns>
-        public static CssData ParseStyleSheet(string stylesheet, bool combineWithDefault)
+        public static CssStyleSheet ParseStyleSheet(string stylesheet, bool combineWithDefault)
         {
-            var cssData = combineWithDefault ? CssUtils.DefaultCssData.Clone() : new CssData();
+            var cssData = combineWithDefault ? CssUtils.DefaultCssData.Clone() : new CssStyleSheet();
             if (!string.IsNullOrEmpty(stylesheet))
             {
                 ParseStyleSheet(cssData, stylesheet);
@@ -62,7 +62,7 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="cssData">the CSS data to fill with parsed CSS objects</param>
         /// <param name="stylesheet">raw css stylesheet to parse</param>
-        public static void ParseStyleSheet(CssData cssData, string stylesheet)
+        public static void ParseStyleSheet(CssStyleSheet cssData, string stylesheet)
         {
             if (!String.IsNullOrEmpty(stylesheet))
             {
@@ -80,7 +80,7 @@ namespace HtmlRenderer.Parse
         /// <param name="className">the name of the css class of the block</param>
         /// <param name="blockSource">the CSS block to parse</param>
         /// <returns>the created CSS block instance</returns>
-        public static CssBlock ParseCssBlock(string className, string blockSource)
+        public static CssCodeBlock ParseCssBlock(string className, string blockSource)
         {
             return ParseCssBlockImp(className, blockSource);
         }
@@ -139,7 +139,7 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="cssData">the CSS data to fill with parsed CSS objects</param>
         /// <param name="stylesheet">the stylesheet to parse</param>
-        private static void ParseStyleBlocks(CssData cssData, string stylesheet)
+        private static void ParseStyleBlocks(CssStyleSheet cssData, string stylesheet)
         {
             var startIdx = 0;
             int endIdx = 0;
@@ -186,7 +186,7 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="cssData">the CSS data to fill with parsed CSS objects</param>
         /// <param name="stylesheet">the stylesheet to parse</param>
-        private static void ParseMediaStyleBlocks(CssData cssData, string stylesheet)
+        private static void ParseMediaStyleBlocks(CssStyleSheet cssData, string stylesheet)
         {
             int startIdx = 0;
             string atrule;
@@ -234,7 +234,7 @@ namespace HtmlRenderer.Parse
         /// <param name="cssData"> </param>
         /// <param name="block">the CSS block to handle</param>
         /// <param name="media">optional: the media (default - all)</param>
-        private static void FeedStyleBlock(CssData cssData, string block, string media = "all")
+        private static void FeedStyleBlock(CssStyleSheet cssData, string block, string media = "all")
         {
             int startIdx = block.IndexOf("{", StringComparison.Ordinal);
             int endIdx = startIdx > -1 ? block.IndexOf("}", startIdx) : -1;
@@ -264,7 +264,7 @@ namespace HtmlRenderer.Parse
         /// <param name="className">the name of the css class of the block</param>
         /// <param name="blockSource">the CSS block to parse</param>
         /// <returns>the created CSS block instance</returns>
-        private static CssBlock ParseCssBlockImp(string className, string blockSource)
+        private static CssCodeBlock ParseCssBlockImp(string className, string blockSource)
         {
             className = className.ToLower();
             string psedoClass = null;
@@ -282,7 +282,7 @@ namespace HtmlRenderer.Parse
 
                 var properties = ParseCssBlockProperties(blockSource);
 
-                return new CssBlock(firstClass, properties, selectors, psedoClass == "hover");
+                return new CssCodeBlock(firstClass, properties, selectors, psedoClass == "hover");
             }
 
             return null;
@@ -294,9 +294,9 @@ namespace HtmlRenderer.Parse
         /// <param name="className">the class selector to parse</param>
         /// <param name="firstClass">return the main class the css block is on</param>
         /// <returns>returns the hierarchy of classes or null if single class selector</returns>
-        private static List<CssBlockSelectorItem> ParseCssBlockSelector(string className, out string firstClass)
+        private static List<CssCodeBlockSelector> ParseCssBlockSelector(string className, out string firstClass)
         {
-            List<CssBlockSelectorItem> selectors = null;
+            List<CssCodeBlockSelector> selectors = null;
 
             firstClass = null;
             int endIdx = className.Length - 1;
@@ -316,7 +316,7 @@ namespace HtmlRenderer.Parse
                 if (startIdx > -1)
                 {
                     if (selectors == null)
-                        selectors = new List<CssBlockSelectorItem>();
+                        selectors = new List<CssCodeBlockSelector>();
 
                     var subclass = className.Substring(startIdx + 1, endIdx - startIdx);
 
@@ -328,12 +328,12 @@ namespace HtmlRenderer.Parse
                     {
                         while (char.IsWhiteSpace(className[startIdx]) || className[startIdx] == '>')
                             startIdx--;
-                        selectors.Add(new CssBlockSelectorItem(subclass, directParent));
+                        selectors.Add(new CssCodeBlockSelector(subclass, directParent));
                     }
                 }
                 else if (firstClass != null)
                 {
-                    selectors.Add(new CssBlockSelectorItem(className.Substring(0, endIdx + 1), directParent));
+                    selectors.Add(new CssCodeBlockSelector(className.Substring(0, endIdx + 1), directParent));
                 }
 
                 endIdx = startIdx;

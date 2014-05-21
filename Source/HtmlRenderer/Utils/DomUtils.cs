@@ -773,7 +773,7 @@ namespace HtmlRenderer.Utils
         /// <param name="sb">the string builder to write stylesheet into</param>
         /// <param name="cssData">the css data to write to the head</param>
         /// <param name="indent">the indent to use for nice formating</param>
-        private static void WriteStylesheet(StringBuilder sb, CssData cssData, int indent)
+        private static void WriteStylesheet(StringBuilder sb, CssStyleSheet cssData, int indent)
         {
             sb.Append(new string(' ', indent * 4));
             sb.AppendLine("<style type=\"text/css\">");

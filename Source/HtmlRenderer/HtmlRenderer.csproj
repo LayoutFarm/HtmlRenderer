@@ -67,7 +67,7 @@
     <Compile Include="Parse\HtmlParser.cs" />
     <Compile Include="WebDom.Parser\dbugLexerReport.cs" />
     <Compile Include="WebDom.Parser\HtmlLexer.cs" />
-    <Compile Include="WebDom.Parser\MyCssDocumentParser.cs" />
+    <Compile Include="WebDom.Parser\CssParser.cs" />
     <Compile Include="WebDom.Parser\HtmlParser.cs" />
     <Compile Include="WebDom\1_Html\StringTable.cs" />
     <Compile Include="WebDom\1_Html\HtmlDocument.cs" />
@@ -84,7 +84,7 @@
     <Compile Include="Dom\CssBoxCreator.cs" />
     <Compile Include="Dom\CssBox_Unsafe.cs" />
     <Compile Include="Dom\CssPropFeatures.cs" />
-    <Compile Include="Entities\CssData.cs" />
+    <Compile Include="CssCodeBlocks\CssStyleSheet.cs" />
     <Compile Include="Platform\dbug.cs" />
     <Compile Include="Dom\CssBox_Corrector.cs" />
     <Compile Include="Dom\CssBoxUserUtil.cs" />
@@ -116,10 +116,10 @@
     <Compile Include="Entities\HtmlScrollEventArgs.cs" />
     <Compile Include="Entities\HtmlStylesheetLoadEventArgs.cs" />
     <Compile Include="Parse\HtmlParser.SubString.cs" />
-    <Compile Include="Entities\CssBlockSelectorItem.cs" />
-    <Compile Include="Entities\CssBlock.cs" />
+    <Compile Include="CssCodeBlocks\CssCodeBlockSelector.cs" />
+    <Compile Include="CssCodeBlocks\CssCodeBlock.cs" />
     <Compile Include="Entities\HtmlGenerationStyle.cs" />
-    <Compile Include="Entities\CssDefaults.cs" />
+    <Compile Include="CssCodeBlocks\CssDefaults.cs" />
     <Compile Include="Entities\Tupler.cs" />
     <Compile Include="Handlers\ImageLoadHandler.cs" />
     <Compile Include="Handlers\StylesheetLoadHandler.cs" />
@@ -139,9 +139,9 @@
     <Compile Include="Utils\ArgChecker.cs" />
     <Compile Include="Utils\FontsUtils.cs" />
     <Compile Include="Utils\RenderUtils.cs" />
-    <Compile Include="Entities\CssConstants.cs" />
-    <Compile Include="Entities\CssUnit.cs" />
-    <Compile Include="Entities\HtmlConstants.cs" />
+    <Compile Include="CssCodeBlocks\CssConstants.cs" />
+    <Compile Include="CssCodeBlocks\CssUnit.cs" />
+    <Compile Include="CssCodeBlocks\HtmlConstants.cs" />
     <Compile Include="Utils\CssParser.cs" />
     <Compile Include="Platform\RegexParserUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

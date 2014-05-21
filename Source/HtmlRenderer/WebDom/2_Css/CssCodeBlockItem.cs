@@ -31,9 +31,7 @@ namespace HtmlRenderer.WebDom
         /// <summary>
         /// css selector expression
         /// </summary>
-        public List<CssSelectorExpressionBase> selectorExpressions = new List<CssSelectorExpressionBase>();
-
-       
+        public List<CssSelectorExpressionBase> selectorExpressions = new List<CssSelectorExpressionBase>();       
         public List<CssCodeInstruction> cssCodeInstruction = new List<CssCodeInstruction>();
 
         public CssCodeBlockItem()
