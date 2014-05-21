@@ -38,7 +38,7 @@ namespace HtmlRenderer.Parse
         public static CssBox GenerateCssTree(
             string html,
             HtmlContainer htmlContainer,
-            ref CssStyleSheet cssData)
+            ref CssSheet cssData)
         {
 
             //1. generate css box  from html data
@@ -126,7 +126,7 @@ namespace HtmlRenderer.Parse
         /// <param name="cssData"> </param>
         /// <param name="cssDataChanged">check if the css data has been modified by the handled html not to change the base css data</param>
         private static void CascadeStyles(CssBox box, HtmlContainer htmlContainer,
-            ref CssStyleSheet cssData, ref bool cssDataChanged)
+            ref CssSheet cssData, ref bool cssDataChanged)
         {
             //recursive
 
@@ -184,7 +184,7 @@ namespace HtmlRenderer.Parse
                 {
                     CloneCssData(ref cssData, ref cssDataChanged);
                     string stylesheet;
-                    CssStyleSheet stylesheetData;
+                    CssSheet stylesheetData;
 
                     //load style sheet from external 
                     StylesheetLoadHandler.LoadStylesheet(htmlContainer,
@@ -192,7 +192,7 @@ namespace HtmlRenderer.Parse
                         out stylesheet, out stylesheetData);
 
                     if (stylesheet != null)
-                        CssParser.ParseStyleSheet(cssData, stylesheet);                        
+                        CssParser.ParseStyleSheet(cssData, stylesheet);
                     else if (stylesheetData != null)
                         cssData.Combine(stylesheetData);
                 }
@@ -226,22 +226,27 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="htmlContainer"> </param>
         /// <param name="cssData">the style data</param>
-        private static void SetTextSelectionStyle(HtmlContainer htmlContainer, CssStyleSheet cssData)
+        private static void SetTextSelectionStyle(HtmlContainer htmlContainer, CssSheet cssData)
         {
             htmlContainer.SelectionForeColor = Color.Empty;
             htmlContainer.SelectionBackColor = Color.Empty;
 
-            if (cssData.ContainsCssBlock("::selection"))
+            foreach (var block in cssData.GetCssBlock("::selection"))
             {
-                var blocks = cssData.GetCssBlock("::selection");
-                foreach (var block in blocks)
-                {
-                    if (block.Properties.ContainsKey("color"))
-                        htmlContainer.SelectionForeColor = CssValueParser.GetActualColor(block.Properties["color"]);
-                    if (block.Properties.ContainsKey("background-color"))
-                        htmlContainer.SelectionBackColor = CssValueParser.GetActualColor(block.Properties["background-color"]);
-                }
+                if (block.Properties.ContainsKey("color"))
+                    htmlContainer.SelectionForeColor = CssValueParser.GetActualColor(block.GetPropertyValueAsString("color"));
+                if (block.Properties.ContainsKey("background-color"))
+                    htmlContainer.SelectionBackColor = CssValueParser.GetActualColor(block.GetPropertyValueAsString("background-color"));
             }
+
+            //if (cssData.ContainsCssBlock("::selection"))
+            //{
+            //    var blocks = cssData.GetCssBlock("::selection");
+            //    foreach (var block in blocks)
+            //    {
+
+            //    }
+            //}
         }
 
         /// <summary>
@@ -250,7 +255,7 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="box">the css box to assign css to</param>
         /// <param name="cssData">the css data to use to get the matching css blocks</param>
-        private static void AssignClassCssBlocks(CssBox box, CssStyleSheet cssData)
+        private static void AssignClassCssBlocks(CssBox box, CssSheet cssData)
         {
             var classes = box.HtmlTag.TryGetAttribute("class");
 
@@ -282,11 +287,11 @@ namespace HtmlRenderer.Parse
         /// <param name="box">the css box to assign css to</param>
         /// <param name="cssData">the css data to use to get the matching css blocks</param>
         /// <param name="cssClassName">the class selector to search for css blocks</param>
-        private static void AssignCssBlocks(CssBox box, CssStyleSheet cssData, string cssClassName)
+        private static void AssignCssBlocks(CssBox box, CssSheet cssData, string cssClassName)
         {
             var blocks = cssData.GetCssBlock(cssClassName);
             foreach (var block in blocks)
-            {    
+            {
                 if (IsBlockAssignableToBox(box, block))
                 {
                     AssignCssBlock(box, block);
@@ -382,33 +387,37 @@ namespace HtmlRenderer.Parse
         /// <param name="block">the css block to assign</param>
         private static void AssignCssBlock(CssBox box, CssCodeBlock block)
         {
-            foreach (var prop in block.Properties)
+            foreach (CssProperty prop in block.Properties.Values)
             {
-                //สำหรับทุก property 
-                var value = prop.Value;
-                if (prop.Value == CssConstants.Inherit && box.ParentBox != null)
+
+                string value;
+                if (prop.MarkedAsInheritValue && box.ParentBox != null)
                 {
-                    value = CssUtils.GetPropertyValue(box.ParentBox, prop.Key);
+                    //use parent property
+                    value = CssUtils.GetPropertyValue(box.ParentBox, prop.Name);
                 }
-                if (IsStyleOnElementAllowed(box, prop.Key, value))
+                else
                 {
-                    CssUtils.SetPropertyValue(box, prop.Key, value);
+                    value = prop.Value;
                 }
+
+                if (IsStyleOnElementAllowed(box, prop))
+                {
+                    CssUtils.SetPropertyValue(box, prop.Name, value);
+                }
+                //----------------------------------------------------
             }
         }
 
         /// <summary>
         /// Check if the given style is allowed to be set on the given css box.<br/>
         /// Used to prevent invalid CssBoxes creation like table with inline display style.
-        /// </summary>
-        /// <param name="box">the css box to assign css to</param>
-        /// <param name="key">the style key to cehck</param>
-        /// <param name="value">the style value to check</param>
-        /// <returns>true - style allowed, false - not allowed</returns>
-        private static bool IsStyleOnElementAllowed(CssBox box, string key, string value)
+        /// </summary> 
+        private static bool IsStyleOnElementAllowed(CssBox box, CssProperty cssProperty)
         {
-            if (box.HtmlTag != null && key == HtmlConstants.Display)
+            if (box.HtmlTag != null && cssProperty.Name == HtmlConstants.Display)
             {
+                string value = cssProperty.Value;
                 switch (box.HtmlTag.Name)
                 {
                     case HtmlConstants.Table:
@@ -439,7 +448,7 @@ namespace HtmlRenderer.Parse
         /// Clone css data if it has not already been cloned.<br/>
         /// Used to preserve the base css data used when changed by style inside html.
         /// </summary>
-        private static void CloneCssData(ref CssStyleSheet cssData, ref bool cssDataChanged)
+        private static void CloneCssData(ref CssSheet cssData, ref bool cssDataChanged)
         {
             if (!cssDataChanged)
             {

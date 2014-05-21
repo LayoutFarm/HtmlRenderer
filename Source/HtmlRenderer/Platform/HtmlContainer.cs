@@ -111,7 +111,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the parsed stylesheet data used for handling the html
         /// </summary>
-        private CssStyleSheet _cssData;
+        private CssSheet _cssData;
 
         /// <summary>
         /// Is content selection is enabled for the rendered html (default - true).<br/>
@@ -210,7 +210,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the parsed stylesheet data used for handling the html
         /// </summary>
-        public CssStyleSheet CssData
+        public CssSheet CssData
         {
             get { return _cssData; }
         }
@@ -391,7 +391,7 @@ namespace HtmlRenderer
         /// </summary>
         /// <param name="htmlSource">the html to init with, init empty if not given</param>
         /// <param name="baseCssData">optional: the stylesheet to init with, init default if not given</param>
-        public void SetHtml(string htmlSource, CssStyleSheet baseCssData = null)
+        public void SetHtml(string htmlSource, CssSheet baseCssData = null)
         {
 
             if (_root != null)

@@ -1,4 +1,6 @@
-﻿// "Therefore those skilled at the unorthodox
+﻿//BSD 2014, WinterCore
+
+// "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
 // When they come to an end,
@@ -44,9 +46,9 @@ namespace HtmlRenderer.Parse
         /// <param name="stylesheet">raw css stylesheet to parse</param>
         /// <param name="combineWithDefault">true - combine the parsed css data with default css data, false - return only the parsed css data</param>
         /// <returns>the CSS data with parsed CSS objects (never null)</returns>
-        public static CssStyleSheet ParseStyleSheet(string stylesheet, bool combineWithDefault)
+        public static CssSheet ParseStyleSheet(string stylesheet, bool combineWithDefault)
         {
-            var cssData = combineWithDefault ? CssUtils.DefaultCssData.Clone() : new CssStyleSheet();
+            var cssData = combineWithDefault ? CssUtils.DefaultCssData.Clone() : new CssSheet();
             if (!string.IsNullOrEmpty(stylesheet))
             {
                 ParseStyleSheet(cssData, stylesheet);
@@ -62,7 +64,7 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="cssData">the CSS data to fill with parsed CSS objects</param>
         /// <param name="stylesheet">raw css stylesheet to parse</param>
-        public static void ParseStyleSheet(CssStyleSheet cssData, string stylesheet)
+        public static void ParseStyleSheet(CssSheet cssData, string stylesheet)
         {
             if (!String.IsNullOrEmpty(stylesheet))
             {
@@ -112,7 +114,7 @@ namespace HtmlRenderer.Parse
             while (startIdx > -1 && startIdx < stylesheet.Length)
             {
                 startIdx = stylesheet.IndexOf("/*", startIdx);
-                if(startIdx > -1)
+                if (startIdx > -1)
                 {
                     if (sb == null)
                         sb = new StringBuilder(stylesheet.Length);
@@ -124,12 +126,12 @@ namespace HtmlRenderer.Parse
 
                     prevIdx = startIdx = endIdx + 2;
                 }
-                else if(sb != null)
+                else if (sb != null)
                 {
                     sb.Append(stylesheet.Substring(prevIdx));
                 }
             }
-            
+
             return sb != null ? sb.ToString() : stylesheet;
         }
 
@@ -139,7 +141,7 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="cssData">the CSS data to fill with parsed CSS objects</param>
         /// <param name="stylesheet">the stylesheet to parse</param>
-        private static void ParseStyleBlocks(CssStyleSheet cssData, string stylesheet)
+        private static void ParseStyleBlocks(CssSheet cssData, string stylesheet)
         {
             var startIdx = 0;
             int endIdx = 0;
@@ -186,14 +188,14 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="cssData">the CSS data to fill with parsed CSS objects</param>
         /// <param name="stylesheet">the stylesheet to parse</param>
-        private static void ParseMediaStyleBlocks(CssStyleSheet cssData, string stylesheet)
+        private static void ParseMediaStyleBlocks(CssSheet cssData, string stylesheet)
         {
             int startIdx = 0;
             string atrule;
             while ((atrule = RegexParserUtils.GetCssAtRules(stylesheet, ref startIdx)) != null)
             {
                 //Just processs @media rules
-                if (!atrule.StartsWith("@media",StringComparison.InvariantCultureIgnoreCase)) continue;
+                if (!atrule.StartsWith("@media", StringComparison.InvariantCultureIgnoreCase)) continue;
 
                 //Extract specified media types
                 MatchCollection types = RegexParserUtils.Match(RegexParserUtils.CssMediaTypes, atrule);
@@ -234,7 +236,7 @@ namespace HtmlRenderer.Parse
         /// <param name="cssData"> </param>
         /// <param name="block">the CSS block to handle</param>
         /// <param name="media">optional: the media (default - all)</param>
-        private static void FeedStyleBlock(CssStyleSheet cssData, string block, string media = "all")
+        private static void FeedStyleBlock(CssSheet cssData, string block, string media = "all")
         {
             int startIdx = block.IndexOf("{", StringComparison.Ordinal);
             int endIdx = startIdx > -1 ? block.IndexOf("}", startIdx) : -1;
@@ -278,6 +280,7 @@ namespace HtmlRenderer.Parse
             if (!string.IsNullOrEmpty(className) && (psedoClass == null || psedoClass == "link" || psedoClass == "hover"))
             {
                 string firstClass;
+
                 var selectors = ParseCssBlockSelector(className, out firstClass);
 
                 var properties = ParseCssBlockProperties(blockSource);
@@ -348,9 +351,9 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="blockSource">the raw css block to parse</param>
         /// <returns>dictionary with parsed css block properties</returns>
-        private static Dictionary<string, string> ParseCssBlockProperties(string blockSource)
+        private static Dictionary<string, CssProperty> ParseCssBlockProperties(string blockSource)
         {
-            var properties = new Dictionary<string, string>();
+            var properties = new Dictionary<string, CssProperty>();
             int startIdx = 0;
             while (startIdx < blockSource.Length)
             {
@@ -369,7 +372,7 @@ namespace HtmlRenderer.Parse
                     if (adjEndIdx >= splitIdx)
                     {
                         string propValue = blockSource.Substring(splitIdx, adjEndIdx - splitIdx + 1).Trim();
-                        if(!propValue.StartsWith("url",StringComparison.InvariantCultureIgnoreCase))
+                        if (!propValue.StartsWith("url", StringComparison.InvariantCultureIgnoreCase))
                             propValue = propValue.ToLower();
                         AddProperty(propName, propValue, properties);
                     }
@@ -386,75 +389,87 @@ namespace HtmlRenderer.Parse
         /// <param name="propName">the name of the css property to add</param>
         /// <param name="propValue">the value of the css property to add</param>
         /// <param name="properties">the properties collection to add to</param>
-        private static void AddProperty(string propName, string propValue, Dictionary<string, string> properties)
+        private static void AddProperty(string propName, string propValue, Dictionary<string, CssProperty> properties)
         {
             // remove !important css crap
             propValue = propValue.Replace("!important", string.Empty).Trim();
 
-            if (propName == "width" || propName == "height" || propName == "lineheight")
+
+            switch (propName)
             {
-                ParseLengthProperty(propName, propValue, properties);
+                case "width":
+                case "height":
+                case "lineheight":
+                    {
+                        ParseLengthProperty(propName, propValue, properties);
+                    } break;
+                case "color":
+                case "backgroundcolor":
+                case "bordertopcolor":
+                case "borderbottomcolor":
+                case "borderleftcolor":
+                case "borderrightcolor":
+                    {
+                        ParseColorProperty(propName, propValue, properties);
+                    } break;
+                case "font":
+                    {
+                        ParseFontProperty(propValue, properties);
+                    } break;
+                case "border":
+                    {
+                        ParseBorderProperty(propValue, null, properties);
+                    } break;
+                case "border-left":
+                    {
+                        ParseBorderProperty(propValue, "-left", properties);
+                    } break;
+                case "border-right":
+                    {
+                        ParseBorderProperty(propValue, "-right", properties);
+                    } break;
+                case "border-top":
+                    {
+                        ParseBorderProperty(propValue, "-top", properties);
+                    } break;
+                case "border-bottom":
+                    {
+                        ParseBorderProperty(propValue, "-bottom", properties);
+                    } break;
+                case "margin":
+                    {                         
+                        ParseMarginProperty(propValue, properties);
+                    } break;
+                case "border-style":
+                    {
+                        ParseBorderStyleProperty(propValue, properties);
+                    } break;
+                case "border-width":
+                    {
+                        ParseBorderWidthProperty(propValue, properties);
+                    } break;
+                case "border-color":
+                    {
+                        ParseBorderColorProperty(propValue, properties);                         
+                    } break;
+                case "padding":
+                    {
+                        ParsePaddingProperty(propValue, properties);                         
+                    } break;
+                case "background-image":
+                    {
+                        properties["background-image"] = new CssProperty("background-image", ParseBackgroundImageProperty(propValue));
+                    } break;
+                case "font-family":
+                    {
+                        properties["font-family"] = new CssProperty("font-family", ParseFontFamilyProperty(propValue));
+                    } break;
+                default:
+                    {
+                        properties[propName] = new CssProperty(propName, propValue);
+                    } break;
             }
-            else if (propName == "color" || propName == "backgroundcolor" || propName == "bordertopcolor" || propName == "borderbottomcolor" || propName == "borderleftcolor" || propName == "borderrightcolor")
-            {
-                 ParseColorProperty(propName, propValue, properties);
-            }
-            else if (propName == "font")
-            {
-                ParseFontProperty(propValue, properties);
-            }
-            else if (propName == "border")
-            {
-                ParseBorderProperty(propValue, null, properties);
-            }
-            else if (propName == "border-left")
-            {
-                ParseBorderProperty(propValue, "-left", properties);
-            }
-            else if (propName == "border-top")
-            {
-                ParseBorderProperty(propValue, "-top", properties);
-            }
-            else if (propName == "border-right")
-            {
-                ParseBorderProperty(propValue, "-right", properties);
-            }
-            else if (propName == "border-bottom")
-            {
-                ParseBorderProperty(propValue, "-bottom", properties);
-            }
-            else if (propName == "margin")
-            {
-                ParseMarginProperty(propValue, properties);
-            }
-            else if (propName == "border-style")
-            {
-                ParseBorderStyleProperty(propValue, properties);
-            }
-            else if (propName == "border-width")
-            {
-                ParseBorderWidthProperty(propValue, properties);
-            }
-            else if (propName == "border-color")
-            {
-                ParseBorderColorProperty(propValue, properties);
-            }
-            else if (propName == "padding")
-            {
-                ParsePaddingProperty(propValue, properties);
-            }
-            else if (propName == "background-image")
-            {
-                properties["background-image"] = ParseBackgroundImageProperty(propValue);
-            }
-            else if (propName == "font-family")
-            {
-                properties["font-family"] = ParseFontFamilyProperty(propValue);
-            }
-            else
-            {
-                properties[propName] = propValue;
-            }
+
         }
 
         /// <summary>
@@ -463,12 +478,17 @@ namespace HtmlRenderer.Parse
         /// <param name="propName">the name of the css property to add</param>
         /// <param name="propValue">the value of the css property to add</param>
         /// <param name="properties">the properties collection to add to</param>
-        private static void ParseLengthProperty(string propName, string propValue, Dictionary<string, string> properties)
+        private static void ParseLengthProperty(string propName, string propValue, Dictionary<string, CssProperty> properties)
         {
-            if (CssValueParser.IsValidLength(propValue) || propValue.Equals(CssConstants.Auto,StringComparison.OrdinalIgnoreCase))
+
+            CssProperty property = new CssProperty(propName, propValue);
+            if (CssValueParser.IsValidLength(propValue) ||
+                propValue.Equals(CssConstants.Auto, StringComparison.OrdinalIgnoreCase))
             {
-                properties[propName] = propValue;
+                property.IsValidValue = true;
             }
+            properties.Add(propName, property);
+
         }
 
         /// <summary>
@@ -477,11 +497,11 @@ namespace HtmlRenderer.Parse
         /// <param name="propName">the name of the css property to add</param>
         /// <param name="propValue">the value of the css property to add</param>
         /// <param name="properties">the properties collection to add to</param>
-        private static void ParseColorProperty(string propName, string propValue, Dictionary<string, string> properties)
+        private static void ParseColorProperty(string propName, string propValue, Dictionary<string, CssProperty> properties)
         {
             if (CssValueParser.IsColorValid(propValue))
             {
-                properties[propName] = propValue;
+                properties[propName] = new CssProperty(propName, propValue);
             }
         }
 
@@ -490,7 +510,7 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="propValue">the value of the property to parse to specific values</param>
         /// <param name="properties">the properties collection to add the specific properties to</param>
-        private static void ParseFontProperty(string propValue, Dictionary<string, string> properties)
+        private static void ParseFontProperty(string propValue, Dictionary<string, CssProperty> properties)
         {
             int mustBePos;
             string mustBe = RegexParserUtils.Search(RegexParserUtils.CssFontSizeAndLineHeight, propValue, out mustBePos);
@@ -519,12 +539,15 @@ namespace HtmlRenderer.Parse
                     lineHeight = mustBe.Substring(slashPos + 1);
                 }
 
-                if (!string.IsNullOrEmpty(fontFamily)) properties["font-family"] = ParseFontFamilyProperty(fontFamily);
-                if (!string.IsNullOrEmpty(fontStyle)) properties["font-style"] = fontStyle;
-                if (!string.IsNullOrEmpty(fontVariant)) properties["font-variant"] = fontVariant;
-                if (!string.IsNullOrEmpty(fontWeight)) properties["font-weight"] = fontWeight;
-                if (!string.IsNullOrEmpty(fontSize)) properties["font-size"] = fontSize;
-                if (!string.IsNullOrEmpty(lineHeight)) properties["line-height"] = lineHeight;
+                SetPropertiesIfValueNotNull(properties,
+                new[] {  new []{"font-family",ParseFontFamilyProperty(fontFamily)},
+                         new []{"font-style",fontStyle},
+                         new []{"font-variant",fontVariant},
+                         new []{"font-weight",fontWeight},
+                         new []{"font-size",fontSize},
+                         new []{"line-height",lineHeight},
+                });
+
             }
             else
             {
@@ -541,11 +564,11 @@ namespace HtmlRenderer.Parse
         private static string ParseBackgroundImageProperty(string propValue)
         {
             int startIdx = propValue.IndexOf("url(", StringComparison.InvariantCultureIgnoreCase);
-            if(startIdx > -1)
+            if (startIdx > -1)
             {
                 startIdx += 4;
                 var endIdx = propValue.IndexOf(')', startIdx);
-                if(endIdx > -1)
+                if (endIdx > -1)
                 {
                     endIdx -= 1;
                     while (startIdx < endIdx && (char.IsWhiteSpace(propValue[startIdx]) || propValue[startIdx] == '\''))
@@ -569,12 +592,12 @@ namespace HtmlRenderer.Parse
         private static string ParseFontFamilyProperty(string propValue)
         {
             int start = 0;
-            while(start > -1 && start < propValue.Length)
+            while (start > -1 && start < propValue.Length)
             {
                 while (char.IsWhiteSpace(propValue[start]) || propValue[start] == ',' || propValue[start] == '\'' || propValue[start] == '"')
                     start++;
                 var end = propValue.IndexOf(',', start);
-                if(end < 0)
+                if (end < 0)
                     end = propValue.Length;
                 var adjEnd = end - 1;
                 while (char.IsWhiteSpace(propValue[adjEnd]) || propValue[adjEnd] == '\'' || propValue[adjEnd] == '"')
@@ -589,7 +612,7 @@ namespace HtmlRenderer.Parse
 
                 start = end;
             }
-            
+
             return CssConstants.Inherit;
         }
 
@@ -599,7 +622,7 @@ namespace HtmlRenderer.Parse
         /// <param name="propValue">the value of the property to parse to specific values</param>
         /// <param name="direction">the left, top, right or bottom direction of the border to parse</param>
         /// <param name="properties">the properties collection to add the specific properties to</param>
-        private static void ParseBorderProperty(string propValue, string direction, Dictionary<string, string> properties)
+        private static void ParseBorderProperty(string propValue, string direction, Dictionary<string, CssProperty> properties)
         {
             string borderWidth;
             string borderStyle;
@@ -608,9 +631,11 @@ namespace HtmlRenderer.Parse
 
             if (direction != null)
             {
-                if (borderWidth != null) properties["border" + direction + "-width"] = borderWidth;
-                if (borderStyle != null) properties["border" + direction + "-style"] = borderStyle;
-                if (borderColor != null) properties["border" + direction + "-color"] = borderColor;
+                SetPropertiesIfValueNotNull(properties,
+                new[] {  new []{"border" + direction + "-width",borderWidth},
+                         new []{"border" + direction + "-style",borderStyle},
+                         new []{"border" + direction + "-color",borderColor} 
+                });
             }
             else
             {
@@ -625,15 +650,16 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="propValue">the value of the property to parse to specific values</param>
         /// <param name="properties">the properties collection to add the specific properties to</param>
-        private static void ParseMarginProperty(string propValue, Dictionary<string, string> properties)
+        private static void ParseMarginProperty(string propValue, Dictionary<string, CssProperty> properties)
         {
             string bottom, top, left, right;
             SplitMultiDirectionValues(propValue, out left, out top, out right, out bottom);
-
-            if (left != null) properties["margin-left"] = left;
-            if (top != null) properties["margin-top"] = top;
-            if (right != null) properties["margin-right"] = right;
-            if (bottom != null) properties["margin-bottom"] = bottom;
+            SetPropertiesIfValueNotNull(properties,
+               new[] { new []{"margin-left",left},
+                         new []{"margin-top",top},
+                         new []{"margin-right",right},
+                         new []{"margin-bottom",bottom}
+                });
         }
 
         /// <summary>
@@ -641,15 +667,29 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="propValue">the value of the property to parse to specific values</param>
         /// <param name="properties">the properties collection to add the specific properties to</param>
-        private static void ParseBorderStyleProperty(string propValue, Dictionary<string, string> properties)
+        private static void ParseBorderStyleProperty(string propValue, Dictionary<string, CssProperty> properties)
         {
             string bottom, top, left, right;
             SplitMultiDirectionValues(propValue, out left, out top, out right, out bottom);
-
-            if (left != null) properties["border-left-style"] = left;
-            if (top != null) properties["border-top-style"] = top;
-            if (right != null) properties["border-right-style"] = right;
-            if (bottom != null) properties["border-bottom-style"] = bottom;
+            SetPropertiesIfValueNotNull(properties,
+                new[] { new []{"border-left-style",left},
+                         new []{"border-top-style",top},
+                         new []{"border-right-style",right},
+                         new []{"border-bottom-style",bottom}
+                });
+        }
+        static void SetPropertiesIfValueNotNull(Dictionary<string, CssProperty> properties, string[][] kps)// string propName, string value)
+        {
+            int j = kps.Length;
+            for (int i = 0; i < j; ++i)
+            {
+                string[] kp = kps[i];
+                if (!string.IsNullOrEmpty(kp[1]))
+                {
+                    properties.Add(kp[0], new CssProperty(kp[0], kp[1]));
+                    //properties[kp[0]] = new CssProperty(kp[0], kp[1]);
+                }
+            }
         }
 
         /// <summary>
@@ -657,15 +697,16 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="propValue">the value of the property to parse to specific values</param>
         /// <param name="properties">the properties collection to add the specific properties to</param>
-        private static void ParseBorderWidthProperty(string propValue, Dictionary<string, string> properties)
+        private static void ParseBorderWidthProperty(string propValue, Dictionary<string, CssProperty> properties)
         {
             string bottom, top, left, right;
             SplitMultiDirectionValues(propValue, out left, out top, out right, out bottom);
-
-            if (left != null) properties["border-left-width"] = left;
-            if (top != null) properties["border-top-width"] = top;
-            if (right != null) properties["border-right-width"] = right;
-            if (bottom != null) properties["border-bottom-width"] = bottom;
+            SetPropertiesIfValueNotNull(properties,
+               new[] { new []{"border-left-width",left},
+                       new []{"border-top-width",top},
+                       new []{"border-right-width",right},
+                       new []{"border-bottom-width",bottom}
+                });
         }
 
         /// <summary>
@@ -673,15 +714,16 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="propValue">the value of the property to parse to specific values</param>
         /// <param name="properties">the properties collection to add the specific properties to</param>
-        private static void ParseBorderColorProperty(string propValue, Dictionary<string, string> properties)
+        private static void ParseBorderColorProperty(string propValue, Dictionary<string, CssProperty> properties)
         {
             string bottom, top, left, right;
             SplitMultiDirectionValues(propValue, out left, out top, out right, out bottom);
-
-            if (left != null) properties["border-left-color"] = left;
-            if (top != null) properties["border-top-color"] = top;
-            if (right != null) properties["border-right-color"] = right;
-            if (bottom != null) properties["border-bottom-color"] = bottom;
+            SetPropertiesIfValueNotNull(properties,
+              new[] { new []{"border-left-color",left},
+                       new []{"border-top-color",top},
+                       new []{"border-right-color",right},
+                       new []{"border-bottom-color",bottom}
+                });
         }
 
         /// <summary>
@@ -689,15 +731,16 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="propValue">the value of the property to parse to specific values</param>
         /// <param name="properties">the properties collection to add the specific properties to</param>
-        private static void ParsePaddingProperty(string propValue, Dictionary<string, string> properties)
+        private static void ParsePaddingProperty(string propValue, Dictionary<string, CssProperty> properties)
         {
             string bottom, top, left, right;
             SplitMultiDirectionValues(propValue, out left, out top, out right, out bottom);
-
-            if (left != null) properties["padding-left"] = left;
-            if (top != null) properties["padding-top"] = top;
-            if (right != null) properties["padding-right"] = right;
-            if (bottom != null) properties["padding-bottom"] = bottom;
+            SetPropertiesIfValueNotNull(properties,
+            new[] { new []{"padding-left",left},
+                       new []{"padding-top",top},
+                       new []{"padding-right",right},
+                       new []{"padding-bottom",bottom}
+                });
         }
 
         /// <summary>

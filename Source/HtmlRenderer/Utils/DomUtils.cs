@@ -693,10 +693,10 @@ namespace HtmlRenderer.Utils
             var tagCssBlock = box.HtmlContainer.CssData.GetCssBlock(box.HtmlTag.Name);
             if (tagCssBlock != null)
             {
-                // atodo: handle selectors
+                // TODO: handle selectors
                 foreach (var cssBlock in tagCssBlock)
                     foreach (var prop in cssBlock.Properties)
-                        tagStyles[prop.Key] = prop.Value;
+                        tagStyles[prop.Key] = prop.Value.Value;
             }
 
             if (box.HtmlTag.HasAttributes())
@@ -728,7 +728,7 @@ namespace HtmlRenderer.Utils
                         // if inline style add the styles to the collection
                         var block = CssParser.ParseCssBlock(box.HtmlTag.Name, box.HtmlTag.TryGetAttribute("style"));
                         foreach (var prop in block.Properties)
-                            tagStyles[prop.Key] = prop.Value;
+                            tagStyles[prop.Key] = prop.Value.Value;
                     }
                     else if (styleGen == HtmlGenerationStyle.Inline && att.Name == HtmlConstants.Class)
                     {
@@ -736,10 +736,10 @@ namespace HtmlRenderer.Utils
                         var cssBlocks = box.HtmlContainer.CssData.GetCssBlock("." + att.Value);
                         if (cssBlocks != null)
                         {
-                            // atodo: handle selectors
+                            // TODO: handle selectors
                             foreach (var cssBlock in cssBlocks)
                                 foreach (var prop in cssBlock.Properties)
-                                    tagStyles[prop.Key] = prop.Value;
+                                    tagStyles[prop.Key] = prop.Value.Value;
                         }
                     }
                     else
@@ -773,22 +773,25 @@ namespace HtmlRenderer.Utils
         /// <param name="sb">the string builder to write stylesheet into</param>
         /// <param name="cssData">the css data to write to the head</param>
         /// <param name="indent">the indent to use for nice formating</param>
-        private static void WriteStylesheet(StringBuilder sb, CssStyleSheet cssData, int indent)
+        private static void WriteStylesheet(StringBuilder sb, CssSheet cssData, int indent)
         {
             sb.Append(new string(' ', indent * 4));
             sb.AppendLine("<style type=\"text/css\">");
-            foreach (var cssBlocks in cssData.MediaBlocks["all"])
+            foreach (CssCodeBlock block in cssData.DefaultMediaBlock.GetCodeBlockIter())
             {
+
                 sb.Append(new string(' ', (indent + 1) * 4));
-                sb.Append(cssBlocks.Key);
+                sb.Append(block.CssClassName);
                 sb.Append(" { ");
-                foreach (var cssBlock in cssBlocks.Value)
+                foreach (var cssProperty in block.Properties.Values)
                 {
-                    foreach (var property in cssBlock.Properties)
-                    {
-                        // atodo: handle selectors
-                        sb.AppendFormat("{0}: {1};", property.Key, property.Value);
-                    }
+                    sb.AppendFormat("{0}: {1};", cssProperty.Name, cssProperty.Value);
+                    //sb.AppendFormat("{0}: {1};",, property.Value);
+                    //foreach (var property in cssBlock.Properties)
+                    //{
+                    //    // TODO: handle selectors
+                    //    sb.AppendFormat("{0}: {1};", property.Key, property.Value);
+                    //}
                 }
                 sb.Append(" }");
                 sb.AppendLine();

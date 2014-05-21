@@ -15,6 +15,42 @@ using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Entities
 {
+
+    public class CssProperty
+    {
+
+      
+        public CssProperty(string propertyName, string value)
+        {
+            this.Name = propertyName;
+            this.Value = value;
+        }
+        public string Name
+        {
+            get;
+            private set;
+        }
+        public string Value
+        {
+            get;
+            private set;
+        }
+
+        public bool MarkedAsInheritValue
+        {
+            get
+            {
+                return this.Value == CssConstants.Inherit;
+            }
+        }
+        public bool IsValidValue
+        {
+            get;
+            set;
+        }
+            
+    }
+
     /// <summary>
     /// Represents a block of CSS property values.<br/>
     /// Contains collection of key-value pairs that are CSS properties for specific css class.<br/>
@@ -39,18 +75,11 @@ namespace HtmlRenderer.Entities
         /// <summary>
         /// the CSS block properties and values
         /// </summary>
-        private readonly Dictionary<string, string> _properties;
-
-  
-
+        private readonly Dictionary<string, CssProperty> _properties;
         /// <summary>
         /// is the css block has :hover pseudo-class
         /// </summary>
         private readonly bool _hover;
-
-
-
-
         /// <summary>
         /// Creates a new block from the block's source
         /// </summary>
@@ -58,7 +87,7 @@ namespace HtmlRenderer.Entities
         /// <param name="properties">the CSS block properties and values</param>
         /// <param name="selectors">optional: additional selectors to used in hierarchy</param>
         /// <param name="hover">optional: is the css block has :hover pseudo-class</param>
-        public CssCodeBlock(string cssClassName, Dictionary<string, string> properties, List<CssCodeBlockSelector> selectors = null, bool hover = false)
+        public CssCodeBlock(string cssClassName, Dictionary<string, CssProperty> properties, List<CssCodeBlockSelector> selectors = null, bool hover = false)
         {
             ArgChecker.AssertArgNotNullOrEmpty(cssClassName, "cssClassName");
             ArgChecker.AssertArgNotNull(properties, "properties");
@@ -88,11 +117,28 @@ namespace HtmlRenderer.Entities
         /// <summary>
         /// Gets the CSS block properties and its values
         /// </summary>
-        public IDictionary<string, string> Properties
+        public IDictionary<string, CssProperty> Properties
         {
             get { return _properties; }
         }
-
+        public CssProperty GetProperty(string propName)
+        {
+            CssProperty property;
+            _properties.TryGetValue(propName, out property);
+            return property;
+        }
+        public string GetPropertyValueAsString(string propName)
+        {
+            CssProperty property;
+            if (_properties.TryGetValue(propName, out property))
+            {
+                return property.Value;
+            }
+            else
+            {
+                return "";
+            }
+        }
         /// <summary>
         /// is the css block has :hover pseudo-class
         /// </summary>
@@ -122,7 +168,7 @@ namespace HtmlRenderer.Entities
         /// <returns>new CssBlock with same data</returns>
         public CssCodeBlock Clone()
         {
-            return new CssCodeBlock(_className, new Dictionary<string, string>(_properties), _selectors != null ? new List<CssCodeBlockSelector>(_selectors) : null);
+            return new CssCodeBlock(_className, new Dictionary<string, CssProperty>(_properties), _selectors != null ? new List<CssCodeBlockSelector>(_selectors) : null);
         }
 
         /// <summary>
