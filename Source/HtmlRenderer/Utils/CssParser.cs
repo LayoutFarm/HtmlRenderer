@@ -437,7 +437,7 @@ namespace HtmlRenderer.Parse
                         ParseBorderProperty(propValue, "-bottom", properties);
                     } break;
                 case "margin":
-                    {                         
+                    {
                         ParseMarginProperty(propValue, properties);
                     } break;
                 case "border-style":
@@ -450,11 +450,11 @@ namespace HtmlRenderer.Parse
                     } break;
                 case "border-color":
                     {
-                        ParseBorderColorProperty(propValue, properties);                         
+                        ParseBorderColorProperty(propValue, properties);
                     } break;
                 case "padding":
                     {
-                        ParsePaddingProperty(propValue, properties);                         
+                        ParsePaddingProperty(propValue, properties);
                     } break;
                 case "background-image":
                     {
@@ -539,14 +539,13 @@ namespace HtmlRenderer.Parse
                     lineHeight = mustBe.Substring(slashPos + 1);
                 }
 
-                SetPropertiesIfValueNotNull(properties,
-                new[] {  new []{"font-family",ParseFontFamilyProperty(fontFamily)},
-                         new []{"font-style",fontStyle},
-                         new []{"font-variant",fontVariant},
-                         new []{"font-weight",fontWeight},
-                         new []{"font-size",fontSize},
-                         new []{"line-height",lineHeight},
-                });
+                SetPropIfValueNotNull(properties, "font-family", ParseFontFamilyProperty(fontFamily));
+                SetPropIfValueNotNull(properties, "font-style", fontStyle);
+                SetPropIfValueNotNull(properties, "font-variant", fontVariant);
+                SetPropIfValueNotNull(properties, "font-weight", fontWeight);
+                SetPropIfValueNotNull(properties, "font-size", fontSize);
+                SetPropIfValueNotNull(properties, "line-height", lineHeight);
+
 
             }
             else
@@ -631,11 +630,10 @@ namespace HtmlRenderer.Parse
 
             if (direction != null)
             {
-                SetPropertiesIfValueNotNull(properties,
-                new[] {  new []{"border" + direction + "-width",borderWidth},
-                         new []{"border" + direction + "-style",borderStyle},
-                         new []{"border" + direction + "-color",borderColor} 
-                });
+
+                SetPropIfValueNotNull(properties, "border" + direction + "-width", borderWidth);
+                SetPropIfValueNotNull(properties, "border" + direction + "-style", borderStyle);
+                SetPropIfValueNotNull(properties, "border" + direction + "-color", borderColor);
             }
             else
             {
@@ -654,12 +652,12 @@ namespace HtmlRenderer.Parse
         {
             string bottom, top, left, right;
             SplitMultiDirectionValues(propValue, out left, out top, out right, out bottom);
-            SetPropertiesIfValueNotNull(properties,
-               new[] { new []{"margin-left",left},
-                         new []{"margin-top",top},
-                         new []{"margin-right",right},
-                         new []{"margin-bottom",bottom}
-                });
+
+            SetPropIfValueNotNull(properties, "margin-left", left);
+            SetPropIfValueNotNull(properties, "margin-top", top);
+            SetPropIfValueNotNull(properties, "margin-right", right);
+            SetPropIfValueNotNull(properties, "margin-bottom", bottom);
+
         }
 
         /// <summary>
@@ -671,26 +669,16 @@ namespace HtmlRenderer.Parse
         {
             string bottom, top, left, right;
             SplitMultiDirectionValues(propValue, out left, out top, out right, out bottom);
-            SetPropertiesIfValueNotNull(properties,
-                new[] { new []{"border-left-style",left},
-                         new []{"border-top-style",top},
-                         new []{"border-right-style",right},
-                         new []{"border-bottom-style",bottom}
-                });
+            SetPropIfValueNotNull(properties, "border-left-style", left);
+            SetPropIfValueNotNull(properties, "border-top-style", top);
+            SetPropIfValueNotNull(properties, "border-right-style", right);
+            SetPropIfValueNotNull(properties, "border-bottom-style", bottom);
         }
-        static void SetPropertiesIfValueNotNull(Dictionary<string, CssProperty> properties, string[][] kps)// string propName, string value)
+        static void SetPropIfValueNotNull(Dictionary<string, CssProperty> properties, string propName, string propValue)// string propName, string value)
         {
-            int j = kps.Length;
-            for (int i = 0; i < j; ++i)
-            {
-                string[] kp = kps[i];
-                if (!string.IsNullOrEmpty(kp[1]))
-                {
-                    properties.Add(kp[0], new CssProperty(kp[0], kp[1]));
-                    //properties[kp[0]] = new CssProperty(kp[0], kp[1]);
-                }
-            }
+            if (propValue != null) properties[propName] = new CssProperty(propName, propValue);
         }
+
 
         /// <summary>
         /// Parse a complex border width property value that contains multiple css properties into specific css properties.
@@ -701,12 +689,11 @@ namespace HtmlRenderer.Parse
         {
             string bottom, top, left, right;
             SplitMultiDirectionValues(propValue, out left, out top, out right, out bottom);
-            SetPropertiesIfValueNotNull(properties,
-               new[] { new []{"border-left-width",left},
-                       new []{"border-top-width",top},
-                       new []{"border-right-width",right},
-                       new []{"border-bottom-width",bottom}
-                });
+
+            SetPropIfValueNotNull(properties, "border-left-width", left);
+            SetPropIfValueNotNull(properties, "border-top-width", top);
+            SetPropIfValueNotNull(properties, "border-right-width", right);
+            SetPropIfValueNotNull(properties, "border-bottom-width", bottom);
         }
 
         /// <summary>
@@ -718,12 +705,11 @@ namespace HtmlRenderer.Parse
         {
             string bottom, top, left, right;
             SplitMultiDirectionValues(propValue, out left, out top, out right, out bottom);
-            SetPropertiesIfValueNotNull(properties,
-              new[] { new []{"border-left-color",left},
-                       new []{"border-top-color",top},
-                       new []{"border-right-color",right},
-                       new []{"border-bottom-color",bottom}
-                });
+            SetPropIfValueNotNull(properties, "border-left-color", left);
+            SetPropIfValueNotNull(properties, "border-top-color", top);
+            SetPropIfValueNotNull(properties, "border-right-color", right);
+            SetPropIfValueNotNull(properties, "border-bottom-color", bottom);
+
         }
 
         /// <summary>
@@ -735,12 +721,11 @@ namespace HtmlRenderer.Parse
         {
             string bottom, top, left, right;
             SplitMultiDirectionValues(propValue, out left, out top, out right, out bottom);
-            SetPropertiesIfValueNotNull(properties,
-            new[] { new []{"padding-left",left},
-                       new []{"padding-top",top},
-                       new []{"padding-right",right},
-                       new []{"padding-bottom",bottom}
-                });
+
+            SetPropIfValueNotNull(properties, "padding-left", left);
+            SetPropIfValueNotNull(properties, "padding-top", top);
+            SetPropIfValueNotNull(properties, "padding-right", right);
+            SetPropIfValueNotNull(properties, "padding-bottom", bottom);
         }
 
         /// <summary>
@@ -810,3 +795,4 @@ namespace HtmlRenderer.Parse
         #endregion
     }
 }
+
