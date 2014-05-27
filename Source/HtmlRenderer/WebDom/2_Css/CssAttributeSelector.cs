@@ -4,85 +4,70 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
- 
+
 namespace HtmlRenderer.WebDom
 {
 
     /// <summary>
     /// css attr selector
     /// </summary>
-    public class CssAttributeSelectorExpression : CssSelectorExpressionBase
+    public class CssAttributeSelectorExpression
     {
-
-        public CssSelectorExpressionBase targetExpression;
-        public CssAttributeNameExpression attributeExpression;
+        public string AttributeName; 
         public CssAttributeSelectorOperator operatorName;
-        public CssInstructionValue valueExpression;
-
-        public override string SelectorSignature
+        public CssCodePropertyValue valueExpression;
+        
+        public string SelectorSignature
         {
             get
             {
-                
-                StringBuilder stBuilder = new StringBuilder(); 
-                if (targetExpression != null)
-                {
-                    stBuilder.Append(targetExpression.SelectorSignature);
-                }
 
-                stBuilder.Append('[');
-                stBuilder.Append(attributeExpression.ToString());
-                
+                StringBuilder sb = new StringBuilder(); 
+                sb.Append('[');
+                sb.Append(AttributeName); 
                 switch (operatorName)
                 {
                     case CssAttributeSelectorOperator.Equalily:
                         {
-                            stBuilder.Append('=');
+                            sb.Append('=');
                         } break;
                     case CssAttributeSelectorOperator.Existance:
                         {
-                            
+
                         } break;
                     case CssAttributeSelectorOperator.Hyphen:
                         {
-                            stBuilder.Append("|=");
+                            sb.Append("|=");
                         } break;
                     case CssAttributeSelectorOperator.Prefix:
                         {
-                            stBuilder.Append("^=");
+                            sb.Append("^=");
                         } break;
                     case CssAttributeSelectorOperator.WhiteSpace:
                         {
-                            stBuilder.Append("~=");
+                            sb.Append("~=");
                         } break;
                     case CssAttributeSelectorOperator.Substring:
                         {
-                            stBuilder.Append("*=");
+                            sb.Append("*=");
                         } break;
                     case CssAttributeSelectorOperator.Suffix:
                         {
-                            stBuilder.Append("$=");
+                            sb.Append("$=");
                         } break;
-                   
+
                 }
                 if (valueExpression != null)
                 {
-                    stBuilder.Append(valueExpression.ToString());
+                    sb.Append(valueExpression.ToString());
                 }
-                stBuilder.Append(']');
-                return stBuilder.ToString();
+                sb.Append(']');
+                return sb.ToString();
 
             }
         }
     }
-    public class CssAttributeNameExpression : CssExpression
-    {
-        public string AttributeName;
-        public override string ToString()
-        {
-            return AttributeName;
-        }
-    } 
+
     public enum CssAttributeSelectorOperator
     {
         Equalily,

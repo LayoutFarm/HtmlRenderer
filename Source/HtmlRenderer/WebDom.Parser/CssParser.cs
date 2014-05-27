@@ -1,0 +1,1527 @@
+﻿//BSD  2014 ,WinterCore
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
+
+namespace HtmlRenderer.WebDom.Parser
+{
+    public class CssParser
+    {
+        CssLexer lexer;
+        char[] textBuffer;
+        CssParseState parseState;
+        CssDocument cssDocument;
+
+        Stack<CssAtMedia> _mediaStack = new Stack<CssAtMedia>();
+        CssAtMedia _currentAtMedia;
+        CssRuleSet _currentRuleSet;
+        CssAttributeSelectorExpression _currentSelectorAttr;
+        CssSimpleElementSelector _currentSelectorExpr;
+        CssPropertyDeclaration _currentProperty;
+        CssCodePropertyValue _latestPropertyValue;
+
+        public CssParser()
+        {
+            lexer = new CssLexer(LexerEmitHandler);
+        }
+        void LexerEmitHandler(CssTokenName tkname, int start, int len)
+        {
+
+            switch (parseState)
+            {
+                default:
+                    {
+                        throw new NotSupportedException();
+                    } break;
+                case CssParseState.Init:
+                    {
+
+                        switch (tkname)
+                        {
+
+                            case CssTokenName.Comment:
+                                {
+                                    //comment token  
+                                } break;
+                            case CssTokenName.RBrace:
+                                {
+                                    //exit from current ruleset block
+
+                                } break;
+                            case CssTokenName.Star:
+                                {
+
+                                    //start new code block 
+                                    CssRuleSet newblock;
+                                    this._currentAtMedia.AddRuleSet(this._currentRuleSet = newblock = new CssRuleSet());
+                                    newblock.AddSelector(this._currentSelectorExpr = new CssSimpleElementSelector(SimpleElementSelectorKind.All));
+
+                                    parseState = CssParseState.MoreBlockName;
+                                } break;
+                            case CssTokenName.At:
+                                {
+                                    //at rule                                    
+                                    parseState = CssParseState.ExpectAtRuleName;
+                                } break;
+                            //--------------------------------------------------
+                            //1.
+                            case CssTokenName.Colon:
+                                {
+                                    CssRuleSet newblock;
+                                    _currentAtMedia.AddRuleSet(this._currentRuleSet = newblock = new CssRuleSet());
+                                    newblock.AddSelector(this._currentSelectorExpr = new CssSimpleElementSelector(SimpleElementSelectorKind.PseudoClass));
+
+                                    parseState = CssParseState.ExpectIdenAfterSpecialBlockNameSymbol;
+                                } break;
+                            //2.
+                            case CssTokenName.Dot:
+                                {
+                                    CssRuleSet newblock;
+                                    _currentAtMedia.AddRuleSet(this._currentRuleSet = newblock = new CssRuleSet());
+                                    newblock.AddSelector(this._currentSelectorExpr = new CssSimpleElementSelector(SimpleElementSelectorKind.ClassName));
+
+                                    parseState = CssParseState.ExpectIdenAfterSpecialBlockNameSymbol;
+                                } break;
+                            //3. 
+                            case CssTokenName.DoubleColon:
+                                {
+
+                                    CssRuleSet newblock;
+                                    _currentAtMedia.AddRuleSet(this._currentRuleSet = newblock = new CssRuleSet());
+                                    newblock.AddSelector(this._currentSelectorExpr = new CssSimpleElementSelector(SimpleElementSelectorKind.Extend));
+
+                                    parseState = CssParseState.ExpectIdenAfterSpecialBlockNameSymbol;
+                                } break;
+                            //4.
+                            case CssTokenName.Iden:
+                                {
+                                    //block name
+                                    CssRuleSet newblock;
+                                    _currentAtMedia.AddRuleSet(this._currentRuleSet = newblock = new CssRuleSet());
+                                    newblock.AddSelector(this._currentSelectorExpr = new CssSimpleElementSelector());
+                                    this._currentSelectorExpr.Name = new string(this.textBuffer, start, len);
+                                    parseState = CssParseState.MoreBlockName;
+                                } break;
+                            //5. 
+                            case CssTokenName.Sharp:
+                                {
+                                    CssRuleSet newblock;
+                                    _currentAtMedia.AddRuleSet(this._currentRuleSet = newblock = new CssRuleSet());
+                                    newblock.AddSelector(this._currentSelectorExpr = new CssSimpleElementSelector(SimpleElementSelectorKind.Id));
+
+                                    parseState = CssParseState.ExpectIdenAfterSpecialBlockNameSymbol;
+                                } break;
+                        }
+                    } break;
+                case CssParseState.MoreBlockName:
+                    {
+                        //more 
+                        switch (tkname)
+                        {
+
+                            case CssTokenName.LBrace:
+                                {
+                                    //block body
+                                    parseState = CssParseState.BlockBody;
+                                } break;
+                            case CssTokenName.LBracket:
+                                {
+                                    //element attr
+                                    parseState = CssParseState.ExpectBlockAttrIden;
+                                } break;
+                            //1. 
+                            case CssTokenName.Colon:
+                                {
+                                    //wait iden after colon
+                                    var cssSelector = new CssSimpleElementSelector();
+                                    cssSelector.selectorType = SimpleElementSelectorKind.PseudoClass;
+                                    _currentRuleSet.AddSelector(cssSelector);
+
+                                    this._currentSelectorExpr = cssSelector;
+                                    parseState = CssParseState.ExpectIdenAfterSpecialBlockNameSymbol;
+                                } break;
+                            //2. 
+                            case CssTokenName.Dot:
+                                {
+                                    var cssSelector = new CssSimpleElementSelector();
+                                    cssSelector.selectorType = SimpleElementSelectorKind.ClassName;
+                                    _currentRuleSet.AddSelector(cssSelector);
+                                    this._currentSelectorExpr = cssSelector;
+                                    parseState = CssParseState.ExpectIdenAfterSpecialBlockNameSymbol;
+                                } break;
+                            //3. 
+                            case CssTokenName.DoubleColon:
+                                {
+                                    var cssSelector = new CssSimpleElementSelector();
+                                    cssSelector.selectorType = SimpleElementSelectorKind.Extend;
+                                    _currentRuleSet.AddSelector(cssSelector);
+
+                                    this._currentSelectorExpr = cssSelector;
+                                    parseState = CssParseState.ExpectIdenAfterSpecialBlockNameSymbol;
+
+                                } break;
+                            //4. 
+                            case CssTokenName.Iden:
+                                {
+
+                                    //add more block name                                     
+                                    var cssSelector = new CssSimpleElementSelector();
+                                    cssSelector.selectorType = SimpleElementSelectorKind.TagName;
+                                    cssSelector.Name = new string(this.textBuffer, start, len);
+                                    _currentRuleSet.AddSelector(cssSelector);
+
+                                    this._currentSelectorExpr = cssSelector;
+                                } break;
+                            //5. 
+                            case CssTokenName.Sharp:
+                                {
+                                    //id
+                                    var cssSelector = new CssSimpleElementSelector();
+                                    cssSelector.selectorType = SimpleElementSelectorKind.Id;
+                                    _currentRuleSet.AddSelector(cssSelector);
+
+                                    this._currentSelectorExpr = cssSelector;
+                                    parseState = CssParseState.ExpectIdenAfterSpecialBlockNameSymbol;
+
+                                } break;
+                            //----------------------------------------------------
+                            //element combinator operators
+                            case CssTokenName.Comma:
+                                {
+                                    this._currentRuleSet.PrepareExpression(CssCombinatorOperator.List);
+                                } break;
+                            case CssTokenName.RAngle:
+                                {
+
+                                } break;
+                            case CssTokenName.Plus:
+                                {
+
+                                } break;
+                            case CssTokenName.Tile:
+                                {
+
+                                } break;
+                            //----------------------------------------------------
+                            default:
+                                {
+                                    throw new NotSupportedException();
+
+                                } break;
+                        }
+                    } break;
+                case CssParseState.ExpectIdenAfterSpecialBlockNameSymbol:
+                    {
+
+                        switch (tkname)
+                        {
+                            case CssTokenName.Iden:
+                                {
+                                    this._currentSelectorExpr.Name = new string(this.textBuffer, start, len);
+
+                                    parseState = CssParseState.MoreBlockName;
+                                } break;
+                            default:
+                                {
+                                    throw new NotSupportedException();
+                                }
+                        }
+                    } break;
+                case CssParseState.ExpectBlockAttrIden:
+                    {
+                        switch (tkname)
+                        {
+                            case CssTokenName.Iden:
+                                {
+                                    //attribute  
+                                    parseState = CssParseState.AfterAttrName;
+                                    this._currentSelectorExpr.AddAttribute(this._currentSelectorAttr = new CssAttributeSelectorExpression());
+                                    this._currentSelectorAttr.AttributeName = new string(this.textBuffer, start, len);
+                                } break;
+                            default:
+                                {
+                                    throw new NotSupportedException();
+                                } break;
+                        }
+                    } break;
+                case CssParseState.AfterAttrName:
+                    {
+                        switch (tkname)
+                        {
+                            case CssTokenName.OpEq:
+                                {
+                                    parseState = CssParseState.ExpectedBlockAttrValue;
+                                    //expected  attr value
+                                } break;
+                            case CssTokenName.RBracket:
+                                {
+                                    //no attr value
+                                    parseState = CssParseState.MoreBlockName;
+
+                                } break;
+                            default:
+                                {
+                                    throw new NotSupportedException();
+                                } break;
+                        }
+                    } break;
+                case CssParseState.ExpectedBlockAttrValue:
+                    {
+                        switch (tkname)
+                        {
+                            case CssTokenName.LiteralString:
+                                {
+                                    this._currentSelectorAttr.valueExpression = this._latestPropertyValue =
+                                        new CssCodePropertyValue(new string(this.textBuffer, start, len), CssValueHint.LiteralString);
+
+                                    this._currentSelectorAttr = null;
+                                } break;
+                            default:
+                                {
+
+                                } break;
+                        }
+                        parseState = CssParseState.AfterBlockNameAttr;
+
+                    } break;
+                case CssParseState.AfterBlockNameAttr:
+                    {
+                        switch (tkname)
+                        {
+                            default:
+                                {
+
+                                } break;
+                            case CssTokenName.RBracket:
+                                {
+                                    parseState = CssParseState.MoreBlockName;
+                                    this._currentSelectorAttr = null;
+                                } break;
+                        }
+                    } break;
+                case CssParseState.BlockBody:
+                    {
+                        switch (tkname)
+                        {
+                            case CssTokenName.Iden:
+                                {
+                                    //block name
+
+                                    //create css property 
+                                    _currentRuleSet.AddCssCodeProperty(this._currentProperty =
+                                        new CssPropertyDeclaration(new string(this.textBuffer, start, len)));
+                                    this._latestPropertyValue = null;
+
+                                    parseState = CssParseState.AfterPropertyName;
+
+                                } break;
+                            case CssTokenName.RBrace:
+                                {
+                                    //close current block
+                                    this._currentProperty = null;
+                                    this._currentSelectorAttr = null;
+                                    this._currentSelectorExpr = null;
+
+                                    parseState = CssParseState.Init;
+                                } break;
+                            default:
+                                {
+                                    throw new NotSupportedException();
+                                } break;
+                        }
+
+                    } break;
+                case CssParseState.AfterPropertyName:
+                    {
+                        if (tkname == CssTokenName.Colon)
+                        {
+                            parseState = CssParseState.ExpectPropertyValue;
+                        }
+                        else
+                        {
+                            throw new NotSupportedException();
+                        }
+                    } break;
+                case CssParseState.ExpectPropertyValue:
+                    {
+                        switch (tkname)
+                        {
+                            default:
+                                {
+                                    throw new NotSupportedException();
+                                }
+                            case CssTokenName.Sharp:
+                                {
+                                    //follow by hex color value
+                                    parseState = CssParseState.ExpectValueOfHexColor;
+                                } break;
+                            case CssTokenName.LiteralString:
+                                {
+
+                                    this._currentProperty.AddValue(this._latestPropertyValue =
+                                         new CssCodePropertyValue(new string(this.textBuffer, start, len), CssValueHint.LiteralString));
+
+                                    parseState = CssParseState.AfterPropertyValue;
+
+                                } break;
+                            case CssTokenName.Number:
+                                {
+                                    this._currentProperty.AddValue(this._latestPropertyValue =
+                                          new CssCodePropertyValue(new string(this.textBuffer, start, len), CssValueHint.Number));
+
+                                    parseState = CssParseState.AfterPropertyValue;
+
+                                } break;
+                            case CssTokenName.NumberUnit:
+                                {
+
+                                } break;
+                            case CssTokenName.Iden:
+                                {
+                                    //property value
+                                    this._currentProperty.AddValue(this._latestPropertyValue =
+                                        new CssCodePropertyValue(new string(this.textBuffer, start, len), CssValueHint.Iden));
+
+                                    parseState = CssParseState.AfterPropertyValue;
+
+                                } break;
+                        }
+                    } break;
+                case CssParseState.ExpectValueOfHexColor:
+                    {
+                        switch (tkname)
+                        {
+                            case CssTokenName.Iden:
+                                {
+                                    this._currentProperty.AddValue(this._latestPropertyValue =
+                                       new CssCodePropertyValue("#" + new string(this.textBuffer, start, len), CssValueHint.HexColor));
+
+                                } break;
+                            case CssTokenName.Number:
+                                {
+                                    this._currentProperty.AddValue(this._latestPropertyValue =
+                                         new CssCodePropertyValue("#" + new string(this.textBuffer, start, len), CssValueHint.HexColor));
+
+                                } break;
+                            default:
+                                {
+                                    throw new NotSupportedException();
+                                }
+                        }
+                        parseState = CssParseState.AfterPropertyValue;
+                    } break;
+                case CssParseState.AfterPropertyValue:
+                    {
+                        switch (tkname)
+                        {
+                            default:
+                                {
+                                    throw new NotSupportedException();
+                                } break;
+                            case CssTokenName.RBrace:
+                                {
+                                    //close block
+                                    parseState = CssParseState.Init;
+                                } break;
+                            case CssTokenName.SemiColon:
+                                {
+                                    //start new proeprty
+                                    parseState = CssParseState.BlockBody;
+                                    this._currentProperty = null;
+                                } break;
+                            case CssTokenName.Iden:
+                                {
+                                    //another property value                                     
+                                    this._currentProperty.AddValue(this._latestPropertyValue =
+                                        new CssCodePropertyValue(new string(this.textBuffer, start, len), CssValueHint.Iden));
+                                } break;
+                            case CssTokenName.Number:
+                                {
+                                    //another property value
+                                    this._currentProperty.AddValue(this._latestPropertyValue =
+                                        new CssCodePropertyValue(new string(this.textBuffer, start, len), CssValueHint.Number));
+                                } break;
+                            case CssTokenName.NumberUnit:
+                                {
+                                    //number unit
+                                    this._latestPropertyValue.unit = new string(this.textBuffer, start, len);
+                                } break;
+                            case CssTokenName.Sharp:
+                                {
+                                    parseState = CssParseState.ExpectValueOfHexColor;
+                                } break;
+                        }
+                    } break;
+                case CssParseState.ExpectAtRuleName:
+                    {
+                        //iden
+                        switch (tkname)
+                        {
+                            default:
+                                {
+                                    throw new NotSupportedException();
+                                }
+                            case CssTokenName.Iden:
+                                {
+
+                                    string iden = new string(this.textBuffer, start, len);
+                                    //create new rule
+                                    _currentRuleSet = null;
+                                    _currentProperty = null;
+                                    _currentSelectorAttr = null;
+                                    _currentSelectorExpr = null;
+
+                                    switch (iden)
+                                    {
+                                        case "media":
+                                            {
+                                                parseState = CssParseState.MediaList;
+                                                //store previous media 
+                                                if (this._currentAtMedia != null)
+                                                {
+                                                    this._mediaStack.Push(this._currentAtMedia);
+                                                }
+
+                                                this.cssDocument.Add(this._currentAtMedia = new CssAtMedia());
+
+                                            } break;
+                                        case "import":
+                                            {
+                                                parseState = CssParseState.ExpectImportURL;
+                                            } break;
+                                        case "page":
+                                            {
+                                                throw new NotSupportedException();
+                                            } break;
+                                        default:
+                                            {
+                                                throw new NotSupportedException();
+                                            } break;
+                                    }
+                                } break;
+                        }
+                    } break;
+                case CssParseState.MediaList:
+                    {
+                        //medialist sep by comma
+                        switch (tkname)
+                        {
+                            default:
+                                {
+                                    throw new NotSupportedException();
+                                }
+                            case CssTokenName.Iden:
+                                {
+                                    //media name                                     
+                                    this._currentAtMedia.AddMedia(new string(this.textBuffer, start, len));
+                                } break;
+                            case CssTokenName.Comma:
+                                {
+                                    //wait for another media
+                                } break;
+                            case CssTokenName.LBrace:
+                                {
+                                    //begin rule set part
+                                    parseState = CssParseState.Init;
+                                } break;
+                        }
+
+                    } break;
+            }
+        }
+
+        public void ParseCssStyleSheet(char[] textBuffer)
+        {
+            this.textBuffer = textBuffer;
+            cssDocument = new CssDocument();
+            //all media (default)
+            _currentAtMedia = new CssAtMedia();
+            this.parseState = CssParseState.Init;
+            cssDocument.Add(_currentAtMedia);
+            lexer.Lex(textBuffer);
+
+            //-----------------------------
+            //expand some compound property             
+            foreach (CssDocMember mb in cssDocument.GetCssDocMemberIter())
+            {
+                switch (mb.MemberKind)
+                {
+                    case WebDom.CssDocMemberKind.RuleSet:
+                        ExpandSomeRuleSet((WebDom.CssRuleSet)mb);
+                        break;
+                    case WebDom.CssDocMemberKind.Media:
+                        ExpandSomeMedia((WebDom.CssAtMedia)mb);
+                        break;
+                    default:
+                    case WebDom.CssDocMemberKind.Page:
+                        throw new NotSupportedException();
+                }
+            }
+            //-----------------------------
+        }
+        public CssRuleSet ParseCssPropertyDeclarationList(char[] textBuffer)
+        {
+            this.textBuffer = textBuffer;
+            cssDocument = new CssDocument();
+            //all media (default)
+            _currentAtMedia = new CssAtMedia();
+            _currentRuleSet = new CssRuleSet();
+
+            cssDocument.Add(_currentAtMedia);
+            this.parseState = CssParseState.BlockBody;
+            lexer.Lex(textBuffer);
+
+            ExpandSomeRuleSet(this._currentRuleSet);
+
+            return this._currentRuleSet;
+        }
+
+        void ExpandFontProperty(CssPropertyDeclaration decl, List<CssPropertyDeclaration> newProps)
+        {
+
+            //may has more than one prop value
+            int valCount = decl.ValueCount;
+            for (int i = 0; i < valCount; ++i)
+            {
+                CssCodePropertyValue value = decl.GetPropertyValue(i);
+                //what this prop mean 
+                switch (value.Hint)
+                {
+                    case CssValueHint.Iden:
+                        {
+                            //font style
+                            //font vairant
+                            //font weight
+                            //font named size         
+                            //font family
+                            if (HtmlRenderer.Dom.CssBoxUserUtilExtension.IsFontStyle(value.Value))
+                            {
+                                newProps.Add(new CssPropertyDeclaration("font-style", value));
+                                continue;
+                            }
+
+                            if (HtmlRenderer.Dom.CssBoxUserUtilExtension.IsFontVariant(value.Value))
+                            {
+                                newProps.Add(new CssPropertyDeclaration("font-variant", value));
+                                continue;
+                            }
+                            //----------
+                            if (HtmlRenderer.Dom.CssBoxUserUtilExtension.IsFontWeight(value.Value))
+                            {
+                                newProps.Add(new CssPropertyDeclaration("font-weight", value));
+                                continue;
+                            }
+                            newProps.Add(new CssPropertyDeclaration("font-family", value));
+
+
+                        } break;
+                    case CssValueHint.Number:
+                        {
+                            //font size ?
+                            newProps.Add(new CssPropertyDeclaration("font-size", value));
+
+                        } break;
+                    case CssValueHint.NumberWithUnit:
+                        {
+                        } break;
+                    default:
+                        {
+                        } break;
+                }
+            }
+
+
+        }
+        void ExpandSomeRuleSet(WebDom.CssRuleSet ruleset)
+        {
+            //only some prop need to be alter
+            List<CssPropertyDeclaration> newProps = null;
+            foreach (CssPropertyDeclaration decl in ruleset.GetAssignmentIter())
+            {
+                switch (decl.PropertyName)
+                {
+                    case "font":
+                        {
+                            if (newProps == null) newProps = new List<CssPropertyDeclaration>();
+                            ExpandFontProperty(decl, newProps);
+                            decl.IsExpand = true;
+                        } break;
+                    case "border":
+                        {
+                            if (newProps == null) newProps = new List<CssPropertyDeclaration>();
+                            ExpandBorderProperty(decl, BorderDirection.All, newProps);
+                            decl.IsExpand = true;
+                        } break;
+                    case "border-left":
+                        {
+                            if (newProps == null) newProps = new List<CssPropertyDeclaration>();
+                            ExpandBorderProperty(decl, BorderDirection.Left, newProps);
+                            decl.IsExpand = true;
+                        } break;
+                    case "border-right":
+                        {
+                            if (newProps == null) newProps = new List<CssPropertyDeclaration>();
+                            ExpandBorderProperty(decl, BorderDirection.Right, newProps);
+                            decl.IsExpand = true;
+                        } break;
+                    case "border-top":
+                        {
+                            if (newProps == null) newProps = new List<CssPropertyDeclaration>();
+                            ExpandBorderProperty(decl, BorderDirection.Top, newProps);
+                            decl.IsExpand = true;
+                        } break;
+                    case "border-bottom":
+                        {
+                            if (newProps == null) newProps = new List<CssPropertyDeclaration>();
+                            ExpandBorderProperty(decl, BorderDirection.Bottom, newProps);
+                            decl.IsExpand = true;
+                        } break;
+                    //---------------------------
+                    case "border-style":
+                        {
+                            if (newProps == null) newProps = new List<CssPropertyDeclaration>();
+                            ExpandEdgeProperty(decl, "border-", "-style", newProps);
+                            decl.IsExpand = true;
+                        } break;
+                    case "border-width":
+                        {
+                            if (newProps == null) newProps = new List<CssPropertyDeclaration>();
+                            ExpandEdgeProperty(decl, "border-", "-width", newProps);
+                            decl.IsExpand = true;
+                        } break;
+                    case "border-color":
+                        {
+                            if (newProps == null) newProps = new List<CssPropertyDeclaration>();
+                            ExpandEdgeProperty(decl, "border-", "-color", newProps);
+                            decl.IsExpand = true;
+                        } break;
+                    //---------------------------
+                    case "margin":
+                        {
+                            if (newProps == null) newProps = new List<CssPropertyDeclaration>();
+                            ExpandEdgeProperty(decl, "margin-", "", newProps);
+                            decl.IsExpand = true;
+                        } break;
+                    case "padding":
+                        {
+                            if (newProps == null) newProps = new List<CssPropertyDeclaration>();
+                            ExpandEdgeProperty(decl, "padding-", "", newProps);
+                            decl.IsExpand = true;
+                        } break;
+                    //---------------------------
+                }
+            }
+
+            //--------------------
+            //add new prop to ruleset
+            if (newProps == null)
+            {
+                return;
+            }
+            //------------
+            int newPropCount = newProps.Count;
+            for (int i = 0; i < newPropCount; ++i)
+            {
+                //add new prop to ruleset
+                ruleset.AddCssCodeProperty(newProps[i]);
+            }
+            //--------------------
+        }
+        //void ParseBorder(string value, out string width, out string style, out string color)
+        //{
+        //    width = style = color = null;
+        //    //if (!string.IsNullOrEmpty(value))
+        //    //{
+        //    //    int idx = 0;
+        //    //    int length;
+        //    //    while ((idx = CommonUtils.GetNextSubString(value, idx, out length)) > -1)
+        //    //    {
+        //    //        if (width == null)
+        //    //            width = ParseBorderWidth(value, idx, length);
+        //    //        if (style == null)
+        //    //            style = ParseBorderStyle(value, idx, length);
+        //    //        if (color == null)
+        //    //            color = ParseBorderColor(value, idx, length);
+        //    //        idx = idx + length + 1;
+        //    //    }
+        //    //}
+        //}
+        //static string ParseBorderWidth(string str, int idx, int length)
+        //{
+        //    if ((length > 2 && char.IsDigit(str[idx])) || (length > 3 && str[idx] == '.'))
+        //    {
+        //        string unit = null;
+        //        if (CommonUtils.SubStringEquals(str, idx + length - 2, 2, CssConstants.Px))
+        //            unit = CssConstants.Px;
+        //        else if (CommonUtils.SubStringEquals(str, idx + length - 2, 2, CssConstants.Pt))
+        //            unit = CssConstants.Pt;
+        //        else if (CommonUtils.SubStringEquals(str, idx + length - 2, 2, CssConstants.Em))
+        //            unit = CssConstants.Em;
+        //        else if (CommonUtils.SubStringEquals(str, idx + length - 2, 2, CssConstants.Ex))
+        //            unit = CssConstants.Ex;
+        //        else if (CommonUtils.SubStringEquals(str, idx + length - 2, 2, CssConstants.In))
+        //            unit = CssConstants.In;
+        //        else if (CommonUtils.SubStringEquals(str, idx + length - 2, 2, CssConstants.Cm))
+        //            unit = CssConstants.Cm;
+        //        else if (CommonUtils.SubStringEquals(str, idx + length - 2, 2, CssConstants.Mm))
+        //            unit = CssConstants.Mm;
+        //        else if (CommonUtils.SubStringEquals(str, idx + length - 2, 2, CssConstants.Pc))
+        //            unit = CssConstants.Pc;
+
+        //        if (unit != null)
+        //        {
+        //            if (IsFloat(str, idx, length - 2))
+        //                return str.Substring(idx, length);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (CommonUtils.SubStringEquals(str, idx, length, CssConstants.Thin))
+        //            return CssConstants.Thin;
+        //        if (CommonUtils.SubStringEquals(str, idx, length, CssConstants.Medium))
+        //            return CssConstants.Medium;
+        //        if (CommonUtils.SubStringEquals(str, idx, length, CssConstants.Thick))
+        //            return CssConstants.Thick;
+        //    }
+        //    return null;
+        //}
+
+        //void ExpandAllBorderWidthProperty(CssPropertyDeclaration decl, List<CssPropertyDeclaration> newProps)
+        //{
+        //    //prop may has more than one value
+        //    switch (decl.ValueCount)
+        //    {
+        //        case 0:
+        //            break;
+        //        case 1:
+        //            {
+        //                var cssCodePropertyValue = decl.GetPropertyValue(0);
+        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-left-width"));
+        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-top-width"));
+        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-right-width"));
+        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-bottom-width"));
+
+        //            } break;
+        //        case 2:
+        //            {
+        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-left-width"));
+        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-top-width"));
+        //            } break;
+        //        case 3:
+        //            {
+        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-left-width"));
+        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-top-width"));
+
+        //            } break;
+        //        case 4:
+        //            {
+        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-left-width"));
+        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-top-width"));
+        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-left-width"));
+        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-top-width"));
+        //            } break;
+        //    } 
+        //}
+        //void ExpandAllBorderColorProperty(CssPropertyDeclaration decl, List<CssPropertyDeclaration> newProps)
+        //{
+        //    //prop may has more than one value
+        //}
+        //void ExpandAllBorderStyleProperty(CssPropertyDeclaration decl, List<CssPropertyDeclaration> newProps)
+        //{
+        //    //prop may has more than one value
+        //}
+
+
+        enum BorderDirection
+        {
+            All, Left, Right, Top, Bottom
+        }
+
+        void ExpandBorderProperty(CssPropertyDeclaration decl, BorderDirection borderDirection, List<CssPropertyDeclaration> newProps)
+        {
+
+            int j = decl.ValueCount;
+            string b_direction = null;
+
+            switch (borderDirection)
+            {
+                case BorderDirection.Left:
+                    {
+                        b_direction = "left";
+                    } break;
+                case BorderDirection.Top:
+                    {
+                        b_direction = "top";
+                    } break;
+                case BorderDirection.Right:
+                    {
+                        b_direction = "right";
+                    } break;
+                case BorderDirection.Bottom:
+                    {
+                        b_direction = "bottom";
+                    } break;
+            }
+
+
+            for (int i = 0; i < j; ++i)
+            {
+                CssCodePropertyValue cssCodePropertyValue = decl.GetPropertyValue(i);
+                //what value means ?
+                //border width/ style / color
+                if (cssCodePropertyValue.Hint == CssValueHint.Number ||
+                    HtmlRenderer.Dom.CssBoxUserUtilExtension.IsNamedBorderWidth(cssCodePropertyValue.Value))
+                {
+                    //border width
+                    switch (borderDirection)
+                    {
+                        default:
+                        case BorderDirection.All:
+                            {
+                                newProps.Add(CloneProp(cssCodePropertyValue, "border-left-width"));
+                                newProps.Add(CloneProp(cssCodePropertyValue, "border-top-width"));
+                                newProps.Add(CloneProp(cssCodePropertyValue, "border-right-width"));
+                                newProps.Add(CloneProp(cssCodePropertyValue, "border-bottom-width"));
+                            } break;
+                        case BorderDirection.Left:
+                        case BorderDirection.Right:
+                        case BorderDirection.Top:
+                        case BorderDirection.Bottom:
+                            {
+                                newProps.Add(CloneProp(cssCodePropertyValue, "border-" + b_direction + "-width"));
+                            } break;
+                    }
+                    continue;
+                }
+
+                //------
+                if (HtmlRenderer.Dom.CssBoxUserUtilExtension.IsBorderStyle(cssCodePropertyValue.Value))
+                {
+
+                    //border style
+                    switch (borderDirection)
+                    {
+                        default:
+                        case BorderDirection.All:
+                            {
+                                newProps.Add(CloneProp(cssCodePropertyValue, "border-left-style"));
+                                newProps.Add(CloneProp(cssCodePropertyValue, "border-top-style"));
+                                newProps.Add(CloneProp(cssCodePropertyValue, "border-right-style"));
+                                newProps.Add(CloneProp(cssCodePropertyValue, "border-bottom-style"));
+                            } break;
+                        case BorderDirection.Left:
+                        case BorderDirection.Right:
+                        case BorderDirection.Top:
+                        case BorderDirection.Bottom:
+                            {
+                                newProps.Add(CloneProp(cssCodePropertyValue, "border-" + b_direction + "-style"));
+                            } break;
+                    }
+
+                    continue;
+                }
+
+                string value = cssCodePropertyValue.ToString();
+                if (value.StartsWith("#"))
+                {
+                    //expand border color
+                    switch (borderDirection)
+                    {
+                        default:
+                        case BorderDirection.All:
+                            {
+                                newProps.Add(CloneProp(cssCodePropertyValue, "border-left-color"));
+                                newProps.Add(CloneProp(cssCodePropertyValue, "border-top-color"));
+                                newProps.Add(CloneProp(cssCodePropertyValue, "border-right-color"));
+                                newProps.Add(CloneProp(cssCodePropertyValue, "border-bottom-color"));
+                            } break;
+                        case BorderDirection.Left:
+                        case BorderDirection.Right:
+                        case BorderDirection.Top:
+                        case BorderDirection.Bottom:
+                            {
+                                newProps.Add(CloneProp(cssCodePropertyValue, "border-" + b_direction + "-color"));
+                            } break;
+                    }
+
+                    continue;
+                }
+            }
+
+        }
+        static CssPropertyDeclaration CloneProp(CssCodePropertyValue prop, string newName)
+        {
+            return new CssPropertyDeclaration(newName, prop);
+        }
+        void ExpandEdgeProperty(CssPropertyDeclaration decl, string propPrefix, string propSuffix, List<CssPropertyDeclaration> newProps)
+        {
+
+            switch (decl.ValueCount)
+            {
+                case 0:
+                    {
+                    } break;
+                case 1:
+                    {
+
+                        CssCodePropertyValue prop = decl.GetPropertyValue(0);
+                        newProps.Add(CloneProp(prop, propPrefix + "left" + propSuffix));
+                        newProps.Add(CloneProp(prop, propPrefix + "top" + propSuffix));
+                        newProps.Add(CloneProp(prop, propPrefix + "right" + propSuffix));
+                        newProps.Add(CloneProp(prop, propPrefix + "bottom" + propSuffix));
+
+                    } break;
+                case 2:
+                    {
+
+                        newProps.Add(CloneProp(decl.GetPropertyValue(0), propPrefix + "top" + propSuffix));
+                        newProps.Add(CloneProp(decl.GetPropertyValue(0), propPrefix + "bottom" + propSuffix));
+
+                        newProps.Add(CloneProp(decl.GetPropertyValue(1), propPrefix + "left" + propSuffix));
+                        newProps.Add(CloneProp(decl.GetPropertyValue(1), propPrefix + "right" + propSuffix));
+
+                    } break;
+                case 3:
+                    {
+                        newProps.Add(CloneProp(decl.GetPropertyValue(0), propPrefix + "top" + propSuffix));
+                        newProps.Add(CloneProp(decl.GetPropertyValue(1), propPrefix + "left" + propSuffix));
+                        newProps.Add(CloneProp(decl.GetPropertyValue(1), propPrefix + "right" + propSuffix));
+                        newProps.Add(CloneProp(decl.GetPropertyValue(2), propPrefix + "bottom" + propSuffix));
+                    } break;
+                default://4 or more
+                    {
+                        newProps.Add(CloneProp(decl.GetPropertyValue(0), propPrefix + "top" + propSuffix));
+                        newProps.Add(CloneProp(decl.GetPropertyValue(1), propPrefix + "right" + propSuffix));
+                        newProps.Add(CloneProp(decl.GetPropertyValue(2), propPrefix + "bottom" + propSuffix));
+                        newProps.Add(CloneProp(decl.GetPropertyValue(3), propPrefix + "left" + propSuffix));
+
+                    } break;
+
+            }
+
+        }
+        void ExpandSomeMedia(WebDom.CssAtMedia atMedia)
+        {
+            foreach (var ruleset in atMedia.GetRuleSetIter())
+            {
+                ExpandSomeRuleSet(ruleset);
+            }
+        }
+        public CssDocument OutputCssDocument
+        {
+            get
+            {
+                return this.cssDocument;
+            }
+        }
+    }
+    public enum CssParseState
+    {
+        Init,
+        MoreBlockName,
+        ExpectIdenAfterSpecialBlockNameSymbol,
+        BlockBody,
+        AfterPropertyName,
+        ExpectPropertyValue,
+        ExpectValueOfHexColor,
+
+        AfterPropertyValue,
+        Comment,
+        ExpectBlockAttrIden,
+
+        AfterBlockAttrIden,
+        AfterAttrName,
+        ExpectedBlockAttrValue,
+        AfterBlockNameAttr,
+        ExpectAtRuleName,
+
+        //@media
+        MediaList,
+
+        //@import
+        ExpectImportURL,
+    }
+    public enum CssLexState
+    {
+        Init,
+        Whitespace,
+        Comment,
+        Iden,
+        CollectString,
+        Number,
+        UnitAfterNumber,
+    }
+
+    public enum CssTokenName
+    {
+        Unknown,
+        Newline,
+        Whitespace,
+        At,
+        Comma,
+
+        Plus, //+
+        Minus,//-
+        Star,//*
+        Divide,// /
+        Percent,// %
+        Dot, // .
+        Colon, // :
+        Cap, //^
+        OpEq,//=
+        Dollar,//$
+        Tile, //~
+
+        SemiColon,
+        Sharp, //#
+
+        OrPipe, //|
+
+        LParen,
+        RParen,
+        LBracket,
+        RBracket,
+        LBrace,
+        RBrace,
+
+        LAngle, //<
+        RAngle,  //>
+
+
+        Iden,
+        Number,
+        NumberUnit,
+        LiteralString,
+
+        Comment,
+
+        Quote, //  '
+        DoubleQuote,  // "
+
+        //------------------
+        DoubleColon, //::
+        TileAssign, //~=
+        StarAssign,//*=
+        CapAssign,//^=
+        DollarAssign,//$=  
+        OrPipeAssign,//|= 
+        //------------------
+
+
+    }
+
+
+    delegate void CssLexerEmitHandler(CssTokenName tkname, int startIndex, int len);
+
+    class CssLexer
+    {
+
+        int _appendLength = 0;
+        int _startIndex = 0;
+        CssLexerEmitHandler _emitHandler;
+        char latestEscapeChar;
+
+        public CssLexer(CssLexerEmitHandler emitHandler)
+        {
+            this._emitHandler = emitHandler;
+        }
+        void AppendBuffer(int i, char c)
+        {
+            if (_appendLength == 0)
+            {
+                this._startIndex = i;
+            }
+            this._appendLength++;
+        }
+        void EmitBuffer(int i, CssTokenName tokenName)
+        {
+            //flush existing buffer
+            if (this._appendLength > 0)
+            {
+                _emitHandler(tokenName, this._startIndex, this._appendLength);
+            }
+            this._appendLength = 0;
+        }
+        void Emit(CssTokenName tkname, int i)
+        {
+            _emitHandler(tkname, i, 1);
+        }
+        public void Lex(char[] cssSourceBuffer)
+        {
+
+            CssLexState lexState = CssLexState.Init;
+            int j = cssSourceBuffer.Length;
+
+            for (int i = 0; i < j; ++i)
+            {
+                char c = cssSourceBuffer[i];
+
+
+                //-------------------------------------- 
+                switch (lexState)
+                {
+                    default:
+                        {
+                            throw new NotSupportedException();
+                        } break;
+
+                    case CssLexState.Init:
+                        {
+                            //-------------------------------------- 
+                            //1. first name
+                            CssTokenName terminalTokenName = GetTerminalTokenName(c);
+                            //--------------------------------------  
+                            switch (terminalTokenName)
+                            {
+                                default:
+                                    {
+                                        Emit(terminalTokenName, i);
+                                    } break;
+                                case CssTokenName.Colon:
+                                    {
+                                        if (i < j - 1)
+                                        {
+                                            char c1 = cssSourceBuffer[i + 1];
+                                            if (c1 == ':')
+                                            {
+                                                i++;
+                                                Emit(CssTokenName.DoubleColon, i);
+                                                continue;
+                                            }
+                                        }
+                                        Emit(terminalTokenName, i);
+                                    } break;
+                                case CssTokenName.DoubleQuote:
+                                    {
+                                        latestEscapeChar = '"';
+                                        lexState = CssLexState.CollectString;
+                                    } break;
+                                case CssTokenName.Quote:
+                                    {
+                                        latestEscapeChar = '\'';
+                                        lexState = CssLexState.CollectString;
+                                    } break;
+                                case CssTokenName.Whitespace:
+                                case CssTokenName.Newline:
+                                    continue;
+                                case CssTokenName.Divide:
+                                    {
+                                        //is open comment or not
+                                        if (i < j - 1)
+                                        {
+                                            if (cssSourceBuffer[i + 1] == '*')
+                                            {
+                                                i++;
+                                                //Emit(CssTokenName.LComment, i);
+                                                lexState = CssLexState.Comment;
+                                                continue;
+                                            }
+                                        }
+                                        Emit(CssTokenName.Divide, i);
+                                    } break;
+                                case CssTokenName.Sharp:
+                                    {
+                                        AppendBuffer(i, c);
+                                        lexState = CssLexState.Iden;
+
+                                    } break;
+                                case CssTokenName.Dot:
+                                    {
+                                        if (i < j - 1)
+                                        {
+                                            char c1 = cssSourceBuffer[i + 1];
+                                            if (char.IsNumber(c1))
+                                            {
+                                                AppendBuffer(i, c);
+                                                i++;
+                                                AppendBuffer(i, c1);
+                                                lexState = CssLexState.Number;
+                                                continue;
+                                            }
+                                        }
+
+                                        Emit(terminalTokenName, i);
+
+                                    } break;
+                                case CssTokenName.Minus:
+                                    {
+                                    } break;
+                                case CssTokenName.Unknown:
+                                    {
+                                        //this is not terminal  
+                                        AppendBuffer(i, c);
+                                        if (char.IsNumber(c))
+                                        {
+                                            lexState = CssLexState.Number;
+                                        }
+                                        else
+                                        {
+                                            lexState = CssLexState.Iden;
+                                        }
+                                    } break;
+                            }
+                        } break;
+                    case CssLexState.Whitespace:
+                        {
+
+                        } break;
+                    case CssLexState.CollectString:
+                        {
+                            if (c == latestEscapeChar)
+                            {
+                                //exit collect string 
+                                lexState = CssLexState.Init;
+                                EmitBuffer(i, CssTokenName.LiteralString);
+
+                            }
+                            else
+                            {
+                                AppendBuffer(i, c);
+                            }
+                        } break;
+                    case CssLexState.Comment:
+                        {
+                            if (c == '*')
+                            {
+                                if (i < j - 1)
+                                {
+                                    char c1 = cssSourceBuffer[i + 1];
+                                    if (c1 == '/')
+                                    {
+                                        i++;
+                                        //Emit(CssTokenName.RComment, i);
+                                        lexState = CssLexState.Init;
+                                        continue;
+                                    }
+                                }
+                            }
+                            //skip comment?
+                        } break;
+                    case CssLexState.Iden:
+                        {
+
+                            CssTokenName terminalTokenName = GetTerminalTokenName(c);
+                            switch (terminalTokenName)
+                            {
+                                case CssTokenName.Whitespace:
+                                case CssTokenName.Newline:
+                                    {
+                                        EmitBuffer(i, CssTokenName.Iden);
+                                    } break;
+                                case CssTokenName.Divide:
+                                    {
+                                        //is open comment or not
+                                        throw new NotSupportedException();
+                                    }
+                                case CssTokenName.Star:
+                                    {
+                                        //is close comment or not 
+                                        throw new NotSupportedException();
+                                    }
+                                case CssTokenName.Minus:
+                                    {
+                                        //iden can contains minus 
+                                        AppendBuffer(i, c);
+
+                                    } break;
+
+                                default:
+                                    {
+                                        //flush exising buffer
+                                        EmitBuffer(i, CssTokenName.Iden);
+                                        Emit(terminalTokenName, i);
+
+                                        lexState = CssLexState.Init;
+
+                                    } break;
+                                case CssTokenName.Unknown:
+                                    {
+                                        //this is not terminal 
+                                        AppendBuffer(i, c);
+                                        lexState = CssLexState.Iden;
+                                    } break;
+                            }
+                        } break;
+                    case CssLexState.Number:
+                        {
+                            if (char.IsNumber(c))
+                            {
+                                AppendBuffer(i, c);
+                                continue;
+                            }
+                            //---------------------------------------------------------- 
+                            CssTokenName terminalTokenName = GetTerminalTokenName(c);
+                            switch (terminalTokenName)
+                            {
+                                case CssTokenName.Whitespace:
+                                case CssTokenName.Newline:
+                                    {
+                                        if (this._appendLength > 0)
+                                        {
+                                            EmitBuffer(i, CssTokenName.Number);
+                                        }
+
+                                        lexState = CssLexState.Init;
+                                    } break;
+                                case CssTokenName.Divide:
+                                    {
+                                        //is open comment or not
+                                        throw new NotSupportedException();
+                                    }
+                                case CssTokenName.Star:
+                                    {   //is close comment or not 
+                                        throw new NotSupportedException();
+                                    }
+                                case CssTokenName.Dot:
+                                    {
+                                        //after number
+                                        if (i < j - 1)
+                                        {
+                                            char c1 = cssSourceBuffer[i + 1];
+                                            if (char.IsNumber(c1))
+                                            {
+                                                AppendBuffer(i, c);
+                                                i++;
+                                                AppendBuffer(i, c1);
+                                                lexState = CssLexState.Number;
+                                                continue;
+                                            }
+                                        }
+                                        EmitBuffer(i, CssTokenName.Number);
+                                        Emit(terminalTokenName, i);
+                                    } break;
+                                default:
+                                    {
+                                        //flush exising buffer
+                                        EmitBuffer(i, CssTokenName.Number);
+                                        Emit(terminalTokenName, i);
+                                        lexState = CssLexState.Init;
+                                    } break;
+
+                                case CssTokenName.Unknown:
+                                    {
+                                        EmitBuffer(i, CssTokenName.Number);
+                                        //iden after number may be unit of number*** 
+                                        AppendBuffer(i, c);
+                                        lexState = CssLexState.UnitAfterNumber;
+                                    } break;
+                            }
+                        } break;
+                    case CssLexState.UnitAfterNumber:
+                        {
+
+
+                            if (char.IsLetter(c))
+                            {
+                                AppendBuffer(i, c);
+                            }
+                            else
+                            {
+                                //terminate
+
+                                EmitBuffer(i, CssTokenName.NumberUnit);
+                                //-------------------------------------------
+                                CssTokenName terminalTokenName = GetTerminalTokenName(c);
+                                switch (terminalTokenName)
+                                {
+                                    case CssTokenName.Whitespace:
+                                    case CssTokenName.Newline:
+                                        {
+                                        } break;
+                                    default:
+                                        {
+                                            Emit(terminalTokenName, i);
+                                        } break;
+                                }
+                                lexState = CssLexState.Init;
+                            }
+
+                        } break;
+                }
+            }
+            if (this._appendLength > 0)
+            {
+                if (lexState == CssLexState.UnitAfterNumber)
+                {
+                    EmitBuffer(cssSourceBuffer.Length - 1, CssTokenName.NumberUnit);
+                }
+                else
+                {
+                    EmitBuffer(cssSourceBuffer.Length - 1, CssTokenName.Iden);
+                }
+            }
+        }
+        static CssTokenName GetTerminalTokenName(char c)
+        {
+            CssTokenName tokenName;
+            if (terminals.TryGetValue(c, out tokenName))
+            {
+                return tokenName;
+            }
+            else
+            {
+                return CssTokenName.Unknown;
+            }
+        }
+
+        //===============================================================================================
+        static readonly Dictionary<char, CssTokenName> terminals = new Dictionary<char, CssTokenName>();
+        static readonly Dictionary<string, CssTokenName> multiCharTokens = new Dictionary<string, CssTokenName>();
+
+        static CssLexer()
+        {
+            //" @+-*/%.:;[](){}"
+            terminals.Add(' ', CssTokenName.Whitespace);
+            terminals.Add('\r', CssTokenName.Whitespace);
+            terminals.Add('\t', CssTokenName.Whitespace);
+            terminals.Add('\f', CssTokenName.Whitespace);
+            terminals.Add('\n', CssTokenName.Newline);
+            terminals.Add('\'', CssTokenName.Quote);
+            terminals.Add('"', CssTokenName.DoubleQuote);
+            terminals.Add(',', CssTokenName.Comma);
+
+            terminals.Add('@', CssTokenName.At);
+
+            terminals.Add('+', CssTokenName.Plus);
+            terminals.Add('-', CssTokenName.Minus);
+            terminals.Add('*', CssTokenName.Star);
+            terminals.Add('/', CssTokenName.Divide);
+            terminals.Add('%', CssTokenName.Percent);
+            terminals.Add('#', CssTokenName.Sharp);
+            terminals.Add('~', CssTokenName.Tile);
+
+
+            terminals.Add('.', CssTokenName.Dot);
+            terminals.Add(':', CssTokenName.Colon);
+            terminals.Add(';', CssTokenName.SemiColon);
+
+            terminals.Add('[', CssTokenName.LBracket);
+            terminals.Add(']', CssTokenName.RBracket);
+
+            terminals.Add('(', CssTokenName.LParen);
+            terminals.Add(')', CssTokenName.RParen);
+
+            terminals.Add('{', CssTokenName.LBrace);
+            terminals.Add('}', CssTokenName.RBrace);
+            terminals.Add('<', CssTokenName.LAngle);
+            terminals.Add('>', CssTokenName.RAngle);
+
+            terminals.Add('=', CssTokenName.OpEq);
+            terminals.Add('|', CssTokenName.OrPipe);
+            terminals.Add('$', CssTokenName.Dollar);
+            terminals.Add('^', CssTokenName.Cap);
+            //----------------------------------- 
+            multiCharTokens.Add("|=", CssTokenName.OrPipeAssign);
+            multiCharTokens.Add("~=", CssTokenName.TileAssign);
+            multiCharTokens.Add("^=", CssTokenName.CapAssign);
+            multiCharTokens.Add("$=", CssTokenName.DollarAssign);
+            multiCharTokens.Add("*=", CssTokenName.StarAssign);
+            //----------------------------------- 
+        }
+
+
+    }
+}

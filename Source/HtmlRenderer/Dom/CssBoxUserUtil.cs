@@ -87,6 +87,7 @@ namespace HtmlRenderer.Dom
         static readonly CssValueMap<CssListStylePoistion> _cssListStylePositionMap = new CssValueMap<CssListStylePoistion>();
         static readonly CssValueMap<CssListStyleType> _cssListStyleTypeMap = new CssValueMap<CssListStyleType>();
 
+        static readonly CssValueMap<CssNamedBorderWidth> _cssNamedBorderWidthMap = new CssValueMap<CssNamedBorderWidth>();
 
         static CssBoxUserUtilExtension()
         {
@@ -96,6 +97,30 @@ namespace HtmlRenderer.Dom
         {
             return _cssBorderStyleMap.GetValueFromString(value, CssBorderStyle.None);
         }
+        //-----------------------
+        public static bool IsBorderStyle(string value)
+        {
+            return _cssBorderStyleMap.GetValueFromString(value, CssBorderStyle.Unknown) != CssBorderStyle.Unknown;
+        }
+        //thin,medium,thick border width
+        public static bool IsNamedBorderWidth(string value)
+        {
+            return _cssNamedBorderWidthMap.GetValueFromString(value, CssNamedBorderWidth.Unknown) != CssNamedBorderWidth.Unknown;
+        }
+        public static bool IsFontVariant(string value)
+        {
+            return _cssFontVariantMap.GetValueFromString(value, CssFontVariant.Unknown) != CssFontVariant.Unknown;
+        }
+        public static bool IsFontStyle(string value)
+        {
+            return _cssFontStyleMap.GetValueFromString(value, CssFontStyle.Unknown) != CssFontStyle.Unknown;             
+        }
+        public static bool IsFontWeight(string value)
+        {
+            return _cssFontWeightMap.GetValueFromString(value, CssFontWeight.Unknown) != CssFontWeight.Unknown;
+        }
+        //-----------------------
+
         public static void SetBorderCollapse(this CssBox box, string value)
         {
             box.BorderCollapse = _cssCollapseBorderMap.GetValueFromString(value, CssBorderCollapse.Separate);
@@ -427,7 +452,7 @@ namespace HtmlRenderer.Dom
 
 
         public static WellknownHtmlTagName EvaluateTagName(string name)
-        {  
+        {
             switch (name)
             {
                 default:

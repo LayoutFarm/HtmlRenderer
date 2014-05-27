@@ -5,64 +5,30 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
- 
+
 namespace HtmlRenderer.WebDom
 {
 
-     
+
     public class CssDocument
-    {   
-        List<CssCodeItemBase> cssItemCollection = new List<CssCodeItemBase>();         
+    {
+        List<CssDocMember> cssItemCollection = new List<CssDocMember>();
         public CssDocument()
-        { 
+        {
 
         }
-        public void Add(CssCodeItemBase cssitem)
+        public void Add(CssDocMember cssitem)
         {
             cssItemCollection.Add(cssitem);
         }
-        public List<CssCodeItemBase> AllCssItems
-        {
-            get
-            {
-                return this.cssItemCollection;
-            }
-        }
-        public IEnumerable<CssAtRule> GetCssAtRuleIter()
+        public IEnumerable<CssDocMember> GetCssDocMemberIter()
         {
             int j = cssItemCollection.Count;
             for (int i = 0; i < j; ++i)
             {
-                CssCodeItemBase itm = cssItemCollection[i];
-                if (itm is CssAtRule)
-                {
-                    yield return (CssAtRule)itm;
-                }
+                yield return cssItemCollection[i];                 
             }
-        }
-        public IEnumerable<CssCodeBlockItem> GetCssBlockIter()
-        {
-            int j = cssItemCollection.Count;
-            for (int i = 0; i < j; ++i)
-            {
-                CssCodeItemBase itm = cssItemCollection[i];
-                if (itm is CssCodeBlockItem)
-                {
-                    yield return (CssCodeBlockItem)itm;
-                }
-            }
-        }
-        public CssCodeBlockItem GetFirstCssBlock()
-        {
-            foreach (CssCodeItemBase cssItem in this.cssItemCollection)
-            {
-                if (cssItem is CssCodeBlockItem)
-                {
-                    return (CssCodeBlockItem)cssItem;
-                }
-            }
-            return null;
-        }
+        }   
 #if DEBUG
         public override string ToString()
         {
@@ -71,12 +37,12 @@ namespace HtmlRenderer.WebDom
             for (int i = 0; i < j; ++i)
             {
                 stBuilder.Append(cssItemCollection[i].ToString());
-            }                
+            }
 
             return stBuilder.ToString();
         }
 #endif
 
     }
-    
+
 }

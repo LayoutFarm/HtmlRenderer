@@ -442,6 +442,7 @@ namespace HtmlRenderer.Utils
         public static string GenerateHtml(CssBox root, HtmlGenerationStyle styleGen = HtmlGenerationStyle.Inline, bool onlySelected = false)
         {
             var sb = new StringBuilder();
+
             if (root != null)
             {
                 WriteHtml(sb, root, 0, styleGen, onlySelected ? CollectSelectedHtmlTags(root) : null);
@@ -614,66 +615,73 @@ namespace HtmlRenderer.Utils
         /// <param name="selectedTags">Control if to generate only selected tags, if given only tags found in collection will be generated</param>
         private static void WriteHtml(StringBuilder sb, CssBox box, int indent, HtmlGenerationStyle styleGen, Dictionary<IHtmlTag, bool> selectedTags)
         {
-            if (box.HtmlTag != null && selectedTags != null && !selectedTags.ContainsKey(box.HtmlTag))
-                return;
 
-            if (box.HtmlTag != null)
-            {
-                string hrefAttrValue = null;
-                if (box.WellknownTagName != WellknownHtmlTagName.LINK ||
-                    ((hrefAttrValue = box.HtmlTag.TryGetAttribute("href")) == null) ||
-                    (!hrefAttrValue.StartsWith("property") && !hrefAttrValue.StartsWith("method"))
-                    )
-                {
-                    WriteHtmlTag(sb, box, indent, styleGen);
-                    indent = indent + (box.HtmlTag.IsSingle ? 0 : 1);
-                }
-
-                //if (box.WellknownTagName != WellknownHtmlTagName.LINK ||
-                //    !box.HtmlTag.Attributes.ContainsKey("href") ||
-                //    (!box.HtmlTag.Attributes["href"].StartsWith("property") && !box.HtmlTag.Attributes["href"].StartsWith("method")))
-                //{
-                //    WriteHtmlTag(sb, box, indent, styleGen);
-                //    indent = indent + (box.HtmlTag.IsSingle ? 0 : 1);
-                //}
+            //2014 - 05 - 24;
+            //tempoary remove
+            //wait for another method , 
 
 
-                if (styleGen == HtmlGenerationStyle.InHeader &&
-                    box.WellknownTagName == WellknownHtmlTagName.HTML && box.HtmlContainer.CssData != null)
-                {
-                    sb.Append(new string(' ', indent * 4));
-                    sb.AppendLine("<head>");
-                    WriteStylesheet(sb, box.HtmlContainer.CssData, indent + 1);
-                    sb.Append(new string(' ', indent * 4));
-                    sb.AppendLine("</head>");
-                }
-            }
+            return;
+            //if (box.HtmlTag != null && selectedTags != null && !selectedTags.ContainsKey(box.HtmlTag))
+            //    return;
 
-            if (box.Words.Count > 0)
-            {
-                sb.Append(new string(' ', indent * 4));
-                foreach (var word in box.Words)
-                {
-                    if (selectedTags == null || word.Selected)
-                    {
-                        var wordText = GetSelectedWord(word, selectedTags != null);
-                        sb.Append(HtmlUtils.EncodeHtml(wordText));
-                    }
-                }
-                sb.AppendLine();
-            }
+            //if (box.HtmlTag != null)
+            //{
+            //    string hrefAttrValue = null;
+            //    if (box.WellknownTagName != WellknownHtmlTagName.LINK ||
+            //        ((hrefAttrValue = box.HtmlTag.TryGetAttribute("href")) == null) ||
+            //        (!hrefAttrValue.StartsWith("property") && !hrefAttrValue.StartsWith("method"))
+            //        )
+            //    {
+            //        WriteHtmlTag(sb, box, indent, styleGen);
+            //        indent = indent + (box.HtmlTag.IsSingle ? 0 : 1);
+            //    }
 
-            foreach (var childBox in box.GetChildBoxIter())
-            {
-                WriteHtml(sb, childBox, indent, styleGen, selectedTags);
-            }
+            //    //if (box.WellknownTagName != WellknownHtmlTagName.LINK ||
+            //    //    !box.HtmlTag.Attributes.ContainsKey("href") ||
+            //    //    (!box.HtmlTag.Attributes["href"].StartsWith("property") && !box.HtmlTag.Attributes["href"].StartsWith("method")))
+            //    //{
+            //    //    WriteHtmlTag(sb, box, indent, styleGen);
+            //    //    indent = indent + (box.HtmlTag.IsSingle ? 0 : 1);
+            //    //}
 
-            if (box.HtmlTag != null && !box.HtmlTag.IsSingle)
-            {
-                sb.Append(new string(' ', Math.Max((indent - 1) * 4, 0)));
-                sb.AppendFormat("</{0}>", box.HtmlTag.Name);
-                sb.AppendLine();
-            }
+
+            //    if (styleGen == HtmlGenerationStyle.InHeader &&
+            //        box.WellknownTagName == WellknownHtmlTagName.HTML && box.HtmlContainer.CssData != null)
+            //    {
+            //        sb.Append(new string(' ', indent * 4));
+            //        sb.AppendLine("<head>");
+            //        WriteStylesheet(sb, box.HtmlContainer.CssData, indent + 1);
+            //        sb.Append(new string(' ', indent * 4));
+            //        sb.AppendLine("</head>");
+            //    }
+            //}
+
+            //if (box.Words.Count > 0)
+            //{
+            //    sb.Append(new string(' ', indent * 4));
+            //    foreach (var word in box.Words)
+            //    {
+            //        if (selectedTags == null || word.Selected)
+            //        {
+            //            var wordText = GetSelectedWord(word, selectedTags != null);
+            //            sb.Append(HtmlUtils.EncodeHtml(wordText));
+            //        }
+            //    }
+            //    sb.AppendLine();
+            //}
+
+            //foreach (var childBox in box.GetChildBoxIter())
+            //{
+            //    WriteHtml(sb, childBox, indent, styleGen, selectedTags);
+            //}
+
+            //if (box.HtmlTag != null && !box.HtmlTag.IsSingle)
+            //{
+            //    sb.Append(new string(' ', Math.Max((indent - 1) * 4, 0)));
+            //    sb.AppendFormat("</{0}>", box.HtmlTag.Name);
+            //    sb.AppendLine();
+            //}
         }
 
         /// <summary>
@@ -685,86 +693,89 @@ namespace HtmlRenderer.Utils
         /// <param name="styleGen">Controls the way styles are generated when html is generated</param>
         private static void WriteHtmlTag(StringBuilder sb, CssBox box, int indent, HtmlGenerationStyle styleGen)
         {
-            sb.Append(new string(' ', indent * 4));
-            sb.AppendFormat("<{0}", box.HtmlTag.Name);
+            //2014-05-24 temporary remove,
+            //
+            //sb.Append(new string(' ', indent * 4));
+            //sb.AppendFormat("<{0}", box.HtmlTag.Name);
 
-            // collect all element style properties incliding from stylesheet
-            var tagStyles = new Dictionary<string, string>();
-            var tagCssBlock = box.HtmlContainer.CssData.GetCssBlock(box.HtmlTag.Name);
-            if (tagCssBlock != null)
-            {
-                // atodo: handle selectors
-                foreach (var cssBlock in tagCssBlock)
-                    foreach (var prop in cssBlock.Properties)
-                        tagStyles[prop.Key] = prop.Value;
-            }
+            //// collect all element style properties incliding from stylesheet
+            //var tagStyles = new Dictionary<string, string>();
+            //var tagCssBlock = box.HtmlContainer.CssData.GetCssRuleSetIter(box.HtmlTag.Name);
+            //if (tagCssBlock != null)
+            //{
+            //    // TODO: handle selectors
+            //    foreach (var cssBlock in tagCssBlock)
+            //        foreach (var prop in cssBlock.Properties)
+            //            tagStyles[prop.Key] = prop.Value.Value;
+            //}
 
-            if (box.HtmlTag.HasAttributes())
-            {
-                sb.Append(" ");
+            //if (box.HtmlTag.HasAttributes())
+            //{
+            //    sb.Append(" ");
 
-                bool isImageBox = box.HtmlTag.WellknownTagName == WellknownHtmlTagName.IMG;
+            //    bool isImageBox = box.HtmlTag.WellknownTagName == WellknownHtmlTagName.IMG;
 
-                foreach (var att in box.HtmlTag.GetAttributeIter())
-                {
+            //    foreach (var att in box.HtmlTag.GetAttributeIter())
+            //    {
 
-                    // handle image tags by inserting the image using base64 data
-                    //if (box.HtmlTag.Name == "img" && att.Key == "src" && (att.Value.StartsWith("property") || att.Value.StartsWith("method")))
-                    if (isImageBox && att.Name == "src" && (att.Value.StartsWith("property") || att.Value.StartsWith("method")))
-                    {
-                        var img = ((CssBoxImage)box).Image;
-                        if (img != null)
-                        {
-                            using (var buffer = new MemoryStream())
-                            {
-                                img.Save(buffer, ImageFormat.Png);
-                                var base64 = Convert.ToBase64String(buffer.ToArray());
-                                sb.AppendFormat("{0}=\"data:image/png;base64, {1}\" ", att.Name, base64);
-                            }
-                        }
-                    }
-                    else if (styleGen == HtmlGenerationStyle.Inline && att.Name == HtmlConstants.Style)
-                    {
-                        // if inline style add the styles to the collection
-                        var block = CssParser.ParseCssBlock(box.HtmlTag.Name, box.HtmlTag.TryGetAttribute("style"));
-                        foreach (var prop in block.Properties)
-                            tagStyles[prop.Key] = prop.Value;
-                    }
-                    else if (styleGen == HtmlGenerationStyle.Inline && att.Name == HtmlConstants.Class)
-                    {
-                        // if inline style convert the style class to actual properties and add to collection
-                        var cssBlocks = box.HtmlContainer.CssData.GetCssBlock("." + att.Value);
-                        if (cssBlocks != null)
-                        {
-                            // atodo: handle selectors
-                            foreach (var cssBlock in cssBlocks)
-                                foreach (var prop in cssBlock.Properties)
-                                    tagStyles[prop.Key] = prop.Value;
-                        }
-                    }
-                    else
-                    {
-                        sb.AppendFormat("{0}=\"{1}\" ", att.Name, att.Value);
-                    }
-                }
+            //        // handle image tags by inserting the image using base64 data
+            //        //if (box.HtmlTag.Name == "img" && att.Key == "src" && (att.Value.StartsWith("property") || att.Value.StartsWith("method")))
+            //        if (isImageBox && att.Name == "src" && (att.Value.StartsWith("property") || att.Value.StartsWith("method")))
+            //        {
+            //            var img = ((CssBoxImage)box).Image;
+            //            if (img != null)
+            //            {
+            //                using (var buffer = new MemoryStream())
+            //                {
+            //                    img.Save(buffer, ImageFormat.Png);
+            //                    var base64 = Convert.ToBase64String(buffer.ToArray());
+            //                    sb.AppendFormat("{0}=\"data:image/png;base64, {1}\" ", att.Name, base64);
+            //                }
+            //            }
+            //        }
+            //        else if (styleGen == HtmlGenerationStyle.Inline && att.Name == HtmlConstants.Style)
+            //        {
+            //            throw new NotSupportedException();
+            //            //// if inline style add the styles to the collection
+            //            //var block = CssParser.ParseCssBlock(box.HtmlTag.Name, box.HtmlTag.TryGetAttribute("style"));
+            //            //foreach (var prop in block.Properties)
+            //            //    tagStyles[prop.Key] = prop.Value.Value;
+            //        }
+            //        else if (styleGen == HtmlGenerationStyle.Inline && att.Name == HtmlConstants.Class)
+            //        {
+            //            // if inline style convert the style class to actual properties and add to collection
+            //            var cssBlocks = box.HtmlContainer.CssData.GetCssRuleSetIter("." + att.Value);
+            //            if (cssBlocks != null)
+            //            {
+            //                // TODO: handle selectors
+            //                foreach (var cssBlock in cssBlocks)
+            //                    foreach (var prop in cssBlock.Properties)
+            //                        tagStyles[prop.Key] = prop.Value.Value;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            sb.AppendFormat("{0}=\"{1}\" ", att.Name, att.Value);
+            //        }
+            //    }
 
-                sb.Remove(sb.Length - 1, 1);
-            }
+            //    sb.Remove(sb.Length - 1, 1);
+            //}
 
-            // if inline style insert the style tag with all collected style properties
-            if (styleGen == HtmlGenerationStyle.Inline && tagStyles.Count > 0)
-            {
-                sb.Append(" style=\"");
-                foreach (var style in tagStyles)
-                {
-                    sb.AppendFormat("{0}: {1}; ", style.Key, style.Value);
-                }
-                sb.Remove(sb.Length - 1, 1);
-                sb.Append("\"");
-            }
+            //// if inline style insert the style tag with all collected style properties
+            //if (styleGen == HtmlGenerationStyle.Inline && tagStyles.Count > 0)
+            //{
+            //    sb.Append(" style=\"");
+            //    foreach (var style in tagStyles)
+            //    {
+            //        sb.AppendFormat("{0}: {1}; ", style.Key, style.Value);
+            //    }
+            //    sb.Remove(sb.Length - 1, 1);
+            //    sb.Append("\"");
+            //}
 
-            sb.AppendFormat("{0}>", box.HtmlTag.IsSingle ? "/" : "");
-            sb.AppendLine();
+            //sb.AppendFormat("{0}>", box.HtmlTag.IsSingle ? "/" : "");
+            //sb.AppendLine();
         }
 
         /// <summary>
@@ -773,28 +784,34 @@ namespace HtmlRenderer.Utils
         /// <param name="sb">the string builder to write stylesheet into</param>
         /// <param name="cssData">the css data to write to the head</param>
         /// <param name="indent">the indent to use for nice formating</param>
-        private static void WriteStylesheet(StringBuilder sb, CssData cssData, int indent)
+        private static void WriteStylesheet(StringBuilder sb, CssSheet cssData, int indent)
         {
-            sb.Append(new string(' ', indent * 4));
-            sb.AppendLine("<style type=\"text/css\">");
-            foreach (var cssBlocks in cssData.MediaBlocks["all"])
-            {
-                sb.Append(new string(' ', (indent + 1) * 4));
-                sb.Append(cssBlocks.Key);
-                sb.Append(" { ");
-                foreach (var cssBlock in cssBlocks.Value)
-                {
-                    foreach (var property in cssBlock.Properties)
-                    {
-                        // atodo: handle selectors
-                        sb.AppendFormat("{0}: {1};", property.Key, property.Value);
-                    }
-                }
-                sb.Append(" }");
-                sb.AppendLine();
-            }
-            sb.Append(new string(' ', indent * 4));
-            sb.AppendLine("</style>");
+            //wait for another technique
+            throw new NotSupportedException("wait for another technique");
+
+            //sb.Append(new string(' ', indent * 4));
+            //sb.AppendLine("<style type=\"text/css\">");
+            //foreach (CssCodeBlock block in cssData.DefaultMediaBlock.GetCodeBlockIter())
+            //{
+
+            //    sb.Append(new string(' ', (indent + 1) * 4));
+            //    sb.Append(block.CssClassName);
+            //    sb.Append(" { ");
+            //    foreach (var cssProperty in block.Properties.Values)
+            //    {
+            //        sb.AppendFormat("{0}: {1};", cssProperty.Name, cssProperty.Value);
+            //        //sb.AppendFormat("{0}: {1};",, property.Value);
+            //        //foreach (var property in cssBlock.Properties)
+            //        //{
+            //        //    // TODO: handle selectors
+            //        //    sb.AppendFormat("{0}: {1};", property.Key, property.Value);
+            //        //}
+            //    }
+            //    sb.Append(" }");
+            //    sb.AppendLine();
+            //}
+            //sb.Append(new string(' ', indent * 4));
+            //sb.AppendLine("</style>");
         }
 
         /// <summary>

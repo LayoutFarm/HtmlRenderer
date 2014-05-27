@@ -90,8 +90,7 @@ namespace HtmlRenderer.Dom
                         {
                             if (char.IsWhiteSpace(c0))
                             {
-                                //flush new token  
-
+                                //flush new token   
                                 boxWords.Add(CssRectWord.CreateRefText(box, startIndex, appendLength, lastBoxGenIsWhitespace, true));
                                 lastBoxGenIsWhitespace = false;
                                 parsingState = WordParsingState.Whitespace;

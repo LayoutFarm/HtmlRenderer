@@ -1331,7 +1331,7 @@ namespace HtmlRenderer.Dom
 #if DEBUG
         internal void dbugPaintTextWordArea(IGraphics g, PointF offset, CssRect word)
         {
-            g.DrawRectangle(Pens.Blue, word.Left, word.Top, word.Width, word.Height);
+            //g.DrawRectangle(Pens.Blue, word.Left, word.Top, word.Width, word.Height);
 
         }
 #endif

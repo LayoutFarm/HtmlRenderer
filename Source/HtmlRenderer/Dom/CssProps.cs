@@ -133,11 +133,12 @@ namespace HtmlRenderer.Dom
         Inset,
         [CssName(CssConstants.Outset)]
         Outset,
-
-        Initial,
-
+         
         [CssName(CssConstants.Inherit)]
-        Inherit
+        Inherit,
+         
+        //extension
+        Unknown
     }
     public enum CssWordBreak : byte
     {
@@ -147,7 +148,7 @@ namespace HtmlRenderer.Dom
         BreakAll,
         [CssName(CssConstants.KeepAll)]
         KeepAll,
-        Initial,
+       
         [CssName(CssConstants.Inherit)]
         Inherit
     }
@@ -203,7 +204,7 @@ namespace HtmlRenderer.Dom
         Center,
         [CssName(CssConstants.Justify)]
         Justify,
-        Initial,
+       
         [CssName(CssConstants.Inherit)]
         Inherit
     }
@@ -241,7 +242,7 @@ namespace HtmlRenderer.Dom
         Scroll,
         [CssName(CssConstants.Auto)]
         Auto,
-        Initial,
+         
         [CssName(CssConstants.Inherit)]
         Inherit
     }
@@ -291,7 +292,9 @@ namespace HtmlRenderer.Dom
         Oblique,
         Initial,
         [CssName(CssConstants.Inherit)]
-        Inherit
+        Inherit,
+
+        Unknown,
     }
     public enum CssFontVariant : byte
     {
@@ -301,7 +304,9 @@ namespace HtmlRenderer.Dom
         SmallCaps,
         Initial,
         [CssName(CssConstants.Inherit)]
-        Inherit
+        Inherit,
+
+        Unknown,
     }
     public enum CssFontWeight : byte
     {
@@ -314,8 +319,7 @@ namespace HtmlRenderer.Dom
         Bolder,
         [CssName(CssConstants.Lighter)]
         Lighter,
-
-
+         
         [CssName("100")]
         _100,
         [CssName("200")]
@@ -329,9 +333,12 @@ namespace HtmlRenderer.Dom
         [CssName("600")]
         _600,
 
-        Initial,
+         
         [CssName(CssConstants.Inherit)]
-        Inherit
+        Inherit,
+
+        Unknown,
+
     }
     public enum CssListStylePoistion : byte
     {
@@ -340,7 +347,7 @@ namespace HtmlRenderer.Dom
         [CssName(CssConstants.Inside)]
         Inside,
 
-        Initial,
+        
         [CssName(CssConstants.Inherit)]
         Inherit
     }
@@ -356,7 +363,7 @@ namespace HtmlRenderer.Dom
         [CssName(CssConstants.Separate)]
         Square,
         //-----------------------------
-        Initial,
+        
         [CssName(CssConstants.Inherit)]
         Inherit,
 
@@ -398,7 +405,18 @@ namespace HtmlRenderer.Dom
         Katakana,
         [CssName(CssConstants.KatakanaIroha)]
         KatakanaIroha,
+    }
 
+    public enum CssNamedBorderWidth : byte
+    {
+        Unknown,
+
+        [CssName(CssConstants.Thin)]
+        Thin,
+        [CssName(CssConstants.Medium)]
+        Medium,
+        [CssName(CssConstants.Thick)]
+        Thick
     }
 
 }

@@ -25,9 +25,6 @@ namespace HtmlRenderer.Parse
     /// </summary>
     internal static class DomParser
     {
-
-
-
         /// <summary>
         /// Generate css tree by parsing the given html and applying the given css style data on it.
         /// </summary>
@@ -38,7 +35,7 @@ namespace HtmlRenderer.Parse
         public static CssBox GenerateCssTree(
             string html,
             HtmlContainer htmlContainer,
-            ref CssData cssData)
+            CssSheet cssData)
         {
 
             //1. generate css box  from html data
@@ -55,8 +52,8 @@ namespace HtmlRenderer.Parse
 
                 root.HtmlContainer = htmlContainer;
 
-                bool cssDataChanged = false;
-                CascadeStyles(root, htmlContainer, ref cssData, ref cssDataChanged);
+
+                ApplyStyleSheet(root, htmlContainer, ref cssData);
                 //-------------------------------------------------------------------
 
                 SetTextSelectionStyle(htmlContainer, cssData);
@@ -125,75 +122,85 @@ namespace HtmlRenderer.Parse
         /// <param name="htmlContainer">the html container to use for reference resolve</param>
         /// <param name="cssData"> </param>
         /// <param name="cssDataChanged">check if the css data has been modified by the handled html not to change the base css data</param>
-        private static void CascadeStyles(CssBox box, HtmlContainer htmlContainer, ref CssData cssData, ref bool cssDataChanged)
+        private static void ApplyStyleSheet(CssBox box, HtmlContainer htmlContainer, ref CssSheet cssData)
         {
-            //recursive
+            //recursive 
+            //------------------------------------------------------------------- 
+            CssSheet savedCss = cssData;
+            //------------------------------------------------------------------- 
             box.InheritStyle();
 
             if (box.HtmlTag != null)
             {
-                // try assign style using the html element tag
-                AssignCssBlocks(box, cssData, box.HtmlTag.Name);
-
-                // try assign style using the "class" attribute of the html element
+                //------------------------------------------------------------------- 
+                //1.
+                // try assign style using the html element tag     
+                AssignCssToSpecificBoxWithTagName(box, cssData, box.HtmlTag.Name);
+                //2.
+                // try assign style using the "class" attribute of the html element 
                 if (box.HtmlTag.HasAttribute("class"))
                 {
-                    AssignClassCssBlocks(box, cssData);
+                    AssignCssToSpecificClass(box, cssData);
                 }
 
+                //3.
                 // try assign style using the "id" attribute of the html element
                 if (box.HtmlTag.HasAttribute("id"))
                 {
                     var id = box.HtmlTag.TryGetAttribute("id");
-                    AssignCssBlocks(box, cssData, "#" + id);
+                    AssignCssToSpecificBoxWithId(box, cssData, "#" + id);
                 }
-
+                //-------------------------------------------------------------------
+                //4. 
                 TranslateAttributes(box.HtmlTag, box);
+                //-------------------------------------------------------------------
 
-                // Check for the style="" attribute
+                // Check for the style attribute
                 if (box.HtmlTag.HasAttribute("style"))
                 {
-                    var block = CssParser.ParseCssBlock(box.HtmlTag.Name, box.HtmlTag.TryGetAttribute("style"));
-                    AssignCssBlock(box, block);
-                }
 
-                // Check for the <style> tag
-                //if (box.HtmlTag.Name.Equals("style", StringComparison.CurrentCultureIgnoreCase) && box.Boxes.Count == 1)
+                    WebDom.CssRuleSet ruleset = CssParser.ParseCssBlock2(box.HtmlTag.Name, box.HtmlTag.TryGetAttribute("style"));
+                    foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
+                    {
+                        AssignPropertyValueToCssBox(box, propDecl);
+                    }
+                }
+                //-------------------------------------------------------------------
+
+                // Check for the <style> tag                 
                 if (box.WellknownTagName == WellknownHtmlTagName.STYLE && box.ChildCount == 1)
                 {
-                    CloneCssData(ref cssData, ref cssDataChanged);
+                    cssData = CloneCssData(cssData);
                     CssParser.ParseStyleSheet(cssData, box.GetFirstChild().CopyTextContent());
                 }
+                //-------------------------------------------------------------------
 
                 // Check for the <link rel=stylesheet> tag
                 //                if (box.HtmlTag.Name.Equals("link", StringComparison.CurrentCultureIgnoreCase) &&
                 if (box.WellknownTagName == WellknownHtmlTagName.LINK &&
                     box.GetAttribute("rel", string.Empty).Equals("stylesheet", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    CloneCssData(ref cssData, ref cssDataChanged);
+                    //----------------------
+                    cssData = CloneCssData(cssData);
                     string stylesheet;
-                    CssData stylesheetData;
+                    CssSheet stylesheetData;
 
+                    //load style sheet from external 
                     StylesheetLoadHandler.LoadStylesheet(htmlContainer,
                         box.GetAttribute("href", string.Empty),
                         out stylesheet, out stylesheetData);
 
                     if (stylesheet != null)
+                    {
                         CssParser.ParseStyleSheet(cssData, stylesheet);
+                    }
                     else if (stylesheetData != null)
+                    {
                         cssData.Combine(stylesheetData);
+                    }
                 }
             }
 
-            // cascade text decoration only to boxes that actually have text so it will be handled correctly.
-            //if (box.TextDecoration != String.Empty && box.Text == null)
-            //{
-            //    foreach (var childBox in box.Boxes)
-            //    {
-            //        childBox.TextDecoration = box.TextDecoration;
-            //    }
-            //    box.TextDecoration = string.Empty;
-            //}
             if (box.TextDecoration != CssTextDecoration.NotAssign && !box.MayHasSomeTextContent)
             {
                 foreach (var childBox in box.GetChildBoxIter())
@@ -202,200 +209,177 @@ namespace HtmlRenderer.Parse
                 }
                 box.TextDecoration = CssTextDecoration.NotAssign;
             }
+
             foreach (var childBox in box.GetChildBoxIter())
             {
-                CascadeStyles(childBox, htmlContainer, ref cssData, ref cssDataChanged);
+                //recursive
+                ApplyStyleSheet(childBox, htmlContainer, ref cssData);
             }
+
+
         }
+
+
 
         /// <summary>
         /// Set the selected text style (selection text color and background color).
         /// </summary>
         /// <param name="htmlContainer"> </param>
         /// <param name="cssData">the style data</param>
-        private static void SetTextSelectionStyle(HtmlContainer htmlContainer, CssData cssData)
+        private static void SetTextSelectionStyle(HtmlContainer htmlContainer, CssSheet cssData)
         {
+            //comment out for another technique
             htmlContainer.SelectionForeColor = Color.Empty;
             htmlContainer.SelectionBackColor = Color.Empty;
 
-            if (cssData.ContainsCssBlock("::selection"))
-            {
-                var blocks = cssData.GetCssBlock("::selection");
-                foreach (var block in blocks)
-                {
-                    if (block.Properties.ContainsKey("color"))
-                        htmlContainer.SelectionForeColor = CssValueParser.GetActualColor(block.Properties["color"]);
-                    if (block.Properties.ContainsKey("background-color"))
-                        htmlContainer.SelectionBackColor = CssValueParser.GetActualColor(block.Properties["background-color"]);
-                }
-            }
+            //foreach (var block in cssData.GetCssRuleSetIter("::selection"))
+            //{
+            //    if (block.Properties.ContainsKey("color"))
+            //        htmlContainer.SelectionForeColor = CssValueParser.GetActualColor(block.GetPropertyValueAsString("color"));
+            //    if (block.Properties.ContainsKey("background-color"))
+            //        htmlContainer.SelectionBackColor = CssValueParser.GetActualColor(block.GetPropertyValueAsString("background-color"));
+            //}
+
+            //if (cssData.ContainsCssBlock("::selection"))
+            //{
+            //    var blocks = cssData.GetCssBlock("::selection");
+            //    foreach (var block in blocks)
+            //    {
+
+            //    }
+            //}
         }
 
+        static readonly char[] _whiteSplitter = new[] { ' ' };
         /// <summary>
         /// Assigns the given css classes to the given css box checking if matching.<br/>
         /// Support multiple classes in single attribute separated by whitespace.
         /// </summary>
         /// <param name="box">the css box to assign css to</param>
         /// <param name="cssData">the css data to use to get the matching css blocks</param>
-        private static void AssignClassCssBlocks(CssBox box, CssData cssData)
+        private static void AssignCssToSpecificClass(CssBox box, CssSheet cssData)
         {
             var classes = box.HtmlTag.TryGetAttribute("class");
+            //class attribute may has more than one value (multiple classes in single attribute);
+            string[] classNames = classes.Split(_whiteSplitter, StringSplitOptions.RemoveEmptyEntries);
 
-            var startIdx = 0;
-            while (startIdx < classes.Length)
+            int j = classNames.Length;
+            for (int i = 0; i < j; ++i)
             {
-                while (startIdx < classes.Length && classes[startIdx] == ' ')
-                    startIdx++;
-
-                if (startIdx < classes.Length)
+                CssRuleSetGroup ruleSetGroup = cssData.GetRuleSetForClassName(classNames[i]);
+                if (ruleSetGroup != null)
                 {
-                    var endIdx = classes.IndexOf(' ', startIdx);
+                    foreach (var propDecl in ruleSetGroup.GetPropertyDeclIter())
+                    {
+                        AssignPropertyValueToCssBox(box, propDecl);
+                    }
+                    //---------------------------------------------------------
+                    //find subgroup for more specific conditions
+                    int subgroupCount = ruleSetGroup.SubGroupCount;
+                    for (int m = 0; m < subgroupCount; ++m)
+                    {
+                        //find if selector condition match with this box
+                        CssRuleSetGroup ruleSetSubGroup = ruleSetGroup.GetSubGroup(m);
+                        var selector = ruleSetSubGroup.OriginalSelector;
 
-                    if (endIdx < 0)
-                        endIdx = classes.Length;
+                    }
+                }
+            } 
+        }
 
-                    var cls = "." + classes.Substring(startIdx, endIdx - startIdx);
-                    AssignCssBlocks(box, cssData, cls);
-                    AssignCssBlocks(box, cssData, box.HtmlTag.Name + cls);
 
-                    startIdx = endIdx + 1;
+        private static void AssignCssToSpecificBoxWithTagName(CssBox box, CssSheet cssData, string tagName)
+        {
+            CssRuleSetGroup ruleGroup = cssData.GetRuleSetForTagName(box.HtmlTag.Name);
+            if (ruleGroup != null)
+            {
+                //found  math tag name
+                //simple selector with tag name 
+                if (box.WellknownTagName == WellknownHtmlTagName.A &&
+                   ruleGroup.Name == "a" &&   //block.CssClassName.Equals("a", StringComparison.OrdinalIgnoreCase) &&                 
+                   !box.HtmlTag.HasAttribute("href"))
+                {
+
+                }
+                else
+                {
+                    AssignStyleToCssBox2(box, ruleGroup);
                 }
             }
         }
 
-        /// <summary>
-        /// Assigns the given css style blocks to the given css box checking if matching.
-        /// </summary>
-        /// <param name="box">the css box to assign css to</param>
-        /// <param name="cssData">the css data to use to get the matching css blocks</param>
-        /// <param name="className">the class selector to search for css blocks</param>
-        private static void AssignCssBlocks(CssBox box, CssData cssData, string className)
+
+
+        private static void AssignCssToSpecificBoxWithId(CssBox box, CssSheet cssData, string elementId)
         {
-            var blocks = cssData.GetCssBlock(className);
-            foreach (var block in blocks)
-            {
-                if (IsBlockAssignableToBox(box, block))
-                {
-                    AssignCssBlock(box, block);
-                }
-            }
+            throw new NotSupportedException();
+            //foreach (var ruleSet in cssData.GetCssRuleSetIter(elementId))
+            //{
+            //    if (IsBlockAssignableToBox(box, ruleSet))
+            //    {
+            //        AssignStyleToCssBox(box, ruleSet);
+            //    }
+            //}
         }
 
-        /// <summary>
-        /// Check if the given css block is assignable to the given css box.<br/>
-        /// the block is assignable if it has no hierarchical selectors or if the hierarchy matches.<br/>
-        /// Special handling for ":hover" pseudo-class.<br/>
-        /// </summary>
-        /// <param name="box">the box to check assign to</param>
-        /// <param name="block">the block to check assign of</param>
-        /// <returns>true - the block is assignable to the box, false - otherwise</returns>
-        private static bool IsBlockAssignableToBox(CssBox box, CssBlock block)
+
+        static void AssignPropertyValueToCssBox(CssBox box, WebDom.CssPropertyDeclaration decl)
         {
-            bool assignable = true;
-            if (block.Selectors != null)
-            {
-                assignable = IsBlockAssignableToBoxWithSelector(box, block);
-            }
-            //else if (box.HtmlTag.Name.Equals("a", StringComparison.OrdinalIgnoreCase) && block.Class.Equals("a", StringComparison.OrdinalIgnoreCase) && !box.HtmlTag.HasAttribute("href"))
-            else if (box.WellknownTagName == WellknownHtmlTagName.A &&
-                 block.Class.Equals("a", StringComparison.OrdinalIgnoreCase) && !box.HtmlTag.HasAttribute("href"))
-            {
-                assignable = false;
-            }
 
-            if (assignable && block.Hover)
+            if (decl.IsExpand)
             {
-                box.HtmlContainer.AddHoverBox(box, block);
-                assignable = false;
+                return;
             }
-
-            return assignable;
-        }
-
-        /// <summary>
-        /// Check if the given css block is assignable to the given css box by validating the selector.<br/>
-        /// </summary>
-        /// <param name="box">the box to check assign to</param>
-        /// <param name="block">the block to check assign of</param>
-        /// <returns>true - the block is assignable to the box, false - otherwise</returns>
-        private static bool IsBlockAssignableToBoxWithSelector(CssBox box, CssBlock block)
-        {
-            foreach (var selector in block.Selectors)
+            if (decl.MarkedAsInherit && box.ParentBox != null)
             {
-                bool matched = false;
-                while (!matched)
+                //use parent property 
+                CssUtils.SetPropertyValueFromParent(box, decl.PropertyName);
+            }
+            else
+            {
+                if (IsStyleOnElementAllowed2(box, decl))
                 {
-                    box = box.ParentBox;
-                    while (box != null && box.HtmlTag == null)
+
+
+                    string value = null;
+                    int valueCount = decl.ValueCount;
+                    switch (valueCount)
                     {
-                        box = box.ParentBox;
+                        case 0:
+                            {
+                                throw new NotSupportedException();
+                            } break;
+                        case 1:
+                            {
+                                value = decl.GetPropertyValue(0).ToString();
+
+                            } break;
+                        default:
+                            {
+                                 
+                                throw new NotSupportedException();
+                            } break;
                     }
 
-                    if (box == null)
-                    {
-                        return false;
-                    }
-
-                    if (box.HtmlTag.Name.Equals(selector.Class, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        matched = true;
-                    }
-
-                    if (!matched && box.HtmlTag.HasAttribute("class"))
-                    {
-                        var className = box.HtmlTag.TryGetAttribute("class");
-                        if (selector.Class.Equals("." + className, StringComparison.InvariantCultureIgnoreCase) || selector.Class.Equals(box.HtmlTag.Name + "." + className, StringComparison.InvariantCultureIgnoreCase))
-                            matched = true;
-                    }
-
-                    if (!matched && box.HtmlTag.HasAttribute("id"))
-                    {
-                        var id = box.HtmlTag.TryGetAttribute("id");
-                        if (selector.Class.Equals("#" + id, StringComparison.InvariantCultureIgnoreCase))
-                            matched = true;
-                    }
-
-                    if (!matched && selector.DirectParent)
-                        return false;
+                    CssUtils.SetPropertyValue(box, decl.PropertyName, value);
                 }
             }
-            return true;
-        }
 
-        /// <summary>
-        /// Assigns the given css style block properties to the given css box.
-        /// </summary>
-        /// <param name="box">the css box to assign css to</param>
-        /// <param name="block">the css block to assign</param>
-        private static void AssignCssBlock(CssBox box, CssBlock block)
+        }
+        static void AssignStyleToCssBox2(CssBox box, CssRuleSetGroup block)
         {
-            foreach (var prop in block.Properties)
+            foreach (WebDom.CssPropertyDeclaration decl in block.GetPropertyDeclIter())
             {
-                //สำหรับทุก property 
-                var value = prop.Value;
-                if (prop.Value == CssConstants.Inherit && box.ParentBox != null)
-                {
-                    value = CssUtils.GetPropertyValue(box.ParentBox, prop.Key);
-                }
-                if (IsStyleOnElementAllowed(box, prop.Key, value))
-                {
-                    CssUtils.SetPropertyValue(box, prop.Key, value);
-                }
+                AssignPropertyValueToCssBox(box, decl);
             }
-        }
 
-        /// <summary>
-        /// Check if the given style is allowed to be set on the given css box.<br/>
-        /// Used to prevent invalid CssBoxes creation like table with inline display style.
-        /// </summary>
-        /// <param name="box">the css box to assign css to</param>
-        /// <param name="key">the style key to cehck</param>
-        /// <param name="value">the style value to check</param>
-        /// <returns>true - style allowed, false - not allowed</returns>
-        private static bool IsStyleOnElementAllowed(CssBox box, string key, string value)
+        }
+        static bool IsStyleOnElementAllowed2(CssBox box, WebDom.CssPropertyDeclaration cssProperty)
         {
-            if (box.HtmlTag != null && key == HtmlConstants.Display)
+            if (box.HtmlTag != null && cssProperty.PropertyName == HtmlConstants.Display)
             {
+                string value = cssProperty.GetPropertyValue(0).Value;
+
                 switch (box.HtmlTag.Name)
                 {
                     case HtmlConstants.Table:
@@ -421,27 +405,26 @@ namespace HtmlRenderer.Parse
             }
             return true;
         }
-
         /// <summary>
         /// Clone css data if it has not already been cloned.<br/>
         /// Used to preserve the base css data used when changed by style inside html.
         /// </summary>
-        private static void CloneCssData(ref CssData cssData, ref bool cssDataChanged)
+        static CssSheet CloneCssData(CssSheet cssData)
         {
-            if (!cssDataChanged)
-            {
-                cssDataChanged = true;
-                cssData = cssData.Clone();
-            }
+            //if (!cssDataChanged)
+            //{                 
+            //    cssData = cssData.Clone();
+            //    return cssData;
+            //}
+            // cssData = cssData.Clone(newowner);
+
+            return cssData.Clone(new object());
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="tag"></param>
-        /// <param name="box"></param>
+
         private static void TranslateAttributes(IHtmlTag tag, CssBox box)
         {
+
             if (tag.HasAttributes())
             {
 
@@ -452,9 +435,12 @@ namespace HtmlRenderer.Parse
                     switch (attr.Name)
                     {
                         case HtmlConstants.Align:
-                            if (value == HtmlConstants.Left || value == HtmlConstants.Center || value == HtmlConstants.Right || value == HtmlConstants.Justify)
+
+                            if (value == HtmlConstants.Left
+                                || value == HtmlConstants.Center
+                                || value == HtmlConstants.Right
+                                || value == HtmlConstants.Justify)
                             {
-                                //box.TextAlign = value.ToLower();
                                 box.SetTextAlign(value.ToLower());
                             }
                             else
@@ -469,16 +455,20 @@ namespace HtmlRenderer.Parse
                             box.BackgroundColor = CssValueParser.GetActualColor(value.ToLower());
                             break;
                         case HtmlConstants.Border:
+
                             if (!string.IsNullOrEmpty(value) && value != "0")
                             {
                                 box.BorderLeftStyle = box.BorderTopStyle = box.BorderRightStyle = box.BorderBottomStyle = CssBorderStyle.Solid;// CssConstants.Solid;
                             }
+
                             box.BorderLeftWidth = box.BorderTopWidth = box.BorderRightWidth = box.BorderBottomWidth = TranslateLength(CssLength.MakeBorderLength(value));
 
                             if (tag.WellknownTagName == WellknownHtmlTagName.TABLE)
                             {
                                 if (value != "0")
+                                {
                                     ApplyTableBorder(box, "1px");
+                                }
                             }
                             else
                             {
@@ -490,7 +480,6 @@ namespace HtmlRenderer.Parse
                             break;
                         case HtmlConstants.Cellspacing:
 
-                            //box.BorderSpacing = TranslateLength(value);
                             box.BorderSpacingHorizontal = box.BorderSpacingVertical = new CssLength(TranslateLength(value));
                             break;
                         case HtmlConstants.Cellpadding:
@@ -501,7 +490,6 @@ namespace HtmlRenderer.Parse
 
                             break;
                         case HtmlConstants.Dir:
-                            //box.Direction = value.ToLower();
                             box.SetCssDirection(value.ToLower());
                             break;
                         case HtmlConstants.Face:
@@ -565,7 +553,6 @@ namespace HtmlRenderer.Parse
             {
                 //if unknown unit number
                 return new CssLength(len.Number, false, CssUnit.Pixels);
-                //return string.Format(NumberFormatInfo.InvariantInfo, "{0}px", htmlLength);
             }
             return len;
             //return htmlLength;
@@ -592,7 +579,6 @@ namespace HtmlRenderer.Parse
         private static void ApplyTablePadding(CssBox table, string padding)
         {
             var length = TranslateLength(padding);
-            //SetForAllCells(table, cell => cell.PaddingLeft = cell.PaddingTop = cell.PaddingRight = cell.PaddingBottom = length);
             SetForAllCells(table, cell => cell.PaddingLeft = cell.PaddingTop = cell.PaddingRight = cell.PaddingBottom = new CssLength(padding));
         }
 
@@ -604,18 +590,17 @@ namespace HtmlRenderer.Parse
         /// <param name="action">the action to execute</param>
         private static void SetForAllCells(CssBox table, ActionInt<CssBox> action)
         {
-            foreach (var l1 in table.GetChildBoxIter())
+            foreach (var tr in table.GetChildBoxIter())
             {
-                foreach (var l2 in l1.GetChildBoxIter())
-                {
-                    //if (l2.HtmlTag != null && l2.HtmlTag.Name == "td")
-                    if (l2.WellknownTagName == WellknownHtmlTagName.TD)
+                foreach (var td in tr.GetChildBoxIter())
+                {                        
+                    if (td.WellknownTagName == WellknownHtmlTagName.TD)
                     {
-                        action(l2);
+                        action(td);
                     }
                     else
                     {
-                        foreach (var l3 in l2.GetChildBoxIter())
+                        foreach (var l3 in td.GetChildBoxIter())
                         {
                             action(l3);
                         }
@@ -652,24 +637,7 @@ namespace HtmlRenderer.Parse
                 }
                 childIndex++;
             }
-            //for (int i = box.ChildCount - 1; i >= 0; i--)
-            //{
-            //    var childBox = box.Boxes[i];
-            //    //if (childBox is CssBoxImage &&  childBox.Display == CssConstants.Block)
-            //    if (childBox is CssBoxImage && childBox.DisplayType == CssBoxDisplayType.Block)
-            //    {
-            //        //create new anonymous box
-            //        var block = CssBox.CreateBlock(childBox.ParentBox, null, childBox);
-            //        childBox.ParentBox = block;
-            //        //childBox.Display = CssConstants.Inline;
-            //        childBox.DisplayType = CssBoxDisplayType.Inline;
-            //    }
-            //    else
-            //    {
-            //        // recursive
-            //        CorrectImgBoxes(childBox);
-            //    }
-            //}
+
         }
 
 #if DEBUG
@@ -707,10 +675,6 @@ namespace HtmlRenderer.Parse
                 box.HtmlContainer.ReportError(HtmlRenderErrorType.HtmlParsing, "Failed in block inside inline box correction", ex);
             }
         }
-
-
-
-
 
         #endregion
     }
