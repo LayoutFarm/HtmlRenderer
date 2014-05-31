@@ -37,6 +37,8 @@ namespace HtmlRenderer.Dom
     /// </remarks>
     public partial class CssBox : CssBoxBase, IDisposable
     {
+
+
         /// <summary>
         /// Init.
         /// </summary>
@@ -225,7 +227,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return Words.Count == 1 && Words[0].IsImage;
+                return Runs.Count == 1 && Runs[0].IsImage;
             }
         }
 
@@ -236,9 +238,9 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((Words.Count != 0 || Boxes.Count != 0) && (Words.Count != 1 || !Words[0].IsSpaces))
+                if ((Runs.Count != 0 || Boxes.Count != 0) && (Runs.Count != 1 || !Runs[0].IsSpaces))
                 {
-                    foreach (CssRect word in Words)
+                    foreach (CssRun word in Runs)
                     {
                         if (!word.IsSpaces)
                         {
@@ -262,11 +264,7 @@ namespace HtmlRenderer.Dom
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_EMPTY;
             this._boxCompactFlags = tmpFlags;
         }
-        internal void SetTextContent(string str)
-        {
-            this._textBuffer = str.ToCharArray();
-            ResetTextFlags();
-        }
+
         internal void SetTextContent(char[] chars)
         {
             this._textBuffer = chars;
@@ -368,6 +366,7 @@ namespace HtmlRenderer.Dom
 
         internal void UpdateStripInfo(RectangleF r)
         {
+            //update summary bound
             this.SummaryBound = RectangleF.Union(this.SummaryBound, r);
         }
         internal RectangleF SummaryBound
@@ -378,24 +377,31 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the BoxWords of text in the box
         /// </summary>
-        internal List<CssRect> Words
+        internal List<CssRun> Runs
         {
-            get { return _boxWords; }
+            get { return _boxRuns; }
         }
-        public IEnumerable<CssRect> GetWordIter()
+       
+        internal bool HasRuns
         {
-            foreach (var w in this._boxWords)
+            get
             {
-                yield return w;
+                return this._boxRuns != null && this._boxRuns.Count > 0;
             }
-
+        }
+        public IEnumerable<CssRun> GetRunIter()
+        {
+            foreach (var r in this._boxRuns)
+            {
+                yield return r;
+            }
         }
         /// <summary>
         /// Gets the first word of the box
         /// </summary>
-        internal CssRect FirstWord
+        internal CssRun FirstRun
         {
-            get { return Words[0]; }
+            get { return Runs[0]; }
         }
 
         /// <summary>
@@ -551,15 +557,7 @@ namespace HtmlRenderer.Dom
             this._parentBox.Boxes.ChangeSiblingIndex(this, siblingIndex);
         }
 
-        /// <summary>
-        /// Splits the text into words and saves the result
-        /// </summary>
-        public void ParseToWords()
-        {
-            //clear prev box
-            _boxWords.Clear();
-            CssTextSplitter.DefaultSplitter.ParseWordContent(this);
-        }
+
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
@@ -590,8 +588,8 @@ namespace HtmlRenderer.Dom
             //if (Display != CssConstants.None)
             if (this.CssDisplay != CssDisplay.None)
             {
-                RectanglesReset();
-                MeasureWordsSize(g);
+                ResetSummaryBound();
+                MeasureRunsSize(g);
             }
 
             //if (IsBlock || Display == CssConstants.ListItem || Display == CssConstants.Table || Display == CssConstants.InlineTable || Display == CssConstants.TableCell)
@@ -694,7 +692,7 @@ namespace HtmlRenderer.Dom
         /// Assigns words its width and height
         /// </summary>
         /// <param name="g"></param>
-        internal virtual void MeasureWordsSize(IGraphics g)
+        internal virtual void MeasureRunsSize(IGraphics g)
         {
             if (!_wordsSizeMeasured)
             {
@@ -706,12 +704,14 @@ namespace HtmlRenderer.Dom
 
                 MeasureWordSpacing(g);
 
-                if (Words.Count > 0)
+                if (Runs.Count > 0)
                 {
-                    foreach (var boxWord in Words)
+                    float fontHeight = FontsUtils.GetFontHeight(ActualFont);
+                    foreach (var boxWord in Runs)
                     {
-                        boxWord.Width = boxWord.Text != "\n" ? FontsUtils.MeasureStringWidth(g, boxWord.Text, ActualFont) : 0;
-                        boxWord.Height = FontsUtils.GetFontHeight(ActualFont);
+                        //if this is newline then width =0 ***                         
+                        boxWord.Width = boxWord.IsLineBreak ? 0 : FontsUtils.MeasureStringWidth(g, boxWord.Text, ActualFont);
+                        boxWord.Height = fontHeight;
                     }
                 }
 
@@ -818,55 +818,18 @@ namespace HtmlRenderer.Dom
                     }
 
 
-                    _listItemBox.ParseToWords();
+                    _listItemBox.ParseWordContent();
                     _listItemBox.PerformLayoutImp(g);
-                    _listItemBox.Size = new SizeF(_listItemBox.Words[0].Width, _listItemBox.Words[0].Height);
+                    _listItemBox.Size = new SizeF(_listItemBox.Runs[0].Width, _listItemBox.Runs[0].Height);
                 }
-                _listItemBox.Words[0].Left = this.LocationX - _listItemBox.Size.Width - 5;
-                _listItemBox.Words[0].Top = this.LocationY + ActualPaddingTop;// +FontAscent;
+                _listItemBox.Runs[0].Left = this.LocationX - _listItemBox.Size.Width - 5;
+                _listItemBox.Runs[0].Top = this.LocationY + ActualPaddingTop;// +FontAscent;
             }
         }
-
-        /// <summary>
-        /// Searches for the first word occurrence inside the box, on the specified linebox
-        /// </summary>
-        /// <param name="b"></param>
-        /// <param name="line"> </param>
-        /// <returns></returns>
-        internal CssRect FirstWordOccourence(CssBox b, CssLineBox line)
+        void ParseWordContent()
         {
-            if (b.Words.Count == 0 && b.Boxes.Count == 0)
-            {
-                return null;
-            }
-
-            if (b.Words.Count > 0)
-            {
-                foreach (CssRect word in b.Words)
-                {
-                    if (line.Words.Contains(word))
-                    {
-                        return word;
-                    }
-                }
-                return null;
-            }
-            else
-            {
-                foreach (CssBox bb in b.Boxes)
-                {
-                    CssRect w = FirstWordOccourence(bb, line);
-
-                    if (w != null)
-                    {
-                        return w;
-                    }
-                }
-
-                return null;
-            }
+            CssTextSplitter.DefaultSplitter.ParseWordContent(this);
         }
-
         /// <summary>
         /// Gets the specified Attribute, returns string.Empty if no attribute specified
         /// </summary>
@@ -897,7 +860,7 @@ namespace HtmlRenderer.Dom
         internal float GetMinimumWidth()
         {
             float maxWidth = 0;
-            CssRect maxWidthWord = null;
+            CssRun maxWidthWord = null;
             GetMinimumWidth_LongestWord(this, ref maxWidth, ref maxWidthWord);
 
             float padding = 0f;
@@ -921,11 +884,11 @@ namespace HtmlRenderer.Dom
         /// <param name="maxWidth"> </param>
         /// <param name="maxWidthWord"> </param>
         /// <returns></returns>
-        private static void GetMinimumWidth_LongestWord(CssBox box, ref float maxWidth, ref CssRect maxWidthWord)
+        private static void GetMinimumWidth_LongestWord(CssBox box, ref float maxWidth, ref CssRun maxWidthWord)
         {
-            if (box.Words.Count > 0)
+            if (box.Runs.Count > 0)
             {
-                foreach (CssRect cssRect in box.Words)
+                foreach (CssRun cssRect in box.Runs)
                 {
                     if (cssRect.Width > maxWidth)
                     {
@@ -974,10 +937,10 @@ namespace HtmlRenderer.Dom
 
                 foreach (CssLineBox hostline in startBox.GetHostLineIter())
                 {
-                    CssRectangleF r = hostline.GetStrip(this);
+                    PartialBoxStrip r = hostline.GetStrip(this);
                     if (r != null)
                     {
-                        maxc2 = Math.Max(maxc2, r.rectF.Bottom);
+                        maxc2 = Math.Max(maxc2, r.Bottom);
                     }
                 }
 
@@ -1003,92 +966,6 @@ namespace HtmlRenderer.Dom
             return 0;
         }
 
-        /// <summary>
-        /// Get the <paramref name="minWidth"/> and <paramref name="maxWidth"/> width of the box content.<br/>
-        /// </summary>
-        /// <param name="minWidth">The minimum width the content must be so it won't overflow (largest word + padding).</param>
-        /// <param name="maxWidth">The total width the content can take without line wrapping (with padding).</param>
-        internal void GetMinMaxWidth(out float minWidth, out float maxWidth)
-        {
-            float min = 0f;
-            float maxSum = 0f;
-            float paddingSum = 0f;
-            float marginSum = 0f;
-            GetMinMaxSumWords(this, ref min, ref maxSum, ref paddingSum, ref marginSum);
-
-            maxWidth = paddingSum + maxSum;
-            minWidth = paddingSum + (min < 90999 ? min : 0);
-        }
-
-        /// <summary>
-        /// Get the <paramref name="min"/> and <paramref name="maxSum"/> of the box words content and <paramref name="paddingSum"/>.<br/>
-        /// </summary>
-        /// <param name="box">the box to calculate for</param>
-        /// <param name="min">the width that allows for each word to fit (width of the longest word)</param>
-        /// <param name="maxSum">the max width a single line of words can take without wrapping</param>
-        /// <param name="paddingSum">the total amount of padding the content has </param>
-        /// <param name="marginSum"></param>
-        /// <returns></returns>
-        private static void GetMinMaxSumWords(CssBox box, ref float min, ref float maxSum, ref float paddingSum, ref float marginSum)
-        {
-            float? oldSum = null;
-
-            // not inline (block) boxes start a new line so we need to reset the max sum
-            //if (box.Display != CssConstants.Inline && box.Display != CssConstants.TableCell && box.WhiteSpace != CssConstants.NoWrap)
-            if (box.CssDisplay != CssDisplay.Inline &&
-                box.CssDisplay != CssDisplay.TableCell &&
-                box.WhiteSpace != CssWhiteSpace.NoWrap)
-            {
-                oldSum = maxSum;
-                maxSum = marginSum;
-            }
-
-            // add the padding 
-            paddingSum += box.ActualBorderLeftWidth + box.ActualBorderRightWidth + box.ActualPaddingRight + box.ActualPaddingLeft;
-
-
-            // for tables the padding also contains the spacing between cells
-            //if (box.Display == CssConstants.Table)
-            if (box.CssDisplay == CssDisplay.Table)
-            {
-                paddingSum += CssLayoutEngineTable.GetTableSpacing(box);
-            }
-
-            if (box.Words.Count > 0)
-            {
-                // calculate the min and max sum for all the words in the box
-                foreach (CssRect word in box.Words)
-                {
-                    maxSum += word.FullWidth;
-                    min = Math.Max(min, word.Width);
-                }
-
-                // remove the last word padding
-                if (box.Words.Count > 0)
-                {
-                    maxSum -= box.Words[box.Words.Count - 1].ActualWordSpacing;
-                }
-            }
-            else
-            {
-                // recursively on all the child boxes
-                foreach (CssBox childBox in box.Boxes)
-                {
-                    marginSum += childBox.ActualMarginLeft + childBox.ActualMarginRight;
-
-                    //maxSum += childBox.ActualMarginLeft + childBox.ActualMarginRight;
-                    GetMinMaxSumWords(childBox, ref min, ref maxSum, ref paddingSum, ref marginSum);
-
-                    marginSum -= childBox.ActualMarginLeft + childBox.ActualMarginRight;
-                }
-            }
-
-            // max sum is max of all the lines in the box
-            if (oldSum.HasValue)
-            {
-                maxSum = Math.Max(maxSum, oldSum.Value);
-            }
-        }
 
 
         /// <summary>
@@ -1197,7 +1074,7 @@ namespace HtmlRenderer.Dom
                 return;
             }
 
-            foreach (CssRect word in Words)
+            foreach (CssRun word in Runs)
             {
                 word.Top += amount;
             }
@@ -1287,35 +1164,39 @@ namespace HtmlRenderer.Dom
 
         }
 
-        internal void PaintTextWord(IGraphics g, PointF offset, CssRect word)
+        internal void PaintTextWord(IGraphics g, PointF offset, CssRun word)
         {
             var wordPoint = new PointF(word.Left + offset.X, word.Top + offset.Y);
             if (word.Selected)
             {
-                // handle paint selected word background and with partial word selection
-                var wordLine = DomUtils.GetCssLineBoxByWord(word);
+                g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
+                word.debugPaintCount++;
 
-                var left = word.SelectedStartOffset > -1 ? word.SelectedStartOffset : (wordLine.Words[0] != word && word.HasSpaceBefore ? -ActualWordSpacing : 0);
-                var padWordRight = word.HasSpaceAfter && !wordLine.IsLastSelectedWord(word);
-                var width = word.SelectedEndOffset > -1 ? word.SelectedEndOffset : word.Width + (padWordRight ? ActualWordSpacing : 0);
-                var rect = new RectangleF(word.Left + offset.X + left, word.Top + offset.Y, width - left, wordLine.LineHeight);
+                //// handle paint selected word background and with partial word selection
+                //var wordLine = DomUtils.GetCssLineBoxByWord(word);
 
-                g.FillRectangle(GetSelectionBackBrush(false), rect.X, rect.Y, rect.Width, rect.Height);
+                //var left = word.SelectedStartOffset > -1 ? word.SelectedStartOffset : (wordLine.GetFirstRun() != word && word.HasSpaceBefore ? -ActualWordSpacing : 0);
+                //var padWordRight = word.HasSpaceAfter && !wordLine.IsLastSelectedWord(word);
+                //var width = word.SelectedEndOffset > -1 ? word.SelectedEndOffset : word.Width + (padWordRight ? ActualWordSpacing : 0);
+                //var rect = new RectangleF(word.Left + offset.X + left, word.Top + offset.Y, width - left, wordLine.LineHeight);
 
-                if (HtmlContainer.SelectionForeColor != System.Drawing.Color.Empty && (word.SelectedStartOffset > 0 || word.SelectedEndIndexOffset > -1))
-                {
-                    var orgClip = g.GetClip();
-                    g.SetClip(rect, CombineMode.Exclude);
-                    g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
-                    g.SetClip(rect);
-                    g.DrawString(word.Text, ActualFont, GetSelectionForeBrush(), wordPoint, new SizeF(word.Width, word.Height));
-                    g.SetClip(orgClip);
-                }
-                else
-                {
-                    g.DrawString(word.Text, ActualFont, GetSelectionForeBrush(), wordPoint, new SizeF(word.Width, word.Height));
-                    word.debugPaintCount++;
-                }
+                ////draw selection area
+                //g.FillRectangle(GetSelectionBackBrush(false), rect.X, rect.Y, rect.Width, rect.Height);
+
+                //if (HtmlContainer.SelectionForeColor != System.Drawing.Color.Empty && (word.SelectedStartOffset > 0 || word.SelectedEndIndexOffset > -1))
+                //{
+                //    var orgClip = g.GetClip();
+                //    g.SetClip(rect, CombineMode.Exclude);
+                //    g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
+                //    g.SetClip(rect);
+                //    g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
+                //    g.SetClip(orgClip);
+                //}
+                //else
+                //{
+                //    g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
+                //    word.debugPaintCount++;
+                //}
             }
             else
             {
@@ -1329,7 +1210,7 @@ namespace HtmlRenderer.Dom
         }
 
 #if DEBUG
-        internal void dbugPaintTextWordArea(IGraphics g, PointF offset, CssRect word)
+        internal void dbugPaintTextWordArea(IGraphics g, PointF offset, CssRun word)
         {
             //g.DrawRectangle(Pens.Blue, word.Left, word.Top, word.Width, word.Height);
 
@@ -1342,34 +1223,37 @@ namespace HtmlRenderer.Dom
         /// <param name="offset">the current scroll offset to offset the words</param>
         void PaintWords(IGraphics g, PointF offset)
         {
-            foreach (var word in Words)
+            foreach (var word in Runs)
             {
                 var wordPoint = new PointF(word.Left + offset.X, word.Top + offset.Y);
                 if (word.Selected)
                 {
 
-                    // handle paint selected word background and with partial word selection
-                    var wordLine = DomUtils.GetCssLineBoxByWord(word);
-                    var left = word.SelectedStartOffset > -1 ? word.SelectedStartOffset : (wordLine.Words[0] != word && word.HasSpaceBefore ? -ActualWordSpacing : 0);
-                    var padWordRight = word.HasSpaceAfter && !wordLine.IsLastSelectedWord(word);
-                    var width = word.SelectedEndOffset > -1 ? word.SelectedEndOffset : word.Width + (padWordRight ? ActualWordSpacing : 0);
-                    var rect = new RectangleF(word.Left + offset.X + left, word.Top + offset.Y, width - left, wordLine.LineHeight);
+                    //// handle paint selected word background and with partial word selection
+                    //var wordLine = DomUtils.GetCssLineBoxByWord(word);
+                    //var left = word.SelectedStartOffset > -1 ? word.SelectedStartOffset : (wordLine.GetFirstRun() != word && word.HasSpaceBefore ? -ActualWordSpacing : 0);
+                    //var padWordRight = word.HasSpaceAfter && !wordLine.IsLastSelectedWord(word);
+                    //var width = word.SelectedEndOffset > -1 ? word.SelectedEndOffset : word.Width + (padWordRight ? ActualWordSpacing : 0);
+                    //var rect = new RectangleF(word.Left + offset.X + left, word.Top + offset.Y, width - left, wordLine.LineHeight);
 
-                    g.FillRectangle(GetSelectionBackBrush(false), rect.X, rect.Y, rect.Width, rect.Height);
+                    //g.FillRectangle(GetSelectionBackBrush(false), rect.X, rect.Y, rect.Width, rect.Height);
 
-                    if (HtmlContainer.SelectionForeColor != System.Drawing.Color.Empty && (word.SelectedStartOffset > 0 || word.SelectedEndIndexOffset > -1))
-                    {
-                        var orgClip = g.GetClip();
-                        g.SetClip(rect, CombineMode.Exclude);
-                        g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
-                        g.SetClip(rect);
-                        g.DrawString(word.Text, ActualFont, GetSelectionForeBrush(), wordPoint, new SizeF(word.Width, word.Height));
-                        g.SetClip(orgClip);
-                    }
-                    else
-                    {
-                        g.DrawString(word.Text, ActualFont, GetSelectionForeBrush(), wordPoint, new SizeF(word.Width, word.Height));
-                    }
+                    //if (HtmlContainer.SelectionForeColor != System.Drawing.Color.Empty && (word.SelectedStartOffset > 0 || word.SelectedEndIndexOffset > -1))
+                    //{
+                    //    var orgClip = g.GetClip();
+                    //    g.SetClip(rect, CombineMode.Exclude);
+                    //    g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
+                    //    g.SetClip(rect);
+                    //    g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
+                    //    g.SetClip(orgClip);
+                    //}
+                    //else
+                    //{
+                    //    g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
+                    //}
+
+                    g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
+                    word.debugPaintCount++;
                 }
                 else
                 {
@@ -1463,7 +1347,7 @@ namespace HtmlRenderer.Dom
             g.DrawLine(pen, x1, y, x2, y);
         }
 
-        internal void RectanglesReset()
+        internal void ResetSummaryBound()
         {
             this.SummaryBound = RectangleF.Empty;
         }
@@ -1483,7 +1367,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Get brush for the text depending if there is selected text color set.
         /// </summary>
-        protected Color GetSelectionForeBrush()
+        protected Color GetSelectionForeColor()
         {
             return HtmlContainer.SelectionForeColor != System.Drawing.Color.Empty ? HtmlContainer.SelectionForeColor : ActualColor;
         }

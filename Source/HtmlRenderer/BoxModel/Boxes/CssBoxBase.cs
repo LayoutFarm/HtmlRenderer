@@ -89,10 +89,10 @@ namespace HtmlRenderer.Dom
 
         #region Fields
 
-       
+
 
         float _locationX;
-        float _locationY; 
+        float _locationY;
         private float _sizeHeight;
         private float _sizeWidth;
 
@@ -133,10 +133,28 @@ namespace HtmlRenderer.Dom
 
         #endregion
 
+
+
+#if DEBUG
+        public readonly int dbugId = dbugTotalId++;
+        static int dbugTotalId;
+#endif
         public CssBoxBase()
         {
             _actualColor = System.Drawing.Color.Black;
+#if DEBUG
+            //if (this.dbugId == 213 ||  this.dbugId == 236 || this.dbugId == 237)
+            //{
+            //}
+            //if (this.dbugId == 242)
+            //{
+            //}
+#endif
+
         }
+
+
+
         #region CSS Properties
 
         public CssLength BorderBottomWidth
@@ -226,7 +244,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckBorderVersion().BottomColor = value;
-              
+
             }
         }
         public Color BorderLeftColor
@@ -234,7 +252,7 @@ namespace HtmlRenderer.Dom
             get { return this._borderProps.LeftColor; }
             set
             {
-                CheckBorderVersion().LeftColor = value; 
+                CheckBorderVersion().LeftColor = value;
             }
         }
         //--------------------------------------------
@@ -244,7 +262,7 @@ namespace HtmlRenderer.Dom
             set
             {
 
-                CheckBorderVersion().RightColor = value; 
+                CheckBorderVersion().RightColor = value;
             }
         }
 
@@ -581,7 +599,7 @@ namespace HtmlRenderer.Dom
             get { return this._listProps.ListStyle; }
             set { CheckListPropVersion().ListStyle = value; }
         }
-        public CssListStylePoistion ListStylePosition
+        public CssListStylePosition ListStylePosition
         {
             get { return this._listProps.ListStylePosition; }
             set { CheckListPropVersion().ListStylePosition = value; }
@@ -592,13 +610,13 @@ namespace HtmlRenderer.Dom
             set { CheckListPropVersion().ListStyleImage = value; }
         }
 
-        public CssListStyleType  ListStyleType
+        public CssListStyleType ListStyleType
         {
             get { return this._listProps.ListStyleType; }
             set { CheckListPropVersion().ListStyleType = value; }
         }
 
-        #endregion 
+        #endregion
         public float LocationX
         {
             get { return this._locationX; }
@@ -913,14 +931,14 @@ namespace HtmlRenderer.Dom
             {
                 if (float.IsNaN(_actualMarginRight))
                 {
-                   
+
                     if (MarginRight.IsAuto)
                     {
-                      
+
                         MarginRight = CssLength.ZeroPx;
                     }
                     var actualMarginRight = CssValueParser.ParseLength(MarginRight, Size.Width, this);
-                    if (MarginLeft.IsPercentage) 
+                    if (MarginLeft.IsPercentage)
                     {
                         return actualMarginRight;
                     }
@@ -1203,7 +1221,7 @@ namespace HtmlRenderer.Dom
                 {
                     //if not calculate yet then calculate it
                     _actualLineHeight = .9f * CssValueParser.ParseLength(LineHeight, Size.Height, this);
-                    
+
                 }
                 return _actualLineHeight;
             }
@@ -1344,15 +1362,15 @@ namespace HtmlRenderer.Dom
                 this._fontProps = p._fontProps;
 
                 this._actualColor = p._actualColor;
-                _emptyCells = p._emptyCells;
+                this._emptyCells = p._emptyCells;
                 this.WhiteSpace = p.WhiteSpace;
                 this.CssVisibility = p.CssVisibility;
                 this._textIndent = p._textIndent;
 
                 this.CssTextAlign = p.CssTextAlign;
                 this.VerticalAlign = p.VerticalAlign;
-                _listProps = p._listProps;
-                _lineHeight = p._lineHeight;
+                this._listProps = p._listProps;
+                this._lineHeight = p._lineHeight;
 
                 this.WordBreak = p.WordBreak;
 

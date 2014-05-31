@@ -84,7 +84,7 @@ namespace HtmlRenderer.Dom
         static readonly CssValueMap<CssFontStyle> _cssFontStyleMap = new CssValueMap<CssFontStyle>();
         static readonly CssValueMap<CssFontVariant> _cssFontVariantMap = new CssValueMap<CssFontVariant>();
         static readonly CssValueMap<CssFontWeight> _cssFontWeightMap = new CssValueMap<CssFontWeight>();
-        static readonly CssValueMap<CssListStylePoistion> _cssListStylePositionMap = new CssValueMap<CssListStylePoistion>();
+        static readonly CssValueMap<CssListStylePosition> _cssListStylePositionMap = new CssValueMap<CssListStylePosition>();
         static readonly CssValueMap<CssListStyleType> _cssListStyleTypeMap = new CssValueMap<CssListStyleType>();
 
         static readonly CssValueMap<CssNamedBorderWidth> _cssNamedBorderWidthMap = new CssValueMap<CssNamedBorderWidth>();
@@ -431,13 +431,13 @@ namespace HtmlRenderer.Dom
             return _cssFontWeightMap.GetStringFromValue(weight);
         }
 
-        public static string ToCssStringValue(this CssListStylePoistion listStylePosition)
+        public static string ToCssStringValue(this CssListStylePosition listStylePosition)
         {
             return _cssListStylePositionMap.GetStringFromValue(listStylePosition);
         }
-        public static CssListStylePoistion GetListStylePosition(string value)
+        public static CssListStylePosition GetListStylePosition(string value)
         {
-            return _cssListStylePositionMap.GetValueFromString(value, CssListStylePoistion.Outside);
+            return _cssListStylePositionMap.GetValueFromString(value, CssListStylePosition.Outside);
         }
 
         public static string ToCssStringValue(this CssListStyleType listStyleType)

@@ -49,15 +49,25 @@ namespace HtmlRenderer.Parse
         /// <param name="stylesheet">raw css stylesheet to parse</param>
         /// <param name="combineWithDefault">true - combine the parsed css data with default css data, false - return only the parsed css data</param>
         /// <returns>the CSS data with parsed CSS objects (never null)</returns>
-        public static CssSheet ParseStyleSheet(string stylesheet, bool combineWithDefault)
+        public static CssActiveSheet ParseStyleSheet(string stylesheet, bool combineWithDefault)
         {
-            var cssData = combineWithDefault ? CssUtils.DefaultCssData.Clone(new object()) : new CssSheet();
+            var cssData = combineWithDefault ? CssUtils.DefaultCssData.Clone(new object()) : new CssActiveSheet();
             if (!string.IsNullOrEmpty(stylesheet))
             {
                 ParseStyleSheet(cssData, stylesheet);
             }
             return cssData;
         }
+         
+
+        public static WebDom.CssDocument ParseStyleSheet2(string cssTextSource)
+        {
+            var parser = new WebDom.Parser.CssParser();
+            parser.ParseCssStyleSheet(cssTextSource.ToCharArray());
+            //-----------------------------------
+            return parser.OutputCssDocument; 
+        }
+
 
         /// <summary>
         /// Parse the given stylesheet source to CSS blocks dictionary.<br/>
@@ -67,19 +77,16 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="cssData">the CSS data to fill with parsed CSS objects</param>
         /// <param name="cssTextSource">raw css stylesheet to parse</param>
-        public static void ParseStyleSheet(CssSheet cssData, string cssTextSource)
+        public static void ParseStyleSheet(CssActiveSheet cssData, string cssTextSource)
         {
             if (!String.IsNullOrEmpty(cssTextSource))
             {
                 //-----------------------------------
                 // cssData.dbugOriginalSources.Add(cssTextSource);
-                //-----------------------------------
-                var parser = new WebDom.Parser.CssParser();
-                parser.ParseCssStyleSheet(cssTextSource.ToCharArray());
+                //-----------------------------------  
+                WebDom.CssDocument cssDoc = ParseStyleSheet2(cssTextSource);
 
-                //-----------------------------------
-                WebDom.CssDocument cssDoc = parser.OutputCssDocument;
-                CssSheet cssActiveDoc = new CssSheet();
+                CssActiveSheet cssActiveDoc = new CssActiveSheet();
                 cssActiveDoc.LoadCssDoc(cssDoc);
 
                 if (cssData != null)

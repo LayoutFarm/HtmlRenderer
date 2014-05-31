@@ -731,7 +731,7 @@ namespace HtmlRenderer.Dom
                 {
                     CssSpacingBox spacer = cell as CssSpacingBox;
 
-                    if (spacer == null && cell.RowSpan  == 1)
+                    if (spacer == null && cell.RowSpan == 1)
                     {
                         cell.ActualBottom = maxBottom;
                         CssLayoutEngine.ApplyCellVerticalAlignment(g, cell);
@@ -854,7 +854,7 @@ namespace HtmlRenderer.Dom
             {
                 foreach (var childBox in box.GetChildBoxIter())
                 {
-                    childBox.MeasureWordsSize(g);
+                    childBox.MeasureRunsSize(g);
                     MeasureWords(childBox, g);
                 }
             }
@@ -925,7 +925,7 @@ namespace HtmlRenderer.Dom
         /// </remarks>
         private float GetMaxTableWidth()
         {
-            var tblen = new CssLength(_tableBox.MaxWidth);
+            var tblen = _tableBox.MaxWidth;// new CssLength(_tableBox.MaxWidth);
             if (tblen.Number > 0)
             {
                 _widthSpecified = true;
@@ -962,8 +962,8 @@ namespace HtmlRenderer.Dom
                     if ((!onlyNans || float.IsNaN(_columnWidths[col])) && i < row.ChildCount)
                     {
                         float minWidth, maxWidth;
-                        childBox.GetMinMaxWidth(out minWidth, out maxWidth);
-
+                        //childBox.GetMinMaxWidth(out minWidth, out maxWidth);
+                        GetMinMaxWidth(childBox, out minWidth, out maxWidth);
                         var colSpan = childBox.ColSpan;
                         minWidth = minWidth / colSpan;
                         maxWidth = maxWidth / colSpan;
@@ -997,6 +997,82 @@ namespace HtmlRenderer.Dom
                 //        }
                 //    }
                 //}
+            }
+        }
+        /// <summary>
+        /// Get the <paramref name="minWidth"/> and <paramref name="maxWidth"/> width of the box content.<br/>
+        /// </summary>
+        /// <param name="minWidth">The minimum width the content must be so it won't overflow (largest word + padding).</param>
+        /// <param name="maxWidth">The total width the content can take without line wrapping (with padding).</param>
+        internal void GetMinMaxWidth(CssBox box, out float minWidth, out float maxWidth)
+        {
+            float min = 0f;
+            float maxSum = 0f;
+            float paddingSum = 0f;
+            float marginSum = 0f;
+            GetMinMaxSumWords(box, ref min, ref maxSum, ref paddingSum, ref marginSum);
+
+            maxWidth = paddingSum + maxSum;
+            minWidth = paddingSum + (min < 90999 ? min : 0);
+        }
+
+        /// <summary>
+        /// Get the <paramref name="min"/> and <paramref name="maxSum"/> of the box words content and <paramref name="paddingSum"/>.<br/>
+        /// </summary>
+        /// <param name="box">the box to calculate for</param>
+        /// <param name="min">the width that allows for each word to fit (width of the longest word)</param>
+        /// <param name="maxSum">the max width a single line of words can take without wrapping</param>
+        /// <param name="paddingSum">the total amount of padding the content has </param>
+        /// <param name="marginSum"></param>
+        /// <returns></returns>
+        static void GetMinMaxSumWords(CssBox box, ref float min, ref float maxSum, ref float paddingSum, ref float marginSum)
+        {
+            float? oldSum = null;
+
+            // not inline (block) boxes start a new line so we need to reset the max sum 
+            if (box.CssDisplay != CssDisplay.Inline &&
+                box.CssDisplay != CssDisplay.TableCell &&
+                box.WhiteSpace != CssWhiteSpace.NoWrap)
+            {
+                oldSum = maxSum;
+                maxSum = marginSum;
+            }
+
+            // add the padding 
+            paddingSum += box.ActualBorderLeftWidth + box.ActualBorderRightWidth + box.ActualPaddingRight + box.ActualPaddingLeft;
+
+
+            // for tables the padding also contains the spacing between cells                
+            if (box.CssDisplay == CssDisplay.Table)
+            {
+                paddingSum += CssLayoutEngineTable.GetTableSpacing(box);
+            }
+
+            if (box.Runs.Count > 0)
+            {
+                // calculate the min and max sum for all the words in the box
+                foreach (CssRun run in box.Runs)
+                {
+                    maxSum += run.Width;
+                    min = Math.Max(min, run.Width);
+                } 
+            }
+            else
+            {
+                // recursively on all the child boxes
+                foreach (CssBox childBox in box.GetChildBoxIter())
+                {
+                    marginSum += childBox.ActualMarginLeft + childBox.ActualMarginRight;
+                    GetMinMaxSumWords(childBox, ref min, ref maxSum, ref paddingSum, ref marginSum);
+
+                    marginSum -= childBox.ActualMarginLeft + childBox.ActualMarginRight;
+                }
+            }
+
+            // max sum is max of all the lines in the box
+            if (oldSum.HasValue)
+            {
+                maxSum = Math.Max(maxSum, oldSum.Value);
             }
         }
 
@@ -1047,7 +1123,7 @@ namespace HtmlRenderer.Dom
         /// <param name="b"></param>
         private static int GetSpan(CssBox b)
         {
-            float f = CssValueParser.ParseNumber(b.GetAttribute("span"), 1); 
+            float f = CssValueParser.ParseNumber(b.GetAttribute("span"), 1);
             return Math.Max(1, Convert.ToInt32(f));
         }
 

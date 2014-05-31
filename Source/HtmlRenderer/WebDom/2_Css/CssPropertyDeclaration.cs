@@ -6,6 +6,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+
+
 namespace HtmlRenderer.WebDom
 {
 
@@ -25,22 +27,17 @@ namespace HtmlRenderer.WebDom
 #endif
         public CssPropertyDeclaration(string propertyName)
         {
-#if DEBUG
-            //if (this.dbugId == 199)
-            //{
 
-            //}
+#if DEBUG
 #endif
             this.PropertyName = propertyName;
         }
         internal CssPropertyDeclaration(string propertyName, CssCodePropertyValue propvalue)
         {
-#if DEBUG
-            //if (this.dbugId == 199)
-            //{
 
-            //}
+#if DEBUG
 #endif
+            //from another 
             this.PropertyName = propertyName;
             this.propertyValue = propvalue;
             this.markedAsInherit = propvalue.Value == "inherit";
@@ -75,6 +72,20 @@ namespace HtmlRenderer.WebDom
             get;
             private set;
         }
+
+
+
+        public override string ToString()
+        {
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append(this.PropertyName);
+            sb.Append(':');
+
+            CollectValues(sb);
+
+            return sb.ToString();
+        }
         void CollectValues(StringBuilder stBuilder)
         {
             if (propertyValue != null)
@@ -95,17 +106,7 @@ namespace HtmlRenderer.WebDom
                 }
             }
         }
-        public override string ToString()
-        {
 
-            StringBuilder sb = new StringBuilder();
-            sb.Append(this.PropertyName);
-            sb.Append(':');
-
-            CollectValues(sb);
-
-            return sb.ToString();
-        }
         public bool MarkedAsInherit
         {
             get
@@ -159,199 +160,105 @@ namespace HtmlRenderer.WebDom
             }
             return false;
         }
-        /// <summary>
-        /// Parse length property to add only valid lengths.
-        /// </summary>
-        /// <param name="propName">the name of the css property to add</param>
-        /// <param name="propValue">the value of the css property to add</param>
-        /// <param name="properties">the properties collection to add to</param>
-        static void ParseLengthProperty(CssPropertyDeclaration property)
+
+        void PrepareProperty()
         {
-
-            //then parse to css length
-            if (IsValidLength(property.propertyValue.Value) ||
-                property.propertyValue.Value.Equals(HtmlRenderer.Entities.CssConstants.Auto, StringComparison.OrdinalIgnoreCase))
-            {
-                property.isValid = true;
-            }
-
-            //CssProperty property = new CssProperty(propName, propValue);
-            //if (CssValueParser.IsValidLength(propValue) ||
-            //    propValue.Equals(CssConstants.Auto, StringComparison.OrdinalIgnoreCase))
+            return;
+            //if (isReady)
             //{
-            //    property.IsValidValue = true;
+            //    return;
             //}
-            //properties.Add(propName, property);
+            //isReady = true;
 
-        }
-
-
-
-        /// <summary>
-        /// Parse a complex font property value that contains multiple css properties into specific css properties.
-        /// </summary>
-        /// <param name="propValue">the value of the property to parse to specific values</param>
-        /// <param name="properties">the properties collection to add the specific properties to</param>
-        static void ParseFontProperty(CssPropertyDeclaration property)
-        {
-            //find each value meaning
-            int j = property.ValueCount;
-            for (int i = 0; i < j; ++i)
-            {
-                CssCodePropertyValue propValue = property.GetPropertyValue(i);
-                switch (propValue.Hint)
-                {
-                    default:
-                        {
-                        } break;
-                    case CssValueHint.Number:
-                        {
-                        } break;
-                }
-
-            }
-
-
-
-            //int mustBePos;
-            //string mustBe = RegexParserUtils.Search(RegexParserUtils.CssFontSizeAndLineHeight, propValue, out mustBePos);
-
-            //if (!string.IsNullOrEmpty(mustBe))
+            //switch (this.PropertyName)
             //{
-            //    mustBe = mustBe.Trim();
-            //    //Check for style||variant||weight on the left
-            //    string leftSide = propValue.Substring(0, mustBePos);
-            //    string fontStyle = RegexParserUtils.Search(RegexParserUtils.CssFontStyle, leftSide);
-            //    string fontVariant = RegexParserUtils.Search(RegexParserUtils.CssFontVariant, leftSide);
-            //    string fontWeight = RegexParserUtils.Search(RegexParserUtils.CssFontWeight, leftSide);
+            //    case "width":
+            //    case "height":
+            //    case "lineheight":
+            //        {
+            //            ParseLengthProperty(this);
+            //        } break;
+            //    case "color":
+            //    case "backgroundcolor":
+            //    case "bordertopcolor":
+            //    case "borderbottomcolor":
+            //    case "borderleftcolor":
+            //    case "borderrightcolor":
+            //        {
+            //            //check if valid color
+            //            //if valid then parse ***
+            //            ///CssValueParser.IsColorValid(propValue) check if valid color
+            //            //ParseColorProperty(propName, propValue, properties);
+            //        } break;
+            //    case "font":
+            //        {
+            //            // ParseFontProperty(this);
 
-            //    //Check for family on the right
-            //    string rightSide = propValue.Substring(mustBePos + mustBe.Length);
-            //    string fontFamily = rightSide.Trim(); //Parser.Search(Parser.CssFontFamily, rightSide); //TODO: Would this be right?
-
-            //    //Check for font-size and line-height
-            //    string fontSize = mustBe;
-            //    string lineHeight = string.Empty;
-
-            //    if (mustBe.Contains("/") && mustBe.Length > mustBe.IndexOf("/", StringComparison.Ordinal) + 1)
-            //    {
-            //        int slashPos = mustBe.IndexOf("/", StringComparison.Ordinal);
-            //        fontSize = mustBe.Substring(0, slashPos);
-            //        lineHeight = mustBe.Substring(slashPos + 1);
-            //    }
-
-            //    SetPropIfValueNotNull(properties, "font-family", ParseFontFamilyProperty(fontFamily));
-            //    SetPropIfValueNotNull(properties, "font-style", fontStyle);
-            //    SetPropIfValueNotNull(properties, "font-variant", fontVariant);
-            //    SetPropIfValueNotNull(properties, "font-weight", fontWeight);
-            //    SetPropIfValueNotNull(properties, "font-size", fontSize);
-            //    SetPropIfValueNotNull(properties, "line-height", lineHeight);
+            //        } break;
+            //    //case "border":
+            //    //    {
+            //    //        ParseBorderProperty(propValue, null, properties);
+            //    //    } break;
+            //    //case "border-left":
+            //    //    {
+            //    //        ParseBorderProperty(propValue, "-left", properties);
+            //    //    } break;
+            //    //case "border-right":
+            //    //    {
+            //    //        ParseBorderProperty(propValue, "-right", properties);
+            //    //    } break;
+            //    //case "border-top":
+            //    //    {
+            //    //        ParseBorderProperty(propValue, "-top", properties);
+            //    //    } break;
+            //    //case "border-bottom":
+            //    //    {
+            //    //        ParseBorderProperty(propValue, "-bottom", properties);
+            //    //    } break;
+            //    //case "margin":
+            //    //    {
+            //    //        ParseMarginProperty(propValue, properties);
+            //    //    } break;
+            //    //case "border-style":
+            //    //    {
+            //    //        ParseBorderStyleProperty(propValue, properties);
+            //    //    } break;
+            //    //case "border-width":
+            //    //    {
+            //    //        ParseBorderWidthProperty(propValue, properties);
+            //    //    } break;
+            //    //case "border-color":
+            //    //    {
+            //    //        ParseBorderColorProperty(propValue, properties);
+            //    //    } break;
+            //    //case "padding":
+            //    //    {
+            //    //        ParsePaddingProperty(propValue, properties);
+            //    //    } break;
+            //    //case "background-image":
+            //    //    {
+            //    //        properties["background-image"] = new CssProperty(
+            //    //            "background-image", ParseBackgroundImageProperty(propValue));
+            //    //    } break;
+            //    //case "font-family":
+            //    //    {
+            //    //        properties["font-family"] = new CssProperty(
+            //    //            "font-family", ParseFontFamilyProperty(propValue));
+            //    //    } break;
+            //    default:
+            //        {
+            //            //properties[propName] = new CssProperty(propName, propValue);
+            //        } break;
             //}
-            //else
-            //{
-            //    // Check for: caption | icon | menu | message-box | small-caption | status-bar
-            //    //TODO: Interpret font values of: caption | icon | menu | message-box | small-caption | status-bar
-            //}
-        }
-
-
-        public void PrepareProperty()
-        {
-            if (isReady)
-            {
-                return;
-            }
-            isReady = true;
-
-            switch (this.PropertyName)
-            {
-                case "width":
-                case "height":
-                case "lineheight":
-                    {
-                        ParseLengthProperty(this);
-                    } break;
-                case "color":
-                case "backgroundcolor":
-                case "bordertopcolor":
-                case "borderbottomcolor":
-                case "borderleftcolor":
-                case "borderrightcolor":
-                    {
-                        //check if valid color
-                        //if valid then parse ***
-                        ///CssValueParser.IsColorValid(propValue) check if valid color
-                        //ParseColorProperty(propName, propValue, properties);
-                    } break;
-                case "font":
-                    {
-                        // ParseFontProperty(this);
-
-                    } break;
-                //case "border":
-                //    {
-                //        ParseBorderProperty(propValue, null, properties);
-                //    } break;
-                //case "border-left":
-                //    {
-                //        ParseBorderProperty(propValue, "-left", properties);
-                //    } break;
-                //case "border-right":
-                //    {
-                //        ParseBorderProperty(propValue, "-right", properties);
-                //    } break;
-                //case "border-top":
-                //    {
-                //        ParseBorderProperty(propValue, "-top", properties);
-                //    } break;
-                //case "border-bottom":
-                //    {
-                //        ParseBorderProperty(propValue, "-bottom", properties);
-                //    } break;
-                //case "margin":
-                //    {
-                //        ParseMarginProperty(propValue, properties);
-                //    } break;
-                //case "border-style":
-                //    {
-                //        ParseBorderStyleProperty(propValue, properties);
-                //    } break;
-                //case "border-width":
-                //    {
-                //        ParseBorderWidthProperty(propValue, properties);
-                //    } break;
-                //case "border-color":
-                //    {
-                //        ParseBorderColorProperty(propValue, properties);
-                //    } break;
-                //case "padding":
-                //    {
-                //        ParsePaddingProperty(propValue, properties);
-                //    } break;
-                //case "background-image":
-                //    {
-                //        properties["background-image"] = new CssProperty(
-                //            "background-image", ParseBackgroundImageProperty(propValue));
-                //    } break;
-                //case "font-family":
-                //    {
-                //        properties["font-family"] = new CssProperty(
-                //            "font-family", ParseFontFamilyProperty(propValue));
-                //    } break;
-                default:
-                    {
-                        //properties[propName] = new CssProperty(propName, propValue);
-                    } break;
-            }
         }
 
 
         public CssCodePropertyValue GetPropertyValue(int index)
         {
-            if (!isReady)
-            {
-                PrepareProperty();
-            }
+            //if (!isReady)
+            //{
+            //    PrepareProperty();
+            //}
             switch (index)
             {
                 case 0:
@@ -373,7 +280,7 @@ namespace HtmlRenderer.WebDom
         }
     }
 
-    public enum CssValueHint
+    public enum CssValueHint : byte
     {
         Unknown,
         Number,
@@ -385,9 +292,10 @@ namespace HtmlRenderer.WebDom
     }
     public class CssCodePropertyValue
     {
-        public string unit;
-        string _propertyValue;
-        CssValueHint hint;
+
+        string unit;
+        readonly string _propertyValue;
+        readonly CssValueHint hint;
 
 #if DEBUG
         static int dbugTotalId;
@@ -396,16 +304,17 @@ namespace HtmlRenderer.WebDom
 
         public CssCodePropertyValue(string propertyValue, CssValueHint hint)
         {
-
             this._propertyValue = propertyValue;
             this.hint = hint;
         }
         public CssValueHint Hint
         {
-            get
-            {
-                return this.hint;
-            }
+            get { return this.hint; }
+        }
+        public string Unit
+        {
+            get { return unit; }
+            set { this.unit = value; }
         }
         public string Value
         {
@@ -425,6 +334,54 @@ namespace HtmlRenderer.WebDom
                 return Value;
             }
         }
+
+
+        //--------------------------------------------
+        bool isBorderLength;
+        bool isLengthEval;
+        bool isTranslatedLength;
+        bool isColor;
+        System.Drawing.Color cachedColor;
+        //--------------------------------------------
+        HtmlRenderer.Dom.CssLength cachedLength;
+        internal HtmlRenderer.Dom.CssLength AsBorderLength()
+        {
+            if (!isBorderLength)
+            {
+                isBorderLength = true;
+                return cachedLength = HtmlRenderer.Dom.CssLength.MakeBorderLength(this.ToString());
+            }
+            return cachedLength;
+        }
+        internal HtmlRenderer.Dom.CssLength AsLength()
+        {
+            if (!isLengthEval)
+            {
+                isLengthEval = true;
+                return cachedLength = new Dom.CssLength(this.ToString());
+            }
+            return cachedLength;
+        }
+        internal HtmlRenderer.Dom.CssLength AsTranslatedLength()
+        {
+            if (!isTranslatedLength)
+            {
+                isTranslatedLength = true;
+                return cachedLength = HtmlRenderer.Dom.BoxModelBuilder.TranslateLength(this.ToString());
+            }
+            return cachedLength;
+        }
+
+        internal System.Drawing.Color AsColor()
+        {
+            if (!isColor)
+            {
+                isColor = true;
+                return this.cachedColor = Parse.CssValueParser.GetActualColor(this.ToString());
+            }
+            return this.cachedColor;
+        }
+
     }
 
 }

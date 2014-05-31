@@ -37,10 +37,10 @@ namespace HtmlRenderer.Dom
         const int NONE_VALUE = 1 << (15 - 1);
         const int NORMAL = 1 << (16 - 1);
 
+        //-------------------------------------
         const int MEDIUM = 1 << (17 - 1);
         const int THICK = 1 << (18 - 1);
-        const int THIN = 1 << (19 - 1);
-
+        const int THIN = 1 << (19 - 1); 
         //-------------------------------------
         //when used as font size
         const int IS_FONT_SIZE_NAME = 1 << (20 - 1);
@@ -213,12 +213,12 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        public CssLength(CssLength another)
-        {
-            this._flags = another._flags;
-            this._number = another._number;
+        //public CssLength(CssLength another)
+        //{
+        //    this._flags = another._flags;
+        //    this._number = another._number;
 
-        }
+        //}
         private CssLength(float num, CssUnit unit, bool isRelative)
         {
             this._number = num;

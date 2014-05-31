@@ -26,9 +26,7 @@ namespace HtmlRenderer.Parse
 {
 
     static class HtmlParser2
-    {
-
-        
+    {  
         /// <summary>
         /// Parses the source html to css boxes tree structure.
         /// </summary>
@@ -75,6 +73,7 @@ namespace HtmlRenderer.Parse
                             /// Adding box also for text that contains only whitespaces because we don't know yet if
                             /// the box is preformatted. At later stage they will be removed if not relevant.                             
                             HtmlTextNode textNode = (HtmlTextNode)node;
+                            //create anonymos box
                             CssBox.CreateBox(box).SetTextContent(textNode.CopyTextBuffer());
 
                         } break;

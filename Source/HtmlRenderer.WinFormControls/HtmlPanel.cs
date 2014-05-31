@@ -75,7 +75,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the base stylesheet data used in the control
         /// </summary>
-        private CssSheet _baseCssData;
+        private CssActiveSheet _baseCssData;
 
         #endregion
 

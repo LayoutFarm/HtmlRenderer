@@ -41,10 +41,8 @@ namespace HtmlRenderer.WebDom.Parser
             switch (lexEvent)
             {
                 case HtmlLexerEvent.CommentContent:
-                    {
-
-                        //var commentContent = this.textSnapshot.Copy(startIndex, len);
-
+                    {   
+                        //var commentContent = this.textSnapshot.Copy(startIndex, len); 
 
                     } break;
                 case HtmlLexerEvent.FromContentPart:

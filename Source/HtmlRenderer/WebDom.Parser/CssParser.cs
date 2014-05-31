@@ -447,7 +447,8 @@ namespace HtmlRenderer.WebDom.Parser
                             case CssTokenName.NumberUnit:
                                 {
                                     //number unit
-                                    this._latestPropertyValue.unit = new string(this.textBuffer, start, len);
+                                    this._latestPropertyValue.Unit = new string(this.textBuffer, start, len);
+
                                 } break;
                             case CssTokenName.Sharp:
                                 {

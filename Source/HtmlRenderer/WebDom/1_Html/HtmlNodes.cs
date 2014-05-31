@@ -89,13 +89,7 @@ namespace HtmlRenderer.WebDom
 
     public class HtmlTextNode : HtmlNode
     {
-        StringBuilder _sb = new StringBuilder();
-        internal HtmlTextNode(HtmlDocument ownerDoc, string text)
-            : base(ownerDoc)
-        {
-            SetNodeType(HtmlNodeType.TextNode);
-            this.AppendTextContent(text.ToCharArray());
-        }
+        StringBuilder _sb = new StringBuilder(); 
         internal HtmlTextNode(HtmlDocument ownerDoc, char[] textBuffer)
             : base(ownerDoc)
         {

@@ -34,18 +34,19 @@ namespace HtmlRenderer.Utils
         /// <summary>
         /// the html encode\decode pairs
         /// </summary>
-        private static readonly KeyValuePair<string, string>[] _encodeDecode = new[]
-                                                           {
-                                                               new KeyValuePair<string, string>("&lt;", "<"), 
-                                                               new KeyValuePair<string, string>("&gt;", ">"),
-                                                               new KeyValuePair<string, string>("&quot;", "\""),
-                                                               new KeyValuePair<string, string>("&amp;", "&"),
-                                                           };
+        //private static readonly KeyValuePair<string, string>[] _encodeDecode = new[]
+        //                                                   {
+        //                                                       new KeyValuePair<string, string>("&lt;", "<"), 
+        //                                                       new KeyValuePair<string, string>("&gt;", ">"),
+        //                                                       new KeyValuePair<string, string>("&quot;", "\""),
+        //                                                       new KeyValuePair<string, string>("&amp;", "&"),
+        //                                                   };
 
         /// <summary>
         /// the html decode only pairs
         /// </summary>
         private static readonly Dictionary<string, char> _decodeOnly = new Dictionary<string, char>(StringComparer.InvariantCultureIgnoreCase);
+        private static readonly Dictionary<string, char> _encodeDecode0 = new Dictionary<string, char>(StringComparer.InvariantCultureIgnoreCase);
 
         #endregion
 
@@ -55,6 +56,11 @@ namespace HtmlRenderer.Utils
         /// </summary>
         static HtmlUtils()
         {
+            _encodeDecode0["&lt;"] = '<';
+            _encodeDecode0["&gt;"] = '>';
+            _encodeDecode0["&quot;"] = '"';
+            _encodeDecode0["&amp;"] = '&';
+
             _decodeOnly["nbsp"] = ' ';
             _decodeOnly["rdquo"] = '"';
             _decodeOnly["lsquo"] = '\'';
@@ -307,11 +313,11 @@ namespace HtmlRenderer.Utils
         public static bool IsSingleTag(string tagName)
         {
             return _list.Contains(tagName);
-        } 
+        }
         public static string DecodeHtml(string str)
         {
             char[] buff = str.ToCharArray();
-            return new string(DecodeHtml(buff, 0, buff.Length)); 
+            return new string(DecodeHtml(buff, 0, buff.Length));
         }
         static int FindIndexOf(char[] sourceBuffer, int startIndex, int len, char findingChar)
         {
@@ -406,18 +412,19 @@ namespace HtmlRenderer.Utils
             while (i < lim)
             {
                 char c = sourceBuffer[i];
+                
                 if (c != '&')
                 {
                     newbuff.Add(c);
                     i++;
 
                     continue;
-                } 
+                }
 
                 //-------------
                 //c = & special char
                 i++;
-                if (i < lim)
+                if (i >= lim)
                 {
                     break;
                 }
@@ -516,32 +523,37 @@ namespace HtmlRenderer.Utils
                         int numCharCount = pos - i + 1;
                         //decode 
                         char foundResult;
-                        if (_decodeOnly.TryGetValue(new string(sourceBuffer, i, numCharCount), out foundResult))
+                        //decode
+                        string ss = new string(sourceBuffer, i - 2, numCharCount + 2);
+
+                        if (_encodeDecode0.TryGetValue(ss, out foundResult) ||
+                          (_decodeOnly.TryGetValue(ss, out foundResult)))
                         {
                             newbuff.Add(foundResult);
                         }
+
                         i = pos + 1;
                     }
                 }
             }
-            return newbuff.ToArray(); 
-        } 
-        /// <summary>
-        /// Encode regular string into html encoded string.<br/>
-        /// Handles &lt;, &gt;, "&amp;.
-        /// </summary>
-        /// <param name="str">the string to encode</param>
-        /// <returns>encoded string</returns>
-        public static string EncodeHtml(string str)
-        {
-            if (!string.IsNullOrEmpty(str))
-            {
-                for (int i = _encodeDecode.Length - 1; i >= 0; i--)
-                {
-                    str = str.Replace(_encodeDecode[i].Value, _encodeDecode[i].Key);
-                }
-            }
-            return str;
-        } 
+            return newbuff.ToArray();
+        }
+        ///// <summary>
+        ///// Encode regular string into html encoded string.<br/>
+        ///// Handles &lt;, &gt;, "&amp;.
+        ///// </summary>
+        ///// <param name="str">the string to encode</param>
+        ///// <returns>encoded string</returns>
+        //public static string EncodeHtml(string str)
+        //{
+        //    if (!string.IsNullOrEmpty(str))
+        //    {
+        //        for (int i = _encodeDecode.Length - 1; i >= 0; i--)
+        //        {
+        //            str = str.Replace(_encodeDecode[i].Value, _encodeDecode[i].Key);
+        //        }
+        //    }
+        //    return str;
+        //} 
     }
 }

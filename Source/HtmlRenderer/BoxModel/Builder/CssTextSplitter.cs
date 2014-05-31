@@ -26,6 +26,7 @@ namespace HtmlRenderer.Dom
 
         public void ParseWordContent(CssBox box)
         {
+
             switch (box.WhiteSpace)
             {
                 case CssWhiteSpace.Pre:
@@ -38,8 +39,15 @@ namespace HtmlRenderer.Dom
             }
             //other ...  
             char[] textBuffer = CssBox.UnsafeGetTextBuffer(box);
+#if DEBUG
+            //string dbugStr = new string(textBuffer);
+            
+#endif
+             
+            bool keepPreWhitespace = box.HtmlTag == null;  
+            List<CssRun> boxRuns = box.Runs;
+            boxRuns.Clear(); //clear prev results
 
-            List<CssRect> boxWords = box.Words;
             int startIndex = 0;
             int buffLength = textBuffer.Length;
             bool boxIsNotBreakAll = box.WordBreak != CssWordBreak.BreakAll;
@@ -47,7 +55,6 @@ namespace HtmlRenderer.Dom
             //not preserve whitespace
             WordParsingState parsingState = WordParsingState.Init;
             int appendLength = 0;
-            bool lastBoxGenIsWhitespace = false;
 
 
             for (int i = 0; i < buffLength; ++i)
@@ -60,7 +67,8 @@ namespace HtmlRenderer.Dom
                         {
                             if (char.IsWhiteSpace(c0))
                             {
-                                //not switch                                 
+                                parsingState = WordParsingState.Whitespace;
+                                appendLength = 1;
                             }
                             else
                             {
@@ -74,13 +82,11 @@ namespace HtmlRenderer.Dom
                             if (!char.IsWhiteSpace(c0))
                             {
                                 //flush whitespace
-                                lastBoxGenIsWhitespace = true;
-                                //if (boxGenNumber > 0)
-                                //{
-                                //    //boxWords.Add(CssRectWord.CreateSingleWhitespace(box, (boxGenNumber == 0), false));
-                                //    boxGenNumber++;
-                                //}
                                 //switch to character mode    
+                                if (keepPreWhitespace || boxRuns.Count > 0)
+                                {
+                                    boxRuns.Add(CssTextRun.CreateSingleWhitespace(box));
+                                }
                                 parsingState = WordParsingState.CharacterCollecting;
                                 startIndex = i;
                                 appendLength = 1;//start append length
@@ -91,10 +97,10 @@ namespace HtmlRenderer.Dom
                             if (char.IsWhiteSpace(c0))
                             {
                                 //flush new token   
-                                boxWords.Add(CssRectWord.CreateRefText(box, startIndex, appendLength, lastBoxGenIsWhitespace, true));
-                                lastBoxGenIsWhitespace = false;
+                                boxRuns.Add(CssTextRun.CreateTextRun(box, startIndex, appendLength));
+
                                 parsingState = WordParsingState.Whitespace;
-                                appendLength = 0; //clear append length 
+                                appendLength = 1; //clear append length 
                             }
                             else
                             {
@@ -110,11 +116,15 @@ namespace HtmlRenderer.Dom
                 {
                     case WordParsingState.Whitespace:
                         {
+                            if (keepPreWhitespace || boxRuns.Count > 0)
+                            {
+                                boxRuns.Add(CssTextRun.CreateSingleWhitespace(box));
+                            }
+
                         } break;
                     case WordParsingState.CharacterCollecting:
                         {
-                            boxWords.Add(CssRectWord.CreateRefText(box, startIndex, appendLength, lastBoxGenIsWhitespace, false));
-                            lastBoxGenIsWhitespace = false;
+                            boxRuns.Add(CssTextRun.CreateTextRun(box, startIndex, appendLength));
                             appendLength = 0; //clear append length 
                         } break;
                 }
@@ -126,7 +136,12 @@ namespace HtmlRenderer.Dom
         {
 
             char[] textBuffer = CssBox.UnsafeGetTextBuffer(box);
-            List<CssRect> boxWords = box.Words;
+            //#if DEBUG
+            //            string dbugStr = new string(textBuffer);
+            //#endif
+            List<CssRun> boxRuns = box.Runs;
+            boxRuns.Clear(); //clear prev results
+
             int startIndex = 0;
             int buffLength = textBuffer.Length;
             bool boxIsNotBreakAll = box.WordBreak != CssWordBreak.BreakAll;
@@ -135,7 +150,7 @@ namespace HtmlRenderer.Dom
             WordParsingState parsingState = WordParsingState.Init;
             int appendLength = 0;
 
-            bool lastBoxIsWhitespace = false;
+
 
             for (int i = 0; i < buffLength; ++i)
             {
@@ -147,23 +162,17 @@ namespace HtmlRenderer.Dom
                     {
                         if (parsingState == WordParsingState.CharacterCollecting)
                         {
-                            boxWords.Add(CssRectWord.CreateRefText(box, startIndex, appendLength, lastBoxIsWhitespace, false));
-
-                            lastBoxIsWhitespace = false;
+                            boxRuns.Add(CssTextRun.CreateTextRun(box, startIndex, appendLength));
                         }
                         else
                         {
-                            boxWords.Add(CssRectWord.CreateWhitespace(box, appendLength, lastBoxIsWhitespace, false));
-
-                            lastBoxIsWhitespace = true;
+                            boxRuns.Add(CssTextRun.CreateWhitespace(box, appendLength));
                         }
                         appendLength = 0; //clear append length 
                     }
-                    //append with new line
+                    //append with new line 
+                    boxRuns.Add(CssTextRun.CreateLineBreak(box));
                     startIndex = i;
-                    boxWords.Add(CssRectWord.CreateLineBreak(box, false, false));
-
-                    lastBoxIsWhitespace = false;
                     continue;
                 }
                 else if (c0 == '\r')
@@ -198,8 +207,7 @@ namespace HtmlRenderer.Dom
                             if (!char.IsWhiteSpace(c0))
                             {
                                 //switch to character mode
-                                boxWords.Add(CssRectWord.CreateWhitespace(box, appendLength, false, false));
-                                lastBoxIsWhitespace = true;
+                                boxRuns.Add(CssTextRun.CreateWhitespace(box, appendLength));
 
                                 parsingState = WordParsingState.CharacterCollecting;
                                 startIndex = i;//start collect
@@ -207,6 +215,10 @@ namespace HtmlRenderer.Dom
                             }
                             else
                             {
+                                if (appendLength == 0)
+                                {
+                                    startIndex = i;
+                                }
                                 appendLength++;
                             }
                         } break;
@@ -215,9 +227,7 @@ namespace HtmlRenderer.Dom
                             if (char.IsWhiteSpace(c0))
                             {
                                 //flush collecting token
-                                boxWords.Add(CssRectWord.CreateRefText(box, startIndex, appendLength, lastBoxIsWhitespace, true));
-                                lastBoxIsWhitespace = false;
-
+                                boxRuns.Add(CssTextRun.CreateTextRun(box, startIndex, appendLength));
 
                                 parsingState = WordParsingState.Whitespace;
                                 startIndex = i;//start collect
@@ -225,6 +235,10 @@ namespace HtmlRenderer.Dom
                             }
                             else
                             {
+                                if (appendLength == 0)
+                                {
+                                    startIndex = i;
+                                }
                                 appendLength++;
                             }
                         } break;
@@ -238,15 +252,15 @@ namespace HtmlRenderer.Dom
                 {
                     case WordParsingState.Whitespace:
                         {
-                            boxWords.Add(CssRectWord.CreateWhitespace(box, appendLength, lastBoxIsWhitespace, false));
+                            boxRuns.Add(CssTextRun.CreateWhitespace(box, appendLength));
 
-                            lastBoxIsWhitespace = true;
+
                         } break;
                     case WordParsingState.CharacterCollecting:
                         {
-                            boxWords.Add(CssRectWord.CreateRefText(box, startIndex, appendLength, lastBoxIsWhitespace, false));
+                            boxRuns.Add(CssTextRun.CreateTextRun(box, startIndex, appendLength));
 
-                            lastBoxIsWhitespace = false;
+
                         } break;
                 }
             }
@@ -255,7 +269,9 @@ namespace HtmlRenderer.Dom
         {
             //not preserve whitespace but respect newline
             char[] textBuffer = CssBox.UnsafeGetTextBuffer(box);
-            List<CssRect> boxWords = box.Words;
+            List<CssRun> boxRuns = box.Runs;
+            boxRuns.Clear(); //clear prev results
+
             int startIndex = 0;
             int buffLength = textBuffer.Length;
             bool boxIsNotBreakAll = box.WordBreak != CssWordBreak.BreakAll;
@@ -264,7 +280,7 @@ namespace HtmlRenderer.Dom
             WordParsingState parsingState = WordParsingState.Init;
 
             int appendLength = 0;
-            bool lastBoxIsWhitespace = false;
+
             for (int i = 0; i < buffLength; ++i)
             {
                 char c0 = textBuffer[i];
@@ -278,11 +294,14 @@ namespace HtmlRenderer.Dom
                         {
                             case WordParsingState.Whitespace:
                                 {
+                                    if (boxRuns.Count > 0)
+                                    {
+                                        boxRuns.Add(CssTextRun.CreateSingleWhitespace(box));
+                                    }
                                 } break;
                             case WordParsingState.CharacterCollecting:
                                 {
-                                    boxWords.Add(CssRectWord.CreateRefText(box, startIndex, appendLength, lastBoxIsWhitespace, false));
-                                    lastBoxIsWhitespace = false;
+                                    boxRuns.Add(CssTextRun.CreateTextRun(box, startIndex, appendLength));
 
                                 } break;
                         }
@@ -290,8 +309,7 @@ namespace HtmlRenderer.Dom
                     }
                     //append with new line
                     startIndex = i;
-                    boxWords.Add(CssRectWord.CreateLineBreak(box, false, false));
-                    lastBoxIsWhitespace = false;
+                    boxRuns.Add(CssTextRun.CreateLineBreak(box));
 
                     continue;
                 }
@@ -309,7 +327,7 @@ namespace HtmlRenderer.Dom
                             if (char.IsWhiteSpace(c0))
                             {
                                 //not switch
-                                //parsingState = WordParsingState.Whitespace;
+                                parsingState = WordParsingState.Whitespace;
                             }
                             else
                             {
@@ -323,14 +341,14 @@ namespace HtmlRenderer.Dom
                             if (!char.IsWhiteSpace(c0))
                             {
                                 //switch to character mode
-                                lastBoxIsWhitespace = true;
+
+                                if (boxRuns.Count > 0)
+                                {
+                                    boxRuns.Add(CssTextRun.CreateSingleWhitespace(box));
+                                }
+
                                 parsingState = WordParsingState.CharacterCollecting;
-                                //if (boxGenNumberInEachLine > 0)
-                                //{
-                                //    lastBoxIsWhitespace = true;
-                                //    boxGenNumberInEachLine++;
-                                //    parsingState = WordParsingState.CharacterCollecting;
-                                //}
+
 
                                 startIndex = i;
                                 appendLength = 1;//start append length
@@ -341,9 +359,8 @@ namespace HtmlRenderer.Dom
                             if (char.IsWhiteSpace(c0))
                             {
                                 //flush new token  
-                                boxWords.Add(CssRectWord.CreateRefText(box, startIndex, appendLength, lastBoxIsWhitespace, true));
-                                lastBoxIsWhitespace = false;
-                                // boxGenNumberInEachLine++;
+                                boxRuns.Add(CssTextRun.CreateTextRun(box, startIndex, appendLength));
+
                                 parsingState = WordParsingState.Whitespace;
                                 appendLength = 0; //clear append length 
                             }
@@ -362,11 +379,15 @@ namespace HtmlRenderer.Dom
                 {
                     case WordParsingState.Whitespace:
                         {
+                            if (boxRuns.Count > 0)
+                            {
+                                boxRuns.Add(CssTextRun.CreateSingleWhitespace(box));
+                            }
                         } break;
                     case WordParsingState.CharacterCollecting:
                         {
-                            boxWords.Add(CssRectWord.CreateRefText(box, startIndex, appendLength, lastBoxIsWhitespace, false));
-                            lastBoxIsWhitespace = false;
+                            boxRuns.Add(CssTextRun.CreateTextRun(box, startIndex, appendLength));
+
                             appendLength = 0; //clear append length 
                         } break;
                 }

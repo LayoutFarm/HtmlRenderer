@@ -24,29 +24,29 @@ namespace HtmlRenderer.Parse
     /// </summary>
     internal static class CssValueParser
     {
-        /// <summary>
-        /// Check if the given string is a valid length value.
-        /// </summary>
-        /// <param name="value">the string value to check</param>
-        /// <returns>true - valid, false - invalid</returns>
-        public static bool IsValidLength(string value)
-        {
-            if (value.Length > 1)
-            {
-                string number = string.Empty;
-                if (value.EndsWith("%"))
-                {
-                    number = value.Substring(0, value.Length - 1);
-                }
-                else if (value.Length > 2)
-                {
-                    number = value.Substring(0, value.Length - 2);
-                }
-                float stub;
-                return float.TryParse(number, out stub);
-            }
-            return false;
-        }
+        ///// <summary>
+        ///// Check if the given string is a valid length value.
+        ///// </summary>
+        ///// <param name="value">the string value to check</param>
+        ///// <returns>true - valid, false - invalid</returns>
+        //public static bool IsValidLength(string value)
+        //{
+        //    if (value.Length > 1)
+        //    {
+        //        string number = string.Empty;
+        //        if (value.EndsWith("%"))
+        //        {
+        //            number = value.Substring(0, value.Length - 1);
+        //        }
+        //        else if (value.Length > 2)
+        //        {
+        //            number = value.Substring(0, value.Length - 2);
+        //        }
+        //        float stub;
+        //        return float.TryParse(number, out stub);
+        //    }
+        //    return false;
+        //}
 
         /// <summary>
         /// Evals a number and returns it. If number is a percentage, it will be multiplied by <see cref="hundredPercent"/>
@@ -341,16 +341,16 @@ namespace HtmlRenderer.Parse
             return unit;
         }
 
-        /// <summary>
-        /// Check if the given color string value is valid.
-        /// </summary>
-        /// <param name="colorValue">color string value to parse</param>
-        /// <returns>true - valid, false - invalid</returns>
-        public static bool IsColorValid(string colorValue)
-        {
-            Color color;
-            return TryGetColor(colorValue, 0, colorValue.Length, out color);
-        }
+        ///// <summary>
+        ///// Check if the given color string value is valid.
+        ///// </summary>
+        ///// <param name="colorValue">color string value to parse</param>
+        ///// <returns>true - valid, false - invalid</returns>
+        //public static bool IsColorValid(string colorValue)
+        //{
+        //    Color color;
+        //    return TryGetColor(colorValue, 0, colorValue.Length, out color);
+        //}
 
         /// <summary>
         /// Parses a color value in CSS style; e.g. #ff0000, red, rgb(255,0,0), rgb(100%, 0, 0)
@@ -364,36 +364,42 @@ namespace HtmlRenderer.Parse
             return color;
         }
 
-        /// <summary>
-        /// Parses a border value in CSS style; e.g. 1px, 1, thin, thick, medium
-        /// </summary>
-        /// <param name="borderValue"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static float GetActualBorderWidth(string borderValue, CssBoxBase b)
-        {
-            if (string.IsNullOrEmpty(borderValue))
-            {
-                return GetActualBorderWidth(CssConstants.Medium, b);
-            }
-            switch (borderValue)
-            {
-                case CssConstants.Thin:
-                    return 1f;
-                case CssConstants.Medium:
-                    return 2f;
-                case CssConstants.Thick:
-                    return 4f;
-                default:
-                    return Math.Abs(ParseLength(borderValue, 1, b));
-            }
-        }
+        ///// <summary>
+        ///// Parses a border value in CSS style; e.g. 1px, 1, thin, thick, medium
+        ///// </summary>
+        ///// <param name="borderValue"></param>
+        ///// <param name="b"></param>
+        ///// <returns></returns>
+        //public static float GetActualBorderWidth(string borderValue, CssBoxBase b)
+        //{
+        //    if (string.IsNullOrEmpty(borderValue))
+        //    {
+        //        return GetActualBorderWidth(CssConstants.Medium, b);
+        //    }
+        //    switch (borderValue)
+        //    {
+        //        case CssConstants.Thin:
+        //            return 1f;
+        //        case CssConstants.Medium:
+        //            return 2f;
+        //        case CssConstants.Thick:
+        //            return 4f;
+        //        default:
+        //            return Math.Abs(ParseLength(borderValue, 1, b));
+        //    }
+        //}
+        
+        
         public static float GetActualBorderWidth(CssLength borderValue, CssBoxBase b)
         {
             if (borderValue.IsEmpty)
             {
-                return GetActualBorderWidth(CssConstants.Medium, b);
+                //return as medium
+                return 2f;
+                // return GetActualBorderWidth(CssConstants.Medium, b);
             }
+
+             
             if (borderValue.IsMedium)
             {
                 return 2f;

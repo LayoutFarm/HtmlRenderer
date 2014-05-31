@@ -16,18 +16,19 @@ using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
 {
-    public enum CssRectKind : byte
+    public enum CssRunKind : byte
     {
         Unknown,
         Text,
         Image,
         LineBreak,
-
         //------------
         //below here is space
         SingleSpace,
         Space,
     }
+
+
     /// <summary>
     /// Represents a word inside an inline box
     /// </summary>
@@ -37,60 +38,43 @@ namespace HtmlRenderer.Dom
     /// imagine the performance when drawing char by char on the device.<br/>
     /// It may change for future versions of the library.
     /// </remarks>
-    public abstract class CssRect
+    public abstract class CssRun
     {
-        #region Fields and Consts
+
 
         /// <summary>
         /// the CSS box owner of the word
         /// </summary>
         readonly CssBox _ownerBox;
-        readonly CssRectKind _rectKind;
+        readonly CssRunKind _runKind;
 
         /// <summary>
         /// Rectangle
-        /// </summary>
-        private RectangleF _rect;
+        /// </summary>         
+        float _x;
+        float _y;
+        float _width;
+        float _height;
+
+         
 
         /// <summary>
         /// If the word is selected this points to the selection handler for more data
         /// </summary>
         private ISelectionHandler _selection;
 
-        /// <summary>
-        /// each word has only one owner linebox!
-        /// </summary>
-        CssLineBox myOwnerLineBox;
 
-
-        #endregion
 
         /// <summary>
         /// Init.
         /// </summary>
         /// <param name="owner">the CSS box owner of the word</param>
-        protected CssRect(CssBox owner, CssRectKind rectKind)
+        protected CssRun(CssBox owner, CssRunKind rectKind)
         {
             this._ownerBox = owner;
-            this._rectKind = rectKind;
+            this._runKind = rectKind;
         }
-        internal CssLineBox ownerLineBox
-        {
-            get
-            {
-                return this.myOwnerLineBox;
-            }
-            set
-            {
-#if DEBUG
-                //if (value != null && this.myOwnerLineBox != null)
-                //{
-                //}
-#endif
-
-                this.myOwnerLineBox = value;
-            }
-        }
+       
 #if DEBUG
         //int dbugPaintCount;
         //int dbugSnapPass;
@@ -112,11 +96,11 @@ namespace HtmlRenderer.Dom
             }
         }
 #endif
-        public CssRectKind RectKind
+        public CssRunKind Kind
         {
             get
             {
-                return this._rectKind;
+                return this._runKind;
             }
         }
         /// <summary>
@@ -132,8 +116,8 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public RectangleF Rectangle
         {
-            get { return _rect; }
-            set { _rect = value; }
+            get { return new RectangleF(this._x, this._y, this._width, this._height); }
+
         }
 
         /// <summary>
@@ -141,8 +125,8 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float Left
         {
-            get { return _rect.X; }
-            set { _rect.X = value; }
+            get { return this._x; }
+            set { this._x = value; }
         }
 
         /// <summary>
@@ -150,8 +134,8 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float Top
         {
-            get { return _rect.Y; }
-            set { _rect.Y = value; }
+            get { return this._y; }
+            set { this._y = value; }
         }
 
         /// <summary>
@@ -159,33 +143,19 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float Width
         {
-            get { return _rect.Width; }
-            set { _rect.Width = value; }
+            get { return this._width; }
+            set { this._width = value; }
         }
 
-        /// <summary>
-        /// Get the full width of the word including the spacing.
-        /// </summary>
-        public float FullWidth
-        {
-            get { return _rect.Width + ActualWordSpacing; }
-        }
 
-        /// <summary>
-        /// Gets the actual width of whitespace between words.
-        /// </summary>
-        public float ActualWordSpacing
-        {
-            get { return (OwnerBox != null ? (HasSpaceAfter ? OwnerBox.ActualWordSpacing : 0) + (IsImage ? OwnerBox.ActualWordSpacing : 0) : 0); }
-        }
 
         /// <summary>
         /// Height of the rectangle
         /// </summary>
         public float Height
         {
-            get { return _rect.Height; }
-            set { _rect.Height = value; }
+            get { return this._height; }
+            set { this._height = value; }
         }
 
         /// <summary>
@@ -193,8 +163,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float Right
         {
-            get { return Rectangle.Right; }
-            set { Width = value - Left; }
+            get { return this._x + this._width; }             
         }
 
         /// <summary>
@@ -202,8 +171,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float Bottom
         {
-            get { return Rectangle.Bottom; }
-            set { Height = value - Top; }
+            get { return this._y + this._height; }          
         }
 
         /// <summary>
@@ -215,21 +183,6 @@ namespace HtmlRenderer.Dom
             set { _selection = value; }
         }
 
-        /// <summary>
-        /// was there a whitespace before the word chars (before trim)
-        /// </summary>
-        public virtual bool HasSpaceBefore
-        {
-            get { return false; }
-        }
-
-        /// <summary>
-        /// was there a whitespace after the word chars (before trim)
-        /// </summary>
-        public virtual bool HasSpaceAfter
-        {
-            get { return false; }
-        }
 
         /// <summary>
         /// Gets the image this words represents (if one exists)
@@ -237,9 +190,7 @@ namespace HtmlRenderer.Dom
         public virtual Image Image
         {
             get { return null; }
-            // ReSharper disable ValueParameterNotUsed
             set { }
-            // ReSharper restore ValueParameterNotUsed
         }
 
         /// <summary>
@@ -247,9 +198,8 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public bool IsImage
         {
-            get { return this._rectKind == CssRectKind.Image; }
+            get { return this._runKind == CssRunKind.Image; }
         }
-
 
         /// <summary>
         /// Gets a bool indicating if this word is composed only by spaces.
@@ -260,7 +210,7 @@ namespace HtmlRenderer.Dom
             get
             {
                 //eval once
-                return this._rectKind >= CssRectKind.SingleSpace;
+                return this._runKind >= CssRunKind.SingleSpace;
             }
         }
         /// <summary>
@@ -271,7 +221,7 @@ namespace HtmlRenderer.Dom
             get
             {
                 //eval once
-                return this._rectKind == CssRectKind.LineBreak;
+                return this._runKind == CssRunKind.LineBreak;
             }
         }
         /// <summary>
@@ -287,7 +237,12 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public bool Selected
         {
-            get { return _selection != null; }
+            get
+            {
+                //reimplement 
+                return false;
+                //return _selection != null;
+            }
         }
 
         /// <summary>

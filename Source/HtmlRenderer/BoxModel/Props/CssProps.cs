@@ -340,7 +340,7 @@ namespace HtmlRenderer.Dom
         Unknown,
 
     }
-    public enum CssListStylePoistion : byte
+    public enum CssListStylePosition : byte
     {
         [CssName(CssConstants.Outset)]
         Outside,

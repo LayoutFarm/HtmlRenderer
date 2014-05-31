@@ -183,6 +183,7 @@ namespace HtmlRenderer.WebDom.Parser
                             else
                             {
                                 //in content mode
+                                 
                                 AppendBuffer(c, i);
                             }
                         } break;

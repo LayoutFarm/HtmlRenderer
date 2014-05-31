@@ -43,7 +43,7 @@ namespace HtmlRenderer.Entities
         /// <summary>
         /// provide the stylesheet data to load
         /// </summary>
-        private CssSheet _setStyleSheetData;
+        private CssActiveSheet _setStyleSheetData;
 
         #endregion
 
@@ -95,7 +95,7 @@ namespace HtmlRenderer.Entities
         /// <summary>
         /// provide the stylesheet data to load
         /// </summary>
-        public CssSheet SetStyleSheetData
+        public CssActiveSheet SetStyleSheetData
         {
             get { return _setStyleSheetData; }
             set { _setStyleSheetData = value; }

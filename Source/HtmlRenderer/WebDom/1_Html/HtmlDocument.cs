@@ -60,10 +60,7 @@ namespace HtmlRenderer.WebDom
         {
             return new HtmlProcessInstructionNode(this, nameIndex);
         }
-        public HtmlTextNode CreateTextNode(string text)
-        {
-            return new HtmlTextNode(this, text);
-        }
+         
         public HtmlTextNode CreateTextNode(char[] strBufferForElement)
         {
             return new HtmlTextNode(this, strBufferForElement);

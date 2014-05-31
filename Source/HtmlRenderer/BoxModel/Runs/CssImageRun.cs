@@ -17,8 +17,8 @@ namespace HtmlRenderer.Dom
     /// <summary>
     /// Represents a word inside an inline box
     /// </summary>
-    internal sealed class CssRectImage : CssRect
-    {
+    internal sealed class CssImageRun : CssRun
+    {   
         #region Fields and Consts
 
         /// <summary>
@@ -38,8 +38,8 @@ namespace HtmlRenderer.Dom
         /// Creates a new BoxWord which represents an image
         /// </summary>
         /// <param name="owner">the CSS box owner of the word</param>
-        public CssRectImage(CssBox owner)
-            : base(owner, CssRectKind.Image)
+        public CssImageRun(CssBox owner)
+            : base(owner, CssRunKind.Image)
         { }
 
         /// <summary>

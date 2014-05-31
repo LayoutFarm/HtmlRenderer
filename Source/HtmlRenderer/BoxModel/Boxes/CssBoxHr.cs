@@ -48,7 +48,7 @@ namespace HtmlRenderer.Dom
                 return;
             }
 
-            RectanglesReset();
+            ResetSummaryBound();
 
             var prevSibling = CssBox.GetPreviousSibling(this);
             this.LocationX = ContainingBlock.LocationX + ContainingBlock.ActualPaddingLeft + ActualMarginLeft + ContainingBlock.ActualBorderLeftWidth;

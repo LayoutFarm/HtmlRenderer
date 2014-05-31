@@ -1,3 +1,5 @@
+//BSD 2014, WinterCore
+
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
@@ -13,17 +15,18 @@
 using System;
 using System.Drawing;
 using System.Globalization;
-using HtmlRenderer.Dom;
+
 using HtmlRenderer.Entities;
 using HtmlRenderer.Handlers;
 using HtmlRenderer.Utils;
+using HtmlRenderer.Parse;
 
-namespace HtmlRenderer.Parse
+namespace HtmlRenderer.Dom
 {
     /// <summary>
     /// Handle css DOM tree generation from raw html and stylesheet.
     /// </summary>
-    internal static class DomParser
+    internal static class BoxModelBuilder
     {
         /// <summary>
         /// Generate css tree by parsing the given html and applying the given css style data on it.
@@ -32,10 +35,10 @@ namespace HtmlRenderer.Parse
         /// <param name="htmlContainer">the html container to use for reference resolve</param>
         /// <param name="cssData">the css data to use</param>
         /// <returns>the root of the generated tree</returns>
-        public static CssBox GenerateCssTree(
+        public static CssBox BuildBoxesTree(
             string html,
             HtmlContainer htmlContainer,
-            CssSheet cssData)
+            CssActiveSheet cssData)
         {
 
             //1. generate css box  from html data
@@ -51,11 +54,8 @@ namespace HtmlRenderer.Parse
             {
 
                 root.HtmlContainer = htmlContainer;
-
-
                 ApplyStyleSheet(root, htmlContainer, ref cssData);
                 //-------------------------------------------------------------------
-
                 SetTextSelectionStyle(htmlContainer, cssData);
 
                 CssBox.CorrectTextBoxes(root);
@@ -85,20 +85,20 @@ namespace HtmlRenderer.Parse
 
             sw1.Reset();
             GC.Collect();
-            sw1.Start();
+            //sw1.Start();
             int nround = 100;
             var snapSource = new TextSnapshot(htmlstr.ToCharArray());
-            for (int i = nround; i >= 0; --i)
-            {
-                CssBox root1 = HtmlParser.ParseDocument(snapSource);
-            }
-            sw1.Stop();
-            long ee1 = sw1.ElapsedTicks;
-            long ee1_ms = sw1.ElapsedMilliseconds;
+            //for (int i = nround; i >= 0; --i)
+            //{
+            //    CssBox root1 = HtmlParser.ParseDocument(snapSource);
+            //}
+            //sw1.Stop();
+            //long ee1 = sw1.ElapsedTicks;
+            //long ee1_ms = sw1.ElapsedMilliseconds;
 
 
-            sw1.Reset();
-            GC.Collect();
+            //sw1.Reset();
+            //GC.Collect();
             sw1.Start();
             for (int i = nround; i >= 0; --i)
             {
@@ -122,11 +122,11 @@ namespace HtmlRenderer.Parse
         /// <param name="htmlContainer">the html container to use for reference resolve</param>
         /// <param name="cssData"> </param>
         /// <param name="cssDataChanged">check if the css data has been modified by the handled html not to change the base css data</param>
-        private static void ApplyStyleSheet(CssBox box, HtmlContainer htmlContainer, ref CssSheet cssData)
+        private static void ApplyStyleSheet(CssBox box, HtmlContainer htmlContainer, ref CssActiveSheet cssData)
         {
             //recursive 
             //------------------------------------------------------------------- 
-            CssSheet savedCss = cssData;
+            CssActiveSheet savedCss = cssData;
             //------------------------------------------------------------------- 
             box.InheritStyle();
 
@@ -135,7 +135,7 @@ namespace HtmlRenderer.Parse
                 //------------------------------------------------------------------- 
                 //1.
                 // try assign style using the html element tag     
-                AssignCssToSpecificBoxWithTagName(box, cssData, box.HtmlTag.Name);
+                AssignCssToSpecificBoxWithTagName(box, cssData);
                 //2.
                 // try assign style using the "class" attribute of the html element 
                 if (box.HtmlTag.HasAttribute("class"))
@@ -183,7 +183,7 @@ namespace HtmlRenderer.Parse
                     //----------------------
                     cssData = CloneCssData(cssData);
                     string stylesheet;
-                    CssSheet stylesheetData;
+                    CssActiveSheet stylesheetData;
 
                     //load style sheet from external 
                     StylesheetLoadHandler.LoadStylesheet(htmlContainer,
@@ -226,7 +226,7 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="htmlContainer"> </param>
         /// <param name="cssData">the style data</param>
-        private static void SetTextSelectionStyle(HtmlContainer htmlContainer, CssSheet cssData)
+        private static void SetTextSelectionStyle(HtmlContainer htmlContainer, CssActiveSheet cssData)
         {
             //comment out for another technique
             htmlContainer.SelectionForeColor = Color.Empty;
@@ -257,7 +257,7 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="box">the css box to assign css to</param>
         /// <param name="cssData">the css data to use to get the matching css blocks</param>
-        private static void AssignCssToSpecificClass(CssBox box, CssSheet cssData)
+        private static void AssignCssToSpecificClass(CssBox box, CssActiveSheet cssData)
         {
             var classes = box.HtmlTag.TryGetAttribute("class");
             //class attribute may has more than one value (multiple classes in single attribute);
@@ -266,6 +266,7 @@ namespace HtmlRenderer.Parse
             int j = classNames.Length;
             for (int i = 0; i < j; ++i)
             {
+
                 CssRuleSetGroup ruleSetGroup = cssData.GetRuleSetForClassName(classNames[i]);
                 if (ruleSetGroup != null)
                 {
@@ -284,11 +285,11 @@ namespace HtmlRenderer.Parse
 
                     }
                 }
-            } 
+            }
         }
 
 
-        private static void AssignCssToSpecificBoxWithTagName(CssBox box, CssSheet cssData, string tagName)
+        private static void AssignCssToSpecificBoxWithTagName(CssBox box, CssActiveSheet cssData)
         {
             CssRuleSetGroup ruleGroup = cssData.GetRuleSetForTagName(box.HtmlTag.Name);
             if (ruleGroup != null)
@@ -310,7 +311,7 @@ namespace HtmlRenderer.Parse
 
 
 
-        private static void AssignCssToSpecificBoxWithId(CssBox box, CssSheet cssData, string elementId)
+        private static void AssignCssToSpecificBoxWithId(CssBox box, CssActiveSheet cssData, string elementId)
         {
             throw new NotSupportedException();
             //foreach (var ruleSet in cssData.GetCssRuleSetIter(elementId))
@@ -328,6 +329,7 @@ namespace HtmlRenderer.Parse
 
             if (decl.IsExpand)
             {
+
                 return;
             }
             if (decl.MarkedAsInherit && box.ParentBox != null)
@@ -339,8 +341,6 @@ namespace HtmlRenderer.Parse
             {
                 if (IsStyleOnElementAllowed2(box, decl))
                 {
-
-
                     string value = null;
                     int valueCount = decl.ValueCount;
                     switch (valueCount)
@@ -351,17 +351,17 @@ namespace HtmlRenderer.Parse
                             } break;
                         case 1:
                             {
+                                //convert to string ?
                                 value = decl.GetPropertyValue(0).ToString();
-
                             } break;
                         default:
                             {
-                                 
+
                                 throw new NotSupportedException();
                             } break;
                     }
 
-                    CssUtils.SetPropertyValue(box, decl.PropertyName, value);
+                    CssUtils.SetPropertyValue2(box, decl);
                 }
             }
 
@@ -409,7 +409,7 @@ namespace HtmlRenderer.Parse
         /// Clone css data if it has not already been cloned.<br/>
         /// Used to preserve the base css data used when changed by style inside html.
         /// </summary>
-        static CssSheet CloneCssData(CssSheet cssData)
+        static CssActiveSheet CloneCssData(CssActiveSheet cssData)
         {
             //if (!cssDataChanged)
             //{                 
@@ -427,11 +427,9 @@ namespace HtmlRenderer.Parse
 
             if (tag.HasAttributes())
             {
-
-                foreach (var attr in tag.GetAttributeIter())
+                foreach (IHtmlAttribute attr in tag.GetAttributeIter())
                 {
                     string value = attr.Value;
-
                     switch (attr.Name)
                     {
                         case HtmlConstants.Align:
@@ -461,7 +459,10 @@ namespace HtmlRenderer.Parse
                                 box.BorderLeftStyle = box.BorderTopStyle = box.BorderRightStyle = box.BorderBottomStyle = CssBorderStyle.Solid;// CssConstants.Solid;
                             }
 
-                            box.BorderLeftWidth = box.BorderTopWidth = box.BorderRightWidth = box.BorderBottomWidth = TranslateLength(CssLength.MakeBorderLength(value));
+                            box.BorderLeftWidth =
+                                box.BorderTopWidth =
+                                box.BorderRightWidth =
+                                box.BorderBottomWidth = TranslateLength(CssLength.MakeBorderLength(value));
 
                             if (tag.WellknownTagName == WellknownHtmlTagName.TABLE)
                             {
@@ -476,11 +477,13 @@ namespace HtmlRenderer.Parse
                             }
                             break;
                         case HtmlConstants.Bordercolor:
-                            box.BorderLeftColor = box.BorderTopColor = box.BorderRightColor = box.BorderBottomColor = CssValueParser.GetActualColor(value.ToLower());
+                            box.BorderLeftColor =
+                                box.BorderTopColor =
+                                box.BorderRightColor =
+                                box.BorderBottomColor = CssValueParser.GetActualColor(value.ToLower());
                             break;
                         case HtmlConstants.Cellspacing:
-
-                            box.BorderSpacingHorizontal = box.BorderSpacingVertical = new CssLength(TranslateLength(value));
+                            box.BorderSpacingHorizontal = box.BorderSpacingVertical = TranslateLength(value);
                             break;
                         case HtmlConstants.Cellpadding:
                             ApplyTablePadding(box, value);
@@ -496,10 +499,10 @@ namespace HtmlRenderer.Parse
                             box.FontFamily = CssParser.ParseFontFamily(value);
                             break;
                         case HtmlConstants.Height:
-                            box.Height = new CssLength(TranslateLength(value));
+                            box.Height = TranslateLength(value);
                             break;
                         case HtmlConstants.Hspace:
-                            box.MarginRight = box.MarginLeft = new CssLength(TranslateLength(value));
+                            box.MarginRight = box.MarginLeft = TranslateLength(value);
                             break;
                         case HtmlConstants.Nowrap:
                             box.WhiteSpace = CssWhiteSpace.NoWrap;
@@ -508,7 +511,7 @@ namespace HtmlRenderer.Parse
 
                             if (tag.WellknownTagName == WellknownHtmlTagName.HR)
                             {
-                                box.Height = new CssLength(TranslateLength(value));
+                                box.Height = TranslateLength(value);
 
                             }
                             else if (tag.WellknownTagName == WellknownHtmlTagName.FONT)
@@ -522,10 +525,10 @@ namespace HtmlRenderer.Parse
 
                             break;
                         case HtmlConstants.Vspace:
-                            box.MarginTop = box.MarginBottom = new CssLength(TranslateLength(value));
+                            box.MarginTop = box.MarginBottom = TranslateLength(value);
                             break;
                         case HtmlConstants.Width:
-                            box.Width = new CssLength(TranslateLength(value));
+                            box.Width = TranslateLength(value);
                             break;
                     }
                 }
@@ -537,14 +540,14 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="htmlLength"></param>
         /// <returns></returns>
-        public static string TranslateLength(string htmlLength)
+        public static CssLength TranslateLength(string htmlLength)
         {
             CssLength len = new CssLength(htmlLength);
             if (len.HasError)
             {
-                return string.Format(NumberFormatInfo.InvariantInfo, "{0}px", htmlLength);
+                return new CssLength(string.Format(NumberFormatInfo.InvariantInfo, "{0}px", htmlLength));
             }
-            return htmlLength;
+            return len;
         }
         private static CssLength TranslateLength(CssLength len)
         {
@@ -578,8 +581,8 @@ namespace HtmlRenderer.Parse
         /// <param name="padding"></param>
         private static void ApplyTablePadding(CssBox table, string padding)
         {
-            var length = TranslateLength(padding);
-            SetForAllCells(table, cell => cell.PaddingLeft = cell.PaddingTop = cell.PaddingRight = cell.PaddingBottom = new CssLength(padding));
+            CssLength length = TranslateLength(padding);
+            SetForAllCells(table, cell => cell.PaddingLeft = cell.PaddingTop = cell.PaddingRight = cell.PaddingBottom = length);
         }
 
         /// <summary>
@@ -593,7 +596,7 @@ namespace HtmlRenderer.Parse
             foreach (var tr in table.GetChildBoxIter())
             {
                 foreach (var td in tr.GetChildBoxIter())
-                {                        
+                {
                     if (td.WellknownTagName == WellknownHtmlTagName.TD)
                     {
                         action(td);
@@ -624,8 +627,7 @@ namespace HtmlRenderer.Parse
                 {
                     //create new anonymous box
                     var block = CssBox.CreateBlock(childBox.ParentBox, null, childIndex);
-                    //move this imgbox to new child
-
+                    //move this imgbox to new child 
                     childBox.SetNewParentBox(block);
                     //childBox.Display = CssConstants.Inline;
                     childBox.CssDisplay = CssDisplay.Inline;
@@ -677,5 +679,10 @@ namespace HtmlRenderer.Parse
         }
 
         #endregion
+
+
+
+
+
     }
 }

@@ -45,13 +45,13 @@ namespace HtmlRenderer.Handlers
         /// the starting word of html selection<br/>
         /// where the user started the selection, if the selection is backwards then it will be the last selected word.
         /// </summary>
-        private CssRect _selectionStart;
+        private CssRun _selectionStart;
 
         /// <summary>
         /// the ending word of html selection<br/>
         /// where the user ended the selection, if the selection is backwards then it will be the first selected word.
         /// </summary>
-        private CssRect _selectionEnd;
+        private CssRun _selectionEnd;
 
         /// <summary>
         /// the selection start index if the first selected word is partially selected (-1 if not selected or fully selected)
@@ -267,9 +267,9 @@ namespace HtmlRenderer.Handlers
                 }
                 else if (_root.HtmlContainer.IsSelectionEnabled)
                 {
-                    var word = DomUtils.GetCssBoxWord(_root, loc);
-                    _cursorChanged = word != null && !word.IsImage && !(word.Selected && (word.SelectedStartIndex < 0 || word.Left + word.SelectedStartOffset <= loc.X) && (word.SelectedEndOffset < 0 || word.Left + word.SelectedEndOffset >= loc.X));
-                    parent.Cursor = _cursorChanged ? Cursors.IBeam : Cursors.Default;
+                    //var word = DomUtils.GetCssBoxWord(_root, loc);
+                    //_cursorChanged = word != null && !word.IsImage && !(word.Selected && (word.SelectedStartIndex < 0 || word.Left + word.SelectedStartOffset <= loc.X) && (word.SelectedEndOffset < 0 || word.Left + word.SelectedEndOffset >= loc.X));
+                    //parent.Cursor = _cursorChanged ? Cursors.IBeam : Cursors.Default;
                 }
                 else if (_cursorChanged)
                 {
@@ -331,7 +331,7 @@ namespace HtmlRenderer.Handlers
         /// </remarks>
         /// <param name="word">the word to return the selection start index for</param>
         /// <returns>data value or -1 if not applicable</returns>
-        public int GetSelectingStartIndex(CssRect word)
+        public int GetSelectingStartIndex(CssRun word)
         {
             return word == (_backwardSelection ? _selectionEnd : _selectionStart) ? (_backwardSelection ? _selectionEndIndex : _selectionStartIndex) : -1;
         }
@@ -344,7 +344,7 @@ namespace HtmlRenderer.Handlers
         /// Handles backward selecting by returning the selection end data instead of start.
         /// </remarks>
         /// <param name="word">the word to return the selection end index for</param>
-        public int GetSelectedEndIndexOffset(CssRect word)
+        public int GetSelectedEndIndexOffset(CssRun word)
         {
             return word == (_backwardSelection ? _selectionStart : _selectionEnd) ? (_backwardSelection ? _selectionStartIndex : _selectionEndIndex) : -1;
         }
@@ -357,7 +357,7 @@ namespace HtmlRenderer.Handlers
         /// Handles backward selecting by returning the selection end data instead of start.
         /// </remarks>
         /// <param name="word">the word to return the selection start offset for</param>
-        public float GetSelectedStartOffset(CssRect word)
+        public float GetSelectedStartOffset(CssRun word)
         {
             return word == (_backwardSelection ? _selectionEnd : _selectionStart) ? (_backwardSelection ? _selectionEndOffset : _selectionStartOffset) : -1;
         }
@@ -370,7 +370,7 @@ namespace HtmlRenderer.Handlers
         /// Handles backward selecting by returning the selection end data instead of start.
         /// </remarks>
         /// <param name="word">the word to return the selection end offset for</param>
-        public float GetSelectedEndOffset(CssRect word)
+        public float GetSelectedEndOffset(CssRun word)
         {
             return word == (_backwardSelection ? _selectionStart : _selectionEnd) ? (_backwardSelection ? _selectionStartOffset : _selectionEndOffset) : -1;
         }
@@ -517,7 +517,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="box">the css box to selectionStart clear at</param>
         private static void ClearSelection(CssBox box)
         {
-            foreach (var word in box.GetWordIter())
+            foreach (var word in box.GetRunIter())
             {
                 word.Selection = null;
             }
@@ -548,7 +548,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="box">the box to start select all at</param>
         public void SelectAllWords(CssBox box)
         {
-            foreach (var word in box.GetWordIter())
+            foreach (var word in box.GetRunIter())
             {
                 word.Selection = this;
             }
@@ -585,7 +585,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="root">the root of the DOM sub-tree the selection is in</param>
         /// <param name="selectionStart">selection start word limit</param>
         /// <param name="selectionEnd">selection end word limit</param>
-        private void SelectWordsInRange(CssBox root, CssRect selectionStart, CssRect selectionEnd)
+        private void SelectWordsInRange(CssBox root, CssRun selectionStart, CssRun selectionEnd)
         {
             bool inSelection = false;
             SelectWordsInRange(root, selectionStart, selectionEnd, ref inSelection);
@@ -599,9 +599,9 @@ namespace HtmlRenderer.Handlers
         /// <param name="selectionEnd">selection end word limit</param>
         /// <param name="inSelection">used to know the traversal is currently in selected range</param>
         /// <returns></returns>
-        private bool SelectWordsInRange(CssBox box, CssRect selectionStart, CssRect selectionEnd, ref bool inSelection)
+        private bool SelectWordsInRange(CssBox box, CssRun selectionStart, CssRun selectionEnd, ref bool inSelection)
         {
-            foreach (var boxWord in box.GetWordIter())
+            foreach (var boxWord in box.GetRunIter())
             {
                 if (!inSelection && boxWord == selectionStart)
                 {
@@ -631,13 +631,13 @@ namespace HtmlRenderer.Handlers
 
         /// <summary>
         /// Calculate the character index and offset by characters for the given word and given offset.<br/>
-        /// <seealso cref="CalculateWordCharIndexAndOffset(Control, CssRect, Point, bool, out int, out float)"/>.
+        /// <seealso cref="CalculateWordCharIndexAndOffset(Control, CssRun, Point, bool, out int, out float)"/>.
         /// </summary>
         /// <param name="control">used to create graphics to measure string</param>
         /// <param name="word">the word to calculate its index and offset</param>
         /// <param name="loc">the location to calculate for</param>
         /// <param name="selectionStart">to set the starting or ending char and offset data</param>
-        private void CalculateWordCharIndexAndOffset(Control control, CssRect word, Point loc, bool selectionStart)
+        private void CalculateWordCharIndexAndOffset(Control control, CssRun word, Point loc, bool selectionStart)
         {
             int selectionIndex;
             float selectionOffset;
@@ -668,7 +668,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="selectionIndex">return the index of the char under the location</param>
         /// <param name="selectionOffset">return the offset of the char under the location</param>
         /// <param name="inclusive">is to include the first character in the calculation</param>
-        private static void CalculateWordCharIndexAndOffset(Control control, CssRect word, Point loc, bool inclusive, out int selectionIndex, out float selectionOffset)
+        private static void CalculateWordCharIndexAndOffset(Control control, CssRun word, Point loc, bool inclusive, out int selectionIndex, out float selectionOffset)
         {
             selectionIndex = 0;
             selectionOffset = 0f;

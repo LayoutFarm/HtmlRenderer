@@ -21,7 +21,7 @@ using HtmlRenderer.Utils;
 namespace HtmlRenderer
 {
 
-    public class CssSheet
+    public class CssActiveSheet
     {
         //major groups...  
         Dictionary<string, CssRuleSetGroup> rulesForTagName = new Dictionary<string, CssRuleSetGroup>();
@@ -31,17 +31,37 @@ namespace HtmlRenderer
         Dictionary<string, CssRuleSetGroup> rulesForAll = new Dictionary<string, CssRuleSetGroup>();
 
 #if DEBUG
-        CssSheet dbugOriginal;
+        CssActiveSheet dbugOriginal;
 
 #endif
 
-        public CssSheet()
+        public CssActiveSheet()
         {
         }
-        public void AddRuleSet(WebDom.CssRuleSet ruleset)
+        public void LoadCssDoc(WebDom.CssDocument cssDoc)
+        {
+            foreach (WebDom.CssDocMember cssDocMember in cssDoc.GetCssDocMemberIter())
+            {
+                switch (cssDocMember.MemberKind)
+                {
+                    case WebDom.CssDocMemberKind.RuleSet:
+                        this.AddRuleSet((WebDom.CssRuleSet)cssDocMember);
+                        break;
+                    case WebDom.CssDocMemberKind.Media:
+                        this.AddMedia((WebDom.CssAtMedia)cssDocMember);
+                        break;
+                    default:
+                    case WebDom.CssDocMemberKind.Page:
+                        throw new NotSupportedException();
+                }
+            }
+        }
+
+        void AddRuleSet(WebDom.CssRuleSet ruleset)
         {
             List<CssRuleSetGroup> relatedRuleSets = new List<CssRuleSetGroup>();
             ExpandSelector(relatedRuleSets, ruleset.GetSelector());
+
 
             CssPropertyAssignmentCollection assignmentCollection = new CssPropertyAssignmentCollection(null);
             assignmentCollection.LoadRuleSet(ruleset);
@@ -159,24 +179,7 @@ namespace HtmlRenderer
             }
             //-----------------------------------------------------------------------------
         }
-        public void LoadCssDoc(WebDom.CssDocument cssDoc)
-        {
-            foreach (WebDom.CssDocMember cssDocMember in cssDoc.GetCssDocMemberIter())
-            {
-                switch (cssDocMember.MemberKind)
-                {
-                    case WebDom.CssDocMemberKind.RuleSet:
-                        this.AddRuleSet((WebDom.CssRuleSet)cssDocMember);
-                        break;
-                    case WebDom.CssDocMemberKind.Media:
-                        this.AddMedia((WebDom.CssAtMedia)cssDocMember);
-                        break;
-                    default:
-                    case WebDom.CssDocMemberKind.Page:
-                        throw new NotSupportedException();
-                }
-            }
-        }
+     
         void AddMedia(WebDom.CssAtMedia atMedia)
         {
             if (!atMedia.HasMediaName)
@@ -194,11 +197,9 @@ namespace HtmlRenderer
         }
 
         internal CssRuleSetGroup GetRuleSetForTagName(string tagName)
-        {
+        {   
             CssRuleSetGroup found;
-            if (!rulesForTagName.TryGetValue(tagName, out found))
-            { 
-            } 
+            rulesForTagName.TryGetValue(tagName, out found);
             return found;
         }
         internal CssRuleSetGroup GetRuleSetForClassName(string className)
@@ -206,10 +207,11 @@ namespace HtmlRenderer
             CssRuleSetGroup found;
             this.rulesForClassName.TryGetValue(className, out found);
             return found;
-        } 
-        public CssSheet Clone(object newOwner)
+        }
+
+        internal CssActiveSheet Clone(object newOwner)
         {
-            CssSheet newclone = new CssSheet();
+            CssActiveSheet newclone = new CssActiveSheet();
             newclone.rulesForTagName = CloneNew(this.rulesForTagName);
             newclone.rulesForClassName = CloneNew(this.rulesForClassName);
             newclone.rulesForElementId = CloneNew(this.rulesForElementId);
@@ -226,7 +228,7 @@ namespace HtmlRenderer
         ///  consume 
         /// </summary>
         /// <param name="another"></param>
-        public void Combine(CssSheet another)
+        internal void Combine(CssActiveSheet another)
         {
             MergeContent(this.rulesForClassName, another.rulesForClassName);
             MergeContent(this.rulesForAll, another.rulesForAll);
@@ -280,10 +282,12 @@ namespace HtmlRenderer
 
     class CssRuleSetGroup
     {
-        List<CssRuleSetGroup> _subGroups;
+
         CssPropertyAssignmentCollection _assignments;
+
         WebDom.CssSimpleElementSelector _originalSelector;
         CssRuleSetGroup _parent;
+        List<CssRuleSetGroup> _subGroups;
 
 #if DEBUG
         static int dbugTotalId = 0;
@@ -441,8 +445,10 @@ namespace HtmlRenderer
                 return this._originalSelector;
             }
         }
-       
+
     }
+
+
     class CssPropertyAssignmentCollection
     {
         Dictionary<string, WebDom.CssPropertyDeclaration> _myAssignments = new Dictionary<string, WebDom.CssPropertyDeclaration>();
@@ -506,79 +512,5 @@ namespace HtmlRenderer
         {
             return this._myAssignments;
         }
-
     }
-
-
-    //    public sealed class CssSheet 
-    //    {
-    //#if DEBUG
-    //        static int dbugTotalId;
-    //        public readonly int dbugId = dbugTotalId++;
-    //        //public List<string> dbugOriginalSources = new List<string>();
-    //#endif
-
-    //        CssActiveDocument _cssActiveDocument;
-    //        internal CssActiveDocument ActiveDoc
-    //        {
-    //            get
-    //            {
-    //                return this._cssActiveDocument;
-    //            }
-    //            set
-    //            {
-    //                if (this._cssActiveDocument != null)
-    //                {
-
-    //                }
-    //                if (value == null)
-    //                {
-    //                }
-    //                this._cssActiveDocument = value;
-    //            }
-    //        }
-    //        
-    //        internal CssRuleSetGroup GetRuleSetForSpecificClassName(string tagName)
-    //        {
-    //            return this._cssActiveDocument.GetRuleSetForSpecficClassName(tagName);
-    //        }
-    //        internal CssSheet Clone(object newowner)
-    //        {
-    //            this.cssOwner = newowner;
-    //            var newClone = new CssSheet();
-    //            //foreach (CssMediaBlock mediaBlock in _mediaBlocks.Values)
-    //            //{
-    //            //    newClone._mediaBlocks[mediaBlock.MediaName] = mediaBlock.Clone();
-    //            //}
-    //            newClone._cssActiveDocument = this._cssActiveDocument.Clone();
-
-    //#if DEBUG
-    //            //foreach (string ss in this.dbugOriginalSources)
-    //            //{
-    //            //    newClone.dbugOriginalSources.Add(ss);
-    //            //}
-    //#endif
-    //            return newClone;
-    //        }
-    //        object cssOwner;
-    //        internal void Combine(CssSheet other)
-    //        {
-    //            //ArgChecker.AssertArgNotNull(other, "other");
-    //            //// for each media block
-    //            //foreach (CssMediaBlock mediaBlock in other.GetMediaBlockIter())
-    //            //{
-    //            //    // for each css class in the media block
-    //            //    foreach (var group in mediaBlock.GetCodeBlockGroupIter())
-    //            //    {
-    //            //        // for each css block of the css class
-    //            //        int j = group.Count;
-    //            //        for (int i = 0; i < j; ++i)
-    //            //        {
-    //            //            AddCssBlock(mediaBlock.MediaName, group.GetBlock(i));
-    //            //        }
-    //            //    }
-    //            //}
-    //        }
-    //    }
-
 }

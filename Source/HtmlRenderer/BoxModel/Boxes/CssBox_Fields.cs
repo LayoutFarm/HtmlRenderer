@@ -39,7 +39,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary>
-        private readonly IHtmlTag _htmltag; 
+        private readonly IHtmlTag _htmltag;
         char[] _textBuffer;
 
         /// <summary>
@@ -74,11 +74,14 @@ namespace HtmlRenderer.Dom
         //----------------------------------------------------
 
         #endregion
-        //----------------------------------------------------  
-        private readonly List<CssRect> _boxWords = new List<CssRect>();
+        //----------------------------------------------------   
+        //condition 1 :this Box is BlockBox
         readonly CssBoxCollection _boxes;
-        private readonly LinkedList<CssLineBox> _lineBoxes = new LinkedList<CssLineBox>();
-
+        readonly LinkedList<CssLineBox> _lineBoxes = new LinkedList<CssLineBox>();
+        //----------------------------------------------------   
+        //condition 2 :this Box is InlinBox 
+        readonly List<CssRun> _boxRuns = new List<CssRun>();        
+        //----------------------------------------------------  
         /// <summary>
         /// Gets the childrenn boxes of this box
         /// </summary>
@@ -115,7 +118,7 @@ namespace HtmlRenderer.Dom
         //-----------------------------------
         public CssBox GetChildBox(int index)
         {
-             
+
             return this._boxes[index];
         }
         public void InsertChild(int index, CssBox box)
@@ -125,7 +128,7 @@ namespace HtmlRenderer.Dom
         //--------
         internal void ResetLineBoxes()
         {
-            
+
             _lineBoxes.Clear();
         }
         //-------------------------------------
@@ -174,7 +177,7 @@ namespace HtmlRenderer.Dom
                 this._colSpan = value;
             }
         }
-         
+
     }
 
 }

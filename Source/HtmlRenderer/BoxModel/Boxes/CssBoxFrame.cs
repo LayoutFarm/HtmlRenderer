@@ -33,7 +33,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the image word of this image box
         /// </summary>
-        private readonly CssRectImage _imageWord;
+        private readonly CssImageRun _imageWord;
 
         /// <summary>
         /// is the iframe is of embeded video
@@ -76,8 +76,8 @@ namespace HtmlRenderer.Dom
         internal CssBoxFrame(CssBox parent, IHtmlTag tag)
             : base(parent, tag)
         {
-            _imageWord = new CssRectImage(this);
-            Words.Add(_imageWord);
+            _imageWord = new CssImageRun(this);
+            Runs.Add(_imageWord);
 
             Uri uri;
             if (Uri.TryCreate(GetAttribute("src"), UriKind.Absolute, out uri))
@@ -481,7 +481,7 @@ namespace HtmlRenderer.Dom
 
             BordersDrawHandler.DrawBoxBorders(g, this, rects, true, true);
 
-            var word = Words[0];
+            var word = Runs[0];
             var tmpRect = word.Rectangle;
             tmpRect.Offset(offset);
             tmpRect.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
@@ -513,7 +513,7 @@ namespace HtmlRenderer.Dom
 
                 if (_imageWord.Selected)
                 {
-                    g.FillRectangle(GetSelectionBackBrush(true), _imageWord.Left + offset.X, _imageWord.Top + offset.Y, _imageWord.Width + 2, DomUtils.GetCssLineBoxByWord(_imageWord).LineHeight);
+                    //g.FillRectangle(GetSelectionBackBrush(true), _imageWord.Left + offset.X, _imageWord.Top + offset.Y, _imageWord.Width + 2, DomUtils.GetCssLineBoxByWord(_imageWord).LineHeight);
                 }
             }
             else if (_isVideo && !_imageLoadingComplete)
@@ -577,7 +577,7 @@ namespace HtmlRenderer.Dom
         /// Assigns words its width and height
         /// </summary>
         /// <param name="g">the device to use</param>
-        internal override void MeasureWordsSize(IGraphics g)
+        internal override void MeasureRunsSize(IGraphics g)
         {
             if (!_wordsSizeMeasured)
             {

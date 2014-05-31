@@ -83,6 +83,7 @@ namespace HtmlRenderer.Dom
             }
             return null;
         }
+
         /// <summary>
         /// Correct the DOM tree recursively by replacing  "br" html boxes with anonymous blocks that respect br spec.<br/>
         /// If the "br" tag is after inline box then the anon block will have zero height only acting as newline,
@@ -102,7 +103,7 @@ namespace HtmlRenderer.Dom
             {
                 //recursive to child first
                 CorrectLineBreaksBlocks(childBox, ref followingBlock);
-                followingBlock = childBox.Words.Count == 0 && (followingBlock || childBox.IsBlock);
+                followingBlock = childBox.Runs.Count == 0 && (followingBlock || childBox.IsBlock);
             }
 
             //-------------------------------------
@@ -125,7 +126,7 @@ namespace HtmlRenderer.Dom
                         if (i > 0)
                         {
                             var prevBox = allChildren[i - 1];
-                            if (prevBox.Words.Count > 0)
+                            if (prevBox.Runs.Count > 0)
                             {
                                 followingBlock = false;
                             }
@@ -216,7 +217,7 @@ namespace HtmlRenderer.Dom
                 }
                 //------------------------------------------- 
                 //insert left block as leftmost (firstbox) in the line 
-                //newLeftBlock.SetBeforeBox(box.GetFirstChild());
+
                 newLeftBlock.ChangeSiblingOrder(0);
                 var splitBox = box.Boxes[1];
 
@@ -226,7 +227,6 @@ namespace HtmlRenderer.Dom
 
                 if (box.ChildCount > 2)
                 {
-                    // var rightBox = CssBox.CreateBox(box, null, box.Boxes[2]);
                     var rightBox = CssBox.CreateBox(box, null, 2);
                     while (box.ChildCount > 3)
                     {
@@ -408,7 +408,7 @@ namespace HtmlRenderer.Dom
         internal static void CorrectTextBoxes(CssBox box)
         {
             CssBoxCollection boxes = box.Boxes;
-            
+
             for (int i = boxes.Count - 1; i >= 0; i--)
             {
                 var childBox = boxes[i];
@@ -417,9 +417,12 @@ namespace HtmlRenderer.Dom
                     // is the box has text
                     // or is the box is pre-formatted
                     // or is the box is only one in the parent
+
+
                     bool keepBox = !childBox.TextContentIsWhitespaceOrEmptyText ||
-                        childBox.WhiteSpace == CssWhiteSpace.Pre || childBox.WhiteSpace == CssWhiteSpace.PreWrap ||
-                        box.ChildCount == 1; 
+                        childBox.WhiteSpace == CssWhiteSpace.Pre ||
+                        childBox.WhiteSpace == CssWhiteSpace.PreWrap ||
+                        boxes.Count == 1;
 
                     if (!keepBox && box.ChildCount > 0)
                     {
@@ -444,14 +447,12 @@ namespace HtmlRenderer.Dom
                     }
                     if (keepBox)
                     {
-                        // valid text box, parse it to words
-                        childBox.ParseToWords();
+                        // valid text box, parse it to words  
+                        childBox.ParseWordContent();
                     }
                     else
-                    {
-                        // remove text box that has no 
-                        boxes.RemoveAt(i);
-                        //childBox.ParentBox.Boxes.RemoveAt(i);
+                    { 
+                        boxes.RemoveAt(i); 
                     }
                 }
                 else

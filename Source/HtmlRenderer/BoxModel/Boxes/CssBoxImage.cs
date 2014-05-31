@@ -28,7 +28,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the image word of this image box
         /// </summary>
-        private readonly CssRectImage _imageWord;
+        private readonly CssImageRun _imageWord;
 
         /// <summary>
         /// handler used for image loading by source
@@ -50,8 +50,8 @@ namespace HtmlRenderer.Dom
         public CssBoxImage(CssBox parent, IHtmlTag tag)
             : base(parent, tag)
         {
-            _imageWord = new CssRectImage(this);
-            Words.Add(_imageWord);
+            _imageWord = new CssImageRun(this);
+            Runs.Add(_imageWord);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace HtmlRenderer.Dom
             get { return _imageWord.Image; }
         }
 
-        internal void PaintImage(IGraphics g, PointF offset, CssRect w)
+        internal void PaintImage(IGraphics g, PointF offset, CssRun w)
         {
 
             if (_imageLoadHandler == null)
@@ -99,7 +99,7 @@ namespace HtmlRenderer.Dom
 
                 if (_imageWord.Selected)
                 {
-                    g.FillRectangle(GetSelectionBackBrush(true), _imageWord.Left + offset.X, _imageWord.Top + offset.Y, _imageWord.Width + 2, DomUtils.GetCssLineBoxByWord(_imageWord).LineHeight);
+                    //g.FillRectangle(GetSelectionBackBrush(true), _imageWord.Left + offset.X, _imageWord.Top + offset.Y, _imageWord.Width + 2, DomUtils.GetCssLineBoxByWord(_imageWord).LineHeight);
                 }
             }
             else if (_imageLoadingComplete)
@@ -162,9 +162,9 @@ namespace HtmlRenderer.Dom
 
                 if (_imageWord.Selected)
                 {
-                    g.FillRectangle(GetSelectionBackBrush(true),
-                        _imageWord.Left + offset.X, _imageWord.Top + offset.Y, _imageWord.Width + 2,
-                        DomUtils.GetCssLineBoxByWord(_imageWord).LineHeight);
+                    //g.FillRectangle(GetSelectionBackBrush(true),
+                    //    _imageWord.Left + offset.X, _imageWord.Top + offset.Y, _imageWord.Width + 2,
+                    //    DomUtils.GetCssLineBoxByWord(_imageWord).LineHeight);
                 }
             }
             else if (_imageLoadingComplete)
@@ -190,7 +190,7 @@ namespace HtmlRenderer.Dom
         /// Assigns words its width and height
         /// </summary>
         /// <param name="g">the device to use</param>
-        internal override void MeasureWordsSize(IGraphics g)
+        internal override void MeasureRunsSize(IGraphics g)
         {
             if (!_wordsSizeMeasured)
             {
