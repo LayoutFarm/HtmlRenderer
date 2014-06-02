@@ -56,15 +56,6 @@ namespace HtmlRenderer.Dom
         float _width;
         float _height;
 
-         
-
-        /// <summary>
-        /// If the word is selected this points to the selection handler for more data
-        /// </summary>
-        private ISelectionHandler _selection;
-
-
-
         /// <summary>
         /// Init.
         /// </summary>
@@ -74,7 +65,7 @@ namespace HtmlRenderer.Dom
             this._ownerBox = owner;
             this._runKind = rectKind;
         }
-       
+
 #if DEBUG
         //int dbugPaintCount;
         //int dbugSnapPass;
@@ -137,7 +128,16 @@ namespace HtmlRenderer.Dom
             get { return this._y; }
             set { this._y = value; }
         }
-
+        internal void SetLocation(float x, float y)
+        {
+            this._x = x;
+            this._y = y; 
+        }
+        internal void SetSize(float w, float h)
+        {
+            this._width = w;
+            this._height = h;
+        }
         /// <summary>
         /// Width of the rectangle
         /// </summary>
@@ -163,7 +163,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float Right
         {
-            get { return this._x + this._width; }             
+            get { return this._x + this._width; }
         }
 
         /// <summary>
@@ -171,17 +171,17 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float Bottom
         {
-            get { return this._y + this._height; }          
+            get { return this._y + this._height; }
         }
 
-        /// <summary>
-        /// If the word is selected this points to the selection handler for more data
-        /// </summary>
-        public ISelectionHandler Selection
-        {
-            get { return _selection; }
-            set { _selection = value; }
-        }
+        ///// <summary>
+        ///// If the word is selected this points to the selection handler for more data
+        ///// </summary>
+        //public ISelectionHandler Selection
+        //{
+        //    get { return _selection; }
+        //    set { _selection = value; }
+        //}
 
 
         /// <summary>
@@ -245,37 +245,37 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        /// <summary>
-        /// the selection start index if the word is partially selected (-1 if not selected or fully selected)
-        /// </summary>
-        public int SelectedStartIndex
-        {
-            get { return _selection != null ? _selection.GetSelectingStartIndex(this) : -1; }
-        }
+        ///// <summary>
+        ///// the selection start index if the word is partially selected (-1 if not selected or fully selected)
+        ///// </summary>
+        //public int SelectedStartIndex
+        //{
+        //    get { return _selection != null ? _selection.GetSelectingStartIndex(this) : -1; }
+        //}
 
-        /// <summary>
-        /// the selection end index if the word is partially selected (-1 if not selected or fully selected)
-        /// </summary>
-        public int SelectedEndIndexOffset
-        {
-            get { return _selection != null ? _selection.GetSelectedEndIndexOffset(this) : -1; }
-        }
+        ///// <summary>
+        ///// the selection end index if the word is partially selected (-1 if not selected or fully selected)
+        ///// </summary>
+        //public int SelectedEndIndexOffset
+        //{
+        //    get { return _selection != null ? _selection.GetSelectedEndIndexOffset(this) : -1; }
+        //}
 
-        /// <summary>
-        /// the selection start offset if the word is partially selected (-1 if not selected or fully selected)
-        /// </summary>
-        public float SelectedStartOffset
-        {
-            get { return _selection != null ? _selection.GetSelectedStartOffset(this) : -1; }
-        }
+        ///// <summary>
+        ///// the selection start offset if the word is partially selected (-1 if not selected or fully selected)
+        ///// </summary>
+        //public float SelectedStartOffset
+        //{
+        //    get { return _selection != null ? _selection.GetSelectedStartOffset(this) : -1; }
+        //}
 
-        /// <summary>
-        /// the selection end offset if the word is partially selected (-1 if not selected or fully selected)
-        /// </summary>
-        public float SelectedEndOffset
-        {
-            get { return _selection != null ? _selection.GetSelectedEndOffset(this) : -1; }
-        }
+        ///// <summary>
+        ///// the selection end offset if the word is partially selected (-1 if not selected or fully selected)
+        ///// </summary>
+        //public float SelectedEndOffset
+        //{
+        //    get { return _selection != null ? _selection.GetSelectedEndOffset(this) : -1; }
+        //}
 
         /// <summary>
         /// Gets or sets an offset to be considered in measurements
@@ -291,7 +291,9 @@ namespace HtmlRenderer.Dom
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("{0} ({1} char{2})", Text.Replace(' ', '-').Replace("\n", "\\n"), Text.Length, Text.Length != 1 ? "s" : string.Empty);
+            string txt = this.Text;
+            return string.Format("{0} ({1} char{2})",
+                txt.Replace(' ', '-').Replace("\n", "\\n"), txt.Length, txt.Length != 1 ? "s" : string.Empty);
         }
     }
 }

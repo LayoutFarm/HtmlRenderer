@@ -149,17 +149,17 @@ namespace HtmlRenderer.Handlers
         /// <param name="loc">the location to select word at</param>
         public void SelectWord(Control control, Point loc)
         {
-            if (_root.HtmlContainer.IsSelectionEnabled)
-            {
-                var word = DomUtils.GetCssBoxWord(_root, loc);
-                if (word != null)
-                {
-                    word.Selection = this;
-                    _selectionStartPoint = loc;
-                    _selectionStart = _selectionEnd = word;
-                    control.Invalidate();
-                }
-            }
+            //if (_root.HtmlContainer.IsSelectionEnabled)
+            //{
+            //    var word = DomUtils.GetCssBoxWord(_root, loc);
+            //    if (word != null)
+            //    {
+            //        word.Selection = this;
+            //        _selectionStartPoint = loc;
+            //        _selectionStart = _selectionEnd = word;
+            //        control.Invalidate();
+            //    }
+            //}
         }
 
         /// <summary>
@@ -517,14 +517,14 @@ namespace HtmlRenderer.Handlers
         /// <param name="box">the css box to selectionStart clear at</param>
         private static void ClearSelection(CssBox box)
         {
-            foreach (var word in box.GetRunIter())
-            {
-                word.Selection = null;
-            }
-            foreach (var childBox in box.GetChildBoxIter())
-            {
-                ClearSelection(childBox);
-            }
+            //foreach (var word in box.GetRunIter())
+            //{
+            //    word.Selection = null;
+            //}
+            //foreach (var childBox in box.GetChildBoxIter())
+            //{
+            //    ClearSelection(childBox);
+            //}
         }
 
         /// <summary>
@@ -548,15 +548,15 @@ namespace HtmlRenderer.Handlers
         /// <param name="box">the box to start select all at</param>
         public void SelectAllWords(CssBox box)
         {
-            foreach (var word in box.GetRunIter())
-            {
-                word.Selection = this;
-            }
+            //foreach (var word in box.GetRunIter())
+            //{
+            //    word.Selection = this;
+            //}
 
-            foreach (var childBox in box.GetChildBoxIter())
-            {
-                SelectAllWords(childBox);
-            }
+            //foreach (var childBox in box.GetChildBoxIter())
+            //{
+            //    SelectAllWords(childBox);
+            //}
         }
 
         /// <summary>
@@ -601,30 +601,30 @@ namespace HtmlRenderer.Handlers
         /// <returns></returns>
         private bool SelectWordsInRange(CssBox box, CssRun selectionStart, CssRun selectionEnd, ref bool inSelection)
         {
-            foreach (var boxWord in box.GetRunIter())
-            {
-                if (!inSelection && boxWord == selectionStart)
-                {
-                    inSelection = true;
-                }
-                if (inSelection)
-                {
-                    boxWord.Selection = this;
+            //foreach (var boxWord in box.GetRunIter())
+            //{
+            //    if (!inSelection && boxWord == selectionStart)
+            //    {
+            //        inSelection = true;
+            //    }
+            //    if (inSelection)
+            //    {
+            //        boxWord.Selection = this;
 
-                    if (selectionStart == selectionEnd || boxWord == selectionEnd)
-                    {
-                        return true;
-                    }
-                }
-            }
+            //        if (selectionStart == selectionEnd || boxWord == selectionEnd)
+            //        {
+            //            return true;
+            //        }
+            //    }
+            //}
 
-            foreach (var childBox in box.GetChildBoxIter())
-            {
-                if (SelectWordsInRange(childBox, selectionStart, selectionEnd, ref inSelection))
-                {
-                    return true;
-                }
-            }
+            //foreach (var childBox in box.GetChildBoxIter())
+            //{
+            //    if (SelectWordsInRange(childBox, selectionStart, selectionEnd, ref inSelection))
+            //    {
+            //        return true;
+            //    }
+            //}
 
             return false;
         }
@@ -668,39 +668,42 @@ namespace HtmlRenderer.Handlers
         /// <param name="selectionIndex">return the index of the char under the location</param>
         /// <param name="selectionOffset">return the offset of the char under the location</param>
         /// <param name="inclusive">is to include the first character in the calculation</param>
-        private static void CalculateWordCharIndexAndOffset(Control control, CssRun word, Point loc, bool inclusive, out int selectionIndex, out float selectionOffset)
+        private static void CalculateWordCharIndexAndOffset(Control control, CssRun word, Point loc,
+            bool inclusive, out int selectionIndex, out float selectionOffset)
         {
-            selectionIndex = 0;
-            selectionOffset = 0f;
-            var offset = loc.X - word.Left;
-            if (word.Text == null)
-            {
-                // not a text word - set full selection
-                selectionIndex = -1;
-                selectionOffset = -1;
-            }
-            else if (offset > word.Width - word.OwnerBox.ActualWordSpacing ||
-                    loc.Y > DomUtils.GetLineBottom(word))
-            {
-                // mouse under the line, to the right of the word - set to the end of the word
-                selectionIndex = word.Text.Length;
-                selectionOffset = word.Width;
-            }
-            else if (offset > 0)
-            {
-                // calculate partial word selection
-                var font = word.OwnerBox.ActualFont;
-                using (var g = new WinGraphics(control.CreateGraphics(), false))
-                {
-                    int charFit;
-                    int charFitWidth;
-                    var maxWidth = offset + (inclusive ? 0 : 1.5f * word.LeftGlyphPadding);
-                    g.MeasureString(word.Text, font, maxWidth, out charFit, out charFitWidth);
+            selectionIndex = -1;
+            selectionOffset = 0;
+            //selectionIndex = 0;
+            //selectionOffset = 0f;
+            //var offset = loc.X - word.Left;
+            //if (word.Text == null)
+            //{
+            //    // not a text word - set full selection
+            //    selectionIndex = -1;
+            //    selectionOffset = -1;
+            //}
+            //else if (offset > word.Width - word.OwnerBox.ActualWordSpacing ||
+            //        loc.Y > DomUtils.GetLineBottom(word))
+            //{
+            //    // mouse under the line, to the right of the word - set to the end of the word
+            //    selectionIndex = word.Text.Length;
+            //    selectionOffset = word.Width;
+            //}
+            //else if (offset > 0)
+            //{
+            //    // calculate partial word selection
+            //    var font = word.OwnerBox.ActualFont;
+            //    using (var g = new WinGraphics(control.CreateGraphics(), false))
+            //    {
+            //        int charFit;
+            //        int charFitWidth;
+            //        var maxWidth = offset + (inclusive ? 0 : 1.5f * word.LeftGlyphPadding);
+            //        g.MeasureString(word.Text, font, maxWidth, out charFit, out charFitWidth);
 
-                    selectionIndex = charFit;
-                    selectionOffset = charFitWidth;
-                }
-            }
+            //        selectionIndex = charFit;
+            //        selectionOffset = charFitWidth;
+            //    }
+            //}
         }
 
         /// <summary>

@@ -14,7 +14,7 @@ namespace HtmlRenderer.Dom
 
     public abstract class CustomCssBoxGenerator
     {
-        public abstract CssBox CreateCssBox(IHtmlTag tag, CssBox parentBox);
+        public abstract CssBox CreateCssBox(IHtmlElement tag, CssBox parentBox);
 
     }
 
@@ -26,7 +26,7 @@ namespace HtmlRenderer.Dom
         {
             generators.Add(generator);
         }
-        static CssBox CreateCustomCssBox(IHtmlTag tag, CssBox parentBox)
+        static CssBox CreateCustomCssBox(IHtmlElement tag, CssBox parentBox)
         {
             int j = generators.Count;
             if (j > 0)

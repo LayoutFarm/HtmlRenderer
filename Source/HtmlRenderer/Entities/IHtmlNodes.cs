@@ -17,7 +17,7 @@ using HtmlRenderer.Utils;
 namespace HtmlRenderer.Dom
 {
 
-    public enum WellknownHtmlTagName
+    public enum WellknownHtmlTagName : byte
     {
         NotAssign,
         Unknown,
@@ -47,7 +47,7 @@ namespace HtmlRenderer.Dom
         string Value { get; }
     }
 
-    public interface IHtmlTag
+    public interface IHtmlElement
     {
         WellknownHtmlTagName WellknownTagName { get; }
         /// <summary>
@@ -59,7 +59,7 @@ namespace HtmlRenderer.Dom
         /// e.g. &lt;br&gt;
         /// </summary>
         bool IsSingle { get; }
-         
+
         /// <summary>
         /// is the html tag has attributes.
         /// </summary>
@@ -80,9 +80,9 @@ namespace HtmlRenderer.Dom
         string TryGetAttribute(string attribute, string defaultValue = null);
         IEnumerable<IHtmlAttribute> GetAttributeIter();
     }
-     
 
-    sealed class HtmlTagBridge : IHtmlTag
+
+    sealed class HtmlTagBridge : IHtmlElement
     {
         readonly HtmlRenderer.WebDom.HtmlElement elem;
         public HtmlTagBridge(HtmlRenderer.WebDom.HtmlElement elem)
@@ -99,7 +99,7 @@ namespace HtmlRenderer.Dom
         {
             get { return this.elem; }
         }
-        
+
         public string Name { get { return this.elem.LocalName; } }
         public bool IsSingle { get { return HtmlUtils.IsSingleTag(Name); } }
         public bool HasAttributes() { return this.elem.AttributeCount > 0; }
@@ -151,5 +151,5 @@ namespace HtmlRenderer.Dom
         }
     }
 
-    
+
 }

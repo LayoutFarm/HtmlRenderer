@@ -28,7 +28,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxHr(CssBox parent, IHtmlTag tag)
+        public CssBoxHr(CssBox parent, IHtmlElement tag)
             : base(parent, tag)
         {
             //Display = CssConstants.Block;

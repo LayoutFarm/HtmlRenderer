@@ -245,15 +245,11 @@ namespace HtmlRenderer.Utils
                     if (box.WellknownTagName == WellknownHtmlTagName.NotAssign ||
                         box.WellknownTagName != WellknownHtmlTagName.TD ||
                         box.Bounds.Contains(location))
-                    {
-
-
+                    {   
                         foreach (var lineBox in box.GetLineBoxIter())
-                        {
-
-
+                        {   
                             foreach (var rect_top in lineBox.GetAreaStripTopPosIter())
-                            {
+                            {   
                                 if (rect_top <= location.Y)
                                 {
                                     line = lineBox;
@@ -262,18 +258,7 @@ namespace HtmlRenderer.Utils
                                 {
                                     return line;
                                 }
-                            }
-                            //foreach (var rect in lineBox.Rectangles)
-                            //{
-                            //    if (rect.Value.Top <= location.Y)
-                            //    {
-                            //        line = lineBox;
-                            //    } 
-                            //    if (rect.Value.Top > location.Y)
-                            //    {
-                            //        return line;
-                            //    }
-                            //}
+                            } 
                         }
                     }
                 }
@@ -336,7 +321,7 @@ namespace HtmlRenderer.Utils
         /// <returns>css word box if exists or null</returns>
         internal static CssRun GetCssBoxWordOnLocation(CssLineBox lineBox, Point location)
         {
-            foreach (var word in lineBox.GetRectWordIter())
+            foreach (var word in lineBox.GetRunIter())
             {
                 // add word spacing to word width so sentance won't have hols in it when moving the mouse
                 var rect = word.Rectangle;
@@ -370,7 +355,7 @@ namespace HtmlRenderer.Utils
             }
             foreach (var lineBox in box.GetLineBoxIter())
             {
-                foreach (var lineWord in lineBox.GetRectWordIter())
+                foreach (var lineWord in lineBox.GetRunIter())
                 {
                     if (lineWord == word)
                     {
@@ -518,10 +503,10 @@ namespace HtmlRenderer.Utils
         /// </summary>
         /// <param name="root">the box to check its sub-tree</param>
         /// <returns>the collection to add the selected tags to</returns>
-        private static Dictionary<IHtmlTag, bool> CollectSelectedHtmlTags(CssBox root)
+        private static Dictionary<IHtmlElement, bool> CollectSelectedHtmlTags(CssBox root)
         {
-            var selectedTags = new Dictionary<IHtmlTag, bool>();
-            var maybeTags = new Dictionary<IHtmlTag, bool>();
+            var selectedTags = new Dictionary<IHtmlElement, bool>();
+            var maybeTags = new Dictionary<IHtmlElement, bool>();
             CollectSelectedHtmlTags(root, selectedTags, maybeTags);
             return selectedTags;
         }
@@ -533,41 +518,41 @@ namespace HtmlRenderer.Utils
         /// <param name="selectedTags">the collection to add the selected tags to</param>
         /// <param name="maybeTags">used to handle tags that are between selected words but don't have selected word inside</param>
         /// <returns>is the current box is in selected sub-tree</returns>
-        private static bool CollectSelectedHtmlTags(CssBox box, Dictionary<IHtmlTag, bool> selectedTags, Dictionary<IHtmlTag, bool> maybeTags)
+        private static bool CollectSelectedHtmlTags(CssBox box, Dictionary<IHtmlElement, bool> selectedTags, Dictionary<IHtmlElement, bool> maybeTags)
         {
             bool isInSelection = false;
-            foreach (var word in box.Runs)
-            {
-                if (word.Selected)
-                {
-                    if (box.HtmlTag != null)
-                    {
-                        selectedTags.Add(box.HtmlTag, true);
-                    }
-                    foreach (var maybeTag in maybeTags)
-                        selectedTags[maybeTag.Key] = maybeTag.Value;
-                    maybeTags.Clear();
-                    isInSelection = true;
-                }
-            }
+            //foreach (var word in box.Runs)
+            //{   
+            //    if (word.Selected)
+            //    {
+            //        if (box.HtmlTag != null)
+            //        {
+            //            selectedTags.Add(box.HtmlTag, true);
+            //        }
+            //        foreach (var maybeTag in maybeTags)
+            //            selectedTags[maybeTag.Key] = maybeTag.Value;
+            //        maybeTags.Clear();
+            //        isInSelection = true;
+            //    }
+            //}
 
-            foreach (var childBox in box.GetChildBoxIter())
-            {
-                var childInSelection = CollectSelectedHtmlTags(childBox, selectedTags, maybeTags);
-                if (childInSelection)
-                {
-                    if (box.HtmlTag != null)
-                    {
-                        selectedTags[box.HtmlTag] = true;
-                    }
-                    isInSelection = true;
-                }
-            }
+            //foreach (var childBox in box.GetChildBoxIter())
+            //{
+            //    var childInSelection = CollectSelectedHtmlTags(childBox, selectedTags, maybeTags);
+            //    if (childInSelection)
+            //    {
+            //        if (box.HtmlTag != null)
+            //        {
+            //            selectedTags[box.HtmlTag] = true;
+            //        }
+            //        isInSelection = true;
+            //    }
+            //}
 
-            if (box.HtmlTag != null && selectedTags.Count > 0)
-            {
-                maybeTags[box.HtmlTag] = true;
-            }
+            //if (box.HtmlTag != null && selectedTags.Count > 0)
+            //{
+            //    maybeTags[box.HtmlTag] = true;
+            //}
 
             return isInSelection;
         }
@@ -580,7 +565,7 @@ namespace HtmlRenderer.Utils
         /// <param name="indent">the indent to use for nice formating</param>
         /// <param name="styleGen">Controls the way styles are generated when html is generated</param>
         /// <param name="selectedTags">Control if to generate only selected tags, if given only tags found in collection will be generated</param>
-        private static void WriteHtml(StringBuilder sb, CssBox box, int indent, HtmlGenerationStyle styleGen, Dictionary<IHtmlTag, bool> selectedTags)
+        private static void WriteHtml(StringBuilder sb, CssBox box, int indent, HtmlGenerationStyle styleGen, Dictionary<IHtmlElement, bool> selectedTags)
         {
 
             //2014 - 05 - 24;
@@ -821,8 +806,8 @@ namespace HtmlRenderer.Utils
             builder.AppendFormat("{0}<{1}", new string(' ', 2 * indent), box.CssDisplay.ToCssStringValue());
             if (box.HtmlTag != null)
                 builder.AppendFormat(" elm=\"{0}\"", box.HtmlTag != null ? box.HtmlTag.Name : string.Empty);
-            if (box.Runs.Count > 0)
-                builder.AppendFormat(" words=\"{0}\"", box.Runs.Count);
+            if (box.RunCount > 0)
+                builder.AppendFormat(" words=\"{0}\"", box.RunCount);
             builder.AppendFormat("{0}>\r\n", box.ChildCount > 0 ? "" : "/");
             if (box.ChildCount > 0)
             {

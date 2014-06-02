@@ -26,7 +26,7 @@ namespace HtmlRenderer.Dom
             this.htmlContainerScrollOffset = container.ScrollOffset;
         }
         //-----------------------------------------------------
-         
+
         public void PushBound(float x, float y, float w, float h)
         {
             viewportBounds.Push(new RectangleF(x, y, w, h));
@@ -75,7 +75,7 @@ namespace HtmlRenderer.Dom
             if (this.CssDisplay != CssDisplay.None &&
                 this.CssVisibility == Dom.CssVisibility.Visible)
             {
-                
+
                 RectangleF clip = g.GetClip();
                 RectangleF rect = args.LatestContaingBoxClientRect;
                 rect.X -= 2;
@@ -84,12 +84,12 @@ namespace HtmlRenderer.Dom
                 rect.Intersect(args.PeekViewportBound());
 
                 clip.Intersect(rect);
-                 
+
                 if (clip != RectangleF.Empty)
                 {
-                    PaintImp(g, args); 
+                    PaintImp(g, args);
                 }
-                
+
             }
         }
         public void dbugPaint(IGraphics g)
@@ -158,14 +158,14 @@ namespace HtmlRenderer.Dom
                     // i = 0;
                 }
 
-                if (this._lineBoxes.Count > 0)
+                if (this._clientLineBoxes != null && this._clientLineBoxes.Count > 0)
                 {
                     //render only line that in  
                     viewport.Offset(offset.X, -offset.Y);
                     float viewport_top = viewport.Top;
                     float viewport_bottom = viewport.Bottom;
 
-                    foreach (var line in this._lineBoxes)
+                    foreach (var line in this._clientLineBoxes)
                     {
                         //paint each line ***    
                         if (line.CachedLineBottom >= viewport_top &&
@@ -193,7 +193,7 @@ namespace HtmlRenderer.Dom
                             if (b.CssDisplay == CssDisplay.None)
                             {
                                 continue;
-                            } 
+                            }
                             b.Paint(g, args);
                         }
                         args.PopContainingBox();
@@ -206,7 +206,7 @@ namespace HtmlRenderer.Dom
                             if (b.CssDisplay == CssDisplay.None)
                             {
                                 continue;
-                            } 
+                            }
                             b.Paint(g, args);
                         }
                     }
@@ -221,8 +221,8 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-         
-       
+
+
 
 
     }

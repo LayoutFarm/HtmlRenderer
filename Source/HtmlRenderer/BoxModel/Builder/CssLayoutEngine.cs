@@ -155,17 +155,16 @@ namespace HtmlRenderer.Dom
             }
 
 
-            foreach (var linebox in blockBox.GetLineBoxIter())
+            foreach (CssLineBox linebox in blockBox.GetLineBoxIter())
             {
 
                 //Gets the rectangles for each line-box
                 ApplyAlignment(g, linebox);
 
                 ApplyRightToLeft(blockBox, linebox);
-                BubbleRectangles(blockBox, linebox);
-
-
-                linebox.CloseCollection();
+                BubbleStripsUpdate(blockBox, linebox);
+                //***
+                linebox.CloseLine();
             }
 
             blockBox.ActualBottom = maxBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth;
@@ -190,7 +189,7 @@ namespace HtmlRenderer.Dom
             ArgChecker.AssertArgNotNull(g, "g");
             ArgChecker.AssertArgNotNull(cell, "cell");
 
-             
+
             if (cell.VerticalAlign == CssVerticalAlign.Top ||
                 cell.VerticalAlign == CssVerticalAlign.Baseline)
             {
@@ -264,10 +263,11 @@ namespace HtmlRenderer.Dom
                 {
 
                     bool wrapNoWrapBox = false;
+                    List<CssRun> runs = CssBox.UnsafeGetRunListOrCreateIfNotExists(b);
                     if (b.WhiteSpace == CssWhiteSpace.NoWrap && cx > startx)
                     {
                         var boxRight = cx;
-                        foreach (CssRun word in b.Runs)
+                        foreach (CssRun word in runs)
                         {
                             boxRight += word.Width;
                         }
@@ -277,7 +277,7 @@ namespace HtmlRenderer.Dom
                         }
                     }
                     //-----------------------------------------------------
-                    foreach (var run in b.Runs)
+                    foreach (var run in runs)
                     {
                         if (maxbottom - cy < splitableBox.ActualLineHeight)
                         {
@@ -294,7 +294,7 @@ namespace HtmlRenderer.Dom
                             cx = startx;
 
                             // handle if line is wrapped for the first text element where parent has left margin/padding
-                            if (b == splitableBox.GetFirstChild() && !run.IsLineBreak && (run == b.Runs[0] ||
+                            if (b == splitableBox.GetFirstChild() && !run.IsLineBreak && (run == b.FirstRun ||
                                 (splitableBox.ParentBox != null && splitableBox.ParentBox.IsBlock)))
                             {
                                 cx += splitableBox.ActualMarginLeft + splitableBox.ActualBorderLeftWidth + splitableBox.ActualPaddingLeft;
@@ -359,10 +359,11 @@ namespace HtmlRenderer.Dom
             // handle width setting
             if (splitableBox.IsInline && 0 <= cx - startX && cx - startX < splitableBox.ActualWidth)
             {
-                // hack for actual width handling
-                cx += splitableBox.ActualWidth - (cx - startX);
-                //add new one
-                hostLine.AddRectStripInfo(splitableBox, startX, startY, splitableBox.ActualWidth, splitableBox.ActualHeight);
+                throw new NotSupportedException();
+                //// hack for actual width handling
+                //cx += splitableBox.ActualWidth - (cx - startX);
+                ////add new one
+                //hostLine.AddStripInfo(splitableBox, startX, startY, splitableBox.ActualWidth, splitableBox.ActualHeight);
             }
             // handle box that is only a whitespace
             if (splitableBox.MayHasSomeTextContent &&
@@ -370,7 +371,7 @@ namespace HtmlRenderer.Dom
                 !splitableBox.IsImage &&
                 splitableBox.IsInline &&
                 splitableBox.ChildCount == 0 &&
-                splitableBox.Runs.Count == 0)
+                splitableBox.RunCount== 0)
             {
                 cx += splitableBox.ActualWordSpacing;
             }
@@ -399,7 +400,7 @@ namespace HtmlRenderer.Dom
             top += box.ActualMarginTop;
             if (box.HasRuns)
             {
-                foreach (var word in box.Runs)
+                foreach (var word in box.GetRunIter())
                 {
                     word.Left += left;
                     word.Top += top;
@@ -413,46 +414,55 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-
         /// <summary>
         /// Recursively creates the rectangles of the blockBox, by bubbling from deep to outside of the boxes 
         /// in the rectangle structure
-        /// </summary>
-        private static void BubbleRectangles(CssBox box, CssLineBox line)
+        /// </summary>         
+        static void BubbleStripsUpdate(CssBox box, CssLineBox hostLine)
         {
-            //recursive
-
             if (box.HasRuns)
             {
                 float x = Single.MaxValue, y = Single.MaxValue, r = Single.MinValue, b = Single.MinValue;
-                //one line may have word from more than one box 
-                bool foundSomeWord = false;
-                foreach (CssRun word in line.GetWordIterOf(box))
+                bool foundSomeRun = false;
+
+                //select only run in this of this box in this line 
+                bool boxIsFirstChild = box == box.ParentBox.GetFirstChild();
+                CssRun firstBoxRun = box.FirstRun;
+                bool hostLineIsNotFirstLine = hostLine != hostLine.OwnerBox.GetFirstLineBox();
+
+                foreach (CssRun run in hostLine.GetRunIter(box))
                 {
-                    foundSomeWord = true;
+                    //summary all runs of box in hostLine
+                    //one line may have word from more than one box      
+                    foundSomeRun = true;
                     // handle if line is wrapped for the first text element where parent has left margin\padding
-                    var left = word.Left;
-                    if (box == box.ParentBox.GetFirstChild() && word == box.Runs[0] &&
-                        word == line.GetFirstRun() && line != line.OwnerBox.GetFirstLineBox() && !word.IsLineBreak)
+                    var left = run.Left;
+                    if (boxIsFirstChild && //1. box is first child 
+                        run == firstBoxRun && //2. this run is first run of box
+                        run == hostLine.GetFirstRun() && //3. this run is first run of line
+                        hostLineIsNotFirstLine &&
+                        !run.IsLineBreak)
                     {
                         left -= box.ParentBox.ActualMarginLeft + box.ParentBox.ActualBorderLeftWidth + box.ParentBox.ActualPaddingLeft;
                     }
-
                     x = Math.Min(x, left);
-                    r = Math.Max(r, word.Right);
-                    y = Math.Min(y, word.Top);
-                    b = Math.Max(b, word.Bottom);
+                    r = Math.Max(r, run.Right);
+                    y = Math.Min(y, run.Top);
+                    b = Math.Max(b, run.Bottom);
                 }
-                if (foundSomeWord)
+                //------------------
+
+                if (foundSomeRun)
                 {
-                    line.BubbleUpdateRectangle(box, x, y, r, b);
+                    hostLine.BubbleStripUpdate(box, x, y, r, b);
                 }
             }
             else
-            {   //recursive
+            {
+                //recursive ****
                 foreach (CssBox b in box.GetChildBoxIter())
                 {
-                    BubbleRectangles(b, line);
+                    BubbleStripsUpdate(b, hostLine);
                 }
             }
         }
@@ -480,9 +490,8 @@ namespace HtmlRenderer.Dom
                     break;
             }
             //--------------------------------------------- 
-            // Applies vertical alignment to the linebox
-            float baseline = lineBox.CalculateTotalBoxBaseLine();
-            lineBox.ApplyBaseline(baseline);
+            // Applies vertical alignment to the linebox             
+            lineBox.ApplyBaseline(lineBox.CalculateTotalBoxBaseLine());
 
             //--------------------------------------------- 
 
@@ -495,7 +504,7 @@ namespace HtmlRenderer.Dom
         /// <param name="lineBox"></param>
         private static void ApplyRightToLeft(CssBox blockBox, CssLineBox lineBox)
         {
-            //if (blockBox.Direction == CssConstants.Rtl)
+
             if (blockBox.CssDirection == CssDirection.Rtl)
             {
                 //ApplyRightToLeftOnLine:
@@ -510,11 +519,11 @@ namespace HtmlRenderer.Dom
                     float left = lineBox.GetFirstRun().Left;
                     float right = lineBox.GetLastRun().Right;
 
-                    foreach (CssRun word in lineBox.GetRectWordIter())
+                    foreach (CssRun run in lineBox.GetRunIter())
                     {
-                        float diff = word.Left - left;
+                        float diff = run.Left - left;
                         float wright = right - diff;
-                        word.Left = wright - word.Width;
+                        run.Left = wright - run.Width;
                     }
                 }
             }
@@ -532,27 +541,6 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        ///// <summary>
-        ///// Applies RTL direction to all the words on the line.
-        ///// </summary>
-        ///// <param name="lineBox">the line to apply RTL to</param>
-        //private static void ApplyRightToLeftOnLine(CssLineBox lineBox)
-        //{
-        //    var lineWords = lineBox.Words;
-        //    if (lineWords.Count > 0)
-        //    {
-        //        float left = lineWords[0].Left;
-        //        float right = lineWords[lineWords.Count - 1].Right;
-
-        //        foreach (CssRect word in lineWords)
-        //        {
-        //            float diff = word.Left - left;
-        //            float wright = right - diff;
-        //            word.Left = wright - word.Width;
-        //        }
-        //    }
-        //}
-
         /// <summary>
         /// Applies RTL direction to specific box words on the line.
         /// </summary>
@@ -566,7 +554,7 @@ namespace HtmlRenderer.Dom
             if (lineBox.WordCount > 0)
             {
                 int i = 0;
-                foreach (var run in lineBox.GetRectWordIter())
+                foreach (var run in lineBox.GetRunIter())
                 {
                     if (run.OwnerBox == box)
                     {
@@ -595,7 +583,7 @@ namespace HtmlRenderer.Dom
 
                     float diff = moveWord.Left - left;
                     float new_right = right - diff;
-                    moveWord.Left = new_right - moveWord.Width; 
+                    moveWord.Left = new_right - moveWord.Width;
                 }
             }
         }
@@ -608,17 +596,17 @@ namespace HtmlRenderer.Dom
         /// <param name="lineBox"></param>
         private static void ApplyJustifyAlignment(IGraphics g, CssLineBox lineBox)
         {
-             
+
             if (lineBox.Equals(lineBox.OwnerBox.GetLastLineBox())) return;
 
-            
+
             float indent = lineBox.Equals(lineBox.OwnerBox.GetFirstLineBox()) ? lineBox.OwnerBox.ActualTextIndent : 0f;
             float textSum = 0f;
             float words = 0f;
             float availWidth = lineBox.OwnerBox.ClientRectangle.Width - indent;
 
             // Gather text sum
-            foreach (CssRun w in lineBox.GetRectWordIter())
+            foreach (CssRun w in lineBox.GetRunIter())
             {
                 textSum += w.Width;
                 words += 1f;
@@ -628,14 +616,14 @@ namespace HtmlRenderer.Dom
             float spacing = (availWidth - textSum) / words; //Spacing that will be used
             float curx = lineBox.OwnerBox.ClientLeft + indent;
 
-            foreach (CssRun word in lineBox.GetRectWordIter())
+            CssRun lastRun = lineBox.GetLastRun();
+            foreach (CssRun run in lineBox.GetRunIter())
             {
-                word.Left = curx;
-                curx = word.Right + spacing;
-
-                if (word == lineBox.GetLastRun())
+                run.Left = curx;
+                curx = run.Right + spacing;
+                if (run == lastRun)
                 {
-                    word.Left = lineBox.OwnerBox.ClientRight - word.Width;
+                    run.Left = lineBox.OwnerBox.ClientRight - run.Width;
                 }
             }
         }
@@ -649,14 +637,14 @@ namespace HtmlRenderer.Dom
         {
             if (line.WordCount == 0) return;
 
-            CssRun lastWord = line.GetLastRun();
+            CssRun lastRun = line.GetLastRun();
             float right = line.OwnerBox.ActualRight - line.OwnerBox.ActualPaddingRight - line.OwnerBox.ActualBorderRightWidth;
-            float diff = right - lastWord.Right - lastWord.OwnerBox.ActualBorderRightWidth - lastWord.OwnerBox.ActualPaddingRight;
+            float diff = right - lastRun.Right - lastRun.OwnerBox.ActualBorderRightWidth - lastRun.OwnerBox.ActualPaddingRight;
             diff /= 2;
 
             if (diff > 0)
             {
-                foreach (CssRun word in line.GetRectWordIter())
+                foreach (CssRun word in line.GetRunIter())
                 {
                     word.Left += diff;
                 }
@@ -688,7 +676,7 @@ namespace HtmlRenderer.Dom
 
             if (diff > 0)
             {
-                foreach (CssRun word in line.GetRectWordIter())
+                foreach (CssRun word in line.GetRunIter())
                 {
                     word.Left += diff;
                 }

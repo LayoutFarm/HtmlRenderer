@@ -30,6 +30,17 @@ namespace HtmlRenderer.Dom
                 return this._prevSibling;
             }
         }
+        internal static List<CssRun> UnsafeGetRunListOrCreateIfNotExists(CssBox box)
+        {
+            if (box._boxRuns == null)
+            {
+                return box._boxRuns = new List<CssRun>();
+            }
+            else
+            {
+                return box._boxRuns;
+            }
+        }
     }
 
 }

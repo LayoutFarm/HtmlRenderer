@@ -41,11 +41,12 @@ namespace HtmlRenderer.Dom
             char[] textBuffer = CssBox.UnsafeGetTextBuffer(box);
 #if DEBUG
             //string dbugStr = new string(textBuffer);
-            
+
 #endif
-             
-            bool keepPreWhitespace = box.HtmlTag == null;  
-            List<CssRun> boxRuns = box.Runs;
+
+            bool keepPreWhitespace = box.HtmlTag == null;
+            List<CssRun> boxRuns = CssBox.UnsafeGetRunListOrCreateIfNotExists(box);
+
             boxRuns.Clear(); //clear prev results
 
             int startIndex = 0;
@@ -139,7 +140,7 @@ namespace HtmlRenderer.Dom
             //#if DEBUG
             //            string dbugStr = new string(textBuffer);
             //#endif
-            List<CssRun> boxRuns = box.Runs;
+            List<CssRun> boxRuns = CssBox.UnsafeGetRunListOrCreateIfNotExists(box);
             boxRuns.Clear(); //clear prev results
 
             int startIndex = 0;
@@ -269,7 +270,7 @@ namespace HtmlRenderer.Dom
         {
             //not preserve whitespace but respect newline
             char[] textBuffer = CssBox.UnsafeGetTextBuffer(box);
-            List<CssRun> boxRuns = box.Runs;
+            List<CssRun> boxRuns = CssBox.UnsafeGetRunListOrCreateIfNotExists(box);
             boxRuns.Clear(); //clear prev results
 
             int startIndex = 0;

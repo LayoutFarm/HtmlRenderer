@@ -30,8 +30,6 @@ namespace HtmlRenderer.Dom
     partial class CssBox
     {
         //----------------------------------------------------
-        #region Fields and Consts
-
 
         /// <summary>
         /// the root container for the hierarchy
@@ -41,7 +39,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary>
-        private readonly IHtmlTag _htmltag;
+        private readonly IHtmlElement _htmltag;
         char[] _textBuffer;
 
         /// <summary>
@@ -61,8 +59,7 @@ namespace HtmlRenderer.Dom
         CssLineBox _firstHostingLineBox;
         CssLineBox _lastHostingLineBox;
         //one CssBox may use more than one cssline     
-        //----------------------------------------------------
-
+        //---------------------------------------------------- 
         int _boxCompactFlags;
         //----------------------------------------------------
         int _rowSpan;
@@ -71,19 +68,25 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// handler for loading background image
         /// </summary>
-        private ImageLoadHandler _imageLoadHandler;
-        WellknownHtmlTagName wellKnownTagName;
-        //----------------------------------------------------
+        ImageLoadHandler _imageLoadHandler;
+        readonly WellknownHtmlTagName wellKnownTagName;
+        //---------------------------------------------------- 
 
-        #endregion
-        //----------------------------------------------------   
         //condition 1 :this Box is BlockBox
+        //1.1 contain lineBoxes for my children and  other children (share)
+        LinkedList<CssLineBox> _clientLineBoxes;
+        //CssStripCollection _clientStrips;
+
+        //1.2 contains box collection for my children
         readonly CssBoxCollection _boxes;
-        readonly LinkedList<CssLineBox> _lineBoxes = new LinkedList<CssLineBox>();
         //----------------------------------------------------   
-        //condition 2 :this Box is InlinBox 
-        readonly List<CssRun> _boxRuns = new List<CssRun>();
+
+        //condition 2 :this Box is InlineBox 
+        List<CssRun> _boxRuns;
+
         //----------------------------------------------------  
+
+
         /// <summary>
         /// Gets the childrenn boxes of this box
         /// </summary>
@@ -91,12 +94,51 @@ namespace HtmlRenderer.Dom
         {
             get { return _boxes; }
         }
+
+
+        internal void AddRun(CssRun run)
+        {
+            if (this._boxRuns == null)
+            {
+                this._boxRuns = new List<CssRun>();
+            }
+
+            this._boxRuns.Add(run);
+        }
+
+        //internal PartialBoxStrip GetStripOrCreateIfNotExists(CssBox clientBox, CssLineBox lineBox, out bool isNew)
+        //{
+        //    if (this._clientStrips == null)
+        //    {
+        //        this._clientStrips = new CssStripCollection();
+        //    }
+        //    return this._clientStrips.GetOrCreateStripInfo(lineBox, clientBox, out isNew);
+        //}
+        internal int RunCount
+        {
+            get
+            {
+                return this._boxRuns != null ? this._boxRuns.Count : 0;
+            }
+        }
         public IEnumerable<CssBox> GetChildBoxIter()
         {
             return this._boxes.GetChildBoxIter();
         }
+        public IEnumerable<CssRun> GetRunIter()
+        {
+            if (this._boxRuns != null)
+            {
+                var tmpRuns = _boxRuns;
+                int j = tmpRuns.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    yield return tmpRuns[i];
+                }
 
-        internal IEnumerable<CssLineBox> GetHostLineIter()
+            }
+        }
+        internal IEnumerable<CssLineBox> GetMyHostLineIter()
         {
             var hostLine = this.FirstHostingLineBox;
             while (hostLine != null)
@@ -130,8 +172,10 @@ namespace HtmlRenderer.Dom
         //--------
         internal void ResetLineBoxes()
         {
-
-            _lineBoxes.Clear();
+            if (this._clientLineBoxes != null)
+            {
+                _clientLineBoxes.Clear();
+            }
         }
         //-------------------------------------
         internal int RowSpan

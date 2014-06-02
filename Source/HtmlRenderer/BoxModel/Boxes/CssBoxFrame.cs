@@ -73,12 +73,11 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        internal CssBoxFrame(CssBox parent, IHtmlTag tag)
+        internal CssBoxFrame(CssBox parent, IHtmlElement tag)
             : base(parent, tag)
         {
-            _imageWord = new CssImageRun(this);
-            Runs.Add(_imageWord);
-
+             
+            this.AddRun(this._imageWord = new CssImageRun(this));
             Uri uri;
             if (Uri.TryCreate(GetAttribute("src"), UriKind.Absolute, out uri))
             {
@@ -475,7 +474,7 @@ namespace HtmlRenderer.Dom
 
             BordersDrawHandler.DrawBoxBorders(g, this, rects, true, true);
 
-            var word = Runs[0];
+            var word = this.FirstRun;
             var tmpRect = word.Rectangle;
             tmpRect.Offset(offset);
             tmpRect.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
@@ -505,10 +504,10 @@ namespace HtmlRenderer.Dom
                 else
                     g.DrawImage(_imageWord.Image, rect, _imageWord.ImageRectangle);
 
-                if (_imageWord.Selected)
-                {
-                    //g.FillRectangle(GetSelectionBackBrush(true), _imageWord.Left + offset.X, _imageWord.Top + offset.Y, _imageWord.Width + 2, DomUtils.GetCssLineBoxByWord(_imageWord).LineHeight);
-                }
+                //if (_imageWord.Selected)
+                //{
+                //    //g.FillRectangle(GetSelectionBackBrush(true), _imageWord.Left + offset.X, _imageWord.Top + offset.Y, _imageWord.Width + 2, DomUtils.GetCssLineBoxByWord(_imageWord).LineHeight);
+                //}
             }
             else if (_isVideo && !_imageLoadingComplete)
             {

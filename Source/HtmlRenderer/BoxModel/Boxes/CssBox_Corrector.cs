@@ -72,7 +72,7 @@ namespace HtmlRenderer.Dom
             {
                 //recursive to child first
                 CorrectLineBreaksBlocks(childBox, ref followingBlock);
-                followingBlock = childBox.Runs.Count == 0 && (followingBlock || childBox.IsBlock);
+                followingBlock = childBox.RunCount == 0 && (followingBlock || childBox.IsBlock);
             }
 
 

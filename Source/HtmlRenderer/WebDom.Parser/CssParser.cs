@@ -424,6 +424,11 @@ namespace HtmlRenderer.WebDom.Parser
                                 {
                                     throw new NotSupportedException();
                                 } break;
+                            case CssTokenName.LiteralString:
+                                {
+                                    var literalValue = new string(this.textBuffer, start, len);
+
+                                } break;
                             case CssTokenName.LParen:
                                 {
                                     //function 
@@ -585,7 +590,7 @@ namespace HtmlRenderer.WebDom.Parser
                     {
                         switch (tkname)
                         {
-                         
+
                             default:
                                 {
                                     throw new NotSupportedException();
@@ -718,7 +723,7 @@ namespace HtmlRenderer.WebDom.Parser
             foreach (CssPropertyDeclaration decl in ruleset.GetAssignmentIter())
             {
 
-                
+
                 switch (decl.PropertyName)
                 {
                     case "font":
@@ -1243,7 +1248,7 @@ namespace HtmlRenderer.WebDom.Parser
             for (int i = 0; i < j; ++i)
             {
                 char c = cssSourceBuffer[i];
-                //Console.Write(c);
+               // Console.Write(c);
 
                 //-------------------------------------- 
                 switch (lexState)

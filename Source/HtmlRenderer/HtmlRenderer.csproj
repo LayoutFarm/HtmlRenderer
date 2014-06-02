@@ -102,7 +102,7 @@
     <Compile Include="BoxModel\Boxes\CssLineBox.cs" />
     <Compile Include="BoxModel\Boxes\CssSpacingBox.cs" />
     <Compile Include="BoxModel\Builder\CssLayoutEngineTable.cs" />
-    <Compile Include="Entities\HtmlTag.cs" />
+    <Compile Include="Entities\IHtmlNodes.cs" />
     <Compile Include="BoxModel\Props\Border.cs" />
     <Compile Include="Entities\HtmlLinkClickedException.cs" />
     <Compile Include="Entities\HtmlImageLoadEventArgs.cs" />

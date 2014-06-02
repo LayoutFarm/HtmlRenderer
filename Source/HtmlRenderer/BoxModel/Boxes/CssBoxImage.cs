@@ -47,11 +47,10 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxImage(CssBox parent, IHtmlTag tag)
+        public CssBoxImage(CssBox parent, IHtmlElement tag)
             : base(parent, tag)
-        {
-            _imageWord = new CssImageRun(this);
-            Runs.Add(_imageWord);
+        {   
+            this.AddRun(this._imageWord = new CssImageRun(this));
         }
 
         /// <summary>
@@ -69,8 +68,7 @@ namespace HtmlRenderer.Dom
             {
                 _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
                 _imageLoadHandler.LoadImage(GetAttribute("src"),
-                    HtmlTag);
-
+                    HtmlTag); 
             }
 
             var rect = w.Rectangle;
@@ -197,7 +195,7 @@ namespace HtmlRenderer.Dom
                 if (_imageLoadHandler == null && (HtmlContainer.AvoidAsyncImagesLoading || HtmlContainer.AvoidImagesLateLoading))
                 {
                     _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
-                    _imageLoadHandler.LoadImage(GetAttribute("src"), HtmlTag );
+                    _imageLoadHandler.LoadImage(GetAttribute("src"), HtmlTag);
                 }
 
                 MeasureWordSpacing(g);

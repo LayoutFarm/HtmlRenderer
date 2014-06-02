@@ -36,7 +36,7 @@ namespace HtmlRenderer.Entities
         /// Init.
         /// </summary>
         /// <param name="link">the link href that was clicked</param>
-        public HtmlLinkClickedEventArgs(string link, HtmlRenderer.Dom.IHtmlTag tag)
+        public HtmlLinkClickedEventArgs(string link, HtmlRenderer.Dom.IHtmlElement tag)
         {
             _link = link; 
         }

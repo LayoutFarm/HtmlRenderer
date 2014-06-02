@@ -22,7 +22,7 @@ namespace HtmlRenderer.Dom
                 yield return tmp[i];
             }
         }
-        
+
         public void Add(CssBox box)
         {
             if (this.owner == box)
@@ -79,8 +79,8 @@ namespace HtmlRenderer.Dom
             {
                 this.RemoveAt(existingIndex);
                 this.Insert(toNewIndex, box);
-            }    
-        } 
+            }
+        }
         public int Count
         {
             get
@@ -94,12 +94,12 @@ namespace HtmlRenderer.Dom
         }
         public void RemoveAt(int index)
         {
-            
+
             CssBox tmp = this._boxes[index];
-            CssBox nextBox = null; 
+            CssBox nextBox = null;
             if (index < _boxes.Count - 1)
-            { 
-                nextBox = this._boxes[index + 1]; 
+            {
+                nextBox = this._boxes[index + 1];
                 CssBox preBox = null;
                 if (index > 0)
                 {
@@ -124,5 +124,6 @@ namespace HtmlRenderer.Dom
         }
     }
 
+    
 
 }

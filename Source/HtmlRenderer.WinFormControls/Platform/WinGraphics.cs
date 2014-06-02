@@ -33,7 +33,7 @@ namespace HtmlRenderer
         /// <summary>
         /// used for <see cref="MeasureString(string,System.Drawing.Font,float,out int,out int)"/> calculation.
         /// </summary>
-        private static  readonly int[] _charFitWidth = new int[1000];
+        private static readonly int[] _charFitWidth = new int[1000];
 
         /// <summary>
         /// Used for GDI+ measure string.
@@ -137,7 +137,30 @@ namespace HtmlRenderer
                 return size;
             }
         }
-
+        public Size MeasureString2(char[] buff, int startAt, int len, Font font)
+        {
+            if (_useGdiPlusTextRendering)
+            {
+                ReleaseHdc();
+                _characterRanges[0] = new CharacterRange(0, len);
+                _stringFormat.SetMeasurableCharacterRanges(_characterRanges);
+                var size = _g.MeasureCharacterRanges(new string(buff, startAt, len), font, RectangleF.Empty, _stringFormat)[0].GetBounds(_g).Size;
+                return new Size((int)Math.Round(size.Width), (int)Math.Round(size.Height));
+            }
+            else
+            {
+                SetFont(font);
+                var size = new Size();
+                unsafe
+                {
+                    fixed (char* startAddr = &buff[0])
+                    {
+                        Win32Utils.UnsafeGetTextExtentPoint32(_hdc, startAddr + startAt, len, ref size);
+                    }
+                }
+                return size;
+            }
+        }
         /// <summary>
         /// Measure the width and height of string <paramref name="str"/> when drawn on device context HDC
         /// using the given font <paramref name="font"/>.<br/>
@@ -150,6 +173,34 @@ namespace HtmlRenderer
         /// <param name="charFit">the number of characters that will fit under <see cref="maxWidth"/> restriction</param>
         /// <param name="charFitWidth"></param>
         /// <returns>the size of the string</returns>
+        public Size MeasureString2(char[] buff, int startAt, int len, Font font, float maxWidth, out int charFit, out int charFitWidth)
+        {
+            if (_useGdiPlusTextRendering)
+            {
+                ReleaseHdc();
+                throw new NotSupportedException("Char fit string measuring is not supported for GDI+ text rendering");
+            }
+            else
+            {
+                SetFont(font);
+
+                var size = new Size();
+                unsafe
+                {
+                    fixed (char* startAddr = &buff[0])
+                    {
+                        Win32Utils.UnsafeGetTextExtentExPoint(
+                            _hdc, startAddr + startAt, len,
+                            (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
+                    }
+
+                }
+                charFit = _charFit[0];
+
+                charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
+                return size;
+            }
+        }
         public Size MeasureString(string str, Font font, float maxWidth, out int charFit, out int charFitWidth)
         {
             if (_useGdiPlusTextRendering)
@@ -164,7 +215,7 @@ namespace HtmlRenderer
                 var size = new Size();
 
                 Win32Utils.GetTextExtentExPoint(
-                    _hdc, str, str.Length, 
+                    _hdc, str, str.Length,
                     (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
 
                 charFit = _charFit[0];
@@ -173,7 +224,6 @@ namespace HtmlRenderer
                 return size;
             }
         }
-
 
         /// <summary>
         /// Draw the given string using the given font and foreground color at given location.
@@ -185,19 +235,12 @@ namespace HtmlRenderer
         /// <param name="size">used to know the size of the rendered text for transparent text support</param>
         public void DrawString(String str, Font font, Color color, PointF point, SizeF size)
         {
-
-
 #if DEBUG
-            //if (dbugCounter.dbugStartRecord)
-            //{
-            //    Console.WriteLine(dbugCounter.dbugDrawStringCount + " " + str);
-
-            //}
             dbugCounter.dbugDrawStringCount++;
 #endif
             if (_useGdiPlusTextRendering)
             {
-                ReleaseHdc(); 
+                ReleaseHdc();
                 _g.DrawString(str, font, RenderUtils.GetSolidBrush(color), (int)Math.Round(point.X - FontsUtils.GetFontLeftPadding(font) * .8f), (int)Math.Round(point.Y));
             }
             else
@@ -217,6 +260,53 @@ namespace HtmlRenderer
             }
         }
 
+        public void DrawString2(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size)
+        {
+
+#if DEBUG
+            dbugCounter.dbugDrawStringCount++;
+#endif
+            if (_useGdiPlusTextRendering)
+            {
+                ReleaseHdc();
+                _g.DrawString(
+                    new string(str, startAt, len),
+                    font,
+                    RenderUtils.GetSolidBrush(color), (int)Math.Round(point.X - FontsUtils.GetFontLeftPadding(font) * .8f), (int)Math.Round(point.Y));
+
+            }
+            else
+            {
+                if (color.A == 255)
+                {
+                    SetFont(font);
+                    SetTextColor(color);
+                    unsafe
+                    {
+                        fixed (char* startAddr = &str[0])
+                        {
+                            Win32Utils.TextOut2(_hdc, (int)Math.Round(point.X),
+                                (int)Math.Round(point.Y), (startAddr + startAt), len);
+                        }
+                    }
+                }
+                else
+                {
+                    //translucent / transparent text
+                    InitHdc();
+                    unsafe
+                    {
+                        fixed (char* startAddr = &str[0])
+                        {
+                            Win32Utils.TextOut2(_hdc, (int)Math.Round(point.X),
+                                (int)Math.Round(point.Y), (startAddr + startAt), len);
+                        }
+                    }
+
+                    //DrawTransparentText(_hdc, str, font, new Point((int)Math.Round(point.X), (int)Math.Round(point.Y)), Size.Round(size), color);
+                }
+            }
+        }
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
@@ -339,11 +429,11 @@ namespace HtmlRenderer
         {
             if (_hdc == IntPtr.Zero)
             {
-                var clip = _g.Clip.GetHrgn(_g); 
+                //var clip = _g.Clip.GetHrgn(_g);
                 _hdc = _g.GetHdc();
-                Win32Utils.SetBkMode(_hdc, 1); 
-                Win32Utils.SelectClipRgn(_hdc, clip); 
-                Win32Utils.DeleteObject(clip);
+                Win32Utils.SetBkMode(_hdc, 1);
+                //Win32Utils.SelectClipRgn(_hdc, clip);
+                //Win32Utils.DeleteObject(clip);
             }
         }
 

@@ -352,7 +352,7 @@ namespace HtmlRenderer.Dom
                         case 1:
                             {
                                 //convert to string ?
-                                value = decl.GetPropertyValue(0).ToString();
+                                value = decl.GetPropertyValue(0).GetTranslatedValue();
                             } break;
                         default:
                             {
@@ -422,7 +422,7 @@ namespace HtmlRenderer.Dom
         }
 
 
-        private static void TranslateAttributes(IHtmlTag tag, CssBox box)
+        private static void TranslateAttributes(IHtmlElement tag, CssBox box)
         {
 
             if (tag.HasAttributes())

@@ -47,22 +47,21 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parentBox">optional: the parent of this css box in html</param>
         /// <param name="tag">optional: the html tag associated with this css box</param>
-        public CssBox(CssBox parentBox, IHtmlTag tag)
+        public CssBox(CssBox parentBox, IHtmlElement tag)
         {
 
             this._boxes = new CssBoxCollection(this);
+
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
             }
 
             _htmltag = tag;
-
             if (tag != null)
             {
                 this.wellKnownTagName = tag.WellknownTagName;
             }
-
         }
         public WellknownHtmlTagName WellknownTagName
         {
@@ -95,7 +94,7 @@ namespace HtmlRenderer.Dom
         }
 
         /// <summary>
-        /// remove this box from its parent and add to new parent box
+        /// 1. remove this box from its parent and 2. add to new parent box
         /// </summary>
         /// <param name="parentBox"></param>
         internal void SetNewParentBox(CssBox parentBox)
@@ -219,7 +218,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the HTMLTag that hosts this box
         /// </summary>
-        public IHtmlTag HtmlTag
+        public IHtmlElement HtmlTag
         {
             get { return _htmltag; }
         }
@@ -231,7 +230,8 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return Runs.Count == 1 && Runs[0].IsImage;
+                return this.HasRuns && this.FirstRun.IsImage;
+
             }
         }
 
@@ -340,19 +340,30 @@ namespace HtmlRenderer.Dom
         }
         internal void AddLineBox(CssLineBox linebox)
         {
+            if (this._clientLineBoxes == null)
+            {
+                this._clientLineBoxes = new LinkedList<CssLineBox>();
+            }
 
-            linebox.linkedNode = this._lineBoxes.AddLast(linebox);
+            linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
         }
         internal int LineBoxCount
         {
             get
             {
-                return this._lineBoxes.Count;
+                if (this._clientLineBoxes == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return this._clientLineBoxes.Count;
+                }
             }
         }
         internal IEnumerable<CssLineBox> GetLineBoxIter()
         {
-            var node = this._lineBoxes.First;
+            var node = this._clientLineBoxes.First;
             while (node != null)
             {
                 yield return node.Value;
@@ -361,11 +372,11 @@ namespace HtmlRenderer.Dom
         }
         internal CssLineBox GetFirstLineBox()
         {
-            return this._lineBoxes.First.Value;
+            return this._clientLineBoxes.First.Value;
         }
         internal CssLineBox GetLastLineBox()
         {
-            return this._lineBoxes.Last.Value;
+            return this._clientLineBoxes.Last.Value;
         }
 
         internal void UpdateStripInfo(RectangleF r)
@@ -381,7 +392,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the BoxWords of text in the box
         /// </summary>
-        internal List<CssRun> Runs
+        List<CssRun> Runs
         {
             get { return _boxRuns; }
         }
@@ -393,13 +404,7 @@ namespace HtmlRenderer.Dom
                 return this._boxRuns != null && this._boxRuns.Count > 0;
             }
         }
-        public IEnumerable<CssRun> GetRunIter()
-        {
-            foreach (var r in this._boxRuns)
-            {
-                yield return r;
-            }
-        }
+
         /// <summary>
         /// Gets the first word of the box
         /// </summary>
@@ -425,7 +430,16 @@ namespace HtmlRenderer.Dom
             get { return _lastHostingLineBox; }
             set { _lastHostingLineBox = value; }
         }
-
+        /// <summary>
+        /// all parts are in the same line box 
+        /// </summary>
+        internal bool AllPartsAreInTheSameLineBox
+        {
+            get
+            {
+                return this._firstHostingLineBox == this._lastHostingLineBox;
+            }
+        }
 
         //------------------------------------------------------------------
         /// <summary>
@@ -434,7 +448,7 @@ namespace HtmlRenderer.Dom
         /// <param name="tag">the html tag to define the box</param>
         /// <param name="parent">the box to add the new box to it as child</param>
         /// <returns>the new box</returns>
-        public static CssBox CreateBox(IHtmlTag tag, CssBox parent = null)
+        public static CssBox CreateBox(IHtmlElement tag, CssBox parent = null)
         {
 
             ArgChecker.AssertArgNotNull(tag, "tag");
@@ -461,7 +475,7 @@ namespace HtmlRenderer.Dom
                     return new CssBox(parent, tag);
             }
         }
-        static CssBox CreateCustomBox(IHtmlTag tag, CssBox parent)
+        static CssBox CreateCustomBox(IHtmlElement tag, CssBox parent)
         {
             for (int i = generators.Count - 1; i >= 0; --i)
             {
@@ -497,7 +511,7 @@ namespace HtmlRenderer.Dom
         /// <param name="tag">optional: the html tag to define the box</param>
         /// <param name="before">optional: to insert as specific location in parent box</param>
         /// <returns>the new box</returns>
-        public static CssBox CreateBox(CssBox parent, IHtmlTag tag = null, int insertAt = -1)
+        public static CssBox CreateBox(CssBox parent, IHtmlElement tag = null, int insertAt = -1)
         {
             ArgChecker.AssertArgNotNull(parent, "parent");
             var newBox = new CssBox(parent, tag);
@@ -708,13 +722,44 @@ namespace HtmlRenderer.Dom
 
                 MeasureWordSpacing(g);
 
-                if (Runs.Count > 0)
+                if (this.HasRuns)
                 {
-                    float fontHeight = FontsUtils.GetFontHeight(ActualFont);
-                    foreach (var boxWord in Runs)
+                    Font actualFont = this.ActualFont;
+                    float fontHeight = FontsUtils.GetFontHeight(actualFont);
+                    char[] myTextBuffer = CssBox.UnsafeGetTextBuffer(this);
+                    float actualWordspacing = this.ActualWordSpacing;
+
+                    foreach (CssRun boxWord in Runs)
                     {
                         //if this is newline then width =0 ***                         
-                        boxWord.Width = boxWord.IsLineBreak ? 0 : FontsUtils.MeasureStringWidth(g, boxWord.Text, ActualFont);
+                        switch (boxWord.Kind)
+                        {
+                            case CssRunKind.Text:
+                                {
+
+                                    //boxWord.Width = FontsUtils.MeasureStringWidth(g, boxWord.Text, actualFont);
+                                    CssTextRun textRun = (CssTextRun)boxWord;
+                                    boxWord.Width = FontsUtils.MeasureStringWidth(g, 
+                                        myTextBuffer, 
+                                        textRun.TextStartIndex,
+                                        textRun.TextLength, 
+                                        actualFont);
+
+                                } break;
+                            case CssRunKind.SingleSpace:
+                                {
+                                    boxWord.Width = actualWordspacing;
+                                } break;
+                            case CssRunKind.Space:
+                                {
+                                    //other space size                                     
+                                    boxWord.Width = actualWordspacing * ((CssTextRun)boxWord).TextLength;
+                                } break;
+                            case CssRunKind.LineBreak:
+                                {
+                                    boxWord.Width = 0;
+                                } break;
+                        }
                         boxWord.Height = fontHeight;
                     }
                 }
@@ -824,10 +869,13 @@ namespace HtmlRenderer.Dom
 
                     _listItemBox.ParseWordContent();
                     _listItemBox.PerformLayoutImp(g);
-                    _listItemBox.Size = new SizeF(_listItemBox.Runs[0].Width, _listItemBox.Runs[0].Height);
+
+                    var fRun = _listItemBox.FirstRun;
+
+                    _listItemBox.FirstRun.SetSize(fRun.Width, fRun.Height);
                 }
-                _listItemBox.Runs[0].Left = this.LocationX - _listItemBox.Size.Width - 5;
-                _listItemBox.Runs[0].Top = this.LocationY + ActualPaddingTop;// +FontAscent;
+                _listItemBox.FirstRun.SetLocation(this.LocationX - _listItemBox.Size.Width - 5, this.LocationY + ActualPaddingTop);
+
             }
         }
         void ParseWordContent()
@@ -890,7 +938,7 @@ namespace HtmlRenderer.Dom
         /// <returns></returns>
         private static void GetMinimumWidth_LongestWord(CssBox box, ref float maxWidth, ref CssRun maxWidthWord)
         {
-            if (box.Runs.Count > 0)
+            if (box.HasRuns)
             {
                 foreach (CssRun cssRect in box.Runs)
                 {
@@ -1075,15 +1123,22 @@ namespace HtmlRenderer.Dom
             {
                 return;
             }
+            //offset all runs
+            if (this.HasRuns)
+            {
+                foreach (CssRun word in Runs)
+                {
+                    word.Top += amount;
+                }
+            }
 
-            foreach (CssRun word in Runs)
+            foreach (var hostline in this.GetMyHostLineIter())
             {
-                word.Top += amount;
+                //update all strip in host line
+                hostline.OffsetTopStrip(this, amount);
             }
-            foreach (var hostline in this.GetHostLineIter())
-            {
-                hostline.OffsetTopRectsOf(this, amount);
-            }
+
+            //offset all boxes
             foreach (CssBox b in Boxes)
             {
                 b.OffsetTop(amount);
@@ -1163,53 +1218,55 @@ namespace HtmlRenderer.Dom
                     BackgroundImageDrawHandler.DrawBackgroundImage(g, this, _imageLoadHandler, rect);
                 }
             }
-
         }
+        //        internal void PaintTextWord(IGraphics g, PointF offset, CssRun word)
+        //        {
 
-        internal void PaintTextWord(IGraphics g, PointF offset, CssRun word)
-        {
-            var wordPoint = new PointF(word.Left + offset.X, word.Top + offset.Y);
-            if (word.Selected)
-            {
-                g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
-                word.debugPaintCount++;
+        //            var wordPoint = new PointF(word.Left + offset.X, word.Top + offset.Y);
+        //            g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
 
-                //// handle paint selected word background and with partial word selection
-                //var wordLine = DomUtils.GetCssLineBoxByWord(word);
+        ////            if (word.Selected)
+        ////            {
+        ////                g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
 
-                //var left = word.SelectedStartOffset > -1 ? word.SelectedStartOffset : (wordLine.GetFirstRun() != word && word.HasSpaceBefore ? -ActualWordSpacing : 0);
-                //var padWordRight = word.HasSpaceAfter && !wordLine.IsLastSelectedWord(word);
-                //var width = word.SelectedEndOffset > -1 ? word.SelectedEndOffset : word.Width + (padWordRight ? ActualWordSpacing : 0);
-                //var rect = new RectangleF(word.Left + offset.X + left, word.Top + offset.Y, width - left, wordLine.LineHeight);
+        ////                //word.debugPaintCount++;
 
-                ////draw selection area
-                //g.FillRectangle(GetSelectionBackBrush(false), rect.X, rect.Y, rect.Width, rect.Height);
+        ////                //// handle paint selected word background and with partial word selection
+        ////                //var wordLine = DomUtils.GetCssLineBoxByWord(word);
 
-                //if (HtmlContainer.SelectionForeColor != System.Drawing.Color.Empty && (word.SelectedStartOffset > 0 || word.SelectedEndIndexOffset > -1))
-                //{
-                //    var orgClip = g.GetClip();
-                //    g.SetClip(rect, CombineMode.Exclude);
-                //    g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
-                //    g.SetClip(rect);
-                //    g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
-                //    g.SetClip(orgClip);
-                //}
-                //else
-                //{
-                //    g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
-                //    word.debugPaintCount++;
-                //}
-            }
-            else
-            {
+        ////                //var left = word.SelectedStartOffset > -1 ? word.SelectedStartOffset : (wordLine.GetFirstRun() != word && word.HasSpaceBefore ? -ActualWordSpacing : 0);
+        ////                //var padWordRight = word.HasSpaceAfter && !wordLine.IsLastSelectedWord(word);
+        ////                //var width = word.SelectedEndOffset > -1 ? word.SelectedEndOffset : word.Width + (padWordRight ? ActualWordSpacing : 0);
+        ////                //var rect = new RectangleF(word.Left + offset.X + left, word.Top + offset.Y, width - left, wordLine.LineHeight);
 
-                g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
-#if DEBUG
-                //g.DrawRectangle(Pens.Red, word.Left, word.Top, word.Width, word.Height);
-#endif
-                word.debugPaintCount++;
-            }
-        }
+        ////                ////draw selection area
+        ////                //g.FillRectangle(GetSelectionBackBrush(false), rect.X, rect.Y, rect.Width, rect.Height);
+
+        ////                //if (HtmlContainer.SelectionForeColor != System.Drawing.Color.Empty && (word.SelectedStartOffset > 0 || word.SelectedEndIndexOffset > -1))
+        ////                //{
+        ////                //    var orgClip = g.GetClip();
+        ////                //    g.SetClip(rect, CombineMode.Exclude);
+        ////                //    g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
+        ////                //    g.SetClip(rect);
+        ////                //    g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
+        ////                //    g.SetClip(orgClip);
+        ////                //}
+        ////                //else
+        ////                //{
+        ////                //    g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
+        ////                //    word.debugPaintCount++;
+        ////                //}
+        ////            }
+        ////            else
+        ////            {
+
+        ////                g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
+        ////#if DEBUG
+        ////                //g.DrawRectangle(Pens.Red, word.Left, word.Top, word.Width, word.Height);
+        ////#endif
+        ////                //word.debugPaintCount++;
+        ////            }
+        //        }
 
 #if DEBUG
         internal void dbugPaintTextWordArea(IGraphics g, PointF offset, CssRun word)
@@ -1218,99 +1275,58 @@ namespace HtmlRenderer.Dom
 
         }
 #endif
-        /// <summary>
-        /// Paint all the words in the box.
-        /// </summary>
-        /// <param name="g">the device to draw into</param>
-        /// <param name="offset">the current scroll offset to offset the words</param>
-        void PaintWords(IGraphics g, PointF offset)
-        {
-            foreach (var word in Runs)
-            {
-                var wordPoint = new PointF(word.Left + offset.X, word.Top + offset.Y);
-                if (word.Selected)
-                {
+        ///// <summary>
+        ///// Paint all the words in the box.
+        ///// </summary>
+        ///// <param name="g">the device to draw into</param>
+        ///// <param name="offset">the current scroll offset to offset the words</param>
+        //void PaintWords(IGraphics g, PointF offset)
+        //{
+        //    Font font = this.ActualFont;
+        //    Color color = this.ActualColor;
+        //    foreach (var word in Runs)
+        //    {
+        //        var wordPoint = new PointF(word.Left + offset.X, word.Top + offset.Y);
+        //        g.DrawString(word.Text, font, color, wordPoint, new SizeF(word.Width, word.Height));
 
-                    //// handle paint selected word background and with partial word selection
-                    //var wordLine = DomUtils.GetCssLineBoxByWord(word);
-                    //var left = word.SelectedStartOffset > -1 ? word.SelectedStartOffset : (wordLine.GetFirstRun() != word && word.HasSpaceBefore ? -ActualWordSpacing : 0);
-                    //var padWordRight = word.HasSpaceAfter && !wordLine.IsLastSelectedWord(word);
-                    //var width = word.SelectedEndOffset > -1 ? word.SelectedEndOffset : word.Width + (padWordRight ? ActualWordSpacing : 0);
-                    //var rect = new RectangleF(word.Left + offset.X + left, word.Top + offset.Y, width - left, wordLine.LineHeight);
+        //        //if (word.Selected)
+        //        //{
 
-                    //g.FillRectangle(GetSelectionBackBrush(false), rect.X, rect.Y, rect.Width, rect.Height);
+        //        //    //// handle paint selected word background and with partial word selection
+        //        //    //var wordLine = DomUtils.GetCssLineBoxByWord(word);
+        //        //    //var left = word.SelectedStartOffset > -1 ? word.SelectedStartOffset : (wordLine.GetFirstRun() != word && word.HasSpaceBefore ? -ActualWordSpacing : 0);
+        //        //    //var padWordRight = word.HasSpaceAfter && !wordLine.IsLastSelectedWord(word);
+        //        //    //var width = word.SelectedEndOffset > -1 ? word.SelectedEndOffset : word.Width + (padWordRight ? ActualWordSpacing : 0);
+        //        //    //var rect = new RectangleF(word.Left + offset.X + left, word.Top + offset.Y, width - left, wordLine.LineHeight);
 
-                    //if (HtmlContainer.SelectionForeColor != System.Drawing.Color.Empty && (word.SelectedStartOffset > 0 || word.SelectedEndIndexOffset > -1))
-                    //{
-                    //    var orgClip = g.GetClip();
-                    //    g.SetClip(rect, CombineMode.Exclude);
-                    //    g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
-                    //    g.SetClip(rect);
-                    //    g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
-                    //    g.SetClip(orgClip);
-                    //}
-                    //else
-                    //{
-                    //    g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
-                    //}
+        //        //    //g.FillRectangle(GetSelectionBackBrush(false), rect.X, rect.Y, rect.Width, rect.Height);
 
-                    g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
-                    word.debugPaintCount++;
-                }
-                else
-                {
-                    g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
-                    word.debugPaintCount++;
-                }
-            }
-        }
+        //        //    //if (HtmlContainer.SelectionForeColor != System.Drawing.Color.Empty && (word.SelectedStartOffset > 0 || word.SelectedEndIndexOffset > -1))
+        //        //    //{
+        //        //    //    var orgClip = g.GetClip();
+        //        //    //    g.SetClip(rect, CombineMode.Exclude);
+        //        //    //    g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
+        //        //    //    g.SetClip(rect);
+        //        //    //    g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
+        //        //    //    g.SetClip(orgClip);
+        //        //    //}
+        //        //    //else
+        //        //    //{
+        //        //    //    g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
+        //        //    //}
 
-        internal void PaintDecoration2(IGraphics g, RectangleF rectangle, bool isFirst, bool isLast)
-        {
-            float y = 0f;
-            switch (this.TextDecoration)
-            {
-                default:
-                    return;
-                case CssTextDecoration.Underline:
-                    {
-                        var h = g.MeasureString(" ", ActualFont).Height;
-                        float desc = FontsUtils.GetDescent(ActualFont, g);
-                        y = (float)Math.Round(rectangle.Top + h - desc + 0.5);
-                    } break;
-                case CssTextDecoration.LineThrough:
-                    {
-                        y = rectangle.Top + rectangle.Height / 2f;
-                    } break;
-                case CssTextDecoration.Overline:
-                    {
-                        y = rectangle.Top;
-                    } break;
-            }
+        //        //    g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
+        //        //    //word.debugPaintCount++;
+        //        //}
+        //        //else
+        //        //{
 
+        //        //    //word.debugPaintCount++;
+        //        //}
+        //    }
+        //}
 
-            y -= ActualPaddingBottom - ActualBorderBottomWidth;
-
-            float x1 = rectangle.X;
-            if (isFirst)
-                x1 += ActualPaddingLeft + ActualBorderLeftWidth;
-
-
-            float x2 = rectangle.Right;
-            if (isLast)
-                x2 -= ActualPaddingRight + ActualBorderRightWidth;
-
-            var pen = RenderUtils.GetPen(ActualColor);
-            g.DrawLine(pen, x1, y, x2, y);
-        }
-        /// <summary>
-        /// Paints the text decoration (underline/strike-through/over-line)
-        /// </summary>
-        /// <param name="g">the device to draw into</param>
-        /// <param name="rectangle"> </param>
-        /// <param name="isFirst"> </param>
-        /// <param name="isLast"> </param>
-        protected void PaintDecoration(IGraphics g, RectangleF rectangle, bool isFirst, bool isLast)
+        internal void PaintDecoration(IGraphics g, RectangleF rectangle, bool isFirst, bool isLast)
         {
             float y = 0f;
             switch (this.TextDecoration)
@@ -1346,6 +1362,7 @@ namespace HtmlRenderer.Dom
                 x2 -= ActualPaddingRight + ActualBorderRightWidth;
 
             var pen = RenderUtils.GetPen(ActualColor);
+
             g.DrawLine(pen, x1, y, x2, y);
         }
 

@@ -242,7 +242,7 @@ namespace HtmlRenderer.Utils
         {
             //assign property  
             WebDom.CssCodeValueExpression cssValue = decl.GetPropertyValue(0);
-            string value = cssValue.ToString();
+            
             //--------------------------------------------------------------
             switch (decl.PropertyName)
             {
@@ -260,16 +260,16 @@ namespace HtmlRenderer.Utils
                     break;
 
                 case "border-bottom-style":
-                    cssBox.BorderBottomStyle = GetBorderStyle(value);
+                    cssBox.BorderBottomStyle = GetBorderStyle(cssValue.GetTranslatedValue());
                     break;
                 case "border-left-style":
-                    cssBox.BorderLeftStyle = GetBorderStyle(value);
+                    cssBox.BorderLeftStyle = GetBorderStyle(cssValue.GetTranslatedValue());
                     break;
                 case "border-right-style":
-                    cssBox.BorderRightStyle = GetBorderStyle(value);
+                    cssBox.BorderRightStyle = GetBorderStyle(cssValue.GetTranslatedValue());
                     break;
                 case "border-top-style":
-                    cssBox.BorderTopStyle = GetBorderStyle(value);
+                    cssBox.BorderTopStyle = GetBorderStyle(cssValue.GetTranslatedValue());
                     break;
                 case "border-bottom-color":
                     cssBox.BorderBottomColor = cssValue.AsColor();// CssValueParser.GetActualColor(value);
@@ -284,15 +284,15 @@ namespace HtmlRenderer.Utils
                     cssBox.BorderTopColor = cssValue.AsColor();//CssValueParser.GetActualColor(value);
                     break;
                 case "border-spacing":
-                     
-                    cssBox.SetBorderSpacing(value);
+
+                    cssBox.SetBorderSpacing(cssValue.GetTranslatedValue());
                     break;
                 case "border-collapse":
-                    cssBox.SetBorderCollapse(value);
+                    cssBox.SetBorderCollapse(cssValue.GetTranslatedValue());
                     break;
                 case "corner-radius":
-                     
-                    cssBox.SetCornerRadius(value);
+
+                    cssBox.SetCornerRadius(cssValue.GetTranslatedValue());
                     break;
                 case "corner-nw-radius":
                     cssBox.CornerNWRadius = cssValue.AsLength();
@@ -349,13 +349,13 @@ namespace HtmlRenderer.Utils
                     cssBox.BackgroundColor = cssValue.AsColor();// CssValueParser.GetActualColor(value);
                     break;
                 case "background-image":
-                    cssBox.BackgroundImage = value;
+                    cssBox.BackgroundImage = cssValue.GetTranslatedValue();
                     break;
                 case "background-position":
-                    cssBox.BackgroundPosition = value;
+                    cssBox.BackgroundPosition = cssValue.GetTranslatedValue();
                     break;
                 case "background-repeat":
-                    cssBox.BackgroundRepeat = value;
+                    cssBox.BackgroundRepeat = cssValue.GetTranslatedValue();
                     break;
                 case "background-gradient":
                     cssBox.BackgroundGradient = cssValue.AsColor();// CssValueParser.GetActualColor(value);
@@ -363,7 +363,7 @@ namespace HtmlRenderer.Utils
                 case "background-gradient-angle":
                     {
                         float angle;
-                        if (float.TryParse(value, out angle))
+                        if (float.TryParse(cssValue.GetTranslatedValue(), out angle))
                         {
                             cssBox.BackgroundGradientAngle = angle;
                         }
@@ -372,76 +372,77 @@ namespace HtmlRenderer.Utils
                     cssBox.Color = cssValue.AsColor();//CssValueParser.GetActualColor(value);
                     break;
                 case "display":
-                    cssBox.SetDisplayType(value);
+
+                    cssBox.SetDisplayType(cssValue.GetTranslatedValue());
                     break;
                 case "direction":
-                    cssBox.SetCssDirection(value);
+                    cssBox.SetCssDirection(cssValue.GetTranslatedValue());
                     break;
                 case "empty-cells":
-                    cssBox.EmptyCells = CssBoxUserUtilExtension.GetEmptyCell(value);
+                    cssBox.EmptyCells = CssBoxUserUtilExtension.GetEmptyCell(cssValue.GetTranslatedValue());
                     break;
                 case "float":
-                    cssBox.Float = CssBoxUserUtilExtension.GetFloat(value);
+                    cssBox.Float = CssBoxUserUtilExtension.GetFloat(cssValue.GetTranslatedValue());
                     break;
                 case "position":
-                    cssBox.SetCssPosition(value);
+                    cssBox.SetCssPosition(cssValue.GetTranslatedValue());
                     break;
                 case "line-height":
-                    cssBox.SetLineHeight(value);
+                    cssBox.SetLineHeight(cssValue.GetTranslatedValue());
                     break;
                 case "vertical-align":
-                    cssBox.SetVerticalAlign(value.ToLower());
+                    cssBox.SetVerticalAlign(cssValue.GetTranslatedValue().ToLower());
                     break;
                 case "text-indent":
                     cssBox.TextIndent = cssValue.AsLength();
                     break;
                 case "text-align":
-                    cssBox.SetTextAlign(value);
+                    cssBox.SetTextAlign(cssValue.GetTranslatedValue());
                     break;
                 case "text-decoration":
-                    cssBox.SetTextDecoration(value);
+                    cssBox.SetTextDecoration(cssValue.GetTranslatedValue());
                     break;
                 case "white-space":
-                    cssBox.SetWhitespace(value);
+                    cssBox.SetWhitespace(cssValue.GetTranslatedValue());
                     break;
                 case "word-break":
-                    cssBox.SetWordSpacing(value);
+                    cssBox.SetWordSpacing(cssValue.GetTranslatedValue());
                     break;
                 case "visibility":
-                    cssBox.SetVisibility(value);
+                    cssBox.SetVisibility(cssValue.GetTranslatedValue());
                     break;
                 case "word-spacing":
-                    cssBox.SetWordSpacing(value);
+                    cssBox.SetWordSpacing(cssValue.GetTranslatedValue());
                     break;
                 case "font-family":
-                    cssBox.FontFamily = value;
+                    cssBox.FontFamily = cssValue.GetTranslatedValue();
                     break;
                 case "font-size":
-                    cssBox.SetFontSize(value);
+                    cssBox.SetFontSize(cssValue.GetTranslatedValue());
                     break;
                 case "font-style":
-                    cssBox.FontStyle = CssBoxUserUtilExtension.GetFontStyle(value);
+                    cssBox.FontStyle = CssBoxUserUtilExtension.GetFontStyle(cssValue.GetTranslatedValue());
                     break;
                 case "font-variant":
-                    cssBox.FontVariant = CssBoxUserUtilExtension.GetFontVariant(value);
+                    cssBox.FontVariant = CssBoxUserUtilExtension.GetFontVariant(cssValue.GetTranslatedValue());
                     break;
                 case "font-weight":
-                    cssBox.FontWeight = CssBoxUserUtilExtension.GetFontWeight(value);
+                    cssBox.FontWeight = CssBoxUserUtilExtension.GetFontWeight(cssValue.GetTranslatedValue());
                     break;
                 case "list-style":
-                    cssBox.ListStyle = value;
+                    cssBox.ListStyle = cssValue.GetTranslatedValue();
                     break;
                 case "list-style-position":
-                    cssBox.ListStylePosition = CssBoxUserUtilExtension.GetListStylePosition(value);
+                    cssBox.ListStylePosition = CssBoxUserUtilExtension.GetListStylePosition(cssValue.GetTranslatedValue());
                     break;
                 case "list-style-image":
-                    cssBox.ListStyleImage = value;
+                    cssBox.ListStyleImage = cssValue.GetTranslatedValue();
                     break;
                 case "list-style-type":
-                    cssBox.ListStyleType = CssBoxUserUtilExtension.GetListStyleType(value);
+                    cssBox.ListStyleType = CssBoxUserUtilExtension.GetListStyleType(cssValue.GetTranslatedValue());
                     break;
                 case "overflow":
-                    cssBox.SetOverflow(value);
+                    cssBox.SetOverflow(cssValue.GetTranslatedValue());
                     break;
             }
         }

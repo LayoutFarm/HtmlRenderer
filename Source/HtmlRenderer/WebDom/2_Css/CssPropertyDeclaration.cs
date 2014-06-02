@@ -29,7 +29,7 @@ namespace HtmlRenderer.WebDom
         {
 
 #if DEBUG
-           
+
 #endif
             this.PropertyName = propertyName.ToLower();
         }
@@ -37,7 +37,7 @@ namespace HtmlRenderer.WebDom
         {
 
 #if DEBUG
-            
+
 #endif
             //from another 
             this.PropertyName = propertyName.ToLower();
@@ -364,6 +364,7 @@ namespace HtmlRenderer.WebDom
         public CssCodeFunctionCallExpression(string funcName)
         {
             this.FunctionName = funcName;
+
         }
         public string FunctionName
         {
@@ -374,6 +375,7 @@ namespace HtmlRenderer.WebDom
         {
             this.funcArgs.Add(arg);
         }
+
         public override string ToString()
         {
 
@@ -391,32 +393,44 @@ namespace HtmlRenderer.WebDom
                 }
             }
             sb.Append(')');
-
-
             return sb.ToString();
-
         }
-        protected override string GetTranslatedValue()
+
+        string evaluatedStringValue;
+        bool isEval;
+        public override string GetTranslatedValue()
         {
-            switch (this.FunctionName)
+            if (isEval)
             {
-                case "rgb":
-                    {
-                        //each is number
-                        //?
-                        int r_value = int.Parse(funcArgs[0].ToString());
-                        int g_value = int.Parse(funcArgs[1].ToString());
-                        int b_value = int.Parse(funcArgs[2].ToString());
-
-                        return "#" + r_value.ToString("X") + g_value.ToString("X") + b_value.ToString("X");
-                    }
-                default:
-                    {
-                        return this.ToString();
-                    }
+                return this.evaluatedStringValue;
             }
+            else
+            {
+                isEval = true;
+                switch (this.FunctionName)
+                {
+                    case "rgb":
+                        {
+                            //each is number
+                            //?
+                            int r_value = int.Parse(funcArgs[0].ToString());
+                            int g_value = int.Parse(funcArgs[1].ToString());
+                            int b_value = int.Parse(funcArgs[2].ToString());
 
+                            return this.evaluatedStringValue = "#" + r_value.ToString("X") + g_value.ToString("X") + b_value.ToString("X");
+                        }
+                    case "url":
+                        {
+                            return this.evaluatedStringValue = this.funcArgs[0].ToString();
+                        }
+                    default:
+                        {
+                            return this.evaluatedStringValue = this.ToString();
+                        }
+                }
+            }
         }
+
     }
 
 
@@ -476,10 +490,11 @@ namespace HtmlRenderer.WebDom
             }
             return this.cachedColor;
         }
-        protected virtual string GetTranslatedValue()
+        public virtual string GetTranslatedValue()
         {
             return this.ToString();
         }
+
 
     }
 

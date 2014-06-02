@@ -245,8 +245,7 @@ namespace HtmlRenderer.Dom
             get { return this._borderProps.BottomColor; }
             set
             {
-                CheckBorderVersion().BottomColor = value;
-
+                CheckBorderVersion().BottomColor = value; 
             }
         }
         public Color BorderLeftColor

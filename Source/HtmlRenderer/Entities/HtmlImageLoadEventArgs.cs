@@ -53,7 +53,7 @@ namespace HtmlRenderer.Entities
 
 
 
-        HtmlRenderer.Dom.IHtmlTag _tag;
+        HtmlRenderer.Dom.IHtmlElement _tag;
 
         /// <summary>
         /// Callback used to allow setting image externally and async.
@@ -69,7 +69,7 @@ namespace HtmlRenderer.Entities
         /// <param name="src">the source of the image (file path or uri)</param>
         /// <param name="attributes">collection of all the attributes that are defined on the image element</param>
         /// <param name="callback">Callback used to allow setting image externally and async.</param>
-        internal HtmlImageLoadEventArgs(string src, HtmlRenderer.Dom.IHtmlTag tag, HtmlImageLoadCallback callback)
+        internal HtmlImageLoadEventArgs(string src, HtmlRenderer.Dom.IHtmlElement tag, HtmlImageLoadCallback callback)
         {
             _src = src;
             this._tag = tag;
@@ -85,7 +85,7 @@ namespace HtmlRenderer.Entities
         }
 
        
-        public HtmlRenderer.Dom.IHtmlTag SourceHtmlTag
+        public HtmlRenderer.Dom.IHtmlElement SourceHtmlTag
         {
             get { return this._tag; }
         }

@@ -81,9 +81,21 @@ namespace HtmlRenderer.Dom
         //================================================================
 
 
-       
 
-
+        public int TextLength
+        {
+            get
+            {
+                return this._textLength;
+            }
+        }
+        internal int TextStartIndex
+        {
+            get
+            {
+                return this._textStartIndex;
+            }
+        }
         /// <summary>
         /// Gets the text of the word
         /// </summary>
@@ -122,7 +134,9 @@ namespace HtmlRenderer.Dom
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("{0} ({1} char{2})", Text.Replace(' ', '-').Replace("\n", "\\n"), Text.Length, Text.Length != 1 ? "s" : string.Empty);
+            string txt = this.Text;
+
+            return string.Format("{0} ({1} char{2})", txt.Replace(' ', '-').Replace("\n", "\\n"), txt.Length, txt.Length != 1 ? "s" : string.Empty);
         }
     }
 }

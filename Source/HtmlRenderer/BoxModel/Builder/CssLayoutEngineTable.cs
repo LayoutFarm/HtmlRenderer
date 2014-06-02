@@ -129,15 +129,15 @@ namespace HtmlRenderer.Dom
             ArgChecker.AssertArgNotNull(g, "g");
             ArgChecker.AssertArgNotNull(tableBox, "tableBox");
 
-            try
-            {
-                var table = new CssLayoutEngineTable(tableBox);
-                table.Layout(g);
-            }
-            catch (Exception ex)
-            {
-                tableBox.HtmlContainer.ReportError(HtmlRenderErrorType.Layout, "Failed table layout", ex);
-            }
+            //try
+            //{
+            var table = new CssLayoutEngineTable(tableBox);
+            table.Layout(g);
+            //}
+            //catch (Exception ex)
+            //{
+            //    tableBox.HtmlContainer.ReportError(HtmlRenderErrorType.Layout, "Failed table layout", ex);
+            //}
         }
 
 
@@ -1048,14 +1048,14 @@ namespace HtmlRenderer.Dom
                 paddingSum += CssLayoutEngineTable.GetTableSpacing(box);
             }
 
-            if (box.Runs.Count > 0)
+            if (box.HasRuns)
             {
-                // calculate the min and max sum for all the words in the box
-                foreach (CssRun run in box.Runs)
+                // calculate the min and max sum for all the words in the box 
+                foreach (CssRun run in box.GetRunIter())
                 {
                     maxSum += run.Width;
                     min = Math.Max(min, run.Width);
-                } 
+                }
             }
             else
             {
