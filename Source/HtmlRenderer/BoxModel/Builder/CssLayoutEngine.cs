@@ -190,7 +190,7 @@ namespace HtmlRenderer.Dom
             ArgChecker.AssertArgNotNull(g, "g");
             ArgChecker.AssertArgNotNull(cell, "cell");
 
-            //if (cell.VerticalAlign == CssConstants.Top || cell.VerticalAlign == CssConstants.Baseline) return;
+             
             if (cell.VerticalAlign == CssVerticalAlign.Top ||
                 cell.VerticalAlign == CssVerticalAlign.Baseline)
             {

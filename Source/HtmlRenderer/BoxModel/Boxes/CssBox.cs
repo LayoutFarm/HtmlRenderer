@@ -1,4 +1,7 @@
-﻿// "Therefore those skilled at the unorthodox
+﻿//BSD 2014, WinterCore
+
+
+// "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
 // When they come to an end,
@@ -68,10 +71,7 @@ namespace HtmlRenderer.Dom
                 return this.wellKnownTagName;
             }
         }
-        internal CssBox GetParentBox()
-        {
-            return this._parentBox;
-        }
+
 
         /// <summary>
         /// Gets the HtmlContainer of the Box.
@@ -87,7 +87,7 @@ namespace HtmlRenderer.Dom
         }
 
         /// <summary>
-        /// Gets  the parent box of this box
+        /// Gets the parent box of this box
         /// </summary>
         public CssBox ParentBox
         {
@@ -98,7 +98,7 @@ namespace HtmlRenderer.Dom
         /// remove this box from its parent and add to new parent box
         /// </summary>
         /// <param name="parentBox"></param>
-        public void SetNewParentBox(CssBox parentBox)
+        internal void SetNewParentBox(CssBox parentBox)
         {
             if (this._parentBox != null)
             {
@@ -110,7 +110,18 @@ namespace HtmlRenderer.Dom
                 _htmlContainer = parentBox.HtmlContainer;
             }
         }
-
+        internal void SetNewParentBox(int myIndexHint, CssBox parentBox)
+        {
+            if (this._parentBox != null)
+            {
+                this._parentBox.Boxes.RemoveAt(myIndexHint);
+            }
+            if (parentBox != null)
+            {
+                parentBox.Boxes.Add(this);
+                _htmlContainer = parentBox.HtmlContainer;
+            }
+        }
         /// <summary>
         /// Is the box is of "br" element.
         /// </summary>
@@ -147,14 +158,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        /// <summary>
-        /// Is the css box clickable (by default only "a" element is clickable)
-        /// </summary>
-        public virtual bool IsClickable
-        {
-            //get { return HtmlTag != null && HtmlTag.Name == HtmlConstants.A && !HtmlTag.HasAttribute("id"); }
-            get { return HtmlTag != null && WellknownTagName == WellknownHtmlTagName.A && !HtmlTag.HasAttribute("id"); }
-        }
+
 
         /// <summary>
         /// Get the href link of the box (by default get "href" attribute)
@@ -381,7 +385,7 @@ namespace HtmlRenderer.Dom
         {
             get { return _boxRuns; }
         }
-       
+
         internal bool HasRuns
         {
             get
@@ -522,10 +526,10 @@ namespace HtmlRenderer.Dom
         /// <param name="tag">optional: the html tag to define the box</param>
         /// <param name="before">optional: to insert as specific location in parent box</param>
         /// <returns>the new block box</returns>
-        internal static CssBox CreateBlock(CssBox parent, IHtmlTag tag = null, int insertAt = -1)
+        internal static CssBox CreateAnonBlock(CssBox parent, int insertAt = -1)
         {
             ArgChecker.AssertArgNotNull(parent, "parent");
-            var newBox = CreateBox(parent, tag, insertAt);
+            var newBox = CreateBox(parent, null, insertAt);
             newBox.CssDisplay = CssDisplay.Block;
             return newBox;
         }
@@ -935,22 +939,20 @@ namespace HtmlRenderer.Dom
             {
                 float maxc2 = currentMaxBottom;
 
-                foreach (CssLineBox hostline in startBox.GetHostLineIter())
-                {
-                    PartialBoxStrip r = hostline.GetStrip(this);
-                    if (r != null)
-                    {
-                        maxc2 = Math.Max(maxc2, r.Bottom);
-                    }
-                }
+                //foreach (CssLineBox hostline in startBox.GetHostLineIter())
+                //{
+                //    PartialBoxStrip r = hostline.GetStrip(this);
+                //    if (r != null)
+                //    {
+                //        maxc2 = Math.Max(maxc2, r.Bottom);
+                //    }
+                //}
 
                 currentMaxBottom = Math.Max(currentMaxBottom, startBox.SummaryBound.Bottom);
 
-                if (maxc2 != currentMaxBottom)
-                {
-
-                }
-
+                //if (maxc2 != currentMaxBottom)
+                //{ 
+                //} 
 
                 foreach (var b in startBox.Boxes)
                 {

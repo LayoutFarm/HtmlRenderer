@@ -21,7 +21,7 @@ namespace HtmlRenderer.WebDom.Parser
         CssAttributeSelectorExpression _currentSelectorAttr;
         CssSimpleElementSelector _currentSelectorExpr;
         CssPropertyDeclaration _currentProperty;
-        CssCodePropertyValue _latestPropertyValue;
+        CssCodeValueExpression _latestPropertyValue;
 
         public CssParser()
         {
@@ -49,7 +49,10 @@ namespace HtmlRenderer.WebDom.Parser
                             case CssTokenName.RBrace:
                                 {
                                     //exit from current ruleset block
-
+                                    if (this._mediaStack.Count > 0)
+                                    {
+                                        this._currentAtMedia = this._mediaStack.Pop();
+                                    }
                                 } break;
                             case CssTokenName.Star:
                                 {
@@ -275,7 +278,7 @@ namespace HtmlRenderer.WebDom.Parser
                             case CssTokenName.LiteralString:
                                 {
                                     this._currentSelectorAttr.valueExpression = this._latestPropertyValue =
-                                        new CssCodePropertyValue(new string(this.textBuffer, start, len), CssValueHint.LiteralString);
+                                        new CssCodePrimitiveExpression(new string(this.textBuffer, start, len), CssValueHint.LiteralString);
 
                                     this._currentSelectorAttr = null;
                                 } break;
@@ -362,7 +365,7 @@ namespace HtmlRenderer.WebDom.Parser
                                 {
 
                                     this._currentProperty.AddValue(this._latestPropertyValue =
-                                         new CssCodePropertyValue(new string(this.textBuffer, start, len), CssValueHint.LiteralString));
+                                         new CssCodePrimitiveExpression(new string(this.textBuffer, start, len), CssValueHint.LiteralString));
 
                                     parseState = CssParseState.AfterPropertyValue;
 
@@ -370,7 +373,7 @@ namespace HtmlRenderer.WebDom.Parser
                             case CssTokenName.Number:
                                 {
                                     this._currentProperty.AddValue(this._latestPropertyValue =
-                                          new CssCodePropertyValue(new string(this.textBuffer, start, len), CssValueHint.Number));
+                                          new CssCodePrimitiveExpression(new string(this.textBuffer, start, len), CssValueHint.Number));
 
                                     parseState = CssParseState.AfterPropertyValue;
 
@@ -383,7 +386,7 @@ namespace HtmlRenderer.WebDom.Parser
                                 {
                                     //property value
                                     this._currentProperty.AddValue(this._latestPropertyValue =
-                                        new CssCodePropertyValue(new string(this.textBuffer, start, len), CssValueHint.Iden));
+                                        new CssCodePrimitiveExpression(new string(this.textBuffer, start, len), CssValueHint.Iden));
 
                                     parseState = CssParseState.AfterPropertyValue;
 
@@ -397,13 +400,13 @@ namespace HtmlRenderer.WebDom.Parser
                             case CssTokenName.Iden:
                                 {
                                     this._currentProperty.AddValue(this._latestPropertyValue =
-                                       new CssCodePropertyValue("#" + new string(this.textBuffer, start, len), CssValueHint.HexColor));
+                                       new CssCodePrimitiveExpression("#" + new string(this.textBuffer, start, len), CssValueHint.HexColor));
 
                                 } break;
                             case CssTokenName.Number:
                                 {
                                     this._currentProperty.AddValue(this._latestPropertyValue =
-                                         new CssCodePropertyValue("#" + new string(this.textBuffer, start, len), CssValueHint.HexColor));
+                                         new CssCodePrimitiveExpression("#" + new string(this.textBuffer, start, len), CssValueHint.HexColor));
 
                                 } break;
                             default:
@@ -421,6 +424,19 @@ namespace HtmlRenderer.WebDom.Parser
                                 {
                                     throw new NotSupportedException();
                                 } break;
+                            case CssTokenName.LParen:
+                                {
+                                    //function 
+                                    parseState = CssParseState.ExpectedFuncParameter;
+                                    //make current prop value as func
+                                    CssCodeFunctionCallExpression funcCallExpr = new CssCodeFunctionCallExpression(
+                                        this._latestPropertyValue.ToString());
+                                    int valueCount = this._currentProperty.ValueCount;
+                                    this._currentProperty.ReplaceValue(valueCount - 1, funcCallExpr);
+                                    this._latestPropertyValue = funcCallExpr;
+
+
+                                } break;
                             case CssTokenName.RBrace:
                                 {
                                     //close block
@@ -436,19 +452,19 @@ namespace HtmlRenderer.WebDom.Parser
                                 {
                                     //another property value                                     
                                     this._currentProperty.AddValue(this._latestPropertyValue =
-                                        new CssCodePropertyValue(new string(this.textBuffer, start, len), CssValueHint.Iden));
+                                        new CssCodePrimitiveExpression(new string(this.textBuffer, start, len), CssValueHint.Iden));
                                 } break;
                             case CssTokenName.Number:
                                 {
                                     //another property value
                                     this._currentProperty.AddValue(this._latestPropertyValue =
-                                        new CssCodePropertyValue(new string(this.textBuffer, start, len), CssValueHint.Number));
+                                        new CssCodePrimitiveExpression(new string(this.textBuffer, start, len), CssValueHint.Number));
                                 } break;
                             case CssTokenName.NumberUnit:
                                 {
                                     //number unit
-                                    this._latestPropertyValue.Unit = new string(this.textBuffer, start, len);
 
+                                    this._currentProperty.AddUnitToLatestValue(new string(this.textBuffer, start, len));
                                 } break;
                             case CssTokenName.Sharp:
                                 {
@@ -531,6 +547,60 @@ namespace HtmlRenderer.WebDom.Parser
                         }
 
                     } break;
+                case CssParseState.ExpectedFuncParameter:
+                    {
+                        string funcArg = new string(this.textBuffer, start, len);
+                        switch (tkname)
+                        {
+                            default:
+                                {
+                                    throw new NotSupportedException();
+                                }
+                            case CssTokenName.RParen:
+                                {
+                                    this.parseState = CssParseState.AfterPropertyValue;
+
+                                } break;
+                            case CssTokenName.LiteralString:
+                                {
+                                    ((CssCodeFunctionCallExpression)this._latestPropertyValue).AddFuncArg(
+                                        new CssCodePrimitiveExpression(funcArg, CssValueHint.LiteralString));
+                                    this.parseState = CssParseState.AfterFuncParameter;
+                                } break;
+                            case CssTokenName.Number:
+                                {
+                                    ((CssCodeFunctionCallExpression)this._latestPropertyValue).AddFuncArg(
+                                          new CssCodePrimitiveExpression(funcArg, CssValueHint.Number));
+                                    this.parseState = CssParseState.AfterFuncParameter;
+                                } break;
+                            case CssTokenName.Iden:
+                                {
+                                    ((CssCodeFunctionCallExpression)this._latestPropertyValue).AddFuncArg(
+                                        new CssCodePrimitiveExpression(funcArg, CssValueHint.Iden));
+                                    this.parseState = CssParseState.AfterFuncParameter;
+                                } break;
+                        }
+                    } break;
+                case CssParseState.AfterFuncParameter:
+                    {
+                        switch (tkname)
+                        {
+                         
+                            default:
+                                {
+                                    throw new NotSupportedException();
+                                }
+                            case CssTokenName.RParen:
+                                {
+                                    this.parseState = CssParseState.AfterPropertyValue;
+
+                                } break;
+                            case CssTokenName.Comma:
+                                {
+                                    this.parseState = CssParseState.ExpectedFuncParameter;
+                                } break;
+                        }
+                    } break;
             }
         }
 
@@ -587,8 +657,13 @@ namespace HtmlRenderer.WebDom.Parser
             int valCount = decl.ValueCount;
             for (int i = 0; i < valCount; ++i)
             {
-                CssCodePropertyValue value = decl.GetPropertyValue(i);
+                CssCodePrimitiveExpression value = decl.GetPropertyValue(i) as CssCodePrimitiveExpression;
                 //what this prop mean 
+                if (value == null)
+                {
+                    continue;
+                }
+                //------------------------------
                 switch (value.Hint)
                 {
                     case CssValueHint.Iden:
@@ -642,6 +717,8 @@ namespace HtmlRenderer.WebDom.Parser
             List<CssPropertyDeclaration> newProps = null;
             foreach (CssPropertyDeclaration decl in ruleset.GetAssignmentIter())
             {
+
+                
                 switch (decl.PropertyName)
                 {
                     case "font":
@@ -870,7 +947,11 @@ namespace HtmlRenderer.WebDom.Parser
 
             for (int i = 0; i < j; ++i)
             {
-                CssCodePropertyValue cssCodePropertyValue = decl.GetPropertyValue(i);
+                CssCodePrimitiveExpression cssCodePropertyValue = decl.GetPropertyValue(i) as CssCodePrimitiveExpression;
+                if (cssCodePropertyValue == null)
+                {
+                    continue;
+                }
                 //what value means ?
                 //border width/ style / color
                 if (cssCodePropertyValue.Hint == CssValueHint.Number ||
@@ -953,7 +1034,7 @@ namespace HtmlRenderer.WebDom.Parser
             }
 
         }
-        static CssPropertyDeclaration CloneProp(CssCodePropertyValue prop, string newName)
+        static CssPropertyDeclaration CloneProp(CssCodeValueExpression prop, string newName)
         {
             return new CssPropertyDeclaration(newName, prop);
         }
@@ -968,7 +1049,7 @@ namespace HtmlRenderer.WebDom.Parser
                 case 1:
                     {
 
-                        CssCodePropertyValue prop = decl.GetPropertyValue(0);
+                        CssCodeValueExpression prop = decl.GetPropertyValue(0);
                         newProps.Add(CloneProp(prop, propPrefix + "left" + propSuffix));
                         newProps.Add(CloneProp(prop, propPrefix + "top" + propSuffix));
                         newProps.Add(CloneProp(prop, propPrefix + "right" + propSuffix));
@@ -1044,6 +1125,9 @@ namespace HtmlRenderer.WebDom.Parser
 
         //@import
         ExpectImportURL,
+
+        ExpectedFuncParameter,
+        AfterFuncParameter,
     }
     public enum CssLexState
     {
@@ -1159,7 +1243,7 @@ namespace HtmlRenderer.WebDom.Parser
             for (int i = 0; i < j; ++i)
             {
                 char c = cssSourceBuffer[i];
-
+                //Console.Write(c);
 
                 //-------------------------------------- 
                 switch (lexState)

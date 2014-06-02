@@ -512,12 +512,14 @@ namespace HtmlRenderer.Dom
 
         void PaintBackgroundAndBorder(IGraphics g, PointF offset)
         {
-            //iterate from each rect 
+            //iterate each strip
+
             foreach (var strip in this._boxStrips.Values)
             {
-                var ownerBox = strip.owner;// kp.Key;
+                var ownerBox = strip.owner; 
                 if (ownerBox.CssDisplay != CssDisplay.Inline)
                 {
+                    throw new NotSupportedException();
                     continue;
                 }
 

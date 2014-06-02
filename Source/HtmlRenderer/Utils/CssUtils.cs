@@ -241,7 +241,7 @@ namespace HtmlRenderer.Utils
         public static void SetPropertyValue2(CssBox cssBox, WebDom.CssPropertyDeclaration decl)
         {
             //assign property  
-            WebDom.CssCodePropertyValue cssValue = decl.GetPropertyValue(0);
+            WebDom.CssCodeValueExpression cssValue = decl.GetPropertyValue(0);
             string value = cssValue.ToString();
             //--------------------------------------------------------------
             switch (decl.PropertyName)

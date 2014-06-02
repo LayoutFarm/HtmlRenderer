@@ -464,16 +464,17 @@ namespace HtmlRenderer
             foreach (WebDom.CssPropertyDeclaration otherAssignment in ruleSet.GetAssignmentIter())
             {
                 WebDom.CssPropertyDeclaration exitingAssigment;
-                if (!_myAssignments.TryGetValue(otherAssignment.PropertyName, out exitingAssigment))
-                {
-                    //if not exist 
-                    this._myAssignments.Add(otherAssignment.PropertyName, otherAssignment);
-                }
-                else
-                {
-                    //update exiting value with new one ? 
-                    throw new NotSupportedException();
-                }
+                _myAssignments[otherAssignment.PropertyName] = otherAssignment;
+                //if (!_myAssignments.TryGetValue(otherAssignment.PropertyName, out exitingAssigment))
+                //{
+                //    //if not exist 
+                //    this._myAssignments.Add(otherAssignment.PropertyName, otherAssignment);
+                //}
+                //else
+                //{
+                //    //update exiting value with new one ? 
+                //    throw new NotSupportedException();
+                //}
             }
             //--------------
         }

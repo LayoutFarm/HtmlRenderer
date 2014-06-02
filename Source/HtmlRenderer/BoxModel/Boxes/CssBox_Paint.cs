@@ -1,4 +1,7 @@
-﻿using System;
+﻿
+//BSD 2014, WinterCore
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;

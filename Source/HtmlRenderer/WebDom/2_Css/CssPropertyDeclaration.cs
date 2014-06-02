@@ -18,8 +18,8 @@ namespace HtmlRenderer.WebDom
         bool markedAsInherit;
         bool isAutoGen = false;
         bool isExpand = false;
-        CssCodePropertyValue propertyValue;
-        List<CssCodePropertyValue> moreValues;
+        CssCodeValueExpression propertyValue;
+        List<CssCodeValueExpression> moreValues;
 
 #if DEBUG
         static int dbugTotalId;
@@ -29,18 +29,20 @@ namespace HtmlRenderer.WebDom
         {
 
 #if DEBUG
+           
 #endif
-            this.PropertyName = propertyName;
+            this.PropertyName = propertyName.ToLower();
         }
-        internal CssPropertyDeclaration(string propertyName, CssCodePropertyValue propvalue)
+        internal CssPropertyDeclaration(string propertyName, CssCodeValueExpression value)
         {
 
 #if DEBUG
+            
 #endif
             //from another 
-            this.PropertyName = propertyName;
-            this.propertyValue = propvalue;
-            this.markedAsInherit = propvalue.Value == "inherit";
+            this.PropertyName = propertyName.ToLower();
+            this.propertyValue = value;
+            this.markedAsInherit = value.ToString() == "inherit";
             //auto gen from another prop
             this.isAutoGen = true;
         }
@@ -49,32 +51,57 @@ namespace HtmlRenderer.WebDom
             get { return this.isExpand; }
             set { this.isExpand = value; }
         }
-        public void AddValue(CssCodePropertyValue value)
+        internal void AddUnitToLatestValue(string unit)
+        {
+            CssCodePrimitiveExpression latestValue = null;
+            if (moreValues != null)
+            {
+                latestValue = moreValues[moreValues.Count - 1] as CssCodePrimitiveExpression;
+
+            }
+            else
+            {
+                latestValue = this.propertyValue as CssCodePrimitiveExpression;
+
+            }
+            if (latestValue != null)
+            {
+                latestValue.Unit = unit;
+            }
+        }
+        public void AddValue(CssCodeValueExpression value)
         {
             if (propertyValue == null)
             {
-                markedAsInherit = value.Value == "inherit";
+                markedAsInherit = value.ToString() == "inherit";
                 this.propertyValue = value;
             }
             else
             {
                 if (moreValues == null)
                 {
-                    moreValues = new List<CssCodePropertyValue>();
+                    moreValues = new List<CssCodeValueExpression>();
                 }
                 moreValues.Add(value);
                 markedAsInherit = false;
             }
         }
-
+        public void ReplaceValue(int index, CssCodeValueExpression value)
+        {
+            if (index == 0)
+            {
+                this.propertyValue = value;
+            }
+            else
+            {
+                moreValues[index - 1] = value;
+            }
+        }
         public string PropertyName
         {
             get;
             private set;
         }
-
-
-
         public override string ToString()
         {
 
@@ -97,7 +124,7 @@ namespace HtmlRenderer.WebDom
                 int j = moreValues.Count;
                 for (int i = 0; i < j; ++i)
                 {
-                    CssCodePropertyValue propV = moreValues[i];
+                    CssCodeValueExpression propV = moreValues[i];
                     stBuilder.Append(propV.ToString());
                     if (i < j - 1)
                     {
@@ -137,123 +164,123 @@ namespace HtmlRenderer.WebDom
         }
 
 
-        /// <summary>
-        /// Check if the given string is a valid length value.
-        /// </summary>
-        /// <param name="value">the string value to check</param>
-        /// <returns>true - valid, false - invalid</returns>
-        public static bool IsValidLength(string value)
-        {
-            if (value.Length > 1)
-            {
-                string number = string.Empty;
-                if (value.EndsWith("%"))
-                {
-                    number = value.Substring(0, value.Length - 1);
-                }
-                else if (value.Length > 2)
-                {
-                    number = value.Substring(0, value.Length - 2);
-                }
-                float stub;
-                return float.TryParse(number, out stub);
-            }
-            return false;
-        }
+        ///// <summary>
+        ///// Check if the given string is a valid length value.
+        ///// </summary>
+        ///// <param name="value">the string value to check</param>
+        ///// <returns>true - valid, false - invalid</returns>
+        //public static bool IsValidLength(string value)
+        //{
+        //    if (value.Length > 1)
+        //    {
+        //        string number = string.Empty;
+        //        if (value.EndsWith("%"))
+        //        {
+        //            number = value.Substring(0, value.Length - 1);
+        //        }
+        //        else if (value.Length > 2)
+        //        {
+        //            number = value.Substring(0, value.Length - 2);
+        //        }
+        //        float stub;
+        //        return float.TryParse(number, out stub);
+        //    }
+        //    return false;
+        //}
 
-        void PrepareProperty()
-        {
-            return;
-            //if (isReady)
-            //{
-            //    return;
-            //}
-            //isReady = true;
+        //void PrepareProperty()
+        //{
+        //    return;
+        //    //if (isReady)
+        //    //{
+        //    //    return;
+        //    //}
+        //    //isReady = true;
 
-            //switch (this.PropertyName)
-            //{
-            //    case "width":
-            //    case "height":
-            //    case "lineheight":
-            //        {
-            //            ParseLengthProperty(this);
-            //        } break;
-            //    case "color":
-            //    case "backgroundcolor":
-            //    case "bordertopcolor":
-            //    case "borderbottomcolor":
-            //    case "borderleftcolor":
-            //    case "borderrightcolor":
-            //        {
-            //            //check if valid color
-            //            //if valid then parse ***
-            //            ///CssValueParser.IsColorValid(propValue) check if valid color
-            //            //ParseColorProperty(propName, propValue, properties);
-            //        } break;
-            //    case "font":
-            //        {
-            //            // ParseFontProperty(this);
+        //    //switch (this.PropertyName)
+        //    //{
+        //    //    case "width":
+        //    //    case "height":
+        //    //    case "lineheight":
+        //    //        {
+        //    //            ParseLengthProperty(this);
+        //    //        } break;
+        //    //    case "color":
+        //    //    case "backgroundcolor":
+        //    //    case "bordertopcolor":
+        //    //    case "borderbottomcolor":
+        //    //    case "borderleftcolor":
+        //    //    case "borderrightcolor":
+        //    //        {
+        //    //            //check if valid color
+        //    //            //if valid then parse ***
+        //    //            ///CssValueParser.IsColorValid(propValue) check if valid color
+        //    //            //ParseColorProperty(propName, propValue, properties);
+        //    //        } break;
+        //    //    case "font":
+        //    //        {
+        //    //            // ParseFontProperty(this);
 
-            //        } break;
-            //    //case "border":
-            //    //    {
-            //    //        ParseBorderProperty(propValue, null, properties);
-            //    //    } break;
-            //    //case "border-left":
-            //    //    {
-            //    //        ParseBorderProperty(propValue, "-left", properties);
-            //    //    } break;
-            //    //case "border-right":
-            //    //    {
-            //    //        ParseBorderProperty(propValue, "-right", properties);
-            //    //    } break;
-            //    //case "border-top":
-            //    //    {
-            //    //        ParseBorderProperty(propValue, "-top", properties);
-            //    //    } break;
-            //    //case "border-bottom":
-            //    //    {
-            //    //        ParseBorderProperty(propValue, "-bottom", properties);
-            //    //    } break;
-            //    //case "margin":
-            //    //    {
-            //    //        ParseMarginProperty(propValue, properties);
-            //    //    } break;
-            //    //case "border-style":
-            //    //    {
-            //    //        ParseBorderStyleProperty(propValue, properties);
-            //    //    } break;
-            //    //case "border-width":
-            //    //    {
-            //    //        ParseBorderWidthProperty(propValue, properties);
-            //    //    } break;
-            //    //case "border-color":
-            //    //    {
-            //    //        ParseBorderColorProperty(propValue, properties);
-            //    //    } break;
-            //    //case "padding":
-            //    //    {
-            //    //        ParsePaddingProperty(propValue, properties);
-            //    //    } break;
-            //    //case "background-image":
-            //    //    {
-            //    //        properties["background-image"] = new CssProperty(
-            //    //            "background-image", ParseBackgroundImageProperty(propValue));
-            //    //    } break;
-            //    //case "font-family":
-            //    //    {
-            //    //        properties["font-family"] = new CssProperty(
-            //    //            "font-family", ParseFontFamilyProperty(propValue));
-            //    //    } break;
-            //    default:
-            //        {
-            //            //properties[propName] = new CssProperty(propName, propValue);
-            //        } break;
-            //}
-        }
+        //    //        } break;
+        //    //    //case "border":
+        //    //    //    {
+        //    //    //        ParseBorderProperty(propValue, null, properties);
+        //    //    //    } break;
+        //    //    //case "border-left":
+        //    //    //    {
+        //    //    //        ParseBorderProperty(propValue, "-left", properties);
+        //    //    //    } break;
+        //    //    //case "border-right":
+        //    //    //    {
+        //    //    //        ParseBorderProperty(propValue, "-right", properties);
+        //    //    //    } break;
+        //    //    //case "border-top":
+        //    //    //    {
+        //    //    //        ParseBorderProperty(propValue, "-top", properties);
+        //    //    //    } break;
+        //    //    //case "border-bottom":
+        //    //    //    {
+        //    //    //        ParseBorderProperty(propValue, "-bottom", properties);
+        //    //    //    } break;
+        //    //    //case "margin":
+        //    //    //    {
+        //    //    //        ParseMarginProperty(propValue, properties);
+        //    //    //    } break;
+        //    //    //case "border-style":
+        //    //    //    {
+        //    //    //        ParseBorderStyleProperty(propValue, properties);
+        //    //    //    } break;
+        //    //    //case "border-width":
+        //    //    //    {
+        //    //    //        ParseBorderWidthProperty(propValue, properties);
+        //    //    //    } break;
+        //    //    //case "border-color":
+        //    //    //    {
+        //    //    //        ParseBorderColorProperty(propValue, properties);
+        //    //    //    } break;
+        //    //    //case "padding":
+        //    //    //    {
+        //    //    //        ParsePaddingProperty(propValue, properties);
+        //    //    //    } break;
+        //    //    //case "background-image":
+        //    //    //    {
+        //    //    //        properties["background-image"] = new CssProperty(
+        //    //    //            "background-image", ParseBackgroundImageProperty(propValue));
+        //    //    //    } break;
+        //    //    //case "font-family":
+        //    //    //    {
+        //    //    //        properties["font-family"] = new CssProperty(
+        //    //    //            "font-family", ParseFontFamilyProperty(propValue));
+        //    //    //    } break;
+        //    //    default:
+        //    //        {
+        //    //            //properties[propName] = new CssProperty(propName, propValue);
+        //    //        } break;
+        //    //}
+        //}
 
 
-        public CssCodePropertyValue GetPropertyValue(int index)
+        public CssCodeValueExpression GetPropertyValue(int index)
         {
             //if (!isReady)
             //{
@@ -288,24 +315,18 @@ namespace HtmlRenderer.WebDom
         HexColor,
         LiteralString,
         Iden,
-
     }
-    public class CssCodePropertyValue
-    {
 
+    public class CssCodePrimitiveExpression : CssCodeValueExpression
+    {
         string unit;
         readonly string _propertyValue;
         readonly CssValueHint hint;
-
-#if DEBUG
-        static int dbugTotalId;
-        public readonly int dbugId = dbugTotalId++;
-#endif
-
-        public CssCodePropertyValue(string propertyValue, CssValueHint hint)
+        public CssCodePrimitiveExpression(string value, CssValueHint hint)
         {
-            this._propertyValue = propertyValue;
+            this._propertyValue = value;
             this.hint = hint;
+
         }
         public CssValueHint Hint
         {
@@ -325,6 +346,7 @@ namespace HtmlRenderer.WebDom
         }
         public override string ToString()
         {
+
             if (unit != null)
             {
                 return Value + unit;
@@ -334,8 +356,81 @@ namespace HtmlRenderer.WebDom
                 return Value;
             }
         }
+    }
+    public class CssCodeFunctionCallExpression : CssCodeValueExpression
+    {
+
+        List<CssCodeValueExpression> funcArgs = new List<CssCodeValueExpression>();
+        public CssCodeFunctionCallExpression(string funcName)
+        {
+            this.FunctionName = funcName;
+        }
+        public string FunctionName
+        {
+            get;
+            private set;
+        }
+        public void AddFuncArg(CssCodeValueExpression arg)
+        {
+            this.funcArgs.Add(arg);
+        }
+        public override string ToString()
+        {
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append(this.FunctionName);
+            sb.Append('(');
+            int j = funcArgs.Count;
+
+            for (int i = 0; i < j; ++i)
+            {
+                sb.Append(funcArgs[i].ToString());
+                if (i < j - 1)
+                {
+                    sb.Append(',');
+                }
+            }
+            sb.Append(')');
 
 
+            return sb.ToString();
+
+        }
+        protected override string GetTranslatedValue()
+        {
+            switch (this.FunctionName)
+            {
+                case "rgb":
+                    {
+                        //each is number
+                        //?
+                        int r_value = int.Parse(funcArgs[0].ToString());
+                        int g_value = int.Parse(funcArgs[1].ToString());
+                        int b_value = int.Parse(funcArgs[2].ToString());
+
+                        return "#" + r_value.ToString("X") + g_value.ToString("X") + b_value.ToString("X");
+                    }
+                default:
+                    {
+                        return this.ToString();
+                    }
+            }
+
+        }
+    }
+
+
+    public abstract class CssCodeValueExpression
+    {
+#if DEBUG
+        static int dbugTotalId;
+        public readonly int dbugId = dbugTotalId++;
+#endif
+
+        public CssCodeValueExpression()
+        {
+
+        }
         //--------------------------------------------
         bool isBorderLength;
         bool isLengthEval;
@@ -371,17 +466,24 @@ namespace HtmlRenderer.WebDom
             }
             return cachedLength;
         }
-
         internal System.Drawing.Color AsColor()
         {
             if (!isColor)
             {
+
                 isColor = true;
-                return this.cachedColor = Parse.CssValueParser.GetActualColor(this.ToString());
+                return this.cachedColor = Parse.CssValueParser.GetActualColor(this.GetTranslatedValue());
             }
             return this.cachedColor;
         }
+        protected virtual string GetTranslatedValue()
+        {
+            return this.ToString();
+        }
 
     }
+
+
+
 
 }

@@ -378,7 +378,7 @@ namespace HtmlRenderer.Dom
         {
             if (box.HtmlTag != null && cssProperty.PropertyName == HtmlConstants.Display)
             {
-                string value = cssProperty.GetPropertyValue(0).Value;
+                string value = cssProperty.GetPropertyValue(0).ToString();
 
                 switch (box.HtmlTag.Name)
                 {
@@ -622,11 +622,11 @@ namespace HtmlRenderer.Dom
             int childIndex = 0;
             foreach (var childBox in box.GetChildBoxIter())
             {
-                //if (childBox is CssBoxImage &&  childBox.Display == CssConstants.Block)
+
                 if (childBox is CssBoxImage && childBox.CssDisplay == CssDisplay.Block)
                 {
                     //create new anonymous box
-                    var block = CssBox.CreateBlock(childBox.ParentBox, null, childIndex);
+                    var block = CssBox.CreateAnonBlock(childBox.ParentBox, childIndex);
                     //move this imgbox to new child 
                     childBox.SetNewParentBox(block);
                     //childBox.Display = CssConstants.Inline;
@@ -645,6 +645,7 @@ namespace HtmlRenderer.Dom
 #if DEBUG
         static int dbugCorrectCount = 0;
 #endif
+
         /// <summary>
         /// Correct DOM tree if there is block boxes that are inside inline blocks.<br/>
         /// Need to rearrange the tree so block box will be only the child of other block box.

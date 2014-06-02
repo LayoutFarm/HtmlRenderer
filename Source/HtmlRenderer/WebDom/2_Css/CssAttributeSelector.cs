@@ -15,7 +15,7 @@ namespace HtmlRenderer.WebDom
     {
         public string AttributeName; 
         public CssAttributeSelectorOperator operatorName;
-        public CssCodePropertyValue valueExpression;
+        public CssCodeValueExpression valueExpression;
         
         public string SelectorSignature
         {

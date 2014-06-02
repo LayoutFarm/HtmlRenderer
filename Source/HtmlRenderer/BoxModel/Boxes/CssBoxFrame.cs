@@ -100,13 +100,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        /// <summary>
-        /// Is the css box clickable ("a" element is clickable)
-        /// </summary>
-        public override bool IsClickable
-        {
-            get { return true; }
-        }
+        
 
         /// <summary>
         /// Get the href link of the box (by default get "href" attribute)

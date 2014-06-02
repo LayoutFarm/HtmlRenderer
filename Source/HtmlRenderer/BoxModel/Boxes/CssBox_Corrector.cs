@@ -26,38 +26,7 @@ namespace HtmlRenderer.Dom
 {
     partial class CssBox
     {
-        /// <summary>
-        /// Gets the previous sibling of this box.
-        /// </summary>
-        /// <returns>Box before this one on the tree. Null if its the first</returns>
-        public static CssBox GetPreviousContainingBlockSibling(CssBox box)
-        {
-            CssBox curBox = box;
-            CssBox parentBox = curBox.ParentBox;
-            while (curBox.CssDisplay < CssDisplay.__CONTAINER_BEGIN_HERE && parentBox != null)
-            {
-                //climbing up, find parent box the has container property 
-                curBox = parentBox;
-                parentBox = curBox.ParentBox;
-            }
 
-            //-----------------------------------------------------------
-            box = parentBox;
-            CssBox sib = curBox.PrevSibling;
-            if (sib != null)
-            {
-                do
-                {
-                    if (sib.CssDisplay != CssDisplay.None && !sib.IsAbsolutePosition)
-                    {
-                        return sib;
-                    }
-                    sib = sib.PrevSibling;
-
-                } while (sib != null);
-            }
-            return null;
-        }
         /// <summary>
         /// Gets the previous sibling of this box.
         /// </summary>
@@ -106,60 +75,35 @@ namespace HtmlRenderer.Dom
                 followingBlock = childBox.Runs.Count == 0 && (followingBlock || childBox.IsBlock);
             }
 
-            //-------------------------------------
-            int latestCheckIndex = -1;
-            CssBox brBox = null;
-            do
+
+            CssBox brBox = null;//reset each loop
+            int j = allChildren.Count;
+            for (int i = 0; i < j; i++)
             {
-                brBox = null;//reset each loop
-                int j = allChildren.Count;
-                int latestFoundBrAt = -1;
-                for (int i = latestCheckIndex + 1; i < j; i++)
+                var curBox = allChildren[i];
+                if (curBox.IsBrElement)
                 {
-                    var curBox = allChildren[i];
-                    if (curBox.IsBrElement)
+                    brBox = curBox;
+                    //check prev box
+                    if (i > 0)
                     {
-                        brBox = curBox;
-                        latestCheckIndex = latestFoundBrAt = i;
-
-                        //check prev box
-                        if (i > 0)
+                        var prevBox = allChildren[i - 1];
+                        if (prevBox.HasRuns)
                         {
-                            var prevBox = allChildren[i - 1];
-                            if (prevBox.Runs.Count > 0)
-                            {
-                                followingBlock = false;
-                            }
-                            else if (prevBox.IsBlock)
-                            {
-                                followingBlock = true;
-                            }
+                            followingBlock = false;
                         }
-                        break;
+                        else if (prevBox.IsBlock)
+                        {
+                            followingBlock = true;
+                        }
                     }
-                }
-
-                if (brBox != null)
-                {
-
-
                     brBox.CssDisplay = CssDisplay.Block;
                     if (followingBlock)
                     {   // atodo: check the height to min-height when it is supported
                         brBox.Height = new CssLength(0.95f, false, CssUnit.Ems);
                     }
-                    ////create new box then add to 'box'  before brbox  
-                    //var anonBlock = CssBox.CreateBlock(box, new HtmlTag("br"), latestFoundBrAt);
-                    //if (followingBlock)
-                    //{
-                    //    //anonBlock.Height = ".95em"; // atodo: check the height to min-height when it is supported
-                    //    anonBlock.Height = new CssLength(0.95f, false, CssUnit.Ems);
-                    //}
-                    ////remove this br box from parent *** 
-                    //brBox.SetNewParentBox(null); 
                 }
-
-            } while (brBox != null);
+            }
         }
 
         /// <summary>
@@ -167,7 +111,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="box">the box to check</param>
         /// <returns>true - has variant child boxes, false - otherwise</returns>
-        internal static bool ContainsVariantBoxes(CssBox box, out int mixFlags)
+        internal static bool ContainsMixedInlineAndBlockBoxes(CssBox box, out int mixFlags)
         {
             //bool hasBlock = false;
             //bool hasInline = false;
@@ -200,43 +144,50 @@ namespace HtmlRenderer.Dom
         /// <param name="box">the box that has the problem</param>
         internal static void CorrectBlockInsideInlineImp(CssBox box)
         {
-            if (box.ChildCount > 1 || box.GetFirstChild().ChildCount > 1)
+            CssBox firstChild = null;
+
+            if (box.ChildCount > 1 || (firstChild = box.GetFirstChild()).ChildCount > 1)
             {
 
-                var newLeftBlock = CssBox.CreateBlock(box);
+                CssBox leftAnonBox = CssBox.CreateAnonBlock(box);
                 //1. newLeftBlock is Created and add is latest child of the 'box'
                 //-------------------------------------------
-                var firstChild = box.GetFirstChild();
+
                 while (ContainsInlinesOnlyDeep(firstChild))
                 {
                     //if first box has only inline(deep) then
                     //move first child to newLeftBlock ***                     
-                    firstChild.SetNewParentBox(newLeftBlock);
+                    firstChild.SetNewParentBox(leftAnonBox);
                     //next
                     firstChild = box.GetFirstChild();
                 }
                 //------------------------------------------- 
                 //insert left block as leftmost (firstbox) in the line 
 
-                newLeftBlock.ChangeSiblingOrder(0);
+                leftAnonBox.ChangeSiblingOrder(0);
+
                 var splitBox = box.Boxes[1];
 
                 splitBox.SetNewParentBox(null);
 
-                CorrectBlockSplitBadBox(box, splitBox, newLeftBlock);
+                CorrectBlockSplitBadBox(box, splitBox, leftAnonBox);
+
+                //------------------------------------------- 
 
                 if (box.ChildCount > 2)
                 {
-                    var rightBox = CssBox.CreateBox(box, null, 2);
-                    while (box.ChildCount > 3)
+                    var rightAnonBox = CssBox.CreateAnonBlock(box, 2);
+                    int childCount = box.ChildCount;
+                    while (childCount > 3)
                     {
-                        box.Boxes[3].SetNewParentBox(rightBox);
+                        box.Boxes[3].SetNewParentBox(3, rightAnonBox);
+                        childCount--;
                     }
                 }
             }
-            else if (box.Boxes[0].CssDisplay == CssDisplay.Inline)
+            else if (firstChild.CssDisplay == CssDisplay.Inline)
             {
-                box.Boxes[0].CssDisplay = CssDisplay.Block;
+                firstChild.CssDisplay = CssDisplay.Block;
             }
 
             if (box.CssDisplay == CssDisplay.Inline)
@@ -250,73 +201,78 @@ namespace HtmlRenderer.Dom
         /// and right - after the block box.
         /// </summary>
         /// <param name="parentBox">the parent box that has the problem</param>
-        /// <param name="badBox">the box to split into different boxes</param>
+        /// <param name="splitBox">the box to split into different boxes</param>
         /// <param name="leftBlock">the left block box that is created for the split</param>
-        private static void CorrectBlockSplitBadBox(CssBox parentBox, CssBox badBox, CssBox leftBlock)
-        {//recursive
+        static void CorrectBlockSplitBadBox(CssBox parentBox, CssBox splitBox, CssBox leftBlock)
+        {
+            //recursive
 
-            var leftBox = CssBox.CreateBox(leftBlock, badBox.HtmlTag);
-            leftBox.InheritStyle(badBox, true);
+            var leftPart = CssBox.CreateBox(leftBlock, splitBox.HtmlTag);
+            leftPart.InheritStyle(splitBox, true);
 
             bool had_new_leftbox = false;
-            while (badBox.GetFirstChild().IsInline && ContainsInlinesOnlyDeep(badBox.GetFirstChild()))
+            CssBox firstChild = null;
+            bool firstChildHasOnlyInlineDeep = false;
+
+            while ((firstChild = splitBox.GetFirstChild()).IsInline &&
+                (firstChildHasOnlyInlineDeep = ContainsInlinesOnlyDeep(firstChild)))
             {
                 had_new_leftbox = true;
                 //move element that has only inline(deep) to leftbox
-                badBox.GetFirstChild().SetNewParentBox(leftBox);
+                firstChild.SetNewParentBox(leftPart);
+                firstChildHasOnlyInlineDeep = false;//reset
             }
-
-            var splitBox = badBox.GetFirstChild();
-
-            if (!ContainsInlinesOnlyDeep(splitBox))
+            if (!firstChildHasOnlyInlineDeep)
             {
                 //recursive
-                CorrectBlockSplitBadBox(parentBox, splitBox, leftBlock);
-                splitBox.SetNewParentBox(null);
+                CorrectBlockSplitBadBox(parentBox, firstChild, leftBlock);
+                //remove self
+                firstChild.SetNewParentBox(null);
             }
             else
             {
-                splitBox.SetNewParentBox(parentBox);
+                firstChild.SetNewParentBox(parentBox);
             }
 
-            if (badBox.ChildCount > 0)
+            if (splitBox.ChildCount > 0)
             {
-                CssBox rightBox;
-                if (splitBox.ParentBox != null || parentBox.ChildCount < 3)
+                CssBox rightPart;
+                if (firstChild.ParentBox != null || parentBox.ChildCount < 3)
                 {
-                    rightBox = CssBox.CreateBox(parentBox, badBox.HtmlTag);
-                    rightBox.InheritStyle(badBox, true);
+                    rightPart = CssBox.CreateBox(parentBox, splitBox.HtmlTag);
+                    rightPart.InheritStyle(splitBox, true);
 
                     if (parentBox.ChildCount > 2)
                     {
-                        //rightBox.SetBeforeBox(parentBox.Boxes[1]);
-                        rightBox.ChangeSiblingOrder(1);
+                        rightPart.ChangeSiblingOrder(1);
                     }
-                    if (splitBox.ParentBox != null)
+                    if (firstChild.ParentBox != null)
                     {
-                        splitBox.ChangeSiblingOrder(1);
-                        //splitBox.SetBeforeBox(rightBox);
+                        firstChild.ChangeSiblingOrder(1);
                     }
                 }
                 else
                 {
-                    rightBox = parentBox.Boxes[2];
+                    rightPart = parentBox.Boxes[2];
                 }
 
-                while (badBox.ChildCount > 0)
-                {   //move all children to right box 
-                    badBox.Boxes[0].SetNewParentBox(rightBox);
+
+                CssBoxCollection splitBoxBoxes = splitBox.Boxes;
+                while (splitBoxBoxes.Count > 0)
+                {
+                    //move all children to right box                      
+                    splitBoxBoxes[0].SetNewParentBox(0, rightPart);
                 }
             }
-            else if (splitBox.ParentBox != null && parentBox.ChildCount > 1)
+            else if (firstChild.ParentBox != null && parentBox.ChildCount > 1)
             {
-                //splitBox.SetBeforeBox(parentBox.Boxes[1]);
-                splitBox.ChangeSiblingOrder(1);
 
-                if (splitBox.WellknownTagName == WellknownHtmlTagName.BR
+                firstChild.ChangeSiblingOrder(1);
+
+                if (firstChild.WellknownTagName == WellknownHtmlTagName.BR
                     && (had_new_leftbox || leftBlock.ChildCount > 1))
                 {
-                    splitBox.CssDisplay = CssDisplay.Inline;
+                    firstChild.CssDisplay = CssDisplay.Inline;
 
                 }
             }
@@ -335,10 +291,12 @@ namespace HtmlRenderer.Dom
             //recursive 
             int mixFlags;
             var allChildren = box.Boxes;
-            if (ContainsVariantBoxes(box, out mixFlags))
+
+            if (ContainsMixedInlineAndBlockBoxes(box, out mixFlags))
             {
                 //if box contains both inline and block 
-                //then correct it                
+                //then make all children to be block box
+
                 for (int i = 0; i < allChildren.Count; i++)
                 {
                     var curBox = allChildren[i];
@@ -346,18 +304,18 @@ namespace HtmlRenderer.Dom
                     {
                         //1. creat new box anonymous block (no html tag) then
                         //  add it before this box 
-                        //var newbox = CssBox.CreateBlock(box, null, curBox);
-                        var newbox = CssBox.CreateBlock(box, null, i);
+
+                        var newbox = CssBox.CreateAnonBlock(box, i);
                         //2. skip newly add box 
                         i++;
-                        //3. move next child that is inline element to new box                     
+
+                        //3. move next  inline child box to new anonymous box                                              
                         CssBox tomoveBox = null;
                         while (i < allChildren.Count && ((tomoveBox = allChildren[i]).IsInline))
                         {
-                            tomoveBox.SetNewParentBox(newbox);
-
+                            //** allChildren number will be changed after move****    
+                            tomoveBox.SetNewParentBox(i, newbox);
                         }
-                        //so new box contains inline that move from current line
                     }
                 }
                 //after correction , now all children in this box are block element 
@@ -381,20 +339,15 @@ namespace HtmlRenderer.Dom
         /// <returns>true - only inline child boxes, false - otherwise</returns>
         internal static bool ContainsInlinesOnlyDeep(CssBox box)
         {
-
-
             //recursive
             foreach (var childBox in box.GetChildBoxIter())
             {
-                //if box is inline then check its sub tree
                 if (!childBox.IsInline || !ContainsInlinesOnlyDeep(childBox))
                 {
-                    // box.SetInlineOnlyDeepResult(false);
+
                     return false;
                 }
             }
-
-            //box.SetInlineOnlyDeepResult(true);
             return true;
         }
 
@@ -451,8 +404,8 @@ namespace HtmlRenderer.Dom
                         childBox.ParseWordContent();
                     }
                     else
-                    { 
-                        boxes.RemoveAt(i); 
+                    {
+                        boxes.RemoveAt(i);
                     }
                 }
                 else
@@ -462,51 +415,6 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-        //internal static void CorrectTextBoxes(CssBox box)
-        //{
 
-        //    for (int i = box.ChildCount - 1; i >= 0; i--)
-        //    {
-        //        var childBox = box.Boxes[i];
-        //        if (childBox.HasTextContent)
-        //        {
-        //            // is the box has text
-        //            var keepBox = !childBox.TextContentIsWhitespaceOrEmptyText;
-        //            if (childBox.WhiteSpace == CssWhiteSpace.Pre)
-        //            {
-        //            }
-
-        //            // is the box is pre-formatted
-        //            //keepBox = keepBox || childBox.WhiteSpace == CssConstants.Pre || childBox.WhiteSpace == CssConstants.PreWrap;
-        //            keepBox = keepBox || childBox.WhiteSpace == CssWhiteSpace.Pre || childBox.WhiteSpace == CssWhiteSpace.PreWrap;
-
-        //            // is the box is only one in the parent
-        //            keepBox = keepBox || box.ChildCount == 1;
-
-        //            // is it a whitespace between two inline boxes
-        //            keepBox = keepBox || (i > 0 && i < box.ChildCount - 1 && box.Boxes[i - 1].IsInline && box.Boxes[i + 1].IsInline);
-
-        //            // is first/last box where is in inline box and it's next/previous box is inline
-        //            keepBox = keepBox || (i == 0 && box.ChildCount > 1 && box.Boxes[1].IsInline && box.IsInline) ||
-        //                (i == box.ChildCount - 1 && box.ChildCount > 1 && box.Boxes[i - 1].IsInline && box.IsInline);
-
-        //            if (keepBox)
-        //            {
-        //                // valid text box, parse it to words
-        //                childBox.ParseToWords();
-        //            }
-        //            else
-        //            {
-        //                // remove text box that has no 
-        //                childBox.ParentBox.Boxes.RemoveAt(i);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            // recursive
-        //            CorrectTextBoxes(childBox);
-        //        }
-        //    }
-        //}
     }
 }

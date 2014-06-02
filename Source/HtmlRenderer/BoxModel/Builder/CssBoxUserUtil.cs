@@ -370,7 +370,7 @@ namespace HtmlRenderer.Dom
 
                     len = CssLength.FontSizeMedium;
                 }
-                else if (len.Unit == CssUnit.Ems && ((parentBox = box.GetParentBox()) != null))
+                else if (len.Unit == CssUnit.Ems && ((parentBox = box.ParentBox) != null))
                 {
                     len = len.ConvertEmToPoints(parentBox.ActualFont.SizeInPoints);
                 }

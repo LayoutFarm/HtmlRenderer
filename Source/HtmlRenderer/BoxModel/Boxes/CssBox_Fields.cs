@@ -1,4 +1,6 @@
-﻿// "Therefore those skilled at the unorthodox
+﻿//BSD 2014, WinterCore
+
+// "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
 // When they come to an end,
@@ -56,8 +58,8 @@ namespace HtmlRenderer.Dom
         //----------------------------------------------------
         //if this is inline box , this CssBox
         //may be 'flowed' into more than one CssLineBox
-        private CssLineBox _firstHostingLineBox;
-        private CssLineBox _lastHostingLineBox;
+        CssLineBox _firstHostingLineBox;
+        CssLineBox _lastHostingLineBox;
         //one CssBox may use more than one cssline     
         //----------------------------------------------------
 
@@ -80,7 +82,7 @@ namespace HtmlRenderer.Dom
         readonly LinkedList<CssLineBox> _lineBoxes = new LinkedList<CssLineBox>();
         //----------------------------------------------------   
         //condition 2 :this Box is InlinBox 
-        readonly List<CssRun> _boxRuns = new List<CssRun>();        
+        readonly List<CssRun> _boxRuns = new List<CssRun>();
         //----------------------------------------------------  
         /// <summary>
         /// Gets the childrenn boxes of this box
