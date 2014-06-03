@@ -179,7 +179,7 @@ namespace HtmlRenderer
             }
             //-----------------------------------------------------------------------------
         }
-     
+
         void AddMedia(WebDom.CssAtMedia atMedia)
         {
             if (!atMedia.HasMediaName)
@@ -197,7 +197,7 @@ namespace HtmlRenderer
         }
 
         internal CssRuleSetGroup GetRuleSetForTagName(string tagName)
-        {   
+        {
             CssRuleSetGroup found;
             rulesForTagName.TryGetValue(tagName, out found);
             return found;
@@ -451,7 +451,7 @@ namespace HtmlRenderer
 
     class CssPropertyAssignmentCollection
     {
-        Dictionary<string, WebDom.CssPropertyDeclaration> _myAssignments = new Dictionary<string, WebDom.CssPropertyDeclaration>();
+        Dictionary<HtmlRenderer.WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration> _myAssignments = new Dictionary<WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration>();
         object owner;
         public CssPropertyAssignmentCollection(object owner)
         {
@@ -463,18 +463,13 @@ namespace HtmlRenderer
         {    //--------------
             foreach (WebDom.CssPropertyDeclaration otherAssignment in ruleSet.GetAssignmentIter())
             {
-                WebDom.CssPropertyDeclaration exitingAssigment;
-                _myAssignments[otherAssignment.PropertyName] = otherAssignment;
-                //if (!_myAssignments.TryGetValue(otherAssignment.PropertyName, out exitingAssigment))
-                //{
-                //    //if not exist 
-                //    this._myAssignments.Add(otherAssignment.PropertyName, otherAssignment);
-                //}
-                //else
-                //{
-                //    //update exiting value with new one ? 
-                //    throw new NotSupportedException();
-                //}
+                if (otherAssignment.WellknownPropertyName == WebDom.WellknownCssPropertyName.Unknown)
+                {
+                    continue;
+                }
+
+                _myAssignments[otherAssignment.WellknownPropertyName] = otherAssignment;
+
             }
             //--------------
         }
@@ -490,7 +485,7 @@ namespace HtmlRenderer
         public CssPropertyAssignmentCollection Clone(object newOwner)
         {
             CssPropertyAssignmentCollection newclone = new CssPropertyAssignmentCollection(newOwner);
-            Dictionary<string, WebDom.CssPropertyDeclaration> newCloneDic = newclone._myAssignments;
+            Dictionary<HtmlRenderer.WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration> newCloneDic = newclone._myAssignments;
             foreach (var kp in this._myAssignments)
             {
                 newCloneDic.Add(kp.Key, kp.Value);
@@ -500,16 +495,17 @@ namespace HtmlRenderer
         public void MergeProperties(CssPropertyAssignmentCollection sourceCollection)
         {
 
-            Dictionary<string, WebDom.CssPropertyDeclaration> fromDic = sourceCollection._myAssignments;
-            Dictionary<string, WebDom.CssPropertyDeclaration> targetDic = this._myAssignments;
+            Dictionary<HtmlRenderer.WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration> fromDic = sourceCollection._myAssignments;
+            Dictionary<HtmlRenderer.WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration> targetDic = this._myAssignments;
             foreach (WebDom.CssPropertyDeclaration sourceAssignment in fromDic.Values)
             {
                 //add or replace
-                targetDic[sourceAssignment.PropertyName] = sourceAssignment;
+                 
+                targetDic[sourceAssignment.WellknownPropertyName] = sourceAssignment;
             }
         }
 
-        internal Dictionary<string, WebDom.CssPropertyDeclaration> GetDeclarations()
+        internal Dictionary<HtmlRenderer.WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration> GetDeclarations()
         {
             return this._myAssignments;
         }

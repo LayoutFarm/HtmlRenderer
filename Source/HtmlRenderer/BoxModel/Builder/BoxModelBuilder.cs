@@ -308,9 +308,6 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-
-
-
         private static void AssignCssToSpecificBoxWithId(CssBox box, CssActiveSheet cssData, string elementId)
         {
             throw new NotSupportedException();
@@ -326,42 +323,40 @@ namespace HtmlRenderer.Dom
 
         static void AssignPropertyValueToCssBox(CssBox box, WebDom.CssPropertyDeclaration decl)
         {
-
             if (decl.IsExpand)
             {
-
                 return;
             }
             if (decl.MarkedAsInherit && box.ParentBox != null)
             {
                 //use parent property 
-                CssUtils.SetPropertyValueFromParent(box, decl.PropertyName);
+                CssUtils.SetPropertyValueFromParent(box, decl.WellknownPropertyName);
             }
             else
             {
-                if (IsStyleOnElementAllowed2(box, decl))
+                if (IsStyleOnElementAllowed(box, decl))
                 {
-                    string value = null;
-                    int valueCount = decl.ValueCount;
-                    switch (valueCount)
-                    {
-                        case 0:
-                            {
-                                throw new NotSupportedException();
-                            } break;
-                        case 1:
-                            {
-                                //convert to string ?
-                                value = decl.GetPropertyValue(0).GetTranslatedValue();
-                            } break;
-                        default:
-                            {
+                    //string value = null;
+                    //int valueCount = decl.ValueCount;
+                    //switch (valueCount)
+                    //{
+                    //    case 0:
+                    //        {
+                    //            throw new NotSupportedException();
+                    //        } break;
+                    //    case 1:
+                    //        {
+                    //            //convert to string ?
+                    //            value = decl.GetPropertyValue(0).GetTranslatedStringValue();
+                    //        } break;
+                    //    default:
+                    //        {
 
-                                throw new NotSupportedException();
-                            } break;
-                    }
+                    //            throw new NotSupportedException();
+                    //        } break;
+                    //}
 
-                    CssUtils.SetPropertyValue2(box, decl);
+                    CssUtils.SetPropertyValue(box, decl);
                 }
             }
 
@@ -374,32 +369,33 @@ namespace HtmlRenderer.Dom
             }
 
         }
-        static bool IsStyleOnElementAllowed2(CssBox box, WebDom.CssPropertyDeclaration cssProperty)
+        static bool IsStyleOnElementAllowed(CssBox box, WebDom.CssPropertyDeclaration cssProperty)
         {
-            if (box.HtmlTag != null && cssProperty.PropertyName == HtmlConstants.Display)
+            if (box.HtmlTag != null && cssProperty.WellknownPropertyName == WebDom.WellknownCssPropertyName.Display)
             {
+
                 string value = cssProperty.GetPropertyValue(0).ToString();
 
-                switch (box.HtmlTag.Name)
+                switch (box.WellknownTagName)
                 {
-                    case HtmlConstants.Table:
+                    case WellknownHtmlTagName.TABLE:
                         return value == CssConstants.Table;
-                    case HtmlConstants.Tr:
+                    case WellknownHtmlTagName.TR:
                         return value == CssConstants.TableRow;
-                    case HtmlConstants.Tbody:
+                    case WellknownHtmlTagName.TBody:
                         return value == CssConstants.TableRowGroup;
-                    case HtmlConstants.Thead:
+                    case WellknownHtmlTagName.THead:
                         return value == CssConstants.TableHeaderGroup;
-                    case HtmlConstants.Tfoot:
+                    case WellknownHtmlTagName.TFoot:
                         return value == CssConstants.TableFooterGroup;
-                    case HtmlConstants.Col:
+                    case WellknownHtmlTagName.COL:
                         return value == CssConstants.TableColumn;
-                    case HtmlConstants.Colgroup:
+                    case WellknownHtmlTagName.COLGROUP:
                         return value == CssConstants.TableColumnGroup;
-                    case HtmlConstants.Td:
-                    case HtmlConstants.Th:
+                    case WellknownHtmlTagName.TD:
+                    case WellknownHtmlTagName.TH:
                         return value == CssConstants.TableCell;
-                    case HtmlConstants.Caption:
+                    case WellknownHtmlTagName.CAPTION:
                         return value == CssConstants.TableCaption;
                 }
             }
@@ -424,11 +420,13 @@ namespace HtmlRenderer.Dom
 
         private static void TranslateAttributes(IHtmlElement tag, CssBox box)
         {
-
+            //some html attr contains css value 
+            //
             if (tag.HasAttributes())
             {
                 foreach (IHtmlAttribute attr in tag.GetAttributeIter())
                 {
+                    //attr switch by wellknown property name
                     string value = attr.Value;
                     switch (attr.Name)
                     {
@@ -439,11 +437,15 @@ namespace HtmlRenderer.Dom
                                 || value == HtmlConstants.Right
                                 || value == HtmlConstants.Justify)
                             {
-                                box.SetTextAlign(value.ToLower());
+                                WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
+                                    value.ToLower(), WebDom.CssValueHint.Iden);
+                                box.SetTextAlign(propValue);
                             }
                             else
                             {
-                                box.SetVerticalAlign(value.ToLower());
+                                WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
+                                 value.ToLower(), WebDom.CssValueHint.Iden);
+                                box.SetVerticalAlign(propValue);
                             }
                             break;
                         case HtmlConstants.Background:
@@ -456,7 +458,8 @@ namespace HtmlRenderer.Dom
 
                             if (!string.IsNullOrEmpty(value) && value != "0")
                             {
-                                box.BorderLeftStyle = box.BorderTopStyle = box.BorderRightStyle = box.BorderBottomStyle = CssBorderStyle.Solid;// CssConstants.Solid;
+                                box.BorderLeftStyle = box.BorderTopStyle
+                                    = box.BorderRightStyle = box.BorderBottomStyle = CssBorderStyle.Solid;// CssConstants.Solid;
                             }
 
                             box.BorderLeftWidth =
@@ -468,7 +471,7 @@ namespace HtmlRenderer.Dom
                             {
                                 if (value != "0")
                                 {
-                                    ApplyTableBorder(box, "1px");
+                                    ApplyTableBorder(box, CssLength.MakePixelLength(1));
                                 }
                             }
                             else
@@ -490,10 +493,13 @@ namespace HtmlRenderer.Dom
                             break;
                         case HtmlConstants.Color:
                             box.Color = CssValueParser.GetActualColor(value.ToLower());
-
                             break;
                         case HtmlConstants.Dir:
-                            box.SetCssDirection(value.ToLower());
+                            {
+                                WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
+                                       value.ToLower(), WebDom.CssValueHint.Iden);
+                                box.SetCssDirection(propValue);
+                            }
                             break;
                         case HtmlConstants.Face:
                             box.FontFamily = CssParser.ParseFontFamily(value);
@@ -512,18 +518,27 @@ namespace HtmlRenderer.Dom
                             if (tag.WellknownTagName == WellknownHtmlTagName.HR)
                             {
                                 box.Height = TranslateLength(value);
-
                             }
                             else if (tag.WellknownTagName == WellknownHtmlTagName.FONT)
                             {
-                                box.SetFontSize(value);
+                                WebDom.CssRuleSet ruleset = CssParser.ParseCssBlock2("", value);
+                                foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
+                                {
+                                    AssignPropertyValueToCssBox(box, propDecl);
+                                }
+
+                                //WebDom.CssCodePrimitiveExpression prim = new WebDom.CssCodePrimitiveExpression(value, 
+                                //box.SetFontSize(value);
                             }
 
                             break;
                         case HtmlConstants.Valign:
-                            box.SetVerticalAlign(value.ToLower());
+                            {
+                                WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
+                                         value.ToLower(), WebDom.CssValueHint.Iden);
+                                box.SetVerticalAlign(propValue);
 
-                            break;
+                            } break;
                         case HtmlConstants.Vspace:
                             box.MarginTop = box.MarginBottom = TranslateLength(value);
                             break;
@@ -545,17 +560,16 @@ namespace HtmlRenderer.Dom
             CssLength len = new CssLength(htmlLength);
             if (len.HasError)
             {
-                return new CssLength(string.Format(NumberFormatInfo.InvariantInfo, "{0}px", htmlLength));
+                return CssLength.MakePixelLength(0);
             }
             return len;
         }
         private static CssLength TranslateLength(CssLength len)
         {
-
             if (len.HasError)
             {
                 //if unknown unit number
-                return new CssLength(len.Number, false, CssUnit.Pixels);
+                return CssLength.MakePixelLength(len.Number);
             }
             return len;
             //return htmlLength;
@@ -565,12 +579,13 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="table"></param>
         /// <param name="border"></param>
-        private static void ApplyTableBorder(CssBox table, string border)
+        private static void ApplyTableBorder(CssBox table, CssLength borderWidth)
         {
             SetForAllCells(table, cell =>
             {
+                //for all cells
                 cell.BorderLeftStyle = cell.BorderTopStyle = cell.BorderRightStyle = cell.BorderBottomStyle = CssBorderStyle.Solid; // CssConstants.Solid;
-                cell.BorderLeftWidth = cell.BorderTopWidth = cell.BorderRightWidth = cell.BorderBottomWidth = CssLength.MakeBorderLength(border);
+                cell.BorderLeftWidth = cell.BorderTopWidth = cell.BorderRightWidth = cell.BorderBottomWidth = borderWidth;
             });
         }
 

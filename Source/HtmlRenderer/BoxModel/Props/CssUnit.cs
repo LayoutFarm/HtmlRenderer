@@ -6,9 +6,10 @@ namespace HtmlRenderer.Entities
     /// <remarks>
     /// http://www.w3.org/TR/CSS21/syndata.html#length-units
     /// </remarks>
-    public enum CssUnit:byte
+    public enum CssUnit : byte
     {
         None,
+        Unknown,
         Ems,
         Pixels,
         Ex,

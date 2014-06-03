@@ -736,8 +736,7 @@ namespace HtmlRenderer.Dom
                         {
                             case CssRunKind.Text:
                                 {
-
-                                    //boxWord.Width = FontsUtils.MeasureStringWidth(g, boxWord.Text, actualFont);
+                                                                         
                                     CssTextRun textRun = (CssTextRun)boxWord;
                                     boxWord.Width = FontsUtils.MeasureStringWidth(g, 
                                         myTextBuffer, 

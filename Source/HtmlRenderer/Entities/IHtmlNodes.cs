@@ -20,24 +20,55 @@ namespace HtmlRenderer.Dom
     public enum WellknownHtmlTagName : byte
     {
         NotAssign,
-        Unknown,
-        HTML,
-        A,
-        HR,
-        BR,
-        STYLE,
-        SCRIPT,
-        IMG,
-        DIV,
-        SPAN,
-        LINK,
-        P,
-        TABLE,
-        TD,
-        TR,
-        IFREAME,
-        FONT,
 
+        Unknown,
+        [CssName("html")]        
+        HTML,
+        [CssName("a")]
+        A,
+        [CssName("hr")]
+        HR,
+        [CssName("br")]
+        BR,
+        [CssName("style")]
+        STYLE,
+        [CssName("script")]
+        SCRIPT,
+        [CssName("img")]
+        IMG,
+        [CssName("div")]
+        DIV,
+        [CssName("span")]
+        SPAN,
+        [CssName("link")]
+        LINK,
+        [CssName("p")]
+        P,
+        [CssName("table")]
+        TABLE,
+        [CssName("td")]
+        TD,
+        [CssName("tr")]
+        TR,
+        [CssName("tbody")]
+        TBody,
+        [CssName("thead")]
+        THead,
+        [CssName("th")]
+        TH,
+        [CssName("tfoot")]
+        TFoot,
+        [CssName("iframe")]
+        IFREAME,
+        [CssName("col")]
+        COL,
+        [CssName("colgroup")]
+        COLGROUP,
+        [CssName("font")]
+        FONT,
+        [CssName("caption")]
+        CAPTION,
+        [CssName("x")]
         X//test for extension 
     }
 

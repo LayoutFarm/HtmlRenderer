@@ -315,7 +315,9 @@ namespace HtmlRenderer.WebDom.Parser
 
                                     //create css property 
                                     _currentRuleSet.AddCssCodeProperty(this._currentProperty =
-                                        new CssPropertyDeclaration(new string(this.textBuffer, start, len)));
+                                        new CssPropertyDeclaration(
+                                            new string(this.textBuffer, start, len)));
+
                                     this._latestPropertyValue = null;
 
                                     parseState = CssParseState.AfterPropertyName;
@@ -372,8 +374,9 @@ namespace HtmlRenderer.WebDom.Parser
                                 } break;
                             case CssTokenName.Number:
                                 {
+                                    float number = float.Parse(new string(this.textBuffer, start, len));
                                     this._currentProperty.AddValue(this._latestPropertyValue =
-                                          new CssCodePrimitiveExpression(new string(this.textBuffer, start, len), CssValueHint.Number));
+                                          new CssCodePrimitiveExpression(number));
 
                                     parseState = CssParseState.AfterPropertyValue;
 
@@ -405,6 +408,7 @@ namespace HtmlRenderer.WebDom.Parser
                                 } break;
                             case CssTokenName.Number:
                                 {
+
                                     this._currentProperty.AddValue(this._latestPropertyValue =
                                          new CssCodePrimitiveExpression("#" + new string(this.textBuffer, start, len), CssValueHint.HexColor));
 
@@ -462,8 +466,9 @@ namespace HtmlRenderer.WebDom.Parser
                             case CssTokenName.Number:
                                 {
                                     //another property value
+                                    float number = float.Parse(new string(this.textBuffer, start, len));
                                     this._currentProperty.AddValue(this._latestPropertyValue =
-                                        new CssCodePrimitiveExpression(new string(this.textBuffer, start, len), CssValueHint.Number));
+                                        new CssCodePrimitiveExpression(number));
                                 } break;
                             case CssTokenName.NumberUnit:
                                 {
@@ -574,8 +579,9 @@ namespace HtmlRenderer.WebDom.Parser
                                 } break;
                             case CssTokenName.Number:
                                 {
+                                    float number = float.Parse(funcArg);
                                     ((CssCodeFunctionCallExpression)this._latestPropertyValue).AddFuncArg(
-                                          new CssCodePrimitiveExpression(funcArg, CssValueHint.Number));
+                                          new CssCodePrimitiveExpression(number));
                                     this.parseState = CssParseState.AfterFuncParameter;
                                 } break;
                             case CssTokenName.Iden:
@@ -626,7 +632,7 @@ namespace HtmlRenderer.WebDom.Parser
                 switch (mb.MemberKind)
                 {
                     case WebDom.CssDocMemberKind.RuleSet:
-                        ExpandSomeRuleSet((WebDom.CssRuleSet)mb);
+                        EvaluateRuleSet((WebDom.CssRuleSet)mb);
                         break;
                     case WebDom.CssDocMemberKind.Media:
                         ExpandSomeMedia((WebDom.CssAtMedia)mb);
@@ -650,7 +656,7 @@ namespace HtmlRenderer.WebDom.Parser
             this.parseState = CssParseState.BlockBody;
             lexer.Lex(textBuffer);
 
-            ExpandSomeRuleSet(this._currentRuleSet);
+            EvaluateRuleSet(this._currentRuleSet);
 
             return this._currentRuleSet;
         }
@@ -680,124 +686,142 @@ namespace HtmlRenderer.WebDom.Parser
                             //font family
                             if (HtmlRenderer.Dom.CssBoxUserUtilExtension.IsFontStyle(value.Value))
                             {
-                                newProps.Add(new CssPropertyDeclaration("font-style", value));
+                                newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontStyle, value));
                                 continue;
                             }
 
                             if (HtmlRenderer.Dom.CssBoxUserUtilExtension.IsFontVariant(value.Value))
                             {
-                                newProps.Add(new CssPropertyDeclaration("font-variant", value));
+                                newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontVariant, value));
                                 continue;
                             }
                             //----------
                             if (HtmlRenderer.Dom.CssBoxUserUtilExtension.IsFontWeight(value.Value))
                             {
-                                newProps.Add(new CssPropertyDeclaration("font-weight", value));
+                                newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontWeight, value));
                                 continue;
                             }
-                            newProps.Add(new CssPropertyDeclaration("font-family", value));
-
-
+                            newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontFamily, value));
                         } break;
                     case CssValueHint.Number:
                         {
                             //font size ?
-                            newProps.Add(new CssPropertyDeclaration("font-size", value));
+                            newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontSize, value));
 
-                        } break;
-                    case CssValueHint.NumberWithUnit:
-                        {
                         } break;
                     default:
                         {
                         } break;
                 }
             }
-
-
         }
-        void ExpandSomeRuleSet(WebDom.CssRuleSet ruleset)
+
+        void EvaluateRuleSet(WebDom.CssRuleSet ruleset)
         {
             //only some prop need to be alter
             List<CssPropertyDeclaration> newProps = null;
             foreach (CssPropertyDeclaration decl in ruleset.GetAssignmentIter())
             {
 
-
-                switch (decl.PropertyName)
+                switch (decl.WellknownPropertyName)
                 {
-                    case "font":
+                    case WellknownCssPropertyName.Font:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
                             ExpandFontProperty(decl, newProps);
                             decl.IsExpand = true;
                         } break;
-                    case "border":
+                    case WellknownCssPropertyName.Border:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
                             ExpandBorderProperty(decl, BorderDirection.All, newProps);
                             decl.IsExpand = true;
                         } break;
-                    case "border-left":
+                    case WellknownCssPropertyName.BorderLeft:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
                             ExpandBorderProperty(decl, BorderDirection.Left, newProps);
                             decl.IsExpand = true;
                         } break;
-                    case "border-right":
+                    case WellknownCssPropertyName.BorderRight:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
                             ExpandBorderProperty(decl, BorderDirection.Right, newProps);
                             decl.IsExpand = true;
                         } break;
-                    case "border-top":
+                    case WellknownCssPropertyName.BorderTop:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
                             ExpandBorderProperty(decl, BorderDirection.Top, newProps);
                             decl.IsExpand = true;
                         } break;
-                    case "border-bottom":
+                    case WellknownCssPropertyName.BorderBottom:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
                             ExpandBorderProperty(decl, BorderDirection.Bottom, newProps);
                             decl.IsExpand = true;
                         } break;
                     //---------------------------
-                    case "border-style":
+                    case WellknownCssPropertyName.BorderStyle:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
-                            ExpandEdgeProperty(decl, "border-", "-style", newProps);
+                            ExpandCssEdgeProperty(decl,
+                                WellknownCssPropertyName.BorderLeftStyle,
+                                WellknownCssPropertyName.BorderTopStyle,
+                                WellknownCssPropertyName.BorderRightStyle,
+                                WellknownCssPropertyName.BorderBottomStyle,
+                                newProps);
                             decl.IsExpand = true;
                         } break;
-                    case "border-width":
+                    case WellknownCssPropertyName.BorderWidth:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
-                            ExpandEdgeProperty(decl, "border-", "-width", newProps);
+                            ExpandCssEdgeProperty(decl,
+                                 WellknownCssPropertyName.BorderLeftWidth,
+                                 WellknownCssPropertyName.BorderTopWidth,
+                                 WellknownCssPropertyName.BorderRightWidth,
+                                 WellknownCssPropertyName.BorderBottomWidth,
+                                 newProps);
+
                             decl.IsExpand = true;
                         } break;
-                    case "border-color":
+                    case WellknownCssPropertyName.BorderColor:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
-                            ExpandEdgeProperty(decl, "border-", "-color", newProps);
+                            ExpandCssEdgeProperty(decl,
+                                WellknownCssPropertyName.BorderLeftColor,
+                                WellknownCssPropertyName.BorderTopColor,
+                                WellknownCssPropertyName.BorderRightColor,
+                                WellknownCssPropertyName.BorderBottomColor,
+                                newProps);
                             decl.IsExpand = true;
                         } break;
                     //---------------------------
-                    case "margin":
+                    case WellknownCssPropertyName.Margin:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
-                            ExpandEdgeProperty(decl, "margin-", "", newProps);
+                            ExpandCssEdgeProperty(decl,
+                                WellknownCssPropertyName.MarginLeft,
+                                WellknownCssPropertyName.MarginTop,
+                                WellknownCssPropertyName.MarginRight,
+                                WellknownCssPropertyName.MarginBottom,
+                                newProps);
                             decl.IsExpand = true;
                         } break;
-                    case "padding":
+                    case WellknownCssPropertyName.Padding:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
-                            ExpandEdgeProperty(decl, "padding-", "", newProps);
+                            ExpandCssEdgeProperty(decl,
+                                WellknownCssPropertyName.PaddingLeft,
+                                WellknownCssPropertyName.PaddingTop,
+                                WellknownCssPropertyName.PaddingRight,
+                                WellknownCssPropertyName.PaddingBottom,
+                                newProps);
                             decl.IsExpand = true;
                         } break;
                     //---------------------------
                 }
             }
-
             //--------------------
             //add new prop to ruleset
             if (newProps == null)
@@ -812,6 +836,9 @@ namespace HtmlRenderer.WebDom.Parser
                 ruleset.AddCssCodeProperty(newProps[i]);
             }
             //--------------------
+
+
+
         }
         //void ParseBorder(string value, out string width, out string style, out string color)
         //{
@@ -968,17 +995,27 @@ namespace HtmlRenderer.WebDom.Parser
                         default:
                         case BorderDirection.All:
                             {
-                                newProps.Add(CloneProp(cssCodePropertyValue, "border-left-width"));
-                                newProps.Add(CloneProp(cssCodePropertyValue, "border-top-width"));
-                                newProps.Add(CloneProp(cssCodePropertyValue, "border-right-width"));
-                                newProps.Add(CloneProp(cssCodePropertyValue, "border-bottom-width"));
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderLeftWidth, cssCodePropertyValue));
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderTopWidth, cssCodePropertyValue));
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderRightWidth, cssCodePropertyValue));
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderBottomWidth, cssCodePropertyValue));
+
                             } break;
                         case BorderDirection.Left:
+                            {
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderLeftWidth, cssCodePropertyValue));
+                            } break;
                         case BorderDirection.Right:
+                            {
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderRightWidth, cssCodePropertyValue));
+                            } break;
                         case BorderDirection.Top:
+                            {
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderTopWidth, cssCodePropertyValue));
+                            } break;
                         case BorderDirection.Bottom:
                             {
-                                newProps.Add(CloneProp(cssCodePropertyValue, "border-" + b_direction + "-width"));
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderBottomWidth, cssCodePropertyValue));
                             } break;
                     }
                     continue;
@@ -994,17 +1031,27 @@ namespace HtmlRenderer.WebDom.Parser
                         default:
                         case BorderDirection.All:
                             {
-                                newProps.Add(CloneProp(cssCodePropertyValue, "border-left-style"));
-                                newProps.Add(CloneProp(cssCodePropertyValue, "border-top-style"));
-                                newProps.Add(CloneProp(cssCodePropertyValue, "border-right-style"));
-                                newProps.Add(CloneProp(cssCodePropertyValue, "border-bottom-style"));
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderLeftStyle, cssCodePropertyValue));
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderRightStyle, cssCodePropertyValue));
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderTopStyle, cssCodePropertyValue));
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderBottomStyle, cssCodePropertyValue));
+
                             } break;
                         case BorderDirection.Left:
+                            {
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderLeftStyle, cssCodePropertyValue));
+                            } break;
                         case BorderDirection.Right:
+                            {
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderRightStyle, cssCodePropertyValue));
+                            } break;
                         case BorderDirection.Top:
+                            {
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderTopStyle, cssCodePropertyValue));
+                            } break;
                         case BorderDirection.Bottom:
                             {
-                                newProps.Add(CloneProp(cssCodePropertyValue, "border-" + b_direction + "-style"));
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderBottomStyle, cssCodePropertyValue));
                             } break;
                     }
 
@@ -1020,17 +1067,27 @@ namespace HtmlRenderer.WebDom.Parser
                         default:
                         case BorderDirection.All:
                             {
-                                newProps.Add(CloneProp(cssCodePropertyValue, "border-left-color"));
-                                newProps.Add(CloneProp(cssCodePropertyValue, "border-top-color"));
-                                newProps.Add(CloneProp(cssCodePropertyValue, "border-right-color"));
-                                newProps.Add(CloneProp(cssCodePropertyValue, "border-bottom-color"));
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderLeftColor, cssCodePropertyValue));
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderTopColor, cssCodePropertyValue));
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderRightColor, cssCodePropertyValue));
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderBottomColor, cssCodePropertyValue));
                             } break;
                         case BorderDirection.Left:
+                            {
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderLeftColor, cssCodePropertyValue));
+                            } break;
                         case BorderDirection.Right:
+                            {
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderRightColor, cssCodePropertyValue));
+
+                            } break;
                         case BorderDirection.Top:
+                            {
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderTopColor, cssCodePropertyValue));
+                            } break;
                         case BorderDirection.Bottom:
                             {
-                                newProps.Add(CloneProp(cssCodePropertyValue, "border-" + b_direction + "-color"));
+                                newProps.Add(CloneProp(WellknownCssPropertyName.BorderBottomColor, cssCodePropertyValue));
                             } break;
                     }
 
@@ -1039,11 +1096,18 @@ namespace HtmlRenderer.WebDom.Parser
             }
 
         }
-        static CssPropertyDeclaration CloneProp(CssCodeValueExpression prop, string newName)
+
+        static CssPropertyDeclaration CloneProp(WellknownCssPropertyName newName, CssCodeValueExpression prop)
         {
             return new CssPropertyDeclaration(newName, prop);
         }
-        void ExpandEdgeProperty(CssPropertyDeclaration decl, string propPrefix, string propSuffix, List<CssPropertyDeclaration> newProps)
+
+        void ExpandCssEdgeProperty(CssPropertyDeclaration decl,
+            WellknownCssPropertyName left,
+            WellknownCssPropertyName top,
+            WellknownCssPropertyName right,
+            WellknownCssPropertyName bottom,
+            List<CssPropertyDeclaration> newProps)
         {
 
             switch (decl.ValueCount)
@@ -1054,37 +1118,36 @@ namespace HtmlRenderer.WebDom.Parser
                 case 1:
                     {
 
-                        CssCodeValueExpression prop = decl.GetPropertyValue(0);
-                        newProps.Add(CloneProp(prop, propPrefix + "left" + propSuffix));
-                        newProps.Add(CloneProp(prop, propPrefix + "top" + propSuffix));
-                        newProps.Add(CloneProp(prop, propPrefix + "right" + propSuffix));
-                        newProps.Add(CloneProp(prop, propPrefix + "bottom" + propSuffix));
+                        CssCodeValueExpression value = decl.GetPropertyValue(0);
+                        newProps.Add(CloneProp(left, value));
+                        newProps.Add(CloneProp(top, value));
+                        newProps.Add(CloneProp(right, value));
+                        newProps.Add(CloneProp(bottom, value));
 
                     } break;
                 case 2:
                     {
 
-                        newProps.Add(CloneProp(decl.GetPropertyValue(0), propPrefix + "top" + propSuffix));
-                        newProps.Add(CloneProp(decl.GetPropertyValue(0), propPrefix + "bottom" + propSuffix));
-
-                        newProps.Add(CloneProp(decl.GetPropertyValue(1), propPrefix + "left" + propSuffix));
-                        newProps.Add(CloneProp(decl.GetPropertyValue(1), propPrefix + "right" + propSuffix));
+                        newProps.Add(CloneProp(top, decl.GetPropertyValue(0)));
+                        newProps.Add(CloneProp(bottom, decl.GetPropertyValue(0)));
+                        newProps.Add(CloneProp(left, decl.GetPropertyValue(1)));
+                        newProps.Add(CloneProp(right, decl.GetPropertyValue(1)));
 
                     } break;
                 case 3:
                     {
-                        newProps.Add(CloneProp(decl.GetPropertyValue(0), propPrefix + "top" + propSuffix));
-                        newProps.Add(CloneProp(decl.GetPropertyValue(1), propPrefix + "left" + propSuffix));
-                        newProps.Add(CloneProp(decl.GetPropertyValue(1), propPrefix + "right" + propSuffix));
-                        newProps.Add(CloneProp(decl.GetPropertyValue(2), propPrefix + "bottom" + propSuffix));
+
+                        newProps.Add(CloneProp(top, decl.GetPropertyValue(0)));
+                        newProps.Add(CloneProp(left, decl.GetPropertyValue(1)));
+                        newProps.Add(CloneProp(right, decl.GetPropertyValue(1)));
+                        newProps.Add(CloneProp(bottom, decl.GetPropertyValue(2)));
                     } break;
                 default://4 or more
                     {
-                        newProps.Add(CloneProp(decl.GetPropertyValue(0), propPrefix + "top" + propSuffix));
-                        newProps.Add(CloneProp(decl.GetPropertyValue(1), propPrefix + "right" + propSuffix));
-                        newProps.Add(CloneProp(decl.GetPropertyValue(2), propPrefix + "bottom" + propSuffix));
-                        newProps.Add(CloneProp(decl.GetPropertyValue(3), propPrefix + "left" + propSuffix));
-
+                        newProps.Add(CloneProp(top, decl.GetPropertyValue(0)));
+                        newProps.Add(CloneProp(right, decl.GetPropertyValue(1)));
+                        newProps.Add(CloneProp(bottom, decl.GetPropertyValue(2)));
+                        newProps.Add(CloneProp(left, decl.GetPropertyValue(3)));
                     } break;
 
             }
@@ -1094,7 +1157,7 @@ namespace HtmlRenderer.WebDom.Parser
         {
             foreach (var ruleset in atMedia.GetRuleSetIter())
             {
-                ExpandSomeRuleSet(ruleset);
+                EvaluateRuleSet(ruleset);
             }
         }
         public CssDocument OutputCssDocument
@@ -1248,7 +1311,7 @@ namespace HtmlRenderer.WebDom.Parser
             for (int i = 0; i < j; ++i)
             {
                 char c = cssSourceBuffer[i];
-               // Console.Write(c);
+                // Console.Write(c);
 
                 //-------------------------------------- 
                 switch (lexState)

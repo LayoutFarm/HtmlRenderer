@@ -12,11 +12,8 @@ namespace HtmlRenderer.Dom
 
     public static class CssBoxUserUtilExtension
     {
-
         class CssValueMap<T>
         {
-
-
             readonly Dictionary<string, T> stringToValue;
             readonly Dictionary<T, string> valueToString;
             public CssValueMap()
@@ -88,15 +85,15 @@ namespace HtmlRenderer.Dom
         static readonly CssValueMap<CssListStyleType> _cssListStyleTypeMap = new CssValueMap<CssListStyleType>();
 
         static readonly CssValueMap<CssNamedBorderWidth> _cssNamedBorderWidthMap = new CssValueMap<CssNamedBorderWidth>();
+        static readonly CssValueMap<HtmlRenderer.WebDom.WellknownCssPropertyName> _wellKnownCssPropNameMap = new CssValueMap<WebDom.WellknownCssPropertyName>();
+        static readonly CssValueMap<WellknownHtmlTagName> _wellknownHtmlTagNameMap = new CssValueMap<WellknownHtmlTagName>();
+
 
         static CssBoxUserUtilExtension()
         {
 
         }
-        public static CssBorderStyle GetBorderStyle(string value)
-        {
-            return _cssBorderStyleMap.GetValueFromString(value, CssBorderStyle.None);
-        }
+
         //-----------------------
         public static bool IsBorderStyle(string value)
         {
@@ -113,7 +110,7 @@ namespace HtmlRenderer.Dom
         }
         public static bool IsFontStyle(string value)
         {
-            return _cssFontStyleMap.GetValueFromString(value, CssFontStyle.Unknown) != CssFontStyle.Unknown;             
+            return _cssFontStyleMap.GetValueFromString(value, CssFontStyle.Unknown) != CssFontStyle.Unknown;
         }
         public static bool IsFontWeight(string value)
         {
@@ -121,82 +118,180 @@ namespace HtmlRenderer.Dom
         }
         //-----------------------
 
-        public static void SetBorderCollapse(this CssBox box, string value)
+        public static void SetBorderCollapse(this CssBox box, WebDom.CssCodeValueExpression value)
         {
-            box.BorderCollapse = _cssCollapseBorderMap.GetValueFromString(value, CssBorderCollapse.Separate);
+
+            box.BorderCollapse = (CssBorderCollapse)EvaluateIntPropertyValueFromString(
+            _cssCollapseBorderMap,
+            WebDom.CssValueEvaluatedAs.BorderCollapse,
+            CssBorderCollapse.Separate,
+            value);
+
+
         }
         public static string ToCssStringValue(this CssDisplay value)
         {
             return _cssDisplayMap.GetStringFromValue(value);
         }
-        public static void SetDisplayType(this CssBox box, string cssdisplayValue)
+        public static void SetDisplayType(this CssBox box, WebDom.CssCodeValueExpression value)
         {
-            box.CssDisplay = _cssDisplayMap.GetValueFromString(cssdisplayValue, CssDisplay.Inline);
+
+            box.CssDisplay = (CssDisplay)EvaluateIntPropertyValueFromString(
+                _cssDisplayMap,
+                WebDom.CssValueEvaluatedAs.Display,
+                CssDisplay.Inline,
+                value);
+
         }
         //----------------------
         public static string ToCssStringValue(this CssDirection value)
         {
             return _cssDirectionMap.GetStringFromValue(value);
         }
-        public static void SetCssDirection(this CssBox box, string value)
+        public static void SetCssDirection(this CssBox box, WebDom.CssCodeValueExpression value)
         {
-            box.CssDirection = _cssDirectionMap.GetValueFromString(value, CssDirection.Ltl);
+
+            box.CssDirection = (CssDirection)EvaluateIntPropertyValueFromString(
+             _cssDirectionMap,
+             WebDom.CssValueEvaluatedAs.Direction,
+             CssDirection.Ltl,
+             value);
+
         }
         //----------------------
-        public static void SetCssPosition(this CssBox box, string value)
+        public static void SetCssPosition(this CssBox box, WebDom.CssCodeValueExpression value)
         {
-            box.Position = _cssPositionMap.GetValueFromString(value, CssPosition.Static);
-        }
-        public static void SetWordBreak(this CssBox box, string value)
-        {
-            box.WordBreak = _cssWordBreakMap.GetValueFromString(value, CssWordBreak.Normal);
-        }
-        public static void SetTextDecoration(this CssBox box, string value)
-        {
-            box.TextDecoration = _cssTextDecorationMap.GetValueFromString(value, CssTextDecoration.NotAssign);
-        }
-        public static void SetOverflow(this CssBox box, string value)
-        {
-            box.Overflow = _cssOverFlowMap.GetValueFromString(value, CssOverflow.Visible);
+
+            box.Position = (CssPosition)EvaluateIntPropertyValueFromString(
+             _cssPositionMap,
+             WebDom.CssValueEvaluatedAs.Position,
+             CssPosition.Static,
+             value);
 
         }
-        public static void SetTextAlign(this CssBox box, string value)
+        public static void SetWordBreak(this CssBox box, WebDom.CssCodeValueExpression value)
         {
-            box.CssTextAlign = _cssTextAlignMap.GetValueFromString(value, CssTextAlign.NotAssign);
+            box.WordBreak = (CssWordBreak)EvaluateIntPropertyValueFromString(
+             _cssWordBreakMap,
+             WebDom.CssValueEvaluatedAs.WordBreak,
+             CssWordBreak.Normal,
+             value);
         }
-        public static void SetVerticalAlign(this CssBox box, string value)
+        public static void SetTextDecoration(this CssBox box, WebDom.CssCodeValueExpression value)
         {
-            box.VerticalAlign = _cssVerticalAlignMap.GetValueFromString(value, CssVerticalAlign.Baseline);
+
+
+
+            box.TextDecoration = (CssTextDecoration)EvaluateIntPropertyValueFromString(
+             _cssTextDecorationMap,
+             WebDom.CssValueEvaluatedAs.TextDecoration,
+             CssTextDecoration.NotAssign,
+             value);
+
         }
-        public static void SetVisibility(this CssBox box, string value)
+        public static void SetOverflow(this CssBox box, WebDom.CssCodeValueExpression value)
         {
-            box.CssVisibility = _cssVisibilityMap.GetValueFromString(value, CssVisibility.Visible);
+            box.Overflow = (CssOverflow)EvaluateIntPropertyValueFromString(
+               _cssOverFlowMap,
+               WebDom.CssValueEvaluatedAs.Overflow,
+               CssOverflow.Visible,
+               value);
+        }
+        public static void SetTextAlign(this CssBox box, WebDom.CssCodeValueExpression value)
+        {
+            box.CssTextAlign = (CssTextAlign)EvaluateIntPropertyValueFromString(
+                _cssTextAlignMap,
+                WebDom.CssValueEvaluatedAs.TextAlign,
+                CssTextAlign.NotAssign,
+                value);
+        }
+        public static void SetVerticalAlign(this CssBox box, WebDom.CssCodeValueExpression value)
+        {
+            box.VerticalAlign = (CssVerticalAlign)EvaluateIntPropertyValueFromString(
+                _cssVerticalAlignMap,
+                WebDom.CssValueEvaluatedAs.VerticalAlign,
+                CssVerticalAlign.Baseline,
+                value);
         }
 
-        public static void SetWhitespace(this CssBox box, string value)
+        static int EvaluateIntPropertyValueFromString<T>(CssValueMap<T> map,
+            WebDom.CssValueEvaluatedAs
+            evalAs,
+            T defaultValue,
+            WebDom.CssCodeValueExpression value)
+            where T : struct
         {
-            box.WhiteSpace = _cssWhitespaceMap.GetValueFromString(value, CssWhiteSpace.Normal);
-        }
-        public static void SetBorderSpacing(this CssBox box, string value)
-        {
-            System.Text.RegularExpressions.MatchCollection r =
-             HtmlRenderer.Parse.RegexParserUtils.Match(HtmlRenderer.Parse.RegexParserUtils.CssLength, value);
-            switch (r.Count)
+            if (value.EvaluatedAs != evalAs)
             {
-                case 1:
-                    {
-                        box.BorderSpacingHorizontal = box.BorderSpacingVertical = new CssLength(r[0].Value);
-                    } break;
-                case 2:
-                    {
-                        box.BorderSpacingHorizontal = new CssLength(r[0].Value);
-                        box.BorderSpacingVertical = new CssLength(r[1].Value);
-                    } break;
+                T knownValue = map.GetValueFromString(value.GetTranslatedStringValue(), defaultValue);
+                int result = Convert.ToInt32(knownValue);
+                value.SetIntValue(result, evalAs);
+                return (int)result;
             }
+            else
+            {
+                return value.AsIntValue();
+            }
+        }
+
+        public static void SetVisibility(this CssBox box, WebDom.CssCodeValueExpression value)
+        {
+            box.CssVisibility = (CssVisibility)EvaluateIntPropertyValueFromString(
+             _cssVisibilityMap,
+             WebDom.CssValueEvaluatedAs.Visibility,
+             CssVisibility.Visible,
+             value);
+        }
+        public static void SetWhitespace(this CssBox box, WebDom.CssCodeValueExpression value)
+        {
+            box.WhiteSpace = (CssWhiteSpace)EvaluateIntPropertyValueFromString(
+            _cssWhitespaceMap,
+            WebDom.CssValueEvaluatedAs.WhiteSpace,
+            CssWhiteSpace.Normal,
+            value);
+        }
+        public static CssBorderStyle GetBorderStyle(WebDom.CssCodeValueExpression value)
+        {
+            return (CssBorderStyle)EvaluateIntPropertyValueFromString(
+                   _cssBorderStyleMap,
+                   WebDom.CssValueEvaluatedAs.BorderStyle,
+                   CssBorderStyle.None,
+                   value);
+        }
+        public static void SetBorderSpacing(this CssBox box, WebDom.CssCodeValueExpression value)
+        {
+            WebDom.CssCodePrimitiveExpression primValue = value as WebDom.CssCodePrimitiveExpression;
+            if (primValue == null)
+            {
+                //2 values?
+                //box.BorderSpacingHorizontal = new CssLength(r[0].Value);
+                //box.BorderSpacingVertical = new CssLength(r[1].Value);
+                throw new NotSupportedException();
+            }
+            else
+            {
+                //primitive value 
+                box.BorderSpacingHorizontal = box.BorderSpacingVertical = primValue.AsLength();
+            }
+
+
+            //System.Text.RegularExpressions.MatchCollection r =
+            // HtmlRenderer.Parse.RegexParserUtils.Match(HtmlRenderer.Parse.RegexParserUtils.CssLength, value.GetTranslatedStringValue());
+            //switch (r.Count)
+            //{
+            //    case 1:
+            //        {
+            //            box.BorderSpacingHorizontal = box.BorderSpacingVertical = new CssLength(r[0].Value);
+            //        } break;
+            //    case 2:
+            //        {
+            //            box.BorderSpacingHorizontal = new CssLength(r[0].Value);
+            //            box.BorderSpacingVertical = new CssLength(r[1].Value);
+            //        } break;
+            //}
         }
         public static string GetCornerRadius(this CssBox box)
         {
-
             System.Text.StringBuilder stbuilder = new System.Text.StringBuilder();
             stbuilder.Append(box.CornerNERadius);
             stbuilder.Append(' ');
@@ -207,38 +302,54 @@ namespace HtmlRenderer.Dom
             stbuilder.Append(box.CornerSWRadius);
             return stbuilder.ToString();
         }
-        public static void SetCornerRadius(this CssBox box, string value)
+        public static void SetCornerRadius(this CssBox box, WebDom.CssCodeValueExpression value)
         {
-            //throw new NotSupportedException();
-
-            System.Text.RegularExpressions.MatchCollection r =
-                HtmlRenderer.Parse.RegexParserUtils.Match(HtmlRenderer.Parse.RegexParserUtils.CssLength, value);
-            switch (r.Count)
+            WebDom.CssCodePrimitiveExpression prim = value as WebDom.CssCodePrimitiveExpression;
+            if (prim == null)
             {
-                case 1:
-                    box.CornerNERadius = box.CornerNWRadius =
-                        box.CornerSERadius = box.CornerSWRadius = new CssLength(r[0].Value);
-                    break;
-                case 2:
-                    box.CornerNERadius = box.CornerNWRadius = new CssLength(r[0].Value);
-                    box.CornerSERadius = box.CornerSWRadius = new CssLength(r[1].Value);
-                    break;
-                case 3:
-                    box.CornerNERadius = new CssLength(r[0].Value);
-                    box.CornerNWRadius = new CssLength(r[1].Value);
-                    box.CornerSERadius = new CssLength(r[2].Value);
-                    break;
-                case 4:
-                    box.CornerNERadius = new CssLength(r[0].Value);
-                    box.CornerNWRadius = new CssLength(r[1].Value);
-                    box.CornerSERadius = new CssLength(r[2].Value);
-                    box.CornerSWRadius = new CssLength(r[3].Value);
-                    break;
+                //combinator values?
+                throw new NotSupportedException();
+                return;
             }
+            box.CornerNERadius = box.CornerNWRadius =
+             box.CornerSERadius = box.CornerSWRadius = prim.AsLength();
+
+
+            ////parse corner radius 
+            //System.Text.RegularExpressions.MatchCollection r =
+            //    HtmlRenderer.Parse.RegexParserUtils.Match(HtmlRenderer.Parse.RegexParserUtils.CssLength, value);
+            //switch (r.Count)
+            //{
+            //    case 1:
+            //        box.CornerNERadius = box.CornerNWRadius =
+            //            box.CornerSERadius = box.CornerSWRadius = new CssLength(r[0].Value);
+            //        break;
+            //    case 2:
+            //        box.CornerNERadius = box.CornerNWRadius = new CssLength(r[0].Value);
+            //        box.CornerSERadius = box.CornerSWRadius = new CssLength(r[1].Value);
+            //        break;
+            //    case 3:
+            //        box.CornerNERadius = new CssLength(r[0].Value);
+            //        box.CornerNWRadius = new CssLength(r[1].Value);
+            //        box.CornerSERadius = new CssLength(r[2].Value);
+            //        break;
+            //    case 4:
+            //        box.CornerNERadius = new CssLength(r[0].Value);
+            //        box.CornerNWRadius = new CssLength(r[1].Value);
+            //        box.CornerSERadius = new CssLength(r[2].Value);
+            //        box.CornerSWRadius = new CssLength(r[3].Value);
+            //        break;
+            //}
         }
-        public static CssEmptyCell GetEmptyCell(string value)
+        public static CssEmptyCell GetEmptyCell(WebDom.CssCodeValueExpression value)
         {
-            return _cssEmptyCellMap.GetValueFromString(value, CssEmptyCell.Show);
+            //return _cssEmptyCellMap.GetValueFromString(value, CssEmptyCell.Show);
+
+            return (CssEmptyCell)EvaluateIntPropertyValueFromString(
+               _cssEmptyCellMap,
+               WebDom.CssValueEvaluatedAs.EmptyCell,
+               CssEmptyCell.Show, value);
+
         }
 
         public static string ToCssStringValue(this CssEmptyCell value)
@@ -277,18 +388,20 @@ namespace HtmlRenderer.Dom
         }
         public static CssLength SetLineHeight(this CssBox box, string value)
         {
-
-            // _lineHeight =
-            //string.Format(NumberFormatInfo.InvariantInfo, "{0}px",
-            //CssValueParser.ParseLength(value, Size.Height, this, CssConstants.Em));
-
             float lineHeight = HtmlRenderer.Parse.CssValueParser.ParseLength(value, box.Size.Height, box, CssConstants.Em);
             return CssLength.MakePixelLength(lineHeight);
         }
-
-        public static CssFloat GetFloat(string value)
+        public static HtmlRenderer.WebDom.WellknownCssPropertyName GetWellKnownPropName(string propertyName)
         {
-            return _cssFloatMap.GetValueFromString(value, CssFloat.None);
+            return _wellKnownCssPropNameMap.GetValueFromString(propertyName, WebDom.WellknownCssPropertyName.Unknown);
+        }
+        public static CssFloat GetFloat(WebDom.CssCodeValueExpression value)
+        {
+            return (CssFloat)EvaluateIntPropertyValueFromString(
+                _cssFloatMap,
+                WebDom.CssValueEvaluatedAs.Float,
+                CssFloat.None,
+                value);
         }
 
         public static string ToCssStringValue(this CssFloat cssFloat)
@@ -312,17 +425,26 @@ namespace HtmlRenderer.Dom
         {
             return _cssFontStyleMap.GetStringFromValue(fontstyle);
         }
-        public static CssFontStyle GetFontStyle(string fontstyle)
+        public static CssFontStyle GetFontStyle(WebDom.CssCodeValueExpression value)
         {
-            return _cssFontStyleMap.GetValueFromString(fontstyle, CssFontStyle.Normal);
+            return (CssFontStyle)EvaluateIntPropertyValueFromString(
+              _cssFontStyleMap,
+              WebDom.CssValueEvaluatedAs.FontStyle,
+              CssFontStyle.Normal,
+              value);
+
         }
         public static string ToCssStringValue(this CssFontVariant fontVariant)
         {
             return _cssFontVariantMap.GetStringFromValue(fontVariant);
         }
-        public static CssFontVariant GetFontVariant(string fontVariant)
+        public static CssFontVariant GetFontVariant(WebDom.CssCodeValueExpression value)
         {
-            return _cssFontVariantMap.GetValueFromString(fontVariant, CssFontVariant.Normal);
+            return (CssFontVariant)EvaluateIntPropertyValueFromString(
+              _cssFontVariantMap,
+              WebDom.CssValueEvaluatedAs.FontVariant,
+              CssFontVariant.Normal,
+              value);
         }
         public static string ToFontSizeString(this CssLength length)
         {
@@ -357,74 +479,88 @@ namespace HtmlRenderer.Dom
                 return length.ToString();
             }
         }
-        public static void SetFontSize(this CssBox box, string value)
+        public static void SetFontSize(this CssBox box, WebDom.CssCodeValueExpression value)
         {
-            string length = HtmlRenderer.Parse.RegexParserUtils.Search(HtmlRenderer.Parse.RegexParserUtils.CssLength, value);
-            if (length != null)
+            //number + value
+            WebDom.CssCodePrimitiveExpression primValue = value as WebDom.CssCodePrimitiveExpression;
+            if (primValue == null)
             {
-
-                CssLength len = new CssLength(length);
-                CssBox parentBox = null;
-                if (len.HasError)
-                {
-
-                    len = CssLength.FontSizeMedium;
-                }
-                else if (len.Unit == CssUnit.Ems && ((parentBox = box.ParentBox) != null))
-                {
-                    len = len.ConvertEmToPoints(parentBox.ActualFont.SizeInPoints);
-                }
-                else
-                {
-
-                }
-                box.FontSize = len;
+                return;
             }
-            else
+            switch (primValue.Hint)
             {
-                switch (value)
-                {
-                    default:
+                case WebDom.CssValueHint.Number:
+                    {
+                        //has unit or not
+                        //?
+                        //or percent ?
+
+                        CssLength len = primValue.AsLength();
+                        CssBox parentBox = null;
+
+                        if (len.HasError)
+                        {
+                            len = CssLength.FontSizeMedium;
+                        }
+                        else if (len.Unit == CssUnit.Ems && ((parentBox = box.ParentBox) != null))
+                        {
+                            len = len.ConvertEmToPoints(parentBox.ActualFont.SizeInPoints);
+                        }
+                        else
                         {
 
-                            throw new NotSupportedException();
                         }
-                    case CssConstants.Medium:
-                        box.FontSize = CssLength.FontSizeMedium;
-                        break;
-                    case CssConstants.Small:
-                        box.FontSize = CssLength.FontSizeSmall;
-                        break;
-                    case CssConstants.XSmall:
-                        box.FontSize = CssLength.FontSizeXSmall;
-                        break;
-                    case CssConstants.XXSmall:
-                        box.FontSize = CssLength.FontSizeXXSmall;
-                        break;
-                    case CssConstants.Large:
-                        box.FontSize = CssLength.FontSizeLarge;
-                        break;
-                    case CssConstants.XLarge:
-                        box.FontSize = CssLength.FontSizeLarge;
-                        break;
-                    case CssConstants.XXLarge:
-                        box.FontSize = CssLength.FontSizeLarger;
-                        break;
-                    case CssConstants.Smaller:
-                        box.FontSize = CssLength.FontSizeSmaller;
-                        break;
-                    case CssConstants.Larger:
-                        box.FontSize = CssLength.FontSizeLarger;
-                        break;
-                }
+                        box.FontSize = len;
 
+                    } break;
+                case WebDom.CssValueHint.Iden:
+                    {
+                        switch (primValue.GetTranslatedStringValue())
+                        {
+                            default:
+                                {
+                                    throw new NotSupportedException();
+                                }
+                            case CssConstants.Medium:
+                                box.FontSize = CssLength.FontSizeMedium;
+                                break;
+                            case CssConstants.Small:
+                                box.FontSize = CssLength.FontSizeSmall;
+                                break;
+                            case CssConstants.XSmall:
+                                box.FontSize = CssLength.FontSizeXSmall;
+                                break;
+                            case CssConstants.XXSmall:
+                                box.FontSize = CssLength.FontSizeXXSmall;
+                                break;
+                            case CssConstants.Large:
+                                box.FontSize = CssLength.FontSizeLarge;
+                                break;
+                            case CssConstants.XLarge:
+                                box.FontSize = CssLength.FontSizeLarge;
+                                break;
+                            case CssConstants.XXLarge:
+                                box.FontSize = CssLength.FontSizeLarger;
+                                break;
+                            case CssConstants.Smaller:
+                                box.FontSize = CssLength.FontSizeSmaller;
+                                break;
+                            case CssConstants.Larger:
+                                box.FontSize = CssLength.FontSizeLarger;
+                                break;
+                        }
+                    } break;
             }
         }
 
 
-        public static CssFontWeight GetFontWeight(string fontWeight)
+        public static CssFontWeight GetFontWeight(WebDom.CssCodeValueExpression value)
         {
-            return _cssFontWeightMap.GetValueFromString(fontWeight, CssFontWeight.NotAssign);
+            return (CssFontWeight)EvaluateIntPropertyValueFromString(
+                _cssFontWeightMap,
+                WebDom.CssValueEvaluatedAs.Float,
+                CssFontWeight.NotAssign,
+                value);
         }
         public static string ToCssStringValue(this CssFontWeight weight)
         {
@@ -435,63 +571,33 @@ namespace HtmlRenderer.Dom
         {
             return _cssListStylePositionMap.GetStringFromValue(listStylePosition);
         }
-        public static CssListStylePosition GetListStylePosition(string value)
+        public static CssListStylePosition GetListStylePosition(WebDom.CssCodeValueExpression value)
         {
-            return _cssListStylePositionMap.GetValueFromString(value, CssListStylePosition.Outside);
+            return (CssListStylePosition)EvaluateIntPropertyValueFromString(
+               _cssListStylePositionMap,
+               WebDom.CssValueEvaluatedAs.ListStylePosition,
+               CssListStylePosition.Outside,
+               value);
+
         }
 
         public static string ToCssStringValue(this CssListStyleType listStyleType)
         {
             return _cssListStyleTypeMap.GetStringFromValue(listStyleType);
         }
-        public static CssListStyleType GetListStyleType(string value)
+        public static CssListStyleType GetListStyleType(WebDom.CssCodeValueExpression value)
         {
-
-            return _cssListStyleTypeMap.GetValueFromString(value, CssListStyleType.Disc);
+            return (CssListStyleType)EvaluateIntPropertyValueFromString(
+            _cssListStyleTypeMap,
+            WebDom.CssValueEvaluatedAs.ListStyleType,
+            CssListStyleType.Disc,
+            value);
         }
 
 
         public static WellknownHtmlTagName EvaluateTagName(string name)
         {
-            switch (name)
-            {
-                default:
-                    return WellknownHtmlTagName.Unknown;
-                case "hr":
-                    return WellknownHtmlTagName.HR;
-                case "a":
-                    return WellknownHtmlTagName.A;
-                case "script":
-                    return WellknownHtmlTagName.SCRIPT;
-                case "style":
-                    return WellknownHtmlTagName.STYLE;
-                case "div":
-                    return WellknownHtmlTagName.DIV;
-                case "span":
-                    return WellknownHtmlTagName.SPAN;
-                case "img":
-                    return WellknownHtmlTagName.IMG;
-                case "link":
-                    return WellknownHtmlTagName.LINK;
-                case "p":
-                    return WellknownHtmlTagName.P;
-                case "table":
-                    return WellknownHtmlTagName.TABLE;
-                case "td":
-                    return WellknownHtmlTagName.TD;
-                case "tr":
-                    return WellknownHtmlTagName.TR;
-                case "br":
-                    return WellknownHtmlTagName.BR;
-                case "html":
-                    return WellknownHtmlTagName.HTML;
-                case "iframe":
-                    return WellknownHtmlTagName.IFREAME;
-                case "font":
-                    return WellknownHtmlTagName.FONT;
-                case "x":
-                    return WellknownHtmlTagName.X; //test for extension                     
-            }
+            return _wellknownHtmlTagNameMap.GetValueFromString(name, WellknownHtmlTagName.Unknown);
         }
     }
 

@@ -245,7 +245,7 @@ namespace HtmlRenderer.Dom
             get { return this._borderProps.BottomColor; }
             set
             {
-                CheckBorderVersion().BottomColor = value; 
+                CheckBorderVersion().BottomColor = value;
             }
         }
         public Color BorderLeftColor
@@ -545,12 +545,9 @@ namespace HtmlRenderer.Dom
         public CssLength WordSpacing
         {
             get { return this._wordSpacing; }
-            set { this._wordSpacing = value; }
+            set { this._wordSpacing = this.NoEms(value); }
         }
-        public void SetWordSpacing(string str)
-        {
-            this._wordSpacing = this.NoEms(new CssLength(str));
-        }
+       
         public CssWordBreak WordBreak
         {
             get { return this._wordBreak; }
@@ -1319,21 +1316,16 @@ namespace HtmlRenderer.Dom
         /// <param name="style">optional: the style to set</param>
         /// <param name="width">optional: the width to set</param>
         /// <param name="color">optional: the color to set</param>
-        protected void SetAllBorders(string style = null, string width = null, string color = null)
+        protected void SetAllBorders(CssBorderStyle borderStyle, CssLength length, Color color)
         {
             //assign values
-            if (style != null)
-            {
-                BorderLeftStyle = BorderTopStyle = BorderRightStyle = BorderBottomStyle = CssUtils.GetBorderStyle(style);
-            }
-            if (width != null)
-            {
-                BorderLeftWidth = BorderTopWidth = BorderRightWidth = BorderBottomWidth = CssLength.MakeBorderLength(width);
-            }
-            if (color != null)
-            {
-                BorderLeftColor = BorderTopColor = BorderRightColor = BorderBottomColor = CssValueParser.GetActualColor(color);
-            }
+
+            BorderLeftStyle = BorderTopStyle = BorderRightStyle = BorderBottomStyle = borderStyle;
+
+            BorderLeftWidth = BorderTopWidth = BorderRightWidth = BorderBottomWidth = length;
+
+            BorderLeftColor = BorderTopColor = BorderRightColor = BorderBottomColor = color;
+
         }
 
         /// <summary>

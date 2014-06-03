@@ -89,6 +89,7 @@ namespace HtmlRenderer.Entities
         public const string Square = "square";
         public const string Table = "table";
         public const string TableRow = "table-row";
+        public const string TBody = "table-";
         public const string TableRowGroup = "table-row-group";
         public const string TableHeaderGroup = "table-header-group";
         public const string TableFooterGroup = "table-footer-group";
