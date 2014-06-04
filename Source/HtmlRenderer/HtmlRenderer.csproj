@@ -139,7 +139,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\CssUtils.cs" />
     <Compile Include="Utils\DomUtils.cs" />
-    <Compile Include="Utils\HtmlUtils.cs" />
+    <Compile Include="WebDom.Parser\HtmlUtils.cs" />
     <Compile Include="Utils\CommonUtils.cs" />
     <Compile Include="Handlers\ISelectHandler.cs" />
     <Compile Include="WebDom\2_Css\WellknownCssPropertyName.cs" />

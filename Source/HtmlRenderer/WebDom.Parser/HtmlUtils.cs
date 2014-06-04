@@ -15,14 +15,10 @@
 using System;
 using System.Collections.Generic;
 
-namespace HtmlRenderer.Utils
+namespace HtmlRenderer.WebDom
 {
-    internal static class HtmlUtils
+    static class HtmlUtils
     {
-
-
-
-
         /// <summary>
         /// List of html tags that don't have content
         /// </summary>

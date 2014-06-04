@@ -58,14 +58,14 @@ namespace HtmlRenderer.Parse
             }
             return cssData;
         }
-         
+
 
         public static WebDom.CssDocument ParseStyleSheet2(string cssTextSource)
         {
             var parser = new WebDom.Parser.CssParser();
             parser.ParseCssStyleSheet(cssTextSource.ToCharArray());
             //-----------------------------------
-            return parser.OutputCssDocument; 
+            return parser.OutputCssDocument;
         }
 
 
@@ -99,7 +99,7 @@ namespace HtmlRenderer.Parse
                     //cssData.ActiveDoc = cssActiveDoc;
                 }
             }
-        } 
+        }
         public static WebDom.CssRuleSet ParseCssBlock2(string className, string blockSource)
         {
             var parser = new WebDom.Parser.CssParser();
@@ -117,36 +117,9 @@ namespace HtmlRenderer.Parse
             return ParseFontFamilyProperty(value);
         }
 
+         
 
-        #region Private methods
 
-       
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="propValue">the value of the property to parse</param>
-        /// <returns>parsed value</returns>
-        private static string ParseBackgroundImageProperty(string propValue)
-        {
-            int startIdx = propValue.IndexOf("url(", StringComparison.InvariantCultureIgnoreCase);
-            if (startIdx > -1)
-            {
-                startIdx += 4;
-                var endIdx = propValue.IndexOf(')', startIdx);
-                if (endIdx > -1)
-                {
-                    endIdx -= 1;
-                    while (startIdx < endIdx && (char.IsWhiteSpace(propValue[startIdx]) || propValue[startIdx] == '\''))
-                        startIdx++;
-                    while (startIdx < endIdx && (char.IsWhiteSpace(propValue[endIdx]) || propValue[endIdx] == '\''))
-                        endIdx--;
-
-                    if (startIdx <= endIdx)
-                        return propValue.Substring(startIdx, endIdx - startIdx + 1);
-                }
-            }
-            return propValue;
-        }
 
         /// <summary>
         /// Parse a complex font family css property to check if it contains multiple fonts and if the font exists.<br/>
@@ -154,7 +127,7 @@ namespace HtmlRenderer.Parse
         /// </summary>
         /// <param name="propValue">the value of the property to parse</param>
         /// <returns>parsed font-family value</returns>
-        private static string ParseFontFamilyProperty(string propValue)
+        static string ParseFontFamilyProperty(string propValue)
         {
             int start = 0;
             while (start > -1 && start < propValue.Length)
@@ -180,9 +153,9 @@ namespace HtmlRenderer.Parse
 
             return CssConstants.Inherit;
         }
-          
 
-        #endregion
+
+      
     }
 }
 

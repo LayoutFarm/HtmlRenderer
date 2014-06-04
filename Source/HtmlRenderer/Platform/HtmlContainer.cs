@@ -449,16 +449,7 @@ namespace HtmlRenderer
             return cssBox != null ? DomUtils.GetAttribute(cssBox, attribute) : null;
         }
 
-        /// <summary>
-        /// Get css link href at the given x,y location.
-        /// </summary>
-        /// <param name="location">the location to find the link at</param>
-        /// <returns>css link href if exists or null</returns>
-        public string GetLinkAt(Point location)
-        {
-            var link = DomUtils.GetLinkBox(_root, OffsetByScroll(location));
-            return link != null ? link.HrefLink : null;
-        }
+        
 
         /// <summary>
         /// Get the rectangle of html element as calculated by html layout.<br/>
@@ -478,35 +469,7 @@ namespace HtmlRenderer
             //return box != null ? CommonUtils.GetFirstValueOrDefault(box.Rectangles, box.Bounds) : (RectangleF?)null;
         }
 
-        ///// <summary>
-        ///// Measures the bounds of box and children, recursively.
-        ///// </summary>
-        ///// <param name="g">Device context to draw</param>
-        //public void PerformLayout(Graphics g)
-        //{
-        //    ArgChecker.AssertArgNotNull(g, "g");
-
-        //    if (_root != null)
-        //    {
-        //        using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
-        //        {
-        //            _actualSize = SizeF.Empty;
-
-        //            // if width is not restricted we set it to large value to get the actual later
-        //            _root.Size = new SizeF(_maxSize.Width > 0 ? _maxSize.Width : 99999, 0);
-        //            _root.Location = _location;
-        //            _root.PerformLayout(ig);
-
-        //            if (_maxSize.Width <= 0.1)
-        //            {
-        //                // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
-        //                _root.Size = new SizeF((int)Math.Ceiling(_actualSize.Width), 0);
-        //                _actualSize = SizeF.Empty;
-        //                _root.PerformLayout(ig);
-        //            }
-        //        }
-        //    }
-        //}
+       
         public void PerformLayout(IGraphics ig)
         {
             //ArgChecker.AssertArgNotNull(ig, "g");
@@ -549,38 +512,7 @@ namespace HtmlRenderer
             get;
             set;
         }
-        ///// <summary>
-        ///// Render the html using the given device.
-        ///// </summary>
-        ///// <param name="g">the device to use to render</param>
-        //public void PerformPaint(Graphics g)
-        //{
-        //    ArgChecker.AssertArgNotNull(g, "g");
-
-        //    Region prevClip = null;
-        //    if (MaxSize.Height > 0)
-        //    {
-        //        prevClip = g.Clip;
-        //        g.SetClip(new RectangleF(_location, _maxSize));
-        //    }
-        //    if (_root != null)
-        //    {
-        //        PaintingArgs args = new PaintingArgs(this);
-        //        var bound = this.ViewportBound;
-        //        args.PushBound(0, 0, bound.Width, bound.Height);
-        //        using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
-        //        {
-        //            args.PushContainingBox(_root.ContainingBlock);
-        //            _root.Paint(ig, args);
-        //            args.PopContainingBox();
-        //        }
-        //    }
-
-        //    if (prevClip != null)
-        //    {
-        //        g.SetClip(prevClip, CombineMode.Replace);
-        //    }
-        //}
+   
         /// <summary>
         /// Render the html using the given device.
         /// </summary>
@@ -712,22 +644,7 @@ namespace HtmlRenderer
         }
 
 
-        ///// <summary>
-        ///// Add css box that has ":hover" selector to be handled on mouse hover.
-        ///// </summary>
-        ///// <param name="box">the box that has the hover selector</param>
-        ///// <param name="block">the css block with the css data with the selector</param>
-        //internal void AddHoverBox(CssBox box, CssCodeBlock block)
-        //{
-        //    ArgChecker.AssertArgNotNull(box, "box");
-        //    ArgChecker.AssertArgNotNull(block, "block");
-
-        //    if (_hoverBoxes == null)
-        //        _hoverBoxes = new List<Tupler<CssBox, CssCodeBlock>>();
-
-        //    _hoverBoxes.Add(new Tupler<CssBox, CssCodeBlock>(box, block));
-        //}
-
+      
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
