@@ -12,181 +12,181 @@ namespace HtmlRenderer.WebDom
     {
         Unknown,
 
-        [CssName("display")]
+        [Map("display")]
         Display,
 
-        [CssName("border")]
+        [Map("border")]
         Border,
-        [CssName("border-left")]
+        [Map("border-left")]
         BorderLeft,
-        [CssName("border-right")]
+        [Map("border-right")]
         BorderRight,
-        [CssName("border-bottom")]
+        [Map("border-bottom")]
         BorderBottom,
-        [CssName("border-top")]
+        [Map("border-top")]
         BorderTop,
         //----------------------------------
-        [CssName("border-width")]
+        [Map("border-width")]
         BorderWidth,
-        [CssName("border-bottom-width")]
+        [Map("border-bottom-width")]
         BorderBottomWidth,
-        [CssName("border-left-width")]
+        [Map("border-left-width")]
         BorderLeftWidth,
-        [CssName("border-top-width")]
+        [Map("border-top-width")]
         BorderTopWidth,
-        [CssName("border-right-width")]
+        [Map("border-right-width")]
         BorderRightWidth,
         //----------------------------------
-        [CssName("border-style")]
+        [Map("border-style")]
         BorderStyle,
-        [CssName("border-bottom-style")]
+        [Map("border-bottom-style")]
         BorderBottomStyle,
-        [CssName("border-left-style")]
+        [Map("border-left-style")]
         BorderLeftStyle,
-        [CssName("border-top-style")]
+        [Map("border-top-style")]
         BorderTopStyle,
-        [CssName("border-right-style")]
+        [Map("border-right-style")]
         BorderRightStyle,
         //----------------------------------
-        [CssName("border-color")]
+        [Map("border-color")]
         BorderColor,
-        [CssName("border-bottom-color")]
+        [Map("border-bottom-color")]
         BorderBottomColor,
-        [CssName("border-left-color")]
+        [Map("border-left-color")]
         BorderLeftColor,
-        [CssName("border-top-color")]
+        [Map("border-top-color")]
         BorderTopColor,
-        [CssName("border-right-color")]
+        [Map("border-right-color")]
         BorderRightColor,
         //----------------------------------
-        [CssName("border-spacing")]
+        [Map("border-spacing")]
         BorderSpacing,
-        [CssName("border-collapse")]
+        [Map("border-collapse")]
         BorderCollapse,
         //----------------------------------
-        [CssName("corner-radius")]
+        [Map("corner-radius")]
         CornerRadius,
-        [CssName("corner-nw-radius")]
+        [Map("corner-nw-radius")]
         CornerNWRadius,
-        [CssName("corner-ne-radius")]
+        [Map("corner-ne-radius")]
         CornerNERadius,
-        [CssName("corner-sw-radius")]
+        [Map("corner-sw-radius")]
         CornerSWRadius,
-        [CssName("corner-se-radius")]
+        [Map("corner-se-radius")]
         CornerSERadius,
         //----------------------------------
-        [CssName("margin")]
+        [Map("margin")]
         Margin,
-        [CssName("margin-bottom")]
+        [Map("margin-bottom")]
         MarginBottom,
-        [CssName("margin-top")]
+        [Map("margin-top")]
         MarginTop,
-        [CssName("margin-left")]
+        [Map("margin-left")]
         MarginLeft,
-        [CssName("margin-right")]
+        [Map("margin-right")]
         MarginRight,
         //----------------------------------
-        [CssName("padding")]
+        [Map("padding")]
         Padding,
-        [CssName("padding-bottom")]
+        [Map("padding-bottom")]
         PaddingBottom,
-        [CssName("padding-top")]
+        [Map("padding-top")]
         PaddingTop,
-        [CssName("padding-left")]
+        [Map("padding-left")]
         PaddingLeft,
-        [CssName("padding-right")]
+        [Map("padding-right")]
         PaddingRight,
         //----------------------------------
-        [CssName("left")]
+        [Map("left")]
         Left,
-        [CssName("top")]
+        [Map("top")]
         Top,
-        [CssName("width")]
+        [Map("width")]
         Width,
-        [CssName("max-width")]
+        [Map("max-width")]
         MaxWidth,
-        [CssName("height")]
+        [Map("height")]
         Height,
         //----------------------------------
-        [CssName("background-color")]
+        [Map("background-color")]
         BackgroundColor,
-        [CssName("background-image")]
+        [Map("background-image")]
         BackgroundImage,
-        [CssName("background-position")]
+        [Map("background-position")]
         BackgroundPosition,
-        [CssName("background-gradient")]
+        [Map("background-gradient")]
         BackgroundGradient,
-        [CssName("background-gradient-angle")]
+        [Map("background-gradient-angle")]
         BackgroundGradientAngle,
-        [CssName("background-angle")]
+        [Map("background-angle")]
         BackgroundAngle,
-        [CssName("background-repeat")]
+        [Map("background-repeat")]
         BackgroundRepeat,
         //----------------------------------
-        [CssName("color")]
+        [Map("color")]
         Color,
-        [CssName("direction")]
+        [Map("direction")]
         Direction,
-        [CssName("empty-cells")]
+        [Map("empty-cells")]
         EmptyCells,
-        [CssName("float")]
+        [Map("float")]
         Float,
-        [CssName("position")]
+        [Map("position")]
         Position,
-        [CssName("line-height")]
+        [Map("line-height")]
         LineHeight,
-        [CssName("vertical-align")]
+        [Map("vertical-align")]
         VerticalAlign,
-        [CssName("text-indent")]
+        [Map("text-indent")]
         TextIndent,
-        [CssName("text-align")]
+        [Map("text-align")]
         TextAlign,
-        [CssName("text-decoration")]
+        [Map("text-decoration")]
         TextDecoration,
 
-        [CssName("white-space")]
+        [Map("white-space")]
         Whitespace,
-        [CssName("word-break")]
+        [Map("word-break")]
         WordBreak,
-        [CssName("word-spacing")]
+        [Map("word-spacing")]
         WordSpacing,
-        [CssName("visibility")]
+        [Map("visibility")]
         Visibility,
-        [CssName("font")]
+        [Map("font")]
         Font,
-        [CssName("font-family")]
+        [Map("font-family")]
         FontFamily,
-        [CssName("font-size")]
+        [Map("font-size")]
         FontSize,
-        [CssName("font-style")]
+        [Map("font-style")]
         FontStyle,
-        [CssName("font-variant")]
+        [Map("font-variant")]
         FontVariant,
-        [CssName("font-weight")]
+        [Map("font-weight")]
         FontWeight,
 
-        [CssName("list-style")]
+        [Map("list-style")]
         ListStyle,
-        [CssName("list-style-position")]
+        [Map("list-style-position")]
         ListStylePosition,
-        [CssName("list-style-image")]
+        [Map("list-style-image")]
         ListStyleImage,
-        [CssName("list-style-type")]
+        [Map("list-style-type")]
         ListStyleType,
 
-        [CssName("overflow")]
+        [Map("overflow")]
         Overflow,
         //----------------------------------
-        [CssName("content")]
+        [Map("content")]
         Content,
         //----------------------------------
-        [CssName("outline")]
+        [Map("outline")]
         Outline,
-        [CssName("unicode-bidi")]
+        [Map("unicode-bidi")]
         UnicodeBidi,
-        [CssName("page-break-before")]
+        [Map("page-break-before")]
         PageBreakBefore,
-        [CssName("page-break-after")]
+        [Map("page-break-after")]
         PageBreakAfter
     }
 

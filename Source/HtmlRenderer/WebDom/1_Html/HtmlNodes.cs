@@ -41,10 +41,7 @@ namespace HtmlRenderer.WebDom
 #if DEBUG
             this.dbugId = dbugTotalId;
             dbugTotalId++;
-            if (dbugId >= 36)
-            {
-
-            }
+           
 #endif
 
         }
@@ -89,7 +86,7 @@ namespace HtmlRenderer.WebDom
 
     public class HtmlTextNode : HtmlNode
     {
-        StringBuilder _sb = new StringBuilder(); 
+        StringBuilder _sb = new StringBuilder();
         internal HtmlTextNode(HtmlDocument ownerDoc, char[] textBuffer)
             : base(ownerDoc)
         {
@@ -250,23 +247,22 @@ namespace HtmlRenderer.WebDom
     {
 
         internal int nodePrefixNameIndex;
-        internal int nodeLocalNameIndex;
-
+        internal int nodeLocalNameIndex; 
 
         List<HtmlAttribute> myAttributes;
         List<HtmlNode> myChildrenNodes;
 
-        HtmlElement closeNode;
+        HtmlElement closeNode; 
 
         internal HtmlElement(HtmlDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
-        {  
-            
+        {
+
             this.nodePrefixNameIndex = nodePrefixNameIndex;
             this.nodeLocalNameIndex = nodeLocalNameIndex;
             SetNodeType(HtmlNodeType.OpenElement);
         }
-
+       
         public static bool EqualNames(HtmlElement node1, HtmlElement node2)
         {
             return node1.nodeLocalNameIndex == node2.nodeLocalNameIndex
@@ -342,7 +338,6 @@ namespace HtmlRenderer.WebDom
                 {
                     if (myAttributes[i].nodeLocalNameIndex == attrLocalNameIndex)
                     {
-                        //พบชื่อที่ต้องการ
                         return myAttributes[i];
                     }
                 }
@@ -397,9 +392,6 @@ namespace HtmlRenderer.WebDom
                 return this.nodePrefixNameIndex;
             }
         }
-
-
-
 
         public void AddChild(HtmlNode childNode)
         {

@@ -22,53 +22,74 @@ namespace HtmlRenderer.Dom
         NotAssign,
 
         Unknown,
-        [CssName("html")]        
+        [Map("html")]
         HTML,
-        [CssName("a")]
+        [Map("a")]
         A,
-        [CssName("hr")]
+        [Map("area")]
+        AREA,
+        [Map("hr")]
         HR,
-        [CssName("br")]
+        [Map("br")]
         BR,
-        [CssName("style")]
+        [Map("style")]
         STYLE,
-        [CssName("script")]
+        [Map("script")]
         SCRIPT,
-        [CssName("img")]
+        [Map("img")]
         IMG,
-        [CssName("div")]
+        [Map("input")]
+        INPUT,
+
+
+        [Map("isindex")]
+        ISINDEX,
+
+        [Map("div")]
         DIV,
-        [CssName("span")]
+
+        [Map("span")]
         SPAN,
-        [CssName("link")]
+        [Map("link")]
         LINK,
-        [CssName("p")]
+        [Map("p")]
         P,
-        [CssName("table")]
+        [Map("table")]
         TABLE,
-        [CssName("td")]
+        [Map("td")]
         TD,
-        [CssName("tr")]
+        [Map("tr")]
         TR,
-        [CssName("tbody")]
+        [Map("tbody")]
         TBody,
-        [CssName("thead")]
+        [Map("thead")]
         THead,
-        [CssName("th")]
+        [Map("th")]
         TH,
-        [CssName("tfoot")]
+        [Map("tfoot")]
         TFoot,
-        [CssName("iframe")]
+        [Map("iframe")]
         IFREAME,
-        [CssName("col")]
+        [Map("frame")]
+        FRAME,
+        [Map("col")]
         COL,
-        [CssName("colgroup")]
+        [Map("colgroup")]
         COLGROUP,
-        [CssName("font")]
+        [Map("font")]
         FONT,
-        [CssName("caption")]
+        [Map("caption")]
         CAPTION,
-        [CssName("x")]
+
+        [Map("base")]
+        BASE,
+        [Map("basefont")]
+        BASEFONT,
+        [Map("meta")]
+        META,
+        [Map("param")]
+        PARAM,
+        [Map("x")]
         X//test for extension 
     }
 
@@ -76,6 +97,7 @@ namespace HtmlRenderer.Dom
     {
         string Name { get; }
         string Value { get; }
+        int LocalNameIndex { get; }
     }
 
     public interface IHtmlElement
@@ -132,7 +154,15 @@ namespace HtmlRenderer.Dom
         }
 
         public string Name { get { return this.elem.LocalName; } }
-        public bool IsSingle { get { return HtmlUtils.IsSingleTag(Name); } }
+        public bool IsSingle
+        {
+            get
+            {
+                throw new System.NotSupportedException();
+                return false;
+            }
+            //get { return HtmlUtils.IsSingleTag(Name); }
+        }
         public bool HasAttributes() { return this.elem.AttributeCount > 0; }
         public bool HasAttribute(string attrName)
         {
@@ -174,6 +204,13 @@ namespace HtmlRenderer.Dom
             public string Name
             {
                 get { return this.attr.LocalName; }
+            }
+            public int LocalNameIndex
+            {
+                get
+                {
+                    return this.attr.LocalNameIndex;
+                }
             }
             public string Value
             {

@@ -2,9 +2,11 @@
 
 using System;
 using System.Text;
+using System.Collections.Generic;
 
 namespace HtmlRenderer 
-{
+{ 
+
     public class TextSnapshot
     {
         readonly char[] textBuffer;
@@ -14,12 +16,7 @@ namespace HtmlRenderer
             this.textBuffer = textBuffer;
             this.length = textBuffer.Length;
         }
-        public TextSnapshot(StringBuilder sb)
-        {
-            int len = this.length = sb.Length;
-            textBuffer = new char[len];
-            sb.CopyTo(0, textBuffer, 0, len);
-        }
+        
         public TextSnapshot(string str)
         {
             this.textBuffer = str.ToCharArray();

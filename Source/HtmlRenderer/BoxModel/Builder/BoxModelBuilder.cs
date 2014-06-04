@@ -427,101 +427,104 @@ namespace HtmlRenderer.Dom
                 foreach (IHtmlAttribute attr in tag.GetAttributeIter())
                 {
                     //attr switch by wellknown property name
-                    string value = attr.Value;
-                    switch (attr.Name)
+                    
+                    switch ((WebDom.WellknownHtmlName)attr.LocalNameIndex)
                     {
-                        case HtmlConstants.Align:
-
-                            if (value == HtmlConstants.Left
-                                || value == HtmlConstants.Center
-                                || value == HtmlConstants.Right
-                                || value == HtmlConstants.Justify)
+                        case WebDom.WellknownHtmlName.Align:
                             {
-                                WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
-                                    value.ToLower(), WebDom.CssValueHint.Iden);
-                                box.SetTextAlign(propValue);
-                            }
-                            else
-                            {
-                                WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
-                                 value.ToLower(), WebDom.CssValueHint.Iden);
-                                box.SetVerticalAlign(propValue);
-                            }
-                            break;
-                        case HtmlConstants.Background:
-                            box.BackgroundImage = value.ToLower();
-                            break;
-                        case HtmlConstants.Bgcolor:
-                            box.BackgroundColor = CssValueParser.GetActualColor(value.ToLower());
-                            break;
-                        case HtmlConstants.Border:
-
-                            if (!string.IsNullOrEmpty(value) && value != "0")
-                            {
-                                box.BorderLeftStyle = box.BorderTopStyle
-                                    = box.BorderRightStyle = box.BorderBottomStyle = CssBorderStyle.Solid;// CssConstants.Solid;
-                            }
-
-                            box.BorderLeftWidth =
-                                box.BorderTopWidth =
-                                box.BorderRightWidth =
-                                box.BorderBottomWidth = TranslateLength(CssLength.MakeBorderLength(value));
-
-                            if (tag.WellknownTagName == WellknownHtmlTagName.TABLE)
-                            {
-                                if (value != "0")
+                                string value = attr.Value.ToLower();
+                                if (value == "left"
+                                    || value == "center"
+                                    || value == "right"
+                                    || value == "justify")
                                 {
-                                    ApplyTableBorder(box, CssLength.MakePixelLength(1));
+                                    WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
+                                        value, WebDom.CssValueHint.Iden);
+                                    box.SetTextAlign(propValue);
                                 }
+                                else
+                                {
+                                    WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
+                                     value, WebDom.CssValueHint.Iden);
+                                    box.SetVerticalAlign(propValue);
+                                }
+                                break;
                             }
-                            else
-                            {
-                                box.BorderTopStyle = box.BorderLeftStyle = box.BorderRightStyle = box.BorderBottomStyle = CssBorderStyle.Solid; //CssConstants.Solid;
-                            }
+                        case WebDom.WellknownHtmlName.Background:
+                            box.BackgroundImage = attr.Value.ToLower();
                             break;
-                        case HtmlConstants.Bordercolor:
+                        case WebDom.WellknownHtmlName.BackgroundColor:
+                            box.BackgroundColor = CssValueParser.GetActualColor(attr.Value.ToLower());
+                            break;
+                        case WebDom.WellknownHtmlName.Border:
+                            {
+                                string value = attr.Value.ToLower();
+                                if (!string.IsNullOrEmpty(value) && value != "0")
+                                {
+                                    box.BorderLeftStyle = box.BorderTopStyle
+                                        = box.BorderRightStyle = box.BorderBottomStyle = CssBorderStyle.Solid;// CssConstants.Solid;
+                                }
+
+                                box.BorderLeftWidth =
+                                    box.BorderTopWidth =
+                                    box.BorderRightWidth =
+                                    box.BorderBottomWidth = TranslateLength(CssLength.MakeBorderLength(value));
+
+                                if (tag.WellknownTagName == WellknownHtmlTagName.TABLE)
+                                {
+                                    if (value != "0")
+                                    {
+                                        ApplyTableBorder(box, CssLength.MakePixelLength(1));
+                                    }
+                                }
+                                else
+                                {
+                                    box.BorderTopStyle = box.BorderLeftStyle = box.BorderRightStyle = box.BorderBottomStyle = CssBorderStyle.Solid; //CssConstants.Solid;
+                                }
+                            } break;
+                        case WebDom.WellknownHtmlName.BorderColor:
                             box.BorderLeftColor =
                                 box.BorderTopColor =
                                 box.BorderRightColor =
-                                box.BorderBottomColor = CssValueParser.GetActualColor(value.ToLower());
+                                box.BorderBottomColor = CssValueParser.GetActualColor(attr.Value.ToLower());
                             break;
-                        case HtmlConstants.Cellspacing:
-                            box.BorderSpacingHorizontal = box.BorderSpacingVertical = TranslateLength(value);
+                        case WebDom.WellknownHtmlName.CellSpacing:
+                            box.BorderSpacingHorizontal = box.BorderSpacingVertical = TranslateLength(attr.Value.ToLower());
                             break;
-                        case HtmlConstants.Cellpadding:
-                            ApplyTablePadding(box, value);
+                        case WebDom.WellknownHtmlName.CellPadding:
+                            ApplyTablePadding(box, attr.Value.ToLower());
                             break;
-                        case HtmlConstants.Color:
-                            box.Color = CssValueParser.GetActualColor(value.ToLower());
+                        case WebDom.WellknownHtmlName.Color:
+                            box.Color = CssValueParser.GetActualColor(attr.Value.ToLower());
                             break;
-                        case HtmlConstants.Dir:
+                        case WebDom.WellknownHtmlName.Dir:
                             {
                                 WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
-                                       value.ToLower(), WebDom.CssValueHint.Iden);
+                                        attr.Value.ToLower(), WebDom.CssValueHint.Iden);
                                 box.SetCssDirection(propValue);
                             }
                             break;
-                        case HtmlConstants.Face:
-                            box.FontFamily = CssParser.ParseFontFamily(value);
+                        case WebDom.WellknownHtmlName.Face:
+                            box.FontFamily = CssParser.ParseFontFamily(attr.Value.ToLower());
                             break;
-                        case HtmlConstants.Height:
-                            box.Height = TranslateLength(value);
+                        case WebDom.WellknownHtmlName.Height:
+                            box.Height = TranslateLength(attr.Value.ToLower());
                             break;
-                        case HtmlConstants.Hspace:
-                            box.MarginRight = box.MarginLeft = TranslateLength(value);
+                        case WebDom.WellknownHtmlName.HSpace:
+                            box.MarginRight = box.MarginLeft = TranslateLength(attr.Value.ToLower());
                             break;
-                        case HtmlConstants.Nowrap:
+                        case WebDom.WellknownHtmlName.Nowrap:
                             box.WhiteSpace = CssWhiteSpace.NoWrap;
                             break;
-                        case HtmlConstants.Size:
+                        case WebDom.WellknownHtmlName.Size:
 
                             if (tag.WellknownTagName == WellknownHtmlTagName.HR)
                             {
-                                box.Height = TranslateLength(value);
+                                box.Height = TranslateLength(attr.Value.ToLower());
                             }
                             else if (tag.WellknownTagName == WellknownHtmlTagName.FONT)
                             {
-                                WebDom.CssRuleSet ruleset = CssParser.ParseCssBlock2("", value);
+                                WebDom.CssRuleSet ruleset = CssParser.ParseCssBlock2("", attr.Value.ToLower());
                                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                                 {
                                     AssignPropertyValueToCssBox(box, propDecl);
@@ -532,18 +535,18 @@ namespace HtmlRenderer.Dom
                             }
 
                             break;
-                        case HtmlConstants.Valign:
+                        case WebDom.WellknownHtmlName.VAlign:
                             {
                                 WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
-                                         value.ToLower(), WebDom.CssValueHint.Iden);
+                                          attr.Value.ToLower(), WebDom.CssValueHint.Iden);
                                 box.SetVerticalAlign(propValue);
 
                             } break;
-                        case HtmlConstants.Vspace:
-                            box.MarginTop = box.MarginBottom = TranslateLength(value);
+                        case WebDom.WellknownHtmlName.VSpace:
+                            box.MarginTop = box.MarginBottom = TranslateLength(attr.Value.ToLower());
                             break;
-                        case HtmlConstants.Width:
-                            box.Width = TranslateLength(value);
+                        case WebDom.WellknownHtmlName.Width:
+                            box.Width = TranslateLength(attr.Value.ToLower());
                             break;
                     }
                 }

@@ -12,81 +12,31 @@ namespace HtmlRenderer.Dom
 
     public static class CssBoxUserUtilExtension
     {
-        class CssValueMap<T>
-        {
-            readonly Dictionary<string, T> stringToValue;
-            readonly Dictionary<T, string> valueToString;
-            public CssValueMap()
-            {
+       
 
-                LoadAndAssignCssValues(out stringToValue, out valueToString);
-            }
-            static void LoadAndAssignCssValues<T>(out Dictionary<string, T> stringToValue, out Dictionary<T, string> valueToString)
-            {
-                stringToValue = new Dictionary<string, T>();
-                valueToString = new Dictionary<T, string>();
+        static readonly ValueMap<CssDisplay> _cssDisplayMap = new ValueMap<CssDisplay>();
+        static readonly ValueMap<CssDirection> _cssDirectionMap = new ValueMap<CssDirection>();
+        static readonly ValueMap<CssPosition> _cssPositionMap = new ValueMap<CssPosition>();
+        static readonly ValueMap<CssWordBreak> _cssWordBreakMap = new ValueMap<CssWordBreak>();
+        static readonly ValueMap<CssTextDecoration> _cssTextDecorationMap = new ValueMap<CssTextDecoration>();
+        static readonly ValueMap<CssOverflow> _cssOverFlowMap = new ValueMap<CssOverflow>();
+        static readonly ValueMap<CssTextAlign> _cssTextAlignMap = new ValueMap<CssTextAlign>();
+        static readonly ValueMap<CssVerticalAlign> _cssVerticalAlignMap = new ValueMap<CssVerticalAlign>();
+        static readonly ValueMap<CssVisibility> _cssVisibilityMap = new ValueMap<CssVisibility>();
+        static readonly ValueMap<CssWhiteSpace> _cssWhitespaceMap = new ValueMap<CssWhiteSpace>();
+        static readonly ValueMap<CssBorderCollapse> _cssCollapseBorderMap = new ValueMap<CssBorderCollapse>();
+        static readonly ValueMap<CssBorderStyle> _cssBorderStyleMap = new ValueMap<CssBorderStyle>();
+        static readonly ValueMap<CssEmptyCell> _cssEmptyCellMap = new ValueMap<CssEmptyCell>();
+        static readonly ValueMap<CssFloat> _cssFloatMap = new ValueMap<CssFloat>();
+        static readonly ValueMap<CssFontStyle> _cssFontStyleMap = new ValueMap<CssFontStyle>();
+        static readonly ValueMap<CssFontVariant> _cssFontVariantMap = new ValueMap<CssFontVariant>();
+        static readonly ValueMap<CssFontWeight> _cssFontWeightMap = new ValueMap<CssFontWeight>();
+        static readonly ValueMap<CssListStylePosition> _cssListStylePositionMap = new ValueMap<CssListStylePosition>();
+        static readonly ValueMap<CssListStyleType> _cssListStyleTypeMap = new ValueMap<CssListStyleType>();
 
-                var fields = typeof(T).GetFields();
-
-                for (int i = fields.Length - 1; i >= 0; --i)
-                {
-                    var field = fields[i];
-                    CssNameAttribute cssNameAttr = null;
-                    var customAttrs = field.GetCustomAttributes(cssNameAttrType, false);
-                    if (customAttrs != null && customAttrs.Length > 0 &&
-                       (cssNameAttr = customAttrs[0] as CssNameAttribute) != null)
-                    {
-                        T value = (T)field.GetValue(null);
-                        stringToValue.Add(cssNameAttr.CssName, value);//1.
-                        valueToString.Add(value, cssNameAttr.CssName);//2.                    
-
-                    }
-                }
-
-            }
-            public string GetStringFromValue(T value)
-            {
-                string found;
-                valueToString.TryGetValue(value, out found);
-                return found;
-            }
-            public T GetValueFromString(string str, T defaultIfNotFound)
-            {
-                T found;
-                if (stringToValue.TryGetValue(str, out found))
-                {
-                    return found;
-                }
-                return defaultIfNotFound;
-            }
-
-        }
-
-
-        static Type cssNameAttrType = typeof(CssNameAttribute);
-        static readonly CssValueMap<CssDisplay> _cssDisplayMap = new CssValueMap<CssDisplay>();
-        static readonly CssValueMap<CssDirection> _cssDirectionMap = new CssValueMap<CssDirection>();
-        static readonly CssValueMap<CssPosition> _cssPositionMap = new CssValueMap<CssPosition>();
-        static readonly CssValueMap<CssWordBreak> _cssWordBreakMap = new CssValueMap<CssWordBreak>();
-        static readonly CssValueMap<CssTextDecoration> _cssTextDecorationMap = new CssValueMap<CssTextDecoration>();
-        static readonly CssValueMap<CssOverflow> _cssOverFlowMap = new CssValueMap<CssOverflow>();
-        static readonly CssValueMap<CssTextAlign> _cssTextAlignMap = new CssValueMap<CssTextAlign>();
-        static readonly CssValueMap<CssVerticalAlign> _cssVerticalAlignMap = new CssValueMap<CssVerticalAlign>();
-        static readonly CssValueMap<CssVisibility> _cssVisibilityMap = new CssValueMap<CssVisibility>();
-        static readonly CssValueMap<CssWhiteSpace> _cssWhitespaceMap = new CssValueMap<CssWhiteSpace>();
-        static readonly CssValueMap<CssBorderCollapse> _cssCollapseBorderMap = new CssValueMap<CssBorderCollapse>();
-        static readonly CssValueMap<CssBorderStyle> _cssBorderStyleMap = new CssValueMap<CssBorderStyle>();
-        static readonly CssValueMap<CssEmptyCell> _cssEmptyCellMap = new CssValueMap<CssEmptyCell>();
-        static readonly CssValueMap<CssFloat> _cssFloatMap = new CssValueMap<CssFloat>();
-        static readonly CssValueMap<CssFontStyle> _cssFontStyleMap = new CssValueMap<CssFontStyle>();
-        static readonly CssValueMap<CssFontVariant> _cssFontVariantMap = new CssValueMap<CssFontVariant>();
-        static readonly CssValueMap<CssFontWeight> _cssFontWeightMap = new CssValueMap<CssFontWeight>();
-        static readonly CssValueMap<CssListStylePosition> _cssListStylePositionMap = new CssValueMap<CssListStylePosition>();
-        static readonly CssValueMap<CssListStyleType> _cssListStyleTypeMap = new CssValueMap<CssListStyleType>();
-
-        static readonly CssValueMap<CssNamedBorderWidth> _cssNamedBorderWidthMap = new CssValueMap<CssNamedBorderWidth>();
-        static readonly CssValueMap<HtmlRenderer.WebDom.WellknownCssPropertyName> _wellKnownCssPropNameMap = new CssValueMap<WebDom.WellknownCssPropertyName>();
-        static readonly CssValueMap<WellknownHtmlTagName> _wellknownHtmlTagNameMap = new CssValueMap<WellknownHtmlTagName>();
+        static readonly ValueMap<CssNamedBorderWidth> _cssNamedBorderWidthMap = new ValueMap<CssNamedBorderWidth>();
+        static readonly ValueMap<HtmlRenderer.WebDom.WellknownCssPropertyName> _wellKnownCssPropNameMap = new ValueMap<WebDom.WellknownCssPropertyName>();
+        static readonly ValueMap<WellknownHtmlTagName> _wellknownHtmlTagNameMap = new ValueMap<WellknownHtmlTagName>();
 
 
         static CssBoxUserUtilExtension()
@@ -214,7 +164,7 @@ namespace HtmlRenderer.Dom
                 value);
         }
 
-        static int EvaluateIntPropertyValueFromString<T>(CssValueMap<T> map,
+        static int EvaluateIntPropertyValueFromString<T>(ValueMap<T> map,
             WebDom.CssValueEvaluatedAs
             evalAs,
             T defaultValue,

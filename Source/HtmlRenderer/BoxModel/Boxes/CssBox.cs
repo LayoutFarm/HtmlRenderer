@@ -164,7 +164,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public virtual string HrefLink
         {
-            get { return GetAttribute(HtmlConstants.Href); }
+            get { return GetAttribute("href"); }
         }
         internal bool HasContainingBlockProperty
         {
@@ -736,12 +736,12 @@ namespace HtmlRenderer.Dom
                         {
                             case CssRunKind.Text:
                                 {
-                                                                         
+
                                     CssTextRun textRun = (CssTextRun)boxWord;
-                                    boxWord.Width = FontsUtils.MeasureStringWidth(g, 
-                                        myTextBuffer, 
+                                    boxWord.Width = FontsUtils.MeasureStringWidth(g,
+                                        myTextBuffer,
                                         textRun.TextStartIndex,
-                                        textRun.TextLength, 
+                                        textRun.TextLength,
                                         actualFont);
 
                                 } break;

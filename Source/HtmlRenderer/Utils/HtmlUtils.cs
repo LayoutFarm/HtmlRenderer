@@ -1,4 +1,6 @@
-﻿// "Therefore those skilled at the unorthodox
+﻿//BSD 2014,WinterCore
+
+// "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
 // When they come to an end,
@@ -17,30 +19,15 @@ namespace HtmlRenderer.Utils
 {
     internal static class HtmlUtils
     {
-        #region Fields and Consts
+
+
+
 
         /// <summary>
         /// List of html tags that don't have content
         /// </summary>
-        private static readonly List<string> _list = new List<string>(
-            new[]
-                {
-                    "area", "base", "basefont", "br", "col",
-                    "frame", "hr", "img", "input", "isindex",
-                    "link", "meta", "param"
-                }
-            );
+        static readonly Dictionary<WebDom.WellknownHtmlName, byte> noContantTags = new Dictionary<WebDom.WellknownHtmlName, byte>();
 
-        /// <summary>
-        /// the html encode\decode pairs
-        /// </summary>
-        //private static readonly KeyValuePair<string, string>[] _encodeDecode = new[]
-        //                                                   {
-        //                                                       new KeyValuePair<string, string>("&lt;", "<"), 
-        //                                                       new KeyValuePair<string, string>("&gt;", ">"),
-        //                                                       new KeyValuePair<string, string>("&quot;", "\""),
-        //                                                       new KeyValuePair<string, string>("&amp;", "&"),
-        //                                                   };
 
         /// <summary>
         /// the html decode only pairs
@@ -48,7 +35,6 @@ namespace HtmlRenderer.Utils
         private static readonly Dictionary<string, char> _decodeOnly = new Dictionary<string, char>(StringComparer.InvariantCultureIgnoreCase);
         private static readonly Dictionary<string, char> _encodeDecode0 = new Dictionary<string, char>(StringComparer.InvariantCultureIgnoreCase);
 
-        #endregion
 
 
         /// <summary>
@@ -56,6 +42,23 @@ namespace HtmlRenderer.Utils
         /// </summary>
         static HtmlUtils()
         {
+
+            noContantTags.Add(WebDom.WellknownHtmlName.Area, 0);
+            noContantTags.Add(WebDom.WellknownHtmlName.Base, 0);
+            noContantTags.Add(WebDom.WellknownHtmlName.BaseFont, 0);
+            noContantTags.Add(WebDom.WellknownHtmlName.Br, 0);
+            noContantTags.Add(WebDom.WellknownHtmlName.Col, 0);
+            noContantTags.Add(WebDom.WellknownHtmlName.Frame, 0);
+            noContantTags.Add(WebDom.WellknownHtmlName.Hr, 0);
+            noContantTags.Add(WebDom.WellknownHtmlName.Img, 0);
+            noContantTags.Add(WebDom.WellknownHtmlName.Input, 0);
+            noContantTags.Add(WebDom.WellknownHtmlName.IsIndex, 0);
+            noContantTags.Add(WebDom.WellknownHtmlName.Link, 0);
+            noContantTags.Add(WebDom.WellknownHtmlName.Meta, 0);
+            noContantTags.Add(WebDom.WellknownHtmlName.Param, 0);
+
+
+
             _encodeDecode0["&lt;"] = '<';
             _encodeDecode0["&gt;"] = '>';
             _encodeDecode0["&quot;"] = '"';
@@ -310,26 +313,13 @@ namespace HtmlRenderer.Utils
         /// </summary>
         /// <param name="tagName">the tag to check (must be lower case)</param>
         /// <returns>true - is single tag, false - otherwise</returns>
-        public static bool IsSingleTag(string tagName)
+        public static bool IsSingleTag(int nameIndex)// HtmlRenderer.Dom.WellknownHtmlTagName tagName)
         {
-            return _list.Contains(tagName);
+            return noContantTags.ContainsKey((WebDom.WellknownHtmlName)nameIndex);
+
         }
-        public static string DecodeHtml(string str)
-        {
-            char[] buff = str.ToCharArray();
-            return new string(DecodeHtml(buff, 0, buff.Length));
-        }
-        static int FindIndexOf(char[] sourceBuffer, int startIndex, int len, char findingChar)
-        {
-            for (int i = startIndex; i < len; ++i)
-            {
-                if (sourceBuffer[i] == findingChar)
-                {
-                    return i;
-                }
-            }
-            return -1;
-        }
+
+
         static int FindIndexOfOrWhitespace(char[] sourceBuffer, int startIndex, int len, char findingChar1)
         {
             for (int i = startIndex; i < len; ++i)
@@ -343,7 +333,7 @@ namespace HtmlRenderer.Utils
             return -1;
         }
 
-        static bool TryConvertFromBase10(char c, out long number)
+        static bool TryConvertFromBase10(char c, out int number)
         {
             switch (c)
             {
@@ -362,7 +352,7 @@ namespace HtmlRenderer.Utils
                     return false;
             }
         }
-        static bool TryConvertFromBase16(char c, out long number)
+        static bool TryConvertFromBase16(char c, out int number)
         {
             switch (c)
             {
@@ -412,7 +402,7 @@ namespace HtmlRenderer.Utils
             while (i < lim)
             {
                 char c = sourceBuffer[i];
-                
+
                 if (c != '&')
                 {
                     newbuff.Add(c);
@@ -459,7 +449,7 @@ namespace HtmlRenderer.Utils
                         {
                             long base10 = 0;
                             int ndigits = 1;
-                            long num = 0;
+                            int num = 0;
                             int p = beginNumber + numCharCount - 1;
                             for (int n = numCharCount - 1; i >= 0; --i)
                             {
@@ -492,7 +482,7 @@ namespace HtmlRenderer.Utils
                             for (int n = 0; n < numCharCount; ++n)
                             {
                                 char numchar = sourceBuffer[beginNumber + n];
-                                long num;
+                                int num;
                                 if (TryConvertFromBase10(numchar, out num))
                                 {
                                     newbuff.Add(numchar);
@@ -538,22 +528,6 @@ namespace HtmlRenderer.Utils
             }
             return newbuff.ToArray();
         }
-        ///// <summary>
-        ///// Encode regular string into html encoded string.<br/>
-        ///// Handles &lt;, &gt;, "&amp;.
-        ///// </summary>
-        ///// <param name="str">the string to encode</param>
-        ///// <returns>encoded string</returns>
-        //public static string EncodeHtml(string str)
-        //{
-        //    if (!string.IsNullOrEmpty(str))
-        //    {
-        //        for (int i = _encodeDecode.Length - 1; i >= 0; i--)
-        //        {
-        //            str = str.Replace(_encodeDecode[i].Value, _encodeDecode[i].Key);
-        //        }
-        //    }
-        //    return str;
-        //} 
+
     }
 }

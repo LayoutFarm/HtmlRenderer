@@ -44,9 +44,7 @@ namespace HtmlRenderer.WebDom
 
         public HtmlElement CreateElement(string prefix, string localName)
         {
-            if (localName.EndsWith("\r\n"))
-            {
-            }
+            
             return new HtmlElement(this,
                 uniqueStringTable.AddStringIfNotExist(prefix),
                 uniqueStringTable.AddStringIfNotExist(localName));

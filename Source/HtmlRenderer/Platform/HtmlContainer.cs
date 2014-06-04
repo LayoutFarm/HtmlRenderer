@@ -16,7 +16,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
-using System.Windows.Forms;
+ 
 using HtmlRenderer.Dom;
 using HtmlRenderer.Entities;
 using HtmlRenderer.Handlers;

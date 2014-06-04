@@ -10,63 +10,38 @@ using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
 {
-    public class CssNameAttribute : Attribute
-    {
-        public CssNameAttribute(string name)
-        {
-            this.CssName = name;
-        }
-        public string CssName
-        {
-            get;
-            private set;
-        }
-    }
-    public class AttrNameAttribute : Attribute
-    {
-        public AttrNameAttribute(string name)
-        {
-            this.CssName = name;
-        }
-        public string CssName
-        {
-            get;
-            private set;
-        }
-    }
-
-
+    
     //--------------------------------------------------
     public enum CssDisplay : byte
     {
-        [CssName(CssConstants.Inline)]
+        [Map(CssConstants.Inline)]
         Inline,//default 
 
-        [CssName(CssConstants.InlineBlock)]
+        [Map(CssConstants.InlineBlock)]
         InlineBlock,
-        [CssName(CssConstants.TableRow)]
+        [Map(CssConstants.TableRow)]
         TableRow,
-        [CssName(CssConstants.InlineTable)]
+        [Map(CssConstants.InlineTable)]
         InlineTable,
-        [CssName(CssConstants.TableColumn)]
+        [Map(CssConstants.TableColumn)]
         TableColumn,
 
-        [CssName(CssConstants.TableColumnGroup)]
+        [Map(CssConstants.TableColumnGroup)]
         TableColumnGroup,
 
-        [CssName(CssConstants.TableRowGroup)]
+        [Map(CssConstants.TableRowGroup)]
         TableRowGroup,
 
-        [CssName(CssConstants.TableCaption)]
+        [Map(CssConstants.TableCaption)]
         TableCaption,
 
-        [CssName(CssConstants.TableHeaderGroup)]
+        [Map(CssConstants.TableHeaderGroup)]
         TableHeaderGroup,
 
-        [CssName(CssConstants.TableFooterGroup)]
+        [Map(CssConstants.TableFooterGroup)]
         TableFooterGroup,
 
-        [CssName(CssConstants.None)]
+        [Map(CssConstants.None)]
         None,
 
         //===========================================
@@ -75,29 +50,29 @@ namespace HtmlRenderer.Dom
         /// </summary>
         __CONTAINER_BEGIN_HERE,
 
-        [CssName(CssConstants.Block)]
+        [Map(CssConstants.Block)]
         Block,
-        [CssName(CssConstants.Table)]
+        [Map(CssConstants.Table)]
         Table,
-        [CssName(CssConstants.TableCell)]
+        [Map(CssConstants.TableCell)]
         TableCell,
-        [CssName(CssConstants.ListItem)]
+        [Map(CssConstants.ListItem)]
         ListItem,
         //===========================================
     }
     public enum CssWhiteSpace : byte
     {
-        [CssName(CssConstants.Normal)]
+        [Map(CssConstants.Normal)]
         Normal,//default
 
-        [CssName(CssConstants.Pre)]
+        [Map(CssConstants.Pre)]
         Pre,
-        [CssName(CssConstants.PreLine)]
+        [Map(CssConstants.PreLine)]
         PreLine,
-        [CssName(CssConstants.PreWrap)]
+        [Map(CssConstants.PreWrap)]
         PreWrap,
 
-        [CssName(CssConstants.NoWrap)]
+        [Map(CssConstants.NoWrap)]
         NoWrap,
     }
     public enum CssBorderStyle : byte
@@ -105,36 +80,36 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// default
         /// </summary>
-        [CssName(CssConstants.None)]
+        [Map(CssConstants.None)]
         None,
-        [CssName(CssConstants.Hidden)]
+        [Map(CssConstants.Hidden)]
         Hidden,
 
-        [CssName(CssConstants.Visible)]
+        [Map(CssConstants.Visible)]
         Visible,//boundary-- extension ***
 
-        [CssName(CssConstants.Dotted)]
+        [Map(CssConstants.Dotted)]
         Dotted,
 
-        [CssName(CssConstants.Dashed)]
+        [Map(CssConstants.Dashed)]
         Dashed,
 
-        [CssName(CssConstants.Solid)]
+        [Map(CssConstants.Solid)]
         Solid,
 
-        [CssName(CssConstants.Double)]
+        [Map(CssConstants.Double)]
         Double,
 
-        [CssName(CssConstants.Groove)]
+        [Map(CssConstants.Groove)]
         Groove,
-        [CssName(CssConstants.Ridge)]
+        [Map(CssConstants.Ridge)]
         Ridge,
-        [CssName(CssConstants.Inset)]
+        [Map(CssConstants.Inset)]
         Inset,
-        [CssName(CssConstants.Outset)]
+        [Map(CssConstants.Outset)]
         Outset,
          
-        [CssName(CssConstants.Inherit)]
+        [Map(CssConstants.Inherit)]
         Inherit,
          
         //extension
@@ -142,199 +117,198 @@ namespace HtmlRenderer.Dom
     }
     public enum CssWordBreak : byte
     {
-        [CssName(CssConstants.Normal)]
+        [Map(CssConstants.Normal)]
         Normal,//default
-        [CssName(CssConstants.BreakAll)]
+        [Map(CssConstants.BreakAll)]
         BreakAll,
-        [CssName(CssConstants.KeepAll)]
+        [Map(CssConstants.KeepAll)]
         KeepAll,
        
-        [CssName(CssConstants.Inherit)]
+        [Map(CssConstants.Inherit)]
         Inherit
     }
 
     public enum CssDirection : byte
     {
-        [CssName(CssConstants.Ltr)]
+        [Map(CssConstants.Ltr)]
         Ltl,//default
-        [CssName(CssConstants.Rtl)]
+        [Map(CssConstants.Rtl)]
         Rtl
     }
     public enum CssVerticalAlign : byte
     {
-        [CssName(CssConstants.Baseline)]
+        [Map(CssConstants.Baseline)]
         Baseline,
-        [CssName(CssConstants.Sub)]
+        [Map(CssConstants.Sub)]
         Sub,
-        [CssName(CssConstants.Super)]
+        [Map(CssConstants.Super)]
         Super,
-        [CssName(CssConstants.TextTop)]
+        [Map(CssConstants.TextTop)]
         TextTop,
-        [CssName(CssConstants.TextBottom)]
+        [Map(CssConstants.TextBottom)]
         TextBottom,
-        [CssName(CssConstants.Top)]
+        [Map(CssConstants.Top)]
         Top,
-        [CssName(CssConstants.Bottom)]
+        [Map(CssConstants.Bottom)]
         Bottom,
-        [CssName(CssConstants.Middle)]
+        [Map(CssConstants.Middle)]
         Middle
 
     }
     public enum CssVisibility : byte
     {
-        [CssName(CssConstants.Visible)]
+        [Map(CssConstants.Visible)]
         Visible,//default
-        [CssName(CssConstants.Hidden)]
+        [Map(CssConstants.Hidden)]
         Hidden,
-        [CssName(CssConstants.Collapse)]
+        [Map(CssConstants.Collapse)]
         Collapse,
 
         Initial,
-        [CssName(CssConstants.Inherit)]
+        [Map(CssConstants.Inherit)]
         Inherit
     }
     public enum CssTextAlign : byte
     {
         NotAssign,
-        [CssName(CssConstants.Left)]
+        [Map(CssConstants.Left)]
         Left,//default
-        [CssName(CssConstants.Right)]
+        [Map(CssConstants.Right)]
         Right,
-        [CssName(CssConstants.Center)]
+        [Map(CssConstants.Center)]
         Center,
-        [CssName(CssConstants.Justify)]
+        [Map(CssConstants.Justify)]
         Justify,
        
-        [CssName(CssConstants.Inherit)]
+        [Map(CssConstants.Inherit)]
         Inherit
     }
 
     public enum CssPosition : byte
     {
-        [CssName(CssConstants.Static)]
+        [Map(CssConstants.Static)]
         Static,
-        [CssName(CssConstants.Relative)]
+        [Map(CssConstants.Relative)]
         Relative,
-        [CssName(CssConstants.Absolute)]
+        [Map(CssConstants.Absolute)]
         Absolute,
-        [CssName(CssConstants.Fixed)]
+        [Map(CssConstants.Fixed)]
         Fixed
     }
     public enum CssTextDecoration : byte
     {
         NotAssign,
-        [CssName(CssConstants.None)]
+        [Map(CssConstants.None)]
         None,
-        [CssName(CssConstants.Underline)]
+        [Map(CssConstants.Underline)]
         Underline,
-        [CssName(CssConstants.LineThrough)]
+        [Map(CssConstants.LineThrough)]
         LineThrough,
-        [CssName(CssConstants.Overline)]
+        [Map(CssConstants.Overline)]
         Overline
     }
     public enum CssOverflow : byte
     {
-        [CssName(CssConstants.Visible)]
+        [Map(CssConstants.Visible)]
         Visible,
-        [CssName(CssConstants.Hidden)]
+        [Map(CssConstants.Hidden)]
         Hidden,
-        [CssName(CssConstants.Scroll)]
+        [Map(CssConstants.Scroll)]
         Scroll,
-        [CssName(CssConstants.Auto)]
+        [Map(CssConstants.Auto)]
         Auto,
          
-        [CssName(CssConstants.Inherit)]
+        [Map(CssConstants.Inherit)]
         Inherit
     }
     public enum CssBorderCollapse : byte
     {
-        [CssName(CssConstants.Separate)]
+        [Map(CssConstants.Separate)]
         Separate,
-        [CssName(CssConstants.Collapse)]
+        [Map(CssConstants.Collapse)]
         Collapse,
 
         Initial,
-        [CssName(CssConstants.Inherit)]
+        [Map(CssConstants.Inherit)]
         Inherit
     }
     public enum CssEmptyCell : byte
     {
-        [CssName(CssConstants.Show)]
+        [Map(CssConstants.Show)]
         Show,
-        [CssName(CssConstants.Hide)]
+        [Map(CssConstants.Hide)]
         Hide,
         Initial,
-        [CssName(CssConstants.Inherit)]
+        [Map(CssConstants.Inherit)]
         Inherit
     }
 
     public enum CssFloat : byte
     {
-        [CssName(CssConstants.None)]
+        [Map(CssConstants.None)]
         None,
-        [CssName(CssConstants.Left)]
+        [Map(CssConstants.Left)]
         Left,
-        [CssName(CssConstants.Right)]
+        [Map(CssConstants.Right)]
         Right,
 
         Initial,
-        [CssName(CssConstants.Inherit)]
+        [Map(CssConstants.Inherit)]
         Inherit
     }
 
     public enum CssFontStyle : byte
     {
-        [CssName(CssConstants.Normal)]
+        [Map(CssConstants.Normal)]
         Normal,
-        [CssName(CssConstants.Italic)]
+        [Map(CssConstants.Italic)]
         Italic,
-        [CssName(CssConstants.Oblique)]
+        [Map(CssConstants.Oblique)]
         Oblique,
         Initial,
-        [CssName(CssConstants.Inherit)]
+        [Map(CssConstants.Inherit)]
         Inherit,
 
         Unknown,
     }
     public enum CssFontVariant : byte
     {
-        [CssName(CssConstants.Normal)]
+        [Map(CssConstants.Normal)]
         Normal,
-        [CssName(CssConstants.SmallCaps)]
+        [Map(CssConstants.SmallCaps)]
         SmallCaps,
         Initial,
-        [CssName(CssConstants.Inherit)]
+        [Map(CssConstants.Inherit)]
         Inherit,
-
         Unknown,
     }
     public enum CssFontWeight : byte
     {
         NotAssign,
-        [CssName(CssConstants.Normal)]
+        [Map(CssConstants.Normal)]
         Normal,
-        [CssName(CssConstants.Bold)]
+        [Map(CssConstants.Bold)]
         Bold,
-        [CssName(CssConstants.Bolder)]
+        [Map(CssConstants.Bolder)]
         Bolder,
-        [CssName(CssConstants.Lighter)]
+        [Map(CssConstants.Lighter)]
         Lighter,
          
-        [CssName("100")]
+        [Map("100")]
         _100,
-        [CssName("200")]
+        [Map("200")]
         _200,
-        [CssName("300")]
+        [Map("300")]
         _300,
-        [CssName("400")]
+        [Map("400")]
         _400,
-        [CssName("500")]
+        [Map("500")]
         _500,
-        [CssName("600")]
+        [Map("600")]
         _600,
 
          
-        [CssName(CssConstants.Inherit)]
+        [Map(CssConstants.Inherit)]
         Inherit,
 
         Unknown,
@@ -342,68 +316,68 @@ namespace HtmlRenderer.Dom
     }
     public enum CssListStylePosition : byte
     {
-        [CssName(CssConstants.Outset)]
+        [Map(CssConstants.Outset)]
         Outside,
-        [CssName(CssConstants.Inside)]
+        [Map(CssConstants.Inside)]
         Inside,
 
         
-        [CssName(CssConstants.Inherit)]
+        [Map(CssConstants.Inherit)]
         Inherit
     }
     public enum CssListStyleType : byte
     {
-        [CssName(CssConstants.None)]
+        [Map(CssConstants.None)]
         None,
-        [CssName(CssConstants.Disc)]
+        [Map(CssConstants.Disc)]
         Disc,
 
-        [CssName(CssConstants.Circle)]
+        [Map(CssConstants.Circle)]
         Circle,
-        [CssName(CssConstants.Separate)]
+        [Map(CssConstants.Separate)]
         Square,
         //-----------------------------
         
-        [CssName(CssConstants.Inherit)]
+        [Map(CssConstants.Inherit)]
         Inherit,
 
         //-----------------------------
-        [CssName(CssConstants.Decimal)]
+        [Map(CssConstants.Decimal)]
         Decimal,
-        [CssName(CssConstants.DecimalLeadingZero)]
+        [Map(CssConstants.DecimalLeadingZero)]
         DecimalLeadingZero,
 
-        [CssName(CssConstants.LowerAlpha)]
+        [Map(CssConstants.LowerAlpha)]
         LowerAlpha,
-        [CssName(CssConstants.UpperAlpha)]
+        [Map(CssConstants.UpperAlpha)]
         UpperAlpha,
 
-        [CssName(CssConstants.LowerLatin)]
+        [Map(CssConstants.LowerLatin)]
         LowerLatin,
-        [CssName(CssConstants.UpperLatin)]
+        [Map(CssConstants.UpperLatin)]
         UpperLatin,
 
-        [CssName(CssConstants.LowerGreek)]
+        [Map(CssConstants.LowerGreek)]
         LowerGreek,
 
-        [CssName(CssConstants.LowerRoman)]
+        [Map(CssConstants.LowerRoman)]
         LowerRoman,
-        [CssName(CssConstants.UpperRoman)]
+        [Map(CssConstants.UpperRoman)]
         UpperRoman,
 
-        [CssName(CssConstants.Armenian)]
+        [Map(CssConstants.Armenian)]
         Armenian,
-        [CssName(CssConstants.Georgian)]
+        [Map(CssConstants.Georgian)]
         Georgian,
-        [CssName(CssConstants.Hebrew)]
+        [Map(CssConstants.Hebrew)]
         Hebrew,
-        [CssName(CssConstants.Hiragana)]
+        [Map(CssConstants.Hiragana)]
         Hiragana,
-        [CssName(CssConstants.HiraganaIroha)]
+        [Map(CssConstants.HiraganaIroha)]
         HiraganaIroha,
-        [CssName(CssConstants.Katakana)]
+        [Map(CssConstants.Katakana)]
         Katakana,
-        [CssName(CssConstants.KatakanaIroha)]
+        [Map(CssConstants.KatakanaIroha)]
         KatakanaIroha,
     }
 
@@ -411,11 +385,11 @@ namespace HtmlRenderer.Dom
     {
         Unknown,
 
-        [CssName(CssConstants.Thin)]
+        [Map(CssConstants.Thin)]
         Thin,
-        [CssName(CssConstants.Medium)]
+        [Map(CssConstants.Medium)]
         Medium,
-        [CssName(CssConstants.Thick)]
+        [Map(CssConstants.Thick)]
         Thick
     }
 
