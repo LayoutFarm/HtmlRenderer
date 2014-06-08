@@ -24,11 +24,164 @@ using HtmlRenderer.Parse;
 
 namespace HtmlRenderer.Utils
 {
+ 
     /// <summary>
     /// Utility class for traversing DOM structure and execution stuff on it.
     /// </summary>
     public sealed class DomUtils
     {
+
+
+
+
+        internal static IEnumerable<LineOrBoxVisit> GetLineOrBoxIterWalk(CssLineBox startLine)
+        {
+            //start at line
+            //1. start line
+            yield return new LineOrBoxVisit(startLine);
+            CssLineBox curLine = startLine;
+
+            //walk up and down the tree
+            CssLineBox nextline = startLine.NextLine;
+            while (nextline != null)
+            {
+                yield return new LineOrBoxVisit(nextline);
+                nextline = nextline.NextLine;
+            }
+            //--------------------
+            //no next line 
+            //then step up  
+            CssBox curBox = startLine.OwnerBox;
+        RETRY:
+            //ask for sibling
+            CssBox level1Sibling = DomUtils.GetNextSibling(curBox);
+            while (level1Sibling != null)
+            {
+                foreach (var visit in Utils.DomUtils.GetDeepBoxOrLineIter(level1Sibling))
+                {
+                    yield return visit;
+                }
+
+                level1Sibling = DomUtils.GetNextSibling(level1Sibling);
+            }
+            //--------------------
+            //other further sibling
+            //then step to parent of lineOwner
+            if (curBox.ParentBox != null)
+            {
+                //if has parent                  
+                curBox = curBox.ParentBox;
+                goto RETRY;
+            }
+        }
+
+
+
+        public static CssBox GetNextSibling(CssBox a)
+        {
+            if (a.ParentBox == null)
+            {
+                return null;
+            }
+            CssBox parent = a.ParentBox;
+            int childCount = parent.ChildCount;
+            for (int i = 0; i < childCount; ++i)
+            {
+                if (parent.GetChildBox(i) == a)
+                {
+                    //found 
+                    if (i < childCount - 1)
+                    {
+                        return parent.GetChildBox(i + 1);
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            return null;
+        }
+        public static CssBox GetPrevSibling(CssBox a)
+        {
+            CssBox parent = a.ParentBox;
+            int childCount = parent.ChildCount;
+            for (int i = 0; i < childCount; ++i)
+            {
+                if (parent.GetChildBox(i) == a)
+                {
+                    //found 
+                    if (i == 0)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        return parent.GetChildBox(i - 1);
+                    }
+                }
+            }
+            return null;
+        }
+        internal static CssLineBox GetNearestLine(CssBox a, Point point, out bool found)
+        {
+            if (a.LineBoxCount > 0)
+            {
+                CssLineBox latestLine = null;
+
+                int y = point.Y;
+                found = false;
+                foreach (CssLineBox linebox in a.GetLineBoxIter())
+                {
+                    if (linebox.CachedLineBottom < y)
+                    {
+                        latestLine = linebox;
+                    }
+                    else
+                    {
+                        if (latestLine != null)
+                        {
+                            found = true;
+                        }
+                        break;
+                    }
+                }
+
+                return latestLine;
+            }
+            else
+            {
+                bool foundExact = false;
+                CssLineBox lastLine = null;
+                foreach (CssBox cbox in a.GetChildBoxIter())
+                {
+
+                    CssLineBox candidateLine = GetNearestLine(cbox, point, out foundExact);
+                    if (candidateLine != null)
+                    {
+                        if (foundExact)
+                        {
+                            found = true;
+                            return lastLine;
+                        }
+                        //not exact
+                        lastLine = candidateLine;
+                    }
+                    else
+                    {
+                        if (lastLine != null)
+                        {
+                            found = false;
+                            return lastLine;
+                        }
+                    }
+                }
+                found = foundExact;
+
+
+            }
+            return null;
+        }
         /// <summary>
         /// Check if the given box contains only inline child boxes.
         /// </summary>
@@ -40,18 +193,12 @@ namespace HtmlRenderer.Utils
             foreach (CssBox b in box.GetChildBoxIter())
             {
                 if (!b.IsInline)
-                { 
+                {
                     return false;
                 }
-            } 
+            }
             return true;
         }
-
-
-       
-
-
-
         /// <summary>
         /// Get attribute value by given key starting search from given box, search up the tree until
         /// attribute found or root.
@@ -70,39 +217,39 @@ namespace HtmlRenderer.Utils
             return value;
         }
 
-        /// <summary>
-        /// Get css box under the given sub-tree at the given x,y location, get the inner most.<br/>
-        /// the location must be in correct scroll offset.
-        /// </summary>
-        /// <param name="box">the box to start search from</param>
-        /// <param name="location">the location to find the box by</param>
-        /// <param name="visible">Optional: if to get only visible boxes (default - true)</param>
-        /// <returns>css link box if exists or null</returns>
-        public static CssBox GetCssBox(CssBox box, Point location, bool visible = true)
-        {
-            //------------------------------------
-            //2014-04-27: temp remove
-            //tobe replace by another technique
-            //------------------------------------
+        ///// <summary>
+        ///// Get css box under the given sub-tree at the given x,y location, get the inner most.<br/>
+        ///// the location must be in correct scroll offset.
+        ///// </summary>
+        ///// <param name="box">the box to start search from</param>
+        ///// <param name="location">the location to find the box by</param>
+        ///// <param name="visible">Optional: if to get only visible boxes (default - true)</param>
+        ///// <returns>css link box if exists or null</returns>
+        //public static CssBox GetCssBox(CssBox box, Point location, bool visible = true)
+        //{
+        //    //------------------------------------
+        //    //2014-04-27: temp remove
+        //    //tobe replace by another technique
+        //    //------------------------------------
 
 
-            //if (box != null)
-            //{
-            //    //if ((!visible || box.Visibility == CssConstants.Visible) && (box.Bounds.IsEmpty || box.Bounds.Contains(location)))
-            //    if ((!visible || box.CssVisibility == CssVisibility.Visible) && (box.Bounds.IsEmpty || box.Bounds.Contains(location)))
-            //    {
-            //        foreach (var childBox in box.GetChildBoxIter())
-            //        {
-            //            if (CommonUtils.GetFirstValueOrDefault(box.Rectangles, box.Bounds).Contains(location))
-            //            {
-            //                return GetCssBox(childBox, location) ?? childBox;
-            //            }
-            //        }
-            //    }
-            //}
+        //    //if (box != null)
+        //    //{
+        //    //    //if ((!visible || box.Visibility == CssConstants.Visible) && (box.Bounds.IsEmpty || box.Bounds.Contains(location)))
+        //    //    if ((!visible || box.CssVisibility == CssVisibility.Visible) && (box.Bounds.IsEmpty || box.Bounds.Contains(location)))
+        //    //    {
+        //    //        foreach (var childBox in box.GetChildBoxIter())
+        //    //        {
+        //    //            if (CommonUtils.GetFirstValueOrDefault(box.Rectangles, box.Bounds).Contains(location))
+        //    //            {
+        //    //                return GetCssBox(childBox, location) ?? childBox;
+        //    //            }
+        //    //        }
+        //    //    }
+        //    //}
 
-            return null;
-        }
+        //    return null;
+        //}
 
         /// <summary>
         /// Get css link box under the given sub-tree at the given x,y location.<br/>
@@ -173,40 +320,159 @@ namespace HtmlRenderer.Utils
             return null;
         }
 
-        public static CssRun GetWordOnLocation(CssBox box, Point loc)
-        {
-            var lineBox = DomUtils.GetCssLineBox(box, loc);
-            if (lineBox != null)
-            {
-                // get the word under the mouse
-                var word = DomUtils.GetCssBoxWordOnLocation(lineBox, loc);
+        public static bool HitTest(CssBox box, Point loc, BoxHitChain hitChain)
+        {//recursive
 
-                // if no word found under the mouse use the last or the first word in the line
-                if (word == null && lineBox.WordCount > 0)
+            if (box.Bounds.Contains(loc))
+            {
+                //1.
+                int x = loc.X;
+                int y = loc.Y;
+                hitChain.AddHit(box, x, y);
+
+                if (box.LineBoxCount > 0)
                 {
-                    if (loc.Y > lineBox.ReCalculateLineBottom())
+
+                    foreach (var lineBox in box.GetLineBoxIter())
                     {
-                        // under the line
-                        //word = lineBox.Words[lineBox.Words.Count - 1];
-                        word = lineBox.GetLastRun();
-                    }
-                    else if (loc.X < lineBox.GetFirstRun().Left)
-                    {
-                        // before the line
-                        word = lineBox.GetFirstRun();
-                    }
-                    else if (loc.X > lineBox.GetLastRun().Right)
-                    {
-                        // at the end of the line
-                        word = lineBox.GetLastRun();
+                        if (lineBox.HitTest(x, y))
+                        {
+                            //2.
+                            hitChain.AddHit(lineBox, x, y);
+                            var foundRun = DomUtils.GetCssRunOnLocation(lineBox, loc);
+                            if (foundRun != null)
+                            {
+                                //3.
+                                hitChain.AddHit(foundRun, x, y);
+                            }
+                            //found line box
+                            return true;
+                        }
                     }
                 }
-
-                return word;
+                else
+                {
+                    //iterate in child 
+                    foreach (var childBox in box.GetChildBoxIter())
+                    {
+                        if (HitTest(childBox, loc, hitChain))
+                        {
+                            //recursive
+                            return true;
+                        }
+                    }
+                }
+                return true;
             }
             else
             {
-                return null;
+                if (box.HtmlTag != null)
+                {
+                    switch (box.HtmlTag.WellknownTagName)
+                    {
+                        case WellknownHtmlTagName.TR:
+                            {
+
+                                foreach (var childBox in box.GetChildBoxIter())
+                                {
+                                    if (HitTest(childBox, loc, hitChain))
+                                    {
+                                        return true;
+                                    }
+                                }
+                            } break;
+                        default:
+                            {
+                            } break;
+                    }
+
+                }
+            }
+            return false;
+
+
+        }
+        //public static CssRun GetWordOnLocation(CssBox box, Point loc)
+        //{
+        //    var lineBox = DomUtils.GetCssLineBox(box, loc);
+
+        //    if (lineBox != null)
+        //    {
+        //        // get the word under the mouse
+        //        return DomUtils.GetCssRunOnLocation(lineBox, loc);
+        //        //// if no word found under the mouse use the last or the first word in the line
+        //        //if (word == null && lineBox.WordCount > 0)
+        //        //{
+        //        //    if (loc.Y > lineBox.ReCalculateLineBottom())
+        //        //    {
+        //        //        // under the line
+        //        //        //word = lineBox.Words[lineBox.Words.Count - 1];
+        //        //        word = lineBox.GetLastRun();
+        //        //    }
+        //        //    else if (loc.X < lineBox.GetFirstRun().Left)
+        //        //    {
+        //        //        // before the line
+        //        //        word = lineBox.GetFirstRun();
+        //        //    }
+        //        //    else if (loc.X > lineBox.GetLastRun().Right)
+        //        //    {
+        //        //        // at the end of the line
+        //        //        word = lineBox.GetLastRun();
+        //        //    }
+        //        //}
+
+        //        //return word;
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
+        internal static IEnumerable<LineOrBoxVisit> GetDeepBoxOrLineIter(CssBox box)
+        {
+            yield return new LineOrBoxVisit(box);
+            if (box.LineBoxCount > 0)
+            {
+                foreach (CssLineBox linebox in box.GetLineBoxIter())
+                {
+                    yield return new LineOrBoxVisit(linebox);
+                }
+            }
+            else
+            {
+                if (box.ChildCount > 0)
+                {
+                    foreach (CssBox child in box.GetChildBoxIter())
+                    {
+                        foreach (var visit in GetDeepBoxOrLineIter(child))
+                        {
+                            yield return visit;
+                        }
+                    }
+                }
+            }
+        }
+        internal static IEnumerable<CssLineBox> GetDeepLineBoxIter(CssBox box)
+        {
+            if (box.LineBoxCount > 0)
+            {
+                foreach (CssLineBox linebox in box.GetLineBoxIter())
+                {
+                    yield return linebox;
+                }
+            }
+            else
+            {
+                if (box.ChildCount > 0)
+                {
+                    foreach (CssBox child in box.GetChildBoxIter())
+                    {
+                        foreach (CssLineBox linebox in GetDeepLineBoxIter(child))
+                        {
+                            yield return linebox;
+                        }
+                    }
+                }
             }
         }
         /// <summary>
@@ -223,15 +489,14 @@ namespace HtmlRenderer.Utils
             {
                 if (box.LineBoxCount > 0)
                 {
-                    // if (box.HtmlTag == null || box.HtmlTag.Name != "td" || box.Bounds.Contains(location))
                     if (box.WellknownTagName == WellknownHtmlTagName.NotAssign ||
                         box.WellknownTagName != WellknownHtmlTagName.TD ||
                         box.Bounds.Contains(location))
-                    {   
+                    {
                         foreach (var lineBox in box.GetLineBoxIter())
-                        {   
+                        {
                             foreach (var rect_top in lineBox.GetAreaStripTopPosIter())
-                            {   
+                            {
                                 if (rect_top <= location.Y)
                                 {
                                     line = lineBox;
@@ -240,7 +505,7 @@ namespace HtmlRenderer.Utils
                                 {
                                     return line;
                                 }
-                            } 
+                            }
                         }
                     }
                 }
@@ -263,34 +528,45 @@ namespace HtmlRenderer.Utils
         /// <returns>css word box if exists or null</returns>
         public static CssRun GetCssBoxWord(CssBox box, Point location)
         {
-            if (box != null && box.CssVisibility == CssVisibility.Visible)// box.Visibility == CssConstants.Visible)
+            if (box == null || box.CssVisibility != CssVisibility.Visible)
             {
-                if (box.LineBoxCount > 0)
+                return null;
+            }
+            //--------------------------------------------------------------- 
+            if (box.LineBoxCount > 0)
+            {
+                int x = location.X;
+                int y = location.Y;
+                if (x >= box.LocationX && x <= box.ActualRight)
                 {
-                    foreach (var lineBox in box.GetLineBoxIter())
+                    foreach (CssLineBox lineBox in box.GetLineBoxIter())
                     {
-                        var wordBox = GetCssBoxWordOnLocation(lineBox, location);
-                        if (wordBox != null)
+                        if (lineBox.HitTest(x, y))
                         {
-                            return wordBox;
-                        }
-                    }
-                }
+                            //hit this line
+                            //then find css run at location
+                            var wordBox = GetCssRunOnLocation(lineBox, location);
+                            if (wordBox != null)
+                            {
+                                return wordBox;
+                            }
 
-
-                if (box.ClientRectangle.IsEmpty || box.ClientRectangle.Contains(location))
-                {
-                    foreach (var childBox in box.GetChildBoxIter())
-                    {
-                        var foundWord = GetCssBoxWord(childBox, location);
-                        if (foundWord != null)
-                        {
-                            return foundWord;
                         }
                     }
                 }
             }
-
+            //--------------------------------------------------------------- 
+            if (box.ClientRectangle.IsEmpty || box.ClientRectangle.Contains(location))
+            {
+                foreach (var childBox in box.GetChildBoxIter())
+                {
+                    var foundWord = GetCssBoxWord(childBox, location);
+                    if (foundWord != null)
+                    {
+                        return foundWord;
+                    }
+                }
+            }
             return null;
         }
 
@@ -301,13 +577,14 @@ namespace HtmlRenderer.Utils
         /// <param name="lineBox">the line box to search in</param>
         /// <param name="location">the location to find the box at</param>
         /// <returns>css word box if exists or null</returns>
-        internal static CssRun GetCssBoxWordOnLocation(CssLineBox lineBox, Point location)
+        internal static CssRun GetCssRunOnLocation(CssLineBox lineBox, Point location)
         {
-            foreach (var word in lineBox.GetRunIter())
+            foreach (CssRun word in lineBox.GetRunIter())
             {
                 // add word spacing to word width so sentance won't have hols in it when moving the mouse
                 var rect = word.Rectangle;
-                rect.Width += word.OwnerBox.ActualWordSpacing;
+
+                //rect.Width += word.OwnerBox.ActualWordSpacing;
                 if (rect.Contains(location))
                 {
                     return word;
@@ -315,39 +592,39 @@ namespace HtmlRenderer.Utils
             }
             return null;
         }
-        public static bool IsOnTheSameLine(CssRun start, CssRun end)
-        {
-            return DomUtils.GetCssLineBoxByWord(start) == DomUtils.GetCssLineBoxByWord(end);
-        }
-        public static float GetLineBottom(CssRun cssRect)
-        {
-            return GetCssLineBoxByWord(cssRect).ReCalculateLineBottom();
-        }
-        /// <summary>
-        /// Find the css line box that the given word is in.
-        /// </summary>
-        /// <param name="word">the word to search for it's line box</param>
-        /// <returns>line box that the word is in</returns>
-        internal static CssLineBox GetCssLineBoxByWord(CssRun word)
-        {
-            var box = word.OwnerBox;
-            while (box.LineBoxCount == 0)
-            {
-                box = box.ParentBox;
-            }
-            foreach (var lineBox in box.GetLineBoxIter())
-            {
-                foreach (var lineWord in lineBox.GetRunIter())
-                {
-                    if (lineWord == word)
-                    {
-                        return lineBox;
-                    }
-                }
-            }
-            //return box.LineBoxes[0];
-            return box.GetFirstLineBox();
-        }
+        //public static bool IsOnTheSameLine(CssRun start, CssRun end)
+        //{
+        //    return DomUtils.GetCssLineBoxByWord(start) == DomUtils.GetCssLineBoxByWord(end);
+        //}
+        //public static float GetLineBottom(CssRun cssRect)
+        //{
+        //    return GetCssLineBoxByWord(cssRect).ReCalculateLineBottom();
+        //}
+        ///// <summary>
+        ///// Find the css line box that the given word is in.
+        ///// </summary>
+        ///// <param name="word">the word to search for it's line box</param>
+        ///// <returns>line box that the word is in</returns>
+        //internal static CssLineBox GetCssLineBoxByWord(CssRun word)
+        //{
+        //    var box = word.OwnerBox;
+        //    while (box.LineBoxCount == 0)
+        //    {
+        //        box = box.ParentBox;
+        //    }
+        //    foreach (var lineBox in box.GetLineBoxIter())
+        //    {
+        //        foreach (var lineWord in lineBox.GetRunIter())
+        //        {
+        //            if (lineWord == word)
+        //            {
+        //                return lineBox;
+        //            }
+        //        }
+        //    }
+        //    //return box.LineBoxes[0];
+        //    return box.GetFirstLineBox();
+        //}
 
         /// <summary>
         /// Get selected plain text of the given html sub-tree.
@@ -407,7 +684,7 @@ namespace HtmlRenderer.Utils
         ///// <returns>the index of the last word appended</returns>
         //private static int GetSelectedPlainText(StringBuilder sb, CssBox box)
         //{
-            
+
 
         //    int lastWordIndex = 0;
         //    foreach (var boxWord in box.Runs)

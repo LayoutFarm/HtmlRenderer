@@ -22,7 +22,15 @@ namespace HtmlRenderer.Dom
                 yield return tmp[i];
             }
         }
-
+        public IEnumerable<CssBox> GetChildBoxBackwardIter()
+        {
+            List<CssBox> tmp = _boxes;
+           
+            for (int i = tmp.Count - 1; i >= 0; --i)
+            {
+                yield return tmp[i];
+            }
+        }
         public void Add(CssBox box)
         {
             if (this.owner == box)
@@ -124,6 +132,6 @@ namespace HtmlRenderer.Dom
         }
     }
 
-    
+
 
 }

@@ -78,8 +78,8 @@ namespace HtmlRenderer.Dom
 
                 RectangleF clip = g.GetClip();
                 RectangleF rect = args.LatestContaingBoxClientRect;
-                rect.X -= 2;
-                rect.Width += 2;
+                //rect.X -= 2;
+                //rect.Width += 2;
                 rect.Offset(args.HtmlContainerScrollOffset);
                 rect.Intersect(args.PeekViewportBound());
 
@@ -117,12 +117,9 @@ namespace HtmlRenderer.Dom
                  EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
             {
 
-                //1. check if this box is in viewport bound                 
                 var prevClip = RenderUtils.ClipGraphicsByOverflow(g, this);
-                //prevClip.Intersect(args.PeekViewportBound());
                 if (this.Overflow == CssOverflow.Hidden)
                 {
-                    //in overflow mode ? 
                     var actualHeight = this.ActualHeight;
                     var actualWidth = this.ActualWidth;
                     if (actualHeight > 0)
@@ -138,53 +135,84 @@ namespace HtmlRenderer.Dom
                         }
                     }
                 }
-
-                ////area to draw ?
-                //int rectCount = this.Rectangles.Count; 
-                PointF offset = args.HtmlContainerScrollOffset;// HtmlContainer.ScrollOffset;
+                PointF offset = args.HtmlContainerScrollOffset;
                 var viewport = args.PeekViewportBound();
 
-
-                //int i = 0;
-                //int lim = rectCount - 1; 
                 //---------------------------------------------
                 if (this.CssDisplay != CssDisplay.Inline)
                 {
                     var bound = this.Bounds;
                     bound.Offset(offset);
-                    //PaintBackground(g, bound, i == 0, i == lim);
                     PaintBackground(g, bound, true, true);
                     BordersDrawHandler.DrawBoxBorders(g, this, bound, true, true);
-                    // i = 0;
                 }
 
                 if (this._clientLineBoxes != null && this._clientLineBoxes.Count > 0)
                 {
-                    //render only line that in  
                     viewport.Offset(offset.X, -offset.Y);
                     float viewport_top = viewport.Top;
                     float viewport_bottom = viewport.Bottom;
-
-                    foreach (var line in this._clientLineBoxes)
+                    //---------------------------------------- 
+                    if (this.ContainsSelectedRun)
                     {
-                        //paint each line ***    
-                        if (line.CachedLineBottom >= viewport_top &&
-                            line.CachedLineTop <= viewport_bottom)
+                        //render with selection concern 
+                        foreach (var line in this._clientLineBoxes)
                         {
-                            line.PaintLine(g, offset);
-                            //line.dbugPaintRects(g, offset);
+                            if (line.CachedLineBottom >= viewport_top &&
+                                line.CachedLineTop <= viewport_bottom)
+                            {
+                                //----------------------------------------
+                                //1.
+                                line.PaintBackgroundAndBorder(g, offset);
+
+                                this.HtmlContainer.SelectionRange.Draw(g, args, line.CachedLineTop, line.CacheLineHeight, offset);
+
+                                //2.
+                                line.PaintRuns(g, offset);
+                                //3.
+                                line.PaintDecoration(g, offset);
+#if DEBUG
+                                line.dbugPaintRuns(g, offset);
+#endif
+                                //----------------------------------------
+                            }
+                            else
+                            {
+
+                            }
                         }
-                        else
+
+                    }
+                    else
+                    {
+                        //render without selection concern
+                        foreach (var line in this._clientLineBoxes)
                         {
-                            // line.dbugPaintRects2(g, offset);
+                            if (line.CachedLineBottom >= viewport_top &&
+                                line.CachedLineTop <= viewport_bottom)
+                            {
+                                //----------------------------------------
+                                //1.
+                                line.PaintBackgroundAndBorder(g, offset);
+                                //2.
+                                line.PaintRuns(g, offset);
+                                //3.
+                                line.PaintDecoration(g, offset);
+#if DEBUG
+                                line.dbugPaintRuns(g, offset);
+#endif
+                                //----------------------------------------
+                            }
+                            else
+                            {
+
+                            }
                         }
                     }
-
                 }
                 else
                 {
 
-                    //check if this has containg box property for its children 
                     if (this.HasContainingBlockProperty)
                     {
                         args.PushContainingBox(this);
@@ -211,9 +239,9 @@ namespace HtmlRenderer.Dom
                         }
                     }
                 }
-
                 //------------------------------------------
                 //must! , 
+
                 RenderUtils.ReturnClip(g, prevClip);
                 if (_listItemBox != null)
                 {

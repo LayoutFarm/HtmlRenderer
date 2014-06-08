@@ -1,3 +1,4 @@
+//BSD 2014,WinterCore
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
@@ -9,7 +10,7 @@
 // 
 // - Sun Tsu,
 // "The Art of War"
-
+using System;
 using System.Drawing;
 using HtmlRenderer.Handlers;
 using HtmlRenderer.Utils;
@@ -131,7 +132,7 @@ namespace HtmlRenderer.Dom
         internal void SetLocation(float x, float y)
         {
             this._x = x;
-            this._y = y; 
+            this._y = y;
         }
         internal void SetSize(float w, float h)
         {
@@ -245,38 +246,6 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        ///// <summary>
-        ///// the selection start index if the word is partially selected (-1 if not selected or fully selected)
-        ///// </summary>
-        //public int SelectedStartIndex
-        //{
-        //    get { return _selection != null ? _selection.GetSelectingStartIndex(this) : -1; }
-        //}
-
-        ///// <summary>
-        ///// the selection end index if the word is partially selected (-1 if not selected or fully selected)
-        ///// </summary>
-        //public int SelectedEndIndexOffset
-        //{
-        //    get { return _selection != null ? _selection.GetSelectedEndIndexOffset(this) : -1; }
-        //}
-
-        ///// <summary>
-        ///// the selection start offset if the word is partially selected (-1 if not selected or fully selected)
-        ///// </summary>
-        //public float SelectedStartOffset
-        //{
-        //    get { return _selection != null ? _selection.GetSelectedStartOffset(this) : -1; }
-        //}
-
-        ///// <summary>
-        ///// the selection end offset if the word is partially selected (-1 if not selected or fully selected)
-        ///// </summary>
-        //public float SelectedEndOffset
-        //{
-        //    get { return _selection != null ? _selection.GetSelectedEndOffset(this) : -1; }
-        //}
-
         /// <summary>
         /// Gets or sets an offset to be considered in measurements
         /// </summary>
@@ -294,6 +263,61 @@ namespace HtmlRenderer.Dom
             string txt = this.Text;
             return string.Format("{0} ({1} char{2})",
                 txt.Replace(' ', '-').Replace("\n", "\\n"), txt.Length, txt.Length != 1 ? "s" : string.Empty);
+        }
+
+        public void FindSelectionPoint(IGraphics g,
+            int offset, bool inclusive, out int selectionIndex,
+            out int selectionOffset)
+        {
+
+            int charFit;
+            int charFitWidth;
+            var maxWidth = offset + (inclusive ? 0 : 1.5f * this.LeftGlyphPadding);
+
+            //return new string(ownerTextBuff, this._textStartIndex, this._textLength); 
+            //g.MeasureString(word.Text, font, maxWidth, out charFit, out charFitWidth);  
+            //between
+            switch (this.Kind)
+            {
+                case CssRunKind.Image:
+                    {      
+                        // not a text word - set full selection
+                        selectionIndex = -1;
+                        selectionOffset = -1; 
+                    } break;
+                case CssRunKind.Text:
+                    {
+                        char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
+                        CssTextRun textRun = (CssTextRun)this;
+                        g.MeasureString2(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength,
+                            this.OwnerBox.ActualFont, maxWidth, out charFit, out charFitWidth);
+                        selectionIndex = charFit;
+                        selectionOffset = charFitWidth;
+                    } break;
+                case CssRunKind.Space:
+                    {
+                        throw new NotSupportedException();
+                    } break;
+                case CssRunKind.SingleSpace:
+                    {
+
+                        if (offset > this.Width / 2)
+                        {
+                            selectionIndex = -1;
+                            selectionOffset = 0;
+                        }
+                        else
+                        {
+                            selectionIndex = 0;
+                            selectionOffset = (int)this.Width;
+                        }
+                    } break;
+                default:
+                    {
+                        throw new NotSupportedException();
+                    }
+            }
+
         }
     }
 }

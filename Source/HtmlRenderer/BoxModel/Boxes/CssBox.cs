@@ -170,22 +170,33 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if (this.IsBlock)
+                switch (this.CssDisplay)
                 {
-                    return true;
+                    case CssDisplay.Block:
+                    case CssDisplay.ListItem:
+                    case CssDisplay.Table:
+                    case CssDisplay.TableCell:
+                        return true;
+                    default:
+                        return false;
                 }
-                else
-                {
-                    switch (this.CssDisplay)
-                    {
-                        case CssDisplay.ListItem:
-                        case CssDisplay.Table:
-                        case CssDisplay.TableCell:
-                            return true;
-                        default:
-                            return false;
-                    }
-                }
+
+                //if (this.IsBlock)
+                //{
+                //    return true;
+                //}
+                //else
+                //{
+                //    switch (this.CssDisplay)
+                //    {
+                //        case CssDisplay.ListItem:
+                //        case CssDisplay.Table:
+                //        case CssDisplay.TableCell:
+                //            return true;
+                //        default:
+                //            return false;
+                //    }
+                //}
             }
         }
         /// <summary>
@@ -235,6 +246,11 @@ namespace HtmlRenderer.Dom
             }
         }
 
+        internal bool ContainsSelectedRun
+        {
+            get;
+            set;
+        }
         /// <summary>
         /// Tells if the box is empty or contains just blank spaces
         /// </summary>
@@ -255,7 +271,7 @@ namespace HtmlRenderer.Dom
                 return true;
             }
         }
-        internal static char[] UnsafeGetTextBuffer(CssBox box)
+        public static char[] UnsafeGetTextBuffer(CssBox box)
         {
             return box._textBuffer;
         }
@@ -1106,7 +1122,6 @@ namespace HtmlRenderer.Dom
             if (ParentBox != null && this.IsLastChild && _parentBox.ActualMarginBottom < 0.1)
             {
                 var lastChildBottomMargin = _boxes[_boxes.Count - 1].ActualMarginBottom;
-                //margin = Height == "auto" ? Math.Max(ActualMarginBottom, lastChildBottomMargin) : lastChildBottomMargin;
                 margin = (Height.IsAuto) ? Math.Max(ActualMarginBottom, lastChildBottomMargin) : lastChildBottomMargin;
             }
             return Math.Max(ActualBottom, _boxes[_boxes.Count - 1].ActualBottom + margin + ActualPaddingBottom + ActualBorderBottomWidth);
@@ -1218,54 +1233,7 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-        //        internal void PaintTextWord(IGraphics g, PointF offset, CssRun word)
-        //        {
 
-        //            var wordPoint = new PointF(word.Left + offset.X, word.Top + offset.Y);
-        //            g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
-
-        ////            if (word.Selected)
-        ////            {
-        ////                g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
-
-        ////                //word.debugPaintCount++;
-
-        ////                //// handle paint selected word background and with partial word selection
-        ////                //var wordLine = DomUtils.GetCssLineBoxByWord(word);
-
-        ////                //var left = word.SelectedStartOffset > -1 ? word.SelectedStartOffset : (wordLine.GetFirstRun() != word && word.HasSpaceBefore ? -ActualWordSpacing : 0);
-        ////                //var padWordRight = word.HasSpaceAfter && !wordLine.IsLastSelectedWord(word);
-        ////                //var width = word.SelectedEndOffset > -1 ? word.SelectedEndOffset : word.Width + (padWordRight ? ActualWordSpacing : 0);
-        ////                //var rect = new RectangleF(word.Left + offset.X + left, word.Top + offset.Y, width - left, wordLine.LineHeight);
-
-        ////                ////draw selection area
-        ////                //g.FillRectangle(GetSelectionBackBrush(false), rect.X, rect.Y, rect.Width, rect.Height);
-
-        ////                //if (HtmlContainer.SelectionForeColor != System.Drawing.Color.Empty && (word.SelectedStartOffset > 0 || word.SelectedEndIndexOffset > -1))
-        ////                //{
-        ////                //    var orgClip = g.GetClip();
-        ////                //    g.SetClip(rect, CombineMode.Exclude);
-        ////                //    g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
-        ////                //    g.SetClip(rect);
-        ////                //    g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
-        ////                //    g.SetClip(orgClip);
-        ////                //}
-        ////                //else
-        ////                //{
-        ////                //    g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
-        ////                //    word.debugPaintCount++;
-        ////                //}
-        ////            }
-        ////            else
-        ////            {
-
-        ////                g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
-        ////#if DEBUG
-        ////                //g.DrawRectangle(Pens.Red, word.Left, word.Top, word.Width, word.Height);
-        ////#endif
-        ////                //word.debugPaintCount++;
-        ////            }
-        //        }
 
 #if DEBUG
         internal void dbugPaintTextWordArea(IGraphics g, PointF offset, CssRun word)
@@ -1274,56 +1242,7 @@ namespace HtmlRenderer.Dom
 
         }
 #endif
-        ///// <summary>
-        ///// Paint all the words in the box.
-        ///// </summary>
-        ///// <param name="g">the device to draw into</param>
-        ///// <param name="offset">the current scroll offset to offset the words</param>
-        //void PaintWords(IGraphics g, PointF offset)
-        //{
-        //    Font font = this.ActualFont;
-        //    Color color = this.ActualColor;
-        //    foreach (var word in Runs)
-        //    {
-        //        var wordPoint = new PointF(word.Left + offset.X, word.Top + offset.Y);
-        //        g.DrawString(word.Text, font, color, wordPoint, new SizeF(word.Width, word.Height));
 
-        //        //if (word.Selected)
-        //        //{
-
-        //        //    //// handle paint selected word background and with partial word selection
-        //        //    //var wordLine = DomUtils.GetCssLineBoxByWord(word);
-        //        //    //var left = word.SelectedStartOffset > -1 ? word.SelectedStartOffset : (wordLine.GetFirstRun() != word && word.HasSpaceBefore ? -ActualWordSpacing : 0);
-        //        //    //var padWordRight = word.HasSpaceAfter && !wordLine.IsLastSelectedWord(word);
-        //        //    //var width = word.SelectedEndOffset > -1 ? word.SelectedEndOffset : word.Width + (padWordRight ? ActualWordSpacing : 0);
-        //        //    //var rect = new RectangleF(word.Left + offset.X + left, word.Top + offset.Y, width - left, wordLine.LineHeight);
-
-        //        //    //g.FillRectangle(GetSelectionBackBrush(false), rect.X, rect.Y, rect.Width, rect.Height);
-
-        //        //    //if (HtmlContainer.SelectionForeColor != System.Drawing.Color.Empty && (word.SelectedStartOffset > 0 || word.SelectedEndIndexOffset > -1))
-        //        //    //{
-        //        //    //    var orgClip = g.GetClip();
-        //        //    //    g.SetClip(rect, CombineMode.Exclude);
-        //        //    //    g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
-        //        //    //    g.SetClip(rect);
-        //        //    //    g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
-        //        //    //    g.SetClip(orgClip);
-        //        //    //}
-        //        //    //else
-        //        //    //{
-        //        //    //    g.DrawString(word.Text, ActualFont, GetSelectionForeColor(), wordPoint, new SizeF(word.Width, word.Height));
-        //        //    //}
-
-        //        //    g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new SizeF(word.Width, word.Height));
-        //        //    //word.debugPaintCount++;
-        //        //}
-        //        //else
-        //        //{
-
-        //        //    //word.debugPaintCount++;
-        //        //}
-        //    }
-        //}
 
         internal void PaintDecoration(IGraphics g, RectangleF rectangle, bool isFirst, bool isLast)
         {
@@ -1353,12 +1272,16 @@ namespace HtmlRenderer.Dom
 
             float x1 = rectangle.X;
             if (isFirst)
+            {
                 x1 += ActualPaddingLeft + ActualBorderLeftWidth;
+            }
 
 
             float x2 = rectangle.Right;
             if (isLast)
+            {
                 x2 -= ActualPaddingRight + ActualBorderRightWidth;
+            }
 
             var pen = RenderUtils.GetPen(ActualColor);
 

@@ -16,7 +16,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
- 
+
 using HtmlRenderer.Dom;
 using HtmlRenderer.Entities;
 using HtmlRenderer.Handlers;
@@ -215,6 +215,28 @@ namespace HtmlRenderer
             get { return _cssData; }
         }
 
+        HtmlRenderer.Dom.SelectionRange selRange;
+        public HtmlRenderer.Dom.SelectionRange SelectionRange
+        {
+            get
+            {
+                return this.selRange;
+            }
+            set
+            {
+                if (this.selRange != null)
+                {
+                    //1. 
+                    this.selRange.ClearSelectionStatus();
+                } 
+                this.selRange = value;
+                if (value != null)
+                {
+                    value.ActivateSelection();
+                }
+            }
+        }
+
         /// <summary>
         /// Gets or sets a value indicating if anti-aliasing should be avoided for geometry like backgrounds and borders (default - false).
         /// </summary>
@@ -405,7 +427,7 @@ namespace HtmlRenderer
             if (!string.IsNullOrEmpty(htmlSource))
             {
 
-                _cssData = baseCssData ?? CssUtils.DefaultCssData; 
+                _cssData = baseCssData ?? CssUtils.DefaultCssData;
                 _root = BoxModelBuilder.BuildBoxesTree(htmlSource, this, _cssData);
                 if (_root != null)
                 {
@@ -434,22 +456,22 @@ namespace HtmlRenderer
             return DomUtils.GenerateHtml(_root, styleGen);
         }
 
-        /// <summary>
-        /// Get attribute value of element at the given x,y location by given key.<br/>
-        /// If more than one element exist with the attribute at the location the inner most is returned.
-        /// </summary>
-        /// <param name="location">the location to find the attribute at</param>
-        /// <param name="attribute">the attribute key to get value by</param>
-        /// <returns>found attribute value or null if not found</returns>
-        public string GetAttributeAt(Point location, string attribute)
-        {
-            ArgChecker.AssertArgNotNullOrEmpty(attribute, "attribute");
+        ///// <summary>
+        ///// Get attribute value of element at the given x,y location by given key.<br/>
+        ///// If more than one element exist with the attribute at the location the inner most is returned.
+        ///// </summary>
+        ///// <param name="location">the location to find the attribute at</param>
+        ///// <param name="attribute">the attribute key to get value by</param>
+        ///// <returns>found attribute value or null if not found</returns>
+        //public string GetAttributeAt(Point location, string attribute)
+        //{
+        //    ArgChecker.AssertArgNotNullOrEmpty(attribute, "attribute");
 
-            var cssBox = DomUtils.GetCssBox(_root, OffsetByScroll(location));
-            return cssBox != null ? DomUtils.GetAttribute(cssBox, attribute) : null;
-        }
+        //    var cssBox = DomUtils.GetCssBox(_root, OffsetByScroll(location));
+        //    return cssBox != null ? DomUtils.GetAttribute(cssBox, attribute) : null;
+        //}
 
-        
+
 
         /// <summary>
         /// Get the rectangle of html element as calculated by html layout.<br/>
@@ -469,7 +491,7 @@ namespace HtmlRenderer
             //return box != null ? CommonUtils.GetFirstValueOrDefault(box.Rectangles, box.Bounds) : (RectangleF?)null;
         }
 
-       
+
         public void PerformLayout(IGraphics ig)
         {
             //ArgChecker.AssertArgNotNull(ig, "g");
@@ -512,7 +534,7 @@ namespace HtmlRenderer
             get;
             set;
         }
-   
+
         /// <summary>
         /// Render the html using the given device.
         /// </summary>
@@ -530,7 +552,10 @@ namespace HtmlRenderer
             var bound = this.ViewportBound;
             args.PushBound(0, 0, bound.Width, bound.Height);
             //using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))            //{
-            this.PerformLayout(ig);
+
+            //Recalculate and perform layout if need !
+            //this.PerformLayout(ig);
+
             args.PushContainingBox(_root.ContainingBlock);
             _root.Paint(ig, args);
             args.PopContainingBox();
@@ -644,7 +669,7 @@ namespace HtmlRenderer
         }
 
 
-      
+
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>

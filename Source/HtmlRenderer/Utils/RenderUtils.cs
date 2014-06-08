@@ -127,8 +127,8 @@ namespace HtmlRenderer.Utils
                 {
                     var prevClip = g.GetClip();
                     var rect = box.ContainingBlock.ClientRectangle;
-                    rect.X -= 2; // atodo: find better way to fix it
-                    rect.Width += 2;
+                    //rect.X -= 2; // atodo: find better way to fix it
+                    //rect.Width += 2;
                     rect.Offset(box.HtmlContainer.ScrollOffset);
                     rect.Intersect(prevClip);
                     g.SetClip(rect);

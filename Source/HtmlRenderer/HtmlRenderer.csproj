@@ -62,9 +62,11 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoxModel.HitAndSelection\BoxHitChain.cs" />
     <Compile Include="Common\ValueMaps.cs" />
     <Compile Include="Common\TextSnapshot.cs" />
     <Compile Include="BoxModel\Builder\CssTextSplitter.cs" />
+    <Compile Include="BoxModel.HitAndSelection\SelectionRange.cs" />
     <Compile Include="WebDom.Parser\dbugLexerReport.cs" />
     <Compile Include="WebDom.Parser\HtmlLexer.cs" />
     <Compile Include="WebDom.Parser\CssParser.cs" />
