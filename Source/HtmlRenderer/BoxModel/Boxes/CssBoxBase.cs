@@ -492,10 +492,7 @@ namespace HtmlRenderer.Dom
                 _lineHeight = value;
                 _actualLineHeight = float.NaN;
             }
-        }
-
-
-
+        } 
         public CssVerticalAlign VerticalAlign
         {
             get { return this._verticalAlign; }
@@ -1353,20 +1350,17 @@ namespace HtmlRenderer.Dom
             if (p != null)
             {
                 this._fontProps = p._fontProps;
-
+                this._listProps = p._listProps;
+                this._lineHeight = p._lineHeight;
                 this._actualColor = p._actualColor;
-                this._emptyCells = p._emptyCells;
-                this.WhiteSpace = p.WhiteSpace;
-                this.CssVisibility = p.CssVisibility;
+                this._emptyCells = p._emptyCells;                               
                 this._textIndent = p._textIndent;
 
                 this.CssTextAlign = p.CssTextAlign;
                 this.VerticalAlign = p.VerticalAlign;
-                this._listProps = p._listProps;
-                this._lineHeight = p._lineHeight;
-
-                this.WordBreak = p.WordBreak;
-
+                this.CssVisibility = p.CssVisibility;
+                this.WhiteSpace = p.WhiteSpace;
+                this.WordBreak = p.WordBreak; 
                 this.CssDirection = p.CssDirection;
 
                 if (everything)

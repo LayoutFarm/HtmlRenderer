@@ -233,19 +233,7 @@ namespace HtmlRenderer.Dom
             get { return null; }
         }
 
-        /// <summary>
-        /// is the word is currently selected
-        /// </summary>
-        public bool Selected
-        {
-            get
-            {
-                //reimplement 
-                return false;
-                //return _selection != null;
-            }
-        }
-
+         
         /// <summary>
         /// Gets or sets an offset to be considered in measurements
         /// </summary>

@@ -52,12 +52,8 @@ namespace HtmlRenderer.WebDom
             {
                 return this._name;
             }
-            set
+            internal set
             {
-                //if (value == "whitehole")
-                //{
-
-                //}
                 this._name = value;
             }
         }

@@ -164,7 +164,7 @@ namespace HtmlRenderer.Dom
         [Map(CssConstants.Collapse)]
         Collapse,
 
-        Initial,
+        
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -228,7 +228,7 @@ namespace HtmlRenderer.Dom
         [Map(CssConstants.Collapse)]
         Collapse,
 
-        Initial,
+         
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -237,8 +237,7 @@ namespace HtmlRenderer.Dom
         [Map(CssConstants.Show)]
         Show,
         [Map(CssConstants.Hide)]
-        Hide,
-        Initial,
+        Hide, 
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -250,9 +249,7 @@ namespace HtmlRenderer.Dom
         [Map(CssConstants.Left)]
         Left,
         [Map(CssConstants.Right)]
-        Right,
-
-        Initial,
+        Right,  
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -265,7 +262,7 @@ namespace HtmlRenderer.Dom
         Italic,
         [Map(CssConstants.Oblique)]
         Oblique,
-        Initial,
+         
         [Map(CssConstants.Inherit)]
         Inherit,
 
@@ -277,7 +274,7 @@ namespace HtmlRenderer.Dom
         Normal,
         [Map(CssConstants.SmallCaps)]
         SmallCaps,
-        Initial,
+         
         [Map(CssConstants.Inherit)]
         Inherit,
         Unknown,

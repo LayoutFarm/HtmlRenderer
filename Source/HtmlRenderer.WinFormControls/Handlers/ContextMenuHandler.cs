@@ -318,11 +318,11 @@ namespace HtmlRenderer.Handlers
                         _contextMenu.Items.Add("-");
                     }
 
-                    if (_htmlContainer.IsSelectionEnabled)
-                    {
-                        var copy = _contextMenu.Items.Add(_copy, null, OnCopyClick);
-                        copy.Enabled = rect.Selected;
-                    }
+                    //if (_htmlContainer.IsSelectionEnabled)
+                    //{
+                    //    var copy = _contextMenu.Items.Add(_copy, null, OnCopyClick);
+                    //    copy.Enabled = rect.Selected;
+                    //}
                 }
 
                 if (_htmlContainer.IsSelectionEnabled)

@@ -21,10 +21,8 @@ namespace HtmlRenderer.Dom
         CssLineBox startHitHostLine;
         CssBox startHitCssBox;
         int startHitRunCharIndex;
-
         //--------------------- 
         Point endHitPoint;
-        CssLineBox endHitHostLine;
         CssBox endHitCssBox;
         int endHitRunCharIndex;
         //---------------------       
@@ -192,13 +190,13 @@ namespace HtmlRenderer.Dom
 
 
                         //adjust
-                        CssLineBox hostLine = (CssLineBox)endChain.GetHitInfo(endChain.Count - 2).hitObject;
-                        this.endHitHostLine = hostLine;
-                        this.endHitPoint = new Point((int)(run.Left + sel_offset), (int)hostLine.CachedLineBottom);
-                        this.endHitCssBox = hostLine.OwnerBox;
+                        CssLineBox endline = (CssLineBox)endChain.GetHitInfo(endChain.Count - 2).hitObject;
+
+                        this.endHitPoint = new Point((int)(run.Left + sel_offset), (int)endline.CachedLineBottom);
+                        this.endHitCssBox = endline.OwnerBox;
 
 
-                        if (this.startHitHostLine != this.endHitHostLine)
+                        if (this.startHitHostLine != endline)
                         {
                             //select on different line 
                             //-------
@@ -207,10 +205,9 @@ namespace HtmlRenderer.Dom
 
                             //1. select all in start line      
                             CssLineBox startLineBox = this.startHitHostLine;
-                            CssLineBox endLineBox = this.endHitHostLine;
 
 
-                            foreach (CssLineBox line in GetLineWalkIter(startLineBox, endLineBox))
+                            foreach (CssLineBox line in GetLineWalkIter(startLineBox, endline))
                             {
 
                                 if (line == startLineBox)
@@ -222,17 +219,17 @@ namespace HtmlRenderer.Dom
                                         line.CacheLineHeight));
                                     this.selLineBoxes.Add(line);
                                 }
-                                else if (line == endLineBox)
+                                else if (line == endline)
                                 {
 
                                     //-------
                                     //2. end line 
-                                    CssBox endHostLineOwner = this.endHitHostLine.OwnerBox;
+                                    CssBox endHostLineOwner = endline.OwnerBox;
                                     this.selStrips.Add(new RectangleF(
                                         endHostLineOwner.LocationX,
-                                        endLineBox.CachedLineTop,
+                                        endline.CachedLineTop,
                                         (int)(run.Left + sel_offset) - endHostLineOwner.LocationX,
-                                        endLineBox.CacheLineHeight));
+                                        endline.CacheLineHeight));
 
                                     this.selLineBoxes.Add(line);
                                 }
@@ -255,12 +252,12 @@ namespace HtmlRenderer.Dom
                 case HitObjectKind.LineBox:
                     {
 
-                        CssLineBox linebox = (CssLineBox)endHit.hitObject;
-                        this.endHitHostLine = linebox;
-                        this.endHitPoint = new Point(endHit.x, (int)linebox.CachedLineBottom);
-                        this.endHitCssBox = linebox.OwnerBox;
+                        CssLineBox endline = (CssLineBox)endHit.hitObject;
 
-                        if (this.startHitHostLine != this.endHitHostLine)
+                        this.endHitPoint = new Point(endHit.x, (int)endline.CachedLineBottom);
+                        this.endHitCssBox = endline.OwnerBox;
+
+                        if (this.startHitHostLine != endline)
                         {
                             //between line
                             //select on different line 
@@ -271,10 +268,8 @@ namespace HtmlRenderer.Dom
                             //1. select all in start line      
                             //1. select all in start line      
                             CssLineBox startLineBox = this.startHitHostLine;
-                            CssLineBox endLineBox = this.endHitHostLine;
 
-
-                            foreach (CssLineBox line in GetLineWalkIter(startLineBox, endLineBox))
+                            foreach (CssLineBox line in GetLineWalkIter(startLineBox, endline))
                             {
 
                                 if (line == startLineBox)
@@ -286,13 +281,13 @@ namespace HtmlRenderer.Dom
                                        line.CacheLineHeight));
                                     this.selLineBoxes.Add(line);
                                 }
-                                else if (line == endLineBox)
+                                else if (line == endline)
                                 {
 
-                                    CssBox endHostLineOwner = this.endHitHostLine.OwnerBox;
+                                    CssBox endHostLineOwner = endline.OwnerBox;
                                     this.selStrips.Add(new RectangleF(
                                         endHostLineOwner.LocationX,
-                                        linebox.CachedLineTop,
+                                        endline.CachedLineTop,
                                         endHitPoint.X - endHostLineOwner.LocationX,
                                         line.CacheLineHeight));
                                     this.selLineBoxes.Add(line);
@@ -360,7 +355,7 @@ namespace HtmlRenderer.Dom
                         //------------------------------------------------------
                         if (latestLine != null)
                         {
-                            this.endHitHostLine = latestLine;
+
                             this.endHitPoint = new Point(endHit.x, (int)latestLine.CachedLineBottom);
                             this.endHitCssBox = latestLine.OwnerBox;
                         }
@@ -437,13 +432,20 @@ namespace HtmlRenderer.Dom
 
                 Point p1 = this.StartHitPoint;
                 Point p2 = this.EndHitPoint;
-                p1.Offset((int)offset.X, (int)offset.Y);
-                p2.Offset((int)offset.X, (int)offset.Y);
-                
 
-                g.FillRectangle(Brushes.LightGray, p1.X, p1.Y,
-                    p2.X - p1.X,
-                    p2.Y - p1.Y);
+                RectangleF rr = RectangleF.FromLTRB(p1.X, p1.Y, p2.X, p2.Y);
+                
+                rr.Offset(offset);
+                if (rr.Top >= (int)lineTop &&
+                        rr.Bottom <= (int)(lineTop + lineHeight))
+                {
+                    var prevClip = g.GetClip();
+                    g.SetClip(rr);
+                    g.FillRectangle(Brushes.LightGray, rr.X, rr.Y,
+                     rr.Width,
+                     rr.Height);
+                    g.SetClip(prevClip);
+                } 
             }
         }
     }

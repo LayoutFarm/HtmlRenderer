@@ -1,4 +1,7 @@
-﻿// "Therefore those skilled at the unorthodox
+﻿//BSD 2014,
+//ArthurHub
+
+// "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
 // When they come to an end,
@@ -94,11 +97,7 @@ namespace HtmlRenderer.Dom
                     g.DrawImage(_imageWord.Image, Rectangle.Round(r));
                 else
                     g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
-
-                if (_imageWord.Selected)
-                {
-                    //g.FillRectangle(GetSelectionBackBrush(true), _imageWord.Left + offset.X, _imageWord.Top + offset.Y, _imageWord.Width + 2, DomUtils.GetCssLineBoxByWord(_imageWord).LineHeight);
-                }
+ 
             }
             else if (_imageLoadingComplete)
             {
@@ -158,12 +157,7 @@ namespace HtmlRenderer.Dom
                 else
                     g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
 
-                if (_imageWord.Selected)
-                {
-                    //g.FillRectangle(GetSelectionBackBrush(true),
-                    //    _imageWord.Left + offset.X, _imageWord.Top + offset.Y, _imageWord.Width + 2,
-                    //    DomUtils.GetCssLineBoxByWord(_imageWord).LineHeight);
-                }
+ 
             }
             else if (_imageLoadingComplete)
             {

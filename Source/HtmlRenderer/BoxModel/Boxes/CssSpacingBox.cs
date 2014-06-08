@@ -1,3 +1,6 @@
+//BSD 2014,
+//ArthurHub
+
 using System;
 using System.Collections.Generic;
 using HtmlRenderer.Entities;

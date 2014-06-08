@@ -1,3 +1,6 @@
+//BSD 2014,
+//ArthurHub
+
 namespace HtmlRenderer.Entities
 {
     /// <summary>

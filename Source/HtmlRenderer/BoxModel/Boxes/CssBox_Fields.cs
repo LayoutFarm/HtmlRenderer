@@ -75,7 +75,7 @@ namespace HtmlRenderer.Dom
         //condition 1 :this Box is BlockBox
         //1.1 contain lineBoxes for my children and  other children (share)
         LinkedList<CssLineBox> _clientLineBoxes;
-        //CssStripCollection _clientStrips;
+         
 
         //1.2 contains box collection for my children
         readonly CssBoxCollection _boxes;

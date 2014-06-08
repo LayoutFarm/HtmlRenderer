@@ -68,7 +68,7 @@ namespace HtmlRenderer
 
             foreach (var ruleSetGroup in relatedRuleSets)
             {
-                //start with share rule set
+                //start with share*** rule set
                 ruleSetGroup.AddRuleSet(assignmentCollection);
             }
         }
@@ -296,10 +296,7 @@ namespace HtmlRenderer
 
         public CssRuleSetGroup(string name)
         {
-            this.Name = name;
-#if DEBUG
-
-#endif
+            this.Name = name; 
         }
         private CssRuleSetGroup(CssRuleSetGroup parent, string name, WebDom.CssSimpleElementSelector simpleSelector)
         {
