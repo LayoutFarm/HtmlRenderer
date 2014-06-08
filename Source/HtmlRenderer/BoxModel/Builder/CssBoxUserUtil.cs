@@ -12,7 +12,7 @@ namespace HtmlRenderer.Dom
 
     public static class CssBoxUserUtilExtension
     {
-       
+
 
         static readonly ValueMap<CssDisplay> _cssDisplayMap = new ValueMap<CssDisplay>();
         static readonly ValueMap<CssDirection> _cssDirectionMap = new ValueMap<CssDirection>();
@@ -68,101 +68,21 @@ namespace HtmlRenderer.Dom
         }
         //-----------------------
 
-        public static void SetBorderCollapse(this CssBox box, WebDom.CssCodeValueExpression value)
+        public static CssBorderCollapse GetBorderCollapse(WebDom.CssCodeValueExpression value)
         {
 
-            box.BorderCollapse = (CssBorderCollapse)EvaluateIntPropertyValueFromString(
-                _cssCollapseBorderMap,
-                WebDom.CssValueEvaluatedAs.BorderCollapse,
-                CssBorderCollapse.Separate,
-                value); 
+            return (CssBorderCollapse)EvaluateIntPropertyValueFromString(
+               _cssCollapseBorderMap,
+               WebDom.CssValueEvaluatedAs.BorderCollapse,
+               CssBorderCollapse.Separate,
+               value);
 
         }
         public static string ToCssStringValue(this CssDisplay value)
         {
             return _cssDisplayMap.GetStringFromValue(value);
         }
-        public static void SetDisplayType(this CssBox box, WebDom.CssCodeValueExpression value)
-        {
-
-            box.CssDisplay = (CssDisplay)EvaluateIntPropertyValueFromString(
-                _cssDisplayMap,
-                WebDom.CssValueEvaluatedAs.Display,
-                CssDisplay.Inline,
-                value);
-
-        }
-        //----------------------
-        public static string ToCssStringValue(this CssDirection value)
-        {
-            return _cssDirectionMap.GetStringFromValue(value);
-        }
-        public static void SetCssDirection(this CssBox box, WebDom.CssCodeValueExpression value)
-        {
-
-            box.CssDirection = (CssDirection)EvaluateIntPropertyValueFromString(
-             _cssDirectionMap,
-             WebDom.CssValueEvaluatedAs.Direction,
-             CssDirection.Ltl,
-             value);
-
-        }
-        //----------------------
-        public static void SetCssPosition(this CssBox box, WebDom.CssCodeValueExpression value)
-        {
-
-            box.Position = (CssPosition)EvaluateIntPropertyValueFromString(
-             _cssPositionMap,
-             WebDom.CssValueEvaluatedAs.Position,
-             CssPosition.Static,
-             value);
-
-        }
-        public static void SetWordBreak(this CssBox box, WebDom.CssCodeValueExpression value)
-        {
-            box.WordBreak = (CssWordBreak)EvaluateIntPropertyValueFromString(
-             _cssWordBreakMap,
-             WebDom.CssValueEvaluatedAs.WordBreak,
-             CssWordBreak.Normal,
-             value);
-        }
-        public static void SetTextDecoration(this CssBox box, WebDom.CssCodeValueExpression value)
-        {
-
-
-
-            box.TextDecoration = (CssTextDecoration)EvaluateIntPropertyValueFromString(
-             _cssTextDecorationMap,
-             WebDom.CssValueEvaluatedAs.TextDecoration,
-             CssTextDecoration.NotAssign,
-             value);
-
-        }
-        public static void SetOverflow(this CssBox box, WebDom.CssCodeValueExpression value)
-        {
-            box.Overflow = (CssOverflow)EvaluateIntPropertyValueFromString(
-               _cssOverFlowMap,
-               WebDom.CssValueEvaluatedAs.Overflow,
-               CssOverflow.Visible,
-               value);
-        }
-        public static void SetTextAlign(this CssBox box, WebDom.CssCodeValueExpression value)
-        {
-            box.CssTextAlign = (CssTextAlign)EvaluateIntPropertyValueFromString(
-                _cssTextAlignMap,
-                WebDom.CssValueEvaluatedAs.TextAlign,
-                CssTextAlign.NotAssign,
-                value);
-        }
-        public static void SetVerticalAlign(this CssBox box, WebDom.CssCodeValueExpression value)
-        {
-            box.VerticalAlign = (CssVerticalAlign)EvaluateIntPropertyValueFromString(
-                _cssVerticalAlignMap,
-                WebDom.CssValueEvaluatedAs.VerticalAlign,
-                CssVerticalAlign.Baseline,
-                value);
-        }
-
+        //-----------------------
         static int EvaluateIntPropertyValueFromString<T>(ValueMap<T> map,
             WebDom.CssValueEvaluatedAs
             evalAs,
@@ -183,17 +103,95 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        public static void SetVisibility(this CssBox box, WebDom.CssCodeValueExpression value)
+
+
+        //-----------------------
+        public static CssDisplay GetDisplayType(WebDom.CssCodeValueExpression value)
         {
-            box.CssVisibility = (CssVisibility)EvaluateIntPropertyValueFromString(
-             _cssVisibilityMap,
-             WebDom.CssValueEvaluatedAs.Visibility,
-             CssVisibility.Visible,
+            return (CssDisplay)EvaluateIntPropertyValueFromString(
+                _cssDisplayMap,
+                WebDom.CssValueEvaluatedAs.Display,
+                CssDisplay.Inline,
+                value);
+        }
+        //----------------------
+        public static string ToCssStringValue(this CssDirection value)
+        {
+            return _cssDirectionMap.GetStringFromValue(value);
+        }
+        public static CssDirection GetCssDirection(WebDom.CssCodeValueExpression value)
+        {
+            return (CssDirection)EvaluateIntPropertyValueFromString(
+             _cssDirectionMap,
+             WebDom.CssValueEvaluatedAs.Direction,
+             CssDirection.Ltl,
              value);
         }
-        public static void SetWhitespace(this CssBox box, WebDom.CssCodeValueExpression value)
+        //----------------------
+        public static CssPosition GetCssPosition(WebDom.CssCodeValueExpression value)
         {
-            box.WhiteSpace = (CssWhiteSpace)EvaluateIntPropertyValueFromString(
+            return (CssPosition)EvaluateIntPropertyValueFromString(
+             _cssPositionMap,
+             WebDom.CssValueEvaluatedAs.Position,
+             CssPosition.Static,
+             value);
+
+        }
+        public static CssWordBreak GetWordBreak(WebDom.CssCodeValueExpression value)
+        {
+
+            return (CssWordBreak)EvaluateIntPropertyValueFromString(
+             _cssWordBreakMap,
+             WebDom.CssValueEvaluatedAs.WordBreak,
+             CssWordBreak.Normal,
+             value);
+        }
+        public static CssTextDecoration GetTextDecoration(WebDom.CssCodeValueExpression value)
+        {
+            return (CssTextDecoration)EvaluateIntPropertyValueFromString(
+                _cssTextDecorationMap,
+                WebDom.CssValueEvaluatedAs.TextDecoration,
+                CssTextDecoration.NotAssign,
+                value);
+
+        }
+        public static CssOverflow GetOverflow(WebDom.CssCodeValueExpression value)
+        {
+            return (CssOverflow)EvaluateIntPropertyValueFromString(
+               _cssOverFlowMap,
+               WebDom.CssValueEvaluatedAs.Overflow,
+               CssOverflow.Visible,
+               value);
+        }
+        public static void SetTextAlign(this CssBox box, WebDom.CssCodeValueExpression value)
+        {
+            box.CssTextAlign = (CssTextAlign)EvaluateIntPropertyValueFromString(
+                _cssTextAlignMap,
+                WebDom.CssValueEvaluatedAs.TextAlign,
+                CssTextAlign.NotAssign,
+                value);
+        }
+        public static CssVerticalAlign GetVerticalAlign(WebDom.CssCodeValueExpression value)
+        {
+            return (CssVerticalAlign)EvaluateIntPropertyValueFromString(
+            _cssVerticalAlignMap,
+            WebDom.CssValueEvaluatedAs.VerticalAlign,
+            CssVerticalAlign.Baseline,
+            value);
+        }
+
+        
+        public static CssVisibility GetVisibility(WebDom.CssCodeValueExpression value)
+        {
+            return (CssVisibility)EvaluateIntPropertyValueFromString(
+            _cssVisibilityMap,
+            WebDom.CssValueEvaluatedAs.Visibility,
+            CssVisibility.Visible,
+            value);
+        }
+        public static CssWhiteSpace GetWhitespace(WebDom.CssCodeValueExpression value)
+        {
+            return (CssWhiteSpace)EvaluateIntPropertyValueFromString(
             _cssWhitespaceMap,
             WebDom.CssValueEvaluatedAs.WhiteSpace,
             CssWhiteSpace.Normal,
@@ -511,6 +509,7 @@ namespace HtmlRenderer.Dom
                 CssFontWeight.NotAssign,
                 value);
         }
+
         public static string ToCssStringValue(this CssFontWeight weight)
         {
             return _cssFontWeightMap.GetStringFromValue(weight);
