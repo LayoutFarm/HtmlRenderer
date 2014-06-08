@@ -95,7 +95,7 @@ namespace HtmlRenderer.Handlers
         /// <summary>
         /// the css rect that context menu shown on
         /// </summary>
-        private CssRect _currentRect;
+        private CssRun _currentRect;
 
         /// <summary>
         /// the css link box that context menu shown on
@@ -276,7 +276,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="parent">the parent control to show the context menu on</param>
         /// <param name="rect">the rectangle that was clicked to show context menu</param>
         /// <param name="link">the link that was clicked to show context menu on</param>
-        public void ShowContextMenu(Control parent, CssRect rect, CssBox link)
+        public void ShowContextMenu(Control parent, CssRun rect, CssBox link)
         {
             try
             {
@@ -318,11 +318,11 @@ namespace HtmlRenderer.Handlers
                         _contextMenu.Items.Add("-");
                     }
 
-                    if (_htmlContainer.IsSelectionEnabled)
-                    {
-                        var copy = _contextMenu.Items.Add(_copy, null, OnCopyClick);
-                        copy.Enabled = rect.Selected;
-                    }
+                    //if (_htmlContainer.IsSelectionEnabled)
+                    //{
+                    //    var copy = _contextMenu.Items.Add(_copy, null, OnCopyClick);
+                    //    copy.Enabled = rect.Selected;
+                    //}
                 }
 
                 if (_htmlContainer.IsSelectionEnabled)

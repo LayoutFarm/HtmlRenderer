@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
- 
+
 using System.Text;
 using System.Drawing;
 
@@ -48,7 +48,7 @@ namespace HtmlRenderer
                 {
                     prevClip = g.Clip;
                     g.SetClip(new RectangleF(this.Location, this.MaxSize));
-                } 
+                }
                 this.PerformPaint(gfx);
                 if (prevClip != null)
                 {
@@ -78,7 +78,7 @@ namespace HtmlRenderer
         protected override void OnRootCreated(CssBox root)
         {
             this._root = root;
-            this._selectionHandler = new SelectionHandler(root);
+            this._selectionHandler = new SelectionHandler(root, this);
             base.OnRootCreated(root);
         }
         protected override void OnAllDisposed()
@@ -110,12 +110,16 @@ namespace HtmlRenderer
         {
             ArgChecker.AssertArgNotNull(parent, "parent");
             ArgChecker.AssertArgNotNull(e, "e");
-
             try
             {
+
+                //mouse down 
+
+
                 if (_selectionHandler != null)
                 {
-                    _selectionHandler.HandleMouseDown(parent, OffsetByScroll(e.Location), IsMouseInContainer(e.Location));
+                    _selectionHandler.HandleMouseDown(parent, OffsetByScroll(e.Location),
+                        IsMouseInContainer(e.Location));
                 }
             }
             catch (Exception ex)
@@ -236,37 +240,37 @@ namespace HtmlRenderer
             ArgChecker.AssertArgNotNull(parent, "parent");
             ArgChecker.AssertArgNotNull(e, "e");
 
-            try
-            {
-                var loc = OffsetByScroll(e.Location);
-                if (_selectionHandler != null && IsMouseInContainer(e.Location))
-                    _selectionHandler.HandleMouseMove(parent, loc);
+            //try
+            //{
+            var loc = OffsetByScroll(e.Location);
+            if (_selectionHandler != null && IsMouseInContainer(e.Location))
+                _selectionHandler.HandleMouseMove(parent, loc);
 
-                /*
-                if( _hoverBoxes != null )
+            /*
+            if( _hoverBoxes != null )
+            {
+                bool refresh = false;
+                foreach(var hoverBox in _hoverBoxes)
                 {
-                    bool refresh = false;
-                    foreach(var hoverBox in _hoverBoxes)
+                    foreach(var rect in hoverBox.Item1.Rectangles.Values)
                     {
-                        foreach(var rect in hoverBox.Item1.Rectangles.Values)
+                        if( rect.Contains(loc) )
                         {
-                            if( rect.Contains(loc) )
-                            {
-                                //hoverBox.Item1.Color = "gold";
-                                refresh = true;
-                            }
+                            //hoverBox.Item1.Color = "gold";
+                            refresh = true;
                         }
                     }
-
-                    if(refresh)
-                        RequestRefresh(true);
                 }
-                 */
+
+                if(refresh)
+                    RequestRefresh(true);
             }
-            catch (Exception ex)
-            {
-                ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed mouse move handle", ex);
-            }
+             */
+            //}
+            //catch (Exception ex)
+            //{
+            //    ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed mouse move handle", ex);
+            //}
         }
 
         /// <summary>

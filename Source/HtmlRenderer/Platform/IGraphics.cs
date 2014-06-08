@@ -32,7 +32,7 @@ namespace HtmlRenderer
         /// <param name="font">the font to measure string with</param>
         /// <returns>the size of the string</returns>
         Size MeasureString(string str, Font font);
-
+        Size MeasureString2(char[] str, int startAt, int len, Font font);
         /// <summary>
         /// Measure the width and height of string <paramref name="str"/> when drawn on device context HDC
         /// using the given font <paramref name="font"/>.<br/>
@@ -46,6 +46,7 @@ namespace HtmlRenderer
         /// <param name="charFitWidth"></param>
         /// <returns>the size of the string</returns>
         Size MeasureString(string str, Font font, float maxWidth, out int charFit, out int charFitWidth);
+        Size MeasureString2(char[] str, int startAt, int len, Font font, float maxWidth, out int charFit, out int charFitWidth);
 
         /// <summary>
         /// Draw the given string using the given font and foreground color at given location.
@@ -56,6 +57,8 @@ namespace HtmlRenderer
         /// <param name="point">the location to start string draw (top-left)</param>
         /// <param name="size">used to know the size of the rendered text for transparent text support</param>
         void DrawString(String str, Font font, Color color, PointF point, SizeF size);
+
+        void DrawString2(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size);
 
 
 

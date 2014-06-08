@@ -22,7 +22,7 @@ namespace HtmlRenderer.Utils
     public static class FontsUtils
     {
         #region Fields and Consts
-        
+
         /// <summary>
         /// Allow to map not installed fonts to different
         /// </summary>
@@ -122,7 +122,11 @@ namespace HtmlRenderer.Utils
         {
             return g.MeasureString(str, font).Width;
         }
-
+        public static float MeasureStringWidth(IGraphics g, char[] buffer, int startAt, int len, Font font)
+        {
+            //return g.MeasureString(str, font).Width;
+            return g.MeasureString2(buffer, startAt, len, font).Width;
+        }
         /// <summary>
         /// Measure regions for specific font empty space size.
         /// </summary>
@@ -163,12 +167,12 @@ namespace HtmlRenderer.Utils
         public static bool IsFontExists(string family)
         {
             bool exists = _existingFontFamilies.ContainsKey(family);
-            if(!exists)
+            if (!exists)
             {
                 string mappedFamily;
-                if(_fontsMapping.TryGetValue(family,out mappedFamily))
+                if (_fontsMapping.TryGetValue(family, out mappedFamily))
                 {
-                    exists = _existingFontFamilies.ContainsKey(mappedFamily);                    
+                    exists = _existingFontFamilies.ContainsKey(mappedFamily);
                 }
             }
             return exists;
@@ -187,10 +191,10 @@ namespace HtmlRenderer.Utils
                 if (!_existingFontFamilies.ContainsKey(family))
                 {
                     string mappedFamily;
-                    if(_fontsMapping.TryGetValue(family, out mappedFamily))
+                    if (_fontsMapping.TryGetValue(family, out mappedFamily))
                     {
                         font = TryGetFont(mappedFamily, size, style);
-                        if(font == null)
+                        if (font == null)
                         {
                             font = CreateFont(mappedFamily, size, style);
                             _fontsCache[mappedFamily][size][style] = font;
@@ -198,7 +202,7 @@ namespace HtmlRenderer.Utils
                     }
                 }
 
-                if(font == null)
+                if (font == null)
                 {
                     font = CreateFont(family, size, style);
                 }

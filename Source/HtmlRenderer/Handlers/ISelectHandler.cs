@@ -7,11 +7,11 @@ namespace HtmlRenderer
 
     public interface ISelectionHandler
     {
-        int GetSelectingStartIndex(CssRect r);
-        int GetSelectedEndIndexOffset(CssRect r);
+        int GetSelectingStartIndex(CssRun r);
+        int GetSelectedEndIndexOffset(CssRun r);
         //----------
-        float GetSelectedStartOffset(CssRect r);
-        float GetSelectedEndOffset(CssRect r);
+        float GetSelectedStartOffset(CssRun r);
+        float GetSelectedEndOffset(CssRun r);
         //----------
         string GetSelectedText();
         string GetSelectedHtml();

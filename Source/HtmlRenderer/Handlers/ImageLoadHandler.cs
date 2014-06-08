@@ -135,7 +135,7 @@ namespace HtmlRenderer.Handlers
         /// </summary>
         /// <param name="src"></param>
         /// <param name="tag"></param>
-        public void LoadImage(string src, HtmlRenderer.Dom.IHtmlTag tag)
+        public void LoadImage(string src, HtmlRenderer.Dom.IHtmlElement tag)
         {
             try
             {

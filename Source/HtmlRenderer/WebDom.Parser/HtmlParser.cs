@@ -8,7 +8,6 @@ using System.IO;
 
 namespace HtmlRenderer.WebDom.Parser
 {
-
     public class HtmlParser
     {
         HtmlDocument _resultHtmlDoc;
@@ -42,9 +41,7 @@ namespace HtmlRenderer.WebDom.Parser
             {
                 case HtmlLexerEvent.CommentContent:
                     {
-
-                        //var commentContent = this.textSnapshot.Copy(startIndex, len);
-
+                        //var commentContent = this.textSnapshot.Copy(startIndex, len); 
 
                     } break;
                 case HtmlLexerEvent.FromContentPart:
@@ -52,7 +49,7 @@ namespace HtmlRenderer.WebDom.Parser
 
                         if (curTextNode == null)
                         {
-                            curTextNode = _resultHtmlDoc.CreateTextNode(HtmlRenderer.Utils.HtmlUtils.DecodeHtml(this.textSnapshot, startIndex, len));
+                            curTextNode = _resultHtmlDoc.CreateTextNode(HtmlUtils.DecodeHtml(this.textSnapshot, startIndex, len));
 
                             if (curHtmlNode != null)
                             {
@@ -61,7 +58,7 @@ namespace HtmlRenderer.WebDom.Parser
                         }
                         else
                         {
-                            curTextNode.AppendTextContent(HtmlRenderer.Utils.HtmlUtils.DecodeHtml(this.textSnapshot, startIndex, len));
+                            curTextNode.AppendTextContent(HtmlUtils.DecodeHtml(this.textSnapshot, startIndex, len));
 
                         }
                     } break;
@@ -115,8 +112,7 @@ namespace HtmlRenderer.WebDom.Parser
                                     else
                                     {
                                         //if not equal then check if current node need close tag or not
-
-                                        if (HtmlRenderer.Utils.HtmlUtils.IsSingleTag(curHtmlNode.LocalName))
+                                        if (HtmlUtils.IsSingleTag(curHtmlNode.nodeLocalNameIndex))
                                         {
                                             if (htmlNodeStack.Count > 0)
                                             {

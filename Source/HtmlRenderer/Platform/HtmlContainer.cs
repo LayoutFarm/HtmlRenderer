@@ -16,7 +16,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
-using System.Windows.Forms;
+
 using HtmlRenderer.Dom;
 using HtmlRenderer.Entities;
 using HtmlRenderer.Handlers;
@@ -92,12 +92,12 @@ namespace HtmlRenderer
         /// </summary>
         private CssBox _root;
 
-        /// <summary>
-        /// dictionary of all css boxes that have ":hover" selector on them
-        /// </summary>
-        private List<Tupler<CssBox, CssCodeBlock>> _hoverBoxes;
+        ///// <summary>
+        ///// dictionary of all css boxes that have ":hover" selector on them
+        ///// </summary>
+        //private List<Tupler<CssBox, CssCodeBlock>> _hoverBoxes;
 
-         
+
         /// <summary>
         /// the text fore color use for selected text
         /// </summary>
@@ -111,7 +111,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the parsed stylesheet data used for handling the html
         /// </summary>
-        private CssSheet _cssData;
+        private CssActiveSheet _cssData;
 
         /// <summary>
         /// Is content selection is enabled for the rendered html (default - true).<br/>
@@ -210,9 +210,31 @@ namespace HtmlRenderer
         /// <summary>
         /// the parsed stylesheet data used for handling the html
         /// </summary>
-        public CssSheet CssData
+        public CssActiveSheet CssData
         {
             get { return _cssData; }
+        }
+
+        HtmlRenderer.Dom.SelectionRange selRange;
+        public HtmlRenderer.Dom.SelectionRange SelectionRange
+        {
+            get
+            {
+                return this.selRange;
+            }
+            set
+            {
+                if (this.selRange != null)
+                {
+                    //1. 
+                    this.selRange.ClearSelectionStatus();
+                } 
+                this.selRange = value;
+                if (value != null)
+                {
+                    value.ActivateSelection();
+                }
+            }
         }
 
         /// <summary>
@@ -385,13 +407,13 @@ namespace HtmlRenderer
             get { return _selectionBackColor; }
             set { _selectionBackColor = value; }
         }
-         
+
         /// <summary>
         /// Init with optional document and stylesheet.
         /// </summary>
         /// <param name="htmlSource">the html to init with, init empty if not given</param>
         /// <param name="baseCssData">optional: the stylesheet to init with, init default if not given</param>
-        public void SetHtml(string htmlSource, CssSheet baseCssData = null)
+        public void SetHtml(string htmlSource, CssActiveSheet baseCssData = null)
         {
 
             if (_root != null)
@@ -406,9 +428,7 @@ namespace HtmlRenderer
             {
 
                 _cssData = baseCssData ?? CssUtils.DefaultCssData;
-
-
-                _root = DomParser.GenerateCssTree(htmlSource, this, ref _cssData);
+                _root = BoxModelBuilder.BuildBoxesTree(htmlSource, this, _cssData);
                 if (_root != null)
                 {
                     this.OnRootCreated(_root);
@@ -436,31 +456,22 @@ namespace HtmlRenderer
             return DomUtils.GenerateHtml(_root, styleGen);
         }
 
-        /// <summary>
-        /// Get attribute value of element at the given x,y location by given key.<br/>
-        /// If more than one element exist with the attribute at the location the inner most is returned.
-        /// </summary>
-        /// <param name="location">the location to find the attribute at</param>
-        /// <param name="attribute">the attribute key to get value by</param>
-        /// <returns>found attribute value or null if not found</returns>
-        public string GetAttributeAt(Point location, string attribute)
-        {
-            ArgChecker.AssertArgNotNullOrEmpty(attribute, "attribute");
+        ///// <summary>
+        ///// Get attribute value of element at the given x,y location by given key.<br/>
+        ///// If more than one element exist with the attribute at the location the inner most is returned.
+        ///// </summary>
+        ///// <param name="location">the location to find the attribute at</param>
+        ///// <param name="attribute">the attribute key to get value by</param>
+        ///// <returns>found attribute value or null if not found</returns>
+        //public string GetAttributeAt(Point location, string attribute)
+        //{
+        //    ArgChecker.AssertArgNotNullOrEmpty(attribute, "attribute");
 
-            var cssBox = DomUtils.GetCssBox(_root, OffsetByScroll(location));
-            return cssBox != null ? DomUtils.GetAttribute(cssBox, attribute) : null;
-        }
+        //    var cssBox = DomUtils.GetCssBox(_root, OffsetByScroll(location));
+        //    return cssBox != null ? DomUtils.GetAttribute(cssBox, attribute) : null;
+        //}
 
-        /// <summary>
-        /// Get css link href at the given x,y location.
-        /// </summary>
-        /// <param name="location">the location to find the link at</param>
-        /// <returns>css link href if exists or null</returns>
-        public string GetLinkAt(Point location)
-        {
-            var link = DomUtils.GetLinkBox(_root, OffsetByScroll(location));
-            return link != null ? link.HrefLink : null;
-        }
+
 
         /// <summary>
         /// Get the rectangle of html element as calculated by html layout.<br/>
@@ -480,35 +491,7 @@ namespace HtmlRenderer
             //return box != null ? CommonUtils.GetFirstValueOrDefault(box.Rectangles, box.Bounds) : (RectangleF?)null;
         }
 
-        ///// <summary>
-        ///// Measures the bounds of box and children, recursively.
-        ///// </summary>
-        ///// <param name="g">Device context to draw</param>
-        //public void PerformLayout(Graphics g)
-        //{
-        //    ArgChecker.AssertArgNotNull(g, "g");
 
-        //    if (_root != null)
-        //    {
-        //        using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
-        //        {
-        //            _actualSize = SizeF.Empty;
-
-        //            // if width is not restricted we set it to large value to get the actual later
-        //            _root.Size = new SizeF(_maxSize.Width > 0 ? _maxSize.Width : 99999, 0);
-        //            _root.Location = _location;
-        //            _root.PerformLayout(ig);
-
-        //            if (_maxSize.Width <= 0.1)
-        //            {
-        //                // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
-        //                _root.Size = new SizeF((int)Math.Ceiling(_actualSize.Width), 0);
-        //                _actualSize = SizeF.Empty;
-        //                _root.PerformLayout(ig);
-        //            }
-        //        }
-        //    }
-        //}
         public void PerformLayout(IGraphics ig)
         {
             //ArgChecker.AssertArgNotNull(ig, "g");
@@ -530,7 +513,7 @@ namespace HtmlRenderer
             // if width is not restricted we set it to large value to get the actual later
             _root.Size = new SizeF(_maxSize.Width > 0 ? _maxSize.Width : 99999, 0);
 
-             
+
             _root.SetLocation(_location.X, _location.Y);
             _root.PerformLayout(ig);
 
@@ -551,38 +534,7 @@ namespace HtmlRenderer
             get;
             set;
         }
-        ///// <summary>
-        ///// Render the html using the given device.
-        ///// </summary>
-        ///// <param name="g">the device to use to render</param>
-        //public void PerformPaint(Graphics g)
-        //{
-        //    ArgChecker.AssertArgNotNull(g, "g");
 
-        //    Region prevClip = null;
-        //    if (MaxSize.Height > 0)
-        //    {
-        //        prevClip = g.Clip;
-        //        g.SetClip(new RectangleF(_location, _maxSize));
-        //    }
-        //    if (_root != null)
-        //    {
-        //        PaintingArgs args = new PaintingArgs(this);
-        //        var bound = this.ViewportBound;
-        //        args.PushBound(0, 0, bound.Width, bound.Height);
-        //        using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
-        //        {
-        //            args.PushContainingBox(_root.ContainingBlock);
-        //            _root.Paint(ig, args);
-        //            args.PopContainingBox();
-        //        }
-        //    }
-
-        //    if (prevClip != null)
-        //    {
-        //        g.SetClip(prevClip, CombineMode.Replace);
-        //    }
-        //}
         /// <summary>
         /// Render the html using the given device.
         /// </summary>
@@ -600,7 +552,10 @@ namespace HtmlRenderer
             var bound = this.ViewportBound;
             args.PushBound(0, 0, bound.Width, bound.Height);
             //using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))            //{
-            this.PerformLayout(ig);
+
+            //Recalculate and perform layout if need !
+            //this.PerformLayout(ig);
+
             args.PushContainingBox(_root.ContainingBlock);
             _root.Paint(ig, args);
             args.PopContainingBox();
@@ -714,21 +669,6 @@ namespace HtmlRenderer
         }
 
 
-        /// <summary>
-        /// Add css box that has ":hover" selector to be handled on mouse hover.
-        /// </summary>
-        /// <param name="box">the box that has the hover selector</param>
-        /// <param name="block">the css block with the css data with the selector</param>
-        internal void AddHoverBox(CssBox box, CssCodeBlock block)
-        {
-            ArgChecker.AssertArgNotNull(box, "box");
-            ArgChecker.AssertArgNotNull(block, "block");
-
-            if (_hoverBoxes == null)
-                _hoverBoxes = new List<Tupler<CssBox, CssCodeBlock>>();
-
-            _hoverBoxes.Add(new Tupler<CssBox, CssCodeBlock>(box, block));
-        }
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.

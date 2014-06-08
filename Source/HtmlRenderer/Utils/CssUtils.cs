@@ -33,7 +33,8 @@ namespace HtmlRenderer.Utils
         /// <summary>
         /// default CSS parsed data singleton
         /// </summary>
-        private static CssSheet _defaultCssData;
+        private static CssActiveSheet _defaultCssData;
+
 
         #endregion
 
@@ -41,18 +42,19 @@ namespace HtmlRenderer.Utils
         /// <summary>
         /// default CSS parsed data singleton
         /// </summary>
-        public static CssSheet DefaultCssData
+        public static CssActiveSheet DefaultCssData
         {
             get
             {
                 if (_defaultCssData == null)
                 {
-                    _defaultCssData = new CssSheet();
+                    _defaultCssData = new CssActiveSheet();
                     CssParser.ParseStyleSheet(_defaultCssData, CssDefaults.DefaultStyleSheet);
                 }
                 return _defaultCssData;
             }
         }
+
 
         /// <summary>
         /// Brush for selection background
@@ -70,6 +72,7 @@ namespace HtmlRenderer.Utils
         /// <returns></returns>
         public static float WhiteSpace(IGraphics g, CssBoxBase box)
         {
+            //depends on Font of this box
             float w = FontsUtils.MeasureWhitespace(g, box.ActualFont);
             if (!(box.WordSpacing.IsEmpty || box.WordSpacing.IsNormalWordSpacing))
             {
@@ -229,221 +232,9 @@ namespace HtmlRenderer.Utils
             }
             return null;
         }
-        public static CssBorderStyle GetBorderStyle(string value)
-        {
-            return CssBoxUserUtilExtension.GetBorderStyle(value);
-        }
 
 
-        /// <summary>
-        /// Set CSS box property value by the CSS name.<br/>
-        /// Used as a mapping between CSS property and the class property.
-        /// </summary>
-        /// <param name="cssBox">the CSS box to set it's property value</param>
-        /// <param name="propName">the name of the CSS property</param>
-        /// <param name="value">the value to set</param>
-        public static void SetPropertyValue(CssBox cssBox, string propName, string value)
-        {
-            switch (propName)
-            {
-                case "border-bottom-width":
-                    cssBox.BorderBottomWidth = CssLength.MakeBorderLength(value);
-                    break;
-                case "border-left-width":
-                    cssBox.BorderLeftWidth = CssLength.MakeBorderLength(value);
-                    break;
-                case "border-right-width":
-                    cssBox.BorderRightWidth = CssLength.MakeBorderLength(value);
-                    break;
-                case "border-top-width":
-                    cssBox.BorderTopWidth = CssLength.MakeBorderLength(value);
-                    break;
-                case "border-bottom-style":
-                    cssBox.BorderBottomStyle = GetBorderStyle(value);
-
-                    break;
-                case "border-left-style":
-                    cssBox.BorderLeftStyle = GetBorderStyle(value);
-                    break;
-                case "border-right-style":
-                    cssBox.BorderRightStyle = GetBorderStyle(value);
-                    break;
-                case "border-top-style":
-                    cssBox.BorderTopStyle = GetBorderStyle(value);
-                    break;
-                case "border-bottom-color":
-                    cssBox.BorderBottomColor = CssValueParser.GetActualColor(value);
-                    break;
-                case "border-left-color":
-                    cssBox.BorderLeftColor = CssValueParser.GetActualColor(value);
-                    break;
-                case "border-right-color":
-                    cssBox.BorderRightColor = CssValueParser.GetActualColor(value);
-                    break;
-                case "border-top-color":
-                    cssBox.BorderTopColor = CssValueParser.GetActualColor(value);
-                    break;
-                case "border-spacing":
-                    //cssBox.BorderSpacing = value;
-                    cssBox.SetBorderSpacing(value);
-                    break;
-                case "border-collapse":
-                    cssBox.SetBorderCollapse(value);
-                    break;
-                case "corner-radius":
-                    //cssBox.CornerRadius = value;
-                    cssBox.SetCornerRadius(value);
-                    break;
-                case "corner-nw-radius":
-                    cssBox.CornerNWRadius = new CssLength(value);
-                    break;
-                case "corner-ne-radius":
-                    cssBox.CornerNERadius = new CssLength(value);
-                    break;
-                case "corner-se-radius":
-                    cssBox.CornerSERadius = new CssLength(value);
-                    break;
-                case "corner-sw-radius":
-                    cssBox.CornerSWRadius = new CssLength(value);
-                    break;
-                case "margin-bottom":
-                    cssBox.MarginBottom = new CssLength(DomParser.TranslateLength(value));
-                    break;
-                case "margin-left":
-                    cssBox.MarginLeft = new CssLength(DomParser.TranslateLength(value));
-                    break;
-                case "margin-right":
-                    cssBox.MarginRight = new CssLength(DomParser.TranslateLength(value));
-                    break;
-                case "margin-top":
-                    cssBox.MarginTop = new CssLength(DomParser.TranslateLength(value));
-                    break;
-                case "padding-bottom":
-                    cssBox.PaddingBottom = new CssLength(DomParser.TranslateLength(value));
-                    break;
-                case "padding-left":
-                    cssBox.PaddingLeft = new CssLength(DomParser.TranslateLength(value));
-                    break;
-                case "padding-right":
-                    cssBox.PaddingRight = new CssLength(DomParser.TranslateLength(value));
-                    break;
-                case "padding-top":
-                    cssBox.PaddingTop = new CssLength(DomParser.TranslateLength(value));
-                    break;
-                case "left":
-                    cssBox.Left = new CssLength(value);
-                    break;
-                case "top":
-                    cssBox.Top = new CssLength(value);
-                    break;
-                case "width":
-                    cssBox.Width = new CssLength(value);
-                    break;
-                case "max-width":
-                    cssBox.MaxWidth = new CssLength(value);
-                    break;
-                case "height":
-                    cssBox.Height = new CssLength(value);
-                    break;
-                case "background-color":
-                    cssBox.BackgroundColor = CssValueParser.GetActualColor(value);
-                    break;
-                case "background-image":
-                    cssBox.BackgroundImage = value;
-                    break;
-                case "background-position":
-                    cssBox.BackgroundPosition = value;
-                    break;
-                case "background-repeat":
-                    cssBox.BackgroundRepeat = value;
-                    break;
-                case "background-gradient":
-                    cssBox.BackgroundGradient = CssValueParser.GetActualColor(value);
-                    break;
-                case "background-gradient-angle":
-                    {
-                        float angle;
-                        if (float.TryParse(value, out angle))
-                        {
-                            cssBox.BackgroundGradientAngle = angle;
-                        }
-                    } break;
-                case "color":
-                    cssBox.Color = CssValueParser.GetActualColor(value);
-                    break;
-                case "display":
-                    cssBox.SetDisplayType(value);
-                    break;
-                case "direction":
-                    cssBox.SetCssDirection(value);
-                    break;
-                case "empty-cells":
-                    cssBox.EmptyCells = CssBoxUserUtilExtension.GetEmptyCell(value);
-                    break;
-                case "float":
-                    cssBox.Float = CssBoxUserUtilExtension.GetFloat(value);
-                    break;
-                case "position":
-                    cssBox.SetCssPosition(value);
-                    break;
-                case "line-height": 
-                    cssBox.SetLineHeight(value);
-                    break;
-                case "vertical-align":
-                    cssBox.SetVerticalAlign(value.ToLower());
-                    break;
-                case "text-indent":
-                    cssBox.TextIndent = new CssLength(value);
-                    break;
-                case "text-align":
-                    cssBox.SetTextAlign(value);
-                    break;
-                case "text-decoration":
-                    cssBox.SetTextDecoration(value);
-                    break;
-                case "white-space":
-                    cssBox.SetWhitespace(value);
-                    break;
-                case "word-break":
-                    cssBox.SetWordSpacing(value);
-                    break;
-                case "visibility":
-                    cssBox.SetVisibility(value);
-                    break;
-                case "word-spacing":
-                    cssBox.SetWordSpacing(value);
-                    break;
-                case "font-family":
-                    cssBox.FontFamily = value;
-                    break;
-                case "font-size":
-                    cssBox.SetFontSize(value);
-                    break;
-                case "font-style":
-                    cssBox.FontStyle = CssBoxUserUtilExtension.GetFontStyle(value);
-                    break;
-                case "font-variant":
-                    cssBox.FontVariant = CssBoxUserUtilExtension.GetFontVariant(value);
-                    break;
-                case "font-weight":
-                    cssBox.FontWeight = CssBoxUserUtilExtension.GetFontWeight(value);
-                    break;
-                case "list-style":
-                    cssBox.ListStyle = value;
-                    break;
-                case "list-style-position":
-                    cssBox.ListStylePosition = CssBoxUserUtilExtension.GetListStylePosition(value);
-                    break;
-                case "list-style-image":
-                    cssBox.ListStyleImage = value;
-                    break;
-                case "list-style-type":
-                    cssBox.ListStyleType = CssBoxUserUtilExtension.GetListStyleType(value);
-                    break;
-                case "overflow":
-                    cssBox.SetOverflow(value);
-                    break;
-            }
-        }
+    
+    
     }
 }

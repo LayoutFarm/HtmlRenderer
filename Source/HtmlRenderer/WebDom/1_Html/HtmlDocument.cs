@@ -44,9 +44,7 @@ namespace HtmlRenderer.WebDom
 
         public HtmlElement CreateElement(string prefix, string localName)
         {
-            if (localName.EndsWith("\r\n"))
-            {
-            }
+            
             return new HtmlElement(this,
                 uniqueStringTable.AddStringIfNotExist(prefix),
                 uniqueStringTable.AddStringIfNotExist(localName));
@@ -60,10 +58,7 @@ namespace HtmlRenderer.WebDom
         {
             return new HtmlProcessInstructionNode(this, nameIndex);
         }
-        public HtmlTextNode CreateTextNode(string text)
-        {
-            return new HtmlTextNode(this, text);
-        }
+         
         public HtmlTextNode CreateTextNode(char[] strBufferForElement)
         {
             return new HtmlTextNode(this, strBufferForElement);

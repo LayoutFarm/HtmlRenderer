@@ -19,12 +19,7 @@ using System.Net;
 using System.Text;
 using HtmlRenderer.Entities;
 
-namespace System.Windows.Forms
-{
-    class dummy
-    {
-    }
-}
+ 
 namespace HtmlRenderer.Utils
 {
     internal delegate void ActionInt<in T>(T obj);
@@ -96,40 +91,7 @@ namespace HtmlRenderer.Utils
         public static bool IsAsianCharecter(char ch)
         {
             return ch >= 0x4e00 && ch <= 0xFA2D;
-        }
-
-        /// <summary>
-        /// Check if the given char is a digit character (0-9) and (0-9, a-f for HEX)
-        /// </summary>
-        /// <param name="ch">the character to check</param>
-        /// <param name="hex">optional: is hex digit check</param>
-        /// <returns>true - is digit, false - not a digit</returns>
-        public static bool IsDigit(char ch, bool hex = false)
-        {
-            return (ch >= '0' && ch <= '9') || (hex && ((ch >= 'a' && ch <= 'f') || (ch >= 'A' && ch <= 'F')));
-        }
-
-        /// <summary>
-        /// Convert the given char to digit.
-        /// </summary>
-        /// <param name="ch">the character to check</param>
-        /// <param name="hex">optional: is hex digit check</param>
-        /// <returns>true - is digit, false - not a digit</returns>
-        public static int ToDigit(char ch, bool hex = false)
-        {
-            if (ch >= '0' && ch <= '9')
-                return ch - '0';
-            else if (hex)
-            {
-                if (ch >= 'a' && ch <= 'f')
-                    return ch - 'a' + 10;
-                else if (ch >= 'A' && ch <= 'F')
-                    return ch - 'A' + 10;
-            }
-
-            return 0;
-        }
-
+        } 
         /// <summary>
         /// Get size that is max of <paramref name="size"/> and <paramref name="other"/> for width and height separately.
         /// </summary>

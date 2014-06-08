@@ -74,6 +74,7 @@ namespace HtmlRenderer.Handlers
                 {
                     DrawBorder(Border.Bottom, box, g, rect, isFirst, isLast);
                 }
+
                 if (isLast &&
                     box.BorderRightStyle >= CssBorderStyle.Visible &&
                     //!(string.IsNullOrEmpty(box.BorderRightStyle) ||
