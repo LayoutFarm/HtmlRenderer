@@ -280,6 +280,9 @@ namespace HtmlRenderer
 #endif
     }
 
+    /// <summary>
+    /// ruleset and its subgroups
+    /// </summary>
     class CssRuleSetGroup
     {
 

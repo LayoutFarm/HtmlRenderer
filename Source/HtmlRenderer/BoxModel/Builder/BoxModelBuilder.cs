@@ -132,10 +132,12 @@ namespace HtmlRenderer.Dom
         {
             //recursive 
             //-------------------------------------------------------------------            
-            box.InheritStyle(box.ParentBox);
+            box.InheritStyles(box.ParentBox);
 
             if (box.HtmlTag != null)
             {
+
+
                 //------------------------------------------------------------------- 
                 //1.
                 // try assign style using the html element tag     
@@ -259,9 +261,7 @@ namespace HtmlRenderer.Dom
 
             //class attribute may has more than one value (multiple classes in single attribute);
             string[] classNames = classes.Split(_whiteSplitter, StringSplitOptions.RemoveEmptyEntries);
-
             int j = classNames.Length;
-
             CssActiveSheet cssData = activeCssTemplate.ActiveSheet;
 
             for (int i = 0; i < j; ++i)
@@ -291,12 +291,14 @@ namespace HtmlRenderer.Dom
 
         private static void AssignStylesForTagName(CssBox box, ActiveCssTemplate activeCssTemplate)
         {
+            //1. find rule st for 
             CssRuleSetGroup ruleGroup = activeCssTemplate.ActiveSheet.GetRuleSetForTagName(box.HtmlTag.Name);
-
             if (ruleGroup != null)
             {
-                //found  math tag name
+
+                //found  match tag name
                 //simple selector with tag name 
+
                 if (box.WellknownTagName == WellknownHtmlTagName.A &&
                    ruleGroup.Name == "a" &&   //block.CssClassName.Equals("a", StringComparison.OrdinalIgnoreCase) &&                 
                    !box.HtmlTag.HasAttribute("href"))
@@ -304,7 +306,7 @@ namespace HtmlRenderer.Dom
 
                 }
                 else
-                {
+                {   
 
                     foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
                     {
@@ -363,7 +365,7 @@ namespace HtmlRenderer.Dom
                 cssProperty.WellknownPropertyName == WebDom.WellknownCssPropertyName.Display)
             {
 
-                CssDisplay display = CssBoxUserUtilExtension.GetDisplayType(cssProperty.GetPropertyValue(0)); 
+                CssDisplay display = CssBoxUserUtilExtension.GetDisplayType(cssProperty.GetPropertyValue(0));
                 switch (box.WellknownTagName)
                 {
                     case WellknownHtmlTagName.TABLE:

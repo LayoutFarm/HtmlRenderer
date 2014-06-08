@@ -531,7 +531,7 @@ namespace HtmlRenderer.Dom
         {
             ArgChecker.AssertArgNotNull(parent, "parent");
             var newBox = new CssBox(parent, tag);
-            newBox.InheritStyle(parent);
+            newBox.InheritStyles(parent);
             if (insertAt > -1)
             {
                 newBox.ChangeSiblingOrder(insertAt);
@@ -831,7 +831,7 @@ namespace HtmlRenderer.Dom
                 if (_listItemBox == null)
                 {
                     _listItemBox = new CssBox(null, null);
-                    _listItemBox.InheritStyle(this);
+                    _listItemBox.InheritStyles(this);
                     _listItemBox.CssDisplay = CssDisplay.Inline;
                     _listItemBox._htmlContainer = HtmlContainer;
 
@@ -1027,9 +1027,9 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Inherits inheritable values from parent.
         /// </summary>
-        internal new void InheritStyle(CssBox box, bool everything = false)
+        internal new void InheritStyles(CssBox box, bool clone = false)
         {
-            base.InheritStyle(box, everything);
+            base.InheritStyles(box, clone);
         }
 
         /// <summary>

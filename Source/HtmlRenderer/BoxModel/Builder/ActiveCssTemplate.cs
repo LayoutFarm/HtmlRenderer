@@ -2,7 +2,7 @@
 using System;
 using System.Drawing;
 using System.Globalization;
-
+using System.Collections.Generic;
 using HtmlRenderer.Entities;
 using HtmlRenderer.Handlers;
 using HtmlRenderer.Utils;
@@ -14,7 +14,11 @@ namespace HtmlRenderer.Dom
     class ActiveCssTemplate
     {
         public readonly HtmlContainer htmlContainer;
-        CssActiveSheet activeSheet;
+        CssActiveSheet activeSheet; 
+
+        Dictionary<string, CssBox> templateBoxForElements = new Dictionary<string, CssBox>();
+
+
         bool isCloneOnce = false;
         public ActiveCssTemplate(HtmlContainer htmlContainer, CssActiveSheet activeSheet)
         {
@@ -31,8 +35,8 @@ namespace HtmlRenderer.Dom
             {
                 this.activeSheet = value;
             }
-        } 
-         
+        }
+
         void CloneActiveCssSheetOnce()
         {
             if (!isCloneOnce)
@@ -41,12 +45,12 @@ namespace HtmlRenderer.Dom
                 activeSheet = activeSheet.Clone(new object());
                 isCloneOnce = true;
             }
-        } 
+        }
         public void LoadRawStyleElementContent(string rawStyleElementContent)
         {
             CloneActiveCssSheetOnce();
             CssParser.ParseStyleSheet(activeSheet, rawStyleElementContent);
-        } 
+        }
         public void LoadLinkStyleSheet(string href)
         {
 
@@ -54,7 +58,7 @@ namespace HtmlRenderer.Dom
             CssActiveSheet stylesheetData;
             StylesheetLoadHandler.LoadStylesheet(this.htmlContainer,
                 href,  //load style sheet from external ?
-                out stylesheet, out stylesheetData); 
+                out stylesheet, out stylesheetData);
 
             if (stylesheet != null)
             {
@@ -67,9 +71,15 @@ namespace HtmlRenderer.Dom
                 activeSheet.Combine(stylesheetData);
             }
         }
+         
 
+        class CssBoxTemplate
+        {
+
+        }
     }
 
+    
 
 
 }
