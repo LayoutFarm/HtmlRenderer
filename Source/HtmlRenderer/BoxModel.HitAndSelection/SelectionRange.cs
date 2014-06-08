@@ -410,7 +410,7 @@ namespace HtmlRenderer.Dom
                         rr.Bottom <= (lineTop + lineHeight))
                     {
                         rr.Offset(offset);
-
+                        
                         g.FillRectangle(Brushes.LightGray, rr.X, rr.Y,
                          rr.Width,
                          rr.Height);

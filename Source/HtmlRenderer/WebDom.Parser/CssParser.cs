@@ -954,27 +954,26 @@ namespace HtmlRenderer.WebDom.Parser
         {
 
             int j = decl.ValueCount;
-            string b_direction = null;
-
-            switch (borderDirection)
-            {
-                case BorderDirection.Left:
-                    {
-                        b_direction = "left";
-                    } break;
-                case BorderDirection.Top:
-                    {
-                        b_direction = "top";
-                    } break;
-                case BorderDirection.Right:
-                    {
-                        b_direction = "right";
-                    } break;
-                case BorderDirection.Bottom:
-                    {
-                        b_direction = "bottom";
-                    } break;
-            }
+            //string b_direction = null; 
+            //switch (borderDirection)
+            //{
+            //    case BorderDirection.Left:
+            //        {
+            //            b_direction = "left";
+            //        } break;
+            //    case BorderDirection.Top:
+            //        {
+            //            b_direction = "top";
+            //        } break;
+            //    case BorderDirection.Right:
+            //        {
+            //            b_direction = "right";
+            //        } break;
+            //    case BorderDirection.Bottom:
+            //        {
+            //            b_direction = "bottom";
+            //        } break;
+            //}
 
 
             for (int i = 0; i < j; ++i)

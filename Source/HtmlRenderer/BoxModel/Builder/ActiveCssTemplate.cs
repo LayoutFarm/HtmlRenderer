@@ -14,9 +14,8 @@ namespace HtmlRenderer.Dom
     class ActiveCssTemplate
     {
         public readonly HtmlContainer htmlContainer;
-        CssActiveSheet activeSheet; 
+        CssActiveSheet activeSheet;
 
-        Dictionary<string, CssBox> templateBoxForElements = new Dictionary<string, CssBox>();
 
 
         bool isCloneOnce = false;
@@ -71,15 +70,60 @@ namespace HtmlRenderer.Dom
                 activeSheet.Combine(stylesheetData);
             }
         }
-         
 
-        class CssBoxTemplate
+
+        //------------------------------------------------------------------------------------------------------
+
+
+
+        Dictionary<string, CssBoxTemplate> templatesForTagName = new Dictionary<string, CssBoxTemplate>();
+
+        class CssBoxTemplate : CssBoxBase
         {
 
+            public CssBoxTemplate(string name)
+            {
+                this.Name = name;
+            }
+            public string Name
+            {
+                get;
+                set;
+            }
+            public override CssBoxBase GetParent()
+            {
+                return null;
+            }
         }
+
+
+
+        internal CssBoxBase GetExistingOrCreatePreparedBoxTemplateForTagName(string tagName)
+        {
+            CssBoxTemplate found;
+            if (!templatesForTagName.TryGetValue(tagName, out found))
+            {
+                found = new CssBoxTemplate(tagName);
+                this.templatesForTagName.Add(tagName, found);
+            }
+            return found;
+        }
+
+
+        enum AssignPropertySource
+        {
+            Inherit,
+            TagName,
+            ClassName,
+
+            StyleAttribute,
+            HtmlAttribute,
+            Id,
+        }
+
     }
 
-    
+
 
 
 }

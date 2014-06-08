@@ -769,7 +769,7 @@ namespace HtmlRenderer.Dom
         /// Get the parent of this css properties instance.
         /// </summary>
         /// <returns></returns>
-        protected sealed override CssBoxBase GetParent()
+        public sealed override CssBoxBase GetParent()
         {
             return _parentBox;
         }

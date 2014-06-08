@@ -11,9 +11,7 @@ namespace HtmlRenderer.WebDom
 
 
     public class CssPropertyDeclaration
-    {
-
-
+    {   
         bool isReady = false;
         bool isValid = false;
         bool markedAsInherit;

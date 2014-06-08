@@ -136,8 +136,6 @@ namespace HtmlRenderer.Dom
 
             if (box.HtmlTag != null)
             {
-
-
                 //------------------------------------------------------------------- 
                 //1.
                 // try assign style using the html element tag     
@@ -166,7 +164,7 @@ namespace HtmlRenderer.Dom
                     WebDom.CssRuleSet ruleset = CssParser.ParseCssBlock2(box.HtmlTag.Name, box.HtmlTag.TryGetAttribute("style"));
                     foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                     {
-                        AssignPropertyValue(box, AssignPropertySource.StyleAttribute, propDecl);
+                        AssignPropertyValue(box, box.ParentBox, propDecl);
                     }
                 }
                 //------------------------------------------------------------------- 
@@ -272,7 +270,7 @@ namespace HtmlRenderer.Dom
                 {
                     foreach (var propDecl in ruleSetGroup.GetPropertyDeclIter())
                     {
-                        AssignPropertyValue(box, AssignPropertySource.ClassName, propDecl);
+                        AssignPropertyValue(box, box.ParentBox, propDecl);
                     }
                     //---------------------------------------------------------
                     //find subgroup for more specific conditions
@@ -295,10 +293,8 @@ namespace HtmlRenderer.Dom
             CssRuleSetGroup ruleGroup = activeCssTemplate.ActiveSheet.GetRuleSetForTagName(box.HtmlTag.Name);
             if (ruleGroup != null)
             {
-
                 //found  match tag name
-                //simple selector with tag name 
-
+                //simple selector with tag name  
                 if (box.WellknownTagName == WellknownHtmlTagName.A &&
                    ruleGroup.Name == "a" &&   //block.CssClassName.Equals("a", StringComparison.OrdinalIgnoreCase) &&                 
                    !box.HtmlTag.HasAttribute("href"))
@@ -306,11 +302,13 @@ namespace HtmlRenderer.Dom
 
                 }
                 else
-                {   
+                {
+                    //var templateBox = activeCssTemplate.GetExistingOrCreatePreparedBoxTemplateForTagName(box.HtmlTag.Name);
 
+                    CssBox parentBox = box.ParentBox;
                     foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
                     {
-                        AssignPropertyValue(box, AssignPropertySource.TagName, decl);
+                        AssignPropertyValue(box, parentBox, decl);
                     }
                 }
             }
@@ -326,34 +324,23 @@ namespace HtmlRenderer.Dom
             //    }
             //}
         }
-
-        enum AssignPropertySource
-        {
-            Inherit,
-            TagName,
-            ClassName,
-
-            StyleAttribute,
-            HtmlAttribute,
-            Id,
-        }
-
-        static void AssignPropertyValue(CssBox box, AssignPropertySource propSource, WebDom.CssPropertyDeclaration decl)
+        static void AssignPropertyValue(CssBox box, CssBoxBase boxParent, WebDom.CssPropertyDeclaration decl)
         {
             if (decl.IsExpand)
             {
                 return;
             }
-            if (decl.MarkedAsInherit && box.ParentBox != null)
+
+            if (decl.MarkedAsInherit && boxParent != null)
             {
                 //use parent property 
-                SetPropertyValueFromParent(box, decl.WellknownPropertyName);
+                SetPropertyValueFromParent(box, boxParent, decl.WellknownPropertyName);
             }
             else
             {
                 if (IsStyleOnElementAllowed(box, decl))
                 {
-                    SetPropertyValue(box, propSource, decl);
+                    SetPropertyValue(box, boxParent, decl);
                 }
             }
 
@@ -415,7 +402,8 @@ namespace HtmlRenderer.Dom
                                 {
                                     WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
                                         value, WebDom.CssValueHint.Iden);
-                                    box.SetTextAlign(propValue);
+
+                                    box.CssTextAlign = CssBoxUserUtilExtension.GetTextAlign(propValue);
                                 }
                                 else
                                 {
@@ -503,7 +491,7 @@ namespace HtmlRenderer.Dom
                                 WebDom.CssRuleSet ruleset = CssParser.ParseCssBlock2("", attr.Value.ToLower());
                                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                                 {
-                                    AssignPropertyValue(box, AssignPropertySource.HtmlAttribute, propDecl);
+                                    AssignPropertyValue(box, box.ParentBox, propDecl);
                                 }
 
                                 //WebDom.CssCodePrimitiveExpression prim = new WebDom.CssCodePrimitiveExpression(value, 
@@ -676,7 +664,7 @@ namespace HtmlRenderer.Dom
 
 
 
-        static void SetPropertyValue(CssBox cssBox, AssignPropertySource propSource, WebDom.CssPropertyDeclaration decl)
+        static void SetPropertyValue(CssBoxBase cssBox, CssBoxBase parentBox, WebDom.CssPropertyDeclaration decl)
         {
             //assign property  
             WebDom.CssCodeValueExpression cssValue = decl.GetPropertyValue(0);
@@ -837,7 +825,8 @@ namespace HtmlRenderer.Dom
                     cssBox.TextIndent = cssValue.AsLength();
                     break;
                 case WebDom.WellknownCssPropertyName.TextAlign:
-                    cssBox.SetTextAlign(cssValue);
+
+                    cssBox.CssTextAlign = CssBoxUserUtilExtension.GetTextAlign(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.TextDecoration:
                     cssBox.TextDecoration = CssBoxUserUtilExtension.GetTextDecoration(cssValue);
@@ -858,8 +847,7 @@ namespace HtmlRenderer.Dom
                     cssBox.FontFamily = cssValue.GetTranslatedStringValue();
                     break;
                 case WebDom.WellknownCssPropertyName.FontSize:
-                    cssBox.SetFontSize(cssValue);
-
+                    cssBox.SetFontSize(parentBox, cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.FontStyle:
                     cssBox.FontStyle = CssBoxUserUtilExtension.GetFontStyle(cssValue);
@@ -894,9 +882,9 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="cssBox"></param>
         /// <param name="propName"></param>
-        static void SetPropertyValueFromParent(CssBox cssBox, HtmlRenderer.WebDom.WellknownCssPropertyName propName)
+        static void SetPropertyValueFromParent(CssBoxBase cssBox, CssBoxBase parentCssBox, HtmlRenderer.WebDom.WellknownCssPropertyName propName)
         {
-            CssBox parentCssBox = cssBox.ParentBox;
+
             switch (propName)
             {
                 case WebDom.WellknownCssPropertyName.BorderBottomWidth:

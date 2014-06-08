@@ -1228,7 +1228,7 @@ namespace HtmlRenderer.Dom
         /// Get the parent of this css properties instance.
         /// </summary>
         /// <returns></returns>
-        protected abstract CssBoxBase GetParent();
+        public abstract CssBoxBase GetParent();
 
         /// <summary>
         /// Gets the height of the font in the specified units
