@@ -446,10 +446,7 @@ namespace HtmlRenderer.Dom
         public Color Color
         {
             get { return _actualColor; }
-            set
-            {
-                _actualColor = value;
-            }
+            set { _actualColor = value; }
         }
         public CssEmptyCell EmptyCells
         {
@@ -462,18 +459,10 @@ namespace HtmlRenderer.Dom
             get { return _float; }
             set { _float = value; }
         }
-
-
         public CssPosition Position
         {
-            get
-            {
-                return this._position;
-            }
-            set
-            {
-                this._position = value;
-            }
+            get { return this._position; }
+            set { this._position = value; }
         }
         public bool IsAbsolutePosition
         {
@@ -492,7 +481,7 @@ namespace HtmlRenderer.Dom
                 _lineHeight = value;
                 _actualLineHeight = float.NaN;
             }
-        } 
+        }
         public CssVerticalAlign VerticalAlign
         {
             get { return this._verticalAlign; }
@@ -518,33 +507,21 @@ namespace HtmlRenderer.Dom
         //-----------------------------------
         public CssWhiteSpace WhiteSpace
         {
-            get
-            {
-                return this._whitespace;
-            }
-            set
-            {
-                this._whitespace = value;
-            }
+            get { return this._whitespace; }
+            set { this._whitespace = value; }
         }
         //----------------------------------- 
         public CssVisibility CssVisibility
         {
-            get
-            {
-                return this._visibility;
-            }
-            set
-            {
-                this._visibility = value;
-            }
+            get { return this._visibility; }
+            set { this._visibility = value; }
         }
         public CssLength WordSpacing
         {
             get { return this._wordSpacing; }
             set { this._wordSpacing = this.NoEms(value); }
         }
-       
+
         public CssWordBreak WordBreak
         {
             get { return this._wordBreak; }
@@ -560,10 +537,7 @@ namespace HtmlRenderer.Dom
         public CssLength FontSize
         {
             get { return this._fontProps.FontSize; }
-            set
-            {
-                CheckFontVersion().FontSize = value;
-            }
+            set { CheckFontVersion().FontSize = value; }
         }
 
         public CssFontStyle FontStyle
@@ -1349,40 +1323,49 @@ namespace HtmlRenderer.Dom
         {
             if (p != null)
             {
+                //---------------------------------------
                 this._fontProps = p._fontProps;
                 this._listProps = p._listProps;
+                //---------------------------------------
+
                 this._lineHeight = p._lineHeight;
                 this._actualColor = p._actualColor;
-                this._emptyCells = p._emptyCells;                               
+                this._emptyCells = p._emptyCells;
                 this._textIndent = p._textIndent;
 
                 this.CssTextAlign = p.CssTextAlign;
                 this.VerticalAlign = p.VerticalAlign;
                 this.CssVisibility = p.CssVisibility;
                 this.WhiteSpace = p.WhiteSpace;
-                this.WordBreak = p.WordBreak; 
+                this.WordBreak = p.WordBreak;
                 this.CssDirection = p.CssDirection;
 
                 if (everything)
                 {
+                    //for clone only (eg. split a box into two parts)
+                    //---------------------------------------
                     this._backgroundProps = p._backgroundProps;
-                    this._borderProps = p._borderProps;//***
+                    this._borderProps = p._borderProps;
                     this._cornerProps = p._cornerProps;
-                    _bottom = p._bottom;
+                    //---------------------------------------
+
+                    this._left = p._left;
+                    this._top = p._top;
+                    this._bottom = p._bottom;
+                    this._right = p._right;
+                    this._wordSpacing = p._wordSpacing;
+                    this._lineHeight = p._lineHeight;
+                    this._float = p._float;
 
                     this.CssDisplay = p.CssDisplay;
-                    _float = p._float;
-                    this.Height = p.Height;
-                    _left = p._left;
-                    _lineHeight = p._lineHeight;
                     this.Overflow = p.Overflow;
-                    _right = p._right;
                     this.TextDecoration = p.TextDecoration;
-                    _top = p._top;
+
                     this.Position = p.Position;
                     this.Width = p.Width;
+                    this.Height = p.Height;
                     this.MaxWidth = p.MaxWidth;
-                    this._wordSpacing = p._wordSpacing;
+
                 }
             }
         }

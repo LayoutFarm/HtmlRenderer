@@ -122,26 +122,26 @@ namespace HtmlRenderer.Dom
         /// <param name="htmlContainer">the html container to use for reference resolve</param>
         /// <param name="cssData"> </param>
         /// <param name="cssDataChanged">check if the css data has been modified by the handled html not to change the base css data</param>
-        private static void ApplyStyleSheet(CssBox box, HtmlContainer htmlContainer, ref CssActiveSheet cssData)
+        static void ApplyStyleSheet(CssBox box, HtmlContainer htmlContainer, ref CssActiveSheet cssData)
         {
             //recursive 
             //------------------------------------------------------------------- 
             CssActiveSheet savedCss = cssData;
             //------------------------------------------------------------------- 
-
-            box.InheritStyle();
+            box.InheritStyle(box.ParentBox);
 
             if (box.HtmlTag != null)
             {
                 //------------------------------------------------------------------- 
                 //1.
                 // try assign style using the html element tag     
-                AssignCssToSpecificBoxWithTagName(box, cssData);
+                AssignStylesForTagName(box, cssData);
+
                 //2.
                 // try assign style using the "class" attribute of the html element 
                 if (box.HtmlTag.HasAttribute("class"))
                 {
-                    AssignCssToSpecificClass(box, cssData);
+                    AssignStylesForClassName(box, cssData);
                 }
 
                 //3.
@@ -149,11 +149,12 @@ namespace HtmlRenderer.Dom
                 if (box.HtmlTag.HasAttribute("id"))
                 {
                     var id = box.HtmlTag.TryGetAttribute("id");
-                    AssignCssToSpecificBoxWithId(box, cssData, "#" + id);
+                    AssignStylesForElementId(box, cssData, "#" + id);
                 }
+
                 //-------------------------------------------------------------------
                 //4. 
-                TranslateAttributes(box.HtmlTag, box);
+                AssignStylesFromTranslatedAttributes(box.HtmlTag, box);
                 //-------------------------------------------------------------------
 
                 // Check for the style attribute
@@ -162,7 +163,7 @@ namespace HtmlRenderer.Dom
                     WebDom.CssRuleSet ruleset = CssParser.ParseCssBlock2(box.HtmlTag.Name, box.HtmlTag.TryGetAttribute("style"));
                     foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                     {
-                        AssignPropertyValueToCssBox(box, AssignPropertySource.StyleAttribute, propDecl);
+                        AssignStylesFromStyleAttributeValue(box, AssignPropertySource.StyleAttribute, propDecl);
                     }
                 }
                 //-------------------------------------------------------------------
@@ -210,6 +211,9 @@ namespace HtmlRenderer.Dom
                 box.TextDecoration = CssTextDecoration.NotAssign;
             }
 
+            //===================================================================
+            //parent style assignment is complete before step down into child ***
+            
             foreach (var childBox in box.GetChildBoxIter())
             {
                 //recursive
@@ -257,7 +261,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="box">the css box to assign css to</param>
         /// <param name="cssData">the css data to use to get the matching css blocks</param>
-        private static void AssignCssToSpecificClass(CssBox box, CssActiveSheet cssData)
+        private static void AssignStylesForClassName(CssBox box, CssActiveSheet cssData)
         {
             var classes = box.HtmlTag.TryGetAttribute("class");
             //class attribute may has more than one value (multiple classes in single attribute);
@@ -272,7 +276,7 @@ namespace HtmlRenderer.Dom
                 {
                     foreach (var propDecl in ruleSetGroup.GetPropertyDeclIter())
                     {
-                        AssignPropertyValueToCssBox(box, AssignPropertySource.ClassName, propDecl);
+                        AssignStylesFromStyleAttributeValue(box, AssignPropertySource.ClassName, propDecl);
                     }
                     //---------------------------------------------------------
                     //find subgroup for more specific conditions
@@ -289,7 +293,7 @@ namespace HtmlRenderer.Dom
         }
 
 
-        private static void AssignCssToSpecificBoxWithTagName(CssBox box, CssActiveSheet cssData)
+        private static void AssignStylesForTagName(CssBox box, CssActiveSheet cssData)
         {
             CssRuleSetGroup ruleGroup = cssData.GetRuleSetForTagName(box.HtmlTag.Name);
             if (ruleGroup != null)
@@ -303,15 +307,15 @@ namespace HtmlRenderer.Dom
 
                 }
                 else
-                { 
+                {
                     foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
                     {
-                        AssignPropertyValueToCssBox(box, AssignPropertySource.TagName, decl);
-                    } 
+                        AssignStylesFromStyleAttributeValue(box, AssignPropertySource.TagName, decl);
+                    }
                 }
             }
         }
-        private static void AssignCssToSpecificBoxWithId(CssBox box, CssActiveSheet cssData, string elementId)
+        private static void AssignStylesForElementId(CssBox box, CssActiveSheet cssData, string elementId)
         {
             throw new NotSupportedException();
             //foreach (var ruleSet in cssData.GetCssRuleSetIter(elementId))
@@ -334,7 +338,7 @@ namespace HtmlRenderer.Dom
             Id,
         }
 
-        static void AssignPropertyValueToCssBox(CssBox box, AssignPropertySource propSource, WebDom.CssPropertyDeclaration decl)
+        static void AssignStylesFromStyleAttributeValue(CssBox box, AssignPropertySource propSource, WebDom.CssPropertyDeclaration decl)
         {
             if (decl.IsExpand)
             {
@@ -349,7 +353,7 @@ namespace HtmlRenderer.Dom
             {
                 if (IsStyleOnElementAllowed(box, decl))
                 {
-                    SetPropertyValue(box, decl);
+                    SetPropertyValue(box, propSource, decl);
                 }
             }
 
@@ -405,7 +409,7 @@ namespace HtmlRenderer.Dom
         }
 
 
-        private static void TranslateAttributes(IHtmlElement tag, CssBox box)
+        private static void AssignStylesFromTranslatedAttributes(IHtmlElement tag, CssBox box)
         {
             //some html attr contains css value 
             //
@@ -514,7 +518,7 @@ namespace HtmlRenderer.Dom
                                 WebDom.CssRuleSet ruleset = CssParser.ParseCssBlock2("", attr.Value.ToLower());
                                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                                 {
-                                    AssignPropertyValueToCssBox(box, AssignPropertySource.HtmlAttribute, propDecl);
+                                    AssignStylesFromStyleAttributeValue(box, AssignPropertySource.HtmlAttribute, propDecl);
                                 }
 
                                 //WebDom.CssCodePrimitiveExpression prim = new WebDom.CssCodePrimitiveExpression(value, 
@@ -688,7 +692,7 @@ namespace HtmlRenderer.Dom
 
 
 
-        static void SetPropertyValue(CssBox cssBox, WebDom.CssPropertyDeclaration decl)
+        static void SetPropertyValue(CssBox cssBox, AssignPropertySource propSource, WebDom.CssPropertyDeclaration decl)
         {
             //assign property  
             WebDom.CssCodeValueExpression cssValue = decl.GetPropertyValue(0);
@@ -907,7 +911,6 @@ namespace HtmlRenderer.Dom
         static void SetPropertyValueFromParent(CssBox cssBox, HtmlRenderer.WebDom.WellknownCssPropertyName propName)
         {
             CssBox parentCssBox = cssBox.ParentBox;
-
             switch (propName)
             {
                 case WebDom.WellknownCssPropertyName.BorderBottomWidth:
@@ -1067,7 +1070,6 @@ namespace HtmlRenderer.Dom
                     cssBox.CssTextAlign = parentCssBox.CssTextAlign;
                     break;
                 case WebDom.WellknownCssPropertyName.TextDecoration:
-                    //cssBox.SetTextDecoration(value);
                     cssBox.TextDecoration = parentCssBox.TextDecoration;
                     break;
                 case WebDom.WellknownCssPropertyName.Whitespace:

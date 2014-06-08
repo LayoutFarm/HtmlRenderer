@@ -72,11 +72,10 @@ namespace HtmlRenderer.Dom
         {
 
             box.BorderCollapse = (CssBorderCollapse)EvaluateIntPropertyValueFromString(
-            _cssCollapseBorderMap,
-            WebDom.CssValueEvaluatedAs.BorderCollapse,
-            CssBorderCollapse.Separate,
-            value);
-
+                _cssCollapseBorderMap,
+                WebDom.CssValueEvaluatedAs.BorderCollapse,
+                CssBorderCollapse.Separate,
+                value); 
 
         }
         public static string ToCssStringValue(this CssDisplay value)

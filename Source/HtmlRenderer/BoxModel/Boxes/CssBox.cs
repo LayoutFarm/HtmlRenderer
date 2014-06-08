@@ -531,7 +531,7 @@ namespace HtmlRenderer.Dom
         {
             ArgChecker.AssertArgNotNull(parent, "parent");
             var newBox = new CssBox(parent, tag);
-            newBox.InheritStyle();
+            newBox.InheritStyle(parent);
             if (insertAt > -1)
             {
                 newBox.ChangeSiblingOrder(insertAt);
@@ -572,7 +572,7 @@ namespace HtmlRenderer.Dom
         public void PerformLayout(IGraphics g)
         {
             PerformLayoutImp(g);
-             
+
         }
         void ChangeSiblingOrder(int siblingIndex)
         {
@@ -618,7 +618,7 @@ namespace HtmlRenderer.Dom
                 MeasureRunsSize(g);
             }
 
-             
+
             if (IsBlock ||
                 this.CssDisplay == CssDisplay.ListItem ||
                 this.CssDisplay == CssDisplay.Table ||
@@ -632,7 +632,7 @@ namespace HtmlRenderer.Dom
                     float width = ContainingBlock.Size.Width
                                   - ContainingBlock.ActualPaddingLeft - ContainingBlock.ActualPaddingRight
                                   - ContainingBlock.ActualBorderLeftWidth - ContainingBlock.ActualBorderRightWidth;
-                     
+
                     if (!this.Width.IsAuto && !this.Width.IsEmpty)
                     {
                         width = CssValueParser.ParseLength(Width, width, this);
@@ -643,7 +643,7 @@ namespace HtmlRenderer.Dom
                     // must be separate because the margin can be calculated by percentage of the width
                     Size = new SizeF(width - ActualMarginLeft - ActualMarginRight, Size.Height);
                 }
- 
+
                 if (this.CssDisplay != CssDisplay.TableCell)
                 {
                     var prevSibling = CssBox.GetPreviousSibling(this);
@@ -655,7 +655,7 @@ namespace HtmlRenderer.Dom
                 }
 
                 //If we're talking about a table here..
-                 
+
                 if (this.CssDisplay == CssDisplay.Table || this.CssDisplay == CssDisplay.InlineTable)
                 {
                     CssLayoutEngineTable.PerformLayout(g, this);
@@ -690,7 +690,7 @@ namespace HtmlRenderer.Dom
 
                         this.SetLocation(prevSibling.LocationX, prevSibling.LocationY);
                     }
-                    
+
                     ActualBottom = prevSibling.ActualBottom;
                 }
             }
@@ -1027,9 +1027,9 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Inherits inheritable values from parent.
         /// </summary>
-        internal new void InheritStyle(CssBox box = null, bool everything = false)
+        internal new void InheritStyle(CssBox box, bool everything = false)
         {
-            base.InheritStyle(box ?? ParentBox, everything);
+            base.InheritStyle(box, everything);
         }
 
         /// <summary>
