@@ -26,8 +26,9 @@ namespace HtmlRenderer.Dom
     /// <summary>
     /// Handle css DOM tree generation from raw html and stylesheet.
     /// </summary>
-    internal static class BoxModelBuilder
+    static class BoxModelBuilder
     {
+
         /// <summary>
         /// Generate css tree by parsing the given html and applying the given css style data on it.
         /// </summary>
@@ -54,7 +55,9 @@ namespace HtmlRenderer.Dom
             {
 
                 root.HtmlContainer = htmlContainer;
-                ApplyStyleSheet(root, htmlContainer, ref cssData);
+                //-------------------------------------------------------------------
+                ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(htmlContainer, cssData);
+                ApplyStyleSheet(root, activeCssTemplate);
                 //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);
 
@@ -110,6 +113,9 @@ namespace HtmlRenderer.Dom
 
         }
 #endif
+
+
+
         /// <summary>
         /// Applies style to all boxes in the tree.<br/>
         /// If the html tag has style defined for each apply that style to the css box of the tag.<br/>
@@ -122,12 +128,10 @@ namespace HtmlRenderer.Dom
         /// <param name="htmlContainer">the html container to use for reference resolve</param>
         /// <param name="cssData"> </param>
         /// <param name="cssDataChanged">check if the css data has been modified by the handled html not to change the base css data</param>
-        static void ApplyStyleSheet(CssBox box, HtmlContainer htmlContainer, ref CssActiveSheet cssData)
+        static void ApplyStyleSheet(CssBox box, ActiveCssTemplate activeCssTemplate)
         {
             //recursive 
-            //------------------------------------------------------------------- 
-            CssActiveSheet savedCss = cssData;
-            //------------------------------------------------------------------- 
+            //-------------------------------------------------------------------            
             box.InheritStyle(box.ParentBox);
 
             if (box.HtmlTag != null)
@@ -135,73 +139,57 @@ namespace HtmlRenderer.Dom
                 //------------------------------------------------------------------- 
                 //1.
                 // try assign style using the html element tag     
-                AssignStylesForTagName(box, cssData);
+                AssignStylesForTagName(box, activeCssTemplate);
 
                 //2.
-                // try assign style using the "class" attribute of the html element 
-                if (box.HtmlTag.HasAttribute("class"))
-                {
-                    AssignStylesForClassName(box, cssData);
-                }
+                // try assign style using the "class" attribute of the html element  
+                AssignStylesForClassName(box, activeCssTemplate);
 
                 //3.
                 // try assign style using the "id" attribute of the html element
                 if (box.HtmlTag.HasAttribute("id"))
                 {
                     var id = box.HtmlTag.TryGetAttribute("id");
-                    AssignStylesForElementId(box, cssData, "#" + id);
+                    AssignStylesForElementId(box, activeCssTemplate, "#" + id);
                 }
-
                 //-------------------------------------------------------------------
                 //4. 
+                //element attribute
                 AssignStylesFromTranslatedAttributes(box.HtmlTag, box);
-                //-------------------------------------------------------------------
-
-                // Check for the style attribute
+                //------------------------------------------------------------------- 
+                //5.
+                //style attribute value
                 if (box.HtmlTag.HasAttribute("style"))
                 {
                     WebDom.CssRuleSet ruleset = CssParser.ParseCssBlock2(box.HtmlTag.Name, box.HtmlTag.TryGetAttribute("style"));
                     foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                     {
-                        AssignStylesFromStyleAttributeValue(box, AssignPropertySource.StyleAttribute, propDecl);
+                        AssignPropertyValue(box, AssignPropertySource.StyleAttribute, propDecl);
                     }
                 }
-                //-------------------------------------------------------------------
-
-                // Check for the <style> tag                 
-                if (box.WellknownTagName == WellknownHtmlTagName.STYLE && box.ChildCount == 1)
+                //------------------------------------------------------------------- 
+                //some special tags...
+                // Check for the <style> tag   
+                // Check for the <link rel=stylesheet> tag 
+                switch (box.WellknownTagName)
                 {
-                    cssData = CloneCssData(cssData);
-                    CssParser.ParseStyleSheet(cssData, box.GetFirstChild().CopyTextContent());
-                }
-                //-------------------------------------------------------------------
-
-                // Check for the <link rel=stylesheet> tag
-                //                if (box.HtmlTag.Name.Equals("link", StringComparison.CurrentCultureIgnoreCase) &&
-                if (box.WellknownTagName == WellknownHtmlTagName.LINK &&
-                    box.GetAttribute("rel", string.Empty).Equals("stylesheet", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    //----------------------
-                    cssData = CloneCssData(cssData);
-                    string stylesheet;
-                    CssActiveSheet stylesheetData;
-
-                    //load style sheet from external 
-                    StylesheetLoadHandler.LoadStylesheet(htmlContainer,
-                        box.GetAttribute("href", string.Empty),
-                        out stylesheet, out stylesheetData);
-
-                    if (stylesheet != null)
-                    {
-                        CssParser.ParseStyleSheet(cssData, stylesheet);
-                    }
-                    else if (stylesheetData != null)
-                    {
-                        cssData.Combine(stylesheetData);
-                    }
-                }
+                    case WellknownHtmlTagName.STYLE:
+                        {
+                            if (box.ChildCount == 1)
+                            {
+                                activeCssTemplate.LoadRawStyleElementContent(box.GetFirstChild().CopyTextContent());
+                            }
+                        } break;
+                    case WellknownHtmlTagName.LINK:
+                        {
+                            if (box.GetAttribute("rel", string.Empty).Equals("stylesheet", StringComparison.CurrentCultureIgnoreCase))
+                            {          
+                                activeCssTemplate.LoadLinkStyleSheet(box.GetAttribute("href", string.Empty));
+                            }
+                        } break;
+                } 
             }
-
+            //--------------------------------------------------------------------
             if (box.TextDecoration != CssTextDecoration.NotAssign && !box.MayHasSomeTextContent)
             {
                 foreach (var childBox in box.GetChildBoxIter())
@@ -213,11 +201,11 @@ namespace HtmlRenderer.Dom
 
             //===================================================================
             //parent style assignment is complete before step down into child ***
-            
+
             foreach (var childBox in box.GetChildBoxIter())
             {
                 //recursive
-                ApplyStyleSheet(childBox, htmlContainer, ref cssData);
+                ApplyStyleSheet(childBox, activeCssTemplate);
             }
 
 
@@ -230,7 +218,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="htmlContainer"> </param>
         /// <param name="cssData">the style data</param>
-        private static void SetTextSelectionStyle(HtmlContainer htmlContainer, CssActiveSheet cssData)
+        static void SetTextSelectionStyle(HtmlContainer htmlContainer, CssActiveSheet cssData)
         {
             //comment out for another technique
             htmlContainer.SelectionForeColor = Color.Empty;
@@ -261,13 +249,21 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="box">the css box to assign css to</param>
         /// <param name="cssData">the css data to use to get the matching css blocks</param>
-        private static void AssignStylesForClassName(CssBox box, CssActiveSheet cssData)
+        static void AssignStylesForClassName(CssBox box, ActiveCssTemplate activeCssTemplate)
         {
-            var classes = box.HtmlTag.TryGetAttribute("class");
+            var classes = box.HtmlTag.TryGetAttribute("class", null);
+            if (classes == null)
+            {
+                return;
+            }
+
             //class attribute may has more than one value (multiple classes in single attribute);
             string[] classNames = classes.Split(_whiteSplitter, StringSplitOptions.RemoveEmptyEntries);
 
-            int j = classNames.Length;
+            int j = classNames.Length; 
+
+            CssActiveSheet cssData = activeCssTemplate.ActiveSheet;
+
             for (int i = 0; i < j; ++i)
             {
 
@@ -276,7 +272,7 @@ namespace HtmlRenderer.Dom
                 {
                     foreach (var propDecl in ruleSetGroup.GetPropertyDeclIter())
                     {
-                        AssignStylesFromStyleAttributeValue(box, AssignPropertySource.ClassName, propDecl);
+                        AssignPropertyValue(box, AssignPropertySource.ClassName, propDecl);
                     }
                     //---------------------------------------------------------
                     //find subgroup for more specific conditions
@@ -293,9 +289,10 @@ namespace HtmlRenderer.Dom
         }
 
 
-        private static void AssignStylesForTagName(CssBox box, CssActiveSheet cssData)
+        private static void AssignStylesForTagName(CssBox box, ActiveCssTemplate activeCssTemplate)
         {
-            CssRuleSetGroup ruleGroup = cssData.GetRuleSetForTagName(box.HtmlTag.Name);
+            CssRuleSetGroup ruleGroup = activeCssTemplate.ActiveSheet.GetRuleSetForTagName(box.HtmlTag.Name);
+
             if (ruleGroup != null)
             {
                 //found  math tag name
@@ -308,14 +305,15 @@ namespace HtmlRenderer.Dom
                 }
                 else
                 {
+
                     foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
                     {
-                        AssignStylesFromStyleAttributeValue(box, AssignPropertySource.TagName, decl);
+                        AssignPropertyValue(box, AssignPropertySource.TagName, decl);
                     }
                 }
             }
         }
-        private static void AssignStylesForElementId(CssBox box, CssActiveSheet cssData, string elementId)
+        private static void AssignStylesForElementId(CssBox box, ActiveCssTemplate activeCssTemplate, string elementId)
         {
             throw new NotSupportedException();
             //foreach (var ruleSet in cssData.GetCssRuleSetIter(elementId))
@@ -338,7 +336,7 @@ namespace HtmlRenderer.Dom
             Id,
         }
 
-        static void AssignStylesFromStyleAttributeValue(CssBox box, AssignPropertySource propSource, WebDom.CssPropertyDeclaration decl)
+        static void AssignPropertyValue(CssBox box, AssignPropertySource propSource, WebDom.CssPropertyDeclaration decl)
         {
             if (decl.IsExpand)
             {
@@ -391,21 +389,6 @@ namespace HtmlRenderer.Dom
                 }
             }
             return true;
-        }
-        /// <summary>
-        /// Clone css data if it has not already been cloned.<br/>
-        /// Used to preserve the base css data used when changed by style inside html.
-        /// </summary>
-        static CssActiveSheet CloneCssData(CssActiveSheet cssData)
-        {
-            //if (!cssDataChanged)
-            //{                 
-            //    cssData = cssData.Clone();
-            //    return cssData;
-            //}
-            // cssData = cssData.Clone(newowner);
-
-            return cssData.Clone(new object());
         }
 
 
@@ -518,7 +501,7 @@ namespace HtmlRenderer.Dom
                                 WebDom.CssRuleSet ruleset = CssParser.ParseCssBlock2("", attr.Value.ToLower());
                                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                                 {
-                                    AssignStylesFromStyleAttributeValue(box, AssignPropertySource.HtmlAttribute, propDecl);
+                                    AssignPropertyValue(box, AssignPropertySource.HtmlAttribute, propDecl);
                                 }
 
                                 //WebDom.CssCodePrimitiveExpression prim = new WebDom.CssCodePrimitiveExpression(value, 

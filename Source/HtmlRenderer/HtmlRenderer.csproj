@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoxModel.HitAndSelection\BoxHitChain.cs" />
+    <Compile Include="BoxModel\Builder\ActiveCssTemplate.cs" />
     <Compile Include="Common\ValueMaps.cs" />
     <Compile Include="Common\TextSnapshot.cs" />
     <Compile Include="BoxModel\Builder\CssTextSplitter.cs" />
