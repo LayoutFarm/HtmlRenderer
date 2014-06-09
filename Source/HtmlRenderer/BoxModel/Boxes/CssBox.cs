@@ -60,18 +60,10 @@ namespace HtmlRenderer.Dom
             _htmltag = tag;
             if (tag != null)
             {
-                this.wellKnownTagName = tag.WellknownTagName;
+                this.WellknownTagName = tag.WellknownTagName;
             }
         }
-        public WellknownHtmlTagName WellknownTagName
-        {
-            get
-            {
-                return this.wellKnownTagName;
-            }
-        }
-
-
+       
         /// <summary>
         /// Gets the HtmlContainer of the Box.
         /// WARNING: May be null.
@@ -531,7 +523,7 @@ namespace HtmlRenderer.Dom
         {
             ArgChecker.AssertArgNotNull(parent, "parent");
             var newBox = new CssBox(parent, tag);
-            newBox.InheritStyle(parent);
+            newBox.InheritStyles(parent);
             if (insertAt > -1)
             {
                 newBox.ChangeSiblingOrder(insertAt);
@@ -769,7 +761,7 @@ namespace HtmlRenderer.Dom
         /// Get the parent of this css properties instance.
         /// </summary>
         /// <returns></returns>
-        protected sealed override CssBoxBase GetParent()
+        public sealed override CssBoxBase GetParent()
         {
             return _parentBox;
         }
@@ -831,7 +823,7 @@ namespace HtmlRenderer.Dom
                 if (_listItemBox == null)
                 {
                     _listItemBox = new CssBox(null, null);
-                    _listItemBox.InheritStyle(this);
+                    _listItemBox.InheritStyles(this);
                     _listItemBox.CssDisplay = CssDisplay.Inline;
                     _listItemBox._htmlContainer = HtmlContainer;
 
@@ -1027,11 +1019,11 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Inherits inheritable values from parent.
         /// </summary>
-        internal new void InheritStyle(CssBox box, bool everything = false)
+        internal new void InheritStyles(CssBoxBase box, bool clone = false)
         {
-            base.InheritStyle(box, everything);
+            base.InheritStyles(box, clone);
         }
-
+      
         /// <summary>
         /// Gets the result of collapsing the vertical margins of the two boxes
         /// </summary>

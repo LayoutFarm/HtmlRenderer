@@ -428,7 +428,7 @@ namespace HtmlRenderer
             {
 
                 _cssData = baseCssData ?? CssUtils.DefaultCssData;
-                _root = BoxModelBuilder.BuildBoxesTree(htmlSource, this, _cssData);
+                _root = BoxModelBuilder.ParseAndBuildBoxTree(htmlSource, this, _cssData);
                 if (_root != null)
                 {
                     this.OnRootCreated(_root);

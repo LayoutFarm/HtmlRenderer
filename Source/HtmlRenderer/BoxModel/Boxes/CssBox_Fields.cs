@@ -69,13 +69,13 @@ namespace HtmlRenderer.Dom
         /// handler for loading background image
         /// </summary>
         ImageLoadHandler _imageLoadHandler;
-        readonly WellknownHtmlTagName wellKnownTagName;
+        
         //---------------------------------------------------- 
 
         //condition 1 :this Box is BlockBox
         //1.1 contain lineBoxes for my children and  other children (share)
         LinkedList<CssLineBox> _clientLineBoxes;
-         
+
 
         //1.2 contains box collection for my children
         readonly CssBoxCollection _boxes;
@@ -125,7 +125,7 @@ namespace HtmlRenderer.Dom
         {
             return this._boxes.GetChildBoxIter();
         }
-         
+
         public IEnumerable<CssRun> GetRunIter()
         {
             if (this._boxRuns != null)

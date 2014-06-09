@@ -834,116 +834,8 @@ namespace HtmlRenderer.WebDom.Parser
             {
                 //add new prop to ruleset
                 ruleset.AddCssCodeProperty(newProps[i]);
-            }
-            //--------------------
-
-
-
-        }
-        //void ParseBorder(string value, out string width, out string style, out string color)
-        //{
-        //    width = style = color = null;
-        //    //if (!string.IsNullOrEmpty(value))
-        //    //{
-        //    //    int idx = 0;
-        //    //    int length;
-        //    //    while ((idx = CommonUtils.GetNextSubString(value, idx, out length)) > -1)
-        //    //    {
-        //    //        if (width == null)
-        //    //            width = ParseBorderWidth(value, idx, length);
-        //    //        if (style == null)
-        //    //            style = ParseBorderStyle(value, idx, length);
-        //    //        if (color == null)
-        //    //            color = ParseBorderColor(value, idx, length);
-        //    //        idx = idx + length + 1;
-        //    //    }
-        //    //}
-        //}
-        //static string ParseBorderWidth(string str, int idx, int length)
-        //{
-        //    if ((length > 2 && char.IsDigit(str[idx])) || (length > 3 && str[idx] == '.'))
-        //    {
-        //        string unit = null;
-        //        if (CommonUtils.SubStringEquals(str, idx + length - 2, 2, CssConstants.Px))
-        //            unit = CssConstants.Px;
-        //        else if (CommonUtils.SubStringEquals(str, idx + length - 2, 2, CssConstants.Pt))
-        //            unit = CssConstants.Pt;
-        //        else if (CommonUtils.SubStringEquals(str, idx + length - 2, 2, CssConstants.Em))
-        //            unit = CssConstants.Em;
-        //        else if (CommonUtils.SubStringEquals(str, idx + length - 2, 2, CssConstants.Ex))
-        //            unit = CssConstants.Ex;
-        //        else if (CommonUtils.SubStringEquals(str, idx + length - 2, 2, CssConstants.In))
-        //            unit = CssConstants.In;
-        //        else if (CommonUtils.SubStringEquals(str, idx + length - 2, 2, CssConstants.Cm))
-        //            unit = CssConstants.Cm;
-        //        else if (CommonUtils.SubStringEquals(str, idx + length - 2, 2, CssConstants.Mm))
-        //            unit = CssConstants.Mm;
-        //        else if (CommonUtils.SubStringEquals(str, idx + length - 2, 2, CssConstants.Pc))
-        //            unit = CssConstants.Pc;
-
-        //        if (unit != null)
-        //        {
-        //            if (IsFloat(str, idx, length - 2))
-        //                return str.Substring(idx, length);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (CommonUtils.SubStringEquals(str, idx, length, CssConstants.Thin))
-        //            return CssConstants.Thin;
-        //        if (CommonUtils.SubStringEquals(str, idx, length, CssConstants.Medium))
-        //            return CssConstants.Medium;
-        //        if (CommonUtils.SubStringEquals(str, idx, length, CssConstants.Thick))
-        //            return CssConstants.Thick;
-        //    }
-        //    return null;
-        //}
-
-        //void ExpandAllBorderWidthProperty(CssPropertyDeclaration decl, List<CssPropertyDeclaration> newProps)
-        //{
-        //    //prop may has more than one value
-        //    switch (decl.ValueCount)
-        //    {
-        //        case 0:
-        //            break;
-        //        case 1:
-        //            {
-        //                var cssCodePropertyValue = decl.GetPropertyValue(0);
-        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-left-width"));
-        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-top-width"));
-        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-right-width"));
-        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-bottom-width"));
-
-        //            } break;
-        //        case 2:
-        //            {
-        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-left-width"));
-        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-top-width"));
-        //            } break;
-        //        case 3:
-        //            {
-        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-left-width"));
-        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-top-width"));
-
-        //            } break;
-        //        case 4:
-        //            {
-        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-left-width"));
-        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-top-width"));
-        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-left-width"));
-        //                newProps.Add(CloneProp(cssCodePropertyValue, "border-top-width"));
-        //            } break;
-        //    } 
-        //}
-        //void ExpandAllBorderColorProperty(CssPropertyDeclaration decl, List<CssPropertyDeclaration> newProps)
-        //{
-        //    //prop may has more than one value
-        //}
-        //void ExpandAllBorderStyleProperty(CssPropertyDeclaration decl, List<CssPropertyDeclaration> newProps)
-        //{
-        //    //prop may has more than one value
-        //}
-
+            } 
+        } 
 
         enum BorderDirection
         {
@@ -953,29 +845,7 @@ namespace HtmlRenderer.WebDom.Parser
         void ExpandBorderProperty(CssPropertyDeclaration decl, BorderDirection borderDirection, List<CssPropertyDeclaration> newProps)
         {
 
-            int j = decl.ValueCount;
-            string b_direction = null;
-
-            switch (borderDirection)
-            {
-                case BorderDirection.Left:
-                    {
-                        b_direction = "left";
-                    } break;
-                case BorderDirection.Top:
-                    {
-                        b_direction = "top";
-                    } break;
-                case BorderDirection.Right:
-                    {
-                        b_direction = "right";
-                    } break;
-                case BorderDirection.Bottom:
-                    {
-                        b_direction = "bottom";
-                    } break;
-            }
-
+            int j = decl.ValueCount; 
 
             for (int i = 0; i < j; ++i)
             {

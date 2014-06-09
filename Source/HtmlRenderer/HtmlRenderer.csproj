@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoxModel.HitAndSelection\BoxHitChain.cs" />
+    <Compile Include="BoxModel\Boxes\CssBox_InheritAndClone.cs" />
     <Compile Include="BoxModel\Builder\ActiveCssTemplate.cs" />
     <Compile Include="Common\ValueMaps.cs" />
     <Compile Include="Common\TextSnapshot.cs" />
@@ -72,7 +73,7 @@
     <Compile Include="WebDom.Parser\HtmlLexer.cs" />
     <Compile Include="WebDom.Parser\CssParser.cs" />
     <Compile Include="WebDom.Parser\HtmlParser.cs" />
-    <Compile Include="WebDom\1_Html\StringTable.cs" />
+    <Compile Include="Common\StringTable.cs" />
     <Compile Include="WebDom\1_Html\HtmlDocument.cs" />
     <Compile Include="WebDom\1_Html\HtmlNodes.cs" />
     <Compile Include="WebDom\1_Html\HtmlPredefineNames.cs" />
@@ -126,7 +127,6 @@
     <Compile Include="Handlers\BordersDrawHandler.cs" />
     <Compile Include="BoxModel\Builder\BoxModelBuilder.cs" />
     <Compile Include="Parse\CssValueParser.cs" />
-    <Compile Include="Parse\HtmlParser2.cs" />
     <Compile Include="Platform\HtmlContainer.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -208,7 +208,7 @@ namespace HtmlRenderer.Dom
             //recursive
 
             var leftPart = CssBox.CreateBox(leftBlock, splitBox.HtmlTag);
-            leftPart.InheritStyle(splitBox, true);
+            leftPart.InheritStyles(splitBox, true);
 
             bool had_new_leftbox = false;
             CssBox firstChild = null;
@@ -240,7 +240,7 @@ namespace HtmlRenderer.Dom
                 if (firstChild.ParentBox != null || parentBox.ChildCount < 3)
                 {
                     rightPart = CssBox.CreateBox(parentBox, splitBox.HtmlTag);
-                    rightPart.InheritStyle(splitBox, true);
+                    rightPart.InheritStyles(splitBox, true);
 
                     if (parentBox.ChildCount > 2)
                     {
