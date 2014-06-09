@@ -33,10 +33,12 @@ namespace HtmlRenderer.Dom
     public abstract partial class CssBoxBase
     {
 
+        internal int cssClassVersion;
 
         //==========================================================
         #region css values Inherit From Parent (by default)
         //inherit from parent by default
+        
         CssFontProp _fontProps = CssFontProp.Default;
         CssListProp _listProps = CssListProp.Default;
         CssLength _lineHeight = CssLength.NormalWordOrLine;
@@ -55,33 +57,36 @@ namespace HtmlRenderer.Dom
         //==========================================================
         #region css values Not Inherit From Parent
         CssBorderProp _borderProps = CssBorderProp.Default;
+
         CssPaddingProp _paddingProps = CssPaddingProp.Default;
         CssMarginProp _marginProps = CssMarginProp.Default;
+        
         CssCornerProp _cornerProps = CssCornerProp.Default;
         Font _actualFont;
-        CssBackgroundProp _backgroundProps = CssBackgroundProp.Default; 
-
+        CssBackgroundProp _backgroundProps = CssBackgroundProp.Default;
         CssDisplay _cssDisplay = CssDisplay.Inline;
         CssFloat _float = CssFloat.None;
 
         CssLength _left = CssLength.AutoLength;
-        CssLength _top = CssLength.AutoLength; 
+        CssLength _top = CssLength.AutoLength;
         CssLength _right = CssLength.NotAssign;
-        CssLength _bottom = CssLength.NotAssign; 
+        CssLength _bottom = CssLength.NotAssign;
         CssLength _width = CssLength.AutoLength;
         CssLength _height = CssLength.AutoLength;
 
-        CssLength _maxWidth = CssLength.NotAssign; 
+        CssLength _maxWidth = CssLength.NotAssign;
 
         CssOverflow _overflow = CssOverflow.Visible;
         CssTextDecoration _textDecoration = CssTextDecoration.NotAssign;
         CssPosition _position = CssPosition.Static;
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
+
+        WellknownHtmlTagName wellKnownTagName;
         #endregion
         //==========================================================
 
 
-        #region Fields 
+        #region Fields
 
         float _locationX;
         float _locationY;
@@ -134,11 +139,23 @@ namespace HtmlRenderer.Dom
         {
             _actualColor = System.Drawing.Color.Black;
 #if DEBUG
-            
-#endif 
+#endif
 
-        } 
+        }
+
         #region CSS Properties
+        public WellknownHtmlTagName WellknownTagName
+        {
+            get
+            {
+                return this.wellKnownTagName;
+            }
+            protected set
+            {
+                this.wellKnownTagName = value;
+            }
+        }
+
 
         public CssLength BorderBottomWidth
         {
@@ -152,11 +169,7 @@ namespace HtmlRenderer.Dom
         public CssDisplay CssDisplay
         {
             get { return this._cssDisplay; }
-            set
-            {
-                this._cssDisplay = value;
-                this.PassTestInlineOnlyDeep = this.PassTestInlineOnly = false;
-            }
+            set { this._cssDisplay = value; }
         }
         public CssDirection CssDirection
         {
@@ -179,7 +192,6 @@ namespace HtmlRenderer.Dom
             get { return this._borderProps.RightWidth; }
             set
             {
-
                 CheckBorderVersion().RightWidth = value;
                 _actualBorderRightWidth = Single.NaN;
             }
@@ -224,28 +236,18 @@ namespace HtmlRenderer.Dom
         public Color BorderBottomColor
         {
             get { return this._borderProps.BottomColor; }
-            set
-            {
-                CheckBorderVersion().BottomColor = value;
-            }
+            set { CheckBorderVersion().BottomColor = value; }
         }
         public Color BorderLeftColor
         {
             get { return this._borderProps.LeftColor; }
-            set
-            {
-                CheckBorderVersion().LeftColor = value;
-            }
+            set { CheckBorderVersion().LeftColor = value; }
         }
         //--------------------------------------------
         public Color BorderRightColor
         {
             get { return this._borderProps.RightColor; }
-            set
-            {
-
-                CheckBorderVersion().RightColor = value;
-            }
+            set { CheckBorderVersion().RightColor = value; }
         }
 
         public Color BorderTopColor
@@ -1285,62 +1287,7 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-
-        /// <summary>
-        /// Inherits inheritable values from specified box.
-        /// </summary>
-        /// <param name="clone">Set to true to inherit all CSS properties instead of only the ineritables</param>
-        /// <param name="p">Box to inherit the properties</param>
-        protected void InheritStyles(CssBox p, bool clone)
-        {
-            if (p != null)
-            {
-
-                //---------------------------------------
-                this._fontProps = p._fontProps;
-                this._listProps = p._listProps;
-                //--------------------------------------- 
-                this._lineHeight = p._lineHeight;
-                this._textIndent = p._textIndent;
-                this._actualColor = p._actualColor;
-                this._emptyCells = p._emptyCells;
-                //--------------------------------------- 
-                this.CssTextAlign = p.CssTextAlign;
-                this.VerticalAlign = p.VerticalAlign;
-                this.CssVisibility = p.CssVisibility;
-                this.WhiteSpace = p.WhiteSpace;
-                this.WordBreak = p.WordBreak;
-                this.CssDirection = p.CssDirection;
-                //---------------------------------------
-
-
-                if (clone)
-                {
-                    //for clone only (eg. split a box into two parts)
-                    //---------------------------------------
-                    this._backgroundProps = p._backgroundProps;
-                    this._borderProps = p._borderProps;
-                    this._cornerProps = p._cornerProps;
-                    //---------------------------------------
-
-                    this._left = p._left;
-                    this._top = p._top;
-                    this._bottom = p._bottom;
-                    this._right = p._right;
-                    this._wordSpacing = p._wordSpacing;
-                    this._lineHeight = p._lineHeight;
-                    this._float = p._float;
-
-                    this.CssDisplay = p.CssDisplay;
-                    this.Overflow = p.Overflow;
-                    this.TextDecoration = p.TextDecoration;
-                    this.Position = p.Position;
-                    this.Width = p.Width;
-                    this.Height = p.Height;
-                    this.MaxWidth = p.MaxWidth;
-
-                }
-            }
-        }
+       
+        
     }
 }

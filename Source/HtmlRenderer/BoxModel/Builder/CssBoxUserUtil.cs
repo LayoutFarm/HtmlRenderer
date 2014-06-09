@@ -442,11 +442,9 @@ namespace HtmlRenderer.Dom
                     {
                         //has unit or not
                         //?
-                        //or percent ?
-
+                        //or percent ? 
                         CssLength len = primValue.AsLength();
-
-
+                         
                         if (len.HasError)
                         {
                             len = CssLength.FontSizeMedium;

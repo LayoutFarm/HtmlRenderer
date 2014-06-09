@@ -337,8 +337,7 @@ namespace HtmlRenderer.Parse
             {
                 //return as medium
                 return 2f;                 
-            } 
-             
+            }  
             if (borderValue.IsMedium)
             {
                 return 2f;

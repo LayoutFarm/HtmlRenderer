@@ -60,18 +60,10 @@ namespace HtmlRenderer.Dom
             _htmltag = tag;
             if (tag != null)
             {
-                this.wellKnownTagName = tag.WellknownTagName;
+                this.WellknownTagName = tag.WellknownTagName;
             }
         }
-        public WellknownHtmlTagName WellknownTagName
-        {
-            get
-            {
-                return this.wellKnownTagName;
-            }
-        }
-
-
+       
         /// <summary>
         /// Gets the HtmlContainer of the Box.
         /// WARNING: May be null.
@@ -1027,11 +1019,11 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Inherits inheritable values from parent.
         /// </summary>
-        internal new void InheritStyles(CssBox box, bool clone = false)
+        internal new void InheritStyles(CssBoxBase box, bool clone = false)
         {
             base.InheritStyles(box, clone);
         }
-
+      
         /// <summary>
         /// Gets the result of collapsing the vertical margins of the two boxes
         /// </summary>

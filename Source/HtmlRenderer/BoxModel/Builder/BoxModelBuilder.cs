@@ -28,6 +28,71 @@ namespace HtmlRenderer.Dom
     /// </summary>
     static class BoxModelBuilder
     {
+        //======================================
+        #region Parse
+        /// <summary>
+        /// Parses the source html to css boxes tree structure.
+        /// </summary>
+        /// <param name="source">the html source to parse</param>
+        static CssBox ParseDocument(TextSnapshot snapSource)
+        {
+            var parser = new HtmlRenderer.WebDom.Parser.HtmlParser();
+            //------------------------
+            parser.Parse(snapSource);
+            WebDom.HtmlDocument resultHtmlDoc = parser.ResultHtmlDoc;
+            var rootCssBox = CssBox.CreateRootBlock();
+            var curBox = rootCssBox;
+            //walk on tree and create cssbox
+            foreach (WebDom.HtmlNode node in resultHtmlDoc.RootNode.GetChildNodeIterForward())
+            {
+                WebDom.HtmlElement elemNode = node as WebDom.HtmlElement;
+                if (elemNode != null)
+                {
+                    CreateCssBox(elemNode, curBox);
+                }
+            }
+            return rootCssBox;
+        }
+        static void CreateCssBox(WebDom.HtmlElement htmlElement, CssBox parentNode)
+        {
+            //recursive  
+            CssBox box = CssBox.CreateBox(new HtmlTagBridge(htmlElement), parentNode);
+            foreach (WebDom.HtmlNode node in htmlElement.GetChildNodeIterForward())
+            {
+                switch (node.NodeType)
+                {
+                    case WebDom.HtmlNodeType.OpenElement:
+                    case WebDom.HtmlNodeType.ShortElement:
+                        {
+                            //recursive
+                            CreateCssBox((WebDom.HtmlElement)node, box);
+
+                        } break;
+                    case WebDom.HtmlNodeType.TextNode:
+                        {
+
+                            /// Add html text anon box to the current box, this box will have the rendered text<br/>
+                            /// Adding box also for text that contains only whitespaces because we don't know yet if
+                            /// the box is preformatted. At later stage they will be removed if not relevant.                             
+                            WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)node;
+                            //create anonymos box
+                            CssBox.CreateBox(box).SetTextContent(textNode.CopyTextBuffer());
+
+                        } break;
+                    default:
+                        {
+                        } break;
+                }
+            }
+
+        }
+        #endregion Parse
+        //======================================
+
+
+
+
+
 
         /// <summary>
         /// Generate css tree by parsing the given html and applying the given css style data on it.
@@ -36,14 +101,14 @@ namespace HtmlRenderer.Dom
         /// <param name="htmlContainer">the html container to use for reference resolve</param>
         /// <param name="cssData">the css data to use</param>
         /// <returns>the root of the generated tree</returns>
-        public static CssBox BuildBoxesTree(
+        public static CssBox ParseAndBuildBoxTree(
             string html,
             HtmlContainer htmlContainer,
             CssActiveSheet cssData)
         {
 
             //1. generate css box  from html data
-            CssBox root = HtmlParser2.ParseDocument(new TextSnapshot(html.ToCharArray()));
+            CssBox root = ParseDocument(new TextSnapshot(html.ToCharArray()));
 
 #if DEBUG
             dbugTestParsePerformance(html);
@@ -105,7 +170,7 @@ namespace HtmlRenderer.Dom
             sw1.Start();
             for (int i = nround; i >= 0; --i)
             {
-                CssBox root2 = HtmlParser2.ParseDocument(snapSource);
+                CssBox root2 = ParseDocument(snapSource);
             }
             sw1.Stop();
             long ee2 = sw1.ElapsedTicks;
@@ -137,13 +202,10 @@ namespace HtmlRenderer.Dom
             if (box.HtmlTag != null)
             {
                 //------------------------------------------------------------------- 
-                //1.
-                // try assign style using the html element tag     
-                AssignStylesForTagName(box, activeCssTemplate);
-
-                //2.
-                // try assign style using the "class" attribute of the html element  
-                AssignStylesForClassName(box, activeCssTemplate);
+                //1. element tag
+                //2. css class 
+                // try assign style using the html element tag    
+                activeCssTemplate.ApplyActiveTemplateForElement(box.ParentBox, box);
 
                 //3.
                 // try assign style using the "id" attribute of the html element
@@ -242,77 +304,9 @@ namespace HtmlRenderer.Dom
             //}
         }
 
-        static readonly char[] _whiteSplitter = new[] { ' ' };
-        /// <summary>
-        /// Assigns the given css classes to the given css box checking if matching.<br/>
-        /// Support multiple classes in single attribute separated by whitespace.
-        /// </summary>
-        /// <param name="box">the css box to assign css to</param>
-        /// <param name="cssData">the css data to use to get the matching css blocks</param>
-        static void AssignStylesForClassName(CssBox box, ActiveCssTemplate activeCssTemplate)
-        {
-            var classes = box.HtmlTag.TryGetAttribute("class", null);
-            if (classes == null)
-            {
-                return;
-            }
-
-            //class attribute may has more than one value (multiple classes in single attribute);
-            string[] classNames = classes.Split(_whiteSplitter, StringSplitOptions.RemoveEmptyEntries);
-            int j = classNames.Length;
-            CssActiveSheet cssData = activeCssTemplate.ActiveSheet;
-
-            for (int i = 0; i < j; ++i)
-            {
-
-                CssRuleSetGroup ruleSetGroup = cssData.GetRuleSetForClassName(classNames[i]);
-                if (ruleSetGroup != null)
-                {
-                    foreach (var propDecl in ruleSetGroup.GetPropertyDeclIter())
-                    {
-                        AssignPropertyValue(box, box.ParentBox, propDecl);
-                    }
-                    //---------------------------------------------------------
-                    //find subgroup for more specific conditions
-                    int subgroupCount = ruleSetGroup.SubGroupCount;
-                    for (int m = 0; m < subgroupCount; ++m)
-                    {
-                        //find if selector condition match with this box
-                        CssRuleSetGroup ruleSetSubGroup = ruleSetGroup.GetSubGroup(m);
-                        var selector = ruleSetSubGroup.OriginalSelector;
-
-                    }
-                }
-            }
-        }
 
 
-        private static void AssignStylesForTagName(CssBox box, ActiveCssTemplate activeCssTemplate)
-        {
-            //1. find rule st for 
-            CssRuleSetGroup ruleGroup = activeCssTemplate.ActiveSheet.GetRuleSetForTagName(box.HtmlTag.Name);
-            if (ruleGroup != null)
-            {
-                //found  match tag name
-                //simple selector with tag name  
-                if (box.WellknownTagName == WellknownHtmlTagName.A &&
-                   ruleGroup.Name == "a" &&   //block.CssClassName.Equals("a", StringComparison.OrdinalIgnoreCase) &&                 
-                   !box.HtmlTag.HasAttribute("href"))
-                {
 
-                }
-                else
-                {
-                    //var templateBox = activeCssTemplate.GetExistingOrCreatePreparedBoxTemplateForTagName(box.HtmlTag.Name);
-
-                    CssBox parentBox = box.ParentBox;
-                    foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
-                    {
-                        AssignPropertyValue(box, parentBox, decl);
-                    }
-                }
-            }
-        }
         private static void AssignStylesForElementId(CssBox box, ActiveCssTemplate activeCssTemplate, string elementId)
         {
             throw new NotSupportedException();
@@ -324,7 +318,9 @@ namespace HtmlRenderer.Dom
             //    }
             //}
         }
-        static void AssignPropertyValue(CssBox box, CssBoxBase boxParent, WebDom.CssPropertyDeclaration decl)
+
+
+        internal static void AssignPropertyValue(CssBoxBase box, CssBoxBase boxParent, WebDom.CssPropertyDeclaration decl)
         {
             if (decl.IsExpand)
             {
@@ -343,15 +339,20 @@ namespace HtmlRenderer.Dom
                     SetPropertyValue(box, boxParent, decl);
                 }
             }
-
         }
 
-        static bool IsStyleOnElementAllowed(CssBox box, WebDom.CssPropertyDeclaration cssProperty)
+
+
+
+        static bool IsStyleOnElementAllowed(CssBoxBase box, WebDom.CssPropertyDeclaration cssProperty)
         {
-            if (box.HtmlTag != null &&
+            //if (box.HtmlTag != null &&
+            //    cssProperty.WellknownPropertyName == WebDom.WellknownCssPropertyName.Display)
+            //{
+
+            if (box.WellknownTagName != WellknownHtmlTagName.NotAssign &&
                 cssProperty.WellknownPropertyName == WebDom.WellknownCssPropertyName.Display)
             {
-
                 CssDisplay display = CssBoxUserUtilExtension.GetDisplayType(cssProperty.GetPropertyValue(0));
                 switch (box.WellknownTagName)
                 {
@@ -380,7 +381,7 @@ namespace HtmlRenderer.Dom
         }
 
 
-        private static void AssignStylesFromTranslatedAttributes(IHtmlElement tag, CssBox box)
+        static void AssignStylesFromTranslatedAttributes(IHtmlElement tag, CssBox box)
         {
             //some html attr contains css value 
             //
@@ -638,33 +639,31 @@ namespace HtmlRenderer.Dom
             dbugCorrectCount++;
 #endif
             //recursive
-            try
+            //try
+            //{
+            if (DomUtils.ContainsInlinesOnly(box) && !CssBox.ContainsInlinesOnlyDeep(box))
             {
-                if (DomUtils.ContainsInlinesOnly(box) && !CssBox.ContainsInlinesOnlyDeep(box))
+                CssBox.CorrectBlockInsideInlineImp(box);
+            }
+            //----------------------------------------------------------------------
+            if (!DomUtils.ContainsInlinesOnly(box))
+            {
+                foreach (var childBox in box.GetChildBoxIter())
                 {
-                    CssBox.CorrectBlockInsideInlineImp(box);
-                }
-                //----------------------------------------------------------------------
-                if (!DomUtils.ContainsInlinesOnly(box))
-                {
-                    foreach (var childBox in box.GetChildBoxIter())
-                    {
-                        //recursive
-                        CorrectBlockInsideInline(childBox);
-                    }
+                    //recursive
+                    CorrectBlockInsideInline(childBox);
                 }
             }
-            catch (Exception ex)
-            {
-                box.HtmlContainer.ReportError(HtmlRenderErrorType.HtmlParsing, "Failed in block inside inline box correction", ex);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    box.HtmlContainer.ReportError(HtmlRenderErrorType.HtmlParsing, "Failed in block inside inline box correction", ex);
+            //}
         }
 
         #endregion
 
-
-
-        static void SetPropertyValue(CssBoxBase cssBox, CssBoxBase parentBox, WebDom.CssPropertyDeclaration decl)
+        internal static void SetPropertyValue(CssBoxBase cssBox, CssBoxBase parentBox, WebDom.CssPropertyDeclaration decl)
         {
             //assign property  
             WebDom.CssCodeValueExpression cssValue = decl.GetPropertyValue(0);
