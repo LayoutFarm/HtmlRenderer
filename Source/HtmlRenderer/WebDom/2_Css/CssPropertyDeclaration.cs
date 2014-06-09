@@ -335,7 +335,7 @@ namespace HtmlRenderer.WebDom
                             int r_value = (int)funcArgs[0].AsNumber();
                             int g_value = (int)funcArgs[1].AsNumber();
                             int b_value = (int)funcArgs[2].AsNumber();
-
+                            
                             return this.evaluatedStringValue = "#" + r_value.ToString("X") + g_value.ToString("X") + b_value.ToString("X");
                         }
                     case "url":
@@ -470,8 +470,7 @@ namespace HtmlRenderer.WebDom
         internal System.Drawing.Color AsColor()
         {
             if (evaluatedAs != CssValueEvaluatedAs.Color)
-            {
-
+            {   
                 evaluatedAs = CssValueEvaluatedAs.Color;
                 return this.cachedColor = Parse.CssValueParser.GetActualColor(this.GetTranslatedStringValue());
             }

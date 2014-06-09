@@ -13,9 +13,10 @@ namespace HtmlRenderer.Dom
 
     class ActiveCssTemplate
     {
+
         public readonly HtmlContainer htmlContainer;
         CssActiveSheet activeSheet;
-
+        WebDom.Parser.CssParser miniCssParser;
 
 
         bool isCloneOnce = false;
@@ -23,6 +24,8 @@ namespace HtmlRenderer.Dom
         {
             this.activeSheet = activeSheet;
             this.htmlContainer = htmlContainer;
+            miniCssParser = new WebDom.Parser.CssParser();
+
         }
         public CssActiveSheet ActiveSheet
         {
@@ -72,10 +75,14 @@ namespace HtmlRenderer.Dom
         }
 
 
-
-
-
+        //--------------------------------------------------------------------------------------------------       
+        public WebDom.CssRuleSet ParseCssBlock(string className, string blockSource)
+        {   
+            return miniCssParser.ParseCssPropertyDeclarationList(blockSource.ToCharArray());
+        }
         //--------------------------------------------------------------------------------------------------
+        
+        
         struct TemplateKey
         {
             public readonly int tagNameKey;

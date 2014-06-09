@@ -18,6 +18,7 @@ namespace HtmlRenderer.WebDom.Parser
         Stack<CssAtMedia> _mediaStack = new Stack<CssAtMedia>();
         CssAtMedia _currentAtMedia;
         CssRuleSet _currentRuleSet;
+
         CssAttributeSelectorExpression _currentSelectorAttr;
         CssSimpleElementSelector _currentSelectorExpr;
         CssPropertyDeclaration _currentProperty;
@@ -27,6 +28,63 @@ namespace HtmlRenderer.WebDom.Parser
         {
             lexer = new CssLexer(LexerEmitHandler);
         }
+
+        
+        public void ParseCssStyleSheet(char[] textBuffer)
+        {
+            this.textBuffer = textBuffer;
+            Reset(); 
+
+            this.parseState = CssParseState.Init;      
+            lexer.Lex(textBuffer);
+            //-----------------------------
+            //expand some compound property             
+            foreach (CssDocMember mb in cssDocument.GetCssDocMemberIter())
+            {
+                switch (mb.MemberKind)
+                {
+                    case WebDom.CssDocMemberKind.RuleSet:
+                        EvaluateRuleSet((WebDom.CssRuleSet)mb);
+                        break;
+                    case WebDom.CssDocMemberKind.Media:
+                        EvaluateMedia((WebDom.CssAtMedia)mb);
+                        break;
+                    default:
+                    case WebDom.CssDocMemberKind.Page:
+                        throw new NotSupportedException();
+                }
+            }
+            //-----------------------------
+        }
+        public CssRuleSet ParseCssPropertyDeclarationList(char[] textBuffer)
+        {
+            this.textBuffer = textBuffer;
+            Reset();
+
+            //------------- 
+            _currentRuleSet = new CssRuleSet();
+            //-------------
+            this.parseState = CssParseState.BlockBody;
+            lexer.Lex(textBuffer);
+
+            EvaluateRuleSet(this._currentRuleSet);
+            return this._currentRuleSet;
+        }
+
+        void Reset()
+        {
+            cssDocument = new CssDocument();
+            _currentAtMedia = new CssAtMedia();
+            cssDocument.Add(_currentAtMedia);
+            _mediaStack.Clear();
+
+            this._currentSelectorAttr = null;
+            this._currentSelectorExpr = null;
+            this._currentProperty = null;
+            this._latestPropertyValue = null;
+
+        }
+
         void LexerEmitHandler(CssTokenName tkname, int start, int len)
         {
 
@@ -614,53 +672,6 @@ namespace HtmlRenderer.WebDom.Parser
                     } break;
             }
         }
-
-        public void ParseCssStyleSheet(char[] textBuffer)
-        {
-            this.textBuffer = textBuffer;
-            cssDocument = new CssDocument();
-            //all media (default)
-            _currentAtMedia = new CssAtMedia();
-            this.parseState = CssParseState.Init;
-            cssDocument.Add(_currentAtMedia);
-            lexer.Lex(textBuffer);
-
-            //-----------------------------
-            //expand some compound property             
-            foreach (CssDocMember mb in cssDocument.GetCssDocMemberIter())
-            {
-                switch (mb.MemberKind)
-                {
-                    case WebDom.CssDocMemberKind.RuleSet:
-                        EvaluateRuleSet((WebDom.CssRuleSet)mb);
-                        break;
-                    case WebDom.CssDocMemberKind.Media:
-                        ExpandSomeMedia((WebDom.CssAtMedia)mb);
-                        break;
-                    default:
-                    case WebDom.CssDocMemberKind.Page:
-                        throw new NotSupportedException();
-                }
-            }
-            //-----------------------------
-        }
-        public CssRuleSet ParseCssPropertyDeclarationList(char[] textBuffer)
-        {
-            this.textBuffer = textBuffer;
-            cssDocument = new CssDocument();
-            //all media (default)
-            _currentAtMedia = new CssAtMedia();
-            _currentRuleSet = new CssRuleSet();
-
-            cssDocument.Add(_currentAtMedia);
-            this.parseState = CssParseState.BlockBody;
-            lexer.Lex(textBuffer);
-
-            EvaluateRuleSet(this._currentRuleSet);
-
-            return this._currentRuleSet;
-        }
-
         void ExpandFontProperty(CssPropertyDeclaration decl, List<CssPropertyDeclaration> newProps)
         {
 
@@ -834,8 +845,8 @@ namespace HtmlRenderer.WebDom.Parser
             {
                 //add new prop to ruleset
                 ruleset.AddCssCodeProperty(newProps[i]);
-            } 
-        } 
+            }
+        }
 
         enum BorderDirection
         {
@@ -845,7 +856,7 @@ namespace HtmlRenderer.WebDom.Parser
         void ExpandBorderProperty(CssPropertyDeclaration decl, BorderDirection borderDirection, List<CssPropertyDeclaration> newProps)
         {
 
-            int j = decl.ValueCount; 
+            int j = decl.ValueCount;
 
             for (int i = 0; i < j; ++i)
             {
@@ -1023,7 +1034,7 @@ namespace HtmlRenderer.WebDom.Parser
             }
 
         }
-        void ExpandSomeMedia(WebDom.CssAtMedia atMedia)
+        void EvaluateMedia(WebDom.CssAtMedia atMedia)
         {
             foreach (var ruleset in atMedia.GetRuleSetIter())
             {
@@ -1151,29 +1162,14 @@ namespace HtmlRenderer.WebDom.Parser
         {
             this._emitHandler = emitHandler;
         }
-        void AppendBuffer(int i, char c)
-        {
-            if (_appendLength == 0)
-            {
-                this._startIndex = i;
-            }
-            this._appendLength++;
-        }
-        void EmitBuffer(int i, CssTokenName tokenName)
-        {
-            //flush existing buffer
-            if (this._appendLength > 0)
-            {
-                _emitHandler(tokenName, this._startIndex, this._appendLength);
-            }
-            this._appendLength = 0;
-        }
-        void Emit(CssTokenName tkname, int i)
-        {
-            _emitHandler(tkname, i, 1);
-        }
         public void Lex(char[] cssSourceBuffer)
         {
+            //----------------------
+            //clear previous result
+            this._appendLength = 0;
+            this._startIndex = 0;
+            this.latestEscapeChar = '\0';
+            //----------------------
 
             CssLexState lexState = CssLexState.Init;
             int j = cssSourceBuffer.Length;
@@ -1477,6 +1473,31 @@ namespace HtmlRenderer.WebDom.Parser
                 }
             }
         }
+
+
+
+        void AppendBuffer(int i, char c)
+        {
+            if (_appendLength == 0)
+            {
+                this._startIndex = i;
+            }
+            this._appendLength++;
+        }
+        void EmitBuffer(int i, CssTokenName tokenName)
+        {
+            //flush existing buffer
+            if (this._appendLength > 0)
+            {
+                _emitHandler(tokenName, this._startIndex, this._appendLength);
+            }
+            this._appendLength = 0;
+        }
+        void Emit(CssTokenName tkname, int i)
+        {
+            _emitHandler(tkname, i, 1);
+        }
+
         static CssTokenName GetTerminalTokenName(char c)
         {
             CssTokenName tokenName;

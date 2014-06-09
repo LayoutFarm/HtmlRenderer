@@ -29,15 +29,7 @@ namespace HtmlRenderer.Parse
     /// </summary>
     public static class CssParser
     {
-        #region Fields and Consts
-
-        /// <summary>
-        /// split CSS rule
-        /// </summary>
-        private static readonly char[] _cssBlockSplitters = new[] { '}', ';' };
-
-        #endregion
-
+       
         /// <summary>
         /// Parse the given stylesheet source to CSS blocks dictionary.<br/>
         /// The CSS blocks are organized into two level buckets of media type and class name.<br/>
@@ -100,12 +92,7 @@ namespace HtmlRenderer.Parse
                 }
             }
         }
-        public static WebDom.CssRuleSet ParseCssBlock2(string className, string blockSource)
-        {
-            var parser = new WebDom.Parser.CssParser();
-            return parser.ParseCssPropertyDeclarationList(blockSource.ToCharArray());
-
-        }
+       
         /// <summary>
         /// Parse a complex font family css property to check if it contains multiple fonts and if the font exists.<br/>
         /// returns the font family name to use or 'inherit' if failed.

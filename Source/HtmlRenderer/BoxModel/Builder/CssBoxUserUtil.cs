@@ -334,10 +334,10 @@ namespace HtmlRenderer.Dom
         {
             return _cssPositionMap.GetStringFromValue(value);
         }
-        public static CssLength SetLineHeight(this CssBoxBase box, string value)
+        public static CssLength SetLineHeight(this CssBoxBase box, CssLength len)
         {
-            float lineHeight = HtmlRenderer.Parse.CssValueParser.ParseLength(value, box.Size.Height, box, CssConstants.Em);
-            return CssLength.MakePixelLength(lineHeight);
+            return CssLength.MakePixelLength(HtmlRenderer.Parse.CssValueParser.ParseLength(len, box.SizeHeight, box, CssUnit.Ems));
+             
         }
         public static HtmlRenderer.WebDom.WellknownCssPropertyName GetWellKnownPropName(string propertyName)
         {
@@ -444,7 +444,7 @@ namespace HtmlRenderer.Dom
                         //?
                         //or percent ? 
                         CssLength len = primValue.AsLength();
-                         
+
                         if (len.HasError)
                         {
                             len = CssLength.FontSizeMedium;

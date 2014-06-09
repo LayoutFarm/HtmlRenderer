@@ -39,6 +39,7 @@ namespace HtmlRenderer.Dom
             var parser = new HtmlRenderer.WebDom.Parser.HtmlParser();
             //------------------------
             parser.Parse(snapSource);
+
             WebDom.HtmlDocument resultHtmlDoc = parser.ResultHtmlDoc;
             var rootCssBox = CssBox.CreateRootBlock();
             var curBox = rootCssBox;
@@ -217,13 +218,13 @@ namespace HtmlRenderer.Dom
                 //-------------------------------------------------------------------
                 //4. 
                 //element attribute
-                AssignStylesFromTranslatedAttributes(box.HtmlTag, box);
+                AssignStylesFromTranslatedAttributes(box, activeCssTemplate);
                 //------------------------------------------------------------------- 
                 //5.
-                //style attribute value
+                //style attribute value of element
                 if (box.HtmlTag.HasAttribute("style"))
                 {
-                    WebDom.CssRuleSet ruleset = CssParser.ParseCssBlock2(box.HtmlTag.Name, box.HtmlTag.TryGetAttribute("style"));
+                    var ruleset = activeCssTemplate.ParseCssBlock(box.HtmlTag.Name, box.HtmlTag.TryGetAttribute("style"));
                     foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                     {
                         AssignPropertyValue(box, box.ParentBox, propDecl);
@@ -381,10 +382,10 @@ namespace HtmlRenderer.Dom
         }
 
 
-        static void AssignStylesFromTranslatedAttributes(IHtmlElement tag, CssBox box)
+        static void AssignStylesFromTranslatedAttributes(CssBox box, ActiveCssTemplate activeTemplate)
         {
             //some html attr contains css value 
-            //
+            IHtmlElement tag = box.HtmlTag;
             if (tag.HasAttributes())
             {
                 foreach (IHtmlAttribute attr in tag.GetAttributeIter())
@@ -459,6 +460,7 @@ namespace HtmlRenderer.Dom
                             ApplyTablePadding(box, attr.Value.ToLower());
                             break;
                         case WebDom.WellknownHtmlName.Color:
+
                             box.Color = CssValueParser.GetActualColor(attr.Value.ToLower());
                             break;
                         case WebDom.WellknownHtmlName.Dir:
@@ -466,7 +468,6 @@ namespace HtmlRenderer.Dom
                                 WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
                                         attr.Value.ToLower(), WebDom.CssValueHint.Iden);
                                 box.CssDirection = CssBoxUserUtilExtension.GetCssDirection(propValue);
-
                             }
                             break;
                         case WebDom.WellknownHtmlName.Face:
@@ -489,9 +490,12 @@ namespace HtmlRenderer.Dom
                             }
                             else if (tag.WellknownTagName == WellknownHtmlTagName.FONT)
                             {
-                                WebDom.CssRuleSet ruleset = CssParser.ParseCssBlock2("", attr.Value.ToLower());
+
+                                //parse font                                 
+                                var ruleset = activeTemplate.ParseCssBlock("", attr.Value.ToLower());
                                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                                 {
+                                    //assign each property
                                     AssignPropertyValue(box, box.ParentBox, propDecl);
                                 }
 
@@ -815,7 +819,8 @@ namespace HtmlRenderer.Dom
                     cssBox.Position = CssBoxUserUtilExtension.GetCssPosition(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.LineHeight:
-                    cssBox.SetLineHeight(cssValue.GetTranslatedStringValue());
+
+                    cssBox.SetLineHeight(cssValue.AsLength());
                     break;
                 case WebDom.WellknownCssPropertyName.VerticalAlign:
                     cssBox.VerticalAlign = CssBoxUserUtilExtension.GetVerticalAlign(cssValue);

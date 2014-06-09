@@ -1126,6 +1126,7 @@ namespace HtmlRenderer.Dom
         /// <param name="b"></param>
         private static int GetSpan(CssBox b)
         {
+            //span attr contain number of column that element should span
             float f = CssValueParser.ParseNumber(b.GetAttribute("span"), 1);
             return Math.Max(1, Convert.ToInt32(f));
         }
