@@ -197,7 +197,7 @@ namespace HtmlRenderer.Dom
             }
 
             float cellbot = cell.ClientBottom;
-            float bottom = cell.GetMaximumBottom(cell, 0f);
+            float bottom = cell.CalculateMaximumBottom(cell, 0f);
             float dist = 0f;
 
             switch (cell.VerticalAlign)

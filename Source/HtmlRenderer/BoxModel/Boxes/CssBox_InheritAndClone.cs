@@ -11,31 +11,32 @@ namespace HtmlRenderer.Dom
 {
     partial class CssBoxBase
     {
+
         /// <summary>
         /// Inherits inheritable values from specified box.
         /// </summary>
-        /// <param name="clone">Set to true to inherit all CSS properties instead of only the ineritables</param>
-        /// <param name="p">Box to inherit the properties</param>
-        protected void InheritStyles(CssBoxBase p, bool clone)
+        /// <param name="s">source </param>
+        /// <param name="clone">clone all </param>
+        protected void InheritStyles(CssBoxBase s, bool clone)
         {
-            if (p != null)
+            if (s != null)
             {
 
                 //---------------------------------------
-                this._fontProps = p._fontProps;
-                this._listProps = p._listProps;
+                this._fontProps = s._fontProps;
+                this._listProps = s._listProps;
                 //--------------------------------------- 
-                this._lineHeight = p._lineHeight;
-                this._textIndent = p._textIndent;
-                this._actualColor = p._actualColor;
-                this._emptyCells = p._emptyCells;
+                this._lineHeight = s._lineHeight;
+                this._textIndent = s._textIndent;
+                this._actualColor = s._actualColor;
+                this._emptyCells = s._emptyCells;
                 //--------------------------------------- 
-                this._textAlign = p._textAlign;
-                this._verticalAlign = p._verticalAlign;
-                this._visibility = p._visibility;
-                this._whitespace = p._whitespace;
-                this._wordBreak = p._wordBreak;
-                this._cssDirection = p._cssDirection;
+                this._textAlign = s._textAlign;
+                this._verticalAlign = s._verticalAlign;
+                this._visibility = s._visibility;
+                this._whitespace = s._whitespace;
+                this._wordBreak = s._wordBreak;
+                this._cssDirection = s._cssDirection;
                 //---------------------------------------
 
 
@@ -43,37 +44,118 @@ namespace HtmlRenderer.Dom
                 {
                     //for clone only (eg. split a box into two parts)
                     //---------------------------------------
-                    this._backgroundProps = p._backgroundProps;
-                    this._borderProps = p._borderProps;
-                    this._cornerProps = p._cornerProps;
+                    this._backgroundProps = s._backgroundProps;
+                    this._borderProps = s._borderProps;
+                    this._cornerProps = s._cornerProps;
                     //---------------------------------------
 
-                    this._left = p._left;
-                    this._top = p._top;
-                    this._bottom = p._bottom;
-                    this._right = p._right;
+                    this._left = s._left;
+                    this._top = s._top;
+                    this._bottom = s._bottom;
+                    this._right = s._right;
 
-                    this._width = p._width;
-                    this._height = p._height;
-                    this._maxWidth = p._maxWidth;
-                    this._position = p._position;
+                    this._width = s._width;
+                    this._height = s._height;
+                    this._maxWidth = s._maxWidth;
+                    this._position = s._position;
 
 
-                    this._wordSpacing = p._wordSpacing;
-                    this._lineHeight = p._lineHeight;
-                    this._float = p._float;
+                    this._wordSpacing = s._wordSpacing;
+                    this._lineHeight = s._lineHeight;
+                    this._float = s._float;
 
-                    this._cssDisplay = p._cssDisplay;
-                    this._overflow = p._overflow;
-                    this._textDecoration = p._textDecoration; 
+                    this._cssDisplay = s._cssDisplay;
+                    this._overflow = s._overflow;
+                    this._textDecoration = s._textDecoration;
                     //--------------------------------------- 
                 }
             }
         }
-        internal void SpecialCloneStyles(CssBoxBase p)
-        { 
+
+
+        /// <summary>
+        /// clone all style from another box
+        /// </summary>
+        /// <param name="s"></param>
+        internal void CloneAllStyles(CssBoxBase s)
+        {
+            
+            //1.
+            //=====================================
+            if (s._fontProps.Owner == s)
+            {
+                this._fontProps = s._fontProps;
+            }
+            
+            this._listProps = s._listProps;
+            //--------------------------------------- 
+            this._lineHeight = s._lineHeight;
+            this._textIndent = s._textIndent;
+            this._actualColor = s._actualColor;
+            this._emptyCells = s._emptyCells;
+            //--------------------------------------- 
+            this._textAlign = s._textAlign;
+            this._verticalAlign = s._verticalAlign;
+            this._visibility = s._visibility;
+            this._whitespace = s._whitespace;
+            this._wordBreak = s._wordBreak;
+            this._cssDirection = s._cssDirection;
+            //---------------------------------------
+            //2.
+            //for clone only (eg. split a box into two parts)
+            //=====================================
+            this._backgroundProps = s._backgroundProps;
+            this._borderProps = s._borderProps;
+            this._cornerProps = s._cornerProps;
+            //---------------------------------------
+
+            this._left = s._left;
+            this._top = s._top;
+            this._bottom = s._bottom;
+            this._right = s._right;
+
+            this._width = s._width;
+            this._height = s._height;
+            this._maxWidth = s._maxWidth;
+            this._position = s._position;
+
+
+            this._wordSpacing = s._wordSpacing;
+            this._lineHeight = s._lineHeight;
+            this._float = s._float;
+
+            this._cssDisplay = s._cssDisplay;
+            this._overflow = s._overflow;
+            this._textDecoration = s._textDecoration; 
+            
+            //3.
+            //=====================================
+            this._paddingProps = s._paddingProps;
+            this._marginProps = s._marginProps;
+            //----------------------- 
+
+            this._actualBorderLeftWidth = s._actualBorderLeftWidth;
+            this._actualBorderTopWidth = s._actualBorderTopWidth;
+            this._actualBorderRightWidth = s._actualBorderRightWidth;
+            this._actualBorderBottomWidth = s._actualBorderBottomWidth;
+
+            this._actualPaddingLeft = s._actualPaddingLeft;
+            this._actualPaddingTop = s._actualPaddingTop;
+            this._actualPaddingRight = s._actualPaddingRight;
+            this._actualPaddingBottom = s._actualPaddingBottom;
+
+
+            this._actualLineHeight = s._actualLineHeight;
+
+            this._cssDirection = s._cssDirection;
+
+
+        }
+
+        internal void CloneAllStyles2(CssBoxBase p)
+        {
             //-----------------------
-            InheritStyles(p, true); 
+            InheritStyles(p, true);
             //-----------------------
             this._paddingProps = p._paddingProps;
             this._marginProps = p._marginProps;
@@ -93,7 +175,7 @@ namespace HtmlRenderer.Dom
             this._actualLineHeight = p._actualLineHeight;
 
             this._cssDirection = p._cssDirection;
-           
+
 
         }
     }

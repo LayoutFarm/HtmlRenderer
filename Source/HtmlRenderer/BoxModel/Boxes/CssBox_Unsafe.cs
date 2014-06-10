@@ -41,6 +41,10 @@ namespace HtmlRenderer.Dom
                 return box._boxRuns;
             }
         }
+        internal static CssBoxCollection UnsafeGetChildren(CssBox box)
+        {
+            return box.Boxes;
+        }
     }
 
 }

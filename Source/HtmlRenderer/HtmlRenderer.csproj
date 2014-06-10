@@ -65,6 +65,7 @@
     <Compile Include="BoxModel.HitAndSelection\BoxHitChain.cs" />
     <Compile Include="BoxModel\Boxes\CssBox_InheritAndClone.cs" />
     <Compile Include="BoxModel\Builder\ActiveCssTemplate.cs" />
+    <Compile Include="BoxModel\Builder\BoxModelBuilder_Corrector.cs" />
     <Compile Include="Common\ValueMaps.cs" />
     <Compile Include="Common\TextSnapshot.cs" />
     <Compile Include="BoxModel\Builder\CssTextSplitter.cs" />
@@ -86,9 +87,8 @@
     <Compile Include="BoxModel\Builder\CssBoxCreator.cs" />
     <Compile Include="BoxModel\Boxes\CssBox_Unsafe.cs" />
     <Compile Include="BoxModel\Props\CssPropFeatures.cs" />
-    <Compile Include="CssCodeBlocks\CssActiveSheet.cs" />
+    <Compile Include="CascadeStyleSheet\CssActiveSheet.cs" />
     <Compile Include="Platform\dbug.cs" />
-    <Compile Include="BoxModel\Boxes\CssBox_Corrector.cs" />
     <Compile Include="BoxModel\Builder\CssBoxUserUtil.cs" />
     <Compile Include="BoxModel\Boxes\CssBox_Fields.cs" />
     <Compile Include="BoxModel\Boxes\CssBox_Paint.cs" />
@@ -118,7 +118,7 @@
     <Compile Include="Entities\HtmlScrollEventArgs.cs" />
     <Compile Include="Entities\HtmlStylesheetLoadEventArgs.cs" />
     <Compile Include="Entities\HtmlGenerationStyle.cs" />
-    <Compile Include="CssCodeBlocks\CssDefaults.cs" />
+    <Compile Include="CascadeStyleSheet\CssDefaults.cs" />
     <Compile Include="Handlers\ImageLoadHandler.cs" />
     <Compile Include="Handlers\StylesheetLoadHandler.cs" />
     <Compile Include="Platform\ExtensionAttribute.cs" />
@@ -136,7 +136,7 @@
     <Compile Include="Utils\ArgChecker.cs" />
     <Compile Include="Utils\FontsUtils.cs" />
     <Compile Include="Utils\RenderUtils.cs" />
-    <Compile Include="CssCodeBlocks\CssConstants.cs" />
+    <Compile Include="CascadeStyleSheet\CssConstants.cs" />
     <Compile Include="BoxModel\Props\CssUnit.cs" />
     <Compile Include="Utils\CssParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

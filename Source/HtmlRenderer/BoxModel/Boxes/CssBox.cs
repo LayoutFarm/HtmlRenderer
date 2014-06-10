@@ -63,7 +63,7 @@ namespace HtmlRenderer.Dom
                 this.WellknownTagName = tag.WellknownTagName;
             }
         }
-       
+
         /// <summary>
         /// Gets the HtmlContainer of the Box.
         /// WARNING: May be null.
@@ -566,7 +566,8 @@ namespace HtmlRenderer.Dom
             PerformLayoutImp(g);
 
         }
-        void ChangeSiblingOrder(int siblingIndex)
+
+        internal void ChangeSiblingOrder(int siblingIndex)
         {
             if (siblingIndex < 0)
             {
@@ -690,7 +691,7 @@ namespace HtmlRenderer.Dom
 
             CreateListItemBox(g);
 
-            var actualWidth = Math.Max(GetMinimumWidth() + GetWidthMarginDeep(this), Size.Width < 90999 ? ActualRight : 0);
+            var actualWidth = Math.Max(CalculateMinimumWidth() + CalculateWidthMarginDeep(this), Size.Width < 90999 ? ActualRight : 0);
 
             //update back
             HtmlContainer.ActualSize = CommonUtils.Max(HtmlContainer.ActualSize, new SizeF(actualWidth, ActualBottom - HtmlContainer.Root.LocationY));
@@ -815,10 +816,11 @@ namespace HtmlRenderer.Dom
         /// Creates the <see cref="_listItemBox"/>
         /// </summary>
         /// <param name="g"></param>
-        private void CreateListItemBox(IGraphics g)
+        void CreateListItemBox(IGraphics g)
         {
-            //if (Display == CssConstants.ListItem && ListStyleType != CssConstants.None)
-            if (this.CssDisplay == CssDisplay.ListItem && ListStyleType != CssListStyleType.None)
+
+            if (this.CssDisplay == CssDisplay.ListItem && 
+                ListStyleType != CssListStyleType.None)
             {
                 if (_listItemBox == null)
                 {
@@ -867,10 +869,12 @@ namespace HtmlRenderer.Dom
 
             }
         }
-        void ParseWordContent()
+        
+        internal void ParseWordContent()
         {
             CssTextSplitter.DefaultSplitter.ParseWordContent(this);
         }
+
         /// <summary>
         /// Gets the specified Attribute, returns string.Empty if no attribute specified
         /// </summary>
@@ -898,11 +902,11 @@ namespace HtmlRenderer.Dom
         /// The check is deep thru box tree.<br/>
         /// </summary>
         /// <returns>the min width of the box</returns>
-        internal float GetMinimumWidth()
+        internal float CalculateMinimumWidth()
         {
             float maxWidth = 0;
             CssRun maxWidthWord = null;
-            GetMinimumWidth_LongestWord(this, ref maxWidth, ref maxWidthWord);
+            CalculateMinimumWidth_LongestWord(this, ref maxWidth, ref maxWidthWord);
 
             float padding = 0f;
             if (maxWidthWord != null)
@@ -925,7 +929,7 @@ namespace HtmlRenderer.Dom
         /// <param name="maxWidth"> </param>
         /// <param name="maxWidthWord"> </param>
         /// <returns></returns>
-        private static void GetMinimumWidth_LongestWord(CssBox box, ref float maxWidth, ref CssRun maxWidthWord)
+        static void CalculateMinimumWidth_LongestWord(CssBox box, ref float maxWidth, ref CssRun maxWidthWord)
         {
             if (box.HasRuns)
             {
@@ -941,7 +945,9 @@ namespace HtmlRenderer.Dom
             else
             {
                 foreach (CssBox childBox in box.Boxes)
-                    GetMinimumWidth_LongestWord(childBox, ref maxWidth, ref maxWidthWord);
+                {
+                    CalculateMinimumWidth_LongestWord(childBox, ref maxWidth, ref maxWidthWord);
+                }
             }
         }
 
@@ -950,10 +956,10 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="box">the box to start calculation from.</param>
         /// <returns>the total margin</returns>
-        private static float GetWidthMarginDeep(CssBox box)
+        static float CalculateWidthMarginDeep(CssBox box)
         {
             float sum = 0f;
-            if (box.Size.Width > 90999 || (box.ParentBox != null && box.ParentBox.Size.Width > 90999))
+            if (box.SizeWidth > 90999 || (box.ParentBox != null && box.ParentBox.SizeWidth > 90999))
             {
                 while (box != null)
                 {
@@ -970,21 +976,11 @@ namespace HtmlRenderer.Dom
         /// <param name="startBox"></param>
         /// <param name="currentMaxBottom"></param>
         /// <returns></returns>
-        internal float GetMaximumBottom(CssBox startBox, float currentMaxBottom)
+        internal float CalculateMaximumBottom(CssBox startBox, float currentMaxBottom)
         {
             try
             {
                 float maxc2 = currentMaxBottom;
-
-                //foreach (CssLineBox hostline in startBox.GetHostLineIter())
-                //{
-                //    PartialBoxStrip r = hostline.GetStrip(this);
-                //    if (r != null)
-                //    {
-                //        maxc2 = Math.Max(maxc2, r.Bottom);
-                //    }
-                //}
-
                 currentMaxBottom = Math.Max(currentMaxBottom, startBox.SummaryBound.Bottom);
 
                 //if (maxc2 != currentMaxBottom)
@@ -993,7 +989,7 @@ namespace HtmlRenderer.Dom
 
                 foreach (var b in startBox.Boxes)
                 {
-                    currentMaxBottom = Math.Max(currentMaxBottom, GetMaximumBottom(b, currentMaxBottom));
+                    currentMaxBottom = Math.Max(currentMaxBottom, CalculateMaximumBottom(b, currentMaxBottom));
                 }
 
                 return currentMaxBottom;
@@ -1006,16 +1002,6 @@ namespace HtmlRenderer.Dom
         }
 
 
-
-        /// <summary>
-        /// Gets the rectangles where inline box will be drawn. See Remarks for more info.
-        /// </summary>
-        /// <returns>Rectangles where content should be placed</returns>
-        /// <remarks>
-        /// Inline boxes can be split across different LineBoxes, that's why this method
-        /// Delivers a rectangle for each LineBox related to this box, if inline.
-        /// </remarks>
-
         /// <summary>
         /// Inherits inheritable values from parent.
         /// </summary>
@@ -1023,7 +1009,7 @@ namespace HtmlRenderer.Dom
         {
             base.InheritStyles(box, clone);
         }
-      
+
         /// <summary>
         /// Gets the result of collapsing the vertical margins of the two boxes
         /// </summary>
@@ -1092,7 +1078,6 @@ namespace HtmlRenderer.Dom
         {
 
             float margin = 0;
-            //if (ParentBox != null && ParentBox.Boxes.IndexOf(this) == ParentBox.Boxes.Count - 1 && _parentBox.ActualMarginBottom < 0.1)
             if (ParentBox != null && this.IsLastChild && _parentBox.ActualMarginBottom < 0.1)
             {
                 var lastChildBottomMargin = _boxes[_boxes.Count - 1].ActualMarginBottom;
@@ -1276,7 +1261,9 @@ namespace HtmlRenderer.Dom
         private void OnImageLoadComplete(Image image, Rectangle rectangle, bool async)
         {
             if (image != null && async)
+            {
                 HtmlContainer.RequestRefresh(false);
+            }
         }
 
         /// <summary>
@@ -1306,6 +1293,32 @@ namespace HtmlRenderer.Dom
                 return CssUtils.DefaultSelectionBackcolor;
             }
         }
+
+        /// <summary>
+        /// Gets the previous sibling of this box.
+        /// </summary>
+        /// <returns>Box before this one on the tree. Null if its the first</returns>
+        public static CssBox GetPreviousSibling(CssBox b)
+        {
+            if (b.ParentBox != null)
+            {
+                CssBox sib = b.PrevSibling;
+                if (sib != null)
+                {
+                    do
+                    {
+                        if (sib.CssDisplay != CssDisplay.None && !sib.IsAbsolutePosition)
+                        {
+                            return sib;
+                        }
+                        sib = sib.PrevSibling;
+                    } while (sib != null);
+                }
+                return null;
+            }
+            return null;
+        }
+
 
         /// <summary>
         /// ToString override.

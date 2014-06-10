@@ -58,7 +58,7 @@ namespace HtmlRenderer.Dom
             ActualBottom = top;
 
             //width at 100% (or auto)
-            float minwidth = GetMinimumWidth();
+            float minwidth = CalculateMinimumWidth();
             float width = ContainingBlock.Size.Width
                           - ContainingBlock.ActualPaddingLeft - ContainingBlock.ActualPaddingRight
                           - ContainingBlock.ActualBorderLeftWidth - ContainingBlock.ActualBorderRightWidth

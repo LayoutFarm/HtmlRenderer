@@ -105,15 +105,7 @@ namespace HtmlRenderer.Dom
 
             this._boxRuns.Add(run);
         }
-
-        //internal PartialBoxStrip GetStripOrCreateIfNotExists(CssBox clientBox, CssLineBox lineBox, out bool isNew)
-        //{
-        //    if (this._clientStrips == null)
-        //    {
-        //        this._clientStrips = new CssStripCollection();
-        //    }
-        //    return this._clientStrips.GetOrCreateStripInfo(lineBox, clientBox, out isNew);
-        //}
+         
         internal int RunCount
         {
             get

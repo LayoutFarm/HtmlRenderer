@@ -131,7 +131,7 @@ namespace HtmlRenderer.Dom
 
             //1. tag name key
             int tagNameKey = ustrTable.AddStringIfNotExist(box.HtmlTag.Name);
-
+             
             //2. class name key
             int classNameKey = 0;
             var class_value = box.HtmlTag.TryGetAttribute("class", null);
@@ -144,23 +144,21 @@ namespace HtmlRenderer.Dom
             //-----------------
             TemplateKey key = new TemplateKey(tagNameKey, classNameKey, parentBox.cssClassVersion);
             CssBoxTemplate boxTemplate;
+
             if (!templatesForTagName.TryGetValue(key, out boxTemplate))
             {
 
                 //create template for specific key  
                 boxTemplate = new CssBoxTemplate(box.WellknownTagName);
-                boxTemplate.CloneAllStylesFrom(box);
+                boxTemplate.CloneAllStylesFrom(box); 
 
-                //***
-                templatesForTagName.Add(key, boxTemplate);
-                // Console.WriteLine((dbugCount++).ToString());
-
+                //*** 
                 //----------------------------
                 //1. tag name
                 CssRuleSetGroup ruleGroup = activeSheet.GetRuleSetForTagName(box.HtmlTag.Name);
                 if (ruleGroup != null)
                 {
-                    box.cssClassVersion = 1;
+                    box.cssClassVersion++;
                     foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
                     {
                         BoxModelBuilder.AssignPropertyValue(boxTemplate, parentBox, decl);
@@ -170,8 +168,7 @@ namespace HtmlRenderer.Dom
                 //2. series of class
                 if (class_value != null)
                 {
-                    box.cssClassVersion |= (1 << 1);
-
+                    box.cssClassVersion++; 
                     string[] classNames = class_value.Split(_whiteSplitter, StringSplitOptions.RemoveEmptyEntries);
                     int j = classNames.Length;
                     if (j > 0)
@@ -199,15 +196,14 @@ namespace HtmlRenderer.Dom
                         }
                     }
                 }
-            }
+               
+                templatesForTagName.Add(key, boxTemplate);               
 
+            } 
             //***********
-            box.SpecialCloneStyles(boxTemplate);
-            //***********
-
-        }
-       
-
+            box.CloneAllStyles(boxTemplate);
+            //*********** 
+        } 
 
         enum AssignPropertySource
         {

@@ -303,17 +303,13 @@ namespace HtmlRenderer.Dom
                 return new CssFontProp(checkOwner, this);
             }
         }
-
-        //public bool FontSizeRelatedWithParent
-        //{
-        //    get
-        //    {
-        //        var fontsizeName = this.FontSize;
-        //        return fontsizeName.IsFontSizeName && (
-        //            fontsizeName.FontSizeName == CssFontSizeConst.FONTSIZE_SMALLER ||
-        //            fontsizeName.FontSizeName == CssFontSizeConst.FONTSIZE_LARGER);
-        //    }
-        //}
+        public object Owner
+        {
+            get
+            {
+                return this.owner;
+            }
+        }
         internal Font GetCacheFont(CssBoxBase parentBox)
         {
             if (this._cacheFont != null)

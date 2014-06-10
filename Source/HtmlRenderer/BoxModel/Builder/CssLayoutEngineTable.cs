@@ -25,7 +25,7 @@ namespace HtmlRenderer.Dom
     /// <summary>
     /// Layout engine for tables executing the complex layout of tables with rows/columns/headers/etc.
     /// </summary>
-    internal sealed class CssLayoutEngineTable
+    sealed class CssLayoutEngineTable
     {
         #region Fields and Consts
 
@@ -33,7 +33,6 @@ namespace HtmlRenderer.Dom
         /// the main box of the table
         /// </summary>
         readonly CssBox _tableBox;
-
 
         CssBox _caption;
 
@@ -442,7 +441,7 @@ namespace HtmlRenderer.Dom
                 {
                     // Determine the max width for each column
                     float[] minFullWidths, maxFullWidths;
-                    GetColumnsMinMaxWidthByContent(true, out minFullWidths, out maxFullWidths);
+                    CalculatetColumnsMinMaxWidthByContent(true, out minFullWidths, out maxFullWidths);
 
                     // set the columns that can fulfill by the max width in a loop because it changes the nanWidth
                     int oldNumOfNans;
@@ -506,7 +505,7 @@ namespace HtmlRenderer.Dom
             {
                 //Get the minimum and maximum full length of NaN boxes
                 float[] minFullWidths, maxFullWidths;
-                GetColumnsMinMaxWidthByContent(true, out minFullWidths, out maxFullWidths);
+                CalculatetColumnsMinMaxWidthByContent(true, out minFullWidths, out maxFullWidths);
 
                 for (int i = 0; i < _columnWidths.Length; i++)
                 {
@@ -537,7 +536,7 @@ namespace HtmlRenderer.Dom
         private void EnforceMaximumSize()
         {
             int curCol = 0;
-            var widthSum = GetWidthSum();
+            var widthSum = CalculateWidthSum();
             while (widthSum > GetAvailableTableWidth() && CanReduceWidth())
             {
                 while (!CanReduceWidth(curCol))
@@ -559,12 +558,12 @@ namespace HtmlRenderer.Dom
             var maxWidth = GetMaxTableWidth();
             if (maxWidth < 90999)
             {
-                widthSum = GetWidthSum();
+                widthSum = CalculateWidthSum();
                 if (maxWidth < widthSum)
                 {
                     //Get the minimum and maximum full length of NaN boxes
                     float[] minFullWidths, maxFullWidths;
-                    GetColumnsMinMaxWidthByContent(false, out minFullWidths, out maxFullWidths);
+                    CalculatetColumnsMinMaxWidthByContent(false, out minFullWidths, out maxFullWidths);
 
                     // lower all the columns to the minimum
                     for (int i = 0; i < _columnWidths.Length; i++)
@@ -574,7 +573,7 @@ namespace HtmlRenderer.Dom
 
                     // either min for all column is not enought and we need to lower it more resulting in clipping
                     // or we now have extra space so we can give it to columns than need it
-                    widthSum = GetWidthSum();
+                    widthSum = CalculateWidthSum();
                     if (maxWidth < widthSum)
                     {
                         // lower the width of columns starting from the largest one until the max width is satisfied
@@ -608,7 +607,7 @@ namespace HtmlRenderer.Dom
                                     _columnWidths[i] -= decrease;
                                 }
                             }
-                            widthSum = GetWidthSum();
+                            widthSum = CalculateWidthSum();
                         }
                     }
                     else
@@ -647,7 +646,7 @@ namespace HtmlRenderer.Dom
                                     _columnWidths[i] += minIncrement;
                                 }
                             }
-                            widthSum = GetWidthSum();
+                            widthSum = CalculateWidthSum();
                         }
                     }
                 }
@@ -667,10 +666,10 @@ namespace HtmlRenderer.Dom
                     int col = GetCellRealColumnIndex(row, cell);
                     int affectcol = col + colspan - 1;
 
-                    if (_columnWidths.Length > col && _columnWidths[col] < GetColumnMinWidths()[col])
+                    if (_columnWidths.Length > col && _columnWidths[col] < CalculateColumnMinWidths()[col])
                     {
-                        float diff = GetColumnMinWidths()[col] - _columnWidths[col];
-                        _columnWidths[affectcol] = GetColumnMinWidths()[affectcol];
+                        float diff = CalculateColumnMinWidths()[col] - _columnWidths[col];
+                        _columnWidths[affectcol] = CalculateColumnMinWidths()[affectcol];
 
                         if (col < _columnWidths.Length - 1)
                         {
@@ -763,8 +762,8 @@ namespace HtmlRenderer.Dom
             float w = 0f;
             for (int i = realcolindex; i < row.ChildCount || i < realcolindex + colspan - 1; i++)
             {
-                if (i < GetColumnMinWidths().Length)
-                    w += GetColumnMinWidths()[i];
+                if (i < CalculateColumnMinWidths().Length)
+                    w += CalculateColumnMinWidths()[i];
             }
             return w;
         }
@@ -812,40 +811,6 @@ namespace HtmlRenderer.Dom
 
             return sum; // -b.ActualBorderLeftWidth - b.ActualBorderRightWidth - b.ActualPaddingRight - b.ActualPaddingLeft;
         }
-
-        ///// <summary>
-        ///// Gets the colspan of the specified box
-        ///// </summary>
-        ///// <param name="b"></param>
-        //private static int GetColSpan(CssBox b)
-        //{
-        //    string att = b.GetAttribute("colspan", "1");
-        //    int colspan;
-
-        //    if (!int.TryParse(att, out colspan))
-        //    {
-        //        return 1;
-        //    }
-
-        //    return colspan;
-        //}
-
-        ///// <summary>
-        ///// Gets the rowspan of the specified box
-        ///// </summary>
-        ///// <param name="b"></param>
-        //private static int GetRowSpan(CssBox b)
-        //{
-        //    string att = b.GetAttribute("rowspan", "1");
-        //    int rowspan;
-        //    if (!int.TryParse(att, out rowspan))
-        //    {
-        //        return 1;
-        //    }
-
-        //    return rowspan;
-        //}
-
         /// <summary>
         /// Recursively measures words inside the box
         /// </summary>
@@ -889,8 +854,8 @@ namespace HtmlRenderer.Dom
         /// <returns></returns>
         private bool CanReduceWidth(int columnIndex)
         {
-            if (_columnWidths.Length >= columnIndex || GetColumnMinWidths().Length >= columnIndex) return false;
-            return _columnWidths[columnIndex] > GetColumnMinWidths()[columnIndex];
+            if (_columnWidths.Length >= columnIndex || CalculateColumnMinWidths().Length >= columnIndex) return false;
+            return _columnWidths[columnIndex] > CalculateColumnMinWidths()[columnIndex];
         }
 
         /// <summary>
@@ -948,7 +913,7 @@ namespace HtmlRenderer.Dom
         /// <param name="onlyNans">if to measure only columns that have no calculated width</param>
         /// <param name="minFullWidths">return the min width for each column - the min width possible without clipping content</param>
         /// <param name="maxFullWidths">return the max width for each column - the max width the cell content can take without wrapping</param>
-        private void GetColumnsMinMaxWidthByContent(bool onlyNans, out float[] minFullWidths, out float[] maxFullWidths)
+        private void CalculatetColumnsMinMaxWidthByContent(bool onlyNans, out float[] minFullWidths, out float[] maxFullWidths)
         {
             maxFullWidths = new float[_columnWidths.Length];
             minFullWidths = new float[_columnWidths.Length];
@@ -965,8 +930,7 @@ namespace HtmlRenderer.Dom
                     if ((!onlyNans || float.IsNaN(_columnWidths[col])) && i < row.ChildCount)
                     {
                         float minWidth, maxWidth;
-                        //childBox.GetMinMaxWidth(out minWidth, out maxWidth);
-                        GetMinMaxWidth(childBox, out minWidth, out maxWidth);
+                        CalculateMinMaxWidth(childBox, out minWidth, out maxWidth);
                         var colSpan = childBox.ColSpan;
                         minWidth = minWidth / colSpan;
                         maxWidth = maxWidth / colSpan;
@@ -980,26 +944,6 @@ namespace HtmlRenderer.Dom
                     i++;
                 }
 
-                //for (int i = 0; i < row.ChildCount; i++)
-                //{
-                //    int col = GetCellRealColumnIndex(row, row.Boxes[i]);
-                //    col = _columnWidths.Length > col ? col : _columnWidths.Length - 1;
-
-                //    if ((!onlyNans || float.IsNaN(_columnWidths[col])) && i < row.ChildCount)
-                //    {
-                //        float minWidth, maxWidth;
-                //        row.Boxes[i].GetMinMaxWidth(out minWidth, out maxWidth);
-
-                //        var colSpan = GetColSpan(row.Boxes[i]);
-                //        minWidth = minWidth / colSpan;
-                //        maxWidth = maxWidth / colSpan;
-                //        for (int j = 0; j < colSpan; j++)
-                //        {
-                //            minFullWidths[col + j] = Math.Max(minFullWidths[col + j], minWidth);
-                //            maxFullWidths[col + j] = Math.Max(maxFullWidths[col + j], maxWidth);
-                //        }
-                //    }
-                //}
             }
         }
         /// <summary>
@@ -1007,13 +951,13 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="minWidth">The minimum width the content must be so it won't overflow (largest word + padding).</param>
         /// <param name="maxWidth">The total width the content can take without line wrapping (with padding).</param>
-        internal void GetMinMaxWidth(CssBox box, out float minWidth, out float maxWidth)
+        internal void CalculateMinMaxWidth(CssBox box, out float minWidth, out float maxWidth)
         {
             float min = 0f;
             float maxSum = 0f;
             float paddingSum = 0f;
             float marginSum = 0f;
-            GetMinMaxSumWords(box, ref min, ref maxSum, ref paddingSum, ref marginSum);
+            CalculateMinMaxSumWords(box, ref min, ref maxSum, ref paddingSum, ref marginSum);
 
             maxWidth = paddingSum + maxSum;
             minWidth = paddingSum + (min < 90999 ? min : 0);
@@ -1028,7 +972,7 @@ namespace HtmlRenderer.Dom
         /// <param name="paddingSum">the total amount of padding the content has </param>
         /// <param name="marginSum"></param>
         /// <returns></returns>
-        static void GetMinMaxSumWords(CssBox box, ref float min, ref float maxSum, ref float paddingSum, ref float marginSum)
+        static void CalculateMinMaxSumWords(CssBox box, ref float min, ref float maxSum, ref float paddingSum, ref float marginSum)
         {
             float? oldSum = null;
 
@@ -1066,7 +1010,7 @@ namespace HtmlRenderer.Dom
                 foreach (CssBox childBox in box.GetChildBoxIter())
                 {
                     marginSum += childBox.ActualMarginLeft + childBox.ActualMarginRight;
-                    GetMinMaxSumWords(childBox, ref min, ref maxSum, ref paddingSum, ref marginSum);
+                    CalculateMinMaxSumWords(childBox, ref min, ref maxSum, ref paddingSum, ref marginSum);
 
                     marginSum -= childBox.ActualMarginLeft + childBox.ActualMarginRight;
                 }
@@ -1095,7 +1039,7 @@ namespace HtmlRenderer.Dom
         /// Gets the current sum of column widths
         /// </summary>
         /// <returns></returns>
-        private float GetWidthSum()
+        private float CalculateWidthSum()
         {
             float f = 0f;
 
@@ -1127,14 +1071,26 @@ namespace HtmlRenderer.Dom
         private static int GetSpan(CssBox b)
         {
             //span attr contain number of column that element should span
-            float f = CssValueParser.ParseNumber(b.GetAttribute("span"), 1);
-            return Math.Max(1, Convert.ToInt32(f));
+            string spanValue = b.GetAttribute("span");
+            if (spanValue != string.Empty)
+            {
+                int result;
+                if (int.TryParse(spanValue, out result))
+                {
+                    if (result < 0)
+                    {
+                        return -result;
+                    }
+                    return result;
+                }
+            }
+            return 1;
         }
 
         /// <summary>
         /// Gets the minimum width of each column
         /// </summary>
-        private float[] GetColumnMinWidths()
+        private float[] CalculateColumnMinWidths()
         {
             if (_columnMinWidths == null)
             {
@@ -1149,7 +1105,7 @@ namespace HtmlRenderer.Dom
                         int affectcol = Math.Min(col + colspan, _columnMinWidths.Length) - 1;
                         float spannedwidth = GetSpannedMinWidth(row, cell, col, colspan) + (colspan - 1) * GetHorizontalSpacing();
 
-                        _columnMinWidths[affectcol] = Math.Max(_columnMinWidths[affectcol], cell.GetMinimumWidth() - spannedwidth);
+                        _columnMinWidths[affectcol] = Math.Max(_columnMinWidths[affectcol], cell.CalculateMinimumWidth() - spannedwidth);
                     }
                 }
             }

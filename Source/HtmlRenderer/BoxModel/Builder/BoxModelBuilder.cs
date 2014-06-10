@@ -15,6 +15,7 @@
 using System;
 using System.Drawing;
 using System.Globalization;
+using System.Collections.Generic;
 
 using HtmlRenderer.Entities;
 using HtmlRenderer.Handlers;
@@ -26,7 +27,7 @@ namespace HtmlRenderer.Dom
     /// <summary>
     /// Handle css DOM tree generation from raw html and stylesheet.
     /// </summary>
-    static class BoxModelBuilder
+    static partial class BoxModelBuilder
     {
         //======================================
         #region Parse
@@ -127,19 +128,20 @@ namespace HtmlRenderer.Dom
                 //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);
 
-                CssBox.CorrectTextBoxes(root);
+                CorrectTextBoxes(root);
 
                 CorrectImgBoxes(root);
 
                 bool followingBlock = true;
-                CssBox.CorrectLineBreaksBlocks(root, ref followingBlock);
+
+                CorrectLineBreaksBlocks(root, ref followingBlock);
 
                 //1. must test first
-                CssBox.CorrectInlineBoxesParent(root);
+                CorrectInlineBoxesParent(root);
                 //2. then ...
                 CorrectBlockInsideInline(root);
                 //3. another?
-                CssBox.CorrectInlineBoxesParent(root);
+                CorrectInlineBoxesParent(root);
             }
             return root;
         }
@@ -207,7 +209,6 @@ namespace HtmlRenderer.Dom
                 //2. css class 
                 // try assign style using the html element tag    
                 activeCssTemplate.ApplyActiveTemplateForElement(box.ParentBox, box);
-
                 //3.
                 // try assign style using the "id" attribute of the html element
                 if (box.HtmlTag.HasAttribute("id"))
@@ -386,16 +387,17 @@ namespace HtmlRenderer.Dom
         {
             //some html attr contains css value 
             IHtmlElement tag = box.HtmlTag;
+
             if (tag.HasAttributes())
             {
                 foreach (IHtmlAttribute attr in tag.GetAttributeIter())
                 {
-                    //attr switch by wellknown property name
-
+                    //attr switch by wellknown property name 
                     switch ((WebDom.WellknownHtmlName)attr.LocalNameIndex)
                     {
                         case WebDom.WellknownHtmlName.Align:
                             {
+
                                 string value = attr.Value.ToLower();
                                 if (value == "left"
                                     || value == "center"
@@ -423,42 +425,58 @@ namespace HtmlRenderer.Dom
                             break;
                         case WebDom.WellknownHtmlName.Border:
                             {
-                                string value = attr.Value.ToLower();
-                                if (!string.IsNullOrEmpty(value) && value != "0")
-                                {
-                                    box.BorderLeftStyle = box.BorderTopStyle
-                                        = box.BorderRightStyle = box.BorderBottomStyle = CssBorderStyle.Solid;// CssConstants.Solid;
-                                }
 
-                                box.BorderLeftWidth =
+                                CssLength borderLen = TranslateLength(CssLength.MakeBorderLength(attr.Value.ToLower()));
+                                if (!borderLen.HasError)
+                                {
+
+                                    if (borderLen.Number > 0)
+                                    {
+                                        box.BorderLeftStyle =
+                                            box.BorderTopStyle =
+                                            box.BorderRightStyle =
+                                            box.BorderBottomStyle = CssBorderStyle.Solid;
+                                    }
+
+                                    box.BorderLeftWidth =
                                     box.BorderTopWidth =
                                     box.BorderRightWidth =
-                                    box.BorderBottomWidth = TranslateLength(CssLength.MakeBorderLength(value));
+                                    box.BorderBottomWidth = borderLen;
 
-                                if (tag.WellknownTagName == WellknownHtmlTagName.TABLE)
-                                {
-                                    if (value != "0")
+                                    if (tag.WellknownTagName == WellknownHtmlTagName.TABLE && borderLen.Number > 0)
                                     {
-                                        ApplyTableBorder(box, CssLength.MakePixelLength(1));
+                                        //Cascades to the TD's the border spacified in the TABLE tag.
+                                        var borderWidth = CssLength.MakePixelLength(1);
+                                        ForEachCellInTable(box, cell =>
+                                        {
+                                            //for all cells
+                                            cell.BorderLeftStyle = cell.BorderTopStyle = cell.BorderRightStyle = cell.BorderBottomStyle = CssBorderStyle.Solid; // CssConstants.Solid;
+                                            cell.BorderLeftWidth = cell.BorderTopWidth = cell.BorderRightWidth = cell.BorderBottomWidth = borderWidth;
+                                        });
+
                                     }
-                                }
-                                else
-                                {
-                                    box.BorderTopStyle = box.BorderLeftStyle = box.BorderRightStyle = box.BorderBottomStyle = CssBorderStyle.Solid; //CssConstants.Solid;
+
                                 }
                             } break;
                         case WebDom.WellknownHtmlName.BorderColor:
+
                             box.BorderLeftColor =
                                 box.BorderTopColor =
                                 box.BorderRightColor =
                                 box.BorderBottomColor = CssValueParser.GetActualColor(attr.Value.ToLower());
+
                             break;
                         case WebDom.WellknownHtmlName.CellSpacing:
                             box.BorderSpacingHorizontal = box.BorderSpacingVertical = TranslateLength(attr.Value.ToLower());
                             break;
                         case WebDom.WellknownHtmlName.CellPadding:
-                            ApplyTablePadding(box, attr.Value.ToLower());
-                            break;
+                            {
+                                // Cascades to the TD's the border spacified in the TABLE tag.
+                                CssLength length = TranslateLength(attr.Value.ToLower());
+                                ForEachCellInTable(box, cell =>
+                                     cell.PaddingLeft = cell.PaddingTop = cell.PaddingRight = cell.PaddingBottom = length);
+
+                            } break;
                         case WebDom.WellknownHtmlName.Color:
 
                             box.Color = CssValueParser.GetActualColor(attr.Value.ToLower());
@@ -483,27 +501,26 @@ namespace HtmlRenderer.Dom
                             box.WhiteSpace = CssWhiteSpace.NoWrap;
                             break;
                         case WebDom.WellknownHtmlName.Size:
-
-                            if (tag.WellknownTagName == WellknownHtmlTagName.HR)
                             {
-                                box.Height = TranslateLength(attr.Value.ToLower());
-                            }
-                            else if (tag.WellknownTagName == WellknownHtmlTagName.FONT)
-                            {
-
-                                //parse font                                 
-                                var ruleset = activeTemplate.ParseCssBlock("", attr.Value.ToLower());
-                                foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
+                                switch (tag.WellknownTagName)
                                 {
-                                    //assign each property
-                                    AssignPropertyValue(box, box.ParentBox, propDecl);
+                                    case WellknownHtmlTagName.HR:
+                                        {
+                                            box.Height = TranslateLength(attr.Value.ToLower());
+                                        } break;
+                                    case WellknownHtmlTagName.FONT:
+                                        {
+                                            var ruleset = activeTemplate.ParseCssBlock("", attr.Value.ToLower());
+                                            foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
+                                            {
+                                                //assign each property
+                                                AssignPropertyValue(box, box.ParentBox, propDecl);
+                                            }
+                                            //WebDom.CssCodePrimitiveExpression prim = new WebDom.CssCodePrimitiveExpression(value, 
+                                            //box.SetFontSize(value);
+                                        } break;
                                 }
-
-                                //WebDom.CssCodePrimitiveExpression prim = new WebDom.CssCodePrimitiveExpression(value, 
-                                //box.SetFontSize(value);
-                            }
-
-                            break;
+                            } break;
                         case WebDom.WellknownHtmlName.VAlign:
                             {
                                 WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
@@ -543,55 +560,22 @@ namespace HtmlRenderer.Dom
                 return CssLength.MakePixelLength(len.Number);
             }
             return len;
-            //return htmlLength;
         }
-        /// <summary>
-        /// Cascades to the TD's the border spacified in the TABLE tag.
-        /// </summary>
-        /// <param name="table"></param>
-        /// <param name="border"></param>
-        private static void ApplyTableBorder(CssBox table, CssLength borderWidth)
+        static void ForEachCellInTable(CssBox table, ActionInt<CssBox> cellAction)
         {
-            SetForAllCells(table, cell =>
+            foreach (var c1 in table.GetChildBoxIter())
             {
-                //for all cells
-                cell.BorderLeftStyle = cell.BorderTopStyle = cell.BorderRightStyle = cell.BorderBottomStyle = CssBorderStyle.Solid; // CssConstants.Solid;
-                cell.BorderLeftWidth = cell.BorderTopWidth = cell.BorderRightWidth = cell.BorderBottomWidth = borderWidth;
-            });
-        }
-
-        /// <summary>
-        /// Cascades to the TD's the border spacified in the TABLE tag.
-        /// </summary>
-        /// <param name="table"></param>
-        /// <param name="padding"></param>
-        private static void ApplyTablePadding(CssBox table, string padding)
-        {
-            CssLength length = TranslateLength(padding);
-            SetForAllCells(table, cell => cell.PaddingLeft = cell.PaddingTop = cell.PaddingRight = cell.PaddingBottom = length);
-        }
-
-        /// <summary>
-        /// Execute action on all the "td" cells of the table.<br/>
-        /// Handle if there is "theader" or "tbody" exists.
-        /// </summary>
-        /// <param name="table">the table element</param>
-        /// <param name="action">the action to execute</param>
-        private static void SetForAllCells(CssBox table, ActionInt<CssBox> action)
-        {
-            foreach (var tr in table.GetChildBoxIter())
-            {
-                foreach (var td in tr.GetChildBoxIter())
+                foreach (var c2 in c1.GetChildBoxIter())
                 {
-                    if (td.WellknownTagName == WellknownHtmlTagName.TD)
+                    if (c2.WellknownTagName == WellknownHtmlTagName.TD)
                     {
-                        action(td);
+                        cellAction(c2);
                     }
                     else
                     {
-                        foreach (var l3 in td.GetChildBoxIter())
+                        foreach (var c3 in c2.GetChildBoxIter())
                         {
-                            action(l3);
+                            cellAction(c3);
                         }
                     }
                 }
@@ -599,74 +583,66 @@ namespace HtmlRenderer.Dom
         }
 
 
-        /// <summary>
-        /// Go over all image boxes and if its display style is set to block, put it inside another block but set the image to inline.
-        /// </summary>
-        /// <param name="box">the current box to correct its sub-tree</param>
-        private static void CorrectImgBoxes(CssBox box)
-        {
-            int childIndex = 0;
-            foreach (var childBox in box.GetChildBoxIter())
-            {
 
-                if (childBox is CssBoxImage && childBox.CssDisplay == CssDisplay.Block)
-                {
-                    //create new anonymous box
-                    var block = CssBox.CreateAnonBlock(childBox.ParentBox, childIndex);
-                    //move this imgbox to new child 
-                    childBox.SetNewParentBox(block);
-                    //childBox.Display = CssConstants.Inline;
-                    childBox.CssDisplay = CssDisplay.Inline;
-                }
-                else
-                {
-                    // recursive
-                    CorrectImgBoxes(childBox);
-                }
-                childIndex++;
-            }
-
-        }
+       
 
 #if DEBUG
         static int dbugCorrectCount = 0;
 #endif
 
         /// <summary>
-        /// Correct DOM tree if there is block boxes that are inside inline blocks.<br/>
-        /// Need to rearrange the tree so block box will be only the child of other block box.
+        /// Check if the given box contains only inline child boxes in all subtree.
         /// </summary>
-        /// <param name="box">the current box to correct its sub-tree</param>
-        private static void CorrectBlockInsideInline(CssBox box)
+        /// <param name="box">the box to check</param>
+        /// <returns>true - only inline child boxes, false - otherwise</returns>
+        static bool ContainsInlinesOnlyDeep(CssBox box)
         {
-#if DEBUG
-            dbugCorrectCount++;
-#endif
             //recursive
-            //try
-            //{
-            if (DomUtils.ContainsInlinesOnly(box) && !CssBox.ContainsInlinesOnlyDeep(box))
+            foreach (var childBox in box.GetChildBoxIter())
             {
-                CssBox.CorrectBlockInsideInlineImp(box);
-            }
-            //----------------------------------------------------------------------
-            if (!DomUtils.ContainsInlinesOnly(box))
-            {
-                foreach (var childBox in box.GetChildBoxIter())
+                if (!childBox.IsInline || !ContainsInlinesOnlyDeep(childBox))
                 {
-                    //recursive
-                    CorrectBlockInsideInline(childBox);
+
+                    return false;
                 }
             }
-            //}
-            //catch (Exception ex)
-            //{
-            //    box.HtmlContainer.ReportError(HtmlRenderErrorType.HtmlParsing, "Failed in block inside inline box correction", ex);
-            //}
+            return true;
         }
 
-        #endregion
 
+      
+        
+        
+        /// <summary>
+        /// Check if the given box contains inline and block child boxes.
+        /// </summary>
+        /// <param name="box">the box to check</param>
+        /// <returns>true - has variant child boxes, false - otherwise</returns>
+        static bool ContainsMixedInlineAndBlockBoxes(CssBox box, out int mixFlags)
+        {
+
+            mixFlags = 0;
+
+            var children = CssBox.UnsafeGetChildren(box);
+            for (int i = children.Count - 1; i >= 0; --i)
+            {
+                if ((mixFlags |= children[i].IsInline ? HAS_IN_LINE : HAS_BLOCK) == (HAS_BLOCK | HAS_IN_LINE))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+            //return checkFlags == (HAS_BLOCK | HAS_IN_LINE);
+        }
+
+
+        const int HAS_BLOCK = 1 << (1 - 1);
+        const int HAS_IN_LINE = 1 << (2 - 1);
+
+
+        #endregion
+    
         internal static void SetPropertyValue(CssBoxBase cssBox, CssBoxBase parentBox, WebDom.CssPropertyDeclaration decl)
         {
             //assign property  

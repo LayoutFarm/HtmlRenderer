@@ -32,29 +32,7 @@ namespace HtmlRenderer.Parse
         /// <param name="number">Number to be parsed</param>
         /// <param name="hundredPercent">Number that represents the 100% if parsed number is a percentage</param>
         /// <returns>Parsed number. Zero if error while parsing.</returns>
-        public static float ParseNumber(string number, float hundredPercent)
-        {
-            if (string.IsNullOrEmpty(number))
-            {
-                return 0f;
-            }
-            string toParse = number;
-            bool isPercent = number.EndsWith("%");
-            float result;
-            if (isPercent) toParse = number.Substring(0, number.Length - 1);
-
-            if (!float.TryParse(toParse, NumberStyles.Number, NumberFormatInfo.InvariantInfo, out result))
-            {
-                return 0f;
-            }
-
-            if (isPercent)
-            {
-                result = (result / 100f) * hundredPercent;
-            }
-
-            return result;
-        }
+         
         public static float ParseNumber(CssLength number, float hundredPercent)
         {
             if (number.IsEmpty)
@@ -222,8 +200,7 @@ namespace HtmlRenderer.Parse
         /// <returns>Color value</returns>
         public static Color GetActualColor(string colorValue)
         {
-            Color color;
-
+            Color color; 
             TryGetColor(colorValue, 0, colorValue.Length, out color);
             return color;
         }
@@ -410,52 +387,7 @@ namespace HtmlRenderer.Parse
         {
             color = Color.FromName(str.Substring(idx, length));
             return color.A > 0;
-        }
-
-        /// <summary>
-        /// Check if the given substring is a valid float number.
-        /// Assume given substring is not empty and all indexes are valid!<br/>
-        /// </summary>
-        /// <returns>true - valid float number, false - otherwise</returns>
-        private static bool IsFloat(string str, int idx, int length)
-        {
-            if (length < 1)
-                return false;
-
-            bool sawDot = false;
-            for (int i = 0; i < length; i++)
-            {
-                if (str[idx + i] == '.')
-                {
-                    if (sawDot)
-                        return false;
-                    sawDot = true;
-                }
-                else if (!char.IsDigit(str[idx + i]))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Check if the given substring is a valid float number.
-        /// Assume given substring is not empty and all indexes are valid!<br/>
-        /// </summary>
-        /// <returns>true - valid int number, false - otherwise</returns>
-        private static bool IsInt(string str, int idx, int length)
-        {
-            if (length < 1)
-                return false;
-
-            for (int i = 0; i < length; i++)
-            {
-                if (!char.IsDigit(str[idx + i]))
-                    return false;
-            }
-            return true;
-        }
+        } 
 
         /// <summary>
         /// Parse the given decimal number string to positive int value.<br/>
