@@ -79,14 +79,15 @@ namespace HtmlRenderer.Dom
         /// <param name="s"></param>
         internal void CloneAllStyles(CssBoxBase s)
         {
-            
+
+
             //1.
             //=====================================
             if (s._fontProps.Owner == s)
             {
                 this._fontProps = s._fontProps;
             }
-            
+
             this._listProps = s._listProps;
             //--------------------------------------- 
             this._lineHeight = s._lineHeight;
@@ -126,57 +127,18 @@ namespace HtmlRenderer.Dom
 
             this._cssDisplay = s._cssDisplay;
             this._overflow = s._overflow;
-            this._textDecoration = s._textDecoration; 
-            
+            this._textDecoration = s._textDecoration;
+
             //3.
             //=====================================
             this._paddingProps = s._paddingProps;
-            this._marginProps = s._marginProps;
-            //----------------------- 
-
-            this._actualBorderLeftWidth = s._actualBorderLeftWidth;
-            this._actualBorderTopWidth = s._actualBorderTopWidth;
-            this._actualBorderRightWidth = s._actualBorderRightWidth;
-            this._actualBorderBottomWidth = s._actualBorderBottomWidth;
-
-            this._actualPaddingLeft = s._actualPaddingLeft;
-            this._actualPaddingTop = s._actualPaddingTop;
-            this._actualPaddingRight = s._actualPaddingRight;
-            this._actualPaddingBottom = s._actualPaddingBottom;
-
-
-            this._actualLineHeight = s._actualLineHeight;
-
+            this._marginProps = s._marginProps; 
             this._cssDirection = s._cssDirection;
 
+            this._prop_wait_eval = s._prop_wait_eval;
 
         }
 
-        internal void CloneAllStyles2(CssBoxBase p)
-        {
-            //-----------------------
-            InheritStyles(p, true);
-            //-----------------------
-            this._paddingProps = p._paddingProps;
-            this._marginProps = p._marginProps;
-            //----------------------- 
 
-            this._actualBorderLeftWidth = p._actualBorderLeftWidth;
-            this._actualBorderTopWidth = p._actualBorderTopWidth;
-            this._actualBorderRightWidth = p._actualBorderRightWidth;
-            this._actualBorderBottomWidth = p._actualBorderBottomWidth;
-
-            this._actualPaddingLeft = p._actualPaddingLeft;
-            this._actualPaddingTop = p._actualPaddingTop;
-            this._actualPaddingRight = p._actualPaddingRight;
-            this._actualPaddingBottom = p._actualPaddingBottom;
-
-
-            this._actualLineHeight = p._actualLineHeight;
-
-            this._cssDirection = p._cssDirection;
-
-
-        }
     }
 }

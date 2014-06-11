@@ -60,7 +60,7 @@ namespace HtmlRenderer.Dom
         CssLineBox _lastHostingLineBox;
         //one CssBox may use more than one cssline     
         //---------------------------------------------------- 
-        int _boxCompactFlags;
+       
         //----------------------------------------------------
         int _rowSpan;
         int _colSpan;
@@ -217,6 +217,17 @@ namespace HtmlRenderer.Dom
             }
         }
 
+        //=============================================================
+        static class CssBoxFlagsConst
+        {
+            public const int HAS_ASSIGNED_LOCATION = 1 << (2 - 1);
+            public const int EVAL_ROWSPAN = 1 << (3 - 1);
+            public const int EVAL_COLSPAN = 1 << (4 - 1);
+            public const int HAS_EVAL_WHITESPACE = 1 << (5 - 1);
+            public const int TEXT_IS_ALL_WHITESPACE = 1 << (6 - 1);
+            public const int TEXT_IS_EMPTY = 1 << (7 - 1);
+        }
+        int _boxCompactFlags;
     }
 
 }

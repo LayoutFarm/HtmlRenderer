@@ -411,8 +411,7 @@ namespace HtmlRenderer.Dom
             if (_widthSpecified) //If a width was specified,
             {
                 //Assign NaNs equally with space left after gathering not-NaNs
-                int numOfNans = 0;
-
+                int numOfNans = 0; 
                 //Calculate number of NaNs and occupied space
                 foreach (float colWidth in _columnWidths)
                 {

@@ -40,8 +40,7 @@ namespace HtmlRenderer.Dom
     /// </remarks>
     public partial class CssBox : CssBoxBase, IDisposable
     {
-
-
+        
         /// <summary>
         /// Init.
         /// </summary>
@@ -171,24 +170,7 @@ namespace HtmlRenderer.Dom
                         return true;
                     default:
                         return false;
-                }
-
-                //if (this.IsBlock)
-                //{
-                //    return true;
-                //}
-                //else
-                //{
-                //    switch (this.CssDisplay)
-                //    {
-                //        case CssDisplay.ListItem:
-                //        case CssDisplay.Table:
-                //        case CssDisplay.TableCell:
-                //            return true;
-                //        default:
-                //            return false;
-                //    }
-                //}
+                } 
             }
         }
         /// <summary>
@@ -678,7 +660,7 @@ namespace HtmlRenderer.Dom
                 var prevSibling = CssBox.GetPreviousSibling(this);
                 if (prevSibling != null)
                 {
-                    if (!this.HasAssignLocation)
+                    if (!this.HasAssignedLocation)
                     {
 
                         this.SetLocation(prevSibling.LocationX, prevSibling.LocationY);
