@@ -95,15 +95,12 @@ namespace HtmlRenderer.Parse
             {
                 return 0;
             }
-            //If percentage, use ParseNumber 
-            if (length.IsPercentage)
-            {
-                return (length.Number / 100f) * hundredPercent;
-            }
-
-         
+           
+             
             switch (length.Unit)
             {
+                case CssUnit.Percent:
+                    return (length.Number / 100f) * hundredPercent;    
                 case CssUnit.Ems:
                     return length.Number * box.GetEmHeight();
                 case CssUnit.Ex:

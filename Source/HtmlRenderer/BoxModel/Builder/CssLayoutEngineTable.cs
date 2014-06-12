@@ -58,7 +58,6 @@ namespace HtmlRenderer.Dom
         private bool _widthSpecified;
 
         private float[] _columnWidths;
-
         private float[] _columnMinWidths;
 
         #endregion
@@ -354,14 +353,19 @@ namespace HtmlRenderer.Dom
 
                     if (len.Number > 0) //If some width specified
                     {
-                        if (len.IsPercentage) //Get width as a percentage
+                        switch (len.Unit)
                         {
-                            _columnWidths[i] = CssValueParser.ParseNumber(_columns[i].Width, availCellSpace);
+                            case CssUnit.Percent:
+                                {
+                                    _columnWidths[i] = CssValueParser.ParseNumber(_columns[i].Width, availCellSpace);
+                                } break;
+                            case CssUnit.Pixels:
+                            case CssUnit.None:
+                                {
+                                    _columnWidths[i] = len.Number; //Get width as an absolute-pixel value
+                                } break;
                         }
-                        else if (len.Unit == CssUnit.Pixels || len.Unit == CssUnit.None)
-                        {
-                            _columnWidths[i] = len.Number; //Get width as an absolute-pixel value
-                        }
+                       
                     }
                 }
             }
@@ -441,7 +445,7 @@ namespace HtmlRenderer.Dom
                 {
                     // Determine the max width for each column
                     float[] minFullWidths, maxFullWidths;
-                    CalculatetColumnsMinMaxWidthByContent(true, out minFullWidths, out maxFullWidths);
+                    CalculateColumnsMinMaxWidthByContent(true, out minFullWidths, out maxFullWidths);
 
                     // set the columns that can fulfill by the max width in a loop because it changes the nanWidth
                     int oldNumOfNans;
@@ -505,7 +509,7 @@ namespace HtmlRenderer.Dom
             {
                 //Get the minimum and maximum full length of NaN boxes
                 float[] minFullWidths, maxFullWidths;
-                CalculatetColumnsMinMaxWidthByContent(true, out minFullWidths, out maxFullWidths);
+                CalculateColumnsMinMaxWidthByContent(true, out minFullWidths, out maxFullWidths);
 
                 for (int i = 0; i < _columnWidths.Length; i++)
                 {
@@ -563,7 +567,7 @@ namespace HtmlRenderer.Dom
                 {
                     //Get the minimum and maximum full length of NaN boxes
                     float[] minFullWidths, maxFullWidths;
-                    CalculatetColumnsMinMaxWidthByContent(false, out minFullWidths, out maxFullWidths);
+                    CalculateColumnsMinMaxWidthByContent(false, out minFullWidths, out maxFullWidths);
 
                     // lower all the columns to the minimum
                     for (int i = 0; i < _columnWidths.Length; i++)
@@ -854,7 +858,10 @@ namespace HtmlRenderer.Dom
         /// <returns></returns>
         private bool CanReduceWidth(int columnIndex)
         {
-            if (_columnWidths.Length >= columnIndex || CalculateColumnMinWidths().Length >= columnIndex) return false;
+            if (_columnWidths.Length >= columnIndex || CalculateColumnMinWidths().Length >= columnIndex)
+            {
+                return false;
+            }
             return _columnWidths[columnIndex] > CalculateColumnMinWidths()[columnIndex];
         }
 
@@ -913,7 +920,7 @@ namespace HtmlRenderer.Dom
         /// <param name="onlyNans">if to measure only columns that have no calculated width</param>
         /// <param name="minFullWidths">return the min width for each column - the min width possible without clipping content</param>
         /// <param name="maxFullWidths">return the max width for each column - the max width the cell content can take without wrapping</param>
-        private void CalculatetColumnsMinMaxWidthByContent(bool onlyNans, out float[] minFullWidths, out float[] maxFullWidths)
+        private void CalculateColumnsMinMaxWidthByContent(bool onlyNans, out float[] minFullWidths, out float[] maxFullWidths)
         {
             maxFullWidths = new float[_columnWidths.Length];
             minFullWidths = new float[_columnWidths.Length];
@@ -1055,6 +1062,7 @@ namespace HtmlRenderer.Dom
                 }
             }
 
+
             //Take cell-spacing
             f += GetHorizontalSpacing() * (_columnWidths.Length + 1);
 
@@ -1094,6 +1102,7 @@ namespace HtmlRenderer.Dom
         {
             if (_columnMinWidths == null)
             {
+
                 _columnMinWidths = new float[_columnWidths.Length];
 
                 foreach (CssBox row in _allRows)

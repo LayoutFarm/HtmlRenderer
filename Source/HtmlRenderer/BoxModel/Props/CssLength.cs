@@ -29,14 +29,12 @@ namespace HtmlRenderer.Dom
 
 
 
-        const int IS_AUTO = 1 << (10 - 1);
-        const int IS_PERCENT = 1 << (11 - 1);
+        const int IS_AUTO = 1 << (11 - 1);
         const int IS_RELATIVE = 1 << (12 - 1);
         const int HAS_ERROR = 1 << (13 - 1);
         const int IS_ASSIGN = 1 << (14 - 1);
         const int NONE_VALUE = 1 << (15 - 1);
         const int NORMAL = 1 << (16 - 1);
-
         //-------------------------------------
         const int MEDIUM = 1 << (17 - 1);
         const int THICK = 1 << (18 - 1);
@@ -116,7 +114,7 @@ namespace HtmlRenderer.Dom
             if (lenValue.EndsWith("%"))
             {
                 _number = float.Parse(lenValue.Substring(0, lenValue.Length - 1));
-                this._flags |= IS_PERCENT;
+                this._flags |= (int)CssUnit.Percent;
                 return;
             }
 
@@ -271,7 +269,7 @@ namespace HtmlRenderer.Dom
         public bool IsPercentage
         {
 
-            get { return (this._flags & IS_PERCENT) != 0; }
+            get { return this.Unit == CssUnit.Percent; }
         }
 
         public bool IsFontSizeName
@@ -373,16 +371,15 @@ namespace HtmlRenderer.Dom
             {
                 return string.Empty;
             }
-            else if (IsPercentage)
-            {
-                return string.Format(NumberFormatInfo.InvariantInfo, "{0}%", Number);
-            }
             else
             {
                 string u = string.Empty;
 
                 switch (Unit)
                 {
+                    case CssUnit.Percent:
+                        return string.Format(NumberFormatInfo.InvariantInfo, "{0}%", Number);
+
                     case CssUnit.None:
                         break;
                     case CssUnit.Ems:
@@ -409,6 +406,7 @@ namespace HtmlRenderer.Dom
                     case CssUnit.Picas:
                         u = "pc";
                         break;
+
                 }
 
                 return string.Format(NumberFormatInfo.InvariantInfo, "{0}{1}", Number, u);

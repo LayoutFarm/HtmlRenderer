@@ -232,8 +232,9 @@ namespace HtmlRenderer.Dom
         {
             CssBox firstChild = null;
 
-            if (box.ChildCount > 1 || (firstChild = box.GetFirstChild()).ChildCount > 1)
+            if (box.ChildCount > 1 || box.GetFirstChild().ChildCount > 1)
             {
+                firstChild = box.GetFirstChild();
                 CssBox leftAnonBox = CssBox.CreateAnonBlock(box);
                 //1. newLeftBlock is Created and add is latest child of the 'box'
                 //------------------------------------------- 
@@ -360,8 +361,8 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-       
-        
+
+
         /// <summary>
         /// Go over all image boxes and if its display style is set to block, put it inside another block but set the image to inline.
         /// </summary>

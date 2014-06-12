@@ -726,8 +726,7 @@ namespace HtmlRenderer.Dom
             get
             {
                 if ((this._prop_pass_eval & CssBoxBaseAssignments.HEIGHT) == 0)
-                {
-                    //this._prop_wait_eval &= ~CssBoxBaseAssignments.HEIGHT;
+                {   
                     this._prop_pass_eval |= CssBoxBaseAssignments.HEIGHT;
                     return _actualHeight = CssValueParser.ParseLength(Height, Size.Height, this);
                 }
@@ -1230,71 +1229,7 @@ namespace HtmlRenderer.Dom
                 return _actualTextIndent;
             }
         }
-        ///// <summary>
-        ///// Gets the line height
-        ///// </summary>
-        //public float ActualLineHeight
-        //{
-        //    get
-        //    {
-        //        if (float.IsNaN(_actualLineHeight))
-        //        {
-        //            //if not calculate yet then calculate it
-        //            _actualLineHeight = .9f * CssValueParser.ParseLength(LineHeight, Size.Height, this);
-
-        //        }
-        //        return _actualLineHeight;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Gets the text indentation (on first line only)
-        ///// </summary>
-        //public float ActualTextIndent
-        //{
-        //    get
-        //    {
-        //        if (float.IsNaN(_actualTextIndent))
-        //        {
-        //            _actualTextIndent = CssValueParser.ParseLength(TextIndent, Size.Width, this);
-        //        }
-
-        //        return _actualTextIndent;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Gets the actual horizontal border spacing for tables
-        ///// </summary>
-        //public float ActualBorderSpacingHorizontal
-        //{
-        //    get
-        //    {
-        //        if (float.IsNaN(_actualBorderSpacingHorizontal))
-        //        {
-        //            _actualBorderSpacingHorizontal = this.BorderSpacingHorizontal.Number; // this._borderSpacingH.Number;
-        //        }
-        //        return _actualBorderSpacingHorizontal;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Gets the actual vertical border spacing for tables
-        ///// </summary>
-        //public float ActualBorderSpacingVertical
-        //{
-        //    get
-        //    {
-        //        if (float.IsNaN(_actualBorderSpacingVertical))
-        //        {
-        //            _actualBorderSpacingVertical = this.BorderSpacingVertical.Number;// this._borderSpacingV.Number;
-
-        //        }
-        //        return _actualBorderSpacingVertical;
-        //    }
-        //}
-
-
+         
         /// <summary>
         /// Gets the actual horizontal border spacing for tables
         /// </summary>
@@ -1373,21 +1308,7 @@ namespace HtmlRenderer.Dom
             BorderLeftColor = BorderTopColor = BorderRightColor = BorderBottomColor = color;
 
         }
-
-        /// <summary>
-        /// Measures the width of whitespace between words (set <see cref="ActualWordSpacing"/>).
-        /// </summary>
-        //protected void MeasureWordSpacing(IGraphics g)
-        //{
-        //    if (float.IsNaN(ActualWordSpacing))
-        //    {
-        //        _actualWordSpacing = CssUtils.WhiteSpace(g, this);
-        //        if (!this.WordSpacing.IsNormalWordSpacing)
-        //        {
-        //            _actualWordSpacing += CssValueParser.ParseLength(this.WordSpacing, 1, this);
-        //        }
-        //    }
-        //}
+ 
         protected void MeasureWordSpacing(IGraphics g)
         {
             if ((this._prop_pass_eval & CssBoxBaseAssignments.WORD_SPACING) == 0)

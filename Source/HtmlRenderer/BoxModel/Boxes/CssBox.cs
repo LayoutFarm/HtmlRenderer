@@ -1015,7 +1015,7 @@ namespace HtmlRenderer.Dom
             }
 
             // fix for hr tag
-            // if (value < 0.1 && HtmlTag != null && HtmlTag.Name == "hr")
+            
             if (value < 0.1 && this.WellknownTagName == WellknownHtmlTagName.HR)
             {
                 value = GetEmHeight() * 1.1f;

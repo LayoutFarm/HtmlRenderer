@@ -104,7 +104,7 @@ namespace HtmlRenderer.Dom
             //---------------------------------------
             //2.
             //for clone only (eg. split a box into two parts)
-            //=====================================
+            //=======================================
             this._backgroundProps = s._backgroundProps;
             this._borderProps = s._borderProps;
             this._cornerProps = s._cornerProps;
@@ -118,8 +118,7 @@ namespace HtmlRenderer.Dom
             this._width = s._width;
             this._height = s._height;
             this._maxWidth = s._maxWidth;
-            this._position = s._position;
-
+            this._position = s._position; 
 
             this._wordSpacing = s._wordSpacing;
             this._lineHeight = s._lineHeight;
@@ -133,25 +132,9 @@ namespace HtmlRenderer.Dom
             //=====================================
             this._paddingProps = s._paddingProps;
             this._marginProps = s._marginProps;
-            //----------------------- 
-
-            this._prop_wait_eval = s._prop_wait_eval;
-
-            this._actualBorderLeftWidth = s._actualBorderLeftWidth;
-            this._actualBorderTopWidth = s._actualBorderTopWidth;
-            this._actualBorderRightWidth = s._actualBorderRightWidth;
-            this._actualBorderBottomWidth = s._actualBorderBottomWidth;
-
-            this._actualPaddingLeft = s._actualPaddingLeft;
-            this._actualPaddingTop = s._actualPaddingTop;
-            this._actualPaddingRight = s._actualPaddingRight;
-            this._actualPaddingBottom = s._actualPaddingBottom;
-
-
-            this._actualLineHeight = s._actualLineHeight;
-
-            this._cssDirection = s._cssDirection;
-
+            //--------------------------------------
+            this._prop_wait_eval = s._prop_wait_eval;  
+            this._cssDirection = s._cssDirection; 
 
         }
 

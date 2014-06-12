@@ -66,14 +66,18 @@ namespace HtmlRenderer.Dom
             if (maxWidth.Number > 0)
             {
                 float maxWidthVal = -1;
-                if (maxWidth.Unit == CssUnit.Pixels)
+                switch (maxWidth.Unit)
                 {
-                    maxWidthVal = maxWidth.Number;
+                    case CssUnit.Percent:
+                        {
+                            maxWidthVal = maxWidth.Number * imageWord.OwnerBox.ContainingBlock.SizeWidth;
+                        } break;
+                    case CssUnit.Pixels:
+                        {
+                            maxWidthVal = maxWidth.Number;
+                        } break;
                 }
-                else if (maxWidth.IsPercentage)
-                {
-                    maxWidthVal = maxWidth.Number * imageWord.OwnerBox.ContainingBlock.Size.Width;
-                }
+               
 
                 if (maxWidthVal > -1 && imageWord.Width > maxWidthVal)
                 {
@@ -371,7 +375,7 @@ namespace HtmlRenderer.Dom
                 !splitableBox.IsImage &&
                 splitableBox.IsInline &&
                 splitableBox.ChildCount == 0 &&
-                splitableBox.RunCount== 0)
+                splitableBox.RunCount == 0)
             {
                 cx += splitableBox.ActualWordSpacing;
             }

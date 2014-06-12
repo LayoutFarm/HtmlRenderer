@@ -13,6 +13,10 @@ namespace HtmlRenderer.Entities
     {
         None,
         Unknown,
+        Percent,//extension flags
+        //-----------------------
+
+        //W3C
         Ems,
         Pixels,
         Ex,
@@ -20,6 +24,8 @@ namespace HtmlRenderer.Entities
         Centimeters,
         Milimeters,
         Points,
-        Picas
+        Picas,
+        //----------
+
     }
 }
