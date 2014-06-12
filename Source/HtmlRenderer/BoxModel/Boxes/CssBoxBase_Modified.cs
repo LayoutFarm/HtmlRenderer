@@ -17,7 +17,9 @@ namespace HtmlRenderer.Dom
     partial class CssBoxBase
     {
 
-        int _baseCompactFlags; 
+        int _baseCompactFlags;
+       
+        
 
         static class CssBoxFlagsConst
         {
@@ -27,7 +29,9 @@ namespace HtmlRenderer.Dom
             public const int HAS_EVAL_WHITESPACE = 1 << (5 - 1);
             public const int TEXT_IS_ALL_WHITESPACE = 1 << (6 - 1);
             public const int TEXT_IS_EMPTY = 1 << (7 - 1);
-        } 
+        }
+
+       
 
 
         internal bool HasAssignedLocation

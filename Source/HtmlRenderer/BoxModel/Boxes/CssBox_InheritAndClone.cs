@@ -132,10 +132,26 @@ namespace HtmlRenderer.Dom
             //3.
             //=====================================
             this._paddingProps = s._paddingProps;
-            this._marginProps = s._marginProps; 
-            this._cssDirection = s._cssDirection;
+            this._marginProps = s._marginProps;
+            //----------------------- 
 
             this._prop_wait_eval = s._prop_wait_eval;
+
+            this._actualBorderLeftWidth = s._actualBorderLeftWidth;
+            this._actualBorderTopWidth = s._actualBorderTopWidth;
+            this._actualBorderRightWidth = s._actualBorderRightWidth;
+            this._actualBorderBottomWidth = s._actualBorderBottomWidth;
+
+            this._actualPaddingLeft = s._actualPaddingLeft;
+            this._actualPaddingTop = s._actualPaddingTop;
+            this._actualPaddingRight = s._actualPaddingRight;
+            this._actualPaddingBottom = s._actualPaddingBottom;
+
+
+            this._actualLineHeight = s._actualLineHeight;
+
+            this._cssDirection = s._cssDirection;
+
 
         }
 

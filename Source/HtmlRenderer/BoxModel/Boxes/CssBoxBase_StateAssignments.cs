@@ -21,7 +21,6 @@ namespace HtmlRenderer.Dom
 
         static class CssBoxBaseAssignments
         {
-
             //---------------------------------------------
             public const int WIDTH = 1 << (6 - 1);
             public const int HEIGHT = 1 << (7 - 1);
@@ -31,10 +30,10 @@ namespace HtmlRenderer.Dom
             public const int PADDING_RIGHT = 1 << (11 - 1);
             public const int PADDING_BOTTOM = 1 << (12 - 1);
             //---------------------------------------------
-            public const int MARGIN_LEFT_EVALULATED = 1 << (13 - 1);
-            public const int MARGIN_TOP_EVALULATED = 1 << (14 - 1);
-            public const int MARGIN_RIGHT_EVALULATED = 1 << (15 - 1);
-            public const int MARGIN_BOTTOM_EVALULATED = 1 << (16 - 1);
+            public const int MARGIN_LEFT = 1 << (13 - 1);
+            public const int MARGIN_TOP = 1 << (14 - 1);
+            public const int MARGIN_RIGHT = 1 << (15 - 1);
+            public const int MARGIN_BOTTOM = 1 << (16 - 1);
             //---------------------------------------------
             public const int BORDER_WIDTH_LEFT = 1 << (17 - 1);
             public const int BORDER_WIDTH_TOP = 1 << (18 - 1);
