@@ -355,10 +355,12 @@ namespace HtmlRenderer.Dom
                 _columnWidths[i] = float.NaN;
             }
 
-            float availCellSpace = GetAvailableCellWidth();
+            float availSpaceForAllCells = GetAvailableWidthForAllCells();
 
             if (_columns.Count > 0)
             {
+
+
                 // Fill ColumnWidths array by scanning column widths
                 for (int i = _columns.Count - 1; i >= 0; --i)
                 {
@@ -370,7 +372,7 @@ namespace HtmlRenderer.Dom
                         {
                             case CssUnit.Percent:
                                 {
-                                    _columnWidths[i] = CssValueParser.ParseNumber(_columns[i].Width, availCellSpace);
+                                    _columnWidths[i] = CssValueParser.ParseNumber(_columns[i].Width, availSpaceForAllCells);
                                 } break;
                             case CssUnit.Pixels:
                             case CssUnit.None:
@@ -384,6 +386,9 @@ namespace HtmlRenderer.Dom
             }
             else
             {
+
+
+
                 // Fill ColumnWidths array by scanning width in table-cell definitions
                 foreach (CssBox row in _allRows)
                 {
@@ -397,14 +402,17 @@ namespace HtmlRenderer.Dom
                                 var childBox = row.GetChildBox(i);
                                 if (childBox.CssDisplay == CssDisplay.TableCell)
                                 {
-                                    float len = CssValueParser.ParseLength(childBox.Width, availCellSpace, childBox);
-                                    if (len > 0) //If some width specified
+                                    float cellBoxWidth = CssValueParser.ParseLength(childBox.Width, availSpaceForAllCells, childBox);
+                                    if (cellBoxWidth > 0) //If some width specified
                                     {
                                         int colspan = childBox.ColSpan;
-                                        len /= Convert.ToSingle(colspan);
+                                        cellBoxWidth /= Convert.ToSingle(colspan);
                                         for (int n = i; n < i + colspan; n++)
                                         {
-                                            _columnWidths[n] = float.IsNaN(_columnWidths[n]) ? len : Math.Max(_columnWidths[n], len);
+                                            _columnWidths[n] =
+                                                float.IsNaN(_columnWidths[n]) ?
+                                                    cellBoxWidth :
+                                                    Math.Max(_columnWidths[n], cellBoxWidth);
                                         }
                                     }
                                 }
@@ -413,7 +421,7 @@ namespace HtmlRenderer.Dom
                     }
                 }
             }
-            return availCellSpace;
+            return availSpaceForAllCells;
         }
 
         /// <summary>
@@ -429,8 +437,9 @@ namespace HtmlRenderer.Dom
                 int numOfNans = 0;
 
                 //Calculate number of NaNs and occupied space
-                foreach (float colWidth in _columnWidths)
+                for (int i = _columnWidths.Length - 1; i >= 0; --i)
                 {
+                    float colWidth = _columnWidths[i];
                     if (float.IsNaN(colWidth))
                     {
                         numOfNans++;
@@ -440,15 +449,15 @@ namespace HtmlRenderer.Dom
                         occupedSpace += colWidth;
                     }
                 }
-                var orgNumOfNans = numOfNans;
+
+                int orgNumOfNans = numOfNans;
 
                 float[] orgColWidths = null;
 
                 if (numOfNans < _columnWidths.Length)
                 {
                     orgColWidths = new float[_columnWidths.Length];
-                    int colWidthCount = _columnWidths.Length;
-                    for (int i = 0; i < colWidthCount; i++)
+                    for (int i = _columnWidths.Length - 1; i >= 0; --i)
                     {
                         orgColWidths[i] = _columnWidths[i];
                     }
@@ -468,7 +477,7 @@ namespace HtmlRenderer.Dom
                         oldNumOfNans = numOfNans;
                         for (int i = 0; i < colWidthCount; i++)
                         {
-                            var nanWidth = (availCellSpace - occupedSpace) / numOfNans;
+                            float nanWidth = (availCellSpace - occupedSpace) / numOfNans;
                             if (float.IsNaN(_columnWidths[i]) && nanWidth > maxFullWidths[i])
                             {
                                 _columnWidths[i] = maxFullWidths[i];
@@ -503,7 +512,7 @@ namespace HtmlRenderer.Dom
                         // spread extra width between all non width specified columns
                         float extWidth = (availCellSpace - occupedSpace) / orgNumOfNans;
 
-                        for (int i = 0; i < colWidthCount; i++)
+                        for (int i = colWidthCount - 1; i >= 0; --i)
                         {
                             if (orgColWidths == null || float.IsNaN(orgColWidths[i]))
                             {
@@ -515,7 +524,7 @@ namespace HtmlRenderer.Dom
                     {
                         // spread extra width between all columns with respect to relative sizes
 
-                        for (int i = 0; i < colWidthCount; i++)
+                        for (int i = colWidthCount - 1; i >= 0; --i)
                         {
                             _columnWidths[i] += (availCellSpace - occupedSpace) * (_columnWidths[i] / occupedSpace);
                         }
@@ -529,7 +538,7 @@ namespace HtmlRenderer.Dom
                 CalculateColumnsMinMaxWidthByContent(true, out minFullWidths, out maxFullWidths);
 
                 int colWidthCount = _columnWidths.Length;
-                for (int i = 0; i < colWidthCount; i++)
+                for (int i = colWidthCount - 1; i >= 0; --i)
                 {
                     if (float.IsNaN(_columnWidths[i]))
                     {
@@ -827,10 +836,10 @@ namespace HtmlRenderer.Dom
             if (column < col_count)
             {
                 for (int i = column; (i < column + colspan) && (i < col_count); ++i)
-                {   
+                {
                     sum += _columnWidths[i];
-                } 
-            } 
+                }
+            }
             sum += (colspan - 1) * GetHorizontalSpacing();
 
             return sum; // -b.ActualBorderLeftWidth - b.ActualBorderRightWidth - b.ActualPaddingRight - b.ActualPaddingLeft;
@@ -842,6 +851,7 @@ namespace HtmlRenderer.Dom
         /// <param name="g">Device to use</param>
         static void S1_MeasureWords(CssBox box, IGraphics g)
         {
+            //recursive
             if (box != null)
             {
                 foreach (var childBox in box.GetChildBoxIter())
@@ -1058,7 +1068,7 @@ namespace HtmlRenderer.Dom
         /// <remarks>
         /// It takes away the cell-spacing from <see cref="GetAvailableTableWidth"/>
         /// </remarks>
-        private float GetAvailableCellWidth()
+        private float GetAvailableWidthForAllCells()
         {
             return GetAvailableTableWidth() - (GetHorizontalSpacing() * (_columnCount + 1)) - _tableBox.ActualBorderLeftWidth - _tableBox.ActualBorderRightWidth;
         }
