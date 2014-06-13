@@ -65,7 +65,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="tableBox">the table box to calculate the spacing for</param>
         /// <returns>the calculated spacing</returns>
-        static float GetTableSpacing(CssBox tableBox)
+        static float CalculateTableSpacing(CssBox tableBox)
         {
             int count = 0;
             int columns = 0;
@@ -150,6 +150,7 @@ namespace HtmlRenderer.Dom
 
             S4_DetermineMissingColumnWidths(availCellSpace);
 
+            //
             S5_CalculateColumnMinWidths();
 
             // Check for minimum sizes (increment widths if necessary)
@@ -718,12 +719,11 @@ namespace HtmlRenderer.Dom
 
                     if (col < col_count && _columnWidths[col] < col_min_widths[col])
                     {
-                        float diff = col_min_widths[col] - _columnWidths[col];
-                        _columnWidths[affect_col] = col_min_widths[affect_col];
 
-                        if (col < _columnWidths.Length - 1)
+                        _columnWidths[affect_col] = col_min_widths[affect_col];
+                        if (col < col_count - 1)
                         {
-                            _columnWidths[col + 1] -= diff;
+                            _columnWidths[col + 1] -= (col_min_widths[col] - _columnWidths[col]);
                         }
                     }
                 }
@@ -736,12 +736,14 @@ namespace HtmlRenderer.Dom
         /// <param name="g"></param>
         private void S8_LayoutCells(IGraphics g)
         {
+            float vertical_spacing = GetVerticalSpacing(_tableBox);
             float startx = Math.Max(_tableBox.ClientLeft + GetHorizontalSpacing(), 0);
-            float starty = Math.Max(_tableBox.ClientTop + GetVerticalSpacing(), 0);
+            float starty = Math.Max(_tableBox.ClientTop + vertical_spacing, 0);
             float cury = starty;
             float maxRight = startx;
             float maxBottom = 0f;
             int currentrow = 0;
+            int col_count = _columnWidths.Length;
 
             for (int i = 0; i < _allRowBoxes.Count; i++)
             {
@@ -751,7 +753,10 @@ namespace HtmlRenderer.Dom
 
                 foreach (var cell in row.GetChildBoxIter())
                 {
-                    if (curCol >= _columnWidths.Length) break;
+                    if (curCol >= col_count)
+                    {
+                        break;
+                    }
 
                     int rowspan = cell.RowSpan;
                     int columnIndex = GetCellPhysicalColumnIndex(row, cell);
@@ -801,13 +806,13 @@ namespace HtmlRenderer.Dom
                     }
                 }
 
-                cury = maxBottom + GetVerticalSpacing();
+                cury = maxBottom + vertical_spacing;
                 currentrow++;
             }
 
             maxRight = Math.Max(maxRight, _tableBox.LocationX + _tableBox.ActualWidth);
             _tableBox.ActualRight = maxRight + GetHorizontalSpacing() + _tableBox.ActualBorderRightWidth;
-            _tableBox.ActualBottom = Math.Max(maxBottom, starty) + GetVerticalSpacing() + _tableBox.ActualBorderBottomWidth;
+            _tableBox.ActualBottom = Math.Max(maxBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth;
         }
 
         /// <summary>
@@ -863,8 +868,8 @@ namespace HtmlRenderer.Dom
                     sum += _columnWidths[i];
                 }
             }
-            sum += (colspan - 1) * GetHorizontalSpacing();
 
+            sum += (colspan - 1) * GetHorizontalSpacing();
             return sum; // -b.ActualBorderLeftWidth - b.ActualBorderRightWidth - b.ActualPaddingRight - b.ActualPaddingLeft;
         }
         /// <summary>
@@ -1020,6 +1025,7 @@ namespace HtmlRenderer.Dom
             float maxSum = 0f;
             float paddingSum = 0f;
             float marginSum = 0f;
+
             CalculateMinMaxSumWords(box, ref min, ref maxSum, ref paddingSum, ref marginSum);
 
             maxWidth = paddingSum + maxSum;
@@ -1037,6 +1043,7 @@ namespace HtmlRenderer.Dom
         /// <returns></returns>
         static void CalculateMinMaxSumWords(CssBox box, ref float min, ref float maxSum, ref float paddingSum, ref float marginSum)
         {
+
             float? oldSum = null;
 
             // not inline (block) boxes start a new line so we need to reset the max sum 
@@ -1055,7 +1062,7 @@ namespace HtmlRenderer.Dom
             // for tables the padding also contains the spacing between cells                
             if (box.CssDisplay == CssDisplay.Table)
             {
-                paddingSum += CssLayoutEngineTable.GetTableSpacing(box);
+                paddingSum += CssLayoutEngineTable.CalculateTableSpacing(box);
             }
 
             if (box.HasRuns)
@@ -1073,10 +1080,12 @@ namespace HtmlRenderer.Dom
                 foreach (CssBox childBox in box.GetChildBoxIter())
                 {
 
-                    marginSum += childBox.ActualMarginLeft + childBox.ActualMarginRight;
+                    float msum = childBox.ActualMarginLeft + childBox.ActualMarginRight;
+                    marginSum += msum;
+
                     CalculateMinMaxSumWords(childBox, ref min, ref maxSum, ref paddingSum, ref marginSum);
 
-                    marginSum -= childBox.ActualMarginLeft + childBox.ActualMarginRight;
+                    marginSum -= msum;
                 }
             }
 
@@ -1149,7 +1158,7 @@ namespace HtmlRenderer.Dom
         void S5_CalculateColumnMinWidths()
         {
 
-            int col_count = _columnWidths.Length;             
+            int col_count = _columnWidths.Length;
             float[] col_min_widths = this._columnMinWidths = new float[col_count];
 
             foreach (CssBox row in _allRowBoxes)
@@ -1185,17 +1194,17 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the actual horizontal spacing of the table
         /// </summary>
-        private static float GetHorizontalSpacing(CssBox box)
+        static float GetHorizontalSpacing(CssBox tableBox)
         {
-            return box.IsBorderCollapse ? -1f : box.ActualBorderSpacingHorizontal;
+            return tableBox.IsBorderCollapse ? -1f : tableBox.ActualBorderSpacingHorizontal;
         }
 
         /// <summary>
         /// Gets the actual vertical spacing of the table
         /// </summary>
-        private float GetVerticalSpacing()
+        static float GetVerticalSpacing(CssBox tableBox)
         {
-            return _tableBox.IsBorderCollapse ? -1f : _tableBox.ActualBorderSpacingVertical;
+            return tableBox.IsBorderCollapse ? -1f : tableBox.ActualBorderSpacingVertical;
         }
 
 
