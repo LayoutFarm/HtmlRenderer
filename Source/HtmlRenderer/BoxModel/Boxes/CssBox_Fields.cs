@@ -85,7 +85,7 @@ namespace HtmlRenderer.Dom
         List<CssRun> _boxRuns;
 
         //----------------------------------------------------  
-
+        internal const int MAX_RIGHT = 90999;
 
         /// <summary>
         /// Gets the childrenn boxes of this box

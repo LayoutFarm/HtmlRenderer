@@ -77,7 +77,7 @@ namespace HtmlRenderer.Dom
                             maxWidthVal = maxWidth.Number;
                         } break;
                 }
-               
+
 
                 if (maxWidthVal > -1 && imageWord.Width > maxWidthVal)
                 {
@@ -153,11 +153,10 @@ namespace HtmlRenderer.Dom
             FlowBox(g, blockBox, blockBox, limitRight, 0, startx, ref line, ref curx, ref cury, ref maxRight, ref maxBottom);
 
             // if width is not restricted we need to lower it to the actual width
-            if (blockBox.ActualRight >= 90999)
+            if (blockBox.ActualRight >= CssBox.MAX_RIGHT)
             {
                 blockBox.ActualRight = maxRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth;
-            }
-
+            } 
 
             foreach (CssLineBox linebox in blockBox.GetLineBoxIter())
             {
@@ -191,29 +190,20 @@ namespace HtmlRenderer.Dom
         public static void ApplyCellVerticalAlignment(IGraphics g, CssBox cell)
         {
             ArgChecker.AssertArgNotNull(g, "g");
-            ArgChecker.AssertArgNotNull(cell, "cell");
-
-
-            if (cell.VerticalAlign == CssVerticalAlign.Top ||
-                cell.VerticalAlign == CssVerticalAlign.Baseline)
-            {
-                return;
-            }
-
-            float cellbot = cell.ClientBottom;
-            float bottom = cell.CalculateMaximumBottom(cell, 0f);
+            ArgChecker.AssertArgNotNull(cell, "cell"); 
+             
             float dist = 0f;
-
             switch (cell.VerticalAlign)
             {
                 case CssVerticalAlign.Bottom:
-                    dist = cellbot - bottom;
+                    dist = cell.ClientBottom - cell.CalculateMaximumBottom(cell, 0f);
                     break;
                 case CssVerticalAlign.Middle:
-                    dist = (cellbot - bottom) / 2;
+                    dist = (cell.ClientBottom - cell.CalculateMaximumBottom(cell, 0f)) / 2;
                     break;
-            }
-
+                default:
+                    return; 
+            } 
 
             foreach (CssBox b in cell.GetChildBoxIter())
             {
