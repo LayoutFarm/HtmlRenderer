@@ -150,17 +150,19 @@ namespace HtmlRenderer.Dom
 
             S4_DetermineMissingColumnWidths(availCellSpace);
 
+            S5_CalculateColumnMinWidths();
+
             // Check for minimum sizes (increment widths if necessary)
-            S5_EnforceMinimumSize();
+            S6_EnforceMinimumSize();
 
             // While table width is larger than it should, and width is reducible
-            S6_EnforceMaximumSize();
+            S7_EnforceMaximumSize();
 
             // Ensure there's no padding             
             _tableBox.PaddingLeft = _tableBox.PaddingTop = _tableBox.PaddingRight = _tableBox.PaddingBottom = CssLength.ZeroPx;
 
             //Actually layout cells!
-            S7_LayoutCells(g);
+            S8_LayoutCells(g);
         }
 
         /// <summary>
@@ -389,7 +391,7 @@ namespace HtmlRenderer.Dom
                     int col_limit = columnCount > 20 ? 20 : columnCount;
 
                     for (int i = 0; i < col_limit; i++)// limit column width check
-                    {   
+                    {
                         if (float.IsNaN(_columnWidths[i]))
                         {
                             if (i < row.ChildCount)
@@ -570,7 +572,7 @@ namespace HtmlRenderer.Dom
         /// While table width is larger than it should, and width is reductable.<br/>
         /// If table max width is limited by we need to lower the columns width even if it will result in clipping<br/>
         /// </summary>
-        private void S6_EnforceMaximumSize()
+        private void S7_EnforceMaximumSize()
         {
             int curCol = 0;
             var widthSum = CalculateWidthSum();
@@ -701,20 +703,23 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Check for minimum sizes (increment widths if necessary)
         /// </summary>
-        private void S5_EnforceMinimumSize()
+        private void S6_EnforceMinimumSize()
         {
+            int col_count = _columnWidths.Length;
+            float[] col_min_widths = this._columnMinWidths;
+
             foreach (CssBox row in _allRowBoxes)
             {
                 foreach (CssBox cell in row.GetChildBoxIter())
                 {
                     int colspan = cell.ColSpan;
                     int col = GetCellPhysicalColumnIndex(row, cell);
-                    int affectcol = col + colspan - 1;
+                    int affect_col = col + colspan - 1;
 
-                    if (_columnWidths.Length > col && _columnWidths[col] < CalculateOnceColumnMinWidths()[col])
+                    if (col < col_count && _columnWidths[col] < col_min_widths[col])
                     {
-                        float diff = CalculateOnceColumnMinWidths()[col] - _columnWidths[col];
-                        _columnWidths[affectcol] = CalculateOnceColumnMinWidths()[affectcol];
+                        float diff = col_min_widths[col] - _columnWidths[col];
+                        _columnWidths[affect_col] = col_min_widths[affect_col];
 
                         if (col < _columnWidths.Length - 1)
                         {
@@ -729,7 +734,7 @@ namespace HtmlRenderer.Dom
         /// Layout the cells by the calculated table layout
         /// </summary>
         /// <param name="g"></param>
-        private void S7_LayoutCells(IGraphics g)
+        private void S8_LayoutCells(IGraphics g)
         {
             float startx = Math.Max(_tableBox.ClientLeft + GetHorizontalSpacing(), 0);
             float starty = Math.Max(_tableBox.ClientTop + GetVerticalSpacing(), 0);
@@ -808,16 +813,15 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the spanned width of a cell (With of all columns it spans minus one).
         /// </summary>
-        float GetSpannedMinWidth(CssBox row, int realcolindex, int colspan)
+        static float GetSpannedMinWidth(float[] min_widths, int rowCellCount, int realcolindex, int colspan)
         {
             float w = 0f;
-            for (int i = realcolindex; i < row.ChildCount || i < realcolindex + colspan - 1; ++i)
+            int min_widths_len = min_widths.Length;
+            for (int i = realcolindex; (i < min_widths_len) && (i < rowCellCount || i < realcolindex + colspan - 1); ++i)
             {
-                if (i < CalculateOnceColumnMinWidths().Length)
-                {
-                    w += CalculateOnceColumnMinWidths()[i];
-                }
+                w += min_widths[i];
             }
+
             return w;
         }
 
@@ -906,31 +910,32 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="columnIndex"></param>
         /// <returns></returns>
-        private bool CanReduceWidth(int columnIndex)
+        bool CanReduceWidth(int columnIndex)
         {
-            if (_columnWidths.Length >= columnIndex || CalculateOnceColumnMinWidths().Length >= columnIndex)
+            if ((columnIndex < _columnWidths.Length) && (columnIndex < _columnMinWidths.Length))
             {
-                return false;
+                return _columnWidths[columnIndex] > _columnMinWidths[columnIndex];
             }
-            return _columnWidths[columnIndex] > CalculateOnceColumnMinWidths()[columnIndex];
+            return false;
         }
+
+
+
 
         /// <summary>
         /// Gets the available width for the whole table.
-        /// It also sets the value of WidthSpecified
         /// </summary>
         /// <returns></returns>
         /// <remarks>
         /// The table's width can be larger than the result of this method, because of the minimum 
         /// size that individual boxes.
         /// </remarks>
+        /// 
         private float GetAvailableTableWidth()
         {
             CssLength tblen = _tableBox.Width;
-
             if (tblen.Number > 0)
             {
-
                 return CssValueParser.ParseLength(_tableBox.Width, _tableBox.ParentBox.AvailableWidth, _tableBox);
             }
             else
@@ -1141,26 +1146,32 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the minimum width of each column
         /// </summary>
-        float[] CalculateOnceColumnMinWidths()
+        void S5_CalculateColumnMinWidths()
         {
-            if (_columnMinWidths == null)
-            {
-                _columnMinWidths = new float[_columnWidths.Length];
-                foreach (CssBox row in _allRowBoxes)
-                {
-                    foreach (CssBox cell in row.GetChildBoxIter())
-                    {
-                        int colspan = cell.ColSpan;
-                        int cIndex = GetCellPhysicalColumnIndex(row, cell);
-                        int affectcol = Math.Min(cIndex + colspan, _columnMinWidths.Length) - 1;
-                        float spannedwidth = GetSpannedMinWidth(row, cIndex, colspan) + (colspan - 1) * GetHorizontalSpacing();
 
-                        _columnMinWidths[affectcol] = Math.Max(_columnMinWidths[affectcol], cell.CalculateMinimumWidth() - spannedwidth);
+            int col_count = _columnWidths.Length;             
+            float[] col_min_widths = this._columnMinWidths = new float[col_count];
+
+            foreach (CssBox row in _allRowBoxes)
+            {
+                foreach (CssBox cell in row.GetChildBoxIter())
+                {
+                    int colspan = cell.ColSpan;
+                    int cIndex = GetCellPhysicalColumnIndex(row, cell);
+                    int affect_col = Math.Min(cIndex + colspan, col_count) - 1;
+                    if (colspan == 1)
+                    {
+                        float spanned_width = (colspan - 1) * GetHorizontalSpacing();
+                        col_min_widths[affect_col] = Math.Max(col_min_widths[affect_col], cell.CalculateMinimumWidth() - spanned_width);
+                    }
+                    else
+                    {
+                        float spanned_width = GetSpannedMinWidth(col_min_widths, row.ChildCount, cIndex, colspan) + (colspan - 1) * GetHorizontalSpacing();
+                        col_min_widths[affect_col] = Math.Max(col_min_widths[affect_col], cell.CalculateMinimumWidth() - spanned_width);
                     }
                 }
             }
 
-            return _columnMinWidths;
         }
 
         /// <summary>
