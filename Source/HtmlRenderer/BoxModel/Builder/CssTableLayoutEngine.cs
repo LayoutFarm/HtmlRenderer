@@ -45,6 +45,8 @@ namespace HtmlRenderer.Dom
         float[] _columnMinWidths;
         byte[] _columnWidthsStatus;
 
+        const int MAX_COL_AT_THIS_VERSION = 20;
+
         #endregion
 
 
@@ -199,7 +201,8 @@ namespace HtmlRenderer.Dom
                             if (box.ChildCount == 0)
                             {
                                 for (int i = GetSpan(box) - 1; i >= 0; --i)
-                                {
+                                {   
+                                    //duplicate box*** for colspan
                                     _cssColumnBoxes.Add(box);
                                 }
                             }
@@ -208,7 +211,8 @@ namespace HtmlRenderer.Dom
                                 foreach (CssBox childBox in box.GetChildBoxIter())
                                 {
                                     for (int i = GetSpan(childBox) - 1; i >= 0; --i)
-                                    {
+                                    {  
+                                        //duplicate box*** for colspan
                                         _cssColumnBoxes.Add(childBox);
                                     }
                                 }
@@ -255,7 +259,6 @@ namespace HtmlRenderer.Dom
                                 for (int n = 0; n < curRow.ChildCount; ++n)
                                 {
                                     //all cell in this row
-
                                     if (colcount == cIndex)
                                     {
                                         //insert new spacing box for table 
@@ -355,7 +358,8 @@ namespace HtmlRenderer.Dom
                 {
                     //Check for column width in table-cell definitions
 
-                    int col_limit = columnCount > 20 ? 20 : columnCount;
+                    int col_limit = columnCount > MAX_COL_AT_THIS_VERSION ? MAX_COL_AT_THIS_VERSION : columnCount;
+
 
                     for (int i = 0; i < col_limit; i++)// limit column width check
                     {
@@ -548,16 +552,16 @@ namespace HtmlRenderer.Dom
             {
                 //try reduce...
                 int cIndex = 0;
-                int foundAt; 
+                int foundAt;
                 while (FindFirstReducibleColumnWidth(cIndex, out foundAt))
-                {   
+                {
                     _columnWidths[foundAt] -= 1f;
                     cIndex = foundAt + 1;
                     if (cIndex >= _columnWidths.Length)
                     {
                         cIndex = 0; //retry again 
                     }
-                } 
+                }
             }
 
             //--------------------------------------------------
@@ -824,7 +828,7 @@ namespace HtmlRenderer.Dom
 
                 }
                 // limit the amount of rows to process for performance ?
-                if (count > 30)
+                if (count > MAX_COL_AT_THIS_VERSION)
                 {
                     break;
                 }
@@ -922,7 +926,7 @@ namespace HtmlRenderer.Dom
             sum += (colspan - 1) * horizontal_spacing;
             return sum;
         }
-         
+
         bool FindFirstReducibleColumnWidth(int startAtIndex, out int foundAtIndex)
         {
 
@@ -936,7 +940,7 @@ namespace HtmlRenderer.Dom
                 }
             }
             foundAtIndex = -1;
-            return false;             
+            return false;
         }
 
 
@@ -1184,7 +1188,7 @@ namespace HtmlRenderer.Dom
                     int cIndex = GetCellPhysicalColumnIndex(row, cellBox);
                     int affect_col = Math.Min(cIndex + colspan, col_count) - 1;
                     if (colspan == 1)
-                    {
+                    {  
                         float spanned_width = (colspan - 1) * horizontal_spacing;
                         col_min_widths[affect_col] = Math.Max(col_min_widths[affect_col], cellBox.CalculateMinimumWidth() - spanned_width);
                     }

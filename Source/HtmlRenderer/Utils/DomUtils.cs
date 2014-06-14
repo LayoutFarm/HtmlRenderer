@@ -30,9 +30,7 @@ namespace HtmlRenderer.Utils
     /// </summary>
     public sealed class DomUtils
     {
-
-
-
+         
 
         internal static IEnumerable<LineOrBoxVisit> GetLineOrBoxIterWalk(CssLineBox startLine)
         {
@@ -74,9 +72,7 @@ namespace HtmlRenderer.Utils
                 goto RETRY;
             }
         }
-
-
-
+         
         public static CssBox GetNextSibling(CssBox a)
         {
             if (a.ParentBox == null)
