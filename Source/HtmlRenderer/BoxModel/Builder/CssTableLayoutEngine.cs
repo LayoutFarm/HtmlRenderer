@@ -35,15 +35,15 @@ namespace HtmlRenderer.Dom
         /// </summary>
         readonly CssBox _tableBox;
 
-        /// <summary>
-        /// collection of all columns boxes
-        /// </summary>
-        readonly List<CssBox> _cssColumnBoxes = new List<CssBox>();
         readonly List<CssBox> _allRowBoxes = new List<CssBox>();
+
+        TableColumnCollection columnCollection = new TableColumnCollection();
 
         float[] _columnWidths;
         float[] _columnMinWidths;
         byte[] _columnWidthsStatus;
+
+
 
         const int MAX_COL_AT_THIS_VERSION = 20;
 
@@ -93,15 +93,15 @@ namespace HtmlRenderer.Dom
             S1_MeasureWords(_tableBox, g);
 
             // get the table boxes into the proper fields
-            // Insert EmptyBoxes for vertical cell spanning. 
+            // Insert EmptyBoxes for vertical cell spanning.  
 
-            S2_PrepareBoxes();
-
+            var userColumnList = S2_PrepareBoxes();
 
             // Determine Row and Column Count, and ColumnWidths
-            var availCellSpace = S3_CalculateCountAndWidth();
 
-            S4_DetermineMissingColumnWidths(availCellSpace);
+            float availableWidth = S3_CalculateCountAndWidth(userColumnList);
+
+            S4_DetermineMissingColumnWidths(availableWidth);
 
             //
             S5_CalculateColumnMinWidths();
@@ -138,10 +138,12 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Get the table boxes into the proper fields.
         /// </summary>
-        void S2_PrepareBoxes()
+        List<CssBox> S2_PrepareBoxes()
         {
             //===========================================================
-            //part 1: assign boxes into proper fields
+            //part 1: assign boxes into proper fields             
+
+            List<CssBox> userDefinedColBoxes = new List<CssBox>();
             List<CssBox> bodyrows = new List<CssBox>();
             CssBox headerBox = null;
             CssBox footerBox = null;
@@ -192,7 +194,7 @@ namespace HtmlRenderer.Dom
                             for (int i = GetSpan(box) - 1; i >= 0; --i)
                             {
                                 //duplicate box*** for colspan
-                                _cssColumnBoxes.Add(box);
+                                userDefinedColBoxes.Add(box);
                             }
 
                         } break;
@@ -203,7 +205,7 @@ namespace HtmlRenderer.Dom
                                 for (int i = GetSpan(box) - 1; i >= 0; --i)
                                 {
                                     //duplicate box*** for colspan
-                                    _cssColumnBoxes.Add(box);
+                                    userDefinedColBoxes.Add(box);
                                 }
                             }
                             else
@@ -213,7 +215,7 @@ namespace HtmlRenderer.Dom
                                     for (int i = GetSpan(childBox) - 1; i >= 0; --i)
                                     {
                                         //duplicate box*** for colspan
-                                        _cssColumnBoxes.Add(childBox);
+                                        userDefinedColBoxes.Add(childBox);
                                     }
                                 }
                             }
@@ -234,7 +236,7 @@ namespace HtmlRenderer.Dom
             }
 
             //===========================================================
-            //part 2: insert empty cell            
+            //part 2: insert empty cell ,           
             if (!_tableBox._tableFixed) //fix once !!!
             {
                 int rIndex = 0;
@@ -242,54 +244,58 @@ namespace HtmlRenderer.Dom
                 foreach (CssBox row in bodyrows)
                 {
                     //'row' loop 
+                    int grid_index = 0;
                     for (int c = 0; c < row.ChildCount; ++c)
                     {
                         //'cell' in 'row' loop 
                         CssBox cellBox = row.GetChildBox(c);
                         int rowspan = cellBox.RowSpan;
+
                         if (rowspan > 1)
                         {
-                            int cIndex = GetCellPhysicalColumnIndex(row, cellBox);
+
                             for (int i = rIndex + 1; (i < rIndex + rowspan) && (i < bodyRowCount); ++i)
                             {
-                                //fill rowspan (vertical expand down) if need 
+                                //fill rowspan (vertical expand down) 
                                 int insertAt;
-                                CssBox curRow = bodyrows[i];
-                                if (FindVerticalCellSpacingBoxInsertionPoint(curRow, cIndex, out insertAt))
+                                CssBox lowerRow = bodyrows[i];
+                                if (FindVerticalCellSpacingBoxInsertionPoint(lowerRow, grid_index, out insertAt))
                                 {
-                                    curRow.InsertChild(insertAt, new CssVerticalCellSpacingBox(_tableBox, cellBox, rIndex));
+                                    lowerRow.InsertChild(insertAt, new CssVerticalCellSpacingBox(_tableBox, cellBox, rIndex));
                                 }
                             }
                         }
-                    }
 
+                        grid_index += cellBox.ColSpan;
+                    }
                     rIndex++;//***
                 }
-
                 _tableBox._tableFixed = true;
             }
-            //=========================================================== 
+            //===========================================================  
+
+            return userDefinedColBoxes;
         }
 
         /// <summary>
         /// Determine Row and Column Count, and ColumnWidths
         /// </summary>
         /// <returns></returns>
-        float S3_CalculateCountAndWidth()
+        float S3_CalculateCountAndWidth(List<CssBox> userDefinedColumnBoxes)
         {
             //-----------------------------------------------------------
             //1. count columns
             int columnCount = 0;
-            if (_cssColumnBoxes.Count > 0)
+            if (userDefinedColumnBoxes.Count > 0)
             {
-                columnCount = _cssColumnBoxes.Count;
+                //mode 1: user defined columns
+                columnCount = userDefinedColumnBoxes.Count;
             }
             else
-            {
+            {   //mode 2:  anonymous column definitions, 
                 int cellcount = 0;
                 //find max column count in the table 
-                //each row may contain different number of cell
-
+                //each row may contain different number of cell 
                 for (int i = _allRowBoxes.Count - 1; i >= 0; --i)
                 {
                     if ((cellcount = _allRowBoxes[i].ChildCount) > columnCount)
@@ -298,29 +304,27 @@ namespace HtmlRenderer.Dom
                     }
                 }
             }
-
             //-------------------------------------------------------------
             //2. Initialize column widths array with NaNs
-            _columnWidths = new float[columnCount];
+            this._columnWidths = new float[columnCount];
+            this._columnWidthsStatus = new byte[columnCount];
 
             for (int i = columnCount - 1; i >= 0; --i)
             {
                 _columnWidths[i] = float.NaN;
             }
+
+
             float availbleWidthForAllCells = GetAvailableTableWidth() - (GetHorizontalSpacing(_tableBox) * (columnCount + 1)) - _tableBox.ActualBorderLeftWidth - _tableBox.ActualBorderRightWidth;
-
-
             //-------------------------------------------------------------
             //3. 
-            if (_cssColumnBoxes.Count > 0)
+            if (userDefinedColumnBoxes.Count > 0)
             {
-                //mode 1: user defined columns
-
-
+                //mode 1: user defined columns  
                 // Fill ColumnWidths array by scanning column widths
-                for (int i = _cssColumnBoxes.Count - 1; i >= 0; --i)
+                for (int i = userDefinedColumnBoxes.Count - 1; i >= 0; --i)
                 {
-                    CssLength colWidth = _cssColumnBoxes[i].Width; //Get specified width
+                    CssLength colWidth = userDefinedColumnBoxes[i].Width; //Get specified width
 
                     if (colWidth.Number > 0) //If some width specified
                     {
@@ -328,7 +332,7 @@ namespace HtmlRenderer.Dom
                         {
                             case CssUnit.Percent:
                                 {
-                                    _columnWidths[i] = CssValueParser.ParseNumber(_cssColumnBoxes[i].Width, availbleWidthForAllCells);
+                                    _columnWidths[i] = CssValueParser.ParseNumber(userDefinedColumnBoxes[i].Width, availbleWidthForAllCells);
                                 } break;
                             case CssUnit.Pixels:
                             case CssUnit.None:
@@ -382,7 +386,73 @@ namespace HtmlRenderer.Dom
             }
             return availbleWidthForAllCells;
         }
+        float S3_CalculateCountAndWidth()
+        {
+            //-----------------------------------------------------------
+            //1. count columns
+            int columnCount = 0;
+            int cellcount = 0;
+            //find max column count in the table 
+            //each row may contain different number of cell 
+            for (int i = _allRowBoxes.Count - 1; i >= 0; --i)
+            {
+                if ((cellcount = _allRowBoxes[i].ChildCount) > columnCount)
+                {
+                    columnCount = cellcount;
+                }
+            }
+            //-------------------------------------------------------------
+            //2. Initialize column widths array with NaNs
+            _columnWidths = new float[columnCount];
+            for (int i = columnCount - 1; i >= 0; --i)
+            {
+                _columnWidths[i] = float.NaN;
+            }
+            float availbleWidthForAllCells = GetAvailableTableWidth() - (GetHorizontalSpacing(_tableBox) * (columnCount + 1)) - _tableBox.ActualBorderLeftWidth - _tableBox.ActualBorderRightWidth;
 
+
+
+
+            //  anonymous column definitions,  
+            // Fill ColumnWidths array by scanning width in table-cell definitions
+            foreach (CssBox row in _allRowBoxes)
+            {
+                //Check for column width in table-cell definitions
+
+                int col_limit = columnCount > MAX_COL_AT_THIS_VERSION ? MAX_COL_AT_THIS_VERSION : columnCount;
+
+
+                for (int i = 0; i < col_limit; i++)// limit column width check
+                {
+                    if (float.IsNaN(_columnWidths[i]))
+                    {
+                        if (i < row.ChildCount)
+                        {
+                            var childBox = row.GetChildBox(i);
+                            if (childBox.CssDisplay == CssDisplay.TableCell)
+                            {
+                                float cellBoxWidth = CssValueParser.ParseLength(childBox.Width, availbleWidthForAllCells, childBox);
+                                if (cellBoxWidth > 0) //If some width specified
+                                {
+                                    int colspan = childBox.ColSpan;
+
+                                    cellBoxWidth /= Convert.ToSingle(colspan);
+                                    for (int n = i; n < i + colspan; n++)
+                                    {
+                                        _columnWidths[n] =
+                                            float.IsNaN(_columnWidths[n]) ?
+                                                cellBoxWidth :
+                                                Math.Max(_columnWidths[n], cellBoxWidth);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return availbleWidthForAllCells;
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -390,12 +460,12 @@ namespace HtmlRenderer.Dom
         void S4_DetermineMissingColumnWidths(float availCellSpace)
         {
 
-            float occupedSpace = 0f;
+
             if (_tableBox.Width.Number > 0) //If a width was specified,
             {
+                float occupiedSpace = 0f;
                 //Assign NaNs equally with space left after gathering not-NaNs
                 int numOfNans = 0;
-
                 //Calculate number of NaNs and occupied space
                 for (int i = _columnWidths.Length - 1; i >= 0; --i)
                 {
@@ -406,7 +476,7 @@ namespace HtmlRenderer.Dom
                     }
                     else
                     {
-                        occupedSpace += colWidth;
+                        occupiedSpace += colWidth;
                     }
                 }
 
@@ -416,6 +486,7 @@ namespace HtmlRenderer.Dom
 
                 if (numOfNans < _columnWidths.Length)
                 {
+                    //backup 
                     orgColWidths = new float[_columnWidths.Length];
                     for (int i = _columnWidths.Length - 1; i >= 0; --i)
                     {
@@ -438,12 +509,12 @@ namespace HtmlRenderer.Dom
                         oldNumOfNans = numOfNans;
                         for (int i = 0; i < colWidthCount; i++)
                         {
-                            float nanWidth = (availCellSpace - occupedSpace) / numOfNans;
+                            float nanWidth = (availCellSpace - occupiedSpace) / numOfNans;
                             if (float.IsNaN(_columnWidths[i]) && nanWidth > maxFullWidths[i])
                             {
                                 _columnWidths[i] = maxFullWidths[i];
                                 numOfNans--;
-                                occupedSpace += maxFullWidths[i];
+                                occupiedSpace += maxFullWidths[i];
                             }
                         }
 
@@ -453,7 +524,7 @@ namespace HtmlRenderer.Dom
                     if (numOfNans > 0)
                     {
                         // Determine width that will be assigned to un assigned widths
-                        float nanWidth = (availCellSpace - occupedSpace) / numOfNans;
+                        float nanWidth = (availCellSpace - occupiedSpace) / numOfNans;
                         for (int i = colWidthCount - 1; i >= 0; --i)
                         {
                             if (float.IsNaN(_columnWidths[i]))
@@ -464,13 +535,13 @@ namespace HtmlRenderer.Dom
                     }
                 }
 
-                if (numOfNans == 0 && occupedSpace < availCellSpace)
+                if (numOfNans == 0 && occupiedSpace < availCellSpace)
                 {
                     int colWidthCount = _columnWidths.Length;
                     if (orgNumOfNans > 0)
                     {
                         // spread extra width between all non width specified columns
-                        float extWidth = (availCellSpace - occupedSpace) / orgNumOfNans;
+                        float extWidth = (availCellSpace - occupiedSpace) / orgNumOfNans;
                         if (orgColWidths == null)
                         {
                             for (int i = colWidthCount - 1; i >= 0; --i)
@@ -491,39 +562,42 @@ namespace HtmlRenderer.Dom
                     }
                     else
                     {
-                        // spread extra width between all columns with respect to relative sizes
-
+                        // spread extra width between all columns with respect to relative sizes 
                         for (int i = colWidthCount - 1; i >= 0; --i)
                         {
-                            _columnWidths[i] += (availCellSpace - occupedSpace) * (_columnWidths[i] / occupedSpace);
+                            _columnWidths[i] += (availCellSpace - occupiedSpace) * (_columnWidths[i] / occupiedSpace);
                         }
                     }
                 }
             }
             else
             {
+                float occupiedSpace = 0f;
                 //Get the minimum and maximum full length of NaN boxes
                 float[] minFullWidths, maxFullWidths;
+
                 CalculateColumnsMinMaxWidthByContent(true, out minFullWidths, out maxFullWidths);
 
                 int colWidthCount = _columnWidths.Length;
+
+                float c_width = 0;
                 for (int i = colWidthCount - 1; i >= 0; --i)
                 {
-                    if (float.IsNaN(_columnWidths[i]))
+                    c_width = _columnWidths[i];
+                    if (float.IsNaN(c_width))
                     {
-                        _columnWidths[i] = minFullWidths[i];
+                        _columnWidths[i] = c_width = minFullWidths[i];
                     }
-                    occupedSpace += _columnWidths[i];
+                    occupiedSpace += c_width;
                 }
 
                 // spread extra width between all columns
                 for (int i = 0; i < colWidthCount; i++)
                 {
-                    if (maxFullWidths[i] > _columnWidths[i])
+                    if ((c_width = _columnWidths[i]) < maxFullWidths[i])
                     {
-                        float tmpWidth = _columnWidths[i];
-                        _columnWidths[i] = Math.Min(tmpWidth + (availCellSpace - occupedSpace) / Convert.ToSingle(_columnWidths.Length - i), maxFullWidths[i]);
-                        occupedSpace += _columnWidths[i] - tmpWidth;
+                        _columnWidths[i] = c_width = Math.Min(c_width + (availCellSpace - occupiedSpace) / Convert.ToSingle(colWidthCount - i), maxFullWidths[i]);
+                        occupiedSpace += c_width;
                     }
                 }
             }
@@ -674,21 +748,22 @@ namespace HtmlRenderer.Dom
 
             foreach (CssBox row in _allRowBoxes)
             {
+                int grid_index = 0;
                 foreach (CssBox cellBox in row.GetChildBoxIter())
                 {
-
-                    int cIndex = GetCellPhysicalColumnIndex(row, cellBox);
-
-                    if (cIndex < col_count && _columnWidths[cIndex] < col_min_widths[cIndex])
+                    if (grid_index < col_count && _columnWidths[grid_index] < col_min_widths[grid_index])
                     {
-                        int affect_col = cIndex + cellBox.ColSpan - 1;
+                        int affect_col = grid_index + cellBox.ColSpan - 1;
 
                         _columnWidths[affect_col] = col_min_widths[affect_col];
-                        if (cIndex < col_count - 1)
+                        if (grid_index < col_count - 1)
                         {
-                            _columnWidths[cIndex + 1] -= (col_min_widths[cIndex] - _columnWidths[cIndex]);
+                            _columnWidths[grid_index + 1] -= (col_min_widths[grid_index] - _columnWidths[grid_index]);
                         }
                     }
+
+                    //------------------------------
+                    grid_index += cellBox.ColSpan; //****
                 }
             }
         }
@@ -714,38 +789,47 @@ namespace HtmlRenderer.Dom
             {
                 var row = _allRowBoxes[i];
                 float curx = startx;
-                int curCol = 0;
+
+                int cIndex = 0;
+                int grid_index = 0;
 
                 foreach (CssBox cell in row.GetChildBoxIter())
                 {
-                    if (curCol >= col_count)
+                    if (cIndex >= col_count)
                     {
                         break;
                     }
-
-                    int columnIndex = GetCellPhysicalColumnIndex(row, cell);
-                    float width = GetCellWidth(columnIndex, cell, horizontal_spacing);
-
-                    cell.SetLocation(curx, cury);
-                    cell.Size = new SizeF(width, 0f);
-                    cell.PerformLayout(g); //That will automatically set the bottom of the cell
-
-                    //Alter max bottom only if row is cell's row + cell's rowspan - 1
-                    CssVerticalCellSpacingBox sb = cell as CssVerticalCellSpacingBox;
-                    if (sb != null)
+                    else
                     {
-                        if (sb.EndRow == currentRow)
+                        int colspan = cell.ColSpan;
+                        float width = GetCellWidth(grid_index, colspan, horizontal_spacing);
+
+                        cell.SetLocation(curx, cury);
+                        cell.Size = new SizeF(width, 0f);
+                        cell.PerformLayout(g); //That will automatically set the bottom of the cell
+
+                        //Alter max bottom only if row is cell's row + cell's rowspan - 1
+                        CssVerticalCellSpacingBox sb = cell as CssVerticalCellSpacingBox;
+                        if (sb != null)
                         {
-                            maxBottom = Math.Max(maxBottom, sb.ExtendedBox.ActualBottom);
+                            if (sb.EndRow == currentRow)
+                            {
+                                maxBottom = Math.Max(maxBottom, sb.ExtendedBox.ActualBottom);
+                            }
                         }
+                        else if (cell.RowSpan == 1)
+                        {
+                            maxBottom = Math.Max(maxBottom, cell.ActualBottom);
+                        }
+
+                        maxRight = Math.Max(maxRight, cell.ActualRight);
+
+                        curx = cell.ActualRight + horizontal_spacing;
+
+                        //-------------------------
+                        cIndex++;
+                        grid_index += colspan;
                     }
-                    else if (cell.RowSpan == 1)
-                    {
-                        maxBottom = Math.Max(maxBottom, cell.ActualBottom);
-                    }
-                    maxRight = Math.Max(maxRight, cell.ActualRight);
-                    curCol++;
-                    curx = cell.ActualRight + horizontal_spacing;
                 }
 
                 foreach (CssBox cell in row.GetChildBoxIter())
@@ -873,56 +957,29 @@ namespace HtmlRenderer.Dom
 
             return w;
         }
-
-        /// <summary>
-        /// Gets the cell column index checking its position and other cells colspans
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="cell"></param>
-        /// <returns></returns>
-        static int GetCellPhysicalColumnIndex(CssBox row, CssBox cell)
-        {
-            int i = 0;
-            foreach (CssBox b in row.GetChildBoxIter())
-            {
-                if (b == cell)
-                {
-                    break;
-                }
-                i += b.ColSpan;
-            }
-            return i;
-        }
-
         /// <summary>
         /// Gets the cells width, taking colspan and being in the specified column
         /// </summary>
         /// <param name="cIndex"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        float GetCellWidth(int cIndex, CssBox b, float horizontal_spacing)
+        float GetCellWidth(int cIndex, int colspan, float horizontal_spacing)
         {
-            int colspan = b.ColSpan;
-            float sum = 0f;
-            int col_count = _columnWidths.Length;
-            if (cIndex < col_count)
+            if (colspan == 1)
             {
-                if (colspan == 1)
-                {
-                    sum += _columnWidths[cIndex];
-                }
-                else
-                {   
-                    for (int i = cIndex; (i < cIndex + colspan) && (i < col_count); ++i)
-                    {
-                        sum += _columnWidths[i];
-                    }
-                }
-
+                return _columnWidths[cIndex];
             }
-
-            sum += (colspan - 1) * horizontal_spacing;
-            return sum;
+            else
+            {
+                float sum = 0f;
+                int col_count = _columnWidths.Length;
+                for (int i = cIndex; (i < cIndex + colspan) && (i < col_count); ++i)
+                {
+                    sum += _columnWidths[i];
+                }
+                sum += (colspan - 1) * horizontal_spacing;
+                return sum;
+            }
         }
 
         bool FindFirstReducibleColumnWidth(int startAtIndex, out int foundAtIndex)
@@ -1024,16 +1081,50 @@ namespace HtmlRenderer.Dom
             maxFullWidths = new float[col_count];
             minFullWidths = new float[col_count];
 
-            foreach (CssBox row in _allRowBoxes)
+            if (onlyNans)
             {
-
-                foreach (CssBox cellBox in row.GetChildBoxIter())
+                foreach (CssBox row in _allRowBoxes)
                 {
-                    int cIndex = GetCellPhysicalColumnIndex(row, cellBox);
-                    cIndex = cIndex < col_count ? cIndex : col_count - 1;
-
-                    if ((!onlyNans || float.IsNaN(_columnWidths[cIndex])))
+                    int gridIndex = 0;
+                    foreach (CssBox cellBox in row.GetChildBoxIter())
                     {
+
+                        int cIndex = gridIndex < col_count ? gridIndex : col_count - 1;
+                        if (float.IsNaN(_columnWidths[cIndex]))
+                        {
+                            float minWidth, maxWidth;
+                            CalculateMinMaxWidth(cellBox, out minWidth, out maxWidth);
+                            int colSpan = cellBox.ColSpan;
+                            if (colSpan == 1)
+                            {
+                                minFullWidths[cIndex] = Math.Max(minFullWidths[cIndex], minWidth);
+                                maxFullWidths[cIndex] = Math.Max(maxFullWidths[cIndex], maxWidth);
+                            }
+                            else
+                            {
+                                minWidth /= colSpan;
+                                maxWidth /= colSpan;
+                                for (int n = 0; n < colSpan; n++)
+                                {
+                                    minFullWidths[cIndex + n] = Math.Max(minFullWidths[cIndex + n], minWidth);
+                                    maxFullWidths[cIndex + n] = Math.Max(maxFullWidths[cIndex + n], maxWidth);
+                                }
+                            }
+                        }
+                        //----
+                        gridIndex += cellBox.ColSpan;
+                    }
+                }
+            }
+            else
+            {
+                foreach (CssBox row in _allRowBoxes)
+                {
+                    int gridIndex = 0;
+                    foreach (CssBox cellBox in row.GetChildBoxIter())
+                    {
+                        int cIndex = gridIndex < col_count ? gridIndex : col_count - 1;
+
                         float minWidth, maxWidth;
                         CalculateMinMaxWidth(cellBox, out minWidth, out maxWidth);
                         int colSpan = cellBox.ColSpan;
@@ -1052,10 +1143,14 @@ namespace HtmlRenderer.Dom
                                 maxFullWidths[cIndex + n] = Math.Max(maxFullWidths[cIndex + n], maxWidth);
                             }
                         }
+                        //----
+                        gridIndex += cellBox.ColSpan;
                     }
                 }
-
             }
+
+
+
         }
         /// <summary>
         /// Get the <paramref name="minWidth"/> and <paramref name="maxWidth"/> width of the box content.<br/>
@@ -1211,11 +1306,11 @@ namespace HtmlRenderer.Dom
 
             foreach (CssBox row in _allRowBoxes)
             {
+                int gridIndex = 0;
                 foreach (CssBox cellBox in row.GetChildBoxIter())
                 {
                     int colspan = cellBox.ColSpan;
-                    int cIndex = GetCellPhysicalColumnIndex(row, cellBox);
-                    int affect_col = Math.Min(cIndex + colspan, col_count) - 1;
+                    int affect_col = Math.Min(gridIndex + colspan, col_count) - 1;
                     if (colspan == 1)
                     {
                         float spanned_width = (colspan - 1) * horizontal_spacing;
@@ -1223,9 +1318,10 @@ namespace HtmlRenderer.Dom
                     }
                     else
                     {
-                        float spanned_width = GetSpannedMinWidth(col_min_widths, row.ChildCount, cIndex, colspan) + (colspan - 1) * horizontal_spacing;
+                        float spanned_width = GetSpannedMinWidth(col_min_widths, row.ChildCount, gridIndex, colspan) + (colspan - 1) * horizontal_spacing;
                         col_min_widths[affect_col] = Math.Max(col_min_widths[affect_col], cellBox.CalculateMinimumWidth() - spanned_width);
                     }
+                    gridIndex += cellBox.ColSpan;
                 }
             }
 

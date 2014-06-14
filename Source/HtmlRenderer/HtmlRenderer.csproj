@@ -68,6 +68,7 @@
     <Compile Include="BoxModel\Builder\ActiveCssTemplate.cs" />
     <Compile Include="BoxModel\Builder\BoxModelBuilder_Corrector.cs" />
     <Compile Include="BoxModel\Builder\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
+    <Compile Include="BoxModel\Builder\CssTableLayoutEngine.TableColumns.cs" />
     <Compile Include="Common\ValueMaps.cs" />
     <Compile Include="Common\TextSnapshot.cs" />
     <Compile Include="BoxModel\Builder\CssTextSplitter.cs" />
