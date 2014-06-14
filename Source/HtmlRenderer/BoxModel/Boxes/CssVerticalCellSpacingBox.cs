@@ -10,7 +10,7 @@ namespace HtmlRenderer.Dom
     /// <summary>
     /// Used to make space on vertical cell combination
     /// </summary>
-    sealed class CssSpacingBox : CssBox
+    sealed class CssVerticalCellSpacingBox : CssBox
     {
         #region Fields and Consts
 
@@ -28,7 +28,7 @@ namespace HtmlRenderer.Dom
         #endregion
 
 
-        public CssSpacingBox(CssBox tableBox, CssBox extendedBox, int startRow)
+        public CssVerticalCellSpacingBox(CssBox tableBox, CssBox extendedBox, int startRow)
             : base(tableBox, null)
         {
             _extendedBox = extendedBox;

@@ -182,36 +182,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        /// <summary>
-        /// Applies special vertical alignment for table-cells
-        /// </summary>
-        /// <param name="g"></param>
-        /// <param name="cell"></param>
-        public static void ApplyCellVerticalAlignment(IGraphics g, CssBox cell)
-        {
-            ArgChecker.AssertArgNotNull(g, "g");
-            ArgChecker.AssertArgNotNull(cell, "cell"); 
-             
-            float dist = 0f;
-            switch (cell.VerticalAlign)
-            {
-                case CssVerticalAlign.Bottom:
-                    dist = cell.ClientBottom - cell.CalculateMaximumBottom(cell, 0f);
-                    break;
-                case CssVerticalAlign.Middle:
-                    dist = (cell.ClientBottom - cell.CalculateMaximumBottom(cell, 0f)) / 2;
-                    break;
-                default:
-                    return; 
-            } 
-
-            foreach (CssBox b in cell.GetChildBoxIter())
-            {
-                b.OffsetTop(dist);
-            }
-
-        }
-
+      
 
         #region Private methods
 

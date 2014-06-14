@@ -653,7 +653,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float AvailableWidth
         {
-            get { return Size.Width - ActualBorderLeftWidth - ActualPaddingLeft - ActualPaddingRight - ActualBorderRightWidth; }
+            get { return this.SizeWidth - ActualBorderLeftWidth - ActualPaddingLeft - ActualPaddingRight - ActualBorderRightWidth; }
         }
 
         /// <summary>

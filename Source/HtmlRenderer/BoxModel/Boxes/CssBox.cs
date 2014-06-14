@@ -586,7 +586,7 @@ namespace HtmlRenderer.Dom
         /// <param name="g">Device context to use</param>
         protected virtual void PerformLayoutImp(IGraphics g)
         {
-            //if (Display != CssConstants.None)
+            
             if (this.CssDisplay != CssDisplay.None)
             {
                 ResetSummaryBound();
@@ -600,8 +600,7 @@ namespace HtmlRenderer.Dom
                 this.CssDisplay == CssDisplay.InlineTable ||
                 this.CssDisplay == CssDisplay.TableCell)
             {
-                // Because their width and height are set by CssTable
-                //if (Display != CssConstants.TableCell && Display != CssConstants.Table)
+                // Because their width and height are set by CssTable                 
                 if (this.CssDisplay != CssDisplay.TableCell && this.CssDisplay != CssDisplay.TableCell)
                 {
                     float width = ContainingBlock.Size.Width
