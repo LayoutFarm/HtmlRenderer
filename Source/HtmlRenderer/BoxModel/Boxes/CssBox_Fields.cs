@@ -60,7 +60,7 @@ namespace HtmlRenderer.Dom
         CssLineBox _lastHostingLineBox;
         //one CssBox may use more than one cssline     
         //---------------------------------------------------- 
-       
+
         //----------------------------------------------------
         int _rowSpan;
         int _colSpan;
@@ -69,7 +69,7 @@ namespace HtmlRenderer.Dom
         /// handler for loading background image
         /// </summary>
         ImageLoadHandler _imageLoadHandler;
-        
+
         //---------------------------------------------------- 
 
         //condition 1 :this Box is BlockBox
@@ -85,7 +85,8 @@ namespace HtmlRenderer.Dom
         List<CssRun> _boxRuns;
 
         //----------------------------------------------------  
-
+        internal const int MAX_RIGHT = 90999;
+        internal const float MAX_TABLE_WIDTH = 9999f;
 
         /// <summary>
         /// Gets the childrenn boxes of this box
@@ -105,7 +106,7 @@ namespace HtmlRenderer.Dom
 
             this._boxRuns.Add(run);
         }
-         
+
         internal int RunCount
         {
             get
@@ -200,6 +201,7 @@ namespace HtmlRenderer.Dom
             {
                 if ((this._boxCompactFlags & CssBoxFlagsConst.EVAL_COLSPAN) == 0)
                 {
+                    //default  = 1
                     string att = this.GetAttribute("colspan", "1");
                     int colspan;
                     if (!int.TryParse(att, out colspan))

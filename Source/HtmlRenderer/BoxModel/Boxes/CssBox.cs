@@ -40,7 +40,7 @@ namespace HtmlRenderer.Dom
     /// </remarks>
     public partial class CssBox : CssBoxBase, IDisposable
     {
-        
+
         /// <summary>
         /// Init.
         /// </summary>
@@ -170,7 +170,7 @@ namespace HtmlRenderer.Dom
                         return true;
                     default:
                         return false;
-                } 
+                }
             }
         }
         /// <summary>
@@ -586,7 +586,7 @@ namespace HtmlRenderer.Dom
         /// <param name="g">Device context to use</param>
         protected virtual void PerformLayoutImp(IGraphics g)
         {
-            //if (Display != CssConstants.None)
+            
             if (this.CssDisplay != CssDisplay.None)
             {
                 ResetSummaryBound();
@@ -600,8 +600,7 @@ namespace HtmlRenderer.Dom
                 this.CssDisplay == CssDisplay.InlineTable ||
                 this.CssDisplay == CssDisplay.TableCell)
             {
-                // Because their width and height are set by CssTable
-                //if (Display != CssConstants.TableCell && Display != CssConstants.Table)
+                // Because their width and height are set by CssTable                 
                 if (this.CssDisplay != CssDisplay.TableCell && this.CssDisplay != CssDisplay.TableCell)
                 {
                     float width = ContainingBlock.Size.Width
@@ -633,7 +632,7 @@ namespace HtmlRenderer.Dom
 
                 if (this.CssDisplay == CssDisplay.Table || this.CssDisplay == CssDisplay.InlineTable)
                 {
-                    CssLayoutEngineTable.PerformLayout(g, this);
+                    CssTableLayoutEngine.PerformLayout(g, this);
                 }
                 else
                 {
@@ -673,7 +672,7 @@ namespace HtmlRenderer.Dom
 
             CreateListItemBox(g);
 
-            var actualWidth = Math.Max(CalculateMinimumWidth() + CalculateWidthMarginDeep(this), Size.Width < 90999 ? ActualRight : 0);
+            var actualWidth = Math.Max(CalculateMinimumWidth() + CalculateWidthMarginDeep(this), this.SizeWidth < CssBox.MAX_RIGHT ? ActualRight : 0);
 
             //update back
             HtmlContainer.ActualSize = CommonUtils.Max(HtmlContainer.ActualSize, new SizeF(actualWidth, ActualBottom - HtmlContainer.Root.LocationY));
@@ -801,7 +800,7 @@ namespace HtmlRenderer.Dom
         void CreateListItemBox(IGraphics g)
         {
 
-            if (this.CssDisplay == CssDisplay.ListItem && 
+            if (this.CssDisplay == CssDisplay.ListItem &&
                 ListStyleType != CssListStyleType.None)
             {
                 if (_listItemBox == null)
@@ -851,7 +850,7 @@ namespace HtmlRenderer.Dom
 
             }
         }
-        
+
         internal void ParseWordContent()
         {
             CssTextSplitter.DefaultSplitter.ParseWordContent(this);
@@ -941,7 +940,7 @@ namespace HtmlRenderer.Dom
         static float CalculateWidthMarginDeep(CssBox box)
         {
             float sum = 0f;
-            if (box.SizeWidth > 90999 || (box.ParentBox != null && box.ParentBox.SizeWidth > 90999))
+            if (box.SizeWidth > CssBox.MAX_RIGHT || (box.ParentBox != null && box.ParentBox.SizeWidth > 90999))
             {
                 while (box != null)
                 {
@@ -1015,7 +1014,7 @@ namespace HtmlRenderer.Dom
             }
 
             // fix for hr tag
-            
+
             if (value < 0.1 && this.WellknownTagName == WellknownHtmlTagName.HR)
             {
                 value = GetEmHeight() * 1.1f;
@@ -1030,7 +1029,7 @@ namespace HtmlRenderer.Dom
         /// <returns>the calculated actual right value</returns>
         private float CalculateActualRight()
         {
-            if (ActualRight > 90999)
+            if (ActualRight > CssBox.MAX_RIGHT)
             {
                 var maxRight = 0f;
                 foreach (var box in Boxes)

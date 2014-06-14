@@ -13,6 +13,7 @@ namespace HtmlRenderer.Dom
         {
             this.owner = owner;
         }
+       
         public IEnumerable<CssBox> GetChildBoxIter()
         {
             List<CssBox> tmp = _boxes;
@@ -25,7 +26,7 @@ namespace HtmlRenderer.Dom
         public IEnumerable<CssBox> GetChildBoxBackwardIter()
         {
             List<CssBox> tmp = _boxes;
-           
+
             for (int i = tmp.Count - 1; i >= 0; --i)
             {
                 yield return tmp[i];

@@ -18,7 +18,8 @@ namespace HtmlRenderer.Dom
     {
 
         int _baseCompactFlags;
-       
+
+        
         
 
         static class CssBoxFlagsConst
