@@ -25,7 +25,7 @@ namespace HtmlRenderer.Dom
     /// <summary>
     /// Layout engine for tables executing the complex layout of tables with rows/columns/headers/etc.
     /// </summary>
-    sealed class CssLayoutEngineTable
+    sealed class CssTableLayoutEngine
     {
 
         #region Fields and Consts
@@ -52,7 +52,7 @@ namespace HtmlRenderer.Dom
         /// Init.
         /// </summary>
         /// <param name="tableBox"></param>
-        private CssLayoutEngineTable(CssBox tableBox)
+        private CssTableLayoutEngine(CssBox tableBox)
         {
             _tableBox = tableBox;
         }
@@ -70,7 +70,7 @@ namespace HtmlRenderer.Dom
 
             //try
             //{
-            var table = new CssLayoutEngineTable(tableBox);
+            var table = new CssTableLayoutEngine(tableBox);
             table.Layout(g);
             //}
             //catch (Exception ex)
@@ -1076,7 +1076,7 @@ namespace HtmlRenderer.Dom
             // for tables the padding also contains the spacing between cells                
             if (box.CssDisplay == CssDisplay.Table)
             {
-                paddingSum += CssLayoutEngineTable.CalculateTableSpacing(box);
+                paddingSum += CssTableLayoutEngine.CalculateTableSpacing(box);
             }
 
             if (box.HasRuns)

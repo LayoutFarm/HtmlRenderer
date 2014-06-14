@@ -632,7 +632,7 @@ namespace HtmlRenderer.Dom
 
                 if (this.CssDisplay == CssDisplay.Table || this.CssDisplay == CssDisplay.InlineTable)
                 {
-                    CssLayoutEngineTable.PerformLayout(g, this);
+                    CssTableLayoutEngine.PerformLayout(g, this);
                 }
                 else
                 {

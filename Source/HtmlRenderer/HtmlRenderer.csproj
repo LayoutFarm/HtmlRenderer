@@ -107,7 +107,7 @@
     <Compile Include="BoxModel\Props\CssLength.cs" />
     <Compile Include="BoxModel\Boxes\CssLineBox.cs" />
     <Compile Include="BoxModel\Boxes\CssVerticalCellSpacingBox.cs" />
-    <Compile Include="BoxModel\Builder\CssLayoutEngineTable.cs" />
+    <Compile Include="BoxModel\Builder\CssTableLayoutEngine.cs" />
     <Compile Include="Entities\IHtmlNodes.cs" />
     <Compile Include="BoxModel\Props\Border.cs" />
     <Compile Include="Entities\HtmlLinkClickedException.cs" />
