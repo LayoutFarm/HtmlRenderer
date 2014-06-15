@@ -19,6 +19,7 @@ namespace HtmlRenderer.Dom
         /// <param name="clone">clone all </param>
         protected void InheritStyles(CssBoxBase s, bool clone)
         {
+            
             if (s != null)
             {
 
@@ -80,7 +81,7 @@ namespace HtmlRenderer.Dom
         internal void CloneAllStyles(CssBoxBase s)
         {
 
-
+         
             //1.
             //=====================================
             if (s._fontProps.Owner == s)

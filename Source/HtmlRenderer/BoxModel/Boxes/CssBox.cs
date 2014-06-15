@@ -1134,6 +1134,7 @@ namespace HtmlRenderer.Dom
                 }
                 else if (RenderUtils.IsColorVisible(ActualBackgroundColor))
                 {
+                    
                     brush = RenderUtils.GetSolidBrush(ActualBackgroundColor);
                 }
 

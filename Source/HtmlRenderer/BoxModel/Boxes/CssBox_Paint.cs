@@ -112,6 +112,8 @@ namespace HtmlRenderer.Dom
         }
         protected virtual void PaintImp(IGraphics g, PaintingArgs args)
         {
+
+
             if (this.CssDisplay != CssDisplay.None &&
                (this.CssDisplay != CssDisplay.TableCell ||
                  EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
@@ -135,9 +137,9 @@ namespace HtmlRenderer.Dom
                         }
                     }
                 }
+
                 PointF offset = args.HtmlContainerScrollOffset;
                 var viewport = args.PeekViewportBound();
-
                 //---------------------------------------------
                 if (this.CssDisplay != CssDisplay.Inline)
                 {
@@ -147,15 +149,15 @@ namespace HtmlRenderer.Dom
                     BordersDrawHandler.DrawBoxBorders(g, this, bound, true, true);
                 }
 
-                if (this._clientLineBoxes != null && this._clientLineBoxes.Count > 0)
-                {
+                if (this.LineBoxCount > 0)
+                {   
                     viewport.Offset(offset.X, -offset.Y);
                     float viewport_top = viewport.Top;
                     float viewport_bottom = viewport.Bottom;
                     //---------------------------------------- 
                     if (this.ContainsSelectedRun)
                     {
-                        //render with selection concern 
+                        //render with *** selection concern 
                         foreach (var line in this._clientLineBoxes)
                         {
                             if (line.CachedLineBottom >= viewport_top &&
@@ -178,7 +180,7 @@ namespace HtmlRenderer.Dom
                             }
                             else
                             {
-
+                                
                             }
                         }
 
@@ -205,7 +207,7 @@ namespace HtmlRenderer.Dom
                             }
                             else
                             {
-
+                                 
                             }
                         }
                     }

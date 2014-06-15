@@ -87,14 +87,19 @@ namespace HtmlRenderer.Dom
             }
             if (right > sR)
             {
-                this._width = sR - this._x;
+                this._width = right - this._x;
             }
             if (bottom > sB)
             {
                 this._height = bottom - this._y;
             }
-
         }
+#if DEBUG
+        public override string ToString()
+        {
+            return this.owner.dbugId + " left:" + this.Left + ",width:" + this.Width + " " + this.owner.ToString();
+        }
+#endif
     }
 
 
@@ -111,14 +116,15 @@ namespace HtmlRenderer.Dom
         readonly CssBox _ownerBox;
 
         //a run may come from another CssBox (not from _ownerBox)
-        readonly List<CssRun> _runs;
+        readonly List<CssRun> _runs = new List<CssRun>();
+
         //linebox and PartialBoxStrip is 1:1 relation 
         //a CssBox (Inline-splittable) may be splitted into many CssLineBoxes
 
         /// <summary>
-        /// handle part of cssBox in this line, handle task about bg/border/bounday of cssBox owner of strip
+        /// handle part of cssBox in this line, handle task about bg/border/bounday of cssBox owner of strip        
         /// </summary>
-        readonly Dictionary<CssBox, PartialBoxStrip> _boxStrips;
+        readonly List<PartialBoxStrip> _bottomUpBoxStrips = new List<PartialBoxStrip>();
 
         internal LinkedListNode<CssLineBox> linkedNode;
 #if DEBUG
@@ -132,10 +138,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public CssLineBox(CssBox ownerBox)
         {
-            _boxStrips = new Dictionary<CssBox, PartialBoxStrip>();
-            _runs = new List<CssRun>();
             _ownerBox = ownerBox;
-
         }
         internal CssLineBox NextLine
         {
@@ -178,12 +181,61 @@ namespace HtmlRenderer.Dom
             this.dbugIsClosed = true;
 #endif
 
+            //=============================================================
+            //part 1: MakeStrips()
+            //=============================================================
+            //***
+            var myruns = this._runs;
+            CssBox lineOwner = this._ownerBox;
+            int j = myruns.Count;
+
+            List<PartialBoxStrip> totalStrips = this._bottomUpBoxStrips;
+            //---------------------------------------------------------------------------
+            //first level
+            Dictionary<CssBox, PartialBoxStrip> dicStrips = new Dictionary<CssBox, PartialBoxStrip>();
+            for (int i = 0; i < j; ++i)
+            {
+                var run = myruns[i];
+                if (run.IsSpaces)
+                {
+                    continue;
+                }
+
+                //for debug----
+                //CssTextRun textrun = run as CssTextRun;
+                //if (textrun != null)
+                //{
+                //    if (textrun.Text.Contains("Back1"))
+                //    {
+                //    }
+                //}
+                //-------------
+                //first level data
+                RegisterStripPart(run.OwnerBox, run.Left, run.Top, run.Right, run.Bottom, totalStrips, dicStrips);
+            }
+
+
+            //---------------------------------------------------------------------------
+            //other step to upper layer, until no new strip    
+
+            int newStripIndex = 0;
+            for (int numNewStripCreate = totalStrips.Count; numNewStripCreate > 0; newStripIndex += numNewStripCreate)
+            {
+                numNewStripCreate = StepUpRegisterStrips(dicStrips, lineOwner, totalStrips, newStripIndex);
+            }
+
+
+            //=============================================================
+            //part 2: CalculateCacheData()
+            //=============================================================
             float height = 0;
             float bottom = 0;
             float contentRight = 0;
 
-            foreach (PartialBoxStrip strip in _boxStrips.Values)
+
+            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
+                var strip = _bottomUpBoxStrips[i];
                 height = Math.Max(height, strip.Height);
                 bottom = Math.Max(bottom, strip.Bottom);
                 contentRight = Math.Max(contentRight, strip.Right);
@@ -192,26 +244,26 @@ namespace HtmlRenderer.Dom
             this.CacheLineHeight = height;
             this.CachedLineBottom = bottom;
             this.CachedLineTop = bottom - height;
-            this.CachedLineContentWidth = contentRight - this.OwnerBox.LocationX;
+            this.CachedLineContentWidth = contentRight - lineOwner.LocationX;
 
-            if (this.OwnerBox.SizeWidth < CachedLineContentWidth)
-            {
+            if (lineOwner.SizeWidth < CachedLineContentWidth)
+            {   
                 this.CachedLineContentWidth = this.OwnerBox.SizeWidth;
             }
         }
+
+
         internal void OffsetTop(float ydiff)
         {
             float height = 0;
             float bottom = 0;
-            float contentRight = 0;
 
-            foreach (PartialBoxStrip strip in this._boxStrips.Values)
+            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
+                var strip = _bottomUpBoxStrips[i];
                 strip.Offset(0, ydiff);
-
                 height = Math.Max(height, strip.Height);
                 bottom = Math.Max(bottom, strip.Bottom);
-                contentRight = Math.Max(contentRight, strip.Right);
             }
 
             foreach (CssRun run in this._runs)
@@ -222,7 +274,6 @@ namespace HtmlRenderer.Dom
             this.CacheLineHeight = height;
             this.CachedLineBottom = bottom;
             this.CachedLineTop = bottom - height;
-            this.CachedLineContentWidth = contentRight - this.OwnerBox.LocationX;
 
             if (this.OwnerBox.SizeWidth < CachedLineContentWidth)
             {
@@ -242,10 +293,11 @@ namespace HtmlRenderer.Dom
         public float CalculateTotalBoxBaseLine()
         {
             float baseline = Single.MinValue;
-            foreach (var strip in this._boxStrips.Values)  //iter from word in this line
+            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
-                baseline = Math.Max(baseline, strip.Top);//?top 
+                baseline = Math.Max(baseline, _bottomUpBoxStrips[i].Top);//?top 
             }
+
             return baseline;
         }
         public void ApplyBaseline(float baseline)
@@ -253,9 +305,10 @@ namespace HtmlRenderer.Dom
             //Important notes on http://www.w3.org/TR/CSS21/tables.html#height-layout
             //iterate from rectstrip
             //In a single LineBox ,  CssBox:RectStrip => 1:1 relation             
-            foreach (PartialBoxStrip rstrip in this._boxStrips.Values)
+            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
-                CssBox rstripOwnerBox = rstrip.owner;
+                var rstrip = _bottomUpBoxStrips[i];
+                var rstripOwnerBox = rstrip.owner;
                 switch (rstripOwnerBox.VerticalAlign)
                 {
                     case CssVerticalAlign.Sub:
@@ -281,9 +334,9 @@ namespace HtmlRenderer.Dom
         }
         public IEnumerable<float> GetAreaStripTopPosIter()
         {
-            foreach (var r in this._boxStrips.Values)
+            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
-                yield return r.Top;
+                yield return _bottomUpBoxStrips[i].Top;
             }
         }
         internal int WordCount
@@ -351,56 +404,8 @@ namespace HtmlRenderer.Dom
                 yield return tmpRuns[i];
             }
         }
-        /// <summary>
-        /// Updates the specified rectangle of the specified box.
-        /// </summary>
-        /// <param name="box"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="r"></param>
-        /// <param name="b"></param>
-        internal void BubbleStripUpdate(CssBox box, float x, float y, float r, float b)
-        {
-            //bubble up***
-            //recursive up *** 
-            if (box.IsImage)
-            {
-                x -= box.ActualBorderLeftWidth + box.ActualPaddingLeft;
-                r += box.ActualBorderRightWidth + box.ActualPaddingRight;
-            }
-            else
-            {
-                if (box.FirstHostingLineBox == this)
-                {
-                    x -= box.ActualBorderLeftWidth + box.ActualPaddingLeft;
-                }
-                if (box.LastHostingLineBox == this)
-                {
-                    r += box.ActualBorderRightWidth + box.ActualPaddingRight;
-                }
-
-                y -= box.ActualBorderTopWidth + box.ActualPaddingTop;
-                b += box.ActualBorderBottomWidth + box.ActualPaddingTop;
-            }
 
 
-            PartialBoxStrip strip;
-            if (!this._boxStrips.TryGetValue(box, out strip))
-            {
-                //new  
-                this._boxStrips.Add(box, new PartialBoxStrip(box, x, y, r - x, b - y));
-            }
-            else
-            {
-                strip.MergeBound(x, y, r, b);
-            }
-
-            if (box.ParentBox != null && box.ParentBox.IsInline)
-            {
-                //recursive up ***
-                BubbleStripUpdate(box.ParentBox, x, y, r, b);
-            }
-        }
 
         internal void PaintRuns(IGraphics g, PointF offset)
         {
@@ -432,6 +437,11 @@ namespace HtmlRenderer.Dom
                             CssTextRun textRun = (CssTextRun)w;
                             var wordPoint = new PointF(w.Left + offset.X, w.Top + offset.Y);
 
+                            //if (textRun.Text.Contains("Back1"))
+                            //{
+                            //    int ss = textRun.OwnerBox.dbugId;
+                            //    Color bg = textRun.OwnerBox.BackgroundColor;
+                            //}
                             char[] ownerBuffer = CssBox.UnsafeGetTextBuffer(w.OwnerBox);
 
                             g.DrawString2(ownerBuffer,
@@ -455,29 +465,38 @@ namespace HtmlRenderer.Dom
 
         internal void dbugPaintRuns(IGraphics g, PointF offset)
         {
-            //return;
-            //linebox //draw diagonal
+            return;
+            //linebox 
             float x1 = this.OwnerBox.LocationX + offset.X;
             float y1 = this.CachedLineTop + offset.Y;
             float x2 = x1 + this.CachedLineContentWidth;
             float y2 = y1 + this.CacheLineHeight;
-
-            g.DrawRectangle(Pens.Blue, x1, y1, x2 - x1, y2 - y1);
-            g.DrawLine(Pens.Blue, x1, y1, x2, y2);
-            g.DrawLine(Pens.Blue, x1, y2, x2, y1);
+            //draw diagonal
+            dbugDrawDiagnalBox(g, Pens.Blue, x1, y1, x2, y2);
 
             //g.DrawRectangle(Pens.Blue,
             //    this.OwnerBox.LocationX,
             //    this.CachedLineTop,
             //    this.CachedLineContentWidth,
             //    this.CacheLineHeight);
+            //foreach (var strip in this._boxStrips.Values)
+            //{
+            //    var bound = strip.Bound;
+            //    bound.Offset(offset);
+            //    dbugDrawDiagnalBox(g, Pens.Green, bound.X, bound.Y, bound.Right, bound.Bottom);
+            //}
 
             //return;
             foreach (CssRun w in this._runs)
             {
                 g.DrawRectangle(Pens.DeepPink, w.Left + offset.X, w.Top + offset.Y, w.Width, w.Height);
             }
-
+        }
+        void dbugDrawDiagnalBox(IGraphics g, Pen pen, float x1, float y1, float x2, float y2)
+        {
+            g.DrawRectangle(pen, x1, y1, x2 - x1, y2 - y1);
+            g.DrawLine(pen, x1, y1, x2, y2);
+            g.DrawLine(pen, x1, y2, x2, y1);
         }
 
 #endif
@@ -485,9 +504,11 @@ namespace HtmlRenderer.Dom
         internal void PaintBackgroundAndBorder(IGraphics g, PointF offset)
         {
             //iterate each strip
-            foreach (PartialBoxStrip strip in this._boxStrips.Values)
+            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
+                var strip = _bottomUpBoxStrips[i];
                 var ownerBox = strip.owner;
+
                 if (ownerBox.CssDisplay != CssDisplay.Inline)
                 {
                     throw new NotSupportedException();
@@ -536,8 +557,9 @@ namespace HtmlRenderer.Dom
 
         internal void PaintDecoration(IGraphics g, PointF offset)
         {
-            foreach (PartialBoxStrip strip in this._boxStrips.Values)
+            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
+                var strip = _bottomUpBoxStrips[i];
                 CssBox ownerBox = strip.owner;
                 if (ownerBox.CssDisplay != CssDisplay.Inline)
                 {
@@ -608,5 +630,79 @@ namespace HtmlRenderer.Dom
             }
             return sb.ToString();
         }
+
+        static int StepUpRegisterStrips(Dictionary<CssBox, PartialBoxStrip> dicStrips,
+            CssBox lineOwnerBox,
+            List<PartialBoxStrip> inputList, int startInputAt)
+        {
+
+            int j = inputList.Count;
+            for (int i = startInputAt; i < j; ++i)
+            {
+                //step up
+                var strip = inputList[i];
+                var upperBox = strip.owner.ParentBox;
+                if (upperBox != null && upperBox != lineOwnerBox && upperBox.IsInline)
+                {
+                    RegisterStripPart(upperBox, strip.Left, strip.Top, strip.Right, strip.Bottom, inputList, dicStrips);
+                }
+            }
+            return inputList.Count - j;
+
+        }
+        static void RegisterStripPart(CssBox runOwner,
+            float left, float top, float right, float bottom,
+            List<PartialBoxStrip> newStrips, Dictionary<CssBox, PartialBoxStrip> dic)
+        {
+
+            PartialBoxStrip strip;
+            if (!dic.TryGetValue(runOwner, out strip))
+            {
+                strip = new PartialBoxStrip(runOwner, left, top, right - left, bottom - top);
+                dic.Add(runOwner, strip);
+                newStrips.Add(strip);
+            }
+            else
+            {
+                strip.MergeBound(left, top, right, bottom);
+            }
+        }
+
+        //static void StepUpRegisterStrips(Dictionary<CssBox, PartialBoxStrip> dicStrips,
+        //    CssBox lineOwnerBox,
+        //    List<PartialBoxStrip> inputList, List<PartialBoxStrip> newListOutput)
+        //{
+
+        //    int j = inputList.Count;
+        //    for (int i = 0; i < j; ++i)
+        //    {
+        //        //step up
+        //        var strip = inputList[i];
+        //        var upperBox = strip.owner.ParentBox;
+        //        if (upperBox != null && upperBox != lineOwnerBox && upperBox.IsInline)
+        //        {
+        //            RegisterStripPart(upperBox, strip.Left, strip.Top, strip.Right, strip.Bottom, newListOutput, dicStrips);
+        //        }
+        //    }
+
+        //}
+        //static void RegisterStripPart(CssBox runOwner,
+        //    float left, float top, float right, float bottom,
+        //    List<PartialBoxStrip> newStrips, Dictionary<CssBox, PartialBoxStrip> dic)
+        //{
+
+        //    PartialBoxStrip strip;
+        //    if (!dic.TryGetValue(runOwner, out strip))
+        //    {
+        //        strip = new PartialBoxStrip(runOwner, left, top, right - left, bottom - top);
+        //        dic.Add(runOwner, strip);
+        //        newStrips.Add(strip);
+        //    }
+        //    else
+        //    {
+        //        strip.MergeBound(left, top, right, bottom);
+        //    }
+        //}
+
     }
 }

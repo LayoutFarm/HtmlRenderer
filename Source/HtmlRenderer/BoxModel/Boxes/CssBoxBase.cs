@@ -726,7 +726,7 @@ namespace HtmlRenderer.Dom
             get
             {
                 if ((this._prop_pass_eval & CssBoxBaseAssignments.HEIGHT) == 0)
-                {   
+                {
                     this._prop_pass_eval |= CssBoxBaseAssignments.HEIGHT;
                     return _actualHeight = CssValueParser.ParseLength(Height, Size.Height, this);
                 }
@@ -1229,7 +1229,7 @@ namespace HtmlRenderer.Dom
                 return _actualTextIndent;
             }
         }
-         
+
         /// <summary>
         /// Gets the actual horizontal border spacing for tables
         /// </summary>
@@ -1308,7 +1308,7 @@ namespace HtmlRenderer.Dom
             BorderLeftColor = BorderTopColor = BorderRightColor = BorderBottomColor = color;
 
         }
- 
+
         protected void MeasureWordSpacing(IGraphics g)
         {
             if ((this._prop_pass_eval & CssBoxBaseAssignments.WORD_SPACING) == 0)

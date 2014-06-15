@@ -66,6 +66,7 @@ namespace HtmlRenderer.Utils
         /// <returns>brush instance</returns>
         public static Brush GetSolidBrush(Color color)
         {
+           
             if (color == Color.White)
             {
                 return Brushes.White;
