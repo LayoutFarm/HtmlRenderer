@@ -50,7 +50,7 @@ namespace HtmlRenderer.Dom
             }
             else if (width.Number > 0 && width.IsPercentage)
             {
-                imageWord.Width = width.Number * imageWord.OwnerBox.ContainingBlock.Size.Width;
+                imageWord.Width = width.Number * imageWord.OwnerBox.ContainingBlock.SizeWidth;
                 scaleImageHeight = true;
             }
             else if (imageWord.Image != null)

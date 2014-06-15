@@ -27,9 +27,13 @@ namespace HtmlRenderer.Dom
         float _width;
         float _height;
 
-        public PartialBoxStrip(CssBox owner)
+        public PartialBoxStrip(CssBox owner, float x, float y, float w, float h)
         {
             this.owner = owner;
+            this._x = x;
+            this._y = y;
+            this._width = w;
+            this._height = h;
         }
 
         public float Left
@@ -44,6 +48,10 @@ namespace HtmlRenderer.Dom
         {
             get { return this._width; }
         }
+        public float Right
+        {
+            get { return this._x + this._width; }
+        }
         public float Height
         {
             get { return this._height; }
@@ -53,7 +61,7 @@ namespace HtmlRenderer.Dom
         {
             get { return this._y + _height; }
         }
-       
+
         public RectangleF Bound
         {
             get { return new RectangleF(this._x, this._y, this.Width, this.Height); }
@@ -63,14 +71,30 @@ namespace HtmlRenderer.Dom
             this._x += xdiff;
             this._y += ydiff;
         }
-        public void UpdateStripBound(float x, float y, float w, float h)
+        public void MergeBound(float left, float top, float right, float bottom)
         {
-            this._x = x;
-            this._y = y;
-            this._width = w;
-            this._height = h;
+
+            float sR = this.Right;
+            float sB = this.Bottom;
+
+            if (left < this._x)
+            {
+                this._x = left;
+            }
+            if (top < this._y)
+            {
+                this._y = top;
+            }
+            if (right > sR)
+            {
+                this._width = sR - this._x;
+            }
+            if (bottom > sB)
+            {
+                this._height = bottom - this._y;
+            }
+
         }
-        
     }
 
 
@@ -149,7 +173,7 @@ namespace HtmlRenderer.Dom
             private set;
         }
         internal void CloseLine()
-        {  
+        {
 #if DEBUG
             this.dbugIsClosed = true;
 #endif
@@ -162,8 +186,9 @@ namespace HtmlRenderer.Dom
             {
                 height = Math.Max(height, strip.Height);
                 bottom = Math.Max(bottom, strip.Bottom);
-                contentRight = Math.Max(contentRight, strip.Left + strip.Width);
+                contentRight = Math.Max(contentRight, strip.Right);
             }
+
             this.CacheLineHeight = height;
             this.CachedLineBottom = bottom;
             this.CachedLineTop = bottom - height;
@@ -179,14 +204,14 @@ namespace HtmlRenderer.Dom
             float height = 0;
             float bottom = 0;
             float contentRight = 0;
+
             foreach (PartialBoxStrip strip in this._boxStrips.Values)
             {
                 strip.Offset(0, ydiff);
-                
 
                 height = Math.Max(height, strip.Height);
                 bottom = Math.Max(bottom, strip.Bottom);
-                contentRight = Math.Max(contentRight, strip.Left + strip.Width);
+                contentRight = Math.Max(contentRight, strip.Right);
             }
 
             foreach (CssRun run in this._runs)
@@ -203,7 +228,6 @@ namespace HtmlRenderer.Dom
             {
                 this.CachedLineContentWidth = this.OwnerBox.SizeWidth;
             }
-
         }
 
         public bool HitTest(int x, int y)
@@ -228,14 +252,12 @@ namespace HtmlRenderer.Dom
         {
             //Important notes on http://www.w3.org/TR/CSS21/tables.html#height-layout
             //iterate from rectstrip
-            //In a single LineBox ,  CssBox:RectStrip => 1:1 relation 
-
+            //In a single LineBox ,  CssBox:RectStrip => 1:1 relation             
             foreach (PartialBoxStrip rstrip in this._boxStrips.Values)
             {
                 CssBox rstripOwnerBox = rstrip.owner;
                 switch (rstripOwnerBox.VerticalAlign)
                 {
-
                     case CssVerticalAlign.Sub:
                         {
                             this.SetBaseLine(rstripOwnerBox, baseline + rstrip.Height * .2f);
@@ -257,7 +279,6 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-
         public IEnumerable<float> GetAreaStripTopPosIter()
         {
             foreach (var r in this._boxStrips.Values)
@@ -284,7 +305,7 @@ namespace HtmlRenderer.Dom
         {
             return this._runs[this._runs.Count - 1];
         }
-         
+
 
         /// <summary>
         /// Gets the owner box
@@ -341,44 +362,39 @@ namespace HtmlRenderer.Dom
         internal void BubbleStripUpdate(CssBox box, float x, float y, float r, float b)
         {
             //bubble up***
-            //recursive up ***
-
-            float leftspacing = box.ActualBorderLeftWidth + box.ActualPaddingLeft;
-            float rightspacing = box.ActualBorderRightWidth + box.ActualPaddingRight;
-            float topspacing = box.ActualBorderTopWidth + box.ActualPaddingTop;
-            float bottomspacing = box.ActualBorderBottomWidth + box.ActualPaddingTop;
-
-            if (box.FirstHostingLineBox == this || box.IsImage) x -= leftspacing;
-            if (box.LastHostingLineBox == this || box.IsImage) r += rightspacing;
-
-
-            if (!box.IsImage)
+            //recursive up *** 
+            if (box.IsImage)
             {
-                y -= topspacing;
-                b += bottomspacing;
+                x -= box.ActualBorderLeftWidth + box.ActualPaddingLeft;
+                r += box.ActualBorderRightWidth + box.ActualPaddingRight;
+            }
+            else
+            {
+                if (box.FirstHostingLineBox == this)
+                {
+                    x -= box.ActualBorderLeftWidth + box.ActualPaddingLeft;
+                }
+                if (box.LastHostingLineBox == this)
+                {
+                    r += box.ActualBorderRightWidth + box.ActualPaddingRight;
+                }
+
+                y -= box.ActualBorderTopWidth + box.ActualPaddingTop;
+                b += box.ActualBorderBottomWidth + box.ActualPaddingTop;
             }
 
 
             PartialBoxStrip strip;
             if (!this._boxStrips.TryGetValue(box, out strip))
             {
-                //new 
-                strip = new PartialBoxStrip(box);
-                strip.UpdateStripBound(x, y, r - x, b - y);
-                this._boxStrips.Add(box, strip);
+                //new  
+                this._boxStrips.Add(box, new PartialBoxStrip(box, x, y, r - x, b - y));
             }
             else
             {
-                RectangleF bound = strip.Bound;
-                float sX;
-                float sY;
-
-                strip.UpdateStripBound(
-                    sX = Math.Min(bound.X, x), //left
-                    sY = Math.Min(bound.Y, y),//top
-                    Math.Max(bound.Right, r) - sX, //width
-                    Math.Max(bound.Bottom, b) - sY);//height 
+                strip.MergeBound(x, y, r, b);
             }
+
             if (box.ParentBox != null && box.ParentBox.IsInline)
             {
                 //recursive up ***
@@ -465,7 +481,7 @@ namespace HtmlRenderer.Dom
         }
 
 #endif
-         
+
         internal void PaintBackgroundAndBorder(IGraphics g, PointF offset)
         {
             //iterate each strip

@@ -579,10 +579,11 @@ namespace HtmlRenderer.Dom
         {
 
             if (this.CssDisplay != CssDisplay.None)
-            {
-
+            {   
                 MeasureRunsSize(g);
-            }
+            } 
+
+
 
 
             if (IsBlock ||
@@ -592,11 +593,13 @@ namespace HtmlRenderer.Dom
                 this.CssDisplay == CssDisplay.TableCell)
             {
                 // Because their width and height are set by CssTable                 
-                if (this.CssDisplay != CssDisplay.TableCell && this.CssDisplay != CssDisplay.TableCell)
-                {
-                    float width = ContainingBlock.Size.Width
-                                  - ContainingBlock.ActualPaddingLeft - ContainingBlock.ActualPaddingRight
-                                  - ContainingBlock.ActualBorderLeftWidth - ContainingBlock.ActualBorderRightWidth;
+                CssBox myContainingBlock = this.ContainingBlock;
+
+                if (this.CssDisplay != CssDisplay.TableCell && this.CssDisplay != CssDisplay.Table)
+                {    
+                    float width = myContainingBlock.SizeWidth
+                                  - myContainingBlock.ActualPaddingLeft - myContainingBlock.ActualPaddingRight
+                                  - myContainingBlock.ActualBorderLeftWidth - myContainingBlock.ActualBorderRightWidth;
 
                     if (!this.Width.IsAuto && !this.Width.IsEmpty)
                     {
@@ -610,10 +613,11 @@ namespace HtmlRenderer.Dom
                 }
 
                 if (this.CssDisplay != CssDisplay.TableCell)
-                {
+                {                        
+                     
                     var prevSibling = CssBox.GetPreviousSibling(this);
 
-                    this.LocationX = ContainingBlock.LocationX + ContainingBlock.ActualPaddingLeft + ActualMarginLeft + ContainingBlock.ActualBorderLeftWidth;
+                    this.LocationX = myContainingBlock.LocationX + myContainingBlock.ActualPaddingLeft + ActualMarginLeft + myContainingBlock.ActualBorderLeftWidth;
                     float top = this.LocationY = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? this.LocationY : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
 
                     ActualBottom = top;
@@ -1080,7 +1084,7 @@ namespace HtmlRenderer.Dom
             {
                 return;
             }
-             
+
             if (this.LineBoxCount > 0)
             {
                 foreach (var linebox in this.GetLineBoxIter())
@@ -1089,12 +1093,12 @@ namespace HtmlRenderer.Dom
                 }
             }
             else
-            {    
+            {
                 foreach (CssBox b in Boxes)
                 {
                     b.OffsetTop(amount);
                 }
-            } 
+            }
 
             if (_listItemBox != null)
             {
