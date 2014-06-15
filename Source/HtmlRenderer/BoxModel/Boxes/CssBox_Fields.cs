@@ -129,7 +129,18 @@ namespace HtmlRenderer.Dom
                 {
                     yield return tmpRuns[i];
                 }
-
+            }
+        }
+        public IEnumerable<CssRun> GetRunBackwardIter()
+        {
+            if (this._boxRuns != null)
+            {
+                var tmpRuns = _boxRuns;
+                int j = tmpRuns.Count;
+                for (int i = tmpRuns.Count - 1; i >= 0; --i)
+                {
+                    yield return tmpRuns[i];
+                }
             }
         }
         internal IEnumerable<CssLineBox> GetMyHostLineIter()

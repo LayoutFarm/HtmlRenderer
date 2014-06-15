@@ -48,6 +48,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         readonly CssBox _ownerBox;
         readonly CssRunKind _runKind;
+        CssLineBox _hostline;
 
         /// <summary>
         /// Rectangle
@@ -66,6 +67,16 @@ namespace HtmlRenderer.Dom
             this._ownerBox = owner;
             this._runKind = rectKind;
         }
+
+        internal CssLineBox HostLine
+        {
+            get { return this._hostline; }
+        }
+        internal static void SetHostLine(CssRun run, CssLineBox hostline)
+        {
+            run._hostline = hostline;
+        }
+
 
 #if DEBUG
         //int dbugPaintCount;
@@ -134,6 +145,15 @@ namespace HtmlRenderer.Dom
             this._x = x;
             this._y = y;
         }
+        internal void Offset(float xdiff, float ydiff)
+        {
+            this._x += xdiff;
+            this._y += ydiff;
+        }
+        internal void OffsetY(float ydiff)
+        {
+            this._y += ydiff;
+        }
         internal void SetSize(float w, float h)
         {
             this._width = w;
@@ -174,17 +194,6 @@ namespace HtmlRenderer.Dom
         {
             get { return this._y + this._height; }
         }
-
-        ///// <summary>
-        ///// If the word is selected this points to the selection handler for more data
-        ///// </summary>
-        //public ISelectionHandler Selection
-        //{
-        //    get { return _selection; }
-        //    set { _selection = value; }
-        //}
-
-
         /// <summary>
         /// Gets the image this words represents (if one exists)
         /// </summary>
@@ -233,7 +242,7 @@ namespace HtmlRenderer.Dom
             get { return null; }
         }
 
-         
+
         /// <summary>
         /// Gets or sets an offset to be considered in measurements
         /// </summary>
@@ -268,10 +277,10 @@ namespace HtmlRenderer.Dom
             switch (this.Kind)
             {
                 case CssRunKind.Image:
-                    {      
+                    {
                         // not a text word - set full selection
                         selectionIndex = -1;
-                        selectionOffset = -1; 
+                        selectionOffset = -1;
                     } break;
                 case CssRunKind.Text:
                     {

@@ -369,16 +369,7 @@ namespace HtmlRenderer.Dom
             return this._clientLineBoxes.Last.Value;
         }
 
-        internal void UpdateStripInfo(RectangleF r)
-        {
-            //update summary bound
-            this.SummaryBound = RectangleF.Union(this.SummaryBound, r);
-        }
-        internal RectangleF SummaryBound
-        {
-            get;
-            private set;
-        }
+       
         /// <summary>
         /// Gets the BoxWords of text in the box
         /// </summary>
@@ -586,10 +577,10 @@ namespace HtmlRenderer.Dom
         /// <param name="g">Device context to use</param>
         protected virtual void PerformLayoutImp(IGraphics g)
         {
-            
+
             if (this.CssDisplay != CssDisplay.None)
             {
-                ResetSummaryBound();
+                
                 MeasureRunsSize(g);
             }
 
@@ -957,29 +948,41 @@ namespace HtmlRenderer.Dom
         /// <param name="startBox"></param>
         /// <param name="currentMaxBottom"></param>
         /// <returns></returns>
-        internal float CalculateMaximumBottom(CssBox startBox, float currentMaxBottom)
+        internal static float CalculateMaximumBottom(CssBox startBox, float currentMaxBottom)
         {
-            try
+            //recursive
+            if (startBox.HasRuns)
             {
-                float maxc2 = currentMaxBottom;
-                currentMaxBottom = Math.Max(currentMaxBottom, startBox.SummaryBound.Bottom);
-
-                //if (maxc2 != currentMaxBottom)
-                //{ 
-                //} 
-
+                CssLineBox lastline = null;
+                foreach (var run in startBox.GetRunBackwardIter())//start from last to first
+                {
+                    if (lastline == null)
+                    {
+                        lastline = run.HostLine;
+                        currentMaxBottom = Math.Max(currentMaxBottom, run.Bottom);
+                    }
+                    else if (lastline != run.HostLine)
+                    {
+                        //if step to upper line then stop
+                        break;
+                    }
+                    else
+                    {
+                        currentMaxBottom = Math.Max(currentMaxBottom, run.Bottom);
+                    }
+                }
+                return currentMaxBottom;
+            }
+            else
+            {   
                 foreach (var b in startBox.Boxes)
                 {
                     currentMaxBottom = Math.Max(currentMaxBottom, CalculateMaximumBottom(b, currentMaxBottom));
                 }
-
                 return currentMaxBottom;
             }
-            catch (Exception e)
-            {
 
-            }
-            return 0;
+
         }
 
 
@@ -1227,11 +1230,7 @@ namespace HtmlRenderer.Dom
 
             g.DrawLine(pen, x1, y, x2, y);
         }
-
-        internal void ResetSummaryBound()
-        {
-            this.SummaryBound = RectangleF.Empty;
-        }
+         
 
         /// <summary>
         /// On image load process complete with image request refresh for it to be painted.

@@ -37,7 +37,7 @@ namespace HtmlRenderer.Dom
 
         readonly List<CssBox> _allRowBoxes = new List<CssBox>();
 
-        TableColumnCollection columnCollection; 
+        TableColumnCollection columnCollection;
 
         const int MAX_COL_AT_THIS_VERSION = 20;
 
@@ -494,7 +494,7 @@ namespace HtmlRenderer.Dom
                 int col_count = this.columnCollection.Count;
                 while (this.columnCollection.FindFirstReducibleColumnWidth(cIndex, out foundAt))
                 {
-                     
+
                     columnCollection[foundAt].Width -= 1f;
                     cIndex = foundAt + 1;
                     if (cIndex >= col_count)
@@ -539,7 +539,7 @@ namespace HtmlRenderer.Dom
 
                             for (int i = 0; i < colCount; i++)
                             {
-                                var col = this.columnCollection[i]; 
+                                var col = this.columnCollection[i];
                                 if (col.Width > largeWidth + 0.1)
                                 {
                                     secLargeWidth = largeWidth;
@@ -728,7 +728,7 @@ namespace HtmlRenderer.Dom
                         if (cell.RowSpan == 1)
                         {
                             cell.ActualBottom = maxBottom;
-                            ApplyCellVerticalAlignment(g, cell);
+                            ApplyCellVerticalAlignment(cell);
                         }
                     }
                     else
@@ -736,7 +736,7 @@ namespace HtmlRenderer.Dom
                         if (spacer.EndRow == currentRow)
                         {
                             spacer.ExtendedBox.ActualBottom = maxBottom;
-                            ApplyCellVerticalAlignment(g, spacer.ExtendedBox);
+                            ApplyCellVerticalAlignment(spacer.ExtendedBox);
                         }
                     }
                 }
@@ -805,27 +805,44 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="g"></param>
         /// <param name="cell"></param>
-        static void ApplyCellVerticalAlignment(IGraphics g, CssBox cell)
+        static void ApplyCellVerticalAlignment(CssBox cell)
         {
-            ArgChecker.AssertArgNotNull(g, "g");
+
             ArgChecker.AssertArgNotNull(cell, "cell");
 
             float dist = 0f;
             switch (cell.VerticalAlign)
             {
                 case CssVerticalAlign.Bottom:
-                    dist = cell.ClientBottom - cell.CalculateMaximumBottom(cell, 0f);
+                    dist = cell.ClientBottom - CssBox.CalculateMaximumBottom(cell, 0f);
                     break;
                 case CssVerticalAlign.Middle:
-                    dist = (cell.ClientBottom - cell.CalculateMaximumBottom(cell, 0f)) / 2;
+                    dist = (cell.ClientBottom - CssBox.CalculateMaximumBottom(cell, 0f)) / 2;
                     break;
                 default:
                     return;
             }
-
-            foreach (CssBox b in cell.GetChildBoxIter())
+            if (dist != 0f)
             {
-                b.OffsetTop(dist);
+                if (cell.LineBoxCount > 0)
+                {
+                    //move client line box
+                    foreach (CssLineBox linebox in cell.GetLineBoxIter())
+                    {
+                        linebox.OffsetTop(dist);
+                    }
+                    //foreach (CssBox b in cell.GetChildBoxIter())
+                    //{
+                    //    b.OffsetTop(dist);
+                    //}
+                }
+                else
+                {
+                    foreach (CssBox b in cell.GetChildBoxIter())
+                    {
+                        b.OffsetTop(dist);
+                    }
+                }
             }
         }
         static bool FindVerticalCellSpacingBoxInsertionPoint(CssBox curRow, int cIndex, out int insertAt)

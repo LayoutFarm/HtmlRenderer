@@ -68,10 +68,7 @@ namespace HtmlRenderer.Dom
             this._width = w;
             this._height = h;
         }
-        public void UpdateStripBoundToOwnerBox()
-        {
-            owner.UpdateStripInfo(this.Bound);
-        }
+        
     }
 
 
@@ -89,9 +86,6 @@ namespace HtmlRenderer.Dom
 
         //a run may come from another CssBox (not from _ownerBox)
         readonly List<CssRun> _runs;
-
-
-
         //linebox and PartialBoxStrip is 1:1 relation 
         //a CssBox (Inline-splittable) may be splitted into many CssLineBoxes
 
@@ -99,6 +93,7 @@ namespace HtmlRenderer.Dom
         /// handle part of cssBox in this line, handle task about bg/border/bounday of cssBox owner of strip
         /// </summary>
         readonly Dictionary<CssBox, PartialBoxStrip> _boxStrips;
+
         internal LinkedListNode<CssLineBox> linkedNode;
 #if DEBUG
         bool dbugIsClosed;
@@ -113,9 +108,7 @@ namespace HtmlRenderer.Dom
         {
             _boxStrips = new Dictionary<CssBox, PartialBoxStrip>();
             _runs = new List<CssRun>();
-
             _ownerBox = ownerBox;
-            _ownerBox.AddLineBox(this);
 
         }
         internal CssLineBox NextLine
@@ -155,49 +148,64 @@ namespace HtmlRenderer.Dom
         }
         internal void CloseLine()
         {
-            //update summary bound 
-            foreach (PartialBoxStrip strip in this._boxStrips.Values)
-            {
-                strip.UpdateStripBoundToOwnerBox();
-            }
-            //-----------------------------------------------
+            
 
+#if DEBUG
             this.dbugIsClosed = true;
+#endif
+
             float height = 0;
             float bottom = 0;
             float contentRight = 0;
+
             foreach (PartialBoxStrip strip in _boxStrips.Values)
             {
                 height = Math.Max(height, strip.Height);
                 bottom = Math.Max(bottom, strip.Bottom);
                 contentRight = Math.Max(contentRight, strip.Left + strip.Width);
             }
+            this.CacheLineHeight = height;
+            this.CachedLineBottom = bottom;
+            this.CachedLineTop = bottom - height;
+            this.CachedLineContentWidth = contentRight - this.OwnerBox.LocationX;
 
+            if (this.OwnerBox.SizeWidth < CachedLineContentWidth)
+            {
+                this.CachedLineContentWidth = this.OwnerBox.SizeWidth;
+            }
+        }
+        internal void OffsetTop(float ydiff)
+        {
+            float height = 0;
+            float bottom = 0;
+            float contentRight = 0;
+            foreach (PartialBoxStrip strip in this._boxStrips.Values)
+            {
+                strip.Offset(0, ydiff);
+                
+
+                height = Math.Max(height, strip.Height);
+                bottom = Math.Max(bottom, strip.Bottom);
+                contentRight = Math.Max(contentRight, strip.Left + strip.Width);
+            }
+
+            foreach (CssRun run in this._runs)
+            {
+                run.OffsetY(ydiff);
+            }
 
             this.CacheLineHeight = height;
             this.CachedLineBottom = bottom;
             this.CachedLineTop = bottom - height;
-            this.CachedLineContentWidth = contentRight;
+            this.CachedLineContentWidth = contentRight - this.OwnerBox.LocationX;
 
-            if (this.OwnerBox.SizeWidth < contentRight)
+            if (this.OwnerBox.SizeWidth < CachedLineContentWidth)
             {
                 this.CachedLineContentWidth = this.OwnerBox.SizeWidth;
             }
 
         }
 
-        /// <summary>
-        /// Get the bottom of this box line (the max bottom of all the words)
-        /// </summary>
-        public float ReCalculateLineBottom()
-        {
-            float bottom = 0;
-            foreach (var strip in _boxStrips.Values)
-            {
-                bottom = Math.Max(bottom, strip.Bottom);
-            }
-            return bottom;
-        }
         public bool HitTest(int x, int y)
         {
             if (y >= this.CachedLineTop && y <= this.CachedLineBottom)
@@ -302,8 +310,8 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Lets the linebox add the word an its box to their lists if necessary.
         /// </summary>
-        /// <param name="word"></param>
-        internal void AddRun(CssRun word)
+        /// <param name="run"></param>
+        internal void AddRun(CssRun run)
         {
 #if DEBUG
             if (this.dbugIsClosed)
@@ -311,9 +319,9 @@ namespace HtmlRenderer.Dom
                 throw new NotSupportedException();
             }
 #endif
-            this._runs.Add(word);//each word has only one owner linebox! 
+            this._runs.Add(run);//each word has only one owner linebox! 
+            CssRun.SetHostLine(run, this);
         }
-
         internal IEnumerable<CssRun> GetRunIter(CssBox box)
         {
             List<CssRun> tmpRuns = this._runs;
@@ -445,7 +453,7 @@ namespace HtmlRenderer.Dom
 
         internal void dbugPaintRuns(IGraphics g, PointF offset)
         {
-            
+            return;
             //linebox //draw diagonal
             float x1 = this.OwnerBox.LocationX + offset.X;
             float y1 = this.CachedLineTop + offset.Y;

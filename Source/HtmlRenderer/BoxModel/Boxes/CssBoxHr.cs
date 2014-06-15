@@ -42,13 +42,13 @@ namespace HtmlRenderer.Dom
         /// <param name="g">Device context to use</param>
         protected override void PerformLayoutImp(IGraphics g)
         {
-            //if (Display == CssConstants.None)
+             
             if (this.CssDisplay == CssDisplay.None)
             {
                 return;
             }
 
-            ResetSummaryBound();
+             
 
             var prevSibling = CssBox.GetPreviousSibling(this);
             this.LocationX = ContainingBlock.LocationX + ContainingBlock.ActualPaddingLeft + ActualMarginLeft + ContainingBlock.ActualBorderLeftWidth;

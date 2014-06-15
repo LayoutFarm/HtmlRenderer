@@ -131,7 +131,7 @@ namespace HtmlRenderer.Dom
             ArgChecker.AssertArgNotNull(blockBox, "blockBox");
 
 
-            blockBox.ResetLineBoxes();//blockBox.LineBoxes.Clear();
+            blockBox.ResetLineBoxes(); 
 
             float limitRight = blockBox.ActualRight - blockBox.ActualPaddingRight - blockBox.ActualBorderRightWidth;
 
@@ -144,10 +144,11 @@ namespace HtmlRenderer.Dom
             //Reminds the maximum bottom reached
             float maxRight = startx;
             float maxBottom = starty;
-            //float lineSpacing = 0f;
+            
 
             //First line box
             CssLineBox line = new CssLineBox(blockBox);
+            blockBox.AddLineBox(line);
 
             //Flow words and boxes
             FlowBox(g, blockBox, blockBox, limitRight, 0, startx, ref line, ref curx, ref cury, ref maxRight, ref maxBottom);
@@ -219,7 +220,7 @@ namespace HtmlRenderer.Dom
                 float leftspacing = !b.IsAbsolutePosition ? b.ActualMarginLeft + b.ActualBorderLeftWidth + b.ActualPaddingLeft : 0;
                 float rightspacing = !b.IsAbsolutePosition ? b.ActualMarginRight + b.ActualBorderRightWidth + b.ActualPaddingRight : 0;
 
-                b.ResetSummaryBound();
+                 
                 b.MeasureRunsSize(g);
 
                 cx += leftspacing;
@@ -268,6 +269,7 @@ namespace HtmlRenderer.Dom
                             cy = maxbottom + linespacing;
 
                             hostLine = new CssLineBox(hostBox);
+                            hostBox.AddLineBox(hostLine);
 
                             if (run.IsImage || run.Equals(b.FirstRun))
                             {
