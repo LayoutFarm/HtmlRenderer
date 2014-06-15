@@ -369,16 +369,7 @@ namespace HtmlRenderer.Dom
             return this._clientLineBoxes.Last.Value;
         }
 
-        internal void UpdateStripInfo(RectangleF r)
-        {
-            //update summary bound
-            this.SummaryBound = RectangleF.Union(this.SummaryBound, r);
-        }
-        internal RectangleF SummaryBound
-        {
-            get;
-            private set;
-        }
+
         /// <summary>
         /// Gets the BoxWords of text in the box
         /// </summary>
@@ -586,12 +577,13 @@ namespace HtmlRenderer.Dom
         /// <param name="g">Device context to use</param>
         protected virtual void PerformLayoutImp(IGraphics g)
         {
-            
+
             if (this.CssDisplay != CssDisplay.None)
-            {
-                ResetSummaryBound();
+            {   
                 MeasureRunsSize(g);
-            }
+            } 
+
+
 
 
             if (IsBlock ||
@@ -601,11 +593,13 @@ namespace HtmlRenderer.Dom
                 this.CssDisplay == CssDisplay.TableCell)
             {
                 // Because their width and height are set by CssTable                 
-                if (this.CssDisplay != CssDisplay.TableCell && this.CssDisplay != CssDisplay.TableCell)
-                {
-                    float width = ContainingBlock.Size.Width
-                                  - ContainingBlock.ActualPaddingLeft - ContainingBlock.ActualPaddingRight
-                                  - ContainingBlock.ActualBorderLeftWidth - ContainingBlock.ActualBorderRightWidth;
+                CssBox myContainingBlock = this.ContainingBlock;
+
+                if (this.CssDisplay != CssDisplay.TableCell && this.CssDisplay != CssDisplay.Table)
+                {    
+                    float width = myContainingBlock.SizeWidth
+                                  - myContainingBlock.ActualPaddingLeft - myContainingBlock.ActualPaddingRight
+                                  - myContainingBlock.ActualBorderLeftWidth - myContainingBlock.ActualBorderRightWidth;
 
                     if (!this.Width.IsAuto && !this.Width.IsEmpty)
                     {
@@ -619,10 +613,11 @@ namespace HtmlRenderer.Dom
                 }
 
                 if (this.CssDisplay != CssDisplay.TableCell)
-                {
+                {                        
+                     
                     var prevSibling = CssBox.GetPreviousSibling(this);
 
-                    this.LocationX = ContainingBlock.LocationX + ContainingBlock.ActualPaddingLeft + ActualMarginLeft + ContainingBlock.ActualBorderLeftWidth;
+                    this.LocationX = myContainingBlock.LocationX + myContainingBlock.ActualPaddingLeft + ActualMarginLeft + myContainingBlock.ActualBorderLeftWidth;
                     float top = this.LocationY = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? this.LocationY : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
 
                     ActualBottom = top;
@@ -957,29 +952,41 @@ namespace HtmlRenderer.Dom
         /// <param name="startBox"></param>
         /// <param name="currentMaxBottom"></param>
         /// <returns></returns>
-        internal float CalculateMaximumBottom(CssBox startBox, float currentMaxBottom)
+        internal static float CalculateMaximumBottom(CssBox startBox, float currentMaxBottom)
         {
-            try
+            //recursive
+            if (startBox.HasRuns)
             {
-                float maxc2 = currentMaxBottom;
-                currentMaxBottom = Math.Max(currentMaxBottom, startBox.SummaryBound.Bottom);
-
-                //if (maxc2 != currentMaxBottom)
-                //{ 
-                //} 
-
+                CssLineBox lastline = null;
+                foreach (var run in startBox.GetRunBackwardIter())//start from last to first
+                {
+                    if (lastline == null)
+                    {
+                        lastline = run.HostLine;
+                        currentMaxBottom = Math.Max(currentMaxBottom, run.Bottom);
+                    }
+                    else if (lastline != run.HostLine)
+                    {
+                        //if step to upper line then stop
+                        break;
+                    }
+                    else
+                    {
+                        currentMaxBottom = Math.Max(currentMaxBottom, run.Bottom);
+                    }
+                }
+                return currentMaxBottom;
+            }
+            else
+            {
                 foreach (var b in startBox.Boxes)
                 {
                     currentMaxBottom = Math.Max(currentMaxBottom, CalculateMaximumBottom(b, currentMaxBottom));
                 }
-
                 return currentMaxBottom;
             }
-            catch (Exception e)
-            {
 
-            }
-            return 0;
+
         }
 
 
@@ -1077,25 +1084,20 @@ namespace HtmlRenderer.Dom
             {
                 return;
             }
-            //offset all runs
-            if (this.HasRuns)
+
+            if (this.LineBoxCount > 0)
             {
-                foreach (CssRun word in Runs)
+                foreach (var linebox in this.GetLineBoxIter())
                 {
-                    word.Top += amount;
+                    linebox.OffsetTop(amount);
                 }
             }
-
-            foreach (var hostline in this.GetMyHostLineIter())
+            else
             {
-                //update all strip in host line
-                hostline.OffsetTopStrip(this, amount);
-            }
-
-            //offset all boxes
-            foreach (CssBox b in Boxes)
-            {
-                b.OffsetTop(amount);
+                foreach (CssBox b in Boxes)
+                {
+                    b.OffsetTop(amount);
+                }
             }
 
             if (_listItemBox != null)
@@ -1228,10 +1230,6 @@ namespace HtmlRenderer.Dom
             g.DrawLine(pen, x1, y, x2, y);
         }
 
-        internal void ResetSummaryBound()
-        {
-            this.SummaryBound = RectangleF.Empty;
-        }
 
         /// <summary>
         /// On image load process complete with image request refresh for it to be painted.

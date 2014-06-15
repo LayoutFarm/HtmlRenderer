@@ -42,16 +42,17 @@ namespace HtmlRenderer.Dom
         /// <param name="g">Device context to use</param>
         protected override void PerformLayoutImp(IGraphics g)
         {
-            //if (Display == CssConstants.None)
+
             if (this.CssDisplay == CssDisplay.None)
             {
                 return;
             }
 
-            ResetSummaryBound();
-
             var prevSibling = CssBox.GetPreviousSibling(this);
-            this.LocationX = ContainingBlock.LocationX + ContainingBlock.ActualPaddingLeft + ActualMarginLeft + ContainingBlock.ActualBorderLeftWidth;
+
+            var myContainingBlock = this.ContainingBlock;
+
+            this.LocationX = myContainingBlock.LocationX + myContainingBlock.ActualPaddingLeft + ActualMarginLeft + myContainingBlock.ActualBorderLeftWidth;
             float top = this.LocationY = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? LocationY : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
 
             //Location = new PointF(left, top);
@@ -59,10 +60,12 @@ namespace HtmlRenderer.Dom
 
             //width at 100% (or auto)
             float minwidth = CalculateMinimumWidth();
-            float width = ContainingBlock.Size.Width
-                          - ContainingBlock.ActualPaddingLeft - ContainingBlock.ActualPaddingRight
-                          - ContainingBlock.ActualBorderLeftWidth - ContainingBlock.ActualBorderRightWidth
+
+            float width = myContainingBlock.SizeWidth
+                          - myContainingBlock.ActualPaddingLeft - myContainingBlock.ActualPaddingRight
+                          - myContainingBlock.ActualBorderLeftWidth - myContainingBlock.ActualBorderRightWidth
                           - ActualMarginLeft - ActualMarginRight - ActualBorderLeftWidth - ActualBorderRightWidth;
+
 
             //Check width if not auto
             if (!this.Width.IsAuto && !this.Width.IsEmpty)
@@ -70,10 +73,7 @@ namespace HtmlRenderer.Dom
                 width = CssValueParser.ParseLength(Width, width, this);
 
             }
-            //if (Width != CssConstants.Auto && !string.IsNullOrEmpty(Width))
-            //{
-            //    width = CssValueParser.ParseLength(Width, width, this);
-            //}
+
 
             if (width < minwidth || width >= 9999)
             {
@@ -83,7 +83,7 @@ namespace HtmlRenderer.Dom
             float height = ActualHeight;
             if (height < 1)
             {
-                height = Size.Height + ActualBorderTopWidth + ActualBorderBottomWidth;
+                height = this.SizeHeight + ActualBorderTopWidth + ActualBorderBottomWidth;
             }
             if (height < 1)
             {

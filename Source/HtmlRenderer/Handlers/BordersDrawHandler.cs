@@ -303,8 +303,7 @@ namespace HtmlRenderer.Handlers
                         }
 
                         if (b.ActualCornerNW > 0 &&
-                            b.BorderBottomStyle >= CssBorderStyle.Visible)
-                        //(b.BorderBottomStyle == CssConstants.None || b.BorderBottomStyle == CssConstants.Hidden))
+                            b.BorderBottomStyle >= CssBorderStyle.Visible)                         
                         {
                             path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNW * 2, b.ActualCornerNW * 2, 180f, 90f);
                         }
