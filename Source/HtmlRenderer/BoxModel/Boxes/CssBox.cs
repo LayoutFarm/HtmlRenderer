@@ -369,7 +369,7 @@ namespace HtmlRenderer.Dom
             return this._clientLineBoxes.Last.Value;
         }
 
-       
+
         /// <summary>
         /// Gets the BoxWords of text in the box
         /// </summary>
@@ -580,7 +580,7 @@ namespace HtmlRenderer.Dom
 
             if (this.CssDisplay != CssDisplay.None)
             {
-                
+
                 MeasureRunsSize(g);
             }
 
@@ -974,7 +974,7 @@ namespace HtmlRenderer.Dom
                 return currentMaxBottom;
             }
             else
-            {   
+            {
                 foreach (var b in startBox.Boxes)
                 {
                     currentMaxBottom = Math.Max(currentMaxBottom, CalculateMaximumBottom(b, currentMaxBottom));
@@ -1080,26 +1080,21 @@ namespace HtmlRenderer.Dom
             {
                 return;
             }
-            //offset all runs
-            if (this.HasRuns)
+             
+            if (this.LineBoxCount > 0)
             {
-                foreach (CssRun word in Runs)
+                foreach (var linebox in this.GetLineBoxIter())
                 {
-                    word.Top += amount;
+                    linebox.OffsetTop(amount);
                 }
             }
-
-            foreach (var hostline in this.GetMyHostLineIter())
-            {
-                //update all strip in host line
-                hostline.OffsetTopStrip(this, amount);
-            }
-
-            //offset all boxes
-            foreach (CssBox b in Boxes)
-            {
-                b.OffsetTop(amount);
-            }
+            else
+            {    
+                foreach (CssBox b in Boxes)
+                {
+                    b.OffsetTop(amount);
+                }
+            } 
 
             if (_listItemBox != null)
             {
@@ -1230,7 +1225,7 @@ namespace HtmlRenderer.Dom
 
             g.DrawLine(pen, x1, y, x2, y);
         }
-         
+
 
         /// <summary>
         /// On image load process complete with image request refresh for it to be painted.

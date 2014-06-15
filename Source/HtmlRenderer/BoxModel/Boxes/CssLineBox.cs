@@ -32,10 +32,6 @@ namespace HtmlRenderer.Dom
             this.owner = owner;
         }
 
-        public float Bottom
-        {
-            get { return this._y + _height; }
-        }
         public float Left
         {
             get { return this._x; }
@@ -52,6 +48,12 @@ namespace HtmlRenderer.Dom
         {
             get { return this._height; }
         }
+
+        public float Bottom
+        {
+            get { return this._y + _height; }
+        }
+       
         public RectangleF Bound
         {
             get { return new RectangleF(this._x, this._y, this.Width, this.Height); }
@@ -147,9 +149,7 @@ namespace HtmlRenderer.Dom
             private set;
         }
         internal void CloseLine()
-        {
-            
-
+        {  
 #if DEBUG
             this.dbugIsClosed = true;
 #endif
@@ -284,21 +284,7 @@ namespace HtmlRenderer.Dom
         {
             return this._runs[this._runs.Count - 1];
         }
-
-
-        /// <summary>
-        /// offset 
-        /// </summary>
-        /// <param name="targetCssBox"></param>
-        /// <param name="topOffset"></param>
-        internal void OffsetTopStrip(CssBox targetCssBox, float topOffset)
-        {
-            PartialBoxStrip found;
-            if (this._boxStrips.TryGetValue(targetCssBox, out found))
-            {
-                found.Offset(0, topOffset);
-            }
-        }
+         
 
         /// <summary>
         /// Gets the owner box
@@ -453,7 +439,7 @@ namespace HtmlRenderer.Dom
 
         internal void dbugPaintRuns(IGraphics g, PointF offset)
         {
-            return;
+            //return;
             //linebox //draw diagonal
             float x1 = this.OwnerBox.LocationX + offset.X;
             float y1 = this.CachedLineTop + offset.Y;
@@ -479,23 +465,7 @@ namespace HtmlRenderer.Dom
         }
 
 #endif
-        internal void PaintSelectedArea(IGraphics g, PointF offset)
-        {
-            foreach (PartialBoxStrip strip in this._boxStrips.Values)
-            {
-                var ownerBox = strip.owner;
-                if (ownerBox.CssDisplay != CssDisplay.Inline)
-                {
-                    throw new NotSupportedException();
-                    continue;
-                }
-
-                var stripArea = strip.Bound;
-                stripArea.Offset(offset);
-                g.FillRectangle(Brushes.LightGray, stripArea.X, stripArea.Y, stripArea.Width, stripArea.Height);
-
-            }
-        }
+         
         internal void PaintBackgroundAndBorder(IGraphics g, PointF offset)
         {
             //iterate each strip

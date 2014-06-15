@@ -825,16 +825,11 @@ namespace HtmlRenderer.Dom
             if (dist != 0f)
             {
                 if (cell.LineBoxCount > 0)
-                {
-                    //move client line box
+                {   
                     foreach (CssLineBox linebox in cell.GetLineBoxIter())
                     {
                         linebox.OffsetTop(dist);
-                    }
-                    //foreach (CssBox b in cell.GetChildBoxIter())
-                    //{
-                    //    b.OffsetTop(dist);
-                    //}
+                    } 
                 }
                 else
                 {
