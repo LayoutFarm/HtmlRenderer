@@ -125,7 +125,7 @@ namespace HtmlRenderer.Handlers
             ArgChecker.AssertArgNotNull(root, "root");
             this.container = container;
             _root = root;
-            _contextMenuHandler = new ContextMenuHandler(this, root.HtmlContainer);
+            _contextMenuHandler = new ContextMenuHandler(this, container);
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="control">the control hosting the html to invalidate</param>
         public void SelectAll(Control control)
         {
-            if (_root.HtmlContainer.IsSelectionEnabled)
+            if (container.IsSelectionEnabled)
             {
                 ClearSelection();
                 SelectAllWords(_root);
@@ -181,9 +181,10 @@ namespace HtmlRenderer.Handlers
 
             if (isMouseInContainer)
             {
-                if (this._root.HtmlContainer.SelectionRange != null)
+                
+                if (this.container.SelectionRange != null)
                 {
-                    this._root.HtmlContainer.SelectionRange = null;
+                    this.container.SelectionRange = null;
                     clear = true;
                 }
                 _mouseDownInControl = true;
@@ -191,7 +192,7 @@ namespace HtmlRenderer.Handlers
                 _lastMouseDown = DateTime.Now;
                 _mouseDownOnSelectedWord = false;
 
-                if (_root.HtmlContainer.IsSelectionEnabled && (Control.MouseButtons & MouseButtons.Left) != 0)
+                if (container.IsSelectionEnabled && (Control.MouseButtons & MouseButtons.Left) != 0)
                 {
                     BoxHitChain hitChain = new BoxHitChain();
                     DomUtils.HitTest(_root, loc, hitChain);
@@ -256,7 +257,7 @@ namespace HtmlRenderer.Handlers
         {
             bool ignore = false;
             _mouseDownInControl = false;
-            if (_root.HtmlContainer.IsSelectionEnabled)
+            if (container.IsSelectionEnabled)
             {
                 ignore = _inSelection;
                 if (!_inSelection && (button & MouseButtons.Left) != 0 && _mouseDownOnSelectedWord)
@@ -279,7 +280,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="loc">the location of the mouse on the html</param>
         public void HandleMouseMove(Control parent, Point loc)
         {
-            if (_root.HtmlContainer.IsSelectionEnabled &&
+            if (container.IsSelectionEnabled &&
                 _mouseDownInControl && (Control.MouseButtons & MouseButtons.Left) != 0)
             {
                 if (loc.X != _mouseDownLocation.X || loc.Y != _mouseDownLocation.Y)
@@ -347,7 +348,7 @@ namespace HtmlRenderer.Handlers
         /// </summary>
         public void CopySelectedHtml()
         {
-            if (_root.HtmlContainer.IsSelectionEnabled)
+            if (container.IsSelectionEnabled)
             {
                 var html = DomUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true);
                 var plainText = DomUtils.GetSelectedPlainText(_root);
@@ -361,7 +362,7 @@ namespace HtmlRenderer.Handlers
         /// </summary>
         public string GetSelectedText()
         {
-            return _root.HtmlContainer.IsSelectionEnabled ? DomUtils.GetSelectedPlainText(_root) : null;
+            return container.IsSelectionEnabled ? DomUtils.GetSelectedPlainText(_root) : null;
         }
 
         /// <summary>
@@ -369,7 +370,7 @@ namespace HtmlRenderer.Handlers
         /// </summary>
         public string GetSelectedHtml()
         {
-            return _root.HtmlContainer.IsSelectionEnabled ? DomUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true) : null;
+            return container.IsSelectionEnabled ? DomUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true) : null;
         }
 
         /// <summary>

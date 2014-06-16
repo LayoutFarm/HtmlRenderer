@@ -247,7 +247,7 @@ namespace HtmlRenderer.Dom
             this.CachedLineContentWidth = contentRight - lineOwner.LocationX;
 
             if (lineOwner.SizeWidth < CachedLineContentWidth)
-            {   
+            {
                 this.CachedLineContentWidth = this.OwnerBox.SizeWidth;
             }
         }
@@ -472,7 +472,7 @@ namespace HtmlRenderer.Dom
             float x2 = x1 + this.CachedLineContentWidth;
             float y2 = y1 + this.CacheLineHeight;
             //draw diagonal
-            dbugDrawDiagnalBox(g, Pens.Blue, x1, y1, x2, y2);
+            dbugDrawDiagonalBox(g, Pens.Blue, x1, y1, x2, y2);
 
             //g.DrawRectangle(Pens.Blue,
             //    this.OwnerBox.LocationX,
@@ -492,7 +492,7 @@ namespace HtmlRenderer.Dom
                 g.DrawRectangle(Pens.DeepPink, w.Left + offset.X, w.Top + offset.Y, w.Width, w.Height);
             }
         }
-        void dbugDrawDiagnalBox(IGraphics g, Pen pen, float x1, float y1, float x2, float y2)
+        void dbugDrawDiagonalBox(IGraphics g, Pen pen, float x1, float y1, float x2, float y2)
         {
             g.DrawRectangle(pen, x1, y1, x2 - x1, y2 - y1);
             g.DrawLine(pen, x1, y1, x2, y2);
@@ -667,42 +667,5 @@ namespace HtmlRenderer.Dom
                 strip.MergeBound(left, top, right, bottom);
             }
         }
-
-        //static void StepUpRegisterStrips(Dictionary<CssBox, PartialBoxStrip> dicStrips,
-        //    CssBox lineOwnerBox,
-        //    List<PartialBoxStrip> inputList, List<PartialBoxStrip> newListOutput)
-        //{
-
-        //    int j = inputList.Count;
-        //    for (int i = 0; i < j; ++i)
-        //    {
-        //        //step up
-        //        var strip = inputList[i];
-        //        var upperBox = strip.owner.ParentBox;
-        //        if (upperBox != null && upperBox != lineOwnerBox && upperBox.IsInline)
-        //        {
-        //            RegisterStripPart(upperBox, strip.Left, strip.Top, strip.Right, strip.Bottom, newListOutput, dicStrips);
-        //        }
-        //    }
-
-        //}
-        //static void RegisterStripPart(CssBox runOwner,
-        //    float left, float top, float right, float bottom,
-        //    List<PartialBoxStrip> newStrips, Dictionary<CssBox, PartialBoxStrip> dic)
-        //{
-
-        //    PartialBoxStrip strip;
-        //    if (!dic.TryGetValue(runOwner, out strip))
-        //    {
-        //        strip = new PartialBoxStrip(runOwner, left, top, right - left, bottom - top);
-        //        dic.Add(runOwner, strip);
-        //        newStrips.Add(strip);
-        //    }
-        //    else
-        //    {
-        //        strip.MergeBound(left, top, right, bottom);
-        //    }
-        //}
-
     }
 }

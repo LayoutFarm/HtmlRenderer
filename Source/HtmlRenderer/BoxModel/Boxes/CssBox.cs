@@ -69,13 +69,13 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public HtmlContainer HtmlContainer
         {
-            get { return _htmlContainer ?? (_parentBox != null ? _parentBox.HtmlContainer : null); }
-            set
-            {
-                _htmlContainer = value;
-            }
+            get { return _htmlContainer ?? (_parentBox != null ? _htmlContainer = _parentBox.HtmlContainer : null); }
+            
         }
-
+        public static void SetHtmlContainer(CssBox htmlRoot, HtmlContainer container)
+        {
+            htmlRoot._htmlContainer = container;
+        }
         /// <summary>
         /// Gets the parent box of this box
         /// </summary>
@@ -579,9 +579,9 @@ namespace HtmlRenderer.Dom
         {
 
             if (this.CssDisplay != CssDisplay.None)
-            {   
+            {
                 MeasureRunsSize(g);
-            } 
+            }
 
 
 
@@ -596,7 +596,7 @@ namespace HtmlRenderer.Dom
                 CssBox myContainingBlock = this.ContainingBlock;
 
                 if (this.CssDisplay != CssDisplay.TableCell && this.CssDisplay != CssDisplay.Table)
-                {    
+                {
                     float width = myContainingBlock.SizeWidth
                                   - myContainingBlock.ActualPaddingLeft - myContainingBlock.ActualPaddingRight
                                   - myContainingBlock.ActualBorderLeftWidth - myContainingBlock.ActualBorderRightWidth;
@@ -613,8 +613,8 @@ namespace HtmlRenderer.Dom
                 }
 
                 if (this.CssDisplay != CssDisplay.TableCell)
-                {                        
-                     
+                {
+
                     var prevSibling = CssBox.GetPreviousSibling(this);
 
                     this.LocationX = myContainingBlock.LocationX + myContainingBlock.ActualPaddingLeft + ActualMarginLeft + myContainingBlock.ActualBorderLeftWidth;
@@ -1134,7 +1134,7 @@ namespace HtmlRenderer.Dom
                 }
                 else if (RenderUtils.IsColorVisible(ActualBackgroundColor))
                 {
-                    
+
                     brush = RenderUtils.GetSolidBrush(ActualBackgroundColor);
                 }
 
@@ -1246,13 +1246,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        /// <summary>
-        /// Get brush for the text depending if there is selected text color set.
-        /// </summary>
-        protected Color GetSelectionForeColor()
-        {
-            return HtmlContainer.SelectionForeColor != System.Drawing.Color.Empty ? HtmlContainer.SelectionForeColor : ActualColor;
-        }
+        
 
         /// <summary>
         /// Get brush for selection background depending if it has external and if alpha is required for images.
