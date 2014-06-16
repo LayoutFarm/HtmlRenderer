@@ -542,9 +542,9 @@ namespace HtmlRenderer.Dom
         /// Performs layout of the DOM structure creating lines by set bounds restrictions.
         /// </summary>
         /// <param name="g">Device context to use</param>
-        public void PerformLayout(IGraphics g)
+        public void PerformLayout(LayoutArgs args)
         {
-            PerformLayoutImp(g);
+            PerformContentLayout(args);
 
         }
 
@@ -583,12 +583,12 @@ namespace HtmlRenderer.Dom
         /// Performs layout of the DOM structure creating lines by set bounds restrictions.<br/>
         /// </summary>
         /// <param name="g">Device context to use</param>
-        protected virtual void PerformLayoutImp(IGraphics g)
+        protected virtual void PerformContentLayout(LayoutArgs args)
         {
 
             if (this.CssDisplay != CssDisplay.None)
             {
-                MeasureRunsSize(g);
+                MeasureRunsSize(args.Gfx);
             }
 
 
@@ -635,7 +635,7 @@ namespace HtmlRenderer.Dom
 
                 if (this.CssDisplay == CssDisplay.Table || this.CssDisplay == CssDisplay.InlineTable)
                 {
-                    CssTableLayoutEngine.PerformLayout(g, this);
+                    CssTableLayoutEngine.PerformLayout(this, args);
                 }
                 else
                 {
@@ -643,13 +643,13 @@ namespace HtmlRenderer.Dom
                     if (DomUtils.ContainsInlinesOnly(this))
                     {
                         ActualBottom = this.LocationY;//Location.Y;
-                        CssLayoutEngine.CreateLineBoxes(g, this); //This will automatically set the bottom of this block
+                        CssLayoutEngine.CreateLineBoxes(this, args); //This will automatically set the bottom of this block
                     }
                     else if (_boxes.Count > 0)
                     {
                         foreach (var childBox in Boxes)
                         {
-                            childBox.PerformLayout(g);
+                            childBox.PerformLayout(args);
                         }
                         ActualRight = CalculateActualRight();
                         ActualBottom = MarginBottomCollapse();
@@ -673,7 +673,7 @@ namespace HtmlRenderer.Dom
             }
             ActualBottom = Math.Max(ActualBottom, this.LocationY + ActualHeight);
 
-            CreateListItemBox(g);
+            CreateListItemBox(args);
 
             var actualWidth = Math.Max(CalculateMinimumWidth() + CalculateWidthMarginDeep(this), this.SizeWidth < CssBox.MAX_RIGHT ? ActualRight : 0);
 
@@ -736,7 +736,7 @@ namespace HtmlRenderer.Dom
                             {
                                 boxWord.Width = 0;
                             } break;
-                    } 
+                    }
                 }
             }
             _wordsSizeMeasured = true;//***
@@ -801,7 +801,7 @@ namespace HtmlRenderer.Dom
         /// Creates the <see cref="_listItemBox"/>
         /// </summary>
         /// <param name="g"></param>
-        void CreateListItemBox(IGraphics g)
+        void CreateListItemBox(LayoutArgs layoutArgs)
         {
 
             if (this.CssDisplay == CssDisplay.ListItem &&
@@ -844,7 +844,7 @@ namespace HtmlRenderer.Dom
 
 
                     _listItemBox.ParseWordContent();
-                    _listItemBox.PerformLayoutImp(g);
+                    _listItemBox.PerformContentLayout(layoutArgs);
 
                     var fRun = _listItemBox.FirstRun;
 

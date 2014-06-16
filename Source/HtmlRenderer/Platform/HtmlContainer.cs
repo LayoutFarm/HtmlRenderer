@@ -518,7 +518,8 @@ namespace HtmlRenderer
             _root.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
 
             _root.SetLocation(_location.X, _location.Y);
-            _root.PerformLayout(ig);
+            LayoutArgs layoutArgs = new LayoutArgs(ig);
+            _root.PerformLayout(layoutArgs);
 
             if (_maxSize.Width <= 0.1)
             {
@@ -526,7 +527,7 @@ namespace HtmlRenderer
 
                 _root.SetSize((int)Math.Ceiling(_actualSize.Width), 0);
                 _actualSize = SizeF.Empty;
-                _root.PerformLayout(ig);
+                _root.PerformLayout(layoutArgs);
             }
 
             //    }

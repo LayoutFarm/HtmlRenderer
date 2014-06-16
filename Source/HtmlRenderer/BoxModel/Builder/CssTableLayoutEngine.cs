@@ -59,15 +59,15 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="g"></param>
         /// <param name="tableBox"> </param>
-        public static void PerformLayout(IGraphics g, CssBox tableBox)
+        public static void PerformLayout(CssBox tableBox, LayoutArgs args)
         {
-            ArgChecker.AssertArgNotNull(g, "g");
+
             ArgChecker.AssertArgNotNull(tableBox, "tableBox");
 
             //try
             //{
             var table = new CssTableLayoutEngine(tableBox);
-            table.Layout(g);
+            table.Layout(args);
             //}
             //catch (Exception ex)
             //{
@@ -82,9 +82,9 @@ namespace HtmlRenderer.Dom
         /// Analyzes the Table and assigns values to this CssTable object.
         /// To be called from the constructor
         /// </summary>
-        void Layout(IGraphics g)
+        void Layout(LayoutArgs args)
         {
-            S1_MeasureWords(_tableBox, g);
+            S1_MeasureWords(_tableBox, args.Gfx);
 
             // get the table boxes into the proper fields
             // Insert EmptyBoxes for vertical cell spanning.  
@@ -110,7 +110,7 @@ namespace HtmlRenderer.Dom
             _tableBox.PaddingLeft = _tableBox.PaddingTop = _tableBox.PaddingRight = _tableBox.PaddingBottom = CssLength.ZeroPx;
 
             //Actually layout cells!
-            S8_LayoutCells(g);
+            S8_LayoutCells(args);
         }
         /// <summary>
         /// Recursively measures words inside the box
@@ -659,7 +659,7 @@ namespace HtmlRenderer.Dom
         /// Layout the cells by the calculated table layout
         /// </summary>
         /// <param name="g"></param>
-        void S8_LayoutCells(IGraphics g)
+        void S8_LayoutCells(LayoutArgs args)
         {
             float vertical_spacing = GetVerticalSpacing(_tableBox);
             float horizontal_spacing = GetHorizontalSpacing(_tableBox);
@@ -691,9 +691,9 @@ namespace HtmlRenderer.Dom
                         int colspan = cell.ColSpan;
                         float width = this.columnCollection.GetCellWidth(grid_index, colspan, horizontal_spacing);
 
-                        cell.SetLocation(curx, cury);                         
+                        cell.SetLocation(curx, cury);
                         cell.SetSize(width, 0);
-                        cell.PerformLayout(g); //That will automatically set the bottom of the cell
+                        cell.PerformLayout(args); //That will automatically set the bottom of the cell
 
                         //Alter max bottom only if row is cell's row + cell's rowspan - 1
                         CssVerticalCellSpacingBox sb = cell as CssVerticalCellSpacingBox;

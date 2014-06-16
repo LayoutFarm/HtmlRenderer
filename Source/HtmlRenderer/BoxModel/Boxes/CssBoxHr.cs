@@ -40,7 +40,7 @@ namespace HtmlRenderer.Dom
         /// Performs layout of the DOM structure creating lines by set bounds restrictions.
         /// </summary>
         /// <param name="g">Device context to use</param>
-        protected override void PerformLayoutImp(IGraphics g)
+        protected override void PerformContentLayout(LayoutArgs args)
         {
 
             if (this.CssDisplay == CssDisplay.None)
