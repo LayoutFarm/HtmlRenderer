@@ -330,20 +330,7 @@ namespace HtmlRenderer.Dom
         }
         internal void AddLineBox(CssLineBox linebox)
         {
-            if (this._clientLineBoxes.Count == 0)
-            {
-                //first line
-                linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
-            }
-            else
-            {
-                var lastline = this._clientLineBoxes.Last.Value;
-
-                linebox.LineBoxTop = lastline.LineBoxTop + lastline.LineBoxHeight;
-
-                linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
-            }
-
+            linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);  
         }
         internal int LineBoxCount
         {
@@ -628,7 +615,8 @@ namespace HtmlRenderer.Dom
                     this.LocationX = myContainingBlock.LocationX + myContainingBlock.ActualPaddingLeft + ActualMarginLeft + myContainingBlock.ActualBorderLeftWidth;
                     float top = this.LocationY = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? this.LocationY : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
 
-                    ActualBottom = top;
+
+                    this.SetActualBottom(top);
                 }
 
                 //If we're talking about a table here..
@@ -641,9 +629,10 @@ namespace HtmlRenderer.Dom
                 {
                     //If there's just inline boxes, create LineBoxes
                     if (DomUtils.ContainsInlinesOnly(this))
-                    {
-                        ActualBottom = this.LocationY;//Location.Y;
-                        CssLayoutEngine.CreateLineBoxes(this, args); //This will automatically set the bottom of this block
+                    {                         
+                        SetActualBottom(this.LocationY);
+                        CssLayoutEngine.FlowRuns(this, args); //This will automatically set the bottom of this block
+
                     }
                     else if (_boxes.Count > 0)
                     {
@@ -652,7 +641,7 @@ namespace HtmlRenderer.Dom
                             childBox.PerformLayout(args);
                         }
                         ActualRight = CalculateActualRight();
-                        ActualBottom = MarginBottomCollapse();
+                        SetActualBottom(MarginBottomCollapse());
                     }
                 }
             }
@@ -668,11 +657,11 @@ namespace HtmlRenderer.Dom
                         this.SetLocation(prevSibling.LocationX, prevSibling.LocationY);
                     }
 
-                    ActualBottom = prevSibling.ActualBottom;
+                    SetActualBottom(prevSibling.ActualBottom);
                 }
             }
-            ActualBottom = Math.Max(ActualBottom, this.LocationY + ActualHeight);
 
+            SetActualBottom(Math.Max(ActualBottom, this.LocationY + ActualHeight));
             CreateListItemBox(args);
 
             var actualWidth = Math.Max(CalculateMinimumWidth() + CalculateWidthMarginDeep(this), this.SizeWidth < CssBox.MAX_RIGHT ? ActualRight : 0);

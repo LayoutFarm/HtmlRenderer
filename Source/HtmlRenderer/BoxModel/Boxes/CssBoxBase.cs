@@ -672,9 +672,16 @@ namespace HtmlRenderer.Dom
         public float ActualBottom
         {
             get { return this.LocationY + Size.Height; }
-            set {this._sizeHeight =  value - this.LocationY;}             
-        }
 
+        }
+        public void SetActualBottom(float value)
+        {
+            this._sizeHeight = value - this._locationY;
+        }
+        public void SetBottom2(float value)
+        {
+            //this._sizeHeight = value - this._locationY;
+        }
         /// <summary>
         /// Gets the left of the client rectangle (Where content starts rendering)
         /// </summary>

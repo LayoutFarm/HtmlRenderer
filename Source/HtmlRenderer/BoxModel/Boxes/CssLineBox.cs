@@ -166,8 +166,7 @@ namespace HtmlRenderer.Dom
 
         internal float CachedLineBottom
         {
-            get;
-            private set;
+            get { return this.CachedLineTop + this.CacheLineHeight; }
         }
         internal float CacheLineHeight
         {
@@ -250,8 +249,7 @@ namespace HtmlRenderer.Dom
                 contentRight = Math.Max(contentRight, strip.Right);
             }
 
-            this.CacheLineHeight = height;
-            this.CachedLineBottom = bottom;
+            this.CacheLineHeight = height; 
             this.CachedLineTop = bottom - height;
             this.CachedLineContentWidth = contentRight - lineOwner.LocationX;
 
@@ -280,8 +278,7 @@ namespace HtmlRenderer.Dom
                 run.OffsetY(ydiff);
             }
 
-            this.CacheLineHeight = height;
-            this.CachedLineBottom = bottom;
+            this.CacheLineHeight = height; 
             this.CachedLineTop = bottom - height;
 
             if (this.OwnerBox.SizeWidth < CachedLineContentWidth)

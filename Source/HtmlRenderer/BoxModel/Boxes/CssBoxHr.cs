@@ -56,8 +56,8 @@ namespace HtmlRenderer.Dom
             float top = this.LocationY = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? LocationY : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
 
             //Location = new PointF(left, top);
-            ActualBottom = top;
-
+             
+            SetActualBottom(top);
             //width at 100% (or auto)
             float minwidth = CalculateMinimumWidth();
 
@@ -97,7 +97,7 @@ namespace HtmlRenderer.Dom
             }
                          
             this.SetSize(width, height);
-            ActualBottom = this.LocationY + ActualPaddingTop + ActualPaddingBottom + height;
+            this.SetActualBottom(this.LocationY + ActualPaddingTop + ActualPaddingBottom + height);
         }
 
         /// <summary>

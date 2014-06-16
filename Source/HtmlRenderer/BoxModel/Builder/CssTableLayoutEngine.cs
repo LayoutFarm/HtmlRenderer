@@ -727,7 +727,7 @@ namespace HtmlRenderer.Dom
                     {
                         if (cell.RowSpan == 1)
                         {
-                            cell.ActualBottom = maxBottom;
+                            cell.SetActualBottom(maxBottom);
                             ApplyCellVerticalAlignment(cell);
                         }
                     }
@@ -735,7 +735,7 @@ namespace HtmlRenderer.Dom
                     {
                         if (spacer.EndRow == currentRow)
                         {
-                            spacer.ExtendedBox.ActualBottom = maxBottom;
+                            spacer.ExtendedBox.SetActualBottom(maxBottom);
                             ApplyCellVerticalAlignment(spacer.ExtendedBox);
                         }
                     }
@@ -747,9 +747,8 @@ namespace HtmlRenderer.Dom
 
             maxRight = Math.Max(maxRight, _tableBox.LocationX + _tableBox.ActualWidth);
             _tableBox.ActualRight = maxRight + horizontal_spacing + _tableBox.ActualBorderRightWidth;
-            _tableBox.ActualBottom = Math.Max(maxBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth;
+            _tableBox.SetActualBottom(Math.Max(maxBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth);
         }
-
 
         /// <summary>
         /// Get the table cells spacing for all the cells in the table.<br/>

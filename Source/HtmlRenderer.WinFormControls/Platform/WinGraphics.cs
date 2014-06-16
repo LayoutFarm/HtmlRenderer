@@ -62,6 +62,9 @@ namespace HtmlRenderer
 
         #endregion
 
+        float canvasOriginX = 0;
+        float canvasOriginY = 0;
+
         /// <summary>
         /// Init static resources.
         /// </summary>
@@ -82,6 +85,22 @@ namespace HtmlRenderer
             _useGdiPlusTextRendering = useGdiPlusTextRendering;
         }
 
+        public void OffsetCanvasOrigin(float dx, float dy)
+        {
+            this._g.TranslateTransform(dx, dy);
+            this.canvasOriginX += dx;
+            this.canvasOriginY += dy;
+        }
+        public float CanvasOriginX
+        {
+            get { return this.canvasOriginX; }
+            set { this.canvasOriginX = value; }
+        }
+        public float CanvasOriginY
+        {
+            get { return this.canvasOriginY; }
+            set { this.canvasOriginY = value; }
+        }
         /// <summary>
         /// Gets the bounding clipping region of this graphics.
         /// </summary>
@@ -241,7 +260,10 @@ namespace HtmlRenderer
             if (_useGdiPlusTextRendering)
             {
                 ReleaseHdc();
-                _g.DrawString(str, font, RenderUtils.GetSolidBrush(color), (int)Math.Round(point.X - FontsUtils.GetFontLeftPadding(font) * .8f), (int)Math.Round(point.Y));
+
+                _g.DrawString(str, font,
+                    RenderUtils.GetSolidBrush(color),
+                    (int)Math.Round(point.X + canvasOriginX - FontsUtils.GetFontLeftPadding(font) * .8f), (int)Math.Round(point.Y + canvasOriginY));
             }
             else
             {
@@ -250,12 +272,12 @@ namespace HtmlRenderer
                     SetFont(font);
                     SetTextColor(color);
 
-                    Win32Utils.TextOut(_hdc, (int)Math.Round(point.X), (int)Math.Round(point.Y), str, str.Length);
+                    Win32Utils.TextOut(_hdc, (int)Math.Round(point.X + canvasOriginX), (int)Math.Round(point.Y + canvasOriginY), str, str.Length);
                 }
                 else
                 {
                     InitHdc();
-                    DrawTransparentText(_hdc, str, font, new Point((int)Math.Round(point.X), (int)Math.Round(point.Y)), Size.Round(size), color);
+                    DrawTransparentText(_hdc, str, font, new Point((int)Math.Round(point.X + canvasOriginX), (int)Math.Round(point.Y + canvasOriginY)), Size.Round(size), color);
                 }
             }
         }
@@ -272,7 +294,9 @@ namespace HtmlRenderer
                 _g.DrawString(
                     new string(str, startAt, len),
                     font,
-                    RenderUtils.GetSolidBrush(color), (int)Math.Round(point.X - FontsUtils.GetFontLeftPadding(font) * .8f), (int)Math.Round(point.Y));
+                    RenderUtils.GetSolidBrush(color),
+                    (int)Math.Round(point.X + canvasOriginX - FontsUtils.GetFontLeftPadding(font) * .8f),
+                    (int)Math.Round(point.Y + canvasOriginY));
 
             }
             else
@@ -285,8 +309,8 @@ namespace HtmlRenderer
                     {
                         fixed (char* startAddr = &str[0])
                         {
-                            Win32Utils.TextOut2(_hdc, (int)Math.Round(point.X),
-                                (int)Math.Round(point.Y), (startAddr + startAt), len);
+                            Win32Utils.TextOut2(_hdc, (int)Math.Round(point.X + canvasOriginX),
+                                (int)Math.Round(point.Y + canvasOriginY), (startAddr + startAt), len);
                         }
                     }
                 }
@@ -298,8 +322,8 @@ namespace HtmlRenderer
                     {
                         fixed (char* startAddr = &str[0])
                         {
-                            Win32Utils.TextOut2(_hdc, (int)Math.Round(point.X),
-                                (int)Math.Round(point.Y), (startAddr + startAt), len);
+                            Win32Utils.TextOut2(_hdc, (int)Math.Round(point.X + canvasOriginX),
+                                (int)Math.Round(point.Y + canvasOriginY), (startAddr + startAt), len);
                         }
                     }
 

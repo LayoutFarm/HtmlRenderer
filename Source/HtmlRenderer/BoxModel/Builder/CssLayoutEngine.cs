@@ -125,7 +125,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="g"></param>
         /// <param name="blockBox"></param>
-        public static void CreateLineBoxes(CssBox blockBox, LayoutArgs args)
+        public static void FlowRuns(CssBox blockBox, LayoutArgs args)
         {
             ArgChecker.AssertArgNotNull(args, "args");
             ArgChecker.AssertArgNotNull(blockBox, "blockBox");
@@ -173,7 +173,7 @@ namespace HtmlRenderer.Dom
                 linebox.CloseLine(); //***
             }
             //---------------------
-            blockBox.ActualBottom = maxBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth;
+            blockBox.SetActualBottom(maxBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
 
             // handle limiting block height when overflow is hidden
             //if (blockBox.Height != null && blockBox.Height != CssConstants.Auto && 
@@ -181,7 +181,7 @@ namespace HtmlRenderer.Dom
                 blockBox.Overflow == CssOverflow.Hidden &&
                 blockBox.ActualBottom - blockBox.LocationY > blockBox.ActualHeight)
             {
-                blockBox.ActualBottom = blockBox.LocationY + blockBox.ActualHeight;
+                blockBox.SetActualBottom(blockBox.LocationY + blockBox.ActualHeight);
             }
         }
 
@@ -292,6 +292,7 @@ namespace HtmlRenderer.Dom
                             cx = startx;
                             //set y to new line
                             cy = maxBottom + interLineSpace;
+                            hostLine.LineBoxTop = cy;
 
 
                             // handle if line is wrapped for the first text element where parent has left margin/padding
