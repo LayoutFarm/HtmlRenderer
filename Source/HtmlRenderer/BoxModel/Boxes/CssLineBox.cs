@@ -155,6 +155,15 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
+
+        //---------------------------------
+        /// <summary>
+        /// relative to owner cssbox
+        /// </summary>
+        internal float LineBoxTop { get; set; }
+        internal float LineBoxHeight { get; set; }
+        //---------------------------------
+
         internal float CachedLineBottom
         {
             get;
@@ -538,7 +547,7 @@ namespace HtmlRenderer.Dom
                 }
                 else
                 {
-                    //this box has multiple rect 
+                    //this box is splited into multiple strip
                     if (ownerBox.FirstHostingLineBox == this)
                     {
                         ownerBox.PaintBackground(g, stripArea, true, false);
@@ -583,7 +592,7 @@ namespace HtmlRenderer.Dom
                 }
                 else
                 {
-                    //this box has multiple rect 
+                    //this box is splited into multiple strips
                     if (ownerBox.FirstHostingLineBox == this)
                     {
                         ownerBox.PaintDecoration(g, rect, true, false);

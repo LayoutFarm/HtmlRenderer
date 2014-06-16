@@ -618,11 +618,11 @@ namespace HtmlRenderer.Dom
         public SizeF Size
         {
             get { return new SizeF(this._sizeWidth, this._sizeHeight); }
-            set
-            {
-                this._sizeWidth = value.Width;
-                this._sizeHeight = value.Height;
-            }
+        }
+        public void SetSize(float width, float height)
+        {
+            this._sizeWidth = width;
+            this._sizeHeight = height;
         }
         public float SizeWidth
         {
@@ -662,7 +662,7 @@ namespace HtmlRenderer.Dom
         public float ActualRight
         {
             get { return LocationX + Size.Width; }
-            set { Size = new SizeF(value - LocationX, Size.Height); }
+            set { this._sizeWidth = value - LocationX; }
         }
 
         /// <summary>
@@ -672,10 +672,7 @@ namespace HtmlRenderer.Dom
         public float ActualBottom
         {
             get { return this.LocationY + Size.Height; }
-            set
-            {
-                Size = new SizeF(Size.Width, value - this.LocationY);
-            }
+            set {this._sizeHeight =  value - this.LocationY;}             
         }
 
         /// <summary>
@@ -1315,7 +1312,7 @@ namespace HtmlRenderer.Dom
             {
                 this._prop_pass_eval |= CssBoxBaseAssignments.WORD_SPACING;
 
-                _actualWordSpacing = CssUtils.WhiteSpace(g, this);
+                _actualWordSpacing = CssUtils.MeasureWhiteSpace(g, this);
                 if (!this.WordSpacing.IsNormalWordSpacing)
                 {
                     _actualWordSpacing += CssValueParser.ParseLength(this.WordSpacing, 1, this);

@@ -70,7 +70,7 @@ namespace HtmlRenderer.Utils
         /// <param name="g"></param>
         /// <param name="box"></param>
         /// <returns></returns>
-        public static float WhiteSpace(IGraphics g, CssBoxBase box)
+        public static float MeasureWhiteSpace(IGraphics g, CssBoxBase box)
         {
             //depends on Font of this box
             float w = FontsUtils.MeasureWhitespace(g, box.ActualFont);

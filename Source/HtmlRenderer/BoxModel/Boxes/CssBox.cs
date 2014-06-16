@@ -70,7 +70,7 @@ namespace HtmlRenderer.Dom
         public HtmlContainer HtmlContainer
         {
             get { return _htmlContainer ?? (_parentBox != null ? _htmlContainer = _parentBox.HtmlContainer : null); }
-            
+
         }
         public static void SetHtmlContainer(CssBox htmlRoot, HtmlContainer container)
         {
@@ -330,12 +330,20 @@ namespace HtmlRenderer.Dom
         }
         internal void AddLineBox(CssLineBox linebox)
         {
-            if (this._clientLineBoxes == null)
+            if (this._clientLineBoxes.Count == 0)
             {
-                this._clientLineBoxes = new LinkedList<CssLineBox>();
+                //first line
+                linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
+            }
+            else
+            {
+                var lastline = this._clientLineBoxes.Last.Value;
+
+                linebox.LineBoxTop = lastline.LineBoxTop + lastline.LineBoxHeight;
+
+                linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
             }
 
-            linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
         }
         internal int LineBoxCount
         {
@@ -606,10 +614,10 @@ namespace HtmlRenderer.Dom
                         width = CssValueParser.ParseLength(Width, width, this);
                     }
 
-                    Size = new SizeF(width, Size.Height);
 
+                    this.SetSize(width, this.SizeHeight);
                     // must be separate because the margin can be calculated by percentage of the width
-                    Size = new SizeF(width - ActualMarginLeft - ActualMarginRight, Size.Height);
+                    this.SetSize(width - ActualMarginLeft - ActualMarginRight, this.SizeHeight);
                 }
 
                 if (this.CssDisplay != CssDisplay.TableCell)
@@ -679,59 +687,60 @@ namespace HtmlRenderer.Dom
         /// <param name="g"></param>
         internal virtual void MeasureRunsSize(IGraphics g)
         {
-            if (!_wordsSizeMeasured)
+            //measure once !
+            if (_wordsSizeMeasured) return;
+            //--------------------------------
+
+            if (BackgroundImage != CssConstants.None && _imageLoadHandler == null)
             {
-                if (BackgroundImage != CssConstants.None && _imageLoadHandler == null)
-                {
-                    _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnImageLoadComplete);
-                    _imageLoadHandler.LoadImage(BackgroundImage, HtmlTag);
-                }
-
-                MeasureWordSpacing(g);
-
-                if (this.HasRuns)
-                {
-                    Font actualFont = this.ActualFont;
-                    float fontHeight = FontsUtils.GetFontHeight(actualFont);
-                    char[] myTextBuffer = CssBox.UnsafeGetTextBuffer(this);
-                    float actualWordspacing = this.ActualWordSpacing;
-
-                    foreach (CssRun boxWord in Runs)
-                    {
-                        //if this is newline then width =0 ***                         
-                        switch (boxWord.Kind)
-                        {
-                            case CssRunKind.Text:
-                                {
-
-                                    CssTextRun textRun = (CssTextRun)boxWord;
-                                    boxWord.Width = FontsUtils.MeasureStringWidth(g,
-                                        myTextBuffer,
-                                        textRun.TextStartIndex,
-                                        textRun.TextLength,
-                                        actualFont);
-
-                                } break;
-                            case CssRunKind.SingleSpace:
-                                {
-                                    boxWord.Width = actualWordspacing;
-                                } break;
-                            case CssRunKind.Space:
-                                {
-                                    //other space size                                     
-                                    boxWord.Width = actualWordspacing * ((CssTextRun)boxWord).TextLength;
-                                } break;
-                            case CssRunKind.LineBreak:
-                                {
-                                    boxWord.Width = 0;
-                                } break;
-                        }
-                        boxWord.Height = fontHeight;
-                    }
-                }
-
-                _wordsSizeMeasured = true;
+                //TODO: change to another technique !
+                _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnImageLoadComplete);
+                _imageLoadHandler.LoadImage(BackgroundImage, HtmlTag);
             }
+
+            MeasureWordSpacing(g);
+
+            if (this.HasRuns)
+            {
+                Font actualFont = this.ActualFont;
+                float fontHeight = FontsUtils.GetFontHeight(actualFont);
+
+                foreach (CssRun boxWord in Runs)
+                {
+                    boxWord.Height = fontHeight;
+
+                    //if this is newline then width =0 ***                         
+                    switch (boxWord.Kind)
+                    {
+                        case CssRunKind.Text:
+                            {
+
+                                CssTextRun textRun = (CssTextRun)boxWord;
+                                boxWord.Width = FontsUtils.MeasureStringWidth(g,
+                                    CssBox.UnsafeGetTextBuffer(this),
+                                    textRun.TextStartIndex,
+                                    textRun.TextLength,
+                                    actualFont);
+
+                            } break;
+                        case CssRunKind.SingleSpace:
+                            {
+                                boxWord.Width = this.ActualWordSpacing;
+                            } break;
+                        case CssRunKind.Space:
+                            {
+                                //other space size                                     
+                                boxWord.Width = this.ActualWordSpacing * ((CssTextRun)boxWord).TextLength;
+                            } break;
+                        case CssRunKind.LineBreak:
+                            {
+                                boxWord.Width = 0;
+                            } break;
+                    } 
+                }
+            }
+            _wordsSizeMeasured = true;//***
+
         }
 
         /// <summary>
@@ -1246,7 +1255,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        
+
 
         /// <summary>
         /// Get brush for selection background depending if it has external and if alpha is required for images.

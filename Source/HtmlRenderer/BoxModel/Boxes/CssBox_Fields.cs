@@ -143,15 +143,7 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-        internal IEnumerable<CssLineBox> GetMyHostLineIter()
-        {
-            var hostLine = this.FirstHostingLineBox;
-            while (hostLine != null)
-            {
-                yield return hostLine;
-                hostLine = hostLine.NextLine;
-            }
-        }
+
         public int ChildCount
         {
             get
@@ -180,6 +172,10 @@ namespace HtmlRenderer.Dom
             if (this._clientLineBoxes != null)
             {
                 _clientLineBoxes.Clear();
+            }
+            else
+            {
+                _clientLineBoxes = new LinkedList<CssLineBox>();
             }
         }
         //-------------------------------------

@@ -95,9 +95,8 @@ namespace HtmlRenderer.Dom
                 BorderTopWidth = CssLength.MakePixelLength(1); //"1px";
                 BorderBottomWidth = CssLength.MakePixelLength(1);
             }
-
-            Size = new SizeF(width, height);
-
+                         
+            this.SetSize(width, height);
             ActualBottom = this.LocationY + ActualPaddingTop + ActualPaddingBottom + height;
         }
 

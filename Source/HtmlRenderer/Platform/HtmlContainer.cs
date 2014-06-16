@@ -200,6 +200,10 @@ namespace HtmlRenderer
         /// </summary>
         public event EventHandler<HtmlImageLoadEventArgs> ImageLoadingRequest;
 
+        /// <summary>
+        /// 99999
+        /// </summary>
+        const int MAX_WIDTH = 99999;
 
         public HtmlContainer()
         {
@@ -228,7 +232,7 @@ namespace HtmlRenderer
                 {
                     //1. 
                     this.selRange.ClearSelectionStatus();
-                } 
+                }
                 this.selRange = value;
                 if (value != null)
                 {
@@ -510,9 +514,8 @@ namespace HtmlRenderer
 
 
             _actualSize = SizeF.Empty;
-            // if width is not restricted we set it to large value to get the actual later
-            _root.Size = new SizeF(_maxSize.Width > 0 ? _maxSize.Width : 99999, 0);
-
+            // if width is not restricted we set it to large value to get the actual later             
+            _root.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
 
             _root.SetLocation(_location.X, _location.Y);
             _root.PerformLayout(ig);
@@ -520,7 +523,8 @@ namespace HtmlRenderer
             if (_maxSize.Width <= 0.1)
             {
                 // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
-                _root.Size = new SizeF((int)Math.Ceiling(_actualSize.Width), 0);
+
+                _root.SetSize((int)Math.Ceiling(_actualSize.Width), 0);
                 _actualSize = SizeF.Empty;
                 _root.PerformLayout(ig);
             }

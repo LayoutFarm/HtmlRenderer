@@ -691,8 +691,8 @@ namespace HtmlRenderer.Dom
                         int colspan = cell.ColSpan;
                         float width = this.columnCollection.GetCellWidth(grid_index, colspan, horizontal_spacing);
 
-                        cell.SetLocation(curx, cury);
-                        cell.Size = new SizeF(width, 0f);
+                        cell.SetLocation(curx, cury);                         
+                        cell.SetSize(width, 0);
                         cell.PerformLayout(g); //That will automatically set the bottom of the cell
 
                         //Alter max bottom only if row is cell's row + cell's rowspan - 1
@@ -825,11 +825,11 @@ namespace HtmlRenderer.Dom
             if (dist != 0f)
             {
                 if (cell.LineBoxCount > 0)
-                {   
+                {
                     foreach (CssLineBox linebox in cell.GetLineBoxIter())
                     {
                         linebox.OffsetTop(dist);
-                    } 
+                    }
                 }
                 else
                 {
