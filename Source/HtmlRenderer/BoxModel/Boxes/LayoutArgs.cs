@@ -10,25 +10,27 @@ namespace HtmlRenderer.Dom
     {
         Stack<CssBox> containgBlockStack = new Stack<CssBox>();
         CssBox latestContaingBlock = null;
-        public LayoutArgs(IGraphics gfx)
+
+
+        internal LayoutArgs(IGraphics gfx)
         {
             this.Gfx = gfx;
         }
-        public IGraphics Gfx
+        internal IGraphics Gfx
         {
             get;
             private set;
         }
-        public void PushContaingBlock(CssBox box)
-        {   
+        internal void PushContaingBlock(CssBox box)
+        {
             this.containgBlockStack.Push(box);
             this.latestContaingBlock = box;
         }
-        public CssBox LatestContaingBlock
+        internal CssBox LatestContaingBlock
         {
             get { return this.latestContaingBlock; }
         }
-        public void PopContainingBlock()
+        internal void PopContainingBlock()
         {
             this.containgBlockStack.Pop();
             if (this.containgBlockStack.Count > 0)
@@ -40,8 +42,12 @@ namespace HtmlRenderer.Dom
                 this.latestContaingBlock = null;
             }
         }
-        
 
-
+        //-----------------------------------------
+        internal CssBox LatestSiblingBox
+        {
+            get;
+            set;
+        }
     }
 }

@@ -694,7 +694,7 @@ namespace HtmlRenderer.Dom
 
                         cell.SetLocation(curx, cury);
                         cell.SetSize(width, 0);
-                        
+
                         cell.PerformLayout(args); //That will automatically set the bottom of the cell
 
                         //Alter max bottom only if row is cell's row + cell's rowspan - 1
@@ -749,7 +749,7 @@ namespace HtmlRenderer.Dom
             }
             args.PopContainingBlock();
 
-            maxRight = Math.Max(maxRight, _tableBox.LocationX + _tableBox.ActualWidth);             
+            maxRight = Math.Max(maxRight, _tableBox.LocationX + _tableBox.ActualWidth);
             _tableBox.SetActualRight(maxRight + horizontal_spacing + _tableBox.ActualBorderRightWidth);
             _tableBox.SetActualBottom(Math.Max(maxBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth);
         }
@@ -1130,22 +1130,27 @@ namespace HtmlRenderer.Dom
             foreach (CssBox row in _allRowBoxes)
             {
                 int gridIndex = 0;
+                int thisRowCellCount = row.ChildCount;
                 foreach (CssBox cellBox in row.GetChildBoxIter())
                 {
                     int colspan = cellBox.ColSpan;
                     int affect_col = Math.Min(gridIndex + colspan, col_count) - 1;
 
                     var col = this.columnCollection[affect_col];
-                    if (colspan == 1)
+                    float spanned_width = 0;
+
+                    if (colspan > 1)
                     {
-                        float spanned_width = (colspan - 1) * horizontal_spacing;
+                        spanned_width += (colspan - 1) * horizontal_spacing +
+                            this.columnCollection.GetSpannedMinWidth(thisRowCellCount, gridIndex, colspan);
+
                         col.MinWidth = Math.Max(col.MinWidth, cellBox.CalculateMinimumWidth() - spanned_width);
                     }
                     else
                     {
-                        float spanned_width = this.columnCollection.GetSpannedMinWidth(row.ChildCount, gridIndex, colspan) + (colspan - 1) * horizontal_spacing;
-                        col.MinWidth = Math.Max(col.MinWidth, cellBox.CalculateMinimumWidth() - spanned_width);
-                    }
+                        col.MinWidth = Math.Max(col.MinWidth, cellBox.CalculateMinimumWidth());                        
+                    } 
+
                     gridIndex += cellBox.ColSpan;
                 }
             }

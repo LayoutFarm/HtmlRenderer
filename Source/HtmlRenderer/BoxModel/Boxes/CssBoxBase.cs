@@ -626,7 +626,13 @@ namespace HtmlRenderer.Dom
             {
                 return this._sizeWidth;
             }
-
+        }
+        internal float AvaliableContentWidth
+        {
+            get
+            {
+                return this.SizeWidth - this.ActualPaddingLeft - this.ActualPaddingRight - this.ActualBorderLeftWidth - this.ActualBorderRightWidth;
+            }
         }
         public float SizeHeight
         {
@@ -670,7 +676,6 @@ namespace HtmlRenderer.Dom
         public float ActualBottom
         {
             get { return this.LocationY + Size.Height; }
-
         }
         public void SetActualBottom(float value)
         {

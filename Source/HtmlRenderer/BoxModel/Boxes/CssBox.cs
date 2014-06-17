@@ -577,101 +577,128 @@ namespace HtmlRenderer.Dom
             {
                 MeasureRunsSize(args.Gfx);
             }
-
-            if (IsBlock ||
-                this.CssDisplay == CssDisplay.ListItem ||
-                this.CssDisplay == CssDisplay.Table ||
-                this.CssDisplay == CssDisplay.InlineTable ||
-                this.CssDisplay == CssDisplay.TableCell)
+            //-----------------------------------------------------------
+            switch (this.CssDisplay)
             {
-                // Because their width and height are set by CssTable                 
-                //CssBox myContainingBlock = this.ContainingBlock;//args.LatestContaingBlock;
-                //if (this.ContainingBlock != args.LatestContaingBlock)
-                //{ 
-                //}
-                CssBox myContainingBlock = args.LatestContaingBlock;//args.LatestContaingBlock;
-
-                if (this.CssDisplay != CssDisplay.TableCell && this.CssDisplay != CssDisplay.Table)
-                {
-                    float width = myContainingBlock.SizeWidth
-                                  - myContainingBlock.ActualPaddingLeft - myContainingBlock.ActualPaddingRight
-                                  - myContainingBlock.ActualBorderLeftWidth - myContainingBlock.ActualBorderRightWidth;
-
-                    if (!this.Width.IsAuto && !this.Width.IsEmpty)
+                case Dom.CssDisplay.Block:
+                case Dom.CssDisplay.ListItem:
+                case Dom.CssDisplay.Table:
+                case Dom.CssDisplay.InlineTable:
+                case Dom.CssDisplay.TableCell:
                     {
-                        width = CssValueParser.ParseLength(Width, width, this);
-                    }
+                        // Because their width and height are set by CssTable                                 
 
+                        CssBox myContainingBlock = args.LatestContaingBlock;
 
-                    this.SetSize(width, this.SizeHeight);
-                    // must be separate because the margin can be calculated by percentage of the width
-                    this.SetSize(width - ActualMarginLeft - ActualMarginRight, this.SizeHeight);
-                }
-
-                if (this.CssDisplay != CssDisplay.TableCell)
-                {
-
-                    var prevSibling = CssBox.GetPreviousSibling(this);
-
-                    float left = myContainingBlock.LocationX + myContainingBlock.ActualPaddingLeft + ActualMarginLeft + myContainingBlock.ActualBorderLeftWidth;
-                    float top = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? this.LocationY : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
-
-                    this.SetLocation(left, top);
-                    this.SetActualHeightToZero(); 
-                }
-
-                //If we're talking about a table here..
-
-                if (this.CssDisplay == CssDisplay.Table || this.CssDisplay == CssDisplay.InlineTable)
-                {
-                    CssTableLayoutEngine.PerformLayout(this, args);
-                }
-                else
-                {
-                    //If there's just inline boxes, create LineBoxes
-                    if (DomUtils.ContainsInlinesOnly(this))
-                    {
-                        
-                        this.SetActualHeightToZero();
-                        CssLayoutEngine.FlowRuns(this, args); //This will automatically set the bottom of this block
-
-                    }
-                    else if (_boxes.Count > 0)
-                    {
-                        args.PushContaingBlock(this);
-                        foreach (var childBox in Boxes)
+                        if (this.CssDisplay != CssDisplay.TableCell)
                         {
-                            childBox.PerformLayout(args);
+                            //-------------------------
+                            if (this.CssDisplay != Dom.CssDisplay.Table)
+                            {
+                                float avaliableWidth = myContainingBlock.AvaliableContentWidth;
+
+                                if (!this.Width.IsAuto && !this.Width.IsEmpty)
+                                {
+                                    avaliableWidth = CssValueParser.ParseLength(Width, avaliableWidth, this);
+                                }
+                                this.SetSize(avaliableWidth, this.SizeHeight);
+                                // must be separate because the margin can be calculated by percentage of the width
+                                this.SetSize(avaliableWidth - ActualMarginLeft - ActualMarginRight, this.SizeHeight);
+                            }
+
+                            //-------------------------
+                            var prevSibling = args.LatestSiblingBox;
+                            //this box location is related to prevSibling ***  
+                            float left = myContainingBlock.ClientLeft + this.ActualMarginLeft;
+                            float top = 0;
+                            if (prevSibling == null)
+                            {
+                                if (this.ParentBox != null)
+                                {
+                                    top = this.ParentBox.ClientTop;
+                                }
+                            }
+                            else
+                            {
+                                if (this.ParentBox == null)
+                                {
+                                    top = this.LocationY;
+                                }
+
+                                top += prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth;
+                            }
+                            top += MarginTopCollapse(prevSibling);
+
+                            this.SetLocation(left, top);
+                            this.SetActualHeightToZero();
                         }
-                        args.PopContainingBlock();
+                        //--------------------------------------------------------------------------
+                        //If we're talking about a table here..
+                        if (this.CssDisplay == CssDisplay.Table || this.CssDisplay == CssDisplay.InlineTable)
+                        {
+                            CssTableLayoutEngine.PerformLayout(this, args);
+                        }
+                        else
+                        {
+                            //If there's just inline boxes, create LineBoxes
+                            if (DomUtils.ContainsInlinesOnly(this))
+                            {
+                                this.SetActualHeightToZero();
+                                CssLayoutEngine.FlowRuns(this, args); //This will automatically set the bottom of this block
+                            }
+                            else if (_boxes.Count > 0)
+                            {
+                                args.PushContaingBlock(this);
 
-                        SetActualRight(CalculateActualRight());
-                        SetActualBottom(MarginBottomCollapse());
-                    }
-                }
-            }
-            else
-            {
+                                var currentLevelLatestSibling = args.LatestSiblingBox;
+                                args.LatestSiblingBox = null;//reset
 
-                var prevSibling = CssBox.GetPreviousSibling(this);
-                if (prevSibling != null)
-                {
-                    if (!this.HasAssignedLocation)
+                                foreach (var childBox in Boxes)
+                                {
+                                    childBox.PerformLayout(args);
+                                    if (childBox.CanBeRefererenceSibling)
+                                    {
+                                        args.LatestSiblingBox = childBox;
+                                    }
+                                }
+
+                                args.LatestSiblingBox = currentLevelLatestSibling;
+
+                                args.PopContainingBlock();
+
+                                SetActualRight(CalculateActualRight());
+                                SetActualBottom(MarginBottomCollapse());
+                            }
+                        }
+                        //--------------------------------------------------------------------------
+                    } break;
+                default:
                     {
-                        this.SetLocation(prevSibling.LocationX, prevSibling.LocationY);
-                    }
-                    SetActualBottom(prevSibling.ActualBottom);
-                }
+                        var prevSibling = args.LatestSiblingBox;
+                        if (prevSibling != null)
+                        {
+                            if (!this.HasAssignedLocation)
+                            {
+                                this.SetLocation(prevSibling.LocationX, prevSibling.LocationY);
+                            }
+                            SetActualBottom(prevSibling.ActualBottom);
+                        }
+                    } break;
             }
 
+            //----------------------------------------------------------------------------- 
+            //set height
             this.SetActualBottom(Math.Max(ActualBottom, this.LocationY + ActualHeight));
 
             CreateListItemBox(args);
 
-            var actualWidth = Math.Max(CalculateMinimumWidth() + CalculateWidthMarginDeep(this), this.SizeWidth < CssBox.MAX_RIGHT ? ActualRight : 0);
+            var actualWidth = Math.Max(CalculateMinimumWidth() +
+                CalculateWidthMarginDeep(this), this.SizeWidth < CssBox.MAX_RIGHT ? ActualRight : 0);
 
             //update back
             HtmlContainer.ActualSize = CommonUtils.Max(HtmlContainer.ActualSize, new SizeF(actualWidth, ActualBottom - HtmlContainer.Root.LocationY));
+
+
         }
 
         /// <summary>
@@ -840,7 +867,6 @@ namespace HtmlRenderer.Dom
 
                     if (_listItemBox.HasContainingBlockProperty)
                     {
-
                         _listItemBox.PerformContentLayout(layoutArgs);
 
                     }
@@ -895,16 +921,29 @@ namespace HtmlRenderer.Dom
         {
             float maxWidth = 0;
             CssRun maxWidthWord = null;
-            CalculateMinimumWidth_LongestWord(this, ref maxWidth, ref maxWidthWord);
+
+            CalculateMinimumWidthAndWidestRun(this, ref maxWidth, ref maxWidthWord);
 
             float padding = 0f;
+
             if (maxWidthWord != null)
             {
                 var box = maxWidthWord.OwnerBox;
+
                 while (box != null)
                 {
-                    padding += box.ActualBorderRightWidth + box.ActualPaddingRight + box.ActualBorderLeftWidth + box.ActualPaddingLeft;
-                    box = box != this ? box.ParentBox : null;
+                    padding += (box.ActualBorderRightWidth + box.ActualPaddingRight) +
+                        (box.ActualBorderLeftWidth + box.ActualPaddingLeft);
+
+                    if (box == this)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        //bubble up***
+                        box = box.ParentBox;
+                    }
                 }
             }
 
@@ -916,18 +955,21 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="box"></param>
         /// <param name="maxWidth"> </param>
-        /// <param name="maxWidthWord"> </param>
+        /// <param name="maxWidthRun"> </param>
         /// <returns></returns>
-        static void CalculateMinimumWidth_LongestWord(CssBox box, ref float maxWidth, ref CssRun maxWidthWord)
+        static void CalculateMinimumWidthAndWidestRun(CssBox box, ref float maxWidth, ref CssRun maxWidthRun)
         {
+            //recursive
             if (box.HasRuns)
             {
-                foreach (CssRun cssRect in box.Runs)
+                var runList = box.Runs;
+                for (int i = runList.Count - 1; i >= 0; --i)
                 {
-                    if (cssRect.Width > maxWidth)
+                    var run = runList[i];
+                    if (run.Width > maxWidth)
                     {
-                        maxWidth = cssRect.Width;
-                        maxWidthWord = cssRect;
+                        maxWidth = run.Width;
+                        maxWidthRun = run;
                     }
                 }
             }
@@ -935,7 +977,8 @@ namespace HtmlRenderer.Dom
             {
                 foreach (CssBox childBox in box.Boxes)
                 {
-                    CalculateMinimumWidth_LongestWord(childBox, ref maxWidth, ref maxWidthWord);
+                    //recursive
+                    CalculateMinimumWidthAndWidestRun(childBox, ref maxWidth, ref maxWidthRun);
                 }
             }
         }
@@ -948,7 +991,7 @@ namespace HtmlRenderer.Dom
         static float CalculateWidthMarginDeep(CssBox box)
         {
             float sum = 0f;
-            if (box.SizeWidth > CssBox.MAX_RIGHT || (box.ParentBox != null && box.ParentBox.SizeWidth > 90999))
+            if (box.SizeWidth > CssBox.MAX_RIGHT || (box.ParentBox != null && box.ParentBox.SizeWidth > CssBox.MAX_RIGHT))
             {
                 while (box != null)
                 {
@@ -1282,29 +1325,10 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        /// <summary>
-        /// Gets the previous sibling of this box.
-        /// </summary>
-        /// <returns>Box before this one on the tree. Null if its the first</returns>
-        public static CssBox GetPreviousSibling(CssBox b)
+
+        internal bool CanBeRefererenceSibling
         {
-            if (b.ParentBox != null)
-            {
-                CssBox sib = b.PrevSibling;
-                if (sib != null)
-                {
-                    do
-                    {
-                        if (sib.CssDisplay != CssDisplay.None && !sib.IsAbsolutePosition)
-                        {
-                            return sib;
-                        }
-                        sib = sib.PrevSibling;
-                    } while (sib != null);
-                }
-                return null;
-            }
-            return null;
+            get { return this.CssDisplay != Dom.CssDisplay.None && !this.IsAbsolutePosition; }
         }
 
 

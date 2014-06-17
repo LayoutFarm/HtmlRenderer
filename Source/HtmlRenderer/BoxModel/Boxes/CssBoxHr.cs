@@ -48,7 +48,7 @@ namespace HtmlRenderer.Dom
                 return;
             }
 
-            var prevSibling = CssBox.GetPreviousSibling(this);
+            var prevSibling = args.LatestSiblingBox;// CssBox.GetPreviousSibling(this);
 
             var myContainingBlock = args.LatestContaingBlock;//this.ContainingBlock;
 
@@ -71,8 +71,7 @@ namespace HtmlRenderer.Dom
             //Check width if not auto
             if (!this.Width.IsAuto && !this.Width.IsEmpty)
             {
-                width = CssValueParser.ParseLength(Width, width, this);
-
+                width = CssValueParser.ParseLength(Width, width, this); 
             }
 
 
