@@ -278,8 +278,7 @@ namespace HtmlRenderer
         /// <param name="elementId">the id of the element to scroll to</param>
         public void ScrollToElement(string elementId)
         {
-            ArgChecker.AssertArgNotNullOrEmpty(elementId, "elementId");
-
+            
             if (_htmlContainer != null)
             {
                 var rect = _htmlContainer.GetElementRectangle(elementId);

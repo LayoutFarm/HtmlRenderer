@@ -62,7 +62,7 @@ namespace HtmlRenderer.Dom
         public static void PerformLayout(CssBox tableBox, LayoutArgs args)
         {
 
-            ArgChecker.AssertArgNotNull(tableBox, "tableBox");
+             
 
             //try
             //{
@@ -749,7 +749,7 @@ namespace HtmlRenderer.Dom
             }
             args.PopContainingBlock();
 
-            maxRight = Math.Max(maxRight, _tableBox.LocationX + _tableBox.ActualWidth);
+            maxRight = Math.Max(maxRight, _tableBox.LocationX + _tableBox.ExpectedWidth);
             _tableBox.SetActualRight(maxRight + horizontal_spacing + _tableBox.ActualBorderRightWidth);
             _tableBox.SetActualBottom(Math.Max(maxBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth);
         }
@@ -811,7 +811,7 @@ namespace HtmlRenderer.Dom
         static void ApplyCellVerticalAlignment(CssBox cell)
         {
 
-            ArgChecker.AssertArgNotNull(cell, "cell");
+             
 
             float dist = 0f;
             switch (cell.VerticalAlign)

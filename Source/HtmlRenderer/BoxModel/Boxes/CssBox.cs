@@ -427,7 +427,7 @@ namespace HtmlRenderer.Dom
         public static CssBox CreateBox(IHtmlElement tag, CssBox parent = null)
         {
 
-            ArgChecker.AssertArgNotNull(tag, "tag");
+            
             switch (tag.WellknownTagName)
             {
                 case WellknownHtmlTagName.IMG:
@@ -489,7 +489,7 @@ namespace HtmlRenderer.Dom
         /// <returns>the new box</returns>
         public static CssBox CreateBox(CssBox parent, IHtmlElement tag = null, int insertAt = -1)
         {
-            ArgChecker.AssertArgNotNull(parent, "parent");
+             
             var newBox = new CssBox(parent, tag);
             newBox.InheritStyles(parent);
             if (insertAt > -1)
@@ -518,7 +518,7 @@ namespace HtmlRenderer.Dom
         /// <returns>the new block box</returns>
         internal static CssBox CreateAnonBlock(CssBox parent, int insertAt = -1)
         {
-            ArgChecker.AssertArgNotNull(parent, "parent");
+           
             var newBox = CreateBox(parent, null, insertAt);
             newBox.CssDisplay = CssDisplay.Block;
             return newBox;
@@ -607,10 +607,12 @@ namespace HtmlRenderer.Dom
                             }
 
                             //-------------------------
-                            var prevSibling = args.LatestSiblingBox;
-                            //this box location is related to prevSibling ***  
+
                             float left = myContainingBlock.ClientLeft + this.ActualMarginLeft;
-                            float top = 0;
+                            float top = 0; 
+                            
+                            var prevSibling = args.LatestSiblingBox;
+
                             if (prevSibling == null)
                             {
                                 if (this.ParentBox != null)
@@ -624,13 +626,12 @@ namespace HtmlRenderer.Dom
                                 {
                                     top = this.LocationY;
                                 }
-
                                 top += prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth;
-                            }
+                            } 
                             top += MarginTopCollapse(prevSibling);
 
                             this.SetLocation(left, top);
-                            this.SetActualHeightToZero();
+                            this.SetHeightToZero();
                         }
                         //--------------------------------------------------------------------------
                         //If we're talking about a table here..
@@ -646,7 +647,7 @@ namespace HtmlRenderer.Dom
                                     //If there's just inline boxes, create LineBoxes
                                     if (DomUtils.ContainsInlinesOnly(this))
                                     {
-                                        this.SetActualHeightToZero();
+                                        this.SetHeightToZero();
                                         CssLayoutEngine.FlowContentRuns(this, args); //This will automatically set the bottom of this block
                                     }
                                     else if (_boxes.Count > 0)
@@ -692,8 +693,8 @@ namespace HtmlRenderer.Dom
             }
 
             //----------------------------------------------------------------------------- 
-            //set height
-            this.SetActualBottom(Math.Max(ActualBottom, this.LocationY + ActualHeight));
+            //set height 
+            this.SetActualBottom(Math.Max(ActualBottom, this.LocationY + this.ExpectedHeight));
 
             CreateListItemBox(args);
 
@@ -1048,17 +1049,21 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the result of collapsing the vertical margins of the two boxes
         /// </summary>
-        /// <param name="prevSibling">the previous box under the same parent</param>
+        /// <param name="upperSibling">the previous box under the same parent</param>
         /// <returns>Resulting top margin</returns>
-        protected float MarginTopCollapse(CssBoxBase prevSibling)
+        protected float MarginTopCollapse(CssBox upperSibling)
         {
             float value;
-            if (prevSibling != null)
+            if (upperSibling != null)
             {
-                value = Math.Max(prevSibling.ActualMarginBottom, ActualMarginTop);
-                CollapsedMarginTop = value;
+                value = Math.Max(upperSibling.ActualMarginBottom, this.ActualMarginTop);
+                this.CollapsedMarginTop = value;
             }
-            else if (_parentBox != null && ActualPaddingTop < 0.1 && ActualPaddingBottom < 0.1 && _parentBox.ActualPaddingTop < 0.1 && _parentBox.ActualPaddingBottom < 0.1)
+            else if (_parentBox != null &&
+                ActualPaddingTop < 0.1 &&
+                ActualPaddingBottom < 0.1 &&
+                _parentBox.ActualPaddingTop < 0.1 &&
+                _parentBox.ActualPaddingBottom < 0.1)
             {
                 value = Math.Max(0, ActualMarginTop - Math.Max(_parentBox.ActualMarginTop, _parentBox.CollapsedMarginTop));
             }
@@ -1066,14 +1071,6 @@ namespace HtmlRenderer.Dom
             {
                 value = ActualMarginTop;
             }
-
-            // fix for hr tag
-
-            if (value < 0.1 && this.WellknownTagName == WellknownHtmlTagName.HR)
-            {
-                value = GetEmHeight() * 1.1f;
-            }
-
             return value;
         }
 
@@ -1355,5 +1352,24 @@ namespace HtmlRenderer.Dom
         }
 
         #endregion
+
+
+
+        //---------------------------------------
+        internal void UseExpectedHeight()
+        {
+            this.SetHeight(this.ExpectedHeight);
+        }
+        internal void SetHeightToZero()
+        {
+            this.SetHeight(0);
+        }
+        internal float AvaliableContentWidth
+        {
+            get
+            {
+                return this.SizeWidth - this.ActualPaddingLeft - this.ActualPaddingRight - this.ActualBorderLeftWidth - this.ActualBorderRightWidth;
+            }
+        }
     }
 }

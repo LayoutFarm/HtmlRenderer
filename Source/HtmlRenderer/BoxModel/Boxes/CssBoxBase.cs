@@ -100,8 +100,14 @@ namespace HtmlRenderer.Dom
         float _actualCornerSW;
         float _actualCornerSE;
 
-        float _actualHeight;
-        float _actualWidth;
+        /// <summary>
+        /// user's expected height
+        /// </summary>
+        float _expectedHight;
+        /// <summary>
+        /// user's expected width 
+        /// </summary>
+        float _expectedWidth;
 
         float _actualPaddingTop;
         float _actualPaddingBottom;
@@ -113,7 +119,7 @@ namespace HtmlRenderer.Dom
         float _actualMarginRight;
         float _actualMarginLeft;
 
-        float _collapsedMarginTop;
+      
 
         float _actualBorderTopWidth;
         float _actualBorderLeftWidth;
@@ -627,13 +633,7 @@ namespace HtmlRenderer.Dom
                 return this._sizeWidth;
             }
         }
-        internal float AvaliableContentWidth
-        {
-            get
-            {
-                return this.SizeWidth - this.ActualPaddingLeft - this.ActualPaddingRight - this.ActualBorderLeftWidth - this.ActualBorderRightWidth;
-            }
-        }
+       
         public float SizeHeight
         {
             get
@@ -675,16 +675,20 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float ActualBottom
         {
-            get { return this.LocationY + Size.Height; }
+            get { return this.LocationY + this._sizeHeight; }
         }
         public void SetActualBottom(float value)
         {
             this._sizeHeight = value - this._locationY;
         }
-        internal void SetActualHeightToZero()
+
+        protected void SetHeight(float height)
         {
-            this._sizeHeight = 0;
+            this._sizeHeight = height;
         }
+            
+
+
         /// <summary>
         /// Gets the left of the client rectangle (Where content starts rendering)
         /// </summary>
@@ -728,33 +732,32 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the actual height
         /// </summary>
-        public float ActualHeight
+        public float ExpectedHeight
         {
             get
             {
                 if ((this._prop_pass_eval & CssBoxBaseAssignments.HEIGHT) == 0)
                 {
                     this._prop_pass_eval |= CssBoxBaseAssignments.HEIGHT;
-                    return _actualHeight = CssValueParser.ParseLength(Height, Size.Height, this);
+                    return _expectedHight = CssValueParser.ParseLength(Height, this.SizeHeight, this);
                 }
-
-                return _actualHeight;
+                return _expectedHight;
             }
         }
 
         /// <summary>
         /// Gets the actual height
         /// </summary>
-        public float ActualWidth
+        public float ExpectedWidth
         {
             get
             {
                 if ((this._prop_pass_eval & CssBoxBaseAssignments.WIDTH) == 0)
                 {
                     this._prop_pass_eval |= CssBoxBaseAssignments.WIDTH;
-                    return _actualWidth = CssValueParser.ParseLength(Width, Size.Width, this);
+                    return _expectedWidth = CssValueParser.ParseLength(Width, Size.Width, this);
                 }
-                return _actualWidth;
+                return _expectedWidth;
             }
         }
 
@@ -822,14 +825,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        /// <summary>
-        /// The margin top value if was effected by margin collapse.
-        /// </summary>
-        public float CollapsedMarginTop
-        {
-            get { return this._collapsedMarginTop; }
-            set { _collapsedMarginTop = value; }
-        }
+       
         /// <summary>
         /// Gets the actual top's Margin
         /// </summary>

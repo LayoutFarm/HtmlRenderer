@@ -94,7 +94,7 @@ namespace HtmlRenderer
         /// <param name="fontFamily">The font family to add.</param>
         public static void AddFontFamily(FontFamily fontFamily)
         {
-            ArgChecker.AssertArgNotNull(fontFamily, "fontFamily");
+             
             FontsUtils.AddFontFamily(fontFamily);
         }
 
@@ -110,9 +110,7 @@ namespace HtmlRenderer
         /// <param name="toFamily">the font family to replace with</param>
         public static void AddFontFamilyMapping(string fromFamily, string toFamily)
         {
-            ArgChecker.AssertArgNotNullOrEmpty(fromFamily, "fromFamily");
-            ArgChecker.AssertArgNotNullOrEmpty(toFamily, "toFamily");
-
+           
             FontsUtils.AddFontFamilyMapping(fromFamily, toFamily);
         }
 
@@ -133,7 +131,7 @@ namespace HtmlRenderer
             float maxWidth = 0, CssActiveSheet cssData = null,
             EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
         {
-            ArgChecker.AssertArgNotNull(g, "g");
+             
             return Measure(g, html, container, maxWidth, cssData, false, stylesheetLoad, imageLoad);
         }
 
@@ -156,7 +154,7 @@ namespace HtmlRenderer
             EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null,
             EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
         {
-            ArgChecker.AssertArgNotNull(g, "g");
+            
             return Measure(g, html, container, maxWidth, cssData, true, stylesheetLoad, imageLoad);
         }
 
@@ -179,7 +177,7 @@ namespace HtmlRenderer
         public static SizeF Render(Graphics g, string html, float left = 0, float top = 0, float maxWidth = 0, CssActiveSheet cssData = null,
                                    EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
         {
-            ArgChecker.AssertArgNotNull(g, "g");
+            
             return RenderClip(g, html, new PointF(left, top), new SizeF(maxWidth, 0), cssData, false, stylesheetLoad, imageLoad);
         }
 
@@ -202,8 +200,7 @@ namespace HtmlRenderer
         /// <returns>the actual size of the rendered html</returns>
         public static SizeF Render(Graphics g, string html, PointF location, SizeF maxSize, CssActiveSheet cssData = null,
                                    EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
-        {
-            ArgChecker.AssertArgNotNull(g, "g");
+        {   
             return RenderClip(g, html, location, maxSize, cssData, false, stylesheetLoad, imageLoad);
         }
 
@@ -226,7 +223,7 @@ namespace HtmlRenderer
         public static SizeF RenderGdiPlus(Graphics g, string html, float left = 0, float top = 0, float maxWidth = 0, CssActiveSheet cssData = null,
                                           EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
         {
-            ArgChecker.AssertArgNotNull(g, "g");
+             
             return RenderClip(g, html, new PointF(left, top), new SizeF(maxWidth, 0), cssData, true, stylesheetLoad, imageLoad);
         }
 
@@ -250,7 +247,7 @@ namespace HtmlRenderer
         public static SizeF RenderGdiPlus(Graphics g, string html, PointF location, SizeF maxSize, CssActiveSheet cssData = null,
                                           EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
         {
-            ArgChecker.AssertArgNotNull(g, "g");
+             
             return RenderClip(g, html, location, maxSize, cssData, true, stylesheetLoad, imageLoad);
         }
 
@@ -270,7 +267,7 @@ namespace HtmlRenderer
         public static void RenderToImage(Image image, string html, PointF location = new PointF(), CssActiveSheet cssData = null,
                                          EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
         {
-            ArgChecker.AssertArgNotNull(image, "image");
+             
             var maxSize = new SizeF(image.Size.Width - location.X, image.Size.Height - location.Y);
             RenderToImage(image, html, location, maxSize, cssData, stylesheetLoad, imageLoad);
         }
@@ -291,7 +288,7 @@ namespace HtmlRenderer
         public static void RenderToImage(Image image, string html, PointF location, SizeF maxSize, CssActiveSheet cssData = null,
                                          EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
         {
-            ArgChecker.AssertArgNotNull(image, "image");
+             
 
             if (!string.IsNullOrEmpty(html))
             {

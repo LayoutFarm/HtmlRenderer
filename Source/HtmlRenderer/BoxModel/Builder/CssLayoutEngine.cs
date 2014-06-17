@@ -34,11 +34,8 @@ namespace HtmlRenderer.Dom
         /// <param name="imageWord">the image word to measure</param>
         public static void MeasureImageSize(CssImageRun imageWord)
         {
-            ArgChecker.AssertArgNotNull(imageWord, "imageWord");
-            ArgChecker.AssertArgNotNull(imageWord.OwnerBox, "imageWord.OwnerBox");
-
-            var width = imageWord.OwnerBox.Width; // new CssLength(imageWord.OwnerBox.Width);
-            var height = imageWord.OwnerBox.Height;// new CssLength(imageWord.OwnerBox.Height);
+            var width = imageWord.OwnerBox.Width;
+            var height = imageWord.OwnerBox.Height;
 
             bool hasImageTagWidth = width.Number > 0 && width.Unit == CssUnit.Pixels;
             bool hasImageTagHeight = height.Number > 0 && height.Unit == CssUnit.Pixels;
@@ -127,21 +124,18 @@ namespace HtmlRenderer.Dom
         /// <param name="blockBox"></param>
         public static void FlowContentRuns(CssBox blockBox, LayoutArgs args)
         {
-            ArgChecker.AssertArgNotNull(args, "args");
-            ArgChecker.AssertArgNotNull(blockBox, "blockBox");
 
-
+            
             blockBox.ResetLineBoxes();
-
-
 
             float limitRight = blockBox.ActualRight - blockBox.ActualPaddingRight - blockBox.ActualBorderRightWidth;
 
             //Get the start x and y of the blockBox
             float startx = blockBox.LocationX + blockBox.ActualPaddingLeft - 0 + blockBox.ActualBorderLeftWidth;
             float starty = blockBox.LocationY + blockBox.ActualPaddingTop - 0 + blockBox.ActualBorderTopWidth;
-            float curx = startx + blockBox.ActualTextIndent;
-            float cury = starty;
+            float cx = startx + blockBox.ActualTextIndent;
+            float cy = starty;
+
 
             //Reminds the maximum bottom reached
             float maxRight = startx;
@@ -152,37 +146,43 @@ namespace HtmlRenderer.Dom
             blockBox.AddLineBox(line);
 
             //****
-            FlowBox(args, blockBox, blockBox, limitRight, 0, startx, ref line, ref curx, ref cury, ref maxRight, ref maxBottom);
+            FlowBox(args, blockBox, blockBox, limitRight, 0, startx, ref line, ref cx, ref cy, ref maxRight, ref maxBottom);
             //****
 
             // if width is not restricted we need to lower it to the actual width
             if (blockBox.ActualRight >= CssBox.MAX_RIGHT)
-            {                 
+            {
                 blockBox.SetActualRight(maxRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
             }
             //---------------------
-            bool isRightToLeft = blockBox.CssDirection == CssDirection.Rtl;
-
-            foreach (CssLineBox linebox in blockBox.GetLineBoxIter())
+            if (blockBox.CssDirection == CssDirection.Rtl)
             {
-                ApplyAlignment(linebox, args);
-                if (isRightToLeft) ApplyRightToLeft(blockBox, linebox);
-                linebox.CloseLine(); //***
+                foreach (CssLineBox linebox in blockBox.GetLineBoxIter())
+                {
+                    ApplyAlignment(linebox, args);
+                    ApplyRightToLeft(blockBox, linebox); //***
+                    linebox.CloseLine(); //***
+                }
             }
-            //---------------------
+            else
+            {
+                foreach (CssLineBox linebox in blockBox.GetLineBoxIter())
+                {
+                    ApplyAlignment(linebox, args);
+                    linebox.CloseLine(); //***
+                }
+            }
+
             blockBox.SetActualBottom(maxBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
 
-            // handle limiting block height when overflow is hidden
-            //if (blockBox.Height != null && blockBox.Height != CssConstants.Auto && 
-            if (!blockBox.Height.IsEmpty && !blockBox.Height.IsAuto &&
-                blockBox.Overflow == CssOverflow.Hidden &&
-                blockBox.ActualBottom - blockBox.LocationY > blockBox.ActualHeight)
+            // handle limiting block height when overflow is hidden             
+            if (blockBox.Overflow == CssOverflow.Hidden &&
+                 !blockBox.Height.IsEmpty && !blockBox.Height.IsAuto &&
+                 blockBox.SizeHeight > blockBox.ExpectedHeight)
             {
-                blockBox.SetActualBottom(blockBox.LocationY + blockBox.ActualHeight);
+                blockBox.UseExpectedHeight();
             }
         }
-
-
 
         #region Private methods
 
@@ -337,14 +337,15 @@ namespace HtmlRenderer.Dom
                 childNumber++;
             }
 
-            // handle height setting
-            if (maxBottom - oY < splitableBox.ActualHeight)
+            //------------
+            if (oY + splitableBox.ExpectedHeight > maxBottom)
             {
-                maxBottom += splitableBox.ActualHeight - (maxBottom - oY);
+                maxBottom = oY + splitableBox.ExpectedHeight;
             }
+            //------------
 
             // handle width setting
-            if (splitableBox.IsInline && 0 <= cx - oX && cx - oX < splitableBox.ActualWidth)
+            if (splitableBox.IsInline && 0 <= cx - oX && cx - oX < splitableBox.ExpectedWidth)
             {
                 throw new NotSupportedException();
                 //// hack for actual width handling
@@ -376,9 +377,6 @@ namespace HtmlRenderer.Dom
             //****
             splitableBox.LastHostingLineBox = hostLine;
         }
-
-
-
         /// <summary>
         /// Adjust the position of absolute elements by letf and top margins.
         /// </summary>

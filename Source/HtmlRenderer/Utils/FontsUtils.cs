@@ -251,8 +251,7 @@ namespace HtmlRenderer.Utils
         /// <param name="fontFamily">The font family to add.</param>
         public static void AddFontFamily(FontFamily fontFamily)
         {
-            ArgChecker.AssertArgNotNull(fontFamily, "family");
-
+            
             _existingFontFamilies[fontFamily.Name] = fontFamily;
         }
 
@@ -264,10 +263,7 @@ namespace HtmlRenderer.Utils
         /// <param name="fromFamily">the font family to replace</param>
         /// <param name="toFamily">the font family to replace with</param>
         public static void AddFontFamilyMapping(string fromFamily, string toFamily)
-        {
-            ArgChecker.AssertArgNotNullOrEmpty(fromFamily, "fromFamily");
-            ArgChecker.AssertArgNotNullOrEmpty(toFamily, "toFamily");
-
+        { 
             _fontsMapping[fromFamily] = toFamily;
         }
 

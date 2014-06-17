@@ -137,7 +137,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utils\ArgChecker.cs" />
+    <Compile Include="Utils\ArgCheckNotNullAttribute.cs" />
     <Compile Include="Utils\FontsUtils.cs" />
     <Compile Include="Utils\RenderUtils.cs" />
     <Compile Include="CascadeStyleSheet\CssConstants.cs" />

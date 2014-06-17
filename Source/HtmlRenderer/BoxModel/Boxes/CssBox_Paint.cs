@@ -58,9 +58,7 @@ namespace HtmlRenderer.Dom
 #endif
         }
         protected virtual void PaintImp(IGraphics g, PaintingArgs args)
-        {
-
-
+        {   
             if (this.CssDisplay != CssDisplay.None &&
                (this.CssDisplay != CssDisplay.TableCell ||
                  EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
@@ -69,10 +67,11 @@ namespace HtmlRenderer.Dom
                 var prevClip = RenderUtils.ClipGraphicsByOverflow(g, args);
                 if (this.Overflow == CssOverflow.Hidden)
                 {
-                    var actualHeight = this.ActualHeight;
-                    var actualWidth = this.ActualWidth;
-                    if (actualHeight > 0)
-                    {
+                    var expectedW = this.ExpectedWidth;
+                    var expectedH = this.ExpectedHeight;                    
+                    //clip width 
+                    if (expectedH > 0)
+                    {   
                         if (prevClip.IsEmpty)
                         {
                             prevClip = this.Bounds;
@@ -82,7 +81,7 @@ namespace HtmlRenderer.Dom
                         {
 
                         }
-                    }
+                    } 
                 }
 
 

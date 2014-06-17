@@ -102,9 +102,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="loadCompleteCallback">callback raised when image load process is complete with image or without</param>
         public ImageLoadHandler(HtmlContainer htmlContainer, ActionInt<Image, Rectangle, bool> loadCompleteCallback)
         {
-            ArgChecker.AssertArgNotNull(htmlContainer, "htmlContainer");
-            ArgChecker.AssertArgNotNull(loadCompleteCallback, "loadCompleteCallback");
-
+            
             _htmlContainer = htmlContainer;
             _loadCompleteCallback = loadCompleteCallback;
         }

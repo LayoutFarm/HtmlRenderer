@@ -108,8 +108,8 @@ namespace HtmlRenderer
         /// <param name="e">the mouse event args</param>
         public void HandleMouseDown(Control parent, MouseEventArgs e)
         {
-            ArgChecker.AssertArgNotNull(parent, "parent");
-            ArgChecker.AssertArgNotNull(e, "e");
+             
+            
             try
             {
 
@@ -180,9 +180,7 @@ namespace HtmlRenderer
         /// <param name="e">the mouse event args</param>
         public void HandleMouseUp(Control parent, MouseEventArgs e)
         {
-            ArgChecker.AssertArgNotNull(parent, "parent");
-            ArgChecker.AssertArgNotNull(e, "e");
-
+            
             try
             {
                 if (_selectionHandler != null && IsMouseInContainer(e.Location))
@@ -216,9 +214,7 @@ namespace HtmlRenderer
         /// <param name="e">mouse event args</param>
         public void HandleMouseDoubleClick(Control parent, MouseEventArgs e)
         {
-            ArgChecker.AssertArgNotNull(parent, "parent");
-            ArgChecker.AssertArgNotNull(e, "e");
-
+            
             try
             {
                 if (_selectionHandler != null && IsMouseInContainer(e.Location))
@@ -237,9 +233,7 @@ namespace HtmlRenderer
         /// <param name="e">the mouse event args</param>
         public void HandleMouseMove(Control parent, MouseEventArgs e)
         {
-            ArgChecker.AssertArgNotNull(parent, "parent");
-            ArgChecker.AssertArgNotNull(e, "e");
-
+           
             //try
             //{
             var loc = OffsetByScroll(e.Location);
@@ -279,7 +273,7 @@ namespace HtmlRenderer
         /// <param name="parent">the control hosting the html to set cursor and invalidate</param>
         public void HandleMouseLeave(Control parent)
         {
-            ArgChecker.AssertArgNotNull(parent, "parent");
+             
 
             try
             {
@@ -299,9 +293,7 @@ namespace HtmlRenderer
         /// <param name="e">the pressed key</param>
         public void HandleKeyDown(Control parent, KeyEventArgs e)
         {
-            ArgChecker.AssertArgNotNull(parent, "parent");
-            ArgChecker.AssertArgNotNull(e, "e");
-
+            
             try
             {
                 if (e.Control && _selectionHandler != null)

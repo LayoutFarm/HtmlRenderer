@@ -40,7 +40,7 @@ namespace HtmlRenderer.Handlers
             out string stylesheet, 
             out CssActiveSheet stylesheetData)
         {
-            ArgChecker.AssertArgNotNull(htmlContainer, "htmlContainer");
+             
 
             stylesheet = null;
             stylesheetData = null;

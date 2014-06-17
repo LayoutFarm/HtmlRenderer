@@ -21,7 +21,7 @@ namespace HtmlRenderer.Dom
     /// <summary>
     /// CSS box for hr element.
     /// </summary>
-    internal sealed class CssBoxHr : CssBox
+    sealed class CssBoxHr : CssBox
     {
         /// <summary>
         /// Init.
@@ -48,16 +48,42 @@ namespace HtmlRenderer.Dom
                 return;
             }
 
-            var prevSibling = args.LatestSiblingBox;// CssBox.GetPreviousSibling(this);
+            var prevSibling = args.LatestSiblingBox;
 
-            var myContainingBlock = args.LatestContaingBlock;//this.ContainingBlock;
+            var myContainingBlock = args.LatestContaingBlock;
 
-            float left = myContainingBlock.LocationX + myContainingBlock.ActualPaddingLeft + ActualMarginLeft + myContainingBlock.ActualBorderLeftWidth;
-            float top = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? LocationY : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
+
+            float left = myContainingBlock.ClientLeft + ActualMarginLeft;
+            float top = 0;
+            if (prevSibling == null)
+            {
+                if (this.ParentBox != null)
+                {
+                    top = this.ParentBox.ClientTop;
+                }
+            }
+            else
+            {
+                if (this.ParentBox == null)
+                {
+                    top = this.LocationY;
+                }
+                top += prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth;
+            }
+
+            // fix for hr tag 
+            var maringTopCollapse = MarginTopCollapse(prevSibling);
+            
+            if (maringTopCollapse < 0.1)
+            {
+                maringTopCollapse = this.GetEmHeight() * 1.1f;
+            }
+            top += maringTopCollapse;
+
 
             this.SetLocation(left, top);
-            this.SetActualHeightToZero();
-            
+            this.SetHeightToZero();
+
 
             //width at 100% (or auto)
             float minwidth = CalculateMinimumWidth();
@@ -71,7 +97,7 @@ namespace HtmlRenderer.Dom
             //Check width if not auto
             if (!this.Width.IsAuto && !this.Width.IsEmpty)
             {
-                width = CssValueParser.ParseLength(Width, width, this); 
+                width = CssValueParser.ParseLength(Width, width, this);
             }
 
 
@@ -80,7 +106,7 @@ namespace HtmlRenderer.Dom
                 width = minwidth;
             }
 
-            float height = ActualHeight;
+            float height = ExpectedHeight;
             if (height < 1)
             {
                 height = this.SizeHeight + ActualBorderTopWidth + ActualBorderBottomWidth;
