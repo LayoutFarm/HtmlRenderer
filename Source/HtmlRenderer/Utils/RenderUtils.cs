@@ -66,7 +66,7 @@ namespace HtmlRenderer.Utils
         /// <returns>brush instance</returns>
         public static Brush GetSolidBrush(Color color)
         {
-           
+
             if (color == Color.White)
             {
                 return Brushes.White;
@@ -106,7 +106,7 @@ namespace HtmlRenderer.Utils
             }
             else
             {
-                pen.Width = 1;                
+                pen.Width = 1;
             }
             return pen;
         }
@@ -119,18 +119,18 @@ namespace HtmlRenderer.Utils
         /// <param name="g">the graphics to clip</param>
         /// <param name="box">the box that is rendered to get containing blocks</param>
         /// <returns>the prev region if clipped, otherwise null</returns>
-        public static RectangleF ClipGraphicsByOverflow(IGraphics g, CssBox box)
+        public static RectangleF ClipGraphicsByOverflow(IGraphics g, PaintingArgs args)
         {
-            var containingBlock = box.ContainingBlock;
+            var containingBlock = args.LatestContainingBlock; //box.ContainingBlock;
             while (true)
             {
-                if (containingBlock.Overflow  == CssOverflow.Hidden)
+                if (containingBlock.Overflow == CssOverflow.Hidden)
                 {
                     var prevClip = g.GetClip();
                     var rect = containingBlock.ClientRectangle;
                     //rect.X -= 2; // atodo: find better way to fix it
                     //rect.Width += 2;
-                    rect.Offset(box.HtmlContainer.ScrollOffset);
+                    rect.Offset(args.HtmlContainer.ScrollOffset);//box.HtmlContainer.ScrollOffset);
                     rect.Intersect(prevClip);
                     g.SetClip(rect);
                     return prevClip;
@@ -160,7 +160,7 @@ namespace HtmlRenderer.Utils
                 g.SetClip(prevClip);
             }
         }
-        
+
         /// <summary>
         /// Draw image loading icon.
         /// </summary>
@@ -212,7 +212,7 @@ namespace HtmlRenderer.Utils
             path.AddLine(rect.X + nwRadius, rect.Y, rect.Right - neRadius, rect.Y);
 
             //NE Arc
-            if( neRadius > 0f )
+            if (neRadius > 0f)
             {
                 path.AddArc(
                     RectangleF.FromLTRB(rect.Right - neRadius, rect.Top, rect.Right, rect.Top + neRadius),
@@ -225,7 +225,7 @@ namespace HtmlRenderer.Utils
             path.AddLine(rect.Right, rect.Top + neRadius, rect.Right, rect.Bottom - seRadius);
 
             //SE Arc
-            if( seRadius > 0f )
+            if (seRadius > 0f)
             {
                 path.AddArc(
                     RectangleF.FromLTRB(rect.Right - seRadius, rect.Bottom - seRadius, rect.Right, rect.Bottom),
@@ -236,7 +236,7 @@ namespace HtmlRenderer.Utils
             path.AddLine(rect.Right - seRadius, rect.Bottom, rect.Left + swRadius, rect.Bottom);
 
             //SW Arc
-            if( swRadius > 0f )
+            if (swRadius > 0f)
             {
                 path.AddArc(
                     RectangleF.FromLTRB(rect.Left, rect.Bottom - swRadius, rect.Left + swRadius, rect.Bottom),
@@ -249,7 +249,7 @@ namespace HtmlRenderer.Utils
             path.AddLine(rect.Left, rect.Bottom - swRadius, rect.Left, rect.Top + nwRadius);
 
             //NW Arc
-            if( nwRadius > 0f )
+            if (nwRadius > 0f)
             {
                 path.AddArc(
                     RectangleF.FromLTRB(rect.Left, rect.Top, rect.Left + nwRadius, rect.Top + nwRadius),
@@ -270,7 +270,7 @@ namespace HtmlRenderer.Utils
         /// <returns>image instance</returns>
         private static Image GetLoadImage()
         {
-            if( _loadImage == null )
+            if (_loadImage == null)
                 _loadImage = Resources.LoadImage;
             return _loadImage;
         }
@@ -281,7 +281,7 @@ namespace HtmlRenderer.Utils
         /// <returns>image instance</returns>
         private static Image GetErrorImage()
         {
-            if( _errorImage == null )
+            if (_errorImage == null)
                 _errorImage = Resources.ErrorImage;
             return _errorImage;
         }

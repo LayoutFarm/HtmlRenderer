@@ -468,7 +468,7 @@ namespace HtmlRenderer.Dom
             PointF offset = HtmlContainer != null ? HtmlContainer.ScrollOffset : PointF.Empty;
             rects.Offset(offset);
 
-            var prevClip = RenderUtils.ClipGraphicsByOverflow(g, this);
+            var prevClip = RenderUtils.ClipGraphicsByOverflow(g, args);
 
             PaintBackground(g, rects, true, true);
 

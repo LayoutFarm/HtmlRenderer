@@ -380,16 +380,17 @@ namespace HtmlRenderer.Handlers
         {
             try
             {
-                var mp = _parentControl.PointToClient(Control.MousePosition);
-                HtmlContainerImpl containerImpl = _currentLink.HtmlContainer as HtmlContainerImpl;
-                if (containerImpl != null)
-                {
-                    containerImpl.HandleLinkClicked(_parentControl, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0), _currentLink);
-                }
-                else
-                {
-                    throw new NotSupportedException();
-                }
+                throw new NotSupportedException();
+                //var mp = _parentControl.PointToClient(Control.MousePosition);
+                //HtmlContainerImpl containerImpl = _currentLink.HtmlContainer as HtmlContainerImpl;
+                //if (containerImpl != null)
+                //{
+                //    containerImpl.HandleLinkClicked(_parentControl, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0), _currentLink);
+                //}
+                //else
+                //{
+                //    throw new NotSupportedException();
+                //}
                 //_currentLink.HtmlContainer.HandleLinkClicked(_parentControl, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0), _currentLink);
             }
             catch (HtmlLinkClickedException)

@@ -121,7 +121,7 @@ namespace HtmlRenderer.Dom
             if (root != null)
             {
 
-                root.HtmlContainer = htmlContainer;
+                CssBox.SetHtmlContainer(root, htmlContainer);
                 //-------------------------------------------------------------------
                 ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(htmlContainer, cssData);
                 ApplyStyleSheet(root, activeCssTemplate);
@@ -584,7 +584,7 @@ namespace HtmlRenderer.Dom
 
 
 
-       
+
 
 #if DEBUG
         static int dbugCorrectCount = 0;
@@ -610,9 +610,9 @@ namespace HtmlRenderer.Dom
         }
 
 
-      
-        
-        
+
+
+
         /// <summary>
         /// Check if the given box contains inline and block child boxes.
         /// </summary>
@@ -642,7 +642,7 @@ namespace HtmlRenderer.Dom
 
 
         #endregion
-    
+
         internal static void SetPropertyValue(CssBoxBase cssBox, CssBoxBase parentBox, WebDom.CssPropertyDeclaration decl)
         {
             //assign property  

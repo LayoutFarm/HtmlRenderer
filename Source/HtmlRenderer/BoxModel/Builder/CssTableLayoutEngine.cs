@@ -59,15 +59,15 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="g"></param>
         /// <param name="tableBox"> </param>
-        public static void PerformLayout(IGraphics g, CssBox tableBox)
+        public static void PerformLayout(CssBox tableBox, LayoutArgs args)
         {
-            ArgChecker.AssertArgNotNull(g, "g");
+
             ArgChecker.AssertArgNotNull(tableBox, "tableBox");
 
             //try
             //{
             var table = new CssTableLayoutEngine(tableBox);
-            table.Layout(g);
+            table.Layout(args);
             //}
             //catch (Exception ex)
             //{
@@ -82,9 +82,9 @@ namespace HtmlRenderer.Dom
         /// Analyzes the Table and assigns values to this CssTable object.
         /// To be called from the constructor
         /// </summary>
-        void Layout(IGraphics g)
+        void Layout(LayoutArgs args)
         {
-            S1_MeasureWords(_tableBox, g);
+            S1_MeasureWords(_tableBox, args.Gfx);
 
             // get the table boxes into the proper fields
             // Insert EmptyBoxes for vertical cell spanning.  
@@ -110,7 +110,7 @@ namespace HtmlRenderer.Dom
             _tableBox.PaddingLeft = _tableBox.PaddingTop = _tableBox.PaddingRight = _tableBox.PaddingBottom = CssLength.ZeroPx;
 
             //Actually layout cells!
-            S8_LayoutCells(g);
+            S8_LayoutCells(args);
         }
         /// <summary>
         /// Recursively measures words inside the box
@@ -659,7 +659,7 @@ namespace HtmlRenderer.Dom
         /// Layout the cells by the calculated table layout
         /// </summary>
         /// <param name="g"></param>
-        void S8_LayoutCells(IGraphics g)
+        void S8_LayoutCells(LayoutArgs args)
         {
             float vertical_spacing = GetVerticalSpacing(_tableBox);
             float horizontal_spacing = GetHorizontalSpacing(_tableBox);
@@ -672,6 +672,7 @@ namespace HtmlRenderer.Dom
             int currentRow = 0;
             int col_count = this.columnCollection.Count;
 
+            args.PushContaingBlock(_tableBox);
             for (int i = 0; i < _allRowBoxes.Count; i++)
             {
                 var row = _allRowBoxes[i];
@@ -692,8 +693,9 @@ namespace HtmlRenderer.Dom
                         float width = this.columnCollection.GetCellWidth(grid_index, colspan, horizontal_spacing);
 
                         cell.SetLocation(curx, cury);
-                        cell.Size = new SizeF(width, 0f);
-                        cell.PerformLayout(g); //That will automatically set the bottom of the cell
+                        cell.SetSize(width, 0);
+
+                        cell.PerformLayout(args); //That will automatically set the bottom of the cell
 
                         //Alter max bottom only if row is cell's row + cell's rowspan - 1
                         CssVerticalCellSpacingBox sb = cell as CssVerticalCellSpacingBox;
@@ -719,6 +721,7 @@ namespace HtmlRenderer.Dom
                     }
                 }
 
+
                 foreach (CssBox cell in row.GetChildBoxIter())
                 {
                     CssVerticalCellSpacingBox spacer = cell as CssVerticalCellSpacingBox;
@@ -727,7 +730,7 @@ namespace HtmlRenderer.Dom
                     {
                         if (cell.RowSpan == 1)
                         {
-                            cell.ActualBottom = maxBottom;
+                            cell.SetActualBottom(maxBottom);
                             ApplyCellVerticalAlignment(cell);
                         }
                     }
@@ -735,7 +738,7 @@ namespace HtmlRenderer.Dom
                     {
                         if (spacer.EndRow == currentRow)
                         {
-                            spacer.ExtendedBox.ActualBottom = maxBottom;
+                            spacer.ExtendedBox.SetActualBottom(maxBottom);
                             ApplyCellVerticalAlignment(spacer.ExtendedBox);
                         }
                     }
@@ -744,12 +747,12 @@ namespace HtmlRenderer.Dom
                 cury = maxBottom + vertical_spacing;
                 currentRow++;
             }
+            args.PopContainingBlock();
 
             maxRight = Math.Max(maxRight, _tableBox.LocationX + _tableBox.ActualWidth);
-            _tableBox.ActualRight = maxRight + horizontal_spacing + _tableBox.ActualBorderRightWidth;
-            _tableBox.ActualBottom = Math.Max(maxBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth;
+            _tableBox.SetActualRight(maxRight + horizontal_spacing + _tableBox.ActualBorderRightWidth);
+            _tableBox.SetActualBottom(Math.Max(maxBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth);
         }
-
 
         /// <summary>
         /// Get the table cells spacing for all the cells in the table.<br/>
@@ -825,11 +828,11 @@ namespace HtmlRenderer.Dom
             if (dist != 0f)
             {
                 if (cell.LineBoxCount > 0)
-                {   
+                {
                     foreach (CssLineBox linebox in cell.GetLineBoxIter())
                     {
                         linebox.OffsetTop(dist);
-                    } 
+                    }
                 }
                 else
                 {
@@ -1127,22 +1130,27 @@ namespace HtmlRenderer.Dom
             foreach (CssBox row in _allRowBoxes)
             {
                 int gridIndex = 0;
+                int thisRowCellCount = row.ChildCount;
                 foreach (CssBox cellBox in row.GetChildBoxIter())
                 {
                     int colspan = cellBox.ColSpan;
                     int affect_col = Math.Min(gridIndex + colspan, col_count) - 1;
 
                     var col = this.columnCollection[affect_col];
-                    if (colspan == 1)
+                    float spanned_width = 0;
+
+                    if (colspan > 1)
                     {
-                        float spanned_width = (colspan - 1) * horizontal_spacing;
+                        spanned_width += (colspan - 1) * horizontal_spacing +
+                            this.columnCollection.GetSpannedMinWidth(thisRowCellCount, gridIndex, colspan);
+
                         col.MinWidth = Math.Max(col.MinWidth, cellBox.CalculateMinimumWidth() - spanned_width);
                     }
                     else
                     {
-                        float spanned_width = this.columnCollection.GetSpannedMinWidth(row.ChildCount, gridIndex, colspan) + (colspan - 1) * horizontal_spacing;
-                        col.MinWidth = Math.Max(col.MinWidth, cellBox.CalculateMinimumWidth() - spanned_width);
-                    }
+                        col.MinWidth = Math.Max(col.MinWidth, cellBox.CalculateMinimumWidth());                        
+                    } 
+
                     gridIndex += cellBox.ColSpan;
                 }
             }

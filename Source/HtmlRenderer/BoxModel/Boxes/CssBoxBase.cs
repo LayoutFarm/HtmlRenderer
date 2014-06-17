@@ -591,20 +591,16 @@ namespace HtmlRenderer.Dom
         public float LocationX
         {
             get { return this._locationX; }
-            set
-            {
-                this._locationX = value;
-                this._baseCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
-            }
         }
         public float LocationY
         {
             get { return this._locationY; }
-            set
-            {
-                this._locationY = value;
-                this._baseCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
-            }
+        }
+        public void Offset(float dx, float dy)
+        {
+            this._locationX += dx;
+            this._locationY += dy;
+            this._baseCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
         }
         public void SetLocation(float x, float y)
         {
@@ -618,11 +614,11 @@ namespace HtmlRenderer.Dom
         public SizeF Size
         {
             get { return new SizeF(this._sizeWidth, this._sizeHeight); }
-            set
-            {
-                this._sizeWidth = value.Width;
-                this._sizeHeight = value.Height;
-            }
+        }
+        public void SetSize(float width, float height)
+        {
+            this._sizeWidth = width;
+            this._sizeHeight = height;
         }
         public float SizeWidth
         {
@@ -630,7 +626,13 @@ namespace HtmlRenderer.Dom
             {
                 return this._sizeWidth;
             }
-
+        }
+        internal float AvaliableContentWidth
+        {
+            get
+            {
+                return this.SizeWidth - this.ActualPaddingLeft - this.ActualPaddingRight - this.ActualBorderLeftWidth - this.ActualBorderRightWidth;
+            }
         }
         public float SizeHeight
         {
@@ -662,9 +664,11 @@ namespace HtmlRenderer.Dom
         public float ActualRight
         {
             get { return LocationX + Size.Width; }
-            set { Size = new SizeF(value - LocationX, Size.Height); }
         }
-
+        public void SetActualRight(float value)
+        {
+            this._sizeWidth = value - LocationX;
+        }
         /// <summary>
         /// Gets or sets the bottom of the box. 
         /// (When setting, alters only the Size.Height of the box)
@@ -672,12 +676,15 @@ namespace HtmlRenderer.Dom
         public float ActualBottom
         {
             get { return this.LocationY + Size.Height; }
-            set
-            {
-                Size = new SizeF(Size.Width, value - this.LocationY);
-            }
         }
-
+        public void SetActualBottom(float value)
+        {
+            this._sizeHeight = value - this._locationY;
+        }
+        internal void SetActualHeightToZero()
+        {
+            this._sizeHeight = 0;
+        }
         /// <summary>
         /// Gets the left of the client rectangle (Where content starts rendering)
         /// </summary>
@@ -1315,7 +1322,7 @@ namespace HtmlRenderer.Dom
             {
                 this._prop_pass_eval |= CssBoxBaseAssignments.WORD_SPACING;
 
-                _actualWordSpacing = CssUtils.WhiteSpace(g, this);
+                _actualWordSpacing = CssUtils.MeasureWhiteSpace(g, this);
                 if (!this.WordSpacing.IsNormalWordSpacing)
                 {
                     _actualWordSpacing += CssValueParser.ParseLength(this.WordSpacing, 1, this);
