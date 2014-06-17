@@ -64,7 +64,7 @@ namespace HtmlRenderer.Dom
             get { return _imageWord.Image; }
         }
 
-        internal void PaintImage(IGraphics g, PointF offset, CssRun w, PaintingArgs args)
+        internal void PaintImage(IGraphics g, CssRun w, PaintingArgs args)
         {
 
             if (_imageLoadHandler == null)
@@ -75,9 +75,7 @@ namespace HtmlRenderer.Dom
             }
 
             var rect = w.Rectangle;
-            //PointF offset = HtmlContainer.ScrollOffset;
-
-            rect.Offset(offset);
+            rect.Offset(args.Offset);
 
             var prevClip = RenderUtils.ClipGraphicsByOverflow(g, args);
 
@@ -85,7 +83,7 @@ namespace HtmlRenderer.Dom
             BordersDrawHandler.DrawBoxBorders(g, this, rect, true, true);
 
             RectangleF r = _imageWord.Rectangle;
-            r.Offset(offset);
+            r.Offset(args.Offset);
             r.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
             r.Y += ActualBorderTopWidth + ActualPaddingTop;
             r.X = (float)Math.Floor(r.X);

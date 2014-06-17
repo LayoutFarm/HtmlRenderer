@@ -413,10 +413,10 @@ namespace HtmlRenderer.Dom
 
 
 
-        internal void PaintRuns(IGraphics g, PointF offset, PaintingArgs args)
+        internal void PaintRuns(IGraphics g, PaintingArgs args)
         {
             //iterate from each words
-
+            PointF offset = args.Offset;
             CssBox latestOwner = null;
             Font font = null;
             Color color = Color.Empty;
@@ -429,7 +429,7 @@ namespace HtmlRenderer.Dom
                     case CssRunKind.Image:
                         {
                             CssBoxImage owner = (CssBoxImage)w.OwnerBox;
-                            owner.PaintImage(g, offset, w, args);
+                            owner.PaintImage(g, w, args);
 
                         } break;
                     case CssRunKind.Text:
@@ -469,10 +469,11 @@ namespace HtmlRenderer.Dom
 
 #if DEBUG
 
-        internal void dbugPaintRuns(IGraphics g, PointF offset)
+        internal void dbugPaintRuns(IGraphics g, PaintingArgs args)
         {
             return;
             //linebox 
+            PointF offset = args.Offset;
             float x1 = this.OwnerBox.LocationX + offset.X;
             float y1 = this.CachedLineTop + offset.Y;
             float x2 = x1 + this.CachedLineContentWidth;
@@ -507,9 +508,10 @@ namespace HtmlRenderer.Dom
 
 #endif
 
-        internal void PaintBackgroundAndBorder(IGraphics g, PointF offset)
+        internal void PaintBackgroundAndBorder(IGraphics g, PaintingArgs args)
         {
             //iterate each strip
+            PointF offset = args.Offset;
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
@@ -561,8 +563,9 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        internal void PaintDecoration(IGraphics g, PointF offset)
+        internal void PaintDecoration(IGraphics g, PaintingArgs args)
         {
+            PointF offset = args.Offset;
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];

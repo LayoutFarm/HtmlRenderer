@@ -521,8 +521,8 @@ namespace HtmlRenderer
 
             LayoutArgs layoutArgs = new LayoutArgs(ig);
             layoutArgs.PushContaingBlock(_root); 
-            _root.PerformLayout(layoutArgs);
-            layoutArgs.PopContainingBlock();
+            
+            _root.PerformLayout(layoutArgs); 
 
             if (_maxSize.Width <= 0.1)
             {
@@ -532,7 +532,9 @@ namespace HtmlRenderer
                 _actualSize = SizeF.Empty;
                 _root.PerformLayout(layoutArgs);
             }
-
+            
+            
+            layoutArgs.PopContainingBlock();
             //    }
 
             //}
@@ -564,7 +566,7 @@ namespace HtmlRenderer
             //Recalculate and perform layout if need !
             //this.PerformLayout(ig);
 
-            args.PushContainingBox(_root.ContainingBlock);
+            args.PushContainingBox(_root.ContainingBlock); 
             _root.Paint(ig, args);
             args.PopContainingBox();
 

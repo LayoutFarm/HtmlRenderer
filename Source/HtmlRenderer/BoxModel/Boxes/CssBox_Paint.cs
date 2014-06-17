@@ -27,7 +27,7 @@ namespace HtmlRenderer.Dom
                 RectangleF rect = args.LatestContaingBoxClientRect;
                 //rect.X -= 2;
                 //rect.Width += 2;
-                rect.Offset(args.HtmlContainerScrollOffset);
+                rect.Offset(args.Offset);
                 rect.Intersect(args.PeekViewportBound());
 
                 clip.Intersect(rect);
@@ -85,19 +85,20 @@ namespace HtmlRenderer.Dom
                     }
                 }
 
-                PointF offset = args.HtmlContainerScrollOffset;
+
                 var viewport = args.PeekViewportBound();
                 //---------------------------------------------
                 if (this.CssDisplay != CssDisplay.Inline)
                 {
                     var bound = this.Bounds;
-                    bound.Offset(offset);
+                    bound.Offset(args.Offset);
                     PaintBackground(g, bound, true, true);
                     BordersDrawHandler.DrawBoxBorders(g, this, bound, true, true);
                 }
 
                 if (this.LineBoxCount > 0)
                 {
+                    PointF offset = args.Offset;
                     viewport.Offset(offset.X, -offset.Y);
                     float viewport_top = viewport.Top;
                     float viewport_bottom = viewport.Bottom;
@@ -112,16 +113,16 @@ namespace HtmlRenderer.Dom
                             {
                                 //----------------------------------------
                                 //1.
-                                line.PaintBackgroundAndBorder(g, offset);
+                                line.PaintBackgroundAndBorder(g, args);
 
                                 this.HtmlContainer.SelectionRange.Draw(g, args, line.CachedLineTop, line.CacheLineHeight, offset);
 
                                 //2.
-                                line.PaintRuns(g, offset, args);
+                                line.PaintRuns(g, args);
                                 //3.
-                                line.PaintDecoration(g, offset);
+                                line.PaintDecoration(g, args);
 #if DEBUG
-                                line.dbugPaintRuns(g, offset);
+                                line.dbugPaintRuns(g, args);
 #endif
                                 //----------------------------------------
                             }
@@ -142,13 +143,13 @@ namespace HtmlRenderer.Dom
                             {
                                 //----------------------------------------
                                 //1.
-                                line.PaintBackgroundAndBorder(g, offset);
+                                line.PaintBackgroundAndBorder(g, args);
                                 //2.
-                                line.PaintRuns(g, offset, args);
+                                line.PaintRuns(g, args);
                                 //3.
-                                line.PaintDecoration(g, offset);
+                                line.PaintDecoration(g, args);
 #if DEBUG
-                                line.dbugPaintRuns(g, offset);
+                                line.dbugPaintRuns(g, args);
 #endif
                                 //----------------------------------------
                             }

@@ -73,16 +73,16 @@ namespace HtmlRenderer.Dom
                 return this.containingBoxs.Peek().ClientRectangle;
             }
         }
-        public PointF HtmlContainerScrollOffset
-        {
-            get
-            {
-                return this.htmlContainerScrollOffset;
-            }
-        }
+       
         public RectangleF PeekViewportBound()
         {
             return this.viewportBounds.Peek();
+        }
+
+
+        public PointF Offset
+        {
+            get { return this.htmlContainerScrollOffset; }
         }
     }
 
