@@ -591,20 +591,16 @@ namespace HtmlRenderer.Dom
         public float LocationX
         {
             get { return this._locationX; }
-            set
-            {
-                this._locationX = value;
-                this._baseCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
-            }
         }
         public float LocationY
         {
             get { return this._locationY; }
-            set
-            {
-                this._locationY = value;
-                this._baseCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
-            }
+        }
+        public void Offset(float dx, float dy)
+        {
+            this._locationX += dx;
+            this._locationY += dy;
+            this._baseCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
         }
         public void SetLocation(float x, float y)
         {
@@ -661,7 +657,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float ActualRight
         {
-            get { return LocationX + Size.Width; } 
+            get { return LocationX + Size.Width; }
         }
         public void SetActualRight(float value)
         {
@@ -680,7 +676,10 @@ namespace HtmlRenderer.Dom
         {
             this._sizeHeight = value - this._locationY;
         }
-        
+        internal void SetActualHeightToZero()
+        {
+            this._sizeHeight = 0;
+        }
         /// <summary>
         /// Gets the left of the client rectangle (Where content starts rendering)
         /// </summary>

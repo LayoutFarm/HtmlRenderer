@@ -532,7 +532,7 @@ namespace HtmlRenderer.Dom
         public void PerformLayout(LayoutArgs args)
         {
             PerformContentLayout(args);
-            
+
         }
 
         internal void ChangeSiblingOrder(int siblingIndex)
@@ -613,11 +613,11 @@ namespace HtmlRenderer.Dom
 
                     var prevSibling = CssBox.GetPreviousSibling(this);
 
-                    this.LocationX = myContainingBlock.LocationX + myContainingBlock.ActualPaddingLeft + ActualMarginLeft + myContainingBlock.ActualBorderLeftWidth;
-                    float top = this.LocationY = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? this.LocationY : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
+                    float left = myContainingBlock.LocationX + myContainingBlock.ActualPaddingLeft + ActualMarginLeft + myContainingBlock.ActualBorderLeftWidth;
+                    float top = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? this.LocationY : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
 
-
-                    this.SetActualBottom(top);
+                    this.SetLocation(left, top);
+                    this.SetActualHeightToZero(); 
                 }
 
                 //If we're talking about a table here..
@@ -631,7 +631,8 @@ namespace HtmlRenderer.Dom
                     //If there's just inline boxes, create LineBoxes
                     if (DomUtils.ContainsInlinesOnly(this))
                     {
-                        SetActualBottom(this.LocationY);
+                        
+                        this.SetActualHeightToZero();
                         CssLayoutEngine.FlowRuns(this, args); //This will automatically set the bottom of this block
 
                     }
@@ -657,15 +658,14 @@ namespace HtmlRenderer.Dom
                 {
                     if (!this.HasAssignedLocation)
                     {
-
                         this.SetLocation(prevSibling.LocationX, prevSibling.LocationY);
                     }
-
                     SetActualBottom(prevSibling.ActualBottom);
                 }
             }
 
-            SetActualBottom(Math.Max(ActualBottom, this.LocationY + ActualHeight));
+            this.SetActualBottom(Math.Max(ActualBottom, this.LocationY + ActualHeight));
+
             CreateListItemBox(args);
 
             var actualWidth = Math.Max(CalculateMinimumWidth() + CalculateWidthMarginDeep(this), this.SizeWidth < CssBox.MAX_RIGHT ? ActualRight : 0);
@@ -840,9 +840,9 @@ namespace HtmlRenderer.Dom
 
                     if (_listItemBox.HasContainingBlockProperty)
                     {
-                         
+
                         _listItemBox.PerformContentLayout(layoutArgs);
-                       
+
                     }
                     else
                     {
@@ -1118,8 +1118,9 @@ namespace HtmlRenderer.Dom
                 _listItemBox.OffsetTop(amount);
             }
 
-            //Location = new PointF(Location.X, Location.Y + amount);
-            this.LocationY += amount;
+
+
+            this.Offset(0, amount);
         }
         /// <summary>
         /// Paints the background of the box

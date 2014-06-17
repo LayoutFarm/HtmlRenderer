@@ -52,12 +52,13 @@ namespace HtmlRenderer.Dom
 
             var myContainingBlock = args.LatestContaingBlock;//this.ContainingBlock;
 
-            this.LocationX = myContainingBlock.LocationX + myContainingBlock.ActualPaddingLeft + ActualMarginLeft + myContainingBlock.ActualBorderLeftWidth;
-            float top = this.LocationY = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? LocationY : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
+            float left = myContainingBlock.LocationX + myContainingBlock.ActualPaddingLeft + ActualMarginLeft + myContainingBlock.ActualBorderLeftWidth;
+            float top = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? LocationY : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
 
-            //Location = new PointF(left, top);
-             
-            SetActualBottom(top);
+            this.SetLocation(left, top);
+            this.SetActualHeightToZero();
+            
+
             //width at 100% (or auto)
             float minwidth = CalculateMinimumWidth();
 
@@ -95,7 +96,7 @@ namespace HtmlRenderer.Dom
                 BorderTopWidth = CssLength.MakePixelLength(1); //"1px";
                 BorderBottomWidth = CssLength.MakePixelLength(1);
             }
-                         
+
             this.SetSize(width, height);
             this.SetActualBottom(this.LocationY + ActualPaddingTop + ActualPaddingBottom + height);
         }

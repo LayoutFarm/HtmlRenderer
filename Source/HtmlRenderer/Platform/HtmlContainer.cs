@@ -515,9 +515,11 @@ namespace HtmlRenderer
 
             _actualSize = SizeF.Empty;
             // if width is not restricted we set it to large value to get the actual later             
-            _root.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
 
             _root.SetLocation(_location.X, _location.Y);
+            _root.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
+
+            
 
             LayoutArgs layoutArgs = new LayoutArgs(ig);
             layoutArgs.PushContaingBlock(_root); 
