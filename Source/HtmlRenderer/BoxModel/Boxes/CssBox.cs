@@ -330,7 +330,7 @@ namespace HtmlRenderer.Dom
         }
         internal void AddLineBox(CssLineBox linebox)
         {
-            linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);  
+            linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
         }
         internal int LineBoxCount
         {
@@ -532,7 +532,7 @@ namespace HtmlRenderer.Dom
         public void PerformLayout(LayoutArgs args)
         {
             PerformContentLayout(args);
-
+            
         }
 
         internal void ChangeSiblingOrder(int siblingIndex)
@@ -578,9 +578,6 @@ namespace HtmlRenderer.Dom
                 MeasureRunsSize(args.Gfx);
             }
 
-
-
-
             if (IsBlock ||
                 this.CssDisplay == CssDisplay.ListItem ||
                 this.CssDisplay == CssDisplay.Table ||
@@ -588,7 +585,11 @@ namespace HtmlRenderer.Dom
                 this.CssDisplay == CssDisplay.TableCell)
             {
                 // Because their width and height are set by CssTable                 
-                CssBox myContainingBlock = this.ContainingBlock;
+                //CssBox myContainingBlock = this.ContainingBlock;//args.LatestContaingBlock;
+                //if (this.ContainingBlock != args.LatestContaingBlock)
+                //{ 
+                //}
+                CssBox myContainingBlock = args.LatestContaingBlock;//args.LatestContaingBlock;
 
                 if (this.CssDisplay != CssDisplay.TableCell && this.CssDisplay != CssDisplay.Table)
                 {
@@ -629,18 +630,21 @@ namespace HtmlRenderer.Dom
                 {
                     //If there's just inline boxes, create LineBoxes
                     if (DomUtils.ContainsInlinesOnly(this))
-                    {                         
+                    {
                         SetActualBottom(this.LocationY);
                         CssLayoutEngine.FlowRuns(this, args); //This will automatically set the bottom of this block
 
                     }
                     else if (_boxes.Count > 0)
                     {
+                        args.PushContaingBlock(this);
                         foreach (var childBox in Boxes)
                         {
                             childBox.PerformLayout(args);
                         }
-                        ActualRight = CalculateActualRight();
+                        args.PopContainingBlock();
+
+                        SetActualRight(CalculateActualRight());
                         SetActualBottom(MarginBottomCollapse());
                     }
                 }
@@ -833,7 +837,18 @@ namespace HtmlRenderer.Dom
 
 
                     _listItemBox.ParseWordContent();
-                    _listItemBox.PerformContentLayout(layoutArgs);
+
+                    if (_listItemBox.HasContainingBlockProperty)
+                    {
+                         
+                        _listItemBox.PerformContentLayout(layoutArgs);
+                       
+                    }
+                    else
+                    {
+                        _listItemBox.PerformContentLayout(layoutArgs);
+                    }
+
 
                     var fRun = _listItemBox.FirstRun;
 

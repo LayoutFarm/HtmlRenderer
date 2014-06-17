@@ -13,7 +13,7 @@ using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
 {
-     
+
     partial class CssBox
     {
 
@@ -66,7 +66,7 @@ namespace HtmlRenderer.Dom
                  EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
             {
 
-                var prevClip = RenderUtils.ClipGraphicsByOverflow(g, this);
+                var prevClip = RenderUtils.ClipGraphicsByOverflow(g, args);
                 if (this.Overflow == CssOverflow.Hidden)
                 {
                     var actualHeight = this.ActualHeight;
@@ -97,7 +97,7 @@ namespace HtmlRenderer.Dom
                 }
 
                 if (this.LineBoxCount > 0)
-                {   
+                {
                     viewport.Offset(offset.X, -offset.Y);
                     float viewport_top = viewport.Top;
                     float viewport_bottom = viewport.Bottom;
@@ -117,7 +117,7 @@ namespace HtmlRenderer.Dom
                                 this.HtmlContainer.SelectionRange.Draw(g, args, line.CachedLineTop, line.CacheLineHeight, offset);
 
                                 //2.
-                                line.PaintRuns(g, offset);
+                                line.PaintRuns(g, offset, args);
                                 //3.
                                 line.PaintDecoration(g, offset);
 #if DEBUG
@@ -127,7 +127,7 @@ namespace HtmlRenderer.Dom
                             }
                             else
                             {
-                                
+
                             }
                         }
 
@@ -144,7 +144,7 @@ namespace HtmlRenderer.Dom
                                 //1.
                                 line.PaintBackgroundAndBorder(g, offset);
                                 //2.
-                                line.PaintRuns(g, offset);
+                                line.PaintRuns(g, offset, args);
                                 //3.
                                 line.PaintDecoration(g, offset);
 #if DEBUG
@@ -154,7 +154,7 @@ namespace HtmlRenderer.Dom
                             }
                             else
                             {
-                                 
+
                             }
                         }
                     }

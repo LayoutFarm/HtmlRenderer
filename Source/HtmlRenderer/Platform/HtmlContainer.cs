@@ -518,8 +518,11 @@ namespace HtmlRenderer
             _root.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
 
             _root.SetLocation(_location.X, _location.Y);
+
             LayoutArgs layoutArgs = new LayoutArgs(ig);
+            layoutArgs.PushContaingBlock(_root); 
             _root.PerformLayout(layoutArgs);
+            layoutArgs.PopContainingBlock();
 
             if (_maxSize.Width <= 0.1)
             {

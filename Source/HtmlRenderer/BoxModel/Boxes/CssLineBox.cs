@@ -249,7 +249,7 @@ namespace HtmlRenderer.Dom
                 contentRight = Math.Max(contentRight, strip.Right);
             }
 
-            this.CacheLineHeight = height; 
+            this.CacheLineHeight = height;
             this.CachedLineTop = bottom - height;
             this.CachedLineContentWidth = contentRight - lineOwner.LocationX;
 
@@ -278,7 +278,7 @@ namespace HtmlRenderer.Dom
                 run.OffsetY(ydiff);
             }
 
-            this.CacheLineHeight = height; 
+            this.CacheLineHeight = height;
             this.CachedLineTop = bottom - height;
 
             if (this.OwnerBox.SizeWidth < CachedLineContentWidth)
@@ -413,7 +413,7 @@ namespace HtmlRenderer.Dom
 
 
 
-        internal void PaintRuns(IGraphics g, PointF offset)
+        internal void PaintRuns(IGraphics g, PointF offset, PaintingArgs args)
         {
             //iterate from each words
 
@@ -429,7 +429,7 @@ namespace HtmlRenderer.Dom
                     case CssRunKind.Image:
                         {
                             CssBoxImage owner = (CssBoxImage)w.OwnerBox;
-                            owner.PaintImage(g, offset, w);
+                            owner.PaintImage(g, offset, w, args);
 
                         } break;
                     case CssRunKind.Text:

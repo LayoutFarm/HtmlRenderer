@@ -661,10 +661,12 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float ActualRight
         {
-            get { return LocationX + Size.Width; }
-            set { this._sizeWidth = value - LocationX; }
+            get { return LocationX + Size.Width; } 
         }
-
+        public void SetActualRight(float value)
+        {
+            this._sizeWidth = value - LocationX;
+        }
         /// <summary>
         /// Gets or sets the bottom of the box. 
         /// (When setting, alters only the Size.Height of the box)
@@ -678,10 +680,7 @@ namespace HtmlRenderer.Dom
         {
             this._sizeHeight = value - this._locationY;
         }
-        public void SetBottom2(float value)
-        {
-            //this._sizeHeight = value - this._locationY;
-        }
+        
         /// <summary>
         /// Gets the left of the client rectangle (Where content starts rendering)
         /// </summary>

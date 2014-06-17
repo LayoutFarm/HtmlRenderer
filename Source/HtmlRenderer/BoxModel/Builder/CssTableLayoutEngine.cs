@@ -672,6 +672,7 @@ namespace HtmlRenderer.Dom
             int currentRow = 0;
             int col_count = this.columnCollection.Count;
 
+            args.PushContaingBlock(_tableBox);
             for (int i = 0; i < _allRowBoxes.Count; i++)
             {
                 var row = _allRowBoxes[i];
@@ -693,6 +694,7 @@ namespace HtmlRenderer.Dom
 
                         cell.SetLocation(curx, cury);
                         cell.SetSize(width, 0);
+                        
                         cell.PerformLayout(args); //That will automatically set the bottom of the cell
 
                         //Alter max bottom only if row is cell's row + cell's rowspan - 1
@@ -719,6 +721,7 @@ namespace HtmlRenderer.Dom
                     }
                 }
 
+
                 foreach (CssBox cell in row.GetChildBoxIter())
                 {
                     CssVerticalCellSpacingBox spacer = cell as CssVerticalCellSpacingBox;
@@ -744,9 +747,10 @@ namespace HtmlRenderer.Dom
                 cury = maxBottom + vertical_spacing;
                 currentRow++;
             }
+            args.PopContainingBlock();
 
-            maxRight = Math.Max(maxRight, _tableBox.LocationX + _tableBox.ActualWidth);
-            _tableBox.ActualRight = maxRight + horizontal_spacing + _tableBox.ActualBorderRightWidth;
+            maxRight = Math.Max(maxRight, _tableBox.LocationX + _tableBox.ActualWidth);             
+            _tableBox.SetActualRight(maxRight + horizontal_spacing + _tableBox.ActualBorderRightWidth);
             _tableBox.SetActualBottom(Math.Max(maxBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth);
         }
 

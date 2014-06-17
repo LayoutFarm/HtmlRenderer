@@ -52,7 +52,7 @@ namespace HtmlRenderer.Dom
         /// <param name="tag">the html tag data of this box</param>
         public CssBoxImage(CssBox parent, IHtmlElement tag)
             : base(parent, tag)
-        {   
+        {
             this.AddRun(this._imageWord = new CssImageRun(this));
         }
 
@@ -64,14 +64,14 @@ namespace HtmlRenderer.Dom
             get { return _imageWord.Image; }
         }
 
-        internal void PaintImage(IGraphics g, PointF offset, CssRun w)
+        internal void PaintImage(IGraphics g, PointF offset, CssRun w, PaintingArgs args)
         {
 
             if (_imageLoadHandler == null)
             {
                 _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
                 _imageLoadHandler.LoadImage(GetAttribute("src"),
-                    HtmlTag); 
+                    HtmlTag);
             }
 
             var rect = w.Rectangle;
@@ -79,7 +79,7 @@ namespace HtmlRenderer.Dom
 
             rect.Offset(offset);
 
-            var prevClip = RenderUtils.ClipGraphicsByOverflow(g, this);
+            var prevClip = RenderUtils.ClipGraphicsByOverflow(g, args);
 
             PaintBackground(g, rect, true, true);
             BordersDrawHandler.DrawBoxBorders(g, this, rect, true, true);
@@ -97,7 +97,7 @@ namespace HtmlRenderer.Dom
                     g.DrawImage(_imageWord.Image, Rectangle.Round(r));
                 else
                     g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
- 
+
             }
             else if (_imageLoadingComplete)
             {
@@ -138,7 +138,7 @@ namespace HtmlRenderer.Dom
             PointF offset = HtmlContainer.ScrollOffset;
             rect.Offset(offset);
 
-            var prevClip = RenderUtils.ClipGraphicsByOverflow(g, this);
+            var prevClip = RenderUtils.ClipGraphicsByOverflow(g, args);
 
             PaintBackground(g, rect, true, true);
             BordersDrawHandler.DrawBoxBorders(g, this, rect, true, true);
@@ -157,7 +157,7 @@ namespace HtmlRenderer.Dom
                 else
                     g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
 
- 
+
             }
             else if (_imageLoadingComplete)
             {
@@ -217,7 +217,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         private void SetErrorBorder()
         {
-             
+
             SetAllBorders(CssBorderStyle.Solid, CssLength.MakePixelLength(2),
                 System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
 

@@ -50,7 +50,7 @@ namespace HtmlRenderer.Dom
 
             var prevSibling = CssBox.GetPreviousSibling(this);
 
-            var myContainingBlock = this.ContainingBlock;
+            var myContainingBlock = args.LatestContaingBlock;//this.ContainingBlock;
 
             this.LocationX = myContainingBlock.LocationX + myContainingBlock.ActualPaddingLeft + ActualMarginLeft + myContainingBlock.ActualBorderLeftWidth;
             float top = this.LocationY = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? LocationY : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);

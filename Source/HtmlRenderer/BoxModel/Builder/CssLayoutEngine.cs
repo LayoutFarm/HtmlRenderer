@@ -157,8 +157,8 @@ namespace HtmlRenderer.Dom
 
             // if width is not restricted we need to lower it to the actual width
             if (blockBox.ActualRight >= CssBox.MAX_RIGHT)
-            {
-                blockBox.ActualRight = maxRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth;
+            {                 
+                blockBox.SetActualRight(maxRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
             }
             //---------------------
             bool isRightToLeft = blockBox.CssDirection == CssDirection.Rtl;
@@ -166,10 +166,7 @@ namespace HtmlRenderer.Dom
             foreach (CssLineBox linebox in blockBox.GetLineBoxIter())
             {
                 ApplyAlignment(linebox, args);
-
                 if (isRightToLeft) ApplyRightToLeft(blockBox, linebox);
-
-
                 linebox.CloseLine(); //***
             }
             //---------------------
