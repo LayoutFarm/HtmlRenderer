@@ -125,7 +125,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="g"></param>
         /// <param name="blockBox"></param>
-        public static void FlowRuns(CssBox blockBox, LayoutArgs args)
+        public static void FlowContentRuns(CssBox blockBox, LayoutArgs args)
         {
             ArgChecker.AssertArgNotNull(args, "args");
             ArgChecker.AssertArgNotNull(blockBox, "blockBox");

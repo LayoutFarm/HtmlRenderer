@@ -164,7 +164,9 @@ namespace HtmlRenderer
         /// <summary>
         /// The actual size of the rendered html (after layout)
         /// </summary>
-        private SizeF _actualSize;
+        //private SizeF _actualSize;
+        float _actualWidth;
+        float _actualHeight;
 
         #endregion
 
@@ -372,10 +374,20 @@ namespace HtmlRenderer
         /// </summary>
         public SizeF ActualSize
         {
-            get { return _actualSize; }
-            internal set { _actualSize = value; }
+            get { return new SizeF(this._actualWidth, this._actualHeight); }
         }
-
+        internal void UpdateSizeIfWiderOrHeigher(float newWidth, float newHeight)
+        {
+            if (newWidth > this._actualWidth)
+            {
+                this._actualWidth = newWidth;
+            }
+            if (newHeight > this._actualHeight)
+            {
+                this._actualHeight = newHeight;
+            }
+        }
+        
         public abstract string SelectedText
         {
             get;
@@ -512,30 +524,29 @@ namespace HtmlRenderer
             }
             //-----------------------
 
-
-            _actualSize = SizeF.Empty;
+            _actualWidth = _actualHeight = 0;
             // if width is not restricted we set it to large value to get the actual later             
 
             _root.SetLocation(_location.X, _location.Y);
             _root.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
 
-            
+
 
             LayoutArgs layoutArgs = new LayoutArgs(ig);
-            layoutArgs.PushContaingBlock(_root); 
-            
-            _root.PerformLayout(layoutArgs); 
+            layoutArgs.PushContaingBlock(_root);
+
+            _root.PerformLayout(layoutArgs);
 
             if (_maxSize.Width <= 0.1)
             {
                 // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
 
-                _root.SetSize((int)Math.Ceiling(_actualSize.Width), 0);
-                _actualSize = SizeF.Empty;
+                _root.SetSize((int)Math.Ceiling(this._actualWidth), 0);
+                _actualWidth = _actualHeight = 0;
                 _root.PerformLayout(layoutArgs);
             }
-            
-            
+
+
             layoutArgs.PopContainingBlock();
             //    }
 
@@ -568,7 +579,7 @@ namespace HtmlRenderer
             //Recalculate and perform layout if need !
             //this.PerformLayout(ig);
 
-            args.PushContainingBox(_root.ContainingBlock); 
+            args.PushContainingBox(_root.ContainingBlock);
             _root.Paint(ig, args);
             args.PopContainingBox();
 
@@ -711,7 +722,10 @@ namespace HtmlRenderer
         /// </summary>
         protected bool IsMouseInContainer(Point location)
         {
-            return location.X >= _location.X && location.X <= _location.X + _actualSize.Width && location.Y >= _location.Y + ScrollOffset.Y && location.Y <= _location.Y + ScrollOffset.Y + _actualSize.Height;
+            return location.X >= _location.X &&
+                location.X <= _location.X + _actualWidth &&
+                location.Y >= _location.Y + ScrollOffset.Y &&
+                location.Y <= _location.Y + ScrollOffset.Y + _actualHeight;
         }
 
         /// <summary>

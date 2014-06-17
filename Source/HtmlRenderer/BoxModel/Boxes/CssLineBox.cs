@@ -183,6 +183,9 @@ namespace HtmlRenderer.Dom
             get;
             private set;
         }
+       
+
+
         internal void CloseLine()
         {
 #if DEBUG
@@ -201,6 +204,7 @@ namespace HtmlRenderer.Dom
             //---------------------------------------------------------------------------
             //first level
             Dictionary<CssBox, PartialBoxStrip> dicStrips = new Dictionary<CssBox, PartialBoxStrip>();
+            
             for (int i = 0; i < j; ++i)
             {
                 var run = myruns[i];
@@ -220,8 +224,9 @@ namespace HtmlRenderer.Dom
                 //-------------
                 //first level data
                 RegisterStripPart(run.OwnerBox, run.Left, run.Top, run.Right, run.Bottom, totalStrips, dicStrips);
+                
             }
-
+            
 
             //---------------------------------------------------------------------------
             //other step to upper layer, until no new strip    
@@ -247,6 +252,7 @@ namespace HtmlRenderer.Dom
                 height = Math.Max(height, strip.Height);
                 bottom = Math.Max(bottom, strip.Bottom);
                 contentRight = Math.Max(contentRight, strip.Right);
+
             }
 
             this.CacheLineHeight = height;
