@@ -125,7 +125,7 @@ namespace HtmlRenderer.Dom
         public static void FlowContentRuns(CssBox blockBox, LayoutArgs args)
         {
 
-            
+
             blockBox.ResetLineBoxes();
 
             float limitRight = blockBox.ActualRight - blockBox.ActualPaddingRight - blockBox.ActualBorderRightWidth;
@@ -528,10 +528,11 @@ namespace HtmlRenderer.Dom
         private static void ApplyJustifyAlignment(IGraphics g, CssLineBox lineBox)
         {
 
-            if (lineBox.Equals(lineBox.OwnerBox.GetLastLineBox())) return;
 
+            if (lineBox.IsLastLine) return;
 
-            float indent = lineBox.Equals(lineBox.OwnerBox.GetFirstLineBox()) ? lineBox.OwnerBox.ActualTextIndent : 0f;
+            float indent = lineBox.IsFirstLine ? lineBox.OwnerBox.ActualTextIndent : 0f;
+
             float textSum = 0f;
             float words = 0f;
             float availWidth = lineBox.OwnerBox.ClientRectangle.Width - indent;

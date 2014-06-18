@@ -427,7 +427,7 @@ namespace HtmlRenderer.Dom
         public static CssBox CreateBox(IHtmlElement tag, CssBox parent = null)
         {
 
-            
+
             switch (tag.WellknownTagName)
             {
                 case WellknownHtmlTagName.IMG:
@@ -489,7 +489,7 @@ namespace HtmlRenderer.Dom
         /// <returns>the new box</returns>
         public static CssBox CreateBox(CssBox parent, IHtmlElement tag = null, int insertAt = -1)
         {
-             
+
             var newBox = new CssBox(parent, tag);
             newBox.InheritStyles(parent);
             if (insertAt > -1)
@@ -518,7 +518,7 @@ namespace HtmlRenderer.Dom
         /// <returns>the new block box</returns>
         internal static CssBox CreateAnonBlock(CssBox parent, int insertAt = -1)
         {
-           
+
             var newBox = CreateBox(parent, null, insertAt);
             newBox.CssDisplay = CssDisplay.Block;
             return newBox;
@@ -532,7 +532,6 @@ namespace HtmlRenderer.Dom
         public void PerformLayout(LayoutArgs args)
         {
             PerformContentLayout(args);
-
         }
 
         internal void ChangeSiblingOrder(int siblingIndex)
@@ -580,6 +579,10 @@ namespace HtmlRenderer.Dom
             //-----------------------------------------------------------
             switch (this.CssDisplay)
             {
+                case Dom.CssDisplay.None:
+                    {
+                        return;
+                    }
                 case Dom.CssDisplay.Block:
                 case Dom.CssDisplay.ListItem:
                 case Dom.CssDisplay.Table:
@@ -595,22 +598,22 @@ namespace HtmlRenderer.Dom
                             //-------------------------
                             if (this.CssDisplay != Dom.CssDisplay.Table)
                             {
-                                float avaliableWidth = myContainingBlock.AvaliableContentWidth;
+                                float availableWidth = myContainingBlock.AvailableContentWidth;
 
                                 if (!this.Width.IsAuto && !this.Width.IsEmpty)
                                 {
-                                    avaliableWidth = CssValueParser.ParseLength(Width, avaliableWidth, this);
+                                    availableWidth = CssValueParser.ParseLength(Width, availableWidth, this);
                                 }
-                                this.SetSize(avaliableWidth, this.SizeHeight);
+                                this.SetSize(availableWidth, this.SizeHeight);
                                 // must be separate because the margin can be calculated by percentage of the width
-                                this.SetSize(avaliableWidth - ActualMarginLeft - ActualMarginRight, this.SizeHeight);
+                                this.SetSize(availableWidth - ActualMarginLeft - ActualMarginRight, this.SizeHeight);
                             }
 
                             //-------------------------
 
                             float left = myContainingBlock.ClientLeft + this.ActualMarginLeft;
-                            float top = 0; 
-                            
+                            float top = 0;
+
                             var prevSibling = args.LatestSiblingBox;
 
                             if (prevSibling == null)
@@ -627,7 +630,7 @@ namespace HtmlRenderer.Dom
                                     top = this.LocationY;
                                 }
                                 top += prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth;
-                            } 
+                            }
                             top += MarginTopCollapse(prevSibling);
 
                             this.SetLocation(left, top);
@@ -659,7 +662,10 @@ namespace HtmlRenderer.Dom
 
                                         foreach (var childBox in Boxes)
                                         {
+
+
                                             childBox.PerformLayout(args);
+
                                             if (childBox.CanBeRefererenceSibling)
                                             {
                                                 args.LatestSiblingBox = childBox;
@@ -667,7 +673,6 @@ namespace HtmlRenderer.Dom
                                         }
 
                                         args.LatestSiblingBox = currentLevelLatestSibling;
-
                                         args.PopContainingBlock();
 
                                         SetActualRight(CalculateActualRight());
@@ -683,25 +688,25 @@ namespace HtmlRenderer.Dom
                         var prevSibling = args.LatestSiblingBox;
                         if (prevSibling != null)
                         {
-                            if (!this.HasAssignedLocation)
-                            {
-                                this.SetLocation(prevSibling.LocationX, prevSibling.LocationY);
-                            }
-                            SetActualBottom(prevSibling.ActualBottom);
+                            //if (!this.HasAssignedLocation)
+                            //{
+                            //    this.SetLocation(prevSibling.LocationX, prevSibling.LocationY);
+                            //}
+                            //SetActualBottom(prevSibling.ActualBottom);
                         }
                     } break;
             }
 
             //----------------------------------------------------------------------------- 
             //set height 
-            this.SetActualBottom(Math.Max(ActualBottom, this.LocationY + this.ExpectedHeight));
 
-            CreateListItemBox(args);
+            this.UpdateIfHigher(this.ExpectedHeight);
+            this.CreateListItemBox(args);
 
-            float actualWidth = Math.Max(CalculateMinimumWidth() + CalculateWidthMarginRecursiveUp(this),
+            float newWidth = Math.Max(CalculateMinimumWidth() + CalculateWidthMarginRecursiveUp(this),
                               this.SizeWidth < CssBox.MAX_RIGHT ? ActualRight : 0);
             //update back
-            HtmlContainer.UpdateSizeIfWiderOrHeigher(actualWidth, ActualBottom - HtmlContainer.Root.LocationY);
+            HtmlContainer.UpdateSizeIfWiderOrHeigher(newWidth, ActualBottom - HtmlContainer.Root.LocationY);
         }
 
         /// <summary>
@@ -790,7 +795,6 @@ namespace HtmlRenderer.Dom
                     index = 0;
                     foreach (CssBox b in ParentBox.Boxes)
                     {
-                        //if (b.Display == CssConstants.ListItem)
                         if (b.CssDisplay == CssDisplay.ListItem)
                         {
                             index++;
@@ -867,22 +871,18 @@ namespace HtmlRenderer.Dom
 
 
                     _listItemBox.ParseWordContent();
-
-                    if (_listItemBox.HasContainingBlockProperty)
-                    {
-                        _listItemBox.PerformContentLayout(layoutArgs);
-
-                    }
-                    else
-                    {
-                        _listItemBox.PerformContentLayout(layoutArgs);
-                    }
+                    
+                    var prevSibling = layoutArgs.LatestSiblingBox;
+                    layoutArgs.LatestSiblingBox = null;//reset
+                    _listItemBox.PerformContentLayout(layoutArgs);
+                    layoutArgs.LatestSiblingBox = prevSibling;
 
 
                     var fRun = _listItemBox.FirstRun;
 
                     _listItemBox.FirstRun.SetSize(fRun.Width, fRun.Height);
                 }
+
                 _listItemBox.FirstRun.SetLocation(this.LocationX - _listItemBox.Size.Width - 5, this.LocationY + ActualPaddingTop);
 
             }
@@ -1046,6 +1046,36 @@ namespace HtmlRenderer.Dom
             base.InheritStyles(box, clone);
         }
 
+
+
+        /// <summary>
+        /// Calculate the actual right of the box by the actual right of the child boxes if this box actual right is not set.
+        /// </summary>
+        /// <returns>the calculated actual right value</returns>
+        float CalculateActualRight()
+        {
+            if (ActualRight > CssBox.MAX_RIGHT)
+            {
+                var maxRight = 0f;
+                foreach (var box in Boxes)
+                {
+                    maxRight = Math.Max(maxRight, box.ActualRight + box.ActualMarginRight);
+                }
+                return maxRight + ActualPaddingRight + ActualMarginRight + ActualBorderRightWidth;
+            }
+            else
+            {
+                return ActualRight;
+            }
+        }
+        bool IsLastChild
+        {
+            get
+            {
+                return this.ParentBox.Boxes[this.ParentBox.ChildCount - 1] == this;
+            }
+
+        }
         /// <summary>
         /// Gets the result of collapsing the vertical margins of the two boxes
         /// </summary>
@@ -1072,35 +1102,6 @@ namespace HtmlRenderer.Dom
                 value = ActualMarginTop;
             }
             return value;
-        }
-
-        /// <summary>
-        /// Calculate the actual right of the box by the actual right of the child boxes if this box actual right is not set.
-        /// </summary>
-        /// <returns>the calculated actual right value</returns>
-        private float CalculateActualRight()
-        {
-            if (ActualRight > CssBox.MAX_RIGHT)
-            {
-                var maxRight = 0f;
-                foreach (var box in Boxes)
-                {
-                    maxRight = Math.Max(maxRight, box.ActualRight + box.ActualMarginRight);
-                }
-                return maxRight + ActualPaddingRight + ActualMarginRight + ActualBorderRightWidth;
-            }
-            else
-            {
-                return ActualRight;
-            }
-        }
-        bool IsLastChild
-        {
-            get
-            {
-                return this.ParentBox.Boxes[this.ParentBox.ChildCount - 1] == this;
-            }
-
         }
         /// <summary>
         /// Gets the result of collapsing the vertical margins of the two boxes
@@ -1364,7 +1365,7 @@ namespace HtmlRenderer.Dom
         {
             this.SetHeight(0);
         }
-        internal float AvaliableContentWidth
+        internal float AvailableContentWidth
         {
             get
             {

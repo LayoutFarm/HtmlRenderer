@@ -73,7 +73,7 @@ namespace HtmlRenderer.Dom
 
             // fix for hr tag 
             var maringTopCollapse = MarginTopCollapse(prevSibling);
-            
+
             if (maringTopCollapse < 0.1)
             {
                 maringTopCollapse = this.GetEmHeight() * 1.1f;
@@ -122,8 +122,8 @@ namespace HtmlRenderer.Dom
                 BorderBottomWidth = CssLength.MakePixelLength(1);
             }
 
-            this.SetSize(width, height);
-            this.SetActualBottom(this.LocationY + ActualPaddingTop + ActualPaddingBottom + height);
+            this.SetSize(width, height);           
+            this.SetHeight(ActualPaddingTop + ActualPaddingBottom + height);
         }
 
         /// <summary>

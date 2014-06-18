@@ -119,7 +119,7 @@ namespace HtmlRenderer.Dom
         float _actualMarginRight;
         float _actualMarginLeft;
 
-      
+
 
         float _actualBorderTopWidth;
         float _actualBorderLeftWidth;
@@ -594,6 +594,33 @@ namespace HtmlRenderer.Dom
         }
 
         #endregion
+
+
+        /// <summary>
+        /// Gets the second color that creates a gradient for the background
+        /// </summary>
+        public Color ActualBackgroundGradient
+        {
+            get
+            {
+                return this._backgroundProps.BackgroundGradient;
+            }
+        }
+
+        /// <summary>
+        /// Gets the actual angle specified for the background gradient
+        /// </summary>
+        public float ActualBackgroundGradientAngle
+        {
+            get
+            {
+                return this._backgroundProps.BackgroundGradientAngle;
+            }
+        }
+
+
+
+
         public float LocationX
         {
             get { return this._locationX; }
@@ -633,7 +660,7 @@ namespace HtmlRenderer.Dom
                 return this._sizeWidth;
             }
         }
-       
+
         public float SizeHeight
         {
             get
@@ -663,7 +690,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float ActualRight
         {
-            get { return LocationX + Size.Width; }
+            get { return LocationX + this.SizeWidth; }
         }
         public void SetActualRight(float value)
         {
@@ -681,12 +708,17 @@ namespace HtmlRenderer.Dom
         {
             this._sizeHeight = value - this._locationY;
         }
-
         protected void SetHeight(float height)
         {
             this._sizeHeight = height;
         }
-            
+        internal void UpdateIfHigher(float newHeight)
+        {
+            if (newHeight > this._sizeHeight)
+            {
+                this._sizeHeight = newHeight;
+            }
+        }
 
 
         /// <summary>
@@ -825,7 +857,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-       
+
         /// <summary>
         /// Gets the actual top's Margin
         /// </summary>
@@ -1158,28 +1190,6 @@ namespace HtmlRenderer.Dom
             get
             {
                 return this._backgroundProps.BackgroundColor;
-            }
-        }
-
-        /// <summary>
-        /// Gets the second color that creates a gradient for the background
-        /// </summary>
-        public Color ActualBackgroundGradient
-        {
-            get
-            {
-                return this._backgroundProps.BackgroundGradient;
-            }
-        }
-
-        /// <summary>
-        /// Gets the actual angle specified for the background gradient
-        /// </summary>
-        public float ActualBackgroundGradientAngle
-        {
-            get
-            {
-                return this._backgroundProps.BackgroundGradientAngle;
             }
         }
 

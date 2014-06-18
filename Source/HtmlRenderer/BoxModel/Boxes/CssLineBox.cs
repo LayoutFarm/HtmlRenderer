@@ -155,8 +155,7 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-
-        //---------------------------------
+       
         /// <summary>
         /// relative to owner cssbox
         /// </summary>
@@ -183,7 +182,7 @@ namespace HtmlRenderer.Dom
             get;
             private set;
         }
-       
+
 
 
         internal void CloseLine()
@@ -204,7 +203,7 @@ namespace HtmlRenderer.Dom
             //---------------------------------------------------------------------------
             //first level
             Dictionary<CssBox, PartialBoxStrip> dicStrips = new Dictionary<CssBox, PartialBoxStrip>();
-            
+
             for (int i = 0; i < j; ++i)
             {
                 var run = myruns[i];
@@ -224,9 +223,9 @@ namespace HtmlRenderer.Dom
                 //-------------
                 //first level data
                 RegisterStripPart(run.OwnerBox, run.Left, run.Top, run.Right, run.Bottom, totalStrips, dicStrips);
-                
+
             }
-            
+
 
             //---------------------------------------------------------------------------
             //other step to upper layer, until no new strip    
@@ -682,5 +681,17 @@ namespace HtmlRenderer.Dom
                 strip.MergeBound(left, top, right, bottom);
             }
         }
+
+
+        //---------------------------------
+        internal bool IsFirstLine
+        {
+            get { return this.linkedNode.Previous == null; }
+        }
+        internal bool IsLastLine
+        {
+            get { return this.linkedNode.Next == null; }
+        }
+        //---------------------------------
     }
 }

@@ -272,9 +272,7 @@ namespace HtmlRenderer
         /// </summary>
         /// <param name="parent">the control hosting the html to set cursor and invalidate</param>
         public void HandleMouseLeave(Control parent)
-        {
-             
-
+        {   
             try
             {
                 if (_selectionHandler != null)

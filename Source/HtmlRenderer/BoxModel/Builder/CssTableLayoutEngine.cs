@@ -666,6 +666,8 @@ namespace HtmlRenderer.Dom
 
             float startx = Math.Max(_tableBox.ClientLeft + horizontal_spacing, 0);
             float starty = Math.Max(_tableBox.ClientTop + vertical_spacing, 0);
+             
+
             float cury = starty;
             float maxRight = startx;
             float maxBottom = 0f;

@@ -166,7 +166,10 @@ namespace HtmlRenderer.Dom
         {
             this.Boxes.Insert(index, box);
         }
-        //--------
+
+
+
+        //-------------------------------------
         internal void ResetLineBoxes()
         {
             if (this._clientLineBoxes != null)
