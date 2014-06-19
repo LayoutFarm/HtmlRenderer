@@ -609,27 +609,30 @@ namespace HtmlRenderer.Dom
                                 this.SetSize(availableWidth - ActualMarginLeft - ActualMarginRight, this.SizeHeight);
                             }
 
-                            //-------------------------
 
-                            float left = myContainingBlock.ClientLeft + this.ActualMarginLeft;
+                            float left = myContainingBlock.LocalX + this.ActualMarginLeft;
+
                             float top = 0;
 
                             var prevSibling = args.LatestSiblingBox;
 
                             if (prevSibling == null)
                             {
+                                //this is first child
                                 if (this.ParentBox != null)
                                 {
-                                    top = this.ParentBox.GlobalClientTop;
+                                    //top = this.ParentBox.GlobalClientTop;
+                                    top = this.ParentBox.LocalClientTop;
                                 }
                             }
                             else
                             {
                                 if (this.ParentBox == null)
                                 {
-                                    top = this.GlobalY;
+                                    //top = this.GlobalY;
+                                    top = this.LocalY;
                                 }
-                                top += prevSibling.GlobalActualBottom + prevSibling.ActualBorderBottomWidth;
+                                top += prevSibling.LocalActualBottom + prevSibling.ActualBorderBottomWidth;
                             }
                             top += MarginTopCollapse(prevSibling);
 
@@ -675,8 +678,10 @@ namespace HtmlRenderer.Dom
                                         args.LatestSiblingBox = currentLevelLatestSibling;
                                         args.PopContainingBlock();
 
-                                        SetActualRight(CalculateActualRight());
-                                        SetActualBottom(MarginBottomCollapse());
+                                        //SetGlobalActualRight(CalculateGlobalActualRight());
+                                        //SetGlobalActualBottom(MarginBottomCollapse());
+                                        SetLocalActualRight(CalculateLocalActualRight(args.GetLocalRightLimit(this)));
+                                        SetLocalActualBottom(MarginBottomCollapse());
                                     }
                                 } break;
                         }
@@ -704,9 +709,9 @@ namespace HtmlRenderer.Dom
             this.CreateListItemBox(args);
 
             float newWidth = Math.Max(CalculateMinimumWidth() + CalculateWidthMarginRecursiveUp(this),
-                              this.SizeWidth < CssBox.MAX_RIGHT ? GlobalActualRight : 0);
+                              this.SizeWidth < CssBox.MAX_RIGHT ? this.LocalActualRight : 0);
             //update back
-            HtmlContainer.UpdateSizeIfWiderOrHeigher(newWidth, GlobalActualBottom - HtmlContainer.Root.GlobalY);
+            args.UpdateGlobalSize(this, newWidth);
         }
 
         /// <summary>
@@ -883,7 +888,7 @@ namespace HtmlRenderer.Dom
                     _listItemBox.FirstRun.SetSize(fRun.Width, fRun.Height);
                 }
 
-                _listItemBox.FirstRun.SetLocation(this.GlobalX - _listItemBox.Size.Width - 5, this.GlobalY + ActualPaddingTop);
+                _listItemBox.FirstRun.SetLocation(this.LocalX - _listItemBox.SizeWidth - 5, this.LocalY + ActualPaddingTop);
 
             }
         }
@@ -913,6 +918,7 @@ namespace HtmlRenderer.Dom
         {
             return HtmlTag != null ? HtmlTag.TryGetAttribute(attribute, defaultValue) : defaultValue;
         }
+
         /// <summary>
         /// Gets the minimum width that the box can be.
         /// *** The box can be as thin as the longest word plus padding
@@ -1000,7 +1006,7 @@ namespace HtmlRenderer.Dom
         /// <param name="startBox"></param>
         /// <param name="currentMaxBottom"></param>
         /// <returns></returns>
-        internal static float CalculateMaximumBottom(CssBox startBox, float currentMaxBottom, float parentOffset)
+        internal static float CalculateMaximumLocalBottom(CssBox startBox, float currentMaxBottom, float parentOffset)
         {
             //recursive
             if (startBox.HasRuns)
@@ -1027,10 +1033,10 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                parentOffset = startBox.GlobalY;
+                parentOffset = startBox.LocalY;
                 foreach (var b in startBox.Boxes)
                 {
-                    currentMaxBottom = Math.Max(currentMaxBottom, CalculateMaximumBottom(b, currentMaxBottom, parentOffset));
+                    currentMaxBottom = Math.Max(currentMaxBottom, CalculateMaximumLocalBottom(b, currentMaxBottom, parentOffset));
                 }
                 return currentMaxBottom;
             }
@@ -1049,26 +1055,46 @@ namespace HtmlRenderer.Dom
 
 
 
-        /// <summary>
-        /// Calculate the actual right of the box by the actual right of the child boxes if this box actual right is not set.
-        /// </summary>
-        /// <returns>the calculated actual right value</returns>
-        float CalculateActualRight()
+        ///// <summary>
+        ///// Calculate the actual right of the box by the actual right of the child boxes if this box actual right is not set.
+        ///// </summary>
+        ///// <returns>the calculated actual right value</returns>
+        //float CalculateGlobalActualRight()
+        //{
+        //    if (GlobalActualRight > CssBox.MAX_RIGHT)
+        //    {
+        //        var maxRight = 0f;
+        //        foreach (var box in Boxes)
+        //        {
+        //            maxRight = Math.Max(maxRight, box.GlobalActualRight + box.ActualMarginRight);
+        //        }
+        //        return maxRight + ActualPaddingRight + ActualMarginRight + ActualBorderRightWidth;
+        //    }
+        //    else
+        //    {
+        //        return GlobalActualRight;
+        //    }
+        //}
+
+
+        float CalculateLocalActualRight(float maxLocalRightLimit)
         {
-            if (GlobalActualRight > CssBox.MAX_RIGHT)
+            if (this.LocalActualRight > maxLocalRightLimit)
             {
                 var maxRight = 0f;
                 foreach (var box in Boxes)
                 {
-                    maxRight = Math.Max(maxRight, box.GlobalActualRight + box.ActualMarginRight);
+                    maxRight = Math.Max(maxRight, box.LocalActualRight + box.ActualMarginRight);
                 }
                 return maxRight + ActualPaddingRight + ActualMarginRight + ActualBorderRightWidth;
             }
             else
             {
-                return GlobalActualRight;
+                return this.LocalActualRight;
             }
         }
+
+
         bool IsLastChild
         {
             get
@@ -1110,14 +1136,15 @@ namespace HtmlRenderer.Dom
         /// <returns>Resulting bottom margin</returns>
         private float MarginBottomCollapse()
         {
-
             float margin = 0;
             if (ParentBox != null && this.IsLastChild && _parentBox.ActualMarginBottom < 0.1)
             {
                 var lastChildBottomMargin = _boxes[_boxes.Count - 1].ActualMarginBottom;
                 margin = (Height.IsAuto) ? Math.Max(ActualMarginBottom, lastChildBottomMargin) : lastChildBottomMargin;
             }
-            return Math.Max(GlobalActualBottom, _boxes[_boxes.Count - 1].GlobalActualBottom + margin + ActualPaddingBottom + ActualBorderBottomWidth);
+
+            return Math.Max(this.LocalActualBottom, _boxes[_boxes.Count - 1].LocalActualBottom + margin + ActualPaddingBottom + ActualBorderBottomWidth);
+            //return Math.Max(GlobalActualBottom, _boxes[_boxes.Count - 1].GlobalActualBottom + margin + ActualPaddingBottom + ActualBorderBottomWidth);
         }
 
         /// <summary>
@@ -1375,8 +1402,15 @@ namespace HtmlRenderer.Dom
         }
         internal bool IsPointInClientArea(float x, float y)
         {
-            return x >= this.ClientLeft && x < this.ClientRight &&
-                    y >= this.GlobalClientTop && y < this.ClientBottom;
+            //x and y is relative to this box's parent
+
+            return x >= this.LocalClientLeft && x < this.LocalClientRight &&
+                    y >= this.LocalClientTop && y < this.LocalClientBottom;
+        }
+        internal bool IsPointInArea(PointF point)
+        {
+            return point.X >= this.LocalX && point.X < (this.LocalX + this.SizeWidth) &&
+                   point.Y >= this.LocalY && point.Y < (this.LocalY + this.SizeHeight);
         }
     }
 }

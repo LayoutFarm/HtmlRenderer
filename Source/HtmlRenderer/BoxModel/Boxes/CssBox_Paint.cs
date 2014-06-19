@@ -80,7 +80,7 @@ namespace HtmlRenderer.Dom
                     {
                         if (prevClip.IsEmpty)
                         {
-                            prevClip = this.Bounds;
+                            prevClip = this.LocalBound;
                             g.SetClip(prevClip);
                         }
                         else
@@ -99,8 +99,7 @@ namespace HtmlRenderer.Dom
                 //---------------------------------------------
                 if (this.CssDisplay != CssDisplay.Inline)
                 {
-                    var bound = this.Bounds;
-                    bound.Offset(args.Offset);
+                    var bound = this.LocalBound;
                     PaintBackground(g, bound, true, true);
                     BordersDrawHandler.DrawBoxBorders(g, this, bound, true, true);
                 }
@@ -115,7 +114,7 @@ namespace HtmlRenderer.Dom
                     if (this.ContainsSelectedRun)
                     {
                         //render with *** selection concern 
-                        g.OffsetCanvasOrigin(this.GlobalX, this.GlobalY);
+                        g.OffsetCanvasOrigin(this.LocalX, this.LocalY);
                         foreach (var line in this._clientLineBoxes)
                         {
                             if (line.CachedLineBottom >= viewport_top &&
@@ -146,13 +145,13 @@ namespace HtmlRenderer.Dom
 
                             }
                         }
-                        g.OffsetCanvasOrigin(-this.GlobalX, -this.GlobalY);
+                        g.OffsetCanvasOrigin(-this.LocalX, -this.LocalY);
 
                     }
                     else
                     {
                         //render without selection concern
-                        g.OffsetCanvasOrigin(this.GlobalX, this.GlobalY);
+                        g.OffsetCanvasOrigin(this.LocalX, this.LocalY);
                         foreach (var line in this._clientLineBoxes)
                         {
                             if (line.CachedLineBottom >= viewport_top &&
@@ -180,7 +179,7 @@ namespace HtmlRenderer.Dom
 
                             }
                         }
-                        g.OffsetCanvasOrigin(-this.GlobalX, -this.GlobalY);
+                        g.OffsetCanvasOrigin(-this.LocalX, -this.LocalY);
                     }
                 }
                 else

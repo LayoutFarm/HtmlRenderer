@@ -387,7 +387,7 @@ namespace HtmlRenderer
                 this._actualHeight = newHeight;
             }
         }
-        
+
         public abstract string SelectedText
         {
             get;
@@ -532,7 +532,7 @@ namespace HtmlRenderer
 
 
 
-            LayoutArgs layoutArgs = new LayoutArgs(ig);
+            LayoutArgs layoutArgs = new LayoutArgs(ig, this);
             layoutArgs.PushContaingBlock(_root);
 
             _root.PerformLayout(layoutArgs);

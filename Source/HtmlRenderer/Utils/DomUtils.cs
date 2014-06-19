@@ -317,9 +317,10 @@ namespace HtmlRenderer.Utils
         }
 
         public static bool HitTest(CssBox box, Point loc, BoxHitChain hitChain)
-        {//recursive
+        {
+            //recursive
 
-            if (box.Bounds.Contains(loc))
+            if (box.IsPointInArea(loc))
             {
                 //1.
                 int x = loc.X;
@@ -487,8 +488,9 @@ namespace HtmlRenderer.Utils
                 {
                     if (box.WellknownTagName == WellknownHtmlTagName.NotAssign ||
                         box.WellknownTagName != WellknownHtmlTagName.TD ||
-                        box.Bounds.Contains(location))
+                        box.IsPointInArea(location))
                     {
+
                         foreach (var lineBox in box.GetLineBoxIter())
                         {
                             foreach (var rect_top in lineBox.GetAreaStripTopPosIter())
@@ -533,7 +535,7 @@ namespace HtmlRenderer.Utils
             {
                 int x = location.X;
                 int y = location.Y;
-                if (x >= box.GlobalX && x <= box.GlobalActualRight)
+                if (x >= box.LocalX && x <= box.LocalActualRight)
                 {
                     foreach (CssLineBox lineBox in box.GetLineBoxIter())
                     {
@@ -555,7 +557,7 @@ namespace HtmlRenderer.Utils
             {
                 //--------------------------------------------------------------- 
                 if (box.IsPointInClientArea(location.X, location.Y))
-                {   
+                {
                     foreach (var childBox in box.GetChildBoxIter())
                     {
                         var foundWord = GetCssBoxWord(childBox, location);

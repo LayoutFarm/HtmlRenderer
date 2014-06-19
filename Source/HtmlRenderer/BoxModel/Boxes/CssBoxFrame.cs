@@ -76,7 +76,7 @@ namespace HtmlRenderer.Dom
         internal CssBoxFrame(CssBox parent, IHtmlElement tag)
             : base(parent, tag)
         {
-             
+
             this.AddRun(this._imageWord = new CssImageRun(this));
             Uri uri;
             if (Uri.TryCreate(GetAttribute("src"), UriKind.Absolute, out uri))
@@ -99,7 +99,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        
+
 
         /// <summary>
         /// Get the href link of the box (by default get "href" attribute)
@@ -464,9 +464,7 @@ namespace HtmlRenderer.Dom
         protected override void PaintImp(IGraphics g, PaintingArgs args)
         {
             //var rects = CommonUtils.GetFirstValueOrDefault(Rectangles);
-            var rects = this.Bounds;
-            PointF offset = HtmlContainer != null ? HtmlContainer.ScrollOffset : PointF.Empty;
-            rects.Offset(offset);
+            var rects = this.LocalBound;
 
             var prevClip = RenderUtils.ClipGraphicsByOverflow(g, args);
 
@@ -476,14 +474,14 @@ namespace HtmlRenderer.Dom
 
             var word = this.FirstRun;
             var tmpRect = word.Rectangle;
-            tmpRect.Offset(offset);
+
             tmpRect.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
             tmpRect.Y += ActualBorderTopWidth + ActualPaddingTop;
             tmpRect.X = (float)Math.Floor(tmpRect.X);
             tmpRect.Y = (float)Math.Floor(tmpRect.Y);
             var rect = Rectangle.Round(tmpRect);
 
-            DrawImage(g, offset, rect);
+            DrawImage(g, rect);
 
             DrawTitle(g, rect);
 
@@ -495,7 +493,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Draw video image over the iframe if found.
         /// </summary>
-        private void DrawImage(IGraphics g, PointF offset, Rectangle rect)
+        private void DrawImage(IGraphics g, Rectangle rect)
         {
             if (_imageWord.Image != null)
             {
@@ -585,7 +583,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         private void SetErrorBorder()
         {
-             
+
             SetAllBorders(CssBorderStyle.Solid, CssLength.MakePixelLength(2),
                 System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
 

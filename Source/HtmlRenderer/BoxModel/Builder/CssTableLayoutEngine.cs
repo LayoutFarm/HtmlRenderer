@@ -664,13 +664,13 @@ namespace HtmlRenderer.Dom
             float vertical_spacing = GetVerticalSpacing(_tableBox);
             float horizontal_spacing = GetHorizontalSpacing(_tableBox);
 
-            float startx = Math.Max(_tableBox.ClientLeft + horizontal_spacing, 0);
-            float starty = Math.Max(_tableBox.GlobalClientTop + vertical_spacing, 0);
+            float startx = Math.Max(_tableBox.LocalClientLeft + horizontal_spacing, 0);
+            float starty = Math.Max(_tableBox.LocalClientTop + vertical_spacing, 0);
 
 
             float cury = starty;
-            float maxRight = startx;
-            float maxBottom = 0f;
+            float maxLocalRight = startx;
+            float maxLocalBottom = 0f;
             int currentRow = 0;
             int col_count = this.columnCollection.Count;
 
@@ -705,17 +705,17 @@ namespace HtmlRenderer.Dom
                         {
                             if (sb.EndRow == currentRow)
                             {
-                                maxBottom = Math.Max(maxBottom, sb.ExtendedBox.GlobalActualBottom);
+                                maxLocalBottom = Math.Max(maxLocalBottom, sb.ExtendedBox.LocalActualBottom);
                             }
                         }
                         else if (cell.RowSpan == 1)
                         {
-                            maxBottom = Math.Max(maxBottom, cell.GlobalActualBottom);
+                            maxLocalBottom = Math.Max(maxLocalBottom, cell.LocalActualBottom);
                         }
 
-                        maxRight = Math.Max(maxRight, cell.GlobalActualRight);
+                        maxLocalRight = Math.Max(maxLocalRight, cell.LocalActualRight );
 
-                        curx = cell.GlobalActualRight + horizontal_spacing;
+                        curx = cell.LocalActualRight + horizontal_spacing;
 
                         //-------------------------
                         cIndex++;
@@ -723,7 +723,7 @@ namespace HtmlRenderer.Dom
                     }
                 }
 
-                float tableY = _tableBox.GlobalY;
+                float tableY = _tableBox.LocalY;
                 foreach (CssBox cell in row.GetChildBoxIter())
                 {
                     CssVerticalCellSpacingBox spacer = cell as CssVerticalCellSpacingBox;
@@ -732,7 +732,8 @@ namespace HtmlRenderer.Dom
                     {
                         if (cell.RowSpan == 1)
                         {
-                            cell.SetActualBottom(maxBottom);
+                            //cell.SetGlobalActualBottom(maxLocalBottom);
+                            cell.SetLocalActualBottom(maxLocalBottom);
                             ApplyCellVerticalAlignment(cell, tableY);
                         }
                     }
@@ -740,20 +741,24 @@ namespace HtmlRenderer.Dom
                     {
                         if (spacer.EndRow == currentRow)
                         {
-                            spacer.ExtendedBox.SetActualBottom(maxBottom);
+                            //spacer.ExtendedBox.SetGlobalActualBottom(maxLocalBottom);
+                            spacer.ExtendedBox.SetLocalActualBottom(maxLocalBottom);
                             ApplyCellVerticalAlignment(spacer.ExtendedBox, tableY);
                         }
                     }
                 }
 
-                cury = maxBottom + vertical_spacing;
+                cury = maxLocalBottom + vertical_spacing;
                 currentRow++;
             }
             args.PopContainingBlock();
 
-            maxRight = Math.Max(maxRight, _tableBox.GlobalX + _tableBox.ExpectedWidth);
-            _tableBox.SetActualRight(maxRight + horizontal_spacing + _tableBox.ActualBorderRightWidth);
-            _tableBox.SetActualBottom(Math.Max(maxBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth);
+            maxLocalRight = Math.Max(maxLocalRight, _tableBox.LocalX + _tableBox.ExpectedWidth);
+            //_tableBox.SetGlobalActualRight(maxLocalRight + horizontal_spacing + _tableBox.ActualBorderRightWidth);            
+            //_tableBox.SetGlobalActualBottom(Math.Max(maxLocalBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth);
+
+            _tableBox.SetLocalActualRight(maxLocalRight + horizontal_spacing + _tableBox.ActualBorderRightWidth);
+            _tableBox.SetLocalActualBottom(Math.Max(maxLocalBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth);
         }
 
         /// <summary>
@@ -819,11 +824,11 @@ namespace HtmlRenderer.Dom
             switch (cell.VerticalAlign)
             {
                 case CssVerticalAlign.Bottom:
-                    dist = cell.ClientBottom - CssBox.CalculateMaximumBottom(cell, 0f, tableBoxOffset);
+                    dist = cell.LocalClientBottom - CssBox.CalculateMaximumLocalBottom(cell, 0f, tableBoxOffset);
 
                     break;
                 case CssVerticalAlign.Middle:
-                    dist = (cell.ClientBottom - CssBox.CalculateMaximumBottom(cell, 0f, tableBoxOffset)) / 2;
+                    dist = (cell.LocalClientBottom - CssBox.CalculateMaximumLocalBottom(cell, 0f, tableBoxOffset)) / 2;
 
                     break;
                 default:

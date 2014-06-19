@@ -226,9 +226,9 @@ namespace HtmlRenderer.Dom
                                     //2. end line 
                                     CssBox endHostLineOwner = endline.OwnerBox;
                                     this.selStrips.Add(new RectangleF(
-                                        endHostLineOwner.GlobalX,
+                                        endHostLineOwner.LocalX,
                                         endline.CachedLineTop,
-                                        (int)(run.Left + sel_offset) - endHostLineOwner.GlobalX,
+                                        (int)(run.Left + sel_offset) - endHostLineOwner.LocalX,
                                         endline.CacheLineHeight));
 
                                     this.selLineBoxes.Add(line);
@@ -240,7 +240,7 @@ namespace HtmlRenderer.Dom
 
 
                                     this.selStrips.Add(new RectangleF(
-                                        lineOwner.GlobalX,
+                                        lineOwner.LocalX,
                                         line.CachedLineTop,
                                         line.CachedLineContentWidth,
                                         line.CacheLineHeight));
@@ -286,9 +286,9 @@ namespace HtmlRenderer.Dom
 
                                     CssBox endHostLineOwner = endline.OwnerBox;
                                     this.selStrips.Add(new RectangleF(
-                                        endHostLineOwner.GlobalX,
+                                        endHostLineOwner.LocalX,
                                         endline.CachedLineTop,
-                                        endHitPoint.X - endHostLineOwner.GlobalX,
+                                        endHitPoint.X - endHostLineOwner.LocalX,
                                         line.CacheLineHeight));
                                     this.selLineBoxes.Add(line);
                                 }
@@ -297,7 +297,7 @@ namespace HtmlRenderer.Dom
                                     //between
 
                                     this.selStrips.Add(new RectangleF(
-                                        line.OwnerBox.GlobalX,
+                                        line.OwnerBox.LocalX,
                                         line.CachedLineTop,
                                         line.CachedLineContentWidth,
                                         line.CacheLineHeight));
@@ -334,7 +334,7 @@ namespace HtmlRenderer.Dom
                                 {
                                     latestLine = line;
                                     this.selStrips.Add(new RectangleF(
-                                           line.OwnerBox.GlobalX,
+                                            line.OwnerBox.LocalX,
                                             line.CachedLineTop,
                                             line.CachedLineContentWidth,
                                             line.CacheLineHeight));
@@ -410,7 +410,7 @@ namespace HtmlRenderer.Dom
                         rr.Bottom <= (lineTop + lineHeight))
                     {
                         rr.Offset(offset);
-                        
+
                         g.FillRectangle(Brushes.LightGray, rr.X, rr.Y,
                          rr.Width,
                          rr.Height);
@@ -434,7 +434,7 @@ namespace HtmlRenderer.Dom
                 Point p2 = this.EndHitPoint;
 
                 RectangleF rr = RectangleF.FromLTRB(p1.X, p1.Y, p2.X, p2.Y);
-                
+
                 rr.Offset(offset);
                 if (rr.Top >= (int)lineTop &&
                         rr.Bottom <= (int)(lineTop + lineHeight))
@@ -445,7 +445,7 @@ namespace HtmlRenderer.Dom
                      rr.Width,
                      rr.Height);
                     g.SetClip(prevClip);
-                } 
+                }
             }
         }
     }

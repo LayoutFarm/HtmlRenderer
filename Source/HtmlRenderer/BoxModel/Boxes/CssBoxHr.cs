@@ -53,22 +53,22 @@ namespace HtmlRenderer.Dom
             var myContainingBlock = args.LatestContaingBlock;
 
 
-            float left = myContainingBlock.ClientLeft + ActualMarginLeft;
+            float left = myContainingBlock.LocalX + ActualMarginLeft;
             float top = 0;
             if (prevSibling == null)
             {
                 if (this.ParentBox != null)
                 {
-                    top = this.ParentBox.GlobalClientTop;
+                    top = this.ParentBox.LocalClientTop;
                 }
             }
             else
             {
                 if (this.ParentBox == null)
                 {
-                    top = this.GlobalY;
+                    top = this.LocalY;
                 }
-                top += prevSibling.GlobalActualBottom + prevSibling.ActualBorderBottomWidth;
+                top += prevSibling.LocalActualBottom + prevSibling.ActualBorderBottomWidth;
             }
 
             // fix for hr tag 
@@ -122,7 +122,7 @@ namespace HtmlRenderer.Dom
                 BorderBottomWidth = CssLength.MakePixelLength(1);
             }
 
-            this.SetSize(width, height);           
+            this.SetSize(width, height);
             this.SetHeight(ActualPaddingTop + ActualPaddingBottom + height);
         }
 
@@ -132,8 +132,8 @@ namespace HtmlRenderer.Dom
         /// <param name="g">the device to draw to</param>
         protected override void PaintImp(IGraphics g, PaintingArgs args)
         {
-            var offset = HtmlContainer != null ? HtmlContainer.ScrollOffset : PointF.Empty;
-            var rect = new RectangleF(Bounds.X + offset.X, Bounds.Y + offset.Y, Bounds.Width, Bounds.Height);
+
+            var rect = this.LocalBound; 
 
             if (rect.Height > 2 && RenderUtils.IsColorVisible(ActualBackgroundColor))
             {
