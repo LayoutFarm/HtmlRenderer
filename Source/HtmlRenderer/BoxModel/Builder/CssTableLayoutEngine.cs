@@ -705,17 +705,17 @@ namespace HtmlRenderer.Dom
                         {
                             if (sb.EndRow == currentRow)
                             {
-                                maxBottom = Math.Max(maxBottom, sb.ExtendedBox.ActualBottom);
+                                maxBottom = Math.Max(maxBottom, sb.ExtendedBox.GlobalActualBottom);
                             }
                         }
                         else if (cell.RowSpan == 1)
                         {
-                            maxBottom = Math.Max(maxBottom, cell.ActualBottom);
+                            maxBottom = Math.Max(maxBottom, cell.GlobalActualBottom);
                         }
 
-                        maxRight = Math.Max(maxRight, cell.ActualRight);
+                        maxRight = Math.Max(maxRight, cell.GlobalActualRight);
 
-                        curx = cell.ActualRight + horizontal_spacing;
+                        curx = cell.GlobalActualRight + horizontal_spacing;
 
                         //-------------------------
                         cIndex++;
@@ -751,7 +751,7 @@ namespace HtmlRenderer.Dom
             }
             args.PopContainingBlock();
 
-            maxRight = Math.Max(maxRight, _tableBox.LocationX + _tableBox.ExpectedWidth);
+            maxRight = Math.Max(maxRight, _tableBox.GlobalX + _tableBox.ExpectedWidth);
             _tableBox.SetActualRight(maxRight + horizontal_spacing + _tableBox.ActualBorderRightWidth);
             _tableBox.SetActualBottom(Math.Max(maxBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth);
         }

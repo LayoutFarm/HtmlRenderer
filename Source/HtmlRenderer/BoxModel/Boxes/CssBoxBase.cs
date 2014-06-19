@@ -616,12 +616,8 @@ namespace HtmlRenderer.Dom
             {
                 return this._backgroundProps.BackgroundGradientAngle;
             }
-        }
-
-
-
-
-        public float LocationX
+        } 
+        public float GlobalX
         {
             get { return this._locationX; }
         }
@@ -674,7 +670,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public RectangleF Bounds
         {
-            get { return new RectangleF(new PointF(this.LocationX, this.GlobalY), Size); }
+            get { return new RectangleF(new PointF(this.GlobalX, this.GlobalY), Size); }
         }
 
         /// <summary>
@@ -688,19 +684,19 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the right of the box. When setting, it will affect only the width of the box.
         /// </summary>
-        public float ActualRight
+        public float GlobalActualRight
         {
-            get { return LocationX + this.SizeWidth; }
+            get { return GlobalX + this.SizeWidth; }
         }
         public void SetActualRight(float value)
         {
-            this._sizeWidth = value - LocationX;
+            this._sizeWidth = value - GlobalX;
         }
         /// <summary>
         /// Gets or sets the bottom of the box. 
         /// (When setting, alters only the Size.Height of the box)
         /// </summary>
-        public float ActualBottom
+        public float GlobalActualBottom
         {
             get { return this.GlobalY + this._sizeHeight; }
         }
@@ -726,7 +722,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float ClientLeft
         {
-            get { return this.LocationX + ActualBorderLeftWidth + ActualPaddingLeft; }
+            get { return this.GlobalX + ActualBorderLeftWidth + ActualPaddingLeft; }
         }
 
         /// <summary>
@@ -734,7 +730,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float ClientRight
         {
-            get { return ActualRight - ActualPaddingRight - ActualBorderRightWidth; }
+            get { return GlobalActualRight - ActualPaddingRight - ActualBorderRightWidth; }
         }
         
         public float GlobalClientTop
@@ -751,7 +747,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float ClientBottom
         {
-            get { return this.ActualBottom - ActualPaddingBottom - ActualBorderBottomWidth; }
+            get { return this.GlobalActualBottom - ActualPaddingBottom - ActualBorderBottomWidth; }
         }
 
         /// <summary>

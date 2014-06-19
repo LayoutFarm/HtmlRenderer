@@ -68,7 +68,7 @@ namespace HtmlRenderer.Dom
                 {
                     top = this.GlobalY;
                 }
-                top += prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth;
+                top += prevSibling.GlobalActualBottom + prevSibling.ActualBorderBottomWidth;
             }
 
             // fix for hr tag 

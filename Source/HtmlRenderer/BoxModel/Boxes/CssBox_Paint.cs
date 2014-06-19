@@ -115,7 +115,7 @@ namespace HtmlRenderer.Dom
                     if (this.ContainsSelectedRun)
                     {
                         //render with *** selection concern 
-                        g.OffsetCanvasOrigin(0, this.GlobalY);
+                        g.OffsetCanvasOrigin(this.GlobalX, this.GlobalY);
                         foreach (var line in this._clientLineBoxes)
                         {
                             if (line.CachedLineBottom >= viewport_top &&
@@ -146,13 +146,13 @@ namespace HtmlRenderer.Dom
 
                             }
                         }
-                        g.OffsetCanvasOrigin(0, -this.GlobalY);
+                        g.OffsetCanvasOrigin(-this.GlobalX, -this.GlobalY);
 
                     }
                     else
                     {
                         //render without selection concern
-                        g.OffsetCanvasOrigin(0, this.GlobalY);
+                        g.OffsetCanvasOrigin(this.GlobalX, this.GlobalY);
                         foreach (var line in this._clientLineBoxes)
                         {
                             if (line.CachedLineBottom >= viewport_top &&
@@ -180,7 +180,7 @@ namespace HtmlRenderer.Dom
 
                             }
                         }
-                        g.OffsetCanvasOrigin(0, -this.GlobalY);
+                        g.OffsetCanvasOrigin(-this.GlobalX, -this.GlobalY);
                     }
                 }
                 else

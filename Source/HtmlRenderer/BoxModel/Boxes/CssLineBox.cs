@@ -136,6 +136,7 @@ namespace HtmlRenderer.Dom
         readonly List<PartialBoxStrip> _bottomUpBoxStrips = new List<PartialBoxStrip>();
 
         internal LinkedListNode<CssLineBox> linkedNode;
+        float _cacheContentWidth;
 #if DEBUG
         bool dbugIsClosed;
         static int dbugTotalId;
@@ -186,8 +187,16 @@ namespace HtmlRenderer.Dom
 
         internal float CachedLineContentWidth
         {
-            get;
-            set;
+            get { return this._cacheContentWidth; }
+            set
+            {
+                if (value < 0)
+                {
+
+                }
+                this._cacheContentWidth = value;
+            }
+
         }
         internal void CloseLine()
         {
@@ -213,7 +222,6 @@ namespace HtmlRenderer.Dom
             for (int i = 0; i < j; ++i)
             {
                 var run = myruns[i];
-                 
                 maxRight = run.Right > maxRight ? run.Right : maxRight;
                 maxBottom = run.Bottom > maxBottom ? run.Bottom : maxBottom;
                 if (run.IsSpaces)
@@ -236,7 +244,7 @@ namespace HtmlRenderer.Dom
             //=============================================================
 
             this.CacheLineHeight = maxBottom;
-            this.CachedLineContentWidth = maxRight - lineOwner.LocationX;
+            this.CachedLineContentWidth = maxRight;
 
             if (lineOwner.SizeWidth < CachedLineContentWidth)
             {
@@ -455,11 +463,12 @@ namespace HtmlRenderer.Dom
         {
             //return;
             //linebox  
-            float x1 = this.OwnerBox.LocationX;
+            float x1 = 0;
             float y1 = 0;
             float x2 = x1 + this.CachedLineContentWidth;
             float y2 = y1 + this.CacheLineHeight;
             //draw diagonal
+
 
             dbugDrawDiagonalBox(g, Pens.Blue, x1, y1, x2, y2);
 
@@ -481,7 +490,7 @@ namespace HtmlRenderer.Dom
                 g.DrawRectangle(Pens.DeepPink, w.Left, w.Top, w.Width, w.Height);
             }
 
-            g.FillRectangle(Brushes.Red, x1, 0, 5, 5);
+            g.FillRectangle(Brushes.Red, 0, 0, 5, 5);
 
         }
         void dbugDrawDiagonalBox(IGraphics g, Pen pen, float x1, float y1, float x2, float y2)

@@ -128,17 +128,19 @@ namespace HtmlRenderer.Dom
 
             blockBox.ResetLineBoxes();
 
-            float limitRight = blockBox.ActualRight - blockBox.ActualPaddingRight - blockBox.ActualBorderRightWidth;
+            float limitLocalRight = blockBox.SizeWidth - (blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
+
 
             //Get the start x and y of the blockBox
-            float startx = blockBox.LocationX + blockBox.ActualPaddingLeft - 0 + blockBox.ActualBorderLeftWidth;
-            float startGlobalY = blockBox.GlobalY + blockBox.ActualPaddingTop - 0 + blockBox.ActualBorderTopWidth;
-            float cx = startx + blockBox.ActualTextIndent;
+            //float startGlobalX = blockBox.GlobalX + blockBox.ActualPaddingLeft - 0 + blockBox.ActualBorderLeftWidth;
+            //float startGlobalY = blockBox.GlobalY + blockBox.ActualPaddingTop - 0 + blockBox.ActualBorderTopWidth;
+            //float cx = startGlobalX + blockBox.ActualTextIndent;
             //float cy = startGlobalY;
-            float localY = blockBox.ActualPaddingTop - 0 + blockBox.ActualBorderTopWidth;
-
+            float localY = blockBox.ActualPaddingTop + blockBox.ActualBorderTopWidth;
+            float localX = blockBox.ActualTextIndent + blockBox.ActualPaddingLeft + blockBox.ActualBorderLeftWidth;
+            float startLocalX = localX;
             //Reminds the maximum bottom reached
-            float maxRight = startx;
+            float maxLocalRight = localX;
             float maxLocalBottom = localY;
 
             //First line box
@@ -146,13 +148,14 @@ namespace HtmlRenderer.Dom
             blockBox.AddLineBox(line);
 
             //****
-            FlowBox(args, blockBox, blockBox, limitRight, 0, startx, ref line, ref cx, ref localY, ref maxRight, ref maxLocalBottom);
+            FlowBox(args, blockBox, blockBox, limitLocalRight, 0, startLocalX,
+                ref line, ref localX, ref localY, ref maxLocalRight, ref maxLocalBottom);
             //****
 
             // if width is not restricted we need to lower it to the actual width
-            if (blockBox.ActualRight >= CssBox.MAX_RIGHT)
+            if (blockBox.GlobalActualRight >= CssBox.MAX_RIGHT)
             {
-                blockBox.SetActualRight(maxRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
+                blockBox.SetActualRight(blockBox.GlobalX + maxLocalRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
             }
             //---------------------
             if (blockBox.CssDirection == CssDirection.Rtl)
@@ -194,7 +197,7 @@ namespace HtmlRenderer.Dom
         /// <param name="g">Device Info</param>
         /// <param name="hostBox">Blockbox that contains the text flow</param>
         /// <param name="splitableBox">Current box to flow its content</param>
-        /// <param name="limitRight">Maximum reached right</param>
+        /// <param name="limitLocalRight">Maximum reached right</param>
         /// <param name="interLineSpace">Space to use between rows of text</param>
         /// <param name="firstRunStartX">x starting coordinate for when breaking lines of text</param>
         /// <param name="hostLine">Current linebox being used</param>
@@ -204,8 +207,9 @@ namespace HtmlRenderer.Dom
         /// <param name="maxBottomForHostBox">Maximum bottom reached so far</param>
         static void FlowBox(LayoutArgs args,
           CssBox hostBox, CssBox splitableBox,
-          float limitRight, float interLineSpace, float firstRunStartX,
-          ref CssLineBox hostLine, ref float current_line_x, ref float current_line_y,
+          float limitLocalRight, float interLineSpace, float firstRunStartX,
+          ref CssLineBox hostLine,
+          ref float current_line_x, ref float current_line_y,
           ref float maxRightForHostBox,
           ref float maxBottomForHostBox)
         {
@@ -237,7 +241,7 @@ namespace HtmlRenderer.Dom
                 if (!b.HasRuns)
                 {
                     //go deeper  
-                    FlowBox(args, hostBox, b, limitRight, interLineSpace, firstRunStartX,
+                    FlowBox(args, hostBox, b, limitLocalRight, interLineSpace, firstRunStartX,
                         ref hostLine, ref current_line_x, ref current_line_y, ref maxRightForHostBox, ref maxBottomForHostBox);
 
                 }
@@ -256,7 +260,7 @@ namespace HtmlRenderer.Dom
                             tmpRight += word.Width;
                         }
 
-                        if (tmpRight > limitRight)
+                        if (tmpRight > limitLocalRight)
                         {
                             wrapNoWrapBox = true;
                         }
@@ -275,7 +279,7 @@ namespace HtmlRenderer.Dom
 
                         //---------------------------------------------------
                         //check if need to start new line ?
-                        if ((current_line_x + run.Width + rightMostSpace > limitRight &&
+                        if ((current_line_x + run.Width + rightMostSpace > limitLocalRight &&
                              b.WhiteSpace != CssWhiteSpace.NoWrap &&
                              b.WhiteSpace != CssWhiteSpace.Pre &&
                              (b.WhiteSpace != CssWhiteSpace.PreWrap || !run.IsSpaces))
@@ -320,11 +324,9 @@ namespace HtmlRenderer.Dom
                         }
 
                         run.SetLocation(current_line_x, 0);
-                      
-
                         //move current_line_x to right of run
                         current_line_x = run.Right;
-                          
+
                         maxRightForHostBox = Math.Max(maxRightForHostBox, current_line_x);
                         maxBottomForHostBox = Math.Max(maxBottomForHostBox, current_line_y + run.Bottom);
 
@@ -372,7 +374,7 @@ namespace HtmlRenderer.Dom
             if (splitableBox.IsAbsolutePosition)
             {
                 current_line_x = oX;
-              
+
                 AdjustAbsolutePosition(splitableBox, 0, 0);
             }
             //****
@@ -571,7 +573,7 @@ namespace HtmlRenderer.Dom
             if (line.WordCount == 0) return;
 
             CssRun lastRun = line.GetLastRun();
-            float right = line.OwnerBox.ActualRight - line.OwnerBox.ActualPaddingRight - line.OwnerBox.ActualBorderRightWidth;
+            float right = line.OwnerBox.GlobalActualRight - line.OwnerBox.ActualPaddingRight - line.OwnerBox.ActualBorderRightWidth;
             float diff = right - lastRun.Right - lastRun.OwnerBox.ActualBorderRightWidth - lastRun.OwnerBox.ActualPaddingRight;
             diff /= 2;
 
@@ -598,7 +600,7 @@ namespace HtmlRenderer.Dom
             }
 
             CssRun lastWord = line.GetLastRun();
-            float right = line.OwnerBox.ActualRight - line.OwnerBox.ActualPaddingRight - line.OwnerBox.ActualBorderRightWidth;
+            float right = line.OwnerBox.GlobalActualRight - line.OwnerBox.ActualPaddingRight - line.OwnerBox.ActualBorderRightWidth;
             float diff = right - lastWord.Right - lastWord.OwnerBox.ActualBorderRightWidth - lastWord.OwnerBox.ActualPaddingRight;
 
             if (diff > 0)

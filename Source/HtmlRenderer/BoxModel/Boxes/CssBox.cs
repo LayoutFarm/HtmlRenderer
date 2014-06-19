@@ -629,7 +629,7 @@ namespace HtmlRenderer.Dom
                                 {
                                     top = this.GlobalY;
                                 }
-                                top += prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth;
+                                top += prevSibling.GlobalActualBottom + prevSibling.ActualBorderBottomWidth;
                             }
                             top += MarginTopCollapse(prevSibling);
 
@@ -704,9 +704,9 @@ namespace HtmlRenderer.Dom
             this.CreateListItemBox(args);
 
             float newWidth = Math.Max(CalculateMinimumWidth() + CalculateWidthMarginRecursiveUp(this),
-                              this.SizeWidth < CssBox.MAX_RIGHT ? ActualRight : 0);
+                              this.SizeWidth < CssBox.MAX_RIGHT ? GlobalActualRight : 0);
             //update back
-            HtmlContainer.UpdateSizeIfWiderOrHeigher(newWidth, ActualBottom - HtmlContainer.Root.GlobalY);
+            HtmlContainer.UpdateSizeIfWiderOrHeigher(newWidth, GlobalActualBottom - HtmlContainer.Root.GlobalY);
         }
 
         /// <summary>
@@ -883,7 +883,7 @@ namespace HtmlRenderer.Dom
                     _listItemBox.FirstRun.SetSize(fRun.Width, fRun.Height);
                 }
 
-                _listItemBox.FirstRun.SetLocation(this.LocationX - _listItemBox.Size.Width - 5, this.GlobalY + ActualPaddingTop);
+                _listItemBox.FirstRun.SetLocation(this.GlobalX - _listItemBox.Size.Width - 5, this.GlobalY + ActualPaddingTop);
 
             }
         }
@@ -1055,18 +1055,18 @@ namespace HtmlRenderer.Dom
         /// <returns>the calculated actual right value</returns>
         float CalculateActualRight()
         {
-            if (ActualRight > CssBox.MAX_RIGHT)
+            if (GlobalActualRight > CssBox.MAX_RIGHT)
             {
                 var maxRight = 0f;
                 foreach (var box in Boxes)
                 {
-                    maxRight = Math.Max(maxRight, box.ActualRight + box.ActualMarginRight);
+                    maxRight = Math.Max(maxRight, box.GlobalActualRight + box.ActualMarginRight);
                 }
                 return maxRight + ActualPaddingRight + ActualMarginRight + ActualBorderRightWidth;
             }
             else
             {
-                return ActualRight;
+                return GlobalActualRight;
             }
         }
         bool IsLastChild
@@ -1117,7 +1117,7 @@ namespace HtmlRenderer.Dom
                 var lastChildBottomMargin = _boxes[_boxes.Count - 1].ActualMarginBottom;
                 margin = (Height.IsAuto) ? Math.Max(ActualMarginBottom, lastChildBottomMargin) : lastChildBottomMargin;
             }
-            return Math.Max(ActualBottom, _boxes[_boxes.Count - 1].ActualBottom + margin + ActualPaddingBottom + ActualBorderBottomWidth);
+            return Math.Max(GlobalActualBottom, _boxes[_boxes.Count - 1].GlobalActualBottom + margin + ActualPaddingBottom + ActualBorderBottomWidth);
         }
 
         /// <summary>
