@@ -533,7 +533,7 @@ namespace HtmlRenderer.Utils
             {
                 int x = location.X;
                 int y = location.Y;
-                if (x >= box.LocationX && x <= box.ActualRight)
+                if (x >= box.GlobalX && x <= box.GlobalActualRight)
                 {
                     foreach (CssLineBox lineBox in box.GetLineBoxIter())
                     {
@@ -551,15 +551,18 @@ namespace HtmlRenderer.Utils
                     }
                 }
             }
-            //--------------------------------------------------------------- 
-            if (box.ClientRectangle.IsEmpty || box.ClientRectangle.Contains(location))
+            else
             {
-                foreach (var childBox in box.GetChildBoxIter())
-                {
-                    var foundWord = GetCssBoxWord(childBox, location);
-                    if (foundWord != null)
+                //--------------------------------------------------------------- 
+                if (box.IsPointInClientArea(location.X, location.Y))
+                {   
+                    foreach (var childBox in box.GetChildBoxIter())
                     {
-                        return foundWord;
+                        var foundWord = GetCssBoxWord(childBox, location);
+                        if (foundWord != null)
+                        {
+                            return foundWord;
+                        }
                     }
                 }
             }

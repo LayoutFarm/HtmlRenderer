@@ -59,16 +59,16 @@ namespace HtmlRenderer.Dom
             {
                 if (this.ParentBox != null)
                 {
-                    top = this.ParentBox.ClientTop;
+                    top = this.ParentBox.GlobalClientTop;
                 }
             }
             else
             {
                 if (this.ParentBox == null)
                 {
-                    top = this.LocationY;
+                    top = this.GlobalY;
                 }
-                top += prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth;
+                top += prevSibling.GlobalActualBottom + prevSibling.ActualBorderBottomWidth;
             }
 
             // fix for hr tag 
