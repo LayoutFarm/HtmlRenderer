@@ -620,14 +620,14 @@ namespace HtmlRenderer.Dom
                             {
                                 if (this.ParentBox != null)
                                 {
-                                    top = this.ParentBox.ClientTop;
+                                    top = this.ParentBox.GlobalClientTop;
                                 }
                             }
                             else
                             {
                                 if (this.ParentBox == null)
                                 {
-                                    top = this.LocationY;
+                                    top = this.GlobalY;
                                 }
                                 top += prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth;
                             }
@@ -706,7 +706,7 @@ namespace HtmlRenderer.Dom
             float newWidth = Math.Max(CalculateMinimumWidth() + CalculateWidthMarginRecursiveUp(this),
                               this.SizeWidth < CssBox.MAX_RIGHT ? ActualRight : 0);
             //update back
-            HtmlContainer.UpdateSizeIfWiderOrHeigher(newWidth, ActualBottom - HtmlContainer.Root.LocationY);
+            HtmlContainer.UpdateSizeIfWiderOrHeigher(newWidth, ActualBottom - HtmlContainer.Root.GlobalY);
         }
 
         /// <summary>
@@ -871,7 +871,7 @@ namespace HtmlRenderer.Dom
 
 
                     _listItemBox.ParseWordContent();
-                    
+
                     var prevSibling = layoutArgs.LatestSiblingBox;
                     layoutArgs.LatestSiblingBox = null;//reset
                     _listItemBox.PerformContentLayout(layoutArgs);
@@ -883,7 +883,7 @@ namespace HtmlRenderer.Dom
                     _listItemBox.FirstRun.SetSize(fRun.Width, fRun.Height);
                 }
 
-                _listItemBox.FirstRun.SetLocation(this.LocationX - _listItemBox.Size.Width - 5, this.LocationY + ActualPaddingTop);
+                _listItemBox.FirstRun.SetLocation(this.LocationX - _listItemBox.Size.Width - 5, this.GlobalY + ActualPaddingTop);
 
             }
         }
@@ -1000,7 +1000,7 @@ namespace HtmlRenderer.Dom
         /// <param name="startBox"></param>
         /// <param name="currentMaxBottom"></param>
         /// <returns></returns>
-        internal static float CalculateMaximumBottom(CssBox startBox, float currentMaxBottom)
+        internal static float CalculateMaximumBottom(CssBox startBox, float currentMaxBottom, float parentOffset)
         {
             //recursive
             if (startBox.HasRuns)
@@ -1011,7 +1011,7 @@ namespace HtmlRenderer.Dom
                     if (lastline == null)
                     {
                         lastline = run.HostLine;
-                        currentMaxBottom = Math.Max(currentMaxBottom, run.Bottom);
+                        currentMaxBottom = Math.Max(currentMaxBottom, run.Bottom + parentOffset);
                     }
                     else if (lastline != run.HostLine)
                     {
@@ -1020,16 +1020,17 @@ namespace HtmlRenderer.Dom
                     }
                     else
                     {
-                        currentMaxBottom = Math.Max(currentMaxBottom, run.Bottom);
+                        currentMaxBottom = Math.Max(currentMaxBottom, run.Bottom + parentOffset);
                     }
                 }
                 return currentMaxBottom;
             }
             else
             {
+                parentOffset = startBox.GlobalY;
                 foreach (var b in startBox.Boxes)
                 {
-                    currentMaxBottom = Math.Max(currentMaxBottom, CalculateMaximumBottom(b, currentMaxBottom));
+                    currentMaxBottom = Math.Max(currentMaxBottom, CalculateMaximumBottom(b, currentMaxBottom, parentOffset));
                 }
                 return currentMaxBottom;
             }
@@ -1371,6 +1372,11 @@ namespace HtmlRenderer.Dom
             {
                 return this.SizeWidth - this.ActualPaddingLeft - this.ActualPaddingRight - this.ActualBorderLeftWidth - this.ActualBorderRightWidth;
             }
+        }
+        internal bool IsPointInClientArea(float x, float y)
+        {
+            return x >= this.ClientLeft && x < this.ClientRight &&
+                    y >= this.GlobalClientTop && y < this.ClientBottom;
         }
     }
 }

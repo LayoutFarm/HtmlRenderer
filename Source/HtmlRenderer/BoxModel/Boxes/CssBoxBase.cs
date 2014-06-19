@@ -625,7 +625,7 @@ namespace HtmlRenderer.Dom
         {
             get { return this._locationX; }
         }
-        public float LocationY
+        public float GlobalY
         {
             get { return this._locationY; }
         }
@@ -674,7 +674,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public RectangleF Bounds
         {
-            get { return new RectangleF(new PointF(this.LocationX, this.LocationY), Size); }
+            get { return new RectangleF(new PointF(this.LocationX, this.GlobalY), Size); }
         }
 
         /// <summary>
@@ -702,7 +702,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float ActualBottom
         {
-            get { return this.LocationY + this._sizeHeight; }
+            get { return this.GlobalY + this._sizeHeight; }
         }
         public void SetActualBottom(float value)
         {
@@ -730,27 +730,28 @@ namespace HtmlRenderer.Dom
         }
 
         /// <summary>
-        /// Gets the top of the client rectangle (Where content starts rendering)
-        /// </summary>
-        public float ClientTop
-        {
-            get { return this.LocationY + ActualBorderTopWidth + ActualPaddingTop; }
-        }
-
-        /// <summary>
         /// Gets the right of the client rectangle
         /// </summary>
         public float ClientRight
         {
             get { return ActualRight - ActualPaddingRight - ActualBorderRightWidth; }
         }
+        
+        public float GlobalClientTop
+        {
+            get { return this.GlobalY + this.ClientTop; }             
+        }
 
+        public float ClientTop
+        {
+            get { return ActualBorderTopWidth + ActualPaddingTop; }
+        }
         /// <summary>
         /// Gets the bottom of the client rectangle
         /// </summary>
         public float ClientBottom
         {
-            get { return ActualBottom - ActualPaddingBottom - ActualBorderBottomWidth; }
+            get { return this.ActualBottom - ActualPaddingBottom - ActualBorderBottomWidth; }
         }
 
         /// <summary>
@@ -758,9 +759,13 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public RectangleF ClientRectangle
         {
-            get { return RectangleF.FromLTRB(ClientLeft, ClientTop, ClientRight, ClientBottom); }
+            get { return RectangleF.FromLTRB(ClientLeft, GlobalClientTop, ClientRight, ClientBottom); }
         }
 
+        public float ClientWidth
+        {
+            get { return this.ClientRight - this.ClientLeft; }
+        }
         /// <summary>
         /// Gets the actual height
         /// </summary>

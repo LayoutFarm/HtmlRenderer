@@ -87,6 +87,7 @@ namespace HtmlRenderer
 
         public void OffsetCanvasOrigin(float dx, float dy)
         {
+            ReleaseHdc();
             this._g.TranslateTransform(dx, dy);
             this.canvasOriginX += dx;
             this.canvasOriginY += dy;

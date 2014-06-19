@@ -132,21 +132,21 @@ namespace HtmlRenderer.Dom
 
             //Get the start x and y of the blockBox
             float startx = blockBox.LocationX + blockBox.ActualPaddingLeft - 0 + blockBox.ActualBorderLeftWidth;
-            float starty = blockBox.LocationY + blockBox.ActualPaddingTop - 0 + blockBox.ActualBorderTopWidth;
+            float startGlobalY = blockBox.GlobalY + blockBox.ActualPaddingTop - 0 + blockBox.ActualBorderTopWidth;
             float cx = startx + blockBox.ActualTextIndent;
-            float cy = starty;
-
+            //float cy = startGlobalY;
+            float localY = blockBox.ActualPaddingTop - 0 + blockBox.ActualBorderTopWidth;
 
             //Reminds the maximum bottom reached
             float maxRight = startx;
-            float maxBottom = starty;
+            float maxLocalBottom = localY;
 
             //First line box
             CssLineBox line = new CssLineBox(blockBox);
             blockBox.AddLineBox(line);
 
             //****
-            FlowBox(args, blockBox, blockBox, limitRight, 0, startx, ref line, ref cx, ref cy, ref maxRight, ref maxBottom);
+            FlowBox(args, blockBox, blockBox, limitRight, 0, startx, ref line, ref cx, ref localY, ref maxRight, ref maxLocalBottom);
             //****
 
             // if width is not restricted we need to lower it to the actual width
@@ -173,7 +173,7 @@ namespace HtmlRenderer.Dom
                 }
             }
 
-            blockBox.SetActualBottom(maxBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
+            blockBox.SetActualBottom(blockBox.GlobalY + maxLocalBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
 
             // handle limiting block height when overflow is hidden             
             if (blockBox.Overflow == CssOverflow.Hidden &&
@@ -289,7 +289,7 @@ namespace HtmlRenderer.Dom
                             cx = startx;
                             //set y to new line
                             cy = maxBottom + interLineSpace;
-                            hostLine.LineBoxTop = cy;
+
 
 
                             // handle if line is wrapped for the first text element where parent has left margin/padding
@@ -535,7 +535,7 @@ namespace HtmlRenderer.Dom
 
             float textSum = 0f;
             float words = 0f;
-            float availWidth = lineBox.OwnerBox.ClientRectangle.Width - indent;
+            float availableWidth = lineBox.OwnerBox.ClientWidth - indent;
 
             // Gather text sum
             foreach (CssRun w in lineBox.GetRunIter())
@@ -545,7 +545,7 @@ namespace HtmlRenderer.Dom
             }
 
             if (words <= 0f) return; //Avoid Zero division
-            float spacing = (availWidth - textSum) / words; //Spacing that will be used
+            float spacing = (availableWidth - textSum) / words; //Spacing that will be used
             float curx = lineBox.OwnerBox.ClientLeft + indent;
 
             CssRun lastRun = lineBox.GetLastRun();

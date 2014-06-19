@@ -62,7 +62,7 @@ namespace HtmlRenderer.Dom
         public static void PerformLayout(CssBox tableBox, LayoutArgs args)
         {
 
-             
+
 
             //try
             //{
@@ -665,8 +665,8 @@ namespace HtmlRenderer.Dom
             float horizontal_spacing = GetHorizontalSpacing(_tableBox);
 
             float startx = Math.Max(_tableBox.ClientLeft + horizontal_spacing, 0);
-            float starty = Math.Max(_tableBox.ClientTop + vertical_spacing, 0);
-             
+            float starty = Math.Max(_tableBox.GlobalClientTop + vertical_spacing, 0);
+
 
             float cury = starty;
             float maxRight = startx;
@@ -723,7 +723,7 @@ namespace HtmlRenderer.Dom
                     }
                 }
 
-
+                float tableY = _tableBox.GlobalY;
                 foreach (CssBox cell in row.GetChildBoxIter())
                 {
                     CssVerticalCellSpacingBox spacer = cell as CssVerticalCellSpacingBox;
@@ -733,7 +733,7 @@ namespace HtmlRenderer.Dom
                         if (cell.RowSpan == 1)
                         {
                             cell.SetActualBottom(maxBottom);
-                            ApplyCellVerticalAlignment(cell);
+                            ApplyCellVerticalAlignment(cell, tableY);
                         }
                     }
                     else
@@ -741,7 +741,7 @@ namespace HtmlRenderer.Dom
                         if (spacer.EndRow == currentRow)
                         {
                             spacer.ExtendedBox.SetActualBottom(maxBottom);
-                            ApplyCellVerticalAlignment(spacer.ExtendedBox);
+                            ApplyCellVerticalAlignment(spacer.ExtendedBox, tableY);
                         }
                     }
                 }
@@ -810,27 +810,31 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="g"></param>
         /// <param name="cell"></param>
-        static void ApplyCellVerticalAlignment(CssBox cell)
+        static void ApplyCellVerticalAlignment(CssBox cell, float tableBoxOffset)
         {
 
-             
 
             float dist = 0f;
+
             switch (cell.VerticalAlign)
             {
                 case CssVerticalAlign.Bottom:
-                    dist = cell.ClientBottom - CssBox.CalculateMaximumBottom(cell, 0f);
+                    dist = cell.ClientBottom - CssBox.CalculateMaximumBottom(cell, 0f, tableBoxOffset);
+
                     break;
                 case CssVerticalAlign.Middle:
-                    dist = (cell.ClientBottom - CssBox.CalculateMaximumBottom(cell, 0f)) / 2;
+                    dist = (cell.ClientBottom - CssBox.CalculateMaximumBottom(cell, 0f, tableBoxOffset)) / 2;
+
                     break;
                 default:
                     return;
             }
+
             if (dist != 0f)
             {
                 if (cell.LineBoxCount > 0)
                 {
+
                     foreach (CssLineBox linebox in cell.GetLineBoxIter())
                     {
                         linebox.OffsetTop(dist);
@@ -1150,8 +1154,8 @@ namespace HtmlRenderer.Dom
                     }
                     else
                     {
-                        col.MinWidth = Math.Max(col.MinWidth, cellBox.CalculateMinimumWidth());                        
-                    } 
+                        col.MinWidth = Math.Max(col.MinWidth, cellBox.CalculateMinimumWidth());
+                    }
 
                     gridIndex += cellBox.ColSpan;
                 }

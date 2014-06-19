@@ -22,20 +22,26 @@ namespace HtmlRenderer.Dom
             if (this.CssDisplay != CssDisplay.None &&
                 this.CssVisibility == Dom.CssVisibility.Visible)
             {
+                //----------------
+                PaintImp(g, args);
 
-                RectangleF clip = g.GetClip();
-                RectangleF rect = args.LatestContaingBoxClientRect;
-                //rect.X -= 2;
-                //rect.Width += 2;
-                rect.Offset(args.Offset);
-                rect.Intersect(args.PeekViewportBound());
+                //v2
+                //----------------
+                //RectangleF clip = g.GetClip();
+                //RectangleF rect = args.LatestContaingBoxClientRect;
 
-                clip.Intersect(rect);
 
-                if (clip != RectangleF.Empty)
-                {
-                    PaintImp(g, args);
-                }
+                ////rect.X -= 2;
+                ////rect.Width += 2;
+                //rect.Offset(args.Offset);
+                //rect.Intersect(args.PeekViewportBound());
+
+                //clip.Intersect(rect);
+
+                //if (clip != RectangleF.Empty)
+                //{
+                //    PaintImp(g, args);
+                //}
 
             }
         }
@@ -58,7 +64,7 @@ namespace HtmlRenderer.Dom
 #endif
         }
         protected virtual void PaintImp(IGraphics g, PaintingArgs args)
-        {   
+        {
             if (this.CssDisplay != CssDisplay.None &&
                (this.CssDisplay != CssDisplay.TableCell ||
                  EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
@@ -68,10 +74,10 @@ namespace HtmlRenderer.Dom
                 if (this.Overflow == CssOverflow.Hidden)
                 {
                     var expectedW = this.ExpectedWidth;
-                    var expectedH = this.ExpectedHeight;                    
+                    var expectedH = this.ExpectedHeight;
                     //clip width 
                     if (expectedH > 0)
-                    {   
+                    {
                         if (prevClip.IsEmpty)
                         {
                             prevClip = this.Bounds;
@@ -81,9 +87,13 @@ namespace HtmlRenderer.Dom
                         {
 
                         }
-                    } 
+                    }
                 }
 
+                if (this.CssDisplay == Dom.CssDisplay.TableCell)
+                {
+
+                }
 
                 var viewport = args.PeekViewportBound();
                 //---------------------------------------------
@@ -105,24 +115,30 @@ namespace HtmlRenderer.Dom
                     if (this.ContainsSelectedRun)
                     {
                         //render with *** selection concern 
+                        g.OffsetCanvasOrigin(0, this.GlobalY);
                         foreach (var line in this._clientLineBoxes)
                         {
                             if (line.CachedLineBottom >= viewport_top &&
                                 line.CachedLineTop <= viewport_bottom)
                             {
+
+                                g.OffsetCanvasOrigin(0, line.CachedLineTop);
                                 //----------------------------------------
-                                //1.
+                                //1.                                 
                                 line.PaintBackgroundAndBorder(g, args);
 
                                 this.HtmlContainer.SelectionRange.Draw(g, args, line.CachedLineTop, line.CacheLineHeight, offset);
 
-                                //2.
+                                //2.                                
                                 line.PaintRuns(g, args);
-                                //3.
+
+                                //3. 
                                 line.PaintDecoration(g, args);
+
 #if DEBUG
                                 line.dbugPaintRuns(g, args);
 #endif
+                                g.OffsetCanvasOrigin(0, -line.CachedLineTop);
                                 //----------------------------------------
                             }
                             else
@@ -130,26 +146,33 @@ namespace HtmlRenderer.Dom
 
                             }
                         }
+                        g.OffsetCanvasOrigin(0, -this.GlobalY);
 
                     }
                     else
                     {
                         //render without selection concern
+                        g.OffsetCanvasOrigin(0, this.GlobalY);
                         foreach (var line in this._clientLineBoxes)
                         {
                             if (line.CachedLineBottom >= viewport_top &&
                                 line.CachedLineTop <= viewport_bottom)
                             {
                                 //----------------------------------------
-                                //1.
+                                g.OffsetCanvasOrigin(0, line.CachedLineTop);
+
+                                //1. 
                                 line.PaintBackgroundAndBorder(g, args);
-                                //2.
+                                //2. 
                                 line.PaintRuns(g, args);
-                                //3.
+                                //3. 
                                 line.PaintDecoration(g, args);
 #if DEBUG
+
                                 line.dbugPaintRuns(g, args);
+
 #endif
+                                g.OffsetCanvasOrigin(0, -line.CachedLineTop);
                                 //----------------------------------------
                             }
                             else
@@ -157,6 +180,7 @@ namespace HtmlRenderer.Dom
 
                             }
                         }
+                        g.OffsetCanvasOrigin(0, -this.GlobalY);
                     }
                 }
                 else
@@ -171,7 +195,9 @@ namespace HtmlRenderer.Dom
                             {
                                 continue;
                             }
+
                             b.Paint(g, args);
+
                         }
                         args.PopContainingBox();
                     }
