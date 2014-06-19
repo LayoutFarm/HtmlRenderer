@@ -165,11 +165,8 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        /// <summary>
-        /// relative to owner cssbox
-        /// </summary>
-        internal float LineBoxTop { get; set; }
-        internal float LineBoxHeight { get; set; }
+
+
         //---------------------------------
 
         internal float CachedLineBottom
@@ -184,12 +181,13 @@ namespace HtmlRenderer.Dom
         internal float CachedLineTop
         {
             get;
-            private set;
+            set;
         }
+
         internal float CachedLineContentWidth
         {
             get;
-            private set;
+            set;
         }
         internal void CloseLine()
         {
@@ -209,10 +207,15 @@ namespace HtmlRenderer.Dom
             //---------------------------------------------------------------------------
             //first level
             Dictionary<CssBox, PartialBoxStrip> dicStrips = new Dictionary<CssBox, PartialBoxStrip>();
-
+            //location of run and strip related to its containng block
+            float maxRight = 0;
+            float maxBottom = 0;
             for (int i = 0; i < j; ++i)
             {
                 var run = myruns[i];
+                 
+                maxRight = run.Right > maxRight ? run.Right : maxRight;
+                maxBottom = run.Bottom > maxBottom ? run.Bottom : maxBottom;
                 if (run.IsSpaces)
                 {
                     continue;
@@ -231,39 +234,9 @@ namespace HtmlRenderer.Dom
             //=============================================================
             //part 2: CalculateCacheData()
             //=============================================================
-            float local_height = 0;
-            float local_bottom = 0;
-            float contentRight = 0;
 
-            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
-            {
-                var strip = _bottomUpBoxStrips[i];
-                local_height = Math.Max(local_height, strip.Height);
-                local_bottom = Math.Max(local_bottom, strip.Bottom);
-                contentRight = Math.Max(contentRight, strip.Right);
-            }
-
-            this.CacheLineHeight = local_height;
-            float cacheLineTop = 0;
-            this.CachedLineTop = cacheLineTop = local_bottom - local_height;
-
-            //----------------------- 
-            //make strip and run related to its line
-            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
-            {
-                var strip = _bottomUpBoxStrips[i];
-                strip.SetTop(strip.Top - cacheLineTop);
-            }
-            for (int i = _runs.Count - 1; i >= 0; --i)
-            {
-                var run = _runs[i];
-
-                run.SetLocation(run.Left, run.Top - cacheLineTop);
-            }
-            //----------------------- 
-
-
-            this.CachedLineContentWidth = contentRight - lineOwner.LocationX;
+            this.CacheLineHeight = maxBottom;
+            this.CachedLineContentWidth = maxRight - lineOwner.LocationX;
 
             if (lineOwner.SizeWidth < CachedLineContentWidth)
             {
@@ -274,7 +247,6 @@ namespace HtmlRenderer.Dom
 
         internal void OffsetTop(float ydiff)
         {
-             
 
             this.CachedLineTop += ydiff;
 
@@ -488,6 +460,7 @@ namespace HtmlRenderer.Dom
             float x2 = x1 + this.CachedLineContentWidth;
             float y2 = y1 + this.CacheLineHeight;
             //draw diagonal
+
             dbugDrawDiagonalBox(g, Pens.Blue, x1, y1, x2, y2);
 
             //g.DrawRectangle(Pens.Blue,
@@ -508,7 +481,7 @@ namespace HtmlRenderer.Dom
                 g.DrawRectangle(Pens.DeepPink, w.Left, w.Top, w.Width, w.Height);
             }
 
-            g.FillRectangle(Brushes.Red, this._ownerBox.LocationX, 0, 5, 5);
+            g.FillRectangle(Brushes.Red, x1, 0, 5, 5);
 
         }
         void dbugDrawDiagonalBox(IGraphics g, Pen pen, float x1, float y1, float x2, float y2)
@@ -675,7 +648,6 @@ namespace HtmlRenderer.Dom
             float left, float top, float right, float bottom,
             List<PartialBoxStrip> newStrips, Dictionary<CssBox, PartialBoxStrip> dic)
         {
-
             PartialBoxStrip strip;
             if (!dic.TryGetValue(runOwner, out strip))
             {
