@@ -90,31 +90,37 @@ namespace HtmlRenderer.Dom
                     }
                 }
 
-                if (this.CssDisplay == Dom.CssDisplay.TableCell)
-                {
+                //if (this.CssDisplay == Dom.CssDisplay.TableCell)
+                //{
 
-                }
+                //}
 
                 var viewport = args.PeekViewportBound();
                 //---------------------------------------------
                 if (this.CssDisplay != CssDisplay.Inline)
                 {
-                    var bound = this.LocalBound;
+                    //var bound = this.LocalBound;
+                    var bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
                     PaintBackground(g, bound, true, true);
                     BordersDrawHandler.DrawBoxBorders(g, this, bound, true, true);
                 }
 
                 if (this.LineBoxCount > 0)
                 {
+
+
                     PointF offset = args.Offset;
                     viewport.Offset(offset.X, -offset.Y);
                     float viewport_top = viewport.Top;
                     float viewport_bottom = viewport.Bottom;
+
+                    // g.OffsetCanvasOrigin(this.LocalX, this.LocalY);
+
                     //---------------------------------------- 
                     if (this.ContainsSelectedRun)
                     {
                         //render with *** selection concern 
-                        g.OffsetCanvasOrigin(this.LocalX, this.LocalY);
+
                         foreach (var line in this._clientLineBoxes)
                         {
                             if (line.CachedLineBottom >= viewport_top &&
@@ -145,13 +151,13 @@ namespace HtmlRenderer.Dom
 
                             }
                         }
-                        g.OffsetCanvasOrigin(-this.LocalX, -this.LocalY);
+
 
                     }
                     else
                     {
                         //render without selection concern
-                        g.OffsetCanvasOrigin(this.LocalX, this.LocalY);
+
                         foreach (var line in this._clientLineBoxes)
                         {
                             if (line.CachedLineBottom >= viewport_top &&
@@ -179,8 +185,11 @@ namespace HtmlRenderer.Dom
 
                             }
                         }
-                        g.OffsetCanvasOrigin(-this.LocalX, -this.LocalY);
+
                     }
+
+                    //g.OffsetCanvasOrigin(-this.LocalX, -this.LocalY);
+
                 }
                 else
                 {
@@ -188,6 +197,7 @@ namespace HtmlRenderer.Dom
                     if (this.HasContainingBlockProperty)
                     {
                         args.PushContainingBox(this);
+
                         foreach (var b in this._boxes)
                         {
                             if (b.CssDisplay == CssDisplay.None)
@@ -195,14 +205,16 @@ namespace HtmlRenderer.Dom
                                 continue;
                             }
 
+                            g.OffsetCanvasOrigin(b.LocalX, b.LocalY);
                             b.Paint(g, args);
-
+                            g.OffsetCanvasOrigin(-b.LocalX, -b.LocalY);
                         }
+
                         args.PopContainingBox();
                     }
                     else
                     {
-                        //if not
+                        //if not 
                         foreach (var b in this._boxes)
                         {
                             if (b.CssDisplay == CssDisplay.None)

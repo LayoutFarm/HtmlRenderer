@@ -1158,20 +1158,20 @@ namespace HtmlRenderer.Dom
                 return;
             }
 
-            if (this.LineBoxCount > 0)
-            {
-                foreach (var linebox in this.GetLineBoxIter())
-                {
-                    linebox.OffsetTop(amount);
-                }
-            }
-            else
-            {
-                foreach (CssBox b in Boxes)
-                {
-                    b.OffsetTop(amount);
-                }
-            }
+            //if (this.LineBoxCount > 0)
+            //{
+            //    foreach (var linebox in this.GetLineBoxIter())
+            //    {
+            //        linebox.OffsetTop(amount);
+            //    }
+            //}
+            //else
+            //{
+            //    foreach (CssBox b in Boxes)
+            //    {
+            //        b.OffsetTop(amount);
+            //    }
+            //}
 
             if (_listItemBox != null)
             {
