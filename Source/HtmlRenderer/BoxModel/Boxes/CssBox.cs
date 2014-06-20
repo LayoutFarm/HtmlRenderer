@@ -1124,36 +1124,28 @@ namespace HtmlRenderer.Dom
         /// Deeply offsets the top of the box and its contents
         /// </summary>
         /// <param name="amount"></param>
-        internal void OffsetTop(float amount)
+        internal void OffsetGlobalTop(float amount)
         {
             if (amount == 0)
             {
                 return;
             }
-
             if (this.LineBoxCount > 0)
             {
-                foreach (var linebox in this.GetLineBoxIter())
-                {
-                    linebox.OffsetTop(amount);
-                }
             }
             else
             {
                 foreach (CssBox b in Boxes)
                 {
-                    b.OffsetTop(amount);
+                    b.OffsetGlobalTop(amount);
                 }
             }
-
             if (_listItemBox != null)
             {
-                _listItemBox.OffsetTop(amount);
+                _listItemBox.OffsetGlobalTop(amount);
             }
 
-
-
-            this.Offset(0, amount);
+            this.OffsetOnlyGlobal(0, amount);
         }
         /// <summary>
         /// Paints the background of the box
