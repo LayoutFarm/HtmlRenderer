@@ -667,7 +667,10 @@ namespace HtmlRenderer.Dom
             float startx = Math.Max(_tableBox.GlobalClientLeft + horizontal_spacing, 0);
             float starty = Math.Max(_tableBox.GlobalClientTop + vertical_spacing, 0);
 
+            if (_tableBox.dbugId == 392)
+            {
 
+            }
             float cury = starty;
             float maxRight = startx;
             float maxBottom = 0f;
@@ -816,7 +819,7 @@ namespace HtmlRenderer.Dom
         static void ApplyCellVerticalAlignment(CssBox cell, float tableBoxOffset)
         {
 
-            
+
             float dist = 0f;
 
             switch (cell.VerticalAlign)
