@@ -319,7 +319,7 @@ namespace HtmlRenderer.Utils
         public static bool HitTest(CssBox box, Point loc, BoxHitChain hitChain)
         {//recursive
 
-            if (box.Bounds.Contains(loc))
+            if (box.GlobalBound.Contains(loc))
             {
                 //1.
                 int x = loc.X;
@@ -487,7 +487,7 @@ namespace HtmlRenderer.Utils
                 {
                     if (box.WellknownTagName == WellknownHtmlTagName.NotAssign ||
                         box.WellknownTagName != WellknownHtmlTagName.TD ||
-                        box.Bounds.Contains(location))
+                        box.GlobalBound.Contains(location))
                     {
                         foreach (var lineBox in box.GetLineBoxIter())
                         {

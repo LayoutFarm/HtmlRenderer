@@ -88,11 +88,12 @@ namespace HtmlRenderer.Dom
 
         #region Fields
 
-        //location, size
-        float _locationX;
-        float _locationY;
+        //location, size 
         float _sizeHeight;
         float _sizeWidth;
+
+      
+
 
         //corner
         float _actualCornerNW;
@@ -472,13 +473,7 @@ namespace HtmlRenderer.Dom
             get { return this._position; }
             set { this._position = value; }
         }
-        public bool IsAbsolutePosition
-        {
-            get
-            {
-                return this.Position == CssPosition.Absolute;
-            }
-        }
+      
 
         //----------------------------------------------------
         public CssLength LineHeight
@@ -616,152 +611,8 @@ namespace HtmlRenderer.Dom
             {
                 return this._backgroundProps.BackgroundGradientAngle;
             }
-        } 
-        public float GlobalX
-        {
-            get { return this._locationX; }
         }
-        public float GlobalY
-        {
-            get { return this._locationY; }
-        }
-        public void Offset(float dx, float dy)
-        {
-            this._locationX += dx;
-            this._locationY += dy;
-            this._baseCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
-        }
-        public void SetLocation(float x, float y)
-        {
-            this._locationX = x;
-            this._locationY = y;
-            this._baseCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
-        }
-        /// <summary>
-        /// Gets or sets the size of the box
-        /// </summary>
-        public SizeF Size
-        {
-            get { return new SizeF(this._sizeWidth, this._sizeHeight); }
-        }
-        public void SetSize(float width, float height)
-        {
-            this._sizeWidth = width;
-            this._sizeHeight = height;
-        }
-        public float SizeWidth
-        {
-            get
-            {
-                return this._sizeWidth;
-            }
-        }
-
-        public float SizeHeight
-        {
-            get
-            {
-                return this._sizeHeight;
-            }
-        }
-
-        /// <summary>
-        /// Gets the bounds of the box
-        /// </summary>
-        public RectangleF Bounds
-        {
-            get { return new RectangleF(new PointF(this.GlobalX, this.GlobalY), Size); }
-        }
-
-        /// <summary>
-        /// Gets the width available on the box, counting padding and margin.
-        /// </summary>
-        public float AvailableWidth
-        {
-            get { return this.SizeWidth - ActualBorderLeftWidth - ActualPaddingLeft - ActualPaddingRight - ActualBorderRightWidth; }
-        }
-
-        /// <summary>
-        /// Gets the right of the box. When setting, it will affect only the width of the box.
-        /// </summary>
-        public float GlobalActualRight
-        {
-            get { return GlobalX + this.SizeWidth; }
-        }
-        public void SetActualRight(float value)
-        {
-            this._sizeWidth = value - GlobalX;
-        }
-        /// <summary>
-        /// Gets or sets the bottom of the box. 
-        /// (When setting, alters only the Size.Height of the box)
-        /// </summary>
-        public float GlobalActualBottom
-        {
-            get { return this.GlobalY + this._sizeHeight; }
-        }
-        public void SetActualBottom(float value)
-        {
-            this._sizeHeight = value - this._locationY;
-        }
-        protected void SetHeight(float height)
-        {
-            this._sizeHeight = height;
-        }
-        internal void UpdateIfHigher(float newHeight)
-        {
-            if (newHeight > this._sizeHeight)
-            {
-                this._sizeHeight = newHeight;
-            }
-        }
-
-
-        /// <summary>
-        /// Gets the left of the client rectangle (Where content starts rendering)
-        /// </summary>
-        public float ClientLeft
-        {
-            get { return this.GlobalX + ActualBorderLeftWidth + ActualPaddingLeft; }
-        }
-
-        /// <summary>
-        /// Gets the right of the client rectangle
-        /// </summary>
-        public float ClientRight
-        {
-            get { return GlobalActualRight - ActualPaddingRight - ActualBorderRightWidth; }
-        }
-        
-        public float GlobalClientTop
-        {
-            get { return this.GlobalY + this.ClientTop; }             
-        }
-
-        public float ClientTop
-        {
-            get { return ActualBorderTopWidth + ActualPaddingTop; }
-        }
-        /// <summary>
-        /// Gets the bottom of the client rectangle
-        /// </summary>
-        public float ClientBottom
-        {
-            get { return this.GlobalActualBottom - ActualPaddingBottom - ActualBorderBottomWidth; }
-        }
-
-        /// <summary>
-        /// Gets the client rectangle
-        /// </summary>
-        public RectangleF ClientRectangle
-        {
-            get { return RectangleF.FromLTRB(ClientLeft, GlobalClientTop, ClientRight, ClientBottom); }
-        }
-
-        public float ClientWidth
-        {
-            get { return this.ClientRight - this.ClientLeft; }
-        }
+       
         /// <summary>
         /// Gets the actual height
         /// </summary>
@@ -788,7 +639,7 @@ namespace HtmlRenderer.Dom
                 if ((this._prop_pass_eval & CssBoxBaseAssignments.WIDTH) == 0)
                 {
                     this._prop_pass_eval |= CssBoxBaseAssignments.WIDTH;
-                    return _expectedWidth = CssValueParser.ParseLength(Width, Size.Width, this);
+                    return _expectedWidth = CssValueParser.ParseLength(Width, this.SizeWidth, this);
                 }
                 return _expectedWidth;
             }
@@ -1336,6 +1187,43 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
+        /// <summary>
+        /// Gets or sets the size of the box
+        /// </summary>
+        public SizeF Size
+        {
+            get { return new SizeF(this._sizeWidth, this._sizeHeight); }
+        }
+        public void SetSize(float width, float height)
+        {
+            this._sizeWidth = width;
+            this._sizeHeight = height;
+        }
+        public float SizeWidth
+        {
+            get
+            {
+                return this._sizeWidth;
+            }
+        }
 
+        public float SizeHeight
+        {
+            get
+            {
+                return this._sizeHeight;
+            }
+        }
+        protected void SetHeight(float height)
+        {
+            this._sizeHeight = height;
+        }
+        internal void UpdateIfHigher(float newHeight)
+        {
+            if (newHeight > this._sizeHeight)
+            {
+                this._sizeHeight = newHeight;
+            }
+        }
     }
 }
