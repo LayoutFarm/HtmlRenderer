@@ -126,16 +126,9 @@ namespace HtmlRenderer.Dom
         {
 
 
-            blockBox.ResetLineBoxes();
-
+            blockBox.ResetLineBoxes(); 
             float limitLocalRight = blockBox.SizeWidth - (blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
-
-
-            //Get the start x and y of the blockBox
-            //float startGlobalX = blockBox.GlobalX + blockBox.ActualPaddingLeft - 0 + blockBox.ActualBorderLeftWidth;
-            //float startGlobalY = blockBox.GlobalY + blockBox.ActualPaddingTop - 0 + blockBox.ActualBorderTopWidth;
-            //float cx = startGlobalX + blockBox.ActualTextIndent;
-            //float cy = startGlobalY;
+             
             float localY = blockBox.ActualPaddingTop + blockBox.ActualBorderTopWidth;
             float localX = blockBox.ActualTextIndent + blockBox.ActualPaddingLeft + blockBox.ActualBorderLeftWidth;
             float startLocalX = localX;

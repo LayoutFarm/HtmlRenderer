@@ -49,41 +49,61 @@ namespace HtmlRenderer.Dom
             }
 
             var prevSibling = args.LatestSiblingBox;
-
             var myContainingBlock = args.LatestContaingBlock;
 
+            //float globalLeft = myContainingBlock.GlobalX + myContainingBlock.LocalClientLeft + ActualMarginLeft;
+            //float globalTop = 0;
+            //if (prevSibling == null)
+            //{
+            //    if (this.ParentBox != null)
+            //    {
+            //        globalTop = this.ParentBox.GlobalClientTop;
+            //    }
+            //}
+            //else
+            //{
+            //    if (this.ParentBox == null)
+            //    {
 
-            float left = myContainingBlock.GlobalClientLeft + ActualMarginLeft;
-            float top = 0;
+            //        globalTop = this.GlobalY;
+            //    }
+            //    globalTop += prevSibling.GlobalActualBottom + prevSibling.ActualBorderBottomWidth;
+            //}
+
+            //// fix for hr tag 
+            //var maringTopCollapse = MarginTopCollapse(prevSibling);
+            float localLeft = myContainingBlock.LocalClientLeft + this.ActualMarginLeft;
+            float localTop = 0;
+
+
             if (prevSibling == null)
             {
                 if (this.ParentBox != null)
                 {
-                    top = this.ParentBox.GlobalClientTop;
+                    localTop = myContainingBlock.LocalClientTop;
                 }
             }
             else
             {
-                if (this.ParentBox == null)
-                {
-                    top = this.GlobalY;
-                }
-                top += prevSibling.GlobalActualBottom + prevSibling.ActualBorderBottomWidth;
+                localTop = prevSibling.LocalActualBottom + prevSibling.ActualBorderBottomWidth;
             }
 
-            // fix for hr tag 
-            var maringTopCollapse = MarginTopCollapse(prevSibling);
+            float maringTopCollapse = MarginTopCollapse(prevSibling);
 
             if (maringTopCollapse < 0.1)
             {
                 maringTopCollapse = this.GetEmHeight() * 1.1f;
             }
-            top += maringTopCollapse;
+            localTop += maringTopCollapse;
 
 
-            this.SetGlobalLocation(left, top, myContainingBlock.GlobalX, myContainingBlock.GlobalY);
+            this.SetGlobalLocation(
+                myContainingBlock.GlobalX + localLeft,
+                myContainingBlock.GlobalY + localTop,
+                myContainingBlock.GlobalX,
+                myContainingBlock.GlobalY);
+            
             this.SetHeightToZero();
-
 
             //width at 100% (or auto)
             float minwidth = CalculateMinimumWidth();

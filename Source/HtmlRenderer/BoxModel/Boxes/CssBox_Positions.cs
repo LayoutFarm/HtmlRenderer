@@ -35,20 +35,11 @@ namespace HtmlRenderer.Dom
         {
             get { return this._localY; }
         }
-        //void Offset(float dx, float dy)
-        //{
-        //    this._globalX += dx;
-        //    this._globalY += dy;
-        //    this._localX += dx;
-        //    this._localY += dy;
 
-        //    this._boxCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
-        //}
-         
         public void SetGlobalLocation(float globalX, float globalY, float container_globalX, float container_globalY)
         {
             this._globalX = globalX;
-            this._globalY = globalY; 
+            this._globalY = globalY;
 
             this._localX = globalX - container_globalX;
             this._localY = globalY - container_globalY;
@@ -83,6 +74,10 @@ namespace HtmlRenderer.Dom
         {
             get { return GlobalX + this.SizeWidth; }
         }
+        public float LocalActualRight
+        {
+            get { return this.LocalX + this.SizeWidth; }
+        }
         public void SetGlobalActualRight(float value)
         {
             this.SetSize(value - GlobalX, this.SizeHeight);
@@ -99,7 +94,14 @@ namespace HtmlRenderer.Dom
         {
             this.SetSize(this.SizeWidth, value - this._globalY);
         }
-
+        public void SetLocalActualBottom(float value)
+        {
+            this.SetSize(this.SizeWidth, value - this._localY);
+        }
+        public float LocalActualBottom
+        {
+            get { return this.LocalY + this.SizeHeight; }
+        }
 
 
         /// <summary>
@@ -107,9 +109,12 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public float GlobalClientLeft
         {
-            get { return this.GlobalX + ActualBorderLeftWidth + ActualPaddingLeft; }
+            get { return this.GlobalX + this.LocalClientLeft; }
         }
-
+        public float LocalClientLeft
+        {
+            get { return ActualBorderLeftWidth + ActualPaddingLeft; }
+        }
         /// <summary>
         /// Gets the right of the client rectangle
         /// </summary>
@@ -120,10 +125,10 @@ namespace HtmlRenderer.Dom
 
         public float GlobalClientTop
         {
-            get { return this.GlobalY + this.ClientTop; }
+            get { return this.GlobalY + this.LocalClientTop; }
         }
 
-        public float ClientTop
+        public float LocalClientTop
         {
             get { return ActualBorderTopWidth + ActualPaddingTop; }
         }
@@ -142,10 +147,9 @@ namespace HtmlRenderer.Dom
         {
             get { return RectangleF.FromLTRB(GlobalClientLeft, GlobalClientTop, GlobalClientRight, GlobalClientBottom); }
         }
-
         public float ClientWidth
         {
-            get { return this.GlobalClientRight - this.GlobalClientLeft; }
+            get { return this.SizeWidth - (ActualPaddingLeft + ActualBorderLeftWidth + ActualPaddingRight + ActualBorderRightWidth); }
         }
     }
 }
