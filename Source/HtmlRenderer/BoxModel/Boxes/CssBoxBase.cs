@@ -89,10 +89,14 @@ namespace HtmlRenderer.Dom
         #region Fields
 
         //location, size
-        float _locationX;
-        float _locationY;
+        float _globalX;
+        float _globalY;
         float _sizeHeight;
         float _sizeWidth;
+
+        float _localX;
+        float _localY;
+
 
         //corner
         float _actualCornerNW;
@@ -616,25 +620,33 @@ namespace HtmlRenderer.Dom
             {
                 return this._backgroundProps.BackgroundGradientAngle;
             }
-        } 
+        }
         public float GlobalX
         {
-            get { return this._locationX; }
+            get { return this._globalX; }
         }
         public float GlobalY
         {
-            get { return this._locationY; }
+            get { return this._globalY; }
+        }
+        public float LocalX
+        {
+            get { return this._localX; }
+        }
+        public float LocalY
+        {
+            get { return this._localY; }
         }
         public void Offset(float dx, float dy)
         {
-            this._locationX += dx;
-            this._locationY += dy;
+            this._globalX += dx;
+            this._globalY += dy;
             this._baseCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
         }
-        public void SetLocation(float x, float y)
+        public void SetGlobalLocation(float x, float y)
         {
-            this._locationX = x;
-            this._locationY = y;
+            this._globalX = x;
+            this._globalY = y;
             this._baseCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
         }
         /// <summary>
@@ -668,7 +680,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the bounds of the box
         /// </summary>
-        public RectangleF Bounds
+        public RectangleF GlobalBound
         {
             get { return new RectangleF(new PointF(this.GlobalX, this.GlobalY), Size); }
         }
@@ -688,7 +700,7 @@ namespace HtmlRenderer.Dom
         {
             get { return GlobalX + this.SizeWidth; }
         }
-        public void SetActualRight(float value)
+        public void SetGlobalActualRight(float value)
         {
             this._sizeWidth = value - GlobalX;
         }
@@ -700,9 +712,9 @@ namespace HtmlRenderer.Dom
         {
             get { return this.GlobalY + this._sizeHeight; }
         }
-        public void SetActualBottom(float value)
+        public void SetGlobalActualBottom(float value)
         {
-            this._sizeHeight = value - this._locationY;
+            this._sizeHeight = value - this._globalY;
         }
         protected void SetHeight(float height)
         {
@@ -720,7 +732,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the left of the client rectangle (Where content starts rendering)
         /// </summary>
-        public float ClientLeft
+        public float GlobalClientLeft
         {
             get { return this.GlobalX + ActualBorderLeftWidth + ActualPaddingLeft; }
         }
@@ -728,14 +740,14 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the right of the client rectangle
         /// </summary>
-        public float ClientRight
+        public float GlobalClientRight
         {
             get { return GlobalActualRight - ActualPaddingRight - ActualBorderRightWidth; }
         }
-        
+
         public float GlobalClientTop
         {
-            get { return this.GlobalY + this.ClientTop; }             
+            get { return this.GlobalY + this.ClientTop; }
         }
 
         public float ClientTop
@@ -745,7 +757,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the bottom of the client rectangle
         /// </summary>
-        public float ClientBottom
+        public float GlobalClientBottom
         {
             get { return this.GlobalActualBottom - ActualPaddingBottom - ActualBorderBottomWidth; }
         }
@@ -753,14 +765,14 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the client rectangle
         /// </summary>
-        public RectangleF ClientRectangle
+        public RectangleF GlobalClientRectangle
         {
-            get { return RectangleF.FromLTRB(ClientLeft, GlobalClientTop, ClientRight, ClientBottom); }
+            get { return RectangleF.FromLTRB(GlobalClientLeft, GlobalClientTop, GlobalClientRight, GlobalClientBottom); }
         }
 
         public float ClientWidth
         {
-            get { return this.ClientRight - this.ClientLeft; }
+            get { return this.GlobalClientRight - this.GlobalClientLeft; }
         }
         /// <summary>
         /// Gets the actual height
@@ -788,7 +800,7 @@ namespace HtmlRenderer.Dom
                 if ((this._prop_pass_eval & CssBoxBaseAssignments.WIDTH) == 0)
                 {
                     this._prop_pass_eval |= CssBoxBaseAssignments.WIDTH;
-                    return _expectedWidth = CssValueParser.ParseLength(Width, Size.Width, this);
+                    return _expectedWidth = CssValueParser.ParseLength(Width, this.SizeWidth, this);
                 }
                 return _expectedWidth;
             }

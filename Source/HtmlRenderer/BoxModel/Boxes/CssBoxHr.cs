@@ -53,7 +53,7 @@ namespace HtmlRenderer.Dom
             var myContainingBlock = args.LatestContaingBlock;
 
 
-            float left = myContainingBlock.ClientLeft + ActualMarginLeft;
+            float left = myContainingBlock.GlobalClientLeft + ActualMarginLeft;
             float top = 0;
             if (prevSibling == null)
             {
@@ -81,7 +81,7 @@ namespace HtmlRenderer.Dom
             top += maringTopCollapse;
 
 
-            this.SetLocation(left, top);
+            this.SetGlobalLocation(left, top);
             this.SetHeightToZero();
 
 
@@ -133,7 +133,7 @@ namespace HtmlRenderer.Dom
         protected override void PaintImp(IGraphics g, PaintingArgs args)
         {
             var offset = HtmlContainer != null ? HtmlContainer.ScrollOffset : PointF.Empty;
-            var rect = new RectangleF(Bounds.X + offset.X, Bounds.Y + offset.Y, Bounds.Width, Bounds.Height);
+            var rect = new RectangleF(GlobalBound.X + offset.X, GlobalBound.Y + offset.Y, GlobalBound.Width, GlobalBound.Height);
 
             if (rect.Height > 2 && RenderUtils.IsColorVisible(ActualBackgroundColor))
             {

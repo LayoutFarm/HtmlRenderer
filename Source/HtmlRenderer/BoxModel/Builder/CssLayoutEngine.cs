@@ -155,7 +155,7 @@ namespace HtmlRenderer.Dom
             // if width is not restricted we need to lower it to the actual width
             if (blockBox.GlobalActualRight >= CssBox.MAX_RIGHT)
             {
-                blockBox.SetActualRight(blockBox.GlobalX + maxLocalRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
+                blockBox.SetGlobalActualRight(blockBox.GlobalX + maxLocalRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
             }
             //---------------------
             if (blockBox.CssDirection == CssDirection.Rtl)
@@ -176,7 +176,7 @@ namespace HtmlRenderer.Dom
                 }
             }
 
-            blockBox.SetActualBottom(blockBox.GlobalY + maxLocalBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
+            blockBox.SetGlobalActualBottom(blockBox.GlobalY + maxLocalBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
 
             // handle limiting block height when overflow is hidden             
             if (blockBox.Overflow == CssOverflow.Hidden &&
@@ -549,7 +549,7 @@ namespace HtmlRenderer.Dom
 
             if (words <= 0f) return; //Avoid Zero division
             float spacing = (availableWidth - textSum) / words; //Spacing that will be used
-            float curx = lineBox.OwnerBox.ClientLeft + indent;
+            float curx = lineBox.OwnerBox.GlobalClientLeft + indent;
 
             CssRun lastRun = lineBox.GetLastRun();
             foreach (CssRun run in lineBox.GetRunIter())
@@ -558,7 +558,7 @@ namespace HtmlRenderer.Dom
                 curx = run.Right + spacing;
                 if (run == lastRun)
                 {
-                    run.Left = lineBox.OwnerBox.ClientRight - run.Width;
+                    run.Left = lineBox.OwnerBox.GlobalClientRight - run.Width;
                 }
             }
         }

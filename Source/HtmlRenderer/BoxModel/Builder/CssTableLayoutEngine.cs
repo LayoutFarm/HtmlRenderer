@@ -664,7 +664,7 @@ namespace HtmlRenderer.Dom
             float vertical_spacing = GetVerticalSpacing(_tableBox);
             float horizontal_spacing = GetHorizontalSpacing(_tableBox);
 
-            float startx = Math.Max(_tableBox.ClientLeft + horizontal_spacing, 0);
+            float startx = Math.Max(_tableBox.GlobalClientLeft + horizontal_spacing, 0);
             float starty = Math.Max(_tableBox.GlobalClientTop + vertical_spacing, 0);
 
 
@@ -694,7 +694,7 @@ namespace HtmlRenderer.Dom
                         int colspan = cell.ColSpan;
                         float width = this.columnCollection.GetCellWidth(grid_index, colspan, horizontal_spacing);
 
-                        cell.SetLocation(curx, cury);
+                        cell.SetGlobalLocation(curx, cury);
                         cell.SetSize(width, 0);
 
                         cell.PerformLayout(args); //That will automatically set the bottom of the cell
@@ -732,7 +732,7 @@ namespace HtmlRenderer.Dom
                     {
                         if (cell.RowSpan == 1)
                         {
-                            cell.SetActualBottom(maxBottom);
+                            cell.SetGlobalActualBottom(maxBottom);
                             ApplyCellVerticalAlignment(cell, tableY);
                         }
                     }
@@ -740,7 +740,7 @@ namespace HtmlRenderer.Dom
                     {
                         if (spacer.EndRow == currentRow)
                         {
-                            spacer.ExtendedBox.SetActualBottom(maxBottom);
+                            spacer.ExtendedBox.SetGlobalActualBottom(maxBottom);
                             ApplyCellVerticalAlignment(spacer.ExtendedBox, tableY);
                         }
                     }
@@ -752,8 +752,8 @@ namespace HtmlRenderer.Dom
             args.PopContainingBlock();
 
             maxRight = Math.Max(maxRight, _tableBox.GlobalX + _tableBox.ExpectedWidth);
-            _tableBox.SetActualRight(maxRight + horizontal_spacing + _tableBox.ActualBorderRightWidth);
-            _tableBox.SetActualBottom(Math.Max(maxBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth);
+            _tableBox.SetGlobalActualRight(maxRight + horizontal_spacing + _tableBox.ActualBorderRightWidth);
+            _tableBox.SetGlobalActualBottom(Math.Max(maxBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth);
         }
 
         /// <summary>
@@ -819,11 +819,11 @@ namespace HtmlRenderer.Dom
             switch (cell.VerticalAlign)
             {
                 case CssVerticalAlign.Bottom:
-                    dist = cell.ClientBottom - CssBox.CalculateMaximumBottom(cell, 0f, tableBoxOffset);
+                    dist = cell.GlobalClientBottom - CssBox.CalculateMaximumBottom(cell, 0f, tableBoxOffset);
 
                     break;
                 case CssVerticalAlign.Middle:
-                    dist = (cell.ClientBottom - CssBox.CalculateMaximumBottom(cell, 0f, tableBoxOffset)) / 2;
+                    dist = (cell.GlobalClientBottom - CssBox.CalculateMaximumBottom(cell, 0f, tableBoxOffset)) / 2;
 
                     break;
                 default:

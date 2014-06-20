@@ -611,7 +611,7 @@ namespace HtmlRenderer.Dom
 
                             //-------------------------
 
-                            float left = myContainingBlock.ClientLeft + this.ActualMarginLeft;
+                            float left = myContainingBlock.GlobalClientLeft + this.ActualMarginLeft;
                             float top = 0;
 
                             var prevSibling = args.LatestSiblingBox;
@@ -633,7 +633,7 @@ namespace HtmlRenderer.Dom
                             }
                             top += MarginTopCollapse(prevSibling);
 
-                            this.SetLocation(left, top);
+                            this.SetGlobalLocation(left, top);
                             this.SetHeightToZero();
                         }
                         //--------------------------------------------------------------------------
@@ -675,8 +675,8 @@ namespace HtmlRenderer.Dom
                                         args.LatestSiblingBox = currentLevelLatestSibling;
                                         args.PopContainingBlock();
 
-                                        SetActualRight(CalculateActualRight());
-                                        SetActualBottom(MarginBottomCollapse());
+                                        SetGlobalActualRight(CalculateActualRight());
+                                        SetGlobalActualBottom(MarginBottomCollapse());
                                     }
                                 } break;
                         }
@@ -883,7 +883,7 @@ namespace HtmlRenderer.Dom
                     _listItemBox.FirstRun.SetSize(fRun.Width, fRun.Height);
                 }
 
-                _listItemBox.FirstRun.SetLocation(this.GlobalX - _listItemBox.Size.Width - 5, this.GlobalY + ActualPaddingTop);
+                _listItemBox.FirstRun.SetLocation(this.GlobalX - _listItemBox.SizeWidth - 5, this.GlobalY + ActualPaddingTop);
 
             }
         }
@@ -1375,8 +1375,8 @@ namespace HtmlRenderer.Dom
         }
         internal bool IsPointInClientArea(float x, float y)
         {
-            return x >= this.ClientLeft && x < this.ClientRight &&
-                    y >= this.GlobalClientTop && y < this.ClientBottom;
+            return x >= this.GlobalClientLeft && x < this.GlobalClientRight &&
+                    y >= this.GlobalClientTop && y < this.GlobalClientBottom;
         }
     }
 }

@@ -70,7 +70,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this.containingBoxs.Peek().ClientRectangle;
+                return this.containingBoxs.Peek().GlobalClientRectangle;
             }
         }
        

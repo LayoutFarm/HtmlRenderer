@@ -80,7 +80,7 @@ namespace HtmlRenderer.Dom
                     {
                         if (prevClip.IsEmpty)
                         {
-                            prevClip = this.Bounds;
+                            prevClip = this.GlobalBound;
                             g.SetClip(prevClip);
                         }
                         else
@@ -99,8 +99,8 @@ namespace HtmlRenderer.Dom
                 //---------------------------------------------
                 if (this.CssDisplay != CssDisplay.Inline)
                 {
-                    var bound = this.Bounds;
-                    bound.Offset(args.Offset);
+                    var bound = this.GlobalBound;
+                     
                     PaintBackground(g, bound, true, true);
                     BordersDrawHandler.DrawBoxBorders(g, this, bound, true, true);
                 }
@@ -108,7 +108,7 @@ namespace HtmlRenderer.Dom
                 if (this.LineBoxCount > 0)
                 {
                     PointF offset = args.Offset;
-                    viewport.Offset(offset.X, -offset.Y);
+                    //viewport.Offset(offset.X, -offset.Y);
                     float viewport_top = viewport.Top;
                     float viewport_bottom = viewport.Bottom;
                     //---------------------------------------- 

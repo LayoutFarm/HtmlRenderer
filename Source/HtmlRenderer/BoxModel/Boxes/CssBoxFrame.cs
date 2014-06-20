@@ -464,7 +464,7 @@ namespace HtmlRenderer.Dom
         protected override void PaintImp(IGraphics g, PaintingArgs args)
         {
             //var rects = CommonUtils.GetFirstValueOrDefault(Rectangles);
-            var rects = this.Bounds;
+            var rects = this.GlobalBound;
             PointF offset = HtmlContainer != null ? HtmlContainer.ScrollOffset : PointF.Empty;
             rects.Offset(offset);
 
