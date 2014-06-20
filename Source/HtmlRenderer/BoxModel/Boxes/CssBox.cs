@@ -355,6 +355,15 @@ namespace HtmlRenderer.Dom
                 node = node.Next;
             }
         }
+        internal IEnumerable<CssLineBox> GetLineBoxBackwardIter()
+        {
+            var node = this._clientLineBoxes.Last;
+            while (node != null)
+            {
+                yield return node.Value;
+                node = node.Previous;
+            }
+        }
         internal CssLineBox GetFirstLineBox()
         {
             return this._clientLineBoxes.First.Value;
@@ -996,15 +1005,16 @@ namespace HtmlRenderer.Dom
             return sum;
         }
 
+
         /// <summary>
-        /// Gets the maximum bottom of the boxes inside the startBox
+        /// Gets the maximum bottom of the boxes inside* the startBox
         /// </summary>
         /// <param name="startBox"></param>
         /// <param name="currentMaxBottom"></param>
         /// <returns></returns>
         internal static float CalculateMaximumBottom(CssBox startBox, float currentMaxBottom, float parentOffset)
         {
-            //recursive
+
             if (startBox.HasRuns)
             {
                 CssLineBox lastline = null;
@@ -1029,7 +1039,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                parentOffset = startBox.GlobalY;
+                parentOffset += startBox.LocalY;
                 foreach (var b in startBox.Boxes)
                 {
                     currentMaxBottom = Math.Max(currentMaxBottom, CalculateMaximumBottom(b, currentMaxBottom, parentOffset));
@@ -1375,8 +1385,8 @@ namespace HtmlRenderer.Dom
         }
         internal bool IsPointInClientArea(float x, float y)
         {
-            return x >= this.GlobalClientLeft && x < this.GlobalClientRight &&
-                    y >= this.GlobalClientTop && y < this.GlobalClientBottom;
+            return x >= this.LocalClientLeft && x < this.LocalClientRight &&
+                   y >= this.LocalClientTop && y < this.LocalClientBottom;
         }
     }
 }

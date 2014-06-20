@@ -40,7 +40,7 @@ namespace HtmlRenderer.Dom
         {
             this._localX = localX;
             this._localY = localY;
-             
+
             this._globalX = localX + container_globalX;
             this._globalY = localY + container_globalY;
 
@@ -121,7 +121,10 @@ namespace HtmlRenderer.Dom
         {
             get { return GlobalActualRight - ActualPaddingRight - ActualBorderRightWidth; }
         }
-
+        public float LocalClientRight
+        {
+            get { return this.LocalActualRight - ActualPaddingRight - ActualBorderRightWidth; }
+        }
         public float GlobalClientTop
         {
             get { return this.GlobalY + this.LocalClientTop; }
@@ -138,14 +141,17 @@ namespace HtmlRenderer.Dom
         {
             get { return this.GlobalActualBottom - ActualPaddingBottom - ActualBorderBottomWidth; }
         }
-
-        /// <summary>
-        /// Gets the client rectangle
-        /// </summary>
-        public RectangleF GlobalClientRectangle
+        public float LocalClientBottom
         {
-            get { return RectangleF.FromLTRB(GlobalClientLeft, GlobalClientTop, GlobalClientRight, GlobalClientBottom); }
+            get { return this.LocalActualBottom - ActualPaddingBottom - ActualBorderBottomWidth; }
         }
+
+        
+        public RectangleF LocalClientRectangle
+        {
+            get { return RectangleF.FromLTRB(this.LocalClientLeft, LocalClientTop, LocalClientRight, LocalClientBottom); }
+        }
+
         public float ClientWidth
         {
             get { return this.SizeWidth - (ActualPaddingLeft + ActualBorderLeftWidth + ActualPaddingRight + ActualBorderRightWidth); }

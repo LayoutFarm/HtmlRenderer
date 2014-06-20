@@ -674,6 +674,7 @@ namespace HtmlRenderer.Dom
 
             float startx_local = startx_global - table_globalX;
             float curY_local = starty_global - table_globalY;
+            float starty_local = curY_local;
 
             float maxRight_local = startx_local;
             float maxBottom_local = 0f;
@@ -709,7 +710,7 @@ namespace HtmlRenderer.Dom
                             table_globalX,
                             table_globalY);
 
-                        cell.SetSize(width, 0);                         
+                        cell.SetSize(width, 0);
 
                         cell.PerformLayout(args); //That will automatically set the bottom of the cell
 
@@ -735,7 +736,7 @@ namespace HtmlRenderer.Dom
                     }
                 }
 
-                 
+
                 foreach (CssBox cell in row.GetChildBoxIter())
                 {
                     CssVerticalCellSpacingBox spacer = cell as CssVerticalCellSpacingBox;
@@ -744,9 +745,8 @@ namespace HtmlRenderer.Dom
                     {
                         if (cell.RowSpan == 1)
                         {
-
                             cell.SetLocalActualBottom(maxBottom_local);
-                            ApplyCellVerticalAlignment(cell, table_globalY);
+                            ApplyCellVerticalAlignment(cell, starty_local);
                         }
                     }
                     else
@@ -754,7 +754,7 @@ namespace HtmlRenderer.Dom
                         if (spacer.EndRow == currentRow)
                         {
                             spacer.ExtendedBox.SetLocalActualBottom(maxBottom_local);
-                            ApplyCellVerticalAlignment(spacer.ExtendedBox, table_globalY);
+                            ApplyCellVerticalAlignment(spacer.ExtendedBox, starty_local);
                         }
                     }
                 }
@@ -840,11 +840,11 @@ namespace HtmlRenderer.Dom
             switch (cell.VerticalAlign)
             {
                 case CssVerticalAlign.Bottom:
-                    dist = cell.GlobalClientBottom - CssBox.CalculateMaximumBottom(cell, 0f, tableBoxOffset);
+                    dist = cell.LocalClientBottom - CssBox.CalculateMaximumBottom(cell, 0f, tableBoxOffset);
 
                     break;
                 case CssVerticalAlign.Middle:
-                    dist = (cell.GlobalClientBottom - CssBox.CalculateMaximumBottom(cell, 0f, tableBoxOffset)) / 2;
+                    dist = (cell.LocalClientBottom - CssBox.CalculateMaximumBottom(cell, 0f, tableBoxOffset)) / 2;
 
                     break;
                 default:

@@ -66,13 +66,7 @@ namespace HtmlRenderer.Dom
                 this.latestContainingBlock = this.containingBoxs.Peek();
             }
         }
-        public RectangleF LatestContaingBoxClientRect
-        {
-            get
-            {
-                return this.containingBoxs.Peek().GlobalClientRectangle;
-            }
-        }
+ 
        
         public RectangleF PeekViewportBound()
         {

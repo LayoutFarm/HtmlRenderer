@@ -126,8 +126,10 @@ namespace HtmlRenderer.Utils
             {
                 if (containingBlock.Overflow == CssOverflow.Hidden)
                 {
+
                     var prevClip = g.GetClip();
-                    var rect = containingBlock.GlobalClientRectangle;
+                    var rect = containingBlock.LocalClientRectangle;
+
                     //rect.X -= 2; // atodo: find better way to fix it
                     //rect.Width += 2;
                     rect.Offset(args.HtmlContainer.ScrollOffset);//box.HtmlContainer.ScrollOffset);
