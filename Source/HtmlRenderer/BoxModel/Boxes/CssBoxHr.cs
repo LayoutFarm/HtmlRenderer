@@ -98,11 +98,11 @@ namespace HtmlRenderer.Dom
 
 
             this.SetGlobalLocation(
-                myContainingBlock.GlobalX + localLeft,
-                myContainingBlock.GlobalY + localTop,
+                localLeft,
+                localTop,
                 myContainingBlock.GlobalX,
                 myContainingBlock.GlobalY);
-            
+
             this.SetHeightToZero();
 
             //width at 100% (or auto)

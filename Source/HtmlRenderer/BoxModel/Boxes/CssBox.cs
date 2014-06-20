@@ -631,8 +631,8 @@ namespace HtmlRenderer.Dom
                             localTop += MarginTopCollapse(prevSibling);
 
                             this.SetGlobalLocation(
-                                myContainingBlock.GlobalX + localLeft,
-                                myContainingBlock.GlobalY + localTop,
+                                localLeft,
+                                localTop,
                                 myContainingBlock.GlobalX,
                                 myContainingBlock.GlobalY);
 

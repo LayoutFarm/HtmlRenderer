@@ -704,14 +704,12 @@ namespace HtmlRenderer.Dom
                         float width = this.columnCollection.GetCellWidth(grid_index, colspan, horizontal_spacing);
 
                         cell.SetGlobalLocation(
-                            curX_local + table_globalX,
-                            curY_local + table_globalY,
+                            curX_local,
+                            curY_local,
                             table_globalX,
                             table_globalY);
 
-                        cell.SetSize(width, 0);
-
-                        //Console.WriteLine(curx_local + table_globalX + ":" + cury_local + table_globalY);
+                        cell.SetSize(width, 0);                         
 
                         cell.PerformLayout(args); //That will automatically set the bottom of the cell
 
@@ -737,7 +735,7 @@ namespace HtmlRenderer.Dom
                     }
                 }
 
-                float tableY = _tableBox.GlobalY;
+                 
                 foreach (CssBox cell in row.GetChildBoxIter())
                 {
                     CssVerticalCellSpacingBox spacer = cell as CssVerticalCellSpacingBox;
@@ -748,7 +746,7 @@ namespace HtmlRenderer.Dom
                         {
 
                             cell.SetLocalActualBottom(maxBottom_local);
-                            ApplyCellVerticalAlignment(cell, tableY);
+                            ApplyCellVerticalAlignment(cell, table_globalY);
                         }
                     }
                     else
@@ -756,7 +754,7 @@ namespace HtmlRenderer.Dom
                         if (spacer.EndRow == currentRow)
                         {
                             spacer.ExtendedBox.SetLocalActualBottom(maxBottom_local);
-                            ApplyCellVerticalAlignment(spacer.ExtendedBox, tableY);
+                            ApplyCellVerticalAlignment(spacer.ExtendedBox, table_globalY);
                         }
                     }
                 }

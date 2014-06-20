@@ -36,14 +36,13 @@ namespace HtmlRenderer.Dom
             get { return this._localY; }
         }
 
-        public void SetGlobalLocation(float globalX, float globalY, float container_globalX, float container_globalY)
+        public void SetGlobalLocation(float localX, float localY, float container_globalX, float container_globalY)
         {
-            this._globalX = globalX;
-            this._globalY = globalY;
-
-            this._localX = globalX - container_globalX;
-            this._localY = globalY - container_globalY;
-
+            this._localX = localX;
+            this._localY = localY;
+             
+            this._globalX = localX + container_globalX;
+            this._globalY = localY + container_globalY;
 
             this._boxCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
         }
