@@ -85,11 +85,7 @@ namespace HtmlRenderer.Dom
 
                         if (prevClip.IsEmpty)
                         {
-<<<<<<< HEAD
-                            prevClip = this.LocalBound;
-=======
                             prevClip = this.GlobalBound;
->>>>>>> v1.7errs2
                             g.SetClip(prevClip);
                         }
                         else
@@ -99,40 +95,22 @@ namespace HtmlRenderer.Dom
                     }
                 }
 
-<<<<<<< HEAD
-                //if (this.CssDisplay == Dom.CssDisplay.TableCell)
-                //{
-
-                //}
-
-=======
->>>>>>> v1.7errs2
                 var viewport = args.PeekViewportBound();
                 //---------------------------------------------
                 if (this.CssDisplay != CssDisplay.Inline)
                 {
-<<<<<<< HEAD
-                    //var bound = this.LocalBound;
-                    var bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
-=======
                     //var bound = this.GlobalBound;
                     RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
->>>>>>> v1.7errs2
                     PaintBackground(g, bound, true, true);
                     BordersDrawHandler.DrawBoxBorders(g, this, bound, true, true);
                 }
 
                 if (this.LineBoxCount > 0)
                 {
-
-
                     PointF offset = args.Offset;
                     //viewport.Offset(offset.X, -offset.Y);
                     float viewport_top = viewport.Top;
                     float viewport_bottom = viewport.Bottom;
-
-                    // g.OffsetCanvasOrigin(this.LocalX, this.LocalY);
-
                     //---------------------------------------- 
                     if (this.ContainsSelectedRun)
                     {
@@ -168,10 +146,6 @@ namespace HtmlRenderer.Dom
 
                             }
                         }
-<<<<<<< HEAD
-
-=======
->>>>>>> v1.7errs2
 
                     }
                     else
@@ -206,14 +180,7 @@ namespace HtmlRenderer.Dom
 
                             }
                         }
-<<<<<<< HEAD
-
-=======
->>>>>>> v1.7errs2
                     }
-
-                    //g.OffsetCanvasOrigin(-this.LocalX, -this.LocalY);
-
                 }
                 else
                 {
@@ -222,7 +189,6 @@ namespace HtmlRenderer.Dom
                     if (this.HasContainingBlockProperty)
                     {
                         args.PushContainingBox(this);
-
                         foreach (var b in this._boxes)
                         {
                             if (b.CssDisplay == CssDisplay.None)
@@ -230,22 +196,15 @@ namespace HtmlRenderer.Dom
                                 continue;
                             }
 
-<<<<<<< HEAD
-                            g.OffsetCanvasOrigin(b.LocalX, b.LocalY);
-                            b.Paint(g, args);
-                            g.OffsetCanvasOrigin(-b.LocalX, -b.LocalY);
-=======
                             g.OffsetCanvasOrigin(loc_x = b.LocalX, loc_y = b.LocalY);
                             b.Paint(g, args);
                             g.OffsetCanvasOrigin(-loc_x, -loc_y);
->>>>>>> v1.7errs2
                         }
-
                         args.PopContainingBox();
                     }
                     else
                     {
-                        //if not 
+                        //if not
                         foreach (var b in this._boxes)
                         {
                             if (b.CssDisplay == CssDisplay.None)

@@ -44,13 +44,7 @@ namespace HtmlRenderer.Dom
 
         //    this._boxCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
         //}
-        void OffsetOnlyGlobal(float dx, float dy)
-        {
-            this._globalX += dx;
-            this._globalY += dy;
-
-            this._boxCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
-        }
+         
         public void SetGlobalLocation(float globalX, float globalY, float container_globalX, float container_globalY)
         {
             this._globalX = globalX;

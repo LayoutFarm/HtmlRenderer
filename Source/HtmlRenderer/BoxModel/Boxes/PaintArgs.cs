@@ -66,15 +66,6 @@ namespace HtmlRenderer.Dom
                 this.latestContainingBlock = this.containingBoxs.Peek();
             }
         }
-<<<<<<< HEAD
-        //public RectangleF LatestContaingBoxClientRect
-        //{
-        //    get
-        //    {
-        //        return this.containingBoxs.Peek().ClientRectangleFromGlobal;
-        //    }
-        //}
-=======
         public RectangleF LatestContaingBoxClientRect
         {
             get
@@ -82,7 +73,6 @@ namespace HtmlRenderer.Dom
                 return this.containingBoxs.Peek().GlobalClientRectangle;
             }
         }
->>>>>>> v1.7errs2
        
         public RectangleF PeekViewportBound()
         {

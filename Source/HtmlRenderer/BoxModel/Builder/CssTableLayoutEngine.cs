@@ -664,18 +664,13 @@ namespace HtmlRenderer.Dom
             float vertical_spacing = GetVerticalSpacing(_tableBox);
             float horizontal_spacing = GetHorizontalSpacing(_tableBox);
 
-<<<<<<< HEAD
-            float startx = Math.Max(_tableBox.LocalClientLeft + horizontal_spacing, 0);
-            float starty = Math.Max(_tableBox.LocalClientTop + vertical_spacing, 0);
-=======
             float startx = Math.Max(_tableBox.GlobalClientLeft + horizontal_spacing, 0);
             float starty = Math.Max(_tableBox.GlobalClientTop + vertical_spacing, 0);
->>>>>>> v1.7errs2
 
 
             float cury = starty;
-            float maxLocalRight = startx;
-            float maxLocalBottom = 0f;
+            float maxRight = startx;
+            float maxBottom = 0f;
             int currentRow = 0;
             int col_count = this.columnCollection.Count;
 
@@ -713,17 +708,17 @@ namespace HtmlRenderer.Dom
                         {
                             if (sb.EndRow == currentRow)
                             {
-                                maxLocalBottom = Math.Max(maxLocalBottom, sb.ExtendedBox.LocalActualBottom);
+                                maxBottom = Math.Max(maxBottom, sb.ExtendedBox.GlobalActualBottom);
                             }
                         }
                         else if (cell.RowSpan == 1)
                         {
-                            maxLocalBottom = Math.Max(maxLocalBottom, cell.LocalActualBottom);
+                            maxBottom = Math.Max(maxBottom, cell.GlobalActualBottom);
                         }
 
-                        maxLocalRight = Math.Max(maxLocalRight, cell.LocalActualRight );
+                        maxRight = Math.Max(maxRight, cell.GlobalActualRight);
 
-                        curx = cell.LocalActualRight + horizontal_spacing;
+                        curx = cell.GlobalActualRight + horizontal_spacing;
 
                         //-------------------------
                         cIndex++;
@@ -731,7 +726,7 @@ namespace HtmlRenderer.Dom
                     }
                 }
 
-                float tableY = _tableBox.LocalY;
+                float tableY = _tableBox.GlobalY;
                 foreach (CssBox cell in row.GetChildBoxIter())
                 {
                     CssVerticalCellSpacingBox spacer = cell as CssVerticalCellSpacingBox;
@@ -740,12 +735,7 @@ namespace HtmlRenderer.Dom
                     {
                         if (cell.RowSpan == 1)
                         {
-<<<<<<< HEAD
-                            //cell.SetGlobalActualBottom(maxLocalBottom);
-                            cell.SetLocalActualBottom(maxLocalBottom);
-=======
                             cell.SetGlobalActualBottom(maxBottom);
->>>>>>> v1.7errs2
                             ApplyCellVerticalAlignment(cell, tableY);
                         }
                     }
@@ -753,34 +743,20 @@ namespace HtmlRenderer.Dom
                     {
                         if (spacer.EndRow == currentRow)
                         {
-<<<<<<< HEAD
-                            //spacer.ExtendedBox.SetGlobalActualBottom(maxLocalBottom);
-                            spacer.ExtendedBox.SetLocalActualBottom(maxLocalBottom);
-=======
                             spacer.ExtendedBox.SetGlobalActualBottom(maxBottom);
->>>>>>> v1.7errs2
                             ApplyCellVerticalAlignment(spacer.ExtendedBox, tableY);
                         }
                     }
                 }
 
-                cury = maxLocalBottom + vertical_spacing;
+                cury = maxBottom + vertical_spacing;
                 currentRow++;
             }
             args.PopContainingBlock();
 
-<<<<<<< HEAD
-            maxLocalRight = Math.Max(maxLocalRight, _tableBox.LocalX + _tableBox.ExpectedWidth);
-            //_tableBox.SetGlobalActualRight(maxLocalRight + horizontal_spacing + _tableBox.ActualBorderRightWidth);            
-            //_tableBox.SetGlobalActualBottom(Math.Max(maxLocalBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth);
-
-            _tableBox.SetLocalActualRight(maxLocalRight + horizontal_spacing + _tableBox.ActualBorderRightWidth);
-            _tableBox.SetLocalActualBottom(Math.Max(maxLocalBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth);
-=======
             maxRight = Math.Max(maxRight, _tableBox.GlobalX + _tableBox.ExpectedWidth);
             _tableBox.SetGlobalActualRight(maxRight + horizontal_spacing + _tableBox.ActualBorderRightWidth);
             _tableBox.SetGlobalActualBottom(Math.Max(maxBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth);
->>>>>>> v1.7errs2
         }
 
         /// <summary>
@@ -846,19 +822,11 @@ namespace HtmlRenderer.Dom
             switch (cell.VerticalAlign)
             {
                 case CssVerticalAlign.Bottom:
-<<<<<<< HEAD
-                    dist = cell.LocalClientBottom - CssBox.CalculateMaximumLocalBottom(cell, 0f, tableBoxOffset);
-
-                    break;
-                case CssVerticalAlign.Middle:
-                    dist = (cell.LocalClientBottom - CssBox.CalculateMaximumLocalBottom(cell, 0f, tableBoxOffset)) / 2;
-=======
                     dist = cell.GlobalClientBottom - CssBox.CalculateMaximumBottom(cell, 0f, tableBoxOffset);
 
                     break;
                 case CssVerticalAlign.Middle:
                     dist = (cell.GlobalClientBottom - CssBox.CalculateMaximumBottom(cell, 0f, tableBoxOffset)) / 2;
->>>>>>> v1.7errs2
 
                     break;
                 default:
@@ -869,7 +837,6 @@ namespace HtmlRenderer.Dom
             {
                 if (cell.LineBoxCount > 0)
                 {
-
                     foreach (CssLineBox linebox in cell.GetLineBoxIter())
                     {
                         linebox.OffsetTop(dist);
@@ -879,7 +846,8 @@ namespace HtmlRenderer.Dom
                 {
                     foreach (CssBox b in cell.GetChildBoxIter())
                     {
-                        b.OffsetGlobalTop(dist);
+                        b.OffsetOnlyGlobalTop(dist);
+                        b.OffsetOnlyLocalTop(dist);
                     }
                 }
             }

@@ -130,10 +130,15 @@ namespace HtmlRenderer.Dom
 
             float limitLocalRight = blockBox.SizeWidth - (blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
 
+
+            //Get the start x and y of the blockBox
+            //float startGlobalX = blockBox.GlobalX + blockBox.ActualPaddingLeft - 0 + blockBox.ActualBorderLeftWidth;
+            //float startGlobalY = blockBox.GlobalY + blockBox.ActualPaddingTop - 0 + blockBox.ActualBorderTopWidth;
+            //float cx = startGlobalX + blockBox.ActualTextIndent;
+            //float cy = startGlobalY;
             float localY = blockBox.ActualPaddingTop + blockBox.ActualBorderTopWidth;
             float localX = blockBox.ActualTextIndent + blockBox.ActualPaddingLeft + blockBox.ActualBorderLeftWidth;
             float startLocalX = localX;
-
             //Reminds the maximum bottom reached
             float maxLocalRight = localX;
             float maxLocalBottom = localY;
@@ -148,14 +153,9 @@ namespace HtmlRenderer.Dom
             //****
 
             // if width is not restricted we need to lower it to the actual width
-            if (blockBox.LocalActualRight >= args.GetLocalRightLimit(blockBox))// CssBox.MAX_RIGHT)
+            if (blockBox.GlobalActualRight >= CssBox.MAX_RIGHT)
             {
-<<<<<<< HEAD
-                //blockBox.SetGlobalActualRight(blockBox.GlobalX + maxLocalRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
-                blockBox.SetLocalActualRight(maxLocalRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
-=======
                 blockBox.SetGlobalActualRight(blockBox.GlobalX + maxLocalRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
->>>>>>> v1.7errs2
             }
             //---------------------
             if (blockBox.CssDirection == CssDirection.Rtl)
@@ -176,13 +176,7 @@ namespace HtmlRenderer.Dom
                 }
             }
 
-<<<<<<< HEAD
-            //blockBox.SetGlobalActualBottom(blockBox.GlobalY + maxLocalBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
-            blockBox.SetLocalActualBottom(maxLocalBottom + +blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
-
-=======
             blockBox.SetGlobalActualBottom(blockBox.GlobalY + maxLocalBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
->>>>>>> v1.7errs2
 
             // handle limiting block height when overflow is hidden             
             if (blockBox.Overflow == CssOverflow.Hidden &&
@@ -555,11 +549,7 @@ namespace HtmlRenderer.Dom
 
             if (words <= 0f) return; //Avoid Zero division
             float spacing = (availableWidth - textSum) / words; //Spacing that will be used
-<<<<<<< HEAD
-            float curx = lineBox.OwnerBox.LocalX + indent;
-=======
             float curx = lineBox.OwnerBox.GlobalClientLeft + indent;
->>>>>>> v1.7errs2
 
             CssRun lastRun = lineBox.GetLastRun();
             foreach (CssRun run in lineBox.GetRunIter())
@@ -568,11 +558,7 @@ namespace HtmlRenderer.Dom
                 curx = run.Right + spacing;
                 if (run == lastRun)
                 {
-<<<<<<< HEAD
-                    run.Left = lineBox.OwnerBox.LocalClientRight - run.Width;
-=======
                     run.Left = lineBox.OwnerBox.GlobalClientRight - run.Width;
->>>>>>> v1.7errs2
                 }
             }
         }
@@ -587,7 +573,7 @@ namespace HtmlRenderer.Dom
             if (line.WordCount == 0) return;
 
             CssRun lastRun = line.GetLastRun();
-            float right = line.OwnerBox.LocalActualRight - line.OwnerBox.ActualPaddingRight - line.OwnerBox.ActualBorderRightWidth;
+            float right = line.OwnerBox.GlobalActualRight - line.OwnerBox.ActualPaddingRight - line.OwnerBox.ActualBorderRightWidth;
             float diff = right - lastRun.Right - lastRun.OwnerBox.ActualBorderRightWidth - lastRun.OwnerBox.ActualPaddingRight;
             diff /= 2;
 
@@ -614,7 +600,7 @@ namespace HtmlRenderer.Dom
             }
 
             CssRun lastWord = line.GetLastRun();
-            float right = line.OwnerBox.LocalActualRight - line.OwnerBox.ActualPaddingRight - line.OwnerBox.ActualBorderRightWidth;
+            float right = line.OwnerBox.GlobalActualRight - line.OwnerBox.ActualPaddingRight - line.OwnerBox.ActualBorderRightWidth;
             float diff = right - lastWord.Right - lastWord.OwnerBox.ActualBorderRightWidth - lastWord.OwnerBox.ActualPaddingRight;
 
             if (diff > 0)

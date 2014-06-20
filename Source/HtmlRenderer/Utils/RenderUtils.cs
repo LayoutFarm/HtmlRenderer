@@ -126,7 +126,6 @@ namespace HtmlRenderer.Utils
             {
                 if (containingBlock.Overflow == CssOverflow.Hidden)
                 {
-                    
                     var prevClip = g.GetClip();
                     var rect = containingBlock.GlobalClientRectangle;
                     //rect.X -= 2; // atodo: find better way to fix it

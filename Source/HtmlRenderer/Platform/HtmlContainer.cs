@@ -532,7 +532,7 @@ namespace HtmlRenderer
 
 
 
-            LayoutArgs layoutArgs = new LayoutArgs(ig, this);
+            LayoutArgs layoutArgs = new LayoutArgs(ig);
             layoutArgs.PushContaingBlock(_root);
 
             _root.PerformLayout(layoutArgs);

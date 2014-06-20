@@ -11,11 +11,10 @@ namespace HtmlRenderer.Dom
         Stack<CssBox> containgBlockStack = new Stack<CssBox>();
         CssBox latestContaingBlock = null;
 
-        HtmlContainer htmlContainer;
-        internal LayoutArgs(IGraphics gfx, HtmlContainer htmlContainer)
+
+        internal LayoutArgs(IGraphics gfx)
         {
             this.Gfx = gfx;
-            this.htmlContainer = htmlContainer;
         }
         internal IGraphics Gfx
         {
@@ -44,19 +43,6 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        internal void UpdateGlobalSize(CssBox box, float newCandidateWidth)
-        {
-            //need revisit
-            //htmlContainer.UpdateSizeIfWiderOrHeigher(newWidthCandidate,
-            //    (box.GlobalY + box.SizeHeight) - this.HtmlContainer.Root.GlobalY);
-
-            float newCandidateHeight = box.SizeHeight;//
-            htmlContainer.UpdateSizeIfWiderOrHeigher(newCandidateWidth, box.SizeHeight);
-        }
-        internal float GetLocalRightLimit(CssBox box)
-        {   //need revisit
-            return CssBox.MAX_RIGHT;
-        }
         //-----------------------------------------
         internal CssBox LatestSiblingBox
         {
