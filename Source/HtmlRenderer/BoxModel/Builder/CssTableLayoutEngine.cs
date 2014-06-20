@@ -655,36 +655,39 @@ namespace HtmlRenderer.Dom
             }
         }
 
+
         /// <summary>
         /// Layout the cells by the calculated table layout
         /// </summary>
         /// <param name="g"></param>
         void S8_LayoutCells(LayoutArgs args)
         {
+            float table_globalX = _tableBox.GlobalX;
+            float table_globalY = _tableBox.GlobalY;
+
             float vertical_spacing = GetVerticalSpacing(_tableBox);
             float horizontal_spacing = GetHorizontalSpacing(_tableBox);
 
-            float startx = Math.Max(_tableBox.GlobalClientLeft + horizontal_spacing, 0);
-            float starty = Math.Max(_tableBox.GlobalClientTop + vertical_spacing, 0);
+            float startx_global = Math.Max(table_globalX + _tableBox.LocalClientLeft + horizontal_spacing, 0);
+            float starty_global = Math.Max(table_globalY + _tableBox.LocalClientTop + vertical_spacing, 0);
 
-            if (_tableBox.dbugId == 392)
-            {
 
-            }
-            float cury = starty;
-            float maxRight = startx;
-            float maxBottom = 0f;
+            float startx_local = startx_global - table_globalX;
+            float curY_local = starty_global - table_globalY;
+
+            float maxRight_local = startx_local;
+            float maxBottom_local = 0f;
+
             int currentRow = 0;
             int col_count = this.columnCollection.Count;
 
             args.PushContaingBlock(_tableBox);
 
-            float table_globalX = _tableBox.GlobalX;
-            float table_globalY = _tableBox.GlobalY;
             for (int i = 0; i < _allRowBoxes.Count; i++)
             {
                 var row = _allRowBoxes[i];
-                float curx = startx;
+
+                float curX_local = startx_local;//reset
 
                 int cIndex = 0;
                 int grid_index = 0;
@@ -700,8 +703,15 @@ namespace HtmlRenderer.Dom
                         int colspan = cell.ColSpan;
                         float width = this.columnCollection.GetCellWidth(grid_index, colspan, horizontal_spacing);
 
-                        cell.SetGlobalLocation(curx, cury, table_globalX, table_globalY);
+                        cell.SetGlobalLocation(
+                            curX_local + table_globalX,
+                            curY_local + table_globalY,
+                            table_globalX,
+                            table_globalY);
+
                         cell.SetSize(width, 0);
+
+                        //Console.WriteLine(curx_local + table_globalX + ":" + cury_local + table_globalY);
 
                         cell.PerformLayout(args); //That will automatically set the bottom of the cell
 
@@ -711,18 +721,16 @@ namespace HtmlRenderer.Dom
                         {
                             if (sb.EndRow == currentRow)
                             {
-                                maxBottom = Math.Max(maxBottom, sb.ExtendedBox.GlobalActualBottom);
+                                maxBottom_local = Math.Max(maxBottom_local, sb.ExtendedBox.LocalActualBottom);
                             }
                         }
                         else if (cell.RowSpan == 1)
                         {
-                            maxBottom = Math.Max(maxBottom, cell.GlobalActualBottom);
+                            maxBottom_local = Math.Max(maxBottom_local, cell.LocalActualBottom);
                         }
 
-                        maxRight = Math.Max(maxRight, cell.GlobalActualRight);
-
-                        curx = cell.GlobalActualRight + horizontal_spacing;
-
+                        maxRight_local = Math.Max(maxRight_local, cell.LocalActualRight);
+                        curX_local = cell.LocalActualRight + horizontal_spacing;
                         //-------------------------
                         cIndex++;
                         grid_index += colspan;
@@ -738,7 +746,8 @@ namespace HtmlRenderer.Dom
                     {
                         if (cell.RowSpan == 1)
                         {
-                            cell.SetGlobalActualBottom(maxBottom);
+
+                            cell.SetLocalActualBottom(maxBottom_local);
                             ApplyCellVerticalAlignment(cell, tableY);
                         }
                     }
@@ -746,20 +755,28 @@ namespace HtmlRenderer.Dom
                     {
                         if (spacer.EndRow == currentRow)
                         {
-                            spacer.ExtendedBox.SetGlobalActualBottom(maxBottom);
+                            spacer.ExtendedBox.SetLocalActualBottom(maxBottom_local);
                             ApplyCellVerticalAlignment(spacer.ExtendedBox, tableY);
                         }
                     }
                 }
 
-                cury = maxBottom + vertical_spacing;
+
+                curY_local = maxBottom_local + vertical_spacing;
+
                 currentRow++;
             }
+
             args.PopContainingBlock();
 
-            maxRight = Math.Max(maxRight, _tableBox.GlobalX + _tableBox.ExpectedWidth);
-            _tableBox.SetGlobalActualRight(maxRight + horizontal_spacing + _tableBox.ActualBorderRightWidth);
-            _tableBox.SetGlobalActualBottom(Math.Max(maxBottom, starty) + vertical_spacing + _tableBox.ActualBorderBottomWidth);
+            maxRight_local = Math.Max(maxRight_local, _tableBox.ExpectedWidth);
+            _tableBox.SetSize(maxRight_local + horizontal_spacing + _tableBox.ActualBorderRightWidth, _tableBox.SizeHeight);
+
+
+            float globalBottom = Math.Max((maxBottom_local + table_globalY), starty_global) + vertical_spacing + _tableBox.ActualBorderBottomWidth;
+            _tableBox.SetSize(_tableBox.SizeWidth, globalBottom - table_globalY);
+
+            //Console.WriteLine("------------" + _tableBox.GlobalActualBottom);
         }
 
         /// <summary>

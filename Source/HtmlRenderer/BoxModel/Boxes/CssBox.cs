@@ -608,32 +608,34 @@ namespace HtmlRenderer.Dom
                                 // must be separate because the margin can be calculated by percentage of the width
                                 this.SetSize(availableWidth - ActualMarginLeft - ActualMarginRight, this.SizeHeight);
                             }
-
                             //-------------------------
 
-                            float left = myContainingBlock.GlobalClientLeft + this.ActualMarginLeft;
-                            float top = 0;
+                            float localLeft = myContainingBlock.LocalClientLeft + this.ActualMarginLeft;
+                            float localTop = 0;
 
                             var prevSibling = args.LatestSiblingBox;
-
                             if (prevSibling == null)
                             {
                                 if (this.ParentBox != null)
                                 {
-                                    top = this.ParentBox.GlobalClientTop;
+                                    //globalTop = this.ParentBox._globalY + this.ParentBox.LocalClientTop;    
+                                    // this.ParentBox.LocalClientTop;
+                                    localTop = myContainingBlock.LocalClientTop;
                                 }
                             }
                             else
                             {
-                                if (this.ParentBox == null)
-                                {
-                                    top = this.GlobalY;
-                                }
-                                top += prevSibling.GlobalActualBottom + prevSibling.ActualBorderBottomWidth;
+                                localTop = prevSibling.LocalActualBottom + prevSibling.ActualBorderBottomWidth;
                             }
-                            top += MarginTopCollapse(prevSibling);
 
-                            this.SetGlobalLocation(left, top, myContainingBlock.GlobalX, myContainingBlock.GlobalY);
+                            localTop += MarginTopCollapse(prevSibling);
+
+                            this.SetGlobalLocation(
+                                myContainingBlock.GlobalX + localLeft,
+                                myContainingBlock.GlobalY + localTop,
+                                myContainingBlock.GlobalX,
+                                myContainingBlock.GlobalY);
+
                             this.SetHeightToZero();
                         }
                         //--------------------------------------------------------------------------
