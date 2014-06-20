@@ -633,7 +633,7 @@ namespace HtmlRenderer.Dom
                             }
                             top += MarginTopCollapse(prevSibling);
 
-                            this.SetGlobalLocation(left, top);
+                            this.SetGlobalLocation(left, top, myContainingBlock.GlobalX, myContainingBlock.GlobalY);
                             this.SetHeightToZero();
                         }
                         //--------------------------------------------------------------------------

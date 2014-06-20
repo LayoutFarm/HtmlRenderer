@@ -675,6 +675,9 @@ namespace HtmlRenderer.Dom
             int col_count = this.columnCollection.Count;
 
             args.PushContaingBlock(_tableBox);
+
+            float table_globalX = _tableBox.GlobalX;
+            float table_globalY = _tableBox.GlobalY;
             for (int i = 0; i < _allRowBoxes.Count; i++)
             {
                 var row = _allRowBoxes[i];
@@ -694,7 +697,7 @@ namespace HtmlRenderer.Dom
                         int colspan = cell.ColSpan;
                         float width = this.columnCollection.GetCellWidth(grid_index, colspan, horizontal_spacing);
 
-                        cell.SetGlobalLocation(curx, cury);
+                        cell.SetGlobalLocation(curx, cury, table_globalX, table_globalY);
                         cell.SetSize(width, 0);
 
                         cell.PerformLayout(args); //That will automatically set the bottom of the cell
@@ -813,7 +816,7 @@ namespace HtmlRenderer.Dom
         static void ApplyCellVerticalAlignment(CssBox cell, float tableBoxOffset)
         {
 
-
+            
             float dist = 0f;
 
             switch (cell.VerticalAlign)

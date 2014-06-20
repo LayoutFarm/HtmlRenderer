@@ -35,33 +35,31 @@ namespace HtmlRenderer.Dom
         {
             get { return this._localY; }
         }
-        void Offset(float dx, float dy)
-        {
-            this._globalX += dx;
-            this._globalY += dy;
-            this._localX += dx;
-            this._localY += dy;
+        //void Offset(float dx, float dy)
+        //{
+        //    this._globalX += dx;
+        //    this._globalY += dy;
+        //    this._localX += dx;
+        //    this._localY += dy;
 
-            this._boxCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
-        }
+        //    this._boxCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
+        //}
         void OffsetOnlyGlobal(float dx, float dy)
         {
             this._globalX += dx;
-            this._globalY += dy; 
+            this._globalY += dy;
 
             this._boxCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
         }
-        public void SetGlobalLocation(float x, float y)
+        public void SetGlobalLocation(float globalX, float globalY, float container_globalX, float container_globalY)
         {
-            this._globalX = x;
-            this._globalY = y;
+            this._globalX = globalX;
+            this._globalY = globalY; 
 
-            if (this.ParentBox != null)
-            {
-                this._localX = x - this.ParentBox._globalX;
-                this._localY = y - this.ParentBox._globalY;
+            this._localX = globalX - container_globalX;
+            this._localY = globalY - container_globalY;
 
-            }
+
             this._boxCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
         }
 
@@ -72,7 +70,10 @@ namespace HtmlRenderer.Dom
         {
             get { return new RectangleF(new PointF(this.GlobalX, this.GlobalY), Size); }
         }
-
+        public RectangleF LocalBound
+        {
+            get { return new RectangleF(new PointF(this.LocalX, this.LocalY), Size); }
+        }
         /// <summary>
         /// Gets the width available on the box, counting padding and margin.
         /// </summary>

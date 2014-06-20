@@ -81,7 +81,7 @@ namespace HtmlRenderer.Dom
             top += maringTopCollapse;
 
 
-            this.SetGlobalLocation(left, top);
+            this.SetGlobalLocation(left, top, myContainingBlock.GlobalX, myContainingBlock.GlobalY);
             this.SetHeightToZero();
 
 
@@ -122,7 +122,7 @@ namespace HtmlRenderer.Dom
                 BorderBottomWidth = CssLength.MakePixelLength(1);
             }
 
-            this.SetSize(width, height);           
+            this.SetSize(width, height);
             this.SetHeight(ActualPaddingTop + ActualPaddingBottom + height);
         }
 
