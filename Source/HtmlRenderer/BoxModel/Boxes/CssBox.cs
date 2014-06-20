@@ -610,8 +610,12 @@ namespace HtmlRenderer.Dom
                             }
 
 
+<<<<<<< HEAD
                             float left = myContainingBlock.LocalX + this.ActualMarginLeft;
 
+=======
+                            float left = myContainingBlock.GlobalClientLeft + this.ActualMarginLeft;
+>>>>>>> v1.7errs2
                             float top = 0;
 
                             var prevSibling = args.LatestSiblingBox;
@@ -636,7 +640,7 @@ namespace HtmlRenderer.Dom
                             }
                             top += MarginTopCollapse(prevSibling);
 
-                            this.SetLocation(left, top);
+                            this.SetGlobalLocation(left, top, myContainingBlock.GlobalX, myContainingBlock.GlobalY);
                             this.SetHeightToZero();
                         }
                         //--------------------------------------------------------------------------
@@ -678,10 +682,15 @@ namespace HtmlRenderer.Dom
                                         args.LatestSiblingBox = currentLevelLatestSibling;
                                         args.PopContainingBlock();
 
+<<<<<<< HEAD
                                         //SetGlobalActualRight(CalculateGlobalActualRight());
                                         //SetGlobalActualBottom(MarginBottomCollapse());
                                         SetLocalActualRight(CalculateLocalActualRight(args.GetLocalRightLimit(this)));
                                         SetLocalActualBottom(MarginBottomCollapse());
+=======
+                                        SetGlobalActualRight(CalculateActualRight());
+                                        SetGlobalActualBottom(MarginBottomCollapse());
+>>>>>>> v1.7errs2
                                     }
                                 } break;
                         }
@@ -888,7 +897,11 @@ namespace HtmlRenderer.Dom
                     _listItemBox.FirstRun.SetSize(fRun.Width, fRun.Height);
                 }
 
+<<<<<<< HEAD
                 _listItemBox.FirstRun.SetLocation(this.LocalX - _listItemBox.SizeWidth - 5, this.LocalY + ActualPaddingTop);
+=======
+                _listItemBox.FirstRun.SetLocation(this.GlobalX - _listItemBox.SizeWidth - 5, this.GlobalY + ActualPaddingTop);
+>>>>>>> v1.7errs2
 
             }
         }
@@ -1151,12 +1164,13 @@ namespace HtmlRenderer.Dom
         /// Deeply offsets the top of the box and its contents
         /// </summary>
         /// <param name="amount"></param>
-        internal void OffsetTop(float amount)
+        internal void OffsetGlobalTop(float amount)
         {
             if (amount == 0)
             {
                 return;
             }
+<<<<<<< HEAD
 
             //if (this.LineBoxCount > 0)
             //{
@@ -1173,14 +1187,24 @@ namespace HtmlRenderer.Dom
             //    }
             //}
 
+=======
+            if (this.LineBoxCount > 0)
+            {
+            }
+            else
+            {
+                foreach (CssBox b in Boxes)
+                {
+                    b.OffsetGlobalTop(amount);
+                }
+            }
+>>>>>>> v1.7errs2
             if (_listItemBox != null)
             {
-                _listItemBox.OffsetTop(amount);
+                _listItemBox.OffsetGlobalTop(amount);
             }
 
-
-
-            this.Offset(0, amount);
+            this.OffsetOnlyGlobal(0, amount);
         }
         /// <summary>
         /// Paints the background of the box
@@ -1402,6 +1426,7 @@ namespace HtmlRenderer.Dom
         }
         internal bool IsPointInClientArea(float x, float y)
         {
+<<<<<<< HEAD
             //x and y is relative to this box's parent
 
             return x >= this.LocalClientLeft && x < this.LocalClientRight &&
@@ -1411,6 +1436,10 @@ namespace HtmlRenderer.Dom
         {
             return point.X >= this.LocalX && point.X < (this.LocalX + this.SizeWidth) &&
                    point.Y >= this.LocalY && point.Y < (this.LocalY + this.SizeHeight);
+=======
+            return x >= this.GlobalClientLeft && x < this.GlobalClientRight &&
+                    y >= this.GlobalClientTop && y < this.GlobalClientBottom;
+>>>>>>> v1.7errs2
         }
     }
 }

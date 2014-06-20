@@ -464,7 +464,13 @@ namespace HtmlRenderer.Dom
         protected override void PaintImp(IGraphics g, PaintingArgs args)
         {
             //var rects = CommonUtils.GetFirstValueOrDefault(Rectangles);
+<<<<<<< HEAD
             var rects = this.LocalBound;
+=======
+            var rects = this.GlobalBound;
+            PointF offset = HtmlContainer != null ? HtmlContainer.ScrollOffset : PointF.Empty;
+            rects.Offset(offset);
+>>>>>>> v1.7errs2
 
             var prevClip = RenderUtils.ClipGraphicsByOverflow(g, args);
 

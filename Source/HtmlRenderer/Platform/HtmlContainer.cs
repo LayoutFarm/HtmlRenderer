@@ -527,7 +527,7 @@ namespace HtmlRenderer
             _actualWidth = _actualHeight = 0;
             // if width is not restricted we set it to large value to get the actual later             
 
-            _root.SetLocation(_location.X, _location.Y);
+            _root.SetGlobalLocation(_location.X, _location.Y, 0, 0);
             _root.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
 
 

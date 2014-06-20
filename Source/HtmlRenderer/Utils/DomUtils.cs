@@ -320,7 +320,11 @@ namespace HtmlRenderer.Utils
         {
             //recursive
 
+<<<<<<< HEAD
             if (box.IsPointInArea(loc))
+=======
+            if (box.GlobalBound.Contains(loc))
+>>>>>>> v1.7errs2
             {
                 //1.
                 int x = loc.X;
@@ -488,7 +492,11 @@ namespace HtmlRenderer.Utils
                 {
                     if (box.WellknownTagName == WellknownHtmlTagName.NotAssign ||
                         box.WellknownTagName != WellknownHtmlTagName.TD ||
+<<<<<<< HEAD
                         box.IsPointInArea(location))
+=======
+                        box.GlobalBound.Contains(location))
+>>>>>>> v1.7errs2
                     {
 
                         foreach (var lineBox in box.GetLineBoxIter())

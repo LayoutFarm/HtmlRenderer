@@ -53,7 +53,11 @@ namespace HtmlRenderer.Dom
             var myContainingBlock = args.LatestContaingBlock;
 
 
+<<<<<<< HEAD
             float left = myContainingBlock.LocalX + ActualMarginLeft;
+=======
+            float left = myContainingBlock.GlobalClientLeft + ActualMarginLeft;
+>>>>>>> v1.7errs2
             float top = 0;
             if (prevSibling == null)
             {
@@ -81,7 +85,7 @@ namespace HtmlRenderer.Dom
             top += maringTopCollapse;
 
 
-            this.SetLocation(left, top);
+            this.SetGlobalLocation(left, top, myContainingBlock.GlobalX, myContainingBlock.GlobalY);
             this.SetHeightToZero();
 
 
@@ -132,8 +136,13 @@ namespace HtmlRenderer.Dom
         /// <param name="g">the device to draw to</param>
         protected override void PaintImp(IGraphics g, PaintingArgs args)
         {
+<<<<<<< HEAD
 
             var rect = this.LocalBound; 
+=======
+            var offset = HtmlContainer != null ? HtmlContainer.ScrollOffset : PointF.Empty;
+            var rect = new RectangleF(GlobalBound.X + offset.X, GlobalBound.Y + offset.Y, GlobalBound.Width, GlobalBound.Height);
+>>>>>>> v1.7errs2
 
             if (rect.Height > 2 && RenderUtils.IsColorVisible(ActualBackgroundColor))
             {

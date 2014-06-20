@@ -70,17 +70,26 @@ namespace HtmlRenderer.Dom
                  EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
             {
 
-                var prevClip = RenderUtils.ClipGraphicsByOverflow(g, args);
+                bool hasPrevClip = false;
+                RectangleF prevClip = RectangleF.Empty;
                 if (this.Overflow == CssOverflow.Hidden)
                 {
+                    
                     var expectedW = this.ExpectedWidth;
                     var expectedH = this.ExpectedHeight;
                     //clip width 
                     if (expectedH > 0)
                     {
+                        hasPrevClip = true;
+                        prevClip = RenderUtils.ClipGraphicsByOverflow(g, args);
+
                         if (prevClip.IsEmpty)
                         {
+<<<<<<< HEAD
                             prevClip = this.LocalBound;
+=======
+                            prevClip = this.GlobalBound;
+>>>>>>> v1.7errs2
                             g.SetClip(prevClip);
                         }
                         else
@@ -90,17 +99,25 @@ namespace HtmlRenderer.Dom
                     }
                 }
 
+<<<<<<< HEAD
                 //if (this.CssDisplay == Dom.CssDisplay.TableCell)
                 //{
 
                 //}
 
+=======
+>>>>>>> v1.7errs2
                 var viewport = args.PeekViewportBound();
                 //---------------------------------------------
                 if (this.CssDisplay != CssDisplay.Inline)
                 {
+<<<<<<< HEAD
                     //var bound = this.LocalBound;
                     var bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
+=======
+                    //var bound = this.GlobalBound;
+                    RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
+>>>>>>> v1.7errs2
                     PaintBackground(g, bound, true, true);
                     BordersDrawHandler.DrawBoxBorders(g, this, bound, true, true);
                 }
@@ -110,7 +127,7 @@ namespace HtmlRenderer.Dom
 
 
                     PointF offset = args.Offset;
-                    viewport.Offset(offset.X, -offset.Y);
+                    //viewport.Offset(offset.X, -offset.Y);
                     float viewport_top = viewport.Top;
                     float viewport_bottom = viewport.Bottom;
 
@@ -151,7 +168,10 @@ namespace HtmlRenderer.Dom
 
                             }
                         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> v1.7errs2
 
                     }
                     else
@@ -170,11 +190,12 @@ namespace HtmlRenderer.Dom
                                 line.PaintBackgroundAndBorder(g, args);
                                 //2. 
                                 line.PaintRuns(g, args);
+                               
                                 //3. 
                                 line.PaintDecoration(g, args);
 #if DEBUG
-
                                 line.dbugPaintRuns(g, args);
+                               
 
 #endif
                                 g.OffsetCanvasOrigin(0, -line.CachedLineTop);
@@ -185,7 +206,10 @@ namespace HtmlRenderer.Dom
 
                             }
                         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> v1.7errs2
                     }
 
                     //g.OffsetCanvasOrigin(-this.LocalX, -this.LocalY);
@@ -193,7 +217,8 @@ namespace HtmlRenderer.Dom
                 }
                 else
                 {
-
+                    
+                    float loc_x, loc_y;
                     if (this.HasContainingBlockProperty)
                     {
                         args.PushContainingBox(this);
@@ -205,9 +230,15 @@ namespace HtmlRenderer.Dom
                                 continue;
                             }
 
+<<<<<<< HEAD
                             g.OffsetCanvasOrigin(b.LocalX, b.LocalY);
                             b.Paint(g, args);
                             g.OffsetCanvasOrigin(-b.LocalX, -b.LocalY);
+=======
+                            g.OffsetCanvasOrigin(loc_x = b.LocalX, loc_y = b.LocalY);
+                            b.Paint(g, args);
+                            g.OffsetCanvasOrigin(-loc_x, -loc_y);
+>>>>>>> v1.7errs2
                         }
 
                         args.PopContainingBox();
@@ -221,14 +252,18 @@ namespace HtmlRenderer.Dom
                             {
                                 continue;
                             }
+                            g.OffsetCanvasOrigin(loc_x = b.LocalX, loc_y = b.LocalY);
                             b.Paint(g, args);
+                            g.OffsetCanvasOrigin(-loc_x, -loc_y);
                         }
                     }
                 }
                 //------------------------------------------
                 //must! , 
-
-                RenderUtils.ReturnClip(g, prevClip);
+                if (hasPrevClip)
+                {
+                    RenderUtils.ReturnClip(g, prevClip);
+                }
                 if (_listItemBox != null)
                 {
                     _listItemBox.Paint(g, args);

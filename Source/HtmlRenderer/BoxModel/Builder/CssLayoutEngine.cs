@@ -150,8 +150,12 @@ namespace HtmlRenderer.Dom
             // if width is not restricted we need to lower it to the actual width
             if (blockBox.LocalActualRight >= args.GetLocalRightLimit(blockBox))// CssBox.MAX_RIGHT)
             {
+<<<<<<< HEAD
                 //blockBox.SetGlobalActualRight(blockBox.GlobalX + maxLocalRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
                 blockBox.SetLocalActualRight(maxLocalRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
+=======
+                blockBox.SetGlobalActualRight(blockBox.GlobalX + maxLocalRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
+>>>>>>> v1.7errs2
             }
             //---------------------
             if (blockBox.CssDirection == CssDirection.Rtl)
@@ -172,9 +176,13 @@ namespace HtmlRenderer.Dom
                 }
             }
 
+<<<<<<< HEAD
             //blockBox.SetGlobalActualBottom(blockBox.GlobalY + maxLocalBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
             blockBox.SetLocalActualBottom(maxLocalBottom + +blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
 
+=======
+            blockBox.SetGlobalActualBottom(blockBox.GlobalY + maxLocalBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
+>>>>>>> v1.7errs2
 
             // handle limiting block height when overflow is hidden             
             if (blockBox.Overflow == CssOverflow.Hidden &&
@@ -547,7 +555,11 @@ namespace HtmlRenderer.Dom
 
             if (words <= 0f) return; //Avoid Zero division
             float spacing = (availableWidth - textSum) / words; //Spacing that will be used
+<<<<<<< HEAD
             float curx = lineBox.OwnerBox.LocalX + indent;
+=======
+            float curx = lineBox.OwnerBox.GlobalClientLeft + indent;
+>>>>>>> v1.7errs2
 
             CssRun lastRun = lineBox.GetLastRun();
             foreach (CssRun run in lineBox.GetRunIter())
@@ -556,7 +568,11 @@ namespace HtmlRenderer.Dom
                 curx = run.Right + spacing;
                 if (run == lastRun)
                 {
+<<<<<<< HEAD
                     run.Left = lineBox.OwnerBox.LocalClientRight - run.Width;
+=======
+                    run.Left = lineBox.OwnerBox.GlobalClientRight - run.Width;
+>>>>>>> v1.7errs2
                 }
             }
         }
