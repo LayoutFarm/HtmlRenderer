@@ -7,16 +7,12 @@ namespace HtmlRenderer.Dom
 {
     partial class CssBox
     {
-       
-
         float _localX;
         float _localY;
-
         public bool IsAbsolutePosition
         {
             get { return this.Position == CssPosition.Absolute; }
         }
-        
 
         public float LocalX
         {
@@ -27,16 +23,17 @@ namespace HtmlRenderer.Dom
             get { return this._localY; }
         }
 
-        public void SetGlobalLocation(float localX, float localY, float container_globalX, float container_globalY)
+        /// <summary>
+        /// set location relative to container box
+        /// </summary>
+        /// <param name="localX"></param>
+        /// <param name="localY"></param>
+        public void SetLocation(float localX, float localY)
         {
             this._localX = localX;
             this._localY = localY;
-
-             
-
             this._boxCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
-        }
-
+        } 
 
         public RectangleF LocalBound
         {
@@ -48,23 +45,23 @@ namespace HtmlRenderer.Dom
         public float AvailableWidth
         {
             get { return this.SizeWidth - ActualBorderLeftWidth - ActualPaddingLeft - ActualPaddingRight - ActualBorderRightWidth; }
-        } 
+        }
         public float LocalActualRight
         {
             get { return this.LocalX + this.SizeWidth; }
-        } 
+        }
         public float LocalActualBottom
         {
             get { return this.LocalY + this.SizeHeight; }
         }
 
 
-        
+
         public float LocalClientLeft
         {
             get { return ActualBorderLeftWidth + ActualPaddingLeft; }
         }
-         
+
         public float LocalClientRight
         {
             get { return this.LocalActualRight - ActualPaddingRight - ActualBorderRightWidth; }

@@ -462,7 +462,7 @@ namespace HtmlRenderer.Dom
 
         internal void dbugPaintRuns(IGraphics g, PaintingArgs args)
         {
-            //return;
+            return;
             //linebox  
             float x1 = 0;
             float y1 = 0;

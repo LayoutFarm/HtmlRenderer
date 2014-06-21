@@ -683,22 +683,12 @@ namespace HtmlRenderer.Dom
             float maxBottom_local = 0f;
 
             int currentRow = 0;
-            int col_count = this.columnCollection.Count;
-
-
-            //Console.WriteLine("------------- "+ _tableBox.dbugId);
-            //if (_tableBox.dbugId == 392)
-            //{
-
-            //}
+            int col_count = this.columnCollection.Count; 
+          
             for (int i = 0; i < _allRowBoxes.Count; i++)
             {
 
-                //Console.WriteLine("row " + i);
-                //if (i > 0)
-                //{
-
-                //}
+                
                 var row = _allRowBoxes[i];
 
                 float curX_local = startx_local;//reset
@@ -717,35 +707,10 @@ namespace HtmlRenderer.Dom
                         int colspan = cell.ColSpan;
                         float width = this.columnCollection.GetCellWidth(grid_index, colspan, horizontal_spacing);
 
-                        cell.SetGlobalLocation(
-                            curX_local,
-                            curY_local,
-                            table_globalX,
-                            table_globalY);
-
-                        cell.SetSize(width, 0);
-
-
-                        foreach (var linebox in cell.GetLineBoxIter())
-                        {
-                            foreach (var run in linebox.GetRunIter())
-                            {
-                                CssTextRun trun = run as CssTextRun;
-                                if (trun != null && trun.Text.Contains("FourX"))
-                                {
-
-                                }
-                            }
-                        }
-
+                        cell.SetLocation(curX_local, curY_local);
+                        cell.SetSize(width, 0);  
                         cell.PerformLayout(args); //That will automatically set the bottom of the cell
-                       // Console.WriteLine(cell.LocalX.ToString());
-                        //if (cell.SizeHeight > 200)
-                        //{
-
-                        //}
-                        //Console.WriteLine(cell.SizeHeight.ToString());
-
+                        
                         //Alter max bottom only if row is cell's row + cell's rowspan - 1
                         CssVerticalCellSpacingBox sb = cell as CssVerticalCellSpacingBox;
                         if (sb != null)
@@ -804,8 +769,7 @@ namespace HtmlRenderer.Dom
 
             float globalBottom = Math.Max((maxBottom_local + table_globalY), starty_global) + vertical_spacing + _tableBox.ActualBorderBottomWidth;
             _tableBox.SetSize(_tableBox.SizeWidth, globalBottom - table_globalY);
-
-            //Console.WriteLine("------------" + _tableBox.GlobalActualBottom);
+            
         }
 
         /// <summary>
@@ -864,7 +828,7 @@ namespace HtmlRenderer.Dom
         /// <param name="cell"></param>
         static void ApplyCellVerticalAlignment(CssBox cell, float tableBoxOffset)
         {
-           
+
             float dist = 0f;
             switch (cell.VerticalAlign)
             {

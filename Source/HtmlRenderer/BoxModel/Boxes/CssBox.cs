@@ -644,12 +644,7 @@ namespace HtmlRenderer.Dom
 
                             localTop += MarginTopCollapse(prevSibling);
 
-                            this.SetGlobalLocation(
-                                localLeft,
-                                localTop,
-                                args.ContainerBlockGlobalX,
-                                args.ContainerBlockGlobalY);
-
+                            this.SetLocation(localLeft, localTop); 
                             this.SetHeightToZero();
                         }
                         //--------------------------------------------------------------------------
@@ -1067,7 +1062,7 @@ namespace HtmlRenderer.Dom
 
 
 
-      
+
         float CalculateActualWidth()
         {
             float maxRight = 0;
@@ -1076,7 +1071,7 @@ namespace HtmlRenderer.Dom
                 maxRight = Math.Max(maxRight, box.LocalActualRight);
             }
             return maxRight;
-             
+
         }
 
         bool IsLastChild

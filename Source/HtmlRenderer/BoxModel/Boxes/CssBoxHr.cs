@@ -97,11 +97,7 @@ namespace HtmlRenderer.Dom
             localTop += maringTopCollapse;
 
 
-            this.SetGlobalLocation(
-                localLeft,
-                localTop,
-                args.ContainerBlockGlobalX,
-                args.ContainerBlockGlobalY);
+            this.SetLocation(localLeft, localTop);
 
             this.SetHeightToZero();
 
