@@ -8,7 +8,7 @@ namespace HtmlRenderer.Dom
     partial class CssBox
     {
         float _globalX;
-        float _globalY;
+        
         float _localX;
         float _localY;
 
@@ -23,10 +23,7 @@ namespace HtmlRenderer.Dom
         {
             get { return this._globalX; }
         }
-        public float GlobalY
-        {
-            get { return this._globalY; }
-        }
+        
         public float LocalX
         {
             get { return this._localX; }
@@ -42,18 +39,11 @@ namespace HtmlRenderer.Dom
             this._localY = localY;
 
             this._globalX = localX + container_globalX;
-            this._globalY = localY + container_globalY;
-
+            
             this._boxCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
         }
 
-        /// <summary>
-        /// Gets the bounds of the box
-        /// </summary>
-        public RectangleF GlobalBound
-        {
-            get { return new RectangleF(new PointF(this.GlobalX, this.GlobalY), Size); }
-        }
+       
         public RectangleF LocalBound
         {
             get { return new RectangleF(new PointF(this.LocalX, this.LocalY), Size); }
@@ -81,18 +71,7 @@ namespace HtmlRenderer.Dom
         {
             this.SetSize(value - GlobalX, this.SizeHeight);
         }
-        /// <summary>
-        /// Gets or sets the bottom of the box. 
-        /// (When setting, alters only the Size.Height of the box)
-        /// </summary>
-        public float GlobalActualBottom
-        {
-            get { return this.GlobalY + this.SizeHeight; }
-        }
-        //public void SetGlobalActualBottom(float value)
-        //{
-        //    this.SetSize(this.SizeWidth, value - this._globalY);
-        //}
+        
      
         public float LocalActualBottom
         {

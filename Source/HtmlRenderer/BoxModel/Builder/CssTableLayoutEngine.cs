@@ -891,7 +891,7 @@ namespace HtmlRenderer.Dom
                 {
                     foreach (CssBox b in cell.GetChildBoxIter())
                     {
-                        b.OffsetOnlyGlobalTop(dist);
+                        //b.OffsetOnlyGlobalTop(dist);
                         b.OffsetOnlyLocalTop(dist);
                     }
                 }

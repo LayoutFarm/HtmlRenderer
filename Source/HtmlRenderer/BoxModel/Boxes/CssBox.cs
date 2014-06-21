@@ -633,7 +633,7 @@ namespace HtmlRenderer.Dom
                             {
                                 //this is first child of parent
                                 if (this.ParentBox != null)
-                                {                                        
+                                {
                                     localTop = myContainingBlock.LocalClientTop;
                                 }
                             }
@@ -676,12 +676,12 @@ namespace HtmlRenderer.Dom
                                         //args.PushContaingBlock(this); 
                                         this.SetHeightToZero();
                                         CssLayoutEngine.FlowContentRuns(this, args); //This will automatically set the bottom of this block
-                                       // args.PopContainingBlock();
+                                        // args.PopContainingBlock();
 
                                     }
                                     else if (_boxes.Count > 0)
                                     {
-                                        args.PushContaingBlock(this); 
+                                        args.PushContaingBlock(this);
                                         var currentLevelLatestSibling = args.LatestSiblingBox;
                                         args.LatestSiblingBox = null;//reset
 
@@ -732,8 +732,8 @@ namespace HtmlRenderer.Dom
                               this.SizeWidth < CssBox.MAX_RIGHT ? this.SizeWidth : 0);
 
             //update back
-            HtmlContainer.UpdateSizeIfWiderOrHeigher(newWidth, GlobalActualBottom - HtmlContainer.Root.GlobalY);
-            //HtmlContainer.UpdateSizeIfWiderOrHeigher(args.ContainerBlockGlobalX + newWidth, args.ContainerBlockGlobalY + this.SizeHeight);
+
+            HtmlContainer.UpdateSizeIfWiderOrHeigher(args.ContainerBlockGlobalX + newWidth, args.ContainerBlockGlobalY + this.SizeHeight);
         }
 
         /// <summary>
@@ -1044,7 +1044,7 @@ namespace HtmlRenderer.Dom
                 return maxBottom;
             }
         }
-        
+
 
 
         /// <summary>
@@ -1135,37 +1135,7 @@ namespace HtmlRenderer.Dom
         internal void OffsetOnlyLocalTop(float dy)
         {
             this._localY += dy;
-        }
-
-        /// <summary>
-        /// Deeply offsets the top of the box and its contents
-        /// </summary>
-        /// <param name="amount"></param>
-        internal void OffsetOnlyGlobalTop(float amount)
-        {
-            //recursive
-            if (amount == 0)
-            {
-                return;
-            }
-            if (this.LineBoxCount > 0)
-            {
-            }
-            else
-            {
-                foreach (CssBox b in Boxes)
-                {
-                    b.OffsetOnlyGlobalTop(amount);
-                }
-            }
-            if (_listItemBox != null)
-            {
-                _listItemBox.OffsetOnlyGlobalTop(amount);
-            }
-
-            this._globalY += amount;
-            this._boxCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
-        }
+        } 
         /// <summary>
         /// Paints the background of the box
         /// </summary>
@@ -1388,6 +1358,11 @@ namespace HtmlRenderer.Dom
         {
             return x >= this.LocalClientLeft && x < this.LocalClientRight &&
                    y >= this.LocalClientTop && y < this.LocalClientBottom;
+        }
+        internal bool IsPointInArea(PointF p)
+        {
+            return p.X >= this.LocalX && p.X < this.LocalActualRight &&
+                   p.Y >= this.LocalY && p.Y < this.LocalActualBottom;
         }
     }
 }

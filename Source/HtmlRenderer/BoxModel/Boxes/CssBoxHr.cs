@@ -152,8 +152,8 @@ namespace HtmlRenderer.Dom
         /// <param name="g">the device to draw to</param>
         protected override void PaintImp(IGraphics g, PaintingArgs args)
         {
-            var offset = HtmlContainer != null ? HtmlContainer.ScrollOffset : PointF.Empty;
-            var rect = new RectangleF(GlobalBound.X + offset.X, GlobalBound.Y + offset.Y, GlobalBound.Width, GlobalBound.Height);
+
+            var rect = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
 
             if (rect.Height > 2 && RenderUtils.IsColorVisible(ActualBackgroundColor))
             {

@@ -85,7 +85,7 @@ namespace HtmlRenderer.Dom
 
                         if (prevClip.IsEmpty)
                         {
-                            prevClip = this.GlobalBound;
+                            prevClip = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);                            
                             g.SetClip(prevClip);
                         }
                         else
