@@ -147,9 +147,15 @@ namespace HtmlRenderer.Dom
             //****
 
             // if width is not restricted we need to lower it to the actual width
-            if (blockBox.GlobalActualRight >= CssBox.MAX_RIGHT)
+            if (blockBox.SizeWidth + args.ContainerBlockGlobalX >= CssBox.MAX_RIGHT)
             {
-                blockBox.SetGlobalActualRight(blockBox.GlobalX + maxLocalRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
+                float newWidth = maxLocalRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth;// CssBox.MAX_RIGHT - (args.ContainerBlockGlobalX + blockBox.LocalX);
+                if (newWidth <= CSS_OFFSET_THRESHOLD)
+                {
+                    newWidth = CSS_OFFSET_THRESHOLD;
+                }
+                blockBox.SetSize(newWidth, blockBox.SizeHeight);
+
             }
             //---------------------
             if (blockBox.CssDirection == CssDirection.Rtl)

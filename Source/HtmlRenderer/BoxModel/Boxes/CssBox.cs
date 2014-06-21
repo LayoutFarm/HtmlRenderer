@@ -698,9 +698,19 @@ namespace HtmlRenderer.Dom
                                         args.LatestSiblingBox = currentLevelLatestSibling;
                                         args.PopContainingBlock();
 
-                                        SetGlobalActualRight(CalculateActualRight());
+                                        float width = this.CalculateActualWidth();
+                                        if (args.ContainerBlockGlobalX + width > CssBox.MAX_RIGHT)
+                                        {
+                                        }
+                                        else
+                                        {
+                                            this.SetSize(width, this.SizeHeight);
+                                        }
 
+                                        //SetGlobalActualRight(CalculateActualRight());
                                         this.SetSize(this.SizeWidth, GetHeightAfterMarginBottomCollapse());
+
+
 
                                     }
                                 } break;
@@ -1057,26 +1067,18 @@ namespace HtmlRenderer.Dom
 
 
 
-        /// <summary>
-        /// Calculate the actual right of the box by the actual right of the child boxes if this box actual right is not set.
-        /// </summary>
-        /// <returns>the calculated actual right value</returns>
-        float CalculateActualRight()
+      
+        float CalculateActualWidth()
         {
-            if (GlobalActualRight > CssBox.MAX_RIGHT)
+            float maxRight = 0;
+            foreach (var box in Boxes)
             {
-                var maxRight = 0f;
-                foreach (var box in Boxes)
-                {
-                    maxRight = Math.Max(maxRight, box.GlobalActualRight + box.ActualMarginRight);
-                }
-                return maxRight + ActualPaddingRight + ActualMarginRight + ActualBorderRightWidth;
+                maxRight = Math.Max(maxRight, box.LocalActualRight);
             }
-            else
-            {
-                return GlobalActualRight;
-            }
+            return maxRight;
+             
         }
+
         bool IsLastChild
         {
             get
@@ -1135,7 +1137,7 @@ namespace HtmlRenderer.Dom
         internal void OffsetOnlyLocalTop(float dy)
         {
             this._localY += dy;
-        } 
+        }
         /// <summary>
         /// Paints the background of the box
         /// </summary>

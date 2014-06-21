@@ -184,6 +184,10 @@ namespace HtmlRenderer.Dom
             get;
             set;
         }
+        internal float OwnerLeft
+        {
+            get { return 0; }
+        }
 
         internal float CachedLineContentWidth
         {
@@ -430,7 +434,7 @@ namespace HtmlRenderer.Dom
                                 color = latestOwner.ActualColor;
                             }
                             CssTextRun textRun = (CssTextRun)w;
-                             
+
                             var wordPoint = new PointF(w.Left, w.Top);
 
                             char[] ownerBuffer = CssBox.UnsafeGetTextBuffer(w.OwnerBox);
@@ -556,7 +560,7 @@ namespace HtmlRenderer.Dom
 
         internal void PaintDecoration(IGraphics g, PaintingArgs args)
         {
-            
+
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
