@@ -100,8 +100,8 @@ namespace HtmlRenderer.Dom
             this.SetGlobalLocation(
                 localLeft,
                 localTop,
-                myContainingBlock.GlobalX,
-                myContainingBlock.GlobalY);
+                args.ContainerBlockGlobalX,
+                args.ContainerBlockGlobalY);
 
             this.SetHeightToZero();
 

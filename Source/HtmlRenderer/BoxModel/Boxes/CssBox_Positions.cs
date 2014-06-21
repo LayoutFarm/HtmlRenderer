@@ -89,14 +89,11 @@ namespace HtmlRenderer.Dom
         {
             get { return this.GlobalY + this.SizeHeight; }
         }
-        public void SetGlobalActualBottom(float value)
-        {
-            this.SetSize(this.SizeWidth, value - this._globalY);
-        }
-        public void SetLocalActualBottom(float value)
-        {
-            this.SetSize(this.SizeWidth, value - this._localY);
-        }
+        //public void SetGlobalActualBottom(float value)
+        //{
+        //    this.SetSize(this.SizeWidth, value - this._globalY);
+        //}
+     
         public float LocalActualBottom
         {
             get { return this.LocalY + this.SizeHeight; }
@@ -125,28 +122,19 @@ namespace HtmlRenderer.Dom
         {
             get { return this.LocalActualRight - ActualPaddingRight - ActualBorderRightWidth; }
         }
-        public float GlobalClientTop
-        {
-            get { return this.GlobalY + this.LocalClientTop; }
-        }
+
 
         public float LocalClientTop
         {
             get { return ActualBorderTopWidth + ActualPaddingTop; }
         }
-        /// <summary>
-        /// Gets the bottom of the client rectangle
-        /// </summary>
-        public float GlobalClientBottom
-        {
-            get { return this.GlobalActualBottom - ActualPaddingBottom - ActualBorderBottomWidth; }
-        }
+
         public float LocalClientBottom
         {
             get { return this.LocalActualBottom - ActualPaddingBottom - ActualBorderBottomWidth; }
         }
 
-        
+
         public RectangleF LocalClientRectangle
         {
             get { return RectangleF.FromLTRB(this.LocalClientLeft, LocalClientTop, LocalClientRight, LocalClientBottom); }
@@ -155,6 +143,10 @@ namespace HtmlRenderer.Dom
         public float ClientWidth
         {
             get { return this.SizeWidth - (ActualPaddingLeft + ActualBorderLeftWidth + ActualPaddingRight + ActualBorderRightWidth); }
+        }
+        public float ClientHeight
+        {
+            get { return this.SizeHeight - (ActualPaddingTop + ActualBorderTopWidth + ActualPaddingBottom + ActualBorderBottomWidth); }
         }
     }
 }

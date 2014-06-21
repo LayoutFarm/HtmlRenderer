@@ -348,20 +348,26 @@ namespace HtmlRenderer.Dom
         }
         internal IEnumerable<CssLineBox> GetLineBoxIter()
         {
-            var node = this._clientLineBoxes.First;
-            while (node != null)
+            if (this._clientLineBoxes != null)
             {
-                yield return node.Value;
-                node = node.Next;
+                var node = this._clientLineBoxes.First;
+                while (node != null)
+                {
+                    yield return node.Value;
+                    node = node.Next;
+                }
             }
         }
         internal IEnumerable<CssLineBox> GetLineBoxBackwardIter()
         {
-            var node = this._clientLineBoxes.Last;
-            while (node != null)
+            if (this._clientLineBoxes != null)
             {
-                yield return node.Value;
-                node = node.Previous;
+                var node = this._clientLineBoxes.Last;
+                while (node != null)
+                {
+                    yield return node.Value;
+                    node = node.Previous;
+                }
             }
         }
         internal CssLineBox GetFirstLineBox()
@@ -625,10 +631,9 @@ namespace HtmlRenderer.Dom
                             var prevSibling = args.LatestSiblingBox;
                             if (prevSibling == null)
                             {
+                                //this is first child of parent
                                 if (this.ParentBox != null)
-                                {
-                                    //globalTop = this.ParentBox._globalY + this.ParentBox.LocalClientTop;    
-                                    // this.ParentBox.LocalClientTop;
+                                {                                        
                                     localTop = myContainingBlock.LocalClientTop;
                                 }
                             }
@@ -642,8 +647,8 @@ namespace HtmlRenderer.Dom
                             this.SetGlobalLocation(
                                 localLeft,
                                 localTop,
-                                myContainingBlock.GlobalX,
-                                myContainingBlock.GlobalY);
+                                args.ContainerBlockGlobalX,
+                                args.ContainerBlockGlobalY);
 
                             this.SetHeightToZero();
                         }
@@ -654,27 +659,34 @@ namespace HtmlRenderer.Dom
                             case Dom.CssDisplay.Table:
                             case Dom.CssDisplay.InlineTable:
                                 {
+                                    args.PushContaingBlock(this);
+                                    var currentLevelLatestSibling = args.LatestSiblingBox;
+                                    args.LatestSiblingBox = null;//reset
+
                                     CssTableLayoutEngine.PerformLayout(this, args);
+
+                                    args.LatestSiblingBox = currentLevelLatestSibling;
+                                    args.PopContainingBlock();
                                 } break;
                             default:
                                 {
                                     //If there's just inline boxes, create LineBoxes
                                     if (DomUtils.ContainsInlinesOnly(this))
                                     {
+                                        //args.PushContaingBlock(this); 
                                         this.SetHeightToZero();
                                         CssLayoutEngine.FlowContentRuns(this, args); //This will automatically set the bottom of this block
+                                       // args.PopContainingBlock();
+
                                     }
                                     else if (_boxes.Count > 0)
                                     {
-                                        args.PushContaingBlock(this);
-
+                                        args.PushContaingBlock(this); 
                                         var currentLevelLatestSibling = args.LatestSiblingBox;
                                         args.LatestSiblingBox = null;//reset
 
                                         foreach (var childBox in Boxes)
                                         {
-
-
                                             childBox.PerformLayout(args);
 
                                             if (childBox.CanBeRefererenceSibling)
@@ -687,7 +699,9 @@ namespace HtmlRenderer.Dom
                                         args.PopContainingBlock();
 
                                         SetGlobalActualRight(CalculateActualRight());
-                                        SetGlobalActualBottom(MarginBottomCollapse());
+
+                                        this.SetSize(this.SizeWidth, GetHeightAfterMarginBottomCollapse());
+
                                     }
                                 } break;
                         }
@@ -715,9 +729,11 @@ namespace HtmlRenderer.Dom
             this.CreateListItemBox(args);
 
             float newWidth = Math.Max(CalculateMinimumWidth() + CalculateWidthMarginRecursiveUp(this),
-                              this.SizeWidth < CssBox.MAX_RIGHT ? GlobalActualRight : 0);
+                              this.SizeWidth < CssBox.MAX_RIGHT ? this.SizeWidth : 0);
+
             //update back
             HtmlContainer.UpdateSizeIfWiderOrHeigher(newWidth, GlobalActualBottom - HtmlContainer.Root.GlobalY);
+            //HtmlContainer.UpdateSizeIfWiderOrHeigher(args.ContainerBlockGlobalX + newWidth, args.ContainerBlockGlobalY + this.SizeHeight);
         }
 
         /// <summary>
@@ -894,7 +910,7 @@ namespace HtmlRenderer.Dom
                     _listItemBox.FirstRun.SetSize(fRun.Width, fRun.Height);
                 }
 
-                _listItemBox.FirstRun.SetLocation(this.GlobalX - _listItemBox.SizeWidth - 5, this.GlobalY + ActualPaddingTop);
+                _listItemBox.FirstRun.SetLocation(_listItemBox.SizeWidth - 5, ActualPaddingTop);
 
             }
         }
@@ -1005,50 +1021,30 @@ namespace HtmlRenderer.Dom
             return sum;
         }
 
-
-        /// <summary>
-        /// Gets the maximum bottom of the boxes inside* the startBox
-        /// </summary>
-        /// <param name="startBox"></param>
-        /// <param name="currentMaxBottom"></param>
-        /// <returns></returns>
-        internal static float CalculateMaximumBottom(CssBox startBox, float currentMaxBottom, float parentOffset)
+        internal static float CalculateInnerContentHeight(CssBox startBox)
         {
-
-            if (startBox.HasRuns)
+            //calculate inner content height
+            if (startBox.LineBoxCount > 0)
             {
-                CssLineBox lastline = null;
-                foreach (var run in startBox.GetRunBackwardIter())//start from last to first
-                {
-                    if (lastline == null)
-                    {
-                        lastline = run.HostLine;
-                        currentMaxBottom = Math.Max(currentMaxBottom, run.Bottom + parentOffset);
-                    }
-                    else if (lastline != run.HostLine)
-                    {
-                        //if step to upper line then stop
-                        break;
-                    }
-                    else
-                    {
-                        currentMaxBottom = Math.Max(currentMaxBottom, run.Bottom + parentOffset);
-                    }
-                }
-                return currentMaxBottom;
+                var lastLine = startBox.GetLastLineBox();
+                return lastLine.CachedLineBottom;
             }
             else
             {
-                parentOffset += startBox.LocalY;
-                foreach (var b in startBox.Boxes)
+                float maxBottom = 0;
+                foreach (var childBox in startBox.GetChildBoxIter())
                 {
-                    currentMaxBottom = Math.Max(currentMaxBottom, CalculateMaximumBottom(b, currentMaxBottom, parentOffset));
+                    float top = childBox.LocalY;
+                    float contentH = CalculateInnerContentHeight(childBox);
+                    if ((top + contentH) > maxBottom)
+                    {
+                        maxBottom = top + contentH;
+                    }
                 }
-                return currentMaxBottom;
+                return maxBottom;
             }
-
-
         }
+        
 
 
         /// <summary>
@@ -1120,7 +1116,7 @@ namespace HtmlRenderer.Dom
         /// Gets the result of collapsing the vertical margins of the two boxes
         /// </summary>
         /// <returns>Resulting bottom margin</returns>
-        private float MarginBottomCollapse()
+        private float GetHeightAfterMarginBottomCollapse()
         {
 
             float margin = 0;
@@ -1129,7 +1125,12 @@ namespace HtmlRenderer.Dom
                 var lastChildBottomMargin = _boxes[_boxes.Count - 1].ActualMarginBottom;
                 margin = (Height.IsAuto) ? Math.Max(ActualMarginBottom, lastChildBottomMargin) : lastChildBottomMargin;
             }
-            return Math.Max(GlobalActualBottom, _boxes[_boxes.Count - 1].GlobalActualBottom + margin + ActualPaddingBottom + ActualBorderBottomWidth);
+            return _boxes[_boxes.Count - 1].LocalActualBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
+
+            //must have at least 1 child 
+            //float lastChildBottomWithMarginRelativeToMe = this.LocalY + _boxes[_boxes.Count - 1].LocalActualBottom + margin + this.ActualPaddingBottom + this.ActualBorderBottomWidth;
+            //return Math.Max(GlobalActualBottom, lastChildBottomWithMarginRelativeToMe);
+            //return Math.Max(GlobalActualBottom, _boxes[_boxes.Count - 1].GlobalActualBottom + margin + this.ActualPaddingBottom + this.ActualBorderBottomWidth);
         }
         internal void OffsetOnlyLocalTop(float dy)
         {

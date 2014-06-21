@@ -26,6 +26,7 @@ namespace HtmlRenderer.Dom
     internal static class CssLayoutEngine
     {
 
+        const float CSS_OFFSET_THRESHOLD = 0.01f;
 
         /// <summary>
         /// Measure image box size by the width\height set on the box and the actual rendered image size.<br/>
@@ -126,9 +127,9 @@ namespace HtmlRenderer.Dom
         {
 
 
-            blockBox.ResetLineBoxes(); 
+            blockBox.ResetLineBoxes();
             float limitLocalRight = blockBox.SizeWidth - (blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
-             
+
             float localY = blockBox.ActualPaddingTop + blockBox.ActualBorderTopWidth;
             float localX = blockBox.ActualTextIndent + blockBox.ActualPaddingLeft + blockBox.ActualBorderLeftWidth;
             float startLocalX = localX;
@@ -169,7 +170,7 @@ namespace HtmlRenderer.Dom
                 }
             }
 
-            blockBox.SetGlobalActualBottom(blockBox.GlobalY + maxLocalBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
+            blockBox.SetSize(blockBox.SizeWidth, maxLocalBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
 
             // handle limiting block height when overflow is hidden             
             if (blockBox.Overflow == CssOverflow.Hidden &&
@@ -516,12 +517,8 @@ namespace HtmlRenderer.Dom
         //}
 
 
-        /// <summary>
-        /// Applies centered alignment to the text on the linebox
-        /// </summary>
-        /// <param name="g"></param>
-        /// <param name="lineBox"></param>
-        private static void ApplyJustifyAlignment(IGraphics g, CssLineBox lineBox)
+
+        static void ApplyJustifyAlignment(IGraphics g, CssLineBox lineBox)
         {
 
 
@@ -529,29 +526,32 @@ namespace HtmlRenderer.Dom
 
             float indent = lineBox.IsFirstLine ? lineBox.OwnerBox.ActualTextIndent : 0f;
 
-            float textSum = 0f;
-            float words = 0f;
+            float runWidthSum = 0f;
+            int runCount = 0;
+
             float availableWidth = lineBox.OwnerBox.ClientWidth - indent;
 
             // Gather text sum
             foreach (CssRun w in lineBox.GetRunIter())
             {
-                textSum += w.Width;
-                words += 1f;
+                runWidthSum += w.Width;
+                runCount++;
             }
 
-            if (words <= 0f) return; //Avoid Zero division
-            float spacing = (availableWidth - textSum) / words; //Spacing that will be used
-            float curx = lineBox.OwnerBox.GlobalClientLeft + indent;
+            if (runCount == 0) return; //Avoid Zero division
 
+            float spaceOfEachRun = (availableWidth - runWidthSum) / runCount; //Spacing that will be used
+
+            float cX = lineBox.OwnerBox.LocalClientLeft + indent;
             CssRun lastRun = lineBox.GetLastRun();
             foreach (CssRun run in lineBox.GetRunIter())
             {
-                run.Left = curx;
-                curx = run.Right + spacing;
+                run.Left = cX;
+                cX = run.Right + spaceOfEachRun;
+
                 if (run == lastRun)
                 {
-                    run.Left = lineBox.OwnerBox.GlobalClientRight - run.Width;
+                    run.Left = lineBox.OwnerBox.LocalClientRight - run.Width;
                 }
             }
         }
@@ -563,14 +563,11 @@ namespace HtmlRenderer.Dom
         /// <param name="line"></param>
         private static void ApplyCenterAlignment(IGraphics g, CssLineBox line)
         {
+
             if (line.WordCount == 0) return;
-
             CssRun lastRun = line.GetLastRun();
-            float right = line.OwnerBox.GlobalActualRight - line.OwnerBox.ActualPaddingRight - line.OwnerBox.ActualBorderRightWidth;
-            float diff = right - lastRun.Right - lastRun.OwnerBox.ActualBorderRightWidth - lastRun.OwnerBox.ActualPaddingRight;
-            diff /= 2;
-
-            if (diff > 0)
+            float diff = (line.OwnerBox.ClientWidth - lastRun.Right) / 2;
+            if (diff > CSS_OFFSET_THRESHOLD)
             {
                 foreach (CssRun word in line.GetRunIter())
                 {
@@ -591,12 +588,9 @@ namespace HtmlRenderer.Dom
             {
                 return;
             }
-
-            CssRun lastWord = line.GetLastRun();
-            float right = line.OwnerBox.GlobalActualRight - line.OwnerBox.ActualPaddingRight - line.OwnerBox.ActualBorderRightWidth;
-            float diff = right - lastWord.Right - lastWord.OwnerBox.ActualBorderRightWidth - lastWord.OwnerBox.ActualPaddingRight;
-
-            if (diff > 0)
+            CssRun lastRun = line.GetLastRun();
+            float diff = line.OwnerBox.ClientWidth - line.GetLastRun().Right;
+            if (diff > CSS_OFFSET_THRESHOLD)
             {
                 foreach (CssRun word in line.GetRunIter())
                 {
