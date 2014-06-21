@@ -17,7 +17,7 @@ namespace HtmlRenderer.Dom
     partial class CssBoxBase
     {
 
-        int _baseCompactFlags; 
+        
         static class CssBoxFlagsConst
         {
             public const int HAS_ASSIGNED_LOCATION = 1 << (2 - 1);
@@ -26,18 +26,8 @@ namespace HtmlRenderer.Dom
             public const int HAS_EVAL_WHITESPACE = 1 << (5 - 1);
             public const int TEXT_IS_ALL_WHITESPACE = 1 << (6 - 1);
             public const int TEXT_IS_EMPTY = 1 << (7 - 1);
-        }
-
+        } 
        
-
-
-        internal bool HasAssignedLocation
-        {
-            get
-            {
-                return (this._baseCompactFlags & CssBoxFlagsConst.HAS_ASSIGNED_LOCATION) != 0;
-            }
-        }
         CssBorderProp CheckBorderVersion()
         {
             return this._borderProps = this._borderProps.GetMyOwnVersion(this);

@@ -405,8 +405,7 @@ namespace HtmlRenderer.Dom
         }
 
       
-
-
+        
 
         //------------------------------------------------------------------
         /// <summary>
@@ -595,7 +594,7 @@ namespace HtmlRenderer.Dom
                                 {
                                     availableWidth = CssValueParser.ParseLength(Width, availableWidth, this);
                                 }
-
+                                 
                                 this.SetWidth(availableWidth);
                                 // must be separate because the margin can be calculated by percentage of the width
                                 this.SetWidth(availableWidth - ActualMarginLeft - ActualMarginRight);
@@ -676,7 +675,7 @@ namespace HtmlRenderer.Dom
                                         }
                                         else
                                         {
-                                            this.SetWidth(width);
+                                            this.SetWidth(width); 
                                         }
 
 
@@ -710,11 +709,9 @@ namespace HtmlRenderer.Dom
             this.UpdateIfHigher(this.ExpectedHeight);
             this.CreateListItemBox(args);
 
-            float candidateRootWidth = Math.Max(CalculateMinimumWidth() + CalculateWidthMarginRecursiveUp(this),
-                              this.SizeWidth < CssBoxConst.MAX_RIGHT ? this.SizeWidth : 0);
-
+       
             //update back 
-            args.UpdateRootSize(candidateRootWidth, this.SizeHeight);
+            args.UpdateRootSize(this);
 
         }
 
@@ -925,26 +922,7 @@ namespace HtmlRenderer.Dom
 
 
 
-        /// <summary>
-        /// Get the total margin value (left and right) from the given box to the given end box.<br/>
-        /// </summary>
-        /// <param name="box">the box to start calculation from.</param>
-        /// <returns>the total margin</returns>
-        static float CalculateWidthMarginRecursiveUp(CssBox box)
-        {
-            float sum = 0f;
-            if (box.SizeWidth > CssBoxConst.MAX_RIGHT ||
-                (box.ParentBox != null && box.ParentBox.SizeWidth > CssBoxConst.MAX_RIGHT))
-            {
-                while (box != null)
-                {
-                    //to upper
-                    sum += box.ActualMarginLeft + box.ActualMarginRight;
-                    box = box.ParentBox;
-                }
-            }
-            return sum;
-        }
+       
         /// <summary>
         /// Gets the minimum width that the box can be.
         /// *** The box can be as thin as the longest word plus padding

@@ -101,10 +101,7 @@ namespace HtmlRenderer.Dom
             {
                 return value.AsIntValue();
             }
-        }
-
-
-
+        } 
         //-----------------------
         public static CssDisplay GetDisplayType(WebDom.CssCodeValueExpression value)
         {
