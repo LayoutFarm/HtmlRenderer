@@ -20,19 +20,7 @@ namespace HtmlRenderer.Dom
             childNode._parentBox = parent;
 
         }
-        internal static void UnsafeGetHostLine(CssBox box, out CssLineBox firstHostLine, out CssLineBox lastHostLine)
-        {
-            if (box._boxRuns == null)
-            {
-                firstHostLine = lastHostLine = null;
-            }
-            else
-            {
-                int j = box._boxRuns.Count;
-                firstHostLine = box._boxRuns[0].HostLine;
-                lastHostLine = box._boxRuns[j - 1].HostLine;
-            }
-        }
+        
         internal static List<CssRun> UnsafeGetRunListOrCreateIfNotExists(CssBox box)
         {
             if (box._boxRuns == null)

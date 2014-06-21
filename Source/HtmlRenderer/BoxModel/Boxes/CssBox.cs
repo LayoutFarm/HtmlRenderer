@@ -346,6 +346,48 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
+        internal static void GetSplitInfo(CssBox box, CssLineBox lineBox, out bool isFirstLine, out bool isLastLine)
+        {
+
+            CssLineBox firstHostLine, lastHostLine;
+            if (box._boxRuns == null)
+            {
+                firstHostLine = lastHostLine = null;
+            }
+            else
+            {
+                int j = box._boxRuns.Count;               
+
+                firstHostLine = box._boxRuns[0].HostLine;
+                lastHostLine = box._boxRuns[j - 1].HostLine;
+            }
+            if (firstHostLine == lastHostLine)
+            {
+                //is on the same line 
+                if (lineBox == firstHostLine)
+                {
+                    isFirstLine = isLastLine = true;
+                }
+                else
+                {
+                    isFirstLine = isLastLine = false;
+                }
+            }
+            else
+            {
+                if (firstHostLine == lineBox)
+                {
+                    isFirstLine = true;
+                    isLastLine = false;
+                }
+                else
+                {
+                    isFirstLine = false;
+                    isLastLine = true;
+                }
+            }
+        }
+
         internal IEnumerable<CssLineBox> GetLineBoxIter()
         {
             if (this._clientLineBoxes != null)
@@ -404,8 +446,8 @@ namespace HtmlRenderer.Dom
             get { return Runs[0]; }
         }
 
-      
-        
+
+
 
         //------------------------------------------------------------------
         /// <summary>
@@ -594,7 +636,7 @@ namespace HtmlRenderer.Dom
                                 {
                                     availableWidth = CssValueParser.ParseLength(Width, availableWidth, this);
                                 }
-                                 
+
                                 this.SetWidth(availableWidth);
                                 // must be separate because the margin can be calculated by percentage of the width
                                 this.SetWidth(availableWidth - ActualMarginLeft - ActualMarginRight);
@@ -675,7 +717,7 @@ namespace HtmlRenderer.Dom
                                         }
                                         else
                                         {
-                                            this.SetWidth(width); 
+                                            this.SetWidth(width);
                                         }
 
 
@@ -709,7 +751,7 @@ namespace HtmlRenderer.Dom
             this.UpdateIfHigher(this.ExpectedHeight);
             this.CreateListItemBox(args);
 
-       
+
             //update back 
             args.UpdateRootSize(this);
 
@@ -922,7 +964,7 @@ namespace HtmlRenderer.Dom
 
 
 
-       
+
         /// <summary>
         /// Gets the minimum width that the box can be.
         /// *** The box can be as thin as the longest word plus padding

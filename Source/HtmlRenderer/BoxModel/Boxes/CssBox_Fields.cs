@@ -241,6 +241,8 @@ namespace HtmlRenderer.Dom
         }
         int _boxCompactFlags;
 
+
+        
     }
 
 }

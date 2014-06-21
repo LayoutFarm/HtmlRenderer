@@ -517,14 +517,14 @@ namespace HtmlRenderer.Dom
                     throw new NotSupportedException();
                     continue;
                 }
-                
+
                 var stripArea = strip.Bound;
 
                 bool isFirstLine, isLastLine;
-                ownerBox.GetSplitInfo(this, out isFirstLine, out isLastLine);
+                CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
 
-                ownerBox.PaintBackground(g, stripArea, false, false);
-                HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(g, ownerBox, stripArea, false, false);
+                ownerBox.PaintBackground(g, stripArea, isFirstLine, isLastLine);
+                HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(g, ownerBox, stripArea, isFirstLine, isLastLine);
             }
         }
 
@@ -538,13 +538,13 @@ namespace HtmlRenderer.Dom
                 if (ownerBox.CssDisplay != CssDisplay.Inline)
                 {
                     continue;
-                } 
+                }
                 var rect = strip.Bound;
 
                 bool isFirstLine, isLastLine;
-                ownerBox.GetSplitInfo(this, out isFirstLine, out isLastLine);
+                CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
                 ownerBox.PaintDecoration(g, rect, isFirstLine, isLastLine);
-                 
+
             }
         }
 
