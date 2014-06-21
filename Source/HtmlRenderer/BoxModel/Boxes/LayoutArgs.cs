@@ -13,11 +13,13 @@ namespace HtmlRenderer.Dom
 
         float globalXOffset;
         float globalYOffset;
-
-        internal LayoutArgs(IGraphics gfx)
+        HtmlContainer htmlContainer;
+        internal LayoutArgs(IGraphics gfx, HtmlContainer htmlContainer)
         {
             this.Gfx = gfx;
+            this.htmlContainer = htmlContainer;
         }
+
         internal IGraphics Gfx
         {
             get;
@@ -83,6 +85,10 @@ namespace HtmlRenderer.Dom
         {
             get;
             set;
+        }
+        internal void UpdateRootSize(float localBoxWidth, float localBoxHeight)
+        {
+            this.htmlContainer.UpdateSizeIfWiderOrHeigher(this.ContainerBlockGlobalX + localBoxWidth, this.ContainerBlockGlobalY + localBoxHeight);
         }
     }
 }

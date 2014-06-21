@@ -683,12 +683,12 @@ namespace HtmlRenderer.Dom
             float maxBottom_local = 0f;
 
             int currentRow = 0;
-            int col_count = this.columnCollection.Count; 
-          
+            int col_count = this.columnCollection.Count;
+
             for (int i = 0; i < _allRowBoxes.Count; i++)
             {
 
-                
+
                 var row = _allRowBoxes[i];
 
                 float curX_local = startx_local;//reset
@@ -708,9 +708,9 @@ namespace HtmlRenderer.Dom
                         float width = this.columnCollection.GetCellWidth(grid_index, colspan, horizontal_spacing);
 
                         cell.SetLocation(curX_local, curY_local);
-                        cell.SetSize(width, 0);  
+                        cell.SetSize(width, 0);
                         cell.PerformLayout(args); //That will automatically set the bottom of the cell
-                        
+
                         //Alter max bottom only if row is cell's row + cell's rowspan - 1
                         CssVerticalCellSpacingBox sb = cell as CssVerticalCellSpacingBox;
                         if (sb != null)
@@ -743,7 +743,7 @@ namespace HtmlRenderer.Dom
                         if (cell.RowSpan == 1)
                         {
 
-                            cell.SetSize(cell.SizeWidth, maxBottom_local - curY_local);
+                            cell.SetHeight(maxBottom_local - curY_local);
                             ApplyCellVerticalAlignment(cell, starty_local);
                         }
                     }
@@ -752,7 +752,7 @@ namespace HtmlRenderer.Dom
                         if (spacer.EndRow == currentRow)
                         {
 
-                            spacer.ExtendedBox.SetSize(spacer.ExtendedBox.SizeWidth, maxBottom_local - curY_local);
+                            spacer.ExtendedBox.SetHeight(maxBottom_local - curY_local);
                             ApplyCellVerticalAlignment(spacer.ExtendedBox, starty_local);
                         }
                     }
@@ -764,12 +764,11 @@ namespace HtmlRenderer.Dom
             }
 
             maxRight_local = Math.Max(maxRight_local, _tableBox.ExpectedWidth);
-            _tableBox.SetSize(maxRight_local + horizontal_spacing + _tableBox.ActualBorderRightWidth, _tableBox.SizeHeight);
+            _tableBox.SetWidth(maxRight_local + horizontal_spacing + _tableBox.ActualBorderRightWidth);
 
 
             float globalBottom = Math.Max((maxBottom_local + table_globalY), starty_global) + vertical_spacing + _tableBox.ActualBorderBottomWidth;
-            _tableBox.SetSize(_tableBox.SizeWidth, globalBottom - table_globalY);
-            
+            _tableBox.SetHeight(globalBottom - table_globalY);
         }
 
         /// <summary>
@@ -833,10 +832,10 @@ namespace HtmlRenderer.Dom
             switch (cell.VerticalAlign)
             {
                 case CssVerticalAlign.Bottom:
-                    dist = cell.ClientHeight - CssBox.CalculateInnerContentHeight(cell);
+                    dist = cell.ClientHeight - cell.CalculateInnerContentHeight();
                     break;
                 case CssVerticalAlign.Middle:
-                    dist = (cell.ClientHeight - CssBox.CalculateInnerContentHeight(cell)) / 2;
+                    dist = (cell.ClientHeight - cell.CalculateInnerContentHeight()) / 2;
                     break;
                 default:
                     return;

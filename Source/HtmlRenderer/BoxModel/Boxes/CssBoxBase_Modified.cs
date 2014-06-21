@@ -17,11 +17,7 @@ namespace HtmlRenderer.Dom
     partial class CssBoxBase
     {
 
-        int _baseCompactFlags;
-
-        
-        
-
+        int _baseCompactFlags; 
         static class CssBoxFlagsConst
         {
             public const int HAS_ASSIGNED_LOCATION = 1 << (2 - 1);

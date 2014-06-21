@@ -619,9 +619,10 @@ namespace HtmlRenderer.Dom
                                 {
                                     availableWidth = CssValueParser.ParseLength(Width, availableWidth, this);
                                 }
-                                this.SetSize(availableWidth, this.SizeHeight);
+                                 
+                                this.SetWidth(availableWidth);
                                 // must be separate because the margin can be calculated by percentage of the width
-                                this.SetSize(availableWidth - ActualMarginLeft - ActualMarginRight, this.SizeHeight);
+                                this.SetWidth(availableWidth - ActualMarginLeft - ActualMarginRight);
                             }
                             //-------------------------
 
@@ -644,7 +645,7 @@ namespace HtmlRenderer.Dom
 
                             localTop += MarginTopCollapse(prevSibling);
 
-                            this.SetLocation(localLeft, localTop); 
+                            this.SetLocation(localLeft, localTop);
                             this.SetHeightToZero();
                         }
                         //--------------------------------------------------------------------------
@@ -668,10 +669,10 @@ namespace HtmlRenderer.Dom
                                     //If there's just inline boxes, create LineBoxes
                                     if (DomUtils.ContainsInlinesOnly(this))
                                     {
-                                        //args.PushContaingBlock(this); 
+
                                         this.SetHeightToZero();
                                         CssLayoutEngine.FlowContentRuns(this, args); //This will automatically set the bottom of this block
-                                        // args.PopContainingBlock();
+
 
                                     }
                                     else if (_boxes.Count > 0)
@@ -699,12 +700,12 @@ namespace HtmlRenderer.Dom
                                         }
                                         else
                                         {
-                                            this.SetSize(width, this.SizeHeight);
+                                            this.SetWidth(width); 
                                         }
 
-                                        //SetGlobalActualRight(CalculateActualRight());
-                                        this.SetSize(this.SizeWidth, GetHeightAfterMarginBottomCollapse());
 
+
+                                        this.SetHeight(GetHeightAfterMarginBottomCollapse());
 
 
                                     }
@@ -733,12 +734,12 @@ namespace HtmlRenderer.Dom
             this.UpdateIfHigher(this.ExpectedHeight);
             this.CreateListItemBox(args);
 
-            float newWidth = Math.Max(CalculateMinimumWidth() + CalculateWidthMarginRecursiveUp(this),
+            float candidateRootWidth = Math.Max(CalculateMinimumWidth() + CalculateWidthMarginRecursiveUp(this),
                               this.SizeWidth < CssBox.MAX_RIGHT ? this.SizeWidth : 0);
 
-            //update back
+            //update back 
+            args.UpdateRootSize(candidateRootWidth, this.SizeHeight);
 
-            HtmlContainer.UpdateSizeIfWiderOrHeigher(args.ContainerBlockGlobalX + newWidth, args.ContainerBlockGlobalY + this.SizeHeight);
         }
 
         /// <summary>
@@ -945,6 +946,28 @@ namespace HtmlRenderer.Dom
         {
             return HtmlTag != null ? HtmlTag.TryGetAttribute(attribute, defaultValue) : defaultValue;
         }
+
+
+
+        /// <summary>
+        /// Get the total margin value (left and right) from the given box to the given end box.<br/>
+        /// </summary>
+        /// <param name="box">the box to start calculation from.</param>
+        /// <returns>the total margin</returns>
+        static float CalculateWidthMarginRecursiveUp(CssBox box)
+        {
+            float sum = 0f;
+            if (box.SizeWidth > CssBox.MAX_RIGHT || (box.ParentBox != null && box.ParentBox.SizeWidth > CssBox.MAX_RIGHT))
+            {
+                while (box != null)
+                {
+                    //to upper
+                    sum += box.ActualMarginLeft + box.ActualMarginRight;
+                    box = box.ParentBox;
+                }
+            }
+            return sum;
+        }
         /// <summary>
         /// Gets the minimum width that the box can be.
         /// *** The box can be as thin as the longest word plus padding
@@ -952,11 +975,12 @@ namespace HtmlRenderer.Dom
         /// <returns></returns>
         internal float CalculateMinimumWidth()
         {
-            //use line box technique *** 
+
             float maxWidth = 0;
             CssRun maxWidthRun = null;
             if (this.LineBoxCount > 0)
             {
+                //use line box technique *** 
                 CalculateMinimumWidthAndWidestRun(this, out maxWidth, out maxWidthRun);
             }
             //-------------------------------- 
@@ -1007,61 +1031,12 @@ namespace HtmlRenderer.Dom
 
 
         /// <summary>
-        /// Get the total margin value (left and right) from the given box to the given end box.<br/>
-        /// </summary>
-        /// <param name="box">the box to start calculation from.</param>
-        /// <returns>the total margin</returns>
-        static float CalculateWidthMarginRecursiveUp(CssBox box)
-        {
-            float sum = 0f;
-            if (box.SizeWidth > CssBox.MAX_RIGHT || (box.ParentBox != null && box.ParentBox.SizeWidth > CssBox.MAX_RIGHT))
-            {
-                while (box != null)
-                {
-                    //to upper
-                    sum += box.ActualMarginLeft + box.ActualMarginRight;
-                    box = box.ParentBox;
-                }
-            }
-            return sum;
-        }
-
-        internal static float CalculateInnerContentHeight(CssBox startBox)
-        {
-            //calculate inner content height
-            if (startBox.LineBoxCount > 0)
-            {
-                var lastLine = startBox.GetLastLineBox();
-                return lastLine.CachedLineBottom;
-            }
-            else
-            {
-                float maxBottom = 0;
-                foreach (var childBox in startBox.GetChildBoxIter())
-                {
-                    float top = childBox.LocalY;
-                    float contentH = CalculateInnerContentHeight(childBox);
-                    if ((top + contentH) > maxBottom)
-                    {
-                        maxBottom = top + contentH;
-                    }
-                }
-                return maxBottom;
-            }
-        }
-
-
-
-        /// <summary>
         /// Inherits inheritable values from parent.
         /// </summary>
         internal new void InheritStyles(CssBoxBase box, bool clone = false)
         {
             base.InheritStyles(box, clone);
         }
-
-
-
 
         float CalculateActualWidth()
         {
@@ -1094,6 +1069,7 @@ namespace HtmlRenderer.Dom
             {
                 value = Math.Max(upperSibling.ActualMarginBottom, this.ActualMarginTop);
                 this.CollapsedMarginTop = value;
+
             }
             else if (_parentBox != null &&
                 ActualPaddingTop < 0.1 &&
@@ -1296,7 +1272,7 @@ namespace HtmlRenderer.Dom
 
         internal bool CanBeRefererenceSibling
         {
-            get { return this.CssDisplay != Dom.CssDisplay.None && !this.IsAbsolutePosition; }
+            get { return this.CssDisplay != Dom.CssDisplay.None && this.Position != CssPosition.Absolute; }
         }
 
 
@@ -1335,15 +1311,8 @@ namespace HtmlRenderer.Dom
 
 
 
-        //---------------------------------------
-        internal void UseExpectedHeight()
-        {
-            this.SetHeight(this.ExpectedHeight);
-        }
-        internal void SetHeightToZero()
-        {
-            this.SetHeight(0);
-        }
+
+
         internal float AvailableContentWidth
         {
             get
