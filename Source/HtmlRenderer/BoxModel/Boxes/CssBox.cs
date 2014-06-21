@@ -404,33 +404,9 @@ namespace HtmlRenderer.Dom
             get { return Runs[0]; }
         }
 
-        /// <summary>
-        /// Gets or sets the first linebox where content of this box appear
-        /// </summary>
-        internal CssLineBox FirstHostingLineBox
-        {
-            get { return _firstHostingLineBox; }
-            set { _firstHostingLineBox = value; }
-        }
+      
 
-        /// <summary>
-        /// Gets or sets the last linebox where content of this box appear
-        /// </summary>
-        internal CssLineBox LastHostingLineBox
-        {
-            get { return _lastHostingLineBox; }
-            set { _lastHostingLineBox = value; }
-        }
-        /// <summary>
-        /// all parts are in the same line box 
-        /// </summary>
-        internal bool AllPartsAreInTheSameLineBox
-        {
-            get
-            {
-                return this._firstHostingLineBox == this._lastHostingLineBox;
-            }
-        }
+
 
         //------------------------------------------------------------------
         /// <summary>
@@ -619,7 +595,7 @@ namespace HtmlRenderer.Dom
                                 {
                                     availableWidth = CssValueParser.ParseLength(Width, availableWidth, this);
                                 }
-                                 
+
                                 this.SetWidth(availableWidth);
                                 // must be separate because the margin can be calculated by percentage of the width
                                 this.SetWidth(availableWidth - ActualMarginLeft - ActualMarginRight);
@@ -695,12 +671,12 @@ namespace HtmlRenderer.Dom
                                         args.PopContainingBlock();
 
                                         float width = this.CalculateActualWidth();
-                                        if (args.ContainerBlockGlobalX + width > CssBox.MAX_RIGHT)
+                                        if (args.ContainerBlockGlobalX + width > CssBoxConst.MAX_RIGHT)
                                         {
                                         }
                                         else
                                         {
-                                            this.SetWidth(width); 
+                                            this.SetWidth(width);
                                         }
 
 
@@ -735,7 +711,7 @@ namespace HtmlRenderer.Dom
             this.CreateListItemBox(args);
 
             float candidateRootWidth = Math.Max(CalculateMinimumWidth() + CalculateWidthMarginRecursiveUp(this),
-                              this.SizeWidth < CssBox.MAX_RIGHT ? this.SizeWidth : 0);
+                              this.SizeWidth < CssBoxConst.MAX_RIGHT ? this.SizeWidth : 0);
 
             //update back 
             args.UpdateRootSize(candidateRootWidth, this.SizeHeight);
@@ -957,7 +933,8 @@ namespace HtmlRenderer.Dom
         static float CalculateWidthMarginRecursiveUp(CssBox box)
         {
             float sum = 0f;
-            if (box.SizeWidth > CssBox.MAX_RIGHT || (box.ParentBox != null && box.ParentBox.SizeWidth > CssBox.MAX_RIGHT))
+            if (box.SizeWidth > CssBoxConst.MAX_RIGHT ||
+                (box.ParentBox != null && box.ParentBox.SizeWidth > CssBoxConst.MAX_RIGHT))
             {
                 while (box != null)
                 {

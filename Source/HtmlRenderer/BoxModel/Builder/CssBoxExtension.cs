@@ -32,7 +32,39 @@ namespace HtmlRenderer.Dom
         {
             return box.Position == CssPosition.Absolute;
         }
+        internal static void GetSplitInfo(this CssBox box, CssLineBox lineBox, out bool isFirstLine, out bool isLastLine)
+        {
+          
+            CssLineBox firstHostLine, lastHostLine;
+            CssBox.UnsafeGetHostLine(box, out firstHostLine, out lastHostLine);
 
+            if (firstHostLine == lastHostLine)
+            {
+                //is on the same line 
+                if (lineBox == firstHostLine)
+                {
+                    isFirstLine = isLastLine = true;
+                }
+                else
+                {
+                    isFirstLine = isLastLine = false;
+                }
+            }
+            else
+            {
+                if (firstHostLine == lineBox)
+                {
+                    isFirstLine = true;
+                    isLastLine = false;
+                }
+                else
+                {
+                    isFirstLine = false;
+                    isLastLine = true;
+                }
+            }
+        }
+         
         internal static float CalculateInnerContentHeight(this CssBox startBox)
         {
             //calculate inner content height
@@ -56,6 +88,6 @@ namespace HtmlRenderer.Dom
                 return maxBottom;
             }
         }
-        
+
     }
 }

@@ -53,13 +53,6 @@ namespace HtmlRenderer.Dom
         protected bool _wordsSizeMeasured;
 
         private CssBox _listItemBox;
-        //----------------------------------------------------
-        //if this is inline box , this CssBox
-        //may be 'flowed' into more than one CssLineBox
-        CssLineBox _firstHostingLineBox;
-        CssLineBox _lastHostingLineBox;
-        //one CssBox may use more than one cssline     
-        //---------------------------------------------------- 
 
         //----------------------------------------------------
         int _rowSpan;
@@ -85,8 +78,7 @@ namespace HtmlRenderer.Dom
         List<CssRun> _boxRuns;
 
         //----------------------------------------------------  
-        internal const int MAX_RIGHT = 90999;
-        internal const float MAX_TABLE_WIDTH = 9999f;
+
 
         /// <summary>
         /// Gets the childrenn boxes of this box
@@ -131,6 +123,7 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
+
         public IEnumerable<CssRun> GetRunBackwardIter()
         {
             if (this._boxRuns != null)
@@ -247,6 +240,7 @@ namespace HtmlRenderer.Dom
             public const int TEXT_IS_EMPTY = 1 << (7 - 1);
         }
         int _boxCompactFlags;
+
     }
 
 }

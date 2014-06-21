@@ -147,7 +147,7 @@ namespace HtmlRenderer.Dom
             //****
 
             // if width is not restricted we need to lower it to the actual width
-            if (blockBox.SizeWidth + args.ContainerBlockGlobalX >= CssBox.MAX_RIGHT)
+            if (blockBox.SizeWidth + args.ContainerBlockGlobalX >= CssBoxConst.MAX_RIGHT)
             {
                 float newWidth = maxLocalRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth;// CssBox.MAX_RIGHT - (args.ContainerBlockGlobalX + blockBox.LocalX);
                 if (newWidth <= CSS_OFFSET_THRESHOLD)
@@ -218,8 +218,7 @@ namespace HtmlRenderer.Dom
 
             var localMaxRight = maxRightForHostBox;
             var localMaxBottom = maxBottomForHostBox;
-
-            splitableBox.FirstHostingLineBox = hostLine;
+             
 
             float splitBoxActualLineHeight = splitableBox.ActualLineHeight;
             bool splitableParentIsBlock = splitableBox.ParentBox.IsBlock;
@@ -372,8 +371,7 @@ namespace HtmlRenderer.Dom
 
                 AdjustAbsolutePosition(splitableBox, 0, 0);
             }
-            //****
-            splitableBox.LastHostingLineBox = hostLine;
+          
         }
         /// <summary>
         /// Adjust the position of absolute elements by letf and top margins.

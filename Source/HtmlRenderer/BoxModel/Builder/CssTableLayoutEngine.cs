@@ -509,7 +509,7 @@ namespace HtmlRenderer.Dom
             // if table max width is limited by we need to lower the columns width even if it will result in clipping
             var maxWidth = GetMaxTableWidth();
 
-            if (maxWidth < CssBox.MAX_RIGHT)
+            if (maxWidth < CssBoxConst.MAX_RIGHT)
             {
                 widthSum = CalculateWidthSum();
                 if (maxWidth < widthSum)
@@ -925,7 +925,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                return CssBox.MAX_TABLE_WIDTH;
+                return CssBoxConst.MAX_TABLE_WIDTH;
             }
         }
 
@@ -1024,7 +1024,7 @@ namespace HtmlRenderer.Dom
             CalculateMinMaxSumWords(box, ref min, ref maxSum, ref paddingSum, ref marginSum);
 
             maxWidth = paddingSum + maxSum;
-            minWidth = paddingSum + (min < CssBox.MAX_RIGHT ? min : 0);
+            minWidth = paddingSum + (min < CssBoxConst.MAX_RIGHT ? min : 0);
         }
 
         /// <summary>
