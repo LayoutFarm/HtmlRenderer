@@ -462,7 +462,7 @@ namespace HtmlRenderer.Dom
 
         internal void dbugPaintRuns(IGraphics g, PaintingArgs args)
         {
-            return;
+
             //linebox  
             float x1 = 0;
             float y1 = 0;
@@ -520,41 +520,11 @@ namespace HtmlRenderer.Dom
 
                 var stripArea = strip.Bound;
 
-                if (ownerBox.AllPartsAreInTheSameLineBox)
-                {
-                    //if first line = last line 
-                    //then this box is on single line
-                    if (ownerBox.FirstHostingLineBox != null)
-                    {
+                bool isFirstLine, isLastLine;
+                CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
 
-                        ownerBox.PaintBackground(g, stripArea, false, false);
-                        //g.DrawRectangle(Pens, rect.X, rect.Y, rect.Width, rect.Height);//debug
-                        HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(g, ownerBox, stripArea, false, false);
-                    }
-                    else
-                    {
-
-                        ownerBox.PaintBackground(g, stripArea, true, true);
-                        //g.DrawRectangle(Pens.DeepPink, rect.X, rect.Y, rect.Width, rect.Height); //debug
-                        HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(g, ownerBox, stripArea, true, true);
-                    }
-                }
-                else
-                {
-                    //this box is splited into multiple strip
-                    if (ownerBox.FirstHostingLineBox == this)
-                    {
-                        ownerBox.PaintBackground(g, stripArea, true, false);
-                        //g.DrawRectangle(Pens.Red, rect.X, rect.Y, rect.Width, rect.Height); //debug
-                        HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(g, ownerBox, stripArea, true, false);
-                    }
-                    else
-                    {
-                        ownerBox.PaintBackground(g, stripArea, false, true);
-                        //g.DrawRectangle(Pens.Green, rect.X, rect.Y, rect.Width, rect.Height); //debug
-                        HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(g, ownerBox, stripArea, false, true);
-                    }
-                }
+                ownerBox.PaintBackground(g, stripArea, isFirstLine, isLastLine);
+                HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(g, ownerBox, stripArea, isFirstLine, isLastLine);
             }
         }
 
@@ -569,34 +539,12 @@ namespace HtmlRenderer.Dom
                 {
                     continue;
                 }
-
                 var rect = strip.Bound;
 
-                if (ownerBox.FirstHostingLineBox == ownerBox.LastHostingLineBox)
-                {
-                    //if first line = last line 
-                    //then this box is on single line
-                    if (ownerBox.FirstHostingLineBox != null)
-                    {
-                        ownerBox.PaintDecoration(g, rect, false, false);
-                    }
-                    else
-                    {
-                        ownerBox.PaintDecoration(g, rect, true, true);
-                    }
-                }
-                else
-                {
-                    //this box is splited into multiple strips
-                    if (ownerBox.FirstHostingLineBox == this)
-                    {
-                        ownerBox.PaintDecoration(g, rect, true, false);
-                    }
-                    else
-                    {
-                        ownerBox.PaintDecoration(g, rect, false, true);
-                    }
-                }
+                bool isFirstLine, isLastLine;
+                CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
+                ownerBox.PaintDecoration(g, rect, isFirstLine, isLastLine);
+
             }
         }
 

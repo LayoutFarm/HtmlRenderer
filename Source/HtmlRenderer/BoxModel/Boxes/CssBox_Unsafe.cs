@@ -13,13 +13,14 @@ namespace HtmlRenderer.Dom
         /// the parent css box of this css box in the hierarchy
         /// </summary>
         CssBox _parentBox;
-        
+
 
         internal static void UnsafeSetNodes(CssBox childNode, CssBox parent, CssBox prevSibling)
         {
             childNode._parentBox = parent;
-             
+
         }
+        
         internal static List<CssRun> UnsafeGetRunListOrCreateIfNotExists(CssBox box)
         {
             if (box._boxRuns == null)

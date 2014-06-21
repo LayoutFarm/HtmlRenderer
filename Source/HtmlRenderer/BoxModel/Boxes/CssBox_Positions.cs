@@ -9,10 +9,7 @@ namespace HtmlRenderer.Dom
     {
         float _localX;
         float _localY;
-        public bool IsAbsolutePosition
-        {
-            get { return this.Position == CssPosition.Absolute; }
-        }
+      
 
         public float LocalX
         {
@@ -53,10 +50,7 @@ namespace HtmlRenderer.Dom
         public float LocalActualBottom
         {
             get { return this.LocalY + this.SizeHeight; }
-        }
-
-
-
+        } 
         public float LocalClientLeft
         {
             get { return ActualBorderLeftWidth + ActualPaddingLeft; }

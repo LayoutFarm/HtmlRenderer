@@ -26,7 +26,7 @@ namespace HtmlRenderer.Dom
     internal static class CssLayoutEngine
     {
 
-        const float CSS_OFFSET_THRESHOLD = 0.01f;
+        const float CSS_OFFSET_THRESHOLD = 0.1f;
 
         /// <summary>
         /// Measure image box size by the width\height set on the box and the actual rendered image size.<br/>
@@ -147,15 +147,14 @@ namespace HtmlRenderer.Dom
             //****
 
             // if width is not restricted we need to lower it to the actual width
-            if (blockBox.SizeWidth + args.ContainerBlockGlobalX >= CssBox.MAX_RIGHT)
+            if (blockBox.SizeWidth + args.ContainerBlockGlobalX >= CssBoxConst.MAX_RIGHT)
             {
                 float newWidth = maxLocalRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth;// CssBox.MAX_RIGHT - (args.ContainerBlockGlobalX + blockBox.LocalX);
                 if (newWidth <= CSS_OFFSET_THRESHOLD)
                 {
                     newWidth = CSS_OFFSET_THRESHOLD;
-                }
-                blockBox.SetSize(newWidth, blockBox.SizeHeight);
-
+                }                 
+                blockBox.SetWidth(newWidth);
             }
             //---------------------
             if (blockBox.CssDirection == CssDirection.Rtl)
@@ -176,8 +175,8 @@ namespace HtmlRenderer.Dom
                 }
             }
 
-            blockBox.SetSize(blockBox.SizeWidth, maxLocalBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
 
+            blockBox.SetHeight(maxLocalBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
             // handle limiting block height when overflow is hidden             
             if (blockBox.Overflow == CssOverflow.Hidden &&
                  !blockBox.Height.IsEmpty && !blockBox.Height.IsAuto &&
@@ -219,8 +218,7 @@ namespace HtmlRenderer.Dom
 
             var localMaxRight = maxRightForHostBox;
             var localMaxBottom = maxBottomForHostBox;
-
-            splitableBox.FirstHostingLineBox = hostLine;
+             
 
             float splitBoxActualLineHeight = splitableBox.ActualLineHeight;
             bool splitableParentIsBlock = splitableBox.ParentBox.IsBlock;
@@ -229,7 +227,7 @@ namespace HtmlRenderer.Dom
             foreach (CssBox b in splitableBox.GetChildBoxIter())
             {
                 float leftMostSpace = 0, rightMostSpace = 0;
-                if (b.IsAbsolutePosition)
+                if (b.IsAbsolutePosition())
                 {
                     leftMostSpace = b.ActualMarginLeft + b.ActualBorderLeftWidth + b.ActualPaddingLeft;
                     rightMostSpace = b.ActualMarginRight + b.ActualBorderRightWidth + b.ActualPaddingRight;
@@ -330,7 +328,7 @@ namespace HtmlRenderer.Dom
                         maxRightForHostBox = Math.Max(maxRightForHostBox, current_line_x);
                         maxBottomForHostBox = Math.Max(maxBottomForHostBox, current_line_y + run.Bottom);
 
-                        if (b.IsAbsolutePosition)
+                        if (b.IsAbsolutePosition())
                         {
                             run.Left += splitableBox.ActualMarginLeft;
                             run.Top += splitableBox.ActualMarginTop;
@@ -353,10 +351,6 @@ namespace HtmlRenderer.Dom
             if (splitableBox.IsInline && 0 <= current_line_x - oX && current_line_x - oX < splitableBox.ExpectedWidth)
             {
                 throw new NotSupportedException();
-                //// hack for actual width handling
-                //cx += splitableBox.ActualWidth - (cx - startX);
-                ////add new one
-                //hostLine.AddStripInfo(splitableBox, startX, startY, splitableBox.ActualWidth, splitableBox.ActualHeight);
             }
 
             // handle box that is only a whitespace
@@ -371,14 +365,13 @@ namespace HtmlRenderer.Dom
             }
 
             // hack to support specific absolute position elements 
-            if (splitableBox.IsAbsolutePosition)
+            if (splitableBox.IsAbsolutePosition())
             {
                 current_line_x = oX;
 
                 AdjustAbsolutePosition(splitableBox, 0, 0);
             }
-            //****
-            splitableBox.LastHostingLineBox = hostLine;
+          
         }
         /// <summary>
         /// Adjust the position of absolute elements by letf and top margins.

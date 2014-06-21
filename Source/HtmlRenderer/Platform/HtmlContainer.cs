@@ -528,11 +528,10 @@ namespace HtmlRenderer
             // if width is not restricted we set it to large value to get the actual later             
 
             _root.SetLocation(_location.X, _location.Y);
-            _root.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
+            _root.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);             
 
 
-
-            LayoutArgs layoutArgs = new LayoutArgs(ig);
+            LayoutArgs layoutArgs = new LayoutArgs(ig, this);
             layoutArgs.PushContaingBlock(_root);
 
             _root.PerformLayout(layoutArgs);
@@ -541,7 +540,8 @@ namespace HtmlRenderer
             {
                 // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
 
-                _root.SetSize((int)Math.Ceiling(this._actualWidth), 0);
+                 
+                _root.SetWidth((int)Math.Ceiling(this._actualWidth));
                 _actualWidth = _actualHeight = 0;
                 _root.PerformLayout(layoutArgs);
             }

@@ -92,7 +92,7 @@ namespace HtmlRenderer.Dom
         float _sizeHeight;
         float _sizeWidth;
 
-      
+
 
 
         //corner
@@ -473,7 +473,7 @@ namespace HtmlRenderer.Dom
             get { return this._position; }
             set { this._position = value; }
         }
-      
+
 
         //----------------------------------------------------
         public CssLength LineHeight
@@ -612,7 +612,7 @@ namespace HtmlRenderer.Dom
                 return this._backgroundProps.BackgroundGradientAngle;
             }
         }
-       
+
         /// <summary>
         /// Gets the actual height
         /// </summary>
@@ -1199,6 +1199,14 @@ namespace HtmlRenderer.Dom
             this._sizeWidth = width;
             this._sizeHeight = height;
         }
+        public void SetHeight(float height)
+        {
+            this._sizeHeight = height;
+        }
+        public void SetWidth(float width)
+        {
+            this._sizeWidth = width;
+        }
         public float SizeWidth
         {
             get
@@ -1206,7 +1214,6 @@ namespace HtmlRenderer.Dom
                 return this._sizeWidth;
             }
         }
-
         public float SizeHeight
         {
             get
@@ -1214,16 +1221,7 @@ namespace HtmlRenderer.Dom
                 return this._sizeHeight;
             }
         }
-        protected void SetHeight(float height)
-        {
-            this._sizeHeight = height;
-        }
-        internal void UpdateIfHigher(float newHeight)
-        {
-            if (newHeight > this._sizeHeight)
-            {
-                this._sizeHeight = newHeight;
-            }
-        }
+
+
     }
 }
