@@ -122,7 +122,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="root">the root of the handled html tree</param>
         public SelectionHandler(CssBox root, HtmlContainer container)
         {
-            ArgChecker.AssertArgNotNull(root, "root");
+             
             this.container = container;
             _root = root;
             _contextMenuHandler = new ContextMenuHandler(this, container);

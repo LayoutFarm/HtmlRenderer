@@ -166,7 +166,10 @@ namespace HtmlRenderer.Dom
         {
             this.Boxes.Insert(index, box);
         }
-        //--------
+
+
+
+        //-------------------------------------
         internal void ResetLineBoxes()
         {
             if (this._clientLineBoxes != null)
@@ -225,7 +228,14 @@ namespace HtmlRenderer.Dom
                 this._colSpan = value;
             }
         }
-
+        /// <summary>
+        /// The margin top value if was effected by margin collapse.
+        /// </summary>
+        float CollapsedMarginTop
+        {
+            get;
+            set;
+        }
         //=============================================================
         static class CssBoxFlagsConst
         {

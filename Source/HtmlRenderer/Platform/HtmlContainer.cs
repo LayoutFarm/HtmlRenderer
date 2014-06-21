@@ -387,7 +387,7 @@ namespace HtmlRenderer
                 this._actualHeight = newHeight;
             }
         }
-        
+
         public abstract string SelectedText
         {
             get;

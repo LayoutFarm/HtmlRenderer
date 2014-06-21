@@ -119,8 +119,7 @@ namespace HtmlRenderer.Entities
         /// <param name="imageRectangle">optional: limit to specific rectangle of the image and not all of it</param>
         public void Callback(string path, Rectangle imageRectangle = new Rectangle())
         {
-            ArgChecker.AssertArgNotNullOrEmpty(path, "path");
-
+            
             _handled = true;
             _callback(path, null, imageRectangle);
         }
@@ -135,7 +134,7 @@ namespace HtmlRenderer.Entities
         /// <param name="imageRectangle">optional: limit to specific rectangle of the image and not all of it</param>
         public void Callback(Image image, Rectangle imageRectangle = new Rectangle())
         {
-            ArgChecker.AssertArgNotNull(image, "image");
+             
 
             _handled = true;
             _callback(null, image, imageRectangle);

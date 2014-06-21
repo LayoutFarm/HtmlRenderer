@@ -317,9 +317,10 @@ namespace HtmlRenderer.Utils
         }
 
         public static bool HitTest(CssBox box, Point loc, BoxHitChain hitChain)
-        {//recursive
+        {
+            //recursive
 
-            if (box.Bounds.Contains(loc))
+            if (box.IsPointInArea(loc))
             {
                 //1.
                 int x = loc.X;
@@ -487,7 +488,7 @@ namespace HtmlRenderer.Utils
                 {
                     if (box.WellknownTagName == WellknownHtmlTagName.NotAssign ||
                         box.WellknownTagName != WellknownHtmlTagName.TD ||
-                        box.Bounds.Contains(location))
+                        box.IsPointInArea(location))
                     {
                         foreach (var lineBox in box.GetLineBoxIter())
                         {
@@ -533,7 +534,7 @@ namespace HtmlRenderer.Utils
             {
                 int x = location.X;
                 int y = location.Y;
-                if (x >= box.LocationX && x <= box.ActualRight)
+                if (x >= box.LocalX && x <= box.LocalActualRight)
                 {
                     foreach (CssLineBox lineBox in box.GetLineBoxIter())
                     {
@@ -551,15 +552,18 @@ namespace HtmlRenderer.Utils
                     }
                 }
             }
-            //--------------------------------------------------------------- 
-            if (box.ClientRectangle.IsEmpty || box.ClientRectangle.Contains(location))
+            else
             {
-                foreach (var childBox in box.GetChildBoxIter())
+                //--------------------------------------------------------------- 
+                if (box.IsPointInClientArea(location.X, location.Y))
                 {
-                    var foundWord = GetCssBoxWord(childBox, location);
-                    if (foundWord != null)
+                    foreach (var childBox in box.GetChildBoxIter())
                     {
-                        return foundWord;
+                        var foundWord = GetCssBoxWord(childBox, location);
+                        if (foundWord != null)
+                        {
+                            return foundWord;
+                        }
                     }
                 }
             }

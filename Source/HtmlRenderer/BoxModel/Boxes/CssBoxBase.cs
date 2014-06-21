@@ -88,11 +88,12 @@ namespace HtmlRenderer.Dom
 
         #region Fields
 
-        //location, size
-        float _locationX;
-        float _locationY;
+        //location, size 
         float _sizeHeight;
         float _sizeWidth;
+
+      
+
 
         //corner
         float _actualCornerNW;
@@ -100,8 +101,14 @@ namespace HtmlRenderer.Dom
         float _actualCornerSW;
         float _actualCornerSE;
 
-        float _actualHeight;
-        float _actualWidth;
+        /// <summary>
+        /// user's expected height
+        /// </summary>
+        float _expectedHight;
+        /// <summary>
+        /// user's expected width 
+        /// </summary>
+        float _expectedWidth;
 
         float _actualPaddingTop;
         float _actualPaddingBottom;
@@ -113,7 +120,7 @@ namespace HtmlRenderer.Dom
         float _actualMarginRight;
         float _actualMarginLeft;
 
-        float _collapsedMarginTop;
+
 
         float _actualBorderTopWidth;
         float _actualBorderLeftWidth;
@@ -466,13 +473,7 @@ namespace HtmlRenderer.Dom
             get { return this._position; }
             set { this._position = value; }
         }
-        public bool IsAbsolutePosition
-        {
-            get
-            {
-                return this.Position == CssPosition.Absolute;
-            }
-        }
+      
 
         //----------------------------------------------------
         public CssLength LineHeight
@@ -588,173 +589,59 @@ namespace HtmlRenderer.Dom
         }
 
         #endregion
-        public float LocationX
-        {
-            get { return this._locationX; }
-        }
-        public float LocationY
-        {
-            get { return this._locationY; }
-        }
-        public void Offset(float dx, float dy)
-        {
-            this._locationX += dx;
-            this._locationY += dy;
-            this._baseCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
-        }
-        public void SetLocation(float x, float y)
-        {
-            this._locationX = x;
-            this._locationY = y;
-            this._baseCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
-        }
+
+
         /// <summary>
-        /// Gets or sets the size of the box
+        /// Gets the second color that creates a gradient for the background
         /// </summary>
-        public SizeF Size
-        {
-            get { return new SizeF(this._sizeWidth, this._sizeHeight); }
-        }
-        public void SetSize(float width, float height)
-        {
-            this._sizeWidth = width;
-            this._sizeHeight = height;
-        }
-        public float SizeWidth
+        public Color ActualBackgroundGradient
         {
             get
             {
-                return this._sizeWidth;
-            }
-        }
-        internal float AvaliableContentWidth
-        {
-            get
-            {
-                return this.SizeWidth - this.ActualPaddingLeft - this.ActualPaddingRight - this.ActualBorderLeftWidth - this.ActualBorderRightWidth;
-            }
-        }
-        public float SizeHeight
-        {
-            get
-            {
-                return this._sizeHeight;
+                return this._backgroundProps.BackgroundGradient;
             }
         }
 
         /// <summary>
-        /// Gets the bounds of the box
+        /// Gets the actual angle specified for the background gradient
         /// </summary>
-        public RectangleF Bounds
+        public float ActualBackgroundGradientAngle
         {
-            get { return new RectangleF(new PointF(this.LocationX, this.LocationY), Size); }
+            get
+            {
+                return this._backgroundProps.BackgroundGradientAngle;
+            }
         }
-
-        /// <summary>
-        /// Gets the width available on the box, counting padding and margin.
-        /// </summary>
-        public float AvailableWidth
-        {
-            get { return this.SizeWidth - ActualBorderLeftWidth - ActualPaddingLeft - ActualPaddingRight - ActualBorderRightWidth; }
-        }
-
-        /// <summary>
-        /// Gets the right of the box. When setting, it will affect only the width of the box.
-        /// </summary>
-        public float ActualRight
-        {
-            get { return LocationX + Size.Width; }
-        }
-        public void SetActualRight(float value)
-        {
-            this._sizeWidth = value - LocationX;
-        }
-        /// <summary>
-        /// Gets or sets the bottom of the box. 
-        /// (When setting, alters only the Size.Height of the box)
-        /// </summary>
-        public float ActualBottom
-        {
-            get { return this.LocationY + Size.Height; }
-        }
-        public void SetActualBottom(float value)
-        {
-            this._sizeHeight = value - this._locationY;
-        }
-        internal void SetActualHeightToZero()
-        {
-            this._sizeHeight = 0;
-        }
-        /// <summary>
-        /// Gets the left of the client rectangle (Where content starts rendering)
-        /// </summary>
-        public float ClientLeft
-        {
-            get { return this.LocationX + ActualBorderLeftWidth + ActualPaddingLeft; }
-        }
-
-        /// <summary>
-        /// Gets the top of the client rectangle (Where content starts rendering)
-        /// </summary>
-        public float ClientTop
-        {
-            get { return this.LocationY + ActualBorderTopWidth + ActualPaddingTop; }
-        }
-
-        /// <summary>
-        /// Gets the right of the client rectangle
-        /// </summary>
-        public float ClientRight
-        {
-            get { return ActualRight - ActualPaddingRight - ActualBorderRightWidth; }
-        }
-
-        /// <summary>
-        /// Gets the bottom of the client rectangle
-        /// </summary>
-        public float ClientBottom
-        {
-            get { return ActualBottom - ActualPaddingBottom - ActualBorderBottomWidth; }
-        }
-
-        /// <summary>
-        /// Gets the client rectangle
-        /// </summary>
-        public RectangleF ClientRectangle
-        {
-            get { return RectangleF.FromLTRB(ClientLeft, ClientTop, ClientRight, ClientBottom); }
-        }
-
+       
         /// <summary>
         /// Gets the actual height
         /// </summary>
-        public float ActualHeight
+        public float ExpectedHeight
         {
             get
             {
                 if ((this._prop_pass_eval & CssBoxBaseAssignments.HEIGHT) == 0)
                 {
                     this._prop_pass_eval |= CssBoxBaseAssignments.HEIGHT;
-                    return _actualHeight = CssValueParser.ParseLength(Height, Size.Height, this);
+                    return _expectedHight = CssValueParser.ParseLength(Height, this.SizeHeight, this);
                 }
-
-                return _actualHeight;
+                return _expectedHight;
             }
         }
 
         /// <summary>
         /// Gets the actual height
         /// </summary>
-        public float ActualWidth
+        public float ExpectedWidth
         {
             get
             {
                 if ((this._prop_pass_eval & CssBoxBaseAssignments.WIDTH) == 0)
                 {
                     this._prop_pass_eval |= CssBoxBaseAssignments.WIDTH;
-                    return _actualWidth = CssValueParser.ParseLength(Width, Size.Width, this);
+                    return _expectedWidth = CssValueParser.ParseLength(Width, this.SizeWidth, this);
                 }
-                return _actualWidth;
+                return _expectedWidth;
             }
         }
 
@@ -822,14 +709,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        /// <summary>
-        /// The margin top value if was effected by margin collapse.
-        /// </summary>
-        public float CollapsedMarginTop
-        {
-            get { return this._collapsedMarginTop; }
-            set { _collapsedMarginTop = value; }
-        }
+
         /// <summary>
         /// Gets the actual top's Margin
         /// </summary>
@@ -1165,28 +1045,6 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        /// <summary>
-        /// Gets the second color that creates a gradient for the background
-        /// </summary>
-        public Color ActualBackgroundGradient
-        {
-            get
-            {
-                return this._backgroundProps.BackgroundGradient;
-            }
-        }
-
-        /// <summary>
-        /// Gets the actual angle specified for the background gradient
-        /// </summary>
-        public float ActualBackgroundGradientAngle
-        {
-            get
-            {
-                return this._backgroundProps.BackgroundGradientAngle;
-            }
-        }
-
 
 
         /// <summary>
@@ -1329,6 +1187,43 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
+        /// <summary>
+        /// Gets or sets the size of the box
+        /// </summary>
+        public SizeF Size
+        {
+            get { return new SizeF(this._sizeWidth, this._sizeHeight); }
+        }
+        public void SetSize(float width, float height)
+        {
+            this._sizeWidth = width;
+            this._sizeHeight = height;
+        }
+        public float SizeWidth
+        {
+            get
+            {
+                return this._sizeWidth;
+            }
+        }
 
+        public float SizeHeight
+        {
+            get
+            {
+                return this._sizeHeight;
+            }
+        }
+        protected void SetHeight(float height)
+        {
+            this._sizeHeight = height;
+        }
+        internal void UpdateIfHigher(float newHeight)
+        {
+            if (newHeight > this._sizeHeight)
+            {
+                this._sizeHeight = newHeight;
+            }
+        }
     }
 }

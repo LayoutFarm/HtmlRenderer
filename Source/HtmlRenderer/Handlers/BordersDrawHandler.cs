@@ -46,15 +46,8 @@ namespace HtmlRenderer.Handlers
         {
             if (rect.Width > 0 && rect.Height > 0)
             {
-                //if (!(string.IsNullOrEmpty(box.BorderTopStyle) ||
-                //    box.BorderTopStyle == CssConstants.None ||
-                //    box.BorderTopStyle == CssConstants.Hidden) && 
-                //    box.ActualBorderTopWidth > 0)
-                //{
-                //    DrawBorder(Border.Top, box, g, rect, isFirst, isLast);
-                //}
-                if (!(box.BorderTopStyle == CssBorderStyle.None ||
-                      box.BorderTopStyle == CssBorderStyle.Hidden) &&
+                
+                if (box.BorderTopStyle >= CssBorderStyle.Visible &&
                     box.ActualBorderTopWidth > 0)
                 {
                     DrawBorder(Border.Top, box, g, rect, isFirst, isLast);
@@ -62,13 +55,12 @@ namespace HtmlRenderer.Handlers
 
 
                 if (isFirst &&
-                    //!(string.IsNullOrEmpty(box.BorderLeftStyle) || box.BorderLeftStyle == CssConstants.None || box.BorderLeftStyle == CssConstants.Hidden) && 
                     box.BorderLeftStyle >= CssBorderStyle.Visible &&
                     box.ActualBorderLeftWidth > 0)
                 {
                     DrawBorder(Border.Left, box, g, rect, true, isLast);
                 }
-                ///if (!(string.IsNullOrEmpty(box.BorderBottomStyle) || box.BorderBottomStyle == CssConstants.None || box.BorderBottomStyle == CssConstants.Hidden) &&
+
                 if (box.BorderBottomStyle >= CssBorderStyle.Visible &&
                     box.ActualBorderBottomWidth > 0)
                 {
@@ -77,8 +69,6 @@ namespace HtmlRenderer.Handlers
 
                 if (isLast &&
                     box.BorderRightStyle >= CssBorderStyle.Visible &&
-                    //!(string.IsNullOrEmpty(box.BorderRightStyle) ||
-                    //box.BorderRightStyle == CssConstants.None || box.BorderRightStyle == CssConstants.Hidden) &&                    
                     box.ActualBorderRightWidth > 0)
                 {
                     DrawBorder(Border.Right, box, g, rect, isFirst, true);
@@ -303,7 +293,7 @@ namespace HtmlRenderer.Handlers
                         }
 
                         if (b.ActualCornerNW > 0 &&
-                            b.BorderBottomStyle >= CssBorderStyle.Visible)                         
+                            b.BorderBottomStyle >= CssBorderStyle.Visible)
                         {
                             path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNW * 2, b.ActualCornerNW * 2, 180f, 90f);
                         }

@@ -22,20 +22,26 @@ namespace HtmlRenderer.Dom
             if (this.CssDisplay != CssDisplay.None &&
                 this.CssVisibility == Dom.CssVisibility.Visible)
             {
+                //----------------
+                PaintImp(g, args);
 
-                RectangleF clip = g.GetClip();
-                RectangleF rect = args.LatestContaingBoxClientRect;
-                //rect.X -= 2;
-                //rect.Width += 2;
-                rect.Offset(args.Offset);
-                rect.Intersect(args.PeekViewportBound());
+                //v2
+                //----------------
+                //RectangleF clip = g.GetClip();
+                //RectangleF rect = args.LatestContaingBoxClientRect;
 
-                clip.Intersect(rect);
 
-                if (clip != RectangleF.Empty)
-                {
-                    PaintImp(g, args);
-                }
+                ////rect.X -= 2;
+                ////rect.Width += 2;
+                //rect.Offset(args.Offset);
+                //rect.Intersect(args.PeekViewportBound());
+
+                //clip.Intersect(rect);
+
+                //if (clip != RectangleF.Empty)
+                //{
+                //    PaintImp(g, args);
+                //}
 
             }
         }
@@ -59,23 +65,27 @@ namespace HtmlRenderer.Dom
         }
         protected virtual void PaintImp(IGraphics g, PaintingArgs args)
         {
-
-
             if (this.CssDisplay != CssDisplay.None &&
                (this.CssDisplay != CssDisplay.TableCell ||
                  EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
             {
 
-                var prevClip = RenderUtils.ClipGraphicsByOverflow(g, args);
+                bool hasPrevClip = false;
+                RectangleF prevClip = RectangleF.Empty;
                 if (this.Overflow == CssOverflow.Hidden)
                 {
-                    var actualHeight = this.ActualHeight;
-                    var actualWidth = this.ActualWidth;
-                    if (actualHeight > 0)
+                    
+                    var expectedW = this.ExpectedWidth;
+                    var expectedH = this.ExpectedHeight;
+                    //clip width 
+                    if (expectedH > 0)
                     {
+                        hasPrevClip = true;
+                        prevClip = RenderUtils.ClipGraphicsByOverflow(g, args);
+
                         if (prevClip.IsEmpty)
                         {
-                            prevClip = this.Bounds;
+                            prevClip = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);                            
                             g.SetClip(prevClip);
                         }
                         else
@@ -85,13 +95,12 @@ namespace HtmlRenderer.Dom
                     }
                 }
 
-
                 var viewport = args.PeekViewportBound();
                 //---------------------------------------------
                 if (this.CssDisplay != CssDisplay.Inline)
                 {
-                    var bound = this.Bounds;
-                    bound.Offset(args.Offset);
+                    //var bound = this.GlobalBound;
+                    RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
                     PaintBackground(g, bound, true, true);
                     BordersDrawHandler.DrawBoxBorders(g, this, bound, true, true);
                 }
@@ -99,31 +108,37 @@ namespace HtmlRenderer.Dom
                 if (this.LineBoxCount > 0)
                 {
                     PointF offset = args.Offset;
-                    viewport.Offset(offset.X, -offset.Y);
+                    //viewport.Offset(offset.X, -offset.Y);
                     float viewport_top = viewport.Top;
                     float viewport_bottom = viewport.Bottom;
                     //---------------------------------------- 
                     if (this.ContainsSelectedRun)
                     {
                         //render with *** selection concern 
+
                         foreach (var line in this._clientLineBoxes)
                         {
                             if (line.CachedLineBottom >= viewport_top &&
                                 line.CachedLineTop <= viewport_bottom)
                             {
+
+                                g.OffsetCanvasOrigin(0, line.CachedLineTop);
                                 //----------------------------------------
-                                //1.
+                                //1.                                 
                                 line.PaintBackgroundAndBorder(g, args);
 
                                 this.HtmlContainer.SelectionRange.Draw(g, args, line.CachedLineTop, line.CacheLineHeight, offset);
 
-                                //2.
+                                //2.                                
                                 line.PaintRuns(g, args);
-                                //3.
+
+                                //3. 
                                 line.PaintDecoration(g, args);
+
 #if DEBUG
                                 line.dbugPaintRuns(g, args);
 #endif
+                                g.OffsetCanvasOrigin(0, -line.CachedLineTop);
                                 //----------------------------------------
                             }
                             else
@@ -136,21 +151,28 @@ namespace HtmlRenderer.Dom
                     else
                     {
                         //render without selection concern
+
                         foreach (var line in this._clientLineBoxes)
                         {
                             if (line.CachedLineBottom >= viewport_top &&
                                 line.CachedLineTop <= viewport_bottom)
                             {
                                 //----------------------------------------
-                                //1.
+                                g.OffsetCanvasOrigin(0, line.CachedLineTop);
+
+                                //1. 
                                 line.PaintBackgroundAndBorder(g, args);
-                                //2.
+                                //2. 
                                 line.PaintRuns(g, args);
-                                //3.
+                               
+                                //3. 
                                 line.PaintDecoration(g, args);
 #if DEBUG
                                 line.dbugPaintRuns(g, args);
+                               
+
 #endif
+                                g.OffsetCanvasOrigin(0, -line.CachedLineTop);
                                 //----------------------------------------
                             }
                             else
@@ -162,7 +184,8 @@ namespace HtmlRenderer.Dom
                 }
                 else
                 {
-
+                    
+                    float loc_x, loc_y;
                     if (this.HasContainingBlockProperty)
                     {
                         args.PushContainingBox(this);
@@ -172,7 +195,10 @@ namespace HtmlRenderer.Dom
                             {
                                 continue;
                             }
+
+                            g.OffsetCanvasOrigin(loc_x = b.LocalX, loc_y = b.LocalY);
                             b.Paint(g, args);
+                            g.OffsetCanvasOrigin(-loc_x, -loc_y);
                         }
                         args.PopContainingBox();
                     }
@@ -185,14 +211,18 @@ namespace HtmlRenderer.Dom
                             {
                                 continue;
                             }
+                            g.OffsetCanvasOrigin(loc_x = b.LocalX, loc_y = b.LocalY);
                             b.Paint(g, args);
+                            g.OffsetCanvasOrigin(-loc_x, -loc_y);
                         }
                     }
                 }
                 //------------------------------------------
                 //must! , 
-
-                RenderUtils.ReturnClip(g, prevClip);
+                if (hasPrevClip)
+                {
+                    RenderUtils.ReturnClip(g, prevClip);
+                }
                 if (_listItemBox != null)
                 {
                     _listItemBox.Paint(g, args);

@@ -263,9 +263,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="htmlContainer">the html container the handler is on</param>
         public ContextMenuHandler(SelectionHandler selectionHandler, HtmlContainer htmlContainer)
         {
-            ArgChecker.AssertArgNotNull(selectionHandler, "selectionHandler");
-            ArgChecker.AssertArgNotNull(htmlContainer, "htmlContainer");
-
+            
             _selectionHandler = selectionHandler;
             _htmlContainer = htmlContainer;
         }

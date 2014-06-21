@@ -75,7 +75,7 @@ namespace HtmlRenderer.Dom
             }
 
             var rect = w.Rectangle;
-            rect.Offset(args.Offset);
+
 
             var prevClip = RenderUtils.ClipGraphicsByOverflow(g, args);
 
@@ -83,7 +83,7 @@ namespace HtmlRenderer.Dom
             BordersDrawHandler.DrawBoxBorders(g, this, rect, true, true);
 
             RectangleF r = _imageWord.Rectangle;
-            r.Offset(args.Offset);
+
             r.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
             r.Y += ActualBorderTopWidth + ActualPaddingTop;
             r.X = (float)Math.Floor(r.X);
@@ -130,19 +130,15 @@ namespace HtmlRenderer.Dom
             }
 
             //1. single image can't be splited 
-
-            //var rect = CommonUtils.GetFirstValueOrDefault(Rectangles);
-            var rect = this.Bounds;
-            PointF offset = HtmlContainer.ScrollOffset;
-            rect.Offset(offset);
-
+             
+            var rect = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
             var prevClip = RenderUtils.ClipGraphicsByOverflow(g, args);
 
             PaintBackground(g, rect, true, true);
             BordersDrawHandler.DrawBoxBorders(g, this, rect, true, true);
 
             RectangleF r = _imageWord.Rectangle;
-            r.Offset(offset);
+
             r.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
             r.Y += ActualBorderTopWidth + ActualPaddingTop;
             r.X = (float)Math.Floor(r.X);

@@ -65,6 +65,7 @@
     <Compile Include="BoxModel.HitAndSelection\BoxHitChain.cs" />
     <Compile Include="BoxModel\Boxes\CssBoxBase_StateAssignments.cs" />
     <Compile Include="BoxModel\Boxes\CssBox_InheritAndClone.cs" />
+    <Compile Include="BoxModel\Boxes\CssBox_Positions.cs" />
     <Compile Include="BoxModel\Boxes\LayoutArgs.cs" />
     <Compile Include="BoxModel\Boxes\PaintArgs.cs" />
     <Compile Include="BoxModel\Builder\ActiveCssTemplate.cs" />
@@ -137,7 +138,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utils\ArgChecker.cs" />
+    <Compile Include="Utils\ArgCheckNotNullAttribute.cs" />
     <Compile Include="Utils\FontsUtils.cs" />
     <Compile Include="Utils\RenderUtils.cs" />
     <Compile Include="CascadeStyleSheet\CssConstants.cs" />

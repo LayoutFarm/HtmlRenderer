@@ -26,6 +26,7 @@ namespace HtmlRenderer.Dom
     internal static class CssLayoutEngine
     {
 
+        const float CSS_OFFSET_THRESHOLD = 0.01f;
 
         /// <summary>
         /// Measure image box size by the width\height set on the box and the actual rendered image size.<br/>
@@ -34,11 +35,8 @@ namespace HtmlRenderer.Dom
         /// <param name="imageWord">the image word to measure</param>
         public static void MeasureImageSize(CssImageRun imageWord)
         {
-            ArgChecker.AssertArgNotNull(imageWord, "imageWord");
-            ArgChecker.AssertArgNotNull(imageWord.OwnerBox, "imageWord.OwnerBox");
-
-            var width = imageWord.OwnerBox.Width; // new CssLength(imageWord.OwnerBox.Width);
-            var height = imageWord.OwnerBox.Height;// new CssLength(imageWord.OwnerBox.Height);
+            var width = imageWord.OwnerBox.Width;
+            var height = imageWord.OwnerBox.Height;
 
             bool hasImageTagWidth = width.Number > 0 && width.Unit == CssUnit.Pixels;
             bool hasImageTagHeight = height.Number > 0 && height.Unit == CssUnit.Pixels;
@@ -127,62 +125,67 @@ namespace HtmlRenderer.Dom
         /// <param name="blockBox"></param>
         public static void FlowContentRuns(CssBox blockBox, LayoutArgs args)
         {
-            ArgChecker.AssertArgNotNull(args, "args");
-            ArgChecker.AssertArgNotNull(blockBox, "blockBox");
 
 
             blockBox.ResetLineBoxes();
+            float limitLocalRight = blockBox.SizeWidth - (blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
 
-
-
-            float limitRight = blockBox.ActualRight - blockBox.ActualPaddingRight - blockBox.ActualBorderRightWidth;
-
-            //Get the start x and y of the blockBox
-            float startx = blockBox.LocationX + blockBox.ActualPaddingLeft - 0 + blockBox.ActualBorderLeftWidth;
-            float starty = blockBox.LocationY + blockBox.ActualPaddingTop - 0 + blockBox.ActualBorderTopWidth;
-            float curx = startx + blockBox.ActualTextIndent;
-            float cury = starty;
-
+            float localY = blockBox.ActualPaddingTop + blockBox.ActualBorderTopWidth;
+            float localX = blockBox.ActualTextIndent + blockBox.ActualPaddingLeft + blockBox.ActualBorderLeftWidth;
+            float startLocalX = localX;
             //Reminds the maximum bottom reached
-            float maxRight = startx;
-            float maxBottom = starty;
+            float maxLocalRight = localX;
+            float maxLocalBottom = localY;
 
             //First line box
             CssLineBox line = new CssLineBox(blockBox);
             blockBox.AddLineBox(line);
 
             //****
-            FlowBox(args, blockBox, blockBox, limitRight, 0, startx, ref line, ref curx, ref cury, ref maxRight, ref maxBottom);
+            FlowBox(args, blockBox, blockBox, limitLocalRight, 0, startLocalX,
+                ref line, ref localX, ref localY, ref maxLocalRight, ref maxLocalBottom);
             //****
 
             // if width is not restricted we need to lower it to the actual width
-            if (blockBox.ActualRight >= CssBox.MAX_RIGHT)
-            {                 
-                blockBox.SetActualRight(maxRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
+            if (blockBox.SizeWidth + args.ContainerBlockGlobalX >= CssBox.MAX_RIGHT)
+            {
+                float newWidth = maxLocalRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth;// CssBox.MAX_RIGHT - (args.ContainerBlockGlobalX + blockBox.LocalX);
+                if (newWidth <= CSS_OFFSET_THRESHOLD)
+                {
+                    newWidth = CSS_OFFSET_THRESHOLD;
+                }
+                blockBox.SetSize(newWidth, blockBox.SizeHeight);
+
             }
             //---------------------
-            bool isRightToLeft = blockBox.CssDirection == CssDirection.Rtl;
-
-            foreach (CssLineBox linebox in blockBox.GetLineBoxIter())
+            if (blockBox.CssDirection == CssDirection.Rtl)
             {
-                ApplyAlignment(linebox, args);
-                if (isRightToLeft) ApplyRightToLeft(blockBox, linebox);
-                linebox.CloseLine(); //***
+                foreach (CssLineBox linebox in blockBox.GetLineBoxIter())
+                {
+                    ApplyAlignment(linebox, args);
+                    ApplyRightToLeft(blockBox, linebox); //***
+                    linebox.CloseLine(); //***
+                }
             }
-            //---------------------
-            blockBox.SetActualBottom(maxBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
-
-            // handle limiting block height when overflow is hidden
-            //if (blockBox.Height != null && blockBox.Height != CssConstants.Auto && 
-            if (!blockBox.Height.IsEmpty && !blockBox.Height.IsAuto &&
-                blockBox.Overflow == CssOverflow.Hidden &&
-                blockBox.ActualBottom - blockBox.LocationY > blockBox.ActualHeight)
+            else
             {
-                blockBox.SetActualBottom(blockBox.LocationY + blockBox.ActualHeight);
+                foreach (CssLineBox linebox in blockBox.GetLineBoxIter())
+                {
+                    ApplyAlignment(linebox, args);
+                    linebox.CloseLine(); //***
+                }
+            }
+
+            blockBox.SetSize(blockBox.SizeWidth, maxLocalBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
+
+            // handle limiting block height when overflow is hidden             
+            if (blockBox.Overflow == CssOverflow.Hidden &&
+                 !blockBox.Height.IsEmpty && !blockBox.Height.IsAuto &&
+                 blockBox.SizeHeight > blockBox.ExpectedHeight)
+            {
+                blockBox.UseExpectedHeight();
             }
         }
-
-
 
         #region Private methods
 
@@ -194,25 +197,28 @@ namespace HtmlRenderer.Dom
         /// <param name="g">Device Info</param>
         /// <param name="hostBox">Blockbox that contains the text flow</param>
         /// <param name="splitableBox">Current box to flow its content</param>
-        /// <param name="limitRight">Maximum reached right</param>
+        /// <param name="limitLocalRight">Maximum reached right</param>
         /// <param name="interLineSpace">Space to use between rows of text</param>
-        /// <param name="startx">x starting coordinate for when breaking lines of text</param>
+        /// <param name="firstRunStartX">x starting coordinate for when breaking lines of text</param>
         /// <param name="hostLine">Current linebox being used</param>
-        /// <param name="cx">Current x coordinate that will be the left of the next word</param>
-        /// <param name="cy">Current y coordinate that will be the top of the next word</param>
-        /// <param name="maxRight">Maximum right reached so far</param>
-        /// <param name="maxBottom">Maximum bottom reached so far</param>
+        /// <param name="current_line_x">Current x coordinate that will be the left of the next word</param>
+        /// <param name="current_line_y">Current y coordinate that will be the top of the next word</param>
+        /// <param name="maxRightForHostBox">Maximum right reached so far</param>
+        /// <param name="maxBottomForHostBox">Maximum bottom reached so far</param>
         static void FlowBox(LayoutArgs args,
           CssBox hostBox, CssBox splitableBox,
-          float limitRight, float interLineSpace, float startx,
-          ref CssLineBox hostLine, ref float cx, ref float cy,
-          ref float maxRight, ref float maxBottom)
+          float limitLocalRight, float interLineSpace, float firstRunStartX,
+          ref CssLineBox hostLine,
+          ref float current_line_x, ref float current_line_y,
+          ref float maxRightForHostBox,
+          ref float maxBottomForHostBox)
         {
-            var oX = cx;
-            var oY = cy;
 
-            var localMaxRight = maxRight;
-            var localmaxbottom = maxBottom;
+            var oX = current_line_x;
+            var oY = current_line_y;
+
+            var localMaxRight = maxRightForHostBox;
+            var localMaxBottom = maxBottomForHostBox;
 
             splitableBox.FirstHostingLineBox = hostLine;
 
@@ -222,9 +228,7 @@ namespace HtmlRenderer.Dom
             int childNumber = 0;
             foreach (CssBox b in splitableBox.GetChildBoxIter())
             {
-
                 float leftMostSpace = 0, rightMostSpace = 0;
-
                 if (b.IsAbsolutePosition)
                 {
                     leftMostSpace = b.ActualMarginLeft + b.ActualBorderLeftWidth + b.ActualPaddingLeft;
@@ -232,12 +236,14 @@ namespace HtmlRenderer.Dom
                 }
 
                 b.MeasureRunsSize(args.Gfx);
-                cx += leftMostSpace;
+                current_line_x += leftMostSpace;
 
                 if (!b.HasRuns)
                 {
-                    //go deeper 
-                    FlowBox(args, hostBox, b, limitRight, interLineSpace, startx, ref hostLine, ref cx, ref cy, ref maxRight, ref maxBottom);
+                    //go deeper  
+                    FlowBox(args, hostBox, b, limitLocalRight, interLineSpace, firstRunStartX,
+                        ref hostLine, ref current_line_x, ref current_line_y, ref maxRightForHostBox, ref maxBottomForHostBox);
+
                 }
                 else
                 {
@@ -246,15 +252,15 @@ namespace HtmlRenderer.Dom
                     List<CssRun> runs = CssBox.UnsafeGetRunListOrCreateIfNotExists(b);
                     bool wrapNoWrapBox = false;
                     //-----------------------------------------------------
-                    if (b.WhiteSpace == CssWhiteSpace.NoWrap && cx > startx)
+                    if (b.WhiteSpace == CssWhiteSpace.NoWrap && current_line_x > firstRunStartX)
                     {
-                        var tmpRight = cx;
+                        var tmpRight = current_line_x;
                         foreach (CssRun word in runs)
                         {
                             tmpRight += word.Width;
                         }
 
-                        if (tmpRight > limitRight)
+                        if (tmpRight > limitLocalRight)
                         {
                             wrapNoWrapBox = true;
                         }
@@ -265,31 +271,31 @@ namespace HtmlRenderer.Dom
                     for (int i = 0; i < j; ++i)
                     {
                         var run = runs[i];
-                        if (maxBottom - cy < splitBoxActualLineHeight)
+
+                        if (current_line_y + splitBoxActualLineHeight > maxBottomForHostBox)
                         {
-                            maxBottom += splitBoxActualLineHeight - (maxBottom - cy);
+                            maxBottomForHostBox = current_line_y + splitBoxActualLineHeight;
                         }
+
                         //---------------------------------------------------
                         //check if need to start new line ?
-                        if ((cx + run.Width + rightMostSpace > limitRight &&
+                        if ((current_line_x + run.Width + rightMostSpace > limitLocalRight &&
                              b.WhiteSpace != CssWhiteSpace.NoWrap &&
                              b.WhiteSpace != CssWhiteSpace.Pre &&
                              (b.WhiteSpace != CssWhiteSpace.PreWrap || !run.IsSpaces))
                              || run.IsLineBreak || wrapNoWrapBox)
                         {
 
-                            wrapNoWrapBox = false; //once!
+                            wrapNoWrapBox = false; //once! 
 
                             //-------------------------------
                             //create new line ***
                             hostLine = new CssLineBox(hostBox);
                             hostBox.AddLineBox(hostLine);
-
                             //reset x pos for new line
-                            cx = startx;
-                            //set y to new line
-                            cy = maxBottom + interLineSpace;
-                            hostLine.LineBoxTop = cy;
+                            current_line_x = firstRunStartX;
+                            //set y to new line                            
+                            hostLine.CachedLineTop = current_line_y = maxBottomForHostBox + interLineSpace;
 
 
                             // handle if line is wrapped for the first text element where parent has left margin/padding
@@ -297,12 +303,12 @@ namespace HtmlRenderer.Dom
                                 !run.IsLineBreak &&
                                 (i == 0 || splitableParentIsBlock))//this run is first run of 'b' (run == b.FirstRun)
                             {
-                                cx += splitableBox.ActualMarginLeft + splitableBox.ActualBorderLeftWidth + splitableBox.ActualPaddingLeft;
+                                current_line_x += splitableBox.ActualMarginLeft + splitableBox.ActualBorderLeftWidth + splitableBox.ActualPaddingLeft;
                             }
 
                             if (run.IsImage || i == 0)
                             {
-                                cx += leftMostSpace;
+                                current_line_x += leftMostSpace;
                             }
                         }
                         //---------------------------------------------------
@@ -317,13 +323,12 @@ namespace HtmlRenderer.Dom
                             hostLine.AddRun(run); //***
                         }
 
+                        run.SetLocation(current_line_x, 0);
+                        //move current_line_x to right of run
+                        current_line_x = run.Right;
 
-                        run.SetLocation(cx, cy);
-                        //move cx to right of run
-                        cx = run.Right;
-
-                        maxRight = Math.Max(maxRight, cx);
-                        maxBottom = Math.Max(maxBottom, run.Bottom);
+                        maxRightForHostBox = Math.Max(maxRightForHostBox, current_line_x);
+                        maxBottomForHostBox = Math.Max(maxBottomForHostBox, current_line_y + run.Bottom);
 
                         if (b.IsAbsolutePosition)
                         {
@@ -333,18 +338,19 @@ namespace HtmlRenderer.Dom
                     }
                 }
 
-                cx += rightMostSpace;
+                current_line_x += rightMostSpace;
                 childNumber++;
             }
 
-            // handle height setting
-            if (maxBottom - oY < splitableBox.ActualHeight)
+            //------------
+            if (oY + splitableBox.ExpectedHeight > maxBottomForHostBox)
             {
-                maxBottom += splitableBox.ActualHeight - (maxBottom - oY);
+                maxBottomForHostBox = oY + splitableBox.ExpectedHeight;
             }
+            //------------
 
             // handle width setting
-            if (splitableBox.IsInline && 0 <= cx - oX && cx - oX < splitableBox.ActualWidth)
+            if (splitableBox.IsInline && 0 <= current_line_x - oX && current_line_x - oX < splitableBox.ExpectedWidth)
             {
                 throw new NotSupportedException();
                 //// hack for actual width handling
@@ -361,24 +367,19 @@ namespace HtmlRenderer.Dom
                 splitableBox.ChildCount == 0 &&
                 splitableBox.RunCount == 0)
             {
-                cx += splitableBox.ActualWordSpacing;
+                current_line_x += splitableBox.ActualWordSpacing;
             }
 
             // hack to support specific absolute position elements 
             if (splitableBox.IsAbsolutePosition)
             {
-                cx = oX;
-                maxRight = localMaxRight;
-                maxBottom = localmaxbottom;
+                current_line_x = oX;
 
                 AdjustAbsolutePosition(splitableBox, 0, 0);
             }
             //****
             splitableBox.LastHostingLineBox = hostLine;
         }
-
-
-
         /// <summary>
         /// Adjust the position of absolute elements by letf and top margins.
         /// </summary>
@@ -522,41 +523,41 @@ namespace HtmlRenderer.Dom
         //}
 
 
-        /// <summary>
-        /// Applies centered alignment to the text on the linebox
-        /// </summary>
-        /// <param name="g"></param>
-        /// <param name="lineBox"></param>
-        private static void ApplyJustifyAlignment(IGraphics g, CssLineBox lineBox)
+
+        static void ApplyJustifyAlignment(IGraphics g, CssLineBox lineBox)
         {
 
-            if (lineBox.Equals(lineBox.OwnerBox.GetLastLineBox())) return;
 
+            if (lineBox.IsLastLine) return;
 
-            float indent = lineBox.Equals(lineBox.OwnerBox.GetFirstLineBox()) ? lineBox.OwnerBox.ActualTextIndent : 0f;
-            float textSum = 0f;
-            float words = 0f;
-            float availWidth = lineBox.OwnerBox.ClientRectangle.Width - indent;
+            float indent = lineBox.IsFirstLine ? lineBox.OwnerBox.ActualTextIndent : 0f;
+
+            float runWidthSum = 0f;
+            int runCount = 0;
+
+            float availableWidth = lineBox.OwnerBox.ClientWidth - indent;
 
             // Gather text sum
             foreach (CssRun w in lineBox.GetRunIter())
             {
-                textSum += w.Width;
-                words += 1f;
+                runWidthSum += w.Width;
+                runCount++;
             }
 
-            if (words <= 0f) return; //Avoid Zero division
-            float spacing = (availWidth - textSum) / words; //Spacing that will be used
-            float curx = lineBox.OwnerBox.ClientLeft + indent;
+            if (runCount == 0) return; //Avoid Zero division
 
+            float spaceOfEachRun = (availableWidth - runWidthSum) / runCount; //Spacing that will be used
+
+            float cX = lineBox.OwnerBox.LocalClientLeft + indent;
             CssRun lastRun = lineBox.GetLastRun();
             foreach (CssRun run in lineBox.GetRunIter())
             {
-                run.Left = curx;
-                curx = run.Right + spacing;
+                run.Left = cX;
+                cX = run.Right + spaceOfEachRun;
+
                 if (run == lastRun)
                 {
-                    run.Left = lineBox.OwnerBox.ClientRight - run.Width;
+                    run.Left = lineBox.OwnerBox.LocalClientRight - run.Width;
                 }
             }
         }
@@ -568,19 +569,17 @@ namespace HtmlRenderer.Dom
         /// <param name="line"></param>
         private static void ApplyCenterAlignment(IGraphics g, CssLineBox line)
         {
+
             if (line.WordCount == 0) return;
-
             CssRun lastRun = line.GetLastRun();
-            float right = line.OwnerBox.ActualRight - line.OwnerBox.ActualPaddingRight - line.OwnerBox.ActualBorderRightWidth;
-            float diff = right - lastRun.Right - lastRun.OwnerBox.ActualBorderRightWidth - lastRun.OwnerBox.ActualPaddingRight;
-            diff /= 2;
-
-            if (diff > 0)
+            float diff = (line.OwnerBox.ClientWidth - lastRun.Right) / 2;
+            if (diff > CSS_OFFSET_THRESHOLD)
             {
                 foreach (CssRun word in line.GetRunIter())
                 {
                     word.Left += diff;
                 }
+                line.CachedLineContentWidth += diff;
             }
         }
 
@@ -595,12 +594,9 @@ namespace HtmlRenderer.Dom
             {
                 return;
             }
-
-            CssRun lastWord = line.GetLastRun();
-            float right = line.OwnerBox.ActualRight - line.OwnerBox.ActualPaddingRight - line.OwnerBox.ActualBorderRightWidth;
-            float diff = right - lastWord.Right - lastWord.OwnerBox.ActualBorderRightWidth - lastWord.OwnerBox.ActualPaddingRight;
-
-            if (diff > 0)
+            CssRun lastRun = line.GetLastRun();
+            float diff = line.OwnerBox.ClientWidth - line.GetLastRun().Right;
+            if (diff > CSS_OFFSET_THRESHOLD)
             {
                 foreach (CssRun word in line.GetRunIter())
                 {

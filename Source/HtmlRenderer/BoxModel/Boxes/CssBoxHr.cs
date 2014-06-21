@@ -21,7 +21,7 @@ namespace HtmlRenderer.Dom
     /// <summary>
     /// CSS box for hr element.
     /// </summary>
-    internal sealed class CssBoxHr : CssBox
+    sealed class CssBoxHr : CssBox
     {
         /// <summary>
         /// Init.
@@ -48,16 +48,58 @@ namespace HtmlRenderer.Dom
                 return;
             }
 
-            var prevSibling = args.LatestSiblingBox;// CssBox.GetPreviousSibling(this);
+            var prevSibling = args.LatestSiblingBox;
+            var myContainingBlock = args.LatestContaingBlock;
 
-            var myContainingBlock = args.LatestContaingBlock;//this.ContainingBlock;
+            //float globalLeft = myContainingBlock.GlobalX + myContainingBlock.LocalClientLeft + ActualMarginLeft;
+            //float globalTop = 0;
+            //if (prevSibling == null)
+            //{
+            //    if (this.ParentBox != null)
+            //    {
+            //        globalTop = this.ParentBox.GlobalClientTop;
+            //    }
+            //}
+            //else
+            //{
+            //    if (this.ParentBox == null)
+            //    {
 
-            float left = myContainingBlock.LocationX + myContainingBlock.ActualPaddingLeft + ActualMarginLeft + myContainingBlock.ActualBorderLeftWidth;
-            float top = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? LocationY : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
+            //        globalTop = this.GlobalY;
+            //    }
+            //    globalTop += prevSibling.GlobalActualBottom + prevSibling.ActualBorderBottomWidth;
+            //}
 
-            this.SetLocation(left, top);
-            this.SetActualHeightToZero();
-            
+            //// fix for hr tag 
+            //var maringTopCollapse = MarginTopCollapse(prevSibling);
+            float localLeft = myContainingBlock.LocalClientLeft + this.ActualMarginLeft;
+            float localTop = 0;
+
+
+            if (prevSibling == null)
+            {
+                if (this.ParentBox != null)
+                {
+                    localTop = myContainingBlock.LocalClientTop;
+                }
+            }
+            else
+            {
+                localTop = prevSibling.LocalActualBottom + prevSibling.ActualBorderBottomWidth;
+            }
+
+            float maringTopCollapse = MarginTopCollapse(prevSibling);
+
+            if (maringTopCollapse < 0.1)
+            {
+                maringTopCollapse = this.GetEmHeight() * 1.1f;
+            }
+            localTop += maringTopCollapse;
+
+
+            this.SetLocation(localLeft, localTop);
+
+            this.SetHeightToZero();
 
             //width at 100% (or auto)
             float minwidth = CalculateMinimumWidth();
@@ -71,7 +113,7 @@ namespace HtmlRenderer.Dom
             //Check width if not auto
             if (!this.Width.IsAuto && !this.Width.IsEmpty)
             {
-                width = CssValueParser.ParseLength(Width, width, this); 
+                width = CssValueParser.ParseLength(Width, width, this);
             }
 
 
@@ -80,7 +122,7 @@ namespace HtmlRenderer.Dom
                 width = minwidth;
             }
 
-            float height = ActualHeight;
+            float height = ExpectedHeight;
             if (height < 1)
             {
                 height = this.SizeHeight + ActualBorderTopWidth + ActualBorderBottomWidth;
@@ -97,7 +139,7 @@ namespace HtmlRenderer.Dom
             }
 
             this.SetSize(width, height);
-            this.SetActualBottom(this.LocationY + ActualPaddingTop + ActualPaddingBottom + height);
+            this.SetHeight(ActualPaddingTop + ActualPaddingBottom + height);
         }
 
         /// <summary>
@@ -106,8 +148,8 @@ namespace HtmlRenderer.Dom
         /// <param name="g">the device to draw to</param>
         protected override void PaintImp(IGraphics g, PaintingArgs args)
         {
-            var offset = HtmlContainer != null ? HtmlContainer.ScrollOffset : PointF.Empty;
-            var rect = new RectangleF(Bounds.X + offset.X, Bounds.Y + offset.Y, Bounds.Width, Bounds.Height);
+
+            var rect = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
 
             if (rect.Height > 2 && RenderUtils.IsColorVisible(ActualBackgroundColor))
             {
