@@ -33,11 +33,12 @@ namespace HtmlRenderer.Dom
         /// </summary>
         private readonly CssImageRun _imageWord;
 
-        /// <summary>
-        /// handler used for image loading by source
-        /// </summary>
-        private ImageLoadHandler _imageLoadHandler;
+        /////// <summary>
+        /////// handler used for image loading by source
+        /////// </summary>
+        //private ImageLoadHandler _imageLoadHandler;
 
+        ImageBinder _imgBinder;
         /// <summary>
         /// is image load is finished, used to know if no image is found
         /// </summary>
@@ -67,12 +68,21 @@ namespace HtmlRenderer.Dom
         internal void PaintImage(IGraphics g, CssRun w, PaintVisitor p)
         {
 
-            if (_imageLoadHandler == null)
-            {   
-                _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
-                _imageLoadHandler.LoadImage(GetAttribute("src"),
-                    HtmlTag);
+            if (_imgBinder == null)
+            {
+                _imgBinder = new ImageBinder(GetAttribute("src"));
             }
+            _imgBinder.LoadImageIfFirstTime(this, () =>
+            {
+                //when binder state changed 
+            });
+
+            //if (_imageLoadHandler == null)
+            //{
+            //    _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
+            //    _imageLoadHandler.LoadImage(GetAttribute("src"),
+            //        HtmlTag);
+            //}
 
             var rect = w.Rectangle;
 
@@ -122,11 +132,21 @@ namespace HtmlRenderer.Dom
         protected override void PaintImp(IGraphics g, PaintVisitor p)
         {
             // load image iff it is in visible rectangle
-            if (_imageLoadHandler == null)
+            //if (_imageLoadHandler == null)
+            //{
+            //    _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
+            //    _imageLoadHandler.LoadImage(GetAttribute("src"), this.HtmlTag);
+            //}
+
+            if (_imgBinder == null)
             {
-                _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
-                _imageLoadHandler.LoadImage(GetAttribute("src"), this.HtmlTag);
+                _imgBinder = new ImageBinder(GetAttribute("src"));
             }
+            _imgBinder.LoadImageIfFirstTime(this, () =>
+            {
+
+            });
+
 
             //1. single image can't be splited 
 
@@ -179,12 +199,19 @@ namespace HtmlRenderer.Dom
         {
             if (!_wordsSizeMeasured)
             {
-                if (_imageLoadHandler == null && lay.AvoidImageAsyncLoadOrLateBind)
+                //if (_imageLoadHandler == null && lay.AvoidImageAsyncLoadOrLateBind)
+                //{
+                //    _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
+                //    _imageLoadHandler.LoadImage(GetAttribute("src"), HtmlTag);
+                //}
+                if (_imgBinder == null && lay.AvoidImageAsyncLoadOrLateBind)
                 {
-                    _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
-                    _imageLoadHandler.LoadImage(GetAttribute("src"), HtmlTag);
-                }
+                    _imgBinder = new ImageBinder(GetAttribute("src"));
+                    _imgBinder.LoadImageIfFirstTime(this, () =>
+                    {
 
+                    });
+                }
                 MeasureWordSpacing(lay);
                 _wordsSizeMeasured = true;
             }
@@ -197,8 +224,8 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public override void Dispose()
         {
-            if (_imageLoadHandler != null)
-                _imageLoadHandler.Dispose();
+            //if (_imageLoadHandler != null)
+            //    _imageLoadHandler.Dispose();
             base.Dispose();
         }
 
@@ -224,7 +251,7 @@ namespace HtmlRenderer.Dom
         /// <param name="rectangle">the source rectangle to draw in the image (empty - draw everything)</param>
         /// <param name="async">is the callback was called async to load image call</param>
         private void OnLoadImageComplete(Image image, Rectangle rectangle, bool async)
-        {  
+        {
 
             //plan use resouce manager ***
 

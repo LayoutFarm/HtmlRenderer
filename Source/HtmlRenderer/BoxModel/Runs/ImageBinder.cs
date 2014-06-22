@@ -5,6 +5,9 @@ using System.Drawing;
 
 namespace HtmlRenderer.Dom
 {
+    public delegate void ReadyStateChangedHandler();
+
+
     public class ImageBinder
     {
         Image _image;
@@ -15,7 +18,6 @@ namespace HtmlRenderer.Dom
         private ImageBinder()
         {
             this.State = ImageBinderState.NoImage;
-
         }
         public ImageBinder(string imgSource)
         {
@@ -25,8 +27,29 @@ namespace HtmlRenderer.Dom
         {
             get { return this._imageSource; }
         }
-        public void LoadImageIfFirstTime()
+        public void LoadImageIfFirstTime(CssBox requestBox, ReadyStateChangedHandler handler)
         {
+            //1. support sync and async model 
+            switch (this.State)
+            {
+                case ImageBinderState.NoImage:
+                    {
+
+                    } break;
+                case ImageBinderState.Unload:
+                    {
+                        //
+                    } break;
+                case ImageBinderState.Loading:
+                    {
+                        //...
+
+                    } break;
+                case ImageBinderState.Loaded:
+                    {
+                        //load finish 
+                    } break;
+            }
         }
         public ImageBinderState State
         {

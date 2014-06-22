@@ -766,7 +766,10 @@ namespace HtmlRenderer.Dom
 
             if (this.BackgroundImageBinder != null)
             {
-                this.BackgroundImageBinder.LoadImageIfFirstTime();
+                this.BackgroundImageBinder.LoadImageIfFirstTime(this, () =>
+                {
+
+                });
             }
 
             //if (BackgroundImage != CssConstants.None && _imageLoadHandler == null)
