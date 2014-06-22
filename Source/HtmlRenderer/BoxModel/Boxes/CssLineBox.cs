@@ -526,8 +526,8 @@ namespace HtmlRenderer.Dom
                 bool isFirstLine, isLastLine;
                 CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
 
-                ownerBox.PaintBackground(g, stripArea, isFirstLine, isLastLine);
-                HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(g, ownerBox, stripArea, isFirstLine, isLastLine);
+                ownerBox.PaintBackground(p, stripArea, isFirstLine, isLastLine);
+                HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(p, ownerBox, stripArea, isFirstLine, isLastLine);
             }
         }
 

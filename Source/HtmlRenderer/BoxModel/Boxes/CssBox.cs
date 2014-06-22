@@ -1110,12 +1110,13 @@ namespace HtmlRenderer.Dom
         /// <param name="rect">the bounding rectangle to draw in</param>
         /// <param name="isFirst">is it the first rectangle of the element</param>
         /// <param name="isLast">is it the last rectangle of the element</param>
-        internal void PaintBackground(IGraphics g, RectangleF rect, bool isFirst, bool isLast)
+        internal void PaintBackground(PaintVisitor p, RectangleF rect, bool isFirst, bool isLast)
         {
             if (rect.Width > 0 && rect.Height > 0)
             {
                 Brush brush = null;
                 bool dispose = false;
+                IGraphics g = p.Gfx;
                 SmoothingMode smooth = g.SmoothingMode;
 
                 if (BackgroundGradient != System.Drawing.Color.Transparent)
@@ -1145,7 +1146,7 @@ namespace HtmlRenderer.Dom
                         roundrect = RenderUtils.GetRoundRect(rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
                     }
 
-                    if (HtmlContainer != null && !HtmlContainer.AvoidGeometryAntialias && IsRounded)
+                    if (!p.AvoidGeometryAntialias && IsRounded)
                     {
                         g.SmoothingMode = SmoothingMode.AntiAlias;
                     }
@@ -1243,25 +1244,25 @@ namespace HtmlRenderer.Dom
 
 
 
-        /// <summary>
-        /// Get brush for selection background depending if it has external and if alpha is required for images.
-        /// </summary>
-        /// <param name="forceAlpha">used for images so they will have alpha effect</param>
-        protected Brush GetSelectionBackBrush(bool forceAlpha)
-        {
-            var backColor = HtmlContainer.SelectionBackColor;
-            if (backColor != System.Drawing.Color.Empty)
-            {
-                if (forceAlpha && backColor.A > 180)
-                    return RenderUtils.GetSolidBrush(System.Drawing.Color.FromArgb(180, backColor.R, backColor.G, backColor.B));
-                else
-                    return RenderUtils.GetSolidBrush(backColor);
-            }
-            else
-            {
-                return CssUtils.DefaultSelectionBackcolor;
-            }
-        }
+        ///// <summary>
+        ///// Get brush for selection background depending if it has external and if alpha is required for images.
+        ///// </summary>
+        ///// <param name="forceAlpha">used for images so they will have alpha effect</param>
+        //protected Brush GetSelectionBackBrush(bool forceAlpha)
+        //{
+        //    var backColor = HtmlContainer.SelectionBackColor;
+        //    if (backColor != System.Drawing.Color.Empty)
+        //    {
+        //        if (forceAlpha && backColor.A > 180)
+        //            return RenderUtils.GetSolidBrush(System.Drawing.Color.FromArgb(180, backColor.R, backColor.G, backColor.B));
+        //        else
+        //            return RenderUtils.GetSolidBrush(backColor);
+        //    }
+        //    else
+        //    {
+        //        return CssUtils.DefaultSelectionBackcolor;
+        //    }
+        //}
 
 
         internal bool CanBeRefererenceSibling

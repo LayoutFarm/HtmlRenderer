@@ -42,15 +42,15 @@ namespace HtmlRenderer.Handlers
         /// <param name="rect">the bounding rectangle to draw in</param>
         /// <param name="isFirst">is it the first rectangle of the element</param>
         /// <param name="isLast">is it the last rectangle of the element</param>
-        public static void DrawBoxBorders(IGraphics g, CssBox box, RectangleF rect, bool isFirst, bool isLast)
+        public static void DrawBoxBorders(PaintVisitor p, CssBox box, RectangleF rect, bool isFirst, bool isLast)
         {
             if (rect.Width > 0 && rect.Height > 0)
             {
-                
+
                 if (box.BorderTopStyle >= CssBorderStyle.Visible &&
                     box.ActualBorderTopWidth > 0)
                 {
-                    DrawBorder(Border.Top, box, g, rect, isFirst, isLast);
+                    DrawBorder(Border.Top, box, p, rect, isFirst, isLast);
                 }
 
 
@@ -58,20 +58,20 @@ namespace HtmlRenderer.Handlers
                     box.BorderLeftStyle >= CssBorderStyle.Visible &&
                     box.ActualBorderLeftWidth > 0)
                 {
-                    DrawBorder(Border.Left, box, g, rect, true, isLast);
+                    DrawBorder(Border.Left, box, p, rect, true, isLast);
                 }
 
                 if (box.BorderBottomStyle >= CssBorderStyle.Visible &&
                     box.ActualBorderBottomWidth > 0)
                 {
-                    DrawBorder(Border.Bottom, box, g, rect, isFirst, isLast);
+                    DrawBorder(Border.Bottom, box, p, rect, isFirst, isLast);
                 }
 
                 if (isLast &&
                     box.BorderRightStyle >= CssBorderStyle.Visible &&
                     box.ActualBorderRightWidth > 0)
                 {
-                    DrawBorder(Border.Right, box, g, rect, isFirst, true);
+                    DrawBorder(Border.Right, box, p, rect, isFirst, true);
                 }
             }
         }
@@ -103,23 +103,30 @@ namespace HtmlRenderer.Handlers
         /// <param name="rect">the rectangle the border is enclosing</param>
         /// <param name="isLineStart">Specifies if the border is for a starting line (no bevel on left)</param>
         /// <param name="isLineEnd">Specifies if the border is for an ending line (no bevel on right)</param>
-        private static void DrawBorder(Border border, CssBox box, IGraphics g, RectangleF rect, bool isLineStart, bool isLineEnd)
+        private static void DrawBorder(Border border, CssBox box, PaintVisitor p, RectangleF rect, bool isLineStart, bool isLineEnd)
         {
 
             CssBorderStyle style = GetStyle(border, box);
             var color = GetColor(border, box, style);
 
             var borderPath = GetRoundedBorderPath(border, box, rect);
+
+            IGraphics g = p.Gfx;
             if (borderPath != null)
             {
                 // rounded border need special path
+
                 var smooth = g.SmoothingMode;
-                if (box.HtmlContainer != null && !box.HtmlContainer.AvoidGeometryAntialias && box.IsRounded)
+                if (!p.AvoidGeometryAntialias && box.IsRounded)
+                {
                     g.SmoothingMode = SmoothingMode.AntiAlias;
+                }
 
                 var pen = GetPen(style, color, GetWidth(border, box));
                 using (borderPath)
+                {
                     g.DrawPath(pen, borderPath);
+                }
 
                 g.SmoothingMode = smooth;
             }
@@ -376,7 +383,7 @@ namespace HtmlRenderer.Handlers
         /// <summary>
         /// Get the border style for the given box border.
         /// </summary>
-        private static CssBorderStyle GetStyle(Border border, CssBoxBase box)
+        static CssBorderStyle GetStyle(Border border, CssBoxBase box)
         {
             switch (border)
             {

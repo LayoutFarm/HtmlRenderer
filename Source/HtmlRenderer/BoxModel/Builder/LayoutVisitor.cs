@@ -7,13 +7,18 @@ namespace HtmlRenderer.Dom
 {
 
     public class LayoutVisitor : BoxVisitor
-    {    
+    {
         HtmlContainer htmlContainer;
         float totalMarginLeftAndRight;
         internal LayoutVisitor(IGraphics gfx, HtmlContainer htmlContainer)
         {
             this.Gfx = gfx;
             this.htmlContainer = htmlContainer;
+        }
+
+        internal HtmlContainer HtmlContainer
+        {
+            get { return this.htmlContainer; }
         }
 
         internal IGraphics Gfx
@@ -28,7 +33,7 @@ namespace HtmlRenderer.Dom
         protected override void OnPopDifferentContaingBlock(CssBox box)
         {
             this.totalMarginLeftAndRight -= (box.ActualMarginLeft + box.ActualMarginRight);
-        } 
+        }
         //-----------------------------------------
         internal CssBox LatestSiblingBox
         {
@@ -60,6 +65,10 @@ namespace HtmlRenderer.Dom
             return 0;
         }
 
+        internal bool AvoidImageAsyncLoadOrLateBind
+        {
+            get { return this.htmlContainer.AvoidAsyncImagesLoading || this.htmlContainer.AvoidImagesLateLoading; }
+        }
     }
 
 

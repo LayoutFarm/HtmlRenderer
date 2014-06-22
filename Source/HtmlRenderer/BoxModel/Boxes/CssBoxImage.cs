@@ -68,7 +68,7 @@ namespace HtmlRenderer.Dom
         {
 
             if (_imageLoadHandler == null)
-            {
+            {   
                 _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
                 _imageLoadHandler.LoadImage(GetAttribute("src"),
                     HtmlTag);
@@ -78,8 +78,8 @@ namespace HtmlRenderer.Dom
 
             p.PushLocalClipArea(rect.Width, rect.Height);
 
-            PaintBackground(g, rect, true, true);
-            BordersDrawHandler.DrawBoxBorders(g, this, rect, true, true);
+            PaintBackground(p, rect, true, true);
+            BordersDrawHandler.DrawBoxBorders(p, this, rect, true, true);
 
             RectangleF r = _imageWord.Rectangle;
 
@@ -133,8 +133,8 @@ namespace HtmlRenderer.Dom
             var rect = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
             p.PushLocalClipArea(this.SizeWidth, this.SizeHeight);
 
-            PaintBackground(g, rect, true, true);
-            BordersDrawHandler.DrawBoxBorders(g, this, rect, true, true);
+            PaintBackground(p, rect, true, true);
+            BordersDrawHandler.DrawBoxBorders(p, this, rect, true, true);
 
             RectangleF r = _imageWord.Rectangle;
 
@@ -179,7 +179,7 @@ namespace HtmlRenderer.Dom
         {
             if (!_wordsSizeMeasured)
             {
-                if (_imageLoadHandler == null && (HtmlContainer.AvoidAsyncImagesLoading || HtmlContainer.AvoidImagesLateLoading))
+                if (_imageLoadHandler == null && lay.AvoidImageAsyncLoadOrLateBind)
                 {
                     _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
                     _imageLoadHandler.LoadImage(GetAttribute("src"), HtmlTag);
@@ -224,7 +224,10 @@ namespace HtmlRenderer.Dom
         /// <param name="rectangle">the source rectangle to draw in the image (empty - draw everything)</param>
         /// <param name="async">is the callback was called async to load image call</param>
         private void OnLoadImageComplete(Image image, Rectangle rectangle, bool async)
-        {
+        {  
+
+            //plan use resouce manager ***
+
             _imageWord.Image = image;
             _imageWord.ImageRectangle = rectangle;
             _imageLoadingComplete = true;

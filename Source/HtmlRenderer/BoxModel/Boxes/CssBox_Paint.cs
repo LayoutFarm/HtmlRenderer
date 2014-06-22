@@ -92,8 +92,8 @@ namespace HtmlRenderer.Dom
                 if (this.CssDisplay != CssDisplay.Inline)
                 {   
                     RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
-                    PaintBackground(g, bound, true, true);
-                    BordersDrawHandler.DrawBoxBorders(g, this, bound, true, true);
+                    PaintBackground(p, bound, true, true);
+                    BordersDrawHandler.DrawBoxBorders(p, this, bound, true, true);
                 }
 
                 if (this.LineBoxCount > 0)
@@ -119,8 +119,9 @@ namespace HtmlRenderer.Dom
                                 //1.                                 
                                 line.PaintBackgroundAndBorder(g, p);
 
-                                this.HtmlContainer.SelectionRange.Draw(g, p, line.CachedLineTop, line.CacheLineHeight, p.Offset);
-
+                                //------------
+                                p.HtmlContainer.SelectionRange.Draw(g, p, line.CachedLineTop, line.CacheLineHeight, p.Offset);
+                                //------------
                                 //2.                                
                                 line.PaintRuns(g, p);
 

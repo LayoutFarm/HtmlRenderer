@@ -30,13 +30,24 @@ namespace HtmlRenderer.Dom
             this.container = container;
             this.htmlContainerScrollOffset = container.ScrollOffset;
             this.ig = ig;
-
         }
+
+        internal IGraphics Gfx
+        {
+            get
+            {
+                return this.ig;
+            }
+        }
+        internal bool AvoidGeometryAntialias
+        {
+            get { return this.container.AvoidGeometryAntialias; }
+        }
+
         //-----------------------------------------------------
-        public HtmlContainer HtmlContainer
+        internal HtmlContainer HtmlContainer
         {
             get { return this.container; }
-
         }
 
         public void PushBound(float x, float y, float w, float h)
@@ -73,14 +84,14 @@ namespace HtmlRenderer.Dom
         {
 
             //store lastest clip 
-            clipStacks.Push(this.latestClip);             
+            clipStacks.Push(this.latestClip);
             ////make new clip global 
             RectangleF intersectResult = RectangleF.Intersect(
                 latestClip,
                 new RectangleF(0, 0, w, h));
             this.latestClip = intersectResult;
             ig.SetClip(intersectResult);
- 
+
 
             return !intersectResult.IsEmpty;
         }
