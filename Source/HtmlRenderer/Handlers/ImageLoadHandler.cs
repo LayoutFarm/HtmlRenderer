@@ -53,9 +53,9 @@ namespace HtmlRenderer.Handlers
         /// <summary>
         /// callback raised when image load process is complete with image or without
         /// </summary>
-// ReSharper disable RedundantNameQualifier
+      
         private readonly Utils.ActionInt<Image, Rectangle, bool> _loadCompleteCallback;
-// ReSharper restore RedundantNameQualifier
+      
 
         /// <summary>
         /// the web client used to download image from URL (to cancel on dispose)
@@ -102,7 +102,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="loadCompleteCallback">callback raised when image load process is complete with image or without</param>
         public ImageLoadHandler(HtmlContainer htmlContainer, ActionInt<Image, Rectangle, bool> loadCompleteCallback)
         {
-            
+
             _htmlContainer = htmlContainer;
             _loadCompleteCallback = loadCompleteCallback;
         }
@@ -123,7 +123,7 @@ namespace HtmlRenderer.Handlers
             get { return _imageRectangle; }
         }
 
-        
+
         /// <summary>
         /// Set image of this image box by analyzing the src attribute.<br/>
         /// Load the image from inline base64 encoded string.<br/>
@@ -281,7 +281,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="source">the file path to get the image from</param>
         private void SetImageFromFile(FileInfo source)
         {
-            if( source.Exists )
+            if (source.Exists)
             {
                 if (_htmlContainer.AvoidAsyncImagesLoading)
                     LoadImageFromFile(source);
@@ -326,7 +326,7 @@ namespace HtmlRenderer.Handlers
         private void SetImageFromUrl(Uri source)
         {
             var filePath = CommonUtils.GetLocalfileName(source);
-            if( filePath.Exists && filePath.Length > 0 )
+            if (filePath.Exists && filePath.Length > 0)
             {
                 SetImageFromFile(filePath);
             }
@@ -366,8 +366,8 @@ namespace HtmlRenderer.Handlers
         /// <param name="data">key value pair of URL and file info to download the file to</param>
         private void DownloadImageFromUrlAsync(object data)
         {
-            var uri = ((KeyValuePair<Uri, FileInfo>) data).Key;
-            var filePath = ((KeyValuePair<Uri, FileInfo>) data).Value;
+            var uri = ((KeyValuePair<Uri, FileInfo>)data).Key;
+            var filePath = ((KeyValuePair<Uri, FileInfo>)data).Value;
 
             try
             {
@@ -413,7 +413,7 @@ namespace HtmlRenderer.Handlers
                 {
                     filePath.Refresh();
                     var contentType = CommonUtils.GetResponseContentType(client);
-                    if( contentType != null && contentType.StartsWith("image", StringComparison.OrdinalIgnoreCase) )
+                    if (contentType != null && contentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
                     {
                         LoadImageFromFile(filePath);
                     }
@@ -438,10 +438,10 @@ namespace HtmlRenderer.Handlers
         private void ImageLoadComplete(bool async = true)
         {
             // can happen if some operation return after the handler was disposed
-            if(_disposed)
+            if (_disposed)
                 ReleaseObjects();
-                
-            else 
+
+            else
                 _loadCompleteCallback(_image, _imageRectangle, async);
         }
 

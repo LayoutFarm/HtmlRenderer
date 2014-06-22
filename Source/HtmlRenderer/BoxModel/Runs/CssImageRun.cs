@@ -19,8 +19,7 @@ namespace HtmlRenderer.Dom
     /// </summary>
     internal sealed class CssImageRun : CssRun
     {   
-        #region Fields and Consts
-
+       
         /// <summary>
         /// the image object if it is image word (can be null if not loaded)
         /// </summary>
@@ -30,10 +29,7 @@ namespace HtmlRenderer.Dom
         /// the image rectange restriction as returned from image load event
         /// </summary>
         private Rectangle _imageRectangle;
-
-        #endregion
-
-
+       
         /// <summary>
         /// Creates a new BoxWord which represents an image
         /// </summary>
