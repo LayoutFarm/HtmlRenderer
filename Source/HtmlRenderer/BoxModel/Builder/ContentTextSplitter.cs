@@ -9,10 +9,10 @@ using System.Text;
 namespace HtmlRenderer.Dom
 {
 
-    class CssTextSplitter
+    class ContentTextSplitter
     {
-        public static readonly CssTextSplitter DefaultSplitter = new CssTextSplitter();
-        public CssTextSplitter()
+        public static readonly ContentTextSplitter DefaultSplitter = new ContentTextSplitter();
+        public ContentTextSplitter()
         {
 
         }

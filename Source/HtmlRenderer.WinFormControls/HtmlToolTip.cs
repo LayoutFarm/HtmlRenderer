@@ -123,7 +123,7 @@ namespace HtmlRenderer
         /// Raised when an image is about to be loaded by file path or URI.<br/>
         /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
         /// </summary>
-        public event EventHandler<HtmlImageLoadEventArgs> ImageLoad;
+        public event EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> ImageLoad;
 
         /// <summary>
         /// Set base stylesheet to be used by html rendered in the panel.
@@ -201,7 +201,7 @@ namespace HtmlRenderer
             using (var g = e.AssociatedControl.CreateGraphics())
             {
                 _htmlContainer.PerformLayout(g);
-               
+
             }
 
             //Set the size of the tooltip
@@ -232,7 +232,7 @@ namespace HtmlRenderer
 
             e.Graphics.Clear(Color.White);
             _htmlContainer.ViewportBound = new RectangleF(0, 0, 800, 600);
-            
+
             _htmlContainer.PerformPaint(e.Graphics);
         }
 
@@ -295,7 +295,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Propagate the image load event from root container.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlImageLoadEventArgs e)
+        private void OnImageLoad(object sender, HtmlRenderer.Dom.HtmlImageRequestEventArgs e)
         {
             if (ImageLoad != null)
             {

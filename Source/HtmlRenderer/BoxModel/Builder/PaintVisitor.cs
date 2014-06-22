@@ -20,8 +20,7 @@ namespace HtmlRenderer.Dom
 
         PointF htmlContainerScrollOffset;
         HtmlContainer container;
-        IGraphics ig;
-
+        IGraphics ig; 
 
         RectangleF latestClip = new RectangleF(0, 0, CssBoxConst.MAX_RIGHT, float.MaxValue);
 
@@ -104,7 +103,17 @@ namespace HtmlRenderer.Dom
                 ig.SetClip(prevClip);
             }
         }
+
+        internal void RequestImage(ImageBinder binder, CssBox requestFrom)
+        {
+            this.container.RequestImage(binder, requestFrom);
+        }
+        internal void RequestImage(ImageBinder binder, CssBox requestFrom, ReadyStateChangedHandler handler)
+        {
+            this.container.RequestImage(binder, requestFrom, handler);
+        }
     }
+
 
 
 }

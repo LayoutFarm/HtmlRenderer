@@ -766,10 +766,13 @@ namespace HtmlRenderer.Dom
 
             if (this.BackgroundImageBinder != null)
             {
-                this.BackgroundImageBinder.LoadImageIfFirstTime(this, () =>
+                //this has background
+                if (this.BackgroundImageBinder.State == ImageBinderState.Unload)
                 {
+                    lay.RequestImage(this.BackgroundImageBinder, this);
+                }
 
-                });
+                
             }
 
             //if (BackgroundImage != CssConstants.None && _imageLoadHandler == null)
@@ -943,7 +946,7 @@ namespace HtmlRenderer.Dom
 
         internal void ParseWordContent()
         {
-            CssTextSplitter.DefaultSplitter.ParseWordContent(this);
+            ContentTextSplitter.DefaultSplitter.ParseWordContent(this);
         }
 
         /// <summary>

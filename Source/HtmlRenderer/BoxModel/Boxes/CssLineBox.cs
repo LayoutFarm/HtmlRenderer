@@ -424,7 +424,7 @@ namespace HtmlRenderer.Dom
                     case CssRunKind.Image:
                         {
                             CssBoxImage owner = (CssBoxImage)w.OwnerBox;
-                            owner.PaintImage(g, w, p);
+                            owner.PaintImage(g, new RectangleF(0, 0, w.Width, w.Height), p);
 
                         } break;
                     case CssRunKind.Text:
@@ -465,7 +465,7 @@ namespace HtmlRenderer.Dom
         internal void dbugPaintRuns(IGraphics g, PaintVisitor p)
         {
 
-            
+
             //linebox  
             float x1 = 0;
             float y1 = 0;

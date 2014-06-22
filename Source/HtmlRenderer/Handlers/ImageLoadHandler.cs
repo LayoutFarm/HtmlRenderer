@@ -135,36 +135,36 @@ namespace HtmlRenderer.Handlers
         /// <param name="tag"></param>
         public void LoadImage(string src, HtmlRenderer.Dom.IHtmlElement tag)
         {
-            try
-            {
-                var args = new HtmlImageLoadEventArgs(src, tag, OnHtmlImageLoadEventCallback);
-                _htmlContainer.RaiseHtmlImageLoadEvent(args);
-                _asyncCallback = !_htmlContainer.AvoidAsyncImagesLoading;
+            //try
+            //{   
+            //    var args = new HtmlImageLoadEventArgs(src, tag, OnHtmlImageLoadEventCallback);
+            //    _htmlContainer.RaiseHtmlImageLoadEvent(args);
+            //    _asyncCallback = !_htmlContainer.AvoidAsyncImagesLoading;
 
-                if (!args.Handled)
-                {
-                    if (!string.IsNullOrEmpty(src))
-                    {
-                        if (src.StartsWith("data:image", StringComparison.CurrentCultureIgnoreCase))
-                        {
-                            SetFromInlineData(src);
-                        }
-                        else
-                        {
-                            SetImageFromPath(src);
-                        }
-                    }
-                    else
-                    {
-                        ImageLoadComplete(false);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                _htmlContainer.ReportError(HtmlRenderErrorType.Image, "Exception in handling image source", ex);
-                ImageLoadComplete(false);
-            }
+            //    if (!args.Handled)
+            //    {
+            //        if (!string.IsNullOrEmpty(src))
+            //        {
+            //            if (src.StartsWith("data:image", StringComparison.CurrentCultureIgnoreCase))
+            //            {
+            //                SetFromInlineData(src);
+            //            }
+            //            else
+            //            {
+            //                SetImageFromPath(src);
+            //            }
+            //        }
+            //        else
+            //        {
+            //            ImageLoadComplete(false);
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    _htmlContainer.ReportError(HtmlRenderErrorType.Image, "Exception in handling image source", ex);
+            //    ImageLoadComplete(false);
+            //}
         }
 
         /// <summary>

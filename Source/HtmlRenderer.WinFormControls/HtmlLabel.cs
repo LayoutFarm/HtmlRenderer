@@ -139,7 +139,7 @@ namespace HtmlRenderer
         /// Raised when an image is about to be loaded by file path or URI.<br/>
         /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
         /// </summary>
-        public event EventHandler<HtmlImageLoadEventArgs> ImageLoad;
+        public event EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> ImageLoad;
 
         /// <summary>
         /// Is content selection is enabled for the rendered html (default - true).<br/>
@@ -493,7 +493,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Propagate the image load event from root container.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlImageLoadEventArgs e)
+        private void OnImageLoad(object sender, HtmlRenderer.Dom.HtmlImageRequestEventArgs e)
         {
             if (ImageLoad != null)
             {

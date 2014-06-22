@@ -78,8 +78,9 @@
     <Compile Include="BoxModel\Runs\ImageBinder.cs" />
     <Compile Include="Common\ValueMaps.cs" />
     <Compile Include="Common\TextSnapshot.cs" />
-    <Compile Include="BoxModel\Builder\CssTextSplitter.cs" />
+    <Compile Include="BoxModel\Builder\ContentTextSplitter.cs" />
     <Compile Include="BoxModel.HitAndSelection\SelectionRange.cs" />
+    <Compile Include="Platform\HtmlImageRequestEventArgs.cs" />
     <Compile Include="WebDom.Parser\dbugLexerReport.cs" />
     <Compile Include="WebDom.Parser\HtmlLexer.cs" />
     <Compile Include="WebDom.Parser\CssParser.cs" />

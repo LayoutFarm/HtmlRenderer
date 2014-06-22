@@ -12,7 +12,6 @@ namespace HtmlRenderer.Dom
     {
         Image _image;
         string _imageSource;
-
         internal static readonly ImageBinder NoImage = new ImageBinder();
 
         private ImageBinder()
@@ -27,34 +26,25 @@ namespace HtmlRenderer.Dom
         {
             get { return this._imageSource; }
         }
-        public void LoadImageIfFirstTime(CssBox requestBox, ReadyStateChangedHandler handler)
-        {
-            //1. support sync and async model 
-            switch (this.State)
-            {
-                case ImageBinderState.NoImage:
-                    {
 
-                    } break;
-                case ImageBinderState.Unload:
-                    {
-                        //
-                    } break;
-                case ImageBinderState.Loading:
-                    {
-                        //...
-
-                    } break;
-                case ImageBinderState.Loaded:
-                    {
-                        //load finish 
-                    } break;
-            }
-        }
+        
+        
         public ImageBinderState State
         {
             get;
             private set;
+        }
+        public Image Image
+        {
+            get { return this._image; }
+        }
+        internal void SetImage(Image image)
+        {
+            if (image != null)
+            {
+                this._image = image;
+                this.State = ImageBinderState.Loaded;
+            }
         }
 
     }
@@ -66,4 +56,5 @@ namespace HtmlRenderer.Dom
         Error,
         NoImage
     }
+
 }
