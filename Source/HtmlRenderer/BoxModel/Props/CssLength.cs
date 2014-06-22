@@ -10,24 +10,32 @@ namespace HtmlRenderer.Dom
 {
     public static class CssFontSizeConst
     {
-        public const int FONTSIZE_MEDIUM = 10;
-        public const int FONTSIZE_XX_SMALL = 11;
-        public const int FONTSIZE_X_SMALL = 12;
-        public const int FONTSIZE_SMALL = 13;
-        public const int FONTSIZE_LARGE = 14;
-        public const int FONTSIZE_X_LARGE = 15;
-        public const int FONTSIZE_XX_LARGE = 16;
-        public const int FONTSIZE_SMALLER = 17;
-        public const int FONTSIZE_LARGER = 18;
+        public const byte FONTSIZE_MEDIUM = 10;
+        public const byte FONTSIZE_XX_SMALL = 11;
+        public const byte FONTSIZE_X_SMALL = 12;
+        public const byte FONTSIZE_SMALL = 13;
+        public const byte FONTSIZE_LARGE = 14;
+        public const byte FONTSIZE_X_LARGE = 15;
+        public const byte FONTSIZE_XX_LARGE = 16;
+        public const byte FONTSIZE_SMALLER = 17;
+        public const byte FONTSIZE_LARGER = 18;
     }
     public static class CssBackgroundPositionConst
     {
-        public const int LEFT = 1 << (10 - 1);
-        public const int TOP = 1 << (11 - 1);
-        public const int RIGHT = 1 << (12 - 1);
-        public const int BOTTOM = 1 << (13 - 1);
-        public const int CENTER = 1 << (14 - 1);
+        public const byte LEFT = 10;
+        public const byte TOP = 11;
+        public const byte RIGHT = 12;
+        public const byte BOTTOM = 13;
+        public const byte CENTER = 14;
     }
+    public static class CssBorderThickName
+    {
+        public const byte MEDIUM = 10;
+        public const byte THICK = 11;
+        public const byte THIN = 12;
+    }
+
+
 
     /// <summary>
     /// Represents and gets info about a CSS Length
@@ -37,46 +45,46 @@ namespace HtmlRenderer.Dom
     /// </remarks>
     public struct CssLength
     {
+        //has 2 instance fields
+        //================================     
 
-        const int IS_AUTO = 1 << (11 - 1);
-        const int IS_RELATIVE = 1 << (12 - 1);
-        const int HAS_ERROR = 1 << (13 - 1);
-        const int IS_ASSIGN = 1 << (14 - 1);
+        //8 least sig bits (1 byte) : store CssUnit,or some predefined CssValue (like border-thickness,font name,background-pos)
+        //24 upper bits (3 byte) : store other flags
+        readonly int _flags;
+        //for number
+        readonly float _number;
+        //================================  
+
+        //for upper 24 bits of _flags
+        const int IS_ASSIGN = 1 << (11 - 1);
+        const int IS_AUTO = 1 << (12 - 1);
+        const int IS_RELATIVE = 1 << (13 - 1);
+        const int NORMAL = 1 << (14 - 1);
         const int NONE_VALUE = 1 << (15 - 1);
-        const int NORMAL = 1 << (16 - 1);
+        const int HAS_ERROR = 1 << (16 - 1);
         //-------------------------------------
-        const int MEDIUM = 1 << (17 - 1);
-        const int THICK = 1 << (18 - 1);
-        const int THIN = 1 << (19 - 1);
-        //-------------------------------------
+        //when used as border thickeness name
+        const int IS_BORDER_THICKNESS_NAME = 1 << (20 - 1);
         //when used as font size
-        const int IS_FONT_SIZE_NAME = 1 << (20 - 1);
+        const int IS_FONT_SIZE_NAME = 1 << (21 - 1);
         //------------------------------------- 
         //when used as background position
-        const int IS_BACKGROUND_POS = 1 << (21 - 1);
-        //------------------------------------- 
-
-        #region Fields
-        private readonly float _number;
-        readonly int _flags;
-
-
-
-        #endregion
+        const int IS_BACKGROUND_POS_NAME = 1 << (22 - 1);
+        //-------------------------------------   
 
         public static readonly CssLength AutoLength = new CssLength(IS_ASSIGN | IS_AUTO);
         public static readonly CssLength NotAssign = new CssLength(0);
         public static readonly CssLength NormalWordOrLine = new CssLength(IS_ASSIGN | NORMAL);
 
 
-        public static readonly CssLength Medium = new CssLength(IS_ASSIGN | MEDIUM);
-        public static readonly CssLength Thick = new CssLength(IS_ASSIGN | THICK);
-        public static readonly CssLength Thin = new CssLength(IS_ASSIGN | THIN);
-
         public static readonly CssLength ZeroNoUnit = CssLength.MakeZeroLengthNoUnit();
         public static readonly CssLength ZeroPx = CssLength.MakePixelLength(0);
-        //-----------------------------------------------------------------------------------------
 
+        //-----------------------------------------------------------------------------------------
+        public static readonly CssLength Medium = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | CssBorderThickName.MEDIUM);
+        public static readonly CssLength Thick = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | CssBorderThickName.THICK);
+        public static readonly CssLength Thin = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | CssBorderThickName.THIN);
+        //-----------------------------------------------------------------------------------------
         public static readonly CssLength FontSizeMedium = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_MEDIUM);//default
         public static readonly CssLength FontSizeXXSmall = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_XX_SMALL);
         public static readonly CssLength FontSizeXSmall = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_X_SMALL);
@@ -88,11 +96,11 @@ namespace HtmlRenderer.Dom
         public static readonly CssLength FontSizeSmaller = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_SMALLER);
         public static readonly CssLength FontSizeLarger = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_LARGE);
         //-----------------------------------------------------------------------------------------
-        public static readonly CssLength BackgroundPosLeft = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS | CssBackgroundPositionConst.LEFT);
-        public static readonly CssLength BackgroundPosTop = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS | CssBackgroundPositionConst.TOP);
-        public static readonly CssLength BackgroundPosRight = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS | CssBackgroundPositionConst.RIGHT);
-        public static readonly CssLength BackgroundPosBottom = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS | CssBackgroundPositionConst.BOTTOM);
-        public static readonly CssLength BackgroundPosCenter = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS | CssBackgroundPositionConst.CENTER);
+        public static readonly CssLength BackgroundPosLeft = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS_NAME | CssBackgroundPositionConst.LEFT);
+        public static readonly CssLength BackgroundPosTop = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS_NAME | CssBackgroundPositionConst.TOP);
+        public static readonly CssLength BackgroundPosRight = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS_NAME | CssBackgroundPositionConst.RIGHT);
+        public static readonly CssLength BackgroundPosBottom = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS_NAME | CssBackgroundPositionConst.BOTTOM);
+        public static readonly CssLength BackgroundPosCenter = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS_NAME | CssBackgroundPositionConst.CENTER);
         //-----------------------------------------------------------------------------------------
 
 
@@ -163,7 +171,7 @@ namespace HtmlRenderer.Dom
                     this._flags |= (int)unit;
                     break;
             }
-
+            //parse number part
             string number = lenValue.Substring(0, lenValue.Length - 2);
             if (!float.TryParse(number, System.Globalization.NumberStyles.Number, NumberFormatInfo.InvariantInfo, out this._number))
             {
@@ -259,18 +267,7 @@ namespace HtmlRenderer.Dom
         {
             get { return _number; }
         }
-        public bool IsMedium
-        {
-            get { return (this._flags & MEDIUM) != 0; }
-        }
-        public bool IsThick
-        {
-            get { return (this._flags & THICK) != 0; }
-        }
-        public bool IsThin
-        {
-            get { return (this._flags & THIN) != 0; }
-        }
+
         /// <summary>
         /// Gets if the length has some parsing error
         /// </summary>
@@ -341,9 +338,18 @@ namespace HtmlRenderer.Dom
         //-------------------------------------------------
         public bool IsBackgroundPositionName
         {
-            get { return (this._flags & IS_BACKGROUND_POS) != 0; }
+            get { return (this._flags & IS_BACKGROUND_POS_NAME) != 0; }
         }
         public int BackgroundPositionName
+        {
+            get { return (int)(this._flags & 0xFF); }
+        }
+        //-------------------------------------------------
+        public bool IsBorderThicknessName
+        {
+            get { return (this._flags & IS_BORDER_THICKNESS_NAME) != 0; }
+        }
+        public int BorderThicknessName
         {
             get { return (int)(this._flags & 0xFF); }
         }

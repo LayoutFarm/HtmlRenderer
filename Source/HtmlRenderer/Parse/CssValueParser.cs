@@ -95,19 +95,19 @@ namespace HtmlRenderer.Parse
             {
                 return 0;
             }
-           
-             
+
+
             switch (length.Unit)
             {
                 case CssUnit.Percent:
-                    return (length.Number / 100f) * hundredPercent;    
+                    return (length.Number / 100f) * hundredPercent;
                 case CssUnit.Ems:
                     return length.Number * box.GetEmHeight();
                 case CssUnit.Ex:
                     return length.Number * (box.GetEmHeight() / 2);
                 case CssUnit.Pixels:
                     //atodo: check support for hi dpi
-                    return length.Number * (fontAdjust ? 72f / 96f : 1f); 
+                    return length.Number * (fontAdjust ? 72f / 96f : 1f);
                 case CssUnit.Milimeters:
                     return length.Number * 3.779527559f; //3 pixels per millimeter      
                 case CssUnit.Centimeters:
@@ -120,7 +120,7 @@ namespace HtmlRenderer.Parse
                     return length.Number * 16f; // 1 pica = 12 points 
                 default:
                     return 0;
-            }             
+            }
         }
         /// <summary>
         /// Parses a color value in CSS style; e.g. #ff0000, red, rgb(255,0,0), rgb(100%, 0, 0)
@@ -140,17 +140,17 @@ namespace HtmlRenderer.Parse
                 //return as medium
                 return 2f;
             }
-            if (borderValue.IsMedium)
+            if (borderValue.IsBorderThicknessName)
             {
-                return 2f;
-            }
-            else if (borderValue.IsThin)
-            {
-                return 1f;
-            }
-            else if (borderValue.IsThick)
-            {
-                return 4f;
+                switch (borderValue.BorderThicknessName)
+                {
+                    case CssBorderThickName.MEDIUM:
+                        return 2f;
+                    case CssBorderThickName.THICK:
+                        return 4f;
+                    default:
+                        return 1f;
+                }
             }
             else
             {
