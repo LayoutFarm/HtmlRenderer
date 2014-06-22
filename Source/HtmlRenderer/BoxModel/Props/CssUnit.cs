@@ -14,6 +14,7 @@ namespace HtmlRenderer.Entities
         None,
         Unknown,
         Percent,//extension flags
+        
         //-----------------------
 
         //W3C

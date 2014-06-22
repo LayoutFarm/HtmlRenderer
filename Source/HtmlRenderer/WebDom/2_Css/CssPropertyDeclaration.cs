@@ -32,7 +32,7 @@ namespace HtmlRenderer.WebDom
         public CssPropertyDeclaration(string propertyName)
         {
             //convert from name to wellknown property name; 
-            this.WellknownPropertyName = HtmlRenderer.Dom.CssBoxUserUtilExtension.GetWellKnownPropName(
+            this.WellknownPropertyName = HtmlRenderer.Dom.UserMapUtil.GetWellKnownPropName(
                 this.PropertyName = propertyName.ToLower());
         }
 

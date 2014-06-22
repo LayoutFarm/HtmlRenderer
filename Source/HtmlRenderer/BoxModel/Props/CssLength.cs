@@ -56,20 +56,20 @@ namespace HtmlRenderer.Dom
         //================================  
 
         //for upper 24 bits of _flags
-        const int IS_ASSIGN = 1 << (11 - 1);
-        const int IS_AUTO = 1 << (12 - 1);
-        const int IS_RELATIVE = 1 << (13 - 1);
-        const int NORMAL = 1 << (14 - 1);
-        const int NONE_VALUE = 1 << (15 - 1);
-        const int HAS_ERROR = 1 << (16 - 1);
+      public   const int IS_ASSIGN = 1 << (11 - 1);
+      public const int IS_AUTO = 1 << (12 - 1);
+      public const int IS_RELATIVE = 1 << (13 - 1);
+      public const int NORMAL = 1 << (14 - 1);
+      public const int NONE_VALUE = 1 << (15 - 1);
+      public const int HAS_ERROR = 1 << (16 - 1);
         //-------------------------------------
         //when used as border thickeness name
-        const int IS_BORDER_THICKNESS_NAME = 1 << (20 - 1);
+      public const int IS_BORDER_THICKNESS_NAME = 1 << (20 - 1);
         //when used as font size
-        const int IS_FONT_SIZE_NAME = 1 << (21 - 1);
+      public const int IS_FONT_SIZE_NAME = 1 << (21 - 1);
         //------------------------------------- 
         //when used as background position
-        const int IS_BACKGROUND_POS_NAME = 1 << (22 - 1);
+      public const int IS_BACKGROUND_POS_NAME = 1 << (22 - 1);
         //-------------------------------------   
 
         public static readonly CssLength AutoLength = new CssLength(IS_ASSIGN | IS_AUTO);
@@ -105,80 +105,7 @@ namespace HtmlRenderer.Dom
 
 
         #region Ctor
-        /// <summary>
-        /// Creates a new CssLength from a length specified on a CSS style sheet or fragment
-        /// </summary>
-        /// <param name="lenValue">Length as specified in the Style Sheet or style fragment</param>
-        public CssLength(string lenValue)
-        {
-
-            _number = 0f;
-            this._flags = (int)CssUnit.None | IS_ASSIGN;
-
-            switch (lenValue)
-            {
-                case null:
-                case "":
-                case "0":
-                    {   //Return zero if no length specified, zero specified
-                        return;
-                    }
-                case "auto":
-                    {
-                        this._flags |= IS_AUTO;
-                        return;
-                    }
-                case "normal":
-                    {
-                        this._flags |= NORMAL;
-                        return;
-                    }
-            }
-
-            //then parse
-            //If percentage, use ParseNumber
-            if (lenValue.EndsWith("%"))
-            {
-                _number = float.Parse(lenValue.Substring(0, lenValue.Length - 1));
-                this._flags |= (int)CssUnit.Percent;
-                return;
-            }
-
-            //If no units, has error
-            if (lenValue.Length < 3)
-            {
-                float.TryParse(lenValue, out _number);
-                this._flags |= HAS_ERROR;
-                //_hasError = true;
-                return;
-            }
-
-            //Get units of the length
-            //TODO: Units behave different in paper and in screen!
-            CssUnit unit = GetCssUnit(lenValue.Substring(lenValue.Length - 2, 2));
-
-            switch (unit)
-            {
-                case CssUnit.Ems:
-                case CssUnit.Ex:
-                case CssUnit.Pixels:
-                    this._flags |= (int)unit | IS_RELATIVE;
-                    break;
-                case CssUnit.Unknown:
-                    this._flags |= HAS_ERROR;
-                    return;
-                default:
-                    this._flags |= (int)unit;
-                    break;
-            }
-            //parse number part
-            string number = lenValue.Substring(0, lenValue.Length - 2);
-            if (!float.TryParse(number, System.Globalization.NumberStyles.Number, NumberFormatInfo.InvariantInfo, out this._number))
-            {
-                this._flags |= HAS_ERROR;
-            }
-        }
-
+        
 
         public CssLength(float num, CssUnit unit)
         {

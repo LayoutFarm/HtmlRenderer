@@ -100,7 +100,7 @@
     <Compile Include="BoxModel\Props\CssPropFeatures.cs" />
     <Compile Include="CascadeStyleSheet\CssActiveSheet.cs" />
     <Compile Include="Platform\dbug.cs" />
-    <Compile Include="BoxModel\Builder\CssBoxUserUtil.cs" />
+    <Compile Include="BoxModel\Builder\UserMapUtil.cs" />
     <Compile Include="BoxModel\Boxes\CssBox_Fields.cs" />
     <Compile Include="BoxModel\Boxes\CssBox_Paint.cs" />
     <Compile Include="BoxModel\Props\CssProps.cs" />

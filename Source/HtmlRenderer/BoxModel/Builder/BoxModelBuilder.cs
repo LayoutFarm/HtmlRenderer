@@ -355,7 +355,7 @@ namespace HtmlRenderer.Dom
             if (box.WellknownTagName != WellknownHtmlTagName.NotAssign &&
                 cssProperty.WellknownPropertyName == WebDom.WellknownCssPropertyName.Display)
             {
-                CssDisplay display = CssBoxUserUtilExtension.GetDisplayType(cssProperty.GetPropertyValue(0));
+                CssDisplay display = UserMapUtil.GetDisplayType(cssProperty.GetPropertyValue(0));
                 switch (box.WellknownTagName)
                 {
                     case WellknownHtmlTagName.TABLE:
@@ -407,13 +407,13 @@ namespace HtmlRenderer.Dom
                                     WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
                                         value, WebDom.CssValueHint.Iden);
 
-                                    box.CssTextAlign = CssBoxUserUtilExtension.GetTextAlign(propValue);
+                                    box.CssTextAlign = UserMapUtil.GetTextAlign(propValue);
                                 }
                                 else
                                 {
                                     WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
                                      value, WebDom.CssValueHint.Iden);
-                                    box.VerticalAlign = CssBoxUserUtilExtension.GetVerticalAlign(propValue);
+                                    box.VerticalAlign = UserMapUtil.GetVerticalAlign(propValue);
                                 }
                                 break;
                             }
@@ -425,8 +425,8 @@ namespace HtmlRenderer.Dom
                             break;
                         case WebDom.WellknownHtmlName.Border:
                             {
-                                 
-                                CssLength borderLen = TranslateLength(CssBoxUserUtilExtension.MakeBorderLength(attr.Value.ToLower()));
+
+                                CssLength borderLen = TranslateLength(UserMapUtil.MakeBorderLength(attr.Value.ToLower()));
                                 if (!borderLen.HasError)
                                 {
 
@@ -467,12 +467,12 @@ namespace HtmlRenderer.Dom
 
                             break;
                         case WebDom.WellknownHtmlName.CellSpacing:
-                            box.BorderSpacingHorizontal = box.BorderSpacingVertical = TranslateLength(attr.Value.ToLower());
+                            box.BorderSpacingHorizontal = box.BorderSpacingVertical = TranslateLength(attr);
                             break;
                         case WebDom.WellknownHtmlName.CellPadding:
                             {
                                 // Cascades to the TD's the border spacified in the TABLE tag.
-                                CssLength length = TranslateLength(attr.Value.ToLower());
+                                CssLength length = TranslateLength(attr);
                                 ForEachCellInTable(box, cell =>
                                      cell.PaddingLeft = cell.PaddingTop = cell.PaddingRight = cell.PaddingBottom = length);
 
@@ -485,17 +485,17 @@ namespace HtmlRenderer.Dom
                             {
                                 WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
                                         attr.Value.ToLower(), WebDom.CssValueHint.Iden);
-                                box.CssDirection = CssBoxUserUtilExtension.GetCssDirection(propValue);
+                                box.CssDirection = UserMapUtil.GetCssDirection(propValue);
                             }
                             break;
                         case WebDom.WellknownHtmlName.Face:
                             box.FontFamily = CssParser.ParseFontFamily(attr.Value.ToLower());
                             break;
                         case WebDom.WellknownHtmlName.Height:
-                            box.Height = TranslateLength(attr.Value.ToLower());
+                            box.Height = TranslateLength(attr);
                             break;
                         case WebDom.WellknownHtmlName.HSpace:
-                            box.MarginRight = box.MarginLeft = TranslateLength(attr.Value.ToLower());
+                            box.MarginRight = box.MarginLeft = TranslateLength(attr);
                             break;
                         case WebDom.WellknownHtmlName.Nowrap:
                             box.WhiteSpace = CssWhiteSpace.NoWrap;
@@ -506,7 +506,7 @@ namespace HtmlRenderer.Dom
                                 {
                                     case WellknownHtmlTagName.HR:
                                         {
-                                            box.Height = TranslateLength(attr.Value.ToLower());
+                                            box.Height = TranslateLength(attr);
                                         } break;
                                     case WellknownHtmlTagName.FONT:
                                         {
@@ -525,13 +525,13 @@ namespace HtmlRenderer.Dom
                             {
                                 WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
                                           attr.Value.ToLower(), WebDom.CssValueHint.Iden);
-                                box.VerticalAlign = CssBoxUserUtilExtension.GetVerticalAlign(propValue);
+                                box.VerticalAlign = UserMapUtil.GetVerticalAlign(propValue);
                             } break;
                         case WebDom.WellknownHtmlName.VSpace:
-                            box.MarginTop = box.MarginBottom = TranslateLength(attr.Value.ToLower());
+                            box.MarginTop = box.MarginBottom = TranslateLength(attr);
                             break;
                         case WebDom.WellknownHtmlName.Width:
-                            box.Width = TranslateLength(attr.Value.ToLower());
+                            box.Width = TranslateLength(attr);
                             break;
                     }
                 }
@@ -543,14 +543,10 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="htmlLength"></param>
         /// <returns></returns>
-        public static CssLength TranslateLength(string htmlLength)
+        public static CssLength TranslateLength(IHtmlAttribute attr)
         {
-            CssLength len = new CssLength(htmlLength);
-            if (len.HasError)
-            {
-                return CssLength.MakePixelLength(0);
-            }
-            return len;
+            return UserMapUtil.TranslateLength(attr.Value.ToLower());
+
         }
         private static CssLength TranslateLength(CssLength len)
         {
@@ -664,16 +660,16 @@ namespace HtmlRenderer.Dom
                     break;
 
                 case WebDom.WellknownCssPropertyName.BorderBottomStyle:
-                    cssBox.BorderBottomStyle = CssBoxUserUtilExtension.GetBorderStyle(cssValue);
+                    cssBox.BorderBottomStyle = UserMapUtil.GetBorderStyle(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.BorderLeftStyle:
-                    cssBox.BorderLeftStyle = CssBoxUserUtilExtension.GetBorderStyle(cssValue);
+                    cssBox.BorderLeftStyle = UserMapUtil.GetBorderStyle(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.BorderRightStyle:
-                    cssBox.BorderRightStyle = CssBoxUserUtilExtension.GetBorderStyle(cssValue);
+                    cssBox.BorderRightStyle = UserMapUtil.GetBorderStyle(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.BorderTopStyle:
-                    cssBox.BorderTopStyle = CssBoxUserUtilExtension.GetBorderStyle(cssValue);
+                    cssBox.BorderTopStyle = UserMapUtil.GetBorderStyle(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.BorderBottomColor:
                     cssBox.BorderBottomColor = cssValue.AsColor();
@@ -693,7 +689,7 @@ namespace HtmlRenderer.Dom
                     cssBox.SetBorderSpacing(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.BorderCollapse:
-                    cssBox.BorderCollapse = CssBoxUserUtilExtension.GetBorderCollapse(cssValue);
+                    cssBox.BorderCollapse = UserMapUtil.GetBorderCollapse(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.CornerRadius:
                     cssBox.SetCornerRadius(cssValue);
@@ -756,11 +752,11 @@ namespace HtmlRenderer.Dom
                     cssBox.BackgroundImageBinder = new ImageBinder(cssValue.GetTranslatedStringValue());
                     break;
                 case WebDom.WellknownCssPropertyName.BackgroundPosition:
-                  
+
                     cssBox.SetBackgroundPosition(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.BackgroundRepeat:
-                    cssBox.BackgroundRepeat = CssBoxUserUtilExtension.GetBackgroundRepeat(cssValue);
+                    cssBox.BackgroundRepeat = UserMapUtil.GetBackgroundRepeat(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.BackgroundGradient:
                     cssBox.BackgroundGradient = cssValue.AsColor();
@@ -779,47 +775,47 @@ namespace HtmlRenderer.Dom
                     cssBox.Color = cssValue.AsColor();
                     break;
                 case WebDom.WellknownCssPropertyName.Display:
-                    cssBox.CssDisplay = CssBoxUserUtilExtension.GetDisplayType(cssValue);
+                    cssBox.CssDisplay = UserMapUtil.GetDisplayType(cssValue);
 
                     break;
                 case WebDom.WellknownCssPropertyName.Direction:
 
-                    cssBox.CssDirection = CssBoxUserUtilExtension.GetCssDirection(cssValue);
+                    cssBox.CssDirection = UserMapUtil.GetCssDirection(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.EmptyCells:
-                    cssBox.EmptyCells = CssBoxUserUtilExtension.GetEmptyCell(cssValue);
+                    cssBox.EmptyCells = UserMapUtil.GetEmptyCell(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.Float:
-                    cssBox.Float = CssBoxUserUtilExtension.GetFloat(cssValue);
+                    cssBox.Float = UserMapUtil.GetFloat(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.Position:
-                    cssBox.Position = CssBoxUserUtilExtension.GetCssPosition(cssValue);
+                    cssBox.Position = UserMapUtil.GetCssPosition(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.LineHeight:
 
                     cssBox.SetLineHeight(cssValue.AsLength());
                     break;
                 case WebDom.WellknownCssPropertyName.VerticalAlign:
-                    cssBox.VerticalAlign = CssBoxUserUtilExtension.GetVerticalAlign(cssValue);
+                    cssBox.VerticalAlign = UserMapUtil.GetVerticalAlign(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.TextIndent:
                     cssBox.TextIndent = cssValue.AsLength();
                     break;
                 case WebDom.WellknownCssPropertyName.TextAlign:
 
-                    cssBox.CssTextAlign = CssBoxUserUtilExtension.GetTextAlign(cssValue);
+                    cssBox.CssTextAlign = UserMapUtil.GetTextAlign(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.TextDecoration:
-                    cssBox.TextDecoration = CssBoxUserUtilExtension.GetTextDecoration(cssValue);
+                    cssBox.TextDecoration = UserMapUtil.GetTextDecoration(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.Whitespace:
-                    cssBox.WhiteSpace = CssBoxUserUtilExtension.GetWhitespace(cssValue);
+                    cssBox.WhiteSpace = UserMapUtil.GetWhitespace(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.WordBreak:
-                    cssBox.WordBreak = CssBoxUserUtilExtension.GetWordBreak(cssValue);
+                    cssBox.WordBreak = UserMapUtil.GetWordBreak(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.Visibility:
-                    cssBox.CssVisibility = CssBoxUserUtilExtension.GetVisibility(cssValue);
+                    cssBox.CssVisibility = UserMapUtil.GetVisibility(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.WordSpacing:
                     cssBox.WordSpacing = cssValue.AsLength();
@@ -831,28 +827,28 @@ namespace HtmlRenderer.Dom
                     cssBox.SetFontSize(parentBox, cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.FontStyle:
-                    cssBox.FontStyle = CssBoxUserUtilExtension.GetFontStyle(cssValue);
+                    cssBox.FontStyle = UserMapUtil.GetFontStyle(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.FontVariant:
-                    cssBox.FontVariant = CssBoxUserUtilExtension.GetFontVariant(cssValue);
+                    cssBox.FontVariant = UserMapUtil.GetFontVariant(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.FontWeight:
-                    cssBox.FontWeight = CssBoxUserUtilExtension.GetFontWeight(cssValue);
+                    cssBox.FontWeight = UserMapUtil.GetFontWeight(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.ListStyle:
                     cssBox.ListStyle = cssValue.GetTranslatedStringValue();
                     break;
                 case WebDom.WellknownCssPropertyName.ListStylePosition:
-                    cssBox.ListStylePosition = CssBoxUserUtilExtension.GetListStylePosition(cssValue);
+                    cssBox.ListStylePosition = UserMapUtil.GetListStylePosition(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.ListStyleImage:
                     cssBox.ListStyleImage = cssValue.GetTranslatedStringValue();
                     break;
                 case WebDom.WellknownCssPropertyName.ListStyleType:
-                    cssBox.ListStyleType = CssBoxUserUtilExtension.GetListStyleType(cssValue);
+                    cssBox.ListStyleType = UserMapUtil.GetListStyleType(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.Overflow:
-                    cssBox.Overflow = CssBoxUserUtilExtension.GetOverflow(cssValue);
+                    cssBox.Overflow = UserMapUtil.GetOverflow(cssValue);
                     break;
             }
         }
@@ -978,7 +974,7 @@ namespace HtmlRenderer.Dom
                     break;
                 case WebDom.WellknownCssPropertyName.BackgroundPosition:
                     cssBox.BackgroundPositionX = parentCssBox.BackgroundPositionX;
-                    cssBox.BackgroundPositionY = parentCssBox.BackgroundPositionY;                     
+                    cssBox.BackgroundPositionY = parentCssBox.BackgroundPositionY;
                     break;
                 case WebDom.WellknownCssPropertyName.BackgroundRepeat:
                     cssBox.BackgroundRepeat = parentCssBox.BackgroundRepeat;
