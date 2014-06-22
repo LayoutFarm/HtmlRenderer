@@ -109,60 +109,7 @@ namespace HtmlRenderer.Utils
                 pen.Width = 1;
             }
             return pen;
-        }
-
-        /// <summary>
-        /// Clip the region the graphics will draw on by the overflow style of the containing block.<br/>
-        /// Recursively travel up the tree to find containing block that has overflow style set to hidden. if not
-        /// block found there will be no clipping and null will be returned.
-        /// </summary>
-        /// <param name="g">the graphics to clip</param>
-        /// <param name="box">the box that is rendered to get containing blocks</param>
-        /// <returns>the prev region if clipped, otherwise null</returns>
-        public static RectangleF ClipGraphicsByOverflow(IGraphics g, PaintVisitor args)
-        {
-            var containingBlock = args.LatestContainingBlock; //box.ContainingBlock;
-            while (true)
-            {
-                if (containingBlock.Overflow == CssOverflow.Hidden)
-                {
-
-                    var prevClip = g.GetClip();
-                    var rect = containingBlock.LocalClientRectangle;
-
-                    //rect.X -= 2; // atodo: find better way to fix it
-                    //rect.Width += 2;
-                    rect.Offset(args.HtmlContainer.ScrollOffset);//box.HtmlContainer.ScrollOffset);
-                    rect.Intersect(prevClip);
-                    g.SetClip(rect);
-                    return prevClip;
-                }
-                else
-                {
-                    var cBlock = containingBlock.ContainingBlock;
-                    if (cBlock == containingBlock)
-                    {
-                        return RectangleF.Empty;
-                    }
-                    containingBlock = cBlock;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Return original clip region to the graphics object.<br/>
-        /// Should be used with <see cref="ClipGraphicsByOverflow"/> return value to return clip back to original.
-        /// </summary>
-        /// <param name="g">the graphics to clip</param>
-        /// <param name="prevClip">the region to set on the graphics (null - ignore)</param>
-        public static void ReturnClip(IGraphics g, RectangleF prevClip)
-        {
-            if (prevClip != RectangleF.Empty)
-            {
-                g.SetClip(prevClip);
-            }
-        }
-
+        } 
         /// <summary>
         /// Draw image loading icon.
         /// </summary>

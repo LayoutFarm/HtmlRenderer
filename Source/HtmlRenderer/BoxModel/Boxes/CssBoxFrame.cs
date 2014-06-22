@@ -465,7 +465,7 @@ namespace HtmlRenderer.Dom
         {
 
             var rects = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
-            var prevClip = RenderUtils.ClipGraphicsByOverflow(g, args);
+            args.PushLocalClipArea(this.SizeWidth, this.SizeHeight);
 
             PaintBackground(g, rects, true, true);
 
@@ -486,7 +486,7 @@ namespace HtmlRenderer.Dom
 
             DrawPlay(g, rect);
 
-            RenderUtils.ReturnClip(g, prevClip);
+            args.PopLocalClipArea();
         }
 
         /// <summary>

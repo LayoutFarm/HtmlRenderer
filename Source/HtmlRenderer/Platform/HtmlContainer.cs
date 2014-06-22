@@ -569,25 +569,29 @@ namespace HtmlRenderer
                 return;
             }
 
-            //ig.FillRectangle(Brushes.Red, 0, 0, 70, 70);
-
+            //ig.FillRectangle(Brushes.Red, 0, 0, 70, 70); 
             PaintVisitor args = new PaintVisitor(this, ig);
             var bound = this.ViewportBound;
+
+            args.PushContaingBlock(_root.ContainingBlock);
+            args.PushLocalClipArea(bound.Width, bound.Height);
             args.PushBound(0, 0, bound.Width, bound.Height);
+           
             //using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))            //{
 
             //Recalculate and perform layout if need !
-            //this.PerformLayout(ig);
+            //this.PerformLayout(ig); 
 
-            args.PushContaingBlock(_root.ContainingBlock);
-
-            Console.WriteLine("start --------------");
+            //Console.WriteLine("start --------------");
 
             _root.Paint(ig, args);
+            
 
-            Console.WriteLine("end --------------");
+            //Console.WriteLine("end --------------");
 
+            args.PopLocalClipArea();
             args.PopContainingBlock();
+            
 
             //ig.FillRectangle(Brushes.Black, 0, 0, 50, 50);
 

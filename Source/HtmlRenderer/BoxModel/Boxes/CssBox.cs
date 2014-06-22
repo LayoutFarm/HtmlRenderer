@@ -685,12 +685,9 @@ namespace HtmlRenderer.Dom
                                 {
                                     //If there's just inline boxes, create LineBoxes
                                     if (DomUtils.ContainsInlinesOnly(this))
-                                    {
-
+                                    { 
                                         this.SetHeightToZero();
                                         CssLayoutEngine.FlowContentRuns(this, args); //This will automatically set the bottom of this block
-
-
                                     }
                                     else if (_boxes.Count > 0)
                                     {

@@ -76,8 +76,7 @@ namespace HtmlRenderer.Dom
 
             var rect = w.Rectangle;
 
-
-            var prevClip = RenderUtils.ClipGraphicsByOverflow(g, args);
+            args.PushLocalClipArea(rect.Width, rect.Height);
 
             PaintBackground(g, rect, true, true);
             BordersDrawHandler.DrawBoxBorders(g, this, rect, true, true);
@@ -113,7 +112,7 @@ namespace HtmlRenderer.Dom
                 }
             }
 
-            RenderUtils.ReturnClip(g, prevClip);
+            args.PopLocalClipArea();
 
         }
         /// <summary>
@@ -130,9 +129,9 @@ namespace HtmlRenderer.Dom
             }
 
             //1. single image can't be splited 
-             
+
             var rect = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
-            var prevClip = RenderUtils.ClipGraphicsByOverflow(g, args);
+            args.PushLocalClipArea(this.SizeWidth, this.SizeHeight);
 
             PaintBackground(g, rect, true, true);
             BordersDrawHandler.DrawBoxBorders(g, this, rect, true, true);
@@ -169,7 +168,7 @@ namespace HtmlRenderer.Dom
                 }
             }
 
-            RenderUtils.ReturnClip(g, prevClip);
+            args.PopLocalClipArea();
         }
 
         /// <summary>
