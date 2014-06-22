@@ -1,3 +1,6 @@
+//BSD 2014,WinterCore
+//ArthurHub
+
 using System;
 using System.Globalization;
 using HtmlRenderer.Entities;
@@ -17,6 +20,14 @@ namespace HtmlRenderer.Dom
         public const int FONTSIZE_SMALLER = 17;
         public const int FONTSIZE_LARGER = 18;
     }
+    public static class CssBackgroundPositionConst
+    {
+        public const int LEFT = 1 << (10 - 1);
+        public const int TOP = 1 << (11 - 1);
+        public const int RIGHT = 1 << (12 - 1);
+        public const int BOTTOM = 1 << (13 - 1);
+        public const int CENTER = 1 << (14 - 1);
+    }
 
     /// <summary>
     /// Represents and gets info about a CSS Length
@@ -26,8 +37,6 @@ namespace HtmlRenderer.Dom
     /// </remarks>
     public struct CssLength
     {
-
-
 
         const int IS_AUTO = 1 << (11 - 1);
         const int IS_RELATIVE = 1 << (12 - 1);
@@ -42,6 +51,9 @@ namespace HtmlRenderer.Dom
         //-------------------------------------
         //when used as font size
         const int IS_FONT_SIZE_NAME = 1 << (20 - 1);
+        //------------------------------------- 
+        //when used as background position
+        const int IS_BACKGROUND_POS = 1 << (21 - 1);
         //------------------------------------- 
 
         #region Fields
@@ -75,7 +87,13 @@ namespace HtmlRenderer.Dom
 
         public static readonly CssLength FontSizeSmaller = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_SMALLER);
         public static readonly CssLength FontSizeLarger = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_LARGE);
-
+        //-----------------------------------------------------------------------------------------
+        public static readonly CssLength BackgroundPosLeft = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS | CssBackgroundPositionConst.LEFT);
+        public static readonly CssLength BackgroundPosTop = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS | CssBackgroundPositionConst.TOP);
+        public static readonly CssLength BackgroundPosRight = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS | CssBackgroundPositionConst.RIGHT);
+        public static readonly CssLength BackgroundPosBottom = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS | CssBackgroundPositionConst.BOTTOM);
+        public static readonly CssLength BackgroundPosCenter = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS | CssBackgroundPositionConst.CENTER);
+        //-----------------------------------------------------------------------------------------
 
 
         #region Ctor
@@ -272,10 +290,6 @@ namespace HtmlRenderer.Dom
             get { return this.Unit == CssUnit.Percent; }
         }
 
-        public bool IsFontSizeName
-        {
-            get { return (this._flags & IS_FONT_SIZE_NAME) != 0; }
-        }
         public bool IsAuto
         {
             get { return (this._flags & IS_AUTO) != 0; }
@@ -314,19 +328,25 @@ namespace HtmlRenderer.Dom
         {
             get { return (CssUnit)(this._flags & 0xFF); }
         }
+
+        //-------------------------------------------------
+        public bool IsFontSizeName
+        {
+            get { return (this._flags & IS_FONT_SIZE_NAME) != 0; }
+        }
         public int FontSizeName
         {
             get { return (int)(this._flags & 0xFF); }
         }
-        ///// <summary>
-        ///// Gets the length as specified in the string
-        ///// </summary>
-        //public string Length
-        //{
-        //    get { return _length; }
-        //}
-
-
+        //-------------------------------------------------
+        public bool IsBackgroundPositionName
+        {
+            get { return (this._flags & IS_BACKGROUND_POS) != 0; }
+        }
+        public int BackgroundPositionName
+        {
+            get { return (int)(this._flags & 0xFF); }
+        }
         #endregion
 
         #region Methods

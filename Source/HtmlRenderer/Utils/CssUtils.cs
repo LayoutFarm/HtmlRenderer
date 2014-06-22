@@ -173,7 +173,7 @@ namespace HtmlRenderer.Utils
                     return cssBox.BackgroundImageBinder.ImageSource;
 
                 case "background-position":
-                    return cssBox.BackgroundPosition;
+                    return cssBox.BackgroundPositionX.ToString() + " " + cssBox.BackgroundPositionY.ToString();
                 case "background-repeat":
                     return cssBox.BackgroundRepeat.ToCssStringValue();
 

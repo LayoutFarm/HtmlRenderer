@@ -430,7 +430,9 @@ namespace HtmlRenderer.Dom
             this.BackgroundGradient = Color.Transparent;// "none";
             this.BackgroundGradientAngle = 90.0f;
             this.BackgroundImageBinder = ImageBinder.NoImage;
-            this.BackgroundPosition = "0% 0%";
+
+            this.BackgroundPosX = new CssLength(0, CssUnit.Percent);
+            this.BackgroundPosY = new CssLength(0, CssUnit.Percent);
             this.BackgroundRepeat = CssBackgroundRepeat.Repeat;
         }
         private CssBackgroundProp(object owner, CssBackgroundProp inheritFrom)
@@ -440,7 +442,9 @@ namespace HtmlRenderer.Dom
             BackgroundGradient = inheritFrom.BackgroundGradient;
             BackgroundGradientAngle = inheritFrom.BackgroundGradientAngle;
             BackgroundImageBinder = inheritFrom.BackgroundImageBinder;
-            BackgroundPosition = inheritFrom.BackgroundPosition;
+
+            BackgroundPosX = inheritFrom.BackgroundPosX;
+            BackgroundPosY = inheritFrom.BackgroundPosY;
             BackgroundRepeat = inheritFrom.BackgroundRepeat;
         }
 

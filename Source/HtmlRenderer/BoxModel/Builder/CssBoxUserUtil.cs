@@ -457,7 +457,6 @@ namespace HtmlRenderer.Dom
                         //?
                         //or percent ? 
                         CssLength len = primValue.AsLength();
-
                         if (len.HasError)
                         {
                             len = CssLength.FontSizeMedium;
@@ -559,6 +558,11 @@ namespace HtmlRenderer.Dom
         public static WellknownHtmlTagName EvaluateTagName(string name)
         {
             return _wellknownHtmlTagNameMap.GetValueFromString(name, WellknownHtmlTagName.Unknown);
+        }
+        internal static void SetBackgroundPosition(this CssBoxBase box, WebDom.CssCodeValueExpression value)
+        {
+            //TODO: implement background position from combination value
+            throw new NotSupportedException();
         }
     }
 

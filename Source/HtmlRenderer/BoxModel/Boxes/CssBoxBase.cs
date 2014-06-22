@@ -427,12 +427,17 @@ namespace HtmlRenderer.Dom
             set { CheckBgVersion().BackgroundImageBinder = value; }
         }
         
-        public string BackgroundPosition
+         
+        public CssLength BackgroundPositionX
         {
-            get { return this._backgroundProps.BackgroundPosition; }
-            set { CheckBgVersion().BackgroundPosition = value; }
+            get { return this._backgroundProps.BackgroundPosX; }
+            set { CheckBgVersion().BackgroundPosX = value; }
         }
-
+        public CssLength BackgroundPositionY
+        {
+            get { return this._backgroundProps.BackgroundPosY; }
+            set { CheckBgVersion().BackgroundPosY = value; }
+        }
         public CssBackgroundRepeat BackgroundRepeat
         {
             get { return this._backgroundProps.BackgroundRepeat; }

@@ -41,7 +41,7 @@ namespace HtmlRenderer.Handlers
             //                 imageLoadHandler.Rectangle == Rectangle.Empty ? imageLoadHandler.Image.Height : imageLoadHandler.Rectangle.Height);
 
             // get the location by BackgroundPosition value
-            var location = GetLocation(box.BackgroundPosition, rectangle, imgSize);
+            var location = GetLocation(box.BackgroundPositionX, box.BackgroundPositionY, rectangle, imgSize);
 
             //var srcRect = imageLoadHandler.Rectangle == Rectangle.Empty
             //                  ? new Rectangle(0, 0, imgSize.Width, imgSize.Height)
@@ -86,36 +86,50 @@ namespace HtmlRenderer.Handlers
         /// <param name="rectangle">the rectangle to position image in</param>
         /// <param name="imgSize">the size of the image</param>
         /// <returns>the top-left location</returns>
-        static Point GetLocation(string backgroundPosition, RectangleF rectangle, Size imgSize)
-        {
+        static Point GetLocation(CssLength posX, CssLength posY, RectangleF rectangle, Size imgSize)
+        {   
+
+
             int left = (int)rectangle.Left;
-            if (backgroundPosition.IndexOf("left", StringComparison.OrdinalIgnoreCase) > -1)
+            int top = (int)rectangle.Top;
+
+            if (posX.IsBackgroundPositionName)
             {
-                left = (int)(rectangle.Left + .5f);
+                switch (posX.BackgroundPositionName)
+                {
+                    case CssBackgroundPositionConst.LEFT:
+                        {
+                            left = (int)(rectangle.Left + .5f);
+                        } break;
+                    case CssBackgroundPositionConst.RIGHT:
+                        {
+                            left = (int)rectangle.Right - imgSize.Width;
+                        } break;
+                }
             }
-            else if (backgroundPosition.IndexOf("right", StringComparison.OrdinalIgnoreCase) > -1)
-            {
-                left = (int)rectangle.Right - imgSize.Width;
-            }
-            else if (backgroundPosition.IndexOf("0", StringComparison.OrdinalIgnoreCase) < 0)
-            {
+            else
+            {   
+                //not complete !
                 left = (int)(rectangle.Left + (rectangle.Width - imgSize.Width) / 2 + .5f);
             }
-
-            int top = (int)rectangle.Top;
-            if (backgroundPosition.IndexOf("top", StringComparison.OrdinalIgnoreCase) > -1)
+            if (posY.IsBackgroundPositionName)
             {
-                top = (int)rectangle.Top;
+                switch (posY.BackgroundPositionName)
+                {
+                    case CssBackgroundPositionConst.TOP:
+                        {
+                            top = (int)rectangle.Top;
+                        } break;
+                    case CssBackgroundPositionConst.BOTTOM:
+                        {
+                            top = (int)rectangle.Bottom - imgSize.Height;
+                        } break;
+                }
             }
-            else if (backgroundPosition.IndexOf("bottom", StringComparison.OrdinalIgnoreCase) > -1)
-            {
-                top = (int)rectangle.Bottom - imgSize.Height;
-            }
-            else if (backgroundPosition.IndexOf("0", StringComparison.OrdinalIgnoreCase) < 0)
-            {
+            else
+            {   //not complete !
                 top = (int)(rectangle.Top + (rectangle.Height - imgSize.Height) / 2 + .5f);
-            }
-
+            } 
             return new Point(left, top);
         }
 

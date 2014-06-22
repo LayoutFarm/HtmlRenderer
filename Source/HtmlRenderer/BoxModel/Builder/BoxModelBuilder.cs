@@ -756,7 +756,8 @@ namespace HtmlRenderer.Dom
                     cssBox.BackgroundImageBinder = new ImageBinder(cssValue.GetTranslatedStringValue());
                     break;
                 case WebDom.WellknownCssPropertyName.BackgroundPosition:
-                    cssBox.BackgroundPosition = cssValue.GetTranslatedStringValue();
+                  
+                    cssBox.SetBackgroundPosition(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.BackgroundRepeat:
                     cssBox.BackgroundRepeat = CssBoxUserUtilExtension.GetBackgroundRepeat(cssValue);
@@ -976,7 +977,8 @@ namespace HtmlRenderer.Dom
                     cssBox.BackgroundImageBinder = parentCssBox.BackgroundImageBinder;
                     break;
                 case WebDom.WellknownCssPropertyName.BackgroundPosition:
-                    cssBox.BackgroundPosition = parentCssBox.BackgroundPosition;
+                    cssBox.BackgroundPositionX = parentCssBox.BackgroundPositionX;
+                    cssBox.BackgroundPositionY = parentCssBox.BackgroundPositionY;                     
                     break;
                 case WebDom.WellknownCssPropertyName.BackgroundRepeat:
                     cssBox.BackgroundRepeat = parentCssBox.BackgroundRepeat;
