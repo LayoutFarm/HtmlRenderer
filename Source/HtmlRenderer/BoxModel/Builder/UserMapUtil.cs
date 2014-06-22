@@ -10,9 +10,8 @@ using HtmlRenderer.Utils;
 namespace HtmlRenderer.Dom
 {
 
-    public static class CssBoxUserUtilExtension
+    public static class UserMapUtil
     {
-
 
         static readonly ValueMap<CssDisplay> _cssDisplayMap = new ValueMap<CssDisplay>();
         static readonly ValueMap<CssDirection> _cssDirectionMap = new ValueMap<CssDirection>();
@@ -44,7 +43,7 @@ namespace HtmlRenderer.Dom
 
 
 
-        static CssBoxUserUtilExtension()
+        static UserMapUtil()
         {
 
         }
@@ -104,7 +103,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                return value.AsIntValue();
+                return value.GetCacheIntValue();
             }
         }
         //-----------------------
@@ -441,6 +440,124 @@ namespace HtmlRenderer.Dom
             }
         }
 
+
+        internal static HtmlRenderer.Dom.CssLength AsBorderLength(this WebDom.CssCodeValueExpression value)
+        {
+            if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.BorderLength)
+            {
+                switch (value.Hint)
+                {
+                    case WebDom.CssValueHint.Number:
+                        {
+                            if (value is WebDom.CssCodePrimitiveExpression)
+                            {
+                                WebDom.CssCodePrimitiveExpression prim = (WebDom.CssCodePrimitiveExpression)value;
+                                CssLength len = new CssLength(value.AsNumber(), CssLength.GetCssUnit(prim.Unit));
+                                value.SetCssLength(len, WebDom.CssValueEvaluatedAs.BorderLength);
+                                return len;
+                            }
+                            else
+                            {
+                                CssLength len = CssLength.MakePixelLength(value.AsNumber());
+                                value.SetCssLength(len, WebDom.CssValueEvaluatedAs.BorderLength);
+                                return len;
+                            }
+                        }
+                    default:
+                        {
+                            CssLength len = MakeBorderLength(value.ToString());
+                            value.SetCssLength(len, WebDom.CssValueEvaluatedAs.BorderLength);
+                            return len;
+                        }
+                }
+            }
+            return value.GetCacheCssLength();
+        }
+
+
+        internal static HtmlRenderer.Dom.CssLength AsLength(this WebDom.CssCodeValueExpression value)
+        {
+            if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.Length)
+            {
+                //length from number 
+                switch (value.Hint)
+                {
+                    case WebDom.CssValueHint.Number:
+                        {
+                            if (value is WebDom.CssCodePrimitiveExpression)
+                            {
+                                WebDom.CssCodePrimitiveExpression prim = (WebDom.CssCodePrimitiveExpression)value;
+                                CssLength len = new CssLength(value.AsNumber(), CssLength.GetCssUnit(prim.Unit));
+                                value.SetCssLength(len, WebDom.CssValueEvaluatedAs.Length);
+                                return len;
+                            }
+                            else
+                            {
+                                CssLength len = CssLength.MakePixelLength(value.AsNumber());
+                                value.SetCssLength(len, WebDom.CssValueEvaluatedAs.Length);
+                                return len;
+                            }
+                        }
+                    default:
+                        {
+
+                            CssLength len = TranslateLength(value.ToString());
+                            value.SetCssLength(len, WebDom.CssValueEvaluatedAs.Length);
+                            return len;
+                        }
+                }
+            }
+            return value.GetCacheCssLength();
+        }
+
+
+
+        internal static HtmlRenderer.Dom.CssLength AsTranslatedLength(this WebDom.CssCodeValueExpression value)
+        {
+            if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.TranslatedLength)
+            {
+
+                switch (value.Hint)
+                {
+                    case WebDom.CssValueHint.Number:
+                        {
+                            if (value is WebDom.CssCodePrimitiveExpression)
+                            {
+                                WebDom.CssCodePrimitiveExpression prim = (WebDom.CssCodePrimitiveExpression)value;
+                                CssLength len = new CssLength(value.AsNumber(), CssLength.GetCssUnit(prim.Unit));
+                                value.SetCssLength(len, WebDom.CssValueEvaluatedAs.TranslatedLength);
+                                return len;
+                            }
+                            else
+                            {
+                                CssLength len = CssLength.MakePixelLength(value.AsNumber());
+                                value.SetCssLength(len, WebDom.CssValueEvaluatedAs.TranslatedLength);
+                                return len;
+                            }
+
+                        }
+                    default:
+                        {
+                            CssLength len = TranslateLength(value.ToString());
+                            value.SetCssLength(len, WebDom.CssValueEvaluatedAs.TranslatedLength);
+                            return len;
+                        }
+                }
+            }
+            return value.GetCacheCssLength();
+        }
+        internal static System.Drawing.Color AsColor(this WebDom.CssCodeValueExpression value)
+        {
+            if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.Color)
+            {
+                Color actualColor = Parse.CssValueParser.GetActualColor(value.GetTranslatedStringValue());
+                value.SetColorValue(actualColor);
+                return actualColor;
+            }
+            return value.GetCacheColor();
+        }
+        //----------------------------------------------------------------------------------------------------------------
+
         internal static void SetFontSize(this CssBoxBase box, CssBoxBase parentBox, WebDom.CssCodeValueExpression value)
         {
             //number + value
@@ -563,6 +680,84 @@ namespace HtmlRenderer.Dom
         {
             //TODO: implement background position from combination value
             throw new NotSupportedException();
+        }
+
+
+        /// <summary>
+        /// Converts an HTML length into a Css length
+        /// </summary>
+        /// <param name="htmlLength"></param>
+        /// <returns></returns>
+        public static CssLength TranslateLength(string htmlLength)
+        {
+            CssLength len = ParseGenericLength(htmlLength);
+            if (len.HasError)
+            {
+                return CssLength.MakePixelLength(0);
+            }
+            return len;
+        }
+        internal static CssLength MakeBorderLength(string str)
+        {
+            switch (str)
+            {
+                case CssConstants.Medium:
+                    return CssLength.Medium;
+                case CssConstants.Thick:
+                    return CssLength.Thick;
+                case CssConstants.Thin:
+                    return CssLength.Thin;
+            }
+            return ParseGenericLength(str);
+        }
+        static CssLength ParseGenericLength(string lenValue)
+        {
+            float parsedNumber = 0f;
+
+            switch (lenValue)
+            {
+                case null:
+                case "":
+                case "0":
+                    //Return zero if no length specified, zero specified
+                    return CssLength.ZeroNoUnit;
+                case "auto":
+                    return CssLength.AutoLength;
+                case "normal":
+                    return CssLength.NormalWordOrLine;
+            }
+
+            //then parse
+            //If percentage, use ParseNumber
+            if (lenValue.EndsWith("%"))
+            {
+                parsedNumber = float.Parse(lenValue.Substring(0, lenValue.Length - 1));
+                return new CssLength(parsedNumber, CssUnit.Percent);
+            }
+            //If no units, has error
+            if (lenValue.Length < 3)
+            {
+                float.TryParse(lenValue, out parsedNumber);
+                return new CssLength(parsedNumber, CssUnit.Unknown);
+            }
+            //Get units of the length
+            //TODO: Units behave different in paper and in screen! 
+            CssUnit unit = CssLength.GetCssUnit(lenValue.Substring(lenValue.Length - 2, 2));
+            //parse number part
+            string number_part = lenValue.Substring(0, lenValue.Length - 2);
+
+            if (!float.TryParse(number_part,
+                System.Globalization.NumberStyles.Number,
+                System.Globalization.NumberFormatInfo.InvariantInfo, out parsedNumber))
+            {
+                //make an error value
+                return new CssLength(0, CssUnit.Unknown);
+            }
+            else
+            {
+                return new CssLength(parsedNumber, unit);
+            }
+
         }
     }
 

@@ -695,19 +695,19 @@ namespace HtmlRenderer.WebDom.Parser
                             //font weight
                             //font named size         
                             //font family
-                            if (HtmlRenderer.Dom.CssBoxUserUtilExtension.IsFontStyle(value.Value))
+                            if (HtmlRenderer.Dom.UserMapUtil.IsFontStyle(value.Value))
                             {
                                 newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontStyle, value));
                                 continue;
                             }
 
-                            if (HtmlRenderer.Dom.CssBoxUserUtilExtension.IsFontVariant(value.Value))
+                            if (HtmlRenderer.Dom.UserMapUtil.IsFontVariant(value.Value))
                             {
                                 newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontVariant, value));
                                 continue;
                             }
                             //----------
-                            if (HtmlRenderer.Dom.CssBoxUserUtilExtension.IsFontWeight(value.Value))
+                            if (HtmlRenderer.Dom.UserMapUtil.IsFontWeight(value.Value))
                             {
                                 newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontWeight, value));
                                 continue;
@@ -868,7 +868,7 @@ namespace HtmlRenderer.WebDom.Parser
                 //what value means ?
                 //border width/ style / color
                 if (cssCodePropertyValue.Hint == CssValueHint.Number ||
-                    HtmlRenderer.Dom.CssBoxUserUtilExtension.IsNamedBorderWidth(cssCodePropertyValue.Value))
+                    HtmlRenderer.Dom.UserMapUtil.IsNamedBorderWidth(cssCodePropertyValue.Value))
                 {
                     //border width
                     switch (borderDirection)
@@ -903,7 +903,7 @@ namespace HtmlRenderer.WebDom.Parser
                 }
 
                 //------
-                if (HtmlRenderer.Dom.CssBoxUserUtilExtension.IsBorderStyle(cssCodePropertyValue.Value))
+                if (HtmlRenderer.Dom.UserMapUtil.IsBorderStyle(cssCodePropertyValue.Value))
                 {
 
                     //border style

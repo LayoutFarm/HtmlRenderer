@@ -143,7 +143,7 @@ namespace HtmlRenderer.Dom
         public HtmlTagBridge(HtmlRenderer.WebDom.HtmlElement elem)
         {
             this.elem = elem;
-            this.WellknownTagName = CssBoxUserUtilExtension.EvaluateTagName(elem.LocalName);
+            this.WellknownTagName = UserMapUtil.EvaluateTagName(elem.LocalName);
         }
         public WellknownHtmlTagName WellknownTagName
         {
