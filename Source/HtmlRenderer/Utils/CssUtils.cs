@@ -175,7 +175,8 @@ namespace HtmlRenderer.Utils
                 case "background-position":
                     return cssBox.BackgroundPosition;
                 case "background-repeat":
-                    return cssBox.BackgroundRepeat;
+                    return cssBox.BackgroundRepeat.ToCssStringValue();
+
                 case "background-gradient":
                     return cssBox.BackgroundGradient.ToHexColor();
                 case "background-gradient-angle":

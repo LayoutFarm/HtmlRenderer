@@ -19,20 +19,13 @@ using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Handlers
 {
+
+
     /// <summary>
     /// Contains all the complex paint code to paint different style borders.
     /// </summary>
-    internal static class BordersDrawHandler
+    static class BordersDrawHandler
     {
-        #region Fields and Consts
-
-        /// <summary>
-        /// used for all border paint to use the same points and not create new array each time.
-        /// </summary>
-        private static readonly PointF[] _borderPts = new PointF[4];
-
-        #endregion
-
 
         /// <summary>
         /// Draws all the border of the box with respect to style, width, etc.
@@ -86,11 +79,11 @@ namespace HtmlRenderer.Handlers
         /// <param name="rectangle">the bounding rectangle to draw in</param>
         /// <returns>Beveled border path, null if there is no rounded corners</returns>
         public static void DrawBorder(Border border, IGraphics g, CssBox box, Brush brush, RectangleF rectangle)
-        {
-            SetInOutsetRectanglePoints(border, box, rectangle, true, true);
-            g.FillPolygon(brush, _borderPts);
+        {    
+            PointF[] borderPts = new PointF[4];
+            SetInOutsetRectanglePoints(border, box, rectangle, true, true, borderPts);
+            g.FillPolygon(brush, borderPts); 
         }
-
 
         #region Private methods
 
@@ -103,7 +96,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="rect">the rectangle the border is enclosing</param>
         /// <param name="isLineStart">Specifies if the border is for a starting line (no bevel on left)</param>
         /// <param name="isLineEnd">Specifies if the border is for an ending line (no bevel on right)</param>
-        private static void DrawBorder(Border border, CssBox box, PaintVisitor p, RectangleF rect, bool isLineStart, bool isLineEnd)
+        static void DrawBorder(Border border, CssBox box, PaintVisitor p, RectangleF rect, bool isLineStart, bool isLineEnd)
         {
 
             CssBorderStyle style = GetStyle(border, box);
@@ -137,8 +130,9 @@ namespace HtmlRenderer.Handlers
                 if (style == CssBorderStyle.Inset || style == CssBorderStyle.Outset)
                 {
                     // inset/outset border needs special rectangle
-                    SetInOutsetRectanglePoints(border, box, rect, isLineStart, isLineEnd);
-                    g.FillPolygon(RenderUtils.GetSolidBrush(color), _borderPts);
+                    PointF[] borderPnts = new PointF[4];
+                    SetInOutsetRectanglePoints(border, box, rect, isLineStart, isLineEnd, borderPnts);
+                    g.FillPolygon(RenderUtils.GetSolidBrush(color), borderPnts);
                 }
                 else
                 {
@@ -172,7 +166,8 @@ namespace HtmlRenderer.Handlers
         /// <param name="isLineStart">Specifies if the border is for a starting line (no bevel on left)</param>
         /// <param name="isLineEnd">Specifies if the border is for an ending line (no bevel on right)</param>
         /// <returns>Beveled border path, null if there is no rounded corners</returns>
-        private static void SetInOutsetRectanglePoints(Border border, CssBox b, RectangleF r, bool isLineStart, bool isLineEnd)
+        static void SetInOutsetRectanglePoints(Border border, CssBox b, RectangleF r, bool isLineStart, bool isLineEnd,
+            PointF[] _borderPts)
         {
             switch (border)
             {
@@ -220,7 +215,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="b">Box which the border corresponds</param>
         /// <param name="r">the rectangle the border is enclosing</param>
         /// <returns>Beveled border path, null if there is no rounded corners</returns>
-        private static GraphicsPath GetRoundedBorderPath(Border border, CssBox b, RectangleF r)
+        static GraphicsPath GetRoundedBorderPath(Border border, CssBox b, RectangleF r)
         {
             GraphicsPath path = null;
 
@@ -318,7 +313,7 @@ namespace HtmlRenderer.Handlers
         /// <summary>
         /// Get pen to be used for border draw respecting its style.
         /// </summary>
-        private static Pen GetPen(CssBorderStyle style, Color color, float width)
+        static Pen GetPen(CssBorderStyle style, Color color, float width)
         {
             var p = RenderUtils.GetPen(color);
             p.Width = width;
@@ -343,7 +338,7 @@ namespace HtmlRenderer.Handlers
         /// <summary>
         /// Get the border color for the given box border.
         /// </summary>
-        private static Color GetColor(Border border, CssBoxBase box, CssBorderStyle style)
+        static Color GetColor(Border border, CssBoxBase box, CssBorderStyle style)
         {
             switch (border)
             {
@@ -363,7 +358,7 @@ namespace HtmlRenderer.Handlers
         /// <summary>
         /// Get the border width for the given box border.
         /// </summary>
-        private static float GetWidth(Border border, CssBoxBase box)
+        static float GetWidth(Border border, CssBoxBase box)
         {
             switch (border)
             {
@@ -403,7 +398,7 @@ namespace HtmlRenderer.Handlers
         /// <summary>
         /// Makes the specified color darker for inset/outset borders.
         /// </summary>
-        private static Color Darken(Color c)
+        static Color Darken(Color c)
         {
             return Color.FromArgb(c.R / 2, c.G / 2, c.B / 2);
         }

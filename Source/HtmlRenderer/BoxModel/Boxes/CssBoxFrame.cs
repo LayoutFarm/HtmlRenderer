@@ -477,7 +477,8 @@ namespace HtmlRenderer.Dom
 
             PaintBackground(p, rects, true, true);
 
-            BordersDrawHandler.DrawBoxBorders(p, this, rects, true, true);
+             
+            p.PaintBorders(this, rects, true, true);
 
             var word = this.FirstRun;
             var tmpRect = word.Rectangle;

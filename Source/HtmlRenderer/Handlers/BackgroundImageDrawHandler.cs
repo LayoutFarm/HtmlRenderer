@@ -59,13 +59,13 @@ namespace HtmlRenderer.Handlers
 
             switch (box.BackgroundRepeat)
             {
-                case "no-repeat":
+                case CssBackgroundRepeat.NoRepeat:
                     g.DrawImage(image, new RectangleF(location, imgSize), new RectangleF(0, 0, image.Width, image.Height));
                     break;
-                case "repeat-x":
+                case CssBackgroundRepeat.RepeatX:
                     DrawRepeatX(g, image, rectangle, srcRect, destRect, imgSize);
                     break;
-                case "repeat-y":
+                case CssBackgroundRepeat.RepeatY:
                     DrawRepeatY(g, image, rectangle, srcRect, destRect, imgSize);
                     break;
                 default:
@@ -86,7 +86,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="rectangle">the rectangle to position image in</param>
         /// <param name="imgSize">the size of the image</param>
         /// <returns>the top-left location</returns>
-        private static Point GetLocation(string backgroundPosition, RectangleF rectangle, Size imgSize)
+        static Point GetLocation(string backgroundPosition, RectangleF rectangle, Size imgSize)
         {
             int left = (int)rectangle.Left;
             if (backgroundPosition.IndexOf("left", StringComparison.OrdinalIgnoreCase) > -1)

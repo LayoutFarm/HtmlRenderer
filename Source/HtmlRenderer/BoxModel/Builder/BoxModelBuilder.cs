@@ -759,7 +759,7 @@ namespace HtmlRenderer.Dom
                     cssBox.BackgroundPosition = cssValue.GetTranslatedStringValue();
                     break;
                 case WebDom.WellknownCssPropertyName.BackgroundRepeat:
-                    cssBox.BackgroundRepeat = cssValue.GetTranslatedStringValue();
+                    cssBox.BackgroundRepeat = CssBoxUserUtilExtension.GetBackgroundRepeat(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.BackgroundGradient:
                     cssBox.BackgroundGradient = cssValue.AsColor();

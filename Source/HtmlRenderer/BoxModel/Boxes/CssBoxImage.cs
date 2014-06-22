@@ -106,7 +106,8 @@ namespace HtmlRenderer.Dom
             p.PushLocalClipArea(rect.Width, rect.Height);
             PaintBackground(p, rect, true, true);
 
-            BordersDrawHandler.DrawBoxBorders(p, this, rect, true, true);
+             
+            p.PaintBorders(this, rect, true, true);
             RectangleF r = _imageWord.Rectangle;
             r.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
             r.Y += ActualBorderTopWidth + ActualPaddingTop;
@@ -116,7 +117,7 @@ namespace HtmlRenderer.Dom
             switch (_imgBinder.State)
             {
                 case ImageBinderState.Unload:
-                    {                         
+                    {
 
                         p.RequestImage(_imgBinder, this, OnImageBinderLoadingComplete);
 

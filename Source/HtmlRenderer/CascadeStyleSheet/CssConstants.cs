@@ -177,5 +177,11 @@ namespace HtmlRenderer.Entities
         public const string Separate = "separate";
         public const string SmallCaps = "small-caps";
         public const string Inside = "inside";
+        //------------------------------------------------------------------
+        public const string Repeat = "repeat";
+        public const string RepeatX = "repeat-x";
+        public const string RepeatY = "repeat-y";
+        public const string NoRepeat = "no-repeat";
+        //------------------------------------------------------------------ 
     }
 }
