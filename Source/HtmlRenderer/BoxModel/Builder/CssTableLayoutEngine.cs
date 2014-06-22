@@ -59,7 +59,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="g"></param>
         /// <param name="tableBox"> </param>
-        public static void PerformLayout(CssBox tableBox, LayoutArgs args)
+        public static void PerformLayout(CssBox tableBox, LayoutVisitor args)
         {
 
 
@@ -82,7 +82,7 @@ namespace HtmlRenderer.Dom
         /// Analyzes the Table and assigns values to this CssTable object.
         /// To be called from the constructor
         /// </summary>
-        void Layout(LayoutArgs args)
+        void Layout(LayoutVisitor args)
         {
             S1_MeasureWords(_tableBox, args.Gfx);
 
@@ -660,7 +660,7 @@ namespace HtmlRenderer.Dom
         /// Layout the cells by the calculated table layout
         /// </summary>
         /// <param name="g"></param>
-        void S8_LayoutCells(LayoutArgs args)
+        void S8_LayoutCells(LayoutVisitor args)
         {
 
             float table_globalX = args.ContainerBlockGlobalX;

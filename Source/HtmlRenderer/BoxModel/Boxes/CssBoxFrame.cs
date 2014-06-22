@@ -461,7 +461,7 @@ namespace HtmlRenderer.Dom
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(IGraphics g, PaintingArgs args)
+        protected override void PaintImp(IGraphics g, PaintVisitor args)
         {
 
             var rects = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);

@@ -116,5 +116,8 @@ namespace HtmlRenderer
         void DrawPath(Pen pen, GraphicsPath path);
 
         void OffsetCanvasOrigin(float dx, float dy);
+
+        float CanvasOriginX { get; }
+        float CanvasOriginY { get; }
     }
 }

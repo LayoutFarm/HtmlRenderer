@@ -561,7 +561,7 @@ namespace HtmlRenderer.Dom
         /// Performs layout of the DOM structure creating lines by set bounds restrictions.
         /// </summary>
         /// <param name="g">Device context to use</param>
-        public void PerformLayout(LayoutArgs args)
+        public void PerformLayout(LayoutVisitor args)
         {
             PerformContentLayout(args);
         }
@@ -601,7 +601,7 @@ namespace HtmlRenderer.Dom
         /// Performs layout of the DOM structure creating lines by set bounds restrictions.<br/>
         /// </summary>
         /// <param name="g">Device context to use</param>
-        protected virtual void PerformContentLayout(LayoutArgs args)
+        protected virtual void PerformContentLayout(LayoutVisitor args)
         {
 
             if (this.CssDisplay != CssDisplay.None)
@@ -623,7 +623,7 @@ namespace HtmlRenderer.Dom
                     {
                         // Because their width and height are set by CssTable                                 
 
-                        CssBox myContainingBlock = args.LatestContaingBlock;
+                        CssBox myContainingBlock = args.LatestContainingBlock;
 
                         if (this.CssDisplay != CssDisplay.TableCell)
                         {
@@ -876,7 +876,7 @@ namespace HtmlRenderer.Dom
         /// Creates the <see cref="_listItemBox"/>
         /// </summary>
         /// <param name="g"></param>
-        void CreateListItemBox(LayoutArgs layoutArgs)
+        void CreateListItemBox(LayoutVisitor layoutArgs)
         {
 
             if (this.CssDisplay == CssDisplay.ListItem &&

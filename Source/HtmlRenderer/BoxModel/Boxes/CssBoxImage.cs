@@ -64,7 +64,7 @@ namespace HtmlRenderer.Dom
             get { return _imageWord.Image; }
         }
 
-        internal void PaintImage(IGraphics g, CssRun w, PaintingArgs args)
+        internal void PaintImage(IGraphics g, CssRun w, PaintVisitor args)
         {
 
             if (_imageLoadHandler == null)
@@ -120,7 +120,7 @@ namespace HtmlRenderer.Dom
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(IGraphics g, PaintingArgs args)
+        protected override void PaintImp(IGraphics g, PaintVisitor args)
         {
             // load image iff it is in visible rectangle
             if (_imageLoadHandler == null)

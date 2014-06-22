@@ -123,7 +123,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="g"></param>
         /// <param name="blockBox"></param>
-        public static void FlowContentRuns(CssBox blockBox, LayoutArgs args)
+        public static void FlowContentRuns(CssBox blockBox, LayoutVisitor args)
         {
 
 
@@ -204,7 +204,7 @@ namespace HtmlRenderer.Dom
         /// <param name="current_line_y">Current y coordinate that will be the top of the next word</param>
         /// <param name="maxRightForHostBox">Maximum right reached so far</param>
         /// <param name="maxBottomForHostBox">Maximum bottom reached so far</param>
-        static void FlowBox(LayoutArgs args,
+        static void FlowBox(LayoutVisitor args,
           CssBox hostBox, CssBox splitableBox,
           float limitLocalRight, float interLineSpace, float firstRunStartX,
           ref CssLineBox hostLine,
@@ -401,7 +401,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="g"></param>
         /// <param name="lineBox"></param>
-        private static void ApplyAlignment(CssLineBox lineBox, LayoutArgs args)
+        private static void ApplyAlignment(CssLineBox lineBox, LayoutVisitor args)
         {
             switch (lineBox.OwnerBox.CssTextAlign)
             {

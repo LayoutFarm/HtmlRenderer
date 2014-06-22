@@ -13,32 +13,26 @@ using HtmlRenderer.Utils;
 namespace HtmlRenderer.Dom
 {
     //----------------------------------------------------------------------------
-    public class PaintingArgs
+    public class PaintVisitor : BoxVisitor
     {
         Stack<RectangleF> viewportBounds = new Stack<RectangleF>();
-        Stack<CssBox> containingBoxs = new Stack<CssBox>();
-        HtmlContainer container;
-        CssBox latestContainingBlock;
-
         PointF htmlContainerScrollOffset;
-        public PaintingArgs(HtmlContainer container)
+        HtmlContainer container;
+        IGraphics ig;
+        public PaintVisitor(HtmlContainer container, IGraphics ig)
         {
             this.container = container;
             this.htmlContainerScrollOffset = container.ScrollOffset;
+            this.ig = ig;
         }
+
         //-----------------------------------------------------
         public HtmlContainer HtmlContainer
         {
             get { return this.container; }
 
         }
-        public CssBox LatestContainingBlock
-        {
-            get
-            {
-                return this.latestContainingBlock;
-            }
-        }
+
         public void PushBound(float x, float y, float w, float h)
         {
             viewportBounds.Push(new RectangleF(x, y, w, h));
@@ -47,33 +41,10 @@ namespace HtmlRenderer.Dom
         {
             viewportBounds.Pop();
         }
-        //-----------------------------------------------------
-
-        public void PushContainingBox(CssBox containingBox)
-        {
-            this.latestContainingBlock = containingBox;
-            this.containingBoxs.Push(containingBox);
-        }
-        public void PopContainingBox()
-        {
-            this.containingBoxs.Pop();
-            if (containingBoxs.Count == 0)
-            {
-                this.latestContainingBlock = null;
-            }
-            else
-            {
-                this.latestContainingBlock = this.containingBoxs.Peek();
-            }
-        }
- 
-       
-        public RectangleF PeekViewportBound()
+        public RectangleF PeekGlobalViewportBound()
         {
             return this.viewportBounds.Peek();
         }
-
-
         public PointF Offset
         {
             get { return this.htmlContainerScrollOffset; }

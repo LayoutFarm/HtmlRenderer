@@ -65,11 +65,12 @@
     <Compile Include="BoxModel.HitAndSelection\BoxHitChain.cs" />
     <Compile Include="BoxModel\Boxes\CssBoxBase_StateAssignments.cs" />
     <Compile Include="BoxModel\Boxes\CssBoxConst.cs" />
+    <Compile Include="BoxModel\Builder\BoxVisitor.cs" />
     <Compile Include="BoxModel\Builder\CssBoxExtension.cs" />
     <Compile Include="BoxModel\Boxes\CssBox_InheritAndClone.cs" />
     <Compile Include="BoxModel\Boxes\CssBox_Positions.cs" />
-    <Compile Include="BoxModel\Boxes\LayoutArgs.cs" />
-    <Compile Include="BoxModel\Boxes\PaintArgs.cs" />
+    <Compile Include="BoxModel\Builder\LayoutVisitor.cs" />
+    <Compile Include="BoxModel\Builder\PaintVisitor.cs" />
     <Compile Include="BoxModel\Builder\ActiveCssTemplate.cs" />
     <Compile Include="BoxModel\Builder\BoxModelBuilder_Corrector.cs" />
     <Compile Include="BoxModel\Builder\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />

@@ -528,10 +528,10 @@ namespace HtmlRenderer
             // if width is not restricted we set it to large value to get the actual later             
 
             _root.SetLocation(_location.X, _location.Y);
-            _root.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);             
+            _root.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
 
 
-            LayoutArgs layoutArgs = new LayoutArgs(ig, this);
+            LayoutVisitor layoutArgs = new LayoutVisitor(ig, this);
             layoutArgs.PushContaingBlock(_root);
 
             _root.PerformLayout(layoutArgs);
@@ -540,7 +540,7 @@ namespace HtmlRenderer
             {
                 // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
 
-                 
+
                 _root.SetWidth((int)Math.Ceiling(this._actualWidth));
                 _actualWidth = _actualHeight = 0;
                 _root.PerformLayout(layoutArgs);
@@ -571,7 +571,7 @@ namespace HtmlRenderer
 
             //ig.FillRectangle(Brushes.Red, 0, 0, 70, 70);
 
-            PaintingArgs args = new PaintingArgs(this);
+            PaintVisitor args = new PaintVisitor(this, ig);
             var bound = this.ViewportBound;
             args.PushBound(0, 0, bound.Width, bound.Height);
             //using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))            //{
@@ -579,9 +579,15 @@ namespace HtmlRenderer
             //Recalculate and perform layout if need !
             //this.PerformLayout(ig);
 
-            args.PushContainingBox(_root.ContainingBlock);
+            args.PushContaingBlock(_root.ContainingBlock);
+
+            Console.WriteLine("start --------------");
+
             _root.Paint(ig, args);
-            args.PopContainingBox();
+
+            Console.WriteLine("end --------------");
+
+            args.PopContainingBlock();
 
             //ig.FillRectangle(Brushes.Black, 0, 0, 50, 50);
 

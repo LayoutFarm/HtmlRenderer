@@ -119,7 +119,7 @@ namespace HtmlRenderer.Utils
         /// <param name="g">the graphics to clip</param>
         /// <param name="box">the box that is rendered to get containing blocks</param>
         /// <returns>the prev region if clipped, otherwise null</returns>
-        public static RectangleF ClipGraphicsByOverflow(IGraphics g, PaintingArgs args)
+        public static RectangleF ClipGraphicsByOverflow(IGraphics g, PaintVisitor args)
         {
             var containingBlock = args.LatestContainingBlock; //box.ContainingBlock;
             while (true)

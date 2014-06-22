@@ -398,7 +398,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        internal void Draw(IGraphics g, PaintingArgs args, float lineTop, float lineHeight, PointF offset)
+        internal void Draw(IGraphics g, PaintVisitor args, float lineTop, float lineHeight, PointF offset)
         {
 
             if (this.selStrips != null)

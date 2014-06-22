@@ -40,7 +40,7 @@ namespace HtmlRenderer.Dom
         /// Performs layout of the DOM structure creating lines by set bounds restrictions.
         /// </summary>
         /// <param name="g">Device context to use</param>
-        protected override void PerformContentLayout(LayoutArgs args)
+        protected override void PerformContentLayout(LayoutVisitor args)
         {
 
             if (this.CssDisplay == CssDisplay.None)
@@ -49,7 +49,7 @@ namespace HtmlRenderer.Dom
             }
 
             var prevSibling = args.LatestSiblingBox;
-            var myContainingBlock = args.LatestContaingBlock;
+            var myContainingBlock = args.LatestContainingBlock;
 
             //float globalLeft = myContainingBlock.GlobalX + myContainingBlock.LocalClientLeft + ActualMarginLeft;
             //float globalTop = 0;
@@ -146,7 +146,7 @@ namespace HtmlRenderer.Dom
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(IGraphics g, PaintingArgs args)
+        protected override void PaintImp(IGraphics g, PaintVisitor args)
         {
 
             var rect = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);

@@ -189,6 +189,7 @@ namespace HtmlRenderer.Dom
             get { return 0; }
         }
 
+
         internal float CachedLineContentWidth
         {
             get { return this._cacheContentWidth; }
@@ -249,6 +250,7 @@ namespace HtmlRenderer.Dom
 
             this.CacheLineHeight = maxBottom;
             this.CachedLineContentWidth = maxRight;
+
 
             if (lineOwner.SizeWidth < CachedLineContentWidth)
             {
@@ -402,7 +404,7 @@ namespace HtmlRenderer.Dom
 
 
 
-        internal void PaintRuns(IGraphics g, PaintingArgs args)
+        internal void PaintRuns(IGraphics g, PaintVisitor args)
         {
             //iterate from each words
 
@@ -460,9 +462,10 @@ namespace HtmlRenderer.Dom
 
 #if DEBUG
 
-        internal void dbugPaintRuns(IGraphics g, PaintingArgs args)
+        internal void dbugPaintRuns(IGraphics g, PaintVisitor args)
         {
 
+            return;
             //linebox  
             float x1 = 0;
             float y1 = 0;
@@ -503,7 +506,7 @@ namespace HtmlRenderer.Dom
 
 #endif
 
-        internal void PaintBackgroundAndBorder(IGraphics g, PaintingArgs args)
+        internal void PaintBackgroundAndBorder(IGraphics g, PaintVisitor args)
         {
             //iterate each strip
 
@@ -528,7 +531,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        internal void PaintDecoration(IGraphics g, PaintingArgs args)
+        internal void PaintDecoration(IGraphics g, PaintVisitor args)
         {
 
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
