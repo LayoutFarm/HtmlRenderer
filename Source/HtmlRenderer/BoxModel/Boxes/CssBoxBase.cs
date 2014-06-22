@@ -82,6 +82,7 @@ namespace HtmlRenderer.Dom
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
 
         WellknownHtmlTagName wellKnownTagName;
+
         #endregion
         //==========================================================
 
@@ -153,6 +154,7 @@ namespace HtmlRenderer.Dom
         }
 
         #region CSS Properties
+
         public WellknownHtmlTagName WellknownTagName
         {
             get
@@ -419,20 +421,24 @@ namespace HtmlRenderer.Dom
             get { return this._backgroundProps.BackgroundColor; }
             set { CheckBgVersion().BackgroundColor = value; }
         }
-
-        public string BackgroundImage
+        public ImageBinder BackgroundImageBinder
         {
-            get { return this._backgroundProps.BackgroundImage; }
-            set { CheckBgVersion().BackgroundImage = value; }
+            get { return this._backgroundProps.BackgroundImageBinder; }
+            set { CheckBgVersion().BackgroundImageBinder = value; }
         }
-
-        public string BackgroundPosition
+        
+         
+        public CssLength BackgroundPositionX
         {
-            get { return this._backgroundProps.BackgroundPosition; }
-            set { CheckBgVersion().BackgroundPosition = value; }
+            get { return this._backgroundProps.BackgroundPosX; }
+            set { CheckBgVersion().BackgroundPosX = value; }
         }
-
-        public string BackgroundRepeat
+        public CssLength BackgroundPositionY
+        {
+            get { return this._backgroundProps.BackgroundPosY; }
+            set { CheckBgVersion().BackgroundPosY = value; }
+        }
+        public CssBackgroundRepeat BackgroundRepeat
         {
             get { return this._backgroundProps.BackgroundRepeat; }
             set { CheckBgVersion().BackgroundRepeat = value; }

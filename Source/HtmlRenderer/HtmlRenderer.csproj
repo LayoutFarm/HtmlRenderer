@@ -75,10 +75,12 @@
     <Compile Include="BoxModel\Builder\BoxModelBuilder_Corrector.cs" />
     <Compile Include="BoxModel\Builder\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
     <Compile Include="BoxModel\Builder\CssTableLayoutEngine.TableColumns.cs" />
+    <Compile Include="BoxModel\Runs\ImageBinder.cs" />
     <Compile Include="Common\ValueMaps.cs" />
     <Compile Include="Common\TextSnapshot.cs" />
-    <Compile Include="BoxModel\Builder\CssTextSplitter.cs" />
+    <Compile Include="BoxModel\Builder\ContentTextSplitter.cs" />
     <Compile Include="BoxModel.HitAndSelection\SelectionRange.cs" />
+    <Compile Include="Platform\HtmlImageRequestEventArgs.cs" />
     <Compile Include="WebDom.Parser\dbugLexerReport.cs" />
     <Compile Include="WebDom.Parser\HtmlLexer.cs" />
     <Compile Include="WebDom.Parser\CssParser.cs" />
@@ -118,7 +120,6 @@
     <Compile Include="Entities\IHtmlNodes.cs" />
     <Compile Include="BoxModel\Props\Border.cs" />
     <Compile Include="Entities\HtmlLinkClickedException.cs" />
-    <Compile Include="Entities\HtmlImageLoadEventArgs.cs" />
     <Compile Include="Entities\HtmlLinkClickedEventArgs.cs" />
     <Compile Include="Entities\HtmlRefreshEventArgs.cs" />
     <Compile Include="Entities\HtmlRenderErrorEventArgs.cs" />
@@ -127,7 +128,6 @@
     <Compile Include="Entities\HtmlStylesheetLoadEventArgs.cs" />
     <Compile Include="Entities\HtmlGenerationStyle.cs" />
     <Compile Include="CascadeStyleSheet\CssDefaults.cs" />
-    <Compile Include="Handlers\ImageLoadHandler.cs" />
     <Compile Include="Handlers\StylesheetLoadHandler.cs" />
     <Compile Include="Platform\ExtensionAttribute.cs" />
     <Compile Include="Platform\IGraphics.cs" />

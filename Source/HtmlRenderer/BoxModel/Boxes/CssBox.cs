@@ -582,10 +582,10 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public virtual void Dispose()
         {
-            if (_imageLoadHandler != null)
-            {
-                _imageLoadHandler.Dispose();
-            }
+            //if (_imageLoadHandler != null)
+            //{
+            //    _imageLoadHandler.Dispose();
+            //}
 
             foreach (var childBox in Boxes)
             {
@@ -764,12 +764,23 @@ namespace HtmlRenderer.Dom
             if (_wordsSizeMeasured) return;
             //--------------------------------
 
-            if (BackgroundImage != CssConstants.None && _imageLoadHandler == null)
+            if (this.BackgroundImageBinder != null)
             {
-                //TODO: change to another technique !
-                _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnImageLoadComplete);
-                _imageLoadHandler.LoadImage(BackgroundImage, HtmlTag);
+                //this has background
+                if (this.BackgroundImageBinder.State == ImageBinderState.Unload)
+                {
+                    lay.RequestImage(this.BackgroundImageBinder, this);
+                }
+
+
             }
+
+            //if (BackgroundImage != CssConstants.None && _imageLoadHandler == null)
+            //{
+            //    //TODO: change to another technique !
+            //    _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnImageLoadComplete);
+            //    _imageLoadHandler.LoadImage(BackgroundImage, HtmlTag);
+            //}
 
             MeasureWordSpacing(lay);
 
@@ -935,7 +946,7 @@ namespace HtmlRenderer.Dom
 
         internal void ParseWordContent()
         {
-            CssTextSplitter.DefaultSplitter.ParseWordContent(this);
+            ContentTextSplitter.DefaultSplitter.ParseWordContent(this);
         }
 
         /// <summary>
@@ -1166,14 +1177,16 @@ namespace HtmlRenderer.Dom
                     if (dispose) brush.Dispose();
                 }
 
-                if (_imageLoadHandler != null && _imageLoadHandler.Image != null && isFirst)
+                if (isFirst)
                 {
-                    BackgroundImageDrawHandler.DrawBackgroundImage(g, this, _imageLoadHandler, rect);
-                }
+                    var bgImageBinder = this.BackgroundImageBinder;
+                    if (bgImageBinder != null && bgImageBinder.Image != null)
+                    {
+                        BackgroundImageDrawHandler.DrawBackgroundImage(g, this, bgImageBinder, rect);
+                    }
+                } 
             }
-        }
-
-
+        } 
 #if DEBUG
         internal void dbugPaintTextWordArea(IGraphics g, PointF offset, CssRun word)
         {
@@ -1228,19 +1241,19 @@ namespace HtmlRenderer.Dom
         }
 
 
-        /// <summary>
-        /// On image load process complete with image request refresh for it to be painted.
-        /// </summary>
-        /// <param name="image">the image loaded or null if failed</param>
-        /// <param name="rectangle">the source rectangle to draw in the image (empty - draw everything)</param>
-        /// <param name="async">is the callback was called async to load image call</param>
-        private void OnImageLoadComplete(Image image, Rectangle rectangle, bool async)
-        {
-            if (image != null && async)
-            {
-                HtmlContainer.RequestRefresh(false);
-            }
-        }
+        ///// <summary>
+        ///// On image load process complete with image request refresh for it to be painted.
+        ///// </summary>
+        ///// <param name="image">the image loaded or null if failed</param>
+        ///// <param name="rectangle">the source rectangle to draw in the image (empty - draw everything)</param>
+        ///// <param name="async">is the callback was called async to load image call</param>
+        //private void OnImageLoadComplete(Image image, Rectangle rectangle, bool async)
+        //{
+        //    if (image != null && async)
+        //    {
+        //        HtmlContainer.RequestRefresh(false);
+        //    }
+        //}
 
 
 

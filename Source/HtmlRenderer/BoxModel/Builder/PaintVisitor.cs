@@ -22,7 +22,6 @@ namespace HtmlRenderer.Dom
         HtmlContainer container;
         IGraphics ig;
 
-
         RectangleF latestClip = new RectangleF(0, 0, CssBoxConst.MAX_RIGHT, float.MaxValue);
 
         public PaintVisitor(HtmlContainer container, IGraphics ig)
@@ -74,6 +73,7 @@ namespace HtmlRenderer.Dom
             get { return this.htmlContainerScrollOffset; }
         }
 
+        //=========================================================
         /// <summary>
         /// push clip area relative to (0,0) of current CssBox
         /// </summary>
@@ -104,7 +104,51 @@ namespace HtmlRenderer.Dom
                 ig.SetClip(prevClip);
             }
         }
+
+        internal void RequestImage(ImageBinder binder, CssBox requestFrom)
+        {
+            this.container.RequestImage(binder, requestFrom);
+        }
+        internal void RequestImage(ImageBinder binder, CssBox requestFrom, ReadyStateChangedHandler handler)
+        {
+            this.container.RequestImage(binder, requestFrom, handler);
+        }
+        //=========================================================
+
+        internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
+        {
+            HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);
+        }
+        internal void PaintBorders(CssBox box, RectangleF rect)
+        {
+            Color topColor = box.ActualBorderTopColor;
+            Color leftColor = box.ActualBorderLeftColor;
+            Color rightColor = box.ActualBorderRightColor;
+            Color bottomColor = box.ActualBorderBottomColor;
+
+            var g = this.Gfx;
+
+            var b1 = RenderUtils.GetSolidBrush(topColor);
+            BordersDrawHandler.DrawBorder(Border.Top, g, box, b1, rect);
+
+            var b2 = RenderUtils.GetSolidBrush(leftColor);
+            BordersDrawHandler.DrawBorder(Border.Left, g, box, b2, rect); 
+
+            var b3 = RenderUtils.GetSolidBrush(rightColor);
+            BordersDrawHandler.DrawBorder(Border.Right, g, box, b3, rect);
+
+            var b4 = RenderUtils.GetSolidBrush(bottomColor);
+            BordersDrawHandler.DrawBorder(Border.Bottom, g, box, b4, rect);
+
+        }
+        internal void PaintBorder(CssBox box, Border border, Color solidColor, RectangleF rect)
+        {
+            var b = RenderUtils.GetSolidBrush(solidColor);
+            BordersDrawHandler.DrawBorder(border, this.Gfx, box, b, rect);
+        }
+
     }
+
 
 
 }

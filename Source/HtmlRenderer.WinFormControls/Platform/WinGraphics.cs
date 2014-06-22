@@ -440,6 +440,7 @@ namespace HtmlRenderer
         {
             ReleaseHdc();
             _g.FillPolygon(brush, points);
+            
         }
 
         #endregion

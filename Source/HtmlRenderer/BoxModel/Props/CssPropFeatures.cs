@@ -429,9 +429,11 @@ namespace HtmlRenderer.Dom
             this.BackgroundColor = Color.Transparent; //"transparent";
             this.BackgroundGradient = Color.Transparent;// "none";
             this.BackgroundGradientAngle = 90.0f;
-            this.BackgroundImage = "none";
-            this.BackgroundPosition = "0% 0%";
-            this.BackgroundRepeat = "repeat";
+            this.BackgroundImageBinder = ImageBinder.NoImage;
+
+            this.BackgroundPosX = new CssLength(0, CssUnit.Percent);
+            this.BackgroundPosY = new CssLength(0, CssUnit.Percent);
+            this.BackgroundRepeat = CssBackgroundRepeat.Repeat;
         }
         private CssBackgroundProp(object owner, CssBackgroundProp inheritFrom)
         {
@@ -439,8 +441,10 @@ namespace HtmlRenderer.Dom
             BackgroundColor = inheritFrom.BackgroundColor;
             BackgroundGradient = inheritFrom.BackgroundGradient;
             BackgroundGradientAngle = inheritFrom.BackgroundGradientAngle;
-            BackgroundImage = inheritFrom.BackgroundImage;
-            BackgroundPosition = inheritFrom.BackgroundPosition;
+            BackgroundImageBinder = inheritFrom.BackgroundImageBinder;
+
+            BackgroundPosX = inheritFrom.BackgroundPosX;
+            BackgroundPosY = inheritFrom.BackgroundPosY;
             BackgroundRepeat = inheritFrom.BackgroundRepeat;
         }
 
@@ -459,10 +463,13 @@ namespace HtmlRenderer.Dom
         public Color BackgroundGradient { get; set; }
         public float BackgroundGradientAngle { get; set; }
 
-        public string BackgroundImage { get; set; }
+        public ImageBinder BackgroundImageBinder { get; set; }
         public string BackgroundPosition { get; set; }
-        public string BackgroundRepeat { get; set; }
 
+        public CssLength BackgroundPosX { get; set; }
+        public CssLength BackgroundPosY { get; set; }
+
+        public CssBackgroundRepeat BackgroundRepeat { get; set; }
         public static readonly CssBackgroundProp Default = new CssBackgroundProp(null);
     }
 }

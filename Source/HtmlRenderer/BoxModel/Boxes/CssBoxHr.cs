@@ -156,19 +156,15 @@ namespace HtmlRenderer.Dom
                 g.FillRectangle(RenderUtils.GetSolidBrush(ActualBackgroundColor), rect.X, rect.Y, rect.Width, rect.Height);
             }
 
-            var b1 = RenderUtils.GetSolidBrush(ActualBorderTopColor);
-            BordersDrawHandler.DrawBorder(Border.Top, g, this, b1, rect);
-
             if (rect.Height > 1)
             {
-                var b2 = RenderUtils.GetSolidBrush(ActualBorderLeftColor);
-                BordersDrawHandler.DrawBorder(Border.Left, g, this, b2, rect);
-
-                var b3 = RenderUtils.GetSolidBrush(ActualBorderRightColor);
-                BordersDrawHandler.DrawBorder(Border.Right, g, this, b3, rect);
-
-                var b4 = RenderUtils.GetSolidBrush(ActualBorderBottomColor);
-                BordersDrawHandler.DrawBorder(Border.Bottom, g, this, b4, rect);
+                p.PaintBorders(this, rect);
+                
+            }
+            else
+            {
+                p.PaintBorder(this, Border.Top, this.ActualBorderTopColor, rect);
+               
             }
         }
     }

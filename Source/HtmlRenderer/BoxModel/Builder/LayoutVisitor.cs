@@ -10,6 +10,7 @@ namespace HtmlRenderer.Dom
     {
         HtmlContainer htmlContainer;
         float totalMarginLeftAndRight;
+
         internal LayoutVisitor(IGraphics gfx, HtmlContainer htmlContainer)
         {
             this.Gfx = gfx;
@@ -69,6 +70,16 @@ namespace HtmlRenderer.Dom
         {
             get { return this.htmlContainer.AvoidAsyncImagesLoading || this.htmlContainer.AvoidImagesLateLoading; }
         }
+        
+        internal void RequestImage(ImageBinder binder, CssBox requestFrom)
+        {
+            this.htmlContainer.RequestImage(binder, requestFrom);
+        }
+        internal void RequestImage(ImageBinder binder, CssBox requestFrom, ReadyStateChangedHandler handler)
+        {
+            this.htmlContainer.RequestImage(binder, requestFrom, handler);             
+        }
+
     }
 
 

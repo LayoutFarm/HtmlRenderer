@@ -35,8 +35,13 @@ namespace HtmlRenderer.Dom
         static readonly ValueMap<CssListStyleType> _cssListStyleTypeMap = new ValueMap<CssListStyleType>();
 
         static readonly ValueMap<CssNamedBorderWidth> _cssNamedBorderWidthMap = new ValueMap<CssNamedBorderWidth>();
+        static readonly ValueMap<CssBackgroundRepeat> _cssBackgroundRepeatMap = new ValueMap<CssBackgroundRepeat>();
+
+
+
         static readonly ValueMap<HtmlRenderer.WebDom.WellknownCssPropertyName> _wellKnownCssPropNameMap = new ValueMap<WebDom.WellknownCssPropertyName>();
         static readonly ValueMap<WellknownHtmlTagName> _wellknownHtmlTagNameMap = new ValueMap<WellknownHtmlTagName>();
+
 
 
         static CssBoxUserUtilExtension()
@@ -66,18 +71,18 @@ namespace HtmlRenderer.Dom
         {
             return _cssFontWeightMap.GetValueFromString(value, CssFontWeight.Unknown) != CssFontWeight.Unknown;
         }
+
         //-----------------------
 
         public static CssBorderCollapse GetBorderCollapse(WebDom.CssCodeValueExpression value)
         {
-
             return (CssBorderCollapse)EvaluateIntPropertyValueFromString(
                _cssCollapseBorderMap,
                WebDom.CssValueEvaluatedAs.BorderCollapse,
                CssBorderCollapse.Separate,
                value);
-
         }
+
         public static string ToCssStringValue(this CssDisplay value)
         {
             return _cssDisplayMap.GetStringFromValue(value);
@@ -101,7 +106,7 @@ namespace HtmlRenderer.Dom
             {
                 return value.AsIntValue();
             }
-        } 
+        }
         //-----------------------
         public static CssDisplay GetDisplayType(WebDom.CssCodeValueExpression value)
         {
@@ -109,6 +114,14 @@ namespace HtmlRenderer.Dom
                 _cssDisplayMap,
                 WebDom.CssValueEvaluatedAs.Display,
                 CssDisplay.Inline,
+                value);
+        }
+        public static CssBackgroundRepeat GetBackgroundRepeat(WebDom.CssCodeValueExpression value)
+        {
+            return (CssBackgroundRepeat)EvaluateIntPropertyValueFromString(
+                _cssBackgroundRepeatMap,
+                WebDom.CssValueEvaluatedAs.BackgroundRepeat,
+                CssBackgroundRepeat.Repeat,
                 value);
         }
         //----------------------
@@ -334,7 +347,7 @@ namespace HtmlRenderer.Dom
         public static CssLength SetLineHeight(this CssBoxBase box, CssLength len)
         {
             return CssLength.MakePixelLength(HtmlRenderer.Parse.CssValueParser.ParseLength(len, box.SizeHeight, box, CssUnit.Ems));
-             
+
         }
         public static HtmlRenderer.WebDom.WellknownCssPropertyName GetWellKnownPropName(string propertyName)
         {
@@ -361,7 +374,10 @@ namespace HtmlRenderer.Dom
         {
             return _cssCollapseBorderMap.GetStringFromValue(borderCollapse);
         }
-
+        public static string ToCssStringValue(this CssBackgroundRepeat backgrounRepeat)
+        {
+            return _cssBackgroundRepeatMap.GetStringFromValue(backgrounRepeat);
+        }
         public static string ToHexColor(this Color color)
         {
             return string.Concat("#", color.R.ToString("X"), color.G.ToString("X"), color.B.ToString("X"));
@@ -441,7 +457,6 @@ namespace HtmlRenderer.Dom
                         //?
                         //or percent ? 
                         CssLength len = primValue.AsLength();
-
                         if (len.HasError)
                         {
                             len = CssLength.FontSizeMedium;
@@ -543,6 +558,11 @@ namespace HtmlRenderer.Dom
         public static WellknownHtmlTagName EvaluateTagName(string name)
         {
             return _wellknownHtmlTagNameMap.GetValueFromString(name, WellknownHtmlTagName.Unknown);
+        }
+        internal static void SetBackgroundPosition(this CssBoxBase box, WebDom.CssCodeValueExpression value)
+        {
+            //TODO: implement background position from combination value
+            throw new NotSupportedException();
         }
     }
 

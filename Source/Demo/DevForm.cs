@@ -27,9 +27,7 @@ namespace HtmlRenderer.Demo
         private void button2_Click(object sender, EventArgs e)
         {
 
-            DemoForm2 demoForm2 = new DemoForm2();
-            demoForm2.Show();
-            demoForm2.Activate();
+          
         }
     }
 }

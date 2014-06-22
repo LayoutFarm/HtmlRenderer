@@ -424,7 +424,7 @@ namespace HtmlRenderer.Dom
                     case CssRunKind.Image:
                         {
                             CssBoxImage owner = (CssBoxImage)w.OwnerBox;
-                            owner.PaintImage(g, w, p);
+                            owner.PaintImage(g, new RectangleF(0, 0, w.Width, w.Height), p);
 
                         } break;
                     case CssRunKind.Text:
@@ -465,7 +465,7 @@ namespace HtmlRenderer.Dom
         internal void dbugPaintRuns(IGraphics g, PaintVisitor p)
         {
 
-            
+            return;
             //linebox  
             float x1 = 0;
             float y1 = 0;
@@ -506,7 +506,7 @@ namespace HtmlRenderer.Dom
 
 #endif
 
-        internal void PaintBackgroundAndBorder(IGraphics g, PaintVisitor p)
+        internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
             //iterate each strip
 
@@ -522,12 +522,10 @@ namespace HtmlRenderer.Dom
                 }
 
                 var stripArea = strip.Bound;
-
                 bool isFirstLine, isLastLine;
                 CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
-
                 ownerBox.PaintBackground(p, stripArea, isFirstLine, isLastLine);
-                HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(p, ownerBox, stripArea, isFirstLine, isLastLine);
+                p.PaintBorders(ownerBox, stripArea, isFirstLine, isLastLine);
             }
         }
 

@@ -47,7 +47,7 @@ namespace HtmlRenderer.Dom
                     //---------------------------------------
                     this._backgroundProps = s._backgroundProps;
                     this._borderProps = s._borderProps;
-                    this._cornerProps = s._cornerProps;
+                    this._cornerProps = s._cornerProps; 
                     //---------------------------------------
 
                     this._left = s._left;
@@ -69,6 +69,8 @@ namespace HtmlRenderer.Dom
                     this._overflow = s._overflow;
                     this._textDecoration = s._textDecoration;
                     //--------------------------------------- 
+
+                    
                 }
             }
         }

@@ -33,11 +33,12 @@ namespace HtmlRenderer.Dom
         /// </summary>
         private readonly CssImageRun _imageWord;
 
-        /// <summary>
-        /// handler used for image loading by source
-        /// </summary>
-        private ImageLoadHandler _imageLoadHandler;
+        /////// <summary>
+        /////// handler used for image loading by source
+        /////// </summary>
+        //private ImageLoadHandler _imageLoadHandler;
 
+        ImageBinder _imgBinder;
         /// <summary>
         /// is image load is finished, used to know if no image is found
         /// </summary>
@@ -63,53 +64,104 @@ namespace HtmlRenderer.Dom
         {
             get { return _imageWord.Image; }
         }
+        void OnImageBinderLoadingComplete()
+        {
+            //when binder state changed 
+            switch (_imgBinder.State)
+            {
+                case ImageBinderState.Loaded:
+                    {
+                        //get image from binder
+                        //-----------------------
+                        var img = _imgBinder.Image;
+                        _imageWord.Image = img;
+                        _imageWord.ImageRectangle = new Rectangle(0, 0, img.Width, img.Height);
+                        _imageLoadingComplete = true;
+                        _wordsSizeMeasured = false;
+                        //-----------------------
 
-        internal void PaintImage(IGraphics g, CssRun w, PaintVisitor p)
+                        //if (_imageLoadingComplete && image == null)
+                        //{
+                        //    SetErrorBorder();
+                        //} 
+                        //if (!HtmlContainer.AvoidImagesLateLoading || async)
+                        //{
+                        //    var width = this.Width;//new CssLength(Width);
+                        //    var height = this.Height;// new CssLength(Height);
+                        //    var layout = (width.Number <= 0 || width.Unit != CssUnit.Pixels) || (height.Number <= 0 || height.Unit != CssUnit.Pixels);
+                        //    HtmlContainer.RequestRefresh(layout);
+                        //}
+
+                    } break;
+            }
+        }
+        internal void PaintImage(IGraphics g, RectangleF rect, PaintVisitor p)
         {
 
-            if (_imageLoadHandler == null)
-            {   
-                _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
-                _imageLoadHandler.LoadImage(GetAttribute("src"),
-                    HtmlTag);
+            if (_imgBinder == null)
+            {
+                _imgBinder = new ImageBinder(GetAttribute("src"));
             }
 
-            var rect = w.Rectangle;
-
             p.PushLocalClipArea(rect.Width, rect.Height);
-
             PaintBackground(p, rect, true, true);
-            BordersDrawHandler.DrawBoxBorders(p, this, rect, true, true);
 
+             
+            p.PaintBorders(this, rect, true, true);
             RectangleF r = _imageWord.Rectangle;
-
             r.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
             r.Y += ActualBorderTopWidth + ActualPaddingTop;
             r.X = (float)Math.Floor(r.X);
             r.Y = (float)Math.Floor(r.Y);
 
-            if (_imageWord.Image != null)
+            switch (_imgBinder.State)
             {
-                if (_imageWord.ImageRectangle == Rectangle.Empty)
-                    g.DrawImage(_imageWord.Image, Rectangle.Round(r));
-                else
-                    g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
+                case ImageBinderState.Unload:
+                    {
 
-            }
-            else if (_imageLoadingComplete)
-            {
-                if (_imageLoadingComplete && r.Width > 19 && r.Height > 19)
-                {
-                    RenderUtils.DrawImageErrorIcon(g, r);
-                }
-            }
-            else
-            {
-                RenderUtils.DrawImageLoadingIcon(g, r);
-                if (r.Width > 19 && r.Height > 19)
-                {
-                    g.DrawRectangle(Pens.LightGray, r.X, r.Y, r.Width, r.Height);
-                }
+                        p.RequestImage(_imgBinder, this, OnImageBinderLoadingComplete);
+
+                        RenderUtils.DrawImageErrorIcon(g, r);
+                    } break;
+                case ImageBinderState.Loaded:
+                    {
+
+                        if (_imageWord.Image != null)
+                        {
+                            if (_imageWord.ImageRectangle == Rectangle.Empty)
+                            {
+                                g.DrawImage(_imageWord.Image, Rectangle.Round(r));
+                            }
+                            else
+                            {
+                                g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
+                            }
+                        }
+                        else if (_imageLoadingComplete)
+                        {
+                            if (_imageLoadingComplete && r.Width > 19 && r.Height > 19)
+                            {
+                                RenderUtils.DrawImageErrorIcon(g, r);
+                            }
+                        }
+                        else
+                        {
+                            RenderUtils.DrawImageLoadingIcon(g, r);
+                            if (r.Width > 19 && r.Height > 19)
+                            {
+                                g.DrawRectangle(Pens.LightGray, r.X, r.Y, r.Width, r.Height);
+                            }
+                        }
+                    } break;
+                case ImageBinderState.NoImage:
+                    {
+
+                    } break;
+                case ImageBinderState.Error:
+                    {
+                        RenderUtils.DrawImageErrorIcon(g, r);
+
+                    } break;
             }
 
             p.PopLocalClipArea();
@@ -121,54 +173,9 @@ namespace HtmlRenderer.Dom
         /// <param name="g">the device to draw to</param>
         protected override void PaintImp(IGraphics g, PaintVisitor p)
         {
-            // load image iff it is in visible rectangle
-            if (_imageLoadHandler == null)
-            {
-                _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
-                _imageLoadHandler.LoadImage(GetAttribute("src"), this.HtmlTag);
-            }
-
-            //1. single image can't be splited 
-
-            var rect = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
-            p.PushLocalClipArea(this.SizeWidth, this.SizeHeight);
-
-            PaintBackground(p, rect, true, true);
-            BordersDrawHandler.DrawBoxBorders(p, this, rect, true, true);
-
-            RectangleF r = _imageWord.Rectangle;
-
-            r.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
-            r.Y += ActualBorderTopWidth + ActualPaddingTop;
-            r.X = (float)Math.Floor(r.X);
-            r.Y = (float)Math.Floor(r.Y);
-
-            if (_imageWord.Image != null)
-            {
-                if (_imageWord.ImageRectangle == Rectangle.Empty)
-                    g.DrawImage(_imageWord.Image, Rectangle.Round(r));
-                else
-                    g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
-
-
-            }
-            else if (_imageLoadingComplete)
-            {
-                if (_imageLoadingComplete && r.Width > 19 && r.Height > 19)
-                {
-                    RenderUtils.DrawImageErrorIcon(g, r);
-                }
-            }
-            else
-            {
-                RenderUtils.DrawImageLoadingIcon(g, r);
-                if (r.Width > 19 && r.Height > 19)
-                {
-                    g.DrawRectangle(Pens.LightGray, r.X, r.Y, r.Width, r.Height);
-                }
-            }
-
-            p.PopLocalClipArea();
+            // load image iff it is in visible rectangle  
+            //1. single image can't be splited  
+            PaintImage(g, new RectangleF(0, 0, this.SizeWidth, this.SizeHeight), p);
         }
 
         /// <summary>
@@ -179,10 +186,11 @@ namespace HtmlRenderer.Dom
         {
             if (!_wordsSizeMeasured)
             {
-                if (_imageLoadHandler == null && lay.AvoidImageAsyncLoadOrLateBind)
+
+                if (_imgBinder == null && lay.AvoidImageAsyncLoadOrLateBind)
                 {
-                    _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
-                    _imageLoadHandler.LoadImage(GetAttribute("src"), HtmlTag);
+                    _imgBinder = new ImageBinder(GetAttribute("src"));
+                    lay.RequestImage(_imgBinder, this, OnImageBinderLoadingComplete);
                 }
 
                 MeasureWordSpacing(lay);
@@ -197,8 +205,8 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public override void Dispose()
         {
-            if (_imageLoadHandler != null)
-                _imageLoadHandler.Dispose();
+            //if (_imageLoadHandler != null)
+            //    _imageLoadHandler.Dispose();
             base.Dispose();
         }
 
@@ -217,35 +225,7 @@ namespace HtmlRenderer.Dom
             BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
         }
 
-        /// <summary>
-        /// On image load process is complete with image or without update the image box.
-        /// </summary>
-        /// <param name="image">the image loaded or null if failed</param>
-        /// <param name="rectangle">the source rectangle to draw in the image (empty - draw everything)</param>
-        /// <param name="async">is the callback was called async to load image call</param>
-        private void OnLoadImageComplete(Image image, Rectangle rectangle, bool async)
-        {  
 
-            //plan use resouce manager ***
-
-            _imageWord.Image = image;
-            _imageWord.ImageRectangle = rectangle;
-            _imageLoadingComplete = true;
-            _wordsSizeMeasured = false;
-
-            if (_imageLoadingComplete && image == null)
-            {
-                SetErrorBorder();
-            }
-
-            if (!HtmlContainer.AvoidImagesLateLoading || async)
-            {
-                var width = this.Width;//new CssLength(Width);
-                var height = this.Height;// new CssLength(Height);
-                var layout = (width.Number <= 0 || width.Unit != CssUnit.Pixels) || (height.Number <= 0 || height.Unit != CssUnit.Pixels);
-                HtmlContainer.RequestRefresh(layout);
-            }
-        }
 
         #endregion
     }

@@ -92,6 +92,7 @@ namespace HtmlRenderer
         /// </summary>
         private CssBox _root;
 
+
         ///// <summary>
         ///// dictionary of all css boxes that have ":hover" selector on them
         ///// </summary>
@@ -200,12 +201,14 @@ namespace HtmlRenderer
         /// Raised when an image is about to be loaded by file path or URI.<br/>
         /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
         /// </summary>
-        public event EventHandler<HtmlImageLoadEventArgs> ImageLoadingRequest;
+        public event EventHandler<HtmlImageRequestEventArgs> ImageLoadingRequest;
 
         /// <summary>
         /// 99999
         /// </summary>
         const int MAX_WIDTH = 99999;
+
+
 
         public HtmlContainer()
         {
@@ -568,18 +571,18 @@ namespace HtmlRenderer
             {
                 return;
             }
-             
+
             PaintVisitor args = new PaintVisitor(this, ig);
             var bound = this.ViewportBound;
 
             args.PushContaingBlock(_root.ContainingBlock);
             args.PushLocalClipArea(bound.Width, bound.Height);
-            args.PushBound(0, 0, bound.Width, bound.Height); 
+            args.PushBound(0, 0, bound.Width, bound.Height);
 
-            _root.Paint(ig, args); 
+            _root.Paint(ig, args);
             args.PopLocalClipArea();
             args.PopContainingBlock();
-         
+
         }
 
 
@@ -602,25 +605,64 @@ namespace HtmlRenderer
             }
         }
 
-        /// <summary>
-        /// Raise the image load event with the given event args.
-        /// </summary>
-        /// <param name="args">the event args</param>
-        internal void RaiseHtmlImageLoadEvent(HtmlImageLoadEventArgs args)
+        ///// <summary>
+        ///// Raise the image load event with the given event args.
+        ///// </summary>
+        ///// <param name="args">the event args</param>
+        //void RaiseHtmlImageLoadEvent(HtmlImageLoadEventArgs args)
+        //{
+        //    try
+        //    {
+        //        if (ImageLoadingRequest != null)
+        //        {
+        //            ImageLoadingRequest(this, args);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ReportError(HtmlRenderErrorType.Image, "Failed image load event", ex);
+        //    }
+        //}
+
+        internal void RequestImage(ImageBinder binder,
+            CssBox requestBox, ReadyStateChangedHandler readyCallBack = null)
         {
-            try
+
+            //version 1: sync ***
+            HtmlImageRequestEventArgs htmlImageRequest = new HtmlImageRequestEventArgs(
+                requestBox.HtmlTag,
+                binder);
+
+            if (this.ImageLoadingRequest != null)
             {
-                if (ImageLoadingRequest != null)
+                this.ImageLoadingRequest(this, htmlImageRequest);
+                if (readyCallBack != null)
                 {
-                    ImageLoadingRequest(this, args);
+                    readyCallBack();
                 }
             }
-            catch (Exception ex)
-            {
-                ReportError(HtmlRenderErrorType.Image, "Failed image load event", ex);
-            }
-        }
 
+            ////send 
+            ////if load manager can't handle normal requst then  raise event out     
+            //HtmlImageLoadEventArgs args = new HtmlImageLoadEventArgs(binder.ImageSource, requestBox.HtmlTag,
+            //    (string path, Image image, Rectangle imageRectangle) =>
+            //    {
+            //        if (image != null)
+            //        {
+            //            //found
+            //            binder.SetImage(image);
+            //            if (readyCallBack != null)
+            //            {
+            //                readyCallBack();
+            //            }
+            //        }
+            //    });
+
+
+
+            //RaiseHtmlImageLoadEvent(args);
+
+        }
         /// <summary>
         /// Request invalidation and re-layout of the control hosting the renderer.
         /// </summary>

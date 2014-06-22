@@ -305,7 +305,7 @@ namespace HtmlRenderer.Demo
         /// <returns>fixed html</returns>
         private string GetFixedHtml()
         {
-            var html = _htmlEditor.Text; 
+            var html = _htmlEditor.Text;
             html = Regex.Replace(html, @"src=\""(\w.*?)\""", match =>
                 {
                     var img = TryLoadResourceImage(match.Groups[1].Value);
@@ -389,46 +389,46 @@ namespace HtmlRenderer.Demo
         /// <summary>
         /// On image load in renderer set the image by event async.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlImageLoadEventArgs e)
+        private void OnImageLoad(object sender, HtmlRenderer.Dom.HtmlImageRequestEventArgs e)
         {
-            var img = TryLoadResourceImage(e.Src);
-            var htmlTag = e.SourceHtmlTag;
+            var img = TryLoadResourceImage(e.ImagSource);
+            e.SetResultImage(img);
+            
+            //if (!e.Handled && htmlTag != null)
+            //{
+            //    string attrValue = null;
+            //    if ((attrValue = htmlTag.TryGetAttribute("byevent", null)) != null)
+            //    {
+            //        int delay;
+            //        if (int.TryParse(attrValue, out delay))
+            //        {
+            //            e.Handled = true;
+            //            ThreadPool.QueueUserWorkItem(state =>
+            //            {
+            //                Thread.Sleep(delay);
+            //                e.Callback("https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-snc7/c0.44.403.403/p403x403/318890_10151195988833836_1081776452_n.jpg");
+            //            });
+            //            return;
+            //        }
+            //        else
+            //        {
+            //            e.Callback("http://sphotos-a.xx.fbcdn.net/hphotos-ash4/c22.0.403.403/p403x403/263440_10152243591765596_773620816_n.jpg");
+            //            return;
+            //        }
+            //    }
+            //    else if ((attrValue = htmlTag.TryGetAttribute("byevent", null)) != null)
+            //    {
+            //        var split = attrValue.Split(',');
+            //        var rect = new Rectangle(int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse(split[3]));
+            //        e.Callback(img ?? Resources.html32, rect);
+            //        return;
+            //    }
+            //}
 
-            if (!e.Handled && htmlTag != null)
-            {
-                string attrValue = null;
-                if ((attrValue = htmlTag.TryGetAttribute("byevent", null)) != null)
-                {
-                    int delay;
-                    if (int.TryParse(attrValue, out delay))
-                    {
-                        e.Handled = true;
-                        ThreadPool.QueueUserWorkItem(state =>
-                        {
-                            Thread.Sleep(delay);
-                            e.Callback("https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-snc7/c0.44.403.403/p403x403/318890_10151195988833836_1081776452_n.jpg");
-                        });
-                        return;
-                    }
-                    else
-                    {
-                        e.Callback("http://sphotos-a.xx.fbcdn.net/hphotos-ash4/c22.0.403.403/p403x403/263440_10152243591765596_773620816_n.jpg");
-                        return;
-                    }
-                }
-                else if ((attrValue = htmlTag.TryGetAttribute("byevent", null)) != null)
-                {
-                    var split = attrValue.Split(',');
-                    var rect = new Rectangle(int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse(split[3]));
-                    e.Callback(img ?? Resources.html32, rect);
-                    return;
-                }
-            }
-
-            if (img != null)
-            {
-                e.Callback(img);
-            }
+            //if (img != null)
+            //{
+            //    e.Callback(img);
+            //}
         }
 
         /// <summary>

@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="Handlers\ContextMenuHandler.cs" />
     <Compile Include="Handlers\HtmlClipboardUtils.cs" />
+    <Compile Include="Handlers\ImageContentManager.cs" />
     <Compile Include="Platform\ClibboardHelper.cs" />
     <Compile Include="Platform\HtmlContainerImpl.cs" />
     <Compile Include="Handlers\SelectionHandler.cs" />

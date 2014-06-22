@@ -87,13 +87,13 @@ namespace HtmlRenderer.Dom
                         }
                     }
                 }
-                 
+
                 //---------------------------------------------
                 if (this.CssDisplay != CssDisplay.Inline)
-                {   
+                {
                     RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
                     PaintBackground(p, bound, true, true);
-                    BordersDrawHandler.DrawBoxBorders(p, this, bound, true, true);
+                    p.PaintBorders(this, bound, true, true);
                 }
 
                 if (this.LineBoxCount > 0)
@@ -101,7 +101,7 @@ namespace HtmlRenderer.Dom
                     var viewport = p.PeekLocalViewportBound();
 
                     float viewport_top = viewport.Top;
-                    float viewport_bottom = viewport.Bottom; 
+                    float viewport_bottom = viewport.Bottom;
 
                     if (this.ContainsSelectedRun)
                     {
@@ -117,7 +117,7 @@ namespace HtmlRenderer.Dom
                                 g.OffsetCanvasOrigin(0, line.CachedLineTop);
                                 //----------------------------------------
                                 //1.                                 
-                                line.PaintBackgroundAndBorder(g, p);
+                                line.PaintBackgroundAndBorder(p);
 
                                 //------------
                                 p.HtmlContainer.SelectionRange.Draw(g, p, line.CachedLineTop, line.CacheLineHeight, p.Offset);
@@ -153,7 +153,7 @@ namespace HtmlRenderer.Dom
                                 g.OffsetCanvasOrigin(0, line.CachedLineTop);
 
                                 //1. 
-                                line.PaintBackgroundAndBorder(g, p);
+                                line.PaintBackgroundAndBorder(p);
                                 //2. 
                                 line.PaintRuns(g, p);
 

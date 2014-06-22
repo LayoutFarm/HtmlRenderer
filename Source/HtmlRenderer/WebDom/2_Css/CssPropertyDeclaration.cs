@@ -532,6 +532,7 @@ namespace HtmlRenderer.WebDom
 
         ListStylePosition,
         ListStyleType,
+        BackgroundRepeat
     }
 
 

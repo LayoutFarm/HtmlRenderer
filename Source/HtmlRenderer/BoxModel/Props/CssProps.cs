@@ -10,7 +10,7 @@ using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
 {
-    
+
     //--------------------------------------------------
     public enum CssDisplay : byte
     {
@@ -108,10 +108,10 @@ namespace HtmlRenderer.Dom
         Inset,
         [Map(CssConstants.Outset)]
         Outset,
-         
+
         [Map(CssConstants.Inherit)]
         Inherit,
-         
+
         //extension
         Unknown
     }
@@ -123,7 +123,7 @@ namespace HtmlRenderer.Dom
         BreakAll,
         [Map(CssConstants.KeepAll)]
         KeepAll,
-       
+
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -164,7 +164,7 @@ namespace HtmlRenderer.Dom
         [Map(CssConstants.Collapse)]
         Collapse,
 
-        
+
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -179,7 +179,7 @@ namespace HtmlRenderer.Dom
         Center,
         [Map(CssConstants.Justify)]
         Justify,
-       
+
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -217,7 +217,7 @@ namespace HtmlRenderer.Dom
         Scroll,
         [Map(CssConstants.Auto)]
         Auto,
-         
+
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -228,7 +228,7 @@ namespace HtmlRenderer.Dom
         [Map(CssConstants.Collapse)]
         Collapse,
 
-         
+
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -237,7 +237,7 @@ namespace HtmlRenderer.Dom
         [Map(CssConstants.Show)]
         Show,
         [Map(CssConstants.Hide)]
-        Hide, 
+        Hide,
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -249,7 +249,7 @@ namespace HtmlRenderer.Dom
         [Map(CssConstants.Left)]
         Left,
         [Map(CssConstants.Right)]
-        Right,  
+        Right,
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -262,7 +262,7 @@ namespace HtmlRenderer.Dom
         Italic,
         [Map(CssConstants.Oblique)]
         Oblique,
-         
+
         [Map(CssConstants.Inherit)]
         Inherit,
 
@@ -274,7 +274,7 @@ namespace HtmlRenderer.Dom
         Normal,
         [Map(CssConstants.SmallCaps)]
         SmallCaps,
-         
+
         [Map(CssConstants.Inherit)]
         Inherit,
         Unknown,
@@ -290,7 +290,7 @@ namespace HtmlRenderer.Dom
         Bolder,
         [Map(CssConstants.Lighter)]
         Lighter,
-         
+
         [Map("100")]
         _100,
         [Map("200")]
@@ -304,7 +304,7 @@ namespace HtmlRenderer.Dom
         [Map("600")]
         _600,
 
-         
+
         [Map(CssConstants.Inherit)]
         Inherit,
 
@@ -318,7 +318,7 @@ namespace HtmlRenderer.Dom
         [Map(CssConstants.Inside)]
         Inside,
 
-        
+
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -334,7 +334,7 @@ namespace HtmlRenderer.Dom
         [Map(CssConstants.Separate)]
         Square,
         //-----------------------------
-        
+
         [Map(CssConstants.Inherit)]
         Inherit,
 
@@ -390,4 +390,17 @@ namespace HtmlRenderer.Dom
         Thick
     }
 
+    public enum CssBackgroundRepeat : byte
+    {
+        [Map(CssConstants.Repeat)]
+        Repeat,
+        [Map(CssConstants.RepeatX)]
+        RepeatX,
+        [Map(CssConstants.RepeatY)]
+        RepeatY,
+        [Map(CssConstants.NoRepeat)]
+        NoRepeat,
+        [Map(CssConstants.Inherit)]
+        Inherit,
+    }
 }
