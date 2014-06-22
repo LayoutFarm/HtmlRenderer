@@ -104,7 +104,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                return value.AsIntValue();
+                return value.GetCacheIntValue();
             }
         }
         //-----------------------
@@ -440,6 +440,135 @@ namespace HtmlRenderer.Dom
                 return length.ToString();
             }
         }
+
+
+        internal static HtmlRenderer.Dom.CssLength AsBorderLength(this WebDom.CssCodeValueExpression value)
+        {
+            if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.BorderLength)
+            {
+                switch (value.Hint)
+                {
+                    case WebDom.CssValueHint.Number:
+                        {
+                            if (value is WebDom.CssCodePrimitiveExpression)
+                            {
+                                WebDom.CssCodePrimitiveExpression prim = (WebDom.CssCodePrimitiveExpression)value;
+                                CssLength len = new CssLength(value.AsNumber(), CssLength.GetCssUnit(prim.Unit));
+                                value.SetCssLength(len, WebDom.CssValueEvaluatedAs.BorderLength);
+                                return len;
+                            }
+                            else
+                            {
+                                CssLength len = CssLength.MakePixelLength(value.AsNumber());
+                                value.SetCssLength(len, WebDom.CssValueEvaluatedAs.BorderLength);
+                                return len;
+                            }
+                        }
+                    default:
+                        {
+                            CssLength len = MakeBorderLength(value.ToString());
+                            value.SetCssLength(len, WebDom.CssValueEvaluatedAs.BorderLength);
+                            return len;
+                        }
+                }
+            }
+            return value.GetCacheCssLength();
+        }
+        internal static CssLength MakeBorderLength(string str)
+        {
+            switch (str)
+            {
+                case CssConstants.Medium:
+                    return CssLength.Medium;
+                case CssConstants.Thick:
+                    return CssLength.Thick;
+                case CssConstants.Thin:
+                    return CssLength.Thin;
+            }
+            return new CssLength(str);
+        }
+
+        //----------------------------------------------------------------------------------------------------------------
+
+        internal static HtmlRenderer.Dom.CssLength AsLength(this WebDom.CssCodeValueExpression value)
+        {
+            if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.Length)
+            {
+                //length from number 
+                switch (value.Hint)
+                {
+                    case WebDom.CssValueHint.Number:
+                        {
+                            if (value is WebDom.CssCodePrimitiveExpression)
+                            {
+                                WebDom.CssCodePrimitiveExpression prim = (WebDom.CssCodePrimitiveExpression)value;
+                                CssLength len = new CssLength(value.AsNumber(), CssLength.GetCssUnit(prim.Unit));
+                                value.SetCssLength(len, WebDom.CssValueEvaluatedAs.Length);
+                                return len;
+                            }
+                            else
+                            {
+                                CssLength len = CssLength.MakePixelLength(value.AsNumber());
+                                value.SetCssLength(len, WebDom.CssValueEvaluatedAs.Length);
+                                return len;
+                            }
+                        }
+                    default:
+                        {
+
+                            CssLength len = HtmlRenderer.Dom.BoxModelBuilder.TranslateLength(value.ToString());
+                            value.SetCssLength(len, WebDom.CssValueEvaluatedAs.Length);
+                            return len;
+                        }
+                }
+            }
+            return value.GetCacheCssLength();
+        }
+        internal static HtmlRenderer.Dom.CssLength AsTranslatedLength(this WebDom.CssCodeValueExpression value)
+        {
+            if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.TranslatedLength)
+            {
+
+                switch (value.Hint)
+                {
+                    case WebDom.CssValueHint.Number:
+                        {
+                            if (value is WebDom.CssCodePrimitiveExpression)
+                            {
+                                WebDom.CssCodePrimitiveExpression prim = (WebDom.CssCodePrimitiveExpression)value;
+                                CssLength len = new CssLength(value.AsNumber(), CssLength.GetCssUnit(prim.Unit));
+                                value.SetCssLength(len, WebDom.CssValueEvaluatedAs.TranslatedLength);
+                                return len;
+                            }
+                            else
+                            {
+                                CssLength len = CssLength.MakePixelLength(value.AsNumber());
+                                value.SetCssLength(len, WebDom.CssValueEvaluatedAs.TranslatedLength);
+                                return len;
+                            }
+
+                        }
+                    default:
+                        {
+                            CssLength len = HtmlRenderer.Dom.BoxModelBuilder.TranslateLength(value.ToString());
+                            value.SetCssLength(len, WebDom.CssValueEvaluatedAs.TranslatedLength);
+                            return len;
+                        }
+                }
+            }
+            return value.GetCacheCssLength();
+        }
+        internal static System.Drawing.Color AsColor(this WebDom.CssCodeValueExpression value)
+        {
+            if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.Color)
+            {
+                Color actualColor = Parse.CssValueParser.GetActualColor(value.GetTranslatedStringValue());
+                value.SetColorValue(actualColor);
+                return actualColor;
+            }
+            return value.GetCacheColor();
+        }
+        //----------------------------------------------------------------------------------------------------------------
 
         internal static void SetFontSize(this CssBoxBase box, CssBoxBase parentBox, WebDom.CssCodeValueExpression value)
         {

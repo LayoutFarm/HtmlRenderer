@@ -11,7 +11,7 @@ namespace HtmlRenderer.WebDom
 
 
     public class CssPropertyDeclaration
-    {   
+    {
         bool isReady = false;
         bool isValid = false;
         bool markedAsInherit;
@@ -335,7 +335,7 @@ namespace HtmlRenderer.WebDom
                             int r_value = (int)funcArgs[0].AsNumber();
                             int g_value = (int)funcArgs[1].AsNumber();
                             int b_value = (int)funcArgs[2].AsNumber();
-                            
+
                             return this.evaluatedStringValue = "#" + r_value.ToString("X") + g_value.ToString("X") + b_value.ToString("X");
                         }
                     case "url":
@@ -380,115 +380,26 @@ namespace HtmlRenderer.WebDom
             get;
             set;
         }
-        internal HtmlRenderer.Dom.CssLength AsBorderLength()
-        {
-            if (evaluatedAs != CssValueEvaluatedAs.BorderLength)
-            {
-                evaluatedAs = CssValueEvaluatedAs.BorderLength;
-                switch (this.Hint)
-                {
-                    case CssValueHint.Number:
-                        {
-                            if (this is WebDom.CssCodePrimitiveExpression)
-                            {
-                                WebDom.CssCodePrimitiveExpression prim = (WebDom.CssCodePrimitiveExpression)this;
-                                return this.cachedLength = new CssLength(this.number, CssLength.GetCssUnit(prim.Unit));
-                            }
-                            else
-                            {
-                                return cachedLength = CssLength.MakePixelLength(this.number);
-                            }
-
-                        }
-                    default:
-                        {
-                            return cachedLength = HtmlRenderer.Dom.CssLength.MakeBorderLength(this.ToString());
-                        }
-                }
-                 
-            }
-            return cachedLength;
-        }
-        internal HtmlRenderer.Dom.CssLength AsLength()
-        {
-            if (evaluatedAs != CssValueEvaluatedAs.Length)
-            {
-                //length from number
-                evaluatedAs = CssValueEvaluatedAs.Length;
-                switch (this.Hint)
-                {
-                    case CssValueHint.Number:
-                        {
-                            if (this is WebDom.CssCodePrimitiveExpression)
-                            {
-                                WebDom.CssCodePrimitiveExpression prim = (WebDom.CssCodePrimitiveExpression)this;
-                                return this.cachedLength = new CssLength(this.number, CssLength.GetCssUnit(prim.Unit));
-                            }
-                            else
-                            {
-                                return cachedLength = CssLength.MakePixelLength(this.number);
-                            }
-
-                        }
-                    default:
-                        {
-                            return cachedLength = HtmlRenderer.Dom.BoxModelBuilder.TranslateLength(this.ToString());
-                        }
-                }
-            }
-            return cachedLength;
-        }
-        internal HtmlRenderer.Dom.CssLength AsTranslatedLength()
-        {
-            if (evaluatedAs != CssValueEvaluatedAs.TranslatedLenth)
-            {
-                evaluatedAs = CssValueEvaluatedAs.TranslatedLenth;
-                switch (this.Hint)
-                {
-                    case CssValueHint.Number:
-                        {
-                            if (this is WebDom.CssCodePrimitiveExpression)
-                            {
-                                WebDom.CssCodePrimitiveExpression prim = (WebDom.CssCodePrimitiveExpression)this;
-                                return this.cachedLength = new CssLength(this.number, CssLength.GetCssUnit(prim.Unit));
-                            }
-                            else
-                            {
-                                return cachedLength = CssLength.MakePixelLength(this.number);
-                            } 
-
-                        }
-                    default:
-                        {
-                            return cachedLength = HtmlRenderer.Dom.BoxModelBuilder.TranslateLength(this.ToString());
-                        }
-                }
-
-            }
-            return cachedLength;
-        }
-        internal System.Drawing.Color AsColor()
-        {
-            if (evaluatedAs != CssValueEvaluatedAs.Color)
-            {   
-                evaluatedAs = CssValueEvaluatedAs.Color;
-                return this.cachedColor = Parse.CssValueParser.GetActualColor(this.GetTranslatedStringValue());
-            }
-            return this.cachedColor;
-        }
         internal float AsNumber()
         {
             return this.number;
         }
-        internal int AsIntValue()
-        {
-            return this.cachedInt;
-        }
+       
         internal void SetIntValue(int intValue, CssValueEvaluatedAs evaluatedAs)
         {
             this.evaluatedAs = evaluatedAs;
             this.cachedInt = intValue;
         }
+        internal void SetColorValue(System.Drawing.Color color)
+        {
+            this.evaluatedAs = CssValueEvaluatedAs.Color;
+            this.cachedColor = color;
+        }
+        internal void SetCssLength(CssLength len, WebDom.CssValueEvaluatedAs evalAs)
+        {
+            this.cachedLength = len;
+            this.evaluatedAs = evalAs;
+        } 
         internal CssValueEvaluatedAs EvaluatedAs
         {
             get
@@ -496,9 +407,22 @@ namespace HtmlRenderer.WebDom
                 return this.evaluatedAs;
             }
         }
+
+        internal System.Drawing.Color GetCacheColor()
+        {
+            return this.cachedColor;
+        }
+        internal CssLength GetCacheCssLength()
+        {
+            return this.cachedLength;
+        }
         public virtual string GetTranslatedStringValue()
         {
             return this.ToString();
+        }
+        internal int GetCacheIntValue()
+        {
+            return this.cachedInt;
         }
     }
 
@@ -508,7 +432,7 @@ namespace HtmlRenderer.WebDom
         Unknown,
         BorderLength,
         Length,
-        TranslatedLenth,
+        TranslatedLength,
         Color,
         TranslatedString,
 

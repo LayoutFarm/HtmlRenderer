@@ -235,19 +235,7 @@ namespace HtmlRenderer.Dom
                     return CssUnit.Unknown;
             }
         }
-        public static CssLength MakeBorderLength(string str)
-        {
-            switch (str)
-            {
-                case CssConstants.Medium:
-                    return CssLength.Medium;
-                case CssConstants.Thick:
-                    return CssLength.Thick;
-                case CssConstants.Thin:
-                    return CssLength.Thin;
-            }
-            return new CssLength(str);
-        }
+        
         public static CssLength MakePixelLength(float pixel)
         {
             return new CssLength(pixel, CssUnit.Pixels);

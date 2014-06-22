@@ -425,8 +425,8 @@ namespace HtmlRenderer.Dom
                             break;
                         case WebDom.WellknownHtmlName.Border:
                             {
-
-                                CssLength borderLen = TranslateLength(CssLength.MakeBorderLength(attr.Value.ToLower()));
+                                 
+                                CssLength borderLen = TranslateLength(CssBoxUserUtilExtension.MakeBorderLength(attr.Value.ToLower()));
                                 if (!borderLen.HasError)
                                 {
 
