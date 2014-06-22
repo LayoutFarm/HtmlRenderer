@@ -64,7 +64,7 @@ namespace HtmlRenderer.Dom
             get { return _imageWord.Image; }
         }
 
-        internal void PaintImage(IGraphics g, CssRun w, PaintVisitor args)
+        internal void PaintImage(IGraphics g, CssRun w, PaintVisitor p)
         {
 
             if (_imageLoadHandler == null)
@@ -76,7 +76,7 @@ namespace HtmlRenderer.Dom
 
             var rect = w.Rectangle;
 
-            args.PushLocalClipArea(rect.Width, rect.Height);
+            p.PushLocalClipArea(rect.Width, rect.Height);
 
             PaintBackground(g, rect, true, true);
             BordersDrawHandler.DrawBoxBorders(g, this, rect, true, true);
@@ -112,14 +112,14 @@ namespace HtmlRenderer.Dom
                 }
             }
 
-            args.PopLocalClipArea();
+            p.PopLocalClipArea();
 
         }
         /// <summary>
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(IGraphics g, PaintVisitor args)
+        protected override void PaintImp(IGraphics g, PaintVisitor p)
         {
             // load image iff it is in visible rectangle
             if (_imageLoadHandler == null)
@@ -131,7 +131,7 @@ namespace HtmlRenderer.Dom
             //1. single image can't be splited 
 
             var rect = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
-            args.PushLocalClipArea(this.SizeWidth, this.SizeHeight);
+            p.PushLocalClipArea(this.SizeWidth, this.SizeHeight);
 
             PaintBackground(g, rect, true, true);
             BordersDrawHandler.DrawBoxBorders(g, this, rect, true, true);
@@ -168,14 +168,14 @@ namespace HtmlRenderer.Dom
                 }
             }
 
-            args.PopLocalClipArea();
+            p.PopLocalClipArea();
         }
 
         /// <summary>
         /// Assigns words its width and height
         /// </summary>
         /// <param name="g">the device to use</param>
-        internal override void MeasureRunsSize(IGraphics g)
+        internal override void MeasureRunsSize(LayoutVisitor lay)
         {
             if (!_wordsSizeMeasured)
             {
@@ -185,7 +185,7 @@ namespace HtmlRenderer.Dom
                     _imageLoadHandler.LoadImage(GetAttribute("src"), HtmlTag);
                 }
 
-                MeasureWordSpacing(g);
+                MeasureWordSpacing(lay);
                 _wordsSizeMeasured = true;
             }
 

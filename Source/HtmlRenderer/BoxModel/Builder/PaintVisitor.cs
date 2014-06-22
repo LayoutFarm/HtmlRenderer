@@ -80,11 +80,7 @@ namespace HtmlRenderer.Dom
                 new RectangleF(0, 0, w, h));
             this.latestClip = intersectResult;
             ig.SetClip(intersectResult);
-
-            if (intersectResult.IsEmpty)
-            {
-
-            }
+ 
 
             return !intersectResult.IsEmpty;
         }

@@ -568,60 +568,18 @@ namespace HtmlRenderer
             {
                 return;
             }
-
-            //ig.FillRectangle(Brushes.Red, 0, 0, 70, 70); 
+             
             PaintVisitor args = new PaintVisitor(this, ig);
             var bound = this.ViewportBound;
 
             args.PushContaingBlock(_root.ContainingBlock);
             args.PushLocalClipArea(bound.Width, bound.Height);
-            args.PushBound(0, 0, bound.Width, bound.Height);
-           
-            //using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))            //{
+            args.PushBound(0, 0, bound.Width, bound.Height); 
 
-            //Recalculate and perform layout if need !
-            //this.PerformLayout(ig); 
-
-            //Console.WriteLine("start --------------");
-
-            _root.Paint(ig, args);
-            
-
-            //Console.WriteLine("end --------------");
-
+            _root.Paint(ig, args); 
             args.PopLocalClipArea();
             args.PopContainingBlock();
-            
-
-            //ig.FillRectangle(Brushes.Black, 0, 0, 50, 50);
-
-            //}
-
-            //ArgChecker.AssertArgNotNull(g, "g");
-
-            //Region prevClip = null;
-            //if (MaxSize.Height > 0)
-            //{
-            //    prevClip = g.Clip;
-            //    g.SetClip(new RectangleF(_location, _maxSize));
-            //}
-            //if (_root != null)
-            //{
-            //    PaintingArgs args = new PaintingArgs(this);
-            //    var bound = this.ViewportBound;
-            //    args.PushBound(0, 0, bound.Width, bound.Height);
-            //    using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
-            //    {
-            //        args.PushContainingBox(_root.ContainingBlock);
-            //        _root.Paint(ig, args);
-            //        args.PopContainingBox();
-            //    }
-            //}
-
-            //if (prevClip != null)
-            //{
-            //    g.SetClip(prevClip, CombineMode.Replace);
-            //}
+         
         }
 
 

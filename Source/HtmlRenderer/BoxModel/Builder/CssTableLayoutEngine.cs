@@ -59,15 +59,13 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="g"></param>
         /// <param name="tableBox"> </param>
-        public static void PerformLayout(CssBox tableBox, LayoutVisitor args)
-        {
-
-
+        public static void PerformLayout(CssBox tableBox, LayoutVisitor lay)
+        { 
 
             //try
             //{
             var table = new CssTableLayoutEngine(tableBox);
-            table.Layout(args);
+            table.Layout(lay);
             //}
             //catch (Exception ex)
             //{
@@ -82,9 +80,9 @@ namespace HtmlRenderer.Dom
         /// Analyzes the Table and assigns values to this CssTable object.
         /// To be called from the constructor
         /// </summary>
-        void Layout(LayoutVisitor args)
+        void Layout(LayoutVisitor lay)
         {
-            S1_MeasureWords(_tableBox, args.Gfx);
+            S1_MeasureWords(_tableBox, lay);
 
             // get the table boxes into the proper fields
             // Insert EmptyBoxes for vertical cell spanning.  
@@ -110,22 +108,22 @@ namespace HtmlRenderer.Dom
             _tableBox.PaddingLeft = _tableBox.PaddingTop = _tableBox.PaddingRight = _tableBox.PaddingBottom = CssLength.ZeroPx;
 
             //Actually layout cells!
-            S8_LayoutCells(args);
+            S8_LayoutCells(lay);
         }
         /// <summary>
         /// Recursively measures words inside the box
         /// </summary>
         /// <param name="box">the box to measure</param>
         /// <param name="g">Device to use</param>
-        static void S1_MeasureWords(CssBox box, IGraphics g)
+        static void S1_MeasureWords(CssBox box, LayoutVisitor lay)
         {
             //recursive
             if (box != null)
             {
                 foreach (var childBox in box.GetChildBoxIter())
                 {
-                    childBox.MeasureRunsSize(g);
-                    S1_MeasureWords(childBox, g); //recursive
+                    childBox.MeasureRunsSize(lay);
+                    S1_MeasureWords(childBox, lay); //recursive
                 }
             }
         }
@@ -660,11 +658,11 @@ namespace HtmlRenderer.Dom
         /// Layout the cells by the calculated table layout
         /// </summary>
         /// <param name="g"></param>
-        void S8_LayoutCells(LayoutVisitor args)
+        void S8_LayoutCells(LayoutVisitor lay)
         {
 
-            float table_globalX = args.ContainerBlockGlobalX;
-            float table_globalY = args.ContainerBlockGlobalY;
+            float table_globalX = lay.ContainerBlockGlobalX;
+            float table_globalY = lay.ContainerBlockGlobalY;
 
             float vertical_spacing = GetVerticalSpacing(_tableBox);
             float horizontal_spacing = GetHorizontalSpacing(_tableBox);
@@ -709,7 +707,7 @@ namespace HtmlRenderer.Dom
 
                         cell.SetLocation(curX_local, curY_local);
                         cell.SetSize(width, 0);
-                        cell.PerformLayout(args); //That will automatically set the bottom of the cell
+                        cell.PerformLayout(lay); //That will automatically set the bottom of the cell
 
                         //Alter max bottom only if row is cell's row + cell's rowspan - 1
                         CssVerticalCellSpacingBox sb = cell as CssVerticalCellSpacingBox;

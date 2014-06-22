@@ -7,9 +7,7 @@ namespace HtmlRenderer.Dom
 {
 
     public class LayoutVisitor : BoxVisitor
-    {
-
-
+    {    
         HtmlContainer htmlContainer;
         float totalMarginLeftAndRight;
         internal LayoutVisitor(IGraphics gfx, HtmlContainer htmlContainer)

@@ -404,7 +404,7 @@ namespace HtmlRenderer.Dom
 
 
 
-        internal void PaintRuns(IGraphics g, PaintVisitor args)
+        internal void PaintRuns(IGraphics g, PaintVisitor p)
         {
             //iterate from each words
 
@@ -424,7 +424,7 @@ namespace HtmlRenderer.Dom
                     case CssRunKind.Image:
                         {
                             CssBoxImage owner = (CssBoxImage)w.OwnerBox;
-                            owner.PaintImage(g, w, args);
+                            owner.PaintImage(g, w, p);
 
                         } break;
                     case CssRunKind.Text:
@@ -462,7 +462,7 @@ namespace HtmlRenderer.Dom
 
 #if DEBUG
 
-        internal void dbugPaintRuns(IGraphics g, PaintVisitor args)
+        internal void dbugPaintRuns(IGraphics g, PaintVisitor p)
         {
 
             
@@ -506,7 +506,7 @@ namespace HtmlRenderer.Dom
 
 #endif
 
-        internal void PaintBackgroundAndBorder(IGraphics g, PaintVisitor args)
+        internal void PaintBackgroundAndBorder(IGraphics g, PaintVisitor p)
         {
             //iterate each strip
 
@@ -531,7 +531,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        internal void PaintDecoration(IGraphics g, PaintVisitor args)
+        internal void PaintDecoration(IGraphics g, PaintVisitor p)
         {
 
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)

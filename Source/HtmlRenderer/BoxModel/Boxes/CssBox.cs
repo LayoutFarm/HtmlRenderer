@@ -356,7 +356,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                int j = box._boxRuns.Count;               
+                int j = box._boxRuns.Count;
 
                 firstHostLine = box._boxRuns[0].HostLine;
                 lastHostLine = box._boxRuns[j - 1].HostLine;
@@ -561,9 +561,9 @@ namespace HtmlRenderer.Dom
         /// Performs layout of the DOM structure creating lines by set bounds restrictions.
         /// </summary>
         /// <param name="g">Device context to use</param>
-        public void PerformLayout(LayoutVisitor args)
+        public void PerformLayout(LayoutVisitor lay)
         {
-            PerformContentLayout(args);
+            PerformContentLayout(lay);
         }
 
         internal void ChangeSiblingOrder(int siblingIndex)
@@ -601,12 +601,12 @@ namespace HtmlRenderer.Dom
         /// Performs layout of the DOM structure creating lines by set bounds restrictions.<br/>
         /// </summary>
         /// <param name="g">Device context to use</param>
-        protected virtual void PerformContentLayout(LayoutVisitor args)
+        protected virtual void PerformContentLayout(LayoutVisitor lay)
         {
 
             if (this.CssDisplay != CssDisplay.None)
             {
-                MeasureRunsSize(args.Gfx);
+                MeasureRunsSize(lay);
             }
             //-----------------------------------------------------------
             switch (this.CssDisplay)
@@ -623,7 +623,7 @@ namespace HtmlRenderer.Dom
                     {
                         // Because their width and height are set by CssTable                                 
 
-                        CssBox myContainingBlock = args.LatestContainingBlock;
+                        CssBox myContainingBlock = lay.LatestContainingBlock;
 
                         if (this.CssDisplay != CssDisplay.TableCell)
                         {
@@ -646,7 +646,7 @@ namespace HtmlRenderer.Dom
                             float localLeft = myContainingBlock.LocalClientLeft + this.ActualMarginLeft;
                             float localTop = 0;
 
-                            var prevSibling = args.LatestSiblingBox;
+                            var prevSibling = lay.LatestSiblingBox;
                             if (prevSibling == null)
                             {
                                 //this is first child of parent
@@ -672,44 +672,44 @@ namespace HtmlRenderer.Dom
                             case Dom.CssDisplay.Table:
                             case Dom.CssDisplay.InlineTable:
                                 {
-                                    args.PushContaingBlock(this);
-                                    var currentLevelLatestSibling = args.LatestSiblingBox;
-                                    args.LatestSiblingBox = null;//reset
+                                    lay.PushContaingBlock(this);
+                                    var currentLevelLatestSibling = lay.LatestSiblingBox;
+                                    lay.LatestSiblingBox = null;//reset
 
-                                    CssTableLayoutEngine.PerformLayout(this, args);
+                                    CssTableLayoutEngine.PerformLayout(this, lay);
 
-                                    args.LatestSiblingBox = currentLevelLatestSibling;
-                                    args.PopContainingBlock();
+                                    lay.LatestSiblingBox = currentLevelLatestSibling;
+                                    lay.PopContainingBlock();
                                 } break;
                             default:
                                 {
                                     //If there's just inline boxes, create LineBoxes
                                     if (DomUtils.ContainsInlinesOnly(this))
-                                    { 
+                                    {
                                         this.SetHeightToZero();
-                                        CssLayoutEngine.FlowContentRuns(this, args); //This will automatically set the bottom of this block
+                                        CssLayoutEngine.FlowContentRuns(this, lay); //This will automatically set the bottom of this block
                                     }
                                     else if (_boxes.Count > 0)
                                     {
-                                        args.PushContaingBlock(this);
-                                        var currentLevelLatestSibling = args.LatestSiblingBox;
-                                        args.LatestSiblingBox = null;//reset
+                                        lay.PushContaingBlock(this);
+                                        var currentLevelLatestSibling = lay.LatestSiblingBox;
+                                        lay.LatestSiblingBox = null;//reset
 
                                         foreach (var childBox in Boxes)
                                         {
-                                            childBox.PerformLayout(args);
+                                            childBox.PerformLayout(lay);
 
                                             if (childBox.CanBeRefererenceSibling)
                                             {
-                                                args.LatestSiblingBox = childBox;
+                                                lay.LatestSiblingBox = childBox;
                                             }
                                         }
 
-                                        args.LatestSiblingBox = currentLevelLatestSibling;
-                                        args.PopContainingBlock();
+                                        lay.LatestSiblingBox = currentLevelLatestSibling;
+                                        lay.PopContainingBlock();
 
                                         float width = this.CalculateActualWidth();
-                                        if (args.ContainerBlockGlobalX + width > CssBoxConst.MAX_RIGHT)
+                                        if (lay.ContainerBlockGlobalX + width > CssBoxConst.MAX_RIGHT)
                                         {
                                         }
                                         else
@@ -730,7 +730,7 @@ namespace HtmlRenderer.Dom
                     } break;
                 default:
                     {
-                        var prevSibling = args.LatestSiblingBox;
+                        var prevSibling = lay.LatestSiblingBox;
                         if (prevSibling != null)
                         {
                             //if (!this.HasAssignedLocation)
@@ -746,11 +746,11 @@ namespace HtmlRenderer.Dom
             //set height 
 
             this.UpdateIfHigher(this.ExpectedHeight);
-            this.CreateListItemBox(args);
+            this.CreateListItemBox(lay);
 
 
             //update back 
-            args.UpdateRootSize(this);
+            lay.UpdateRootSize(this);
 
         }
 
@@ -758,7 +758,7 @@ namespace HtmlRenderer.Dom
         /// Assigns words its width and height
         /// </summary>
         /// <param name="g"></param>
-        internal virtual void MeasureRunsSize(IGraphics g)
+        internal virtual void MeasureRunsSize(LayoutVisitor lay)
         {
             //measure once !
             if (_wordsSizeMeasured) return;
@@ -771,7 +771,7 @@ namespace HtmlRenderer.Dom
                 _imageLoadHandler.LoadImage(BackgroundImage, HtmlTag);
             }
 
-            MeasureWordSpacing(g);
+            MeasureWordSpacing(lay);
 
             if (this.HasRuns)
             {
@@ -789,7 +789,7 @@ namespace HtmlRenderer.Dom
                             {
 
                                 CssTextRun textRun = (CssTextRun)boxWord;
-                                boxWord.Width = FontsUtils.MeasureStringWidth(g,
+                                boxWord.Width = FontsUtils.MeasureStringWidth(lay.Gfx,
                                     CssBox.UnsafeGetTextBuffer(this),
                                     textRun.TextStartIndex,
                                     textRun.TextLength,
@@ -873,7 +873,7 @@ namespace HtmlRenderer.Dom
         /// Creates the <see cref="_listItemBox"/>
         /// </summary>
         /// <param name="g"></param>
-        void CreateListItemBox(LayoutVisitor layoutArgs)
+        void CreateListItemBox(LayoutVisitor lay)
         {
 
             if (this.CssDisplay == CssDisplay.ListItem &&
@@ -917,10 +917,10 @@ namespace HtmlRenderer.Dom
 
                     _listItemBox.ParseWordContent();
 
-                    var prevSibling = layoutArgs.LatestSiblingBox;
-                    layoutArgs.LatestSiblingBox = null;//reset
-                    _listItemBox.PerformContentLayout(layoutArgs);
-                    layoutArgs.LatestSiblingBox = prevSibling;
+                    var prevSibling = lay.LatestSiblingBox;
+                    lay.LatestSiblingBox = null;//reset
+                    _listItemBox.PerformContentLayout(lay);
+                    lay.LatestSiblingBox = prevSibling;
 
 
                     var fRun = _listItemBox.FirstRun;

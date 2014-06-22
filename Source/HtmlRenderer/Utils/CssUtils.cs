@@ -70,10 +70,10 @@ namespace HtmlRenderer.Utils
         /// <param name="g"></param>
         /// <param name="box"></param>
         /// <returns></returns>
-        public static float MeasureWhiteSpace(IGraphics g, CssBoxBase box)
+        public static float MeasureWhiteSpace(LayoutVisitor lay, CssBoxBase box)
         {
             //depends on Font of this box
-            float w = FontsUtils.MeasureWhitespace(g, box.ActualFont);
+            float w = FontsUtils.MeasureWhitespace(lay.Gfx, box.ActualFont);
             if (!(box.WordSpacing.IsEmpty || box.WordSpacing.IsNormalWordSpacing))
             {
                 w += CssValueParser.ParseLength(box.WordSpacing, 0, box, true);
@@ -234,7 +234,7 @@ namespace HtmlRenderer.Utils
         }
 
 
-    
-    
+
+
     }
 }

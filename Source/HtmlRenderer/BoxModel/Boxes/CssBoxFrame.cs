@@ -461,11 +461,11 @@ namespace HtmlRenderer.Dom
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(IGraphics g, PaintVisitor args)
+        protected override void PaintImp(IGraphics g, PaintVisitor p)
         {
 
             var rects = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
-            args.PushLocalClipArea(this.SizeWidth, this.SizeHeight);
+            p.PushLocalClipArea(this.SizeWidth, this.SizeHeight);
 
             PaintBackground(g, rects, true, true);
 
@@ -486,7 +486,7 @@ namespace HtmlRenderer.Dom
 
             DrawPlay(g, rect);
 
-            args.PopLocalClipArea();
+            p.PopLocalClipArea();
         }
 
         /// <summary>
@@ -567,11 +567,11 @@ namespace HtmlRenderer.Dom
         /// Assigns words its width and height
         /// </summary>
         /// <param name="g">the device to use</param>
-        internal override void MeasureRunsSize(IGraphics g)
+        internal override void MeasureRunsSize(LayoutVisitor lay)
         {
             if (!_wordsSizeMeasured)
             {
-                MeasureWordSpacing(g);
+                MeasureWordSpacing(lay);
                 _wordsSizeMeasured = true;
             }
             CssLayoutEngine.MeasureImageSize(_imageWord);

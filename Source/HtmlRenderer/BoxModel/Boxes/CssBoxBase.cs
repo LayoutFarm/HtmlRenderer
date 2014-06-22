@@ -1174,13 +1174,13 @@ namespace HtmlRenderer.Dom
 
         }
 
-        protected void MeasureWordSpacing(IGraphics g)
+        protected void MeasureWordSpacing(LayoutVisitor lay)
         {
             if ((this._prop_pass_eval & CssBoxBaseAssignments.WORD_SPACING) == 0)
             {
                 this._prop_pass_eval |= CssBoxBaseAssignments.WORD_SPACING;
 
-                _actualWordSpacing = CssUtils.MeasureWhiteSpace(g, this);
+                _actualWordSpacing = CssUtils.MeasureWhiteSpace(lay, this);
                 if (!this.WordSpacing.IsNormalWordSpacing)
                 {
                     _actualWordSpacing += CssValueParser.ParseLength(this.WordSpacing, 1, this);

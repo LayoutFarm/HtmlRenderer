@@ -123,7 +123,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="g"></param>
         /// <param name="blockBox"></param>
-        public static void FlowContentRuns(CssBox blockBox, LayoutVisitor args)
+        public static void FlowContentRuns(CssBox blockBox, LayoutVisitor lay)
         {
 
 
@@ -142,12 +142,12 @@ namespace HtmlRenderer.Dom
             blockBox.AddLineBox(line);
 
             //****
-            FlowBox(args, blockBox, blockBox, limitLocalRight, 0, startLocalX,
+            FlowBox(lay, blockBox, blockBox, limitLocalRight, 0, startLocalX,
                 ref line, ref localX, ref localY, ref maxLocalRight, ref maxLocalBottom);
             //****
 
             // if width is not restricted we need to lower it to the actual width
-            if (blockBox.SizeWidth + args.ContainerBlockGlobalX >= CssBoxConst.MAX_RIGHT)
+            if (blockBox.SizeWidth + lay.ContainerBlockGlobalX >= CssBoxConst.MAX_RIGHT)
             {
                 float newWidth = maxLocalRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth;// CssBox.MAX_RIGHT - (args.ContainerBlockGlobalX + blockBox.LocalX);
                 if (newWidth <= CSS_OFFSET_THRESHOLD)
@@ -161,7 +161,7 @@ namespace HtmlRenderer.Dom
             {
                 foreach (CssLineBox linebox in blockBox.GetLineBoxIter())
                 {
-                    ApplyAlignment(linebox, args);
+                    ApplyAlignment(linebox, lay);
                     ApplyRightToLeft(blockBox, linebox); //***
                     linebox.CloseLine(); //***
                 }
@@ -170,7 +170,7 @@ namespace HtmlRenderer.Dom
             {
                 foreach (CssLineBox linebox in blockBox.GetLineBoxIter())
                 {
-                    ApplyAlignment(linebox, args);
+                    ApplyAlignment(linebox, lay);
                     linebox.CloseLine(); //***
                 }
             }
@@ -204,7 +204,7 @@ namespace HtmlRenderer.Dom
         /// <param name="current_line_y">Current y coordinate that will be the top of the next word</param>
         /// <param name="maxRightForHostBox">Maximum right reached so far</param>
         /// <param name="maxBottomForHostBox">Maximum bottom reached so far</param>
-        static void FlowBox(LayoutVisitor args,
+        static void FlowBox(LayoutVisitor lay,
           CssBox hostBox, CssBox splitableBox,
           float limitLocalRight, float interLineSpace, float firstRunStartX,
           ref CssLineBox hostLine,
@@ -233,13 +233,13 @@ namespace HtmlRenderer.Dom
                     rightMostSpace = b.ActualMarginRight + b.ActualBorderRightWidth + b.ActualPaddingRight;
                 }
 
-                b.MeasureRunsSize(args.Gfx);
+                b.MeasureRunsSize(lay);
                 current_line_x += leftMostSpace;
 
                 if (!b.HasRuns)
                 {
                     //go deeper  
-                    FlowBox(args, hostBox, b, limitLocalRight, interLineSpace, firstRunStartX,
+                    FlowBox(lay, hostBox, b, limitLocalRight, interLineSpace, firstRunStartX,
                         ref hostLine, ref current_line_x, ref current_line_y, ref maxRightForHostBox, ref maxBottomForHostBox);
 
                 }
@@ -401,18 +401,18 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="g"></param>
         /// <param name="lineBox"></param>
-        private static void ApplyAlignment(CssLineBox lineBox, LayoutVisitor args)
+        private static void ApplyAlignment(CssLineBox lineBox, LayoutVisitor lay)
         {
             switch (lineBox.OwnerBox.CssTextAlign)
             {
                 case CssTextAlign.Right:
-                    ApplyRightAlignment(args.Gfx, lineBox);
+                    ApplyRightAlignment(lay.Gfx, lineBox);
                     break;
                 case CssTextAlign.Center:
-                    ApplyCenterAlignment(args.Gfx, lineBox);
+                    ApplyCenterAlignment(lay.Gfx, lineBox);
                     break;
                 case CssTextAlign.Justify:
-                    ApplyJustifyAlignment(args.Gfx, lineBox);
+                    ApplyJustifyAlignment(lay.Gfx, lineBox);
                     break;
                 default:
                     //ApplyLeftAlignment(g, lineBox);

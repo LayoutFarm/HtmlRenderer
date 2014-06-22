@@ -17,13 +17,13 @@ namespace HtmlRenderer.Dom
     partial class CssBox
     {
 
-        public void Paint(IGraphics g, PaintVisitor args)
+        public void Paint(IGraphics g, PaintVisitor p)
         {
             if (this.CssDisplay != CssDisplay.None &&
                 this.CssVisibility == Dom.CssVisibility.Visible)
             {
                 //----------------
-                PaintImp(g, args);
+                PaintImp(g, p);
 
                 //v2
                 //----------------
@@ -87,12 +87,10 @@ namespace HtmlRenderer.Dom
                         }
                     }
                 }
-
-
+                 
                 //---------------------------------------------
                 if (this.CssDisplay != CssDisplay.Inline)
-                {
-                    //var bound = this.GlobalBound;
+                {   
                     RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
                     PaintBackground(g, bound, true, true);
                     BordersDrawHandler.DrawBoxBorders(g, this, bound, true, true);
@@ -103,9 +101,7 @@ namespace HtmlRenderer.Dom
                     var viewport = p.PeekLocalViewportBound();
 
                     float viewport_top = viewport.Top;
-                    float viewport_bottom = viewport.Bottom;
-
-
+                    float viewport_bottom = viewport.Bottom; 
 
                     if (this.ContainsSelectedRun)
                     {
@@ -214,6 +210,7 @@ namespace HtmlRenderer.Dom
                 {
                     p.PopLocalClipArea();
                 }
+
                 if (_listItemBox != null)
                 {
                     _listItemBox.Paint(g, p);
