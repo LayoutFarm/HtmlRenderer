@@ -81,7 +81,8 @@ namespace HtmlRenderer.Dom
         CssPosition _position = CssPosition.Static;
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
 
-        WellknownHtmlTagName wellKnownTagName;
+        WellknownHtmlTagName wellKnownTagName; 
+
         #endregion
         //==========================================================
 
@@ -153,6 +154,7 @@ namespace HtmlRenderer.Dom
         }
 
         #region CSS Properties
+
         public WellknownHtmlTagName WellknownTagName
         {
             get
@@ -418,14 +420,12 @@ namespace HtmlRenderer.Dom
         {
             get { return this._backgroundProps.BackgroundColor; }
             set { CheckBgVersion().BackgroundColor = value; }
-        }
-
-        public string BackgroundImage
+        } 
+        public ImageBinder BackgroundImageBinder
         {
-            get { return this._backgroundProps.BackgroundImage; }
-            set { CheckBgVersion().BackgroundImage = value; }
+            get { return this._backgroundProps.BackgroundImageBinder; }
+            set { CheckBgVersion().BackgroundImageBinder = value; }
         }
-
         public string BackgroundPosition
         {
             get { return this._backgroundProps.BackgroundPosition; }

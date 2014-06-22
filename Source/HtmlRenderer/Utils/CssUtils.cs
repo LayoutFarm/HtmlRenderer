@@ -170,7 +170,8 @@ namespace HtmlRenderer.Utils
                 case "background-color":
                     return cssBox.BackgroundColor.ToHexColor();
                 case "background-image":
-                    return cssBox.BackgroundImage;
+                    return cssBox.BackgroundImageBinder.ImageSource;
+
                 case "background-position":
                     return cssBox.BackgroundPosition;
                 case "background-repeat":

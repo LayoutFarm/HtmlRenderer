@@ -418,7 +418,7 @@ namespace HtmlRenderer.Dom
                                 break;
                             }
                         case WebDom.WellknownHtmlName.Background:
-                            box.BackgroundImage = attr.Value.ToLower();
+                            box.BackgroundImageBinder = new ImageBinder(attr.Value.ToLower());
                             break;
                         case WebDom.WellknownHtmlName.BackgroundColor:
                             box.BackgroundColor = CssValueParser.GetActualColor(attr.Value.ToLower());
@@ -753,7 +753,7 @@ namespace HtmlRenderer.Dom
                     cssBox.BackgroundColor = cssValue.AsColor();
                     break;
                 case WebDom.WellknownCssPropertyName.BackgroundImage:
-                    cssBox.BackgroundImage = cssValue.GetTranslatedStringValue();
+                    cssBox.BackgroundImageBinder = new ImageBinder(cssValue.GetTranslatedStringValue());
                     break;
                 case WebDom.WellknownCssPropertyName.BackgroundPosition:
                     cssBox.BackgroundPosition = cssValue.GetTranslatedStringValue();
@@ -973,7 +973,7 @@ namespace HtmlRenderer.Dom
                     cssBox.BackgroundColor = parentCssBox.BackgroundColor;
                     break;
                 case WebDom.WellknownCssPropertyName.BackgroundImage:
-                    cssBox.BackgroundImage = parentCssBox.BackgroundImage;
+                    cssBox.BackgroundImageBinder = parentCssBox.BackgroundImageBinder;
                     break;
                 case WebDom.WellknownCssPropertyName.BackgroundPosition:
                     cssBox.BackgroundPosition = parentCssBox.BackgroundPosition;

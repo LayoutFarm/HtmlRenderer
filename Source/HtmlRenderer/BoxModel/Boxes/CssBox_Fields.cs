@@ -62,7 +62,7 @@ namespace HtmlRenderer.Dom
         /// handler for loading background image
         /// </summary>
         ImageLoadHandler _imageLoadHandler;
-
+       
         //---------------------------------------------------- 
 
         //condition 1 :this Box is BlockBox
@@ -242,7 +242,7 @@ namespace HtmlRenderer.Dom
         int _boxCompactFlags;
 
 
-        
+
     }
 
 }

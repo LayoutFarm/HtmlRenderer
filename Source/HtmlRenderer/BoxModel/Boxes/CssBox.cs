@@ -764,12 +764,17 @@ namespace HtmlRenderer.Dom
             if (_wordsSizeMeasured) return;
             //--------------------------------
 
-            if (BackgroundImage != CssConstants.None && _imageLoadHandler == null)
+            if (this.BackgroundImageBinder != null)
             {
-                //TODO: change to another technique !
-                _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnImageLoadComplete);
-                _imageLoadHandler.LoadImage(BackgroundImage, HtmlTag);
+                this.BackgroundImageBinder.LoadImageIfFirstTime();
             }
+
+            //if (BackgroundImage != CssConstants.None && _imageLoadHandler == null)
+            //{
+            //    //TODO: change to another technique !
+            //    _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnImageLoadComplete);
+            //    _imageLoadHandler.LoadImage(BackgroundImage, HtmlTag);
+            //}
 
             MeasureWordSpacing(lay);
 
