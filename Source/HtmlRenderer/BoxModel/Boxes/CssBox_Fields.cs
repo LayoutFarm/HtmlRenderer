@@ -58,10 +58,10 @@ namespace HtmlRenderer.Dom
         int _rowSpan;
         int _colSpan;
 
-        /// <summary>
-        /// handler for loading background image
-        /// </summary>
-        ImageLoadHandler _imageLoadHandler;
+        ///// <summary>
+        ///// handler for loading background image
+        ///// </summary>
+        //ImageLoadHandler _imageLoadHandler;
        
         //---------------------------------------------------- 
 

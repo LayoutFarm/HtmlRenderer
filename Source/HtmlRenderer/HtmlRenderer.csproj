@@ -120,7 +120,6 @@
     <Compile Include="Entities\IHtmlNodes.cs" />
     <Compile Include="BoxModel\Props\Border.cs" />
     <Compile Include="Entities\HtmlLinkClickedException.cs" />
-    <Compile Include="Entities\HtmlImageLoadEventArgs.cs" />
     <Compile Include="Entities\HtmlLinkClickedEventArgs.cs" />
     <Compile Include="Entities\HtmlRefreshEventArgs.cs" />
     <Compile Include="Entities\HtmlRenderErrorEventArgs.cs" />
@@ -129,7 +128,6 @@
     <Compile Include="Entities\HtmlStylesheetLoadEventArgs.cs" />
     <Compile Include="Entities\HtmlGenerationStyle.cs" />
     <Compile Include="CascadeStyleSheet\CssDefaults.cs" />
-    <Compile Include="Handlers\ImageLoadHandler.cs" />
     <Compile Include="Handlers\StylesheetLoadHandler.cs" />
     <Compile Include="Platform\ExtensionAttribute.cs" />
     <Compile Include="Platform\IGraphics.cs" />

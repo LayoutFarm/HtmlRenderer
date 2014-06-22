@@ -55,10 +55,10 @@ namespace HtmlRenderer.Dom
         /// </summary>
         private string _videoLinkUrl;
 
-        /// <summary>
-        /// handler used for image loading by source
-        /// </summary>
-        private ImageLoadHandler _imageLoadHandler;
+        ///// <summary>
+        ///// handler used for image loading by source
+        ///// </summary>
+        //private ImageLoadHandler _imageLoadHandler;
 
         /// <summary>
         /// is image load is finished, used to know if no image is found
@@ -122,8 +122,8 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public override void Dispose()
         {
-            if (_imageLoadHandler != null)
-                _imageLoadHandler.Dispose();
+            //if (_imageLoadHandler != null)
+            //    _imageLoadHandler.Dispose();
             base.Dispose();
         }
 

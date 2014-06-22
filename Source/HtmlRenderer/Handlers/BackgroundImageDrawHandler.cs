@@ -30,18 +30,23 @@ namespace HtmlRenderer.Handlers
         /// <param name="box">the box to draw its background image</param>
         /// <param name="imageLoadHandler">the handler that loads image to draw</param>
         /// <param name="rectangle">the rectangle to draw image in</param>
-        public static void DrawBackgroundImage(IGraphics g, CssBox box, ImageLoadHandler imageLoadHandler, RectangleF rectangle)
+        public static void DrawBackgroundImage(IGraphics g, CssBox box, ImageBinder imageBinder, RectangleF rectangle)
         {
-            // image size depends if specific rectangle given in image loader
-            var imgSize = new Size(imageLoadHandler.Rectangle == Rectangle.Empty ? imageLoadHandler.Image.Width : imageLoadHandler.Rectangle.Width,
-                                   imageLoadHandler.Rectangle == Rectangle.Empty ? imageLoadHandler.Image.Height : imageLoadHandler.Rectangle.Height);
+
+            var image = imageBinder.Image;
+
+            //temporary comment image scale code 
+            var imgSize = image.Size;
+            //new Size(imageLoadHandler.Rectangle == Rectangle.Empty ? imageLoadHandler.Image.Width : imageLoadHandler.Rectangle.Width,
+            //                 imageLoadHandler.Rectangle == Rectangle.Empty ? imageLoadHandler.Image.Height : imageLoadHandler.Rectangle.Height);
 
             // get the location by BackgroundPosition value
             var location = GetLocation(box.BackgroundPosition, rectangle, imgSize);
 
-            var srcRect = imageLoadHandler.Rectangle == Rectangle.Empty
-                              ? new Rectangle(0, 0, imgSize.Width, imgSize.Height)
-                              : new Rectangle(imageLoadHandler.Rectangle.Left, imageLoadHandler.Rectangle.Top, imgSize.Width, imgSize.Height);
+            //var srcRect = imageLoadHandler.Rectangle == Rectangle.Empty
+            //                  ? new Rectangle(0, 0, imgSize.Width, imgSize.Height)
+            //                  : new Rectangle(imageLoadHandler.Rectangle.Left, imageLoadHandler.Rectangle.Top, imgSize.Width, imgSize.Height);
+            var srcRect = new Rectangle(0, 0, image.Width, image.Height);
 
             // initial image destination rectangle
             var destRect = new Rectangle(location, imgSize);
@@ -55,16 +60,16 @@ namespace HtmlRenderer.Handlers
             switch (box.BackgroundRepeat)
             {
                 case "no-repeat":
-                    g.DrawImage(imageLoadHandler.Image, destRect, srcRect);
+                    g.DrawImage(image, new RectangleF(location, imgSize), new RectangleF(0, 0, image.Width, image.Height));
                     break;
                 case "repeat-x":
-                    DrawRepeatX(g, imageLoadHandler, rectangle, srcRect, destRect, imgSize);
+                    DrawRepeatX(g, image, rectangle, srcRect, destRect, imgSize);
                     break;
                 case "repeat-y":
-                    DrawRepeatY(g, imageLoadHandler, rectangle, srcRect, destRect, imgSize);
+                    DrawRepeatY(g, image, rectangle, srcRect, destRect, imgSize);
                     break;
                 default:
-                    DrawRepeat(g, imageLoadHandler, rectangle, srcRect, destRect, imgSize);
+                    DrawRepeat(g, image, rectangle, srcRect, destRect, imgSize);
                     break;
             }
 
@@ -118,12 +123,12 @@ namespace HtmlRenderer.Handlers
         /// Draw the background image at the required location repeating it over the X axis.<br/>
         /// Adjust location to left if starting location doesn't include all the range (adjusted to center or right).
         /// </summary>
-        private static void DrawRepeatX(IGraphics g, ImageLoadHandler imageLoadHandler, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
+        static void DrawRepeatX(IGraphics g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
         {
             while (destRect.X > rectangle.X)
                 destRect.X -= imgSize.Width;
 
-            using (var brush = new TextureBrush(imageLoadHandler.Image, srcRect))
+            using (var brush = new TextureBrush(img, srcRect))
             {
                 brush.TranslateTransform(destRect.X, destRect.Y);
                 g.FillRectangle(brush, rectangle.X, destRect.Y, rectangle.Width, srcRect.Height);
@@ -134,12 +139,12 @@ namespace HtmlRenderer.Handlers
         /// Draw the background image at the required location repeating it over the Y axis.<br/>
         /// Adjust location to top if starting location doesn't include all the range (adjusted to center or bottom).
         /// </summary>
-        private static void DrawRepeatY(IGraphics g, ImageLoadHandler imageLoadHandler, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
+        private static void DrawRepeatY(IGraphics g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
         {
             while (destRect.Y > rectangle.Y)
                 destRect.Y -= imgSize.Height;
 
-            using (var brush = new TextureBrush(imageLoadHandler.Image, srcRect))
+            using (var brush = new TextureBrush(img, srcRect))
             {
                 brush.TranslateTransform(destRect.X, destRect.Y);
                 g.FillRectangle(brush, destRect.X, rectangle.Y, srcRect.Width, rectangle.Height);
@@ -150,14 +155,14 @@ namespace HtmlRenderer.Handlers
         /// Draw the background image at the required location repeating it over the X and Y axis.<br/>
         /// Adjust location to left-top if starting location doesn't include all the range (adjusted to center or bottom/right).
         /// </summary>
-        private static void DrawRepeat(IGraphics g, ImageLoadHandler imageLoadHandler, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
+        private static void DrawRepeat(IGraphics g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
         {
             while (destRect.X > rectangle.X)
                 destRect.X -= imgSize.Width;
             while (destRect.Y > rectangle.Y)
                 destRect.Y -= imgSize.Height;
 
-            using (var brush = new TextureBrush(imageLoadHandler.Image, srcRect))
+            using (var brush = new TextureBrush(img, srcRect))
             {
                 brush.TranslateTransform(destRect.X, destRect.Y);
                 g.FillRectangle(brush, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);

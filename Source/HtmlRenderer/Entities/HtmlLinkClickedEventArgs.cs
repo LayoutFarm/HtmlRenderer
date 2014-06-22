@@ -23,10 +23,7 @@ namespace HtmlRenderer.Entities
         /// <summary>
         /// the link href that was clicked
         /// </summary>
-        private readonly string _link;
-
-   
-
+        private readonly string _link; 
         /// <summary>
         /// use to cancel the execution of the link
         /// </summary>
