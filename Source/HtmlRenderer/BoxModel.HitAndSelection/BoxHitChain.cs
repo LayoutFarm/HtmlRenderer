@@ -31,11 +31,13 @@ namespace HtmlRenderer.Dom
         }
 #endif
     }
+
+
+
     public class BoxHitChain
     {
 
         List<HitInfo> hitInfoList = new List<HitInfo>();
-
         public BoxHitChain()
         {
 
@@ -51,17 +53,20 @@ namespace HtmlRenderer.Dom
                 return this.hitInfoList.Count;
             }
         }
+
         internal void AddHit(CssBox box, int x, int y)
         {
+            //position x,y relate with (0,0) of its box
             hitInfoList.Add(new HitInfo(HitObjectKind.CssBox, box, x, y));
         }
         internal void AddHit(CssLineBox lineBox, int x, int y)
         {
+            //position x,y relate with (0,0) of its linebox
             hitInfoList.Add(new HitInfo(HitObjectKind.LineBox, lineBox, x, y));
-
         }
         internal void AddHit(CssRun run, int x, int y)
         {
+            //position x,y relate with (0,0) of its run
             hitInfoList.Add(new HitInfo(HitObjectKind.Run, run, x, y));
         }
         public HitInfo GetHitInfo(int index)
@@ -125,8 +130,6 @@ namespace HtmlRenderer.Dom
             return new SelectionRange(upper, lower, g);
 
         }
-
-
     }
     public enum HitObjectKind : byte
     {
@@ -135,6 +138,6 @@ namespace HtmlRenderer.Dom
         LineBox,
         Run
     }
-   
-    
+
+
 }

@@ -268,9 +268,8 @@ namespace HtmlRenderer.Dom
             {
                 this.CachedLineContentWidth = this.OwnerBox.SizeWidth;
             }
-        }
-
-        public bool HitTest(int x, int y)
+        } 
+        public bool HitTest(float x, float y)
         {
             if (y >= this.CachedLineTop && y <= this.CachedLineBottom)
             {
@@ -456,8 +455,6 @@ namespace HtmlRenderer.Dom
                         } break;
                 }
             }
-
-
         }
 
 #if DEBUG
@@ -465,7 +462,7 @@ namespace HtmlRenderer.Dom
         internal void dbugPaintRuns(IGraphics g, PaintVisitor p)
         {
 
-            return;
+            //return;
             //linebox  
             float x1 = 0;
             float y1 = 0;

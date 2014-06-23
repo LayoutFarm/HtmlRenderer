@@ -1184,9 +1184,9 @@ namespace HtmlRenderer.Dom
                     {
                         BackgroundImageDrawHandler.DrawBackgroundImage(g, this, bgImageBinder, rect);
                     }
-                } 
+                }
             }
-        } 
+        }
 #if DEBUG
         internal void dbugPaintTextWordArea(IGraphics g, PointF offset, CssRun word)
         {
@@ -1333,10 +1333,10 @@ namespace HtmlRenderer.Dom
             return x >= this.LocalClientLeft && x < this.LocalClientRight &&
                    y >= this.LocalClientTop && y < this.LocalClientBottom;
         }
-        internal bool IsPointInArea(PointF p)
+        internal bool IsPointInArea(float x, float y)
         {
-            return p.X >= this.LocalX && p.X < this.LocalActualRight &&
-                   p.Y >= this.LocalY && p.Y < this.LocalActualBottom;
+            return x >= this.LocalX && x < this.LocalActualRight &&
+                   y >= this.LocalY && y < this.LocalActualBottom;
         }
     }
 }

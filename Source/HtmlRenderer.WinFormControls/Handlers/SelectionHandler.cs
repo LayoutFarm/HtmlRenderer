@@ -122,7 +122,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="root">the root of the handled html tree</param>
         public SelectionHandler(CssBox root, HtmlContainer container)
         {
-             
+
             this.container = container;
             _root = root;
             _contextMenuHandler = new ContextMenuHandler(this, container);
@@ -181,7 +181,7 @@ namespace HtmlRenderer.Handlers
 
             if (isMouseInContainer)
             {
-                
+
                 if (this.container.SelectionRange != null)
                 {
                     this.container.SelectionRange = null;
@@ -195,7 +195,7 @@ namespace HtmlRenderer.Handlers
                 if (container.IsSelectionEnabled && (Control.MouseButtons & MouseButtons.Left) != 0)
                 {
                     BoxHitChain hitChain = new BoxHitChain();
-                    DomUtils.HitTest(_root, loc, hitChain);
+                    DomUtils.HitTest(_root, loc.X, loc.Y, hitChain);
                     _latestMouseDownHitChain = hitChain;
                     HitInfo hitInfo = hitChain.GetLastHit();
                     switch (hitInfo.hitObjectKind)
@@ -449,11 +449,11 @@ namespace HtmlRenderer.Handlers
         {
             // get the line under the mouse or nearest from the top  
             BoxHitChain hitChain = new BoxHitChain();
-            DomUtils.HitTest(_root, loc, hitChain);
+            DomUtils.HitTest(_root, loc.X, loc.Y, hitChain);
 
             //create selection range  
             var selRange = BoxHitChain.CreateSelectionRange(g, this._latestMouseDownHitChain, hitChain);
-            this.container.SelectionRange = selRange; 
+            this.container.SelectionRange = selRange;
         }
 
         /// <summary>

@@ -316,31 +316,36 @@ namespace HtmlRenderer.Utils
             return null;
         }
 
-        public static bool HitTest(CssBox box, Point loc, BoxHitChain hitChain)
+        public static bool HitTest(CssBox box, float x, float y, BoxHitChain hitChain)
         {
-            //recursive
-
-            if (box.IsPointInArea(loc))
+            //recursive  
+            if (box.IsPointInArea(x, y))
             {
-                //1.
-                int x = loc.X;
-                int y = loc.Y;
-                hitChain.AddHit(box, x, y);
+
+                float boxHitLocalX = x - box.LocalX;
+                float boxHitLocalY = y - box.LocalY;
+
+                hitChain.AddHit(box, (int)boxHitLocalX, (int)boxHitLocalY);
 
                 if (box.LineBoxCount > 0)
                 {
 
                     foreach (var lineBox in box.GetLineBoxIter())
                     {
-                        if (lineBox.HitTest(x, y))
+
+                        if (lineBox.HitTest(boxHitLocalX, boxHitLocalY))
                         {
+
+                            float lineBoxLocalY = boxHitLocalY - lineBox.CachedLineTop;
                             //2.
-                            hitChain.AddHit(lineBox, x, y);
-                            var foundRun = DomUtils.GetCssRunOnLocation(lineBox, loc);
+                            hitChain.AddHit(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
+
+                            var foundRun = DomUtils.GetCssRunOnLocation(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
+
                             if (foundRun != null)
                             {
                                 //3.
-                                hitChain.AddHit(foundRun, x, y);
+                                hitChain.AddHit(foundRun, (int)boxHitLocalX, (int)lineBoxLocalY);
                             }
                             //found line box
                             return true;
@@ -352,7 +357,7 @@ namespace HtmlRenderer.Utils
                     //iterate in child 
                     foreach (var childBox in box.GetChildBoxIter())
                     {
-                        if (HitTest(childBox, loc, hitChain))
+                        if (HitTest(childBox, boxHitLocalX, boxHitLocalY, hitChain))
                         {
                             //recursive
                             return true;
@@ -372,7 +377,7 @@ namespace HtmlRenderer.Utils
 
                                 foreach (var childBox in box.GetChildBoxIter())
                                 {
-                                    if (HitTest(childBox, loc, hitChain))
+                                    if (HitTest(childBox, x, y, hitChain))
                                     {
                                         return true;
                                     }
@@ -488,7 +493,7 @@ namespace HtmlRenderer.Utils
                 {
                     if (box.WellknownTagName == WellknownHtmlTagName.NotAssign ||
                         box.WellknownTagName != WellknownHtmlTagName.TD ||
-                        box.IsPointInArea(location))
+                        box.IsPointInArea(location.X, location.Y))
                     {
                         foreach (var lineBox in box.GetLineBoxIter())
                         {
@@ -583,9 +588,22 @@ namespace HtmlRenderer.Utils
             {
                 // add word spacing to word width so sentance won't have hols in it when moving the mouse
                 var rect = word.Rectangle;
-
                 //rect.Width += word.OwnerBox.ActualWordSpacing;
                 if (rect.Contains(location))
+                {
+                    return word;
+                }
+            }
+            return null;
+        }
+        internal static CssRun GetCssRunOnLocation(CssLineBox lineBox, int x, int y)
+        {
+            foreach (CssRun word in lineBox.GetRunIter())
+            {
+                // add word spacing to word width so sentance won't have hols in it when moving the mouse
+                var rect = word.Rectangle;
+                //rect.Width += word.OwnerBox.ActualWordSpacing;
+                if (rect.Contains(x, y))
                 {
                     return word;
                 }
