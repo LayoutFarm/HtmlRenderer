@@ -180,10 +180,10 @@ namespace HtmlRenderer.Handlers
             _mouseDownLocation = loc;
 
             if (isMouseInContainer)
-            {
-
+            {   
                 if (this.container.SelectionRange != null)
-                {
+                {   
+                    //has existing selection
                     this.container.SelectionRange = null;
                     clear = true;
                 }
@@ -452,6 +452,10 @@ namespace HtmlRenderer.Handlers
             DomUtils.HitTest(_root, loc.X, loc.Y, hitChain);
 
             //create selection range  
+            if (this.container.SelectionRange != null)
+            {
+                this.container.SelectionRange = null;
+            }
             var selRange = BoxHitChain.CreateSelectionRange(g, this._latestMouseDownHitChain, hitChain);
             this.container.SelectionRange = selRange;
         }
@@ -463,7 +467,7 @@ namespace HtmlRenderer.Handlers
         {
             // clear drag and drop
             _dragDropData = null;
-            this.container.SelectionRange = null;
+           // this.container.SelectionRange = null;
 
             ClearSelection(_root);
 

@@ -239,10 +239,7 @@ namespace HtmlRenderer
                     this.selRange.ClearSelectionStatus();
                 }
                 this.selRange = value;
-                if (value != null)
-                {
-                    value.ActivateSelection();
-                }
+ 
             }
         }
 

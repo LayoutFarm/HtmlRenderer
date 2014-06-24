@@ -325,7 +325,16 @@ namespace HtmlRenderer.Utils
                 float boxHitLocalX = x - box.LocalX;
                 float boxHitLocalY = y - box.LocalY;
 
-                hitChain.AddHit(box, (int)boxHitLocalX, (int)boxHitLocalY);
+                int boxHitGlobalX = (int)(boxHitLocalX + hitChain.GlobalOffsetX);
+                int boxHitGlobalY = (int)(boxHitLocalY + hitChain.GlobalOffsetY);
+
+                hitChain.AddHit(box,
+                    (int)boxHitLocalX,
+                    (int)boxHitLocalY,
+                    boxHitGlobalX,
+                    boxHitGlobalY);
+
+                hitChain.PushContextBox(box);
 
                 if (box.LineBoxCount > 0)
                 {
@@ -337,17 +346,27 @@ namespace HtmlRenderer.Utils
                         {
 
                             float lineBoxLocalY = boxHitLocalY - lineBox.CachedLineTop;
+
                             //2.
-                            hitChain.AddHit(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
+                            hitChain.AddHit(lineBox,
+                                (int)boxHitLocalX,
+                                (int)lineBoxLocalY,
+                                boxHitGlobalX,
+                                boxHitGlobalY);
 
                             var foundRun = DomUtils.GetCssRunOnLocation(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
 
                             if (foundRun != null)
                             {
                                 //3.
-                                hitChain.AddHit(foundRun, (int)boxHitLocalX, (int)lineBoxLocalY);
+                                hitChain.AddHit(foundRun,
+                                    (int)(boxHitLocalX - foundRun.Left),
+                                    (int)lineBoxLocalY,
+                                    boxHitGlobalX,
+                                    boxHitGlobalY);
                             }
                             //found line box
+                            hitChain.PopContextBox(box);
                             return true;
                         }
                     }
@@ -360,10 +379,12 @@ namespace HtmlRenderer.Utils
                         if (HitTest(childBox, boxHitLocalX, boxHitLocalY, hitChain))
                         {
                             //recursive
+                            hitChain.PopContextBox(box);
                             return true;
                         }
                     }
                 }
+                hitChain.PopContextBox(box);
                 return true;
             }
             else

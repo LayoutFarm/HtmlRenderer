@@ -220,11 +220,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        internal bool ContainsSelectedRun
-        {
-            get;
-            set;
-        }
+       
         /// <summary>
         /// Tells if the box is empty or contains just blank spaces
         /// </summary>
@@ -715,13 +711,8 @@ namespace HtmlRenderer.Dom
                                         else
                                         {
                                             this.SetWidth(width);
-                                        }
-
-
-
+                                        } 
                                         this.SetHeight(GetHeightAfterMarginBottomCollapse());
-
-
                                     }
                                 } break;
                         }

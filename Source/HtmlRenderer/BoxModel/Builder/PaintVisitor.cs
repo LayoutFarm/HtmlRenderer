@@ -132,7 +132,7 @@ namespace HtmlRenderer.Dom
             BordersDrawHandler.DrawBorder(Border.Top, g, box, b1, rect);
 
             var b2 = RenderUtils.GetSolidBrush(leftColor);
-            BordersDrawHandler.DrawBorder(Border.Left, g, box, b2, rect); 
+            BordersDrawHandler.DrawBorder(Border.Left, g, box, b2, rect);
 
             var b3 = RenderUtils.GetSolidBrush(rightColor);
             BordersDrawHandler.DrawBorder(Border.Right, g, box, b3, rect);
@@ -146,7 +146,7 @@ namespace HtmlRenderer.Dom
             var b = RenderUtils.GetSolidBrush(solidColor);
             BordersDrawHandler.DrawBorder(border, this.Gfx, box, b, rect);
         }
-
+        
     }
 
 

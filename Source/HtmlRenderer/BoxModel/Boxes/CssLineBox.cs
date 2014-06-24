@@ -134,15 +134,18 @@ namespace HtmlRenderer.Dom
         /// handle part of cssBox in this line, handle task about bg/border/bounday of cssBox owner of strip        
         /// </summary>
         readonly List<PartialBoxStrip> _bottomUpBoxStrips = new List<PartialBoxStrip>();
-
         internal LinkedListNode<CssLineBox> linkedNode;
+
         float _cacheContentWidth;
+
 #if DEBUG
         bool dbugIsClosed;
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
-
 #endif
+
+
+
         /// <summary>
         /// Creates a new LineBox
         /// </summary>
@@ -165,11 +168,6 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-
-
-
-        //---------------------------------
-
         internal float CachedLineBottom
         {
             get { return this.CachedLineTop + this.CacheLineHeight; }
@@ -188,8 +186,6 @@ namespace HtmlRenderer.Dom
         {
             get { return 0; }
         }
-
-
         internal float CachedLineContentWidth
         {
             get { return this._cacheContentWidth; }
@@ -268,7 +264,7 @@ namespace HtmlRenderer.Dom
             {
                 this.CachedLineContentWidth = this.OwnerBox.SizeWidth;
             }
-        } 
+        }
         public bool HitTest(float x, float y)
         {
             if (y >= this.CachedLineTop && y <= this.CachedLineBottom)
@@ -503,6 +499,23 @@ namespace HtmlRenderer.Dom
 
 #endif
 
+        internal int LineSelectionStart
+        {
+            get;
+            set;
+        }
+        internal int LineSelectionWidth
+        {
+            get;
+            set;
+        }
+        internal void PaintSelection(PaintVisitor p)
+        {
+            var gfx = p.Gfx;
+            gfx.FillRectangle(Brushes.LightGray, this.LineSelectionStart, 0, this.LineSelectionWidth, this.CacheLineHeight);
+        }
+        
+       
         internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
             //iterate each strip

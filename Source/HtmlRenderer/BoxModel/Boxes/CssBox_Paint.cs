@@ -102,74 +102,44 @@ namespace HtmlRenderer.Dom
 
                     float viewport_top = viewport.Top;
                     float viewport_bottom = viewport.Bottom;
+                     
 
-                    if (this.ContainsSelectedRun)
+                    
+                    foreach (var line in this._clientLineBoxes)
                     {
 
-                        //render with *** selection concern  
-                        foreach (var line in this._clientLineBoxes)
+                        if (line.CachedLineBottom >= viewport_top &&
+                            line.CachedLineTop <= viewport_bottom)
                         {
 
-                            if (line.CachedLineBottom >= viewport_top &&
-                                line.CachedLineTop <= viewport_bottom)
+                            g.OffsetCanvasOrigin(0, line.CachedLineTop);
+                            //----------------------------------------
+                            //1.                                 
+                            line.PaintBackgroundAndBorder(p);
+
+                            if (line.LineSelectionWidth > 0)
                             {
+                                line.PaintSelection(p);
+                            }           
+                            //------------
+                            //2.                                
+                            line.PaintRuns(g, p);
 
-                                g.OffsetCanvasOrigin(0, line.CachedLineTop);
-                                //----------------------------------------
-                                //1.                                 
-                                line.PaintBackgroundAndBorder(p);
-
-                                //------------
-                                p.HtmlContainer.SelectionRange.Draw(g, p, line.CachedLineTop, line.CacheLineHeight, p.Offset);
-                                //------------
-                                //2.                                
-                                line.PaintRuns(g, p);
-
-                                //3. 
-                                line.PaintDecoration(g, p);
+                            //3. 
+                            line.PaintDecoration(g, p);
 
 #if DEBUG
-                                line.dbugPaintRuns(g, p);
+                            line.dbugPaintRuns(g, p);
 #endif
-                                g.OffsetCanvasOrigin(0, -line.CachedLineTop);
-                                //----------------------------------------
+                            g.OffsetCanvasOrigin(0, -line.CachedLineTop);
+                            //----------------------------------------
 
-                            }
-                            else
-                            {
-                            }
                         }
-                    }
-                    else
-                    {
-                        //render without selection concern
-
-                        foreach (var line in this._clientLineBoxes)
+                        else
                         {
-                            if (line.CachedLineBottom >= viewport_top &&
-                                line.CachedLineTop <= viewport_bottom)
-                            {
-                                //----------------------------------------
-                                g.OffsetCanvasOrigin(0, line.CachedLineTop);
-
-                                //1. 
-                                line.PaintBackgroundAndBorder(p);
-                                //2. 
-                                line.PaintRuns(g, p);
-
-                                //3. 
-                                line.PaintDecoration(g, p);
-#if DEBUG
-                                line.dbugPaintRuns(g, p);
-#endif
-                                g.OffsetCanvasOrigin(0, -line.CachedLineTop);
-
-                            }
-                            else
-                            {
-                            }
                         }
                     }
+
                 }
                 else
                 {
