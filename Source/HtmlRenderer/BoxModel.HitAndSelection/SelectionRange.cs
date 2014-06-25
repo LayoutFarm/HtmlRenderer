@@ -25,69 +25,39 @@ namespace HtmlRenderer.Dom
         //---------------------      
         List<CssLineBox> selectedLines;
 
-        public SelectionRange(BoxHitChain startChain, BoxHitChain endChain, IGraphics g)
+        public SelectionRange(BoxHitChain startChain,
+            BoxHitChain endChain, IGraphics g)
         {
 
+            int selQudrant = 0;
 
-            if (IsOnTheSameLine(startChain, endChain))
+            if (endChain.RootGlobalX < startChain.RootGlobalX)
             {
-                //on the same line
-                if (endChain.RootGlobalX < startChain.RootGlobalX)
+                if (endChain.RootGlobalY < startChain.RootGlobalY)
                 {
-                    //swap
                     var tmp = endChain;
                     endChain = startChain;
                     startChain = tmp;
                 }
-
             }
             else
             {
-                //across line 
                 if (endChain.RootGlobalY < startChain.RootGlobalY)
-                {    //swap
+                {
                     var tmp = endChain;
                     endChain = startChain;
                     startChain = tmp;
                 }
             }
+
             //1.
             this.SetupStartHitPoint(startChain, g);
             //2.
             this.SetupEndHitPoint(endChain, g);
+            //3. 
+
         }
 
-        static bool IsOnTheSameLine(BoxHitChain startChain, BoxHitChain endChain)
-        {
-
-            CssLineBox startLineBox = GetLine(startChain.GetLastHit());
-            CssLineBox endLineBox = GetLine(endChain.GetLastHit());
-
-            return startLineBox != null && startLineBox == endLineBox;
-        }
-        static CssLineBox GetLine(HitInfo hitInfo)
-        {
-            switch (hitInfo.hitObjectKind)
-            {
-                default:
-                case HitObjectKind.Unknown:
-                    {
-                        throw new NotSupportedException();
-                    }
-                case HitObjectKind.LineBox:
-                    {
-                        return (CssLineBox)hitInfo.hitObject;
-                    }
-                case HitObjectKind.Run:
-                    {
-                        return ((CssRun)hitInfo.hitObject).HostLine;
-                    }
-                case HitObjectKind.CssBox:
-                    {
-                        return null;
-                    }
-            }
-        }
 
         internal void ClearSelectionStatus()
         {
@@ -191,6 +161,7 @@ namespace HtmlRenderer.Dom
                         int sel_index;
                         int sel_offset;
 
+
                         run.FindSelectionPoint(g,
                              startHit.localX,
                              true,
@@ -198,10 +169,16 @@ namespace HtmlRenderer.Dom
                              out sel_offset);
 
                         this.startHitRunCharIndex = sel_index;
+
                         //modify hitpoint
                         CssLineBox hostLine = (CssLineBox)startChain.GetHitInfo(startChain.Count - 2).hitObject;
-                        hostLine.LineSelectionStart = (int)(run.Left + sel_offset);
+
                         this.startHitHostLine = hostLine;
+
+                        //make start hit point relative to line 
+
+                        hostLine.LineSelectionStart = (int)(run.Left + sel_offset);
+                        //------
 
                     } break;
                 case HitObjectKind.LineBox:
@@ -225,8 +202,9 @@ namespace HtmlRenderer.Dom
                         else
                         {
                             //if not found?
-                            this.startHitHostLine = null;
+                            throw new NotSupportedException();
                         }
+
                     } break;
                 default:
                     {
@@ -248,16 +226,13 @@ namespace HtmlRenderer.Dom
             }
             return new PointF(localX, localY);
         }
-
-        //static int dbugCounter = 0;
+        static int dbugCounter = 0;
 
         void SetupEndHitPoint(BoxHitChain endChain, IGraphics g)
         {
 
-            //dbugCounter++;
+            dbugCounter++;
             HitInfo endHit = endChain.GetLastHit();
-
-
             switch (endHit.hitObjectKind)
             {
                 default:
@@ -267,7 +242,6 @@ namespace HtmlRenderer.Dom
                 case HitObjectKind.Run:
                     {
                         CssRun run = (CssRun)endHit.hitObject;
-
                         //if (run is CssTextRun)
                         //{
                         //    CssTextRun tt = (CssTextRun)run;
@@ -287,11 +261,9 @@ namespace HtmlRenderer.Dom
                              out sel_offset);
                         this.endHitRunCharIndex = sel_index;
 
-
+                        //adjust
                         CssLineBox endline = run.HostLine;
                         int xposOnEndLine = (int)(run.Left + sel_offset);
-
-                        //find selection direction
 
                         if (startHitHostLine == endline)
                         {
@@ -332,8 +304,8 @@ namespace HtmlRenderer.Dom
 
 
                         CssLineBox endline = (CssLineBox)endHit.hitObject;
-                        //find selection direction
 
+                        //Console.WriteLine(dbugCounter + "L:" + endline.dbugId);
 
                         if (this.startHitHostLine == endline)
                         {
@@ -374,12 +346,10 @@ namespace HtmlRenderer.Dom
                 case HitObjectKind.CssBox:
                     {
                         CssBox hitBox = (CssBox)endHit.hitObject;
-                        //find selection direction
-
                         //Console.WriteLine(dbugCounter + "B:" + hitBox.dbugId);
 
                         CssLineBox latestLine = null;
-                        this.selectedLines = new List<CssLineBox>();
+                        this.selectedLines = new List<CssLineBox>(); 
                         //convert to global position
                         float globalHitY = endChain.RootGlobalY;
                         //check if should use first line of this box                         
