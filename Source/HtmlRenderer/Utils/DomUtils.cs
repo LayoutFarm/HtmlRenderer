@@ -328,11 +328,7 @@ namespace HtmlRenderer.Utils
                 int boxHitGlobalX = (int)(boxHitLocalX + hitChain.GlobalOffsetX);
                 int boxHitGlobalY = (int)(boxHitLocalY + hitChain.GlobalOffsetY);
 
-                hitChain.AddHit(box,
-                    (int)boxHitLocalX,
-                    (int)boxHitLocalY,
-                    boxHitGlobalX,
-                    boxHitGlobalY);
+                hitChain.AddHit(box, (int)boxHitLocalX, (int)boxHitLocalY);
 
                 hitChain.PushContextBox(box);
 
@@ -348,22 +344,14 @@ namespace HtmlRenderer.Utils
                             float lineBoxLocalY = boxHitLocalY - lineBox.CachedLineTop;
 
                             //2.
-                            hitChain.AddHit(lineBox,
-                                (int)boxHitLocalX,
-                                (int)lineBoxLocalY,
-                                boxHitGlobalX,
-                                boxHitGlobalY);
+                            hitChain.AddHit(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
 
                             var foundRun = DomUtils.GetCssRunOnLocation(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
 
                             if (foundRun != null)
                             {
                                 //3.
-                                hitChain.AddHit(foundRun,
-                                    (int)(boxHitLocalX - foundRun.Left),
-                                    (int)lineBoxLocalY,
-                                    boxHitGlobalX,
-                                    boxHitGlobalY);
+                                hitChain.AddHit(foundRun, (int)(boxHitLocalX - foundRun.Left), (int)lineBoxLocalY);
                             }
                             //found line box
                             hitChain.PopContextBox(box);
@@ -475,7 +463,7 @@ namespace HtmlRenderer.Utils
                 }
             }
         }
-        internal static IEnumerable<CssLineBox> GetDeepLineBoxIter(CssBox box)
+        internal static IEnumerable<CssLineBox> GetDeepDownLineBoxIter(CssBox box)
         {
             if (box.LineBoxCount > 0)
             {
@@ -490,7 +478,7 @@ namespace HtmlRenderer.Utils
                 {
                     foreach (CssBox child in box.GetChildBoxIter())
                     {
-                        foreach (CssLineBox linebox in GetDeepLineBoxIter(child))
+                        foreach (CssLineBox linebox in GetDeepDownLineBoxIter(child))
                         {
                             yield return linebox;
                         }

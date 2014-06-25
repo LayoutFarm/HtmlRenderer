@@ -180,9 +180,9 @@ namespace HtmlRenderer.Handlers
             _mouseDownLocation = loc;
 
             if (isMouseInContainer)
-            {   
+            {
                 if (this.container.SelectionRange != null)
-                {   
+                {
                     //has existing selection
                     this.container.SelectionRange = null;
                     clear = true;
@@ -195,7 +195,10 @@ namespace HtmlRenderer.Handlers
                 if (container.IsSelectionEnabled && (Control.MouseButtons & MouseButtons.Left) != 0)
                 {
                     BoxHitChain hitChain = new BoxHitChain();
+                    hitChain.SetRootGlobalPosition(loc.X, loc.Y);
+
                     DomUtils.HitTest(_root, loc.X, loc.Y, hitChain);
+
                     _latestMouseDownHitChain = hitChain;
                     HitInfo hitInfo = hitChain.GetLastHit();
                     switch (hitInfo.hitObjectKind)
@@ -449,16 +452,18 @@ namespace HtmlRenderer.Handlers
         {
             // get the line under the mouse or nearest from the top  
             BoxHitChain hitChain = new BoxHitChain();
+            hitChain.SetRootGlobalPosition(loc.X, loc.Y);
+
             DomUtils.HitTest(_root, loc.X, loc.Y, hitChain);
 
             //create selection range  
             if (this.container.SelectionRange != null)
             {
                 this.container.SelectionRange = null;
-            }
-            var selRange = BoxHitChain.CreateSelectionRange(g, this._latestMouseDownHitChain, hitChain);
-            this.container.SelectionRange = selRange;
+            } 
+            this.container.SelectionRange = new Dom.SelectionRange(_latestMouseDownHitChain, hitChain, g);
         }
+
 
         /// <summary>
         /// Clear the current selection.
@@ -467,7 +472,7 @@ namespace HtmlRenderer.Handlers
         {
             // clear drag and drop
             _dragDropData = null;
-           // this.container.SelectionRange = null;
+            // this.container.SelectionRange = null;
 
             ClearSelection(_root);
 

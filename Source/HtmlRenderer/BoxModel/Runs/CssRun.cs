@@ -59,6 +59,11 @@ namespace HtmlRenderer.Dom
         float _width;
         float _height;
 
+#if DEBUG
+        static int dbugTotalId;
+        public readonly int dbugId = dbugTotalId++;
+#endif
+
         /// <summary>
         /// Init.
         /// </summary>

@@ -11,7 +11,7 @@ using HtmlRenderer.Parse;
 
 namespace HtmlRenderer.Dom
 {
-    public class HitInfo
+    public struct HitInfo
     {
         public readonly HitObjectKind hitObjectKind;
         public readonly object hitObject;
@@ -19,10 +19,7 @@ namespace HtmlRenderer.Dom
         public readonly int localX;
         public readonly int localY;
 
-        public readonly float globalX;
-        public readonly float globalY;
-
-        public HitInfo(CssBox box, int x, int y, float globalX, float globalY)
+        public HitInfo(CssBox box, int x, int y)
         {
             this.hitObject = box;
             this.hitObjectKind = HitObjectKind.CssBox;
@@ -30,11 +27,8 @@ namespace HtmlRenderer.Dom
             this.localX = x;
             this.localY = y;
 
-            this.globalX = globalX;
-            this.globalY = globalY; 
-
         }
-        internal HitInfo(CssLineBox lineBox, int x, int y, float globalX, float globalY)
+        internal HitInfo(CssLineBox lineBox, int x, int y)
         {
 
             this.hitObject = lineBox;
@@ -42,11 +36,8 @@ namespace HtmlRenderer.Dom
 
             this.localX = x;
             this.localY = y;
-
-            this.globalX = globalX;
-            this.globalY = globalY;
         }
-        public HitInfo(CssRun run, int x, int y, float globalX, float globalY)
+        public HitInfo(CssRun run, int x, int y)
         {
 
             this.hitObject = run;
@@ -54,10 +45,6 @@ namespace HtmlRenderer.Dom
 
             this.localX = x;
             this.localY = y;
-
-
-            this.globalX = globalX;
-            this.globalY = globalY;
         }
 
 
@@ -77,11 +64,28 @@ namespace HtmlRenderer.Dom
         float globalOffsetX;
         float globalOffsetY;
 
+        int rootGlobalX;
+        int rootGlobalY;
+
         List<HitInfo> hitInfoList = new List<HitInfo>();
         public BoxHitChain()
         {
 
         }
+        public void SetRootGlobalPosition(int globalX, int globalY)
+        {
+            this.rootGlobalX = globalX;
+            this.rootGlobalY = globalY;
+        }
+        public int RootGlobalX
+        {
+            get { return this.rootGlobalX; }
+        }
+        public int RootGlobalY
+        {
+            get { return this.rootGlobalY; }
+        }
+
         public void Clear()
         {
             this.hitInfoList.Clear();
@@ -93,6 +97,7 @@ namespace HtmlRenderer.Dom
                 return this.hitInfoList.Count;
             }
         }
+
         internal void PushContextBox(CssBox box)
         {
             globalOffsetX += box.LocalX;
@@ -103,20 +108,20 @@ namespace HtmlRenderer.Dom
             globalOffsetX -= box.LocalX;
             globalOffsetY -= box.LocalY;
         }
-        internal void AddHit(CssBox box, int x, int y, float globalX, float globalY)
+        internal void AddHit(CssBox box, int x, int y)
         {
             //position x,y relate with (0,0) of its box
-            hitInfoList.Add(new HitInfo(box, x, y, globalX, globalY));
+            hitInfoList.Add(new HitInfo(box, x, y));
         }
-        internal void AddHit(CssLineBox lineBox, int x, int y, float globalX, float globalY)
+        internal void AddHit(CssLineBox lineBox, int x, int y)
         {
             //position x,y relate with (0,0) of its linebox
-            hitInfoList.Add(new HitInfo(lineBox, x, y, globalX, globalY));
+            hitInfoList.Add(new HitInfo(lineBox, x, y));
         }
-        internal void AddHit(CssRun run, int x, int y, float globalX, float globalY)
+        internal void AddHit(CssRun run, int x, int y)
         {
             //position x,y relate with (0,0) of its run
-            hitInfoList.Add(new HitInfo(run, x, y, globalX, globalY));
+            hitInfoList.Add(new HitInfo(run, x, y));
         }
         public HitInfo GetHitInfo(int index)
         {
@@ -128,7 +133,7 @@ namespace HtmlRenderer.Dom
             if (j == 0)
             {
                 //empty
-                return null;
+                return new HitInfo();
             }
             else
             {
@@ -157,36 +162,7 @@ namespace HtmlRenderer.Dom
             get { return this.globalOffsetY; }
         }
 
-        public static SelectionRange CreateSelectionRange(IGraphics g, BoxHitChain startChain, BoxHitChain endChain)
-        {
 
-            //find connection between start and end 
-            HitInfo startHit = startChain.GetLastHit();
-            HitInfo endHit = endChain.GetLastHit();
-
-            //swap startpoint / end point if need
-            BoxHitChain upper = startChain;
-            BoxHitChain lower = endChain;
-
-            if (endHit.globalY < startHit.globalY)
-            {
-                if (endHit.globalX < startHit.globalX)
-                {
-                    upper = endChain;
-                    lower = startChain;
-                }
-            }
-            else
-            {
-                if (endHit.globalX < startHit.globalX)
-                {
-                    upper = endChain;
-                    lower = startChain;
-                }
-            }
-            return new SelectionRange(upper, lower, g);
-
-        }
     }
     public enum HitObjectKind : byte
     {
