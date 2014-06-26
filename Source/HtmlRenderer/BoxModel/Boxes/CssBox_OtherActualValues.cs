@@ -56,18 +56,20 @@ namespace HtmlRenderer.Dom
         {
             get { return _actualWordSpacing; }
         }
-        protected void MeasureWordSpacing(LayoutVisitor lay)
+        protected float MeasureWordSpacing(LayoutVisitor lay)
         {
             if ((this._prop_pass_eval & CssBoxBaseAssignments.WORD_SPACING) == 0)
             {
                 this._prop_pass_eval |= CssBoxBaseAssignments.WORD_SPACING;
 
-                _actualWordSpacing = HtmlRenderer.Utils.CssUtils.MeasureWhiteSpace(lay, this);
+                _actualWordSpacing = lay.MeasureWhiteSpace(this);
+
                 if (!this.WordSpacing.IsNormalWordSpacing)
                 {
                     _actualWordSpacing += CssValueParser.ParseLength(this.WordSpacing, 1, this);
                 }
             }
+            return this._actualWordSpacing;
         }
         /// <summary>
         /// Gets the actual horizontal border spacing for tables

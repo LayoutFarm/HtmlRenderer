@@ -96,7 +96,6 @@ namespace HtmlRenderer.Parse
                 return 0;
             }
 
-
             switch (length.Unit)
             {
                 case CssUnit.Percent:

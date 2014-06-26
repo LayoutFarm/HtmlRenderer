@@ -64,23 +64,7 @@ namespace HtmlRenderer.Utils
             get { return _defaultSelectionBackcolor; }
         }
 
-        /// <summary>
-        /// Gets the white space width of the specified box
-        /// </summary>
-        /// <param name="g"></param>
-        /// <param name="box"></param>
-        /// <returns></returns>
-        public static float MeasureWhiteSpace(LayoutVisitor lay, CssBoxBase box)
-        {
-            //depends on Font of this box
-            float w = FontsUtils.MeasureWhitespace(lay.Gfx, box.ActualFont);
-            if (!(box.WordSpacing.IsEmpty || box.WordSpacing.IsNormalWordSpacing))
-            {
-                w += CssValueParser.ParseLength(box.WordSpacing, 0, box, true);
-            }
-
-            return w;
-        }
+       
 
         /// <summary>
         /// Get CSS box property value by the CSS name.<br/>

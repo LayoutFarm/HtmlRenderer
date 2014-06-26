@@ -82,7 +82,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         void Layout(LayoutVisitor lay)
         {
-            S1_MeasureWords(_tableBox, lay);
+            S1_RecursiveMeasureRunContentSize(_tableBox, lay);
 
             // get the table boxes into the proper fields
             // Insert EmptyBoxes for vertical cell spanning.  
@@ -111,11 +111,11 @@ namespace HtmlRenderer.Dom
             S8_LayoutCells(lay);
         }
         /// <summary>
-        /// Recursively measures words inside the box
+        /// Recursively measures run inside the box
         /// </summary>
         /// <param name="box">the box to measure</param>
         /// <param name="g">Device to use</param>
-        static void S1_MeasureWords(CssBox box, LayoutVisitor lay)
+        static void S1_RecursiveMeasureRunContentSize(CssBox box, LayoutVisitor lay)
         {
             //recursive
             if (box != null)
@@ -123,7 +123,7 @@ namespace HtmlRenderer.Dom
                 foreach (var childBox in box.GetChildBoxIter())
                 {
                     childBox.MeasureRunsSize(lay);
-                    S1_MeasureWords(childBox, lay); //recursive
+                    S1_RecursiveMeasureRunContentSize(childBox, lay); //recursive
                 }
             }
         }

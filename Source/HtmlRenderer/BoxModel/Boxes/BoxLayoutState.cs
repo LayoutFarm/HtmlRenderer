@@ -30,6 +30,8 @@ namespace HtmlRenderer.Dom
     enum BoxLayoutState : byte
     {
         Init,
-        EvaluateMarginAndPadding
+        MeasureRunSizePass,
+        EvaluateMarginAndPadding,
+        
     }
 }

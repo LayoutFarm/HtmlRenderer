@@ -94,12 +94,8 @@ namespace HtmlRenderer.Dom
         internal void EvaluateActualMarginsAndPaddings()
         {
             //some margins and widths value are computed value
-            //that need its containing block width,height
-
-            this.layoutState = BoxLayoutState.EvaluateMarginAndPadding;
-
-
-
+            //that need its containing block width,height 
+            this.layoutState = BoxLayoutState.EvaluateMarginAndPadding;  
         }
 
         //--------------------------------

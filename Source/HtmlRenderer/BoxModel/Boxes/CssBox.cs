@@ -759,8 +759,7 @@ namespace HtmlRenderer.Dom
         {
             //measure once !
             if (_wordsSizeMeasured) return;
-            //--------------------------------
-
+            //-------------------------------- 
             if (this.BackgroundImageBinder != null)
             {
                 //this has background
@@ -768,36 +767,28 @@ namespace HtmlRenderer.Dom
                 {
                     lay.RequestImage(this.BackgroundImageBinder, this);
                 }
-
-
-            }
-
-            //if (BackgroundImage != CssConstants.None && _imageLoadHandler == null)
-            //{
-            //    //TODO: change to another technique !
-            //    _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnImageLoadComplete);
-            //    _imageLoadHandler.LoadImage(BackgroundImage, HtmlTag);
-            //}
-
-            MeasureWordSpacing(lay);
-
+            } 
             if (this.HasRuns)
             {
+                float actualWordspacing = MeasureWordSpacing(lay);
                 Font actualFont = this.ActualFont;
-                float fontHeight = FontsUtils.GetFontHeight(actualFont);
+                float fontHeight = FontsUtils.GetFontHeight(actualFont); 
 
-                foreach (CssRun boxWord in Runs)
+                var tmpRuns = this._boxRuns;
+                int j = tmpRuns.Count;
+
+                for (int i = 0; i < j; ++i)
                 {
-                    boxWord.Height = fontHeight;
+                    CssRun run = tmpRuns[i];
+                    run.Height = fontHeight;
 
                     //if this is newline then width =0 ***                         
-                    switch (boxWord.Kind)
+                    switch (run.Kind)
                     {
                         case CssRunKind.Text:
                             {
-
-                                CssTextRun textRun = (CssTextRun)boxWord;
-                                boxWord.Width = FontsUtils.MeasureStringWidth(lay.Gfx,
+                                CssTextRun textRun = (CssTextRun)run;
+                                run.Width = FontsUtils.MeasureStringWidth(lay.Gfx,
                                     CssBox.UnsafeGetTextBuffer(this),
                                     textRun.TextStartIndex,
                                     textRun.TextLength,
@@ -806,20 +797,22 @@ namespace HtmlRenderer.Dom
                             } break;
                         case CssRunKind.SingleSpace:
                             {
-                                boxWord.Width = this.ActualWordSpacing;
+                                run.Width = actualWordspacing;
                             } break;
                         case CssRunKind.Space:
                             {
                                 //other space size                                     
-                                boxWord.Width = this.ActualWordSpacing * ((CssTextRun)boxWord).TextLength;
+                                run.Width = actualWordspacing * ((CssTextRun)run).TextLength;
                             } break;
                         case CssRunKind.LineBreak:
                             {
-                                boxWord.Width = 0;
+                                run.Width = 0;
                             } break;
                     }
                 }
             }
+
+            this.layoutState = BoxLayoutState.MeasureRunSizePass;
             _wordsSizeMeasured = true;//***
 
         }
@@ -1189,7 +1182,7 @@ namespace HtmlRenderer.Dom
                     }
                 }
             }
-        } 
+        }
 
         internal void PaintDecoration(IGraphics g, RectangleF rectangle, bool isFirst, bool isLast)
         {
@@ -1326,7 +1319,7 @@ namespace HtmlRenderer.Dom
             return x >= this.LocalX && x < this.LocalRight &&
                    y >= this.LocalY && y < this.LocalBottom;
         }
-        
+
 
 
     }

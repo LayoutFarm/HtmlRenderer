@@ -48,13 +48,13 @@ namespace HtmlRenderer.Dom
         /// <remarks>
         /// Flag that indicates that CssTable algorithm already made fixes on it.
         /// </remarks>
-        internal bool _tableFixed;
-
+        internal bool _tableFixed;  
         protected bool _wordsSizeMeasured;
 
         private CssBox _listItemBox;
 
         //----------------------------------------------------
+        //eg td,th,col,colgroup
         int _rowSpan;
         int _colSpan;
          
@@ -70,8 +70,7 @@ namespace HtmlRenderer.Dom
         //----------------------------------------------------   
 
         //condition 2 :this Box is InlineBox 
-        List<CssRun> _boxRuns;
-
+        List<CssRun> _boxRuns; 
         //----------------------------------------------------  
 
 
