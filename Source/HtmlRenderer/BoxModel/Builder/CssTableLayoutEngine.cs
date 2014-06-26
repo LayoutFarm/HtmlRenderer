@@ -723,10 +723,12 @@ namespace HtmlRenderer.Dom
                         //    return false;
                         //});
 
-
+                        //-----------------------------------------
                         cell.SetLocation(curX_local, curY_local);
-                        cell.SetSize(width, 0);
+                        cell.FreezeWidth = false; 
+                        cell.SetSize(width, 0); 
                         cell.FreezeWidth = true;
+                        //-----------------------------------------
 
                         cell.PerformLayout(lay); //That will automatically set the bottom of the cell
 

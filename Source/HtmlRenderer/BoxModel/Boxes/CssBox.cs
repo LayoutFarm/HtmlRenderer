@@ -713,7 +713,10 @@ namespace HtmlRenderer.Dom
                                         }
                                         else
                                         {
-                                            this.SetWidth(width);
+                                            if (this.CssDisplay != Dom.CssDisplay.TableCell)
+                                            {
+                                                this.SetWidth(width);
+                                            }
                                         }
                                         this.SetHeight(GetHeightAfterMarginBottomCollapse());
                                     }

@@ -431,7 +431,7 @@ namespace HtmlRenderer.Dom
                                 color = latestOwner.ActualColor;
                             }
                             CssTextRun textRun = (CssTextRun)w;
-                            
+
                             var wordPoint = new PointF(w.Left, w.Top);
 
                             char[] ownerBuffer = CssBox.UnsafeGetTextBuffer(w.OwnerBox);
@@ -458,7 +458,7 @@ namespace HtmlRenderer.Dom
         internal void dbugPaintRuns(IGraphics g, PaintVisitor p)
         {
 
-            //return;
+            return;
             //linebox  
             float x1 = 0;
             float y1 = 0;
@@ -525,7 +525,7 @@ namespace HtmlRenderer.Dom
                 }
 
                 var stripArea = strip.Bound;
-                bool isFirstLine, isLastLine; 
+                bool isFirstLine, isLastLine;
                 CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
 
                 stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);

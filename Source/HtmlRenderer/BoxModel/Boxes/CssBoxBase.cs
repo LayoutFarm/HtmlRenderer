@@ -66,16 +66,15 @@ namespace HtmlRenderer.Dom
         CssBackgroundProp _backgroundProps = CssBackgroundProp.Default;
         CssDisplay _cssDisplay = CssDisplay.Inline;
         CssFloat _float = CssFloat.None;
-
+        //==========================================================
         CssLength _left = CssLength.AutoLength;
         CssLength _top = CssLength.AutoLength;
         CssLength _right = CssLength.NotAssign;
         CssLength _bottom = CssLength.NotAssign;
         CssLength _width = CssLength.AutoLength;
         CssLength _height = CssLength.AutoLength;
-
-        CssLength _maxWidth = CssLength.NotAssign;
-
+        //==========================================================
+        CssLength _maxWidth = CssLength.NotAssign; 
         CssOverflow _overflow = CssOverflow.Visible;
         CssTextDecoration _textDecoration = CssTextDecoration.NotAssign;
         CssPosition _position = CssPosition.Static;
@@ -119,8 +118,7 @@ namespace HtmlRenderer.Dom
         float _actualMarginTop;
         float _actualMarginBottom;
         float _actualMarginRight;
-        float _actualMarginLeft;
-
+        float _actualMarginLeft; 
 
 
         float _actualBorderTopWidth;
@@ -136,10 +134,7 @@ namespace HtmlRenderer.Dom
         float _actualBorderSpacingHorizontal;
         float _actualBorderSpacingVertical;
 
-        #endregion
-
-
-
+        #endregion 
 
 #if DEBUG
         public readonly int dbugId = dbugTotalId++;
@@ -736,7 +731,9 @@ namespace HtmlRenderer.Dom
                 {
                     if (this.MarginTop.IsAuto)
                     {
-                        MarginTop = CssLength.ZeroPx;
+                        //MarginTop = CssLength.ZeroPx;
+                        this._prop_pass_eval = CssBoxBaseAssignments.MARGIN_TOP;
+                        return this._actualMarginTop = 0;
                     }
 
                     var value = CssValueParser.ParseLength(MarginTop, this.SizeWidth, this);
@@ -765,9 +762,12 @@ namespace HtmlRenderer.Dom
                 {
                     if (MarginLeft.IsAuto)
                     {
-                        MarginLeft = CssLength.ZeroPx;
+                        //MarginLeft = CssLength.ZeroPx;
+                        this._prop_pass_eval |= CssBoxBaseAssignments.MARGIN_LEFT;
+                        return _actualMarginLeft = 0;
                     }
                     var value = CssValueParser.ParseLength(MarginLeft, this.SizeWidth, this);
+
                     if (this.MarginLeft.IsPercentage)
                     {
                         return value;
@@ -793,9 +793,13 @@ namespace HtmlRenderer.Dom
                 {
                     if (MarginBottom.IsAuto)
                     {
-                        MarginBottom = CssLength.ZeroPx;
+                        //MarginBottom = CssLength.ZeroPx;
+                        this._prop_pass_eval |= CssBoxBaseAssignments.MARGIN_BOTTOM;
+                        return this._actualMarginBottom = 0;
                     }
                     var value = CssValueParser.ParseLength(MarginBottom, this.SizeWidth, this);
+
+                    //margin left?
                     if (MarginLeft.IsPercentage)
                     {
                         return value;
@@ -819,9 +823,13 @@ namespace HtmlRenderer.Dom
                 {
                     if (MarginRight.IsAuto)
                     {
-                        MarginRight = CssLength.ZeroPx;
+                        this._prop_pass_eval |= CssBoxBaseAssignments.MARGIN_RIGHT;
+                        return this._actualMarginRight = 0;
                     }
+
                     var value = CssValueParser.ParseLength(MarginRight, this.SizeWidth, this);
+
+                    //margin left ?
                     if (MarginLeft.IsPercentage)
                     {
                         return value;
@@ -1196,6 +1204,10 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
+
+
+        int widthChangeCount;
+
         /// <summary>
         /// Gets or sets the size of the box
         /// </summary>
@@ -1203,37 +1215,55 @@ namespace HtmlRenderer.Dom
         {
             get { return new SizeF(this._sizeWidth, this._sizeHeight); }
         }
-
-        
         public void SetSize(float width, float height)
         {
 #if DEBUG
             //if (this.dbugMark > 0)
             //{
             //}
+            //if (widthChangeCount > 0)
+            //{
+            //    if (this.SizeWidth != width)
+            //    {
+
+            //    }
+            //}
+            //widthChangeCount++;
 #endif
 
             if (!this.FreezeWidth)
             {
                 this._sizeWidth = width;
             }
+
             this._sizeHeight = height;
         }
         public void SetHeight(float height)
         {
+
             this._sizeHeight = height;
         }
         public void SetWidth(float width)
         {
 #if DEBUG
+            //if (widthChangeCount > 0)
+            //{
+            //    if (this.SizeWidth != width)
+            //    {
+
+            //    }
+            //}
             //if (this.dbugMark > 0)
             //{
             //}
+            //widthChangeCount++;
 #endif
+
             if (!this.FreezeWidth)
             {
                 this._sizeWidth = width;
             }
+
         }
         public float SizeWidth
         {
@@ -1248,7 +1278,7 @@ namespace HtmlRenderer.Dom
             {
                 return this._sizeHeight;
             }
-        } 
+        }
         internal bool FreezeWidth
         {
             //temporary fix table cell width problem

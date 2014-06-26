@@ -28,16 +28,17 @@ namespace HtmlRenderer.Dom
 #if DEBUG
         public void dbugPaint(PaintVisitor p, RectangleF r)
         {
+            return;
             if (this.HtmlTag == null)
             {
                 p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);
-                 
+
             }
             else
             {
-                p.dbugDrawDiagonalBox(Pens.Green, r.Left, r.Top, r.Right, r.Bottom); 
-            } 
-        } 
+                p.dbugDrawDiagonalBox(Pens.Green, r.Left, r.Top, r.Right, r.Bottom);
+            }
+        }
 #endif
 
         protected virtual void PaintImp(IGraphics g, PaintVisitor p)
@@ -72,7 +73,9 @@ namespace HtmlRenderer.Dom
                     PaintBackground(p, bound, true, true);
                     p.PaintBorders(this, bound, true, true);
 
+#if DEBUG
                     dbugPaint(p, bound);
+#endif
                 }
                 //---------------------------------------------
                 if (this.LineBoxCount > 0)
@@ -163,9 +166,9 @@ namespace HtmlRenderer.Dom
                 }
                 //------------------------------------------
                 //debug
-                var clientLeft = this.ClientLeft;
-                g.DrawRectangle(Pens.GreenYellow, 0, 0, 5, 10);
-                g.DrawRectangle(Pens.HotPink, this.ClientRight - 5, 0, 5, 10);
+                //var clientLeft = this.ClientLeft;
+                //g.DrawRectangle(Pens.GreenYellow, 0, 0, 5, 10);
+                //g.DrawRectangle(Pens.HotPink, this.ClientRight - 5, 0, 5, 10);
                 //------------------------------------------ 
 
                 //must! , 

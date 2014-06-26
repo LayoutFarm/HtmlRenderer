@@ -162,9 +162,7 @@ namespace HtmlRenderer.Dom
         [Map(CssConstants.Hidden)]
         Hidden,
         [Map(CssConstants.Collapse)]
-        Collapse,
-
-
+        Collapse,  
         [Map(CssConstants.Inherit)]
         Inherit
     }
