@@ -1,4 +1,6 @@
-﻿using System;
+﻿//BSD 2014,WinterCore
+
+using System;
 using HtmlRenderer.Dom;
 
 namespace HtmlRenderer

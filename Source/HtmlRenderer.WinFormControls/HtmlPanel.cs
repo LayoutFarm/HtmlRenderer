@@ -280,7 +280,7 @@ namespace HtmlRenderer
         /// <param name="elementId">the id of the element to scroll to</param>
         public void ScrollToElement(string elementId)
         {
-            
+
             if (_htmlContainer != null)
             {
                 var rect = _htmlContainer.GetElementRectangle(elementId);
@@ -323,7 +323,7 @@ namespace HtmlRenderer
                 using (var g = CreateGraphics())
                 {
                     _htmlContainer.PerformLayout(g);
-                    
+
                 }
 
                 AutoScrollMinSize = Size.Round(_htmlContainer.ActualSize);
@@ -339,10 +339,12 @@ namespace HtmlRenderer
 
             if (_htmlContainer != null)
             {
-                _htmlContainer.ScrollOffset = AutoScrollPosition;
-                _htmlContainer.ViewportBound = this.Bounds;
-                
+                 
+                _htmlContainer.ScrollOffset = AutoScrollPosition; 
+                _htmlContainer.PhysicalViewportBound = this.Bounds;
+               
                 _htmlContainer.PerformPaint(e.Graphics);
+
                 // call mouse move to handle paint after scroll or html change affecting mouse cursor.
                 var mp = PointToClient(MousePosition);
                 _htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0));

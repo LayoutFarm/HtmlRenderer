@@ -19,7 +19,7 @@ namespace HtmlRenderer.Dom
         /// <param name="clone">clone all </param>
         protected void InheritStyles(CssBoxBase s, bool clone)
         {
-            
+
             if (s != null)
             {
 
@@ -47,7 +47,7 @@ namespace HtmlRenderer.Dom
                     //---------------------------------------
                     this._backgroundProps = s._backgroundProps;
                     this._borderProps = s._borderProps;
-                    this._cornerProps = s._cornerProps; 
+                    this._cornerProps = s._cornerProps;
                     //---------------------------------------
 
                     this._left = s._left;
@@ -70,7 +70,7 @@ namespace HtmlRenderer.Dom
                     this._textDecoration = s._textDecoration;
                     //--------------------------------------- 
 
-                    
+
                 }
             }
         }
@@ -83,7 +83,7 @@ namespace HtmlRenderer.Dom
         internal void CloneAllStyles(CssBoxBase s)
         {
 
-         
+
             //1.
             //=====================================
             if (s._fontProps.Owner == s)
@@ -121,7 +121,7 @@ namespace HtmlRenderer.Dom
             this._width = s._width;
             this._height = s._height;
             this._maxWidth = s._maxWidth;
-            this._position = s._position; 
+            this._position = s._position;
 
             this._wordSpacing = s._wordSpacing;
             this._lineHeight = s._lineHeight;
@@ -133,12 +133,29 @@ namespace HtmlRenderer.Dom
 
             //3.
             //=====================================
-            this._paddingProps = s._paddingProps;
+            //if (this.dbugBB > 0)
+            //{
+
+            //}
             this._marginProps = s._marginProps;
             //--------------------------------------
-            this._prop_wait_eval = s._prop_wait_eval;  
-            this._cssDirection = s._cssDirection; 
+            this._prop_wait_eval = s._prop_wait_eval;
+            this._cssDirection = s._cssDirection;
 
+
+            //-----------------------------------
+            if (this._paddingProps.Owner != this)
+            {
+                this._paddingProps = s._paddingProps;
+            }
+            else
+            {
+                this._prop_wait_eval |= (CssBoxBaseAssignments.PADDING_LEFT |
+                                         CssBoxBaseAssignments.PADDING_TOP |
+                                         CssBoxBaseAssignments.PADDING_RIGHT |
+                                         CssBoxBaseAssignments.PADDING_BOTTOM);
+            }
+            //-----------------------------------
         }
 
 

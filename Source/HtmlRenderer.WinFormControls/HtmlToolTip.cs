@@ -231,8 +231,7 @@ namespace HtmlRenderer
             }
 
             e.Graphics.Clear(Color.White);
-            _htmlContainer.ViewportBound = new RectangleF(0, 0, 800, 600);
-
+            _htmlContainer.PhysicalViewportBound = new RectangleF(0, 0, 800, 600);
             _htmlContainer.PerformPaint(e.Graphics);
         }
 

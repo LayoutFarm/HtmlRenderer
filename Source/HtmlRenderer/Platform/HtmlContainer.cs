@@ -239,10 +239,7 @@ namespace HtmlRenderer
                     this.selRange.ClearSelectionStatus();
                 }
                 this.selRange = value;
-                if (value != null)
-                {
-                    value.ActivateSelection();
-                }
+
             }
         }
 
@@ -548,14 +545,10 @@ namespace HtmlRenderer
                 _actualWidth = _actualHeight = 0;
                 _root.PerformLayout(layoutArgs);
             }
-
-
             layoutArgs.PopContainingBlock();
-            //    }
 
-            //}
         }
-        public RectangleF ViewportBound
+        public RectangleF PhysicalViewportBound
         {
             get;
             set;
@@ -573,16 +566,27 @@ namespace HtmlRenderer
             }
 
             PaintVisitor args = new PaintVisitor(this, ig);
-            var bound = this.ViewportBound;
+            float scX = this.ScrollOffset.X;
+            float scY = this.ScrollOffset.Y;
+
+            var physicalViewportSize = this.PhysicalViewportBound.Size;
+
+            float ox = ig.CanvasOriginX;
+            float oy = ig.CanvasOriginY;
+
+            ig.SetCanvasOrigin(scX, scY);
 
             args.PushContaingBlock(_root.ContainingBlock);
-            args.PushLocalClipArea(bound.Width, bound.Height);
-            args.PushBound(0, 0, bound.Width, bound.Height);
+            args.SetPhysicalViewportBound(0, 0, physicalViewportSize.Width, physicalViewportSize.Height);
+             
 
             _root.Paint(ig, args);
-            args.PopLocalClipArea();
+
+             
+
             args.PopContainingBlock();
 
+            ig.SetCanvasOrigin(ox, oy);
         }
 
 

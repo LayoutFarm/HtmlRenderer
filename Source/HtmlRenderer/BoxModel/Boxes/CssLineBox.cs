@@ -134,15 +134,18 @@ namespace HtmlRenderer.Dom
         /// handle part of cssBox in this line, handle task about bg/border/bounday of cssBox owner of strip        
         /// </summary>
         readonly List<PartialBoxStrip> _bottomUpBoxStrips = new List<PartialBoxStrip>();
-
         internal LinkedListNode<CssLineBox> linkedNode;
+
         float _cacheContentWidth;
+
 #if DEBUG
         bool dbugIsClosed;
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
-
 #endif
+
+
+
         /// <summary>
         /// Creates a new LineBox
         /// </summary>
@@ -165,11 +168,6 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-
-
-
-        //---------------------------------
-
         internal float CachedLineBottom
         {
             get { return this.CachedLineTop + this.CacheLineHeight; }
@@ -188,8 +186,6 @@ namespace HtmlRenderer.Dom
         {
             get { return 0; }
         }
-
-
         internal float CachedLineContentWidth
         {
             get { return this._cacheContentWidth; }
@@ -269,8 +265,7 @@ namespace HtmlRenderer.Dom
                 this.CachedLineContentWidth = this.OwnerBox.SizeWidth;
             }
         }
-
-        public bool HitTest(int x, int y)
+        public bool HitTest(float x, float y)
         {
             if (y >= this.CachedLineTop && y <= this.CachedLineBottom)
             {
@@ -456,8 +451,6 @@ namespace HtmlRenderer.Dom
                         } break;
                 }
             }
-
-
         }
 
 #if DEBUG
@@ -473,8 +466,7 @@ namespace HtmlRenderer.Dom
             float y2 = y1 + this.CacheLineHeight;
             //draw diagonal
 
-
-            dbugDrawDiagonalBox(g, Pens.Blue, x1, y1, x2, y2);
+            p.dbugDrawDiagonalBox(Pens.Blue, x1, y1, x2, y2);
 
             //g.DrawRectangle(Pens.Blue,
             //    this.OwnerBox.LocationX,
@@ -497,14 +489,25 @@ namespace HtmlRenderer.Dom
             g.FillRectangle(Brushes.Red, 0, 0, 5, 5);
 
         }
-        void dbugDrawDiagonalBox(IGraphics g, Pen pen, float x1, float y1, float x2, float y2)
-        {
-            g.DrawRectangle(pen, x1, y1, x2 - x1, y2 - y1);
-            g.DrawLine(pen, x1, y1, x2, y2);
-            g.DrawLine(pen, x1, y2, x2, y1);
-        }
 
 #endif
+
+        internal int LineSelectionStart
+        {
+            get;
+            set;
+        }
+        internal int LineSelectionWidth
+        {
+            get;
+            set;
+        }
+        internal void PaintSelection(PaintVisitor p)
+        {
+            var gfx = p.Gfx;
+            gfx.FillRectangle(Brushes.LightGray, this.LineSelectionStart, 0, this.LineSelectionWidth, this.CacheLineHeight);
+        }
+
 
         internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
@@ -513,9 +516,9 @@ namespace HtmlRenderer.Dom
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
-                var ownerBox = strip.owner;
+                var stripOwner = strip.owner;
 
-                if (ownerBox.CssDisplay != CssDisplay.Inline)
+                if (stripOwner.CssDisplay != CssDisplay.Inline)
                 {
                     throw new NotSupportedException();
                     continue;
@@ -523,9 +526,11 @@ namespace HtmlRenderer.Dom
 
                 var stripArea = strip.Bound;
                 bool isFirstLine, isLastLine;
-                CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
-                ownerBox.PaintBackground(p, stripArea, isFirstLine, isLastLine);
-                p.PaintBorders(ownerBox, stripArea, isFirstLine, isLastLine);
+                CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
+
+                stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);
+                p.PaintBorders(stripOwner, stripArea, isFirstLine, isLastLine);
+
             }
         }
 

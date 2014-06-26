@@ -262,21 +262,14 @@ namespace HtmlRenderer.Dom
                 }
                 box.TextDecoration = CssTextDecoration.NotAssign;
             }
-
             //===================================================================
             //parent style assignment is complete before step down into child ***
-
             foreach (var childBox in box.GetChildBoxIter())
             {
                 //recursive
                 ApplyStyleSheet(childBox, activeCssTemplate);
             }
-
-
         }
-
-
-
         /// <summary>
         /// Set the selected text style (selection text color and background color).
         /// </summary>
@@ -305,10 +298,6 @@ namespace HtmlRenderer.Dom
             //    }
             //}
         }
-
-
-
-
         private static void AssignStylesForElementId(CssBox box, ActiveCssTemplate activeCssTemplate, string elementId)
         {
             throw new NotSupportedException();
@@ -320,8 +309,6 @@ namespace HtmlRenderer.Dom
             //    }
             //}
         }
-
-
         internal static void AssignPropertyValue(CssBoxBase box, CssBoxBase boxParent, WebDom.CssPropertyDeclaration decl)
         {
             if (decl.IsExpand)
@@ -425,6 +412,7 @@ namespace HtmlRenderer.Dom
                             break;
                         case WebDom.WellknownHtmlName.Border:
                             {
+                                //not support in HTML5
 
                                 CssLength borderLen = TranslateLength(UserMapUtil.MakeBorderLength(attr.Value.ToLower()));
                                 if (!borderLen.HasError)
@@ -467,14 +455,33 @@ namespace HtmlRenderer.Dom
 
                             break;
                         case WebDom.WellknownHtmlName.CellSpacing:
+
+                            //html5 not support in HTML5, use CSS instead
                             box.BorderSpacingHorizontal = box.BorderSpacingVertical = TranslateLength(attr);
+
                             break;
                         case WebDom.WellknownHtmlName.CellPadding:
                             {
-                                // Cascades to the TD's the border spacified in the TABLE tag.
-                                CssLength length = TranslateLength(attr);
-                                ForEachCellInTable(box, cell =>
-                                     cell.PaddingLeft = cell.PaddingTop = cell.PaddingRight = cell.PaddingBottom = length);
+                                //html5 not support in HTML5, use CSS instead ***
+
+                                CssLength len01 = UserMapUtil.ParseGenericLength(attr.Value.ToLower());
+                                if (len01.HasError && (len01.Number > 0))
+                                {
+                                    CssLength len02 = CssLength.MakePixelLength(len01.Number);
+                                    ForEachCellInTable(box, cell =>
+                                    {
+#if DEBUG
+                                       // cell.dbugBB = dbugTT++;
+#endif
+                                        cell.PaddingLeft = cell.PaddingTop = cell.PaddingRight = cell.PaddingBottom = len02;
+                                    });
+
+                                }
+                                else
+                                {
+                                    ForEachCellInTable(box, cell =>
+                                         cell.PaddingLeft = cell.PaddingTop = cell.PaddingRight = cell.PaddingBottom = len01);
+                                }
 
                             } break;
                         case WebDom.WellknownHtmlName.Color:
@@ -538,6 +545,9 @@ namespace HtmlRenderer.Dom
             }
         }
 
+#if DEBUG
+        static int dbugTT = 0;
+#endif
         /// <summary>
         /// Converts an HTML length into a Css length
         /// </summary>
@@ -545,6 +555,7 @@ namespace HtmlRenderer.Dom
         /// <returns></returns>
         public static CssLength TranslateLength(IHtmlAttribute attr)
         {
+
             return UserMapUtil.TranslateLength(attr.Value.ToLower());
 
         }

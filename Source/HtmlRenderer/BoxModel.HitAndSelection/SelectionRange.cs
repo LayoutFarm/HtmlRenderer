@@ -12,65 +12,124 @@ using HtmlRenderer.Parse;
 namespace HtmlRenderer.Dom
 {
 
+
     public class SelectionRange
     {
+        //start line
 
-
-        //--------------------- 
-        Point startHitPoint;
         CssLineBox startHitHostLine;
-        CssBox startHitCssBox;
         int startHitRunCharIndex;
         //--------------------- 
-        Point endHitPoint;
-        CssBox endHitCssBox;
+        //on end line  
         int endHitRunCharIndex;
-        //---------------------       
+        //---------------------      
+        List<CssLineBox> selectedLines;
 
-        List<RectangleF> selStrips;
-        List<CssLineBox> selLineBoxes;
-
-        internal SelectionRange(BoxHitChain startChain, BoxHitChain endChain, IGraphics g)
+        public SelectionRange(BoxHitChain startChain, BoxHitChain endChain, IGraphics g)
         {
 
+
+            if (IsOnTheSameLine(startChain, endChain))
+            {
+                //on the same line
+                if (endChain.RootGlobalX < startChain.RootGlobalX)
+                {
+                    //swap
+                    var tmp = endChain;
+                    endChain = startChain;
+                    startChain = tmp;
+                }
+
+            }
+            else
+            {
+                //across line 
+                if (endChain.RootGlobalY < startChain.RootGlobalY)
+                {    //swap
+                    var tmp = endChain;
+                    endChain = startChain;
+                    startChain = tmp;
+                }
+            }
             //1.
             this.SetupStartHitPoint(startChain, g);
             //2.
             this.SetupEndHitPoint(endChain, g);
-            //3.
-
-            startHitCssBox.ContainsSelectedRun = true;
-            endHitCssBox.ContainsSelectedRun = true;
+        } 
+        static bool IsOnTheSameLine(BoxHitChain startChain, BoxHitChain endChain)
+        {  
+            CssLineBox startLineBox = GetLine(startChain.GetLastHit());
+            CssLineBox endLineBox = GetLine(endChain.GetLastHit()); 
+            return startLineBox != null && startLineBox == endLineBox;
+        }
+        static CssLineBox GetLine(HitInfo hitInfo)
+        {
+            switch (hitInfo.hitObjectKind)
+            {
+                default:
+                case HitObjectKind.Unknown:
+                    {
+                        throw new NotSupportedException();
+                    }
+                case HitObjectKind.LineBox:
+                    {
+                        return (CssLineBox)hitInfo.hitObject;
+                    }
+                case HitObjectKind.Run:
+                    {
+                        return ((CssRun)hitInfo.hitObject).HostLine;
+                    }
+                case HitObjectKind.CssBox:
+                    {
+                        return null;
+                    }
+            }
         }
 
         internal void ClearSelectionStatus()
         {
-
-            this.startHitCssBox.ContainsSelectedRun = false;
-            this.endHitCssBox.ContainsSelectedRun = false;
-            if (this.selLineBoxes != null)
+            if (this.selectedLines != null)
             {
-                for (int i = selLineBoxes.Count - 1; i >= 0; --i)
+                for (int i = selectedLines.Count - 1; i >= 0; --i)
                 {
-                    this.selLineBoxes[i].OwnerBox.ContainsSelectedRun = false;
+                    this.selectedLines[i].LineSelectionWidth = 0;
                 }
-                this.selLineBoxes.Clear();
+                this.selectedLines.Clear();
             }
+            else
+            {
+                if (this.startHitHostLine != null)
+                {
+                    this.startHitHostLine.LineSelectionWidth = 0;
+                }
 
-
+            }
         }
 
-
-        static CssLineBox FindNearestLine(CssBox box, int y)
+        static CssLineBox FindNearestLine(CssBox startBox, int globalY, int yRange)
         {
             CssLineBox latestLine = null;
-            foreach (CssLineBox lineBox in Utils.DomUtils.GetDeepLineBoxIter(box))
+            CssBox latestLineBoxOwner = null;
+            float latestLineBoxGlobalYPos = 0;
+
+            foreach (CssLineBox lineBox in Utils.DomUtils.GetDeepDownLineBoxIter(startBox))
             {
                 if (lineBox.CacheLineHeight == 0)
                 {
                     continue;
                 }
-                if (lineBox.CachedLineBottom <= y)
+
+                if (latestLineBoxOwner != lineBox.OwnerBox)
+                {
+                    //find global position of box
+                    latestLineBoxOwner = lineBox.OwnerBox;
+                    PointF boxGlobalPoint = GetGlobalLocation(latestLineBoxOwner);
+                    latestLineBoxGlobalYPos = boxGlobalPoint.Y;
+                }
+
+                float lineGlobalBottom = lineBox.CachedLineBottom + latestLineBoxGlobalYPos;
+
+                if (lineGlobalBottom <= globalY)
                 {
                     latestLine = lineBox;
                 }
@@ -80,6 +139,7 @@ namespace HtmlRenderer.Dom
                     break;
                 }
             }
+
             return latestLine;
 
         }
@@ -115,10 +175,10 @@ namespace HtmlRenderer.Dom
             }
         }
 
+
         void SetupStartHitPoint(BoxHitChain startChain, IGraphics g)
         {
             HitInfo startHit = startChain.GetLastHit();
-            this.startHitPoint = new Point(startHit.x, startHit.y);
             //-----------------------------
             switch (startHit.hitObjectKind)
             {
@@ -127,124 +187,139 @@ namespace HtmlRenderer.Dom
                         CssRun run = (CssRun)startHit.hitObject;
                         int sel_index;
                         int sel_offset;
+
                         run.FindSelectionPoint(g,
-                            (int)(startHit.x - run.Left),
+                             startHit.localX,
                              true,
                              out sel_index,
                              out sel_offset);
 
                         this.startHitRunCharIndex = sel_index;
-
                         //modify hitpoint
                         CssLineBox hostLine = (CssLineBox)startChain.GetHitInfo(startChain.Count - 2).hitObject;
+                        hostLine.LineSelectionStart = (int)(run.Left + sel_offset);
                         this.startHitHostLine = hostLine;
-                        this.startHitPoint = new Point((int)(run.Left + sel_offset), (int)hostLine.CachedLineTop);
 
-                        //------
-                        this.startHitCssBox = hostLine.OwnerBox;
                     } break;
                 case HitObjectKind.LineBox:
                     {
+
                         this.startHitHostLine = (CssLineBox)startHit.hitObject;
-                        this.startHitCssBox = startHitHostLine.OwnerBox;
+                        //make global                         
+                        startHitHostLine.LineSelectionStart = startHit.localX;
+
                     } break;
                 case HitObjectKind.CssBox:
                     {
                         CssBox box = (CssBox)startHit.hitObject;
-                        //find first nearest line at point  
-                        this.startHitCssBox = box;
-
-                        CssLineBox startHitLine = FindNearestLine(box, startHit.y);
+                        //find first nearest line at point   
+                        CssLineBox startHitLine = FindNearestLine(box, startChain.RootGlobalY, 5);
                         if (startHitLine != null)
                         {
-                            this.startHitCssBox = startHitLine.OwnerBox;
                             this.startHitHostLine = startHitLine;
+                            startHitLine.LineSelectionStart = 0;
                         }
-
+                        else
+                        {
+                            //if not found?
+                            this.startHitHostLine = null;
+                        }
                     } break;
                 default:
                     {
+                        throw new NotSupportedException();
                     } break;
             }
         }
 
+        static PointF GetGlobalLocation(CssBox box)
+        {
+            float localX = box.LocalX;
+            float localY = box.LocalY;
+            CssBox parentBox = box.ParentBox;
+            while (parentBox != null)
+            {
+                localX += parentBox.LocalX;
+                localY += parentBox.LocalY;
+                parentBox = parentBox.ParentBox;
+            }
+            return new PointF(localX, localY);
+        }
+
+        //static int dbugCounter = 0;
+
         void SetupEndHitPoint(BoxHitChain endChain, IGraphics g)
         {
+
+            //dbugCounter++;
             HitInfo endHit = endChain.GetLastHit();
-            this.endHitPoint = new Point(endHit.x, endHit.y);
+
 
             switch (endHit.hitObjectKind)
             {
+                default:
+                    {
+                        throw new NotSupportedException();
+                    } break;
                 case HitObjectKind.Run:
                     {
-
                         CssRun run = (CssRun)endHit.hitObject;
+
+                        //if (run is CssTextRun)
+                        //{
+                        //    CssTextRun tt = (CssTextRun)run;
+                        //    Console.WriteLine(dbugCounter + "r:" + run.dbugId + tt.Text + " (line:" + run.HostLine.dbugId + ",top=" + run.HostLine.CachedLineTop + ")");
+                        //}
+                        //else
+                        //{
+                        //    Console.WriteLine(dbugCounter + "r:" + run.dbugId + "(line:" + run.HostLine.dbugId + ",top=" + run.HostLine.CachedLineTop + ")");
+                        //}
+
                         int sel_index;
                         int sel_offset;
                         run.FindSelectionPoint(g,
-                            (int)(endHit.x - run.Left),
+                             endHit.localX,
                              true,
                              out sel_index,
                              out sel_offset);
                         this.endHitRunCharIndex = sel_index;
 
 
-                        //adjust
-                        CssLineBox endline = (CssLineBox)endChain.GetHitInfo(endChain.Count - 2).hitObject;
+                        CssLineBox endline = run.HostLine;
+                        int xposOnEndLine = (int)(run.Left + sel_offset);
 
-                        this.endHitPoint = new Point((int)(run.Left + sel_offset), (int)endline.CachedLineBottom);
-                        this.endHitCssBox = endline.OwnerBox;
+                        //find selection direction
 
-
-                        if (this.startHitHostLine != endline)
+                        if (startHitHostLine == endline)
+                        {
+                            endline.LineSelectionWidth = xposOnEndLine - startHitHostLine.LineSelectionStart;
+                        }
+                        else
                         {
                             //select on different line 
                             //-------
-                            this.selStrips = new List<RectangleF>();
-                            this.selLineBoxes = new List<CssLineBox>();
-
+                            this.selectedLines = new List<CssLineBox>();
                             //1. select all in start line      
                             CssLineBox startLineBox = this.startHitHostLine;
-
-
                             foreach (CssLineBox line in GetLineWalkIter(startLineBox, endline))
                             {
-
                                 if (line == startLineBox)
                                 {
-                                    this.selStrips.Add(new RectangleF(
-                                        this.startHitPoint.X,
-                                        line.CachedLineTop,
-                                        line.CachedLineContentWidth - this.startHitPoint.X,
-                                        line.CacheLineHeight));
-                                    this.selLineBoxes.Add(line);
+                                    line.SelectPartialStart(line.LineSelectionStart);
+                                    selectedLines.Add(line);
                                 }
                                 else if (line == endline)
                                 {
-
                                     //-------
                                     //2. end line 
-                                    CssBox endHostLineOwner = endline.OwnerBox;
-                                    this.selStrips.Add(new RectangleF(
-                                        endHostLineOwner.LocalX,
-                                        endline.CachedLineTop,
-                                        (int)(run.Left + sel_offset) - endHostLineOwner.LocalX,
-                                        endline.CacheLineHeight));
-
-                                    this.selLineBoxes.Add(line);
+                                    line.SelectPartialEnd(xposOnEndLine);
+                                    selectedLines.Add(line);
                                 }
                                 else
                                 {
                                     //inbetween
-                                    CssBox lineOwner = line.OwnerBox;
-
-
-                                    this.selStrips.Add(new RectangleF(
-                                        lineOwner.LocalX,
-                                        line.CachedLineTop,
-                                        line.CachedLineContentWidth,
-                                        line.CacheLineHeight));
-                                    this.selLineBoxes.Add(line);
+                                    line.SelectFull();
+                                    selectedLines.Add(line);
                                 }
                             }
                         }
@@ -252,56 +327,42 @@ namespace HtmlRenderer.Dom
                 case HitObjectKind.LineBox:
                     {
 
+
                         CssLineBox endline = (CssLineBox)endHit.hitObject;
+                        //find selection direction
 
-                        this.endHitPoint = new Point(endHit.x, (int)endline.CachedLineBottom);
-                        this.endHitCssBox = endline.OwnerBox;
 
-                        if (this.startHitHostLine != endline)
+                        if (this.startHitHostLine == endline)
+                        {
+                            endline.LineSelectionWidth = endHit.localX - startHitHostLine.LineSelectionStart;
+                        }
+                        else
                         {
                             //between line
                             //select on different line 
                             //-------
-                            this.selStrips = new List<RectangleF>();
-                            this.selLineBoxes = new List<CssLineBox>();
+                            this.selectedLines = new List<CssLineBox>();
 
                             //1. select all in start line      
                             //1. select all in start line      
                             CssLineBox startLineBox = this.startHitHostLine;
-
                             foreach (CssLineBox line in GetLineWalkIter(startLineBox, endline))
                             {
-
                                 if (line == startLineBox)
                                 {
-                                    this.selStrips.Add(new RectangleF(
-                                       this.startHitPoint.X,
-                                       line.CachedLineTop,
-                                       line.CachedLineContentWidth - this.startHitPoint.X,
-                                       line.CacheLineHeight));
-                                    this.selLineBoxes.Add(line);
+                                    line.SelectPartialStart(startLineBox.LineSelectionStart);
+                                    selectedLines.Add(line);
                                 }
                                 else if (line == endline)
                                 {
-
-                                    CssBox endHostLineOwner = endline.OwnerBox;
-                                    this.selStrips.Add(new RectangleF(
-                                        endHostLineOwner.LocalX,
-                                        endline.CachedLineTop,
-                                        endHitPoint.X - endHostLineOwner.LocalX,
-                                        line.CacheLineHeight));
-                                    this.selLineBoxes.Add(line);
+                                    endline.SelectPartialEnd(endHit.localX);
+                                    selectedLines.Add(line);
                                 }
                                 else
                                 {
                                     //between
-
-                                    this.selStrips.Add(new RectangleF(
-                                        line.OwnerLeft,
-                                        line.CachedLineTop,
-                                        line.CachedLineContentWidth,
-                                        line.CacheLineHeight));
-                                    this.selLineBoxes.Add(line);
+                                    line.SelectFull();
+                                    selectedLines.Add(line);
                                 }
                             }
                         }
@@ -309,36 +370,42 @@ namespace HtmlRenderer.Dom
                     } break;
                 case HitObjectKind.CssBox:
                     {
+                        CssBox hitBox = (CssBox)endHit.hitObject;
+                        //find selection direction
 
-                        this.endHitCssBox = (CssBox)endHit.hitObject;
+                        //Console.WriteLine(dbugCounter + "B:" + hitBox.dbugId);
+
                         CssLineBox latestLine = null;
-                        this.selStrips = new List<RectangleF>();
-                        this.selLineBoxes = new List<CssLineBox>();
+                        this.selectedLines = new List<CssLineBox>();
+                        //convert to global position
+                        float globalHitY = endChain.RootGlobalY;
+                        //check if should use first line of this box                         
+                        //or last line box this box
 
-                        float hitY = endHit.y;
-                        foreach (var line in GetLineWalkIter(this.startHitHostLine, this.endHitCssBox))
+                        foreach (var line in GetLineWalkIter(this.startHitHostLine, hitBox))
                         {
                             if (line == startHitHostLine)
                             {
-                                this.selStrips.Add(new RectangleF(
-                                   this.startHitPoint.X,
-                                   line.CachedLineTop,
-                                   line.CachedLineContentWidth - this.startHitPoint.X,
-                                   line.CacheLineHeight));
-                                this.selLineBoxes.Add(line);
+                                line.SelectPartialStart(startHitHostLine.LineSelectionStart);
+                                selectedLines.Add(line);
                                 latestLine = line;
                             }
                             else
                             {
-                                if (line.CachedLineBottom < hitY)
+
+                                //----------------------
+                                //find cssbox
+                                var ownerBox = line.OwnerBox;
+                                PointF globalLocation = GetGlobalLocation(ownerBox);
+                                float lineGlobalBottom = line.CachedLineBottom + globalLocation.Y;
+
+                                //----------------------
+                                if (lineGlobalBottom < globalHitY)
                                 {
                                     latestLine = line;
-                                    this.selStrips.Add(new RectangleF(
-                                            line.OwnerLeft,
-                                            line.CachedLineTop,
-                                            line.CachedLineContentWidth,
-                                            line.CacheLineHeight));
-                                    this.selLineBoxes.Add(line);
+                                    line.SelectFull();
+                                    selectedLines.Add(line);
+
                                 }
                                 else if (line.CacheLineHeight > 0)
                                 {
@@ -351,105 +418,46 @@ namespace HtmlRenderer.Dom
                                 }
                             }
                         }
-
                         //------------------------------------------------------
                         if (latestLine != null)
                         {
+                            //this.xposOnEndLine = endHit.localX;
 
-                            this.endHitPoint = new Point(endHit.x, (int)latestLine.CachedLineBottom);
-                            this.endHitCssBox = latestLine.OwnerBox;
                         }
                         else
                         {
                         }
 
                     } break;
-                default:
-                    {
-                    } break;
-            }
-        }
-        internal void ActivateSelection()
-        {
-            this.endHitCssBox.ContainsSelectedRun = true;
-            this.startHitCssBox.ContainsSelectedRun = true;
 
-            if (this.selLineBoxes != null)
-            {
-                for (int i = selLineBoxes.Count - 1; i >= 0; --i)
-                {
-                    this.selLineBoxes[i].OwnerBox.ContainsSelectedRun = true;
-                }
             }
         }
 
-        Point StartHitPoint
-        {
-            get
-            {
-                return this.startHitPoint;
-            }
-        }
-        Point EndHitPoint
-        {
-            get
-            {
-                return this.endHitPoint;
-            }
-        }
 
-        internal void Draw(IGraphics g, PaintVisitor p, float lineTop, float lineHeight, PointF offset)
-        {
 
-            if (this.selStrips != null)
-            {
-                foreach (RectangleF rr in this.selStrips)
-                {
-
-                    if (rr.Top >= lineTop &&
-                        rr.Bottom <= (lineTop + lineHeight))
-                    {
-                        rr.Offset(offset);
-
-                        g.FillRectangle(Brushes.LightGray, rr.X, rr.Y,
-                         rr.Width,
-                         rr.Height);
-                    }
-                    else
-                    {
-                        //rr.Offset(offset);
-                        //////dbug draw diagonal rect                        
-                        //g.DrawRectangle(Pens.Red, rr.X, rr.Y, rr.Width, rr.Height);
-                        //g.DrawLine(Pens.Red, rr.X, rr.Y, rr.Right, rr.Bottom);
-                        //g.DrawLine(Pens.Red, rr.X, rr.Bottom, rr.Right, rr.Y);
-                    }
-
-                }
-                return;
-            }
-            else
-            {
-
-                Point p1 = this.StartHitPoint;
-                Point p2 = this.EndHitPoint;
-
-                RectangleF rr = RectangleF.FromLTRB(p1.X, p1.Y, p2.X, p2.Y);
-
-                rr.Offset(offset);
-                if (rr.Top >= (int)lineTop &&
-                        rr.Bottom <= (int)(lineTop + lineHeight))
-                {
-                    var prevClip = g.GetClip();
-                    g.SetClip(rr);
-                    g.FillRectangle(Brushes.LightGray, rr.X, rr.Y,
-                     rr.Width,
-                     rr.Height);
-                    g.SetClip(prevClip);
-                }
-            }
-        }
     }
 
+    static class CssLineBoxExtension
+    {
+        public static void SelectFull(this CssLineBox lineBox)
+        {
+            //full line selection
+            lineBox.LineSelectionStart = 0;
+            lineBox.LineSelectionWidth = (int)lineBox.CachedLineContentWidth;
+        }
+        public static void SelectPartialStart(this CssLineBox lineBox, int startAt)
+        {
+            //from startAt to end of line
+            lineBox.LineSelectionStart = startAt;
+            lineBox.LineSelectionWidth = (int)lineBox.CachedLineContentWidth - startAt;
+        }
+        public static void SelectPartialEnd(this CssLineBox lineBox, int endAt)
+        {
+            //from start of line to endAt
+            lineBox.LineSelectionStart = 0;
+            lineBox.LineSelectionWidth = endAt;
+        }
+    }
 
     struct LineOrBoxVisit
     {

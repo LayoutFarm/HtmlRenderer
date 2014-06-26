@@ -180,6 +180,10 @@ namespace HtmlRenderer.Dom
             }
         }
         public static readonly CssPaddingProp Default = new CssPaddingProp(null);
+        public object Owner
+        {
+            get { return this.owner; }
+        }
     }
 
 
@@ -319,7 +323,7 @@ namespace HtmlRenderer.Dom
             //---------------------------------------
             string fontFam = this.FontFamily;
             if (string.IsNullOrEmpty(FontFamily))
-            {
+            {    
                 fontFam = CssConstants.FontSerif;
             }
 
@@ -328,12 +332,7 @@ namespace HtmlRenderer.Dom
             {
                 fontsize = CssLength.MakeFontSizePtUnit(CssConstants.FontSize);
             }
-
-            //if (this.FontSize.IsEmpty)
-            //{
-            //    //use default font size
-            //    FontSize = CssLength.MakeFontSizePtUnit(CssConstants.FontSize);
-            //}
+             
             //-----------------------------------------------------------------------------
             FontStyle st = System.Drawing.FontStyle.Regular;
             if (FontStyle == CssFontStyle.Italic || FontStyle == CssFontStyle.Oblique)

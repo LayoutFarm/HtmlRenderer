@@ -15,20 +15,34 @@ namespace HtmlRenderer.Dom
     //----------------------------------------------------------------------------
     public class PaintVisitor : BoxVisitor
     {
-        Stack<RectangleF> viewportBounds = new Stack<RectangleF>();
+
+
+
         Stack<RectangleF> clipStacks = new Stack<RectangleF>();
 
         PointF htmlContainerScrollOffset;
         HtmlContainer container;
         IGraphics ig;
 
-        RectangleF latestClip = new RectangleF(0, 0, CssBoxConst.MAX_RIGHT, float.MaxValue);
+        RectangleF latestClip = new RectangleF(0, 0, CssBoxConst.MAX_RIGHT, CssBoxConst.MAX_BOTTOM);
+
+        float physicalViewportWidth;
+        float physicalViewportHeight;
+        float physicalViewportX;
+        float physicalViewportY;
 
         public PaintVisitor(HtmlContainer container, IGraphics ig)
         {
             this.container = container;
             this.htmlContainerScrollOffset = container.ScrollOffset;
             this.ig = ig;
+        }
+        internal void SetPhysicalViewportBound(float x, float y, float width, float height)
+        {
+            this.physicalViewportX = x;
+            this.physicalViewportY = y;
+            this.physicalViewportWidth = width;
+            this.physicalViewportHeight = height;
         }
 
         internal IGraphics Gfx
@@ -42,32 +56,20 @@ namespace HtmlRenderer.Dom
         {
             get { return this.container.AvoidGeometryAntialias; }
         }
-
         //-----------------------------------------------------
         internal HtmlContainer HtmlContainer
         {
             get { return this.container; }
         }
+        internal float LocalViewportTop
+        {
+            get { return this.physicalViewportY - ig.CanvasOriginY; }
+        }
+        internal float LocalViewportBottom
+        {
+            get { return (this.physicalViewportY + this.physicalViewportHeight) - ig.CanvasOriginY; }
+        }
 
-        public void PushBound(float x, float y, float w, float h)
-        {
-            viewportBounds.Push(new RectangleF(x, y, w, h));
-        }
-        public void PopBound()
-        {
-            viewportBounds.Pop();
-        }
-        public RectangleF PeekGlobalViewportBound()
-        {
-            return this.viewportBounds.Peek();
-        }
-        public RectangleF PeekLocalViewportBound()
-        {
-            RectangleF bound = this.viewportBounds.Peek();
-            bound.Offset(-ig.CanvasOriginX, -ig.CanvasOriginY);
-            return bound;
-
-        }
         public PointF Offset
         {
             get { return this.htmlContainerScrollOffset; }
@@ -90,9 +92,9 @@ namespace HtmlRenderer.Dom
                 latestClip,
                 new RectangleF(0, 0, w, h));
             this.latestClip = intersectResult;
+
+            //ig.DrawRectangle(Pens.Red, intersectResult.X, intersectResult.Y, intersectResult.Width, intersectResult.Height);
             ig.SetClip(intersectResult);
-
-
             return !intersectResult.IsEmpty;
         }
 
@@ -101,6 +103,7 @@ namespace HtmlRenderer.Dom
             if (clipStacks.Count > 0)
             {
                 RectangleF prevClip = this.latestClip = clipStacks.Pop();
+                //ig.DrawRectangle(Pens.Green, prevClip.X, prevClip.Y, prevClip.Width, prevClip.Height);
                 ig.SetClip(prevClip);
             }
         }
@@ -132,7 +135,7 @@ namespace HtmlRenderer.Dom
             BordersDrawHandler.DrawBorder(Border.Top, g, box, b1, rect);
 
             var b2 = RenderUtils.GetSolidBrush(leftColor);
-            BordersDrawHandler.DrawBorder(Border.Left, g, box, b2, rect); 
+            BordersDrawHandler.DrawBorder(Border.Left, g, box, b2, rect);
 
             var b3 = RenderUtils.GetSolidBrush(rightColor);
             BordersDrawHandler.DrawBorder(Border.Right, g, box, b3, rect);
@@ -146,6 +149,22 @@ namespace HtmlRenderer.Dom
             var b = RenderUtils.GetSolidBrush(solidColor);
             BordersDrawHandler.DrawBorder(border, this.Gfx, box, b, rect);
         }
+
+#if DEBUG
+        public void dbugDrawDiagonalBox(Pen pen, float x1, float y1, float x2, float y2)
+        {
+            var g = this.Gfx;
+            g.DrawRectangle(pen, x1, y1, x2 - x1, y2 - y1);
+            g.DrawLine(pen, x1, y1, x2, y2);
+            g.DrawLine(pen, x1, y2, x2, y1);
+        }
+        public void dbugDrawDiagonalBox(Pen pen, RectangleF rect)
+        {
+            var g = this.Gfx;
+            this.dbugDrawDiagonalBox(pen, rect.Left, rect.Top, rect.Right, rect.Bottom);
+             
+        }
+#endif
 
     }
 

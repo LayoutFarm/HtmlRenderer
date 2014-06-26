@@ -24,6 +24,8 @@ using HtmlRenderer.Parse;
 
 namespace HtmlRenderer.Utils
 {
+    internal delegate bool EachCssTextRunHandler(CssTextRun trun);
+
 
     /// <summary>
     /// Utility class for traversing DOM structure and execution stuff on it.
@@ -316,33 +318,45 @@ namespace HtmlRenderer.Utils
             return null;
         }
 
-        public static bool HitTest(CssBox box, Point loc, BoxHitChain hitChain)
+        public static bool HitTest(CssBox box, float x, float y, BoxHitChain hitChain)
         {
-            //recursive
-
-            if (box.IsPointInArea(loc))
+            //recursive  
+            if (box.IsPointInArea(x, y))
             {
-                //1.
-                int x = loc.X;
-                int y = loc.Y;
-                hitChain.AddHit(box, x, y);
+
+                float boxHitLocalX = x - box.LocalX;
+                float boxHitLocalY = y - box.LocalY;
+
+                int boxHitGlobalX = (int)(boxHitLocalX + hitChain.GlobalOffsetX);
+                int boxHitGlobalY = (int)(boxHitLocalY + hitChain.GlobalOffsetY);
+
+                hitChain.AddHit(box, (int)boxHitLocalX, (int)boxHitLocalY);
+
+                hitChain.PushContextBox(box);
 
                 if (box.LineBoxCount > 0)
                 {
 
                     foreach (var lineBox in box.GetLineBoxIter())
                     {
-                        if (lineBox.HitTest(x, y))
+
+                        if (lineBox.HitTest(boxHitLocalX, boxHitLocalY))
                         {
+
+                            float lineBoxLocalY = boxHitLocalY - lineBox.CachedLineTop;
+
                             //2.
-                            hitChain.AddHit(lineBox, x, y);
-                            var foundRun = DomUtils.GetCssRunOnLocation(lineBox, loc);
+                            hitChain.AddHit(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
+
+                            var foundRun = DomUtils.GetCssRunOnLocation(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
+
                             if (foundRun != null)
                             {
                                 //3.
-                                hitChain.AddHit(foundRun, x, y);
+                                hitChain.AddHit(foundRun, (int)(boxHitLocalX - foundRun.Left), (int)lineBoxLocalY);
                             }
                             //found line box
+                            hitChain.PopContextBox(box);
                             return true;
                         }
                     }
@@ -352,13 +366,15 @@ namespace HtmlRenderer.Utils
                     //iterate in child 
                     foreach (var childBox in box.GetChildBoxIter())
                     {
-                        if (HitTest(childBox, loc, hitChain))
+                        if (HitTest(childBox, boxHitLocalX, boxHitLocalY, hitChain))
                         {
                             //recursive
+                            hitChain.PopContextBox(box);
                             return true;
                         }
                     }
                 }
+                hitChain.PopContextBox(box);
                 return true;
             }
             else
@@ -372,7 +388,7 @@ namespace HtmlRenderer.Utils
 
                                 foreach (var childBox in box.GetChildBoxIter())
                                 {
-                                    if (HitTest(childBox, loc, hitChain))
+                                    if (HitTest(childBox, x, y, hitChain))
                                     {
                                         return true;
                                     }
@@ -449,7 +465,7 @@ namespace HtmlRenderer.Utils
                 }
             }
         }
-        internal static IEnumerable<CssLineBox> GetDeepLineBoxIter(CssBox box)
+        internal static IEnumerable<CssLineBox> GetDeepDownLineBoxIter(CssBox box)
         {
             if (box.LineBoxCount > 0)
             {
@@ -464,7 +480,7 @@ namespace HtmlRenderer.Utils
                 {
                     foreach (CssBox child in box.GetChildBoxIter())
                     {
-                        foreach (CssLineBox linebox in GetDeepLineBoxIter(child))
+                        foreach (CssLineBox linebox in GetDeepDownLineBoxIter(child))
                         {
                             yield return linebox;
                         }
@@ -488,7 +504,7 @@ namespace HtmlRenderer.Utils
                 {
                     if (box.WellknownTagName == WellknownHtmlTagName.NotAssign ||
                         box.WellknownTagName != WellknownHtmlTagName.TD ||
-                        box.IsPointInArea(location))
+                        box.IsPointInArea(location.X, location.Y))
                     {
                         foreach (var lineBox in box.GetLineBoxIter())
                         {
@@ -516,6 +532,57 @@ namespace HtmlRenderer.Utils
             return line;
         }
 
+        internal static bool ForEachTextRunDeep(CssBox box, EachCssTextRunHandler handler)
+        {
+
+            if (box.LineBoxCount > 0)
+            {
+                foreach (CssLineBox line in box.GetLineBoxIter())
+                {
+                    //each line contains run
+                    foreach (CssRun run in line.GetRunIter())
+                    {
+                        CssTextRun trun = run as CssTextRun;
+                        if (trun != null)
+                        {
+                            if (handler(trun))
+                            {
+                                //found and exit
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            else if (box.ChildCount > 0)
+            {
+                foreach (CssBox child in box.GetChildBoxIter())
+                {
+                    if (ForEachTextRunDeep(child, handler))
+                    {
+                        //found and exit
+                        return true;
+                    }
+                }
+
+            }
+            else if (box.RunCount > 0)
+            {
+                foreach (CssRun run in box.GetRunIter())
+                {
+                    CssTextRun trun = run as CssTextRun;
+                    if (trun != null)
+                    {
+                        if (handler(trun))
+                        {
+                            //found and exit
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
         /// <summary>
         /// Get css word box under the given sub-tree at the given x,y location.<br/>
         /// the location must be in correct scroll offset.
@@ -534,7 +601,7 @@ namespace HtmlRenderer.Utils
             {
                 int x = location.X;
                 int y = location.Y;
-                if (x >= box.LocalX && x <= box.LocalActualRight)
+                if (x >= box.LocalX && x <= box.LocalRight)
                 {
                     foreach (CssLineBox lineBox in box.GetLineBoxIter())
                     {
@@ -583,9 +650,22 @@ namespace HtmlRenderer.Utils
             {
                 // add word spacing to word width so sentance won't have hols in it when moving the mouse
                 var rect = word.Rectangle;
-
                 //rect.Width += word.OwnerBox.ActualWordSpacing;
                 if (rect.Contains(location))
+                {
+                    return word;
+                }
+            }
+            return null;
+        }
+        internal static CssRun GetCssRunOnLocation(CssLineBox lineBox, int x, int y)
+        {
+            foreach (CssRun word in lineBox.GetRunIter())
+            {
+                // add word spacing to word width so sentance won't have hols in it when moving the mouse
+                var rect = word.Rectangle;
+                //rect.Width += word.OwnerBox.ActualWordSpacing;
+                if (rect.Contains(x, y))
                 {
                     return word;
                 }

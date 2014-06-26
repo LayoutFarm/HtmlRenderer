@@ -126,12 +126,13 @@ namespace HtmlRenderer.Dom
         public static void FlowContentRuns(CssBox blockBox, LayoutVisitor lay)
         {
 
-
             blockBox.ResetLineBoxes();
+
             float limitLocalRight = blockBox.SizeWidth - (blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
 
             float localY = blockBox.ActualPaddingTop + blockBox.ActualBorderTopWidth;
             float localX = blockBox.ActualTextIndent + blockBox.ActualPaddingLeft + blockBox.ActualBorderLeftWidth;
+
             float startLocalX = localX;
             //Reminds the maximum bottom reached
             float maxLocalRight = localX;
@@ -153,7 +154,7 @@ namespace HtmlRenderer.Dom
                 if (newWidth <= CSS_OFFSET_THRESHOLD)
                 {
                     newWidth = CSS_OFFSET_THRESHOLD;
-                }                 
+                }
                 blockBox.SetWidth(newWidth);
             }
             //---------------------
@@ -189,7 +190,9 @@ namespace HtmlRenderer.Dom
         #region Private methods
 
 
-
+#if DEBUG
+        static int dbugPassTotal = 0;
+#endif
         /// <summary>
         /// Recursively flows the content of the box using the inline model
         /// </summary>
@@ -212,13 +215,13 @@ namespace HtmlRenderer.Dom
           ref float maxRightForHostBox,
           ref float maxBottomForHostBox)
         {
-
+             
             var oX = current_line_x;
             var oY = current_line_y;
 
             var localMaxRight = maxRightForHostBox;
             var localMaxBottom = maxBottomForHostBox;
-             
+
 
             float splitBoxActualLineHeight = splitableBox.ActualLineHeight;
             bool splitableParentIsBlock = splitableBox.ParentBox.IsBlock;
@@ -226,6 +229,7 @@ namespace HtmlRenderer.Dom
             int childNumber = 0;
             foreach (CssBox b in splitableBox.GetChildBoxIter())
             {
+
                 float leftMostSpace = 0, rightMostSpace = 0;
                 if (b.IsAbsolutePosition())
                 {
@@ -269,6 +273,14 @@ namespace HtmlRenderer.Dom
                     for (int i = 0; i < j; ++i)
                     {
                         var run = runs[i];
+                        CssTextRun trun = run as CssTextRun;
+                        if (trun != null)
+                        {
+                            if (trun.Text.Contains("Every"))
+                            {
+                            }
+
+                        }
 
                         if (current_line_y + splitBoxActualLineHeight > maxBottomForHostBox)
                         {
@@ -371,7 +383,7 @@ namespace HtmlRenderer.Dom
 
                 AdjustAbsolutePosition(splitableBox, 0, 0);
             }
-          
+
         }
         /// <summary>
         /// Adjust the position of absolute elements by letf and top margins.
@@ -541,16 +553,15 @@ namespace HtmlRenderer.Dom
 
             float spaceOfEachRun = (availableWidth - runWidthSum) / runCount; //Spacing that will be used
 
-            float cX = lineBox.OwnerBox.LocalClientLeft + indent;
+            float cX = lineBox.OwnerBox.ClientLeft + indent;
             CssRun lastRun = lineBox.GetLastRun();
             foreach (CssRun run in lineBox.GetRunIter())
             {
                 run.Left = cX;
-                cX = run.Right + spaceOfEachRun;
-
+                cX = run.Right + spaceOfEachRun; 
                 if (run == lastRun)
                 {
-                    run.Left = lineBox.OwnerBox.LocalClientRight - run.Width;
+                    run.Left = lineBox.OwnerBox.ClientRight - run.Width;
                 }
             }
         }
