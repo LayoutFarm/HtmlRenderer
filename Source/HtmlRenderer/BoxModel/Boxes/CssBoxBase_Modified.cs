@@ -34,6 +34,7 @@ namespace HtmlRenderer.Dom
         }
         CssMarginProp CheckMarginVersion()
         {
+          
             return this._marginProps = this._marginProps.GetMyOwnVersion(this);
         }
         CssPaddingProp CheckPaddingVersion()

@@ -124,10 +124,10 @@ namespace HtmlRenderer.Dom
         }
         internal void PaintBorders(CssBox box, RectangleF rect)
         {
-            Color topColor = box.ActualBorderTopColor;
-            Color leftColor = box.ActualBorderLeftColor;
-            Color rightColor = box.ActualBorderRightColor;
-            Color bottomColor = box.ActualBorderBottomColor;
+            Color topColor = box.BorderTopColor;
+            Color leftColor = box.BorderLeftColor;
+            Color rightColor = box.BorderRightColor;
+            Color bottomColor = box.BorderBottomColor;
 
             var g = this.Gfx;
 
@@ -162,7 +162,7 @@ namespace HtmlRenderer.Dom
         {
             var g = this.Gfx;
             this.dbugDrawDiagonalBox(pen, rect.Left, rect.Top, rect.Right, rect.Bottom);
-             
+
         }
 #endif
 

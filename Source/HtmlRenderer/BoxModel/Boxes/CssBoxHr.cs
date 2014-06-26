@@ -159,12 +159,12 @@ namespace HtmlRenderer.Dom
             if (rect.Height > 1)
             {
                 p.PaintBorders(this, rect);
-                
+
             }
             else
             {
-                p.PaintBorder(this, Border.Top, this.ActualBorderTopColor, rect);
-               
+                p.PaintBorder(this, Border.Top, this.BorderTopColor, rect);
+
             }
         }
     }

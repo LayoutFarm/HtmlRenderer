@@ -345,8 +345,15 @@ namespace HtmlRenderer.Dom
         }
         public static CssLength SetLineHeight(this CssBoxBase box, CssLength len)
         {
-            return CssLength.MakePixelLength(HtmlRenderer.Parse.CssValueParser.ParseLength(len, box.SizeHeight, box, CssUnit.Ems));
+            //2014,
+            //from www.w3c.org/wiki/Css/Properties/line-height
 
+            //line height in <percentage> : 
+            //The computed value if the property is percentage multiplied by the 
+            //element's computed font size.
+
+            return CssLength.MakePixelLength(
+                HtmlRenderer.Parse.CssValueParser.ParseLength(len, box.GetEmHeight(), box, CssUnit.Ems));
         }
         public static HtmlRenderer.WebDom.WellknownCssPropertyName GetWellKnownPropName(string propertyName)
         {

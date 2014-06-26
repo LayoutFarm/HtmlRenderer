@@ -63,8 +63,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoxModel.HitAndSelection\BoxHitChain.cs" />
+    <Compile Include="BoxModel\Boxes\BoxLayoutState.cs" />
     <Compile Include="BoxModel\Boxes\CssBoxBase_StateAssignments.cs" />
     <Compile Include="BoxModel\Boxes\CssBoxConst.cs" />
+    <Compile Include="BoxModel\Boxes\CssBox_OtherActualValues.cs" />
     <Compile Include="BoxModel\Builder\BoxVisitor.cs" />
     <Compile Include="BoxModel\Builder\CssBoxExtension.cs" />
     <Compile Include="BoxModel\Boxes\CssBox_InheritAndClone.cs" />

@@ -79,10 +79,10 @@ namespace HtmlRenderer.Handlers
         /// <param name="rectangle">the bounding rectangle to draw in</param>
         /// <returns>Beveled border path, null if there is no rounded corners</returns>
         public static void DrawBorder(Border border, IGraphics g, CssBox box, Brush brush, RectangleF rectangle)
-        {    
+        {
             PointF[] borderPts = new PointF[4];
             SetInOutsetRectanglePoints(border, box, rectangle, true, true, borderPts);
-            g.FillPolygon(brush, borderPts); 
+            g.FillPolygon(brush, borderPts);
         }
 
         #region Private methods
@@ -348,13 +348,13 @@ namespace HtmlRenderer.Handlers
             switch (border)
             {
                 case Border.Top:
-                    return style == CssBorderStyle.Inset ? Darken(box.ActualBorderTopColor) : box.ActualBorderTopColor;
+                    return style == CssBorderStyle.Inset ? Darken(box.BorderTopColor) : box.BorderTopColor;
                 case Border.Right:
-                    return style == CssBorderStyle.Outset ? Darken(box.ActualBorderRightColor) : box.ActualBorderRightColor;
+                    return style == CssBorderStyle.Outset ? Darken(box.BorderRightColor) : box.BorderRightColor;
                 case Border.Bottom:
-                    return style == CssBorderStyle.Outset ? Darken(box.ActualBorderBottomColor) : box.ActualBorderBottomColor;
+                    return style == CssBorderStyle.Outset ? Darken(box.BorderBottomColor) : box.BorderBottomColor;
                 case Border.Left:
-                    return style == CssBorderStyle.Inset ? Darken(box.ActualBorderLeftColor) : box.ActualBorderLeftColor;
+                    return style == CssBorderStyle.Inset ? Darken(box.BorderLeftColor) : box.BorderLeftColor;
                 default:
                     throw new ArgumentOutOfRangeException("border");
             }
@@ -363,7 +363,7 @@ namespace HtmlRenderer.Handlers
         /// <summary>
         /// Get the border width for the given box border.
         /// </summary>
-        static float GetWidth(Border border, CssBoxBase box)
+        static float GetWidth(Border border, CssBox box)
         {
             switch (border)
             {

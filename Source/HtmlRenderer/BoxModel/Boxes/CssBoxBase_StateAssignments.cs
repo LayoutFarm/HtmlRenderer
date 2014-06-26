@@ -14,12 +14,12 @@ namespace HtmlRenderer.Dom
 
     partial class CssBoxBase
     {
-        
-        int _prop_pass_eval;
-        int _prop_wait_eval;
+
+        protected int _prop_pass_eval;
+        protected int _prop_wait_eval;
 
 
-        static class CssBoxBaseAssignments
+        protected static class CssBoxBaseAssignments
         {
             //---------------------------------------------
             public const int WIDTH = 1 << (6 - 1);
