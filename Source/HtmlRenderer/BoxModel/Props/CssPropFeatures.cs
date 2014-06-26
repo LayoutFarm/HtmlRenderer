@@ -319,7 +319,7 @@ namespace HtmlRenderer.Dom
             //---------------------------------------
             string fontFam = this.FontFamily;
             if (string.IsNullOrEmpty(FontFamily))
-            {
+            {    
                 fontFam = CssConstants.FontSerif;
             }
 
@@ -328,12 +328,7 @@ namespace HtmlRenderer.Dom
             {
                 fontsize = CssLength.MakeFontSizePtUnit(CssConstants.FontSize);
             }
-
-            //if (this.FontSize.IsEmpty)
-            //{
-            //    //use default font size
-            //    FontSize = CssLength.MakeFontSizePtUnit(CssConstants.FontSize);
-            //}
+             
             //-----------------------------------------------------------------------------
             FontStyle st = System.Drawing.FontStyle.Regular;
             if (FontStyle == CssFontStyle.Italic || FontStyle == CssFontStyle.Oblique)

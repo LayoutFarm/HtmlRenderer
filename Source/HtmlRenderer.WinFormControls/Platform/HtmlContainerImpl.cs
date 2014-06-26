@@ -42,14 +42,16 @@ namespace HtmlRenderer
         public void PerformPaint(Graphics g)
         {
             using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
-            {
+            {   
                 Region prevClip = null;
                 if (this.MaxSize.Height > 0)
                 {
                     prevClip = g.Clip;
                     g.SetClip(new RectangleF(this.Location, this.MaxSize));
                 }
+
                 this.PerformPaint(gfx);
+
                 if (prevClip != null)
                 {
                     g.SetClip(prevClip, System.Drawing.Drawing2D.CombineMode.Replace);

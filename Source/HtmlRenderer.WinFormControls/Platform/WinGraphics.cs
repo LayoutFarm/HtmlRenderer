@@ -85,17 +85,20 @@ namespace HtmlRenderer
             _useGdiPlusTextRendering = useGdiPlusTextRendering;
         }
 
-        public void OffsetCanvasOrigin(float dx, float dy)
+        public void SetCanvasOrigin(float x, float y)
         {
             ReleaseHdc();
-            this._g.TranslateTransform(dx, dy);
-            this.canvasOriginX += dx;
-            this.canvasOriginY += dy;
+
+            this._g.TranslateTransform(-this.canvasOriginX, -this.canvasOriginY);
+            this._g.TranslateTransform(x, y);
+
+            this.canvasOriginX = x;
+            this.canvasOriginY = y;
         }
         public float CanvasOriginX
         {
             get { return this.canvasOriginX; }
-            set { this.canvasOriginX = value; }
+
         }
         public float CanvasOriginY
         {
@@ -440,7 +443,7 @@ namespace HtmlRenderer
         {
             ReleaseHdc();
             _g.FillPolygon(brush, points);
-            
+
         }
 
         #endregion

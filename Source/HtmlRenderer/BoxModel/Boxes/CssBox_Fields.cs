@@ -57,12 +57,7 @@ namespace HtmlRenderer.Dom
         //----------------------------------------------------
         int _rowSpan;
         int _colSpan;
-
-        ///// <summary>
-        ///// handler for loading background image
-        ///// </summary>
-        //ImageLoadHandler _imageLoadHandler;
-       
+         
         //---------------------------------------------------- 
 
         //condition 1 :this Box is BlockBox

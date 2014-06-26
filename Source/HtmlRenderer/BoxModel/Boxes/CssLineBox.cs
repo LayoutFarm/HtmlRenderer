@@ -466,8 +466,7 @@ namespace HtmlRenderer.Dom
             float y2 = y1 + this.CacheLineHeight;
             //draw diagonal
 
-
-            dbugDrawDiagonalBox(g, Pens.Blue, x1, y1, x2, y2);
+            p.dbugDrawDiagonalBox(Pens.Blue, x1, y1, x2, y2);             
 
             //g.DrawRectangle(Pens.Blue,
             //    this.OwnerBox.LocationX,
@@ -490,13 +489,7 @@ namespace HtmlRenderer.Dom
             g.FillRectangle(Brushes.Red, 0, 0, 5, 5);
 
         }
-        void dbugDrawDiagonalBox(IGraphics g, Pen pen, float x1, float y1, float x2, float y2)
-        {
-            g.DrawRectangle(pen, x1, y1, x2 - x1, y2 - y1);
-            g.DrawLine(pen, x1, y1, x2, y2);
-            g.DrawLine(pen, x1, y2, x2, y1);
-        }
-
+        
 #endif
 
         internal int LineSelectionStart

@@ -9,7 +9,7 @@ namespace HtmlRenderer.Dom
     {
         float _localX;
         float _localY;
-      
+
 
         public float LocalX
         {
@@ -19,7 +19,21 @@ namespace HtmlRenderer.Dom
         {
             get { return this._localY; }
         }
-
+        /// <summary>
+        /// Gets the width available on the box, counting padding and margin.
+        /// </summary> 
+        //--------------------------------
+        public float LocalRight
+        {
+            //from parent view
+            get { return this.LocalX + this.SizeWidth; }
+        }
+        public float LocalBottom
+        {
+            //from parent view 
+            get { return this.LocalY + this.SizeHeight; }
+        }
+        //--------------------------------
         /// <summary>
         /// set location relative to container box
         /// </summary>
@@ -30,61 +44,35 @@ namespace HtmlRenderer.Dom
             this._localX = localX;
             this._localY = localY;
             this._boxCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
-        } 
-
-        public RectangleF LocalBound
-        {
-            get { return new RectangleF(new PointF(this.LocalX, this.LocalY), Size); }
         }
-        /// <summary>
-        /// Gets the width available on the box, counting padding and margin.
-        /// </summary>
-        public float AvailableWidth
-        {
-            get { return this.SizeWidth - ActualBorderLeftWidth - ActualPaddingLeft - ActualPaddingRight - ActualBorderRightWidth; }
-        }
-        public float LocalActualRight
-        {
-            get { return this.LocalX + this.SizeWidth; }
-        }
-        public float LocalActualBottom
-        {
-            get { return this.LocalY + this.SizeHeight; }
-        } 
-        public float LocalClientLeft
-        {
+         
+        //--------------------------------
+        public float ClientLeft
+        {   
             get { return ActualBorderLeftWidth + ActualPaddingLeft; }
         }
-
-        public float LocalClientRight
+        public float ClientRight
         {
-            get { return this.LocalActualRight - ActualPaddingRight - ActualBorderRightWidth; }
+            get { return this.SizeWidth - ActualPaddingRight - ActualBorderRightWidth; }
         }
-
-
-        public float LocalClientTop
+        //--------------------------------
+        public float ClientTop
         {
             get { return ActualBorderTopWidth + ActualPaddingTop; }
         }
-
-        public float LocalClientBottom
+        public float ClientBottom
         {
-            get { return this.LocalActualBottom - ActualPaddingBottom - ActualBorderBottomWidth; }
+            get { return this.SizeHeight - (ActualPaddingBottom + ActualBorderBottomWidth); }
         }
-
-
-        public RectangleF LocalClientRectangle
-        {
-            get { return RectangleF.FromLTRB(this.LocalClientLeft, LocalClientTop, LocalClientRight, LocalClientBottom); }
-        }
-
+        //------------------------------------------
         public float ClientWidth
         {
-            get { return this.SizeWidth - (ActualPaddingLeft + ActualBorderLeftWidth + ActualPaddingRight + ActualBorderRightWidth); }
+            get { return this.SizeWidth - (ActualBorderLeftWidth + ActualPaddingLeft + ActualPaddingRight + ActualBorderRightWidth); }
         }
         public float ClientHeight
         {
-            get { return this.SizeHeight - (ActualPaddingTop + ActualBorderTopWidth + ActualPaddingBottom + ActualBorderBottomWidth); }
+            get { return this.SizeHeight - (ActualBorderTopWidth + ActualPaddingTop + +ActualPaddingBottom + ActualBorderBottomWidth); }
         }
+        //------------------------------------------
     }
 }

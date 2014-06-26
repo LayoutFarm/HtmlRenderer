@@ -459,7 +459,7 @@ namespace HtmlRenderer
                 using (var memoryGraphics = Graphics.FromHdc(memoryHdc))
                 {
                     memoryGraphics.Clear(backgroundColor != Color.Empty ? backgroundColor : Color.White);
-                    container.ViewportBound = new RectangleF(0, 0, maxSize.Width, maxSize.Height);
+                    container.PhysicalViewportBound = new RectangleF(0, 0, maxSize.Width, maxSize.Height);
 
                     using (var gfx = new WinGraphics(memoryGraphics, container.UseGdiPlusTextRendering))
                     {
@@ -582,7 +582,7 @@ namespace HtmlRenderer
             using (var g = Graphics.FromImage(image))
             {
                 g.TextRenderingHint = textRenderingHint;
-                container.ViewportBound = new RectangleF(0, 0, finalSize.Width, finalSize.Height);
+                container.PhysicalViewportBound = new RectangleF(0, 0, finalSize.Width, finalSize.Height);
                 using (var gfx = new WinGraphics(g, container.UseGdiPlusTextRendering))
                 {
                     container.PerformPaint(gfx);

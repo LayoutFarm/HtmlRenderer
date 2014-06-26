@@ -22,47 +22,26 @@ namespace HtmlRenderer.Dom
             if (this.CssDisplay != CssDisplay.None &&
                 this.CssVisibility == Dom.CssVisibility.Visible)
             {
-                //----------------
                 PaintImp(g, p);
-
-                //v2
-                //----------------
-                //RectangleF clip = g.GetClip();
-                //RectangleF rect = args.LatestContaingBoxClientRect;
-
-
-                ////rect.X -= 2;
-                ////rect.Width += 2;
-                //rect.Offset(args.Offset);
-                //rect.Intersect(args.PeekViewportBound());
-
-                //clip.Intersect(rect);
-
-                //if (clip != RectangleF.Empty)
-                //{
-                //    PaintImp(g, args);
-                //}
-
             }
         }
-        public void dbugPaint(IGraphics g)
-        {
 #if DEBUG
-            //int rectCount = this.Rectangles.Count;
-            //PointF offset = HtmlContainer.ScrollOffset;
-            //var bound = this.Bounds;
-            //bound.Offset(offset);
-
-            ////draw diagonal
-            //g.DrawLine(Pens.Blue, bound.X, bound.Y,
-            //           bound.Right, bound.Bottom);
-            //g.DrawLine(Pens.Blue, bound.X, bound.Bottom,
-            //            bound.Right, bound.Y);
-
-            //g.DrawRectangle(Pens.Pink,
-            //      bound.X, bound.Y, bound.Width, bound.Height);
-#endif
+        public void dbugPaint(PaintVisitor p, RectangleF r)
+        {
+            if (this.HtmlTag == null)
+            {
+                p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);
+                 
+            }
+            else
+            {
+                p.dbugDrawDiagonalBox(Pens.Green, r.Left, r.Top, r.Right, r.Bottom);
+                
+            } 
         }
+      
+#endif
+
         protected virtual void PaintImp(IGraphics g, PaintVisitor p)
         {
             if (this.CssDisplay != CssDisplay.None &&
@@ -94,17 +73,16 @@ namespace HtmlRenderer.Dom
                     RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
                     PaintBackground(p, bound, true, true);
                     p.PaintBorders(this, bound, true, true);
+
+                    dbugPaint(p, bound);
                 }
 
                 if (this.LineBoxCount > 0)
                 {
-                    var viewport = p.PeekLocalViewportBound();
 
-                    float viewport_top = viewport.Top;
-                    float viewport_bottom = viewport.Bottom;
-                     
+                    float viewport_top = p.LocalViewportTop;
+                    float viewport_bottom = p.LocalViewportBottom;
 
-                    
                     foreach (var line in this._clientLineBoxes)
                     {
 
@@ -112,7 +90,10 @@ namespace HtmlRenderer.Dom
                             line.CachedLineTop <= viewport_bottom)
                         {
 
-                            g.OffsetCanvasOrigin(0, line.CachedLineTop);
+                            float cX = g.CanvasOriginX;
+                            float cy = g.CanvasOriginY;
+
+                            g.SetCanvasOrigin(cX, cy + line.CachedLineTop);
                             //----------------------------------------
                             //1.                                 
                             line.PaintBackgroundAndBorder(p);
@@ -120,23 +101,19 @@ namespace HtmlRenderer.Dom
                             if (line.LineSelectionWidth > 0)
                             {
                                 line.PaintSelection(p);
-                            }           
+                            }
                             //------------
                             //2.                                
                             line.PaintRuns(g, p);
-
                             //3. 
                             line.PaintDecoration(g, p);
 
 #if DEBUG
                             line.dbugPaintRuns(g, p);
 #endif
-                            g.OffsetCanvasOrigin(0, -line.CachedLineTop);
-                            //----------------------------------------
 
-                        }
-                        else
-                        {
+                            g.SetCanvasOrigin(cX, cy);//back
+                            //---------------------------------------- 
                         }
                     }
 
@@ -144,38 +121,56 @@ namespace HtmlRenderer.Dom
                 else
                 {
 
-                    float loc_x, loc_y;
+
                     if (this.HasContainingBlockProperty)
                     {
                         p.PushContaingBlock(this);
+
+                        float ox = g.CanvasOriginX;
+                        float oy = g.CanvasOriginY;
+
                         foreach (var b in this._boxes)
                         {
                             if (b.CssDisplay == CssDisplay.None)
                             {
                                 continue;
                             }
-                            g.OffsetCanvasOrigin(loc_x = b.LocalX, loc_y = b.LocalY);
+                            g.SetCanvasOrigin(ox + b.LocalX, oy + b.LocalY);
                             b.Paint(g, p);
-                            g.OffsetCanvasOrigin(-loc_x, -loc_y);
                         }
+
+                        g.SetCanvasOrigin(ox, oy);
+
+
                         p.PopContainingBlock();
                     }
                     else
                     {
                         //if not
+                        float ox = g.CanvasOriginX;
+                        float oy = g.CanvasOriginY;
+
                         foreach (var b in this._boxes)
                         {
                             if (b.CssDisplay == CssDisplay.None)
                             {
                                 continue;
                             }
-                            g.OffsetCanvasOrigin(loc_x = b.LocalX, loc_y = b.LocalY);
+                            g.SetCanvasOrigin(ox + b.LocalX, oy + b.LocalY);
                             b.Paint(g, p);
-                            g.OffsetCanvasOrigin(-loc_x, -loc_y);
                         }
+                        g.SetCanvasOrigin(ox, oy);
+
                     }
                 }
                 //------------------------------------------
+                //debug
+                var clientLeft = this.ClientLeft;
+                g.DrawRectangle(Pens.GreenYellow, 0, 0, 5, 10);
+                g.DrawRectangle(Pens.HotPink, this.ClientRight - 5, 0, 5, 10);
+                //------------------------------------------
+
+
                 //must! , 
                 if (hasPrevClip)
                 {

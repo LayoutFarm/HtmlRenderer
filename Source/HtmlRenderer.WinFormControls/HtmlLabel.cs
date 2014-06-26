@@ -398,7 +398,7 @@ namespace HtmlRenderer
             if (_htmlContainer != null)
             {
                 e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-                _htmlContainer.ViewportBound = this.Bounds;
+                _htmlContainer.PhysicalViewportBound = this.Bounds;
                 _htmlContainer.PerformPaint(e.Graphics);
                 
             }

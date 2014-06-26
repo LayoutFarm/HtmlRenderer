@@ -548,7 +548,7 @@ namespace HtmlRenderer.Utils
             {
                 int x = location.X;
                 int y = location.Y;
-                if (x >= box.LocalX && x <= box.LocalActualRight)
+                if (x >= box.LocalX && x <= box.LocalRight)
                 {
                     foreach (CssLineBox lineBox in box.GetLineBoxIter())
                     {

@@ -374,7 +374,7 @@ namespace HtmlRenderer.Dom
         {
             get { return this._paddingProps.Right; }
             set
-            {
+            {    
                 CheckPaddingVersion().Right = value;
                 this._prop_wait_eval |= CssBoxBaseAssignments.PADDING_RIGHT;
             }
@@ -426,8 +426,8 @@ namespace HtmlRenderer.Dom
             get { return this._backgroundProps.BackgroundImageBinder; }
             set { CheckBgVersion().BackgroundImageBinder = value; }
         }
-        
-         
+
+
         public CssLength BackgroundPositionX
         {
             get { return this._backgroundProps.BackgroundPosX; }
@@ -682,7 +682,21 @@ namespace HtmlRenderer.Dom
                 return _actualPaddingLeft;
             }
         }
-
+        /// <summary>
+        /// Gets the actual padding on the right
+        /// </summary>
+        public float ActualPaddingRight
+        {
+            get
+            {
+                if ((this._prop_wait_eval & CssBoxBaseAssignments.PADDING_RIGHT) != 0)
+                {
+                    this._prop_wait_eval &= ~CssBoxBaseAssignments.PADDING_RIGHT;
+                    return _actualPaddingRight = CssValueParser.ParseLength(PaddingRight, SizeWidth, this);
+                }
+                return _actualPaddingRight;
+            }
+        }
         /// <summary>
         /// Gets the actual Padding of the bottom
         /// </summary>
@@ -699,21 +713,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        /// <summary>
-        /// Gets the actual padding on the right
-        /// </summary>
-        public float ActualPaddingRight
-        {
-            get
-            {
-                if ((this._prop_wait_eval & CssBoxBaseAssignments.PADDING_RIGHT) != 0)
-                {
-                    this._prop_wait_eval &= ~CssBoxBaseAssignments.PADDING_RIGHT;
-                    return _actualPaddingRight = CssValueParser.ParseLength(PaddingRight, SizeWidth, this);
-                }
-                return _actualPaddingRight;
-            }
-        }
+
 
 
         /// <summary>
@@ -788,13 +788,12 @@ namespace HtmlRenderer.Dom
                     {
                         MarginBottom = CssLength.ZeroPx;
                     }
-
                     var value = CssValueParser.ParseLength(MarginBottom, this.SizeWidth, this);
-
                     if (MarginLeft.IsPercentage)
                     {
                         return value;
                     }
+
                     this._prop_pass_eval |= CssBoxBaseAssignments.MARGIN_BOTTOM;
                     return this._actualMarginBottom = value;
                 }
@@ -1050,9 +1049,6 @@ namespace HtmlRenderer.Dom
                 return this._backgroundProps.BackgroundColor;
             }
         }
-
-
-
         /// <summary>
         /// Gets the font that should be actually used to paint the text of the box
         /// </summary>

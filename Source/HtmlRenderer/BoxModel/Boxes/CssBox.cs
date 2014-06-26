@@ -220,7 +220,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-       
+
         /// <summary>
         /// Tells if the box is empty or contains just blank spaces
         /// </summary>
@@ -626,7 +626,7 @@ namespace HtmlRenderer.Dom
                             //-------------------------
                             if (this.CssDisplay != Dom.CssDisplay.Table)
                             {
-                                float availableWidth = myContainingBlock.AvailableContentWidth;
+                                float availableWidth = myContainingBlock.ClientWidth;
 
                                 if (!this.Width.IsAuto && !this.Width.IsEmpty)
                                 {
@@ -639,7 +639,7 @@ namespace HtmlRenderer.Dom
                             }
                             //-------------------------
 
-                            float localLeft = myContainingBlock.LocalClientLeft + this.ActualMarginLeft;
+                            float localLeft = myContainingBlock.ClientLeft + this.ActualMarginLeft;
                             float localTop = 0;
 
                             var prevSibling = lay.LatestSiblingBox;
@@ -648,12 +648,12 @@ namespace HtmlRenderer.Dom
                                 //this is first child of parent
                                 if (this.ParentBox != null)
                                 {
-                                    localTop = myContainingBlock.LocalClientTop;
+                                    localTop = myContainingBlock.ClientTop;
                                 }
                             }
                             else
                             {
-                                localTop = prevSibling.LocalActualBottom + prevSibling.ActualBorderBottomWidth;
+                                localTop = prevSibling.LocalBottom + prevSibling.ActualBorderBottomWidth;
                             }
 
                             localTop += MarginTopCollapse(prevSibling);
@@ -676,6 +676,9 @@ namespace HtmlRenderer.Dom
 
                                     lay.LatestSiblingBox = currentLevelLatestSibling;
                                     lay.PopContainingBlock();
+
+
+
                                 } break;
                             default:
                                 {
@@ -711,7 +714,7 @@ namespace HtmlRenderer.Dom
                                         else
                                         {
                                             this.SetWidth(width);
-                                        } 
+                                        }
                                         this.SetHeight(GetHeightAfterMarginBottomCollapse());
                                     }
                                 } break;
@@ -1039,9 +1042,10 @@ namespace HtmlRenderer.Dom
             float maxRight = 0;
             foreach (var box in Boxes)
             {
-                maxRight = Math.Max(maxRight, box.LocalActualRight);
+                maxRight = Math.Max(maxRight, box.LocalRight);
             }
-            return maxRight;
+            return maxRight + (this.ActualBorderLeftWidth + this.ActualPaddingLeft +
+                this.ActualPaddingRight + this.ActualBorderRightWidth);
 
         }
 
@@ -1094,7 +1098,7 @@ namespace HtmlRenderer.Dom
                 var lastChildBottomMargin = _boxes[_boxes.Count - 1].ActualMarginBottom;
                 margin = (Height.IsAuto) ? Math.Max(ActualMarginBottom, lastChildBottomMargin) : lastChildBottomMargin;
             }
-            return _boxes[_boxes.Count - 1].LocalActualBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
+            return _boxes[_boxes.Count - 1].LocalBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
 
             //must have at least 1 child 
             //float lastChildBottomWithMarginRelativeToMe = this.LocalY + _boxes[_boxes.Count - 1].LocalActualBottom + margin + this.ActualPaddingBottom + this.ActualBorderBottomWidth;
@@ -1114,11 +1118,15 @@ namespace HtmlRenderer.Dom
         /// <param name="isLast">is it the last rectangle of the element</param>
         internal void PaintBackground(PaintVisitor p, RectangleF rect, bool isFirst, bool isLast)
         {
+
+
             if (rect.Width > 0 && rect.Height > 0)
             {
                 Brush brush = null;
                 bool dispose = false;
                 IGraphics g = p.Gfx;
+
+
                 SmoothingMode smooth = g.SmoothingMode;
 
                 if (BackgroundGradient != System.Drawing.Color.Transparent)
@@ -1143,12 +1151,13 @@ namespace HtmlRenderer.Dom
                     //  rectangle.Width -= ActualWordSpacing + CssUtils.GetWordEndWhitespace(ActualFont);
 
                     GraphicsPath roundrect = null;
-                    if (IsRounded)
+                    bool isRounnd = this.IsRounded;
+                    if (isRounnd)
                     {
                         roundrect = RenderUtils.GetRoundRect(rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
                     }
 
-                    if (!p.AvoidGeometryAntialias && IsRounded)
+                    if (!p.AvoidGeometryAntialias && isRounnd)
                     {
                         g.SmoothingMode = SmoothingMode.AntiAlias;
                     }
@@ -1176,6 +1185,10 @@ namespace HtmlRenderer.Dom
                         BackgroundImageDrawHandler.DrawBackgroundImage(g, this, bgImageBinder, rect);
                     }
                 }
+
+                
+             
+
             }
         }
 #if DEBUG
@@ -1184,6 +1197,10 @@ namespace HtmlRenderer.Dom
             //g.DrawRectangle(Pens.Blue, word.Left, word.Top, word.Width, word.Height);
 
         }
+
+        internal int dbugPassFlowRunCount = 0;
+        internal int dbugPass0 = 0;
+        internal int dbugPass1 = 0;
 #endif
 
 
@@ -1310,24 +1327,17 @@ namespace HtmlRenderer.Dom
 
 
 
-
-
-        internal float AvailableContentWidth
-        {
-            get
-            {
-                return this.SizeWidth - this.ActualPaddingLeft - this.ActualPaddingRight - this.ActualBorderLeftWidth - this.ActualBorderRightWidth;
-            }
-        }
         internal bool IsPointInClientArea(float x, float y)
         {
-            return x >= this.LocalClientLeft && x < this.LocalClientRight &&
-                   y >= this.LocalClientTop && y < this.LocalClientBottom;
+            //from parent view
+            return x >= this.ClientLeft && x < this.ClientRight &&
+                   y >= this.ClientTop && y < this.ClientBottom;
         }
         internal bool IsPointInArea(float x, float y)
         {
-            return x >= this.LocalX && x < this.LocalActualRight &&
-                   y >= this.LocalY && y < this.LocalActualBottom;
+            //from parent view
+            return x >= this.LocalX && x < this.LocalRight &&
+                   y >= this.LocalY && y < this.LocalBottom;
         }
     }
 }

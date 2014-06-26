@@ -72,7 +72,7 @@ namespace HtmlRenderer.Dom
 
             //// fix for hr tag 
             //var maringTopCollapse = MarginTopCollapse(prevSibling);
-            float localLeft = myContainingBlock.LocalClientLeft + this.ActualMarginLeft;
+            float localLeft = myContainingBlock.ClientLeft + this.ActualMarginLeft;
             float localTop = 0;
 
 
@@ -80,12 +80,12 @@ namespace HtmlRenderer.Dom
             {
                 if (this.ParentBox != null)
                 {
-                    localTop = myContainingBlock.LocalClientTop;
+                    localTop = myContainingBlock.ClientTop;
                 }
             }
             else
             {
-                localTop = prevSibling.LocalActualBottom + prevSibling.ActualBorderBottomWidth;
+                localTop = prevSibling.LocalBottom + prevSibling.ActualBorderBottomWidth;
             }
 
             float maringTopCollapse = MarginTopCollapse(prevSibling);

@@ -262,21 +262,14 @@ namespace HtmlRenderer.Dom
                 }
                 box.TextDecoration = CssTextDecoration.NotAssign;
             }
-
             //===================================================================
             //parent style assignment is complete before step down into child ***
-
             foreach (var childBox in box.GetChildBoxIter())
             {
                 //recursive
                 ApplyStyleSheet(childBox, activeCssTemplate);
-            }
-
-
-        }
-
-
-
+            }  
+        } 
         /// <summary>
         /// Set the selected text style (selection text color and background color).
         /// </summary>
@@ -304,11 +297,7 @@ namespace HtmlRenderer.Dom
 
             //    }
             //}
-        }
-
-
-
-
+        } 
         private static void AssignStylesForElementId(CssBox box, ActiveCssTemplate activeCssTemplate, string elementId)
         {
             throw new NotSupportedException();
@@ -319,9 +308,7 @@ namespace HtmlRenderer.Dom
             //        AssignStyleToCssBox(box, ruleSet);
             //    }
             //}
-        }
-
-
+        } 
         internal static void AssignPropertyValue(CssBoxBase box, CssBoxBase boxParent, WebDom.CssPropertyDeclaration decl)
         {
             if (decl.IsExpand)

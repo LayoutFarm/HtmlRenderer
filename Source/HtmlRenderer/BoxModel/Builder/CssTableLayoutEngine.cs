@@ -60,7 +60,7 @@ namespace HtmlRenderer.Dom
         /// <param name="g"></param>
         /// <param name="tableBox"> </param>
         public static void PerformLayout(CssBox tableBox, LayoutVisitor lay)
-        { 
+        {
 
             //try
             //{
@@ -667,8 +667,8 @@ namespace HtmlRenderer.Dom
             float vertical_spacing = GetVerticalSpacing(_tableBox);
             float horizontal_spacing = GetHorizontalSpacing(_tableBox);
 
-            float startx_global = Math.Max(table_globalX + _tableBox.LocalClientLeft + horizontal_spacing, 0);
-            float starty_global = Math.Max(table_globalY + _tableBox.LocalClientTop + vertical_spacing, 0);
+            float startx_global = Math.Max(table_globalX + _tableBox.ClientLeft + horizontal_spacing, 0);
+            float starty_global = Math.Max(table_globalY + _tableBox.ClientTop + vertical_spacing, 0);
 
 
             float startx_local = startx_global - table_globalX;
@@ -715,16 +715,16 @@ namespace HtmlRenderer.Dom
                         {
                             if (sb.EndRow == currentRow)
                             {
-                                maxBottom_local = Math.Max(maxBottom_local, sb.ExtendedBox.LocalActualBottom);
+                                maxBottom_local = Math.Max(maxBottom_local, sb.ExtendedBox.LocalBottom);
                             }
                         }
                         else if (cell.RowSpan == 1)
                         {
-                            maxBottom_local = Math.Max(maxBottom_local, cell.LocalActualBottom);
+                            maxBottom_local = Math.Max(maxBottom_local, cell.LocalBottom);
                         }
 
-                        maxRight_local = Math.Max(maxRight_local, cell.LocalActualRight);
-                        curX_local = cell.LocalActualRight + horizontal_spacing;
+                        maxRight_local = Math.Max(maxRight_local, cell.LocalRight);
+                        curX_local = cell.LocalRight + horizontal_spacing;
                         //-------------------------
                         col_index++;
                         grid_index += colspan;
@@ -762,11 +762,13 @@ namespace HtmlRenderer.Dom
             }
 
             maxRight_local = Math.Max(maxRight_local, _tableBox.ExpectedWidth);
+
             _tableBox.SetWidth(maxRight_local + horizontal_spacing + _tableBox.ActualBorderRightWidth);
 
 
             float globalBottom = Math.Max((maxBottom_local + table_globalY), starty_global) + vertical_spacing + _tableBox.ActualBorderBottomWidth;
             _tableBox.SetHeight(globalBottom - table_globalY);
+
         }
 
         /// <summary>
@@ -896,11 +898,11 @@ namespace HtmlRenderer.Dom
             CssLength tblen = _tableBox.Width;
             if (tblen.Number > 0)
             {
-                return CssValueParser.ParseLength(_tableBox.Width, _tableBox.ParentBox.AvailableWidth, _tableBox);
+                return CssValueParser.ParseLength(_tableBox.Width, _tableBox.ParentBox.ClientWidth, _tableBox);
             }
             else
             {
-                return _tableBox.ParentBox.AvailableWidth;
+                return _tableBox.ParentBox.ClientWidth;
             }
         }
 
@@ -919,7 +921,7 @@ namespace HtmlRenderer.Dom
             if (tblen.Number > 0)
             {
 
-                return CssValueParser.ParseLength(_tableBox.MaxWidth, _tableBox.ParentBox.AvailableWidth, _tableBox);
+                return CssValueParser.ParseLength(_tableBox.MaxWidth, _tableBox.ParentBox.ClientWidth, _tableBox);
             }
             else
             {
