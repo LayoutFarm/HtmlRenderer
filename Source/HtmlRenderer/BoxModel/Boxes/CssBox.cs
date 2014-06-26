@@ -1185,24 +1185,8 @@ namespace HtmlRenderer.Dom
                         BackgroundImageDrawHandler.DrawBackgroundImage(g, this, bgImageBinder, rect);
                     }
                 }
-
-                
-             
-
             }
-        }
-#if DEBUG
-        internal void dbugPaintTextWordArea(IGraphics g, PointF offset, CssRun word)
-        {
-            //g.DrawRectangle(Pens.Blue, word.Left, word.Top, word.Width, word.Height);
-
-        }
-
-        internal int dbugPassFlowRunCount = 0;
-        internal int dbugPass0 = 0;
-        internal int dbugPass1 = 0;
-#endif
-
+        } 
 
         internal void PaintDecoration(IGraphics g, RectangleF rectangle, bool isFirst, bool isLast)
         {
@@ -1339,5 +1323,8 @@ namespace HtmlRenderer.Dom
             return x >= this.LocalX && x < this.LocalRight &&
                    y >= this.LocalY && y < this.LocalBottom;
         }
+        
+
+
     }
 }

@@ -144,6 +144,8 @@ namespace HtmlRenderer.Dom
 #if DEBUG
         public readonly int dbugId = dbugTotalId++;
         static int dbugTotalId;
+        public int dbugMark;
+
 #endif
         public CssBoxBase()
         {
@@ -365,6 +367,7 @@ namespace HtmlRenderer.Dom
             get { return this._paddingProps.Left; }
             set
             {
+
                 CheckPaddingVersion().Left = value;
                 this._prop_wait_eval |= CssBoxBaseAssignments.PADDING_LEFT;
             }
@@ -374,7 +377,7 @@ namespace HtmlRenderer.Dom
         {
             get { return this._paddingProps.Right; }
             set
-            {    
+            {
                 CheckPaddingVersion().Right = value;
                 this._prop_wait_eval |= CssBoxBaseAssignments.PADDING_RIGHT;
             }
@@ -382,9 +385,13 @@ namespace HtmlRenderer.Dom
 
         public CssLength PaddingTop
         {
-            get { return this._paddingProps.Top; }
+            get
+            {
+                return this._paddingProps.Top;
+            }
             set
             {
+
                 CheckPaddingVersion().Top = value;
                 this._prop_wait_eval |= CssBoxBaseAssignments.PADDING_TOP;
             }
@@ -1196,9 +1203,20 @@ namespace HtmlRenderer.Dom
         {
             get { return new SizeF(this._sizeWidth, this._sizeHeight); }
         }
+
+        
         public void SetSize(float width, float height)
         {
-            this._sizeWidth = width;
+#if DEBUG
+            //if (this.dbugMark > 0)
+            //{
+            //}
+#endif
+
+            if (!this.FreezeWidth)
+            {
+                this._sizeWidth = width;
+            }
             this._sizeHeight = height;
         }
         public void SetHeight(float height)
@@ -1207,7 +1225,15 @@ namespace HtmlRenderer.Dom
         }
         public void SetWidth(float width)
         {
-            this._sizeWidth = width;
+#if DEBUG
+            //if (this.dbugMark > 0)
+            //{
+            //}
+#endif
+            if (!this.FreezeWidth)
+            {
+                this._sizeWidth = width;
+            }
         }
         public float SizeWidth
         {
@@ -1222,8 +1248,12 @@ namespace HtmlRenderer.Dom
             {
                 return this._sizeHeight;
             }
+        } 
+        internal bool FreezeWidth
+        {
+            //temporary fix table cell width problem
+            get;
+            set;
         }
-
-
     }
 }

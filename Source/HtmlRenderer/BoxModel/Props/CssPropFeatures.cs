@@ -180,6 +180,10 @@ namespace HtmlRenderer.Dom
             }
         }
         public static readonly CssPaddingProp Default = new CssPaddingProp(null);
+        public object Owner
+        {
+            get { return this.owner; }
+        }
     }
 
 

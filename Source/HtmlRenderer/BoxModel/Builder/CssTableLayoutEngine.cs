@@ -660,6 +660,7 @@ namespace HtmlRenderer.Dom
         /// <param name="g"></param>
         void S8_LayoutCells(LayoutVisitor lay)
         {
+            //each cell relative to its owner
 
             float table_globalX = lay.ContainerBlockGlobalX;
             float table_globalY = lay.ContainerBlockGlobalY;
@@ -683,19 +684,21 @@ namespace HtmlRenderer.Dom
             int currentRow = 0;
             int col_count = this.columnCollection.Count;
 
+
+
             for (int i = 0; i < _allRowBoxes.Count; i++)
             {
 
-
                 var row = _allRowBoxes[i];
-
                 float curX_local = startx_local;//reset
 
                 int col_index = 0;
                 int grid_index = 0;
 
+
                 foreach (CssBox cell in row.GetChildBoxIter())
                 {
+
                     if (col_index >= col_count)
                     {
                         break;
@@ -705,8 +708,26 @@ namespace HtmlRenderer.Dom
                         int colspan = cell.ColSpan;
                         float width = this.columnCollection.GetCellWidth(grid_index, colspan, horizontal_spacing);
 
+                        //HtmlRenderer.Utils.DomUtils.ForEachTextRunDeep(cell, trun =>
+                        //{
+                        //    if (trun.Text.Contains("FourX"))
+                        //    {
+                        //        cell.dbugMark = 20;
+                        //        return true;
+                        //    }
+                        //    else if (trun.Text.Contains("You1"))
+                        //    {
+                        //        cell.dbugMark = 19;
+                        //        return true;
+                        //    }
+                        //    return false;
+                        //});
+
+
                         cell.SetLocation(curX_local, curY_local);
                         cell.SetSize(width, 0);
+                        cell.FreezeWidth = true;
+
                         cell.PerformLayout(lay); //That will automatically set the bottom of the cell
 
                         //Alter max bottom only if row is cell's row + cell's rowspan - 1
@@ -770,6 +791,8 @@ namespace HtmlRenderer.Dom
             _tableBox.SetHeight(globalBottom - table_globalY);
 
         }
+
+
 
         /// <summary>
         /// Get the table cells spacing for all the cells in the table.<br/>

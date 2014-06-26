@@ -710,7 +710,8 @@ namespace HtmlRenderer.Dom
             }
             return ParseGenericLength(str);
         }
-        static CssLength ParseGenericLength(string lenValue)
+
+        public static CssLength ParseGenericLength(string lenValue)
         {
             float parsedNumber = 0f;
 
@@ -737,8 +738,16 @@ namespace HtmlRenderer.Dom
             //If no units, has error
             if (lenValue.Length < 3)
             {
-                float.TryParse(lenValue, out parsedNumber);
-                return new CssLength(parsedNumber, CssUnit.Unknown);
+
+                if (float.TryParse(lenValue, out parsedNumber))
+                {
+                    return new CssLength(parsedNumber, CssUnit.Unknown);
+                }
+                else
+                {
+                    return new CssLength(parsedNumber, CssUnit.Unknown);
+                }
+
             }
             //Get units of the length
             //TODO: Units behave different in paper and in screen! 

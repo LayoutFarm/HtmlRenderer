@@ -35,11 +35,9 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                p.dbugDrawDiagonalBox(Pens.Green, r.Left, r.Top, r.Right, r.Bottom);
-                
+                p.dbugDrawDiagonalBox(Pens.Green, r.Left, r.Top, r.Right, r.Bottom); 
             } 
-        }
-      
+        } 
 #endif
 
         protected virtual void PaintImp(IGraphics g, PaintVisitor p)
@@ -76,7 +74,7 @@ namespace HtmlRenderer.Dom
 
                     dbugPaint(p, bound);
                 }
-
+                //---------------------------------------------
                 if (this.LineBoxCount > 0)
                 {
 
@@ -168,8 +166,7 @@ namespace HtmlRenderer.Dom
                 var clientLeft = this.ClientLeft;
                 g.DrawRectangle(Pens.GreenYellow, 0, 0, 5, 10);
                 g.DrawRectangle(Pens.HotPink, this.ClientRight - 5, 0, 5, 10);
-                //------------------------------------------
-
+                //------------------------------------------ 
 
                 //must! , 
                 if (hasPrevClip)

@@ -215,31 +215,7 @@ namespace HtmlRenderer.Dom
           ref float maxRightForHostBox,
           ref float maxBottomForHostBox)
         {
-
-#if DEBUG
-
-            if (hostBox.dbugPassFlowRunCount > 0)
-            {
-
-            }
-            if (hostBox.dbugPass0 == 0)
-            {
-                hostBox.dbugPass0 = dbugPassTotal++;
-            }
-            else
-            {
-                hostBox.dbugPass1 = dbugPassTotal++;
-            }
-
-
-            hostBox.dbugPassFlowRunCount++;
-
-            if (limitLocalRight == 464 || limitLocalRight == 447)
-            {
-
-            }
-
-#endif
+             
             var oX = current_line_x;
             var oY = current_line_y;
 

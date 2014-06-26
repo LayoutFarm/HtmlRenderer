@@ -102,8 +102,10 @@ namespace HtmlRenderer.WebDom
 
         [Map("cellpadding")]
         CellPadding,
+
         [Map("cellspacing")]
         CellSpacing,
+
         [Map("face")]
         Face,
         [Map("color")]

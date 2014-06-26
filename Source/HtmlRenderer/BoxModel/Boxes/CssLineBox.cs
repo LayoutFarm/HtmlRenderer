@@ -431,7 +431,7 @@ namespace HtmlRenderer.Dom
                                 color = latestOwner.ActualColor;
                             }
                             CssTextRun textRun = (CssTextRun)w;
-
+                            
                             var wordPoint = new PointF(w.Left, w.Top);
 
                             char[] ownerBuffer = CssBox.UnsafeGetTextBuffer(w.OwnerBox);
@@ -466,7 +466,7 @@ namespace HtmlRenderer.Dom
             float y2 = y1 + this.CacheLineHeight;
             //draw diagonal
 
-            p.dbugDrawDiagonalBox(Pens.Blue, x1, y1, x2, y2);             
+            p.dbugDrawDiagonalBox(Pens.Blue, x1, y1, x2, y2);
 
             //g.DrawRectangle(Pens.Blue,
             //    this.OwnerBox.LocationX,
@@ -489,7 +489,7 @@ namespace HtmlRenderer.Dom
             g.FillRectangle(Brushes.Red, 0, 0, 5, 5);
 
         }
-        
+
 #endif
 
         internal int LineSelectionStart
@@ -507,8 +507,8 @@ namespace HtmlRenderer.Dom
             var gfx = p.Gfx;
             gfx.FillRectangle(Brushes.LightGray, this.LineSelectionStart, 0, this.LineSelectionWidth, this.CacheLineHeight);
         }
-        
-       
+
+
         internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
             //iterate each strip
@@ -516,19 +516,21 @@ namespace HtmlRenderer.Dom
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
-                var ownerBox = strip.owner;
+                var stripOwner = strip.owner;
 
-                if (ownerBox.CssDisplay != CssDisplay.Inline)
+                if (stripOwner.CssDisplay != CssDisplay.Inline)
                 {
                     throw new NotSupportedException();
                     continue;
                 }
 
                 var stripArea = strip.Bound;
-                bool isFirstLine, isLastLine;
-                CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
-                ownerBox.PaintBackground(p, stripArea, isFirstLine, isLastLine);
-                p.PaintBorders(ownerBox, stripArea, isFirstLine, isLastLine);
+                bool isFirstLine, isLastLine; 
+                CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
+
+                stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);
+                p.PaintBorders(stripOwner, stripArea, isFirstLine, isLastLine);
+
             }
         }
 

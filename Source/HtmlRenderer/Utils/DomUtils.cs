@@ -24,6 +24,8 @@ using HtmlRenderer.Parse;
 
 namespace HtmlRenderer.Utils
 {
+    internal delegate bool EachCssTextRunHandler(CssTextRun trun);
+
 
     /// <summary>
     /// Utility class for traversing DOM structure and execution stuff on it.
@@ -530,6 +532,57 @@ namespace HtmlRenderer.Utils
             return line;
         }
 
+        internal static bool ForEachTextRunDeep(CssBox box, EachCssTextRunHandler handler)
+        {
+
+            if (box.LineBoxCount > 0)
+            {
+                foreach (CssLineBox line in box.GetLineBoxIter())
+                {
+                    //each line contains run
+                    foreach (CssRun run in line.GetRunIter())
+                    {
+                        CssTextRun trun = run as CssTextRun;
+                        if (trun != null)
+                        {
+                            if (handler(trun))
+                            {
+                                //found and exit
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            else if (box.ChildCount > 0)
+            {
+                foreach (CssBox child in box.GetChildBoxIter())
+                {
+                    if (ForEachTextRunDeep(child, handler))
+                    {
+                        //found and exit
+                        return true;
+                    }
+                }
+
+            }
+            else if (box.RunCount > 0)
+            {
+                foreach (CssRun run in box.GetRunIter())
+                {
+                    CssTextRun trun = run as CssTextRun;
+                    if (trun != null)
+                    {
+                        if (handler(trun))
+                        {
+                            //found and exit
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
         /// <summary>
         /// Get css word box under the given sub-tree at the given x,y location.<br/>
         /// the location must be in correct scroll offset.
