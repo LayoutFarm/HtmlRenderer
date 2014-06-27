@@ -41,19 +41,16 @@ namespace HtmlRenderer.Dom
         /// </summary>
         private readonly IHtmlElement _htmltag;
         char[] _textBuffer;
+
         int _boxCompactFlags;
 
 
-
-
-
-        private CssBox _listItemBox;
-
+        //----------------------------------------------------
+        CssBox _listItemBox; 
         //----------------------------------------------------
         //eg td,th,col,colgroup
         int _rowSpan;
         int _colSpan;
-
         //---------------------------------------------------- 
 
         //condition 1 :this Box is BlockBox

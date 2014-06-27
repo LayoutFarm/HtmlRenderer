@@ -134,6 +134,14 @@ namespace HtmlRenderer.Dom
         /// <returns>attribute value or null if not found</returns>
         string TryGetAttribute(string attribute, string defaultValue = null);
         IEnumerable<IHtmlAttribute> GetAttributeIter();
+
+
+
+
+        string Id { get; }
+        string ClassName { get; }        
+        string Style { get; }
+
     }
 
 
@@ -194,6 +202,11 @@ namespace HtmlRenderer.Dom
                 yield return new HtmlAttributeBridge(attr);
             }
         }
+
+
+        public string ClassName { get; set; }
+        public string Id { get; set; }
+        public string Style { get; set; }
 
         //----------------------------------------------------------
         struct HtmlAttributeBridge : IHtmlAttribute

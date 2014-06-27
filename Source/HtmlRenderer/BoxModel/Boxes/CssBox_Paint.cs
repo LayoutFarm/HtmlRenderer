@@ -64,7 +64,7 @@ namespace HtmlRenderer.Dom
                             return;
                         }
                     }
-                }
+                } 
 
                 //---------------------------------------------
                 if (this.CssDisplay != CssDisplay.Inline)

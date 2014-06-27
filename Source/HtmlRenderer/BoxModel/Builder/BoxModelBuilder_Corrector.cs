@@ -93,8 +93,7 @@ namespace HtmlRenderer.Dom
             dbugCorrectCount++;
 #endif
             //recursive
-            //try
-            //{
+             
             if (DomUtils.ContainsInlinesOnly(box) && !ContainsInlinesOnlyDeep(box))
             {
                 CorrectBlockInsideInlineImp(box);
@@ -107,12 +106,7 @@ namespace HtmlRenderer.Dom
                     //recursive
                     CorrectBlockInsideInline(childBox);
                 }
-            }
-            //}
-            //catch (Exception ex)
-            //{
-            //    box.HtmlContainer.ReportError(HtmlRenderErrorType.HtmlParsing, "Failed in block inside inline box correction", ex);
-            //}
+            } 
         }
         /// <summary>
         /// Correct the DOM tree recursively by replacing  "br" html boxes with anonymous blocks that respect br spec.<br/>

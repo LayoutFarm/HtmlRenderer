@@ -193,6 +193,7 @@ namespace HtmlRenderer.Dom
         [Map(CssConstants.Fixed)]
         Fixed
     }
+
     public enum CssTextDecoration : byte
     {
         NotAssign,
