@@ -52,7 +52,7 @@ namespace HtmlRenderer.Dom
                 this.ColSpan = 1;
                 this.CssDisplay = CssDisplay.None;                 
                 _endRow = startRow + extendedBox.RowSpan - 1;
-                ReEvaluateComputedValues(tableBox);
+                EvaluateComputedValues(tableBox);
             }
 
             public CssBox ExtendedBox

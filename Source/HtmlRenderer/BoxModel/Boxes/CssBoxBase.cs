@@ -241,7 +241,8 @@ namespace HtmlRenderer.Dom
             get { return this._cornerProps.NERadius; }
             set
             {
-                CheckCornerVersion().NERadius = value; 
+                CheckCornerVersion().NERadius = value;
+               // this._prop_wait_eval |= CssBoxBaseAssignments.CORNER_NE;
             }
         }
         public CssLength CornerNWRadius
@@ -249,7 +250,8 @@ namespace HtmlRenderer.Dom
             get { return this._cornerProps.NWRadius; }
             set
             {
-                CheckCornerVersion().NWRadius = value; 
+                CheckCornerVersion().NWRadius = value;
+                //this._prop_wait_eval |= CssBoxBaseAssignments.CORNER_NW;
             }
         }
         public CssLength CornerSERadius
@@ -257,7 +259,8 @@ namespace HtmlRenderer.Dom
             get { return this._cornerProps.SERadius; }
             set
             {
-                CheckCornerVersion().SERadius = value; 
+                CheckCornerVersion().SERadius = value;
+                //this._prop_wait_eval |= CssBoxBaseAssignments.CORNER_SE;
             }
         }
         public CssLength CornerSWRadius
@@ -265,7 +268,8 @@ namespace HtmlRenderer.Dom
             get { return this._cornerProps.SWRadius; }
             set
             {
-                CheckCornerVersion().SWRadius = value; 
+                CheckCornerVersion().SWRadius = value;
+                //this._prop_wait_eval |= CssBoxBaseAssignments.CORNER_SW;
             }
         }
         //------------------------------------------------------
@@ -298,7 +302,8 @@ namespace HtmlRenderer.Dom
             get { return this._paddingProps.Bottom; }
             set
             {
-                CheckPaddingVersion().Bottom = value; 
+                CheckPaddingVersion().Bottom = value;
+                //this._prop_wait_eval |= CssBoxBaseAssignments.PADDING_BOTTOM;
             }
         }
 
@@ -307,7 +312,8 @@ namespace HtmlRenderer.Dom
             get { return this._paddingProps.Left; }
             set
             {
-                CheckPaddingVersion().Left = value; 
+                CheckPaddingVersion().Left = value;
+                //this._prop_wait_eval |= CssBoxBaseAssignments.PADDING_LEFT;
             }
         }
 
@@ -317,7 +323,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckPaddingVersion().Right = value;
-                 
+                //this._prop_wait_eval |= CssBoxBaseAssignments.PADDING_RIGHT;
             }
         }
 
@@ -328,8 +334,10 @@ namespace HtmlRenderer.Dom
                 return this._paddingProps.Top;
             }
             set
-            {   
-                CheckPaddingVersion().Top = value; 
+            {
+
+                CheckPaddingVersion().Top = value;
+               // this._prop_wait_eval |= CssBoxBaseAssignments.PADDING_TOP;
             }
         }
         public CssLength Left

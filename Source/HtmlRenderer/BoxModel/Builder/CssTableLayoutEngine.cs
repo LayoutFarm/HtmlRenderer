@@ -222,7 +222,7 @@ namespace HtmlRenderer.Dom
 
             //===========================================================
             //part 2: insert empty cell ,           
-            if (!_tableBox.IsTableFixed) //fix once !!!
+            if (!_tableBox._tableFixed) //fix once !!!
             {
                 int rIndex = 0;
                 int bodyRowCount = bodyrows.Count;
@@ -255,8 +255,7 @@ namespace HtmlRenderer.Dom
                     }
                     rIndex++;//***
                 }
-
-                _tableBox.IsTableFixed = true;
+                _tableBox._tableFixed = true;
             }
             //===========================================================  
 
@@ -872,7 +871,8 @@ namespace HtmlRenderer.Dom
                 {
                     foreach (CssBox b in cell.GetChildBoxIter())
                     {
-                        b.OffsetLocalTop(dist);
+                        //b.OffsetOnlyGlobalTop(dist);
+                        b.OffsetOnlyLocalTop(dist);
                     }
                 }
             }
@@ -1039,7 +1039,7 @@ namespace HtmlRenderer.Dom
             float paddingSum = 0f;
             float marginSum = 0f;
 
-            if (box.NeedComputedValueEvaluation) { box.ReEvaluateComputedValues(cbBox); }
+            box.EvaluateComputedValues(cbBox);
             CalculateMinMaxSumWords(box, cbBox, ref min, ref maxSum, ref paddingSum, ref marginSum);
 
             maxWidth = paddingSum + maxSum;
@@ -1072,7 +1072,6 @@ namespace HtmlRenderer.Dom
                 box.CssDisplay != CssDisplay.TableCell &&
                 box.WhiteSpace != CssWhiteSpace.NoWrap)
             {
-
                 oldSum = maxSum;
                 maxSum = marginSum;
             }
@@ -1105,7 +1104,7 @@ namespace HtmlRenderer.Dom
                     foreach (CssBox childBox in box.GetChildBoxIter())
                     {
 
-                        if (childBox.NeedComputedValueEvaluation) { childBox.ReEvaluateComputedValues(box); }
+                        childBox.EvaluateComputedValues(box);
 
                         float msum = childBox.ActualMarginLeft + childBox.ActualMarginRight;
 
@@ -1120,7 +1119,7 @@ namespace HtmlRenderer.Dom
                     foreach (CssBox childBox in box.GetChildBoxIter())
                     {
 
-                        if (childBox.NeedComputedValueEvaluation) { childBox.ReEvaluateComputedValues(cbBox); }
+                        childBox.EvaluateComputedValues(cbBox);
 
                         float msum = childBox.ActualMarginLeft + childBox.ActualMarginRight;
                         marginSum += msum;
@@ -1202,7 +1201,7 @@ namespace HtmlRenderer.Dom
                     var col = this.columnCollection[affect_col];
 
                     float spanned_width = 0;
-                    float minimumCellWidth = cellBox.CalculateMinimumWidth();
+                    float minimumCellWidth = cellBox.CalculateMinimumWidth(); 
 
                     if (colspan > 1)
                     {
