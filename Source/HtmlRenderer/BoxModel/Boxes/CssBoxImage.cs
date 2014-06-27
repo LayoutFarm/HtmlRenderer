@@ -77,7 +77,7 @@ namespace HtmlRenderer.Dom
                         _imageWord.Image = img;
                         _imageWord.ImageRectangle = new Rectangle(0, 0, img.Width, img.Height);
                         _imageLoadingComplete = true;
-                        _wordsSizeMeasured = false;
+                        this.RunSizeMeasurePass = false;
                         //-----------------------
 
                         //if (_imageLoadingComplete && image == null)
@@ -104,10 +104,10 @@ namespace HtmlRenderer.Dom
             }
 
             p.PushLocalClipArea(rect.Width, rect.Height);
-            PaintBackground(p, rect, true, true);
 
-             
+            PaintBackground(p, rect, true, true);
             p.PaintBorders(this, rect, true, true);
+
             RectangleF r = _imageWord.Rectangle;
             r.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
             r.Y += ActualBorderTopWidth + ActualPaddingTop;
@@ -184,7 +184,7 @@ namespace HtmlRenderer.Dom
         /// <param name="g">the device to use</param>
         internal override void MeasureRunsSize(LayoutVisitor lay)
         {
-            if (!_wordsSizeMeasured)
+            if (!this.RunSizeMeasurePass)
             {
 
                 if (_imgBinder == null && lay.AvoidImageAsyncLoadOrLateBind)
@@ -194,7 +194,8 @@ namespace HtmlRenderer.Dom
                 }
 
                 MeasureWordSpacing(lay);
-                _wordsSizeMeasured = true;
+                this.RunSizeMeasurePass = true;
+
             }
 
             CssLayoutEngine.MeasureImageSize(_imageWord);

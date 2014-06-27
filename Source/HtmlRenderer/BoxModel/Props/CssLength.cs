@@ -72,18 +72,18 @@ namespace HtmlRenderer.Dom
         public const int IS_BACKGROUND_POS_NAME = 1 << (22 - 1);
         //-------------------------------------   
 
-        public static readonly CssLength AutoLength = new CssLength(IS_ASSIGN | IS_AUTO);
+        public static readonly CssLength AutoLength = new CssLength(IS_ASSIGN | IS_AUTO, CssUnit.AutoLength);
         public static readonly CssLength NotAssign = new CssLength(0);
-        public static readonly CssLength NormalWordOrLine = new CssLength(IS_ASSIGN | NORMAL);
+        public static readonly CssLength NormalWordOrLine = new CssLength(IS_ASSIGN | NORMAL, CssUnit.NormalLength);
 
 
         public static readonly CssLength ZeroNoUnit = CssLength.MakeZeroLengthNoUnit();
         public static readonly CssLength ZeroPx = CssLength.MakePixelLength(0);
 
         //-----------------------------------------------------------------------------------------
-        public static readonly CssLength Medium = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | CssBorderThickName.MEDIUM);
-        public static readonly CssLength Thick = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | CssBorderThickName.THICK);
-        public static readonly CssLength Thin = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | CssBorderThickName.THIN);
+        public static readonly CssLength Medium = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | CssBorderThickName.MEDIUM, CssUnit.BorderMedium);
+        public static readonly CssLength Thick = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | CssBorderThickName.THICK, CssUnit.BorderThick);
+        public static readonly CssLength Thin = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | CssBorderThickName.THIN, CssUnit.BorderThin);
         //-----------------------------------------------------------------------------------------
         public static readonly CssLength FontSizeMedium = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_MEDIUM);//default
         public static readonly CssLength FontSizeXXSmall = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_XX_SMALL);
@@ -203,11 +203,16 @@ namespace HtmlRenderer.Dom
         }
         public bool IsAuto
         {
-            get { return (this._flags & IS_AUTO) != 0; }
+            get { return (this.Unit == CssUnit.AutoLength); }
         }
         public bool IsEmpty
         {
             get { return (this._flags & IS_ASSIGN) == 0; }
+        }
+        public bool IsEmptyOrAuto
+        {
+            //range usage *** 
+            get { return this.Unit <= CssUnit.AutoLength; }
         }
         public bool IsNormalWordSpacing
         {
@@ -229,7 +234,7 @@ namespace HtmlRenderer.Dom
         public bool IsRelative
         {
             get { return (this._flags & IS_RELATIVE) != 0; }
-            //get { return _isRelative; }
+
         }
 
         /// <summary>

@@ -147,28 +147,40 @@ namespace HtmlRenderer.Parse
             //------------------------------
             //plan: use extended cssunit
             //------------------------------
+            switch(borderValue.Unit)
+            {
 
-            if (borderValue.IsEmpty)
-            {
-                //return as medium
-                return 2f;
+                case CssUnit.EmptyValue://as medium 
+                case CssUnit.BorderMedium:
+                    return 2f;
+                case  CssUnit.BorderThin:
+                    return 1f;
+                case CssUnit.BorderThick:
+                    return 4f;
+                default:
+                     return Math.Abs(ParseLength(borderValue, 1, b));
             }
-            if (borderValue.IsBorderThicknessName)
-            {
-                switch (borderValue.BorderThicknessName)
-                {
-                    case CssBorderThickName.MEDIUM:
-                        return 2f;
-                    case CssBorderThickName.THICK:
-                        return 4f;
-                    default:
-                        return 1f;
-                }
-            }
-            else
-            {
-                return Math.Abs(ParseLength(borderValue, 1, b));
-            }
+            //if (borderValue.IsEmpty)
+            //{
+            //    //return as medium
+            //    return 2f;
+            //}
+            //if (borderValue.IsBorderThicknessName)
+            //{
+            //    switch (borderValue.BorderThicknessName)
+            //    {
+            //        case CssBorderThickName.MEDIUM:
+            //            return 2f;
+            //        case CssBorderThickName.THICK:
+            //            return 4f;
+            //        default:
+            //            return 1f;
+            //    }
+            //}
+            //else
+            //{
+            //    return Math.Abs(ParseLength(borderValue, 1, b));
+            //}
 
         }
 
