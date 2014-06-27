@@ -543,6 +543,7 @@ namespace HtmlRenderer.Dom
                 CssBox ownerBox = strip.owner;
                 if (ownerBox.CssDisplay != CssDisplay.Inline)
                 {
+                    throw new NotSupportedException();
                     continue;
                 }
 
@@ -622,8 +623,6 @@ namespace HtmlRenderer.Dom
                 strip.MergeBound(left, top, right, bottom);
             }
         }
-
-
         //---------------------------------
         internal bool IsFirstLine
         {

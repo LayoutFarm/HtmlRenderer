@@ -15,19 +15,16 @@ namespace HtmlRenderer.Dom
     partial class CssBoxBase
     {
 
-        protected int _prop_pass_eval;
-      
+        protected int _prop_pass_eval; 
         protected static class CssBoxBaseAssignments
-        {
-           
+        {           
             public const int LINE_HEIGHT = 1 << (21 - 1);
             public const int WORD_SPACING = 1 << (22 - 1);
             public const int TEXT_INDENT = 1 << (23 - 1);
             //---------------------------------------------
             public const int BORDER_SPACING_H = 1 << (24 - 1);
             public const int BORDER_SPACING_V = 1 << (25 - 1);
-            //---------------------------------------------
-           
+            //--------------------------------------------- 
         }
 
     }

@@ -180,6 +180,8 @@ namespace HtmlRenderer.Utils
             }
             return null;
         }
+        
+
         /// <summary>
         /// Check if the given box contains only inline child boxes.
         /// </summary>

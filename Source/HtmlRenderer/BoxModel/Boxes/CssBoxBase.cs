@@ -627,38 +627,7 @@ namespace HtmlRenderer.Dom
                 return length.ConvertEmToPixels(GetEmHeight());
             }
             return length;
-        }
-
-        /// <summary>
-        /// Set the style/width/color for all 4 borders on the box.<br/>
-        /// if null is given for a value it will not be set.
-        /// </summary>
-        /// <param name="style">optional: the style to set</param>
-        /// <param name="width">optional: the width to set</param>
-        /// <param name="color">optional: the color to set</param>
-        protected void SetAllBorders(CssBorderStyle borderStyle, CssLength length, Color color)
-        {
-            //assign values
-
-            BorderLeftStyle = BorderTopStyle = BorderRightStyle = BorderBottomStyle = borderStyle;
-
-            BorderLeftWidth = BorderTopWidth = BorderRightWidth = BorderBottomWidth = length;
-
-            BorderLeftColor = BorderTopColor = BorderRightColor = BorderBottomColor = color;
-
-        }
-
-       
-
-       
-
-       
-        
-        internal bool FreezeWidth
-        {
-            //temporary fix table cell width problem
-            get;
-            set;
-        }
+        } 
+     
     }
 }

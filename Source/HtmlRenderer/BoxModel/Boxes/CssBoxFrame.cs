@@ -477,7 +477,7 @@ namespace HtmlRenderer.Dom
 
             PaintBackground(p, rects, true, true);
 
-             
+
             p.PaintBorders(this, rects, true, true);
 
             var word = this.FirstRun;
@@ -592,7 +592,8 @@ namespace HtmlRenderer.Dom
         private void SetErrorBorder()
         {
 
-            SetAllBorders(CssBorderStyle.Solid, CssLength.MakePixelLength(2),
+            this.SetAllBorders(
+                CssBorderStyle.Solid, CssLength.MakePixelLength(2),
                 System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
 
             BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";

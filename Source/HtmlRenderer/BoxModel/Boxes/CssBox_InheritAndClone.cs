@@ -38,8 +38,7 @@ namespace HtmlRenderer.Dom
                 this._whitespace = s._whitespace;
                 this._wordBreak = s._wordBreak;
                 this._cssDirection = s._cssDirection;
-                //---------------------------------------
-
+                //--------------------------------------- 
 
                 if (clone)
                 {

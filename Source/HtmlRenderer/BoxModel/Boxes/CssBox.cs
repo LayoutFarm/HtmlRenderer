@@ -1043,8 +1043,7 @@ namespace HtmlRenderer.Dom
                 maxRight = Math.Max(maxRight, box.LocalRight);
             }
             return maxRight + (this.ActualBorderLeftWidth + this.ActualPaddingLeft +
-                this.ActualPaddingRight + this.ActualBorderRightWidth);
-
+                this.ActualPaddingRight + this.ActualBorderRightWidth); 
         }
 
         bool IsLastChild
@@ -1052,8 +1051,7 @@ namespace HtmlRenderer.Dom
             get
             {
                 return this.ParentBox.Boxes[this.ParentBox.ChildCount - 1] == this;
-            }
-
+            } 
         }
         /// <summary>
         /// Gets the result of collapsing the vertical margins of the two boxes
@@ -1066,8 +1064,7 @@ namespace HtmlRenderer.Dom
             if (upperSibling != null)
             {
                 value = Math.Max(upperSibling.ActualMarginBottom, this.ActualMarginTop);
-                this.CollapsedMarginTop = value;
-
+                this.CollapsedMarginTop = value; 
             }
             else if (_parentBox != null &&
                 ActualPaddingTop < 0.1 &&

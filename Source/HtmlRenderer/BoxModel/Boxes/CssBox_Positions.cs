@@ -275,12 +275,28 @@ namespace HtmlRenderer.Dom
             get { return this.SizeHeight - (ActualBorderTopWidth + ActualPaddingTop + ActualPaddingBottom + ActualBorderBottomWidth); }
         }
         //------------------------------------------ 
+        internal bool FreezeWidth
+        {
+            //temporary fix table cell width problem
+            get { return (this._boxCompactFlags & CssBoxFlagsConst.LAY_WIDTH_FREEZE) != 0; }
+            set
+            {
+                if (value)
+                {
+                    this._boxCompactFlags |= CssBoxFlagsConst.LAY_WIDTH_FREEZE;
+                }
+                else
+                {
+                    this._boxCompactFlags &= ~CssBoxFlagsConst.LAY_WIDTH_FREEZE;
+                }
+            }
+        }
+
         public void SetSize(float width, float height)
         {
 #if DEBUG
 
 #endif
-
             if (!this.FreezeWidth)
             {
                 this._sizeWidth = width;
