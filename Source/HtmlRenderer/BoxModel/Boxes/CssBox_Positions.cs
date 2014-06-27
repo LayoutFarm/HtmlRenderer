@@ -88,7 +88,7 @@ namespace HtmlRenderer.Dom
             this._localY = localY;
             this._boxCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
         }
-         
+
         //=============================================================
         /// <summary>
         /// recalculate margin
@@ -135,27 +135,74 @@ namespace HtmlRenderer.Dom
             //that need its containing block width (even for 'top' and 'bottom')
             if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) != 0)
             {
-                //Console.WriteLine(this.dbugId.ToString());
+                 
                 num_count++;
                 //Console.WriteLine(num_count + " " + this.dbugId.ToString());
                 return;
-            }
+            } 
             //else if (this.dbugId == 35)
             //{
             //}
+
+
+
             //margin
             //-----------------------------------------------------------------------
             float cbWidth = containingBlock.SizeWidth;
-            this._actualMarginLeft = RecalculateMargin(this.MarginLeft, cbWidth);
-            this._actualMarginTop = RecalculateMargin(this.MarginTop, cbWidth);
-            this._actualMarginRight = RecalculateMargin(this.MarginRight, cbWidth);
-            this._actualMarginBottom = RecalculateMargin(this.MarginBottom, cbWidth);
-            //-----------------------------------------------------------------------
-            //padding
-            this._actualPaddingLeft = RecalculatePadding(this.PaddingLeft, cbWidth);
-            this._actualPaddingTop = RecalculatePadding(this.PaddingTop, cbWidth);
-            this._actualPaddingRight = RecalculatePadding(this.PaddingRight, cbWidth);
-            this._actualPaddingBottom = RecalculatePadding(this.PaddingBottom, cbWidth);
+
+            //www.w3.org/TR/CSS2/box.html#margin-properties
+            //w3c: margin applies to all elements except elements table display type
+            //other than table-caption,table and inline table
+            var cssDisplay = this.CssDisplay;
+            switch (cssDisplay)
+            {
+                case Dom.CssDisplay.None:
+                    {
+                        return;
+                    }
+                case Dom.CssDisplay.TableCell:
+                case Dom.CssDisplay.TableColumn:
+                case Dom.CssDisplay.TableColumnGroup:
+                case Dom.CssDisplay.TableFooterGroup:
+                case Dom.CssDisplay.TableHeaderGroup:
+                case Dom.CssDisplay.TableRow:
+                case Dom.CssDisplay.TableRowGroup:
+                    {
+                        //no margin
+
+                    } break;
+                default:
+                    {
+                        this._actualMarginLeft = RecalculateMargin(this.MarginLeft, cbWidth);
+                        this._actualMarginTop = RecalculateMargin(this.MarginTop, cbWidth);
+                        this._actualMarginRight = RecalculateMargin(this.MarginRight, cbWidth);
+                        this._actualMarginBottom = RecalculateMargin(this.MarginBottom, cbWidth);
+
+                    } break;
+            }
+            //www.w3.org/TR/CSS2/box.html#padding-properties
+            switch (cssDisplay)
+            {
+                case Dom.CssDisplay.TableRowGroup:
+                case Dom.CssDisplay.TableHeaderGroup:
+                case Dom.CssDisplay.TableFooterGroup:
+                case Dom.CssDisplay.TableRow:
+                case Dom.CssDisplay.TableColumnGroup:
+                case Dom.CssDisplay.TableColumn:
+                    {
+                        //no padding
+                    } break;
+                default:
+                    {
+                        //-----------------------------------------------------------------------
+                        //padding
+                        this._actualPaddingLeft = RecalculatePadding(this.PaddingLeft, cbWidth);
+                        this._actualPaddingTop = RecalculatePadding(this.PaddingTop, cbWidth);
+                        this._actualPaddingRight = RecalculatePadding(this.PaddingRight, cbWidth);
+                        this._actualPaddingBottom = RecalculatePadding(this.PaddingBottom, cbWidth);
+                    } break; 
+            }
+          
             //-----------------------------------------------------------------------
             //borders            
             this._actualBorderLeftWidth = (this.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderLeftWidth, this);
@@ -164,6 +211,7 @@ namespace HtmlRenderer.Dom
             this._actualBorderBottomWidth = (this.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderBottomWidth, this);
             //---------------------------------------------------------------------------
 
+            //extension ***
             float c1, c2, c3, c4;
             this._actualCornerNE = c1 = CssValueParser.ParseLength(CornerNERadius, 0, this);
             this._actualCornerNW = c2 = CssValueParser.ParseLength(CornerNWRadius, 0, this);
@@ -448,7 +496,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        
+
         /// <summary>
         /// Gets the actual Margin on the left
         /// </summary>
