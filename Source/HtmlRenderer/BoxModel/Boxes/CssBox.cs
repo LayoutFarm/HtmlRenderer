@@ -559,6 +559,8 @@ namespace HtmlRenderer.Dom
         /// <param name="g">Device context to use</param>
         public void PerformLayout(LayoutVisitor lay)
         {
+
+
             PerformContentLayout(lay);
         }
 
@@ -592,6 +594,8 @@ namespace HtmlRenderer.Dom
 
         #region Private Methods
 
+        static int dbugCC = 0;
+
         /// <summary>
         /// Measures the bounds of box and children, recursively.<br/>
         /// Performs layout of the DOM structure creating lines by set bounds restrictions.<br/>
@@ -599,36 +603,41 @@ namespace HtmlRenderer.Dom
         /// <param name="g">Device context to use</param>
         protected virtual void PerformContentLayout(LayoutVisitor lay)
         {
-
-            if (this.CssDisplay != CssDisplay.None)
-            {
-                MeasureRunsSize(lay);
-            }
-            //-----------------------------------------------------------
+            int dbugStep = dbugCC++;
+            //----------------------------------------------------------- 
             switch (this.CssDisplay)
             {
                 case Dom.CssDisplay.None:
                     {
                         return;
                     }
+                default:
+                    {
+                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.LatestContainingBlock); }
+
+                        this.MeasureRunsSize(lay);
+                        //others
+                    } break;
                 case Dom.CssDisplay.Block:
                 case Dom.CssDisplay.ListItem:
                 case Dom.CssDisplay.Table:
                 case Dom.CssDisplay.InlineTable:
                 case Dom.CssDisplay.TableCell:
                     {
-                        // Because their width and height are set by CssTable                                 
 
                         CssBox myContainingBlock = lay.LatestContainingBlock;
+                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(myContainingBlock); }
 
-                        if (this.CssDisplay != CssDisplay.TableCell)
+                        this.MeasureRunsSize(lay);
+
+                        if (CssDisplay != Dom.CssDisplay.TableCell)
                         {
-                            //-------------------------
+                            //-------------------------------------------
                             if (this.CssDisplay != Dom.CssDisplay.Table)
                             {
                                 float availableWidth = myContainingBlock.ClientWidth;
 
-                                if (!this.Width.IsAuto && !this.Width.IsEmpty)
+                                if (!this.Width.IsEmptyOrAuto)
                                 {
                                     availableWidth = CssValueParser.ParseLength(Width, availableWidth, this);
                                 }
@@ -637,7 +646,7 @@ namespace HtmlRenderer.Dom
                                 // must be separate because the margin can be calculated by percentage of the width
                                 this.SetWidth(availableWidth - ActualMarginLeft - ActualMarginRight);
                             }
-                            //-------------------------
+                            //-------------------------------------------
 
                             float localLeft = myContainingBlock.ClientLeft + this.ActualMarginLeft;
                             float localTop = 0;
@@ -661,6 +670,7 @@ namespace HtmlRenderer.Dom
                             this.SetLocation(localLeft, localTop);
                             this.SetHeightToZero();
                         }
+
                         //--------------------------------------------------------------------------
                         //If we're talking about a table here..
                         switch (this.CssDisplay)
@@ -668,6 +678,8 @@ namespace HtmlRenderer.Dom
                             case Dom.CssDisplay.Table:
                             case Dom.CssDisplay.InlineTable:
                                 {
+
+
                                     lay.PushContaingBlock(this);
                                     var currentLevelLatestSibling = lay.LatestSiblingBox;
                                     lay.LatestSiblingBox = null;//reset
@@ -676,8 +688,6 @@ namespace HtmlRenderer.Dom
 
                                     lay.LatestSiblingBox = currentLevelLatestSibling;
                                     lay.PopContainingBlock();
-
-
 
                                 } break;
                             default:
@@ -718,25 +728,14 @@ namespace HtmlRenderer.Dom
                                                 this.SetWidth(width);
                                             }
                                         }
-                                        this.SetHeight(GetHeightAfterMarginBottomCollapse());
+                                        this.SetHeight(GetHeightAfterMarginBottomCollapse(lay.LatestContainingBlock));
                                     }
                                 } break;
                         }
 
                         //--------------------------------------------------------------------------
                     } break;
-                default:
-                    {
-                        var prevSibling = lay.LatestSiblingBox;
-                        if (prevSibling != null)
-                        {
-                            //if (!this.HasAssignedLocation)
-                            //{
-                            //    this.SetLocation(prevSibling.LocationX, prevSibling.LocationY);
-                            //}
-                            //SetActualBottom(prevSibling.ActualBottom);
-                        }
-                    } break;
+
             }
 
             //----------------------------------------------------------------------------- 
@@ -758,9 +757,11 @@ namespace HtmlRenderer.Dom
         internal virtual void MeasureRunsSize(LayoutVisitor lay)
         {
             //measure once !
-            if (_wordsSizeMeasured) return;
-            //--------------------------------
-
+            if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_RUNSIZE_MEASURE) != 0)
+            {
+                return;
+            }
+            //-------------------------------- 
             if (this.BackgroundImageBinder != null)
             {
                 //this has background
@@ -768,36 +769,25 @@ namespace HtmlRenderer.Dom
                 {
                     lay.RequestImage(this.BackgroundImageBinder, this);
                 }
-
-
             }
-
-            //if (BackgroundImage != CssConstants.None && _imageLoadHandler == null)
-            //{
-            //    //TODO: change to another technique !
-            //    _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnImageLoadComplete);
-            //    _imageLoadHandler.LoadImage(BackgroundImage, HtmlTag);
-            //}
-
-            MeasureWordSpacing(lay);
-
             if (this.HasRuns)
             {
+                float actualWordspacing = MeasureWordSpacing(lay);
                 Font actualFont = this.ActualFont;
                 float fontHeight = FontsUtils.GetFontHeight(actualFont);
 
-                foreach (CssRun boxWord in Runs)
+                var tmpRuns = this._boxRuns;
+                for (int i = tmpRuns.Count - 1; i >= 0; --i)
                 {
-                    boxWord.Height = fontHeight;
-
+                    CssRun run = tmpRuns[i];
+                    run.Height = fontHeight;
                     //if this is newline then width =0 ***                         
-                    switch (boxWord.Kind)
+                    switch (run.Kind)
                     {
                         case CssRunKind.Text:
                             {
-
-                                CssTextRun textRun = (CssTextRun)boxWord;
-                                boxWord.Width = FontsUtils.MeasureStringWidth(lay.Gfx,
+                                CssTextRun textRun = (CssTextRun)run;
+                                run.Width = FontsUtils.MeasureStringWidth(lay.Gfx,
                                     CssBox.UnsafeGetTextBuffer(this),
                                     textRun.TextStartIndex,
                                     textRun.TextLength,
@@ -806,24 +796,24 @@ namespace HtmlRenderer.Dom
                             } break;
                         case CssRunKind.SingleSpace:
                             {
-                                boxWord.Width = this.ActualWordSpacing;
+                                run.Width = actualWordspacing;
                             } break;
                         case CssRunKind.Space:
                             {
                                 //other space size                                     
-                                boxWord.Width = this.ActualWordSpacing * ((CssTextRun)boxWord).TextLength;
+                                run.Width = actualWordspacing * ((CssTextRun)run).TextLength;
                             } break;
                         case CssRunKind.LineBreak:
                             {
-                                boxWord.Width = 0;
+                                run.Width = 0;
                             } break;
                     }
                 }
             }
-            _wordsSizeMeasured = true;//***
-
+            this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
         }
-
+       
+        
         /// <summary>
         /// Get the parent of this css properties instance.
         /// </summary>
@@ -927,7 +917,7 @@ namespace HtmlRenderer.Dom
 
                     var prevSibling = lay.LatestSiblingBox;
                     lay.LatestSiblingBox = null;//reset
-                    _listItemBox.PerformContentLayout(lay);
+                    _listItemBox.PerformLayout(lay);
                     lay.LatestSiblingBox = prevSibling;
 
 
@@ -979,34 +969,39 @@ namespace HtmlRenderer.Dom
         {
 
             float maxWidth = 0;
-            CssRun maxWidthRun = null;
+            float padding = 0f;
+
             if (this.LineBoxCount > 0)
             {
                 //use line box technique *** 
+                CssRun maxWidthRun = null;
+
                 CalculateMinimumWidthAndWidestRun(this, out maxWidth, out maxWidthRun);
-            }
-            //-------------------------------- 
-            float padding = 0f;
-            if (maxWidthRun != null)
-            {
-                var box = maxWidthRun.OwnerBox;
 
-                while (box != null)
+                //--------------------------------  
+                if (maxWidthRun != null)
                 {
-                    padding += (box.ActualBorderRightWidth + box.ActualPaddingRight) +
-                        (box.ActualBorderLeftWidth + box.ActualPaddingLeft);
+                    //bubble up***
+                    var box = maxWidthRun.OwnerBox;
+                    while (box != null)
+                    {
+                        padding += (box.ActualBorderRightWidth + box.ActualPaddingRight) +
+                            (box.ActualBorderLeftWidth + box.ActualPaddingLeft);
 
-                    if (box == this)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        //bubble up***
-                        box = box.ParentBox;
+                        if (box == this)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            //bubble up***
+                            box = box.ParentBox;
+                        }
                     }
                 }
+
             }
+
             return maxWidth + padding;
 
         }
@@ -1092,13 +1087,16 @@ namespace HtmlRenderer.Dom
         /// Gets the result of collapsing the vertical margins of the two boxes
         /// </summary>
         /// <returns>Resulting bottom margin</returns>
-        private float GetHeightAfterMarginBottomCollapse()
+        private float GetHeightAfterMarginBottomCollapse(CssBox cbBox)
         {
 
             float margin = 0;
-            if (ParentBox != null && this.IsLastChild && _parentBox.ActualMarginBottom < 0.1)
+            //if (ParentBox != null && this.IsLastChild && _parentBox.ActualMarginBottom < 0.1)
+
+            if (ParentBox != null && this.IsLastChild && cbBox.ActualMarginBottom < 0.1)
             {
                 var lastChildBottomMargin = _boxes[_boxes.Count - 1].ActualMarginBottom;
+
                 margin = (Height.IsAuto) ? Math.Max(ActualMarginBottom, lastChildBottomMargin) : lastChildBottomMargin;
             }
             return _boxes[_boxes.Count - 1].LocalBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
@@ -1108,7 +1106,7 @@ namespace HtmlRenderer.Dom
             //return Math.Max(GlobalActualBottom, lastChildBottomWithMarginRelativeToMe);
             //return Math.Max(GlobalActualBottom, _boxes[_boxes.Count - 1].GlobalActualBottom + margin + this.ActualPaddingBottom + this.ActualBorderBottomWidth);
         }
-        internal void OffsetOnlyLocalTop(float dy)
+        internal void OffsetLocalTop(float dy)
         {
             this._localY += dy;
         }
@@ -1128,7 +1126,6 @@ namespace HtmlRenderer.Dom
                 Brush brush = null;
                 bool dispose = false;
                 IGraphics g = p.Gfx;
-
 
                 SmoothingMode smooth = g.SmoothingMode;
 
@@ -1154,13 +1151,13 @@ namespace HtmlRenderer.Dom
                     //  rectangle.Width -= ActualWordSpacing + CssUtils.GetWordEndWhitespace(ActualFont);
 
                     GraphicsPath roundrect = null;
-                    bool isRounnd = this.IsRounded;
-                    if (isRounnd)
+                    bool isRound = this.IsRounded;
+                    if (isRound)
                     {
                         roundrect = RenderUtils.GetRoundRect(rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
                     }
 
-                    if (!p.AvoidGeometryAntialias && isRounnd)
+                    if (!p.AvoidGeometryAntialias && isRound)
                     {
                         g.SmoothingMode = SmoothingMode.AntiAlias;
                     }
@@ -1189,7 +1186,7 @@ namespace HtmlRenderer.Dom
                     }
                 }
             }
-        } 
+        }
 
         internal void PaintDecoration(IGraphics g, RectangleF rectangle, bool isFirst, bool isLast)
         {
@@ -1326,7 +1323,7 @@ namespace HtmlRenderer.Dom
             return x >= this.LocalX && x < this.LocalRight &&
                    y >= this.LocalY && y < this.LocalBottom;
         }
-        
+
 
 
     }

@@ -41,23 +41,19 @@ namespace HtmlRenderer.Dom
         /// </summary>
         private readonly IHtmlElement _htmltag;
         char[] _textBuffer;
+        int _boxCompactFlags;
 
-        /// <summary>
-        /// Do not use or alter this flag
-        /// </summary>
-        /// <remarks>
-        /// Flag that indicates that CssTable algorithm already made fixes on it.
-        /// </remarks>
-        internal bool _tableFixed;
 
-        protected bool _wordsSizeMeasured;
+        
+       
 
         private CssBox _listItemBox;
 
         //----------------------------------------------------
+        //eg td,th,col,colgroup
         int _rowSpan;
         int _colSpan;
-         
+
         //---------------------------------------------------- 
 
         //condition 1 :this Box is BlockBox
@@ -71,7 +67,6 @@ namespace HtmlRenderer.Dom
 
         //condition 2 :this Box is InlineBox 
         List<CssRun> _boxRuns;
-
         //----------------------------------------------------  
 
 
@@ -224,6 +219,7 @@ namespace HtmlRenderer.Dom
             get;
             set;
         }
+
         //=============================================================
         static class CssBoxFlagsConst
         {
@@ -233,8 +229,16 @@ namespace HtmlRenderer.Dom
             public const int HAS_EVAL_WHITESPACE = 1 << (5 - 1);
             public const int TEXT_IS_ALL_WHITESPACE = 1 << (6 - 1);
             public const int TEXT_IS_EMPTY = 1 << (7 - 1);
+
+            //-----------------------------------------------
+            //layout state
+            public const int LAY_RUNSIZE_MEASURE = 1 << (8 - 1);
+            public const int LAY_EVAL_COMPUTE_VALUES = 1 << (9 - 1);
+            //-----------------------------------------------
+            public const int LAY_TABLE_FIXED = 1 << (10 - 1);
+
         }
-        int _boxCompactFlags;
+
 
 
 

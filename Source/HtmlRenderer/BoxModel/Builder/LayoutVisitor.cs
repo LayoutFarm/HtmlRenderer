@@ -70,14 +70,24 @@ namespace HtmlRenderer.Dom
         {
             get { return this.htmlContainer.AvoidAsyncImagesLoading || this.htmlContainer.AvoidImagesLateLoading; }
         }
-        
+
         internal void RequestImage(ImageBinder binder, CssBox requestFrom)
         {
             this.htmlContainer.RequestImage(binder, requestFrom);
         }
         internal void RequestImage(ImageBinder binder, CssBox requestFrom, ReadyStateChangedHandler handler)
         {
-            this.htmlContainer.RequestImage(binder, requestFrom, handler);             
+            this.htmlContainer.RequestImage(binder, requestFrom, handler);
+        }
+        internal float MeasureWhiteSpace(CssBox box)
+        {
+            //depends on Font of this box
+            float w = HtmlRenderer.Utils.FontsUtils.MeasureWhitespace(this.Gfx, box.ActualFont);
+            if (!(box.WordSpacing.IsEmpty || box.WordSpacing.IsNormalWordSpacing))
+            {
+                w += HtmlRenderer.Parse.CssValueParser.ParseLengthWithFontAdjust(box.WordSpacing, 0, box);
+            }
+            return w;
         }
 
     }

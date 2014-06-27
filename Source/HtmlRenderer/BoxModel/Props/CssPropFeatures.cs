@@ -323,7 +323,7 @@ namespace HtmlRenderer.Dom
             //---------------------------------------
             string fontFam = this.FontFamily;
             if (string.IsNullOrEmpty(FontFamily))
-            {    
+            {
                 fontFam = CssConstants.FontSerif;
             }
 
@@ -332,7 +332,7 @@ namespace HtmlRenderer.Dom
             {
                 fontsize = CssLength.MakeFontSizePtUnit(CssConstants.FontSize);
             }
-             
+
             //-----------------------------------------------------------------------------
             FontStyle st = System.Drawing.FontStyle.Regular;
             if (FontStyle == CssFontStyle.Italic || FontStyle == CssFontStyle.Oblique)
@@ -354,21 +354,22 @@ namespace HtmlRenderer.Dom
 
             if (fontsize.IsFontSizeName)
             {
-                switch (fontsize.FontSizeName)
+                switch (fontsize.UnitOrNames)
                 {
-                    case CssFontSizeConst.FONTSIZE_MEDIUM:
+
+                    case CssUnitOrNames.FONTSIZE_MEDIUM:
                         fsize = CssConstants.FontSize; break;
-                    case CssFontSizeConst.FONTSIZE_XX_SMALL:
+                    case CssUnitOrNames.FONTSIZE_XX_SMALL:
                         fsize = CssConstants.FontSize - 4; break;
-                    case CssFontSizeConst.FONTSIZE_X_SMALL:
+                    case CssUnitOrNames.FONTSIZE_X_SMALL:
                         fsize = CssConstants.FontSize - 3; break;
-                    case CssFontSizeConst.FONTSIZE_LARGE:
+                    case CssUnitOrNames.FONTSIZE_LARGE:
                         fsize = CssConstants.FontSize + 2; break;
-                    case CssFontSizeConst.FONTSIZE_X_LARGE:
+                    case CssUnitOrNames.FONTSIZE_X_LARGE:
                         fsize = CssConstants.FontSize + 3; break;
-                    case CssFontSizeConst.FONTSIZE_XX_LARGE:
+                    case CssUnitOrNames.FONTSIZE_XX_LARGE:
                         fsize = CssConstants.FontSize + 4; break;
-                    case CssFontSizeConst.FONTSIZE_SMALLER:
+                    case CssUnitOrNames.FONTSIZE_SMALLER:
                         {
                             relateToParent = true;
                             float parentFontSize = CssConstants.FontSize;
@@ -379,7 +380,7 @@ namespace HtmlRenderer.Dom
                             fsize = parentFontSize - 2;
 
                         } break;
-                    case CssFontSizeConst.FONTSIZE_LARGER:
+                    case CssUnitOrNames.FONTSIZE_LARGER:
                         {
                             relateToParent = true;
                             float parentFontSize = CssConstants.FontSize;
@@ -430,8 +431,8 @@ namespace HtmlRenderer.Dom
             this.BackgroundGradientAngle = 90.0f;
             this.BackgroundImageBinder = ImageBinder.NoImage;
 
-            this.BackgroundPosX = new CssLength(0, CssUnit.Percent);
-            this.BackgroundPosY = new CssLength(0, CssUnit.Percent);
+            this.BackgroundPosX = new CssLength(0, CssUnitOrNames.Percent);
+            this.BackgroundPosY = new CssLength(0, CssUnitOrNames.Percent);
             this.BackgroundRepeat = CssBackgroundRepeat.Repeat;
         }
         private CssBackgroundProp(object owner, CssBackgroundProp inheritFrom)

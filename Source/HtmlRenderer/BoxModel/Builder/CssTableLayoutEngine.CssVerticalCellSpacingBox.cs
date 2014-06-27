@@ -50,9 +50,9 @@ namespace HtmlRenderer.Dom
             {
                 _extendedBox = extendedBox;
                 this.ColSpan = 1;
-                this.CssDisplay = CssDisplay.None;
-                //_endRow = startRow + Int32.Parse(extendedBox.GetAttribute("rowspan", "1")) - 1;
+                this.CssDisplay = CssDisplay.None;                 
                 _endRow = startRow + extendedBox.RowSpan - 1;
+                ReEvaluateComputedValues(tableBox);
             }
 
             public CssBox ExtendedBox

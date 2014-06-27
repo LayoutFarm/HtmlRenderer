@@ -47,34 +47,17 @@ namespace HtmlRenderer.Dom
             {
                 return;
             }
-
             var prevSibling = lay.LatestSiblingBox;
+
             var myContainingBlock = lay.LatestContainingBlock;
-
-            //float globalLeft = myContainingBlock.GlobalX + myContainingBlock.LocalClientLeft + ActualMarginLeft;
-            //float globalTop = 0;
-            //if (prevSibling == null)
-            //{
-            //    if (this.ParentBox != null)
-            //    {
-            //        globalTop = this.ParentBox.GlobalClientTop;
-            //    }
-            //}
-            //else
-            //{
-            //    if (this.ParentBox == null)
-            //    {
-
-            //        globalTop = this.GlobalY;
-            //    }
-            //    globalTop += prevSibling.GlobalActualBottom + prevSibling.ActualBorderBottomWidth;
-            //}
-
+            if (this.NeedComputedValueEvaluation)
+            {
+                this.ReEvaluateComputedValues(myContainingBlock);
+            }
             //// fix for hr tag 
             //var maringTopCollapse = MarginTopCollapse(prevSibling);
             float localLeft = myContainingBlock.ClientLeft + this.ActualMarginLeft;
             float localTop = 0;
-
 
             if (prevSibling == null)
             {
@@ -111,13 +94,13 @@ namespace HtmlRenderer.Dom
 
 
             //Check width if not auto
-            if (!this.Width.IsAuto && !this.Width.IsEmpty)
+            if (!this.Width.IsEmptyOrAuto)
             {
                 width = CssValueParser.ParseLength(Width, width, this);
             }
 
 
-            if (width < minwidth || width >= 9999)
+            if (width < minwidth || width >= CssBoxConst.MAX_TABLE_WIDTH)
             {
                 width = minwidth;
             }
@@ -159,12 +142,12 @@ namespace HtmlRenderer.Dom
             if (rect.Height > 1)
             {
                 p.PaintBorders(this, rect);
-                
+
             }
             else
             {
-                p.PaintBorder(this, Border.Top, this.ActualBorderTopColor, rect);
-               
+                p.PaintBorder(this, Border.Top, this.BorderTopColor, rect);
+
             }
         }
     }

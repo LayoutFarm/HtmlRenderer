@@ -34,94 +34,82 @@ namespace HtmlRenderer.Parse
         /// <returns>Parsed number. Zero if error while parsing.</returns>
 
         public static float ParseNumber(CssLength number, float hundredPercent)
-        {
-            if (number.IsEmpty)
+        {   
+            switch (number.UnitOrNames)
             {
-                return 0;
-            }
-            if (number.IsPercentage)
-            {
-                return (number.Number / 100f) * hundredPercent;
-            }
-            else
-            {
-                return number.Number;
+                case CssUnitOrNames.EmptyValue:
+                    return 0;
+                case CssUnitOrNames.Percent:
+                    return (number.Number / 100f) * hundredPercent;
+                default:
+                    return number.Number;
             }
         }
 
-        /// <summary>
-        ///  Parses a length. Lengths are followed by an unit identifier (e.g. 10px, 3.1em)
-        /// </summary>
-        /// <param name="length"></param>
-        /// <param name="hundredPercent"></param>
-        /// <param name="box"></param>
-        /// <param name="fontAdjust"></param>
-        /// <returns></returns>
-        public static float ParseLength(CssLength length, float hundredPercent, CssBoxBase box, bool fontAdjust = false)
-        {
-            return ParseLengthImpl(length, hundredPercent, box, CssUnit.None, fontAdjust);
-        }
-        /// <summary>
-        /// Parses a length. Lengths are followed by an unit identifier (e.g. 10px, 3.1em)
-        /// </summary>
-        /// <param name="length">Specified length</param>
-        /// <param name="hundredPercent">Equivalent to 100 percent when length is percentage</param>
-        /// <param name="box"></param>
-        /// <param name="defaultUnit"></param>
-        /// <returns>the parsed length value with adjustments</returns>
-        public static float ParseLength(CssLength length, float hundredPercent, CssBoxBase box, CssUnit defaultUnit)
-        {
-            return ParseLengthImpl(length, hundredPercent, box, defaultUnit, false);
-        }
 
-
-
-        /// <summary>
-        ///  Parses a length. Lengths are followed by an unit identifier (e.g. 10px, 3.1em)
-        /// </summary>
-        /// <param name="length"></param>
-        /// <param name="hundredPercent"></param>
-        /// <param name="emFactor"></param>
-        /// <param name="defaultUnit"></param>
-        /// <param name="fontAdjust"></param>
-        /// <param name="returnPoints"></param>
-        /// <returns></returns>
-        static float ParseLengthImpl(CssLength length,
-          float hundredPercent, CssBoxBase box,
-          CssUnit defaultUnit, bool fontAdjust)
+        public static float ParseLength(CssLength length, float hundredPercent, CssBoxBase box)
         {
-            //Return zero if no length specified, zero specified    
-            if (length.IsEmpty)
+            //Return zero if no length specified, zero specified      
+            switch (length.UnitOrNames)
             {
-                return 0;
-            }
-
-
-            switch (length.Unit)
-            {
-                case CssUnit.Percent:
+                case CssUnitOrNames.EmptyValue:
+                    return 0;
+                case CssUnitOrNames.Percent:
                     return (length.Number / 100f) * hundredPercent;
-                case CssUnit.Ems:
+                case CssUnitOrNames.Ems:
                     return length.Number * box.GetEmHeight();
-                case CssUnit.Ex:
+                case CssUnitOrNames.Ex:
                     return length.Number * (box.GetEmHeight() / 2);
-                case CssUnit.Pixels:
+                case CssUnitOrNames.Pixels:
                     //atodo: check support for hi dpi
-                    return length.Number * (fontAdjust ? 72f / 96f : 1f);
-                case CssUnit.Milimeters:
+                    return length.Number;
+                case CssUnitOrNames.Milimeters:
                     return length.Number * 3.779527559f; //3 pixels per millimeter      
-                case CssUnit.Centimeters:
+                case CssUnitOrNames.Centimeters:
                     return length.Number * 37.795275591f; //37 pixels per centimeter 
-                case CssUnit.Inches:
+                case CssUnitOrNames.Inches:
                     return length.Number * 96f; //96 pixels per inch 
-                case CssUnit.Points:
+                case CssUnitOrNames.Points:
                     return length.Number * (96f / 72f); // 1 point = 1/72 of inch   
-                case CssUnit.Picas:
+                case CssUnitOrNames.Picas:
                     return length.Number * 16f; // 1 pica = 12 points 
                 default:
                     return 0;
             }
         }
+        public static float ParseLengthWithFontAdjust(CssLength length, float hundredPercent, CssBoxBase box)
+        {
+            //Return zero if no length specified, zero specified     
+            switch (length.UnitOrNames)
+            {
+                case CssUnitOrNames.EmptyValue:
+                    return 0;
+                case CssUnitOrNames.Percent:
+                    return (length.Number / 100f) * hundredPercent;
+                case CssUnitOrNames.Ems:
+                    return length.Number * box.GetEmHeight();
+                case CssUnitOrNames.Ex:
+                    return length.Number * (box.GetEmHeight() / 2);
+                case CssUnitOrNames.Pixels:
+                    //atodo: check support for hi dpi
+                    return length.Number * (72f / 96f);
+                case CssUnitOrNames.Milimeters:
+                    return length.Number * 3.779527559f; //3 pixels per millimeter      
+                case CssUnitOrNames.Centimeters:
+                    return length.Number * 37.795275591f; //37 pixels per centimeter 
+                case CssUnitOrNames.Inches:
+                    return length.Number * 96f; //96 pixels per inch 
+                case CssUnitOrNames.Points:
+                    return length.Number * (96f / 72f); // 1 point = 1/72 of inch   
+                case CssUnitOrNames.Picas:
+                    return length.Number * 16f; // 1 pica = 12 points 
+                default:
+                    return 0;
+            }
+        }
+
+
+
         /// <summary>
         /// Parses a color value in CSS style; e.g. #ff0000, red, rgb(255,0,0), rgb(100%, 0, 0)
         /// </summary>
@@ -135,28 +123,21 @@ namespace HtmlRenderer.Parse
         }
         public static float GetActualBorderWidth(CssLength borderValue, CssBoxBase b)
         {
-            if (borderValue.IsEmpty)
-            {
-                //return as medium
-                return 2f;
-            }
-            if (borderValue.IsBorderThicknessName)
-            {
-                switch (borderValue.BorderThicknessName)
-                {
-                    case CssBorderThickName.MEDIUM:
-                        return 2f;
-                    case CssBorderThickName.THICK:
-                        return 4f;
-                    default:
-                        return 1f;
-                }
-            }
-            else
-            {
-                return Math.Abs(ParseLength(borderValue, 1, b));
-            }
-
+            //------------------------------
+            //plan: use extended cssunit
+            //------------------------------
+            switch(borderValue.UnitOrNames)
+            {   
+                case CssUnitOrNames.EmptyValue://as medium 
+                case CssUnitOrNames.BorderMedium:
+                    return 2f;
+                case  CssUnitOrNames.BorderThin:
+                    return 1f;
+                case CssUnitOrNames.BorderThick:
+                    return 4f;
+                default:
+                     return Math.Abs(ParseLength(borderValue, 1, b));
+            } 
         }
 
 
