@@ -37,9 +37,9 @@ namespace HtmlRenderer.Parse
         {   
             switch (number.Unit)
             {
-                case CssUnit.EmptyValue:
+                case CssUnitOrNames.EmptyValue:
                     return 0;
-                case CssUnit.Percent:
+                case CssUnitOrNames.Percent:
                     return (number.Number / 100f) * hundredPercent;
                 default:
                     return number.Number;
@@ -52,26 +52,26 @@ namespace HtmlRenderer.Parse
             //Return zero if no length specified, zero specified      
             switch (length.Unit)
             {
-                case CssUnit.EmptyValue:
+                case CssUnitOrNames.EmptyValue:
                     return 0;
-                case CssUnit.Percent:
+                case CssUnitOrNames.Percent:
                     return (length.Number / 100f) * hundredPercent;
-                case CssUnit.Ems:
+                case CssUnitOrNames.Ems:
                     return length.Number * box.GetEmHeight();
-                case CssUnit.Ex:
+                case CssUnitOrNames.Ex:
                     return length.Number * (box.GetEmHeight() / 2);
-                case CssUnit.Pixels:
+                case CssUnitOrNames.Pixels:
                     //atodo: check support for hi dpi
                     return length.Number;
-                case CssUnit.Milimeters:
+                case CssUnitOrNames.Milimeters:
                     return length.Number * 3.779527559f; //3 pixels per millimeter      
-                case CssUnit.Centimeters:
+                case CssUnitOrNames.Centimeters:
                     return length.Number * 37.795275591f; //37 pixels per centimeter 
-                case CssUnit.Inches:
+                case CssUnitOrNames.Inches:
                     return length.Number * 96f; //96 pixels per inch 
-                case CssUnit.Points:
+                case CssUnitOrNames.Points:
                     return length.Number * (96f / 72f); // 1 point = 1/72 of inch   
-                case CssUnit.Picas:
+                case CssUnitOrNames.Picas:
                     return length.Number * 16f; // 1 pica = 12 points 
                 default:
                     return 0;
@@ -82,26 +82,26 @@ namespace HtmlRenderer.Parse
             //Return zero if no length specified, zero specified     
             switch (length.Unit)
             {
-                case CssUnit.EmptyValue:
+                case CssUnitOrNames.EmptyValue:
                     return 0;
-                case CssUnit.Percent:
+                case CssUnitOrNames.Percent:
                     return (length.Number / 100f) * hundredPercent;
-                case CssUnit.Ems:
+                case CssUnitOrNames.Ems:
                     return length.Number * box.GetEmHeight();
-                case CssUnit.Ex:
+                case CssUnitOrNames.Ex:
                     return length.Number * (box.GetEmHeight() / 2);
-                case CssUnit.Pixels:
+                case CssUnitOrNames.Pixels:
                     //atodo: check support for hi dpi
                     return length.Number * (72f / 96f);
-                case CssUnit.Milimeters:
+                case CssUnitOrNames.Milimeters:
                     return length.Number * 3.779527559f; //3 pixels per millimeter      
-                case CssUnit.Centimeters:
+                case CssUnitOrNames.Centimeters:
                     return length.Number * 37.795275591f; //37 pixels per centimeter 
-                case CssUnit.Inches:
+                case CssUnitOrNames.Inches:
                     return length.Number * 96f; //96 pixels per inch 
-                case CssUnit.Points:
+                case CssUnitOrNames.Points:
                     return length.Number * (96f / 72f); // 1 point = 1/72 of inch   
-                case CssUnit.Picas:
+                case CssUnitOrNames.Picas:
                     return length.Number * 16f; // 1 pica = 12 points 
                 default:
                     return 0;
@@ -128,12 +128,12 @@ namespace HtmlRenderer.Parse
             //------------------------------
             switch(borderValue.Unit)
             {   
-                case CssUnit.EmptyValue://as medium 
-                case CssUnit.BorderMedium:
+                case CssUnitOrNames.EmptyValue://as medium 
+                case CssUnitOrNames.BorderMedium:
                     return 2f;
-                case  CssUnit.BorderThin:
+                case  CssUnitOrNames.BorderThin:
                     return 1f;
-                case CssUnit.BorderThick:
+                case CssUnitOrNames.BorderThick:
                     return 4f;
                 default:
                      return Math.Abs(ParseLength(borderValue, 1, b));

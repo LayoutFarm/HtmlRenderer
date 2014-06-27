@@ -416,25 +416,26 @@ namespace HtmlRenderer.Dom
         {
             if (length.IsFontSizeName)
             {
-                switch (length.FontSizeName)
+                
+                switch (length.Unit)
                 {
-                    case CssFontSizeConst.FONTSIZE_MEDIUM:
+                    case CssUnitOrNames.FONTSIZE_MEDIUM:
                         return CssConstants.Medium;
-                    case CssFontSizeConst.FONTSIZE_SMALL:
+                    case CssUnitOrNames.FONTSIZE_SMALL:
                         return CssConstants.Small;
-                    case CssFontSizeConst.FONTSIZE_X_SMALL:
+                    case CssUnitOrNames.FONTSIZE_X_SMALL:
                         return CssConstants.XSmall;
-                    case CssFontSizeConst.FONTSIZE_XX_SMALL:
+                    case CssUnitOrNames.FONTSIZE_XX_SMALL:
                         return CssConstants.XXSmall;
-                    case CssFontSizeConst.FONTSIZE_LARGE:
+                    case CssUnitOrNames.FONTSIZE_LARGE:
                         return CssConstants.Large;
-                    case CssFontSizeConst.FONTSIZE_X_LARGE:
+                    case CssUnitOrNames.FONTSIZE_X_LARGE:
                         return CssConstants.XLarge;
-                    case CssFontSizeConst.FONTSIZE_XX_LARGE:
+                    case CssUnitOrNames.FONTSIZE_XX_LARGE:
                         return CssConstants.XXLarge;
-                    case CssFontSizeConst.FONTSIZE_LARGER:
+                    case CssUnitOrNames.FONTSIZE_LARGER:
                         return CssConstants.Larger;
-                    case CssFontSizeConst.FONTSIZE_SMALLER:
+                    case CssUnitOrNames.FONTSIZE_SMALLER:
                         return CssConstants.Smaller;
                     default:
                         return "";
@@ -584,7 +585,7 @@ namespace HtmlRenderer.Dom
                         {
                             len = CssLength.FontSizeMedium;
                         }
-                        else if (len.Unit == CssUnit.Ems && (parentBox != null))
+                        else if (len.Unit == CssUnitOrNames.Ems && (parentBox != null))
                         {
                             len = len.ConvertEmToPoints(parentBox.ActualFont.SizeInPoints);
                         }
@@ -739,7 +740,7 @@ namespace HtmlRenderer.Dom
             if (lenValue.EndsWith("%"))
             {
                 parsedNumber = float.Parse(lenValue.Substring(0, lenValue.Length - 1));
-                return new CssLength(parsedNumber, CssUnit.Percent);
+                return new CssLength(parsedNumber, CssUnitOrNames.Percent);
             }
             //If no units, has error
             if (lenValue.Length < 3)
@@ -747,17 +748,17 @@ namespace HtmlRenderer.Dom
 
                 if (float.TryParse(lenValue, out parsedNumber))
                 {
-                    return new CssLength(parsedNumber, CssUnit.Unknown);
+                    return new CssLength(parsedNumber, CssUnitOrNames.Unknown);
                 }
                 else
                 {
-                    return new CssLength(parsedNumber, CssUnit.Unknown);
+                    return new CssLength(parsedNumber, CssUnitOrNames.Unknown);
                 }
 
             }
             //Get units of the length
             //TODO: Units behave different in paper and in screen! 
-            CssUnit unit = CssLength.GetCssUnit(lenValue.Substring(lenValue.Length - 2, 2));
+            CssUnitOrNames unit = CssLength.GetCssUnit(lenValue.Substring(lenValue.Length - 2, 2));
             //parse number part
             string number_part = lenValue.Substring(0, lenValue.Length - 2);
 
@@ -766,7 +767,7 @@ namespace HtmlRenderer.Dom
                 System.Globalization.NumberFormatInfo.InvariantInfo, out parsedNumber))
             {
                 //make an error value
-                return new CssLength(0, CssUnit.Unknown);
+                return new CssLength(0, CssUnitOrNames.Unknown);
             }
             else
             {

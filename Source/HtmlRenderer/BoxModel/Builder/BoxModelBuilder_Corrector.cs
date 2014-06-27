@@ -159,7 +159,7 @@ namespace HtmlRenderer.Dom
                     brBox.CssDisplay = CssDisplay.Block;
                     if (followingBlock)
                     {   // atodo: check the height to min-height when it is supported
-                        brBox.Height = new CssLength(0.95f, CssUnit.Ems);
+                        brBox.Height = new CssLength(0.95f, CssUnitOrNames.Ems);
                     }
                 }
             }

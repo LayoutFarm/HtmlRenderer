@@ -8,32 +8,32 @@ using HtmlRenderer.Parse;
 
 namespace HtmlRenderer.Dom
 {
-    public static class CssFontSizeConst
-    {
-        public const byte FONTSIZE_MEDIUM = 10;
-        public const byte FONTSIZE_XX_SMALL = 11;
-        public const byte FONTSIZE_X_SMALL = 12;
-        public const byte FONTSIZE_SMALL = 13;
-        public const byte FONTSIZE_LARGE = 14;
-        public const byte FONTSIZE_X_LARGE = 15;
-        public const byte FONTSIZE_XX_LARGE = 16;
-        public const byte FONTSIZE_SMALLER = 17;
-        public const byte FONTSIZE_LARGER = 18;
-    }
-    public static class CssBackgroundPositionConst
-    {
-        public const byte LEFT = 10;
-        public const byte TOP = 11;
-        public const byte RIGHT = 12;
-        public const byte BOTTOM = 13;
-        public const byte CENTER = 14;
-    }
-    public static class CssBorderThickName
-    {
-        public const byte MEDIUM = 10;
-        public const byte THICK = 11;
-        public const byte THIN = 12;
-    }
+    //public static class CssFontSizeConst
+    //{
+    //    public const byte FONTSIZE_MEDIUM = 10;
+    //    public const byte FONTSIZE_XX_SMALL = 11;
+    //    public const byte FONTSIZE_X_SMALL = 12;
+    //    public const byte FONTSIZE_SMALL = 13;
+    //    public const byte FONTSIZE_LARGE = 14;
+    //    public const byte FONTSIZE_X_LARGE = 15;
+    //    public const byte FONTSIZE_XX_LARGE = 16;
+    //    public const byte FONTSIZE_SMALLER = 17;
+    //    public const byte FONTSIZE_LARGER = 18;
+    //}
+    //public static class CssBackgroundPositionConst
+    //{
+    //    public const byte LEFT = 10;
+    //    public const byte TOP = 11;
+    //    public const byte RIGHT = 12;
+    //    public const byte BOTTOM = 13;
+    //    public const byte CENTER = 14;
+    //}
+    //public static class CssBorderThickName
+    //{
+    //    public const byte MEDIUM = 10;
+    //    public const byte THICK = 11;
+    //    public const byte THIN = 12;
+    //}
 
 
 
@@ -53,8 +53,7 @@ namespace HtmlRenderer.Dom
         readonly int _flags;
         //for number
         readonly float _number;
-        //================================  
-
+        //================================   
         //for upper 24 bits of _flags
         public const int IS_ASSIGN = 1 << (11 - 1);
         public const int IS_AUTO = 1 << (12 - 1);
@@ -72,64 +71,64 @@ namespace HtmlRenderer.Dom
         public const int IS_BACKGROUND_POS_NAME = 1 << (22 - 1);
         //-------------------------------------   
 
-        public static readonly CssLength AutoLength = new CssLength(IS_ASSIGN | IS_AUTO, CssUnit.AutoLength);
+        public static readonly CssLength AutoLength = new CssLength(IS_ASSIGN | IS_AUTO | (int)CssUnitOrNames.AutoLength);
         public static readonly CssLength NotAssign = new CssLength(0);
-        public static readonly CssLength NormalWordOrLine = new CssLength(IS_ASSIGN | NORMAL, CssUnit.NormalLength);
+        public static readonly CssLength NormalWordOrLine = new CssLength(IS_ASSIGN | NORMAL | (int)CssUnitOrNames.NormalLength);
 
 
         public static readonly CssLength ZeroNoUnit = CssLength.MakeZeroLengthNoUnit();
         public static readonly CssLength ZeroPx = CssLength.MakePixelLength(0);
 
         //-----------------------------------------------------------------------------------------
-        public static readonly CssLength Medium = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | CssBorderThickName.MEDIUM, CssUnit.BorderMedium);
-        public static readonly CssLength Thick = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | CssBorderThickName.THICK, CssUnit.BorderThick);
-        public static readonly CssLength Thin = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | CssBorderThickName.THIN, CssUnit.BorderThin);
+        public static readonly CssLength Medium = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | (int)CssUnitOrNames.BorderMedium);
+        public static readonly CssLength Thick = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | (int)CssUnitOrNames.BorderThick);
+        public static readonly CssLength Thin = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | (int)CssUnitOrNames.BorderThin);
         //-----------------------------------------------------------------------------------------
-        public static readonly CssLength FontSizeMedium = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_MEDIUM);//default
-        public static readonly CssLength FontSizeXXSmall = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_XX_SMALL);
-        public static readonly CssLength FontSizeXSmall = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_X_SMALL);
-        public static readonly CssLength FontSizeSmall = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_SMALL);
-        public static readonly CssLength FontSizeLarge = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_LARGE);
-        public static readonly CssLength FontSizeXLarge = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_X_LARGE);
-        public static readonly CssLength FontSizeXXLarge = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_XX_LARGE);
-
-        public static readonly CssLength FontSizeSmaller = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_SMALLER);
-        public static readonly CssLength FontSizeLarger = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | CssFontSizeConst.FONTSIZE_LARGE);
+        public static readonly CssLength FontSizeMedium = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | (int)CssUnitOrNames.FONTSIZE_MEDIUM);//default
+        public static readonly CssLength FontSizeXXSmall = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | (int)CssUnitOrNames.FONTSIZE_XX_SMALL);
+        public static readonly CssLength FontSizeXSmall = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | (int)CssUnitOrNames.FONTSIZE_X_SMALL);
+        public static readonly CssLength FontSizeSmall = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | (int)CssUnitOrNames.FONTSIZE_SMALL);
+        public static readonly CssLength FontSizeLarge = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | (int)CssUnitOrNames.FONTSIZE_LARGE);
+        public static readonly CssLength FontSizeXLarge = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | (int)CssUnitOrNames.FONTSIZE_X_LARGE);
+        public static readonly CssLength FontSizeXXLarge = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | (int)CssUnitOrNames.FONTSIZE_XX_LARGE);
+        public static readonly CssLength FontSizeSmaller = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | (int)CssUnitOrNames.FONTSIZE_SMALLER);
+        public static readonly CssLength FontSizeLarger = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | (int)CssUnitOrNames.FONTSIZE_LARGE);
         //-----------------------------------------------------------------------------------------
-        public static readonly CssLength BackgroundPosLeft = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS_NAME | CssBackgroundPositionConst.LEFT);
-        public static readonly CssLength BackgroundPosTop = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS_NAME | CssBackgroundPositionConst.TOP);
-        public static readonly CssLength BackgroundPosRight = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS_NAME | CssBackgroundPositionConst.RIGHT);
-        public static readonly CssLength BackgroundPosBottom = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS_NAME | CssBackgroundPositionConst.BOTTOM);
-        public static readonly CssLength BackgroundPosCenter = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS_NAME | CssBackgroundPositionConst.CENTER);
+        public static readonly CssLength BackgroundPosLeft = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS_NAME | (int)CssUnitOrNames.LEFT);
+        public static readonly CssLength BackgroundPosTop = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS_NAME | (int)CssUnitOrNames.TOP);
+        public static readonly CssLength BackgroundPosRight = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS_NAME | (int)CssUnitOrNames.RIGHT);
+        public static readonly CssLength BackgroundPosBottom = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS_NAME | (int)CssUnitOrNames.BOTTOM);
+        public static readonly CssLength BackgroundPosCenter = new CssLength(IS_ASSIGN | IS_BACKGROUND_POS_NAME | (int)CssUnitOrNames.CENTER);
         //-----------------------------------------------------------------------------------------
 
 
         #region Ctor
 
 
-        public CssLength(float num, CssUnit unit)
+        public CssLength(float num, CssUnitOrNames unit)
         {
             this._number = num;
             this._flags = (int)unit | IS_ASSIGN;
             switch (unit)
             {
-                case CssUnit.Pixels:
-                case CssUnit.Ems:
-                case CssUnit.Ex:
-                case CssUnit.EmptyValue:
+                case CssUnitOrNames.Pixels:
+                case CssUnitOrNames.Ems:
+                case CssUnitOrNames.Ex:
+                case CssUnitOrNames.EmptyValue:
                     this._flags |= IS_RELATIVE;
                     break;
-                case CssUnit.Unknown:
+                case CssUnitOrNames.Unknown:
                     this._flags |= HAS_ERROR;
                     return;
                 default:
+
                     break;
             }
         }
         private CssLength(int internalFlags)
         {
             this._number = 0;
-            this._flags = internalFlags; // (int)CssUnit.Pixels | IS_ASSIGN; 
+            this._flags = internalFlags;
         }
 
         #endregion
@@ -138,42 +137,42 @@ namespace HtmlRenderer.Dom
         #region Props
 
 
-        public static CssUnit GetCssUnit(string u)
+        public static CssUnitOrNames GetCssUnit(string u)
         {
             switch (u)
             {
                 case CssConstants.Em:
-                    return CssUnit.Ems;
+                    return CssUnitOrNames.Ems;
                 case CssConstants.Ex:
-                    return CssUnit.Ex;
+                    return CssUnitOrNames.Ex;
                 case CssConstants.Px:
-                    return CssUnit.Pixels;
+                    return CssUnitOrNames.Pixels;
                 case CssConstants.Mm:
-                    return CssUnit.Milimeters;
+                    return CssUnitOrNames.Milimeters;
                 case CssConstants.Cm:
-                    return CssUnit.Centimeters;
+                    return CssUnitOrNames.Centimeters;
                 case CssConstants.In:
-                    return CssUnit.Inches;
+                    return CssUnitOrNames.Inches;
                 case CssConstants.Pt:
-                    return CssUnit.Points;
+                    return CssUnitOrNames.Points;
                 case CssConstants.Pc:
-                    return CssUnit.Picas;
+                    return CssUnitOrNames.Picas;
                 default:
-                    return CssUnit.Unknown;
+                    return CssUnitOrNames.Unknown;
             }
         }
 
         public static CssLength MakePixelLength(float pixel)
         {
-            return new CssLength(pixel, CssUnit.Pixels);
+            return new CssLength(pixel, CssUnitOrNames.Pixels);
         }
         public static CssLength MakeZeroLengthNoUnit()
         {
-            return new CssLength(0, CssUnit.EmptyValue);
+            return new CssLength(0, CssUnitOrNames.EmptyValue);
         }
         public static CssLength MakeFontSizePtUnit(float pointUnit)
         {
-            return new CssLength(pointUnit, CssUnit.Points);
+            return new CssLength(pointUnit, CssUnitOrNames.Points);
         }
         /// <summary>
         /// Gets the number in the length
@@ -199,11 +198,11 @@ namespace HtmlRenderer.Dom
         public bool IsPercentage
         {
 
-            get { return this.Unit == CssUnit.Percent; }
+            get { return this.Unit == CssUnitOrNames.Percent; }
         }
         public bool IsAuto
         {
-            get { return (this.Unit == CssUnit.AutoLength); }
+            get { return (this._flags & IS_AUTO) != 0; }
         }
         public bool IsEmpty
         {
@@ -212,7 +211,7 @@ namespace HtmlRenderer.Dom
         public bool IsEmptyOrAuto
         {
             //range usage *** 
-            get { return this.Unit <= CssUnit.AutoLength; }
+            get { return this.Unit <= CssUnitOrNames.AutoLength; }
         }
         public bool IsNormalWordSpacing
         {
@@ -240,9 +239,9 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the unit of the length
         /// </summary>
-        public CssUnit Unit
+        public CssUnitOrNames Unit
         {
-            get { return (CssUnit)(this._flags & 0xFF); }
+            get { return (CssUnitOrNames)(this._flags & 0xFF); }
         }
 
         //-------------------------------------------------
@@ -250,28 +249,19 @@ namespace HtmlRenderer.Dom
         {
             get { return (this._flags & IS_FONT_SIZE_NAME) != 0; }
         }
-        public int FontSizeName
-        {
-            get { return (int)(this._flags & 0xFF); }
-        }
+        
         //-------------------------------------------------
         public bool IsBackgroundPositionName
         {
             get { return (this._flags & IS_BACKGROUND_POS_NAME) != 0; }
         }
-        public int BackgroundPositionName
-        {
-            get { return (int)(this._flags & 0xFF); }
-        }
+         
         //-------------------------------------------------
         public bool IsBorderThicknessName
         {
             get { return (this._flags & IS_BORDER_THICKNESS_NAME) != 0; }
         }
-        public int BorderThicknessName
-        {
-            get { return (int)(this._flags & 0xFF); }
-        }
+         
         #endregion
 
         #region Methods
@@ -285,9 +275,9 @@ namespace HtmlRenderer.Dom
         public CssLength ConvertEmToPoints(float emSize)
         {
             if (HasError) throw new InvalidOperationException("Invalid length");
-            if (Unit != CssUnit.Ems) throw new InvalidOperationException("Length is not in ems");
+            if (Unit != CssUnitOrNames.Ems) throw new InvalidOperationException("Length is not in ems");
 
-            return new CssLength(Number * emSize, CssUnit.Points);
+            return new CssLength(Number * emSize, CssUnitOrNames.Points);
             //return new CssLength(string.Format("{0}pt", Convert.ToSingle(Number * emSize).ToString("0.0", NumberFormatInfo.InvariantInfo)));
         }
 
@@ -300,9 +290,9 @@ namespace HtmlRenderer.Dom
         public CssLength ConvertEmToPixels(float pixelFactor)
         {
             if (HasError) throw new InvalidOperationException("Invalid length");
-            if (Unit != CssUnit.Ems) throw new InvalidOperationException("Length is not in ems");
+            if (Unit != CssUnitOrNames.Ems) throw new InvalidOperationException("Length is not in ems");
 
-            return new CssLength(Number * pixelFactor, CssUnit.Pixels);
+            return new CssLength(Number * pixelFactor, CssUnitOrNames.Pixels);
             //return new CssLength(string.Format("{0}px", Convert.ToSingle(Number * pixelFactor).ToString("0.0", NumberFormatInfo.InvariantInfo)));
         }
 
@@ -322,33 +312,33 @@ namespace HtmlRenderer.Dom
 
                 switch (Unit)
                 {
-                    case CssUnit.Percent:
+                    case CssUnitOrNames.Percent:
                         return string.Format(NumberFormatInfo.InvariantInfo, "{0}%", Number);
 
-                    case CssUnit.EmptyValue:
+                    case CssUnitOrNames.EmptyValue:
                         break;
-                    case CssUnit.Ems:
+                    case CssUnitOrNames.Ems:
                         u = "em";
                         break;
-                    case CssUnit.Pixels:
+                    case CssUnitOrNames.Pixels:
                         u = "px";
                         break;
-                    case CssUnit.Ex:
+                    case CssUnitOrNames.Ex:
                         u = "ex";
                         break;
-                    case CssUnit.Inches:
+                    case CssUnitOrNames.Inches:
                         u = "in";
                         break;
-                    case CssUnit.Centimeters:
+                    case CssUnitOrNames.Centimeters:
                         u = "cm";
                         break;
-                    case CssUnit.Milimeters:
+                    case CssUnitOrNames.Milimeters:
                         u = "mm";
                         break;
-                    case CssUnit.Points:
+                    case CssUnitOrNames.Points:
                         u = "pt";
                         break;
-                    case CssUnit.Picas:
+                    case CssUnitOrNames.Picas:
                         u = "pc";
                         break;
 
