@@ -307,7 +307,7 @@ namespace HtmlRenderer.Dom
 
                     if (colWidth.Number > 0) //If some width specified
                     {
-                        switch (colWidth.Unit)
+                        switch (colWidth.UnitOrNames)
                         {
                             case CssUnitOrNames.Percent:
                                 {

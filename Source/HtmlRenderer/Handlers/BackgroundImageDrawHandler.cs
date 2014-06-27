@@ -95,7 +95,7 @@ namespace HtmlRenderer.Handlers
 
             if (posX.IsBackgroundPositionName)
             {
-                switch (posX.Unit)
+                switch (posX.UnitOrNames)
                 {
                     case Entities.CssUnitOrNames.LEFT:
                         {
@@ -114,7 +114,7 @@ namespace HtmlRenderer.Handlers
             }
             if (posY.IsBackgroundPositionName)
             {
-                switch (posY.Unit)
+                switch (posY.UnitOrNames)
                 {
                     case Entities.CssUnitOrNames.TOP:
                         {

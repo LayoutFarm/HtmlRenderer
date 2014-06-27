@@ -8,34 +8,7 @@ using HtmlRenderer.Parse;
 
 namespace HtmlRenderer.Dom
 {
-    //public static class CssFontSizeConst
-    //{
-    //    public const byte FONTSIZE_MEDIUM = 10;
-    //    public const byte FONTSIZE_XX_SMALL = 11;
-    //    public const byte FONTSIZE_X_SMALL = 12;
-    //    public const byte FONTSIZE_SMALL = 13;
-    //    public const byte FONTSIZE_LARGE = 14;
-    //    public const byte FONTSIZE_X_LARGE = 15;
-    //    public const byte FONTSIZE_XX_LARGE = 16;
-    //    public const byte FONTSIZE_SMALLER = 17;
-    //    public const byte FONTSIZE_LARGER = 18;
-    //}
-    //public static class CssBackgroundPositionConst
-    //{
-    //    public const byte LEFT = 10;
-    //    public const byte TOP = 11;
-    //    public const byte RIGHT = 12;
-    //    public const byte BOTTOM = 13;
-    //    public const byte CENTER = 14;
-    //}
-    //public static class CssBorderThickName
-    //{
-    //    public const byte MEDIUM = 10;
-    //    public const byte THICK = 11;
-    //    public const byte THIN = 12;
-    //}
-
-
+    
 
     /// <summary>
     /// Represents and gets info about a CSS Length
@@ -84,7 +57,7 @@ namespace HtmlRenderer.Dom
         public static readonly CssLength Thick = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | (int)CssUnitOrNames.BorderThick);
         public static readonly CssLength Thin = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | (int)CssUnitOrNames.BorderThin);
         //-----------------------------------------------------------------------------------------
-        public static readonly CssLength FontSizeMedium = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | (int)CssUnitOrNames.FONTSIZE_MEDIUM);//default
+        public static readonly CssLength FontSizeMedium = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | (int)CssUnitOrNames.FONTSIZE_MEDIUM);
         public static readonly CssLength FontSizeXXSmall = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | (int)CssUnitOrNames.FONTSIZE_XX_SMALL);
         public static readonly CssLength FontSizeXSmall = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | (int)CssUnitOrNames.FONTSIZE_X_SMALL);
         public static readonly CssLength FontSizeSmall = new CssLength(IS_ASSIGN | IS_FONT_SIZE_NAME | (int)CssUnitOrNames.FONTSIZE_SMALL);
@@ -198,7 +171,7 @@ namespace HtmlRenderer.Dom
         public bool IsPercentage
         {
 
-            get { return this.Unit == CssUnitOrNames.Percent; }
+            get { return this.UnitOrNames == CssUnitOrNames.Percent; }
         }
         public bool IsAuto
         {
@@ -211,7 +184,7 @@ namespace HtmlRenderer.Dom
         public bool IsEmptyOrAuto
         {
             //range usage *** 
-            get { return this.Unit <= CssUnitOrNames.AutoLength; }
+            get { return this.UnitOrNames <= CssUnitOrNames.AutoLength; }
         }
         public bool IsNormalWordSpacing
         {
@@ -239,7 +212,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the unit of the length
         /// </summary>
-        public CssUnitOrNames Unit
+        public CssUnitOrNames UnitOrNames
         {
             get { return (CssUnitOrNames)(this._flags & 0xFF); }
         }
@@ -249,19 +222,19 @@ namespace HtmlRenderer.Dom
         {
             get { return (this._flags & IS_FONT_SIZE_NAME) != 0; }
         }
-        
+
         //-------------------------------------------------
         public bool IsBackgroundPositionName
         {
             get { return (this._flags & IS_BACKGROUND_POS_NAME) != 0; }
         }
-         
+
         //-------------------------------------------------
         public bool IsBorderThicknessName
         {
             get { return (this._flags & IS_BORDER_THICKNESS_NAME) != 0; }
         }
-         
+
         #endregion
 
         #region Methods
@@ -275,7 +248,7 @@ namespace HtmlRenderer.Dom
         public CssLength ConvertEmToPoints(float emSize)
         {
             if (HasError) throw new InvalidOperationException("Invalid length");
-            if (Unit != CssUnitOrNames.Ems) throw new InvalidOperationException("Length is not in ems");
+            if (UnitOrNames != CssUnitOrNames.Ems) throw new InvalidOperationException("Length is not in ems");
 
             return new CssLength(Number * emSize, CssUnitOrNames.Points);
             //return new CssLength(string.Format("{0}pt", Convert.ToSingle(Number * emSize).ToString("0.0", NumberFormatInfo.InvariantInfo)));
@@ -290,7 +263,7 @@ namespace HtmlRenderer.Dom
         public CssLength ConvertEmToPixels(float pixelFactor)
         {
             if (HasError) throw new InvalidOperationException("Invalid length");
-            if (Unit != CssUnitOrNames.Ems) throw new InvalidOperationException("Length is not in ems");
+            if (UnitOrNames != CssUnitOrNames.Ems) throw new InvalidOperationException("Length is not in ems");
 
             return new CssLength(Number * pixelFactor, CssUnitOrNames.Pixels);
             //return new CssLength(string.Format("{0}px", Convert.ToSingle(Number * pixelFactor).ToString("0.0", NumberFormatInfo.InvariantInfo)));
@@ -310,7 +283,7 @@ namespace HtmlRenderer.Dom
             {
                 string u = string.Empty;
 
-                switch (Unit)
+                switch (UnitOrNames)
                 {
                     case CssUnitOrNames.Percent:
                         return string.Format(NumberFormatInfo.InvariantInfo, "{0}%", Number);

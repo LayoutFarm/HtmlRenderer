@@ -35,7 +35,7 @@ namespace HtmlRenderer.Parse
 
         public static float ParseNumber(CssLength number, float hundredPercent)
         {   
-            switch (number.Unit)
+            switch (number.UnitOrNames)
             {
                 case CssUnitOrNames.EmptyValue:
                     return 0;
@@ -50,7 +50,7 @@ namespace HtmlRenderer.Parse
         public static float ParseLength(CssLength length, float hundredPercent, CssBoxBase box)
         {
             //Return zero if no length specified, zero specified      
-            switch (length.Unit)
+            switch (length.UnitOrNames)
             {
                 case CssUnitOrNames.EmptyValue:
                     return 0;
@@ -80,7 +80,7 @@ namespace HtmlRenderer.Parse
         public static float ParseLengthWithFontAdjust(CssLength length, float hundredPercent, CssBoxBase box)
         {
             //Return zero if no length specified, zero specified     
-            switch (length.Unit)
+            switch (length.UnitOrNames)
             {
                 case CssUnitOrNames.EmptyValue:
                     return 0;
@@ -126,7 +126,7 @@ namespace HtmlRenderer.Parse
             //------------------------------
             //plan: use extended cssunit
             //------------------------------
-            switch(borderValue.Unit)
+            switch(borderValue.UnitOrNames)
             {   
                 case CssUnitOrNames.EmptyValue://as medium 
                 case CssUnitOrNames.BorderMedium:

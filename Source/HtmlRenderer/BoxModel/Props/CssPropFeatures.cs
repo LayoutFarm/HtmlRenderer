@@ -354,7 +354,7 @@ namespace HtmlRenderer.Dom
 
             if (fontsize.IsFontSizeName)
             {
-                switch (fontsize.Unit)
+                switch (fontsize.UnitOrNames)
                 {
 
                     case CssUnitOrNames.FONTSIZE_MEDIUM:

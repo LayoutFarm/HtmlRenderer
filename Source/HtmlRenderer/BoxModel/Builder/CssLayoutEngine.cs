@@ -38,8 +38,8 @@ namespace HtmlRenderer.Dom
             var width = imageWord.OwnerBox.Width;
             var height = imageWord.OwnerBox.Height;
 
-            bool hasImageTagWidth = width.Number > 0 && width.Unit == CssUnitOrNames.Pixels;
-            bool hasImageTagHeight = height.Number > 0 && height.Unit == CssUnitOrNames.Pixels;
+            bool hasImageTagWidth = width.Number > 0 && width.UnitOrNames == CssUnitOrNames.Pixels;
+            bool hasImageTagHeight = height.Number > 0 && height.UnitOrNames == CssUnitOrNames.Pixels;
             bool scaleImageHeight = false;
 
             if (hasImageTagWidth)
@@ -64,7 +64,7 @@ namespace HtmlRenderer.Dom
             if (maxWidth.Number > 0)
             {
                 float maxWidthVal = -1;
-                switch (maxWidth.Unit)
+                switch (maxWidth.UnitOrNames)
                 {
                     case CssUnitOrNames.Percent:
                         {

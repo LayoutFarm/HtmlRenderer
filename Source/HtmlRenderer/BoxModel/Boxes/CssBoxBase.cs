@@ -622,7 +622,7 @@ namespace HtmlRenderer.Dom
         /// <param name="length"></param>
         public CssLength NoEms(CssLength length)
         {
-            if (length.Unit == CssUnitOrNames.Ems)
+            if (length.UnitOrNames == CssUnitOrNames.Ems)
             {
                 return length.ConvertEmToPixels(GetEmHeight());
             }

@@ -417,7 +417,7 @@ namespace HtmlRenderer.Dom
             if (length.IsFontSizeName)
             {
                 
-                switch (length.Unit)
+                switch (length.UnitOrNames)
                 {
                     case CssUnitOrNames.FONTSIZE_MEDIUM:
                         return CssConstants.Medium;
@@ -585,7 +585,7 @@ namespace HtmlRenderer.Dom
                         {
                             len = CssLength.FontSizeMedium;
                         }
-                        else if (len.Unit == CssUnitOrNames.Ems && (parentBox != null))
+                        else if (len.UnitOrNames == CssUnitOrNames.Ems && (parentBox != null))
                         {
                             len = len.ConvertEmToPoints(parentBox.ActualFont.SizeInPoints);
                         }

@@ -626,7 +626,7 @@ namespace HtmlRenderer.Dom
         {
             var width = this.Width;// new CssLength(Width);
             var height = this.Height;// new CssLength(Height);
-            return (width.Number <= 0 || width.Unit != CssUnitOrNames.Pixels) || (height.Number <= 0 || height.Unit != CssUnitOrNames.Pixels);
+            return (width.Number <= 0 || width.UnitOrNames != CssUnitOrNames.Pixels) || (height.Number <= 0 || height.UnitOrNames != CssUnitOrNames.Pixels);
         }
 
         #endregion
