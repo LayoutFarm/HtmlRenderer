@@ -122,34 +122,33 @@ namespace HtmlRenderer.Dom
         }
 
         //=============================================================
-
-        static int num_count = 0;
+        internal bool NeedComputedValueEvaluation
+        {
+            get { return (this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0; }
+        }
+        //static int num_count = 0;
         /// <summary>
         /// evaluate computed value
         /// </summary>
-        internal void EvaluateComputedValues(CssBox containingBlock)
+        internal void ReEvaluateComputedValues(CssBox containingBlock)
         {
             //see www.w3.org/TR/CSS2/box.html#padding-properties
 
             //width of some margins,paddings are computed value 
             //that need its containing block width (even for 'top' and 'bottom')
-            if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) != 0)
-            {
-                 
-                num_count++;
-                //Console.WriteLine(num_count + " " + this.dbugId.ToString());
-                return;
-            } 
+            //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) != 0)
+            //{
+            //    //num_count++;
+            //    //Console.WriteLine(num_count + " " + this.ToString());
+            //    return;
+            //}
             //else if (this.dbugId == 35)
             //{
-            //}
-
-
-
+            //} 
             //margin
             //-----------------------------------------------------------------------
             float cbWidth = containingBlock.SizeWidth;
-
+            this._boxCompactFlags |= CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES;
             //www.w3.org/TR/CSS2/box.html#margin-properties
             //w3c: margin applies to all elements except elements table display type
             //other than table-caption,table and inline table
@@ -200,9 +199,9 @@ namespace HtmlRenderer.Dom
                         this._actualPaddingTop = RecalculatePadding(this.PaddingTop, cbWidth);
                         this._actualPaddingRight = RecalculatePadding(this.PaddingRight, cbWidth);
                         this._actualPaddingBottom = RecalculatePadding(this.PaddingBottom, cbWidth);
-                    } break; 
+                    } break;
             }
-          
+
             //-----------------------------------------------------------------------
             //borders            
             this._actualBorderLeftWidth = (this.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderLeftWidth, this);
@@ -242,7 +241,7 @@ namespace HtmlRenderer.Dom
             // is refer to font size of the element itself
             //_actualLineHeight = .9f * CssValueParser.ParseLength(LineHeight, this.GetEmHeight(), this);
 
-            this._boxCompactFlags |= CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES;
+
 
         }
 
@@ -548,10 +547,7 @@ namespace HtmlRenderer.Dom
             {
 
 #if DEBUG
-                if (this.CssDisplay == Dom.CssDisplay.TableRow)
-                {
-                    return 0;
-                }
+
                 if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 {
                     //if not evaluate

@@ -115,7 +115,7 @@ namespace HtmlRenderer.Dom
                 }
             }
 
-           // imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
+            // imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace HtmlRenderer.Dom
           ref float maxRightForHostBox,
           ref float maxBottomForHostBox)
         {
-            
+
 
             var oX = current_line_x;
             var oY = current_line_y;
@@ -239,12 +239,11 @@ namespace HtmlRenderer.Dom
                     leftMostSpace = b.ActualMarginLeft + b.ActualBorderLeftWidth + b.ActualPaddingLeft;
                     rightMostSpace = b.ActualMarginRight + b.ActualBorderRightWidth + b.ActualPaddingRight;
                 }
-                //if (!isHostIsTable)
-                //{
-                //   
-                //}
 
-                b.EvaluateComputedValues(hostBox);
+                if (b.NeedComputedValueEvaluation)
+                {
+                    b.ReEvaluateComputedValues(hostBox);
+                }
                 b.MeasureRunsSize(lay);
 
                 current_line_x += leftMostSpace;
@@ -567,7 +566,7 @@ namespace HtmlRenderer.Dom
             foreach (CssRun run in lineBox.GetRunIter())
             {
                 run.Left = cX;
-                cX = run.Right + spaceOfEachRun; 
+                cX = run.Right + spaceOfEachRun;
                 if (run == lastRun)
                 {
                     run.Left = lineBox.OwnerBox.ClientRight - run.Width;

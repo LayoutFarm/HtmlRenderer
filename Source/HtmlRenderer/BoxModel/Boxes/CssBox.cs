@@ -560,7 +560,7 @@ namespace HtmlRenderer.Dom
         public void PerformLayout(LayoutVisitor lay)
         {
 
-            
+
             PerformContentLayout(lay);
         }
 
@@ -613,7 +613,8 @@ namespace HtmlRenderer.Dom
                     }
                 default:
                     {
-                        this.EvaluateComputedValues(lay.LatestContainingBlock);
+                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.LatestContainingBlock); }
+
                         this.MeasureRunsSize(lay);
                         //others
                     } break;
@@ -625,15 +626,9 @@ namespace HtmlRenderer.Dom
                     {
 
                         CssBox myContainingBlock = lay.LatestContainingBlock;
-                        if (myContainingBlock.CssDisplay != Dom.CssDisplay.Table &&
-                            myContainingBlock.CssDisplay != Dom.CssDisplay.TableCell)
-                        {
-                            this.EvaluateComputedValues(myContainingBlock);
-                            this.MeasureRunsSize(lay);
-                        }
-                        else
-                        {
-                        }
+                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(myContainingBlock); }
+
+                        this.MeasureRunsSize(lay);
 
                         if (CssDisplay != Dom.CssDisplay.TableCell)
                         {
@@ -733,7 +728,7 @@ namespace HtmlRenderer.Dom
                                                 this.SetWidth(width);
                                             }
                                         }
-                                        this.SetHeight(GetHeightAfterMarginBottomCollapse());
+                                        this.SetHeight(GetHeightAfterMarginBottomCollapse(lay.LatestContainingBlock));
                                     }
                                 } break;
                         }
@@ -973,21 +968,21 @@ namespace HtmlRenderer.Dom
         internal float CalculateMinimumWidth()
         {
 
-            float maxWidth = 0;            
-            float padding = 0f; 
+            float maxWidth = 0;
+            float padding = 0f;
 
             if (this.LineBoxCount > 0)
-            {   
+            {
                 //use line box technique *** 
                 CssRun maxWidthRun = null;
-                
+
                 CalculateMinimumWidthAndWidestRun(this, out maxWidth, out maxWidthRun);
 
                 //--------------------------------  
                 if (maxWidthRun != null)
-                { 
+                {
                     //bubble up***
-                    var box = maxWidthRun.OwnerBox; 
+                    var box = maxWidthRun.OwnerBox;
                     while (box != null)
                     {
                         padding += (box.ActualBorderRightWidth + box.ActualPaddingRight) +
@@ -1006,7 +1001,7 @@ namespace HtmlRenderer.Dom
                 }
 
             }
-          
+
             return maxWidth + padding;
 
         }
@@ -1092,13 +1087,16 @@ namespace HtmlRenderer.Dom
         /// Gets the result of collapsing the vertical margins of the two boxes
         /// </summary>
         /// <returns>Resulting bottom margin</returns>
-        private float GetHeightAfterMarginBottomCollapse()
+        private float GetHeightAfterMarginBottomCollapse(CssBox cbBox)
         {
 
             float margin = 0;
-            if (ParentBox != null && this.IsLastChild && _parentBox.ActualMarginBottom < 0.1)
+            //if (ParentBox != null && this.IsLastChild && _parentBox.ActualMarginBottom < 0.1)
+
+            if (ParentBox != null && this.IsLastChild && cbBox.ActualMarginBottom < 0.1)
             {
                 var lastChildBottomMargin = _boxes[_boxes.Count - 1].ActualMarginBottom;
+
                 margin = (Height.IsAuto) ? Math.Max(ActualMarginBottom, lastChildBottomMargin) : lastChildBottomMargin;
             }
             return _boxes[_boxes.Count - 1].LocalBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
@@ -1108,7 +1106,7 @@ namespace HtmlRenderer.Dom
             //return Math.Max(GlobalActualBottom, lastChildBottomWithMarginRelativeToMe);
             //return Math.Max(GlobalActualBottom, _boxes[_boxes.Count - 1].GlobalActualBottom + margin + this.ActualPaddingBottom + this.ActualBorderBottomWidth);
         }
-        internal void OffsetOnlyLocalTop(float dy)
+        internal void OffsetLocalTop(float dy)
         {
             this._localY += dy;
         }

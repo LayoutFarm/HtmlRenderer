@@ -48,12 +48,14 @@ namespace HtmlRenderer.Dom
                 return;
             }
 
-            
+
             var prevSibling = lay.LatestSiblingBox;
 
             var myContainingBlock = lay.LatestContainingBlock;
-            EvaluateComputedValues(myContainingBlock);
-
+            if (this.NeedComputedValueEvaluation)
+            {
+                this.ReEvaluateComputedValues(myContainingBlock);
+            }
 
 
             //float globalLeft = myContainingBlock.GlobalX + myContainingBlock.LocalClientLeft + ActualMarginLeft;
@@ -121,8 +123,8 @@ namespace HtmlRenderer.Dom
                 width = CssValueParser.ParseLength(Width, width, this);
             }
 
-
-            if (width < minwidth || width >= 9999)
+            
+            if (width < minwidth || width >=  CssBoxConst.MAX_TABLE_WIDTH )
             {
                 width = minwidth;
             }
