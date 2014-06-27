@@ -115,23 +115,23 @@ namespace HtmlRenderer.Dom
                 }
             }
 
-            imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
+           // imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
         }
 
         /// <summary>
         /// Creates line boxes for the specified blockbox
         /// </summary>
         /// <param name="g"></param>
-        /// <param name="blockBox"></param>
-        public static void FlowContentRuns(CssBox blockBox, LayoutVisitor lay)
+        /// <param name="hostBlock"></param>
+        public static void FlowContentRuns(CssBox hostBlock, LayoutVisitor lay)
         {
 
-            blockBox.ResetLineBoxes();
+            hostBlock.ResetLineBoxes();
 
-            float limitLocalRight = blockBox.SizeWidth - (blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth);
+            float limitLocalRight = hostBlock.SizeWidth - (hostBlock.ActualPaddingRight + hostBlock.ActualBorderRightWidth);
 
-            float localY = blockBox.ActualPaddingTop + blockBox.ActualBorderTopWidth;
-            float localX = blockBox.ActualTextIndent + blockBox.ActualPaddingLeft + blockBox.ActualBorderLeftWidth;
+            float localY = hostBlock.ActualPaddingTop + hostBlock.ActualBorderTopWidth;
+            float localX = hostBlock.ActualTextIndent + hostBlock.ActualPaddingLeft + hostBlock.ActualBorderLeftWidth;
 
             float startLocalX = localX;
             //Reminds the maximum bottom reached
@@ -139,37 +139,37 @@ namespace HtmlRenderer.Dom
             float maxLocalBottom = localY;
 
             //First line box
-            CssLineBox line = new CssLineBox(blockBox);
-            blockBox.AddLineBox(line);
+            CssLineBox line = new CssLineBox(hostBlock);
+            hostBlock.AddLineBox(line);
 
             //****
-            FlowBox(lay, blockBox, blockBox, limitLocalRight, 0, startLocalX,
+            FlowBox(lay, hostBlock, hostBlock, limitLocalRight, 0, startLocalX,
                 ref line, ref localX, ref localY, ref maxLocalRight, ref maxLocalBottom);
             //****
 
             // if width is not restricted we need to lower it to the actual width
-            if (blockBox.SizeWidth + lay.ContainerBlockGlobalX >= CssBoxConst.MAX_RIGHT)
+            if (hostBlock.SizeWidth + lay.ContainerBlockGlobalX >= CssBoxConst.MAX_RIGHT)
             {
-                float newWidth = maxLocalRight + blockBox.ActualPaddingRight + blockBox.ActualBorderRightWidth;// CssBox.MAX_RIGHT - (args.ContainerBlockGlobalX + blockBox.LocalX);
+                float newWidth = maxLocalRight + hostBlock.ActualPaddingRight + hostBlock.ActualBorderRightWidth;// CssBox.MAX_RIGHT - (args.ContainerBlockGlobalX + blockBox.LocalX);
                 if (newWidth <= CSS_OFFSET_THRESHOLD)
                 {
                     newWidth = CSS_OFFSET_THRESHOLD;
                 }
-                blockBox.SetWidth(newWidth);
+                hostBlock.SetWidth(newWidth);
             }
             //---------------------
-            if (blockBox.CssDirection == CssDirection.Rtl)
+            if (hostBlock.CssDirection == CssDirection.Rtl)
             {
-                foreach (CssLineBox linebox in blockBox.GetLineBoxIter())
+                foreach (CssLineBox linebox in hostBlock.GetLineBoxIter())
                 {
                     ApplyAlignment(linebox, lay);
-                    ApplyRightToLeft(blockBox, linebox); //***
+                    ApplyRightToLeft(hostBlock, linebox); //***
                     linebox.CloseLine(); //***
                 }
             }
             else
             {
-                foreach (CssLineBox linebox in blockBox.GetLineBoxIter())
+                foreach (CssLineBox linebox in hostBlock.GetLineBoxIter())
                 {
                     ApplyAlignment(linebox, lay);
                     linebox.CloseLine(); //***
@@ -177,13 +177,13 @@ namespace HtmlRenderer.Dom
             }
 
 
-            blockBox.SetHeight(maxLocalBottom + blockBox.ActualPaddingBottom + blockBox.ActualBorderBottomWidth);
+            hostBlock.SetHeight(maxLocalBottom + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
             // handle limiting block height when overflow is hidden             
-            if (blockBox.Overflow == CssOverflow.Hidden &&
-                 !blockBox.Height.IsEmpty && !blockBox.Height.IsAuto &&
-                 blockBox.SizeHeight > blockBox.ExpectedHeight)
+            if (hostBlock.Overflow == CssOverflow.Hidden &&
+                 !hostBlock.Height.IsEmpty && !hostBlock.Height.IsAuto &&
+                 hostBlock.SizeHeight > hostBlock.ExpectedHeight)
             {
-                blockBox.UseExpectedHeight();
+                hostBlock.UseExpectedHeight();
             }
         }
 
@@ -215,7 +215,8 @@ namespace HtmlRenderer.Dom
           ref float maxRightForHostBox,
           ref float maxBottomForHostBox)
         {
-             
+            
+
             var oX = current_line_x;
             var oY = current_line_y;
 
@@ -227,6 +228,8 @@ namespace HtmlRenderer.Dom
             bool splitableParentIsBlock = splitableBox.ParentBox.IsBlock;
 
             int childNumber = 0;
+            bool isHostIsTable = hostBox.CssDisplay == CssDisplay.TableCell || hostBox.CssDisplay == CssDisplay.InlineTable;
+
             foreach (CssBox b in splitableBox.GetChildBoxIter())
             {
 
@@ -236,8 +239,14 @@ namespace HtmlRenderer.Dom
                     leftMostSpace = b.ActualMarginLeft + b.ActualBorderLeftWidth + b.ActualPaddingLeft;
                     rightMostSpace = b.ActualMarginRight + b.ActualBorderRightWidth + b.ActualPaddingRight;
                 }
+                //if (!isHostIsTable)
+                //{
+                //   
+                //}
 
+                b.EvaluateComputedValues(hostBox);
                 b.MeasureRunsSize(lay);
+
                 current_line_x += leftMostSpace;
 
                 if (!b.HasRuns)

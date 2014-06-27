@@ -530,7 +530,7 @@ namespace HtmlRenderer
             _root.SetLocation(_location.X, _location.Y);
             _root.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
 
-
+            CssBox.ValidateComputeValues(_root); 
             LayoutVisitor layoutArgs = new LayoutVisitor(ig, this);
             layoutArgs.PushContaingBlock(_root);
 

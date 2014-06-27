@@ -24,12 +24,14 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_pass_eval & CssBoxBaseAssignments.LINE_HEIGHT) == 0)
-                {
-                    this._prop_pass_eval |= CssBoxBaseAssignments.LINE_HEIGHT;
-                    _actualLineHeight = .9f * CssValueParser.ParseLength(LineHeight, this.SizeHeight, this);
-                }
                 return _actualLineHeight;
+
+                //if ((this._prop_pass_eval & CssBoxBaseAssignments.LINE_HEIGHT) == 0)
+                //{
+                //    this._prop_pass_eval |= CssBoxBaseAssignments.LINE_HEIGHT;
+                //    _actualLineHeight = .9f * CssValueParser.ParseLength(LineHeight, this.SizeHeight, this);
+                //}
+                //return _actualLineHeight;
             }
         }
 

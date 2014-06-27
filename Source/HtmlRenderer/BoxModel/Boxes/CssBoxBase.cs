@@ -133,7 +133,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckBorderVersion().LeftWidth = value;
-                this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_LEFT;
+                //this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_LEFT;
             }
         }
 
@@ -143,7 +143,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckBorderVersion().RightWidth = value;
-                this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_RIGHT;
+               // this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_RIGHT;
             }
         }
 
@@ -153,7 +153,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckBorderVersion().BottomWidth = value;
-                this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_BOTTOM;
+                //this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_BOTTOM;
             }
         }
 
@@ -163,7 +163,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckBorderVersion().TopWidth = value;
-                this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_TOP;
+                //this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_TOP;
             }
         }
         //--------------------------------------------------------------------------------------
@@ -303,7 +303,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckPaddingVersion().Bottom = value;
-                this._prop_wait_eval |= CssBoxBaseAssignments.PADDING_BOTTOM;
+                //this._prop_wait_eval |= CssBoxBaseAssignments.PADDING_BOTTOM;
             }
         }
 
@@ -312,9 +312,8 @@ namespace HtmlRenderer.Dom
             get { return this._paddingProps.Left; }
             set
             {
-
                 CheckPaddingVersion().Left = value;
-                this._prop_wait_eval |= CssBoxBaseAssignments.PADDING_LEFT;
+                //this._prop_wait_eval |= CssBoxBaseAssignments.PADDING_LEFT;
             }
         }
 
@@ -324,7 +323,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckPaddingVersion().Right = value;
-                this._prop_wait_eval |= CssBoxBaseAssignments.PADDING_RIGHT;
+                //this._prop_wait_eval |= CssBoxBaseAssignments.PADDING_RIGHT;
             }
         }
 
@@ -338,7 +337,7 @@ namespace HtmlRenderer.Dom
             {
 
                 CheckPaddingVersion().Top = value;
-                this._prop_wait_eval |= CssBoxBaseAssignments.PADDING_TOP;
+               // this._prop_wait_eval |= CssBoxBaseAssignments.PADDING_TOP;
             }
         }
         public CssLength Left

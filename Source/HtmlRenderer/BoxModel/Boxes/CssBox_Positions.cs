@@ -10,7 +10,7 @@ namespace HtmlRenderer.Dom
     partial class CssBox
     {
 
-        BoxLayoutState layoutState;
+
 
         float _localX;
         float _localY;
@@ -88,14 +88,70 @@ namespace HtmlRenderer.Dom
         }
         //--------------------------------
 
+        static int num_count = 0;
         /// <summary>
-        /// evaluate actual margins and padding 
+        /// evaluate computed value
         /// </summary>
-        internal void EvaluateActualMarginsAndPaddings()
+        internal void EvaluateComputedValues(CssBox containingBlock)
         {
-            //some margins and widths value are computed value
-            //that need its containing block width,height 
-            this.layoutState = BoxLayoutState.EvaluateMarginAndPadding;  
+            //see www.w3.org/TR/CSS2/box.html#padding-properties
+
+            //width of some margins,paddings are computed value 
+            //that need its containing block width (even for 'top' and 'bottom')
+            if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) != 0)
+            {
+                //Console.WriteLine(this.dbugId.ToString());
+                num_count++;
+                //Console.WriteLine(num_count + " " + this.dbugId.ToString());
+                return;
+            }
+            //else if (this.dbugId == 35)
+            //{
+            //}
+            //margin
+            //-----------------------------------------------------------------------
+            float cbWidth = containingBlock.SizeWidth;
+            this._actualMarginLeft = RecalculateMargin(this.MarginLeft, cbWidth);
+            this._actualMarginTop = RecalculateMargin(this.MarginTop, cbWidth);
+            this._actualMarginRight = RecalculateMargin(this.MarginRight, cbWidth);
+            this._actualMarginBottom = RecalculateMargin(this.MarginBottom, cbWidth);
+            //-----------------------------------------------------------------------
+            //padding
+            this._actualPaddingLeft = RecalculatePadding(this.PaddingLeft, cbWidth);
+            this._actualPaddingTop = RecalculatePadding(this.PaddingTop, cbWidth);
+            this._actualPaddingRight = RecalculatePadding(this.PaddingRight, cbWidth);
+            this._actualPaddingBottom = RecalculatePadding(this.PaddingBottom, cbWidth);
+            //-----------------------------------------------------------------------
+            //borders            
+            this._actualBorderLeftWidth = (this.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderLeftWidth, this);
+            this._actualBorderTopWidth = (this.BorderTopStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderTopWidth, this);
+            this._actualBorderRightWidth = (this.BorderRightStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderRightWidth, this);
+            this._actualBorderBottomWidth = (this.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderBottomWidth, this);
+
+            //if ((this._prop_pass_eval & CssBoxBaseAssignments.BORDER_WIDTH_BOTTOM) == 0)
+            //{
+            //    this._prop_pass_eval |= CssBoxBaseAssignments.BORDER_WIDTH_BOTTOM;
+            //    return (this.BorderBottomStyle == CssBorderStyle.None) ?
+            //        _actualBorderBottomWidth = 0f :
+            //        _actualBorderBottomWidth = CssValueParser.GetActualBorderWidth(BorderBottomWidth, this);
+
+            //}
+
+
+            //expected width expected height
+            //this._expectedWidth = CssValueParser.ParseLength(Width, cbWidth, this);
+            //this._expectedHight = CssValueParser.ParseLength(Height, containingBlock.SizeHeight, this);
+            ////---------------------------------------------- 
+
+
+            //www.w3.org/TR/CSS2/visudet.html#line-height
+            //line height,
+            //percent value of line height :
+            // is refer to font size of the element itself
+            //_actualLineHeight = .9f * CssValueParser.ParseLength(LineHeight, this.GetEmHeight(), this);
+
+            this._boxCompactFlags |= CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES;
+
         }
 
         //--------------------------------
@@ -129,17 +185,7 @@ namespace HtmlRenderer.Dom
         public void SetSize(float width, float height)
         {
 #if DEBUG
-            //if (this.dbugMark > 0)
-            //{
-            //}
-            //if (widthChangeCount > 0)
-            //{
-            //    if (this.SizeWidth != width)
-            //    {
 
-            //    }
-            //}
-            //widthChangeCount++;
 #endif
 
             if (!this.FreezeWidth)
@@ -157,17 +203,7 @@ namespace HtmlRenderer.Dom
         public void SetWidth(float width)
         {
 #if DEBUG
-            //if (widthChangeCount > 0)
-            //{
-            //    if (this.SizeWidth != width)
-            //    {
 
-            //    }
-            //}
-            //if (this.dbugMark > 0)
-            //{
-            //}
-            //widthChangeCount++;
 #endif
 
             if (!this.FreezeWidth)
@@ -198,12 +234,14 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_pass_eval & CssBoxBaseAssignments.HEIGHT) == 0)
+#if DEBUG
+                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 {
-                    this._prop_pass_eval |= CssBoxBaseAssignments.HEIGHT;
-                    return _expectedHight = CssValueParser.ParseLength(Height, this.SizeHeight, this);
+                    //if not evaluate
+                    System.Diagnostics.Debugger.Break();
                 }
-                return _expectedHight;
+#endif
+                return this._expectedHight;
             }
         }
 
@@ -214,15 +252,23 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_pass_eval & CssBoxBaseAssignments.WIDTH) == 0)
+#if DEBUG
+                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 {
-                    this._prop_pass_eval |= CssBoxBaseAssignments.WIDTH;
-                    return _expectedWidth = CssValueParser.ParseLength(Width, this.SizeWidth, this);
+                    //if not evaluate
+                    System.Diagnostics.Debugger.Break();
                 }
-                return _expectedWidth;
+#endif
+
+                return this._expectedWidth;
             }
         }
         //---------------------------------------------------------
+        internal static void ValidateComputeValues(CssBox box)
+        {
+            box._boxCompactFlags |= CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES;
+        }
+
         /// <summary>
         /// Gets the actual top's padding
         /// </summary>
@@ -230,12 +276,20 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_wait_eval & CssBoxBaseAssignments.PADDING_TOP) != 0)
+#if DEBUG
+                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 {
-                    this._prop_wait_eval &= ~CssBoxBaseAssignments.PADDING_TOP;
-                    return _actualPaddingTop = CssValueParser.ParseLength(PaddingTop, this.SizeWidth, this);
+                    //if not evaluate
+                    System.Diagnostics.Debugger.Break();
                 }
-                return _actualPaddingTop;
+#endif
+                return this._actualPaddingTop;
+                //if ((this._prop_wait_eval & CssBoxBaseAssignments.PADDING_TOP) != 0)
+                //{
+                //    this._prop_wait_eval &= ~CssBoxBaseAssignments.PADDING_TOP;
+                //    return _actualPaddingTop = CssValueParser.ParseLength(PaddingTop, this.SizeWidth, this);
+                //}
+                //return _actualPaddingTop;
             }
         }
 
@@ -246,12 +300,20 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_wait_eval & CssBoxBaseAssignments.PADDING_LEFT) != 0)
+#if DEBUG
+                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 {
-                    this._prop_wait_eval &= ~CssBoxBaseAssignments.PADDING_LEFT;
-                    return this._actualPaddingLeft = CssValueParser.ParseLength(PaddingLeft, this.SizeWidth, this);
+                    //if not evaluate
+                    System.Diagnostics.Debugger.Break();
                 }
-                return _actualPaddingLeft;
+#endif
+                return this._actualPaddingLeft;
+                //if ((this._prop_wait_eval & CssBoxBaseAssignments.PADDING_LEFT) != 0)
+                //{
+                //    this._prop_wait_eval &= ~CssBoxBaseAssignments.PADDING_LEFT;
+                //    return this._actualPaddingLeft = CssValueParser.ParseLength(PaddingLeft, this.SizeWidth, this);
+                //}
+                //return _actualPaddingLeft;
             }
         }
         /// <summary>
@@ -261,12 +323,21 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_wait_eval & CssBoxBaseAssignments.PADDING_RIGHT) != 0)
+#if DEBUG
+                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 {
-                    this._prop_wait_eval &= ~CssBoxBaseAssignments.PADDING_RIGHT;
-                    return _actualPaddingRight = CssValueParser.ParseLength(PaddingRight, SizeWidth, this);
+                    //if not evaluate
+                    System.Diagnostics.Debugger.Break();
                 }
-                return _actualPaddingRight;
+
+#endif
+                return this._actualPaddingRight;
+                //if ((this._prop_wait_eval & CssBoxBaseAssignments.PADDING_RIGHT) != 0)
+                //{
+                //    this._prop_wait_eval &= ~CssBoxBaseAssignments.PADDING_RIGHT;
+                //    return _actualPaddingRight = CssValueParser.ParseLength(PaddingRight, SizeWidth, this);
+                //}
+                //return _actualPaddingRight;
             }
         }
         /// <summary>
@@ -276,12 +347,20 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_wait_eval & CssBoxBaseAssignments.PADDING_BOTTOM) != 0)
+#if DEBUG
+                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 {
-                    this._prop_wait_eval &= ~CssBoxBaseAssignments.PADDING_BOTTOM;
-                    return _actualPaddingBottom = CssValueParser.ParseLength(PaddingBottom, this.SizeWidth, this);
+                    //if not evaluate
+                    System.Diagnostics.Debugger.Break();
                 }
-                return _actualPaddingBottom;
+#endif
+                return this._actualPaddingBottom;
+                //if ((this._prop_wait_eval & CssBoxBaseAssignments.PADDING_BOTTOM) != 0)
+                //{
+                //    this._prop_wait_eval &= ~CssBoxBaseAssignments.PADDING_BOTTOM;
+                //    return _actualPaddingBottom = CssValueParser.ParseLength(PaddingBottom, this.SizeWidth, this);
+                //}
+                //return _actualPaddingBottom;
             }
         }
 
@@ -293,33 +372,71 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_pass_eval & CssBoxBaseAssignments.MARGIN_TOP) == 0)
+#if DEBUG
+                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 {
-                    if (this.MarginTop.IsAuto)
-                    {
-                        //MarginTop = CssLength.ZeroPx;
-                        this._prop_pass_eval = CssBoxBaseAssignments.MARGIN_TOP;
-                        return this._actualMarginTop = 0;
-                    }
-
-
-                    var value = CssValueParser.ParseLength(MarginTop, this.SizeWidth, this);
-                    if (this.MarginLeft.IsPercentage)
-                    {
-                        return value;
-                    }
-                    else
-                    {
-                        this._prop_pass_eval = CssBoxBaseAssignments.MARGIN_TOP;
-                        return this._actualMarginTop = value;
-                    }
-
+                    //if not evaluate
+                    System.Diagnostics.Debugger.Break();
                 }
-                return _actualMarginTop;
+#endif
+                return this._actualMarginTop;
 
+                //if ((this._prop_pass_eval & CssBoxBaseAssignments.MARGIN_TOP) == 0)
+                //{
+                //    if (this.MarginTop.IsAuto)
+                //    {
+                //        this._prop_pass_eval = CssBoxBaseAssignments.MARGIN_TOP;
+                //        return this._actualMarginTop = 0;
+                //    }
+                //    var value = CssValueParser.ParseLength(MarginTop, this.SizeWidth, this);
+                //    if (this.MarginLeft.IsPercentage)
+                //    {
+                //        return value;
+                //    }
+                //    else
+                //    {
+                //        this._prop_pass_eval = CssBoxBaseAssignments.MARGIN_TOP;
+                //        return this._actualMarginTop = value;
+                //    }
+
+                //}
+                //return _actualMarginTop;
             }
         }
 
+        //=============================================================
+        /// <summary>
+        /// recalculate margin
+        /// </summary>
+        /// <param name="margin">marin side</param>
+        /// <param name="cbWidth">width of containging block</param>
+        /// <returns></returns>
+        float RecalculateMargin(CssLength margin, float cbWidth)
+        {
+            //www.w3.org/TR/CSS2/box.html#margin-properties
+            if (margin.IsAuto)
+            {
+                return 0;
+            }
+            return CssValueParser.ParseLength(margin, cbWidth, this);
+        }
+        /// <summary>
+        /// recalculate padding
+        /// </summary>
+        /// <param name="padding"></param>
+        /// <param name="cbWidth"></param>
+        /// <returns></returns>
+        float RecalculatePadding(CssLength padding, float cbWidth)
+        {
+            //www.w3.org/TR/CSS2/box.html#padding-properties
+            if (padding.IsAuto)
+            {
+                return 0;
+            }
+            return CssValueParser.ParseLength(padding, cbWidth, this);
+        }
+
+        //=============================================================
         /// <summary>
         /// Gets the actual Margin on the left
         /// </summary>
@@ -328,26 +445,36 @@ namespace HtmlRenderer.Dom
             get
             {
 
-                if ((this._prop_pass_eval & CssBoxBaseAssignments.MARGIN_LEFT) == 0)
+
+#if DEBUG
+                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 {
-                    if (MarginLeft.IsAuto)
-                    {
-                        //MarginLeft = CssLength.ZeroPx;
-                        this._prop_pass_eval |= CssBoxBaseAssignments.MARGIN_LEFT;
-                        return _actualMarginLeft = 0;
-                    }
-
-                    var value = CssValueParser.ParseLength(MarginLeft, this.SizeWidth, this);
-
-                    if (this.MarginLeft.IsPercentage)
-                    {
-                        return value;
-                    }
-
-                    this._prop_pass_eval |= CssBoxBaseAssignments.MARGIN_LEFT;
-                    return _actualMarginLeft = value;
+                    //if not evaluate
+                    System.Diagnostics.Debugger.Break();
                 }
-                return _actualMarginLeft;
+#endif
+                return this._actualMarginLeft;
+
+                //if ((this._prop_pass_eval & CssBoxBaseAssignments.MARGIN_LEFT) == 0)
+                //{
+                //    if (MarginLeft.IsAuto)
+                //    {
+                //        //MarginLeft = CssLength.ZeroPx;
+                //        this._prop_pass_eval |= CssBoxBaseAssignments.MARGIN_LEFT;
+                //        return _actualMarginLeft = 0;
+                //    }
+
+                //    var value = CssValueParser.ParseLength(MarginLeft, this.SizeWidth, this);
+
+                //    if (this.MarginLeft.IsPercentage)
+                //    {
+                //        return value;
+                //    }
+
+                //    this._prop_pass_eval |= CssBoxBaseAssignments.MARGIN_LEFT;
+                //    return _actualMarginLeft = value;
+                //}
+                //return _actualMarginLeft;
 
             }
         }
@@ -360,26 +487,38 @@ namespace HtmlRenderer.Dom
             get
             {
 
-                if ((this._prop_pass_eval & CssBoxBaseAssignments.MARGIN_BOTTOM) == 0)
+#if DEBUG
+                if (this.CssDisplay == Dom.CssDisplay.TableRow)
                 {
-                    if (MarginBottom.IsAuto)
-                    {
-                        //MarginBottom = CssLength.ZeroPx;
-                        this._prop_pass_eval |= CssBoxBaseAssignments.MARGIN_BOTTOM;
-                        return this._actualMarginBottom = 0;
-                    }
-                    var value = CssValueParser.ParseLength(MarginBottom, this.SizeWidth, this);
-
-                    //margin left?
-                    if (MarginLeft.IsPercentage)
-                    {
-                        return value;
-                    }
-
-                    this._prop_pass_eval |= CssBoxBaseAssignments.MARGIN_BOTTOM;
-                    return this._actualMarginBottom = value;
+                    return 0;
                 }
-                return _actualMarginBottom;
+                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                {
+                    //if not evaluate
+                    System.Diagnostics.Debugger.Break();
+                }
+#endif
+                return this._actualMarginBottom;
+                //if ((this._prop_pass_eval & CssBoxBaseAssignments.MARGIN_BOTTOM) == 0)
+                //{
+                //    if (MarginBottom.IsAuto)
+                //    {
+                //        //MarginBottom = CssLength.ZeroPx;
+                //        this._prop_pass_eval |= CssBoxBaseAssignments.MARGIN_BOTTOM;
+                //        return this._actualMarginBottom = 0;
+                //    }
+                //    var value = CssValueParser.ParseLength(MarginBottom, this.SizeWidth, this);
+
+                //    //margin left?
+                //    if (MarginLeft.IsPercentage)
+                //    {
+                //        return value;
+                //    }
+
+                //    this._prop_pass_eval |= CssBoxBaseAssignments.MARGIN_BOTTOM;
+                //    return this._actualMarginBottom = value;
+                //}
+                //return _actualMarginBottom;
             }
         }
 
@@ -390,25 +529,34 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_pass_eval & CssBoxBaseAssignments.MARGIN_RIGHT) == 0)
+#if DEBUG
+                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 {
-                    if (MarginRight.IsAuto)
-                    {
-                        this._prop_pass_eval |= CssBoxBaseAssignments.MARGIN_RIGHT;
-                        return this._actualMarginRight = 0;
-                    }
-
-                    var value = CssValueParser.ParseLength(MarginRight, this.SizeWidth, this);
-
-                    //margin left ?
-                    if (MarginLeft.IsPercentage)
-                    {
-                        return value;
-                    }
-                    this._prop_pass_eval |= CssBoxBaseAssignments.MARGIN_RIGHT;
-                    return this._actualMarginRight = value;
+                    //if not evaluate
+                    System.Diagnostics.Debugger.Break();
                 }
-                return _actualMarginRight;
+#endif
+                return this._actualMarginRight;
+
+                //if ((this._prop_pass_eval & CssBoxBaseAssignments.MARGIN_RIGHT) == 0)
+                //{
+                //    if (MarginRight.IsAuto)
+                //    {
+                //        this._prop_pass_eval |= CssBoxBaseAssignments.MARGIN_RIGHT;
+                //        return this._actualMarginRight = 0;
+                //    }
+
+                //    var value = CssValueParser.ParseLength(MarginRight, this.SizeWidth, this);
+
+                //    //margin left ?
+                //    if (MarginLeft.IsPercentage)
+                //    {
+                //        return value;
+                //    }
+                //    this._prop_pass_eval |= CssBoxBaseAssignments.MARGIN_RIGHT;
+                //    return this._actualMarginRight = value;
+                //}
+                //return _actualMarginRight;
             }
         }
         //====================================================
@@ -419,14 +567,21 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_pass_eval & CssBoxBaseAssignments.BORDER_WIDTH_TOP) == 0)
+#if DEBUG
+                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 {
-                    //need evaluate
-                    this._prop_pass_eval |= CssBoxBaseAssignments.BORDER_WIDTH_TOP;
-                    return (this.BorderTopStyle == CssBorderStyle.None) ?
-                        _actualBorderTopWidth = 0f :
-                        _actualBorderTopWidth = CssValueParser.GetActualBorderWidth(BorderTopWidth, this);
+                    //if not evaluate
+                    System.Diagnostics.Debugger.Break();
                 }
+#endif
+                //if ((this._prop_pass_eval & CssBoxBaseAssignments.BORDER_WIDTH_TOP) == 0)
+                //{
+                //    //need evaluate
+                //    this._prop_pass_eval |= CssBoxBaseAssignments.BORDER_WIDTH_TOP;
+                //    return (this.BorderTopStyle == CssBorderStyle.None) ?
+                //        _actualBorderTopWidth = 0f :
+                //        _actualBorderTopWidth = CssValueParser.GetActualBorderWidth(BorderTopWidth, this);
+                //}
                 return _actualBorderTopWidth;
             }
         }
@@ -439,13 +594,20 @@ namespace HtmlRenderer.Dom
             get
             {
 
-                if ((this._prop_pass_eval & CssBoxBaseAssignments.BORDER_WIDTH_LEFT) == 0)
+#if DEBUG
+                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 {
-                    this._prop_pass_eval |= CssBoxBaseAssignments.BORDER_WIDTH_LEFT;
-                    return (this.BorderLeftStyle == CssBorderStyle.None) ?
-                        _actualBorderLeftWidth = 0f :
-                        _actualBorderLeftWidth = CssValueParser.GetActualBorderWidth(BorderLeftWidth, this);
+                    //if not evaluate
+                    System.Diagnostics.Debugger.Break();
                 }
+#endif
+                //if ((this._prop_pass_eval & CssBoxBaseAssignments.BORDER_WIDTH_LEFT) == 0)
+                //{
+                //    this._prop_pass_eval |= CssBoxBaseAssignments.BORDER_WIDTH_LEFT;
+                //    return (this.BorderLeftStyle == CssBorderStyle.None) ?
+                //        _actualBorderLeftWidth = 0f :
+                //        _actualBorderLeftWidth = CssValueParser.GetActualBorderWidth(BorderLeftWidth, this);
+                //}
                 return _actualBorderLeftWidth;
             }
         }
@@ -457,14 +619,21 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_pass_eval & CssBoxBaseAssignments.BORDER_WIDTH_BOTTOM) == 0)
+#if DEBUG
+                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 {
-                    this._prop_pass_eval |= CssBoxBaseAssignments.BORDER_WIDTH_BOTTOM;
-                    return (this.BorderBottomStyle == CssBorderStyle.None) ?
-                        _actualBorderBottomWidth = 0f :
-                        _actualBorderBottomWidth = CssValueParser.GetActualBorderWidth(BorderBottomWidth, this);
-
+                    //if not evaluate
+                    System.Diagnostics.Debugger.Break();
                 }
+#endif
+                //if ((this._prop_pass_eval & CssBoxBaseAssignments.BORDER_WIDTH_BOTTOM) == 0)
+                //{
+                //    this._prop_pass_eval |= CssBoxBaseAssignments.BORDER_WIDTH_BOTTOM;
+                //    return (this.BorderBottomStyle == CssBorderStyle.None) ?
+                //        _actualBorderBottomWidth = 0f :
+                //        _actualBorderBottomWidth = CssValueParser.GetActualBorderWidth(BorderBottomWidth, this);
+
+                //}
                 return _actualBorderBottomWidth;
             }
         }
@@ -476,14 +645,21 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_pass_eval & CssBoxBaseAssignments.BORDER_WIDTH_RIGHT) == 0)
+#if DEBUG
+                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 {
-                    this._prop_pass_eval |= CssBoxBaseAssignments.BORDER_WIDTH_RIGHT;
-                    return (this.BorderRightStyle == CssBorderStyle.None) ?
-                        _actualBorderRightWidth = 0f :
-                        _actualBorderRightWidth = CssValueParser.GetActualBorderWidth(BorderRightWidth, this);
-
+                    //if not evaluate
+                    System.Diagnostics.Debugger.Break();
                 }
+#endif
+
+                //if ((this._prop_pass_eval & CssBoxBaseAssignments.BORDER_WIDTH_RIGHT) == 0)
+                //{
+                //    this._prop_pass_eval |= CssBoxBaseAssignments.BORDER_WIDTH_RIGHT;
+                //    return (this.BorderRightStyle == CssBorderStyle.None) ?
+                //        _actualBorderRightWidth = 0f :
+                //        _actualBorderRightWidth = CssValueParser.GetActualBorderWidth(BorderRightWidth, this);
+                //}
                 return _actualBorderRightWidth;
             }
         }
@@ -495,6 +671,9 @@ namespace HtmlRenderer.Dom
         {
             get
             {
+
+
+
                 if ((this._prop_wait_eval & CssBoxBaseAssignments.CORNER_NW) != 0)
                 {
                     this._prop_wait_eval &= ~CssBoxBaseAssignments.CORNER_NW;

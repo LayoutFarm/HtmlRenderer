@@ -61,16 +61,8 @@ namespace HtmlRenderer.Dom
         /// <param name="tableBox"> </param>
         public static void PerformLayout(CssBox tableBox, LayoutVisitor lay)
         {
-
-            //try
-            //{
             var table = new CssTableLayoutEngine(tableBox);
             table.Layout(lay);
-            //}
-            //catch (Exception ex)
-            //{
-            //    tableBox.HtmlContainer.ReportError(HtmlRenderErrorType.Layout, "Failed table layout", ex);
-            //}
         }
 
 
@@ -83,7 +75,7 @@ namespace HtmlRenderer.Dom
         void Layout(LayoutVisitor lay)
         {
             S1_RecursiveMeasureRunContentSize(_tableBox, lay);
-
+            //------------------------------------------------ 
             // get the table boxes into the proper fields
             // Insert EmptyBoxes for vertical cell spanning.  
 
@@ -91,9 +83,9 @@ namespace HtmlRenderer.Dom
 
             // Determine Row and Column Count, and ColumnWidths
 
-            float availableWidth = S3_CalculateCountAndWidth(userColumnList);
+            float availbleWidthForAllCells = S3_CalculateCountAndWidth(userColumnList);
 
-            S4_DetermineMissingColumnWidths(availableWidth);
+            S4_DetermineMissingColumnWidths(availbleWidthForAllCells);
 
             //
             S5_CalculateColumnMinWidths();
@@ -120,6 +112,7 @@ namespace HtmlRenderer.Dom
             //recursive
             if (box != null)
             {
+                var latestCB = lay.LatestContainingBlock;
                 foreach (var childBox in box.GetChildBoxIter())
                 {
                     childBox.MeasureRunsSize(lay);
@@ -334,13 +327,15 @@ namespace HtmlRenderer.Dom
                 //mode 2:  anonymous column definitions, 
 
                 // Fill ColumnWidths array by scanning width in table-cell definitions
-                foreach (CssBox row in _allRowBoxes)
+                var tmpRows = this._allRowBoxes;
+                int rowCount = tmpRows.Count;
+                for (int rr = 0; rr < rowCount; ++rr)
                 {
+                    CssBox row = tmpRows[rr];
                     //Check for column width in table-cell definitions
                     int col_limit = columnCount > MAX_COL_AT_THIS_VERSION ? MAX_COL_AT_THIS_VERSION : columnCount;
 
-
-                    for (int i = 0; i < col_limit; i++)// limit column width check
+                    for (int i = 0; i < col_limit; ++i)// limit column width check
                     {
 
                         if (!columnCollection[i].HasSpecificWidth)
@@ -354,8 +349,8 @@ namespace HtmlRenderer.Dom
                                     if (cellBoxWidth > 0) //If some width specified
                                     {
                                         int colspan = childBox.ColSpan;
+                                        cellBoxWidth /= colspan;
 
-                                        cellBoxWidth /= Convert.ToSingle(colspan);
                                         for (int n = i; n < i + colspan; n++)
                                         {
                                             columnCollection[n].UpdateIfWider(cellBoxWidth);
@@ -370,10 +365,7 @@ namespace HtmlRenderer.Dom
             return availbleWidthForAllCells;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="availCellSpace"></param>
+
         void S4_DetermineMissingColumnWidths(float availCellSpace)
         {
 
@@ -725,8 +717,8 @@ namespace HtmlRenderer.Dom
 
                         //-----------------------------------------
                         cell.SetLocation(curX_local, curY_local);
-                        cell.FreezeWidth = false; 
-                        cell.SetSize(width, 0); 
+                        cell.FreezeWidth = false;
+                        cell.SetSize(width, 0);
                         cell.FreezeWidth = true;
                         //-----------------------------------------
 
@@ -923,6 +915,7 @@ namespace HtmlRenderer.Dom
             CssLength tblen = _tableBox.Width;
             if (tblen.Number > 0)
             {
+                //has specific number
                 return CssValueParser.ParseLength(_tableBox.Width, _tableBox.ParentBox.ClientWidth, _tableBox);
             }
             else
@@ -979,7 +972,7 @@ namespace HtmlRenderer.Dom
                         if (!col.HasSpecificWidth)
                         {
                             float minWidth, maxWidth;
-                            CalculateMinMaxWidth(cellBox, out minWidth, out maxWidth);
+                            CalculateMinMaxWidth(cellBox, _tableBox, out minWidth, out maxWidth);
                             int colSpan = cellBox.ColSpan;
 
                             if (colSpan == 1)
@@ -1010,7 +1003,7 @@ namespace HtmlRenderer.Dom
                     {
                         int cIndex = gridIndex < col_count ? gridIndex : col_count - 1;
                         float minWidth, maxWidth;
-                        CalculateMinMaxWidth(cellBox, out minWidth, out maxWidth);
+                        CalculateMinMaxWidth(cellBox, _tableBox, out minWidth, out maxWidth);
                         int colSpan = cellBox.ColSpan;
                         if (colSpan == 1)
                         {
@@ -1039,14 +1032,15 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="minWidth">The minimum width the content must be so it won't overflow (largest word + padding).</param>
         /// <param name="maxWidth">The total width the content can take without line wrapping (with padding).</param>
-        static void CalculateMinMaxWidth(CssBox box, out float minWidth, out float maxWidth)
+        static void CalculateMinMaxWidth(CssBox box, CssBox cbBox, out float minWidth, out float maxWidth)
         {
             float min = 0f;
             float maxSum = 0f;
             float paddingSum = 0f;
             float marginSum = 0f;
 
-            CalculateMinMaxSumWords(box, ref min, ref maxSum, ref paddingSum, ref marginSum);
+            box.EvaluateComputedValues(cbBox);
+            CalculateMinMaxSumWords(box, cbBox, ref min, ref maxSum, ref paddingSum, ref marginSum);
 
             maxWidth = paddingSum + maxSum;
             minWidth = paddingSum + (min < CssBoxConst.MAX_RIGHT ? min : 0);
@@ -1061,7 +1055,13 @@ namespace HtmlRenderer.Dom
         /// <param name="paddingSum">the total amount of padding the content has </param>
         /// <param name="marginSum"></param>
         /// <returns></returns>
-        static void CalculateMinMaxSumWords(CssBox box, ref float min, ref float maxSum, ref float paddingSum, ref float marginSum)
+        static void CalculateMinMaxSumWords(
+            CssBox box,
+            CssBox cbBox,
+            ref float min,
+            ref float maxSum,
+            ref float paddingSum,
+            ref float marginSum)
         {
             //recursive
 
@@ -1075,8 +1075,6 @@ namespace HtmlRenderer.Dom
                 oldSum = maxSum;
                 maxSum = marginSum;
             }
-
-
 
             // add the padding 
             paddingSum += box.ActualBorderLeftWidth + box.ActualBorderRightWidth + box.ActualPaddingRight + box.ActualPaddingLeft;
@@ -1100,17 +1098,39 @@ namespace HtmlRenderer.Dom
             else
             {
                 // recursively on all the child boxes
-                foreach (CssBox childBox in box.GetChildBoxIter())
+                //if this box has containing property 
+                if (box.HasContainingBlockProperty)
                 {
+                    foreach (CssBox childBox in box.GetChildBoxIter())
+                    {
 
-                    float msum = childBox.ActualMarginLeft + childBox.ActualMarginRight;
-                    marginSum += msum;
+                        childBox.EvaluateComputedValues(box);
 
-                    //recursive
-                    CalculateMinMaxSumWords(childBox, ref min, ref maxSum, ref paddingSum, ref marginSum);
+                        float msum = childBox.ActualMarginLeft + childBox.ActualMarginRight;
 
-                    marginSum -= msum;
+                        marginSum += msum;
+                        //recursive                        
+                        CalculateMinMaxSumWords(childBox, box, ref min, ref maxSum, ref paddingSum, ref marginSum);
+                        marginSum -= msum;
+                    }
                 }
+                else
+                {
+                    foreach (CssBox childBox in box.GetChildBoxIter())
+                    {
+
+                        childBox.EvaluateComputedValues(cbBox);
+
+                        float msum = childBox.ActualMarginLeft + childBox.ActualMarginRight;
+                        marginSum += msum;
+                        //recursive
+                        CalculateMinMaxSumWords(childBox, cbBox, ref min, ref maxSum, ref paddingSum, ref marginSum);
+
+                        marginSum -= msum;
+                    }
+                }
+
+
             }
 
             // max sum is max of all the lines in the box
@@ -1179,18 +1199,17 @@ namespace HtmlRenderer.Dom
                     int affect_col = Math.Min(gridIndex + colspan, col_count) - 1;
 
                     var col = this.columnCollection[affect_col];
+
                     float spanned_width = 0;
+                    float minimumCellWidth = cellBox.CalculateMinimumWidth(); 
 
                     if (colspan > 1)
                     {
-                        spanned_width += (colspan - 1) * horizontal_spacing +
-                            this.columnCollection.GetSpannedMinWidth(thisRowCellCount, gridIndex, colspan);
-
-                        col.MinWidth = Math.Max(col.MinWidth, cellBox.CalculateMinimumWidth() - spanned_width);
+                        col.MinWidth = Math.Max(col.MinWidth, minimumCellWidth - spanned_width);
                     }
                     else
                     {
-                        col.MinWidth = Math.Max(col.MinWidth, cellBox.CalculateMinimumWidth());
+                        col.MinWidth = Math.Max(col.MinWidth, minimumCellWidth);
                     }
 
                     gridIndex += cellBox.ColSpan;

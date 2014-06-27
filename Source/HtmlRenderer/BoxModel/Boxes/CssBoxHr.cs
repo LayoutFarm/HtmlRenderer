@@ -48,8 +48,13 @@ namespace HtmlRenderer.Dom
                 return;
             }
 
+            
             var prevSibling = lay.LatestSiblingBox;
+
             var myContainingBlock = lay.LatestContainingBlock;
+            EvaluateComputedValues(myContainingBlock);
+
+
 
             //float globalLeft = myContainingBlock.GlobalX + myContainingBlock.LocalClientLeft + ActualMarginLeft;
             //float globalTop = 0;

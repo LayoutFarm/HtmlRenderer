@@ -223,6 +223,7 @@ namespace HtmlRenderer.Dom
             get;
             set;
         }
+        
         //=============================================================
         static class CssBoxFlagsConst
         {
@@ -232,9 +233,14 @@ namespace HtmlRenderer.Dom
             public const int HAS_EVAL_WHITESPACE = 1 << (5 - 1);
             public const int TEXT_IS_ALL_WHITESPACE = 1 << (6 - 1);
             public const int TEXT_IS_EMPTY = 1 << (7 - 1);
-        }
-        int _boxCompactFlags;
 
+            //-----------------------------------------------
+            //layout state
+            public const int LAY_RUNSIZE_MEASURE = 1 << (8 - 1);
+            public const int LAY_EVAL_COMPUTE_VALUES = 1 << (9 - 1);
+
+        }
+        int _boxCompactFlags; 
 
 
     }

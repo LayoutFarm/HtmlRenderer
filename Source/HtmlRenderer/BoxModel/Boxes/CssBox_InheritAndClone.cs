@@ -150,10 +150,10 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                this._prop_wait_eval |= (CssBoxBaseAssignments.PADDING_LEFT |
-                                         CssBoxBaseAssignments.PADDING_TOP |
-                                         CssBoxBaseAssignments.PADDING_RIGHT |
-                                         CssBoxBaseAssignments.PADDING_BOTTOM);
+                //this._prop_wait_eval |= (CssBoxBaseAssignments.PADDING_LEFT |
+                //                         CssBoxBaseAssignments.PADDING_TOP |
+                //                         CssBoxBaseAssignments.PADDING_RIGHT |
+                //                         CssBoxBaseAssignments.PADDING_BOTTOM);
             }
             //-----------------------------------
         }

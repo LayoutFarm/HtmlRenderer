@@ -134,6 +134,10 @@ namespace HtmlRenderer.Parse
         }
         public static float GetActualBorderWidth(CssLength borderValue, CssBoxBase b)
         {
+            //------------------------------
+            //plan: use extended cssunit
+            //------------------------------
+
             if (borderValue.IsEmpty)
             {
                 //return as medium
