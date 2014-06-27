@@ -16,9 +16,7 @@ namespace HtmlRenderer.Dom
     {
 
         protected int _prop_pass_eval;
-        protected int _prop_wait_eval;
-
-
+      
         protected static class CssBoxBaseAssignments
         {
            

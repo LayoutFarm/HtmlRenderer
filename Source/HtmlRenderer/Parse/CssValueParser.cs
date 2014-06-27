@@ -34,19 +34,7 @@ namespace HtmlRenderer.Parse
         /// <returns>Parsed number. Zero if error while parsing.</returns>
 
         public static float ParseNumber(CssLength number, float hundredPercent)
-        {
-            //if (number.IsEmpty)
-            //{
-            //    return 0;
-            //}
-            //if (number.IsPercentage)
-            //{
-            //    return (number.Number / 100f) * hundredPercent;
-            //}
-            //else
-            //{
-            //    return number.Number;
-            //}
+        {   
             switch (number.Unit)
             {
                 case CssUnit.EmptyValue:
@@ -61,12 +49,7 @@ namespace HtmlRenderer.Parse
 
         public static float ParseLength(CssLength length, float hundredPercent, CssBoxBase box)
         {
-            //Return zero if no length specified, zero specified    
-            //if (length.IsEmpty)
-            //{
-            //    return 0;
-            //}
-
+            //Return zero if no length specified, zero specified      
             switch (length.Unit)
             {
                 case CssUnit.EmptyValue:
@@ -96,11 +79,7 @@ namespace HtmlRenderer.Parse
         }
         public static float ParseLengthWithFontAdjust(CssLength length, float hundredPercent, CssBoxBase box)
         {
-            //Return zero if no length specified, zero specified    
-            //if (length.IsEmpty)
-            //{
-            //    return 0;
-            //} 
+            //Return zero if no length specified, zero specified     
             switch (length.Unit)
             {
                 case CssUnit.EmptyValue:
@@ -148,8 +127,7 @@ namespace HtmlRenderer.Parse
             //plan: use extended cssunit
             //------------------------------
             switch(borderValue.Unit)
-            {
-
+            {   
                 case CssUnit.EmptyValue://as medium 
                 case CssUnit.BorderMedium:
                     return 2f;
@@ -159,29 +137,7 @@ namespace HtmlRenderer.Parse
                     return 4f;
                 default:
                      return Math.Abs(ParseLength(borderValue, 1, b));
-            }
-            //if (borderValue.IsEmpty)
-            //{
-            //    //return as medium
-            //    return 2f;
-            //}
-            //if (borderValue.IsBorderThicknessName)
-            //{
-            //    switch (borderValue.BorderThicknessName)
-            //    {
-            //        case CssBorderThickName.MEDIUM:
-            //            return 2f;
-            //        case CssBorderThickName.THICK:
-            //            return 4f;
-            //        default:
-            //            return 1f;
-            //    }
-            //}
-            //else
-            //{
-            //    return Math.Abs(ParseLength(borderValue, 1, b));
-            //}
-
+            } 
         }
 
 
