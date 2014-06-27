@@ -313,7 +313,7 @@ namespace HtmlRenderer.Dom
                                     columnCollection.SetColumnWidth(i, CssValueParser.ParseNumber(userDefinedColumnBoxes[i].Width, availbleWidthForAllCells));
                                 } break;
                             case CssUnit.Pixels:
-                            case CssUnit.None:
+                            case CssUnit.EmptyValue:
                                 {
                                     //Get width as an absolute-pixel value
                                     columnCollection.SetColumnWidth(i, colWidth.Number);

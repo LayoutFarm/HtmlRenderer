@@ -350,10 +350,9 @@ namespace HtmlRenderer.Dom
 
             //line height in <percentage> : 
             //The computed value if the property is percentage multiplied by the 
-            //element's computed font size.
-
+            //element's computed font size. 
             return CssLength.MakePixelLength(
-                HtmlRenderer.Parse.CssValueParser.ParseLength(len, box.GetEmHeight(), box, CssUnit.Ems));
+                HtmlRenderer.Parse.CssValueParser.ParseLength(len, box.GetEmHeight(), box));
         }
         public static HtmlRenderer.WebDom.WellknownCssPropertyName GetWellKnownPropName(string propertyName)
         {

@@ -242,7 +242,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckCornerVersion().NERadius = value;
-                this._prop_wait_eval |= CssBoxBaseAssignments.CORNER_NE;
+               // this._prop_wait_eval |= CssBoxBaseAssignments.CORNER_NE;
             }
         }
         public CssLength CornerNWRadius
@@ -251,7 +251,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckCornerVersion().NWRadius = value;
-                this._prop_wait_eval |= CssBoxBaseAssignments.CORNER_NW;
+                //this._prop_wait_eval |= CssBoxBaseAssignments.CORNER_NW;
             }
         }
         public CssLength CornerSERadius
@@ -260,7 +260,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckCornerVersion().SERadius = value;
-                this._prop_wait_eval |= CssBoxBaseAssignments.CORNER_SE;
+                //this._prop_wait_eval |= CssBoxBaseAssignments.CORNER_SE;
             }
         }
         public CssLength CornerSWRadius
@@ -269,7 +269,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckCornerVersion().SWRadius = value;
-                this._prop_wait_eval |= CssBoxBaseAssignments.CORNER_SW;
+                //this._prop_wait_eval |= CssBoxBaseAssignments.CORNER_SW;
             }
         }
         //------------------------------------------------------

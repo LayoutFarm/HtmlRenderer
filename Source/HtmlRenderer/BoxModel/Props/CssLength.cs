@@ -56,20 +56,20 @@ namespace HtmlRenderer.Dom
         //================================  
 
         //for upper 24 bits of _flags
-      public   const int IS_ASSIGN = 1 << (11 - 1);
-      public const int IS_AUTO = 1 << (12 - 1);
-      public const int IS_RELATIVE = 1 << (13 - 1);
-      public const int NORMAL = 1 << (14 - 1);
-      public const int NONE_VALUE = 1 << (15 - 1);
-      public const int HAS_ERROR = 1 << (16 - 1);
+        public const int IS_ASSIGN = 1 << (11 - 1);
+        public const int IS_AUTO = 1 << (12 - 1);
+        public const int IS_RELATIVE = 1 << (13 - 1);
+        public const int NORMAL = 1 << (14 - 1);
+        public const int NONE_VALUE = 1 << (15 - 1);
+        public const int HAS_ERROR = 1 << (16 - 1);
         //-------------------------------------
         //when used as border thickeness name
-      public const int IS_BORDER_THICKNESS_NAME = 1 << (20 - 1);
+        public const int IS_BORDER_THICKNESS_NAME = 1 << (20 - 1);
         //when used as font size
-      public const int IS_FONT_SIZE_NAME = 1 << (21 - 1);
+        public const int IS_FONT_SIZE_NAME = 1 << (21 - 1);
         //------------------------------------- 
         //when used as background position
-      public const int IS_BACKGROUND_POS_NAME = 1 << (22 - 1);
+        public const int IS_BACKGROUND_POS_NAME = 1 << (22 - 1);
         //-------------------------------------   
 
         public static readonly CssLength AutoLength = new CssLength(IS_ASSIGN | IS_AUTO);
@@ -105,7 +105,7 @@ namespace HtmlRenderer.Dom
 
 
         #region Ctor
-        
+
 
         public CssLength(float num, CssUnit unit)
         {
@@ -116,7 +116,7 @@ namespace HtmlRenderer.Dom
                 case CssUnit.Pixels:
                 case CssUnit.Ems:
                 case CssUnit.Ex:
-                case CssUnit.None:
+                case CssUnit.EmptyValue:
                     this._flags |= IS_RELATIVE;
                     break;
                 case CssUnit.Unknown:
@@ -162,14 +162,14 @@ namespace HtmlRenderer.Dom
                     return CssUnit.Unknown;
             }
         }
-        
+
         public static CssLength MakePixelLength(float pixel)
         {
             return new CssLength(pixel, CssUnit.Pixels);
         }
         public static CssLength MakeZeroLengthNoUnit()
         {
-            return new CssLength(0, CssUnit.None);
+            return new CssLength(0, CssUnit.EmptyValue);
         }
         public static CssLength MakeFontSizePtUnit(float pointUnit)
         {
@@ -201,7 +201,6 @@ namespace HtmlRenderer.Dom
 
             get { return this.Unit == CssUnit.Percent; }
         }
-
         public bool IsAuto
         {
             get { return (this._flags & IS_AUTO) != 0; }
@@ -321,7 +320,7 @@ namespace HtmlRenderer.Dom
                     case CssUnit.Percent:
                         return string.Format(NumberFormatInfo.InvariantInfo, "{0}%", Number);
 
-                    case CssUnit.None:
+                    case CssUnit.EmptyValue:
                         break;
                     case CssUnit.Ems:
                         u = "em";

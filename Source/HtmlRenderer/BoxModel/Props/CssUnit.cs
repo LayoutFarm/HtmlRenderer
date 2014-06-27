@@ -11,12 +11,11 @@ namespace HtmlRenderer.Entities
     /// </remarks>
     public enum CssUnit : byte
     {
-        None,
-        Unknown,
+        EmptyValue,//extension flags
+        Unknown,//extension flags
         Percent,//extension flags
-        
+         
         //-----------------------
-
         //W3C
         Ems,
         Pixels,

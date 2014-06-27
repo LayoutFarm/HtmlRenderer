@@ -47,10 +47,10 @@ namespace HtmlRenderer.Dom
             public const int BORDER_SPACING_H = 1 << (24 - 1);
             public const int BORDER_SPACING_V = 1 << (25 - 1);
             //---------------------------------------------
-            public const int CORNER_NE = 1 << (26 - 1);
-            public const int CORNER_NW = 1 << (27 - 1);
-            public const int CORNER_SE = 1 << (28 - 1);
-            public const int CORNER_SW = 1 << (29 - 1);
+            //public const int CORNER_NE = 1 << (26 - 1);
+            //public const int CORNER_NW = 1 << (27 - 1);
+            //public const int CORNER_SE = 1 << (28 - 1);
+            //public const int CORNER_SW = 1 << (29 - 1);
 
         }
 

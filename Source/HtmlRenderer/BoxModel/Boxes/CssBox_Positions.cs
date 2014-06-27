@@ -51,6 +51,8 @@ namespace HtmlRenderer.Dom
         float _actualCornerSW;
         float _actualCornerSE;
 
+        //todo : use flags
+        bool _hasRoundCorner;
 
         public float LocalX
         {
@@ -86,7 +88,40 @@ namespace HtmlRenderer.Dom
             this._localY = localY;
             this._boxCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
         }
-        //--------------------------------
+         
+        //=============================================================
+        /// <summary>
+        /// recalculate margin
+        /// </summary>
+        /// <param name="margin">marin side</param>
+        /// <param name="cbWidth">width of containging block</param>
+        /// <returns></returns>
+        float RecalculateMargin(CssLength margin, float cbWidth)
+        {
+            //www.w3.org/TR/CSS2/box.html#margin-properties
+            if (margin.IsAuto)
+            {
+                return 0;
+            }
+            return CssValueParser.ParseLength(margin, cbWidth, this);
+        }
+        /// <summary>
+        /// recalculate padding
+        /// </summary>
+        /// <param name="padding"></param>
+        /// <param name="cbWidth"></param>
+        /// <returns></returns>
+        float RecalculatePadding(CssLength padding, float cbWidth)
+        {
+            //www.w3.org/TR/CSS2/box.html#padding-properties
+            if (padding.IsAuto)
+            {
+                return 0;
+            }
+            return CssValueParser.ParseLength(padding, cbWidth, this);
+        }
+
+        //=============================================================
 
         static int num_count = 0;
         /// <summary>
@@ -127,6 +162,15 @@ namespace HtmlRenderer.Dom
             this._actualBorderTopWidth = (this.BorderTopStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderTopWidth, this);
             this._actualBorderRightWidth = (this.BorderRightStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderRightWidth, this);
             this._actualBorderBottomWidth = (this.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderBottomWidth, this);
+            //---------------------------------------------------------------------------
+
+            float c1, c2, c3, c4;
+            this._actualCornerNE = c1 = CssValueParser.ParseLength(CornerNERadius, 0, this);
+            this._actualCornerNW = c2 = CssValueParser.ParseLength(CornerNWRadius, 0, this);
+            this._actualCornerSE = c3 = CssValueParser.ParseLength(CornerSERadius, 0, this);
+            this._actualCornerSW = c4 = CssValueParser.ParseLength(CornerSWRadius, 0, this);
+            this._hasRoundCorner = (c1 + c2 + c3 + c4) > 0;
+            //---------------------------------------------------------------------------
 
             //if ((this._prop_pass_eval & CssBoxBaseAssignments.BORDER_WIDTH_BOTTOM) == 0)
             //{
@@ -404,39 +448,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        //=============================================================
-        /// <summary>
-        /// recalculate margin
-        /// </summary>
-        /// <param name="margin">marin side</param>
-        /// <param name="cbWidth">width of containging block</param>
-        /// <returns></returns>
-        float RecalculateMargin(CssLength margin, float cbWidth)
-        {
-            //www.w3.org/TR/CSS2/box.html#margin-properties
-            if (margin.IsAuto)
-            {
-                return 0;
-            }
-            return CssValueParser.ParseLength(margin, cbWidth, this);
-        }
-        /// <summary>
-        /// recalculate padding
-        /// </summary>
-        /// <param name="padding"></param>
-        /// <param name="cbWidth"></param>
-        /// <returns></returns>
-        float RecalculatePadding(CssLength padding, float cbWidth)
-        {
-            //www.w3.org/TR/CSS2/box.html#padding-properties
-            if (padding.IsAuto)
-            {
-                return 0;
-            }
-            return CssValueParser.ParseLength(padding, cbWidth, this);
-        }
-
-        //=============================================================
+        
         /// <summary>
         /// Gets the actual Margin on the left
         /// </summary>
@@ -671,14 +683,11 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-
-
-
-                if ((this._prop_wait_eval & CssBoxBaseAssignments.CORNER_NW) != 0)
-                {
-                    this._prop_wait_eval &= ~CssBoxBaseAssignments.CORNER_NW;
-                    return _actualCornerNW = CssValueParser.ParseLength(CornerNWRadius, 0, this);
-                }
+                //if ((this._prop_wait_eval & CssBoxBaseAssignments.CORNER_NW) != 0)
+                //{
+                //    this._prop_wait_eval &= ~CssBoxBaseAssignments.CORNER_NW;
+                //    return _actualCornerNW = CssValueParser.ParseLength(CornerNWRadius, 0, this);
+                //}
                 return _actualCornerNW;
             }
         }
@@ -690,11 +699,11 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_wait_eval & CssBoxBaseAssignments.CORNER_NE) != 0)
-                {
-                    this._prop_wait_eval &= ~CssBoxBaseAssignments.CORNER_NE;
-                    return _actualCornerNE = CssValueParser.ParseLength(CornerNERadius, 0, this);
-                }
+                //if ((this._prop_wait_eval & CssBoxBaseAssignments.CORNER_NE) != 0)
+                //{
+                //    this._prop_wait_eval &= ~CssBoxBaseAssignments.CORNER_NE;
+                //    return _actualCornerNE = CssValueParser.ParseLength(CornerNERadius, 0, this);
+                //}
                 return _actualCornerNE;
             }
         }
@@ -706,11 +715,11 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_wait_eval & CssBoxBaseAssignments.CORNER_SE) != 0)
-                {
-                    this._prop_wait_eval &= ~CssBoxBaseAssignments.CORNER_SE;
-                    return _actualCornerSE = CssValueParser.ParseLength(CornerSERadius, 0, this);
-                }
+                //if ((this._prop_wait_eval & CssBoxBaseAssignments.CORNER_SE) != 0)
+                //{
+                //    this._prop_wait_eval &= ~CssBoxBaseAssignments.CORNER_SE;
+                //    return _actualCornerSE = CssValueParser.ParseLength(CornerSERadius, 0, this);
+                //}
                 return _actualCornerSE;
             }
         }
@@ -722,11 +731,11 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_wait_eval & CssBoxBaseAssignments.CORNER_SW) != 0)
-                {
-                    this._prop_wait_eval &= ~CssBoxBaseAssignments.CORNER_SW;
-                    return _actualCornerSW = CssValueParser.ParseLength(CornerSWRadius, 0, this);
-                }
+                //if ((this._prop_wait_eval & CssBoxBaseAssignments.CORNER_SW) != 0)
+                //{
+                //    this._prop_wait_eval &= ~CssBoxBaseAssignments.CORNER_SW;
+                //    return _actualCornerSW = CssValueParser.ParseLength(CornerSWRadius, 0, this);
+                //}
                 return _actualCornerSW;
             }
         }
@@ -736,7 +745,11 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public bool IsRounded
         {
-            get { return ActualCornerNE > 0f || ActualCornerNW > 0f || ActualCornerSE > 0f || ActualCornerSW > 0f; }
+            get
+            {
+                return this._hasRoundCorner;
+            }
         }
+
     }
 }
