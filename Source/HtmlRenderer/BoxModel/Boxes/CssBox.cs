@@ -637,7 +637,7 @@ namespace HtmlRenderer.Dom
                             {
                                 float availableWidth = myContainingBlock.ClientWidth;
 
-                                if (!this.Width.IsAuto && !this.Width.IsEmpty)
+                                if (!this.Width.IsEmptyOrAuto)
                                 {
                                     availableWidth = CssValueParser.ParseLength(Width, availableWidth, this);
                                 }
@@ -757,7 +757,10 @@ namespace HtmlRenderer.Dom
         internal virtual void MeasureRunsSize(LayoutVisitor lay)
         {
             //measure once !
-            if (_wordsSizeMeasured) return;
+            if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_RUNSIZE_MEASURE) != 0)
+            {
+                return;
+            }
             //-------------------------------- 
             if (this.BackgroundImageBinder != null)
             {
@@ -774,13 +777,10 @@ namespace HtmlRenderer.Dom
                 float fontHeight = FontsUtils.GetFontHeight(actualFont);
 
                 var tmpRuns = this._boxRuns;
-                int j = tmpRuns.Count;
-
-                for (int i = 0; i < j; ++i)
+                for (int i = tmpRuns.Count - 1; i >= 0; --i)
                 {
                     CssRun run = tmpRuns[i];
                     run.Height = fontHeight;
-
                     //if this is newline then width =0 ***                         
                     switch (run.Kind)
                     {
@@ -811,9 +811,9 @@ namespace HtmlRenderer.Dom
                 }
             }
             this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
-            _wordsSizeMeasured = true;//*** 
         }
-
+       
+        
         /// <summary>
         /// Get the parent of this css properties instance.
         /// </summary>
@@ -1127,7 +1127,6 @@ namespace HtmlRenderer.Dom
                 bool dispose = false;
                 IGraphics g = p.Gfx;
 
-
                 SmoothingMode smooth = g.SmoothingMode;
 
                 if (BackgroundGradient != System.Drawing.Color.Transparent)
@@ -1152,13 +1151,13 @@ namespace HtmlRenderer.Dom
                     //  rectangle.Width -= ActualWordSpacing + CssUtils.GetWordEndWhitespace(ActualFont);
 
                     GraphicsPath roundrect = null;
-                    bool isRounnd = this.IsRounded;
-                    if (isRounnd)
+                    bool isRound = this.IsRounded;
+                    if (isRound)
                     {
                         roundrect = RenderUtils.GetRoundRect(rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
                     }
 
-                    if (!p.AvoidGeometryAntialias && isRounnd)
+                    if (!p.AvoidGeometryAntialias && isRound)
                     {
                         g.SmoothingMode = SmoothingMode.AntiAlias;
                     }

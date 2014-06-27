@@ -11,12 +11,20 @@ namespace HtmlRenderer.Entities
     /// </remarks>
     public enum CssUnit : byte
     {
-        EmptyValue,//extension flags
-        Unknown,//extension flags
-        Percent,//extension flags 
+        //empty value must be 0, and auto must be 1 ****
+        //(range usage)
+        //------------------------------
+        EmptyValue,//extension flags 
+        AutoLength,//extension flags
+        //------------------------------
+
+        NormalLength,//extension flags
+
         BorderThick,//extension flags
         BorderThin,//extension flags
         BorderMedium,//extension flags
+
+        Percent,//extension flags
         //-----------------------
         //W3C
         Ems,
@@ -28,6 +36,9 @@ namespace HtmlRenderer.Entities
         Points,
         Picas,
         //----------
+
+        Unknown,//extension flags
+
 
     }
 }

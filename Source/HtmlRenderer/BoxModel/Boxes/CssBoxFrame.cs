@@ -578,10 +578,10 @@ namespace HtmlRenderer.Dom
         /// <param name="g">the device to use</param>
         internal override void MeasureRunsSize(LayoutVisitor lay)
         {
-            if (!_wordsSizeMeasured)
+            if (!this.RunSizeMeasurePass)
             {
                 MeasureWordSpacing(lay);
-                _wordsSizeMeasured = true;
+                this.RunSizeMeasurePass = true;
             }
             CssLayoutEngine.MeasureImageSize(_imageWord);
         }
@@ -609,7 +609,7 @@ namespace HtmlRenderer.Dom
             _imageWord.Image = image;
             _imageWord.ImageRectangle = rectangle;
             _imageLoadingComplete = true;
-            _wordsSizeMeasured = false;
+            this.RunSizeMeasurePass = false;
 
             if (_imageLoadingComplete && image == null)
             {

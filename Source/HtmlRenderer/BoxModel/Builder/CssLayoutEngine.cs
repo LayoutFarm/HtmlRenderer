@@ -180,9 +180,10 @@ namespace HtmlRenderer.Dom
             hostBlock.SetHeight(maxLocalBottom + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
             // handle limiting block height when overflow is hidden             
             if (hostBlock.Overflow == CssOverflow.Hidden &&
-                 !hostBlock.Height.IsEmpty && !hostBlock.Height.IsAuto &&
+                 !hostBlock.Height.IsEmptyOrAuto &&
                  hostBlock.SizeHeight > hostBlock.ExpectedHeight)
             {
+
                 hostBlock.UseExpectedHeight();
             }
         }

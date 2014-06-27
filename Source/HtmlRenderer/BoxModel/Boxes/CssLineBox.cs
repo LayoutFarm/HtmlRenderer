@@ -526,8 +526,8 @@ namespace HtmlRenderer.Dom
 
                 var stripArea = strip.Bound;
                 bool isFirstLine, isLastLine;
-                CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
 
+                CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
                 stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);
                 p.PaintBorders(stripOwner, stripArea, isFirstLine, isLastLine);
 
@@ -545,12 +545,10 @@ namespace HtmlRenderer.Dom
                 {
                     continue;
                 }
-                var rect = strip.Bound;
 
                 bool isFirstLine, isLastLine;
                 CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
-                ownerBox.PaintDecoration(g, rect, isFirstLine, isLastLine);
-
+                ownerBox.PaintDecoration(g, strip.Bound, isFirstLine, isLastLine); 
             }
         }
 

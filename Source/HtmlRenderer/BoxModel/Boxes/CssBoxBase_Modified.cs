@@ -33,8 +33,7 @@ namespace HtmlRenderer.Dom
             return this._borderProps = this._borderProps.GetMyOwnVersion(this);
         }
         CssMarginProp CheckMarginVersion()
-        {
-          
+        {   
             return this._marginProps = this._marginProps.GetMyOwnVersion(this);
         }
         CssPaddingProp CheckPaddingVersion()
@@ -56,40 +55,8 @@ namespace HtmlRenderer.Dom
         CssBackgroundProp CheckBgVersion()
         {
             return this._backgroundProps = this._backgroundProps.GetMyOwnVersion(this);
-        }
-        //----------------------------------------------------
-        internal bool PassTestInlineOnly
-        {
-            get;
-            set;
-        }
-        internal bool InlineOnlyResult
-        {
-            get;
-            private set;
-        }
-        internal bool PassTestInlineOnlyDeep
-        {
-            get;
-            set;
-        }
-        internal bool InlineOnlyDeepResult
-        {
-            get;
-            private set;
-        }
-        internal void SetInlineOnlyTestResult(bool hasInlineOnly)
-        {
-            this.PassTestInlineOnly = true;
-            this.InlineOnlyResult = hasInlineOnly;
-        }
-        internal void SetInlineOnlyDeepResult(bool inlineOnlyDeepResult)
-        {
-            this.PassTestInlineOnlyDeep = true;
-            this.InlineOnlyDeepResult = inlineOnlyDeepResult;
-        }
-        //----------------------------------------------------
-
+        }  
+        
 
     }
 

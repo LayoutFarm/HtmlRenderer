@@ -222,7 +222,7 @@ namespace HtmlRenderer.Dom
 
             //===========================================================
             //part 2: insert empty cell ,           
-            if (!_tableBox._tableFixed) //fix once !!!
+            if (!_tableBox.IsTableFixed) //fix once !!!
             {
                 int rIndex = 0;
                 int bodyRowCount = bodyrows.Count;
@@ -255,7 +255,8 @@ namespace HtmlRenderer.Dom
                     }
                     rIndex++;//***
                 }
-                _tableBox._tableFixed = true;
+
+                _tableBox.IsTableFixed = true;
             }
             //===========================================================  
 
