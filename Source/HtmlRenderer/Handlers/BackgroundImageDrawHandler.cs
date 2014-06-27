@@ -87,7 +87,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="imgSize">the size of the image</param>
         /// <returns>the top-left location</returns>
         static Point GetLocation(CssLength posX, CssLength posY, RectangleF rectangle, Size imgSize)
-        {   
+        {
 
 
             int left = (int)rectangle.Left;
@@ -95,32 +95,32 @@ namespace HtmlRenderer.Handlers
 
             if (posX.IsBackgroundPositionName)
             {
-                switch (posX.BackgroundPositionName)
+                switch (posX.Unit)
                 {
-                    case CssBackgroundPositionConst.LEFT:
+                    case Entities.CssUnitOrNames.LEFT:
                         {
                             left = (int)(rectangle.Left + .5f);
                         } break;
-                    case CssBackgroundPositionConst.RIGHT:
+                    case Entities.CssUnitOrNames.RIGHT:
                         {
                             left = (int)rectangle.Right - imgSize.Width;
                         } break;
                 }
             }
             else
-            {   
+            {
                 //not complete !
                 left = (int)(rectangle.Left + (rectangle.Width - imgSize.Width) / 2 + .5f);
             }
             if (posY.IsBackgroundPositionName)
             {
-                switch (posY.BackgroundPositionName)
+                switch (posY.Unit)
                 {
-                    case CssBackgroundPositionConst.TOP:
+                    case Entities.CssUnitOrNames.TOP:
                         {
                             top = (int)rectangle.Top;
                         } break;
-                    case CssBackgroundPositionConst.BOTTOM:
+                    case Entities.CssUnitOrNames.BOTTOM:
                         {
                             top = (int)rectangle.Bottom - imgSize.Height;
                         } break;
@@ -129,7 +129,7 @@ namespace HtmlRenderer.Handlers
             else
             {   //not complete !
                 top = (int)(rectangle.Top + (rectangle.Height - imgSize.Height) / 2 + .5f);
-            } 
+            }
             return new Point(left, top);
         }
 

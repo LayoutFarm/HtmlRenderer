@@ -309,12 +309,14 @@ namespace HtmlRenderer.Dom
                     {
                         switch (colWidth.Unit)
                         {
-                            case CssUnit.Percent:
+                            case CssUnitOrNames.Percent:
                                 {
-                                    columnCollection.SetColumnWidth(i, CssValueParser.ParseNumber(userDefinedColumnBoxes[i].Width, availbleWidthForAllCells));
+                                    columnCollection.SetColumnWidth(i, 
+                                        CssValueParser.ParseNumber(userDefinedColumnBoxes[i].Width, availbleWidthForAllCells));
+
                                 } break;
-                            case CssUnit.Pixels:
-                            case CssUnit.EmptyValue:
+                            case CssUnitOrNames.Pixels:
+                            case CssUnitOrNames.EmptyValue:
                                 {
                                     //Get width as an absolute-pixel value
                                     columnCollection.SetColumnWidth(i, colWidth.Number);
@@ -703,16 +705,16 @@ namespace HtmlRenderer.Dom
 
                         //HtmlRenderer.Utils.DomUtils.ForEachTextRunDeep(cell, trun =>
                         //{
-                        //    if (trun.Text.Contains("FourX"))
+                        //    if (trun.Text.Contains("Cell1"))
                         //    {
                         //        cell.dbugMark = 20;
                         //        return true;
                         //    }
-                        //    else if (trun.Text.Contains("You1"))
-                        //    {
-                        //        cell.dbugMark = 19;
-                        //        return true;
-                        //    }
+                        //    //else if (trun.Text.Contains("You1"))
+                        //    //{
+                        //    //    cell.dbugMark = 19;
+                        //    //    return true;
+                        //    //}
                         //    return false;
                         //});
 

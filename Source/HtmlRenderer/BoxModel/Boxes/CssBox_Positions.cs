@@ -212,10 +212,12 @@ namespace HtmlRenderer.Dom
 
             //extension ***
             float c1, c2, c3, c4;
+
             this._actualCornerNE = c1 = CssValueParser.ParseLength(CornerNERadius, 0, this);
             this._actualCornerNW = c2 = CssValueParser.ParseLength(CornerNWRadius, 0, this);
             this._actualCornerSE = c3 = CssValueParser.ParseLength(CornerSERadius, 0, this);
             this._actualCornerSW = c4 = CssValueParser.ParseLength(CornerSWRadius, 0, this);
+
             this._hasRoundCorner = (c1 + c2 + c3 + c4) > 0;
             //---------------------------------------------------------------------------
 
