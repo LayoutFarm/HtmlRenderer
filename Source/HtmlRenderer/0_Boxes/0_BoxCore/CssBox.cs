@@ -439,7 +439,7 @@ namespace HtmlRenderer.Dom
         internal CssRun FirstRun
         {
             get { return Runs[0]; }
-        } 
+        }
 
         /// <summary>
         /// Measures the bounds of box and children, recursively.<br/>
@@ -458,7 +458,7 @@ namespace HtmlRenderer.Dom
                 throw new Exception("before box doesn't exist on parent");
             }
             this._parentBox.Boxes.ChangeSiblingIndex(this, siblingIndex);
-        } 
+        }
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
@@ -624,17 +624,25 @@ namespace HtmlRenderer.Dom
             }
 
             //----------------------------------------------------------------------------- 
-            //set height 
+            //set height  
+            UpdateIfHigher(this, ExpectedHeight);
 
-            this.UpdateIfHigher(this.ExpectedHeight);
             this.CreateListItemBox(lay);
-
-
             //update back 
             lay.UpdateRootSize(this);
-
         }
 
+        static void UpdateIfHigher(CssBox box, float newHeight)
+        {
+            if (newHeight > box.SizeHeight)
+            {
+                box.SetHeight(newHeight);
+            }
+        }
+        protected void SetHeightToZero()
+        {
+            this.SetHeight(0);
+        }
         /// <summary>
         /// Assigns words its width and height
         /// </summary>

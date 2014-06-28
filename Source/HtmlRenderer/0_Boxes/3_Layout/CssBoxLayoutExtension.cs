@@ -14,21 +14,11 @@ namespace HtmlRenderer.Dom
 
     static class CssBoxLayoutExtension
     {
-        internal static void UpdateIfHigher(this CssBox box, float newHeight)
-        {
-            if (newHeight > box.SizeHeight)
-            {
-                box.SetHeight(newHeight);
-            }
-        }
+        
         internal static void UseExpectedHeight(this CssBox box)
         {
             box.SetHeight(box.ExpectedHeight);
-        }
-        internal static void SetHeightToZero(this CssBox box)
-        {
-            box.SetHeight(0);
-        }
+        } 
         internal static bool IsAbsolutePosition(this CssBox box)
         {
             return box.Position == CssPosition.Absolute;

@@ -92,7 +92,7 @@ namespace HtmlRenderer.Dom
             box.CssDisplay = CssDisplay.Block;
             return box;
         }
-        public static CssBox CreateBoxAndInherit(CssBox parent, IHtmlElement tag)
+        internal static CssBox CreateBoxAndInherit(CssBox parent, IHtmlElement tag)
         {
             var newBox = new CssBox(parent, tag);
             newBox.InheritStyles(parent);
