@@ -56,7 +56,7 @@ namespace HtmlRenderer.Dom
                 parentBox.Boxes.Add(this);
             }
 
-            _htmltag = tag;
+            _htmlElement = tag;
             if (tag != null)
             {
                 this.WellknownTagName = tag.WellknownTagName;
@@ -119,7 +119,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this.WellknownTagName == WellknownHtmlTagName.BR;
+                return this.WellknownTagName == WellknownHtmlTagName.br;
             }
         }
 
@@ -201,11 +201,11 @@ namespace HtmlRenderer.Dom
         }
 
         /// <summary>
-        /// Gets the HTMLTag that hosts this box
+        /// Gets the HtmlElement that hosts this box
         /// </summary>
-        public IHtmlElement HtmlTag
+        public IHtmlElement HtmlElement
         {
-            get { return _htmltag; }
+            get { return _htmlElement; }
         }
 
         /// <summary>
@@ -458,11 +458,11 @@ namespace HtmlRenderer.Dom
 
             switch (tag.WellknownTagName)
             {
-                case WellknownHtmlTagName.IMG:
+                case WellknownHtmlTagName.img:
                     return new CssBoxImage(parent, tag);
-                case WellknownHtmlTagName.IFREAME:
+                case WellknownHtmlTagName.iframe:
                     return new CssBoxHr(parent, tag);
-                case WellknownHtmlTagName.HR:
+                case WellknownHtmlTagName.hr:
                     return new CssBoxHr(parent, tag);
                 //test extension box
                 case WellknownHtmlTagName.X:
@@ -954,7 +954,7 @@ namespace HtmlRenderer.Dom
         /// <returns>Attribute value or defaultValue if no attribute specified</returns>
         public string GetAttribute(string attribute, string defaultValue)
         {
-            return HtmlTag != null ? HtmlTag.TryGetAttribute(attribute, defaultValue) : defaultValue;
+            return HtmlElement != null ? HtmlElement.TryGetAttribute(attribute, defaultValue) : defaultValue;
         }
 
 
@@ -1279,7 +1279,7 @@ namespace HtmlRenderer.Dom
         /// <returns></returns>
         public override string ToString()
         {
-            var tag = HtmlTag != null ? string.Format("<{0}>", HtmlTag.Name) : "anon";
+            var tag = HtmlElement != null ? string.Format("<{0}>", HtmlElement.Name) : "anon";
 
             if (IsBlock)
             {

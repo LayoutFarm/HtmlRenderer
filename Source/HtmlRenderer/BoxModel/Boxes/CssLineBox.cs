@@ -121,7 +121,7 @@ namespace HtmlRenderer.Dom
     /// http://www.w3.org/TR/CSS21/visuren.html
     /// </remarks>
     sealed class CssLineBox
-    {
+    {  
         readonly CssBox _ownerBox;
 
         //a run may come from another CssBox (not from _ownerBox)
@@ -136,8 +136,7 @@ namespace HtmlRenderer.Dom
         readonly List<PartialBoxStrip> _bottomUpBoxStrips = new List<PartialBoxStrip>();
         internal LinkedListNode<CssLineBox> linkedNode;
 
-        float _cacheContentWidth;
-
+        float _cacheContentWidth; 
 #if DEBUG
         bool dbugIsClosed;
         static int dbugTotalId;

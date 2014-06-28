@@ -36,17 +36,18 @@ namespace HtmlRenderer.Dom
         /// </summary>
         protected HtmlContainer _htmlContainer;
 
+        //----------------------------------------------------
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary>
-        private readonly IHtmlElement _htmltag;
+        readonly IHtmlElement _htmlElement;
         char[] _textBuffer;
 
         int _boxCompactFlags;
 
 
         //----------------------------------------------------
-        CssBox _listItemBox; 
+        CssBox _listItemBox;
         //----------------------------------------------------
         //eg td,th,col,colgroup
         int _rowSpan;

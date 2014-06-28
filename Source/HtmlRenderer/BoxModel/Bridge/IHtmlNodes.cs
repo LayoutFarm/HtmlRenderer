@@ -21,76 +21,99 @@ namespace HtmlRenderer.Dom
 
     public enum WellknownHtmlTagName : byte
     {
-        NotAssign,
-
+        NotAssign, //extension , for anonymous element
         Unknown,
+
         [Map("html")]
-        HTML,
+        html,
         [Map("a")]
-        A,
+        a,
         [Map("area")]
-        AREA,
+        area,
         [Map("hr")]
-        HR,
+        hr,
         [Map("br")]
-        BR,
+        br,
         [Map("style")]
-        STYLE,
+        style,
         [Map("script")]
-        SCRIPT,
+        script,
         [Map("img")]
-        IMG,
+        img,
         [Map("input")]
-        INPUT,
-
-
-        [Map("isindex")]
-        ISINDEX,
+        input,
 
         [Map("div")]
-        DIV,
-
+        div, 
         [Map("span")]
-        SPAN,
+        span,
+
         [Map("link")]
-        LINK,
+        link,
         [Map("p")]
-        P,
+        p,
+
+        //----------------------------------
         [Map("table")]
-        TABLE,
-        [Map("td")]
-        TD,
+        table,
+
         [Map("tr")]
-        TR,
+        tr,//table-row
+
         [Map("tbody")]
-        TBody,
+        tbody,//table-row-group
+
         [Map("thead")]
-        THead,
-        [Map("th")]
-        TH,
+        thead, //table-header-group
+        //from css2.1 spec:
+        //thead: like 'table-row-group' ,but for visual formatting.
+        //the row group is always displayed before all other rows and row groups and
+        //after any top captions...
+
         [Map("tfoot")]
-        TFoot,
-        [Map("iframe")]
-        IFREAME,
-        [Map("frame")]
-        FRAME,
+        tfoot, //table-footer-group
+        //css2.1: like 'table-row-group',but for visual formatting
+
         [Map("col")]
-        COL,
+        col,//table-column, specifics that an element describes a column of cells
+
         [Map("colgroup")]
-        COLGROUP,
-        [Map("font")]
-        FONT,
+        colgroup,//table-column-group, specific that an element groups one or more columns;
+
+        [Map("td")]
+        td,//table-cell                
+        [Map("th")]
+        th,//table-cell
+
         [Map("caption")]
-        CAPTION,
+        caption,//table-caption element
+        //----------------------------------------
+
+
+        [Map("iframe")]
+        iframe,
+
+
+        //----------------------------------------
+        [FeatureDeprecated("not support in Html5")]
+        [Map("frame")]
+        frame,
+        [FeatureDeprecated("not support in Html5,Use Css instead")]
+        [Map("font")]
+        font,
+        [FeatureDeprecated("not support in Html5,Use Css instead")]
+        [Map("basefont")]
+        basefont,
+
 
         [Map("base")]
-        BASE,
-        [Map("basefont")]
-        BASEFONT,
+        _base, 
+
         [Map("meta")]
-        META,
+        meta,
         [Map("param")]
-        PARAM,
+        _param, 
+
         [Map("x")]
         X//test for extension 
     }
@@ -139,7 +162,7 @@ namespace HtmlRenderer.Dom
 
 
         string Id { get; }
-        string ClassName { get; }        
+        string ClassName { get; }
         string Style { get; }
 
     }

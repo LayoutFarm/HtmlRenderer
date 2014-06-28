@@ -202,7 +202,7 @@ namespace HtmlRenderer.Dom
             //-------------------------------------------------------------------            
             box.InheritStyles(box.ParentBox);
 
-            if (box.HtmlTag != null)
+            if (box.HtmlElement != null)
             {
                 //------------------------------------------------------------------- 
                 //1. element tag
@@ -211,21 +211,22 @@ namespace HtmlRenderer.Dom
                 activeCssTemplate.ApplyActiveTemplateForElement(box.ParentBox, box);
                 //3.
                 // try assign style using the "id" attribute of the html element
-                if (box.HtmlTag.HasAttribute("id"))
+                if (box.HtmlElement.HasAttribute("id"))
                 {
-                    var id = box.HtmlTag.TryGetAttribute("id");
+                    var id = box.HtmlElement.TryGetAttribute("id");
                     AssignStylesForElementId(box, activeCssTemplate, "#" + id);
                 }
                 //-------------------------------------------------------------------
                 //4. 
                 //element attribute
-                AssignStylesFromTranslatedAttributes(box, activeCssTemplate);
+                AssignStylesFromTranslatedAttributesHTML5(box, activeCssTemplate);
+                //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
                 //------------------------------------------------------------------- 
                 //5.
                 //style attribute value of element
-                if (box.HtmlTag.HasAttribute("style"))
+                if (box.HtmlElement.HasAttribute("style"))
                 {
-                    var ruleset = activeCssTemplate.ParseCssBlock(box.HtmlTag.Name, box.HtmlTag.TryGetAttribute("style"));
+                    var ruleset = activeCssTemplate.ParseCssBlock(box.HtmlElement.Name, box.HtmlElement.TryGetAttribute("style"));
                     foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                     {
                         AssignPropertyValue(box, box.ParentBox, propDecl);
@@ -237,14 +238,14 @@ namespace HtmlRenderer.Dom
                 // Check for the <link rel=stylesheet> tag 
                 switch (box.WellknownTagName)
                 {
-                    case WellknownHtmlTagName.STYLE:
+                    case WellknownHtmlTagName.style:
                         {
                             if (box.ChildCount == 1)
                             {
                                 activeCssTemplate.LoadRawStyleElementContent(box.GetFirstChild().CopyTextContent());
                             }
                         } break;
-                    case WellknownHtmlTagName.LINK:
+                    case WellknownHtmlTagName.link:
                         {
                             if (box.GetAttribute("rel", string.Empty).Equals("stylesheet", StringComparison.CurrentCultureIgnoreCase))
                             {
@@ -348,24 +349,24 @@ namespace HtmlRenderer.Dom
                 CssDisplay display = UserMapUtil.GetDisplayType(cssProperty.GetPropertyValue(0));
                 switch (box.WellknownTagName)
                 {
-                    case WellknownHtmlTagName.TABLE:
+                    case WellknownHtmlTagName.table:
                         return display == CssDisplay.Table;
-                    case WellknownHtmlTagName.TR:
+                    case WellknownHtmlTagName.tr:
                         return display == CssDisplay.TableRow;
-                    case WellknownHtmlTagName.TBody:
+                    case WellknownHtmlTagName.tbody:
                         return display == CssDisplay.TableRowGroup;
-                    case WellknownHtmlTagName.THead:
+                    case WellknownHtmlTagName.thead:
                         return display == CssDisplay.TableHeaderGroup;
-                    case WellknownHtmlTagName.TFoot:
+                    case WellknownHtmlTagName.tfoot:
                         return display == CssDisplay.TableFooterGroup;
-                    case WellknownHtmlTagName.COL:
+                    case WellknownHtmlTagName.col:
                         return display == CssDisplay.TableColumn;
-                    case WellknownHtmlTagName.COLGROUP:
+                    case WellknownHtmlTagName.colgroup:
                         return display == CssDisplay.TableColumnGroup;
-                    case WellknownHtmlTagName.TD:
-                    case WellknownHtmlTagName.TH:
+                    case WellknownHtmlTagName.td:
+                    case WellknownHtmlTagName.th:
                         return display == CssDisplay.TableCell;
-                    case WellknownHtmlTagName.CAPTION:
+                    case WellknownHtmlTagName.caption:
                         return display == CssDisplay.TableCaption;
                 }
             }
@@ -373,10 +374,10 @@ namespace HtmlRenderer.Dom
         }
 
 
-        static void AssignStylesFromTranslatedAttributes(CssBox box, ActiveCssTemplate activeTemplate)
+        static void AssignStylesFromTranslatedAttributes_Old(CssBox box, ActiveCssTemplate activeTemplate)
         {
             //some html attr contains css value 
-            IHtmlElement tag = box.HtmlTag;
+            IHtmlElement tag = box.HtmlElement;
 
             if (tag.HasAttributes())
             {
@@ -416,8 +417,7 @@ namespace HtmlRenderer.Dom
                             break;
                         case WebDom.WellknownHtmlName.Border:
                             {
-                                //not support in HTML5
-
+                                //not support in HTML5 
                                 CssLength borderLen = TranslateLength(UserMapUtil.MakeBorderLength(attr.Value.ToLower()));
                                 if (!borderLen.HasError)
                                 {
@@ -435,7 +435,7 @@ namespace HtmlRenderer.Dom
                                     box.BorderRightWidth =
                                     box.BorderBottomWidth = borderLen;
 
-                                    if (tag.WellknownTagName == WellknownHtmlTagName.TABLE && borderLen.Number > 0)
+                                    if (tag.WellknownTagName == WellknownHtmlTagName.table && borderLen.Number > 0)
                                     {
                                         //Cascades to the TD's the border spacified in the TABLE tag.
                                         var borderWidth = CssLength.MakePixelLength(1);
@@ -515,12 +515,13 @@ namespace HtmlRenderer.Dom
                             {
                                 switch (tag.WellknownTagName)
                                 {
-                                    case WellknownHtmlTagName.HR:
+                                    case WellknownHtmlTagName.hr:
                                         {
                                             box.Height = TranslateLength(attr);
                                         } break;
-                                    case WellknownHtmlTagName.FONT:
+                                    case WellknownHtmlTagName.font:
                                         {
+                                            //font tag is not support in Html5
                                             var ruleset = activeTemplate.ParseCssBlock("", attr.Value.ToLower());
                                             foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                                             {
@@ -551,7 +552,7 @@ namespace HtmlRenderer.Dom
         static void AssignStylesFromTranslatedAttributesHTML5(CssBox box, ActiveCssTemplate activeTemplate)
         {
             //some html attr contains css value 
-            IHtmlElement tag = box.HtmlTag;
+            IHtmlElement tag = box.HtmlElement;
 
             if (tag.HasAttributes())
             {
@@ -713,11 +714,16 @@ namespace HtmlRenderer.Dom
                                 //}
                             } break;
                         case WebDom.WellknownHtmlName.VAlign:
-                            {   
-                               
+                            {
+                                //w3.org 
+                                //valign for table display elements:
+                                //col,colgroup,tbody,td,tfoot,th,thead,tr
+
                                 WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
                                           attr.Value.ToLower(), WebDom.CssValueHint.Iden);
                                 box.VerticalAlign = UserMapUtil.GetVerticalAlign(propValue);
+
+
                             } break;
                         case WebDom.WellknownHtmlName.VSpace:
                             //deprecated
@@ -760,7 +766,7 @@ namespace HtmlRenderer.Dom
             {
                 foreach (var c2 in c1.GetChildBoxIter())
                 {
-                    if (c2.WellknownTagName == WellknownHtmlTagName.TD)
+                    if (c2.WellknownTagName == WellknownHtmlTagName.td)
                     {
                         cellAction(c2);
                     }

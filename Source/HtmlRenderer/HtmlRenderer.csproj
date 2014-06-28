@@ -78,6 +78,8 @@
     <Compile Include="BoxModel\Builder\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
     <Compile Include="BoxModel\Builder\CssTableLayoutEngine.TableColumns.cs" />
     <Compile Include="BoxModel\Runs\ImageBinder.cs" />
+    <Compile Include="Common\DeprecatedAttribute.cs" />
+    <Compile Include="Common\MapAttribute.cs" />
     <Compile Include="Common\ValueMaps.cs" />
     <Compile Include="Common\TextSnapshot.cs" />
     <Compile Include="BoxModel\Builder\ContentTextSplitter.cs" />
@@ -119,7 +121,7 @@
     <Compile Include="BoxModel\Props\CssLength.cs" />
     <Compile Include="BoxModel\Boxes\CssLineBox.cs" />
     <Compile Include="BoxModel\Builder\CssTableLayoutEngine.cs" />
-    <Compile Include="Entities\IHtmlNodes.cs" />
+    <Compile Include="BoxModel\Bridge\IHtmlNodes.cs" />
     <Compile Include="BoxModel\Props\Border.cs" />
     <Compile Include="Entities\HtmlLinkClickedException.cs" />
     <Compile Include="Entities\HtmlLinkClickedEventArgs.cs" />

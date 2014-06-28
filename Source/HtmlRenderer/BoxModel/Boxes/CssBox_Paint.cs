@@ -29,7 +29,7 @@ namespace HtmlRenderer.Dom
         public void dbugPaint(PaintVisitor p, RectangleF r)
         {
             return;
-            if (this.HtmlTag == null)
+            if (this.HtmlElement == null)
             {
                 p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);
 

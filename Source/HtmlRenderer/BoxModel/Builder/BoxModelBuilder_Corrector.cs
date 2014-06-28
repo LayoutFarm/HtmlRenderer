@@ -285,7 +285,7 @@ namespace HtmlRenderer.Dom
         {
             //recursive
 
-            var leftPart = CssBox.CreateBox(leftBlock, splitBox.HtmlTag);
+            var leftPart = CssBox.CreateBox(leftBlock, splitBox.HtmlElement);
             leftPart.InheritStyles(splitBox, true);
 
             bool had_new_leftbox = false;
@@ -317,7 +317,7 @@ namespace HtmlRenderer.Dom
                 CssBox rightPart;
                 if (firstChild.ParentBox != null || parentBox.ChildCount < 3)
                 {
-                    rightPart = CssBox.CreateBox(parentBox, splitBox.HtmlTag);
+                    rightPart = CssBox.CreateBox(parentBox, splitBox.HtmlElement);
                     rightPart.InheritStyles(splitBox, true);
 
                     if (parentBox.ChildCount > 2)
@@ -347,7 +347,7 @@ namespace HtmlRenderer.Dom
 
                 firstChild.ChangeSiblingOrder(1);
 
-                if (firstChild.WellknownTagName == WellknownHtmlTagName.BR
+                if (firstChild.WellknownTagName == WellknownHtmlTagName.br
                     && (had_new_leftbox || leftBlock.ChildCount > 1))
                 {
                     firstChild.CssDisplay = CssDisplay.Inline;

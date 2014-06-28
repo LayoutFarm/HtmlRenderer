@@ -304,7 +304,7 @@ namespace HtmlRenderer.Utils
         {
             if (box != null && !string.IsNullOrEmpty(id))
             {
-                if (box.HtmlTag != null && id.Equals(box.HtmlTag.TryGetAttribute("id"), StringComparison.OrdinalIgnoreCase))
+                if (box.HtmlElement != null && id.Equals(box.HtmlElement.TryGetAttribute("id"), StringComparison.OrdinalIgnoreCase))
                 {
                     return box;
                 }
@@ -381,11 +381,11 @@ namespace HtmlRenderer.Utils
             }
             else
             {
-                if (box.HtmlTag != null)
+                if (box.HtmlElement != null)
                 {
-                    switch (box.HtmlTag.WellknownTagName)
+                    switch (box.HtmlElement.WellknownTagName)
                     {
-                        case WellknownHtmlTagName.TR:
+                        case WellknownHtmlTagName.tr:
                             {
 
                                 foreach (var childBox in box.GetChildBoxIter())
@@ -505,7 +505,7 @@ namespace HtmlRenderer.Utils
                 if (box.LineBoxCount > 0)
                 {
                     if (box.WellknownTagName == WellknownHtmlTagName.NotAssign ||
-                        box.WellknownTagName != WellknownHtmlTagName.TD ||
+                        box.WellknownTagName != WellknownHtmlTagName.td ||
                         box.IsPointInArea(location.X, location.Y))
                     {
                         foreach (var lineBox in box.GetLineBoxIter())
@@ -1145,8 +1145,8 @@ namespace HtmlRenderer.Utils
         private static void GenerateBoxTree(CssBox box, StringBuilder builder, int indent)
         {
             builder.AppendFormat("{0}<{1}", new string(' ', 2 * indent), box.CssDisplay.ToCssStringValue());
-            if (box.HtmlTag != null)
-                builder.AppendFormat(" elm=\"{0}\"", box.HtmlTag != null ? box.HtmlTag.Name : string.Empty);
+            if (box.HtmlElement != null)
+                builder.AppendFormat(" elm=\"{0}\"", box.HtmlElement != null ? box.HtmlElement.Name : string.Empty);
             if (box.RunCount > 0)
                 builder.AppendFormat(" words=\"{0}\"", box.RunCount);
             builder.AppendFormat("{0}>\r\n", box.ChildCount > 0 ? "" : "/");
