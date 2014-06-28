@@ -27,7 +27,11 @@ namespace HtmlRenderer.Dom
 
     partial class BoxModelBuilder
     {
+        //------------------------------------------
+        static void OnePassBoxCorrection(CssBox root)
+        { 
 
+        }
         /// <summary>
         /// Makes block boxes be among only block boxes and all inline boxes have block parent box.<br/>
         /// Inline boxes should live in a pool of Inline boxes only so they will define a single block.<br/>
@@ -150,6 +154,7 @@ namespace HtmlRenderer.Dom
                             followingBlock = true;
                         }
                     }
+
                     brBox.CssDisplay = CssDisplay.Block;
                     if (followingBlock)
                     {   // atodo: check the height to min-height when it is supported

@@ -59,35 +59,74 @@ namespace HtmlRenderer.Dom
 
         static void CreateCssBox(WebDom.HtmlElement htmlElement, CssBox parentNode)
         {
-            //recursive  
-
+            //recursive   
             CssBox box = BoxCreator.CreateBoxNotInherit(new ElementBridge(htmlElement), parentNode);
-            foreach (WebDom.HtmlNode node in htmlElement.GetChildNodeIterForward())
-            {
-                switch (node.NodeType)
-                {
-                    case WebDom.HtmlNodeType.OpenElement:
-                    case WebDom.HtmlNodeType.ShortElement:
-                        {
-                            //recursive
-                            CreateCssBox((WebDom.HtmlElement)node, box);
 
-                        } break;
-                    case WebDom.HtmlNodeType.TextNode:
-                        {   
-                            /// Add html text anon box to the current box, this box will have the rendered text<br/>
-                            /// Adding box also for text that contains only whitespaces because we don't know yet if
-                            /// the box is preformatted. At later stage they will be removed if not relevant.                             
-                            WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)node;
-                            //create anonymos box
-                            BoxCreator.CreateBoxAndInherit(box, null).SetTextContent(textNode.CopyTextBuffer()); 
-
-                        } break;
-                    default:
+            switch (htmlElement.ChildNodeCount)
+            {   
+                case 0:
+                    return;
+                case 1:
+                    {
+                        var firstChild = htmlElement.GetFirstNode();
+                        switch (firstChild.NodeType)
                         {
-                        } break;
-                }
+                            case WebDom.HtmlNodeType.OpenElement:
+                            case WebDom.HtmlNodeType.ShortElement:
+                                {
+                                    //recursive
+                                    CreateCssBox((WebDom.HtmlElement)firstChild, box);
+                                } break;
+                            case WebDom.HtmlNodeType.TextNode:
+                                {
+                                    //set text node
+                                    //WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)firstChild; 
+                                    //box.SetTextContent(textNode.CopyTextBuffer());
+
+                                    WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)firstChild; 
+                                    CssBox anonText = new CssBox(box, null);
+                                    //parse and evaluate whitespace here ! 
+                                    anonText.SetTextContent(textNode.CopyTextBuffer());
+
+                                } break;
+                        }
+
+                    } break;
+                default:
+                    {
+                        foreach (WebDom.HtmlNode node in htmlElement.GetChildNodeIterForward())
+                        {
+                            switch (node.NodeType)
+                            {
+                                case WebDom.HtmlNodeType.OpenElement:
+                                case WebDom.HtmlNodeType.ShortElement:
+                                    {
+                                        //recursive
+                                        CreateCssBox((WebDom.HtmlElement)node, box);
+                                    } break;
+                                case WebDom.HtmlNodeType.TextNode:
+                                    {
+                                        /// Add html text anon box to the current box, this box will have the rendered text<br/>
+                                        /// Adding box also for text that contains only whitespaces because we don't know yet if
+                                        /// the box is preformatted. At later stage they will be removed if not relevant.                             
+                                        WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)node;
+                                        //create anonymous box  but not inherit
+                                        CssBox anonText = new CssBox(box, null);
+                                        //parse and evaluate whitespace here ! 
+                                        anonText.SetTextContent(textNode.CopyTextBuffer());
+
+                                    } break;
+                                default:
+                                    {
+                                    } break;
+                            }
+                        }
+
+                    } break;
+
             }
+
+
 
         }
         #endregion Parse
@@ -127,11 +166,11 @@ namespace HtmlRenderer.Dom
                 //-------------------------------------------------------------------
                 ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(htmlContainer, cssData);
                 ApplyStyleSheet(root, activeCssTemplate);
-                //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);
 
-                CorrectTextBoxes(root);
+                OnePassBoxCorrection(root);
 
+                CorrectTextBoxes(root);
                 CorrectImgBoxes(root);
 
                 bool followingBlock = true;
@@ -148,6 +187,8 @@ namespace HtmlRenderer.Dom
             return root;
         }
 
+
+        //------------------------------------------
         #region Private methods
 #if DEBUG
         static void dbugTestParsePerformance(string htmlstr)
