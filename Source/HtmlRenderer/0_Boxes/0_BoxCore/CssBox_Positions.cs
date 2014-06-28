@@ -10,13 +10,12 @@ namespace HtmlRenderer.Dom
     partial class CssBox
     {
 
-
-
         float _localX;
         float _localY;
         //location, size 
         float _sizeHeight;
         float _sizeWidth;
+
 
         /// <summary>
         /// user's expected height
@@ -26,7 +25,6 @@ namespace HtmlRenderer.Dom
         /// user's expected width 
         /// </summary>
         float _expectedWidth;
-
 
 
         float _actualPaddingTop;
@@ -51,8 +49,7 @@ namespace HtmlRenderer.Dom
         float _actualCornerSW;
         float _actualCornerSE;
 
-        //todo : use flags
-        bool _hasRoundCorner;
+
 
         public float LocalX
         {
@@ -218,7 +215,14 @@ namespace HtmlRenderer.Dom
             this._actualCornerSE = c3 = CssValueParser.ParseLength(CornerSERadius, 0, this);
             this._actualCornerSW = c4 = CssValueParser.ParseLength(CornerSWRadius, 0, this);
 
-            this._hasRoundCorner = (c1 + c2 + c3 + c4) > 0;
+            if ((c1 + c2 + c3 + c4) > 0)
+            {
+                this._boxCompactFlags |= CssBoxFlagsConst.HAS_ROUND_CORNER;
+            }
+            else
+            {
+                this._boxCompactFlags &= ~CssBoxFlagsConst.HAS_ROUND_CORNER;
+            }
             //---------------------------------------------------------------------------
 
             //if ((this._prop_pass_eval & CssBoxBaseAssignments.BORDER_WIDTH_BOTTOM) == 0)
@@ -344,11 +348,11 @@ namespace HtmlRenderer.Dom
             get
             {
 #if DEBUG
-                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                {
-                    //if not evaluate
-                    System.Diagnostics.Debugger.Break();
-                }
+                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //{
+                //    //if not evaluate
+                //    System.Diagnostics.Debugger.Break();
+                //}
 #endif
                 return this._expectedHight;
             }
@@ -362,11 +366,11 @@ namespace HtmlRenderer.Dom
             get
             {
 #if DEBUG
-                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                {
-                    //if not evaluate
-                    System.Diagnostics.Debugger.Break();
-                }
+                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //{
+                //    //if not evaluate
+                //    System.Diagnostics.Debugger.Break();
+                //}
 #endif
 
                 return this._expectedWidth;
@@ -386,11 +390,11 @@ namespace HtmlRenderer.Dom
             get
             {
 #if DEBUG
-                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                {
-                    //if not evaluate
-                    System.Diagnostics.Debugger.Break();
-                }
+                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //{
+                //    //if not evaluate
+                //    System.Diagnostics.Debugger.Break();
+                //}
 #endif
                 return this._actualPaddingTop;
             }
@@ -404,11 +408,11 @@ namespace HtmlRenderer.Dom
             get
             {
 #if DEBUG
-                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                {
-                    //if not evaluate
-                    System.Diagnostics.Debugger.Break();
-                }
+                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //{
+                //    //if not evaluate
+                //    System.Diagnostics.Debugger.Break();
+                //}
 #endif
                 return this._actualPaddingLeft;
             }
@@ -421,11 +425,11 @@ namespace HtmlRenderer.Dom
             get
             {
 #if DEBUG
-                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                {
-                    //if not evaluate
-                    System.Diagnostics.Debugger.Break();
-                }
+                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //{
+                //    //if not evaluate
+                //    System.Diagnostics.Debugger.Break();
+                //}
 
 #endif
                 return this._actualPaddingRight;
@@ -440,11 +444,11 @@ namespace HtmlRenderer.Dom
             get
             {
 #if DEBUG
-                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                {
-                    //if not evaluate
-                    System.Diagnostics.Debugger.Break();
-                }
+                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //{
+                //    //if not evaluate
+                //    System.Diagnostics.Debugger.Break();
+                //}
 #endif
                 return this._actualPaddingBottom;
             }
@@ -459,11 +463,11 @@ namespace HtmlRenderer.Dom
             get
             {
 #if DEBUG
-                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                {
-                    //if not evaluate
-                    System.Diagnostics.Debugger.Break();
-                }
+                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //{
+                //    //if not evaluate
+                //    System.Diagnostics.Debugger.Break();
+                //}
 #endif
                 return this._actualMarginTop;
             }
@@ -480,11 +484,11 @@ namespace HtmlRenderer.Dom
 
 
 #if DEBUG
-                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                {
-                    //if not evaluate
-                    System.Diagnostics.Debugger.Break();
-                }
+                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //{
+                //    //if not evaluate
+                //    System.Diagnostics.Debugger.Break();
+                //}
 #endif
                 return this._actualMarginLeft;
             }
@@ -500,11 +504,11 @@ namespace HtmlRenderer.Dom
 
 #if DEBUG
 
-                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                {
-                    //if not evaluate
-                    System.Diagnostics.Debugger.Break();
-                }
+                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //{
+                //    //if not evaluate
+                //    System.Diagnostics.Debugger.Break();
+                //}
 #endif
                 return this._actualMarginBottom;
             }
@@ -518,11 +522,11 @@ namespace HtmlRenderer.Dom
             get
             {
 #if DEBUG
-                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                {
-                    //if not evaluate
-                    System.Diagnostics.Debugger.Break();
-                }
+                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //{
+                //    //if not evaluate
+                //    System.Diagnostics.Debugger.Break();
+                //}
 #endif
                 return this._actualMarginRight;
 
@@ -537,11 +541,11 @@ namespace HtmlRenderer.Dom
             get
             {
 #if DEBUG
-                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                {
-                    //if not evaluate
-                    System.Diagnostics.Debugger.Break();
-                }
+                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //{
+                //    //if not evaluate
+                //    System.Diagnostics.Debugger.Break();
+                //}
 #endif
 
                 return _actualBorderTopWidth;
@@ -557,11 +561,11 @@ namespace HtmlRenderer.Dom
             {
 
 #if DEBUG
-                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                {
-                    //if not evaluate
-                    System.Diagnostics.Debugger.Break();
-                }
+                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //{
+                //    //if not evaluate
+                //    System.Diagnostics.Debugger.Break();
+                //}
 #endif
 
                 return _actualBorderLeftWidth;
@@ -576,11 +580,11 @@ namespace HtmlRenderer.Dom
             get
             {
 #if DEBUG
-                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                {
-                    //if not evaluate
-                    System.Diagnostics.Debugger.Break();
-                }
+                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //{
+                //    //if not evaluate
+                //    System.Diagnostics.Debugger.Break();
+                //}
 #endif
 
                 return _actualBorderBottomWidth;
@@ -595,11 +599,11 @@ namespace HtmlRenderer.Dom
             get
             {
 #if DEBUG
-                if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                {
-                    //if not evaluate
-                    System.Diagnostics.Debugger.Break();
-                }
+                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //{
+                //    //if not evaluate
+                //    System.Diagnostics.Debugger.Break();
+                //}
 #endif
 
                 return _actualBorderRightWidth;
@@ -657,11 +661,11 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets a value indicating if at least one of the corners of the box is rounded
         /// </summary>
-        public bool IsRounded
+        public bool HasRoundCorner
         {
             get
             {
-                return this._hasRoundCorner;
+                return (this._boxCompactFlags & CssBoxFlagsConst.HAS_ROUND_CORNER) != 0;
             }
         }
         /// <remarks>

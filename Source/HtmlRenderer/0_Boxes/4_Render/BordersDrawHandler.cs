@@ -115,7 +115,7 @@ namespace HtmlRenderer.Handlers
                 // rounded border need special path
 
                 var smooth = g.SmoothingMode;
-                if (!p.AvoidGeometryAntialias && box.IsRounded)
+                if (!p.AvoidGeometryAntialias && box.HasRoundCorner)
                 {
                     g.SmoothingMode = SmoothingMode.AntiAlias;
                 }

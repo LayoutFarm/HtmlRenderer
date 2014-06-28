@@ -81,7 +81,6 @@ namespace HtmlRenderer.Dom
 
 
             this.SetLocation(localLeft, localTop);
-
             this.SetHeightToZero();
 
             //width at 100% (or auto)

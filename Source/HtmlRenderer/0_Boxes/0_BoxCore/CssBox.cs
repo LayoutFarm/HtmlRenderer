@@ -50,13 +50,12 @@ namespace HtmlRenderer.Dom
         {
 
             this._boxes = new CssBoxCollection(this);
-
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
             }
 
-            _htmltag = tag;
+            _htmlElement = tag;
             if (tag != null)
             {
                 this.WellknownTagName = tag.WellknownTagName;
@@ -119,7 +118,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this.WellknownTagName == WellknownHtmlTagName.BR;
+                return this.WellknownTagName == WellknownHtmlTagName.br;
             }
         }
 
@@ -201,11 +200,11 @@ namespace HtmlRenderer.Dom
         }
 
         /// <summary>
-        /// Gets the HTMLTag that hosts this box
+        /// Gets the HtmlElement that hosts this box
         /// </summary>
-        public IHtmlElement HtmlTag
+        public IHtmlElement HtmlElement
         {
-            get { return _htmltag; }
+            get { return _htmlElement; }
         }
 
         /// <summary>
@@ -442,116 +441,6 @@ namespace HtmlRenderer.Dom
             get { return Runs[0]; }
         }
 
-
-
-
-        //------------------------------------------------------------------
-        /// <summary>
-        /// Create new css box for the given parent with the given html tag.<br/>
-        /// </summary>
-        /// <param name="tag">the html tag to define the box</param>
-        /// <param name="parent">the box to add the new box to it as child</param>
-        /// <returns>the new box</returns>
-        public static CssBox CreateBox(IHtmlElement tag, CssBox parent = null)
-        {
-
-
-            switch (tag.WellknownTagName)
-            {
-                case WellknownHtmlTagName.IMG:
-                    return new CssBoxImage(parent, tag);
-                case WellknownHtmlTagName.IFREAME:
-                    return new CssBoxHr(parent, tag);
-                case WellknownHtmlTagName.HR:
-                    return new CssBoxHr(parent, tag);
-                //test extension box
-                case WellknownHtmlTagName.X:
-                    var customBox = CreateCustomBox(tag, parent);
-                    if (customBox == null)
-                    {
-                        return new CssBox(parent, tag);
-                    }
-                    else
-                    {
-                        return customBox;
-                    }
-                default:
-                    return new CssBox(parent, tag);
-            }
-        }
-        static CssBox CreateCustomBox(IHtmlElement tag, CssBox parent)
-        {
-            for (int i = generators.Count - 1; i >= 0; --i)
-            {
-                var newbox = generators[i].CreateCssBox(tag, parent);
-                if (newbox != null)
-                {
-                    return newbox;
-                }
-            }
-            return null;
-        }
-        /// <summary>
-        /// Create new css block box.
-        /// </summary>
-        /// <returns>the new block box</returns>
-        internal static CssBox CreateRootBlock()
-        {
-            var box = new CssBox(null, null);
-            box.CssDisplay = CssDisplay.Block;
-            return box;
-        }
-        /// <summary>
-        /// Create new css box for the given parent with the given optional html tag and insert it either
-        /// at the end or before the given optional box.<br/>
-        /// If no html tag is given the box will be anonymous.<br/>
-        /// If no before box is given the new box will be added at the end of parent boxes collection.<br/>
-        /// If before box doesn't exists in parent box exception is thrown.<br/>
-        /// </summary>
-        /// <remarks>
-        /// To learn more about anonymous inline boxes visit: http://www.w3.org/TR/CSS21/visuren.html#anonymous
-        /// </remarks>
-        /// <param name="parent">the box to add the new box to it as child</param>
-        /// <param name="tag">optional: the html tag to define the box</param>
-        /// <param name="before">optional: to insert as specific location in parent box</param>
-        /// <returns>the new box</returns>
-        public static CssBox CreateBox(CssBox parent, IHtmlElement tag = null, int insertAt = -1)
-        {
-
-            var newBox = new CssBox(parent, tag);
-            newBox.InheritStyles(parent);
-            if (insertAt > -1)
-            {
-                newBox.ChangeSiblingOrder(insertAt);
-            }
-            return newBox;
-        }
-
-
-
-        /// <summary>
-        /// Create new css block box for the given parent with the given optional html tag and insert it either
-        /// at the end or before the given optional box.<br/>
-        /// If no html tag is given the box will be anonymous.<br/>
-        /// If no before box is given the new box will be added at the end of parent boxes collection.<br/>
-        /// If before box doesn't exists in parent box exception is thrown.<br/>
-        /// </summary>
-        /// <remarks>
-        /// To learn more about anonymous block boxes visit CSS spec:
-        /// http://www.w3.org/TR/CSS21/visuren.html#anonymous-block-level
-        /// </remarks>
-        /// <param name="parent">the box to add the new block box to it as child</param>
-        /// <param name="tag">optional: the html tag to define the box</param>
-        /// <param name="before">optional: to insert as specific location in parent box</param>
-        /// <returns>the new block box</returns>
-        internal static CssBox CreateAnonBlock(CssBox parent, int insertAt = -1)
-        {
-
-            var newBox = CreateBox(parent, null, insertAt);
-            newBox.CssDisplay = CssDisplay.Block;
-            return newBox;
-        }
-
         /// <summary>
         /// Measures the bounds of box and children, recursively.<br/>
         /// Performs layout of the DOM structure creating lines by set bounds restrictions.
@@ -559,8 +448,6 @@ namespace HtmlRenderer.Dom
         /// <param name="g">Device context to use</param>
         public void PerformLayout(LayoutVisitor lay)
         {
-
-
             PerformContentLayout(lay);
         }
 
@@ -572,8 +459,6 @@ namespace HtmlRenderer.Dom
             }
             this._parentBox.Boxes.ChangeSiblingIndex(this, siblingIndex);
         }
-
-
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
@@ -594,7 +479,7 @@ namespace HtmlRenderer.Dom
 
         #region Private Methods
 
-        static int dbugCC = 0;
+        //static int dbugCC = 0;
 
         /// <summary>
         /// Measures the bounds of box and children, recursively.<br/>
@@ -603,7 +488,7 @@ namespace HtmlRenderer.Dom
         /// <param name="g">Device context to use</param>
         protected virtual void PerformContentLayout(LayoutVisitor lay)
         {
-            int dbugStep = dbugCC++;
+            //int dbugStep = dbugCC++;
             //----------------------------------------------------------- 
             switch (this.CssDisplay)
             {
@@ -739,17 +624,25 @@ namespace HtmlRenderer.Dom
             }
 
             //----------------------------------------------------------------------------- 
-            //set height 
+            //set height  
+            UpdateIfHigher(this, ExpectedHeight);
 
-            this.UpdateIfHigher(this.ExpectedHeight);
             this.CreateListItemBox(lay);
-
-
             //update back 
             lay.UpdateRootSize(this);
-
         }
 
+        static void UpdateIfHigher(CssBox box, float newHeight)
+        {
+            if (newHeight > box.SizeHeight)
+            {
+                box.SetHeight(newHeight);
+            }
+        }
+        protected void SetHeightToZero()
+        {
+            this.SetHeight(0);
+        }
         /// <summary>
         /// Assigns words its width and height
         /// </summary>
@@ -812,8 +705,8 @@ namespace HtmlRenderer.Dom
             }
             this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
         }
-       
-        
+
+
         /// <summary>
         /// Get the parent of this css properties instance.
         /// </summary>
@@ -954,7 +847,7 @@ namespace HtmlRenderer.Dom
         /// <returns>Attribute value or defaultValue if no attribute specified</returns>
         public string GetAttribute(string attribute, string defaultValue)
         {
-            return HtmlTag != null ? HtmlTag.TryGetAttribute(attribute, defaultValue) : defaultValue;
+            return HtmlElement != null ? HtmlElement.TryGetAttribute(attribute, defaultValue) : defaultValue;
         }
 
 
@@ -1043,7 +936,7 @@ namespace HtmlRenderer.Dom
                 maxRight = Math.Max(maxRight, box.LocalRight);
             }
             return maxRight + (this.ActualBorderLeftWidth + this.ActualPaddingLeft +
-                this.ActualPaddingRight + this.ActualBorderRightWidth); 
+                this.ActualPaddingRight + this.ActualBorderRightWidth);
         }
 
         bool IsLastChild
@@ -1051,7 +944,7 @@ namespace HtmlRenderer.Dom
             get
             {
                 return this.ParentBox.Boxes[this.ParentBox.ChildCount - 1] == this;
-            } 
+            }
         }
         /// <summary>
         /// Gets the result of collapsing the vertical margins of the two boxes
@@ -1064,7 +957,7 @@ namespace HtmlRenderer.Dom
             if (upperSibling != null)
             {
                 value = Math.Max(upperSibling.ActualMarginBottom, this.ActualMarginTop);
-                this.CollapsedMarginTop = value; 
+                this.CollapsedMarginTop = value;
             }
             else if (_parentBox != null &&
                 ActualPaddingTop < 0.1 &&
@@ -1148,7 +1041,7 @@ namespace HtmlRenderer.Dom
                     //  rectangle.Width -= ActualWordSpacing + CssUtils.GetWordEndWhitespace(ActualFont);
 
                     GraphicsPath roundrect = null;
-                    bool isRound = this.IsRounded;
+                    bool isRound = this.HasRoundCorner;
                     if (isRound)
                     {
                         roundrect = RenderUtils.GetRoundRect(rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
@@ -1279,7 +1172,7 @@ namespace HtmlRenderer.Dom
         /// <returns></returns>
         public override string ToString()
         {
-            var tag = HtmlTag != null ? string.Format("<{0}>", HtmlTag.Name) : "anon";
+            var tag = HtmlElement != null ? string.Format("<{0}>", HtmlElement.Name) : "anon";
 
             if (IsBlock)
             {

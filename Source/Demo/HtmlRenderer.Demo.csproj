@@ -229,6 +229,7 @@
     <EmbeddedResource Include="TestSamples\02.Line break.htm" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Samples\21.IntroOld.htm" />
     <EmbeddedResource Include="TestSamples\22.RTL.htm" />
     <EmbeddedResource Include="TestSamples\21.Bullets.htm" />
     <EmbeddedResource Include="TestSamples\20.Fonts decorations.htm" />

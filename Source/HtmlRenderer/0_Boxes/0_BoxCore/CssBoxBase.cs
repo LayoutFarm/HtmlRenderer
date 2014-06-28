@@ -38,14 +38,12 @@ namespace HtmlRenderer.Dom
         //==========================================================
         #region css values Inherit From Parent (by default)
         //inherit from parent by default
-
         CssFontProp _fontProps = CssFontProp.Default;
         CssListProp _listProps = CssListProp.Default;
         CssLength _lineHeight = CssLength.NormalWordOrLine;
         CssLength _textIndent = CssLength.ZeroNoUnit;
         Color _actualColor = System.Drawing.Color.Empty;
         CssEmptyCell _emptyCells = CssEmptyCell.Show;
-
         CssTextAlign _textAlign = CssTextAlign.NotAssign;
         CssVerticalAlign _verticalAlign = CssVerticalAlign.Baseline;
         CssVisibility _visibility = CssVisibility.Visible;
@@ -56,11 +54,9 @@ namespace HtmlRenderer.Dom
         #endregion
         //==========================================================
         #region css values Not Inherit From Parent
-        CssBorderProp _borderProps = CssBorderProp.Default;
-
+        CssBorderProp _borderProps = CssBorderProp.Default; 
         CssPaddingProp _paddingProps = CssPaddingProp.Default;
-        CssMarginProp _marginProps = CssMarginProp.Default;
-
+        CssMarginProp _marginProps = CssMarginProp.Default; 
         CssCornerProp _cornerProps = CssCornerProp.Default;
         Font _actualFont;
         CssBackgroundProp _backgroundProps = CssBackgroundProp.Default;
@@ -78,25 +74,17 @@ namespace HtmlRenderer.Dom
         CssOverflow _overflow = CssOverflow.Visible;
         CssTextDecoration _textDecoration = CssTextDecoration.NotAssign;
         CssPosition _position = CssPosition.Static;
-        CssLength _wordSpacing = CssLength.NormalWordOrLine;
-
+        CssLength _wordSpacing = CssLength.NormalWordOrLine; 
         WellknownHtmlTagName wellKnownTagName; 
-        #endregion
-        //==========================================================
-
- 
-
+        #endregion 
 #if DEBUG
         public readonly int dbugId = dbugTotalId++;
         static int dbugTotalId;
-        public int dbugMark;
-
+        public int dbugMark; 
 #endif
         public CssBoxBase()
         {
-            _actualColor = System.Drawing.Color.Black;
-#if DEBUG
-#endif
+            _actualColor = System.Drawing.Color.Black; 
 
         }
 

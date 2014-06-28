@@ -51,15 +51,7 @@ namespace HtmlRenderer.Parse
             return cssData;
         }
 
-
-        public static WebDom.CssDocument ParseStyleSheet2(string cssTextSource)
-        {
-            var parser = new WebDom.Parser.CssParser();
-            parser.ParseCssStyleSheet(cssTextSource.ToCharArray());
-            //-----------------------------------
-            return parser.OutputCssDocument;
-        }
-
+ 
 
         /// <summary>
         /// Parse the given stylesheet source to CSS blocks dictionary.<br/>
@@ -73,10 +65,13 @@ namespace HtmlRenderer.Parse
         {
             if (!String.IsNullOrEmpty(cssTextSource))
             {
+              
+                
+                var parser = new WebDom.Parser.CssParser();
+                parser.ParseCssStyleSheet(cssTextSource.ToCharArray());
                 //-----------------------------------
-                // cssData.dbugOriginalSources.Add(cssTextSource);
-                //-----------------------------------  
-                WebDom.CssDocument cssDoc = ParseStyleSheet2(cssTextSource);
+                WebDom.CssDocument cssDoc = parser.OutputCssDocument;
+
 
                 CssActiveSheet cssActiveDoc = new CssActiveSheet();
                 cssActiveDoc.LoadCssDoc(cssDoc);

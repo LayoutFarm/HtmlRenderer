@@ -6,18 +6,7 @@ using System.Collections.Generic;
 
 namespace HtmlRenderer
 {
-    public class MapAttribute : Attribute
-    {
-        public MapAttribute(string name)
-        {
-            this.Name = name;
-        }
-        public string Name
-        {
-            get;
-            private set;
-        }
-    }
+  
 
     class ValueMap<T>
     {
@@ -31,7 +20,7 @@ namespace HtmlRenderer
             LoadAndAssignValues(out stringToValue, out valueToString);
         }
 
-        
+
         static void LoadAndAssignValues<T>(out Dictionary<string, T> stringToValue, out Dictionary<T, string> valueToString)
         {
             stringToValue = new Dictionary<string, T>();
@@ -77,6 +66,7 @@ namespace HtmlRenderer
                 return this.valueToString.Count;
             }
         }
-    } 
-       
+    }
+
+
 }

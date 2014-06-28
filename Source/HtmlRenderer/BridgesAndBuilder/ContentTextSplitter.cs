@@ -44,7 +44,7 @@ namespace HtmlRenderer.Dom
 
 #endif
 
-            bool keepPreWhitespace = box.HtmlTag == null;
+            bool keepPreWhitespace = box.HtmlElement == null;
             List<CssRun> boxRuns = CssBox.UnsafeGetRunListOrCreateIfNotExists(box);
 
             boxRuns.Clear(); //clear prev results

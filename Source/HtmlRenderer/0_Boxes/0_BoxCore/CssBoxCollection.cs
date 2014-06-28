@@ -115,7 +115,6 @@ namespace HtmlRenderer.Dom
                     preBox = this._boxes[index - 1];
                 }
                 CssBox.UnsafeSetNodes(nextBox, owner, preBox);
-
             }
             this._boxes.RemoveAt(index);
             CssBox.UnsafeSetNodes(tmp, null, null);

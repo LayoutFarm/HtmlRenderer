@@ -634,7 +634,7 @@ namespace HtmlRenderer
 
             //version 1: sync ***
             HtmlImageRequestEventArgs htmlImageRequest = new HtmlImageRequestEventArgs(
-                requestBox.HtmlTag,
+                requestBox.HtmlElement,
                 binder);
 
             if (this.ImageLoadingRequest != null)

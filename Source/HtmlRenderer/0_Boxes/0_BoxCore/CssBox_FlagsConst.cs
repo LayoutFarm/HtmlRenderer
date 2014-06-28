@@ -17,11 +17,11 @@ namespace HtmlRenderer.Dom
             //-----------------------------------------------
             //layout state
             public const int LAY_RUNSIZE_MEASURE = 1 << (8 - 1);
-            public const int LAY_EVAL_COMPUTE_VALUES = 1 << (9 - 1);
-            //-----------------------------------------------
-            public const int LAY_TABLE_FIXED = 1 << (10 - 1);
-            //-----------------------------------------------
+            public const int LAY_EVAL_COMPUTE_VALUES = 1 << (9 - 1);             
+            public const int LAY_TABLE_FIXED = 1 << (10 - 1);            
             public const int LAY_WIDTH_FREEZE = 1 << (11 - 1);
+            //-----------------------------------------------
+            public const int HAS_ROUND_CORNER = 1 << (12 - 1);
         } 
     }
 }

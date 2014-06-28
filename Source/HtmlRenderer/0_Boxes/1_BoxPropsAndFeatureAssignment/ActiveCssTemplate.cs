@@ -130,11 +130,11 @@ namespace HtmlRenderer.Dom
         {
 
             //1. tag name key
-            int tagNameKey = ustrTable.AddStringIfNotExist(box.HtmlTag.Name);
+            int tagNameKey = ustrTable.AddStringIfNotExist(box.HtmlElement.Name);
              
             //2. class name key
             int classNameKey = 0;
-            var class_value = box.HtmlTag.TryGetAttribute("class", null);
+            var class_value = box.HtmlElement.TryGetAttribute("class", null);
 
             if (class_value != null)
             {
@@ -155,7 +155,7 @@ namespace HtmlRenderer.Dom
                 //*** 
                 //----------------------------
                 //1. tag name
-                CssRuleSetGroup ruleGroup = activeSheet.GetRuleSetForTagName(box.HtmlTag.Name);
+                CssRuleSetGroup ruleGroup = activeSheet.GetRuleSetForTagName(box.HtmlElement.Name);
                 if (ruleGroup != null)
                 {
                     box.cssClassVersion++;
