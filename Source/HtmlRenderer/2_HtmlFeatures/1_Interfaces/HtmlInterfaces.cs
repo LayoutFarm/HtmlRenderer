@@ -23,6 +23,7 @@ namespace HtmlRenderer.Dom
     {
         NotAssign, //extension , for anonymous element
         Unknown,
+        //----------------
 
         [Map("html")]
         html,
@@ -103,8 +104,7 @@ namespace HtmlRenderer.Dom
         font,
         [FeatureDeprecated("not support in Html5,Use Css instead")]
         [Map("basefont")]
-        basefont,
-
+        basefont, 
 
         [Map("base")]
         _base, 
@@ -116,15 +116,13 @@ namespace HtmlRenderer.Dom
 
         [Map("x")]
         X//test for extension 
-    }
-
+    } 
     public interface IHtmlAttribute
     {
         string Name { get; }
         string Value { get; }
         int LocalNameIndex { get; }
-    }
-
+    } 
     public interface IHtmlElement
     {
         WellknownHtmlTagName WellknownTagName { get; }
@@ -132,11 +130,7 @@ namespace HtmlRenderer.Dom
         /// Gets the name of this tag
         /// </summary>
         string Name { get; }
-        /// <summary>
-        /// Gets if the tag is single placed; in other words it doesn't need a closing tag; 
-        /// e.g. &lt;br&gt;
-        /// </summary>
-        bool IsSingle { get; }
+      
 
         /// <summary>
         /// is the html tag has attributes.
@@ -156,106 +150,13 @@ namespace HtmlRenderer.Dom
         /// <param name="defaultValue">optional: value to return if attribute is not specified</param>
         /// <returns>attribute value or null if not found</returns>
         string TryGetAttribute(string attribute, string defaultValue = null);
-        IEnumerable<IHtmlAttribute> GetAttributeIter();
-
-
-
+        IEnumerable<IHtmlAttribute> GetAttributeIter(); 
 
         string Id { get; }
         string ClassName { get; }
         string Style { get; }
 
-    }
-
-
-    sealed class HtmlTagBridge : IHtmlElement
-    {
-        readonly HtmlRenderer.WebDom.HtmlElement elem;
-        public HtmlTagBridge(HtmlRenderer.WebDom.HtmlElement elem)
-        {
-            this.elem = elem;
-            this.WellknownTagName = UserMapUtil.EvaluateTagName(elem.LocalName);
-        }
-        public WellknownHtmlTagName WellknownTagName
-        {
-            get;
-            private set;
-        }
-        public HtmlRenderer.WebDom.HtmlElement HtmlElement
-        {
-            get { return this.elem; }
-        }
-
-        public string Name { get { return this.elem.LocalName; } }
-        public bool IsSingle
-        {
-            get
-            {
-                throw new System.NotSupportedException();
-                return false;
-            }
-            //get { return HtmlUtils.IsSingleTag(Name); }
-        }
-        public bool HasAttributes() { return this.elem.AttributeCount > 0; }
-        public bool HasAttribute(string attrName)
-        {
-            return this.elem.FindAttribute(attrName) != null;
-        }
-        public string TryGetAttribute(string attribute, string defaultValue = null)
-        {
-            var foundAttr = this.elem.FindAttribute(attribute);
-            if (foundAttr != null)
-            {
-                return foundAttr.Value;
-            }
-            else
-            {
-                return defaultValue;
-            }
-        }
-
-        public override string ToString()
-        {
-            return string.Format("<{0}>", this.Name);
-        }
-        public IEnumerable<IHtmlAttribute> GetAttributeIter()
-        {
-            foreach (WebDom.HtmlAttribute attr in this.elem.GetAttributeIterForward())
-            {
-                yield return new HtmlAttributeBridge(attr);
-            }
-        }
-
-
-        public string ClassName { get; set; }
-        public string Id { get; set; }
-        public string Style { get; set; }
-
-        //----------------------------------------------------------
-        struct HtmlAttributeBridge : IHtmlAttribute
-        {
-            WebDom.HtmlAttribute attr;
-            public HtmlAttributeBridge(WebDom.HtmlAttribute attr)
-            {
-                this.attr = attr;
-            }
-            public string Name
-            {
-                get { return this.attr.LocalName; }
-            }
-            public int LocalNameIndex
-            {
-                get
-                {
-                    return this.attr.LocalNameIndex;
-                }
-            }
-            public string Value
-            {
-                get { return this.attr.Value; }
-            }
-        }
-    }
-
+    } 
+  
 
 }

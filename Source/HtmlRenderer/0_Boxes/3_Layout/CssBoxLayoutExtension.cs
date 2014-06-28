@@ -12,7 +12,7 @@ namespace HtmlRenderer.Dom
 {
 
 
-    static class CssBoxExtension
+    static class CssBoxLayoutExtension
     {
         internal static void UpdateIfHigher(this CssBox box, float newHeight)
         {

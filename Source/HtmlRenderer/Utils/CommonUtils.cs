@@ -22,8 +22,7 @@ using HtmlRenderer.Entities;
  
 namespace HtmlRenderer.Utils
 {
-    internal delegate void ActionInt<in T>(T obj);
-
+    
     
     /// <summary>
     /// Utility methods for general stuff.

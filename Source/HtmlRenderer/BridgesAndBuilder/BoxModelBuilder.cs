@@ -58,7 +58,7 @@ namespace HtmlRenderer.Dom
         static void CreateCssBox(WebDom.HtmlElement htmlElement, CssBox parentNode)
         {
             //recursive  
-            CssBox box = CssBox.CreateBox(new HtmlTagBridge(htmlElement), parentNode);
+            CssBox box = CssBox.CreateBox(new ElementBridge(htmlElement), parentNode);
             foreach (WebDom.HtmlNode node in htmlElement.GetChildNodeIterForward())
             {
                 switch (node.NodeType)
@@ -528,8 +528,7 @@ namespace HtmlRenderer.Dom
                                                 //assign each property
                                                 AssignPropertyValue(box, box.ParentBox, propDecl);
                                             }
-                                            //WebDom.CssCodePrimitiveExpression prim = new WebDom.CssCodePrimitiveExpression(value, 
-                                            //box.SetFontSize(value);
+                                           
                                         } break;
                                 }
                             } break;
@@ -760,8 +759,8 @@ namespace HtmlRenderer.Dom
             }
             return len;
         }
-        static void ForEachCellInTable(CssBox table, ActionInt<CssBox> cellAction)
-        {
+        static void ForEachCellInTable(CssBox table, Action<CssBox> cellAction)
+        {   
             foreach (var c1 in table.GetChildBoxIter())
             {
                 foreach (var c2 in c1.GetChildBoxIter())
