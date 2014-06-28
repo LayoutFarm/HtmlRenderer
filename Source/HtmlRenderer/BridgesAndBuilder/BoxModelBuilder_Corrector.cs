@@ -55,7 +55,7 @@ namespace HtmlRenderer.Dom
                         //1. creat new box anonymous block (no html tag) then
                         //  add it before this box 
 
-                        var newbox = CssBox.CreateAnonBlock(box, i);
+                        var newbox = BoxCreator.CreateAnonBlock(box, i);
                         //2. skip newly add box 
                         i++;
 
@@ -93,7 +93,7 @@ namespace HtmlRenderer.Dom
             dbugCorrectCount++;
 #endif
             //recursive
-             
+
             if (DomUtils.ContainsInlinesOnly(box) && !ContainsInlinesOnlyDeep(box))
             {
                 CorrectBlockInsideInlineImp(box);
@@ -106,7 +106,7 @@ namespace HtmlRenderer.Dom
                     //recursive
                     CorrectBlockInsideInline(childBox);
                 }
-            } 
+            }
         }
         /// <summary>
         /// Correct the DOM tree recursively by replacing  "br" html boxes with anonymous blocks that respect br spec.<br/>
@@ -229,7 +229,7 @@ namespace HtmlRenderer.Dom
             if (box.ChildCount > 1 || box.GetFirstChild().ChildCount > 1)
             {
                 firstChild = box.GetFirstChild();
-                CssBox leftAnonBox = CssBox.CreateAnonBlock(box);
+                CssBox leftAnonBox = BoxCreator.CreateAnonBlock(box);
                 //1. newLeftBlock is Created and add is latest child of the 'box'
                 //------------------------------------------- 
                 while (ContainsInlinesOnlyDeep(firstChild))
@@ -255,7 +255,7 @@ namespace HtmlRenderer.Dom
 
                 if (box.ChildCount > 2)
                 {
-                    var rightAnonBox = CssBox.CreateAnonBlock(box, 2);
+                    var rightAnonBox = BoxCreator.CreateAnonBlock(box, 2);
                     int childCount = box.ChildCount;
                     while (childCount > 3)
                     {
@@ -285,7 +285,7 @@ namespace HtmlRenderer.Dom
         {
             //recursive
 
-            var leftPart = CssBox.CreateBox(leftBlock, splitBox.HtmlElement);
+            var leftPart = BoxCreator.CreateBoxAndInherit(leftBlock, splitBox.HtmlElement);
             leftPart.InheritStyles(splitBox, true);
 
             bool had_new_leftbox = false;
@@ -317,7 +317,7 @@ namespace HtmlRenderer.Dom
                 CssBox rightPart;
                 if (firstChild.ParentBox != null || parentBox.ChildCount < 3)
                 {
-                    rightPart = CssBox.CreateBox(parentBox, splitBox.HtmlElement);
+                    rightPart = BoxCreator.CreateBoxAndInherit(parentBox, splitBox.HtmlElement);
                     rightPart.InheritStyles(splitBox, true);
 
                     if (parentBox.ChildCount > 2)
@@ -370,7 +370,7 @@ namespace HtmlRenderer.Dom
                 if (childBox is CssBoxImage && childBox.CssDisplay == CssDisplay.Block)
                 {
                     //create new anonymous box
-                    var block = CssBox.CreateAnonBlock(childBox.ParentBox, childIndex);
+                    var block = BoxCreator.CreateAnonBlock(childBox.ParentBox, childIndex);
                     //move this imgbox to new child 
                     childBox.SetNewParentBox(block);
                     //childBox.Display = CssConstants.Inline;

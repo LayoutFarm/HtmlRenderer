@@ -42,7 +42,7 @@ namespace HtmlRenderer.Dom
             parser.Parse(snapSource);
 
             WebDom.HtmlDocument resultHtmlDoc = parser.ResultHtmlDoc;
-            var rootCssBox = CssBox.CreateRootBlock();
+            var rootCssBox = BoxCreator.CreateRootBlock();
             var curBox = rootCssBox;
             //walk on tree and create cssbox
             foreach (WebDom.HtmlNode node in resultHtmlDoc.RootNode.GetChildNodeIterForward())
@@ -55,10 +55,13 @@ namespace HtmlRenderer.Dom
             }
             return rootCssBox;
         }
+
+
         static void CreateCssBox(WebDom.HtmlElement htmlElement, CssBox parentNode)
         {
             //recursive  
-            CssBox box = CssBox.CreateBox(new ElementBridge(htmlElement), parentNode);
+
+            CssBox box = BoxCreator.CreateBoxNotInherit(new ElementBridge(htmlElement), parentNode);
             foreach (WebDom.HtmlNode node in htmlElement.GetChildNodeIterForward())
             {
                 switch (node.NodeType)
@@ -71,14 +74,13 @@ namespace HtmlRenderer.Dom
 
                         } break;
                     case WebDom.HtmlNodeType.TextNode:
-                        {
-
+                        {   
                             /// Add html text anon box to the current box, this box will have the rendered text<br/>
                             /// Adding box also for text that contains only whitespaces because we don't know yet if
                             /// the box is preformatted. At later stage they will be removed if not relevant.                             
                             WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)node;
                             //create anonymos box
-                            CssBox.CreateBox(box).SetTextContent(textNode.CopyTextBuffer());
+                            BoxCreator.CreateBoxAndInherit(box, null).SetTextContent(textNode.CopyTextBuffer()); 
 
                         } break;
                     default:
@@ -528,7 +530,7 @@ namespace HtmlRenderer.Dom
                                                 //assign each property
                                                 AssignPropertyValue(box, box.ParentBox, propDecl);
                                             }
-                                           
+
                                         } break;
                                 }
                             } break;
@@ -760,7 +762,7 @@ namespace HtmlRenderer.Dom
             return len;
         }
         static void ForEachCellInTable(CssBox table, Action<CssBox> cellAction)
-        {   
+        {
             foreach (var c1 in table.GetChildBoxIter())
             {
                 foreach (var c2 in c1.GetChildBoxIter())

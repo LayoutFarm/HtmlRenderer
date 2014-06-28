@@ -50,7 +50,6 @@ namespace HtmlRenderer.Dom
         {
 
             this._boxes = new CssBoxCollection(this);
-
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
@@ -445,112 +444,7 @@ namespace HtmlRenderer.Dom
 
 
 
-        //------------------------------------------------------------------
-        /// <summary>
-        /// Create new css box for the given parent with the given html tag.<br/>
-        /// </summary>
-        /// <param name="tag">the html tag to define the box</param>
-        /// <param name="parent">the box to add the new box to it as child</param>
-        /// <returns>the new box</returns>
-        public static CssBox CreateBox(IHtmlElement tag, CssBox parent = null)
-        {
 
-
-            switch (tag.WellknownTagName)
-            {
-                case WellknownHtmlTagName.img:
-                    return new CssBoxImage(parent, tag);
-                case WellknownHtmlTagName.iframe:
-                    return new CssBoxHr(parent, tag);
-                case WellknownHtmlTagName.hr:
-                    return new CssBoxHr(parent, tag);
-                //test extension box
-                case WellknownHtmlTagName.X:
-                    var customBox = CreateCustomBox(tag, parent);
-                    if (customBox == null)
-                    {
-                        return new CssBox(parent, tag);
-                    }
-                    else
-                    {
-                        return customBox;
-                    }
-                default:
-                    return new CssBox(parent, tag);
-            }
-        }
-        static CssBox CreateCustomBox(IHtmlElement tag, CssBox parent)
-        {
-            for (int i = generators.Count - 1; i >= 0; --i)
-            {
-                var newbox = generators[i].CreateCssBox(tag, parent);
-                if (newbox != null)
-                {
-                    return newbox;
-                }
-            }
-            return null;
-        }
-        /// <summary>
-        /// Create new css block box.
-        /// </summary>
-        /// <returns>the new block box</returns>
-        internal static CssBox CreateRootBlock()
-        {
-            var box = new CssBox(null, null);
-            box.CssDisplay = CssDisplay.Block;
-            return box;
-        }
-        /// <summary>
-        /// Create new css box for the given parent with the given optional html tag and insert it either
-        /// at the end or before the given optional box.<br/>
-        /// If no html tag is given the box will be anonymous.<br/>
-        /// If no before box is given the new box will be added at the end of parent boxes collection.<br/>
-        /// If before box doesn't exists in parent box exception is thrown.<br/>
-        /// </summary>
-        /// <remarks>
-        /// To learn more about anonymous inline boxes visit: http://www.w3.org/TR/CSS21/visuren.html#anonymous
-        /// </remarks>
-        /// <param name="parent">the box to add the new box to it as child</param>
-        /// <param name="tag">optional: the html tag to define the box</param>
-        /// <param name="before">optional: to insert as specific location in parent box</param>
-        /// <returns>the new box</returns>
-        public static CssBox CreateBox(CssBox parent, IHtmlElement tag = null, int insertAt = -1)
-        {
-
-            var newBox = new CssBox(parent, tag);
-            newBox.InheritStyles(parent);
-            if (insertAt > -1)
-            {
-                newBox.ChangeSiblingOrder(insertAt);
-            }
-            return newBox;
-        }
-
-
-
-        /// <summary>
-        /// Create new css block box for the given parent with the given optional html tag and insert it either
-        /// at the end or before the given optional box.<br/>
-        /// If no html tag is given the box will be anonymous.<br/>
-        /// If no before box is given the new box will be added at the end of parent boxes collection.<br/>
-        /// If before box doesn't exists in parent box exception is thrown.<br/>
-        /// </summary>
-        /// <remarks>
-        /// To learn more about anonymous block boxes visit CSS spec:
-        /// http://www.w3.org/TR/CSS21/visuren.html#anonymous-block-level
-        /// </remarks>
-        /// <param name="parent">the box to add the new block box to it as child</param>
-        /// <param name="tag">optional: the html tag to define the box</param>
-        /// <param name="before">optional: to insert as specific location in parent box</param>
-        /// <returns>the new block box</returns>
-        internal static CssBox CreateAnonBlock(CssBox parent, int insertAt = -1)
-        {
-
-            var newBox = CreateBox(parent, null, insertAt);
-            newBox.CssDisplay = CssDisplay.Block;
-            return newBox;
-        }
 
         /// <summary>
         /// Measures the bounds of box and children, recursively.<br/>
@@ -559,8 +453,6 @@ namespace HtmlRenderer.Dom
         /// <param name="g">Device context to use</param>
         public void PerformLayout(LayoutVisitor lay)
         {
-
-
             PerformContentLayout(lay);
         }
 
@@ -812,8 +704,8 @@ namespace HtmlRenderer.Dom
             }
             this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
         }
-       
-        
+
+
         /// <summary>
         /// Get the parent of this css properties instance.
         /// </summary>
@@ -1043,7 +935,7 @@ namespace HtmlRenderer.Dom
                 maxRight = Math.Max(maxRight, box.LocalRight);
             }
             return maxRight + (this.ActualBorderLeftWidth + this.ActualPaddingLeft +
-                this.ActualPaddingRight + this.ActualBorderRightWidth); 
+                this.ActualPaddingRight + this.ActualBorderRightWidth);
         }
 
         bool IsLastChild
@@ -1051,7 +943,7 @@ namespace HtmlRenderer.Dom
             get
             {
                 return this.ParentBox.Boxes[this.ParentBox.ChildCount - 1] == this;
-            } 
+            }
         }
         /// <summary>
         /// Gets the result of collapsing the vertical margins of the two boxes
@@ -1064,7 +956,7 @@ namespace HtmlRenderer.Dom
             if (upperSibling != null)
             {
                 value = Math.Max(upperSibling.ActualMarginBottom, this.ActualMarginTop);
-                this.CollapsedMarginTop = value; 
+                this.CollapsedMarginTop = value;
             }
             else if (_parentBox != null &&
                 ActualPaddingTop < 0.1 &&
