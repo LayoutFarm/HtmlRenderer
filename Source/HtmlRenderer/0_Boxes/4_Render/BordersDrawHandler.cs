@@ -39,6 +39,7 @@ namespace HtmlRenderer.Handlers
         {
             if (rect.Width > 0 && rect.Height > 0)
             {
+                
 
                 if (box.BorderTopStyle >= CssBorderStyle.Visible &&
                     box.ActualBorderTopWidth > 0)
