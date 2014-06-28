@@ -121,7 +121,7 @@ namespace HtmlRenderer.Dom
     /// http://www.w3.org/TR/CSS21/visuren.html
     /// </remarks>
     sealed class CssLineBox
-    {  
+    {
         readonly CssBox _ownerBox;
 
         //a run may come from another CssBox (not from _ownerBox)
@@ -136,7 +136,7 @@ namespace HtmlRenderer.Dom
         readonly List<PartialBoxStrip> _bottomUpBoxStrips = new List<PartialBoxStrip>();
         internal LinkedListNode<CssLineBox> linkedNode;
 
-        float _cacheContentWidth; 
+        float _cacheContentWidth;
 #if DEBUG
         bool dbugIsClosed;
         static int dbugTotalId;
@@ -456,17 +456,14 @@ namespace HtmlRenderer.Dom
 
         internal void dbugPaintRuns(IGraphics g, PaintVisitor p)
         {
-
-            return;
+            //return;
             //linebox  
             float x1 = 0;
             float y1 = 0;
             float x2 = x1 + this.CachedLineContentWidth;
             float y2 = y1 + this.CacheLineHeight;
-            //draw diagonal
-
+            //draw diagonal  
             p.dbugDrawDiagonalBox(Pens.Blue, x1, y1, x2, y2);
-
             //g.DrawRectangle(Pens.Blue,
             //    this.OwnerBox.LocationX,
             //    this.CachedLineTop,
@@ -517,11 +514,11 @@ namespace HtmlRenderer.Dom
                 var strip = _bottomUpBoxStrips[i];
                 var stripOwner = strip.owner;
 
-                if (stripOwner.CssDisplay != CssDisplay.Inline)
-                {
-                    throw new NotSupportedException();
-                    continue;
-                }
+                //if (stripOwner.CssDisplay != CssDisplay.Inline)
+                //{
+                //    throw new NotSupportedException();
+                //    continue;
+                //}
 
                 var stripArea = strip.Bound;
                 bool isFirstLine, isLastLine;
@@ -540,15 +537,15 @@ namespace HtmlRenderer.Dom
             {
                 var strip = _bottomUpBoxStrips[i];
                 CssBox ownerBox = strip.owner;
-                if (ownerBox.CssDisplay != CssDisplay.Inline)
-                {
-                    throw new NotSupportedException();
-                    continue;
-                }
+                //if (ownerBox.CssDisplay != CssDisplay.Inline)
+                //{
+                //    throw new NotSupportedException();
+                //    continue;
+                //}
 
                 bool isFirstLine, isLastLine;
                 CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
-                ownerBox.PaintDecoration(g, strip.Bound, isFirstLine, isLastLine); 
+                ownerBox.PaintDecoration(g, strip.Bound, isFirstLine, isLastLine);
             }
         }
 

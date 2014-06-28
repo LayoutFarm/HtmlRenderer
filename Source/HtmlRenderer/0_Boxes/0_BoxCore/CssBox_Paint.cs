@@ -64,7 +64,7 @@ namespace HtmlRenderer.Dom
                             return;
                         }
                     }
-                } 
+                }
 
                 //---------------------------------------------
                 if (this.CssDisplay != CssDisplay.Inline)
@@ -130,7 +130,7 @@ namespace HtmlRenderer.Dom
                         float ox = g.CanvasOriginX;
                         float oy = g.CanvasOriginY;
 
-                        foreach (var b in this._boxes)
+                        foreach (var b in this._aa_boxes)
                         {
                             if (b.CssDisplay == CssDisplay.None)
                             {
@@ -151,7 +151,7 @@ namespace HtmlRenderer.Dom
                         float ox = g.CanvasOriginX;
                         float oy = g.CanvasOriginY;
 
-                        foreach (var b in this._boxes)
+                        foreach (var b in this._aa_boxes)
                         {
                             if (b.CssDisplay == CssDisplay.None)
                             {
