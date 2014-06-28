@@ -439,12 +439,7 @@ namespace HtmlRenderer.Dom
         internal CssRun FirstRun
         {
             get { return Runs[0]; }
-        }
-
-
-
-
-
+        } 
 
         /// <summary>
         /// Measures the bounds of box and children, recursively.<br/>
@@ -463,9 +458,7 @@ namespace HtmlRenderer.Dom
                 throw new Exception("before box doesn't exist on parent");
             }
             this._parentBox.Boxes.ChangeSiblingIndex(this, siblingIndex);
-        }
-
-
+        } 
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
@@ -486,7 +479,7 @@ namespace HtmlRenderer.Dom
 
         #region Private Methods
 
-        static int dbugCC = 0;
+        //static int dbugCC = 0;
 
         /// <summary>
         /// Measures the bounds of box and children, recursively.<br/>
@@ -495,7 +488,7 @@ namespace HtmlRenderer.Dom
         /// <param name="g">Device context to use</param>
         protected virtual void PerformContentLayout(LayoutVisitor lay)
         {
-            int dbugStep = dbugCC++;
+            //int dbugStep = dbugCC++;
             //----------------------------------------------------------- 
             switch (this.CssDisplay)
             {
@@ -1040,7 +1033,7 @@ namespace HtmlRenderer.Dom
                     //  rectangle.Width -= ActualWordSpacing + CssUtils.GetWordEndWhitespace(ActualFont);
 
                     GraphicsPath roundrect = null;
-                    bool isRound = this.IsRounded;
+                    bool isRound = this.HasRoundCorner;
                     if (isRound)
                     {
                         roundrect = RenderUtils.GetRoundRect(rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
