@@ -105,10 +105,10 @@ namespace HtmlRenderer.Handlers
 
             var borderPath = GetRoundedBorderPath(border, box, rect);
 
-            //if (box.dbugBB == 20)
-            //{
+            if (box.CssDisplay == CssDisplay.Table)
+            {
 
-            //}
+            }
 
             IGraphics g = p.Gfx;
             if (borderPath != null)
