@@ -43,10 +43,16 @@ namespace HtmlRenderer.Dom
 
         protected virtual void PaintImp(IGraphics g, PaintVisitor p)
         {
+            //if (this.dbugId == 36)
+            //{
+
+            //}
             if (this.CssDisplay != CssDisplay.None &&
                (this.CssDisplay != CssDisplay.TableCell ||
                  EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
             {
+
+
 
                 bool hasPrevClip = false;
                 RectangleF prevClip = RectangleF.Empty;

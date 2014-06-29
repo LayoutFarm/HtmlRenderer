@@ -41,6 +41,9 @@ namespace HtmlRenderer.Dom
         /// <param name="box">the current box to correct its sub-tree</param>
         static void CorrectInlineBoxesParent(CssBox box)
         {
+            //if (box.dbugId == 36)
+            //{
+            //}
             //------------------------------------------------
             //recursive 
             int mixFlags;
@@ -87,52 +90,52 @@ namespace HtmlRenderer.Dom
         }
 
 
-        static void CorrectInlineBoxesParent2(CssBox box)
-        {
-            //------------------------------------------------
-            //recursive 
-            int mixFlags;
-            var allChildren = CssBox.UnsafeGetChildren(box);
+        //static void CorrectInlineBoxesParent2(CssBox box)
+        //{
+        //    //------------------------------------------------
+        //    //recursive 
+        //    int mixFlags;
+        //    var allChildren = CssBox.UnsafeGetChildren(box);
 
-            if (ContainsMixedInlineAndBlockBoxes(box, out mixFlags))
-            {
-                //if box contains both inline and block 
-                //then make all children to be block box
+        //    if (ContainsMixedInlineAndBlockBoxes(box, out mixFlags))
+        //    {
+        //        //if box contains both inline and block 
+        //        //then make all children to be block box
 
-                for (int i = 0; i < allChildren.Count; i++)
-                {
-                    var curBox = allChildren[i];
-                    if (curBox.IsInline)
-                    {
-                        //1. creat new box anonymous block (no html tag) then
-                        //  add it before this box 
+        //        for (int i = 0; i < allChildren.Count; i++)
+        //        {
+        //            var curBox = allChildren[i];
+        //            if (curBox.IsInline)
+        //            {
+        //                //1. creat new box anonymous block (no html tag) then
+        //                //  add it before this box 
 
-                        var newbox = BoxCreator.CreateAnonBlock(box, i);
-                        //2. skip newly add box 
-                        i++;
+        //                var newbox = BoxCreator.CreateAnonBlock(box, i);
+        //                //2. skip newly add box 
+        //                i++;
 
-                        //3. move next  inline child box to new anonymous box                                              
-                        CssBox tomoveBox = null;
-                        while (i < allChildren.Count && ((tomoveBox = allChildren[i]).IsInline))
-                        {
-                            //** allChildren number will be changed after move****    
-                            tomoveBox.SetNewParentBox(i, newbox);
-                        }
-                    }
-                }
-                //after correction , now all children in this box are block element 
-            }
-            //------------------------------------------------
-            if (mixFlags != HAS_IN_LINE)
-            {
-                foreach (var childBox in allChildren)
-                {
-                    //recursive
-                    CorrectInlineBoxesParent2(childBox);
-                }
-            }
+        //                //3. move next  inline child box to new anonymous box                                              
+        //                CssBox tomoveBox = null;
+        //                while (i < allChildren.Count && ((tomoveBox = allChildren[i]).IsInline))
+        //                {
+        //                    //** allChildren number will be changed after move****    
+        //                    tomoveBox.SetNewParentBox(i, newbox);
+        //                }
+        //            }
+        //        }
+        //        //after correction , now all children in this box are block element 
+        //    }
+        //    //------------------------------------------------
+        //    if (mixFlags != HAS_IN_LINE)
+        //    {
+        //        foreach (var childBox in allChildren)
+        //        {
+        //            //recursive
+        //            CorrectInlineBoxesParent2(childBox);
+        //        }
+        //    }
 
-        }
+        //}
         /// <summary>
         /// Correct DOM tree if there is block boxes that are inside inline blocks.<br/>
         /// Need to rearrange the tree so block box will be only the child of other block box.
@@ -140,6 +143,9 @@ namespace HtmlRenderer.Dom
         /// <param name="box">the current box to correct its sub-tree</param>
         static void CorrectBlockInsideInline(CssBox box)
         {
+            //if (box.dbugId == 36)
+            //{
+            //}
 #if DEBUG
             dbugCorrectCount++;
 #endif
@@ -158,6 +164,9 @@ namespace HtmlRenderer.Dom
                     CorrectBlockInsideInline(childBox);
                 }
             }
+            //if (box.dbugId == 36)
+            //{
+            //}
         }
         /// <summary>
         /// Correct the DOM tree recursively by replacing  "br" html boxes with anonymous blocks that respect br spec.<br/>
@@ -169,17 +178,20 @@ namespace HtmlRenderer.Dom
         /// move to a new line</param>
         static void CorrectLineBreaksBlocks(CssBox box, ref bool followingBlock)
         {
+            //if (box.dbugId == 36)
+            //{
+            //}
             //recursive
-            if (box.MayHasSomeTextContent)
-            {
-                if (box.dbugGetTextContent().Contains("History"))
-                {
-                }
-            }
-            if (box.dbugMark > 0)
-            {
+            //if (box.MayHasSomeTextContent)
+            //{
+            //    if (box.dbugGetTextContent().Contains("History"))
+            //    {
+            //    }
+            //}
+            //if (box.dbugMark > 0)
+            //{
 
-            }
+            //}
             followingBlock = followingBlock || box.IsBlock;
             foreach (var childBox in box.GetChildBoxIter())
             {
@@ -527,8 +539,7 @@ namespace HtmlRenderer.Dom
                     //create new anonymous box
                     var block = BoxCreator.CreateAnonBlock(childBox.ParentBox, childIndex);
                     //move this imgbox to new child 
-                    childBox.SetNewParentBox(block);
-                    //childBox.Display = CssConstants.Inline;
+                    childBox.SetNewParentBox(block); 
                     childBox.CssDisplay = CssDisplay.Inline;
                 }
                 else

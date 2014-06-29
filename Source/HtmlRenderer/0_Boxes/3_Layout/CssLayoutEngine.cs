@@ -208,27 +208,11 @@ namespace HtmlRenderer.Dom
             hostBlock.AddLineBox(line);
 
             //****
-            if (hostBlock.ChildCount == 0 && hostBlock.HasRuns)
-            {
-                FlowBox(lay, hostBlock, hostBlock, limitLocalRight, 0, startLocalX,
-                    ref line, ref localX, ref localY, ref maxLocalRight, ref maxLocalBottom);
-                //FlowRunsIntoHostLine(lay, hostBlock, hostBlock, hostBlock, limitLocalRight, interLineSpace, firstRunStartX,
-                //     ref hostLine, ref current_line_x, ref current_line_y,
-                //     ref maxRightForHostBox, ref maxBottomForHostBox,
-                //     childNumber, leftMostSpace, rightMostSpace, splitableParentIsBlock, splitBoxActualLineHeight);
-            }
-            else
-            {
-                FlowBox(lay, hostBlock, hostBlock, limitLocalRight, 0, startLocalX,
-                    ref line, ref localX, ref localY, ref maxLocalRight, ref maxLocalBottom);
-            }
+            FlowBox(lay, hostBlock, hostBlock, limitLocalRight, 0, startLocalX,
+                  ref line, ref localX, ref localY, ref maxLocalRight, ref maxLocalBottom);
+             
             //****
-
-
-
-
-
-
+             
             // if width is not restricted we need to lower it to the actual width
             if (hostBlock.SizeWidth + lay.ContainerBlockGlobalX >= CssBoxConst.MAX_RIGHT)
             {

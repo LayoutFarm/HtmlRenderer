@@ -84,7 +84,7 @@ namespace HtmlRenderer.Dom
                                     WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)firstChild;
                                     box.SetTextContent(textNode.CopyTextBuffer());
                                     box.dbugMark = 21;
-                                    
+
                                     //-----------
                                     //tech2
                                     //WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)firstChild;
@@ -181,7 +181,7 @@ namespace HtmlRenderer.Dom
                 ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(htmlContainer, cssData);
                 ApplyStyleSheet(root, activeCssTemplate);
                 SetTextSelectionStyle(htmlContainer, cssData);
-                OnePassBoxCorrection(root); 
+                OnePassBoxCorrection(root);
                 CorrectTextBoxes(root);
                 //CorrectImgBoxes(root);
 
@@ -253,6 +253,9 @@ namespace HtmlRenderer.Dom
         static void ApplyStyleSheet(CssBox box, ActiveCssTemplate activeCssTemplate)
         {
             //recursive 
+            //if (box.dbugId == 36)
+            //{
+            //}
             //-------------------------------------------------------------------            
             box.InheritStyles(box.ParentBox);
 
@@ -294,10 +297,19 @@ namespace HtmlRenderer.Dom
                 {
                     case WellknownHtmlTagName.style:
                         {
-                            if (box.ChildCount == 1)
+                            switch (box.ChildCount)
                             {
-                                activeCssTemplate.LoadRawStyleElementContent(box.GetFirstChild().CopyTextContent());
+                                case 0:
+                                    {
+                                        activeCssTemplate.LoadRawStyleElementContent(box.CopyTextContent());
+                                    } break;
+                                case 1:
+                                    {
+                                        activeCssTemplate.LoadRawStyleElementContent(box.GetFirstChild().CopyTextContent());
+                                    } break;
                             }
+                           
+
                         } break;
                     case WellknownHtmlTagName.link:
                         {
@@ -327,6 +339,9 @@ namespace HtmlRenderer.Dom
                 //recursive
                 ApplyStyleSheet(childBox, activeCssTemplate);
             }
+            //if (box.dbugId == 36)
+            //{
+            //}
         }
         /// <summary>
         /// Set the selected text style (selection text color and background color).
@@ -867,15 +882,29 @@ namespace HtmlRenderer.Dom
         /// <returns>true - has variant child boxes, false - otherwise</returns>
         static bool ContainsMixedInlineAndBlockBoxes(CssBox box, out int mixFlags)
         {
-
+            if (box.ChildCount == 0 && box.HasRuns)
+            {
+                mixFlags = HAS_IN_LINE;
+                return false;
+            }
             mixFlags = 0;
             var children = CssBox.UnsafeGetChildren(box);
             for (int i = children.Count - 1; i >= 0; --i)
             {
-                if ((mixFlags |= children[i].IsInline ? HAS_IN_LINE : HAS_BLOCK) == (HAS_BLOCK | HAS_IN_LINE))
+                if (children[i].IsInline)
+                {
+                    mixFlags |= HAS_IN_LINE;
+                }
+                else
+                {
+                    mixFlags |= HAS_BLOCK;
+                }
+
+                if (mixFlags == (HAS_BLOCK | HAS_IN_LINE))
                 {
                     return true;
                 }
+
             }
             return false;
         }

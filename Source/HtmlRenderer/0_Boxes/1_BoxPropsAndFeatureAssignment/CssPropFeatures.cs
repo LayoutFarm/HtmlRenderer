@@ -64,6 +64,10 @@ namespace HtmlRenderer.Dom
             this.BorderSpacingV = inheritFrom.BorderSpacingV;
             //---------------------------------------------------------
         }
+
+
+        public object Owner { get { return this.owner; } }
+
         public CssLength LeftWidth { get; set; }
         public CssLength TopWidth { get; set; }
         public CssLength RightWidth { get; set; }

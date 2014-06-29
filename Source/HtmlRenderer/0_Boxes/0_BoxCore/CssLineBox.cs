@@ -536,13 +536,7 @@ namespace HtmlRenderer.Dom
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
-                CssBox ownerBox = strip.owner;
-                //if (ownerBox.CssDisplay != CssDisplay.Inline)
-                //{
-                //    throw new NotSupportedException();
-                //    continue;
-                //}
-
+                CssBox ownerBox = strip.owner; 
                 bool isFirstLine, isLastLine;
                 CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
                 ownerBox.PaintDecoration(g, strip.Bound, isFirstLine, isLastLine);

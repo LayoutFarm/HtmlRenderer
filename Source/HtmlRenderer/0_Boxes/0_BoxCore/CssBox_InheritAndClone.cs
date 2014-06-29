@@ -45,6 +45,9 @@ namespace HtmlRenderer.Dom
                     //for clone only (eg. split a box into two parts)
                     //---------------------------------------
                     this._backgroundProps = s._backgroundProps;
+                    if (this.dbugId == 36)
+                    {
+                    }
                     this._borderProps = s._borderProps;
                     this._cornerProps = s._cornerProps;
                     //---------------------------------------
@@ -64,6 +67,9 @@ namespace HtmlRenderer.Dom
                     this._lineHeight = s._lineHeight;
                     this._float = s._float;
 
+                    if (this.dbugId == 36)
+                    {
+                    }
                     this._cssDisplay = s._cssDisplay;
                     this._overflow = s._overflow;
                     this._textDecoration = s._textDecoration;
@@ -108,7 +114,18 @@ namespace HtmlRenderer.Dom
             //for clone only (eg. split a box into two parts)
             //=======================================
             this._backgroundProps = s._backgroundProps;
+            
+            //if (this.dbugId == 36)
+            //{
+            //}
+            var s_dbugId = s.dbugId;
+            if (s._borderProps.Owner == s)
+            {
+                this._borderProps = s._borderProps;
+            }
             this._borderProps = s._borderProps;
+
+
             this._cornerProps = s._cornerProps;
             //---------------------------------------
 
@@ -126,6 +143,9 @@ namespace HtmlRenderer.Dom
             this._lineHeight = s._lineHeight;
             this._float = s._float;
 
+            //if (this.dbugId == 36)
+            //{
+            //}
             this._cssDisplay = s._cssDisplay;
             this._overflow = s._overflow;
             this._textDecoration = s._textDecoration;

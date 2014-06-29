@@ -69,6 +69,7 @@ namespace HtmlRenderer
             foreach (var ruleSetGroup in relatedRuleSets)
             {
                 //start with share*** rule set
+               
                 ruleSetGroup.AddRuleSet(assignmentCollection);
             }
         }
@@ -299,7 +300,7 @@ namespace HtmlRenderer
 
         public CssRuleSetGroup(string name)
         {
-            this.Name = name; 
+            this.Name = name;
         }
         private CssRuleSetGroup(CssRuleSetGroup parent, string name, WebDom.CssSimpleElementSelector simpleSelector)
         {
@@ -500,7 +501,7 @@ namespace HtmlRenderer
             foreach (WebDom.CssPropertyDeclaration sourceAssignment in fromDic.Values)
             {
                 //add or replace
-                 
+
                 targetDic[sourceAssignment.WellknownPropertyName] = sourceAssignment;
             }
         }

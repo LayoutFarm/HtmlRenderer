@@ -54,9 +54,9 @@ namespace HtmlRenderer.Dom
         #endregion
         //==========================================================
         #region css values Not Inherit From Parent
-        CssBorderProp _borderProps = CssBorderProp.Default; 
+        CssBorderProp _borderProps = CssBorderProp.Default;
         CssPaddingProp _paddingProps = CssPaddingProp.Default;
-        CssMarginProp _marginProps = CssMarginProp.Default; 
+        CssMarginProp _marginProps = CssMarginProp.Default;
         CssCornerProp _cornerProps = CssCornerProp.Default;
         Font _actualFont;
         CssBackgroundProp _backgroundProps = CssBackgroundProp.Default;
@@ -70,22 +70,24 @@ namespace HtmlRenderer.Dom
         CssLength _width = CssLength.AutoLength;
         CssLength _height = CssLength.AutoLength;
         //==========================================================
-        CssLength _maxWidth = CssLength.NotAssign; 
+        CssLength _maxWidth = CssLength.NotAssign;
         CssOverflow _overflow = CssOverflow.Visible;
         CssTextDecoration _textDecoration = CssTextDecoration.NotAssign;
         CssPosition _position = CssPosition.Static;
-        CssLength _wordSpacing = CssLength.NormalWordOrLine; 
-        WellknownHtmlTagName wellKnownTagName; 
-        #endregion 
+        CssLength _wordSpacing = CssLength.NormalWordOrLine;
+        WellknownHtmlTagName wellKnownTagName;
+        #endregion
 #if DEBUG
         public readonly int dbugId = dbugTotalId++;
         static int dbugTotalId;
-        public int dbugMark; 
+        public int dbugMark;
 #endif
         public CssBoxBase()
         {
-            _actualColor = System.Drawing.Color.Black; 
-
+            _actualColor = System.Drawing.Color.Black;
+            //if (this.dbugId == 348)
+            //{
+            //}
         }
 
         #region CSS Properties
@@ -107,7 +109,13 @@ namespace HtmlRenderer.Dom
         public CssDisplay CssDisplay
         {
             get { return this._cssDisplay; }
-            set { this._cssDisplay = value; }
+            set
+            {
+                if (this.dbugId == 36)
+                {
+                }
+                this._cssDisplay = value;
+            }
         }
         public CssDirection CssDirection
         {
@@ -131,7 +139,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckBorderVersion().RightWidth = value;
-               // this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_RIGHT;
+                // this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_RIGHT;
             }
         }
 
@@ -229,7 +237,7 @@ namespace HtmlRenderer.Dom
             get { return this._cornerProps.NERadius; }
             set
             {
-                CheckCornerVersion().NERadius = value; 
+                CheckCornerVersion().NERadius = value;
             }
         }
         public CssLength CornerNWRadius
@@ -237,7 +245,7 @@ namespace HtmlRenderer.Dom
             get { return this._cornerProps.NWRadius; }
             set
             {
-                CheckCornerVersion().NWRadius = value; 
+                CheckCornerVersion().NWRadius = value;
             }
         }
         public CssLength CornerSERadius
@@ -245,7 +253,7 @@ namespace HtmlRenderer.Dom
             get { return this._cornerProps.SERadius; }
             set
             {
-                CheckCornerVersion().SERadius = value; 
+                CheckCornerVersion().SERadius = value;
             }
         }
         public CssLength CornerSWRadius
@@ -253,7 +261,7 @@ namespace HtmlRenderer.Dom
             get { return this._cornerProps.SWRadius; }
             set
             {
-                CheckCornerVersion().SWRadius = value; 
+                CheckCornerVersion().SWRadius = value;
             }
         }
         //------------------------------------------------------
@@ -286,7 +294,7 @@ namespace HtmlRenderer.Dom
             get { return this._paddingProps.Bottom; }
             set
             {
-                CheckPaddingVersion().Bottom = value; 
+                CheckPaddingVersion().Bottom = value;
             }
         }
 
@@ -295,7 +303,7 @@ namespace HtmlRenderer.Dom
             get { return this._paddingProps.Left; }
             set
             {
-                CheckPaddingVersion().Left = value; 
+                CheckPaddingVersion().Left = value;
             }
         }
 
@@ -305,7 +313,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckPaddingVersion().Right = value;
-                 
+
             }
         }
 
@@ -316,8 +324,8 @@ namespace HtmlRenderer.Dom
                 return this._paddingProps.Top;
             }
             set
-            {   
-                CheckPaddingVersion().Top = value; 
+            {
+                CheckPaddingVersion().Top = value;
             }
         }
         public CssLength Left
@@ -548,7 +556,7 @@ namespace HtmlRenderer.Dom
             {
                 return this._backgroundProps.BackgroundGradientAngle;
             }
-        } 
+        }
 
         /// <summary>
         /// 
@@ -588,7 +596,7 @@ namespace HtmlRenderer.Dom
                 _actualFont = this._fontProps.GetCacheFont(this.GetParent());
                 return _actualFont;
             }
-        } 
+        }
         /// <summary>
         /// Get the parent of this css properties instance.
         /// </summary>
@@ -615,7 +623,7 @@ namespace HtmlRenderer.Dom
                 return length.ConvertEmToPixels(GetEmHeight());
             }
             return length;
-        } 
-     
+        }
+
     }
 }
