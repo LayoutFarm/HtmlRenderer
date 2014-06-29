@@ -145,9 +145,10 @@ namespace HtmlRenderer.Dom
             HtmlDocument htmldoc = ParseDocument(new TextSnapshot(html.ToCharArray()));
             //2. create bridge root
             BrigeRootElement bridgeRoot = CreateBridgeRoot(htmldoc);
+
             //----------------------- 
-            ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(cssData); 
-            //ApplyStyleSheet2(bridgeRoot, activeCssTemplate);
+            ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(cssData);
+            ApplyOnlyAbsoluteStyles(bridgeRoot, activeCssTemplate);
 
             //-----------------------
             //box generation
@@ -316,8 +317,8 @@ namespace HtmlRenderer.Dom
                                 }
                                 else if (stylesheetData != null)
                                 {
-                                    activeCssTemplate.LoadAnotherStylesheet(stylesheetData);                                     
-                                }                                 
+                                    activeCssTemplate.LoadAnotherStylesheet(stylesheetData);
+                                }
                             }
                         } break;
                 }
@@ -345,23 +346,16 @@ namespace HtmlRenderer.Dom
             //{
             //}
         }
-
-
-
-        /// <summary>
-        /// apply style to all bridge node
-        /// </summary>
-        /// <param name="bridgeNode"></param>
-        /// <param name="activeCssTemplate"></param>
-        static void ApplyStyleSheet2(BridgeHtmlNode bridgeNode, ActiveCssTemplate activeCssTemplate)
+        static void ApplyOnlyAbsoluteStyles(BridgeHtmlNode bridgeNode, ActiveCssTemplate activeCssTemplate)
         {
-            //recursive 
 
+            //recursive  
             //get box spec from bridge node
-            BoxSpec boxSpec = bridgeNode.Spec;
-            //1. try assign style using the html element name
-            activeCssTemplate.ApplyActiveTemplateForElement2(null, bridgeNode);
+            /// CssBoxTemplate boxSpec = bridgeNode.Spec;
+            //1. try assign style using the html element name/ classname
 
+            activeCssTemplate.ApplyAbsoluteStyles(bridgeNode);
+            //2. style for specific element id
 
 
 
@@ -371,11 +365,11 @@ namespace HtmlRenderer.Dom
             //if (box.HtmlElement != null)
             //{
             //    //------------------------------------------------------------------- 
-            //    //1. element tag
-            //    //2. css class 
+            //    //1. element tag/css class 
+            //    
             //    // try assign style using the html element tag    
             //    activeCssTemplate.ApplyActiveTemplateForElement(box.ParentBox, box);
-            //    //3.
+            //    //2.
             //    // try assign style using the "id" attribute of the html element
             //    if (box.HtmlElement.HasAttribute("id"))
             //    {
@@ -383,12 +377,12 @@ namespace HtmlRenderer.Dom
             //        AssignStylesForElementId(box, activeCssTemplate, "#" + id);
             //    }
             //    //-------------------------------------------------------------------
-            //    //4. 
+            //    //3. 
             //    //element attribute
             //    AssignStylesFromTranslatedAttributesHTML5(box, activeCssTemplate);
             //    //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
             //    //------------------------------------------------------------------- 
-            //    //5.
+            //    //4.
             //    //style attribute value of element
             //    if (box.HtmlElement.HasAttribute("style"))
             //    {
@@ -494,51 +488,25 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                if (IsStyleOnElementAllowed(box, decl))
-                {
-                    SetPropertyValue(box, boxParent, decl);
-                }
+                SetPropertyValue(box, boxParent, decl);
             }
         }
 
 
+        //static bool IsStyleOnElementAllowed(CssBoxBase box, WebDom.CssPropertyDeclaration cssProperty)
+        //{
+        //    //if (box.HtmlTag != null &&
+        //    //    cssProperty.WellknownPropertyName == WebDom.WellknownCssPropertyName.Display)
+        //    //{
 
+        //    if (box.WellknownTagName != WellknownHtmlTagName.NotAssign &&
+        //        cssProperty.WellknownPropertyName == WebDom.WellknownCssPropertyName.Display)
+        //    {
+        //        CssDisplay display = UserMapUtil.GetDisplayType(cssProperty.GetPropertyValue(0));
 
-        static bool IsStyleOnElementAllowed(CssBoxBase box, WebDom.CssPropertyDeclaration cssProperty)
-        {
-            //if (box.HtmlTag != null &&
-            //    cssProperty.WellknownPropertyName == WebDom.WellknownCssPropertyName.Display)
-            //{
-
-            if (box.WellknownTagName != WellknownHtmlTagName.NotAssign &&
-                cssProperty.WellknownPropertyName == WebDom.WellknownCssPropertyName.Display)
-            {
-                CssDisplay display = UserMapUtil.GetDisplayType(cssProperty.GetPropertyValue(0));
-                switch (box.WellknownTagName)
-                {
-                    case WellknownHtmlTagName.table:
-                        return display == CssDisplay.Table;
-                    case WellknownHtmlTagName.tr:
-                        return display == CssDisplay.TableRow;
-                    case WellknownHtmlTagName.tbody:
-                        return display == CssDisplay.TableRowGroup;
-                    case WellknownHtmlTagName.thead:
-                        return display == CssDisplay.TableHeaderGroup;
-                    case WellknownHtmlTagName.tfoot:
-                        return display == CssDisplay.TableFooterGroup;
-                    case WellknownHtmlTagName.col:
-                        return display == CssDisplay.TableColumn;
-                    case WellknownHtmlTagName.colgroup:
-                        return display == CssDisplay.TableColumnGroup;
-                    case WellknownHtmlTagName.td:
-                    case WellknownHtmlTagName.th:
-                        return display == CssDisplay.TableCell;
-                    case WellknownHtmlTagName.caption:
-                        return display == CssDisplay.TableCaption;
-                }
-            }
-            return true;
-        }
+        //    }
+        //    return true;
+        //}
 
 
         static void AssignStylesFromTranslatedAttributes_Old(CssBox box, ActiveCssTemplate activeTemplate)
@@ -1018,9 +986,49 @@ namespace HtmlRenderer.Dom
         {
             //assign property  
             WebDom.CssCodeValueExpression cssValue = decl.GetPropertyValue(0);
-
             switch (decl.WellknownPropertyName)
             {
+                case WebDom.WellknownCssPropertyName.Display:
+                    {
+                        CssDisplay display = UserMapUtil.GetDisplayType(cssValue);
+                        switch (cssBox.WellknownTagName)
+                        {
+                            
+                            //------------------------
+                            //fix definition
+                            case WellknownHtmlTagName.table:
+                                display = CssDisplay.Table;
+                                break;
+                            case WellknownHtmlTagName.tr:
+                                display = CssDisplay.TableRow;
+                                break;
+                            case WellknownHtmlTagName.tbody:
+                                display = CssDisplay.TableRowGroup;
+                                break;
+                            case WellknownHtmlTagName.thead:
+                                display = CssDisplay.TableHeaderGroup;
+                                break;
+                            case WellknownHtmlTagName.tfoot:
+                                display = CssDisplay.TableFooterGroup;
+                                break;
+                            case WellknownHtmlTagName.col:
+                                display = CssDisplay.TableColumn;
+                                break;
+                            case WellknownHtmlTagName.colgroup:
+                                display = CssDisplay.TableColumnGroup;
+                                break;
+                            case WellknownHtmlTagName.td:
+                            case WellknownHtmlTagName.th:
+                                display = CssDisplay.TableCell;
+                                break;
+                            case WellknownHtmlTagName.caption:
+                                display = CssDisplay.TableCaption;
+                                break;
+                            //------------------------
+                        }
+                        cssBox.CssDisplay = display;
+
+                    } break;
                 case WebDom.WellknownCssPropertyName.BorderBottomWidth:
                     cssBox.BorderBottomWidth = cssValue.AsBorderLength();
                     break;
@@ -1033,7 +1041,6 @@ namespace HtmlRenderer.Dom
                 case WebDom.WellknownCssPropertyName.BorderTopWidth:
                     cssBox.BorderTopWidth = cssValue.AsBorderLength();
                     break;
-
                 case WebDom.WellknownCssPropertyName.BorderBottomStyle:
                     cssBox.BorderBottomStyle = UserMapUtil.GetBorderStyle(cssValue);
                     break;
@@ -1149,10 +1156,7 @@ namespace HtmlRenderer.Dom
                 case WebDom.WellknownCssPropertyName.Color:
                     cssBox.Color = cssValue.AsColor();
                     break;
-                case WebDom.WellknownCssPropertyName.Display:
-                    cssBox.CssDisplay = UserMapUtil.GetDisplayType(cssValue);
 
-                    break;
                 case WebDom.WellknownCssPropertyName.Direction:
 
                     cssBox.CssDirection = UserMapUtil.GetCssDirection(cssValue);

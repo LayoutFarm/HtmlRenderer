@@ -75,7 +75,7 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-
+       
 
         /// <summary>
         /// clone all style from another box

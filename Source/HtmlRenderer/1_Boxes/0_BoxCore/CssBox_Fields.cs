@@ -67,7 +67,7 @@ namespace HtmlRenderer.Dom
         //condition 2 :this Box is InlineBox 
         List<CssRun> _boxRuns;
         //----------------------------------------------------  
-
+    
 
         /// <summary>
         /// Gets the childrenn boxes of this box
@@ -218,6 +218,7 @@ namespace HtmlRenderer.Dom
             get;
             set;
         }
+      
 
 
 

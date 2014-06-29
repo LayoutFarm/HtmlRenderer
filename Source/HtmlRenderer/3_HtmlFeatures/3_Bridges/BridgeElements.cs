@@ -10,19 +10,7 @@ using HtmlRenderer.WebDom;
 namespace HtmlRenderer.Dom
 {
 
-    class BoxSpec : CssBoxBase
-    {
-        BoxSpec parent;
-        public BoxSpec(BoxSpec parent)
-        {
-            this.parent = parent;
-        }
-        public override CssBoxBase GetParent()
-        {
-            return parent;
-        }
-
-    }
+    
 
     sealed class BrigeRootElement : BridgeHtmlNode
     {
@@ -44,7 +32,7 @@ namespace HtmlRenderer.Dom
         //---------------------------------
         List<BridgeHtmlNode> children;
         //--------------------------------- 
-        BoxSpec boxSpec;
+        CssBoxTemplate boxSpec;
 
         bool isTextNode;
         protected BridgeHtmlNode()
@@ -142,7 +130,7 @@ namespace HtmlRenderer.Dom
             }
         }
         //-------------
-        public BoxSpec Spec
+        public CssBoxTemplate Spec
         {
             get { return this.boxSpec; }
             set { this.boxSpec = value; }

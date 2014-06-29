@@ -77,7 +77,7 @@ namespace HtmlRenderer.Dom
         CssPosition _position = CssPosition.Static;
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
         //==========================================================
-        WellknownHtmlTagName wellKnownTagName;
+        WellknownHtmlTagName wellKnownTagName; 
         #endregion
 #if DEBUG
         public readonly int dbugId = dbugTotalId++;
@@ -86,14 +86,12 @@ namespace HtmlRenderer.Dom
 #endif
         public CssBoxBase()
         {
-            _actualColor = System.Drawing.Color.Black;
-            //if (this.dbugId == 348)
-            //{
-            //}
+            _actualColor = System.Drawing.Color.Black; 
         }
 
         #region CSS Properties
 
+       
         public WellknownHtmlTagName WellknownTagName
         {
             get
@@ -104,10 +102,7 @@ namespace HtmlRenderer.Dom
             {
                 this.wellKnownTagName = value;
             }
-        }
-
-
-
+        } 
         public CssDisplay CssDisplay
         {
             get { return this._cssDisplay; }
