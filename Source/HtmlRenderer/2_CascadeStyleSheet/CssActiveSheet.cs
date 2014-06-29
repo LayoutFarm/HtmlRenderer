@@ -65,13 +65,11 @@ namespace HtmlRenderer
 
             CssPropertyAssignmentCollection assignmentCollection = new CssPropertyAssignmentCollection(null);
             assignmentCollection.LoadRuleSet(ruleset);
-           
+
             foreach (var ruleSetGroup in relatedRuleSets)
             {
-                //if (ruleSetGroup.Name == "table")
-                //{
-                //}
                 //start with share*** rule set
+               
                 ruleSetGroup.AddRuleSet(assignmentCollection);
             }
         }
@@ -340,10 +338,7 @@ namespace HtmlRenderer
         }
         public void AddRuleSet(CssPropertyAssignmentCollection otherAssignments)
         {
-            //assignment in this ruleset            
-#if DEBUG
-          
-#endif
+            //assignment in this ruleset             
             if (this._assignments == null)
             {
                 //share

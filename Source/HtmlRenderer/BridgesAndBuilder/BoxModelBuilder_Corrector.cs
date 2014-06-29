@@ -29,7 +29,7 @@ namespace HtmlRenderer.Dom
     {
         //------------------------------------------
         static void OnePassBoxCorrection(CssBox root)
-        { 
+        {
 
         }
         /// <summary>
@@ -41,9 +41,8 @@ namespace HtmlRenderer.Dom
         /// <param name="box">the current box to correct its sub-tree</param>
         static void CorrectInlineBoxesParent(CssBox box)
         {
-            //if (box.dbugId == 44)
+            //if (box.dbugId == 36)
             //{
-
             //}
             //------------------------------------------------
             //recursive 
@@ -90,6 +89,53 @@ namespace HtmlRenderer.Dom
 
         }
 
+
+        //static void CorrectInlineBoxesParent2(CssBox box)
+        //{
+        //    //------------------------------------------------
+        //    //recursive 
+        //    int mixFlags;
+        //    var allChildren = CssBox.UnsafeGetChildren(box);
+
+        //    if (ContainsMixedInlineAndBlockBoxes(box, out mixFlags))
+        //    {
+        //        //if box contains both inline and block 
+        //        //then make all children to be block box
+
+        //        for (int i = 0; i < allChildren.Count; i++)
+        //        {
+        //            var curBox = allChildren[i];
+        //            if (curBox.IsInline)
+        //            {
+        //                //1. creat new box anonymous block (no html tag) then
+        //                //  add it before this box 
+
+        //                var newbox = BoxCreator.CreateAnonBlock(box, i);
+        //                //2. skip newly add box 
+        //                i++;
+
+        //                //3. move next  inline child box to new anonymous box                                              
+        //                CssBox tomoveBox = null;
+        //                while (i < allChildren.Count && ((tomoveBox = allChildren[i]).IsInline))
+        //                {
+        //                    //** allChildren number will be changed after move****    
+        //                    tomoveBox.SetNewParentBox(i, newbox);
+        //                }
+        //            }
+        //        }
+        //        //after correction , now all children in this box are block element 
+        //    }
+        //    //------------------------------------------------
+        //    if (mixFlags != HAS_IN_LINE)
+        //    {
+        //        foreach (var childBox in allChildren)
+        //        {
+        //            //recursive
+        //            CorrectInlineBoxesParent2(childBox);
+        //        }
+        //    }
+
+        //}
         /// <summary>
         /// Correct DOM tree if there is block boxes that are inside inline blocks.<br/>
         /// Need to rearrange the tree so block box will be only the child of other block box.
@@ -97,10 +143,7 @@ namespace HtmlRenderer.Dom
         /// <param name="box">the current box to correct its sub-tree</param>
         static void CorrectBlockInsideInline(CssBox box)
         {
-            //if (box.dbugId == 44)
-            //{
 
-            //}
 #if DEBUG
             dbugCorrectCount++;
 #endif
@@ -119,10 +162,7 @@ namespace HtmlRenderer.Dom
                     CorrectBlockInsideInline(childBox);
                 }
             }
-            //if (box.dbugId == 44)
-            //{
 
-            //}
         }
         /// <summary>
         /// Correct the DOM tree recursively by replacing  "br" html boxes with anonymous blocks that respect br spec.<br/>
@@ -134,8 +174,20 @@ namespace HtmlRenderer.Dom
         /// move to a new line</param>
         static void CorrectLineBreaksBlocks(CssBox box, ref bool followingBlock)
         {
+            //if (box.dbugId == 36)
+            //{
+            //}
             //recursive
+            //if (box.MayHasSomeTextContent)
+            //{
+            //    if (box.dbugGetTextContent().Contains("History"))
+            //    {
+            //    }
+            //}
+            //if (box.dbugMark > 0)
+            //{
 
+            //}
             followingBlock = followingBlock || box.IsBlock;
             foreach (var childBox in box.GetChildBoxIter())
             {
@@ -175,6 +227,7 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
+
         /// <summary>
         /// Go over all the text boxes (boxes that have some text that will be rendered) and
         /// remove all boxes that have only white-spaces but are not 'preformatted' so they do not effect
@@ -183,19 +236,23 @@ namespace HtmlRenderer.Dom
         /// <param name="box">the current box to correct its sub-tree</param>
         static void CorrectTextBoxes(CssBox box)
         {
+
             CssBoxCollection boxes = CssBox.UnsafeGetChildren(box);
             for (int i = boxes.Count - 1; i >= 0; i--)
             {
                 var childBox = boxes[i];
                 if (childBox.MayHasSomeTextContent)
                 {
+
+
+                     
                     // is the box has text
                     // or is the box is pre-formatted
                     // or is the box is only one in the parent 
                     bool keepBox = !childBox.TextContentIsWhitespaceOrEmptyText ||
-                        childBox.WhiteSpace == CssWhiteSpace.Pre ||
-                        childBox.WhiteSpace == CssWhiteSpace.PreWrap ||
-                        boxes.Count == 1;
+                       childBox.WhiteSpace == CssWhiteSpace.Pre ||
+                       childBox.WhiteSpace == CssWhiteSpace.PreWrap ||
+                       boxes.Count == 1;
 
                     if (!keepBox && box.ChildCount > 0)
                     {
@@ -218,6 +275,8 @@ namespace HtmlRenderer.Dom
                             keepBox = boxes[i - 1].IsInline && boxes[i + 1].IsInline;
                         }
                     }
+
+
                     if (keepBox)
                     {
                         // valid text box, parse it to words  
@@ -225,12 +284,13 @@ namespace HtmlRenderer.Dom
                     }
                     else
                     {
+
                         boxes.RemoveAt(i);
                     }
                 }
                 else
                 {
-                    // recursive
+                    // recursive 
                     CorrectTextBoxes(childBox);
                 }
             }
@@ -241,10 +301,6 @@ namespace HtmlRenderer.Dom
         /// <param name="box">the box that has the problem</param>
         static void CorrectBlockInsideInlineImp(CssBox box)
         {
-            if (box.dbugId == 44)
-            {
-
-            }
             CssBox firstChild = null;
 
             if (box.ChildCount > 1 || box.GetFirstChild().ChildCount > 1)
@@ -394,7 +450,6 @@ namespace HtmlRenderer.Dom
                     var block = BoxCreator.CreateAnonBlock(childBox.ParentBox, childIndex);
                     //move this imgbox to new child 
                     childBox.SetNewParentBox(block);
-                    //childBox.Display = CssConstants.Inline;
                     childBox.CssDisplay = CssDisplay.Inline;
                 }
                 else

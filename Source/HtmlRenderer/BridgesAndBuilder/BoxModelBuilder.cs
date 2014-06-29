@@ -22,6 +22,9 @@ using HtmlRenderer.Handlers;
 using HtmlRenderer.Utils;
 using HtmlRenderer.Parse;
 
+using HtmlRenderer.WebDom;
+
+
 namespace HtmlRenderer.Dom
 {
     /// <summary>
@@ -30,108 +33,96 @@ namespace HtmlRenderer.Dom
     static partial class BoxModelBuilder
     {
         //======================================
-        #region Parse
+
         /// <summary>
         /// Parses the source html to css boxes tree structure.
         /// </summary>
         /// <param name="source">the html source to parse</param>
-        static CssBox ParseDocument(TextSnapshot snapSource)
+        static WebDom.HtmlDocument ParseDocument(TextSnapshot snapSource)
         {
             var parser = new HtmlRenderer.WebDom.Parser.HtmlParser();
             //------------------------
             parser.Parse(snapSource);
-
-            WebDom.HtmlDocument resultHtmlDoc = parser.ResultHtmlDoc;
-            var rootCssBox = BoxCreator.CreateRootBlock();
-            var curBox = rootCssBox;
-            //walk on tree and create cssbox
-            foreach (WebDom.HtmlNode node in resultHtmlDoc.RootNode.GetChildNodeIterForward())
+            return parser.ResultHtmlDoc;
+        }
+        static BrigeRootElement CreateBridgeRoot(WebDom.HtmlDocument htmldoc)
+        {
+            BrigeRootElement bridgeRoot = new BrigeRootElement(htmldoc.RootNode);
+            RecursiveBuildBridgeContent(htmldoc.RootNode, bridgeRoot);
+            return bridgeRoot;
+        }
+        static void RecursiveBuildBridgeContent(WebDom.HtmlElement parentHtmlNode, BridgeHtmlNode parentBridge)
+        {
+            //recursive 
+            foreach (WebDom.HtmlNode node in parentHtmlNode.GetChildNodeIterForward())
             {
-                WebDom.HtmlElement elemNode = node as WebDom.HtmlElement;
-                if (elemNode != null)
+                switch (node.NodeType)
                 {
-                    CreateCssBox(elemNode, curBox);
+                    case WebDom.HtmlNodeType.OpenElement:
+                    case WebDom.HtmlNodeType.ShortElement:
+                        {
+                            WebDom.HtmlElement elemNode = node as WebDom.HtmlElement;
+
+                            BridgeHtmlNode bridgeElement = new BridgeHtmlNode(elemNode,
+                            UserMapUtil.EvaluateTagName(elemNode.LocalName));
+                            parentBridge.AddChildElement(bridgeElement);
+                            //recursive 
+                            RecursiveBuildBridgeContent(elemNode, bridgeElement);
+
+                        } break;
+                    case WebDom.HtmlNodeType.TextNode:
+                        {
+                            BridgeHtmlNode bridgeElement = new BridgeHtmlNode((WebDom.HtmlTextNode)node);
+                            parentBridge.AddChildElement(bridgeElement);
+                        } break;
                 }
             }
-            return rootCssBox;
         }
-
-
-        static void CreateCssBox(WebDom.HtmlElement htmlElement, CssBox parentNode)
+        static void RecursiveGenerateCssBoxContent(BridgeHtmlNode parentBrigeNode, CssBox parentHtmlNode)
         {
-            //recursive   
-            CssBox box = BoxCreator.CreateBoxNotInherit(new ElementBridge(htmlElement), parentNode);
-
-            switch (htmlElement.ChildNodeCount)
+            int childCount = parentBrigeNode.ChildCount;
+            switch (childCount)
             {
                 case 0:
-                    return;
+                    { } break;
                 case 1:
                     {
-                        var firstChild = htmlElement.GetFirstNode();
-                        switch (firstChild.NodeType)
+                        BridgeHtmlNode bridgeChild = parentBrigeNode.GetNode(0);
+                        if (bridgeChild.IsTextNode)
                         {
-                            case WebDom.HtmlNodeType.OpenElement:
-                            case WebDom.HtmlNodeType.ShortElement:
-                                {
-                                    //recursive
-                                    CreateCssBox((WebDom.HtmlElement)firstChild, box);
-                                } break;
-                            case WebDom.HtmlNodeType.TextNode:
-                                {
-                                    //set text node
-                                    //WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)firstChild; 
-                                    //box.SetTextContent(textNode.CopyTextBuffer());
-
-                                    WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)firstChild;
-                                    CssBox anonText = new CssBox(box, null);
-                                    //parse and evaluate whitespace here ! 
-                                    anonText.SetTextContent(textNode.CopyTextBuffer());
-
-                                } break;
+                            parentHtmlNode.SetTextContent(bridgeChild.CopyTextBuffer());
+                            //parse and evaluate whitespace here ! 
+                            
                         }
-
+                        else
+                        {
+                            CssBox box = BoxCreator.CreateBoxNotInherit(bridgeChild, parentHtmlNode); 
+                            RecursiveGenerateCssBoxContent(bridgeChild, box); 
+                        }
                     } break;
                 default:
                     {
-                        foreach (WebDom.HtmlNode node in htmlElement.GetChildNodeIterForward())
+                        for (int i = 0; i < childCount; ++i)
                         {
-                            switch (node.NodeType)
+                            //create and correct box in one pass here !?
+                            BridgeHtmlNode bridgeChild = parentBrigeNode.GetNode(i);
+                            if (bridgeChild.IsTextNode)
                             {
-                                case WebDom.HtmlNodeType.OpenElement:
-                                case WebDom.HtmlNodeType.ShortElement:
-                                    {
-                                        //recursive
-                                        CreateCssBox((WebDom.HtmlElement)node, box);
-                                    } break;
-                                case WebDom.HtmlNodeType.TextNode:
-                                    {
-                                        /// Add html text anon box to the current box, this box will have the rendered text<br/>
-                                        /// Adding box also for text that contains only whitespaces because we don't know yet if
-                                        /// the box is preformatted. At later stage they will be removed if not relevant.                             
-                                        WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)node;
-                                        //create anonymous box  but not inherit
-                                        CssBox anonText = new CssBox(box, null);
-                                        //parse and evaluate whitespace here ! 
-                                        anonText.SetTextContent(textNode.CopyTextBuffer());
 
-                                    } break;
-                                default:
-                                    {
-                                    } break;
+                                //create anonymous box  but not inherit
+                                CssBox anonText = new CssBox(parentHtmlNode, null);
+                                //parse and evaluate whitespace here ! 
+                                anonText.SetTextContent(bridgeChild.CopyTextBuffer());
+                            }
+                            else
+                            {
+                                CssBox box = BoxCreator.CreateBoxNotInherit(bridgeChild, parentHtmlNode);
+                                RecursiveGenerateCssBoxContent(bridgeChild, box);
                             }
                         }
-
                     } break;
-
             }
-
-
-
         }
-        #endregion Parse
-        //======================================
-
 
 
 
@@ -150,8 +141,21 @@ namespace HtmlRenderer.Dom
             CssActiveSheet cssData)
         {
 
-            //1. generate css box  from html data
-            CssBox root = ParseDocument(new TextSnapshot(html.ToCharArray()));
+            //1. parse
+            HtmlDocument htmldoc = ParseDocument(new TextSnapshot(html.ToCharArray()));
+            //2. create bridge root
+            BrigeRootElement bridgeRoot = CreateBridgeRoot(htmldoc);
+            //-----------------------
+
+
+
+
+
+            //-----------------------
+            //box generation
+            //3. create cssbox from root
+            CssBox root = BoxCreator.CreateRootBlock();
+            RecursiveGenerateCssBoxContent(bridgeRoot, root); 
 
 #if DEBUG
             dbugTestParsePerformance(html);
@@ -166,12 +170,11 @@ namespace HtmlRenderer.Dom
                 //-------------------------------------------------------------------
                 ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(htmlContainer, cssData);
                 ApplyStyleSheet(root, activeCssTemplate);
+                //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);
-
                 OnePassBoxCorrection(root);
-
                 CorrectTextBoxes(root);
-                CorrectImgBoxes(root);
+                //CorrectImgBoxes(root);
 
                 bool followingBlock = true;
 
@@ -181,8 +184,7 @@ namespace HtmlRenderer.Dom
                 CorrectInlineBoxesParent(root);
                 //2. then ...
                 CorrectBlockInsideInline(root);
-                //3. another?
-                //CorrectInlineBoxesParent(root);
+
             }
             return root;
         }
@@ -214,13 +216,13 @@ namespace HtmlRenderer.Dom
             //sw1.Reset();
             //GC.Collect();
             sw1.Start();
-            for (int i = nround; i >= 0; --i)
-            {
-                CssBox root2 = ParseDocument(snapSource);
-            }
-            sw1.Stop();
-            long ee2 = sw1.ElapsedTicks;
-            long ee2_ms = sw1.ElapsedMilliseconds;
+            //for (int i = nround; i >= 0; --i)
+            //{
+            //    CssBox root2 = ParseDocument(snapSource);
+            //}
+            //sw1.Stop();
+            //long ee2 = sw1.ElapsedTicks;
+            //long ee2_ms = sw1.ElapsedMilliseconds;
 
         }
 #endif
@@ -241,10 +243,10 @@ namespace HtmlRenderer.Dom
         /// <param name="cssDataChanged">check if the css data has been modified by the handled html not to change the base css data</param>
         static void ApplyStyleSheet(CssBox box, ActiveCssTemplate activeCssTemplate)
         {
-            //if (box.dbugId == 44)
+            //recursive 
+            //if (box.dbugId == 36)
             //{
             //}
-            //recursive 
             //-------------------------------------------------------------------            
             box.InheritStyles(box.ParentBox);
 
@@ -286,10 +288,18 @@ namespace HtmlRenderer.Dom
                 {
                     case WellknownHtmlTagName.style:
                         {
-                            if (box.ChildCount == 1)
+                            switch (box.ChildCount)
                             {
-                                activeCssTemplate.LoadRawStyleElementContent(box.GetFirstChild().CopyTextContent());
+                                case 0:
+                                    {
+                                        activeCssTemplate.LoadRawStyleElementContent(box.CopyTextContent());
+                                    } break;
+                                case 1:
+                                    {
+                                        activeCssTemplate.LoadRawStyleElementContent(box.GetFirstChild().CopyTextContent());
+                                    } break;
                             }
+
                         } break;
                     case WellknownHtmlTagName.link:
                         {
@@ -319,6 +329,9 @@ namespace HtmlRenderer.Dom
                 //recursive
                 ApplyStyleSheet(childBox, activeCssTemplate);
             }
+            //if (box.dbugId == 36)
+            //{
+            //}
         }
         /// <summary>
         /// Set the selected text style (selection text color and background color).
@@ -859,7 +872,11 @@ namespace HtmlRenderer.Dom
         /// <returns>true - has variant child boxes, false - otherwise</returns>
         static bool ContainsMixedInlineAndBlockBoxes(CssBox box, out int mixFlags)
         {
-
+            if (box.ChildCount == 0 && box.HasRuns)
+            {
+                mixFlags = HAS_IN_LINE;
+                return false;
+            }
             mixFlags = 0;
             var children = CssBox.UnsafeGetChildren(box);
             for (int i = children.Count - 1; i >= 0; --i)
@@ -874,10 +891,10 @@ namespace HtmlRenderer.Dom
                 }
 
                 if (mixFlags == (HAS_BLOCK | HAS_IN_LINE))
-                {   
+                {
                     return true;
                 }
-                
+
             }
             return false;
         }

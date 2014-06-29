@@ -41,7 +41,7 @@ namespace HtmlRenderer.Dom
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary>
         readonly IHtmlElement _htmlElement;
-        char[] _aa_textBuffer;
+        
 
         int _boxCompactFlags;
 
@@ -61,6 +61,7 @@ namespace HtmlRenderer.Dom
 
         //1.2 contains box collection for my children
         readonly CssBoxCollection _aa_boxes;
+        char[] _aa_textBuffer;
         //----------------------------------------------------   
 
         //condition 2 :this Box is InlineBox 

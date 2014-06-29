@@ -48,20 +48,18 @@ namespace HtmlRenderer.Dom
         /// <param name="tag">optional: the html tag associated with this css box</param>
         public CssBox(CssBox parentBox, IHtmlElement tag)
         {
-
+             
             this._aa_boxes = new CssBoxCollection(this);
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
             }
-           
+            
             _htmlElement = tag;
             if (tag != null)
             {
                 this.WellknownTagName = tag.WellknownTagName;
             }
-
-        
         }
 
         /// <summary>
@@ -583,7 +581,8 @@ namespace HtmlRenderer.Dom
                                     if (DomUtils.ContainsInlinesOnly(this))
                                     {
                                         this.SetHeightToZero();
-                                        CssLayoutEngine.FlowContentRuns(this, lay); //This will automatically set the bottom of this block
+                                        //CssLayoutEngine.FlowContentRuns(this, lay); //This will automatically set the bottom of this block
+                                        CssLayoutEngine.FlowContentRunsV2(this, lay); //This will automatically set the bottom of this block
                                     }
                                     else if (_aa_boxes.Count > 0)
                                     {
@@ -830,7 +829,12 @@ namespace HtmlRenderer.Dom
         {
             ContentTextSplitter.DefaultSplitter.ParseWordContent(this);
         }
-
+#if DEBUG
+        internal string dbugGetTextContent()
+        {
+            return new string(this._aa_textBuffer);
+        }
+#endif
         /// <summary>
         /// Gets the specified Attribute, returns string.Empty if no attribute specified
         /// </summary>

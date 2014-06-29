@@ -28,7 +28,7 @@ namespace HtmlRenderer.Dom
 #if DEBUG
         public void dbugPaint(PaintVisitor p, RectangleF r)
         {
-            return;
+           // return;
             if (this.HtmlElement == null)
             {
                 p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);
@@ -43,15 +43,16 @@ namespace HtmlRenderer.Dom
 
         protected virtual void PaintImp(IGraphics g, PaintVisitor p)
         {
-            //if (this.CssDisplay == Dom.CssDisplay.Table)
+            //if (this.dbugId == 36)
             //{
 
             //}
-
             if (this.CssDisplay != CssDisplay.None &&
                (this.CssDisplay != CssDisplay.TableCell ||
                  EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
             {
+
+
 
                 bool hasPrevClip = false;
                 RectangleF prevClip = RectangleF.Empty;
@@ -69,7 +70,7 @@ namespace HtmlRenderer.Dom
                             return;
                         }
                     }
-                } 
+                }
 
                 //---------------------------------------------
                 if (this.CssDisplay != CssDisplay.Inline)

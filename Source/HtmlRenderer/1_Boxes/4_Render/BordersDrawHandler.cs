@@ -1,3 +1,6 @@
+//BSD 2014, WinterCore
+
+
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
@@ -39,8 +42,7 @@ namespace HtmlRenderer.Handlers
         {
             if (rect.Width > 0 && rect.Height > 0)
             {
-
-                var dd = box.dbugId;
+                
                 if (box.BorderTopStyle >= CssBorderStyle.Visible &&
                     box.ActualBorderTopWidth > 0)
                 {
@@ -105,10 +107,18 @@ namespace HtmlRenderer.Handlers
 
             var borderPath = GetRoundedBorderPath(border, box, rect);
 
-            //if (box.CssDisplay == CssDisplay.Table)
+            //if (box.dbugBB == 20)
             //{
 
             //}
+
+            //if (box.CssDisplay == CssDisplay.Table)
+            //{
+            //}
+            //else if (box.CssDisplay == CssDisplay.TableCell)
+            //{
+            //}
+            
 
             IGraphics g = p.Gfx;
             if (borderPath != null)

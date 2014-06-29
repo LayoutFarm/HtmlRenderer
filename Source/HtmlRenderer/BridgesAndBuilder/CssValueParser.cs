@@ -25,7 +25,6 @@ namespace HtmlRenderer.Parse
     internal static class CssValueParser
     {
 
-
         /// <summary>
         /// Evals a number and returns it. If number is a percentage, it will be multiplied by <see cref="hundredPercent"/>
         /// </summary>
