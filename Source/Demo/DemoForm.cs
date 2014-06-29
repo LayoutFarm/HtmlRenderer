@@ -88,14 +88,15 @@ namespace HtmlRenderer.Demo
             var size = Screen.GetWorkingArea(Point.Empty);
             Size = new Size((int)(size.Width * 0.7), (int)(size.Height * 0.8));
 
-            LoadSamples();
-
-            LoadCustomFonts();
 
             _updateHtmlTimer = new Timer(OnUpdateHtmlTimerTick);
             this.Text += " M";
         }
-
+        public void PrepareSamples()
+        {
+            LoadSamples();
+            LoadCustomFonts();
+        }
 
         #region Private methods
 
@@ -163,8 +164,13 @@ namespace HtmlRenderer.Demo
 
             if (root.Nodes.Count > 0)
             {
-                _samplesTreeView.SelectedNode = root.Nodes[0];
+                _samplesTreeView.SelectedNode = root.Nodes[StartAtSampleIndex];
             }
+        }
+        public int StartAtSampleIndex
+        {
+            get;
+            set;
         }
 
         /// <summary>
@@ -307,16 +313,16 @@ namespace HtmlRenderer.Demo
         {
             var html = _htmlEditor.Text;
             html = Regex.Replace(html, @"src=\""(\w.*?)\""", match =>
+            {
+                var img = TryLoadResourceImage(match.Groups[1].Value);
+                if (img != null)
                 {
-                    var img = TryLoadResourceImage(match.Groups[1].Value);
-                    if (img != null)
-                    {
-                        var tmpFile = Path.GetTempFileName();
-                        img.Save(tmpFile, ImageFormat.Jpeg);
-                        return string.Format("src=\"{0}\"", tmpFile);
-                    }
-                    return match.Value;
-                }, RegexOptions.IgnoreCase);
+                    var tmpFile = Path.GetTempFileName();
+                    img.Save(tmpFile, ImageFormat.Jpeg);
+                    return string.Format("src=\"{0}\"", tmpFile);
+                }
+                return match.Value;
+            }, RegexOptions.IgnoreCase);
 
             html = Regex.Replace(html, @"href=\""(\w.*?)\""", match =>
             {
@@ -393,7 +399,7 @@ namespace HtmlRenderer.Demo
         {
             var img = TryLoadResourceImage(e.ImagSource);
             e.SetResultImage(img);
-            
+
             //if (!e.Handled && htmlTag != null)
             //{
             //    string attrValue = null;

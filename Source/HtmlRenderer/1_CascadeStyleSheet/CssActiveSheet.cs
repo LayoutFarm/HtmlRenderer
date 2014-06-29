@@ -65,9 +65,12 @@ namespace HtmlRenderer
 
             CssPropertyAssignmentCollection assignmentCollection = new CssPropertyAssignmentCollection(null);
             assignmentCollection.LoadRuleSet(ruleset);
-
+           
             foreach (var ruleSetGroup in relatedRuleSets)
             {
+                //if (ruleSetGroup.Name == "table")
+                //{
+                //}
                 //start with share*** rule set
                 ruleSetGroup.AddRuleSet(assignmentCollection);
             }
@@ -299,7 +302,7 @@ namespace HtmlRenderer
 
         public CssRuleSetGroup(string name)
         {
-            this.Name = name; 
+            this.Name = name;
         }
         private CssRuleSetGroup(CssRuleSetGroup parent, string name, WebDom.CssSimpleElementSelector simpleSelector)
         {
@@ -337,7 +340,10 @@ namespace HtmlRenderer
         }
         public void AddRuleSet(CssPropertyAssignmentCollection otherAssignments)
         {
-            //assignment in this ruleset             
+            //assignment in this ruleset            
+#if DEBUG
+          
+#endif
             if (this._assignments == null)
             {
                 //share
@@ -500,7 +506,7 @@ namespace HtmlRenderer
             foreach (WebDom.CssPropertyDeclaration sourceAssignment in fromDic.Values)
             {
                 //add or replace
-                 
+
                 targetDic[sourceAssignment.WellknownPropertyName] = sourceAssignment;
             }
         }

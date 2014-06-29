@@ -63,7 +63,7 @@ namespace HtmlRenderer.Dom
             CssBox box = BoxCreator.CreateBoxNotInherit(new ElementBridge(htmlElement), parentNode);
 
             switch (htmlElement.ChildNodeCount)
-            {   
+            {
                 case 0:
                     return;
                 case 1:
@@ -83,7 +83,7 @@ namespace HtmlRenderer.Dom
                                     //WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)firstChild; 
                                     //box.SetTextContent(textNode.CopyTextBuffer());
 
-                                    WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)firstChild; 
+                                    WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)firstChild;
                                     CssBox anonText = new CssBox(box, null);
                                     //parse and evaluate whitespace here ! 
                                     anonText.SetTextContent(textNode.CopyTextBuffer());
@@ -241,6 +241,9 @@ namespace HtmlRenderer.Dom
         /// <param name="cssDataChanged">check if the css data has been modified by the handled html not to change the base css data</param>
         static void ApplyStyleSheet(CssBox box, ActiveCssTemplate activeCssTemplate)
         {
+            //if (box.dbugId == 44)
+            //{
+            //}
             //recursive 
             //-------------------------------------------------------------------            
             box.InheritStyles(box.ParentBox);
@@ -861,10 +864,20 @@ namespace HtmlRenderer.Dom
             var children = CssBox.UnsafeGetChildren(box);
             for (int i = children.Count - 1; i >= 0; --i)
             {
-                if ((mixFlags |= children[i].IsInline ? HAS_IN_LINE : HAS_BLOCK) == (HAS_BLOCK | HAS_IN_LINE))
+                if (children[i].IsInline)
                 {
+                    mixFlags |= HAS_IN_LINE;
+                }
+                else
+                {
+                    mixFlags |= HAS_BLOCK;
+                }
+
+                if (mixFlags == (HAS_BLOCK | HAS_IN_LINE))
+                {   
                     return true;
                 }
+                
             }
             return false;
         }

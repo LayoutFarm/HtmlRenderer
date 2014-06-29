@@ -41,7 +41,7 @@ namespace HtmlRenderer.Dom
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary>
         readonly IHtmlElement _htmlElement;
-        char[] _textBuffer;
+        char[] _aa_textBuffer;
 
         int _boxCompactFlags;
 
@@ -60,7 +60,7 @@ namespace HtmlRenderer.Dom
 
 
         //1.2 contains box collection for my children
-        readonly CssBoxCollection _boxes;
+        readonly CssBoxCollection _aa_boxes;
         //----------------------------------------------------   
 
         //condition 2 :this Box is InlineBox 
@@ -73,7 +73,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         CssBoxCollection Boxes
         {
-            get { return _boxes; }
+            get { return _aa_boxes; }
         }
 
 
@@ -96,7 +96,7 @@ namespace HtmlRenderer.Dom
         }
         public IEnumerable<CssBox> GetChildBoxIter()
         {
-            return this._boxes.GetChildBoxIter();
+            return this._aa_boxes.GetChildBoxIter();
         }
 
         public IEnumerable<CssRun> GetRunIter()
@@ -129,19 +129,19 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._boxes.Count;
+                return this._aa_boxes.Count;
             }
         }
 
         public CssBox GetFirstChild()
         {
-            return this._boxes[0];
+            return this._aa_boxes[0];
         }
         //-----------------------------------
         public CssBox GetChildBox(int index)
         {
 
-            return this._boxes[index];
+            return this._aa_boxes[index];
         }
         public void InsertChild(int index, CssBox box)
         {

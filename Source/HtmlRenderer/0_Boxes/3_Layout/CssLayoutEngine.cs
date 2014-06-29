@@ -283,13 +283,12 @@ namespace HtmlRenderer.Dom
                     {
                         var run = runs[i];
                         CssTextRun trun = run as CssTextRun;
-                        if (trun != null)
-                        {
-                            if (trun.Text.Contains("Every"))
-                            {
-                            }
-
-                        }
+                        //if (trun != null)
+                        //{
+                        //    if (trun.Text.Contains("Every"))
+                        //    {
+                        //    } 
+                        //}
 
                         if (current_line_y + splitBoxActualLineHeight > maxBottomForHostBox)
                         {
