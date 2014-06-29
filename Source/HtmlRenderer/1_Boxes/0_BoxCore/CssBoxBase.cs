@@ -63,18 +63,20 @@ namespace HtmlRenderer.Dom
         CssDisplay _cssDisplay = CssDisplay.Inline;
         CssFloat _float = CssFloat.None;
         //==========================================================
-        CssLength _left = CssLength.AutoLength;
-        CssLength _top = CssLength.AutoLength;
-        CssLength _right = CssLength.NotAssign;
-        CssLength _bottom = CssLength.NotAssign;
-        CssLength _width = CssLength.AutoLength;
+        CssLength _left = CssLength.AutoLength;//w3 css 
+        CssLength _top = CssLength.AutoLength;//w3 css 
+        CssLength _right = CssLength.AutoLength;//w3 css 
+        CssLength _bottom = CssLength.AutoLength;//w3 css 
+
+        CssLength _width = CssLength.AutoLength; 
         CssLength _height = CssLength.AutoLength;
         //==========================================================
-        CssLength _maxWidth = CssLength.NotAssign;
+        CssLength _maxWidth = CssLength.NotAssign; //w3 css  
         CssOverflow _overflow = CssOverflow.Visible;
         CssTextDecoration _textDecoration = CssTextDecoration.NotAssign;
         CssPosition _position = CssPosition.Static;
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
+        //==========================================================
         WellknownHtmlTagName wellKnownTagName;
         #endregion
 #if DEBUG
@@ -585,6 +587,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
+                //depend on parent
                 if (_actualFont != null)
                 {
                     return _actualFont;

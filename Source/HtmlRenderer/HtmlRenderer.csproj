@@ -67,7 +67,7 @@
     <Compile Include="1_Boxes\0_BoxCore\CssBoxBase_StateAssignments.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssBoxConst.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssBox_OtherActualValues.cs" />
-    <Compile Include="3_HtmlFeatures\3_Bridges\BridgeElement.cs" />
+    <Compile Include="3_HtmlFeatures\3_Bridges\BridgeElements.cs" />
     <Compile Include="1_Boxes\0_BoxCore\BoxVisitor.cs" />
     <Compile Include="1_Boxes\3_Layout\CssBoxLayoutExtension.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssBox_InheritAndClone.cs" />

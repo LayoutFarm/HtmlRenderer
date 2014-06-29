@@ -92,12 +92,12 @@ namespace HtmlRenderer.Dom
                         {
                             parentHtmlNode.SetTextContent(bridgeChild.CopyTextBuffer());
                             //parse and evaluate whitespace here ! 
-                            
+
                         }
                         else
                         {
-                            CssBox box = BoxCreator.CreateBoxNotInherit(bridgeChild, parentHtmlNode); 
-                            RecursiveGenerateCssBoxContent(bridgeChild, box); 
+                            CssBox box = BoxCreator.CreateBoxNotInherit(bridgeChild, parentHtmlNode);
+                            RecursiveGenerateCssBoxContent(bridgeChild, box);
                         }
                     } break;
                 default:
@@ -145,17 +145,16 @@ namespace HtmlRenderer.Dom
             HtmlDocument htmldoc = ParseDocument(new TextSnapshot(html.ToCharArray()));
             //2. create bridge root
             BrigeRootElement bridgeRoot = CreateBridgeRoot(htmldoc);
-            //-----------------------
-
-
-
-
+            //----------------------- 
+            ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(cssData); 
+            //ApplyStyleSheet2(bridgeRoot, activeCssTemplate);
 
             //-----------------------
             //box generation
             //3. create cssbox from root
             CssBox root = BoxCreator.CreateRootBlock();
-            RecursiveGenerateCssBoxContent(bridgeRoot, root); 
+            RecursiveGenerateCssBoxContent(bridgeRoot, root);
+
 
 #if DEBUG
             dbugTestParsePerformance(html);
@@ -168,7 +167,7 @@ namespace HtmlRenderer.Dom
 
                 CssBox.SetHtmlContainer(root, htmlContainer);
                 //-------------------------------------------------------------------
-                ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(htmlContainer, cssData);
+
                 ApplyStyleSheet(root, activeCssTemplate);
                 //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);
@@ -244,9 +243,7 @@ namespace HtmlRenderer.Dom
         static void ApplyStyleSheet(CssBox box, ActiveCssTemplate activeCssTemplate)
         {
             //recursive 
-            //if (box.dbugId == 36)
-            //{
-            //}
+
             //-------------------------------------------------------------------            
             box.InheritStyles(box.ParentBox);
 
@@ -305,7 +302,22 @@ namespace HtmlRenderer.Dom
                         {
                             if (box.GetAttribute("rel", string.Empty).Equals("stylesheet", StringComparison.CurrentCultureIgnoreCase))
                             {
-                                activeCssTemplate.LoadLinkStyleSheet(box.GetAttribute("href", string.Empty));
+                                //load 
+                                var container = box.HtmlContainer;
+                                string stylesheet;
+                                CssActiveSheet stylesheetData;
+                                StylesheetLoadHandler.LoadStylesheet(container,
+                                    box.GetAttribute("href", string.Empty),  //load style sheet from external ?
+                                    out stylesheet, out stylesheetData);
+
+                                if (stylesheet != null)
+                                {
+                                    activeCssTemplate.LoadRawStyleElementContent(stylesheet);
+                                }
+                                else if (stylesheetData != null)
+                                {
+                                    activeCssTemplate.LoadAnotherStylesheet(stylesheetData);                                     
+                                }                                 
                             }
                         } break;
                 }
@@ -333,6 +345,101 @@ namespace HtmlRenderer.Dom
             //{
             //}
         }
+
+
+
+        /// <summary>
+        /// apply style to all bridge node
+        /// </summary>
+        /// <param name="bridgeNode"></param>
+        /// <param name="activeCssTemplate"></param>
+        static void ApplyStyleSheet2(BridgeHtmlNode bridgeNode, ActiveCssTemplate activeCssTemplate)
+        {
+            //recursive 
+
+            //get box spec from bridge node
+            BoxSpec boxSpec = bridgeNode.Spec;
+            //1. try assign style using the html element name
+            activeCssTemplate.ApplyActiveTemplateForElement2(null, bridgeNode);
+
+
+
+
+            ////-------------------------------------------------------------------            
+            //box.InheritStyles(box.ParentBox);
+
+            //if (box.HtmlElement != null)
+            //{
+            //    //------------------------------------------------------------------- 
+            //    //1. element tag
+            //    //2. css class 
+            //    // try assign style using the html element tag    
+            //    activeCssTemplate.ApplyActiveTemplateForElement(box.ParentBox, box);
+            //    //3.
+            //    // try assign style using the "id" attribute of the html element
+            //    if (box.HtmlElement.HasAttribute("id"))
+            //    {
+            //        var id = box.HtmlElement.TryGetAttribute("id");
+            //        AssignStylesForElementId(box, activeCssTemplate, "#" + id);
+            //    }
+            //    //-------------------------------------------------------------------
+            //    //4. 
+            //    //element attribute
+            //    AssignStylesFromTranslatedAttributesHTML5(box, activeCssTemplate);
+            //    //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
+            //    //------------------------------------------------------------------- 
+            //    //5.
+            //    //style attribute value of element
+            //    if (box.HtmlElement.HasAttribute("style"))
+            //    {
+            //        var ruleset = activeCssTemplate.ParseCssBlock(box.HtmlElement.Name, box.HtmlElement.TryGetAttribute("style"));
+            //        foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
+            //        {
+            //            AssignPropertyValue(box, box.ParentBox, propDecl);
+            //        }
+            //    }
+            //    //------------------------------------------------------------------- 
+            //    //some special tags...
+            //    // Check for the <style> tag   
+            //    // Check for the <link rel=stylesheet> tag 
+            //    switch (box.WellknownTagName)
+            //    {
+            //        case WellknownHtmlTagName.style:
+            //            {
+            //                switch (box.ChildCount)
+            //                {
+            //                    case 0:
+            //                        {
+            //                            activeCssTemplate.LoadRawStyleElementContent(box.CopyTextContent());
+            //                        } break;
+            //                    case 1:
+            //                        {
+            //                            activeCssTemplate.LoadRawStyleElementContent(box.GetFirstChild().CopyTextContent());
+            //                        } break;
+            //                }
+
+            //            } break;
+            //        case WellknownHtmlTagName.link:
+            //            {
+            //                if (box.GetAttribute("rel", string.Empty).Equals("stylesheet", StringComparison.CurrentCultureIgnoreCase))
+            //                {
+            //                    activeCssTemplate.LoadLinkStyleSheet(box.GetAttribute("href", string.Empty));
+            //                }
+            //            } break;
+            //    }
+            //}
+
+            ////===================================================================
+            ////parent style assignment is complete before step down into child ***
+            //foreach (var childBox in box.GetChildBoxIter())
+            //{
+            //    //recursive
+            //    ApplyStyleSheet(childBox, activeCssTemplate);
+            //}
+
+        }
+
+
         /// <summary>
         /// Set the selected text style (selection text color and background color).
         /// </summary>
@@ -372,6 +479,7 @@ namespace HtmlRenderer.Dom
             //    }
             //}
         }
+
         internal static void AssignPropertyValue(CssBoxBase box, CssBoxBase boxParent, WebDom.CssPropertyDeclaration decl)
         {
             if (decl.IsExpand)

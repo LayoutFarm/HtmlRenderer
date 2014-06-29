@@ -10,6 +10,20 @@ using HtmlRenderer.WebDom;
 namespace HtmlRenderer.Dom
 {
 
+    class BoxSpec : CssBoxBase
+    {
+        BoxSpec parent;
+        public BoxSpec(BoxSpec parent)
+        {
+            this.parent = parent;
+        }
+        public override CssBoxBase GetParent()
+        {
+            return parent;
+        }
+
+    }
+
     sealed class BrigeRootElement : BridgeHtmlNode
     {
         HtmlRootNode htmlRootNode;
@@ -29,8 +43,8 @@ namespace HtmlRenderer.Dom
         HtmlTextNode htmlTextNode;
         //---------------------------------
         List<BridgeHtmlNode> children;
-        //---------------------------------
-
+        //--------------------------------- 
+        BoxSpec boxSpec;
 
         bool isTextNode;
         protected BridgeHtmlNode()
@@ -127,9 +141,25 @@ namespace HtmlRenderer.Dom
                 yield return new HtmlAttributeBridge(attr);
             }
         }
+        //-------------
+        public BoxSpec Spec
+        {
+            get { return this.boxSpec; }
+            set { this.boxSpec = value; }
+        }
 
-
-        public string ClassName { get; set; }
+        public string ClassName
+        {
+            get
+            {
+                var class_value = this.elem.FindAttribute("class");
+                if (class_value != null)
+                {
+                    return class_value.Value;
+                }
+                return null;
+            }
+        }
         public string Id { get; set; }
         public string Style { get; set; }
     }
