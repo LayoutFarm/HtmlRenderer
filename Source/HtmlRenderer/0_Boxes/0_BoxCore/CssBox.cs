@@ -54,12 +54,14 @@ namespace HtmlRenderer.Dom
             {
                 parentBox.Boxes.Add(this);
             }
-
+           
             _htmlElement = tag;
             if (tag != null)
             {
                 this.WellknownTagName = tag.WellknownTagName;
             }
+
+        
         }
 
         /// <summary>

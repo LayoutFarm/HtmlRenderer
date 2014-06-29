@@ -41,6 +41,10 @@ namespace HtmlRenderer.Dom
         /// <param name="box">the current box to correct its sub-tree</param>
         static void CorrectInlineBoxesParent(CssBox box)
         {
+            //if (box.dbugId == 44)
+            //{
+
+            //}
             //------------------------------------------------
             //recursive 
             int mixFlags;
@@ -93,6 +97,10 @@ namespace HtmlRenderer.Dom
         /// <param name="box">the current box to correct its sub-tree</param>
         static void CorrectBlockInsideInline(CssBox box)
         {
+            //if (box.dbugId == 44)
+            //{
+
+            //}
 #if DEBUG
             dbugCorrectCount++;
 #endif
@@ -111,6 +119,10 @@ namespace HtmlRenderer.Dom
                     CorrectBlockInsideInline(childBox);
                 }
             }
+            //if (box.dbugId == 44)
+            //{
+
+            //}
         }
         /// <summary>
         /// Correct the DOM tree recursively by replacing  "br" html boxes with anonymous blocks that respect br spec.<br/>
@@ -229,6 +241,10 @@ namespace HtmlRenderer.Dom
         /// <param name="box">the box that has the problem</param>
         static void CorrectBlockInsideInlineImp(CssBox box)
         {
+            if (box.dbugId == 44)
+            {
+
+            }
             CssBox firstChild = null;
 
             if (box.ChildCount > 1 || box.GetFirstChild().ChildCount > 1)

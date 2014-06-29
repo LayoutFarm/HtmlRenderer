@@ -45,6 +45,9 @@ namespace HtmlRenderer.Dom
                     //for clone only (eg. split a box into two parts)
                     //---------------------------------------
                     this._backgroundProps = s._backgroundProps;
+                    if (this.dbugId == 44)
+                    {
+                    }
                     this._borderProps = s._borderProps;
                     this._cornerProps = s._cornerProps;
                     //---------------------------------------
@@ -64,7 +67,7 @@ namespace HtmlRenderer.Dom
                     this._lineHeight = s._lineHeight;
                     this._float = s._float;
 
-                    this._cssDisplay = s._cssDisplay;
+                    this.CssDisplay = s._cssDisplay;
                     this._overflow = s._overflow;
                     this._textDecoration = s._textDecoration;
                     //--------------------------------------- 
@@ -108,6 +111,11 @@ namespace HtmlRenderer.Dom
             //for clone only (eg. split a box into two parts)
             //=======================================
             this._backgroundProps = s._backgroundProps;
+            //if (this.dbugId == 44)
+            //{
+            //}
+            var s_dbugId = s.dbugId;
+
             this._borderProps = s._borderProps;
             this._cornerProps = s._cornerProps;
             //---------------------------------------
@@ -126,7 +134,7 @@ namespace HtmlRenderer.Dom
             this._lineHeight = s._lineHeight;
             this._float = s._float;
 
-            this._cssDisplay = s._cssDisplay;
+            this.CssDisplay = s._cssDisplay;
             this._overflow = s._overflow;
             this._textDecoration = s._textDecoration;
 
@@ -138,7 +146,7 @@ namespace HtmlRenderer.Dom
             //}
             this._marginProps = s._marginProps;
             //--------------------------------------
-             
+
             this._cssDirection = s._cssDirection;
 
 
