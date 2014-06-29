@@ -40,6 +40,7 @@ namespace HtmlRenderer.Handlers
             if (rect.Width > 0 && rect.Height > 0)
             {
 
+                var dd = box.dbugId;
                 if (box.BorderTopStyle >= CssBorderStyle.Visible &&
                     box.ActualBorderTopWidth > 0)
                 {
@@ -104,7 +105,7 @@ namespace HtmlRenderer.Handlers
 
             var borderPath = GetRoundedBorderPath(border, box, rect);
 
-            //if (box.dbugBB == 20)
+            //if (box.CssDisplay == CssDisplay.Table)
             //{
 
             //}

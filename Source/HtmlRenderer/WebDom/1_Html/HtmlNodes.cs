@@ -305,7 +305,20 @@ namespace HtmlRenderer.WebDom
         {
             SetNodeType(HtmlNodeType.CloseElement);
         }
-
+        public int ChildNodeCount
+        {
+            get
+            {
+                if (this.myChildrenNodes != null)
+                {
+                    return this.myChildrenNodes.Count;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
         public HtmlElement CloseNode
         {
             get
@@ -413,7 +426,10 @@ namespace HtmlRenderer.WebDom
                     } break;
             }
         }
-
+        public HtmlNode GetFirstNode()
+        {
+            return this.myChildrenNodes[0];
+        }
     }
 
 }

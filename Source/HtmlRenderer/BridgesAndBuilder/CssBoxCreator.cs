@@ -98,6 +98,7 @@ namespace HtmlRenderer.Dom
             newBox.InheritStyles(parent);
             return newBox;
         }
+
         //---------------------------------------------------
 
         /// <summary>
@@ -121,6 +122,7 @@ namespace HtmlRenderer.Dom
             newBox.CssDisplay = CssDisplay.Block;
             return newBox;
         }
+    
         static CssBox CreateBoxAndInherit(CssBox parent, IHtmlElement tag, int insertAt)
         {
             var newBox = new CssBox(parent, tag);

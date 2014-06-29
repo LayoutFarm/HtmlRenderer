@@ -43,6 +43,11 @@ namespace HtmlRenderer.Dom
 
         protected virtual void PaintImp(IGraphics g, PaintVisitor p)
         {
+            //if (this.CssDisplay == Dom.CssDisplay.Table)
+            //{
+
+            //}
+
             if (this.CssDisplay != CssDisplay.None &&
                (this.CssDisplay != CssDisplay.TableCell ||
                  EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
@@ -130,7 +135,7 @@ namespace HtmlRenderer.Dom
                         float ox = g.CanvasOriginX;
                         float oy = g.CanvasOriginY;
 
-                        foreach (var b in this._boxes)
+                        foreach (var b in this._aa_boxes)
                         {
                             if (b.CssDisplay == CssDisplay.None)
                             {
@@ -151,7 +156,7 @@ namespace HtmlRenderer.Dom
                         float ox = g.CanvasOriginX;
                         float oy = g.CanvasOriginY;
 
-                        foreach (var b in this._boxes)
+                        foreach (var b in this._aa_boxes)
                         {
                             if (b.CssDisplay == CssDisplay.None)
                             {

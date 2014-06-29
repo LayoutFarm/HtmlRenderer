@@ -5,6 +5,7 @@
     <style type="text/css">
         table, tr, th
         {
+			border-width:1px;
             border-style: solid;
             border-style: outset;
         }
@@ -16,6 +17,10 @@
         {
             font-weight: bold;
         }
+		.table_me{
+			border-width:1px;
+			border-spacing:3px;
+		}
     </style>
 </head>
 <body>
@@ -69,7 +74,7 @@
         <div class="caption">
             Table with complex text and width=100%
         </div>
-        <table border="1" cellpadding="3" cellspacing="0" width="100%">
+        <table class="table_me" width="100%">
             <tr>
                 <td>
                     <p>

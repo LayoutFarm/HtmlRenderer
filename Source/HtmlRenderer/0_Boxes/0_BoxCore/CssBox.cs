@@ -49,17 +49,19 @@ namespace HtmlRenderer.Dom
         public CssBox(CssBox parentBox, IHtmlElement tag)
         {
 
-            this._boxes = new CssBoxCollection(this);
+            this._aa_boxes = new CssBoxCollection(this);
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
             }
-
+           
             _htmlElement = tag;
             if (tag != null)
             {
                 this.WellknownTagName = tag.WellknownTagName;
             }
+
+        
         }
 
         /// <summary>
@@ -242,7 +244,7 @@ namespace HtmlRenderer.Dom
         }
         public static char[] UnsafeGetTextBuffer(CssBox box)
         {
-            return box._textBuffer;
+            return box._aa_textBuffer;
         }
 
         void ResetTextFlags()
@@ -256,14 +258,14 @@ namespace HtmlRenderer.Dom
 
         internal void SetTextContent(char[] chars)
         {
-            this._textBuffer = chars;
+            this._aa_textBuffer = chars;
             ResetTextFlags();
         }
         public bool MayHasSomeTextContent
         {
             get
             {
-                return this._textBuffer != null;
+                return this._aa_textBuffer != null;
             }
         }
         void EvaluateWhitespace()
@@ -272,7 +274,7 @@ namespace HtmlRenderer.Dom
             this._boxCompactFlags |= CssBoxFlagsConst.HAS_EVAL_WHITESPACE;
             char[] tmp;
 
-            if ((tmp = this._textBuffer) == null)
+            if ((tmp = this._aa_textBuffer) == null)
             {
 
                 this._boxCompactFlags |= CssBoxFlagsConst.TEXT_IS_EMPTY;
@@ -314,9 +316,9 @@ namespace HtmlRenderer.Dom
         }
         internal string CopyTextContent()
         {
-            if (this._textBuffer != null)
+            if (this._aa_textBuffer != null)
             {
-                return new string(this._textBuffer);
+                return new string(this._aa_textBuffer);
             }
             else
             {
@@ -583,7 +585,7 @@ namespace HtmlRenderer.Dom
                                         this.SetHeightToZero();
                                         CssLayoutEngine.FlowContentRuns(this, lay); //This will automatically set the bottom of this block
                                     }
-                                    else if (_boxes.Count > 0)
+                                    else if (_aa_boxes.Count > 0)
                                     {
                                         lay.PushContaingBlock(this);
                                         var currentLevelLatestSibling = lay.LatestSiblingBox;
@@ -985,11 +987,11 @@ namespace HtmlRenderer.Dom
 
             if (ParentBox != null && this.IsLastChild && cbBox.ActualMarginBottom < 0.1)
             {
-                var lastChildBottomMargin = _boxes[_boxes.Count - 1].ActualMarginBottom;
+                var lastChildBottomMargin = _aa_boxes[_aa_boxes.Count - 1].ActualMarginBottom;
 
                 margin = (Height.IsAuto) ? Math.Max(ActualMarginBottom, lastChildBottomMargin) : lastChildBottomMargin;
             }
-            return _boxes[_boxes.Count - 1].LocalBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
+            return _aa_boxes[_aa_boxes.Count - 1].LocalBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
 
             //must have at least 1 child 
             //float lastChildBottomWithMarginRelativeToMe = this.LocalY + _boxes[_boxes.Count - 1].LocalActualBottom + margin + this.ActualPaddingBottom + this.ActualBorderBottomWidth;
