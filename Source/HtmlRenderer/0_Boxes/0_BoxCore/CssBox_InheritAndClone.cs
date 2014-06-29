@@ -45,7 +45,11 @@ namespace HtmlRenderer.Dom
                     //for clone only (eg. split a box into two parts)
                     //---------------------------------------
                     this._backgroundProps = s._backgroundProps;
+<<<<<<< HEAD
                     if (this.dbugId == 44)
+=======
+                    if (this.dbugId == 36)
+>>>>>>> FETCH_HEAD
                     {
                     }
                     this._borderProps = s._borderProps;
@@ -67,7 +71,14 @@ namespace HtmlRenderer.Dom
                     this._lineHeight = s._lineHeight;
                     this._float = s._float;
 
+<<<<<<< HEAD
                     this.CssDisplay = s._cssDisplay;
+=======
+                    if (this.dbugId == 36)
+                    {
+                    }
+                    this._cssDisplay = s._cssDisplay;
+>>>>>>> FETCH_HEAD
                     this._overflow = s._overflow;
                     this._textDecoration = s._textDecoration;
                     //--------------------------------------- 
@@ -111,12 +122,26 @@ namespace HtmlRenderer.Dom
             //for clone only (eg. split a box into two parts)
             //=======================================
             this._backgroundProps = s._backgroundProps;
+<<<<<<< HEAD
             //if (this.dbugId == 44)
             //{
             //}
             var s_dbugId = s.dbugId;
 
+=======
+            
+            //if (this.dbugId == 36)
+            //{
+            //}
+            var s_dbugId = s.dbugId;
+            if (s._borderProps.Owner == s)
+            {
+                this._borderProps = s._borderProps;
+            }
+>>>>>>> FETCH_HEAD
             this._borderProps = s._borderProps;
+
+
             this._cornerProps = s._cornerProps;
             //---------------------------------------
 
@@ -134,7 +159,14 @@ namespace HtmlRenderer.Dom
             this._lineHeight = s._lineHeight;
             this._float = s._float;
 
+<<<<<<< HEAD
             this.CssDisplay = s._cssDisplay;
+=======
+            //if (this.dbugId == 36)
+            //{
+            //}
+            this._cssDisplay = s._cssDisplay;
+>>>>>>> FETCH_HEAD
             this._overflow = s._overflow;
             this._textDecoration = s._textDecoration;
 

@@ -85,9 +85,15 @@ namespace HtmlRenderer.Dom
         public CssBoxBase()
         {
             _actualColor = System.Drawing.Color.Black;
+<<<<<<< HEAD
             if (this.dbugId == 435)
             {
             }
+=======
+            //if (this.dbugId == 348)
+            //{
+            //}
+>>>>>>> FETCH_HEAD
         }
 
         #region CSS Properties
@@ -111,12 +117,20 @@ namespace HtmlRenderer.Dom
             get { return this._cssDisplay; }
             set
             {
+<<<<<<< HEAD
                 //if (this.dbugId == 44)
                 //{
                 //}
                 this._cssDisplay = value;
             }
 
+=======
+                if (this.dbugId == 36)
+                {
+                }
+                this._cssDisplay = value;
+            }
+>>>>>>> FETCH_HEAD
         }
         public CssDirection CssDirection
         {

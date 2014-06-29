@@ -34,6 +34,7 @@ namespace HtmlRenderer.Dom
         }
         public void Add(CssBox box)
         {
+            
             if (this.owner == box)
             {
                 throw new NotSupportedException();
