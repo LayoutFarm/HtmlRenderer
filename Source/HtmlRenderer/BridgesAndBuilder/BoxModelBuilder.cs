@@ -35,17 +35,20 @@ namespace HtmlRenderer.Dom
         /// Parses the source html to css boxes tree structure.
         /// </summary>
         /// <param name="source">the html source to parse</param>
-        static CssBox ParseDocument(TextSnapshot snapSource)
+        static WebDom.HtmlDocument ParseDocument(TextSnapshot snapSource)
         {
             var parser = new HtmlRenderer.WebDom.Parser.HtmlParser();
             //------------------------
             parser.Parse(snapSource);
+            return parser.ResultHtmlDoc;
+        }
 
-            WebDom.HtmlDocument resultHtmlDoc = parser.ResultHtmlDoc;
+        static CssBox CreateBoxTree(WebDom.HtmlDocument htmldoc)
+        {
             var rootCssBox = BoxCreator.CreateRootBlock();
             var curBox = rootCssBox;
             //walk on tree and create cssbox
-            foreach (WebDom.HtmlNode node in resultHtmlDoc.RootNode.GetChildNodeIterForward())
+            foreach (WebDom.HtmlNode node in htmldoc.RootNode.GetChildNodeIterForward())
             {
                 WebDom.HtmlElement elemNode = node as WebDom.HtmlElement;
                 if (elemNode != null)
@@ -55,13 +58,10 @@ namespace HtmlRenderer.Dom
             }
             return rootCssBox;
         }
-
-
         static void CreateCssBox(WebDom.HtmlElement htmlElement, CssBox parentNode)
         {
             //recursive   
             CssBox box = BoxCreator.CreateBoxNotInherit(new ElementBridge(htmlElement), parentNode);
-
             switch (htmlElement.ChildNodeCount)
             {
                 case 0:
@@ -79,14 +79,29 @@ namespace HtmlRenderer.Dom
                                 } break;
                             case WebDom.HtmlNodeType.TextNode:
                                 {
+                                    //tech1
                                     //set text node
-                                    //WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)firstChild; 
-                                    //box.SetTextContent(textNode.CopyTextBuffer());
+                                    WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)firstChild;
+                                    box.SetTextContent(textNode.CopyTextBuffer());
+                                    box.dbugMark = 21;
 
+                                    //-----------
+                                    //tech2
+                                    //WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)firstChild;
+                                    //CssBox anonText = new CssBox(box, null);
+                                    ////parse and evaluate whitespace here ! 
+                                    //anonText.SetTextContent(textNode.CopyTextBuffer());
+                                    //anonText.dbugMark = 21;
+
+<<<<<<< HEAD
                                     WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)firstChild;
                                     CssBox anonText = new CssBox(box, null);
                                     //parse and evaluate whitespace here ! 
                                     anonText.SetTextContent(textNode.CopyTextBuffer());
+=======
+                                    //box.dbugMark = 22;
+                                    //parentNode.dbugMark = 23;
+>>>>>>> FETCH_HEAD
 
                                 } break;
                         }
@@ -150,8 +165,14 @@ namespace HtmlRenderer.Dom
             CssActiveSheet cssData)
         {
 
-            //1. generate css box  from html data
-            CssBox root = ParseDocument(new TextSnapshot(html.ToCharArray()));
+            //1. parse
+            var htmldoc = ParseDocument(new TextSnapshot(html.ToCharArray()));
+
+            //2.
+
+            var root = CreateBoxTree(htmldoc);
+            //-------------------------------------------------------------------
+
 
 #if DEBUG
             dbugTestParsePerformance(html);
@@ -167,11 +188,9 @@ namespace HtmlRenderer.Dom
                 ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(htmlContainer, cssData);
                 ApplyStyleSheet(root, activeCssTemplate);
                 SetTextSelectionStyle(htmlContainer, cssData);
-
                 OnePassBoxCorrection(root);
-
                 CorrectTextBoxes(root);
-                CorrectImgBoxes(root);
+                //CorrectImgBoxes(root);
 
                 bool followingBlock = true;
 
@@ -181,8 +200,7 @@ namespace HtmlRenderer.Dom
                 CorrectInlineBoxesParent(root);
                 //2. then ...
                 CorrectBlockInsideInline(root);
-                //3. another?
-                //CorrectInlineBoxesParent(root);
+
             }
             return root;
         }
@@ -214,13 +232,13 @@ namespace HtmlRenderer.Dom
             //sw1.Reset();
             //GC.Collect();
             sw1.Start();
-            for (int i = nround; i >= 0; --i)
-            {
-                CssBox root2 = ParseDocument(snapSource);
-            }
-            sw1.Stop();
-            long ee2 = sw1.ElapsedTicks;
-            long ee2_ms = sw1.ElapsedMilliseconds;
+            //for (int i = nround; i >= 0; --i)
+            //{
+            //    CssBox root2 = ParseDocument(snapSource);
+            //}
+            //sw1.Stop();
+            //long ee2 = sw1.ElapsedTicks;
+            //long ee2_ms = sw1.ElapsedMilliseconds;
 
         }
 #endif
@@ -245,6 +263,9 @@ namespace HtmlRenderer.Dom
             //{
             //}
             //recursive 
+            //if (box.dbugId == 36)
+            //{
+            //}
             //-------------------------------------------------------------------            
             box.InheritStyles(box.ParentBox);
 
@@ -286,10 +307,19 @@ namespace HtmlRenderer.Dom
                 {
                     case WellknownHtmlTagName.style:
                         {
-                            if (box.ChildCount == 1)
+                            switch (box.ChildCount)
                             {
-                                activeCssTemplate.LoadRawStyleElementContent(box.GetFirstChild().CopyTextContent());
+                                case 0:
+                                    {
+                                        activeCssTemplate.LoadRawStyleElementContent(box.CopyTextContent());
+                                    } break;
+                                case 1:
+                                    {
+                                        activeCssTemplate.LoadRawStyleElementContent(box.GetFirstChild().CopyTextContent());
+                                    } break;
                             }
+                           
+
                         } break;
                     case WellknownHtmlTagName.link:
                         {
@@ -319,6 +349,9 @@ namespace HtmlRenderer.Dom
                 //recursive
                 ApplyStyleSheet(childBox, activeCssTemplate);
             }
+            //if (box.dbugId == 36)
+            //{
+            //}
         }
         /// <summary>
         /// Set the selected text style (selection text color and background color).
@@ -859,12 +892,28 @@ namespace HtmlRenderer.Dom
         /// <returns>true - has variant child boxes, false - otherwise</returns>
         static bool ContainsMixedInlineAndBlockBoxes(CssBox box, out int mixFlags)
         {
-
+            if (box.ChildCount == 0 && box.HasRuns)
+            {
+                mixFlags = HAS_IN_LINE;
+                return false;
+            }
             mixFlags = 0;
             var children = CssBox.UnsafeGetChildren(box);
             for (int i = children.Count - 1; i >= 0; --i)
             {
                 if (children[i].IsInline)
+<<<<<<< HEAD
+=======
+                {
+                    mixFlags |= HAS_IN_LINE;
+                }
+                else
+                {
+                    mixFlags |= HAS_BLOCK;
+                }
+
+                if (mixFlags == (HAS_BLOCK | HAS_IN_LINE))
+>>>>>>> FETCH_HEAD
                 {
                     mixFlags |= HAS_IN_LINE;
                 }
@@ -877,7 +926,11 @@ namespace HtmlRenderer.Dom
                 {   
                     return true;
                 }
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> FETCH_HEAD
             }
             return false;
         }

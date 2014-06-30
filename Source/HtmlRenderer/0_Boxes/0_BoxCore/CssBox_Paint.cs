@@ -43,15 +43,24 @@ namespace HtmlRenderer.Dom
 
         protected virtual void PaintImp(IGraphics g, PaintVisitor p)
         {
+<<<<<<< HEAD
             //if (this.CssDisplay == Dom.CssDisplay.Table)
             //{
 
             //}
 
+=======
+            //if (this.dbugId == 36)
+            //{
+
+            //}
+>>>>>>> FETCH_HEAD
             if (this.CssDisplay != CssDisplay.None &&
                (this.CssDisplay != CssDisplay.TableCell ||
                  EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
             {
+
+
 
                 bool hasPrevClip = false;
                 RectangleF prevClip = RectangleF.Empty;
@@ -69,7 +78,7 @@ namespace HtmlRenderer.Dom
                             return;
                         }
                     }
-                } 
+                }
 
                 //---------------------------------------------
                 if (this.CssDisplay != CssDisplay.Inline)

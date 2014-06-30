@@ -22,6 +22,10 @@ namespace HtmlRenderer.Demo
             DemoForm demoForm = new DemoForm();
             demoForm.StartAtSampleIndex = 3;
             demoForm.PrepareSamples();
+<<<<<<< HEAD
+=======
+            
+>>>>>>> FETCH_HEAD
 
             demoForm.Show();
             demoForm.Activate();
