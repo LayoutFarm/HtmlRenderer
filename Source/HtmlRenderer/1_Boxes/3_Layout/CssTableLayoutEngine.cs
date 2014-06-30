@@ -98,7 +98,7 @@ namespace HtmlRenderer.Dom
 
             // Ensure there's no padding             
             BoxSpec boxspec = _tableBox.BoxSpec;
-            boxspec.PaddingLeft = boxspec.PaddingTop = boxspec.PaddingRight = boxspec.PaddingBottom = CssLength.ZeroPx;
+            //boxspec.PaddingLeft = boxspec.PaddingTop = boxspec.PaddingRight = boxspec.PaddingBottom = CssLength.ZeroPx;
 
             //Actually layout cells!
             S8_LayoutCells(lay);

@@ -55,7 +55,7 @@ namespace HtmlRenderer.Dom
             {
                 case WebDom.WellknownCssPropertyName.Display:
                     {
-                        CssDisplay display = UserMapUtil.GetDisplayType(cssValue);
+                        target.SetCssDisplay(UserMapUtil.GetDisplayType(cssValue));
                         //switch (target.WellknownTagName)
                         //{
                         //    //------------------------
@@ -91,48 +91,44 @@ namespace HtmlRenderer.Dom
                         //    //------------------------
                         //}
 
-                        target.CssDisplay = display;
-
                     } break;
                 case WebDom.WellknownCssPropertyName.BorderBottomWidth:
-                    target.BorderBottomWidth = cssValue.AsBorderLength();
+                    target.SetBorderWidth(CssSide.Bottom, cssValue.AsBorderLength());
                     break;
                 case WebDom.WellknownCssPropertyName.BorderLeftWidth:
-                    target.BorderLeftWidth = cssValue.AsBorderLength();
+                    target.SetBorderWidth(CssSide.Left, cssValue.AsBorderLength());
                     break;
                 case WebDom.WellknownCssPropertyName.BorderRightWidth:
-                    target.BorderRightWidth = cssValue.AsBorderLength();
+                    target.SetBorderWidth(CssSide.Right, cssValue.AsBorderLength());
                     break;
                 case WebDom.WellknownCssPropertyName.BorderTopWidth:
-                    target.BorderTopWidth = cssValue.AsBorderLength();
+                    target.SetBorderWidth(CssSide.Top, cssValue.AsBorderLength());
                     break;
                 case WebDom.WellknownCssPropertyName.BorderBottomStyle:
-                    target.BorderBottomStyle = UserMapUtil.GetBorderStyle(cssValue);
+                    target.SetBorderStyle(CssSide.Bottom, UserMapUtil.GetBorderStyle(cssValue));
                     break;
                 case WebDom.WellknownCssPropertyName.BorderLeftStyle:
-                    target.BorderLeftStyle = UserMapUtil.GetBorderStyle(cssValue);
+                    target.SetBorderStyle(CssSide.Left, UserMapUtil.GetBorderStyle(cssValue));
                     break;
                 case WebDom.WellknownCssPropertyName.BorderRightStyle:
-                    target.BorderRightStyle = UserMapUtil.GetBorderStyle(cssValue);
+                    target.SetBorderStyle(CssSide.Right, UserMapUtil.GetBorderStyle(cssValue));
                     break;
                 case WebDom.WellknownCssPropertyName.BorderTopStyle:
-                    target.BorderTopStyle = UserMapUtil.GetBorderStyle(cssValue);
+                    target.SetBorderStyle(CssSide.Top, UserMapUtil.GetBorderStyle(cssValue));
                     break;
                 case WebDom.WellknownCssPropertyName.BorderBottomColor:
-                    target.BorderBottomColor = cssValue.AsColor();
+                    target.SetBorderColor(CssSide.Bottom, cssValue.AsColor());
                     break;
                 case WebDom.WellknownCssPropertyName.BorderLeftColor:
-                    target.BorderLeftColor = cssValue.AsColor();
+                    target.SetBorderColor(CssSide.Left, cssValue.AsColor());
                     break;
                 case WebDom.WellknownCssPropertyName.BorderRightColor:
-                    target.BorderRightColor = cssValue.AsColor();
+                    target.SetBorderColor(CssSide.Right, cssValue.AsColor());
                     break;
                 case WebDom.WellknownCssPropertyName.BorderTopColor:
-                    target.BorderTopColor = cssValue.AsColor();
+                    target.SetBorderColor(CssSide.Top, cssValue.AsColor());
                     break;
-
                 case WebDom.WellknownCssPropertyName.BorderSpacing:
-
                     target.SetBorderSpacing(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.BorderCollapse:
@@ -153,30 +149,33 @@ namespace HtmlRenderer.Dom
                 case WebDom.WellknownCssPropertyName.CornerSWRadius:
                     target.CornerSWRadius = cssValue.AsLength();
                     break;
+
                 case WebDom.WellknownCssPropertyName.MarginBottom:
-                    target.MarginBottom = cssValue.AsTranslatedLength();
+                    target.SetMargin(CssSide.Bottom, cssValue.AsTranslatedLength());
                     break;
                 case WebDom.WellknownCssPropertyName.MarginLeft:
-                    target.MarginLeft = cssValue.AsTranslatedLength();
+                    target.SetMargin(CssSide.Left, cssValue.AsTranslatedLength());
                     break;
                 case WebDom.WellknownCssPropertyName.MarginRight:
-                    target.MarginRight = cssValue.AsTranslatedLength();
+                    target.SetMargin(CssSide.Right, cssValue.AsTranslatedLength());
                     break;
                 case WebDom.WellknownCssPropertyName.MarginTop:
-                    target.MarginTop = cssValue.AsTranslatedLength();
+                    target.SetMargin(CssSide.Top, cssValue.AsTranslatedLength());
                     break;
+
                 case WebDom.WellknownCssPropertyName.PaddingBottom:
-                    target.PaddingBottom = cssValue.AsTranslatedLength();
+                    target.SetPadding(CssSide.Bottom, cssValue.AsTranslatedLength());
                     break;
                 case WebDom.WellknownCssPropertyName.PaddingLeft:
-                    target.PaddingLeft = cssValue.AsTranslatedLength();
+                    target.SetPadding(CssSide.Left, cssValue.AsTranslatedLength());
                     break;
                 case WebDom.WellknownCssPropertyName.PaddingRight:
-                    target.PaddingRight = cssValue.AsTranslatedLength();
+                    target.SetPadding(CssSide.Right, cssValue.AsTranslatedLength());
                     break;
                 case WebDom.WellknownCssPropertyName.PaddingTop:
-                    target.PaddingTop = cssValue.AsTranslatedLength();
+                    target.SetPadding(CssSide.Top, cssValue.AsTranslatedLength());
                     break;
+
                 case WebDom.WellknownCssPropertyName.Left:
                     target.Left = cssValue.AsLength();
                     break;
@@ -224,7 +223,7 @@ namespace HtmlRenderer.Dom
 
                 case WebDom.WellknownCssPropertyName.Direction:
 
-                    target.CssDirection = UserMapUtil.GetCssDirection(cssValue);
+                    target.SetCssDirection(UserMapUtil.GetCssDirection(cssValue));
                     break;
                 case WebDom.WellknownCssPropertyName.EmptyCells:
                     target.EmptyCells = UserMapUtil.GetEmptyCell(cssValue);
@@ -243,7 +242,7 @@ namespace HtmlRenderer.Dom
                     //The computed value if the property is percentage multiplied by the 
                     //element's computed font size. 
 
-                    target.LineHeight = cssValue.AsLength(); 
+                    target.LineHeight = cssValue.AsLength();
                     break;
                 case WebDom.WellknownCssPropertyName.VerticalAlign:
                     target.VerticalAlign = UserMapUtil.GetVerticalAlign(cssValue);
@@ -275,7 +274,7 @@ namespace HtmlRenderer.Dom
                     break;
                 case WebDom.WellknownCssPropertyName.FontSize:
                     target.SetFontSize(parent, cssValue);
-                   
+
                     break;
                 case WebDom.WellknownCssPropertyName.FontStyle:
                     target.FontStyle = UserMapUtil.GetFontStyle(cssValue);
@@ -316,40 +315,43 @@ namespace HtmlRenderer.Dom
             switch (propName)
             {
                 case WebDom.WellknownCssPropertyName.BorderBottomWidth:
-                    target.BorderBottomWidth = parent.BorderBottomWidth;
+                    target.SetBorderWidth(CssSide.Bottom, parent.BorderBottomWidth);
                     break;
                 case WebDom.WellknownCssPropertyName.BorderLeftWidth:
-                    target.BorderLeftWidth = parent.BorderLeftWidth;
+                    target.SetBorderWidth(CssSide.Left, parent.BorderLeftWidth);
                     break;
                 case WebDom.WellknownCssPropertyName.BorderRightWidth:
-                    target.BorderRightWidth = parent.BorderRightWidth;
+                    target.SetBorderWidth(CssSide.Right, parent.BorderRightWidth);
                     break;
                 case WebDom.WellknownCssPropertyName.BorderTopWidth:
-                    target.BorderTopWidth = parent.BorderTopWidth;
+                    target.SetBorderWidth(CssSide.Top, parent.BorderTopWidth);
                     break;
+
                 case WebDom.WellknownCssPropertyName.BorderBottomStyle:
-                    target.BorderBottomStyle = parent.BorderBottomStyle;
+                    target.SetBorderStyle(CssSide.Bottom, parent.BorderBottomStyle);
                     break;
                 case WebDom.WellknownCssPropertyName.BorderLeftStyle:
-                    target.BorderLeftStyle = parent.BorderBottomStyle;
+                    target.SetBorderStyle(CssSide.Left, parent.BorderLeftStyle);
                     break;
                 case WebDom.WellknownCssPropertyName.BorderRightStyle:
-                    target.BorderRightStyle = parent.BorderRightStyle;
+                    target.SetBorderStyle(CssSide.Right, parent.BorderRightStyle);
                     break;
                 case WebDom.WellknownCssPropertyName.BorderTopStyle:
-                    target.BorderTopStyle = parent.BorderTopStyle;
+                    target.SetBorderStyle(CssSide.Top, parent.BorderTopStyle);
                     break;
+
                 case WebDom.WellknownCssPropertyName.BorderBottomColor:
-                    target.BorderBottomColor = parent.BorderBottomColor;
+                    target.SetBorderColor(CssSide.Bottom, parent.BorderTopColor);
                     break;
                 case WebDom.WellknownCssPropertyName.BorderLeftColor:
-                    target.BorderLeftColor = parent.BorderLeftColor;
+                    target.SetBorderColor(CssSide.Left, parent.BorderLeftColor);
                     break;
                 case WebDom.WellknownCssPropertyName.BorderRightColor:
-                    target.BorderRightColor = parent.BorderRightColor;
+                    target.SetBorderColor(CssSide.Right, parent.BorderRightColor);
                     break;
                 case WebDom.WellknownCssPropertyName.BorderTopColor:
-                    target.BorderTopColor = parent.BorderTopColor;
+                    target.SetBorderColor(CssSide.Top, parent.BorderTopColor);
+
                     break;
                 case WebDom.WellknownCssPropertyName.BorderSpacing:
 
@@ -378,29 +380,31 @@ namespace HtmlRenderer.Dom
                 case WebDom.WellknownCssPropertyName.CornerSWRadius:
                     target.CornerSWRadius = parent.CornerSWRadius;
                     break;
+
                 case WebDom.WellknownCssPropertyName.MarginBottom:
-                    target.MarginBottom = parent.MarginBottom;
+                    target.SetMargin(CssSide.Bottom, parent.MarginBottom);
                     break;
                 case WebDom.WellknownCssPropertyName.MarginLeft:
-                    target.MarginLeft = parent.MarginLeft;
+                    target.SetMargin(CssSide.Left, parent.MarginLeft);
                     break;
                 case WebDom.WellknownCssPropertyName.MarginRight:
-                    target.MarginRight = parent.MarginRight;
+                    target.SetMargin(CssSide.Right, parent.MarginRight);
                     break;
                 case WebDom.WellknownCssPropertyName.MarginTop:
-                    target.MarginTop = parent.MarginTop;
+                    target.SetMargin(CssSide.Top, parent.MarginTop);
+
                     break;
                 case WebDom.WellknownCssPropertyName.PaddingBottom:
-                    target.PaddingBottom = parent.MarginBottom;
+                    target.SetPadding(CssSide.Bottom, parent.PaddingBottom);
                     break;
                 case WebDom.WellknownCssPropertyName.PaddingLeft:
-                    target.PaddingLeft = parent.PaddingLeft;
+                    target.SetPadding(CssSide.Left, parent.PaddingLeft);
                     break;
                 case WebDom.WellknownCssPropertyName.PaddingRight:
-                    target.PaddingRight = parent.PaddingRight;
+                    target.SetPadding(CssSide.Right, parent.PaddingRight);
                     break;
                 case WebDom.WellknownCssPropertyName.PaddingTop:
-                    target.PaddingTop = parent.PaddingTop;
+                    target.SetPadding(CssSide.Top, parent.PaddingTop);
                     break;
                 case WebDom.WellknownCssPropertyName.Left:
                     target.Left = parent.Left;
@@ -446,12 +450,12 @@ namespace HtmlRenderer.Dom
                     target.Color = parent.Color;
                     break;
                 case WebDom.WellknownCssPropertyName.Display:
-
-                    target.CssDisplay = parent.CssDisplay;
-
+                    //target.CssDisplay = parent.CssDisplay;
+                    target.SetCssDisplay(parent.CssDisplay);
                     break;
                 case WebDom.WellknownCssPropertyName.Direction:
-                    target.CssDirection = parent.CssDirection;
+
+                    target.SetCssDirection(parent.CssDirection);
                     break;
                 case WebDom.WellknownCssPropertyName.EmptyCells:
                     target.EmptyCells = parent.EmptyCells;

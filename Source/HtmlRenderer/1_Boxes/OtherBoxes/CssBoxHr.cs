@@ -144,7 +144,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                p.PaintBorder(this, RenderBorderSide.Top, this.BoxSpec.BorderTopColor, rect);
+                p.PaintBorder(this, CssSide.Top, this.BoxSpec.BorderTopColor, rect);
 
             }
         }

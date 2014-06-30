@@ -62,6 +62,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="1_Boxes\1_BoxPropsAndFeatureAssignment\CssSide.cs" />
     <Compile Include="1_Boxes\5_HitAndSelections\BoxHitChain.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssBox_FlagsConst.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssBoxBaseAssignments.cs" />

@@ -32,7 +32,7 @@ namespace HtmlRenderer.Dom
     {
 
 
-        internal int cssClassVersion;
+        Font _actualFont;
         //==========================================================
         //css values Inherit From Parent (by default)  
         CssFontProp _fontProps = CssFontProp.Default;
@@ -40,9 +40,9 @@ namespace HtmlRenderer.Dom
 
         CssLength _lineHeight = CssLength.NormalWordOrLine;
         CssLength _textIndent = CssLength.ZeroNoUnit;
-        Color _actualColor = Color.Empty;//varies from one browser to another
+        Color _actualColor = Color.Black;//varies from one browser to another
         CssEmptyCell _emptyCells = CssEmptyCell.Show;
-        CssTextAlign _textAlign = CssTextAlign.NotAssign;
+        CssTextAlign _textAlign = CssTextAlign.Start; //left 
         CssVerticalAlign _verticalAlign = CssVerticalAlign.Baseline;
         CssVisibility _visibility = CssVisibility.Visible;
         CssWhiteSpace _whitespace = CssWhiteSpace.Normal;
@@ -55,11 +55,7 @@ namespace HtmlRenderer.Dom
         CssPaddingProp _paddingProps = CssPaddingProp.Default;
         CssMarginProp _marginProps = CssMarginProp.Default;
         CssCornerProp _cornerProps = CssCornerProp.Default;
-        //==========================================================
-
-        Font _actualFont;
         CssBackgroundProp _backgroundProps = CssBackgroundProp.Default;
-
         CssDisplay _cssDisplay = CssDisplay.Inline;
         CssFloat _float = CssFloat.None;
 
@@ -87,122 +83,151 @@ namespace HtmlRenderer.Dom
 
         public BoxSpec()
         {
-            _actualColor = System.Drawing.Color.Black;
-        }
-      
-        public void InheritStylesFrom(BoxSpec source)
-        {
-            this.InheritStyles(source, false);
-        }
-        public void CloneAllStylesFrom(BoxSpec source)
-        {
-            this.InheritStyles(source, true);
-        }
 
+        }
         #region CSS Properties
 
         public CssDisplay CssDisplay
         {
             get { return this._cssDisplay; }
-            set
-            {
-                this._cssDisplay = value;
-            }
         }
+        internal void SetCssDisplay(CssDisplay value)
+        {
+            this._cssDisplay = value;
+        }
+        //---------------------------------------------- 
         public CssDirection CssDirection
         {
             get { return this._cssDirection; }
-            set { this._cssDirection = value; }
+        }
+        internal void SetCssDirection(CssDirection value)
+        {
+            this._cssDirection = value;
         }
         //--------------------------------------------------------------------------------------
+        //border-width
         public CssLength BorderLeftWidth
         {
             get { return this._borderProps.LeftWidth; }
-            set
-            {
-                CheckBorderVersion().LeftWidth = value;
-                //this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_LEFT;
-            }
         }
-
         public CssLength BorderRightWidth
         {
             get { return this._borderProps.RightWidth; }
-            set
-            {
-                CheckBorderVersion().RightWidth = value;
-                // this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_RIGHT;
-            }
         }
-
         public CssLength BorderBottomWidth
         {
             get { return this._borderProps.BottomWidth; }
-            set
-            {
-                CheckBorderVersion().BottomWidth = value;
-                //this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_BOTTOM;
-            }
         }
-
         public CssLength BorderTopWidth
         {
             get { return this._borderProps.TopWidth; }
-            set
+        }
+        internal void SetBorderWidth(CssSide side, CssLength value)
+        {
+            var cssBorderProp = this.CheckBorderVersion();
+            switch (side)
             {
-                CheckBorderVersion().TopWidth = value;
-                //this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_TOP;
+                case CssSide.Left:
+                    {
+                        cssBorderProp.LeftWidth = value;
+                    } break;
+                case CssSide.Right:
+                    {
+                        cssBorderProp.RightWidth = value;
+                    } break;
+                case CssSide.Top:
+                    {
+                        cssBorderProp.TopWidth = value;
+                    } break;
+                case CssSide.Bottom:
+                    {
+                        cssBorderProp.BottomWidth = value;
+                    } break;
             }
         }
         //--------------------------------------------------------------------------------------
+        //style
         public CssBorderStyle BorderTopStyle
         {
-
             get { return this._borderProps.TopStyle; }
-            set { CheckBorderVersion().TopStyle = value; }
-
         }
         public CssBorderStyle BorderLeftStyle
         {
             get { return this._borderProps.LeftStyle; }
-            set { CheckBorderVersion().LeftStyle = value; }
         }
         public CssBorderStyle BorderRightStyle
         {
             get { return this._borderProps.RightStyle; }
-            set { CheckBorderVersion().RightStyle = value; }
         }
-
         public CssBorderStyle BorderBottomStyle
         {
-
             get { return this._borderProps.BottomStyle; }
-            set { CheckBorderVersion().BottomStyle = value; }
         }
 
+        internal void SetBorderStyle(CssSide side, CssBorderStyle value)
+        {
+            var cssBorderProp = this.CheckBorderVersion();
+            switch (side)
+            {
+                case CssSide.Left:
+                    {
+                        cssBorderProp.LeftStyle = value;
+                    } break;
+                case CssSide.Right:
+                    {
+                        cssBorderProp.RightStyle = value;
+                    } break;
+                case CssSide.Top:
+                    {
+                        cssBorderProp.TopStyle = value;
+                    } break;
+                case CssSide.Bottom:
+                    {
+                        cssBorderProp.BottomStyle = value;
+                    } break;
+            }
+        }
         //--------------------------------------------
         public Color BorderBottomColor
         {
             get { return this._borderProps.BottomColor; }
-            set { CheckBorderVersion().BottomColor = value; }
         }
         public Color BorderLeftColor
         {
             get { return this._borderProps.LeftColor; }
-            set { CheckBorderVersion().LeftColor = value; }
         }
-        //--------------------------------------------
         public Color BorderRightColor
         {
             get { return this._borderProps.RightColor; }
-            set { CheckBorderVersion().RightColor = value; }
         }
-
         public Color BorderTopColor
         {
             get { return this._borderProps.TopColor; }
-            set { CheckBorderVersion().TopColor = value; }
         }
+        internal void SetBorderColor(CssSide side, Color value)
+        {
+            var cssBorderProp = this.CheckBorderVersion();
+            switch (side)
+            {
+                case CssSide.Left:
+                    {
+                        cssBorderProp.LeftColor = value;
+                    } break;
+                case CssSide.Right:
+                    {
+                        cssBorderProp.RightColor = value;
+                    } break;
+                case CssSide.Top:
+                    {
+                        cssBorderProp.TopColor = value;
+                    } break;
+                case CssSide.Bottom:
+                    {
+                        cssBorderProp.BottomColor = value;
+                    } break;
+            }
+        }
+        //--------------------------------------------
         public CssLength BorderSpacingVertical
         {
             get { return this._borderProps.BorderSpacingV; }
@@ -257,68 +282,90 @@ namespace HtmlRenderer.Dom
             }
         }
         //------------------------------------------------------
+        internal void SetMargin(CssSide side, CssLength value)
+        {
+            var marginProp = CheckMarginVersion();
+            switch (side)
+            {
+                case CssSide.Left:
+                    {
+                        marginProp.Left = value;
+                    } break;
+                case CssSide.Right:
+                    {
+                        marginProp.Right = value;
+                    } break;
+                case CssSide.Top:
+                    {
+                        marginProp.Top = value;
+                    } break;
+                case CssSide.Bottom:
+                    {
+                        marginProp.Bottom = value;
+                    } break;
+            }
+        }
         public CssLength MarginBottom
         {
             get { return this._marginProps.Bottom; }
-            set { CheckMarginVersion().Bottom = value; }
         }
 
         public CssLength MarginLeft
         {
             get { return this._marginProps.Left; }
-            set { CheckMarginVersion().Left = value; }
         }
 
         public CssLength MarginRight
         {
             get { return this._marginProps.Right; }
-            set { CheckMarginVersion().Right = value; }
         }
 
         public CssLength MarginTop
         {
             get { return this._marginProps.Top; }
-            set { CheckMarginVersion().Top = value; }
         }
 
+        internal void SetPadding(CssSide side, CssLength value)
+        {
+            var paddingProp = this.CheckPaddingVersion();
+            switch (side)
+            {
+                case CssSide.Left:
+                    {
+                        paddingProp.Left = value;
+                    } break;
+                case CssSide.Right:
+                    {
+                        paddingProp.Right = value;
+                    } break;
+                case CssSide.Top:
+                    {
+                        paddingProp.Top = value;
+                    } break;
+                case CssSide.Bottom:
+                    {
+                        paddingProp.Bottom = value;
+                    } break;
+            }
+        }
         public CssLength PaddingBottom
         {
             get { return this._paddingProps.Bottom; }
-            set
-            {
-                CheckPaddingVersion().Bottom = value;
-            }
         }
 
         public CssLength PaddingLeft
         {
             get { return this._paddingProps.Left; }
-            set
-            {
-                CheckPaddingVersion().Left = value;
-            }
         }
 
         public CssLength PaddingRight
         {
             get { return this._paddingProps.Right; }
-            set
-            {
-                CheckPaddingVersion().Right = value;
-
-            }
         }
 
         public CssLength PaddingTop
         {
-            get
-            {
-                return this._paddingProps.Top;
-            }
-            set
-            {
-                CheckPaddingVersion().Top = value;
-            }
+            get { return this._paddingProps.Top; }             
         }
         public CssLength Left
         {
@@ -448,7 +495,6 @@ namespace HtmlRenderer.Dom
             get { return _textDecoration; }
             set { _textDecoration = value; }
         }
-
         //-----------------------------------
         public CssWhiteSpace WhiteSpace
         {

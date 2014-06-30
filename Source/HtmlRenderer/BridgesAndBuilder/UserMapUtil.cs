@@ -177,7 +177,7 @@ namespace HtmlRenderer.Dom
             return (CssTextAlign)EvaluateIntPropertyValueFromString(
                 _cssTextAlignMap,
                 WebDom.CssValueEvaluatedAs.TextAlign,
-                CssTextAlign.NotAssign,
+                CssTextAlign.Start,
                 value);
         }
 

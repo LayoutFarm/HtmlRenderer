@@ -136,7 +136,7 @@ namespace HtmlRenderer.Dom
         /// <param name="length"></param>
         CssLength NoEms(CssLength length)
         {
-            if (length.UnitOrNames == Entities.CssUnitOrNames.Ems)
+            if (length.UnitOrNames == CssUnitOrNames.Ems)
             {
                 return length.ConvertEmToPixels(this.GetActualFontEmHeight());
             }
@@ -155,16 +155,16 @@ namespace HtmlRenderer.Dom
             //check font,font size, line height  
             if (this.ParentBox != null)
             {
-                
+
                 //(for Parent== null -> root box ->please set actual font manual)
                 //re evaluate font size
                 //1. font 
-                this._actualFont = this.BoxSpec.GetFont(this.ParentBox.BoxSpec);      
+                this._actualFont = this.BoxSpec.GetFont(this.ParentBox.BoxSpec);
             }
             var spec = this.BoxSpec;
             if (spec.LineHeight.IsPercentage)
             {
-                 
+
 
                 //2014,
                 //from www.w3c.org/wiki/Css/Properties/line-height
@@ -178,7 +178,7 @@ namespace HtmlRenderer.Dom
             //see www.w3.org/TR/CSS2/box.html#padding-properties
             //width of some margins,paddings are computed value 
             //that need its containing block width (even for 'top' and 'bottom')
-            
+
             //margin
             //-----------------------------------------------------------------------
             float cbWidth = containingBlock.SizeWidth;
@@ -187,7 +187,7 @@ namespace HtmlRenderer.Dom
             //w3c: margin applies to all elements except elements table display type
             //other than table-caption,table and inline table
 
-           
+
             var cssDisplay = spec.CssDisplay;
 
             switch (cssDisplay)
