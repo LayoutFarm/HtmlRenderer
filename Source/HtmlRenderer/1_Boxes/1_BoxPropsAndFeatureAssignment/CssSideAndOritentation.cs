@@ -8,5 +8,8 @@
         Left,
         Center
     }
-
+    enum CornerName
+    {
+        NE, NW, SE, SW
+    }
 }

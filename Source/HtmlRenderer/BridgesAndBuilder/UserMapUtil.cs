@@ -228,7 +228,9 @@ namespace HtmlRenderer.Dom
             else
             {
                 //primitive value 
-                box.BorderSpacingHorizontal = box.BorderSpacingVertical = primValue.AsLength();
+
+                CssLength len = primValue.AsLength();
+                box.SetBorderSpacing(len, len);
             }
 
 
@@ -268,8 +270,8 @@ namespace HtmlRenderer.Dom
                 throw new NotSupportedException();
                 return;
             }
-            box.CornerNERadius = box.CornerNWRadius =
-             box.CornerSERadius = box.CornerSWRadius = prim.AsLength();
+            box.SetCornerRadiusAll(prim.AsLength());
+
 
 
             ////parse corner radius 
@@ -346,7 +348,7 @@ namespace HtmlRenderer.Dom
 
         //public static void SetLineHeight(this BoxSpec box, CssLength len, BoxSpec parent)
         //{
-           
+
 
         //    box.LineHeight =  
         //      CssLength.MakePixelLength(

@@ -132,22 +132,22 @@ namespace HtmlRenderer.Dom
                     target.SetBorderSpacing(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.BorderCollapse:
-                    target.BorderCollapse = UserMapUtil.GetBorderCollapse(cssValue);
+                    target.SetBorderCollapse(UserMapUtil.GetBorderCollapse(cssValue));
                     break;
                 case WebDom.WellknownCssPropertyName.CornerRadius:
                     target.SetCornerRadius(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.CornerNWRadius:
-                    target.CornerNWRadius = cssValue.AsLength();
+                    target.SetCornerRadius(CornerName.NW, cssValue.AsLength());
                     break;
                 case WebDom.WellknownCssPropertyName.CornerNERadius:
-                    target.CornerNERadius = cssValue.AsLength();
+                    target.SetCornerRadius(CornerName.NE, cssValue.AsLength());
                     break;
                 case WebDom.WellknownCssPropertyName.CornerSERadius:
-                    target.CornerSERadius = cssValue.AsLength();
+                    target.SetCornerRadius(CornerName.SE, cssValue.AsLength());
                     break;
                 case WebDom.WellknownCssPropertyName.CornerSWRadius:
-                    target.CornerSWRadius = cssValue.AsLength();
+                    target.SetCornerRadius(CornerName.SW, cssValue.AsLength());
                     break;
 
                 case WebDom.WellknownCssPropertyName.MarginBottom:
@@ -286,16 +286,19 @@ namespace HtmlRenderer.Dom
                     target.FontWeight = UserMapUtil.GetFontWeight(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.ListStyle:
-                    target.ListStyle = cssValue.GetTranslatedStringValue();
+
+                    target.SetListStyle(cssValue.GetTranslatedStringValue());
                     break;
                 case WebDom.WellknownCssPropertyName.ListStylePosition:
-                    target.ListStylePosition = UserMapUtil.GetListStylePosition(cssValue);
+
+                    target.SetListStylePosition(UserMapUtil.GetListStylePosition(cssValue));
                     break;
                 case WebDom.WellknownCssPropertyName.ListStyleImage:
-                    target.ListStyleImage = cssValue.GetTranslatedStringValue();
+
+                    target.SetListStyleImage(cssValue.GetTranslatedStringValue());
                     break;
                 case WebDom.WellknownCssPropertyName.ListStyleType:
-                    target.ListStyleType = UserMapUtil.GetListStyleType(cssValue);
+                    target.SetListStyleType(UserMapUtil.GetListStyleType(cssValue));
                     break;
                 case WebDom.WellknownCssPropertyName.Overflow:
                     target.Overflow = UserMapUtil.GetOverflow(cssValue);
@@ -354,31 +357,28 @@ namespace HtmlRenderer.Dom
 
                     break;
                 case WebDom.WellknownCssPropertyName.BorderSpacing:
-
-                    target.BorderSpacingHorizontal = parent.BorderSpacingHorizontal;
-                    target.BorderSpacingVertical = parent.BorderSpacingVertical;
+                    target.SetBorderSpacing(parent.BorderSpacingVertical, parent.BorderSpacingHorizontal);
                     break;
                 case WebDom.WellknownCssPropertyName.BorderCollapse:
-                    target.BorderCollapse = parent.BorderCollapse;
+                    target.SetBorderCollapse(parent.BorderCollapse);
                     break;
                 case WebDom.WellknownCssPropertyName.CornerRadius:
-                    target.CornerNERadius = parent.CornerNERadius;
-                    target.CornerNWRadius = parent.CornerNWRadius;
-                    target.CornerSERadius = parent.CornerSERadius;
-                    target.CornerSWRadius = parent.CornerSWRadius;
-                    break;
-                case WebDom.WellknownCssPropertyName.CornerNWRadius:
-
-                    target.CornerNWRadius = parent.CornerNWRadius;
+                    target.SetCornerRadius(CornerName.NE, parent.CornerNERadius);
+                    target.SetCornerRadius(CornerName.NW, parent.CornerNWRadius);
+                    target.SetCornerRadius(CornerName.SE, parent.CornerSERadius);
+                    target.SetCornerRadius(CornerName.SW, parent.CornerSWRadius);
                     break;
                 case WebDom.WellknownCssPropertyName.CornerNERadius:
-                    target.CornerNERadius = parent.CornerNERadius;
+                    target.SetCornerRadius(CornerName.NE, parent.CornerNERadius);
+                    break;
+                case WebDom.WellknownCssPropertyName.CornerNWRadius:
+                    target.SetCornerRadius(CornerName.NW, parent.CornerNWRadius);
                     break;
                 case WebDom.WellknownCssPropertyName.CornerSERadius:
-                    target.CornerSERadius = parent.CornerSERadius;
+                    target.SetCornerRadius(CornerName.SE, parent.CornerSERadius);
                     break;
                 case WebDom.WellknownCssPropertyName.CornerSWRadius:
-                    target.CornerSWRadius = parent.CornerSWRadius;
+                    target.SetCornerRadius(CornerName.SW, parent.CornerSWRadius);
                     break;
 
                 case WebDom.WellknownCssPropertyName.MarginBottom:
@@ -450,7 +450,7 @@ namespace HtmlRenderer.Dom
                     target.Color = parent.Color;
                     break;
                 case WebDom.WellknownCssPropertyName.Display:
-                    //target.CssDisplay = parent.CssDisplay;
+
                     target.SetCssDisplay(parent.CssDisplay);
                     break;
                 case WebDom.WellknownCssPropertyName.Direction:
@@ -512,19 +512,19 @@ namespace HtmlRenderer.Dom
 
                     break;
                 case WebDom.WellknownCssPropertyName.ListStyle:
-
-                    target.ListStyle = parent.ListStyle;
+                     
+                    target.SetListStyle(parent.ListStyle);
                     break;
                 case WebDom.WellknownCssPropertyName.ListStylePosition:
-                    target.ListStylePosition = parent.ListStylePosition;
+                    target.SetListStylePosition(parent.ListStylePosition);
+                     
                     break;
                 case WebDom.WellknownCssPropertyName.ListStyleImage:
-
-                    target.ListStyleImage = parent.ListStyleImage;
+                    target.SetListStyleImage(parent.ListStyleImage);                     
                     break;
                 case WebDom.WellknownCssPropertyName.ListStyleType:
-
-                    target.ListStyleType = parent.ListStyleType;
+                    target.SetListStyleType(parent.ListStyleType);
+                     
                     break;
                 case WebDom.WellknownCssPropertyName.Overflow:
 
