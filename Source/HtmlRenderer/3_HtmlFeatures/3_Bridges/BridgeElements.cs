@@ -11,56 +11,72 @@ namespace HtmlRenderer.Dom
 {
 
 
-
-    sealed class BrigeRootElement : BridgeHtmlNode
+    enum BridgeNodeType
     {
-        public BrigeRootElement(HtmlRootNode htmlRootNode)
-            : base(htmlRootNode, WellknownHtmlTagName.Unknown)
+        Element,
+        Root,
+        Text
+    }
+    class BridgeHtmlNode
+    {
+        BridgeNodeType nodeType;
+        public BridgeHtmlNode(BridgeNodeType nodeType)
         {
-
+            this.nodeType = nodeType;
+        }
+        public bool IsTextNode
+        {
+            get { return this.nodeType == BridgeNodeType.Text; }
+        }
+        public BridgeNodeType NodeType
+        {
+            get { return this.nodeType; }
         }
     }
 
-    class BridgeHtmlNode : IHtmlElement
+    class BridgeHtmlElement : BridgeHtmlNode, IHtmlElement
     {
-        readonly HtmlElement elem;
         BridgeHtmlNode parentElement;
-        //---------------------------------
-        //this node may be simple text node
-        HtmlTextNode htmlTextNode;
-        //---------------------------------
-        List<BridgeHtmlNode> children;
-        //--------------------------------- 
         CssBoxTemplate boxSpec;
-
-        bool isTextNode;
-
-        public BridgeHtmlNode(HtmlElement elem, WellknownHtmlTagName wellKnownTagName)
+        readonly HtmlElement elem;
+        List<BridgeHtmlNode> children;
+        public BridgeHtmlElement(HtmlElement elem, WellknownHtmlTagName wellKnownTagName)
+            : base(BridgeNodeType.Element)
         {
             this.elem = elem;
+            this.children = new List<BridgeHtmlNode>();
             this.WellknownTagName = wellKnownTagName;
-            this.children = new List<BridgeHtmlNode>();
         }
-        public BridgeHtmlNode(HtmlTextNode htmlTextNode)
+        public IEnumerable<IHtmlAttribute> GetAttributeIter()
         {
-            this.isTextNode = true;
-            this.htmlTextNode = htmlTextNode;
-            //no childnode 
+            foreach (WebDom.HtmlAttribute attr in this.elem.GetAttributeIterForward())
+            {
+                yield return new HtmlAttributeBridge(attr);
+            }
         }
 
-
-        public bool IsTextNode
+        //-------------
+        public WellknownHtmlTagName WellknownTagName
         {
-            get { return this.isTextNode; }
+            get;
+            private set;
         }
-        public void PrepareChildrenNodes()
+        public CssBoxTemplate Spec
         {
-            this.children = new List<BridgeHtmlNode>();
+            get { return this.boxSpec; }
+            set { this.boxSpec = value; }
         }
         public void AddChildElement(BridgeHtmlNode child)
         {
             this.children.Add(child);
-            child.parentElement = this;
+            switch (child.NodeType)
+            {
+                case BridgeNodeType.Element:
+                    {
+                        ((BridgeHtmlElement)child).parentElement = this;
+                    } break;
+            }
+
         }
         public int ChildCount
         {
@@ -89,11 +105,7 @@ namespace HtmlRenderer.Dom
                 return attr.Value;
             }
         }
-        public WellknownHtmlTagName WellknownTagName
-        {
-            get;
-            private set;
-        }
+
         public HtmlRenderer.WebDom.HtmlElement HtmlElement
         {
             get { return this.elem; }
@@ -121,28 +133,14 @@ namespace HtmlRenderer.Dom
                 return defaultValue;
             }
         }
-
-        public char[] CopyTextBuffer()
-        {
-            return this.htmlTextNode.CopyTextBuffer();
-        }
+#if DEBUG
         public override string ToString()
         {
-            return string.Format("<{0}>", this.Name);
+            return this.WellknownTagName.ToString() + " " + ChildCount;
         }
-        public IEnumerable<IHtmlAttribute> GetAttributeIter()
-        {
-            foreach (WebDom.HtmlAttribute attr in this.elem.GetAttributeIterForward())
-            {
-                yield return new HtmlAttributeBridge(attr);
-            }
-        }
-        //-------------
-        public CssBoxTemplate Spec
-        {
-            get { return this.boxSpec; }
-            set { this.boxSpec = value; }
-        }
+#endif
+
+
 
         public string ClassName
         {
@@ -159,6 +157,37 @@ namespace HtmlRenderer.Dom
         public string Id { get; set; }
         public string Style { get; set; }
     }
+    sealed class BrigeRootElement : BridgeHtmlElement
+    {
+        public BrigeRootElement(HtmlRootNode htmlRootNode)
+            : base(htmlRootNode, WellknownHtmlTagName.Unknown)
+        {
+
+        }
+    }
+
+    class BridgeHtmlTextNode : BridgeHtmlNode
+    {
+        //---------------------------------
+        //this node may be simple text node
+        HtmlTextNode htmlTextNode;
+        public BridgeHtmlTextNode(HtmlTextNode htmlTextNode)
+            : base(BridgeNodeType.Text)
+        {
+            this.htmlTextNode = htmlTextNode;
+        }
+        public char[] CopyTextBuffer()
+        {
+            return this.htmlTextNode.CopyTextBuffer();
+        }
+#if DEBUG
+        public override string ToString()
+        {
+            return new string(this.CopyTextBuffer());
+        }
+#endif
+    }
+
 
     struct HtmlAttributeBridge : IHtmlAttribute
     {

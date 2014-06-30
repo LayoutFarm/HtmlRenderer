@@ -57,7 +57,7 @@ namespace HtmlRenderer.Dom
         static void BuildBridgeContent(
             HtmlContainer container,
             WebDom.HtmlElement parentHtmlNode,
-            BridgeHtmlNode parentBridge,
+            BridgeHtmlElement parentBridge,
             ActiveCssTemplate activeCssTemplate)
         {
             //recursive 
@@ -70,7 +70,7 @@ namespace HtmlRenderer.Dom
                         {
                             WebDom.HtmlElement elemNode = node as WebDom.HtmlElement;
 
-                            BridgeHtmlNode bridgeElement = new BridgeHtmlNode(elemNode,
+                            BridgeHtmlElement bridgeElement = new BridgeHtmlElement(elemNode,
                                 UserMapUtil.EvaluateTagName(elemNode.LocalName));
                             parentBridge.AddChildElement(bridgeElement);
 
@@ -78,19 +78,22 @@ namespace HtmlRenderer.Dom
                             //recursive 
                             BuildBridgeContent(container, elemNode, bridgeElement, activeCssTemplate);
                             //-----------------------------
+
                             switch (bridgeElement.WellknownTagName)
                             {
                                 case WellknownHtmlTagName.style:
                                     {
+                                        //style element should have textnode child
                                         switch (bridgeElement.ChildCount)
                                         {
-                                            case 0:
+                                            default:
                                                 {
-                                                    activeCssTemplate.LoadRawStyleElementContent(new string(bridgeElement.CopyTextBuffer()));
-                                                } break;
+                                                    throw new NotSupportedException();
+                                                }
                                             case 1:
                                                 {
-                                                    activeCssTemplate.LoadRawStyleElementContent(new string(bridgeElement.GetNode(0).CopyTextBuffer()));
+                                                    BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)bridgeElement.GetNode(0);
+                                                    activeCssTemplate.LoadRawStyleElementContent(new string(textNode.CopyTextBuffer()));
                                                 } break;
                                         }
 
@@ -123,13 +126,13 @@ namespace HtmlRenderer.Dom
                         } break;
                     case WebDom.HtmlNodeType.TextNode:
                         {
-                            BridgeHtmlNode bridgeElement = new BridgeHtmlNode((WebDom.HtmlTextNode)node);
+                            BridgeHtmlTextNode bridgeElement = new BridgeHtmlTextNode((WebDom.HtmlTextNode)node);
                             parentBridge.AddChildElement(bridgeElement);
                         } break;
                 }
             }
         }
-        static void GenerateCssBoxes(BridgeHtmlNode parentElement, CssBox parentBox)
+        static void GenerateCssBoxes(BridgeHtmlElement parentElement, CssBox parentBox)
         {
 
             int childCount = parentElement.ChildCount;
@@ -138,27 +141,31 @@ namespace HtmlRenderer.Dom
             {
                 case 0: { } break;
                 case 1:
-                    {    
+                    {
                         BridgeHtmlNode bridgeChild = parentElement.GetNode(0);
                         int newBox = 0;
-                        if (bridgeChild.IsTextNode)
+                        switch (bridgeChild.NodeType)
                         {
-                            //parse and evaluate whitespace here ! 
-                            parentBox.SetTextContent(bridgeChild.CopyTextBuffer());
-                        }
-                        else
-                        {
+                            case BridgeNodeType.Text:
+                                {
+                                    //parse and evaluate whitespace here !  
+                                    parentBox.SetTextContent(((BridgeHtmlTextNode)bridgeChild).CopyTextBuffer());
+                                } break;
+                            case BridgeNodeType.Element:
+                                {
+                                    BridgeHtmlElement elem = (BridgeHtmlElement)bridgeChild;
+                                    var spec = elem.Spec;
+                                    if (spec.CssDisplay == CssDisplay.None)
+                                    {
+                                        return;
+                                    }
+                                    //if (spec.CssDisplay != CssDisplay.None)
+                                    //{
+                                    newBox++;
+                                    CssBox box = BoxCreator.CreateBoxNotInherit(elem, parentBox);
+                                    GenerateCssBoxes(elem, box);
 
-                            var spec = bridgeChild.Spec;
-                            if (spec.CssDisplay == CssDisplay.None)
-                            {
-                            }
-                            //if (spec.CssDisplay != CssDisplay.None)
-                            //{
-                            newBox++;
-                            CssBox box = BoxCreator.CreateBoxNotInherit(bridgeChild, parentBox);
-                            GenerateCssBoxes(bridgeChild, box);
-                            //}
+                                } break;
                         }
 
                     } break;
@@ -169,34 +176,40 @@ namespace HtmlRenderer.Dom
                         {
                             //create and correct box in one pass here !?
                             BridgeHtmlNode childNode = parentElement.GetNode(i);
+                            switch (childNode.NodeType)
+                            {
+                                case BridgeNodeType.Text:
+                                    {
+                                        //create anonymous box  but not inherit ***
+                                        CssBox anonText = new CssBox(parentBox, null);
+                                        //parse and evaluate whitespace here ! 
+                                        BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
+                                        anonText.SetTextContent(textNode.CopyTextBuffer());
 
-                            if (childNode.IsTextNode)
-                            {
-                                //create anonymous box  but not inherit ***
-                                CssBox anonText = new CssBox(parentBox, null);
-                                //parse and evaluate whitespace here ! 
-                                anonText.SetTextContent(childNode.CopyTextBuffer());
+                                    } break;
+                                default:
+                                    {
+                                        BridgeHtmlElement childElement = (BridgeHtmlElement)childNode;
+                                        var spec = childElement.Spec;
+                                        //if (spec.CssDisplay == CssDisplay.None)
+                                        //{
+                                        //    continue;
+                                        //}
+                                        if (spec.CssDisplay == CssDisplay.None)
+                                        {
+                                            continue;
+                                        }
+                                        newBox++;
+                                        CssBox box = BoxCreator.CreateBoxNotInherit(childElement, parentBox);
+                                        GenerateCssBoxes(childElement, box);
+                                    } break;
                             }
-                            else
-                            {
-                                var spec = childNode.Spec;
-                                //if (spec.CssDisplay == CssDisplay.None)
-                                //{
-                                //    continue;
-                                //}
-                                //if (spec.CssDisplay == CssDisplay.None)
-                                //{
-                                //    continue;
-                                //}
-                                newBox++;
-                                CssBox box = BoxCreator.CreateBoxNotInherit(childNode, parentBox);
-                                GenerateCssBoxes(childNode, box);
-                            }
-                        } 
+
+                        }
                     } break;
             }
         }
-         
+
         /// <summary>
         /// Generate css tree by parsing the given html and applying the given css style data on it.
         /// </summary>
@@ -311,8 +324,7 @@ namespace HtmlRenderer.Dom
         /// <param name="cssDataChanged">check if the css data has been modified by the handled html not to change the base css data</param>
         static void ApplyStyleSheet(CssBox box, ActiveCssTemplate activeCssTemplate)
         {
-            //recursive 
-
+            //recursive  
             //-------------------------------------------------------------------            
             box.InheritStyles(box.ParentBox);
 
@@ -346,63 +358,8 @@ namespace HtmlRenderer.Dom
                         CssPropSetter.AssignPropertyValue(box, box.ParentBox, propDecl);
                     }
                 }
-                ////------------------------------------------------------------------- 
-                ////some special tags...
-                //// Check for the <style> tag   
-                //// Check for the <link rel=stylesheet> tag 
-                //switch (box.WellknownTagName)
-                //{
-                //    case WellknownHtmlTagName.style:
-                //        {
-                //            switch (box.ChildCount)
-                //            {
-                //                case 0:
-                //                    {
-                //                        activeCssTemplate.LoadRawStyleElementContent(box.CopyTextContent());
-                //                    } break;
-                //                case 1:
-                //                    {
-                //                        activeCssTemplate.LoadRawStyleElementContent(box.GetFirstChild().CopyTextContent());
-                //                    } break;
-                //            }
-
-                //        } break;
-                //    case WellknownHtmlTagName.link:
-                //        {
-                //            if (box.GetAttribute("rel", string.Empty).Equals("stylesheet", StringComparison.CurrentCultureIgnoreCase))
-                //            {
-                //                //load 
-                //                var container = box.HtmlContainer;
-                //                string stylesheet;
-                //                CssActiveSheet stylesheetData;
-                //                StylesheetLoadHandler.LoadStylesheet(container,
-                //                    box.GetAttribute("href", string.Empty),  //load style sheet from external ?
-                //                    out stylesheet, out stylesheetData);
-
-                //                if (stylesheet != null)
-                //                {
-                //                    activeCssTemplate.LoadRawStyleElementContent(stylesheet);
-                //                }
-                //                else if (stylesheetData != null)
-                //                {
-                //                    activeCssTemplate.LoadAnotherStylesheet(stylesheetData);
-                //                }
-                //            }
-                //        } break;
-                //}
             }
-            //--------------------------------------------------------------------
-            //2014-06-27
-            //if (box.TextDecoration != CssTextDecoration.NotAssign && !box.MayHasSomeTextContent)
-            //{
-            //    //text decoration : not inherit
-            //    //foreach (var childBox in box.GetChildBoxIter())
-            //    //{
-            //    //    //send to child ?
-            //    //    childBox.TextDecoration = box.TextDecoration;
-            //    //}
-            //    //box.TextDecoration = CssTextDecoration.NotAssign;
-            //}
+
             //===================================================================
             //parent style assignment is complete before step down into child ***
             foreach (var childBox in box.GetChildBoxIter())
@@ -414,7 +371,9 @@ namespace HtmlRenderer.Dom
             //{
             //}
         }
-        static void ApplyOnlyAbsoluteStyles(BridgeHtmlNode bridgeNode, ActiveCssTemplate activeCssTemplate)
+
+
+        static void ApplyOnlyAbsoluteStyles(BridgeHtmlElement bridgeNode, ActiveCssTemplate activeCssTemplate)
         {
 
             //recursive  
@@ -427,11 +386,15 @@ namespace HtmlRenderer.Dom
             for (int i = 0; i < j; ++i)
             {
                 var childNode = bridgeNode.GetNode(i);
-
-                if (!childNode.IsTextNode)
+                switch (childNode.NodeType)
                 {
-                    ApplyOnlyAbsoluteStyles(childNode, activeCssTemplate);
+                    case BridgeNodeType.Root:
+                    case BridgeNodeType.Element:
+                        {
+                            ApplyOnlyAbsoluteStyles((BridgeHtmlElement)childNode, activeCssTemplate);
+                        } break;
                 }
+
             }
 
 

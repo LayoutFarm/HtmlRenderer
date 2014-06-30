@@ -182,7 +182,7 @@ namespace HtmlRenderer.Dom
             //*********** 
         }
         //----------------------------------------------------------------------------
-        internal void ApplyAbsoluteStyles(BridgeHtmlNode targetElement)
+        internal void ApplyAbsoluteStyles(BridgeHtmlElement targetElement)
         {
 
             //1. element name 
@@ -196,7 +196,7 @@ namespace HtmlRenderer.Dom
             }
 
             //3. key with version =0
-            TemplateKey key = new TemplateKey(tagNameKey, classNameKey, 0); 
+            TemplateKey key = new TemplateKey(tagNameKey, classNameKey, 0);
             CssBoxTemplate boxTemplate;
             if (!templatesForTagName.TryGetValue(key, out boxTemplate))
             {
