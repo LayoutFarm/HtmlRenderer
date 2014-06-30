@@ -166,7 +166,11 @@ namespace HtmlRenderer.Dom
                                     //if (spec.CssDisplay != CssDisplay.None)
                                     //{
                                     newBox++;
+
                                     CssBox box = BoxCreator.CreateBoxNotInherit(elem, parentBox);
+
+                                    //box.InheritStyles(elem.Spec, true);
+
                                     GenerateCssBoxes(elem, box);
 
                                 } break;
@@ -185,7 +189,8 @@ namespace HtmlRenderer.Dom
                                 case BridgeNodeType.Text:
                                     {
                                         //create anonymous box  but not inherit ***
-                                        CssBox anonText = new CssBox(parentBox, null);
+
+                                        CssBox anonText = new CssBox(parentBox, null, null);
                                         //parse and evaluate whitespace here ! 
                                         BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
                                         anonText.SetTextContent(textNode.CopyTextBuffer());
@@ -202,6 +207,9 @@ namespace HtmlRenderer.Dom
 
                                         newBox++;
                                         CssBox box = BoxCreator.CreateBoxNotInherit(childElement, parentBox);
+
+                                        //box.InheritStyles(spec, true);
+
                                         GenerateCssBoxes(childElement, box);
 
                                     } break;
@@ -234,16 +242,12 @@ namespace HtmlRenderer.Dom
             BrigeRootElement bridgeRoot = CreateBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
             //---------------------------------------------------------------- 
             //4. first spec        
-            bridgeRoot.Spec = new BoxSpec(bridgeRoot.WellknownTagName);
+            bridgeRoot.Spec = new BoxSpec();
             TopDownApplyStyleSheet(bridgeRoot, null, activeCssTemplate);
-            //----------------------------------------------------------------
-
-
-            // ApplyOnlyAbsoluteStyles(bridgeRoot, activeCssTemplate);
             //----------------------------------------------------------------
             //box generation
             //3. create cssbox from root
-            CssBox root = BoxCreator.CreateRootBlock();
+            CssBox root = BoxCreator.CreateRootBlock(bridgeRoot.Spec);
             GenerateCssBoxes(bridgeRoot, root);
 
 #if DEBUG
@@ -254,11 +258,8 @@ namespace HtmlRenderer.Dom
             //2. decorate cssbox with styles
             if (root != null)
             {
-
                 CssBox.SetHtmlContainer(root, htmlContainer);
-                //-------------------------------------------------------------------
-
-                ApplyStyleSheet(root, activeCssTemplate);
+                //ApplyStyleSheet(root, activeCssTemplate);
                 //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);
                 OnePassBoxCorrection(root);
@@ -330,52 +331,52 @@ namespace HtmlRenderer.Dom
         /// <param name="htmlContainer">the html container to use for reference resolve</param>
         /// <param name="cssData"> </param>
         /// <param name="cssDataChanged">check if the css data has been modified by the handled html not to change the base css data</param>
-        static void ApplyStyleSheet(CssBox box, ActiveCssTemplate activeCssTemplate)
-        {
-            //recursive  
-            //-------------------------------------------------------------------            
-            box.InheritStyles(box.ParentBox);
+        //static void ApplyStyleSheet(CssBox box, ActiveCssTemplate activeCssTemplate)
+        //{
+        //    //recursive  
+        //    //-------------------------------------------------------------------            
+        //    box.InheritStyles(box.ParentBox);
 
-            if (box.HtmlElement != null)
-            {
-                //------------------------------------------------------------------- 
-                //1. element tag
-                //2. css class 
-                // try assign style using the html element tag    
-                activeCssTemplate.ApplyActiveTemplateForElement(box.ParentBox, box);
-                //3.
-                // try assign style using the "id" attribute of the html element
-                if (box.HtmlElement.HasAttribute("id"))
-                {
-                    var id = box.HtmlElement.TryGetAttribute("id");
-                    AssignStylesForElementId(box, activeCssTemplate, "#" + id);
-                }
-                //-------------------------------------------------------------------
-                //4. 
-                //element attribute
-                AssignStylesFromTranslatedAttributesHTML5(box, activeCssTemplate);
-                //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
-                //------------------------------------------------------------------- 
-                //5.
-                //style attribute value of element
-                if (box.HtmlElement.HasAttribute("style"))
-                {
-                    var ruleset = activeCssTemplate.ParseCssBlock(box.HtmlElement.Name, box.HtmlElement.TryGetAttribute("style"));
-                    foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
-                    {
-                        CssPropSetter.AssignPropertyValue(box, box.ParentBox, propDecl);
-                    }
-                }
-            }
+        //    if (box.HtmlElement != null)
+        //    {
+        //        //------------------------------------------------------------------- 
+        //        //1. element tag
+        //        //2. css class 
+        //        // try assign style using the html element tag    
+        //        activeCssTemplate.ApplyActiveTemplateForElement(box.ParentBox, box);
+        //        //3.
+        //        // try assign style using the "id" attribute of the html element
+        //        if (box.HtmlElement.HasAttribute("id"))
+        //        {
+        //            var id = box.HtmlElement.TryGetAttribute("id");
+        //            AssignStylesForElementId(box, activeCssTemplate, "#" + id);
+        //        }
+        //        //-------------------------------------------------------------------
+        //        //4. 
+        //        //element attribute
+        //        AssignStylesFromTranslatedAttributesHTML5(box, activeCssTemplate);
+        //        //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
+        //        //------------------------------------------------------------------- 
+        //        //5.
+        //        //style attribute value of element
+        //        if (box.HtmlElement.HasAttribute("style"))
+        //        {
+        //            var ruleset = activeCssTemplate.ParseCssBlock(box.HtmlElement.Name, box.HtmlElement.TryGetAttribute("style"));
+        //            foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
+        //            {
+        //                CssPropSetter.AssignPropertyValue(box, box.ParentBox, propDecl);
+        //            }
+        //        }
+        //    }
 
-            //===================================================================
-            //parent style assignment is complete before step down into child ***
-            foreach (var childBox in box.GetChildBoxIter())
-            {
-                //recursive
-                ApplyStyleSheet(childBox, activeCssTemplate);
-            } 
-        }
+        //    //===================================================================
+        //    //parent style assignment is complete before step down into child ***
+        //    foreach (var childBox in box.GetChildBoxIter())
+        //    {
+        //        //recursive
+        //        ApplyStyleSheet(childBox, activeCssTemplate);
+        //    }
+        //}
         static void TopDownApplyStyleSheet(BridgeHtmlElement element, BridgeHtmlElement parentElement, ActiveCssTemplate activeCssTemplate)
         {
             //-------------------------------------------------------------------                        
@@ -387,7 +388,7 @@ namespace HtmlRenderer.Dom
             BoxSpec currentElementSpec = element.Spec;
             if (currentElementSpec == null)
             {
-                element.Spec = currentElementSpec = new BoxSpec(element.WellknownTagName);
+                element.Spec = currentElementSpec = new BoxSpec();
                 currentElementSpec.InheritStylesFrom(parentSpec);
             }
 
@@ -411,17 +412,17 @@ namespace HtmlRenderer.Dom
             }
             //5. children
             int n = element.ChildCount;
-            for(int i=0;i<n;++i)
+            for (int i = 0; i < n; ++i)
             {
-                BridgeHtmlElement childElement= element.GetNode(i) as BridgeHtmlElement;
-                if(childElement != null)
+                BridgeHtmlElement childElement = element.GetNode(i) as BridgeHtmlElement;
+                if (childElement != null)
                 {
-                    TopDownApplyStyleSheet(childElement,element,activeCssTemplate);
+                    TopDownApplyStyleSheet(childElement, element, activeCssTemplate);
                 }
-            } 
+            }
 
         }
-   
+
 
         /// <summary>
         /// Set the selected text style (selection text color and background color).
@@ -466,10 +467,11 @@ namespace HtmlRenderer.Dom
 
 
 
-        static void AssignStylesFromTranslatedAttributes_Old(CssBox box, ActiveCssTemplate activeTemplate)
+        static void AssignStylesFromTranslatedAttributes_Old(BridgeHtmlElement elem, BoxSpec box, ActiveCssTemplate activeTemplate)
         {
             //some html attr contains css value 
-            IHtmlElement tag = box.HtmlElement;
+
+            IHtmlElement tag = elem;
             if (tag.HasAttributes())
             {
                 foreach (IHtmlAttribute attr in tag.GetAttributeIter())
@@ -533,8 +535,9 @@ namespace HtmlRenderer.Dom
                                         ForEachCellInTable(box, cell =>
                                         {
                                             //for all cells
-                                            cell.BorderLeftStyle = cell.BorderTopStyle = cell.BorderRightStyle = cell.BorderBottomStyle = CssBorderStyle.Solid; // CssConstants.Solid;
-                                            cell.BorderLeftWidth = cell.BorderTopWidth = cell.BorderRightWidth = cell.BorderBottomWidth = borderWidth;
+                                            BoxSpec cell_spec = cell.BoxSpec;
+                                            cell_spec.BorderLeftStyle = cell_spec.BorderTopStyle = cell_spec.BorderRightStyle = cell_spec.BorderBottomStyle = CssBorderStyle.Solid; // CssConstants.Solid;
+                                            cell_spec.BorderLeftWidth = cell_spec.BorderTopWidth = cell_spec.BorderRightWidth = cell_spec.BorderBottomWidth = borderWidth;
                                         });
 
                                     }
@@ -568,14 +571,17 @@ namespace HtmlRenderer.Dom
 #if DEBUG
                                         // cell.dbugBB = dbugTT++;
 #endif
-                                        cell.PaddingLeft = cell.PaddingTop = cell.PaddingRight = cell.PaddingBottom = len02;
+                                        var cellSpec = cell.BoxSpec;
+                                        cellSpec.PaddingLeft = cellSpec.PaddingTop = cellSpec.PaddingRight = cellSpec.PaddingBottom = len02;
                                     });
 
                                 }
                                 else
                                 {
-                                    ForEachCellInTable(box, cell =>
-                                         cell.PaddingLeft = cell.PaddingTop = cell.PaddingRight = cell.PaddingBottom = len01);
+                                    ForEachCellInTable(box, cell =>{
+                                        var cellSpec = cell.BoxSpec;
+                                        cellSpec.PaddingLeft = cellSpec.PaddingTop = cellSpec.PaddingRight = cellSpec.PaddingBottom = len01;
+                                    });
                                 }
 
                             } break;
@@ -617,7 +623,7 @@ namespace HtmlRenderer.Dom
                                             foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                                             {
                                                 //assign each property
-                                                CssPropSetter.AssignPropertyValue(box, box.ParentBox, propDecl);
+                                                CssPropSetter.AssignPropertyValue(box, elem.Parent.Spec, propDecl);
                                             }
 
                                         } break;
@@ -763,7 +769,7 @@ namespace HtmlRenderer.Dom
                             {
                                 WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
                                         attr.Value.ToLower(), WebDom.CssValueHint.Iden);
-                                box.CssDirection = UserMapUtil.GetCssDirection(propValue);
+                                box.BoxSpec.CssDirection = UserMapUtil.GetCssDirection(propValue);
                             }
                             break;
                         case WebDom.WellknownHtmlName.Face:
@@ -771,7 +777,7 @@ namespace HtmlRenderer.Dom
                             //box.FontFamily = CssParser.ParseFontFamily(attr.Value.ToLower());
                             break;
                         case WebDom.WellknownHtmlName.Height:
-                            box.Height = TranslateLength(attr);
+                            box.BoxSpec.Height = TranslateLength(attr);
                             break;
                         case WebDom.WellknownHtmlName.HSpace:
                             //deprecated
@@ -811,7 +817,7 @@ namespace HtmlRenderer.Dom
 
                                 WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
                                           attr.Value.ToLower(), WebDom.CssValueHint.Iden);
-                                box.VerticalAlign = UserMapUtil.GetVerticalAlign(propValue);
+                                box.BoxSpec.VerticalAlign = UserMapUtil.GetVerticalAlign(propValue);
 
 
                             } break;
@@ -821,7 +827,7 @@ namespace HtmlRenderer.Dom
                             break;
                         case WebDom.WellknownHtmlName.Width:
 
-                            box.Width = TranslateLength(attr);
+                            box.BoxSpec.Width = TranslateLength(attr);
                             break;
                     }
                 }
@@ -850,25 +856,25 @@ namespace HtmlRenderer.Dom
             }
             return len;
         }
-        static void ForEachCellInTable(CssBox table, Action<CssBox> cellAction)
+        static void ForEachCellInTable(BoxSpec table, Action<CssBox> cellAction)
         {
-            foreach (var c1 in table.GetChildBoxIter())
-            {
-                foreach (var c2 in c1.GetChildBoxIter())
-                {
-                    if (c2.WellknownTagName == WellknownHtmlTagName.td)
-                    {
-                        cellAction(c2);
-                    }
-                    else
-                    {
-                        foreach (var c3 in c2.GetChildBoxIter())
-                        {
-                            cellAction(c3);
-                        }
-                    }
-                }
-            }
+            //foreach (var c1 in table.GetChildBoxIter())
+            //{
+            //    foreach (var c2 in c1.GetChildBoxIter())
+            //    {
+            //        if (c2.WellknownTagName == WellknownHtmlTagName.td)
+            //        {
+            //            cellAction(c2);
+            //        }
+            //        else
+            //        {
+            //            foreach (var c3 in c2.GetChildBoxIter())
+            //            {
+            //                cellAction(c3);
+            //            }
+            //        }
+            //    }
+            //}
         }
 
 

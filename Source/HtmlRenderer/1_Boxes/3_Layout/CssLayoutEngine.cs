@@ -35,8 +35,9 @@ namespace HtmlRenderer.Dom
         /// <param name="imageWord">the image word to measure</param>
         public static void MeasureImageSize(CssImageRun imageWord)
         {
-            var width = imageWord.OwnerBox.Width;
-            var height = imageWord.OwnerBox.Height;
+            var ownerSpec = imageWord.OwnerBox.BoxSpec;
+            var width = ownerSpec.Width;
+            var height = ownerSpec.Height;
 
             bool hasImageTagWidth = width.Number > 0 && width.UnitOrNames == CssUnitOrNames.Pixels;
             bool hasImageTagHeight = height.Number > 0 && height.UnitOrNames == CssUnitOrNames.Pixels;
@@ -60,7 +61,7 @@ namespace HtmlRenderer.Dom
                 imageWord.Width = hasImageTagHeight ? height.Number / 1.14f : 20;
             }
 
-            var maxWidth = imageWord.OwnerBox.MaxWidth;// new CssLength(imageWord.OwnerBox.MaxWidth);
+            var maxWidth = ownerSpec.MaxWidth;// new CssLength(imageWord.OwnerBox.MaxWidth);
             if (maxWidth.Number > 0)
             {
                 float maxWidthVal = -1;
@@ -117,7 +118,7 @@ namespace HtmlRenderer.Dom
 
             // imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
         }
-        
+
         public static void FlowContentRunsV2(CssBox hostBlock, LayoutVisitor lay)
         {
 
@@ -140,9 +141,9 @@ namespace HtmlRenderer.Dom
             //****
             FlowBox(lay, hostBlock, hostBlock, limitLocalRight, 0, startLocalX,
                   ref line, ref localX, ref localY, ref maxLocalRight, ref maxLocalBottom);
-             
+
             //****
-             
+
             // if width is not restricted we need to lower it to the actual width
             if (hostBlock.SizeWidth + lay.ContainerBlockGlobalX >= CssBoxConst.MAX_RIGHT)
             {
@@ -154,7 +155,8 @@ namespace HtmlRenderer.Dom
                 hostBlock.SetWidth(newWidth);
             }
             //---------------------
-            if (hostBlock.CssDirection == CssDirection.Rtl)
+
+            if (hostBlock.BoxSpec.CssDirection == CssDirection.Rtl)
             {
                 foreach (CssLineBox linebox in hostBlock.GetLineBoxIter())
                 {
@@ -171,12 +173,10 @@ namespace HtmlRenderer.Dom
                     linebox.CloseLine(); //***
                 }
             }
-
-
             hostBlock.SetHeight(maxLocalBottom + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
             // handle limiting block height when overflow is hidden             
-            if (hostBlock.Overflow == CssOverflow.Hidden &&
-                 !hostBlock.Height.IsEmptyOrAuto &&
+            if (hostBlock.BoxSpec.Overflow == CssOverflow.Hidden &&
+                 !hostBlock.BoxSpec.Height.IsEmptyOrAuto &&
                  hostBlock.SizeHeight > hostBlock.ExpectedHeight)
             {
 
@@ -229,7 +229,7 @@ namespace HtmlRenderer.Dom
             float leftMostSpace = 0, rightMostSpace = 0;
             if (splitableBox.MayHasSomeTextContent)
             {
-                
+
                 FlowRunsIntoHostLine(lay, hostBox, splitableBox, splitableBox, limitLocalRight, interLineSpace, firstRunStartX,
                      ref hostLine, ref current_line_x, ref current_line_y,
                      ref maxRightForHostBox, ref maxBottomForHostBox,
@@ -237,7 +237,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-               
+
                 foreach (CssBox b in splitableBox.GetChildBoxIter())
                 {
                     if (b.IsAbsolutePosition())
@@ -410,7 +410,7 @@ namespace HtmlRenderer.Dom
             List<CssRun> runs = CssBox.UnsafeGetRunListOrCreateIfNotExists(b);
             bool wrapNoWrapBox = false;
             //-----------------------------------------------------
-            if (b.WhiteSpace == CssWhiteSpace.NoWrap && current_line_x > firstRunStartX)
+            if (b.BoxSpec.WhiteSpace == CssWhiteSpace.NoWrap && current_line_x > firstRunStartX)
             {
                 var tmpRight = current_line_x;
                 foreach (CssRun word in runs)
@@ -439,9 +439,9 @@ namespace HtmlRenderer.Dom
                 //---------------------------------------------------
                 //check if need to start new line ?
                 if ((current_line_x + run.Width + rightMostSpace > limitLocalRight &&
-                     b.WhiteSpace != CssWhiteSpace.NoWrap &&
-                     b.WhiteSpace != CssWhiteSpace.Pre &&
-                     (b.WhiteSpace != CssWhiteSpace.PreWrap || !run.IsSpaces))
+                     b.BoxSpec.WhiteSpace != CssWhiteSpace.NoWrap &&
+                     b.BoxSpec.WhiteSpace != CssWhiteSpace.Pre &&
+                     (b.BoxSpec.WhiteSpace != CssWhiteSpace.PreWrap || !run.IsSpaces))
                      || run.IsLineBreak || wrapNoWrapBox)
                 {
 
@@ -525,7 +525,7 @@ namespace HtmlRenderer.Dom
         /// <param name="lineBox"></param>
         private static void ApplyAlignment(CssLineBox lineBox, LayoutVisitor lay)
         {
-            switch (lineBox.OwnerBox.CssTextAlign)
+            switch (lineBox.OwnerBox.BoxSpec.CssTextAlign)
             {
                 case CssTextAlign.Right:
                     ApplyRightAlignment(lay.Gfx, lineBox);
@@ -556,7 +556,7 @@ namespace HtmlRenderer.Dom
         static void ApplyRightToLeft(CssBox blockBox, CssLineBox lineBox)
         {
 
-            if (blockBox.CssDirection == CssDirection.Rtl)
+            if (blockBox.BoxSpec.CssDirection == CssDirection.Rtl)
             {
                 //ApplyRightToLeftOnLine:
                 //apply RLT to all word in this lineBox  

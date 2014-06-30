@@ -14,15 +14,15 @@ namespace HtmlRenderer.Dom
 
     static class CssBoxLayoutExtension
     {
-        
+
         internal static void UseExpectedHeight(this CssBox box)
         {
             box.SetHeight(box.ExpectedHeight);
-        } 
+        }
         internal static bool IsAbsolutePosition(this CssBox box)
         {
-            return box.Position == CssPosition.Absolute;
-        } 
+            return box.BoxSpec.Position == CssPosition.Absolute;
+        }
         internal static float CalculateInnerContentHeight(this CssBox startBox)
         {
             //calculate inner content height
@@ -58,11 +58,13 @@ namespace HtmlRenderer.Dom
         {
             //assign values
 
-            box.BorderLeftStyle = box.BorderTopStyle = box.BorderRightStyle = box.BorderBottomStyle = borderStyle;
+            throw new NotSupportedException();
+            //switch to new border spec
+            //box.BorderLeftStyle = box.BorderTopStyle = box.BorderRightStyle = box.BorderBottomStyle = borderStyle;
 
-            box.BorderLeftWidth = box.BorderTopWidth = box.BorderRightWidth = box.BorderBottomWidth = length;
+            //box.BorderLeftWidth = box.BorderTopWidth = box.BorderRightWidth = box.BorderBottomWidth = length;
 
-            box.BorderLeftColor = box.BorderTopColor = box.BorderRightColor = box.BorderBottomColor = color;
+            //box.BorderLeftColor = box.BorderTopColor = box.BorderRightColor = box.BorderBottomColor = color;
 
         }
     }

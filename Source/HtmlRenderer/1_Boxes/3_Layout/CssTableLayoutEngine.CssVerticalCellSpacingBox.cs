@@ -30,7 +30,6 @@ namespace HtmlRenderer.Dom
         sealed class CssVerticalCellSpacingBox : CssBox
         {
             #region Fields and Consts
-
             private readonly CssBox _extendedBox;
 
             /// <summary>
@@ -45,12 +44,16 @@ namespace HtmlRenderer.Dom
             #endregion
 
 
-            public CssVerticalCellSpacingBox(CssBox tableBox, CssBox extendedBox, int startRow)
-                : base(tableBox, null)
+            public CssVerticalCellSpacingBox(CssBox tableBox,
+                CssBox extendedBox, int startRow, BoxSpec spec)
+                : base(tableBox, null, spec)
             {
                 _extendedBox = extendedBox;
                 this.ColSpan = 1;
-                this.CssDisplay = CssDisplay.None;                 
+
+                //should be hidden*** ?
+                //this.CssDisplay = CssDisplay.None;                 
+
                 _endRow = startRow + extendedBox.RowSpan - 1;
                 ReEvaluateComputedValues(tableBox);
             }

@@ -28,11 +28,9 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxHr(CssBox parent, IHtmlElement tag)
-            : base(parent, tag)
-        {
-            //Display = CssConstants.Block;
-            this.CssDisplay = CssDisplay.Block;
+        public CssBoxHr(CssBox parent, IHtmlElement tag, BoxSpec spec)
+            : base(parent, tag, spec)
+        { 
         }
 
         /// <summary>
@@ -75,7 +73,7 @@ namespace HtmlRenderer.Dom
 
             if (maringTopCollapse < 0.1)
             {
-                maringTopCollapse = this.GetEmHeight() * 1.1f;
+                maringTopCollapse = this.GetActualFontEmHeight() * 1.1f;
             }
             localTop += maringTopCollapse;
 
@@ -93,9 +91,9 @@ namespace HtmlRenderer.Dom
 
 
             //Check width if not auto
-            if (!this.Width.IsEmptyOrAuto)
+            if (!this.BoxSpec.Width.IsEmptyOrAuto)
             {
-                width = CssValueParser.ParseLength(Width, width, this);
+                width = CssValueParser.ParseLength(BoxSpec.Width, width, this);
             }
 
 
@@ -115,9 +113,10 @@ namespace HtmlRenderer.Dom
             }
             if (height <= 2 && ActualBorderTopWidth < 1 && ActualBorderBottomWidth < 1)
             {
-                BorderTopStyle = BorderBottomStyle = CssBorderStyle.Solid; //CssConstants.Solid;
-                BorderTopWidth = CssLength.MakePixelLength(1); //"1px";
-                BorderBottomWidth = CssLength.MakePixelLength(1);
+                throw new System.NotSupportedException();
+                //BorderTopStyle = BorderBottomStyle = CssBorderStyle.Solid; //CssConstants.Solid;
+                //BorderTopWidth = CssLength.MakePixelLength(1); //"1px";
+                //BorderBottomWidth = CssLength.MakePixelLength(1);
             }
 
             this.SetSize(width, height);
@@ -133,9 +132,9 @@ namespace HtmlRenderer.Dom
 
             var rect = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
 
-            if (rect.Height > 2 && RenderUtils.IsColorVisible(ActualBackgroundColor))
+            if (rect.Height > 2 && RenderUtils.IsColorVisible(this.BoxSpec.ActualBackgroundColor))
             {
-                g.FillRectangle(RenderUtils.GetSolidBrush(ActualBackgroundColor), rect.X, rect.Y, rect.Width, rect.Height);
+                g.FillRectangle(RenderUtils.GetSolidBrush(this.BoxSpec.ActualBackgroundColor), rect.X, rect.Y, rect.Width, rect.Height);
             }
 
             if (rect.Height > 1)
@@ -145,7 +144,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                p.PaintBorder(this, Border.Top, this.BorderTopColor, rect);
+                p.PaintBorder(this, RenderBorderSide.Top, this.BoxSpec.BorderTopColor, rect);
 
             }
         }

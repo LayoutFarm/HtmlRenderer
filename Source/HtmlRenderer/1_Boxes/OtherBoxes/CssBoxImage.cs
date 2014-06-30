@@ -51,8 +51,8 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxImage(CssBox parent, IHtmlElement tag)
-            : base(parent, tag)
+        public CssBoxImage(CssBox parent, IHtmlElement tag, BoxSpec spec)
+            : base(parent, tag, spec)
         {
             this.AddRun(this._imageWord = new CssImageRun(this));
         }
@@ -224,7 +224,8 @@ namespace HtmlRenderer.Dom
                 CssBorderStyle.Solid, CssLength.MakePixelLength(2),
                 System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
 
-            BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
+            throw new NotSupportedException();
+            //BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
         }
 
 

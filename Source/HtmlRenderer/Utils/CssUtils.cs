@@ -64,7 +64,7 @@ namespace HtmlRenderer.Utils
             get { return _defaultSelectionBackcolor; }
         }
 
-       
+
 
         /// <summary>
         /// Get CSS box property value by the CSS name.<br/>
@@ -73,7 +73,7 @@ namespace HtmlRenderer.Utils
         /// <param name="cssBox">the CSS box to get it's property value</param>
         /// <param name="propName">the name of the CSS property</param>
         /// <returns>the value of the property, null if no such property exists</returns>
-        public static string GetPropertyValue(CssBox cssBox, string propName)
+        public static string GetPropertyValue(BoxSpec cssBox, string propName)
         {
             switch (propName)
             {
