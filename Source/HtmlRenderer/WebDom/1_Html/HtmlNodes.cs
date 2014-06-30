@@ -84,6 +84,7 @@ namespace HtmlRenderer.WebDom
         }
     }
 
+
     public class HtmlTextNode : HtmlNode
     {
         StringBuilder _sb = new StringBuilder();

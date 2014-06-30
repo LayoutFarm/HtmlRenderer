@@ -89,15 +89,20 @@ namespace HtmlRenderer.Demo
             Size = new Size((int)(size.Width * 0.7), (int)(size.Height * 0.8));
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
           
 >>>>>>> FETCH_HEAD
+=======
+          
+>>>>>>> 1.7dev
             _updateHtmlTimer = new Timer(OnUpdateHtmlTimerTick);
             this.Text += " M";
         }
         public void PrepareSamples()
         {
+<<<<<<< HEAD
 <<<<<<< HEAD
             LoadSamples();
             LoadCustomFonts();
@@ -105,6 +110,10 @@ namespace HtmlRenderer.Demo
             LoadSamples(); 
             LoadCustomFonts(); 
 >>>>>>> FETCH_HEAD
+=======
+            LoadSamples(); 
+            LoadCustomFonts(); 
+>>>>>>> 1.7dev
         }
 
         #region Private methods
@@ -173,10 +182,14 @@ namespace HtmlRenderer.Demo
 
             if (root.Nodes.Count > 0)
 <<<<<<< HEAD
+<<<<<<< HEAD
             {
 =======
             {   
 >>>>>>> FETCH_HEAD
+=======
+            {   
+>>>>>>> 1.7dev
                 _samplesTreeView.SelectedNode = root.Nodes[StartAtSampleIndex];
             }
         }
@@ -326,16 +339,16 @@ namespace HtmlRenderer.Demo
         {
             var html = _htmlEditor.Text;
             html = Regex.Replace(html, @"src=\""(\w.*?)\""", match =>
-            {
-                var img = TryLoadResourceImage(match.Groups[1].Value);
-                if (img != null)
                 {
-                    var tmpFile = Path.GetTempFileName();
-                    img.Save(tmpFile, ImageFormat.Jpeg);
-                    return string.Format("src=\"{0}\"", tmpFile);
-                }
-                return match.Value;
-            }, RegexOptions.IgnoreCase);
+                    var img = TryLoadResourceImage(match.Groups[1].Value);
+                    if (img != null)
+                    {
+                        var tmpFile = Path.GetTempFileName();
+                        img.Save(tmpFile, ImageFormat.Jpeg);
+                        return string.Format("src=\"{0}\"", tmpFile);
+                    }
+                    return match.Value;
+                }, RegexOptions.IgnoreCase);
 
             html = Regex.Replace(html, @"href=\""(\w.*?)\""", match =>
             {

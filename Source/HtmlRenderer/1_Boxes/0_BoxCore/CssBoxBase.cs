@@ -63,19 +63,21 @@ namespace HtmlRenderer.Dom
         CssDisplay _cssDisplay = CssDisplay.Inline;
         CssFloat _float = CssFloat.None;
         //==========================================================
-        CssLength _left = CssLength.AutoLength;
-        CssLength _top = CssLength.AutoLength;
-        CssLength _right = CssLength.NotAssign;
-        CssLength _bottom = CssLength.NotAssign;
-        CssLength _width = CssLength.AutoLength;
+        CssLength _left = CssLength.AutoLength;//w3 css 
+        CssLength _top = CssLength.AutoLength;//w3 css 
+        CssLength _right = CssLength.AutoLength;//w3 css 
+        CssLength _bottom = CssLength.AutoLength;//w3 css 
+
+        CssLength _width = CssLength.AutoLength; 
         CssLength _height = CssLength.AutoLength;
         //==========================================================
-        CssLength _maxWidth = CssLength.NotAssign;
+        CssLength _maxWidth = CssLength.NotAssign; //w3 css  
         CssOverflow _overflow = CssOverflow.Visible;
         CssTextDecoration _textDecoration = CssTextDecoration.NotAssign;
         CssPosition _position = CssPosition.Static;
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
-        WellknownHtmlTagName wellKnownTagName;
+        //==========================================================
+        WellknownHtmlTagName wellKnownTagName; 
         #endregion
 #if DEBUG
         public readonly int dbugId = dbugTotalId++;
@@ -84,6 +86,7 @@ namespace HtmlRenderer.Dom
 #endif
         public CssBoxBase()
         {
+<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssBoxBase.cs
             _actualColor = System.Drawing.Color.Black;
 <<<<<<< HEAD
             if (this.dbugId == 435)
@@ -94,10 +97,14 @@ namespace HtmlRenderer.Dom
             //{
             //}
 >>>>>>> FETCH_HEAD
+=======
+            _actualColor = System.Drawing.Color.Black; 
+>>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBoxBase.cs
         }
 
         #region CSS Properties
 
+       
         public WellknownHtmlTagName WellknownTagName
         {
             get
@@ -108,14 +115,12 @@ namespace HtmlRenderer.Dom
             {
                 this.wellKnownTagName = value;
             }
-        }
-
-
-
+        } 
         public CssDisplay CssDisplay
         {
             get { return this._cssDisplay; }
             set
+<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssBoxBase.cs
             {
 <<<<<<< HEAD
                 //if (this.dbugId == 44)
@@ -131,6 +136,11 @@ namespace HtmlRenderer.Dom
                 this._cssDisplay = value;
             }
 >>>>>>> FETCH_HEAD
+=======
+            { 
+                this._cssDisplay = value;
+            }
+>>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBoxBase.cs
         }
         public CssDirection CssDirection
         {
@@ -603,6 +613,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
+                //depend on parent
                 if (_actualFont != null)
                 {
                     return _actualFont;

@@ -23,8 +23,7 @@ namespace HtmlRenderer.Dom
     {
         NotAssign, //extension , for anonymous element
         Unknown,
-        //----------------
-
+        //---------------- 
         [Map("html")]
         html,
         [Map("a")]
@@ -45,7 +44,7 @@ namespace HtmlRenderer.Dom
         input,
 
         [Map("div")]
-        div, 
+        div,
         [Map("span")]
         span,
 
@@ -104,25 +103,25 @@ namespace HtmlRenderer.Dom
         font,
         [FeatureDeprecated("not support in Html5,Use Css instead")]
         [Map("basefont")]
-        basefont, 
+        basefont,
 
         [Map("base")]
-        _base, 
+        _base,
 
         [Map("meta")]
         meta,
         [Map("param")]
-        _param, 
+        _param,
 
         [Map("x")]
         X//test for extension 
-    } 
+    }
     public interface IHtmlAttribute
     {
         string Name { get; }
         string Value { get; }
         int LocalNameIndex { get; }
-    } 
+    }
     public interface IHtmlElement
     {
         WellknownHtmlTagName WellknownTagName { get; }
@@ -130,7 +129,7 @@ namespace HtmlRenderer.Dom
         /// Gets the name of this tag
         /// </summary>
         string Name { get; }
-      
+
 
         /// <summary>
         /// is the html tag has attributes.
@@ -150,13 +149,13 @@ namespace HtmlRenderer.Dom
         /// <param name="defaultValue">optional: value to return if attribute is not specified</param>
         /// <returns>attribute value or null if not found</returns>
         string TryGetAttribute(string attribute, string defaultValue = null);
-        IEnumerable<IHtmlAttribute> GetAttributeIter(); 
+        IEnumerable<IHtmlAttribute> GetAttributeIter();
 
         string Id { get; }
         string ClassName { get; }
         string Style { get; }
 
-    } 
-  
+    }
+
 
 }

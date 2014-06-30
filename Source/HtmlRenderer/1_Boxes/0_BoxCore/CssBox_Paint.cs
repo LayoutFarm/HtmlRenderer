@@ -28,7 +28,7 @@ namespace HtmlRenderer.Dom
 #if DEBUG
         public void dbugPaint(PaintVisitor p, RectangleF r)
         {
-            return;
+           // return;
             if (this.HtmlElement == null)
             {
                 p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);
@@ -43,6 +43,7 @@ namespace HtmlRenderer.Dom
 
         protected virtual void PaintImp(IGraphics g, PaintVisitor p)
         {
+<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssBox_Paint.cs
 <<<<<<< HEAD
             //if (this.CssDisplay == Dom.CssDisplay.Table)
             //{
@@ -55,6 +56,12 @@ namespace HtmlRenderer.Dom
 
             //}
 >>>>>>> FETCH_HEAD
+=======
+            //if (this.dbugId == 36)
+            //{
+
+            //}
+>>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox_Paint.cs
             if (this.CssDisplay != CssDisplay.None &&
                (this.CssDisplay != CssDisplay.TableCell ||
                  EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
