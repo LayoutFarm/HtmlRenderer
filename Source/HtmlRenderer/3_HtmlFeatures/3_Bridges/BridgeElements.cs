@@ -36,8 +36,8 @@ namespace HtmlRenderer.Dom
 
     class BridgeHtmlElement : BridgeHtmlNode, IHtmlElement
     {
-        BridgeHtmlNode parentElement;
-        CssBoxTemplate boxSpec;
+        BridgeHtmlElement parentElement;
+        BoxSpec boxSpec;
         readonly HtmlElement elem;
         List<BridgeHtmlNode> children;
         public BridgeHtmlElement(HtmlElement elem, WellknownHtmlTagName wellKnownTagName)
@@ -61,10 +61,13 @@ namespace HtmlRenderer.Dom
             get;
             private set;
         }
-        public CssBoxTemplate Spec
+        public BoxSpec Spec
         {
             get { return this.boxSpec; }
-            set { this.boxSpec = value; }
+            set
+            {
+                this.boxSpec = value;
+            }
         }
         public void AddChildElement(BridgeHtmlNode child)
         {
@@ -105,7 +108,24 @@ namespace HtmlRenderer.Dom
                 return attr.Value;
             }
         }
-
+        public bool TryGetAttribute2(string attrName, out string value)
+        {
+            var attr = elem.FindAttribute(attrName);
+            if (attr == null)
+            {
+                value = null;
+                return false;
+            }
+            else
+            {
+                value = attr.Value;
+                return true;                  
+            }
+        }
+        public BridgeHtmlElement Parent
+        {
+            get { return this.parentElement; }
+        }
         public HtmlRenderer.WebDom.HtmlElement HtmlElement
         {
             get { return this.elem; }
@@ -123,6 +143,9 @@ namespace HtmlRenderer.Dom
         }
         public string TryGetAttribute(string attribute, string defaultValue = null)
         {
+            //TODO: indicate that it use default value or not 
+
+
             var foundAttr = this.elem.FindAttribute(attribute);
             if (foundAttr != null)
             {
