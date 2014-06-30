@@ -52,7 +52,9 @@ namespace HtmlRenderer.Dom
                 case WellknownHtmlTagName.iframe:
                     return new CssBoxHr(parent, tag);
                 case WellknownHtmlTagName.hr:
-                    return new CssBoxHr(parent, tag);
+                    return new CssBoxHr(parent, tag); 
+
+
                 //test extension box
                 case WellknownHtmlTagName.X:
                     var customBox = CreateCustomBox(tag, parent);

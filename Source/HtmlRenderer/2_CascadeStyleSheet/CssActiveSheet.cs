@@ -69,7 +69,7 @@ namespace HtmlRenderer
             foreach (var ruleSetGroup in relatedRuleSets)
             {
                 //start with share*** rule set
-               
+
                 ruleSetGroup.AddRuleSet(assignmentCollection);
             }
         }
@@ -392,11 +392,19 @@ namespace HtmlRenderer
                 }
             }
         }
-
+        public WebDom.CssPropertyDeclaration GetPropertyDeclaration(WebDom.WellknownCssPropertyName wellknownPropName)
+        {
+            if (_assignments != null)
+            {
+                WebDom.CssPropertyDeclaration decl;
+                _assignments.GetDeclarations().TryGetValue(wellknownPropName, out decl);
+                return decl;
+            }
+            return null;
+        }
         public void Merge(CssRuleSetGroup another)
         {
-            //merge
-
+            //merge 
             //------------  
             if (another._assignments != null)
             {
@@ -406,7 +414,6 @@ namespace HtmlRenderer
                 }
                 //merge decl 
                 this._assignments.MergeProperties(another._assignments);
-
             }
 
             //find subgroup
@@ -456,23 +463,18 @@ namespace HtmlRenderer
         object owner;
         public CssPropertyAssignmentCollection(object owner)
         {
-
             this.owner = owner;
-
         }
         internal void LoadRuleSet(WebDom.CssRuleSet ruleSet)
-        {    //--------------
+        {   
             foreach (WebDom.CssPropertyDeclaration otherAssignment in ruleSet.GetAssignmentIter())
             {
                 if (otherAssignment.WellknownPropertyName == WebDom.WellknownCssPropertyName.Unknown)
                 {
                     continue;
-                }
-
-                _myAssignments[otherAssignment.WellknownPropertyName] = otherAssignment;
-
-            }
-            //--------------
+                } 
+                _myAssignments[otherAssignment.WellknownPropertyName] = otherAssignment; 
+            } 
         }
 
 

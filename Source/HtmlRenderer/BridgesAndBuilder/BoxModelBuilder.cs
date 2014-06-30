@@ -45,13 +45,20 @@ namespace HtmlRenderer.Dom
             parser.Parse(snapSource);
             return parser.ResultHtmlDoc;
         }
-        static BrigeRootElement CreateBridgeRoot(WebDom.HtmlDocument htmldoc)
+
+        static BrigeRootElement CreateBridgeTree(HtmlContainer container,
+            WebDom.HtmlDocument htmldoc,
+            ActiveCssTemplate activeCssTemplate)
         {
             BrigeRootElement bridgeRoot = new BrigeRootElement(htmldoc.RootNode);
-            RecursiveBuildBridgeContent(htmldoc.RootNode, bridgeRoot);
+            BuildBridgeContent(container, htmldoc.RootNode, bridgeRoot, activeCssTemplate);
             return bridgeRoot;
         }
-        static void RecursiveBuildBridgeContent(WebDom.HtmlElement parentHtmlNode, BridgeHtmlNode parentBridge)
+        static void BuildBridgeContent(
+            HtmlContainer container,
+            WebDom.HtmlElement parentHtmlNode,
+            BridgeHtmlNode parentBridge,
+            ActiveCssTemplate activeCssTemplate)
         {
             //recursive 
             foreach (WebDom.HtmlNode node in parentHtmlNode.GetChildNodeIterForward())
@@ -64,10 +71,54 @@ namespace HtmlRenderer.Dom
                             WebDom.HtmlElement elemNode = node as WebDom.HtmlElement;
 
                             BridgeHtmlNode bridgeElement = new BridgeHtmlNode(elemNode,
-                            UserMapUtil.EvaluateTagName(elemNode.LocalName));
+                                UserMapUtil.EvaluateTagName(elemNode.LocalName));
                             parentBridge.AddChildElement(bridgeElement);
+
+                            //-----------------------------
                             //recursive 
-                            RecursiveBuildBridgeContent(elemNode, bridgeElement);
+                            BuildBridgeContent(container, elemNode, bridgeElement, activeCssTemplate);
+                            //-----------------------------
+                            switch (bridgeElement.WellknownTagName)
+                            {
+                                case WellknownHtmlTagName.style:
+                                    {
+                                        switch (bridgeElement.ChildCount)
+                                        {
+                                            case 0:
+                                                {
+                                                    activeCssTemplate.LoadRawStyleElementContent(new string(bridgeElement.CopyTextBuffer()));
+                                                } break;
+                                            case 1:
+                                                {
+                                                    activeCssTemplate.LoadRawStyleElementContent(new string(bridgeElement.GetNode(0).CopyTextBuffer()));
+                                                } break;
+                                        }
+
+                                    } break;
+                                case WellknownHtmlTagName.link:
+                                    {
+
+                                        if (bridgeElement.GetAttributeValue("rel", string.Empty).Equals("stylesheet", StringComparison.CurrentCultureIgnoreCase))
+                                        {
+                                            //load 
+
+                                            string stylesheet;
+                                            CssActiveSheet stylesheetData;
+                                            StylesheetLoadHandler.LoadStylesheet(container,
+                                                bridgeElement.GetAttributeValue("href", string.Empty),  //load style sheet from external ?
+                                                out stylesheet, out stylesheetData);
+
+                                            if (stylesheet != null)
+                                            {
+                                                activeCssTemplate.LoadRawStyleElementContent(stylesheet);
+                                            }
+                                            else if (stylesheetData != null)
+                                            {
+                                                activeCssTemplate.LoadAnotherStylesheet(stylesheetData);
+                                            }
+                                        }
+                                    } break;
+                            }
 
                         } break;
                     case WebDom.HtmlNodeType.TextNode:
@@ -78,56 +129,74 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-        static void RecursiveGenerateCssBoxContent(BridgeHtmlNode parentBrigeNode, CssBox parentHtmlNode)
+        static void GenerateCssBoxes(BridgeHtmlNode parentElement, CssBox parentBox)
         {
-            int childCount = parentBrigeNode.ChildCount;
+
+            int childCount = parentElement.ChildCount;
+
             switch (childCount)
             {
-                case 0:
-                    { } break;
+                case 0: { } break;
                 case 1:
-                    {
-                        BridgeHtmlNode bridgeChild = parentBrigeNode.GetNode(0);
+                    {    
+                        BridgeHtmlNode bridgeChild = parentElement.GetNode(0);
+                        int newBox = 0;
                         if (bridgeChild.IsTextNode)
                         {
-                            parentHtmlNode.SetTextContent(bridgeChild.CopyTextBuffer());
                             //parse and evaluate whitespace here ! 
-
+                            parentBox.SetTextContent(bridgeChild.CopyTextBuffer());
                         }
                         else
                         {
-                            CssBox box = BoxCreator.CreateBoxNotInherit(bridgeChild, parentHtmlNode);
-                            RecursiveGenerateCssBoxContent(bridgeChild, box);
+
+                            var spec = bridgeChild.Spec;
+                            if (spec.CssDisplay == CssDisplay.None)
+                            {
+                            }
+                            //if (spec.CssDisplay != CssDisplay.None)
+                            //{
+                            newBox++;
+                            CssBox box = BoxCreator.CreateBoxNotInherit(bridgeChild, parentBox);
+                            GenerateCssBoxes(bridgeChild, box);
+                            //}
                         }
+
                     } break;
                 default:
                     {
+                        int newBox = 0;
                         for (int i = 0; i < childCount; ++i)
                         {
                             //create and correct box in one pass here !?
-                            BridgeHtmlNode bridgeChild = parentBrigeNode.GetNode(i);
-                            if (bridgeChild.IsTextNode)
-                            {
+                            BridgeHtmlNode childNode = parentElement.GetNode(i);
 
-                                //create anonymous box  but not inherit
-                                CssBox anonText = new CssBox(parentHtmlNode, null);
+                            if (childNode.IsTextNode)
+                            {
+                                //create anonymous box  but not inherit ***
+                                CssBox anonText = new CssBox(parentBox, null);
                                 //parse and evaluate whitespace here ! 
-                                anonText.SetTextContent(bridgeChild.CopyTextBuffer());
+                                anonText.SetTextContent(childNode.CopyTextBuffer());
                             }
                             else
                             {
-                                CssBox box = BoxCreator.CreateBoxNotInherit(bridgeChild, parentHtmlNode);
-                                RecursiveGenerateCssBoxContent(bridgeChild, box);
+                                var spec = childNode.Spec;
+                                //if (spec.CssDisplay == CssDisplay.None)
+                                //{
+                                //    continue;
+                                //}
+                                //if (spec.CssDisplay == CssDisplay.None)
+                                //{
+                                //    continue;
+                                //}
+                                newBox++;
+                                CssBox box = BoxCreator.CreateBoxNotInherit(childNode, parentBox);
+                                GenerateCssBoxes(childNode, box);
                             }
-                        }
+                        } 
                     } break;
             }
         }
-
-
-
-
-
+         
         /// <summary>
         /// Generate css tree by parsing the given html and applying the given css style data on it.
         /// </summary>
@@ -143,18 +212,17 @@ namespace HtmlRenderer.Dom
 
             //1. parse
             HtmlDocument htmldoc = ParseDocument(new TextSnapshot(html.ToCharArray()));
-            //2. create bridge root
-            BrigeRootElement bridgeRoot = CreateBridgeRoot(htmldoc);
-
-            //----------------------- 
+            //2. create bridge root            
+            //----------------------------------------------------------------
             ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(cssData);
-            ApplyOnlyAbsoluteStyles(bridgeRoot, activeCssTemplate);
+            BrigeRootElement bridgeRoot = CreateBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
 
-            //-----------------------
+            ApplyOnlyAbsoluteStyles(bridgeRoot, activeCssTemplate);
+            //----------------------------------------------------------------
             //box generation
             //3. create cssbox from root
             CssBox root = BoxCreator.CreateRootBlock();
-            RecursiveGenerateCssBoxContent(bridgeRoot, root);
+            GenerateCssBoxes(bridgeRoot, root);
 
 
 #if DEBUG
@@ -275,53 +343,53 @@ namespace HtmlRenderer.Dom
                     var ruleset = activeCssTemplate.ParseCssBlock(box.HtmlElement.Name, box.HtmlElement.TryGetAttribute("style"));
                     foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                     {
-                        AssignPropertyValue(box, box.ParentBox, propDecl);
+                        CssPropSetter.AssignPropertyValue(box, box.ParentBox, propDecl);
                     }
                 }
-                //------------------------------------------------------------------- 
-                //some special tags...
-                // Check for the <style> tag   
-                // Check for the <link rel=stylesheet> tag 
-                switch (box.WellknownTagName)
-                {
-                    case WellknownHtmlTagName.style:
-                        {
-                            switch (box.ChildCount)
-                            {
-                                case 0:
-                                    {
-                                        activeCssTemplate.LoadRawStyleElementContent(box.CopyTextContent());
-                                    } break;
-                                case 1:
-                                    {
-                                        activeCssTemplate.LoadRawStyleElementContent(box.GetFirstChild().CopyTextContent());
-                                    } break;
-                            }
+                ////------------------------------------------------------------------- 
+                ////some special tags...
+                //// Check for the <style> tag   
+                //// Check for the <link rel=stylesheet> tag 
+                //switch (box.WellknownTagName)
+                //{
+                //    case WellknownHtmlTagName.style:
+                //        {
+                //            switch (box.ChildCount)
+                //            {
+                //                case 0:
+                //                    {
+                //                        activeCssTemplate.LoadRawStyleElementContent(box.CopyTextContent());
+                //                    } break;
+                //                case 1:
+                //                    {
+                //                        activeCssTemplate.LoadRawStyleElementContent(box.GetFirstChild().CopyTextContent());
+                //                    } break;
+                //            }
 
-                        } break;
-                    case WellknownHtmlTagName.link:
-                        {
-                            if (box.GetAttribute("rel", string.Empty).Equals("stylesheet", StringComparison.CurrentCultureIgnoreCase))
-                            {
-                                //load 
-                                var container = box.HtmlContainer;
-                                string stylesheet;
-                                CssActiveSheet stylesheetData;
-                                StylesheetLoadHandler.LoadStylesheet(container,
-                                    box.GetAttribute("href", string.Empty),  //load style sheet from external ?
-                                    out stylesheet, out stylesheetData);
+                //        } break;
+                //    case WellknownHtmlTagName.link:
+                //        {
+                //            if (box.GetAttribute("rel", string.Empty).Equals("stylesheet", StringComparison.CurrentCultureIgnoreCase))
+                //            {
+                //                //load 
+                //                var container = box.HtmlContainer;
+                //                string stylesheet;
+                //                CssActiveSheet stylesheetData;
+                //                StylesheetLoadHandler.LoadStylesheet(container,
+                //                    box.GetAttribute("href", string.Empty),  //load style sheet from external ?
+                //                    out stylesheet, out stylesheetData);
 
-                                if (stylesheet != null)
-                                {
-                                    activeCssTemplate.LoadRawStyleElementContent(stylesheet);
-                                }
-                                else if (stylesheetData != null)
-                                {
-                                    activeCssTemplate.LoadAnotherStylesheet(stylesheetData);
-                                }
-                            }
-                        } break;
-                }
+                //                if (stylesheet != null)
+                //                {
+                //                    activeCssTemplate.LoadRawStyleElementContent(stylesheet);
+                //                }
+                //                else if (stylesheetData != null)
+                //                {
+                //                    activeCssTemplate.LoadAnotherStylesheet(stylesheetData);
+                //                }
+                //            }
+                //        } break;
+                //}
             }
             //--------------------------------------------------------------------
             //2014-06-27
@@ -353,9 +421,18 @@ namespace HtmlRenderer.Dom
             //get box spec from bridge node
             /// CssBoxTemplate boxSpec = bridgeNode.Spec;
             //1. try assign style using the html element name/ classname
-
             activeCssTemplate.ApplyAbsoluteStyles(bridgeNode);
-            //2. style for specific element id
+            //2. style for specific element id 
+            int j = bridgeNode.ChildCount;
+            for (int i = 0; i < j; ++i)
+            {
+                var childNode = bridgeNode.GetNode(i);
+
+                if (!childNode.IsTextNode)
+                {
+                    ApplyOnlyAbsoluteStyles(childNode, activeCssTemplate);
+                }
+            }
 
 
 
@@ -474,46 +551,13 @@ namespace HtmlRenderer.Dom
             //}
         }
 
-        internal static void AssignPropertyValue(CssBoxBase box, CssBoxBase boxParent, WebDom.CssPropertyDeclaration decl)
-        {
-            if (decl.IsExpand)
-            {
-                return;
-            }
 
-            if (decl.MarkedAsInherit && boxParent != null)
-            {
-                //use parent property 
-                SetPropertyValueFromParent(box, boxParent, decl.WellknownPropertyName);
-            }
-            else
-            {
-                SetPropertyValue(box, boxParent, decl);
-            }
-        }
-
-
-        //static bool IsStyleOnElementAllowed(CssBoxBase box, WebDom.CssPropertyDeclaration cssProperty)
-        //{
-        //    //if (box.HtmlTag != null &&
-        //    //    cssProperty.WellknownPropertyName == WebDom.WellknownCssPropertyName.Display)
-        //    //{
-
-        //    if (box.WellknownTagName != WellknownHtmlTagName.NotAssign &&
-        //        cssProperty.WellknownPropertyName == WebDom.WellknownCssPropertyName.Display)
-        //    {
-        //        CssDisplay display = UserMapUtil.GetDisplayType(cssProperty.GetPropertyValue(0));
-
-        //    }
-        //    return true;
-        //}
 
 
         static void AssignStylesFromTranslatedAttributes_Old(CssBox box, ActiveCssTemplate activeTemplate)
         {
             //some html attr contains css value 
             IHtmlElement tag = box.HtmlElement;
-
             if (tag.HasAttributes())
             {
                 foreach (IHtmlAttribute attr in tag.GetAttributeIter())
@@ -661,7 +705,7 @@ namespace HtmlRenderer.Dom
                                             foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                                             {
                                                 //assign each property
-                                                AssignPropertyValue(box, box.ParentBox, propDecl);
+                                                CssPropSetter.AssignPropertyValue(box, box.ParentBox, propDecl);
                                             }
 
                                         } break;
@@ -982,478 +1026,6 @@ namespace HtmlRenderer.Dom
 
         #endregion
 
-        internal static void SetPropertyValue(CssBoxBase cssBox, CssBoxBase parentBox, WebDom.CssPropertyDeclaration decl)
-        {
-            //assign property  
-            WebDom.CssCodeValueExpression cssValue = decl.GetPropertyValue(0);
-            switch (decl.WellknownPropertyName)
-            {
-                case WebDom.WellknownCssPropertyName.Display:
-                    {
-                        CssDisplay display = UserMapUtil.GetDisplayType(cssValue);
-                        switch (cssBox.WellknownTagName)
-                        {
-                            
-                            //------------------------
-                            //fix definition
-                            case WellknownHtmlTagName.table:
-                                display = CssDisplay.Table;
-                                break;
-                            case WellknownHtmlTagName.tr:
-                                display = CssDisplay.TableRow;
-                                break;
-                            case WellknownHtmlTagName.tbody:
-                                display = CssDisplay.TableRowGroup;
-                                break;
-                            case WellknownHtmlTagName.thead:
-                                display = CssDisplay.TableHeaderGroup;
-                                break;
-                            case WellknownHtmlTagName.tfoot:
-                                display = CssDisplay.TableFooterGroup;
-                                break;
-                            case WellknownHtmlTagName.col:
-                                display = CssDisplay.TableColumn;
-                                break;
-                            case WellknownHtmlTagName.colgroup:
-                                display = CssDisplay.TableColumnGroup;
-                                break;
-                            case WellknownHtmlTagName.td:
-                            case WellknownHtmlTagName.th:
-                                display = CssDisplay.TableCell;
-                                break;
-                            case WellknownHtmlTagName.caption:
-                                display = CssDisplay.TableCaption;
-                                break;
-                            //------------------------
-                        }
-                        cssBox.CssDisplay = display;
-
-                    } break;
-                case WebDom.WellknownCssPropertyName.BorderBottomWidth:
-                    cssBox.BorderBottomWidth = cssValue.AsBorderLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderLeftWidth:
-                    cssBox.BorderLeftWidth = cssValue.AsBorderLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderRightWidth:
-                    cssBox.BorderRightWidth = cssValue.AsBorderLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderTopWidth:
-                    cssBox.BorderTopWidth = cssValue.AsBorderLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderBottomStyle:
-                    cssBox.BorderBottomStyle = UserMapUtil.GetBorderStyle(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderLeftStyle:
-                    cssBox.BorderLeftStyle = UserMapUtil.GetBorderStyle(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderRightStyle:
-                    cssBox.BorderRightStyle = UserMapUtil.GetBorderStyle(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderTopStyle:
-                    cssBox.BorderTopStyle = UserMapUtil.GetBorderStyle(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderBottomColor:
-                    cssBox.BorderBottomColor = cssValue.AsColor();
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderLeftColor:
-                    cssBox.BorderLeftColor = cssValue.AsColor();
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderRightColor:
-                    cssBox.BorderRightColor = cssValue.AsColor();
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderTopColor:
-                    cssBox.BorderTopColor = cssValue.AsColor();
-                    break;
-
-                case WebDom.WellknownCssPropertyName.BorderSpacing:
-
-                    cssBox.SetBorderSpacing(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderCollapse:
-                    cssBox.BorderCollapse = UserMapUtil.GetBorderCollapse(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.CornerRadius:
-                    cssBox.SetCornerRadius(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.CornerNWRadius:
-                    cssBox.CornerNWRadius = cssValue.AsLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.CornerNERadius:
-                    cssBox.CornerNERadius = cssValue.AsLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.CornerSERadius:
-                    cssBox.CornerSERadius = cssValue.AsLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.CornerSWRadius:
-                    cssBox.CornerSWRadius = cssValue.AsLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.MarginBottom:
-                    cssBox.MarginBottom = cssValue.AsTranslatedLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.MarginLeft:
-                    cssBox.MarginLeft = cssValue.AsTranslatedLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.MarginRight:
-                    cssBox.MarginRight = cssValue.AsTranslatedLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.MarginTop:
-                    cssBox.MarginTop = cssValue.AsTranslatedLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.PaddingBottom:
-                    cssBox.PaddingBottom = cssValue.AsTranslatedLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.PaddingLeft:
-                    cssBox.PaddingLeft = cssValue.AsTranslatedLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.PaddingRight:
-                    cssBox.PaddingRight = cssValue.AsTranslatedLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.PaddingTop:
-                    cssBox.PaddingTop = cssValue.AsTranslatedLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.Left:
-                    cssBox.Left = cssValue.AsLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.Top:
-                    cssBox.Top = cssValue.AsLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.Width:
-                    cssBox.Width = cssValue.AsLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.MaxWidth:
-                    cssBox.MaxWidth = cssValue.AsLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.Height:
-                    cssBox.Height = cssValue.AsLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.BackgroundColor:
-                    cssBox.BackgroundColor = cssValue.AsColor();
-                    break;
-                case WebDom.WellknownCssPropertyName.BackgroundImage:
-                    cssBox.BackgroundImageBinder = new ImageBinder(cssValue.GetTranslatedStringValue());
-                    break;
-                case WebDom.WellknownCssPropertyName.BackgroundPosition:
-
-                    cssBox.SetBackgroundPosition(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.BackgroundRepeat:
-                    cssBox.BackgroundRepeat = UserMapUtil.GetBackgroundRepeat(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.BackgroundGradient:
-                    cssBox.BackgroundGradient = cssValue.AsColor();
-                    break;
-                case WebDom.WellknownCssPropertyName.BackgroundGradientAngle:
-                    {
-                        cssBox.BackgroundGradientAngle = cssValue.AsNumber();
-
-                        //float angle;
-                        //if (float.TryParse(cssValue.GetTranslatedStringValue(), out angle))
-                        //{
-                        //    cssBox.BackgroundGradientAngle = angle;
-                        //}
-                    } break;
-                case WebDom.WellknownCssPropertyName.Color:
-                    cssBox.Color = cssValue.AsColor();
-                    break;
-
-                case WebDom.WellknownCssPropertyName.Direction:
-
-                    cssBox.CssDirection = UserMapUtil.GetCssDirection(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.EmptyCells:
-                    cssBox.EmptyCells = UserMapUtil.GetEmptyCell(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.Float:
-                    cssBox.Float = UserMapUtil.GetFloat(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.Position:
-                    cssBox.Position = UserMapUtil.GetCssPosition(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.LineHeight:
-
-                    cssBox.SetLineHeight(cssValue.AsLength());
-                    break;
-                case WebDom.WellknownCssPropertyName.VerticalAlign:
-                    cssBox.VerticalAlign = UserMapUtil.GetVerticalAlign(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.TextIndent:
-                    cssBox.TextIndent = cssValue.AsLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.TextAlign:
-
-                    cssBox.CssTextAlign = UserMapUtil.GetTextAlign(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.TextDecoration:
-                    cssBox.TextDecoration = UserMapUtil.GetTextDecoration(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.Whitespace:
-                    cssBox.WhiteSpace = UserMapUtil.GetWhitespace(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.WordBreak:
-                    cssBox.WordBreak = UserMapUtil.GetWordBreak(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.Visibility:
-                    cssBox.CssVisibility = UserMapUtil.GetVisibility(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.WordSpacing:
-                    cssBox.WordSpacing = cssValue.AsLength();
-                    break;
-                case WebDom.WellknownCssPropertyName.FontFamily:
-                    cssBox.FontFamily = cssValue.GetTranslatedStringValue();
-                    break;
-                case WebDom.WellknownCssPropertyName.FontSize:
-                    cssBox.SetFontSize(parentBox, cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.FontStyle:
-                    cssBox.FontStyle = UserMapUtil.GetFontStyle(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.FontVariant:
-                    cssBox.FontVariant = UserMapUtil.GetFontVariant(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.FontWeight:
-                    cssBox.FontWeight = UserMapUtil.GetFontWeight(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.ListStyle:
-                    cssBox.ListStyle = cssValue.GetTranslatedStringValue();
-                    break;
-                case WebDom.WellknownCssPropertyName.ListStylePosition:
-                    cssBox.ListStylePosition = UserMapUtil.GetListStylePosition(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.ListStyleImage:
-                    cssBox.ListStyleImage = cssValue.GetTranslatedStringValue();
-                    break;
-                case WebDom.WellknownCssPropertyName.ListStyleType:
-                    cssBox.ListStyleType = UserMapUtil.GetListStyleType(cssValue);
-                    break;
-                case WebDom.WellknownCssPropertyName.Overflow:
-                    cssBox.Overflow = UserMapUtil.GetOverflow(cssValue);
-                    break;
-            }
-        }
-
-
-        /// <summary>
-        /// assign property value from parent
-        /// </summary>
-        /// <param name="cssBox"></param>
-        /// <param name="propName"></param>
-        static void SetPropertyValueFromParent(CssBoxBase cssBox, CssBoxBase parentCssBox, HtmlRenderer.WebDom.WellknownCssPropertyName propName)
-        {
-
-            switch (propName)
-            {
-                case WebDom.WellknownCssPropertyName.BorderBottomWidth:
-                    cssBox.BorderBottomWidth = parentCssBox.BorderBottomWidth;
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderLeftWidth:
-                    cssBox.BorderLeftWidth = parentCssBox.BorderLeftWidth;
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderRightWidth:
-                    cssBox.BorderRightWidth = parentCssBox.BorderRightWidth;
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderTopWidth:
-                    cssBox.BorderTopWidth = parentCssBox.BorderTopWidth;
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderBottomStyle:
-                    cssBox.BorderBottomStyle = parentCssBox.BorderBottomStyle;
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderLeftStyle:
-                    cssBox.BorderLeftStyle = parentCssBox.BorderBottomStyle;
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderRightStyle:
-                    cssBox.BorderRightStyle = parentCssBox.BorderRightStyle;
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderTopStyle:
-                    cssBox.BorderTopStyle = parentCssBox.BorderTopStyle;
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderBottomColor:
-                    cssBox.BorderBottomColor = parentCssBox.BorderBottomColor;
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderLeftColor:
-                    cssBox.BorderLeftColor = parentCssBox.BorderLeftColor;
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderRightColor:
-                    cssBox.BorderRightColor = parentCssBox.BorderRightColor;
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderTopColor:
-                    cssBox.BorderTopColor = parentCssBox.BorderTopColor;
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderSpacing:
-
-                    cssBox.BorderSpacingHorizontal = parentCssBox.BorderSpacingHorizontal;
-                    cssBox.BorderSpacingVertical = parentCssBox.BorderSpacingVertical;
-                    break;
-                case WebDom.WellknownCssPropertyName.BorderCollapse:
-                    cssBox.BorderCollapse = parentCssBox.BorderCollapse;
-                    break;
-                case WebDom.WellknownCssPropertyName.CornerRadius:
-                    cssBox.CornerNERadius = parentCssBox.CornerNERadius;
-                    cssBox.CornerNWRadius = parentCssBox.CornerNWRadius;
-                    cssBox.CornerSERadius = parentCssBox.CornerSERadius;
-                    cssBox.CornerSWRadius = parentCssBox.CornerSWRadius;
-                    break;
-                case WebDom.WellknownCssPropertyName.CornerNWRadius:
-
-                    cssBox.CornerNWRadius = parentCssBox.CornerNWRadius;
-                    break;
-                case WebDom.WellknownCssPropertyName.CornerNERadius:
-                    cssBox.CornerNERadius = parentCssBox.CornerNERadius;
-                    break;
-                case WebDom.WellknownCssPropertyName.CornerSERadius:
-                    cssBox.CornerSERadius = parentCssBox.CornerSERadius;
-                    break;
-                case WebDom.WellknownCssPropertyName.CornerSWRadius:
-                    cssBox.CornerSWRadius = parentCssBox.CornerSWRadius;
-                    break;
-                case WebDom.WellknownCssPropertyName.MarginBottom:
-                    cssBox.MarginBottom = parentCssBox.MarginBottom;
-                    break;
-                case WebDom.WellknownCssPropertyName.MarginLeft:
-                    cssBox.MarginLeft = parentCssBox.MarginLeft;
-                    break;
-                case WebDom.WellknownCssPropertyName.MarginRight:
-                    cssBox.MarginRight = parentCssBox.MarginRight;
-                    break;
-                case WebDom.WellknownCssPropertyName.MarginTop:
-                    cssBox.MarginTop = parentCssBox.MarginTop;
-                    break;
-                case WebDom.WellknownCssPropertyName.PaddingBottom:
-                    cssBox.PaddingBottom = parentCssBox.MarginBottom;
-                    break;
-                case WebDom.WellknownCssPropertyName.PaddingLeft:
-                    cssBox.PaddingLeft = parentCssBox.PaddingLeft;
-                    break;
-                case WebDom.WellknownCssPropertyName.PaddingRight:
-                    cssBox.PaddingRight = parentCssBox.PaddingRight;
-                    break;
-                case WebDom.WellknownCssPropertyName.PaddingTop:
-                    cssBox.PaddingTop = parentCssBox.PaddingTop;
-                    break;
-                case WebDom.WellknownCssPropertyName.Left:
-                    cssBox.Left = parentCssBox.Left;
-                    break;
-                case WebDom.WellknownCssPropertyName.Top:
-                    cssBox.Top = parentCssBox.Top;
-                    break;
-                case WebDom.WellknownCssPropertyName.Width:
-                    cssBox.Width = parentCssBox.Width;
-                    break;
-                case WebDom.WellknownCssPropertyName.MaxWidth:
-                    cssBox.MaxWidth = parentCssBox.MaxWidth;
-                    break;
-                case WebDom.WellknownCssPropertyName.Height:
-                    cssBox.Height = parentCssBox.Height;
-                    break;
-                case WebDom.WellknownCssPropertyName.BackgroundColor:
-                    cssBox.BackgroundColor = parentCssBox.BackgroundColor;
-                    break;
-                case WebDom.WellknownCssPropertyName.BackgroundImage:
-                    cssBox.BackgroundImageBinder = parentCssBox.BackgroundImageBinder;
-                    break;
-                case WebDom.WellknownCssPropertyName.BackgroundPosition:
-                    cssBox.BackgroundPositionX = parentCssBox.BackgroundPositionX;
-                    cssBox.BackgroundPositionY = parentCssBox.BackgroundPositionY;
-                    break;
-                case WebDom.WellknownCssPropertyName.BackgroundRepeat:
-                    cssBox.BackgroundRepeat = parentCssBox.BackgroundRepeat;
-                    break;
-                case WebDom.WellknownCssPropertyName.BackgroundGradient:
-                    cssBox.BackgroundGradient = parentCssBox.BackgroundGradient;
-                    break;
-                case WebDom.WellknownCssPropertyName.BackgroundGradientAngle:
-                    {
-                        cssBox.BackgroundGradientAngle = parentCssBox.BackgroundGradientAngle;
-                        //float angle;
-                        //if (float.TryParse(value, out angle))
-                        //{
-                        //    cssBox.BackgroundGradientAngle = angle;
-                        //}
-                    } break;
-                case WebDom.WellknownCssPropertyName.Color:
-                    cssBox.Color = parentCssBox.Color;
-                    break;
-                case WebDom.WellknownCssPropertyName.Display:
-                    cssBox.CssDisplay = parentCssBox.CssDisplay;
-                    break;
-                case WebDom.WellknownCssPropertyName.Direction:
-                    cssBox.CssDirection = parentCssBox.CssDirection;
-                    break;
-                case WebDom.WellknownCssPropertyName.EmptyCells:
-                    cssBox.EmptyCells = parentCssBox.EmptyCells;
-                    break;
-                case WebDom.WellknownCssPropertyName.Float:
-                    cssBox.Float = parentCssBox.Float;
-                    break;
-                case WebDom.WellknownCssPropertyName.Position:
-                    cssBox.Position = parentCssBox.Position;
-                    break;
-                case WebDom.WellknownCssPropertyName.LineHeight:
-                    cssBox.LineHeight = parentCssBox.LineHeight;
-                    break;
-                case WebDom.WellknownCssPropertyName.VerticalAlign:
-                    cssBox.VerticalAlign = parentCssBox.VerticalAlign;
-                    break;
-                case WebDom.WellknownCssPropertyName.TextIndent:
-                    cssBox.TextIndent = parentCssBox.TextIndent;
-                    break;
-                case WebDom.WellknownCssPropertyName.TextAlign:
-                    cssBox.CssTextAlign = parentCssBox.CssTextAlign;
-                    break;
-                case WebDom.WellknownCssPropertyName.TextDecoration:
-                    cssBox.TextDecoration = parentCssBox.TextDecoration;
-                    break;
-                case WebDom.WellknownCssPropertyName.Whitespace:
-                    cssBox.WhiteSpace = parentCssBox.WhiteSpace;
-                    break;
-                case WebDom.WellknownCssPropertyName.WordBreak:
-                    cssBox.WordBreak = parentCssBox.WordBreak;
-                    break;
-                case WebDom.WellknownCssPropertyName.Visibility:
-                    cssBox.CssVisibility = parentCssBox.CssVisibility;
-                    break;
-                case WebDom.WellknownCssPropertyName.WordSpacing:
-                    cssBox.WordSpacing = parentCssBox.WordSpacing;
-                    break;
-                case WebDom.WellknownCssPropertyName.FontFamily:
-                    cssBox.FontFamily = parentCssBox.FontFamily;
-                    //cssBox.FontFamily = value;
-                    break;
-                case WebDom.WellknownCssPropertyName.FontSize:
-                    cssBox.FontSize = parentCssBox.FontSize;
-                    break;
-                case WebDom.WellknownCssPropertyName.FontStyle:
-                    cssBox.FontStyle = parentCssBox.FontStyle;
-                    break;
-                case WebDom.WellknownCssPropertyName.FontVariant:
-                    cssBox.FontVariant = parentCssBox.FontVariant;
-
-                    break;
-                case WebDom.WellknownCssPropertyName.FontWeight:
-                    cssBox.FontWeight = parentCssBox.FontWeight;
-
-                    break;
-                case WebDom.WellknownCssPropertyName.ListStyle:
-
-                    cssBox.ListStyle = parentCssBox.ListStyle;
-                    break;
-                case WebDom.WellknownCssPropertyName.ListStylePosition:
-                    cssBox.ListStylePosition = parentCssBox.ListStylePosition;
-                    break;
-                case WebDom.WellknownCssPropertyName.ListStyleImage:
-
-                    cssBox.ListStyleImage = parentCssBox.ListStyleImage;
-                    break;
-                case WebDom.WellknownCssPropertyName.ListStyleType:
-
-                    cssBox.ListStyleType = parentCssBox.ListStyleType;
-                    break;
-                case WebDom.WellknownCssPropertyName.Overflow:
-
-                    cssBox.Overflow = parentCssBox.Overflow;
-                    break;
-            }
-        }
 
 
     }

@@ -243,8 +243,7 @@ namespace HtmlRenderer.Dom
         public static char[] UnsafeGetTextBuffer(CssBox box)
         {
             return box._aa_textBuffer;
-        }
-
+        } 
         void ResetTextFlags()
         {
             int tmpFlags = this._boxCompactFlags;
@@ -252,10 +251,15 @@ namespace HtmlRenderer.Dom
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_EMPTY;
             this._boxCompactFlags = tmpFlags;
-        }
-
+        } 
         internal void SetTextContent(char[] chars)
         {
+            this._aa_textBuffer = chars;
+            ResetTextFlags();
+        }
+        internal void SetTextContent2(char[] chars)
+        {   
+            
             this._aa_textBuffer = chars;
             ResetTextFlags();
         }
@@ -823,8 +827,7 @@ namespace HtmlRenderer.Dom
                 _listItemBox.FirstRun.SetLocation(_listItemBox.SizeWidth - 5, ActualPaddingTop);
 
             }
-        }
-
+        } 
         internal void ParseWordContent()
         {
             ContentTextSplitter.DefaultSplitter.ParseWordContent(this);

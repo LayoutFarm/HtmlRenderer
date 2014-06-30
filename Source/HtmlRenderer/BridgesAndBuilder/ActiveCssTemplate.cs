@@ -16,7 +16,7 @@ namespace HtmlRenderer.Dom
         {
             this.WellknownTagName = wellknownTagName;
         }
-       
+
         public override CssBoxBase GetParent()
         {
             return null;
@@ -140,7 +140,7 @@ namespace HtmlRenderer.Dom
                     box.cssClassVersion++;
                     foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
                     {
-                        BoxModelBuilder.AssignPropertyValue(boxTemplate, parentBox, decl);
+                        CssPropSetter.AssignPropertyValue(boxTemplate, parentBox, decl);
                     }
                 }
                 //----------------------------
@@ -160,7 +160,7 @@ namespace HtmlRenderer.Dom
                             {
                                 foreach (var propDecl in ruleSetGroup.GetPropertyDeclIter())
                                 {
-                                    BoxModelBuilder.AssignPropertyValue(boxTemplate, parentBox, propDecl);
+                                    CssPropSetter.AssignPropertyValue(boxTemplate, parentBox, propDecl);
                                 }
                                 //---------------------------------------------------------
                                 //find subgroup for more specific conditions
@@ -182,29 +182,63 @@ namespace HtmlRenderer.Dom
             //*********** 
         }
         //----------------------------------------------------------------------------
-        internal void ApplyAbsoluteStyles(BridgeHtmlNode targetBox)
+        internal void ApplyAbsoluteStyles(BridgeHtmlNode targetElement)
         {
-            return;
+
             //1. element name 
-            int tagNameKey = ustrTable.AddStringIfNotExist(targetBox.Name);  //element's name
+            int tagNameKey = ustrTable.AddStringIfNotExist(targetElement.Name);  //element's name
             int classNameKey = 0;
-            var class_value = targetBox.ClassName;
+            //2. class
+            var class_value = targetElement.ClassName;
             if (class_value != null)
             {
                 classNameKey = ustrTable.AddStringIfNotExist(class_value);
             }
 
-            TemplateKey key = new TemplateKey(tagNameKey, classNameKey, 0);
+            //3. key with version =0
+            TemplateKey key = new TemplateKey(tagNameKey, classNameKey, 0); 
             CssBoxTemplate boxTemplate;
             if (!templatesForTagName.TryGetValue(key, out boxTemplate))
             {
                 //create box template with init value
-
-                boxTemplate = new CssBoxTemplate(targetBox.WellknownTagName);
-                CssRuleSetGroup ruleGroup = activeSheet.GetRuleSetForTagName(targetBox.Name);
-
+                boxTemplate = new CssBoxTemplate(targetElement.WellknownTagName);
+                CssRuleSetGroup ruleGroup = activeSheet.GetRuleSetForTagName(targetElement.Name);
+                //1. element name
+                if (ruleGroup != null)
+                {
+                    //this version test  only with display properties
+                    var display = ruleGroup.GetPropertyDeclaration(WebDom.WellknownCssPropertyName.Display);
+                    if (display != null)
+                    {
+                        CssPropSetter.AssignPropertyValue(boxTemplate, display);
+                    }
+                }
+                //2. series of classes
+                if (class_value != null)
+                {
+                    string[] classNames = class_value.Split(_whiteSplitter, StringSplitOptions.RemoveEmptyEntries);
+                    int j = classNames.Length;
+                    if (j > 0)
+                    {
+                        for (int i = 0; i < j; ++i)
+                        {
+                            //this version test  only with display properties
+                            CssRuleSetGroup ruleSetGroup = activeSheet.GetRuleSetForClassName(classNames[i]);
+                            if (ruleSetGroup != null)
+                            {
+                                var display = ruleSetGroup.GetPropertyDeclaration(WebDom.WellknownCssPropertyName.Display);
+                                if (display != null)
+                                {
+                                    CssPropSetter.AssignPropertyValue(boxTemplate, display);
+                                }
+                            }
+                        }
+                    }
+                }
             }
-
+            //-------------------------
+            targetElement.Spec = boxTemplate;
+            //-------------------------
 
             //CssBoxTemplate boxTemplate;
             //BoxSpec currentSpec = targetBox.Spec;

@@ -74,11 +74,12 @@
     <Compile Include="1_Boxes\0_BoxCore\CssBox_Positions.cs" />
     <Compile Include="1_Boxes\3_Layout\LayoutVisitor.cs" />
     <Compile Include="1_Boxes\4_Render\PaintVisitor.cs" />
-    <Compile Include="1_Boxes\1_BoxPropsAndFeatureAssignment\ActiveCssTemplate.cs" />
+    <Compile Include="BridgesAndBuilder\ActiveCssTemplate.cs" />
     <Compile Include="BridgesAndBuilder\BoxModelBuilder_Corrector.cs" />
     <Compile Include="1_Boxes\3_Layout\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
     <Compile Include="1_Boxes\3_Layout\CssTableLayoutEngine.TableColumns.cs" />
     <Compile Include="1_Boxes\2_RunsAndBinders\ImageBinder.cs" />
+    <Compile Include="BridgesAndBuilder\CssPropSetter.cs" />
     <Compile Include="Common\DeprecatedAttribute.cs" />
     <Compile Include="Common\MapAttribute.cs" />
     <Compile Include="Common\ValueMaps.cs" />
@@ -100,7 +101,7 @@
     <Compile Include="WebDom\2_Css\CssElementSelectors.cs" />
     <Compile Include="WebDom\2_Css\CssPropertyDeclaration.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssBoxCollection.cs" />
-    <Compile Include="BridgesAndBuilder\CssBoxCreator.cs" />
+    <Compile Include="BridgesAndBuilder\BoxCreator.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssBox_Unsafe.cs" />
     <Compile Include="1_Boxes\1_BoxPropsAndFeatureAssignment\CssPropFeatures.cs" />
     <Compile Include="2_CascadeStyleSheet\CssActiveSheet.cs" />

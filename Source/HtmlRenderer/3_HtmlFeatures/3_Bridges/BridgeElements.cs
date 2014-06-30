@@ -10,14 +10,14 @@ using HtmlRenderer.WebDom;
 namespace HtmlRenderer.Dom
 {
 
-    
+
 
     sealed class BrigeRootElement : BridgeHtmlNode
     {
-        HtmlRootNode htmlRootNode;
         public BrigeRootElement(HtmlRootNode htmlRootNode)
+            : base(htmlRootNode, WellknownHtmlTagName.Unknown)
         {
-            this.htmlRootNode = htmlRootNode;
+
         }
     }
 
@@ -25,7 +25,6 @@ namespace HtmlRenderer.Dom
     {
         readonly HtmlElement elem;
         BridgeHtmlNode parentElement;
-
         //---------------------------------
         //this node may be simple text node
         HtmlTextNode htmlTextNode;
@@ -35,10 +34,7 @@ namespace HtmlRenderer.Dom
         CssBoxTemplate boxSpec;
 
         bool isTextNode;
-        protected BridgeHtmlNode()
-        {
-            this.children = new List<BridgeHtmlNode>();
-        }
+
         public BridgeHtmlNode(HtmlElement elem, WellknownHtmlTagName wellKnownTagName)
         {
             this.elem = elem;
@@ -80,6 +76,18 @@ namespace HtmlRenderer.Dom
         public BridgeHtmlNode GetNode(int index)
         {
             return this.children[index];
+        }
+        public string GetAttributeValue(string attrName, string defaultValue)
+        {
+            var attr = elem.FindAttribute(attrName);
+            if (attr == null)
+            {
+                return defaultValue;
+            }
+            else
+            {
+                return attr.Value;
+            }
         }
         public WellknownHtmlTagName WellknownTagName
         {
