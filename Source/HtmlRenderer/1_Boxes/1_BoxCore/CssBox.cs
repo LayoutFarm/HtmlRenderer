@@ -38,10 +38,9 @@ namespace HtmlRenderer.Dom
     /// To know more about boxes visit CSS spec:
     /// http://www.w3.org/TR/CSS21/box.html
     /// </remarks>
-    public partial class CssBox : //CssBox,
-        IDisposable
+    public partial class CssBox : IDisposable
     {
-        readonly BoxSpec _importSpec; 
+        readonly BoxSpec _importSpec;
 
         internal readonly BoxSpec _initSpec;
 
@@ -77,9 +76,9 @@ namespace HtmlRenderer.Dom
                 this.WellknownTagName = element.WellknownTagName;
             }
             //------------
-            
+
             this._initSpec = new BoxSpec(WellknownTagName);
-            
+
         }
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
         {
@@ -103,10 +102,10 @@ namespace HtmlRenderer.Dom
                 this.WellknownTagName = element.WellknownTagName;
             }
 
-            
+
             this._initSpec = new BoxSpec(WellknownTagName);
 
-            
+
         }
         public BoxSpec ImportSpec
         {
@@ -115,7 +114,7 @@ namespace HtmlRenderer.Dom
                 return this._importSpec;
             }
         }
-         
+
         public BoxSpec InitSpec
         {
             get { return this._initSpec; }

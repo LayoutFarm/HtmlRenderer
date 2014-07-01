@@ -78,8 +78,8 @@
     <Compile Include="1_Boxes\3_Layout\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
     <Compile Include="1_Boxes\3_Layout\CssTableLayoutEngine.TableColumns.cs" />
     <Compile Include="1_Boxes\2_RunsAndBinders\ImageBinder.cs" />
-    <Compile Include="BridgesAndBuilder\BoxSpec.cs" />
-    <Compile Include="BridgesAndBuilder\BoxSpec_CopyAndVersioning.cs" />
+    <Compile Include="1_Boxes\0_PropsAndFeatures\BoxSpec.cs" />
+    <Compile Include="1_Boxes\0_PropsAndFeatures\BoxSpec_CopyAndVersioning.cs" />
     <Compile Include="BridgesAndBuilder\CssPropSetter.cs" />
     <Compile Include="Common\DeprecatedAttribute.cs" />
     <Compile Include="Common\MapAttribute.cs" />

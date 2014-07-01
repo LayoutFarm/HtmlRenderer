@@ -11,7 +11,7 @@ using HtmlRenderer.Parse;
 
 namespace HtmlRenderer.Dom
 {
-    
+
 
 
     class ActiveCssTemplate
@@ -111,7 +111,7 @@ namespace HtmlRenderer.Dom
 
                 //create template for specific key  
                 boxTemplate = new BoxSpec(box.WellknownTagName);
-                boxTemplate.CloneAllStylesFrom(box);
+                boxTemplate.CloneAllStylesFrom(box.InitSpec);
 
                 //*** 
                 //----------------------------

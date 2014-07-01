@@ -398,6 +398,7 @@ namespace HtmlRenderer.Dom
                 return this.owner;
             }
         }
+
         internal Font GetCacheFont(CssBox parentBox)
         {
             if (this._cacheFont != null)

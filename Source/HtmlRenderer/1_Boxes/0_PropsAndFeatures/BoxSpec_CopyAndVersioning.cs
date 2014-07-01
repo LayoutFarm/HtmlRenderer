@@ -12,71 +12,7 @@ namespace HtmlRenderer.Dom
 
     partial class BoxSpec
     {
-
-        /// <summary>
-        /// Inherits inheritable values from specified box.
-        /// </summary>
-        /// <param name="s">source </param>
-        /// <param name="clone">clone all </param>
-        protected void InheritStyles(CssBox s, bool clone)
-        {
-            if (s == null)
-            {
-                return;
-            }
-            //---------------------------------------
-            this._fontFeats = s._initSpec._fontFeats;
-            this._listFeats = s._initSpec._listFeats;
-            //--------------------------------------- 
-            this._lineHeight = s._initSpec._lineHeight;
-            this._textIndent = s._initSpec._textIndent;
-            this._actualColor = s._initSpec._actualColor;
-            this._emptyCells = s._initSpec._emptyCells;
-            //--------------------------------------- 
-            this._textAlign = s._initSpec._textAlign;
-            this.VerticalAlign = s._initSpec._verticalAlign;
-            this._visibility = s._initSpec._visibility;
-            this._whitespace = s._initSpec._whitespace;
-            this._wordBreak = s._initSpec._wordBreak;
-            this._cssDirection = s._initSpec._cssDirection;
-            //--------------------------------------- 
-
-            if (clone)
-            {
-                //for clone only (eg. split a box into two parts)
-                //---------------------------------------
-                this._backgroundFeats = s._initSpec._backgroundFeats;
-
-                this._borderFeats = s._initSpec._borderFeats;
-                this._cornerFeats = s._initSpec._cornerFeats;
-                //---------------------------------------
-
-                this._left = s._initSpec._left;
-                this._top = s._initSpec._top;
-                this._bottom = s._initSpec._bottom;
-                this._right = s._initSpec._right;
-
-                this._width = s._initSpec._width;
-                this._height = s._initSpec._height;
-                this._maxWidth = s._initSpec._maxWidth;
-                this._position = s._initSpec._position;
-
-
-                this._wordSpacing = s._initSpec._wordSpacing;
-                this._lineHeight = s._initSpec._lineHeight;
-                this._float = s._initSpec._float;
-
-
-                this._cssDisplay = s._initSpec._cssDisplay;
-                this._overflow = s._initSpec._overflow;
-                this._textDecoration = s._initSpec._textDecoration;
-                //--------------------------------------- 
-
-
-            }
-
-        }
-
+ 
         /// <summary>
         /// Inherits inheritable values from specified box.
         /// </summary>
@@ -237,6 +173,31 @@ namespace HtmlRenderer.Dom
         }
 
 
+
+        public CssBox GetParent()
+        {
+            return null;
+        }
+
+        public void InheritStylesFrom(BoxSpec source)
+        {
+            this.InheritStyles(source, false);
+        }
+
+        public void CloneAllStylesFrom(BoxSpec source)
+        {
+            this.InheritStyles(source, true);
+        }
+        public BoxSpec GetAnonVersion()
+        {
+            if (anonVersion != null)
+            {
+                return anonVersion;
+            }
+            this.anonVersion = new BoxSpec(WellknownHtmlTagName.Unknown);
+            anonVersion.InheritStyles(this, false);
+            return anonVersion;
+        }
 
         protected int _prop_pass_eval;
         CssBorderFeature CheckBorderVersion()

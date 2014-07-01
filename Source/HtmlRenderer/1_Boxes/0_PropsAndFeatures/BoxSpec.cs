@@ -22,54 +22,7 @@ using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
 {
-
-
-    public partial class BoxSpec
-    {
-
-        BoxSpec anonVersion;
-        BridgeHtmlElement ownerElement;
-        public BoxSpec(WellknownHtmlTagName wellknownTagName)
-        {
-            this.WellknownTagName = wellknownTagName;
-        }
-        internal BoxSpec(BridgeHtmlElement ownerElement)// WellknownHtmlTagName wellknownTagName)
-        {
-            this.ownerElement = ownerElement;
-            this.WellknownTagName = ownerElement.WellknownTagName;
-        }
-
-
-        public CssBox GetParent()
-        {
-            return null;
-        }
-
-        public void InheritStylesFrom(BoxSpec source)
-        {
-            this.InheritStyles(source, false);
-        }
-        public void CloneAllStylesFrom(CssBox source)
-        {
-            this.InheritStyles(source, true);
-        }
-        public void CloneAllStylesFrom(BoxSpec source)
-        {
-            this.InheritStyles(source, true);
-        }
-        public BoxSpec GetAnonVersion()
-        {
-            if (anonVersion != null)
-            {
-                return anonVersion;
-            }
-            this.anonVersion = new BoxSpec(WellknownHtmlTagName.Unknown);
-            anonVersion.InheritStyles(this, false);
-            return anonVersion;
-        }
-    }
-
-
+     
 
     partial class BoxSpec
     {
@@ -126,7 +79,18 @@ namespace HtmlRenderer.Dom
 #endif
 
         #region CSS Properties
-
+        
+        BoxSpec anonVersion;
+        
+        public BoxSpec(WellknownHtmlTagName wellknownTagName)
+        {
+            this.WellknownTagName = wellknownTagName;
+        }
+        internal BoxSpec(BridgeHtmlElement ownerElement)// WellknownHtmlTagName wellknownTagName)
+        {
+             
+            this.WellknownTagName = ownerElement.WellknownTagName;
+        }
 
         public WellknownHtmlTagName WellknownTagName
         {
