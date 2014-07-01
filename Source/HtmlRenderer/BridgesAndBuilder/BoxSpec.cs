@@ -13,9 +13,7 @@
 // "The Art of War"
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-
 using System.Globalization;
 using System.Text.RegularExpressions;
 using HtmlRenderer.Entities;
@@ -25,72 +23,107 @@ using HtmlRenderer.Utils;
 namespace HtmlRenderer.Dom
 {
 
-    /// <summary>
-    /// Base class for css box to handle the css properties.<br/>
-    /// Has field and property for every css property that can be set, the properties add additional parsing like
-    /// setting the correct border depending what border value was set (single, two , all four).<br/>
-    /// Has additional fields to control the location and size of the box and 'actual' css values for some properties
-    /// that require additional calculations and parsing.<br/>
-    /// </summary>
-    partial class CssBox
+
+    public partial class BoxSpec
     {
 
+        BoxSpec anonVersion;
+        BridgeHtmlElement ownerElement;
+        public BoxSpec(WellknownHtmlTagName wellknownTagName)
+        {
+            this.WellknownTagName = wellknownTagName;
+        }
+        internal BoxSpec(BridgeHtmlElement ownerElement)// WellknownHtmlTagName wellknownTagName)
+        {
+            this.ownerElement = ownerElement;
+            this.WellknownTagName = ownerElement.WellknownTagName;
+        }
+
+
+        public CssBox GetParent()
+        {
+            return null;
+        }
+
+        public void InheritStylesFrom(BoxSpec source)
+        {
+            this.InheritStyles(source, false);
+        }
+        public void CloneAllStylesFrom(CssBox source)
+        {
+            this.InheritStyles(source, true);
+        }
+        public void CloneAllStylesFrom(BoxSpec source)
+        {
+            this.InheritStyles(source, true);
+        }
+        public BoxSpec GetAnonVersion()
+        {
+            if (anonVersion != null)
+            {
+                return anonVersion;
+            }
+            this.anonVersion = new BoxSpec(WellknownHtmlTagName.Unknown);
+            anonVersion.InheritStyles(this, false);
+            return anonVersion;
+        }
+    }
+
+
+
+    partial class BoxSpec
+    {
         internal int cssClassVersion;
+
         //==========================================================
         #region css values Inherit From Parent (by default)
         //inherit from parent by default
-        CssFontProp _fontProps = CssFontProp.Default;
-        CssListProp _listProps = CssListProp.Default;
-        CssLength _lineHeight = CssLength.NormalWordOrLine;
-        CssLength _textIndent = CssLength.ZeroNoUnit;
-        Color _actualColor = System.Drawing.Color.Black;
-        CssEmptyCell _emptyCells = CssEmptyCell.Show;
-        CssTextAlign _textAlign = CssTextAlign.NotAssign;
-        CssVerticalAlign _verticalAlign = CssVerticalAlign.Baseline;
-        CssVisibility _visibility = CssVisibility.Visible;
-        CssWhiteSpace _whitespace = CssWhiteSpace.Normal;
-        CssWordBreak _wordBreak = CssWordBreak.Normal;
-        CssDirection _cssDirection = CssDirection.Ltl;
+        internal CssFontProp _fontProps = CssFontProp.Default;
+        internal CssListProp _listProps = CssListProp.Default;
+        internal CssLength _lineHeight = CssLength.NormalWordOrLine;
+        internal CssLength _textIndent = CssLength.ZeroNoUnit;
+        internal Color _actualColor = System.Drawing.Color.Black;
+        internal CssEmptyCell _emptyCells = CssEmptyCell.Show;
+        internal CssTextAlign _textAlign = CssTextAlign.NotAssign;
+        internal CssVerticalAlign _verticalAlign = CssVerticalAlign.Baseline;
+        internal CssVisibility _visibility = CssVisibility.Visible;
+        internal CssWhiteSpace _whitespace = CssWhiteSpace.Normal;
+        internal CssWordBreak _wordBreak = CssWordBreak.Normal;
+        internal CssDirection _cssDirection = CssDirection.Ltl;
 
         #endregion
         //==========================================================
         #region css values Not Inherit From Parent
-        CssBorderProp _borderProps = CssBorderProp.Default;
-        CssPaddingProp _paddingProps = CssPaddingProp.Default;
-        CssMarginProp _marginProps = CssMarginProp.Default;
-        CssCornerProp _cornerProps = CssCornerProp.Default;
-        Font _actualFont;
-        CssBackgroundProp _backgroundProps = CssBackgroundProp.Default;
-        CssDisplay _cssDisplay = CssDisplay.Inline;
-        CssFloat _float = CssFloat.None;
+        internal CssBorderProp _borderProps = CssBorderProp.Default;
+        internal CssPaddingProp _paddingProps = CssPaddingProp.Default;
+        internal CssMarginProp _marginProps = CssMarginProp.Default;
+        internal CssCornerProp _cornerProps = CssCornerProp.Default;
+        internal Font _actualFont;
+        internal CssBackgroundProp _backgroundProps = CssBackgroundProp.Default;
+        internal CssDisplay _cssDisplay = CssDisplay.Inline;
+        internal CssFloat _float = CssFloat.None;
         //==========================================================
-        CssLength _left = CssLength.AutoLength;//w3 css 
-        CssLength _top = CssLength.AutoLength;//w3 css 
-        CssLength _right = CssLength.AutoLength;//w3 css 
-        CssLength _bottom = CssLength.AutoLength;//w3 css 
+        internal CssLength _left = CssLength.AutoLength;//w3 css 
+        internal CssLength _top = CssLength.AutoLength;//w3 css 
+        internal CssLength _right = CssLength.AutoLength;//w3 css 
+        internal CssLength _bottom = CssLength.AutoLength;//w3 css 
 
-        CssLength _width = CssLength.AutoLength;
-        CssLength _height = CssLength.AutoLength;
+        internal CssLength _width = CssLength.AutoLength;
+        internal CssLength _height = CssLength.AutoLength;
         //==========================================================
-        CssLength _maxWidth = CssLength.NotAssign; //w3 css  
-        CssOverflow _overflow = CssOverflow.Visible;
-        CssTextDecoration _textDecoration = CssTextDecoration.NotAssign;
-        CssPosition _position = CssPosition.Static;
-        CssLength _wordSpacing = CssLength.NormalWordOrLine;
+        internal CssLength _maxWidth = CssLength.NotAssign; //w3 css  
+        internal CssOverflow _overflow = CssOverflow.Visible;
+        internal CssTextDecoration _textDecoration = CssTextDecoration.NotAssign;
+        internal CssPosition _position = CssPosition.Static;
+        internal CssLength _wordSpacing = CssLength.NormalWordOrLine;
         //==========================================================
-        WellknownHtmlTagName wellKnownTagName;
+        internal WellknownHtmlTagName wellKnownTagName;
         #endregion
 #if DEBUG
         public readonly int dbugId = dbugTotalId++;
         static int dbugTotalId;
         public int dbugMark;
 #endif
-        //public CssBox()
-        //{
-        //    _actualColor = System.Drawing.Color.Black;
-        //}
-
-
 
         #region CSS Properties
 
@@ -424,19 +457,13 @@ namespace HtmlRenderer.Dom
             set
             {
                 _lineHeight = value;
-                this._prop_pass_eval &= ~CssBoxAssignments.LINE_HEIGHT;
+                // this._prop_pass_eval &= ~CssBoxAssignments.LINE_HEIGHT;
             }
         }
         public CssVerticalAlign VerticalAlign
         {
             get { return this._verticalAlign; }
-            set
-            {
-                if (this.dbugId == 10)
-                {
-                }
-                this._verticalAlign = value;
-            }
+            set { this._verticalAlign = value; }
         }
         public CssLength TextIndent
         {
@@ -601,15 +628,11 @@ namespace HtmlRenderer.Dom
                 return _actualFont;
             }
         }
-        /// <summary>
-        /// Get the parent of this css properties instance.
-        /// </summary>
-        /// <returns></returns>
-        public virtual CssBox GetParent()
-        {
-            return this.ParentBox;
-        }
-
+        ///// <summary>
+        ///// Get the parent of this css properties instance.
+        ///// </summary>
+        ///// <returns></returns>
+        //public abstract CssBox GetParent();
 
         /// <summary>
         /// Gets the height of the font in the specified units
@@ -634,4 +657,6 @@ namespace HtmlRenderer.Dom
         }
 
     }
+
+
 }

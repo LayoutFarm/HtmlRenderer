@@ -76,7 +76,7 @@ namespace HtmlRenderer.Parse
                     return 0;
             }
         }
-        public static float ParseLengthWithFontAdjust(CssLength length, float hundredPercent, CssBox.BoxSpecBase box)
+        public static float ParseLengthWithFontAdjust(CssLength length, float hundredPercent, BoxSpec box)
         {
             //Return zero if no length specified, zero specified     
             switch (length.UnitOrNames)
@@ -107,7 +107,7 @@ namespace HtmlRenderer.Parse
             }
         }
 
-        public static float ParseLength(CssLength length, float hundredPercent, CssBox.BoxSpecBase box)
+        public static float ParseLength(CssLength length, float hundredPercent, BoxSpec box)
         {
             //Return zero if no length specified, zero specified      
             switch (length.UnitOrNames)

@@ -11,54 +11,7 @@ using HtmlRenderer.Parse;
 
 namespace HtmlRenderer.Dom
 {
-    public class BoxSpec : CssBox.BoxSpecBase
-    {
-
-
-        BoxSpec anonVersion;
-
-        BridgeHtmlElement ownerElement;
-        public BoxSpec(WellknownHtmlTagName wellknownTagName)
-        {
-            this.WellknownTagName = wellknownTagName;
-        }
-        internal BoxSpec(BridgeHtmlElement ownerElement)// WellknownHtmlTagName wellknownTagName)
-        {
-            this.ownerElement = ownerElement;
-            this.WellknownTagName = ownerElement.WellknownTagName;
-        }
-
-
-        public override CssBox GetParent()
-        {
-            return null;
-        }
-
-        public void InheritStylesFrom(CssBox.BoxSpecBase source)
-        {
-            base.InheritStyles(source, false);
-        }
-        public void CloneAllStylesFrom(CssBox source)
-        {
-            base.InheritStyles(source, true);
-        }
-        public void CloneAllStylesFrom(CssBox.BoxSpecBase source)
-        {
-            base.InheritStyles(source, true);
-        }
-        public BoxSpec GetAnonVersion()
-        {
-            if (anonVersion != null)
-            {
-                return anonVersion;
-            }
-            this.anonVersion = new BoxSpec(WellknownHtmlTagName.Unknown);
-            anonVersion.InheritStyles(this, false);
-            return anonVersion;
-        }
-    }
-
-
+    
 
 
     class ActiveCssTemplate

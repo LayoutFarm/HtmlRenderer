@@ -520,7 +520,7 @@ namespace HtmlRenderer.Dom
 
 
         //=======================================================================================
-        internal static void AssignPropertyValue(CssBox.BoxSpecBase box, CssBox.BoxSpecBase boxParent, WebDom.CssPropertyDeclaration decl)
+        internal static void AssignPropertyValue(BoxSpec box, BoxSpec boxParent, WebDom.CssPropertyDeclaration decl)
         {
             if (decl.IsExpand)
             {
@@ -539,7 +539,7 @@ namespace HtmlRenderer.Dom
         }
 
 
-        static void SetPropertyValue(CssBox.BoxSpecBase cssBox, CssBox.BoxSpecBase parentBox, WebDom.CssPropertyDeclaration decl)
+        static void SetPropertyValue(BoxSpec cssBox, BoxSpec parentBox, WebDom.CssPropertyDeclaration decl)
         {
             //assign property  
             WebDom.CssCodeValueExpression cssValue = decl.GetPropertyValue(0);
@@ -793,7 +793,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="cssBox"></param>
         /// <param name="propName"></param>
-        static void SetPropertyValueFromParent(CssBox.BoxSpecBase cssBox, CssBox.BoxSpecBase parentCssBox, HtmlRenderer.WebDom.WellknownCssPropertyName propName)
+        static void SetPropertyValueFromParent(BoxSpec cssBox, BoxSpec parentCssBox, HtmlRenderer.WebDom.WellknownCssPropertyName propName)
         {
 
             switch (propName)

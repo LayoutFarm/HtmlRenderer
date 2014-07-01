@@ -43,10 +43,13 @@ namespace HtmlRenderer.Dom
     {
         readonly BoxSpec _importSpec;
         readonly BoxSpec _finalSpec;
+        internal readonly BoxSpec _initSpec;
 
         internal CssBox(CssBox parentBox, BridgeHtmlElement element)
         {
             this._aa_boxes = new CssBoxCollection(this);
+
+
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
@@ -75,6 +78,7 @@ namespace HtmlRenderer.Dom
             }
             //------------
             _finalSpec = new BoxSpec(this.WellknownTagName);
+            this._initSpec = new BoxSpec(WellknownTagName);
             //------------
             if (_importSpec != null)
             {
@@ -104,6 +108,8 @@ namespace HtmlRenderer.Dom
             }
 
             _finalSpec = new BoxSpec(this.WellknownTagName);
+            this._initSpec = new BoxSpec(WellknownTagName);
+
             if (_importSpec != null)
             {
                 _finalSpec.CloneAllStylesFrom(_importSpec);
@@ -120,6 +126,10 @@ namespace HtmlRenderer.Dom
         public BoxSpec FinalSpec
         {
             get { return this._finalSpec; }
+        }
+        public BoxSpec InitSpec
+        {
+            get { return this._initSpec; }
         }
         /// <summary>
         /// Gets the HtmlContainer of the Box.
@@ -996,7 +1006,7 @@ namespace HtmlRenderer.Dom
             this.InternalInheritStyles(box, clone);
 
         }
-        internal void InheritStyles(CssBox.BoxSpecBase box, bool clone = false)
+        internal void InheritStyles(BoxSpec box, bool clone = false)
         {
             if (box == null)
             {

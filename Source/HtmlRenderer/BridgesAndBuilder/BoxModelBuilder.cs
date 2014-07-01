@@ -372,16 +372,16 @@ namespace HtmlRenderer.Dom
             }
 
 #if DEBUG
-            rep.ClearMsgs();
-            if (!CssBox.Compare(rep, box, box.FinalSpec))
-            {
-                var list = rep.GetList();
-                int j = list.Count;
-                for (int i = 0; i < j; ++i)
-                {
-                    Console.WriteLine(list[i]);
-                }
-            }
+            //rep.ClearMsgs();
+            //if (!CssBox.Compare(rep, box.InitSpec, box.FinalSpec))
+            //{
+            //    var list = rep.GetList();
+            //    int j = list.Count;
+            //    for (int i = 0; i < j; ++i)
+            //    {
+            //        Console.WriteLine(list[i]);
+            //    }
+            //}
             //if (!CssBox.Compare(rep, box, box.ImportSpec))
             //{
             //    var list = rep.GetList();

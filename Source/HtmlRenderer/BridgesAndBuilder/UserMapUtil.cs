@@ -231,7 +231,7 @@ namespace HtmlRenderer.Dom
                 box.BorderSpacingHorizontal = box.BorderSpacingVertical = primValue.AsLength();
             }
         }
-        public static void SetBorderSpacing(this CssBox.BoxSpecBase box, WebDom.CssCodeValueExpression value)
+        public static void SetBorderSpacing(this BoxSpec box, WebDom.CssCodeValueExpression value)
         {
             WebDom.CssCodePrimitiveExpression primValue = value as WebDom.CssCodePrimitiveExpression;
             if (primValue == null)
@@ -298,7 +298,7 @@ namespace HtmlRenderer.Dom
             //        break;
             //}
         }
-        public static void SetCornerRadius(this CssBox.BoxSpecBase box, WebDom.CssCodeValueExpression value)
+        public static void SetCornerRadius(this BoxSpec box, WebDom.CssCodeValueExpression value)
         {
             WebDom.CssCodePrimitiveExpression prim = value as WebDom.CssCodePrimitiveExpression;
             if (prim == null)
@@ -393,7 +393,7 @@ namespace HtmlRenderer.Dom
             return CssLength.MakePixelLength(
                 HtmlRenderer.Parse.CssValueParser.ParseLength(len, box.GetEmHeight(), box));
         }
-        public static CssLength SetLineHeight(this CssBox.BoxSpecBase box, CssLength len)
+        public static CssLength SetLineHeight(this BoxSpec  box, CssLength len)
         {
             //2014,
             //from www.w3c.org/wiki/Css/Properties/line-height
@@ -686,7 +686,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        internal static void SetFontSize(this CssBox.BoxSpecBase box, CssBox.BoxSpecBase parentBox, WebDom.CssCodeValueExpression value)
+        internal static void SetFontSize(this BoxSpec box, BoxSpec parentBox, WebDom.CssCodeValueExpression value)
         {
             //number + value
             WebDom.CssCodePrimitiveExpression primValue = value as WebDom.CssCodePrimitiveExpression;
@@ -807,7 +807,7 @@ namespace HtmlRenderer.Dom
             //TODO: implement background position from combination value
             throw new NotSupportedException();
         }
-        internal static void SetBackgroundPosition(this CssBox.BoxSpecBase box, WebDom.CssCodeValueExpression value)
+        internal static void SetBackgroundPosition(this BoxSpec box, WebDom.CssCodeValueExpression value)
         {
             //TODO: implement background position from combination value
             throw new NotSupportedException();
