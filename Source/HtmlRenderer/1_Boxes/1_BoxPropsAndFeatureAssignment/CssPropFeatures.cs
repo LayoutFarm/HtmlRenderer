@@ -405,7 +405,7 @@ namespace HtmlRenderer.Dom
                 return this.owner;
             }
         }
-        internal Font GetCacheFont(CssBoxBase parentBox)
+        internal Font GetCacheFont(CssBox parentBox)
         {
             if (this._cacheFont != null)
             {
@@ -516,15 +516,15 @@ namespace HtmlRenderer.Dom
             {
                 return true;
             }
+
             //---------------- 
+            int inCount = rep.Count;
             rep.Check("FontFamily", prop1.FontFamily == prop2.FontFamily);
             rep.Check("FontSize", CssLength.IsEq(prop1.FontSize, prop2.FontSize));
             rep.Check("FontStyle", prop1.FontStyle == prop2.FontStyle);
             rep.Check("FontVariant", prop1.FontVariant == prop2.FontVariant);
             rep.Check("FontWeight", prop1.FontWeight == prop2.FontWeight);
-
-
-            return false;
+            return inCount == rep.Count;
         }
 #endif
 
@@ -637,7 +637,7 @@ namespace HtmlRenderer.Dom
             rep.Check("BackgroundPosY", CssLength.IsEq(prop1.BackgroundPosY, prop2.BackgroundPosY));
             rep.Check("CssBackgroundRepeat", prop1.BackgroundRepeat == prop2.BackgroundRepeat);
 
-            return inMsgCount != rep.Count;
+            return inMsgCount == rep.Count;
         }
 #endif
     }

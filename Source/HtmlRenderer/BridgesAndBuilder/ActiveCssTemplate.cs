@@ -11,7 +11,7 @@ using HtmlRenderer.Parse;
 
 namespace HtmlRenderer.Dom
 {
-    public class BoxSpec : CssBoxBase.BoxSpecBase
+    public class BoxSpec : CssBox.BoxSpecBase
     {
 
 
@@ -29,20 +29,20 @@ namespace HtmlRenderer.Dom
         }
 
 
-        public override CssBoxBase GetParent()
+        public override CssBox GetParent()
         {
             return null;
         }
 
-        public void InheritStylesFrom(CssBoxBase.BoxSpecBase source)
+        public void InheritStylesFrom(CssBox.BoxSpecBase source)
         {
             base.InheritStyles(source, false);
         }
-        public void CloneAllStylesFrom(CssBoxBase source)
+        public void CloneAllStylesFrom(CssBox source)
         {
             base.InheritStyles(source, true);
         }
-        public void CloneAllStylesFrom(CssBoxBase.BoxSpecBase source)
+        public void CloneAllStylesFrom(CssBox.BoxSpecBase source)
         {
             base.InheritStyles(source, true);
         }
@@ -213,7 +213,7 @@ namespace HtmlRenderer.Dom
         }
 
 
-        internal void ApplyActiveTemplateForElement2(BridgeHtmlElement parent, BridgeHtmlElement box)
+        internal void ApplyActiveTemplateForElement2(BoxSpec parentSpec, BridgeHtmlElement box)
         {
 
             //1. tag name key
@@ -228,11 +228,10 @@ namespace HtmlRenderer.Dom
                 classNameKey = ustrTable.AddStringIfNotExist(class_value);
             }
 
-            BoxSpec parentSpec = null;
+            //BoxSpec parentSpec = null;
             int parentSpecVersion = 0;
-            if (parent != null)
+            if (parentSpec != null)
             {
-                parentSpec = parent.Spec;
                 parentSpecVersion = parentSpec.cssClassVersion;
             }
             TemplateKey key = new TemplateKey(tagNameKey, classNameKey, parentSpecVersion);

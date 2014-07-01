@@ -38,7 +38,8 @@ namespace HtmlRenderer.Dom
     /// To know more about boxes visit CSS spec:
     /// http://www.w3.org/TR/CSS21/box.html
     /// </remarks>
-    public partial class CssBox : CssBoxBase, IDisposable
+    public partial class CssBox : //CssBox,
+        IDisposable
     {
         readonly BoxSpec _importSpec;
         readonly BoxSpec _finalSpec;
@@ -71,7 +72,7 @@ namespace HtmlRenderer.Dom
             if (element != null)
             {
                 this.WellknownTagName = element.WellknownTagName;
-            } 
+            }
             //------------
             _finalSpec = new BoxSpec(this.WellknownTagName);
             //------------
@@ -770,14 +771,14 @@ namespace HtmlRenderer.Dom
         }
 
 
-        /// <summary>
-        /// Get the parent of this css properties instance.
-        /// </summary>
-        /// <returns></returns>
-        public sealed override CssBoxBase GetParent()
-        {
-            return _parentBox;
-        }
+        ///// <summary>
+        ///// Get the parent of this css properties instance.
+        ///// </summary>
+        ///// <returns></returns>
+        //public sealed override CssBox GetParent()
+        //{
+        //    return _parentBox;
+        //}
 
         /// <summary>
         /// Gets the index of the box to be used on a (ordered) list
@@ -990,17 +991,18 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Inherits inheritable values from parent.
         /// </summary>
-        internal new void InheritStyles(CssBoxBase box, bool clone = false)
+        internal void InheritStyles(CssBox box, bool clone = false)
         {
-            base.InheritStyles(box, clone);
+            this.InternalInheritStyles(box, clone);
+
         }
-        internal new void InheritStyles(CssBoxBase.BoxSpecBase box, bool clone = false)
+        internal void InheritStyles(CssBox.BoxSpecBase box, bool clone = false)
         {
             if (box == null)
             {
                 return;
             }
-            base.InheritStyles(box, clone);
+            this.InternalInheritStyles(box, clone);
 
         }
         float CalculateActualWidth()

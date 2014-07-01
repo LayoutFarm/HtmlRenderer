@@ -42,7 +42,7 @@ namespace HtmlRenderer.Handlers
         {
             if (rect.Width > 0 && rect.Height > 0)
             {
-                
+
                 if (box.BorderTopStyle >= CssBorderStyle.Visible &&
                     box.ActualBorderTopWidth > 0)
                 {
@@ -118,7 +118,7 @@ namespace HtmlRenderer.Handlers
             //else if (box.CssDisplay == CssDisplay.TableCell)
             //{
             //}
-            
+
 
             IGraphics g = p.Gfx;
             if (borderPath != null)
@@ -354,7 +354,7 @@ namespace HtmlRenderer.Handlers
         /// <summary>
         /// Get the border color for the given box border.
         /// </summary>
-        static Color GetColor(Border border, CssBoxBase box, CssBorderStyle style)
+        static Color GetColor(Border border, CssBox box, CssBorderStyle style)
         {
             switch (border)
             {
@@ -394,7 +394,7 @@ namespace HtmlRenderer.Handlers
         /// <summary>
         /// Get the border style for the given box border.
         /// </summary>
-        static CssBorderStyle GetStyle(Border border, CssBoxBase box)
+        static CssBorderStyle GetStyle(Border border, CssBox box)
         {
             switch (border)
             {

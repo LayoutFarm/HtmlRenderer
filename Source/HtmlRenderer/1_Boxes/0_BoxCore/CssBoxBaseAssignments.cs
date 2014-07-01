@@ -11,7 +11,7 @@ using HtmlRenderer.Utils;
 namespace HtmlRenderer.Dom
 {
 
-    static class CssBoxBaseAssignments
+    static class CssBoxAssignments
     {
         public const int LINE_HEIGHT = 1 << (21 - 1);
         public const int WORD_SPACING = 1 << (22 - 1);

@@ -12,7 +12,7 @@ using HtmlRenderer.Utils;
 namespace HtmlRenderer.Dom
 {
 
-    partial class CssBoxBase
+    partial class CssBox
     {
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="s">source </param>
         /// <param name="clone">clone all </param>
-        protected void InheritStyles(CssBoxBase s, bool clone)
+        void InternalInheritStyles(CssBox s, bool clone)
         {
             if (s == null)
             {
@@ -38,7 +38,7 @@ namespace HtmlRenderer.Dom
             this._emptyCells = s._emptyCells;
             //--------------------------------------- 
             this._textAlign = s._textAlign;
-            this._verticalAlign = s._verticalAlign;
+            this.VerticalAlign = s._verticalAlign;
             this._visibility = s._visibility;
             this._whitespace = s._whitespace;
             this._wordBreak = s._wordBreak;
@@ -81,11 +81,12 @@ namespace HtmlRenderer.Dom
 
         }
 
-#if DEBUG 
+#if DEBUG
 
-        public static bool Compare(dbugPropCheckReport dbugR, CssBoxBase boxBase, BoxSpecBase spec)
-        { 
+        public static bool Compare(dbugPropCheckReport dbugR, CssBox boxBase, BoxSpecBase spec)
+        {
 
+            int dd = boxBase.dbugId;
             dbugR.Check("_fontProps", CssFontProp.dbugIsEq(dbugR, boxBase._fontProps, spec._fontProps));
             dbugR.Check("_listProps", CssListProp.dbugIsEq(dbugR, boxBase._listProps, spec._listProps));
             dbugR.Check("_lineHeight", CssLength.IsEq(boxBase._lineHeight, spec._lineHeight));
@@ -133,7 +134,7 @@ namespace HtmlRenderer.Dom
         }
 #endif
 
-        protected void InheritStyles(CssBoxBase.BoxSpecBase s, bool clone)
+        void InternalInheritStyles(CssBox.BoxSpecBase s, bool clone)
         {
             if (s == null)
             {
@@ -151,7 +152,7 @@ namespace HtmlRenderer.Dom
             this._emptyCells = s._emptyCells;
             //--------------------------------------- 
             this._textAlign = s._textAlign;
-            this._verticalAlign = s._verticalAlign;
+            this.VerticalAlign = s._verticalAlign;
             this._visibility = s._visibility;
             this._whitespace = s._whitespace;
             this._wordBreak = s._wordBreak;
@@ -198,7 +199,7 @@ namespace HtmlRenderer.Dom
         /// clone all style from another box
         /// </summary>
         /// <param name="s"></param>
-        internal void CloneAllStyles(CssBoxBase s)
+        internal void CloneAllStyles(CssBox s)
         {
 
             //1.
@@ -216,7 +217,7 @@ namespace HtmlRenderer.Dom
             this._emptyCells = s._emptyCells;
             //--------------------------------------- 
             this._textAlign = s._textAlign;
-            this._verticalAlign = s._verticalAlign;
+            this.VerticalAlign = s._verticalAlign;
             this._visibility = s._visibility;
             this._whitespace = s._whitespace;
             this._wordBreak = s._wordBreak;
@@ -281,10 +282,10 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                //this._prop_wait_eval |= (CssBoxBaseAssignments.PADDING_LEFT |
-                //                         CssBoxBaseAssignments.PADDING_TOP |
-                //                         CssBoxBaseAssignments.PADDING_RIGHT |
-                //                         CssBoxBaseAssignments.PADDING_BOTTOM);
+                //this._prop_wait_eval |= (CssBoxAssignments.PADDING_LEFT |
+                //                         CssBoxAssignments.PADDING_TOP |
+                //                         CssBoxAssignments.PADDING_RIGHT |
+                //                         CssBoxAssignments.PADDING_BOTTOM);
             }
             //-----------------------------------
         }
@@ -293,7 +294,7 @@ namespace HtmlRenderer.Dom
         /// clone all style from another box
         /// </summary>
         /// <param name="s"></param>
-        internal void CloneAllStyles(CssBoxBase.BoxSpecBase s)
+        internal void CloneAllStyles(CssBox.BoxSpecBase s)
         {
 
             //1.
@@ -311,7 +312,7 @@ namespace HtmlRenderer.Dom
             this._emptyCells = s._emptyCells;
             //--------------------------------------- 
             this._textAlign = s._textAlign;
-            this._verticalAlign = s._verticalAlign;
+            this.VerticalAlign = s._verticalAlign;
             this._visibility = s._visibility;
             this._whitespace = s._whitespace;
             this._wordBreak = s._wordBreak;
@@ -376,10 +377,10 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                //this._prop_wait_eval |= (CssBoxBaseAssignments.PADDING_LEFT |
-                //                         CssBoxBaseAssignments.PADDING_TOP |
-                //                         CssBoxBaseAssignments.PADDING_RIGHT |
-                //                         CssBoxBaseAssignments.PADDING_BOTTOM);
+                //this._prop_wait_eval |= (CssBoxAssignments.PADDING_LEFT |
+                //                         CssBoxAssignments.PADDING_TOP |
+                //                         CssBoxAssignments.PADDING_RIGHT |
+                //                         CssBoxAssignments.PADDING_BOTTOM);
             }
             //-----------------------------------
         }

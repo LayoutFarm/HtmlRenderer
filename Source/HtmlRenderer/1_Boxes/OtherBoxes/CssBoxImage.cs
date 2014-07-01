@@ -56,7 +56,10 @@ namespace HtmlRenderer.Dom
         {
             this.AddRun(this._imageWord = new CssImageRun(this));
         }
-
+        public override CssBox GetParent()
+        {
+            return this.ParentBox;
+        }
         /// <summary>
         /// Get the image of this image box.
         /// </summary>

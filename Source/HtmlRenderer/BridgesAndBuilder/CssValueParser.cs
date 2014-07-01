@@ -33,7 +33,7 @@ namespace HtmlRenderer.Parse
         /// <returns>Parsed number. Zero if error while parsing.</returns>
 
         public static float ParseNumber(CssLength number, float hundredPercent)
-        {   
+        {
             switch (number.UnitOrNames)
             {
                 case CssUnitOrNames.EmptyValue:
@@ -46,7 +46,7 @@ namespace HtmlRenderer.Parse
         }
 
 
-        public static float ParseLength(CssLength length, float hundredPercent, CssBoxBase box)
+        public static float ParseLength(CssLength length, float hundredPercent, CssBox box)
         {
             //Return zero if no length specified, zero specified      
             switch (length.UnitOrNames)
@@ -76,7 +76,7 @@ namespace HtmlRenderer.Parse
                     return 0;
             }
         }
-        public static float ParseLengthWithFontAdjust(CssLength length, float hundredPercent, CssBoxBase box)
+        public static float ParseLengthWithFontAdjust(CssLength length, float hundredPercent, CssBox.BoxSpecBase box)
         {
             //Return zero if no length specified, zero specified     
             switch (length.UnitOrNames)
@@ -107,7 +107,7 @@ namespace HtmlRenderer.Parse
             }
         }
 
-        public static float ParseLength(CssLength length, float hundredPercent, CssBoxBase.BoxSpecBase box)
+        public static float ParseLength(CssLength length, float hundredPercent, CssBox.BoxSpecBase box)
         {
             //Return zero if no length specified, zero specified      
             switch (length.UnitOrNames)
@@ -137,7 +137,7 @@ namespace HtmlRenderer.Parse
                     return 0;
             }
         }
-        public static float ParseLengthWithFontAdjust(CssLength length, float hundredPercent, CssBoxBase.BoxSpecBase box)
+        public static float ParseLengthWithFontAdjust(CssLength length, float hundredPercent, CssBox box)
         {
             //Return zero if no length specified, zero specified     
             switch (length.UnitOrNames)
@@ -180,23 +180,23 @@ namespace HtmlRenderer.Parse
             TryGetColor(colorValue, 0, colorValue.Length, out color);
             return color;
         }
-        public static float GetActualBorderWidth(CssLength borderValue, CssBoxBase b)
+        public static float GetActualBorderWidth(CssLength borderValue, CssBox b)
         {
             //------------------------------
             //plan: use extended cssunit
             //------------------------------
-            switch(borderValue.UnitOrNames)
-            {   
+            switch (borderValue.UnitOrNames)
+            {
                 case CssUnitOrNames.EmptyValue://as medium 
                 case CssUnitOrNames.BorderMedium:
                     return 2f;
-                case  CssUnitOrNames.BorderThin:
+                case CssUnitOrNames.BorderThin:
                     return 1f;
                 case CssUnitOrNames.BorderThick:
                     return 4f;
                 default:
-                     return Math.Abs(ParseLength(borderValue, 1, b));
-            } 
+                    return Math.Abs(ParseLength(borderValue, 1, b));
+            }
         }
 
 

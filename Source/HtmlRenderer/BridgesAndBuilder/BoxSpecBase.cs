@@ -23,7 +23,7 @@ using HtmlRenderer.Utils;
 namespace HtmlRenderer.Dom
 {
 
-    partial class CssBoxBase
+    partial class CssBox 
     {
 
 
@@ -119,7 +119,7 @@ namespace HtmlRenderer.Dom
                 set
                 {
                     CheckBorderVersion().LeftWidth = value;
-                    //this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_LEFT;
+                    //this._prop_pass_eval &= ~CssBoxAssignments.BORDER_WIDTH_LEFT;
                 }
             }
 
@@ -129,7 +129,7 @@ namespace HtmlRenderer.Dom
                 set
                 {
                     CheckBorderVersion().RightWidth = value;
-                    // this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_RIGHT;
+                    // this._prop_pass_eval &= ~CssBoxAssignments.BORDER_WIDTH_RIGHT;
                 }
             }
 
@@ -139,7 +139,7 @@ namespace HtmlRenderer.Dom
                 set
                 {
                     CheckBorderVersion().BottomWidth = value;
-                    //this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_BOTTOM;
+                    //this._prop_pass_eval &= ~CssBoxAssignments.BORDER_WIDTH_BOTTOM;
                 }
             }
 
@@ -149,7 +149,7 @@ namespace HtmlRenderer.Dom
                 set
                 {
                     CheckBorderVersion().TopWidth = value;
-                    //this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_TOP;
+                    //this._prop_pass_eval &= ~CssBoxAssignments.BORDER_WIDTH_TOP;
                 }
             }
             //--------------------------------------------------------------------------------------
@@ -417,7 +417,7 @@ namespace HtmlRenderer.Dom
                 set
                 {
                     _lineHeight = value;
-                    // this._prop_pass_eval &= ~CssBoxBaseAssignments.LINE_HEIGHT;
+                    // this._prop_pass_eval &= ~CssBoxAssignments.LINE_HEIGHT;
                 }
             }
             public CssVerticalAlign VerticalAlign
@@ -592,7 +592,7 @@ namespace HtmlRenderer.Dom
             /// Get the parent of this css properties instance.
             /// </summary>
             /// <returns></returns>
-            public abstract CssBoxBase GetParent();
+            public abstract CssBox GetParent();
 
             /// <summary>
             /// Gets the height of the font in the specified units

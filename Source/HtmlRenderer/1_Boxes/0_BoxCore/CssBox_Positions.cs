@@ -225,9 +225,9 @@ namespace HtmlRenderer.Dom
             }
             //---------------------------------------------------------------------------
 
-            //if ((this._prop_pass_eval & CssBoxBaseAssignments.BORDER_WIDTH_BOTTOM) == 0)
+            //if ((this._prop_pass_eval & CssBoxAssignments.BORDER_WIDTH_BOTTOM) == 0)
             //{
-            //    this._prop_pass_eval |= CssBoxBaseAssignments.BORDER_WIDTH_BOTTOM;
+            //    this._prop_pass_eval |= CssBoxAssignments.BORDER_WIDTH_BOTTOM;
             //    return (this.BorderBottomStyle == CssBorderStyle.None) ?
             //        _actualBorderBottomWidth = 0f :
             //        _actualBorderBottomWidth = CssValueParser.GetActualBorderWidth(BorderBottomWidth, this);

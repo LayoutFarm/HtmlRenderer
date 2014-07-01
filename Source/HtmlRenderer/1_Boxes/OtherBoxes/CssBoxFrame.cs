@@ -98,8 +98,10 @@ namespace HtmlRenderer.Dom
                 SetErrorBorder();
             }
         }
-
-
+        public override CssBox GetParent()
+        {
+            return this.ParentBox;
+        }
 
         /// <summary>
         /// Get the href link of the box (by default get "href" attribute)

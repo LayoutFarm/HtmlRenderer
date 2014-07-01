@@ -32,7 +32,7 @@ namespace HtmlRenderer.Dom
     /// Has additional fields to control the location and size of the box and 'actual' css values for some properties
     /// that require additional calculations and parsing.<br/>
     /// </summary>
-    public abstract partial class CssBoxBase
+    partial class CssBox
     {
 
         internal int cssClassVersion;
@@ -43,7 +43,7 @@ namespace HtmlRenderer.Dom
         CssListProp _listProps = CssListProp.Default;
         CssLength _lineHeight = CssLength.NormalWordOrLine;
         CssLength _textIndent = CssLength.ZeroNoUnit;
-        Color _actualColor = System.Drawing.Color.Empty;
+        Color _actualColor = System.Drawing.Color.Black;
         CssEmptyCell _emptyCells = CssEmptyCell.Show;
         CssTextAlign _textAlign = CssTextAlign.NotAssign;
         CssVerticalAlign _verticalAlign = CssVerticalAlign.Baseline;
@@ -85,12 +85,12 @@ namespace HtmlRenderer.Dom
         static int dbugTotalId;
         public int dbugMark;
 #endif
-        public CssBoxBase()
-        {
-            _actualColor = System.Drawing.Color.Black;
-        }
+        //public CssBox()
+        //{
+        //    _actualColor = System.Drawing.Color.Black;
+        //}
 
-       
+
 
         #region CSS Properties
 
@@ -126,7 +126,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckBorderVersion().LeftWidth = value;
-                //this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_LEFT;
+                //this._prop_pass_eval &= ~CssBoxAssignments.BORDER_WIDTH_LEFT;
             }
         }
 
@@ -136,7 +136,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckBorderVersion().RightWidth = value;
-                // this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_RIGHT;
+                // this._prop_pass_eval &= ~CssBoxAssignments.BORDER_WIDTH_RIGHT;
             }
         }
 
@@ -146,7 +146,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckBorderVersion().BottomWidth = value;
-                //this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_BOTTOM;
+                //this._prop_pass_eval &= ~CssBoxAssignments.BORDER_WIDTH_BOTTOM;
             }
         }
 
@@ -156,7 +156,7 @@ namespace HtmlRenderer.Dom
             set
             {
                 CheckBorderVersion().TopWidth = value;
-                //this._prop_pass_eval &= ~CssBoxBaseAssignments.BORDER_WIDTH_TOP;
+                //this._prop_pass_eval &= ~CssBoxAssignments.BORDER_WIDTH_TOP;
             }
         }
         //--------------------------------------------------------------------------------------
@@ -424,13 +424,19 @@ namespace HtmlRenderer.Dom
             set
             {
                 _lineHeight = value;
-                this._prop_pass_eval &= ~CssBoxBaseAssignments.LINE_HEIGHT;
+                this._prop_pass_eval &= ~CssBoxAssignments.LINE_HEIGHT;
             }
         }
         public CssVerticalAlign VerticalAlign
         {
             get { return this._verticalAlign; }
-            set { this._verticalAlign = value; }
+            set
+            {
+                if (this.dbugId == 10)
+                {
+                }
+                this._verticalAlign = value;
+            }
         }
         public CssLength TextIndent
         {
@@ -599,7 +605,11 @@ namespace HtmlRenderer.Dom
         /// Get the parent of this css properties instance.
         /// </summary>
         /// <returns></returns>
-        public abstract CssBoxBase GetParent();
+        public virtual CssBox GetParent()
+        {
+            return this.ParentBox;
+        }
+
 
         /// <summary>
         /// Gets the height of the font in the specified units
