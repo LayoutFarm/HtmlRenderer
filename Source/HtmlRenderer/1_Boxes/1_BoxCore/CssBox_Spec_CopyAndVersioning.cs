@@ -29,8 +29,8 @@ namespace HtmlRenderer.Dom
 
 
             //---------------------------------------
-            _initSpec._fontProps = s._initSpec._fontProps;
-            _initSpec._listProps = s._initSpec._listProps;
+            _initSpec._fontFeats = s._initSpec._fontFeats;
+            _initSpec._listFeats = s._initSpec._listFeats;
             //--------------------------------------- 
             _initSpec._lineHeight = s._initSpec._lineHeight;
             _initSpec._textIndent = s._initSpec._textIndent;
@@ -49,10 +49,10 @@ namespace HtmlRenderer.Dom
             {
                 //for clone only (eg. split a box into two parts)
                 //---------------------------------------
-                _initSpec._backgroundProps = s._initSpec._backgroundProps;
+                _initSpec._backgroundFeats = s._initSpec._backgroundFeats;
 
-                _initSpec._borderProps = s._initSpec._borderProps;
-                _initSpec._cornerProps = s._initSpec._cornerProps;
+                _initSpec._borderFeats = s._initSpec._borderFeats;
+                _initSpec._cornerFeats = s._initSpec._cornerFeats;
                 //---------------------------------------
 
                 _initSpec._left = s._initSpec._left;
@@ -81,14 +81,13 @@ namespace HtmlRenderer.Dom
 
         }
 
-#if DEBUG
-
-        public static bool Compare(dbugPropCheckReport dbugR, BoxSpec boxBase, BoxSpec spec)
+#if DEBUG 
+        public static bool dbugCompare(dbugPropCheckReport dbugR, BoxSpec boxBase, BoxSpec spec)
         {
 
             int dd = boxBase.dbugId;
-            dbugR.Check("_fontProps", CssFontProp.dbugIsEq(dbugR, boxBase._fontProps, spec._fontProps));
-            dbugR.Check("_listProps", CssListProp.dbugIsEq(dbugR, boxBase._listProps, spec._listProps));
+            dbugR.Check("_fontProps", CssFontFeature.dbugIsEq(dbugR, boxBase._fontFeats, spec._fontFeats));
+            dbugR.Check("_listProps", CssListFeature.dbugIsEq(dbugR, boxBase._listFeats, spec._listFeats));
             dbugR.Check("_lineHeight", CssLength.IsEq(boxBase._lineHeight, spec._lineHeight));
             dbugR.Check("_textIndent", CssLength.IsEq(boxBase._textIndent, spec._textIndent));
             dbugR.Check("_actualColor", boxBase._actualColor == spec._actualColor);
@@ -101,9 +100,9 @@ namespace HtmlRenderer.Dom
             dbugR.Check("_wordBreak", boxBase._wordBreak == spec._wordBreak);
             dbugR.Check("_cssDirection", boxBase._cssDirection == spec._cssDirection);
 
-            dbugR.Check("_backgroundProps", CssBackgroundProp.dbugIsEq(dbugR, boxBase._backgroundProps, spec._backgroundProps));
-            dbugR.Check("_borderProps", CssBorderProp.dbugIsEq(dbugR, boxBase._borderProps, spec._borderProps));
-            dbugR.Check("_cornerProps", CssCornerProp.dbugIsEq(dbugR, boxBase._cornerProps, spec._cornerProps));
+            dbugR.Check("_backgroundProps", CssBackgroundFeature.dbugIsEq(dbugR, boxBase._backgroundFeats, spec._backgroundFeats));
+            dbugR.Check("_borderProps", CssBorderFeature.dbugIsEq(dbugR, boxBase._borderFeats, spec._borderFeats));
+            dbugR.Check("_cornerProps", CssCornerFeature.dbugIsEq(dbugR, boxBase._cornerFeats, spec._cornerFeats));
 
             //---------------------------------------
             dbugR.Check("_left", CssLength.IsEq(boxBase._left, spec._left));
@@ -139,12 +138,11 @@ namespace HtmlRenderer.Dom
             if (s == null)
             {
                 return;
-            }
-
+            } 
 
             //---------------------------------------
-            _initSpec._fontProps = s._fontProps;
-            _initSpec._listProps = s._listProps;
+            _initSpec._fontFeats = s._fontFeats;
+            _initSpec._listFeats = s._listFeats;
             //--------------------------------------- 
             _initSpec._lineHeight = s._lineHeight;
             _initSpec._textIndent = s._textIndent;
@@ -163,10 +161,10 @@ namespace HtmlRenderer.Dom
             {
                 //for clone only (eg. split a box into two parts)
                 //---------------------------------------
-                _initSpec._backgroundProps = s._backgroundProps;
+                _initSpec._backgroundFeats = s._backgroundFeats;
 
-                _initSpec._borderProps = s._borderProps;
-                _initSpec._cornerProps = s._cornerProps;
+                _initSpec._borderFeats = s._borderFeats;
+                _initSpec._cornerFeats = s._cornerFeats;
                 //---------------------------------------
 
                 _initSpec._left = s._left;
@@ -187,108 +185,12 @@ namespace HtmlRenderer.Dom
 
                 _initSpec._cssDisplay = s._cssDisplay;
                 _initSpec._overflow = s._overflow;
-                _initSpec._textDecoration = s._textDecoration;
-                //--------------------------------------- 
-
-
+                _initSpec._textDecoration = s._textDecoration; 
             }
 
         }
 
-        ///// <summary>
-        ///// clone all style from another box
-        ///// </summary>
-        ///// <param name="s"></param>
-        //internal void CloneAllStyles(BoxSpecBase s)
-        //{
-
-        //    //1.
-        //    //=====================================
-        //    if (s._initSpec._fontProps.Owner == s)
-        //    {
-        //        _initSpec._fontProps = s._fontProps;
-        //    }
-
-        //    _initSpec._listProps = s._listProps;
-        //    //--------------------------------------- 
-        //    _initSpec._lineHeight = s._lineHeight;
-        //    _initSpec._textIndent = s._textIndent;
-        //    _initSpec._actualColor = s._actualColor;
-        //    _initSpec._emptyCells = s._emptyCells;
-        //    //--------------------------------------- 
-        //    _initSpec._textAlign = s._textAlign;
-        //    _initSpec.VerticalAlign = s._verticalAlign;
-        //    _initSpec._visibility = s._visibility;
-        //    _initSpec._whitespace = s._whitespace;
-        //    _initSpec._wordBreak = s._wordBreak;
-        //    _initSpec._cssDirection = s._cssDirection;
-        //    //---------------------------------------
-        //    //2.
-        //    //for clone only (eg. split a box into two parts)
-        //    //=======================================
-        //    _initSpec._backgroundProps = s._backgroundProps;
-
-        //    //if (this.dbugId == 36)
-        //    //{
-        //    //}
-
-        //    if (s._borderProps.Owner == s)
-        //    {
-        //        _initSpec._borderProps = s._borderProps;
-        //    }
-        //    _initSpec._borderProps = s._borderProps;
-
-
-        //    _initSpec._cornerProps = s._cornerProps;
-        //    //---------------------------------------
-
-        //    _initSpec._left = s._left;
-        //    _initSpec._top = s._top;
-        //    _initSpec._bottom = s._bottom;
-        //    _initSpec._right = s._right;
-
-        //    _initSpec._width = s._width;
-        //    _initSpec._height = s._height;
-        //    _initSpec._maxWidth = s._maxWidth;
-        //    _initSpec._position = s._position;
-
-        //    _initSpec._wordSpacing = s._wordSpacing;
-        //    _initSpec._lineHeight = s._lineHeight;
-        //    _initSpec._float = s._float;
-
-        //    //if (this.dbugId == 36)
-        //    //{
-        //    //}
-        //    _initSpec._cssDisplay = s._cssDisplay;
-        //    _initSpec._overflow = s._overflow;
-        //    _initSpec._textDecoration = s._textDecoration;
-
-        //    //3.
-        //    //=====================================
-        //    //if (this.dbugBB > 0)
-        //    //{
-
-        //    //}
-        //    _initSpec._marginProps = s._marginProps;
-        //    //--------------------------------------
-
-        //    _initSpec._cssDirection = s._cssDirection;
-
-
-        //    //-----------------------------------
-        //    if (_initSpec._paddingProps.Owner != this)
-        //    {
-        //        _initSpec._paddingProps = s._paddingProps;
-        //    }
-        //    else
-        //    {
-        //        //this._prop_wait_eval |= (CssBoxAssignments.PADDING_LEFT |
-        //        //                         CssBoxAssignments.PADDING_TOP |
-        //        //                         CssBoxAssignments.PADDING_RIGHT |
-        //        //                         CssBoxAssignments.PADDING_BOTTOM);
-        //    }
-        //    //-----------------------------------
-        //}
+       
 
         /// <summary>
         /// clone all style from another box
@@ -299,12 +201,12 @@ namespace HtmlRenderer.Dom
 
             //1.
             //=====================================
-            if (s._fontProps.Owner == s)
+            if (s._fontFeats.Owner == s)
             {
-                _initSpec._fontProps = s._fontProps;
+                _initSpec._fontFeats = s._fontFeats;
             }
 
-            _initSpec._listProps = s._listProps;
+            _initSpec._listFeats = s._listFeats;
             //--------------------------------------- 
             _initSpec._lineHeight = s._lineHeight;
             _initSpec._textIndent = s._textIndent;
@@ -321,20 +223,20 @@ namespace HtmlRenderer.Dom
             //2.
             //for clone only (eg. split a box into two parts)
             //=======================================
-            _initSpec._backgroundProps = s._backgroundProps;
+            _initSpec._backgroundFeats = s._backgroundFeats;
 
             //if (this.dbugId == 36)
             //{
             //}
 
-            if (s._borderProps.Owner == s)
+            if (s._borderFeats.Owner == s)
             {
-                _initSpec._borderProps = s._borderProps;
+                _initSpec._borderFeats = s._borderFeats;
             }
-            _initSpec._borderProps = s._borderProps;
+            _initSpec._borderFeats = s._borderFeats;
 
 
-            _initSpec._cornerProps = s._cornerProps;
+            _initSpec._cornerFeats = s._cornerFeats;
             //---------------------------------------
 
             _initSpec._left = s._left;
@@ -364,7 +266,7 @@ namespace HtmlRenderer.Dom
             //{
 
             //}
-            _initSpec._marginProps = s._marginProps;
+            _initSpec._marginFeats = s._marginFeats;
             //--------------------------------------
 
             _initSpec._cssDirection = s._cssDirection;
@@ -387,33 +289,33 @@ namespace HtmlRenderer.Dom
 
 
         protected int _prop_pass_eval;
-        CssBorderProp CheckBorderVersion()
+        CssBorderFeature CheckBorderVersion()
         {
-            return _initSpec._borderProps = _initSpec._borderProps.GetMyOwnVersion(this);
+            return _initSpec._borderFeats = _initSpec._borderFeats.GetMyOwnVersion(this);
         }
-        CssMarginProp CheckMarginVersion()
+        CssMarginFeature CheckMarginVersion()
         {
-            return _initSpec._marginProps = _initSpec._marginProps.GetMyOwnVersion(this);
+            return _initSpec._marginFeats = _initSpec._marginFeats.GetMyOwnVersion(this);
         }
-        CssPaddingProp CheckPaddingVersion()
+        CssPaddingFeature CheckPaddingVersion()
         {
             return _initSpec._paddingProps = _initSpec._paddingProps.GetMyOwnVersion(this);
         }
-        CssCornerProp CheckCornerVersion()
+        CssCornerFeature CheckCornerVersion()
         {
-            return _initSpec._cornerProps = _initSpec._cornerProps.GetMyOwnVersion(this);
+            return _initSpec._cornerFeats = _initSpec._cornerFeats.GetMyOwnVersion(this);
         }
-        CssFontProp CheckFontVersion()
+        CssFontFeature CheckFontVersion()
         {
-            return _initSpec._fontProps = _initSpec._fontProps.GetMyOwnVersion(this);
+            return _initSpec._fontFeats = _initSpec._fontFeats.GetMyOwnVersion(this);
         }
-        CssListProp CheckListPropVersion()
+        CssListFeature CheckListPropVersion()
         {
-            return _initSpec._listProps = _initSpec._listProps.GetMyOwnVersion(this);
+            return _initSpec._listFeats = _initSpec._listFeats.GetMyOwnVersion(this);
         }
-        CssBackgroundProp CheckBgVersion()
+        CssBackgroundFeature CheckBgVersion()
         {
-            return _initSpec._backgroundProps = _initSpec._backgroundProps.GetMyOwnVersion(this);
+            return _initSpec._backgroundFeats = _initSpec._backgroundFeats.GetMyOwnVersion(this);
         }
 
 

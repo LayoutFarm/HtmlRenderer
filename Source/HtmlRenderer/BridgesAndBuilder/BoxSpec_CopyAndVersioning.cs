@@ -25,8 +25,8 @@ namespace HtmlRenderer.Dom
                 return;
             }
             //---------------------------------------
-            this._fontProps = s._initSpec._fontProps;
-            this._listProps = s._initSpec._listProps;
+            this._fontFeats = s._initSpec._fontFeats;
+            this._listFeats = s._initSpec._listFeats;
             //--------------------------------------- 
             this._lineHeight = s._initSpec._lineHeight;
             this._textIndent = s._initSpec._textIndent;
@@ -45,10 +45,10 @@ namespace HtmlRenderer.Dom
             {
                 //for clone only (eg. split a box into two parts)
                 //---------------------------------------
-                this._backgroundProps = s._initSpec._backgroundProps;
+                this._backgroundFeats = s._initSpec._backgroundFeats;
 
-                this._borderProps = s._initSpec._borderProps;
-                this._cornerProps = s._initSpec._cornerProps;
+                this._borderFeats = s._initSpec._borderFeats;
+                this._cornerFeats = s._initSpec._cornerFeats;
                 //---------------------------------------
 
                 this._left = s._initSpec._left;
@@ -89,8 +89,8 @@ namespace HtmlRenderer.Dom
                 return;
             }
             //---------------------------------------
-            this._fontProps = s._fontProps;
-            this._listProps = s._listProps;
+            this._fontFeats = s._fontFeats;
+            this._listFeats = s._listFeats;
             //--------------------------------------- 
             this._lineHeight = s._lineHeight;
             this._textIndent = s._textIndent;
@@ -109,10 +109,10 @@ namespace HtmlRenderer.Dom
             {
                 //for clone only (eg. split a box into two parts)
                 //---------------------------------------
-                this._backgroundProps = s._backgroundProps;
+                this._backgroundFeats = s._backgroundFeats;
 
-                this._borderProps = s._borderProps;
-                this._cornerProps = s._cornerProps;
+                this._borderFeats = s._borderFeats;
+                this._cornerFeats = s._cornerFeats;
                 //---------------------------------------
 
                 this._left = s._left;
@@ -150,12 +150,12 @@ namespace HtmlRenderer.Dom
         {
             //1.
             //=====================================
-            if (s._fontProps.Owner == s)
+            if (s._fontFeats.Owner == s)
             {
-                this._fontProps = s._fontProps;
+                this._fontFeats = s._fontFeats;
             }
 
-            this._listProps = s._listProps;
+            this._listFeats = s._listFeats;
             //--------------------------------------- 
             this._lineHeight = s._lineHeight;
             this._textIndent = s._textIndent;
@@ -172,20 +172,20 @@ namespace HtmlRenderer.Dom
             //2.
             //for clone only (eg. split a box into two parts)
             //=======================================
-            this._backgroundProps = s._backgroundProps;
+            this._backgroundFeats = s._backgroundFeats;
 
             //if (this.dbugId == 36)
             //{
             //}
 
-            if (s._borderProps.Owner == s)
+            if (s._borderFeats.Owner == s)
             {
-                this._borderProps = s._borderProps;
+                this._borderFeats = s._borderFeats;
             }
-            this._borderProps = s._borderProps;
+            this._borderFeats = s._borderFeats;
 
 
-            this._cornerProps = s._cornerProps;
+            this._cornerFeats = s._cornerFeats;
             //---------------------------------------
 
             this._left = s._left;
@@ -215,7 +215,7 @@ namespace HtmlRenderer.Dom
             //{
 
             //}
-            this._marginProps = s._marginProps;
+            this._marginFeats = s._marginFeats;
             //--------------------------------------
 
             this._cssDirection = s._cssDirection;
@@ -239,33 +239,33 @@ namespace HtmlRenderer.Dom
 
 
         protected int _prop_pass_eval;
-        CssBorderProp CheckBorderVersion()
+        CssBorderFeature CheckBorderVersion()
         {
-            return this._borderProps = this._borderProps.GetMyOwnVersion(this);
+            return this._borderFeats = this._borderFeats.GetMyOwnVersion(this);
         }
-        CssMarginProp CheckMarginVersion()
+        CssMarginFeature CheckMarginVersion()
         {
-            return this._marginProps = this._marginProps.GetMyOwnVersion(this);
+            return this._marginFeats = this._marginFeats.GetMyOwnVersion(this);
         }
-        CssPaddingProp CheckPaddingVersion()
+        CssPaddingFeature CheckPaddingVersion()
         {
             return this._paddingProps = this._paddingProps.GetMyOwnVersion(this);
         }
-        CssCornerProp CheckCornerVersion()
+        CssCornerFeature CheckCornerVersion()
         {
-            return this._cornerProps = this._cornerProps.GetMyOwnVersion(this);
+            return this._cornerFeats = this._cornerFeats.GetMyOwnVersion(this);
         }
-        CssFontProp CheckFontVersion()
+        CssFontFeature CheckFontVersion()
         {
-            return this._fontProps = this._fontProps.GetMyOwnVersion(this);
+            return this._fontFeats = this._fontFeats.GetMyOwnVersion(this);
         }
-        CssListProp CheckListPropVersion()
+        CssListFeature CheckListPropVersion()
         {
-            return this._listProps = this._listProps.GetMyOwnVersion(this);
+            return this._listFeats = this._listFeats.GetMyOwnVersion(this);
         }
-        CssBackgroundProp CheckBgVersion()
+        CssBackgroundFeature CheckBgVersion()
         {
-            return this._backgroundProps = this._backgroundProps.GetMyOwnVersion(this);
+            return this._backgroundFeats = this._backgroundFeats.GetMyOwnVersion(this);
         }
 
 

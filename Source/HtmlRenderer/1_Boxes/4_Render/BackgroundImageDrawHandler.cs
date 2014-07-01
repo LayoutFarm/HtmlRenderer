@@ -97,11 +97,11 @@ namespace HtmlRenderer.Handlers
             {
                 switch (posX.UnitOrNames)
                 {
-                    case Entities.CssUnitOrNames.LEFT:
+                    case CssUnitOrNames.LEFT:
                         {
                             left = (int)(rectangle.Left + .5f);
                         } break;
-                    case Entities.CssUnitOrNames.RIGHT:
+                    case CssUnitOrNames.RIGHT:
                         {
                             left = (int)rectangle.Right - imgSize.Width;
                         } break;
@@ -116,11 +116,11 @@ namespace HtmlRenderer.Handlers
             {
                 switch (posY.UnitOrNames)
                 {
-                    case Entities.CssUnitOrNames.TOP:
+                    case CssUnitOrNames.TOP:
                         {
                             top = (int)rectangle.Top;
                         } break;
-                    case Entities.CssUnitOrNames.BOTTOM:
+                    case CssUnitOrNames.BOTTOM:
                         {
                             top = (int)rectangle.Bottom - imgSize.Height;
                         } break;

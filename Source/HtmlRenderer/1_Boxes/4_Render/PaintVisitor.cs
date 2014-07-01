@@ -133,19 +133,19 @@ namespace HtmlRenderer.Dom
             var g = this.Gfx;
 
             var b1 = RenderUtils.GetSolidBrush(topColor);
-            BordersDrawHandler.DrawBorder(Border.Top, g, box, b1, rect);
+            BordersDrawHandler.DrawBorder(BorderSide.Top, g, box, b1, rect);
 
             var b2 = RenderUtils.GetSolidBrush(leftColor);
-            BordersDrawHandler.DrawBorder(Border.Left, g, box, b2, rect);
+            BordersDrawHandler.DrawBorder(BorderSide.Left, g, box, b2, rect);
 
             var b3 = RenderUtils.GetSolidBrush(rightColor);
-            BordersDrawHandler.DrawBorder(Border.Right, g, box, b3, rect);
+            BordersDrawHandler.DrawBorder(BorderSide.Right, g, box, b3, rect);
 
             var b4 = RenderUtils.GetSolidBrush(bottomColor);
-            BordersDrawHandler.DrawBorder(Border.Bottom, g, box, b4, rect);
+            BordersDrawHandler.DrawBorder(BorderSide.Bottom, g, box, b4, rect);
 
         }
-        internal void PaintBorder(CssBox box, Border border, Color solidColor, RectangleF rect)
+        internal void PaintBorder(CssBox box, BorderSide border, Color solidColor, RectangleF rect)
         {
             var b = RenderUtils.GetSolidBrush(solidColor);
             BordersDrawHandler.DrawBorder(border, this.Gfx, box, b, rect);

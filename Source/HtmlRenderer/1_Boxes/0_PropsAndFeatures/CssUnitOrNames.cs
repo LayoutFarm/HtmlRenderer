@@ -1,7 +1,7 @@
-//BSD 2014,
+//BSD 2014,WinterCore
 //ArthurHub
 
-namespace HtmlRenderer.Entities
+namespace HtmlRenderer.Dom
 {
 
     /// <summary>

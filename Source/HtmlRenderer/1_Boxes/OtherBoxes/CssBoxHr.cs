@@ -150,7 +150,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                p.PaintBorder(this, Border.Top, this.BorderTopColor, rect);
+                p.PaintBorder(this, BorderSide.Top, this.BorderTopColor, rect);
 
             }
         }

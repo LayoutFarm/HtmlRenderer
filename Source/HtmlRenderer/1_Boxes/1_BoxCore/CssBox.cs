@@ -41,8 +41,8 @@ namespace HtmlRenderer.Dom
     public partial class CssBox : //CssBox,
         IDisposable
     {
-        readonly BoxSpec _importSpec;
-        readonly BoxSpec _finalSpec;
+        readonly BoxSpec _importSpec; 
+
         internal readonly BoxSpec _initSpec;
 
         internal CssBox(CssBox parentBox, BridgeHtmlElement element)
@@ -77,13 +77,9 @@ namespace HtmlRenderer.Dom
                 this.WellknownTagName = element.WellknownTagName;
             }
             //------------
-            _finalSpec = new BoxSpec(this.WellknownTagName);
+            
             this._initSpec = new BoxSpec(WellknownTagName);
-            //------------
-            if (_importSpec != null)
-            {
-                _finalSpec.CloneAllStylesFrom(_importSpec);
-            }
+            
         }
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
         {
@@ -107,14 +103,10 @@ namespace HtmlRenderer.Dom
                 this.WellknownTagName = element.WellknownTagName;
             }
 
-            _finalSpec = new BoxSpec(this.WellknownTagName);
+            
             this._initSpec = new BoxSpec(WellknownTagName);
 
-            if (_importSpec != null)
-            {
-                _finalSpec.CloneAllStylesFrom(_importSpec);
-                //_finalSpec.InheritStylesFrom(_importSpec);
-            }
+            
         }
         public BoxSpec ImportSpec
         {
@@ -123,10 +115,7 @@ namespace HtmlRenderer.Dom
                 return this._importSpec;
             }
         }
-        public BoxSpec FinalSpec
-        {
-            get { return this._finalSpec; }
-        }
+         
         public BoxSpec InitSpec
         {
             get { return this._initSpec; }

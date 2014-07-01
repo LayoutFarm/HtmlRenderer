@@ -2,23 +2,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Globalization;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Handlers;
-using HtmlRenderer.Parse;
-using HtmlRenderer.Utils;
+using System.Drawing; 
 
 namespace HtmlRenderer.Dom
 {
 
 
-    class CssBorderProp
+    class CssBorderFeature
     {
 
         object owner;
-        public CssBorderProp(object owner)
+        public CssBorderFeature(object owner)
         {
             this.owner = owner;
             this.LeftWidth =
@@ -42,7 +36,7 @@ namespace HtmlRenderer.Dom
 
 
         }
-        private CssBorderProp(object owner, CssBorderProp inheritFrom)
+        private CssBorderFeature(object owner, CssBorderFeature inheritFrom)
         {
             this.owner = owner;
             this.LeftWidth = inheritFrom.LeftWidth;
@@ -90,7 +84,7 @@ namespace HtmlRenderer.Dom
 
 
 
-        public CssBorderProp GetMyOwnVersion(object checkOwner)
+        public CssBorderFeature GetMyOwnVersion(object checkOwner)
         {
             if (this.owner == checkOwner)
             {
@@ -99,15 +93,15 @@ namespace HtmlRenderer.Dom
             else
             {
                 //create new clone
-                return new CssBorderProp(checkOwner, this);
+                return new CssBorderFeature(checkOwner, this);
             }
         }
 
 
-        public static readonly CssBorderProp Default = new CssBorderProp(null);
+        public static readonly CssBorderFeature Default = new CssBorderFeature(null);
 
 #if DEBUG
-        public static bool dbugIsEq(dbugPropCheckReport rep, CssBorderProp prop1, CssBorderProp prop2)
+        public static bool dbugIsEq(dbugPropCheckReport rep, CssBorderFeature prop1, CssBorderFeature prop2)
         {
             int inCount = rep.Count;
             rep.Check("LeftWidth", CssLength.IsEq(prop1.LeftWidth, prop2.LeftWidth));
@@ -134,12 +128,11 @@ namespace HtmlRenderer.Dom
         }
 #endif
     }
-
-    class CssMarginProp
+    class CssMarginFeature
     {
         object owner;
 
-        public CssMarginProp(object owner)
+        public CssMarginFeature(object owner)
         {
             this.owner = owner;
             this.Left =
@@ -147,7 +140,7 @@ namespace HtmlRenderer.Dom
                 this.Right =
                 this.Bottom = CssLength.ZeroPx;
         }
-        private CssMarginProp(object newOwner, CssMarginProp inheritFrom)
+        private CssMarginFeature(object newOwner, CssMarginFeature inheritFrom)
         {
             this.owner = newOwner;
 
@@ -164,7 +157,7 @@ namespace HtmlRenderer.Dom
 
 
 
-        public CssMarginProp GetMyOwnVersion(object checkOwner)
+        public CssMarginFeature GetMyOwnVersion(object checkOwner)
         {
             if (this.owner == checkOwner)
             {
@@ -172,14 +165,14 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                return new CssMarginProp(checkOwner, this);
+                return new CssMarginFeature(checkOwner, this);
             }
         }
-        public static readonly CssMarginProp Default = new CssMarginProp(null);
+        public static readonly CssMarginFeature Default = new CssMarginFeature(null);
 
 
 #if DEBUG
-        public static bool dbugIsEq(dbugPropCheckReport rep, CssMarginProp prop1, CssMarginProp prop2)
+        public static bool dbugIsEq(dbugPropCheckReport rep, CssMarginFeature prop1, CssMarginFeature prop2)
         {
             int inCount = rep.Count;
             rep.Check("Left", CssLength.IsEq(prop1.Left, prop2.Left));
@@ -191,11 +184,11 @@ namespace HtmlRenderer.Dom
         }
 #endif
     }
-    class CssPaddingProp
+    class CssPaddingFeature
     {
 
         object owner;
-        public CssPaddingProp(object owner)
+        public CssPaddingFeature(object owner)
         {
             this.owner = owner;
             this.Left =
@@ -203,7 +196,7 @@ namespace HtmlRenderer.Dom
                    Right =
                    Bottom = CssLength.ZeroNoUnit;
         }
-        private CssPaddingProp(object newOwner, CssPaddingProp inheritFrom)
+        private CssPaddingFeature(object newOwner, CssPaddingFeature inheritFrom)
         {
             this.owner = newOwner;
             this.Left = inheritFrom.Left;
@@ -216,7 +209,7 @@ namespace HtmlRenderer.Dom
         public CssLength Right { get; set; }
         public CssLength Bottom { get; set; }
 
-        public CssPaddingProp GetMyOwnVersion(object checkOwner)
+        public CssPaddingFeature GetMyOwnVersion(object checkOwner)
         {
             if (this.owner == checkOwner)
             {
@@ -224,17 +217,17 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                return new CssPaddingProp(checkOwner, this);
+                return new CssPaddingFeature(checkOwner, this);
             }
         }
-        public static readonly CssPaddingProp Default = new CssPaddingProp(null);
+        public static readonly CssPaddingFeature Default = new CssPaddingFeature(null);
         public object Owner
         {
             get { return this.owner; }
         }
 
 #if DEBUG
-        public static bool dbugIsEq(dbugPropCheckReport rep, CssPaddingProp prop1, CssPaddingProp prop2)
+        public static bool dbugIsEq(dbugPropCheckReport rep, CssPaddingFeature prop1, CssPaddingFeature prop2)
         {
             int inCount = rep.Count;
             rep.Check("Left", CssLength.IsEq(prop1.Left, prop2.Left));
@@ -248,12 +241,12 @@ namespace HtmlRenderer.Dom
     }
 
 
-    class CssListProp
+    class CssListFeature
     {
 
 
         object owner;
-        public CssListProp(object owner)
+        public CssListFeature(object owner)
         {
             this.owner = owner;
             ListStyleType = CssListStyleType.Disc;
@@ -261,7 +254,7 @@ namespace HtmlRenderer.Dom
             ListStylePosition = CssListStylePosition.Outside;
             ListStyle = string.Empty;
         }
-        private CssListProp(object owner, CssListProp inheritFrom)
+        private CssListFeature(object owner, CssListFeature inheritFrom)
         {
             this.owner = owner;
             ListStyleType = inheritFrom.ListStyleType;
@@ -269,7 +262,7 @@ namespace HtmlRenderer.Dom
             ListStylePosition = inheritFrom.ListStylePosition;
             ListStyle = inheritFrom.ListStyle;
         }
-        public CssListProp GetMyOwnVersion(object checkOwner)
+        public CssListFeature GetMyOwnVersion(object checkOwner)
         {
             if (this.owner == checkOwner)
             {
@@ -277,7 +270,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                return new CssListProp(checkOwner, this);
+                return new CssListFeature(checkOwner, this);
             }
         }
 
@@ -286,10 +279,10 @@ namespace HtmlRenderer.Dom
         public CssListStylePosition ListStylePosition { get; set; }
         public string ListStyle { get; set; }
 
-        public static readonly CssListProp Default = new CssListProp(null);
+        public static readonly CssListFeature Default = new CssListFeature(null);
 
 #if DEBUG
-        public static bool dbugIsEq(dbugPropCheckReport rep, CssListProp prop1, CssListProp prop2)
+        public static bool dbugIsEq(dbugPropCheckReport rep, CssListFeature prop1, CssListFeature prop2)
         {
             int inCount = rep.Count;
             rep.Check("ListStyleType", prop1.ListStyleType == prop2.ListStyleType);
@@ -302,11 +295,11 @@ namespace HtmlRenderer.Dom
 #endif
     }
 
-    class CssCornerProp
+    class CssCornerFeature
     {
 
         object owner;
-        public CssCornerProp(object owner)
+        public CssCornerFeature(object owner)
         {
             this.owner = owner;
             this.NERadius =
@@ -314,7 +307,7 @@ namespace HtmlRenderer.Dom
                 SERadius =
                 SWRadius = CssLength.ZeroNoUnit;
         }
-        private CssCornerProp(object owner, CssCornerProp inheritFrom)
+        private CssCornerFeature(object owner, CssCornerFeature inheritFrom)
         {
             this.owner = owner;
 
@@ -324,7 +317,7 @@ namespace HtmlRenderer.Dom
             this.SWRadius = inheritFrom.SWRadius;
 
         }
-        public CssCornerProp GetMyOwnVersion(object checkOwner)
+        public CssCornerFeature GetMyOwnVersion(object checkOwner)
         {
             if (this.owner == checkOwner)
             {
@@ -332,10 +325,10 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                return new CssCornerProp(owner, this);
+                return new CssCornerFeature(owner, this);
             }
         }
-        public static readonly CssCornerProp Default = new CssCornerProp(null);
+        public static readonly CssCornerFeature Default = new CssCornerFeature(null);
 
         public CssLength NERadius { get; set; }
         public CssLength NWRadius { get; set; }
@@ -345,7 +338,7 @@ namespace HtmlRenderer.Dom
 
 
 #if DEBUG
-        public static bool dbugIsEq(dbugPropCheckReport rep, CssCornerProp prop1, CssCornerProp prop2)
+        public static bool dbugIsEq(dbugPropCheckReport rep, CssCornerFeature prop1, CssCornerFeature prop2)
         {
             int inCount = rep.Count;
             rep.Check("NERadius", CssLength.IsEq(prop1.NERadius, prop2.NERadius));
@@ -357,12 +350,12 @@ namespace HtmlRenderer.Dom
         }
 #endif
     }
-    class CssFontProp
+    class CssFontFeature
     {
         object owner;
         Font _cacheFont;
 
-        public CssFontProp(object owner)
+        public CssFontFeature(object owner)
         {
             this.owner = owner;
             FontFamily = "serif";
@@ -371,7 +364,7 @@ namespace HtmlRenderer.Dom
             FontVariant = CssFontVariant.Normal;
             FontWeight = CssFontWeight.Normal;
         }
-        private CssFontProp(object owner, CssFontProp inheritFrom)
+        private CssFontFeature(object owner, CssFontFeature inheritFrom)
         {
             this.owner = owner;
             this.FontFamily = inheritFrom.FontFamily;
@@ -387,7 +380,7 @@ namespace HtmlRenderer.Dom
         public CssFontVariant FontVariant { get; set; }
         public CssFontWeight FontWeight { get; set; }
 
-        public CssFontProp GetMyOwnVersion(object checkOwner)
+        public CssFontFeature GetMyOwnVersion(object checkOwner)
         {
             if (this.owner == checkOwner)
             {
@@ -395,7 +388,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                return new CssFontProp(checkOwner, this);
+                return new CssFontFeature(checkOwner, this);
             }
         }
         public object Owner
@@ -498,19 +491,19 @@ namespace HtmlRenderer.Dom
 
             if (!relateToParent)
             {
-                return this._cacheFont = FontsUtils.GetCachedFont(fontFam, fsize, st);
+                return this._cacheFont = Utils.FontsUtils.GetCachedFont(fontFam, fsize, st);
             }
             else
             {
                 //not store to cache font
-                return FontsUtils.GetCachedFont(fontFam, fsize, st);
+                return Utils.FontsUtils.GetCachedFont(fontFam, fsize, st);
             }
         }
-        public static readonly CssFontProp Default = new CssFontProp(null);
+        public static readonly CssFontFeature Default = new CssFontFeature(null);
 
 
 #if DEBUG
-        public static bool dbugIsEq(dbugPropCheckReport rep, CssFontProp prop1, CssFontProp prop2)
+        public static bool dbugIsEq(dbugPropCheckReport rep, CssFontFeature prop1, CssFontFeature prop2)
         {
             if (prop1 == prop2)
             {
@@ -555,11 +548,10 @@ namespace HtmlRenderer.Dom
         }
     }
 #endif
-
-    class CssBackgroundProp
+    class CssBackgroundFeature
     {
         object owner;
-        public CssBackgroundProp(object owner)
+        public CssBackgroundFeature(object owner)
         {
             this.owner = owner;
             this.BackgroundColor = Color.Transparent; //"transparent";
@@ -571,7 +563,7 @@ namespace HtmlRenderer.Dom
             this.BackgroundPosY = new CssLength(0, CssUnitOrNames.Percent);
             this.BackgroundRepeat = CssBackgroundRepeat.Repeat;
         }
-        private CssBackgroundProp(object owner, CssBackgroundProp inheritFrom)
+        private CssBackgroundFeature(object owner, CssBackgroundFeature inheritFrom)
         {
             this.owner = owner;
             BackgroundColor = inheritFrom.BackgroundColor;
@@ -584,7 +576,7 @@ namespace HtmlRenderer.Dom
             BackgroundRepeat = inheritFrom.BackgroundRepeat;
         }
 
-        public CssBackgroundProp GetMyOwnVersion(object checkOwner)
+        public CssBackgroundFeature GetMyOwnVersion(object checkOwner)
         {
             if (this.owner == checkOwner)
             {
@@ -592,7 +584,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                return new CssBackgroundProp(checkOwner, this);
+                return new CssBackgroundFeature(checkOwner, this);
             }
         }
         //---------------------------------
@@ -607,11 +599,11 @@ namespace HtmlRenderer.Dom
         public CssLength BackgroundPosY { get; set; }
         public CssBackgroundRepeat BackgroundRepeat { get; set; }
 
-        public static readonly CssBackgroundProp Default = new CssBackgroundProp(null);
+        public static readonly CssBackgroundFeature Default = new CssBackgroundFeature(null);
 
 
 #if DEBUG
-        public static bool dbugIsEq(dbugPropCheckReport rep, CssBackgroundProp prop1, CssBackgroundProp prop2)
+        public static bool dbugIsEq(dbugPropCheckReport rep, CssBackgroundFeature prop1, CssBackgroundFeature prop2)
         {
             if (prop1 == prop2)
             {

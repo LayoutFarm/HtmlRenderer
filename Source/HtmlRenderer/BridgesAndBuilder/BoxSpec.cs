@@ -78,8 +78,8 @@ namespace HtmlRenderer.Dom
         //==========================================================
         #region css values Inherit From Parent (by default)
         //inherit from parent by default
-        internal CssFontProp _fontProps = CssFontProp.Default;
-        internal CssListProp _listProps = CssListProp.Default;
+        internal CssFontFeature _fontFeats = CssFontFeature.Default;
+        internal CssListFeature _listFeats = CssListFeature.Default;
         internal CssLength _lineHeight = CssLength.NormalWordOrLine;
         internal CssLength _textIndent = CssLength.ZeroNoUnit;
         internal Color _actualColor = System.Drawing.Color.Black;
@@ -94,12 +94,12 @@ namespace HtmlRenderer.Dom
         #endregion
         //==========================================================
         #region css values Not Inherit From Parent
-        internal CssBorderProp _borderProps = CssBorderProp.Default;
-        internal CssPaddingProp _paddingProps = CssPaddingProp.Default;
-        internal CssMarginProp _marginProps = CssMarginProp.Default;
-        internal CssCornerProp _cornerProps = CssCornerProp.Default;
+        internal CssBorderFeature _borderFeats = CssBorderFeature.Default;
+        internal CssPaddingFeature _paddingProps = CssPaddingFeature.Default;
+        internal CssMarginFeature _marginFeats = CssMarginFeature.Default;
+        internal CssCornerFeature _cornerFeats = CssCornerFeature.Default;
         internal Font _actualFont;
-        internal CssBackgroundProp _backgroundProps = CssBackgroundProp.Default;
+        internal CssBackgroundFeature _backgroundFeats = CssBackgroundFeature.Default;
         internal CssDisplay _cssDisplay = CssDisplay.Inline;
         internal CssFloat _float = CssFloat.None;
         //==========================================================
@@ -155,7 +155,7 @@ namespace HtmlRenderer.Dom
         //--------------------------------------------------------------------------------------
         public CssLength BorderLeftWidth
         {
-            get { return this._borderProps.LeftWidth; }
+            get { return this._borderFeats.LeftWidth; }
             set
             {
                 CheckBorderVersion().LeftWidth = value;
@@ -165,7 +165,7 @@ namespace HtmlRenderer.Dom
 
         public CssLength BorderRightWidth
         {
-            get { return this._borderProps.RightWidth; }
+            get { return this._borderFeats.RightWidth; }
             set
             {
                 CheckBorderVersion().RightWidth = value;
@@ -175,7 +175,7 @@ namespace HtmlRenderer.Dom
 
         public CssLength BorderBottomWidth
         {
-            get { return this._borderProps.BottomWidth; }
+            get { return this._borderFeats.BottomWidth; }
             set
             {
                 CheckBorderVersion().BottomWidth = value;
@@ -185,7 +185,7 @@ namespace HtmlRenderer.Dom
 
         public CssLength BorderTopWidth
         {
-            get { return this._borderProps.TopWidth; }
+            get { return this._borderFeats.TopWidth; }
             set
             {
                 CheckBorderVersion().TopWidth = value;
@@ -196,64 +196,64 @@ namespace HtmlRenderer.Dom
         public CssBorderStyle BorderTopStyle
         {
 
-            get { return this._borderProps.TopStyle; }
+            get { return this._borderFeats.TopStyle; }
             set { CheckBorderVersion().TopStyle = value; }
 
         }
         public CssBorderStyle BorderLeftStyle
         {
-            get { return this._borderProps.LeftStyle; }
+            get { return this._borderFeats.LeftStyle; }
             set { CheckBorderVersion().LeftStyle = value; }
         }
         public CssBorderStyle BorderRightStyle
         {
-            get { return this._borderProps.RightStyle; }
+            get { return this._borderFeats.RightStyle; }
             set { CheckBorderVersion().RightStyle = value; }
         }
 
         public CssBorderStyle BorderBottomStyle
         {
 
-            get { return this._borderProps.BottomStyle; }
+            get { return this._borderFeats.BottomStyle; }
             set { CheckBorderVersion().BottomStyle = value; }
         }
 
         //--------------------------------------------
         public Color BorderBottomColor
         {
-            get { return this._borderProps.BottomColor; }
+            get { return this._borderFeats.BottomColor; }
             set { CheckBorderVersion().BottomColor = value; }
         }
         public Color BorderLeftColor
         {
-            get { return this._borderProps.LeftColor; }
+            get { return this._borderFeats.LeftColor; }
             set { CheckBorderVersion().LeftColor = value; }
         }
         //--------------------------------------------
         public Color BorderRightColor
         {
-            get { return this._borderProps.RightColor; }
+            get { return this._borderFeats.RightColor; }
             set { CheckBorderVersion().RightColor = value; }
         }
 
         public Color BorderTopColor
         {
-            get { return this._borderProps.TopColor; }
+            get { return this._borderFeats.TopColor; }
             set { CheckBorderVersion().TopColor = value; }
         }
         public CssLength BorderSpacingVertical
         {
-            get { return this._borderProps.BorderSpacingV; }
+            get { return this._borderFeats.BorderSpacingV; }
             set { CheckBorderVersion().BorderSpacingV = value; }
         }
         public CssLength BorderSpacingHorizontal
         {
-            get { return this._borderProps.BorderSpacingH; }
+            get { return this._borderFeats.BorderSpacingH; }
             set { CheckBorderVersion().BorderSpacingH = value; }
         }
         public CssBorderCollapse BorderCollapse
         {
-            get { return this._borderProps.BorderCollapse; }
+            get { return this._borderFeats.BorderCollapse; }
             set { CheckBorderVersion().BorderCollapse = value; }
         }
 
@@ -264,7 +264,7 @@ namespace HtmlRenderer.Dom
         //------------------------------------------------------
         public CssLength CornerNERadius
         {
-            get { return this._cornerProps.NERadius; }
+            get { return this._cornerFeats.NERadius; }
             set
             {
                 CheckCornerVersion().NERadius = value;
@@ -272,7 +272,7 @@ namespace HtmlRenderer.Dom
         }
         public CssLength CornerNWRadius
         {
-            get { return this._cornerProps.NWRadius; }
+            get { return this._cornerFeats.NWRadius; }
             set
             {
                 CheckCornerVersion().NWRadius = value;
@@ -280,7 +280,7 @@ namespace HtmlRenderer.Dom
         }
         public CssLength CornerSERadius
         {
-            get { return this._cornerProps.SERadius; }
+            get { return this._cornerFeats.SERadius; }
             set
             {
                 CheckCornerVersion().SERadius = value;
@@ -288,7 +288,7 @@ namespace HtmlRenderer.Dom
         }
         public CssLength CornerSWRadius
         {
-            get { return this._cornerProps.SWRadius; }
+            get { return this._cornerFeats.SWRadius; }
             set
             {
                 CheckCornerVersion().SWRadius = value;
@@ -297,25 +297,25 @@ namespace HtmlRenderer.Dom
         //------------------------------------------------------
         public CssLength MarginBottom
         {
-            get { return this._marginProps.Bottom; }
+            get { return this._marginFeats.Bottom; }
             set { CheckMarginVersion().Bottom = value; }
         }
 
         public CssLength MarginLeft
         {
-            get { return this._marginProps.Left; }
+            get { return this._marginFeats.Left; }
             set { CheckMarginVersion().Left = value; }
         }
 
         public CssLength MarginRight
         {
-            get { return this._marginProps.Right; }
+            get { return this._marginFeats.Right; }
             set { CheckMarginVersion().Right = value; }
         }
 
         public CssLength MarginTop
         {
-            get { return this._marginProps.Top; }
+            get { return this._marginFeats.Top; }
             set { CheckMarginVersion().Top = value; }
         }
 
@@ -387,41 +387,41 @@ namespace HtmlRenderer.Dom
         }
         public Color BackgroundColor
         {
-            get { return this._backgroundProps.BackgroundColor; }
+            get { return this._backgroundFeats.BackgroundColor; }
             set { CheckBgVersion().BackgroundColor = value; }
         }
         public ImageBinder BackgroundImageBinder
         {
-            get { return this._backgroundProps.BackgroundImageBinder; }
+            get { return this._backgroundFeats.BackgroundImageBinder; }
             set { CheckBgVersion().BackgroundImageBinder = value; }
         }
 
 
         public CssLength BackgroundPositionX
         {
-            get { return this._backgroundProps.BackgroundPosX; }
+            get { return this._backgroundFeats.BackgroundPosX; }
             set { CheckBgVersion().BackgroundPosX = value; }
         }
         public CssLength BackgroundPositionY
         {
-            get { return this._backgroundProps.BackgroundPosY; }
+            get { return this._backgroundFeats.BackgroundPosY; }
             set { CheckBgVersion().BackgroundPosY = value; }
         }
         public CssBackgroundRepeat BackgroundRepeat
         {
-            get { return this._backgroundProps.BackgroundRepeat; }
+            get { return this._backgroundFeats.BackgroundRepeat; }
             set { CheckBgVersion().BackgroundRepeat = value; }
         }
 
         public Color BackgroundGradient
         {
-            get { return this._backgroundProps.BackgroundGradient; }
+            get { return this._backgroundFeats.BackgroundGradient; }
             set { CheckBgVersion().BackgroundGradient = value; }
         }
 
         public float BackgroundGradientAngle
         {
-            get { return this._backgroundProps.BackgroundGradientAngle; }
+            get { return this._backgroundFeats.BackgroundGradientAngle; }
             set { CheckBgVersion().BackgroundGradientAngle = value; }
         }
         /// <summary>
@@ -508,31 +508,31 @@ namespace HtmlRenderer.Dom
 
         public string FontFamily
         {
-            get { return this._fontProps.FontFamily; }
+            get { return this._fontFeats.FontFamily; }
             set { CheckFontVersion().FontFamily = value; }
         }
 
         public CssLength FontSize
         {
-            get { return this._fontProps.FontSize; }
+            get { return this._fontFeats.FontSize; }
             set { CheckFontVersion().FontSize = value; }
         }
 
         public CssFontStyle FontStyle
         {
-            get { return this._fontProps.FontStyle; }
+            get { return this._fontFeats.FontStyle; }
             set { CheckFontVersion().FontStyle = value; }
         }
 
         public CssFontVariant FontVariant
         {
-            get { return this._fontProps.FontVariant; }
+            get { return this._fontFeats.FontVariant; }
             set { CheckFontVersion().FontVariant = value; }
         }
 
         public CssFontWeight FontWeight
         {
-            get { return this._fontProps.FontWeight; }
+            get { return this._fontFeats.FontWeight; }
             set { CheckFontVersion().FontWeight = value; }
         }
         public CssOverflow Overflow
@@ -543,23 +543,23 @@ namespace HtmlRenderer.Dom
 
         public string ListStyle
         {
-            get { return this._listProps.ListStyle; }
+            get { return this._listFeats.ListStyle; }
             set { CheckListPropVersion().ListStyle = value; }
         }
         public CssListStylePosition ListStylePosition
         {
-            get { return this._listProps.ListStylePosition; }
+            get { return this._listFeats.ListStylePosition; }
             set { CheckListPropVersion().ListStylePosition = value; }
         }
         public string ListStyleImage
         {
-            get { return this._listProps.ListStyleImage; }
+            get { return this._listFeats.ListStyleImage; }
             set { CheckListPropVersion().ListStyleImage = value; }
         }
 
         public CssListStyleType ListStyleType
         {
-            get { return this._listProps.ListStyleType; }
+            get { return this._listFeats.ListStyleType; }
             set { CheckListPropVersion().ListStyleType = value; }
         }
 
@@ -573,7 +573,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._backgroundProps.BackgroundGradient;
+                return this._backgroundFeats.BackgroundGradient;
             }
         }
 
@@ -584,7 +584,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._backgroundProps.BackgroundGradientAngle;
+                return this._backgroundFeats.BackgroundGradientAngle;
             }
         }
 
@@ -608,7 +608,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._backgroundProps.BackgroundColor;
+                return this._backgroundFeats.BackgroundColor;
             }
         }
         /// <summary>
@@ -624,7 +624,7 @@ namespace HtmlRenderer.Dom
                     return _actualFont;
                 }
                 //-----------------------------------------------------------------------------                
-                _actualFont = this._fontProps.GetCacheFont(this.GetParent());
+                _actualFont = this._fontFeats.GetCacheFont(this.GetParent());
                 return _actualFont;
             }
         }

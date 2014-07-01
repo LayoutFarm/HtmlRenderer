@@ -13,16 +13,16 @@
 // - Sun Tsu,
 // "The Art of War"
 
-namespace HtmlRenderer.Entities
+namespace HtmlRenderer.Dom
 {
     /// <summary>
     /// Border specifiers
     /// </summary>
-    internal enum Border
+    enum BorderSide
     {
-        Top, 
-        Right, 
-        Bottom, 
+        Top,
+        Right,
+        Bottom,
         Left
     }
 }

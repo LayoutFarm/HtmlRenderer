@@ -1,10 +1,8 @@
-//BSD 2014,WinterCore
+//BSD 2014, WinterCore
 //ArthurHub
 
 using System;
 using System.Globalization;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Parse;
 
 namespace HtmlRenderer.Dom
 {
