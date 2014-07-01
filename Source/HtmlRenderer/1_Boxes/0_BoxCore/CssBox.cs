@@ -40,17 +40,45 @@ namespace HtmlRenderer.Dom
     /// </remarks>
     public partial class CssBox : CssBoxBase, IDisposable
     {
-
-
+        BoxSpec _boxspec;
         internal CssBox(CssBox parentBox, BridgeHtmlElement element)
         {
-
             this._aa_boxes = new CssBoxCollection(this);
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
             }
             _htmlElement = element;
+            if (element != null)
+            {
+                if (element.Spec != null)
+                {
+                    this._boxspec = element.Spec;
+                }
+                else
+                {
+
+                }
+            }
+            else
+            {
+                //anonymous block
+            }
+           
+            if (element != null)
+            {
+                this.WellknownTagName = element.WellknownTagName;
+            }
+        }
+        internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
+        {
+            this._aa_boxes = new CssBoxCollection(this);
+            if (parentBox != null)
+            {
+                parentBox.Boxes.Add(this);
+            }
+            _htmlElement = element;
+            this._boxspec = spec;
 #if DEBUG
             if (element != null && element.Spec == null)
             {
@@ -944,7 +972,11 @@ namespace HtmlRenderer.Dom
         {
             base.InheritStyles(box, clone);
         }
+        internal new void InheritStyles(CssBoxBase.BoxSpecBase box, bool clone = false)
+        {
+            base.InheritStyles(box, clone); 
 
+        }
         float CalculateActualWidth()
         {
             float maxRight = 0;

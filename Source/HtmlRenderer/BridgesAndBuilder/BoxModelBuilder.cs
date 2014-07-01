@@ -166,7 +166,7 @@ namespace HtmlRenderer.Dom
                                     //if (spec.CssDisplay != CssDisplay.None)
                                     //{
                                     newBox++;
-                                    CssBox box = BoxCreator.CreateBoxNotInherit(elem, parentBox);
+                                    CssBox box = BoxCreator.CreateBoxNotInherit(parentBox, elem);
                                     GenerateCssBoxes(elem, box);
 
                                 } break;
@@ -201,7 +201,7 @@ namespace HtmlRenderer.Dom
                                         }
 
                                         newBox++;
-                                        CssBox box = BoxCreator.CreateBoxNotInherit(childElement, parentBox);
+                                        CssBox box = BoxCreator.CreateBoxNotInherit(parentBox, childElement);
                                         GenerateCssBoxes(childElement, box);
 
                                     } break;
@@ -236,17 +236,17 @@ namespace HtmlRenderer.Dom
             //4. first spec        
             bridgeRoot.Spec = new BoxSpec(bridgeRoot.WellknownTagName);
             TopDownApplyStyleSheet(bridgeRoot, null, activeCssTemplate);
-       
+
             //----------------------------------------------------------------
             //box generation
             //3. create cssbox from root
             CssBox root = BoxCreator.CreateRootBlock();
+
             GenerateCssBoxes(bridgeRoot, root);
 
 #if DEBUG
             dbugTestParsePerformance(html);
 #endif
-
 
             //2. decorate cssbox with styles
             if (root != null)
@@ -254,7 +254,10 @@ namespace HtmlRenderer.Dom
 
                 CssBox.SetHtmlContainer(root, htmlContainer);
                 //------------------------------------------------------------------- 
-                ApplyStyleSheet(root, activeCssTemplate);
+                //ApplyStyleSheet(root, activeCssTemplate);
+                var rootspec = new BoxSpec(WellknownHtmlTagName.Unknown);
+
+                ApplyStyleSheet01(root, activeCssTemplate);
                 //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);
                 OnePassBoxCorrection(root);
@@ -312,7 +315,60 @@ namespace HtmlRenderer.Dom
         }
 #endif
 
+        static void ApplyStyleSheet01(CssBox box, ActiveCssTemplate activeCssTemplate)
+        {
 
+            //recursive  
+            //-------------------------------------------------------------------            
+            if (box.ParentBox != null)
+            {
+                box.InheritStyles(box.ParentBox.Spec);
+            }
+            else
+            {
+                //only for root 
+            }
+
+            if (box.HtmlElement != null)
+            {
+                //------------------------------------------------------------------- 
+                //1. element tag
+                //2. css class 
+                // try assign style using the html element tag    
+                activeCssTemplate.ApplyActiveTemplateForElement(box.ParentBox, box);
+                //3.
+                // try assign style using the "id" attribute of the html element
+                if (box.HtmlElement.HasAttribute("id"))
+                {
+                    var id = box.HtmlElement.TryGetAttribute("id");
+                    AssignStylesForElementId(box, activeCssTemplate, "#" + id);
+                }
+                //-------------------------------------------------------------------
+                //4. 
+                //element attribute
+                AssignStylesFromTranslatedAttributesHTML5(box, activeCssTemplate);
+                //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
+                //------------------------------------------------------------------- 
+                //5.
+                //style attribute value of element
+                if (box.HtmlElement.HasAttribute("style"))
+                {
+                    var ruleset = activeCssTemplate.ParseCssBlock(box.HtmlElement.Name, box.HtmlElement.TryGetAttribute("style"));
+                    foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
+                    {
+                        CssPropSetter.AssignPropertyValue(box, box.ParentBox, propDecl);
+                    }
+                }
+            }
+
+            //===================================================================
+            //parent style assignment is complete before step down into child ***
+            foreach (var childBox in box.GetChildBoxIter())
+            {
+                //recursive
+                ApplyStyleSheet(childBox, activeCssTemplate);
+            }
+        }
 
         /// <summary>
         /// Applies style to all boxes in the tree.<br/>
@@ -370,7 +426,7 @@ namespace HtmlRenderer.Dom
             {
                 //recursive
                 ApplyStyleSheet(childBox, activeCssTemplate);
-            } 
+            }
         }
         static void TopDownApplyStyleSheet(BridgeHtmlElement element, BridgeHtmlElement parentElement, ActiveCssTemplate activeCssTemplate)
         {
@@ -407,17 +463,17 @@ namespace HtmlRenderer.Dom
             }
             //5. children
             int n = element.ChildCount;
-            for(int i=0;i<n;++i)
+            for (int i = 0; i < n; ++i)
             {
-                BridgeHtmlElement childElement= element.GetNode(i) as BridgeHtmlElement;
-                if(childElement != null)
+                BridgeHtmlElement childElement = element.GetNode(i) as BridgeHtmlElement;
+                if (childElement != null)
                 {
-                    TopDownApplyStyleSheet(childElement,element,activeCssTemplate);
+                    TopDownApplyStyleSheet(childElement, element, activeCssTemplate);
                 }
-            } 
+            }
 
         }
-   
+
 
         /// <summary>
         /// Set the selected text style (selection text color and background color).

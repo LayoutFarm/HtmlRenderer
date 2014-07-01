@@ -42,7 +42,7 @@ namespace HtmlRenderer.Dom
             return null;
         }
 
-        internal static CssBox CreateBoxNotInherit(BridgeHtmlElement tag, CssBox parent)
+        internal static CssBox CreateBoxNotInherit(CssBox parent, BridgeHtmlElement tag)
         {
 
             switch (tag.WellknownTagName)
@@ -52,12 +52,12 @@ namespace HtmlRenderer.Dom
                 case WellknownHtmlTagName.iframe:
                     return new CssBoxHr(parent, tag);
                 case WellknownHtmlTagName.hr:
-                    return new CssBoxHr(parent, tag); 
+                    return new CssBoxHr(parent, tag);
 
 
                 //test extension box
                 case WellknownHtmlTagName.X:
-                    var customBox = CreateCustomBox(tag, parent);
+                    var customBox = CreateCustomBox(parent, tag);
                     if (customBox == null)
                     {
                         return new CssBox(parent, tag);
@@ -71,7 +71,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        static CssBox CreateCustomBox(IHtmlElement tag, CssBox parent)
+        static CssBox CreateCustomBox(CssBox parent, IHtmlElement tag)
         {
             for (int i = generators.Count - 1; i >= 0; --i)
             {
@@ -90,7 +90,8 @@ namespace HtmlRenderer.Dom
         /// <returns>the new block box</returns>
         internal static CssBox CreateRootBlock()
         {
-            var box = new CssBox(null, null);
+            var spec = new BoxSpec(WellknownHtmlTagName.Unknown);
+            var box = new CssBox(null, null, spec);
             box.CssDisplay = CssDisplay.Block;
             return box;
         }
@@ -124,7 +125,7 @@ namespace HtmlRenderer.Dom
             newBox.CssDisplay = CssDisplay.Block;
             return newBox;
         }
-    
+
         static CssBox CreateBoxAndInherit(CssBox parent, BridgeHtmlElement tag, int insertAt)
         {
             var newBox = new CssBox(parent, tag);
