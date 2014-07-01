@@ -130,7 +130,7 @@ namespace HtmlRenderer.Dom
             rep.Check("BorderSpacingH", CssLength.IsEq(prop1.BorderSpacingH, prop2.BorderSpacingH));
             rep.Check("BorderSpacingV", CssLength.IsEq(prop1.BorderSpacingV, prop2.BorderSpacingV));
 
-            return inCount != rep.Count;
+            return inCount == rep.Count;
         }
 #endif
     }
@@ -187,7 +187,7 @@ namespace HtmlRenderer.Dom
             rep.Check("Right", CssLength.IsEq(prop1.Right, prop2.Right));
             rep.Check("Bottom", CssLength.IsEq(prop1.Bottom, prop2.Bottom));
 
-            return inCount != rep.Count;
+            return inCount == rep.Count;
         }
 #endif
     }
@@ -242,7 +242,7 @@ namespace HtmlRenderer.Dom
             rep.Check("Right", CssLength.IsEq(prop1.Right, prop2.Right));
             rep.Check("Bottom", CssLength.IsEq(prop1.Bottom, prop2.Bottom));
 
-            return inCount != rep.Count;
+            return inCount == rep.Count;
         }
 #endif
     }
@@ -297,7 +297,7 @@ namespace HtmlRenderer.Dom
             rep.Check("ListStyleType", prop1.ListStylePosition == prop2.ListStylePosition);
             rep.Check("ListStyleType", prop1.ListStyle == prop2.ListStyle);
 
-            return inCount != rep.Count;
+            return inCount ==rep.Count;
         }
 #endif
     }
@@ -353,7 +353,7 @@ namespace HtmlRenderer.Dom
             rep.Check("SERadius", CssLength.IsEq(prop1.SERadius, prop2.SERadius));
             rep.Check("SWRadius", CssLength.IsEq(prop1.SWRadius, prop2.SWRadius));
 
-            return inCount != rep.Count;
+            return inCount == rep.Count;
         }
 #endif
     }
@@ -544,6 +544,10 @@ namespace HtmlRenderer.Dom
         public int Count
         {
             get { return this.msgs.Count; }
+        }
+        public void ClearMsg()
+        {
+            this.msgs.Clear();
         }
     }
 #endif

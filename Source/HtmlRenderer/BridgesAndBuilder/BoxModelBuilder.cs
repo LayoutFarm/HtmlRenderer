@@ -318,6 +318,8 @@ namespace HtmlRenderer.Dom
         static void ApplyStyleSheet01(CssBox box, ActiveCssTemplate activeCssTemplate)
         {
 
+            dbugPropCheckReport rep = new dbugPropCheckReport();
+
             //recursive  
             //-------------------------------------------------------------------            
             //box.InheritStyles(box.Spec, true);
@@ -368,6 +370,16 @@ namespace HtmlRenderer.Dom
                 }
             }
 
+            //rep.ClearMsg(); 
+            //if (!CssBoxBase.Compare(rep, box, box.ImportSpec))
+            //{
+            //    if(!CssBoxBase.Compare(rep,box,box.FinalSpec))
+            //    {
+
+            //    }
+            //}
+
+
             //===================================================================
             //parent style assignment is complete before step down into child ***
             foreach (var childBox in box.GetChildBoxIter())
@@ -375,6 +387,9 @@ namespace HtmlRenderer.Dom
                 //recursive
                 ApplyStyleSheet01(childBox, activeCssTemplate);
             }
+
+
+
         }
 
         /// <summary>

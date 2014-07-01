@@ -81,11 +81,10 @@ namespace HtmlRenderer.Dom
 
         }
 
-#if DEBUG
-
+#if DEBUG 
 
         public static bool Compare(dbugPropCheckReport dbugR, CssBoxBase boxBase, BoxSpecBase spec)
-        {
+        { 
 
             dbugR.Check("_fontProps", CssFontProp.dbugIsEq(dbugR, boxBase._fontProps, spec._fontProps));
             dbugR.Check("_listProps", CssListProp.dbugIsEq(dbugR, boxBase._listProps, spec._listProps));

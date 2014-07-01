@@ -71,14 +71,13 @@ namespace HtmlRenderer.Dom
             if (element != null)
             {
                 this.WellknownTagName = element.WellknownTagName;
-            }
-
+            } 
             //------------
             _finalSpec = new BoxSpec(this.WellknownTagName);
             //------------
             if (_importSpec != null)
             {
-                _finalSpec.InheritStylesFrom(_importSpec);
+                _finalSpec.CloneAllStylesFrom(_importSpec);
             }
         }
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
@@ -106,8 +105,8 @@ namespace HtmlRenderer.Dom
             _finalSpec = new BoxSpec(this.WellknownTagName);
             if (_importSpec != null)
             {
-
-                _finalSpec.InheritStylesFrom(_importSpec);
+                _finalSpec.CloneAllStylesFrom(_importSpec);
+                //_finalSpec.InheritStylesFrom(_importSpec);
             }
         }
         public BoxSpec ImportSpec
