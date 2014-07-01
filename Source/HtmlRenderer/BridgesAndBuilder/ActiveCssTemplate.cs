@@ -11,7 +11,7 @@ using HtmlRenderer.Parse;
 
 namespace HtmlRenderer.Dom
 {
-    class BoxSpec : CssBoxBase
+    class BoxSpec : CssBoxBase.BoxSpecBase
     {
         public BoxSpec(WellknownHtmlTagName wellknownTagName)
         {
@@ -201,11 +201,11 @@ namespace HtmlRenderer.Dom
             BoxSpec parentSpec = null;
             int parentSpecVersion = 0;
             if (parent != null)
-            {  
+            {
                 parentSpec = parent.Spec;
                 parentSpecVersion = parentSpec.cssClassVersion;
             }
-            TemplateKey key = new TemplateKey(tagNameKey, classNameKey, parentSpecVersion); 
+            TemplateKey key = new TemplateKey(tagNameKey, classNameKey, parentSpecVersion);
             //------------------------
             BoxSpec currentBoxSpec = box.Spec;
             if (currentBoxSpec == null)
@@ -276,7 +276,7 @@ namespace HtmlRenderer.Dom
             //*********** 
         }
 
-        
+
         enum AssignPropertySource
         {
             Inherit,

@@ -520,18 +520,25 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        internal static void AssignPropertyValue(CssBoxBase box, WebDom.CssPropertyDeclaration decl)
-        {
+
+        internal static void AssignPropertyValue(CssBoxBase.BoxSpecBase box, CssBoxBase boxParent, WebDom.CssPropertyDeclaration decl)
+        {    
             if (decl.IsExpand)
             {
                 return;
             }
-            if (!decl.MarkedAsInherit)
+
+            if (decl.MarkedAsInherit && boxParent != null)
             {
-                //not need parent
-                SetPropertyValue(box, null, decl);
+                //use parent property 
+                SetPropertyValueFromParent(box, boxParent, decl.WellknownPropertyName);
+            }
+            else
+            {
+                SetPropertyValue(box, boxParent, decl);
             }
         }
+
     }
 
 

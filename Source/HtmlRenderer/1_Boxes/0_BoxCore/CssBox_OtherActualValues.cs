@@ -9,7 +9,7 @@ namespace HtmlRenderer.Dom
 {
     partial class CssBox
     {
-
+   
         float _actualLineHeight;
         float _actualWordSpacing;
         float _actualTextIndent;

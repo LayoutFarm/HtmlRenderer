@@ -456,13 +456,6 @@ namespace HtmlRenderer.Dom
 
         internal void dbugPaintRuns(IGraphics g, PaintVisitor p)
         {
-<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssLineBox.cs
-<<<<<<< HEAD
-
-=======
->>>>>>> FETCH_HEAD
-=======
->>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssLineBox.cs
             //return;
             //linebox  
             float x1 = 0;

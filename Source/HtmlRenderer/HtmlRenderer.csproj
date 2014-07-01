@@ -64,7 +64,7 @@
   <ItemGroup>
     <Compile Include="1_Boxes\5_HitAndSelections\BoxHitChain.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssBox_FlagsConst.cs" />
-    <Compile Include="1_Boxes\0_BoxCore\CssBoxBase_StateAssignments.cs" />
+    <Compile Include="1_Boxes\0_BoxCore\CssBoxBaseAssignments.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssBoxConst.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssBox_OtherActualValues.cs" />
     <Compile Include="3_HtmlFeatures\3_Bridges\BridgeElements.cs" />
@@ -79,6 +79,8 @@
     <Compile Include="1_Boxes\3_Layout\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
     <Compile Include="1_Boxes\3_Layout\CssTableLayoutEngine.TableColumns.cs" />
     <Compile Include="1_Boxes\2_RunsAndBinders\ImageBinder.cs" />
+    <Compile Include="BridgesAndBuilder\BoxSpecBase.cs" />
+    <Compile Include="BridgesAndBuilder\BoxSpecBase_CopyAndVersioning.cs" />
     <Compile Include="BridgesAndBuilder\CssPropSetter.cs" />
     <Compile Include="Common\DeprecatedAttribute.cs" />
     <Compile Include="Common\MapAttribute.cs" />

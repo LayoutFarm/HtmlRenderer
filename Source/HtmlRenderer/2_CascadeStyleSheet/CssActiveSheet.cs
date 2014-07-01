@@ -69,11 +69,7 @@ namespace HtmlRenderer
             foreach (var ruleSetGroup in relatedRuleSets)
             {
                 //start with share*** rule set
-<<<<<<< HEAD:Source/HtmlRenderer/1_CascadeStyleSheet/CssActiveSheet.cs
-               
-=======
 
->>>>>>> 1.7dev:Source/HtmlRenderer/2_CascadeStyleSheet/CssActiveSheet.cs
                 ruleSetGroup.AddRuleSet(assignmentCollection);
             }
         }

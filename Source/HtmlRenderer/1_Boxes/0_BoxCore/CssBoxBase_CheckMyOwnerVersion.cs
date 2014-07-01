@@ -16,7 +16,7 @@ namespace HtmlRenderer.Dom
 
     partial class CssBoxBase
     {
- 
+        protected int _prop_pass_eval;
         CssBorderProp CheckBorderVersion()
         {
             return this._borderProps = this._borderProps.GetMyOwnVersion(this);

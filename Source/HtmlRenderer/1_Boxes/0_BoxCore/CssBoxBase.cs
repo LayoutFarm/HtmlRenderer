@@ -68,7 +68,7 @@ namespace HtmlRenderer.Dom
         CssLength _right = CssLength.AutoLength;//w3 css 
         CssLength _bottom = CssLength.AutoLength;//w3 css 
 
-        CssLength _width = CssLength.AutoLength; 
+        CssLength _width = CssLength.AutoLength;
         CssLength _height = CssLength.AutoLength;
         //==========================================================
         CssLength _maxWidth = CssLength.NotAssign; //w3 css  
@@ -77,7 +77,7 @@ namespace HtmlRenderer.Dom
         CssPosition _position = CssPosition.Static;
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
         //==========================================================
-        WellknownHtmlTagName wellKnownTagName; 
+        WellknownHtmlTagName wellKnownTagName;
         #endregion
 #if DEBUG
         public readonly int dbugId = dbugTotalId++;
@@ -86,25 +86,12 @@ namespace HtmlRenderer.Dom
 #endif
         public CssBoxBase()
         {
-<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssBoxBase.cs
             _actualColor = System.Drawing.Color.Black;
-<<<<<<< HEAD
-            if (this.dbugId == 435)
-            {
-            }
-=======
-            //if (this.dbugId == 348)
-            //{
-            //}
->>>>>>> FETCH_HEAD
-=======
-            _actualColor = System.Drawing.Color.Black; 
->>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBoxBase.cs
         }
 
         #region CSS Properties
 
-       
+
         public WellknownHtmlTagName WellknownTagName
         {
             get
@@ -115,32 +102,14 @@ namespace HtmlRenderer.Dom
             {
                 this.wellKnownTagName = value;
             }
-        } 
+        }
         public CssDisplay CssDisplay
         {
             get { return this._cssDisplay; }
             set
-<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssBoxBase.cs
             {
-<<<<<<< HEAD
-                //if (this.dbugId == 44)
-                //{
-                //}
                 this._cssDisplay = value;
             }
-
-=======
-                if (this.dbugId == 36)
-                {
-                }
-                this._cssDisplay = value;
-            }
->>>>>>> FETCH_HEAD
-=======
-            { 
-                this._cssDisplay = value;
-            }
->>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBoxBase.cs
         }
         public CssDirection CssDirection
         {
