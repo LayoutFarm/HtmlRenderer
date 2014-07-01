@@ -22,10 +22,7 @@ namespace HtmlRenderer.Dom
         {
             return null;
         }
-        public void InheritStylesFrom(CssBoxBase source)
-        {
-            base.InheritStyles(source, false);
-        }
+       
         public void InheritStylesFrom(CssBoxBase.BoxSpecBase source)
         {
             base.InheritStyles(source, false);
@@ -223,9 +220,7 @@ namespace HtmlRenderer.Dom
                 box.Spec = currentBoxSpec = new BoxSpec(box.WellknownTagName);
             }
             //------------------------ 
-
-
-
+            
 
             BoxSpec boxTemplate;
             if (!templatesForTagName.TryGetValue(key, out boxTemplate))
