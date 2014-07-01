@@ -13,6 +13,10 @@ namespace HtmlRenderer.Dom
 {
     public class BoxSpec : CssBoxBase.BoxSpecBase
     {
+
+
+        BoxSpec anonVersion;
+
         BridgeHtmlElement ownerElement;
         public BoxSpec(WellknownHtmlTagName wellknownTagName)
         {
@@ -23,6 +27,8 @@ namespace HtmlRenderer.Dom
             this.ownerElement = ownerElement;
             this.WellknownTagName = ownerElement.WellknownTagName;
         }
+
+
         public override CssBoxBase GetParent()
         {
             return null;
@@ -39,6 +45,16 @@ namespace HtmlRenderer.Dom
         public void CloneAllStylesFrom(CssBoxBase.BoxSpecBase source)
         {
             base.InheritStyles(source, true);
+        }
+        public BoxSpec GetAnonVersion()
+        {
+            if (anonVersion != null)
+            {
+                return anonVersion;
+            }
+            this.anonVersion = new BoxSpec(WellknownHtmlTagName.Unknown);
+            anonVersion.InheritStyles(this, false);
+            return anonVersion;
         }
     }
 

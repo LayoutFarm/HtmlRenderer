@@ -125,7 +125,7 @@ namespace HtmlRenderer.Dom
             rep.Check("RightColor", prop1.RightColor == prop2.RightColor);
             rep.Check("BottomColor", prop1.BottomColor == prop2.BottomColor);
 
-            rep.Check("BorderCollapse", prop1.BorderCollapse == prop2.BorderCollapse); 
+            rep.Check("BorderCollapse", prop1.BorderCollapse == prop2.BorderCollapse);
 
             rep.Check("BorderSpacingH", CssLength.IsEq(prop1.BorderSpacingH, prop2.BorderSpacingH));
             rep.Check("BorderSpacingV", CssLength.IsEq(prop1.BorderSpacingV, prop2.BorderSpacingV));
@@ -235,7 +235,7 @@ namespace HtmlRenderer.Dom
 
 #if DEBUG
         public static bool dbugIsEq(dbugPropCheckReport rep, CssPaddingProp prop1, CssPaddingProp prop2)
-        {   
+        {
             int inCount = rep.Count;
             rep.Check("Left", CssLength.IsEq(prop1.Left, prop2.Left));
             rep.Check("Top", CssLength.IsEq(prop1.Top, prop2.Top));
@@ -297,7 +297,7 @@ namespace HtmlRenderer.Dom
             rep.Check("ListStyleType", prop1.ListStylePosition == prop2.ListStylePosition);
             rep.Check("ListStyleType", prop1.ListStyle == prop2.ListStyle);
 
-            return inCount ==rep.Count;
+            return inCount == rep.Count;
         }
 #endif
     }
@@ -545,9 +545,13 @@ namespace HtmlRenderer.Dom
         {
             get { return this.msgs.Count; }
         }
-        public void ClearMsg()
+        public void ClearMsgs()
         {
             this.msgs.Clear();
+        }
+        public List<string> GetList()
+        {
+            return this.msgs;
         }
     }
 #endif
