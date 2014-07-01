@@ -33,8 +33,7 @@ namespace HtmlRenderer.Dom
     public abstract partial class CssBoxBase
     {
 
-        internal int cssClassVersion;
-
+        internal int cssClassVersion; 
         //==========================================================
         #region css values Inherit From Parent (by default)
         //inherit from parent by default

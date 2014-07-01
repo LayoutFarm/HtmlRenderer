@@ -70,7 +70,6 @@
     <Compile Include="3_HtmlFeatures\3_Bridges\BridgeElements.cs" />
     <Compile Include="1_Boxes\0_BoxCore\BoxVisitor.cs" />
     <Compile Include="1_Boxes\3_Layout\CssBoxLayoutExtension.cs" />
-    <Compile Include="1_Boxes\0_BoxCore\CssBoxBase_InheritAndClone.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssBox_Positions.cs" />
     <Compile Include="1_Boxes\3_Layout\LayoutVisitor.cs" />
     <Compile Include="1_Boxes\4_Render\PaintVisitor.cs" />
@@ -112,7 +111,7 @@
     <Compile Include="1_Boxes\0_BoxCore\CssBox_Fields.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssBox_Paint.cs" />
     <Compile Include="1_Boxes\1_BoxPropsAndFeatureAssignment\CssProps.cs" />
-    <Compile Include="1_Boxes\0_BoxCore\CssBoxBase_CheckMyOwnerVersion.cs" />
+    <Compile Include="1_Boxes\0_BoxCore\CssBoxBase_CopyAndVersioning.cs" />
     <Compile Include="1_Boxes\2_RunsAndBinders\CssTextRun.cs" />
     <Compile Include="1_Boxes\2_RunsAndBinders\CssImageRun.cs" />
     <Compile Include="1_Boxes\OtherBoxes\CssBoxFrame.cs" />
