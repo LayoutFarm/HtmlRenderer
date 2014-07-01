@@ -234,6 +234,7 @@ namespace HtmlRenderer.Dom
 
     class CssCornerProp
     {
+        public static readonly CssCornerProp Default = new CssCornerProp(null);
 
         object owner;
         public CssCornerProp(object owner)
@@ -265,8 +266,7 @@ namespace HtmlRenderer.Dom
                 return new CssCornerProp(owner, this);
             }
         }
-        public static readonly CssCornerProp Default = new CssCornerProp(null);
-
+        
         public CssLength NERadius { get; set; }
         public CssLength NWRadius { get; set; }
         public CssLength SERadius { get; set; }

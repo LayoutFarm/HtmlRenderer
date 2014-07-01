@@ -183,5 +183,6 @@ namespace HtmlRenderer.Entities
         public const string RepeatY = "repeat-y";
         public const string NoRepeat = "no-repeat";
         //------------------------------------------------------------------ 
+        public const string Start = "start";
     }
 }

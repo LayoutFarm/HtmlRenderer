@@ -12,10 +12,8 @@ namespace HtmlRenderer.Dom
     partial class BoxSpec
     {
 
-
-        bool isClosed;
-
-
+        internal int cssClassVersion;
+        bool isClosed; 
 
         /// <summary>
         /// Inherits inheritable values from specified box.
@@ -182,7 +180,7 @@ namespace HtmlRenderer.Dom
         //=====================================================
         //versioning 
         //=====================================================
-
+      
         public void CloseSpec()
         {
             this.isClosed = true;
@@ -194,7 +192,17 @@ namespace HtmlRenderer.Dom
                 return this.isClosed;
             }
         }
+        //------------------------------------------
 
+        public void InheritStylesFrom(BoxSpec source)
+        {
+            this.InheritStyles(source, false);
+        }
+        public void CloneAllStylesFrom(BoxSpec source)
+        {
+            this.InheritStyles(source, true);
+        }
+        //------------------------------------------
         CssBorderProp CheckBorderVersion()
         {
             return this._borderProps = this._borderProps.GetMyOwnVersion(this);
