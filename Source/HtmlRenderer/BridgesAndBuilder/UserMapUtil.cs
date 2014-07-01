@@ -230,22 +230,22 @@ namespace HtmlRenderer.Dom
                 //primitive value 
                 box.BorderSpacingHorizontal = box.BorderSpacingVertical = primValue.AsLength();
             }
-
-
-            //System.Text.RegularExpressions.MatchCollection r =
-            // HtmlRenderer.Parse.RegexParserUtils.Match(HtmlRenderer.Parse.RegexParserUtils.CssLength, value.GetTranslatedStringValue());
-            //switch (r.Count)
-            //{
-            //    case 1:
-            //        {
-            //            box.BorderSpacingHorizontal = box.BorderSpacingVertical = new CssLength(r[0].Value);
-            //        } break;
-            //    case 2:
-            //        {
-            //            box.BorderSpacingHorizontal = new CssLength(r[0].Value);
-            //            box.BorderSpacingVertical = new CssLength(r[1].Value);
-            //        } break;
-            //}
+        }
+        public static void SetBorderSpacing(this CssBoxBase.BoxSpecBase box, WebDom.CssCodeValueExpression value)
+        {
+            WebDom.CssCodePrimitiveExpression primValue = value as WebDom.CssCodePrimitiveExpression;
+            if (primValue == null)
+            {
+                //2 values?
+                //box.BorderSpacingHorizontal = new CssLength(r[0].Value);
+                //box.BorderSpacingVertical = new CssLength(r[1].Value);
+                throw new NotSupportedException();
+            }
+            else
+            {
+                //primitive value 
+                box.BorderSpacingHorizontal = box.BorderSpacingVertical = primValue.AsLength();
+            }
         }
         public static string GetCornerRadius(this CssBox box)
         {
@@ -260,6 +260,45 @@ namespace HtmlRenderer.Dom
             return stbuilder.ToString();
         }
         public static void SetCornerRadius(this CssBoxBase box, WebDom.CssCodeValueExpression value)
+        {
+            WebDom.CssCodePrimitiveExpression prim = value as WebDom.CssCodePrimitiveExpression;
+            if (prim == null)
+            {
+                //combinator values?
+                throw new NotSupportedException();
+                return;
+            }
+            box.CornerNERadius = box.CornerNWRadius =
+             box.CornerSERadius = box.CornerSWRadius = prim.AsLength();
+
+
+            ////parse corner radius 
+            //System.Text.RegularExpressions.MatchCollection r =
+            //    HtmlRenderer.Parse.RegexParserUtils.Match(HtmlRenderer.Parse.RegexParserUtils.CssLength, value);
+            //switch (r.Count)
+            //{
+            //    case 1:
+            //        box.CornerNERadius = box.CornerNWRadius =
+            //            box.CornerSERadius = box.CornerSWRadius = new CssLength(r[0].Value);
+            //        break;
+            //    case 2:
+            //        box.CornerNERadius = box.CornerNWRadius = new CssLength(r[0].Value);
+            //        box.CornerSERadius = box.CornerSWRadius = new CssLength(r[1].Value);
+            //        break;
+            //    case 3:
+            //        box.CornerNERadius = new CssLength(r[0].Value);
+            //        box.CornerNWRadius = new CssLength(r[1].Value);
+            //        box.CornerSERadius = new CssLength(r[2].Value);
+            //        break;
+            //    case 4:
+            //        box.CornerNERadius = new CssLength(r[0].Value);
+            //        box.CornerNWRadius = new CssLength(r[1].Value);
+            //        box.CornerSERadius = new CssLength(r[2].Value);
+            //        box.CornerSWRadius = new CssLength(r[3].Value);
+            //        break;
+            //}
+        }
+        public static void SetCornerRadius(this CssBoxBase.BoxSpecBase box, WebDom.CssCodeValueExpression value)
         {
             WebDom.CssCodePrimitiveExpression prim = value as WebDom.CssCodePrimitiveExpression;
             if (prim == null)
@@ -354,6 +393,17 @@ namespace HtmlRenderer.Dom
             return CssLength.MakePixelLength(
                 HtmlRenderer.Parse.CssValueParser.ParseLength(len, box.GetEmHeight(), box));
         }
+        public static CssLength SetLineHeight(this CssBoxBase.BoxSpecBase box, CssLength len)
+        {
+            //2014,
+            //from www.w3c.org/wiki/Css/Properties/line-height
+
+            //line height in <percentage> : 
+            //The computed value if the property is percentage multiplied by the 
+            //element's computed font size. 
+            return CssLength.MakePixelLength(
+                HtmlRenderer.Parse.CssValueParser.ParseLength(len, box.GetEmHeight(), box));
+        }
         public static HtmlRenderer.WebDom.WellknownCssPropertyName GetWellKnownPropName(string propertyName)
         {
             return _wellKnownCssPropNameMap.GetValueFromString(propertyName, WebDom.WellknownCssPropertyName.Unknown);
@@ -416,7 +466,7 @@ namespace HtmlRenderer.Dom
         {
             if (length.IsFontSizeName)
             {
-                
+
                 switch (length.UnitOrNames)
                 {
                     case CssUnitOrNames.FONTSIZE_MEDIUM:
@@ -636,7 +686,76 @@ namespace HtmlRenderer.Dom
             }
         }
 
+        internal static void SetFontSize(this CssBoxBase.BoxSpecBase box, CssBoxBase.BoxSpecBase parentBox, WebDom.CssCodeValueExpression value)
+        {
+            //number + value
+            WebDom.CssCodePrimitiveExpression primValue = value as WebDom.CssCodePrimitiveExpression;
+            if (primValue == null)
+            {
+                return;
+            }
+            switch (primValue.Hint)
+            {
+                case WebDom.CssValueHint.Number:
+                    {
+                        //has unit or not
+                        //?
+                        //or percent ? 
+                        CssLength len = primValue.AsLength();
+                        if (len.HasError)
+                        {
+                            len = CssLength.FontSizeMedium;
+                        }
+                        else if (len.UnitOrNames == CssUnitOrNames.Ems && (parentBox != null))
+                        {
+                            len = len.ConvertEmToPoints(parentBox.ActualFont.SizeInPoints);
+                        }
+                        else
+                        {
 
+                        }
+                        box.FontSize = len;
+
+                    } break;
+                case WebDom.CssValueHint.Iden:
+                    {
+                        switch (primValue.GetTranslatedStringValue())
+                        {
+                            default:
+                                {
+                                    throw new NotSupportedException();
+                                }
+                            case CssConstants.Medium:
+                                box.FontSize = CssLength.FontSizeMedium;
+                                break;
+                            case CssConstants.Small:
+                                box.FontSize = CssLength.FontSizeSmall;
+                                break;
+                            case CssConstants.XSmall:
+                                box.FontSize = CssLength.FontSizeXSmall;
+                                break;
+                            case CssConstants.XXSmall:
+                                box.FontSize = CssLength.FontSizeXXSmall;
+                                break;
+                            case CssConstants.Large:
+                                box.FontSize = CssLength.FontSizeLarge;
+                                break;
+                            case CssConstants.XLarge:
+                                box.FontSize = CssLength.FontSizeLarge;
+                                break;
+                            case CssConstants.XXLarge:
+                                box.FontSize = CssLength.FontSizeLarger;
+                                break;
+                            case CssConstants.Smaller:
+                                box.FontSize = CssLength.FontSizeSmaller;
+                                break;
+                            case CssConstants.Larger:
+                                box.FontSize = CssLength.FontSizeLarger;
+                                break;
+                        }
+                    } break;
+            }
+        }
         public static CssFontWeight GetFontWeight(WebDom.CssCodeValueExpression value)
         {
             return (CssFontWeight)EvaluateIntPropertyValueFromString(
@@ -688,7 +807,11 @@ namespace HtmlRenderer.Dom
             //TODO: implement background position from combination value
             throw new NotSupportedException();
         }
-
+        internal static void SetBackgroundPosition(this CssBoxBase.BoxSpecBase box, WebDom.CssCodeValueExpression value)
+        {
+            //TODO: implement background position from combination value
+            throw new NotSupportedException();
+        }
 
         /// <summary>
         /// Converts an HTML length into a Css length

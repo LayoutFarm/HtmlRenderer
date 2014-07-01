@@ -11,7 +11,7 @@ using HtmlRenderer.Parse;
 
 namespace HtmlRenderer.Dom
 {
-    class BoxSpec : CssBoxBase.BoxSpecBase
+    public class BoxSpec : CssBoxBase.BoxSpecBase
     {
         public BoxSpec(WellknownHtmlTagName wellknownTagName)
         {
@@ -26,7 +26,15 @@ namespace HtmlRenderer.Dom
         {
             base.InheritStyles(source, false);
         }
+        public void InheritStylesFrom(CssBoxBase.BoxSpecBase source)
+        {
+            base.InheritStyles(source, false);
+        }
         public void CloneAllStylesFrom(CssBoxBase source)
+        {
+            base.InheritStyles(source, true);
+        }
+        public void CloneAllStylesFrom(CssBoxBase.BoxSpecBase source)
         {
             base.InheritStyles(source, true);
         }
@@ -141,7 +149,8 @@ namespace HtmlRenderer.Dom
                     box.cssClassVersion++;
                     foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
                     {
-                        CssPropSetter.AssignPropertyValue(boxTemplate, parentBox, decl);
+                        //CssPropSetter.AssignPropertyValue(boxTemplate, parentBox, decl);
+                        CssPropSetter.AssignPropertyValue(boxTemplate, parentBox.Spec, decl);
                     }
                 }
                 //----------------------------
@@ -161,7 +170,7 @@ namespace HtmlRenderer.Dom
                             {
                                 foreach (var propDecl in ruleSetGroup.GetPropertyDeclIter())
                                 {
-                                    CssPropSetter.AssignPropertyValue(boxTemplate, parentBox, propDecl);
+                                    CssPropSetter.AssignPropertyValue(boxTemplate, parentBox.Spec, propDecl);
                                 }
                                 //---------------------------------------------------------
                                 //find subgroup for more specific conditions
@@ -182,6 +191,7 @@ namespace HtmlRenderer.Dom
             box.CloneAllStyles(boxTemplate);
             //*********** 
         }
+
 
         internal void ApplyActiveTemplateForElement2(BridgeHtmlElement parent, BridgeHtmlElement box)
         {

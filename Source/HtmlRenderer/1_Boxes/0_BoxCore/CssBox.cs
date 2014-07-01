@@ -45,23 +45,48 @@ namespace HtmlRenderer.Dom
         /// Init.
         /// </summary>
         /// <param name="parentBox">optional: the parent of this css box in html</param>
-        /// <param name="tag">optional: the html tag associated with this css box</param>
-        public CssBox(CssBox parentBox, IHtmlElement tag)
+        /// <param name="element">optional: the html tag associated with this css box</param>
+        public CssBox(CssBox parentBox, IHtmlElement element)
         {
-             
+
             this._aa_boxes = new CssBoxCollection(this);
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
             }
-            
-            _htmlElement = tag;
-            if (tag != null)
+
+            _htmlElement = element;
+            if (element != null)
             {
-                this.WellknownTagName = tag.WellknownTagName;
+                this.WellknownTagName = element.WellknownTagName;
             }
         }
+        internal CssBox(CssBox parentBox, BridgeHtmlElement element)
+        {
 
+            this._aa_boxes = new CssBoxCollection(this);
+            if (parentBox != null)
+            {
+                parentBox.Boxes.Add(this);
+            }
+
+            _htmlElement = element;
+            if (element != null)
+            {
+                this.WellknownTagName = element.WellknownTagName;
+            }
+        }
+        public BoxSpec Spec
+        {
+            get
+            {
+                if (_htmlElement is BridgeHtmlElement)
+                {
+                    return ((BridgeHtmlElement)_htmlElement).Spec;
+                }
+                return null;
+            }
+        }
         /// <summary>
         /// Gets the HtmlContainer of the Box.
         /// WARNING: May be null.
@@ -243,7 +268,7 @@ namespace HtmlRenderer.Dom
         public static char[] UnsafeGetTextBuffer(CssBox box)
         {
             return box._aa_textBuffer;
-        } 
+        }
         void ResetTextFlags()
         {
             int tmpFlags = this._boxCompactFlags;
@@ -251,15 +276,15 @@ namespace HtmlRenderer.Dom
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_EMPTY;
             this._boxCompactFlags = tmpFlags;
-        } 
+        }
         internal void SetTextContent(char[] chars)
         {
             this._aa_textBuffer = chars;
             ResetTextFlags();
         }
         internal void SetTextContent2(char[] chars)
-        {   
-            
+        {
+
             this._aa_textBuffer = chars;
             ResetTextFlags();
         }
@@ -827,7 +852,7 @@ namespace HtmlRenderer.Dom
                 _listItemBox.FirstRun.SetLocation(_listItemBox.SizeWidth - 5, ActualPaddingTop);
 
             }
-        } 
+        }
         internal void ParseWordContent()
         {
             ContentTextSplitter.DefaultSplitter.ParseWordContent(this);

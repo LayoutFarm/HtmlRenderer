@@ -34,46 +34,46 @@ namespace HtmlRenderer.Dom
             //==========================================================
             #region css values Inherit From Parent (by default)
             //inherit from parent by default
-            CssFontProp _fontProps = CssFontProp.Default;
-            CssListProp _listProps = CssListProp.Default;
-            CssLength _lineHeight = CssLength.NormalWordOrLine;
-            CssLength _textIndent = CssLength.ZeroNoUnit;
-            Color _actualColor = System.Drawing.Color.Empty;
-            CssEmptyCell _emptyCells = CssEmptyCell.Show;
-            CssTextAlign _textAlign = CssTextAlign.NotAssign;
-            CssVerticalAlign _verticalAlign = CssVerticalAlign.Baseline;
-            CssVisibility _visibility = CssVisibility.Visible;
-            CssWhiteSpace _whitespace = CssWhiteSpace.Normal;
-            CssWordBreak _wordBreak = CssWordBreak.Normal;
-            CssDirection _cssDirection = CssDirection.Ltl;
+            internal CssFontProp _fontProps = CssFontProp.Default;
+            internal CssListProp _listProps = CssListProp.Default;
+            internal CssLength _lineHeight = CssLength.NormalWordOrLine;
+            internal CssLength _textIndent = CssLength.ZeroNoUnit;
+            internal Color _actualColor = System.Drawing.Color.Empty;
+            internal CssEmptyCell _emptyCells = CssEmptyCell.Show;
+            internal CssTextAlign _textAlign = CssTextAlign.NotAssign;
+            internal CssVerticalAlign _verticalAlign = CssVerticalAlign.Baseline;
+            internal CssVisibility _visibility = CssVisibility.Visible;
+            internal CssWhiteSpace _whitespace = CssWhiteSpace.Normal;
+            internal CssWordBreak _wordBreak = CssWordBreak.Normal;
+            internal CssDirection _cssDirection = CssDirection.Ltl;
 
             #endregion
             //==========================================================
             #region css values Not Inherit From Parent
-            CssBorderProp _borderProps = CssBorderProp.Default;
-            CssPaddingProp _paddingProps = CssPaddingProp.Default;
-            CssMarginProp _marginProps = CssMarginProp.Default;
-            CssCornerProp _cornerProps = CssCornerProp.Default;
-            Font _actualFont;
-            CssBackgroundProp _backgroundProps = CssBackgroundProp.Default;
-            CssDisplay _cssDisplay = CssDisplay.Inline;
-            CssFloat _float = CssFloat.None;
+            internal CssBorderProp _borderProps = CssBorderProp.Default;
+            internal CssPaddingProp _paddingProps = CssPaddingProp.Default;
+            internal CssMarginProp _marginProps = CssMarginProp.Default;
+            internal CssCornerProp _cornerProps = CssCornerProp.Default;
+            internal Font _actualFont;
+            internal CssBackgroundProp _backgroundProps = CssBackgroundProp.Default;
+            internal CssDisplay _cssDisplay = CssDisplay.Inline;
+            internal CssFloat _float = CssFloat.None;
             //==========================================================
-            CssLength _left = CssLength.AutoLength;//w3 css 
-            CssLength _top = CssLength.AutoLength;//w3 css 
-            CssLength _right = CssLength.AutoLength;//w3 css 
-            CssLength _bottom = CssLength.AutoLength;//w3 css 
+            internal CssLength _left = CssLength.AutoLength;//w3 css 
+            internal CssLength _top = CssLength.AutoLength;//w3 css 
+            internal CssLength _right = CssLength.AutoLength;//w3 css 
+            internal CssLength _bottom = CssLength.AutoLength;//w3 css 
 
-            CssLength _width = CssLength.AutoLength;
-            CssLength _height = CssLength.AutoLength;
+            internal CssLength _width = CssLength.AutoLength;
+            internal CssLength _height = CssLength.AutoLength;
             //==========================================================
-            CssLength _maxWidth = CssLength.NotAssign; //w3 css  
-            CssOverflow _overflow = CssOverflow.Visible;
-            CssTextDecoration _textDecoration = CssTextDecoration.NotAssign;
-            CssPosition _position = CssPosition.Static;
-            CssLength _wordSpacing = CssLength.NormalWordOrLine;
+            internal CssLength _maxWidth = CssLength.NotAssign; //w3 css  
+            internal CssOverflow _overflow = CssOverflow.Visible;
+            internal CssTextDecoration _textDecoration = CssTextDecoration.NotAssign;
+            internal CssPosition _position = CssPosition.Static;
+            internal CssLength _wordSpacing = CssLength.NormalWordOrLine;
             //==========================================================
-            WellknownHtmlTagName wellKnownTagName;
+            internal WellknownHtmlTagName wellKnownTagName;
             #endregion
 #if DEBUG
             public readonly int dbugId = dbugTotalId++;

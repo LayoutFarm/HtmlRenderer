@@ -107,6 +107,66 @@ namespace HtmlRenderer.Parse
             }
         }
 
+        public static float ParseLength(CssLength length, float hundredPercent, CssBoxBase.BoxSpecBase box)
+        {
+            //Return zero if no length specified, zero specified      
+            switch (length.UnitOrNames)
+            {
+                case CssUnitOrNames.EmptyValue:
+                    return 0;
+                case CssUnitOrNames.Percent:
+                    return (length.Number / 100f) * hundredPercent;
+                case CssUnitOrNames.Ems:
+                    return length.Number * box.GetEmHeight();
+                case CssUnitOrNames.Ex:
+                    return length.Number * (box.GetEmHeight() / 2);
+                case CssUnitOrNames.Pixels:
+                    //atodo: check support for hi dpi
+                    return length.Number;
+                case CssUnitOrNames.Milimeters:
+                    return length.Number * 3.779527559f; //3 pixels per millimeter      
+                case CssUnitOrNames.Centimeters:
+                    return length.Number * 37.795275591f; //37 pixels per centimeter 
+                case CssUnitOrNames.Inches:
+                    return length.Number * 96f; //96 pixels per inch 
+                case CssUnitOrNames.Points:
+                    return length.Number * (96f / 72f); // 1 point = 1/72 of inch   
+                case CssUnitOrNames.Picas:
+                    return length.Number * 16f; // 1 pica = 12 points 
+                default:
+                    return 0;
+            }
+        }
+        public static float ParseLengthWithFontAdjust(CssLength length, float hundredPercent, CssBoxBase.BoxSpecBase box)
+        {
+            //Return zero if no length specified, zero specified     
+            switch (length.UnitOrNames)
+            {
+                case CssUnitOrNames.EmptyValue:
+                    return 0;
+                case CssUnitOrNames.Percent:
+                    return (length.Number / 100f) * hundredPercent;
+                case CssUnitOrNames.Ems:
+                    return length.Number * box.GetEmHeight();
+                case CssUnitOrNames.Ex:
+                    return length.Number * (box.GetEmHeight() / 2);
+                case CssUnitOrNames.Pixels:
+                    //atodo: check support for hi dpi
+                    return length.Number * (72f / 96f);
+                case CssUnitOrNames.Milimeters:
+                    return length.Number * 3.779527559f; //3 pixels per millimeter      
+                case CssUnitOrNames.Centimeters:
+                    return length.Number * 37.795275591f; //37 pixels per centimeter 
+                case CssUnitOrNames.Inches:
+                    return length.Number * 96f; //96 pixels per inch 
+                case CssUnitOrNames.Points:
+                    return length.Number * (96f / 72f); // 1 point = 1/72 of inch   
+                case CssUnitOrNames.Picas:
+                    return length.Number * 16f; // 1 pica = 12 points 
+                default:
+                    return 0;
+            }
+        }
 
 
         /// <summary>
