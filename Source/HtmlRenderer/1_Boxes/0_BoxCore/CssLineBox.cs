@@ -292,7 +292,7 @@ namespace HtmlRenderer.Dom
             {
                 var rstrip = _bottomUpBoxStrips[i];
                 var rstripOwnerBox = rstrip.owner;
-                switch (rstripOwnerBox.VerticalAlign)
+                switch (rstripOwnerBox.BoxSpec.VerticalAlign)
                 {
                     case CssVerticalAlign.Sub:
                         {

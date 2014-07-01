@@ -19,10 +19,11 @@ namespace HtmlRenderer.Dom
 
         public void Paint(IGraphics g, PaintVisitor p)
         {
+            
             if (this.CssDisplay != CssDisplay.None &&
-                this.CssVisibility == Dom.CssVisibility.Visible)
-            {
-                PaintImp(g, p);
+                this.boxSpec.CssVisibility == Dom.CssVisibility.Visible)
+            {   
+                PaintImp(g, p);  
             }
         }
 #if DEBUG
@@ -57,7 +58,7 @@ namespace HtmlRenderer.Dom
                 bool hasPrevClip = false;
                 RectangleF prevClip = RectangleF.Empty;
 
-                if (this.Overflow == CssOverflow.Hidden)
+                if (this.BoxSpec.Overflow == CssOverflow.Hidden)
                 {
                     var expectedW = this.ExpectedWidth;
                     var expectedH = this.ExpectedHeight;

@@ -73,8 +73,8 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        internal CssBoxFrame(CssBox parent, IHtmlElement tag)
-            : base(parent, tag)
+        internal CssBoxFrame(CssBox parent, IHtmlElement tag, BoxSpec spec)
+            : base(parent, tag, spec)
         {
 
             this.AddRun(this._imageWord = new CssImageRun(this));
@@ -625,8 +625,8 @@ namespace HtmlRenderer.Dom
 
         private bool IsLayoutRequired()
         {
-            var width = this.Width;// new CssLength(Width);
-            var height = this.Height;// new CssLength(Height);
+            var width = this.BoxSpec.Width;// new CssLength(Width);
+            var height = this.BoxSpec.Height;// new CssLength(Height);
             return (width.Number <= 0 || width.UnitOrNames != CssUnitOrNames.Pixels) || (height.Number <= 0 || height.UnitOrNames != CssUnitOrNames.Pixels);
         }
 

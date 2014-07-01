@@ -149,7 +149,10 @@ namespace HtmlRenderer.Dom
             //www.w3.org/TR/CSS2/box.html#margin-properties
             //w3c: margin applies to all elements except elements table display type
             //other than table-caption,table and inline table
-            var cssDisplay = this.CssDisplay;
+
+            var spec = this.boxSpec;
+            var cssDisplay = spec.CssDisplay;
+
             switch (cssDisplay)
             {
                 case Dom.CssDisplay.None:
@@ -169,10 +172,11 @@ namespace HtmlRenderer.Dom
                     } break;
                 default:
                     {
-                        this._actualMarginLeft = RecalculateMargin(this.MarginLeft, cbWidth);
-                        this._actualMarginTop = RecalculateMargin(this.MarginTop, cbWidth);
-                        this._actualMarginRight = RecalculateMargin(this.MarginRight, cbWidth);
-                        this._actualMarginBottom = RecalculateMargin(this.MarginBottom, cbWidth);
+                       
+                        this._actualMarginLeft = RecalculateMargin(spec.MarginLeft, cbWidth);
+                        this._actualMarginTop = RecalculateMargin(spec.MarginTop, cbWidth);
+                        this._actualMarginRight = RecalculateMargin(spec.MarginRight, cbWidth);
+                        this._actualMarginBottom = RecalculateMargin(spec.MarginBottom, cbWidth);
 
                     } break;
             }
@@ -192,28 +196,28 @@ namespace HtmlRenderer.Dom
                     {
                         //-----------------------------------------------------------------------
                         //padding
-                        this._actualPaddingLeft = RecalculatePadding(this.PaddingLeft, cbWidth);
-                        this._actualPaddingTop = RecalculatePadding(this.PaddingTop, cbWidth);
-                        this._actualPaddingRight = RecalculatePadding(this.PaddingRight, cbWidth);
-                        this._actualPaddingBottom = RecalculatePadding(this.PaddingBottom, cbWidth);
+                        this._actualPaddingLeft = RecalculatePadding(spec.PaddingLeft, cbWidth);
+                        this._actualPaddingTop = RecalculatePadding(spec.PaddingTop, cbWidth);
+                        this._actualPaddingRight = RecalculatePadding(spec.PaddingRight, cbWidth);
+                        this._actualPaddingBottom = RecalculatePadding(spec.PaddingBottom, cbWidth);
                     } break;
             }
 
             //-----------------------------------------------------------------------
             //borders            
-            this._actualBorderLeftWidth = (this.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderLeftWidth, this);
-            this._actualBorderTopWidth = (this.BorderTopStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderTopWidth, this);
-            this._actualBorderRightWidth = (this.BorderRightStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderRightWidth, this);
-            this._actualBorderBottomWidth = (this.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderBottomWidth, this);
+            this._actualBorderLeftWidth = (spec.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderLeftWidth, this);
+            this._actualBorderTopWidth = (spec.BorderTopStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderTopWidth, this);
+            this._actualBorderRightWidth = (spec.BorderRightStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderRightWidth, this);
+            this._actualBorderBottomWidth = (spec.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderBottomWidth, this);
             //---------------------------------------------------------------------------
 
             //extension ***
             float c1, c2, c3, c4;
 
-            this._actualCornerNE = c1 = CssValueParser.ParseLength(CornerNERadius, 0, this);
-            this._actualCornerNW = c2 = CssValueParser.ParseLength(CornerNWRadius, 0, this);
-            this._actualCornerSE = c3 = CssValueParser.ParseLength(CornerSERadius, 0, this);
-            this._actualCornerSW = c4 = CssValueParser.ParseLength(CornerSWRadius, 0, this);
+            this._actualCornerNE = c1 = CssValueParser.ParseLength(spec.CornerNERadius, 0, spec);
+            this._actualCornerNW = c2 = CssValueParser.ParseLength(spec.CornerNWRadius, 0, spec);
+            this._actualCornerSE = c3 = CssValueParser.ParseLength(spec.CornerSERadius, 0, spec);
+            this._actualCornerSW = c4 = CssValueParser.ParseLength(spec.CornerSWRadius, 0, spec);
 
             if ((c1 + c2 + c3 + c4) > 0)
             {

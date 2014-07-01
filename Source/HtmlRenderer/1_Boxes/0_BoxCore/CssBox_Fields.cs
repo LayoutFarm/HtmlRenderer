@@ -41,7 +41,7 @@ namespace HtmlRenderer.Dom
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary>
         readonly IHtmlElement _htmlElement;
-        
+
 
         int _boxCompactFlags;
 
@@ -67,7 +67,7 @@ namespace HtmlRenderer.Dom
         //condition 2 :this Box is InlineBox 
         List<CssRun> _boxRuns;
         //----------------------------------------------------  
-    
+
 
         /// <summary>
         /// Gets the childrenn boxes of this box
@@ -218,10 +218,39 @@ namespace HtmlRenderer.Dom
             get;
             set;
         }
-      
 
 
+        public ImageBinder BackgroundImageBinder
+        {
+            get
+            {
 
+
+                return this.boxSpec.BackgroundImageBinder;
+            }
+        }
+        public CssLength BackgroundPositionX
+        {
+            get
+            {
+                return this.boxSpec.BackgroundPositionX;
+            }
+        }
+        public CssLength BackgroundPositionY
+        {
+            get
+            {
+                
+                return this.boxSpec.BackgroundPositionY;
+            }
+        }
+        public CssBackgroundRepeat BackgroundRepeat
+        {
+            get
+            {
+                return this.boxSpec.BackgroundRepeat;
+            }
+        }
     }
 
 }

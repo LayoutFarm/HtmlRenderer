@@ -247,7 +247,7 @@ namespace HtmlRenderer.Dom
             //        } break;
             //}
         }
-        public static string GetCornerRadius(this CssBox box)
+        public static string GetCornerRadius(this BoxSpec box)
         {
             System.Text.StringBuilder stbuilder = new System.Text.StringBuilder();
             stbuilder.Append(box.CornerNERadius);

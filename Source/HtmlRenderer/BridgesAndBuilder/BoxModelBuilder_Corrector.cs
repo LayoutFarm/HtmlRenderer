@@ -90,7 +90,7 @@ namespace HtmlRenderer.Dom
         }
 
 
-         
+
         /// <summary>
         /// Correct DOM tree if there is block boxes that are inside inline blocks.<br/>
         /// Need to rearrange the tree so block box will be only the child of other block box.
@@ -129,11 +129,11 @@ namespace HtmlRenderer.Dom
         /// move to a new line</param>
         static void CorrectLineBreaksBlocks(CssBox box, ref bool followingBlock)
         {
-           
+
             followingBlock = followingBlock || box.IsBlock;
             foreach (var childBox in box.GetChildBoxIter())
             {
-                
+
                 CorrectLineBreaksBlocks(childBox, ref followingBlock);
                 followingBlock = childBox.RunCount == 0 && (followingBlock || childBox.IsBlock);
             }
@@ -161,10 +161,10 @@ namespace HtmlRenderer.Dom
                         }
                     }
 
-                    brBox.CssDisplay = CssDisplay.Block;
+                    brBox.BoxSpec.CssDisplay = CssDisplay.Block;
                     if (followingBlock)
                     {   // atodo: check the height to min-height when it is supported
-                        brBox.Height = new CssLength(0.95f, CssUnitOrNames.Ems);
+                        brBox.BoxSpec.Height = new CssLength(0.95f, CssUnitOrNames.Ems);
                     }
                 }
             }
@@ -187,13 +187,13 @@ namespace HtmlRenderer.Dom
                 {
 
 
-                     
+
                     // is the box has text
                     // or is the box is pre-formatted
                     // or is the box is only one in the parent 
                     bool keepBox = !childBox.TextContentIsWhitespaceOrEmptyText ||
-                       childBox.WhiteSpace == CssWhiteSpace.Pre ||
-                       childBox.WhiteSpace == CssWhiteSpace.PreWrap ||
+                       childBox.BoxSpec.WhiteSpace == CssWhiteSpace.Pre ||
+                       childBox.BoxSpec.WhiteSpace == CssWhiteSpace.PreWrap ||
                        boxes.Count == 1;
 
                     if (!keepBox && box.ChildCount > 0)

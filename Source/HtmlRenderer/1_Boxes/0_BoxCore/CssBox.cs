@@ -38,30 +38,49 @@ namespace HtmlRenderer.Dom
     /// To know more about boxes visit CSS spec:
     /// http://www.w3.org/TR/CSS21/box.html
     /// </remarks>
-    public partial class CssBox : CssBoxBase, IDisposable
+    public partial class CssBox : //CssBoxBase,
+         IDisposable
     {
+
+        internal int cssClassVersion;
+        BoxSpec boxSpec;
+        protected int _prop_pass_eval;
+
+#if DEBUG
+        static int dbugTotalId;
+        public readonly int dbugId = dbugTotalId++;
+#endif
+
 
         /// <summary>
         /// Init.
         /// </summary>
         /// <param name="parentBox">optional: the parent of this css box in html</param>
         /// <param name="tag">optional: the html tag associated with this css box</param>
-        public CssBox(CssBox parentBox, IHtmlElement tag)
+        public CssBox(CssBox parentBox, IHtmlElement tag, BoxSpec boxSpec)
         {
-             
+
             this._aa_boxes = new CssBoxCollection(this);
+            this.boxSpec = boxSpec;
+
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
             }
-            
+
             _htmlElement = tag;
+
             if (tag != null)
             {
                 this.WellknownTagName = tag.WellknownTagName;
             }
         }
-
+        public BoxSpec BoxSpec
+        {
+            get;
+            set;
+        }
+        public WellknownHtmlTagName WellknownTagName { get; set; }
         /// <summary>
         /// Gets the HtmlContainer of the Box.
         /// WARNING: May be null.
@@ -134,7 +153,13 @@ namespace HtmlRenderer.Dom
                     && !IsBrElement;
             }
         }
-
+        public CssDisplay CssDisplay
+        {
+            get
+            {
+                return this.boxSpec.CssDisplay;
+            }
+        }
 
         /// <summary>
         /// is the box "Display" is "Block", is this is an block box and not inline.
@@ -243,7 +268,7 @@ namespace HtmlRenderer.Dom
         public static char[] UnsafeGetTextBuffer(CssBox box)
         {
             return box._aa_textBuffer;
-        } 
+        }
         void ResetTextFlags()
         {
             int tmpFlags = this._boxCompactFlags;
@@ -251,15 +276,15 @@ namespace HtmlRenderer.Dom
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_EMPTY;
             this._boxCompactFlags = tmpFlags;
-        } 
+        }
         internal void SetTextContent(char[] chars)
         {
             this._aa_textBuffer = chars;
             ResetTextFlags();
         }
         internal void SetTextContent2(char[] chars)
-        {   
-            
+        {
+
             this._aa_textBuffer = chars;
             ResetTextFlags();
         }
@@ -526,7 +551,7 @@ namespace HtmlRenderer.Dom
                             {
                                 float availableWidth = myContainingBlock.ClientWidth;
 
-                                if (!this.Width.IsEmptyOrAuto)
+                                if (!this.BoxSpec.Width.IsEmptyOrAuto)
                                 {
                                     availableWidth = CssValueParser.ParseLength(Width, availableWidth, this);
                                 }
@@ -712,14 +737,7 @@ namespace HtmlRenderer.Dom
         }
 
 
-        /// <summary>
-        /// Get the parent of this css properties instance.
-        /// </summary>
-        /// <returns></returns>
-        public sealed override CssBoxBase GetParent()
-        {
-            return _parentBox;
-        }
+
 
         /// <summary>
         /// Gets the index of the box to be used on a (ordered) list
@@ -764,7 +782,18 @@ namespace HtmlRenderer.Dom
         static readonly char[] circleItem = new[] { 'o' };
         static readonly char[] squareItem = new[] { '♠' };
 
-
+        public CssListStyleType ListStyleType
+        {
+            get { return this.boxSpec.ListStyleType; }
+        }
+        public Font ActualFont
+        {
+            get { return this.boxSpec.ActualFont; }
+        }
+        public Color ActualColor
+        {
+            get { return this.boxSpec.ActualColor; }
+        }
         /// <summary>
         /// Creates the <see cref="_listItemBox"/>
         /// </summary>
@@ -776,11 +805,14 @@ namespace HtmlRenderer.Dom
                 ListStyleType != CssListStyleType.None)
             {
                 if (_listItemBox == null)
-                {
-                    _listItemBox = new CssBox(null, null);
-                    _listItemBox.InheritStyles(this);
-                    _listItemBox.CssDisplay = CssDisplay.Inline;
-                    _listItemBox._htmlContainer = HtmlContainer;
+                { 
+                    //2014-06-30
+                    throw new NotSupportedException();
+
+                    //_listItemBox = new CssBox(null, null);
+                    //_listItemBox.InheritStyles(this);
+                    //_listItemBox.CssDisplay = CssDisplay.Inline;
+                    //_listItemBox._htmlContainer = HtmlContainer;
 
                     switch (this.ListStyleType)
                     {
@@ -827,7 +859,7 @@ namespace HtmlRenderer.Dom
                 _listItemBox.FirstRun.SetLocation(_listItemBox.SizeWidth - 5, ActualPaddingTop);
 
             }
-        } 
+        }
         internal void ParseWordContent()
         {
             ContentTextSplitter.DefaultSplitter.ParseWordContent(this);
@@ -1090,7 +1122,7 @@ namespace HtmlRenderer.Dom
         internal void PaintDecoration(IGraphics g, RectangleF rectangle, bool isFirst, bool isLast)
         {
             float y = 0f;
-            switch (this.TextDecoration)
+            switch (this.boxSpec.TextDecoration)
             {
                 default:
                     return;
@@ -1171,7 +1203,7 @@ namespace HtmlRenderer.Dom
 
         internal bool CanBeRefererenceSibling
         {
-            get { return this.CssDisplay != Dom.CssDisplay.None && this.Position != CssPosition.Absolute; }
+            get { return this.CssDisplay != Dom.CssDisplay.None && this.BoxSpec.Position != CssPosition.Absolute; }
         }
 
 

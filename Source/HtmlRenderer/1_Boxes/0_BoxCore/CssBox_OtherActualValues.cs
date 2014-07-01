@@ -83,7 +83,7 @@ namespace HtmlRenderer.Dom
                 if ((this._prop_pass_eval & CssBoxBaseAssignments.BORDER_SPACING_H) == 0)
                 {
                     this._prop_pass_eval |= CssBoxBaseAssignments.BORDER_SPACING_H;
-                    _actualBorderSpacingHorizontal = this.BorderSpacingHorizontal.Number;
+                    _actualBorderSpacingHorizontal = this.boxSpec.BorderSpacingHorizontal.Number;
                 }
                 return _actualBorderSpacingHorizontal;
             }
@@ -99,7 +99,7 @@ namespace HtmlRenderer.Dom
                 if ((this._prop_pass_eval & CssBoxBaseAssignments.BORDER_SPACING_V) == 0)
                 {
                     this._prop_pass_eval |= CssBoxBaseAssignments.BORDER_SPACING_V;
-                    _actualBorderSpacingVertical = this.BorderSpacingVertical.Number;
+                    _actualBorderSpacingVertical = this.boxSpec.BorderSpacingVertical.Number;
                 }
                 return _actualBorderSpacingVertical;
             }

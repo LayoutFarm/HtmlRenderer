@@ -28,11 +28,9 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxHr(CssBox parent, IHtmlElement tag)
-            : base(parent, tag)
-        {
-            //Display = CssConstants.Block;
-            this.CssDisplay = CssDisplay.Block;
+        public CssBoxHr(CssBox parent, IHtmlElement tag, BoxSpec spec)
+            : base(parent, tag, spec)
+        { 
         }
 
         /// <summary>
@@ -75,7 +73,7 @@ namespace HtmlRenderer.Dom
 
             if (maringTopCollapse < 0.1)
             {
-                maringTopCollapse = this.GetEmHeight() * 1.1f;
+                maringTopCollapse = this.BoxSpec.GetEmHeight() * 1.1f;
             }
             localTop += maringTopCollapse;
 
@@ -93,9 +91,9 @@ namespace HtmlRenderer.Dom
 
 
             //Check width if not auto
-            if (!this.Width.IsEmptyOrAuto)
+            if (!this.BoxSpec.Width.IsEmptyOrAuto)
             {
-                width = CssValueParser.ParseLength(Width, width, this);
+                width = CssValueParser.ParseLength(BoxSpec.Width, width, this);
             }
 
 
@@ -145,7 +143,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                p.PaintBorder(this, Border.Top, this.BorderTopColor, rect);
+                p.PaintBorder(this, Border.Top, this.BoxSpec.BorderTopColor, rect);
 
             }
         }

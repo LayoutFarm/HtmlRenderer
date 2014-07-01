@@ -42,8 +42,8 @@ namespace HtmlRenderer.Handlers
         {
             if (rect.Width > 0 && rect.Height > 0)
             {
-                
-                if (box.BorderTopStyle >= CssBorderStyle.Visible &&
+                var spec = box.BoxSpec;
+                if (spec.BorderTopStyle >= CssBorderStyle.Visible &&
                     box.ActualBorderTopWidth > 0)
                 {
                     DrawBorder(Border.Top, box, p, rect, isFirst, isLast);
@@ -51,20 +51,20 @@ namespace HtmlRenderer.Handlers
 
 
                 if (isFirst &&
-                    box.BorderLeftStyle >= CssBorderStyle.Visible &&
+                    spec.BorderLeftStyle >= CssBorderStyle.Visible &&
                     box.ActualBorderLeftWidth > 0)
                 {
                     DrawBorder(Border.Left, box, p, rect, true, isLast);
                 }
 
-                if (box.BorderBottomStyle >= CssBorderStyle.Visible &&
+                if (spec.BorderBottomStyle >= CssBorderStyle.Visible &&
                     box.ActualBorderBottomWidth > 0)
                 {
                     DrawBorder(Border.Bottom, box, p, rect, isFirst, isLast);
                 }
 
                 if (isLast &&
-                    box.BorderRightStyle >= CssBorderStyle.Visible &&
+                    spec.BorderRightStyle >= CssBorderStyle.Visible &&
                     box.ActualBorderRightWidth > 0)
                 {
                     DrawBorder(Border.Right, box, p, rect, isFirst, true);
@@ -118,7 +118,7 @@ namespace HtmlRenderer.Handlers
             //else if (box.CssDisplay == CssDisplay.TableCell)
             //{
             //}
-            
+
 
             IGraphics g = p.Gfx;
             if (borderPath != null)
@@ -234,6 +234,7 @@ namespace HtmlRenderer.Handlers
         static GraphicsPath GetRoundedBorderPath(Border border, CssBox b, RectangleF r)
         {
             GraphicsPath path = null;
+            BoxSpec spec = b.BoxSpec;
 
             switch (border)
             {
@@ -274,7 +275,7 @@ namespace HtmlRenderer.Handlers
                     {
                         path = new GraphicsPath();
 
-                        if (b.ActualCornerNE > 0 && b.BorderTopStyle >= CssBorderStyle.Visible)
+                        if (b.ActualCornerNE > 0 && spec.BorderTopStyle >= CssBorderStyle.Visible)
                         //(b.BorderTopStyle == CssConstants.None || b.BorderTopStyle == CssConstants.Hidden))
                         {
                             path.AddArc(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNE * 2, b.ActualCornerNE * 2, 270f, 90f);
@@ -285,8 +286,7 @@ namespace HtmlRenderer.Handlers
                         }
 
                         if (b.ActualCornerSE > 0 &&
-                            b.BorderBottomStyle >= CssBorderStyle.Visible)
-                        //(b.BorderBottomStyle == CssConstants.None || b.BorderBottomStyle == CssConstants.Hidden))
+                            spec.BorderBottomStyle >= CssBorderStyle.Visible)                         
                         {
                             path.AddArc(r.Right - b.ActualCornerSE * 2 - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualCornerSE * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSE * 2, b.ActualCornerSE * 2, 0f, 90f);
                         }
@@ -301,7 +301,7 @@ namespace HtmlRenderer.Handlers
                     {
                         path = new GraphicsPath();
 
-                        if (b.ActualCornerSW > 0 && b.BorderTopStyle >= CssBorderStyle.Visible)//(b.BorderTopStyle == CssConstants.None || b.BorderTopStyle == CssConstants.Hidden))
+                        if (b.ActualCornerSW > 0 && spec.BorderTopStyle >= CssBorderStyle.Visible)//(b.BorderTopStyle == CssConstants.None || b.BorderTopStyle == CssConstants.Hidden))
                         {
                             path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Bottom - b.ActualCornerSW * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSW * 2, b.ActualCornerSW * 2, 90f, 90f);
                         }
@@ -311,7 +311,7 @@ namespace HtmlRenderer.Handlers
                         }
 
                         if (b.ActualCornerNW > 0 &&
-                            b.BorderBottomStyle >= CssBorderStyle.Visible)
+                            spec.BorderBottomStyle >= CssBorderStyle.Visible)
                         {
                             path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNW * 2, b.ActualCornerNW * 2, 180f, 90f);
                         }
