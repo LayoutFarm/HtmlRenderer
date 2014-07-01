@@ -42,7 +42,7 @@ namespace HtmlRenderer.Dom
             return null;
         }
 
-        internal static CssBox CreateBoxNotInherit(IHtmlElement tag, CssBox parent)
+        internal static CssBox CreateBoxNotInherit(BridgeHtmlElement tag, CssBox parent)
         {
 
             switch (tag.WellknownTagName)
@@ -94,7 +94,7 @@ namespace HtmlRenderer.Dom
             box.CssDisplay = CssDisplay.Block;
             return box;
         }
-        internal static CssBox CreateBoxAndInherit(CssBox parent, IHtmlElement tag)
+        internal static CssBox CreateBoxAndInherit(CssBox parent, BridgeHtmlElement tag)
         {
             var newBox = new CssBox(parent, tag);
             newBox.InheritStyles(parent);
@@ -125,7 +125,7 @@ namespace HtmlRenderer.Dom
             return newBox;
         }
     
-        static CssBox CreateBoxAndInherit(CssBox parent, IHtmlElement tag, int insertAt)
+        static CssBox CreateBoxAndInherit(CssBox parent, BridgeHtmlElement tag, int insertAt)
         {
             var newBox = new CssBox(parent, tag);
             newBox.InheritStyles(parent);

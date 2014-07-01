@@ -24,7 +24,7 @@ namespace HtmlRenderer.Dom
     /// <summary>
     /// CSS box for image element.
     /// </summary>
-    internal sealed class CssBoxImage : CssBox
+    sealed class CssBoxImage : CssBox
     {
         #region Fields and Consts
 
@@ -51,7 +51,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxImage(CssBox parent, IHtmlElement tag)
+        public CssBoxImage(CssBox parent, BridgeHtmlElement tag)
             : base(parent, tag)
         {
             this.AddRun(this._imageWord = new CssImageRun(this));

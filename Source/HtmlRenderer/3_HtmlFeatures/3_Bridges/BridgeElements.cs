@@ -119,7 +119,7 @@ namespace HtmlRenderer.Dom
             else
             {
                 value = attr.Value;
-                return true;                  
+                return true;
             }
         }
         public BridgeHtmlElement Parent

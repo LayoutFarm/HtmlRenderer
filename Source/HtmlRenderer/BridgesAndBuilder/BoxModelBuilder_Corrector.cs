@@ -90,7 +90,7 @@ namespace HtmlRenderer.Dom
         }
 
 
-         
+
         /// <summary>
         /// Correct DOM tree if there is block boxes that are inside inline blocks.<br/>
         /// Need to rearrange the tree so block box will be only the child of other block box.
@@ -129,11 +129,11 @@ namespace HtmlRenderer.Dom
         /// move to a new line</param>
         static void CorrectLineBreaksBlocks(CssBox box, ref bool followingBlock)
         {
-           
+
             followingBlock = followingBlock || box.IsBlock;
             foreach (var childBox in box.GetChildBoxIter())
             {
-                
+
                 CorrectLineBreaksBlocks(childBox, ref followingBlock);
                 followingBlock = childBox.RunCount == 0 && (followingBlock || childBox.IsBlock);
             }
@@ -187,7 +187,7 @@ namespace HtmlRenderer.Dom
                 {
 
 
-                     
+
                     // is the box has text
                     // or is the box is pre-formatted
                     // or is the box is only one in the parent 
@@ -304,7 +304,7 @@ namespace HtmlRenderer.Dom
         {
             //recursive
 
-            var leftPart = BoxCreator.CreateBoxAndInherit(leftBlock, splitBox.HtmlElement);
+            var leftPart = BoxCreator.CreateBoxAndInherit(leftBlock, (BridgeHtmlElement)splitBox.HtmlElement);
             leftPart.InheritStyles(splitBox, true);
 
             bool had_new_leftbox = false;
@@ -336,7 +336,7 @@ namespace HtmlRenderer.Dom
                 CssBox rightPart;
                 if (firstChild.ParentBox != null || parentBox.ChildCount < 3)
                 {
-                    rightPart = BoxCreator.CreateBoxAndInherit(parentBox, splitBox.HtmlElement);
+                    rightPart = BoxCreator.CreateBoxAndInherit(parentBox, (BridgeHtmlElement)splitBox.HtmlElement);
                     rightPart.InheritStyles(splitBox, true);
 
                     if (parentBox.ChildCount > 2)

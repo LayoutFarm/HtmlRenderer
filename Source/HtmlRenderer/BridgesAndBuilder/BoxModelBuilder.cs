@@ -236,10 +236,7 @@ namespace HtmlRenderer.Dom
             //4. first spec        
             bridgeRoot.Spec = new BoxSpec(bridgeRoot.WellknownTagName);
             TopDownApplyStyleSheet(bridgeRoot, null, activeCssTemplate);
-            //----------------------------------------------------------------
-
-
-            // ApplyOnlyAbsoluteStyles(bridgeRoot, activeCssTemplate);
+       
             //----------------------------------------------------------------
             //box generation
             //3. create cssbox from root
@@ -256,8 +253,7 @@ namespace HtmlRenderer.Dom
             {
 
                 CssBox.SetHtmlContainer(root, htmlContainer);
-                //-------------------------------------------------------------------
-
+                //------------------------------------------------------------------- 
                 ApplyStyleSheet(root, activeCssTemplate);
                 //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);

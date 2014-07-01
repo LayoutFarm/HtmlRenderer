@@ -41,26 +41,7 @@ namespace HtmlRenderer.Dom
     public partial class CssBox : CssBoxBase, IDisposable
     {
 
-        /// <summary>
-        /// Init.
-        /// </summary>
-        /// <param name="parentBox">optional: the parent of this css box in html</param>
-        /// <param name="element">optional: the html tag associated with this css box</param>
-        public CssBox(CssBox parentBox, IHtmlElement element)
-        {
 
-            this._aa_boxes = new CssBoxCollection(this);
-            if (parentBox != null)
-            {
-                parentBox.Boxes.Add(this);
-            }
-
-            _htmlElement = element;
-            if (element != null)
-            {
-                this.WellknownTagName = element.WellknownTagName;
-            }
-        }
         internal CssBox(CssBox parentBox, BridgeHtmlElement element)
         {
 
@@ -69,8 +50,13 @@ namespace HtmlRenderer.Dom
             {
                 parentBox.Boxes.Add(this);
             }
-
             _htmlElement = element;
+#if DEBUG
+            if (element != null && element.Spec == null)
+            {
+
+            }
+#endif
             if (element != null)
             {
                 this.WellknownTagName = element.WellknownTagName;
@@ -80,11 +66,8 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if (_htmlElement is BridgeHtmlElement)
-                {
-                    return ((BridgeHtmlElement)_htmlElement).Spec;
-                }
-                return null;
+
+                return _htmlElement.Spec;
             }
         }
         /// <summary>

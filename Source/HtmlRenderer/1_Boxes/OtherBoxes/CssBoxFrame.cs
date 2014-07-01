@@ -73,7 +73,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        internal CssBoxFrame(CssBox parent, IHtmlElement tag)
+        internal CssBoxFrame(CssBox parent, BridgeHtmlElement tag)
             : base(parent, tag)
         {
 
