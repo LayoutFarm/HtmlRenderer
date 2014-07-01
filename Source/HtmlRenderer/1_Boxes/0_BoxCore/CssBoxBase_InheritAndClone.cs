@@ -52,28 +52,10 @@ namespace HtmlRenderer.Dom
                 this._cornerProps = s._cornerProps;
                 //---------------------------------------
 
-<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssBox_InheritAndClone.cs
-                if (clone)
-                {
-                    //for clone only (eg. split a box into two parts)
-                    //---------------------------------------
-                    this._backgroundProps = s._backgroundProps;
-<<<<<<< HEAD
-                    if (this.dbugId == 44)
-=======
-                    if (this.dbugId == 36)
->>>>>>> FETCH_HEAD
-                    {
-                    }
-                    this._borderProps = s._borderProps;
-                    this._cornerProps = s._cornerProps;
-                    //---------------------------------------
-=======
                 this._left = s._left;
                 this._top = s._top;
                 this._bottom = s._bottom;
                 this._right = s._right;
->>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBoxBase_InheritAndClone.cs
 
                 this._width = s._width;
                 this._height = s._height;
@@ -86,24 +68,10 @@ namespace HtmlRenderer.Dom
                 this._float = s._float;
 
 
-<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssBox_InheritAndClone.cs
-<<<<<<< HEAD
-                    this.CssDisplay = s._cssDisplay;
-=======
-                    if (this.dbugId == 36)
-                    {
-                    }
-                    this._cssDisplay = s._cssDisplay;
->>>>>>> FETCH_HEAD
-                    this._overflow = s._overflow;
-                    this._textDecoration = s._textDecoration;
-                    //--------------------------------------- 
-=======
                 this._cssDisplay = s._cssDisplay;
                 this._overflow = s._overflow;
                 this._textDecoration = s._textDecoration;
                 //--------------------------------------- 
->>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBoxBase_InheritAndClone.cs
 
 
             }
@@ -144,33 +112,15 @@ namespace HtmlRenderer.Dom
             //for clone only (eg. split a box into two parts)
             //=======================================
             this._backgroundProps = s._backgroundProps;
-<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssBox_InheritAndClone.cs
-<<<<<<< HEAD
-            //if (this.dbugId == 44)
-=======
 
             //if (this.dbugId == 36)
->>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBoxBase_InheritAndClone.cs
             //{
             //}
 
-<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssBox_InheritAndClone.cs
-=======
-            
-            //if (this.dbugId == 36)
-            //{
-            //}
-            var s_dbugId = s.dbugId;
-=======
->>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBoxBase_InheritAndClone.cs
             if (s._borderProps.Owner == s)
             {
                 this._borderProps = s._borderProps;
             }
-<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssBox_InheritAndClone.cs
->>>>>>> FETCH_HEAD
-=======
->>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBoxBase_InheritAndClone.cs
             this._borderProps = s._borderProps;
 
 
@@ -191,20 +141,10 @@ namespace HtmlRenderer.Dom
             this._lineHeight = s._lineHeight;
             this._float = s._float;
 
-<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssBox_InheritAndClone.cs
-<<<<<<< HEAD
-            this.CssDisplay = s._cssDisplay;
-=======
-=======
->>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBoxBase_InheritAndClone.cs
             //if (this.dbugId == 36)
             //{
             //}
             this._cssDisplay = s._cssDisplay;
-<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssBox_InheritAndClone.cs
->>>>>>> FETCH_HEAD
-=======
->>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBoxBase_InheritAndClone.cs
             this._overflow = s._overflow;
             this._textDecoration = s._textDecoration;
 

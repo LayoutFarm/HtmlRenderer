@@ -45,15 +45,6 @@ namespace HtmlRenderer.Dom
             parser.Parse(snapSource);
             return parser.ResultHtmlDoc;
         }
-<<<<<<< HEAD
-
-        static CssBox CreateBoxTree(WebDom.HtmlDocument htmldoc)
-        {
-            var rootCssBox = BoxCreator.CreateRootBlock();
-            var curBox = rootCssBox;
-            //walk on tree and create cssbox
-            foreach (WebDom.HtmlNode node in htmldoc.RootNode.GetChildNodeIterForward())
-=======
 
         static BrigeRootElement CreateBridgeTree(HtmlContainer container,
             WebDom.HtmlDocument htmldoc,
@@ -75,7 +66,6 @@ namespace HtmlRenderer.Dom
         {
             //recursive 
             foreach (WebDom.HtmlNode node in parentHtmlNode.GetChildNodeIterForward())
->>>>>>> 1.7dev
             {
                 switch (node.NodeType)
                 {
@@ -146,20 +136,12 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-<<<<<<< HEAD
-        static void CreateCssBox(WebDom.HtmlElement htmlElement, CssBox parentNode)
-        {
-            //recursive   
-            CssBox box = BoxCreator.CreateBoxNotInherit(new ElementBridge(htmlElement), parentNode);
-            switch (htmlElement.ChildNodeCount)
-=======
         static void GenerateCssBoxes(BridgeHtmlElement parentElement, CssBox parentBox)
         {
 
             int childCount = parentElement.ChildCount;
 
             switch (childCount)
->>>>>>> 1.7dev
             {
                 case 0: { } break;
                 case 1:
@@ -175,31 +157,6 @@ namespace HtmlRenderer.Dom
                                 } break;
                             case BridgeNodeType.Element:
                                 {
-<<<<<<< HEAD
-                                    //tech1
-                                    //set text node
-                                    WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)firstChild;
-                                    box.SetTextContent(textNode.CopyTextBuffer());
-                                    box.dbugMark = 21;
-
-                                    //-----------
-                                    //tech2
-                                    //WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)firstChild;
-                                    //CssBox anonText = new CssBox(box, null);
-                                    ////parse and evaluate whitespace here ! 
-                                    //anonText.SetTextContent(textNode.CopyTextBuffer());
-                                    //anonText.dbugMark = 21;
-
-<<<<<<< HEAD
-                                    WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)firstChild;
-                                    CssBox anonText = new CssBox(box, null);
-                                    //parse and evaluate whitespace here ! 
-                                    anonText.SetTextContent(textNode.CopyTextBuffer());
-=======
-                                    //box.dbugMark = 22;
-                                    //parentNode.dbugMark = 23;
->>>>>>> FETCH_HEAD
-=======
                                     BridgeHtmlElement elem = (BridgeHtmlElement)bridgeChild;
                                     var spec = elem.Spec;
                                     if (spec.CssDisplay == CssDisplay.None)
@@ -211,7 +168,6 @@ namespace HtmlRenderer.Dom
                                     newBox++;
                                     CssBox box = BoxCreator.CreateBoxNotInherit(elem, parentBox);
                                     GenerateCssBoxes(elem, box);
->>>>>>> 1.7dev
 
                                 } break;
                         }
@@ -270,15 +226,6 @@ namespace HtmlRenderer.Dom
         {
 
             //1. parse
-<<<<<<< HEAD
-            var htmldoc = ParseDocument(new TextSnapshot(html.ToCharArray()));
-
-            //2.
-
-            var root = CreateBoxTree(htmldoc);
-            //-------------------------------------------------------------------
-
-=======
             HtmlDocument htmldoc = ParseDocument(new TextSnapshot(html.ToCharArray()));
             //2. active css template
             //----------------------------------------------------------------
@@ -298,7 +245,6 @@ namespace HtmlRenderer.Dom
             //3. create cssbox from root
             CssBox root = BoxCreator.CreateRootBlock();
             GenerateCssBoxes(bridgeRoot, root);
->>>>>>> 1.7dev
 
 #if DEBUG
             dbugTestParsePerformance(html);
@@ -386,17 +332,7 @@ namespace HtmlRenderer.Dom
         /// <param name="cssDataChanged">check if the css data has been modified by the handled html not to change the base css data</param>
         static void ApplyStyleSheet(CssBox box, ActiveCssTemplate activeCssTemplate)
         {
-<<<<<<< HEAD
-            //if (box.dbugId == 44)
-            //{
-            //}
-            //recursive 
-            //if (box.dbugId == 36)
-            //{
-            //}
-=======
             //recursive  
->>>>>>> 1.7dev
             //-------------------------------------------------------------------            
             box.InheritStyles(box.ParentBox);
 
@@ -430,39 +366,6 @@ namespace HtmlRenderer.Dom
                         CssPropSetter.AssignPropertyValue(box, box.ParentBox, propDecl);
                     }
                 }
-<<<<<<< HEAD
-                //------------------------------------------------------------------- 
-                //some special tags...
-                // Check for the <style> tag   
-                // Check for the <link rel=stylesheet> tag 
-                switch (box.WellknownTagName)
-                {
-                    case WellknownHtmlTagName.style:
-                        {
-                            switch (box.ChildCount)
-                            {
-                                case 0:
-                                    {
-                                        activeCssTemplate.LoadRawStyleElementContent(box.CopyTextContent());
-                                    } break;
-                                case 1:
-                                    {
-                                        activeCssTemplate.LoadRawStyleElementContent(box.GetFirstChild().CopyTextContent());
-                                    } break;
-                            }
-                           
-
-                        } break;
-                    case WellknownHtmlTagName.link:
-                        {
-                            if (box.GetAttribute("rel", string.Empty).Equals("stylesheet", StringComparison.CurrentCultureIgnoreCase))
-                            {
-                                activeCssTemplate.LoadLinkStyleSheet(box.GetAttribute("href", string.Empty));
-                            }
-                        } break;
-                }
-=======
->>>>>>> 1.7dev
             }
 
             //===================================================================
@@ -506,11 +409,6 @@ namespace HtmlRenderer.Dom
                     CssPropSetter.AssignPropertyValue(currentElementSpec, parentSpec, propDecl);
                 }
             }
-<<<<<<< HEAD
-            //if (box.dbugId == 36)
-            //{
-            //}
-=======
             //5. children
             int n = element.ChildCount;
             for(int i=0;i<n;++i)
@@ -522,7 +420,6 @@ namespace HtmlRenderer.Dom
                 }
             } 
 
->>>>>>> 1.7dev
         }
    
 
@@ -1017,18 +914,6 @@ namespace HtmlRenderer.Dom
             for (int i = children.Count - 1; i >= 0; --i)
             {
                 if (children[i].IsInline)
-<<<<<<< HEAD
-=======
-                {
-                    mixFlags |= HAS_IN_LINE;
-                }
-                else
-                {
-                    mixFlags |= HAS_BLOCK;
-                }
-
-                if (mixFlags == (HAS_BLOCK | HAS_IN_LINE))
->>>>>>> FETCH_HEAD
                 {
                     mixFlags |= HAS_IN_LINE;
                 }
@@ -1041,15 +926,7 @@ namespace HtmlRenderer.Dom
                 {
                     return true;
                 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-                
-=======
 
->>>>>>> FETCH_HEAD
-=======
-
->>>>>>> 1.7dev
             }
             return false;
         }

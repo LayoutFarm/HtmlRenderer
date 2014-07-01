@@ -86,20 +86,7 @@ namespace HtmlRenderer.Dom
 #endif
         public CssBoxBase()
         {
-<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssBoxBase.cs
-            _actualColor = System.Drawing.Color.Black;
-<<<<<<< HEAD
-            if (this.dbugId == 435)
-            {
-            }
-=======
-            //if (this.dbugId == 348)
-            //{
-            //}
->>>>>>> FETCH_HEAD
-=======
             _actualColor = System.Drawing.Color.Black; 
->>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBoxBase.cs
         }
 
         #region CSS Properties
@@ -120,27 +107,9 @@ namespace HtmlRenderer.Dom
         {
             get { return this._cssDisplay; }
             set
-<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssBoxBase.cs
-            {
-<<<<<<< HEAD
-                //if (this.dbugId == 44)
-                //{
-                //}
-                this._cssDisplay = value;
-            }
-
-=======
-                if (this.dbugId == 36)
-                {
-                }
-                this._cssDisplay = value;
-            }
->>>>>>> FETCH_HEAD
-=======
             { 
                 this._cssDisplay = value;
             }
->>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBoxBase.cs
         }
         public CssDirection CssDirection
         {

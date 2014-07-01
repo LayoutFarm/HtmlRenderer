@@ -48,29 +48,13 @@ namespace HtmlRenderer.Dom
         /// <param name="tag">optional: the html tag associated with this css box</param>
         public CssBox(CssBox parentBox, IHtmlElement tag)
         {
-<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssBox.cs
-<<<<<<< HEAD
-
-=======
              
->>>>>>> FETCH_HEAD
-=======
-             
->>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox.cs
             this._aa_boxes = new CssBoxCollection(this);
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
             }
-<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssBox.cs
-<<<<<<< HEAD
-           
-=======
             
->>>>>>> FETCH_HEAD
-=======
-            
->>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox.cs
             _htmlElement = tag;
             if (tag != null)
             {

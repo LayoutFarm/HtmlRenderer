@@ -42,15 +42,7 @@ namespace HtmlRenderer.Handlers
         {
             if (rect.Width > 0 && rect.Height > 0)
             {
-<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/4_Render/BordersDrawHandler.cs
-<<<<<<< HEAD
-
-=======
->>>>>>> FETCH_HEAD
-                var dd = box.dbugId;
-=======
                 
->>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/4_Render/BordersDrawHandler.cs
                 if (box.BorderTopStyle >= CssBorderStyle.Visible &&
                     box.ActualBorderTopWidth > 0)
                 {

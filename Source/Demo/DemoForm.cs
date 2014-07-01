@@ -88,32 +88,14 @@ namespace HtmlRenderer.Demo
             var size = Screen.GetWorkingArea(Point.Empty);
             Size = new Size((int)(size.Width * 0.7), (int)(size.Height * 0.8));
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
           
->>>>>>> FETCH_HEAD
-=======
-          
->>>>>>> 1.7dev
             _updateHtmlTimer = new Timer(OnUpdateHtmlTimerTick);
             this.Text += " M";
         }
         public void PrepareSamples()
         {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            LoadSamples();
-            LoadCustomFonts();
-=======
             LoadSamples(); 
             LoadCustomFonts(); 
->>>>>>> FETCH_HEAD
-=======
-            LoadSamples(); 
-            LoadCustomFonts(); 
->>>>>>> 1.7dev
         }
 
         #region Private methods
@@ -181,15 +163,7 @@ namespace HtmlRenderer.Demo
             }
 
             if (root.Nodes.Count > 0)
-<<<<<<< HEAD
-<<<<<<< HEAD
-            {
-=======
             {   
->>>>>>> FETCH_HEAD
-=======
-            {   
->>>>>>> 1.7dev
                 _samplesTreeView.SelectedNode = root.Nodes[StartAtSampleIndex];
             }
         }
