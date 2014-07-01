@@ -145,7 +145,7 @@ namespace HtmlRenderer.Dom
 
             int startIndex = 0;
             int buffLength = textBuffer.Length;
-            bool boxIsNotBreakAll = box.WordBreak != CssWordBreak.BreakAll;
+            bool boxIsNotBreakAll = box.BoxSpec.WordBreak != CssWordBreak.BreakAll;
 
             //whitespace and respect newline  
             WordParsingState parsingState = WordParsingState.Init;

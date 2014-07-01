@@ -169,7 +169,7 @@ namespace HtmlRenderer.Dom
 
                                     CssBox box = BoxCreator.CreateBoxNotInherit(elem, parentBox);
 
-                                    box.InheritStyles(elem.Spec, true);
+                                    //box.InheritStyles(elem.Spec, true);
 
                                     GenerateCssBoxes(elem, box);
 
@@ -208,7 +208,7 @@ namespace HtmlRenderer.Dom
                                         newBox++;
                                         CssBox box = BoxCreator.CreateBoxNotInherit(childElement, parentBox);
 
-                                        box.InheritStyles(spec, true);
+                                        //box.InheritStyles(spec, true);
 
                                         GenerateCssBoxes(childElement, box);
 
@@ -247,7 +247,7 @@ namespace HtmlRenderer.Dom
             //----------------------------------------------------------------
             //box generation
             //3. create cssbox from root
-            CssBox root = BoxCreator.CreateRootBlock();
+            CssBox root = BoxCreator.CreateRootBlock(bridgeRoot.Spec);
             GenerateCssBoxes(bridgeRoot, root);
 
 #if DEBUG
@@ -331,52 +331,52 @@ namespace HtmlRenderer.Dom
         /// <param name="htmlContainer">the html container to use for reference resolve</param>
         /// <param name="cssData"> </param>
         /// <param name="cssDataChanged">check if the css data has been modified by the handled html not to change the base css data</param>
-        static void ApplyStyleSheet(CssBox box, ActiveCssTemplate activeCssTemplate)
-        {
-            //recursive  
-            //-------------------------------------------------------------------            
-            box.InheritStyles(box.ParentBox);
+        //static void ApplyStyleSheet(CssBox box, ActiveCssTemplate activeCssTemplate)
+        //{
+        //    //recursive  
+        //    //-------------------------------------------------------------------            
+        //    box.InheritStyles(box.ParentBox);
 
-            if (box.HtmlElement != null)
-            {
-                //------------------------------------------------------------------- 
-                //1. element tag
-                //2. css class 
-                // try assign style using the html element tag    
-                activeCssTemplate.ApplyActiveTemplateForElement(box.ParentBox, box);
-                //3.
-                // try assign style using the "id" attribute of the html element
-                if (box.HtmlElement.HasAttribute("id"))
-                {
-                    var id = box.HtmlElement.TryGetAttribute("id");
-                    AssignStylesForElementId(box, activeCssTemplate, "#" + id);
-                }
-                //-------------------------------------------------------------------
-                //4. 
-                //element attribute
-                AssignStylesFromTranslatedAttributesHTML5(box, activeCssTemplate);
-                //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
-                //------------------------------------------------------------------- 
-                //5.
-                //style attribute value of element
-                if (box.HtmlElement.HasAttribute("style"))
-                {
-                    var ruleset = activeCssTemplate.ParseCssBlock(box.HtmlElement.Name, box.HtmlElement.TryGetAttribute("style"));
-                    foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
-                    {
-                        CssPropSetter.AssignPropertyValue(box, box.ParentBox, propDecl);
-                    }
-                }
-            }
+        //    if (box.HtmlElement != null)
+        //    {
+        //        //------------------------------------------------------------------- 
+        //        //1. element tag
+        //        //2. css class 
+        //        // try assign style using the html element tag    
+        //        activeCssTemplate.ApplyActiveTemplateForElement(box.ParentBox, box);
+        //        //3.
+        //        // try assign style using the "id" attribute of the html element
+        //        if (box.HtmlElement.HasAttribute("id"))
+        //        {
+        //            var id = box.HtmlElement.TryGetAttribute("id");
+        //            AssignStylesForElementId(box, activeCssTemplate, "#" + id);
+        //        }
+        //        //-------------------------------------------------------------------
+        //        //4. 
+        //        //element attribute
+        //        AssignStylesFromTranslatedAttributesHTML5(box, activeCssTemplate);
+        //        //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
+        //        //------------------------------------------------------------------- 
+        //        //5.
+        //        //style attribute value of element
+        //        if (box.HtmlElement.HasAttribute("style"))
+        //        {
+        //            var ruleset = activeCssTemplate.ParseCssBlock(box.HtmlElement.Name, box.HtmlElement.TryGetAttribute("style"));
+        //            foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
+        //            {
+        //                CssPropSetter.AssignPropertyValue(box, box.ParentBox, propDecl);
+        //            }
+        //        }
+        //    }
 
-            //===================================================================
-            //parent style assignment is complete before step down into child ***
-            foreach (var childBox in box.GetChildBoxIter())
-            {
-                //recursive
-                ApplyStyleSheet(childBox, activeCssTemplate);
-            }
-        }
+        //    //===================================================================
+        //    //parent style assignment is complete before step down into child ***
+        //    foreach (var childBox in box.GetChildBoxIter())
+        //    {
+        //        //recursive
+        //        ApplyStyleSheet(childBox, activeCssTemplate);
+        //    }
+        //}
         static void TopDownApplyStyleSheet(BridgeHtmlElement element, BridgeHtmlElement parentElement, ActiveCssTemplate activeCssTemplate)
         {
             //-------------------------------------------------------------------                        
@@ -578,8 +578,10 @@ namespace HtmlRenderer.Dom
                                 }
                                 else
                                 {
-                                    ForEachCellInTable(box, cell =>
-                                         cell.PaddingLeft = cell.PaddingTop = cell.PaddingRight = cell.PaddingBottom = len01);
+                                    ForEachCellInTable(box, cell =>{
+                                        var cellSpec = cell.BoxSpec;
+                                        cellSpec.PaddingLeft = cellSpec.PaddingTop = cellSpec.PaddingRight = cellSpec.PaddingBottom = len01;
+                                    });
                                 }
 
                             } break;

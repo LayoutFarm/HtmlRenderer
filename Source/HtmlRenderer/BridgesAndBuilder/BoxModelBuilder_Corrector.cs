@@ -243,6 +243,8 @@ namespace HtmlRenderer.Dom
         /// <param name="box">the box that has the problem</param>
         static void CorrectBlockInsideInlineImp(CssBox box)
         {
+
+
             CssBox firstChild = null;
 
             if (box.ChildCount > 1 || box.GetFirstChild().ChildCount > 1)
@@ -285,12 +287,14 @@ namespace HtmlRenderer.Dom
             }
             else if (firstChild.CssDisplay == CssDisplay.Inline)
             {
-                firstChild.CssDisplay = CssDisplay.Block;
+                throw new NotSupportedException();
+               //firstChild.CssDisplay = CssDisplay.Block;
             }
 
             if (box.CssDisplay == CssDisplay.Inline)
             {
-                box.CssDisplay = CssDisplay.Block;
+                throw new NotSupportedException();
+               // box.CssDisplay = CssDisplay.Block;
             }
         }
         /// <summary>
@@ -305,7 +309,7 @@ namespace HtmlRenderer.Dom
             //recursive
 
             var leftPart = BoxCreator.CreateBoxAndInherit(leftBlock, splitBox.HtmlElement);
-            leftPart.InheritStyles(splitBox, true);
+            //leftPart.InheritStyles(splitBox, true);
 
             bool had_new_leftbox = false;
             CssBox firstChild = null;
@@ -337,7 +341,7 @@ namespace HtmlRenderer.Dom
                 if (firstChild.ParentBox != null || parentBox.ChildCount < 3)
                 {
                     rightPart = BoxCreator.CreateBoxAndInherit(parentBox, splitBox.HtmlElement);
-                    rightPart.InheritStyles(splitBox, true);
+                    //rightPart.InheritStyles(splitBox, true);
 
                     if (parentBox.ChildCount > 2)
                     {
@@ -369,8 +373,8 @@ namespace HtmlRenderer.Dom
                 if (firstChild.WellknownTagName == WellknownHtmlTagName.br
                     && (had_new_leftbox || leftBlock.ChildCount > 1))
                 {
-                    firstChild.CssDisplay = CssDisplay.Inline;
-
+                     
+                    firstChild.ChangeCssDisplay(CssDisplay.Inline);
                 }
             }
         }
@@ -391,8 +395,8 @@ namespace HtmlRenderer.Dom
                     //create new anonymous box
                     var block = BoxCreator.CreateAnonBlock(childBox.ParentBox, childIndex);
                     //move this imgbox to new child 
-                    childBox.SetNewParentBox(block);
-                    childBox.CssDisplay = CssDisplay.Inline;
+                    childBox.SetNewParentBox(block);                     
+                    childBox.ChangeCssDisplay(CssDisplay.Inline);
                 }
                 else
                 {

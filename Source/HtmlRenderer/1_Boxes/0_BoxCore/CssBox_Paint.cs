@@ -50,7 +50,7 @@ namespace HtmlRenderer.Dom
             //}
             if (this.CssDisplay != CssDisplay.None &&
                (this.CssDisplay != CssDisplay.TableCell ||
-                 EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
+                this.BoxSpec.EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
             {
 
 

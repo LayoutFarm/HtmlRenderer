@@ -100,7 +100,7 @@ namespace HtmlRenderer.Dom
             {
                 return 0;
             }
-            return CssValueParser.ParseLength(margin, cbWidth, this);
+            return CssValueParser.ParseLength(margin, cbWidth, this.boxSpec);
         }
         /// <summary>
         /// recalculate padding
@@ -115,7 +115,7 @@ namespace HtmlRenderer.Dom
             {
                 return 0;
             }
-            return CssValueParser.ParseLength(padding, cbWidth, this);
+            return CssValueParser.ParseLength(padding, cbWidth, this.boxSpec);
         }
 
         //=============================================================
@@ -172,7 +172,7 @@ namespace HtmlRenderer.Dom
                     } break;
                 default:
                     {
-                       
+
                         this._actualMarginLeft = RecalculateMargin(spec.MarginLeft, cbWidth);
                         this._actualMarginTop = RecalculateMargin(spec.MarginTop, cbWidth);
                         this._actualMarginRight = RecalculateMargin(spec.MarginRight, cbWidth);
@@ -205,10 +205,10 @@ namespace HtmlRenderer.Dom
 
             //-----------------------------------------------------------------------
             //borders            
-            this._actualBorderLeftWidth = (spec.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderLeftWidth, this);
-            this._actualBorderTopWidth = (spec.BorderTopStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderTopWidth, this);
-            this._actualBorderRightWidth = (spec.BorderRightStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderRightWidth, this);
-            this._actualBorderBottomWidth = (spec.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderBottomWidth, this);
+            this._actualBorderLeftWidth = (spec.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderLeftWidth, spec);
+            this._actualBorderTopWidth = (spec.BorderTopStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderTopWidth, spec);
+            this._actualBorderRightWidth = (spec.BorderRightStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderRightWidth, spec);
+            this._actualBorderBottomWidth = (spec.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderBottomWidth, spec);
             //---------------------------------------------------------------------------
 
             //extension ***

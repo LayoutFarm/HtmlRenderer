@@ -160,6 +160,10 @@ namespace HtmlRenderer.Dom
                 return this.boxSpec.CssDisplay;
             }
         }
+        public void ChangeCssDisplay(CssDisplay display)
+        {
+
+        }
 
         /// <summary>
         /// is the box "Display" is "Block", is this is an block box and not inline.
@@ -553,7 +557,7 @@ namespace HtmlRenderer.Dom
 
                                 if (!this.BoxSpec.Width.IsEmptyOrAuto)
                                 {
-                                    availableWidth = CssValueParser.ParseLength(Width, availableWidth, this);
+                                    availableWidth = CssValueParser.ParseLength(this.BoxSpec.Width, availableWidth, this.BoxSpec);
                                 }
 
                                 this.SetWidth(availableWidth);
@@ -805,7 +809,7 @@ namespace HtmlRenderer.Dom
                 ListStyleType != CssListStyleType.None)
             {
                 if (_listItemBox == null)
-                { 
+                {
                     //2014-06-30
                     throw new NotSupportedException();
 
@@ -961,13 +965,13 @@ namespace HtmlRenderer.Dom
         }
 
 
-        /// <summary>
-        /// Inherits inheritable values from parent.
-        /// </summary>
-        internal new void InheritStyles(CssBoxBase box, bool clone = false)
-        {
-            base.InheritStyles(box, clone);
-        }
+        ///// <summary>
+        ///// Inherits inheritable values from parent.
+        ///// </summary>
+        //internal new void InheritStyles(CssBoxBase box, bool clone = false)
+        //{
+        //    base.InheritStyles(box, clone);
+        //}
 
         float CalculateActualWidth()
         {
@@ -1028,7 +1032,7 @@ namespace HtmlRenderer.Dom
             {
                 var lastChildBottomMargin = _aa_boxes[_aa_boxes.Count - 1].ActualMarginBottom;
 
-                margin = (Height.IsAuto) ? Math.Max(ActualMarginBottom, lastChildBottomMargin) : lastChildBottomMargin;
+                margin = (this.BoxSpec.Height.IsAuto) ? Math.Max(ActualMarginBottom, lastChildBottomMargin) : lastChildBottomMargin;
             }
             return _aa_boxes[_aa_boxes.Count - 1].LocalBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
 
@@ -1059,20 +1063,20 @@ namespace HtmlRenderer.Dom
                 IGraphics g = p.Gfx;
 
                 SmoothingMode smooth = g.SmoothingMode;
-
-                if (BackgroundGradient != System.Drawing.Color.Transparent)
+                var spec = this.BoxSpec;
+                if (spec.BackgroundGradient != System.Drawing.Color.Transparent)
                 {
                     brush = new LinearGradientBrush(rect,
-                        ActualBackgroundColor,
-                        ActualBackgroundGradient,
-                        ActualBackgroundGradientAngle);
+                        spec.ActualBackgroundColor,
+                        spec.ActualBackgroundGradient,
+                        spec.ActualBackgroundGradientAngle);
 
                     dispose = true;
                 }
-                else if (RenderUtils.IsColorVisible(ActualBackgroundColor))
+                else if (RenderUtils.IsColorVisible(spec.ActualBackgroundColor))
                 {
 
-                    brush = RenderUtils.GetSolidBrush(ActualBackgroundColor);
+                    brush = RenderUtils.GetSolidBrush(spec.ActualBackgroundColor);
                 }
 
                 if (brush != null)
@@ -1217,7 +1221,8 @@ namespace HtmlRenderer.Dom
 
             if (IsBlock)
             {
-                return string.Format("{0}{1} Block {2}, Children:{3}", ParentBox == null ? "Root: " : string.Empty, tag, FontSize, Boxes.Count);
+                return string.Format("{0}{1} Block {2}, Children:{3}", 
+                    ParentBox == null ? "Root: " : string.Empty, tag, this.BoxSpec.FontSize, Boxes.Count);
             }
             else if (this.CssDisplay == CssDisplay.None)
             {

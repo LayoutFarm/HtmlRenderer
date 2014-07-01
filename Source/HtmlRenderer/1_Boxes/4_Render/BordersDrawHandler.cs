@@ -102,8 +102,8 @@ namespace HtmlRenderer.Handlers
         static void DrawBorder(Border border, CssBox box, PaintVisitor p, RectangleF rect, bool isLineStart, bool isLineEnd)
         {
 
-            CssBorderStyle style = GetStyle(border, box);
-            var color = GetColor(border, box, style);
+            CssBorderStyle style = GetStyle(border, box.BoxSpec);
+            var color = GetColor(border, box.BoxSpec, style);
 
             var borderPath = GetRoundedBorderPath(border, box, rect);
 
@@ -286,7 +286,7 @@ namespace HtmlRenderer.Handlers
                         }
 
                         if (b.ActualCornerSE > 0 &&
-                            spec.BorderBottomStyle >= CssBorderStyle.Visible)                         
+                            spec.BorderBottomStyle >= CssBorderStyle.Visible)
                         {
                             path.AddArc(r.Right - b.ActualCornerSE * 2 - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualCornerSE * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSE * 2, b.ActualCornerSE * 2, 0f, 90f);
                         }

@@ -247,7 +247,8 @@ namespace HtmlRenderer.Dom
                                 CssBox lowerRow = bodyrows[i];
                                 if (FindVerticalCellSpacingBoxInsertionPoint(lowerRow, grid_index, out insertAt))
                                 {
-                                    lowerRow.InsertChild(insertAt, new CssVerticalCellSpacingBox(_tableBox, cellBox, rIndex));
+                                    lowerRow.InsertChild(insertAt, 
+                                        new CssVerticalCellSpacingBox(_tableBox, cellBox, rIndex,_tableBox.BoxSpec));
                                 }
                             }
                         }
@@ -349,7 +350,11 @@ namespace HtmlRenderer.Dom
                                 var childBox = row.GetChildBox(i);
                                 if (childBox.CssDisplay == CssDisplay.TableCell)
                                 {
-                                    float cellBoxWidth = CssValueParser.ParseLength(childBox.BoxSpec.Width, availbleWidthForAllCells, childBox);
+                                    float cellBoxWidth = CssValueParser.ParseLength(childBox.BoxSpec.Width,
+                                        availbleWidthForAllCells,
+                                        childBox.BoxSpec);
+
+
                                     if (cellBoxWidth > 0) //If some width specified
                                     {
                                         int colspan = childBox.ColSpan;
@@ -919,7 +924,8 @@ namespace HtmlRenderer.Dom
             if (tblen.Number > 0)
             {
                 //has specific number
-                return CssValueParser.ParseLength(_tableBox.BoxSpec.Width, _tableBox.ParentBox.ClientWidth, _tableBox);
+                return CssValueParser.ParseLength(_tableBox.BoxSpec.Width,
+                    _tableBox.ParentBox.ClientWidth, _tableBox.BoxSpec);
             }
             else
             {
@@ -943,7 +949,8 @@ namespace HtmlRenderer.Dom
             if (tblen.Number > 0)
             {
 
-                return CssValueParser.ParseLength(_tableBox.BoxSpec.MaxWidth, _tableBox.ParentBox.ClientWidth, _tableBox);
+                return CssValueParser.ParseLength(_tableBox.BoxSpec.MaxWidth,
+                    _tableBox.ParentBox.ClientWidth, _tableBox.BoxSpec);
             }
             else
             {

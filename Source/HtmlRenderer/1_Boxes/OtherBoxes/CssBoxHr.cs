@@ -93,7 +93,7 @@ namespace HtmlRenderer.Dom
             //Check width if not auto
             if (!this.BoxSpec.Width.IsEmptyOrAuto)
             {
-                width = CssValueParser.ParseLength(BoxSpec.Width, width, this);
+                width = CssValueParser.ParseLength(BoxSpec.Width, width, this.BoxSpec);
             }
 
 
@@ -113,9 +113,10 @@ namespace HtmlRenderer.Dom
             }
             if (height <= 2 && ActualBorderTopWidth < 1 && ActualBorderBottomWidth < 1)
             {
-                BorderTopStyle = BorderBottomStyle = CssBorderStyle.Solid; //CssConstants.Solid;
-                BorderTopWidth = CssLength.MakePixelLength(1); //"1px";
-                BorderBottomWidth = CssLength.MakePixelLength(1);
+                throw new System.NotSupportedException();
+                //BorderTopStyle = BorderBottomStyle = CssBorderStyle.Solid; //CssConstants.Solid;
+                //BorderTopWidth = CssLength.MakePixelLength(1); //"1px";
+                //BorderBottomWidth = CssLength.MakePixelLength(1);
             }
 
             this.SetSize(width, height);
@@ -131,9 +132,9 @@ namespace HtmlRenderer.Dom
 
             var rect = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
 
-            if (rect.Height > 2 && RenderUtils.IsColorVisible(ActualBackgroundColor))
+            if (rect.Height > 2 && RenderUtils.IsColorVisible(this.BoxSpec.ActualBackgroundColor))
             {
-                g.FillRectangle(RenderUtils.GetSolidBrush(ActualBackgroundColor), rect.X, rect.Y, rect.Width, rect.Height);
+                g.FillRectangle(RenderUtils.GetSolidBrush(this.BoxSpec.ActualBackgroundColor), rect.X, rect.Y, rect.Width, rect.Height);
             }
 
             if (rect.Height > 1)

@@ -224,7 +224,8 @@ namespace HtmlRenderer.Dom
                 CssBorderStyle.Solid, CssLength.MakePixelLength(2),
                 System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
 
-            BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
+            throw new NotSupportedException();
+            //BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
         }
 
 
