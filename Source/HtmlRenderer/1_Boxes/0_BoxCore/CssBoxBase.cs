@@ -13,7 +13,9 @@
 // "The Art of War"
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+
 using System.Globalization;
 using System.Text.RegularExpressions;
 using HtmlRenderer.Entities;
@@ -33,7 +35,7 @@ namespace HtmlRenderer.Dom
     public abstract partial class CssBoxBase
     {
 
-        internal int cssClassVersion; 
+        internal int cssClassVersion;
         //==========================================================
         #region css values Inherit From Parent (by default)
         //inherit from parent by default
@@ -87,6 +89,8 @@ namespace HtmlRenderer.Dom
         {
             _actualColor = System.Drawing.Color.Black;
         }
+
+       
 
         #region CSS Properties
 

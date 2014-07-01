@@ -13,6 +13,7 @@ using HtmlRenderer.Utils;
 namespace HtmlRenderer.Dom
 {
 
+
     class CssBorderProp
     {
 
@@ -82,6 +83,7 @@ namespace HtmlRenderer.Dom
         public Color TopColor { get; set; }
         public Color RightColor { get; set; }
         public Color BottomColor { get; set; }
+
         public CssBorderCollapse BorderCollapse { get; set; }
         public CssLength BorderSpacingH { get; set; }
         public CssLength BorderSpacingV { get; set; }
@@ -103,6 +105,34 @@ namespace HtmlRenderer.Dom
 
 
         public static readonly CssBorderProp Default = new CssBorderProp(null);
+
+#if DEBUG
+        public static bool dbugIsEq(dbugPropCheckReport rep, CssBorderProp prop1, CssBorderProp prop2)
+        {
+            int inCount = rep.Count;
+            rep.Check("LeftWidth", CssLength.IsEq(prop1.LeftWidth, prop2.LeftWidth));
+            rep.Check("TopWidth", CssLength.IsEq(prop1.TopWidth, prop2.TopWidth));
+            rep.Check("RightWidth", CssLength.IsEq(prop1.RightWidth, prop2.RightWidth));
+            rep.Check("BottomWidth", CssLength.IsEq(prop1.BottomWidth, prop2.BottomWidth));
+
+            rep.Check("LeftStyle", prop1.LeftStyle == prop2.LeftStyle);
+            rep.Check("TopStyle", prop1.TopStyle == prop2.TopStyle);
+            rep.Check("RightStyle", prop1.RightStyle == prop2.RightStyle);
+            rep.Check("BottomStyle", prop1.BottomStyle == prop2.BottomStyle);
+
+            rep.Check("LeftColor", prop1.LeftColor == prop2.LeftColor);
+            rep.Check("TopColor", prop1.TopColor == prop2.TopColor);
+            rep.Check("RightColor", prop1.RightColor == prop2.RightColor);
+            rep.Check("BottomColor", prop1.BottomColor == prop2.BottomColor);
+
+            rep.Check("BorderCollapse", prop1.BorderCollapse == prop2.BorderCollapse); 
+
+            rep.Check("BorderSpacingH", CssLength.IsEq(prop1.BorderSpacingH, prop2.BorderSpacingH));
+            rep.Check("BorderSpacingV", CssLength.IsEq(prop1.BorderSpacingV, prop2.BorderSpacingV));
+
+            return inCount != rep.Count;
+        }
+#endif
     }
 
     class CssMarginProp
@@ -146,6 +176,20 @@ namespace HtmlRenderer.Dom
             }
         }
         public static readonly CssMarginProp Default = new CssMarginProp(null);
+
+
+#if DEBUG
+        public static bool dbugIsEq(dbugPropCheckReport rep, CssMarginProp prop1, CssMarginProp prop2)
+        {
+            int inCount = rep.Count;
+            rep.Check("Left", CssLength.IsEq(prop1.Left, prop2.Left));
+            rep.Check("Top", CssLength.IsEq(prop1.Top, prop2.Top));
+            rep.Check("Right", CssLength.IsEq(prop1.Right, prop2.Right));
+            rep.Check("Bottom", CssLength.IsEq(prop1.Bottom, prop2.Bottom));
+
+            return inCount != rep.Count;
+        }
+#endif
     }
     class CssPaddingProp
     {
@@ -188,6 +232,19 @@ namespace HtmlRenderer.Dom
         {
             get { return this.owner; }
         }
+
+#if DEBUG
+        public static bool dbugIsEq(dbugPropCheckReport rep, CssPaddingProp prop1, CssPaddingProp prop2)
+        {   
+            int inCount = rep.Count;
+            rep.Check("Left", CssLength.IsEq(prop1.Left, prop2.Left));
+            rep.Check("Top", CssLength.IsEq(prop1.Top, prop2.Top));
+            rep.Check("Right", CssLength.IsEq(prop1.Right, prop2.Right));
+            rep.Check("Bottom", CssLength.IsEq(prop1.Bottom, prop2.Bottom));
+
+            return inCount != rep.Count;
+        }
+#endif
     }
 
 
@@ -230,6 +287,19 @@ namespace HtmlRenderer.Dom
         public string ListStyle { get; set; }
 
         public static readonly CssListProp Default = new CssListProp(null);
+
+#if DEBUG
+        public static bool dbugIsEq(dbugPropCheckReport rep, CssListProp prop1, CssListProp prop2)
+        {
+            int inCount = rep.Count;
+            rep.Check("ListStyleType", prop1.ListStyleType == prop2.ListStyleType);
+            rep.Check("ListStyleType", prop1.ListStyleImage == prop2.ListStyleImage);
+            rep.Check("ListStyleType", prop1.ListStylePosition == prop2.ListStylePosition);
+            rep.Check("ListStyleType", prop1.ListStyle == prop2.ListStyle);
+
+            return inCount != rep.Count;
+        }
+#endif
     }
 
     class CssCornerProp
@@ -271,6 +341,21 @@ namespace HtmlRenderer.Dom
         public CssLength NWRadius { get; set; }
         public CssLength SERadius { get; set; }
         public CssLength SWRadius { get; set; }
+
+
+
+#if DEBUG
+        public static bool dbugIsEq(dbugPropCheckReport rep, CssCornerProp prop1, CssCornerProp prop2)
+        {
+            int inCount = rep.Count;
+            rep.Check("NERadius", CssLength.IsEq(prop1.NERadius, prop2.NERadius));
+            rep.Check("NWRadius", CssLength.IsEq(prop1.NWRadius, prop2.NWRadius));
+            rep.Check("SERadius", CssLength.IsEq(prop1.SERadius, prop2.SERadius));
+            rep.Check("SWRadius", CssLength.IsEq(prop1.SWRadius, prop2.SWRadius));
+
+            return inCount != rep.Count;
+        }
+#endif
     }
     class CssFontProp
     {
@@ -295,11 +380,13 @@ namespace HtmlRenderer.Dom
             this.FontVariant = inheritFrom.FontVariant;
             this.FontWeight = inheritFrom.FontWeight;
         }
+
         public string FontFamily { get; set; }
         public CssLength FontSize { get; set; }
         public CssFontStyle FontStyle { get; set; }
         public CssFontVariant FontVariant { get; set; }
         public CssFontWeight FontWeight { get; set; }
+
         public CssFontProp GetMyOwnVersion(object checkOwner)
         {
             if (this.owner == checkOwner)
@@ -420,9 +507,46 @@ namespace HtmlRenderer.Dom
             }
         }
         public static readonly CssFontProp Default = new CssFontProp(null);
+
+
+#if DEBUG
+        public static bool dbugIsEq(dbugPropCheckReport rep, CssFontProp prop1, CssFontProp prop2)
+        {
+            if (prop1 == prop2)
+            {
+                return true;
+            }
+            //---------------- 
+            rep.Check("FontFamily", prop1.FontFamily == prop2.FontFamily);
+            rep.Check("FontSize", CssLength.IsEq(prop1.FontSize, prop2.FontSize));
+            rep.Check("FontStyle", prop1.FontStyle == prop2.FontStyle);
+            rep.Check("FontVariant", prop1.FontVariant == prop2.FontVariant);
+            rep.Check("FontWeight", prop1.FontWeight == prop2.FontWeight);
+
+
+            return false;
+        }
+#endif
+
     }
 
-
+#if DEBUG
+    public class dbugPropCheckReport
+    {
+        List<string> msgs = new List<string>();
+        public void Check(string propName, bool testResult)
+        {
+            if (!testResult)
+            {
+                msgs.Add(propName);
+            }
+        }
+        public int Count
+        {
+            get { return this.msgs.Count; }
+        }
+    }
+#endif
 
     class CssBackgroundProp
     {
@@ -463,6 +587,7 @@ namespace HtmlRenderer.Dom
                 return new CssBackgroundProp(checkOwner, this);
             }
         }
+        //---------------------------------
         public Color BackgroundColor { get; set; }
         public Color BackgroundGradient { get; set; }
         public float BackgroundGradientAngle { get; set; }
@@ -472,8 +597,40 @@ namespace HtmlRenderer.Dom
 
         public CssLength BackgroundPosX { get; set; }
         public CssLength BackgroundPosY { get; set; }
-
         public CssBackgroundRepeat BackgroundRepeat { get; set; }
+
         public static readonly CssBackgroundProp Default = new CssBackgroundProp(null);
+
+
+#if DEBUG
+        public static bool dbugIsEq(dbugPropCheckReport rep, CssBackgroundProp prop1, CssBackgroundProp prop2)
+        {
+            if (prop1 == prop2)
+            {
+                return true;
+            }
+            //---------------- 
+            int inMsgCount = rep.Count;
+            rep.Check("BackgroundColor", prop1.BackgroundColor == prop2.BackgroundColor);
+            rep.Check("BackgroundGradient", prop1.BackgroundGradient == prop2.BackgroundGradient);
+            rep.Check("BackgroundGradientAngle", prop1.BackgroundGradientAngle == prop2.BackgroundGradientAngle);
+            if (!(prop1.BackgroundImageBinder == null && prop2.BackgroundImageBinder == null))
+            {
+                if (prop1.BackgroundImageBinder != prop2.BackgroundImageBinder)
+                {
+                    if (prop1.BackgroundImageBinder.ImageSource != prop2.BackgroundImageBinder.ImageSource)
+                    {
+                        rep.Check("BackgroundImageBinder", prop1.BackgroundImageBinder == prop2.BackgroundImageBinder);
+                    }
+                }
+            }
+            rep.Check("BackgroundPosition", prop1.BackgroundPosition == prop2.BackgroundPosition);
+            rep.Check("BackgroundPosX", CssLength.IsEq(prop1.BackgroundPosX, prop2.BackgroundPosX));
+            rep.Check("BackgroundPosY", CssLength.IsEq(prop1.BackgroundPosY, prop2.BackgroundPosY));
+            rep.Check("CssBackgroundRepeat", prop1.BackgroundRepeat == prop2.BackgroundRepeat);
+
+            return inMsgCount != rep.Count;
+        }
+#endif
     }
 }

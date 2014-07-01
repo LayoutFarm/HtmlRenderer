@@ -2,6 +2,7 @@
 
 using System;
 using System.Drawing;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using HtmlRenderer.Entities;
@@ -10,7 +11,7 @@ using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
 {
-     
+
     partial class CssBoxBase
     {
 
@@ -79,6 +80,59 @@ namespace HtmlRenderer.Dom
             }
 
         }
+
+#if DEBUG
+
+
+        public static bool Compare(dbugPropCheckReport dbugR, CssBoxBase boxBase, BoxSpecBase spec)
+        {
+
+            dbugR.Check("_fontProps", CssFontProp.dbugIsEq(dbugR, boxBase._fontProps, spec._fontProps));
+            dbugR.Check("_listProps", CssListProp.dbugIsEq(dbugR, boxBase._listProps, spec._listProps));
+            dbugR.Check("_lineHeight", CssLength.IsEq(boxBase._lineHeight, spec._lineHeight));
+            dbugR.Check("_textIndent", CssLength.IsEq(boxBase._textIndent, spec._textIndent));
+            dbugR.Check("_actualColor", boxBase._actualColor == spec._actualColor);
+            dbugR.Check("_emptyCells", boxBase._emptyCells == spec._emptyCells);
+            dbugR.Check("_textAlign", boxBase._textAlign == spec._textAlign);
+
+            dbugR.Check("_verticalAlign", boxBase._verticalAlign == spec._verticalAlign);
+            dbugR.Check("_visibility", boxBase._visibility == spec._visibility);
+            dbugR.Check("_whitespace", boxBase._whitespace == spec._whitespace);
+            dbugR.Check("_wordBreak", boxBase._wordBreak == spec._wordBreak);
+            dbugR.Check("_cssDirection", boxBase._cssDirection == spec._cssDirection);
+
+            dbugR.Check("_backgroundProps", CssBackgroundProp.dbugIsEq(dbugR, boxBase._backgroundProps, spec._backgroundProps));
+            dbugR.Check("_borderProps", CssBorderProp.dbugIsEq(dbugR, boxBase._borderProps, spec._borderProps));
+            dbugR.Check("_cornerProps", CssCornerProp.dbugIsEq(dbugR, boxBase._cornerProps, spec._cornerProps));
+
+            //---------------------------------------
+            dbugR.Check("_left", CssLength.IsEq(boxBase._left, spec._left));
+            dbugR.Check("_top", CssLength.IsEq(boxBase._top, spec._top));
+            dbugR.Check("_bottom", CssLength.IsEq(boxBase._bottom, spec._bottom));
+            dbugR.Check("_right", CssLength.IsEq(boxBase._right, spec._right));
+
+
+            dbugR.Check("_width", CssLength.IsEq(boxBase._width, spec._width));
+            dbugR.Check("_height", CssLength.IsEq(boxBase._height, spec._height));
+            dbugR.Check("_maxWidth", CssLength.IsEq(boxBase._maxWidth, spec._maxWidth));
+
+
+            dbugR.Check("_position", boxBase._position == spec._position);
+            dbugR.Check("_wordSpacing", CssLength.IsEq(boxBase._wordSpacing, spec._wordSpacing));
+            dbugR.Check("_float", boxBase._float == spec._float);
+            dbugR.Check("_cssDisplay", boxBase._cssDisplay == spec._cssDisplay);
+            dbugR.Check("_overflow", boxBase._overflow == spec._overflow);
+            dbugR.Check("_textDecoration", boxBase._textDecoration == spec._textDecoration);
+
+
+            if (dbugR.Count > 0)
+            {
+                return false;
+            }
+            return true;
+
+        }
+#endif
 
         protected void InheritStyles(CssBoxBase.BoxSpecBase s, bool clone)
         {
@@ -338,7 +392,7 @@ namespace HtmlRenderer.Dom
             return this._borderProps = this._borderProps.GetMyOwnVersion(this);
         }
         CssMarginProp CheckMarginVersion()
-        {   
+        {
             return this._marginProps = this._marginProps.GetMyOwnVersion(this);
         }
         CssPaddingProp CheckPaddingVersion()
@@ -360,8 +414,8 @@ namespace HtmlRenderer.Dom
         CssBackgroundProp CheckBgVersion()
         {
             return this._backgroundProps = this._backgroundProps.GetMyOwnVersion(this);
-        }  
-        
+        }
+
 
     }
 

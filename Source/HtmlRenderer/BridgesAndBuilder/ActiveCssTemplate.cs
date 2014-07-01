@@ -13,16 +13,21 @@ namespace HtmlRenderer.Dom
 {
     public class BoxSpec : CssBoxBase.BoxSpecBase
     {
+        BridgeHtmlElement ownerElement;
         public BoxSpec(WellknownHtmlTagName wellknownTagName)
         {
             this.WellknownTagName = wellknownTagName;
         }
-
+        internal BoxSpec(BridgeHtmlElement ownerElement)// WellknownHtmlTagName wellknownTagName)
+        {
+            this.ownerElement = ownerElement;
+            this.WellknownTagName = ownerElement.WellknownTagName;
+        }
         public override CssBoxBase GetParent()
         {
             return null;
         }
-       
+
         public void InheritStylesFrom(CssBoxBase.BoxSpecBase source)
         {
             base.InheritStyles(source, false);
@@ -36,6 +41,8 @@ namespace HtmlRenderer.Dom
             base.InheritStyles(source, true);
         }
     }
+
+
 
 
     class ActiveCssTemplate
@@ -146,8 +153,8 @@ namespace HtmlRenderer.Dom
                     box.cssClassVersion++;
                     foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
                     {
-                        //CssPropSetter.AssignPropertyValue(boxTemplate, parentBox, decl);
-                        CssPropSetter.AssignPropertyValue(boxTemplate, parentBox.Spec, decl);
+
+                        CssPropSetter.AssignPropertyValue(boxTemplate, parentBox.ImportSpec, decl);
                     }
                 }
                 //----------------------------
@@ -167,7 +174,7 @@ namespace HtmlRenderer.Dom
                             {
                                 foreach (var propDecl in ruleSetGroup.GetPropertyDeclIter())
                                 {
-                                    CssPropSetter.AssignPropertyValue(boxTemplate, parentBox.Spec, propDecl);
+                                    CssPropSetter.AssignPropertyValue(boxTemplate, parentBox.ImportSpec, propDecl);
                                 }
                                 //---------------------------------------------------------
                                 //find subgroup for more specific conditions
@@ -220,7 +227,7 @@ namespace HtmlRenderer.Dom
                 box.Spec = currentBoxSpec = new BoxSpec(box.WellknownTagName);
             }
             //------------------------ 
-            
+
 
             BoxSpec boxTemplate;
             if (!templatesForTagName.TryGetValue(key, out boxTemplate))

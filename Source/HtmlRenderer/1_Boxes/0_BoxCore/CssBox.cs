@@ -40,7 +40,9 @@ namespace HtmlRenderer.Dom
     /// </remarks>
     public partial class CssBox : CssBoxBase, IDisposable
     {
-        BoxSpec _boxspec;
+        readonly BoxSpec _importSpec;
+        readonly BoxSpec _finalSpec;
+
         internal CssBox(CssBox parentBox, BridgeHtmlElement element)
         {
             this._aa_boxes = new CssBoxCollection(this);
@@ -49,11 +51,12 @@ namespace HtmlRenderer.Dom
                 parentBox.Boxes.Add(this);
             }
             _htmlElement = element;
+
             if (element != null)
             {
                 if (element.Spec != null)
                 {
-                    this._boxspec = element.Spec;
+                    this._importSpec = element.Spec;
                 }
                 else
                 {
@@ -64,21 +67,31 @@ namespace HtmlRenderer.Dom
             {
                 //anonymous block
             }
-           
+
             if (element != null)
             {
                 this.WellknownTagName = element.WellknownTagName;
             }
+
+            //------------
+            _finalSpec = new BoxSpec(this.WellknownTagName);
+            //------------
+            if (_importSpec != null)
+            {
+                _finalSpec.InheritStylesFrom(_importSpec);
+            }
         }
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
         {
+            //for root
             this._aa_boxes = new CssBoxCollection(this);
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
             }
+
             _htmlElement = element;
-            this._boxspec = spec;
+            this._importSpec = spec;
 #if DEBUG
             if (element != null && element.Spec == null)
             {
@@ -89,14 +102,24 @@ namespace HtmlRenderer.Dom
             {
                 this.WellknownTagName = element.WellknownTagName;
             }
+
+            _finalSpec = new BoxSpec(this.WellknownTagName);
+            if (_importSpec != null)
+            {
+
+                _finalSpec.InheritStylesFrom(_importSpec);
+            }
         }
-        public BoxSpec Spec
+        public BoxSpec ImportSpec
         {
             get
             {
-                return this._boxspec;
-                
+                return this._importSpec;
             }
+        }
+        public BoxSpec FinalSpec
+        {
+            get { return this._finalSpec; }
         }
         /// <summary>
         /// Gets the HtmlContainer of the Box.
@@ -978,7 +1001,7 @@ namespace HtmlRenderer.Dom
             {
                 return;
             }
-            base.InheritStyles(box, clone); 
+            base.InheritStyles(box, clone);
 
         }
         float CalculateActualWidth()

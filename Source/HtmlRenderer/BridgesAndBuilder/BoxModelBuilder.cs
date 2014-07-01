@@ -327,9 +327,9 @@ namespace HtmlRenderer.Dom
             //    ApplyStyleSheet01(childBox, activeCssTemplate);
             //}
 
-            if (box.ParentBox != null && box.ParentBox.Spec != null)
+            if (box.ParentBox != null && box.ParentBox.ImportSpec != null)
             {
-                box.InheritStyles(box.ParentBox.Spec);
+                box.InheritStyles(box.ParentBox.ImportSpec);
             }
             else
             {

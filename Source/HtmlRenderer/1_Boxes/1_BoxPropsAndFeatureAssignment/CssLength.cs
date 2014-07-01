@@ -8,7 +8,7 @@ using HtmlRenderer.Parse;
 
 namespace HtmlRenderer.Dom
 {
-    
+
 
     /// <summary>
     /// Represents and gets info about a CSS Length
@@ -104,6 +104,11 @@ namespace HtmlRenderer.Dom
             this._flags = internalFlags;
         }
 
+        public static bool IsEq(CssLength len1, CssLength len2)
+        {
+            return (len1._number == len2.Number) && (len1._flags == len2._flags);
+        }
+         
         #endregion
 
 
