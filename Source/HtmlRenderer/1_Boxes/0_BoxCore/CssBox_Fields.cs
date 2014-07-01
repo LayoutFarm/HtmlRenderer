@@ -223,32 +223,30 @@ namespace HtmlRenderer.Dom
         public ImageBinder BackgroundImageBinder
         {
             get
-            {
-
-
-                return this.boxSpec.BackgroundImageBinder;
+            { 
+                return this.BoxSpec.BackgroundImageBinder;
             }
         }
         public CssLength BackgroundPositionX
         {
             get
             {
-                return this.boxSpec.BackgroundPositionX;
+                return this.BoxSpec.BackgroundPositionX;
             }
         }
         public CssLength BackgroundPositionY
         {
             get
             {
-                
-                return this.boxSpec.BackgroundPositionY;
+
+                return this.BoxSpec.BackgroundPositionY;
             }
         }
         public CssBackgroundRepeat BackgroundRepeat
         {
             get
             {
-                return this.boxSpec.BackgroundRepeat;
+                return this.BoxSpec.BackgroundRepeat;
             }
         }
     }

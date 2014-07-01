@@ -15,7 +15,6 @@ namespace HtmlRenderer.Dom
     public abstract class CustomCssBoxGenerator
     {
         public abstract CssBox CreateCssBox(IHtmlElement tag, CssBox parentBox);
-
     }
 
     public static class BoxCreator
@@ -118,8 +117,7 @@ namespace HtmlRenderer.Dom
         /// <returns>the new block box</returns>
         internal static CssBox CreateAnonBlock(CssBox parent, int insertAt = -1)
         {
-            var newBox = CreateBoxAndInherit(parent, null, insertAt);
-            newBox.BoxSpec = parent.BoxSpec;
+            var newBox = CreateBoxAndInherit(parent, null, insertAt);             
             return newBox;
         }
 

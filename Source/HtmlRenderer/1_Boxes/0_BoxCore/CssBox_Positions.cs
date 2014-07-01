@@ -95,12 +95,13 @@ namespace HtmlRenderer.Dom
         /// <returns></returns>
         float RecalculateMargin(CssLength margin, float cbWidth)
         {
+
             //www.w3.org/TR/CSS2/box.html#margin-properties
             if (margin.IsAuto)
             {
                 return 0;
             }
-            return CssValueParser.ParseLength(margin, cbWidth, this.boxSpec);
+            return CssValueParser.ParseLength(margin, cbWidth, this);
         }
         /// <summary>
         /// recalculate padding
@@ -115,7 +116,7 @@ namespace HtmlRenderer.Dom
             {
                 return 0;
             }
-            return CssValueParser.ParseLength(padding, cbWidth, this.boxSpec);
+            return CssValueParser.ParseLength(padding, cbWidth, this);
         }
 
         //=============================================================
@@ -123,25 +124,61 @@ namespace HtmlRenderer.Dom
         {
             get { return (this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0; }
         }
+
+        internal Font ActualFont
+        {
+            get { return this._actualFont; }
+        }
+
+        /// <summary>
+        /// Ensures that the specified length is converted to pixels if necessary
+        /// </summary>
+        /// <param name="length"></param>
+        CssLength NoEms(CssLength length)
+        {
+            if (length.UnitOrNames == Entities.CssUnitOrNames.Ems)
+            {
+                return length.ConvertEmToPixels(this.GetActualFontEmHeight());
+            }
+            return length;
+        }
         //static int num_count = 0;
         /// <summary>
         /// evaluate computed value
         /// </summary>
         internal void ReEvaluateComputedValues(CssBox containingBlock)
         {
-            //see www.w3.org/TR/CSS2/box.html#padding-properties
 
+            //--------------
+            //1. font 
+            //---------------
+            //check font,font size, line height  
+            if (this.ParentBox != null)
+            {
+                
+                //(for Parent== null -> root box ->please set actual font manual)
+                //re evaluate font size
+                //1. font 
+                this._actualFont = this.BoxSpec.GetFont(this.ParentBox.BoxSpec);      
+            }
+            var spec = this.BoxSpec;
+            if (spec.LineHeight.IsPercentage)
+            {
+                 
+
+                //2014,
+                //from www.w3c.org/wiki/Css/Properties/line-height
+
+                //line height in <percentage> : 
+                //The computed value if the property is percentage multiplied by the 
+                //element's computed font size. 
+            }
+
+
+            //see www.w3.org/TR/CSS2/box.html#padding-properties
             //width of some margins,paddings are computed value 
             //that need its containing block width (even for 'top' and 'bottom')
-            //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) != 0)
-            //{
-            //    //num_count++;
-            //    //Console.WriteLine(num_count + " " + this.ToString());
-            //    return;
-            //}
-            //else if (this.dbugId == 35)
-            //{
-            //} 
+            
             //margin
             //-----------------------------------------------------------------------
             float cbWidth = containingBlock.SizeWidth;
@@ -150,7 +187,7 @@ namespace HtmlRenderer.Dom
             //w3c: margin applies to all elements except elements table display type
             //other than table-caption,table and inline table
 
-            var spec = this.boxSpec;
+           
             var cssDisplay = spec.CssDisplay;
 
             switch (cssDisplay)
@@ -205,19 +242,19 @@ namespace HtmlRenderer.Dom
 
             //-----------------------------------------------------------------------
             //borders            
-            this._actualBorderLeftWidth = (spec.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderLeftWidth, spec);
-            this._actualBorderTopWidth = (spec.BorderTopStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderTopWidth, spec);
-            this._actualBorderRightWidth = (spec.BorderRightStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderRightWidth, spec);
-            this._actualBorderBottomWidth = (spec.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderBottomWidth, spec);
+            this._actualBorderLeftWidth = (spec.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderLeftWidth, this);
+            this._actualBorderTopWidth = (spec.BorderTopStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderTopWidth, this);
+            this._actualBorderRightWidth = (spec.BorderRightStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderRightWidth, this);
+            this._actualBorderBottomWidth = (spec.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderBottomWidth, this);
             //---------------------------------------------------------------------------
 
             //extension ***
             float c1, c2, c3, c4;
 
-            this._actualCornerNE = c1 = CssValueParser.ParseLength(spec.CornerNERadius, 0, spec);
-            this._actualCornerNW = c2 = CssValueParser.ParseLength(spec.CornerNWRadius, 0, spec);
-            this._actualCornerSE = c3 = CssValueParser.ParseLength(spec.CornerSERadius, 0, spec);
-            this._actualCornerSW = c4 = CssValueParser.ParseLength(spec.CornerSWRadius, 0, spec);
+            this._actualCornerNE = c1 = CssValueParser.ParseLength(spec.CornerNERadius, 0, this);
+            this._actualCornerNW = c2 = CssValueParser.ParseLength(spec.CornerNWRadius, 0, this);
+            this._actualCornerSE = c3 = CssValueParser.ParseLength(spec.CornerSERadius, 0, this);
+            this._actualCornerSW = c4 = CssValueParser.ParseLength(spec.CornerSWRadius, 0, this);
 
             if ((c1 + c2 + c3 + c4) > 0)
             {

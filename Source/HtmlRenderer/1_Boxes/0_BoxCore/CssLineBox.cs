@@ -394,15 +394,11 @@ namespace HtmlRenderer.Dom
             {
                 yield return tmpRuns[i];
             }
-        }
-
-
+        } 
 
         internal void PaintRuns(IGraphics g, PaintVisitor p)
         {
-            //iterate from each words
-
-
+            //iterate from each words 
             CssBox latestOwner = null;
             Font font = null;
 
@@ -423,11 +419,13 @@ namespace HtmlRenderer.Dom
                         } break;
                     case CssRunKind.Text:
                         {
+
                             if (latestOwner != w.OwnerBox)
                             {
                                 latestOwner = w.OwnerBox;
+                                BoxSpec boxspec = latestOwner.BoxSpec;
                                 font = latestOwner.ActualFont;
-                                color = latestOwner.ActualColor;
+                                color = boxspec.ActualColor;
                             }
                             CssTextRun textRun = (CssTextRun)w;
 

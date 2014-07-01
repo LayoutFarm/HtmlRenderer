@@ -21,7 +21,7 @@ namespace HtmlRenderer.Dom
         {
             
             if (this.CssDisplay != CssDisplay.None &&
-                this.boxSpec.CssVisibility == Dom.CssVisibility.Visible)
+                this.BoxSpec.CssVisibility == Dom.CssVisibility.Visible)
             {   
                 PaintImp(g, p);  
             }

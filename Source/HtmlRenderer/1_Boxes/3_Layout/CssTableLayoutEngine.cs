@@ -247,8 +247,8 @@ namespace HtmlRenderer.Dom
                                 CssBox lowerRow = bodyrows[i];
                                 if (FindVerticalCellSpacingBoxInsertionPoint(lowerRow, grid_index, out insertAt))
                                 {
-                                    lowerRow.InsertChild(insertAt, 
-                                        new CssVerticalCellSpacingBox(_tableBox, cellBox, rIndex,_tableBox.BoxSpec));
+                                    lowerRow.InsertChild(insertAt,
+                                        new CssVerticalCellSpacingBox(_tableBox, cellBox, rIndex, _tableBox.BoxSpec));
                                 }
                             }
                         }
@@ -352,7 +352,7 @@ namespace HtmlRenderer.Dom
                                 {
                                     float cellBoxWidth = CssValueParser.ParseLength(childBox.BoxSpec.Width,
                                         availbleWidthForAllCells,
-                                        childBox.BoxSpec);
+                                        childBox);
 
 
                                     if (cellBoxWidth > 0) //If some width specified
@@ -925,7 +925,7 @@ namespace HtmlRenderer.Dom
             {
                 //has specific number
                 return CssValueParser.ParseLength(_tableBox.BoxSpec.Width,
-                    _tableBox.ParentBox.ClientWidth, _tableBox.BoxSpec);
+                    _tableBox.ParentBox.ClientWidth, _tableBox);
             }
             else
             {
@@ -950,7 +950,7 @@ namespace HtmlRenderer.Dom
             {
 
                 return CssValueParser.ParseLength(_tableBox.BoxSpec.MaxWidth,
-                    _tableBox.ParentBox.ClientWidth, _tableBox.BoxSpec);
+                    _tableBox.ParentBox.ClientWidth, _tableBox);
             }
             else
             {

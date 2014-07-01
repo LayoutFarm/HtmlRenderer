@@ -33,7 +33,7 @@ namespace HtmlRenderer.Parse
         /// <returns>Parsed number. Zero if error while parsing.</returns>
 
         public static float ParseNumber(CssLength number, float hundredPercent)
-        {   
+        {
             switch (number.UnitOrNames)
             {
                 case CssUnitOrNames.EmptyValue:
@@ -44,9 +44,7 @@ namespace HtmlRenderer.Parse
                     return number.Number;
             }
         }
-
-
-        public static float ParseLength(CssLength length, float hundredPercent, CssBoxBase box)
+        public static float ParseLength(CssLength length, float hundredPercent, CssBox box)
         {
             //Return zero if no length specified, zero specified      
             switch (length.UnitOrNames)
@@ -56,9 +54,9 @@ namespace HtmlRenderer.Parse
                 case CssUnitOrNames.Percent:
                     return (length.Number / 100f) * hundredPercent;
                 case CssUnitOrNames.Ems:
-                    return length.Number * box.GetEmHeight();
+                    return length.Number * box.GetActualFontEmHeight();
                 case CssUnitOrNames.Ex:
-                    return length.Number * (box.GetEmHeight() / 2);
+                    return length.Number * (box.GetActualFontEmHeight() / 2);
                 case CssUnitOrNames.Pixels:
                     //atodo: check support for hi dpi
                     return length.Number;
@@ -76,7 +74,7 @@ namespace HtmlRenderer.Parse
                     return 0;
             }
         }
-        public static float ParseLengthWithFontAdjust(CssLength length, float hundredPercent, CssBoxBase box)
+        public static float ParseLengthWithFontAdjust(CssLength length, float hundredPercent, CssBox box)
         {
             //Return zero if no length specified, zero specified     
             switch (length.UnitOrNames)
@@ -86,9 +84,9 @@ namespace HtmlRenderer.Parse
                 case CssUnitOrNames.Percent:
                     return (length.Number / 100f) * hundredPercent;
                 case CssUnitOrNames.Ems:
-                    return length.Number * box.GetEmHeight();
+                    return length.Number * box.GetActualFontEmHeight();
                 case CssUnitOrNames.Ex:
-                    return length.Number * (box.GetEmHeight() / 2);
+                    return length.Number * (box.GetActualFontEmHeight() / 2);
                 case CssUnitOrNames.Pixels:
                     //atodo: check support for hi dpi
                     return length.Number * (72f / 96f);
@@ -120,23 +118,23 @@ namespace HtmlRenderer.Parse
             TryGetColor(colorValue, 0, colorValue.Length, out color);
             return color;
         }
-        public static float GetActualBorderWidth(CssLength borderValue, CssBoxBase b)
+        public static float GetActualBorderWidth(CssLength borderValue, CssBox b)
         {
             //------------------------------
             //plan: use extended cssunit
             //------------------------------
-            switch(borderValue.UnitOrNames)
-            {   
+            switch (borderValue.UnitOrNames)
+            {
                 case CssUnitOrNames.EmptyValue://as medium 
                 case CssUnitOrNames.BorderMedium:
                     return 2f;
-                case  CssUnitOrNames.BorderThin:
+                case CssUnitOrNames.BorderThin:
                     return 1f;
                 case CssUnitOrNames.BorderThick:
                     return 4f;
                 default:
-                     return Math.Abs(ParseLength(borderValue, 1, b));
-            } 
+                    return Math.Abs(ParseLength(borderValue, 1, b));
+            }
         }
 
 

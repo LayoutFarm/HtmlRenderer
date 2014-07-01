@@ -64,13 +64,13 @@
   <ItemGroup>
     <Compile Include="1_Boxes\5_HitAndSelections\BoxHitChain.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssBox_FlagsConst.cs" />
-    <Compile Include="1_Boxes\0_BoxCore\CssBoxBase_StateAssignments.cs" />
+    <Compile Include="1_Boxes\0_BoxCore\CssBoxBaseAssignments.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssBoxConst.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssBox_OtherActualValues.cs" />
+    <Compile Include="3_HtmlFeatures\0_Root\StatesAndHandlers.cs" />
     <Compile Include="3_HtmlFeatures\3_Bridges\BridgeElements.cs" />
     <Compile Include="1_Boxes\0_BoxCore\BoxVisitor.cs" />
     <Compile Include="1_Boxes\3_Layout\CssBoxLayoutExtension.cs" />
-    <Compile Include="1_Boxes\0_BoxCore\CssBoxBase_InheritAndClone.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssBox_Positions.cs" />
     <Compile Include="1_Boxes\3_Layout\LayoutVisitor.cs" />
     <Compile Include="1_Boxes\4_Render\PaintVisitor.cs" />
@@ -110,7 +110,7 @@
     <Compile Include="1_Boxes\0_BoxCore\CssBox_Fields.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssBox_Paint.cs" />
     <Compile Include="1_Boxes\1_BoxPropsAndFeatureAssignment\CssProps.cs" />
-    <Compile Include="1_Boxes\0_BoxCore\CssBoxBase_CheckMyOwnerVersion.cs" />
+    <Compile Include="1_Boxes\1_BoxPropsAndFeatureAssignment\BoxSpec_CopyAndVersioning.cs" />
     <Compile Include="1_Boxes\2_RunsAndBinders\CssTextRun.cs" />
     <Compile Include="1_Boxes\2_RunsAndBinders\CssImageRun.cs" />
     <Compile Include="1_Boxes\OtherBoxes\CssBoxFrame.cs" />
@@ -118,13 +118,12 @@
     <Compile Include="1_Boxes\0_BoxCore\CssBox.cs" />
     <Compile Include="1_Boxes\OtherBoxes\CssBoxImage.cs" />
     <Compile Include="1_Boxes\2_RunsAndBinders\CssRun.cs" />
-    <Compile Include="1_Boxes\0_BoxCore\CssBoxBase.cs" />
+    <Compile Include="1_Boxes\1_BoxPropsAndFeatureAssignment\BoxSpec.cs" />
     <Compile Include="1_Boxes\3_Layout\CssLayoutEngine.cs" />
     <Compile Include="1_Boxes\1_BoxPropsAndFeatureAssignment\CssLength.cs" />
     <Compile Include="1_Boxes\0_BoxCore\CssLineBox.cs" />
     <Compile Include="1_Boxes\3_Layout\CssTableLayoutEngine.cs" />
     <Compile Include="3_HtmlFeatures\1_Interfaces\HtmlInterfaces.cs" />
-    <Compile Include="1_Boxes\1_BoxPropsAndFeatureAssignment\Border.cs" />
     <Compile Include="3_HtmlFeatures\2_Events\HtmlLinkClickedException.cs" />
     <Compile Include="3_HtmlFeatures\2_Events\HtmlLinkClickedEventArgs.cs" />
     <Compile Include="3_HtmlFeatures\2_Events\HtmlRefreshEventArgs.cs" />

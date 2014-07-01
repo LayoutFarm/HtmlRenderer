@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterCore 
+﻿//BSD, 2014, WinterCore 
 using System;
 using System.Drawing;
 using System.Globalization;
@@ -9,22 +9,25 @@ using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
 {
-    partial class CssBoxBase
+    partial class BoxSpec
     {
+
+
+        bool isClosed;
+
+
 
         /// <summary>
         /// Inherits inheritable values from specified box.
         /// </summary>
         /// <param name="s">source </param>
         /// <param name="clone">clone all </param>
-        protected void InheritStyles(CssBoxBase s, bool clone)
+        void InheritStyles(BoxSpec s, bool clone)
         {
             if (s == null)
             {
                 return;
             }
-
-
             //---------------------------------------
             this._fontProps = s._fontProps;
             this._listProps = s._listProps;
@@ -83,7 +86,7 @@ namespace HtmlRenderer.Dom
         /// clone all style from another box
         /// </summary>
         /// <param name="s"></param>
-        internal void CloneAllStyles(CssBoxBase s)
+        internal void CloneAllStyles(BoxSpec s)
         {
 
 
@@ -174,7 +177,54 @@ namespace HtmlRenderer.Dom
             }
             //-----------------------------------
         }
+        
 
+        //=====================================================
+        //versioning 
+        //=====================================================
+
+        public void CloseSpec()
+        {
+            this.isClosed = true;
+        }
+        internal bool IsClosed
+        {
+            get
+            {
+                return this.isClosed;
+            }
+        }
+
+        CssBorderProp CheckBorderVersion()
+        {
+            return this._borderProps = this._borderProps.GetMyOwnVersion(this);
+        }
+        CssMarginProp CheckMarginVersion()
+        {   
+            return this._marginProps = this._marginProps.GetMyOwnVersion(this);
+        }
+        CssPaddingProp CheckPaddingVersion()
+        {
+            return this._paddingProps = this._paddingProps.GetMyOwnVersion(this);
+        }
+        CssCornerProp CheckCornerVersion()
+        {
+            return this._cornerProps = this._cornerProps.GetMyOwnVersion(this);
+        }
+        CssFontProp CheckFontVersion()
+        {
+            return this._fontProps = this._fontProps.GetMyOwnVersion(this);
+        }
+        CssListProp CheckListPropVersion()
+        {
+            return this._listProps = this._listProps.GetMyOwnVersion(this);
+        }
+        CssBackgroundProp CheckBgVersion()
+        {
+            return this._backgroundProps = this._backgroundProps.GetMyOwnVersion(this);
+        }
+         
 
     }
+
 }

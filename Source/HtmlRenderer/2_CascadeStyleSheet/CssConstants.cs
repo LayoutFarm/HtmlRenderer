@@ -167,7 +167,7 @@ namespace HtmlRenderer.Entities
         /// Default font used for the generic 'serif' family
         /// </summary>
         public static string FontSerif = FontFamily.GenericSerif.Name;
-
+        
 
         //------------------------------------------------------------------
         public const string Relative = "relative";

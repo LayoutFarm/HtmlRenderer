@@ -242,7 +242,7 @@ namespace HtmlRenderer.Dom
             BrigeRootElement bridgeRoot = CreateBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
             //---------------------------------------------------------------- 
             //4. first spec        
-            bridgeRoot.Spec = new BoxSpec(bridgeRoot.WellknownTagName);
+            bridgeRoot.Spec = new BoxSpec();
             TopDownApplyStyleSheet(bridgeRoot, null, activeCssTemplate);
             //----------------------------------------------------------------
             //box generation
@@ -388,7 +388,7 @@ namespace HtmlRenderer.Dom
             BoxSpec currentElementSpec = element.Spec;
             if (currentElementSpec == null)
             {
-                element.Spec = currentElementSpec = new BoxSpec(element.WellknownTagName);
+                element.Spec = currentElementSpec = new BoxSpec();
                 currentElementSpec.InheritStylesFrom(parentSpec);
             }
 

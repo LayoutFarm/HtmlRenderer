@@ -24,25 +24,23 @@ namespace HtmlRenderer.Dom
 {
 
     /// <summary>
-    /// Base class for css box to handle the css properties.<br/>
+    /// Base class for spec box to handle the css properties.<br/>
     /// Has field and property for every css property that can be set, the properties add additional parsing like
     /// setting the correct border depending what border value was set (single, two , all four).<br/>
-    /// Has additional fields to control the location and size of the box and 'actual' css values for some properties
-    /// that require additional calculations and parsing.<br/>
     /// </summary>
-    public abstract partial class CssBoxBase
+    public sealed partial class BoxSpec
     {
 
-        internal int cssClassVersion;
 
+        internal int cssClassVersion;
         //==========================================================
-        #region css values Inherit From Parent (by default)
-        //inherit from parent by default
+        //css values Inherit From Parent (by default)  
         CssFontProp _fontProps = CssFontProp.Default;
         CssListProp _listProps = CssListProp.Default;
+
         CssLength _lineHeight = CssLength.NormalWordOrLine;
         CssLength _textIndent = CssLength.ZeroNoUnit;
-        Color _actualColor = System.Drawing.Color.Empty;
+        Color _actualColor = Color.Empty;//varies from one browser to another
         CssEmptyCell _emptyCells = CssEmptyCell.Show;
         CssTextAlign _textAlign = CssTextAlign.NotAssign;
         CssVerticalAlign _verticalAlign = CssVerticalAlign.Baseline;
@@ -51,63 +49,63 @@ namespace HtmlRenderer.Dom
         CssWordBreak _wordBreak = CssWordBreak.Normal;
         CssDirection _cssDirection = CssDirection.Ltl;
 
-        #endregion
         //==========================================================
-        #region css values Not Inherit From Parent
+        // css values Not Inherit From Parent
         CssBorderProp _borderProps = CssBorderProp.Default;
         CssPaddingProp _paddingProps = CssPaddingProp.Default;
         CssMarginProp _marginProps = CssMarginProp.Default;
         CssCornerProp _cornerProps = CssCornerProp.Default;
+        //==========================================================
+
         Font _actualFont;
         CssBackgroundProp _backgroundProps = CssBackgroundProp.Default;
+
         CssDisplay _cssDisplay = CssDisplay.Inline;
         CssFloat _float = CssFloat.None;
-        //==========================================================
+
         CssLength _left = CssLength.AutoLength;//w3 css 
         CssLength _top = CssLength.AutoLength;//w3 css 
         CssLength _right = CssLength.AutoLength;//w3 css 
         CssLength _bottom = CssLength.AutoLength;//w3 css 
 
-        CssLength _width = CssLength.AutoLength; 
+        CssLength _width = CssLength.AutoLength;
         CssLength _height = CssLength.AutoLength;
-        //==========================================================
+
         CssLength _maxWidth = CssLength.NotAssign; //w3 css  
         CssOverflow _overflow = CssOverflow.Visible;
         CssTextDecoration _textDecoration = CssTextDecoration.NotAssign;
         CssPosition _position = CssPosition.Static;
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
-        //==========================================================
-        WellknownHtmlTagName wellKnownTagName; 
-        #endregion
+
+
+
 #if DEBUG
         public readonly int dbugId = dbugTotalId++;
         static int dbugTotalId;
         public int dbugMark;
 #endif
-        public CssBoxBase()
+
+        public BoxSpec()
         {
-            _actualColor = System.Drawing.Color.Black; 
+            _actualColor = System.Drawing.Color.Black;
+        }
+      
+        public void InheritStylesFrom(BoxSpec source)
+        {
+            this.InheritStyles(source, false);
+        }
+        public void CloneAllStylesFrom(BoxSpec source)
+        {
+            this.InheritStyles(source, true);
         }
 
         #region CSS Properties
 
-       
-        public WellknownHtmlTagName WellknownTagName
-        {
-            get
-            {
-                return this.wellKnownTagName;
-            }
-            protected set
-            {
-                this.wellKnownTagName = value;
-            }
-        } 
         public CssDisplay CssDisplay
         {
             get { return this._cssDisplay; }
             set
-            { 
+            {
                 this._cssDisplay = value;
             }
         }
@@ -419,9 +417,14 @@ namespace HtmlRenderer.Dom
         {
             get { return _lineHeight; }
             set
-            {
+            {    //2014,
+                //from www.w3c.org/wiki/Css/Properties/line-height
+
+                //line height in <percentage> : 
+                //The computed value if the property is percentage multiplied by the 
+                //element's computed font size. 
                 _lineHeight = value;
-                this._prop_pass_eval &= ~CssBoxBaseAssignments.LINE_HEIGHT;
+                //this._prop_pass_eval &= ~CssBoxBaseAssignments.LINE_HEIGHT;
             }
         }
         public CssVerticalAlign VerticalAlign
@@ -432,7 +435,7 @@ namespace HtmlRenderer.Dom
         public CssLength TextIndent
         {
             get { return _textIndent; }
-            set { _textIndent = NoEms(value); }
+            set { _textIndent = value; }
         }
         public CssTextAlign CssTextAlign
         {
@@ -461,7 +464,7 @@ namespace HtmlRenderer.Dom
         public CssLength WordSpacing
         {
             get { return this._wordSpacing; }
-            set { this._wordSpacing = this.NoEms(value); }
+            set { this._wordSpacing = value; }
         }
 
         public CssWordBreak WordBreak
@@ -575,50 +578,132 @@ namespace HtmlRenderer.Dom
                 return this._backgroundProps.BackgroundColor;
             }
         }
-        /// <summary>
-        /// Gets the font that should be actually used to paint the text of the box
-        /// </summary>
-        public Font ActualFont
+        public Font GetFont(BoxSpec parent)
         {
-            get
+            //get font (compare with parent)
+            //absolute font size be cached 
+            //percentage font size can't be cached             
+
+            if (_actualFont != null)
             {
-                //depend on parent
-                if (_actualFont != null)
-                {
-                    return _actualFont;
-                }
-                //-----------------------------------------------------------------------------                
-                _actualFont = this._fontProps.GetCacheFont(this.GetParent());
                 return _actualFont;
             }
+            _actualFont = GetCacheFont(parent);
+            return _actualFont;
         }
-        /// <summary>
-        /// Get the parent of this css properties instance.
-        /// </summary>
-        /// <returns></returns>
-        public abstract CssBoxBase GetParent();
+        Font GetCacheFont(BoxSpec parentBox)
+        {
+            throw new NotSupportedException();
+            //if (this._cacheFont != null)
+            //{
+            //    return _cacheFont;
+            //}
+            ////---------------------------------------
+            //string fontFam = this.FontFamily;
+            //if (string.IsNullOrEmpty(FontFamily))
+            //{
+            //    fontFam = CssConstants.FontSerif;
+            //}
+
+            //CssLength fontsize = this.FontSize;
+            //if (fontsize.IsEmpty)
+            //{
+            //    fontsize = CssLength.MakeFontSizePtUnit(CssConstants.FontSize);
+            //}
+
+            ////-----------------------------------------------------------------------------
+            //FontStyle st = System.Drawing.FontStyle.Regular;
+            //if (FontStyle == CssFontStyle.Italic || FontStyle == CssFontStyle.Oblique)
+            //{
+            //    st |= System.Drawing.FontStyle.Italic;
+            //}
+
+            //CssFontWeight fontWight = this.FontWeight;
+            //if (fontWight != CssFontWeight.Normal &&
+            //    fontWight != CssFontWeight.Lighter &&
+            //    fontWight != CssFontWeight.NotAssign &&
+            //    fontWight != CssFontWeight.Inherit)
+            //{
+            //    st |= System.Drawing.FontStyle.Bold;
+            //}
+
+            //float fsize = CssConstants.FontSize;
+            //bool relateToParent = false;
+
+            //if (fontsize.IsFontSizeName)
+            //{
+            //    switch (fontsize.UnitOrNames)
+            //    {
+
+            //        case CssUnitOrNames.FONTSIZE_MEDIUM:
+            //            fsize = CssConstants.FontSize; break;
+            //        case CssUnitOrNames.FONTSIZE_XX_SMALL:
+            //            fsize = CssConstants.FontSize - 4; break;
+            //        case CssUnitOrNames.FONTSIZE_X_SMALL:
+            //            fsize = CssConstants.FontSize - 3; break;
+            //        case CssUnitOrNames.FONTSIZE_LARGE:
+            //            fsize = CssConstants.FontSize + 2; break;
+            //        case CssUnitOrNames.FONTSIZE_X_LARGE:
+            //            fsize = CssConstants.FontSize + 3; break;
+            //        case CssUnitOrNames.FONTSIZE_XX_LARGE:
+            //            fsize = CssConstants.FontSize + 4; break;
+            //        case CssUnitOrNames.FONTSIZE_SMALLER:
+            //            {
+            //                relateToParent = true;
+            //                float parentFontSize = CssConstants.FontSize;
+            //                if (parentBox != null)
+            //                {
+            //                    parentFontSize = parentBox.ActualFont.Size;
+            //                }
+            //                fsize = parentFontSize - 2;
+
+            //            } break;
+            //        case CssUnitOrNames.FONTSIZE_LARGER:
+            //            {
+            //                relateToParent = true;
+            //                float parentFontSize = CssConstants.FontSize;
+            //                if (parentBox != null)
+            //                {
+            //                    parentFontSize = parentBox.ActualFont.Size;
+            //                }
+            //                fsize = parentFontSize + 2;
+
+            //            } break;
+            //        default:
+            //            throw new NotSupportedException();
+            //    }
+            //}
+            //else
+            //{
+            //    fsize = fontsize.Number;
+            //}
+
+            //if (fsize <= 1f)
+            //{
+            //    fsize = CssConstants.FontSize;
+            //}
+
+            //if (!relateToParent)
+            //{
+            //    return this._cacheFont = FontsUtils.GetCachedFont(fontFam, fsize, st);
+            //}
+            //else
+            //{
+            //    //not store to cache font
+            //    return FontsUtils.GetCachedFont(fontFam, fsize, st);
+            //}
+        }
 
         /// <summary>
         /// Gets the height of the font in the specified units
         /// </summary>
         /// <returns></returns>
-        public float GetEmHeight()
+        public float GetEmHeight(BoxSpec parent)
         {
-            return FontsUtils.GetFontHeight(ActualFont);
+            return FontsUtils.GetFontHeight(GetFont(parent));
         }
 
-        /// <summary>
-        /// Ensures that the specified length is converted to pixels if necessary
-        /// </summary>
-        /// <param name="length"></param>
-        public CssLength NoEms(CssLength length)
-        {
-            if (length.UnitOrNames == CssUnitOrNames.Ems)
-            {
-                return length.ConvertEmToPixels(GetEmHeight());
-            }
-            return length;
-        }
+
 
     }
 }

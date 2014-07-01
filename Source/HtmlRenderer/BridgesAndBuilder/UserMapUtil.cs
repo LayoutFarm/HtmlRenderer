@@ -215,7 +215,7 @@ namespace HtmlRenderer.Dom
                    CssBorderStyle.None,
                    value);
         }
-        public static void SetBorderSpacing(this CssBoxBase box, WebDom.CssCodeValueExpression value)
+        public static void SetBorderSpacing(this BoxSpec box, WebDom.CssCodeValueExpression value)
         {
             WebDom.CssCodePrimitiveExpression primValue = value as WebDom.CssCodePrimitiveExpression;
             if (primValue == null)
@@ -259,7 +259,7 @@ namespace HtmlRenderer.Dom
             stbuilder.Append(box.CornerSWRadius);
             return stbuilder.ToString();
         }
-        public static void SetCornerRadius(this CssBoxBase box, WebDom.CssCodeValueExpression value)
+        public static void SetCornerRadius(this BoxSpec box, WebDom.CssCodeValueExpression value)
         {
             WebDom.CssCodePrimitiveExpression prim = value as WebDom.CssCodePrimitiveExpression;
             if (prim == null)
@@ -343,17 +343,15 @@ namespace HtmlRenderer.Dom
         {
             return _cssPositionMap.GetStringFromValue(value);
         }
-        public static CssLength SetLineHeight(this CssBoxBase box, CssLength len)
-        {
-            //2014,
-            //from www.w3c.org/wiki/Css/Properties/line-height
 
-            //line height in <percentage> : 
-            //The computed value if the property is percentage multiplied by the 
-            //element's computed font size. 
-            return CssLength.MakePixelLength(
-                HtmlRenderer.Parse.CssValueParser.ParseLength(len, box.GetEmHeight(), box));
-        }
+        //public static void SetLineHeight(this BoxSpec box, CssLength len, BoxSpec parent)
+        //{
+           
+
+        //    box.LineHeight =  
+        //      CssLength.MakePixelLength(
+        //        HtmlRenderer.Parse.CssValueParser.ParseLength(len, box.GetEmHeight(), box));
+        //}
         public static HtmlRenderer.WebDom.WellknownCssPropertyName GetWellKnownPropName(string propertyName)
         {
             return _wellKnownCssPropNameMap.GetValueFromString(propertyName, WebDom.WellknownCssPropertyName.Unknown);
@@ -416,7 +414,7 @@ namespace HtmlRenderer.Dom
         {
             if (length.IsFontSizeName)
             {
-                
+
                 switch (length.UnitOrNames)
                 {
                     case CssUnitOrNames.FONTSIZE_MEDIUM:
@@ -565,7 +563,7 @@ namespace HtmlRenderer.Dom
         }
         //----------------------------------------------------------------------------------------------------------------
 
-        internal static void SetFontSize(this CssBoxBase box, CssBoxBase parentBox, WebDom.CssCodeValueExpression value)
+        internal static void SetFontSize(this BoxSpec box, BoxSpec parentBox, WebDom.CssCodeValueExpression value)
         {
             //number + value
             WebDom.CssCodePrimitiveExpression primValue = value as WebDom.CssCodePrimitiveExpression;
@@ -585,14 +583,13 @@ namespace HtmlRenderer.Dom
                         {
                             len = CssLength.FontSizeMedium;
                         }
-                        else if (len.UnitOrNames == CssUnitOrNames.Ems && (parentBox != null))
-                        {
-                            len = len.ConvertEmToPoints(parentBox.ActualFont.SizeInPoints);
-                        }
-                        else
-                        {
-
-                        }
+                        //else if (len.UnitOrNames == CssUnitOrNames.Ems && (parentBox != null))
+                        //{
+                        //    len = len.ConvertEmToPoints(parentBox.ActualFont.SizeInPoints);
+                        //}
+                        //else
+                        //{ 
+                        //}
                         box.FontSize = len;
 
                     } break;
@@ -683,7 +680,7 @@ namespace HtmlRenderer.Dom
         {
             return _wellknownHtmlTagNameMap.GetValueFromString(name, WellknownHtmlTagName.Unknown);
         }
-        internal static void SetBackgroundPosition(this CssBoxBase box, WebDom.CssCodeValueExpression value)
+        internal static void SetBackgroundPosition(this BoxSpec box, WebDom.CssCodeValueExpression value)
         {
             //TODO: implement background position from combination value
             throw new NotSupportedException();

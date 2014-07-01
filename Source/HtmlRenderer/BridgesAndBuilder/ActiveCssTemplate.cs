@@ -10,26 +10,7 @@ using HtmlRenderer.Utils;
 using HtmlRenderer.Parse;
 
 namespace HtmlRenderer.Dom
-{
-    public class BoxSpec : CssBoxBase
-    {
-        public BoxSpec(WellknownHtmlTagName wellknownTagName)
-        {
-            this.WellknownTagName = wellknownTagName;
-        }
-        public override CssBoxBase GetParent()
-        {
-            return null;
-        }
-        public void InheritStylesFrom(CssBoxBase source)
-        {
-            base.InheritStyles(source, false);
-        }
-        public void CloneAllStylesFrom(CssBoxBase source)
-        {
-            base.InheritStyles(source, true);
-        }
-    }
+{   
 
 
     class ActiveCssTemplate
@@ -209,19 +190,17 @@ namespace HtmlRenderer.Dom
             BoxSpec currentBoxSpec = box.Spec;
             if (currentBoxSpec == null)
             {
-                box.Spec = currentBoxSpec = new BoxSpec(box.WellknownTagName);
+                box.Spec = currentBoxSpec = new BoxSpec();
             }
             //------------------------ 
 
-
-
-
+             
             BoxSpec boxTemplate;
             if (!templatesForTagName.TryGetValue(key, out boxTemplate))
             {
 
                 //create template for specific key  
-                boxTemplate = new BoxSpec(box.WellknownTagName);
+                boxTemplate = new BoxSpec();
                 boxTemplate.CloneAllStylesFrom(currentBoxSpec);
 
                 //*** 

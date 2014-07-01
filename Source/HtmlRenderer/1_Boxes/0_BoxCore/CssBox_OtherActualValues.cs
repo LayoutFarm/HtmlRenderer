@@ -10,6 +10,7 @@ namespace HtmlRenderer.Dom
     partial class CssBox
     {
 
+        Font _actualFont;
         float _actualLineHeight;
         float _actualWordSpacing;
         float _actualTextIndent;
@@ -42,11 +43,11 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_pass_eval & CssBoxBaseAssignments.TEXT_INDENT) == 0)
+                if ((this._prop_pass_eval & BoxAssignmentStates.TEXT_INDENT) == 0)
                 {
-                    this._prop_pass_eval |= CssBoxBaseAssignments.TEXT_INDENT;
+                    this._prop_pass_eval |= BoxAssignmentStates.TEXT_INDENT;
                     _actualTextIndent = CssValueParser.ParseLength(
-                        this.BoxSpec.TextIndent, this.SizeWidth, this.BoxSpec);
+                        this.BoxSpec.TextIndent, this.SizeWidth, this);
                 }
                 return _actualTextIndent;
             }
@@ -61,15 +62,15 @@ namespace HtmlRenderer.Dom
         }
         protected float MeasureWordSpacing(LayoutVisitor lay)
         {
-            if ((this._prop_pass_eval & CssBoxBaseAssignments.WORD_SPACING) == 0)
+            if ((this._prop_pass_eval & BoxAssignmentStates.WORD_SPACING) == 0)
             {
-                this._prop_pass_eval |= CssBoxBaseAssignments.WORD_SPACING;
+                this._prop_pass_eval |= BoxAssignmentStates.WORD_SPACING;
 
                 _actualWordSpacing = lay.MeasureWhiteSpace(this);
 
                 if (!this.BoxSpec.WordSpacing.IsNormalWordSpacing)
                 {
-                    _actualWordSpacing += CssValueParser.ParseLength(this.BoxSpec.WordSpacing, 1, this.BoxSpec);
+                    _actualWordSpacing += CssValueParser.ParseLength(this.BoxSpec.WordSpacing, 1, this);
                 }
             }
             return this._actualWordSpacing;
@@ -81,10 +82,10 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_pass_eval & CssBoxBaseAssignments.BORDER_SPACING_H) == 0)
+                if ((this._prop_pass_eval & BoxAssignmentStates.BORDER_SPACING_H) == 0)
                 {
-                    this._prop_pass_eval |= CssBoxBaseAssignments.BORDER_SPACING_H;
-                    _actualBorderSpacingHorizontal = this.boxSpec.BorderSpacingHorizontal.Number;
+                    this._prop_pass_eval |= BoxAssignmentStates.BORDER_SPACING_H;
+                    _actualBorderSpacingHorizontal = this.BoxSpec.BorderSpacingHorizontal.Number;
                 }
                 return _actualBorderSpacingHorizontal;
             }
@@ -97,10 +98,10 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_pass_eval & CssBoxBaseAssignments.BORDER_SPACING_V) == 0)
+                if ((this._prop_pass_eval & BoxAssignmentStates.BORDER_SPACING_V) == 0)
                 {
-                    this._prop_pass_eval |= CssBoxBaseAssignments.BORDER_SPACING_V;
-                    _actualBorderSpacingVertical = this.boxSpec.BorderSpacingVertical.Number;
+                    this._prop_pass_eval |= BoxAssignmentStates.BORDER_SPACING_V;
+                    _actualBorderSpacingVertical = this.BoxSpec.BorderSpacingVertical.Number;
                 }
                 return _actualBorderSpacingVertical;
             }

@@ -82,11 +82,12 @@ namespace HtmlRenderer.Dom
         internal float MeasureWhiteSpace(CssBox box)
         {
             //depends on Font of this box
+            var boxspec = box.BoxSpec;
             float w = HtmlRenderer.Utils.FontsUtils.MeasureWhitespace(this.Gfx, box.ActualFont);
-            if (!(box.BoxSpec.WordSpacing.IsEmpty || box.BoxSpec.WordSpacing.IsNormalWordSpacing))
+            if (!(boxspec.WordSpacing.IsEmpty || boxspec.WordSpacing.IsNormalWordSpacing))
             {
                 w += HtmlRenderer.Parse.CssValueParser.ParseLengthWithFontAdjust(
-                    box.BoxSpec.WordSpacing, 0, box.BoxSpec);
+                    box.BoxSpec.WordSpacing, 0, box);
             }
             return w;
         }

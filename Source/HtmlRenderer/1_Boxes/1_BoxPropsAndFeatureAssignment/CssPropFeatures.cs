@@ -272,14 +272,20 @@ namespace HtmlRenderer.Dom
         public CssLength SERadius { get; set; }
         public CssLength SWRadius { get; set; }
     }
+
+
     class CssFontProp
     {
-        object owner;
-        Font _cacheFont;
+
+        public static readonly CssFontProp Default = new CssFontProp(null);
+
+        object owner; 
 
         public CssFontProp(object owner)
         {
             this.owner = owner;
+            //default value depends on user agent
+
             FontFamily = "serif";
             FontSize = CssLength.FontSizeMedium;
             FontStyle = CssFontStyle.Normal;
@@ -296,6 +302,7 @@ namespace HtmlRenderer.Dom
             this.FontWeight = inheritFrom.FontWeight;
         }
         public string FontFamily { get; set; }
+
         public CssLength FontSize { get; set; }
         public CssFontStyle FontStyle { get; set; }
         public CssFontVariant FontVariant { get; set; }
@@ -317,109 +324,8 @@ namespace HtmlRenderer.Dom
             {
                 return this.owner;
             }
-        }
-        internal Font GetCacheFont(CssBoxBase parentBox)
-        {
-            if (this._cacheFont != null)
-            {
-                return _cacheFont;
-            }
-            //---------------------------------------
-            string fontFam = this.FontFamily;
-            if (string.IsNullOrEmpty(FontFamily))
-            {
-                fontFam = CssConstants.FontSerif;
-            }
+        } 
 
-            CssLength fontsize = this.FontSize;
-            if (fontsize.IsEmpty)
-            {
-                fontsize = CssLength.MakeFontSizePtUnit(CssConstants.FontSize);
-            }
-
-            //-----------------------------------------------------------------------------
-            FontStyle st = System.Drawing.FontStyle.Regular;
-            if (FontStyle == CssFontStyle.Italic || FontStyle == CssFontStyle.Oblique)
-            {
-                st |= System.Drawing.FontStyle.Italic;
-            }
-
-            CssFontWeight fontWight = this.FontWeight;
-            if (fontWight != CssFontWeight.Normal &&
-                fontWight != CssFontWeight.Lighter &&
-                fontWight != CssFontWeight.NotAssign &&
-                fontWight != CssFontWeight.Inherit)
-            {
-                st |= System.Drawing.FontStyle.Bold;
-            }
-
-            float fsize = CssConstants.FontSize;
-            bool relateToParent = false;
-
-            if (fontsize.IsFontSizeName)
-            {
-                switch (fontsize.UnitOrNames)
-                {
-
-                    case CssUnitOrNames.FONTSIZE_MEDIUM:
-                        fsize = CssConstants.FontSize; break;
-                    case CssUnitOrNames.FONTSIZE_XX_SMALL:
-                        fsize = CssConstants.FontSize - 4; break;
-                    case CssUnitOrNames.FONTSIZE_X_SMALL:
-                        fsize = CssConstants.FontSize - 3; break;
-                    case CssUnitOrNames.FONTSIZE_LARGE:
-                        fsize = CssConstants.FontSize + 2; break;
-                    case CssUnitOrNames.FONTSIZE_X_LARGE:
-                        fsize = CssConstants.FontSize + 3; break;
-                    case CssUnitOrNames.FONTSIZE_XX_LARGE:
-                        fsize = CssConstants.FontSize + 4; break;
-                    case CssUnitOrNames.FONTSIZE_SMALLER:
-                        {
-                            relateToParent = true;
-                            float parentFontSize = CssConstants.FontSize;
-                            if (parentBox != null)
-                            {
-                                parentFontSize = parentBox.ActualFont.Size;
-                            }
-                            fsize = parentFontSize - 2;
-
-                        } break;
-                    case CssUnitOrNames.FONTSIZE_LARGER:
-                        {
-                            relateToParent = true;
-                            float parentFontSize = CssConstants.FontSize;
-                            if (parentBox != null)
-                            {
-                                parentFontSize = parentBox.ActualFont.Size;
-                            }
-                            fsize = parentFontSize + 2;
-
-                        } break;
-                    default:
-                        throw new NotSupportedException();
-                }
-            }
-            else
-            {
-                fsize = fontsize.Number;
-            }
-
-            if (fsize <= 1f)
-            {
-                fsize = CssConstants.FontSize;
-            }
-
-            if (!relateToParent)
-            {
-                return this._cacheFont = FontsUtils.GetCachedFont(fontFam, fsize, st);
-            }
-            else
-            {
-                //not store to cache font
-                return FontsUtils.GetCachedFont(fontFam, fsize, st);
-            }
-        }
-        public static readonly CssFontProp Default = new CssFontProp(null);
     }
 
 

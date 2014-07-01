@@ -73,7 +73,7 @@ namespace HtmlRenderer.Dom
 
             if (maringTopCollapse < 0.1)
             {
-                maringTopCollapse = this.BoxSpec.GetEmHeight() * 1.1f;
+                maringTopCollapse = this.GetActualFontEmHeight() * 1.1f;
             }
             localTop += maringTopCollapse;
 
@@ -93,7 +93,7 @@ namespace HtmlRenderer.Dom
             //Check width if not auto
             if (!this.BoxSpec.Width.IsEmptyOrAuto)
             {
-                width = CssValueParser.ParseLength(BoxSpec.Width, width, this.BoxSpec);
+                width = CssValueParser.ParseLength(BoxSpec.Width, width, this);
             }
 
 
@@ -144,7 +144,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                p.PaintBorder(this, Border.Top, this.BoxSpec.BorderTopColor, rect);
+                p.PaintBorder(this, RenderBorderSide.Top, this.BoxSpec.BorderTopColor, rect);
 
             }
         }

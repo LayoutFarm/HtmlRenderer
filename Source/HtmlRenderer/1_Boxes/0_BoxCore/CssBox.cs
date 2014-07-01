@@ -33,19 +33,16 @@ namespace HtmlRenderer.Dom
     /// </summary>
     /// <remarks>
     /// The Box can contains other boxes, that's the way that the CSS Tree
-    /// is composed.
-    /// 
+    /// is composed. 
     /// To know more about boxes visit CSS spec:
     /// http://www.w3.org/TR/CSS21/box.html
     /// </remarks>
-    public partial class CssBox : //CssBoxBase,
-         IDisposable
+    public partial class CssBox : IDisposable
     {
 
-        internal int cssClassVersion;
+
         BoxSpec boxSpec;
         protected int _prop_pass_eval;
-
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
@@ -77,8 +74,7 @@ namespace HtmlRenderer.Dom
         }
         public BoxSpec BoxSpec
         {
-            get;
-            set;
+            get { return this.boxSpec; }
         }
         public WellknownHtmlTagName WellknownTagName { get; set; }
         /// <summary>
@@ -157,7 +153,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this.boxSpec.CssDisplay;
+                return this.BoxSpec.CssDisplay;
             }
         }
         public void ChangeCssDisplay(CssDisplay display)
@@ -555,9 +551,10 @@ namespace HtmlRenderer.Dom
                             {
                                 float availableWidth = myContainingBlock.ClientWidth;
 
-                                if (!this.BoxSpec.Width.IsEmptyOrAuto)
+                                var spec = this.BoxSpec;
+                                if (!spec.Width.IsEmptyOrAuto)
                                 {
-                                    availableWidth = CssValueParser.ParseLength(this.BoxSpec.Width, availableWidth, this.BoxSpec);
+                                    availableWidth = CssValueParser.ParseLength(spec.Width, availableWidth, this);
                                 }
 
                                 this.SetWidth(availableWidth);
@@ -786,18 +783,7 @@ namespace HtmlRenderer.Dom
         static readonly char[] circleItem = new[] { 'o' };
         static readonly char[] squareItem = new[] { '♠' };
 
-        public CssListStyleType ListStyleType
-        {
-            get { return this.boxSpec.ListStyleType; }
-        }
-        public Font ActualFont
-        {
-            get { return this.boxSpec.ActualFont; }
-        }
-        public Color ActualColor
-        {
-            get { return this.boxSpec.ActualColor; }
-        }
+
         /// <summary>
         /// Creates the <see cref="_listItemBox"/>
         /// </summary>
@@ -806,7 +792,7 @@ namespace HtmlRenderer.Dom
         {
 
             if (this.CssDisplay == CssDisplay.ListItem &&
-                ListStyleType != CssListStyleType.None)
+                this.BoxSpec.ListStyleType != CssListStyleType.None)
             {
                 if (_listItemBox == null)
                 {
@@ -818,7 +804,7 @@ namespace HtmlRenderer.Dom
                     //_listItemBox.CssDisplay = CssDisplay.Inline;
                     //_listItemBox._htmlContainer = HtmlContainer;
 
-                    switch (this.ListStyleType)
+                    switch (this.BoxSpec.ListStyleType)
                     {
                         case CssListStyleType.Disc:
                             {
@@ -842,7 +828,7 @@ namespace HtmlRenderer.Dom
                             } break;
                         default:
                             {
-                                _listItemBox.SetTextContent((CommonUtils.ConvertToAlphaNumber(GetIndexForList(), ListStyleType) + ".").ToCharArray());
+                                _listItemBox.SetTextContent((CommonUtils.ConvertToAlphaNumber(GetIndexForList(), this.BoxSpec.ListStyleType) + ".").ToCharArray());
                             } break;
                     }
 
@@ -1126,14 +1112,16 @@ namespace HtmlRenderer.Dom
         internal void PaintDecoration(IGraphics g, RectangleF rectangle, bool isFirst, bool isLast)
         {
             float y = 0f;
-            switch (this.boxSpec.TextDecoration)
+            var boxspec = this.BoxSpec;
+
+            switch (boxspec.TextDecoration)
             {
                 default:
                     return;
                 case CssTextDecoration.Underline:
                     {
-                        var h = g.MeasureString(" ", ActualFont).Height;
-                        float desc = FontsUtils.GetDescent(ActualFont, g);
+                        var h = g.MeasureString(" ", this.ActualFont).Height;
+                        float desc = FontsUtils.GetDescent(this.ActualFont, g);
                         y = (float)Math.Round(rectangle.Top + h - desc + 0.5);
                     } break;
                 case CssTextDecoration.LineThrough:
@@ -1162,7 +1150,7 @@ namespace HtmlRenderer.Dom
                 x2 -= ActualPaddingRight + ActualBorderRightWidth;
             }
 
-            var pen = RenderUtils.GetPen(ActualColor);
+            var pen = RenderUtils.GetPen(boxspec.ActualColor);
 
             g.DrawLine(pen, x1, y, x2, y);
         }
@@ -1221,7 +1209,7 @@ namespace HtmlRenderer.Dom
 
             if (IsBlock)
             {
-                return string.Format("{0}{1} Block {2}, Children:{3}", 
+                return string.Format("{0}{1} Block {2}, Children:{3}",
                     ParentBox == null ? "Root: " : string.Empty, tag, this.BoxSpec.FontSize, Boxes.Count);
             }
             else if (this.CssDisplay == CssDisplay.None)
@@ -1260,7 +1248,10 @@ namespace HtmlRenderer.Dom
                    y >= this.LocalY && y < this.LocalBottom;
         }
 
-
+        internal float GetActualFontEmHeight()
+        {
+            return FontsUtils.GetFontHeight(this._actualFont);
+        }
 
     }
 }
