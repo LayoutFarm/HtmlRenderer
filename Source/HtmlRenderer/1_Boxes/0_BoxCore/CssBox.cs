@@ -94,8 +94,8 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-
-                return _htmlElement.Spec;
+                return this._boxspec;
+                
             }
         }
         /// <summary>
@@ -974,6 +974,10 @@ namespace HtmlRenderer.Dom
         }
         internal new void InheritStyles(CssBoxBase.BoxSpecBase box, bool clone = false)
         {
+            if (box == null)
+            {
+                return;
+            }
             base.InheritStyles(box, clone); 
 
         }

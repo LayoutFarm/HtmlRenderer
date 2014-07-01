@@ -320,7 +320,14 @@ namespace HtmlRenderer.Dom
 
             //recursive  
             //-------------------------------------------------------------------            
-            if (box.ParentBox != null)
+            //box.InheritStyles(box.Spec, true);
+            //foreach (var childBox in box.GetChildBoxIter())
+            //{
+            //    //recursive
+            //    ApplyStyleSheet01(childBox, activeCssTemplate);
+            //}
+
+            if (box.ParentBox != null && box.ParentBox.Spec != null)
             {
                 box.InheritStyles(box.ParentBox.Spec);
             }
@@ -366,7 +373,7 @@ namespace HtmlRenderer.Dom
             foreach (var childBox in box.GetChildBoxIter())
             {
                 //recursive
-                ApplyStyleSheet(childBox, activeCssTemplate);
+                ApplyStyleSheet01(childBox, activeCssTemplate);
             }
         }
 
