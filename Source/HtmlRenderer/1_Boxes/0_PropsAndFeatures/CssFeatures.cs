@@ -379,6 +379,9 @@ namespace HtmlRenderer.Dom
             get { return this._fontsize; }
             set
             {
+                if (value.Number == 2)
+                {
+                }
                 if (value.IsEmpty)
                 {
                 }

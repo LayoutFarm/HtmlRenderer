@@ -101,6 +101,7 @@ namespace HtmlRenderer.Dom
                     this._prop_pass_eval |= CssBoxAssignments.BORDER_SPACING_V;
                     _actualBorderSpacingVertical = this.BorderSpacingVertical.Number;
                 }
+                 
                 return _actualBorderSpacingVertical;
             }
         }

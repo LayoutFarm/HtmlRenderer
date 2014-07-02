@@ -540,6 +540,7 @@ namespace HtmlRenderer.Dom
                 {
 
                 }
+                var h = _actualFont.GetHeight();
                 return this._actualFont; 
             }
         }

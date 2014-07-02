@@ -141,6 +141,7 @@ namespace HtmlRenderer.Dom
             //1. fonts
             if (this.ParentBox != null)
             {
+
                 ReEvaluateFont(this.ParentBox.InitSpec);
 
                 //2. actual word spacing
@@ -156,7 +157,11 @@ namespace HtmlRenderer.Dom
             if (_actualFont == null)
             {
             }
-
+            else if (_actualFont.Size == 2)
+            {
+                
+                var hh = _actualFont.GetHeight();
+            }
             //if (_actualFont != null)
             //{
             //    return _actualFont;

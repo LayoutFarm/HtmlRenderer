@@ -482,7 +482,6 @@ namespace HtmlRenderer.Dom
             get { return this._fontFeats.FontSize; }
             set
             {
-
                 CheckFontVersion().FontSize = value;
             }
         }
@@ -598,6 +597,7 @@ namespace HtmlRenderer.Dom
                 fontFam = ConstConfig.DEFAULT_FONT_NAME;
             }
 
+
             //-----------------------------------------------------------------------------
             //style
             FontStyle st = System.Drawing.FontStyle.Regular;
@@ -681,6 +681,11 @@ namespace HtmlRenderer.Dom
                 fsize = fontsize.Number;
             }
 
+            if (fontsize.UnitOrNames == CssUnitOrNames.Ems)
+            {
+                fsize =fontsize.Number * parentBox.FontSize.Number;
+            }
+
             if (fsize <= 1f)
             {
                 fsize = ConstConfig.DEFAULT_FONT_SIZE;
@@ -688,6 +693,7 @@ namespace HtmlRenderer.Dom
 
             if (!relateToParent)
             {
+
                 return FontsUtils.GetCachedFont(fontFam, fsize, st);
             }
             else

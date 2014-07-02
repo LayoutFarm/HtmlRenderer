@@ -312,10 +312,10 @@ namespace HtmlRenderer.Dom
                         {
                             case CssUnitOrNames.Percent:
                                 {
-                                    columnCollection.SetColumnWidth(i, 
-                                        CssValueParser.ParseNumber(userDefinedColumnBoxes[i].Width, availbleWidthForAllCells));
+                                    return (colWidth.Number / 100) * availbleWidthForAllCells;
 
-                                } break;
+
+                                }  
                             case CssUnitOrNames.Pixels:
                             case CssUnitOrNames.EmptyValue:
                                 {

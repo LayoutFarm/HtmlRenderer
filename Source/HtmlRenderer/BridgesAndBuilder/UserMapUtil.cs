@@ -572,6 +572,10 @@ namespace HtmlRenderer.Dom
                             {
                                 WebDom.CssCodePrimitiveExpression prim = (WebDom.CssCodePrimitiveExpression)value;
                                 CssLength len = new CssLength(value.AsNumber(), CssLength.GetCssUnit(prim.Unit));
+                                if(len.HasError)
+                                {
+                                    len = CssLength.MakePixelLength(0);
+                                }
                                 value.SetCssLength(len, WebDom.CssValueEvaluatedAs.TranslatedLength);
                                 return len;
                             }
@@ -627,7 +631,7 @@ namespace HtmlRenderer.Dom
                         }
                         else if (len.UnitOrNames == CssUnitOrNames.Ems && (parentBox != null))
                         {
-                            len = len.ConvertEmToPoints(parentBox.ActualFont.SizeInPoints);
+                           // len = len.ConvertEmToPoints(parentBox.ActualFont.SizeInPoints);
                         }
                         else
                         {

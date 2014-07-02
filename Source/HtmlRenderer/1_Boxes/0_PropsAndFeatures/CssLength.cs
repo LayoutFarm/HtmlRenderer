@@ -100,6 +100,10 @@ namespace HtmlRenderer.Dom
         {
             this._number = 0;
             this._flags = internalFlags;
+            if (this.HasError)
+            {
+
+            }
         }
 
         public static bool IsEq(CssLength len1, CssLength len2)
