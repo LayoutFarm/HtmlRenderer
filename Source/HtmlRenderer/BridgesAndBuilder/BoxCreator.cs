@@ -96,7 +96,7 @@ namespace HtmlRenderer.Dom
         internal static CssBox CreateBoxAndInherit(CssBox parent, BridgeHtmlElement tag)
         {
             var newBox = new CssBox(parent, tag);
-            newBox.InitSpec.InheritStyles(parent.InitSpec, false);
+            newBox.Spec.InheritStyles(parent.Spec, false);
             return newBox;
         }
 
@@ -127,7 +127,7 @@ namespace HtmlRenderer.Dom
         static CssBox CreateBoxAndInherit(CssBox parent, BridgeHtmlElement tag, int insertAt)
         {
             var newBox = new CssBox(parent, tag);             
-            newBox.InitSpec.InheritStyles(parent.InitSpec, false);
+            newBox.Spec.InheritStyles(parent.Spec, false);
 
             if (insertAt > -1)
             {

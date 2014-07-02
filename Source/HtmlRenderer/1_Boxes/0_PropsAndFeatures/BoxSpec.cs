@@ -683,7 +683,7 @@ namespace HtmlRenderer.Dom
 
             if (fontsize.UnitOrNames == CssUnitOrNames.Ems)
             {
-                fsize =fontsize.Number * parentBox.FontSize.Number;
+                fsize = fontsize.Number * parentBox.FontSize.Number;
             }
 
             if (fsize <= 1f)
@@ -711,7 +711,57 @@ namespace HtmlRenderer.Dom
         {
             return FontsUtils.GetFontHeight(GetFont(parent));
         }
+#if DEBUG
+        public static bool dbugCompare(dbugPropCheckReport dbugR, BoxSpec boxBase, BoxSpec spec)
+        {
 
+            int dd = boxBase.dbugId;
+            dbugR.Check("_fontProps", CssFontFeature.dbugIsEq(dbugR, boxBase._fontFeats, spec._fontFeats));
+            dbugR.Check("_listProps", CssListFeature.dbugIsEq(dbugR, boxBase._listFeats, spec._listFeats));
+            dbugR.Check("_lineHeight", CssLength.IsEq(boxBase._lineHeight, spec._lineHeight));
+            dbugR.Check("_textIndent", CssLength.IsEq(boxBase._textIndent, spec._textIndent));
+            dbugR.Check("_actualColor", boxBase._actualColor == spec._actualColor);
+            dbugR.Check("_emptyCells", boxBase._emptyCells == spec._emptyCells);
+            dbugR.Check("_textAlign", boxBase._textAlign == spec._textAlign);
+
+            dbugR.Check("_verticalAlign", boxBase._verticalAlign == spec._verticalAlign);
+            dbugR.Check("_visibility", boxBase._visibility == spec._visibility);
+            dbugR.Check("_whitespace", boxBase._whitespace == spec._whitespace);
+            dbugR.Check("_wordBreak", boxBase._wordBreak == spec._wordBreak);
+            dbugR.Check("_cssDirection", boxBase._cssDirection == spec._cssDirection);
+
+            dbugR.Check("_backgroundProps", CssBackgroundFeature.dbugIsEq(dbugR, boxBase._backgroundFeats, spec._backgroundFeats));
+            dbugR.Check("_borderProps", CssBorderFeature.dbugIsEq(dbugR, boxBase._borderFeats, spec._borderFeats));
+            dbugR.Check("_cornerProps", CssCornerFeature.dbugIsEq(dbugR, boxBase._cornerFeats, spec._cornerFeats));
+
+            //---------------------------------------
+            dbugR.Check("_left", CssLength.IsEq(boxBase._left, spec._left));
+            dbugR.Check("_top", CssLength.IsEq(boxBase._top, spec._top));
+            dbugR.Check("_bottom", CssLength.IsEq(boxBase._bottom, spec._bottom));
+            dbugR.Check("_right", CssLength.IsEq(boxBase._right, spec._right));
+
+
+            dbugR.Check("_width", CssLength.IsEq(boxBase._width, spec._width));
+            dbugR.Check("_height", CssLength.IsEq(boxBase._height, spec._height));
+            dbugR.Check("_maxWidth", CssLength.IsEq(boxBase._maxWidth, spec._maxWidth));
+
+
+            dbugR.Check("_position", boxBase._position == spec._position);
+            dbugR.Check("_wordSpacing", CssLength.IsEq(boxBase._wordSpacing, spec._wordSpacing));
+            dbugR.Check("_float", boxBase._float == spec._float);
+            dbugR.Check("_cssDisplay", boxBase._cssDisplay == spec._cssDisplay);
+            dbugR.Check("_overflow", boxBase._overflow == spec._overflow);
+            dbugR.Check("_textDecoration", boxBase._textDecoration == spec._textDecoration);
+
+
+            if (dbugR.Count > 0)
+            {
+                return false;
+            }
+            return true;
+
+        }
+#endif
 
 
     }

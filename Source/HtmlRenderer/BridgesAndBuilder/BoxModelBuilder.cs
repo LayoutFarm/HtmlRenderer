@@ -168,7 +168,7 @@ namespace HtmlRenderer.Dom
                                     //{
                                     newBox++;
                                     CssBox box = BoxCreator.CreateBoxNotInherit(parentBox, elem);
-                                    elem.Spec.CloneAllStylesFrom(parentBox.InitSpec);
+                                    elem.Spec.CloneAllStylesFrom(parentBox.Spec);
 
                                     GenerateCssBoxes(elem, box);
 
@@ -188,7 +188,7 @@ namespace HtmlRenderer.Dom
                                 case BridgeNodeType.Text:
                                     {
                                         //create anonymous box  but not inherit ***
-                                        var parentSpec = parentBox.InitSpec;
+                                        var parentSpec = parentBox.Spec;
                                         CssBox anonText = new CssBox(parentBox, null, parentSpec.GetAnonVersion());
                                         //parse and evaluate whitespace here ! 
                                         BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
@@ -206,7 +206,7 @@ namespace HtmlRenderer.Dom
 
                                         newBox++;
                                         CssBox box = BoxCreator.CreateBoxNotInherit(parentBox, childElement);
-                                        childElement.Spec.CloneAllStylesFrom(parentBox.InitSpec);
+                                        childElement.Spec.CloneAllStylesFrom(parentBox.Spec);
 
                                         GenerateCssBoxes(childElement, box);
 
@@ -240,7 +240,7 @@ namespace HtmlRenderer.Dom
             BrigeRootElement bridgeRoot = CreateBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
             //---------------------------------------------------------------- 
             //4. first spec        
-            bridgeRoot.Spec = new BoxSpec(bridgeRoot.WellknownTagName);
+            bridgeRoot.Spec = new BoxSpec(WellknownHtmlTagName.Unknown);
             //attach style to elements
             ApplyStyleSheetTopDown(bridgeRoot, null, activeCssTemplate);
 
@@ -264,7 +264,7 @@ namespace HtmlRenderer.Dom
                 //ApplyStyleSheet(root, activeCssTemplate);
                 var rootspec = new BoxSpec(WellknownHtmlTagName.Unknown);
 
-                 ApplyStyleSheet01(root, activeCssTemplate);
+                ApplyStyleSheet01(root, activeCssTemplate);
                 //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);
                 OnePassBoxCorrection(root);
@@ -322,103 +322,7 @@ namespace HtmlRenderer.Dom
         }
 #endif
 
-        static void ApplyStyleSheet01(CssBox box, ActiveCssTemplate activeCssTemplate)
-        {
-
-#if DEBUG
-            dbugPropCheckReport rep = new dbugPropCheckReport();
-#endif
-            //recursive  
-            //-------------------------------------------------------------------            
-            //box.InheritStyles(box.Spec, true);
-            //foreach (var childBox in box.GetChildBoxIter())
-            //{
-            //    //recursive
-            //    ApplyStyleSheet01(childBox, activeCssTemplate);
-            //} 
-            if (box.ParentBox != null && box.ParentBox.InitSpec != null)
-            {                 
-                box.InitSpec.InheritStylesFrom(box.ParentBox.InitSpec);
-            }
-            else
-            {
-                //only for root 
-            }
-
-            if (box.HtmlElement != null)
-            {
-                //------------------------------------------------------------------- 
-                //1. element tag
-                //2. css class 
-                // try assign style using the html element tag    
-                activeCssTemplate.ApplyActiveTemplateForElement(box.ParentBox, box);
-                //3.
-                // try assign style using the "id" attribute of the html element
-                if (box.HtmlElement.HasAttribute("id"))
-                {
-                    var id = box.HtmlElement.TryGetAttribute("id");
-                    AssignStylesForElementId(box, activeCssTemplate, "#" + id);
-                }
-                //-------------------------------------------------------------------
-                //4. 
-                //element attribute
-                AssignStylesFromTranslatedAttributesHTML5(box, activeCssTemplate);
-                //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
-                //------------------------------------------------------------------- 
-                //5.
-                //style attribute value of element
-                if (box.HtmlElement.HasAttribute("style"))
-                {
-                    var ruleset = activeCssTemplate.ParseCssBlock(box.HtmlElement.Name, box.HtmlElement.TryGetAttribute("style"));
-                    foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
-                    {
-                        CssPropSetter.AssignPropertyValue(box, box.ParentBox, propDecl);
-                    }
-                }
-            }
-
-#if DEBUG
-            //rep.ClearMsgs();
-            //if (!CssBox.Compare(rep, box.InitSpec, box.FinalSpec))
-            //{
-            //    var list = rep.GetList();
-            //    int j = list.Count;
-            //    for (int i = 0; i < j; ++i)
-            //    {
-            //        Console.WriteLine(list[i]);
-            //    }
-            //}
-            //if (!CssBox.Compare(rep, box, box.ImportSpec))
-            //{
-            //    var list = rep.GetList();
-            //    int j = list.Count;
-            //    for (int i = 0; i < j; ++i)
-            //    {
-            //        Console.WriteLine(list[i]);
-            //    }
-            //}
-            //rep.ClearMsgs();
-            //if (!CssBox.Compare(rep, box, box.FinalSpec))
-            //{
-            //    var list = rep.GetList();
-            //    int j = list.Count;
-            //    for (int i = 0; i < j; ++i)
-            //    {
-            //        Console.WriteLine(list[i]);
-            //    }
-            //}
-#endif
-            //===================================================================
-            //parent style assignment is complete before step down into child ***
-            foreach (var childBox in box.GetChildBoxIter())
-            {
-                //recursive
-                ApplyStyleSheet01(childBox, activeCssTemplate);
-            }
-
-
-
-        }
+   
         static void ApplyStyleSheetTopDown(BridgeHtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
         {
 
@@ -427,12 +331,12 @@ namespace HtmlRenderer.Dom
             BoxSpec currentElementSpec = element.Spec;
             if (currentElementSpec == null)
             {
-                element.Spec = currentElementSpec = new BoxSpec(element.WellknownTagName);
-                currentElementSpec.InheritStylesFrom(parentSpec);
+                element.Spec = currentElementSpec = new BoxSpec(element.WellknownTagName);              
             }
-
+            
+            currentElementSpec.InheritStylesFrom(parentSpec);
             //1. apply style  
-            activeCssTemplate.ApplyActiveTemplateForElement2(parentSpec, element);
+            activeCssTemplate.ApplyActiveTemplate(parentSpec, element);
             //-------------------------------------------------------------------                        
             //2. specific id
             if (element.HasAttribute("id"))

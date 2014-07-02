@@ -103,7 +103,7 @@ namespace HtmlRenderer.Dom
             {
                 return 0;
             }
-            return CssValueParser.ParseLength(margin, cbWidth, this);
+            return CssValueParser.GetLengthPx(margin, cbWidth, this);
         }
         /// <summary>
         /// recalculate padding
@@ -118,7 +118,7 @@ namespace HtmlRenderer.Dom
             {
                 return 0;
             }
-            return CssValueParser.ParseLength(padding, cbWidth, this);
+            return CssValueParser.GetLengthPx(padding, cbWidth, this);
         }
 
         //=============================================================
@@ -129,7 +129,7 @@ namespace HtmlRenderer.Dom
 
         internal void ReEvaluateFont(BoxSpec parentSpec)
         {
-            this._actualFont = this.InitSpec.GetFont(parentSpec);
+            this._actualFont = this.Spec.GetFont(parentSpec);
         }
         /// <summary>
         /// evaluate computed value
@@ -142,7 +142,7 @@ namespace HtmlRenderer.Dom
             if (this.ParentBox != null)
             {
 
-                ReEvaluateFont(this.ParentBox.InitSpec);
+                ReEvaluateFont(this.ParentBox.Spec);
 
                 //2. actual word spacing
                 //this._actualWordSpacing = this.NoEms(this.InitSpec.LineHeight);
@@ -151,7 +151,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                this._actualFont = this.InitSpec.GetFont(containingBlock.InitSpec);
+                this._actualFont = this.Spec.GetFont(containingBlock.Spec);
             }
 
             if (_actualFont == null)
@@ -237,10 +237,10 @@ namespace HtmlRenderer.Dom
             //extension ***
             float c1, c2, c3, c4;
 
-            this._actualCornerNE = c1 = CssValueParser.ParseLength(CornerNERadius, 0, this);
-            this._actualCornerNW = c2 = CssValueParser.ParseLength(CornerNWRadius, 0, this);
-            this._actualCornerSE = c3 = CssValueParser.ParseLength(CornerSERadius, 0, this);
-            this._actualCornerSW = c4 = CssValueParser.ParseLength(CornerSWRadius, 0, this);
+            this._actualCornerNE = c1 = CssValueParser.GetLengthPx(CornerNERadius, 0, this);
+            this._actualCornerNW = c2 = CssValueParser.GetLengthPx(CornerNWRadius, 0, this);
+            this._actualCornerSE = c3 = CssValueParser.GetLengthPx(CornerSERadius, 0, this);
+            this._actualCornerSW = c4 = CssValueParser.GetLengthPx(CornerSWRadius, 0, this);
 
             if ((c1 + c2 + c3 + c4) > 0)
             {

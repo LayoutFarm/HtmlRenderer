@@ -106,7 +106,7 @@ namespace HtmlRenderer.Dom
 #if DEBUG
         public override string ToString()
         {
-            return this.owner.dbugId + " left:" + this.Left + ",width:" + this.Width + " " + this.owner.ToString();
+            return this.owner.__dbugId + " left:" + this.Left + ",width:" + this.Width + " " + this.owner.ToString();
         }
 #endif
     }

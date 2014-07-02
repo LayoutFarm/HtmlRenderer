@@ -87,129 +87,53 @@ namespace HtmlRenderer.Dom
 
         static readonly char[] _whiteSplitter = new[] { ' ' };
 
-        internal void ApplyActiveTemplateForElement(CssBox parentBox, CssBox box)
+        internal void ApplyActiveTemplate(BoxSpec parentSpec, CssBox box)
         {
-
-            //1. tag name key
-            int tagNameKey = ustrTable.AddStringIfNotExist(box.HtmlElement.Name);
-
-            //2. class name key
-            int classNameKey = 0;
-            var class_value = box.HtmlElement.TryGetAttribute("class", null);
-
-            if (class_value != null)
-            {
-                classNameKey = ustrTable.AddStringIfNotExist(class_value);
-            }
-
-            //-----------------
-            TemplateKey key = new TemplateKey(tagNameKey, classNameKey, parentBox.cssClassVersion);
-            BoxSpec boxTemplate;
-
-            if (!templatesForTagName.TryGetValue(key, out boxTemplate))
-            {
-
-                //create template for specific key  
-                boxTemplate = new BoxSpec(box.WellknownTagName);
-                boxTemplate.CloneAllStylesFrom(box.InitSpec);
-
-                //*** 
-                //----------------------------
-                //1. tag name
-                CssRuleSetGroup ruleGroup = activeSheet.GetRuleSetForTagName(box.HtmlElement.Name);
-                if (ruleGroup != null)
-                {
-                    box.cssClassVersion++;
-                    foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
-                    {
-
-                        CssPropSetter.AssignPropertyValue(boxTemplate, parentBox.InitSpec, decl);
-                    }
-                }
-                //----------------------------
-                //2. series of class
-                if (class_value != null)
-                {
-                    box.cssClassVersion++;
-                    string[] classNames = class_value.Split(_whiteSplitter, StringSplitOptions.RemoveEmptyEntries);
-                    int j = classNames.Length;
-                    if (j > 0)
-                    {
-                        for (int i = 0; i < j; ++i)
-                        {
-
-                            CssRuleSetGroup ruleSetGroup = activeSheet.GetRuleSetForClassName(classNames[i]);
-                            if (ruleSetGroup != null)
-                            {
-                                foreach (var propDecl in ruleSetGroup.GetPropertyDeclIter())
-                                {
-                                    CssPropSetter.AssignPropertyValue(boxTemplate, parentBox.InitSpec, propDecl);
-                                }
-                                //---------------------------------------------------------
-                                //find subgroup for more specific conditions
-                                int subgroupCount = ruleSetGroup.SubGroupCount;
-                                for (int m = 0; m < subgroupCount; ++m)
-                                {
-                                    //find if selector condition match with this box
-                                    CssRuleSetGroup ruleSetSubGroup = ruleSetGroup.GetSubGroup(m);
-                                    var selector = ruleSetSubGroup.OriginalSelector;
-                                }
-                            }
-                        }
-                    }
-                }
-                templatesForTagName.Add(key, boxTemplate);
-            }
-            //***********
-            box.InitSpec.CloneAllStyles(boxTemplate);
-             
-            //*********** 
+            ApplyActiveTemplate(box.HtmlElement.Name,
+               box.HtmlElement.TryGetAttribute("class", null),
+               box.Spec,
+               parentSpec); 
         }
 
+        internal void ApplyActiveTemplate(BoxSpec parentSpec, BridgeHtmlElement box)
+        {
+            ApplyActiveTemplate(box.Name,
+                box.TryGetAttribute("class", null),
+                box.Spec,
+                parentSpec);
+        }
 
-        internal void ApplyActiveTemplateForElement2(BoxSpec parentSpec, BridgeHtmlElement box)
+        void ApplyActiveTemplate(string elemName, string class_value, BoxSpec currentBoxSpec, BoxSpec parentSpec)
         {
 
             //1. tag name key
-            int tagNameKey = ustrTable.AddStringIfNotExist(box.Name);
+            int tagNameKey = ustrTable.AddStringIfNotExist(elemName);
 
             //2. class name key
-            int classNameKey = 0;
-            var class_value = box.TryGetAttribute("class", null);
-
+            int classNameKey = 0; 
             if (class_value != null)
             {
                 classNameKey = ustrTable.AddStringIfNotExist(class_value);
             }
 
-            //BoxSpec parentSpec = null;
             int parentSpecVersion = 0;
+
             if (parentSpec != null)
             {
                 parentSpecVersion = parentSpec.cssClassVersion;
             }
             TemplateKey key = new TemplateKey(tagNameKey, classNameKey, parentSpecVersion);
-            //------------------------
-            BoxSpec currentBoxSpec = box.Spec;
-            if (currentBoxSpec == null)
-            {
-                box.Spec = currentBoxSpec = new BoxSpec(box.WellknownTagName);
-            }
-            //------------------------ 
-
-
             BoxSpec boxTemplate;
             if (!templatesForTagName.TryGetValue(key, out boxTemplate))
             {
-
                 //create template for specific key  
-                boxTemplate = new BoxSpec(box.WellknownTagName);
+                boxTemplate = new BoxSpec(currentBoxSpec.WellknownTagName);
                 boxTemplate.CloneAllStylesFrom(currentBoxSpec);
 
                 //*** 
                 //----------------------------
                 //1. tag name
-                CssRuleSetGroup ruleGroup = activeSheet.GetRuleSetForTagName(box.Name);
+                CssRuleSetGroup ruleGroup = activeSheet.GetRuleSetForTagName(elemName);
                 if (ruleGroup != null)
                 {
                     currentBoxSpec.cssClassVersion++;
@@ -257,8 +181,6 @@ namespace HtmlRenderer.Dom
             //*********** 
             //currentBoxSpec.InheritStylesFrom(boxTemplate);
         }
-
-
         enum AssignPropertySource
         {
             Inherit,

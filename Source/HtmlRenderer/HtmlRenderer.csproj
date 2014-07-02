@@ -74,6 +74,7 @@
     <Compile Include="1_Boxes\3_Layout\LayoutVisitor.cs" />
     <Compile Include="1_Boxes\4_Render\PaintVisitor.cs" />
     <Compile Include="BridgesAndBuilder\ActiveCssTemplate.cs" />
+    <Compile Include="BridgesAndBuilder\BoxModelBuilder_ApplyStylesheet.cs" />
     <Compile Include="BridgesAndBuilder\BoxModelBuilder_Corrector.cs" />
     <Compile Include="1_Boxes\3_Layout\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
     <Compile Include="1_Boxes\3_Layout\CssTableLayoutEngine.TableColumns.cs" />

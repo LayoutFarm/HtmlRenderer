@@ -100,7 +100,7 @@ namespace HtmlRenderer.Dom
             //Check width if not auto
             if (!this.Width.IsEmptyOrAuto)
             {
-                width = CssValueParser.ParseLength(Width, width, this);
+                width = CssValueParser.GetLengthPx(Width, width, this);
             }
 
 

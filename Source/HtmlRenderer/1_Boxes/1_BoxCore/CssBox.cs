@@ -41,13 +41,21 @@ namespace HtmlRenderer.Dom
     public partial class CssBox : IDisposable
     {
 
-        internal readonly BoxSpec _initSpec;
+ 
+        readonly BoxSpec _spec;
+        WellknownHtmlTagName wellKnownTagName;
+        CssDisplay mydisplay;
+
+#if DEBUG
+        public readonly int __dbugId = dbugTotalId++;
+        static int dbugTotalId;
+        public int dbugMark;
+#endif
 
         internal CssBox(CssBox parentBox, BridgeHtmlElement element)
         {
             this._aa_boxes = new CssBoxCollection(this);
-
-
+           
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
@@ -76,8 +84,8 @@ namespace HtmlRenderer.Dom
             }
             //------------
 
-            this._initSpec = new BoxSpec(WellknownTagName);
-
+            this._spec = new BoxSpec(WellknownTagName);
+            this.mydisplay = this._spec.CssDisplay;
         }
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
         {
@@ -103,14 +111,14 @@ namespace HtmlRenderer.Dom
             }
 
 
-            this._initSpec = new BoxSpec(WellknownTagName);
-            this._initSpec.CloneAllStyles(spec);
-
+            this._spec = new BoxSpec(WellknownTagName);
+            this._spec.CloneAllStyles(spec);
+            this.mydisplay = this._spec.CssDisplay;
         }
 
-        public BoxSpec InitSpec
+        public BoxSpec Spec
         {
-            get { return this._initSpec; }
+            get { return this._spec; }
         }
         /// <summary>
         /// Gets the HtmlContainer of the Box.
@@ -578,7 +586,7 @@ namespace HtmlRenderer.Dom
 
                                 if (!this.Width.IsEmptyOrAuto)
                                 {
-                                    availableWidth = CssValueParser.ParseLength(Width, availableWidth, this);
+                                    availableWidth = CssValueParser.GetLengthPx(Width, availableWidth, this);
                                 }
 
                                 this.SetWidth(availableWidth);
@@ -827,10 +835,10 @@ namespace HtmlRenderer.Dom
             {
                 if (_listItemBox == null)
                 {
-                    _listItemBox = new CssBox(null, null, this._initSpec.GetAnonVersion());
-                    _listItemBox.InitSpec.InheritStylesFrom(this.InitSpec);
+                    _listItemBox = new CssBox(null, null, this._spec.GetAnonVersion());
+                    _listItemBox.Spec.InheritStylesFrom(this.Spec);
 
-                    _listItemBox.ReEvaluateFont(this.InitSpec);
+                    _listItemBox.ReEvaluateFont(this.Spec);
                     _listItemBox.ReEvaluateComputedValues(this);
                     _listItemBox.CssDisplay = CssDisplay.Inline;
                     _listItemBox._htmlContainer = HtmlContainer;

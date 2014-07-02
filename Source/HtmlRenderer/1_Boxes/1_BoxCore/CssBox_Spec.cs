@@ -34,13 +34,7 @@ namespace HtmlRenderer.Dom
     /// </summary>
     partial class CssBox
     {
-        WellknownHtmlTagName wellKnownTagName;
-
-#if DEBUG
-        public readonly int dbugId = dbugTotalId++;
-        static int dbugTotalId;
-        public int dbugMark;
-#endif
+        
 
         #region CSS Properties
         public WellknownHtmlTagName WellknownTagName
@@ -54,23 +48,32 @@ namespace HtmlRenderer.Dom
                 this.wellKnownTagName = value;
             }
         }
+      
         public CssDisplay CssDisplay
         {
-            get { return this._initSpec.CssDisplay; }
+            get
+            {
+                 
+                return this._spec.CssDisplay;
+            }
             set
             {
-                this._initSpec.CssDisplay = value;
+                if (this.__dbugId == 0)
+                {
+
+                }
+                this._spec.CssDisplay = value;
             }
         }
         public CssDirection CssDirection
         {
-            get { return this._initSpec._cssDirection; }
-            set { this._initSpec._cssDirection = value; }
+            get { return this._spec._cssDirection; }
+            set { this._spec._cssDirection = value; }
         }
         //--------------------------------------------------------------------------------------
         public CssLength BorderLeftWidth
         {
-            get { return this._initSpec._borderFeats.LeftWidth; }
+            get { return this._spec._borderFeats.LeftWidth; }
             set
             {
                 CheckBorderVersion().LeftWidth = value;
@@ -80,7 +83,7 @@ namespace HtmlRenderer.Dom
 
         public CssLength BorderRightWidth
         {
-            get { return this._initSpec._borderFeats.RightWidth; }
+            get { return this._spec._borderFeats.RightWidth; }
             set
             {
                 CheckBorderVersion().RightWidth = value;
@@ -90,7 +93,7 @@ namespace HtmlRenderer.Dom
 
         public CssLength BorderBottomWidth
         {
-            get { return this._initSpec._borderFeats.BottomWidth; }
+            get { return this._spec._borderFeats.BottomWidth; }
             set
             {
                 CheckBorderVersion().BottomWidth = value;
@@ -100,7 +103,7 @@ namespace HtmlRenderer.Dom
 
         public CssLength BorderTopWidth
         {
-            get { return this._initSpec._borderFeats.TopWidth; }
+            get { return this._spec._borderFeats.TopWidth; }
             set
             {
                 CheckBorderVersion().TopWidth = value;
@@ -111,64 +114,64 @@ namespace HtmlRenderer.Dom
         public CssBorderStyle BorderTopStyle
         {
 
-            get { return this._initSpec._borderFeats.TopStyle; }
+            get { return this._spec._borderFeats.TopStyle; }
             set { CheckBorderVersion().TopStyle = value; }
 
         }
         public CssBorderStyle BorderLeftStyle
         {
-            get { return this._initSpec._borderFeats.LeftStyle; }
+            get { return this._spec._borderFeats.LeftStyle; }
             set { CheckBorderVersion().LeftStyle = value; }
         }
         public CssBorderStyle BorderRightStyle
         {
-            get { return this._initSpec._borderFeats.RightStyle; }
+            get { return this._spec._borderFeats.RightStyle; }
             set { CheckBorderVersion().RightStyle = value; }
         }
 
         public CssBorderStyle BorderBottomStyle
         {
 
-            get { return this._initSpec._borderFeats.BottomStyle; }
+            get { return this._spec._borderFeats.BottomStyle; }
             set { CheckBorderVersion().BottomStyle = value; }
         }
 
         //--------------------------------------------
         public Color BorderBottomColor
         {
-            get { return this._initSpec._borderFeats.BottomColor; }
+            get { return this._spec._borderFeats.BottomColor; }
             set { CheckBorderVersion().BottomColor = value; }
         }
         public Color BorderLeftColor
         {
-            get { return this._initSpec._borderFeats.LeftColor; }
+            get { return this._spec._borderFeats.LeftColor; }
             set { CheckBorderVersion().LeftColor = value; }
         }
         //--------------------------------------------
         public Color BorderRightColor
         {
-            get { return this._initSpec._borderFeats.RightColor; }
+            get { return this._spec._borderFeats.RightColor; }
             set { CheckBorderVersion().RightColor = value; }
         }
 
         public Color BorderTopColor
         {
-            get { return this._initSpec._borderFeats.TopColor; }
+            get { return this._spec._borderFeats.TopColor; }
             set { CheckBorderVersion().TopColor = value; }
         }
         public CssLength BorderSpacingVertical
         {
-            get { return this._initSpec._borderFeats.BorderSpacingV; }
+            get { return this._spec._borderFeats.BorderSpacingV; }
             set { CheckBorderVersion().BorderSpacingV = value; }
         }
         public CssLength BorderSpacingHorizontal
         {
-            get { return this._initSpec._borderFeats.BorderSpacingH; }
+            get { return this._spec._borderFeats.BorderSpacingH; }
             set { CheckBorderVersion().BorderSpacingH = value; }
         }
         public CssBorderCollapse BorderCollapse
         {
-            get { return this._initSpec._borderFeats.BorderCollapse; }
+            get { return this._spec._borderFeats.BorderCollapse; }
             set { CheckBorderVersion().BorderCollapse = value; }
         }
 
@@ -179,7 +182,7 @@ namespace HtmlRenderer.Dom
         //------------------------------------------------------
         public CssLength CornerNERadius
         {
-            get { return this._initSpec._cornerFeats.NERadius; }
+            get { return this._spec._cornerFeats.NERadius; }
             set
             {
                 CheckCornerVersion().NERadius = value;
@@ -187,7 +190,7 @@ namespace HtmlRenderer.Dom
         }
         public CssLength CornerNWRadius
         {
-            get { return this._initSpec._cornerFeats.NWRadius; }
+            get { return this._spec._cornerFeats.NWRadius; }
             set
             {
                 CheckCornerVersion().NWRadius = value;
@@ -195,7 +198,7 @@ namespace HtmlRenderer.Dom
         }
         public CssLength CornerSERadius
         {
-            get { return this._initSpec._cornerFeats.SERadius; }
+            get { return this._spec._cornerFeats.SERadius; }
             set
             {
                 CheckCornerVersion().SERadius = value;
@@ -203,7 +206,7 @@ namespace HtmlRenderer.Dom
         }
         public CssLength CornerSWRadius
         {
-            get { return this._initSpec._cornerFeats.SWRadius; }
+            get { return this._spec._cornerFeats.SWRadius; }
             set
             {
                 CheckCornerVersion().SWRadius = value;
@@ -212,31 +215,31 @@ namespace HtmlRenderer.Dom
         //------------------------------------------------------
         public CssLength MarginBottom
         {
-            get { return this._initSpec._marginFeats.Bottom; }
+            get { return this._spec._marginFeats.Bottom; }
             set { CheckMarginVersion().Bottom = value; }
         }
 
         public CssLength MarginLeft
         {
-            get { return this._initSpec._marginFeats.Left; }
+            get { return this._spec._marginFeats.Left; }
             set { CheckMarginVersion().Left = value; }
         }
 
         public CssLength MarginRight
         {
-            get { return this._initSpec._marginFeats.Right; }
+            get { return this._spec._marginFeats.Right; }
             set { CheckMarginVersion().Right = value; }
         }
 
         public CssLength MarginTop
         {
-            get { return this._initSpec._marginFeats.Top; }
+            get { return this._spec._marginFeats.Top; }
             set { CheckMarginVersion().Top = value; }
         }
 
         public CssLength PaddingBottom
         {
-            get { return this._initSpec._paddingProps.Bottom; }
+            get { return this._spec._paddingProps.Bottom; }
             set
             {
                 CheckPaddingVersion().Bottom = value;
@@ -245,7 +248,7 @@ namespace HtmlRenderer.Dom
 
         public CssLength PaddingLeft
         {
-            get { return this._initSpec._paddingProps.Left; }
+            get { return this._spec._paddingProps.Left; }
             set
             {
                 CheckPaddingVersion().Left = value;
@@ -254,7 +257,7 @@ namespace HtmlRenderer.Dom
 
         public CssLength PaddingRight
         {
-            get { return this._initSpec._paddingProps.Right; }
+            get { return this._spec._paddingProps.Right; }
             set
             {
                 CheckPaddingVersion().Right = value;
@@ -266,7 +269,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._initSpec._paddingProps.Top;
+                return this._spec._paddingProps.Top;
             }
             set
             {
@@ -275,68 +278,68 @@ namespace HtmlRenderer.Dom
         }
         public CssLength Left
         {
-            get { return this._initSpec._left; }
-            set { this._initSpec._left = value; }
+            get { return this._spec._left; }
+            set { this._spec._left = value; }
         }
 
         public CssLength Top
         {
-            get { return this._initSpec._top; }
-            set { this._initSpec._top = value; }
+            get { return this._spec._top; }
+            set { this._spec._top = value; }
         }
 
         public CssLength Width
         {
-            get { return this._initSpec._width; }
-            set { this._initSpec._width = value; }
+            get { return this._spec._width; }
+            set { this._spec._width = value; }
         }
         public CssLength MaxWidth
         {
-            get { return this._initSpec._maxWidth; }
-            set { this._initSpec._maxWidth = value; }
+            get { return this._spec._maxWidth; }
+            set { this._spec._maxWidth = value; }
         }
         public CssLength Height
         {
-            get { return this._initSpec._height; }
-            set { this._initSpec._height = value; }
+            get { return this._spec._height; }
+            set { this._spec._height = value; }
         }
         public Color BackgroundColor
         {
-            get { return this._initSpec._backgroundFeats.BackgroundColor; }
+            get { return this._spec._backgroundFeats.BackgroundColor; }
             set { CheckBgVersion().BackgroundColor = value; }
         }
         public ImageBinder BackgroundImageBinder
         {
-            get { return this._initSpec._backgroundFeats.BackgroundImageBinder; }
+            get { return this._spec._backgroundFeats.BackgroundImageBinder; }
             set { CheckBgVersion().BackgroundImageBinder = value; }
         }
 
 
         public CssLength BackgroundPositionX
         {
-            get { return this._initSpec._backgroundFeats.BackgroundPosX; }
+            get { return this._spec._backgroundFeats.BackgroundPosX; }
             set { CheckBgVersion().BackgroundPosX = value; }
         }
         public CssLength BackgroundPositionY
         {
-            get { return this._initSpec._backgroundFeats.BackgroundPosY; }
+            get { return this._spec._backgroundFeats.BackgroundPosY; }
             set { CheckBgVersion().BackgroundPosY = value; }
         }
         public CssBackgroundRepeat BackgroundRepeat
         {
-            get { return this._initSpec._backgroundFeats.BackgroundRepeat; }
+            get { return this._spec._backgroundFeats.BackgroundRepeat; }
             set { CheckBgVersion().BackgroundRepeat = value; }
         }
 
         public Color BackgroundGradient
         {
-            get { return this._initSpec._backgroundFeats.BackgroundGradient; }
+            get { return this._spec._backgroundFeats.BackgroundGradient; }
             set { CheckBgVersion().BackgroundGradient = value; }
         }
 
         public float BackgroundGradientAngle
         {
-            get { return this._initSpec._backgroundFeats.BackgroundGradientAngle; }
+            get { return this._spec._backgroundFeats.BackgroundGradientAngle; }
             set { CheckBgVersion().BackgroundGradientAngle = value; }
         }
         /// <summary>
@@ -344,140 +347,140 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public Color Color
         {
-            get { return this._initSpec._actualColor; }
-            set { this._initSpec._actualColor = value; }
+            get { return this._spec._actualColor; }
+            set { this._spec._actualColor = value; }
         }
         public CssEmptyCell EmptyCells
         {
-            get { return this._initSpec._emptyCells; }
-            set { this._initSpec._emptyCells = value; }
+            get { return this._spec._emptyCells; }
+            set { this._spec._emptyCells = value; }
         }
 
         public CssFloat Float
         {
-            get { return this._initSpec._float; }
-            set { this._initSpec._float = value; }
+            get { return this._spec._float; }
+            set { this._spec._float = value; }
         }
         public CssPosition Position
         {
-            get { return this._initSpec._position; }
-            set { this._initSpec._position = value; }
+            get { return this._spec._position; }
+            set { this._spec._position = value; }
         }
 
 
         //----------------------------------------------------
         public CssLength LineHeight
         {
-            get { return this._initSpec._lineHeight; }
+            get { return this._spec._lineHeight; }
             set
             {
-                this._initSpec._lineHeight = value;
+                this._spec._lineHeight = value;
                 this._prop_pass_eval &= ~CssBoxAssignments.LINE_HEIGHT;
             }
         }
         public CssVerticalAlign VerticalAlign
         {
-            get { return this._initSpec._verticalAlign; }
+            get { return this._spec._verticalAlign; }
             set
-            {   
-                this._initSpec._verticalAlign = value;
+            {
+                this._spec._verticalAlign = value;
             }
         }
         public CssLength TextIndent
         {
-            get { return this._initSpec._textIndent; }
-            set { this._initSpec._textIndent = NoEms(value); }
+            get { return this._spec._textIndent; }
+            set { this._spec._textIndent = NoEms(value); }
         }
         public CssTextAlign CssTextAlign
         {
-            get { return this._initSpec._textAlign; }
-            set { this._initSpec._textAlign = value; }
+            get { return this._spec._textAlign; }
+            set { this._spec._textAlign = value; }
         }
 
         public CssTextDecoration TextDecoration
         {
-            get { return this._initSpec._textDecoration; }
-            set { this._initSpec._textDecoration = value; }
+            get { return this._spec._textDecoration; }
+            set { this._spec._textDecoration = value; }
         }
 
         //-----------------------------------
         public CssWhiteSpace WhiteSpace
         {
-            get { return this._initSpec._whitespace; }
-            set { this._initSpec._whitespace = value; }
+            get { return this._spec._whitespace; }
+            set { this._spec._whitespace = value; }
         }
         //----------------------------------- 
         public CssVisibility CssVisibility
         {
-            get { return this._initSpec._visibility; }
-            set { this._initSpec._visibility = value; }
+            get { return this._spec._visibility; }
+            set { this._spec._visibility = value; }
         }
         public CssLength WordSpacing
         {
-            get { return this._initSpec._wordSpacing; }
-            set { this._initSpec._wordSpacing = this.NoEms(value); }
+            get { return this._spec._wordSpacing; }
+            set { this._spec._wordSpacing = this.NoEms(value); }
         }
 
         public CssWordBreak WordBreak
         {
-            get { return this._initSpec._wordBreak; }
-            set { this._initSpec._wordBreak = value; }
+            get { return this._spec._wordBreak; }
+            set { this._spec._wordBreak = value; }
         }
 
         public string FontFamily
         {
-            get { return this._initSpec._fontFeats.FontFamily; }
+            get { return this._spec.FontFamily; }
             set { CheckFontVersion().FontFamily = value; }
         }
 
         public CssLength FontSize
         {
-            get { return this._initSpec._fontFeats.FontSize; }
+            get { return this._spec.FontSize; }
             set { CheckFontVersion().FontSize = value; }
         }
 
         public CssFontStyle FontStyle
         {
-            get { return this._initSpec._fontFeats.FontStyle; }
+            get { return this._spec.FontStyle; }
             set { CheckFontVersion().FontStyle = value; }
         }
 
         public CssFontVariant FontVariant
         {
-            get { return this._initSpec._fontFeats.FontVariant; }
+            get { return this._spec.FontVariant; }
             set { CheckFontVersion().FontVariant = value; }
         }
 
         public CssFontWeight FontWeight
         {
-            get { return this._initSpec._fontFeats.FontWeight; }
+            get { return this._spec.FontWeight; }
             set { CheckFontVersion().FontWeight = value; }
         }
         public CssOverflow Overflow
         {
-            get { return this._initSpec._overflow; }
-            set { this._initSpec._overflow = value; }
+            get { return this._spec._overflow; }
+            set { this._spec._overflow = value; }
         }
 
         public string ListStyle
         {
-            get { return this._initSpec._listFeats.ListStyle; }
+            get { return this._spec._listFeats.ListStyle; }
             set { CheckListPropVersion().ListStyle = value; }
         }
         public CssListStylePosition ListStylePosition
         {
-            get { return this._initSpec._listFeats.ListStylePosition; }
+            get { return this._spec._listFeats.ListStylePosition; }
             set { CheckListPropVersion().ListStylePosition = value; }
         }
         public string ListStyleImage
         {
-            get { return this._initSpec._listFeats.ListStyleImage; }
+            get { return this._spec._listFeats.ListStyleImage; }
             set { CheckListPropVersion().ListStyleImage = value; }
         }
 
         public CssListStyleType ListStyleType
         {
-            get { return this._initSpec._listFeats.ListStyleType; }
+            get { return this._spec._listFeats.ListStyleType; }
             set { CheckListPropVersion().ListStyleType = value; }
         }
 
@@ -491,7 +494,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._initSpec._backgroundFeats.BackgroundGradient;
+                return this._spec._backgroundFeats.BackgroundGradient;
             }
         }
 
@@ -502,7 +505,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._initSpec._backgroundFeats.BackgroundGradientAngle;
+                return this._spec._backgroundFeats.BackgroundGradientAngle;
             }
         }
 
@@ -515,7 +518,7 @@ namespace HtmlRenderer.Dom
             get
             {
 
-                return this._initSpec._actualColor;
+                return this._spec._actualColor;
             }
         }
 
@@ -526,7 +529,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._initSpec._backgroundFeats.BackgroundColor;
+                return this._spec._backgroundFeats.BackgroundColor;
             }
         }
         /// <summary>
@@ -541,15 +544,15 @@ namespace HtmlRenderer.Dom
 
                 }
                 var h = _actualFont.GetHeight();
-                return this._actualFont; 
+                return this._actualFont;
             }
         }
         public int cssClassVersion
         {
-            get { return this._initSpec.cssClassVersion; }
-            set { this._initSpec.cssClassVersion = value; }
+            get { return this._spec.cssClassVersion; }
+            set { this._spec.cssClassVersion = value; }
         }
-        
+
         /// <summary>
         /// Get the parent of this css properties instance.
         /// </summary>

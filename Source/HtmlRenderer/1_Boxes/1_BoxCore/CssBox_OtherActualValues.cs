@@ -45,7 +45,7 @@ namespace HtmlRenderer.Dom
                 if ((this._prop_pass_eval & CssBoxAssignments.TEXT_INDENT) == 0)
                 {
                     this._prop_pass_eval |= CssBoxAssignments.TEXT_INDENT;
-                    _actualTextIndent = CssValueParser.ParseLength(TextIndent, this.SizeWidth, this);
+                    _actualTextIndent = CssValueParser.GetLengthPx(TextIndent, this.SizeWidth, this);
                 }
                 return _actualTextIndent;
             }
@@ -68,7 +68,7 @@ namespace HtmlRenderer.Dom
 
                 if (!this.WordSpacing.IsNormalWordSpacing)
                 {
-                    _actualWordSpacing += CssValueParser.ParseLength(this.WordSpacing, 1, this);
+                    _actualWordSpacing += CssValueParser.GetLengthPx(this.WordSpacing, 1, this);
                 }
             }
             return this._actualWordSpacing;
