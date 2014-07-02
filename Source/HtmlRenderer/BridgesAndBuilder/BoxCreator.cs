@@ -52,7 +52,7 @@ namespace HtmlRenderer.Dom
                 case WellknownHtmlTagName.iframe:
                     return new CssBoxHr(parent, tag);
                 case WellknownHtmlTagName.hr:
-                    return new CssBoxHr(parent, tag); 
+                    return new CssBoxHr(parent, tag);
                 //test extension box
                 case WellknownHtmlTagName.X:
                     var customBox = CreateCustomBox(parent, tag);
@@ -89,14 +89,14 @@ namespace HtmlRenderer.Dom
         internal static CssBox CreateRootBlock()
         {
             var spec = new BoxSpec(WellknownHtmlTagName.Unknown);
+            spec.CssDisplay = CssDisplay.Block;
             var box = new CssBox(null, null, spec);
-            box.CssDisplay = CssDisplay.Block;
             return box;
         }
         internal static CssBox CreateBoxAndInherit(CssBox parent, BridgeHtmlElement tag)
         {
             var newBox = new CssBox(parent, tag);
-            newBox.InheritStyles(parent);
+            newBox.InitSpec.InheritStyles(parent.InitSpec, false);
             return newBox;
         }
 
@@ -126,8 +126,9 @@ namespace HtmlRenderer.Dom
 
         static CssBox CreateBoxAndInherit(CssBox parent, BridgeHtmlElement tag, int insertAt)
         {
-            var newBox = new CssBox(parent, tag);
-            newBox.InheritStyles(parent);
+            var newBox = new CssBox(parent, tag);             
+            newBox.InitSpec.InheritStyles(parent.InitSpec, false);
+
             if (insertAt > -1)
             {
                 newBox.ChangeSiblingOrder(insertAt);

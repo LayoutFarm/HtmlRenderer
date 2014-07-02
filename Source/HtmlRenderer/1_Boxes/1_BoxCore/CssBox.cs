@@ -40,7 +40,6 @@ namespace HtmlRenderer.Dom
     /// </remarks>
     public partial class CssBox : IDisposable
     {
-        readonly BoxSpec _importSpec;
 
         internal readonly BoxSpec _initSpec;
 
@@ -55,21 +54,21 @@ namespace HtmlRenderer.Dom
             }
             _htmlElement = element;
 
-            if (element != null)
-            {
-                if (element.Spec != null)
-                {
-                    this._importSpec = element.Spec;
-                }
-                else
-                {
+            //if (element != null)
+            //{
+            //    if (element.Spec != null)
+            //    {
+            //        this._importSpec = element.Spec;
+            //    }
+            //    else
+            //    {
 
-                }
-            }
-            else
-            {
-                //anonymous block
-            }
+            //    }
+            //}
+            //else
+            //{
+            //    //anonymous block
+            //}
 
             if (element != null)
             {
@@ -90,7 +89,8 @@ namespace HtmlRenderer.Dom
             }
 
             _htmlElement = element;
-            this._importSpec = spec;
+
+            //this._importSpec = spec;
 #if DEBUG
             if (element != null && element.Spec == null)
             {
@@ -104,15 +104,8 @@ namespace HtmlRenderer.Dom
 
 
             this._initSpec = new BoxSpec(WellknownTagName);
+            this._initSpec.CloneAllStyles(spec);
 
-
-        }
-        public BoxSpec ImportSpec
-        {
-            get
-            {
-                return this._importSpec;
-            }
         }
 
         public BoxSpec InitSpec
@@ -835,9 +828,10 @@ namespace HtmlRenderer.Dom
                 if (_listItemBox == null)
                 {
                     _listItemBox = new CssBox(null, null, this._initSpec.GetAnonVersion());
-                    _listItemBox.InheritStyles(this);
+                    _listItemBox.InitSpec.InheritStylesFrom(this.InitSpec);
+
                     _listItemBox.ReEvaluateFont(this.InitSpec);
-                    _listItemBox.ReEvaluateComputedValues(this);                    
+                    _listItemBox.ReEvaluateComputedValues(this);
                     _listItemBox.CssDisplay = CssDisplay.Inline;
                     _listItemBox._htmlContainer = HtmlContainer;
 
@@ -988,23 +982,24 @@ namespace HtmlRenderer.Dom
         }
 
 
-        /// <summary>
-        /// Inherits inheritable values from parent.
-        /// </summary>
-        internal void InheritStyles(CssBox box, bool clone = false)
-        {
-            this.InternalInheritStyles(box, clone);
+        ///// <summary>
+        ///// Inherits inheritable values from parent.
+        ///// </summary>
+        //internal void InheritStyles(CssBox box, bool clone = false)
+        //{ 
+        //    this.InternalInheritStyles(box, clone);
 
-        }
-        internal void InheritStyles(BoxSpec box, bool clone = false)
-        {
-            if (box == null)
-            {
-                return;
-            }
-            this.InternalInheritStyles(box, clone);
+        //}
+        //internal void InheritStyles(BoxSpec fromSpec, bool clone = false)
+        //{
+        //    if (fromSpec == null)
+        //    {
+        //        return;
+        //    }
 
-        }
+        //    this.InternalInheritStyles(fromSpec, clone);
+
+        //}
         float CalculateActualWidth()
         {
             float maxRight = 0;

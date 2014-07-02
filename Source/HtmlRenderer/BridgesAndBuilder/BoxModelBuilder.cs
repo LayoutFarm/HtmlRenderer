@@ -157,6 +157,7 @@ namespace HtmlRenderer.Dom
                                 } break;
                             case BridgeNodeType.Element:
                                 {
+
                                     BridgeHtmlElement elem = (BridgeHtmlElement)bridgeChild;
                                     var spec = elem.Spec;
                                     if (spec.CssDisplay == CssDisplay.None)
@@ -167,6 +168,8 @@ namespace HtmlRenderer.Dom
                                     //{
                                     newBox++;
                                     CssBox box = BoxCreator.CreateBoxNotInherit(parentBox, elem);
+                                    elem.Spec.CloneAllStylesFrom(parentBox.InitSpec);
+
                                     GenerateCssBoxes(elem, box);
 
                                 } break;
@@ -185,7 +188,7 @@ namespace HtmlRenderer.Dom
                                 case BridgeNodeType.Text:
                                     {
                                         //create anonymous box  but not inherit ***
-                                        var parentSpec = parentBox.ImportSpec;
+                                        var parentSpec = parentBox.InitSpec;
                                         CssBox anonText = new CssBox(parentBox, null, parentSpec.GetAnonVersion());
                                         //parse and evaluate whitespace here ! 
                                         BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
@@ -203,6 +206,8 @@ namespace HtmlRenderer.Dom
 
                                         newBox++;
                                         CssBox box = BoxCreator.CreateBoxNotInherit(parentBox, childElement);
+                                        childElement.Spec.CloneAllStylesFrom(parentBox.InitSpec);
+
                                         GenerateCssBoxes(childElement, box);
 
                                     } break;
@@ -236,6 +241,7 @@ namespace HtmlRenderer.Dom
             //---------------------------------------------------------------- 
             //4. first spec        
             bridgeRoot.Spec = new BoxSpec(bridgeRoot.WellknownTagName);
+            //attach style to elements
             ApplyStyleSheetTopDown(bridgeRoot, null, activeCssTemplate);
 
             //----------------------------------------------------------------
@@ -258,7 +264,7 @@ namespace HtmlRenderer.Dom
                 //ApplyStyleSheet(root, activeCssTemplate);
                 var rootspec = new BoxSpec(WellknownHtmlTagName.Unknown);
 
-                ApplyStyleSheet01(root, activeCssTemplate);
+                 ApplyStyleSheet01(root, activeCssTemplate);
                 //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);
                 OnePassBoxCorrection(root);
@@ -330,9 +336,9 @@ namespace HtmlRenderer.Dom
             //    //recursive
             //    ApplyStyleSheet01(childBox, activeCssTemplate);
             //} 
-            if (box.ParentBox != null && box.ParentBox.ImportSpec != null)
-            {
-                box.InheritStyles(box.ParentBox.ImportSpec);
+            if (box.ParentBox != null && box.ParentBox.InitSpec != null)
+            {                 
+                box.InitSpec.InheritStylesFrom(box.ParentBox.InitSpec);
             }
             else
             {

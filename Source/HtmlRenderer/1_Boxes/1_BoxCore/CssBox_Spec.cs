@@ -536,6 +536,10 @@ namespace HtmlRenderer.Dom
         {
             get
             {
+                if (this._actualFont == null)
+                {
+
+                }
                 return this._actualFont; 
             }
         }

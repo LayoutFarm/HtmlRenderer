@@ -12,13 +12,13 @@ namespace HtmlRenderer.Dom
 
     partial class BoxSpec
     {
- 
+
         /// <summary>
         /// Inherits inheritable values from specified box.
         /// </summary>
         /// <param name="s">source </param>
         /// <param name="clone">clone all </param>
-        protected void InheritStyles(BoxSpec s, bool clone)
+        internal void InheritStyles(BoxSpec s, bool clone)
         {
             if (s == null)
             {

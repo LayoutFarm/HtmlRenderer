@@ -106,7 +106,7 @@ namespace HtmlRenderer.Dom
         {
             return (len1._number == len2.Number) && (len1._flags == len2._flags);
         }
-         
+
         #endregion
 
 
@@ -182,7 +182,8 @@ namespace HtmlRenderer.Dom
         }
         public bool IsEmpty
         {
-            get { return (this._flags & IS_ASSIGN) == 0; }
+            get { return this.UnitOrNames == CssUnitOrNames.EmptyValue; }
+            //get { return (this._flags & IS_ASSIGN) == 0; }
         }
         public bool IsEmptyOrAuto
         {

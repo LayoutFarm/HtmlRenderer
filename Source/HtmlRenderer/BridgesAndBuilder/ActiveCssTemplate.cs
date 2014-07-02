@@ -123,7 +123,7 @@ namespace HtmlRenderer.Dom
                     foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
                     {
 
-                        CssPropSetter.AssignPropertyValue(boxTemplate, parentBox.ImportSpec, decl);
+                        CssPropSetter.AssignPropertyValue(boxTemplate, parentBox.InitSpec, decl);
                     }
                 }
                 //----------------------------
@@ -143,7 +143,7 @@ namespace HtmlRenderer.Dom
                             {
                                 foreach (var propDecl in ruleSetGroup.GetPropertyDeclIter())
                                 {
-                                    CssPropSetter.AssignPropertyValue(boxTemplate, parentBox.ImportSpec, propDecl);
+                                    CssPropSetter.AssignPropertyValue(boxTemplate, parentBox.InitSpec, propDecl);
                                 }
                                 //---------------------------------------------------------
                                 //find subgroup for more specific conditions
@@ -161,7 +161,8 @@ namespace HtmlRenderer.Dom
                 templatesForTagName.Add(key, boxTemplate);
             }
             //***********
-            box.CloneAllStyles(boxTemplate);
+            box.InitSpec.CloneAllStyles(boxTemplate);
+             
             //*********** 
         }
 
@@ -254,6 +255,7 @@ namespace HtmlRenderer.Dom
             //***********
             currentBoxSpec.CloneAllStyles(boxTemplate);
             //*********** 
+            //currentBoxSpec.InheritStylesFrom(boxTemplate);
         }
 
 

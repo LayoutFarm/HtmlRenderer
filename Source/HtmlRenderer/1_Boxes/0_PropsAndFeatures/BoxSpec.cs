@@ -53,6 +53,7 @@ namespace HtmlRenderer.Dom
         internal CssCornerFeature _cornerFeats = CssCornerFeature.Default;
         internal Font _actualFont;
         internal CssBackgroundFeature _backgroundFeats = CssBackgroundFeature.Default;
+
         internal CssDisplay _cssDisplay = CssDisplay.Inline;
         internal CssFloat _float = CssFloat.None;
         //==========================================================
@@ -479,7 +480,11 @@ namespace HtmlRenderer.Dom
         public CssLength FontSize
         {
             get { return this._fontFeats.FontSize; }
-            set { CheckFontVersion().FontSize = value; }
+            set
+            {
+
+                CheckFontVersion().FontSize = value;
+            }
         }
 
         public CssFontStyle FontStyle
@@ -622,7 +627,7 @@ namespace HtmlRenderer.Dom
             }
 
             CssLength fontsize = this.FontSize;
-            if (fontsize.IsEmpty)
+            if (fontsize.IsEmpty || fontsize.Number == 0)
             {
                 fontsize = CssLength.MakeFontSizePtUnit(ConstConfig.DEFAULT_FONT_SIZE);
             }
