@@ -65,7 +65,7 @@
     <Compile Include="1_Boxes\5_HitAndSelections\BoxHitChain.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBox_FlagsConst.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBoxAssignments.cs" />
-    <Compile Include="1_Boxes\1_BoxCore\CssBoxConst.cs" />
+    <Compile Include="1_Boxes\0_PropsAndFeatures\ConstConfig.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBox_OtherActualValues.cs" />
     <Compile Include="3_HtmlFeatures\3_Bridges\BridgeElements.cs" />
     <Compile Include="1_Boxes\1_BoxCore\BoxVisitor.cs" />
@@ -125,7 +125,7 @@
     <Compile Include="1_Boxes\1_BoxCore\CssLineBox.cs" />
     <Compile Include="1_Boxes\3_Layout\CssTableLayoutEngine.cs" />
     <Compile Include="3_HtmlFeatures\1_Interfaces\HtmlInterfaces.cs" />
-    <Compile Include="1_Boxes\0_PropsAndFeatures\BorderSide.cs" />
+    <Compile Include="1_Boxes\0_PropsAndFeatures\CssSideAndOrientation.cs" />
     <Compile Include="3_HtmlFeatures\2_Events\HtmlLinkClickedException.cs" />
     <Compile Include="3_HtmlFeatures\2_Events\HtmlLinkClickedEventArgs.cs" />
     <Compile Include="3_HtmlFeatures\2_Events\HtmlRefreshEventArgs.cs" />

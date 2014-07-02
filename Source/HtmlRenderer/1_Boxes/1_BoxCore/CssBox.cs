@@ -665,7 +665,7 @@ namespace HtmlRenderer.Dom
                                         lay.PopContainingBlock();
 
                                         float width = this.CalculateActualWidth();
-                                        if (lay.ContainerBlockGlobalX + width > CssBoxConst.MAX_RIGHT)
+                                        if (lay.ContainerBlockGlobalX + width > ConstConfig.BOX_MAX_RIGHT)
                                         {
                                         }
                                         else
@@ -834,8 +834,10 @@ namespace HtmlRenderer.Dom
             {
                 if (_listItemBox == null)
                 {
-                    _listItemBox = new CssBox(null, null);
+                    _listItemBox = new CssBox(null, null, this._initSpec.GetAnonVersion());
                     _listItemBox.InheritStyles(this);
+                    _listItemBox.ReEvaluateFont(this.InitSpec);
+                    _listItemBox.ReEvaluateComputedValues(this);                    
                     _listItemBox.CssDisplay = CssDisplay.Inline;
                     _listItemBox._htmlContainer = HtmlContainer;
 

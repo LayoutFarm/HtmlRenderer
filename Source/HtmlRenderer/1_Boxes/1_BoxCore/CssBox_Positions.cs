@@ -126,26 +126,45 @@ namespace HtmlRenderer.Dom
         {
             get { return (this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0; }
         }
-        //static int num_count = 0;
+
+        internal void ReEvaluateFont(BoxSpec parentSpec)
+        {
+            this._actualFont = this.InitSpec.GetFont(parentSpec);
+        }
         /// <summary>
         /// evaluate computed value
         /// </summary>
         internal void ReEvaluateComputedValues(CssBox containingBlock)
         {
-            //see www.w3.org/TR/CSS2/box.html#padding-properties
+            //see www.w3.org/TR/CSS2/box.html#padding-properties 
+            //depend on parent
+            //1. fonts
+            if (this.ParentBox != null)
+            {
+                ReEvaluateFont(this.ParentBox.InitSpec);
 
-            //width of some margins,paddings are computed value 
-            //that need its containing block width (even for 'top' and 'bottom')
-            //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) != 0)
+                //2. actual word spacing
+                //this._actualWordSpacing = this.NoEms(this.InitSpec.LineHeight);
+                //3. font size 
+                //len = len.ConvertEmToPoints(parentBox.ActualFont.SizeInPoints);
+            }
+            else
+            {
+                this._actualFont = this.InitSpec.GetFont(containingBlock.InitSpec);
+            }
+
+            if (_actualFont == null)
+            {
+            }
+
+            //if (_actualFont != null)
             //{
-            //    //num_count++;
-            //    //Console.WriteLine(num_count + " " + this.ToString());
-            //    return;
+            //    return _actualFont;
             //}
-            //else if (this.dbugId == 35)
-            //{
-            //} 
-            //margin
+            ////-----------------------------------------------------------------------------                
+            //_actualFont = this._initSpec._fontFeats.GetCacheFont(this.GetParent());
+            //return _actualFont;
+
             //-----------------------------------------------------------------------
             float cbWidth = containingBlock.SizeWidth;
             this._boxCompactFlags |= CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES;

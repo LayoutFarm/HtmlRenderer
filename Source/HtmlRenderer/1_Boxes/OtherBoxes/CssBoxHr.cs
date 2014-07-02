@@ -104,7 +104,7 @@ namespace HtmlRenderer.Dom
             }
 
 
-            if (width < minwidth || width >= CssBoxConst.MAX_TABLE_WIDTH)
+            if (width < minwidth || width >= ConstConfig.TABLE_MAX_WIDTH)
             {
                 width = minwidth;
             }
@@ -150,7 +150,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                p.PaintBorder(this, BorderSide.Top, this.BorderTopColor, rect);
+                p.PaintBorder(this, CssSide.Top, this.BorderTopColor, rect);
 
             }
         }

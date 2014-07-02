@@ -536,14 +536,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                //depend on parent
-                if (_actualFont != null)
-                {
-                    return _actualFont;
-                }
-                //-----------------------------------------------------------------------------                
-                _actualFont = this._initSpec._fontFeats.GetCacheFont(this.GetParent());
-                return _actualFont;
+                return this._actualFont; 
             }
         }
         public int cssClassVersion
@@ -551,7 +544,7 @@ namespace HtmlRenderer.Dom
             get { return this._initSpec.cssClassVersion; }
             set { this._initSpec.cssClassVersion = value; }
         }
-        Font _actualFont;
+        
         /// <summary>
         /// Get the parent of this css properties instance.
         /// </summary>

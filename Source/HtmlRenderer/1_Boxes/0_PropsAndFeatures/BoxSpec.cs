@@ -22,9 +22,9 @@ using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
 {
-     
 
-    partial class BoxSpec
+
+    public sealed partial class BoxSpec
     {
         internal int cssClassVersion;
 
@@ -79,16 +79,16 @@ namespace HtmlRenderer.Dom
 #endif
 
         #region CSS Properties
-        
+
         BoxSpec anonVersion;
-        
+
         public BoxSpec(WellknownHtmlTagName wellknownTagName)
         {
             this.WellknownTagName = wellknownTagName;
         }
         internal BoxSpec(BridgeHtmlElement ownerElement)// WellknownHtmlTagName wellknownTagName)
         {
-             
+
             this.WellknownTagName = ownerElement.WellknownTagName;
         }
 
@@ -432,7 +432,7 @@ namespace HtmlRenderer.Dom
         public CssLength TextIndent
         {
             get { return _textIndent; }
-            set { _textIndent = NoEms(value); }
+            set { _textIndent = value; }
         }
         public CssTextAlign CssTextAlign
         {
@@ -461,7 +461,7 @@ namespace HtmlRenderer.Dom
         public CssLength WordSpacing
         {
             get { return this._wordSpacing; }
-            set { this._wordSpacing = this.NoEms(value); }
+            set { this._wordSpacing = value; }
         }
 
         public CssWordBreak WordBreak
@@ -575,50 +575,133 @@ namespace HtmlRenderer.Dom
                 return this._backgroundFeats.BackgroundColor;
             }
         }
-        /// <summary>
-        /// Gets the font that should be actually used to paint the text of the box
-        /// </summary>
-        public Font ActualFont
+
+        public Font GetFont(BoxSpec parentBox)
         {
-            get
+
+            //---------------------------------------
+            if (_actualFont != null)
             {
-                //depend on parent
-                if (_actualFont != null)
-                {
-                    return _actualFont;
-                }
-                //-----------------------------------------------------------------------------                
-                _actualFont = this._fontFeats.GetCacheFont(this.GetParent());
                 return _actualFont;
             }
+            //---------------------------------------
+            bool relateToParent = false;
+
+            string fontFam = this.FontFamily;
+            if (string.IsNullOrEmpty(FontFamily))
+            {
+                fontFam = ConstConfig.DEFAULT_FONT_NAME;
+            }
+
+            //-----------------------------------------------------------------------------
+            //style
+            FontStyle st = System.Drawing.FontStyle.Regular;
+            switch (FontStyle)
+            {
+                case CssFontStyle.Italic:
+                case CssFontStyle.Oblique:
+                    st |= System.Drawing.FontStyle.Italic;
+                    break;
+            }
+            //-----------------------------------------------------
+            //weight
+            CssFontWeight fontWight = this.FontWeight;
+            switch (this.FontWeight)
+            {
+                case CssFontWeight.Normal:
+                case CssFontWeight.Lighter:
+                case CssFontWeight.NotAssign:
+                case CssFontWeight.Inherit:
+                    {
+                        //do nothing
+                    } break;
+                default:
+                    {
+                        st |= System.Drawing.FontStyle.Bold;
+                    } break;
+            }
+
+            CssLength fontsize = this.FontSize;
+            if (fontsize.IsEmpty)
+            {
+                fontsize = CssLength.MakeFontSizePtUnit(ConstConfig.DEFAULT_FONT_SIZE);
+            }
+
+            float fsize = ConstConfig.DEFAULT_FONT_SIZE;
+
+            if (fontsize.IsFontSizeName)
+            {
+                switch (fontsize.UnitOrNames)
+                {
+                    case CssUnitOrNames.FONTSIZE_MEDIUM:
+                        fsize = ConstConfig.DEFAULT_FONT_SIZE; break;
+                    case CssUnitOrNames.FONTSIZE_XX_SMALL:
+                        fsize = ConstConfig.DEFAULT_FONT_SIZE - 4; break;
+                    case CssUnitOrNames.FONTSIZE_X_SMALL:
+                        fsize = ConstConfig.DEFAULT_FONT_SIZE - 3; break;
+                    case CssUnitOrNames.FONTSIZE_LARGE:
+                        fsize = ConstConfig.DEFAULT_FONT_SIZE + 2; break;
+                    case CssUnitOrNames.FONTSIZE_X_LARGE:
+                        fsize = ConstConfig.DEFAULT_FONT_SIZE + 3; break;
+                    case CssUnitOrNames.FONTSIZE_XX_LARGE:
+                        fsize = ConstConfig.DEFAULT_FONT_SIZE + 4; break;
+                    case CssUnitOrNames.FONTSIZE_SMALLER:
+                        {
+                            relateToParent = true;
+                            float parentFontSize = ConstConfig.DEFAULT_FONT_SIZE;
+                            if (parentBox != null)
+                            {
+                                parentFontSize = parentBox._actualFont.Size;
+                            }
+                            fsize = parentFontSize - 2;
+
+                        } break;
+                    case CssUnitOrNames.FONTSIZE_LARGER:
+                        {
+                            relateToParent = true;
+                            float parentFontSize = ConstConfig.DEFAULT_FONT_SIZE;
+                            if (parentBox != null)
+                            {
+                                parentFontSize = parentBox._actualFont.Size;
+                            }
+                            fsize = parentFontSize + 2;
+
+                        } break;
+                    default:
+                        throw new NotSupportedException();
+                }
+            }
+            else
+            {
+                fsize = fontsize.Number;
+            }
+
+            if (fsize <= 1f)
+            {
+                fsize = ConstConfig.DEFAULT_FONT_SIZE;
+            }
+
+            if (!relateToParent)
+            {
+                return FontsUtils.GetCachedFont(fontFam, fsize, st);
+            }
+            else
+            {
+                //not store to cache font
+                return this._actualFont = FontsUtils.GetCachedFont(fontFam, fsize, st);
+            }
         }
-        ///// <summary>
-        ///// Get the parent of this css properties instance.
-        ///// </summary>
-        ///// <returns></returns>
-        //public abstract CssBox GetParent();
 
         /// <summary>
         /// Gets the height of the font in the specified units
         /// </summary>
         /// <returns></returns>
-        public float GetEmHeight()
+        public float GetEmHeight(BoxSpec parent)
         {
-            return FontsUtils.GetFontHeight(ActualFont);
+            return FontsUtils.GetFontHeight(GetFont(parent));
         }
 
-        /// <summary>
-        /// Ensures that the specified length is converted to pixels if necessary
-        /// </summary>
-        /// <param name="length"></param>
-        public CssLength NoEms(CssLength length)
-        {
-            if (length.UnitOrNames == CssUnitOrNames.Ems)
-            {
-                return length.ConvertEmToPixels(GetEmHeight());
-            }
-            return length;
-        }
+
 
     }
 

@@ -34,12 +34,8 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary>
-        readonly BridgeHtmlElement _htmlElement;
-        
-
-        int _boxCompactFlags;
-
-
+        readonly BridgeHtmlElement _htmlElement; 
+        int _boxCompactFlags; 
         //----------------------------------------------------
         CssBox _listItemBox;
         //----------------------------------------------------

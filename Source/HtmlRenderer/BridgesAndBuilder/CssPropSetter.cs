@@ -727,8 +727,8 @@ namespace HtmlRenderer.Dom
                     cssBox.Position = UserMapUtil.GetCssPosition(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.LineHeight:
-
-                    cssBox.SetLineHeight(cssValue.AsLength());
+                    cssBox.LineHeight = cssValue.AsLength();
+                     
                     break;
                 case WebDom.WellknownCssPropertyName.VerticalAlign:
                     cssBox.VerticalAlign = UserMapUtil.GetVerticalAlign(cssValue);

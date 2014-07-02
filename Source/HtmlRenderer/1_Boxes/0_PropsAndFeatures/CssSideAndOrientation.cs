@@ -15,10 +15,8 @@
 
 namespace HtmlRenderer.Dom
 {
-    /// <summary>
-    /// Border specifiers
-    /// </summary>
-    enum BorderSide
+    
+    enum CssSide
     {
         Top,
         Right,

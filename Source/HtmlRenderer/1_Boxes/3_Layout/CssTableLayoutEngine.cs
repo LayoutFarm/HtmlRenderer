@@ -115,6 +115,7 @@ namespace HtmlRenderer.Dom
                 var latestCB = lay.LatestContainingBlock;
                 foreach (var childBox in box.GetChildBoxIter())
                 {
+                    childBox.ReEvaluateFont(box.InitSpec);
                     childBox.MeasureRunsSize(lay);
                     S1_RecursiveMeasureRunContentSize(childBox, lay); //recursive
                 }
@@ -502,7 +503,7 @@ namespace HtmlRenderer.Dom
             // if table max width is limited by we need to lower the columns width even if it will result in clipping
             var maxWidth = GetMaxTableWidth();
 
-            if (maxWidth < CssBoxConst.MAX_RIGHT)
+            if (maxWidth < ConstConfig.BOX_MAX_RIGHT)
             {
                 widthSum = CalculateWidthSum();
                 if (maxWidth < widthSum)
@@ -945,7 +946,7 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                return CssBoxConst.MAX_TABLE_WIDTH;
+                return ConstConfig.TABLE_MAX_WIDTH;
             }
         }
 
@@ -1045,7 +1046,7 @@ namespace HtmlRenderer.Dom
             CalculateMinMaxSumWords(box, cbBox, ref min, ref maxSum, ref paddingSum, ref marginSum);
 
             maxWidth = paddingSum + maxSum;
-            minWidth = paddingSum + (min < CssBoxConst.MAX_RIGHT ? min : 0);
+            minWidth = paddingSum + (min < ConstConfig.BOX_MAX_RIGHT ? min : 0);
         }
 
         /// <summary>

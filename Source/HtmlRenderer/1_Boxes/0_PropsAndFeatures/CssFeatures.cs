@@ -409,13 +409,13 @@ namespace HtmlRenderer.Dom
             string fontFam = this.FontFamily;
             if (string.IsNullOrEmpty(FontFamily))
             {
-                fontFam = CssConstants.FontSerif;
+                fontFam = ConstConfig.DEFAULT_FONT_NAME;
             }
 
             CssLength fontsize = this.FontSize;
             if (fontsize.IsEmpty)
             {
-                fontsize = CssLength.MakeFontSizePtUnit(CssConstants.FontSize);
+                fontsize = CssLength.MakeFontSizePtUnit(ConstConfig.DEFAULT_FONT_SIZE);
             }
 
             //-----------------------------------------------------------------------------
@@ -434,7 +434,7 @@ namespace HtmlRenderer.Dom
                 st |= System.Drawing.FontStyle.Bold;
             }
 
-            float fsize = CssConstants.FontSize;
+            float fsize = ConstConfig.DEFAULT_FONT_SIZE;
             bool relateToParent = false;
 
             if (fontsize.IsFontSizeName)
@@ -443,21 +443,21 @@ namespace HtmlRenderer.Dom
                 {
 
                     case CssUnitOrNames.FONTSIZE_MEDIUM:
-                        fsize = CssConstants.FontSize; break;
+                        fsize = ConstConfig.DEFAULT_FONT_SIZE; break;
                     case CssUnitOrNames.FONTSIZE_XX_SMALL:
-                        fsize = CssConstants.FontSize - 4; break;
+                        fsize = ConstConfig.DEFAULT_FONT_SIZE - 4; break;
                     case CssUnitOrNames.FONTSIZE_X_SMALL:
-                        fsize = CssConstants.FontSize - 3; break;
+                        fsize = ConstConfig.DEFAULT_FONT_SIZE - 3; break;
                     case CssUnitOrNames.FONTSIZE_LARGE:
-                        fsize = CssConstants.FontSize + 2; break;
+                        fsize = ConstConfig.DEFAULT_FONT_SIZE + 2; break;
                     case CssUnitOrNames.FONTSIZE_X_LARGE:
-                        fsize = CssConstants.FontSize + 3; break;
+                        fsize = ConstConfig.DEFAULT_FONT_SIZE + 3; break;
                     case CssUnitOrNames.FONTSIZE_XX_LARGE:
-                        fsize = CssConstants.FontSize + 4; break;
+                        fsize = ConstConfig.DEFAULT_FONT_SIZE + 4; break;
                     case CssUnitOrNames.FONTSIZE_SMALLER:
                         {
                             relateToParent = true;
-                            float parentFontSize = CssConstants.FontSize;
+                            float parentFontSize = ConstConfig.DEFAULT_FONT_SIZE;
                             if (parentBox != null)
                             {
                                 parentFontSize = parentBox.ActualFont.Size;
@@ -468,7 +468,7 @@ namespace HtmlRenderer.Dom
                     case CssUnitOrNames.FONTSIZE_LARGER:
                         {
                             relateToParent = true;
-                            float parentFontSize = CssConstants.FontSize;
+                            float parentFontSize = ConstConfig.DEFAULT_FONT_SIZE;
                             if (parentBox != null)
                             {
                                 parentFontSize = parentBox.ActualFont.Size;
@@ -487,7 +487,7 @@ namespace HtmlRenderer.Dom
 
             if (fsize <= 1f)
             {
-                fsize = CssConstants.FontSize;
+                fsize = ConstConfig.DEFAULT_FONT_SIZE;
             }
 
             if (!relateToParent)

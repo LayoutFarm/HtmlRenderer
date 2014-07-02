@@ -24,7 +24,7 @@ namespace HtmlRenderer.Dom
         HtmlContainer container;
         IGraphics ig;
 
-        RectangleF latestClip = new RectangleF(0, 0, CssBoxConst.MAX_RIGHT, CssBoxConst.MAX_BOTTOM);
+        RectangleF latestClip = new RectangleF(0, 0, ConstConfig.BOX_MAX_RIGHT, ConstConfig.BOX_MAX_BOTTOM);
 
         float physicalViewportWidth;
         float physicalViewportHeight;
@@ -133,19 +133,19 @@ namespace HtmlRenderer.Dom
             var g = this.Gfx;
 
             var b1 = RenderUtils.GetSolidBrush(topColor);
-            BordersDrawHandler.DrawBorder(BorderSide.Top, g, box, b1, rect);
+            BordersDrawHandler.DrawBorder(CssSide.Top, g, box, b1, rect);
 
             var b2 = RenderUtils.GetSolidBrush(leftColor);
-            BordersDrawHandler.DrawBorder(BorderSide.Left, g, box, b2, rect);
+            BordersDrawHandler.DrawBorder(CssSide.Left, g, box, b2, rect);
 
             var b3 = RenderUtils.GetSolidBrush(rightColor);
-            BordersDrawHandler.DrawBorder(BorderSide.Right, g, box, b3, rect);
+            BordersDrawHandler.DrawBorder(CssSide.Right, g, box, b3, rect);
 
             var b4 = RenderUtils.GetSolidBrush(bottomColor);
-            BordersDrawHandler.DrawBorder(BorderSide.Bottom, g, box, b4, rect);
+            BordersDrawHandler.DrawBorder(CssSide.Bottom, g, box, b4, rect);
 
         }
-        internal void PaintBorder(CssBox box, BorderSide border, Color solidColor, RectangleF rect)
+        internal void PaintBorder(CssBox box, CssSide border, Color solidColor, RectangleF rect)
         {
             var b = RenderUtils.GetSolidBrush(solidColor);
             BordersDrawHandler.DrawBorder(border, this.Gfx, box, b, rect);

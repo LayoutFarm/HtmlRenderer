@@ -393,17 +393,7 @@ namespace HtmlRenderer.Dom
             return CssLength.MakePixelLength(
                 HtmlRenderer.Parse.CssValueParser.ParseLength(len, box.GetEmHeight(), box));
         }
-        public static CssLength SetLineHeight(this BoxSpec  box, CssLength len)
-        {
-            //2014,
-            //from www.w3c.org/wiki/Css/Properties/line-height
-
-            //line height in <percentage> : 
-            //The computed value if the property is percentage multiplied by the 
-            //element's computed font size. 
-            return CssLength.MakePixelLength(
-                HtmlRenderer.Parse.CssValueParser.ParseLength(len, box.GetEmHeight(), box));
-        }
+        
         public static HtmlRenderer.WebDom.WellknownCssPropertyName GetWellKnownPropName(string propertyName)
         {
             return _wellKnownCssPropNameMap.GetValueFromString(propertyName, WebDom.WellknownCssPropertyName.Unknown);
@@ -701,6 +691,7 @@ namespace HtmlRenderer.Dom
                         //has unit or not
                         //?
                         //or percent ? 
+
                         CssLength len = primValue.AsLength();
                         if (len.HasError)
                         {
@@ -708,7 +699,8 @@ namespace HtmlRenderer.Dom
                         }
                         else if (len.UnitOrNames == CssUnitOrNames.Ems && (parentBox != null))
                         {
-                            len = len.ConvertEmToPoints(parentBox.ActualFont.SizeInPoints);
+                            //
+                         
                         }
                         else
                         {

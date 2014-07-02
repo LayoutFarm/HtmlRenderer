@@ -44,7 +44,7 @@ namespace HtmlRenderer.Dom
         internal void UpdateRootSize(CssBox box)
         {
             float candidateRootWidth = Math.Max(box.CalculateMinimumWidth() + CalculateWidthMarginTotalUp(box),
-                         (box.SizeWidth + this.ContainerBlockGlobalX) < CssBoxConst.MAX_RIGHT ? box.SizeWidth : 0);
+                         (box.SizeWidth + this.ContainerBlockGlobalX) < ConstConfig.BOX_MAX_RIGHT ? box.SizeWidth : 0);
 
             this.htmlContainer.UpdateSizeIfWiderOrHeigher(
                 this.ContainerBlockGlobalX + candidateRootWidth,
@@ -58,8 +58,8 @@ namespace HtmlRenderer.Dom
         float CalculateWidthMarginTotalUp(CssBox box)
         {
 
-            if ((box.SizeWidth + this.ContainerBlockGlobalX) > CssBoxConst.MAX_RIGHT ||
-                (box.ParentBox != null && (box.ParentBox.SizeWidth + this.ContainerBlockGlobalX) > CssBoxConst.MAX_RIGHT))
+            if ((box.SizeWidth + this.ContainerBlockGlobalX) > ConstConfig.BOX_MAX_RIGHT ||
+                (box.ParentBox != null && (box.ParentBox.SizeWidth + this.ContainerBlockGlobalX) > ConstConfig.BOX_MAX_RIGHT))
             {
                 return (box.ActualMarginLeft + box.ActualMarginRight) + totalMarginLeftAndRight;
             }
