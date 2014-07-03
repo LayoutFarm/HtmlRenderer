@@ -160,6 +160,7 @@ namespace HtmlRenderer.Dom
                     }
                 }
                 templatesForTagName.Add(key, boxTemplate);
+                boxTemplate.Freeze();
             }
             //***********
             currentBoxSpec.CloneAllStylesFrom(boxTemplate);

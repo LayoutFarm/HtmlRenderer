@@ -89,6 +89,7 @@ namespace HtmlRenderer.Dom
                             propDecl);
                     }
                 }
+                curSpec.Freeze();
             }
 
 #if DEBUG

@@ -106,6 +106,7 @@ namespace HtmlRenderer.Dom
         }
         internal void Freeze()
         {
+            this._freezed = true;
             _fontFeats.Freeze(); //1.
             _listFeats.Freeze(); //2. 
 
@@ -122,7 +123,7 @@ namespace HtmlRenderer.Dom
             //CssBackgroundFeature _backgroundFeats = CssBackgroundFeature.Default;//features  7 
             
             
-            this._freezed = true;
+            
         }
         internal void Defreeze()
         {
