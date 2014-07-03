@@ -120,13 +120,21 @@ namespace HtmlRenderer.Dom
         internal static CssBox CreateAnonBlock(CssBox parent, int insertAt = -1)
         {
             var newBox = CreateBoxAndInherit(parent, null, insertAt);
+            if (parent.HtmlElement != null)
+            {
+                newBox.dbugAnonCreatedFrom = (BridgeHtmlElement)parent.HtmlElement;
+            }
+            else if (parent.dbugAnonCreatedFrom != null)
+            {
+                newBox.dbugAnonCreatedFrom = parent.dbugAnonCreatedFrom;
+            }
             newBox.CssDisplay = CssDisplay.Block;
             return newBox;
         }
 
         static CssBox CreateBoxAndInherit(CssBox parent, BridgeHtmlElement tag, int insertAt)
         {
-            var newBox = new CssBox(parent, tag);             
+            var newBox = new CssBox(parent, tag);
             newBox.Spec.InheritStyles(parent.Spec, false);
 
             if (insertAt > -1)

@@ -30,21 +30,23 @@ namespace HtmlRenderer.Dom
     partial class BoxModelBuilder
     {
 
+
         static void ApplyStyleSheetForBox(CssBox box, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
         {
-
+            BridgeHtmlElement element = box.HtmlElement as BridgeHtmlElement;
+            BoxSpec curSpec = box.Spec;
 
 #if DEBUG
-            dbugPropCheckReport rep = new dbugPropCheckReport();
-#endif            
-            BridgeHtmlElement element = box.HtmlElement as BridgeHtmlElement;                      
-            BoxSpec curSpec = box.Spec; 
-
+            dbugS01++;
+            Console.WriteLine("A " + dbugS01 + "-------------");
+            dbugCompareSpecDiff("", box);
+#endif
             //---------------------
             //0.
-            curSpec.InheritStylesFrom(parentSpec);  
+            curSpec.InheritStylesFrom(parentSpec);
+
             if (element != null)
-            {  
+            {
                 //1. apply style  
                 activeCssTemplate.ApplyActiveTemplate(element.Name,
                    element.TryGetAttribute("class", null),
@@ -61,9 +63,9 @@ namespace HtmlRenderer.Dom
                     //{   
                     //    //AssignStylesForElementId(box, activeCssTemplate, "#" + id);
                     //}
-                } 
+                }
                 //-------------------------------------------------------------------
-                 
+
                 //3. some html translate attributes
                 AssignStylesFromTranslatedAttributesHTML5(box, activeCssTemplate);
                 //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
@@ -81,8 +83,15 @@ namespace HtmlRenderer.Dom
                             propDecl);
                     }
                 }
-            } 
+            }
 
+#if DEBUG
+            //------------------------
+            //compare and write results
+            Console.WriteLine("\tB " + dbugS01 + "-------------");
+            dbugCompareSpecDiff("\t", box);
+            //------------------------
+#endif
             //===================================================================
             //5. children
             //parent style assignment is complete before step down into child ***
@@ -90,7 +99,54 @@ namespace HtmlRenderer.Dom
             {
                 //recursive
                 ApplyStyleSheetForBox(childBox, curSpec, activeCssTemplate);
-            } 
+            }
+
+
         }
+#if DEBUG
+        static int dbugS01 = 0;
+        static void dbugCompareSpecDiff(string prefix, CssBox box)
+        {
+            BridgeHtmlElement element = box.HtmlElement as BridgeHtmlElement;
+            BoxSpec curSpec = box.Spec;
+            dbugPropCheckReport rep = new dbugPropCheckReport();
+            if (element != null)
+            {
+                if (!BoxSpec.dbugCompare(
+                    rep,
+                    element.Spec,
+                    curSpec))
+                {
+                    foreach (string s in rep.GetList())
+                    {
+                        Console.WriteLine(prefix + s);
+                    }
+
+                }
+            }
+            else
+            {
+                if (box.dbugAnonCreatedFrom != null)
+                {
+
+                    if (!BoxSpec.dbugCompare(
+                    rep,
+                    box.dbugAnonCreatedFrom.Spec,
+                    curSpec))
+                    {
+                        foreach (string s in rep.GetList())
+                        {
+                            Console.WriteLine(prefix + s);
+                        }
+                    }
+                }
+                else
+                {
+
+                }
+            }
+
+        }
+#endif
     }
 }

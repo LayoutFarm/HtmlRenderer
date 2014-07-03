@@ -61,22 +61,7 @@ namespace HtmlRenderer.Dom
                 parentBox.Boxes.Add(this);
             }
             _htmlElement = element;
-
-            //if (element != null)
-            //{
-            //    if (element.Spec != null)
-            //    {
-            //        this._importSpec = element.Spec;
-            //    }
-            //    else
-            //    {
-
-            //    }
-            //}
-            //else
-            //{
-            //    //anonymous block
-            //}
+             
 
             if (element != null)
             {
@@ -116,6 +101,13 @@ namespace HtmlRenderer.Dom
             this.mydisplay = this._spec.CssDisplay;
         }
 
+#if DEBUG
+        internal BridgeHtmlElement dbugAnonCreatedFrom
+        {
+            get;
+            set;
+        }
+#endif
         public BoxSpec Spec
         {
             get { return this._spec; }

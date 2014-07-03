@@ -192,6 +192,7 @@ namespace HtmlRenderer.Dom
                                         CssBox anonText = new CssBox(parentBox, null, parentSpec.GetAnonVersion());
                                         //parse and evaluate whitespace here ! 
                                         BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
+                                        anonText.dbugAnonCreatedFrom = parentElement;
                                         anonText.SetTextContent(textNode.CopyTextBuffer());
 
                                     } break;
@@ -239,8 +240,8 @@ namespace HtmlRenderer.Dom
             //3. create bridge root
             BrigeRootElement bridgeRoot = CreateBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
             //---------------------------------------------------------------- 
-            //4. first spec        
-            bridgeRoot.Spec = new BoxSpec(WellknownHtmlTagName.Unknown);
+               
+          
             //attach style to elements
             ApplyStyleSheetForBridgeElement(bridgeRoot, null, activeCssTemplate);
 
@@ -326,12 +327,7 @@ namespace HtmlRenderer.Dom
         static void ApplyStyleSheetForBridgeElement(BridgeHtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
         {
 
-            BoxSpec curSpec = element.Spec;
-            if (curSpec == null)
-            {
-                element.Spec = curSpec = new BoxSpec(element.WellknownTagName);
-            }
-
+            BoxSpec curSpec = element.Spec; 
             //-------------------------------
             //0.
             curSpec.InheritStylesFrom(parentSpec);
@@ -367,7 +363,7 @@ namespace HtmlRenderer.Dom
                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                 {
                     CssPropSetter.AssignPropertyValue(
-                        curSpec,
+                        curSpec, 
                         parentSpec,
                         propDecl);
                 }
