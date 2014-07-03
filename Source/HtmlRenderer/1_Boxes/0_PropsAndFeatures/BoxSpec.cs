@@ -27,7 +27,8 @@ namespace HtmlRenderer.Dom
     public sealed partial class BoxSpec
     {
 
-        int _clsversion;
+        int _versionNum;
+        bool _freezed;
         //==========================================================
         #region css values Inherit From Parent (by default)
         //inherit from parent by default
@@ -80,25 +81,45 @@ namespace HtmlRenderer.Dom
 
         #region CSS Properties
 
+        //------------------
         BoxSpec anonVersion;
+        //------------------
 
         public BoxSpec(WellknownHtmlTagName wellknownTagName)
         {
             this.WellknownTagName = wellknownTagName;
         }
-        internal int cssClassVersion
+        //---------------------------------------------------------------
+        internal int VersionNumber
         {
             get
             {
-                return this._clsversion;
+                return this._versionNum;
             }
             set
             {
-                this._clsversion = value;
+                this._versionNum = value;
                 this.anonVersion = null;
             }
         }
+        internal void Freeze()
+        {
+            this._freezed = true;
 
+        }
+        internal void Defreeze()
+        {
+            this._freezed = false;
+        }
+        internal bool IsFreezed
+        {
+            get { return this._freezed; }
+        }
+        bool AttempAssignValue()
+        {
+            return !_freezed;
+        }
+        //---------------------------------------------------------------
         public WellknownHtmlTagName WellknownTagName
         {
             get
@@ -113,13 +134,13 @@ namespace HtmlRenderer.Dom
             get { return this._cssDisplay; }
             set
             {
-                this._cssDisplay = value;
+                if (AttempAssignValue()) this._cssDisplay = value;
             }
         }
         public CssDirection CssDirection
         {
             get { return this._cssDirection; }
-            set { this._cssDirection = value; }
+            set { if (AttempAssignValue())this._cssDirection = value; }
         }
         //--------------------------------------------------------------------------------------
         public CssLength BorderLeftWidth
@@ -127,7 +148,7 @@ namespace HtmlRenderer.Dom
             get { return this._borderFeats.LeftWidth; }
             set
             {
-                CheckBorderVersion().LeftWidth = value;
+                if (AttempAssignValue()) CheckBorderVersion().LeftWidth = value;
                 //this._prop_pass_eval &= ~CssBoxAssignments.BORDER_WIDTH_LEFT;
             }
         }
@@ -137,7 +158,7 @@ namespace HtmlRenderer.Dom
             get { return this._borderFeats.RightWidth; }
             set
             {
-                CheckBorderVersion().RightWidth = value;
+                if (AttempAssignValue()) CheckBorderVersion().RightWidth = value;
                 // this._prop_pass_eval &= ~CssBoxAssignments.BORDER_WIDTH_RIGHT;
             }
         }
@@ -147,7 +168,7 @@ namespace HtmlRenderer.Dom
             get { return this._borderFeats.BottomWidth; }
             set
             {
-                CheckBorderVersion().BottomWidth = value;
+                if (AttempAssignValue()) CheckBorderVersion().BottomWidth = value;
                 //this._prop_pass_eval &= ~CssBoxAssignments.BORDER_WIDTH_BOTTOM;
             }
         }
@@ -157,7 +178,7 @@ namespace HtmlRenderer.Dom
             get { return this._borderFeats.TopWidth; }
             set
             {
-                CheckBorderVersion().TopWidth = value;
+                if (AttempAssignValue()) CheckBorderVersion().TopWidth = value;
                 //this._prop_pass_eval &= ~CssBoxAssignments.BORDER_WIDTH_TOP;
             }
         }
@@ -166,64 +187,64 @@ namespace HtmlRenderer.Dom
         {
 
             get { return this._borderFeats.TopStyle; }
-            set { CheckBorderVersion().TopStyle = value; }
+            set { if (AttempAssignValue()) CheckBorderVersion().TopStyle = value; }
 
         }
         public CssBorderStyle BorderLeftStyle
         {
             get { return this._borderFeats.LeftStyle; }
-            set { CheckBorderVersion().LeftStyle = value; }
+            set { if (AttempAssignValue()) CheckBorderVersion().LeftStyle = value; }
         }
         public CssBorderStyle BorderRightStyle
         {
             get { return this._borderFeats.RightStyle; }
-            set { CheckBorderVersion().RightStyle = value; }
+            set { if (AttempAssignValue()) CheckBorderVersion().RightStyle = value; }
         }
 
         public CssBorderStyle BorderBottomStyle
         {
 
             get { return this._borderFeats.BottomStyle; }
-            set { CheckBorderVersion().BottomStyle = value; }
+            set { if (AttempAssignValue()) CheckBorderVersion().BottomStyle = value; }
         }
 
         //--------------------------------------------
         public Color BorderBottomColor
         {
             get { return this._borderFeats.BottomColor; }
-            set { CheckBorderVersion().BottomColor = value; }
+            set { if (AttempAssignValue()) CheckBorderVersion().BottomColor = value; }
         }
         public Color BorderLeftColor
         {
             get { return this._borderFeats.LeftColor; }
-            set { CheckBorderVersion().LeftColor = value; }
+            set { if (AttempAssignValue()) CheckBorderVersion().LeftColor = value; }
         }
         //--------------------------------------------
         public Color BorderRightColor
         {
             get { return this._borderFeats.RightColor; }
-            set { CheckBorderVersion().RightColor = value; }
+            set { if (AttempAssignValue()) CheckBorderVersion().RightColor = value; }
         }
 
         public Color BorderTopColor
         {
             get { return this._borderFeats.TopColor; }
-            set { CheckBorderVersion().TopColor = value; }
+            set { if (AttempAssignValue()) CheckBorderVersion().TopColor = value; }
         }
         public CssLength BorderSpacingVertical
         {
             get { return this._borderFeats.BorderSpacingV; }
-            set { CheckBorderVersion().BorderSpacingV = value; }
+            set { if (AttempAssignValue()) CheckBorderVersion().BorderSpacingV = value; }
         }
         public CssLength BorderSpacingHorizontal
         {
             get { return this._borderFeats.BorderSpacingH; }
-            set { CheckBorderVersion().BorderSpacingH = value; }
+            set { if (AttempAssignValue()) CheckBorderVersion().BorderSpacingH = value; }
         }
         public CssBorderCollapse BorderCollapse
         {
             get { return this._borderFeats.BorderCollapse; }
-            set { CheckBorderVersion().BorderCollapse = value; }
+            set { if (AttempAssignValue()) CheckBorderVersion().BorderCollapse = value; }
         }
 
         public bool IsBorderCollapse
@@ -236,7 +257,7 @@ namespace HtmlRenderer.Dom
             get { return this._cornerFeats.NERadius; }
             set
             {
-                CheckCornerVersion().NERadius = value;
+                if (AttempAssignValue()) CheckCornerVersion().NERadius = value;
             }
         }
         public CssLength CornerNWRadius
@@ -244,7 +265,7 @@ namespace HtmlRenderer.Dom
             get { return this._cornerFeats.NWRadius; }
             set
             {
-                CheckCornerVersion().NWRadius = value;
+                if (AttempAssignValue()) CheckCornerVersion().NWRadius = value;
             }
         }
         public CssLength CornerSERadius
@@ -252,7 +273,7 @@ namespace HtmlRenderer.Dom
             get { return this._cornerFeats.SERadius; }
             set
             {
-                CheckCornerVersion().SERadius = value;
+                if (AttempAssignValue()) CheckCornerVersion().SERadius = value;
             }
         }
         public CssLength CornerSWRadius
@@ -260,32 +281,32 @@ namespace HtmlRenderer.Dom
             get { return this._cornerFeats.SWRadius; }
             set
             {
-                CheckCornerVersion().SWRadius = value;
+                if (AttempAssignValue()) CheckCornerVersion().SWRadius = value;
             }
         }
         //------------------------------------------------------
         public CssLength MarginBottom
         {
             get { return this._marginFeats.Bottom; }
-            set { CheckMarginVersion().Bottom = value; }
+            set { if (AttempAssignValue()) CheckMarginVersion().Bottom = value; }
         }
 
         public CssLength MarginLeft
         {
             get { return this._marginFeats.Left; }
-            set { CheckMarginVersion().Left = value; }
+            set { if (AttempAssignValue())  CheckMarginVersion().Left = value; }
         }
 
         public CssLength MarginRight
         {
             get { return this._marginFeats.Right; }
-            set { CheckMarginVersion().Right = value; }
+            set { if (AttempAssignValue()) CheckMarginVersion().Right = value; }
         }
 
         public CssLength MarginTop
         {
             get { return this._marginFeats.Top; }
-            set { CheckMarginVersion().Top = value; }
+            set { if (AttempAssignValue()) CheckMarginVersion().Top = value; }
         }
 
         public CssLength PaddingBottom
@@ -293,7 +314,7 @@ namespace HtmlRenderer.Dom
             get { return this._paddingFeats.Bottom; }
             set
             {
-                CheckPaddingVersion().Bottom = value;
+                if (AttempAssignValue()) CheckPaddingVersion().Bottom = value;
             }
         }
 
@@ -302,7 +323,7 @@ namespace HtmlRenderer.Dom
             get { return this._paddingFeats.Left; }
             set
             {
-                CheckPaddingVersion().Left = value;
+                if (AttempAssignValue()) CheckPaddingVersion().Left = value;
             }
         }
 
@@ -311,7 +332,7 @@ namespace HtmlRenderer.Dom
             get { return this._paddingFeats.Right; }
             set
             {
-                CheckPaddingVersion().Right = value;
+                if (AttempAssignValue()) CheckPaddingVersion().Right = value;
 
             }
         }
@@ -324,68 +345,68 @@ namespace HtmlRenderer.Dom
             }
             set
             {
-                CheckPaddingVersion().Top = value;
+                if (AttempAssignValue()) CheckPaddingVersion().Top = value;
             }
         }
         public CssLength Left
         {
             get { return _left; }
-            set { _left = value; }
+            set { if (AttempAssignValue()) _left = value; }
         }
 
         public CssLength Top
         {
             get { return _top; }
-            set { _top = value; }
+            set { if (AttempAssignValue()) _top = value; }
         }
 
         public CssLength Width
         {
             get { return this._width; }
-            set { this._width = value; }
+            set { if (AttempAssignValue()) this._width = value; }
         }
         public CssLength MaxWidth
         {
             get { return _maxWidth; }
-            set { _maxWidth = value; }
+            set { if (AttempAssignValue()) _maxWidth = value; }
         }
         public CssLength Height
         {
             get { return this._height; }
-            set { this._height = value; }
+            set { if (AttempAssignValue()) this._height = value; }
         }
         public Color BackgroundColor
         {
             get { return this._backgroundFeats.BackgroundColor; }
-            set { CheckBgVersion().BackgroundColor = value; }
+            set { if (AttempAssignValue()) CheckBgVersion().BackgroundColor = value; }
         }
         public ImageBinder BackgroundImageBinder
         {
             get { return this._backgroundFeats.BackgroundImageBinder; }
-            set { CheckBgVersion().BackgroundImageBinder = value; }
+            set { if (AttempAssignValue()) CheckBgVersion().BackgroundImageBinder = value; }
         }
 
 
         public CssLength BackgroundPositionX
         {
             get { return this._backgroundFeats.BackgroundPosX; }
-            set { CheckBgVersion().BackgroundPosX = value; }
+            set { if (AttempAssignValue()) CheckBgVersion().BackgroundPosX = value; }
         }
         public CssLength BackgroundPositionY
         {
             get { return this._backgroundFeats.BackgroundPosY; }
-            set { CheckBgVersion().BackgroundPosY = value; }
+            set { if (AttempAssignValue()) CheckBgVersion().BackgroundPosY = value; }
         }
         public CssBackgroundRepeat BackgroundRepeat
         {
             get { return this._backgroundFeats.BackgroundRepeat; }
-            set { CheckBgVersion().BackgroundRepeat = value; }
+            set { if (AttempAssignValue()) CheckBgVersion().BackgroundRepeat = value; }
         }
 
         public Color BackgroundGradient
         {
             get { return this._backgroundFeats.BackgroundGradient; }
-            set { CheckBgVersion().BackgroundGradient = value; }
+            set { if (AttempAssignValue()) CheckBgVersion().BackgroundGradient = value; }
         }
 
         public float BackgroundGradientAngle
@@ -399,23 +420,23 @@ namespace HtmlRenderer.Dom
         public Color Color
         {
             get { return _actualColor; }
-            set { _actualColor = value; }
+            set { if (AttempAssignValue()) _actualColor = value; }
         }
         public CssEmptyCell EmptyCells
         {
             get { return _emptyCells; }
-            set { _emptyCells = value; }
+            set { if (AttempAssignValue()) _emptyCells = value; }
         }
 
         public CssFloat Float
         {
             get { return _float; }
-            set { _float = value; }
+            set { if (AttempAssignValue()) _float = value; }
         }
         public CssPosition Position
         {
             get { return this._position; }
-            set { this._position = value; }
+            set { if (AttempAssignValue()) this._position = value; }
         }
 
 
@@ -425,60 +446,60 @@ namespace HtmlRenderer.Dom
             get { return _lineHeight; }
             set
             {
-                _lineHeight = value;
+                if (AttempAssignValue()) _lineHeight = value;
                 // this._prop_pass_eval &= ~CssBoxAssignments.LINE_HEIGHT;
             }
         }
         public CssVerticalAlign VerticalAlign
         {
             get { return this._verticalAlign; }
-            set { this._verticalAlign = value; }
+            set { if (AttempAssignValue()) this._verticalAlign = value; }
         }
         public CssLength TextIndent
         {
             get { return _textIndent; }
-            set { _textIndent = value; }
+            set { if (AttempAssignValue()) _textIndent = value; }
         }
         public CssTextAlign CssTextAlign
         {
             get { return this._textAlign; }
-            set { this._textAlign = value; }
+            set { if (AttempAssignValue()) this._textAlign = value; }
         }
 
         public CssTextDecoration TextDecoration
         {
             get { return _textDecoration; }
-            set { _textDecoration = value; }
+            set { if (AttempAssignValue()) _textDecoration = value; }
         }
 
         //-----------------------------------
         public CssWhiteSpace WhiteSpace
         {
             get { return this._whitespace; }
-            set { this._whitespace = value; }
+            set { if (AttempAssignValue()) this._whitespace = value; }
         }
         //----------------------------------- 
         public CssVisibility CssVisibility
         {
             get { return this._visibility; }
-            set { this._visibility = value; }
+            set { if (AttempAssignValue()) this._visibility = value; }
         }
         public CssLength WordSpacing
         {
             get { return this._wordSpacing; }
-            set { this._wordSpacing = value; }
+            set { if (AttempAssignValue()) this._wordSpacing = value; }
         }
 
         public CssWordBreak WordBreak
         {
             get { return this._wordBreak; }
-            set { this._wordBreak = value; }
+            set { if (AttempAssignValue()) this._wordBreak = value; }
         }
 
         public string FontFamily
         {
             get { return this._fontFeats.FontFamily; }
-            set { CheckFontVersion().FontFamily = value; }
+            set { if (AttempAssignValue()) CheckFontVersion().FontFamily = value; }
         }
 
         public CssLength FontSize
@@ -486,53 +507,53 @@ namespace HtmlRenderer.Dom
             get { return this._fontFeats.FontSize; }
             set
             {
-                CheckFontVersion().FontSize = value;
+                if (AttempAssignValue()) CheckFontVersion().FontSize = value;
             }
         }
 
         public CssFontStyle FontStyle
         {
             get { return this._fontFeats.FontStyle; }
-            set { CheckFontVersion().FontStyle = value; }
+            set { if (AttempAssignValue()) CheckFontVersion().FontStyle = value; }
         }
 
         public CssFontVariant FontVariant
         {
             get { return this._fontFeats.FontVariant; }
-            set { CheckFontVersion().FontVariant = value; }
+            set { if (AttempAssignValue())  CheckFontVersion().FontVariant = value; }
         }
 
         public CssFontWeight FontWeight
         {
             get { return this._fontFeats.FontWeight; }
-            set { CheckFontVersion().FontWeight = value; }
+            set { if (AttempAssignValue()) CheckFontVersion().FontWeight = value; }
         }
         public CssOverflow Overflow
         {
             get { return this._overflow; }
-            set { this._overflow = value; }
+            set { if (AttempAssignValue()) this._overflow = value; }
         }
 
         public string ListStyle
         {
             get { return this._listFeats.ListStyle; }
-            set { CheckListPropVersion().ListStyle = value; }
+            set { if (AttempAssignValue()) CheckListPropVersion().ListStyle = value; }
         }
         public CssListStylePosition ListStylePosition
         {
             get { return this._listFeats.ListStylePosition; }
-            set { CheckListPropVersion().ListStylePosition = value; }
+            set { if (AttempAssignValue()) CheckListPropVersion().ListStylePosition = value; }
         }
         public string ListStyleImage
         {
             get { return this._listFeats.ListStyleImage; }
-            set { CheckListPropVersion().ListStyleImage = value; }
+            set { if (AttempAssignValue()) CheckListPropVersion().ListStyleImage = value; }
         }
 
         public CssListStyleType ListStyleType
         {
             get { return this._listFeats.ListStyleType; }
-            set { CheckListPropVersion().ListStyleType = value; }
+            set { if (AttempAssignValue()) CheckListPropVersion().ListStyleType = value; }
         }
 
         #endregion
@@ -560,7 +581,7 @@ namespace HtmlRenderer.Dom
             }
             set
             {
-                this._backgroundFeats.BackgroundGradientAngle = value;
+                if (AttempAssignValue()) this._backgroundFeats.BackgroundGradientAngle = value;
             }
         }
 
@@ -711,7 +732,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        
+
 
 #if DEBUG
         public static bool dbugCompare(dbugPropCheckReport dbugR, BoxSpec boxBase, BoxSpec spec)

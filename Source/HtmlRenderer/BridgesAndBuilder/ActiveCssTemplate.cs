@@ -105,7 +105,7 @@ namespace HtmlRenderer.Dom
 
             if (parentSpec != null)
             {
-                parentSpecVersion = parentSpec.cssClassVersion;
+                parentSpecVersion = parentSpec.VersionNumber;
             }
             TemplateKey key = new TemplateKey(tagNameKey, classNameKey, parentSpecVersion);
             BoxSpec boxTemplate;
@@ -121,7 +121,7 @@ namespace HtmlRenderer.Dom
                 CssRuleSetGroup ruleGroup = activeSheet.GetRuleSetForTagName(elemName);
                 if (ruleGroup != null)
                 {
-                    currentBoxSpec.cssClassVersion++;
+                    currentBoxSpec.VersionNumber++;
                     foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
                     {
                         CssPropSetter.AssignPropertyValue(boxTemplate, parentSpec, decl);
@@ -131,7 +131,7 @@ namespace HtmlRenderer.Dom
                 //2. series of class
                 if (class_value != null)
                 {
-                    currentBoxSpec.cssClassVersion++;
+                    currentBoxSpec.VersionNumber++;
                     string[] classNames = class_value.Split(_whiteSplitter, StringSplitOptions.RemoveEmptyEntries);
                     int j = classNames.Length;
                     if (j > 0)

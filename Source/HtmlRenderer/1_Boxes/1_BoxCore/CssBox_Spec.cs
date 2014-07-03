@@ -550,9 +550,9 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._myspec.cssClassVersion;
+                return this._myspec.VersionNumber;
             }
-            set { this._myspec.cssClassVersion = value; }
+            set { this._myspec.VersionNumber = value; }
         }
 
         /// <summary>
