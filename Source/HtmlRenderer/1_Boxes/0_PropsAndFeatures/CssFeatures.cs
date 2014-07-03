@@ -6,15 +6,30 @@ using System.Drawing;
 
 namespace HtmlRenderer.Dom
 {
-
-
-    class CssBorderFeature
+    abstract class CssFeatureBase
     {
+        protected readonly object owner;
+        bool freezed;
 
-        object owner;
-        public CssBorderFeature(object owner)
+        public CssFeatureBase(object owner)
         {
             this.owner = owner;
+        }
+        public object Owner { get { return this.owner; } }
+        public bool IsFreezed { get { return this.freezed; } }
+        public void Freeze() { this.freezed = true; }
+        public void DeFreeze() { this.freezed = false; }
+
+
+    }
+
+    class CssBorderFeature : CssFeatureBase
+    {
+
+        public CssBorderFeature(object owner)
+            : base(owner)
+        {
+
             this.LeftWidth =
                 this.TopWidth =
                 this.RightWidth =
@@ -34,11 +49,11 @@ namespace HtmlRenderer.Dom
             this.BorderSpacingV = CssLength.ZeroNoUnit;
             this.BorderSpacingH = CssLength.ZeroNoUnit;
 
-
         }
         private CssBorderFeature(object owner, CssBorderFeature inheritFrom)
+            : base(owner)
         {
-            this.owner = owner;
+
             this.LeftWidth = inheritFrom.LeftWidth;
             this.TopWidth = inheritFrom.TopWidth;
             this.RightWidth = inheritFrom.RightWidth;
@@ -61,8 +76,6 @@ namespace HtmlRenderer.Dom
         }
 
 
-        public object Owner { get { return this.owner; } }
-
         public CssLength LeftWidth { get; set; }
         public CssLength TopWidth { get; set; }
         public CssLength RightWidth { get; set; }
@@ -81,8 +94,6 @@ namespace HtmlRenderer.Dom
         public CssBorderCollapse BorderCollapse { get; set; }
         public CssLength BorderSpacingH { get; set; }
         public CssLength BorderSpacingV { get; set; }
-
-
 
         public CssBorderFeature GetMyOwnVersion(object checkOwner)
         {
@@ -128,21 +139,22 @@ namespace HtmlRenderer.Dom
         }
 #endif
     }
-    class CssMarginFeature
+    class CssMarginFeature : CssFeatureBase
     {
-        object owner;
+
 
         public CssMarginFeature(object owner)
+            : base(owner)
         {
-            this.owner = owner;
+
             this.Left =
                 this.Top =
                 this.Right =
                 this.Bottom = CssLength.ZeroPx;
         }
         private CssMarginFeature(object newOwner, CssMarginFeature inheritFrom)
+            : base(newOwner)
         {
-            this.owner = newOwner;
 
             this.Left = inheritFrom.Left;
             this.Top = inheritFrom.Top;
@@ -154,8 +166,6 @@ namespace HtmlRenderer.Dom
         public CssLength Top { get; set; }
         public CssLength Right { get; set; }
         public CssLength Bottom { get; set; }
-
-
 
         public CssMarginFeature GetMyOwnVersion(object checkOwner)
         {
@@ -184,21 +194,23 @@ namespace HtmlRenderer.Dom
         }
 #endif
     }
-    class CssPaddingFeature
+    class CssPaddingFeature : CssFeatureBase
     {
 
-        object owner;
+
         public CssPaddingFeature(object owner)
+            : base(owner)
         {
-            this.owner = owner;
+
             this.Left =
                    Top =
                    Right =
                    Bottom = CssLength.ZeroNoUnit;
         }
         private CssPaddingFeature(object newOwner, CssPaddingFeature inheritFrom)
+            : base(newOwner)
         {
-            this.owner = newOwner;
+
             this.Left = inheritFrom.Left;
             this.Left = inheritFrom.Left;
             this.Right = inheritFrom.Right;
@@ -241,22 +253,20 @@ namespace HtmlRenderer.Dom
     }
 
 
-    class CssListFeature
+    class CssListFeature : CssFeatureBase
     {
-
-
-        object owner;
         public CssListFeature(object owner)
+            : base(owner)
         {
-            this.owner = owner;
+
             ListStyleType = CssListStyleType.Disc;
             ListStyleImage = string.Empty;
             ListStylePosition = CssListStylePosition.Outside;
             ListStyle = string.Empty;
         }
         private CssListFeature(object owner, CssListFeature inheritFrom)
+            : base(owner)
         {
-            this.owner = owner;
             ListStyleType = inheritFrom.ListStyleType;
             ListStyleImage = inheritFrom.ListStyleImage;
             ListStylePosition = inheritFrom.ListStylePosition;
@@ -295,21 +305,23 @@ namespace HtmlRenderer.Dom
 #endif
     }
 
-    class CssCornerFeature
+    class CssCornerFeature : CssFeatureBase
     {
 
-        object owner;
+
         public CssCornerFeature(object owner)
+            : base(owner)
         {
-            this.owner = owner;
+             
             this.NERadius =
                 NWRadius =
                 SERadius =
                 SWRadius = CssLength.ZeroNoUnit;
         }
         private CssCornerFeature(object owner, CssCornerFeature inheritFrom)
+             : base(owner)
         {
-            this.owner = owner;
+          
 
             this.NERadius = inheritFrom.NERadius;
             this.NWRadius = inheritFrom.NWRadius;
@@ -350,13 +362,20 @@ namespace HtmlRenderer.Dom
         }
 #endif
     }
-    class CssFontFeature
+
+    class CssFontFeature : CssFeatureBase
     {
-        object owner;
-        CssLength _fontsize;
+         
+        
+        CssLength _fontSize;
+        CssFontStyle _fontStyle;
+        CssFontWeight _fontWeight;
+        CssFontVariant _fontVariant;
+        string _fontFam;
         public CssFontFeature(object owner)
+            : base(owner)
         {
-            this.owner = owner;
+             
             FontFamily = ConstConfig.DEFAULT_FONT_NAME;
             FontSize = CssLength.FontSizeMedium;
             FontStyle = CssFontStyle.Normal;
@@ -364,35 +383,57 @@ namespace HtmlRenderer.Dom
             FontWeight = CssFontWeight.Normal;
         }
         private CssFontFeature(object owner, CssFontFeature inheritFrom)
+            : base(owner)
         {
-            this.owner = owner;
+             
             this.FontFamily = inheritFrom.FontFamily;
             this.FontSize = inheritFrom.FontSize;
             this.FontStyle = inheritFrom.FontStyle;
             this.FontVariant = inheritFrom.FontVariant;
             this.FontWeight = inheritFrom.FontWeight;
         }
+       
+        public string FontFamily
+        {
+            get { return this._fontFam; }
+            set { this._fontFam = value; }
+        }
 
-        public string FontFamily { get; set; }
         public CssLength FontSize
         {
-            get { return this._fontsize; }
+            get { return this._fontSize; }
             set
             {
-                if (value.Number == 2)
-                {
-                }
-                if (value.IsEmpty)
-                {
-                }
-                this._fontsize = value;
+                this._fontSize = value;
             }
-
         }
-        public CssFontStyle FontStyle { get; set; }
-        public CssFontVariant FontVariant { get; set; }
-        public CssFontWeight FontWeight { get; set; }
+        public CssFontStyle FontStyle
+        {
+            get { return this._fontStyle; }
+            set
+            {
+                this._fontStyle = value;
+            }
+        }
+        public CssFontVariant FontVariant
+        {
+            get { return this._fontVariant; }
+            set
+            {
+                this._fontVariant = value;
+            }
+        }
+        public CssFontWeight FontWeight
+        {
+            get { return this._fontWeight; }
+            set
+            {
+                this._fontWeight = value;
+            }
+        }
 
+
+        //------------------------------------------------------------
         public CssFontFeature GetMyOwnVersion(object checkOwner)
         {
             if (this.owner == checkOwner)
@@ -435,37 +476,14 @@ namespace HtmlRenderer.Dom
 
     }
 
-#if DEBUG
-    public class dbugPropCheckReport
+
+    class CssBackgroundFeature : CssFeatureBase
     {
-        List<string> msgs = new List<string>();
-        public void Check(string propName, bool testResult)
-        {
-            if (!testResult)
-            {
-                msgs.Add(propName);
-            }
-        }
-        public int Count
-        {
-            get { return this.msgs.Count; }
-        }
-        public void ClearMsgs()
-        {
-            this.msgs.Clear();
-        }
-        public List<string> GetList()
-        {
-            return this.msgs;
-        }
-    }
-#endif
-    class CssBackgroundFeature
-    {
-        object owner;
+
         public CssBackgroundFeature(object owner)
+            : base(owner)
         {
-            this.owner = owner;
+
             this.BackgroundColor = Color.Transparent; //"transparent";
             this.BackgroundGradient = Color.Transparent;// "none";
             this.BackgroundGradientAngle = 90.0f;
@@ -476,8 +494,9 @@ namespace HtmlRenderer.Dom
             this.BackgroundRepeat = CssBackgroundRepeat.Repeat;
         }
         private CssBackgroundFeature(object owner, CssBackgroundFeature inheritFrom)
+            : base(owner)
         {
-            this.owner = owner;
+
             BackgroundColor = inheritFrom.BackgroundColor;
             BackgroundGradient = inheritFrom.BackgroundGradient;
             BackgroundGradientAngle = inheritFrom.BackgroundGradientAngle;
@@ -545,4 +564,31 @@ namespace HtmlRenderer.Dom
         }
 #endif
     }
+
+
+#if DEBUG
+    public class dbugPropCheckReport
+    {
+        List<string> msgs = new List<string>();
+        public void Check(string propName, bool testResult)
+        {
+            if (!testResult)
+            {
+                msgs.Add(propName);
+            }
+        }
+        public int Count
+        {
+            get { return this.msgs.Count; }
+        }
+        public void ClearMsgs()
+        {
+            this.msgs.Clear();
+        }
+        public List<string> GetList()
+        {
+            return this.msgs;
+        }
+    }
+#endif
 }

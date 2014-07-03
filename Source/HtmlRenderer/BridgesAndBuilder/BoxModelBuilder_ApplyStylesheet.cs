@@ -37,10 +37,13 @@ namespace HtmlRenderer.Dom
             BoxSpec curSpec = box.Spec;
 
 #if DEBUG
+            //---------------------
             dbugS01++;
-            if (dbugS01 == 5)
+            if (dbugS01 == 3)
             {
+
             }
+            //---------------------
             Console.WriteLine("A " + dbugS01 + "-------------");
             dbugCompareSpecDiff("", box);
 #endif
@@ -129,12 +132,12 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                if (box.dbugAnonCreatedFrom != null)
+                if (box.dbugAnonCreatedFromElement != null)
                 {
 
                     if (!BoxSpec.dbugCompare(
                     rep,
-                    box.dbugAnonCreatedFrom.Spec,
+                    box.dbugAnonCreatedFromElement.Spec,
                     curSpec))
                     {
                         foreach (string s in rep.GetList())

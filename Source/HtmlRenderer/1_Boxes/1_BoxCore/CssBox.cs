@@ -54,7 +54,9 @@ namespace HtmlRenderer.Dom
 
         internal CssBox(CssBox parentBox, BridgeHtmlElement element)
         {
-             
+            if (this.__dbugId == 2)
+            {
+            }
             this._aa_boxes = new CssBoxCollection(this);
 
             if (parentBox != null)
@@ -75,7 +77,7 @@ namespace HtmlRenderer.Dom
         }
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
         {
-            if (this.__dbugId == 4)
+            if (this.__dbugId == 2)
             {
             }
             //for root
@@ -105,7 +107,7 @@ namespace HtmlRenderer.Dom
         }
 
 #if DEBUG
-        internal BridgeHtmlElement dbugAnonCreatedFrom
+        internal BridgeHtmlElement dbugAnonCreatedFromElement
         {
             get;
             set;

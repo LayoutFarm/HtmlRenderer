@@ -711,14 +711,8 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        /// <summary>
-        /// Gets the height of the font in the specified units
-        /// </summary>
-        /// <returns></returns>
-        public float GetEmHeight(BoxSpec parent)
-        {
-            return FontsUtils.GetFontHeight(GetFont(parent));
-        }
+        
+
 #if DEBUG
         public static bool dbugCompare(dbugPropCheckReport dbugR, BoxSpec boxBase, BoxSpec spec)
         {
