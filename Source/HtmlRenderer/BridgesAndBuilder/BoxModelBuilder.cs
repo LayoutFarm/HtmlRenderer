@@ -322,7 +322,7 @@ namespace HtmlRenderer.Dom
         }
 #endif
 
-   
+
         static void ApplyStyleSheetTopDown(BridgeHtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
         {
 
@@ -331,8 +331,8 @@ namespace HtmlRenderer.Dom
             BoxSpec currentElementSpec = element.Spec;
             if (currentElementSpec == null)
             {
-                element.Spec = currentElementSpec = new BoxSpec(element.WellknownTagName);              
-            } 
+                element.Spec = currentElementSpec = new BoxSpec(element.WellknownTagName);
+            }
             currentElementSpec.InheritStylesFrom(parentSpec);
             //1. apply style  
             activeCssTemplate.ApplyActiveTemplate(parentSpec, element);
@@ -357,7 +357,7 @@ namespace HtmlRenderer.Dom
                 var ruleset = activeCssTemplate.ParseCssBlock(element.Name, attrStyleValue);
                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                 {
-                    CssPropSetter2.AssignPropertyValue(currentElementSpec, parentSpec, propDecl);
+                    CssPropSetter.AssignPropertyValue(currentElementSpec, parentSpec, propDecl);
                 }
             }
             //5. children
@@ -628,7 +628,10 @@ namespace HtmlRenderer.Dom
                                             foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                                             {
                                                 //assign each property
-                                                CssPropSetter.AssignPropertyValue(box, box.ParentBox, propDecl);
+                                                CssPropSetter.AssignPropertyValue(
+                                                    box.Spec,
+                                                    box.ParentBox.Spec,
+                                                    propDecl);
                                             }
 
                                         } break;
