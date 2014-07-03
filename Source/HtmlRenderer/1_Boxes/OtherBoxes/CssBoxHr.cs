@@ -23,7 +23,7 @@ namespace HtmlRenderer.Dom
     /// </summary>
     sealed class CssBoxHr : CssBox
     {
-         
+
         /// <summary>
         /// Init.
         /// </summary>
@@ -32,12 +32,12 @@ namespace HtmlRenderer.Dom
         public CssBoxHr(CssBox parent, BridgeHtmlElement tag)
             : base(parent, tag)
         {
-            
+
             this.CssDisplay = CssDisplay.Block;
         }
         public override CssBox GetParent()
         {
-             
+
             return this.ParentBox;
         }
         /// <summary>
@@ -120,9 +120,11 @@ namespace HtmlRenderer.Dom
             }
             if (height <= 2 && ActualBorderTopWidth < 1 && ActualBorderBottomWidth < 1)
             {
-                BorderTopStyle = BorderBottomStyle = CssBorderStyle.Solid; //CssConstants.Solid;
-                BorderTopWidth = CssLength.MakePixelLength(1); //"1px";
-                BorderBottomWidth = CssLength.MakePixelLength(1);
+                ChangeBoxSpec();
+                throw new System.NotSupportedException();
+                //BorderTopStyle = BorderBottomStyle = CssBorderStyle.Solid; //CssConstants.Solid;
+                //this.DirectSetActualBorderWidth(CssSide.Top, 1);
+                //this.DirectSetActualBorderWidth(CssSide.Bottom, 1); 
             }
 
             this.SetSize(width, height);

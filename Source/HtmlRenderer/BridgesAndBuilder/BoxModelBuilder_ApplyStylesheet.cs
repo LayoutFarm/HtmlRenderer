@@ -40,10 +40,7 @@ namespace HtmlRenderer.Dom
 #if DEBUG
             //---------------------
             dbugS01++;
-            if (dbugS01 == 3)
-            {
-
-            }
+             
             //---------------------
             Console.WriteLine("A " + dbugS01 + "-------------");
             dbugCompareSpecDiff("", box);

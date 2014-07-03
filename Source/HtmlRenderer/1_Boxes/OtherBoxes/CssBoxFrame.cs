@@ -593,12 +593,12 @@ namespace HtmlRenderer.Dom
         /// </summary>
         private void SetErrorBorder()
         {
+            throw new NotSupportedException();
+            //this.SetAllBorders(
+            //    CssBorderStyle.Solid, CssLength.MakePixelLength(2),
+            //    System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
 
-            this.SetAllBorders(
-                CssBorderStyle.Solid, CssLength.MakePixelLength(2),
-                System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
-
-            BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
+            //BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
         }
 
         /// <summary>

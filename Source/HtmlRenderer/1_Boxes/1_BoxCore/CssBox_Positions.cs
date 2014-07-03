@@ -135,7 +135,7 @@ namespace HtmlRenderer.Dom
         /// evaluate computed value
         /// </summary>
         internal void ReEvaluateComputedValues(CssBox containingBlock)
-        {    
+        {
             //see www.w3.org/TR/CSS2/box.html#padding-properties 
             //depend on parent
             //1. fonts
@@ -159,7 +159,7 @@ namespace HtmlRenderer.Dom
             }
             else if (_actualFont.Size == 2)
             {
-                
+
                 var hh = _actualFont.GetHeight();
             }
             //if (_actualFont != null)
@@ -277,6 +277,7 @@ namespace HtmlRenderer.Dom
 
 
         }
+
 
         //--------------------------------
         public float ClientLeft
@@ -733,6 +734,35 @@ namespace HtmlRenderer.Dom
                     this._boxCompactFlags &= ~CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
                 }
             }
+        }
+
+        //=====================================================================
+        protected void DirectSetActualBorderWidth(CssSide side, float w)
+        {
+            //pixel unit
+            switch (side)
+            {
+                case CssSide.Top:
+                    {
+                        this._actualBorderTopWidth = w;
+                    } break;
+                case CssSide.Left:
+                    {
+                        this._actualBorderLeftWidth = w;
+                    } break;
+                case CssSide.Right:
+                    {
+                        this._actualBorderRightWidth = w;
+                    } break;
+                case CssSide.Bottom:
+                    {
+                        this._actualBorderBottomWidth = w;
+                    } break;
+            }
+        }
+        protected void ChangeBoxSpec()
+        {
+
         }
     }
 }
