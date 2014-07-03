@@ -391,7 +391,7 @@ namespace HtmlRenderer.Dom
             //The computed value if the property is percentage multiplied by the 
             //element's computed font size. 
             return CssLength.MakePixelLength(
-                HtmlRenderer.Parse.CssValueParser.GetLengthPx(len, box.GetEmHeight(), box));
+                HtmlRenderer.Parse.CssValueParser.ConvertToPx(len, box.GetEmHeight(), box));
         }
         
         public static HtmlRenderer.WebDom.WellknownCssPropertyName GetWellKnownPropName(string propertyName)

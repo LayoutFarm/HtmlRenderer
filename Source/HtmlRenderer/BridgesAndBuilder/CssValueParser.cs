@@ -33,7 +33,7 @@ namespace HtmlRenderer.Parse
         /// <param name="hundredPercent"></param>
         /// <param name="box"></param>
         /// <returns></returns>
-        public static float GetLengthPx(CssLength length, float hundredPercent, CssBox box)
+        public static float ConvertToPx(CssLength length, float hundredPercent, CssBox box)
         {
             //Return zero if no length specified, zero specified      
             switch (length.UnitOrNames)
@@ -64,7 +64,7 @@ namespace HtmlRenderer.Parse
             }
         }
          
-        public static float GetLengthPxWithFontAdjust(CssLength length, float hundredPercent, CssBox box)
+        public static float ConvertToPxWithFontAdjust(CssLength length, float hundredPercent, CssBox box)
         {
             //Return zero if no length specified, zero specified     
             switch (length.UnitOrNames)
@@ -122,7 +122,7 @@ namespace HtmlRenderer.Parse
                 case CssUnitOrNames.BorderThick:
                     return 4f;
                 default:
-                    return Math.Abs(GetLengthPx(borderValue, 1, b));
+                    return Math.Abs(ConvertToPx(borderValue, 1, b));
             }
         }
 

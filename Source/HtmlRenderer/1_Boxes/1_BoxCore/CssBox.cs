@@ -586,7 +586,7 @@ namespace HtmlRenderer.Dom
 
                                 if (!this.Width.IsEmptyOrAuto)
                                 {
-                                    availableWidth = CssValueParser.GetLengthPx(Width, availableWidth, this);
+                                    availableWidth = CssValueParser.ConvertToPx(Width, availableWidth, this);
                                 }
 
                                 this.SetWidth(availableWidth);

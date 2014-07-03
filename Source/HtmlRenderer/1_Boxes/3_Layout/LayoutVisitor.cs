@@ -85,7 +85,7 @@ namespace HtmlRenderer.Dom
             float w = HtmlRenderer.Utils.FontsUtils.MeasureWhitespace(this.Gfx, box.ActualFont);
             if (!(box.WordSpacing.IsEmpty || box.WordSpacing.IsNormalWordSpacing))
             {
-                w += HtmlRenderer.Parse.CssValueParser.GetLengthPxWithFontAdjust(box.WordSpacing, 0, box);
+                w += HtmlRenderer.Parse.CssValueParser.ConvertToPxWithFontAdjust(box.WordSpacing, 0, box);
             }
             return w;
         }

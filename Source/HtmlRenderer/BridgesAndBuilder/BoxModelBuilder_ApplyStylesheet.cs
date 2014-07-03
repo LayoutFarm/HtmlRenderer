@@ -32,7 +32,7 @@ namespace HtmlRenderer.Dom
         static void ApplyStyleSheet01(CssBox element, ActiveCssTemplate activeCssTemplate)
         {
 
-           
+
 #if DEBUG
             dbugPropCheckReport rep = new dbugPropCheckReport();
 #endif
@@ -58,8 +58,9 @@ namespace HtmlRenderer.Dom
                 // try assign style using the "id" attribute of the html element
                 if (element.HtmlElement.HasAttribute("id"))
                 {
-                    var id = element.HtmlElement.TryGetAttribute("id");
-                    AssignStylesForElementId(element, activeCssTemplate, "#" + id);
+                    throw new NotSupportedException();
+                    // var id = element.HtmlElement.TryGetAttribute("id");
+                    // AssignStylesForElementId(element, activeCssTemplate, "#" + id);
                 }
                 //-------------------------------------------------------------------
                 //4. 
@@ -78,8 +79,8 @@ namespace HtmlRenderer.Dom
                     }
                 }
             }
-             
- 
+
+
             //===================================================================
             //parent style assignment is complete before step down into child ***
             foreach (var childBox in element.GetChildBoxIter())

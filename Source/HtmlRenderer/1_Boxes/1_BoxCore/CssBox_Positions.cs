@@ -103,7 +103,7 @@ namespace HtmlRenderer.Dom
             {
                 return 0;
             }
-            return CssValueParser.GetLengthPx(margin, cbWidth, this);
+            return CssValueParser.ConvertToPx(margin, cbWidth, this);
         }
         /// <summary>
         /// recalculate padding
@@ -118,7 +118,7 @@ namespace HtmlRenderer.Dom
             {
                 return 0;
             }
-            return CssValueParser.GetLengthPx(padding, cbWidth, this);
+            return CssValueParser.ConvertToPx(padding, cbWidth, this);
         }
 
         //=============================================================
@@ -237,10 +237,10 @@ namespace HtmlRenderer.Dom
             //extension ***
             float c1, c2, c3, c4;
 
-            this._actualCornerNE = c1 = CssValueParser.GetLengthPx(CornerNERadius, 0, this);
-            this._actualCornerNW = c2 = CssValueParser.GetLengthPx(CornerNWRadius, 0, this);
-            this._actualCornerSE = c3 = CssValueParser.GetLengthPx(CornerSERadius, 0, this);
-            this._actualCornerSW = c4 = CssValueParser.GetLengthPx(CornerSWRadius, 0, this);
+            this._actualCornerNE = c1 = CssValueParser.ConvertToPx(CornerNERadius, 0, this);
+            this._actualCornerNW = c2 = CssValueParser.ConvertToPx(CornerNWRadius, 0, this);
+            this._actualCornerSE = c3 = CssValueParser.ConvertToPx(CornerSERadius, 0, this);
+            this._actualCornerSW = c4 = CssValueParser.ConvertToPx(CornerSWRadius, 0, this);
 
             if ((c1 + c2 + c3 + c4) > 0)
             {

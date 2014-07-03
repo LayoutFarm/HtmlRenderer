@@ -332,8 +332,7 @@ namespace HtmlRenderer.Dom
             if (currentElementSpec == null)
             {
                 element.Spec = currentElementSpec = new BoxSpec(element.WellknownTagName);              
-            }
-            
+            } 
             currentElementSpec.InheritStylesFrom(parentSpec);
             //1. apply style  
             activeCssTemplate.ApplyActiveTemplate(parentSpec, element);
@@ -341,12 +340,12 @@ namespace HtmlRenderer.Dom
             //2. specific id
             if (element.HasAttribute("id"))
             {
-                string id = element.GetAttributeValue("id", null);
-                if (id != null)
-                {
-
-                    //AssignStylesForElementId(box, activeCssTemplate, "#" + id);
-                }
+                throw new NotSupportedException();
+                //string id = element.GetAttributeValue("id", null);
+                //if (id != null)
+                //{   
+                //    //AssignStylesForElementId(box, activeCssTemplate, "#" + id);
+                //}
             }
             //3. some html translate attributes
             AssignStylesFromTranslatedAttributesHTML5(element, activeCssTemplate);
@@ -842,7 +841,7 @@ namespace HtmlRenderer.Dom
         static void AssignStylesFromTranslatedAttributesHTML5(BridgeHtmlElement tag, ActiveCssTemplate activeTemplate)
         {
             //some html attr contains css value  
-
+            return;
             if (tag.HasAttributes())
             {
                 foreach (IHtmlAttribute attr in tag.GetAttributeIter())

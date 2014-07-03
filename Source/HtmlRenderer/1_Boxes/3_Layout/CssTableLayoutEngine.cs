@@ -349,7 +349,7 @@ namespace HtmlRenderer.Dom
                                 var childBox = row.GetChildBox(i);
                                 if (childBox.CssDisplay == CssDisplay.TableCell)
                                 {
-                                    float cellBoxWidth = CssValueParser.GetLengthPx(childBox.Width, availbleWidthForAllCells, childBox);
+                                    float cellBoxWidth = CssValueParser.ConvertToPx(childBox.Width, availbleWidthForAllCells, childBox);
                                     if (cellBoxWidth > 0) //If some width specified
                                     {
                                         int colspan = childBox.ColSpan;
@@ -919,7 +919,7 @@ namespace HtmlRenderer.Dom
             if (tblen.Number > 0)
             {
                 //has specific number
-                return CssValueParser.GetLengthPx(_tableBox.Width, _tableBox.ParentBox.ClientWidth, _tableBox);
+                return CssValueParser.ConvertToPx(_tableBox.Width, _tableBox.ParentBox.ClientWidth, _tableBox);
             }
             else
             {
@@ -942,7 +942,7 @@ namespace HtmlRenderer.Dom
             if (tblen.Number > 0)
             {
 
-                return CssValueParser.GetLengthPx(_tableBox.MaxWidth, _tableBox.ParentBox.ClientWidth, _tableBox);
+                return CssValueParser.ConvertToPx(_tableBox.MaxWidth, _tableBox.ParentBox.ClientWidth, _tableBox);
             }
             else
             {
