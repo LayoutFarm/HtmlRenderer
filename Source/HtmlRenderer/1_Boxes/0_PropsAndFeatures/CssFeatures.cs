@@ -21,6 +21,9 @@ namespace HtmlRenderer.Dom
 
         protected bool AttempAssignValue()
         {
+            if (this.freezed)
+            {
+            }
             return !this.freezed;
         }
     }
@@ -32,6 +35,12 @@ namespace HtmlRenderer.Dom
         Color _leftColor, _topColor, _rightColor, _bottomColor;
         CssBorderCollapse _borderCollapse;
 
+        public static readonly CssBorderFeature Default = new CssBorderFeature(null);
+
+        static CssBorderFeature()
+        {
+            Default.Freeze();
+        }
 
         public CssBorderFeature(object owner)
             : base(owner)
@@ -178,7 +187,7 @@ namespace HtmlRenderer.Dom
         }
 
 
-        public static readonly CssBorderFeature Default = new CssBorderFeature(null);
+
 
 #if DEBUG
         public static bool dbugIsEq(dbugPropCheckReport rep, CssBorderFeature prop1, CssBorderFeature prop2)
@@ -211,7 +220,11 @@ namespace HtmlRenderer.Dom
     class CssMarginFeature : CssFeatureBase
     {
         CssLength _left, _top, _right, _bottom;
-
+        public static readonly CssMarginFeature Default = new CssMarginFeature(null);
+        static CssMarginFeature()
+        {
+            Default.Freeze();
+        }
         public CssMarginFeature(object owner)
             : base(owner)
         {
@@ -219,6 +232,7 @@ namespace HtmlRenderer.Dom
                 this.Top =
                 this.Right =
                 this.Bottom = CssLength.ZeroPx;
+
         }
         private CssMarginFeature(object newOwner, CssMarginFeature inheritFrom)
             : base(newOwner)
@@ -263,7 +277,7 @@ namespace HtmlRenderer.Dom
                 return new CssMarginFeature(checkOwner, this);
             }
         }
-        public static readonly CssMarginFeature Default = new CssMarginFeature(null);
+
 
 
 #if DEBUG
@@ -281,8 +295,13 @@ namespace HtmlRenderer.Dom
     }
     class CssPaddingFeature : CssFeatureBase
     {
-
         CssLength _left, _top, _right, _bottom;
+        public static readonly CssPaddingFeature Default = new CssPaddingFeature(null);
+
+        static CssPaddingFeature()
+        {
+            Default.Freeze();
+        }
         public CssPaddingFeature(object owner)
             : base(owner)
         {
@@ -334,7 +353,6 @@ namespace HtmlRenderer.Dom
                 return new CssPaddingFeature(checkOwner, this);
             }
         }
-        public static readonly CssPaddingFeature Default = new CssPaddingFeature(null);
 
 
 #if DEBUG
@@ -358,6 +376,11 @@ namespace HtmlRenderer.Dom
         string _listStyleImage;
         CssListStylePosition _listStylePosition;
         string _listStyle;
+        public static readonly CssListFeature Default = new CssListFeature(null);
+        static CssListFeature()
+        {
+            Default.Freeze();
+        }
 
         public CssListFeature(object owner)
             : base(owner)
@@ -433,7 +456,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        public static readonly CssListFeature Default = new CssListFeature(null);
+
 
 #if DEBUG
         public static bool dbugIsEq(dbugPropCheckReport rep, CssListFeature prop1, CssListFeature prop2)
@@ -452,7 +475,12 @@ namespace HtmlRenderer.Dom
     class CssCornerFeature : CssFeatureBase
     {
         CssLength _ne, _nw, _se, _sw;
+        public static readonly CssCornerFeature Default = new CssCornerFeature(null);
 
+        static CssCornerFeature()
+        {
+            Default.Freeze();
+        }
         public CssCornerFeature(object owner)
             : base(owner)
         {
@@ -484,8 +512,7 @@ namespace HtmlRenderer.Dom
                 return new CssCornerFeature(owner, this);
             }
         }
-        public static readonly CssCornerFeature Default = new CssCornerFeature(null);
-
+        
         public CssLength NERadius
         {
             get { return this._ne; }
@@ -525,12 +552,21 @@ namespace HtmlRenderer.Dom
     class CssFontFeature : CssFeatureBase
     {
 
-
+        
         CssLength _fontSize;
         CssFontStyle _fontStyle;
         CssFontWeight _fontWeight;
         CssFontVariant _fontVariant;
         string _fontFam;
+
+
+        public static readonly CssFontFeature Default = new CssFontFeature(null);
+
+        static CssFontFeature()
+        {
+            Default.Freeze();
+        }
+
         public CssFontFeature(object owner)
             : base(owner)
         {
@@ -605,7 +641,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        public static readonly CssFontFeature Default = new CssFontFeature(null);
+      
 
 #if DEBUG
         public static bool dbugIsEq(dbugPropCheckReport rep, CssFontFeature prop1, CssFontFeature prop2)
@@ -638,6 +674,11 @@ namespace HtmlRenderer.Dom
         CssLength _bgPosX, _bgPosY;
         CssBackgroundRepeat _bgRepeat;
 
+
+        static CssBackgroundFeature()
+        {
+            Default.Freeze();
+        }
         public CssBackgroundFeature(object owner)
             : base(owner)
         {

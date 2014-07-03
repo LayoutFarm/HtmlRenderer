@@ -32,8 +32,8 @@ namespace HtmlRenderer.Dom
         //==========================================================
         #region css values Inherit From Parent (by default)
         //inherit from parent by default
-        CssFontFeature _fontFeats = CssFontFeature.Default;
-        CssListFeature _listFeats = CssListFeature.Default;
+        CssFontFeature _fontFeats = CssFontFeature.Default; //features 1
+        CssListFeature _listFeats = CssListFeature.Default; //features 2
         CssLength _lineHeight = CssLength.NormalWordOrLine;
         CssLength _textIndent = CssLength.ZeroNoUnit;
         Color _actualColor = System.Drawing.Color.Black;
@@ -45,15 +45,17 @@ namespace HtmlRenderer.Dom
         CssWordBreak _wordBreak = CssWordBreak.Normal;
         CssDirection _cssDirection = CssDirection.Ltl;
         #endregion
+
+
         //==========================================================
         #region css values Not Inherit From Parent
-        CssBorderFeature _borderFeats = CssBorderFeature.Default;
-        CssPaddingFeature _paddingFeats = CssPaddingFeature.Default;
-        CssMarginFeature _marginFeats = CssMarginFeature.Default;
-        CssCornerFeature _cornerFeats = CssCornerFeature.Default;
-        Font _actualFont;
-        CssBackgroundFeature _backgroundFeats = CssBackgroundFeature.Default;
+        CssBorderFeature _borderFeats = CssBorderFeature.Default; //features 3
+        CssPaddingFeature _paddingFeats = CssPaddingFeature.Default;//features 4
+        CssMarginFeature _marginFeats = CssMarginFeature.Default;//features 5
+        CssCornerFeature _cornerFeats = CssCornerFeature.Default;//features  6      
+        CssBackgroundFeature _backgroundFeats = CssBackgroundFeature.Default;//features  7 
 
+        Font _actualFont;
         CssDisplay _cssDisplay = CssDisplay.Inline;
         CssFloat _float = CssFloat.None;
         //==========================================================
@@ -104,8 +106,23 @@ namespace HtmlRenderer.Dom
         }
         internal void Freeze()
         {
-            this._freezed = true;
+            _fontFeats.Freeze(); //1.
+            _listFeats.Freeze(); //2. 
 
+            _borderFeats.Freeze();//3.
+            _paddingFeats.Freeze();//4.
+            _marginFeats.Freeze();//5.
+            _cornerFeats.Freeze();//6.
+            _backgroundFeats.Freeze();//7
+
+            //CssBorderFeature _borderFeats = CssBorderFeature.Default; //features 3
+            //CssPaddingFeature _paddingFeats = CssPaddingFeature.Default;//features 4
+            //CssMarginFeature _marginFeats = CssMarginFeature.Default;//features 5
+            //CssCornerFeature _cornerFeats = CssCornerFeature.Default;//features  6      
+            //CssBackgroundFeature _backgroundFeats = CssBackgroundFeature.Default;//features  7 
+            
+            
+            this._freezed = true;
         }
         internal void Defreeze()
         {
@@ -117,6 +134,10 @@ namespace HtmlRenderer.Dom
         }
         bool AttempAssignValue()
         {
+            if (_freezed)
+            {
+
+            }
             return !_freezed;
         }
         //---------------------------------------------------------------

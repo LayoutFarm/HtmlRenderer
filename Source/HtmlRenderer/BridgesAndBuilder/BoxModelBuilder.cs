@@ -370,6 +370,8 @@ namespace HtmlRenderer.Dom
             }
 
             //===================================================================
+            curSpec.Freeze();
+
             //5. children
             //parent style assignment is complete before step down into child ***            
             int n = element.ChildCount;
