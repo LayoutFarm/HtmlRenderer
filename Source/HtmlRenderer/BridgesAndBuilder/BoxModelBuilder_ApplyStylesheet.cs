@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterCore
+﻿//BSD 2014, WinterFarm
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -71,7 +71,8 @@ namespace HtmlRenderer.Dom
                 //5.
                 //style attribute value of element
                 if (element.HtmlElement.HasAttribute("style"))
-                {
+                {   
+                    
                     var ruleset = activeCssTemplate.ParseCssBlock(element.HtmlElement.Name, element.HtmlElement.TryGetAttribute("style"));
                     foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                     {                        
@@ -90,9 +91,7 @@ namespace HtmlRenderer.Dom
             {
                 //recursive
                 ApplyStyleSheet01(childBox, activeCssTemplate);
-            }
-
-
+            } 
 
         }
     }

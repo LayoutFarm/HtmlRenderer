@@ -1,4 +1,4 @@
-﻿//2014 ,BSD, WinterCore
+﻿//2014 ,BSD, WinterFarm
 
 using System;
 using System.Text;

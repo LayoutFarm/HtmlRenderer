@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterCore 
+﻿//BSD 2014, WinterFarm 
 //ArthurHub
 
 using System;

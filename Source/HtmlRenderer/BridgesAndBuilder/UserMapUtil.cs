@@ -1,4 +1,4 @@
-﻿//BSD, 2014 WinterCore
+﻿//BSD, 2014 WinterFarm
 using System;
 using System.Drawing;
 using System.Collections.Generic;
@@ -607,79 +607,7 @@ namespace HtmlRenderer.Dom
             }
             return value.GetCacheColor();
         }
-        //----------------------------------------------------------------------------------------------------------------
-
-        //internal static void SetFontSize(this CssBox box, CssBox parentBox, WebDom.CssCodeValueExpression value)
-        //{
-        //    //number + value
-        //    WebDom.CssCodePrimitiveExpression primValue = value as WebDom.CssCodePrimitiveExpression;
-        //    if (primValue == null)
-        //    {
-        //        return;
-        //    }
-        //    switch (primValue.Hint)
-        //    {
-        //        case WebDom.CssValueHint.Number:
-        //            {
-        //                //has unit or not
-        //                //?
-        //                //or percent ? 
-        //                CssLength len = primValue.AsLength();
-        //                if (len.HasError)
-        //                {
-        //                    len = CssLength.FontSizeMedium;
-        //                }
-        //                else if (len.UnitOrNames == CssUnitOrNames.Ems && (parentBox != null))
-        //                {
-        //                   // len = len.ConvertEmToPoints(parentBox.ActualFont.SizeInPoints);
-        //                }
-        //                else
-        //                {
-
-        //                }
-        //                box.FontSize = len;
-
-        //            } break;
-        //        case WebDom.CssValueHint.Iden:
-        //            {
-        //                switch (primValue.GetTranslatedStringValue())
-        //                {
-        //                    default:
-        //                        {
-        //                            throw new NotSupportedException();
-        //                        }
-        //                    case CssConstants.Medium:
-        //                        box.FontSize = CssLength.FontSizeMedium;
-        //                        break;
-        //                    case CssConstants.Small:
-        //                        box.FontSize = CssLength.FontSizeSmall;
-        //                        break;
-        //                    case CssConstants.XSmall:
-        //                        box.FontSize = CssLength.FontSizeXSmall;
-        //                        break;
-        //                    case CssConstants.XXSmall:
-        //                        box.FontSize = CssLength.FontSizeXXSmall;
-        //                        break;
-        //                    case CssConstants.Large:
-        //                        box.FontSize = CssLength.FontSizeLarge;
-        //                        break;
-        //                    case CssConstants.XLarge:
-        //                        box.FontSize = CssLength.FontSizeLarge;
-        //                        break;
-        //                    case CssConstants.XXLarge:
-        //                        box.FontSize = CssLength.FontSizeLarger;
-        //                        break;
-        //                    case CssConstants.Smaller:
-        //                        box.FontSize = CssLength.FontSizeSmaller;
-        //                        break;
-        //                    case CssConstants.Larger:
-        //                        box.FontSize = CssLength.FontSizeLarger;
-        //                        break;
-        //                }
-        //            } break;
-        //    }
-        //}
-
+         
         internal static void SetFontSize(this BoxSpec box, BoxSpec parentBox, WebDom.CssCodeValueExpression value)
         {
             //number + value
