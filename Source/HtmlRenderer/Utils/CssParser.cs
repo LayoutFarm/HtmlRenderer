@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterFarm
+﻿//BSD 2014, WinterDev
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,

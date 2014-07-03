@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterFarm
+﻿//BSD 2014, WinterDev
 
 
 // "Therefore those skilled at the unorthodox
@@ -77,9 +77,7 @@ namespace HtmlRenderer.Dom
         }
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
         {
-            if (this.__dbugId == 2)
-            {
-            }
+           
             //for root
             this._aa_boxes = new CssBoxCollection(this);
             if (parentBox != null)

@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterFarm
+﻿//BSD 2014, WinterDev
 using System;
 using System.Drawing;
 using System.Collections.Generic;

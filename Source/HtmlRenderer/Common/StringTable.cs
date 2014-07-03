@@ -1,4 +1,4 @@
-﻿//BSD 2010-2014 ,WinterFarm
+﻿//BSD 2010-2014 ,WinterDev
 
 using System;
 using System.Collections.Generic;
