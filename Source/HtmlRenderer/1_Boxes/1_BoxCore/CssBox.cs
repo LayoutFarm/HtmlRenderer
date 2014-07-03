@@ -41,10 +41,10 @@ namespace HtmlRenderer.Dom
     public partial class CssBox : IDisposable
     {
 
- 
+
         readonly BoxSpec _myspec;
         WellknownHtmlTagName wellKnownTagName;
-      
+
 
 #if DEBUG
         public readonly int __dbugId = dbugTotalId++;
@@ -54,14 +54,15 @@ namespace HtmlRenderer.Dom
 
         internal CssBox(CssBox parentBox, BridgeHtmlElement element)
         {
+             
             this._aa_boxes = new CssBoxCollection(this);
-           
+
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
             }
             _htmlElement = element;
-             
+
 
             if (element != null)
             {
@@ -70,10 +71,13 @@ namespace HtmlRenderer.Dom
             //------------
 
             this._myspec = new BoxSpec(WellknownTagName);
-           
+
         }
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
         {
+            if (this.__dbugId == 4)
+            {
+            }
             //for root
             this._aa_boxes = new CssBoxCollection(this);
             if (parentBox != null)
@@ -95,10 +99,9 @@ namespace HtmlRenderer.Dom
                 this.WellknownTagName = element.WellknownTagName;
             }
 
-
             this._myspec = new BoxSpec(WellknownTagName);
             this._myspec.CloneAllStylesFrom(spec);
-             
+
         }
 
 #if DEBUG

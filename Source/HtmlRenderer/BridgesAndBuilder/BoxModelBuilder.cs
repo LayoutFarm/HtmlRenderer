@@ -168,7 +168,7 @@ namespace HtmlRenderer.Dom
                                     //{
                                     newBox++;
                                     CssBox box = BoxCreator.CreateBoxNotInherit(parentBox, elem);
-                                    elem.Spec.CloneAllStylesFrom(parentBox.Spec);
+                                    box.Spec.CloneAllStylesFrom(elem.Spec);
 
                                     GenerateCssBoxes(elem, box);
 
@@ -207,7 +207,8 @@ namespace HtmlRenderer.Dom
 
                                         newBox++;
                                         CssBox box = BoxCreator.CreateBoxNotInherit(parentBox, childElement);
-                                        childElement.Spec.CloneAllStylesFrom(parentBox.Spec);
+                                        box.Spec.CloneAllStylesFrom(childElement.Spec);
+                                        //childElement.Spec.CloneAllStylesFrom(parentBox.Spec);
 
                                         GenerateCssBoxes(childElement, box);
 
@@ -240,49 +241,48 @@ namespace HtmlRenderer.Dom
             //3. create bridge root
             BrigeRootElement bridgeRoot = CreateBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
             //---------------------------------------------------------------- 
-               
-          
+
+
             //attach style to elements
             ApplyStyleSheetForBridgeElement(bridgeRoot, null, activeCssTemplate);
 
             //----------------------------------------------------------------
             //box generation
             //3. create cssbox from root
-            CssBox root = BoxCreator.CreateRootBlock();
-
-            GenerateCssBoxes(bridgeRoot, root);
+            CssBox rootBox = BoxCreator.CreateRootBlock(); 
+            GenerateCssBoxes(bridgeRoot, rootBox);
 
 #if DEBUG
             dbugTestParsePerformance(html);
 #endif
 
             //2. decorate cssbox with styles
-            if (root != null)
+            if (rootBox != null)
             {
 
-                CssBox.SetHtmlContainer(root, htmlContainer);
+                CssBox.SetHtmlContainer(rootBox, htmlContainer);
                 //------------------------------------------------------------------- 
-                //ApplyStyleSheet(root, activeCssTemplate);
+
                 var rootspec = new BoxSpec(WellknownHtmlTagName.Unknown);
 
-                ApplyStyleSheetForBox(root, null, activeCssTemplate);
+                ApplyStyleSheetForBox(rootBox, null, activeCssTemplate);
                 //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);
-                OnePassBoxCorrection(root);
-                CorrectTextBoxes(root);
+                OnePassBoxCorrection(rootBox);
+                CorrectTextBoxes(rootBox);
                 //CorrectImgBoxes(root);
 
                 bool followingBlock = true;
 
-                CorrectLineBreaksBlocks(root, ref followingBlock);
+                CorrectLineBreaksBlocks(rootBox, ref followingBlock);
 
                 //1. must test first
-                CorrectInlineBoxesParent(root);
+                CorrectInlineBoxesParent(rootBox);
                 //2. then ...
-                CorrectBlockInsideInline(root);
+                CorrectBlockInsideInline(rootBox);
 
             }
-            return root;
+            return rootBox;
         }
 
 
@@ -323,11 +323,11 @@ namespace HtmlRenderer.Dom
         }
 #endif
 
- 
+
         static void ApplyStyleSheetForBridgeElement(BridgeHtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
         {
 
-            BoxSpec curSpec = element.Spec; 
+            BoxSpec curSpec = element.Spec;
             //-------------------------------
             //0.
             curSpec.InheritStylesFrom(parentSpec);
@@ -338,7 +338,7 @@ namespace HtmlRenderer.Dom
                element.Spec,
                parentSpec);
 
-            
+
             //-------------------------------------------------------------------                        
             //2. specific id
             if (element.HasAttribute("id"))
@@ -363,7 +363,7 @@ namespace HtmlRenderer.Dom
                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                 {
                     CssPropSetter.AssignPropertyValue(
-                        curSpec, 
+                        curSpec,
                         parentSpec,
                         propDecl);
                 }
@@ -382,7 +382,7 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
- 
+
 
         /// <summary>
         /// Set the selected text style (selection text color and background color).

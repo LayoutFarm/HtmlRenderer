@@ -164,7 +164,7 @@ namespace HtmlRenderer.Dom
             //***********
             currentBoxSpec.CloneAllStylesFrom(boxTemplate);
             //*********** 
-            //currentBoxSpec.InheritStylesFrom(boxTemplate);
+            
         }
         enum AssignPropertySource
         {

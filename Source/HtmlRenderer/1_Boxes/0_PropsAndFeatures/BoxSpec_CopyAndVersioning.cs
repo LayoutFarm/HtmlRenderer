@@ -76,9 +76,9 @@ namespace HtmlRenderer.Dom
             //=====================================
             if (s._fontFeats.Owner == s)
             {
-                this._fontFeats = s._fontFeats;
+                //this._fontFeats = s._fontFeats;
             }
-
+            this._fontFeats = s._fontFeats;
             this._listFeats = s._listFeats;
             //--------------------------------------- 
             this._lineHeight = s._lineHeight;
@@ -104,11 +104,9 @@ namespace HtmlRenderer.Dom
 
             if (s._borderFeats.Owner == s)
             {
-                this._borderFeats = s._borderFeats;
+                 
             }
-            this._borderFeats = s._borderFeats;
-
-
+            
             this._cornerFeats = s._cornerFeats;
             //---------------------------------------
 
@@ -146,17 +144,18 @@ namespace HtmlRenderer.Dom
 
 
             //-----------------------------------
-            if (this._paddingFeats.Owner != this)
-            {
-                this._paddingFeats = s._paddingFeats;
-            }
-            else
-            {
-                //this._prop_wait_eval |= (CssBoxAssignments.PADDING_LEFT |
-                //                         CssBoxAssignments.PADDING_TOP |
-                //                         CssBoxAssignments.PADDING_RIGHT |
-                //                         CssBoxAssignments.PADDING_BOTTOM);
-            }
+            this._paddingFeats = s._paddingFeats;
+            //if (this._paddingFeats.Owner != this)
+            //{
+            //    this._paddingFeats = s._paddingFeats;
+            //}
+            //else
+            //{
+            //    //this._prop_wait_eval |= (CssBoxAssignments.PADDING_LEFT |
+            //    //                         CssBoxAssignments.PADDING_TOP |
+            //    //                         CssBoxAssignments.PADDING_RIGHT |
+            //    //                         CssBoxAssignments.PADDING_BOTTOM);
+            //}
             //-----------------------------------
         }
         public BoxSpec GetAnonVersion()
