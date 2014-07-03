@@ -502,6 +502,7 @@ namespace HtmlRenderer.Dom
 
         internal static void AssignPropertyValue(CssBox box, CssBox boxParent, WebDom.CssPropertyDeclaration decl)
         {
+             
             if (decl.IsExpand)
             {
                 return;
@@ -519,6 +520,11 @@ namespace HtmlRenderer.Dom
         }
 
 
+        
+    }
+
+    static class CssPropSetter2
+    {
         //=======================================================================================
         internal static void AssignPropertyValue(BoxSpec box, BoxSpec boxParent, WebDom.CssPropertyDeclaration decl)
         {
@@ -728,7 +734,7 @@ namespace HtmlRenderer.Dom
                     break;
                 case WebDom.WellknownCssPropertyName.LineHeight:
                     cssBox.LineHeight = cssValue.AsLength();
-                     
+
                     break;
                 case WebDom.WellknownCssPropertyName.VerticalAlign:
                     cssBox.VerticalAlign = UserMapUtil.GetVerticalAlign(cssValue);
@@ -1011,7 +1017,5 @@ namespace HtmlRenderer.Dom
         }
 
     }
-
-
 
 }

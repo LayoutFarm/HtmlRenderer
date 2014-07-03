@@ -139,7 +139,7 @@ namespace HtmlRenderer.Dom
                     currentBoxSpec.cssClassVersion++;
                     foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
                     {
-                        CssPropSetter.AssignPropertyValue(boxTemplate, parentSpec, decl);
+                        CssPropSetter2.AssignPropertyValue(boxTemplate, parentSpec, decl);
                     }
                 }
                 //----------------------------
@@ -159,7 +159,7 @@ namespace HtmlRenderer.Dom
                             {
                                 foreach (var propDecl in ruleSetGroup.GetPropertyDeclIter())
                                 {
-                                    CssPropSetter.AssignPropertyValue(boxTemplate, parentSpec, propDecl);
+                                    CssPropSetter2.AssignPropertyValue(boxTemplate, parentSpec, propDecl);
                                 }
                                 //---------------------------------------------------------
                                 //find subgroup for more specific conditions

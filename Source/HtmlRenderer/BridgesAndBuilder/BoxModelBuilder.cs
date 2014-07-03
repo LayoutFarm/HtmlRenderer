@@ -357,7 +357,7 @@ namespace HtmlRenderer.Dom
                 var ruleset = activeCssTemplate.ParseCssBlock(element.Name, attrStyleValue);
                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                 {
-                    CssPropSetter.AssignPropertyValue(currentElementSpec, parentSpec, propDecl);
+                    CssPropSetter2.AssignPropertyValue(currentElementSpec, parentSpec, propDecl);
                 }
             }
             //5. children
