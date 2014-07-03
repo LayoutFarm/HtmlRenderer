@@ -158,9 +158,9 @@ namespace HtmlRenderer.Dom
 
 
             //-----------------------------------
-            if (this._paddingProps.Owner != this)
+            if (this._paddingFeats.Owner != this)
             {
-                this._paddingProps = s._paddingProps;
+                this._paddingFeats = s._paddingFeats;
             }
             else
             {
@@ -210,7 +210,7 @@ namespace HtmlRenderer.Dom
         }
         CssPaddingFeature CheckPaddingVersion()
         {
-            return this._paddingProps = this._paddingProps.GetMyOwnVersion(this);
+            return this._paddingFeats = this._paddingFeats.GetMyOwnVersion(this);
         }
         CssCornerFeature CheckCornerVersion()
         {

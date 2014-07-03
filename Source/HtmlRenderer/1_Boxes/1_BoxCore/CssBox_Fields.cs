@@ -57,7 +57,8 @@ namespace HtmlRenderer.Dom
         //condition 2 :this Box is InlineBox 
         List<CssRun> _boxRuns;
         //----------------------------------------------------  
-    
+        //state
+        protected int _prop_pass_eval;
 
         /// <summary>
         /// Gets the childrenn boxes of this box

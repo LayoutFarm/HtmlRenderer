@@ -60,9 +60,9 @@ namespace HtmlRenderer.Dom
 
             box.BorderLeftStyle = box.BorderTopStyle = box.BorderRightStyle = box.BorderBottomStyle = borderStyle;
 
-            box.BorderLeftWidth = box.BorderTopWidth = box.BorderRightWidth = box.BorderBottomWidth = length;
+             box.BorderLeftWidth = box.BorderTopWidth = box.BorderRightWidth = box.BorderBottomWidth = length;
 
-            box.BorderLeftColor = box.BorderTopColor = box.BorderRightColor = box.BorderBottomColor = color;
+             box.BorderLeftColor = box.BorderTopColor = box.BorderRightColor = box.BorderBottomColor = color;
 
         }
     }

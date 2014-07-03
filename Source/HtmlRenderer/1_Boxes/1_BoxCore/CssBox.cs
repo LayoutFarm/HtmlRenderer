@@ -42,9 +42,9 @@ namespace HtmlRenderer.Dom
     {
 
  
-        readonly BoxSpec _spec;
+        readonly BoxSpec _myspec;
         WellknownHtmlTagName wellKnownTagName;
-        CssDisplay mydisplay;
+      
 
 #if DEBUG
         public readonly int __dbugId = dbugTotalId++;
@@ -69,8 +69,8 @@ namespace HtmlRenderer.Dom
             }
             //------------
 
-            this._spec = new BoxSpec(WellknownTagName);
-            this.mydisplay = this._spec.CssDisplay;
+            this._myspec = new BoxSpec(WellknownTagName);
+           
         }
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
         {
@@ -96,9 +96,9 @@ namespace HtmlRenderer.Dom
             }
 
 
-            this._spec = new BoxSpec(WellknownTagName);
-            this._spec.CloneAllStyles(spec);
-            this.mydisplay = this._spec.CssDisplay;
+            this._myspec = new BoxSpec(WellknownTagName);
+            this._myspec.CloneAllStyles(spec);
+             
         }
 
 #if DEBUG
@@ -110,7 +110,7 @@ namespace HtmlRenderer.Dom
 #endif
         public BoxSpec Spec
         {
-            get { return this._spec; }
+            get { return this._myspec; }
         }
         /// <summary>
         /// Gets the HtmlContainer of the Box.
@@ -827,7 +827,7 @@ namespace HtmlRenderer.Dom
             {
                 if (_listItemBox == null)
                 {
-                    _listItemBox = new CssBox(null, null, this._spec.GetAnonVersion());
+                    _listItemBox = new CssBox(null, null, this._myspec.GetAnonVersion());
                     _listItemBox.Spec.InheritStylesFrom(this.Spec);
 
                     _listItemBox.ReEvaluateFont(this.Spec);

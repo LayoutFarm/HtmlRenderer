@@ -26,52 +26,51 @@ namespace HtmlRenderer.Dom
 
     public sealed partial class BoxSpec
     {
-        internal int cssClassVersion;
 
+        int _clsversion;
         //==========================================================
         #region css values Inherit From Parent (by default)
         //inherit from parent by default
-        internal CssFontFeature _fontFeats = CssFontFeature.Default;
-        internal CssListFeature _listFeats = CssListFeature.Default;
-        internal CssLength _lineHeight = CssLength.NormalWordOrLine;
-        internal CssLength _textIndent = CssLength.ZeroNoUnit;
-        internal Color _actualColor = System.Drawing.Color.Black;
-        internal CssEmptyCell _emptyCells = CssEmptyCell.Show;
-        internal CssTextAlign _textAlign = CssTextAlign.NotAssign;
-        internal CssVerticalAlign _verticalAlign = CssVerticalAlign.Baseline;
-        internal CssVisibility _visibility = CssVisibility.Visible;
-        internal CssWhiteSpace _whitespace = CssWhiteSpace.Normal;
-        internal CssWordBreak _wordBreak = CssWordBreak.Normal;
-        internal CssDirection _cssDirection = CssDirection.Ltl;
-
+        CssFontFeature _fontFeats = CssFontFeature.Default;
+        CssListFeature _listFeats = CssListFeature.Default;
+        CssLength _lineHeight = CssLength.NormalWordOrLine;
+        CssLength _textIndent = CssLength.ZeroNoUnit;
+        Color _actualColor = System.Drawing.Color.Black;
+        CssEmptyCell _emptyCells = CssEmptyCell.Show;
+        CssTextAlign _textAlign = CssTextAlign.NotAssign;
+        CssVerticalAlign _verticalAlign = CssVerticalAlign.Baseline;
+        CssVisibility _visibility = CssVisibility.Visible;
+        CssWhiteSpace _whitespace = CssWhiteSpace.Normal;
+        CssWordBreak _wordBreak = CssWordBreak.Normal;
+        CssDirection _cssDirection = CssDirection.Ltl;
         #endregion
         //==========================================================
         #region css values Not Inherit From Parent
-        internal CssBorderFeature _borderFeats = CssBorderFeature.Default;
-        internal CssPaddingFeature _paddingProps = CssPaddingFeature.Default;
-        internal CssMarginFeature _marginFeats = CssMarginFeature.Default;
-        internal CssCornerFeature _cornerFeats = CssCornerFeature.Default;
-        internal Font _actualFont;
-        internal CssBackgroundFeature _backgroundFeats = CssBackgroundFeature.Default;
+        CssBorderFeature _borderFeats = CssBorderFeature.Default;
+        CssPaddingFeature _paddingFeats = CssPaddingFeature.Default;
+        CssMarginFeature _marginFeats = CssMarginFeature.Default;
+        CssCornerFeature _cornerFeats = CssCornerFeature.Default;
+        Font _actualFont;
+        CssBackgroundFeature _backgroundFeats = CssBackgroundFeature.Default;
 
-        internal CssDisplay _cssDisplay = CssDisplay.Inline;
-        internal CssFloat _float = CssFloat.None;
+        CssDisplay _cssDisplay = CssDisplay.Inline;
+        CssFloat _float = CssFloat.None;
         //==========================================================
-        internal CssLength _left = CssLength.AutoLength;//w3 css 
-        internal CssLength _top = CssLength.AutoLength;//w3 css 
-        internal CssLength _right = CssLength.AutoLength;//w3 css 
-        internal CssLength _bottom = CssLength.AutoLength;//w3 css 
+        CssLength _left = CssLength.AutoLength;//w3 css 
+        CssLength _top = CssLength.AutoLength;//w3 css 
+        CssLength _right = CssLength.AutoLength;//w3 css 
+        CssLength _bottom = CssLength.AutoLength;//w3 css 
 
-        internal CssLength _width = CssLength.AutoLength;
-        internal CssLength _height = CssLength.AutoLength;
+        CssLength _width = CssLength.AutoLength;
+        CssLength _height = CssLength.AutoLength;
         //==========================================================
-        internal CssLength _maxWidth = CssLength.NotAssign; //w3 css  
-        internal CssOverflow _overflow = CssOverflow.Visible;
-        internal CssTextDecoration _textDecoration = CssTextDecoration.NotAssign;
-        internal CssPosition _position = CssPosition.Static;
-        internal CssLength _wordSpacing = CssLength.NormalWordOrLine;
+        CssLength _maxWidth = CssLength.NotAssign; //w3 css  
+        CssOverflow _overflow = CssOverflow.Visible;
+        CssTextDecoration _textDecoration = CssTextDecoration.NotAssign;
+        CssPosition _position = CssPosition.Static;
+        CssLength _wordSpacing = CssLength.NormalWordOrLine;
         //==========================================================
-        internal WellknownHtmlTagName wellKnownTagName;
+        WellknownHtmlTagName wellKnownTagName;
         #endregion
 #if DEBUG
         public readonly int dbugId = dbugTotalId++;
@@ -87,10 +86,17 @@ namespace HtmlRenderer.Dom
         {
             this.WellknownTagName = wellknownTagName;
         }
-        internal BoxSpec(BridgeHtmlElement ownerElement)// WellknownHtmlTagName wellknownTagName)
+        internal int cssClassVersion
         {
-
-            this.WellknownTagName = ownerElement.WellknownTagName;
+            get
+            {
+                return this._clsversion;
+            }
+            set
+            {
+                this._clsversion = value;
+                this.anonVersion = null;
+            }
         }
 
         public WellknownHtmlTagName WellknownTagName
@@ -99,10 +105,8 @@ namespace HtmlRenderer.Dom
             {
                 return this.wellKnownTagName;
             }
-            protected set
-            {
-                this.wellKnownTagName = value;
-            }
+            private set { this.wellKnownTagName = value; }
+
         }
         public CssDisplay CssDisplay
         {
@@ -286,7 +290,7 @@ namespace HtmlRenderer.Dom
 
         public CssLength PaddingBottom
         {
-            get { return this._paddingProps.Bottom; }
+            get { return this._paddingFeats.Bottom; }
             set
             {
                 CheckPaddingVersion().Bottom = value;
@@ -295,7 +299,7 @@ namespace HtmlRenderer.Dom
 
         public CssLength PaddingLeft
         {
-            get { return this._paddingProps.Left; }
+            get { return this._paddingFeats.Left; }
             set
             {
                 CheckPaddingVersion().Left = value;
@@ -304,7 +308,7 @@ namespace HtmlRenderer.Dom
 
         public CssLength PaddingRight
         {
-            get { return this._paddingProps.Right; }
+            get { return this._paddingFeats.Right; }
             set
             {
                 CheckPaddingVersion().Right = value;
@@ -316,7 +320,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._paddingProps.Top;
+                return this._paddingFeats.Top;
             }
             set
             {
@@ -553,6 +557,10 @@ namespace HtmlRenderer.Dom
             get
             {
                 return this._backgroundFeats.BackgroundGradientAngle;
+            }
+            set
+            {
+                this._backgroundFeats.BackgroundGradientAngle = value;
             }
         }
 

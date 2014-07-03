@@ -112,7 +112,6 @@
     <Compile Include="1_Boxes\1_BoxCore\CssBox_Fields.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBox_Paint.cs" />
     <Compile Include="1_Boxes\0_PropsAndFeatures\CssProps.cs" />
-    <Compile Include="1_Boxes\1_BoxCore\CssBox_Spec_CopyAndVersioning.cs" />
     <Compile Include="1_Boxes\2_RunsAndBinders\CssTextRun.cs" />
     <Compile Include="1_Boxes\2_RunsAndBinders\CssImageRun.cs" />
     <Compile Include="1_Boxes\OtherBoxes\CssBoxFrame.cs" />
