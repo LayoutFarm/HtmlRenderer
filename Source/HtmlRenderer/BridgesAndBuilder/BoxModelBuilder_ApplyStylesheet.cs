@@ -29,7 +29,7 @@ namespace HtmlRenderer.Dom
 {
     partial class BoxModelBuilder
     {
-        static void ApplyStyleSheet01(CssBox element, ActiveCssTemplate activeCssTemplate)
+        static void ApplyStyleSheet01(CssBox element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
         {
 
 
@@ -40,7 +40,7 @@ namespace HtmlRenderer.Dom
             BoxSpec currentElementSpec = element.Spec;
             if (element.ParentBox != null && element.ParentBox.Spec != null)
             {
-                currentElementSpec.InheritStylesFrom(element.ParentBox.Spec);
+                currentElementSpec.InheritStylesFrom(parentSpec);
             }
             else
             {
@@ -53,14 +53,17 @@ namespace HtmlRenderer.Dom
                 //1. element tag
                 //2. css class 
                 // try assign style using the html element tag    
-                activeCssTemplate.ApplyActiveTemplate(element.ParentBox.Spec, element);
+                activeCssTemplate.ApplyActiveTemplate(parentSpec, element);
                 //3.
                 // try assign style using the "id" attribute of the html element
                 if (element.HtmlElement.HasAttribute("id"))
                 {
                     throw new NotSupportedException();
-                    // var id = element.HtmlElement.TryGetAttribute("id");
-                    // AssignStylesForElementId(element, activeCssTemplate, "#" + id);
+                    //string id = element.GetAttributeValue("id", null);
+                    //if (id != null)
+                    //{   
+                    //    //AssignStylesForElementId(box, activeCssTemplate, "#" + id);
+                    //}
                 }
                 //-------------------------------------------------------------------
                 //4. 
@@ -71,14 +74,14 @@ namespace HtmlRenderer.Dom
                 //5.
                 //style attribute value of element
                 if (element.HtmlElement.HasAttribute("style"))
-                {   
-                    
+                {
+
                     var ruleset = activeCssTemplate.ParseCssBlock(element.HtmlElement.Name, element.HtmlElement.TryGetAttribute("style"));
                     foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
-                    {                        
+                    {
                         CssPropSetter.AssignPropertyValue(
                             element.Spec,
-                            element.ParentBox.Spec,
+                            parentSpec,
                             propDecl);
                     }
                 }
@@ -90,8 +93,8 @@ namespace HtmlRenderer.Dom
             foreach (var childBox in element.GetChildBoxIter())
             {
                 //recursive
-                ApplyStyleSheet01(childBox, activeCssTemplate);
-            } 
+                ApplyStyleSheet01(childBox, currentElementSpec, activeCssTemplate);
+            }
 
         }
     }

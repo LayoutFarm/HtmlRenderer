@@ -264,7 +264,7 @@ namespace HtmlRenderer.Dom
                 //ApplyStyleSheet(root, activeCssTemplate);
                 var rootspec = new BoxSpec(WellknownHtmlTagName.Unknown);
 
-                ApplyStyleSheet01(root, activeCssTemplate);
+                ApplyStyleSheet01(root, null, activeCssTemplate);
                 //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);
                 OnePassBoxCorrection(root);
@@ -333,6 +333,7 @@ namespace HtmlRenderer.Dom
             {
                 element.Spec = currentElementSpec = new BoxSpec(element.WellknownTagName);
             }
+
             currentElementSpec.InheritStylesFrom(parentSpec);
             //1. apply style  
             activeCssTemplate.ApplyActiveTemplate(parentSpec, element);
@@ -357,7 +358,10 @@ namespace HtmlRenderer.Dom
                 var ruleset = activeCssTemplate.ParseCssBlock(element.Name, attrStyleValue);
                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                 {
-                    CssPropSetter.AssignPropertyValue(currentElementSpec, parentSpec, propDecl);
+                    CssPropSetter.AssignPropertyValue(
+                        currentElementSpec,
+                        parentSpec,
+                        propDecl);
                 }
             }
             //5. children
