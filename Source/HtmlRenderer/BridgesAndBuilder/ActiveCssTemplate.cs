@@ -162,7 +162,7 @@ namespace HtmlRenderer.Dom
                 templatesForTagName.Add(key, boxTemplate);
             }
             //***********
-            currentBoxSpec.CloneAllStyles(boxTemplate);
+            currentBoxSpec.CloneAllStylesFrom(boxTemplate);
             //*********** 
             //currentBoxSpec.InheritStylesFrom(boxTemplate);
         }

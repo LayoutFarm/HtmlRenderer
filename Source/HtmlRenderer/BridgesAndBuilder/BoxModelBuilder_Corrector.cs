@@ -304,8 +304,9 @@ namespace HtmlRenderer.Dom
         {
             //recursive
 
-            var leftPart = BoxCreator.CreateBoxAndInherit(leftBlock, (BridgeHtmlElement)splitBox.HtmlElement);             
-            leftPart.Spec.InheritStyles(splitBox.Spec, true);
+            var leftPart = BoxCreator.CreateBoxAndInherit(leftBlock, (BridgeHtmlElement)splitBox.HtmlElement);
+
+            leftPart.Spec.CloneAllStylesFrom(splitBox.Spec);
 
             bool had_new_leftbox = false;
             CssBox firstChild = null;
@@ -337,8 +338,8 @@ namespace HtmlRenderer.Dom
                 if (firstChild.ParentBox != null || parentBox.ChildCount < 3)
                 {
                     rightPart = BoxCreator.CreateBoxAndInherit(parentBox, (BridgeHtmlElement)splitBox.HtmlElement);
-                     
-                    rightPart.Spec.InheritStyles(splitBox.Spec, true);
+
+                    rightPart.Spec.CloneAllStylesFrom(splitBox.Spec);
                     if (parentBox.ChildCount > 2)
                     {
                         rightPart.ChangeSiblingOrder(1);

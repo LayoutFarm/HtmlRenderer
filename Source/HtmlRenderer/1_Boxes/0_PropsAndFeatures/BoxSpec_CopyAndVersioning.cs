@@ -12,13 +12,9 @@ namespace HtmlRenderer.Dom
 
     partial class BoxSpec
     {
+         
 
-        /// <summary>
-        /// Inherits inheritable values from specified box.
-        /// </summary>
-        /// <param name="s">source </param>
-        /// <param name="clone">clone all </param>
-        internal void InheritStyles(BoxSpec s, bool clone)
+        public void InheritStylesFrom(BoxSpec s)
         {
             if (s == null)
             {
@@ -41,48 +37,40 @@ namespace HtmlRenderer.Dom
             this._cssDirection = s._cssDirection;
             //--------------------------------------- 
 
-            if (clone)
-            {
-                //for clone only (eg. split a box into two parts)
-                //---------------------------------------
-                this._backgroundFeats = s._backgroundFeats;
+            //if (clone)
+            //{
+            //    //for clone only (eg. split a box into two parts)
+            //    //---------------------------------------
+            //    this._backgroundFeats = s._backgroundFeats;
 
-                this._borderFeats = s._borderFeats;
-                this._cornerFeats = s._cornerFeats;
-                //---------------------------------------
+            //    this._borderFeats = s._borderFeats;
+            //    this._cornerFeats = s._cornerFeats;
+            //    //---------------------------------------
 
-                this._left = s._left;
-                this._top = s._top;
-                this._bottom = s._bottom;
-                this._right = s._right;
+            //    this._left = s._left;
+            //    this._top = s._top;
+            //    this._bottom = s._bottom;
+            //    this._right = s._right;
 
-                this._width = s._width;
-                this._height = s._height;
-                this._maxWidth = s._maxWidth;
-                this._position = s._position;
-
-
-                this._wordSpacing = s._wordSpacing;
-                this._lineHeight = s._lineHeight;
-                this._float = s._float;
+            //    this._width = s._width;
+            //    this._height = s._height;
+            //    this._maxWidth = s._maxWidth;
+            //    this._position = s._position;
 
 
-                this._cssDisplay = s._cssDisplay;
-                this._overflow = s._overflow;
-                this._textDecoration = s._textDecoration;
-                //--------------------------------------- 
+            //    this._wordSpacing = s._wordSpacing;
+            //    this._lineHeight = s._lineHeight;
+            //    this._float = s._float;
 
 
-            }
-
+            //    this._cssDisplay = s._cssDisplay;
+            //    this._overflow = s._overflow;
+            //    this._textDecoration = s._textDecoration;
+            //    //---------------------------------------  
+            //}
         }
 
-
-        /// <summary>
-        /// clone all style from another box
-        /// </summary>
-        /// <param name="s"></param>
-        internal void CloneAllStyles(BoxSpec s)
+        public void CloneAllStylesFrom(BoxSpec s)
         {
             //1.
             //=====================================
@@ -171,23 +159,6 @@ namespace HtmlRenderer.Dom
             }
             //-----------------------------------
         }
-
-
-
-        public CssBox GetParent()
-        {
-            return null;
-        }
-
-        public void InheritStylesFrom(BoxSpec source)
-        {
-            this.InheritStyles(source, false);
-        }
-
-        public void CloneAllStylesFrom(BoxSpec source)
-        {
-            this.InheritStyles(source, true);
-        }
         public BoxSpec GetAnonVersion()
         {
             if (anonVersion != null)
@@ -195,11 +166,11 @@ namespace HtmlRenderer.Dom
                 return anonVersion;
             }
             this.anonVersion = new BoxSpec(WellknownHtmlTagName.Unknown);
-            anonVersion.InheritStyles(this, false);
+            anonVersion.InheritStylesFrom(this);
             return anonVersion;
         }
+        //---------------------------------------------------------------
 
-        protected int _prop_pass_eval;
         CssBorderFeature CheckBorderVersion()
         {
             return this._borderFeats = this._borderFeats.GetMyOwnVersion(this);

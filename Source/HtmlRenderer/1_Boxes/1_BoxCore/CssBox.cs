@@ -97,7 +97,7 @@ namespace HtmlRenderer.Dom
 
 
             this._myspec = new BoxSpec(WellknownTagName);
-            this._myspec.CloneAllStyles(spec);
+            this._myspec.CloneAllStylesFrom(spec);
              
         }
 
