@@ -192,7 +192,7 @@ namespace HtmlRenderer.Dom
                                         CssBox anonText = new CssBox(parentBox, null, parentSpec.GetAnonVersion());
                                         //parse and evaluate whitespace here ! 
                                         BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
-                                        anonText.dbugAnonCreatedFromElement = parentElement;
+                                        anonText.dbugAnonCreator = parentElement;
                                         anonText.SetTextContent(textNode.CopyTextBuffer());
 
                                     } break;

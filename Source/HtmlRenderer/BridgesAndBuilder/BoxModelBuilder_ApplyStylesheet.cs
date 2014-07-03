@@ -33,6 +33,7 @@ namespace HtmlRenderer.Dom
 
         static void ApplyStyleSheetForBox(CssBox box, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
         {
+           
             BridgeHtmlElement element = box.HtmlElement as BridgeHtmlElement;
             BoxSpec curSpec = box.Spec;
 
@@ -133,12 +134,11 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                if (box.dbugAnonCreatedFromElement != null)
-                {
-
+                if (box.dbugAnonCreator != null)
+                {    
                     if (!BoxSpec.dbugCompare(
                     rep,
-                    box.dbugAnonCreatedFromElement.Spec,
+                    box.dbugAnonCreator.Spec.GetAnonVersion(),
                     curSpec))
                     {
                         foreach (string s in rep.GetList())

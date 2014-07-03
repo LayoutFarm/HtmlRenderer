@@ -97,7 +97,7 @@ namespace HtmlRenderer.Dom
             S7_EnforceMaximumSize();
 
             // Ensure there's no padding             
-            _tableBox.PaddingLeft = _tableBox.PaddingTop = _tableBox.PaddingRight = _tableBox.PaddingBottom = CssLength.ZeroPx;
+            //_tableBox.PaddingLeft = _tableBox.PaddingTop = _tableBox.PaddingRight = _tableBox.PaddingBottom = CssLength.ZeroPx;
 
             //Actually layout cells!
             S8_LayoutCells(lay);

@@ -122,11 +122,11 @@ namespace HtmlRenderer.Dom
             var newBox = CreateBoxAndInherit(parent, null, insertAt);
             if (parent.HtmlElement != null)
             {
-                newBox.dbugAnonCreatedFromElement = (BridgeHtmlElement)parent.HtmlElement;
+                newBox.dbugAnonCreator = (BridgeHtmlElement)parent.HtmlElement;
             }
-            else if (parent.dbugAnonCreatedFromElement != null)
+            else if (parent.dbugAnonCreator != null)
             {
-                newBox.dbugAnonCreatedFromElement = parent.dbugAnonCreatedFromElement;
+                newBox.dbugAnonCreator = parent.dbugAnonCreator;
             }
             newBox.CssDisplay = CssDisplay.Block;
             return newBox;

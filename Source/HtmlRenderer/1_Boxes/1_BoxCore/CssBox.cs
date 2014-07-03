@@ -107,7 +107,7 @@ namespace HtmlRenderer.Dom
         }
 
 #if DEBUG
-        internal BridgeHtmlElement dbugAnonCreatedFromElement
+        internal BridgeHtmlElement dbugAnonCreator
         {
             get;
             set;
@@ -272,16 +272,14 @@ namespace HtmlRenderer.Dom
                 return this.HasRuns && this.FirstRun.IsImage;
 
             }
-        }
-
-
+        } 
         /// <summary>
         /// Tells if the box is empty or contains just blank spaces
         /// </summary>
         public bool IsSpaceOrEmpty
         {
             get
-            {
+            {   
                 if ((Runs.Count != 0 || Boxes.Count != 0) && (Runs.Count != 1 || !Runs[0].IsSpaces))
                 {
                     foreach (CssRun word in Runs)
