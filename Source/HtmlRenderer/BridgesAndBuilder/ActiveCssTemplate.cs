@@ -87,23 +87,8 @@ namespace HtmlRenderer.Dom
 
         static readonly char[] _whiteSplitter = new[] { ' ' };
 
-        internal void ApplyActiveTemplate(BoxSpec parentSpec, CssBox box)
-        {
-            ApplyActiveTemplate(box.HtmlElement.Name,
-               box.HtmlElement.TryGetAttribute("class", null),
-               box.Spec,
-               parentSpec); 
-        }
-
-        internal void ApplyActiveTemplate(BoxSpec parentSpec, BridgeHtmlElement box)
-        {
-            ApplyActiveTemplate(box.Name,
-                box.TryGetAttribute("class", null),
-                box.Spec,
-                parentSpec);
-        }
-
-        void ApplyActiveTemplate(string elemName, string class_value, BoxSpec currentBoxSpec, BoxSpec parentSpec)
+        
+        internal void ApplyActiveTemplate(string elemName, string class_value, BoxSpec currentBoxSpec, BoxSpec parentSpec)
         {
 
             //1. tag name key

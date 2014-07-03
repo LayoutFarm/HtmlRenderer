@@ -242,7 +242,7 @@ namespace HtmlRenderer.Dom
             //4. first spec        
             bridgeRoot.Spec = new BoxSpec(WellknownHtmlTagName.Unknown);
             //attach style to elements
-            ApplyStyleSheetTopDown(bridgeRoot, null, activeCssTemplate);
+            ApplyStyleSheetForBridgeElement(bridgeRoot, null, activeCssTemplate);
 
             //----------------------------------------------------------------
             //box generation
@@ -264,7 +264,7 @@ namespace HtmlRenderer.Dom
                 //ApplyStyleSheet(root, activeCssTemplate);
                 var rootspec = new BoxSpec(WellknownHtmlTagName.Unknown);
 
-                ApplyStyleSheet01(root, null, activeCssTemplate);
+                ApplyStyleSheetForBox(root, null, activeCssTemplate);
                 //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);
                 OnePassBoxCorrection(root);
@@ -322,21 +322,27 @@ namespace HtmlRenderer.Dom
         }
 #endif
 
-
-        static void ApplyStyleSheetTopDown(BridgeHtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
+ 
+        static void ApplyStyleSheetForBridgeElement(BridgeHtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
         {
 
-            //-------------------------------------------------------------------                        
-
-            BoxSpec currentElementSpec = element.Spec;
-            if (currentElementSpec == null)
+            BoxSpec curSpec = element.Spec;
+            if (curSpec == null)
             {
-                element.Spec = currentElementSpec = new BoxSpec(element.WellknownTagName);
+                element.Spec = curSpec = new BoxSpec(element.WellknownTagName);
             }
 
-            currentElementSpec.InheritStylesFrom(parentSpec);
+            //-------------------------------
+            //0.
+            curSpec.InheritStylesFrom(parentSpec);
+
             //1. apply style  
-            activeCssTemplate.ApplyActiveTemplate(parentSpec, element);
+            activeCssTemplate.ApplyActiveTemplate(element.Name,
+               element.TryGetAttribute("class", null),
+               element.Spec,
+               parentSpec);
+
+            
             //-------------------------------------------------------------------                        
             //2. specific id
             if (element.HasAttribute("id"))
@@ -348,10 +354,12 @@ namespace HtmlRenderer.Dom
                 //    //AssignStylesForElementId(box, activeCssTemplate, "#" + id);
                 //}
             }
+
             //3. some html translate attributes
             AssignStylesFromTranslatedAttributesHTML5(element, activeCssTemplate);
+            //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
+            //------------------------------------------------------------------- 
             //4. a style attribute value
-
             string attrStyleValue;
             if (element.TryGetAttribute2("style", out attrStyleValue))
             {
@@ -359,84 +367,26 @@ namespace HtmlRenderer.Dom
                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                 {
                     CssPropSetter.AssignPropertyValue(
-                        currentElementSpec,
+                        curSpec,
                         parentSpec,
                         propDecl);
                 }
             }
+
+            //===================================================================
             //5. children
+            //parent style assignment is complete before step down into child ***            
             int n = element.ChildCount;
             for (int i = 0; i < n; ++i)
             {
                 BridgeHtmlElement childElement = element.GetNode(i) as BridgeHtmlElement;
                 if (childElement != null)
                 {
-                    ApplyStyleSheetTopDown(childElement, currentElementSpec, activeCssTemplate);
+                    ApplyStyleSheetForBridgeElement(childElement, curSpec, activeCssTemplate);
                 }
             }
-
         }
-
-        ///// <summary>
-        ///// Applies style to all boxes in the tree.<br/>
-        ///// If the html tag has style defined for each apply that style to the css box of the tag.<br/>
-        ///// If the html tag has "class" attribute and the class name has style defined apply that style on the tag css box.<br/>
-        ///// If the html tag has "style" attribute parse it and apply the parsed style on the tag css box.<br/>
-        ///// If the html tag is "style" tag parse it content and add to the css data for all future tags parsing.<br/>
-        ///// If the html tag is "link" that point to style data parse it content and add to the css data for all future tags parsing.<br/>
-        ///// </summary>
-        ///// <param name="box"></param>
-        ///// <param name="htmlContainer">the html container to use for reference resolve</param>
-        ///// <param name="cssData"> </param>
-        ///// <param name="cssDataChanged">check if the css data has been modified by the handled html not to change the base css data</param>
-        //static void ApplyStyleSheet(CssBox box, ActiveCssTemplate activeCssTemplate)
-        //{
-        //    //recursive  
-        //    //-------------------------------------------------------------------            
-        //    box.InheritStyles(box.ParentBox);
-
-        //    if (box.HtmlElement != null)
-        //    {
-        //        //------------------------------------------------------------------- 
-        //        //1. element tag
-        //        //2. css class 
-        //        // try assign style using the html element tag    
-        //        activeCssTemplate.ApplyActiveTemplateForElement(box.ParentBox, box);
-        //        //3.
-        //        // try assign style using the "id" attribute of the html element
-        //        if (box.HtmlElement.HasAttribute("id"))
-        //        {
-        //            var id = box.HtmlElement.TryGetAttribute("id");
-        //            AssignStylesForElementId(box, activeCssTemplate, "#" + id);
-        //        }
-        //        //-------------------------------------------------------------------
-        //        //4. 
-        //        //element attribute
-        //        AssignStylesFromTranslatedAttributesHTML5(box, activeCssTemplate);
-        //        //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
-        //        //------------------------------------------------------------------- 
-        //        //5.
-        //        //style attribute value of element
-        //        if (box.HtmlElement.HasAttribute("style"))
-        //        {
-        //            var ruleset = activeCssTemplate.ParseCssBlock(box.HtmlElement.Name, box.HtmlElement.TryGetAttribute("style"));
-        //            foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
-        //            {
-        //                CssPropSetter.AssignPropertyValue(box, box.ParentBox, propDecl);
-        //            }
-        //        }
-        //    }
-
-        //    //===================================================================
-        //    //parent style assignment is complete before step down into child ***
-        //    foreach (var childBox in box.GetChildBoxIter())
-        //    {
-        //        //recursive
-        //        ApplyStyleSheet(childBox, activeCssTemplate);
-        //    }
-        //}
-
-
+ 
 
         /// <summary>
         /// Set the selected text style (selection text color and background color).

@@ -29,34 +29,31 @@ namespace HtmlRenderer.Dom
 {
     partial class BoxModelBuilder
     {
-        static void ApplyStyleSheet01(CssBox element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
+
+        static void ApplyStyleSheetForBox(CssBox box, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
         {
 
 
 #if DEBUG
             dbugPropCheckReport rep = new dbugPropCheckReport();
-#endif
+#endif            
+            BridgeHtmlElement element = box.HtmlElement as BridgeHtmlElement;                      
+            BoxSpec curSpec = box.Spec; 
 
-            BoxSpec currentElementSpec = element.Spec;
-            if (element.ParentBox != null && element.ParentBox.Spec != null)
-            {
-                currentElementSpec.InheritStylesFrom(parentSpec);
-            }
-            else
-            {
-                //only for root 
-            }
+            //---------------------
+            //0.
+            curSpec.InheritStylesFrom(parentSpec);  
+            if (element != null)
+            {  
+                //1. apply style  
+                activeCssTemplate.ApplyActiveTemplate(element.Name,
+                   element.TryGetAttribute("class", null),
+                   curSpec,
+                   parentSpec);
 
-            if (element.HtmlElement != null)
-            {
-                //------------------------------------------------------------------- 
-                //1. element tag
-                //2. css class 
-                // try assign style using the html element tag    
-                activeCssTemplate.ApplyActiveTemplate(parentSpec, element);
-                //3.
+                //2.
                 // try assign style using the "id" attribute of the html element
-                if (element.HtmlElement.HasAttribute("id"))
+                if (element.HasAttribute("id"))
                 {
                     throw new NotSupportedException();
                     //string id = element.GetAttributeValue("id", null);
@@ -64,38 +61,36 @@ namespace HtmlRenderer.Dom
                     //{   
                     //    //AssignStylesForElementId(box, activeCssTemplate, "#" + id);
                     //}
-                }
+                } 
                 //-------------------------------------------------------------------
-                //4. 
-                //element attribute
-                AssignStylesFromTranslatedAttributesHTML5(element, activeCssTemplate);
+                 
+                //3. some html translate attributes
+                AssignStylesFromTranslatedAttributesHTML5(box, activeCssTemplate);
                 //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
                 //------------------------------------------------------------------- 
-                //5.
-                //style attribute value of element
-                if (element.HtmlElement.HasAttribute("style"))
+                //4. a style attribute value
+                string attrStyleValue;
+                if (element.TryGetAttribute2("style", out attrStyleValue))
                 {
-
-                    var ruleset = activeCssTemplate.ParseCssBlock(element.HtmlElement.Name, element.HtmlElement.TryGetAttribute("style"));
+                    var ruleset = activeCssTemplate.ParseCssBlock(element.Name, attrStyleValue);
                     foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                     {
                         CssPropSetter.AssignPropertyValue(
-                            element.Spec,
+                            curSpec,
                             parentSpec,
                             propDecl);
                     }
                 }
-            }
-
+            } 
 
             //===================================================================
+            //5. children
             //parent style assignment is complete before step down into child ***
-            foreach (var childBox in element.GetChildBoxIter())
+            foreach (var childBox in box.GetChildBoxIter())
             {
                 //recursive
-                ApplyStyleSheet01(childBox, currentElementSpec, activeCssTemplate);
-            }
-
+                ApplyStyleSheetForBox(childBox, curSpec, activeCssTemplate);
+            } 
         }
     }
 }
