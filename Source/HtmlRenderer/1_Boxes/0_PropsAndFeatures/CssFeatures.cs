@@ -10,7 +10,6 @@ namespace HtmlRenderer.Dom
     {
         protected readonly object owner;
         bool freezed;
-
         public CssFeatureBase(object owner)
         {
             this.owner = owner;
@@ -20,7 +19,10 @@ namespace HtmlRenderer.Dom
         public void Freeze() { this.freezed = true; }
         public void DeFreeze() { this.freezed = false; }
 
-
+        protected bool AttempAssignValue()
+        {
+            return !this.freezed;
+        }
     }
 
     class CssBorderFeature : CssFeatureBase
@@ -79,27 +81,25 @@ namespace HtmlRenderer.Dom
             this.BorderSpacingV = inheritFrom.BorderSpacingV;
             //---------------------------------------------------------
         }
-
-
         public CssLength LeftWidth
         {
             get { return this._leftWidth; }
-            set { this._leftWidth = value; }
+            set { if (AttempAssignValue()) this._leftWidth = value; }
         }
         public CssLength TopWidth
         {
             get { return this._topWidth; }
-            set { this._topWidth = value; }
+            set { if (AttempAssignValue()) this._topWidth = value; }
         }
         public CssLength RightWidth
         {
             get { return this._rightWidth; }
-            set { this._rightWidth = value; }
+            set { if (AttempAssignValue()) this._rightWidth = value; }
         }
         public CssLength BottomWidth
         {
             get { return this._bottomWidth; }
-            set { this._bottomWidth = value; }
+            set { if (AttempAssignValue()) this._bottomWidth = value; }
         }
 
 
@@ -107,61 +107,61 @@ namespace HtmlRenderer.Dom
         public CssBorderStyle LeftStyle
         {
             get { return this._leftStyle; }
-            set { this._leftStyle = value; }
+            set { if (AttempAssignValue())  this._leftStyle = value; }
 
         }
         public CssBorderStyle TopStyle
         {
             get { return this._topStyle; }
-            set { this._topStyle = value; }
+            set { if (AttempAssignValue())  this._topStyle = value; }
         }
         public CssBorderStyle RightStyle
         {
             get { return this._rightStyle; }
-            set { this._rightStyle = value; }
+            set { if (AttempAssignValue())  this._rightStyle = value; }
         }
         public CssBorderStyle BottomStyle
         {
             get { return this._bottomStyle; }
-            set { this._bottomStyle = value; }
+            set { if (AttempAssignValue())this._bottomStyle = value; }
         }
 
         public Color LeftColor
         {
             get { return this._leftColor; }
-            set { this._leftColor = value; }
+            set { if (AttempAssignValue())this._leftColor = value; }
         }
         public Color TopColor
         {
             get { return this._topColor; }
-            set { this._topColor = value; }
+            set { if (AttempAssignValue())this._topColor = value; }
         }
         public Color RightColor
         {
             get { return this._rightColor; }
-            set { this._rightColor = value; }
+            set { if (AttempAssignValue())this._rightColor = value; }
         }
         public Color BottomColor
         {
             get { return this._bottomColor; }
-            set { this._bottomColor = value; }
+            set { if (AttempAssignValue())this._bottomColor = value; }
         }
 
         public CssBorderCollapse BorderCollapse
         {
             get { return this._borderCollapse; }
-            set { this._borderCollapse = value; }
+            set { if (AttempAssignValue())this._borderCollapse = value; }
         }
 
         public CssLength BorderSpacingH
         {
             get { return this._borderSpacingH; }
-            set { this._borderSpacingH = value; }
+            set { if (AttempAssignValue()) this._borderSpacingH = value; }
         }
         public CssLength BorderSpacingV
         {
             get { return this._borderSpacingV; }
-            set { this._borderSpacingV = value; }
+            set { if (AttempAssignValue()) this._borderSpacingV = value; }
         }
 
         public CssBorderFeature GetMyOwnVersion(object checkOwner)
@@ -233,29 +233,23 @@ namespace HtmlRenderer.Dom
         public CssLength Left
         {
             get { return this._left; }
-            set { this._left = value; }
+            set { if (AttempAssignValue()) this._left = value; }
         }
         public CssLength Top
         {
             get { return this._top; }
-            set { this._top = value; }
+            set { if (AttempAssignValue()) this._top = value; }
         }
         public CssLength Right
         {
-            get
-            {
-                return this._right;
-            }
-            set
-            {
-                this._right = value;
-            }
+            get { return this._right; }
+            set { if (AttempAssignValue()) this._right = value; }
         }
 
         public CssLength Bottom
         {
             get { return this._bottom; }
-            set { this._bottom = value; }
+            set { if (AttempAssignValue()) this._bottom = value; }
         }
 
         public CssMarginFeature GetMyOwnVersion(object checkOwner)
@@ -310,29 +304,23 @@ namespace HtmlRenderer.Dom
         public CssLength Left
         {
             get { return this._left; }
-            set { this._left = value; }
+            set { if (AttempAssignValue()) this._left = value; }
         }
         public CssLength Top
         {
             get { return this._top; }
-            set { this._top = value; }
+            set { if (AttempAssignValue()) this._top = value; }
         }
         public CssLength Right
         {
-            get
-            {
-                return this._right;
-            }
-            set
-            {
-                this._right = value;
-            }
+            get { return this._right; }
+            set { if (AttempAssignValue()) this._right = value; }
         }
 
         public CssLength Bottom
         {
             get { return this._bottom; }
-            set { this._bottom = value; }
+            set { if (AttempAssignValue()) this._bottom = value; }
         }
 
         public CssPaddingFeature GetMyOwnVersion(object checkOwner)
@@ -408,7 +396,7 @@ namespace HtmlRenderer.Dom
             }
             set
             {
-                this._listStyleType = value;
+                if (AttempAssignValue()) this._listStyleType = value;
             }
         }
         public string ListStyleImage
@@ -419,7 +407,7 @@ namespace HtmlRenderer.Dom
             }
             set
             {
-                this._listStyleImage = value;
+                if (AttempAssignValue()) this._listStyleImage = value;
             }
         }
         public CssListStylePosition ListStylePosition
@@ -430,7 +418,7 @@ namespace HtmlRenderer.Dom
             }
             set
             {
-                this._listStylePosition = value;
+                if (AttempAssignValue()) this._listStylePosition = value;
             }
         }
         public string ListStyle
@@ -441,7 +429,7 @@ namespace HtmlRenderer.Dom
             }
             set
             {
-                this._listStyle = value;
+                if (AttempAssignValue()) this._listStyle = value;
             }
         }
 
@@ -501,22 +489,22 @@ namespace HtmlRenderer.Dom
         public CssLength NERadius
         {
             get { return this._ne; }
-            set { this._ne = value; }
+            set { if (AttempAssignValue()) this._ne = value; }
         }
         public CssLength NWRadius
         {
             get { return this._nw; }
-            set { this._nw = value; }
+            set { if (AttempAssignValue()) this._nw = value; }
         }
         public CssLength SERadius
         {
             get { return this._se; }
-            set { this._se = value; }
+            set { if (AttempAssignValue()) this._se = value; }
         }
         public CssLength SWRadius
         {
             get { return this._sw; }
-            set { this._sw = value; }
+            set { if (AttempAssignValue()) this._sw = value; }
         }
 
 
@@ -567,7 +555,7 @@ namespace HtmlRenderer.Dom
         public string FontFamily
         {
             get { return this._fontFam; }
-            set { this._fontFam = value; }
+            set { if (AttempAssignValue()) this._fontFam = value; }
         }
 
         public CssLength FontSize
@@ -575,7 +563,7 @@ namespace HtmlRenderer.Dom
             get { return this._fontSize; }
             set
             {
-                this._fontSize = value;
+                if (AttempAssignValue()) this._fontSize = value;
             }
         }
         public CssFontStyle FontStyle
@@ -583,7 +571,7 @@ namespace HtmlRenderer.Dom
             get { return this._fontStyle; }
             set
             {
-                this._fontStyle = value;
+                if (AttempAssignValue()) this._fontStyle = value;
             }
         }
         public CssFontVariant FontVariant
@@ -591,7 +579,7 @@ namespace HtmlRenderer.Dom
             get { return this._fontVariant; }
             set
             {
-                this._fontVariant = value;
+                if (AttempAssignValue()) this._fontVariant = value;
             }
         }
         public CssFontWeight FontWeight
@@ -599,7 +587,7 @@ namespace HtmlRenderer.Dom
             get { return this._fontWeight; }
             set
             {
-                this._fontWeight = value;
+                if (AttempAssignValue()) this._fontWeight = value;
             }
         }
 
@@ -692,44 +680,44 @@ namespace HtmlRenderer.Dom
         public Color BackgroundColor
         {
             get { return this._bgColor; }
-            set { this._bgColor = value; }
+            set { if (AttempAssignValue()) this._bgColor = value; }
         }
         public Color BackgroundGradient
         {
             get { return this._bgGradient; }
-            set { this._bgGradient = value; }
+            set { if (AttempAssignValue()) this._bgGradient = value; }
         }
         public float BackgroundGradientAngle
         {
             get { return this._bgGradientAngle; }
-            set { this._bgGradientAngle = value; }
+            set { if (AttempAssignValue()) this._bgGradientAngle = value; }
         }
 
         public ImageBinder BackgroundImageBinder
         {
             get { return this._imgBinder; }
-            set { this._imgBinder = value; }
+            set { if (AttempAssignValue()) this._imgBinder = value; }
         }
         public string BackgroundPosition
         {
             get { return this._bgPosition; }
-            set { this._bgPosition = value; }
+            set { if (AttempAssignValue()) this._bgPosition = value; }
         }
 
         public CssLength BackgroundPosX
         {
             get { return this._bgPosX; }
-            set { this._bgPosX = value; }
+            set { if (AttempAssignValue()) this._bgPosX = value; }
         }
         public CssLength BackgroundPosY
         {
             get { return this._bgPosY; }
-            set { this._bgPosY = value; }
+            set { if (AttempAssignValue()) this._bgPosY = value; }
         }
         public CssBackgroundRepeat BackgroundRepeat
         {
             get { return this._bgRepeat; }
-            set { this._bgRepeat = value; }
+            set { if (AttempAssignValue()) this._bgRepeat = value; }
         }
 
 
