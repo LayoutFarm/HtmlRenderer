@@ -25,6 +25,11 @@ namespace HtmlRenderer.Dom
 
     class CssBorderFeature : CssFeatureBase
     {
+        CssLength _leftWidth, _topWidth, _rightWidth, _bottomWidth, _borderSpacingV, _borderSpacingH;
+        CssBorderStyle _leftStyle, _topStyle, _rightStyle, _bottomStyle;
+        Color _leftColor, _topColor, _rightColor, _bottomColor;
+        CssBorderCollapse _borderCollapse;
+
 
         public CssBorderFeature(object owner)
             : base(owner)
@@ -76,24 +81,88 @@ namespace HtmlRenderer.Dom
         }
 
 
-        public CssLength LeftWidth { get; set; }
-        public CssLength TopWidth { get; set; }
-        public CssLength RightWidth { get; set; }
-        public CssLength BottomWidth { get; set; }
+        public CssLength LeftWidth
+        {
+            get { return this._leftWidth; }
+            set { this._leftWidth = value; }
+        }
+        public CssLength TopWidth
+        {
+            get { return this._topWidth; }
+            set { this._topWidth = value; }
+        }
+        public CssLength RightWidth
+        {
+            get { return this._rightWidth; }
+            set { this._rightWidth = value; }
+        }
+        public CssLength BottomWidth
+        {
+            get { return this._bottomWidth; }
+            set { this._bottomWidth = value; }
+        }
 
-        public CssBorderStyle LeftStyle { get; set; }
-        public CssBorderStyle TopStyle { get; set; }
-        public CssBorderStyle RightStyle { get; set; }
-        public CssBorderStyle BottomStyle { get; set; }
 
-        public Color LeftColor { get; set; }
-        public Color TopColor { get; set; }
-        public Color RightColor { get; set; }
-        public Color BottomColor { get; set; }
 
-        public CssBorderCollapse BorderCollapse { get; set; }
-        public CssLength BorderSpacingH { get; set; }
-        public CssLength BorderSpacingV { get; set; }
+        public CssBorderStyle LeftStyle
+        {
+            get { return this._leftStyle; }
+            set { this._leftStyle = value; }
+
+        }
+        public CssBorderStyle TopStyle
+        {
+            get { return this._topStyle; }
+            set { this._topStyle = value; }
+        }
+        public CssBorderStyle RightStyle
+        {
+            get { return this._rightStyle; }
+            set { this._rightStyle = value; }
+        }
+        public CssBorderStyle BottomStyle
+        {
+            get { return this._bottomStyle; }
+            set { this._bottomStyle = value; }
+        }
+
+        public Color LeftColor
+        {
+            get { return this._leftColor; }
+            set { this._leftColor = value; }
+        }
+        public Color TopColor
+        {
+            get { return this._topColor; }
+            set { this._topColor = value; }
+        }
+        public Color RightColor
+        {
+            get { return this._rightColor; }
+            set { this._rightColor = value; }
+        }
+        public Color BottomColor
+        {
+            get { return this._bottomColor; }
+            set { this._bottomColor = value; }
+        }
+
+        public CssBorderCollapse BorderCollapse
+        {
+            get { return this._borderCollapse; }
+            set { this._borderCollapse = value; }
+        }
+
+        public CssLength BorderSpacingH
+        {
+            get { return this._borderSpacingH; }
+            set { this._borderSpacingH = value; }
+        }
+        public CssLength BorderSpacingV
+        {
+            get { return this._borderSpacingV; }
+            set { this._borderSpacingV = value; }
+        }
 
         public CssBorderFeature GetMyOwnVersion(object checkOwner)
         {
@@ -141,12 +210,11 @@ namespace HtmlRenderer.Dom
     }
     class CssMarginFeature : CssFeatureBase
     {
-
+        CssLength _left, _top, _right, _bottom;
 
         public CssMarginFeature(object owner)
             : base(owner)
         {
-
             this.Left =
                 this.Top =
                 this.Right =
@@ -162,10 +230,33 @@ namespace HtmlRenderer.Dom
             this.Bottom = inheritFrom.Bottom;
         }
 
-        public CssLength Left { get; set; }
-        public CssLength Top { get; set; }
-        public CssLength Right { get; set; }
-        public CssLength Bottom { get; set; }
+        public CssLength Left
+        {
+            get { return this._left; }
+            set { this._left = value; }
+        }
+        public CssLength Top
+        {
+            get { return this._top; }
+            set { this._top = value; }
+        }
+        public CssLength Right
+        {
+            get
+            {
+                return this._right;
+            }
+            set
+            {
+                this._right = value;
+            }
+        }
+
+        public CssLength Bottom
+        {
+            get { return this._bottom; }
+            set { this._bottom = value; }
+        }
 
         public CssMarginFeature GetMyOwnVersion(object checkOwner)
         {
@@ -197,7 +288,7 @@ namespace HtmlRenderer.Dom
     class CssPaddingFeature : CssFeatureBase
     {
 
-
+        CssLength _left, _top, _right, _bottom;
         public CssPaddingFeature(object owner)
             : base(owner)
         {
@@ -216,10 +307,33 @@ namespace HtmlRenderer.Dom
             this.Right = inheritFrom.Right;
             this.Bottom = inheritFrom.Bottom;
         }
-        public CssLength Left { get; set; }
-        public CssLength Top { get; set; }
-        public CssLength Right { get; set; }
-        public CssLength Bottom { get; set; }
+        public CssLength Left
+        {
+            get { return this._left; }
+            set { this._left = value; }
+        }
+        public CssLength Top
+        {
+            get { return this._top; }
+            set { this._top = value; }
+        }
+        public CssLength Right
+        {
+            get
+            {
+                return this._right;
+            }
+            set
+            {
+                this._right = value;
+            }
+        }
+
+        public CssLength Bottom
+        {
+            get { return this._bottom; }
+            set { this._bottom = value; }
+        }
 
         public CssPaddingFeature GetMyOwnVersion(object checkOwner)
         {
@@ -233,10 +347,7 @@ namespace HtmlRenderer.Dom
             }
         }
         public static readonly CssPaddingFeature Default = new CssPaddingFeature(null);
-        public object Owner
-        {
-            get { return this.owner; }
-        }
+
 
 #if DEBUG
         public static bool dbugIsEq(dbugPropCheckReport rep, CssPaddingFeature prop1, CssPaddingFeature prop2)
@@ -255,6 +366,11 @@ namespace HtmlRenderer.Dom
 
     class CssListFeature : CssFeatureBase
     {
+        CssListStyleType _listStyleType;
+        string _listStyleImage;
+        CssListStylePosition _listStylePosition;
+        string _listStyle;
+
         public CssListFeature(object owner)
             : base(owner)
         {
@@ -284,10 +400,50 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        public CssListStyleType ListStyleType { get; set; }
-        public string ListStyleImage { get; set; }
-        public CssListStylePosition ListStylePosition { get; set; }
-        public string ListStyle { get; set; }
+        public CssListStyleType ListStyleType
+        {
+            get
+            {
+                return this._listStyleType;
+            }
+            set
+            {
+                this._listStyleType = value;
+            }
+        }
+        public string ListStyleImage
+        {
+            get
+            {
+                return this._listStyleImage;
+            }
+            set
+            {
+                this._listStyleImage = value;
+            }
+        }
+        public CssListStylePosition ListStylePosition
+        {
+            get
+            {
+                return this._listStylePosition;
+            }
+            set
+            {
+                this._listStylePosition = value;
+            }
+        }
+        public string ListStyle
+        {
+            get
+            {
+                return this._listStyle;
+            }
+            set
+            {
+                this._listStyle = value;
+            }
+        }
 
         public static readonly CssListFeature Default = new CssListFeature(null);
 
@@ -307,21 +463,21 @@ namespace HtmlRenderer.Dom
 
     class CssCornerFeature : CssFeatureBase
     {
-
+        CssLength _ne, _nw, _se, _sw;
 
         public CssCornerFeature(object owner)
             : base(owner)
         {
-             
+
             this.NERadius =
                 NWRadius =
                 SERadius =
                 SWRadius = CssLength.ZeroNoUnit;
         }
         private CssCornerFeature(object owner, CssCornerFeature inheritFrom)
-             : base(owner)
+            : base(owner)
         {
-          
+
 
             this.NERadius = inheritFrom.NERadius;
             this.NWRadius = inheritFrom.NWRadius;
@@ -342,11 +498,26 @@ namespace HtmlRenderer.Dom
         }
         public static readonly CssCornerFeature Default = new CssCornerFeature(null);
 
-        public CssLength NERadius { get; set; }
-        public CssLength NWRadius { get; set; }
-        public CssLength SERadius { get; set; }
-        public CssLength SWRadius { get; set; }
-
+        public CssLength NERadius
+        {
+            get { return this._ne; }
+            set { this._ne = value; }
+        }
+        public CssLength NWRadius
+        {
+            get { return this._nw; }
+            set { this._nw = value; }
+        }
+        public CssLength SERadius
+        {
+            get { return this._se; }
+            set { this._se = value; }
+        }
+        public CssLength SWRadius
+        {
+            get { return this._sw; }
+            set { this._sw = value; }
+        }
 
 
 #if DEBUG
@@ -365,8 +536,8 @@ namespace HtmlRenderer.Dom
 
     class CssFontFeature : CssFeatureBase
     {
-         
-        
+
+
         CssLength _fontSize;
         CssFontStyle _fontStyle;
         CssFontWeight _fontWeight;
@@ -375,7 +546,7 @@ namespace HtmlRenderer.Dom
         public CssFontFeature(object owner)
             : base(owner)
         {
-             
+
             FontFamily = ConstConfig.DEFAULT_FONT_NAME;
             FontSize = CssLength.FontSizeMedium;
             FontStyle = CssFontStyle.Normal;
@@ -385,14 +556,14 @@ namespace HtmlRenderer.Dom
         private CssFontFeature(object owner, CssFontFeature inheritFrom)
             : base(owner)
         {
-             
+
             this.FontFamily = inheritFrom.FontFamily;
             this.FontSize = inheritFrom.FontSize;
             this.FontStyle = inheritFrom.FontStyle;
             this.FontVariant = inheritFrom.FontVariant;
             this.FontWeight = inheritFrom.FontWeight;
         }
-       
+
         public string FontFamily
         {
             get { return this._fontFam; }
@@ -445,13 +616,6 @@ namespace HtmlRenderer.Dom
                 return new CssFontFeature(checkOwner, this);
             }
         }
-        public object Owner
-        {
-            get
-            {
-                return this.owner;
-            }
-        }
 
         public static readonly CssFontFeature Default = new CssFontFeature(null);
 
@@ -479,6 +643,12 @@ namespace HtmlRenderer.Dom
 
     class CssBackgroundFeature : CssFeatureBase
     {
+        Color _bgColor, _bgGradient;
+        float _bgGradientAngle;
+        ImageBinder _imgBinder;
+        string _bgPosition;
+        CssLength _bgPosX, _bgPosY;
+        CssBackgroundRepeat _bgRepeat;
 
         public CssBackgroundFeature(object owner)
             : base(owner)
@@ -519,20 +689,52 @@ namespace HtmlRenderer.Dom
             }
         }
         //---------------------------------
-        public Color BackgroundColor { get; set; }
-        public Color BackgroundGradient { get; set; }
-        public float BackgroundGradientAngle { get; set; }
+        public Color BackgroundColor
+        {
+            get { return this._bgColor; }
+            set { this._bgColor = value; }
+        }
+        public Color BackgroundGradient
+        {
+            get { return this._bgGradient; }
+            set { this._bgGradient = value; }
+        }
+        public float BackgroundGradientAngle
+        {
+            get { return this._bgGradientAngle; }
+            set { this._bgGradientAngle = value; }
+        }
 
-        public ImageBinder BackgroundImageBinder { get; set; }
-        public string BackgroundPosition { get; set; }
+        public ImageBinder BackgroundImageBinder
+        {
+            get { return this._imgBinder; }
+            set { this._imgBinder = value; }
+        }
+        public string BackgroundPosition
+        {
+            get { return this._bgPosition; }
+            set { this._bgPosition = value; }
+        }
 
-        public CssLength BackgroundPosX { get; set; }
-        public CssLength BackgroundPosY { get; set; }
-        public CssBackgroundRepeat BackgroundRepeat { get; set; }
+        public CssLength BackgroundPosX
+        {
+            get { return this._bgPosX; }
+            set { this._bgPosX = value; }
+        }
+        public CssLength BackgroundPosY
+        {
+            get { return this._bgPosY; }
+            set { this._bgPosY = value; }
+        }
+        public CssBackgroundRepeat BackgroundRepeat
+        {
+            get { return this._bgRepeat; }
+            set { this._bgRepeat = value; }
+        }
 
+
+        //---------------------------------
         public static readonly CssBackgroundFeature Default = new CssBackgroundFeature(null);
-
-
 #if DEBUG
         public static bool dbugIsEq(dbugPropCheckReport rep, CssBackgroundFeature prop1, CssBackgroundFeature prop2)
         {
