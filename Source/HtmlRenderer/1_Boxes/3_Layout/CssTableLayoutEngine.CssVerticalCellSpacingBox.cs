@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterCore
+﻿//BSD 2014, WinterDev
 //ArthurHub
 
 // "Therefore those skilled at the unorthodox
@@ -57,7 +57,7 @@ namespace HtmlRenderer.Dom
                 _endRow = startRow + extendedBox.RowSpan - 1;
                 ReEvaluateComputedValues(tableBox);
             }
-
+            
             public CssBox ExtendedBox
             {
                 get { return _extendedBox; }

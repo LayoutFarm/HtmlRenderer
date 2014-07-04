@@ -1,4 +1,4 @@
-//BSD 2014, WinterCore
+//BSD 2014, WinterDev
 //ArthurHub
 
 // "Therefore those skilled at the unorthodox
@@ -97,8 +97,12 @@ namespace HtmlRenderer.Dom
             S7_EnforceMaximumSize();
 
             // Ensure there's no padding             
+<<<<<<< HEAD
             BoxSpec boxspec = _tableBox.BoxSpec;
             //boxspec.PaddingLeft = boxspec.PaddingTop = boxspec.PaddingRight = boxspec.PaddingBottom = CssLength.ZeroPx;
+=======
+            //_tableBox.PaddingLeft = _tableBox.PaddingTop = _tableBox.PaddingRight = _tableBox.PaddingBottom = CssLength.ZeroPx;
+>>>>>>> 1.7.2105.1
 
             //Actually layout cells!
             S8_LayoutCells(lay);
@@ -116,6 +120,7 @@ namespace HtmlRenderer.Dom
                 var latestCB = lay.LatestContainingBlock;
                 foreach (var childBox in box.GetChildBoxIter())
                 {
+                    childBox.ReEvaluateFont(box.Spec);
                     childBox.MeasureRunsSize(lay);
                     S1_RecursiveMeasureRunContentSize(childBox, lay); //recursive
                 }
@@ -313,10 +318,15 @@ namespace HtmlRenderer.Dom
                         {
                             case CssUnitOrNames.Percent:
                                 {
+<<<<<<< HEAD
                                     columnCollection.SetColumnWidth(i,
                                         CssValueParser.ParseNumber(userDefinedColumnBoxes[i].BoxSpec.Width, availbleWidthForAllCells));
+=======
+                                    return (colWidth.Number / 100) * availbleWidthForAllCells;
+>>>>>>> 1.7.2105.1
 
-                                } break;
+
+                                }  
                             case CssUnitOrNames.Pixels:
                             case CssUnitOrNames.EmptyValue:
                                 {
@@ -350,11 +360,15 @@ namespace HtmlRenderer.Dom
                                 var childBox = row.GetChildBox(i);
                                 if (childBox.CssDisplay == CssDisplay.TableCell)
                                 {
+<<<<<<< HEAD
                                     float cellBoxWidth = CssValueParser.ParseLength(childBox.BoxSpec.Width,
                                         availbleWidthForAllCells,
                                         childBox);
 
 
+=======
+                                    float cellBoxWidth = CssValueParser.ConvertToPx(childBox.Width, availbleWidthForAllCells, childBox);
+>>>>>>> 1.7.2105.1
                                     if (cellBoxWidth > 0) //If some width specified
                                     {
                                         int colspan = childBox.ColSpan;
@@ -508,7 +522,7 @@ namespace HtmlRenderer.Dom
             // if table max width is limited by we need to lower the columns width even if it will result in clipping
             var maxWidth = GetMaxTableWidth();
 
-            if (maxWidth < CssBoxConst.MAX_RIGHT)
+            if (maxWidth < ConstConfig.BOX_MAX_RIGHT)
             {
                 widthSum = CalculateWidthSum();
                 if (maxWidth < widthSum)
@@ -924,8 +938,12 @@ namespace HtmlRenderer.Dom
             if (tblen.Number > 0)
             {
                 //has specific number
+<<<<<<< HEAD
                 return CssValueParser.ParseLength(_tableBox.BoxSpec.Width,
                     _tableBox.ParentBox.ClientWidth, _tableBox);
+=======
+                return CssValueParser.ConvertToPx(_tableBox.Width, _tableBox.ParentBox.ClientWidth, _tableBox);
+>>>>>>> 1.7.2105.1
             }
             else
             {
@@ -949,12 +967,16 @@ namespace HtmlRenderer.Dom
             if (tblen.Number > 0)
             {
 
+<<<<<<< HEAD
                 return CssValueParser.ParseLength(_tableBox.BoxSpec.MaxWidth,
                     _tableBox.ParentBox.ClientWidth, _tableBox);
+=======
+                return CssValueParser.ConvertToPx(_tableBox.MaxWidth, _tableBox.ParentBox.ClientWidth, _tableBox);
+>>>>>>> 1.7.2105.1
             }
             else
             {
-                return CssBoxConst.MAX_TABLE_WIDTH;
+                return ConstConfig.TABLE_MAX_WIDTH;
             }
         }
 
@@ -1054,7 +1076,7 @@ namespace HtmlRenderer.Dom
             CalculateMinMaxSumWords(box, cbBox, ref min, ref maxSum, ref paddingSum, ref marginSum);
 
             maxWidth = paddingSum + maxSum;
-            minWidth = paddingSum + (min < CssBoxConst.MAX_RIGHT ? min : 0);
+            minWidth = paddingSum + (min < ConstConfig.BOX_MAX_RIGHT ? min : 0);
         }
 
         /// <summary>

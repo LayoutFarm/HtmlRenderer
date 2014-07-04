@@ -12,7 +12,7 @@
 
 using System.Drawing;
 
-namespace HtmlRenderer.Entities
+namespace HtmlRenderer 
 {
     /// <summary>
     /// String constants to avoid typing errors.
@@ -158,6 +158,7 @@ namespace HtmlRenderer.Entities
         /// </summary>
         public const string Pc = "pc";
 
+<<<<<<< HEAD
         /// <summary>
         /// Default font size in points. Change this value to modify the default font size.
         /// </summary>
@@ -168,6 +169,10 @@ namespace HtmlRenderer.Entities
         /// </summary>
         public static string FontSerif = FontFamily.GenericSerif.Name;
         
+=======
+       
+
+>>>>>>> 1.7.2105.1
 
         //------------------------------------------------------------------
         public const string Relative = "relative";

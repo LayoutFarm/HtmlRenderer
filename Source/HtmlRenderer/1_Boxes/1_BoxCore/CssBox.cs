@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterCore
+﻿//BSD 2014, WinterDev
 
 
 // "Therefore those skilled at the unorthodox
@@ -41,6 +41,7 @@ namespace HtmlRenderer.Dom
     {
 
 
+<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox.cs
         BoxSpec boxSpec;
         protected int _prop_pass_eval;
 #if DEBUG
@@ -59,24 +60,96 @@ namespace HtmlRenderer.Dom
 
             this._aa_boxes = new CssBoxCollection(this);
             this.boxSpec = boxSpec;
+=======
+        readonly BoxSpec _myspec;
+        WellknownHtmlTagName wellKnownTagName;
+
+
+#if DEBUG
+        public readonly int __aa_dbugId = dbugTotalId++;
+        static int dbugTotalId;
+        public int dbugMark;
+#endif
+
+        internal CssBox(CssBox parentBox, BridgeHtmlElement element)
+        {
+            if (this.__aa_dbugId == 2)
+            {
+            }
+            this._aa_boxes = new CssBoxCollection(this);
+>>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox.cs
 
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
             }
+<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox.cs
 
             _htmlElement = tag;
 
             if (tag != null)
+=======
+            _htmlElement = element;
+
+
+            if (element != null)
             {
-                this.WellknownTagName = tag.WellknownTagName;
+                this.WellknownTagName = element.WellknownTagName;
             }
+            //------------
+
+            this._myspec = new BoxSpec(WellknownTagName);
+
         }
+        internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
+        {
+           
+            //for root
+            this._aa_boxes = new CssBoxCollection(this);
+            if (parentBox != null)
+            {
+                parentBox.Boxes.Add(this);
+            }
+
+            _htmlElement = element;
+
+            //this._importSpec = spec;
+#if DEBUG
+            if (element != null && element.Spec == null)
+>>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox.cs
+            {
+
+            }
+#endif
+            if (element != null)
+            {
+                this.WellknownTagName = element.WellknownTagName;
+            }
+
+            this._myspec = new BoxSpec(WellknownTagName);
+            this._myspec.CloneAllStylesFrom(spec);
+
+        }
+<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox.cs
         public BoxSpec BoxSpec
         {
             get { return this.boxSpec; }
         }
         public WellknownHtmlTagName WellknownTagName { get; set; }
+=======
+
+#if DEBUG
+        internal BridgeHtmlElement dbugAnonCreator
+        {
+            get;
+            set;
+        }
+#endif
+        public BoxSpec Spec
+        {
+            get { return this._myspec; }
+        }
+>>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox.cs
         /// <summary>
         /// Gets the HtmlContainer of the Box.
         /// WARNING: May be null.
@@ -242,16 +315,14 @@ namespace HtmlRenderer.Dom
                 return this.HasRuns && this.FirstRun.IsImage;
 
             }
-        }
-
-
+        } 
         /// <summary>
         /// Tells if the box is empty or contains just blank spaces
         /// </summary>
         public bool IsSpaceOrEmpty
         {
             get
-            {
+            {   
                 if ((Runs.Count != 0 || Boxes.Count != 0) && (Runs.Count != 1 || !Runs[0].IsSpaces))
                 {
                     foreach (CssRun word in Runs)
@@ -554,7 +625,11 @@ namespace HtmlRenderer.Dom
                                 var spec = this.BoxSpec;
                                 if (!spec.Width.IsEmptyOrAuto)
                                 {
+<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox.cs
                                     availableWidth = CssValueParser.ParseLength(spec.Width, availableWidth, this);
+=======
+                                    availableWidth = CssValueParser.ConvertToPx(Width, availableWidth, this);
+>>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox.cs
                                 }
 
                                 this.SetWidth(availableWidth);
@@ -634,7 +709,7 @@ namespace HtmlRenderer.Dom
                                         lay.PopContainingBlock();
 
                                         float width = this.CalculateActualWidth();
-                                        if (lay.ContainerBlockGlobalX + width > CssBoxConst.MAX_RIGHT)
+                                        if (lay.ContainerBlockGlobalX + width > ConstConfig.BOX_MAX_RIGHT)
                                         {
                                         }
                                         else
@@ -738,7 +813,18 @@ namespace HtmlRenderer.Dom
         }
 
 
+<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox.cs
 
+=======
+        ///// <summary>
+        ///// Get the parent of this css properties instance.
+        ///// </summary>
+        ///// <returns></returns>
+        //public sealed override CssBox GetParent()
+        //{
+        //    return _parentBox;
+        //}
+>>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox.cs
 
         /// <summary>
         /// Gets the index of the box to be used on a (ordered) list
@@ -796,8 +882,18 @@ namespace HtmlRenderer.Dom
             {
                 if (_listItemBox == null)
                 {
+<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox.cs
                     //2014-06-30
                     throw new NotSupportedException();
+=======
+                    _listItemBox = new CssBox(null, null, this._myspec.GetAnonVersion());
+                    _listItemBox.Spec.InheritStylesFrom(this.Spec);
+
+                    _listItemBox.ReEvaluateFont(this.Spec);
+                    _listItemBox.ReEvaluateComputedValues(this);
+                    _listItemBox.CssDisplay = CssDisplay.Inline;
+                    _listItemBox._htmlContainer = HtmlContainer;
+>>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox.cs
 
                     //_listItemBox = new CssBox(null, null);
                     //_listItemBox.InheritStyles(this);
@@ -954,11 +1050,28 @@ namespace HtmlRenderer.Dom
         ///// <summary>
         ///// Inherits inheritable values from parent.
         ///// </summary>
+<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox.cs
         //internal new void InheritStyles(CssBoxBase box, bool clone = false)
         //{
         //    base.InheritStyles(box, clone);
         //}
+=======
+        //internal void InheritStyles(CssBox box, bool clone = false)
+        //{ 
+        //    this.InternalInheritStyles(box, clone);
+>>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox.cs
 
+        //}
+        //internal void InheritStyles(BoxSpec fromSpec, bool clone = false)
+        //{
+        //    if (fromSpec == null)
+        //    {
+        //        return;
+        //    }
+
+        //    this.InternalInheritStyles(fromSpec, clone);
+
+        //}
         float CalculateActualWidth()
         {
             float maxRight = 0;

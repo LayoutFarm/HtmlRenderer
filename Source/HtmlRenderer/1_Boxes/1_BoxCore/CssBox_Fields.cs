@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterCore
+﻿//BSD 2014, WinterDev
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -14,13 +14,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Globalization;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Handlers;
-using HtmlRenderer.Parse;
-using HtmlRenderer.Utils;
+
 
 namespace HtmlRenderer.Dom
 {
@@ -40,12 +34,17 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary>
+<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox_Fields.cs
         readonly IHtmlElement _htmlElement;
 
 
         int _boxCompactFlags;
 
 
+=======
+        readonly BridgeHtmlElement _htmlElement; 
+        int _boxCompactFlags; 
+>>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox_Fields.cs
         //----------------------------------------------------
         CssBox _listItemBox;
         //----------------------------------------------------
@@ -67,7 +66,12 @@ namespace HtmlRenderer.Dom
         //condition 2 :this Box is InlineBox 
         List<CssRun> _boxRuns;
         //----------------------------------------------------  
+<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox_Fields.cs
 
+=======
+        //state
+        protected int _prop_pass_eval;
+>>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox_Fields.cs
 
         /// <summary>
         /// Gets the childrenn boxes of this box
@@ -218,6 +222,7 @@ namespace HtmlRenderer.Dom
             get;
             set;
         }
+<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox_Fields.cs
 
 
         public ImageBinder BackgroundImageBinder
@@ -238,6 +243,33 @@ namespace HtmlRenderer.Dom
         {
             get
             {
+=======
+        
+        //==================================================
+        public WellknownHtmlTagName WellknownTagName
+        {
+            get
+            {
+                return this.wellKnownTagName;
+            }
+            protected set
+            {
+                this.wellKnownTagName = value;
+            }
+        } 
+        public CssDisplay CssDisplay
+        {
+            get
+            {
+                return this._myspec.CssDisplay;
+            }
+            set
+            {
+                this._myspec.CssDisplay = value;
+            }
+        }
+        //==================================================
+>>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox_Fields.cs
 
                 return this.BoxSpec.BackgroundPositionY;
             }

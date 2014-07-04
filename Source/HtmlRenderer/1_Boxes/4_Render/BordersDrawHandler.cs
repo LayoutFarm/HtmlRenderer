@@ -1,4 +1,4 @@
-//BSD 2014, WinterCore
+//BSD 2014, WinterDev
 
 
 // "Therefore those skilled at the unorthodox
@@ -43,11 +43,18 @@ namespace HtmlRenderer.Handlers
         {
             if (rect.Width > 0 && rect.Height > 0)
             {
+<<<<<<< HEAD
                 var spec = box.BoxSpec;
                 if (spec.BorderTopStyle >= CssBorderStyle.Visible &&
                     box.ActualBorderTopWidth > 0)
                 {
 
+=======
+
+                if (box.BorderTopStyle >= CssBorderStyle.Visible &&
+                    box.ActualBorderTopWidth > 0)
+                {
+>>>>>>> 1.7.2105.1
                     DrawBorder(CssSide.Top, box, p, rect, isFirst, isLast);
                 }
 
@@ -356,7 +363,11 @@ namespace HtmlRenderer.Handlers
         /// <summary>
         /// Get the border color for the given box border.
         /// </summary>
+<<<<<<< HEAD
         static Color GetColor(CssSide border, BoxSpec box, CssBorderStyle style)
+=======
+        static Color GetColor(CssSide border, CssBox box, CssBorderStyle style)
+>>>>>>> 1.7.2105.1
         {
             switch (border)
             {
@@ -396,7 +407,11 @@ namespace HtmlRenderer.Handlers
         /// <summary>
         /// Get the border style for the given box border.
         /// </summary>
+<<<<<<< HEAD
         static CssBorderStyle GetStyle(CssSide border, BoxSpec box)
+=======
+        static CssBorderStyle GetStyle(CssSide border, CssBox box)
+>>>>>>> 1.7.2105.1
         {
             switch (border)
             {

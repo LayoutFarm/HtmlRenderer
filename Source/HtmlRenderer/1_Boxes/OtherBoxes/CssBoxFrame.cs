@@ -73,8 +73,13 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
+<<<<<<< HEAD
         internal CssBoxFrame(CssBox parent, IHtmlElement tag, BoxSpec spec)
             : base(parent, tag, spec)
+=======
+        internal CssBoxFrame(CssBox parent, BridgeHtmlElement tag)
+            : base(parent, tag)
+>>>>>>> 1.7.2105.1
         {
 
             this.AddRun(this._imageWord = new CssImageRun(this));
@@ -93,14 +98,12 @@ namespace HtmlRenderer.Dom
                 }
             }
 
-            if (!_isVideo)
-            {
-                SetErrorBorder();
-            }
+            //if (!_isVideo)
+            //{
+            //    SetErrorBorder();
+            //}
         }
-
-
-
+        
         /// <summary>
         /// Get the href link of the box (by default get "href" attribute)
         /// </summary>
@@ -586,18 +589,27 @@ namespace HtmlRenderer.Dom
             CssLayoutEngine.MeasureImageSize(_imageWord);
         }
 
-        /// <summary>
-        /// Set error image border on the image box.
-        /// </summary>
-        private void SetErrorBorder()
-        {
+        ///// <summary>
+        ///// Set error image border on the image box.
+        ///// </summary>
+        //private void SetErrorBorder()
+        //{
 
+<<<<<<< HEAD
             this.SetAllBorders(
                 CssBorderStyle.Solid, CssLength.MakePixelLength(2),
                 System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
             throw new NotSupportedException();
             // BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
         }
+=======
+        //    this.SetAllBorders(
+        //        CssBorderStyle.Solid, CssLength.MakePixelLength(2),
+        //        System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
+
+        //    BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
+        //}
+>>>>>>> 1.7.2105.1
 
         /// <summary>
         /// On image load process is complete with image or without update the image box.
@@ -612,10 +624,10 @@ namespace HtmlRenderer.Dom
             _imageLoadingComplete = true;
             this.RunSizeMeasurePass = false;
 
-            if (_imageLoadingComplete && image == null)
-            {
-                SetErrorBorder();
-            }
+            //if (_imageLoadingComplete && image == null)
+            //{
+            //    SetErrorBorder();
+            //}
 
             if (async)
             {

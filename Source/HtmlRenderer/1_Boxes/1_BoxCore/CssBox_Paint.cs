@@ -1,15 +1,11 @@
-﻿
-//BSD 2014, WinterCore
+﻿//BSD 2014, WinterDev
+//ArthurHub
 
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Globalization;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Handlers;
-using HtmlRenderer.Parse;
-using HtmlRenderer.Utils;
+
 
 namespace HtmlRenderer.Dom
 {
@@ -21,15 +17,21 @@ namespace HtmlRenderer.Dom
         {
             
             if (this.CssDisplay != CssDisplay.None &&
+<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox_Paint.cs
                 this.BoxSpec.CssVisibility == Dom.CssVisibility.Visible)
             {   
                 PaintImp(g, p);  
+=======
+                this.Visibility == Dom.CssVisibility.Visible)
+            {
+                PaintImp(g, p);
+>>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox_Paint.cs
             }
         }
 #if DEBUG
         public void dbugPaint(PaintVisitor p, RectangleF r)
         {
-           // return;
+            //return;
             if (this.HtmlElement == null)
             {
                 p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);

@@ -1,4 +1,4 @@
-//BSD 2014, WinterCore
+//BSD 2014, WinterDev
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -106,7 +106,7 @@ namespace HtmlRenderer.Dom
 #if DEBUG
         public override string ToString()
         {
-            return this.owner.dbugId + " left:" + this.Left + ",width:" + this.Width + " " + this.owner.ToString();
+            return this.owner.__aa_dbugId + " left:" + this.Left + ",width:" + this.Width + " " + this.owner.ToString();
         }
 #endif
     }

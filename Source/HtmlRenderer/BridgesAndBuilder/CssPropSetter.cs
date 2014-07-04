@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterCore
+﻿//BSD 2014, WinterDev
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -25,17 +25,24 @@ using HtmlRenderer.WebDom;
 
 namespace HtmlRenderer.Dom
 {
+     
 
     static class CssPropSetter
     {
+<<<<<<< HEAD
 
         internal static void AssignPropertyValue(BoxSpec target, BoxSpec parent, CssPropertyDeclaration decl)
+=======
+        //=======================================================================================
+        internal static void AssignPropertyValue(BoxSpec box, BoxSpec boxParent, WebDom.CssPropertyDeclaration decl)
+>>>>>>> 1.7.2105.1
         {
             if (decl.IsExpand)
             {
                 return;
             }
 
+<<<<<<< HEAD
             if (decl.MarkedAsInherit && parent != null)
             {
                 //use parent property 
@@ -48,6 +55,21 @@ namespace HtmlRenderer.Dom
         }
 
         static void SetPropertyValue(BoxSpec target, BoxSpec parent, CssPropertyDeclaration decl)
+=======
+            if (decl.MarkedAsInherit && boxParent != null)
+            {
+                //use parent property 
+                SetPropertyValueFromParent(box, boxParent, decl.WellknownPropertyName);
+            }
+            else
+            {
+                SetPropertyValue(box, boxParent, decl);
+            }
+        }
+
+        
+        static void SetPropertyValue(BoxSpec cssBox, BoxSpec parentBox, WebDom.CssPropertyDeclaration decl)
+>>>>>>> 1.7.2105.1
         {
             //assign property  
             WebDom.CssCodeValueExpression cssValue = decl.GetPropertyValue(0);
@@ -235,6 +257,7 @@ namespace HtmlRenderer.Dom
                     target.Position = UserMapUtil.GetCssPosition(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.LineHeight:
+<<<<<<< HEAD
                     //2014,
                     //from www.w3c.org/wiki/Css/Properties/line-height
 
@@ -243,6 +266,10 @@ namespace HtmlRenderer.Dom
                     //element's computed font size. 
 
                     target.LineHeight = cssValue.AsLength();
+=======
+                    cssBox.LineHeight = cssValue.AsLength();
+
+>>>>>>> 1.7.2105.1
                     break;
                 case WebDom.WellknownCssPropertyName.VerticalAlign:
                     target.VerticalAlign = UserMapUtil.GetVerticalAlign(cssValue);
@@ -264,7 +291,11 @@ namespace HtmlRenderer.Dom
                     target.WordBreak = UserMapUtil.GetWordBreak(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.Visibility:
+<<<<<<< HEAD
                     target.CssVisibility = UserMapUtil.GetVisibility(cssValue);
+=======
+                    cssBox.Visibility = UserMapUtil.GetVisibility(cssValue);
+>>>>>>> 1.7.2105.1
                     break;
                 case WebDom.WellknownCssPropertyName.WordSpacing:
                     target.WordSpacing = cssValue.AsLength();
@@ -273,7 +304,11 @@ namespace HtmlRenderer.Dom
                     target.FontFamily = cssValue.GetTranslatedStringValue();
                     break;
                 case WebDom.WellknownCssPropertyName.FontSize:
+<<<<<<< HEAD
                     target.SetFontSize(parent, cssValue);
+=======
+                    cssBox.SetFontSize(parentBox, cssValue);
+>>>>>>> 1.7.2105.1
 
                     break;
                 case WebDom.WellknownCssPropertyName.FontStyle:
@@ -305,14 +340,16 @@ namespace HtmlRenderer.Dom
                     break;
             }
         }
-
-
         /// <summary>
         /// assign property value from parent
         /// </summary>
         /// <param name="target"></param>
         /// <param name="propName"></param>
+<<<<<<< HEAD
         static void SetPropertyValueFromParent(BoxSpec target, BoxSpec parent, WellknownCssPropertyName propName)
+=======
+        static void SetPropertyValueFromParent(BoxSpec cssBox, BoxSpec parentCssBox, HtmlRenderer.WebDom.WellknownCssPropertyName propName)
+>>>>>>> 1.7.2105.1
         {
 
             switch (propName)
@@ -488,7 +525,11 @@ namespace HtmlRenderer.Dom
                     target.WordBreak = parent.WordBreak;
                     break;
                 case WebDom.WellknownCssPropertyName.Visibility:
+<<<<<<< HEAD
                     target.CssVisibility = parent.CssVisibility;
+=======
+                    cssBox.Visibility = parentCssBox.Visibility;
+>>>>>>> 1.7.2105.1
                     break;
                 case WebDom.WellknownCssPropertyName.WordSpacing:
                     target.WordSpacing = parent.WordSpacing;
@@ -534,7 +575,5 @@ namespace HtmlRenderer.Dom
         }
 
     }
-
-
 
 }

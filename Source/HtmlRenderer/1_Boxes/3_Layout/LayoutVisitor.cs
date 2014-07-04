@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterCore
+﻿//BSD 2014, WinterDev
 
 using System;
 using System.Collections.Generic;
@@ -44,7 +44,7 @@ namespace HtmlRenderer.Dom
         internal void UpdateRootSize(CssBox box)
         {
             float candidateRootWidth = Math.Max(box.CalculateMinimumWidth() + CalculateWidthMarginTotalUp(box),
-                         (box.SizeWidth + this.ContainerBlockGlobalX) < CssBoxConst.MAX_RIGHT ? box.SizeWidth : 0);
+                         (box.SizeWidth + this.ContainerBlockGlobalX) < ConstConfig.BOX_MAX_RIGHT ? box.SizeWidth : 0);
 
             this.htmlContainer.UpdateSizeIfWiderOrHeigher(
                 this.ContainerBlockGlobalX + candidateRootWidth,
@@ -58,8 +58,8 @@ namespace HtmlRenderer.Dom
         float CalculateWidthMarginTotalUp(CssBox box)
         {
 
-            if ((box.SizeWidth + this.ContainerBlockGlobalX) > CssBoxConst.MAX_RIGHT ||
-                (box.ParentBox != null && (box.ParentBox.SizeWidth + this.ContainerBlockGlobalX) > CssBoxConst.MAX_RIGHT))
+            if ((box.SizeWidth + this.ContainerBlockGlobalX) > ConstConfig.BOX_MAX_RIGHT ||
+                (box.ParentBox != null && (box.ParentBox.SizeWidth + this.ContainerBlockGlobalX) > ConstConfig.BOX_MAX_RIGHT))
             {
                 return (box.ActualMarginLeft + box.ActualMarginRight) + totalMarginLeftAndRight;
             }
@@ -86,8 +86,12 @@ namespace HtmlRenderer.Dom
             float w = HtmlRenderer.Utils.FontsUtils.MeasureWhitespace(this.Gfx, box.ActualFont);
             if (!(boxspec.WordSpacing.IsEmpty || boxspec.WordSpacing.IsNormalWordSpacing))
             {
+<<<<<<< HEAD
                 w += HtmlRenderer.Parse.CssValueParser.ParseLengthWithFontAdjust(
                     box.BoxSpec.WordSpacing, 0, box);
+=======
+                w += HtmlRenderer.Parse.CssValueParser.ConvertToPxWithFontAdjust(box.WordSpacing, 0, box);
+>>>>>>> 1.7.2105.1
             }
             return w;
         }

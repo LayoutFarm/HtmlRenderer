@@ -1,4 +1,4 @@
-//BSD 2014, WinterCore
+//BSD 2014, WinterDev
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -118,7 +118,11 @@ namespace HtmlRenderer.Dom
 
             // imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 1.7.2105.1
         public static void FlowContentRunsV2(CssBox hostBlock, LayoutVisitor lay)
         {
 
@@ -145,7 +149,7 @@ namespace HtmlRenderer.Dom
             //****
 
             // if width is not restricted we need to lower it to the actual width
-            if (hostBlock.SizeWidth + lay.ContainerBlockGlobalX >= CssBoxConst.MAX_RIGHT)
+            if (hostBlock.SizeWidth + lay.ContainerBlockGlobalX >= ConstConfig.BOX_MAX_RIGHT)
             {
                 float newWidth = maxLocalRight + hostBlock.ActualPaddingRight + hostBlock.ActualBorderRightWidth;// CssBox.MAX_RIGHT - (args.ContainerBlockGlobalX + blockBox.LocalX);
                 if (newWidth <= CSS_OFFSET_THRESHOLD)
@@ -229,7 +233,11 @@ namespace HtmlRenderer.Dom
             float leftMostSpace = 0, rightMostSpace = 0;
             if (splitableBox.MayHasSomeTextContent)
             {
+<<<<<<< HEAD
 
+=======
+                
+>>>>>>> 1.7.2105.1
                 FlowRunsIntoHostLine(lay, hostBox, splitableBox, splitableBox, limitLocalRight, interLineSpace, firstRunStartX,
                      ref hostLine, ref current_line_x, ref current_line_y,
                      ref maxRightForHostBox, ref maxBottomForHostBox,
@@ -237,7 +245,11 @@ namespace HtmlRenderer.Dom
             }
             else
             {
+<<<<<<< HEAD
 
+=======
+               
+>>>>>>> 1.7.2105.1
                 foreach (CssBox b in splitableBox.GetChildBoxIter())
                 {
                     if (b.IsAbsolutePosition())

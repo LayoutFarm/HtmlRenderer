@@ -1,4 +1,7 @@
-﻿using System;
+﻿//BSD 2014, WinterDev
+//ArthurHub
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -101,7 +104,7 @@ namespace HtmlRenderer.Dom
             {
                 return 0;
             }
-            return CssValueParser.ParseLength(margin, cbWidth, this);
+            return CssValueParser.ConvertToPx(margin, cbWidth, this);
         }
         /// <summary>
         /// recalculate padding
@@ -116,7 +119,7 @@ namespace HtmlRenderer.Dom
             {
                 return 0;
             }
-            return CssValueParser.ParseLength(padding, cbWidth, this);
+            return CssValueParser.ConvertToPx(padding, cbWidth, this);
         }
 
         //=============================================================
@@ -125,6 +128,7 @@ namespace HtmlRenderer.Dom
             get { return (this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0; }
         }
 
+<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox_Positions.cs
         internal Font ActualFont
         {
             get { return this._actualFont; }
@@ -143,10 +147,17 @@ namespace HtmlRenderer.Dom
             return length;
         }
         //static int num_count = 0;
+=======
+        internal void ReEvaluateFont(BoxSpec parentSpec)
+        {
+            this._actualFont = this.Spec.GetFont(parentSpec);
+        }
+>>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox_Positions.cs
         /// <summary>
         /// evaluate computed value
         /// </summary>
         internal void ReEvaluateComputedValues(CssBox containingBlock)
+<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox_Positions.cs
         {
 
             //--------------
@@ -180,6 +191,43 @@ namespace HtmlRenderer.Dom
             //that need its containing block width (even for 'top' and 'bottom')
 
             //margin
+=======
+        {    
+            //see www.w3.org/TR/CSS2/box.html#padding-properties 
+            //depend on parent
+            //1. fonts
+            if (this.ParentBox != null)
+            {
+
+                ReEvaluateFont(this.ParentBox.Spec);
+
+                //2. actual word spacing
+                //this._actualWordSpacing = this.NoEms(this.InitSpec.LineHeight);
+                //3. font size 
+                //len = len.ConvertEmToPoints(parentBox.ActualFont.SizeInPoints);
+            }
+            else
+            {
+                this._actualFont = this.Spec.GetFont(containingBlock.Spec);
+            }
+
+            if (_actualFont == null)
+            {
+            }
+            else if (_actualFont.Size == 2)
+            {
+                
+                var hh = _actualFont.GetHeight();
+            }
+            //if (_actualFont != null)
+            //{
+            //    return _actualFont;
+            //}
+            ////-----------------------------------------------------------------------------                
+            //_actualFont = this._initSpec._fontFeats.GetCacheFont(this.GetParent());
+            //return _actualFont;
+
+>>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox_Positions.cs
             //-----------------------------------------------------------------------
             float cbWidth = containingBlock.SizeWidth;
             this._boxCompactFlags |= CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES;
@@ -251,10 +299,17 @@ namespace HtmlRenderer.Dom
             //extension ***
             float c1, c2, c3, c4;
 
+<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox_Positions.cs
             this._actualCornerNE = c1 = CssValueParser.ParseLength(spec.CornerNERadius, 0, this);
             this._actualCornerNW = c2 = CssValueParser.ParseLength(spec.CornerNWRadius, 0, this);
             this._actualCornerSE = c3 = CssValueParser.ParseLength(spec.CornerSERadius, 0, this);
             this._actualCornerSW = c4 = CssValueParser.ParseLength(spec.CornerSWRadius, 0, this);
+=======
+            this._actualCornerNE = c1 = CssValueParser.ConvertToPx(CornerNERadius, 0, this);
+            this._actualCornerNW = c2 = CssValueParser.ConvertToPx(CornerNWRadius, 0, this);
+            this._actualCornerSE = c3 = CssValueParser.ConvertToPx(CornerSERadius, 0, this);
+            this._actualCornerSW = c4 = CssValueParser.ConvertToPx(CornerSWRadius, 0, this);
+>>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox_Positions.cs
 
             if ((c1 + c2 + c3 + c4) > 0)
             {
@@ -266,9 +321,9 @@ namespace HtmlRenderer.Dom
             }
             //---------------------------------------------------------------------------
 
-            //if ((this._prop_pass_eval & CssBoxBaseAssignments.BORDER_WIDTH_BOTTOM) == 0)
+            //if ((this._prop_pass_eval & CssBoxAssignments.BORDER_WIDTH_BOTTOM) == 0)
             //{
-            //    this._prop_pass_eval |= CssBoxBaseAssignments.BORDER_WIDTH_BOTTOM;
+            //    this._prop_pass_eval |= CssBoxAssignments.BORDER_WIDTH_BOTTOM;
             //    return (this.BorderBottomStyle == CssBorderStyle.None) ?
             //        _actualBorderBottomWidth = 0f :
             //        _actualBorderBottomWidth = CssValueParser.GetActualBorderWidth(BorderBottomWidth, this);

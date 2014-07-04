@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterCore 
+﻿//BSD 2014, WinterDev 
 //ArthurHub
 
 using System;
@@ -46,6 +46,7 @@ namespace HtmlRenderer.Dom
             this.elem = elem;
             this.children = new List<BridgeHtmlNode>();
             this.WellknownTagName = wellKnownTagName;
+            this.Spec = new BoxSpec(wellKnownTagName);
         }
         public IEnumerable<IHtmlAttribute> GetAttributeIter()
         {
@@ -64,7 +65,7 @@ namespace HtmlRenderer.Dom
         public BoxSpec Spec
         {
             get { return this.boxSpec; }
-            set
+            private set
             {
                 this.boxSpec = value;
             }
@@ -119,7 +120,7 @@ namespace HtmlRenderer.Dom
             else
             {
                 value = attr.Value;
-                return true;                  
+                return true;
             }
         }
         public BridgeHtmlElement Parent

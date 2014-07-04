@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterCore
+﻿//BSD 2014, WinterDev
 
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace HtmlRenderer.Dom
         HtmlContainer container;
         IGraphics ig;
 
-        RectangleF latestClip = new RectangleF(0, 0, CssBoxConst.MAX_RIGHT, CssBoxConst.MAX_BOTTOM);
+        RectangleF latestClip = new RectangleF(0, 0, ConstConfig.BOX_MAX_RIGHT, ConstConfig.BOX_MAX_BOTTOM);
 
         float physicalViewportWidth;
         float physicalViewportHeight;
