@@ -16,7 +16,7 @@
 namespace HtmlRenderer.Dom
 {
     
-    public enum CssSide
+    enum CssSide
     {
         Top,
         Right,

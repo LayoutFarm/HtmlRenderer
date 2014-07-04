@@ -1,4 +1,5 @@
-﻿//BSD 2014, WinterDev 
+﻿//BSD 2014, WinterDev
+
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -41,7 +42,7 @@ namespace HtmlRenderer.Dom
     {
 
 
-        BoxSpec _myspec;
+        readonly BoxSpec _myspec;
         WellknownHtmlTagName wellKnownTagName;
 
 
@@ -76,7 +77,7 @@ namespace HtmlRenderer.Dom
         }
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
         {
-
+           
             //for root
             this._aa_boxes = new CssBoxCollection(this);
             if (parentBox != null)
@@ -269,14 +270,14 @@ namespace HtmlRenderer.Dom
                 return this.HasRuns && this.FirstRun.IsImage;
 
             }
-        }
+        } 
         /// <summary>
         /// Tells if the box is empty or contains just blank spaces
         /// </summary>
         public bool IsSpaceOrEmpty
         {
             get
-            {
+            {   
                 if ((Runs.Count != 0 || Boxes.Count != 0) && (Runs.Count != 1 || !Runs[0].IsSpaces))
                 {
                     foreach (CssRun word in Runs)
