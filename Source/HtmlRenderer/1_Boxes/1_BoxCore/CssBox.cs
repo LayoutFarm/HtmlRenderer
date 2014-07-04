@@ -47,14 +47,14 @@ namespace HtmlRenderer.Dom
 
 
 #if DEBUG
-        public readonly int __dbugId = dbugTotalId++;
+        public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
         public int dbugMark;
 #endif
 
         internal CssBox(CssBox parentBox, BridgeHtmlElement element)
         {
-            if (this.__dbugId == 2)
+            if (this.__aa_dbugId == 2)
             {
             }
             this._aa_boxes = new CssBoxCollection(this);

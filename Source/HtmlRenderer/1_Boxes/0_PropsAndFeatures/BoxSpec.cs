@@ -29,6 +29,7 @@ namespace HtmlRenderer.Dom
 
         int _versionNum;
         bool _freezed;
+
         //==========================================================
         #region css values Inherit From Parent (by default)
         //inherit from parent by default
@@ -76,7 +77,7 @@ namespace HtmlRenderer.Dom
         WellknownHtmlTagName wellKnownTagName;
         #endregion
 #if DEBUG
-        public readonly int dbugId = dbugTotalId++;
+        public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
         public int dbugMark;
 #endif
@@ -89,6 +90,11 @@ namespace HtmlRenderer.Dom
 
         public BoxSpec(WellknownHtmlTagName wellknownTagName)
         {
+            if (this.__aa_dbugId == 38)
+            {
+
+            }
+
             this.WellknownTagName = wellknownTagName;
         }
         //---------------------------------------------------------------
@@ -115,7 +121,7 @@ namespace HtmlRenderer.Dom
             _marginFeats.Freeze();//5.
             _cornerFeats.Freeze();//6.
             _backgroundFeats.Freeze();//7 
-            
+
         }
         internal void Defreeze()
         {
@@ -206,7 +212,8 @@ namespace HtmlRenderer.Dom
         public CssBorderStyle BorderLeftStyle
         {
             get { return this._borderFeats.LeftStyle; }
-            set { if (Assignable()) CheckBorderVersion().LeftStyle = value; }
+            set { if (Assignable()) 
+                CheckBorderVersion().LeftStyle = value; }
         }
         public CssBorderStyle BorderRightStyle
         {
@@ -236,13 +243,22 @@ namespace HtmlRenderer.Dom
         public Color BorderRightColor
         {
             get { return this._borderFeats.RightColor; }
-            set { if (Assignable()) CheckBorderVersion().RightColor = value; }
+            set
+            {
+                if (Assignable())
+                    CheckBorderVersion().RightColor = value;
+            }
+
         }
 
         public Color BorderTopColor
         {
             get { return this._borderFeats.TopColor; }
-            set { if (Assignable()) CheckBorderVersion().TopColor = value; }
+            set
+            {
+                if (Assignable())
+                    CheckBorderVersion().TopColor = value;
+            }
         }
         public CssLength BorderSpacingVertical
         {
@@ -751,7 +767,7 @@ namespace HtmlRenderer.Dom
         public static bool dbugCompare(dbugPropCheckReport dbugR, BoxSpec boxBase, BoxSpec spec)
         {
 
-            int dd = boxBase.dbugId;
+            int dd = boxBase.__aa_dbugId;
             dbugR.Check("_fontProps", CssFontFeature.dbugIsEq(dbugR, boxBase._fontFeats, spec._fontFeats));
             dbugR.Check("_listProps", CssListFeature.dbugIsEq(dbugR, boxBase._listFeats, spec._listFeats));
             dbugR.Check("_lineHeight", CssLength.IsEq(boxBase._lineHeight, spec._lineHeight));

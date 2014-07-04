@@ -8,6 +8,11 @@ namespace HtmlRenderer.Dom
 {
     abstract class CssFeatureBase
     {
+
+#if DEBUG
+        static int dbugIdTotal = 0;
+        int __aa_dbugId = dbugIdTotal++;
+#endif
         protected readonly object owner;
         bool freezed;
         public CssFeatureBase(object owner)
@@ -512,7 +517,7 @@ namespace HtmlRenderer.Dom
                 return new CssCornerFeature(owner, this);
             }
         }
-        
+
         public CssLength NERadius
         {
             get { return this._ne; }
@@ -552,7 +557,7 @@ namespace HtmlRenderer.Dom
     class CssFontFeature : CssFeatureBase
     {
 
-        
+
         CssLength _fontSize;
         CssFontStyle _fontStyle;
         CssFontWeight _fontWeight;
@@ -641,7 +646,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-      
+
 
 #if DEBUG
         public static bool dbugIsEq(dbugPropCheckReport rep, CssFontFeature prop1, CssFontFeature prop2)

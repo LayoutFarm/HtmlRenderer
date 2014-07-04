@@ -36,38 +36,7 @@ namespace HtmlRenderer.Dom
             this._wordBreak = s._wordBreak;
             this._cssDirection = s._cssDirection;
             //--------------------------------------- 
-
-            //if (clone)
-            //{
-            //    //for clone only (eg. split a box into two parts)
-            //    //---------------------------------------
-            //    this._backgroundFeats = s._backgroundFeats;
-
-            //    this._borderFeats = s._borderFeats;
-            //    this._cornerFeats = s._cornerFeats;
-            //    //---------------------------------------
-
-            //    this._left = s._left;
-            //    this._top = s._top;
-            //    this._bottom = s._bottom;
-            //    this._right = s._right;
-
-            //    this._width = s._width;
-            //    this._height = s._height;
-            //    this._maxWidth = s._maxWidth;
-            //    this._position = s._position;
-
-
-            //    this._wordSpacing = s._wordSpacing;
-            //    this._lineHeight = s._lineHeight;
-            //    this._float = s._float;
-
-
-            //    this._cssDisplay = s._cssDisplay;
-            //    this._overflow = s._overflow;
-            //    this._textDecoration = s._textDecoration;
-            //    //---------------------------------------  
-            //}
+             
         }
 
         public void CloneAllStylesFrom(BoxSpec s)
@@ -93,23 +62,17 @@ namespace HtmlRenderer.Dom
             this._wordBreak = s._wordBreak;
             this._cssDirection = s._cssDirection;
             //---------------------------------------
+           
             //2.
             //for clone only (eg. split a box into two parts)
             //=======================================
-            this._backgroundFeats = s._backgroundFeats;
-
-            //if (this.dbugId == 36)
-            //{
-            //}
-
-            if (s._borderFeats.Owner == s)
-            {
-                 
-            }
-            
+            this._backgroundFeats = s._backgroundFeats;  
+            this._borderFeats = s._borderFeats; 
             this._cornerFeats = s._cornerFeats;
+            this._marginFeats = s._marginFeats;
+            this._paddingFeats = s._paddingFeats;
             //---------------------------------------
-
+            this._cssDisplay = s._cssDisplay;
             this._left = s._left;
             this._top = s._top;
             this._bottom = s._bottom;
@@ -123,28 +86,15 @@ namespace HtmlRenderer.Dom
             this._wordSpacing = s._wordSpacing;
             this._lineHeight = s._lineHeight;
             this._float = s._float;
-
-            //if (this.dbugId == 36)
-            //{
-            //}
-            this._cssDisplay = s._cssDisplay;
+             
+         
             this._overflow = s._overflow;
             this._textDecoration = s._textDecoration;
 
             //3.
-            //=====================================
-            //if (this.dbugBB > 0)
-            //{
-
-            //}
-            this._marginFeats = s._marginFeats;
-            //--------------------------------------
-
-            this._cssDirection = s._cssDirection;
-
-
-            //-----------------------------------
-            this._paddingFeats = s._paddingFeats;
+            //===================================== 
+            this._cssDirection = s._cssDirection; 
+           
             //if (this._paddingFeats.Owner != this)
             //{
             //    this._paddingFeats = s._paddingFeats;
