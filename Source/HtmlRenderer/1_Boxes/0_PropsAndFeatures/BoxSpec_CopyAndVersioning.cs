@@ -66,8 +66,9 @@ namespace HtmlRenderer.Dom
             //2.
             //for clone only (eg. split a box into two parts)
             //=======================================
-            this._backgroundFeats = s._backgroundFeats;  
+            this._backgroundFeats = s._backgroundFeats;
             this._borderFeats = s._borderFeats; 
+           
             this._cornerFeats = s._cornerFeats;
             this._marginFeats = s._marginFeats;
             this._paddingFeats = s._paddingFeats;

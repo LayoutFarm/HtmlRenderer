@@ -265,7 +265,7 @@ namespace HtmlRenderer.Dom
 
                 var rootspec = new BoxSpec(WellknownHtmlTagName.Unknown);
 
-                ApplyStyleSheetForBox(rootBox, null, activeCssTemplate);
+                //ApplyStyleSheetForBox(rootBox, null, activeCssTemplate);
                 //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);
                 OnePassBoxCorrection(rootBox);
@@ -274,8 +274,7 @@ namespace HtmlRenderer.Dom
 
                 bool followingBlock = true;
 
-                CorrectLineBreaksBlocks(rootBox, ref followingBlock);
-
+                CorrectLineBreaksBlocks(rootBox, ref followingBlock); 
                 //1. must test first
                 CorrectInlineBoxesParent(rootBox);
                 //2. then ...
