@@ -56,10 +56,7 @@ namespace HtmlRenderer.Dom
         {
             this.AddRun(this._imageWord = new CssImageRun(this));
         }
-        public override CssBox GetParent()
-        {
-            return this.ParentBox;
-        }
+        
         /// <summary>
         /// Get the image of this image box.
         /// </summary>
@@ -217,18 +214,18 @@ namespace HtmlRenderer.Dom
 
         #region Private methods
 
-        /// <summary>
-        /// Set error image border on the image box.
-        /// </summary>
-        private void SetErrorBorder()
-        {
+        ///// <summary>
+        ///// Set error image border on the image box.
+        ///// </summary>
+        //private void SetErrorBorder()
+        //{
 
-            this.SetAllBorders(
-                CssBorderStyle.Solid, CssLength.MakePixelLength(2),
-                System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
+        //    this.SetAllBorders(
+        //        CssBorderStyle.Solid, CssLength.MakePixelLength(2),
+        //        System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
 
-            BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
-        }
+        //    BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
+        //}
 
 
 

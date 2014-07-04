@@ -62,6 +62,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="1_Boxes\1_BoxCore\CssBox_DirectSetValues.cs" />
     <Compile Include="1_Boxes\5_HitAndSelections\BoxHitChain.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBox_FlagsConst.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBoxAssignments.cs" />
@@ -74,7 +75,6 @@
     <Compile Include="1_Boxes\3_Layout\LayoutVisitor.cs" />
     <Compile Include="1_Boxes\4_Render\PaintVisitor.cs" />
     <Compile Include="BridgesAndBuilder\ActiveCssTemplate.cs" />
-    <Compile Include="BridgesAndBuilder\BoxModelBuilder_ApplyStylesheetForBox.cs" />
     <Compile Include="BridgesAndBuilder\BoxModelBuilder_Corrector.cs" />
     <Compile Include="1_Boxes\3_Layout\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
     <Compile Include="1_Boxes\3_Layout\CssTableLayoutEngine.TableColumns.cs" />
@@ -120,7 +120,7 @@
     <Compile Include="1_Boxes\1_BoxCore\CssBox.cs" />
     <Compile Include="1_Boxes\OtherBoxes\CssBoxImage.cs" />
     <Compile Include="1_Boxes\2_RunsAndBinders\CssRun.cs" />
-    <Compile Include="1_Boxes\1_BoxCore\CssBox_Spec.cs" />
+    <Compile Include="1_Boxes\1_BoxCore\CssBox_Spec_ReadOnly.cs" />
     <Compile Include="1_Boxes\3_Layout\CssLayoutEngine.cs" />
     <Compile Include="1_Boxes\0_PropsAndFeatures\CssLength.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssLineBox.cs" />

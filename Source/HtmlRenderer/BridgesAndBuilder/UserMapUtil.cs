@@ -215,22 +215,22 @@ namespace HtmlRenderer.Dom
                    CssBorderStyle.None,
                    value);
         }
-        public static void SetBorderSpacing(this CssBox box, WebDom.CssCodeValueExpression value)
-        {
-            WebDom.CssCodePrimitiveExpression primValue = value as WebDom.CssCodePrimitiveExpression;
-            if (primValue == null)
-            {
-                //2 values?
-                //box.BorderSpacingHorizontal = new CssLength(r[0].Value);
-                //box.BorderSpacingVertical = new CssLength(r[1].Value);
-                throw new NotSupportedException();
-            }
-            else
-            {
-                //primitive value 
-                box.BorderSpacingHorizontal = box.BorderSpacingVertical = primValue.AsLength();
-            }
-        }
+        //public static void SetBorderSpacing(this CssBox box, WebDom.CssCodeValueExpression value)
+        //{
+        //    WebDom.CssCodePrimitiveExpression primValue = value as WebDom.CssCodePrimitiveExpression;
+        //    if (primValue == null)
+        //    {
+        //        //2 values?
+        //        //box.BorderSpacingHorizontal = new CssLength(r[0].Value);
+        //        //box.BorderSpacingVertical = new CssLength(r[1].Value);
+        //        throw new NotSupportedException();
+        //    }
+        //    else
+        //    {
+        //        //primitive value 
+        //        box.BorderSpacingHorizontal = box.BorderSpacingVertical = primValue.AsLength();
+        //    }
+        //}
         public static void SetBorderSpacing(this BoxSpec box, WebDom.CssCodeValueExpression value)
         {
             WebDom.CssCodePrimitiveExpression primValue = value as WebDom.CssCodePrimitiveExpression;
@@ -259,45 +259,45 @@ namespace HtmlRenderer.Dom
             stbuilder.Append(box.CornerSWRadius);
             return stbuilder.ToString();
         }
-        public static void SetCornerRadius(this CssBox box, WebDom.CssCodeValueExpression value)
-        {
-            WebDom.CssCodePrimitiveExpression prim = value as WebDom.CssCodePrimitiveExpression;
-            if (prim == null)
-            {
-                //combinator values?
-                throw new NotSupportedException();
-                return;
-            }
-            box.CornerNERadius = box.CornerNWRadius =
-             box.CornerSERadius = box.CornerSWRadius = prim.AsLength();
+        //public static void SetCornerRadius(this CssBox box, WebDom.CssCodeValueExpression value)
+        //{
+        //    WebDom.CssCodePrimitiveExpression prim = value as WebDom.CssCodePrimitiveExpression;
+        //    if (prim == null)
+        //    {
+        //        //combinator values?
+        //        throw new NotSupportedException();
+        //        return;
+        //    }
+        //    box.CornerNERadius = box.CornerNWRadius =
+        //     box.CornerSERadius = box.CornerSWRadius = prim.AsLength();
 
 
-            ////parse corner radius 
-            //System.Text.RegularExpressions.MatchCollection r =
-            //    HtmlRenderer.Parse.RegexParserUtils.Match(HtmlRenderer.Parse.RegexParserUtils.CssLength, value);
-            //switch (r.Count)
-            //{
-            //    case 1:
-            //        box.CornerNERadius = box.CornerNWRadius =
-            //            box.CornerSERadius = box.CornerSWRadius = new CssLength(r[0].Value);
-            //        break;
-            //    case 2:
-            //        box.CornerNERadius = box.CornerNWRadius = new CssLength(r[0].Value);
-            //        box.CornerSERadius = box.CornerSWRadius = new CssLength(r[1].Value);
-            //        break;
-            //    case 3:
-            //        box.CornerNERadius = new CssLength(r[0].Value);
-            //        box.CornerNWRadius = new CssLength(r[1].Value);
-            //        box.CornerSERadius = new CssLength(r[2].Value);
-            //        break;
-            //    case 4:
-            //        box.CornerNERadius = new CssLength(r[0].Value);
-            //        box.CornerNWRadius = new CssLength(r[1].Value);
-            //        box.CornerSERadius = new CssLength(r[2].Value);
-            //        box.CornerSWRadius = new CssLength(r[3].Value);
-            //        break;
-            //}
-        }
+        //    ////parse corner radius 
+        //    //System.Text.RegularExpressions.MatchCollection r =
+        //    //    HtmlRenderer.Parse.RegexParserUtils.Match(HtmlRenderer.Parse.RegexParserUtils.CssLength, value);
+        //    //switch (r.Count)
+        //    //{
+        //    //    case 1:
+        //    //        box.CornerNERadius = box.CornerNWRadius =
+        //    //            box.CornerSERadius = box.CornerSWRadius = new CssLength(r[0].Value);
+        //    //        break;
+        //    //    case 2:
+        //    //        box.CornerNERadius = box.CornerNWRadius = new CssLength(r[0].Value);
+        //    //        box.CornerSERadius = box.CornerSWRadius = new CssLength(r[1].Value);
+        //    //        break;
+        //    //    case 3:
+        //    //        box.CornerNERadius = new CssLength(r[0].Value);
+        //    //        box.CornerNWRadius = new CssLength(r[1].Value);
+        //    //        box.CornerSERadius = new CssLength(r[2].Value);
+        //    //        break;
+        //    //    case 4:
+        //    //        box.CornerNERadius = new CssLength(r[0].Value);
+        //    //        box.CornerNWRadius = new CssLength(r[1].Value);
+        //    //        box.CornerSERadius = new CssLength(r[2].Value);
+        //    //        box.CornerSWRadius = new CssLength(r[3].Value);
+        //    //        break;
+        //    //}
+        //}
         public static void SetCornerRadius(this BoxSpec box, WebDom.CssCodeValueExpression value)
         {
             WebDom.CssCodePrimitiveExpression prim = value as WebDom.CssCodePrimitiveExpression;

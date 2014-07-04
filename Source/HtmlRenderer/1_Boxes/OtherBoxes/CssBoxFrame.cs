@@ -93,16 +93,12 @@ namespace HtmlRenderer.Dom
                 }
             }
 
-            if (!_isVideo)
-            {
-                SetErrorBorder();
-            }
+            //if (!_isVideo)
+            //{
+            //    SetErrorBorder();
+            //}
         }
-        public override CssBox GetParent()
-        {
-            return this.ParentBox;
-        }
-
+        
         /// <summary>
         /// Get the href link of the box (by default get "href" attribute)
         /// </summary>
@@ -588,18 +584,18 @@ namespace HtmlRenderer.Dom
             CssLayoutEngine.MeasureImageSize(_imageWord);
         }
 
-        /// <summary>
-        /// Set error image border on the image box.
-        /// </summary>
-        private void SetErrorBorder()
-        {
+        ///// <summary>
+        ///// Set error image border on the image box.
+        ///// </summary>
+        //private void SetErrorBorder()
+        //{
 
-            this.SetAllBorders(
-                CssBorderStyle.Solid, CssLength.MakePixelLength(2),
-                System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
+        //    this.SetAllBorders(
+        //        CssBorderStyle.Solid, CssLength.MakePixelLength(2),
+        //        System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
 
-            BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
-        }
+        //    BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
+        //}
 
         /// <summary>
         /// On image load process is complete with image or without update the image box.
@@ -614,10 +610,10 @@ namespace HtmlRenderer.Dom
             _imageLoadingComplete = true;
             this.RunSizeMeasurePass = false;
 
-            if (_imageLoadingComplete && image == null)
-            {
-                SetErrorBorder();
-            }
+            //if (_imageLoadingComplete && image == null)
+            //{
+            //    SetErrorBorder();
+            //}
 
             if (async)
             {

@@ -54,10 +54,7 @@ namespace HtmlRenderer.Dom
                 _endRow = startRow + extendedBox.RowSpan - 1;
                 ReEvaluateComputedValues(tableBox);
             }
-            public override CssBox GetParent()
-            {
-                return this.ParentBox;
-            }
+            
             public CssBox ExtendedBox
             {
                 get { return _extendedBox; }

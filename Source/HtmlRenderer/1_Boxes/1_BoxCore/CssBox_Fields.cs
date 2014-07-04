@@ -209,9 +209,31 @@ namespace HtmlRenderer.Dom
             get;
             set;
         }
-      
-
-
+        
+        //==================================================
+        public WellknownHtmlTagName WellknownTagName
+        {
+            get
+            {
+                return this.wellKnownTagName;
+            }
+            protected set
+            {
+                this.wellKnownTagName = value;
+            }
+        } 
+        public CssDisplay CssDisplay
+        {
+            get
+            {
+                return this._myspec.CssDisplay;
+            }
+            set
+            {
+                this._myspec.CssDisplay = value;
+            }
+        }
+        //==================================================
 
     }
 

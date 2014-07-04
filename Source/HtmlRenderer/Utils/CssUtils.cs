@@ -192,7 +192,7 @@ namespace HtmlRenderer.Utils
                 case "word-break":
                     return cssBox.WordBreak.ToCssStringValue();
                 case "visibility":
-                    return cssBox.CssVisibility.ToCssStringValue();
+                    return cssBox.Visibility.ToCssStringValue();
                 case "word-spacing":
                     return cssBox.WordSpacing.ToString();
                 case "font-family":

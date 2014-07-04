@@ -20,6 +20,9 @@ namespace HtmlRenderer.Dom
         public const int BORDER_SPACING_H = 1 << (24 - 1);
         public const int BORDER_SPACING_V = 1 << (25 - 1);
         //--------------------------------------------- 
+
+        
+
     }
-     
+
 }

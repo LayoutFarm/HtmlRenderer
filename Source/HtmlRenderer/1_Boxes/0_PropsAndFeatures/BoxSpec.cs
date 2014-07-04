@@ -508,7 +508,7 @@ namespace HtmlRenderer.Dom
             set { if (Assignable()) this._whitespace = value; }
         }
         //----------------------------------- 
-        public CssVisibility CssVisibility
+        public CssVisibility Visibility
         {
             get { return this._visibility; }
             set { if (Assignable()) this._visibility = value; }

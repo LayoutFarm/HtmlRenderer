@@ -262,7 +262,7 @@ namespace HtmlRenderer.Dom
                     cssBox.WordBreak = UserMapUtil.GetWordBreak(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.Visibility:
-                    cssBox.CssVisibility = UserMapUtil.GetVisibility(cssValue);
+                    cssBox.Visibility = UserMapUtil.GetVisibility(cssValue);
                     break;
                 case WebDom.WellknownCssPropertyName.WordSpacing:
                     cssBox.WordSpacing = cssValue.AsLength();
@@ -477,7 +477,7 @@ namespace HtmlRenderer.Dom
                     cssBox.WordBreak = parentCssBox.WordBreak;
                     break;
                 case WebDom.WellknownCssPropertyName.Visibility:
-                    cssBox.CssVisibility = parentCssBox.CssVisibility;
+                    cssBox.Visibility = parentCssBox.Visibility;
                     break;
                 case WebDom.WellknownCssPropertyName.WordSpacing:
                     cssBox.WordSpacing = parentCssBox.WordSpacing;

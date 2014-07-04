@@ -16,7 +16,7 @@ namespace HtmlRenderer.Dom
         public void Paint(IGraphics g, PaintVisitor p)
         {
             if (this.CssDisplay != CssDisplay.None &&
-                this.CssVisibility == Dom.CssVisibility.Visible)
+                this.Visibility == Dom.CssVisibility.Visible)
             {
                 PaintImp(g, p);
             }

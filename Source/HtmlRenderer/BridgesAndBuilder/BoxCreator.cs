@@ -128,6 +128,7 @@ namespace HtmlRenderer.Dom
             {
                 newBox.dbugAnonCreator = parent.dbugAnonCreator;
             }
+
             newBox.CssDisplay = CssDisplay.Block;
             return newBox;
         }
