@@ -1,15 +1,11 @@
-﻿
-//BSD 2014, WinterCore
+﻿//BSD 2014, WinterDev
+//ArthurHub
 
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Globalization;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Handlers;
-using HtmlRenderer.Parse;
-using HtmlRenderer.Utils;
+
 
 namespace HtmlRenderer.Dom
 {
@@ -19,16 +15,23 @@ namespace HtmlRenderer.Dom
 
         public void Paint(IGraphics g, PaintVisitor p)
         {
+            
             if (this.CssDisplay != CssDisplay.None &&
-                this.CssVisibility == Dom.CssVisibility.Visible)
+<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox_Paint.cs
+                this.BoxSpec.CssVisibility == Dom.CssVisibility.Visible)
+            {   
+                PaintImp(g, p);  
+=======
+                this.Visibility == Dom.CssVisibility.Visible)
             {
                 PaintImp(g, p);
+>>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox_Paint.cs
             }
         }
 #if DEBUG
         public void dbugPaint(PaintVisitor p, RectangleF r)
         {
-           // return;
+            //return;
             if (this.HtmlElement == null)
             {
                 p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);
@@ -43,28 +46,13 @@ namespace HtmlRenderer.Dom
 
         protected virtual void PaintImp(IGraphics g, PaintVisitor p)
         {
-<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssBox_Paint.cs
-<<<<<<< HEAD
-            //if (this.CssDisplay == Dom.CssDisplay.Table)
-            //{
-
-            //}
-
-=======
             //if (this.dbugId == 36)
             //{
 
             //}
->>>>>>> FETCH_HEAD
-=======
-            //if (this.dbugId == 36)
-            //{
-
-            //}
->>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox_Paint.cs
             if (this.CssDisplay != CssDisplay.None &&
                (this.CssDisplay != CssDisplay.TableCell ||
-                 EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
+                this.BoxSpec.EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
             {
 
 
@@ -72,7 +60,7 @@ namespace HtmlRenderer.Dom
                 bool hasPrevClip = false;
                 RectangleF prevClip = RectangleF.Empty;
 
-                if (this.Overflow == CssOverflow.Hidden)
+                if (this.BoxSpec.Overflow == CssOverflow.Hidden)
                 {
                     var expectedW = this.ExpectedWidth;
                     var expectedH = this.ExpectedHeight;

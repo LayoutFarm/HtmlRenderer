@@ -24,7 +24,7 @@ namespace HtmlRenderer.Dom
     /// <summary>
     /// CSS box for image element.
     /// </summary>
-    internal sealed class CssBoxImage : CssBox
+    sealed class CssBoxImage : CssBox
     {
         #region Fields and Consts
 
@@ -51,12 +51,17 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxImage(CssBox parent, IHtmlElement tag)
+<<<<<<< HEAD
+        public CssBoxImage(CssBox parent, IHtmlElement tag, BoxSpec spec)
+            : base(parent, tag, spec)
+=======
+        public CssBoxImage(CssBox parent, BridgeHtmlElement tag)
             : base(parent, tag)
+>>>>>>> 1.7.2105.1
         {
             this.AddRun(this._imageWord = new CssImageRun(this));
         }
-
+        
         /// <summary>
         /// Get the image of this image box.
         /// </summary>
@@ -214,18 +219,24 @@ namespace HtmlRenderer.Dom
 
         #region Private methods
 
-        /// <summary>
-        /// Set error image border on the image box.
-        /// </summary>
-        private void SetErrorBorder()
-        {
+        ///// <summary>
+        ///// Set error image border on the image box.
+        ///// </summary>
+        //private void SetErrorBorder()
+        //{
 
-            this.SetAllBorders(
-                CssBorderStyle.Solid, CssLength.MakePixelLength(2),
-                System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
+        //    this.SetAllBorders(
+        //        CssBorderStyle.Solid, CssLength.MakePixelLength(2),
+        //        System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
 
-            BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
+<<<<<<< HEAD
+            throw new NotSupportedException();
+            //BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
         }
+=======
+        //    BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
+        //}
+>>>>>>> 1.7.2105.1
 
 
 

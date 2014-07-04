@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterCore
+﻿//BSD 2014, WinterDev
 
 using System;
 using System.Drawing;
@@ -15,7 +15,6 @@ namespace HtmlRenderer.Dom
     public abstract class CustomCssBoxGenerator
     {
         public abstract CssBox CreateCssBox(IHtmlElement tag, CssBox parentBox);
-
     }
 
     public static class BoxCreator
@@ -42,36 +41,44 @@ namespace HtmlRenderer.Dom
             return null;
         }
 
-        internal static CssBox CreateBoxNotInherit(IHtmlElement tag, CssBox parent)
+<<<<<<< HEAD
+        internal static CssBox CreateBoxNotInherit(BridgeHtmlElement tag, CssBox parent)
+=======
+        internal static CssBox CreateBoxNotInherit(CssBox parent, BridgeHtmlElement tag)
+>>>>>>> 1.7.2105.1
         {
 
             switch (tag.WellknownTagName)
             {
                 case WellknownHtmlTagName.img:
-                    return new CssBoxImage(parent, tag);
+                    return new CssBoxImage(parent, tag, tag.Spec);
                 case WellknownHtmlTagName.iframe:
-                    return new CssBoxHr(parent, tag);
+                    return new CssBoxHr(parent, tag, tag.Spec);
                 case WellknownHtmlTagName.hr:
-                    return new CssBoxHr(parent, tag); 
+<<<<<<< HEAD
+                    return new CssBoxHr(parent, tag, tag.Spec);
 
 
+=======
+                    return new CssBoxHr(parent, tag);
+>>>>>>> 1.7.2105.1
                 //test extension box
                 case WellknownHtmlTagName.X:
-                    var customBox = CreateCustomBox(tag, parent);
+                    var customBox = CreateCustomBox(parent, tag);
                     if (customBox == null)
                     {
-                        return new CssBox(parent, tag);
+                        return new CssBox(parent, tag, tag.Spec);
                     }
                     else
                     {
                         return customBox;
                     }
                 default:
-                    return new CssBox(parent, tag);
+                    return new CssBox(parent, tag, tag.Spec);
             }
         }
 
-        static CssBox CreateCustomBox(IHtmlElement tag, CssBox parent)
+        static CssBox CreateCustomBox(CssBox parent, IHtmlElement tag)
         {
             for (int i = generators.Count - 1; i >= 0; --i)
             {
@@ -88,16 +95,24 @@ namespace HtmlRenderer.Dom
         /// Create new css block box.
         /// </summary>
         /// <returns>the new block box</returns>
-        internal static CssBox CreateRootBlock()
+        internal static CssBox CreateRootBlock(BoxSpec spec)
         {
-            var box = new CssBox(null, null);
-            box.CssDisplay = CssDisplay.Block;
+<<<<<<< HEAD
+=======
+            var spec = new BoxSpec(WellknownHtmlTagName.Unknown);
+            spec.CssDisplay = CssDisplay.Block;
+>>>>>>> 1.7.2105.1
+            var box = new CssBox(null, null, spec);
             return box;
         }
-        internal static CssBox CreateBoxAndInherit(CssBox parent, IHtmlElement tag)
+        internal static CssBox CreateBoxAndInherit(CssBox parent, BridgeHtmlElement tag)
         {
+<<<<<<< HEAD
+            var newBox = new CssBox(parent, tag, parent.BoxSpec);             
+=======
             var newBox = new CssBox(parent, tag);
-            newBox.InheritStyles(parent);
+            newBox.Spec.InheritStylesFrom(parent.Spec);
+>>>>>>> 1.7.2105.1
             return newBox;
         }
 
@@ -120,19 +135,39 @@ namespace HtmlRenderer.Dom
         /// <returns>the new block box</returns>
         internal static CssBox CreateAnonBlock(CssBox parent, int insertAt = -1)
         {
+<<<<<<< HEAD
+            var newBox = CreateBoxAndInherit(parent, null, insertAt);             
+            return newBox;
+        }
+
+        static CssBox CreateBoxAndInherit(CssBox parent, IHtmlElement tag, int insertAt)
+        {
+            var newBox = new CssBox(parent, tag, parent.BoxSpec);
+=======
             var newBox = CreateBoxAndInherit(parent, null, insertAt);
+            if (parent.HtmlElement != null)
+            {
+                newBox.dbugAnonCreator = (BridgeHtmlElement)parent.HtmlElement;
+            }
+            else if (parent.dbugAnonCreator != null)
+            {
+                newBox.dbugAnonCreator = parent.dbugAnonCreator;
+            }
+
             newBox.CssDisplay = CssDisplay.Block;
             return newBox;
         }
-    
-        static CssBox CreateBoxAndInherit(CssBox parent, IHtmlElement tag, int insertAt)
+
+        static CssBox CreateBoxAndInherit(CssBox parent, BridgeHtmlElement tag, int insertAt)
         {
             var newBox = new CssBox(parent, tag);
-            newBox.InheritStyles(parent);
+            newBox.Spec.InheritStylesFrom(parent.Spec);
+
             if (insertAt > -1)
             {
                 newBox.ChangeSiblingOrder(insertAt);
             }
+>>>>>>> 1.7.2105.1
             return newBox;
         }
     }

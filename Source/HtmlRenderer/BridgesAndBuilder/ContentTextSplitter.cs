@@ -1,4 +1,4 @@
-﻿//BSD 2014,WinterCore 
+﻿//BSD 2014,WinterDev 
 
 using System;
 using System.Collections.Generic;
@@ -27,7 +27,7 @@ namespace HtmlRenderer.Dom
         public void ParseWordContent(CssBox box)
         {
 
-            switch (box.WhiteSpace)
+            switch (box.BoxSpec.WhiteSpace)
             {
                 case CssWhiteSpace.Pre:
                 case CssWhiteSpace.PreWrap:
@@ -51,7 +51,7 @@ namespace HtmlRenderer.Dom
 
             int startIndex = 0;
             int buffLength = textBuffer.Length;
-            bool boxIsNotBreakAll = box.WordBreak != CssWordBreak.BreakAll;
+            bool boxIsNotBreakAll = box.BoxSpec.WordBreak != CssWordBreak.BreakAll;
 
             //not preserve whitespace
             WordParsingState parsingState = WordParsingState.Init;
@@ -145,7 +145,7 @@ namespace HtmlRenderer.Dom
 
             int startIndex = 0;
             int buffLength = textBuffer.Length;
-            bool boxIsNotBreakAll = box.WordBreak != CssWordBreak.BreakAll;
+            bool boxIsNotBreakAll = box.BoxSpec.WordBreak != CssWordBreak.BreakAll;
 
             //whitespace and respect newline  
             WordParsingState parsingState = WordParsingState.Init;
@@ -275,7 +275,7 @@ namespace HtmlRenderer.Dom
 
             int startIndex = 0;
             int buffLength = textBuffer.Length;
-            bool boxIsNotBreakAll = box.WordBreak != CssWordBreak.BreakAll;
+            bool boxIsNotBreakAll = box.BoxSpec.WordBreak != CssWordBreak.BreakAll;
 
             //whitespace and respect newline  
             WordParsingState parsingState = WordParsingState.Init;

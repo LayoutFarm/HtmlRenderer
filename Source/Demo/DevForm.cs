@@ -20,16 +20,9 @@ namespace HtmlRenderer.Demo
         private void button1_Click(object sender, EventArgs e)
         {
             DemoForm demoForm = new DemoForm();
-            demoForm.StartAtSampleIndex = 3;
+            demoForm.StartAtSampleIndex = 0;
             demoForm.PrepareSamples();
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
             
->>>>>>> FETCH_HEAD
-=======
-            
->>>>>>> 1.7dev
 
             demoForm.Show();
             demoForm.Activate();

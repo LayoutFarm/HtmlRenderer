@@ -1,16 +1,9 @@
-﻿//BSD, 2014, WinterCore
-
-using System;
-using System.Drawing;
-using System.Globalization;
-using System.Text.RegularExpressions;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Parse;
-using HtmlRenderer.Utils;
+﻿//BSD 2014,WinterDev
+//ArthurHub
 
 namespace HtmlRenderer.Dom
 {
-
+    
     //--------------------------------------------------
     public enum CssDisplay : byte
     {
@@ -162,15 +155,16 @@ namespace HtmlRenderer.Dom
         [Map(CssConstants.Hidden)]
         Hidden,
         [Map(CssConstants.Collapse)]
-        Collapse,  
+        Collapse,
         [Map(CssConstants.Inherit)]
         Inherit
     }
     public enum CssTextAlign : byte
     {
-        NotAssign,
+        [Map(CssConstants.Start)]
+        Start,
         [Map(CssConstants.Left)]
-        Left,//default
+        Left,
         [Map(CssConstants.Right)]
         Right,
         [Map(CssConstants.Center)]

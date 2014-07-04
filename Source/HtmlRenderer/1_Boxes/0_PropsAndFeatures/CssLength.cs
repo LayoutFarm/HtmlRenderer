@@ -1,14 +1,12 @@
-//BSD 2014,WinterCore
+//BSD 2014, WinterDev
 //ArthurHub
 
 using System;
 using System.Globalization;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Parse;
 
 namespace HtmlRenderer.Dom
 {
-    
+
 
     /// <summary>
     /// Represents and gets info about a CSS Length
@@ -102,6 +100,15 @@ namespace HtmlRenderer.Dom
         {
             this._number = 0;
             this._flags = internalFlags;
+            if (this.HasError)
+            {
+
+            }
+        }
+
+        public static bool IsEq(CssLength len1, CssLength len2)
+        {
+            return (len1._number == len2.Number) && (len1._flags == len2._flags);
         }
 
         #endregion
@@ -179,7 +186,8 @@ namespace HtmlRenderer.Dom
         }
         public bool IsEmpty
         {
-            get { return (this._flags & IS_ASSIGN) == 0; }
+            get { return this.UnitOrNames == CssUnitOrNames.EmptyValue; }
+            //get { return (this._flags & IS_ASSIGN) == 0; }
         }
         public bool IsEmptyOrAuto
         {

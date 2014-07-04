@@ -1,4 +1,4 @@
-//BSD 2014, WinterCore
+//BSD 2014, WinterDev
 //ArthurHub
 
 // "Therefore those skilled at the unorthodox
@@ -97,7 +97,12 @@ namespace HtmlRenderer.Dom
             S7_EnforceMaximumSize();
 
             // Ensure there's no padding             
-            _tableBox.PaddingLeft = _tableBox.PaddingTop = _tableBox.PaddingRight = _tableBox.PaddingBottom = CssLength.ZeroPx;
+<<<<<<< HEAD
+            BoxSpec boxspec = _tableBox.BoxSpec;
+            //boxspec.PaddingLeft = boxspec.PaddingTop = boxspec.PaddingRight = boxspec.PaddingBottom = CssLength.ZeroPx;
+=======
+            //_tableBox.PaddingLeft = _tableBox.PaddingTop = _tableBox.PaddingRight = _tableBox.PaddingBottom = CssLength.ZeroPx;
+>>>>>>> 1.7.2105.1
 
             //Actually layout cells!
             S8_LayoutCells(lay);
@@ -115,6 +120,7 @@ namespace HtmlRenderer.Dom
                 var latestCB = lay.LatestContainingBlock;
                 foreach (var childBox in box.GetChildBoxIter())
                 {
+                    childBox.ReEvaluateFont(box.Spec);
                     childBox.MeasureRunsSize(lay);
                     S1_RecursiveMeasureRunContentSize(childBox, lay); //recursive
                 }
@@ -246,7 +252,8 @@ namespace HtmlRenderer.Dom
                                 CssBox lowerRow = bodyrows[i];
                                 if (FindVerticalCellSpacingBoxInsertionPoint(lowerRow, grid_index, out insertAt))
                                 {
-                                    lowerRow.InsertChild(insertAt, new CssVerticalCellSpacingBox(_tableBox, cellBox, rIndex));
+                                    lowerRow.InsertChild(insertAt,
+                                        new CssVerticalCellSpacingBox(_tableBox, cellBox, rIndex, _tableBox.BoxSpec));
                                 }
                             }
                         }
@@ -303,7 +310,7 @@ namespace HtmlRenderer.Dom
                 // Fill ColumnWidths array by scanning column widths
                 for (int i = userDefinedColumnBoxes.Count - 1; i >= 0; --i)
                 {
-                    CssLength colWidth = userDefinedColumnBoxes[i].Width; //Get specified width
+                    CssLength colWidth = userDefinedColumnBoxes[i].BoxSpec.Width; //Get specified width
 
                     if (colWidth.Number > 0) //If some width specified
                     {
@@ -311,10 +318,15 @@ namespace HtmlRenderer.Dom
                         {
                             case CssUnitOrNames.Percent:
                                 {
-                                    columnCollection.SetColumnWidth(i, 
-                                        CssValueParser.ParseNumber(userDefinedColumnBoxes[i].Width, availbleWidthForAllCells));
+<<<<<<< HEAD
+                                    columnCollection.SetColumnWidth(i,
+                                        CssValueParser.ParseNumber(userDefinedColumnBoxes[i].BoxSpec.Width, availbleWidthForAllCells));
+=======
+                                    return (colWidth.Number / 100) * availbleWidthForAllCells;
+>>>>>>> 1.7.2105.1
 
-                                } break;
+
+                                }  
                             case CssUnitOrNames.Pixels:
                             case CssUnitOrNames.EmptyValue:
                                 {
@@ -348,7 +360,15 @@ namespace HtmlRenderer.Dom
                                 var childBox = row.GetChildBox(i);
                                 if (childBox.CssDisplay == CssDisplay.TableCell)
                                 {
-                                    float cellBoxWidth = CssValueParser.ParseLength(childBox.Width, availbleWidthForAllCells, childBox);
+<<<<<<< HEAD
+                                    float cellBoxWidth = CssValueParser.ParseLength(childBox.BoxSpec.Width,
+                                        availbleWidthForAllCells,
+                                        childBox);
+
+
+=======
+                                    float cellBoxWidth = CssValueParser.ConvertToPx(childBox.Width, availbleWidthForAllCells, childBox);
+>>>>>>> 1.7.2105.1
                                     if (cellBoxWidth > 0) //If some width specified
                                     {
                                         int colspan = childBox.ColSpan;
@@ -373,7 +393,7 @@ namespace HtmlRenderer.Dom
         {
 
 
-            if (_tableBox.Width.Number > 0) //If a width was specified,
+            if (_tableBox.BoxSpec.Width.Number > 0) //If a width was specified,
             {
                 float occupiedSpace;
                 int numOfNonSpec;
@@ -502,7 +522,7 @@ namespace HtmlRenderer.Dom
             // if table max width is limited by we need to lower the columns width even if it will result in clipping
             var maxWidth = GetMaxTableWidth();
 
-            if (maxWidth < CssBoxConst.MAX_RIGHT)
+            if (maxWidth < ConstConfig.BOX_MAX_RIGHT)
             {
                 widthSum = CalculateWidthSum();
                 if (maxWidth < widthSum)
@@ -849,7 +869,7 @@ namespace HtmlRenderer.Dom
         {
 
             float dist = 0f;
-            switch (cell.VerticalAlign)
+            switch (cell.BoxSpec.VerticalAlign)
             {
                 case CssVerticalAlign.Bottom:
                     dist = cell.ClientHeight - cell.CalculateInnerContentHeight();
@@ -914,11 +934,16 @@ namespace HtmlRenderer.Dom
         /// 
         private float GetAvailableTableWidth()
         {
-            CssLength tblen = _tableBox.Width;
+            CssLength tblen = _tableBox.BoxSpec.Width;
             if (tblen.Number > 0)
             {
                 //has specific number
-                return CssValueParser.ParseLength(_tableBox.Width, _tableBox.ParentBox.ClientWidth, _tableBox);
+<<<<<<< HEAD
+                return CssValueParser.ParseLength(_tableBox.BoxSpec.Width,
+                    _tableBox.ParentBox.ClientWidth, _tableBox);
+=======
+                return CssValueParser.ConvertToPx(_tableBox.Width, _tableBox.ParentBox.ClientWidth, _tableBox);
+>>>>>>> 1.7.2105.1
             }
             else
             {
@@ -937,15 +962,21 @@ namespace HtmlRenderer.Dom
         /// </remarks>
         private float GetMaxTableWidth()
         {
-            var tblen = _tableBox.MaxWidth;
+
+            var tblen = _tableBox.BoxSpec.MaxWidth;
             if (tblen.Number > 0)
             {
 
-                return CssValueParser.ParseLength(_tableBox.MaxWidth, _tableBox.ParentBox.ClientWidth, _tableBox);
+<<<<<<< HEAD
+                return CssValueParser.ParseLength(_tableBox.BoxSpec.MaxWidth,
+                    _tableBox.ParentBox.ClientWidth, _tableBox);
+=======
+                return CssValueParser.ConvertToPx(_tableBox.MaxWidth, _tableBox.ParentBox.ClientWidth, _tableBox);
+>>>>>>> 1.7.2105.1
             }
             else
             {
-                return CssBoxConst.MAX_TABLE_WIDTH;
+                return ConstConfig.TABLE_MAX_WIDTH;
             }
         }
 
@@ -1045,7 +1076,7 @@ namespace HtmlRenderer.Dom
             CalculateMinMaxSumWords(box, cbBox, ref min, ref maxSum, ref paddingSum, ref marginSum);
 
             maxWidth = paddingSum + maxSum;
-            minWidth = paddingSum + (min < CssBoxConst.MAX_RIGHT ? min : 0);
+            minWidth = paddingSum + (min < ConstConfig.BOX_MAX_RIGHT ? min : 0);
         }
 
         /// <summary>
@@ -1072,7 +1103,7 @@ namespace HtmlRenderer.Dom
             // not inline (block) boxes start a new line so we need to reset the max sum 
             if (box.CssDisplay != CssDisplay.Inline &&
                 box.CssDisplay != CssDisplay.TableCell &&
-                box.WhiteSpace != CssWhiteSpace.NoWrap)
+                box.BoxSpec.WhiteSpace != CssWhiteSpace.NoWrap)
             {
 
                 oldSum = maxSum;
@@ -1228,7 +1259,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         static float GetHorizontalSpacing(CssBox tableBox)
         {
-            return tableBox.IsBorderCollapse ? -1f : tableBox.ActualBorderSpacingHorizontal;
+            return tableBox.BoxSpec.IsBorderCollapse ? -1f : tableBox.ActualBorderSpacingHorizontal;
         }
 
         /// <summary>
@@ -1236,7 +1267,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         static float GetVerticalSpacing(CssBox tableBox)
         {
-            return tableBox.IsBorderCollapse ? -1f : tableBox.ActualBorderSpacingVertical;
+            return tableBox.BoxSpec.IsBorderCollapse ? -1f : tableBox.ActualBorderSpacingVertical;
         }
 
 

@@ -1,4 +1,4 @@
-namespace HtmlRenderer.Entities
+namespace HtmlRenderer 
 {
     internal static class CssDefaults
     {

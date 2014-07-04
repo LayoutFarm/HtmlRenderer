@@ -1,4 +1,4 @@
-//BSD 2014, WinterCore
+//BSD 2014, WinterDev
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -106,7 +106,7 @@ namespace HtmlRenderer.Dom
 #if DEBUG
         public override string ToString()
         {
-            return this.owner.dbugId + " left:" + this.Left + ",width:" + this.Width + " " + this.owner.ToString();
+            return this.owner.__aa_dbugId + " left:" + this.Left + ",width:" + this.Width + " " + this.owner.ToString();
         }
 #endif
     }
@@ -292,7 +292,7 @@ namespace HtmlRenderer.Dom
             {
                 var rstrip = _bottomUpBoxStrips[i];
                 var rstripOwnerBox = rstrip.owner;
-                switch (rstripOwnerBox.VerticalAlign)
+                switch (rstripOwnerBox.BoxSpec.VerticalAlign)
                 {
                     case CssVerticalAlign.Sub:
                         {
@@ -394,15 +394,11 @@ namespace HtmlRenderer.Dom
             {
                 yield return tmpRuns[i];
             }
-        }
-
-
+        } 
 
         internal void PaintRuns(IGraphics g, PaintVisitor p)
         {
-            //iterate from each words
-
-
+            //iterate from each words 
             CssBox latestOwner = null;
             Font font = null;
 
@@ -423,11 +419,13 @@ namespace HtmlRenderer.Dom
                         } break;
                     case CssRunKind.Text:
                         {
+
                             if (latestOwner != w.OwnerBox)
                             {
                                 latestOwner = w.OwnerBox;
+                                BoxSpec boxspec = latestOwner.BoxSpec;
                                 font = latestOwner.ActualFont;
-                                color = latestOwner.ActualColor;
+                                color = boxspec.ActualColor;
                             }
                             CssTextRun textRun = (CssTextRun)w;
 
@@ -456,13 +454,6 @@ namespace HtmlRenderer.Dom
 
         internal void dbugPaintRuns(IGraphics g, PaintVisitor p)
         {
-<<<<<<< HEAD:Source/HtmlRenderer/0_Boxes/0_BoxCore/CssLineBox.cs
-<<<<<<< HEAD
-
-=======
->>>>>>> FETCH_HEAD
-=======
->>>>>>> 1.7dev:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssLineBox.cs
             //return;
             //linebox  
             float x1 = 0;

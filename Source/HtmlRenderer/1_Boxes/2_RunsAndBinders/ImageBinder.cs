@@ -1,11 +1,11 @@
-﻿//BSD 2014,WinterCore
+﻿//BSD 2014,WinterDev
 
 using System;
 using System.Drawing;
 
 namespace HtmlRenderer.Dom
 {
-    public delegate void ReadyStateChangedHandler();
+  
 
 
     public class ImageBinder

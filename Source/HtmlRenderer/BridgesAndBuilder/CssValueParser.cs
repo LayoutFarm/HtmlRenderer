@@ -25,15 +25,17 @@ namespace HtmlRenderer.Parse
     internal static class CssValueParser
     {
 
+        
         /// <summary>
-        /// Evals a number and returns it. If number is a percentage, it will be multiplied by <see cref="hundredPercent"/>
+        /// get length in pixel
         /// </summary>
+<<<<<<< HEAD
         /// <param name="number">Number to be parsed</param>
         /// <param name="hundredPercent">Number that represents the 100% if parsed number is a percentage</param>
         /// <returns>Parsed number. Zero if error while parsing.</returns>
 
         public static float ParseNumber(CssLength number, float hundredPercent)
-        {   
+        {
             switch (number.UnitOrNames)
             {
                 case CssUnitOrNames.EmptyValue:
@@ -44,9 +46,14 @@ namespace HtmlRenderer.Parse
                     return number.Number;
             }
         }
-
-
-        public static float ParseLength(CssLength length, float hundredPercent, CssBoxBase box)
+        public static float ParseLength(CssLength length, float hundredPercent, CssBox box)
+=======
+        /// <param name="length"></param>
+        /// <param name="hundredPercent"></param>
+        /// <param name="box"></param>
+        /// <returns></returns>
+        public static float ConvertToPx(CssLength length, float hundredPercent, CssBox box)
+>>>>>>> 1.7.2105.1
         {
             //Return zero if no length specified, zero specified      
             switch (length.UnitOrNames)
@@ -56,9 +63,9 @@ namespace HtmlRenderer.Parse
                 case CssUnitOrNames.Percent:
                     return (length.Number / 100f) * hundredPercent;
                 case CssUnitOrNames.Ems:
-                    return length.Number * box.GetEmHeight();
+                    return length.Number * box.GetActualFontEmHeight();
                 case CssUnitOrNames.Ex:
-                    return length.Number * (box.GetEmHeight() / 2);
+                    return length.Number * (box.GetActualFontEmHeight() / 2);
                 case CssUnitOrNames.Pixels:
                     //atodo: check support for hi dpi
                     return length.Number;
@@ -76,7 +83,12 @@ namespace HtmlRenderer.Parse
                     return 0;
             }
         }
-        public static float ParseLengthWithFontAdjust(CssLength length, float hundredPercent, CssBoxBase box)
+<<<<<<< HEAD
+        public static float ParseLengthWithFontAdjust(CssLength length, float hundredPercent, CssBox box)
+=======
+         
+        public static float ConvertToPxWithFontAdjust(CssLength length, float hundredPercent, CssBox box)
+>>>>>>> 1.7.2105.1
         {
             //Return zero if no length specified, zero specified     
             switch (length.UnitOrNames)
@@ -86,12 +98,12 @@ namespace HtmlRenderer.Parse
                 case CssUnitOrNames.Percent:
                     return (length.Number / 100f) * hundredPercent;
                 case CssUnitOrNames.Ems:
-                    return length.Number * box.GetEmHeight();
+                    return length.Number * box.GetActualFontEmHeight();
                 case CssUnitOrNames.Ex:
-                    return length.Number * (box.GetEmHeight() / 2);
+                    return length.Number * (box.GetActualFontEmHeight() / 2);
                 case CssUnitOrNames.Pixels:
                     //atodo: check support for hi dpi
-                    return length.Number * (72f / 96f);
+                    return length.Number * (72f / 96f); //font adjust
                 case CssUnitOrNames.Milimeters:
                     return length.Number * 3.779527559f; //3 pixels per millimeter      
                 case CssUnitOrNames.Centimeters:
@@ -108,7 +120,6 @@ namespace HtmlRenderer.Parse
         }
 
 
-
         /// <summary>
         /// Parses a color value in CSS style; e.g. #ff0000, red, rgb(255,0,0), rgb(100%, 0, 0)
         /// </summary>
@@ -120,23 +131,27 @@ namespace HtmlRenderer.Parse
             TryGetColor(colorValue, 0, colorValue.Length, out color);
             return color;
         }
-        public static float GetActualBorderWidth(CssLength borderValue, CssBoxBase b)
+        public static float GetActualBorderWidth(CssLength borderValue, CssBox b)
         {
             //------------------------------
             //plan: use extended cssunit
             //------------------------------
-            switch(borderValue.UnitOrNames)
-            {   
+            switch (borderValue.UnitOrNames)
+            {
                 case CssUnitOrNames.EmptyValue://as medium 
                 case CssUnitOrNames.BorderMedium:
                     return 2f;
-                case  CssUnitOrNames.BorderThin:
+                case CssUnitOrNames.BorderThin:
                     return 1f;
                 case CssUnitOrNames.BorderThick:
                     return 4f;
                 default:
-                     return Math.Abs(ParseLength(borderValue, 1, b));
-            } 
+<<<<<<< HEAD
+                    return Math.Abs(ParseLength(borderValue, 1, b));
+=======
+                    return Math.Abs(ConvertToPx(borderValue, 1, b));
+>>>>>>> 1.7.2105.1
+            }
         }
 
 

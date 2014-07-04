@@ -1,4 +1,4 @@
-﻿//2014 BSD,WinterCore
+﻿//2014 BSD,WinterDev
 
 using System;
 using System.Collections.Generic;

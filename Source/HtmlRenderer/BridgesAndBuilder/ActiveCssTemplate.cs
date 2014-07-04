@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterCore
+﻿//BSD 2014, WinterDev
 
 using System;
 using System.Drawing;
@@ -10,27 +10,12 @@ using HtmlRenderer.Utils;
 using HtmlRenderer.Parse;
 
 namespace HtmlRenderer.Dom
+<<<<<<< HEAD
+{   
+=======
 {
-    class BoxSpec : CssBoxBase
-    {
-        public BoxSpec(WellknownHtmlTagName wellknownTagName)
-        {
-            this.WellknownTagName = wellknownTagName;
-        }
 
-        public override CssBoxBase GetParent()
-        {
-            return null;
-        }
-        public void InheritStylesFrom(CssBoxBase source)
-        {
-            base.InheritStyles(source, false);
-        }
-        public void CloneAllStylesFrom(CssBoxBase source)
-        {
-            base.InheritStyles(source, true);
-        }
-    }
+>>>>>>> 1.7.2105.1
 
 
     class ActiveCssTemplate
@@ -106,132 +91,144 @@ namespace HtmlRenderer.Dom
 
         static readonly char[] _whiteSplitter = new[] { ' ' };
 
-        internal void ApplyActiveTemplateForElement(CssBox parentBox, CssBox box)
-        {
+<<<<<<< HEAD
+        //internal void ApplyActiveTemplateForElement(CssBox parentBox, CssBox box)
+        //{
 
-            //1. tag name key
-            int tagNameKey = ustrTable.AddStringIfNotExist(box.HtmlElement.Name);
+        //    //1. tag name key
+        //    int tagNameKey = ustrTable.AddStringIfNotExist(box.HtmlElement.Name);
 
-            //2. class name key
-            int classNameKey = 0;
-            var class_value = box.HtmlElement.TryGetAttribute("class", null);
+        //    //2. class name key
+        //    int classNameKey = 0;
+        //    var class_value = box.HtmlElement.TryGetAttribute("class", null);
 
-            if (class_value != null)
-            {
-                classNameKey = ustrTable.AddStringIfNotExist(class_value);
-            }
+        //    if (class_value != null)
+        //    {
+        //        classNameKey = ustrTable.AddStringIfNotExist(class_value);
+        //    }
 
-            //-----------------
-            TemplateKey key = new TemplateKey(tagNameKey, classNameKey, parentBox.cssClassVersion);
-            BoxSpec boxTemplate;
+        //    //-----------------
+        //    TemplateKey key = new TemplateKey(tagNameKey, classNameKey, parentBox.cssClassVersion);
+        //    BoxSpec boxTemplate;
 
-            if (!templatesForTagName.TryGetValue(key, out boxTemplate))
-            {
+        //    if (!templatesForTagName.TryGetValue(key, out boxTemplate))
+        //    {
 
-                //create template for specific key  
-                boxTemplate = new BoxSpec(box.WellknownTagName);
-                boxTemplate.CloneAllStylesFrom(box);
+        //        //create template for specific key  
+        //        boxTemplate = new BoxSpec(box.WellknownTagName);
+        //        boxTemplate.CloneAllStylesFrom(box.BoxSpec);
 
-                //*** 
-                //----------------------------
-                //1. tag name
-                CssRuleSetGroup ruleGroup = activeSheet.GetRuleSetForTagName(box.HtmlElement.Name);
-                if (ruleGroup != null)
-                {
-                    box.cssClassVersion++;
-                    foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
-                    {
-                        CssPropSetter.AssignPropertyValue(boxTemplate, parentBox, decl);
-                    }
-                }
-                //----------------------------
-                //2. series of class
-                if (class_value != null)
-                {
-                    box.cssClassVersion++;
-                    string[] classNames = class_value.Split(_whiteSplitter, StringSplitOptions.RemoveEmptyEntries);
-                    int j = classNames.Length;
-                    if (j > 0)
-                    {
-                        for (int i = 0; i < j; ++i)
-                        {
+        //        //*** 
+        //        //----------------------------
+        //        //1. tag name
+        //        CssRuleSetGroup ruleGroup = activeSheet.GetRuleSetForTagName(box.HtmlElement.Name);
+        //        if (ruleGroup != null)
+        //        {
+        //            box.cssClassVersion++;
+        //            foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
+        //            {
+        //                CssPropSetter.AssignPropertyValue(boxTemplate, parentBox.BoxSpec, decl);
+        //            }
+        //        }
+        //        //----------------------------
+        //        //2. series of class
+        //        if (class_value != null)
+        //        {
+        //            box.cssClassVersion++;
+        //            string[] classNames = class_value.Split(_whiteSplitter, StringSplitOptions.RemoveEmptyEntries);
+        //            int j = classNames.Length;
+        //            if (j > 0)
+        //            {
+        //                for (int i = 0; i < j; ++i)
+        //                {
 
-                            CssRuleSetGroup ruleSetGroup = activeSheet.GetRuleSetForClassName(classNames[i]);
-                            if (ruleSetGroup != null)
-                            {
-                                foreach (var propDecl in ruleSetGroup.GetPropertyDeclIter())
-                                {
-                                    CssPropSetter.AssignPropertyValue(boxTemplate, parentBox, propDecl);
-                                }
-                                //---------------------------------------------------------
-                                //find subgroup for more specific conditions
-                                int subgroupCount = ruleSetGroup.SubGroupCount;
-                                for (int m = 0; m < subgroupCount; ++m)
-                                {
-                                    //find if selector condition match with this box
-                                    CssRuleSetGroup ruleSetSubGroup = ruleSetGroup.GetSubGroup(m);
-                                    var selector = ruleSetSubGroup.OriginalSelector;
-                                }
-                            }
-                        }
-                    }
-                }
-                templatesForTagName.Add(key, boxTemplate);
-            }
-            //***********
-            box.CloneAllStyles(boxTemplate);
-            //*********** 
-        }
+        //                    CssRuleSetGroup ruleSetGroup = activeSheet.GetRuleSetForClassName(classNames[i]);
+        //                    if (ruleSetGroup != null)
+        //                    {
+        //                        foreach (var propDecl in ruleSetGroup.GetPropertyDeclIter())
+        //                        {
+        //                            CssPropSetter.AssignPropertyValue(boxTemplate, parentBox.BoxSpec, propDecl);
+        //                        }
+        //                        //---------------------------------------------------------
+        //                        //find subgroup for more specific conditions
+        //                        int subgroupCount = ruleSetGroup.SubGroupCount;
+        //                        for (int m = 0; m < subgroupCount; ++m)
+        //                        {
+        //                            //find if selector condition match with this box
+        //                            CssRuleSetGroup ruleSetSubGroup = ruleSetGroup.GetSubGroup(m);
+        //                            var selector = ruleSetSubGroup.OriginalSelector;
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        templatesForTagName.Add(key, boxTemplate);
+        //    }
+        //    //***********
+        //    box.CloneAllStyles(boxTemplate);
+        //    //*********** 
+        //}
 
         internal void ApplyActiveTemplateForElement2(BridgeHtmlElement parent, BridgeHtmlElement box)
+=======
+        
+        internal void ApplyActiveTemplate(string elemName, string class_value, BoxSpec currentBoxSpec, BoxSpec parentSpec)
+>>>>>>> 1.7.2105.1
         {
 
             //1. tag name key
-            int tagNameKey = ustrTable.AddStringIfNotExist(box.Name);
+            int tagNameKey = ustrTable.AddStringIfNotExist(elemName);
 
             //2. class name key
-            int classNameKey = 0;
-            var class_value = box.TryGetAttribute("class", null);
-
+            int classNameKey = 0; 
             if (class_value != null)
             {
                 classNameKey = ustrTable.AddStringIfNotExist(class_value);
             }
 
-            BoxSpec parentSpec = null;
             int parentSpecVersion = 0;
+<<<<<<< HEAD
             if (parent != null)
-            {  
+            {
                 parentSpec = parent.Spec;
                 parentSpecVersion = parentSpec.cssClassVersion;
             }
-            TemplateKey key = new TemplateKey(tagNameKey, classNameKey, parentSpecVersion); 
+            TemplateKey key = new TemplateKey(tagNameKey, classNameKey, parentSpecVersion);
             //------------------------
             BoxSpec currentBoxSpec = box.Spec;
             if (currentBoxSpec == null)
             {
-                box.Spec = currentBoxSpec = new BoxSpec(box.WellknownTagName);
+                box.Spec = currentBoxSpec = new BoxSpec();
             }
             //------------------------ 
 
+             
+=======
 
-
-
+            if (parentSpec != null)
+            {
+                parentSpecVersion = parentSpec.VersionNumber;
+            }
+            TemplateKey key = new TemplateKey(tagNameKey, classNameKey, parentSpecVersion);
+>>>>>>> 1.7.2105.1
             BoxSpec boxTemplate;
             if (!templatesForTagName.TryGetValue(key, out boxTemplate))
             {
-
                 //create template for specific key  
-                boxTemplate = new BoxSpec(box.WellknownTagName);
+<<<<<<< HEAD
+                boxTemplate = new BoxSpec();
+=======
+                boxTemplate = new BoxSpec(currentBoxSpec.WellknownTagName);
+>>>>>>> 1.7.2105.1
                 boxTemplate.CloneAllStylesFrom(currentBoxSpec);
 
                 //*** 
                 //----------------------------
                 //1. tag name
-                CssRuleSetGroup ruleGroup = activeSheet.GetRuleSetForTagName(box.Name);
+                CssRuleSetGroup ruleGroup = activeSheet.GetRuleSetForTagName(elemName);
                 if (ruleGroup != null)
                 {
-                    currentBoxSpec.cssClassVersion++;
+                    currentBoxSpec.VersionNumber++;
                     foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
                     {
                         CssPropSetter.AssignPropertyValue(boxTemplate, parentSpec, decl);
@@ -241,7 +238,7 @@ namespace HtmlRenderer.Dom
                 //2. series of class
                 if (class_value != null)
                 {
-                    currentBoxSpec.cssClassVersion++;
+                    currentBoxSpec.VersionNumber++;
                     string[] classNames = class_value.Split(_whiteSplitter, StringSplitOptions.RemoveEmptyEntries);
                     int j = classNames.Length;
                     if (j > 0)
@@ -270,13 +267,18 @@ namespace HtmlRenderer.Dom
                     }
                 }
                 templatesForTagName.Add(key, boxTemplate);
+                boxTemplate.Freeze();
             }
             //***********
-            currentBoxSpec.CloneAllStyles(boxTemplate);
+            currentBoxSpec.CloneAllStylesFrom(boxTemplate);
             //*********** 
+            
         }
+<<<<<<< HEAD
 
-        
+
+=======
+>>>>>>> 1.7.2105.1
         enum AssignPropertySource
         {
             Inherit,
