@@ -40,8 +40,7 @@ namespace HtmlRenderer.Dom
             //other ...  
             char[] textBuffer = CssBox.UnsafeGetTextBuffer(box);
 #if DEBUG
-            //string dbugStr = new string(textBuffer);
-
+            //string dbugStr = new string(textBuffer); 
 #endif
 
             bool keepPreWhitespace = box.HtmlElement == null;
@@ -149,10 +148,7 @@ namespace HtmlRenderer.Dom
 
             //whitespace and respect newline  
             WordParsingState parsingState = WordParsingState.Init;
-            int appendLength = 0;
-
-
-
+            int appendLength = 0; 
             for (int i = 0; i < buffLength; ++i)
             {
                 char c0 = textBuffer[i];

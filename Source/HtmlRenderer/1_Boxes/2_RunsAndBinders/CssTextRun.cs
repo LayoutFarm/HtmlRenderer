@@ -33,8 +33,7 @@ namespace HtmlRenderer.Dom
         private CssTextRun(CssBox owner, CssRunKind rectKind,
             int start, int len)
             : base(owner, rectKind)
-        {
-
+        {   
             this._textStartIndex = start;
             this._textLength = len;
         }

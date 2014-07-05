@@ -118,7 +118,7 @@ namespace HtmlRenderer.Dom
             // imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
         }
         
-        public static void FlowContentRunsV2(CssBox hostBlock, LayoutVisitor lay)
+        public static void FlowContentRuns(CssBox hostBlock, LayoutVisitor lay)
         {
 
             hostBlock.ResetLineBoxes();

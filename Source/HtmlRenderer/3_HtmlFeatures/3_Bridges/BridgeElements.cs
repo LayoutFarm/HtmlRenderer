@@ -199,6 +199,7 @@ namespace HtmlRenderer.Dom
             : base(BridgeNodeType.Text)
         {
             this.htmlTextNode = htmlTextNode;
+
         }
         public char[] CopyTextBuffer()
         {

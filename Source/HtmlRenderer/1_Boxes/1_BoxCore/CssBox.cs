@@ -78,13 +78,7 @@ namespace HtmlRenderer.Dom
             this._myspec = spec;
             ChangeDisplayType(this, _myspec.CssDisplay);
         }
-#if DEBUG
-        internal BridgeHtmlElement dbugAnonCreator
-        {
-            get;
-            set;
-        }
-#endif
+ 
 
         /// <summary>
         /// Gets the HtmlContainer of the Box.
@@ -153,7 +147,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return (this._boxCompactFlags & CssBoxFlagsConst.IS_INLINE_BOX) != 0; 
+                return (this._boxCompactFlags & CssBoxFlagsConst.IS_INLINE_BOX) != 0;
             }
             set
             {
@@ -268,6 +262,9 @@ namespace HtmlRenderer.Dom
                 return true;
             }
         }
+
+         
+        
         public static char[] UnsafeGetTextBuffer(CssBox box)
         {
             return box._aa_textBuffer;
@@ -285,12 +282,14 @@ namespace HtmlRenderer.Dom
             this._aa_textBuffer = chars;
             ResetTextFlags();
         }
-        internal void SetTextContent2(char[] chars)
+        internal void ParseWordContent()
         {
-
-            this._aa_textBuffer = chars;
-            ResetTextFlags();
+            //generate text run***
+            ContentTextSplitter.DefaultSplitter.ParseWordContent(this);
         }
+        
+
+
         public bool MayHasSomeTextContent
         {
             get
@@ -344,6 +343,7 @@ namespace HtmlRenderer.Dom
                         ((this._boxCompactFlags & CssBoxFlagsConst.TEXT_IS_EMPTY) != 0);
             }
         }
+#if DEBUG
         internal string CopyTextContent()
         {
             if (this._aa_textBuffer != null)
@@ -355,6 +355,7 @@ namespace HtmlRenderer.Dom
                 return null;
             }
         }
+#endif
         internal void AddLineBox(CssLineBox linebox)
         {
             linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
@@ -613,8 +614,7 @@ namespace HtmlRenderer.Dom
                                     if (DomUtils.ContainsInlinesOnly(this))
                                     {
                                         this.SetHeightToZero();
-                                        //CssLayoutEngine.FlowContentRuns(this, lay); //This will automatically set the bottom of this block
-                                        CssLayoutEngine.FlowContentRunsV2(this, lay); //This will automatically set the bottom of this block
+                                        CssLayoutEngine.FlowContentRuns(this, lay); //This will automatically set the bottom of this block
                                     }
                                     else if (_aa_boxes.Count > 0)
                                     {
@@ -811,39 +811,40 @@ namespace HtmlRenderer.Dom
                     _listItemBox.ReEvaluateFont(this.ActualFont.Size);
                     _listItemBox.ReEvaluateComputedValues(this);
 
-                    //_listItemBox.CssDisplay = CssDisplay.Inline;
+                   
                     CssBox.ChangeDisplayType(_listItemBox, Dom.CssDisplay.Inline);
                     _listItemBox._htmlContainer = HtmlContainer;
 
+                    char[] text_content = null;
                     switch (this.ListStyleType)
                     {
                         case CssListStyleType.Disc:
                             {
-                                _listItemBox.SetTextContent(discItem);
+                                text_content = discItem; 
                             } break;
                         case CssListStyleType.Circle:
                             {
-                                _listItemBox.SetTextContent(circleItem);
+                                text_content = circleItem; 
                             } break;
                         case CssListStyleType.Square:
                             {
-                                _listItemBox.SetTextContent(squareItem);
+                                text_content = squareItem; 
                             } break;
                         case CssListStyleType.Decimal:
                             {
-                                _listItemBox.SetTextContent((GetIndexForList().ToString(CultureInfo.InvariantCulture) + ".").ToCharArray());
+                                text_content = (GetIndexForList().ToString(CultureInfo.InvariantCulture) + ".").ToCharArray();
                             } break;
                         case CssListStyleType.DecimalLeadingZero:
                             {
-                                _listItemBox.SetTextContent((GetIndexForList().ToString("00", CultureInfo.InvariantCulture) + ".").ToCharArray());
+                                text_content = (GetIndexForList().ToString("00", CultureInfo.InvariantCulture) + ".").ToCharArray();
                             } break;
                         default:
                             {
-                                _listItemBox.SetTextContent((CommonUtils.ConvertToAlphaNumber(GetIndexForList(), ListStyleType) + ".").ToCharArray());
+                                text_content = (CommonUtils.ConvertToAlphaNumber(GetIndexForList(), ListStyleType) + ".").ToCharArray();
                             } break;
                     }
 
-
+                    _listItemBox.SetTextContent(text_content);
                     _listItemBox.ParseWordContent();
 
                     var prevSibling = lay.LatestSiblingBox;
@@ -861,10 +862,7 @@ namespace HtmlRenderer.Dom
 
             }
         }
-        internal void ParseWordContent()
-        {
-            ContentTextSplitter.DefaultSplitter.ParseWordContent(this);
-        }
+       
 #if DEBUG
         internal string dbugGetTextContent()
         {
@@ -1218,6 +1216,7 @@ namespace HtmlRenderer.Dom
         }
 
 
+#if DEBUG
         /// <summary>
         /// ToString override.
         /// </summary>
@@ -1248,7 +1247,7 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-
+#endif
         #endregion
 
 

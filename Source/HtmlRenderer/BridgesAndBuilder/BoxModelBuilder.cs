@@ -152,7 +152,7 @@ namespace HtmlRenderer.Dom
                         {
                             case BridgeNodeType.Text:
                                 {
-                                    //parse and evaluate whitespace here !  
+                                    //parent has single child 
                                     parentBox.SetTextContent(((BridgeHtmlTextNode)bridgeChild).CopyTextBuffer());
                                 } break;
                             case BridgeNodeType.Element:
@@ -187,8 +187,7 @@ namespace HtmlRenderer.Dom
                                     {
                                         //create anonymous box  but not inherit ***
 
-                                        CssBox anonText = CssBox.CreateAnonInline(parentBox);// ;
-
+                                        CssBox anonText = CssBox.CreateAnonInline(parentBox);// ; 
                                         //parse and evaluate whitespace here ! 
                                         BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
                                         anonText.dbugAnonCreator = parentElement;
