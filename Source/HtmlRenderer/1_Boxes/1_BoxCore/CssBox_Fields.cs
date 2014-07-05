@@ -222,22 +222,54 @@ namespace HtmlRenderer.Dom
             {
                 this.wellKnownTagName = value;
             }
-        }  
+        }
         public CssDisplay CssDisplay
         {
             get
             {
-                return this._cssDisplay; 
+                return this._cssDisplay;
             }
         }
         internal void CloseSpec()
         {
-            this._myspec.Freeze();
-            this._cssDisplay = _myspec.CssDisplay;
+            this._myspec.Freeze(); 
+            this._cssDisplay = VerifyDisplayType(this.wellKnownTagName, _myspec.CssDisplay);
         }
         internal static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
-            box._cssDisplay = newdisplay;
+            box._cssDisplay = VerifyDisplayType(box.wellKnownTagName, newdisplay);
+        }
+        static CssDisplay VerifyDisplayType(WellknownHtmlTagName wellknownName, CssDisplay display)
+        {
+            switch (wellknownName)
+            {
+                //some wellknown Html element name 
+                //has fixed predefine display type  ***
+
+                //fix definition
+                default:
+                    return display;
+                case WellknownHtmlTagName.table:
+                    return CssDisplay.Table;
+                case WellknownHtmlTagName.tr:
+                    return CssDisplay.TableRow;
+                case WellknownHtmlTagName.tbody:
+                    return CssDisplay.TableRowGroup;
+                case WellknownHtmlTagName.thead:
+                    return CssDisplay.TableHeaderGroup;
+                case WellknownHtmlTagName.tfoot:
+                    return CssDisplay.TableFooterGroup;
+                case WellknownHtmlTagName.col:
+                    return CssDisplay.TableColumn;
+                case WellknownHtmlTagName.colgroup:
+                    return CssDisplay.TableColumnGroup;
+                case WellknownHtmlTagName.td:
+                case WellknownHtmlTagName.th:
+                    return CssDisplay.TableCell;
+                case WellknownHtmlTagName.caption:
+                    return CssDisplay.TableCaption;
+
+            }
         }
         //==================================================
 

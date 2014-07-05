@@ -40,7 +40,7 @@ namespace HtmlRenderer.Dom
             }
 
             if (decl.MarkedAsInherit && parentSpec != null)
-            {   
+            {
                 SetPropertyValueFromParent(spec, parentSpec, decl.WellknownPropertyName);
             }
             else
@@ -54,46 +54,9 @@ namespace HtmlRenderer.Dom
             CssCodeValueExpression cssValue = decl.GetPropertyValue(0);
             switch (decl.WellknownPropertyName)
             {
-                case WellknownCssPropertyName.Display:
-                    {
-                        CssDisplay display = UserMapUtil.GetDisplayType(cssValue);
-                        switch (spec.WellknownTagName)
-                        {
-                            //------------------------
-                            //fix definition
-                            case WellknownHtmlTagName.table:
-                                display = CssDisplay.Table;
-                                break;
-                            case WellknownHtmlTagName.tr:
-                                display = CssDisplay.TableRow;
-                                break;
-                            case WellknownHtmlTagName.tbody:
-                                display = CssDisplay.TableRowGroup;
-                                break;
-                            case WellknownHtmlTagName.thead:
-                                display = CssDisplay.TableHeaderGroup;
-                                break;
-                            case WellknownHtmlTagName.tfoot:
-                                display = CssDisplay.TableFooterGroup;
-                                break;
-                            case WellknownHtmlTagName.col:
-                                display = CssDisplay.TableColumn;
-                                break;
-                            case WellknownHtmlTagName.colgroup:
-                                display = CssDisplay.TableColumnGroup;
-                                break;
-                            case WellknownHtmlTagName.td:
-                            case WellknownHtmlTagName.th:
-                                display = CssDisplay.TableCell;
-                                break;
-                            case WellknownHtmlTagName.caption:
-                                display = CssDisplay.TableCaption;
-                                break;
-                            //------------------------
-                        }
-                        spec.CssDisplay = display;
-
-                    } break;
+                case WellknownCssPropertyName.Display: 
+                    spec.CssDisplay = UserMapUtil.GetDisplayType(cssValue);
+                    break;
                 case WellknownCssPropertyName.BorderBottomWidth:
                     spec.BorderBottomWidth = cssValue.AsBorderLength();
                     break;

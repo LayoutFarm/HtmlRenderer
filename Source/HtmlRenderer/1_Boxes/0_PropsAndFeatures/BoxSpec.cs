@@ -90,8 +90,7 @@ namespace HtmlRenderer.Dom
         //------------------
 
         public BoxSpec(WellknownHtmlTagName wellknownTagName)
-        {   
-
+        {    
             this.WellknownTagName = wellknownTagName;
         }
         //---------------------------------------------------------------
