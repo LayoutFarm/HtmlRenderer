@@ -51,12 +51,12 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxImage(CssBox parent, BridgeHtmlElement tag)
-            : base(parent, tag)
+        public CssBoxImage(CssBox parent, BridgeHtmlElement tag, BoxSpec boxSpec)
+            : base(parent, tag, boxSpec)
         {
             this.AddRun(this._imageWord = new CssImageRun(this));
         }
-        
+
         /// <summary>
         /// Get the image of this image box.
         /// </summary>

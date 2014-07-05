@@ -73,32 +73,35 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        internal CssBoxFrame(CssBox parent, BridgeHtmlElement tag)
-            : base(parent, tag)
+        internal CssBoxFrame(CssBox parent, BridgeHtmlElement tag, BoxSpec spec)
+            : base(parent, tag, spec)
         {
 
             this.AddRun(this._imageWord = new CssImageRun(this));
-            Uri uri;
-            if (Uri.TryCreate(GetAttribute("src"), UriKind.Absolute, out uri))
-            {
-                if (uri.Host.IndexOf("youtube.com", StringComparison.InvariantCultureIgnoreCase) > -1)
-                {
-                    _isVideo = true;
-                    LoadYoutubeDataAsync(uri);
-                }
-                else if (uri.Host.IndexOf("vimeo.com", StringComparison.InvariantCultureIgnoreCase) > -1)
-                {
-                    _isVideo = true;
-                    LoadVimeoDataAsync(uri);
-                }
-            }
+
+            //wait for another technique *
+
+            //Uri uri;
+            //if (Uri.TryCreate(GetAttribute("src"), UriKind.Absolute, out uri))
+            //{
+            //    if (uri.Host.IndexOf("youtube.com", StringComparison.InvariantCultureIgnoreCase) > -1)
+            //    {
+            //        _isVideo = true;
+            //        LoadYoutubeDataAsync(uri);
+            //    }
+            //    else if (uri.Host.IndexOf("vimeo.com", StringComparison.InvariantCultureIgnoreCase) > -1)
+            //    {
+            //        _isVideo = true;
+            //        LoadVimeoDataAsync(uri);
+            //    }
+            //}
 
             //if (!_isVideo)
             //{
             //    SetErrorBorder();
             //}
         }
-        
+
         /// <summary>
         /// Get the href link of the box (by default get "href" attribute)
         /// </summary>

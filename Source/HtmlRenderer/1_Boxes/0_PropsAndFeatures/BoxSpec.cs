@@ -88,10 +88,8 @@ namespace HtmlRenderer.Dom
         //------------------
         BoxSpec anonVersion;
         //------------------
-
         public BoxSpec()
-        {    
-           
+        {               
         }
         //---------------------------------------------------------------
         internal int VersionNumber
@@ -629,9 +627,7 @@ namespace HtmlRenderer.Dom
         }
 
         public Font GetFont(float parentFontSize)
-        {
-
-            
+        {   
             //---------------------------------------
             if (_actualFont != null)
             {

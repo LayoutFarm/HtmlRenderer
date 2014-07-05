@@ -10,9 +10,7 @@ namespace HtmlRenderer.Dom
 
         internal static CssBox CreateAnonBlock(CssBox parent, int insertAt = -1)
         {
-            var newBox = new CssBox(parent, null, parent._myspec.GetAnonVersion());
-            //newBox._myspec.InheritStylesFrom(parent._myspec);
-            newBox.CloseSpec();
+            var newBox = new CssBox(parent, null, parent._myspec.GetAnonVersion());  
             ChangeDisplayType(newBox, CssDisplay.Block);             
 
             if (insertAt > -1)
@@ -35,8 +33,7 @@ namespace HtmlRenderer.Dom
         }
         internal static CssBox CreateAnonInline(CssBox parent)
         {
-            var newBox = new CssBox(parent, null, parent._myspec.GetAnonVersion());
-            newBox.CloseSpec();
+            var newBox = new CssBox(parent, null, parent._myspec.GetAnonVersion()); 
             CssBox.ChangeDisplayType(newBox, CssDisplay.Inline);
             return newBox;
         }

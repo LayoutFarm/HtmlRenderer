@@ -230,11 +230,7 @@ namespace HtmlRenderer.Dom
                 return this._cssDisplay;
             }
         }
-        internal void CloseSpec()
-        {
-            this._myspec.Freeze(); 
-            this._cssDisplay = VerifyDisplayType(this.wellKnownTagName, _myspec.CssDisplay);
-        }
+        
         internal static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
             box._cssDisplay = VerifyDisplayType(box.wellKnownTagName, newdisplay);

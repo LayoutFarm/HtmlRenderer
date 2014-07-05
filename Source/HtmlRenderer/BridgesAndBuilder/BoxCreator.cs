@@ -14,7 +14,7 @@ namespace HtmlRenderer.Dom
 
     public abstract class CustomCssBoxGenerator
     {
-        public abstract CssBox CreateCssBox(IHtmlElement tag, CssBox parentBox);
+        public abstract CssBox CreateCssBox(IHtmlElement tag, CssBox parentBox, BoxSpec spec);
 
     }
 
@@ -25,14 +25,14 @@ namespace HtmlRenderer.Dom
         {
             generators.Add(generator);
         }
-        static CssBox CreateCustomCssBox(IHtmlElement tag, CssBox parentBox)
+        static CssBox CreateCustomCssBox(IHtmlElement tag, CssBox parentBox, BoxSpec spec)
         {
             int j = generators.Count;
             if (j > 0)
             {
                 for (int i = j - 1; i >= 0; --i)
                 {
-                    var box = generators[i].CreateCssBox(tag, parentBox);
+                    var box = generators[i].CreateCssBox(tag, parentBox, spec);
                     if (box != null)
                     {
                         return box;
@@ -49,43 +49,46 @@ namespace HtmlRenderer.Dom
             //----------------------------------------- 
             //1. create new box
             //-----------------------------------------
+
             switch (tag.WellknownTagName)
             {
                 case WellknownHtmlTagName.img:
-                    newBox = new CssBoxImage(parent, tag);
+                    newBox = new CssBoxImage(parent, tag, tag.Spec);
                     break;
                 //case WellknownHtmlTagName.iframe:
                 //    newBox = new CssBoxHr(parent, tag);//?
                 //    break;
                 case WellknownHtmlTagName.hr:
-                    newBox = new CssBoxHr(parent, tag);
+                    newBox = new CssBoxHr(parent, tag, tag.Spec);
                     break;
                 //test extension box
                 case WellknownHtmlTagName.X:
-                    newBox = CreateCustomBox(parent, tag);
+
+                    newBox = CreateCustomBox(parent, tag, tag.Spec);
+
                     if (newBox == null)
                     {
-                        newBox = new CssBox(parent, tag);
+                        newBox = new CssBox(parent, tag, tag.Spec);
                     }
                     break;
                 default:
-                    newBox = new CssBox(parent, tag);
+                    newBox = new CssBox(parent, tag, tag.Spec);
                     break;
             }
             //----------------------------------------- 
             //2. clone exact spec from prepared BoxSpec
             //----------------------------------------- 
-            var newBoxSpec = CssBox.UnsafeGetBoxSpec(newBox);
-            newBoxSpec.CloneAllStylesFrom(tag.Spec);
-            newBox.CloseSpec();
+            //var newBoxSpec = CssBox.UnsafeGetBoxSpec(newBox);
+            //newBoxSpec.CloneAllStylesFrom(tag.Spec);
+            //newBox.CloseSpec();
             return newBox;
         }
 
-        static CssBox CreateCustomBox(CssBox parent, IHtmlElement tag)
+        static CssBox CreateCustomBox(CssBox parent, IHtmlElement tag, BoxSpec boxspec)
         {
             for (int i = generators.Count - 1; i >= 0; --i)
             {
-                var newbox = generators[i].CreateCssBox(tag, parent);
+                var newbox = generators[i].CreateCssBox(tag, parent, boxspec);
                 if (newbox != null)
                 {
                     return newbox;

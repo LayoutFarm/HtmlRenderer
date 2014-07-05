@@ -316,14 +316,12 @@ namespace HtmlRenderer.Dom
             //long ee2_ms = sw1.ElapsedMilliseconds;
 
         }
-#endif
-
+#endif   
 
         static void ApplyStyleSheetForBridgeElement(BridgeHtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
         {
 
-            BoxSpec curSpec = element.Spec;
-            //-------------------------------
+            BoxSpec curSpec = element.Spec; 
             //0.
             curSpec.InheritStylesFrom(parentSpec);
 
@@ -364,9 +362,10 @@ namespace HtmlRenderer.Dom
                 }
             }
 
-            //===================================================================
-            curSpec.Freeze();
-
+            //===================== 
+            curSpec.Freeze(); //***
+            //=====================
+ 
             //5. children
             //parent style assignment is complete before step down into child ***            
             int n = element.ChildCount;

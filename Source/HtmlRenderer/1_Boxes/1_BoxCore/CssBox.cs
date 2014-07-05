@@ -38,43 +38,24 @@ namespace HtmlRenderer.Dom
     /// http://www.w3.org/TR/CSS21/box.html
     /// </remarks>
     public partial class CssBox : IDisposable
-    {  
+    {
         readonly BoxSpec _myspec;
-        WellknownHtmlTagName wellKnownTagName; 
+        WellknownHtmlTagName wellKnownTagName;
 
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
         public int dbugMark;
 #endif
-
-        internal CssBox(CssBox parentBox, BridgeHtmlElement element)
-        {
-            this._aa_boxes = new CssBoxCollection(this);
-
-            if (parentBox != null)
-            {
-                parentBox.Boxes.Add(this);
-            }
-
-            _htmlElement = element; 
-            if (element != null)
-            {
-                this.WellknownTagName = element.WellknownTagName;
-            }  
-            this._myspec = new BoxSpec();
-
-        }
+         
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
         {
-
             //for root
             this._aa_boxes = new CssBoxCollection(this);
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
             }
-
             _htmlElement = element;
 #if DEBUG
             if (element != null && element.Spec == null)
@@ -89,9 +70,13 @@ namespace HtmlRenderer.Dom
 
             this._myspec = new BoxSpec();
             this._myspec.CloneAllStylesFrom(spec);
-            this.CloseSpec();
-        }
 
+            //-----------             
+            //close spec ***
+            this._myspec.Freeze();
+            this._cssDisplay = VerifyDisplayType(this.wellKnownTagName, _myspec.CssDisplay);
+            //-----------
+        }
 #if DEBUG
         internal BridgeHtmlElement dbugAnonCreator
         {
@@ -100,7 +85,7 @@ namespace HtmlRenderer.Dom
         }
 #endif
 
-        
+
         /// <summary>
         /// Gets the HtmlContainer of the Box.
         /// WARNING: May be null.

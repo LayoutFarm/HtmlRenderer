@@ -29,13 +29,13 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxHr(CssBox parent, BridgeHtmlElement tag)
-            : base(parent, tag)
+        public CssBoxHr(CssBox parent, BridgeHtmlElement tag, BoxSpec spec)
+            : base(parent, tag, spec)
         {
             ChangeDisplayType(this, Dom.CssDisplay.Block);
-             
+
         }
-        
+
         /// <summary>
         /// Measures the bounds of box and children, recursively.<br/>
         /// Performs layout of the DOM structure creating lines by set bounds restrictions.
@@ -118,7 +118,7 @@ namespace HtmlRenderer.Dom
             {
                 //BorderTopStyle = BorderBottomStyle = CssBorderStyle.Solid; //CssConstants.Solid;
                 DirectSetBorderWidth(CssSide.Top, 1);
-                DirectSetBorderWidth(CssSide.Bottom, 1); 
+                DirectSetBorderWidth(CssSide.Bottom, 1);
                 //BorderTopWidth = CssLength.MakePixelLength(1); //"1px";
                 //BorderBottomWidth = CssLength.MakePixelLength(1);
             }
