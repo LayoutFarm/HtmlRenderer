@@ -75,6 +75,7 @@ namespace HtmlRenderer.Dom
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
         //==========================================================
         WellknownHtmlTagName wellKnownTagName;
+
         #endregion
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;

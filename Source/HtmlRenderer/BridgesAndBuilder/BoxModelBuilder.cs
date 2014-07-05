@@ -358,7 +358,7 @@ namespace HtmlRenderer.Dom
                 var ruleset = activeCssTemplate.ParseCssBlock(element.Name, attrStyleValue);
                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                 {
-                    CssPropSetter.AssignPropertyValue(
+                    SpecSetter.AssignPropertyValue(
                         curSpec,
                         parentSpec,
                         propDecl);
