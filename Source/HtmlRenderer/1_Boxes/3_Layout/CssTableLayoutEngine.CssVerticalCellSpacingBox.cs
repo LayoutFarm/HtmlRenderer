@@ -29,23 +29,14 @@ namespace HtmlRenderer.Dom
         /// </summary>
         sealed class CssVerticalCellSpacingBox : CssBox
         {
-            static BoxSpec specForVCell = new BoxSpec();
+           
 
-            #region Fields and Consts
-
-            private readonly CssBox _extendedBox;
-
-            /// <summary>
-            /// the index of the row where box starts
-            /// </summary>
-            //private readonly int _startRow;
+            private readonly CssBox _extendedBox; 
 
             /// <summary>
             /// the index of the row where box ends
             /// </summary>
-            private readonly int _endRow;
-            #endregion
-
+            private readonly int _endRow; 
 
             public CssVerticalCellSpacingBox(CssBox tableBox, CssBox extendedBox, int startRow)
                 : base(tableBox, null, specForVCell)
@@ -54,7 +45,7 @@ namespace HtmlRenderer.Dom
                 this.ColSpan = 1;
                 //this.CssDisplay = CssDisplay.None;
                 _endRow = startRow + extendedBox.RowSpan - 1;
-                ReEvaluateComputedValues(tableBox); 
+                ReEvaluateComputedValues(tableBox);
                 ChangeDisplayType(this, Dom.CssDisplay.None);
             }
 
@@ -69,6 +60,15 @@ namespace HtmlRenderer.Dom
             {
                 get { return _endRow; }
             }
+
+
+            //=========================================================
+            static BoxSpec specForVCell = new BoxSpec();
+            static CssVerticalCellSpacingBox()
+            {
+                specForVCell.Freeze();
+            }
+
         }
 
     }

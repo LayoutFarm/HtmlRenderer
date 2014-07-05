@@ -118,6 +118,8 @@ namespace HtmlRenderer.Dom
 
             this.anonVersion = new BoxSpec();
             anonVersion.InheritStylesFrom(this);
+            anonVersion.Freeze();
+
             return anonVersion;
         }
         //---------------------------------------------------------------

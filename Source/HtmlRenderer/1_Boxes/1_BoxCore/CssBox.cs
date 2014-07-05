@@ -47,7 +47,7 @@ namespace HtmlRenderer.Dom
         static int dbugTotalId;
         public int dbugMark;
 #endif
-         
+
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
         {
             //for root
@@ -56,7 +56,7 @@ namespace HtmlRenderer.Dom
             {
                 parentBox.Boxes.Add(this);
             }
-            _htmlElement = element;
+            this._htmlElement = element;
 #if DEBUG
             if (element != null && element.Spec == null)
             {
@@ -68,12 +68,14 @@ namespace HtmlRenderer.Dom
                 this.WellknownTagName = element.WellknownTagName;
             }
 
-            this._myspec = new BoxSpec();
-            this._myspec.CloneAllStylesFrom(spec);
-
-            //-----------             
-            //close spec ***
-            this._myspec.Freeze();
+#if DEBUG
+            if (!spec.IsFreezed)
+            {
+                //must be freeze
+            }
+#endif
+             
+            this._myspec = spec; 
             this._cssDisplay = VerifyDisplayType(this.wellKnownTagName, _myspec.CssDisplay);
             //-----------
         }
@@ -84,7 +86,6 @@ namespace HtmlRenderer.Dom
             set;
         }
 #endif
-
 
         /// <summary>
         /// Gets the HtmlContainer of the Box.

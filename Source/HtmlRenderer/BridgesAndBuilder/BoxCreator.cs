@@ -105,6 +105,8 @@ namespace HtmlRenderer.Dom
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
+            spec.Freeze();
+
             var box = new CssBox(null, null, spec);
             //------------------------------------
             box.ReEvaluateFont(10);
