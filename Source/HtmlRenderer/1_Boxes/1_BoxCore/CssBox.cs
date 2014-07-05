@@ -271,7 +271,7 @@ namespace HtmlRenderer.Dom
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_EMPTY;
             this._boxCompactFlags = tmpFlags;
         }
-        internal void SetTextContent(ContentRuns contentRuns)
+        internal void SetTextContent(RunCollection contentRuns)
         {
             this._aa_contentRuns = contentRuns;
             ResetTextFlags();
@@ -281,8 +281,7 @@ namespace HtmlRenderer.Dom
             _aa_contentRuns.OwnerCssBox = this;
             _aa_contentRuns.ParseContent(ContentTextSplitter.DefaultSplitter, this.WhiteSpace,
                 this.WordBreak == CssWordBreak.BreakAll,
-                this.HtmlElement == null);
-            
+                this.HtmlElement == null); 
         }
 
         public bool MayHasSomeTextContent
@@ -462,7 +461,7 @@ namespace HtmlRenderer.Dom
                 }
                 else
                 {
-                    return _aa_contentRuns.RunList;
+                    return _aa_contentRuns.GetInternalList();
                 }
             }
         }
@@ -854,7 +853,7 @@ namespace HtmlRenderer.Dom
                     }
 
                      
-                    _listItemBox.SetTextContent(new ContentRuns(text_content));
+                    _listItemBox.SetTextContent(new RunCollection(text_content));
                     _listItemBox.ParseWordContent();
 
                     var prevSibling = lay.LatestSiblingBox;

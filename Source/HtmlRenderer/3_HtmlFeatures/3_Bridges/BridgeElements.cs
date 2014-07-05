@@ -195,8 +195,8 @@ namespace HtmlRenderer.Dom
         //---------------------------------
         //this node may be simple text node
 
-        ContentRuns content;
-        public BridgeHtmlTextNode(ContentRuns content)
+        RunCollection content;
+        public BridgeHtmlTextNode(RunCollection content)
             : base(BridgeNodeType.Text)
         {
             this.content = content;
@@ -207,7 +207,7 @@ namespace HtmlRenderer.Dom
             return content.GetOriginalBuffer();
         }
          
-        internal ContentRuns GetContentRuns()
+        internal RunCollection GetContentRuns()
         {
             return this.content;
         }

@@ -2,23 +2,21 @@
 using System.Collections.Generic;
 namespace HtmlRenderer.Dom
 {
-    class ContentRuns
+    class RunCollection
     {
         List<TextSplitPart> originalSplitParts;
         char[] originalBuffer;
-        CssRun[] initRuns;
 
         List<CssRun> runList;
         bool isWhiteSpace;
         bool isSingleRun;
 
-
-        public ContentRuns(char[] originalBuffer)
+        public RunCollection(char[] originalBuffer)
         {
             this.runList = new List<CssRun>();
             this.originalBuffer = originalBuffer;
         }
-        public ContentRuns(CssRun singleRun)
+        public RunCollection(CssRun singleRun)
         {
             this.runList = new List<CssRun>();
             singleRun.SetOwner(this);
@@ -27,6 +25,7 @@ namespace HtmlRenderer.Dom
 
             isSingleRun = true;
         }
+
         internal char[] GetOriginalBuffer()
         {
             return this.originalBuffer;
@@ -42,9 +41,9 @@ namespace HtmlRenderer.Dom
             set;
         }
 
-        internal List<CssRun> RunList
+        internal List<CssRun> GetInternalList()
         {
-            get { return this.runList; }
+            return this.runList;
         }
 
         public int RunCount
@@ -67,9 +66,8 @@ namespace HtmlRenderer.Dom
                 for (int i = runList.Count - 1; i >= 0; --i)
                 {
                     runList[i].SetOwner(this);
-                } 
+                }
             }
-             
         }
         internal void EvaluateWhitespace()
         {

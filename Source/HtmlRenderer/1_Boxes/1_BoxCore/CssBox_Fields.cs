@@ -53,7 +53,7 @@ namespace HtmlRenderer.Dom
         //----------------------------------------------------   
 
         //condition 2 :this Box is InlineBox 
-        ContentRuns _aa_contentRuns; 
+        RunCollection _aa_contentRuns; 
 
         //----------------------------------------------------  
         //state
@@ -85,7 +85,7 @@ namespace HtmlRenderer.Dom
         {
             if (this._aa_contentRuns != null)
             {
-                var tmpRuns = this._aa_contentRuns.RunList;
+                var tmpRuns = this._aa_contentRuns.GetInternalList();
                 int j = tmpRuns.Count;
                 for (int i = 0; i < j; ++i)
                 {
@@ -98,7 +98,7 @@ namespace HtmlRenderer.Dom
         {
             if (this._aa_contentRuns != null)
             {
-                var tmpRuns = this._aa_contentRuns.RunList;
+                var tmpRuns = this._aa_contentRuns.GetInternalList();
                 int j = tmpRuns.Count;
                 for (int i = tmpRuns.Count - 1; i >= 0; --i)
                 {

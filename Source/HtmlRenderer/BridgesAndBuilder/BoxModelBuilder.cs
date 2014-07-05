@@ -130,7 +130,7 @@ namespace HtmlRenderer.Dom
 
                             //-----------------------------------------------------------
                             WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)node;
-                            ContentRuns contentRuns = new ContentRuns(textNode.CopyTextBuffer());
+                            RunCollection contentRuns = new RunCollection(textNode.CopyTextBuffer());
                             //----------------------------------------------------------- 
 
                             //content can be reparse
