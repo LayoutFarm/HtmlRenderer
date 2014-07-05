@@ -100,7 +100,7 @@ namespace HtmlRenderer.Dom
         /// <returns>the new block box</returns>
         internal static CssBox CreateRootBlock()
         {
-            var spec = new BoxSpec(WellknownHtmlTagName.Unknown);
+            var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
             var box = new CssBox(null, null, spec);
             //------------------------------------

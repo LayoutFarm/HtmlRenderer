@@ -112,7 +112,7 @@ namespace HtmlRenderer.Dom
             if (!templatesForTagName.TryGetValue(key, out boxTemplate))
             {
                 //create template for specific key  
-                boxTemplate = new BoxSpec(currentBoxSpec.WellknownTagName);
+                boxTemplate = new BoxSpec();
                 boxTemplate.CloneAllStylesFrom(currentBoxSpec);
 
                 //*** 

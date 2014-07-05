@@ -62,7 +62,7 @@ namespace HtmlRenderer.Dom
             {
                 this.WellknownTagName = element.WellknownTagName;
             }  
-            this._myspec = new BoxSpec(WellknownTagName);
+            this._myspec = new BoxSpec();
 
         }
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
@@ -87,7 +87,7 @@ namespace HtmlRenderer.Dom
                 this.WellknownTagName = element.WellknownTagName;
             }
 
-            this._myspec = new BoxSpec(WellknownTagName);
+            this._myspec = new BoxSpec();
             this._myspec.CloneAllStylesFrom(spec);
             this.CloseSpec();
         }

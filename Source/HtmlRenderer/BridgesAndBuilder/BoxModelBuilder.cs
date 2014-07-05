@@ -260,8 +260,7 @@ namespace HtmlRenderer.Dom
                 CssBox.SetHtmlContainer(rootBox, htmlContainer);
                 //------------------------------------------------------------------- 
 
-                var rootspec = new BoxSpec(WellknownHtmlTagName.Unknown);
-
+                var rootspec = new BoxSpec(); 
                 //ApplyStyleSheetForBox(rootBox, null, activeCssTemplate);
                 //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);

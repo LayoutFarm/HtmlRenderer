@@ -74,7 +74,7 @@ namespace HtmlRenderer.Dom
         CssPosition _position = CssPosition.Static;
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
         //==========================================================
-        WellknownHtmlTagName wellKnownTagName;
+        
 
         #endregion
 #if DEBUG
@@ -89,9 +89,9 @@ namespace HtmlRenderer.Dom
         BoxSpec anonVersion;
         //------------------
 
-        public BoxSpec(WellknownHtmlTagName wellknownTagName)
+        public BoxSpec()
         {    
-            this.WellknownTagName = wellknownTagName;
+           
         }
         //---------------------------------------------------------------
         internal int VersionNumber
@@ -136,15 +136,7 @@ namespace HtmlRenderer.Dom
             return !_freezed;
         }
         //---------------------------------------------------------------
-        public WellknownHtmlTagName WellknownTagName
-        {
-            get
-            {
-                return this.wellKnownTagName;
-            }
-            private set { this.wellKnownTagName = value; }
-
-        }
+        
         public CssDisplay CssDisplay
         {
             get { return this._cssDisplay; }
