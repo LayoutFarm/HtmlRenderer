@@ -235,7 +235,7 @@ namespace HtmlRenderer.Dom
             this._myspec.Freeze();
             this._cssDisplay = _myspec.CssDisplay;
         }
-        public static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
+        internal static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
             box._cssDisplay = newdisplay;
         }

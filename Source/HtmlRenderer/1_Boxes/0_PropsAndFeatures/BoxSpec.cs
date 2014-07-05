@@ -136,8 +136,7 @@ namespace HtmlRenderer.Dom
             if (_freezed)
             {
 
-            }
-            return true;
+            } 
             return !_freezed;
         }
         //---------------------------------------------------------------

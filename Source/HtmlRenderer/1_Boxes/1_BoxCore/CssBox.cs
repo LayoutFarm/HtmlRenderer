@@ -56,6 +56,7 @@ namespace HtmlRenderer.Dom
             {
                 parentBox.Boxes.Add(this);
             }
+
             _htmlElement = element; 
             if (element != null)
             {
