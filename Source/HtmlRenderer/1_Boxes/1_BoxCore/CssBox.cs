@@ -40,8 +40,8 @@ namespace HtmlRenderer.Dom
     public partial class CssBox : IDisposable
     {
         readonly BoxSpec _myspec;
-        WellknownHtmlTagName wellKnownTagName;
 
+        WellknownHtmlTagName wellKnownTagName;
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
@@ -74,10 +74,9 @@ namespace HtmlRenderer.Dom
                 //must be freeze
             }
 #endif
-             
-            this._myspec = spec; 
-            this._cssDisplay = VerifyDisplayType(this.wellKnownTagName, _myspec.CssDisplay);
-            //-----------
+
+            this._myspec = spec;
+            ChangeDisplayType(this, _myspec.CssDisplay);
         }
 #if DEBUG
         internal BridgeHtmlElement dbugAnonCreator
@@ -154,9 +153,18 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return (this.CssDisplay == CssDisplay.Inline
-                    || this.CssDisplay == CssDisplay.InlineBlock)
-                    && !IsBrElement;
+                return (this._boxCompactFlags & CssBoxFlagsConst.IS_INLINE_BOX) != 0; 
+            }
+            set
+            {
+                if (value)
+                {
+                    this._boxCompactFlags |= CssBoxFlagsConst.IS_INLINE_BOX;
+                }
+                else
+                {
+                    this._boxCompactFlags &= ~CssBoxFlagsConst.IS_INLINE_BOX;
+                }
             }
         }
 
@@ -171,9 +179,6 @@ namespace HtmlRenderer.Dom
                 return this.CssDisplay == CssDisplay.Block;
             }
         }
-
-
-
         /// <summary>
         /// Get the href link of the box (by default get "href" attribute)
         /// </summary>

@@ -230,44 +230,50 @@ namespace HtmlRenderer.Dom
                 return this._cssDisplay;
             }
         }
-        
+
         internal static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
-            box._cssDisplay = VerifyDisplayType(box.wellKnownTagName, newdisplay);
-        }
-        static CssDisplay VerifyDisplayType(WellknownHtmlTagName wellknownName, CssDisplay display)
-        {
-            switch (wellknownName)
+
+            switch (box.wellKnownTagName)
             {
                 //some wellknown Html element name 
-                //has fixed predefine display type  ***
-
-                //fix definition
-                default:
-                    return display;
+                //has fixed predefine display type  *** 
+                //fix definition 
                 case WellknownHtmlTagName.table:
-                    return CssDisplay.Table;
+                    newdisplay = CssDisplay.Table;
+                    break;
                 case WellknownHtmlTagName.tr:
-                    return CssDisplay.TableRow;
+                    newdisplay = CssDisplay.TableRow;
+                    break;
                 case WellknownHtmlTagName.tbody:
-                    return CssDisplay.TableRowGroup;
+                    newdisplay = CssDisplay.TableRowGroup;
+                    break;
                 case WellknownHtmlTagName.thead:
-                    return CssDisplay.TableHeaderGroup;
+                    newdisplay = CssDisplay.TableHeaderGroup;
+                    break;
                 case WellknownHtmlTagName.tfoot:
-                    return CssDisplay.TableFooterGroup;
+                    newdisplay = CssDisplay.TableFooterGroup;
+                    break;
                 case WellknownHtmlTagName.col:
-                    return CssDisplay.TableColumn;
+                    newdisplay = CssDisplay.TableColumn;
+                    break;
                 case WellknownHtmlTagName.colgroup:
-                    return CssDisplay.TableColumnGroup;
+                    newdisplay = CssDisplay.TableColumnGroup;
+                    break;
                 case WellknownHtmlTagName.td:
                 case WellknownHtmlTagName.th:
-                    return CssDisplay.TableCell;
+                    newdisplay = CssDisplay.TableCell;
+                    break;
                 case WellknownHtmlTagName.caption:
-                    return CssDisplay.TableCaption;
-
+                    newdisplay = CssDisplay.TableCaption;
+                    break;
             }
+
+            box._cssDisplay = newdisplay;
+            box.IsInline = (newdisplay == CssDisplay.Inline ||
+                    newdisplay == CssDisplay.InlineBlock) && !box.IsBrElement;
+
         }
-        //==================================================
 
     }
 
