@@ -23,132 +23,45 @@ namespace HtmlRenderer.Dom
             CharacterCollecting
         }
 
-
-        public void ParseWordContent(CssBox box)
+        public List<CssRun> ParseWordContent(char[] textBuffer,
+            CssWhiteSpace whitespace, bool notBreakAll, bool keepPreWhiteSpace)
         {
 
-            switch (box.WhiteSpace)
-            {
-                case CssWhiteSpace.Pre:
-                case CssWhiteSpace.PreWrap:
-                    ParseWordContentPreserveWhitespace(box);
-                    return;
-                case CssWhiteSpace.PreLine:
-                    ParseWordContentRespectNewLine(box);
-                    return;
-            }
-            //other ...  
-            char[] textBuffer = CssBox.UnsafeGetTextBuffer(box);
 #if DEBUG
             //string dbugStr = new string(textBuffer); 
 #endif
-
-            bool keepPreWhitespace = box.HtmlElement == null;
-            List<CssRun> boxRuns = CssBox.UnsafeGetRunListOrCreateIfNotExists(box);
-
-            boxRuns.Clear(); //clear prev results
-
-            int startIndex = 0;
-            int buffLength = textBuffer.Length;
-            bool boxIsNotBreakAll = box.WordBreak != CssWordBreak.BreakAll;
-
-            //not preserve whitespace
-            WordParsingState parsingState = WordParsingState.Init;
-            int appendLength = 0;
-
-
-            for (int i = 0; i < buffLength; ++i)
+            List<CssRun> runList = null;
+            switch (whitespace)
             {
-                char c0 = textBuffer[i];
-                //switch by state
-                switch (parsingState)
-                {
-                    case WordParsingState.Init:
-                        {
-                            if (char.IsWhiteSpace(c0))
-                            {
-                                parsingState = WordParsingState.Whitespace;
-                                appendLength = 1;
-                            }
-                            else
-                            {
-                                parsingState = WordParsingState.CharacterCollecting;
-                                startIndex = i;
-                                appendLength = 1;//start append length
-                            }
-                        } break;
-                    case WordParsingState.Whitespace:
-                        {
-                            if (!char.IsWhiteSpace(c0))
-                            {
-                                //flush whitespace
-                                //switch to character mode    
-                                if (keepPreWhitespace || boxRuns.Count > 0)
-                                {
-                                    boxRuns.Add(CssTextRun.CreateSingleWhitespace(box));
-                                }
-                                parsingState = WordParsingState.CharacterCollecting;
-                                startIndex = i;
-                                appendLength = 1;//start append length
-                            }
-                        } break;
-                    case WordParsingState.CharacterCollecting:
-                        {
-                            if (char.IsWhiteSpace(c0))
-                            {
-                                //flush new token   
-                                boxRuns.Add(CssTextRun.CreateTextRun(box, startIndex, appendLength));
-
-                                parsingState = WordParsingState.Whitespace;
-                                appendLength = 1; //clear append length 
-                            }
-                            else
-                            {
-                                appendLength++;
-                            }
-                        } break;
-                }
+                case CssWhiteSpace.Pre:
+                case CssWhiteSpace.PreWrap:
+                    runList = ParseWordContentPreserveWhitespace(textBuffer, notBreakAll);
+                    break;
+                case CssWhiteSpace.PreLine:
+                    runList = ParseWordContentRespectNewLine(textBuffer, notBreakAll);
+                    break;
+                default:
+                    runList = ParseWordContentDefault(textBuffer, notBreakAll, keepPreWhiteSpace);
+                    break;
             }
-            //--------------------
-            if (appendLength > 0)
-            {
-                switch (parsingState)
-                {
-                    case WordParsingState.Whitespace:
-                        {
-                            if (keepPreWhitespace || boxRuns.Count > 0)
-                            {
-                                boxRuns.Add(CssTextRun.CreateSingleWhitespace(box));
-                            }
-
-                        } break;
-                    case WordParsingState.CharacterCollecting:
-                        {
-                            boxRuns.Add(CssTextRun.CreateTextRun(box, startIndex, appendLength));
-                            appendLength = 0; //clear append length 
-                        } break;
-                }
-            }
-            //--------------------  
+            return runList;
         }
 
-        void ParseWordContentPreserveWhitespace(CssBox box)
+        List<CssRun> ParseWordContentPreserveWhitespace(char[] textBuffer, bool boxIsNotBreakAll)
         {
 
-            char[] textBuffer = CssBox.UnsafeGetTextBuffer(box);
+
             //#if DEBUG
             //            string dbugStr = new string(textBuffer);
             //#endif
-            List<CssRun> boxRuns = CssBox.UnsafeGetRunListOrCreateIfNotExists(box);
-            boxRuns.Clear(); //clear prev results
+            List<CssRun> boxRuns = new List<CssRun>();// CssBox.UnsafeGetRunListOrCreateIfNotExists(box);
 
             int startIndex = 0;
             int buffLength = textBuffer.Length;
-            bool boxIsNotBreakAll = box.WordBreak != CssWordBreak.BreakAll;
 
             //whitespace and respect newline  
             WordParsingState parsingState = WordParsingState.Init;
-            int appendLength = 0; 
+            int appendLength = 0;
             for (int i = 0; i < buffLength; ++i)
             {
                 char c0 = textBuffer[i];
@@ -159,16 +72,16 @@ namespace HtmlRenderer.Dom
                     {
                         if (parsingState == WordParsingState.CharacterCollecting)
                         {
-                            boxRuns.Add(CssTextRun.CreateTextRun(box, startIndex, appendLength));
+                            boxRuns.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
                         }
                         else
                         {
-                            boxRuns.Add(CssTextRun.CreateWhitespace(box, appendLength));
+                            boxRuns.Add(CssTextRun.CreateWhitespace(appendLength));
                         }
                         appendLength = 0; //clear append length 
                     }
                     //append with new line 
-                    boxRuns.Add(CssTextRun.CreateLineBreak(box));
+                    boxRuns.Add(CssTextRun.CreateLineBreak());
                     startIndex = i;
                     continue;
                 }
@@ -204,8 +117,7 @@ namespace HtmlRenderer.Dom
                             if (!char.IsWhiteSpace(c0))
                             {
                                 //switch to character mode
-                                boxRuns.Add(CssTextRun.CreateWhitespace(box, appendLength));
-
+                                boxRuns.Add(CssTextRun.CreateWhitespace(appendLength));
                                 parsingState = WordParsingState.CharacterCollecting;
                                 startIndex = i;//start collect
                                 appendLength = 1;//start append length
@@ -224,7 +136,7 @@ namespace HtmlRenderer.Dom
                             if (char.IsWhiteSpace(c0))
                             {
                                 //flush collecting token
-                                boxRuns.Add(CssTextRun.CreateTextRun(box, startIndex, appendLength));
+                                boxRuns.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
 
                                 parsingState = WordParsingState.Whitespace;
                                 startIndex = i;//start collect
@@ -249,29 +161,28 @@ namespace HtmlRenderer.Dom
                 {
                     case WordParsingState.Whitespace:
                         {
-                            boxRuns.Add(CssTextRun.CreateWhitespace(box, appendLength));
+                            boxRuns.Add(CssTextRun.CreateWhitespace(appendLength));
 
 
                         } break;
                     case WordParsingState.CharacterCollecting:
                         {
-                            boxRuns.Add(CssTextRun.CreateTextRun(box, startIndex, appendLength));
+                            boxRuns.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
 
 
                         } break;
                 }
             }
+            return boxRuns;
         }
-        void ParseWordContentRespectNewLine(CssBox box)
+        List<CssRun> ParseWordContentRespectNewLine(char[] textBuffer, bool boxIsNotBreakAll)
         {
             //not preserve whitespace but respect newline
-            char[] textBuffer = CssBox.UnsafeGetTextBuffer(box);
-            List<CssRun> boxRuns = CssBox.UnsafeGetRunListOrCreateIfNotExists(box);
-            boxRuns.Clear(); //clear prev results
+
+            List<CssRun> boxRuns = new List<CssRun>();// CssBox.UnsafeGetRunListOrCreateIfNotExists(box);
 
             int startIndex = 0;
             int buffLength = textBuffer.Length;
-            bool boxIsNotBreakAll = box.WordBreak != CssWordBreak.BreakAll;
 
             //whitespace and respect newline  
             WordParsingState parsingState = WordParsingState.Init;
@@ -293,12 +204,12 @@ namespace HtmlRenderer.Dom
                                 {
                                     if (boxRuns.Count > 0)
                                     {
-                                        boxRuns.Add(CssTextRun.CreateSingleWhitespace(box));
+                                        boxRuns.Add(CssTextRun.CreateSingleWhitespace());
                                     }
                                 } break;
                             case WordParsingState.CharacterCollecting:
                                 {
-                                    boxRuns.Add(CssTextRun.CreateTextRun(box, startIndex, appendLength));
+                                    boxRuns.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
 
                                 } break;
                         }
@@ -306,7 +217,7 @@ namespace HtmlRenderer.Dom
                     }
                     //append with new line
                     startIndex = i;
-                    boxRuns.Add(CssTextRun.CreateLineBreak(box));
+                    boxRuns.Add(CssTextRun.CreateLineBreak());
 
                     continue;
                 }
@@ -341,7 +252,7 @@ namespace HtmlRenderer.Dom
 
                                 if (boxRuns.Count > 0)
                                 {
-                                    boxRuns.Add(CssTextRun.CreateSingleWhitespace(box));
+                                    boxRuns.Add(CssTextRun.CreateSingleWhitespace());
                                 }
 
                                 parsingState = WordParsingState.CharacterCollecting;
@@ -356,7 +267,7 @@ namespace HtmlRenderer.Dom
                             if (char.IsWhiteSpace(c0))
                             {
                                 //flush new token  
-                                boxRuns.Add(CssTextRun.CreateTextRun(box, startIndex, appendLength));
+                                boxRuns.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
 
                                 parsingState = WordParsingState.Whitespace;
                                 appendLength = 0; //clear append length 
@@ -378,17 +289,107 @@ namespace HtmlRenderer.Dom
                         {
                             if (boxRuns.Count > 0)
                             {
-                                boxRuns.Add(CssTextRun.CreateSingleWhitespace(box));
+                                boxRuns.Add(CssTextRun.CreateSingleWhitespace());
                             }
                         } break;
                     case WordParsingState.CharacterCollecting:
                         {
-                            boxRuns.Add(CssTextRun.CreateTextRun(box, startIndex, appendLength));
+                            boxRuns.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
 
                             appendLength = 0; //clear append length 
                         } break;
                 }
             }
+            return boxRuns;
+        }
+
+
+        List<CssRun> ParseWordContentDefault(char[] textBuffer, bool boxIsNotBreakAll, bool keepPreWhitespace)
+        {
+
+            List<CssRun> boxRuns = new List<CssRun>();
+            int startIndex = 0;
+            int buffLength = textBuffer.Length;
+
+            //not preserve whitespace
+            WordParsingState parsingState = WordParsingState.Init;
+            int appendLength = 0;
+
+
+            for (int i = 0; i < buffLength; ++i)
+            {
+                char c0 = textBuffer[i];
+                //switch by state
+                switch (parsingState)
+                {
+                    case WordParsingState.Init:
+                        {
+                            if (char.IsWhiteSpace(c0))
+                            {
+                                parsingState = WordParsingState.Whitespace;
+                                appendLength = 1;
+                            }
+                            else
+                            {
+                                parsingState = WordParsingState.CharacterCollecting;
+                                startIndex = i;
+                                appendLength = 1;//start append length
+                            }
+                        } break;
+                    case WordParsingState.Whitespace:
+                        {
+                            if (!char.IsWhiteSpace(c0))
+                            {
+                                //flush whitespace
+                                //switch to character mode    
+                                if (keepPreWhitespace || boxRuns.Count > 0)
+                                {
+                                    boxRuns.Add(CssTextRun.CreateSingleWhitespace());
+                                }
+                                parsingState = WordParsingState.CharacterCollecting;
+                                startIndex = i;
+                                appendLength = 1;//start append length
+                            }
+                        } break;
+                    case WordParsingState.CharacterCollecting:
+                        {
+                            if (char.IsWhiteSpace(c0))
+                            {
+                                //flush new token   
+                                boxRuns.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
+
+                                parsingState = WordParsingState.Whitespace;
+                                appendLength = 1; //clear append length 
+                            }
+                            else
+                            {
+                                appendLength++;
+                            }
+                        } break;
+                }
+            }
+            //--------------------
+            if (appendLength > 0)
+            {
+                switch (parsingState)
+                {
+                    case WordParsingState.Whitespace:
+                        {
+                            if (keepPreWhitespace || boxRuns.Count > 0)
+                            {
+                                boxRuns.Add(CssTextRun.CreateSingleWhitespace());
+                            }
+
+                        } break;
+                    case WordParsingState.CharacterCollecting:
+                        {
+                            boxRuns.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
+                            appendLength = 0; //clear append length 
+                        } break;
+                }
+            }
+            //--------------------  
+            return boxRuns;
         }
     }
 }

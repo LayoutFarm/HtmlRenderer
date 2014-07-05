@@ -19,7 +19,7 @@ namespace HtmlRenderer.Dom
     /// Represents a word inside an inline box
     /// </summary>
     sealed class CssTextRun : CssRun
-    { 
+    {
         int _textStartIndex;
         int _textLength;
 
@@ -30,23 +30,23 @@ namespace HtmlRenderer.Dom
         /// <param name="text">the word chars </param>
         /// <param name="hasSpaceBefore">was there a whitespace before the word chars (before trim)</param>
         /// <param name="hasSpaceAfter">was there a whitespace after the word chars (before trim)</param>
-        private CssTextRun(CssBox owner, CssRunKind rectKind,
+        private CssTextRun(CssRunKind rectKind,
             int start, int len)
-            : base(owner, rectKind)
-        {   
+            : base(rectKind)
+        {
             this._textStartIndex = start;
             this._textLength = len;
         }
 
-        private CssTextRun(CssBox owner, CssRunKind kind)
-            : base(owner, kind)
+        private CssTextRun(CssRunKind kind)
+            : base(kind)
         {
             //for single space only 
             this._textLength = 1;
 
         }
-        private CssTextRun(CssBox owner, int whiteSpaceLength)
-            : base(owner, CssRunKind.Space)
+        private CssTextRun(int whiteSpaceLength)
+            : base(CssRunKind.Space)
         {
             //for space only
 
@@ -54,27 +54,27 @@ namespace HtmlRenderer.Dom
         }
 
         //================================================================
-        public static CssTextRun CreateTextRun(CssBox owner, int startIndex, int len)
+        public static CssTextRun CreateTextRun(int startIndex, int len)
         {
-            return new CssTextRun(owner, CssRunKind.Text, startIndex, len);
+            return new CssTextRun(CssRunKind.Text, startIndex, len);
         }
-        public static CssTextRun CreateSingleWhitespace(CssBox owner)
+        public static CssTextRun CreateSingleWhitespace()
         {
-            return new CssTextRun(owner, CssRunKind.SingleSpace);
+            return new CssTextRun(CssRunKind.SingleSpace);
         }
-        public static CssTextRun CreateLineBreak(CssBox owner)
+        public static CssTextRun CreateLineBreak()
         {
-            return new CssTextRun(owner, CssRunKind.LineBreak);//, hasSpaceBefore, hasSpaceAfter);
+            return new CssTextRun(CssRunKind.LineBreak);//, hasSpaceBefore, hasSpaceAfter);
         }
-        public static CssTextRun CreateWhitespace(CssBox owner, int count)
+        public static CssTextRun CreateWhitespace(int count)
         {
             if (count == 1)
             {
-                return new CssTextRun(owner, CssRunKind.SingleSpace);
+                return new CssTextRun(CssRunKind.SingleSpace);
             }
             else
             {
-                return new CssTextRun(owner, count);
+                return new CssTextRun(count);
             }
         }
         //================================================================
@@ -116,8 +116,8 @@ namespace HtmlRenderer.Dom
                     case CssRunKind.SingleSpace:
                         {
                             return " ";
-                        } 
-                 
+                        }
+
                     default:
                         {
                             return "";

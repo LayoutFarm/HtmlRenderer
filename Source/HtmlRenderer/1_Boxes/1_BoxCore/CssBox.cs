@@ -78,7 +78,7 @@ namespace HtmlRenderer.Dom
             this._myspec = spec;
             ChangeDisplayType(this, _myspec.CssDisplay);
         }
- 
+
 
         /// <summary>
         /// Gets the HtmlContainer of the Box.
@@ -239,9 +239,9 @@ namespace HtmlRenderer.Dom
             get
             {
                 return this.HasRuns && this.FirstRun.IsImage;
-
             }
         }
+
         /// <summary>
         /// Tells if the box is empty or contains just blank spaces
         /// </summary>
@@ -263,12 +263,6 @@ namespace HtmlRenderer.Dom
             }
         }
 
-         
-        
-        public static char[] UnsafeGetTextBuffer(CssBox box)
-        {
-            return box._aa_textBuffer;
-        }
         void ResetTextFlags()
         {
             int tmpFlags = this._boxCompactFlags;
@@ -277,6 +271,7 @@ namespace HtmlRenderer.Dom
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_EMPTY;
             this._boxCompactFlags = tmpFlags;
         }
+
         internal void SetTextContent(char[] chars)
         {
             this._aa_textBuffer = chars;
@@ -284,11 +279,12 @@ namespace HtmlRenderer.Dom
         }
         internal void ParseWordContent()
         {
-            //generate text run***
-            ContentTextSplitter.DefaultSplitter.ParseWordContent(this);
+            //generate text run***              
+            this._boxRuns = ContentTextSplitter.DefaultSplitter.ParseWordContent(
+                _aa_textBuffer, this.WhiteSpace,
+                 this.WordBreak != CssWordBreak.BreakAll,
+                 this.HtmlElement == null);
         }
-        
-
 
         public bool MayHasSomeTextContent
         {
@@ -297,6 +293,11 @@ namespace HtmlRenderer.Dom
                 return this._aa_textBuffer != null;
             }
         }
+        internal static char[] UnsafeGetTextBuffer(CssBox box)
+        {
+            return box._aa_textBuffer;
+        }
+
         void EvaluateWhitespace()
         {
 
@@ -811,7 +812,7 @@ namespace HtmlRenderer.Dom
                     _listItemBox.ReEvaluateFont(this.ActualFont.Size);
                     _listItemBox.ReEvaluateComputedValues(this);
 
-                   
+
                     CssBox.ChangeDisplayType(_listItemBox, Dom.CssDisplay.Inline);
                     _listItemBox._htmlContainer = HtmlContainer;
 
@@ -820,15 +821,15 @@ namespace HtmlRenderer.Dom
                     {
                         case CssListStyleType.Disc:
                             {
-                                text_content = discItem; 
+                                text_content = discItem;
                             } break;
                         case CssListStyleType.Circle:
                             {
-                                text_content = circleItem; 
+                                text_content = circleItem;
                             } break;
                         case CssListStyleType.Square:
                             {
-                                text_content = squareItem; 
+                                text_content = squareItem;
                             } break;
                         case CssListStyleType.Decimal:
                             {
@@ -862,7 +863,7 @@ namespace HtmlRenderer.Dom
 
             }
         }
-       
+
 #if DEBUG
         internal string dbugGetTextContent()
         {

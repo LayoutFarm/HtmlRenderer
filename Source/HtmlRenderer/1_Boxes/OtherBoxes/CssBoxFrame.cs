@@ -77,7 +77,7 @@ namespace HtmlRenderer.Dom
             : base(parent, tag, spec)
         {
 
-            this.AddRun(this._imageWord = new CssImageRun(this));
+            this.AddRun(this._imageWord = new CssImageRun());
 
             //wait for another technique *
 

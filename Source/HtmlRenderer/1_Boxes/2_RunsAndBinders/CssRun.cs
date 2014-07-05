@@ -68,7 +68,7 @@ namespace HtmlRenderer.Dom
         /// Init.
         /// </summary>
         /// <param name="owner">the CSS box owner of the word</param>
-        protected CssRun(CssBox ownerBox, CssRunKind rectKind)
+        protected CssRun(CssRunKind rectKind)
         {
             this._runKind = rectKind;
         }
