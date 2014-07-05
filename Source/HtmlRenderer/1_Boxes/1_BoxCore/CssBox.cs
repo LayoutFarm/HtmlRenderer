@@ -39,12 +39,9 @@ namespace HtmlRenderer.Dom
     /// http://www.w3.org/TR/CSS21/box.html
     /// </remarks>
     public partial class CssBox : IDisposable
-    {
-
-
+    {  
         readonly BoxSpec _myspec;
-        WellknownHtmlTagName wellKnownTagName;
-
+        WellknownHtmlTagName wellKnownTagName; 
 
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
@@ -54,9 +51,6 @@ namespace HtmlRenderer.Dom
 
         internal CssBox(CssBox parentBox, BridgeHtmlElement element)
         {
-            if (this.__aa_dbugId == 2)
-            {
-            }
             this._aa_boxes = new CssBoxCollection(this);
 
             if (parentBox != null)
@@ -65,19 +59,17 @@ namespace HtmlRenderer.Dom
             }
             _htmlElement = element;
 
-
             if (element != null)
             {
                 this.WellknownTagName = element.WellknownTagName;
             }
-            //------------
 
             this._myspec = new BoxSpec(WellknownTagName);
 
         }
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
         {
-           
+
             //for root
             this._aa_boxes = new CssBoxCollection(this);
             if (parentBox != null)
@@ -86,8 +78,6 @@ namespace HtmlRenderer.Dom
             }
 
             _htmlElement = element;
-
-            //this._importSpec = spec;
 #if DEBUG
             if (element != null && element.Spec == null)
             {
@@ -101,7 +91,6 @@ namespace HtmlRenderer.Dom
 
             this._myspec = new BoxSpec(WellknownTagName);
             this._myspec.CloneAllStylesFrom(spec);
-
         }
 
 #if DEBUG
@@ -111,10 +100,8 @@ namespace HtmlRenderer.Dom
             set;
         }
 #endif
-        public BoxSpec Spec
-        {
-            get { return this._myspec; }
-        }
+
+        
         /// <summary>
         /// Gets the HtmlContainer of the Box.
         /// WARNING: May be null.
@@ -270,14 +257,14 @@ namespace HtmlRenderer.Dom
                 return this.HasRuns && this.FirstRun.IsImage;
 
             }
-        } 
+        }
         /// <summary>
         /// Tells if the box is empty or contains just blank spaces
         /// </summary>
         public bool IsSpaceOrEmpty
         {
             get
-            {   
+            {
                 if ((Runs.Count != 0 || Boxes.Count != 0) && (Runs.Count != 1 || !Runs[0].IsSpaces))
                 {
                     foreach (CssRun word in Runs)
@@ -829,7 +816,7 @@ namespace HtmlRenderer.Dom
                 if (_listItemBox == null)
                 {
                     _listItemBox = new CssBox(null, null, this._myspec.GetAnonVersion());
-        
+
                     _listItemBox._parentBox = this;
                     _listItemBox.ReEvaluateFont(this.ActualFont.Size);
                     _listItemBox.ReEvaluateComputedValues(this);
@@ -1274,19 +1261,6 @@ namespace HtmlRenderer.Dom
         #endregion
 
 
-
-        internal bool IsPointInClientArea(float x, float y)
-        {
-            //from parent view
-            return x >= this.ClientLeft && x < this.ClientRight &&
-                   y >= this.ClientTop && y < this.ClientBottom;
-        }
-        internal bool IsPointInArea(float x, float y)
-        {
-            //from parent view
-            return x >= this.LocalX && x < this.LocalRight &&
-                   y >= this.LocalY && y < this.LocalBottom;
-        }
 
 
 

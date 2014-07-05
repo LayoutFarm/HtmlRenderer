@@ -104,18 +104,6 @@ namespace HtmlRenderer.Dom
                  
                 return _actualBorderSpacingVertical;
             }
-        }
-        ///// <summary>
-        ///// Ensures that the specified length is converted to pixels if necessary
-        ///// </summary>
-        ///// <param name="length"></param>
-        //public CssLength NoEms(CssLength length)
-        //{
-        //    if (length.UnitOrNames == CssUnitOrNames.Ems)
-        //    {
-        //        return length.ConvertEmToPixels(GetEmHeight());
-        //    }
-        //    return length;
-        //}
+        } 
     }
 }

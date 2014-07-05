@@ -125,11 +125,10 @@ namespace HtmlRenderer.Dom
         internal bool NeedComputedValueEvaluation
         {
             get { return (this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0; }
-        }
-
+        } 
         internal void ReEvaluateFont(float parentFontSize)
-        {
-            this._actualFont = this.Spec.GetFont(parentFontSize);
+        {   
+            this._actualFont = this._myspec.GetFont(parentFontSize);
         }
         /// <summary>
         /// evaluate computed value
@@ -694,6 +693,40 @@ namespace HtmlRenderer.Dom
                 return (this._boxCompactFlags & CssBoxFlagsConst.HAS_ROUND_CORNER) != 0;
             }
         }
+       
+        protected bool RunSizeMeasurePass
+        {
+            get
+            {
+                return (this._boxCompactFlags & CssBoxFlagsConst.LAY_RUNSIZE_MEASURE) != 0;
+            }
+            set
+            {
+                if (value)
+                {
+                    this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
+                }
+                else
+                {
+                    this._boxCompactFlags &= ~CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
+                }
+            }
+        }
+
+        internal bool IsPointInClientArea(float x, float y)
+        {
+            //from parent view
+            return x >= this.ClientLeft && x < this.ClientRight &&
+                   y >= this.ClientTop && y < this.ClientBottom;
+        }
+        internal bool IsPointInArea(float x, float y)
+        {
+            //from parent view
+            return x >= this.LocalX && x < this.LocalRight &&
+                   y >= this.LocalY && y < this.LocalBottom;
+        }
+
+
         /// <remarks>
         /// Flag that indicates that CssTable algorithm already made fixes on it.
         /// </remarks>
@@ -712,24 +745,6 @@ namespace HtmlRenderer.Dom
                 else
                 {
                     this._boxCompactFlags &= ~CssBoxFlagsConst.LAY_TABLE_FIXED;
-                }
-            }
-        }
-        protected bool RunSizeMeasurePass
-        {
-            get
-            {
-                return (this._boxCompactFlags & CssBoxFlagsConst.LAY_RUNSIZE_MEASURE) != 0;
-            }
-            set
-            {
-                if (value)
-                {
-                    this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
-                }
-                else
-                {
-                    this._boxCompactFlags &= ~CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
                 }
             }
         }

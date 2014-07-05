@@ -62,7 +62,7 @@ namespace HtmlRenderer.Dom
                         //1. creat new box anonymous block (no html tag) then
                         //  add it before this box 
 
-                        var newbox = BoxCreator.CreateAnonBlock(box, i);
+                        var newbox = CssBox.CreateAnonBlock(box, i);
                         //2. skip newly add box 
                         i++;
 
@@ -250,7 +250,7 @@ namespace HtmlRenderer.Dom
             if (box.ChildCount > 1 || box.GetFirstChild().ChildCount > 1)
             {
                 firstChild = box.GetFirstChild();
-                CssBox leftAnonBox = BoxCreator.CreateAnonBlock(box);
+                CssBox leftAnonBox = CssBox.CreateAnonBlock(box);
                 //1. newLeftBlock is Created and add is latest child of the 'box'
                 //------------------------------------------- 
                 while (ContainsInlinesOnlyDeep(firstChild))
@@ -270,13 +270,12 @@ namespace HtmlRenderer.Dom
 
                 splitBox.SetNewParentBox(null);
 
-                CorrectBlockSplitBadBox(box, splitBox, leftAnonBox);
-
+                CorrectBlockSplitBadBox(box, splitBox, leftAnonBox); 
                 //------------------------------------------- 
 
                 if (box.ChildCount > 2)
                 {
-                    var rightAnonBox = BoxCreator.CreateAnonBlock(box, 2);
+                    var rightAnonBox = CssBox.CreateAnonBlock(box, 2);
                     int childCount = box.ChildCount;
                     while (childCount > 3)
                     {
@@ -304,11 +303,8 @@ namespace HtmlRenderer.Dom
         /// <param name="leftBlock">the left block box that is created for the split</param>
         static void CorrectBlockSplitBadBox(CssBox parentBox, CssBox splitBox, CssBox leftBlock)
         {
-            //recursive
-
-            var leftPart = BoxCreator.CreateBoxAndInherit(leftBlock, (BridgeHtmlElement)splitBox.HtmlElement);
-
-            leftPart.Spec.CloneAllStylesFrom(splitBox.Spec);
+            //recursive 
+            var leftPart = BoxCreator.CreateBox(leftBlock, (BridgeHtmlElement)splitBox.HtmlElement);
 
             bool had_new_leftbox = false;
             CssBox firstChild = null;
@@ -339,9 +335,11 @@ namespace HtmlRenderer.Dom
                 CssBox rightPart;
                 if (firstChild.ParentBox != null || parentBox.ChildCount < 3)
                 {
-                    rightPart = BoxCreator.CreateBoxAndInherit(parentBox, (BridgeHtmlElement)splitBox.HtmlElement);
+                    //rightPart = BoxCreator.CreateBoxAndInherit(parentBox, (BridgeHtmlElement)splitBox.HtmlElement);
+                    //rightPart.Spec.CloneAllStylesFrom(splitBox.Spec);
 
-                    rightPart.Spec.CloneAllStylesFrom(splitBox.Spec);
+                    rightPart = BoxCreator.CreateBox(parentBox, (BridgeHtmlElement)splitBox.HtmlElement);
+
                     if (parentBox.ChildCount > 2)
                     {
                         rightPart.ChangeSiblingOrder(1);
@@ -392,7 +390,7 @@ namespace HtmlRenderer.Dom
                 if (childBox is CssBoxImage && childBox.CssDisplay == CssDisplay.Block)
                 {
                     //create new anonymous box
-                    var block = BoxCreator.CreateAnonBlock(childBox.ParentBox, childIndex);
+                    var block = CssBox.CreateAnonBlock(childBox.ParentBox, childIndex);
                     //move this imgbox to new child 
                     childBox.SetNewParentBox(block);
                     childBox.CssDisplay = CssDisplay.Inline;

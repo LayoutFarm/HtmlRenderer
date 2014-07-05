@@ -42,31 +42,42 @@ namespace HtmlRenderer.Dom
             return null;
         }
 
-        internal static CssBox CreateBoxNotInherit(CssBox parent, BridgeHtmlElement tag)
-        {
 
+        internal static CssBox CreateBox(CssBox parent, BridgeHtmlElement tag)
+        {
+            CssBox newBox = null;
+            //----------------------------------------- 
+            //1. create new box
+            //-----------------------------------------
             switch (tag.WellknownTagName)
             {
                 case WellknownHtmlTagName.img:
-                    return new CssBoxImage(parent, tag);
+                    newBox = new CssBoxImage(parent, tag);
+                    break;
                 case WellknownHtmlTagName.iframe:
-                    return new CssBoxHr(parent, tag);
+                    newBox = new CssBoxHr(parent, tag);
+                    break;
                 case WellknownHtmlTagName.hr:
-                    return new CssBoxHr(parent, tag);
+                    newBox = new CssBoxHr(parent, tag);
+                    break;
                 //test extension box
                 case WellknownHtmlTagName.X:
-                    var customBox = CreateCustomBox(parent, tag);
-                    if (customBox == null)
+                    newBox = CreateCustomBox(parent, tag);
+                    if (newBox == null)
                     {
-                        return new CssBox(parent, tag);
+                        newBox = new CssBox(parent, tag);
                     }
-                    else
-                    {
-                        return customBox;
-                    }
+                    break;
                 default:
-                    return new CssBox(parent, tag);
+                    newBox = new CssBox(parent, tag);
+                    break;
             }
+            //----------------------------------------- 
+            //2. clone exact spec from prepared BoxSpec
+            //----------------------------------------- 
+            var newBoxSpec = CssBox.UnsafeGetBoxSpec(newBox);
+            newBoxSpec.CloneAllStylesFrom(tag.Spec);
+            return newBox;
         }
 
         static CssBox CreateCustomBox(CssBox parent, IHtmlElement tag)
@@ -87,67 +98,17 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <returns>the new block box</returns>
         internal static CssBox CreateRootBlock()
-        {    
+        {
             var spec = new BoxSpec(WellknownHtmlTagName.Unknown);
             spec.CssDisplay = CssDisplay.Block;
             var box = new CssBox(null, null, spec);
             //------------------------------------
             box.ReEvaluateFont(10);
-
-
             //------------------------------------
             return box;
         }
-        internal static CssBox CreateBoxAndInherit(CssBox parent, BridgeHtmlElement tag)
-        {
-            var newBox = new CssBox(parent, tag);
-            newBox.Spec.InheritStylesFrom(parent.Spec);
-            return newBox;
-        }
 
-        //---------------------------------------------------
 
-        /// <summary>
-        /// Create new css block box for the given parent with the given optional html tag and insert it either
-        /// at the end or before the given optional box.<br/>
-        /// If no html tag is given the box will be anonymous.<br/>
-        /// If no before box is given the new box will be added at the end of parent boxes collection.<br/>
-        /// If before box doesn't exists in parent box exception is thrown.<br/>
-        /// </summary>
-        /// <remarks>
-        /// To learn more about anonymous block boxes visit CSS spec:
-        /// http://www.w3.org/TR/CSS21/visuren.html#anonymous-block-level
-        /// </remarks>
-        /// <param name="parent">the box to add the new block box to it as child</param>
-        /// <param name="tag">optional: the html tag to define the box</param>
-        /// <param name="before">optional: to insert as specific location in parent box</param>
-        /// <returns>the new block box</returns>
-        internal static CssBox CreateAnonBlock(CssBox parent, int insertAt = -1)
-        {
-            var newBox = CreateBoxAndInherit(parent, null, insertAt);
-            if (parent.HtmlElement != null)
-            {
-                newBox.dbugAnonCreator = (BridgeHtmlElement)parent.HtmlElement;
-            }
-            else if (parent.dbugAnonCreator != null)
-            {
-                newBox.dbugAnonCreator = parent.dbugAnonCreator;
-            }
 
-            newBox.CssDisplay = CssDisplay.Block;
-            return newBox;
-        }
-
-        static CssBox CreateBoxAndInherit(CssBox parent, BridgeHtmlElement tag, int insertAt)
-        {
-            var newBox = new CssBox(parent, tag);
-            newBox.Spec.InheritStylesFrom(parent.Spec);
-
-            if (insertAt > -1)
-            {
-                newBox.ChangeSiblingOrder(insertAt);
-            }
-            return newBox;
-        }
     }
 }
