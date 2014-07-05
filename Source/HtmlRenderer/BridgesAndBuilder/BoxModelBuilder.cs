@@ -132,7 +132,7 @@ namespace HtmlRenderer.Dom
                             WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)node;
                             ContentRuns contentRuns = new ContentRuns(textNode.CopyTextBuffer());
                             //----------------------------------------------------------- 
-                            
+
                             //content can be reparse
                             contentRuns.OriginalSplitParts = contentTextSplitter.ParseWordContent2(
                                 contentRuns.GetOriginalBuffer());
@@ -143,7 +143,7 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-         
+
         static void GenerateCssBoxes(BridgeHtmlElement parentElement, CssBox parentBox)
         {
 
@@ -161,7 +161,7 @@ namespace HtmlRenderer.Dom
                             case BridgeNodeType.Text:
                                 {
                                     //parent has single child 
-                                    parentBox.SetTextContent(((BridgeHtmlTextNode)bridgeChild).CopyTextBuffer());
+                                    parentBox.SetTextContent(((BridgeHtmlTextNode)bridgeChild).GetContentRuns());
                                 } break;
                             case BridgeNodeType.Element:
                                 {
@@ -199,7 +199,7 @@ namespace HtmlRenderer.Dom
                                         //parse and evaluate whitespace here ! 
                                         BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
                                         anonText.dbugAnonCreator = parentElement;
-                                        anonText.SetTextContent(textNode.CopyTextBuffer());
+                                        anonText.SetTextContent(textNode.GetContentRuns());
 
                                     } break;
                                 default:

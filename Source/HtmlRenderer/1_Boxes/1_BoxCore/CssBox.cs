@@ -271,55 +271,48 @@ namespace HtmlRenderer.Dom
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_EMPTY;
             this._boxCompactFlags = tmpFlags;
         }
-
-        internal void SetTextContent(char[] chars)
+        internal void SetTextContent(ContentRuns contentRuns)
         {
-            this._aa_textBuffer = chars;
+            this._aa_contentRuns = contentRuns;
             ResetTextFlags();
         }
         internal void ParseWordContent()
         {
-            //generate text run***              
-            this._boxRuns = ContentTextSplitter.DefaultSplitter.ParseWordContent(
-                _aa_textBuffer, this.WhiteSpace,
-                 this.WordBreak != CssWordBreak.BreakAll,
-                 this.HtmlElement == null);
+            _aa_contentRuns.ParseContent(ContentTextSplitter.DefaultSplitter, this.WhiteSpace,
+                this.WordBreak == CssWordBreak.BreakAll,
+                this.HtmlElement == null);
         }
 
         public bool MayHasSomeTextContent
         {
             get
             {
-                return this._aa_textBuffer != null;
+                return this._aa_contentRuns != null;
             }
         }
         internal static char[] UnsafeGetTextBuffer(CssBox box)
         {
-            return box._aa_textBuffer;
+            return box._aa_contentRuns.GetOriginalBuffer();
         }
 
         void EvaluateWhitespace()
         {
 
             this._boxCompactFlags |= CssBoxFlagsConst.HAS_EVAL_WHITESPACE;
-            char[] tmp;
-
-            if ((tmp = this._aa_textBuffer) == null)
+            if (_aa_contentRuns == null)
             {
-
                 this._boxCompactFlags |= CssBoxFlagsConst.TEXT_IS_EMPTY;
                 return;
             }
-            for (int i = tmp.Length - 1; i >= 0; --i)
+            else
             {
-                if (!char.IsWhiteSpace(tmp[i]))
+                _aa_contentRuns.EvaluateWhitespace();
+                if (_aa_contentRuns.IsWhiteSpace)
                 {
-                    return;
+                    this._boxCompactFlags |= CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
                 }
-            }
-
-            //all is whitespace
-            this._boxCompactFlags |= CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
+            }            
+            
         }
         internal bool TextContentIsAllWhitespace
         {
@@ -347,14 +340,16 @@ namespace HtmlRenderer.Dom
 #if DEBUG
         internal string CopyTextContent()
         {
-            if (this._aa_textBuffer != null)
+
+            if (this._aa_contentRuns != null)
             {
-                return new string(this._aa_textBuffer);
+                return new string(this._aa_contentRuns.GetOriginalBuffer());
             }
             else
             {
                 return null;
             }
+
         }
 #endif
         internal void AddLineBox(CssLineBox linebox)
@@ -379,16 +374,17 @@ namespace HtmlRenderer.Dom
         {
 
             CssLineBox firstHostLine, lastHostLine;
-            if (box._boxRuns == null)
+            var runList = box.Runs;
+            if (runList == null)
             {
                 firstHostLine = lastHostLine = null;
             }
             else
             {
-                int j = box._boxRuns.Count;
+                int j = runList.Count;
 
-                firstHostLine = box._boxRuns[0].HostLine;
-                lastHostLine = box._boxRuns[j - 1].HostLine;
+                firstHostLine = runList[0].HostLine;
+                lastHostLine = runList[j - 1].HostLine;
             }
             if (firstHostLine == lastHostLine)
             {
@@ -456,14 +452,24 @@ namespace HtmlRenderer.Dom
         /// </summary>
         List<CssRun> Runs
         {
-            get { return _boxRuns; }
+            get
+            {
+                if (_aa_contentRuns == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _aa_contentRuns.RunList;
+                }
+            }
         }
 
         internal bool HasRuns
         {
             get
             {
-                return this._boxRuns != null && this._boxRuns.Count > 0;
+                return this._aa_contentRuns != null && this._aa_contentRuns.RunCount > 0;
             }
         }
 
@@ -703,7 +709,7 @@ namespace HtmlRenderer.Dom
                 Font actualFont = this.ActualFont;
                 float fontHeight = FontsUtils.GetFontHeight(actualFont);
 
-                var tmpRuns = this._boxRuns;
+                var tmpRuns = this.Runs;
                 for (int i = tmpRuns.Count - 1; i >= 0; --i)
                 {
                     CssRun run = tmpRuns[i];
@@ -845,7 +851,8 @@ namespace HtmlRenderer.Dom
                             } break;
                     }
 
-                    _listItemBox.SetTextContent(text_content);
+                     
+                    _listItemBox.SetTextContent(new ContentRuns(text_content));
                     _listItemBox.ParseWordContent();
 
                     var prevSibling = lay.LatestSiblingBox;
@@ -864,12 +871,7 @@ namespace HtmlRenderer.Dom
             }
         }
 
-#if DEBUG
-        internal string dbugGetTextContent()
-        {
-            return new string(this._aa_textBuffer);
-        }
-#endif
+
         /// <summary>
         /// Gets the specified Attribute, returns string.Empty if no attribute specified
         /// </summary>

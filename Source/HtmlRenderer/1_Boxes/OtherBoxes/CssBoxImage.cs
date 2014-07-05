@@ -14,6 +14,7 @@
 // "The Art of War"
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using HtmlRenderer.Entities;
 using HtmlRenderer.Handlers;
@@ -54,7 +55,12 @@ namespace HtmlRenderer.Dom
         public CssBoxImage(CssBox parent, BridgeHtmlElement tag, BoxSpec boxSpec)
             : base(parent, tag, boxSpec)
         {
-            this.AddRun(this._imageWord = new CssImageRun());
+            
+            ContentRuns contentRuns = new ContentRuns(null);
+            List<CssRun> runList = new List<CssRun>();
+            runList.Add(this._imageWord);
+            contentRuns.RunList = runList;
+            this.SetTextContent(contentRuns);
         }
 
         /// <summary>

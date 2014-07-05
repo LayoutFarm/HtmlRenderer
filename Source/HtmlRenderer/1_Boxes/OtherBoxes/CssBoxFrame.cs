@@ -1,4 +1,6 @@
-﻿// "Therefore those skilled at the unorthodox
+﻿//BSD, 2014, WinterDev 
+
+// "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
 // When they come to an end,
@@ -11,6 +13,8 @@
 // "The Art of War"
 
 using System;
+using System.Collections.Generic;
+
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Net;
@@ -77,7 +81,12 @@ namespace HtmlRenderer.Dom
             : base(parent, tag, spec)
         {
 
-            this.AddRun(this._imageWord = new CssImageRun());
+            
+            ContentRuns contentRuns = new ContentRuns(null);
+            List<CssRun> runList = new List<CssRun>();
+            runList.Add(this._imageWord);
+            contentRuns.RunList = runList; 
+            this.SetTextContent(contentRuns);
 
             //wait for another technique *
 
