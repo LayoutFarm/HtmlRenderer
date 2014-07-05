@@ -48,13 +48,15 @@ namespace HtmlRenderer.Dom
         //1.1 contain lineBoxes for my children and  other children (share)
         LinkedList<CssLineBox> _clientLineBoxes;
 
-
         //1.2 contains box collection for my children
         readonly CssBoxCollection _aa_boxes;
-        char[] _aa_textBuffer;
-        //----------------------------------------------------   
 
+        //----------------------------------------------------   
+        
         //condition 2 :this Box is InlineBox 
+        ContentRuns _boxRuns2;
+
+        char[] _aa_textBuffer;
         List<CssRun> _boxRuns;
         //----------------------------------------------------  
         //state
@@ -76,7 +78,6 @@ namespace HtmlRenderer.Dom
             {
                 this._boxRuns = new List<CssRun>();
             }
-
             this._boxRuns.Add(run);
         }
 

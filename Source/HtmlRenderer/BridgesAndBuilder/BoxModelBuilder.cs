@@ -33,6 +33,7 @@ namespace HtmlRenderer.Dom
     static partial class BoxModelBuilder
     {
         //======================================
+        static ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
 
         /// <summary>
         /// Parses the source html to css boxes tree structure.
@@ -52,16 +53,12 @@ namespace HtmlRenderer.Dom
         {
             BrigeRootElement bridgeRoot = new BrigeRootElement(htmldoc.RootNode);
             BuildBridgeContent(container, htmldoc.RootNode, bridgeRoot, activeCssTemplate);
-
-
-
-
             return bridgeRoot;
         }
         static void BuildBridgeContent(
             HtmlContainer container,
             WebDom.HtmlElement parentHtmlNode,
-            BridgeHtmlElement parentBridge,
+            BridgeHtmlElement parentElement,
             ActiveCssTemplate activeCssTemplate)
         {
             //recursive 
@@ -72,15 +69,15 @@ namespace HtmlRenderer.Dom
                     case WebDom.HtmlNodeType.OpenElement:
                     case WebDom.HtmlNodeType.ShortElement:
                         {
-                            WebDom.HtmlElement elemNode = node as WebDom.HtmlElement;
+                            WebDom.HtmlElement webHtmlElement = node as WebDom.HtmlElement;
 
-                            BridgeHtmlElement bridgeElement = new BridgeHtmlElement(elemNode,
-                                UserMapUtil.EvaluateTagName(elemNode.LocalName));
-                            parentBridge.AddChildElement(bridgeElement);
+                            BridgeHtmlElement bridgeElement = new BridgeHtmlElement(webHtmlElement,
+                                UserMapUtil.EvaluateTagName(webHtmlElement.LocalName));
+                            parentElement.AddChildElement(bridgeElement);
 
                             //-----------------------------
                             //recursive 
-                            BuildBridgeContent(container, elemNode, bridgeElement, activeCssTemplate);
+                            BuildBridgeContent(container, webHtmlElement, bridgeElement, activeCssTemplate);
                             //-----------------------------
 
                             switch (bridgeElement.WellknownTagName)
@@ -130,12 +127,23 @@ namespace HtmlRenderer.Dom
                         } break;
                     case WebDom.HtmlNodeType.TextNode:
                         {
-                            BridgeHtmlTextNode bridgeElement = new BridgeHtmlTextNode((WebDom.HtmlTextNode)node);
-                            parentBridge.AddChildElement(bridgeElement);
+
+                            //-----------------------------------------------------------
+                            WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)node;
+                            ContentRuns contentRuns = new ContentRuns(textNode.CopyTextBuffer());
+                            //----------------------------------------------------------- 
+                            
+                            //content can be reparse
+                            contentRuns.OriginalSplitParts = contentTextSplitter.ParseWordContent2(
+                                contentRuns.GetOriginalBuffer());
+                            //----------------------------------------------------------- 
+                            BridgeHtmlTextNode textnode = new BridgeHtmlTextNode(contentRuns);
+                            parentElement.AddChildElement(textnode);
                         } break;
                 }
             }
         }
+         
         static void GenerateCssBoxes(BridgeHtmlElement parentElement, CssBox parentBox)
         {
 
@@ -164,9 +172,9 @@ namespace HtmlRenderer.Dom
                                     {
                                         return;
                                     }
-                                     
+
                                     newBox++;
-                                    
+
                                     CssBox box = BoxCreator.CreateBox(parentBox, elem);
                                     GenerateCssBoxes(elem, box);
 
@@ -204,7 +212,7 @@ namespace HtmlRenderer.Dom
                                         }
 
                                         newBox++;
- 
+
                                         CssBox box = BoxCreator.CreateBox(parentBox, childElement);
                                         GenerateCssBoxes(childElement, box);
 
@@ -259,7 +267,7 @@ namespace HtmlRenderer.Dom
                 CssBox.SetHtmlContainer(rootBox, htmlContainer);
                 //------------------------------------------------------------------- 
 
-                var rootspec = new BoxSpec(); 
+                var rootspec = new BoxSpec();
                 //ApplyStyleSheetForBox(rootBox, null, activeCssTemplate);
                 //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);
@@ -315,12 +323,12 @@ namespace HtmlRenderer.Dom
             //long ee2_ms = sw1.ElapsedMilliseconds;
 
         }
-#endif   
+#endif
 
         static void ApplyStyleSheetForBridgeElement(BridgeHtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
         {
 
-            BoxSpec curSpec = element.Spec; 
+            BoxSpec curSpec = element.Spec;
             //0.
             curSpec.InheritStylesFrom(parentSpec);
 
@@ -364,7 +372,7 @@ namespace HtmlRenderer.Dom
             //===================== 
             curSpec.Freeze(); //***
             //=====================
- 
+
             //5. children
             //parent style assignment is complete before step down into child ***            
             int n = element.ChildCount;
