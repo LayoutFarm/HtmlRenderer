@@ -50,6 +50,7 @@ namespace HtmlRenderer.Dom
         {
             get { return this.runList.Count; }
         }
+
         internal void ParseContent(ContentTextSplitter splitter,
             CssWhiteSpace whitespace, bool isBreakAll, bool forAnonBox)
         {
@@ -71,8 +72,12 @@ namespace HtmlRenderer.Dom
         }
         internal void EvaluateWhitespace()
         {
+          
             isWhiteSpace = false;
-
+            if (this.isSingleRun)
+            {
+                return;
+            }
             char[] tmp = this.originalBuffer;
             if (tmp != null)
             {
