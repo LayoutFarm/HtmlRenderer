@@ -632,7 +632,7 @@ namespace HtmlRenderer.Dom
             return value.GetCacheColor();
         }
 
-        internal static void SetFontSize(this BoxSpec box, BoxSpec parentBox, WebDom.CssCodeValueExpression value)
+        internal static void SetFontSize(this BoxSpec box, WebDom.CssCodeValueExpression value)
         {
             //number + value
             WebDom.CssCodePrimitiveExpression primValue = value as WebDom.CssCodePrimitiveExpression;
@@ -652,15 +652,6 @@ namespace HtmlRenderer.Dom
                         if (len.HasError)
                         {
                             len = CssLength.FontSizeMedium;
-                        }
-                        else if (len.UnitOrNames == CssUnitOrNames.Ems && (parentBox != null))
-                        {
-                            //
-
-                        }
-                        else
-                        {
-
                         }
                         box.FontSize = len;
 

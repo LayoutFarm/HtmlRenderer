@@ -27,12 +27,12 @@ using HtmlRenderer.WebDom;
 
 namespace HtmlRenderer.Dom
 {
-     
+
 
     static class SpecSetter
     {
         //=======================================================================================
-        internal static void AssignPropertyValue(BoxSpec spec, BoxSpec parentSpec, WebDom.CssPropertyDeclaration decl)
+        internal static void AssignPropertyValue(BoxSpec spec, BoxSpec parentSpec, CssPropertyDeclaration decl)
         {
             if (decl.IsExpand)
             {
@@ -40,24 +40,21 @@ namespace HtmlRenderer.Dom
             }
 
             if (decl.MarkedAsInherit && parentSpec != null)
-            {
-                //use parent property 
+            {   
                 SetPropertyValueFromParent(spec, parentSpec, decl.WellknownPropertyName);
             }
             else
             {
-                SetPropertyValue(spec, parentSpec, decl);
+                SetPropertyValue(spec, decl);
             }
         }
-
-        
-        static void SetPropertyValue(BoxSpec spec, BoxSpec parentSpec, WebDom.CssPropertyDeclaration decl)
+        static void SetPropertyValue(BoxSpec spec, WebDom.CssPropertyDeclaration decl)
         {
             //assign property  
-            WebDom.CssCodeValueExpression cssValue = decl.GetPropertyValue(0);
+            CssCodeValueExpression cssValue = decl.GetPropertyValue(0);
             switch (decl.WellknownPropertyName)
             {
-                case WebDom.WellknownCssPropertyName.Display:
+                case WellknownCssPropertyName.Display:
                     {
                         CssDisplay display = UserMapUtil.GetDisplayType(cssValue);
                         switch (spec.WellknownTagName)
@@ -97,121 +94,121 @@ namespace HtmlRenderer.Dom
                         spec.CssDisplay = display;
 
                     } break;
-                case WebDom.WellknownCssPropertyName.BorderBottomWidth:
+                case WellknownCssPropertyName.BorderBottomWidth:
                     spec.BorderBottomWidth = cssValue.AsBorderLength();
                     break;
-                case WebDom.WellknownCssPropertyName.BorderLeftWidth:
+                case WellknownCssPropertyName.BorderLeftWidth:
                     spec.BorderLeftWidth = cssValue.AsBorderLength();
                     break;
-                case WebDom.WellknownCssPropertyName.BorderRightWidth:
+                case WellknownCssPropertyName.BorderRightWidth:
                     spec.BorderRightWidth = cssValue.AsBorderLength();
                     break;
-                case WebDom.WellknownCssPropertyName.BorderTopWidth:
+                case WellknownCssPropertyName.BorderTopWidth:
                     spec.BorderTopWidth = cssValue.AsBorderLength();
                     break;
-                case WebDom.WellknownCssPropertyName.BorderBottomStyle:
+                case WellknownCssPropertyName.BorderBottomStyle:
                     spec.BorderBottomStyle = UserMapUtil.GetBorderStyle(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.BorderLeftStyle:
+                case WellknownCssPropertyName.BorderLeftStyle:
                     spec.BorderLeftStyle = UserMapUtil.GetBorderStyle(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.BorderRightStyle:
+                case WellknownCssPropertyName.BorderRightStyle:
                     spec.BorderRightStyle = UserMapUtil.GetBorderStyle(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.BorderTopStyle:
+                case WellknownCssPropertyName.BorderTopStyle:
                     spec.BorderTopStyle = UserMapUtil.GetBorderStyle(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.BorderBottomColor:
+                case WellknownCssPropertyName.BorderBottomColor:
                     spec.BorderBottomColor = cssValue.AsColor();
                     break;
-                case WebDom.WellknownCssPropertyName.BorderLeftColor:
+                case WellknownCssPropertyName.BorderLeftColor:
                     spec.BorderLeftColor = cssValue.AsColor();
                     break;
-                case WebDom.WellknownCssPropertyName.BorderRightColor:
+                case WellknownCssPropertyName.BorderRightColor:
                     spec.BorderRightColor = cssValue.AsColor();
                     break;
-                case WebDom.WellknownCssPropertyName.BorderTopColor:
+                case WellknownCssPropertyName.BorderTopColor:
                     spec.BorderTopColor = cssValue.AsColor();
                     break;
 
-                case WebDom.WellknownCssPropertyName.BorderSpacing:
+                case WellknownCssPropertyName.BorderSpacing:
 
                     spec.SetBorderSpacing(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.BorderCollapse:
+                case WellknownCssPropertyName.BorderCollapse:
                     spec.BorderCollapse = UserMapUtil.GetBorderCollapse(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.CornerRadius:
+                case WellknownCssPropertyName.CornerRadius:
                     spec.SetCornerRadius(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.CornerNWRadius:
+                case WellknownCssPropertyName.CornerNWRadius:
                     spec.CornerNWRadius = cssValue.AsLength();
                     break;
-                case WebDom.WellknownCssPropertyName.CornerNERadius:
+                case WellknownCssPropertyName.CornerNERadius:
                     spec.CornerNERadius = cssValue.AsLength();
                     break;
-                case WebDom.WellknownCssPropertyName.CornerSERadius:
+                case WellknownCssPropertyName.CornerSERadius:
                     spec.CornerSERadius = cssValue.AsLength();
                     break;
-                case WebDom.WellknownCssPropertyName.CornerSWRadius:
+                case WellknownCssPropertyName.CornerSWRadius:
                     spec.CornerSWRadius = cssValue.AsLength();
                     break;
-                case WebDom.WellknownCssPropertyName.MarginBottom:
+                case WellknownCssPropertyName.MarginBottom:
                     spec.MarginBottom = cssValue.AsTranslatedLength();
                     break;
-                case WebDom.WellknownCssPropertyName.MarginLeft:
+                case WellknownCssPropertyName.MarginLeft:
                     spec.MarginLeft = cssValue.AsTranslatedLength();
                     break;
-                case WebDom.WellknownCssPropertyName.MarginRight:
+                case WellknownCssPropertyName.MarginRight:
                     spec.MarginRight = cssValue.AsTranslatedLength();
                     break;
-                case WebDom.WellknownCssPropertyName.MarginTop:
+                case WellknownCssPropertyName.MarginTop:
                     spec.MarginTop = cssValue.AsTranslatedLength();
                     break;
-                case WebDom.WellknownCssPropertyName.PaddingBottom:
+                case WellknownCssPropertyName.PaddingBottom:
                     spec.PaddingBottom = cssValue.AsTranslatedLength();
                     break;
-                case WebDom.WellknownCssPropertyName.PaddingLeft:
+                case WellknownCssPropertyName.PaddingLeft:
                     spec.PaddingLeft = cssValue.AsTranslatedLength();
                     break;
-                case WebDom.WellknownCssPropertyName.PaddingRight:
+                case WellknownCssPropertyName.PaddingRight:
                     spec.PaddingRight = cssValue.AsTranslatedLength();
                     break;
-                case WebDom.WellknownCssPropertyName.PaddingTop:
+                case WellknownCssPropertyName.PaddingTop:
                     spec.PaddingTop = cssValue.AsTranslatedLength();
                     break;
-                case WebDom.WellknownCssPropertyName.Left:
+                case WellknownCssPropertyName.Left:
                     spec.Left = cssValue.AsLength();
                     break;
-                case WebDom.WellknownCssPropertyName.Top:
+                case WellknownCssPropertyName.Top:
                     spec.Top = cssValue.AsLength();
                     break;
-                case WebDom.WellknownCssPropertyName.Width:
+                case WellknownCssPropertyName.Width:
                     spec.Width = cssValue.AsLength();
                     break;
-                case WebDom.WellknownCssPropertyName.MaxWidth:
+                case WellknownCssPropertyName.MaxWidth:
                     spec.MaxWidth = cssValue.AsLength();
                     break;
-                case WebDom.WellknownCssPropertyName.Height:
+                case WellknownCssPropertyName.Height:
                     spec.Height = cssValue.AsLength();
                     break;
-                case WebDom.WellknownCssPropertyName.BackgroundColor:
+                case WellknownCssPropertyName.BackgroundColor:
                     spec.BackgroundColor = cssValue.AsColor();
                     break;
-                case WebDom.WellknownCssPropertyName.BackgroundImage:
+                case WellknownCssPropertyName.BackgroundImage:
                     spec.BackgroundImageBinder = new ImageBinder(cssValue.GetTranslatedStringValue());
                     break;
-                case WebDom.WellknownCssPropertyName.BackgroundPosition:
+                case WellknownCssPropertyName.BackgroundPosition:
 
                     spec.SetBackgroundPosition(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.BackgroundRepeat:
+                case WellknownCssPropertyName.BackgroundRepeat:
                     spec.BackgroundRepeat = UserMapUtil.GetBackgroundRepeat(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.BackgroundGradient:
+                case WellknownCssPropertyName.BackgroundGradient:
                     spec.BackgroundGradient = cssValue.AsColor();
                     break;
-                case WebDom.WellknownCssPropertyName.BackgroundGradientAngle:
+                case WellknownCssPropertyName.BackgroundGradientAngle:
                     {
                         spec.BackgroundGradientAngle = cssValue.AsNumber();
 
@@ -221,81 +218,81 @@ namespace HtmlRenderer.Dom
                         //    cssBox.BackgroundGradientAngle = angle;
                         //}
                     } break;
-                case WebDom.WellknownCssPropertyName.Color:
+                case WellknownCssPropertyName.Color:
                     spec.Color = cssValue.AsColor();
                     break;
 
-                case WebDom.WellknownCssPropertyName.Direction:
+                case WellknownCssPropertyName.Direction:
 
                     spec.CssDirection = UserMapUtil.GetCssDirection(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.EmptyCells:
+                case WellknownCssPropertyName.EmptyCells:
                     spec.EmptyCells = UserMapUtil.GetEmptyCell(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.Float:
+                case WellknownCssPropertyName.Float:
                     spec.Float = UserMapUtil.GetFloat(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.Position:
+                case WellknownCssPropertyName.Position:
                     spec.Position = UserMapUtil.GetCssPosition(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.LineHeight:
+                case WellknownCssPropertyName.LineHeight:
                     spec.LineHeight = cssValue.AsLength();
 
                     break;
-                case WebDom.WellknownCssPropertyName.VerticalAlign:
+                case WellknownCssPropertyName.VerticalAlign:
                     spec.VerticalAlign = UserMapUtil.GetVerticalAlign(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.TextIndent:
+                case WellknownCssPropertyName.TextIndent:
                     spec.TextIndent = cssValue.AsLength();
                     break;
-                case WebDom.WellknownCssPropertyName.TextAlign:
+                case WellknownCssPropertyName.TextAlign:
 
                     spec.CssTextAlign = UserMapUtil.GetTextAlign(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.TextDecoration:
+                case WellknownCssPropertyName.TextDecoration:
                     spec.TextDecoration = UserMapUtil.GetTextDecoration(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.Whitespace:
+                case WellknownCssPropertyName.Whitespace:
                     spec.WhiteSpace = UserMapUtil.GetWhitespace(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.WordBreak:
+                case WellknownCssPropertyName.WordBreak:
                     spec.WordBreak = UserMapUtil.GetWordBreak(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.Visibility:
+                case WellknownCssPropertyName.Visibility:
                     spec.Visibility = UserMapUtil.GetVisibility(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.WordSpacing:
+                case WellknownCssPropertyName.WordSpacing:
                     spec.WordSpacing = cssValue.AsLength();
                     break;
-                case WebDom.WellknownCssPropertyName.FontFamily:
+                case WellknownCssPropertyName.FontFamily:
                     spec.FontFamily = cssValue.GetTranslatedStringValue();
                     break;
-                case WebDom.WellknownCssPropertyName.FontSize:
-                    spec.SetFontSize(parentSpec, cssValue);
+                case WellknownCssPropertyName.FontSize:
+                    spec.SetFontSize(cssValue);
 
                     break;
-                case WebDom.WellknownCssPropertyName.FontStyle:
+                case WellknownCssPropertyName.FontStyle:
                     spec.FontStyle = UserMapUtil.GetFontStyle(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.FontVariant:
+                case WellknownCssPropertyName.FontVariant:
                     spec.FontVariant = UserMapUtil.GetFontVariant(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.FontWeight:
+                case WellknownCssPropertyName.FontWeight:
                     spec.FontWeight = UserMapUtil.GetFontWeight(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.ListStyle:
+                case WellknownCssPropertyName.ListStyle:
                     spec.ListStyle = cssValue.GetTranslatedStringValue();
                     break;
-                case WebDom.WellknownCssPropertyName.ListStylePosition:
+                case WellknownCssPropertyName.ListStylePosition:
                     spec.ListStylePosition = UserMapUtil.GetListStylePosition(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.ListStyleImage:
+                case WellknownCssPropertyName.ListStyleImage:
                     spec.ListStyleImage = cssValue.GetTranslatedStringValue();
                     break;
-                case WebDom.WellknownCssPropertyName.ListStyleType:
+                case WellknownCssPropertyName.ListStyleType:
                     spec.ListStyleType = UserMapUtil.GetListStyleType(cssValue);
                     break;
-                case WebDom.WellknownCssPropertyName.Overflow:
+                case WellknownCssPropertyName.Overflow:
                     spec.Overflow = UserMapUtil.GetOverflow(cssValue);
                     break;
             }
@@ -305,130 +302,130 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="spec"></param>
         /// <param name="propName"></param>
-        static void SetPropertyValueFromParent(BoxSpec spec, BoxSpec parentSpec, HtmlRenderer.WebDom.WellknownCssPropertyName propName)
+        static void SetPropertyValueFromParent(BoxSpec spec, BoxSpec parentSpec, WellknownCssPropertyName propName)
         {
 
             switch (propName)
             {
-                case WebDom.WellknownCssPropertyName.BorderBottomWidth:
+                case WellknownCssPropertyName.BorderBottomWidth:
                     spec.BorderBottomWidth = parentSpec.BorderBottomWidth;
                     break;
-                case WebDom.WellknownCssPropertyName.BorderLeftWidth:
+                case WellknownCssPropertyName.BorderLeftWidth:
                     spec.BorderLeftWidth = parentSpec.BorderLeftWidth;
                     break;
-                case WebDom.WellknownCssPropertyName.BorderRightWidth:
+                case WellknownCssPropertyName.BorderRightWidth:
                     spec.BorderRightWidth = parentSpec.BorderRightWidth;
                     break;
-                case WebDom.WellknownCssPropertyName.BorderTopWidth:
+                case WellknownCssPropertyName.BorderTopWidth:
                     spec.BorderTopWidth = parentSpec.BorderTopWidth;
                     break;
-                case WebDom.WellknownCssPropertyName.BorderBottomStyle:
+                case WellknownCssPropertyName.BorderBottomStyle:
                     spec.BorderBottomStyle = parentSpec.BorderBottomStyle;
                     break;
-                case WebDom.WellknownCssPropertyName.BorderLeftStyle:
+                case WellknownCssPropertyName.BorderLeftStyle:
                     spec.BorderLeftStyle = parentSpec.BorderBottomStyle;
                     break;
-                case WebDom.WellknownCssPropertyName.BorderRightStyle:
+                case WellknownCssPropertyName.BorderRightStyle:
                     spec.BorderRightStyle = parentSpec.BorderRightStyle;
                     break;
-                case WebDom.WellknownCssPropertyName.BorderTopStyle:
+                case WellknownCssPropertyName.BorderTopStyle:
                     spec.BorderTopStyle = parentSpec.BorderTopStyle;
                     break;
-                case WebDom.WellknownCssPropertyName.BorderBottomColor:
+                case WellknownCssPropertyName.BorderBottomColor:
                     spec.BorderBottomColor = parentSpec.BorderBottomColor;
                     break;
-                case WebDom.WellknownCssPropertyName.BorderLeftColor:
+                case WellknownCssPropertyName.BorderLeftColor:
                     spec.BorderLeftColor = parentSpec.BorderLeftColor;
                     break;
-                case WebDom.WellknownCssPropertyName.BorderRightColor:
+                case WellknownCssPropertyName.BorderRightColor:
                     spec.BorderRightColor = parentSpec.BorderRightColor;
                     break;
-                case WebDom.WellknownCssPropertyName.BorderTopColor:
+                case WellknownCssPropertyName.BorderTopColor:
                     spec.BorderTopColor = parentSpec.BorderTopColor;
                     break;
-                case WebDom.WellknownCssPropertyName.BorderSpacing:
+                case WellknownCssPropertyName.BorderSpacing:
 
                     spec.BorderSpacingHorizontal = parentSpec.BorderSpacingHorizontal;
                     spec.BorderSpacingVertical = parentSpec.BorderSpacingVertical;
                     break;
-                case WebDom.WellknownCssPropertyName.BorderCollapse:
+                case WellknownCssPropertyName.BorderCollapse:
                     spec.BorderCollapse = parentSpec.BorderCollapse;
                     break;
-                case WebDom.WellknownCssPropertyName.CornerRadius:
+                case WellknownCssPropertyName.CornerRadius:
                     spec.CornerNERadius = parentSpec.CornerNERadius;
                     spec.CornerNWRadius = parentSpec.CornerNWRadius;
                     spec.CornerSERadius = parentSpec.CornerSERadius;
                     spec.CornerSWRadius = parentSpec.CornerSWRadius;
                     break;
-                case WebDom.WellknownCssPropertyName.CornerNWRadius:
+                case WellknownCssPropertyName.CornerNWRadius:
 
                     spec.CornerNWRadius = parentSpec.CornerNWRadius;
                     break;
-                case WebDom.WellknownCssPropertyName.CornerNERadius:
+                case WellknownCssPropertyName.CornerNERadius:
                     spec.CornerNERadius = parentSpec.CornerNERadius;
                     break;
-                case WebDom.WellknownCssPropertyName.CornerSERadius:
+                case WellknownCssPropertyName.CornerSERadius:
                     spec.CornerSERadius = parentSpec.CornerSERadius;
                     break;
-                case WebDom.WellknownCssPropertyName.CornerSWRadius:
+                case WellknownCssPropertyName.CornerSWRadius:
                     spec.CornerSWRadius = parentSpec.CornerSWRadius;
                     break;
-                case WebDom.WellknownCssPropertyName.MarginBottom:
+                case WellknownCssPropertyName.MarginBottom:
                     spec.MarginBottom = parentSpec.MarginBottom;
                     break;
-                case WebDom.WellknownCssPropertyName.MarginLeft:
+                case WellknownCssPropertyName.MarginLeft:
                     spec.MarginLeft = parentSpec.MarginLeft;
                     break;
-                case WebDom.WellknownCssPropertyName.MarginRight:
+                case WellknownCssPropertyName.MarginRight:
                     spec.MarginRight = parentSpec.MarginRight;
                     break;
-                case WebDom.WellknownCssPropertyName.MarginTop:
+                case WellknownCssPropertyName.MarginTop:
                     spec.MarginTop = parentSpec.MarginTop;
                     break;
-                case WebDom.WellknownCssPropertyName.PaddingBottom:
+                case WellknownCssPropertyName.PaddingBottom:
                     spec.PaddingBottom = parentSpec.MarginBottom;
                     break;
-                case WebDom.WellknownCssPropertyName.PaddingLeft:
+                case WellknownCssPropertyName.PaddingLeft:
                     spec.PaddingLeft = parentSpec.PaddingLeft;
                     break;
-                case WebDom.WellknownCssPropertyName.PaddingRight:
+                case WellknownCssPropertyName.PaddingRight:
                     spec.PaddingRight = parentSpec.PaddingRight;
                     break;
-                case WebDom.WellknownCssPropertyName.PaddingTop:
+                case WellknownCssPropertyName.PaddingTop:
                     spec.PaddingTop = parentSpec.PaddingTop;
                     break;
-                case WebDom.WellknownCssPropertyName.Left:
+                case WellknownCssPropertyName.Left:
                     spec.Left = parentSpec.Left;
                     break;
-                case WebDom.WellknownCssPropertyName.Top:
+                case WellknownCssPropertyName.Top:
                     spec.Top = parentSpec.Top;
                     break;
-                case WebDom.WellknownCssPropertyName.Width:
+                case WellknownCssPropertyName.Width:
                     spec.Width = parentSpec.Width;
                     break;
-                case WebDom.WellknownCssPropertyName.MaxWidth:
+                case WellknownCssPropertyName.MaxWidth:
                     spec.MaxWidth = parentSpec.MaxWidth;
                     break;
-                case WebDom.WellknownCssPropertyName.Height:
+                case WellknownCssPropertyName.Height:
                     spec.Height = parentSpec.Height;
                     break;
-                case WebDom.WellknownCssPropertyName.BackgroundColor:
+                case WellknownCssPropertyName.BackgroundColor:
                     spec.BackgroundColor = parentSpec.BackgroundColor;
                     break;
-                case WebDom.WellknownCssPropertyName.BackgroundImage:
+                case WellknownCssPropertyName.BackgroundImage:
                     spec.BackgroundImageBinder = parentSpec.BackgroundImageBinder;
                     break;
-                case WebDom.WellknownCssPropertyName.BackgroundPosition:
+                case WellknownCssPropertyName.BackgroundPosition:
                     spec.BackgroundPositionX = parentSpec.BackgroundPositionX;
                     spec.BackgroundPositionY = parentSpec.BackgroundPositionY;
                     break;
-                case WebDom.WellknownCssPropertyName.BackgroundRepeat:
+                case WellknownCssPropertyName.BackgroundRepeat:
                     spec.BackgroundRepeat = parentSpec.BackgroundRepeat;
                     break;
-                case WebDom.WellknownCssPropertyName.BackgroundGradient:
+                case WellknownCssPropertyName.BackgroundGradient:
                     spec.BackgroundGradient = parentSpec.BackgroundGradient;
                     break;
-                case WebDom.WellknownCssPropertyName.BackgroundGradientAngle:
+                case WellknownCssPropertyName.BackgroundGradientAngle:
                     {
                         spec.BackgroundGradientAngle = parentSpec.BackgroundGradientAngle;
                         //float angle;
@@ -437,85 +434,85 @@ namespace HtmlRenderer.Dom
                         //    cssBox.BackgroundGradientAngle = angle;
                         //}
                     } break;
-                case WebDom.WellknownCssPropertyName.Color:
+                case WellknownCssPropertyName.Color:
                     spec.Color = parentSpec.Color;
                     break;
-                case WebDom.WellknownCssPropertyName.Display:
+                case WellknownCssPropertyName.Display:
                     spec.CssDisplay = parentSpec.CssDisplay;
                     break;
-                case WebDom.WellknownCssPropertyName.Direction:
+                case WellknownCssPropertyName.Direction:
                     spec.CssDirection = parentSpec.CssDirection;
                     break;
-                case WebDom.WellknownCssPropertyName.EmptyCells:
+                case WellknownCssPropertyName.EmptyCells:
                     spec.EmptyCells = parentSpec.EmptyCells;
                     break;
-                case WebDom.WellknownCssPropertyName.Float:
+                case WellknownCssPropertyName.Float:
                     spec.Float = parentSpec.Float;
                     break;
-                case WebDom.WellknownCssPropertyName.Position:
+                case WellknownCssPropertyName.Position:
                     spec.Position = parentSpec.Position;
                     break;
-                case WebDom.WellknownCssPropertyName.LineHeight:
+                case WellknownCssPropertyName.LineHeight:
                     spec.LineHeight = parentSpec.LineHeight;
                     break;
-                case WebDom.WellknownCssPropertyName.VerticalAlign:
+                case WellknownCssPropertyName.VerticalAlign:
                     spec.VerticalAlign = parentSpec.VerticalAlign;
                     break;
-                case WebDom.WellknownCssPropertyName.TextIndent:
+                case WellknownCssPropertyName.TextIndent:
                     spec.TextIndent = parentSpec.TextIndent;
                     break;
-                case WebDom.WellknownCssPropertyName.TextAlign:
+                case WellknownCssPropertyName.TextAlign:
                     spec.CssTextAlign = parentSpec.CssTextAlign;
                     break;
-                case WebDom.WellknownCssPropertyName.TextDecoration:
+                case WellknownCssPropertyName.TextDecoration:
                     spec.TextDecoration = parentSpec.TextDecoration;
                     break;
-                case WebDom.WellknownCssPropertyName.Whitespace:
+                case WellknownCssPropertyName.Whitespace:
                     spec.WhiteSpace = parentSpec.WhiteSpace;
                     break;
-                case WebDom.WellknownCssPropertyName.WordBreak:
+                case WellknownCssPropertyName.WordBreak:
                     spec.WordBreak = parentSpec.WordBreak;
                     break;
-                case WebDom.WellknownCssPropertyName.Visibility:
+                case WellknownCssPropertyName.Visibility:
                     spec.Visibility = parentSpec.Visibility;
                     break;
-                case WebDom.WellknownCssPropertyName.WordSpacing:
+                case WellknownCssPropertyName.WordSpacing:
                     spec.WordSpacing = parentSpec.WordSpacing;
                     break;
-                case WebDom.WellknownCssPropertyName.FontFamily:
+                case WellknownCssPropertyName.FontFamily:
                     spec.FontFamily = parentSpec.FontFamily;
                     //cssBox.FontFamily = value;
                     break;
-                case WebDom.WellknownCssPropertyName.FontSize:
+                case WellknownCssPropertyName.FontSize:
                     spec.FontSize = parentSpec.FontSize;
                     break;
-                case WebDom.WellknownCssPropertyName.FontStyle:
+                case WellknownCssPropertyName.FontStyle:
                     spec.FontStyle = parentSpec.FontStyle;
                     break;
-                case WebDom.WellknownCssPropertyName.FontVariant:
+                case WellknownCssPropertyName.FontVariant:
                     spec.FontVariant = parentSpec.FontVariant;
 
                     break;
-                case WebDom.WellknownCssPropertyName.FontWeight:
+                case WellknownCssPropertyName.FontWeight:
                     spec.FontWeight = parentSpec.FontWeight;
 
                     break;
-                case WebDom.WellknownCssPropertyName.ListStyle:
+                case WellknownCssPropertyName.ListStyle:
 
                     spec.ListStyle = parentSpec.ListStyle;
                     break;
-                case WebDom.WellknownCssPropertyName.ListStylePosition:
+                case WellknownCssPropertyName.ListStylePosition:
                     spec.ListStylePosition = parentSpec.ListStylePosition;
                     break;
-                case WebDom.WellknownCssPropertyName.ListStyleImage:
+                case WellknownCssPropertyName.ListStyleImage:
 
                     spec.ListStyleImage = parentSpec.ListStyleImage;
                     break;
-                case WebDom.WellknownCssPropertyName.ListStyleType:
+                case WellknownCssPropertyName.ListStyleType:
 
                     spec.ListStyleType = parentSpec.ListStyleType;
                     break;
-                case WebDom.WellknownCssPropertyName.Overflow:
+                case WellknownCssPropertyName.Overflow:
 
                     spec.Overflow = parentSpec.Overflow;
                     break;

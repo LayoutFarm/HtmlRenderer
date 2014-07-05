@@ -90,11 +90,7 @@ namespace HtmlRenderer.Dom
         //------------------
 
         public BoxSpec(WellknownHtmlTagName wellknownTagName)
-        {
-            if (this.__aa_dbugId == 38)
-            {
-
-            }
+        {   
 
             this.WellknownTagName = wellknownTagName;
         }
