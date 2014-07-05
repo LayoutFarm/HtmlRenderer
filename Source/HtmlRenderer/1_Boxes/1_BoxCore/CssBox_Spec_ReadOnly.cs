@@ -33,14 +33,10 @@ namespace HtmlRenderer.Dom
     /// that require additional calculations and parsing.<br/>
     /// </summary>
     partial class CssBox
-    {
-
-
+    {    
         public CssLength Height
-        {
-            //TODO: make it readonly
-            get { return this._myspec.Height; }
-            set { this._myspec.Height = value ; }
+        { 
+            get { return this._myspec.Height; }  
         }
 
         public CssDirection CssDirection

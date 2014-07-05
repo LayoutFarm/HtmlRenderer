@@ -34,8 +34,8 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary>
-        readonly BridgeHtmlElement _htmlElement; 
-        int _boxCompactFlags; 
+        readonly BridgeHtmlElement _htmlElement;
+        int _boxCompactFlags;
         //----------------------------------------------------
         CssBox _listItemBox;
         //----------------------------------------------------
@@ -59,6 +59,7 @@ namespace HtmlRenderer.Dom
         //----------------------------------------------------  
         //state
         protected int _prop_pass_eval;
+        CssDisplay _cssDisplay = CssDisplay.Inline;
 
         /// <summary>
         /// Gets the childrenn boxes of this box
@@ -209,7 +210,7 @@ namespace HtmlRenderer.Dom
             get;
             set;
         }
-        
+
         //==================================================
         public WellknownHtmlTagName WellknownTagName
         {
@@ -217,21 +218,26 @@ namespace HtmlRenderer.Dom
             {
                 return this.wellKnownTagName;
             }
-            protected set
+            private set
             {
                 this.wellKnownTagName = value;
             }
-        } 
+        }  
         public CssDisplay CssDisplay
         {
             get
             {
-                return this._myspec.CssDisplay;
+                return this._cssDisplay; 
             }
-            set
-            {
-                this._myspec.CssDisplay = value;
-            }
+        }
+        internal void CloseSpec()
+        {
+            this._myspec.Freeze();
+            this._cssDisplay = _myspec.CssDisplay;
+        }
+        public static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
+        {
+            box._cssDisplay = newdisplay;
         }
         //==================================================
 

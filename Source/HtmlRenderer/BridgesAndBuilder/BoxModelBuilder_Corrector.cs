@@ -161,12 +161,14 @@ namespace HtmlRenderer.Dom
                         }
                     }
 
-                    brBox.CssDisplay = CssDisplay.Block;
+
+                    CssBox.ChangeDisplayType(brBox, CssDisplay.Block);
                     if (followingBlock)
-                    {  
+                    {
                         // atodo: check the height to min-height when it is supported
                         //throw new NotSupportedException();
-                         brBox.Height = new CssLength(0.95f, CssUnitOrNames.Ems);
+                        brBox.DirectSetHeight(ConstConfig.DEFAULT_FONT_SIZE * 0.95f);
+                        //brBox.Height = new CssLength(0.95f, CssUnitOrNames.Ems);
                     }
                 }
             }
@@ -270,7 +272,7 @@ namespace HtmlRenderer.Dom
 
                 splitBox.SetNewParentBox(null);
 
-                CorrectBlockSplitBadBox(box, splitBox, leftAnonBox); 
+                CorrectBlockSplitBadBox(box, splitBox, leftAnonBox);
                 //------------------------------------------- 
 
                 if (box.ChildCount > 2)
@@ -286,12 +288,11 @@ namespace HtmlRenderer.Dom
             }
             else if (firstChild.CssDisplay == CssDisplay.Inline)
             {
-                firstChild.CssDisplay = CssDisplay.Block;
+                CssBox.ChangeDisplayType(firstChild, CssDisplay.Block);
             }
-
             if (box.CssDisplay == CssDisplay.Inline)
             {
-                box.CssDisplay = CssDisplay.Block;
+                CssBox.ChangeDisplayType(box, CssDisplay.Block);
             }
         }
         /// <summary>
@@ -370,8 +371,8 @@ namespace HtmlRenderer.Dom
                 if (firstChild.WellknownTagName == WellknownHtmlTagName.br
                     && (had_new_leftbox || leftBlock.ChildCount > 1))
                 {
-                    firstChild.CssDisplay = CssDisplay.Inline;
 
+                    CssBox.ChangeDisplayType(firstChild, CssDisplay.Inline);
                 }
             }
         }
@@ -392,8 +393,8 @@ namespace HtmlRenderer.Dom
                     //create new anonymous box
                     var block = CssBox.CreateAnonBlock(childBox.ParentBox, childIndex);
                     //move this imgbox to new child 
-                    childBox.SetNewParentBox(block);
-                    childBox.CssDisplay = CssDisplay.Inline;
+                    childBox.SetNewParentBox(block);                     
+                    CssBox.ChangeDisplayType(childBox, CssDisplay.Inline);
                 }
                 else
                 {

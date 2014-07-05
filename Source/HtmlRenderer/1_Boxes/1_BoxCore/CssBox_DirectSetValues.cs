@@ -34,7 +34,10 @@ namespace HtmlRenderer.Dom
             this._actualBorderTopWidth = topWpx;
             this._actualBorderRightWidth = rightWpx;
             this._actualBorderBottomWidth = bottomWpx;
-
+        }
+        internal void DirectSetHeight(float px)
+        {
+            this._sizeHeight = px;
         }
     }
 }

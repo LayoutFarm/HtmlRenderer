@@ -32,8 +32,8 @@ namespace HtmlRenderer.Dom
         public CssBoxHr(CssBox parent, BridgeHtmlElement tag)
             : base(parent, tag)
         {
-
-            this.CssDisplay = CssDisplay.Block;
+            ChangeDisplayType(this, Dom.CssDisplay.Block);
+             
         }
         
         /// <summary>

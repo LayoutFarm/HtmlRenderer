@@ -1,5 +1,4 @@
-﻿//BSD 2014, WinterDev
-
+﻿//BSD 2014, WinterDev 
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -57,13 +56,11 @@ namespace HtmlRenderer.Dom
             {
                 parentBox.Boxes.Add(this);
             }
-            _htmlElement = element;
-
+            _htmlElement = element; 
             if (element != null)
             {
                 this.WellknownTagName = element.WellknownTagName;
-            }
-
+            }  
             this._myspec = new BoxSpec(WellknownTagName);
 
         }
@@ -91,6 +88,7 @@ namespace HtmlRenderer.Dom
 
             this._myspec = new BoxSpec(WellknownTagName);
             this._myspec.CloneAllStylesFrom(spec);
+            this.CloseSpec();
         }
 
 #if DEBUG
@@ -821,7 +819,8 @@ namespace HtmlRenderer.Dom
                     _listItemBox.ReEvaluateFont(this.ActualFont.Size);
                     _listItemBox.ReEvaluateComputedValues(this);
 
-                    _listItemBox.CssDisplay = CssDisplay.Inline;
+                    //_listItemBox.CssDisplay = CssDisplay.Inline;
+                    CssBox.ChangeDisplayType(_listItemBox, Dom.CssDisplay.Inline);
                     _listItemBox._htmlContainer = HtmlContainer;
 
                     switch (this.ListStyleType)

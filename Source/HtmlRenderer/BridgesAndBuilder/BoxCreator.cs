@@ -54,9 +54,9 @@ namespace HtmlRenderer.Dom
                 case WellknownHtmlTagName.img:
                     newBox = new CssBoxImage(parent, tag);
                     break;
-                case WellknownHtmlTagName.iframe:
-                    newBox = new CssBoxHr(parent, tag);
-                    break;
+                //case WellknownHtmlTagName.iframe:
+                //    newBox = new CssBoxHr(parent, tag);//?
+                //    break;
                 case WellknownHtmlTagName.hr:
                     newBox = new CssBoxHr(parent, tag);
                     break;
@@ -77,6 +77,7 @@ namespace HtmlRenderer.Dom
             //----------------------------------------- 
             var newBoxSpec = CssBox.UnsafeGetBoxSpec(newBox);
             newBoxSpec.CloneAllStylesFrom(tag.Spec);
+            newBox.CloseSpec();
             return newBox;
         }
 
