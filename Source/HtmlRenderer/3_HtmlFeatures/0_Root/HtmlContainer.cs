@@ -29,9 +29,6 @@ using System.Text;
 
 namespace HtmlRenderer
 {
-
-    
-
     /// <summary>
     /// Low level handling of Html Renderer logic.<br/>
     /// Allows html layout and rendering without association to actual control, those allowing to handle html rendering on any graphics object.<br/>

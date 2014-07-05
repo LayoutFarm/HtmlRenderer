@@ -34,17 +34,8 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary>
-<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox_Fields.cs
-        readonly IHtmlElement _htmlElement;
-
-
-        int _boxCompactFlags;
-
-
-=======
         readonly BridgeHtmlElement _htmlElement; 
         int _boxCompactFlags; 
->>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox_Fields.cs
         //----------------------------------------------------
         CssBox _listItemBox;
         //----------------------------------------------------
@@ -66,12 +57,8 @@ namespace HtmlRenderer.Dom
         //condition 2 :this Box is InlineBox 
         List<CssRun> _boxRuns;
         //----------------------------------------------------  
-<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox_Fields.cs
-
-=======
         //state
         protected int _prop_pass_eval;
->>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox_Fields.cs
 
         /// <summary>
         /// Gets the childrenn boxes of this box
@@ -222,28 +209,6 @@ namespace HtmlRenderer.Dom
             get;
             set;
         }
-<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox_Fields.cs
-
-
-        public ImageBinder BackgroundImageBinder
-        {
-            get
-            { 
-                return this.BoxSpec.BackgroundImageBinder;
-            }
-        }
-        public CssLength BackgroundPositionX
-        {
-            get
-            {
-                return this.BoxSpec.BackgroundPositionX;
-            }
-        }
-        public CssLength BackgroundPositionY
-        {
-            get
-            {
-=======
         
         //==================================================
         public WellknownHtmlTagName WellknownTagName
@@ -269,18 +234,7 @@ namespace HtmlRenderer.Dom
             }
         }
         //==================================================
->>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox_Fields.cs
 
-                return this.BoxSpec.BackgroundPositionY;
-            }
-        }
-        public CssBackgroundRepeat BackgroundRepeat
-        {
-            get
-            {
-                return this.BoxSpec.BackgroundRepeat;
-            }
-        }
     }
 
 }

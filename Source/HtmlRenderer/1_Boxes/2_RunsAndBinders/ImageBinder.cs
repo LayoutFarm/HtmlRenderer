@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace HtmlRenderer.Dom
 {
-  
+    public delegate void ReadyStateChangedHandler();
 
 
     public class ImageBinder

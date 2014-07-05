@@ -15,6 +15,7 @@ namespace HtmlRenderer.Dom
     public abstract class CustomCssBoxGenerator
     {
         public abstract CssBox CreateCssBox(IHtmlElement tag, CssBox parentBox);
+
     }
 
     public static class BoxCreator
@@ -41,40 +42,30 @@ namespace HtmlRenderer.Dom
             return null;
         }
 
-<<<<<<< HEAD
-        internal static CssBox CreateBoxNotInherit(BridgeHtmlElement tag, CssBox parent)
-=======
         internal static CssBox CreateBoxNotInherit(CssBox parent, BridgeHtmlElement tag)
->>>>>>> 1.7.2105.1
         {
 
             switch (tag.WellknownTagName)
             {
                 case WellknownHtmlTagName.img:
-                    return new CssBoxImage(parent, tag, tag.Spec);
+                    return new CssBoxImage(parent, tag);
                 case WellknownHtmlTagName.iframe:
-                    return new CssBoxHr(parent, tag, tag.Spec);
-                case WellknownHtmlTagName.hr:
-<<<<<<< HEAD
-                    return new CssBoxHr(parent, tag, tag.Spec);
-
-
-=======
                     return new CssBoxHr(parent, tag);
->>>>>>> 1.7.2105.1
+                case WellknownHtmlTagName.hr:
+                    return new CssBoxHr(parent, tag);
                 //test extension box
                 case WellknownHtmlTagName.X:
                     var customBox = CreateCustomBox(parent, tag);
                     if (customBox == null)
                     {
-                        return new CssBox(parent, tag, tag.Spec);
+                        return new CssBox(parent, tag);
                     }
                     else
                     {
                         return customBox;
                     }
                 default:
-                    return new CssBox(parent, tag, tag.Spec);
+                    return new CssBox(parent, tag);
             }
         }
 
@@ -95,24 +86,22 @@ namespace HtmlRenderer.Dom
         /// Create new css block box.
         /// </summary>
         /// <returns>the new block box</returns>
-        internal static CssBox CreateRootBlock(BoxSpec spec)
-        {
-<<<<<<< HEAD
-=======
+        internal static CssBox CreateRootBlock()
+        {    
             var spec = new BoxSpec(WellknownHtmlTagName.Unknown);
             spec.CssDisplay = CssDisplay.Block;
->>>>>>> 1.7.2105.1
             var box = new CssBox(null, null, spec);
+            //------------------------------------
+            box.ReEvaluateFont(10);
+
+
+            //------------------------------------
             return box;
         }
         internal static CssBox CreateBoxAndInherit(CssBox parent, BridgeHtmlElement tag)
         {
-<<<<<<< HEAD
-            var newBox = new CssBox(parent, tag, parent.BoxSpec);             
-=======
             var newBox = new CssBox(parent, tag);
             newBox.Spec.InheritStylesFrom(parent.Spec);
->>>>>>> 1.7.2105.1
             return newBox;
         }
 
@@ -135,15 +124,6 @@ namespace HtmlRenderer.Dom
         /// <returns>the new block box</returns>
         internal static CssBox CreateAnonBlock(CssBox parent, int insertAt = -1)
         {
-<<<<<<< HEAD
-            var newBox = CreateBoxAndInherit(parent, null, insertAt);             
-            return newBox;
-        }
-
-        static CssBox CreateBoxAndInherit(CssBox parent, IHtmlElement tag, int insertAt)
-        {
-            var newBox = new CssBox(parent, tag, parent.BoxSpec);
-=======
             var newBox = CreateBoxAndInherit(parent, null, insertAt);
             if (parent.HtmlElement != null)
             {
@@ -167,7 +147,6 @@ namespace HtmlRenderer.Dom
             {
                 newBox.ChangeSiblingOrder(insertAt);
             }
->>>>>>> 1.7.2105.1
             return newBox;
         }
     }

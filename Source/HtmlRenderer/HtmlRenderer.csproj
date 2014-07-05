@@ -62,13 +62,6 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="1_Boxes\1_BoxPropsAndFeatureAssignment\CssSideAndOritentation.cs" />
-    <Compile Include="1_Boxes\5_HitAndSelections\BoxHitChain.cs" />
-    <Compile Include="1_Boxes\0_BoxCore\CssBox_FlagsConst.cs" />
-    <Compile Include="1_Boxes\0_BoxCore\CssBoxBaseAssignments.cs" />
-    <Compile Include="1_Boxes\0_BoxCore\CssBoxConst.cs" />
-    <Compile Include="1_Boxes\0_BoxCore\CssBox_OtherActualValues.cs" />
-    <Compile Include="3_HtmlFeatures\0_Root\StatesAndHandlers.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBox_DirectSetValues.cs" />
     <Compile Include="1_Boxes\5_HitAndSelections\BoxHitChain.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBox_FlagsConst.cs" />
@@ -78,7 +71,6 @@
     <Compile Include="3_HtmlFeatures\3_Bridges\BridgeElements.cs" />
     <Compile Include="1_Boxes\1_BoxCore\BoxVisitor.cs" />
     <Compile Include="1_Boxes\3_Layout\CssBoxLayoutExtension.cs" />
-    <Compile Include="1_Boxes\0_BoxCore\CssBox_Positions.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBox_Positions.cs" />
     <Compile Include="1_Boxes\3_Layout\LayoutVisitor.cs" />
     <Compile Include="1_Boxes\4_Render\PaintVisitor.cs" />
@@ -118,10 +110,6 @@
     <Compile Include="2_CascadeStyleSheet\CssActiveSheet.cs" />
     <Compile Include="Platform\dbug.cs" />
     <Compile Include="BridgesAndBuilder\UserMapUtil.cs" />
-    <Compile Include="1_Boxes\0_BoxCore\CssBox_Fields.cs" />
-    <Compile Include="1_Boxes\0_BoxCore\CssBox_Paint.cs" />
-    <Compile Include="1_Boxes\1_BoxPropsAndFeatureAssignment\CssProps.cs" />
-    <Compile Include="1_Boxes\1_BoxPropsAndFeatureAssignment\BoxSpec_CopyAndVersioning.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBox_Fields.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBox_Paint.cs" />
     <Compile Include="1_Boxes\0_PropsAndFeatures\CssProps.cs" />
@@ -132,7 +120,6 @@
     <Compile Include="1_Boxes\1_BoxCore\CssBox.cs" />
     <Compile Include="1_Boxes\OtherBoxes\CssBoxImage.cs" />
     <Compile Include="1_Boxes\2_RunsAndBinders\CssRun.cs" />
-    <Compile Include="1_Boxes\1_BoxPropsAndFeatureAssignment\BoxSpec.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBox_Spec_ReadOnly.cs" />
     <Compile Include="1_Boxes\3_Layout\CssLayoutEngine.cs" />
     <Compile Include="1_Boxes\0_PropsAndFeatures\CssLength.cs" />

@@ -158,21 +158,8 @@ namespace HtmlRenderer
         /// </summary>
         public const string Pc = "pc";
 
-<<<<<<< HEAD
-        /// <summary>
-        /// Default font size in points. Change this value to modify the default font size.
-        /// </summary>
-        public const float FontSize = 11f;
-
-        /// <summary>
-        /// Default font used for the generic 'serif' family
-        /// </summary>
-        public static string FontSerif = FontFamily.GenericSerif.Name;
-        
-=======
        
 
->>>>>>> 1.7.2105.1
 
         //------------------------------------------------------------------
         public const string Relative = "relative";
@@ -188,6 +175,5 @@ namespace HtmlRenderer
         public const string RepeatY = "repeat-y";
         public const string NoRepeat = "no-repeat";
         //------------------------------------------------------------------ 
-        public const string Start = "start";
     }
 }

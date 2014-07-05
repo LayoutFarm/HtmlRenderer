@@ -18,7 +18,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Default font size in points. Change this value to modify the default font size.
         /// </summary>
-        public const float DEFAULT_FONT_SIZE = 11f;
+        public const float DEFAULT_FONT_SIZE = 10f;
 
     }
 }

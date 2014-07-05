@@ -124,13 +124,12 @@ namespace HtmlRenderer.Dom
         }
         internal void PaintBorders(CssBox box, RectangleF rect)
         {
-            var spec = box.BoxSpec;
-            Color topColor = spec.BorderTopColor;
-            Color leftColor = spec.BorderLeftColor;
-            Color rightColor = spec.BorderRightColor;
-            Color bottomColor = spec.BorderBottomColor;
-
-
+            Color topColor = box.BorderTopColor;
+            Color leftColor = box.BorderLeftColor;
+            Color rightColor = box.BorderRightColor;
+            Color bottomColor = box.BorderBottomColor;
+            
+            
             var g = this.Gfx;
 
             var b1 = RenderUtils.GetSolidBrush(topColor);
