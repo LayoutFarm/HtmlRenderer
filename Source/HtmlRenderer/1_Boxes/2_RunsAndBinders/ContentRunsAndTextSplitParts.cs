@@ -6,13 +6,27 @@ namespace HtmlRenderer.Dom
     {
         List<TextSplitPart> originalSplitParts;
         char[] originalBuffer;
+        CssRun[] initRuns;
+
         List<CssRun> runList;
         bool isWhiteSpace;
+        bool isSingleRun;
+
+
         public ContentRuns(char[] originalBuffer)
         {
+            this.runList = new List<CssRun>();
             this.originalBuffer = originalBuffer;
         }
+        public ContentRuns(CssRun singleRun)
+        {
+            this.runList = new List<CssRun>();
+            singleRun.SetOwner(this);
 
+            this.runList.Add(singleRun);
+
+            isSingleRun = true;
+        }
         internal char[] GetOriginalBuffer()
         {
             return this.originalBuffer;
@@ -22,33 +36,55 @@ namespace HtmlRenderer.Dom
             get { return this.originalSplitParts; }
             set { this.originalSplitParts = value; }
         }
+        internal CssBox OwnerCssBox
+        {
+            get;
+            set;
+        }
+
         internal List<CssRun> RunList
         {
             get { return this.runList; }
-            set { this.runList = value; }
         }
+
         public int RunCount
         {
             get { return this.runList.Count; }
         }
-        internal void ParseContent(ContentTextSplitter splitter, CssWhiteSpace whitespace, bool isBreakAll, bool forAnonBox)
+        internal void ParseContent(ContentTextSplitter splitter,
+            CssWhiteSpace whitespace, bool isBreakAll, bool forAnonBox)
         {
+            if (!this.isSingleRun)
+            {
+                runList.Clear();
+                splitter.ParseWordContent(
+                   runList,
+                   this.originalBuffer,
+                   whitespace,
+                   !isBreakAll,
+                   forAnonBox);
 
-            //this._boxRuns = ContentTextSplitter.DefaultSplitter.ParseWordContent(
-            //    _aa_textBuffer, this.WhiteSpace,
-            //     this.WordBreak != CssWordBreak.BreakAll,
-            //     this.HtmlElement == null);
+                for (int i = runList.Count - 1; i >= 0; --i)
+                {
+                    runList[i].SetOwner(this);
+                } 
+            }
+             
         }
         internal void EvaluateWhitespace()
         {
             isWhiteSpace = false;
+
             char[] tmp = this.originalBuffer;
-            for (int i = tmp.Length - 1; i >= 0; --i)
+            if (tmp != null)
             {
-                if (!char.IsWhiteSpace(tmp[i]))
+                for (int i = tmp.Length - 1; i >= 0; --i)
                 {
-                    //stop and return if found whitespace
-                    return;
+                    if (!char.IsWhiteSpace(tmp[i]))
+                    {
+                        //stop and return if found whitespace
+                        return;
+                    }
                 }
             }
             //exit here means all char is whitespace
@@ -78,6 +114,13 @@ namespace HtmlRenderer.Dom
             this.length = length;
             this.kind = kind;
         }
+
+#if DEBUG
+        public override string ToString()
+        {
+            return kind.ToString() + "(" + startIndex + "," + length + ")";
+        }
+#endif
     }
 
 }

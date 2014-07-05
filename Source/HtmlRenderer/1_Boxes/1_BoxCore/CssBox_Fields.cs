@@ -49,8 +49,7 @@ namespace HtmlRenderer.Dom
         LinkedList<CssLineBox> _clientLineBoxes;
 
         //1.2 contains box collection for my children
-        readonly CssBoxCollection _aa_boxes;
-
+        readonly CssBoxCollection _aa_boxes; 
         //----------------------------------------------------   
 
         //condition 2 :this Box is InlineBox 

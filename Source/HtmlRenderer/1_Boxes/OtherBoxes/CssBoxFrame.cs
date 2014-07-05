@@ -37,7 +37,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the image word of this image box
         /// </summary>
-        private readonly CssImageRun _imageWord;
+        readonly CssImageRun _imageWord;
 
         /// <summary>
         /// is the iframe is of embeded video
@@ -81,11 +81,8 @@ namespace HtmlRenderer.Dom
             : base(parent, tag, spec)
         {
 
-            
-            ContentRuns contentRuns = new ContentRuns(null);
-            List<CssRun> runList = new List<CssRun>();
-            runList.Add(this._imageWord);
-            contentRuns.RunList = runList; 
+ 
+            ContentRuns contentRuns = new ContentRuns(new CssImageRun()); 
             this.SetTextContent(contentRuns);
 
             //wait for another technique *

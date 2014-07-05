@@ -278,9 +278,11 @@ namespace HtmlRenderer.Dom
         }
         internal void ParseWordContent()
         {
+            _aa_contentRuns.OwnerCssBox = this;
             _aa_contentRuns.ParseContent(ContentTextSplitter.DefaultSplitter, this.WhiteSpace,
                 this.WordBreak == CssWordBreak.BreakAll,
                 this.HtmlElement == null);
+            
         }
 
         public bool MayHasSomeTextContent

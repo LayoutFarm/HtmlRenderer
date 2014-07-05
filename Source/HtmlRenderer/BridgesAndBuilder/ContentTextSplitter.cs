@@ -47,7 +47,7 @@ namespace HtmlRenderer.Dom
         }
         //---------------------
 
-    
+
         public List<TextSplitPart> ParseWordContent2(char[] textBuffer)
         {
 
@@ -177,34 +177,30 @@ namespace HtmlRenderer.Dom
 
 
 
-        public List<CssRun> ParseWordContent(char[] textBuffer,
+        public void ParseWordContent(List<CssRun> runList,
+            char[] textBuffer,
             CssWhiteSpace whitespace,
             bool notBreakAll,
             bool keepPreWhiteSpace)
         {
 
-
-            List<TextSplitPart> spList = ParseWordContent2(textBuffer);
-
-
 #if DEBUG
             //string dbugStr = new string(textBuffer); 
 #endif
-            List<CssRun> runList = null;
+            // List<TextSplitPart> spList = ParseWordContent2(textBuffer);  
             switch (whitespace)
             {
                 case CssWhiteSpace.Pre:
                 case CssWhiteSpace.PreWrap:
-                    runList = ParseWordContentPreserveWhitespace(textBuffer, notBreakAll);
+                    ParseWordContentPreserveWhitespace(runList, textBuffer, notBreakAll);
                     break;
                 case CssWhiteSpace.PreLine:
-                    runList = ParseWordContentRespectNewLine(textBuffer, notBreakAll);
+                    ParseWordContentRespectNewLine(runList, textBuffer, notBreakAll);
                     break;
                 default:
-                    runList = ParseWordContentDefault(textBuffer, notBreakAll, keepPreWhiteSpace);
+                    ParseWordContentDefault(runList, textBuffer, notBreakAll, keepPreWhiteSpace);
                     break;
             }
-            return runList;
         }
 
         /// <summary>
@@ -213,10 +209,8 @@ namespace HtmlRenderer.Dom
         /// <param name="textBuffer"></param>
         /// <param name="boxIsNotBreakAll"></param>
         /// <returns></returns>
-        List<CssRun> ParseWordContentPreserveWhitespace(char[] textBuffer, bool boxIsNotBreakAll)
+        void ParseWordContentPreserveWhitespace(List<CssRun> boxRuns, char[] textBuffer, bool boxIsNotBreakAll)
         {
-
-            List<CssRun> boxRuns = new List<CssRun>();// CssBox.UnsafeGetRunListOrCreateIfNotExists(box);
 
             int startIndex = 0;
             int buffLength = textBuffer.Length;
@@ -335,7 +329,7 @@ namespace HtmlRenderer.Dom
                         } break;
                 }
             }
-            return boxRuns;
+             
         }
         /// <summary>
         /// not preserve whitespace but respect newline
@@ -343,10 +337,10 @@ namespace HtmlRenderer.Dom
         /// <param name="textBuffer"></param>
         /// <param name="boxIsNotBreakAll"></param>
         /// <returns></returns>
-        List<CssRun> ParseWordContentRespectNewLine(char[] textBuffer, bool boxIsNotBreakAll)
+        List<CssRun> ParseWordContentRespectNewLine(List<CssRun> boxRuns, char[] textBuffer, bool boxIsNotBreakAll)
         {
 
-            List<CssRun> boxRuns = new List<CssRun>();
+
             int startIndex = 0;
             int buffLength = textBuffer.Length;
 
@@ -470,10 +464,10 @@ namespace HtmlRenderer.Dom
         }
 
 
-        List<CssRun> ParseWordContentDefault(char[] textBuffer, bool boxIsNotBreakAll, bool keepPreWhitespace)
+        List<CssRun> ParseWordContentDefault(List<CssRun> boxRuns, char[] textBuffer, bool boxIsNotBreakAll, bool keepPreWhitespace)
         {
 
-            List<CssRun> boxRuns = new List<CssRun>();
+
             int startIndex = 0;
             int buffLength = textBuffer.Length;
 
