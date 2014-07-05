@@ -46,7 +46,7 @@ namespace HtmlRenderer.Dom
             this.elem = elem;
             this.children = new List<BridgeHtmlNode>();
             this.WellknownTagName = wellKnownTagName;
-            this.Spec = new BoxSpec(wellKnownTagName);
+            this.Spec = new BoxSpec();
         }
         public IEnumerable<IHtmlAttribute> GetAttributeIter()
         {

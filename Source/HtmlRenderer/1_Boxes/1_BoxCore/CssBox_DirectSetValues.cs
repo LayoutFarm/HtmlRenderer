@@ -26,9 +26,7 @@ namespace HtmlRenderer.Dom
                     {
                         this._actualBorderBottomWidth = w;
                     } break; 
-            } 
-           
-
+            }  
         }
         internal void DirectSetBorderStyle(float leftWpx, float topWpx, float rightWpx, float bottomWpx)
         {
@@ -36,7 +34,10 @@ namespace HtmlRenderer.Dom
             this._actualBorderTopWidth = topWpx;
             this._actualBorderRightWidth = rightWpx;
             this._actualBorderBottomWidth = bottomWpx;
-
+        }
+        internal void DirectSetHeight(float px)
+        {
+            this._sizeHeight = px;
         }
     }
 }

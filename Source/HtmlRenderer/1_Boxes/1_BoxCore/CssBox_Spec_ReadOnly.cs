@@ -33,18 +33,11 @@ namespace HtmlRenderer.Dom
     /// that require additional calculations and parsing.<br/>
     /// </summary>
     partial class CssBox
-    {
-        
-        
+    {    
         public CssLength Height
-        {   
-            //TODO: make it readonly
-            get { return this._myspec.Height; }
-            set { this._myspec.Height = value; }
+        { 
+            get { return this._myspec.Height; }  
         }
-         
-      
-
 
         public CssDirection CssDirection
         {
@@ -326,7 +319,7 @@ namespace HtmlRenderer.Dom
         public CssListStyleType ListStyleType
         {
             get { return this._myspec.ListStyleType; }
-        } 
+        }
 
         /// <summary>
         /// Gets the second color that creates a gradient for the background
@@ -382,7 +375,7 @@ namespace HtmlRenderer.Dom
             {
                 if (this._actualFont == null)
                 {
-                     
+
                 }
                 var h = _actualFont.GetHeight();
                 return this._actualFont;

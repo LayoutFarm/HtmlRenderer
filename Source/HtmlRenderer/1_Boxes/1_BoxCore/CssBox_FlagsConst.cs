@@ -22,6 +22,8 @@ namespace HtmlRenderer.Dom
             public const int LAY_WIDTH_FREEZE = 1 << (11 - 1);
             //-----------------------------------------------
             public const int HAS_ROUND_CORNER = 1 << (12 - 1);
+            //-----------------------------------------------
+            public const int IS_INLINE_BOX = 1 << (13 - 1);
         } 
     }
 }

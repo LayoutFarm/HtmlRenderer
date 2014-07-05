@@ -29,31 +29,11 @@ namespace HtmlRenderer.Parse
         /// <summary>
         /// get length in pixel
         /// </summary>
-<<<<<<< HEAD
-        /// <param name="number">Number to be parsed</param>
-        /// <param name="hundredPercent">Number that represents the 100% if parsed number is a percentage</param>
-        /// <returns>Parsed number. Zero if error while parsing.</returns>
-
-        public static float ParseNumber(CssLength number, float hundredPercent)
-        {
-            switch (number.UnitOrNames)
-            {
-                case CssUnitOrNames.EmptyValue:
-                    return 0;
-                case CssUnitOrNames.Percent:
-                    return (number.Number / 100f) * hundredPercent;
-                default:
-                    return number.Number;
-            }
-        }
-        public static float ParseLength(CssLength length, float hundredPercent, CssBox box)
-=======
         /// <param name="length"></param>
         /// <param name="hundredPercent"></param>
         /// <param name="box"></param>
         /// <returns></returns>
         public static float ConvertToPx(CssLength length, float hundredPercent, CssBox box)
->>>>>>> 1.7.2105.1
         {
             //Return zero if no length specified, zero specified      
             switch (length.UnitOrNames)
@@ -63,9 +43,9 @@ namespace HtmlRenderer.Parse
                 case CssUnitOrNames.Percent:
                     return (length.Number / 100f) * hundredPercent;
                 case CssUnitOrNames.Ems:
-                    return length.Number * box.GetActualFontEmHeight();
+                    return length.Number * box.GetEmHeight();
                 case CssUnitOrNames.Ex:
-                    return length.Number * (box.GetActualFontEmHeight() / 2);
+                    return length.Number * (box.GetEmHeight() / 2);
                 case CssUnitOrNames.Pixels:
                     //atodo: check support for hi dpi
                     return length.Number;
@@ -83,12 +63,8 @@ namespace HtmlRenderer.Parse
                     return 0;
             }
         }
-<<<<<<< HEAD
-        public static float ParseLengthWithFontAdjust(CssLength length, float hundredPercent, CssBox box)
-=======
          
         public static float ConvertToPxWithFontAdjust(CssLength length, float hundredPercent, CssBox box)
->>>>>>> 1.7.2105.1
         {
             //Return zero if no length specified, zero specified     
             switch (length.UnitOrNames)
@@ -98,9 +74,9 @@ namespace HtmlRenderer.Parse
                 case CssUnitOrNames.Percent:
                     return (length.Number / 100f) * hundredPercent;
                 case CssUnitOrNames.Ems:
-                    return length.Number * box.GetActualFontEmHeight();
+                    return length.Number * box.GetEmHeight();
                 case CssUnitOrNames.Ex:
-                    return length.Number * (box.GetActualFontEmHeight() / 2);
+                    return length.Number * (box.GetEmHeight() / 2);
                 case CssUnitOrNames.Pixels:
                     //atodo: check support for hi dpi
                     return length.Number * (72f / 96f); //font adjust
@@ -146,11 +122,7 @@ namespace HtmlRenderer.Parse
                 case CssUnitOrNames.BorderThick:
                     return 4f;
                 default:
-<<<<<<< HEAD
-                    return Math.Abs(ParseLength(borderValue, 1, b));
-=======
                     return Math.Abs(ConvertToPx(borderValue, 1, b));
->>>>>>> 1.7.2105.1
             }
         }
 

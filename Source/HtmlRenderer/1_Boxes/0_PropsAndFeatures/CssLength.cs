@@ -73,8 +73,7 @@ namespace HtmlRenderer.Dom
         //-----------------------------------------------------------------------------------------
 
 
-        #region Ctor
-
+      
 
         public CssLength(float num, CssUnitOrNames unit)
         {
@@ -106,42 +105,12 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        public static bool IsEq(CssLength len1, CssLength len2)
-        {
-            return (len1._number == len2.Number) && (len1._flags == len2._flags);
-        }
+      
 
-        #endregion
+      
 
 
-        #region Props
-
-
-        public static CssUnitOrNames GetCssUnit(string u)
-        {
-            switch (u)
-            {
-                case CssConstants.Em:
-                    return CssUnitOrNames.Ems;
-                case CssConstants.Ex:
-                    return CssUnitOrNames.Ex;
-                case CssConstants.Px:
-                    return CssUnitOrNames.Pixels;
-                case CssConstants.Mm:
-                    return CssUnitOrNames.Milimeters;
-                case CssConstants.Cm:
-                    return CssUnitOrNames.Centimeters;
-                case CssConstants.In:
-                    return CssUnitOrNames.Inches;
-                case CssConstants.Pt:
-                    return CssUnitOrNames.Points;
-                case CssConstants.Pc:
-                    return CssUnitOrNames.Picas;
-                default:
-                    return CssUnitOrNames.Unknown;
-            }
-        }
-
+        
         public static CssLength MakePixelLength(float pixel)
         {
             return new CssLength(pixel, CssUnitOrNames.Pixels);
@@ -242,41 +211,12 @@ namespace HtmlRenderer.Dom
         {
             get { return (this._flags & IS_BORDER_THICKNESS_NAME) != 0; }
         }
+         
 
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// If length is in Ems, returns its value in points
-        /// </summary>
-        /// <param name="emSize">Em size factor to multiply</param>
-        /// <returns>Points size of this em</returns>
-        /// <exception cref="InvalidOperationException">If length has an error or isn't in ems</exception>
-        public CssLength ConvertEmToPoints(float emSize)
+        public static bool IsEq(CssLength len1, CssLength len2)
         {
-            if (HasError) throw new InvalidOperationException("Invalid length");
-            if (UnitOrNames != CssUnitOrNames.Ems) throw new InvalidOperationException("Length is not in ems");
-
-            return new CssLength(Number * emSize, CssUnitOrNames.Points);
-            //return new CssLength(string.Format("{0}pt", Convert.ToSingle(Number * emSize).ToString("0.0", NumberFormatInfo.InvariantInfo)));
+            return (len1._number == len2.Number) && (len1._flags == len2._flags);
         }
-
-        /// <summary>
-        /// If length is in Ems, returns its value in pixels
-        /// </summary>
-        /// <param name="pixelFactor">Pixel size factor to multiply</param>
-        /// <returns>Pixels size of this em</returns>
-        /// <exception cref="InvalidOperationException">If length has an error or isn't in ems</exception>
-        public CssLength ConvertEmToPixels(float pixelFactor)
-        {
-            if (HasError) throw new InvalidOperationException("Invalid length");
-            if (UnitOrNames != CssUnitOrNames.Ems) throw new InvalidOperationException("Length is not in ems");
-
-            return new CssLength(Number * pixelFactor, CssUnitOrNames.Pixels);
-            //return new CssLength(string.Format("{0}px", Convert.ToSingle(Number * pixelFactor).ToString("0.0", NumberFormatInfo.InvariantInfo)));
-        }
-
         /// <summary>
         /// Returns the length formatted ready for CSS interpreting.
         /// </summary>
@@ -321,14 +261,12 @@ namespace HtmlRenderer.Dom
                         break;
                     case CssUnitOrNames.Picas:
                         u = "pc";
-                        break;
-
-                }
-
+                        break; 
+                } 
                 return string.Format(NumberFormatInfo.InvariantInfo, "{0}{1}", Number, u);
             }
         }
 
-        #endregion
+       
     }
 }

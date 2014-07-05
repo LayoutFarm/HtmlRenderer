@@ -20,7 +20,7 @@ namespace HtmlRenderer.Dom
             childNode._parentBox = parent;
 
         }
-        
+
         internal static List<CssRun> UnsafeGetRunListOrCreateIfNotExists(CssBox box)
         {
             if (box._boxRuns == null)
@@ -35,8 +35,14 @@ namespace HtmlRenderer.Dom
         internal static CssBoxCollection UnsafeGetChildren(CssBox box)
         {
             return box.Boxes;
+        } 
+        internal static BoxSpec UnsafeGetBoxSpec(CssBox box)
+        {   
+            //this method is for BoxCreator and debug only!
+            //box.Spec is private
+            return box._myspec;
         }
-
+ 
 
     }
 

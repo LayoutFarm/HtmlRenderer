@@ -34,17 +34,8 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary>
-<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox_Fields.cs
-        readonly IHtmlElement _htmlElement;
-
-
+        readonly BridgeHtmlElement _htmlElement;
         int _boxCompactFlags;
-
-
-=======
-        readonly BridgeHtmlElement _htmlElement; 
-        int _boxCompactFlags; 
->>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox_Fields.cs
         //----------------------------------------------------
         CssBox _listItemBox;
         //----------------------------------------------------
@@ -66,12 +57,9 @@ namespace HtmlRenderer.Dom
         //condition 2 :this Box is InlineBox 
         List<CssRun> _boxRuns;
         //----------------------------------------------------  
-<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox_Fields.cs
-
-=======
         //state
         protected int _prop_pass_eval;
->>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox_Fields.cs
+        CssDisplay _cssDisplay = CssDisplay.Inline;
 
         /// <summary>
         /// Gets the childrenn boxes of this box
@@ -222,29 +210,7 @@ namespace HtmlRenderer.Dom
             get;
             set;
         }
-<<<<<<< HEAD:Source/HtmlRenderer/1_Boxes/0_BoxCore/CssBox_Fields.cs
 
-
-        public ImageBinder BackgroundImageBinder
-        {
-            get
-            { 
-                return this.BoxSpec.BackgroundImageBinder;
-            }
-        }
-        public CssLength BackgroundPositionX
-        {
-            get
-            {
-                return this.BoxSpec.BackgroundPositionX;
-            }
-        }
-        public CssLength BackgroundPositionY
-        {
-            get
-            {
-=======
-        
         //==================================================
         public WellknownHtmlTagName WellknownTagName
         {
@@ -252,35 +218,63 @@ namespace HtmlRenderer.Dom
             {
                 return this.wellKnownTagName;
             }
-            protected set
+            private set
             {
                 this.wellKnownTagName = value;
             }
-        } 
+        }
         public CssDisplay CssDisplay
         {
             get
             {
-                return this._myspec.CssDisplay;
-            }
-            set
-            {
-                this._myspec.CssDisplay = value;
+                return this._cssDisplay;
             }
         }
-        //==================================================
->>>>>>> 1.7.2105.1:Source/HtmlRenderer/1_Boxes/1_BoxCore/CssBox_Fields.cs
 
-                return this.BoxSpec.BackgroundPositionY;
-            }
-        }
-        public CssBackgroundRepeat BackgroundRepeat
+        internal static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
-            get
+
+            switch (box.wellKnownTagName)
             {
-                return this.BoxSpec.BackgroundRepeat;
+                //some wellknown Html element name 
+                //has fixed predefine display type  *** 
+                //fix definition 
+                case WellknownHtmlTagName.table:
+                    newdisplay = CssDisplay.Table;
+                    break;
+                case WellknownHtmlTagName.tr:
+                    newdisplay = CssDisplay.TableRow;
+                    break;
+                case WellknownHtmlTagName.tbody:
+                    newdisplay = CssDisplay.TableRowGroup;
+                    break;
+                case WellknownHtmlTagName.thead:
+                    newdisplay = CssDisplay.TableHeaderGroup;
+                    break;
+                case WellknownHtmlTagName.tfoot:
+                    newdisplay = CssDisplay.TableFooterGroup;
+                    break;
+                case WellknownHtmlTagName.col:
+                    newdisplay = CssDisplay.TableColumn;
+                    break;
+                case WellknownHtmlTagName.colgroup:
+                    newdisplay = CssDisplay.TableColumnGroup;
+                    break;
+                case WellknownHtmlTagName.td:
+                case WellknownHtmlTagName.th:
+                    newdisplay = CssDisplay.TableCell;
+                    break;
+                case WellknownHtmlTagName.caption:
+                    newdisplay = CssDisplay.TableCaption;
+                    break;
             }
+
+            box._cssDisplay = newdisplay;
+            box.IsInline = (newdisplay == CssDisplay.Inline ||
+                    newdisplay == CssDisplay.InlineBlock) && !box.IsBrElement;
+
         }
+
     }
 
 }

@@ -594,11 +594,7 @@ namespace HtmlRenderer.Utils
         /// <returns>css word box if exists or null</returns>
         public static CssRun GetCssBoxWord(CssBox box, Point location)
         {
-<<<<<<< HEAD
-            if (box == null || box.BoxSpec.CssVisibility != CssVisibility.Visible)
-=======
             if (box == null || box.Visibility != CssVisibility.Visible)
->>>>>>> 1.7.2105.1
             {
                 return null;
             }

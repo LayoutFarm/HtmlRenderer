@@ -73,37 +73,35 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-<<<<<<< HEAD
-        internal CssBoxFrame(CssBox parent, IHtmlElement tag, BoxSpec spec)
+        internal CssBoxFrame(CssBox parent, BridgeHtmlElement tag, BoxSpec spec)
             : base(parent, tag, spec)
-=======
-        internal CssBoxFrame(CssBox parent, BridgeHtmlElement tag)
-            : base(parent, tag)
->>>>>>> 1.7.2105.1
         {
 
             this.AddRun(this._imageWord = new CssImageRun(this));
-            Uri uri;
-            if (Uri.TryCreate(GetAttribute("src"), UriKind.Absolute, out uri))
-            {
-                if (uri.Host.IndexOf("youtube.com", StringComparison.InvariantCultureIgnoreCase) > -1)
-                {
-                    _isVideo = true;
-                    LoadYoutubeDataAsync(uri);
-                }
-                else if (uri.Host.IndexOf("vimeo.com", StringComparison.InvariantCultureIgnoreCase) > -1)
-                {
-                    _isVideo = true;
-                    LoadVimeoDataAsync(uri);
-                }
-            }
+
+            //wait for another technique *
+
+            //Uri uri;
+            //if (Uri.TryCreate(GetAttribute("src"), UriKind.Absolute, out uri))
+            //{
+            //    if (uri.Host.IndexOf("youtube.com", StringComparison.InvariantCultureIgnoreCase) > -1)
+            //    {
+            //        _isVideo = true;
+            //        LoadYoutubeDataAsync(uri);
+            //    }
+            //    else if (uri.Host.IndexOf("vimeo.com", StringComparison.InvariantCultureIgnoreCase) > -1)
+            //    {
+            //        _isVideo = true;
+            //        LoadVimeoDataAsync(uri);
+            //    }
+            //}
 
             //if (!_isVideo)
             //{
             //    SetErrorBorder();
             //}
         }
-        
+
         /// <summary>
         /// Get the href link of the box (by default get "href" attribute)
         /// </summary>
@@ -595,21 +593,12 @@ namespace HtmlRenderer.Dom
         //private void SetErrorBorder()
         //{
 
-<<<<<<< HEAD
-            this.SetAllBorders(
-                CssBorderStyle.Solid, CssLength.MakePixelLength(2),
-                System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
-            throw new NotSupportedException();
-            // BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
-        }
-=======
         //    this.SetAllBorders(
         //        CssBorderStyle.Solid, CssLength.MakePixelLength(2),
         //        System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
 
         //    BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
         //}
->>>>>>> 1.7.2105.1
 
         /// <summary>
         /// On image load process is complete with image or without update the image box.
@@ -637,8 +626,8 @@ namespace HtmlRenderer.Dom
 
         private bool IsLayoutRequired()
         {
-            var width = this.BoxSpec.Width;// new CssLength(Width);
-            var height = this.BoxSpec.Height;// new CssLength(Height);
+            var width = this.Width;// new CssLength(Width);
+            var height = this.Height;// new CssLength(Height);
             return (width.Number <= 0 || width.UnitOrNames != CssUnitOrNames.Pixels) || (height.Number <= 0 || height.UnitOrNames != CssUnitOrNames.Pixels);
         }
 

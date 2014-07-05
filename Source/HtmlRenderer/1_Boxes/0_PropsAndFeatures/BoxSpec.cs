@@ -74,7 +74,8 @@ namespace HtmlRenderer.Dom
         CssPosition _position = CssPosition.Static;
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
         //==========================================================
-        WellknownHtmlTagName wellKnownTagName;
+        
+
         #endregion
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
@@ -87,15 +88,8 @@ namespace HtmlRenderer.Dom
         //------------------
         BoxSpec anonVersion;
         //------------------
-
-        public BoxSpec(WellknownHtmlTagName wellknownTagName)
-        {
-            if (this.__aa_dbugId == 38)
-            {
-
-            }
-
-            this.WellknownTagName = wellknownTagName;
+        public BoxSpec()
+        {               
         }
         //---------------------------------------------------------------
         internal int VersionNumber
@@ -136,20 +130,11 @@ namespace HtmlRenderer.Dom
             if (_freezed)
             {
 
-            }
-            return true;
+            } 
             return !_freezed;
         }
         //---------------------------------------------------------------
-        public WellknownHtmlTagName WellknownTagName
-        {
-            get
-            {
-                return this.wellKnownTagName;
-            }
-            private set { this.wellKnownTagName = value; }
-
-        }
+        
         public CssDisplay CssDisplay
         {
             get { return this._cssDisplay; }
@@ -212,8 +197,11 @@ namespace HtmlRenderer.Dom
         public CssBorderStyle BorderLeftStyle
         {
             get { return this._borderFeats.LeftStyle; }
-            set { if (Assignable()) 
-                CheckBorderVersion().LeftStyle = value; }
+            set
+            {
+                if (Assignable())
+                    CheckBorderVersion().LeftStyle = value;
+            }
         }
         public CssBorderStyle BorderRightStyle
         {
@@ -638,9 +626,8 @@ namespace HtmlRenderer.Dom
             }
         }
 
-        public Font GetFont(BoxSpec parentBox)
-        {
-
+        public Font GetFont(float parentFontSize)
+        {   
             //---------------------------------------
             if (_actualFont != null)
             {
@@ -711,22 +698,22 @@ namespace HtmlRenderer.Dom
                     case CssUnitOrNames.FONTSIZE_SMALLER:
                         {
                             relateToParent = true;
-                            float parentFontSize = ConstConfig.DEFAULT_FONT_SIZE;
-                            if (parentBox != null)
-                            {
-                                parentFontSize = parentBox._actualFont.Size;
-                            }
+                            //float parentFontSize = ConstConfig.DEFAULT_FONT_SIZE;
+                            //if (parentBox != null)
+                            //{
+                            //    parentFontSize = parentBox._actualFont.Size;
+                            //}
                             fsize = parentFontSize - 2;
 
                         } break;
                     case CssUnitOrNames.FONTSIZE_LARGER:
                         {
                             relateToParent = true;
-                            float parentFontSize = ConstConfig.DEFAULT_FONT_SIZE;
-                            if (parentBox != null)
-                            {
-                                parentFontSize = parentBox._actualFont.Size;
-                            }
+                            //float parentFontSize = ConstConfig.DEFAULT_FONT_SIZE;
+                            //if (parentBox != null)
+                            //{
+                            //    parentFontSize = parentBox._actualFont.Size;
+                            //}
                             fsize = parentFontSize + 2;
 
                         } break;
@@ -741,7 +728,8 @@ namespace HtmlRenderer.Dom
 
             if (fontsize.UnitOrNames == CssUnitOrNames.Ems)
             {
-                fsize = fontsize.Number * parentBox.FontSize.Number;
+                fsize = fontsize.Number * ConstConfig.DEFAULT_FONT_SIZE;
+                relateToParent = true;
             }
 
             if (fsize <= 1f)
@@ -749,15 +737,15 @@ namespace HtmlRenderer.Dom
                 fsize = ConstConfig.DEFAULT_FONT_SIZE;
             }
 
-            if (!relateToParent)
+            if (relateToParent)
             {
-
+                //not store to cache font
                 return FontsUtils.GetCachedFont(fontFam, fsize, st);
             }
             else
             {
-                //not store to cache font
                 return this._actualFont = FontsUtils.GetCachedFont(fontFam, fsize, st);
+                
             }
         }
 

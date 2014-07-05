@@ -3,7 +3,7 @@
 
 namespace HtmlRenderer.Dom
 {
-    
+
     //--------------------------------------------------
     public enum CssDisplay : byte
     {
@@ -155,16 +155,15 @@ namespace HtmlRenderer.Dom
         [Map(CssConstants.Hidden)]
         Hidden,
         [Map(CssConstants.Collapse)]
-        Collapse,
+        Collapse,  
         [Map(CssConstants.Inherit)]
         Inherit
     }
     public enum CssTextAlign : byte
     {
-        [Map(CssConstants.Start)]
-        Start,
+        NotAssign,
         [Map(CssConstants.Left)]
-        Left,
+        Left,//default
         [Map(CssConstants.Right)]
         Right,
         [Map(CssConstants.Center)]

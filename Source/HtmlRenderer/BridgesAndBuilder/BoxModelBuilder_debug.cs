@@ -10,7 +10,8 @@ namespace HtmlRenderer.Dom
         static void dbugCompareSpecDiff(string prefix, CssBox box)
         {
             BridgeHtmlElement element = box.HtmlElement as BridgeHtmlElement;
-            BoxSpec curSpec = box.Spec;
+            BoxSpec curSpec = CssBox.UnsafeGetBoxSpec(box);
+
             dbugPropCheckReport rep = new dbugPropCheckReport();
             if (element != null)
             {

@@ -115,8 +115,11 @@ namespace HtmlRenderer.Dom
             {
                 return anonVersion;
             }
-            this.anonVersion = new BoxSpec(WellknownHtmlTagName.Unknown);
+
+            this.anonVersion = new BoxSpec();
             anonVersion.InheritStylesFrom(this);
+            anonVersion.Freeze();
+
             return anonVersion;
         }
         //---------------------------------------------------------------
