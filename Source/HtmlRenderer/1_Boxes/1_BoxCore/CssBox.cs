@@ -15,7 +15,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing; 
+using System.Drawing;
 using System.Globalization;
 using System.Text;
 
@@ -37,7 +37,7 @@ namespace HtmlRenderer.Dom
     /// To know more about boxes visit CSS spec:
     /// http://www.w3.org/TR/CSS21/box.html
     /// </remarks>
-    public partial class CssBox : IDisposable
+    public partial class CssBox
     {
         readonly BoxSpec _myspec;
 
@@ -50,7 +50,7 @@ namespace HtmlRenderer.Dom
 
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
         {
-            //for root
+
             this._aa_boxes = new CssBoxCollection(this);
             if (parentBox != null)
             {
@@ -199,28 +199,27 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the containing block-box of this box. (The nearest parent box with display=block)
         /// </summary>
-        public CssBox ContainingBlock
+        internal CssBox SearchUpMyContainingBlockBox()
         {
-            get
+
+            if (ParentBox == null)
             {
-                if (ParentBox == null)
-                {
-                    return this; //This is the initial containing block.
-                }
-
-                var box = ParentBox;
-                while (box.CssDisplay < CssDisplay.__CONTAINER_BEGIN_HERE &&
-                    box.ParentBox != null)
-                {
-                    box = box.ParentBox;
-                }
-
-                //Comment this following line to treat always superior box as block
-                if (box == null)
-                    throw new Exception("There's no containing block on the chain");
-
-                return box;
+                return this; //This is the initial containing block.
             }
+
+            var box = ParentBox;
+            while (box.CssDisplay < CssDisplay.__CONTAINER_BEGIN_HERE &&
+                box.ParentBox != null)
+            {
+                box = box.ParentBox;
+            }
+
+            //Comment this following line to treat always superior box as block
+            if (box == null)
+                throw new Exception("There's no containing block on the chain");
+
+            return box;
+
         }
 
         /// <summary>
@@ -280,7 +279,7 @@ namespace HtmlRenderer.Dom
         internal void UpdateRunList()
         {
             _aa_contentRuns.UpdateRunList(this.WhiteSpace,
-                this.WordBreak ,
+                this.WordBreak,
                 this.HtmlElement == null);
         }
 
@@ -306,7 +305,7 @@ namespace HtmlRenderer.Dom
                 return;
             }
             else
-            {     
+            {
                 if (_aa_contentRuns.IsWhiteSpace)
                 {
                     this._boxCompactFlags |= CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
@@ -500,21 +499,6 @@ namespace HtmlRenderer.Dom
             this._parentBox.Boxes.ChangeSiblingIndex(this, siblingIndex);
         }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public virtual void Dispose()
-        {
-            //if (_imageLoadHandler != null)
-            //{
-            //    _imageLoadHandler.Dispose();
-            //}
-
-            foreach (var childBox in Boxes)
-            {
-                childBox.Dispose();
-            }
-        }
 
 
         #region Private Methods
@@ -1055,7 +1039,7 @@ namespace HtmlRenderer.Dom
         {
             this._localY += dy;
         }
-       
+
 
         ///// <summary>
         ///// On image load process complete with image request refresh for it to be painted.

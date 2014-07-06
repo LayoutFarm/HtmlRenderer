@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 
 using System.Drawing;
-using System.Drawing.Drawing2D; 
+using System.Drawing.Drawing2D;
 using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
@@ -76,8 +76,6 @@ namespace HtmlRenderer.Dom
             : base(parent, tag, spec)
         {
 
- 
-    
             this.SetTextContent(new RunCollection(new CssImageRun()));
 
             //wait for another technique *
@@ -119,16 +117,7 @@ namespace HtmlRenderer.Dom
             get { return _isVideo; }
         }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public override void Dispose()
-        {
-            //if (_imageLoadHandler != null)
-            //    _imageLoadHandler.Dispose();
-            base.Dispose();
-        }
-
+        
 
         #region Private methods
 
@@ -585,7 +574,7 @@ namespace HtmlRenderer.Dom
                 MeasureWordSpacing(lay);
                 this.RunSizeMeasurePass = true;
             }
-            CssLayoutEngine.MeasureImageSize(_imageWord);
+            CssLayoutEngine.MeasureImageSize(_imageWord, lay);
         }
 
         ///// <summary>
