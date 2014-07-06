@@ -306,7 +306,8 @@ namespace HtmlRenderer.Utils
         private static Font CreateFont(string family, float size, FontStyle style)
         {
             FontFamily fontFamily;
-            return _existingFontFamilies.TryGetValue(family, out fontFamily) ? new Font(fontFamily, size, style) : new Font(family, size, style);
+            return _existingFontFamilies.TryGetValue(family, out fontFamily) ?
+                new Font(fontFamily, size, style) : new Font(family, size, style);
         }
 
         #endregion

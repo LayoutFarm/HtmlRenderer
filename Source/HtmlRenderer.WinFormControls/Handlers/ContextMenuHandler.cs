@@ -95,7 +95,7 @@ namespace HtmlRenderer.Handlers
         /// <summary>
         /// the css rect that context menu shown on
         /// </summary>
-        private CssRun _currentRect;
+        private CssRun _currentRun;
 
         /// <summary>
         /// the css link box that context menu shown on
@@ -281,7 +281,7 @@ namespace HtmlRenderer.Handlers
                 DisposeContextMenu();
 
                 _parentControl = parent;
-                _currentRect = rect;
+                _currentRun = rect;
                 _currentLink = link;
                 _contextMenu = new ContextMenuStrip();
                 _contextMenu.ShowImageMargin = false;
@@ -309,7 +309,7 @@ namespace HtmlRenderer.Handlers
                         {
                             var copyImageUrl = _contextMenu.Items.Add(_copyImageLink, null, OnCopyImageLinkClick);
                             var copyImage = _contextMenu.Items.Add(_copyImage, null, OnCopyImageClick);
-                            copyImageUrl.Enabled = !string.IsNullOrEmpty(_currentRect.OwnerBox.GetAttribute("src"));
+                            copyImageUrl.Enabled = !string.IsNullOrEmpty(_currentRun.OwnerBox.GetAttribute("src"));
                             copyImage.Enabled = rect.Image != null;
                         }
                         saveImage.Enabled = rect.Image != null;
@@ -364,7 +364,7 @@ namespace HtmlRenderer.Handlers
                     _contextMenu.Dispose();
                 _contextMenu = null;
                 _parentControl = null;
-                _currentRect = null;
+                _currentRun = null;
                 _currentLink = null;
             }
             catch
@@ -433,14 +433,14 @@ namespace HtmlRenderer.Handlers
             {
                 using (var saveDialog = new SaveFileDialog())
                 {
-                    var imageSrc = _currentRect.OwnerBox.GetAttribute("src");
+                    var imageSrc = _currentRun.OwnerBox.GetAttribute("src");
                     saveDialog.DefaultExt = Path.GetExtension(imageSrc) ?? "png";
                     saveDialog.FileName = Path.GetFileName(imageSrc) ?? "image";
                     saveDialog.Filter = "Images|*.png;*.bmp;*.jpg";
 
                     if (saveDialog.ShowDialog(_parentControl) == DialogResult.OK)
                     {
-                        _currentRect.Image.Save(saveDialog.FileName);
+                        _currentRun.Image.Save(saveDialog.FileName);
                     }
                 }
             }
@@ -461,7 +461,7 @@ namespace HtmlRenderer.Handlers
         {
             try
             {
-                Clipboard.SetText(_currentRect.OwnerBox.GetAttribute("src"));
+                Clipboard.SetText(_currentRun.OwnerBox.GetAttribute("src"));
             }
             catch (Exception ex)
             {
@@ -480,7 +480,7 @@ namespace HtmlRenderer.Handlers
         {
             try
             {
-                Clipboard.SetImage(_currentRect.Image);
+                Clipboard.SetImage(_currentRun.Image);
             }
             catch (Exception ex)
             {

@@ -1,4 +1,4 @@
-﻿//BSD 2014 ,WinterCore
+﻿//BSD 2014 ,WinterDev
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -490,49 +490,49 @@ namespace HtmlRenderer.Utils
                 }
             }
         }
-        /// <summary>
-        /// Get css line box under the given sub-tree at the given y location or the nearest line from the top.<br/>
-        /// the location must be in correct scroll offset.
-        /// </summary>
-        /// <param name="box">the box to start search from</param>
-        /// <param name="location">the location to find the box at</param>
-        /// <returns>css word box if exists or null</returns>
-        internal static CssLineBox GetCssLineBox(CssBox box, Point location)
-        {
-            CssLineBox line = null;
-            if (box != null)
-            {
-                if (box.LineBoxCount > 0)
-                {
-                    if (box.WellknownTagName == WellknownHtmlTagName.NotAssign ||
-                        box.WellknownTagName != WellknownHtmlTagName.td ||
-                        box.IsPointInArea(location.X, location.Y))
-                    {
-                        foreach (var lineBox in box.GetLineBoxIter())
-                        {
-                            foreach (var rect_top in lineBox.GetAreaStripTopPosIter())
-                            {
-                                if (rect_top <= location.Y)
-                                {
-                                    line = lineBox;
-                                }
-                                else
-                                {
-                                    return line;
-                                }
-                            }
-                        }
-                    }
-                }
+        ///// <summary>
+        ///// Get css line box under the given sub-tree at the given y location or the nearest line from the top.<br/>
+        ///// the location must be in correct scroll offset.
+        ///// </summary>
+        ///// <param name="box">the box to start search from</param>
+        ///// <param name="location">the location to find the box at</param>
+        ///// <returns>css word box if exists or null</returns>
+        //internal static CssLineBox GetCssLineBox(CssBox box, Point location)
+        //{
+        //    CssLineBox line = null;
+        //    if (box != null)
+        //    {
+        //        if (box.LineBoxCount > 0)
+        //        {
+        //            if (box.WellknownTagName == WellknownHtmlTagName.NotAssign ||
+        //                box.WellknownTagName != WellknownHtmlTagName.td ||
+        //                box.IsPointInArea(location.X, location.Y))
+        //            {
+        //                foreach (var lineBox in box.GetLineBoxIter())
+        //                {
+        //                    foreach (var rect_top in lineBox.GetAreaStripTopPosIter())
+        //                    {
+        //                        if (rect_top <= location.Y)
+        //                        {
+        //                            line = lineBox;
+        //                        }
+        //                        else
+        //                        {
+        //                            return line;
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
 
-                foreach (var childBox in box.GetChildBoxIter())
-                {
-                    line = GetCssLineBox(childBox, location) ?? line;
-                }
-            }
+        //        foreach (var childBox in box.GetChildBoxIter())
+        //        {
+        //            line = GetCssLineBox(childBox, location) ?? line;
+        //        }
+        //    }
 
-            return line;
-        }
+        //    return line;
+        //}
 
         internal static bool ForEachTextRunDeep(CssBox box, EachCssTextRunHandler handler)
         {
@@ -594,7 +594,7 @@ namespace HtmlRenderer.Utils
         /// <returns>css word box if exists or null</returns>
         public static CssRun GetCssBoxWord(CssBox box, Point location)
         {
-            if (box == null || box.CssVisibility != CssVisibility.Visible)
+            if (box == null || box.Visibility != CssVisibility.Visible)
             {
                 return null;
             }

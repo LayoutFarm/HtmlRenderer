@@ -1,4 +1,4 @@
-﻿//BSD  2014 ,WinterCore
+﻿//BSD  2014 ,WinterDev
 
 using System;
 using System.Text;
@@ -83,6 +83,7 @@ namespace HtmlRenderer.WebDom
         {
         }
     }
+
 
     public class HtmlTextNode : HtmlNode
     {

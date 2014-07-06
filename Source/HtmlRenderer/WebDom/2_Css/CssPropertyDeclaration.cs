@@ -1,4 +1,4 @@
-﻿//BSD  2014 ,WinterCore 
+﻿//BSD  2014 ,WinterDev 
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,16 +14,14 @@ namespace HtmlRenderer.WebDom
     {
         bool isReady = false;
         bool isValid = false;
-        bool markedAsInherit;
-
         bool isAutoGen = false;
+
+
+        bool markedAsInherit;        
         bool isExpand = false;
 
         CssCodeValueExpression propertyValue;
         List<CssCodeValueExpression> moreValues;
-
-
-
 
 #if DEBUG
         static int dbugTotalId;
@@ -33,9 +31,8 @@ namespace HtmlRenderer.WebDom
         {
             //convert from name to wellknown property name; 
             this.WellknownPropertyName = HtmlRenderer.Dom.UserMapUtil.GetWellKnownPropName(
-                this.PropertyName = propertyName.ToLower());
+                propertyName.ToLower());
         }
-
         internal CssPropertyDeclaration(WellknownCssPropertyName wellNamePropertyName, CssCodeValueExpression value)
         {
             //from another 
@@ -100,11 +97,7 @@ namespace HtmlRenderer.WebDom
                 moreValues[index - 1] = value;
             }
         }
-        string PropertyName
-        {
-            get;
-            set;
-        }
+
         public WellknownCssPropertyName WellknownPropertyName
         {
             get;
@@ -112,13 +105,10 @@ namespace HtmlRenderer.WebDom
         }
         public override string ToString()
         {
-
             StringBuilder sb = new StringBuilder();
-            sb.Append(this.PropertyName);
+            sb.Append(this.WellknownPropertyName.ToString());
             sb.Append(':');
-
             CollectValues(sb);
-
             return sb.ToString();
         }
         void CollectValues(StringBuilder stBuilder)
@@ -384,7 +374,7 @@ namespace HtmlRenderer.WebDom
         {
             return this.number;
         }
-       
+
         internal void SetIntValue(int intValue, CssValueEvaluatedAs evaluatedAs)
         {
             this.evaluatedAs = evaluatedAs;
@@ -399,7 +389,7 @@ namespace HtmlRenderer.WebDom
         {
             this.cachedLength = len;
             this.evaluatedAs = evalAs;
-        } 
+        }
         internal CssValueEvaluatedAs EvaluatedAs
         {
             get
