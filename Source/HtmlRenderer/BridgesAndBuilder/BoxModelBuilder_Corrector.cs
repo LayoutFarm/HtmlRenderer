@@ -12,8 +12,8 @@
 // - Sun Tsu,
 // "The Art of War"
 
- 
-using HtmlRenderer.Utils; 
+
+using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
 {
@@ -166,32 +166,34 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-
+#if DEBUG
         /// <summary>
         /// Go over all the text boxes (boxes that have some text that will be rendered) and
         /// remove all boxes that have only white-spaces but are not 'preformatted' so they do not effect
         /// the rendered html.
         /// </summary>
         /// <param name="box">the current box to correct its sub-tree</param>
-        static void CorrectTextBoxes(CssBox box)
+        static void dbugCorrectTextBoxes(CssBox box)
         {
-
+            return;
+           
             CssBoxCollection boxes = CssBox.UnsafeGetChildren(box);
             for (int i = boxes.Count - 1; i >= 0; i--)
             {
                 var childBox = boxes[i];
                 if (childBox.MayHasSomeTextContent)
                 {
-
-                    
-                    
                     // is the box has text
                     // or is the box is pre-formatted
                     // or is the box is only one in the parent 
-                    bool keepBox = !childBox.TextContentIsWhitespaceOrEmptyText ||
-                       childBox.WhiteSpace == CssWhiteSpace.Pre ||
-                       childBox.WhiteSpace == CssWhiteSpace.PreWrap ||
-                       boxes.Count == 1;
+                    bool keepBox = childBox.HtmlElement != null;
+                    if (!keepBox)
+                    {
+                        keepBox = !childBox.TextContentIsWhitespaceOrEmptyText ||
+                         childBox.WhiteSpace == CssWhiteSpace.Pre ||
+                         childBox.WhiteSpace == CssWhiteSpace.PreWrap ||
+                         boxes.Count == 1;
+                    } 
 
                     if (!keepBox && box.ChildCount > 0)
                     {
@@ -214,7 +216,7 @@ namespace HtmlRenderer.Dom
                             keepBox = boxes[i - 1].IsInline && boxes[i + 1].IsInline;
                         }
                     }
-                     
+
                     if (keepBox)
                     {
                         // valid text box, parse it to words                            
@@ -229,12 +231,12 @@ namespace HtmlRenderer.Dom
                 else
                 {
                     // recursive 
-                    CorrectTextBoxes(childBox);
+                    dbugCorrectTextBoxes(childBox);
                 }
             }
         }
-         
 
+#endif
         /// <summary>
         /// Rearrange the DOM of the box to have block box with boxes before the inner block box and after.
         /// </summary>

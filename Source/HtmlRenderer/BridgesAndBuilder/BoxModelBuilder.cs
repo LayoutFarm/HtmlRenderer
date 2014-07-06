@@ -1,4 +1,4 @@
- //BSD 2014, WinterDev
+//BSD 2014, WinterDev
 //ArthurHub
 
 // "Therefore those skilled at the unorthodox
@@ -14,10 +14,10 @@
 // "The Art of War"
 
 using System;
-using System.Drawing; 
-using System.Collections.Generic; 
-using HtmlRenderer.Handlers; 
-using HtmlRenderer.WebDom; 
+using System.Drawing;
+using System.Collections.Generic;
+using HtmlRenderer.Handlers;
+using HtmlRenderer.WebDom;
 
 namespace HtmlRenderer.Dom
 {
@@ -126,7 +126,7 @@ namespace HtmlRenderer.Dom
                             WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)node;
                             var originalBuffer = textNode.CopyTextBuffer();
                             List<TextSplitPart> originalSplitParts = contentTextSplitter.ParseWordContent(originalBuffer);
-                            RunCollection contentRuns = new RunCollection(originalBuffer, originalSplitParts);  
+                            RunCollection contentRuns = new RunCollection(originalBuffer, originalSplitParts);
                             BridgeHtmlTextNode textnode = new BridgeHtmlTextNode(contentRuns);
                             parentElement.AddChildElement(textnode);
                         } break;
@@ -137,9 +137,8 @@ namespace HtmlRenderer.Dom
         static void GenerateCssBoxes(BridgeHtmlElement parentElement, CssBox parentBox)
         {
 
-            int childCount = parentElement.ChildCount;
 
-            switch (childCount)
+            switch (parentElement.ChildCount)
             {
                 case 0: { } break;
                 case 1:
@@ -152,6 +151,8 @@ namespace HtmlRenderer.Dom
                                 {
                                     //parent has single child 
                                     parentBox.SetTextContent(((BridgeHtmlTextNode)bridgeChild).GetContentRuns());
+                                    parentBox.UpdateRunList();
+
                                 } break;
                             case BridgeNodeType.Element:
                                 {
@@ -162,9 +163,7 @@ namespace HtmlRenderer.Dom
                                     {
                                         return;
                                     }
-
                                     newBox++;
-
                                     CssBox box = BoxCreator.CreateBox(parentBox, elem);
                                     GenerateCssBoxes(elem, box);
 
@@ -174,46 +173,179 @@ namespace HtmlRenderer.Dom
                     } break;
                 default:
                     {
-                        int newBox = 0;
-                        for (int i = 0; i < childCount; ++i)
+
+                        BoxSpec parentSpec = parentElement.Spec;
+                        switch (parentElement.Spec.WhiteSpace)
                         {
-                            //create and correct box in one pass here !?
-                            BridgeHtmlNode childNode = parentElement.GetNode(i);
-                            switch (childNode.NodeType)
-                            {
-                                case BridgeNodeType.Text:
-                                    {
-                                        //create anonymous box  but not inherit ***
+                            case CssWhiteSpace.Pre:
+                            case CssWhiteSpace.PreWrap:
+                                {
+                                    CreateChildBoxPreserveWhitespace(parentElement, parentBox);
 
-                                        CssBox anonText = CssBox.CreateAnonInline(parentBox);// ; 
-                                        //parse and evaluate whitespace here ! 
-                                        BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
-                                        anonText.dbugAnonCreator = parentElement;
-                                        anonText.SetTextContent(textNode.GetContentRuns());
+                                } break;
+                            case CssWhiteSpace.PreLine:
+                                {
+                                    CreateChildBoxRespectNewLine(parentElement, parentBox);
 
-                                    } break;
-                                default:
-                                    {
-                                        BridgeHtmlElement childElement = (BridgeHtmlElement)childNode;
-                                        var spec = childElement.Spec;
-                                        if (spec.CssDisplay == CssDisplay.None)
-                                        {
-                                            continue;
-                                        }
+                                } break;
+                            default:
+                                {
 
-                                        newBox++;
-
-                                        CssBox box = BoxCreator.CreateBox(parentBox, childElement);
-                                        GenerateCssBoxes(childElement, box);
-
-                                    } break;
-                            }
-
+                                    CreateChildBoxDefault(parentElement, parentBox);
+                                } break;
                         }
+
                     } break;
             }
         }
+        static void CreateChildBoxPreserveWhitespace(BridgeHtmlElement parentElement, CssBox parentBox)
+        {
 
+            int newBox = 0;
+            int childCount = parentElement.ChildCount;
+
+            var parentSpecWhitespace = parentElement.Spec.WhiteSpace;
+            var parentSpecWordBreak = parentElement.Spec.WordBreak;
+
+            for (int i = 0; i < childCount; ++i)
+            {
+                BridgeHtmlNode childNode = parentElement.GetNode(i);
+                switch (childNode.NodeType)
+                {
+                    case BridgeNodeType.Text:
+                        {
+                            BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
+                            var contentRuns = textNode.GetContentRuns();
+
+                            //-------------------------------------------------------------------------------
+                            CssBox anonText = CssBox.CreateAnonInline(parentBox);
+                            anonText.dbugAnonCreator = parentElement;
+                            anonText.SetTextContent(contentRuns);
+                            anonText.UpdateRunList();
+
+                            newBox++;
+                        } break;
+                    default:
+                        {
+                            BridgeHtmlElement childElement = (BridgeHtmlElement)childNode;
+                            var spec = childElement.Spec;
+                            if (spec.CssDisplay == CssDisplay.None)
+                            {
+                                continue;
+                            }
+
+                            newBox++;
+
+                            CssBox box = BoxCreator.CreateBox(parentBox, childElement);
+
+                            GenerateCssBoxes(childElement, box);
+
+                        } break;
+                }
+            }
+        }
+        static void CreateChildBoxRespectNewLine(BridgeHtmlElement parentElement, CssBox parentBox)
+        {
+            int newBox = 0;
+            int childCount = parentElement.ChildCount;
+
+            var parentSpecWhitespace = parentElement.Spec.WhiteSpace;
+            var parentSpecWordBreak = parentElement.Spec.WordBreak;
+
+            for (int i = 0; i < childCount; ++i)
+            {
+                BridgeHtmlNode childNode = parentElement.GetNode(i);
+                switch (childNode.NodeType)
+                {
+                    case BridgeNodeType.Text:
+                        {
+                            BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
+                            var contentRuns = textNode.GetContentRuns();
+
+                            if (i == 0 && contentRuns.IsWhiteSpace)
+                            {
+                                continue;//skip
+                            }
+
+                            //-------------------------------------------------------------------------------
+                            CssBox anonText = CssBox.CreateAnonInline(parentBox);
+                            anonText.dbugAnonCreator = parentElement;
+                            anonText.SetTextContent(contentRuns);
+                            anonText.UpdateRunList();
+                            newBox++;
+                        } break;
+                    default:
+                        {
+                            //other node type
+                            BridgeHtmlElement childElement = (BridgeHtmlElement)childNode;
+                            var spec = childElement.Spec;
+                            if (spec.CssDisplay == CssDisplay.None)
+                            {
+                                continue;
+                            }
+
+                            newBox++;
+
+                            CssBox box = BoxCreator.CreateBox(parentBox, childElement);
+                            GenerateCssBoxes(childElement, box);
+
+                        } break;
+                }
+            }
+        }
+
+        static void CreateChildBoxDefault(BridgeHtmlElement parentElement, CssBox parentBox)
+        {
+            int newBox = 0;
+            int childCount = parentElement.ChildCount;
+
+            var parentSpecWhitespace = parentElement.Spec.WhiteSpace;
+            var parentSpecWordBreak = parentElement.Spec.WordBreak;
+
+            int limLast = childCount - 1;
+            for (int i = 0; i < childCount; ++i)
+            {
+                BridgeHtmlNode childNode = parentElement.GetNode(i);
+                switch (childNode.NodeType)
+                {
+                    case BridgeNodeType.Text:
+                        {
+
+                            BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
+                            var contentRuns = textNode.GetContentRuns();
+                            if (contentRuns.IsWhiteSpace)
+                            {
+                                continue;//skip
+                            }
+
+
+                            //-------------------------------------------------------------------------------
+                            CssBox anonText = CssBox.CreateAnonInline(parentBox);
+                            anonText.dbugAnonCreator = parentElement;
+                            anonText.SetTextContent(contentRuns);
+                            anonText.UpdateRunList();
+
+                            newBox++;
+                        } break;
+                    default:
+                        {
+                            BridgeHtmlElement childElement = (BridgeHtmlElement)childNode;
+                            var spec = childElement.Spec;
+                            if (spec.CssDisplay == CssDisplay.None)
+                            {
+                                continue;
+                            }
+
+                            newBox++;
+
+                            CssBox box = BoxCreator.CreateBox(parentBox, childElement);
+                            GenerateCssBoxes(childElement, box);
+
+                        } break;
+                }
+            }
+
+        }
         /// <summary>
         /// Generate css tree by parsing the given html and applying the given css style data on it.
         /// </summary>
@@ -262,8 +394,13 @@ namespace HtmlRenderer.Dom
                 //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);
                 OnePassBoxCorrection(rootBox);
-                CorrectTextBoxes(rootBox);
-                //CorrectImgBoxes(root);
+
+#if DEBUG
+                //may not need ?, left this method
+                //if want to check 
+                dbugCorrectTextBoxes(rootBox);
+#endif
+                CorrectImgBoxes(rootBox);
 
                 bool followingBlock = true;
 

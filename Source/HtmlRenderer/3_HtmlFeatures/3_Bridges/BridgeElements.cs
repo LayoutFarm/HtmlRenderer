@@ -211,6 +211,7 @@ namespace HtmlRenderer.Dom
         {
             return this.content;
         }
+        
 #if DEBUG
         public override string ToString()
         {

@@ -34,8 +34,10 @@ namespace HtmlRenderer.Dom
     class RunCollection
     {
 
-        
+              
+         
         bool isWhiteSpace;
+
         bool isSingleRun;
         bool runListCreated;
         CssWhiteSpace whitespace; 
@@ -82,7 +84,7 @@ namespace HtmlRenderer.Dom
         }
 
         internal void UpdateRunList(CssWhiteSpace whitespace, CssWordBreak wordBreak, bool keepPreWhiteSpace)
-        {
+        {    
             if (!this.isSingleRun)
             {
                 //re-create if nessesary
@@ -109,6 +111,7 @@ namespace HtmlRenderer.Dom
         void EvaluateWhitespace()
         {
             isWhiteSpace = false;
+
             if (this.isSingleRun)
             {
                 return;
@@ -118,7 +121,7 @@ namespace HtmlRenderer.Dom
             {
                 if (tmpSplits[i].kind == TextSplitPartKind.Text)
                 {
-                    //stop and return if found whitespace
+                    //stop and return if found text
                     return;
                 }
             } 
