@@ -195,57 +195,7 @@ namespace HtmlRenderer.Utils
             }
             return true;
         }
-        /// <summary>
-        /// Get attribute value by given key starting search from given box, search up the tree until
-        /// attribute found or root.
-        /// </summary>
-        /// <param name="box">the box to start lookup at</param>
-        /// <param name="attribute">the attribute to get</param>
-        /// <returns>the value of the attribute or null if not found</returns>
-        public static string GetAttribute(CssBox box, string attribute)
-        {
-            string value = null;
-            while (box != null && value == null)
-            {
-                value = box.GetAttribute(attribute, null);
-                box = box.ParentBox;
-            }
-            return value;
-        }
-
-        ///// <summary>
-        ///// Get css box under the given sub-tree at the given x,y location, get the inner most.<br/>
-        ///// the location must be in correct scroll offset.
-        ///// </summary>
-        ///// <param name="box">the box to start search from</param>
-        ///// <param name="location">the location to find the box by</param>
-        ///// <param name="visible">Optional: if to get only visible boxes (default - true)</param>
-        ///// <returns>css link box if exists or null</returns>
-        //public static CssBox GetCssBox(CssBox box, Point location, bool visible = true)
-        //{
-        //    //------------------------------------
-        //    //2014-04-27: temp remove
-        //    //tobe replace by another technique
-        //    //------------------------------------
-
-
-        //    //if (box != null)
-        //    //{
-        //    //    //if ((!visible || box.Visibility == CssConstants.Visible) && (box.Bounds.IsEmpty || box.Bounds.Contains(location)))
-        //    //    if ((!visible || box.CssVisibility == CssVisibility.Visible) && (box.Bounds.IsEmpty || box.Bounds.Contains(location)))
-        //    //    {
-        //    //        foreach (var childBox in box.GetChildBoxIter())
-        //    //        {
-        //    //            if (CommonUtils.GetFirstValueOrDefault(box.Rectangles, box.Bounds).Contains(location))
-        //    //            {
-        //    //                return GetCssBox(childBox, location) ?? childBox;
-        //    //            }
-        //    //        }
-        //    //    }
-        //    //}
-
-        //    return null;
-        //}
+         
 
         /// <summary>
         /// Get css link box under the given sub-tree at the given x,y location.<br/>

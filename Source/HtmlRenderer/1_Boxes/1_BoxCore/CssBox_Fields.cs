@@ -37,7 +37,7 @@ namespace HtmlRenderer.Dom
         readonly BridgeHtmlElement _htmlElement;
         int _boxCompactFlags;
         //----------------------------------------------------
-        
+
         //eg td,th,col,colgroup
         int _rowSpan;
         int _colSpan;
@@ -56,7 +56,7 @@ namespace HtmlRenderer.Dom
 
         //----------------------------------------------------  
         //for other subbox , list item , shadow... 
-        SubBoxCollection _subBoxes; 
+        SubBoxCollection _subBoxes;
         //----------------------------------------------------  
 
 
@@ -227,6 +227,8 @@ namespace HtmlRenderer.Dom
 
         internal static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
+            //single point method that can change
+            //CssBox._cssDisplay Type
 
             switch (box.wellKnownTagName)
             {
@@ -267,6 +269,24 @@ namespace HtmlRenderer.Dom
             box.IsInline = (newdisplay == CssDisplay.Inline ||
                     newdisplay == CssDisplay.InlineBlock) && !box.IsBrElement;
 
+            //-------------------------
+            //check containing property 
+            //-------------------------
+            switch (newdisplay)
+            {
+                case CssDisplay.Block:
+                case CssDisplay.ListItem:
+                case CssDisplay.Table:
+                case CssDisplay.TableCell:
+                    box._boxCompactFlags |= CssBoxFlagsConst.HAS_CONTAINER_PROP;
+                    break;
+                default:
+                    //not container properties 
+                    box._boxCompactFlags &= ~CssBoxFlagsConst.HAS_CONTAINER_PROP;
+                    break;
+            }
+
+            //-------------------------
         }
 
     }

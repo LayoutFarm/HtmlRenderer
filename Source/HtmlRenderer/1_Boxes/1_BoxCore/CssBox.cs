@@ -182,17 +182,9 @@ namespace HtmlRenderer.Dom
         internal bool HasContainingBlockProperty
         {
             get
-            {
-                switch (this.CssDisplay)
-                {
-                    case CssDisplay.Block:
-                    case CssDisplay.ListItem:
-                    case CssDisplay.Table:
-                    case CssDisplay.TableCell:
-                        return true;
-                    default:
-                        return false;
-                }
+            { 
+                //this flags is evaluated when call ChangeDisplay ****
+                return (this._boxCompactFlags & CssBoxFlagsConst.HAS_CONTAINER_PROP) != 0;                
             }
         }
         /// <summary>
@@ -767,9 +759,7 @@ namespace HtmlRenderer.Dom
         public string GetAttribute(string attribute, string defaultValue)
         {
             return HtmlElement != null ? HtmlElement.TryGetAttribute(attribute, defaultValue) : defaultValue;
-        }
-
-
+        } 
 
 
         /// <summary>

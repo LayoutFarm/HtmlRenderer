@@ -25,6 +25,9 @@ namespace HtmlRenderer.Dom
             public const int HAS_ROUND_CORNER = 1 << (12 - 1);
             //-----------------------------------------------
             public const int IS_INLINE_BOX = 1 << (13 - 1);
+            //-----------------------------------------------
+            public const int HAS_CONTAINER_PROP = 1 << (14 - 1);
+
         } 
     }
 }
