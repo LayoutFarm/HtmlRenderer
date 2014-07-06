@@ -202,7 +202,7 @@ namespace HtmlRenderer.Dom
             this.content = content;
         }
 
-        public char[] CopyTextBuffer()
+        public char[] GetOriginalBuffer()
         {
             return content.GetOriginalBuffer();
         }

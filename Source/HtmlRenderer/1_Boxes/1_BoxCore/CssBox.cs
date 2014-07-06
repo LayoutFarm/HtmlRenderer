@@ -280,7 +280,7 @@ namespace HtmlRenderer.Dom
         internal void UpdateRunList()
         {
             _aa_contentRuns.UpdateRunList(this.WhiteSpace,
-                this.WordBreak == CssWordBreak.BreakAll,
+                this.WordBreak ,
                 this.HtmlElement == null);
         }
 
@@ -306,8 +306,7 @@ namespace HtmlRenderer.Dom
                 return;
             }
             else
-            {
-                _aa_contentRuns.EvaluateWhitespace();
+            {     
                 if (_aa_contentRuns.IsWhiteSpace)
                 {
                     this._boxCompactFlags |= CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
@@ -339,7 +338,7 @@ namespace HtmlRenderer.Dom
             }
         }
 #if DEBUG
-        internal string CopyTextContent()
+        internal string dbugCopyTextContent()
         {
 
             if (this._aa_contentRuns != null)
@@ -1244,7 +1243,7 @@ namespace HtmlRenderer.Dom
                 if (this.MayHasSomeTextContent)
                 {
                     return string.Format("{0}{1} {2}: {3}", ParentBox == null ? "Root: " : string.Empty, tag,
-                        this.CssDisplay.ToCssStringValue(), this.CopyTextContent());
+                        this.CssDisplay.ToCssStringValue(), this.dbugCopyTextContent());
                 }
                 else
                 {

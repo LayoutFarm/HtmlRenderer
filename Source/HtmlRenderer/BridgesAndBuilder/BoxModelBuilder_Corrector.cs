@@ -190,8 +190,8 @@ namespace HtmlRenderer.Dom
                 if (childBox.MayHasSomeTextContent)
                 {
 
-
-
+                    
+                    
                     // is the box has text
                     // or is the box is pre-formatted
                     // or is the box is only one in the parent 
@@ -224,8 +224,7 @@ namespace HtmlRenderer.Dom
                      
                     if (keepBox)
                     {
-                        // valid text box, parse it to words   
-                         
+                        // valid text box, parse it to words                            
                         childBox.UpdateRunList();
                     }
                     else
