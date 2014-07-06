@@ -14,10 +14,7 @@ namespace HtmlRenderer.Dom
 {
     //----------------------------------------------------------------------------
     public class PaintVisitor : BoxVisitor
-    {
-
-
-
+    {    
         Stack<RectangleF> clipStacks = new Stack<RectangleF>();
 
         PointF htmlContainerScrollOffset;

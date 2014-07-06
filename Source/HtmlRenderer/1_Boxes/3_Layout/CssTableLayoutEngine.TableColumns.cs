@@ -1,12 +1,6 @@
 ﻿//BSD 2014, WinterDev
 //ArthurHub 
-
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Parse;
-using HtmlRenderer.Utils;
+ 
 
 namespace HtmlRenderer.Dom
 {

@@ -1,11 +1,6 @@
 ﻿//BSD 2014, WinterDev 
-using System;
-using System.Drawing;
-using System.Globalization;
-using System.Text.RegularExpressions;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Parse;
-using HtmlRenderer.Utils;
+//ArthurHub
+ 
 
 namespace HtmlRenderer.Dom
 {

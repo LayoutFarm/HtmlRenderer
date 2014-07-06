@@ -1,4 +1,5 @@
-﻿
+﻿//BSD 2014, WinterDev
+
 namespace HtmlRenderer.Dom
 {
 
