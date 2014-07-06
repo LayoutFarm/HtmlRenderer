@@ -94,7 +94,7 @@ namespace HtmlRenderer.Dom
                                             case 1:
                                                 {
                                                     BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)bridgeElement.GetNode(0);
-                                                    activeCssTemplate.LoadRawStyleElementContent(new string(textNode.CopyTextBuffer()));
+                                                    activeCssTemplate.LoadRawStyleElementContent(new string(textNode.GetOriginalBuffer()));
                                                 } break;
                                         }
 
