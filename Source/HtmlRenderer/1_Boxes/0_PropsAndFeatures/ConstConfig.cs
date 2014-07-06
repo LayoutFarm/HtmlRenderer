@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿//BSD 2014, WinterDev
+
+ 
 using System.Drawing;
 
 namespace HtmlRenderer.Dom

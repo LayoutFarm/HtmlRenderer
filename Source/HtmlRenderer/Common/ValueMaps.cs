@@ -1,7 +1,6 @@
 ﻿//2014 ,BSD, WinterDev
 
-using System;
-using System.Text;
+using System; 
 using System.Collections.Generic;
 
 namespace HtmlRenderer
@@ -21,7 +20,7 @@ namespace HtmlRenderer
         }
 
 
-        static void LoadAndAssignValues<T>(out Dictionary<string, T> stringToValue, out Dictionary<T, string> valueToString)
+        static void LoadAndAssignValues (out Dictionary<string, T> stringToValue, out Dictionary<T, string> valueToString)
         {
             stringToValue = new Dictionary<string, T>();
             valueToString = new Dictionary<T, string>();

@@ -1,4 +1,5 @@
-﻿// "Therefore those skilled at the unorthodox
+﻿//ArthurHub
+// "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
 // When they come to an end,
@@ -10,9 +11,7 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using System.Drawing;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Handlers;
+using System.Drawing; 
 using HtmlRenderer.Parse;
 using HtmlRenderer.Utils;
 

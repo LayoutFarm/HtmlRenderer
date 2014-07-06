@@ -1,7 +1,9 @@
 ﻿//2014 BSD,WinterDev
 
+
 using System;
 using System.Collections.Generic;
+
 namespace HtmlRenderer.Dom
 {
 
@@ -13,7 +15,7 @@ namespace HtmlRenderer.Dom
         {
             this.owner = owner;
         }
-       
+
         public IEnumerable<CssBox> GetChildBoxIter()
         {
             List<CssBox> tmp = _boxes;
@@ -34,7 +36,7 @@ namespace HtmlRenderer.Dom
         }
         public void Add(CssBox box)
         {
-            
+
             if (this.owner == box)
             {
                 throw new NotSupportedException();
@@ -133,6 +135,5 @@ namespace HtmlRenderer.Dom
         }
     }
 
-
-
+   
 }

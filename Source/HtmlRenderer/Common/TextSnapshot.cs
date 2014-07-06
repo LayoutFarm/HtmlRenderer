@@ -1,8 +1,7 @@
 ﻿//2014 ,BSD, WinterDev
 
 using System;
-using System.Text;
-using System.Collections.Generic;
+ 
 
 namespace HtmlRenderer 
 { 

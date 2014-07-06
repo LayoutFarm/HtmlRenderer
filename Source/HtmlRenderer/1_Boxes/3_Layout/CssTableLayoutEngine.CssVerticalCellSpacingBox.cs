@@ -12,13 +12,7 @@
 // 
 // - Sun Tsu,
 // "The Art of War"
-
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Parse;
-using HtmlRenderer.Utils;
+ 
 
 namespace HtmlRenderer.Dom
 {

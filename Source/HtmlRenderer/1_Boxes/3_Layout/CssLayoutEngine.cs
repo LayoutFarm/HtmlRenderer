@@ -1,5 +1,5 @@
 //BSD 2014, WinterDev
-
+//ArthurHub
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
@@ -15,9 +15,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Utils;
 
+ 
 namespace HtmlRenderer.Dom
 {
     /// <summary>
@@ -33,7 +32,7 @@ namespace HtmlRenderer.Dom
         /// If no image exists for the box error icon will be set.
         /// </summary>
         /// <param name="imageWord">the image word to measure</param>
-        public static void MeasureImageSize(CssImageRun imageWord)
+        public static void MeasureImageSize(CssImageRun imageWord, LayoutVisitor lay)
         {
             var width = imageWord.OwnerBox.Width;
             var height = imageWord.OwnerBox.Height;
@@ -48,7 +47,8 @@ namespace HtmlRenderer.Dom
             }
             else if (width.Number > 0 && width.IsPercentage)
             {
-                imageWord.Width = width.Number * imageWord.OwnerBox.ContainingBlock.SizeWidth;
+
+                imageWord.Width = width.Number * lay.LatestContainingBlock.SizeWidth;
                 scaleImageHeight = true;
             }
             else if (imageWord.Image != null)
@@ -68,7 +68,7 @@ namespace HtmlRenderer.Dom
                 {
                     case CssUnitOrNames.Percent:
                         {
-                            maxWidthVal = maxWidth.Number * imageWord.OwnerBox.ContainingBlock.SizeWidth;
+                            maxWidthVal = maxWidth.Number * lay.LatestContainingBlock.SizeWidth; 
                         } break;
                     case CssUnitOrNames.Pixels:
                         {

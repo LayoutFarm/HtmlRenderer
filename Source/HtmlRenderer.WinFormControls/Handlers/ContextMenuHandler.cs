@@ -263,7 +263,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="htmlContainer">the html container the handler is on</param>
         public ContextMenuHandler(SelectionHandler selectionHandler, HtmlContainer htmlContainer)
         {
-            
+
             _selectionHandler = selectionHandler;
             _htmlContainer = htmlContainer;
         }
@@ -293,12 +293,21 @@ namespace HtmlRenderer.Handlers
                     {
                         isVideo = link is CssBoxFrame && ((CssBoxFrame)link).IsVideo;
                         var openLink = _contextMenu.Items.Add(isVideo ? _openVideo : _openLink, null, OnOpenLinkClick);
+
+                        var element = link.HtmlElement;
+                        string href = element.TryGetAttribute("href", null);
+
                         if (_htmlContainer.IsSelectionEnabled)
                         {
-                            var copyLink = _contextMenu.Items.Add(isVideo ? _copyVideoUrl : _copyLink, null, OnCopyLinkClick);
-                            copyLink.Enabled = !string.IsNullOrEmpty(link.HrefLink);
+
+                            if (href != null)
+                            {
+                                var copyLink = _contextMenu.Items.Add(isVideo ? _copyVideoUrl : _copyLink, null, OnCopyLinkClick);
+                                copyLink.Enabled = !string.IsNullOrEmpty(href);
+                            }
                         }
-                        openLink.Enabled = !string.IsNullOrEmpty(link.HrefLink);
+                        openLink.Enabled = !string.IsNullOrEmpty(href);
+
                         _contextMenu.Items.Add("-");
                     }
 
@@ -412,7 +421,11 @@ namespace HtmlRenderer.Handlers
         {
             try
             {
-                Clipboard.SetText(_currentLink.HrefLink);
+                var href = _currentLink.HtmlElement.TryGetAttribute("href", null);
+                if (href != null)
+                {
+                    Clipboard.SetText(href);
+                }
             }
             catch (Exception ex)
             {

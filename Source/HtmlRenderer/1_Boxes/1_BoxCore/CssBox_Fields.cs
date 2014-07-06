@@ -1,4 +1,5 @@
 ﻿//BSD 2014, WinterDev
+//ArthurHub
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -29,7 +30,6 @@ namespace HtmlRenderer.Dom
         /// the root container for the hierarchy
         /// </summary>
         protected HtmlContainer _htmlContainer;
-
         //----------------------------------------------------
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
@@ -37,8 +37,7 @@ namespace HtmlRenderer.Dom
         readonly BridgeHtmlElement _htmlElement;
         int _boxCompactFlags;
         //----------------------------------------------------
-        CssBox _listItemBox;
-        //----------------------------------------------------
+
         //eg td,th,col,colgroup
         int _rowSpan;
         int _colSpan;
@@ -49,13 +48,18 @@ namespace HtmlRenderer.Dom
         LinkedList<CssLineBox> _clientLineBoxes;
 
         //1.2 contains box collection for my children
-        readonly CssBoxCollection _aa_boxes; 
+        readonly CssBoxCollection _aa_boxes;
         //----------------------------------------------------   
 
         //condition 2 :this Box is InlineBox 
-        RunCollection _aa_contentRuns; 
+        RunCollection _aa_contentRuns;
 
         //----------------------------------------------------  
+        //for other subbox , list item , shadow... 
+        SubBoxCollection _subBoxes;
+        //----------------------------------------------------  
+
+
         //state
         protected int _prop_pass_eval;
 
@@ -67,13 +71,13 @@ namespace HtmlRenderer.Dom
         CssBoxCollection Boxes
         {
             get { return _aa_boxes; }
-        } 
+        }
 
         internal int RunCount
         {
             get
             {
-                return this._aa_contentRuns != null ? this._aa_contentRuns.RunCount : 0;                 
+                return this._aa_contentRuns != null ? this._aa_contentRuns.RunCount : 0;
             }
         }
         public IEnumerable<CssBox> GetChildBoxIter()
@@ -91,7 +95,7 @@ namespace HtmlRenderer.Dom
                 {
                     yield return tmpRuns[i];
                 }
-            } 
+            }
         }
 
         public IEnumerable<CssRun> GetRunBackwardIter()
@@ -104,8 +108,8 @@ namespace HtmlRenderer.Dom
                 {
                     yield return tmpRuns[i];
                 }
-            } 
-            
+            }
+
         }
 
         public int ChildCount
@@ -223,6 +227,8 @@ namespace HtmlRenderer.Dom
 
         internal static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
+            //single point method that can change
+            //CssBox._cssDisplay Type
 
             switch (box.wellKnownTagName)
             {
@@ -263,6 +269,24 @@ namespace HtmlRenderer.Dom
             box.IsInline = (newdisplay == CssDisplay.Inline ||
                     newdisplay == CssDisplay.InlineBlock) && !box.IsBrElement;
 
+            //-------------------------
+            //check containing property 
+            //-------------------------
+            switch (newdisplay)
+            {
+                case CssDisplay.Block:
+                case CssDisplay.ListItem:
+                case CssDisplay.Table:
+                case CssDisplay.TableCell:
+                    box._boxCompactFlags |= CssBoxFlagsConst.HAS_CONTAINER_PROP;
+                    break;
+                default:
+                    //not container properties 
+                    box._boxCompactFlags &= ~CssBoxFlagsConst.HAS_CONTAINER_PROP;
+                    break;
+            }
+
+            //-------------------------
         }
 
     }

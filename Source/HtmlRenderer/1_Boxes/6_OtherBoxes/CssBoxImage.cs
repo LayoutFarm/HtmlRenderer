@@ -16,8 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Handlers;
 using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
@@ -56,7 +54,7 @@ namespace HtmlRenderer.Dom
             : base(parent, tag, boxSpec)
         {
 
-            this._imageWord = new CssImageRun(); 
+            this._imageWord = new CssImageRun();
             this.SetTextContent(new RunCollection(_imageWord));
         }
 
@@ -197,23 +195,11 @@ namespace HtmlRenderer.Dom
                 }
 
                 MeasureWordSpacing(lay);
-                this.RunSizeMeasurePass = true;
-
-            }
-
-            CssLayoutEngine.MeasureImageSize(_imageWord);
+                this.RunSizeMeasurePass = true; 
+            } 
+            CssLayoutEngine.MeasureImageSize(_imageWord, lay);
         }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public override void Dispose()
-        {
-            //if (_imageLoadHandler != null)
-            //    _imageLoadHandler.Dispose();
-            base.Dispose();
-        }
-
+ 
 
         #region Private methods
 

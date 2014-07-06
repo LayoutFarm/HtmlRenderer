@@ -1,7 +1,5 @@
 ﻿//BSD  2014 ,WinterDev 
-using System;
-using System.Text;
-using System.Collections;
+ 
 
 namespace HtmlRenderer.WebDom
 {

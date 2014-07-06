@@ -1,13 +1,5 @@
 ﻿//BSD, 2014, WinterDev
-
-using System;
-using System.Drawing;
-using System.Globalization;
-using System.Text.RegularExpressions;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Parse;
-using HtmlRenderer.Utils;
-
+ 
 namespace HtmlRenderer.Dom
 {
 

@@ -1,4 +1,5 @@
 ﻿//BSD 2014, WinterDev 
+//ArthurHub
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -15,13 +16,12 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Globalization;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Handlers;
+using System.Text;
+
 using HtmlRenderer.Parse;
 using HtmlRenderer.Utils;
-using System.Text;
+
 
 namespace HtmlRenderer.Dom
 {
@@ -37,11 +37,11 @@ namespace HtmlRenderer.Dom
     /// To know more about boxes visit CSS spec:
     /// http://www.w3.org/TR/CSS21/box.html
     /// </remarks>
-    public partial class CssBox : IDisposable
+    public partial class CssBox
     {
         readonly BoxSpec _myspec;
-
         WellknownHtmlTagName wellKnownTagName;
+
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
@@ -50,7 +50,7 @@ namespace HtmlRenderer.Dom
 
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
         {
-            //for root
+
             this._aa_boxes = new CssBoxCollection(this);
             if (parentBox != null)
             {
@@ -78,7 +78,6 @@ namespace HtmlRenderer.Dom
             this._myspec = spec;
             ChangeDisplayType(this, _myspec.CssDisplay);
         }
-
 
         /// <summary>
         /// Gets the HtmlContainer of the Box.
@@ -173,54 +172,39 @@ namespace HtmlRenderer.Dom
                 return this.CssDisplay == CssDisplay.Block;
             }
         }
-        /// <summary>
-        /// Get the href link of the box (by default get "href" attribute)
-        /// </summary>
-        public virtual string HrefLink
-        {
-            get { return GetAttribute("href"); }
-        }
+         
         internal bool HasContainingBlockProperty
         {
             get
-            {
-                switch (this.CssDisplay)
-                {
-                    case CssDisplay.Block:
-                    case CssDisplay.ListItem:
-                    case CssDisplay.Table:
-                    case CssDisplay.TableCell:
-                        return true;
-                    default:
-                        return false;
-                }
+            { 
+                //this flags is evaluated when call ChangeDisplay ****
+                return (this._boxCompactFlags & CssBoxFlagsConst.HAS_CONTAINER_PROP) != 0;                
             }
         }
         /// <summary>
         /// Gets the containing block-box of this box. (The nearest parent box with display=block)
         /// </summary>
-        public CssBox ContainingBlock
+        internal CssBox SearchUpForContainingBlockBox()
         {
-            get
+
+            if (ParentBox == null)
             {
-                if (ParentBox == null)
-                {
-                    return this; //This is the initial containing block.
-                }
-
-                var box = ParentBox;
-                while (box.CssDisplay < CssDisplay.__CONTAINER_BEGIN_HERE &&
-                    box.ParentBox != null)
-                {
-                    box = box.ParentBox;
-                }
-
-                //Comment this following line to treat always superior box as block
-                if (box == null)
-                    throw new Exception("There's no containing block on the chain");
-
-                return box;
+                return this; //This is the initial containing block.
             }
+
+            var box = ParentBox;
+            while (box.CssDisplay < CssDisplay.__CONTAINER_BEGIN_HERE &&
+                box.ParentBox != null)
+            {
+                box = box.ParentBox;
+            }
+
+            //Comment this following line to treat always superior box as block
+            if (box == null)
+                throw new Exception("There's no containing block on the chain");
+
+            return box;
+
         }
 
         /// <summary>
@@ -249,15 +233,13 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((Runs.Count != 0 || Boxes.Count != 0) && (Runs.Count != 1 || !Runs[0].IsSpaces))
+                if (this.Boxes.Count != 0)
                 {
-                    foreach (CssRun word in Runs)
-                    {
-                        if (!word.IsSpaces)
-                        {
-                            return false;
-                        }
-                    }
+                    return true;
+                }
+                else if (this.RunCount > 0)
+                {
+                    return this._aa_contentRuns.IsWhiteSpace;
                 }
                 return true;
             }
@@ -280,7 +262,7 @@ namespace HtmlRenderer.Dom
         internal void UpdateRunList()
         {
             _aa_contentRuns.UpdateRunList(this.WhiteSpace,
-                this.WordBreak ,
+                this.WordBreak,
                 this.HtmlElement == null);
         }
 
@@ -306,7 +288,7 @@ namespace HtmlRenderer.Dom
                 return;
             }
             else
-            {     
+            {
                 if (_aa_contentRuns.IsWhiteSpace)
                 {
                     this._boxCompactFlags |= CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
@@ -370,6 +352,7 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
+
         internal static void GetSplitInfo(CssBox box, CssLineBox lineBox, out bool isFirstLine, out bool isLastLine)
         {
 
@@ -500,21 +483,6 @@ namespace HtmlRenderer.Dom
             this._parentBox.Boxes.ChangeSiblingIndex(this, siblingIndex);
         }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public virtual void Dispose()
-        {
-            //if (_imageLoadHandler != null)
-            //{
-            //    _imageLoadHandler.Dispose();
-            //}
-
-            foreach (var childBox in Boxes)
-            {
-                childBox.Dispose();
-            }
-        }
 
 
         #region Private Methods
@@ -667,7 +635,7 @@ namespace HtmlRenderer.Dom
             //set height  
             UpdateIfHigher(this, ExpectedHeight);
 
-            this.CreateListItemBox(lay);
+            this.CreateListItemBoxIfNeed(lay);
             //update back 
             lay.UpdateRootSize(this);
         }
@@ -744,132 +712,24 @@ namespace HtmlRenderer.Dom
                 }
             }
             this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
-        }
-
-
-        ///// <summary>
-        ///// Get the parent of this css properties instance.
-        ///// </summary>
-        ///// <returns></returns>
-        //public sealed override CssBox GetParent()
-        //{
-        //    return _parentBox;
-        //}
-
-        /// <summary>
-        /// Gets the index of the box to be used on a (ordered) list
-        /// </summary>
-        /// <returns></returns>
-        private int GetIndexForList()
-        {
-            bool reversed = !string.IsNullOrEmpty(ParentBox.GetAttribute("reversed"));
-            int index;
-            if (!int.TryParse(ParentBox.GetAttribute("start"), out index))
-            {
-                if (reversed)
-                {
-                    index = 0;
-                    foreach (CssBox b in ParentBox.Boxes)
-                    {
-                        if (b.CssDisplay == CssDisplay.ListItem)
-                        {
-                            index++;
-                        }
-                    }
-                }
-                else
-                {
-                    index = 1;
-                }
-            }
-
-            foreach (CssBox b in ParentBox.Boxes)
-            {
-                if (b.Equals(this))
-                    return index;
-
-                //if (b.Display == CssConstants.ListItem)
-                if (b.CssDisplay == CssDisplay.ListItem)
-                    index += reversed ? -1 : 1;
-            }
-
-            return index;
-        }
-        static readonly char[] discItem = new[] { '•' };
-        static readonly char[] circleItem = new[] { 'o' };
-        static readonly char[] squareItem = new[] { '♠' };
-
-
-        /// <summary>
-        /// Creates the <see cref="_listItemBox"/>
-        /// </summary>
-        /// <param name="g"></param>
-        void CreateListItemBox(LayoutVisitor lay)
+        } 
+ 
+        void CreateListItemBoxIfNeed(LayoutVisitor lay)
         {
 
             if (this.CssDisplay == CssDisplay.ListItem &&
                 ListStyleType != CssListStyleType.None)
             {
-                if (_listItemBox == null)
+                if (_subBoxes == null)
                 {
-                    _listItemBox = new CssBox(null, null, this._myspec.GetAnonVersion());
-
-                    _listItemBox._parentBox = this;
-                    _listItemBox.ReEvaluateFont(this.ActualFont.Size);
-                    _listItemBox.ReEvaluateComputedValues(this);
-
-
-                    CssBox.ChangeDisplayType(_listItemBox, Dom.CssDisplay.Inline);
-                    _listItemBox._htmlContainer = HtmlContainer;
-
-                    char[] text_content = null;
-                    switch (this.ListStyleType)
-                    {
-                        case CssListStyleType.Disc:
-                            {
-                                text_content = discItem;
-                            } break;
-                        case CssListStyleType.Circle:
-                            {
-                                text_content = circleItem;
-                            } break;
-                        case CssListStyleType.Square:
-                            {
-                                text_content = squareItem;
-                            } break;
-                        case CssListStyleType.Decimal:
-                            {
-                                text_content = (GetIndexForList().ToString(CultureInfo.InvariantCulture) + ".").ToCharArray();
-                            } break;
-                        case CssListStyleType.DecimalLeadingZero:
-                            {
-                                text_content = (GetIndexForList().ToString("00", CultureInfo.InvariantCulture) + ".").ToCharArray();
-                            } break;
-                        default:
-                            {
-                                text_content = (CommonUtils.ConvertToAlphaNumber(GetIndexForList(), ListStyleType) + ".").ToCharArray();
-                            } break;
-                    }
-
-                    ContentTextSplitter splitter = new ContentTextSplitter();
-                    var splitParts = splitter.ParseWordContent(text_content);
-
-                    _listItemBox.SetTextContent(new RunCollection(text_content, splitParts));
-                    _listItemBox.UpdateRunList();
-
-                    var prevSibling = lay.LatestSiblingBox;
-                    lay.LatestSiblingBox = null;//reset
-                    _listItemBox.PerformLayout(lay);
-                    lay.LatestSiblingBox = prevSibling;
-
-
-                    var fRun = _listItemBox.FirstRun;
-
-                    _listItemBox.FirstRun.SetSize(fRun.Width, fRun.Height);
+                    _subBoxes = new SubBoxCollection();
+                } 
+                CssBox listItemBox = _subBoxes.ListItemBox;
+                if (listItemBox == null)
+                {
+                    listItemBox = _subBoxes.ListItemBox = ListItemHelper.CreateListItem(this, this._myspec.GetAnonVersion(), lay);
                 }
-
-                _listItemBox.FirstRun.SetLocation(_listItemBox.SizeWidth - 5, ActualPaddingTop);
-
+                listItemBox.FirstRun.SetLocation(listItemBox.SizeWidth - 5, ActualPaddingTop);
             }
         }
 
@@ -893,9 +753,7 @@ namespace HtmlRenderer.Dom
         public string GetAttribute(string attribute, string defaultValue)
         {
             return HtmlElement != null ? HtmlElement.TryGetAttribute(attribute, defaultValue) : defaultValue;
-        }
-
-
+        } 
 
 
         /// <summary>
@@ -963,26 +821,6 @@ namespace HtmlRenderer.Dom
             maxWidth = maxRunWidth;
             maxWidthRun = foundRun;
         }
-
-
-        ///// <summary>
-        ///// Inherits inheritable values from parent.
-        ///// </summary>
-        //internal void InheritStyles(CssBox box, bool clone = false)
-        //{ 
-        //    this.InternalInheritStyles(box, clone);
-
-        //}
-        //internal void InheritStyles(BoxSpec fromSpec, bool clone = false)
-        //{
-        //    if (fromSpec == null)
-        //    {
-        //        return;
-        //    }
-
-        //    this.InternalInheritStyles(fromSpec, clone);
-
-        //}
         float CalculateActualWidth()
         {
             float maxRight = 0;
@@ -1054,127 +892,6 @@ namespace HtmlRenderer.Dom
         internal void OffsetLocalTop(float dy)
         {
             this._localY += dy;
-        }
-        /// <summary>
-        /// Paints the background of the box
-        /// </summary>
-        /// <param name="g">the device to draw into</param>
-        /// <param name="rect">the bounding rectangle to draw in</param>
-        /// <param name="isFirst">is it the first rectangle of the element</param>
-        /// <param name="isLast">is it the last rectangle of the element</param>
-        internal void PaintBackground(PaintVisitor p, RectangleF rect, bool isFirst, bool isLast)
-        {
-
-
-            if (rect.Width > 0 && rect.Height > 0)
-            {
-                Brush brush = null;
-                bool dispose = false;
-                IGraphics g = p.Gfx;
-
-                SmoothingMode smooth = g.SmoothingMode;
-
-                if (BackgroundGradient != System.Drawing.Color.Transparent)
-                {
-                    brush = new LinearGradientBrush(rect,
-                        ActualBackgroundColor,
-                        ActualBackgroundGradient,
-                        ActualBackgroundGradientAngle);
-
-                    dispose = true;
-                }
-                else if (RenderUtils.IsColorVisible(ActualBackgroundColor))
-                {
-
-                    brush = RenderUtils.GetSolidBrush(ActualBackgroundColor);
-                }
-
-                if (brush != null)
-                {
-                    // atodo: handle it correctly (tables background)
-                    // if (isLast)
-                    //  rectangle.Width -= ActualWordSpacing + CssUtils.GetWordEndWhitespace(ActualFont);
-
-                    GraphicsPath roundrect = null;
-                    bool isRound = this.HasRoundCorner;
-                    if (isRound)
-                    {
-                        roundrect = RenderUtils.GetRoundRect(rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
-                    }
-
-                    if (!p.AvoidGeometryAntialias && isRound)
-                    {
-                        g.SmoothingMode = SmoothingMode.AntiAlias;
-                    }
-
-                    if (roundrect != null)
-                    {
-                        g.FillPath(brush, roundrect);
-                    }
-                    else
-                    {
-                        g.FillRectangle(brush, (float)Math.Ceiling(rect.X), (float)Math.Ceiling(rect.Y), rect.Width, rect.Height);
-                    }
-
-                    g.SmoothingMode = smooth;
-
-                    if (roundrect != null) roundrect.Dispose();
-                    if (dispose) brush.Dispose();
-                }
-
-                if (isFirst)
-                {
-                    var bgImageBinder = this.BackgroundImageBinder;
-                    if (bgImageBinder != null && bgImageBinder.Image != null)
-                    {
-                        BackgroundImageDrawHandler.DrawBackgroundImage(g, this, bgImageBinder, rect);
-                    }
-                }
-            }
-        }
-
-        internal void PaintDecoration(IGraphics g, RectangleF rectangle, bool isFirst, bool isLast)
-        {
-            float y = 0f;
-            switch (this.TextDecoration)
-            {
-                default:
-                    return;
-                case CssTextDecoration.Underline:
-                    {
-                        var h = g.MeasureString(" ", ActualFont).Height;
-                        float desc = FontsUtils.GetDescent(ActualFont, g);
-                        y = (float)Math.Round(rectangle.Top + h - desc + 0.5);
-                    } break;
-                case CssTextDecoration.LineThrough:
-                    {
-                        y = rectangle.Top + rectangle.Height / 2f;
-                    } break;
-                case CssTextDecoration.Overline:
-                    {
-                        y = rectangle.Top;
-                    } break;
-            }
-
-
-            y -= ActualPaddingBottom - ActualBorderBottomWidth;
-
-            float x1 = rectangle.X;
-            if (isFirst)
-            {
-                x1 += ActualPaddingLeft + ActualBorderLeftWidth;
-            }
-
-
-            float x2 = rectangle.Right;
-            if (isLast)
-            {
-                x2 -= ActualPaddingRight + ActualBorderRightWidth;
-            }
-
-            var pen = RenderUtils.GetPen(ActualColor);
-
-            g.DrawLine(pen, x1, y, x2, y);
         }
 
 

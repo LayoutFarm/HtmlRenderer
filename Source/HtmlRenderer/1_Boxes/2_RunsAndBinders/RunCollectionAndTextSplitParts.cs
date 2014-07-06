@@ -1,5 +1,6 @@
 ﻿//BSD 2014,WinterDev
 using System.Collections.Generic;
+
 namespace HtmlRenderer.Dom
 {
     enum TextSplitPartKind : byte

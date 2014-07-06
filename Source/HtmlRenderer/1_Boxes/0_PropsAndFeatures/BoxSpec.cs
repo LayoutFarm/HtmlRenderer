@@ -1,4 +1,5 @@
 ﻿//BSD 2014, WinterDev
+//ArthurHub
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -13,11 +14,7 @@
 // "The Art of War"
 
 using System;
-using System.Drawing;
-using System.Globalization;
-using System.Text.RegularExpressions;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Parse;
+using System.Drawing; 
 using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom

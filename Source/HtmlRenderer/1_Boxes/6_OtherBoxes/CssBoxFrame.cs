@@ -17,11 +17,6 @@ using System.Collections.Generic;
 
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Net;
-using System.Text;
-using System.Threading;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Handlers;
 using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
@@ -81,8 +76,6 @@ namespace HtmlRenderer.Dom
             : base(parent, tag, spec)
         {
 
- 
-    
             this.SetTextContent(new RunCollection(new CssImageRun()));
 
             //wait for another technique *
@@ -108,13 +101,13 @@ namespace HtmlRenderer.Dom
             //}
         }
 
-        /// <summary>
-        /// Get the href link of the box (by default get "href" attribute)
-        /// </summary>
-        public override string HrefLink
-        {
-            get { return _videoLinkUrl ?? GetAttribute("src"); }
-        }
+        ///// <summary>
+        ///// Get the href link of the box (by default get "href" attribute)
+        ///// </summary>
+        //public override string HrefLink
+        //{
+        //    get { return _videoLinkUrl ?? GetAttribute("src"); }
+        //}
 
         /// <summary>
         /// is the iframe is of embeded video
@@ -124,16 +117,7 @@ namespace HtmlRenderer.Dom
             get { return _isVideo; }
         }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public override void Dispose()
-        {
-            //if (_imageLoadHandler != null)
-            //    _imageLoadHandler.Dispose();
-            base.Dispose();
-        }
-
+        
 
         #region Private methods
 
@@ -166,128 +150,128 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Parse YouTube API response to get video data (title, image, link).
         /// </summary>
-        private void OnDownloadYoutubeApiCompleted(object sender, DownloadStringCompletedEventArgs e)
-        {
+        //private void OnDownloadYoutubeApiCompleted(object sender, DownloadStringCompletedEventArgs e)
+        //{
 
 
-            //try
-            //{
-            //    if (!e.Cancelled)
-            //    {
-            //        if (e.Error == null)
-            //        {
-            //            var idx = e.Result.IndexOf("\"media$title\"", StringComparison.Ordinal);
-            //            if (idx > -1)
-            //            {
-            //                idx = e.Result.IndexOf("\"$t\"", idx);
-            //                if (idx > -1)
-            //                {
-            //                    idx = e.Result.IndexOf('"', idx + 4);
-            //                    if (idx > -1)
-            //                    {
-            //                        var endIdx = e.Result.IndexOf('"', idx + 1);
-            //                        while (e.Result[endIdx - 1] == '\\')
-            //                            endIdx = e.Result.IndexOf('"', endIdx + 1);
-            //                        if (endIdx > -1)
-            //                        {
-            //                            _videoTitle = e.Result.Substring(idx + 1, endIdx - idx - 1).Replace("\\\"", "\"");
-            //                        }
-            //                    }
-            //                }
-            //            }
+        //    //try
+        //    //{
+        //    //    if (!e.Cancelled)
+        //    //    {
+        //    //        if (e.Error == null)
+        //    //        {
+        //    //            var idx = e.Result.IndexOf("\"media$title\"", StringComparison.Ordinal);
+        //    //            if (idx > -1)
+        //    //            {
+        //    //                idx = e.Result.IndexOf("\"$t\"", idx);
+        //    //                if (idx > -1)
+        //    //                {
+        //    //                    idx = e.Result.IndexOf('"', idx + 4);
+        //    //                    if (idx > -1)
+        //    //                    {
+        //    //                        var endIdx = e.Result.IndexOf('"', idx + 1);
+        //    //                        while (e.Result[endIdx - 1] == '\\')
+        //    //                            endIdx = e.Result.IndexOf('"', endIdx + 1);
+        //    //                        if (endIdx > -1)
+        //    //                        {
+        //    //                            _videoTitle = e.Result.Substring(idx + 1, endIdx - idx - 1).Replace("\\\"", "\"");
+        //    //                        }
+        //    //                    }
+        //    //                }
+        //    //            }
 
-            //            idx = e.Result.IndexOf("\"media$thumbnail\"", StringComparison.Ordinal);
-            //            if (idx > -1)
-            //            {
-            //                var iidx = e.Result.IndexOf("sddefault", idx);
-            //                if (iidx > -1)
-            //                {
+        //    //            idx = e.Result.IndexOf("\"media$thumbnail\"", StringComparison.Ordinal);
+        //    //            if (idx > -1)
+        //    //            {
+        //    //                var iidx = e.Result.IndexOf("sddefault", idx);
+        //    //                if (iidx > -1)
+        //    //                {
 
-            //                    //if (string.IsNullOrEmpty(Width)) Width = "640px";
-            //                    //if (string.IsNullOrEmpty(Height)) Height = "480px";
+        //    //                    //if (string.IsNullOrEmpty(Width)) Width = "640px";
+        //    //                    //if (string.IsNullOrEmpty(Height)) Height = "480px";
 
-            //                    if (this.Width.IsEmpty)
-            //                    {
-            //                        this.Width = CssLength.MakePixelLength(640);
-            //                    }
-            //                    if (this.Height.IsEmpty)
-            //                    {
-            //                        this.Height = CssLength.MakePixelLength(480);
-            //                    }
+        //    //                    if (this.Width.IsEmpty)
+        //    //                    {
+        //    //                        this.Width = CssLength.MakePixelLength(640);
+        //    //                    }
+        //    //                    if (this.Height.IsEmpty)
+        //    //                    {
+        //    //                        this.Height = CssLength.MakePixelLength(480);
+        //    //                    }
 
-            //                }
-            //                else
-            //                {
-            //                    iidx = e.Result.IndexOf("hqdefault", idx);
-            //                    if (iidx > -1)
-            //                    {
-            //                        //if (string.IsNullOrEmpty(Width)) Width = "480px";
-            //                        if (this.Width.IsEmpty) this.Width = CssLength.MakePixelLength(480);
+        //    //                }
+        //    //                else
+        //    //                {
+        //    //                    iidx = e.Result.IndexOf("hqdefault", idx);
+        //    //                    if (iidx > -1)
+        //    //                    {
+        //    //                        //if (string.IsNullOrEmpty(Width)) Width = "480px";
+        //    //                        if (this.Width.IsEmpty) this.Width = CssLength.MakePixelLength(480);
 
-            //                        //if (string.IsNullOrEmpty(Height)) Height = "360px";
-            //                        if (this.Height.IsEmpty) this.Height = CssLength.MakePixelLength(360);
-            //                    }
-            //                    else
-            //                    {
-            //                        iidx = e.Result.IndexOf("mqdefault", idx);
-            //                        if (iidx > -1)
-            //                        {
-            //                            //if (string.IsNullOrEmpty(Width)) Width = "320px";
-            //                            if (this.Width.IsEmpty) this.Width = CssLength.MakePixelLength(320);
+        //    //                        //if (string.IsNullOrEmpty(Height)) Height = "360px";
+        //    //                        if (this.Height.IsEmpty) this.Height = CssLength.MakePixelLength(360);
+        //    //                    }
+        //    //                    else
+        //    //                    {
+        //    //                        iidx = e.Result.IndexOf("mqdefault", idx);
+        //    //                        if (iidx > -1)
+        //    //                        {
+        //    //                            //if (string.IsNullOrEmpty(Width)) Width = "320px";
+        //    //                            if (this.Width.IsEmpty) this.Width = CssLength.MakePixelLength(320);
 
-            //                            //if (string.IsNullOrEmpty(Height)) Height = "180px";
-            //                            if (this.Height.IsEmpty) this.Height = CssLength.MakePixelLength(180);
-            //                        }
-            //                        else
-            //                        {
-            //                            iidx = e.Result.IndexOf("default", idx);
-            //                            // if (string.IsNullOrEmpty(Width)) Width = "120px";
-            //                            if (this.Width.IsEmpty) this.Width = CssLength.MakePixelLength(120);
+        //    //                            //if (string.IsNullOrEmpty(Height)) Height = "180px";
+        //    //                            if (this.Height.IsEmpty) this.Height = CssLength.MakePixelLength(180);
+        //    //                        }
+        //    //                        else
+        //    //                        {
+        //    //                            iidx = e.Result.IndexOf("default", idx);
+        //    //                            // if (string.IsNullOrEmpty(Width)) Width = "120px";
+        //    //                            if (this.Width.IsEmpty) this.Width = CssLength.MakePixelLength(120);
 
-            //                            //if (string.IsNullOrEmpty(Height)) Height = "90px";
-            //                            if (this.Height.IsEmpty) this.Height = CssLength.MakePixelLength(90);
-            //                        }
-            //                    }
-            //                }
+        //    //                            //if (string.IsNullOrEmpty(Height)) Height = "90px";
+        //    //                            if (this.Height.IsEmpty) this.Height = CssLength.MakePixelLength(90);
+        //    //                        }
+        //    //                    }
+        //    //                }
 
-            //                iidx = e.Result.LastIndexOf("http:", iidx, StringComparison.Ordinal);
-            //                if (iidx > -1)
-            //                {
-            //                    var endIdx = e.Result.IndexOf('"', iidx);
-            //                    if (endIdx > -1)
-            //                    {
-            //                        _videoImageUrl = e.Result.Substring(iidx, endIdx - iidx).Replace("\\\"", "\"").Replace("\\", "");
-            //                    }
-            //                }
-            //            }
+        //    //                iidx = e.Result.LastIndexOf("http:", iidx, StringComparison.Ordinal);
+        //    //                if (iidx > -1)
+        //    //                {
+        //    //                    var endIdx = e.Result.IndexOf('"', iidx);
+        //    //                    if (endIdx > -1)
+        //    //                    {
+        //    //                        _videoImageUrl = e.Result.Substring(iidx, endIdx - iidx).Replace("\\\"", "\"").Replace("\\", "");
+        //    //                    }
+        //    //                }
+        //    //            }
 
-            //            idx = e.Result.IndexOf("\"link\"", StringComparison.Ordinal);
-            //            if (idx > -1)
-            //            {
-            //                idx = e.Result.IndexOf("http:", idx);
-            //                if (idx > -1)
-            //                {
-            //                    var endIdx = e.Result.IndexOf('"', idx);
-            //                    if (endIdx > -1)
-            //                    {
-            //                        _videoLinkUrl = e.Result.Substring(idx, endIdx - idx).Replace("\\\"", "\"").Replace("\\", "");
-            //                    }
-            //                }
-            //            }
-            //        }
-            //        else
-            //        {
-            //            HandleDataLoadFailure(e.Error, "YouTube");
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    HtmlContainer.ReportError(HtmlRenderErrorType.Iframe, "Failed to parse YouTube video response", ex);
-            //}
+        //    //            idx = e.Result.IndexOf("\"link\"", StringComparison.Ordinal);
+        //    //            if (idx > -1)
+        //    //            {
+        //    //                idx = e.Result.IndexOf("http:", idx);
+        //    //                if (idx > -1)
+        //    //                {
+        //    //                    var endIdx = e.Result.IndexOf('"', idx);
+        //    //                    if (endIdx > -1)
+        //    //                    {
+        //    //                        _videoLinkUrl = e.Result.Substring(idx, endIdx - idx).Replace("\\\"", "\"").Replace("\\", "");
+        //    //                    }
+        //    //                }
+        //    //            }
+        //    //        }
+        //    //        else
+        //    //        {
+        //    //            HandleDataLoadFailure(e.Error, "YouTube");
+        //    //        }
+        //    //    }
+        //    //}
+        //    //catch (Exception ex)
+        //    //{
+        //    //    HtmlContainer.ReportError(HtmlRenderErrorType.Iframe, "Failed to parse YouTube video response", ex);
+        //    //}
 
-            //HandlePostApiCall(sender);
-        }
+        //    //HandlePostApiCall(sender);
+        //}
 
         /// <summary>
         /// Load Vimeo video data (title, image, link) by calling Vimeo API.
@@ -317,110 +301,110 @@ namespace HtmlRenderer.Dom
             //});
         }
 
-        /// <summary>
-        /// Parse Vimeo API response to get video data (title, image, link).
-        /// </summary>
-        private void OnDownloadVimeoApiCompleted(object sender, DownloadStringCompletedEventArgs e)
-        {
-            throw new NotSupportedException("wait for another technique");
-            //try
-            //{
-            //    if (!e.Cancelled)
-            //    {
-            //        if (e.Error == null)
-            //        {
-            //            var idx = e.Result.IndexOf("\"title\"", StringComparison.Ordinal);
-            //            if (idx > -1)
-            //            {
-            //                idx = e.Result.IndexOf('"', idx + 7);
-            //                if (idx > -1)
-            //                {
-            //                    var endIdx = e.Result.IndexOf('"', idx + 1);
-            //                    while (e.Result[endIdx - 1] == '\\')
-            //                        endIdx = e.Result.IndexOf('"', endIdx + 1);
-            //                    if (endIdx > -1)
-            //                    {
-            //                        _videoTitle = e.Result.Substring(idx + 1, endIdx - idx - 1).Replace("\\\"", "\"");
-            //                    }
-            //                }
-            //            }
+        ///// <summary>
+        ///// Parse Vimeo API response to get video data (title, image, link).
+        ///// </summary>
+        //private void OnDownloadVimeoApiCompleted(object sender, DownloadStringCompletedEventArgs e)
+        //{
+        //    throw new NotSupportedException("wait for another technique");
+        //    //try
+        //    //{
+        //    //    if (!e.Cancelled)
+        //    //    {
+        //    //        if (e.Error == null)
+        //    //        {
+        //    //            var idx = e.Result.IndexOf("\"title\"", StringComparison.Ordinal);
+        //    //            if (idx > -1)
+        //    //            {
+        //    //                idx = e.Result.IndexOf('"', idx + 7);
+        //    //                if (idx > -1)
+        //    //                {
+        //    //                    var endIdx = e.Result.IndexOf('"', idx + 1);
+        //    //                    while (e.Result[endIdx - 1] == '\\')
+        //    //                        endIdx = e.Result.IndexOf('"', endIdx + 1);
+        //    //                    if (endIdx > -1)
+        //    //                    {
+        //    //                        _videoTitle = e.Result.Substring(idx + 1, endIdx - idx - 1).Replace("\\\"", "\"");
+        //    //                    }
+        //    //                }
+        //    //            }
 
-            //            idx = e.Result.IndexOf("\"thumbnail_large\"", StringComparison.Ordinal);
-            //            if (idx > -1)
-            //            {
-            //                //if (string.IsNullOrEmpty(Width)) //Width = "640";
-            //                if (this.Width.IsEmpty) this.Width = CssLength.MakePixelLength(640);
-            //                if (this.Height.IsEmpty) this.Height = CssLength.MakePixelLength(360);
-            //            }
-            //            else
-            //            {
-            //                idx = e.Result.IndexOf("thumbnail_medium", idx);
-            //                if (idx > -1)
-            //                {
-            //                    if (this.Width.IsEmpty)
-            //                    {
-            //                        this.Width = CssLength.MakePixelLength(200);
-            //                    }
-            //                    //if (string.IsNullOrEmpty(Width)) 
-            //                    //    Width = "200";
-            //                    //if (string.IsNullOrEmpty(Height))
-            //                    //    Height = "150";
+        //    //            idx = e.Result.IndexOf("\"thumbnail_large\"", StringComparison.Ordinal);
+        //    //            if (idx > -1)
+        //    //            {
+        //    //                //if (string.IsNullOrEmpty(Width)) //Width = "640";
+        //    //                if (this.Width.IsEmpty) this.Width = CssLength.MakePixelLength(640);
+        //    //                if (this.Height.IsEmpty) this.Height = CssLength.MakePixelLength(360);
+        //    //            }
+        //    //            else
+        //    //            {
+        //    //                idx = e.Result.IndexOf("thumbnail_medium", idx);
+        //    //                if (idx > -1)
+        //    //                {
+        //    //                    if (this.Width.IsEmpty)
+        //    //                    {
+        //    //                        this.Width = CssLength.MakePixelLength(200);
+        //    //                    }
+        //    //                    //if (string.IsNullOrEmpty(Width)) 
+        //    //                    //    Width = "200";
+        //    //                    //if (string.IsNullOrEmpty(Height))
+        //    //                    //    Height = "150";
 
-            //                    if (this.Width.IsEmpty) this.Width = CssLength.MakePixelLength(200);
-            //                    if (this.Height.IsEmpty) this.Height = CssLength.MakePixelLength(150);
+        //    //                    if (this.Width.IsEmpty) this.Width = CssLength.MakePixelLength(200);
+        //    //                    if (this.Height.IsEmpty) this.Height = CssLength.MakePixelLength(150);
 
-            //                }
-            //                else
-            //                {
-            //                    idx = e.Result.IndexOf("thumbnail_small", idx);
-            //                    //if (string.IsNullOrEmpty(Width))
-            //                    //    Width = "100";
-            //                    if (this.Width.IsEmpty) this.Width = CssLength.MakePixelLength(100);
+        //    //                }
+        //    //                else
+        //    //                {
+        //    //                    idx = e.Result.IndexOf("thumbnail_small", idx);
+        //    //                    //if (string.IsNullOrEmpty(Width))
+        //    //                    //    Width = "100";
+        //    //                    if (this.Width.IsEmpty) this.Width = CssLength.MakePixelLength(100);
 
-            //                    //if (string.IsNullOrEmpty(Height)) Height = "75";
-            //                    if (this.Height.IsEmpty) this.Height = CssLength.MakePixelLength(75);
-            //                }
-            //            }
-            //            if (idx > -1)
-            //            {
-            //                idx = e.Result.IndexOf("http:", idx);
-            //                if (idx > -1)
-            //                {
-            //                    var endIdx = e.Result.IndexOf('"', idx);
-            //                    if (endIdx > -1)
-            //                    {
-            //                        _videoImageUrl = e.Result.Substring(idx, endIdx - idx).Replace("\\\"", "\"").Replace("\\", "");
-            //                    }
-            //                }
-            //            }
+        //    //                    //if (string.IsNullOrEmpty(Height)) Height = "75";
+        //    //                    if (this.Height.IsEmpty) this.Height = CssLength.MakePixelLength(75);
+        //    //                }
+        //    //            }
+        //    //            if (idx > -1)
+        //    //            {
+        //    //                idx = e.Result.IndexOf("http:", idx);
+        //    //                if (idx > -1)
+        //    //                {
+        //    //                    var endIdx = e.Result.IndexOf('"', idx);
+        //    //                    if (endIdx > -1)
+        //    //                    {
+        //    //                        _videoImageUrl = e.Result.Substring(idx, endIdx - idx).Replace("\\\"", "\"").Replace("\\", "");
+        //    //                    }
+        //    //                }
+        //    //            }
 
-            //            idx = e.Result.IndexOf("\"url\"", StringComparison.Ordinal);
-            //            if (idx > -1)
-            //            {
-            //                idx = e.Result.IndexOf("http:", idx);
-            //                if (idx > -1)
-            //                {
-            //                    var endIdx = e.Result.IndexOf('"', idx);
-            //                    if (endIdx > -1)
-            //                    {
-            //                        _videoLinkUrl = e.Result.Substring(idx, endIdx - idx).Replace("\\\"", "\"").Replace("\\", "");
-            //                    }
-            //                }
-            //            }
-            //        }
-            //        else
-            //        {
-            //            HandleDataLoadFailure(e.Error, "Vimeo");
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    HtmlContainer.ReportError(HtmlRenderErrorType.Iframe, "Failed to parse Vimeo video response", ex);
-            //}
+        //    //            idx = e.Result.IndexOf("\"url\"", StringComparison.Ordinal);
+        //    //            if (idx > -1)
+        //    //            {
+        //    //                idx = e.Result.IndexOf("http:", idx);
+        //    //                if (idx > -1)
+        //    //                {
+        //    //                    var endIdx = e.Result.IndexOf('"', idx);
+        //    //                    if (endIdx > -1)
+        //    //                    {
+        //    //                        _videoLinkUrl = e.Result.Substring(idx, endIdx - idx).Replace("\\\"", "\"").Replace("\\", "");
+        //    //                    }
+        //    //                }
+        //    //            }
+        //    //        }
+        //    //        else
+        //    //        {
+        //    //            HandleDataLoadFailure(e.Error, "Vimeo");
+        //    //        }
+        //    //    }
+        //    //}
+        //    //catch (Exception ex)
+        //    //{
+        //    //    HtmlContainer.ReportError(HtmlRenderErrorType.Iframe, "Failed to parse Vimeo video response", ex);
+        //    //}
 
-            //HandlePostApiCall(sender);
-        }
+        //    //HandlePostApiCall(sender);
+        //}
 
         /// <summary>
         /// Handle error occurred during video data load to handle if the video was not found.
@@ -590,7 +574,7 @@ namespace HtmlRenderer.Dom
                 MeasureWordSpacing(lay);
                 this.RunSizeMeasurePass = true;
             }
-            CssLayoutEngine.MeasureImageSize(_imageWord);
+            CssLayoutEngine.MeasureImageSize(_imageWord, lay);
         }
 
         ///// <summary>

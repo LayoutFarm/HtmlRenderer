@@ -1,8 +1,6 @@
 //BSD 2014,WinterDev
 
-using System;
-using System.IO;
-
+using System; 
 namespace HtmlRenderer.Utils
 {
     [AttributeUsage(AttributeTargets.Parameter)]

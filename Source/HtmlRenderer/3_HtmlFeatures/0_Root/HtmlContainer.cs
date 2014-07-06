@@ -1,4 +1,7 @@
-﻿// "Therefore those skilled at the unorthodox
+﻿//BSD 2014, WinterDev
+//ArthurHub
+
+// "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
 // When they come to an end,
@@ -12,20 +15,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Text;
-
+using HtmlRenderer.Utils;
 using HtmlRenderer.Dom;
 using HtmlRenderer.Entities;
-using HtmlRenderer.Handlers;
-using HtmlRenderer.Parse;
-using HtmlRenderer.Utils;
-
-//-------
-using System.IO;
-using System.Text;
 
 namespace HtmlRenderer
 {
@@ -434,7 +427,7 @@ namespace HtmlRenderer
 
             if (_root != null)
             {
-                _root.Dispose();
+                
                 _root = null;
                 //---------------------------
                 this.OnRootDisposed();
@@ -530,7 +523,7 @@ namespace HtmlRenderer
             _root.SetLocation(_location.X, _location.Y);
             _root.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
 
-            CssBox.ValidateComputeValues(_root); 
+            CssBox.ValidateComputeValues(_root);
             LayoutVisitor layoutArgs = new LayoutVisitor(ig, this);
             layoutArgs.PushContaingBlock(_root);
 
@@ -576,13 +569,12 @@ namespace HtmlRenderer
 
             ig.SetCanvasOrigin(scX, scY);
 
-            args.PushContaingBlock(_root.ContainingBlock);
+            args.PushContaingBlock(_root);
             args.SetPhysicalViewportBound(0, 0, physicalViewportSize.Width, physicalViewportSize.Height);
-             
+
 
             _root.Paint(ig, args);
 
-             
 
             args.PopContainingBlock();
 
@@ -763,7 +755,7 @@ namespace HtmlRenderer
                 _cssData = null;
                 if (_root != null)
                 {
-                    _root.Dispose();
+                  
                     _root = null;
                     this.OnRootDisposed();
                 }
