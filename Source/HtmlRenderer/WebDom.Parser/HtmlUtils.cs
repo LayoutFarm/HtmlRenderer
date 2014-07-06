@@ -1,4 +1,5 @@
-﻿//BSD 2014,WinterDev
+﻿//BSD 2014, WinterDev 
+//ArthurHub
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,

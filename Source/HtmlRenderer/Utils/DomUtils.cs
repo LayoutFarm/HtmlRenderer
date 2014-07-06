@@ -14,14 +14,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
+using System.Drawing; 
 using System.Text;
 using HtmlRenderer.Dom;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Parse;
-
+using HtmlRenderer.Entities; 
 namespace HtmlRenderer.Utils
 {
     internal delegate bool EachCssTextRunHandler(CssTextRun trun);

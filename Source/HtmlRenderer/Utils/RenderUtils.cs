@@ -1,3 +1,6 @@
+//BSD 2014, 
+//ArthurHub
+
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
@@ -13,8 +16,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using HtmlRenderer.Dom;
-using HtmlRenderer.Entities;
+ 
 using HtmlRenderer.Properties;
 
 namespace HtmlRenderer.Utils

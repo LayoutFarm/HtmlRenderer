@@ -15,9 +15,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Handlers;
+using System.Drawing; 
 using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom

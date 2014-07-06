@@ -1,13 +1,10 @@
 ﻿//BSD 2014, WinterDev
 
 using System;
-using System.Drawing;
-using System.Globalization;
+using System.Drawing; 
 using System.Collections.Generic;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Handlers;
-using HtmlRenderer.Utils;
 using HtmlRenderer.Parse;
+ 
 
 namespace HtmlRenderer.Dom
 {

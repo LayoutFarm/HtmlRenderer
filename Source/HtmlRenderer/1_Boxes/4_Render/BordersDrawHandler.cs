@@ -1,5 +1,5 @@
 //BSD 2014, WinterDev
-
+//ArthurHub 
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -16,8 +16,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using HtmlRenderer.Dom;
-using HtmlRenderer.Entities;
+using HtmlRenderer.Dom; 
 using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Handlers

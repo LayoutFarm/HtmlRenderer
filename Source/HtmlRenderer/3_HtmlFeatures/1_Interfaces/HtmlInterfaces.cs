@@ -1,4 +1,5 @@
 //BSD 2014, WinterDev
+//ArthurHub
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -11,11 +12,7 @@
 // 
 // - Sun Tsu,
 // "The Art of War"
-
-using System.Collections.Generic;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Utils;
-
+ 
 namespace HtmlRenderer.Dom
 {
 
@@ -149,7 +146,7 @@ namespace HtmlRenderer.Dom
         /// <param name="defaultValue">optional: value to return if attribute is not specified</param>
         /// <returns>attribute value or null if not found</returns>
         string TryGetAttribute(string attribute, string defaultValue = null);
-        IEnumerable<IHtmlAttribute> GetAttributeIter();
+        System.Collections.Generic.IEnumerable<IHtmlAttribute> GetAttributeIter();
 
         string Id { get; }
         string ClassName { get; }

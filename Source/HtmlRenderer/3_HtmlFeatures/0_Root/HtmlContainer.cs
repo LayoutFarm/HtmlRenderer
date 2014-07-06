@@ -1,4 +1,7 @@
-﻿// "Therefore those skilled at the unorthodox
+﻿//BSD 2014, WinterDev
+//ArthurHub
+
+// "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
 // When they come to an end,
@@ -12,21 +15,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Text;
-
+using HtmlRenderer.Utils;
 using HtmlRenderer.Dom;
 using HtmlRenderer.Entities;
-using HtmlRenderer.Handlers;
-using HtmlRenderer.Parse;
-using HtmlRenderer.Utils;
-
-//-------
-using System.IO;
-using System.Text;
-
+ 
 namespace HtmlRenderer
 {
     /// <summary>

@@ -1,3 +1,6 @@
+//BSD 2014, WinterDev 
+//ArthurHub
+
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
@@ -11,10 +14,8 @@
 // "The Art of War"
 
 using System;
-using System.Drawing;
-using System.Globalization;
-using HtmlRenderer.Dom;
-using HtmlRenderer.Entities;
+using System.Drawing; 
+using HtmlRenderer.Dom; 
 using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Parse

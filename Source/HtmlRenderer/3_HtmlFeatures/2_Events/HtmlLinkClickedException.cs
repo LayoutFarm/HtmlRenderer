@@ -1,4 +1,7 @@
-﻿// "Therefore those skilled at the unorthodox
+﻿//BSD 2014,
+//ArthurHub
+
+// "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
 // When they come to an end,

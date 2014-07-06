@@ -12,15 +12,8 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using System;
-using System.Drawing;
-using System.Globalization;
-using System.Collections.Generic;
-
-using HtmlRenderer.Entities;
-using HtmlRenderer.Handlers;
-using HtmlRenderer.Utils;
-using HtmlRenderer.Parse;
+ 
+using HtmlRenderer.Utils; 
 
 namespace HtmlRenderer.Dom
 {

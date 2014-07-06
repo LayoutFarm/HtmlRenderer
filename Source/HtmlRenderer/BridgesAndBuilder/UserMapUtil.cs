@@ -2,10 +2,7 @@
 using System;
 using System.Drawing;
 using System.Collections.Generic;
-
-using HtmlRenderer.Entities;
-using HtmlRenderer.Handlers;
-using HtmlRenderer.Utils;
+ 
 
 namespace HtmlRenderer.Dom
 {

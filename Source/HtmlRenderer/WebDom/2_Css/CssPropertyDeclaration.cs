@@ -1,11 +1,9 @@
 ﻿//BSD  2014 ,WinterDev 
-using System;
-using System.Collections;
+using System; 
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
-
+using System.Text; 
 using HtmlRenderer.Dom;
+
 namespace HtmlRenderer.WebDom
 {
 
