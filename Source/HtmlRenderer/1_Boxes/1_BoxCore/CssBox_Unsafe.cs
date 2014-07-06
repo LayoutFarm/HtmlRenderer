@@ -34,7 +34,11 @@ namespace HtmlRenderer.Dom
             //box.Spec is private
             return box._myspec;
         }
-
+        internal static void UnsafeSetParent(CssBox box, CssBox parent,HtmlContainer htmlContainer)
+        {
+            box._parentBox = parent;
+            box._htmlContainer = htmlContainer;
+        }
 #if DEBUG
         internal BridgeHtmlElement dbugAnonCreator
         {

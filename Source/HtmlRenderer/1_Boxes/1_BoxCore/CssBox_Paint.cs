@@ -172,18 +172,19 @@ namespace HtmlRenderer.Dom
                 //var clientLeft = this.ClientLeft;
                 //g.DrawRectangle(Pens.GreenYellow, 0, 0, 5, 10);
                 //g.DrawRectangle(Pens.HotPink, this.ClientRight - 5, 0, 5, 10);
-                //------------------------------------------ 
-
+                //------------------------------------------  
                 //must! , 
                 if (hasPrevClip)
                 {
                     p.PopLocalClipArea();
                 }
+                //------------------------------------------  
 
-                if (_listItemBox != null)
+                if (_subBoxes != null && _subBoxes.ListItemBox != null)
                 {
-                    _listItemBox.Paint(g, p);
+                    _subBoxes.ListItemBox.Paint(g, p);
                 }
+                 
             }
         }
 

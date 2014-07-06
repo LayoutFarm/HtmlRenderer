@@ -40,8 +40,8 @@ namespace HtmlRenderer.Dom
     public partial class CssBox
     {
         readonly BoxSpec _myspec;
-
         WellknownHtmlTagName wellKnownTagName;
+
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
@@ -78,7 +78,6 @@ namespace HtmlRenderer.Dom
             this._myspec = spec;
             ChangeDisplayType(this, _myspec.CssDisplay);
         }
-
 
         /// <summary>
         /// Gets the HtmlContainer of the Box.
@@ -249,13 +248,13 @@ namespace HtmlRenderer.Dom
             get
             {
                 if (this.Boxes.Count != 0)
-                {                       
+                {
                     return true;
                 }
                 else if (this.RunCount > 0)
                 {
-                    return this._aa_contentRuns.IsWhiteSpace; 
-                }                
+                    return this._aa_contentRuns.IsWhiteSpace;
+                }
                 return true;
             }
         }
@@ -650,7 +649,7 @@ namespace HtmlRenderer.Dom
             //set height  
             UpdateIfHigher(this, ExpectedHeight);
 
-            this.CreateListItemBox(lay);
+            this.CreateListItemBoxIfNeed(lay);
             //update back 
             lay.UpdateRootSize(this);
         }
@@ -727,123 +726,24 @@ namespace HtmlRenderer.Dom
                 }
             }
             this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
-        }
-
-         
-        /// <summary>
-        /// Gets the index of the box to be used on a (ordered) list
-        /// </summary>
-        /// <returns></returns>
-        private int GetIndexForList()
-        {
-            bool reversed = !string.IsNullOrEmpty(ParentBox.GetAttribute("reversed"));
-            int index;
-            if (!int.TryParse(ParentBox.GetAttribute("start"), out index))
-            {
-                if (reversed)
-                {
-                    index = 0;
-                    foreach (CssBox b in ParentBox.Boxes)
-                    {
-                        if (b.CssDisplay == CssDisplay.ListItem)
-                        {
-                            index++;
-                        }
-                    }
-                }
-                else
-                {
-                    index = 1;
-                }
-            }
-
-            foreach (CssBox b in ParentBox.Boxes)
-            {
-                if (b.Equals(this))
-                    return index;
-
-                //if (b.Display == CssConstants.ListItem)
-                if (b.CssDisplay == CssDisplay.ListItem)
-                    index += reversed ? -1 : 1;
-            }
-
-            return index;
-        }
-        static readonly char[] discItem = new[] { '•' };
-        static readonly char[] circleItem = new[] { 'o' };
-        static readonly char[] squareItem = new[] { '♠' };
-
-
-        /// <summary>
-        /// Creates the <see cref="_listItemBox"/>
-        /// </summary>
-        /// <param name="g"></param>
-        void CreateListItemBox(LayoutVisitor lay)
+        } 
+ 
+        void CreateListItemBoxIfNeed(LayoutVisitor lay)
         {
 
             if (this.CssDisplay == CssDisplay.ListItem &&
                 ListStyleType != CssListStyleType.None)
             {
-                if (_listItemBox == null)
+                if (_subBoxes == null)
                 {
-                    _listItemBox = new CssBox(null, null, this._myspec.GetAnonVersion());
-
-                    _listItemBox._parentBox = this;
-                    _listItemBox.ReEvaluateFont(this.ActualFont.Size);
-                    _listItemBox.ReEvaluateComputedValues(this);
-
-
-                    CssBox.ChangeDisplayType(_listItemBox, Dom.CssDisplay.Inline);
-                    _listItemBox._htmlContainer = HtmlContainer;
-
-                    char[] text_content = null;
-                    switch (this.ListStyleType)
-                    {
-                        case CssListStyleType.Disc:
-                            {
-                                text_content = discItem;
-                            } break;
-                        case CssListStyleType.Circle:
-                            {
-                                text_content = circleItem;
-                            } break;
-                        case CssListStyleType.Square:
-                            {
-                                text_content = squareItem;
-                            } break;
-                        case CssListStyleType.Decimal:
-                            {
-                                text_content = (GetIndexForList().ToString(CultureInfo.InvariantCulture) + ".").ToCharArray();
-                            } break;
-                        case CssListStyleType.DecimalLeadingZero:
-                            {
-                                text_content = (GetIndexForList().ToString("00", CultureInfo.InvariantCulture) + ".").ToCharArray();
-                            } break;
-                        default:
-                            {
-                                text_content = (CommonUtils.ConvertToAlphaNumber(GetIndexForList(), ListStyleType) + ".").ToCharArray();
-                            } break;
-                    }
-
-                    ContentTextSplitter splitter = new ContentTextSplitter();
-                    var splitParts = splitter.ParseWordContent(text_content);
-
-                    _listItemBox.SetTextContent(new RunCollection(text_content, splitParts));
-                    _listItemBox.UpdateRunList();
-
-                    var prevSibling = lay.LatestSiblingBox;
-                    lay.LatestSiblingBox = null;//reset
-                    _listItemBox.PerformLayout(lay);
-                    lay.LatestSiblingBox = prevSibling;
-
-
-                    var fRun = _listItemBox.FirstRun;
-
-                    _listItemBox.FirstRun.SetSize(fRun.Width, fRun.Height);
+                    _subBoxes = new SubBoxCollection();
+                } 
+                CssBox listItemBox = _subBoxes.ListItemBox;
+                if (listItemBox == null)
+                {
+                    listItemBox = _subBoxes.ListItemBox = ListItemHelper.CreateListItem(this, this._myspec.GetAnonVersion(), lay);
                 }
-
-                _listItemBox.FirstRun.SetLocation(_listItemBox.SizeWidth - 5, ActualPaddingTop);
-
+                listItemBox.FirstRun.SetLocation(listItemBox.SizeWidth - 5, ActualPaddingTop);
             }
         }
 
@@ -936,7 +836,7 @@ namespace HtmlRenderer.Dom
             }
             maxWidth = maxRunWidth;
             maxWidthRun = foundRun;
-        } 
+        }
         float CalculateActualWidth()
         {
             float maxRight = 0;

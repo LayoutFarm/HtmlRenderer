@@ -30,7 +30,6 @@ namespace HtmlRenderer.Dom
         /// the root container for the hierarchy
         /// </summary>
         protected HtmlContainer _htmlContainer;
-
         //----------------------------------------------------
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
@@ -38,8 +37,7 @@ namespace HtmlRenderer.Dom
         readonly BridgeHtmlElement _htmlElement;
         int _boxCompactFlags;
         //----------------------------------------------------
-        CssBox _listItemBox;
-        //----------------------------------------------------
+        
         //eg td,th,col,colgroup
         int _rowSpan;
         int _colSpan;
@@ -50,13 +48,18 @@ namespace HtmlRenderer.Dom
         LinkedList<CssLineBox> _clientLineBoxes;
 
         //1.2 contains box collection for my children
-        readonly CssBoxCollection _aa_boxes; 
+        readonly CssBoxCollection _aa_boxes;
         //----------------------------------------------------   
 
         //condition 2 :this Box is InlineBox 
-        RunCollection _aa_contentRuns; 
+        RunCollection _aa_contentRuns;
 
         //----------------------------------------------------  
+        //for other subbox , list item , shadow... 
+        SubBoxCollection _subBoxes; 
+        //----------------------------------------------------  
+
+
         //state
         protected int _prop_pass_eval;
 
@@ -68,13 +71,13 @@ namespace HtmlRenderer.Dom
         CssBoxCollection Boxes
         {
             get { return _aa_boxes; }
-        } 
+        }
 
         internal int RunCount
         {
             get
             {
-                return this._aa_contentRuns != null ? this._aa_contentRuns.RunCount : 0;                 
+                return this._aa_contentRuns != null ? this._aa_contentRuns.RunCount : 0;
             }
         }
         public IEnumerable<CssBox> GetChildBoxIter()
@@ -92,7 +95,7 @@ namespace HtmlRenderer.Dom
                 {
                     yield return tmpRuns[i];
                 }
-            } 
+            }
         }
 
         public IEnumerable<CssRun> GetRunBackwardIter()
@@ -105,8 +108,8 @@ namespace HtmlRenderer.Dom
                 {
                     yield return tmpRuns[i];
                 }
-            } 
-            
+            }
+
         }
 
         public int ChildCount
