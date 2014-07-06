@@ -78,13 +78,7 @@ namespace HtmlRenderer.Dom
             this._myspec = spec;
             ChangeDisplayType(this, _myspec.CssDisplay);
         }
-#if DEBUG
-        internal BridgeHtmlElement dbugAnonCreator
-        {
-            get;
-            set;
-        }
-#endif
+
 
         /// <summary>
         /// Gets the HtmlContainer of the Box.
@@ -153,7 +147,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return (this._boxCompactFlags & CssBoxFlagsConst.IS_INLINE_BOX) != 0; 
+                return (this._boxCompactFlags & CssBoxFlagsConst.IS_INLINE_BOX) != 0;
             }
             set
             {
@@ -245,9 +239,9 @@ namespace HtmlRenderer.Dom
             get
             {
                 return this.HasRuns && this.FirstRun.IsImage;
-
             }
         }
+
         /// <summary>
         /// Tells if the box is empty or contains just blank spaces
         /// </summary>
@@ -268,10 +262,7 @@ namespace HtmlRenderer.Dom
                 return true;
             }
         }
-        public static char[] UnsafeGetTextBuffer(CssBox box)
-        {
-            return box._aa_textBuffer;
-        }
+
         void ResetTextFlags()
         {
             int tmpFlags = this._boxCompactFlags;
@@ -280,46 +271,48 @@ namespace HtmlRenderer.Dom
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_EMPTY;
             this._boxCompactFlags = tmpFlags;
         }
-        internal void SetTextContent(char[] chars)
+        internal void SetTextContent(RunCollection contentRuns)
         {
-            this._aa_textBuffer = chars;
+            contentRuns.OwnerCssBox = this;
+            this._aa_contentRuns = contentRuns;
             ResetTextFlags();
         }
-        internal void SetTextContent2(char[] chars)
+        internal void UpdateRunList()
         {
+            _aa_contentRuns.UpdateRunList(this.WhiteSpace,
+                this.WordBreak ,
+                this.HtmlElement == null);
+        }
 
-            this._aa_textBuffer = chars;
-            ResetTextFlags();
-        }
         public bool MayHasSomeTextContent
         {
             get
             {
-                return this._aa_textBuffer != null;
+                return this._aa_contentRuns != null;
             }
         }
+        internal static char[] UnsafeGetTextBuffer(CssBox box)
+        {
+            return box._aa_contentRuns.GetOriginalBuffer();
+        }
+
         void EvaluateWhitespace()
         {
 
             this._boxCompactFlags |= CssBoxFlagsConst.HAS_EVAL_WHITESPACE;
-            char[] tmp;
-
-            if ((tmp = this._aa_textBuffer) == null)
+            if (_aa_contentRuns == null)
             {
-
                 this._boxCompactFlags |= CssBoxFlagsConst.TEXT_IS_EMPTY;
                 return;
             }
-            for (int i = tmp.Length - 1; i >= 0; --i)
-            {
-                if (!char.IsWhiteSpace(tmp[i]))
+            else
+            {     
+                if (_aa_contentRuns.IsWhiteSpace)
                 {
-                    return;
+                    this._boxCompactFlags |= CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
                 }
             }
 
-            //all is whitespace
-            this._boxCompactFlags |= CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
         }
         internal bool TextContentIsAllWhitespace
         {
@@ -344,17 +337,21 @@ namespace HtmlRenderer.Dom
                         ((this._boxCompactFlags & CssBoxFlagsConst.TEXT_IS_EMPTY) != 0);
             }
         }
-        internal string CopyTextContent()
+#if DEBUG
+        internal string dbugCopyTextContent()
         {
-            if (this._aa_textBuffer != null)
+
+            if (this._aa_contentRuns != null)
             {
-                return new string(this._aa_textBuffer);
+                return new string(this._aa_contentRuns.GetOriginalBuffer());
             }
             else
             {
                 return null;
             }
+
         }
+#endif
         internal void AddLineBox(CssLineBox linebox)
         {
             linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
@@ -377,16 +374,17 @@ namespace HtmlRenderer.Dom
         {
 
             CssLineBox firstHostLine, lastHostLine;
-            if (box._boxRuns == null)
+            var runList = box.Runs;
+            if (runList == null)
             {
                 firstHostLine = lastHostLine = null;
             }
             else
             {
-                int j = box._boxRuns.Count;
+                int j = runList.Count;
 
-                firstHostLine = box._boxRuns[0].HostLine;
-                lastHostLine = box._boxRuns[j - 1].HostLine;
+                firstHostLine = runList[0].HostLine;
+                lastHostLine = runList[j - 1].HostLine;
             }
             if (firstHostLine == lastHostLine)
             {
@@ -454,14 +452,24 @@ namespace HtmlRenderer.Dom
         /// </summary>
         List<CssRun> Runs
         {
-            get { return _boxRuns; }
+            get
+            {
+                if (_aa_contentRuns == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _aa_contentRuns.GetInternalList();
+                }
+            }
         }
 
         internal bool HasRuns
         {
             get
             {
-                return this._boxRuns != null && this._boxRuns.Count > 0;
+                return this._aa_contentRuns != null && this._aa_contentRuns.RunCount > 0;
             }
         }
 
@@ -613,8 +621,7 @@ namespace HtmlRenderer.Dom
                                     if (DomUtils.ContainsInlinesOnly(this))
                                     {
                                         this.SetHeightToZero();
-                                        //CssLayoutEngine.FlowContentRuns(this, lay); //This will automatically set the bottom of this block
-                                        CssLayoutEngine.FlowContentRunsV2(this, lay); //This will automatically set the bottom of this block
+                                        CssLayoutEngine.FlowContentRuns(this, lay); //This will automatically set the bottom of this block
                                     }
                                     else if (_aa_boxes.Count > 0)
                                     {
@@ -702,7 +709,7 @@ namespace HtmlRenderer.Dom
                 Font actualFont = this.ActualFont;
                 float fontHeight = FontsUtils.GetFontHeight(actualFont);
 
-                var tmpRuns = this._boxRuns;
+                var tmpRuns = this.Runs;
                 for (int i = tmpRuns.Count - 1; i >= 0; --i)
                 {
                     CssRun run = tmpRuns[i];
@@ -811,40 +818,44 @@ namespace HtmlRenderer.Dom
                     _listItemBox.ReEvaluateFont(this.ActualFont.Size);
                     _listItemBox.ReEvaluateComputedValues(this);
 
-                    //_listItemBox.CssDisplay = CssDisplay.Inline;
+
                     CssBox.ChangeDisplayType(_listItemBox, Dom.CssDisplay.Inline);
                     _listItemBox._htmlContainer = HtmlContainer;
 
+                    char[] text_content = null;
                     switch (this.ListStyleType)
                     {
                         case CssListStyleType.Disc:
                             {
-                                _listItemBox.SetTextContent(discItem);
+                                text_content = discItem;
                             } break;
                         case CssListStyleType.Circle:
                             {
-                                _listItemBox.SetTextContent(circleItem);
+                                text_content = circleItem;
                             } break;
                         case CssListStyleType.Square:
                             {
-                                _listItemBox.SetTextContent(squareItem);
+                                text_content = squareItem;
                             } break;
                         case CssListStyleType.Decimal:
                             {
-                                _listItemBox.SetTextContent((GetIndexForList().ToString(CultureInfo.InvariantCulture) + ".").ToCharArray());
+                                text_content = (GetIndexForList().ToString(CultureInfo.InvariantCulture) + ".").ToCharArray();
                             } break;
                         case CssListStyleType.DecimalLeadingZero:
                             {
-                                _listItemBox.SetTextContent((GetIndexForList().ToString("00", CultureInfo.InvariantCulture) + ".").ToCharArray());
+                                text_content = (GetIndexForList().ToString("00", CultureInfo.InvariantCulture) + ".").ToCharArray();
                             } break;
                         default:
                             {
-                                _listItemBox.SetTextContent((CommonUtils.ConvertToAlphaNumber(GetIndexForList(), ListStyleType) + ".").ToCharArray());
+                                text_content = (CommonUtils.ConvertToAlphaNumber(GetIndexForList(), ListStyleType) + ".").ToCharArray();
                             } break;
                     }
 
+                    ContentTextSplitter splitter = new ContentTextSplitter();
+                    var splitParts = splitter.ParseWordContent(text_content);
 
-                    _listItemBox.ParseWordContent();
+                    _listItemBox.SetTextContent(new RunCollection(text_content, splitParts));
+                    _listItemBox.UpdateRunList();
 
                     var prevSibling = lay.LatestSiblingBox;
                     lay.LatestSiblingBox = null;//reset
@@ -861,16 +872,8 @@ namespace HtmlRenderer.Dom
 
             }
         }
-        internal void ParseWordContent()
-        {
-            ContentTextSplitter.DefaultSplitter.ParseWordContent(this);
-        }
-#if DEBUG
-        internal string dbugGetTextContent()
-        {
-            return new string(this._aa_textBuffer);
-        }
-#endif
+
+
         /// <summary>
         /// Gets the specified Attribute, returns string.Empty if no attribute specified
         /// </summary>
@@ -1218,6 +1221,7 @@ namespace HtmlRenderer.Dom
         }
 
 
+#if DEBUG
         /// <summary>
         /// ToString override.
         /// </summary>
@@ -1239,7 +1243,7 @@ namespace HtmlRenderer.Dom
                 if (this.MayHasSomeTextContent)
                 {
                     return string.Format("{0}{1} {2}: {3}", ParentBox == null ? "Root: " : string.Empty, tag,
-                        this.CssDisplay.ToCssStringValue(), this.CopyTextContent());
+                        this.CssDisplay.ToCssStringValue(), this.dbugCopyTextContent());
                 }
                 else
                 {
@@ -1248,7 +1252,7 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
-
+#endif
         #endregion
 
 

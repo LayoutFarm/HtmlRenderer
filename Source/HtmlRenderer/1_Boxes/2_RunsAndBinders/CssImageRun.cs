@@ -18,8 +18,8 @@ namespace HtmlRenderer.Dom
     /// Represents a word inside an inline box
     /// </summary>
     internal sealed class CssImageRun : CssRun
-    {   
-       
+    {
+
         /// <summary>
         /// the image object if it is image word (can be null if not loaded)
         /// </summary>
@@ -29,14 +29,15 @@ namespace HtmlRenderer.Dom
         /// the image rectange restriction as returned from image load event
         /// </summary>
         private Rectangle _imageRectangle;
-       
+
         /// <summary>
         /// Creates a new BoxWord which represents an image
         /// </summary>
         /// <param name="owner">the CSS box owner of the word</param>
-        public CssImageRun(CssBox owner)
-            : base(owner, CssRunKind.Image)
-        { }
+        public CssImageRun()
+            : base(CssRunKind.Image)
+        {
+        }
 
         /// <summary>
         /// Gets the image this words represents (if one exists)
@@ -46,7 +47,7 @@ namespace HtmlRenderer.Dom
             get { return _image; }
             set { _image = value; }
         }
-       
+
         /// <summary>
         /// the image rectange restriction as returned from image load event
         /// </summary>

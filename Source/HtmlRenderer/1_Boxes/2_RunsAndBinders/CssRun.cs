@@ -47,7 +47,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the CSS box owner of the word
         /// </summary>
-        readonly CssBox _ownerBox;
+        RunCollection _owner;
         readonly CssRunKind _runKind;
         CssLineBox _hostline;
 
@@ -68,10 +68,13 @@ namespace HtmlRenderer.Dom
         /// Init.
         /// </summary>
         /// <param name="owner">the CSS box owner of the word</param>
-        protected CssRun(CssBox owner, CssRunKind rectKind)
+        protected CssRun(CssRunKind rectKind)
         {
-            this._ownerBox = owner;
             this._runKind = rectKind;
+        }
+        internal void SetOwner(RunCollection owner)
+        {
+            this._owner = owner;
         }
 
         internal CssLineBox HostLine
@@ -117,7 +120,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         public CssBox OwnerBox
         {
-            get { return _ownerBox; }
+            get { return this._owner.OwnerCssBox; }
         }
 
         /// <summary>

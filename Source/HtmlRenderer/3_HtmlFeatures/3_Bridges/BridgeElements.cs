@@ -194,20 +194,27 @@ namespace HtmlRenderer.Dom
     {
         //---------------------------------
         //this node may be simple text node
-        HtmlTextNode htmlTextNode;
-        public BridgeHtmlTextNode(HtmlTextNode htmlTextNode)
+
+        RunCollection content;
+        public BridgeHtmlTextNode(RunCollection content)
             : base(BridgeNodeType.Text)
         {
-            this.htmlTextNode = htmlTextNode;
+            this.content = content;
         }
-        public char[] CopyTextBuffer()
+
+        public char[] GetOriginalBuffer()
         {
-            return this.htmlTextNode.CopyTextBuffer();
+            return content.GetOriginalBuffer();
+        }
+         
+        internal RunCollection GetContentRuns()
+        {
+            return this.content;
         }
 #if DEBUG
         public override string ToString()
         {
-            return new string(this.CopyTextBuffer());
+            return new string(this.content.GetOriginalBuffer());
         }
 #endif
     }

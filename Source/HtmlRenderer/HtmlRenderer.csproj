@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="1_Boxes\1_BoxCore\CssBox_CreateAnonBox.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBox_DirectSetValues.cs" />
+    <Compile Include="1_Boxes\2_RunsAndBinders\RunCollectionAndTextSplitParts.cs" />
     <Compile Include="1_Boxes\5_HitAndSelections\BoxHitChain.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBox_FlagsConst.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBoxAssignments.cs" />

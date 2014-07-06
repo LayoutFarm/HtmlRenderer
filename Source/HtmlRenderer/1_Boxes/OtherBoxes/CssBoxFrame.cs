@@ -1,4 +1,6 @@
-﻿// "Therefore those skilled at the unorthodox
+﻿//BSD, 2014, WinterDev 
+
+// "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
 // When they come to an end,
@@ -11,6 +13,8 @@
 // "The Art of War"
 
 using System;
+using System.Collections.Generic;
+
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Net;
@@ -33,7 +37,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the image word of this image box
         /// </summary>
-        private readonly CssImageRun _imageWord;
+        readonly CssImageRun _imageWord;
 
         /// <summary>
         /// is the iframe is of embeded video
@@ -77,7 +81,9 @@ namespace HtmlRenderer.Dom
             : base(parent, tag, spec)
         {
 
-            this.AddRun(this._imageWord = new CssImageRun(this));
+ 
+    
+            this.SetTextContent(new RunCollection(new CssImageRun()));
 
             //wait for another technique *
 

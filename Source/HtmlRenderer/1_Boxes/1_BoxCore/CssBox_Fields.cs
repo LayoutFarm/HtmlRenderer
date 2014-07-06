@@ -48,43 +48,32 @@ namespace HtmlRenderer.Dom
         //1.1 contain lineBoxes for my children and  other children (share)
         LinkedList<CssLineBox> _clientLineBoxes;
 
-
         //1.2 contains box collection for my children
-        readonly CssBoxCollection _aa_boxes;
-        char[] _aa_textBuffer;
+        readonly CssBoxCollection _aa_boxes; 
         //----------------------------------------------------   
 
         //condition 2 :this Box is InlineBox 
-        List<CssRun> _boxRuns;
+        RunCollection _aa_contentRuns; 
+
         //----------------------------------------------------  
         //state
         protected int _prop_pass_eval;
+
         CssDisplay _cssDisplay = CssDisplay.Inline;
 
         /// <summary>
         /// Gets the childrenn boxes of this box
-        /// </summary>
+        /// </summary>      
         CssBoxCollection Boxes
         {
             get { return _aa_boxes; }
-        }
-
-
-        internal void AddRun(CssRun run)
-        {
-            if (this._boxRuns == null)
-            {
-                this._boxRuns = new List<CssRun>();
-            }
-
-            this._boxRuns.Add(run);
-        }
+        } 
 
         internal int RunCount
         {
             get
             {
-                return this._boxRuns != null ? this._boxRuns.Count : 0;
+                return this._aa_contentRuns != null ? this._aa_contentRuns.RunCount : 0;                 
             }
         }
         public IEnumerable<CssBox> GetChildBoxIter()
@@ -94,28 +83,29 @@ namespace HtmlRenderer.Dom
 
         public IEnumerable<CssRun> GetRunIter()
         {
-            if (this._boxRuns != null)
+            if (this._aa_contentRuns != null)
             {
-                var tmpRuns = _boxRuns;
+                var tmpRuns = this._aa_contentRuns.GetInternalList();
                 int j = tmpRuns.Count;
                 for (int i = 0; i < j; ++i)
                 {
                     yield return tmpRuns[i];
                 }
-            }
+            } 
         }
 
         public IEnumerable<CssRun> GetRunBackwardIter()
         {
-            if (this._boxRuns != null)
+            if (this._aa_contentRuns != null)
             {
-                var tmpRuns = _boxRuns;
+                var tmpRuns = this._aa_contentRuns.GetInternalList();
                 int j = tmpRuns.Count;
                 for (int i = tmpRuns.Count - 1; i >= 0; --i)
                 {
                     yield return tmpRuns[i];
                 }
-            }
+            } 
+            
         }
 
         public int ChildCount
