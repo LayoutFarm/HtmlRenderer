@@ -248,16 +248,14 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((Runs.Count != 0 || Boxes.Count != 0) && (Runs.Count != 1 || !Runs[0].IsSpaces))
-                {
-                    foreach (CssRun word in Runs)
-                    {
-                        if (!word.IsSpaces)
-                        {
-                            return false;
-                        }
-                    }
+                if (this.Boxes.Count != 0)
+                {                       
+                    return true;
                 }
+                else if (this.RunCount > 0)
+                {
+                    return this._aa_contentRuns.IsWhiteSpace; 
+                }                
                 return true;
             }
         }
@@ -369,6 +367,7 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
+
         internal static void GetSplitInfo(CssBox box, CssLineBox lineBox, out bool isFirstLine, out bool isLastLine)
         {
 
@@ -730,16 +729,7 @@ namespace HtmlRenderer.Dom
             this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
         }
 
-
-        ///// <summary>
-        ///// Get the parent of this css properties instance.
-        ///// </summary>
-        ///// <returns></returns>
-        //public sealed override CssBox GetParent()
-        //{
-        //    return _parentBox;
-        //}
-
+         
         /// <summary>
         /// Gets the index of the box to be used on a (ordered) list
         /// </summary>
@@ -946,27 +936,7 @@ namespace HtmlRenderer.Dom
             }
             maxWidth = maxRunWidth;
             maxWidthRun = foundRun;
-        }
-
-
-        ///// <summary>
-        ///// Inherits inheritable values from parent.
-        ///// </summary>
-        //internal void InheritStyles(CssBox box, bool clone = false)
-        //{ 
-        //    this.InternalInheritStyles(box, clone);
-
-        //}
-        //internal void InheritStyles(BoxSpec fromSpec, bool clone = false)
-        //{
-        //    if (fromSpec == null)
-        //    {
-        //        return;
-        //    }
-
-        //    this.InternalInheritStyles(fromSpec, clone);
-
-        //}
+        } 
         float CalculateActualWidth()
         {
             float maxRight = 0;
