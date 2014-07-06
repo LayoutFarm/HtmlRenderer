@@ -221,12 +221,12 @@ namespace HtmlRenderer.Dom
                             keepBox = boxes[i - 1].IsInline && boxes[i + 1].IsInline;
                         }
                     }
-
-
+                     
                     if (keepBox)
                     {
-                        // valid text box, parse it to words  
-                        childBox.ParseWordContent();
+                        // valid text box, parse it to words   
+                         
+                        childBox.UpdateRunList();
                     }
                     else
                     {
@@ -241,6 +241,8 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
+         
+
         /// <summary>
         /// Rearrange the DOM of the box to have block box with boxes before the inner block box and after.
         /// </summary>
@@ -393,7 +395,7 @@ namespace HtmlRenderer.Dom
                     //create new anonymous box
                     var block = CssBox.CreateAnonBlock(childBox.ParentBox, childIndex);
                     //move this imgbox to new child 
-                    childBox.SetNewParentBox(block);                     
+                    childBox.SetNewParentBox(block);
                     CssBox.ChangeDisplayType(childBox, CssDisplay.Inline);
                 }
                 else

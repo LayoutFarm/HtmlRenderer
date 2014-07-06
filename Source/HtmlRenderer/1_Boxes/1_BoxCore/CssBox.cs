@@ -273,15 +273,15 @@ namespace HtmlRenderer.Dom
         }
         internal void SetTextContent(RunCollection contentRuns)
         {
+            contentRuns.OwnerCssBox = this;
             this._aa_contentRuns = contentRuns;
             ResetTextFlags();
         }
-        internal void ParseWordContent()
+        internal void UpdateRunList()
         {
-            _aa_contentRuns.OwnerCssBox = this;
-            _aa_contentRuns.ParseContent(ContentTextSplitter.DefaultSplitter, this.WhiteSpace,
+            _aa_contentRuns.UpdateRunList(this.WhiteSpace,
                 this.WordBreak == CssWordBreak.BreakAll,
-                this.HtmlElement == null); 
+                this.HtmlElement == null);
         }
 
         public bool MayHasSomeTextContent
@@ -312,8 +312,8 @@ namespace HtmlRenderer.Dom
                 {
                     this._boxCompactFlags |= CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
                 }
-            }            
-            
+            }
+
         }
         internal bool TextContentIsAllWhitespace
         {
@@ -852,9 +852,11 @@ namespace HtmlRenderer.Dom
                             } break;
                     }
 
-                     
-                    _listItemBox.SetTextContent(new RunCollection(text_content));
-                    _listItemBox.ParseWordContent();
+                    ContentTextSplitter splitter = new ContentTextSplitter();
+                    var splitParts = splitter.ParseWordContent(text_content);
+
+                    _listItemBox.SetTextContent(new RunCollection(text_content, splitParts));
+                    _listItemBox.UpdateRunList();
 
                     var prevSibling = lay.LatestSiblingBox;
                     lay.LatestSiblingBox = null;//reset

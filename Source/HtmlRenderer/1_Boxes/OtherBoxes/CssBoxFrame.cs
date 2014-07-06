@@ -82,8 +82,8 @@ namespace HtmlRenderer.Dom
         {
 
  
-            RunCollection contentRuns = new RunCollection(new CssImageRun()); 
-            this.SetTextContent(contentRuns);
+    
+            this.SetTextContent(new RunCollection(new CssImageRun()));
 
             //wait for another technique *
 

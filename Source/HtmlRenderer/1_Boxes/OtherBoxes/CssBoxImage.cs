@@ -56,9 +56,8 @@ namespace HtmlRenderer.Dom
             : base(parent, tag, boxSpec)
         {
 
-            this._imageWord = new CssImageRun();
-            RunCollection contentRuns = new RunCollection(_imageWord); 
-            this.SetTextContent(contentRuns);
+            this._imageWord = new CssImageRun(); 
+            this.SetTextContent(new RunCollection(_imageWord));
         }
 
         /// <summary>

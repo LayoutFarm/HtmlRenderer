@@ -130,13 +130,9 @@ namespace HtmlRenderer.Dom
 
                             //-----------------------------------------------------------
                             WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)node;
-                            RunCollection contentRuns = new RunCollection(textNode.CopyTextBuffer());
-                            //----------------------------------------------------------- 
-
-                            //content can be reparse
-                            contentRuns.OriginalSplitParts = contentTextSplitter.ParseWordContent2(
-                                contentRuns.GetOriginalBuffer());
-                            //----------------------------------------------------------- 
+                            var originalBuffer = textNode.CopyTextBuffer();
+                            List<TextSplitPart> originalSplitParts = contentTextSplitter.ParseWordContent(originalBuffer);
+                            RunCollection contentRuns = new RunCollection(originalBuffer, originalSplitParts);  
                             BridgeHtmlTextNode textnode = new BridgeHtmlTextNode(contentRuns);
                             parentElement.AddChildElement(textnode);
                         } break;
