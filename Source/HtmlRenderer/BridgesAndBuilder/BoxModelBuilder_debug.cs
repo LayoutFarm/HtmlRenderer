@@ -119,7 +119,33 @@ namespace HtmlRenderer.Dom
                 }
             }
         }
+        /// <summary>
+        /// Go over all image boxes and if its display style is set to block, 
+        /// put it inside another block but set the image to inline.
+        /// </summary>
+        /// <param name="box">the current box to correct its sub-tree</param>
+        static void dbugCorrectImgBoxes(CssBox box)
+        {
+            int childIndex = 0;
+            foreach (var childBox in box.GetChildBoxIter())
+            {
 
+                if (childBox is CssBoxImage && childBox.CssDisplay == CssDisplay.Block)
+                {
+                    //create new anonymous box
+                    var block = CssBox.CreateAnonBlock(childBox.ParentBox, childIndex);
+                    //move this imgbox to new child 
+                    childBox.SetNewParentBox(block);
+                    CssBox.ChangeDisplayType(childBox, CssDisplay.Inline);
+                }
+                else
+                {
+                    // recursive
+                    dbugCorrectImgBoxes(childBox);
+                }
+                childIndex++;
+            }
+        }
     }
 
 
