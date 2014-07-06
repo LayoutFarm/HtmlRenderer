@@ -398,7 +398,7 @@ namespace HtmlRenderer.Dom
 #if DEBUG
                 //may not need ?, left this method
                 //if want to check 
-                dbugCorrectTextBoxes(rootBox);
+                //dbugCorrectTextBoxes(rootBox);
 #endif
                 CorrectImgBoxes(rootBox);
 
@@ -408,7 +408,7 @@ namespace HtmlRenderer.Dom
                 //1. must test first
                 CorrectInlineBoxesParent(rootBox);
                 //2. then ...
-                CorrectBlockInsideInline(rootBox);
+                //CorrectBlockInsideInline(rootBox);
 
             }
             return rootBox;
