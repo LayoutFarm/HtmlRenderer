@@ -52,8 +52,11 @@ namespace HtmlRenderer.Dom
         {
 
 #if DEBUG
-             
-             
+            if (this.__aa_dbugId == 5)
+            {
+            }
+
+
 #endif
 
             this._aa_boxes = new CssBoxCollection(this);
@@ -177,13 +180,13 @@ namespace HtmlRenderer.Dom
                 return this.CssDisplay == CssDisplay.Block;
             }
         }
-         
+
         internal bool HasContainingBlockProperty
         {
             get
-            { 
+            {
                 //this flags is evaluated when call ChangeDisplay ****
-                return (this._boxCompactFlags & CssBoxFlagsConst.HAS_CONTAINER_PROP) != 0;                
+                return (this._boxCompactFlags & CssBoxFlagsConst.HAS_CONTAINER_PROP) != 0;
             }
         }
         /// <summary>
@@ -717,8 +720,8 @@ namespace HtmlRenderer.Dom
                 }
             }
             this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
-        } 
- 
+        }
+
         void CreateListItemBoxIfNeed(LayoutVisitor lay)
         {
 
@@ -728,7 +731,7 @@ namespace HtmlRenderer.Dom
                 if (_subBoxes == null)
                 {
                     _subBoxes = new SubBoxCollection();
-                } 
+                }
                 CssBox listItemBox = _subBoxes.ListItemBox;
                 if (listItemBox == null)
                 {
@@ -758,7 +761,7 @@ namespace HtmlRenderer.Dom
         public string GetAttribute(string attribute, string defaultValue)
         {
             return HtmlElement != null ? HtmlElement.TryGetAttribute(attribute, defaultValue) : defaultValue;
-        } 
+        }
 
 
         /// <summary>

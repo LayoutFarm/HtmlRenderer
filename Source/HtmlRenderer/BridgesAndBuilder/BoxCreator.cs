@@ -1,8 +1,8 @@
 ﻿//BSD 2014, WinterDev
 
- 
+
 using System.Collections.Generic;
- 
+
 
 namespace HtmlRenderer.Dom
 {
@@ -38,44 +38,39 @@ namespace HtmlRenderer.Dom
         }
 
 
-        internal static CssBox CreateBox(CssBox parent, BridgeHtmlElement tag)
+        internal static CssBox CreateBox(CssBox parentBox, BridgeHtmlElement childElement)
         {
             CssBox newBox = null;
             //----------------------------------------- 
             //1. create new box
-            //-----------------------------------------
-
-            switch (tag.WellknownTagName)
+            //----------------------------------------- 
+            switch (childElement.WellknownTagName)
             {
-                case WellknownHtmlTagName.img:
-                    newBox = new CssBoxImage(parent, tag, tag.Spec);
+                case WellknownHtmlTagName.br: 
+                    //special treatment for br
+                    newBox = new CssBox(parentBox, childElement, childElement.Spec);
+                    CssBox.ChangeDisplayType(newBox, CssDisplay.Block); 
                     break;
-                //case WellknownHtmlTagName.iframe:
-                //    newBox = new CssBoxHr(parent, tag);//?
-                //    break;
+                case WellknownHtmlTagName.img:
+                    newBox = new CssBoxImage(parentBox, childElement, childElement.Spec);
+                    break;
                 case WellknownHtmlTagName.hr:
-                    newBox = new CssBoxHr(parent, tag, tag.Spec);
+                    newBox = new CssBoxHr(parentBox, childElement, childElement.Spec);
                     break;
                 //test extension box
-                case WellknownHtmlTagName.X:
-
-                    newBox = CreateCustomBox(parent, tag, tag.Spec);
+                case WellknownHtmlTagName.X: 
+                    newBox = CreateCustomBox(parentBox, childElement, childElement.Spec);
 
                     if (newBox == null)
                     {
-                        newBox = new CssBox(parent, tag, tag.Spec);
+                        newBox = new CssBox(parentBox, childElement, childElement.Spec);
                     }
                     break;
                 default:
-                    newBox = new CssBox(parent, tag, tag.Spec);
+                    newBox = new CssBox(parentBox, childElement, childElement.Spec);
                     break;
             }
-            //----------------------------------------- 
-            //2. clone exact spec from prepared BoxSpec
-            //----------------------------------------- 
-            //var newBoxSpec = CssBox.UnsafeGetBoxSpec(newBox);
-            //newBoxSpec.CloneAllStylesFrom(tag.Spec);
-            //newBox.CloseSpec();
+
             return newBox;
         }
 

@@ -109,9 +109,9 @@ namespace HtmlRenderer.Dom
                     //recursive
                     CorrectBlockInsideInline(childBox);
                 }
-            }
-
+            } 
         }
+
         /// <summary>
         /// Correct the DOM tree recursively by replacing  "br" html boxes with anonymous blocks that respect br spec.<br/>
         /// If the "br" tag is after inline box then the anon block will have zero height only acting as newline,
@@ -120,15 +120,14 @@ namespace HtmlRenderer.Dom
         /// <param name="box">the current box to correct its sub-tree</param>
         /// <param name="followingBlock">used to know if the br is following a box so it should create an empty line or not so it only
         /// move to a new line</param>
-        static void CorrectLineBreaksBlocks(CssBox box, ref bool followingBlock)
+        static void dbugCorrectLineBreaksBlocks(CssBox box, ref bool followingBlock)
         {
 
             followingBlock = followingBlock || box.IsBlock;
             foreach (var childBox in box.GetChildBoxIter())
-            {
-
-                CorrectLineBreaksBlocks(childBox, ref followingBlock);
-                followingBlock = childBox.RunCount == 0 && (followingBlock || childBox.IsBlock);
+            {   
+                dbugCorrectLineBreaksBlocks(childBox, ref followingBlock);
+                followingBlock =  (followingBlock || childBox.IsBlock);
             }
 
             CssBox brBox = null;//reset each loop
@@ -141,7 +140,7 @@ namespace HtmlRenderer.Dom
                 {
                     brBox = curBox;
                     //check prev box
-                    if (i > 0)
+                    if (i > 0)// is not first child 
                     {
                         var prevBox = box.GetChildBox(i - 1);
                         if (prevBox.HasRuns)
@@ -158,6 +157,7 @@ namespace HtmlRenderer.Dom
                     CssBox.ChangeDisplayType(brBox, CssDisplay.Block);
                     if (followingBlock)
                     {
+                        
                         // atodo: check the height to min-height when it is supported
                         //throw new NotSupportedException();
                         brBox.DirectSetHeight(ConstConfig.DEFAULT_FONT_SIZE * 0.95f);
@@ -262,9 +262,7 @@ namespace HtmlRenderer.Dom
                 CssBox rightPart;
                 if (firstChild.ParentBox != null || parentBox.ChildCount < 3)
                 {
-                    //rightPart = BoxCreator.CreateBoxAndInherit(parentBox, (BridgeHtmlElement)splitBox.HtmlElement);
-                    //rightPart.Spec.CloneAllStylesFrom(splitBox.Spec);
-
+                    
                     rightPart = BoxCreator.CreateBox(parentBox, (BridgeHtmlElement)splitBox.HtmlElement);
 
                     if (parentBox.ChildCount > 2)
