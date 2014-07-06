@@ -49,6 +49,105 @@ namespace HtmlRenderer.Dom
             }
 
         }
+
+
+        /// <summary>
+        /// Go over all the text boxes (boxes that have some text that will be rendered) and
+        /// remove all boxes that have only white-spaces but are not 'preformatted' so they do not effect
+        /// the rendered html.
+        /// </summary>
+        /// <param name="box">the current box to correct its sub-tree</param>
+        static void dbugCorrectTextBoxes(CssBox box)
+        {
+            return;
+
+            CssBoxCollection boxes = CssBox.UnsafeGetChildren(box);
+            for (int i = boxes.Count - 1; i >= 0; i--)
+            {
+                var childBox = boxes[i];
+                if (childBox.MayHasSomeTextContent)
+                {
+                    // is the box has text
+                    // or is the box is pre-formatted
+                    // or is the box is only one in the parent 
+                    bool keepBox = childBox.HtmlElement != null;
+                    if (!keepBox)
+                    {
+                        keepBox = !childBox.TextContentIsWhitespaceOrEmptyText ||
+                         childBox.WhiteSpace == CssWhiteSpace.Pre ||
+                         childBox.WhiteSpace == CssWhiteSpace.PreWrap ||
+                         boxes.Count == 1;
+                    }
+
+                    if (!keepBox && box.ChildCount > 0)
+                    {
+                        if (i == 0)
+                        {
+                            //first
+                            // is first/last box where is in inline box and it's next/previous box is inline
+                            keepBox = box.IsInline && boxes[1].IsInline;
+                        }
+                        else if (i == box.ChildCount - 1)
+                        {
+                            //last
+                            // is first/last box where is in inline box and it's next/previous box is inline
+                            keepBox = box.IsInline && boxes[i - 1].IsInline;
+                        }
+                        else
+                        {
+                            //between
+                            // is it a whitespace between two inline boxes
+                            keepBox = boxes[i - 1].IsInline && boxes[i + 1].IsInline;
+                        }
+                    }
+
+                    if (keepBox)
+                    {
+                        // valid text box, parse it to words                            
+                        childBox.UpdateRunList();
+                    }
+                    else
+                    {
+
+                        boxes.RemoveAt(i);
+                    }
+                }
+                else
+                {
+                    // recursive 
+                    dbugCorrectTextBoxes(childBox);
+                }
+            }
+        }
+        /// <summary>
+        /// Go over all image boxes and if its display style is set to block, 
+        /// put it inside another block but set the image to inline.
+        /// </summary>
+        /// <param name="box">the current box to correct its sub-tree</param>
+        static void dbugCorrectImgBoxes(CssBox box)
+        {
+            int childIndex = 0;
+            foreach (var childBox in box.GetChildBoxIter())
+            {
+
+                if (childBox is CssBoxImage && childBox.CssDisplay == CssDisplay.Block)
+                {
+                    //create new anonymous box
+                    var block = CssBox.CreateAnonBlock(childBox.ParentBox, childIndex);
+                    //move this imgbox to new child 
+                    childBox.SetNewParentBox(block);
+                    CssBox.ChangeDisplayType(childBox, CssDisplay.Inline);
+                }
+                else
+                {
+                    // recursive
+                    dbugCorrectImgBoxes(childBox);
+                }
+                childIndex++;
+            }
+        }
     }
+
+
 #endif
 }

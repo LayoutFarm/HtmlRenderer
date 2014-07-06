@@ -398,9 +398,10 @@ namespace HtmlRenderer.Dom
 #if DEBUG
                 //may not need ?, left this method
                 //if want to check 
-                dbugCorrectTextBoxes(rootBox);
+                //dbugCorrectTextBoxes(rootBox);
+                //dbugCorrectImgBoxes(rootBox);
 #endif
-                CorrectImgBoxes(rootBox);
+                
 
                 bool followingBlock = true;
 
@@ -409,7 +410,7 @@ namespace HtmlRenderer.Dom
                 CorrectInlineBoxesParent(rootBox);
                 //2. then ...
                 CorrectBlockInsideInline(rootBox);
-
+                
             }
             return rootBox;
         }
