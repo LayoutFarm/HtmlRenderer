@@ -104,12 +104,13 @@ namespace HtmlRenderer.Dom
                 _imgBinder = new ImageBinder(GetAttribute("src"));
             }
 
-            p.PushLocalClipArea(rect.Width, rect.Height);
+            //p.PushLocalClipArea(rect.Width, rect.Height);
 
             PaintBackground(p, rect, true, true);
             p.PaintBorders(this, rect, true, true);
 
             RectangleF r = _imageWord.Rectangle;
+
             r.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
             r.Y += ActualBorderTopWidth + ActualPaddingTop;
             r.X = (float)Math.Floor(r.X);
@@ -135,6 +136,7 @@ namespace HtmlRenderer.Dom
                             }
                             else
                             {
+
                                 g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
                             }
                         }
@@ -165,7 +167,7 @@ namespace HtmlRenderer.Dom
                     } break;
             }
 
-            p.PopLocalClipArea();
+            //p.PopLocalClipArea();
 
         }
         /// <summary>
@@ -195,11 +197,11 @@ namespace HtmlRenderer.Dom
                 }
 
                 MeasureWordSpacing(lay);
-                this.RunSizeMeasurePass = true; 
-            } 
+                this.RunSizeMeasurePass = true;
+            }
             CssLayoutEngine.MeasureImageSize(_imageWord, lay);
         }
- 
+
 
         #region Private methods
 

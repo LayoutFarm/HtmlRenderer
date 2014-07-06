@@ -419,7 +419,7 @@ namespace HtmlRenderer.Dom
                     case CssRunKind.Image:
                         {
                             CssBoxImage owner = (CssBoxImage)w.OwnerBox;
-                            owner.PaintImage(g, new RectangleF(0, 0, w.Width, w.Height), p);
+                            owner.PaintImage(g, new RectangleF(w.Left, w.Top, w.Width, w.Height), p);
 
                         } break;
                     case CssRunKind.Text:
