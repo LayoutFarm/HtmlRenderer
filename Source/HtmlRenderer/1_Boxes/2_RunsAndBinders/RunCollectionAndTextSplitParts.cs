@@ -33,35 +33,32 @@ namespace HtmlRenderer.Dom
     class RunCollection
     {
 
-      
+        
         bool isWhiteSpace;
         bool isSingleRun;
-        bool runsAreReady;
-        //----------
-        //latest run context
-        CssWhiteSpace whitespace;
+        bool runListCreated;
+        CssWhiteSpace whitespace; 
         CssWordBreak wordBreak;
-        
+
         CssBox ownerBox;
+
         char[] originalBuffer;
         List<CssRun> runList = new List<CssRun>();
         List<TextSplitPart> originalSplitParts;
-
-        
 
         public RunCollection(char[] originalBuffer, List<TextSplitPart> originalSplitParts)
         {
             this.originalSplitParts = originalSplitParts;
             this.originalBuffer = originalBuffer;
+
+            EvaluateWhitespace();
         }
         public RunCollection(CssRun singleRun)
         {
-
             singleRun.SetOwner(this);
             this.originalSplitParts = new List<TextSplitPart>(1);
             this.originalSplitParts.Add(new TextSplitPart(0, 1, TextSplitPartKind.Text));
             this.runList.Add(singleRun);
-
             isSingleRun = true;
         }
 
@@ -69,21 +66,15 @@ namespace HtmlRenderer.Dom
         {
             return this.originalBuffer;
         }
-
-
         internal CssBox OwnerCssBox
         {
             get { return this.ownerBox; }
             set { this.ownerBox = value; }
         }
-
-
         internal List<CssRun> GetInternalList()
         {
             return this.runList;
         }
-
-
         public int RunCount
         {
             get { return this.runList.Count; }
@@ -93,28 +84,47 @@ namespace HtmlRenderer.Dom
         {
             if (!this.isSingleRun)
             {
-                //re-create if nessesary                
-                if (whitespace != this.whitespace ||
-                    wordBreak != this.wordBreak ||
-                    !runsAreReady)
-                {
+                //re-create if nessesary
 
-                    //-------------------
-                    runList.Clear();
+                if (!this.runListCreated ||
+                    this.wordBreak != wordBreak ||
+                    this.whitespace != whitespace)
+                { 
+                    runList.Clear(); 
 
                     CreateRuns(this,
                        runList,
                        whitespace,
                        wordBreak != CssWordBreak.BreakAll,
                        keepPreWhiteSpace);
-
+                     
+                    this.runListCreated = true;
                     this.wordBreak = wordBreak;
                     this.whitespace = whitespace;
-                    runsAreReady = true;
                 }
+                
             }
         }
-
+        void EvaluateWhitespace()
+        {
+            isWhiteSpace = false;
+            if (this.isSingleRun)
+            {
+                return;
+            }
+            var tmpSplits = originalSplitParts;
+            for (int i = tmpSplits.Count - 1; i >= 0; --i)
+            {
+                if (tmpSplits[i].kind == TextSplitPartKind.Text)
+                {
+                    //stop and return if found whitespace
+                    return;
+                }
+            } 
+             
+            //exit here means all char is whitespace
+            isWhiteSpace = true;
+        }
         internal bool IsWhiteSpace
         {
             get { return this.isWhiteSpace; }
@@ -158,7 +168,7 @@ namespace HtmlRenderer.Dom
         {
             var originalSplitParts = collection.originalSplitParts;
             int j = originalSplitParts.Count;
-            bool isAllWhitespace = true;
+
 
             for (int i = 0; i < j; ++i)
             {
@@ -169,6 +179,7 @@ namespace HtmlRenderer.Dom
                     case TextSplitPartKind.LineBreak:
                         {
                             r = CssTextRun.CreateLineBreak();
+                            
                         } break;
                     case TextSplitPartKind.SingleWhitespace:
                         {
@@ -181,21 +192,16 @@ namespace HtmlRenderer.Dom
                     case TextSplitPartKind.Text:
                         {
                             r = CssTextRun.CreateTextRun(p.startIndex, p.length);
-                            isAllWhitespace = false;
+
                         } break;
                     default:
                         {
                             throw new System.NotSupportedException();
                         }
-                }
-
+                } 
                 r.SetOwner(collection);
                 boxRuns.Add(r);
-            }
-
-            //final
-            collection.isWhiteSpace = isAllWhitespace;
-
+            } 
         }
 
         /// <summary>
@@ -210,7 +216,6 @@ namespace HtmlRenderer.Dom
         {
             var originalSplitParts = collection.originalSplitParts;
             int j = originalSplitParts.Count;
-            bool isAllWhitespace = true;
 
             for (int i = 0; i < j; ++i)
             {
@@ -221,6 +226,7 @@ namespace HtmlRenderer.Dom
                     case TextSplitPartKind.LineBreak:
                         {
                             r = CssTextRun.CreateLineBreak();
+                             
                         } break;
                     case TextSplitPartKind.Whitespace:
                     case TextSplitPartKind.SingleWhitespace:
@@ -238,7 +244,7 @@ namespace HtmlRenderer.Dom
                     case TextSplitPartKind.Text:
                         {
                             r = CssTextRun.CreateTextRun(p.startIndex, p.length);
-                            isAllWhitespace = false;
+
                         } break;
                     default:
                         {
@@ -249,14 +255,14 @@ namespace HtmlRenderer.Dom
                 r.SetOwner(collection);
                 boxRuns.Add(r);
             }
-            collection.isWhiteSpace = isAllWhitespace;
+
+
         }
         static void CreateRunsDefault(List<CssRun> boxRuns, RunCollection collection,
             bool boxIsNotBreakAll, bool keepPreWhiteSpace)
         {
             var originalSplitParts = collection.originalSplitParts;
             int j = originalSplitParts.Count;
-            bool isAllWhitespace = true;
 
             for (int i = 0; i < j; ++i)
             {
@@ -285,7 +291,7 @@ namespace HtmlRenderer.Dom
                     case TextSplitPartKind.Text:
                         {
                             r = CssTextRun.CreateTextRun(p.startIndex, p.length);
-                            isAllWhitespace = false;
+
                         } break;
                     default:
                         {
@@ -296,7 +302,7 @@ namespace HtmlRenderer.Dom
                 r.SetOwner(collection);
                 boxRuns.Add(r);
             }
-            collection.isWhiteSpace = isAllWhitespace;
+
         }
 
     }

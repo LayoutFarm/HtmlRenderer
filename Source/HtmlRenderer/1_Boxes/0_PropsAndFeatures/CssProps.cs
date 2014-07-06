@@ -115,7 +115,8 @@ namespace HtmlRenderer.Dom
         [Map(CssConstants.BreakAll)]
         BreakAll,
         [Map(CssConstants.KeepAll)]
-        KeepAll, 
+        KeepAll,
+
         [Map(CssConstants.Inherit)]
         Inherit
     }
