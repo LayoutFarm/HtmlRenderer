@@ -172,13 +172,7 @@ namespace HtmlRenderer.Dom
                 return this.CssDisplay == CssDisplay.Block;
             }
         }
-        /// <summary>
-        /// Get the href link of the box (by default get "href" attribute)
-        /// </summary>
-        public virtual string HrefLink
-        {
-            get { return GetAttribute("href"); }
-        }
+         
         internal bool HasContainingBlockProperty
         {
             get
@@ -190,7 +184,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the containing block-box of this box. (The nearest parent box with display=block)
         /// </summary>
-        internal CssBox SearchUpMyContainingBlockBox()
+        internal CssBox SearchUpForContainingBlockBox()
         {
 
             if (ParentBox == null)

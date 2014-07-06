@@ -42,7 +42,7 @@ namespace HtmlRenderer
         public void PerformPaint(Graphics g)
         {
             using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
-            {   
+            {
                 Region prevClip = null;
                 if (this.MaxSize.Height > 0)
                 {
@@ -110,8 +110,8 @@ namespace HtmlRenderer
         /// <param name="e">the mouse event args</param>
         public void HandleMouseDown(Control parent, MouseEventArgs e)
         {
-             
-            
+
+
             try
             {
 
@@ -137,28 +137,37 @@ namespace HtmlRenderer
         /// <param name="link">the link that was clicked</param>
         internal void HandleLinkClicked(Control parent, MouseEventArgs e, CssBox link)
         {
+            var element = link.HtmlElement;
+            var href = element.TryGetAttribute("href", null);
+
             if (LinkClicked != null)
             {
-                var args = new HtmlLinkClickedEventArgs(link.HrefLink, link.HtmlElement);
-                try
+               
+                if (href != null)
                 {
-                    LinkClicked(this, args);
+                    var args = new HtmlLinkClickedEventArgs(href, link.HtmlElement);
+                    try
+                    {
+                        LinkClicked(this, args);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new HtmlLinkClickedException("Error in link clicked intercept", ex);
+                    }
+                    if (args.Handled)
+                    {
+                        return;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    throw new HtmlLinkClickedException("Error in link clicked intercept", ex);
-                }
-                if (args.Handled)
-                    return;
             }
 
-            if (!string.IsNullOrEmpty(link.HrefLink))
+            if (!string.IsNullOrEmpty(href))
             {
-                if (link.HrefLink.StartsWith("#") && link.HrefLink.Length > 1)
+                if (href.StartsWith("#") && href.Length > 1)
                 {
                     if (ScrollChange != null)
                     {
-                        var rect = GetElementRectangle(link.HrefLink.Substring(1));
+                        var rect = GetElementRectangle(href.Substring(1));
                         if (rect.HasValue)
                         {
                             ScrollChange(this, new HtmlScrollEventArgs(Point.Round(rect.Value.Location)));
@@ -168,7 +177,7 @@ namespace HtmlRenderer
                 }
                 else
                 {
-                    var nfo = new ProcessStartInfo(link.HrefLink);
+                    var nfo = new ProcessStartInfo(href);
                     nfo.UseShellExecute = true;
                     Process.Start(nfo);
                 }
@@ -182,7 +191,7 @@ namespace HtmlRenderer
         /// <param name="e">the mouse event args</param>
         public void HandleMouseUp(Control parent, MouseEventArgs e)
         {
-            
+
             try
             {
                 if (_selectionHandler != null && IsMouseInContainer(e.Location))
@@ -216,7 +225,7 @@ namespace HtmlRenderer
         /// <param name="e">mouse event args</param>
         public void HandleMouseDoubleClick(Control parent, MouseEventArgs e)
         {
-            
+
             try
             {
                 if (_selectionHandler != null && IsMouseInContainer(e.Location))
@@ -235,7 +244,7 @@ namespace HtmlRenderer
         /// <param name="e">the mouse event args</param>
         public void HandleMouseMove(Control parent, MouseEventArgs e)
         {
-           
+
             //try
             //{
             var loc = OffsetByScroll(e.Location);
@@ -274,7 +283,7 @@ namespace HtmlRenderer
         /// </summary>
         /// <param name="parent">the control hosting the html to set cursor and invalidate</param>
         public void HandleMouseLeave(Control parent)
-        {   
+        {
             try
             {
                 if (_selectionHandler != null)
@@ -293,7 +302,7 @@ namespace HtmlRenderer
         /// <param name="e">the pressed key</param>
         public void HandleKeyDown(Control parent, KeyEventArgs e)
         {
-            
+
             try
             {
                 if (e.Control && _selectionHandler != null)

@@ -101,13 +101,13 @@ namespace HtmlRenderer.Dom
             //}
         }
 
-        /// <summary>
-        /// Get the href link of the box (by default get "href" attribute)
-        /// </summary>
-        public override string HrefLink
-        {
-            get { return _videoLinkUrl ?? GetAttribute("src"); }
-        }
+        ///// <summary>
+        ///// Get the href link of the box (by default get "href" attribute)
+        ///// </summary>
+        //public override string HrefLink
+        //{
+        //    get { return _videoLinkUrl ?? GetAttribute("src"); }
+        //}
 
         /// <summary>
         /// is the iframe is of embeded video
