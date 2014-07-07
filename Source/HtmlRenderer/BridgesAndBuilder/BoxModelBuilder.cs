@@ -311,7 +311,7 @@ namespace HtmlRenderer.Dom
                                 anonText.SetTextContent(contentRuns);
                                 anonText.UpdateRunList();
 #if DEBUG
-                                anonText.dbugAnonCreator = parentElement;
+                                //anonText.dbugAnonCreator = parentElement;
 #endif
                             }
                             else
@@ -320,7 +320,7 @@ namespace HtmlRenderer.Dom
                                 anonText.SetTextContent(contentRuns);
                                 anonText.UpdateRunList();
 #if DEBUG
-                                anonText.dbugAnonCreator = parentElement;
+                               // anonText.dbugAnonCreator = parentElement;
 #endif
 
                             }
@@ -375,7 +375,7 @@ namespace HtmlRenderer.Dom
                                 anonText.SetTextContent(contentRuns);
                                 anonText.UpdateRunList();
 #if DEBUG
-                                anonText.dbugAnonCreator = parentElement;
+                                //lanonText.dbugAnonCreator = parentElement;
 #endif
                             }
                             else
@@ -384,7 +384,7 @@ namespace HtmlRenderer.Dom
                                 anonText.SetTextContent(contentRuns);
                                 anonText.UpdateRunList();
 #if DEBUG
-                                anonText.dbugAnonCreator = parentElement;
+                                //anonText.dbugAnonCreator = parentElement;
 #endif
 
                             }
@@ -454,7 +454,7 @@ namespace HtmlRenderer.Dom
                                 anonText.UpdateRunList();
 
 #if DEBUG
-                                anonText.dbugAnonCreator = parentElement;
+                                //anonText.dbugAnonCreator = parentElement;
 #endif
                             }
                             else
@@ -464,7 +464,7 @@ namespace HtmlRenderer.Dom
                                 anonText.UpdateRunList();
 
 #if DEBUG
-                                anonText.dbugAnonCreator = parentElement;
+                                //anonText.dbugAnonCreator = parentElement;
 #endif
 
                             }

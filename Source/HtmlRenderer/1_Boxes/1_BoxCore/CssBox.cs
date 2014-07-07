@@ -50,15 +50,7 @@ namespace HtmlRenderer.Dom
 
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
         {
-
-#if DEBUG
-            if (this.__aa_dbugId == 5)
-            {
-            }
-
-
-#endif
-
+ 
             this._aa_boxes = new CssBoxCollection(this);
             if (parentBox != null)
             {
@@ -597,9 +589,7 @@ namespace HtmlRenderer.Dom
 
                                     //formatting context for
                                     //1. inline formatting context
-                                    //2. block formatting context
-                                     
-
+                                    //2. block formatting context 
                                     if (DomUtils.ContainsInlinesOnly(this))
                                     {
                                         this.SetHeightToZero();

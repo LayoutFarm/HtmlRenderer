@@ -25,20 +25,20 @@ namespace HtmlRenderer.Dom
 
 
 #if DEBUG
-            this.dbugId = dbugTotalId++;
+            //this.dbugId = dbugTotalId++;
 
-            if (length == 0)
-            {
+            //if (length == 0)
+            //{
 
-            }
+            //}
 #endif
 
 
         }
 
 #if DEBUG
-        public readonly int dbugId;
-        static int dbugTotalId;
+        //public readonly int dbugId;
+        //static int dbugTotalId;
         public override string ToString()
         {
             return kind.ToString() + "(" + startIndex + "," + length + ")";

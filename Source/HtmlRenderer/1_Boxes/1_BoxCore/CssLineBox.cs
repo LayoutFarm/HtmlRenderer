@@ -479,7 +479,7 @@ namespace HtmlRenderer.Dom
         {
 
 
-             return;
+            return;
             //linebox  
             float x1 = 0;
             float y1 = 0;
@@ -545,7 +545,7 @@ namespace HtmlRenderer.Dom
 
                 if (stripOwner.CssDisplay != CssDisplay.TableCell
                     && stripOwner.HasSomeVisibleBorder)
-                {   
+                {
                     p.PaintBorders(stripOwner, stripArea, isFirstLine, isLastLine);
                 }
 
