@@ -77,7 +77,7 @@ namespace HtmlRenderer.Dom
 
             float sR = this.Right;
             float sB = this.Bottom;
-
+            
             if (left < this._x)
             {
                 this._x = left;
@@ -88,12 +88,14 @@ namespace HtmlRenderer.Dom
             }
             if (right > sR)
             {
-                this._width = right - this._x;
+                sR = right;                
             }
             if (bottom > sB)
             {
-                this._height = bottom - this._y;
+                sB = bottom;                
             }
+            this._width = sR - this._x;
+            this._height = sB - this._y;
         }
         public void SetTop(float y)
         {
@@ -203,6 +205,7 @@ namespace HtmlRenderer.Dom
         {
 #if DEBUG
             this.dbugIsClosed = true;
+             
 #endif
 
             //=============================================================
@@ -225,10 +228,8 @@ namespace HtmlRenderer.Dom
                 var run = myruns[i];
                 maxRight = run.Right > maxRight ? run.Right : maxRight;
                 maxBottom = run.Bottom > maxBottom ? run.Bottom : maxBottom;
-                if (run.IsSpaces)
-                {
-                    continue;
-                }
+                //strip size include whitespace 
+                 
                 //-------------
                 //first level data
                 RegisterStripPart(run.OwnerBox, run.Left, run.Top, run.Right, run.Bottom, totalStrips, dicStrips);
@@ -402,7 +403,9 @@ namespace HtmlRenderer.Dom
         internal void PaintRuns(IGraphics g, PaintVisitor p)
         {
             //iterate from each words
-
+            if (this.dbugId == 9)
+            {
+            }
 
             CssBox latestOwner = null;
             Font font = null;
@@ -424,7 +427,8 @@ namespace HtmlRenderer.Dom
                         } break;
                     case CssRunKind.BlockRun:
                         {
-                            Console.WriteLine("blockrun");
+                            //Console.WriteLine("blockrun");
+
                             CssBlockRun blockRun = (CssBlockRun)w;
                             float ox = g.CanvasOriginX;
                             float oy = g.CanvasOriginY;
@@ -471,6 +475,10 @@ namespace HtmlRenderer.Dom
 
         internal void dbugPaintRuns(IGraphics g, PaintVisitor p)
         {
+            if (this.dbugId == 9)
+            {
+            }
+
             //return;
             //linebox  
             float x1 = 0;
@@ -523,7 +531,10 @@ namespace HtmlRenderer.Dom
         internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
             //iterate each strip
+            if (this.dbugId == 29)
+            {
 
+            }
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];

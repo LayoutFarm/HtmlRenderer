@@ -62,8 +62,14 @@ namespace HtmlRenderer.Dom
             //whitespace and respect newline  
             WordParsingState parsingState = WordParsingState.Init;
             int appendLength = 0;
+            //if (buffLength == 14)
+            //{
+            //}
             for (int i = 0; i < buffLength; ++i)
             {
+                //if (i == 10)
+                //{ 
+                //}
                 char c0 = textBuffer[i];
                 if (c0 == '\n')
                 {
@@ -83,6 +89,7 @@ namespace HtmlRenderer.Dom
                     //append with new line 
                     spList.Add(CreateLineBreak());
                     startIndex = i;
+                    parsingState = WordParsingState.Init;
                     continue;
                 }
                 else if (c0 == '\r')

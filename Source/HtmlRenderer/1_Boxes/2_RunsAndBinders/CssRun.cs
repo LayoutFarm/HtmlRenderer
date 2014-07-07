@@ -72,6 +72,9 @@ namespace HtmlRenderer.Dom
         /// <param name="owner">the CSS box owner of the word</param>
         protected CssRun(CssRunKind rectKind)
         {
+#if  DEBUG
+           
+#endif
             this._runKind = rectKind;
         }
         internal void SetOwner(RunCollection owner)
