@@ -39,6 +39,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="isLast">is it the last rectangle of the element</param>
         public static void DrawBoxBorders(PaintVisitor p, CssBox box, RectangleF rect, bool isFirst, bool isLast)
         {
+            
             if (rect.Width > 0 && rect.Height > 0)
             {
 
@@ -103,7 +104,12 @@ namespace HtmlRenderer.Handlers
 
             CssBorderStyle style = GetStyle(border, box);
             var color = GetColor(border, box, style);
-            var borderPath = GetRoundedBorderPath(border, box, rect);
+            GraphicsPath borderPath = null;
+
+            if (box.HasSomeRoundCorner)
+            {
+                borderPath = GetRoundedBorderPath(border, box, rect);
+            }
 
             IGraphics g = p.Gfx;
             if (borderPath != null)
@@ -111,7 +117,7 @@ namespace HtmlRenderer.Handlers
                 // rounded border need special path
 
                 var smooth = g.SmoothingMode;
-                if (!p.AvoidGeometryAntialias && box.HasRoundCorner)
+                if (!p.AvoidGeometryAntialias && box.HasSomeRoundCorner)
                 {
                     g.SmoothingMode = SmoothingMode.AntiAlias;
                 }

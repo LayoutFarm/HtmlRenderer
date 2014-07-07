@@ -15,8 +15,7 @@ namespace HtmlRenderer.Dom
     {
 
         public void Paint(IGraphics g, PaintVisitor p)
-        {
-            
+        {   
             if (this.CssDisplay != CssDisplay.None &&
                 this.Visibility == Dom.CssVisibility.Visible)
             {
@@ -41,16 +40,11 @@ namespace HtmlRenderer.Dom
 
         protected virtual void PaintImp(IGraphics g, PaintVisitor p)
         {
-            //if (this.dbugId == 36)
-            //{
-
-            //}
+            
             if (this.CssDisplay != CssDisplay.None &&
                (this.CssDisplay != CssDisplay.TableCell ||
                  EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
-            {
-
-
+            {   
 
                 bool hasPrevClip = false;
                 RectangleF prevClip = RectangleF.Empty;
@@ -74,9 +68,13 @@ namespace HtmlRenderer.Dom
                 if (this.CssDisplay != CssDisplay.Inline)
                 {
                     RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
-                    PaintBackground(p, bound, true, true);
-                    p.PaintBorders(this, bound, true, true);
 
+                    PaintBackground(p, bound, true, true);
+
+                    if (this.HasSomeVisibleBorder)
+                    {
+                        p.PaintBorders(this, bound, true, true);
+                    }
 #if DEBUG
                     dbugPaint(p, bound);
 #endif
@@ -185,7 +183,7 @@ namespace HtmlRenderer.Dom
                 {
                     _subBoxes.ListItemBox.Paint(g, p);
                 }
-                 
+
             }
         }
 
@@ -198,16 +196,16 @@ namespace HtmlRenderer.Dom
         /// <param name="isLast">is it the last rectangle of the element</param>
         internal void PaintBackground(PaintVisitor p, RectangleF rect, bool isFirst, bool isLast)
         {
-
+            if (!this.HasVisibleBgColor)
+            {
+                return;
+            }
 
             if (rect.Width > 0 && rect.Height > 0)
             {
                 Brush brush = null;
                 bool dispose = false;
-                IGraphics g = p.Gfx;
-
-                SmoothingMode smooth = g.SmoothingMode;
-
+                
                 if (BackgroundGradient != System.Drawing.Color.Transparent)
                 {
                     brush = new LinearGradientBrush(rect,
@@ -223,6 +221,10 @@ namespace HtmlRenderer.Dom
                     brush = RenderUtils.GetSolidBrush(ActualBackgroundColor);
                 }
 
+
+                IGraphics g = p.Gfx;
+                SmoothingMode smooth = g.SmoothingMode;
+
                 if (brush != null)
                 {
                     // atodo: handle it correctly (tables background)
@@ -230,13 +232,13 @@ namespace HtmlRenderer.Dom
                     //  rectangle.Width -= ActualWordSpacing + CssUtils.GetWordEndWhitespace(ActualFont);
 
                     GraphicsPath roundrect = null;
-                    bool isRound = this.HasRoundCorner;
-                    if (isRound)
+                    bool hasSomeRoundCorner = this.HasSomeRoundCorner;
+                    if (hasSomeRoundCorner)
                     {
                         roundrect = RenderUtils.GetRoundRect(rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
                     }
 
-                    if (!p.AvoidGeometryAntialias && isRound)
+                    if (!p.AvoidGeometryAntialias && hasSomeRoundCorner)
                     {
                         g.SmoothingMode = SmoothingMode.AntiAlias;
                     }
@@ -276,6 +278,7 @@ namespace HtmlRenderer.Dom
                     return;
                 case CssTextDecoration.Underline:
                     {
+                        //TODO: correct this ...
                         var h = g.MeasureString(" ", ActualFont).Height;
                         float desc = FontsUtils.GetDescent(ActualFont, g);
                         y = (float)Math.Round(rectangle.Top + h - desc + 0.5);

@@ -468,8 +468,10 @@ namespace HtmlRenderer.Dom
 
             PaintBackground(p, rects, true, true);
 
-
-            p.PaintBorders(this, rects, true, true);
+            if (this.HasSomeVisibleBorder)
+            {
+                p.PaintBorders(this, rects, true, true);
+            }
 
             var word = this.FirstRun;
             var tmpRect = word.Rectangle;

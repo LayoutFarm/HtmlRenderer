@@ -107,7 +107,12 @@ namespace HtmlRenderer.Dom
             //p.PushLocalClipArea(rect.Width, rect.Height);
 
             PaintBackground(p, rect, true, true);
-            p.PaintBorders(this, rect, true, true);
+
+            if (this.HasSomeVisibleBorder)
+            {
+                p.PaintBorders(this, rect, true, true);
+            }
+
 
             RectangleF r = _imageWord.Rectangle;
 

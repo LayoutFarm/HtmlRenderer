@@ -479,7 +479,7 @@ namespace HtmlRenderer.Dom
         {
 
 
-            //return;
+             return;
             //linebox  
             float x1 = 0;
             float y1 = 0;
@@ -531,19 +531,21 @@ namespace HtmlRenderer.Dom
         internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
             //iterate each strip
-             
+
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
-                var stripOwner = strip.owner; 
+                var stripOwner = strip.owner;
 
                 var stripArea = strip.Bound;
                 bool isFirstLine, isLastLine;
 
                 CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
                 stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);
-                if (stripOwner.CssDisplay != CssDisplay.TableCell)
-                {
+
+                if (stripOwner.CssDisplay != CssDisplay.TableCell
+                    && stripOwner.HasSomeVisibleBorder)
+                {   
                     p.PaintBorders(stripOwner, stripArea, isFirstLine, isLastLine);
                 }
 

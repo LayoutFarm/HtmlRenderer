@@ -53,23 +53,17 @@ namespace HtmlRenderer.Dom
             //just parse and preserve all whitespace
             //--------------------------------------
 
-            List<TextSplitPart> spList = new List<TextSplitPart>();
-
-
+            List<TextSplitPart> spList = new List<TextSplitPart>();  
             int startIndex = 0;
             int buffLength = textBuffer.Length;
 
             //whitespace and respect newline  
             WordParsingState parsingState = WordParsingState.Init;
             int appendLength = 0;
-            //if (buffLength == 14)
-            //{
-            //}
+            
             for (int i = 0; i < buffLength; ++i)
             {
-                //if (i == 10)
-                //{ 
-                //}
+                
                 char c0 = textBuffer[i];
                 if (c0 == '\n')
                 {
