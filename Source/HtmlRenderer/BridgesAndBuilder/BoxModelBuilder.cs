@@ -24,7 +24,7 @@ namespace HtmlRenderer.Dom
     /// <summary>
     /// Handle css DOM tree generation from raw html and stylesheet.
     /// </summary>
-    static partial class BoxModelBuilder
+    static class BoxModelBuilder
     {
         //======================================
         static ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
@@ -176,7 +176,7 @@ namespace HtmlRenderer.Dom
                         CssBox.ChangeDisplayType(newChildBox, CssDisplay.Block);
                         newChildBox.DirectSetHeight(ConstConfig.DEFAULT_FONT_SIZE * 0.95f);
                     }
-                } 
+                }
             }
             else
             {
@@ -214,7 +214,7 @@ namespace HtmlRenderer.Dom
                     newChildBox.SetNewParentBox(newAnonBlock);
                 }
 
-            } 
+            }
         }
         static void GenerateCssBoxes(BridgeHtmlElement parentElement, CssBox parentBox)
         {
@@ -536,10 +536,10 @@ namespace HtmlRenderer.Dom
 
                 CssBox.SetHtmlContainer(rootBox, htmlContainer);
                 SetTextSelectionStyle(htmlContainer, cssData);
-
-
                 OnePassBoxCorrection(rootBox);
 
+
+                //-----------------------------
 #if DEBUG
                 //may not need ?, left this method
                 //if want to check 
@@ -547,14 +547,18 @@ namespace HtmlRenderer.Dom
                 //dbugCorrectImgBoxes(rootBox); 
                 //bool followingBlock = true;
                 //dbugCorrectLineBreaksBlocks(rootBox, ref followingBlock);
-#endif
+
 
                 //1. must test first
-                CorrectInlineBoxesParent(rootBox);
+                //dbugCorrectInlineBoxesParent(rootBox);
                 //2. then ...
-                CorrectBlockInsideInline(rootBox);
+                //dbugCorrectBlockInsideInline(rootBox);
+#endif
+                //-----------------------------
 
             }
+
+
             return rootBox;
         }
 
@@ -1306,72 +1310,16 @@ namespace HtmlRenderer.Dom
         }
 
 
-
-
-
-#if DEBUG
-        static int dbugCorrectCount = 0;
-#endif
-
-        /// <summary>
-        /// Check if the given box contains only inline child boxes in all subtree.
-        /// </summary>
-        /// <param name="box">the box to check</param>
-        /// <returns>true - only inline child boxes, false - otherwise</returns>
-        static bool ContainsInlinesOnlyDeep(CssBox box)
+        static void OnePassBoxCorrection(CssBox root)
         {
-            //recursive
-            foreach (var childBox in box.GetChildBoxIter())
-            {
-                if (!childBox.IsInline || !ContainsInlinesOnlyDeep(childBox))
-                {
 
-                    return false;
-                }
-            }
-            return true;
-        }
-        /// <summary>
-        /// Check if the given box contains inline and block child boxes.
-        /// </summary>
-        /// <param name="box">the box to check</param>
-        /// <returns>true - has variant child boxes, false - otherwise</returns>
-        static bool ContainsMixedInlineAndBlockBoxes(CssBox box, out int mixFlags)
-        {
-            if (box.ChildCount == 0 && box.HasRuns)
-            {
-                mixFlags = HAS_IN_LINE;
-                return false;
-            }
-            mixFlags = 0;
-            var children = CssBox.UnsafeGetChildren(box);
-            for (int i = children.Count - 1; i >= 0; --i)
-            {
-                if (children[i].IsInline)
-                {
-                    mixFlags |= HAS_IN_LINE;
-                }
-                else
-                {
-                    mixFlags |= HAS_BLOCK;
-                }
-
-                if (mixFlags == (HAS_BLOCK | HAS_IN_LINE))
-                {
-                    return true;
-                }
-
-            }
-            return false;
         }
 
 
-        const int HAS_BLOCK = 1 << (1 - 1);
-        const int HAS_IN_LINE = 1 << (2 - 1);
+
 
 
         #endregion
-
 
 
     }
