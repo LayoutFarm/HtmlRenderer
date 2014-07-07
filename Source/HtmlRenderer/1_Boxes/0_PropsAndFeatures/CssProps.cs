@@ -12,6 +12,9 @@ namespace HtmlRenderer.Dom
 
         [Map(CssConstants.InlineBlock)]
         InlineBlock,
+
+        InlineBlock2,//extended
+
         [Map(CssConstants.TableRow)]
         TableRow,
         [Map(CssConstants.InlineTable)]

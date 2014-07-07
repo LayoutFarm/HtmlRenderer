@@ -37,6 +37,7 @@ namespace HtmlRenderer.Dom
         readonly BridgeHtmlElement _htmlElement;
         int _boxCompactFlags;
         //----------------------------------------------------
+         
 
         //eg td,th,col,colgroup
         int _rowSpan;
@@ -73,6 +74,11 @@ namespace HtmlRenderer.Dom
             get { return _aa_boxes; }
         }
 
+        internal bool specialBlockInsideInline
+        {
+            get;
+            set;
+        }
         internal int RunCount
         {
             get
@@ -266,14 +272,18 @@ namespace HtmlRenderer.Dom
             }
 
             box._cssDisplay = newdisplay;
+
             box.IsInline = (newdisplay == CssDisplay.Inline ||
-                    newdisplay == CssDisplay.InlineBlock) && !box.IsBrElement;
+                    newdisplay == CssDisplay.InlineBlock2 ||
+                    newdisplay == CssDisplay.InlineBlock) 
+                    && !box.IsBrElement;
 
             //-------------------------
             //check containing property 
             //-------------------------
             switch (newdisplay)
-            {
+            {   
+                case CssDisplay.InlineBlock2:
                 case CssDisplay.Block:
                 case CssDisplay.ListItem:
                 case CssDisplay.Table:

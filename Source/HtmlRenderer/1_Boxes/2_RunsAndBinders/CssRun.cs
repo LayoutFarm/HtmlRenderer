@@ -24,6 +24,7 @@ namespace HtmlRenderer.Dom
         Unknown,
         Text,
         Image,
+        BlockRun,
         LineBreak,
         //------------
         //below here is space
@@ -119,7 +120,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the Box where this word belongs.
         /// </summary>
-        public CssBox OwnerBox
+        public virtual CssBox OwnerBox
         {
             get { return this._owner.OwnerCssBox; }
         }

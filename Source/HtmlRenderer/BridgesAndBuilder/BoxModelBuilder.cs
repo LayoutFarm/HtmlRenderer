@@ -134,6 +134,28 @@ namespace HtmlRenderer.Dom
             }
         }
 
+        static void ValidateParentChildRelationship(CssBox parentBox, CssBox newChildBox)
+        {
+
+            if (parentBox.IsBlock)
+            {
+                //br correction
+                if (newChildBox.IsBrElement)
+                {
+                    newChildBox.DirectSetHeight(ConstConfig.DEFAULT_FONT_SIZE * 0.95f);
+                }
+            }
+            //----------
+            else if (parentBox.IsInline)
+            {
+                if (newChildBox.IsBlock)
+                {
+                    //correct 
+                    CssBox.ChangeDisplayType(newChildBox, CssDisplay.InlineBlock2);
+                }
+            }
+            //----------
+        }
         static void GenerateCssBoxes(BridgeHtmlElement parentElement, CssBox parentBox)
         {
 
@@ -152,7 +174,6 @@ namespace HtmlRenderer.Dom
                                     //parent has single child 
                                     parentBox.SetTextContent(((BridgeHtmlTextNode)bridgeChild).GetContentRuns());
                                     parentBox.UpdateRunList();
-
                                 } break;
                             case BridgeNodeType.Element:
                                 {
@@ -168,12 +189,7 @@ namespace HtmlRenderer.Dom
 
                                     CssBox box = BoxCreator.CreateBox(parentBox, elem);
                                     //----------
-                                    if (parentBox.IsBlock && box.IsBrElement)
-                                    {
-                                        //br correction
-                                        box.DirectSetHeight(ConstConfig.DEFAULT_FONT_SIZE * 0.95f);
-                                    }
-                                    //----------
+                                    ValidateParentChildRelationship(parentBox, box);
 
                                     GenerateCssBoxes(elem, box);
 
@@ -251,13 +267,9 @@ namespace HtmlRenderer.Dom
                             newBox++;
 
                             CssBox box = BoxCreator.CreateBox(parentBox, childElement);
-                            //----
-                            //br correction
-                            if (box.IsBrElement && followBlock)
-                            {
-                                box.DirectSetHeight(ConstConfig.DEFAULT_FONT_SIZE * 0.95f);
-                            }
-                            //----
+
+                            ValidateParentChildRelationship(parentBox, box);
+
                             GenerateCssBoxes(childElement, box);
                             followBlock = box.IsBlock;
 
@@ -314,13 +326,9 @@ namespace HtmlRenderer.Dom
 
 
                             CssBox box = BoxCreator.CreateBox(parentBox, childElement);
-                            //----
-                            //br correction
-                            if (box.IsBrElement && followBlock)
-                            {
-                                box.DirectSetHeight(ConstConfig.DEFAULT_FONT_SIZE * 0.95f);
-                            }
-                            //----
+
+                            ValidateParentChildRelationship(parentBox, box);
+
                             GenerateCssBoxes(childElement, box);
 
                             followBlock = box.IsBlock;
@@ -378,13 +386,7 @@ namespace HtmlRenderer.Dom
 
                             CssBox box = BoxCreator.CreateBox(parentBox, childElement);
 
-                            //----
-                            //br correction
-                            if (box.IsBrElement && followBlock)
-                            {
-                                box.DirectSetHeight(ConstConfig.DEFAULT_FONT_SIZE * 0.95f);
-                            }
-                            //----
+                            ValidateParentChildRelationship(parentBox, box);
 
                             GenerateCssBoxes(childElement, box);
 
@@ -436,12 +438,9 @@ namespace HtmlRenderer.Dom
             {
 
                 CssBox.SetHtmlContainer(rootBox, htmlContainer);
-                //------------------------------------------------------------------- 
-
-                var rootspec = new BoxSpec();
-                //ApplyStyleSheetForBox(rootBox, null, activeCssTemplate);
-                //-------------------------------------------------------------------
                 SetTextSelectionStyle(htmlContainer, cssData);
+
+
                 OnePassBoxCorrection(rootBox);
 
 #if DEBUG

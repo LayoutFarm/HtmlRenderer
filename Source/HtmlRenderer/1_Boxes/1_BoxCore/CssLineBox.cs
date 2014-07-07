@@ -422,6 +422,20 @@ namespace HtmlRenderer.Dom
                             owner.PaintImage(g, new RectangleF(w.Left, w.Top, w.Width, w.Height), p);
 
                         } break;
+                    case CssRunKind.BlockRun:
+                        {
+                            Console.WriteLine("blockrun");
+                            CssBlockRun blockRun = (CssBlockRun)w;
+                            float ox = g.CanvasOriginX;
+                            float oy = g.CanvasOriginY;
+
+                            g.SetCanvasOrigin(ox + blockRun.Left, oy + blockRun.Top);
+
+                            blockRun.BlockBox.Paint(g, p);
+
+                            g.SetCanvasOrigin(ox, oy);
+
+                        } break;
                     case CssRunKind.Text:
                         {
                             if (latestOwner != w.OwnerBox)
@@ -537,7 +551,7 @@ namespace HtmlRenderer.Dom
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
-                CssBox ownerBox = strip.owner; 
+                CssBox ownerBox = strip.owner;
                 bool isFirstLine, isLastLine;
                 CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
                 ownerBox.PaintDecoration(g, strip.Bound, isFirstLine, isLastLine);
