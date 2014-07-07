@@ -26,7 +26,7 @@ namespace HtmlRenderer.Dom
 #if DEBUG
         public void dbugPaint(PaintVisitor p, RectangleF r)
         {
-            //return;
+            return;
             if (this.HtmlElement == null)
             {
                 p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);

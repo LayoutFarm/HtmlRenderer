@@ -77,7 +77,7 @@ namespace HtmlRenderer.Dom
 
             float sR = this.Right;
             float sB = this.Bottom;
-            
+
             if (left < this._x)
             {
                 this._x = left;
@@ -88,11 +88,11 @@ namespace HtmlRenderer.Dom
             }
             if (right > sR)
             {
-                sR = right;                
+                sR = right;
             }
             if (bottom > sB)
             {
-                sB = bottom;                
+                sB = bottom;
             }
 
             this._width = sR - this._x;
@@ -206,7 +206,7 @@ namespace HtmlRenderer.Dom
         {
 #if DEBUG
             this.dbugIsClosed = true;
-             
+
 #endif
 
             //=============================================================
@@ -407,7 +407,7 @@ namespace HtmlRenderer.Dom
         internal void PaintRuns(IGraphics g, PaintVisitor p)
         {
             //iterate from each words
-             
+
 
             CssBox latestOwner = null;
             Font font = null;
@@ -477,7 +477,7 @@ namespace HtmlRenderer.Dom
 
         internal void dbugPaintRuns(IGraphics g, PaintVisitor p)
         {
-            
+
 
             //return;
             //linebox  
@@ -531,27 +531,21 @@ namespace HtmlRenderer.Dom
         internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
             //iterate each strip
-            if (this.dbugId == 29)
-            {
-
-            }
+             
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
-                var stripOwner = strip.owner;
-
-                //if (stripOwner.CssDisplay != CssDisplay.Inline)
-                //{
-                //    throw new NotSupportedException();
-                //    continue;
-                //}
+                var stripOwner = strip.owner; 
 
                 var stripArea = strip.Bound;
                 bool isFirstLine, isLastLine;
 
                 CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
                 stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);
-                p.PaintBorders(stripOwner, stripArea, isFirstLine, isLastLine);
+                if (stripOwner.CssDisplay != CssDisplay.TableCell)
+                {
+                    p.PaintBorders(stripOwner, stripArea, isFirstLine, isLastLine);
+                }
 
             }
         }
