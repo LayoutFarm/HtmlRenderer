@@ -12,6 +12,8 @@ namespace HtmlRenderer.Dom
     }
     struct TextSplitPart
     {
+
+
         public readonly int startIndex;
         public readonly int length;
         public readonly TextSplitPartKind kind;
@@ -20,9 +22,23 @@ namespace HtmlRenderer.Dom
             this.startIndex = startIndex;
             this.length = length;
             this.kind = kind;
+
+
+#if DEBUG
+            this.dbugId = dbugTotalId++;
+
+            if (length == 0)
+            {
+
+            }
+#endif
+
+
         }
 
 #if DEBUG
+        public readonly int dbugId;
+        static int dbugTotalId;
         public override string ToString()
         {
             return kind.ToString() + "(" + startIndex + "," + length + ")";
@@ -34,11 +50,13 @@ namespace HtmlRenderer.Dom
     class RunCollection
     {
 
-        
+
+
         bool isWhiteSpace;
+
         bool isSingleRun;
         bool runListCreated;
-        CssWhiteSpace whitespace; 
+        CssWhiteSpace whitespace;
         CssWordBreak wordBreak;
 
         CssBox ownerBox;
@@ -90,25 +108,26 @@ namespace HtmlRenderer.Dom
                 if (!this.runListCreated ||
                     this.wordBreak != wordBreak ||
                     this.whitespace != whitespace)
-                { 
-                    runList.Clear(); 
+                {
+                    runList.Clear();
 
                     CreateRuns(this,
                        runList,
                        whitespace,
                        wordBreak != CssWordBreak.BreakAll,
                        keepPreWhiteSpace);
-                     
+
                     this.runListCreated = true;
                     this.wordBreak = wordBreak;
                     this.whitespace = whitespace;
                 }
-                
+
             }
         }
         void EvaluateWhitespace()
         {
             isWhiteSpace = false;
+
             if (this.isSingleRun)
             {
                 return;
@@ -118,11 +137,11 @@ namespace HtmlRenderer.Dom
             {
                 if (tmpSplits[i].kind == TextSplitPartKind.Text)
                 {
-                    //stop and return if found whitespace
+                    //stop and return if found text
                     return;
                 }
-            } 
-             
+            }
+
             //exit here means all char is whitespace
             isWhiteSpace = true;
         }
@@ -180,7 +199,7 @@ namespace HtmlRenderer.Dom
                     case TextSplitPartKind.LineBreak:
                         {
                             r = CssTextRun.CreateLineBreak();
-                            
+
                         } break;
                     case TextSplitPartKind.SingleWhitespace:
                         {
@@ -199,10 +218,10 @@ namespace HtmlRenderer.Dom
                         {
                             throw new System.NotSupportedException();
                         }
-                } 
+                }
                 r.SetOwner(collection);
                 boxRuns.Add(r);
-            } 
+            }
         }
 
         /// <summary>
@@ -227,7 +246,7 @@ namespace HtmlRenderer.Dom
                     case TextSplitPartKind.LineBreak:
                         {
                             r = CssTextRun.CreateLineBreak();
-                             
+
                         } break;
                     case TextSplitPartKind.Whitespace:
                     case TextSplitPartKind.SingleWhitespace:

@@ -38,6 +38,7 @@ namespace HtmlRenderer.Dom
         int _boxCompactFlags;
         //----------------------------------------------------
 
+
         //eg td,th,col,colgroup
         int _rowSpan;
         int _colSpan;
@@ -73,6 +74,11 @@ namespace HtmlRenderer.Dom
             get { return _aa_boxes; }
         }
 
+        internal bool specialBlockInsideInline
+        {
+            get;
+            set;
+        }
         internal int RunCount
         {
             get
@@ -266,14 +272,17 @@ namespace HtmlRenderer.Dom
             }
 
             box._cssDisplay = newdisplay;
-            box.IsInline = (newdisplay == CssDisplay.Inline ||
-                    newdisplay == CssDisplay.InlineBlock) && !box.IsBrElement;
+
+            box.IsInline = (newdisplay == CssDisplay.BlockInsideInlineAfterCorrection) || ((newdisplay == CssDisplay.Inline ||
+                    newdisplay == CssDisplay.InlineBlock)
+                    && !box.IsBrElement);
 
             //-------------------------
             //check containing property 
             //-------------------------
             switch (newdisplay)
             {
+                case CssDisplay.BlockInsideInlineAfterCorrection:
                 case CssDisplay.Block:
                 case CssDisplay.ListItem:
                 case CssDisplay.Table:

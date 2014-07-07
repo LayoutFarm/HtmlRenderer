@@ -88,12 +88,15 @@ namespace HtmlRenderer.Dom
             }
             if (right > sR)
             {
-                this._width = right - this._x;
+                sR = right;
             }
             if (bottom > sB)
             {
-                this._height = bottom - this._y;
+                sB = bottom;
             }
+
+            this._width = sR - this._x;
+            this._height = sB - this._y;
         }
         public void SetTop(float y)
         {
@@ -203,6 +206,7 @@ namespace HtmlRenderer.Dom
         {
 #if DEBUG
             this.dbugIsClosed = true;
+
 #endif
 
             //=============================================================
@@ -225,6 +229,7 @@ namespace HtmlRenderer.Dom
                 var run = myruns[i];
                 maxRight = run.Right > maxRight ? run.Right : maxRight;
                 maxBottom = run.Bottom > maxBottom ? run.Bottom : maxBottom;
+                //strip size include whitespace 
                 if (run.IsSpaces)
                 {
                     continue;
@@ -419,7 +424,22 @@ namespace HtmlRenderer.Dom
                     case CssRunKind.Image:
                         {
                             CssBoxImage owner = (CssBoxImage)w.OwnerBox;
-                            owner.PaintImage(g, new RectangleF(0, 0, w.Width, w.Height), p);
+                            owner.PaintImage(g, new RectangleF(w.Left, w.Top, w.Width, w.Height), p);
+
+                        } break;
+                    case CssRunKind.BlockRun:
+                        {
+                            //Console.WriteLine("blockrun");
+
+                            CssBlockRun blockRun = (CssBlockRun)w;
+                            float ox = g.CanvasOriginX;
+                            float oy = g.CanvasOriginY;
+
+                            g.SetCanvasOrigin(ox + blockRun.Left, oy + blockRun.Top);
+
+                            blockRun.BlockBox.Paint(g, p);
+
+                            g.SetCanvasOrigin(ox, oy);
 
                         } break;
                     case CssRunKind.Text:
@@ -457,6 +477,8 @@ namespace HtmlRenderer.Dom
 
         internal void dbugPaintRuns(IGraphics g, PaintVisitor p)
         {
+
+
             //return;
             //linebox  
             float x1 = 0;
@@ -509,24 +531,21 @@ namespace HtmlRenderer.Dom
         internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
             //iterate each strip
-
+             
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
-                var stripOwner = strip.owner;
-
-                //if (stripOwner.CssDisplay != CssDisplay.Inline)
-                //{
-                //    throw new NotSupportedException();
-                //    continue;
-                //}
+                var stripOwner = strip.owner; 
 
                 var stripArea = strip.Bound;
                 bool isFirstLine, isLastLine;
 
                 CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
                 stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);
-                p.PaintBorders(stripOwner, stripArea, isFirstLine, isLastLine);
+                if (stripOwner.CssDisplay != CssDisplay.TableCell)
+                {
+                    p.PaintBorders(stripOwner, stripArea, isFirstLine, isLastLine);
+                }
 
             }
         }
@@ -537,7 +556,7 @@ namespace HtmlRenderer.Dom
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
-                CssBox ownerBox = strip.owner; 
+                CssBox ownerBox = strip.owner;
                 bool isFirstLine, isLastLine;
                 CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
                 ownerBox.PaintDecoration(g, strip.Bound, isFirstLine, isLastLine);

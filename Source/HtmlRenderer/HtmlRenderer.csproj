@@ -65,6 +65,7 @@
     <Compile Include="1_Boxes\1_BoxCore\CssBox_CreateAnonBox.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBox_DirectSetValues.cs" />
     <Compile Include="1_Boxes\1_BoxCore\SubBoxCollection.cs" />
+    <Compile Include="1_Boxes\2_RunsAndBinders\CssBlockRun.cs" />
     <Compile Include="1_Boxes\2_RunsAndBinders\RunCollectionAndTextSplitParts.cs" />
     <Compile Include="1_Boxes\5_HitAndSelections\BoxHitChain.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBox_FlagsConst.cs" />
@@ -79,13 +80,12 @@
     <Compile Include="1_Boxes\3_Layout\LayoutVisitor.cs" />
     <Compile Include="1_Boxes\4_Render\PaintVisitor.cs" />
     <Compile Include="BridgesAndBuilder\ActiveCssTemplate.cs" />
-    <Compile Include="BridgesAndBuilder\BoxModelBuilder_Corrector.cs" />
     <Compile Include="1_Boxes\3_Layout\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
     <Compile Include="1_Boxes\3_Layout\CssTableLayoutEngine.TableColumns.cs" />
     <Compile Include="1_Boxes\2_RunsAndBinders\ImageBinder.cs" />
     <Compile Include="1_Boxes\0_PropsAndFeatures\BoxSpec.cs" />
     <Compile Include="1_Boxes\0_PropsAndFeatures\BoxSpec_CopyAndVersioning.cs" />
-    <Compile Include="BridgesAndBuilder\BoxModelBuilder_debug.cs" />
+    <Compile Include="BridgesAndBuilder\dbugCssBoxDomChecker.cs" />
     <Compile Include="BridgesAndBuilder\SpecSetter.cs" />
     <Compile Include="Common\DeprecatedAttribute.cs" />
     <Compile Include="Common\MapAttribute.cs" />
