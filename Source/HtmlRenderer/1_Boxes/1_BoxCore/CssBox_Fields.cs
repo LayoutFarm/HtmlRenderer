@@ -274,7 +274,7 @@ namespace HtmlRenderer.Dom
             box._cssDisplay = newdisplay;
 
             box.IsInline = (newdisplay == CssDisplay.Inline ||
-                    newdisplay == CssDisplay.InlineBlock2 ||
+                    newdisplay == CssDisplay.BlockInsideInlineAfterCorrection ||
                     newdisplay == CssDisplay.InlineBlock) 
                     && !box.IsBrElement;
 
@@ -283,7 +283,7 @@ namespace HtmlRenderer.Dom
             //-------------------------
             switch (newdisplay)
             {   
-                case CssDisplay.InlineBlock2:
+                case CssDisplay.BlockInsideInlineAfterCorrection:
                 case CssDisplay.Block:
                 case CssDisplay.ListItem:
                 case CssDisplay.Table:

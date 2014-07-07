@@ -255,7 +255,7 @@ namespace HtmlRenderer.Dom
 
                     current_line_x += leftMostSpace;
 
-                    if (b.CssDisplay == CssDisplay.InlineBlock2)
+                    if (b.CssDisplay == CssDisplay.BlockInsideInlineAfterCorrection)
                     {
 
                         //-----------------------------------------

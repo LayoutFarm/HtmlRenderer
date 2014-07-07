@@ -142,16 +142,18 @@ namespace HtmlRenderer.Dom
                 //br correction
                 if (newChildBox.IsBrElement)
                 {
+                    CssBox.ChangeDisplayType(newChildBox, CssDisplay.Block);
                     newChildBox.DirectSetHeight(ConstConfig.DEFAULT_FONT_SIZE * 0.95f);
                 }
             }
             //----------
             else if (parentBox.IsInline)
             {
+
                 if (newChildBox.IsBlock)
                 {
                     //correct 
-                    CssBox.ChangeDisplayType(newChildBox, CssDisplay.InlineBlock2);
+                    CssBox.ChangeDisplayType(newChildBox, CssDisplay.BlockInsideInlineAfterCorrection);
                 }
             }
             //----------
@@ -345,9 +347,12 @@ namespace HtmlRenderer.Dom
 
             var parentSpecWhitespace = parentElement.Spec.WhiteSpace;
             var parentSpecWordBreak = parentElement.Spec.WordBreak;
-            bool followBlock = parentBox.IsBlock;
 
             int limLast = childCount - 1;
+
+            //default
+            bool isLineFormattingContext = true;
+
             for (int i = 0; i < childCount; ++i)
             {
                 BridgeHtmlNode childNode = parentElement.GetNode(i);
@@ -366,7 +371,6 @@ namespace HtmlRenderer.Dom
                             CssBox anonText = CssBox.CreateAnonInline(parentBox);
                             anonText.SetTextContent(contentRuns);
                             anonText.UpdateRunList();
-                            followBlock = false;
 
 #if DEBUG
                             anonText.dbugAnonCreator = parentElement;
@@ -385,12 +389,44 @@ namespace HtmlRenderer.Dom
                             newBox++;
 
                             CssBox box = BoxCreator.CreateBox(parentBox, childElement);
-
                             ValidateParentChildRelationship(parentBox, box);
 
+                            if (isLineFormattingContext)
+                            {
+                                if (box.IsBlock)
+                                {
+                                    //change to block level formatting context
+                                    for (int m = parentBox.ChildCount - 2; m >= 0; --m)
+                                    {
+                                        var prevChild = parentBox.GetChildBox(m);
+                                        if (prevChild.IsInline)
+                                        {
+                                            //correct to block
+                                            if (prevChild.HtmlElement == null)
+                                            {
+                                                //anon block
+                                                CssBox.ChangeDisplayType(prevChild, CssDisplay.Block);
+                                            }
+                                        }
+                                    }
+                                    isLineFormattingContext = false;
+                                }
+                               
+                            }
+                            else
+                            {
+                                if (box.IsInline)
+                                {
+                                    box.SetNewParentBox(null);
+                                    var newAnonBlock = CssBox.CreateAnonBlock(parentBox);
+                                    box.SetNewParentBox(newAnonBlock);
+                                }
+                                
+                            }
+
+                             
                             GenerateCssBoxes(childElement, box);
 
-                            followBlock = box.IsBlock;
 
                         } break;
                 }

@@ -519,7 +519,7 @@ namespace HtmlRenderer.Dom
 
                         //others
                     } break;
-                case Dom.CssDisplay.InlineBlock2:
+                case Dom.CssDisplay.BlockInsideInlineAfterCorrection:
                 case Dom.CssDisplay.Block:
                 case Dom.CssDisplay.ListItem:
                 case Dom.CssDisplay.Table:

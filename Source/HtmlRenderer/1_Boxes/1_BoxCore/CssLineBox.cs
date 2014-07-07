@@ -94,6 +94,7 @@ namespace HtmlRenderer.Dom
             {
                 sB = bottom;                
             }
+
             this._width = sR - this._x;
             this._height = sB - this._y;
         }
@@ -229,7 +230,10 @@ namespace HtmlRenderer.Dom
                 maxRight = run.Right > maxRight ? run.Right : maxRight;
                 maxBottom = run.Bottom > maxBottom ? run.Bottom : maxBottom;
                 //strip size include whitespace 
-                 
+                if (run.IsSpaces)
+                {
+                    continue;
+                }
                 //-------------
                 //first level data
                 RegisterStripPart(run.OwnerBox, run.Left, run.Top, run.Right, run.Bottom, totalStrips, dicStrips);

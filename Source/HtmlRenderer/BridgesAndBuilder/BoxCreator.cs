@@ -49,7 +49,7 @@ namespace HtmlRenderer.Dom
                 case WellknownHtmlTagName.br: 
                     //special treatment for br
                     newBox = new CssBox(parentBox, childElement, childElement.Spec);
-                    CssBox.ChangeDisplayType(newBox, CssDisplay.Block); 
+                    CssBox.ChangeDisplayType(newBox, CssDisplay.BlockInsideInlineAfterCorrection); 
                     break;
                 case WellknownHtmlTagName.img:
                     newBox = new CssBoxImage(parentBox, childElement, childElement.Spec);

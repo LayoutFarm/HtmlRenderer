@@ -13,7 +13,7 @@ namespace HtmlRenderer.Dom
         [Map(CssConstants.InlineBlock)]
         InlineBlock,
 
-        InlineBlock2,//extended
+        BlockInsideInlineAfterCorrection,//extended
 
         [Map(CssConstants.TableRow)]
         TableRow,
