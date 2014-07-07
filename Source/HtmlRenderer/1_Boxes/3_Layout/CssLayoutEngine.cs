@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
- 
+
 namespace HtmlRenderer.Dom
 {
     /// <summary>
@@ -68,7 +68,7 @@ namespace HtmlRenderer.Dom
                 {
                     case CssUnitOrNames.Percent:
                         {
-                            maxWidthVal = maxWidth.Number * lay.LatestContainingBlock.SizeWidth; 
+                            maxWidthVal = maxWidth.Number * lay.LatestContainingBlock.SizeWidth;
                         } break;
                     case CssUnitOrNames.Pixels:
                         {
@@ -238,6 +238,7 @@ namespace HtmlRenderer.Dom
             else
             {
 
+                int totalChildCount = splitableBox.ChildCount;
                 foreach (CssBox b in splitableBox.GetChildBoxIter())
                 {
                     if (b.IsAbsolutePosition())
@@ -254,6 +255,49 @@ namespace HtmlRenderer.Dom
 
                     current_line_x += leftMostSpace;
 
+                    if (b.CssDisplay == CssDisplay.BlockInsideInlineAfterCorrection)
+                    {
+
+                        //-----------------------------------------
+                        lay.PushContaingBlock(hostBox);
+                        var currentLevelLatestSibling = lay.LatestSiblingBox;
+                        lay.LatestSiblingBox = null;//reset
+
+                        b.PerformLayout(lay);
+
+                        lay.LatestSiblingBox = currentLevelLatestSibling;
+                        lay.PopContainingBlock(); 
+                        //-----------------------------------------
+                         
+
+                        var newline = new CssLineBox(hostBox);
+                        hostBox.AddLineBox(newline);
+                        //reset x pos for new line
+                        current_line_x = firstRunStartX;
+                        //set y to new line      
+                        newline.CachedLineTop = current_line_y = maxBottomForHostBox + interLineSpace;
+                         
+                        CssBlockRun blockRun = new CssBlockRun(b); 
+                        newline.AddRun(blockRun);
+                        blockRun.SetSize(b.SizeWidth, b.SizeHeight);
+                        maxBottomForHostBox += b.SizeHeight; 
+                        //-----------------------------------------
+                        if (childNumber < totalChildCount)
+                        {
+                            //this is not last child
+                            //create new line 
+                            newline = new CssLineBox(hostBox);
+                            hostBox.AddLineBox(newline);
+                            newline.CachedLineTop = current_line_y = maxBottomForHostBox + interLineSpace;
+                        }
+                        
+
+                        hostLine = newline;
+                        continue;
+
+
+                    }
+
                     if (!b.HasRuns)
                     {
                         //go deeper  
@@ -268,6 +312,12 @@ namespace HtmlRenderer.Dom
                             ref maxRightForHostBox, ref maxBottomForHostBox,
                             childNumber, leftMostSpace, rightMostSpace, splitableParentIsBlock, splitBoxActualLineHeight);
                     }
+
+
+
+
+
+
                     current_line_x += rightMostSpace;
                     childNumber++;
                 }
@@ -341,7 +391,6 @@ namespace HtmlRenderer.Dom
             for (int i = 0; i < j; ++i)
             {
                 var run = runs[i];
-                CssTextRun trun = run as CssTextRun;
 
                 if (current_line_y + splitBoxActualLineHeight > maxBottomForHostBox)
                 {
@@ -350,6 +399,7 @@ namespace HtmlRenderer.Dom
 
                 //---------------------------------------------------
                 //check if need to start new line ?
+
                 if ((current_line_x + run.Width + rightMostSpace > limitLocalRight &&
                      b.WhiteSpace != CssWhiteSpace.NoWrap &&
                      b.WhiteSpace != CssWhiteSpace.Pre &&

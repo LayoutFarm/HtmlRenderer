@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing; 
+using System.Drawing;
 
 using HtmlRenderer.Handlers;
 using HtmlRenderer.Utils;
@@ -11,7 +11,7 @@ namespace HtmlRenderer.Dom
 {
     //----------------------------------------------------------------------------
     public class PaintVisitor : BoxVisitor
-    {    
+    {
         Stack<RectangleF> clipStacks = new Stack<RectangleF>();
 
         PointF htmlContainerScrollOffset;
@@ -114,6 +114,7 @@ namespace HtmlRenderer.Dom
 
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
         {
+            
             HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);
         }
         internal void PaintBorders(CssBox box, RectangleF rect)
@@ -122,8 +123,8 @@ namespace HtmlRenderer.Dom
             Color leftColor = box.BorderLeftColor;
             Color rightColor = box.BorderRightColor;
             Color bottomColor = box.BorderBottomColor;
-            
-            
+
+
             var g = this.Gfx;
 
             var b1 = RenderUtils.GetSolidBrush(topColor);

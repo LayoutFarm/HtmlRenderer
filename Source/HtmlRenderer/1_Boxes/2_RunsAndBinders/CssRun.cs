@@ -24,6 +24,7 @@ namespace HtmlRenderer.Dom
         Unknown,
         Text,
         Image,
+        BlockRun,
         LineBreak,
         //------------
         //below here is space
@@ -71,6 +72,9 @@ namespace HtmlRenderer.Dom
         /// <param name="owner">the CSS box owner of the word</param>
         protected CssRun(CssRunKind rectKind)
         {
+#if  DEBUG
+           
+#endif
             this._runKind = rectKind;
         }
         internal void SetOwner(RunCollection owner)
@@ -119,7 +123,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the Box where this word belongs.
         /// </summary>
-        public CssBox OwnerBox
+        public virtual CssBox OwnerBox
         {
             get { return this._owner.OwnerCssBox; }
         }

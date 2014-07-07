@@ -514,11 +514,12 @@ namespace HtmlRenderer.Dom
                     }
                 default:
                     {
-                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.LatestContainingBlock); }
-
+                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.LatestContainingBlock); } 
                         this.MeasureRunsSize(lay);
+
                         //others
                     } break;
+                case Dom.CssDisplay.BlockInsideInlineAfterCorrection:
                 case Dom.CssDisplay.Block:
                 case Dom.CssDisplay.ListItem:
                 case Dom.CssDisplay.Table:
@@ -573,13 +574,13 @@ namespace HtmlRenderer.Dom
                         }
 
                         //--------------------------------------------------------------------------
-                        //If we're talking about a table here..
+                        
                         switch (this.CssDisplay)
                         {
                             case Dom.CssDisplay.Table:
                             case Dom.CssDisplay.InlineTable:
                                 {
-
+                                    //If we're talking about a table here..
 
                                     lay.PushContaingBlock(this);
                                     var currentLevelLatestSibling = lay.LatestSiblingBox;
@@ -593,11 +594,17 @@ namespace HtmlRenderer.Dom
                                 } break;
                             default:
                                 {
-                                    //If there's just inline boxes, create LineBoxes
+
+                                    //formatting context for
+                                    //1. inline formatting context
+                                    //2. block formatting context
+                                     
+
                                     if (DomUtils.ContainsInlinesOnly(this))
                                     {
                                         this.SetHeightToZero();
                                         CssLayoutEngine.FlowContentRuns(this, lay); //This will automatically set the bottom of this block
+
                                     }
                                     else if (_aa_boxes.Count > 0)
                                     {
@@ -617,10 +624,12 @@ namespace HtmlRenderer.Dom
 
                                         lay.LatestSiblingBox = currentLevelLatestSibling;
                                         lay.PopContainingBlock();
+                                        //------------------------------------------------
 
                                         float width = this.CalculateActualWidth();
                                         if (lay.ContainerBlockGlobalX + width > ConstConfig.BOX_MAX_RIGHT)
                                         {
+
                                         }
                                         else
                                         {
