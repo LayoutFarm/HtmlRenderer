@@ -16,7 +16,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using HtmlRenderer.Dom; 
+using HtmlRenderer.Dom;
 using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Handlers
@@ -80,9 +80,9 @@ namespace HtmlRenderer.Handlers
         /// <param name="brush">the brush to use</param>
         /// <param name="rectangle">the bounding rectangle to draw in</param>
         /// <returns>Beveled border path, null if there is no rounded corners</returns>
-        public static void DrawBorder(CssSide border, IGraphics g, CssBox box, Brush brush, RectangleF rectangle)
+        public static void DrawBorder(CssSide border, PointF[] borderPts, IGraphics g, CssBox box, Brush brush, RectangleF rectangle)
         {
-            PointF[] borderPts = new PointF[4];
+
             SetInOutsetRectanglePoints(border, box, rectangle, true, true, borderPts);
             g.FillPolygon(brush, borderPts);
         }
@@ -103,10 +103,8 @@ namespace HtmlRenderer.Handlers
 
             CssBorderStyle style = GetStyle(border, box);
             var color = GetColor(border, box, style);
-
             var borderPath = GetRoundedBorderPath(border, box, rect);
 
-          
             IGraphics g = p.Gfx;
             if (borderPath != null)
             {

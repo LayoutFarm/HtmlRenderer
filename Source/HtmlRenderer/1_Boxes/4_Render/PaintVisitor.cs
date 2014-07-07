@@ -114,7 +114,6 @@ namespace HtmlRenderer.Dom
 
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
         {
-            
             HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);
         }
         internal void PaintBorders(CssBox box, RectangleF rect)
@@ -128,22 +127,25 @@ namespace HtmlRenderer.Dom
             var g = this.Gfx;
 
             var b1 = RenderUtils.GetSolidBrush(topColor);
-            BordersDrawHandler.DrawBorder(CssSide.Top, g, box, b1, rect);
+
+            PointF[] borderPoints = new PointF[4];
+            BordersDrawHandler.DrawBorder(CssSide.Top, borderPoints, g, box, b1, rect);
 
             var b2 = RenderUtils.GetSolidBrush(leftColor);
-            BordersDrawHandler.DrawBorder(CssSide.Left, g, box, b2, rect);
+            BordersDrawHandler.DrawBorder(CssSide.Left, borderPoints, g, box, b2, rect);
 
             var b3 = RenderUtils.GetSolidBrush(rightColor);
-            BordersDrawHandler.DrawBorder(CssSide.Right, g, box, b3, rect);
+            BordersDrawHandler.DrawBorder(CssSide.Right, borderPoints, g, box, b3, rect);
 
             var b4 = RenderUtils.GetSolidBrush(bottomColor);
-            BordersDrawHandler.DrawBorder(CssSide.Bottom, g, box, b4, rect);
+            BordersDrawHandler.DrawBorder(CssSide.Bottom, borderPoints, g, box, b4, rect);
 
         }
         internal void PaintBorder(CssBox box, CssSide border, Color solidColor, RectangleF rect)
         {
             var b = RenderUtils.GetSolidBrush(solidColor);
-            BordersDrawHandler.DrawBorder(border, this.Gfx, box, b, rect);
+            PointF[] borderPoints = new PointF[4];
+            BordersDrawHandler.DrawBorder(border, borderPoints, this.Gfx, box, b, rect);
         }
 
 #if DEBUG
