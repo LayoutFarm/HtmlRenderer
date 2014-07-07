@@ -160,6 +160,28 @@ namespace HtmlRenderer.Dom
                     CssBox.ChangeDisplayType(newChildBox, CssDisplay.BlockInsideInlineAfterCorrection);
                 }
             }
+            else if (parentBox.HtmlElement.WellknownTagName == WellknownHtmlTagName.td)
+            {
+                if (isLineFormattingContext)
+                {
+                    if (newChildBox.IsBlock)
+                    {
+                        CssBox.ChangeDisplayType(newChildBox, CssDisplay.BlockInsideInlineAfterCorrection); ;
+                    }
+                }
+                else
+                {
+                    if (newChildBox.IsBrElement)
+                    {
+                        CssBox.ChangeDisplayType(newChildBox, CssDisplay.Block);
+                        newChildBox.DirectSetHeight(ConstConfig.DEFAULT_FONT_SIZE * 0.95f);
+                    }
+                } 
+            }
+            else
+            {
+                //throw new NotSupportedException();
+            }
             //----------
 
 
@@ -174,9 +196,9 @@ namespace HtmlRenderer.Dom
                         var upperAnon = CssBox.CreateAnonBlock(parentBox, 0);
                         //2. move prev child to new anon block
                         for (int m = parentBox.ChildCount - 1; m >= 2; --m)
-                        { 
+                        {
                             var prevChild = parentBox.GetChildBox(1);
-                            prevChild.SetNewParentBox(upperAnon); 
+                            prevChild.SetNewParentBox(upperAnon);
                         }
                     }
 
@@ -192,9 +214,7 @@ namespace HtmlRenderer.Dom
                     newChildBox.SetNewParentBox(newAnonBlock);
                 }
 
-            }
-            //---------------------------------------------------------------------------
-
+            } 
         }
         static void GenerateCssBoxes(BridgeHtmlElement parentElement, CssBox parentBox)
         {
@@ -353,7 +373,7 @@ namespace HtmlRenderer.Dom
                             {
                                 CssBox anonText = CssBox.CreateAnonInline(parentBox);
                                 anonText.SetTextContent(contentRuns);
-                                anonText.UpdateRunList(); 
+                                anonText.UpdateRunList();
 #if DEBUG
                                 anonText.dbugAnonCreator = parentElement;
 #endif
@@ -362,14 +382,14 @@ namespace HtmlRenderer.Dom
                             {
                                 CssBox anonText = CssBox.CreateAnonBlock(parentBox);
                                 anonText.SetTextContent(contentRuns);
-                                anonText.UpdateRunList(); 
+                                anonText.UpdateRunList();
 #if DEBUG
                                 anonText.dbugAnonCreator = parentElement;
 #endif
 
                             }
 
- 
+
 
                             newBox++;
                         } break;

@@ -37,7 +37,7 @@ namespace HtmlRenderer.Dom
         readonly BridgeHtmlElement _htmlElement;
         int _boxCompactFlags;
         //----------------------------------------------------
-         
+
 
         //eg td,th,col,colgroup
         int _rowSpan;
@@ -273,16 +273,15 @@ namespace HtmlRenderer.Dom
 
             box._cssDisplay = newdisplay;
 
-            box.IsInline = (newdisplay == CssDisplay.Inline ||
-                    newdisplay == CssDisplay.BlockInsideInlineAfterCorrection ||
-                    newdisplay == CssDisplay.InlineBlock) 
-                    && !box.IsBrElement;
+            box.IsInline = (newdisplay == CssDisplay.BlockInsideInlineAfterCorrection) || ((newdisplay == CssDisplay.Inline ||
+                    newdisplay == CssDisplay.InlineBlock)
+                    && !box.IsBrElement);
 
             //-------------------------
             //check containing property 
             //-------------------------
             switch (newdisplay)
-            {   
+            {
                 case CssDisplay.BlockInsideInlineAfterCorrection:
                 case CssDisplay.Block:
                 case CssDisplay.ListItem:
