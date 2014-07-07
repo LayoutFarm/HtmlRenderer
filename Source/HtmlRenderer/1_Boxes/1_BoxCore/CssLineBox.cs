@@ -407,9 +407,7 @@ namespace HtmlRenderer.Dom
         internal void PaintRuns(IGraphics g, PaintVisitor p)
         {
             //iterate from each words
-            if (this.dbugId == 9)
-            {
-            }
+             
 
             CssBox latestOwner = null;
             Font font = null;
@@ -479,9 +477,7 @@ namespace HtmlRenderer.Dom
 
         internal void dbugPaintRuns(IGraphics g, PaintVisitor p)
         {
-            if (this.dbugId == 9)
-            {
-            }
+            
 
             //return;
             //linebox  
