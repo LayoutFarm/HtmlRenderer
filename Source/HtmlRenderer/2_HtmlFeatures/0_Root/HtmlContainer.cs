@@ -530,7 +530,7 @@ namespace HtmlRenderer
             _root.SetLocation(_location.X, _location.Y);
             _root.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
 
-            CssBox.ValidateComputeValues(_root); 
+            CssBox.ValidateComputeValues(_root);
             LayoutVisitor layoutArgs = new LayoutVisitor(ig, this);
             layoutArgs.PushContaingBlock(_root);
 
@@ -579,10 +579,13 @@ namespace HtmlRenderer
             args.PushContaingBlock(_root.ContainingBlock);
             args.SetPhysicalViewportBound(0, 0, physicalViewportSize.Width, physicalViewportSize.Height);
 
-            HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
-            _root.Paint(ig, args);
-            HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
-             
+#if DEBUG
+            //--- dx ----
+         
+            long ticks = dbugCounter.GCAndSnap(()
+                => _root.Paint(ig, args));
+#endif
+            
 
             args.PopContainingBlock();
 
