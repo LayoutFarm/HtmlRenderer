@@ -43,10 +43,7 @@ namespace HtmlRenderer.Dom
 
         protected virtual void PaintImp(IGraphics g, PaintVisitor p)
         {
-            //if (this.CssDisplay == Dom.CssDisplay.Table)
-            //{
-
-            //}
+             
 
             if (this.CssDisplay != CssDisplay.None &&
                (this.CssDisplay != CssDisplay.TableCell ||
@@ -69,7 +66,7 @@ namespace HtmlRenderer.Dom
                             return;
                         }
                     }
-                } 
+                }
 
                 //---------------------------------------------
                 if (this.CssDisplay != CssDisplay.Inline)

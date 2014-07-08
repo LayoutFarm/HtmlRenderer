@@ -85,9 +85,9 @@ namespace HtmlRenderer.Dom
         public CssBoxBase()
         {
             _actualColor = System.Drawing.Color.Black;
-            if (this.dbugId == 435)
-            {
-            }
+            //if (this.dbugId == 435)
+            //{
+            //}
         }
 
         #region CSS Properties

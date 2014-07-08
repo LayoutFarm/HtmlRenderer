@@ -1,3 +1,5 @@
+//BSD 2014, WinterCore
+
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
@@ -90,7 +92,7 @@ namespace HtmlRenderer.Demo
 
 
             _updateHtmlTimer = new Timer(OnUpdateHtmlTimerTick);
-            this.Text += " M";
+            this.Text += " M 2490";
         }
         public void PrepareSamples()
         {

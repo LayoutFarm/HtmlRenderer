@@ -578,10 +578,10 @@ namespace HtmlRenderer
 
             args.PushContaingBlock(_root.ContainingBlock);
             args.SetPhysicalViewportBound(0, 0, physicalViewportSize.Width, physicalViewportSize.Height);
-             
 
+            HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
             _root.Paint(ig, args);
-
+            HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
              
 
             args.PopContainingBlock();
