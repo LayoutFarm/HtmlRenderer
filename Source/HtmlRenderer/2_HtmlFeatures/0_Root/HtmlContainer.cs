@@ -579,13 +579,15 @@ namespace HtmlRenderer
             args.PushContaingBlock(_root.ContainingBlock);
             args.SetPhysicalViewportBound(0, 0, physicalViewportSize.Width, physicalViewportSize.Height);
 
-#if DEBUG
-            //--- dx ----
-         
-            long ticks = dbugCounter.GCAndSnap(()
-                => _root.Paint(ig, args));
-#endif
+
+            _root.Paint(ig, args);
             
+#if DEBUG   
+            //--- dx ---- 
+            //long ticks = dbugCounter.GCAndSnap(()
+            //    => _root.Paint(ig, args));
+#endif
+
 
             args.PopContainingBlock();
 

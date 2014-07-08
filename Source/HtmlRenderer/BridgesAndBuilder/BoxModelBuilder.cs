@@ -35,25 +35,12 @@ namespace HtmlRenderer.Dom
         /// Parses the source html to css boxes tree structure.
         /// </summary>
         /// <param name="source">the html source to parse</param>
-        static CssBox ParseDocument(TextSnapshot snapSource)
+        static WebDom.HtmlDocument ParseDocument(TextSnapshot snapSource)
         {
             var parser = new HtmlRenderer.WebDom.Parser.HtmlParser();
             //------------------------
             parser.Parse(snapSource);
-
-            WebDom.HtmlDocument resultHtmlDoc = parser.ResultHtmlDoc;
-            var rootCssBox = BoxCreator.CreateRootBlock();
-            var curBox = rootCssBox;
-            //walk on tree and create cssbox
-            foreach (WebDom.HtmlNode node in resultHtmlDoc.RootNode.GetChildNodeIterForward())
-            {
-                WebDom.HtmlElement elemNode = node as WebDom.HtmlElement;
-                if (elemNode != null)
-                {
-                    CreateCssBox(elemNode, curBox);
-                }
-            }
-            return rootCssBox;
+            return parser.ResultHtmlDoc;
         }
 
 
@@ -149,44 +136,60 @@ namespace HtmlRenderer.Dom
             HtmlContainer htmlContainer,
             CssActiveSheet cssData)
         {
+            CssBox rootBox = null;
+            //1. parse
+            var htmldoc = ParseDocument(new TextSnapshot(html.ToCharArray()));
+            //2. active css template 
 
-            //1. generate css box  from html data
-            CssBox root = ParseDocument(new TextSnapshot(html.ToCharArray()));
+            ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(htmlContainer, cssData);
+
+            //3. create box
+            rootBox = CreateCssTree(htmldoc);
 
 #if DEBUG
             dbugTestParsePerformance(html);
 #endif
 
-
-            //2. decorate cssbox with styles
-            if (root != null)
+            SetTextSelectionStyle(htmlContainer, cssData);
+            CssBox.SetHtmlContainer(rootBox, htmlContainer);
+            //-------------------------------------------------------------------
+            long ticks = dbugCounter.GCAndSnap(() =>
             {
+                //4. assign styles 
+                ApplyStyleSheet(rootBox, activeCssTemplate);
 
-                CssBox.SetHtmlContainer(root, htmlContainer);
-                //-------------------------------------------------------------------
-                ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(htmlContainer, cssData);
-                ApplyStyleSheet(root, activeCssTemplate);
-                SetTextSelectionStyle(htmlContainer, cssData);
+                //5. correction 
 
-                OnePassBoxCorrection(root);
-
-                CorrectTextBoxes(root);
-                CorrectImgBoxes(root);
-
+                OnePassBoxCorrection(rootBox);
+                CorrectTextBoxes(rootBox);
+                CorrectImgBoxes(rootBox);
                 bool followingBlock = true;
-
-                CorrectLineBreaksBlocks(root, ref followingBlock);
-
+                CorrectLineBreaksBlocks(rootBox, ref followingBlock);
                 //1. must test first
-                CorrectInlineBoxesParent(root);
+                CorrectInlineBoxesParent(rootBox);
                 //2. then ...
-                CorrectBlockInsideInline(root);
-                //3. another?
-                //CorrectInlineBoxesParent(root);
-            }
-            return root;
-        }
+                CorrectBlockInsideInline(rootBox);
 
+            });
+
+
+            return rootBox;
+        }
+        static CssBox CreateCssTree(WebDom.HtmlDocument resultHtmlDoc)
+        {
+            var rootCssBox = BoxCreator.CreateRootBlock();
+            var curBox = rootCssBox;
+            //walk on tree and create cssbox
+            foreach (WebDom.HtmlNode node in resultHtmlDoc.RootNode.GetChildNodeIterForward())
+            {
+                WebDom.HtmlElement elemNode = node as WebDom.HtmlElement;
+                if (elemNode != null)
+                {
+                    CreateCssBox(elemNode, curBox);
+                }
+            }
+            return rootCssBox;
+        }
 
         //------------------------------------------
         #region Private methods
@@ -213,14 +216,14 @@ namespace HtmlRenderer.Dom
 
             //sw1.Reset();
             //GC.Collect();
-            sw1.Start();
-            for (int i = nround; i >= 0; --i)
-            {
-                CssBox root2 = ParseDocument(snapSource);
-            }
-            sw1.Stop();
-            long ee2 = sw1.ElapsedTicks;
-            long ee2_ms = sw1.ElapsedMilliseconds;
+            //sw1.Start();
+            //for (int i = nround; i >= 0; --i)
+            //{
+            //    CssBox root2 = ParseDocument(snapSource);
+            //}
+            //sw1.Stop();
+            //long ee2 = sw1.ElapsedTicks;
+            //long ee2_ms = sw1.ElapsedMilliseconds;
 
         }
 #endif
@@ -874,10 +877,10 @@ namespace HtmlRenderer.Dom
                 }
 
                 if (mixFlags == (HAS_BLOCK | HAS_IN_LINE))
-                {   
+                {
                     return true;
                 }
-                
+
             }
             return false;
         }
