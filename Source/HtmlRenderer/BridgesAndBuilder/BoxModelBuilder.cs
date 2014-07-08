@@ -139,11 +139,12 @@ namespace HtmlRenderer.Dom
             CssBox rootBox = null;
             //1. parse
             var htmldoc = ParseDocument(new TextSnapshot(html.ToCharArray()));
-            //2. active css template 
-
+            //2. active css template  
             ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(htmlContainer, cssData);
 
             //3. create box
+            // long ticks = dbugCounter.GCAndSnap(() =>
+            // {
             rootBox = CreateCssTree(htmldoc);
 
 #if DEBUG
@@ -153,24 +154,23 @@ namespace HtmlRenderer.Dom
             SetTextSelectionStyle(htmlContainer, cssData);
             CssBox.SetHtmlContainer(rootBox, htmlContainer);
             //-------------------------------------------------------------------
-            long ticks = dbugCounter.GCAndSnap(() =>
-            {
-                //4. assign styles 
-                ApplyStyleSheet(rootBox, activeCssTemplate);
 
-                //5. correction 
+            //4. assign styles 
+            ApplyStyleSheet(rootBox, activeCssTemplate);
 
-                OnePassBoxCorrection(rootBox);
-                CorrectTextBoxes(rootBox);
-                CorrectImgBoxes(rootBox);
-                bool followingBlock = true;
-                CorrectLineBreaksBlocks(rootBox, ref followingBlock);
-                //1. must test first
-                CorrectInlineBoxesParent(rootBox);
-                //2. then ...
-                CorrectBlockInsideInline(rootBox);
+            //5. correction 
 
-            });
+            OnePassBoxCorrection(rootBox);
+            CorrectTextBoxes(rootBox);
+            CorrectImgBoxes(rootBox);
+            bool followingBlock = true;
+            CorrectLineBreaksBlocks(rootBox, ref followingBlock);
+            //1. must test first
+            CorrectInlineBoxesParent(rootBox);
+            //2. then ...
+            CorrectBlockInsideInline(rootBox);
+
+            // });
 
 
             return rootBox;

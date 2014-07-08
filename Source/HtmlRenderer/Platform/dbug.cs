@@ -22,6 +22,14 @@ namespace HtmlRenderer
             var newWatch = System.Diagnostics.Stopwatch.StartNew();
             codeRgn();
             newWatch.Stop();
+            return newWatch.ElapsedMilliseconds;
+        }
+        public static long GCAndSnapTicks(dbugCounterAction codeRgn)
+        {
+            GC.Collect();
+            var newWatch = System.Diagnostics.Stopwatch.StartNew();
+            codeRgn();
+            newWatch.Stop();
             return newWatch.ElapsedTicks;
         }
     }
