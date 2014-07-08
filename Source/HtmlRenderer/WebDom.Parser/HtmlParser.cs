@@ -47,7 +47,8 @@ namespace HtmlRenderer.WebDom.Parser
 
                         if (curTextNode == null)
                         {
-                            curTextNode = _resultHtmlDoc.CreateTextNode(HtmlUtils.DecodeHtml(this.textSnapshot, startIndex, len));
+                            curTextNode = _resultHtmlDoc.CreateTextNode(
+                                HtmlUtils.DecodeHtml(this.textSnapshot, startIndex, len));
 
                             if (curHtmlNode != null)
                             {

@@ -13,7 +13,7 @@
 // - Sun Tsu,
 // "The Art of War"
  
-namespace HtmlRenderer.Dom
+namespace HtmlRenderer 
 {
 
     public enum WellknownHtmlTagName : byte

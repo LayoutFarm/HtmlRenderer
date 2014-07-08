@@ -51,7 +51,6 @@ namespace HtmlRenderer.Dom
          
 
         bool isWhiteSpace;
-
         bool isSingleRun;
         bool runListCreated;
         CssWhiteSpace whitespace;

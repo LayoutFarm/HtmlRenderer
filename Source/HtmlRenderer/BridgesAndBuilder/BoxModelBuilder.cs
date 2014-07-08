@@ -45,33 +45,30 @@ namespace HtmlRenderer.Dom
             WebDom.HtmlDocument htmldoc,
             ActiveCssTemplate activeCssTemplate)
         {
-            BrigeRootElement bridgeRoot = new BrigeRootElement(htmldoc.RootNode);
-            BuildBridgeContent(container, htmldoc.RootNode, bridgeRoot, activeCssTemplate);
+            BrigeRootElement bridgeRoot = (BrigeRootElement)htmldoc.RootNode;
+            BuildBridgeContent(container, bridgeRoot, activeCssTemplate);
             return bridgeRoot;
         }
         static void BuildBridgeContent(
             HtmlContainer container,
-            WebDom.HtmlElement parentHtmlNode,
             BridgeHtmlElement parentElement,
             ActiveCssTemplate activeCssTemplate)
         {
             //recursive 
-            foreach (WebDom.HtmlNode node in parentHtmlNode.GetChildNodeIterForward())
+            foreach (WebDom.HtmlNode node in parentElement.GetChildNodeIterForward())
             {
                 switch (node.NodeType)
                 {
                     case WebDom.HtmlNodeType.OpenElement:
                     case WebDom.HtmlNodeType.ShortElement:
                         {
-                            WebDom.HtmlElement webHtmlElement = node as WebDom.HtmlElement;
-
-                            BridgeHtmlElement bridgeElement = new BridgeHtmlElement(webHtmlElement,
-                                UserMapUtil.EvaluateTagName(webHtmlElement.LocalName));
-                            parentElement.AddChildElement(bridgeElement);
+                            BridgeHtmlElement bridgeElement = (BridgeHtmlElement)node;
+                            ///evaluate wellknown tag name
+                            bridgeElement.WellknownTagName = UserMapUtil.EvaluateTagName(bridgeElement.LocalName);
 
                             //-----------------------------
                             //recursive 
-                            BuildBridgeContent(container, webHtmlElement, bridgeElement, activeCssTemplate);
+                            BuildBridgeContent(container, bridgeElement, activeCssTemplate);
                             //-----------------------------
 
                             switch (bridgeElement.WellknownTagName)
@@ -79,19 +76,21 @@ namespace HtmlRenderer.Dom
                                 case WellknownHtmlTagName.style:
                                     {
                                         //style element should have textnode child
-                                        switch (bridgeElement.ChildCount)
+                                        int j = bridgeElement.ChildrenCount;
+                                        for (int i = 0; i < j; ++i)
                                         {
-                                            default:
-                                                {
-                                                    throw new NotSupportedException();
-                                                }
-                                            case 1:
-                                                {
-                                                    BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)bridgeElement.GetNode(0);
-                                                    activeCssTemplate.LoadRawStyleElementContent(new string(textNode.GetOriginalBuffer()));
-                                                } break;
+                                            var ch = bridgeElement.GetChildNode(i);
+                                            switch (ch.NodeType)
+                                            {
+                                                case HtmlNodeType.TextNode:
+                                                    {
+                                                        BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)bridgeElement.GetChildNode(0);
+                                                        activeCssTemplate.LoadRawStyleElementContent(new string(textNode.GetOriginalBuffer()));
+                                                        //break
+                                                        i = j;
+                                                    } break;
+                                            }
                                         }
-
                                     } break;
                                 case WellknownHtmlTagName.link:
                                     {
@@ -122,13 +121,12 @@ namespace HtmlRenderer.Dom
                     case WebDom.HtmlNodeType.TextNode:
                         {
 
-                            //-----------------------------------------------------------
-                            WebDom.HtmlTextNode textNode = (WebDom.HtmlTextNode)node;
-                            var originalBuffer = textNode.CopyTextBuffer();
+                            BridgeHtmlTextNode textnode = (BridgeHtmlTextNode)node;
+                            var originalBuffer = textnode.GetOriginalBuffer();
                             List<TextSplitPart> originalSplitParts = contentTextSplitter.ParseWordContent(originalBuffer);
                             RunCollection contentRuns = new RunCollection(originalBuffer, originalSplitParts);
-                            BridgeHtmlTextNode textnode = new BridgeHtmlTextNode(contentRuns);
-                            parentElement.AddChildElement(textnode);
+                            textnode.SetRunCollection(contentRuns);
+
                         } break;
                 }
             }
@@ -220,22 +218,23 @@ namespace HtmlRenderer.Dom
         {
 
 
-            switch (parentElement.ChildCount)
+            switch (parentElement.ChildrenCount)
             {
                 case 0: { } break;
                 case 1:
                     {
-                        BridgeHtmlNode bridgeChild = parentElement.GetNode(0);
+                        HtmlNode bridgeChild = parentElement.GetChildNode(0);
                         int newBox = 0;
                         switch (bridgeChild.NodeType)
                         {
-                            case BridgeNodeType.Text:
+                            case HtmlNodeType.TextNode:
                                 {
                                     //parent has single child 
                                     parentBox.SetTextContent(((BridgeHtmlTextNode)bridgeChild).GetContentRuns());
                                     parentBox.UpdateRunList();
                                 } break;
-                            case BridgeNodeType.Element:
+                            case HtmlNodeType.ShortElement:
+                            case HtmlNodeType.OpenElement:
                                 {
 
                                     BridgeHtmlElement elem = (BridgeHtmlElement)bridgeChild;
@@ -245,8 +244,6 @@ namespace HtmlRenderer.Dom
                                         return;
                                     }
                                     newBox++;
-
-
                                     CssBox box = BoxCreator.CreateBox(parentBox, elem);
                                     //----------
                                     bool isInlineFormattingContext = true;
@@ -287,7 +284,7 @@ namespace HtmlRenderer.Dom
         {
 
             int newBox = 0;
-            int childCount = parentElement.ChildCount;
+            int childCount = parentElement.ChildrenCount;
 
             var parentSpecWhitespace = parentElement.Spec.WhiteSpace;
             var parentSpecWordBreak = parentElement.Spec.WordBreak;
@@ -296,10 +293,10 @@ namespace HtmlRenderer.Dom
             bool isLineFormattingContext = true;
             for (int i = 0; i < childCount; ++i)
             {
-                BridgeHtmlNode childNode = parentElement.GetNode(i);
+                var childNode = parentElement.GetChildNode(i);
                 switch (childNode.NodeType)
                 {
-                    case BridgeNodeType.Text:
+                    case HtmlNodeType.TextNode:
                         {
                             BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
                             var contentRuns = textNode.GetContentRuns();
@@ -327,7 +324,8 @@ namespace HtmlRenderer.Dom
 
                             newBox++;
                         } break;
-                    default:
+                    case HtmlNodeType.ShortElement:
+                    case HtmlNodeType.OpenElement:
                         {
                             BridgeHtmlElement childElement = (BridgeHtmlElement)childNode;
                             var spec = childElement.Spec;
@@ -336,12 +334,13 @@ namespace HtmlRenderer.Dom
                                 continue;
                             }
 
-                            newBox++;
-
+                            newBox++; 
                             CssBox box = BoxCreator.CreateBox(parentBox, childElement);
                             ValidateParentChildRelationship(parentBox, box, ref isLineFormattingContext);
                             GenerateCssBoxes(childElement, box);
-
+                        } break;
+                    default:
+                        { 
                         } break;
                 }
             }
@@ -349,17 +348,17 @@ namespace HtmlRenderer.Dom
         static void CreateChildBoxRespectNewLine(BridgeHtmlElement parentElement, CssBox parentBox)
         {
             int newBox = 0;
-            int childCount = parentElement.ChildCount;
+            int childCount = parentElement.ChildrenCount;
 
             var parentSpecWhitespace = parentElement.Spec.WhiteSpace;
             var parentSpecWordBreak = parentElement.Spec.WordBreak;
             bool isLineFormattingContext = false;
             for (int i = 0; i < childCount; ++i)
             {
-                BridgeHtmlNode childNode = parentElement.GetNode(i);
+                var childNode = parentElement.GetChildNode(i);
                 switch (childNode.NodeType)
                 {
-                    case BridgeNodeType.Text:
+                    case HtmlNodeType.TextNode:
                         {
                             BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
                             var contentRuns = textNode.GetContentRuns();
@@ -388,12 +387,10 @@ namespace HtmlRenderer.Dom
 #endif
 
                             }
-
-
-
                             newBox++;
                         } break;
-                    default:
+                    case HtmlNodeType.OpenElement:
+                    case HtmlNodeType.ShortElement:
                         {
                             //other node type
                             BridgeHtmlElement childElement = (BridgeHtmlElement)childNode;
@@ -413,6 +410,9 @@ namespace HtmlRenderer.Dom
                             GenerateCssBoxes(childElement, box);
 
 
+                        } break;
+                    default:
+                        {
 
                         } break;
                 }
@@ -422,7 +422,7 @@ namespace HtmlRenderer.Dom
         static void CreateChildBoxDefault(BridgeHtmlElement parentElement, CssBox parentBox)
         {
             int newBox = 0;
-            int childCount = parentElement.ChildCount;
+            int childCount = parentElement.ChildrenCount;
 
             var parentSpecWhitespace = parentElement.Spec.WhiteSpace;
             var parentSpecWordBreak = parentElement.Spec.WordBreak;
@@ -434,10 +434,10 @@ namespace HtmlRenderer.Dom
 
             for (int i = 0; i < childCount; ++i)
             {
-                BridgeHtmlNode childNode = parentElement.GetNode(i);
+                var childNode = parentElement.GetChildNode(i);
                 switch (childNode.NodeType)
                 {
-                    case BridgeNodeType.Text:
+                    case HtmlNodeType.TextNode:
                         {
 
                             BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
@@ -471,7 +471,8 @@ namespace HtmlRenderer.Dom
 
                             newBox++;
                         } break;
-                    default:
+                    case HtmlNodeType.ShortElement:
+                    case HtmlNodeType.OpenElement:
                         {
                             BridgeHtmlElement childElement = (BridgeHtmlElement)childNode;
                             var spec = childElement.Spec;
@@ -488,7 +489,9 @@ namespace HtmlRenderer.Dom
 
                             GenerateCssBoxes(childElement, box);
 
-
+                        } break;
+                    default:
+                        {
                         } break;
                 }
             }
@@ -508,7 +511,7 @@ namespace HtmlRenderer.Dom
         {
 
 #if DEBUG
-            
+
 #endif
             CssBox rootBox = null;
             WebDom.HtmlDocument htmldoc = null; ;
@@ -530,9 +533,9 @@ namespace HtmlRenderer.Dom
 
             //2. active css template 
             var t2 = dbugCounter.Snap(() =>
-            {   
+            {
                 //3. create bridge root
-                bridgeRoot = CreateBridgeTree(htmlContainer, htmldoc, activeCssTemplate); 
+                bridgeRoot = CreateBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
                 //----------------------------------------------------------------  
                 //4. assign styles 
                 ApplyStyleSheetForBridgeElement(bridgeRoot, null, activeCssTemplate);
@@ -628,6 +631,7 @@ namespace HtmlRenderer.Dom
             //------------------------------------------------------------------- 
             //4. a style attribute value
             string attrStyleValue;
+
             if (element.TryGetAttribute2("style", out attrStyleValue))
             {
                 var ruleset = activeCssTemplate.ParseCssBlock(element.Name, attrStyleValue);
@@ -646,10 +650,10 @@ namespace HtmlRenderer.Dom
 
             //5. children
             //parent style assignment is complete before step down into child ***            
-            int n = element.ChildCount;
+            int n = element.ChildrenCount;
             for (int i = 0; i < n; ++i)
             {
-                BridgeHtmlElement childElement = element.GetNode(i) as BridgeHtmlElement;
+                BridgeHtmlElement childElement = element.GetChildNode(i) as BridgeHtmlElement;
                 if (childElement != null)
                 {
                     ApplyStyleSheetForBridgeElement(childElement, curSpec, activeCssTemplate);
