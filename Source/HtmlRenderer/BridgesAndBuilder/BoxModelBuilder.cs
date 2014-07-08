@@ -137,42 +137,54 @@ namespace HtmlRenderer.Dom
             CssActiveSheet cssData)
         {
             CssBox rootBox = null;
-            //1. parse
-            var htmldoc = ParseDocument(new TextSnapshot(html.ToCharArray()));
-            //2. active css template  
-            ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(htmlContainer, cssData);
+            WebDom.HtmlDocument htmldoc = null;
+            ActiveCssTemplate activeCssTemplate = null;
 
-            //3. create box
-            // long ticks = dbugCounter.GCAndSnap(() =>
-            // {
-            rootBox = CreateCssTree(htmldoc);
+            //1. parse
+            long t0 = dbugCounter.GCAndSnap(() =>
+            {
+                htmldoc = ParseDocument(new TextSnapshot(html.ToCharArray()));
+               
+            });
+
+            long t1 = dbugCounter.GCAndSnap(() =>
+            {
+                activeCssTemplate = new ActiveCssTemplate(htmlContainer, cssData);
+            });
+
+            long t2 = dbugCounter.GCAndSnap(() =>
+            {
+                //2. active css template   
+                //3. create box 
+                rootBox = CreateCssTree(htmldoc);
 
 #if DEBUG
-            dbugTestParsePerformance(html);
+                dbugTestParsePerformance(html);
 #endif
 
-            SetTextSelectionStyle(htmlContainer, cssData);
-            CssBox.SetHtmlContainer(rootBox, htmlContainer);
-            //-------------------------------------------------------------------
+                SetTextSelectionStyle(htmlContainer, cssData);
+                CssBox.SetHtmlContainer(rootBox, htmlContainer);
+                //-------------------------------------------------------------------
 
-            //4. assign styles 
-            ApplyStyleSheet(rootBox, activeCssTemplate);
+                //4. assign styles 
+                ApplyStyleSheet(rootBox, activeCssTemplate);
 
-            //5. correction 
+                //5. correction 
 
-            OnePassBoxCorrection(rootBox);
-            CorrectTextBoxes(rootBox);
-            CorrectImgBoxes(rootBox);
-            bool followingBlock = true;
-            CorrectLineBreaksBlocks(rootBox, ref followingBlock);
-            //1. must test first
-            CorrectInlineBoxesParent(rootBox);
-            //2. then ...
-            CorrectBlockInsideInline(rootBox);
+                OnePassBoxCorrection(rootBox);
+                CorrectTextBoxes(rootBox);
+                CorrectImgBoxes(rootBox);
+                bool followingBlock = true;
+                CorrectLineBreaksBlocks(rootBox, ref followingBlock);
+                //1. must test first
+                CorrectInlineBoxesParent(rootBox);
+                //2. then ...
+                CorrectBlockInsideInline(rootBox);
 
-            // });
-
-
+            });
+            Console.WriteLine();
+            Console.Write("2094=> ");
+            Console.WriteLine(string.Format("t0:{0}, t1:{1}, t2:{2}, total={3}", t0, t1, t2, (t0 + t1 + t2)));
             return rootBox;
         }
         static CssBox CreateCssTree(WebDom.HtmlDocument resultHtmlDoc)

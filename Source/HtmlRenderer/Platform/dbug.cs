@@ -18,11 +18,11 @@ namespace HtmlRenderer
         }
         public static long GCAndSnap(dbugCounterAction codeRgn)
         {
-            GC.Collect();
+            //GC.Collect();
             var newWatch = System.Diagnostics.Stopwatch.StartNew();
             codeRgn();
             newWatch.Stop();
-            return newWatch.ElapsedMilliseconds;
+            return newWatch.ElapsedTicks;
         }
         public static long GCAndSnapTicks(dbugCounterAction codeRgn)
         {
