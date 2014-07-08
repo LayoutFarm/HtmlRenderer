@@ -13,6 +13,8 @@ namespace HtmlRenderer.Dom
     public class PaintVisitor : BoxVisitor
     {
         Stack<RectangleF> clipStacks = new Stack<RectangleF>();
+       
+        static PointF[] borderPoints = new PointF[4];
 
         PointF htmlContainerScrollOffset;
         HtmlContainer container;
@@ -128,7 +130,7 @@ namespace HtmlRenderer.Dom
 
             var b1 = RenderUtils.GetSolidBrush(topColor);
 
-            PointF[] borderPoints = new PointF[4];
+           
             BordersDrawHandler.DrawBorder(CssSide.Top, borderPoints, g, box, b1, rect);
 
             var b2 = RenderUtils.GetSolidBrush(leftColor);

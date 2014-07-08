@@ -320,7 +320,7 @@ namespace HtmlRenderer.Dom
                                 anonText.SetTextContent(contentRuns);
                                 anonText.UpdateRunList();
 #if DEBUG
-                               // anonText.dbugAnonCreator = parentElement;
+                                // anonText.dbugAnonCreator = parentElement;
 #endif
 
                             }
@@ -507,62 +507,58 @@ namespace HtmlRenderer.Dom
             CssActiveSheet cssData)
         {
 
-            //1. parse
-            HtmlDocument htmldoc = ParseDocument(new TextSnapshot(html.ToCharArray()));
-            //2. active css template
-            //----------------------------------------------------------------
-            ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(cssData);
-            //3. create bridge root
-            BrigeRootElement bridgeRoot = CreateBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
-            //---------------------------------------------------------------- 
-
-
-            //attach style to elements
-            ApplyStyleSheetForBridgeElement(bridgeRoot, null, activeCssTemplate);
-
-            //----------------------------------------------------------------
-            //box generation
-            //3. create cssbox from root
-            CssBox rootBox = BoxCreator.CreateRootBlock();
-            GenerateCssBoxes(bridgeRoot, rootBox);
-
 #if DEBUG
-            dbugTestParsePerformance(html);
+            
 #endif
+            CssBox rootBox = null;
+            WebDom.HtmlDocument htmldoc = null; ;
+            ActiveCssTemplate activeCssTemplate = null;
+            BrigeRootElement bridgeRoot = null;
 
-            //2. decorate cssbox with styles
-            if (rootBox != null)
+
+            //1. parse
+            var t0 = dbugCounter.Snap(() =>
             {
+                htmldoc = ParseDocument(new TextSnapshot(html.ToCharArray()));
+
+            });
+
+            long t1 = dbugCounter.Snap(() =>
+            {
+                activeCssTemplate = new ActiveCssTemplate(cssData);
+            });
+
+            //2. active css template 
+            var t2 = dbugCounter.Snap(() =>
+            {   
+                //3. create bridge root
+                bridgeRoot = CreateBridgeTree(htmlContainer, htmldoc, activeCssTemplate); 
+                //----------------------------------------------------------------  
+                //4. assign styles 
+                ApplyStyleSheetForBridgeElement(bridgeRoot, null, activeCssTemplate);
+                //----------------------------------------------------------------
+                //5. box generation                 
+                rootBox = BoxCreator.CreateRootBlock();
+            });
+
+            var t3 = dbugCounter.Snap(() =>
+            {
+                GenerateCssBoxes(bridgeRoot, rootBox);
+#if DEBUG
+                dbugTestParsePerformance(html);
+#endif
 
                 CssBox.SetHtmlContainer(rootBox, htmlContainer);
                 SetTextSelectionStyle(htmlContainer, cssData);
                 OnePassBoxCorrection(rootBox);
+            });
 
 
-                //-----------------------------
-#if DEBUG
-                //may not need ?, left this method
-                //if want to check 
-                //dbugCorrectTextBoxes(rootBox);
-                //dbugCorrectImgBoxes(rootBox); 
-                //bool followingBlock = true;
-                //dbugCorrectLineBreaksBlocks(rootBox, ref followingBlock);
-
-
-                //1. must test first
-                //dbugCorrectInlineBoxesParent(rootBox);
-                //2. then ...
-                //dbugCorrectBlockInsideInline(rootBox);
-#endif
-                //-----------------------------
-
-            }
-
-
+            //Console.Write("2245=> ");
+            //Console.WriteLine(string.Format("t0:{0}, t1:{1}, t2:{2}, total={3}", t0, t1, t2, (t0 + t1 + t2)));
+            Console.WriteLine(t0 + t1 + t2 + t3);
             return rootBox;
         }
-
-
         //------------------------------------------
         #region Private methods
 #if DEBUG

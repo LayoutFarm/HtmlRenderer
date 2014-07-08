@@ -50,7 +50,7 @@ namespace HtmlRenderer.Dom
 
         internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
         {
- 
+
             this._aa_boxes = new CssBoxCollection(this);
             if (parentBox != null)
             {
@@ -233,13 +233,14 @@ namespace HtmlRenderer.Dom
         {
             get
             {
+
                 if (this.Boxes.Count != 0)
                 {
                     return true;
                 }
-                else if (this.RunCount > 0)
+                else if (this._aa_contentRuns != null)
                 {
-                    return this._aa_contentRuns.IsWhiteSpace;
+                    return this._aa_contentRuns.RunCount > 0;
                 }
                 return true;
             }
@@ -506,7 +507,7 @@ namespace HtmlRenderer.Dom
                     }
                 default:
                     {
-                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.LatestContainingBlock); } 
+                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
 
                         //others
@@ -566,7 +567,7 @@ namespace HtmlRenderer.Dom
                         }
 
                         //--------------------------------------------------------------------------
-                        
+
                         switch (this.CssDisplay)
                         {
                             case Dom.CssDisplay.Table:

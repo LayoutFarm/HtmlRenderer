@@ -418,6 +418,10 @@ namespace HtmlRenderer.Dom
 
             for (int i = 0; i < j; ++i)
             {
+                //-----------------
+                dbugCounter.dbugRunPaintCount++; 
+                //-----------------
+
                 CssRun w = tmpRuns[i];
                 switch (w.Kind)
                 {
@@ -436,7 +440,7 @@ namespace HtmlRenderer.Dom
                             float oy = g.CanvasOriginY;
 
                             g.SetCanvasOrigin(ox + blockRun.Left, oy + blockRun.Top);
-
+                            
                             blockRun.BlockBox.Paint(g, p);
 
                             g.SetCanvasOrigin(ox, oy);

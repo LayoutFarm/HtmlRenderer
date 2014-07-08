@@ -88,14 +88,14 @@ namespace HtmlRenderer.Demo
             var size = Screen.GetWorkingArea(Point.Empty);
             Size = new Size((int)(size.Width * 0.7), (int)(size.Height * 0.8));
 
-          
+
             _updateHtmlTimer = new Timer(OnUpdateHtmlTimerTick);
             this.Text += " M";
         }
         public void PrepareSamples()
         {
-            LoadSamples(); 
-            LoadCustomFonts(); 
+            LoadSamples();
+            LoadCustomFonts();
         }
 
         #region Private methods
@@ -163,7 +163,7 @@ namespace HtmlRenderer.Demo
             }
 
             if (root.Nodes.Count > 0)
-            {   
+            {
                 _samplesTreeView.SelectedNode = root.Nodes[StartAtSampleIndex];
             }
         }
@@ -542,24 +542,25 @@ namespace HtmlRenderer.Demo
             }
 
 
-            var sw = Stopwatch.StartNew();
+
             //HtmlRenderer.dbugCounter.dbugStartRecord = true;
             //HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
+            long ms_total = 0;
             for (int i = 0; i < iterations; i++)
             {
                 foreach (var sampleNum in selectedSamples)
                 {
+                     ms_total += dbugCounter.Snap(() =>
+                     {
+                         //HtmlRenderer.dbugCounter.dbugStartRecord = true;
+                         //HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
+                         _htmlPanel.Text = _perfTestSamples[sampleNum];
+                         Application.DoEvents(); // so paint will be called 
 
-                    HtmlRenderer.dbugCounter.dbugStartRecord = true;
-                    HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
-
-
-                    _htmlPanel.Text = _perfTestSamples[sampleNum];
-                    Application.DoEvents(); // so paint will be called
+                     });
                 }
 
             }
-            sw.Stop();
 
             long endMemory = 0;
             float totalMem = 0;
@@ -578,7 +579,7 @@ namespace HtmlRenderer.Demo
             var msg = string.Format("{0} HTMLs ({1:N0} KB)\r\n{2} Iterations", _perfTestSamples.Count, htmlSize, iterations);
             msg += "\r\n\r\n";
             msg += string.Format("CPU:\r\nTotal: {0} msec\r\nIterationAvg: {1:N2} msec\r\nSingleAvg: {2:N2} msec",
-                                    sw.ElapsedMilliseconds, sw.ElapsedMilliseconds / (double)iterations, sw.ElapsedMilliseconds / (double)iterations / _perfTestSamples.Count);
+                                   ms_total, ms_total / iterations, ms_total / (double)iterations / _perfTestSamples.Count);
             msg += "\r\n\r\n";
             msg += string.Format("Memory:\r\nTotal: {0:N0} KB\r\nIterationAvg: {1:N0} KB\r\nSingleAvg: {2:N0} KB\r\nOverhead: {3:N0}%",
                                  totalMem, totalMem / iterations, totalMem / iterations / _perfTestSamples.Count, 100 * (totalMem / iterations) / htmlSize);

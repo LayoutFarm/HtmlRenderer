@@ -11,9 +11,7 @@ namespace HtmlRenderer.Dom
         LineBreak,
     }
     struct TextSplitPart
-    {
-
-
+    { 
         public readonly int startIndex;
         public readonly int length;
         public readonly TextSplitPartKind kind;
@@ -50,7 +48,7 @@ namespace HtmlRenderer.Dom
     class RunCollection
     {
 
-
+         
 
         bool isWhiteSpace;
 

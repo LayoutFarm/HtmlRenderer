@@ -15,7 +15,10 @@ namespace HtmlRenderer.Dom
     {
 
         public void Paint(IGraphics g, PaintVisitor p)
-        {   
+        {
+#if DEBUG
+            dbugCounter.dbugBoxPaintCount++;
+#endif
             if (this.CssDisplay != CssDisplay.None &&
                 this.Visibility == Dom.CssVisibility.Visible)
             {
@@ -40,11 +43,11 @@ namespace HtmlRenderer.Dom
 
         protected virtual void PaintImp(IGraphics g, PaintVisitor p)
         {
-            
+
             if (this.CssDisplay != CssDisplay.None &&
                (this.CssDisplay != CssDisplay.TableCell ||
-                 EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
-            {   
+                this.EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
+            {
 
                 bool hasPrevClip = false;
                 RectangleF prevClip = RectangleF.Empty;
@@ -67,6 +70,7 @@ namespace HtmlRenderer.Dom
                 //---------------------------------------------
                 if (this.CssDisplay != CssDisplay.Inline)
                 {
+
                     RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
 
                     PaintBackground(p, bound, true, true);
@@ -92,6 +96,11 @@ namespace HtmlRenderer.Dom
                         if (line.CachedLineBottom >= viewport_top &&
                             line.CachedLineTop <= viewport_bottom)
                         {
+
+
+#if DEBUG
+                            dbugCounter.dbugLinePaintCount++;
+#endif
 
                             float cX = g.CanvasOriginX;
                             float cy = g.CanvasOriginY;
@@ -205,7 +214,7 @@ namespace HtmlRenderer.Dom
             {
                 Brush brush = null;
                 bool dispose = false;
-                
+
                 if (BackgroundGradient != System.Drawing.Color.Transparent)
                 {
                     brush = new LinearGradientBrush(rect,
