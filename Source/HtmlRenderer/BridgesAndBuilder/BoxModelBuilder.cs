@@ -41,15 +41,16 @@ namespace HtmlRenderer.Dom
             return parser.ResultHtmlDoc;
         }
 
-        static BrigeRootElement CreateBridgeTree(HtmlContainer container,
+        static BrigeRootElement PrepareBridgeTree(HtmlContainer container,
             WebDom.HtmlDocument htmldoc,
             ActiveCssTemplate activeCssTemplate)
         {
             BrigeRootElement bridgeRoot = (BrigeRootElement)htmldoc.RootNode;
-            BuildBridgeContent(container, bridgeRoot, activeCssTemplate);
+            PrepareChildNodes(container, bridgeRoot, activeCssTemplate);
             return bridgeRoot;
+
         }
-        static void BuildBridgeContent(
+        static void PrepareChildNodes(
             HtmlContainer container,
             BridgeHtmlElement parentElement,
             ActiveCssTemplate activeCssTemplate)
@@ -63,13 +64,8 @@ namespace HtmlRenderer.Dom
                     case WebDom.HtmlNodeType.ShortElement:
                         {
                             BridgeHtmlElement bridgeElement = (BridgeHtmlElement)node;
-                            ///evaluate wellknown tag name
                             bridgeElement.WellknownTagName = UserMapUtil.EvaluateTagName(bridgeElement.LocalName);
 
-                            //-----------------------------
-                            //recursive 
-                            BuildBridgeContent(container, bridgeElement, activeCssTemplate);
-                            //-----------------------------
 
                             switch (bridgeElement.WellknownTagName)
                             {
@@ -91,10 +87,10 @@ namespace HtmlRenderer.Dom
                                                     } break;
                                             }
                                         }
-                                    } break;
+                                        continue;
+                                    }
                                 case WellknownHtmlTagName.link:
                                     {
-
                                         if (bridgeElement.GetAttributeValue("rel", string.Empty).Equals("stylesheet", StringComparison.CurrentCultureIgnoreCase))
                                         {
                                             //load 
@@ -114,17 +110,36 @@ namespace HtmlRenderer.Dom
                                                 activeCssTemplate.LoadAnotherStylesheet(stylesheetData);
                                             }
                                         }
-                                    } break;
+                                        continue;
+                                    }
                             }
-
+                            //-----------------------------                            
+                            //apply style for this node  
+                            ApplyStyleSheetForSingleBridgeElement(bridgeElement, parentElement.Spec, activeCssTemplate);
+                            //-----------------------------
+                            //recursive 
+                            PrepareChildNodes(container, bridgeElement, activeCssTemplate);
+                            //-----------------------------
                         } break;
                     case WebDom.HtmlNodeType.TextNode:
                         {
+                            //text element under parent
 
-                            BridgeHtmlTextNode textnode = (BridgeHtmlTextNode)node;
+                            BridgeHtmlTextNode textnode = (BridgeHtmlTextNode)node; 
+                            //inner content is parsed here  
+                            var parentSpec = parentElement.Spec;
                             var originalBuffer = textnode.GetOriginalBuffer();
+
+                             
+                            //List<CssRun> runs = contentTextSplitter.ParseWordContent2(
+                            //    originalBuffer, 
+                            //    parentSpec.WhiteSpace, 
+                            //    parentSpec.WordBreak);
+
+
                             List<TextSplitPart> originalSplitParts = contentTextSplitter.ParseWordContent(originalBuffer);
                             RunCollection contentRuns = new RunCollection(originalBuffer, originalSplitParts);
+
                             textnode.SetRunCollection(contentRuns);
 
                         } break;
@@ -334,13 +349,13 @@ namespace HtmlRenderer.Dom
                                 continue;
                             }
 
-                            newBox++; 
+                            newBox++;
                             CssBox box = BoxCreator.CreateBox(parentBox, childElement);
                             ValidateParentChildRelationship(parentBox, box, ref isLineFormattingContext);
                             GenerateCssBoxes(childElement, box);
                         } break;
                     default:
-                        { 
+                        {
                         } break;
                 }
             }
@@ -518,48 +533,47 @@ namespace HtmlRenderer.Dom
             ActiveCssTemplate activeCssTemplate = null;
             BrigeRootElement bridgeRoot = null;
 
-
             //1. parse
-            var t0 = dbugCounter.Snap(() =>
-            {
-                htmldoc = ParseDocument(new TextSnapshot(html.ToCharArray()));
+            //var t0 = dbugCounter.Snap(() =>
+            // {
+            htmldoc = ParseDocument(new TextSnapshot(html.ToCharArray()));
 
-            });
+            // });
 
-            long t1 = dbugCounter.Snap(() =>
-            {
-                activeCssTemplate = new ActiveCssTemplate(cssData);
-            });
+            // long t1 = dbugCounter.Snap(() =>
+            // {
+            activeCssTemplate = new ActiveCssTemplate(cssData);
+            //});
 
             //2. active css template 
-            var t2 = dbugCounter.Snap(() =>
-            {
-                //3. create bridge root
-                bridgeRoot = CreateBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
-                //----------------------------------------------------------------  
-                //4. assign styles 
-                ApplyStyleSheetForBridgeElement(bridgeRoot, null, activeCssTemplate);
-                //----------------------------------------------------------------
-                //5. box generation                 
-                rootBox = BoxCreator.CreateRootBlock();
-            });
+            // var t2 = dbugCounter.Snap(() =>
+            // {
+            //3. create bridge root
+            bridgeRoot = PrepareBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
+            //----------------------------------------------------------------  
+            //4. assign styles 
+            //ApplyStyleSheetTopDownForBridgeElement(bridgeRoot, null, activeCssTemplate);
+            //----------------------------------------------------------------
+            //5. box generation                 
+            rootBox = BoxCreator.CreateRootBlock();
+            //});
 
-            var t3 = dbugCounter.Snap(() =>
-            {
-                GenerateCssBoxes(bridgeRoot, rootBox);
+            // var t3 = dbugCounter.Snap(() =>
+            // {
+            GenerateCssBoxes(bridgeRoot, rootBox);
 #if DEBUG
-                dbugTestParsePerformance(html);
+            dbugTestParsePerformance(html);
 #endif
 
-                CssBox.SetHtmlContainer(rootBox, htmlContainer);
-                SetTextSelectionStyle(htmlContainer, cssData);
-                OnePassBoxCorrection(rootBox);
-            });
+            CssBox.SetHtmlContainer(rootBox, htmlContainer);
+            SetTextSelectionStyle(htmlContainer, cssData);
+            OnePassBoxCorrection(rootBox);
+            // });
 
 
             //Console.Write("2245=> ");
             //Console.WriteLine(string.Format("t0:{0}, t1:{1}, t2:{2}, total={3}", t0, t1, t2, (t0 + t1 + t2)));
-            Console.WriteLine(t0 + t1 + t2 + t3);
+            //Console.WriteLine(t0 + t1 + t2 + t3);
             return rootBox;
         }
         //------------------------------------------
@@ -598,10 +612,8 @@ namespace HtmlRenderer.Dom
 
         }
 #endif
-
-        static void ApplyStyleSheetForBridgeElement(BridgeHtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
+        static void ApplyStyleSheetForSingleBridgeElement(BridgeHtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
         {
-
             BoxSpec curSpec = element.Spec;
             //0.
             curSpec.InheritStylesFrom(parentSpec);
@@ -611,8 +623,6 @@ namespace HtmlRenderer.Dom
                element.TryGetAttribute("class", null),
                curSpec,
                parentSpec);
-
-
             //-------------------------------------------------------------------                        
             //2. specific id
             if (element.HasAttribute("id"))
@@ -643,20 +653,23 @@ namespace HtmlRenderer.Dom
                         propDecl);
                 }
             }
-
             //===================== 
             curSpec.Freeze(); //***
-            //=====================
+            //===================== 
+        }
+        static void ApplyStyleSheetTopDownForBridgeElement(BridgeHtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
+        {
 
-            //5. children
-            //parent style assignment is complete before step down into child ***            
+            ApplyStyleSheetForSingleBridgeElement(element, parentSpec, activeCssTemplate);
+            BoxSpec curSpec = element.Spec;
+
             int n = element.ChildrenCount;
             for (int i = 0; i < n; ++i)
             {
                 BridgeHtmlElement childElement = element.GetChildNode(i) as BridgeHtmlElement;
                 if (childElement != null)
                 {
-                    ApplyStyleSheetForBridgeElement(childElement, curSpec, activeCssTemplate);
+                    ApplyStyleSheetTopDownForBridgeElement(childElement, curSpec, activeCssTemplate);
                 }
             }
         }

@@ -11,7 +11,7 @@ namespace HtmlRenderer.Dom
         LineBreak,
     }
     struct TextSplitPart
-    { 
+    {
         public readonly int startIndex;
         public readonly int length;
         public readonly TextSplitPartKind kind;
@@ -48,27 +48,30 @@ namespace HtmlRenderer.Dom
     class RunCollection
     {
 
-         
-
         bool isWhiteSpace;
         bool isSingleRun;
         bool runListCreated;
         CssWhiteSpace whitespace;
         CssWordBreak wordBreak;
-
         CssBox ownerBox;
-
         char[] originalBuffer;
+
         List<CssRun> runList = new List<CssRun>();
         List<TextSplitPart> originalSplitParts;
 
+        public RunCollection(char[] originalBuffer)
+        {
+            this.originalBuffer = originalBuffer;
+
+        } 
         public RunCollection(char[] originalBuffer, List<TextSplitPart> originalSplitParts)
         {
             this.originalSplitParts = originalSplitParts;
-            this.originalBuffer = originalBuffer;
-
+            this.originalBuffer = originalBuffer; 
             EvaluateWhitespace();
         }
+
+         
         public RunCollection(CssRun singleRun)
         {
             singleRun.SetOwner(this);
