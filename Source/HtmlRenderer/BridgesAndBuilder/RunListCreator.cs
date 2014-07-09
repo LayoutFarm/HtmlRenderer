@@ -56,10 +56,12 @@ namespace HtmlRenderer.Dom
                 return;
             }
             //=================================================
-            List<ushort> encodingSplits = originalSplitParts.encodedSplits;
+            toBox.SetTextBuffer(buffer);
+
+            ushort[] encodingSplits = originalSplitParts.encodedSplits;
             bool hasSomeChar = false;
             List<CssRun> boxRuns = new List<CssRun>();
-            int j = encodingSplits.Count;
+            int j = encodingSplits.Length;
             int startIndex = 0;
 
             for (int i = 0; i < j; ++i)
@@ -97,7 +99,7 @@ namespace HtmlRenderer.Dom
                 startIndex += len;
             }
 
-            toBox.SetContentRuns(boxRuns, buffer, hasSomeChar);
+            toBox.SetContentRuns(boxRuns, hasSomeChar);
         }
 
         /// <summary>
@@ -119,10 +121,11 @@ namespace HtmlRenderer.Dom
                 return;
             }
             //--------------------------------------------------
+            toBox.SetTextBuffer(buffer);
             List<CssRun> boxRuns = new List<CssRun>();
             bool hasSomeChar = false;
-            List<ushort> encodedSplits = originalSplitParts.encodedSplits;
-            int j = encodedSplits.Count;
+            ushort[] encodedSplits = originalSplitParts.encodedSplits;
+            int j = encodedSplits.Length;
 
             int startIndex = 0;
             for (int i = 0; i < j; ++i)
@@ -155,16 +158,12 @@ namespace HtmlRenderer.Dom
                             hasSomeChar = true;
                         } break;
                 }
-
                 startIndex += len;
                 r.SetOwner(toBox);
                 boxRuns.Add(r);
-
             }
-            toBox.SetContentRuns(boxRuns, buffer, hasSomeChar);
+            toBox.SetContentRuns(boxRuns, hasSomeChar);
         }
-
-
         static void CreateRunsDefault(
             char[] buffer,
             TextSplits originalSplitParts,
@@ -176,11 +175,13 @@ namespace HtmlRenderer.Dom
             {
                 return;
             }
-            //--------------------------------------------------
+
+
+            toBox.SetTextBuffer(buffer);
             List<CssRun> boxRuns = new List<CssRun>();
             bool hasSomeChar = false;
-            List<ushort> encodedSplits = originalSplitParts.encodedSplits;
-            int j = encodedSplits.Count;
+            ushort[] encodedSplits = originalSplitParts.encodedSplits;
+            int j = encodedSplits.Length;
 
             int startIndex = 0;
             for (int i = 0; i < j; ++i)
@@ -213,16 +214,15 @@ namespace HtmlRenderer.Dom
                     case TextSplitPartKind.Text:
                         {
                             r = CssTextRun.CreateTextRun(startIndex, len);
+                            r.SetOwner(toBox);
                             hasSomeChar = true;
                         } break;
                 }
 
                 startIndex += len;
-                r.SetOwner(toBox);
                 boxRuns.Add(r);
-
             }
-            toBox.SetContentRuns(boxRuns, buffer, hasSomeChar);
+            toBox.SetContentRuns(boxRuns, hasSomeChar);
         }
 
     }

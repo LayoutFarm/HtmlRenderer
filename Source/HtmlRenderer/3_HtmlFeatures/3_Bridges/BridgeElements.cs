@@ -71,6 +71,7 @@ namespace HtmlRenderer.Dom
         public BridgeHtmlTextNode(HtmlDocument ownerDoc, char[] buffer)
             : base(ownerDoc, buffer)
         {
+
         }
         public bool IsWhiteSpace
         {
@@ -96,9 +97,11 @@ namespace HtmlRenderer.Dom
         }
 #endif
     }
+
+
     enum TextSplitPartKind : byte
     {
-        Text,
+        Text = 1,
         Whitespace,
         SingleWhitespace,
         LineBreak,
@@ -107,11 +110,11 @@ namespace HtmlRenderer.Dom
     struct TextSplits
     {
         public readonly ushort singleChar;
-        public readonly List<ushort> encodedSplits;
-        public TextSplits(ushort singleChar, List<ushort> encodedSplits)
-        {
+        public readonly ushort[] encodedSplits;
+        public TextSplits(ushort singleChar, ushort[] encodedSplits)
+        {  
             this.singleChar = singleChar;
-            this.encodedSplits = encodedSplits;
+            this.encodedSplits = encodedSplits; 
         }
     }
 

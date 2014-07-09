@@ -11,7 +11,7 @@ namespace HtmlRenderer.Dom
 
     class ContentTextSplitter
     {
-
+        List<ushort> spList = new List<ushort>();
         public ContentTextSplitter()
         {
 
@@ -34,18 +34,18 @@ namespace HtmlRenderer.Dom
 
         public TextSplits ParseWordContent(char[] textBuffer, out bool hasSomeCharacter)
         {
-            hasSomeCharacter = false;
+
+            hasSomeCharacter = false; 
             //--------------------------------------
             //just parse and preserve all whitespace
             //--------------------------------------  
             int startIndex = 0;
-            int buffLength = textBuffer.Length;
-
+            int buffLength = textBuffer.Length; 
             //whitespace and respect newline  
             WordParsingState parsingState = WordParsingState.Init;
             int appendLength = 0;
+            spList.Clear();           
 
-            List<ushort> spList = new List<ushort>();
 
             for (int i = 0; i < buffLength; ++i)
             {
@@ -108,6 +108,7 @@ namespace HtmlRenderer.Dom
                                 parsingState = WordParsingState.CharacterCollecting;
                                 startIndex = i;//start collect
                                 appendLength = 1;//start append length
+
                             }
                             else
                             {
@@ -123,7 +124,7 @@ namespace HtmlRenderer.Dom
                             if (char.IsWhiteSpace(c0))
                             {
                                 //flush collecting token
-                                spList.Add((ushort)(P_WHITESPACE | (LEN_MASK & appendLength)));
+                                spList.Add((ushort)(P_TEXT | (LEN_MASK & appendLength)));
                                 hasSomeCharacter = true;
                                 parsingState = WordParsingState.Whitespace;
                                 startIndex = i;//start collect
@@ -160,7 +161,15 @@ namespace HtmlRenderer.Dom
                 }
             }
             //--------------------
-            return new TextSplits(0, spList);
+            if (hasSomeCharacter)            
+            {
+                return new TextSplits(0, spList.ToArray());
+            }
+            else
+            {   
+                return new TextSplits(1, null);
+            }
+            
         }
 
     }

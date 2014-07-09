@@ -126,13 +126,11 @@ namespace HtmlRenderer.Dom
 
                             BridgeHtmlTextNode textnode = (BridgeHtmlTextNode)node;
                             //inner content is parsed here 
-
                             var parentSpec = parentElement.Spec;
                             var originalBuffer = textnode.GetOriginalBuffer();
-
                             bool hasSomeCharacter;
 
-                            var originalSplitParts = contentTextSplitter.ParseWordContent(originalBuffer, out hasSomeCharacter);
+                            TextSplits originalSplitParts = contentTextSplitter.ParseWordContent(originalBuffer, out hasSomeCharacter);
                             textnode.SetSplitParts(originalSplitParts, hasSomeCharacter);
 
                         } break;
@@ -307,12 +305,12 @@ namespace HtmlRenderer.Dom
                 {
                     case HtmlNodeType.TextNode:
                         {
-                            BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode; 
+                            BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
                             //-------------------------------------------------------------------------------
                             if (isLineFormattingContext)
                             {
                                 CssBox anonText = CssBox.CreateAnonInline(parentBox);
-                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode); 
+                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode);
 #if DEBUG
                                 //anonText.dbugAnonCreator = parentElement;
 #endif
@@ -320,7 +318,7 @@ namespace HtmlRenderer.Dom
                             else
                             {
                                 CssBox anonText = CssBox.CreateAnonBlock(parentBox);
-                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode); 
+                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode);
                                 //anonText.SetTextContent(contentRuns);
                                 //anonText.UpdateRunList();
 #if DEBUG
@@ -367,16 +365,16 @@ namespace HtmlRenderer.Dom
                 {
                     case HtmlNodeType.TextNode:
                         {
-                            BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode; 
+                            BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
                             if (i == 0 && textNode.IsWhiteSpace)
                             {
                                 continue;//skip
-                            } 
+                            }
                             if (isLineFormattingContext)
                             {
                                 CssBox anonText = CssBox.CreateAnonInline(parentBox);
                                 RunListCreator.AddRunList(anonText, parentElement.Spec, textNode);
-                                 
+
 #if DEBUG
                                 //lanonText.dbugAnonCreator = parentElement;
 #endif
@@ -452,7 +450,7 @@ namespace HtmlRenderer.Dom
                             if (isLineFormattingContext)
                             {
                                 CssBox anonText = CssBox.CreateAnonInline(parentBox);
-                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode);                                 
+                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode);
 
 #if DEBUG
                                 //anonText.dbugAnonCreator = parentElement;
@@ -461,7 +459,7 @@ namespace HtmlRenderer.Dom
                             else
                             {
                                 CssBox anonText = CssBox.CreateAnonBlock(parentBox);
-                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode); 
+                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode);
 #if DEBUG
                                 //anonText.dbugAnonCreator = parentElement;
 #endif
