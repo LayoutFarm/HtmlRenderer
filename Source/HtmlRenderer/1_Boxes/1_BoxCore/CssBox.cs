@@ -258,17 +258,12 @@ namespace HtmlRenderer.Dom
         bool _isAllWhitespace;
         internal void SetTextBuffer(char[] textBuffer)
         {
-            this._buffer = textBuffer;
-
+            this._buffer = textBuffer; 
         }
         internal void SetContentRuns(List<CssRun> runs, bool isAllWhitespace)
         {
             this._aa_contentRuns = runs;
-            this._isAllWhitespace = isAllWhitespace;
-            //-------------------------------------
-            
-
-
+            this._isAllWhitespace = isAllWhitespace; 
         }
         public bool MayHasSomeTextContent
         {

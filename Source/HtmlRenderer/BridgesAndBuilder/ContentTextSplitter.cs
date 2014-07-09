@@ -69,7 +69,7 @@ namespace HtmlRenderer.Dom
                     }
                     //append with new line  
                     //spList.Add((ushort)(P_LINEBREAK | (LEN_MASK & 1)));
-                    runlist.Add(CssTextRun.CreateLineBreak());
+                    //runlist.Add(CssTextRun.CreateLineBreak());
                     startIndex = i;
                     parsingState = WordParsingState.Init;
                     continue;
@@ -128,7 +128,7 @@ namespace HtmlRenderer.Dom
                             {
                                 //flush collecting token
                                 //spList.Add((ushort)(P_TEXT | (LEN_MASK & appendLength)));
-                                runlist.Add(CssTextRun.CreateWhitespace(appendLength));
+                                runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
                                 hasSomeCharacter = true;
                                 parsingState = WordParsingState.Whitespace;
                                 startIndex = i;//start collect

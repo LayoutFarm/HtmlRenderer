@@ -133,17 +133,6 @@ namespace HtmlRenderer.Dom
                             List<CssRun> runlist = new List<CssRun>();
                             contentTextSplitter.ParseWordContent(runlist, originalBuffer, out hasSomeCharacter);
                             textnode.SetSplitParts(runlist, hasSomeCharacter);
-                            if (parentSpec.WhiteSpace == CssWhiteSpace.Pre)
-                            {
-
-                            }
-                            else
-                            {
-
-                            }
-                            ///textnode.SetSplitParts(originalSplitParts, hasSomeCharacter);
-                            //-------------------------------
-
 
                         } break;
                 }

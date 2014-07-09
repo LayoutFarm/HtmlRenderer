@@ -2,6 +2,7 @@
 //ArthurHub
 
 using HtmlRenderer.Utils;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace HtmlRenderer.Dom
@@ -60,7 +61,7 @@ namespace HtmlRenderer.Dom
 
             ContentTextSplitter splitter = lay.GetSplitter();
             bool hasSomeCharacter;
-            System.Collections.Generic.List<CssRun> runlist = new System.Collections.Generic.List<CssRun>();
+            List<CssRun> runlist = new List<CssRun>(5);
             splitter.ParseWordContent(runlist, text_content, out  hasSomeCharacter);
             listItemBox.SetTextBuffer(text_content);
             RunListCreator.AddRunList(listItemBox, spec, runlist, text_content);
