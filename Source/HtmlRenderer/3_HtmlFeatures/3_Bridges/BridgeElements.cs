@@ -66,11 +66,13 @@ namespace HtmlRenderer.Dom
         //---------------------------------
         //this node may be simple text node  
         bool hasSomeChar;
-        TextSplits originalSplits;
+        ushort[] splitBuffer;
+        int splitPartCount;
 
         public BridgeHtmlTextNode(HtmlDocument ownerDoc, char[] buffer)
             : base(ownerDoc, buffer)
         {
+            this.splitBuffer = new ushort[buffer.Length];
 
         }
         public bool IsWhiteSpace
@@ -80,16 +82,21 @@ namespace HtmlRenderer.Dom
                 return !this.hasSomeChar;
             }
         }
-        internal void SetSplitParts(TextSplits splits, bool hasSomeChar)
+        internal ushort[] GetSplitBuffer()
         {
-            this.originalSplits = splits;
-            this.hasSomeChar = hasSomeChar;
-        }
-        internal TextSplits GetSplitParts()
-        {
-            return originalSplits;
+            return this.splitBuffer;
         }
 
+        internal void SetSplitPartCount(int len, bool hasSomeChar)
+        {
+            this.hasSomeChar = hasSomeChar;
+            this.splitPartCount = len;
+        }
+
+        internal int SplitPartCount
+        {
+            get { return this.splitPartCount; }
+        }
 #if DEBUG
         public override string ToString()
         {
@@ -107,46 +114,8 @@ namespace HtmlRenderer.Dom
         LineBreak,
     }
 
-    struct TextSplits
-    {
-        public readonly ushort singleChar;
-        public readonly ushort[] encodedSplits;
-        public TextSplits(ushort singleChar, ushort[] encodedSplits)
-        {  
-            this.singleChar = singleChar;
-            this.encodedSplits = encodedSplits; 
-        }
-    }
-
-    //class TextSplitStreamWriter
-    //{
-    //    public TextSplitStreamWriter()
-    //    {
-
-    //    }
-    //}
 
 
 
-    //    struct TextSplitPart
-    //    {
-    //        public readonly TextSplitPartKind kind;
-    //        public readonly ushort length;
-    //        public TextSplitPart(ushort length, TextSplitPartKind kind)
-    //        {
-
-    //            this.length = length;
-    //            this.kind = kind;
-    //        }
-
-    //#if DEBUG
-    //        //public readonly int dbugId;
-    //        //static int dbugTotalId;
-    //        public override string ToString()
-    //        {
-    //            return kind.ToString() + "(" + length + ")";
-    //        }
-    //#endif
-    //    }
 
 }

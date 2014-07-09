@@ -12,10 +12,12 @@ namespace HtmlRenderer.Dom
 
         public static void AddRunList(CssBox toBox, BoxSpec spec, BridgeHtmlTextNode textnode)
         {
-            AddRunList(toBox, spec, textnode.GetSplitParts(), textnode.GetOriginalBuffer());
+            AddRunList(toBox, spec, textnode.GetSplitBuffer(), textnode.SplitPartCount, textnode.GetOriginalBuffer());
         }
-        public static void AddRunList(CssBox toBox, BoxSpec spec,
-            TextSplits originalSplitParts,
+        public static void AddRunList(CssBox toBox,
+            BoxSpec spec,
+            ushort[] originalSplitParts,
+            int splitPartCount,
             char[] buffer)
         {
 
@@ -23,13 +25,13 @@ namespace HtmlRenderer.Dom
             {
                 case CssWhiteSpace.Pre:
                 case CssWhiteSpace.PreWrap:
-                    CreateRunsPreserveWhitespace(buffer, originalSplitParts, toBox, spec.WordBreak != CssWordBreak.BreakAll);
+                    CreateRunsPreserveWhitespace(buffer, originalSplitParts, splitPartCount, toBox, spec.WordBreak != CssWordBreak.BreakAll);
                     break;
                 case CssWhiteSpace.PreLine:
-                    CreateRunsRespectNewLine(buffer, originalSplitParts, toBox, spec.WordBreak != CssWordBreak.BreakAll);
+                    CreateRunsRespectNewLine(buffer, originalSplitParts, splitPartCount, toBox, spec.WordBreak != CssWordBreak.BreakAll);
                     break;
                 default:
-                    CreateRunsDefault(buffer, originalSplitParts, toBox, spec.WordBreak != CssWordBreak.BreakAll, toBox.HtmlElement != null);
+                    CreateRunsDefault(buffer, originalSplitParts, splitPartCount, toBox, spec.WordBreak != CssWordBreak.BreakAll, toBox.HtmlElement != null);
                     break;
             }
 
@@ -45,26 +47,22 @@ namespace HtmlRenderer.Dom
         /// <returns></returns>
         static void CreateRunsPreserveWhitespace(
             char[] buffer,
-            TextSplits originalSplitParts,
+            ushort[] encodingSplits,
+            int splitPartCount,
             CssBox toBox,
             bool boxIsNotBreakAll)
         {
 
-            if (originalSplitParts.singleChar > 0)
-            {
 
-                return;
-            }
             //=================================================
             toBox.SetTextBuffer(buffer);
 
-            ushort[] encodingSplits = originalSplitParts.encodedSplits;
             bool hasSomeChar = false;
             List<CssRun> boxRuns = new List<CssRun>();
-            int j = encodingSplits.Length;
+
             int startIndex = 0;
 
-            for (int i = 0; i < j; ++i)
+            for (int i = 0; i < splitPartCount; ++i)
             {
                 ushort p = encodingSplits[i];
                 int len = (p & ContentTextSplitter.LEN_MASK);
@@ -110,25 +108,21 @@ namespace HtmlRenderer.Dom
         /// <returns></returns>
         static void CreateRunsRespectNewLine(
             char[] buffer,
-            TextSplits originalSplitParts,
+            ushort[] encodedSplits,
+            int splitPartCount,
             CssBox toBox,
             bool boxIsNotBreakAll)
         {
 
-            if (originalSplitParts.singleChar > 0)
-            {
 
-                return;
-            }
             //--------------------------------------------------
             toBox.SetTextBuffer(buffer);
             List<CssRun> boxRuns = new List<CssRun>();
             bool hasSomeChar = false;
-            ushort[] encodedSplits = originalSplitParts.encodedSplits;
-            int j = encodedSplits.Length;
+
 
             int startIndex = 0;
-            for (int i = 0; i < j; ++i)
+            for (int i = 0; i < splitPartCount; ++i)
             {
                 ushort p = encodedSplits[i];
                 int len = (p & ContentTextSplitter.LEN_MASK);
@@ -166,25 +160,19 @@ namespace HtmlRenderer.Dom
         }
         static void CreateRunsDefault(
             char[] buffer,
-            TextSplits originalSplitParts,
+            ushort[] encodedSplits,
+            int splitPartCount,
             CssBox toBox,
             bool boxIsNotBreakAll, bool keepPreWhiteSpace)
         {
 
-            if (originalSplitParts.singleChar > 0)
-            {
-                return;
-            }
 
 
             toBox.SetTextBuffer(buffer);
             List<CssRun> boxRuns = new List<CssRun>();
             bool hasSomeChar = false;
-            ushort[] encodedSplits = originalSplitParts.encodedSplits;
-            int j = encodedSplits.Length;
-
             int startIndex = 0;
-            for (int i = 0; i < j; ++i)
+            for (int i = 0; i < splitPartCount; ++i)
             {
                 ushort p = encodedSplits[i];
                 int len = (p & ContentTextSplitter.LEN_MASK);

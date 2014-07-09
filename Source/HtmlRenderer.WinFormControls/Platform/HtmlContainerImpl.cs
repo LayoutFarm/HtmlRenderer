@@ -37,6 +37,8 @@ namespace HtmlRenderer
 
         public HtmlContainerImpl()
         {
+            object s = new object();
+            s.ToString();
         }
 
         public void PerformPaint(Graphics g)

@@ -129,9 +129,9 @@ namespace HtmlRenderer.Dom
                             var parentSpec = parentElement.Spec;
                             var originalBuffer = textnode.GetOriginalBuffer();
                             bool hasSomeCharacter;
-
-                            TextSplits originalSplitParts = contentTextSplitter.ParseWordContent(originalBuffer, out hasSomeCharacter);
-                            textnode.SetSplitParts(originalSplitParts, hasSomeCharacter);
+                            int splitPartCount; 
+                            contentTextSplitter.ParseWordContent(originalBuffer, textnode.GetSplitBuffer(), out splitPartCount, out hasSomeCharacter);
+                            textnode.SetSplitPartCount(splitPartCount, hasSomeCharacter);
 
                         } break;
                 }
