@@ -56,11 +56,13 @@ namespace HtmlRenderer.Dom
                     } break;
             }
 
-            ContentTextSplitter splitter = new ContentTextSplitter();
-            var splitParts = splitter.ParseWordContent(text_content);
+            //---------------------
 
-            listItemBox.SetTextContent(new RunCollection(text_content, splitParts));
-            listItemBox.UpdateRunList();
+            ContentTextSplitter splitter = lay.GetSplitter();
+            bool hasSomeCharacter;
+            var splitParts = splitter.ParseWordContent(text_content, out  hasSomeCharacter);
+            RunListCreator.AddRunList(listItemBox, spec, splitParts, text_content);
+            //--------------------- 
 
             var prevSibling = lay.LatestSiblingBox;
             lay.LatestSiblingBox = null;//reset

@@ -42,7 +42,7 @@ namespace HtmlRenderer
         public void PerformPaint(Graphics g)
         {
           
-            for (int i = 0; i < 1; ++i)
+            for (int i = 0; i < 100 ; ++i)
             {
                 dbugCounter.ResetPaintCount();
                 long ticks = dbugCounter.Snap(() =>
@@ -65,7 +65,7 @@ namespace HtmlRenderer
                     }
                 }); 
                 //Console.WriteLine(string.Format("boxes{0}, lines{1}, runs{2}", dbugCounter.dbugBoxPaintCount, dbugCounter.dbugLinePaintCount, dbugCounter.dbugRunPaintCount));
-                //Console.WriteLine(ticks);
+                Console.WriteLine(ticks);
             }
         }
         public void PerformLayout(Graphics g)

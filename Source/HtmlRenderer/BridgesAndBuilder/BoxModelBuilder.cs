@@ -123,24 +123,17 @@ namespace HtmlRenderer.Dom
                         } break;
                     case WebDom.HtmlNodeType.TextNode:
                         {
-                            //text element under parent
 
-                            BridgeHtmlTextNode textnode = (BridgeHtmlTextNode)node; 
-                            //inner content is parsed here  
+                            BridgeHtmlTextNode textnode = (BridgeHtmlTextNode)node;
+                            //inner content is parsed here 
+
                             var parentSpec = parentElement.Spec;
                             var originalBuffer = textnode.GetOriginalBuffer();
 
-                             
-                            //List<CssRun> runs = contentTextSplitter.ParseWordContent2(
-                            //    originalBuffer, 
-                            //    parentSpec.WhiteSpace, 
-                            //    parentSpec.WordBreak);
+                            bool hasSomeCharacter;
 
-
-                            List<TextSplitPart> originalSplitParts = contentTextSplitter.ParseWordContent(originalBuffer);
-                            RunCollection contentRuns = new RunCollection(originalBuffer, originalSplitParts);
-
-                            textnode.SetRunCollection(contentRuns);
+                            var originalSplitParts = contentTextSplitter.ParseWordContent(originalBuffer, out hasSomeCharacter);
+                            textnode.SetSplitParts(originalSplitParts, hasSomeCharacter);
 
                         } break;
                 }
@@ -229,10 +222,10 @@ namespace HtmlRenderer.Dom
 
             }
         }
+
+
         static void GenerateCssBoxes(BridgeHtmlElement parentElement, CssBox parentBox)
         {
-
-
             switch (parentElement.ChildrenCount)
             {
                 case 0: { } break;
@@ -245,8 +238,9 @@ namespace HtmlRenderer.Dom
                             case HtmlNodeType.TextNode:
                                 {
                                     //parent has single child 
-                                    parentBox.SetTextContent(((BridgeHtmlTextNode)bridgeChild).GetContentRuns());
-                                    parentBox.UpdateRunList();
+                                    BridgeHtmlTextNode singleTextNode = (BridgeHtmlTextNode)bridgeChild;
+                                    //create textrun under policy  
+                                    RunListCreator.AddRunList(parentBox, parentElement.Spec, singleTextNode);
                                 } break;
                             case HtmlNodeType.ShortElement:
                             case HtmlNodeType.OpenElement:
@@ -313,15 +307,12 @@ namespace HtmlRenderer.Dom
                 {
                     case HtmlNodeType.TextNode:
                         {
-                            BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
-                            var contentRuns = textNode.GetContentRuns();
-
+                            BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode; 
                             //-------------------------------------------------------------------------------
                             if (isLineFormattingContext)
                             {
                                 CssBox anonText = CssBox.CreateAnonInline(parentBox);
-                                anonText.SetTextContent(contentRuns);
-                                anonText.UpdateRunList();
+                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode); 
 #if DEBUG
                                 //anonText.dbugAnonCreator = parentElement;
 #endif
@@ -329,8 +320,9 @@ namespace HtmlRenderer.Dom
                             else
                             {
                                 CssBox anonText = CssBox.CreateAnonBlock(parentBox);
-                                anonText.SetTextContent(contentRuns);
-                                anonText.UpdateRunList();
+                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode); 
+                                //anonText.SetTextContent(contentRuns);
+                                //anonText.UpdateRunList();
 #if DEBUG
                                 // anonText.dbugAnonCreator = parentElement;
 #endif
@@ -375,28 +367,24 @@ namespace HtmlRenderer.Dom
                 {
                     case HtmlNodeType.TextNode:
                         {
-                            BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
-                            var contentRuns = textNode.GetContentRuns();
-
-                            if (i == 0 && contentRuns.IsWhiteSpace)
+                            BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode; 
+                            if (i == 0 && textNode.IsWhiteSpace)
                             {
                                 continue;//skip
-                            }
-
+                            } 
                             if (isLineFormattingContext)
                             {
                                 CssBox anonText = CssBox.CreateAnonInline(parentBox);
-                                anonText.SetTextContent(contentRuns);
-                                anonText.UpdateRunList();
+                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode);
+                                 
 #if DEBUG
                                 //lanonText.dbugAnonCreator = parentElement;
 #endif
                             }
                             else
                             {
-                                CssBox anonText = CssBox.CreateAnonBlock(parentBox);
-                                anonText.SetTextContent(contentRuns);
-                                anonText.UpdateRunList();
+                                CssBox anonText = CssBox.CreateAnonInline(parentBox);
+                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode);
 #if DEBUG
                                 //anonText.dbugAnonCreator = parentElement;
 #endif
@@ -456,8 +444,7 @@ namespace HtmlRenderer.Dom
                         {
 
                             BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
-                            var contentRuns = textNode.GetContentRuns();
-                            if (contentRuns.IsWhiteSpace)
+                            if (textNode.IsWhiteSpace)
                             {
                                 continue;//skip
                             }
@@ -465,8 +452,7 @@ namespace HtmlRenderer.Dom
                             if (isLineFormattingContext)
                             {
                                 CssBox anonText = CssBox.CreateAnonInline(parentBox);
-                                anonText.SetTextContent(contentRuns);
-                                anonText.UpdateRunList();
+                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode);                                 
 
 #if DEBUG
                                 //anonText.dbugAnonCreator = parentElement;
@@ -475,9 +461,7 @@ namespace HtmlRenderer.Dom
                             else
                             {
                                 CssBox anonText = CssBox.CreateAnonBlock(parentBox);
-                                anonText.SetTextContent(contentRuns);
-                                anonText.UpdateRunList();
-
+                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode); 
 #if DEBUG
                                 //anonText.dbugAnonCreator = parentElement;
 #endif
@@ -1288,7 +1272,6 @@ namespace HtmlRenderer.Dom
         /// <returns></returns>
         public static CssLength TranslateLength(IHtmlAttribute attr)
         {
-
             return UserMapUtil.TranslateLength(attr.Value.ToLower());
 
         }
@@ -1327,13 +1310,11 @@ namespace HtmlRenderer.Dom
         {
 
         }
-
-
-
-
-
         #endregion
-
-
     }
+
+
+
+
+
 }

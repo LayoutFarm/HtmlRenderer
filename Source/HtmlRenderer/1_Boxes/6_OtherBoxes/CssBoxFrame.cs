@@ -75,8 +75,9 @@ namespace HtmlRenderer.Dom
         internal CssBoxFrame(CssBox parent, BridgeHtmlElement tag, BoxSpec spec)
             : base(parent, tag, spec)
         {
+            this.SetContentRuns(new List<CssRun>() { new CssImageRun() { } }, null, false);
 
-            this.SetTextContent(new RunCollection(new CssImageRun()));
+             
 
             //wait for another technique *
 
@@ -117,7 +118,7 @@ namespace HtmlRenderer.Dom
             get { return _isVideo; }
         }
 
-        
+
 
         #region Private methods
 

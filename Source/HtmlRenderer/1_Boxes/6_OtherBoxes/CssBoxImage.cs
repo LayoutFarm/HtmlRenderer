@@ -55,7 +55,8 @@ namespace HtmlRenderer.Dom
         {
 
             this._imageWord = new CssImageRun();
-            this.SetTextContent(new RunCollection(_imageWord));
+            this.SetContentRuns(new List<CssRun>() { _imageWord }, null, false);
+
         }
 
         /// <summary>

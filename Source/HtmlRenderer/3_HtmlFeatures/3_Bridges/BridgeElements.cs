@@ -22,8 +22,8 @@ namespace HtmlRenderer.Dom
         public BoxSpec Spec
         {
             get { return this.boxSpec; }
-           
-        } 
+
+        }
         public string GetAttributeValue(string attrName, string defaultValue)
         {
             var attr = base.FindAttribute(attrName);
@@ -64,27 +64,86 @@ namespace HtmlRenderer.Dom
     class BridgeHtmlTextNode : HtmlTextNode
     {
         //---------------------------------
-        //this node may be simple text node 
-        RunCollection content;
+        //this node may be simple text node  
+        bool hasSomeChar;
+        TextSplits originalSplits;
+
         public BridgeHtmlTextNode(HtmlDocument ownerDoc, char[] buffer)
             : base(ownerDoc, buffer)
         {
         }
-        internal void SetRunCollection(RunCollection runCollection)
+        public bool IsWhiteSpace
         {
-            this.content = runCollection;
+            get
+            {
+                return !this.hasSomeChar;
+            }
         }
-        internal RunCollection GetContentRuns()
+        internal void SetSplitParts(TextSplits splits, bool hasSomeChar)
         {
-            return this.content;
+            this.originalSplits = splits;
+            this.hasSomeChar = hasSomeChar;
         }
+        internal TextSplits GetSplitParts()
+        {
+            return originalSplits;
+        }
+
 #if DEBUG
         public override string ToString()
         {
-            return new string(this.content.GetOriginalBuffer());
+            return new string(base.GetOriginalBuffer());
         }
 #endif
     }
+    enum TextSplitPartKind : byte
+    {
+        Text,
+        Whitespace,
+        SingleWhitespace,
+        LineBreak,
+    }
 
+    struct TextSplits
+    {
+        public readonly ushort singleChar;
+        public readonly List<ushort> encodedSplits;
+        public TextSplits(ushort singleChar, List<ushort> encodedSplits)
+        {
+            this.singleChar = singleChar;
+            this.encodedSplits = encodedSplits;
+        }
+    }
+
+    //class TextSplitStreamWriter
+    //{
+    //    public TextSplitStreamWriter()
+    //    {
+
+    //    }
+    //}
+
+
+
+    //    struct TextSplitPart
+    //    {
+    //        public readonly TextSplitPartKind kind;
+    //        public readonly ushort length;
+    //        public TextSplitPart(ushort length, TextSplitPartKind kind)
+    //        {
+
+    //            this.length = length;
+    //            this.kind = kind;
+    //        }
+
+    //#if DEBUG
+    //        //public readonly int dbugId;
+    //        //static int dbugTotalId;
+    //        public override string ToString()
+    //        {
+    //            return kind.ToString() + "(" + length + ")";
+    //        }
+    //#endif
+    //    }
 
 }

@@ -47,19 +47,16 @@ namespace HtmlRenderer.Dom
         //condition 1 :this Box is BlockBox
         //1.1 contain lineBoxes for my children and  other children (share)
         LinkedList<CssLineBox> _clientLineBoxes;
-
         //1.2 contains box collection for my children
         readonly CssBoxCollection _aa_boxes;
-        //----------------------------------------------------   
-
-        //condition 2 :this Box is InlineBox 
-        RunCollection _aa_contentRuns;
-
+        //----------------------------------------------------    
+        //condition 2 :this Box is InlineBox          
+        List<CssRun> _aa_contentRuns;
+        char[] _buffer;
         //----------------------------------------------------  
         //for other subbox , list item , shadow... 
         SubBoxCollection _subBoxes;
-        //----------------------------------------------------  
-
+        //----------------------------------------------------   
 
         //state
         protected int _prop_pass_eval;
@@ -83,7 +80,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._aa_contentRuns != null ? this._aa_contentRuns.RunCount : 0;
+                return this._aa_contentRuns != null ? this._aa_contentRuns.Count : 0;
             }
         }
         public IEnumerable<CssBox> GetChildBoxIter()
@@ -95,7 +92,7 @@ namespace HtmlRenderer.Dom
         {
             if (this._aa_contentRuns != null)
             {
-                var tmpRuns = this._aa_contentRuns.GetInternalList();
+                var tmpRuns = this._aa_contentRuns;
                 int j = tmpRuns.Count;
                 for (int i = 0; i < j; ++i)
                 {
@@ -108,7 +105,7 @@ namespace HtmlRenderer.Dom
         {
             if (this._aa_contentRuns != null)
             {
-                var tmpRuns = this._aa_contentRuns.GetInternalList();
+                var tmpRuns = this._aa_contentRuns;
                 int j = tmpRuns.Count;
                 for (int i = tmpRuns.Count - 1; i >= 0; --i)
                 {
