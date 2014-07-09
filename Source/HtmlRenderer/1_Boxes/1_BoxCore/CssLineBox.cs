@@ -483,7 +483,7 @@ namespace HtmlRenderer.Dom
         {
 
 
-            return;
+            //return;
             //linebox  
             float x1 = 0;
             float y1 = 0;

@@ -59,12 +59,11 @@ namespace HtmlRenderer.Dom
             //---------------------
 
             ContentTextSplitter splitter = lay.GetSplitter();
-
             bool hasSomeCharacter;
-            int splitPartCount;
-            ushort[] splitBuffer = new ushort[text_content.Length];
-            splitter.ParseWordContent(text_content, splitBuffer, out splitPartCount, out  hasSomeCharacter);
-            RunListCreator.AddRunList(listItemBox, spec, splitBuffer, splitPartCount, text_content);
+            System.Collections.Generic.List<CssRun> runlist = new System.Collections.Generic.List<CssRun>();
+            splitter.ParseWordContent(runlist, text_content, out  hasSomeCharacter);
+            listItemBox.SetTextBuffer(text_content);
+            RunListCreator.AddRunList(listItemBox, spec, runlist, text_content);
             //--------------------- 
 
             var prevSibling = lay.LatestSiblingBox;

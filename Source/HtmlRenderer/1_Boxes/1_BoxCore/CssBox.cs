@@ -254,15 +254,20 @@ namespace HtmlRenderer.Dom
             this._boxCompactFlags = tmpFlags;
         }
 
+
         bool _isAllWhitespace;
         internal void SetTextBuffer(char[] textBuffer)
         {
             this._buffer = textBuffer;
+
         }
         internal void SetContentRuns(List<CssRun> runs, bool isAllWhitespace)
         {
             this._aa_contentRuns = runs;
             this._isAllWhitespace = isAllWhitespace;
+            //-------------------------------------
+            
+
 
         }
         public bool MayHasSomeTextContent

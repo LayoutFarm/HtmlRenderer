@@ -37,8 +37,6 @@ namespace HtmlRenderer
 
         public HtmlContainerImpl()
         {
-            object s = new object();
-            s.ToString();
         }
 
         public void PerformPaint(Graphics g)
@@ -65,6 +63,7 @@ namespace HtmlRenderer
                             g.SetClip(prevClip, System.Drawing.Drawing2D.CombineMode.Replace);
                         }
                     }
+
                 }); 
                 //Console.WriteLine(string.Format("boxes{0}, lines{1}, runs{2}", dbugCounter.dbugBoxPaintCount, dbugCounter.dbugLinePaintCount, dbugCounter.dbugRunPaintCount));
                 Console.WriteLine(ticks);

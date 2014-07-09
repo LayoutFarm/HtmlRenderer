@@ -80,6 +80,10 @@ namespace HtmlRenderer.Dom
         }
         //================================================================
 
+        public void MakeLength1()
+        {
+            this._textLength = 1;
+        }
 
 
         public int TextLength

@@ -66,13 +66,10 @@ namespace HtmlRenderer.Dom
         //---------------------------------
         //this node may be simple text node  
         bool hasSomeChar;
-        ushort[] splitBuffer;
-        int splitPartCount;
-
+        List<CssRun> runs;
         public BridgeHtmlTextNode(HtmlDocument ownerDoc, char[] buffer)
             : base(ownerDoc, buffer)
         {
-            this.splitBuffer = new ushort[buffer.Length];
 
         }
         public bool IsWhiteSpace
@@ -82,27 +79,24 @@ namespace HtmlRenderer.Dom
                 return !this.hasSomeChar;
             }
         }
-        internal ushort[] GetSplitBuffer()
+        internal void SetSplitParts(List<CssRun> runs, bool hasSomeChar)
         {
-            return this.splitBuffer;
-        }
-
-        internal void SetSplitPartCount(int len, bool hasSomeChar)
-        {
+            this.runs = runs;
             this.hasSomeChar = hasSomeChar;
-            this.splitPartCount = len;
         }
-
-        internal int SplitPartCount
-        {
-            get { return this.splitPartCount; }
-        }
+       
 #if DEBUG
         public override string ToString()
         {
             return new string(base.GetOriginalBuffer());
         }
 #endif
+
+        internal List<CssRun> InternalGetRuns()
+        {
+            return this.runs;
+        }
+
     }
 
 
@@ -114,8 +108,20 @@ namespace HtmlRenderer.Dom
         LineBreak,
     }
 
-
-
+    struct TextSplits
+    {
+        public readonly bool isWS;
+        public readonly int startIndex;
+        public readonly int totalLength;
+        public ushort[] encodedSplits;
+        public TextSplits(bool isWS, int startIndex, int totalLength)
+        {
+            this.isWS = isWS;
+            this.startIndex = startIndex;
+            this.totalLength = totalLength;
+            this.encodedSplits = null;
+        }
+    }
 
 
 }

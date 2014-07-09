@@ -73,7 +73,7 @@ namespace HtmlRenderer.Dom
         protected CssRun(CssRunKind rectKind)
         {
 #if  DEBUG
-
+          
 #endif
             this._runKind = rectKind;
         }

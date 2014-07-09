@@ -23,19 +23,16 @@ namespace HtmlRenderer.Dom
             CharacterCollecting
         }
 
-        //---------------------
-
-
+        //-----------------------------------
         public const int P_TEXT = (int)TextSplitPartKind.Text << 13;
         public const int P_WHITESPACE = (int)TextSplitPartKind.Whitespace << 13;
         public const int P_SINGLE_WHITESPACE = (int)TextSplitPartKind.SingleWhitespace << 13;
         public const int P_LINEBREAK = (int)TextSplitPartKind.LineBreak << 13;
         public const int LEN_MASK = ~(7 << 13);
+        //-----------------------------------
 
-        public void ParseWordContent(char[] textBuffer,
-            ushort[] splitBuffer,
-            out int splitBufferLen,
-            out bool hasSomeCharacter)
+        
+        public void ParseWordContent(List<CssRun> runlist, char[] textBuffer, out bool hasSomeCharacter)
         {
 
             hasSomeCharacter = false;
@@ -48,10 +45,7 @@ namespace HtmlRenderer.Dom
             WordParsingState parsingState = WordParsingState.Init;
             int appendLength = 0;
 
-            //init 
-            splitBufferLen = 0;
-            int cIndex = 0;
-
+            //--------------------------------------  
             for (int i = 0; i < buffLength; ++i)
             {
                 char c0 = textBuffer[i];
@@ -62,23 +56,20 @@ namespace HtmlRenderer.Dom
                     {
                         if (parsingState == WordParsingState.CharacterCollecting)
                         {
-                            splitBuffer[cIndex] = (ushort)(P_TEXT | (LEN_MASK & appendLength));
-                            cIndex++;
+                            //spList.Add((ushort)(P_TEXT | (LEN_MASK & appendLength)));
+                            runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
                             hasSomeCharacter = true;
                         }
                         else
                         {
-                            splitBuffer[cIndex] = (ushort)(P_WHITESPACE | (LEN_MASK & appendLength));
-                            cIndex++;
-
+                            runlist.Add(CssTextRun.CreateWhitespace(appendLength));
+                            //spList.Add((ushort)(P_WHITESPACE | (LEN_MASK & appendLength)));
                         }
                         appendLength = 0; //clear append length 
                     }
-                    //append with new line   
-
-                    splitBuffer[cIndex] = (ushort)(P_LINEBREAK | (LEN_MASK & 1));
-                    cIndex++;
-
+                    //append with new line  
+                    //spList.Add((ushort)(P_LINEBREAK | (LEN_MASK & 1)));
+                    runlist.Add(CssTextRun.CreateLineBreak());
                     startIndex = i;
                     parsingState = WordParsingState.Init;
                     continue;
@@ -115,10 +106,8 @@ namespace HtmlRenderer.Dom
                             if (!char.IsWhiteSpace(c0))
                             {
                                 //switch to character mode  
-
-                                splitBuffer[cIndex] = (ushort)(P_WHITESPACE | (LEN_MASK & appendLength));
-                                cIndex++;
-
+                                //spList.Add((ushort)(P_WHITESPACE | (LEN_MASK & appendLength)));
+                                runlist.Add(CssTextRun.CreateWhitespace(appendLength));
                                 parsingState = WordParsingState.CharacterCollecting;
                                 startIndex = i;//start collect
                                 appendLength = 1;//start append length
@@ -138,10 +127,8 @@ namespace HtmlRenderer.Dom
                             if (char.IsWhiteSpace(c0))
                             {
                                 //flush collecting token
-
-                                splitBuffer[cIndex] = (ushort)(P_TEXT | (LEN_MASK & appendLength));
-                                cIndex++;
-
+                                //spList.Add((ushort)(P_TEXT | (LEN_MASK & appendLength)));
+                                runlist.Add(CssTextRun.CreateWhitespace(appendLength));
                                 hasSomeCharacter = true;
                                 parsingState = WordParsingState.Whitespace;
                                 startIndex = i;//start collect
@@ -166,34 +153,17 @@ namespace HtmlRenderer.Dom
                 {
                     case WordParsingState.Whitespace:
                         {
-
-
-                            splitBuffer[cIndex] = (ushort)(P_WHITESPACE | (LEN_MASK & appendLength));
-                            cIndex++;
-
+                            //spList.Add((ushort)(P_WHITESPACE | (LEN_MASK & appendLength)));
+                            runlist.Add(CssTextRun.CreateWhitespace(appendLength));
                         } break;
                     case WordParsingState.CharacterCollecting:
                         {
-
-                            splitBuffer[cIndex] = (ushort)(P_TEXT | (LEN_MASK & appendLength));
-                            cIndex++;
-
+                            //spList.Add((ushort)(P_TEXT | (LEN_MASK & appendLength)));
+                            runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
                             hasSomeCharacter = true;
-
                         } break;
                 }
             }
-            splitBufferLen = cIndex;
-            ////--------------------
-            //if (hasSomeCharacter)
-            //{
-            //    return new TextSplits(0, spList.ToArray());
-            //}
-            //else
-            //{
-            //    return new TextSplits(1, null);
-            //}
-
         }
 
     }
