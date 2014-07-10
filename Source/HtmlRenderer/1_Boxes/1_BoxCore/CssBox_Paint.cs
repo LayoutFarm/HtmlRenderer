@@ -53,7 +53,7 @@ namespace HtmlRenderer.Dom
                 bool hasPrevClip = false;
                 RectangleF prevClip = RectangleF.Empty;
 
-                if (this.Overflow == CssOverflow.Hidden)
+                if (this._isHiddenOverflow)
                 {
                     var expectedW = this.ExpectedWidth;
                     var expectedH = this.ExpectedHeight;

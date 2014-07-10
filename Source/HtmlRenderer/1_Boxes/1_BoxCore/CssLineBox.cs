@@ -419,7 +419,7 @@ namespace HtmlRenderer.Dom
             for (int i = 0; i < j; ++i)
             {
                 //-----------------
-                dbugCounter.dbugRunPaintCount++; 
+                dbugCounter.dbugRunPaintCount++;
                 //-----------------
 
                 CssRun w = tmpRuns[i];
@@ -440,7 +440,7 @@ namespace HtmlRenderer.Dom
                             float oy = g.CanvasOriginY;
 
                             g.SetCanvasOrigin(ox + blockRun.Left, oy + blockRun.Top);
-                            
+
                             blockRun.BlockBox.Paint(g, p);
 
                             g.SetCanvasOrigin(ox, oy);
@@ -539,14 +539,18 @@ namespace HtmlRenderer.Dom
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
-                var stripOwner = strip.owner;
+                var stripOwner = strip.owner;    
+                if (!stripOwner.HasVisibleBgColor)
+                {
+                    continue;
+                }
 
+                //-----------------------------------------------------------------
                 var stripArea = strip.Bound;
                 bool isFirstLine, isLastLine;
-
                 CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
                 stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);
-
+                
                 if (stripOwner.CssDisplay != CssDisplay.TableCell
                     && stripOwner.HasSomeVisibleBorder)
                 {
