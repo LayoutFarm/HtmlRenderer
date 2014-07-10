@@ -53,8 +53,9 @@ namespace HtmlRenderer.Dom
         public CssBoxImage(CssBox parent, BridgeHtmlElement tag, BoxSpec boxSpec)
             : base(parent, tag, boxSpec)
         {
-
+             
             this._imageWord = new CssImageRun();
+            this._imageWord.SetOwner(this);
             this.SetContentRuns(new List<CssRun>() { _imageWord }, false);
 
         }

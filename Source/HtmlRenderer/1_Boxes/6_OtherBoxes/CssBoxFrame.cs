@@ -75,9 +75,12 @@ namespace HtmlRenderer.Dom
         internal CssBoxFrame(CssBox parent, BridgeHtmlElement tag, BoxSpec spec)
             : base(parent, tag, spec)
         {
-            this.SetContentRuns(new List<CssRun>() { new CssImageRun() { } },  false);
 
-             
+            //CssImageRun imgRun = new CssImageRun(this);
+            //imgRun.SetOwner(this);
+            //this.SetContentRuns(new List<CssRun>() { imgRun }, false);
+
+
 
             //wait for another technique *
 

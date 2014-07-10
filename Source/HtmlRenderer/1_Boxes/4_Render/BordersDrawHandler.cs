@@ -129,7 +129,6 @@ namespace HtmlRenderer.Handlers
             else
             {
                 // non rounded border 
-
                 switch (style)
                 {
                     case CssBorderStyle.Inset:
