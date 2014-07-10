@@ -19,8 +19,7 @@ namespace HtmlRenderer.Dom
 #if DEBUG
             dbugCounter.dbugBoxPaintCount++;
 #endif
-            if (this.CssDisplay != CssDisplay.None &&
-                this.Visibility == Dom.CssVisibility.Visible)
+            if (this._isVisible)
             {
                 PaintImp(g, p);
             }
@@ -43,16 +42,17 @@ namespace HtmlRenderer.Dom
 
         protected virtual void PaintImp(IGraphics g, PaintVisitor p)
         {
+            CssDisplay display = this.CssDisplay;
 
-            if (this.CssDisplay != CssDisplay.None &&
-               (this.CssDisplay != CssDisplay.TableCell ||
+            if (display != CssDisplay.None &&
+               (display != CssDisplay.TableCell ||
                 this.EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))
             {
 
                 bool hasPrevClip = false;
                 RectangleF prevClip = RectangleF.Empty;
 
-                if (this.Overflow == CssOverflow.Hidden)
+                if (this._isHiddenOverflow)
                 {
                     var expectedW = this.ExpectedWidth;
                     var expectedH = this.ExpectedHeight;
@@ -68,7 +68,7 @@ namespace HtmlRenderer.Dom
                 }
 
                 //---------------------------------------------
-                if (this.CssDisplay != CssDisplay.Inline)
+                if (display != CssDisplay.Inline)
                 {
 
                     RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);

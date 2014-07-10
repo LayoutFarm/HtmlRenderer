@@ -1,7 +1,7 @@
 ﻿//BSD 2014, WinterDev
 
 using System;
- 
+
 
 namespace HtmlRenderer.Dom
 {
@@ -10,6 +10,7 @@ namespace HtmlRenderer.Dom
     {
         HtmlContainer htmlContainer;
         float totalMarginLeftAndRight;
+        ContentTextSplitter contentTextSplitter;
 
         internal LayoutVisitor(IGraphics gfx, HtmlContainer htmlContainer)
         {
@@ -20,6 +21,16 @@ namespace HtmlRenderer.Dom
         internal HtmlContainer HtmlContainer
         {
             get { return this.htmlContainer; }
+        }
+
+        internal ContentTextSplitter GetSplitter()
+        {    
+           
+            if (contentTextSplitter == null)
+            {
+                return contentTextSplitter = new ContentTextSplitter();
+            }
+            return contentTextSplitter;  
         }
 
         internal IGraphics Gfx

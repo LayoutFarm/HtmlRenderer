@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-
+using HtmlRenderer.WebDom;
 namespace HtmlRenderer.Dom
 {
     public class HtmlImageRequestEventArgs : EventArgs

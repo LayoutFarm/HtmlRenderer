@@ -1,6 +1,6 @@
 ﻿//BSD  2014 ,WinterDev 
- 
 
+using HtmlRenderer.Dom;
 namespace HtmlRenderer.WebDom
 {
 
@@ -8,13 +8,13 @@ namespace HtmlRenderer.WebDom
     {
 
         UniqueStringTable uniqueStringTable = HtmlPredefineNames.CreateUniqueStringTableClone();
-        HtmlRootNode rootNode;
+        HtmlElement rootNode;
         public HtmlDocument()
         {
-            rootNode = new HtmlRootNode(this);
+            rootNode = new BrigeRootElement(this);
         }
 
-        public HtmlRootNode RootNode
+        public HtmlElement RootNode
         {
             get
             {
@@ -35,6 +35,8 @@ namespace HtmlRenderer.WebDom
         }
         public HtmlAttribute CreateAttribute(string prefix, string localName)
         {
+
+
             return new HtmlAttribute(this,
                 uniqueStringTable.AddStringIfNotExist(prefix),
                 uniqueStringTable.AddStringIfNotExist(localName));
@@ -42,10 +44,13 @@ namespace HtmlRenderer.WebDom
 
         public HtmlElement CreateElement(string prefix, string localName)
         {
-            
-            return new HtmlElement(this,
+            return new BridgeHtmlElement(this,
                 uniqueStringTable.AddStringIfNotExist(prefix),
                 uniqueStringTable.AddStringIfNotExist(localName));
+
+            //return new HtmlElement(this,
+            //    uniqueStringTable.AddStringIfNotExist(prefix),
+            //    uniqueStringTable.AddStringIfNotExist(localName));
         }
 
         public HtmlComment CreateComent()
@@ -56,10 +61,10 @@ namespace HtmlRenderer.WebDom
         {
             return new HtmlProcessInstructionNode(this, nameIndex);
         }
-         
+
         public HtmlTextNode CreateTextNode(char[] strBufferForElement)
         {
-            return new HtmlTextNode(this, strBufferForElement);
+            return new BridgeHtmlTextNode(this, strBufferForElement); 
         }
         public HtmlCDataNode CreateCDataNode()
         {

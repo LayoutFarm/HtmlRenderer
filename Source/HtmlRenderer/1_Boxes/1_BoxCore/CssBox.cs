@@ -40,6 +40,7 @@ namespace HtmlRenderer.Dom
     public partial class CssBox
     {
         readonly BoxSpec _myspec;
+
         WellknownHtmlTagName wellKnownTagName;
 
 #if DEBUG
@@ -75,10 +76,13 @@ namespace HtmlRenderer.Dom
             }
 #endif
 
-            this._myspec = spec;
-            ChangeDisplayType(this, _myspec.CssDisplay);
-        }
+            //assign spec
 
+            this._myspec = spec;
+            EvaluateSpec(spec);
+            ChangeDisplayType(this, _myspec.CssDisplay);            
+        }
+        
         /// <summary>
         /// Gets the HtmlContainer of the Box.
         /// WARNING: May be null.
@@ -240,12 +244,11 @@ namespace HtmlRenderer.Dom
                 }
                 else if (this._aa_contentRuns != null)
                 {
-                    return this._aa_contentRuns.RunCount > 0;
+                    return this._aa_contentRuns.Count > 0;
                 }
                 return true;
             }
         }
-
         void ResetTextFlags()
         {
             int tmpFlags = this._boxCompactFlags;
@@ -254,19 +257,18 @@ namespace HtmlRenderer.Dom
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_EMPTY;
             this._boxCompactFlags = tmpFlags;
         }
-        internal void SetTextContent(RunCollection contentRuns)
-        {
-            contentRuns.OwnerCssBox = this;
-            this._aa_contentRuns = contentRuns;
-            ResetTextFlags();
-        }
-        internal void UpdateRunList()
-        {
-            _aa_contentRuns.UpdateRunList(this.WhiteSpace,
-                this.WordBreak,
-                this.HtmlElement == null);
-        }
 
+
+        bool _isAllWhitespace;
+        internal void SetTextBuffer(char[] textBuffer)
+        {
+            this._buffer = textBuffer;
+        }
+        internal void SetContentRuns(List<CssRun> runs, bool isAllWhitespace)
+        {
+            this._aa_contentRuns = runs;
+            this._isAllWhitespace = isAllWhitespace;
+        }
         public bool MayHasSomeTextContent
         {
             get
@@ -276,48 +278,41 @@ namespace HtmlRenderer.Dom
         }
         internal static char[] UnsafeGetTextBuffer(CssBox box)
         {
-            return box._aa_contentRuns.GetOriginalBuffer();
-        }
-
-        void EvaluateWhitespace()
-        {
-
-            this._boxCompactFlags |= CssBoxFlagsConst.HAS_EVAL_WHITESPACE;
-            if (_aa_contentRuns == null)
-            {
-                this._boxCompactFlags |= CssBoxFlagsConst.TEXT_IS_EMPTY;
-                return;
-            }
-            else
-            {
-                if (_aa_contentRuns.IsWhiteSpace)
-                {
-                    this._boxCompactFlags |= CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
-                }
-            }
-
+            return box._buffer;
         }
         internal bool TextContentIsAllWhitespace
         {
             get
             {
-                if ((this._boxCompactFlags & CssBoxFlagsConst.HAS_EVAL_WHITESPACE) == 0)
-                {
-                    EvaluateWhitespace();
-                }
-                return (this._boxCompactFlags & CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE) != 0;
+                return this._isAllWhitespace;
+                //if ((this._boxCompactFlags & CssBoxFlagsConst.HAS_EVAL_WHITESPACE) == 0)
+                //{
+                //    EvaluateWhitespace();
+                //}
+                //return (this._boxCompactFlags & CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE) != 0;
             }
         }
         internal bool TextContentIsWhitespaceOrEmptyText
         {
             get
             {
-                if ((this._boxCompactFlags & CssBoxFlagsConst.HAS_EVAL_WHITESPACE) == 0)
+                if (this._aa_contentRuns != null)
                 {
-                    EvaluateWhitespace();
+                    return this._isAllWhitespace;
                 }
-                return ((this._boxCompactFlags & CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE) != 0) ||
-                        ((this._boxCompactFlags & CssBoxFlagsConst.TEXT_IS_EMPTY) != 0);
+                else
+                {
+                    return ChildCount == 0;
+                }
+                //if (ChildCount == 0)
+                //{
+                //}
+                //if ((this._boxCompactFlags & CssBoxFlagsConst.HAS_EVAL_WHITESPACE) == 0)
+                //{
+                //    EvaluateWhitespace();
+                //}
+                //return ((this._boxCompactFlags & CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE) != 0) ||
+                //        ((this._boxCompactFlags & CssBoxFlagsConst.TEXT_IS_EMPTY) != 0);
             }
         }
 #if DEBUG
@@ -326,7 +321,7 @@ namespace HtmlRenderer.Dom
 
             if (this._aa_contentRuns != null)
             {
-                return new string(this._aa_contentRuns.GetOriginalBuffer());
+                return new string(this._buffer);
             }
             else
             {
@@ -438,14 +433,8 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if (_aa_contentRuns == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return _aa_contentRuns.GetInternalList();
-                }
+                return this._aa_contentRuns;
+
             }
         }
 
@@ -453,7 +442,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this._aa_contentRuns != null && this._aa_contentRuns.RunCount > 0;
+                return this._aa_contentRuns != null && this._aa_contentRuns.Count > 0;
             }
         }
 

@@ -20,7 +20,7 @@ namespace HtmlRenderer.Dom
         }       
         internal static List<CssRun> UnsafeGetRunList(CssBox box)
         {
-            return box._aa_contentRuns.GetInternalList();           
+            return box._aa_contentRuns;       
         }
         internal static CssBoxCollection UnsafeGetChildren(CssBox box)
         {

@@ -115,7 +115,7 @@ namespace HtmlRenderer.Dom
         //=========================================================
 
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
-        {
+        {  
             HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);
         }
         internal void PaintBorders(CssBox box, RectangleF rect)
@@ -128,9 +128,7 @@ namespace HtmlRenderer.Dom
 
             var g = this.Gfx;
 
-            var b1 = RenderUtils.GetSolidBrush(topColor);
-
-           
+            var b1 = RenderUtils.GetSolidBrush(topColor); 
             BordersDrawHandler.DrawBorder(CssSide.Top, borderPoints, g, box, b1, rect);
 
             var b2 = RenderUtils.GetSolidBrush(leftColor);
