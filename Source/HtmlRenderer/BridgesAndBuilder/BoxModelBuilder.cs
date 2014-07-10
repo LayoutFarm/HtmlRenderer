@@ -40,6 +40,7 @@ namespace HtmlRenderer.Dom
             parser.Parse(snapSource);
             return parser.ResultHtmlDoc;
 <<<<<<< HEAD
+<<<<<<< HEAD
         }
 
         static BrigeRootElement PrepareBridgeTree(HtmlContainer container,
@@ -138,6 +139,8 @@ namespace HtmlRenderer.Dom
                         } break;
                 }
             }
+=======
+>>>>>>> v1.7.2094.1
 =======
 >>>>>>> v1.7.2094.1
         }
@@ -515,6 +518,7 @@ namespace HtmlRenderer.Dom
             ActiveCssTemplate activeCssTemplate = null;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #if DEBUG
 
 #endif
@@ -598,6 +602,39 @@ namespace HtmlRenderer.Dom
 
                 //5. correction 
 
+=======
+            //1. parse
+            long t0 = dbugCounter.GCAndSnap(() =>
+            {
+                htmldoc = ParseDocument(new TextSnapshot(html.ToCharArray()));
+               
+            });
+
+            long t1 = dbugCounter.GCAndSnap(() =>
+            {
+                activeCssTemplate = new ActiveCssTemplate(htmlContainer, cssData);
+            });
+
+            long t2 = dbugCounter.GCAndSnap(() =>
+            {
+                //2. active css template   
+                //3. create box 
+                rootBox = CreateCssTree(htmldoc);
+
+#if DEBUG
+                dbugTestParsePerformance(html);
+#endif
+
+                SetTextSelectionStyle(htmlContainer, cssData);
+                CssBox.SetHtmlContainer(rootBox, htmlContainer);
+                //-------------------------------------------------------------------
+
+                //4. assign styles 
+                ApplyStyleSheet(rootBox, activeCssTemplate);
+
+                //5. correction 
+
+>>>>>>> v1.7.2094.1
                 OnePassBoxCorrection(rootBox);
                 CorrectTextBoxes(rootBox);
                 CorrectImgBoxes(rootBox);
@@ -630,6 +667,9 @@ namespace HtmlRenderer.Dom
             return rootCssBox;
         }
 
+<<<<<<< HEAD
+>>>>>>> v1.7.2094.1
+=======
 >>>>>>> v1.7.2094.1
         //------------------------------------------
         #region Private methods
@@ -657,7 +697,11 @@ namespace HtmlRenderer.Dom
             //sw1.Reset();
             //GC.Collect();
 <<<<<<< HEAD
+<<<<<<< HEAD
             sw1.Start();
+=======
+            //sw1.Start();
+>>>>>>> v1.7.2094.1
 =======
             //sw1.Start();
 >>>>>>> v1.7.2094.1

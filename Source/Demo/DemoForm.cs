@@ -549,14 +549,18 @@ namespace HtmlRenderer.Demo
             //HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
             long ms_total = 0;
 <<<<<<< HEAD
+<<<<<<< HEAD
             System.Diagnostics.Stopwatch sw = new Stopwatch();
 
+=======
+>>>>>>> v1.7.2094.1
 =======
 >>>>>>> v1.7.2094.1
             for (int i = 0; i < iterations; i++)
             {
                 foreach (var sampleNum in selectedSamples)
                 {
+<<<<<<< HEAD
 <<<<<<< HEAD
                     ms_total += dbugCounter.Snap(sw, () =>
                     {
@@ -570,6 +574,8 @@ namespace HtmlRenderer.Demo
 
             }
 =======
+=======
+>>>>>>> v1.7.2094.1
                      ms_total += dbugCounter.GCAndSnap(() =>
                      {
                          //HtmlRenderer.dbugCounter.dbugStartRecord = true;
@@ -582,6 +588,9 @@ namespace HtmlRenderer.Demo
 
             }
 
+<<<<<<< HEAD
+>>>>>>> v1.7.2094.1
+=======
 >>>>>>> v1.7.2094.1
 
             long endMemory = 0;
@@ -602,7 +611,11 @@ namespace HtmlRenderer.Demo
             msg += "\r\n\r\n";
             msg += string.Format("CPU:\r\nTotal: {0} msec\r\nIterationAvg: {1:N2} msec\r\nSingleAvg: {2:N2} msec",
 <<<<<<< HEAD
+<<<<<<< HEAD
                                    ms_total, ms_total / iterations, ms_total / (double)iterations / _perfTestSamples.Count);
+=======
+                                    ms_total, ms_total / (double)iterations, ms_total / (double)iterations / _perfTestSamples.Count);
+>>>>>>> v1.7.2094.1
 =======
                                     ms_total, ms_total / (double)iterations, ms_total / (double)iterations / _perfTestSamples.Count);
 >>>>>>> v1.7.2094.1
