@@ -77,7 +77,7 @@ namespace HtmlRenderer.Dom
                     if (keepBox)
                     {
                         // valid text box, parse it to words                            
-                        childBox.UpdateRunList();
+                        //childBox.UpdateRunList();
                     }
                     else
                     {

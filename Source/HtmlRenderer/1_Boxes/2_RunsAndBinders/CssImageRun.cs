@@ -30,6 +30,7 @@ namespace HtmlRenderer.Dom
         /// the image rectange restriction as returned from image load event
         /// </summary>
         private Rectangle _imageRectangle;
+       
 
         /// <summary>
         /// Creates a new BoxWord which represents an image
@@ -38,7 +39,12 @@ namespace HtmlRenderer.Dom
         public CssImageRun()
             : base(CssRunKind.Image)
         {
+           
         }
+        //public CssBoxImage BoxImage
+        //{
+        //    get { return this.boxImage; }
+        //}
 
         /// <summary>
         /// Gets the image this words represents (if one exists)

@@ -2,8 +2,8 @@
 
 namespace HtmlRenderer.Dom
 {
-     
-    
+
+
     partial class CssBox
     {
         //=============================================================
@@ -18,16 +18,18 @@ namespace HtmlRenderer.Dom
             //-----------------------------------------------
             //layout state
             public const int LAY_RUNSIZE_MEASURE = 1 << (8 - 1);
-            public const int LAY_EVAL_COMPUTE_VALUES = 1 << (9 - 1);             
-            public const int LAY_TABLE_FIXED = 1 << (10 - 1);            
+            public const int LAY_EVAL_COMPUTE_VALUES = 1 << (9 - 1);
+            public const int LAY_TABLE_FIXED = 1 << (10 - 1);
             public const int LAY_WIDTH_FREEZE = 1 << (11 - 1);
             //-----------------------------------------------
             public const int HAS_ROUND_CORNER = 1 << (12 - 1);
+            public const int HAS_SOME_VISIBLE_BORDER = 1 << (13 - 1);
+            public const int HAS_VISIBLE_BG = 1 << (14 - 1); 
             //-----------------------------------------------
-            public const int IS_INLINE_BOX = 1 << (13 - 1);
+            public const int IS_INLINE_BOX = 1 << (16 - 1);
             //-----------------------------------------------
-            public const int HAS_CONTAINER_PROP = 1 << (14 - 1);
+            public const int HAS_CONTAINER_PROP = 1 << (17 - 1);
 
-        } 
+        }
     }
 }

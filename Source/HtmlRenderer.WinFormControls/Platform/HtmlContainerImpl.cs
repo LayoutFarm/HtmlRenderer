@@ -41,6 +41,10 @@ namespace HtmlRenderer
 
         public void PerformPaint(Graphics g)
         {
+
+
+
+
             using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
             {
                 Region prevClip = null;
@@ -57,12 +61,44 @@ namespace HtmlRenderer
                     g.SetClip(prevClip, System.Drawing.Drawing2D.CombineMode.Replace);
                 }
             }
+
+            //=============
+            //System.Diagnostics.Stopwatch sw = new Stopwatch();
+            //for (int i = 0; i < 200; ++i)
+            //{
+            //    dbugCounter.ResetPaintCount();
+            //    long ticks = dbugCounter.Snap(sw, () =>
+            //    {
+            //        using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
+            //        {
+            //            Region prevClip = null;
+            //            if (this.MaxSize.Height > 0)
+            //            {
+            //                prevClip = g.Clip;
+            //                g.SetClip(new RectangleF(this.Location, this.MaxSize));
+            //            }
+
+            //            this.PerformPaint(gfx);
+
+            //            if (prevClip != null)
+            //            {
+            //                g.SetClip(prevClip, System.Drawing.Drawing2D.CombineMode.Replace);
+            //            }
+            //        }
+
+            //    });
+            //    //Console.WriteLine(string.Format("boxes{0}, lines{1}, runs{2}", dbugCounter.dbugBoxPaintCount, dbugCounter.dbugLinePaintCount, dbugCounter.dbugRunPaintCount));
+            //    Console.WriteLine(ticks);
+            //}
         }
         public void PerformLayout(Graphics g)
         {
-            using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
+            if (this._root != null)
             {
-                this.PerformLayout(gfx);
+                using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
+                {
+                    this.PerformLayout(gfx);
+                }
             }
         }
 
@@ -142,7 +178,7 @@ namespace HtmlRenderer
 
             if (LinkClicked != null)
             {
-               
+
                 if (href != null)
                 {
                     var args = new HtmlLinkClickedEventArgs(href, link.HtmlElement);

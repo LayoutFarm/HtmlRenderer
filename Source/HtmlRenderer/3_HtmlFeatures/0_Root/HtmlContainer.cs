@@ -427,7 +427,7 @@ namespace HtmlRenderer
 
             if (_root != null)
             {
-                
+
                 _root = null;
                 //---------------------------
                 this.OnRootDisposed();
@@ -571,10 +571,36 @@ namespace HtmlRenderer
 
             args.PushContaingBlock(_root);
             args.SetPhysicalViewportBound(0, 0, physicalViewportSize.Width, physicalViewportSize.Height);
+<<<<<<< HEAD:Source/HtmlRenderer/3_HtmlFeatures/0_Root/HtmlContainer.cs
+<<<<<<< HEAD:Source/HtmlRenderer/3_HtmlFeatures/0_Root/HtmlContainer.cs
 
 
             _root.Paint(ig, args);
+ 
+=======
 
+
+            _root.Paint(ig, args);
+            
+#if DEBUG   
+            //--- dx ---- 
+            //long ticks = dbugCounter.GCAndSnap(()
+            //    => _root.Paint(ig, args));
+#endif
+
+>>>>>>> v1.7.2094.1:Source/HtmlRenderer/2_HtmlFeatures/0_Root/HtmlContainer.cs
+=======
+
+
+            _root.Paint(ig, args);
+            
+#if DEBUG   
+            //--- dx ---- 
+            //long ticks = dbugCounter.GCAndSnap(()
+            //    => _root.Paint(ig, args));
+#endif
+
+>>>>>>> v1.7.2094.1:Source/HtmlRenderer/2_HtmlFeatures/0_Root/HtmlContainer.cs
 
             args.PopContainingBlock();
 
@@ -755,7 +781,7 @@ namespace HtmlRenderer
                 _cssData = null;
                 if (_root != null)
                 {
-                  
+
                     _root = null;
                     this.OnRootDisposed();
                 }

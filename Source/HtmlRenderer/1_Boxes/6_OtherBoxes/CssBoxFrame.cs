@@ -76,7 +76,11 @@ namespace HtmlRenderer.Dom
             : base(parent, tag, spec)
         {
 
-            this.SetTextContent(new RunCollection(new CssImageRun()));
+            //CssImageRun imgRun = new CssImageRun(this);
+            //imgRun.SetOwner(this);
+            //this.SetContentRuns(new List<CssRun>() { imgRun }, false);
+
+
 
             //wait for another technique *
 
@@ -117,7 +121,7 @@ namespace HtmlRenderer.Dom
             get { return _isVideo; }
         }
 
-        
+
 
         #region Private methods
 
@@ -468,8 +472,10 @@ namespace HtmlRenderer.Dom
 
             PaintBackground(p, rects, true, true);
 
-
-            p.PaintBorders(this, rects, true, true);
+            if (this.HasSomeVisibleBorder)
+            {
+                p.PaintBorders(this, rects, true, true);
+            }
 
             var word = this.FirstRun;
             var tmpRect = word.Rectangle;

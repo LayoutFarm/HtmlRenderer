@@ -44,6 +44,7 @@ namespace HtmlRenderer.Dom
             //----------------------------------------- 
             //1. create new box
             //----------------------------------------- 
+            
             switch (childElement.WellknownTagName)
             {
                 case WellknownHtmlTagName.br: 
