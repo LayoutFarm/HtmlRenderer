@@ -33,17 +33,17 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                return new List<CssRun>(5);
+                return new List<CssRun>(10);
             }
         }
         void StoreBackNotUse(List<CssRun> tmpRuns)
         {
             tmpRuns.Clear();
-            myRunPool.Push(tmpRuns);
-
+            myRunPool.Push(tmpRuns); 
         }
         public void ParseWordContent(char[] textBuffer, BoxSpec spec, out List<CssRun> runlistOutput, out bool hasSomeCharacter)
-        {
+        {   
+
             bool preserverLine = false;
             bool preserveWhiteSpace = false;
             switch (spec.WhiteSpace)
@@ -57,29 +57,7 @@ namespace HtmlRenderer.Dom
                 case CssWhiteSpace.PreLine:
                     preserverLine = true;
                     break;
-            }
-
-            //bool has_someword2 = false;
-
-            //for (int i = textBuffer.Length - 1; i >= 0; --i)
-            //{
-            //    char c = textBuffer[i];
-            //    if (!char.IsWhiteSpace(c))
-            //    {
-            //        has_someword2 = true;
-            //        break;
-            //    }
-            //}
-
-            //if (!has_someword2 && !preserveWhiteSpace && !preserverLine)
-            //{
-            //    runlistOutput = null;
-            //    hasSomeCharacter = false;
-            //    return;
-            //}
-
-
-
+            } 
 
             //---------------------------------------
             //1. check if has some text 
@@ -237,10 +215,7 @@ namespace HtmlRenderer.Dom
             {
                 StoreBackNotUse(runlist);
                 runlistOutput = null;
-            }
-
-
-        }
-
+            } 
+        } 
     }
 }
