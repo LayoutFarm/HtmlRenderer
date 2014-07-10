@@ -28,7 +28,9 @@ namespace HtmlRenderer.Dom
         public void dbugPaint(PaintVisitor p, RectangleF r)
         {
             return;
-            if (this.HtmlElement == null)
+
+            var htmlE = CssBox.dbugGetBridgeHtmlElement(this);
+            if (htmlE == null)
             {
                 p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);
 

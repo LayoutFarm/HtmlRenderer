@@ -8,12 +8,11 @@ namespace HtmlRenderer.Dom
 {
     public class HtmlImageRequestEventArgs : EventArgs
     {
-        public HtmlImageRequestEventArgs(IHtmlElement element, ImageBinder binder)
-        {
-            this.Element = element;
+        public HtmlImageRequestEventArgs(ImageBinder binder)
+        { 
             this.ImageBinder = binder;
         }
-        public IHtmlElement Element { get; private set; }
+         
         public ImageBinder ImageBinder { get; private set; }
         public string ImagSource
         {

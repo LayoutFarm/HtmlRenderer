@@ -207,20 +207,10 @@ namespace HtmlRenderer.Dom
 
             //Comment this following line to treat always superior box as block
             if (box == null)
-                throw new Exception("There's no containing block on the chain");
-
-            return box;
-
+                throw new Exception("There's no containing block on the chain"); 
+            return box; 
         }
-
-        /// <summary>
-        /// Gets the HtmlElement that hosts this box
-        /// </summary>
-        public IHtmlElement HtmlElement
-        {
-            get { return _htmlElement; }
-        }
-
+ 
         /// <summary>
         /// Gets if this box represents an image
         /// </summary>
@@ -899,36 +889,36 @@ namespace HtmlRenderer.Dom
 
 
 #if DEBUG
-        /// <summary>
-        /// ToString override.
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            var tag = HtmlElement != null ? string.Format("<{0}>", HtmlElement.Name) : "anon";
+        ///// <summary>
+        ///// ToString override.
+        ///// </summary>
+        ///// <returns></returns>
+        //public override string ToString()
+        //{
+        //    var tag = HtmlElement != null ? string.Format("<{0}>", HtmlElement.Name) : "anon";
 
-            if (IsBlock)
-            {
-                return string.Format("{0}{1} Block {2}, Children:{3}", ParentBox == null ? "Root: " : string.Empty, tag, FontSize, Boxes.Count);
-            }
-            else if (this.CssDisplay == CssDisplay.None)
-            {
-                return string.Format("{0}{1} None", ParentBox == null ? "Root: " : string.Empty, tag);
-            }
-            else
-            {
-                if (this.MayHasSomeTextContent)
-                {
-                    return string.Format("{0}{1} {2}: {3}", ParentBox == null ? "Root: " : string.Empty, tag,
-                        this.CssDisplay.ToCssStringValue(), this.dbugCopyTextContent());
-                }
-                else
-                {
-                    return string.Format("{0}{1} {2}: {3}", ParentBox == null ? "Root: " : string.Empty, tag,
-                        this.CssDisplay.ToCssStringValue(), "");
-                }
-            }
-        }
+        //    if (IsBlock)
+        //    {
+        //        return string.Format("{0}{1} Block {2}, Children:{3}", ParentBox == null ? "Root: " : string.Empty, tag, FontSize, Boxes.Count);
+        //    }
+        //    else if (this.CssDisplay == CssDisplay.None)
+        //    {
+        //        return string.Format("{0}{1} None", ParentBox == null ? "Root: " : string.Empty, tag);
+        //    }
+        //    else
+        //    {
+        //        if (this.MayHasSomeTextContent)
+        //        {
+        //            return string.Format("{0}{1} {2}: {3}", ParentBox == null ? "Root: " : string.Empty, tag,
+        //                this.CssDisplay.ToCssStringValue(), this.dbugCopyTextContent());
+        //        }
+        //        else
+        //        {
+        //            return string.Format("{0}{1} {2}: {3}", ParentBox == null ? "Root: " : string.Empty, tag,
+        //                this.CssDisplay.ToCssStringValue(), "");
+        //        }
+        //    }
+        //}
 #endif
         #endregion
 

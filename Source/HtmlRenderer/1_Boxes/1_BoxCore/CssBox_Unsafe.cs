@@ -17,10 +17,10 @@ namespace HtmlRenderer.Dom
         internal static void UnsafeSetNodes(CssBox childNode, CssBox parent, CssBox prevSibling)
         {
             childNode._parentBox = parent;
-        }       
+        }
         internal static List<CssRun> UnsafeGetRunList(CssBox box)
         {
-            return box._aa_contentRuns;       
+            return box._aa_contentRuns;
         }
         internal static CssBoxCollection UnsafeGetChildren(CssBox box)
         {
@@ -32,7 +32,7 @@ namespace HtmlRenderer.Dom
             //box.Spec is private
             return box._myspec;
         }
-        internal static void UnsafeSetParent(CssBox box, CssBox parent,HtmlContainer htmlContainer)
+        internal static void UnsafeSetParent(CssBox box, CssBox parent, HtmlContainer htmlContainer)
         {
             box._parentBox = parent;
             box._htmlContainer = htmlContainer;
@@ -44,6 +44,12 @@ namespace HtmlRenderer.Dom
             get;
             set;
         }
+
+        internal static BridgeHtmlElement dbugGetBridgeHtmlElement(CssBox box)
+        {
+            return box._htmlElement;
+        }
+
 #endif
     }
 
