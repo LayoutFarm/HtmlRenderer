@@ -51,8 +51,7 @@ namespace HtmlRenderer.Dom
         {
 
             if (originalSplitParts.singleChar > 0)
-            {
-
+            {    
                 return;
             }
             //=================================================
@@ -60,8 +59,8 @@ namespace HtmlRenderer.Dom
 
             ushort[] encodingSplits = originalSplitParts.encodedSplits;
             bool hasSomeChar = false;
-            List<CssRun> boxRuns = new List<CssRun>();
             int j = encodingSplits.Length;
+            List<CssRun> boxRuns = new List<CssRun>(j);            
             int startIndex = 0;
 
             for (int i = 0; i < j; ++i)
@@ -122,10 +121,11 @@ namespace HtmlRenderer.Dom
             }
             //--------------------------------------------------
             toBox.SetTextBuffer(buffer);
-            List<CssRun> boxRuns = new List<CssRun>();
+            
             bool hasSomeChar = false;
             ushort[] encodedSplits = originalSplitParts.encodedSplits;
             int j = encodedSplits.Length;
+            List<CssRun> boxRuns = new List<CssRun>(j);
 
             int startIndex = 0;
             for (int i = 0; i < j; ++i)
@@ -176,12 +176,12 @@ namespace HtmlRenderer.Dom
                 return;
             }
 
-
-            toBox.SetTextBuffer(buffer);
-            List<CssRun> boxRuns = new List<CssRun>();
+            toBox.SetTextBuffer(buffer);            
             bool hasSomeChar = false;
             ushort[] encodedSplits = originalSplitParts.encodedSplits;
             int j = encodedSplits.Length;
+
+            List<CssRun> boxRuns = new List<CssRun>(j);
 
             int startIndex = 0;
             for (int i = 0; i < j; ++i)

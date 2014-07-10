@@ -10,7 +10,7 @@ namespace HtmlRenderer.Dom
 
 
     class ContentTextSplitter
-    {
+    {  
         List<ushort> _spList = new List<ushort>(50);
         public ContentTextSplitter()
         { 
