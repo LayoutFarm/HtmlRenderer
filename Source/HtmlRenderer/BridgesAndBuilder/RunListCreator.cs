@@ -12,30 +12,39 @@ namespace HtmlRenderer.Dom
 
         public static void AddRunList(CssBox toBox, BoxSpec spec, BridgeHtmlTextNode textnode)
         {
-            AddRunList(toBox, spec, textnode.InternalGetRuns(), textnode.GetOriginalBuffer());
+            AddRunList(toBox, spec, textnode.InternalGetRuns(), textnode.GetOriginalBuffer(), textnode.IsWhiteSpace);
         }
         //---------------------------------------------------------------------------------------
         public static void AddRunList(CssBox toBox,
             BoxSpec spec,
             List<CssRun> runlist,
-            char[] buffer)
-        {
+            char[] buffer,
+            bool isAllWhitespace)
+        {   
             toBox.SetTextBuffer(buffer);
-
-            switch (spec.WhiteSpace)
+            if (runlist != null)
             {
-                case CssWhiteSpace.Pre:
-                case CssWhiteSpace.PreWrap:
-                    //run and preserve whitespace  
-                    CreateRunsPreserveWhitespace(buffer, runlist, toBox, spec.WordBreak != CssWordBreak.BreakAll);
-                    break;
-                case CssWhiteSpace.PreLine:
-                    CreateRunsRespectNewLine(buffer, runlist, toBox, spec.WordBreak != CssWordBreak.BreakAll);
-                    break;
-                default:
-                    CreateRunsDefault(buffer, runlist, toBox, spec.WordBreak != CssWordBreak.BreakAll, toBox.HtmlElement != null);
-                    break;
+                for (int i = runlist.Count - 1; i >= 0; --i)
+                {
+                    runlist[i].SetOwner(toBox);
+                }
             }
+            toBox.SetContentRuns(runlist, isAllWhitespace);
+
+            //switch (spec.WhiteSpace)
+            //{
+            //    case CssWhiteSpace.Pre:
+            //    case CssWhiteSpace.PreWrap:
+            //        //run and preserve whitespace  
+            //        CreateRunsPreserveWhitespace(buffer, runlist, toBox, spec.WordBreak != CssWordBreak.BreakAll);
+            //        break;
+            //    case CssWhiteSpace.PreLine:
+            //        CreateRunsRespectNewLine(buffer, runlist, toBox, spec.WordBreak != CssWordBreak.BreakAll);
+            //        break;
+            //    default:
+            //        CreateRunsDefault(buffer, runlist, toBox, spec.WordBreak != CssWordBreak.BreakAll, toBox.HtmlElement != null);
+            //        break;
+            //}
         }
 
         //=====================================================================
@@ -68,7 +77,7 @@ namespace HtmlRenderer.Dom
                     //    } break;
                     case CssRunKind.Text:
                         {
-                        
+
                             hasSomeChar = true;
 
                         } break;
@@ -93,9 +102,9 @@ namespace HtmlRenderer.Dom
             CssBox toBox,
             bool boxIsNotBreakAll)
         {
-             
+
             bool hasSomeChar = false;
-            int j = runlist.Count; 
+            int j = runlist.Count;
             for (int i = 0; i < j; ++i)
             {
                 CssRun r = runlist[i];
@@ -125,7 +134,7 @@ namespace HtmlRenderer.Dom
                         } break;
                     case CssRunKind.Text:
                         {
-                            
+
                             hasSomeChar = true;
                         } break;
                     default:
@@ -151,7 +160,7 @@ namespace HtmlRenderer.Dom
                 CssRun r = runlist[i];
                 r.SetOwner(toBox);
                 switch (r.Kind)
-                {   
+                {
                     case CssRunKind.LineBreak:
                         {
                             //skip line break 
@@ -176,7 +185,7 @@ namespace HtmlRenderer.Dom
                         } break;
                     case CssRunKind.Text:
                         {
-                            
+
                             hasSomeChar = true;
                         } break;
                     default:

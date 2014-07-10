@@ -69,8 +69,7 @@ namespace HtmlRenderer.Dom
         List<CssRun> runs;
         public BridgeHtmlTextNode(HtmlDocument ownerDoc, char[] buffer)
             : base(ownerDoc, buffer)
-        {
-
+        { 
         }
         public bool IsWhiteSpace
         {

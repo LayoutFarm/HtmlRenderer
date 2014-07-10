@@ -50,7 +50,6 @@ namespace HtmlRenderer.Dom
             : base(CssRunKind.Space)
         {
             //for space only
-
             this._textLength = whiteSpaceLength;
         }
 
@@ -65,7 +64,7 @@ namespace HtmlRenderer.Dom
         }
         public static CssTextRun CreateLineBreak()
         {
-            return new CssTextRun(CssRunKind.LineBreak);//, hasSpaceBefore, hasSpaceAfter);
+            return new CssTextRun(CssRunKind.LineBreak);
         }
         public static CssTextRun CreateWhitespace(int count)
         {

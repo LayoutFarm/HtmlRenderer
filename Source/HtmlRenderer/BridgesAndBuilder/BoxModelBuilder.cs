@@ -128,10 +128,10 @@ namespace HtmlRenderer.Dom
                             //inner content is parsed here 
                             var parentSpec = parentElement.Spec;
                             char[] originalBuffer = textnode.GetOriginalBuffer();
-                            bool hasSomeCharacter;
 
-                            List<CssRun> runlist = new List<CssRun>();
-                            contentTextSplitter.ParseWordContent(runlist, originalBuffer, out hasSomeCharacter);
+                            List<CssRun> runlist;
+                            bool hasSomeCharacter;
+                            contentTextSplitter.ParseWordContent(originalBuffer, parentSpec, out runlist, out hasSomeCharacter);
                             textnode.SetSplitParts(runlist, hasSomeCharacter);
 
                         } break;

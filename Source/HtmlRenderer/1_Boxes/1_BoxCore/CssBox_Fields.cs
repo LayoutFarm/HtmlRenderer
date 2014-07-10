@@ -61,7 +61,7 @@ namespace HtmlRenderer.Dom
         //state
         protected int _prop_pass_eval;
 
-        CssDisplay _cssDisplay = CssDisplay.Inline;
+
 
         /// <summary>
         /// Gets the childrenn boxes of this box
@@ -274,6 +274,7 @@ namespace HtmlRenderer.Dom
                     newdisplay == CssDisplay.InlineBlock)
                     && !box.IsBrElement);
 
+            box._isVisible = box._cssDisplay != Dom.CssDisplay.None && box._myspec.Visibility == CssVisibility.Visible;
             //-------------------------
             //check containing property 
             //-------------------------

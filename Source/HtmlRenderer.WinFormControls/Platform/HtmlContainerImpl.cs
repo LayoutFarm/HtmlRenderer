@@ -41,11 +41,12 @@ namespace HtmlRenderer
 
         public void PerformPaint(Graphics g)
         {
-          
-            for (int i = 0; i < 200 ; ++i)
+            System.Diagnostics.Stopwatch sw = new Stopwatch();
+
+            for (int i = 0; i < 200; ++i)
             {
                 dbugCounter.ResetPaintCount();
-                long ticks = dbugCounter.Snap(() =>
+                long ticks = dbugCounter.Snap(sw, () =>
                 {
                     using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
                     {
@@ -64,7 +65,7 @@ namespace HtmlRenderer
                         }
                     }
 
-                }); 
+                });
                 //Console.WriteLine(string.Format("boxes{0}, lines{1}, runs{2}", dbugCounter.dbugBoxPaintCount, dbugCounter.dbugLinePaintCount, dbugCounter.dbugRunPaintCount));
                 Console.WriteLine(ticks);
             }

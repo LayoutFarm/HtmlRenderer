@@ -116,6 +116,8 @@ namespace HtmlRenderer.Dom
 
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
         {
+
+
             HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);
         }
         internal void PaintBorders(CssBox box, RectangleF rect)
