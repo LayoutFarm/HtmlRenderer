@@ -80,9 +80,9 @@ namespace HtmlRenderer.Dom
 
             this._myspec = spec;
             EvaluateSpec(spec);
-            ChangeDisplayType(this, _myspec.CssDisplay);            
+            ChangeDisplayType(this, _myspec.CssDisplay);
         }
-        
+
 
 
         /// <summary>
@@ -634,11 +634,15 @@ namespace HtmlRenderer.Dom
             //set height  
             UpdateIfHigher(this, ExpectedHeight);
 
-            this.CreateListItemBoxIfNeed(lay);
+            if (_subBoxes != null)
+            {
+                //layout
+                _subBoxes.PerformLayout(this, lay);
+            }
             //update back 
             lay.UpdateRootSize(this);
         }
-
+        
         static void UpdateIfHigher(CssBox box, float newHeight)
         {
             if (newHeight > box.SizeHeight)
@@ -713,24 +717,7 @@ namespace HtmlRenderer.Dom
             this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
         }
 
-        void CreateListItemBoxIfNeed(LayoutVisitor lay)
-        {
 
-            if (this.CssDisplay == CssDisplay.ListItem &&
-                ListStyleType != CssListStyleType.None)
-            {
-                if (_subBoxes == null)
-                {
-                    _subBoxes = new SubBoxCollection();
-                }
-                CssBox listItemBox = _subBoxes.ListItemBox;
-                if (listItemBox == null)
-                {
-                    listItemBox = _subBoxes.ListItemBox = ListItemHelper.CreateListItem(this, this._myspec.GetAnonVersion(), lay);
-                }
-                listItemBox.FirstRun.SetLocation(listItemBox.SizeWidth - 5, ActualPaddingTop);
-            }
-        }
 
 
         /// <summary>

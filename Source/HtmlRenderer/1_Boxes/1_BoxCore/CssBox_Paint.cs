@@ -188,9 +188,9 @@ namespace HtmlRenderer.Dom
                 }
                 //------------------------------------------  
 
-                if (_subBoxes != null && _subBoxes.ListItemBox != null)
+                if (_subBoxes != null && _subBoxes.ListItemBulletBox != null)
                 {
-                    _subBoxes.ListItemBox.Paint(g, p);
+                    _subBoxes.ListItemBulletBox.Paint(g, p);
                 }
 
             }

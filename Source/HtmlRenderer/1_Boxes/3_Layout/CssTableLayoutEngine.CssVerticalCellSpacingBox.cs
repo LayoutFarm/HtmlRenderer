@@ -35,12 +35,12 @@ namespace HtmlRenderer.Dom
             public CssVerticalCellSpacingBox(CssBox tableBox, CssBox extendedBox, int startRow)
                 : base(tableBox, null, specForVCell)
             {
-                _extendedBox = extendedBox;                 
+                _extendedBox = extendedBox;
                 this.SetRowColSpan(1, 1);
-                //this.CssDisplay = CssDisplay.None;
                 _endRow = startRow + extendedBox.RowSpan - 1;
+
                 ReEvaluateComputedValues(tableBox);
-                ChangeDisplayType(this, Dom.CssDisplay.None);
+                ChangeDisplayType(this, CssDisplay.None);
             }
 
             public CssBox ExtendedBox

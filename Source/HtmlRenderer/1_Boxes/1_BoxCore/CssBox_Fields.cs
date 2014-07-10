@@ -194,6 +194,13 @@ namespace HtmlRenderer.Dom
                 return this._cssDisplay;
             }
         }
+        internal SubBoxCollection SubBoxes
+        {
+            get
+            {
+                return this._subBoxes;
+            }
+        }
 
         internal static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {

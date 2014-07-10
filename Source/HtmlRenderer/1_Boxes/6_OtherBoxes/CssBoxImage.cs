@@ -50,14 +50,14 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxImage(CssBox parent, BridgeHtmlElement tag, BoxSpec boxSpec)
+        public CssBoxImage(CssBox parent, BridgeHtmlElement tag, BoxSpec boxSpec, ImageBinder binder)
             : base(parent, tag, boxSpec)
         {
-             
+
             this._imageWord = new CssImageRun();
             this._imageWord.SetOwner(this);
             this.SetContentRuns(new List<CssRun>() { _imageWord }, false);
-
+            this._imgBinder = binder;
         }
 
         /// <summary>
@@ -101,10 +101,10 @@ namespace HtmlRenderer.Dom
         internal void PaintImage(IGraphics g, RectangleF rect, PaintVisitor p)
         {
 
-            if (_imgBinder == null)
-            {
-                _imgBinder = new ImageBinder(GetAttribute("src"));
-            }
+            //if (_imgBinder == null)
+            //{
+            //    _imgBinder = new ImageBinder(GetAttribute("src"));
+            //}
 
             //p.PushLocalClipArea(rect.Width, rect.Height);
 
@@ -197,11 +197,11 @@ namespace HtmlRenderer.Dom
             if (!this.RunSizeMeasurePass)
             {
 
-                if (_imgBinder == null && lay.AvoidImageAsyncLoadOrLateBind)
-                {
-                    _imgBinder = new ImageBinder(GetAttribute("src"));
-                    lay.RequestImage(_imgBinder, this, OnImageBinderLoadingComplete);
-                }
+                //if (_imgBinder == null && lay.AvoidImageAsyncLoadOrLateBind)
+                //{
+                //    _imgBinder = new ImageBinder(GetAttribute("src"));
+                //    lay.RequestImage(_imgBinder, this, OnImageBinderLoadingComplete);
+                //}
 
                 MeasureWordSpacing(lay);
                 this.RunSizeMeasurePass = true;

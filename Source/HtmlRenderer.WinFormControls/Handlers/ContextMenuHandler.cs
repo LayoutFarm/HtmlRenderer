@@ -444,29 +444,31 @@ namespace HtmlRenderer.Handlers
         /// </summary>
         private void OnSaveImageClick(object sender, EventArgs eventArgs)
         {
-            try
-            {
-                using (var saveDialog = new SaveFileDialog())
-                {
-                    var imageSrc = _currentRun.OwnerBox.GetAttribute("src");
-                    saveDialog.DefaultExt = Path.GetExtension(imageSrc) ?? "png";
-                    saveDialog.FileName = Path.GetFileName(imageSrc) ?? "image";
-                    saveDialog.Filter = "Images|*.png;*.bmp;*.jpg";
 
-                    if (saveDialog.ShowDialog(_parentControl) == DialogResult.OK)
-                    {
-                        _currentRun.Image.Save(saveDialog.FileName);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                _htmlContainer.ReportError(HtmlRenderErrorType.ContextMenu, "Failed to save image", ex);
-            }
-            finally
-            {
-                DisposeContextMenu();
-            }
+            //wait for another technique
+            //try
+            //{
+            //    using (var saveDialog = new SaveFileDialog())
+            //    {
+            //        var imageSrc = _currentRun.OwnerBox.GetAttribute("src");
+            //        saveDialog.DefaultExt = Path.GetExtension(imageSrc) ?? "png";
+            //        saveDialog.FileName = Path.GetFileName(imageSrc) ?? "image";
+            //        saveDialog.Filter = "Images|*.png;*.bmp;*.jpg";
+
+            //        if (saveDialog.ShowDialog(_parentControl) == DialogResult.OK)
+            //        {
+            //            _currentRun.Image.Save(saveDialog.FileName);
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    _htmlContainer.ReportError(HtmlRenderErrorType.ContextMenu, "Failed to save image", ex);
+            //}
+            //finally
+            //{
+            //    DisposeContextMenu();
+            //}
         }
 
         /// <summary>

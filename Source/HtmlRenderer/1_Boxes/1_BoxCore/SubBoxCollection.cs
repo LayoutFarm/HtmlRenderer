@@ -8,18 +8,30 @@ namespace HtmlRenderer.Dom
     /// </summary>
     class SubBoxCollection
     {
-        CssBox _listItemBox;
-         
+        CssBox _listItemBulletBox;
         public SubBoxCollection()
-        {
-             
+        { 
         }
-        public CssBox ListItemBox
+        public CssBox ListItemBulletBox
         {
-            get { return this._listItemBox; }
-            set { this._listItemBox = value; }
+            get { return this._listItemBulletBox; }
+            set { this._listItemBulletBox = value; }
         }
-        
+        public void PerformLayout(CssBox owner, LayoutVisitor lay)
+        {   
+            if (_listItemBulletBox != null)
+            {
+                //layout list item
+                
+                var prevSibling = lay.LatestSiblingBox;
+                lay.LatestSiblingBox = null;//reset
+                _listItemBulletBox.PerformLayout(lay);
+                lay.LatestSiblingBox = prevSibling; 
+                var fRun = _listItemBulletBox.FirstRun;
+                _listItemBulletBox.FirstRun.SetSize(fRun.Width, fRun.Height);
+                _listItemBulletBox.FirstRun.SetLocation(_listItemBulletBox.SizeWidth - 5, owner.ActualPaddingTop);
+            }
+        }
     }
 
 

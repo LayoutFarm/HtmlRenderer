@@ -15,8 +15,8 @@
 
 using System;
 using System.Collections.Generic;
- 
-using HtmlRenderer.Parse; 
+
+using HtmlRenderer.Parse;
 
 
 namespace HtmlRenderer.Dom
@@ -177,8 +177,9 @@ namespace HtmlRenderer.Dom
                         break;
                     case CssDisplay.TableColumn:
                         {
+                            //internal, use same field as TableCell
 
-                            for (int i = GetSpan(box) - 1; i >= 0; --i)
+                            for (int i = box.ColSpan - 1; i >= 0; --i)
                             {
                                 //duplicate box*** for colspan
                                 userDefinedColBoxes.Add(box);
@@ -189,7 +190,7 @@ namespace HtmlRenderer.Dom
                         {
                             if (box.ChildCount == 0)
                             {
-                                for (int i = GetSpan(box) - 1; i >= 0; --i)
+                                for (int i = box.ColSpan - 1; i >= 0; --i)
                                 {
                                     //duplicate box*** for colspan
                                     userDefinedColBoxes.Add(box);
@@ -199,7 +200,7 @@ namespace HtmlRenderer.Dom
                             {
                                 foreach (CssBox childBox in box.GetChildBoxIter())
                                 {
-                                    for (int i = GetSpan(childBox) - 1; i >= 0; --i)
+                                    for (int i = childBox.ColSpan - 1; i >= 0; --i)
                                     {
                                         //duplicate box*** for colspan
                                         userDefinedColBoxes.Add(childBox);
@@ -810,7 +811,7 @@ namespace HtmlRenderer.Dom
                 {
                     case CssDisplay.TableColumn:
                         {
-                            columns += GetSpan(box);
+                            columns += box.ColSpan;
                         } break;
                     case CssDisplay.TableRowGroup:
                         {
@@ -1161,29 +1162,7 @@ namespace HtmlRenderer.Dom
             return f;
         }
 
-        /// <summary>
-        /// Gets the span attribute of the tag of the specified box
-        /// </summary>
-        /// <param name="b"></param>
-        static int GetSpan(CssBox b)
-        {
-            //span attr contain number of column that element should span
-            string spanValue = b.GetAttribute("span");
 
-            if (spanValue != string.Empty)
-            {
-                int result;
-                if (int.TryParse(spanValue, out result))
-                {
-                    if (result < 0)
-                    {
-                        return -result;
-                    }
-                    return result;
-                }
-            }
-            return 1;
-        }
 
         /// <summary>
         /// Gets the minimum width of each column
