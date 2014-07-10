@@ -86,7 +86,7 @@
     <Compile Include="1_Boxes\0_PropsAndFeatures\BoxSpec.cs" />
     <Compile Include="1_Boxes\0_PropsAndFeatures\BoxSpec_CopyAndVersioning.cs" />
     <Compile Include="BridgesAndBuilder\dbugCssBoxDomChecker.cs" />
-    <Compile Include="BridgesAndBuilder\RunListCreator.cs" />
+    <Compile Include="BridgesAndBuilder\RunListHelper.cs" />
     <Compile Include="BridgesAndBuilder\SpecSetter.cs" />
     <Compile Include="Common\DeprecatedAttribute.cs" />
     <Compile Include="Common\MapAttribute.cs" />

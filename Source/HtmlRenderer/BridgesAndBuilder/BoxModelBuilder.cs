@@ -238,7 +238,7 @@ namespace HtmlRenderer.Dom
                                     //parent has single child 
                                     BridgeHtmlTextNode singleTextNode = (BridgeHtmlTextNode)bridgeChild;
                                     //create textrun under policy  
-                                    RunListCreator.AddRunList(parentBox, parentElement.Spec, singleTextNode);
+                                    RunListHelper.AddRunList(parentBox, parentElement.Spec, singleTextNode);
                                 } break;
                             case HtmlNodeType.ShortElement:
                             case HtmlNodeType.OpenElement:
@@ -310,7 +310,7 @@ namespace HtmlRenderer.Dom
                             if (isLineFormattingContext)
                             {
                                 CssBox anonText = CssBox.CreateAnonInline(parentBox);
-                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode);
+                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
 #if DEBUG
                                 //anonText.dbugAnonCreator = parentElement;
 #endif
@@ -318,7 +318,7 @@ namespace HtmlRenderer.Dom
                             else
                             {
                                 CssBox anonText = CssBox.CreateAnonBlock(parentBox);
-                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode);
+                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
                                 //anonText.SetTextContent(contentRuns);
                                 //anonText.UpdateRunList();
 #if DEBUG
@@ -373,7 +373,7 @@ namespace HtmlRenderer.Dom
                             if (isLineFormattingContext)
                             {
                                 CssBox anonText = CssBox.CreateAnonInline(parentBox);
-                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode);
+                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
 
 #if DEBUG
                                 //lanonText.dbugAnonCreator = parentElement;
@@ -382,7 +382,7 @@ namespace HtmlRenderer.Dom
                             else
                             {
                                 CssBox anonText = CssBox.CreateAnonInline(parentBox);
-                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode);
+                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
 #if DEBUG
                                 //anonText.dbugAnonCreator = parentElement;
 #endif
@@ -450,7 +450,7 @@ namespace HtmlRenderer.Dom
                             if (isLineFormattingContext)
                             {
                                 CssBox anonText = CssBox.CreateAnonInline(parentBox);
-                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode);
+                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
 
 #if DEBUG
                                 //anonText.dbugAnonCreator = parentElement;
@@ -459,7 +459,7 @@ namespace HtmlRenderer.Dom
                             else
                             {
                                 CssBox anonText = CssBox.CreateAnonBlock(parentBox);
-                                RunListCreator.AddRunList(anonText, parentElement.Spec, textNode);
+                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
 #if DEBUG
                                 //anonText.dbugAnonCreator = parentElement;
 #endif

@@ -22,6 +22,7 @@ namespace HtmlRenderer.Dom
             CharacterCollecting
         } 
 
+<<<<<<< HEAD
         public const int P_TEXT = (int)TextSplitPartKind.Text << 13;
         public const int P_WHITESPACE = (int)TextSplitPartKind.Whitespace << 13;
         public const int P_SINGLE_WHITESPACE = (int)TextSplitPartKind.SingleWhitespace << 13;
@@ -30,6 +31,41 @@ namespace HtmlRenderer.Dom
 
         public TextSplits ParseWordContent(char[] textBuffer, out bool hasSomeCharacter)
         {
+=======
+        List<CssRun> GetNewRunList()
+        {
+            if (myRunPool.Count > 0)
+            {
+                return myRunPool.Pop();
+            }
+            else
+            {
+                return new List<CssRun>(10);
+            }
+        }
+        void StoreBackNotUse(List<CssRun> tmpRuns)
+        {
+            tmpRuns.Clear();
+            myRunPool.Push(tmpRuns); 
+        }
+        public void ParseWordContent(char[] textBuffer, BoxSpec spec, out List<CssRun> runlistOutput, out bool hasSomeCharacter)
+        {   
+
+            bool preserverLine = false;
+            bool preserveWhiteSpace = false;
+            switch (spec.WhiteSpace)
+            {
+                case CssWhiteSpace.Pre:
+                case CssWhiteSpace.PreWrap:
+                    //run and preserve whitespace  
+                    preserveWhiteSpace = true;
+                    preserverLine = true;
+                    break;
+                case CssWhiteSpace.PreLine:
+                    preserverLine = true;
+                    break;
+            } 
+>>>>>>> v1.7perf
 
             hasSomeCharacter = false; 
             //--------------------------------------
@@ -165,11 +201,19 @@ namespace HtmlRenderer.Dom
                 return new TextSplits(0, spList.ToArray());
             }
             else
+<<<<<<< HEAD
             {   
                 return new TextSplits(1, null);
             }
             
         }
 
+=======
+            {
+                StoreBackNotUse(runlist);
+                runlistOutput = null;
+            } 
+        } 
+>>>>>>> v1.7perf
     }
 }

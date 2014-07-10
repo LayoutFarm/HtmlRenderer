@@ -231,6 +231,11 @@ namespace HtmlRenderer.Dom
             this._actualBorderRightWidth = a3 = (this.BorderRightStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderRightWidth, this);
             this._actualBorderBottomWidth = a4 = (this.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderBottomWidth, this);
             //---------------------------------------------------------------------------
+            var spec = _myspec;
+            this._borderLeftVisible = a1 > 0 && spec.BorderLeftStyle >= CssBorderStyle.Visible;
+            this._borderTopVisible = a2 > 0 && spec.BorderTopStyle >= CssBorderStyle.Visible;
+            this._borderRightVisible = a3 > 0 && spec.BorderRightStyle >= CssBorderStyle.Visible;
+            this._borderBottomVisble = a4 > 0 && spec.BorderBottomStyle >= CssBorderStyle.Visible;
 
             var spec = _myspec;
             this._borderLeftVisible = a1 > 0 && spec.BorderLeftStyle >= CssBorderStyle.Visible;
@@ -251,6 +256,9 @@ namespace HtmlRenderer.Dom
             {
                 this._boxCompactFlags &= ~CssBoxFlagsConst.HAS_SOME_VISIBLE_BORDER;
             }
+
+
+
 
             //---------------------------------------------------------------------------
 

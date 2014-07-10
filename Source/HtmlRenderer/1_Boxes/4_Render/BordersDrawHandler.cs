@@ -39,6 +39,7 @@ namespace HtmlRenderer.Handlers
         /// <param name="isLast">is it the last rectangle of the element</param>
         public static void DrawBoxBorders(PaintVisitor p, CssBox box, RectangleF rect, bool isFirst, bool isLast)
         {
+<<<<<<< HEAD
 
             if (rect.Width > 0 && rect.Height > 0)
             { 
@@ -48,6 +49,18 @@ namespace HtmlRenderer.Handlers
                 } 
                 if (isFirst &&
                     box.BorderLeftVisible)
+=======
+
+            if (rect.Width > 0 && rect.Height > 0)
+            {
+
+                if (box.BorderTopVisible)
+                {
+                    DrawBorder(CssSide.Top, box, p, rect, isFirst, isLast);
+                }
+
+                if (isFirst && box.BorderLeftVisible)
+>>>>>>> v1.7perf
                 {
                     DrawBorder(CssSide.Left, box, p, rect, true, isLast);
                 }
@@ -61,6 +74,7 @@ namespace HtmlRenderer.Handlers
                 {
                     DrawBorder(CssSide.Right, box, p, rect, isFirst, true);
                 }
+
             }
         }
 
@@ -85,36 +99,38 @@ namespace HtmlRenderer.Handlers
         /// <summary>
         /// Draw specific border (top/bottom/left/right) with the box data (style/width/rounded).<br/>
         /// </summary>
-        /// <param name="border">desired border to draw</param>
+        /// <param name="borderSide">desired border to draw</param>
         /// <param name="box">the box to draw its borders, contain the borders data</param>
         /// <param name="g">the device to draw into</param>
         /// <param name="rect">the rectangle the border is enclosing</param>
         /// <param name="isLineStart">Specifies if the border is for a starting line (no bevel on left)</param>
         /// <param name="isLineEnd">Specifies if the border is for an ending line (no bevel on right)</param>
-        static void DrawBorder(CssSide border, CssBox box, PaintVisitor p, RectangleF rect, bool isLineStart, bool isLineEnd)
+        static void DrawBorder(CssSide borderSide, CssBox box,
+            PaintVisitor p, RectangleF rect, bool isLineStart, bool isLineEnd)
         {
 
-            CssBorderStyle style = GetStyle(border, box);
-            var color = GetColor(border, box, style);
+            //------------------------------------------------------
+            BoxSpec boxspec = CssBox.UnsafeGetBoxSpec(box);
+
+            CssBorderStyle style = GetBorderStyle(borderSide, box);
+            var color = GetBorderColor(borderSide, box, style);
             GraphicsPath borderPath = null;
 
             if (box.HasSomeRoundCorner)
             {
-                borderPath = GetRoundedBorderPath(border, box, rect);
+                borderPath = GetRoundedBorderPath(borderSide, box, rect);
             }
 
             IGraphics g = p.Gfx;
             if (borderPath != null)
             {
-                // rounded border need special path
-
+                // rounded border need special path 
                 var smooth = g.SmoothingMode;
                 if (!p.AvoidGeometryAntialias && box.HasSomeRoundCorner)
                 {
                     g.SmoothingMode = SmoothingMode.AntiAlias;
                 }
-
-                var pen = GetPen(style, color, GetWidth(border, box));
+                var pen = GetPen(style, color, GetWidth(borderSide, box));
                 using (borderPath)
                 {
                     g.DrawPath(pen, borderPath);
@@ -124,35 +140,41 @@ namespace HtmlRenderer.Handlers
             }
             else
             {
-                // non rounded border
+                // non rounded border 
+                switch (style)
+                {
+                    case CssBorderStyle.Inset:
+                    case CssBorderStyle.Outset:
+                        {
+                            // inset/outset border needs special rectangle
+                            PointF[] borderPnts = new PointF[4];
+                            SetInOutsetRectanglePoints(borderSide, box, rect, isLineStart, isLineEnd, borderPnts);
+                            g.FillPolygon(RenderUtils.GetSolidBrush(color), borderPnts);
+                        } break;
+                    default:
+                        {
+                            // solid/dotted/dashed border draw as simple line
+                            var pen = GetPen(style, color, GetWidth(borderSide, box));
+                            switch (borderSide)
+                            {
+                                case CssSide.Top:
+                                    g.DrawLine(pen, (float)Math.Ceiling(rect.Left), rect.Top + box.ActualBorderTopWidth / 2, rect.Right - 1, rect.Top + box.ActualBorderTopWidth / 2);
+                                    break;
+                                case CssSide.Left:
+                                    g.DrawLine(pen, rect.Left + box.ActualBorderLeftWidth / 2, (float)Math.Ceiling(rect.Top), rect.Left + box.ActualBorderLeftWidth / 2, (float)Math.Floor(rect.Bottom));
+                                    break;
+                                case CssSide.Bottom:
+                                    g.DrawLine(pen, (float)Math.Ceiling(rect.Left), rect.Bottom - box.ActualBorderBottomWidth / 2, rect.Right - 1, rect.Bottom - box.ActualBorderBottomWidth / 2);
+                                    break;
+                                case CssSide.Right:
+                                    g.DrawLine(pen, rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Ceiling(rect.Top), rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Floor(rect.Bottom));
+                                    break;
+                            }
 
-                if (style == CssBorderStyle.Inset || style == CssBorderStyle.Outset)
-                {
-                    // inset/outset border needs special rectangle
-                    PointF[] borderPnts = new PointF[4];
-                    SetInOutsetRectanglePoints(border, box, rect, isLineStart, isLineEnd, borderPnts);
-                    g.FillPolygon(RenderUtils.GetSolidBrush(color), borderPnts);
+                        } break;
                 }
-                else
-                {
-                    // solid/dotted/dashed border draw as simple line
-                    var pen = GetPen(style, color, GetWidth(border, box));
-                    switch (border)
-                    {
-                        case CssSide.Top:
-                            g.DrawLine(pen, (float)Math.Ceiling(rect.Left), rect.Top + box.ActualBorderTopWidth / 2, rect.Right - 1, rect.Top + box.ActualBorderTopWidth / 2);
-                            break;
-                        case CssSide.Left:
-                            g.DrawLine(pen, rect.Left + box.ActualBorderLeftWidth / 2, (float)Math.Ceiling(rect.Top), rect.Left + box.ActualBorderLeftWidth / 2, (float)Math.Floor(rect.Bottom));
-                            break;
-                        case CssSide.Bottom:
-                            g.DrawLine(pen, (float)Math.Ceiling(rect.Left), rect.Bottom - box.ActualBorderBottomWidth / 2, rect.Right - 1, rect.Bottom - box.ActualBorderBottomWidth / 2);
-                            break;
-                        case CssSide.Right:
-                            g.DrawLine(pen, rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Ceiling(rect.Top), rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Floor(rect.Bottom));
-                            break;
-                    }
-                }
+
+
             }
         }
 
@@ -323,7 +345,6 @@ namespace HtmlRenderer.Handlers
                     break;
                 case CssBorderStyle.Dotted:// "dotted":
                     p.DashStyle = DashStyle.Dot;
-
                     break;
                 case CssBorderStyle.Dashed:// "dashed":
                     p.DashStyle = DashStyle.Dash;
@@ -337,7 +358,7 @@ namespace HtmlRenderer.Handlers
         /// <summary>
         /// Get the border color for the given box border.
         /// </summary>
-        static Color GetColor(CssSide border, CssBox box, CssBorderStyle style)
+        static Color GetBorderColor(CssSide border, CssBox box, CssBorderStyle style)
         {
             switch (border)
             {
@@ -377,7 +398,7 @@ namespace HtmlRenderer.Handlers
         /// <summary>
         /// Get the border style for the given box border.
         /// </summary>
-        static CssBorderStyle GetStyle(CssSide border, CssBox box)
+        static CssBorderStyle GetBorderStyle(CssSide border, CssBox box)
         {
             switch (border)
             {
