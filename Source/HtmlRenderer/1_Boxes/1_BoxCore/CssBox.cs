@@ -102,19 +102,7 @@ namespace HtmlRenderer.Dom
         }
 
 
-        /// <summary>
-        /// Gets the HtmlContainer of the Box.
-        /// WARNING: May be null.
-        /// </summary>
-        public HtmlContainer HtmlContainer
-        {
-            get { return _htmlContainer ?? (_parentBox != null ? _htmlContainer = _parentBox.HtmlContainer : null); }
-
-        }
-        public static void SetHtmlContainer(CssBox htmlRoot, HtmlContainer container)
-        {
-            htmlRoot._htmlContainer = container;
-        }
+      
         /// <summary>
         /// Gets the parent box of this box
         /// </summary>
@@ -136,7 +124,7 @@ namespace HtmlRenderer.Dom
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
-                _htmlContainer = parentBox.HtmlContainer;
+              
             }
         }
         internal void SetNewParentBox(int myIndexHint, CssBox parentBox)
@@ -147,8 +135,7 @@ namespace HtmlRenderer.Dom
             }
             if (parentBox != null)
             {
-                parentBox.Boxes.Add(this);
-                _htmlContainer = parentBox.HtmlContainer;
+                parentBox.Boxes.Add(this); 
             }
         }
         /// <summary>
@@ -863,20 +850,7 @@ namespace HtmlRenderer.Dom
         }
 
 
-        ///// <summary>
-        ///// On image load process complete with image request refresh for it to be painted.
-        ///// </summary>
-        ///// <param name="image">the image loaded or null if failed</param>
-        ///// <param name="rectangle">the source rectangle to draw in the image (empty - draw everything)</param>
-        ///// <param name="async">is the callback was called async to load image call</param>
-        //private void OnImageLoadComplete(Image image, Rectangle rectangle, bool async)
-        //{
-        //    if (image != null && async)
-        //    {
-        //        HtmlContainer.RequestRefresh(false);
-        //    }
-        //}
-
+        
 
 
         ///// <summary>

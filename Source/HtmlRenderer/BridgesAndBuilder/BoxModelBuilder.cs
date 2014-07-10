@@ -548,7 +548,7 @@ namespace HtmlRenderer.Dom
             dbugTestParsePerformance(html);
 #endif
 
-            CssBox.SetHtmlContainer(rootBox, htmlContainer);
+           
             SetTextSelectionStyle(htmlContainer, cssData);
             OnePassBoxCorrection(rootBox);
             // });

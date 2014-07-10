@@ -604,20 +604,22 @@ namespace HtmlRenderer.Dom
         /// <param name="async">is the callback was called async to load image call</param>
         private void OnLoadImageComplete(Image image, Rectangle rectangle, bool async)
         {
-            _imageWord.Image = image;
-            _imageWord.ImageRectangle = rectangle;
-            _imageLoadingComplete = true;
-            this.RunSizeMeasurePass = false;
+            //waiting for a another technique
 
-            //if (_imageLoadingComplete && image == null)
+            //_imageWord.Image = image;
+            //_imageWord.ImageRectangle = rectangle;
+            //_imageLoadingComplete = true;
+            //this.RunSizeMeasurePass = false;
+
+            ////if (_imageLoadingComplete && image == null)
+            ////{
+            ////    SetErrorBorder();
+            ////}
+
+            //if (async)
             //{
-            //    SetErrorBorder();
+            //    HtmlContainer.RequestRefresh(IsLayoutRequired());
             //}
-
-            if (async)
-            {
-                HtmlContainer.RequestRefresh(IsLayoutRequired());
-            }
         }
 
         private bool IsLayoutRequired()

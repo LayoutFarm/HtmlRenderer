@@ -126,7 +126,7 @@ namespace HtmlRenderer.Dom
                 var itemBulletBox = new CssBox(null, null, spec.GetAnonVersion());
                 subBoxs.ListItemBulletBox = itemBulletBox;
 
-                CssBox.UnsafeSetParent(itemBulletBox, newBox, newBox.HtmlContainer);
+                CssBox.UnsafeSetParent(itemBulletBox, newBox, null );
                 CssBox.ChangeDisplayType(itemBulletBox, CssDisplay.Inline);
                 //---------------------------------------------------------------
                 //set content of bullet 

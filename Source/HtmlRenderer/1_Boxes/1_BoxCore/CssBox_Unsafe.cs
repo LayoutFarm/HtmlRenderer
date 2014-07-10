@@ -35,7 +35,7 @@ namespace HtmlRenderer.Dom
         internal static void UnsafeSetParent(CssBox box, CssBox parent, HtmlContainer htmlContainer)
         {
             box._parentBox = parent;
-            box._htmlContainer = htmlContainer;
+            //box._htmlContainer = htmlContainer;
         }
 
 #if DEBUG

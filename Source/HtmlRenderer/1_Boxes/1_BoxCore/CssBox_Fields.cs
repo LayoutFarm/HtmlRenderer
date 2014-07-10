@@ -26,11 +26,7 @@ namespace HtmlRenderer.Dom
     {
 
         readonly object _controller;
-        //----------------------------------------------------
-        /// <summary>
-        /// the root container for the hierarchy
-        /// </summary>
-        protected HtmlContainer _htmlContainer;
+       
         //----------------------------------------------------
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
