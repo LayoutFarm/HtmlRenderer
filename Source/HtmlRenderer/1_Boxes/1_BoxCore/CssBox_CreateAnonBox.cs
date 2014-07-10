@@ -19,14 +19,14 @@ namespace HtmlRenderer.Dom
             }
             //-------------------------------------------
 #if DEBUG
-            if (parent.HtmlElement != null)
-            {
-                //newBox.dbugAnonCreator = (BridgeHtmlElement)parent.HtmlElement;
-            }
-            else if (parent.dbugAnonCreator != null)
-            {
-                //newBox.dbugAnonCreator = parent.dbugAnonCreator;
-            }
+            //if (parent.HtmlElement != null)
+            //{
+            //    //newBox.dbugAnonCreator = (BridgeHtmlElement)parent.HtmlElement;
+            //}
+            //else if (parent.dbugAnonCreator != null)
+            //{
+            //    //newBox.dbugAnonCreator = parent.dbugAnonCreator;
+            //}
 #endif
 
             return newBox;

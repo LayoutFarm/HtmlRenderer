@@ -72,7 +72,6 @@
     <Compile Include="1_Boxes\1_BoxCore\CssBoxAssignments.cs" />
     <Compile Include="1_Boxes\0_PropsAndFeatures\ConstConfig.cs" />
     <Compile Include="1_Boxes\1_BoxCore\CssBox_OtherActualValues.cs" />
-    <Compile Include="1_Boxes\6_OtherBoxes\ListItemHelper.cs" />
     <Compile Include="3_HtmlFeatures\3_Bridges\BridgeElements.cs" />
     <Compile Include="1_Boxes\1_BoxCore\BoxVisitor.cs" />
     <Compile Include="1_Boxes\3_Layout\CssBoxLayoutExtension.cs" />

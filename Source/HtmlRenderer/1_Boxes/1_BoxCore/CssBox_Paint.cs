@@ -28,7 +28,9 @@ namespace HtmlRenderer.Dom
         public void dbugPaint(PaintVisitor p, RectangleF r)
         {
             return;
-            if (this.HtmlElement == null)
+
+            var htmlE = CssBox.debugGetController(this) as BridgeHtmlElement;
+            if (htmlE == null)
             {
                 p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);
 
@@ -186,11 +188,10 @@ namespace HtmlRenderer.Dom
                 {
                     p.PopLocalClipArea();
                 }
-                //------------------------------------------  
-
-                if (_subBoxes != null && _subBoxes.ListItemBox != null)
+                //------------------------------------------   
+                if (_subBoxes != null && _subBoxes.ListItemBulletBox != null)
                 {
-                    _subBoxes.ListItemBox.Paint(g, p);
+                    _subBoxes.ListItemBulletBox.Paint(g, p);
                 }
 
             }

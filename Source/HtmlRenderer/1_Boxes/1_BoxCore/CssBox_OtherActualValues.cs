@@ -18,11 +18,7 @@ namespace HtmlRenderer.Dom
         float _actualTextIndent;
 
         float _actualBorderSpacingHorizontal;
-        float _actualBorderSpacingVertical;
-
-     
-
-
+        float _actualBorderSpacingVertical; 
 
         /// <summary>
         /// Gets the line height
@@ -31,14 +27,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return _actualLineHeight;
-
-                //if ((this._prop_pass_eval & CssBoxAssignments.LINE_HEIGHT) == 0)
-                //{
-                //    this._prop_pass_eval |= CssBoxAssignments.LINE_HEIGHT;
-                //    _actualLineHeight = .9f * CssValueParser.ParseLength(LineHeight, this.SizeHeight, this);
-                //}
-                //return _actualLineHeight;
+                return _actualLineHeight; 
             }
         }
 
@@ -49,12 +38,7 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                if ((this._prop_pass_eval & CssBoxAssignments.TEXT_INDENT) == 0)
-                {
-                    this._prop_pass_eval |= CssBoxAssignments.TEXT_INDENT;
-                    _actualTextIndent = CssValueParser.ConvertToPx(TextIndent, this.SizeWidth, this);
-                }
-                return _actualTextIndent;
+                return _actualTextIndent; 
             }
         }
 
@@ -65,14 +49,14 @@ namespace HtmlRenderer.Dom
         {
             get { return _actualWordSpacing; }
         }
+
+
         protected float MeasureWordSpacing(LayoutVisitor lay)
-        {
+        {   
             if ((this._prop_pass_eval & CssBoxAssignments.WORD_SPACING) == 0)
             {
-                this._prop_pass_eval |= CssBoxAssignments.WORD_SPACING;
-
-                _actualWordSpacing = lay.MeasureWhiteSpace(this);
-
+                this._prop_pass_eval |= CssBoxAssignments.WORD_SPACING; 
+                _actualWordSpacing = lay.MeasureWhiteSpace(this); 
                 if (!this.WordSpacing.IsNormalWordSpacing)
                 {
                     _actualWordSpacing += CssValueParser.ConvertToPx(this.WordSpacing, 1, this);

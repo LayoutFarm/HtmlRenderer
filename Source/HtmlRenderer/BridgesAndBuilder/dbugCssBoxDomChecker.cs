@@ -43,7 +43,8 @@ namespace HtmlRenderer.Dom
                     // is the box has text
                     // or is the box is pre-formatted
                     // or is the box is only one in the parent 
-                    bool keepBox = childBox.HtmlElement != null;
+                    var element = CssBox.debugGetController(childBox) as BridgeHtmlElement;
+                    bool keepBox = element != null;
                     if (!keepBox)
                     {
                         keepBox = !childBox.TextContentIsWhitespaceOrEmptyText ||
@@ -384,8 +385,8 @@ namespace HtmlRenderer.Dom
             //recursive 
 
 
-
-            var leftPart = BoxCreator.CreateBox(leftBlock, (BridgeHtmlElement)splitBox.HtmlElement);
+            var htmlE = CssBox.debugGetController(splitBox) as BridgeHtmlElement;
+            var leftPart = BoxCreator.CreateBox(leftBlock, htmlE);
 
             bool had_new_leftbox = false;
             CssBox firstChild = null;
@@ -427,7 +428,7 @@ namespace HtmlRenderer.Dom
                 if (firstChild.ParentBox != null || parentBox.ChildCount < 3)
                 {
 
-                    rightPart = BoxCreator.CreateBox(parentBox, (BridgeHtmlElement)splitBox.HtmlElement);
+                    rightPart = BoxCreator.CreateBox(parentBox, htmlE);
 
                     if (parentBox.ChildCount > 2)
                     {
@@ -455,11 +456,8 @@ namespace HtmlRenderer.Dom
             {
 
                 firstChild.ChangeSiblingOrder(1);
-
-                if (firstChild.WellknownTagName == WellknownHtmlTagName.br
-                    && (had_new_leftbox || leftBlock.ChildCount > 1))
+                if (firstChild.IsBrElement && (had_new_leftbox || leftBlock.ChildCount > 1))
                 {
-
                     CssBox.ChangeDisplayType(firstChild, CssDisplay.Inline);
                 }
             }
@@ -467,7 +465,8 @@ namespace HtmlRenderer.Dom
 
         static void dbugCompareSpecDiff(string prefix, CssBox box)
         {
-            BridgeHtmlElement element = box.HtmlElement as BridgeHtmlElement;
+            var element = CssBox.debugGetController(box) as BridgeHtmlElement;
+
             BoxSpec curSpec = CssBox.UnsafeGetBoxSpec(box);
 
             dbugPropCheckReport rep = new dbugPropCheckReport();

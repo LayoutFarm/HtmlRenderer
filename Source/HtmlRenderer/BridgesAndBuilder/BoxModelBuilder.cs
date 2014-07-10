@@ -165,7 +165,7 @@ namespace HtmlRenderer.Dom
                     CssBox.ChangeDisplayType(newChildBox, CssDisplay.BlockInsideInlineAfterCorrection);
                 }
             }
-            else if (parentBox.HtmlElement.WellknownTagName == WellknownHtmlTagName.td)
+            else if (parentBox.CssDisplay == CssDisplay.TableCell)//(parentBox.WellknownTagName == WellknownHtmlTagName.td)
             {
                 if (isLineFormattingContext)
                 {
@@ -1289,7 +1289,7 @@ namespace HtmlRenderer.Dom
             {
                 foreach (var c2 in c1.GetChildBoxIter())
                 {
-                    if (c2.WellknownTagName == WellknownHtmlTagName.td)
+                    if (c2.CssDisplay == CssDisplay.TableCell)
                     {
                         cellAction(c2);
                     }

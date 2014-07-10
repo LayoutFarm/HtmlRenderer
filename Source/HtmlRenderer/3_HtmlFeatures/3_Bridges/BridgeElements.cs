@@ -10,8 +10,9 @@ using HtmlRenderer.WebDom;
 namespace HtmlRenderer.Dom
 {
 
+    
 
-    class BridgeHtmlElement : HtmlElement
+    public class BridgeHtmlElement : HtmlElement
     {
         BoxSpec boxSpec;
         public BridgeHtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
@@ -69,7 +70,7 @@ namespace HtmlRenderer.Dom
         List<CssRun> runs;
         public BridgeHtmlTextNode(HtmlDocument ownerDoc, char[] buffer)
             : base(ownerDoc, buffer)
-        { 
+        {
         }
         public bool IsWhiteSpace
         {
@@ -83,7 +84,7 @@ namespace HtmlRenderer.Dom
             this.runs = runs;
             this.hasSomeChar = hasSomeChar;
         }
-       
+
 #if DEBUG
         public override string ToString()
         {

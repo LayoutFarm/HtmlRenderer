@@ -39,9 +39,9 @@ namespace HtmlRenderer.Dom
     /// </remarks>
     public partial class CssBox
     {
+
         readonly BoxSpec _myspec;
 
-        WellknownHtmlTagName wellKnownTagName;
 
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
@@ -49,25 +49,19 @@ namespace HtmlRenderer.Dom
         public int dbugMark;
 #endif
 
-        internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
+        public CssBox(CssBox parentBox, object controller, BoxSpec spec)
         {
-
             this._aa_boxes = new CssBoxCollection(this);
+
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
             }
-            this._htmlElement = element;
-#if DEBUG
-            if (element != null && element.Spec == null)
-            {
 
-            }
-#endif
-            if (element != null)
-            {
-                this.WellknownTagName = element.WellknownTagName;
-            }
+            this._controller = controller;
+
+
+
 
 #if DEBUG
             if (!spec.IsFreezed)
@@ -76,13 +70,38 @@ namespace HtmlRenderer.Dom
             }
 #endif
 
+            //assign spec 
+            this._myspec = spec;
+            EvaluateSpec(spec);
+            ChangeDisplayType(this, _myspec.CssDisplay);
+        }
+        public CssBox(CssBox parentBox, object controller, BoxSpec spec, CssDisplay fixDisplayType)
+        {
+
+            this._aa_boxes = new CssBoxCollection(this); 
+            if (parentBox != null)
+            {
+                parentBox.Boxes.Add(this);
+            } 
+            this._controller = controller;  
+#if DEBUG
+            if (!spec.IsFreezed)
+            {
+                //must be freeze
+            }
+#endif
+
             //assign spec
+            this._fixDisplayType = true;
+            this._cssDisplay = fixDisplayType;
 
             this._myspec = spec;
             EvaluateSpec(spec);
-            ChangeDisplayType(this, _myspec.CssDisplay);            
+            ChangeDisplayType(this, _myspec.CssDisplay);
+
         }
-        
+
+
         /// <summary>
         /// Gets the HtmlContainer of the Box.
         /// WARNING: May be null.
@@ -139,7 +158,8 @@ namespace HtmlRenderer.Dom
         {
             get
             {
-                return this.WellknownTagName == WellknownHtmlTagName.br;
+                return this.isBrElement;
+
             }
         }
 
@@ -206,17 +226,7 @@ namespace HtmlRenderer.Dom
             //Comment this following line to treat always superior box as block
             if (box == null)
                 throw new Exception("There's no containing block on the chain");
-
             return box;
-
-        }
-
-        /// <summary>
-        /// Gets the HtmlElement that hosts this box
-        /// </summary>
-        public IHtmlElement HtmlElement
-        {
-            get { return _htmlElement; }
         }
 
         /// <summary>
@@ -534,7 +544,6 @@ namespace HtmlRenderer.Dom
 
                             float localLeft = myContainingBlock.ClientLeft + this.ActualMarginLeft;
                             float localTop = 0;
-
                             var prevSibling = lay.LatestSiblingBox;
                             if (prevSibling == null)
                             {
@@ -632,7 +641,11 @@ namespace HtmlRenderer.Dom
             //set height  
             UpdateIfHigher(this, ExpectedHeight);
 
-            this.CreateListItemBoxIfNeed(lay);
+            if (_subBoxes != null)
+            {
+                //layout
+                _subBoxes.PerformLayout(this, lay);
+            }
             //update back 
             lay.UpdateRootSize(this);
         }
@@ -710,48 +723,6 @@ namespace HtmlRenderer.Dom
             }
             this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
         }
-
-        void CreateListItemBoxIfNeed(LayoutVisitor lay)
-        {
-
-            if (this.CssDisplay == CssDisplay.ListItem &&
-                ListStyleType != CssListStyleType.None)
-            {
-                if (_subBoxes == null)
-                {
-                    _subBoxes = new SubBoxCollection();
-                }
-                CssBox listItemBox = _subBoxes.ListItemBox;
-                if (listItemBox == null)
-                {
-                    listItemBox = _subBoxes.ListItemBox = ListItemHelper.CreateListItem(this, this._myspec.GetAnonVersion(), lay);
-                }
-                listItemBox.FirstRun.SetLocation(listItemBox.SizeWidth - 5, ActualPaddingTop);
-            }
-        }
-
-
-        /// <summary>
-        /// Gets the specified Attribute, returns string.Empty if no attribute specified
-        /// </summary>
-        /// <param name="attribute">Attribute to retrieve</param>
-        /// <returns>Attribute value or string.Empty if no attribute specified</returns>
-        public string GetAttribute(string attribute)
-        {
-            return GetAttribute(attribute, string.Empty);
-        }
-
-        /// <summary>
-        /// Gets the value of the specified attribute of the source HTML tag.
-        /// </summary>
-        /// <param name="attribute">Attribute to retrieve</param>
-        /// <param name="defaultValue">Value to return if attribute is not specified</param>
-        /// <returns>Attribute value or defaultValue if no attribute specified</returns>
-        public string GetAttribute(string attribute, string defaultValue)
-        {
-            return HtmlElement != null ? HtmlElement.TryGetAttribute(attribute, defaultValue) : defaultValue;
-        }
-
 
         /// <summary>
         /// Gets the minimum width that the box can be.
@@ -936,36 +907,36 @@ namespace HtmlRenderer.Dom
 
 
 #if DEBUG
-        /// <summary>
-        /// ToString override.
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            var tag = HtmlElement != null ? string.Format("<{0}>", HtmlElement.Name) : "anon";
+        ///// <summary>
+        ///// ToString override.
+        ///// </summary>
+        ///// <returns></returns>
+        //public override string ToString()
+        //{
+        //    var tag = HtmlElement != null ? string.Format("<{0}>", HtmlElement.Name) : "anon";
 
-            if (IsBlock)
-            {
-                return string.Format("{0}{1} Block {2}, Children:{3}", ParentBox == null ? "Root: " : string.Empty, tag, FontSize, Boxes.Count);
-            }
-            else if (this.CssDisplay == CssDisplay.None)
-            {
-                return string.Format("{0}{1} None", ParentBox == null ? "Root: " : string.Empty, tag);
-            }
-            else
-            {
-                if (this.MayHasSomeTextContent)
-                {
-                    return string.Format("{0}{1} {2}: {3}", ParentBox == null ? "Root: " : string.Empty, tag,
-                        this.CssDisplay.ToCssStringValue(), this.dbugCopyTextContent());
-                }
-                else
-                {
-                    return string.Format("{0}{1} {2}: {3}", ParentBox == null ? "Root: " : string.Empty, tag,
-                        this.CssDisplay.ToCssStringValue(), "");
-                }
-            }
-        }
+        //    if (IsBlock)
+        //    {
+        //        return string.Format("{0}{1} Block {2}, Children:{3}", ParentBox == null ? "Root: " : string.Empty, tag, FontSize, Boxes.Count);
+        //    }
+        //    else if (this.CssDisplay == CssDisplay.None)
+        //    {
+        //        return string.Format("{0}{1} None", ParentBox == null ? "Root: " : string.Empty, tag);
+        //    }
+        //    else
+        //    {
+        //        if (this.MayHasSomeTextContent)
+        //        {
+        //            return string.Format("{0}{1} {2}: {3}", ParentBox == null ? "Root: " : string.Empty, tag,
+        //                this.CssDisplay.ToCssStringValue(), this.dbugCopyTextContent());
+        //        }
+        //        else
+        //        {
+        //            return string.Format("{0}{1} {2}: {3}", ParentBox == null ? "Root: " : string.Empty, tag,
+        //                this.CssDisplay.ToCssStringValue(), "");
+        //        }
+        //    }
+        //}
 #endif
         #endregion
 

@@ -14,10 +14,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing; 
+using System.Drawing;
 using System.Text;
 using HtmlRenderer.Dom;
-using HtmlRenderer.Entities; 
+using HtmlRenderer.Entities;
 namespace HtmlRenderer.Utils
 {
     internal delegate bool EachCssTextRunHandler(CssTextRun trun);
@@ -176,7 +176,7 @@ namespace HtmlRenderer.Utils
             }
             return null;
         }
-        
+
 
         /// <summary>
         /// Check if the given box contains only inline child boxes.
@@ -195,7 +195,7 @@ namespace HtmlRenderer.Utils
             }
             return true;
         }
-         
+
 
         /// <summary>
         /// Get css link box under the given sub-tree at the given x,y location.<br/>
@@ -240,31 +240,33 @@ namespace HtmlRenderer.Utils
             return null;
         }
 
-        /// <summary>
-        /// Get css box under the given sub-tree with the given id.<br/>
-        /// </summary>
-        /// <param name="box">the box to start search from</param>
-        /// <param name="id">the id to find the box by</param>
-        /// <returns>css box if exists or null</returns>
-        public static CssBox GetBoxById(CssBox box, string id)
-        {
-            if (box != null && !string.IsNullOrEmpty(id))
-            {
-                if (box.HtmlElement != null && id.Equals(box.HtmlElement.TryGetAttribute("id"), StringComparison.OrdinalIgnoreCase))
-                {
-                    return box;
-                }
 
-                foreach (var childBox in box.GetChildBoxIter())
-                {
-                    var foundBox = GetBoxById(childBox, id);
-                    if (foundBox != null)
-                        return foundBox;
-                }
-            }
+        //wait for another technique
+        ///// <summary>
+        ///// Get css box under the given sub-tree with the given id.<br/>
+        ///// </summary>
+        ///// <param name="box">the box to start search from</param>
+        ///// <param name="id">the id to find the box by</param>
+        ///// <returns>css box if exists or null</returns>
+        //public static CssBox GetBoxById(CssBox box, string id)
+        //{ wait for another technique
+        //    if (box != null && !string.IsNullOrEmpty(id))
+        //    {
+        //        if (box.HtmlElement != null && id.Equals(box.HtmlElement.TryGetAttribute("id"), StringComparison.OrdinalIgnoreCase))
+        //        {
+        //            return box;
+        //        }
 
-            return null;
-        }
+        //        foreach (var childBox in box.GetChildBoxIter())
+        //        {
+        //            var foundBox = GetBoxById(childBox, id);
+        //            if (foundBox != null)
+        //                return foundBox;
+        //        }
+        //    }
+
+        //    return null;
+        //}
 
         public static bool HitTest(CssBox box, float x, float y, BoxHitChain hitChain)
         {
@@ -327,27 +329,26 @@ namespace HtmlRenderer.Utils
             }
             else
             {
-                if (box.HtmlElement != null)
+                //switch (box.WellknownTagName)
+                switch (box.CssDisplay)
                 {
-                    switch (box.HtmlElement.WellknownTagName)
-                    {
-                        case WellknownHtmlTagName.tr:
-                            {
 
-                                foreach (var childBox in box.GetChildBoxIter())
+                    case CssDisplay.TableRow:
+                        {
+
+                            foreach (var childBox in box.GetChildBoxIter())
+                            {
+                                if (HitTest(childBox, x, y, hitChain))
                                 {
-                                    if (HitTest(childBox, x, y, hitChain))
-                                    {
-                                        return true;
-                                    }
+                                    return true;
                                 }
-                            } break;
-                        default:
-                            {
-                            } break;
-                    }
-
+                            }
+                        } break;
+                    default:
+                        {
+                        } break;
                 }
+
             }
             return false;
 
@@ -687,18 +688,18 @@ namespace HtmlRenderer.Utils
             return sb.ToString();
         }
 
-        /// <summary>
-        /// Generate textual tree representation of the css boxes tree starting from the given root.<br/>
-        /// Used for debugging html parsing.
-        /// </summary>
-        /// <param name="root">the root to generate tree from</param>
-        /// <returns>generated tree</returns>
-        public static string GenerateBoxTree(CssBox root)
-        {
-            var sb = new StringBuilder();
-            GenerateBoxTree(root, sb, 0);
-            return sb.ToString();
-        }
+        ///// <summary>
+        ///// Generate textual tree representation of the css boxes tree starting from the given root.<br/>
+        ///// Used for debugging html parsing.
+        ///// </summary>
+        ///// <param name="root">the root to generate tree from</param>
+        ///// <returns>generated tree</returns>
+        //public static string GenerateBoxTree(CssBox root)
+        //{
+        //    var sb = new StringBuilder();
+        //    GenerateBoxTree(root, sb, 0);
+        //    return sb.ToString();
+        //}
 
 
         #region Private methods
@@ -1081,30 +1082,30 @@ namespace HtmlRenderer.Utils
             //}
         }
 
-        /// <summary>
-        /// Generate textual tree representation of the css boxes tree starting from the given root.<br/>
-        /// Used for debugging html parsing.
-        /// </summary>
-        /// <param name="box">the box to generate for</param>
-        /// <param name="builder">the string builder to generate to</param>
-        /// <param name="indent">the current indent level to set indent of generated text</param>
-        private static void GenerateBoxTree(CssBox box, StringBuilder builder, int indent)
-        {
-            builder.AppendFormat("{0}<{1}", new string(' ', 2 * indent), box.CssDisplay.ToCssStringValue());
-            if (box.HtmlElement != null)
-                builder.AppendFormat(" elm=\"{0}\"", box.HtmlElement != null ? box.HtmlElement.Name : string.Empty);
-            if (box.RunCount > 0)
-                builder.AppendFormat(" words=\"{0}\"", box.RunCount);
-            builder.AppendFormat("{0}>\r\n", box.ChildCount > 0 ? "" : "/");
-            if (box.ChildCount > 0)
-            {
-                foreach (var childBox in box.GetChildBoxIter())
-                {
-                    GenerateBoxTree(childBox, builder, indent + 1);
-                }
-                builder.AppendFormat("{0}</{1}>\r\n", new string(' ', 2 * indent), box.CssDisplay.ToCssStringValue());
-            }
-        }
+        ///// <summary>
+        ///// Generate textual tree representation of the css boxes tree starting from the given root.<br/>
+        ///// Used for debugging html parsing.
+        ///// </summary>
+        ///// <param name="box">the box to generate for</param>
+        ///// <param name="builder">the string builder to generate to</param>
+        ///// <param name="indent">the current indent level to set indent of generated text</param>
+        //private static void GenerateBoxTree(CssBox box, StringBuilder builder, int indent)
+        //{
+        //    builder.AppendFormat("{0}<{1}", new string(' ', 2 * indent), box.CssDisplay.ToCssStringValue());
+        //    if (box.HtmlElement != null)
+        //        builder.AppendFormat(" elm=\"{0}\"", box.HtmlElement != null ? box.HtmlElement.Name : string.Empty);
+        //    if (box.RunCount > 0)
+        //        builder.AppendFormat(" words=\"{0}\"", box.RunCount);
+        //    builder.AppendFormat("{0}>\r\n", box.ChildCount > 0 ? "" : "/");
+        //    if (box.ChildCount > 0)
+        //    {
+        //        foreach (var childBox in box.GetChildBoxIter())
+        //        {
+        //            GenerateBoxTree(childBox, builder, indent + 1);
+        //        }
+        //        builder.AppendFormat("{0}</{1}>\r\n", new string(' ', 2 * indent), box.CssDisplay.ToCssStringValue());
+        //    }
+        //}
 
         #endregion
     }

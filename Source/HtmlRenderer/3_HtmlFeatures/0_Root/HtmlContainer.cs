@@ -574,7 +574,7 @@ namespace HtmlRenderer
 
 
             _root.Paint(ig, args);
- 
+
 
             args.PopContainingBlock();
 
@@ -625,9 +625,7 @@ namespace HtmlRenderer
         {
 
             //version 1: sync ***
-            HtmlImageRequestEventArgs htmlImageRequest = new HtmlImageRequestEventArgs(
-                requestBox.HtmlElement,
-                binder);
+            var htmlImageRequest = new HtmlImageRequestEventArgs(binder);
 
             if (this.ImageLoadingRequest != null)
             {
