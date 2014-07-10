@@ -540,11 +540,14 @@ namespace HtmlRenderer.Dom
             {
                 var strip = _bottomUpBoxStrips[i];
                 var stripOwner = strip.owner;
-
+                if (!stripOwner.HasVisibleBgColor)
+                {
+                    continue;
+                }
+                //-----------------------------------------------------------------
                 var stripArea = strip.Bound;
-                bool isFirstLine, isLastLine;
-
-                CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
+                bool isFirstLine, isLastLine; 
+                CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine); 
                 stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);
 
                 if (stripOwner.CssDisplay != CssDisplay.TableCell
