@@ -49,7 +49,8 @@ namespace HtmlRenderer
             sw.Start();
             codeRgn();
             sw.Stop();
-            return sw.ElapsedTicks;
+            return sw.ElapsedMilliseconds;
+            //return sw.ElapsedTicks;
         }
         public static long GCAndSnapTicks(dbugCounterAction codeRgn)
         {

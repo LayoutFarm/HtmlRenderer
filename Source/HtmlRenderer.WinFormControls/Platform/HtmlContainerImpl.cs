@@ -173,51 +173,53 @@ namespace HtmlRenderer
         /// <param name="link">the link that was clicked</param>
         internal void HandleLinkClicked(Control parent, MouseEventArgs e, CssBox link)
         {
-            var element = link.HtmlElement;
-            var href = element.TryGetAttribute("href", null);
 
-            if (LinkClicked != null)
-            {
+            //wait for another technique
+            //var element = link.HtmlElement;
+            //var href = element.TryGetAttribute("href", null);
 
-                if (href != null)
-                {
-                    var args = new HtmlLinkClickedEventArgs(href, link.HtmlElement);
-                    try
-                    {
-                        LinkClicked(this, args);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new HtmlLinkClickedException("Error in link clicked intercept", ex);
-                    }
-                    if (args.Handled)
-                    {
-                        return;
-                    }
-                }
-            }
+            //if (LinkClicked != null)
+            //{
 
-            if (!string.IsNullOrEmpty(href))
-            {
-                if (href.StartsWith("#") && href.Length > 1)
-                {
-                    if (ScrollChange != null)
-                    {
-                        var rect = GetElementRectangle(href.Substring(1));
-                        if (rect.HasValue)
-                        {
-                            ScrollChange(this, new HtmlScrollEventArgs(Point.Round(rect.Value.Location)));
-                            HandleMouseMove(parent, e);
-                        }
-                    }
-                }
-                else
-                {
-                    var nfo = new ProcessStartInfo(href);
-                    nfo.UseShellExecute = true;
-                    Process.Start(nfo);
-                }
-            }
+            //    if (href != null)
+            //    {
+            //        var args = new HtmlLinkClickedEventArgs(href, link.HtmlElement);
+            //        try
+            //        {
+            //            LinkClicked(this, args);
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            throw new HtmlLinkClickedException("Error in link clicked intercept", ex);
+            //        }
+            //        if (args.Handled)
+            //        {
+            //            return;
+            //        }
+            //    }
+            //}
+
+            //if (!string.IsNullOrEmpty(href))
+            //{
+            //    if (href.StartsWith("#") && href.Length > 1)
+            //    {
+            //        if (ScrollChange != null)
+            //        {
+            //            var rect = GetElementRectangle(href.Substring(1));
+            //            if (rect.HasValue)
+            //            {
+            //                ScrollChange(this, new HtmlScrollEventArgs(Point.Round(rect.Value.Location)));
+            //                HandleMouseMove(parent, e);
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        var nfo = new ProcessStartInfo(href);
+            //        nfo.UseShellExecute = true;
+            //        Process.Start(nfo);
+            //    }
+            //}
         }
 
         /// <summary>
@@ -235,12 +237,12 @@ namespace HtmlRenderer
                     var ignore = _selectionHandler.HandleMouseUp(parent, e.Button);
                     if (!ignore && (e.Button & MouseButtons.Left) != 0)
                     {
-                        var loc = OffsetByScroll(e.Location);
-                        var link = DomUtils.GetLinkBox(_root, loc);
-                        if (link != null)
-                        {
-                            HandleLinkClicked(parent, e, link);
-                        }
+                        //var loc = OffsetByScroll(e.Location);
+                        //var link = DomUtils.GetLinkBox(_root, loc);
+                        //if (link != null)
+                        //{
+                        //    HandleLinkClicked(parent, e, link);
+                        //}
                     }
                 }
             }

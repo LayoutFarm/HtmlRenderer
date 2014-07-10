@@ -36,11 +36,10 @@ namespace HtmlRenderer.Dom
         /// </summary>
         readonly BridgeHtmlElement _htmlElement;
         int _boxCompactFlags;
-        //----------------------------------------------------
 
-
-        //eg td,th,col,colgroup
+        //html rowspan: for td,th 
         int _rowSpan;
+
         int _colSpan;
         //---------------------------------------------------- 
 
@@ -60,8 +59,6 @@ namespace HtmlRenderer.Dom
 
         //state
         protected int _prop_pass_eval;
-
-
 
         /// <summary>
         /// Gets the childrenn boxes of this box
@@ -137,9 +134,6 @@ namespace HtmlRenderer.Dom
         {
             this.Boxes.Insert(index, box);
         }
-
-
-
         //-------------------------------------
         internal void ResetLineBoxes()
         {
@@ -154,50 +148,23 @@ namespace HtmlRenderer.Dom
         }
         //-------------------------------------
         internal int RowSpan
-        {
+        {   
             get
             {
-                if ((this._boxCompactFlags & CssBoxFlagsConst.EVAL_ROWSPAN) == 0)
-                {
-                    string att = this.GetAttribute("rowspan", "1");
-                    int rowspan;
-                    if (!int.TryParse(att, out rowspan))
-                    {
-                        rowspan = 1;
-                    }
-                    this._boxCompactFlags |= CssBoxFlagsConst.EVAL_ROWSPAN;
-                    return this._rowSpan = rowspan;
-                }
                 return this._rowSpan;
-            }
-            set
-            {
-                this._rowSpan = value;
-                this._boxCompactFlags |= CssBoxFlagsConst.EVAL_ROWSPAN;
             }
         }
         internal int ColSpan
         {
             get
             {
-                if ((this._boxCompactFlags & CssBoxFlagsConst.EVAL_COLSPAN) == 0)
-                {
-                    //default  = 1
-                    string att = this.GetAttribute("colspan", "1");
-                    int colspan;
-                    if (!int.TryParse(att, out colspan))
-                    {
-                        colspan = 1;
-                    }
-                    this._boxCompactFlags |= CssBoxFlagsConst.EVAL_COLSPAN;
-                    return this._colSpan = colspan;
-                }
                 return this._colSpan;
             }
-            set
-            {
-                this._colSpan = value;
-            }
+        }
+        internal void SetRowColSpan(int rowSpan, int colSpan)
+        {
+            this._rowSpan = rowSpan;
+            this._colSpan = colSpan;
         }
         /// <summary>
         /// The margin top value if was effected by margin collapse.

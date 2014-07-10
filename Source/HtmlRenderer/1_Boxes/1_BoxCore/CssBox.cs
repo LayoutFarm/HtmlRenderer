@@ -49,7 +49,7 @@ namespace HtmlRenderer.Dom
         public int dbugMark;
 #endif
 
-        internal CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
+        public CssBox(CssBox parentBox, BridgeHtmlElement element, BoxSpec spec)
         {
 
             this._aa_boxes = new CssBoxCollection(this);
@@ -83,6 +83,8 @@ namespace HtmlRenderer.Dom
             ChangeDisplayType(this, _myspec.CssDisplay);            
         }
         
+
+
         /// <summary>
         /// Gets the HtmlContainer of the Box.
         /// WARNING: May be null.

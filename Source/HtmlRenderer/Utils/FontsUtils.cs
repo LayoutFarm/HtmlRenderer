@@ -127,7 +127,7 @@ namespace HtmlRenderer.Utils
         }
         public static float MeasureStringWidth(IGraphics g, char[] buffer, int startAt, int len, Font font)
         {
-            //return g.MeasureString(str, font).Width;
+            
             return g.MeasureString2(buffer, startAt, len, font).Width;
         }
         /// <summary>
@@ -310,7 +310,8 @@ namespace HtmlRenderer.Utils
         {
             FontFamily fontFamily;
             return _existingFontFamilies.TryGetValue(family, out fontFamily) ?
-                new Font(fontFamily, size, style) : new Font(family, size, style);
+                new Font(fontFamily, size, style) :
+                new Font(family, size, style);
         }
 
         #endregion

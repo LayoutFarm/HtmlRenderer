@@ -12,7 +12,7 @@
 // 
 // - Sun Tsu,
 // "The Art of War"
- 
+
 
 namespace HtmlRenderer.Dom
 {
@@ -23,20 +23,20 @@ namespace HtmlRenderer.Dom
         /// </summary>
         sealed class CssVerticalCellSpacingBox : CssBox
         {
-           
 
-            private readonly CssBox _extendedBox; 
+
+            private readonly CssBox _extendedBox;
 
             /// <summary>
             /// the index of the row where box ends
             /// </summary>
-            private readonly int _endRow; 
+            private readonly int _endRow;
 
             public CssVerticalCellSpacingBox(CssBox tableBox, CssBox extendedBox, int startRow)
                 : base(tableBox, null, specForVCell)
             {
-                _extendedBox = extendedBox;
-                this.ColSpan = 1;
+                _extendedBox = extendedBox;                 
+                this.SetRowColSpan(1, 1);
                 //this.CssDisplay = CssDisplay.None;
                 _endRow = startRow + extendedBox.RowSpan - 1;
                 ReEvaluateComputedValues(tableBox);

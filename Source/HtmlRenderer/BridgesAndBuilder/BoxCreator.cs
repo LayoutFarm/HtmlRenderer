@@ -44,13 +44,13 @@ namespace HtmlRenderer.Dom
             //----------------------------------------- 
             //1. create new box
             //----------------------------------------- 
-            
+
             switch (childElement.WellknownTagName)
             {
-                case WellknownHtmlTagName.br: 
+                case WellknownHtmlTagName.br:
                     //special treatment for br
                     newBox = new CssBox(parentBox, childElement, childElement.Spec);
-                    CssBox.ChangeDisplayType(newBox, CssDisplay.BlockInsideInlineAfterCorrection); 
+                    CssBox.ChangeDisplayType(newBox, CssDisplay.BlockInsideInlineAfterCorrection);
                     break;
                 case WellknownHtmlTagName.img:
                     newBox = new CssBoxImage(parentBox, childElement, childElement.Spec);
@@ -58,8 +58,37 @@ namespace HtmlRenderer.Dom
                 case WellknownHtmlTagName.hr:
                     newBox = new CssBoxHr(parentBox, childElement, childElement.Spec);
                     break;
+                case WellknownHtmlTagName.td:
+                case WellknownHtmlTagName.th:
+
+                    newBox = new CssBox(parentBox, childElement, childElement.Spec);
+                    //get rowspan and colspan here
+
+                    int nRowSpan = 1;
+                    int nColSpan = 1;
+
+                    string rowspan;
+                    if (childElement.TryGetAttribute2("rowspan", out rowspan))
+                    {
+                        if (!int.TryParse(rowspan, out nRowSpan))
+                        {
+                            nRowSpan = 1;
+                        }
+                    }
+
+                    string colspan;
+                    if (childElement.TryGetAttribute2("colspan", out colspan))
+                    {
+                        if (!int.TryParse(colspan, out nColSpan))
+                        {
+                            nColSpan = 1;
+                        }
+                    }
+                    //---------------------------------------------------------- 
+                    newBox.SetRowColSpan(nRowSpan, nColSpan);
+                    break;
                 //test extension box
-                case WellknownHtmlTagName.X: 
+                case WellknownHtmlTagName.X:
                     newBox = CreateCustomBox(parentBox, childElement, childElement.Spec);
 
                     if (newBox == null)

@@ -248,10 +248,6 @@ namespace HtmlRenderer.Dom
             {
                 this._boxCompactFlags &= ~CssBoxFlagsConst.HAS_SOME_VISIBLE_BORDER;
             }
-
-
-
-
             //---------------------------------------------------------------------------
 
             this._actualCornerNE = a1 = CssValueParser.ConvertToPx(CornerNERadius, 0, this);
@@ -282,7 +278,10 @@ namespace HtmlRenderer.Dom
             }
 
 
-
+            //text indent  
+            this._prop_pass_eval |= CssBoxAssignments.TEXT_INDENT;
+            this._actualTextIndent = CssValueParser.ConvertToPx(spec.TextIndent, containingBlock.SizeWidth, this);             
+            this._actualLineHeight = 0.9f * CssValueParser.ConvertToPx(LineHeight, this._actualFont.Height, this);
 
             //---------------------------------------------------------------------------
 

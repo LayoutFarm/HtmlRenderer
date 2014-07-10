@@ -1,5 +1,4 @@
-﻿//2014 ,BSD, WinterDev
-
+﻿//2014 ,BSD, WinterDev 
 using System;
  
 
