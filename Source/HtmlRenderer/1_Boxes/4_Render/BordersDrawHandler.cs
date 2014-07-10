@@ -39,17 +39,6 @@ namespace HtmlRenderer.Handlers
         /// <param name="isLast">is it the last rectangle of the element</param>
         public static void DrawBoxBorders(PaintVisitor p, CssBox box, RectangleF rect, bool isFirst, bool isLast)
         {
-<<<<<<< HEAD
-
-            if (rect.Width > 0 && rect.Height > 0)
-            { 
-                if (box.BorderTopVisible)
-                {
-                    DrawBorder(CssSide.Top, box, p, rect, isFirst, isLast);
-                } 
-                if (isFirst &&
-                    box.BorderLeftVisible)
-=======
 
             if (rect.Width > 0 && rect.Height > 0)
             {
@@ -60,7 +49,6 @@ namespace HtmlRenderer.Handlers
                 }
 
                 if (isFirst && box.BorderLeftVisible)
->>>>>>> v1.7perf
                 {
                     DrawBorder(CssSide.Left, box, p, rect, true, isLast);
                 }

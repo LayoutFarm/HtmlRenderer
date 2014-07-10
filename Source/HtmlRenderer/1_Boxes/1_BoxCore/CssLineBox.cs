@@ -410,8 +410,7 @@ namespace HtmlRenderer.Dom
 
 
             CssBox latestOwner = null;
-            Font font = null;
-
+            Font font = null; 
             Color color = Color.Empty;
             var tmpRuns = this._runs;
             int j = tmpRuns.Count;
@@ -454,6 +453,7 @@ namespace HtmlRenderer.Dom
                                 font = latestOwner.ActualFont;
                                 color = latestOwner.ActualColor;
                             }
+
                             CssTextRun textRun = (CssTextRun)w;
 
                             var wordPoint = new PointF(w.Left, w.Top);
@@ -539,29 +539,17 @@ namespace HtmlRenderer.Dom
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
-<<<<<<< HEAD
-                var stripOwner = strip.owner;    
-=======
                 var stripOwner = strip.owner;
->>>>>>> v1.7perf
                 if (!stripOwner.HasVisibleBgColor)
                 {
                     continue;
                 }
-<<<<<<< HEAD
-
-                //-----------------------------------------------------------------
-                var stripArea = strip.Bound;
-                bool isFirstLine, isLastLine;
-                CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
-=======
                 //-----------------------------------------------------------------
                 var stripArea = strip.Bound;
                 bool isFirstLine, isLastLine; 
                 CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine); 
->>>>>>> v1.7perf
                 stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);
-                
+
                 if (stripOwner.CssDisplay != CssDisplay.TableCell
                     && stripOwner.HasSomeVisibleBorder)
                 {

@@ -41,13 +41,6 @@ namespace HtmlRenderer
 
         public void PerformPaint(Graphics g)
         {
-<<<<<<< HEAD
-          
-            for (int i = 0; i < 200 ; ++i)
-            {
-                dbugCounter.ResetPaintCount();
-                long ticks = dbugCounter.Snap(() =>
-=======
 
 
 
@@ -56,29 +49,17 @@ namespace HtmlRenderer
             {
                 Region prevClip = null;
                 if (this.MaxSize.Height > 0)
->>>>>>> v1.7perf
                 {
                     prevClip = g.Clip;
                     g.SetClip(new RectangleF(this.Location, this.MaxSize));
                 }
 
-<<<<<<< HEAD
-                        if (prevClip != null)
-                        {
-                            g.SetClip(prevClip, System.Drawing.Drawing2D.CombineMode.Replace);
-                        }
-                    }
-                }); 
-                //Console.WriteLine(string.Format("boxes{0}, lines{1}, runs{2}", dbugCounter.dbugBoxPaintCount, dbugCounter.dbugLinePaintCount, dbugCounter.dbugRunPaintCount));
-                Console.WriteLine(ticks);
-=======
                 this.PerformPaint(gfx);
 
                 if (prevClip != null)
                 {
                     g.SetClip(prevClip, System.Drawing.Drawing2D.CombineMode.Replace);
                 }
->>>>>>> v1.7perf
             }
 
             //=============

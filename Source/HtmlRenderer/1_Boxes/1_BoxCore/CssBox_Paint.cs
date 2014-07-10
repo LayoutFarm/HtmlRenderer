@@ -42,7 +42,6 @@ namespace HtmlRenderer.Dom
 
         protected virtual void PaintImp(IGraphics g, PaintVisitor p)
         {
-
             CssDisplay display = this.CssDisplay;
 
             if (display != CssDisplay.None &&
@@ -69,7 +68,7 @@ namespace HtmlRenderer.Dom
                 }
 
                 //---------------------------------------------
-                if (this.CssDisplay != CssDisplay.Inline)
+                if (display != CssDisplay.Inline)
                 {
 
                     RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
