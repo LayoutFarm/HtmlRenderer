@@ -53,9 +53,11 @@ namespace HtmlRenderer.Dom
         public CssBoxImage(CssBox parent, BridgeHtmlElement tag, BoxSpec boxSpec)
             : base(parent, tag, boxSpec)
         {
-
+             
             this._imageWord = new CssImageRun();
-            this.SetTextContent(new RunCollection(_imageWord));
+            this._imageWord.SetOwner(this);
+            this.SetContentRuns(new List<CssRun>() { _imageWord }, false);
+
         }
 
         /// <summary>
@@ -107,7 +109,12 @@ namespace HtmlRenderer.Dom
             //p.PushLocalClipArea(rect.Width, rect.Height);
 
             PaintBackground(p, rect, true, true);
-            p.PaintBorders(this, rect, true, true);
+
+            if (this.HasSomeVisibleBorder)
+            {
+                p.PaintBorders(this, rect, true, true);
+            }
+
 
             RectangleF r = _imageWord.Rectangle;
 

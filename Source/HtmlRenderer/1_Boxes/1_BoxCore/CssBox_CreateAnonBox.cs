@@ -21,11 +21,11 @@ namespace HtmlRenderer.Dom
 #if DEBUG
             if (parent.HtmlElement != null)
             {
-                newBox.dbugAnonCreator = (BridgeHtmlElement)parent.HtmlElement;
+                //newBox.dbugAnonCreator = (BridgeHtmlElement)parent.HtmlElement;
             }
             else if (parent.dbugAnonCreator != null)
             {
-                newBox.dbugAnonCreator = parent.dbugAnonCreator;
+                //newBox.dbugAnonCreator = parent.dbugAnonCreator;
             }
 #endif
 

@@ -427,7 +427,7 @@ namespace HtmlRenderer
 
             if (_root != null)
             {
-                
+
                 _root = null;
                 //---------------------------
                 this.OnRootDisposed();
@@ -574,7 +574,7 @@ namespace HtmlRenderer
 
 
             _root.Paint(ig, args);
-
+ 
 
             args.PopContainingBlock();
 
@@ -755,7 +755,7 @@ namespace HtmlRenderer
                 _cssData = null;
                 if (_root != null)
                 {
-                  
+
                     _root = null;
                     this.OnRootDisposed();
                 }

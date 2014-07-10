@@ -49,7 +49,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// the CSS box owner of the word
         /// </summary>
-        RunCollection _owner;
+        CssBox _owner;
         readonly CssRunKind _runKind;
         CssLineBox _hostline;
 
@@ -73,15 +73,21 @@ namespace HtmlRenderer.Dom
         protected CssRun(CssRunKind rectKind)
         {
 #if  DEBUG
-           
+          
 #endif
             this._runKind = rectKind;
         }
-        internal void SetOwner(RunCollection owner)
+        internal void SetOwner(CssBox owner)
         {
             this._owner = owner;
         }
-
+        /// <summary>
+        /// Gets the Box where this word belongs.
+        /// </summary>
+        public CssBox OwnerBox
+        {
+            get { return this._owner; }
+        }
         internal CssLineBox HostLine
         {
             get { return this._hostline; }
@@ -120,13 +126,7 @@ namespace HtmlRenderer.Dom
                 return this._runKind;
             }
         }
-        /// <summary>
-        /// Gets the Box where this word belongs.
-        /// </summary>
-        public virtual CssBox OwnerBox
-        {
-            get { return this._owner.OwnerCssBox; }
-        }
+   
 
         /// <summary>
         /// Gets or sets the bounds of the rectangle

@@ -19,7 +19,6 @@ namespace HtmlRenderer.Dom
         float _sizeHeight;
         float _sizeWidth;
 
-
         /// <summary>
         /// user's expected height
         /// </summary>
@@ -125,9 +124,9 @@ namespace HtmlRenderer.Dom
         internal bool NeedComputedValueEvaluation
         {
             get { return (this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0; }
-        } 
+        }
         internal void ReEvaluateFont(float parentFontSize)
-        {   
+        {
             this._actualFont = this._myspec.GetFont(parentFontSize);
         }
         /// <summary>
@@ -139,7 +138,7 @@ namespace HtmlRenderer.Dom
             //depend on parent
             //1. fonts
             if (this.ParentBox != null)
-            {  
+            {
                 ReEvaluateFont(this.ParentBox.ActualFont.Size);
                 //2. actual word spacing
                 //this._actualWordSpacing = this.NoEms(this.InitSpec.LineHeight);
@@ -225,29 +224,66 @@ namespace HtmlRenderer.Dom
             }
 
             //-----------------------------------------------------------------------
-            //borders            
-            this._actualBorderLeftWidth = (this.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderLeftWidth, this);
-            this._actualBorderTopWidth = (this.BorderTopStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderTopWidth, this);
-            this._actualBorderRightWidth = (this.BorderRightStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderRightWidth, this);
-            this._actualBorderBottomWidth = (this.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderBottomWidth, this);
+            //borders         
+            float a1, a2, a3, a4;
+            this._actualBorderLeftWidth = a1 = (this.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderLeftWidth, this);
+            this._actualBorderTopWidth = a2 = (this.BorderTopStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderTopWidth, this);
+            this._actualBorderRightWidth = a3 = (this.BorderRightStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderRightWidth, this);
+            this._actualBorderBottomWidth = a4 = (this.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderBottomWidth, this);
             //---------------------------------------------------------------------------
+            var spec = _myspec;
+            this._borderLeftVisible = a1 > 0 && spec.BorderLeftStyle >= CssBorderStyle.Visible;
+            this._borderTopVisible = a2 > 0 && spec.BorderTopStyle >= CssBorderStyle.Visible;
+            this._borderRightVisible = a3 > 0 && spec.BorderRightStyle >= CssBorderStyle.Visible;
+            this._borderBottomVisble = a4 > 0 && spec.BorderBottomStyle >= CssBorderStyle.Visible;
 
             //extension ***
-            float c1, c2, c3, c4;
-
-            this._actualCornerNE = c1 = CssValueParser.ConvertToPx(CornerNERadius, 0, this);
-            this._actualCornerNW = c2 = CssValueParser.ConvertToPx(CornerNWRadius, 0, this);
-            this._actualCornerSE = c3 = CssValueParser.ConvertToPx(CornerSERadius, 0, this);
-            this._actualCornerSW = c4 = CssValueParser.ConvertToPx(CornerSWRadius, 0, this);
-
-            if ((c1 + c2 + c3 + c4) > 0)
+            if (a1 + a2 + a3 + a4 > 0)
             {
+                //css 2.1 border can't be nagative values 
+
+                this._boxCompactFlags |= CssBoxFlagsConst.HAS_SOME_VISIBLE_BORDER;
+            }
+            else
+            {
+                this._boxCompactFlags &= ~CssBoxFlagsConst.HAS_SOME_VISIBLE_BORDER;
+            }
+
+
+
+
+            //---------------------------------------------------------------------------
+
+            this._actualCornerNE = a1 = CssValueParser.ConvertToPx(CornerNERadius, 0, this);
+            this._actualCornerNW = a2 = CssValueParser.ConvertToPx(CornerNWRadius, 0, this);
+            this._actualCornerSE = a3 = CssValueParser.ConvertToPx(CornerSERadius, 0, this);
+            this._actualCornerSW = a4 = CssValueParser.ConvertToPx(CornerSWRadius, 0, this);
+
+            if ((a1 + a2 + a3 + a4) > 0)
+            {
+                //evaluate 
                 this._boxCompactFlags |= CssBoxFlagsConst.HAS_ROUND_CORNER;
             }
             else
             {
                 this._boxCompactFlags &= ~CssBoxFlagsConst.HAS_ROUND_CORNER;
             }
+            //---------------------------------------------------------------------------
+            //evaluate bg 
+
+            if (BackgroundGradient != System.Drawing.Color.Transparent ||
+                Utils.RenderUtils.IsColorVisible(ActualBackgroundColor))
+            {
+                this._boxCompactFlags |= CssBoxFlagsConst.HAS_VISIBLE_BG;
+            }
+            else
+            {
+                this._boxCompactFlags &= ~CssBoxFlagsConst.HAS_VISIBLE_BG;
+            }
+
+
+
+
             //---------------------------------------------------------------------------
 
             //if ((this._prop_pass_eval & CssBoxAssignments.BORDER_WIDTH_BOTTOM) == 0)
@@ -686,14 +722,30 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets a value indicating if at least one of the corners of the box is rounded
         /// </summary>
-        public bool HasRoundCorner
+        internal bool HasSomeRoundCorner
         {
             get
             {
                 return (this._boxCompactFlags & CssBoxFlagsConst.HAS_ROUND_CORNER) != 0;
             }
         }
-       
+        internal bool HasVisibleBgColor
+        {
+            get
+            {
+                return (this._boxCompactFlags & CssBoxFlagsConst.HAS_VISIBLE_BG) != 0;
+            }
+        }
+
+        internal bool HasSomeVisibleBorder
+        {
+            get
+            {
+                return (this._boxCompactFlags & CssBoxFlagsConst.HAS_SOME_VISIBLE_BORDER) != 0;
+            }
+        }
+
+
         protected bool RunSizeMeasurePass
         {
             get

@@ -20,9 +20,8 @@ namespace HtmlRenderer.Demo
         private void button1_Click(object sender, EventArgs e)
         {
             DemoForm demoForm = new DemoForm();
-            demoForm.StartAtSampleIndex = 3;
-            demoForm.PrepareSamples();
-
+            demoForm.StartAtSampleIndex = 2;
+            demoForm.PrepareSamples(); 
 
             demoForm.Show();
             demoForm.Activate();
@@ -32,6 +31,24 @@ namespace HtmlRenderer.Demo
         {
 
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 10; ++i)
+            {
+                DemoForm demoForm = new DemoForm();
+                demoForm.StartAtSampleIndex = 2;
+                demoForm.PrepareSamples();
+
+                demoForm.Show();
+                demoForm.Activate();
+
+                System.Threading.Thread.Sleep(10);
+
+                demoForm.Close();
+                
+            }
         }
     }
 }

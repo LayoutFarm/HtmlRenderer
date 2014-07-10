@@ -14,7 +14,7 @@
 // "The Art of War"
 
 using System;
-using System.Drawing; 
+using System.Drawing;
 using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
@@ -71,7 +71,10 @@ namespace HtmlRenderer.Dom
         CssPosition _position = CssPosition.Static;
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
         //==========================================================
-        
+
+
+
+        //==========================================================
 
         #endregion
 #if DEBUG
@@ -86,7 +89,7 @@ namespace HtmlRenderer.Dom
         BoxSpec anonVersion;
         //------------------
         public BoxSpec()
-        {               
+        {
         }
         //---------------------------------------------------------------
         internal int VersionNumber
@@ -113,7 +116,9 @@ namespace HtmlRenderer.Dom
             _cornerFeats.Freeze();//6.
             _backgroundFeats.Freeze();//7 
 
+          
         }
+         
         internal void Defreeze()
         {
             this._freezed = false;
@@ -127,11 +132,11 @@ namespace HtmlRenderer.Dom
             if (_freezed)
             {
 
-            } 
+            }
             return !_freezed;
         }
         //---------------------------------------------------------------
-        
+
         public CssDisplay CssDisplay
         {
             get { return this._cssDisplay; }
@@ -624,7 +629,7 @@ namespace HtmlRenderer.Dom
         }
 
         public Font GetFont(float parentFontSize)
-        {   
+        {
             //---------------------------------------
             if (_actualFont != null)
             {
@@ -742,7 +747,7 @@ namespace HtmlRenderer.Dom
             else
             {
                 return this._actualFont = FontsUtils.GetCachedFont(fontFam, fsize, st);
-                
+
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿//BSD  2014 ,WinterDev
 
 using System;
-using System.Text; 
+using System.Text;
 using System.Collections.Generic;
 
 namespace HtmlRenderer.WebDom
@@ -40,7 +40,7 @@ namespace HtmlRenderer.WebDom
 #if DEBUG
             this.dbugId = dbugTotalId;
             dbugTotalId++;
-           
+
 #endif
 
         }
@@ -75,44 +75,49 @@ namespace HtmlRenderer.WebDom
         }
     }
 
-    public class HtmlRootNode : HtmlElement
+    
+    public abstract class HtmlTextNode : HtmlNode
     {
-        internal HtmlRootNode(HtmlDocument ownerDoc)
-            : base(ownerDoc, 0, 0)
-        {
-        }
-    }
 
-
-    public class HtmlTextNode : HtmlNode
-    {
-        StringBuilder _sb = new StringBuilder();
-        internal HtmlTextNode(HtmlDocument ownerDoc, char[] textBuffer)
+        char[] copyBuffer;
+        internal HtmlTextNode(HtmlDocument ownerDoc, char[] copyBuffer)
             : base(ownerDoc)
         {
             SetNodeType(HtmlNodeType.TextNode);
-            this.AppendTextContent(textBuffer);
+            this.copyBuffer = copyBuffer;
         }
-        public void AppendTextContent(char[] buff)
+        internal void AppendTextContent(char[] newCopyBuffer)
         {
-            this._sb.Append(buff);
+            if (copyBuffer != null)
+            {
+                char[] newbuffer = new char[copyBuffer.Length + newCopyBuffer.Length];
+                Array.Copy(copyBuffer, newbuffer, copyBuffer.Length);
+                Array.Copy(newCopyBuffer, 0, newbuffer, copyBuffer.Length + 1, newCopyBuffer.Length);
+                this.copyBuffer = newbuffer;
+            }
+            else
+            {
+                this.copyBuffer = newCopyBuffer;
+            }
         }
-        public char[] CopyTextBuffer()
+        internal char[] GetOriginalBuffer()
         {
-            char[] copyBuffer = new char[this._sb.Length];
-            _sb.CopyTo(0, copyBuffer, 0, copyBuffer.Length);
             return copyBuffer;
+            //if(copyBuffer
+            //char[] copyBuffer = new char[this._sb.Length];
+            //_sb.CopyTo(0, copyBuffer, 0, copyBuffer.Length);
+            //return copyBuffer;
         }
 #if DEBUG
         public override string ToString()
         {
-            if (this._sb.Length == 0)
+            if (copyBuffer != null)
             {
                 return "t-node" + string.Empty;
             }
             else
             {
-                return "t-node " + _sb.ToString();
+                return "t-node " + new string(this.copyBuffer);
             }
         }
 #endif
@@ -166,7 +171,7 @@ namespace HtmlRenderer.WebDom
     /// <summary>
     /// attribute node
     /// </summary>
-    public class HtmlAttribute : HtmlNode
+    public class HtmlAttribute : HtmlNode, IHtmlAttribute
     {
 
         internal int nodePrefixNameIndex;
@@ -241,18 +246,31 @@ namespace HtmlRenderer.WebDom
             return sb.ToString();
         }
 #endif
+        //-------------------------------
+
+        public string Name
+        {
+            get
+            {
+                return this.LocalName;
+            }
+        }
     }
 
-    public class HtmlElement : HtmlNode
+    public abstract class HtmlElement : HtmlNode, IHtmlElement
     {
 
         internal int nodePrefixNameIndex;
-        internal int nodeLocalNameIndex; 
+        internal int nodeLocalNameIndex;
 
         List<HtmlAttribute> myAttributes;
         List<HtmlNode> myChildrenNodes;
 
-        HtmlElement closeNode; 
+        HtmlElement closeNode;
+
+        string _elementId;
+        string _className;
+        string _style;
 
         internal HtmlElement(HtmlDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
@@ -262,7 +280,7 @@ namespace HtmlRenderer.WebDom
             this.nodeLocalNameIndex = nodeLocalNameIndex;
             SetNodeType(HtmlNodeType.OpenElement);
         }
-       
+
         public static bool EqualNames(HtmlElement node1, HtmlElement node2)
         {
             return node1.nodeLocalNameIndex == node2.nodeLocalNameIndex
@@ -296,6 +314,18 @@ namespace HtmlRenderer.WebDom
                 }
             }
         }
+        public IEnumerable<IHtmlAttribute> GetAttributeIter()
+        {
+            if (this.myAttributes != null)
+            {
+                foreach (var atttr in this.myAttributes)
+                {
+                    yield return atttr;
+                }
+            }
+        }
+
+
 
         public void MarkAsShortTagElement()
         {
@@ -305,7 +335,7 @@ namespace HtmlRenderer.WebDom
         {
             SetNodeType(HtmlNodeType.CloseElement);
         }
-        public int ChildNodeCount
+        public int ChildrenCount
         {
             get
             {
@@ -318,6 +348,11 @@ namespace HtmlRenderer.WebDom
                     return 0;
                 }
             }
+        }
+
+        public HtmlNode GetChildNode(int index)
+        {
+            return this.myChildrenNodes[index];
         }
         public HtmlElement CloseNode
         {
@@ -357,6 +392,7 @@ namespace HtmlRenderer.WebDom
             }
             return null;
         }
+
         public HtmlAttribute FindAttribute(string attrname)
         {
             int nameIndex = this.OwnerDocument.FindStringIndex(attrname);
@@ -370,6 +406,7 @@ namespace HtmlRenderer.WebDom
             }
         }
 
+
         public int AttributeCount
         {
             get
@@ -377,6 +414,7 @@ namespace HtmlRenderer.WebDom
                 return (this.myAttributes != null) ? this.myAttributes.Count : 0;
             }
         }
+
         public string Prefix
         {
             get
@@ -429,6 +467,68 @@ namespace HtmlRenderer.WebDom
         public HtmlNode GetFirstNode()
         {
             return this.myChildrenNodes[0];
+        }
+
+        //------------------------------------------
+        //temp fix
+        public string Id
+        {//temp fix
+            get
+            {
+                throw new NotSupportedException();
+                return this._elementId;
+            }
+            set
+            {
+                this._elementId = value;
+            }
+        }
+        public string ClassName
+        {//temp fix
+            get
+            {
+                throw new NotSupportedException();
+                return this._className;
+            }
+            set { this._className = value; }
+        }
+        public string Style
+        {//temp fix
+            get
+            {
+                throw new NotSupportedException();
+                return this._style;
+            }
+            set { this._style = value; }
+        }
+        public string TryGetAttribute(string attrName, string defaultValue)
+        {
+            if (this.myAttributes != null)
+            {
+                var found = this.FindAttribute(attrName);
+                if (found != null)
+                {
+                    return found.Value;
+                }
+            }
+            return defaultValue;
+        }
+        public bool HasAttribute(string attrName)
+        {
+            return FindAttribute(attrName) != null;
+        }
+        public bool HasAttributes()
+        {
+            return this.AttributeCount > 0;
+        }
+        public string Name
+        {
+            get { return this.LocalName; }
+        }
+        public WellknownHtmlTagName WellknownTagName
+        {
+            get;
+            set;
         }
     }
 

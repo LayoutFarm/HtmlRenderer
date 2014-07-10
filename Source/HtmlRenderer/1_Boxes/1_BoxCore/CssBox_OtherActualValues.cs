@@ -20,6 +20,10 @@ namespace HtmlRenderer.Dom
         float _actualBorderSpacingHorizontal;
         float _actualBorderSpacingVertical;
 
+     
+
+
+
         /// <summary>
         /// Gets the line height
         /// </summary>

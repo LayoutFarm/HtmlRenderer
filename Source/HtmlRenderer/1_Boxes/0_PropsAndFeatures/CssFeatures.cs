@@ -13,17 +13,24 @@ namespace HtmlRenderer.Dom
         static int dbugIdTotal = 0;
         int __aa_dbugId = dbugIdTotal++;
 #endif
+
         protected readonly object owner;
         bool freezed;
+
         public CssFeatureBase(object owner)
         {
             this.owner = owner;
         }
         public object Owner { get { return this.owner; } }
         public bool IsFreezed { get { return this.freezed; } }
-        public void Freeze() { this.freezed = true; }
+        public void Freeze()
+        {
+            this.freezed = true;
+           
+        }
         public void DeFreeze() { this.freezed = false; }
 
+      
         protected bool Assignable()
         {
             if (this.freezed)
@@ -38,10 +45,10 @@ namespace HtmlRenderer.Dom
         CssLength _leftWidth, _topWidth, _rightWidth, _bottomWidth, _borderSpacingV, _borderSpacingH;
         CssBorderStyle _leftStyle, _topStyle, _rightStyle, _bottomStyle;
         Color _leftColor, _topColor, _rightColor, _bottomColor;
-        CssBorderCollapse _borderCollapse;
+        CssBorderCollapse _borderCollapse; 
 
+        
         public static readonly CssBorderFeature Default = new CssBorderFeature(null);
-
         static CssBorderFeature()
         {
             Default.Freeze();
@@ -116,8 +123,6 @@ namespace HtmlRenderer.Dom
             set { if (Assignable()) this._bottomWidth = value; }
         }
 
-
-
         public CssBorderStyle LeftStyle
         {
             get { return this._leftStyle; }
@@ -191,9 +196,8 @@ namespace HtmlRenderer.Dom
             }
         }
 
-
-
-
+        
+        
 #if DEBUG
         public static bool dbugIsEq(dbugPropCheckReport rep, CssBorderFeature prop1, CssBorderFeature prop2)
         {

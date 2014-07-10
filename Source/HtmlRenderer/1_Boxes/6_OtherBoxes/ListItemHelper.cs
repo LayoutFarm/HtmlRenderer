@@ -2,6 +2,7 @@
 //ArthurHub
 
 using HtmlRenderer.Utils;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace HtmlRenderer.Dom
@@ -56,11 +57,15 @@ namespace HtmlRenderer.Dom
                     } break;
             }
 
-            ContentTextSplitter splitter = new ContentTextSplitter();
-            var splitParts = splitter.ParseWordContent(text_content);
+            //---------------------
 
-            listItemBox.SetTextContent(new RunCollection(text_content, splitParts));
-            listItemBox.UpdateRunList();
+            ContentTextSplitter splitter = lay.GetSplitter();
+            List<CssRun> runlist;
+            bool hasSomeCharacter; 
+            listItemBox.SetTextBuffer(text_content); 
+            splitter.ParseWordContent(text_content, spec, out runlist, out  hasSomeCharacter);
+            RunListHelper.AddRunList(listItemBox, spec, runlist, text_content,false );
+            //--------------------- 
 
             var prevSibling = lay.LatestSiblingBox;
             lay.LatestSiblingBox = null;//reset
