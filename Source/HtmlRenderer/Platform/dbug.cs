@@ -41,6 +41,7 @@ namespace HtmlRenderer
                 _dbugDrawStringCount = value;
             }
         }
+<<<<<<< HEAD
         public static long Snap(System.Diagnostics.Stopwatch sw, dbugCounterAction codeRgn)
         {
 
@@ -50,6 +51,15 @@ namespace HtmlRenderer
             codeRgn();
             sw.Stop();
             return sw.ElapsedTicks;
+=======
+        public static long GCAndSnap(dbugCounterAction codeRgn)
+        {
+            //GC.Collect();
+            var newWatch = System.Diagnostics.Stopwatch.StartNew();
+            codeRgn();
+            newWatch.Stop();
+            return newWatch.ElapsedTicks;
+>>>>>>> v1.7.2094.1
         }
         public static long GCAndSnapTicks(dbugCounterAction codeRgn)
         {
