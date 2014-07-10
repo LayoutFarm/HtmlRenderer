@@ -43,6 +43,7 @@ namespace HtmlRenderer.Dom
         protected virtual void PaintImp(IGraphics g, PaintVisitor p)
         {
             CssDisplay display = this.CssDisplay;
+
             if (display != CssDisplay.None &&
                (display != CssDisplay.TableCell ||
                 this.EmptyCells != CssEmptyCell.Hide || !IsSpaceOrEmpty))

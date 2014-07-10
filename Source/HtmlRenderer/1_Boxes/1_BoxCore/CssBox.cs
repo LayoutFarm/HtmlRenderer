@@ -77,9 +77,10 @@ namespace HtmlRenderer.Dom
 #endif
 
             //assign spec
+
             this._myspec = spec;
-            ChangeDisplayType(this, _myspec.CssDisplay);
             EvaluateSpec(spec);
+            ChangeDisplayType(this, _myspec.CssDisplay);            
         }
         
         /// <summary>

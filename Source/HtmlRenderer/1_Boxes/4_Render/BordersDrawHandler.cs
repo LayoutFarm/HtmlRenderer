@@ -43,7 +43,7 @@ namespace HtmlRenderer.Handlers
             if (rect.Width > 0 && rect.Height > 0)
             {
 
-                if (box.BorderTopStyle >= CssBorderStyle.Visible &&
+                if (box.BorderTopVisible &&
                     box.ActualBorderTopWidth > 0)
                 {
                     DrawBorder(CssSide.Top, box, p, rect, isFirst, isLast);
@@ -51,20 +51,20 @@ namespace HtmlRenderer.Handlers
 
 
                 if (isFirst &&
-                    box.BorderLeftStyle >= CssBorderStyle.Visible &&
+                    box.BorderLeftVisible &&
                     box.ActualBorderLeftWidth > 0)
                 {
                     DrawBorder(CssSide.Left, box, p, rect, true, isLast);
                 }
 
-                if (box.BorderBottomStyle >= CssBorderStyle.Visible &&
+                if (box.BorderBottomVisible &&
                     box.ActualBorderBottomWidth > 0)
                 {
                     DrawBorder(CssSide.Bottom, box, p, rect, isFirst, isLast);
                 }
 
                 if (isLast &&
-                    box.BorderRightStyle >= CssBorderStyle.Visible &&
+                    box.BorderRightVisible &&
                     box.ActualBorderRightWidth > 0)
                 {
                     DrawBorder(CssSide.Right, box, p, rect, isFirst, true);
