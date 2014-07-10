@@ -12,40 +12,29 @@ namespace HtmlRenderer.Dom
 
         public static void AddRunList(CssBox toBox, BoxSpec spec, BridgeHtmlTextNode textnode)
         {
-            AddRunList(toBox, spec, textnode.InternalGetRuns(), textnode.GetOriginalBuffer(), textnode.IsWhiteSpace);
+            AddRunList(toBox, spec, textnode.GetSplitParts(), textnode.GetOriginalBuffer());
         }
-        //---------------------------------------------------------------------------------------
-        public static void AddRunList(CssBox toBox,
-            BoxSpec spec,
-            List<CssRun> runlist,
-            char[] buffer,
-            bool isAllWhitespace)
-        {   
-            toBox.SetTextBuffer(buffer);
-            if (runlist != null)
-            {
-                for (int i = runlist.Count - 1; i >= 0; --i)
-                {
-                    runlist[i].SetOwner(toBox);
-                }
-            }
-            toBox.SetContentRuns(runlist, isAllWhitespace);
+        public static void AddRunList(CssBox toBox, BoxSpec spec,
+            TextSplits originalSplitParts,
+            char[] buffer)
+        {
 
-            //switch (spec.WhiteSpace)
-            //{
-            //    case CssWhiteSpace.Pre:
-            //    case CssWhiteSpace.PreWrap:
-            //        //run and preserve whitespace  
-            //        CreateRunsPreserveWhitespace(buffer, runlist, toBox, spec.WordBreak != CssWordBreak.BreakAll);
-            //        break;
-            //    case CssWhiteSpace.PreLine:
-            //        CreateRunsRespectNewLine(buffer, runlist, toBox, spec.WordBreak != CssWordBreak.BreakAll);
-            //        break;
-            //    default:
-            //        CreateRunsDefault(buffer, runlist, toBox, spec.WordBreak != CssWordBreak.BreakAll, toBox.HtmlElement != null);
-            //        break;
-            //}
+            switch (spec.WhiteSpace)
+            {
+                case CssWhiteSpace.Pre:
+                case CssWhiteSpace.PreWrap:
+                    CreateRunsPreserveWhitespace(buffer, originalSplitParts, toBox, spec.WordBreak != CssWordBreak.BreakAll);
+                    break;
+                case CssWhiteSpace.PreLine:
+                    CreateRunsRespectNewLine(buffer, originalSplitParts, toBox, spec.WordBreak != CssWordBreak.BreakAll);
+                    break;
+                default:
+                    CreateRunsDefault(buffer, originalSplitParts, toBox, spec.WordBreak != CssWordBreak.BreakAll, toBox.HtmlElement != null);
+                    break;
+            }
+
         }
+
 
         //=====================================================================
         /// <summary>
@@ -56,38 +45,61 @@ namespace HtmlRenderer.Dom
         /// <returns></returns>
         static void CreateRunsPreserveWhitespace(
             char[] buffer,
-            List<CssRun> runlist,
+            TextSplits originalSplitParts,
             CssBox toBox,
             bool boxIsNotBreakAll)
         {
 
+            if (originalSplitParts.singleChar > 0)
+            {
+
+                return;
+            }
+            //=================================================
+            toBox.SetTextBuffer(buffer);
+
+            ushort[] encodingSplits = originalSplitParts.encodedSplits;
             bool hasSomeChar = false;
-            int j = runlist.Count;
+            List<CssRun> boxRuns = new List<CssRun>();
+            int j = encodingSplits.Length;
+            int startIndex = 0;
 
             for (int i = 0; i < j; ++i)
             {
-                CssRun r = runlist[i];
-                r.SetOwner(toBox);
-                switch (r.Kind)
+                ushort p = encodingSplits[i];
+                int len = (p & ContentTextSplitter.LEN_MASK);
+
+                CssRun r = null;
+                switch ((TextSplitPartKind)(p >> 13))
                 {
-                    //case CssRunKind.LineBreak: 
-                    //case CssRunKind.SingleSpace:
-                    //case CssRunKind.Space:
-                    //    { 
-                    //    } break;
-                    case CssRunKind.Text:
+                    case TextSplitPartKind.LineBreak:
                         {
-
+                            r = CssTextRun.CreateLineBreak();
+                        } break;
+                    case TextSplitPartKind.SingleWhitespace:
+                        {
+                            r = CssTextRun.CreateSingleWhitespace();
+                        } break;
+                    case TextSplitPartKind.Whitespace:
+                        {
+                            r = CssTextRun.CreateWhitespace(len);
+                        } break;
+                    case TextSplitPartKind.Text:
+                        {
+                            r = CssTextRun.CreateTextRun(startIndex, len);
                             hasSomeChar = true;
-
                         } break;
                     default:
                         {
-
-                        } break;
+                            throw new System.NotSupportedException();
+                        }
                 }
+                r.SetOwner(toBox);
+                boxRuns.Add(r);
+                startIndex += len;
             }
-            toBox.SetContentRuns(runlist, hasSomeChar);
+
+            toBox.SetContentRuns(boxRuns, hasSomeChar);
         }
 
         /// <summary>
@@ -98,103 +110,119 @@ namespace HtmlRenderer.Dom
         /// <returns></returns>
         static void CreateRunsRespectNewLine(
             char[] buffer,
-            List<CssRun> runlist,
+            TextSplits originalSplitParts,
             CssBox toBox,
             bool boxIsNotBreakAll)
         {
 
+            if (originalSplitParts.singleChar > 0)
+            {
+
+                return;
+            }
+            //--------------------------------------------------
+            toBox.SetTextBuffer(buffer);
+            List<CssRun> boxRuns = new List<CssRun>();
             bool hasSomeChar = false;
-            int j = runlist.Count;
+            ushort[] encodedSplits = originalSplitParts.encodedSplits;
+            int j = encodedSplits.Length;
+
+            int startIndex = 0;
             for (int i = 0; i < j; ++i)
             {
-                CssRun r = runlist[i];
-                r.SetOwner(toBox);
-                switch (r.Kind)
+                ushort p = encodedSplits[i];
+                int len = (p & ContentTextSplitter.LEN_MASK);
+                CssRun r = null;
+                switch ((TextSplitPartKind)(p >> 13))
                 {
-                    case CssRunKind.LineBreak:
+                    case TextSplitPartKind.LineBreak:
                         {
-                            //skip line break 
-                            CssTextRun trun = (CssTextRun)r;
-                            trun.MakeLength1();
-                            //not run newline
-                            continue;
-                        }
-                    case CssRunKind.SingleSpace:
-                    case CssRunKind.Space:
+                            r = CssTextRun.CreateLineBreak();
+                        } break;
+                    case TextSplitPartKind.Whitespace:
+                    case TextSplitPartKind.SingleWhitespace:
                         {
                             if (i > 0)
                             {
-                                CssTextRun trun = (CssTextRun)r;
-                                trun.MakeLength1();
+                                r = CssTextRun.CreateSingleWhitespace();
                             }
                             else
                             {
+                                startIndex += len;
                                 continue;
                             }
                         } break;
-                    case CssRunKind.Text:
+                    case TextSplitPartKind.Text:
                         {
-
+                            r = CssTextRun.CreateTextRun(startIndex, len);
                             hasSomeChar = true;
                         } break;
-                    default:
-                        {
-
-                        } break;
                 }
+                startIndex += len;
+                r.SetOwner(toBox);
+                boxRuns.Add(r);
             }
-            toBox.SetContentRuns(runlist, hasSomeChar);
+            toBox.SetContentRuns(boxRuns, hasSomeChar);
         }
         static void CreateRunsDefault(
             char[] buffer,
-            List<CssRun> runlist,
+            TextSplits originalSplitParts,
             CssBox toBox,
             bool boxIsNotBreakAll, bool keepPreWhiteSpace)
         {
 
-            bool hasSomeChar = false;
-            int j = runlist.Count;
+            if (originalSplitParts.singleChar > 0)
+            {
+                return;
+            }
 
+
+            toBox.SetTextBuffer(buffer);
+            List<CssRun> boxRuns = new List<CssRun>();
+            bool hasSomeChar = false;
+            ushort[] encodedSplits = originalSplitParts.encodedSplits;
+            int j = encodedSplits.Length;
+
+            int startIndex = 0;
             for (int i = 0; i < j; ++i)
             {
-                CssRun r = runlist[i];
-                r.SetOwner(toBox);
-                switch (r.Kind)
+                ushort p = encodedSplits[i];
+                int len = (p & ContentTextSplitter.LEN_MASK);
+                CssRun r = null;
+                switch ((TextSplitPartKind)(p >> 13))
                 {
-                    case CssRunKind.LineBreak:
+                    case TextSplitPartKind.LineBreak:
                         {
-                            //skip line break 
-                            CssTextRun trun = (CssTextRun)r;
-                            trun.MakeLength1();
-                            //not accept new line 
-                            //not run newline
+
+                            //skip line break
+                            startIndex += len;
                             continue;
                         }
-                    case CssRunKind.SingleSpace:
-                    case CssRunKind.Space:
+                    case TextSplitPartKind.Whitespace:
+                    case TextSplitPartKind.SingleWhitespace:
                         {
                             if (i > 0)
                             {
-                                CssTextRun trun = (CssTextRun)r;
-                                trun.MakeLength1();
+                                r = CssTextRun.CreateSingleWhitespace();
                             }
                             else
                             {
+                                startIndex += len;
                                 continue;
                             }
                         } break;
-                    case CssRunKind.Text:
+                    case TextSplitPartKind.Text:
                         {
-
+                            r = CssTextRun.CreateTextRun(startIndex, len);
+                            r.SetOwner(toBox);
                             hasSomeChar = true;
                         } break;
-                    default:
-                        {
-
-                        } break;
                 }
+
+                startIndex += len;
+                boxRuns.Add(r);
             }
-            toBox.SetContentRuns(runlist, hasSomeChar);
+            toBox.SetContentRuns(boxRuns, hasSomeChar);
         }
 
     }

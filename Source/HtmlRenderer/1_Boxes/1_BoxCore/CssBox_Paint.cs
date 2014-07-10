@@ -42,6 +42,7 @@ namespace HtmlRenderer.Dom
 
         protected virtual void PaintImp(IGraphics g, PaintVisitor p)
         {
+
             CssDisplay display = this.CssDisplay;
 
             if (display != CssDisplay.None &&
@@ -52,7 +53,7 @@ namespace HtmlRenderer.Dom
                 bool hasPrevClip = false;
                 RectangleF prevClip = RectangleF.Empty;
 
-                if (this._isHiddenOverflow)
+                if (this.Overflow == CssOverflow.Hidden)
                 {
                     var expectedW = this.ExpectedWidth;
                     var expectedH = this.ExpectedHeight;
@@ -68,7 +69,7 @@ namespace HtmlRenderer.Dom
                 }
 
                 //---------------------------------------------
-                if (display != CssDisplay.Inline)
+                if (this.CssDisplay != CssDisplay.Inline)
                 {
 
                     RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);

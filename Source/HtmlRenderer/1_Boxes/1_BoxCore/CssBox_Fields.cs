@@ -62,7 +62,6 @@ namespace HtmlRenderer.Dom
         protected int _prop_pass_eval;
 
 
-
         /// <summary>
         /// Gets the childrenn boxes of this box
         /// </summary>      

@@ -66,10 +66,12 @@ namespace HtmlRenderer.Dom
         //---------------------------------
         //this node may be simple text node  
         bool hasSomeChar;
-        List<CssRun> runs;
+        TextSplits originalSplits;
+
         public BridgeHtmlTextNode(HtmlDocument ownerDoc, char[] buffer)
             : base(ownerDoc, buffer)
-        { 
+        {
+
         }
         public bool IsWhiteSpace
         {
@@ -78,24 +80,22 @@ namespace HtmlRenderer.Dom
                 return !this.hasSomeChar;
             }
         }
-        internal void SetSplitParts(List<CssRun> runs, bool hasSomeChar)
+        internal void SetSplitParts(TextSplits splits, bool hasSomeChar)
         {
-            this.runs = runs;
+            this.originalSplits = splits;
             this.hasSomeChar = hasSomeChar;
         }
-       
+        internal TextSplits GetSplitParts()
+        {
+            return originalSplits;
+        }
+
 #if DEBUG
         public override string ToString()
         {
             return new string(base.GetOriginalBuffer());
         }
 #endif
-
-        internal List<CssRun> InternalGetRuns()
-        {
-            return this.runs;
-        }
-
     }
 
 
@@ -109,18 +109,44 @@ namespace HtmlRenderer.Dom
 
     struct TextSplits
     {
-        public readonly bool isWS;
-        public readonly int startIndex;
-        public readonly int totalLength;
-        public ushort[] encodedSplits;
-        public TextSplits(bool isWS, int startIndex, int totalLength)
-        {
-            this.isWS = isWS;
-            this.startIndex = startIndex;
-            this.totalLength = totalLength;
-            this.encodedSplits = null;
+        public readonly ushort singleChar;
+        public readonly ushort[] encodedSplits;
+        public TextSplits(ushort singleChar, ushort[] encodedSplits)
+        {  
+            this.singleChar = singleChar;
+            this.encodedSplits = encodedSplits; 
         }
     }
 
+    //class TextSplitStreamWriter
+    //{
+    //    public TextSplitStreamWriter()
+    //    {
+
+    //    }
+    //}
+
+
+
+    //    struct TextSplitPart
+    //    {
+    //        public readonly TextSplitPartKind kind;
+    //        public readonly ushort length;
+    //        public TextSplitPart(ushort length, TextSplitPartKind kind)
+    //        {
+
+    //            this.length = length;
+    //            this.kind = kind;
+    //        }
+
+    //#if DEBUG
+    //        //public readonly int dbugId;
+    //        //static int dbugTotalId;
+    //        public override string ToString()
+    //        {
+    //            return kind.ToString() + "(" + length + ")";
+    //        }
+    //#endif
+    //    }
 
 }

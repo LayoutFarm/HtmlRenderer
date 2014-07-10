@@ -19,9 +19,9 @@ namespace HtmlRenderer.Dom
         bool _borderRightVisible;
         bool _borderBottomVisble;
 
-        void EvaluateSpec(BoxSpec spec)
+        void EvaluateSpecOnInit(BoxSpec spec)
         {
-            this._isVisible = this._cssDisplay != Dom.CssDisplay.None && spec.Visibility == CssVisibility.Visible;
+           
             this._isHiddenOverflow = this.Overflow == CssOverflow.Hidden;
 
             this._borderLeftVisible = spec.BorderLeftStyle >= CssBorderStyle.Visible;

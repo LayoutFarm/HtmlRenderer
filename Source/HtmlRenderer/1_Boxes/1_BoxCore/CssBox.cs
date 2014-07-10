@@ -40,7 +40,6 @@ namespace HtmlRenderer.Dom
     public partial class CssBox
     {
         readonly BoxSpec _myspec;
-
         WellknownHtmlTagName wellKnownTagName;
 
 #if DEBUG
@@ -76,13 +75,11 @@ namespace HtmlRenderer.Dom
             }
 #endif
 
-            //assign spec
-
             this._myspec = spec;
-            EvaluateSpec(spec);
-            ChangeDisplayType(this, _myspec.CssDisplay);            
+            EvaluateSpecOnInit(spec);
+            ChangeDisplayType(this, _myspec.CssDisplay);
         }
-        
+
         /// <summary>
         /// Gets the HtmlContainer of the Box.
         /// WARNING: May be null.
@@ -258,7 +255,6 @@ namespace HtmlRenderer.Dom
             this._boxCompactFlags = tmpFlags;
         }
 
-
         bool _isAllWhitespace;
         internal void SetTextBuffer(char[] textBuffer)
         {
@@ -268,6 +264,7 @@ namespace HtmlRenderer.Dom
         {
             this._aa_contentRuns = runs;
             this._isAllWhitespace = isAllWhitespace;
+
         }
         public bool MayHasSomeTextContent
         {

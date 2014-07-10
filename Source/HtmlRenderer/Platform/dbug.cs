@@ -41,15 +41,13 @@ namespace HtmlRenderer
                 _dbugDrawStringCount = value;
             }
         }
-        public static long Snap(System.Diagnostics.Stopwatch sw, dbugCounterAction codeRgn)
+        public static long Snap(dbugCounterAction codeRgn)
         {
-
-            sw.Stop();
-            sw.Reset();
-            sw.Start();
+             
+            var newWatch = System.Diagnostics.Stopwatch.StartNew();
             codeRgn();
-            sw.Stop();
-            return sw.ElapsedTicks;
+            newWatch.Stop();
+            return newWatch.ElapsedTicks;
         }
         public static long GCAndSnapTicks(dbugCounterAction codeRgn)
         {

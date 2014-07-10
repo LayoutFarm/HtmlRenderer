@@ -127,12 +127,11 @@ namespace HtmlRenderer.Dom
                             BridgeHtmlTextNode textnode = (BridgeHtmlTextNode)node;
                             //inner content is parsed here 
                             var parentSpec = parentElement.Spec;
-                            char[] originalBuffer = textnode.GetOriginalBuffer();
-
-                            List<CssRun> runlist;
+                            var originalBuffer = textnode.GetOriginalBuffer();
                             bool hasSomeCharacter;
-                            contentTextSplitter.ParseWordContent(originalBuffer, parentSpec, out runlist, out hasSomeCharacter);
-                            textnode.SetSplitParts(runlist, hasSomeCharacter);
+
+                            TextSplits originalSplitParts = contentTextSplitter.ParseWordContent(originalBuffer, out hasSomeCharacter);
+                            textnode.SetSplitParts(originalSplitParts, hasSomeCharacter);
 
                         } break;
                 }

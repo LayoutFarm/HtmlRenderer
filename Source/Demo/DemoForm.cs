@@ -546,20 +546,18 @@ namespace HtmlRenderer.Demo
             //HtmlRenderer.dbugCounter.dbugStartRecord = true;
             //HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
             long ms_total = 0;
-            System.Diagnostics.Stopwatch sw = new Stopwatch();
-
             for (int i = 0; i < iterations; i++)
             {
                 foreach (var sampleNum in selectedSamples)
                 {
-                    ms_total += dbugCounter.Snap(sw, () =>
-                    {
-                        //HtmlRenderer.dbugCounter.dbugStartRecord = true;
-                        //HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
-                        _htmlPanel.Text = _perfTestSamples[sampleNum];
-                        Application.DoEvents(); // so paint will be called 
+                     ms_total += dbugCounter.Snap(() =>
+                     {
+                         //HtmlRenderer.dbugCounter.dbugStartRecord = true;
+                         //HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
+                         _htmlPanel.Text = _perfTestSamples[sampleNum];
+                         Application.DoEvents(); // so paint will be called 
 
-                    });
+                     });
                 }
 
             }

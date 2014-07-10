@@ -11,91 +11,41 @@ namespace HtmlRenderer.Dom
 
     class ContentTextSplitter
     {
-
-
-        Stack<List<CssRun>> myRunPool = new Stack<List<CssRun>>(3);
+        List<ushort> _spList = new List<ushort>(50);
         public ContentTextSplitter()
-        {
-
+        { 
         }
         enum WordParsingState
         {
             Init,
             Whitespace,
             CharacterCollecting
-        }
+        } 
 
-        List<CssRun> GetNewRunList()
+        public const int P_TEXT = (int)TextSplitPartKind.Text << 13;
+        public const int P_WHITESPACE = (int)TextSplitPartKind.Whitespace << 13;
+        public const int P_SINGLE_WHITESPACE = (int)TextSplitPartKind.SingleWhitespace << 13;
+        public const int P_LINEBREAK = (int)TextSplitPartKind.LineBreak << 13;
+        public const int LEN_MASK = ~(7 << 13);
+
+        public TextSplits ParseWordContent(char[] textBuffer, out bool hasSomeCharacter)
         {
-            if (myRunPool.Count > 0)
-            {
-                return myRunPool.Pop();
-            }
-            else
-            {
-                return new List<CssRun>(5);
-            }
-        }
-        void StoreBackNotUse(List<CssRun> tmpRuns)
-        {
-            tmpRuns.Clear();
-            myRunPool.Push(tmpRuns);
 
-        }
-        public void ParseWordContent(char[] textBuffer, BoxSpec spec, out List<CssRun> runlistOutput, out bool hasSomeCharacter)
-        {
-            bool preserverLine = false;
-            bool preserveWhiteSpace = false;
-            switch (spec.WhiteSpace)
-            {
-                case CssWhiteSpace.Pre:
-                case CssWhiteSpace.PreWrap:
-                    //run and preserve whitespace  
-                    preserveWhiteSpace = true;
-                    preserverLine = true;
-                    break;
-                case CssWhiteSpace.PreLine:
-                    preserverLine = true;
-                    break;
-            }
-
-            //bool has_someword2 = false;
-
-            //for (int i = textBuffer.Length - 1; i >= 0; --i)
-            //{
-            //    char c = textBuffer[i];
-            //    if (!char.IsWhiteSpace(c))
-            //    {
-            //        has_someword2 = true;
-            //        break;
-            //    }
-            //}
-
-            //if (!has_someword2 && !preserveWhiteSpace && !preserverLine)
-            //{
-            //    runlistOutput = null;
-            //    hasSomeCharacter = false;
-            //    return;
-            //}
-
-
-
-
-            //---------------------------------------
-            //1. check if has some text 
-            //--------------------------------------
-            var runlist = GetNewRunList();
-            hasSomeCharacter = false;
+            hasSomeCharacter = false; 
             //--------------------------------------
             //just parse and preserve all whitespace
             //--------------------------------------  
             int startIndex = 0;
-            int buffLength = textBuffer.Length;
+            int buffLength = textBuffer.Length; 
             //whitespace and respect newline  
             WordParsingState parsingState = WordParsingState.Init;
+            
+            var spList = _spList;
             int appendLength = 0;
-            //--------------------------------------  
-            int newRun = 0;
+
+            spList.Clear();           
+
+
             for (int i = 0; i < buffLength; ++i)
             {
                 char c0 = textBuffer[i];
@@ -106,27 +56,17 @@ namespace HtmlRenderer.Dom
                     {
                         if (parsingState == WordParsingState.CharacterCollecting)
                         {
-                            runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
-                            newRun++;
+                            spList.Add((ushort)(P_TEXT | (LEN_MASK & appendLength)));
                             hasSomeCharacter = true;
                         }
                         else
                         {
-                            if (newRun > 0 || preserveWhiteSpace)
-                            {
-                                runlist.Add(CssTextRun.CreateWhitespace(preserveWhiteSpace ? appendLength : 1));
-                                newRun++;
-                            }
+                            spList.Add((ushort)(P_WHITESPACE | (LEN_MASK & appendLength)));
                         }
                         appendLength = 0; //clear append length 
                     }
-                    //append with new line                    
-                    if (preserverLine)
-                    {
-                        runlist.Add(CssTextRun.CreateLineBreak());
-                        newRun++;
-                    }
-
+                    //append with new line  
+                    spList.Add((ushort)(P_LINEBREAK | (LEN_MASK & 1)));
                     startIndex = i;
                     parsingState = WordParsingState.Init;
                     continue;
@@ -162,15 +102,12 @@ namespace HtmlRenderer.Dom
                         {
                             if (!char.IsWhiteSpace(c0))
                             {
-                                //switch to character mode   
-                                if (newRun > 0 || preserveWhiteSpace)
-                                {
-                                    runlist.Add(CssTextRun.CreateWhitespace(preserveWhiteSpace ? appendLength : 1));
-                                    newRun++;
-                                }
+                                //switch to character mode  
+                                spList.Add((ushort)(P_WHITESPACE | (LEN_MASK & appendLength)));
                                 parsingState = WordParsingState.CharacterCollecting;
                                 startIndex = i;//start collect
-                                appendLength = 1;//start append length 
+                                appendLength = 1;//start append length
+
                             }
                             else
                             {
@@ -185,9 +122,8 @@ namespace HtmlRenderer.Dom
                         {
                             if (char.IsWhiteSpace(c0))
                             {
-                                //flush collecting token  
-                                runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
-                                newRun++;
+                                //flush collecting token
+                                spList.Add((ushort)(P_TEXT | (LEN_MASK & appendLength)));
                                 hasSomeCharacter = true;
                                 parsingState = WordParsingState.Whitespace;
                                 startIndex = i;//start collect
@@ -204,6 +140,7 @@ namespace HtmlRenderer.Dom
                         } break;
                 }
             }
+
             //--------------------
             if (appendLength > 0)
             {
@@ -211,35 +148,27 @@ namespace HtmlRenderer.Dom
                 {
                     case WordParsingState.Whitespace:
                         {
-                            if (newRun > 0 || preserveWhiteSpace)
-                            {
-                                runlist.Add(CssTextRun.CreateWhitespace(preserveWhiteSpace ? appendLength : 1));
-                                newRun++;
-                            }
+                            spList.Add((ushort)(P_WHITESPACE | (LEN_MASK & appendLength)));
 
                         } break;
                     case WordParsingState.CharacterCollecting:
                         {
-                            runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
+                            spList.Add((ushort)(P_TEXT | (LEN_MASK & appendLength)));
                             hasSomeCharacter = true;
-                            newRun++;
+
                         } break;
                 }
             }
-
-            if (newRun > 0)
+            //--------------------
+            if (hasSomeCharacter)            
             {
-                runlistOutput = runlist;
-                //send runlist 
-                //not store to pool
+                return new TextSplits(0, spList.ToArray());
             }
             else
-            {
-                StoreBackNotUse(runlist);
-                runlistOutput = null;
+            {   
+                return new TextSplits(1, null);
             }
-
-
+            
         }
 
     }

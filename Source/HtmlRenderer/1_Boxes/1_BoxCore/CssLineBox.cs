@@ -410,7 +410,8 @@ namespace HtmlRenderer.Dom
 
 
             CssBox latestOwner = null;
-            Font font = null; 
+            Font font = null;
+
             Color color = Color.Empty;
             var tmpRuns = this._runs;
             int j = tmpRuns.Count;
@@ -418,7 +419,7 @@ namespace HtmlRenderer.Dom
             for (int i = 0; i < j; ++i)
             {
                 //-----------------
-                dbugCounter.dbugRunPaintCount++;
+                dbugCounter.dbugRunPaintCount++; 
                 //-----------------
 
                 CssRun w = tmpRuns[i];
@@ -439,7 +440,7 @@ namespace HtmlRenderer.Dom
                             float oy = g.CanvasOriginY;
 
                             g.SetCanvasOrigin(ox + blockRun.Left, oy + blockRun.Top);
-
+                            
                             blockRun.BlockBox.Paint(g, p);
 
                             g.SetCanvasOrigin(ox, oy);
@@ -453,7 +454,6 @@ namespace HtmlRenderer.Dom
                                 font = latestOwner.ActualFont;
                                 color = latestOwner.ActualColor;
                             }
-
                             CssTextRun textRun = (CssTextRun)w;
 
                             var wordPoint = new PointF(w.Left, w.Top);

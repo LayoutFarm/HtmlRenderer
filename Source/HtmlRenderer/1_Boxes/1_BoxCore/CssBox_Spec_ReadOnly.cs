@@ -16,7 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-
+ 
 using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom
@@ -30,10 +30,10 @@ namespace HtmlRenderer.Dom
     /// that require additional calculations and parsing.<br/>
     /// </summary>
     partial class CssBox
-    {
+    {    
         public CssLength Height
-        {
-            get { return this._myspec.Height; }
+        { 
+            get { return this._myspec.Height; }  
         }
 
         public CssDirection CssDirection
@@ -370,9 +370,17 @@ namespace HtmlRenderer.Dom
         {
             get
             {
+                //if (this._actualFont == null)
+                //{
+
+                //}
+                //var h = _actualFont.GetHeight();
                 return this._actualFont;
             }
-        } 
+        }
+
+
+
         /// <summary>
         /// Gets the height of the font in the specified units
         /// </summary>
