@@ -24,8 +24,9 @@ namespace HtmlRenderer.Dom
 
     partial class CssBox
     {
-        //----------------------------------------------------
 
+        readonly object _controller;
+        //----------------------------------------------------
         /// <summary>
         /// the root container for the hierarchy
         /// </summary>
@@ -33,13 +34,10 @@ namespace HtmlRenderer.Dom
         //----------------------------------------------------
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
-        /// </summary>
-        readonly BridgeHtmlElement _htmlElement;
+        /// </summary> 
         int _boxCompactFlags;
-
         //html rowspan: for td,th 
         int _rowSpan;
-
         int _colSpan;
         //---------------------------------------------------- 
 
@@ -52,6 +50,10 @@ namespace HtmlRenderer.Dom
         //condition 2 :this Box is InlineBox          
         List<CssRun> _aa_contentRuns;
         char[] _buffer;
+
+        bool isBrElement;
+        bool _fixDisplayType;
+
         //----------------------------------------------------  
         //for other subbox , list item , shadow... 
         SubBoxCollection _subBoxes;
@@ -148,7 +150,7 @@ namespace HtmlRenderer.Dom
         }
         //-------------------------------------
         internal int RowSpan
-        {   
+        {
             get
             {
                 return this._rowSpan;
@@ -176,17 +178,7 @@ namespace HtmlRenderer.Dom
         }
 
         //==================================================
-        public WellknownHtmlTagName WellknownTagName
-        {
-            get
-            {
-                return this.wellKnownTagName;
-            }
-            private set
-            {
-                this.wellKnownTagName = value;
-            }
-        }
+    
         public CssDisplay CssDisplay
         {
             get
@@ -205,54 +197,23 @@ namespace HtmlRenderer.Dom
                 this._subBoxes = value;
             }
         }
-
+        internal static void SetAsBrBox(CssBox box)
+        {
+            box.isBrElement = true;
+        }
         internal static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
-            //single point method that can change
-            //CssBox._cssDisplay Type
-
-            switch (box.wellKnownTagName)
+             
+            if (!box._fixDisplayType)
             {
-                //some wellknown Html element name 
-                //has fixed predefine display type  *** 
-                //fix definition 
-                case WellknownHtmlTagName.table:
-                    newdisplay = CssDisplay.Table;
-                    break;
-                case WellknownHtmlTagName.tr:
-                    newdisplay = CssDisplay.TableRow;
-                    break;
-                case WellknownHtmlTagName.tbody:
-                    newdisplay = CssDisplay.TableRowGroup;
-                    break;
-                case WellknownHtmlTagName.thead:
-                    newdisplay = CssDisplay.TableHeaderGroup;
-                    break;
-                case WellknownHtmlTagName.tfoot:
-                    newdisplay = CssDisplay.TableFooterGroup;
-                    break;
-                case WellknownHtmlTagName.col:
-                    newdisplay = CssDisplay.TableColumn;
-                    break;
-                case WellknownHtmlTagName.colgroup:
-                    newdisplay = CssDisplay.TableColumnGroup;
-                    break;
-                case WellknownHtmlTagName.td:
-                case WellknownHtmlTagName.th:
-                    newdisplay = CssDisplay.TableCell;
-                    break;
-                case WellknownHtmlTagName.caption:
-                    newdisplay = CssDisplay.TableCaption;
-                    break;
+                box._cssDisplay = newdisplay;
             }
-
-            box._cssDisplay = newdisplay;
 
             box.IsInline = (newdisplay == CssDisplay.BlockInsideInlineAfterCorrection) || ((newdisplay == CssDisplay.Inline ||
                     newdisplay == CssDisplay.InlineBlock)
                     && !box.IsBrElement);
 
-            box._isVisible = box._cssDisplay != Dom.CssDisplay.None && box._myspec.Visibility == CssVisibility.Visible;
+            box._isVisible = box._cssDisplay != CssDisplay.None && box._myspec.Visibility == CssVisibility.Visible;
             //-------------------------
             //check containing property 
             //-------------------------

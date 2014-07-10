@@ -29,7 +29,7 @@ namespace HtmlRenderer.Dom
         {
             return;
 
-            var htmlE = CssBox.dbugGetBridgeHtmlElement(this);
+            var htmlE = CssBox.debugGetController(this) as BridgeHtmlElement;
             if (htmlE == null)
             {
                 p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);

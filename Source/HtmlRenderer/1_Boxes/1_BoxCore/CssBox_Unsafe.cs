@@ -45,9 +45,9 @@ namespace HtmlRenderer.Dom
             set;
         }
 
-        internal static BridgeHtmlElement dbugGetBridgeHtmlElement(CssBox box)
+        internal static object debugGetController(CssBox box)
         {
-            return box._htmlElement;
+            return box._controller;
         }
 
 #endif

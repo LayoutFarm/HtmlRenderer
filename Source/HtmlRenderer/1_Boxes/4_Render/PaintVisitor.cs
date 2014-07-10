@@ -123,8 +123,7 @@ namespace HtmlRenderer.Dom
             Color topColor = box.BorderTopColor;
             Color leftColor = box.BorderLeftColor;
             Color rightColor = box.BorderRightColor;
-            Color bottomColor = box.BorderBottomColor;
-
+            Color bottomColor = box.BorderBottomColor; 
 
             var g = this.Gfx;
 

@@ -43,7 +43,7 @@ namespace HtmlRenderer.Dom
                     // is the box has text
                     // or is the box is pre-formatted
                     // or is the box is only one in the parent 
-                    var element = CssBox.dbugGetBridgeHtmlElement(childBox);
+                    var element = CssBox.debugGetController(childBox) as BridgeHtmlElement;
                     bool keepBox = element != null;
                     if (!keepBox)
                     {
@@ -385,7 +385,7 @@ namespace HtmlRenderer.Dom
             //recursive 
 
 
-            var htmlE = CssBox.dbugGetBridgeHtmlElement(splitBox);
+            var htmlE = CssBox.debugGetController(splitBox) as BridgeHtmlElement;
             var leftPart = BoxCreator.CreateBox(leftBlock, htmlE);
 
             bool had_new_leftbox = false;
@@ -456,11 +456,8 @@ namespace HtmlRenderer.Dom
             {
 
                 firstChild.ChangeSiblingOrder(1);
-
-                if (firstChild.WellknownTagName == WellknownHtmlTagName.br
-                    && (had_new_leftbox || leftBlock.ChildCount > 1))
+                if (firstChild.IsBrElement && (had_new_leftbox || leftBlock.ChildCount > 1))
                 {
-
                     CssBox.ChangeDisplayType(firstChild, CssDisplay.Inline);
                 }
             }
@@ -468,7 +465,8 @@ namespace HtmlRenderer.Dom
 
         static void dbugCompareSpecDiff(string prefix, CssBox box)
         {
-            var element = CssBox.dbugGetBridgeHtmlElement(box); 
+            var element = CssBox.debugGetController(box) as BridgeHtmlElement;
+
             BoxSpec curSpec = CssBox.UnsafeGetBoxSpec(box);
 
             dbugPropCheckReport rep = new dbugPropCheckReport();

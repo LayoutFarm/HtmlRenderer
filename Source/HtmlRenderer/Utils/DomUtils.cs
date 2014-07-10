@@ -329,9 +329,11 @@ namespace HtmlRenderer.Utils
             }
             else
             {
-                switch (box.WellknownTagName)
+                //switch (box.WellknownTagName)
+                switch (box.CssDisplay)
                 {
-                    case WellknownHtmlTagName.tr:
+
+                    case CssDisplay.TableRow:
                         {
 
                             foreach (var childBox in box.GetChildBoxIter())
