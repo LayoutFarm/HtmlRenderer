@@ -36,7 +36,7 @@ namespace HtmlRenderer.Dom
 
 
         static readonly ValueMap<HtmlRenderer.WebDom.WellknownCssPropertyName> _wellKnownCssPropNameMap = new ValueMap<WebDom.WellknownCssPropertyName>();
-        static readonly ValueMap<WellknownHtmlTagName> _wellknownHtmlTagNameMap = new ValueMap<WellknownHtmlTagName>();
+        static readonly ValueMap<WellknownElementName> _wellknownHtmlTagNameMap = new ValueMap<WellknownElementName>();
 
 
 
@@ -734,9 +734,9 @@ namespace HtmlRenderer.Dom
         }
 
 
-        public static WellknownHtmlTagName EvaluateTagName(string name)
+        public static WellknownElementName EvaluateTagName(string name)
         {
-            return _wellknownHtmlTagNameMap.GetValueFromString(name, WellknownHtmlTagName.Unknown);
+            return _wellknownHtmlTagNameMap.GetValueFromString(name, WellknownElementName.Unknown);
         }
         internal static void SetBackgroundPosition(this CssBox box, WebDom.CssCodeValueExpression value)
         {

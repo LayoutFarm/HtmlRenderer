@@ -162,6 +162,8 @@ namespace HtmlRenderer
         float _actualWidth;
         float _actualHeight;
 
+
+        HtmlRenderer.Dom.SelectionRange selRange;
         #endregion
 
 
@@ -217,7 +219,7 @@ namespace HtmlRenderer
             get { return _cssData; }
         }
 
-        HtmlRenderer.Dom.SelectionRange selRange;
+       
         public HtmlRenderer.Dom.SelectionRange SelectionRange
         {
             get

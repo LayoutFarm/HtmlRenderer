@@ -151,14 +151,14 @@ namespace HtmlRenderer.Dom
                 //this._actualFont = this.Spec.GetFont(containingBlock.Spec);
             }
 
-            if (_actualFont == null)
-            {
-            }
-            else if (_actualFont.Size < 4)
-            {
+            //if (_actualFont == null)
+            //{
+            //}
+            //else if (_actualFont.Size < 4)
+            //{
 
-                var hh = _actualFont.GetHeight();
-            }
+            //    var hh = _actualFont.GetHeight();
+            //}
             //if (_actualFont != null)
             //{
             //    return _actualFont;
@@ -280,8 +280,9 @@ namespace HtmlRenderer.Dom
 
             //text indent  
             this._prop_pass_eval |= CssBoxAssignments.TEXT_INDENT;
-            this._actualTextIndent = CssValueParser.ConvertToPx(spec.TextIndent, containingBlock.SizeWidth, this);             
-            this._actualLineHeight = 0.9f * CssValueParser.ConvertToPx(LineHeight, this._actualFont.Height, this);
+            this._actualTextIndent = CssValueParser.ConvertToPx(spec.TextIndent, containingBlock.SizeWidth, this);
+
+            this._actualLineHeight = 0.9f * CssValueParser.ConvertToPx(LineHeight, this.GetEmHeight(), this);
 
             //---------------------------------------------------------------------------
 

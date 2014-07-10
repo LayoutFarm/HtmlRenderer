@@ -18,7 +18,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using HtmlRenderer.Handlers;
 using HtmlRenderer.WebDom;
-
+using HtmlRenderer.WebDom.Parser;
 namespace HtmlRenderer.Dom
 {
     /// <summary>
@@ -64,12 +64,12 @@ namespace HtmlRenderer.Dom
                     case WebDom.HtmlNodeType.ShortElement:
                         {
                             BridgeHtmlElement bridgeElement = (BridgeHtmlElement)node;
-                            bridgeElement.WellknownTagName = UserMapUtil.EvaluateTagName(bridgeElement.LocalName);
+                            bridgeElement.WellknownElementName = UserMapUtil.EvaluateTagName(bridgeElement.LocalName);
 
 
-                            switch (bridgeElement.WellknownTagName)
+                            switch (bridgeElement.WellknownElementName)
                             {
-                                case WellknownHtmlTagName.style:
+                                case WellknownElementName.style:
                                     {
                                         //style element should have textnode child
                                         int j = bridgeElement.ChildrenCount;
@@ -89,7 +89,7 @@ namespace HtmlRenderer.Dom
                                         }
                                         continue;
                                     }
-                                case WellknownHtmlTagName.link:
+                                case WellknownElementName.link:
                                     {
                                         if (bridgeElement.GetAttributeValue("rel", string.Empty).Equals("stylesheet", StringComparison.CurrentCultureIgnoreCase))
                                         {

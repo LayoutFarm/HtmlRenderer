@@ -366,7 +366,7 @@ namespace HtmlRenderer.Dom
         /// <summary>
         /// Gets the font that should be actually used to paint the text of the box
         /// </summary>
-        public Font ActualFont
+        internal Font ActualFont
         {
             get
             {

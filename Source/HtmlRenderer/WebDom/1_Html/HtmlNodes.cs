@@ -514,11 +514,7 @@ namespace HtmlRenderer.WebDom
         {
             get { return this.LocalName; }
         }
-        public WellknownHtmlTagName WellknownTagName
-        {
-            get;
-            set;
-        }
+       
 
         public bool TryGetAttribute(string attrName, out string value)
         {

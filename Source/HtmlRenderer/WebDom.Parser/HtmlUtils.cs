@@ -16,28 +16,25 @@
 using System;
 using System.Collections.Generic;
 
-namespace HtmlRenderer.WebDom
-{
-    static class HtmlUtils
+namespace HtmlRenderer.WebDom.Parser
+{   
+
+    static class HtmlDecodeHelper
     {
         /// <summary>
         /// List of html tags that don't have content
         /// </summary>
-        static readonly Dictionary<WebDom.WellknownHtmlName, byte> noContantTags = new Dictionary<WebDom.WellknownHtmlName, byte>();
-
+        static readonly Dictionary<WellknownHtmlName, byte> noContantTags = new Dictionary<WellknownHtmlName, byte>();
 
         /// <summary>
         /// the html decode only pairs
         /// </summary>
         private static readonly Dictionary<string, char> _decodeOnly = new Dictionary<string, char>(StringComparer.InvariantCultureIgnoreCase);
         private static readonly Dictionary<string, char> _encodeDecode0 = new Dictionary<string, char>(StringComparer.InvariantCultureIgnoreCase);
-
-
-
         /// <summary>
         /// Init.
         /// </summary>
-        static HtmlUtils()
+        static HtmlDecodeHelper()
         {
 
             noContantTags.Add(WebDom.WellknownHtmlName.Area, 0);
@@ -312,11 +309,8 @@ namespace HtmlRenderer.WebDom
         /// <returns>true - is single tag, false - otherwise</returns>
         public static bool IsSingleTag(int nameIndex)// HtmlRenderer.Dom.WellknownHtmlTagName tagName)
         {
-            return noContantTags.ContainsKey((WebDom.WellknownHtmlName)nameIndex);
-
-        }
-
-
+            return noContantTags.ContainsKey((WellknownHtmlName)nameIndex); 
+        } 
         static int FindIndexOfOrWhitespace(char[] sourceBuffer, int startIndex, int len, char findingChar1)
         {
             for (int i = startIndex; i < len; ++i)

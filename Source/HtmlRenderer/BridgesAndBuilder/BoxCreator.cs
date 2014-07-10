@@ -64,48 +64,48 @@ namespace HtmlRenderer.Dom
             //1. create new box
             //----------------------------------------- 
             //some box has predefined behaviour
-            switch (childElement.WellknownTagName)
+            switch (childElement.WellknownElementName)
             {
 
-                case WellknownHtmlTagName.br:
+                case WellknownElementName.br:
                     //special treatment for br
                     newBox = new CssBox(parentBox, childElement, childElement.Spec);
                     CssBox.SetAsBrBox(newBox);
                     CssBox.ChangeDisplayType(newBox, CssDisplay.BlockInsideInlineAfterCorrection);
                     return newBox;
 
-                case WellknownHtmlTagName.img:
+                case WellknownElementName.img:
                     return CreateImageBox(parentBox, childElement);
 
-                case WellknownHtmlTagName.hr:
+                case WellknownElementName.hr:
                     return new CssBoxHr(parentBox, childElement, childElement.Spec);
 
                 //-----------------------------------------------------
                 //TODO: simplify this ...
                 //table-display elements, fix display type
-                case WellknownHtmlTagName.td:
-                case WellknownHtmlTagName.th:
+                case WellknownElementName.td:
+                case WellknownElementName.th:
                     newBox = TableBoxCreator.CreateTableCell(parentBox, childElement, true);
                     return newBox;
-                case WellknownHtmlTagName.col:
+                case WellknownElementName.col:
                     return TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, true, CssDisplay.TableColumn);
-                case WellknownHtmlTagName.colgroup:
+                case WellknownElementName.colgroup:
                     return TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, true, CssDisplay.TableColumnGroup);
-                case WellknownHtmlTagName.tr:
+                case WellknownElementName.tr:
                     return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableRow);
-                case WellknownHtmlTagName.tbody:
+                case WellknownElementName.tbody:
                     return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableRowGroup);
-                case WellknownHtmlTagName.table:
+                case WellknownElementName.table:
                     return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.Table);
-                case WellknownHtmlTagName.caption:
+                case WellknownElementName.caption:
                     return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableCaption);
-                case WellknownHtmlTagName.thead:
+                case WellknownElementName.thead:
                     return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableHeaderGroup);
-                case WellknownHtmlTagName.tfoot:
+                case WellknownElementName.tfoot:
                     return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableFooterGroup);
                 //---------------------------------------------------
                 //test extension box
-                case WellknownHtmlTagName.X:
+                case WellknownElementName.X:
                     {
                         newBox = CreateCustomBox(parentBox, childElement, childElement.Spec);
                         if (newBox == null)
