@@ -1,5 +1,3 @@
-//BSD 2014, WinterCore
-
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
@@ -92,7 +90,7 @@ namespace HtmlRenderer.Demo
 
 
             _updateHtmlTimer = new Timer(OnUpdateHtmlTimerTick);
-            this.Text += " M 2490";
+            this.Text += " M";
         }
         public void PrepareSamples()
         {
@@ -548,20 +546,12 @@ namespace HtmlRenderer.Demo
             //HtmlRenderer.dbugCounter.dbugStartRecord = true;
             //HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
             long ms_total = 0;
-<<<<<<< HEAD
-<<<<<<< HEAD
             System.Diagnostics.Stopwatch sw = new Stopwatch();
 
-=======
->>>>>>> v1.7.2094.1
-=======
->>>>>>> v1.7.2094.1
             for (int i = 0; i < iterations; i++)
             {
                 foreach (var sampleNum in selectedSamples)
                 {
-<<<<<<< HEAD
-<<<<<<< HEAD
                     ms_total += dbugCounter.Snap(sw, () =>
                     {
                         //HtmlRenderer.dbugCounter.dbugStartRecord = true;
@@ -573,25 +563,6 @@ namespace HtmlRenderer.Demo
                 }
 
             }
-=======
-=======
->>>>>>> v1.7.2094.1
-                     ms_total += dbugCounter.GCAndSnap(() =>
-                     {
-                         //HtmlRenderer.dbugCounter.dbugStartRecord = true;
-                         //HtmlRenderer.dbugCounter.dbugDrawStringCount = 0; 
-                         _htmlPanel.Text = _perfTestSamples[sampleNum];
-                         Application.DoEvents(); // so paint will be called
-
-                     });
-                }
-
-            }
-
-<<<<<<< HEAD
->>>>>>> v1.7.2094.1
-=======
->>>>>>> v1.7.2094.1
 
             long endMemory = 0;
             float totalMem = 0;
@@ -610,15 +581,7 @@ namespace HtmlRenderer.Demo
             var msg = string.Format("{0} HTMLs ({1:N0} KB)\r\n{2} Iterations", _perfTestSamples.Count, htmlSize, iterations);
             msg += "\r\n\r\n";
             msg += string.Format("CPU:\r\nTotal: {0} msec\r\nIterationAvg: {1:N2} msec\r\nSingleAvg: {2:N2} msec",
-<<<<<<< HEAD
-<<<<<<< HEAD
                                    ms_total, ms_total / iterations, ms_total / (double)iterations / _perfTestSamples.Count);
-=======
-                                    ms_total, ms_total / (double)iterations, ms_total / (double)iterations / _perfTestSamples.Count);
->>>>>>> v1.7.2094.1
-=======
-                                    ms_total, ms_total / (double)iterations, ms_total / (double)iterations / _perfTestSamples.Count);
->>>>>>> v1.7.2094.1
             msg += "\r\n\r\n";
             msg += string.Format("Memory:\r\nTotal: {0:N0} KB\r\nIterationAvg: {1:N0} KB\r\nSingleAvg: {2:N0} KB\r\nOverhead: {3:N0}%",
                                  totalMem, totalMem / iterations, totalMem / iterations / _perfTestSamples.Count, 100 * (totalMem / iterations) / htmlSize);
