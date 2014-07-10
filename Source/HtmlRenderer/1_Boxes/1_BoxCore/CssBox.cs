@@ -535,8 +535,7 @@ namespace HtmlRenderer.Dom
                             //-------------------------------------------
 
                             float localLeft = myContainingBlock.ClientLeft + this.ActualMarginLeft;
-                            float localTop = 0;
-
+                            float localTop = 0; 
                             var prevSibling = lay.LatestSiblingBox;
                             if (prevSibling == null)
                             {
@@ -715,32 +714,7 @@ namespace HtmlRenderer.Dom
                 }
             }
             this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
-        }
-
-
-
-
-        /// <summary>
-        /// Gets the specified Attribute, returns string.Empty if no attribute specified
-        /// </summary>
-        /// <param name="attribute">Attribute to retrieve</param>
-        /// <returns>Attribute value or string.Empty if no attribute specified</returns>
-        public string GetAttribute(string attribute)
-        {
-            return GetAttribute(attribute, string.Empty);
-        }
-
-        /// <summary>
-        /// Gets the value of the specified attribute of the source HTML tag.
-        /// </summary>
-        /// <param name="attribute">Attribute to retrieve</param>
-        /// <param name="defaultValue">Value to return if attribute is not specified</param>
-        /// <returns>Attribute value or defaultValue if no attribute specified</returns>
-        public string GetAttribute(string attribute, string defaultValue)
-        {
-            return HtmlElement != null ? HtmlElement.TryGetAttribute(attribute, defaultValue) : defaultValue;
-        }
-
+        } 
 
         /// <summary>
         /// Gets the minimum width that the box can be.

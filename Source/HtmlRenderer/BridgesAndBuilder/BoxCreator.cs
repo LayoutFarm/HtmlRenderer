@@ -95,8 +95,10 @@ namespace HtmlRenderer.Dom
             {
                 //create sub item collection
                 var subBoxs = new SubBoxCollection();
+                newBox.SubBoxes = subBoxs;
                 var itemBulletBox = new CssBox(null, null, spec.GetAnonVersion());
                 subBoxs.ListItemBulletBox = itemBulletBox;
+
                 CssBox.UnsafeSetParent(itemBulletBox, newBox, newBox.HtmlContainer);
                 CssBox.ChangeDisplayType(itemBulletBox, CssDisplay.Inline);
                 //---------------------------------------------------------------

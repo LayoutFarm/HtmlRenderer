@@ -200,6 +200,10 @@ namespace HtmlRenderer.Dom
             {
                 return this._subBoxes;
             }
+            set
+            {
+                this._subBoxes = value;
+            }
         }
 
         internal static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)

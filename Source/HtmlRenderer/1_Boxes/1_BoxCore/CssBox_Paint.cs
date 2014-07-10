@@ -186,8 +186,7 @@ namespace HtmlRenderer.Dom
                 {
                     p.PopLocalClipArea();
                 }
-                //------------------------------------------  
-
+                //------------------------------------------   
                 if (_subBoxes != null && _subBoxes.ListItemBulletBox != null)
                 {
                     _subBoxes.ListItemBulletBox.Paint(g, p);
