@@ -145,7 +145,7 @@ namespace HtmlRenderer
         /// <param name="attribute">attribute name to get by</param>
         /// <param name="defaultValue">optional: value to return if attribute is not specified</param>
         /// <returns>attribute value or null if not found</returns>
-        string TryGetAttribute(string attribute, string defaultValue = null);
+     
         System.Collections.Generic.IEnumerable<IHtmlAttribute> GetAttributeIter();
 
         string Id { get; }

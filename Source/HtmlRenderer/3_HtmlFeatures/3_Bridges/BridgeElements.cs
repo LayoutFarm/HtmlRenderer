@@ -37,20 +37,7 @@ namespace HtmlRenderer.Dom
                 return attr.Value;
             }
         }
-        public bool TryGetAttribute2(string attrName, out string value)
-        {
-            var attr = base.FindAttribute(attrName);
-            if (attr == null)
-            {
-                value = null;
-                return false;
-            }
-            else
-            {
-                value = attr.Value;
-                return true;
-            }
-        }
+        
     }
 
 

@@ -501,18 +501,7 @@ namespace HtmlRenderer.WebDom
             }
             set { this._style = value; }
         }
-        public string TryGetAttribute(string attrName, string defaultValue)
-        {
-            if (this.myAttributes != null)
-            {
-                var found = this.FindAttribute(attrName);
-                if (found != null)
-                {
-                    return found.Value;
-                }
-            }
-            return defaultValue;
-        }
+        
         public bool HasAttribute(string attrName)
         {
             return FindAttribute(attrName) != null;
@@ -529,6 +518,21 @@ namespace HtmlRenderer.WebDom
         {
             get;
             set;
+        }
+
+        public bool TryGetAttribute(string attrName, out string value)
+        {
+            var attr = this.FindAttribute(attrName);
+            if (attr == null)
+            {
+                value = null;
+                return false;
+            }
+            else
+            {
+                value = attr.Value;
+                return true;
+            }
         }
     }
 

@@ -16,7 +16,7 @@ namespace HtmlRenderer.Dom
 
     public static class BoxCreator
     {
-        static ContentTextSplitter splitter = new ContentTextSplitter();
+
 
         static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
         public static void RegisterCustomCssBoxGenerator(CustomCssBoxGenerator generator)
@@ -39,15 +39,149 @@ namespace HtmlRenderer.Dom
             }
             return null;
         }
+         
 
-        static CssBox CreateOtherPredefinedTableElement(CssBox parent,
-           BridgeHtmlElement childElement, CssDisplay selectedCssDisplayType)
+
+        static CssBox CreateImageBox(CssBox parent, BridgeHtmlElement childElement)
+        {
+            string imgsrc;
+            ImageBinder imgBinder = null;
+            if (childElement.TryGetAttribute("src", out imgsrc))
+            {
+                imgBinder = new ImageBinder(imgsrc);
+            }
+            else
+            {
+                imgBinder = new ImageBinder(null);
+            }
+            return new CssBoxImage(parent, childElement, childElement.Spec, imgBinder);
+        }
+
+        internal static CssBox CreateBox(CssBox parentBox, BridgeHtmlElement childElement)
+        {   
+            CssBox newBox = null;
+            //----------------------------------------- 
+            //1. create new box
+            //----------------------------------------- 
+            //some box has predefined behaviour
+            switch (childElement.WellknownTagName)
+            {
+
+                case WellknownHtmlTagName.br:
+                    //special treatment for br
+                    newBox = new CssBox(parentBox, childElement, childElement.Spec);
+                    CssBox.SetAsBrBox(newBox);
+                    CssBox.ChangeDisplayType(newBox, CssDisplay.BlockInsideInlineAfterCorrection);
+                    return newBox;
+
+                case WellknownHtmlTagName.img:
+                    return CreateImageBox(parentBox, childElement);
+
+                case WellknownHtmlTagName.hr:
+                    return new CssBoxHr(parentBox, childElement, childElement.Spec);
+
+                //-----------------------------------------------------
+                //TODO: simplify this ...
+                //table-display elements, fix display type
+                case WellknownHtmlTagName.td:
+                case WellknownHtmlTagName.th:
+                    newBox = TableBoxCreator.CreateTableCell(parentBox, childElement, true);
+                    return newBox;
+                case WellknownHtmlTagName.col:
+                    return TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, true, CssDisplay.TableColumn);
+                case WellknownHtmlTagName.colgroup:
+                    return TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, true, CssDisplay.TableColumnGroup);
+                case WellknownHtmlTagName.tr:
+                    return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableRow);
+                case WellknownHtmlTagName.tbody:
+                    return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableRowGroup);
+                case WellknownHtmlTagName.table:
+                    return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.Table);
+                case WellknownHtmlTagName.caption:
+                    return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableCaption);
+                case WellknownHtmlTagName.thead:
+                    return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableHeaderGroup);
+                case WellknownHtmlTagName.tfoot:
+                    return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableFooterGroup);
+                //---------------------------------------------------
+                //test extension box
+                case WellknownHtmlTagName.X:
+                    {
+                        newBox = CreateCustomBox(parentBox, childElement, childElement.Spec);
+                        if (newBox == null)
+                        {
+                            goto default;
+                        }
+                        return newBox;
+                    }
+                //---------------------------------------------------
+                default:
+                    BoxSpec childSpec = childElement.Spec;
+                    switch (childSpec.CssDisplay)
+                    {
+                        //not fixed display type
+                        case CssDisplay.TableCell:
+                            return TableBoxCreator.CreateTableCell(parentBox, childElement, false);
+                        case CssDisplay.TableColumn:
+                            return TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, false, CssDisplay.TableColumn);
+                        case CssDisplay.TableColumnGroup:
+                            return TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, false, CssDisplay.TableColumnGroup);
+                        case CssDisplay.ListItem:
+                            return ListItemBoxCreator.CreateListItemBox(parentBox, childElement);
+                        default:
+                            return newBox = new CssBox(parentBox, childElement, childElement.Spec);
+                    }
+            }
+        }
+
+        static CssBox CreateCustomBox(CssBox parent, IHtmlElement tag, BoxSpec boxspec)
+        {
+            for (int i = generators.Count - 1; i >= 0; --i)
+            {
+                var newbox = generators[i].CreateCssBox(tag, parent, boxspec);
+                if (newbox != null)
+                {
+                    return newbox;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Create new css block box.
+        /// </summary>
+        /// <returns>the new block box</returns>
+        internal static CssBox CreateRootBlock()
+        {
+            var spec = new BoxSpec();
+            spec.CssDisplay = CssDisplay.Block;
+            spec.Freeze();
+
+            var box = new CssBox(null, null, spec);
+            //------------------------------------
+            box.ReEvaluateFont(10);
+            //------------------------------------
+            return box;
+        }
+
+
+
+    }
+
+
+
+
+    static class TableBoxCreator
+    {
+
+        public static CssBox CreateOtherPredefinedTableElement(CssBox parent,
+            BridgeHtmlElement childElement, CssDisplay selectedCssDisplayType)
         {
             return new CssBox(parent, childElement, childElement.Spec, selectedCssDisplayType);
 
         }
 
-        static CssBox CreateTableColumnOrColumnGroup(CssBox parent,
+        public static CssBox CreateTableColumnOrColumnGroup(CssBox parent,
             BridgeHtmlElement childElement, bool fixDisplayType, CssDisplay selectedCssDisplayType)
         {
             CssBox col = null;
@@ -62,7 +196,7 @@ namespace HtmlRenderer.Dom
             }
             string spanValue;
             int spanNum = 1;//default
-            if (childElement.TryGetAttribute2("span", out spanValue))
+            if (childElement.TryGetAttribute("span", out spanValue))
             {
                 if (!int.TryParse(spanValue, out spanNum))
                 {
@@ -77,7 +211,7 @@ namespace HtmlRenderer.Dom
             col.SetRowColSpan(1, spanNum);
             return col;
         }
-        static CssBox CreateTableCell(CssBox parent, BridgeHtmlElement childElement, bool fixDisplayType)
+        public static CssBox CreateTableCell(CssBox parent, BridgeHtmlElement childElement, bool fixDisplayType)
         {
             CssBox tableCell = null;
             if (fixDisplayType)
@@ -92,7 +226,7 @@ namespace HtmlRenderer.Dom
             int nRowSpan = 1;
             int nColSpan = 1;
             string rowspan;
-            if (childElement.TryGetAttribute2("rowspan", out rowspan))
+            if (childElement.TryGetAttribute("rowspan", out rowspan))
             {
                 if (!int.TryParse(rowspan, out nRowSpan))
                 {
@@ -100,7 +234,7 @@ namespace HtmlRenderer.Dom
                 }
             }
             string colspan;
-            if (childElement.TryGetAttribute2("colspan", out colspan))
+            if (childElement.TryGetAttribute("colspan", out colspan))
             {
                 if (!int.TryParse(colspan, out nColSpan))
                 {
@@ -112,8 +246,16 @@ namespace HtmlRenderer.Dom
             return tableCell;
         }
 
+    }
 
-        static CssBox CreateListItemBox(CssBox parent, BridgeHtmlElement childElement)
+    static class ListItemBoxCreator
+    {
+        static readonly char[] discItem = new[] { '•' };
+        static readonly char[] circleItem = new[] { 'o' };
+        static readonly char[] squareItem = new[] { '♠' };
+        static ContentTextSplitter splitter = new ContentTextSplitter();
+
+        public static CssBox CreateListItemBox(CssBox parent, BridgeHtmlElement childElement)
         {
             var spec = childElement.Spec;
             var newBox = new CssBox(parent, childElement, spec);
@@ -126,7 +268,7 @@ namespace HtmlRenderer.Dom
                 var itemBulletBox = new CssBox(null, null, spec.GetAnonVersion());
                 subBoxs.ListItemBulletBox = itemBulletBox;
 
-                CssBox.UnsafeSetParent(itemBulletBox, newBox, null );
+                CssBox.UnsafeSetParent(itemBulletBox, newBox, null);
                 CssBox.ChangeDisplayType(itemBulletBox, CssDisplay.Inline);
                 //---------------------------------------------------------------
                 //set content of bullet 
@@ -184,12 +326,12 @@ namespace HtmlRenderer.Dom
 
             string reversedAttrValue;
             bool reversed = false;
-            if (parentNode.TryGetAttribute2("reversed", out reversedAttrValue))
+            if (parentNode.TryGetAttribute("reversed", out reversedAttrValue))
             {
                 reversed = true;
             }
             string startAttrValue;
-            if (!parentNode.TryGetAttribute2("start", out startAttrValue))
+            if (!parentNode.TryGetAttribute("start", out startAttrValue))
             {
                 //if not found
                 //TODO: not to loop count ?
@@ -219,165 +361,5 @@ namespace HtmlRenderer.Dom
             }
             return index;
         }
-
-
-        static CssBox CreateImageBox(CssBox parent, BridgeHtmlElement childElement)
-        {
-            string imgsrc;
-            ImageBinder imgBinder = null;
-            if (childElement.TryGetAttribute2("src", out imgsrc))
-            {
-                imgBinder = new ImageBinder(imgsrc);
-            }
-            else
-            {
-                imgBinder = new ImageBinder(null);
-            }
-            return new CssBoxImage(parent, childElement, childElement.Spec, imgBinder);
-        }
-
-        internal static CssBox CreateBox(CssBox parentBox, BridgeHtmlElement childElement)
-        {
-
-
-            //case WellknownHtmlTagName.table:
-
-            //        break;
-            //    case WellknownHtmlTagName.tr:
-
-            //        break;
-            //    case WellknownHtmlTagName.tbody:
-
-            //        break;
-            //    case WellknownHtmlTagName.thead:
-
-            //        break;
-            //    case WellknownHtmlTagName.tfoot:
-
-            //        break;
-            //    case WellknownHtmlTagName.col:
-            //        newdisplay = CssDisplay.TableColumn;
-            //        break;
-            //    case WellknownHtmlTagName.colgroup:
-            //        newdisplay = CssDisplay.TableColumnGroup;
-            //        break;
-            //    case WellknownHtmlTagName.td:
-            //    case WellknownHtmlTagName.th:
-            //        newdisplay = CssDisplay.TableCell;
-            //        break;
-            //    case WellknownHtmlTagName.caption:
-            //        newdisplay = CssDisplay.TableCaption;
-            //        break;
-
-
-            CssBox newBox = null;
-            //----------------------------------------- 
-            //1. create new box
-            //----------------------------------------- 
-            //some box has predefined behaviour
-            switch (childElement.WellknownTagName)
-            {
-
-                case WellknownHtmlTagName.br:
-                    //special treatment for br
-                    newBox = new CssBox(parentBox, childElement, childElement.Spec);
-                    CssBox.SetAsBrBox(newBox);
-                    CssBox.ChangeDisplayType(newBox, CssDisplay.BlockInsideInlineAfterCorrection);
-                    return newBox;
-
-                case WellknownHtmlTagName.img:
-                    return CreateImageBox(parentBox, childElement);
-
-                case WellknownHtmlTagName.hr:
-                    return new CssBoxHr(parentBox, childElement, childElement.Spec);
-
-                //-----------------------------------------------------
-                //TODO: simplify this ...
-                //table-display elements, fix display type
-                case WellknownHtmlTagName.td:
-                case WellknownHtmlTagName.th:
-                    newBox = CreateTableCell(parentBox, childElement, true);
-                    return newBox;
-                case WellknownHtmlTagName.col:
-                    return CreateTableColumnOrColumnGroup(parentBox, childElement, true, CssDisplay.TableColumn);
-                case WellknownHtmlTagName.colgroup:
-                    return CreateTableColumnOrColumnGroup(parentBox, childElement, true, CssDisplay.TableColumnGroup);
-                case WellknownHtmlTagName.tr:
-                    return CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableRow);
-                case WellknownHtmlTagName.tbody:
-                    return CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableRowGroup);
-                case WellknownHtmlTagName.table:
-                    return CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.Table);
-                case WellknownHtmlTagName.caption:
-                    return CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableCaption);
-                case WellknownHtmlTagName.thead:
-                    return CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableHeaderGroup);
-                case WellknownHtmlTagName.tfoot:
-                    return CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableFooterGroup);
-                //---------------------------------------------------
-                //test extension box
-                case WellknownHtmlTagName.X:
-                    {
-                        newBox = CreateCustomBox(parentBox, childElement, childElement.Spec);
-                        if (newBox == null)
-                        {
-                            goto default;
-                        }
-                        return newBox;
-                    }
-                //---------------------------------------------------
-                default:
-                    BoxSpec childSpec = childElement.Spec;
-                    switch (childSpec.CssDisplay)
-                    {
-                        //not fixed display type
-                        case CssDisplay.TableCell:
-                            return CreateTableCell(parentBox, childElement, false);
-                        case CssDisplay.TableColumn:
-                            return CreateTableColumnOrColumnGroup(parentBox, childElement, false, CssDisplay.TableColumn);
-                        case CssDisplay.TableColumnGroup:
-                            return CreateTableColumnOrColumnGroup(parentBox, childElement, false, CssDisplay.TableColumnGroup);
-                        case CssDisplay.ListItem:
-                            return CreateListItemBox(parentBox, childElement);
-                        default:
-                            return newBox = new CssBox(parentBox, childElement, childElement.Spec);
-                    }
-            }
-        }
-
-        static CssBox CreateCustomBox(CssBox parent, IHtmlElement tag, BoxSpec boxspec)
-        {
-            for (int i = generators.Count - 1; i >= 0; --i)
-            {
-                var newbox = generators[i].CreateCssBox(tag, parent, boxspec);
-                if (newbox != null)
-                {
-                    return newbox;
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Create new css block box.
-        /// </summary>
-        /// <returns>the new block box</returns>
-        internal static CssBox CreateRootBlock()
-        {
-            var spec = new BoxSpec();
-            spec.CssDisplay = CssDisplay.Block;
-            spec.Freeze();
-
-            var box = new CssBox(null, null, spec);
-            //------------------------------------
-            box.ReEvaluateFont(10);
-            //------------------------------------
-            return box;
-        }
-
-        static readonly char[] discItem = new[] { '•' };
-        static readonly char[] circleItem = new[] { 'o' };
-        static readonly char[] squareItem = new[] { '♠' };
-
     }
 }

@@ -548,7 +548,7 @@ namespace HtmlRenderer.Dom
             dbugTestParsePerformance(html);
 #endif
 
-           
+
             SetTextSelectionStyle(htmlContainer, cssData);
             OnePassBoxCorrection(rootBox);
             // });
@@ -601,9 +601,15 @@ namespace HtmlRenderer.Dom
             //0.
             curSpec.InheritStylesFrom(parentSpec);
 
+            string classValue;
+            if (!element.TryGetAttribute("class", out classValue))
+            {
+                classValue = null;
+            }
+
             //1. apply style  
             activeCssTemplate.ApplyActiveTemplate(element.Name,
-               element.TryGetAttribute("class", null),
+               classValue,
                curSpec,
                parentSpec);
             //-------------------------------------------------------------------                        
@@ -625,7 +631,7 @@ namespace HtmlRenderer.Dom
             //4. a style attribute value
             string attrStyleValue;
 
-            if (element.TryGetAttribute2("style", out attrStyleValue))
+            if (element.TryGetAttribute("style", out attrStyleValue))
             {
                 var ruleset = activeCssTemplate.ParseCssBlock(element.Name, attrStyleValue);
                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
