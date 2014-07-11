@@ -729,6 +729,7 @@ namespace HtmlRenderer.Css
             {
                 fsize = CssConstConfig.DEFAULT_FONT_SIZE;
             }
+           
 
             if (relateToParent)
             {

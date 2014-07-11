@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-using HtmlRenderer.Handlers;
+
 using HtmlRenderer.Utils;
 using HtmlRenderer.Css;
 
@@ -126,7 +126,7 @@ namespace HtmlRenderer.RenderDom
 
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
         {
-            HtmlRenderer.Handlers.BordersDrawHandler.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);
+            HtmlRenderer.RenderDom.BordersDrawHandler.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);
         }
         internal void PaintBorders(CssBox box, RectangleF rect)
         {

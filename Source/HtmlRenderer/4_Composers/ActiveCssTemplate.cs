@@ -3,7 +3,7 @@
 using System;
 using System.Drawing;
 using System.Collections.Generic;
-using HtmlRenderer.Css; 
+using HtmlRenderer.Css;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.RenderDom;
 
@@ -108,7 +108,7 @@ namespace HtmlRenderer.Composers
             if (!templatesForTagName.TryGetValue(key, out boxTemplate))
             {
                 //create template for specific key  
-                boxTemplate = new BoxSpec();
+                boxTemplate = new BoxSpec(); 
                 boxTemplate.CloneAllStylesFrom(currentBoxSpec);
 
                 currentBoxSpec.VersionNumber = parentSpec.VersionNumber;
@@ -171,7 +171,7 @@ namespace HtmlRenderer.Composers
                 currentBoxSpec.CloneAllStylesFrom(boxTemplate);
                 //*********** 
 
-            }           
+            }
 
         }
         enum AssignPropertySource

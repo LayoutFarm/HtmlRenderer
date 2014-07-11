@@ -368,6 +368,8 @@ namespace HtmlRenderer.WebDom
             get;
             set;
         }
+       
+        //------------------------------------------------------
         internal float AsNumber()
         {
             return this.number;

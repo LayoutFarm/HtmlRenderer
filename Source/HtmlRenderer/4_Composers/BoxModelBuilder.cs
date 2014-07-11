@@ -18,7 +18,7 @@ using System.Drawing;
 using System.Collections.Generic;
 
 using HtmlRenderer.Css;
-using HtmlRenderer.Handlers;
+
 using HtmlRenderer.WebDom;
 using HtmlRenderer.WebDom.Parser;
 using HtmlRenderer.RenderDom;

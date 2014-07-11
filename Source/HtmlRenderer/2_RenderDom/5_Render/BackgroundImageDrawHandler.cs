@@ -17,7 +17,7 @@ using HtmlRenderer.RenderDom;
 using HtmlRenderer.Utils;
 using HtmlRenderer.Css;
 
-namespace HtmlRenderer.Handlers
+namespace HtmlRenderer.RenderDom
 {
     /// <summary>
     /// Contains all the paint code to paint different background images.

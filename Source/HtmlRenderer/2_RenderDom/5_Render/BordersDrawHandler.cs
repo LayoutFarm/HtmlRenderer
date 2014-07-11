@@ -20,7 +20,7 @@ using HtmlRenderer.Css;
 using HtmlRenderer.RenderDom;
 using HtmlRenderer.Utils;
 
-namespace HtmlRenderer.Handlers
+namespace HtmlRenderer.RenderDom
 {
 
 

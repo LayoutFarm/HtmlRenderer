@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using HtmlRenderer.Utils;
-using HtmlRenderer.Handlers;
+
 
 namespace HtmlRenderer.RenderDom
 {

@@ -2,7 +2,7 @@
 using System;
 using System.Drawing;
 using System.Collections.Generic;
-using HtmlRenderer.Handlers;
+
 using HtmlRenderer.WebDom;
 using HtmlRenderer.Css;
 using HtmlRenderer.RenderDom;

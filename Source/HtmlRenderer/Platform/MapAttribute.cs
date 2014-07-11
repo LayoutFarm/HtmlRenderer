@@ -1,7 +1,5 @@
-﻿//2014 ,BSD, WinterDev
-
-using System;
-
+﻿//2014 ,BSD, WinterDev 
+using System; 
 namespace HtmlRenderer 
 {
      class MapAttribute : Attribute
