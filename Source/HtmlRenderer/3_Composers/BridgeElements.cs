@@ -11,7 +11,27 @@ using HtmlRenderer.RenderDom;
 
 namespace HtmlRenderer.Composers
 {
-
+    class BridgeHtmlDocument : HtmlDocument
+    {
+        HtmlElement rootNode;
+        public BridgeHtmlDocument()
+        {
+            rootNode = new BrigeRootElement(this);
+        }
+        public override HtmlElement RootNode
+        {
+            get
+            {
+                return rootNode;
+            }
+        }
+        public override HtmlElement CreateElement(string prefix, string localName)
+        {
+            return new BridgeHtmlElement(this,
+                AddStringIfNotExists(prefix),
+                AddStringIfNotExists(localName));
+        }
+    }
     enum WellknownElementName : byte
     {
         NotAssign, //extension , for anonymous element

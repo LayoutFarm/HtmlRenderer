@@ -3,27 +3,7 @@ using HtmlRenderer.RenderDom;
 using HtmlRenderer.Composers;
 namespace HtmlRenderer.WebDom
 {   
-    class HtmlDocumentImpl : HtmlDocument
-    {   
-        HtmlElement rootNode;
-        public HtmlDocumentImpl()
-        {
-            rootNode = new BrigeRootElement(this);
-        }
-        public override HtmlElement RootNode
-        {
-            get
-            {
-                return rootNode;
-            }
-        }
-        public override HtmlElement CreateElement(string prefix, string localName)
-        {
-            return new BridgeHtmlElement(this,
-                AddStringIfNotExists(prefix),
-                AddStringIfNotExists(localName));
-        }
-    }
+   
 
 
     public abstract class HtmlDocument

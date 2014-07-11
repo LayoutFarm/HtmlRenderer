@@ -1,8 +1,8 @@
 ﻿//BSD  2014 ,WinterDev
 
-using System; 
+using System;
 using System.Collections.Generic;
-using System.Text; 
+using System.Text;
 
 namespace HtmlRenderer.WebDom.Parser
 {
@@ -225,12 +225,12 @@ namespace HtmlRenderer.WebDom.Parser
             //1. lex 
             lexer.BeginLex();
             //2. mini parser   
-            HtmlDocumentImpl htmldoc = new HtmlDocumentImpl();
+
+            var htmldoc = new HtmlRenderer.Composers.BridgeHtmlDocument();
             this.curHtmlNode = htmldoc.RootNode;
             this._resultHtmlDoc = htmldoc;
             lexer.Analyze(textSnapshot);
             lexer.EndLex();
-
         }
 
 
