@@ -17,7 +17,7 @@ using System.Windows.Forms;
 using HtmlRenderer.Entities;
  
 using HtmlRenderer.Utils;
-
+using HtmlRenderer.Css;
 namespace HtmlRenderer
 {
     /// <summary>
@@ -197,7 +197,7 @@ namespace HtmlRenderer
             set
             {
                 _baseRawCssData = value;
-                _baseCssData = CssParser.ParseStyleSheet(value, true);
+                _baseCssData =Dom.CssParser.ParseStyleSheet(value, true);
             }
         }
 

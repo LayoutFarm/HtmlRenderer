@@ -16,7 +16,7 @@ using System.ComponentModel;
 using System.Drawing.Text;
 using System.Windows.Forms;
 using HtmlRenderer.Entities;
- 
+using HtmlRenderer.Css; 
 
 namespace HtmlRenderer
 {
@@ -184,7 +184,7 @@ namespace HtmlRenderer
             set
             {
                 _baseRawCssData = value;
-                _baseCssData = CssParser.ParseStyleSheet(value, true);
+                _baseCssData = Dom.CssParser.ParseStyleSheet(value, true);
             }
         }
 

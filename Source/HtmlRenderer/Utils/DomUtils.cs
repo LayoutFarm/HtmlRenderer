@@ -334,7 +334,7 @@ namespace HtmlRenderer.Utils
                 switch (box.CssDisplay)
                 {
 
-                    case CssDisplay.TableRow:
+                    case Css.CssDisplay.TableRow:
                         {
 
                             foreach (var childBox in box.GetChildBoxIter())
@@ -542,7 +542,7 @@ namespace HtmlRenderer.Utils
         /// <returns>css word box if exists or null</returns>
         public static CssRun GetCssBoxWord(CssBox box, Point location)
         {
-            if (box == null || box.Visibility != CssVisibility.Visible)
+            if (box == null || box.Visibility != Css.CssVisibility.Visible)
             {
                 return null;
             }
@@ -1025,7 +1025,7 @@ namespace HtmlRenderer.Utils
         /// <param name="sb">the string builder to write stylesheet into</param>
         /// <param name="cssData">the css data to write to the head</param>
         /// <param name="indent">the indent to use for nice formating</param>
-        private static void WriteStylesheet(StringBuilder sb, CssActiveSheet cssData, int indent)
+        private static void WriteStylesheet(StringBuilder sb, Css.CssActiveSheet cssData, int indent)
         {
             //wait for another technique
             throw new NotSupportedException("wait for another technique");

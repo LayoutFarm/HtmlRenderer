@@ -17,7 +17,7 @@ using System.Drawing.Imaging;
 using System.Drawing.Text;
 using HtmlRenderer.Entities;
 using HtmlRenderer.Utils;
-
+using HtmlRenderer.Css;
 namespace HtmlRenderer
 {
     /// <summary>

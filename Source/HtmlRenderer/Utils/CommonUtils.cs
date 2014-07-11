@@ -292,32 +292,32 @@ namespace HtmlRenderer.Utils
         /// <param name="number">the number to convert</param>
         /// <param name="style">the css style to convert by</param>
         /// <returns>converted string</returns>
-        public static string ConvertToAlphaNumber(int number, HtmlRenderer.Dom.CssListStyleType style) // =   string style = CssConstants.UpperAlpha)
+        public static string ConvertToAlphaNumber(int number, HtmlRenderer.Css.CssListStyleType style) // =   string style = CssConstants.UpperAlpha)
         {
             if (number == 0)
                 return string.Empty;
             switch (style)
             {
-                case Dom.CssListStyleType.LowerGreek:
+                case Css.CssListStyleType.LowerGreek:
                     return ConvertToGreekNumber(number);
-                case Dom.CssListStyleType.LowerRoman:
+                case Css.CssListStyleType.LowerRoman:
                     return ConvertToRomanNumbers(number, true);
-                case Dom.CssListStyleType.UpperRoman:
+                case Css.CssListStyleType.UpperRoman:
                     return ConvertToRomanNumbers(number, false);
-                case Dom.CssListStyleType.Armenian:
+                case Css.CssListStyleType.Armenian:
                     return ConvertToSpecificNumbers(number, _armenianDigitsTable);
-                case Dom.CssListStyleType.Georgian:
+                case Css.CssListStyleType.Georgian:
                     return ConvertToSpecificNumbers(number, _georgianDigitsTable);
-                case Dom.CssListStyleType.Hebrew:
+                case Css.CssListStyleType.Hebrew:
                       return ConvertToSpecificNumbers(number, _hebrewDigitsTable);
-                case Dom.CssListStyleType.Hiragana:
-                case Dom.CssListStyleType.HiraganaIroha:
+                case Css.CssListStyleType.Hiragana:
+                case Css.CssListStyleType.HiraganaIroha:
                     return ConvertToSpecificNumbers2(number, _hiraganaDigitsTable);
-                case Dom.CssListStyleType.Katakana:
-                case Dom.CssListStyleType.KatakanaIroha:
+                case Css.CssListStyleType.Katakana:
+                case Css.CssListStyleType.KatakanaIroha:
                    return ConvertToSpecificNumbers2(number, _satakanaDigitsTable);
-                case Dom.CssListStyleType.LowerAlpha:
-                case Dom.CssListStyleType.LowerLatin:
+                case Css.CssListStyleType.LowerAlpha:
+                case Css.CssListStyleType.LowerLatin:
                     return ConvertToEnglishNumber(number, true);
                 default:
                     return ConvertToEnglishNumber(number, false);

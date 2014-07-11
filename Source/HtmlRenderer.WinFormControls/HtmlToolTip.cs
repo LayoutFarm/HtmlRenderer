@@ -15,7 +15,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using HtmlRenderer.Entities;
- 
+
 using HtmlRenderer.Utils;
 
 namespace HtmlRenderer
@@ -40,7 +40,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the base stylesheet data used in the panel
         /// </summary>
-        private CssActiveSheet _baseCssData;
+        private Css.CssActiveSheet _baseCssData;
 
         /// <summary>
         /// timer used to handle mouse move events when mouse is over the tooltip.<br/>
@@ -137,7 +137,7 @@ namespace HtmlRenderer
             set
             {
                 _baseRawCssData = value;
-                _baseCssData = CssParser.ParseStyleSheet(value, true);
+                _baseCssData = Dom.CssParser.ParseStyleSheet(value, true);
             }
         }
 

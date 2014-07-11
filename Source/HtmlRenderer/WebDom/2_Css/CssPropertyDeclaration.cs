@@ -1,9 +1,9 @@
 ﻿//BSD  2014 ,WinterDev 
-using System; 
+using System;
 using System.Collections.Generic;
-using System.Text; 
+using System.Text;
 using HtmlRenderer.Dom;
-
+using HtmlRenderer.Css;
 namespace HtmlRenderer.WebDom
 {
 
@@ -15,7 +15,7 @@ namespace HtmlRenderer.WebDom
         bool isAutoGen = false;
 
 
-        bool markedAsInherit;        
+        bool markedAsInherit;
         bool isExpand = false;
 
         CssCodeValueExpression propertyValue;
@@ -357,9 +357,10 @@ namespace HtmlRenderer.WebDom
             get;
             private set;
         }
+
         CssValueEvaluatedAs evaluatedAs;
         System.Drawing.Color cachedColor;
-        HtmlRenderer.Dom.CssLength cachedLength;
+        HtmlRenderer.Css.CssLength cachedLength;
         int cachedInt;
         protected float number;
 
