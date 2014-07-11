@@ -39,11 +39,11 @@ namespace HtmlRenderer.Dom
         }
 
 #if DEBUG
-        internal BridgeHtmlElement dbugAnonCreator
-        {
-            get;
-            set;
-        }
+        //internal BridgeHtmlElement dbugAnonCreator
+        //{
+        //    get;
+        //    set;
+        //}
 
         internal static object debugGetController(CssBox box)
         {

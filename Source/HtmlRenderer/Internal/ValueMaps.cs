@@ -3,14 +3,13 @@
 using System; 
 using System.Collections.Generic;
 
-namespace HtmlRenderer
+namespace HtmlRenderer.Internal
 {
   
 
     class ValueMap<T>
     {
-        static Type mapNameAttrType = typeof(MapAttribute);
-
+        static Type mapNameAttrType = typeof(MapAttribute); 
         readonly Dictionary<string, T> stringToValue;
         readonly Dictionary<T, string> valueToString;
         public ValueMap()

@@ -35,7 +35,7 @@ namespace HtmlRenderer.Utils
         /// <summary>
         /// default CSS parsed data singleton
         /// </summary>
-        private static CssActiveSheet _defaultCssData;
+        private static WebDom.CssActiveSheet _defaultCssData;
 
 
         #endregion
@@ -44,13 +44,13 @@ namespace HtmlRenderer.Utils
         /// <summary>
         /// default CSS parsed data singleton
         /// </summary>
-        public static CssActiveSheet DefaultCssData
+        public static WebDom.CssActiveSheet DefaultCssData
         {
             get
             {
                 if (_defaultCssData == null)
                 {
-                    _defaultCssData = new CssActiveSheet();
+                    _defaultCssData = new WebDom.CssActiveSheet();
                     CssParser.ParseStyleSheet(_defaultCssData, CssDefaults.DefaultStyleSheet);
                 }
                 return _defaultCssData;

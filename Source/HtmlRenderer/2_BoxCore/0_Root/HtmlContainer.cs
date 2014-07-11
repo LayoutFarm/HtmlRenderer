@@ -88,9 +88,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the root css box of the parsed html
         /// </summary>
-        private CssBox _root;
-
-         
+        private CssBox _rootBox; 
         /// <summary>
         /// the text fore color use for selected text
         /// </summary>
@@ -104,7 +102,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the parsed stylesheet data used for handling the html
         /// </summary>
-        private CssActiveSheet _cssData;
+        private WebDom.CssActiveSheet _cssData;
 
         /// <summary>
         /// Is content selection is enabled for the rendered html (default - true).<br/>
@@ -157,15 +155,11 @@ namespace HtmlRenderer
         /// <summary>
         /// The actual size of the rendered html (after layout)
         /// </summary>
-        //private SizeF _actualSize;
+
         float _actualWidth;
         float _actualHeight;
-
-
-        HtmlRenderer.Dom.SelectionRange selRange;
+        SelectionRange selRange;
         #endregion
-
-
 
         /// <summary>
         /// Raised when html renderer requires refresh of the control hosting (invalidation and re-layout).
@@ -213,12 +207,12 @@ namespace HtmlRenderer
         /// <summary>
         /// the parsed stylesheet data used for handling the html
         /// </summary>
-        public CssActiveSheet CssData
+        public WebDom.CssActiveSheet CssData
         {
             get { return _cssData; }
         }
 
-       
+
         public HtmlRenderer.Dom.SelectionRange SelectionRange
         {
             get
@@ -307,25 +301,7 @@ namespace HtmlRenderer
             }
         }
 
-        /// <summary>
-        /// Is content selection is enabled for the rendered html (default - true).<br/>
-        /// If set to 'false' the rendered html will be static only with ability to click on links.
-        /// </summary>
-        public bool IsSelectionEnabled
-        {
-            get { return _isSelectionEnabled; }
-            set { _isSelectionEnabled = value; }
-        }
-
-        /// <summary>
-        /// Is the build-in context menu enabled and will be shown on mouse right click (default - true)
-        /// </summary>
-        public bool IsContextMenuEnabled
-        {
-            get { return _isContextMenuEnabled; }
-            set { _isContextMenuEnabled = value; }
-        }
-
+      
         /// <summary>
         /// The scroll offset of the html.<br/>
         /// This will adjust the rendered html by the given offset so the content will be "scrolled".<br/>
@@ -380,24 +356,14 @@ namespace HtmlRenderer
             {
                 this._actualHeight = newHeight;
             }
-        }
-
-        public abstract string SelectedText
-        {
-            get;
-        }
-        public abstract string SelectedHtml
-        {
-            get;
-        }
-
+        } 
 
         /// <summary>
         /// the root css box of the parsed html
         /// </summary>
         internal CssBox Root
         {
-            get { return _root; }
+            get { return _rootBox; }
         }
 
         /// <summary>
@@ -423,13 +389,13 @@ namespace HtmlRenderer
         /// </summary>
         /// <param name="htmlSource">the html to init with, init empty if not given</param>
         /// <param name="baseCssData">optional: the stylesheet to init with, init default if not given</param>
-        public void SetHtml(string htmlSource, CssActiveSheet baseCssData = null)
+        public void SetHtml(string htmlSource, WebDom.CssActiveSheet baseCssData = null)
         {
 
-            if (_root != null)
+            if (_rootBox != null)
             {
 
-                _root = null;
+                _rootBox = null;
                 //---------------------------
                 this.OnRootDisposed();
             }
@@ -438,10 +404,10 @@ namespace HtmlRenderer
             {
 
                 _cssData = baseCssData ?? CssUtils.DefaultCssData;
-                _root = BoxModelBuilder.ParseAndBuildBoxTree(htmlSource, this, _cssData);
-                if (_root != null)
+                _rootBox = BoxModelBuilder.ParseAndBuildBoxTree(htmlSource, this, _cssData);
+                if (_rootBox != null)
                 {
-                    this.OnRootCreated(_root);
+                    this.OnRootCreated(_rootBox);
                 }
             }
 
@@ -456,15 +422,19 @@ namespace HtmlRenderer
         protected virtual void OnAllDisposed()
         {
         }
-        /// <summary>
-        /// Get html from the current DOM tree with style if requested.
-        /// </summary>
-        /// <param name="styleGen">Optional: controls the way styles are generated when html is generated (default: <see cref="HtmlGenerationStyle.Inline"/>)</param>
-        /// <returns>generated html</returns>
-        public string GetHtml(HtmlGenerationStyle styleGen = HtmlGenerationStyle.Inline)
-        {
-            return DomUtils.GenerateHtml(_root, styleGen);
-        }
+
+
+
+
+        ///// <summary>
+        ///// Get html from the current DOM tree with style if requested.
+        ///// </summary>
+        ///// <param name="styleGen">Optional: controls the way styles are generated when html is generated (default: <see cref="HtmlGenerationStyle.Inline"/>)</param>
+        ///// <returns>generated html</returns>
+        //public string GetHtml(HtmlGenerationStyle styleGen = HtmlGenerationStyle.Inline)
+        //{
+        //    return DomUtils.GenerateHtml(_rootBox, styleGen);
+        //}
 
         ///// <summary>
         ///// Get attribute value of element at the given x,y location by given key.<br/>
@@ -499,45 +469,35 @@ namespace HtmlRenderer
             //ArgChecker.AssertArgNotNullOrEmpty(elementId, "elementId");
             //var box = DomUtils.GetBoxById(_root, elementId.ToLower());
             //return box != null ? CommonUtils.GetFirstValueOrDefault(box.Rectangles, box.Bounds) : (RectangleF?)null;
-        }
-
-
+        } 
         public void PerformLayout(IGraphics ig)
         {
-            //ArgChecker.AssertArgNotNull(ig, "g");
-
-            //if (_root != null)
-            //{
-            //    using (var ig = new WinGraphics(g, _useGdiPlusTextRendering))
-            //    {
-
-
-            if (this._root == null)
+        
+            if (this._rootBox == null)
             {
                 return;
             }
-            //-----------------------
-
+            //----------------------- 
             _actualWidth = _actualHeight = 0;
             // if width is not restricted we set it to large value to get the actual later             
 
-            _root.SetLocation(_location.X, _location.Y);
-            _root.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
+            _rootBox.SetLocation(_location.X, _location.Y);
+            _rootBox.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
 
-            CssBox.ValidateComputeValues(_root);
+            CssBox.ValidateComputeValues(_rootBox);
             LayoutVisitor layoutArgs = new LayoutVisitor(ig, this);
-            layoutArgs.PushContaingBlock(_root);
+            layoutArgs.PushContaingBlock(_rootBox);
 
-            _root.PerformLayout(layoutArgs);
+            _rootBox.PerformLayout(layoutArgs);
 
             if (_maxSize.Width <= 0.1)
             {
                 // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
 
 
-                _root.SetWidth((int)Math.Ceiling(this._actualWidth));
+                _rootBox.SetWidth((int)Math.Ceiling(this._actualWidth));
                 _actualWidth = _actualHeight = 0;
-                _root.PerformLayout(layoutArgs);
+                _rootBox.PerformLayout(layoutArgs);
             }
             layoutArgs.PopContainingBlock();
 
@@ -554,7 +514,7 @@ namespace HtmlRenderer
         /// <param name="g"></param>
         public void PerformPaint(IGraphics ig)
         {
-            if (_root == null)
+            if (_rootBox == null)
             {
                 return;
             }
@@ -570,11 +530,11 @@ namespace HtmlRenderer
 
             ig.SetCanvasOrigin(scX, scY);
 
-            args.PushContaingBlock(_root);
+            args.PushContaingBlock(_rootBox);
             args.SetPhysicalViewportBound(0, 0, physicalViewportSize.Width, physicalViewportSize.Height);
 
 
-            _root.Paint(ig, args);
+            _rootBox.Paint(ig, args);
 
 
             args.PopContainingBlock();
@@ -693,7 +653,8 @@ namespace HtmlRenderer
                 }
             }
             catch
-            { }
+            { 
+            }
         }
 
 
@@ -743,8 +704,6 @@ namespace HtmlRenderer
                 if (all)
                 {
                     this.OnAllDisposed();
-
-
                     Refresh = null;
                     RenderError = null;
                     StylesheetLoadingRequest = null;
@@ -752,10 +711,10 @@ namespace HtmlRenderer
                 }
 
                 _cssData = null;
-                if (_root != null)
+                if (_rootBox != null)
                 {
 
-                    _root = null;
+                    _rootBox = null;
                     this.OnRootDisposed();
                 }
 

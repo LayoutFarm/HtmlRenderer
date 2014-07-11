@@ -75,7 +75,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the base stylesheet data used in the control
         /// </summary>
-        private CssActiveSheet _baseCssData;
+        private WebDom.CssActiveSheet _baseCssData;
 
         #endregion
 
@@ -280,7 +280,6 @@ namespace HtmlRenderer
         /// <param name="elementId">the id of the element to scroll to</param>
         public void ScrollToElement(string elementId)
         {
-
             if (_htmlContainer != null)
             {
                 var rect = _htmlContainer.GetElementRectangle(elementId);

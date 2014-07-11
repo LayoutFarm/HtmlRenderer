@@ -40,8 +40,8 @@ namespace HtmlRenderer.Handlers
         /// <param name="stylesheetData">return stylesheet data object that was provided by overwrite (null if failed or <paramref name="stylesheet"/> is given)</param>
         public static void LoadStylesheet(HtmlContainer htmlContainer, 
             string src, 
-            out string stylesheet, 
-            out Css.CssActiveSheet stylesheetData)
+            out string stylesheet,
+            out WebDom.CssActiveSheet stylesheetData)
         {
              
 

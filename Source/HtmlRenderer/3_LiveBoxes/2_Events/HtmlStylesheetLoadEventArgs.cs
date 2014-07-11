@@ -15,7 +15,7 @@
 
 using System;
 using System.Collections.Generic;
-
+using HtmlRenderer.WebDom;
 namespace HtmlRenderer.Entities
 {
     /// <summary>
@@ -32,7 +32,7 @@ namespace HtmlRenderer.Entities
         /// the source of the stylesheet as found in the HTML (file path or URL)
         /// </summary>
         private readonly string _src;
- 
+
         /// <summary>
         /// provide the new source (file path or URL) to load stylesheet from
         /// </summary>
@@ -46,7 +46,7 @@ namespace HtmlRenderer.Entities
         /// <summary>
         /// provide the stylesheet data to load
         /// </summary>
-        private Css.CssActiveSheet _setStyleSheetData;
+        private CssActiveSheet _setStyleSheetData;
 
         #endregion
 
@@ -58,7 +58,7 @@ namespace HtmlRenderer.Entities
         /// <param name="attributes">collection of all the attributes that are defined on the image element</param>
         internal HtmlStylesheetLoadEventArgs(string src)
         {
-            _src = src; 
+            _src = src;
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace HtmlRenderer.Entities
         /// <summary>
         /// provide the stylesheet data to load
         /// </summary>
-        public Css.CssActiveSheet SetStyleSheetData
+        public WebDom.CssActiveSheet SetStyleSheetData
         {
             get { return _setStyleSheetData; }
             set { _setStyleSheetData = value; }

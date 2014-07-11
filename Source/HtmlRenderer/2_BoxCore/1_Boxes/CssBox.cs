@@ -603,7 +603,7 @@ namespace HtmlRenderer.Dom
                                         //------------------------------------------------
 
                                         float width = this.CalculateActualWidth();
-                                        if (lay.ContainerBlockGlobalX + width > ConstConfig.BOX_MAX_RIGHT)
+                                        if (lay.ContainerBlockGlobalX + width > CssBoxConstConfig.BOX_MAX_RIGHT)
                                         {
 
                                         }

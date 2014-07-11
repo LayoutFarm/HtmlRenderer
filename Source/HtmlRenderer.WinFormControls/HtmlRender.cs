@@ -17,7 +17,8 @@ using System.Drawing.Imaging;
 using System.Drawing.Text;
 using HtmlRenderer.Entities;
 using HtmlRenderer.Utils;
-using HtmlRenderer.Css;
+using HtmlRenderer.WebDom;
+
 namespace HtmlRenderer
 {
     /// <summary>
@@ -128,7 +129,7 @@ namespace HtmlRenderer
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the size required for the html</returns>
         public static SizeF Measure(Graphics g, string html, HtmlContainer container,
-            float maxWidth = 0, CssActiveSheet cssData = null,
+            float maxWidth = 0,  CssActiveSheet cssData = null,
             EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, 
             EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad = null)
         {

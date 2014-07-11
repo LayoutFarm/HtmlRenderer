@@ -99,7 +99,7 @@ namespace HtmlRenderer.Dom
             }
 
 
-            if (width < minwidth || width >= ConstConfig.TABLE_MAX_WIDTH)
+            if (width < minwidth || width >= CssBoxConstConfig.TABLE_MAX_WIDTH)
             {
                 width = minwidth;
             }

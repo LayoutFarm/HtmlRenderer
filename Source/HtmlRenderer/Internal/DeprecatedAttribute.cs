@@ -1,10 +1,9 @@
 ﻿//2014 ,BSD, WinterDev
 
 using System; 
-
-namespace HtmlRenderer
+namespace HtmlRenderer.Internal
 {
-    public class FeatureDeprecatedAttribute : Attribute
+    class FeatureDeprecatedAttribute : Attribute
     {
         public FeatureDeprecatedAttribute()
         {

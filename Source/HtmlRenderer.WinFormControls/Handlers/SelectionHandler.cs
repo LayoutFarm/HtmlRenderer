@@ -115,12 +115,12 @@ namespace HtmlRenderer.Handlers
 
         #endregion
 
-        HtmlContainer container;
+        HtmlContainerImpl container;
         /// <summary>
         /// Init.
         /// </summary>
         /// <param name="root">the root of the handled html tree</param>
-        public SelectionHandler(CssBox root, HtmlContainer container)
+        public SelectionHandler(CssBox root, HtmlContainerImpl container)
         {
 
             this.container = container;
@@ -460,7 +460,7 @@ namespace HtmlRenderer.Handlers
             if (this.container.SelectionRange != null)
             {
                 this.container.SelectionRange = null;
-            } 
+            }
             this.container.SelectionRange = new Dom.SelectionRange(_latestMouseDownHitChain, hitChain, g);
         }
 

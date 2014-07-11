@@ -81,7 +81,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the base stylesheet data used in the panel
         /// </summary>
-        private CssActiveSheet _baseCssData;
+        private WebDom.CssActiveSheet _baseCssData;
 
         /// <summary>
         /// is to handle auto size of the control height only
@@ -307,7 +307,8 @@ namespace HtmlRenderer
         /// <returns>generated html</returns>
         public string GetHtml()
         {
-            return _htmlContainer != null ? _htmlContainer.GetHtml() : null;
+            throw new NotSupportedException();
+            //return _htmlContainer != null ? _htmlContainer.GetHtml() : null;
         }
 
         /// <summary>

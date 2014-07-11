@@ -21,7 +21,7 @@ namespace HtmlRenderer.Dom
         HtmlContainer container;
         IGraphics ig;
 
-        RectangleF latestClip = new RectangleF(0, 0, ConstConfig.BOX_MAX_RIGHT, ConstConfig.BOX_MAX_BOTTOM);
+        RectangleF latestClip = new RectangleF(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
 
         float physicalViewportWidth;
         float physicalViewportHeight;

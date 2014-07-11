@@ -1,7 +1,6 @@
 ﻿//BSD 2014, WinterDev
 
 using System;
-
 using HtmlRenderer.Css;
 namespace HtmlRenderer.Dom
 {
@@ -11,6 +10,7 @@ namespace HtmlRenderer.Dom
         HtmlContainer htmlContainer;
         float totalMarginLeftAndRight;
         ContentTextSplitter contentTextSplitter;
+        
 
         internal LayoutVisitor(IGraphics gfx, HtmlContainer htmlContainer)
         {
@@ -18,19 +18,15 @@ namespace HtmlRenderer.Dom
             this.htmlContainer = htmlContainer;
         }
 
-        internal HtmlContainer HtmlContainer
-        {
-            get { return this.htmlContainer; }
-        }
-
+       
         internal ContentTextSplitter GetSplitter()
-        {    
-           
+        {
+
             if (contentTextSplitter == null)
             {
                 return contentTextSplitter = new ContentTextSplitter();
             }
-            return contentTextSplitter;  
+            return contentTextSplitter;
         }
 
         internal IGraphics Gfx
@@ -55,7 +51,7 @@ namespace HtmlRenderer.Dom
         internal void UpdateRootSize(CssBox box)
         {
             float candidateRootWidth = Math.Max(box.CalculateMinimumWidth() + CalculateWidthMarginTotalUp(box),
-                         (box.SizeWidth + this.ContainerBlockGlobalX) < ConstConfig.BOX_MAX_RIGHT ? box.SizeWidth : 0);
+                         (box.SizeWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.SizeWidth : 0);
 
             this.htmlContainer.UpdateSizeIfWiderOrHeigher(
                 this.ContainerBlockGlobalX + candidateRootWidth,
@@ -69,8 +65,8 @@ namespace HtmlRenderer.Dom
         float CalculateWidthMarginTotalUp(CssBox box)
         {
 
-            if ((box.SizeWidth + this.ContainerBlockGlobalX) > ConstConfig.BOX_MAX_RIGHT ||
-                (box.ParentBox != null && (box.ParentBox.SizeWidth + this.ContainerBlockGlobalX) > ConstConfig.BOX_MAX_RIGHT))
+            if ((box.SizeWidth + this.ContainerBlockGlobalX) > CssBoxConstConfig.BOX_MAX_RIGHT ||
+                (box.ParentBox != null && (box.ParentBox.SizeWidth + this.ContainerBlockGlobalX) > CssBoxConstConfig.BOX_MAX_RIGHT))
             {
                 return (box.ActualMarginLeft + box.ActualMarginRight) + totalMarginLeftAndRight;
             }
@@ -96,7 +92,7 @@ namespace HtmlRenderer.Dom
             float w = HtmlRenderer.Utils.FontsUtils.MeasureWhitespace(this.Gfx, box.ActualFont);
             if (!(box.WordSpacing.IsEmpty || box.WordSpacing.IsNormalWordSpacing))
             {
-                w +=  CssValueParser.ConvertToPxWithFontAdjust(box.WordSpacing, 0, box);
+                w += CssValueParser.ConvertToPxWithFontAdjust(box.WordSpacing, 0, box);
             }
             return w;
         }

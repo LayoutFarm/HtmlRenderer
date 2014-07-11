@@ -486,23 +486,23 @@ namespace HtmlRenderer.Dom
             }
             else
             {
-                if (box.dbugAnonCreator != null)
-                {
-                    if (!BoxSpec.dbugCompare(
-                    rep,
-                    box.dbugAnonCreator.Spec.GetAnonVersion(),
-                    curSpec))
-                    {
-                        //foreach (string s in rep.GetList())
-                        //{
-                        //    Console.WriteLine(prefix + s);
-                        //}
-                    }
-                }
-                else
-                {
+                //if (box.dbugAnonCreator != null)
+                //{
+                //    if (!BoxSpec.dbugCompare(
+                //    rep,
+                //    box.dbugAnonCreator.Spec.GetAnonVersion(),
+                //    curSpec))
+                //    {
+                //        //foreach (string s in rep.GetList())
+                //        //{
+                //        //    Console.WriteLine(prefix + s);
+                //        //}
+                //    }
+                //}
+                //else
+                //{
 
-                }
+                //}
             }
 
         }

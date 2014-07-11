@@ -1,9 +1,9 @@
 ﻿//BSD 2010-2014 ,WinterDev
 
 using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 
-namespace HtmlRenderer 
+namespace HtmlRenderer.WebDom
 {
      
     class UniqueStringTable

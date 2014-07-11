@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using HtmlRenderer.Entities;
 using HtmlRenderer.Utils;
 
-namespace HtmlRenderer.Css
+namespace HtmlRenderer.WebDom
 {
 
     public class CssActiveSheet
@@ -465,9 +465,9 @@ namespace HtmlRenderer.Css
         {
             this.owner = owner;
         }
-        internal void LoadRuleSet(WebDom.CssRuleSet ruleSet)
+        internal void LoadRuleSet(CssRuleSet ruleSet)
         {
-            foreach (WebDom.CssPropertyDeclaration otherAssignment in ruleSet.GetAssignmentIter())
+            foreach (CssPropertyDeclaration otherAssignment in ruleSet.GetAssignmentIter())
             {
                 if (otherAssignment.WellknownPropertyName == WebDom.WellknownCssPropertyName.Unknown)
                 {
@@ -488,7 +488,7 @@ namespace HtmlRenderer.Css
         public CssPropertyAssignmentCollection Clone(object newOwner)
         {
             CssPropertyAssignmentCollection newclone = new CssPropertyAssignmentCollection(newOwner);
-            Dictionary<HtmlRenderer.WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration> newCloneDic = newclone._myAssignments;
+            Dictionary<WellknownCssPropertyName, WebDom.CssPropertyDeclaration> newCloneDic = newclone._myAssignments;
             foreach (var kp in this._myAssignments)
             {
                 newCloneDic.Add(kp.Key, kp.Value);
@@ -498,17 +498,16 @@ namespace HtmlRenderer.Css
         public void MergeProperties(CssPropertyAssignmentCollection sourceCollection)
         {
 
-            Dictionary<HtmlRenderer.WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration> fromDic = sourceCollection._myAssignments;
-            Dictionary<HtmlRenderer.WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration> targetDic = this._myAssignments;
-            foreach (WebDom.CssPropertyDeclaration sourceAssignment in fromDic.Values)
+            Dictionary<WellknownCssPropertyName, CssPropertyDeclaration> fromDic = sourceCollection._myAssignments;
+            Dictionary<WellknownCssPropertyName, CssPropertyDeclaration> targetDic = this._myAssignments;
+            foreach (CssPropertyDeclaration sourceAssignment in fromDic.Values)
             {
                 //add or replace
-
                 targetDic[sourceAssignment.WellknownPropertyName] = sourceAssignment;
             }
         }
 
-        internal Dictionary<HtmlRenderer.WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration> GetDeclarations()
+        internal Dictionary<WellknownCssPropertyName, CssPropertyDeclaration> GetDeclarations()
         {
             return this._myAssignments;
         }

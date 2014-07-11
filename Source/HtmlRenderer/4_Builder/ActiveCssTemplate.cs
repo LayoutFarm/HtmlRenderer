@@ -1,21 +1,20 @@
 ﻿//BSD 2014, WinterDev
 
 using System;
-using System.Drawing; 
+using System.Drawing;
 using System.Collections.Generic;
 using HtmlRenderer.Css;
- 
 
+using HtmlRenderer.WebDom;
 namespace HtmlRenderer.Dom
 {
 
-
-
     class ActiveCssTemplate
-    {   
+    {
 
         CssActiveSheet activeSheet;
         WebDom.Parser.CssParser miniCssParser;
+
         bool isCloneOnce = false;
         public ActiveCssTemplate(CssActiveSheet activeSheet)
         {
@@ -49,13 +48,13 @@ namespace HtmlRenderer.Dom
             CloneActiveCssSheetOnce();
             CssParser.ParseStyleSheet(activeSheet, rawStyleElementContent);
         }
-        public void LoadAnotherStylesheet(CssActiveSheet anotherActiveSheet)
+        public void LoadAnotherStylesheet(WebDom.CssActiveSheet anotherActiveSheet)
         {
             CloneActiveCssSheetOnce();
             activeSheet.Combine(anotherActiveSheet);
         }
         //--------------------------------------------------------------------------------------------------       
-        public WebDom.CssRuleSet ParseCssBlock(string className, string blockSource)
+        public CssRuleSet ParseCssBlock(string className, string blockSource)
         {
             return miniCssParser.ParseCssPropertyDeclarationList(blockSource.ToCharArray());
         }
@@ -83,7 +82,7 @@ namespace HtmlRenderer.Dom
 
         static readonly char[] _whiteSplitter = new[] { ' ' };
 
-        
+
         internal void ApplyActiveTemplate(string elemName, string class_value, BoxSpec currentBoxSpec, BoxSpec parentSpec)
         {
 
@@ -91,7 +90,7 @@ namespace HtmlRenderer.Dom
             int tagNameKey = ustrTable.AddStringIfNotExist(elemName);
 
             //2. class name key
-            int classNameKey = 0; 
+            int classNameKey = 0;
             if (class_value != null)
             {
                 classNameKey = ustrTable.AddStringIfNotExist(class_value);
@@ -161,7 +160,7 @@ namespace HtmlRenderer.Dom
             //***********
             currentBoxSpec.CloneAllStylesFrom(boxTemplate);
             //*********** 
-            
+
         }
         enum AssignPropertySource
         {

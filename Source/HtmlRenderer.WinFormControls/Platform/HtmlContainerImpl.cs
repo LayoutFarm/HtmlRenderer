@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Diagnostics;
 using HtmlRenderer.Dom;
 using HtmlRenderer.Entities;
-using HtmlRenderer.Handlers; 
+using HtmlRenderer.Handlers;
 using HtmlRenderer.Utils;
 using System.Windows.Forms;
 
@@ -125,7 +125,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Get the currently selected text segment in the html.
         /// </summary>
-        public override string SelectedText
+        public string SelectedText
         {
             get { return _selectionHandler.GetSelectedText(); }
         }
@@ -133,11 +133,14 @@ namespace HtmlRenderer
         /// <summary>
         /// Copy the currently selected html segment with style.
         /// </summary>
-        public override string SelectedHtml
+        public string SelectedHtml
         {
             get { return _selectionHandler.GetSelectedHtml(); }
         }
-
+        public string GetHtml() 
+        {
+            throw new NotSupportedException();
+        }
         /// <summary>
         /// Handle mouse down to handle selection.
         /// </summary>
@@ -363,6 +366,24 @@ namespace HtmlRenderer
             }
         }
 
+        /// <summary>
+        /// Is content selection is enabled for the rendered html (default - true).<br/>
+        /// If set to 'false' the rendered html will be static only with ability to click on links.
+        /// </summary>
+        public bool IsSelectionEnabled
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Is the build-in context menu enabled and will be shown on mouse right click (default - true)
+        /// </summary>
+        public bool IsContextMenuEnabled
+        {
+            get;
+            set;
+        }
 
 
 

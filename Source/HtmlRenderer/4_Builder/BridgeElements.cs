@@ -6,10 +6,12 @@ using System.Collections.Generic;
 using HtmlRenderer.Entities;
 using HtmlRenderer.Utils;
 using HtmlRenderer.WebDom;
+using HtmlRenderer.Internal;
 
 namespace HtmlRenderer.Dom
 {
-    public enum WellknownElementName : byte
+
+    enum WellknownElementName : byte
     {
         NotAssign, //extension , for anonymous element
         Unknown,
@@ -106,7 +108,7 @@ namespace HtmlRenderer.Dom
         [Map("x")]
         X//test for extension 
     }
-    public class BridgeHtmlElement : HtmlElement
+    class BridgeHtmlElement : HtmlElement
     {
         Css.BoxSpec boxSpec;
         public BridgeHtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
@@ -131,9 +133,9 @@ namespace HtmlRenderer.Dom
                 return attr.Value;
             }
         }
-        public WellknownElementName WellknownElementName { get; set; }
+        internal WellknownElementName WellknownElementName { get; set; }
     }
-     
+
     sealed class BrigeRootElement : BridgeHtmlElement
     {
         public BrigeRootElement(HtmlDocument ownerDoc)
@@ -178,7 +180,7 @@ namespace HtmlRenderer.Dom
         }
 
     }
-     
+
     enum TextSplitPartKind : byte
     {
         Text = 1,
@@ -187,5 +189,5 @@ namespace HtmlRenderer.Dom
         LineBreak,
     }
 
-   
+
 }

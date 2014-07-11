@@ -70,10 +70,10 @@
     <Compile Include="2_BoxCore\5_HitAndSelections\BoxHitChain.cs" />
     <Compile Include="2_BoxCore\1_Boxes\CssBox_FlagsConst.cs" />
     <Compile Include="2_BoxCore\1_Boxes\CssBoxAssignments.cs" />
-    <Compile Include="2_BoxCore\1_Boxes\ConstConfig.cs" />
+    <Compile Include="2_BoxCore\0_Root\ConstConfig.cs" />
     <Compile Include="2_BoxCore\1_Boxes\CssBox_OtherActualValues.cs" />
     <Compile Include="4_Builder\BridgeElements.cs" />
-    <Compile Include="2_BoxCore\1_Boxes\BoxVisitor.cs" />
+    <Compile Include="2_BoxCore\0_Root\BoxVisitor.cs" />
     <Compile Include="2_BoxCore\3_Layout\CssBoxLayoutExtension.cs" />
     <Compile Include="2_BoxCore\1_Boxes\CssBox_Positions.cs" />
     <Compile Include="2_BoxCore\3_Layout\LayoutVisitor.cs" />
@@ -81,15 +81,15 @@
     <Compile Include="4_Builder\ActiveCssTemplate.cs" />
     <Compile Include="2_BoxCore\3_Layout\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
     <Compile Include="2_BoxCore\3_Layout\CssTableLayoutEngine.TableColumns.cs" />
-    <Compile Include="Common\ImageBinder.cs" />
+    <Compile Include="Platform\ImageBinder.cs" />
     <Compile Include="1_CssCore\BoxSpec.cs" />
     <Compile Include="1_CssCore\BoxSpec_CopyAndVersioning.cs" />
     <Compile Include="4_Builder\dbugCssBoxDomChecker.cs" />
     <Compile Include="4_Builder\RunListHelper.cs" />
     <Compile Include="4_Builder\SpecSetter.cs" />
-    <Compile Include="Common\DeprecatedAttribute.cs" />
-    <Compile Include="Common\MapAttribute.cs" />
-    <Compile Include="Common\ValueMaps.cs" />
+    <Compile Include="Internal\DeprecatedAttribute.cs" />
+    <Compile Include="Platform\MapAttribute.cs" />
+    <Compile Include="Internal\ValueMaps.cs" />
     <Compile Include="WebDom.Parser\TextSnapshot.cs" />
     <Compile Include="4_Builder\ContentTextSplitter.cs" />
     <Compile Include="2_BoxCore\5_HitAndSelections\SelectionRange.cs" />
@@ -98,7 +98,7 @@
     <Compile Include="WebDom.Parser\HtmlLexer.cs" />
     <Compile Include="WebDom.Parser\CssParser.cs" />
     <Compile Include="WebDom.Parser\HtmlParser.cs" />
-    <Compile Include="Common\StringTable.cs" />
+    <Compile Include="WebDom\1_Html\StringTable.cs" />
     <Compile Include="WebDom\1_Html\HtmlDocument.cs" />
     <Compile Include="WebDom\1_Html\HtmlNodes.cs" />
     <Compile Include="WebDom\1_Html\HtmlPredefineNames.cs" />
@@ -111,7 +111,7 @@
     <Compile Include="4_Builder\BoxCreator.cs" />
     <Compile Include="2_BoxCore\1_Boxes\CssBox_Unsafe.cs" />
     <Compile Include="1_CssCore\CssFeatures.cs" />
-    <Compile Include="1_CssCore\CssActiveSheet.cs" />
+    <Compile Include="WebDom\2_Css\CssActiveSheet.cs" />
     <Compile Include="Platform\dbug.cs" />
     <Compile Include="4_Builder\UserMapUtil.cs" />
     <Compile Include="2_BoxCore\1_Boxes\CssBox_Fields.cs" />
@@ -139,7 +139,7 @@
     <Compile Include="3_LiveBoxes\2_Events\HtmlScrollEventArgs.cs" />
     <Compile Include="3_LiveBoxes\2_Events\HtmlStylesheetLoadEventArgs.cs" />
     <Compile Include="4_Builder\HtmlGenerationStyle.cs" />
-    <Compile Include="3_LiveBoxes\0_Root\CssDefaults.cs" />
+    <Compile Include="4_Builder\CssDefaults.cs" />
     <Compile Include="3_LiveBoxes\2_Events\StylesheetLoadHandler.cs" />
     <Compile Include="Platform\ExtensionAttribute.cs" />
     <Compile Include="Platform\IGraphics.cs" />
@@ -147,7 +147,7 @@
     <Compile Include="2_BoxCore\4_Render\BordersDrawHandler.cs" />
     <Compile Include="4_Builder\BoxModelBuilder.cs" />
     <Compile Include="4_Builder\CssValueParser.cs" />
-    <Compile Include="3_LiveBoxes\0_Root\HtmlContainer.cs" />
+    <Compile Include="2_BoxCore\0_Root\HtmlContainer.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

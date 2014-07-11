@@ -38,9 +38,9 @@ namespace HtmlRenderer.Dom
         /// <param name="stylesheet">raw css stylesheet to parse</param>
         /// <param name="combineWithDefault">true - combine the parsed css data with default css data, false - return only the parsed css data</param>
         /// <returns>the CSS data with parsed CSS objects (never null)</returns>
-        public static Css.CssActiveSheet ParseStyleSheet(string stylesheet, bool combineWithDefault)
+        public static WebDom.CssActiveSheet ParseStyleSheet(string stylesheet, bool combineWithDefault)
         {
-            var cssData = combineWithDefault ? CssUtils.DefaultCssData.Clone(new object()) : new CssActiveSheet();
+            var cssData = combineWithDefault ? CssUtils.DefaultCssData.Clone(new object()) : new WebDom.CssActiveSheet();
             if (!string.IsNullOrEmpty(stylesheet))
             {
                 ParseStyleSheet(cssData, stylesheet);
@@ -58,7 +58,7 @@ namespace HtmlRenderer.Dom
         /// </summary>
         /// <param name="cssData">the CSS data to fill with parsed CSS objects</param>
         /// <param name="cssTextSource">raw css stylesheet to parse</param>
-        public static void ParseStyleSheet(Css.CssActiveSheet cssData, string cssTextSource)
+        public static void ParseStyleSheet(WebDom.CssActiveSheet cssData, string cssTextSource)
         {
             if (!String.IsNullOrEmpty(cssTextSource))
             {   
@@ -68,7 +68,7 @@ namespace HtmlRenderer.Dom
                 WebDom.CssDocument cssDoc = parser.OutputCssDocument;
 
 
-                CssActiveSheet cssActiveDoc = new CssActiveSheet();
+                WebDom.CssActiveSheet cssActiveDoc = new WebDom.CssActiveSheet();
                 cssActiveDoc.LoadCssDoc(cssDoc);
 
                 if (cssData != null)

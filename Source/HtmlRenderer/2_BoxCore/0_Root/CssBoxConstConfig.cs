@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace HtmlRenderer.Dom
 {
-    static class ConstConfig
+    static class CssBoxConstConfig
     {
         internal const int BOX_MAX_RIGHT = 90999;
         internal const int BOX_MAX_BOTTOM = 90999;
