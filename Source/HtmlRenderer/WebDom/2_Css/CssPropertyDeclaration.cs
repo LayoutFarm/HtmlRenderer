@@ -25,11 +25,10 @@ namespace HtmlRenderer.WebDom
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
 #endif
-        public CssPropertyDeclaration(string propertyName)
+        public CssPropertyDeclaration(WellknownCssPropertyName wellNamePropertyName)
         {
             //convert from name to wellknown property name; 
-            this.WellknownPropertyName = HtmlRenderer.RenderDom.UserMapUtil.GetWellKnownPropName(
-                propertyName.ToLower());
+            this.WellknownPropertyName = wellNamePropertyName; 
         }
         internal CssPropertyDeclaration(WellknownCssPropertyName wellNamePropertyName, CssCodeValueExpression value)
         {

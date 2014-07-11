@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using HtmlRenderer.Css; 
 using HtmlRenderer.WebDom;
 
-namespace HtmlRenderer.RenderDom
+namespace HtmlRenderer.RenderDom.Composer
 {
 
     class ActiveCssTemplate

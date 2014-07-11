@@ -16,17 +16,15 @@
 using System;
 using System.Drawing;
 using HtmlRenderer.Utils;
-
 using HtmlRenderer.Css;
-namespace HtmlRenderer.RenderDom
+
+namespace HtmlRenderer.RenderDom 
 {
     /// <summary>
     /// Parse CSS properties values like numbers, urls, etc.
     /// </summary>
-    internal static class CssValueParser
+    static class CssValueParser
     {
-
-        
         /// <summary>
         /// get length in pixel
         /// </summary>
@@ -64,7 +62,7 @@ namespace HtmlRenderer.RenderDom
                     return 0;
             }
         }
-         
+
         public static float ConvertToPxWithFontAdjust(CssLength length, float hundredPercent, CssBox box)
         {
             //Return zero if no length specified, zero specified     

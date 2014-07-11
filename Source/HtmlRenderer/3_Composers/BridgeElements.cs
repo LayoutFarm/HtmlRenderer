@@ -8,7 +8,7 @@ using HtmlRenderer.Utils;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.Internal;
 
-namespace HtmlRenderer.RenderDom
+namespace HtmlRenderer.RenderDom.Composer
 {
 
     enum WellknownElementName : byte

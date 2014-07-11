@@ -15,7 +15,7 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
 using HtmlRenderer.Entities;
- 
+
 using HtmlRenderer.Utils;
 using HtmlRenderer.Css;
 namespace HtmlRenderer
@@ -197,7 +197,7 @@ namespace HtmlRenderer
             set
             {
                 _baseRawCssData = value;
-                _baseCssData =RenderDom.CssParser.ParseStyleSheet(value, true);
+                _baseCssData = HtmlRenderer.RenderDom.Composer.CssParser.ParseStyleSheet(value, true);
             }
         }
 
@@ -338,10 +338,10 @@ namespace HtmlRenderer
 
             if (_htmlContainer != null)
             {
-                 
-                _htmlContainer.ScrollOffset = AutoScrollPosition; 
+
+                _htmlContainer.ScrollOffset = AutoScrollPosition;
                 _htmlContainer.PhysicalViewportBound = this.Bounds;
-               
+
                 _htmlContainer.PerformPaint(e.Graphics);
 
                 // call mouse move to handle paint after scroll or html change affecting mouse cursor.

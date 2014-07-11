@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using HtmlRenderer.Css;
 using HtmlRenderer.Internal;
 
-namespace HtmlRenderer.RenderDom
+namespace HtmlRenderer.RenderDom.Composer
 {
 
     static class UserMapUtil

@@ -6,7 +6,7 @@ using HtmlRenderer.WebDom;
 using HtmlRenderer.Css;
 
 
-namespace HtmlRenderer.RenderDom
+namespace HtmlRenderer.RenderDom.Composer
 {
 
     public abstract class CustomCssBoxGenerator

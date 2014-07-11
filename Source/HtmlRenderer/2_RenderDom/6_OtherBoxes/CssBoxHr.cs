@@ -11,11 +11,11 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using System.Drawing; 
+using System.Drawing;
 
 using HtmlRenderer.Utils;
 
-namespace HtmlRenderer.RenderDom
+namespace HtmlRenderer.RenderDom.Composer
 {
     /// <summary>
     /// CSS box for hr element.
@@ -28,7 +28,7 @@ namespace HtmlRenderer.RenderDom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxHr(CssBox parent, BridgeHtmlElement tag, Css.BoxSpec spec)
+        public CssBoxHr(CssBox parent, object tag, Css.BoxSpec spec)
             : base(parent, tag, spec)
         {
             ChangeDisplayType(this, Css.CssDisplay.Block);

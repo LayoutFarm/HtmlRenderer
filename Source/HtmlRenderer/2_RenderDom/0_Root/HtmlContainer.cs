@@ -337,7 +337,6 @@ namespace HtmlRenderer
         {
             get { return _rootBox; }
         }
-
         /// <summary>
         /// the text fore color use for selected text
         /// </summary>
@@ -365,25 +364,25 @@ namespace HtmlRenderer
         {
 
             if (_rootBox != null)
-            {
-
+            {    
                 _rootBox = null;
                 //---------------------------
                 this.OnRootDisposed();
             }
 
             if (!string.IsNullOrEmpty(htmlSource))
-            {
+            { 
 
                 _cssData = baseCssData ?? CssUtils.DefaultCssData;
-                _rootBox = BoxModelBuilder.ParseAndBuildBoxTree(htmlSource, this, _cssData);
+                _rootBox = HtmlRenderer.RenderDom.Composer.BoxModelBuilder.ParseAndBuildBoxTree(htmlSource, this, _cssData);
+
                 if (_rootBox != null)
                 {
                     this.OnRootCreated(_rootBox);
                 }
             }
-
         }
+        
         protected virtual void OnRootDisposed()
         {
 
@@ -457,6 +456,7 @@ namespace HtmlRenderer
             _rootBox.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
 
             CssBox.ValidateComputeValues(_rootBox);
+
             LayoutVisitor layoutArgs = new LayoutVisitor(ig, this);
             layoutArgs.PushContaingBlock(_rootBox);
 
@@ -661,7 +661,7 @@ namespace HtmlRenderer
             bool _sync)
         {
 
-            container.OnRequestImage(binder, requestBox, false );
+            container.OnRequestImage(binder, requestBox, false);
         }
 
 

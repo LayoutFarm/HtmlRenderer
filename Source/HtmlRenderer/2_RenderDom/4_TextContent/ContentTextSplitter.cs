@@ -1,23 +1,17 @@
-﻿//BSD 2014,WinterDev 
-
-
+﻿//BSD 2014,WinterDev  
 using System.Collections.Generic;
-using HtmlRenderer.Css;
+using HtmlRenderer.Css; 
 
-namespace HtmlRenderer.RenderDom
-{
-
-
-
+namespace HtmlRenderer.RenderDom 
+{ 
     class ContentTextSplitter
-    {
-
-
+    {    
         Stack<List<CssRun>> myRunPool = new Stack<List<CssRun>>(3);
         public ContentTextSplitter()
         {
 
         }
+
         enum WordParsingState
         {
             Init,

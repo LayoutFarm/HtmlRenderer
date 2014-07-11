@@ -1,6 +1,7 @@
-﻿//BSD  2014 ,WinterDev 
-
+﻿//BSD  2014 ,WinterDev  
 using HtmlRenderer.RenderDom;
+using HtmlRenderer.RenderDom.Composer;
+
 namespace HtmlRenderer.WebDom
 {
 

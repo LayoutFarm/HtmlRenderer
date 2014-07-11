@@ -50,7 +50,7 @@ namespace HtmlRenderer.RenderDom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxImage(CssBox parent, BridgeHtmlElement tag, Css.BoxSpec boxSpec, ImageBinder binder)
+        public CssBoxImage(CssBox parent, object tag, Css.BoxSpec boxSpec, ImageBinder binder)
             : base(parent, tag, boxSpec)
         {
 

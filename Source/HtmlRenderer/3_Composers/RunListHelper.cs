@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using HtmlRenderer.Handlers;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.Css;
-namespace HtmlRenderer.RenderDom
+namespace HtmlRenderer.RenderDom.Composer
 {
     static class RunListHelper
     {

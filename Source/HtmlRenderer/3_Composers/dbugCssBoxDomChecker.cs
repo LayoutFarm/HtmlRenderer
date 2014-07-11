@@ -15,7 +15,7 @@
 
 using HtmlRenderer.Utils;
 using HtmlRenderer.Css;
-namespace HtmlRenderer.RenderDom
+namespace HtmlRenderer.RenderDom.Composer
 {
 #if DEBUG
 
