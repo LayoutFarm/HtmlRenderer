@@ -14,7 +14,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
-using HtmlRenderer.Dom;
+using HtmlRenderer.RenderDom;
 using HtmlRenderer.Entities;
 using HtmlRenderer.Utils;
 

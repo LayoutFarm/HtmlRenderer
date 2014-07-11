@@ -6,8 +6,7 @@ using System.Globalization;
 
 namespace HtmlRenderer.Css
 {
-
-
+     
     /// <summary>
     /// Represents and gets info about a CSS Length
     /// </summary>

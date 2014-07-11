@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace HtmlRenderer 
 {
-    public delegate void ReadyStateChangedHandler(); 
+ 
 
     public class ImageBinder
     {
@@ -37,7 +37,7 @@ namespace HtmlRenderer
         {
             get { return this._image; }
         }
-        internal void SetImage(Image image)
+        public void SetImage(Image image)
         {
             if (image != null)
             {

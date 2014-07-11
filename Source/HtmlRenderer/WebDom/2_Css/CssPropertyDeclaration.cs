@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using HtmlRenderer.Dom;
+using HtmlRenderer.RenderDom;
 using HtmlRenderer.Css;
 namespace HtmlRenderer.WebDom
 {
@@ -28,7 +28,7 @@ namespace HtmlRenderer.WebDom
         public CssPropertyDeclaration(string propertyName)
         {
             //convert from name to wellknown property name; 
-            this.WellknownPropertyName = HtmlRenderer.Dom.UserMapUtil.GetWellKnownPropName(
+            this.WellknownPropertyName = HtmlRenderer.RenderDom.UserMapUtil.GetWellKnownPropName(
                 propertyName.ToLower());
         }
         internal CssPropertyDeclaration(WellknownCssPropertyName wellNamePropertyName, CssCodeValueExpression value)

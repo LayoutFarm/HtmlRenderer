@@ -395,7 +395,7 @@ namespace HtmlRenderer.Demo
         /// <summary>
         /// On image load in renderer set the image by event async.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlRenderer.Dom.HtmlImageRequestEventArgs e)
+        private void OnImageLoad(object sender, HtmlRenderer.RenderDom.HtmlImageRequestEventArgs e)
         {
             var img = TryLoadResourceImage(e.ImagSource);
             e.SetResultImage(img);

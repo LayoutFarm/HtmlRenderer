@@ -1,6 +1,6 @@
 ﻿//BSD  2014 ,WinterDev 
 
-using HtmlRenderer.Dom;
+using HtmlRenderer.RenderDom;
 namespace HtmlRenderer.WebDom
 {
 

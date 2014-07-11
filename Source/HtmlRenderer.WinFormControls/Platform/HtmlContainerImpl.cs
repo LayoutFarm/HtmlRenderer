@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 
 using System.Diagnostics;
-using HtmlRenderer.Dom;
+using HtmlRenderer.RenderDom;
 using HtmlRenderer.Entities;
 using HtmlRenderer.Handlers;
 using HtmlRenderer.Utils;
@@ -34,10 +34,64 @@ namespace HtmlRenderer
         public event EventHandler<HtmlScrollEventArgs> ScrollChange;
         CssBox _root;
 
+
+        /// <summary>
+        /// Raised when an error occurred during html rendering.<br/>
+        /// </summary>
+        /// <remarks>
+        /// There is no guarantee that the event will be raised on the main thread, it can be raised on thread-pool thread.
+        /// </remarks>
+        public event EventHandler<HtmlRenderErrorEventArgs> RenderError;
+
+        /// <summary>
+        /// Raised when a stylesheet is about to be loaded by file path or URI by link element.<br/>
+        /// This event allows to provide the stylesheet manually or provide new source (file or Uri) to load from.<br/>
+        /// If no alternative data is provided the original source will be used.<br/>
+        /// </summary>
+        public event EventHandler<HtmlStylesheetLoadEventArgs> StylesheetLoadingRequest;
+
+        /// <summary>
+        /// Raised when an image is about to be loaded by file path or URI.<br/>
+        /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
+        /// </summary>
+        public event EventHandler<HtmlImageRequestEventArgs> ImageLoadingRequest;
+        public event EventHandler<HtmlRefreshEventArgs> Refresh;
+
         public HtmlContainerImpl()
         {
         }
+        protected override void RequestRefresh(bool layout)
+        {
+            if (this.Refresh != null)
+            {
+                HtmlRefreshEventArgs arg = new HtmlRefreshEventArgs(layout);
+                this.Refresh(this, arg);
+            }
+        }
+        protected override void OnRequestImage(ImageBinder binder, CssBox requestBox, bool _sync)
+        {
+            if (this.ImageLoadingRequest != null)
+            {
+                HtmlImageRequestEventArgs arg = new HtmlImageRequestEventArgs(binder);
+                this.ImageLoadingRequest(this, arg);
+            }
+        }
+        protected override void OnRequestStyleSheet(string hrefSource, out string stylesheet, out WebDom.CssActiveSheet stylesheetData)
+        {
+            if (this.StylesheetLoadingRequest != null)
+            {
+                HtmlStylesheetLoadEventArgs arg = new HtmlStylesheetLoadEventArgs(hrefSource);
+                this.StylesheetLoadingRequest(this, arg);
+                stylesheet = arg.SetStyleSheet;
+                stylesheetData = arg.SetStyleSheetData;
+            }
+            else
+            {
+                stylesheet = null;
+                stylesheetData = null;
 
+            }
+        }
         public void PerformPaint(Graphics g)
         {
 
@@ -137,7 +191,7 @@ namespace HtmlRenderer
         {
             get { return _selectionHandler.GetSelectedHtml(); }
         }
-        public string GetHtml() 
+        public string GetHtml()
         {
             throw new NotSupportedException();
         }
