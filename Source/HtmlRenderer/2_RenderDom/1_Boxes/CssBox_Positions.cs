@@ -127,6 +127,9 @@ namespace HtmlRenderer.RenderDom
         }
         internal void ReEvaluateFont(float parentFontSize)
         {
+
+           
+
             this._actualFont = this._myspec.GetFont(parentFontSize);
         }
         /// <summary>
@@ -281,7 +284,6 @@ namespace HtmlRenderer.RenderDom
             //text indent  
             this._prop_pass_eval |= CssBoxAssignments.TEXT_INDENT;
             this._actualTextIndent = CssValueParser.ConvertToPx(spec.TextIndent, containingBlock.SizeWidth, this);
-
             this._actualLineHeight = 0.9f * CssValueParser.ConvertToPx(LineHeight, this.GetEmHeight(), this);
 
             //---------------------------------------------------------------------------

@@ -576,10 +576,13 @@ namespace HtmlRenderer.RenderDom
                                     //formatting context for
                                     //1. inline formatting context
                                     //2. block formatting context 
+
                                     if (DomUtils.ContainsInlinesOnly(this))
                                     {
                                         this.SetHeightToZero();
-                                        CssLayoutEngine.FlowContentRuns(this, lay); //This will automatically set the bottom of this block
+
+                                        //This will automatically set the bottom of this block
+                                        CssLayoutEngine.FlowContentRuns(this, lay); 
 
                                     }
                                     else if (_aa_boxes.Count > 0)

@@ -605,16 +605,16 @@ namespace HtmlRenderer.RenderDom.Composer
             curSpec.InheritStylesFrom(parentSpec);
 
             string classValue;
-            if (!element.TryGetAttribute("class", out classValue))
+            if (element.TryGetAttribute("class", out classValue))
             {
-                classValue = null;
+                //1. apply style  
+                activeCssTemplate.ApplyActiveTemplate(element.Name,
+                   classValue,
+                   curSpec,
+                   parentSpec);
             }
 
-            //1. apply style  
-            activeCssTemplate.ApplyActiveTemplate(element.Name,
-               classValue,
-               curSpec,
-               parentSpec);
+         
             //-------------------------------------------------------------------                        
             //2. specific id
             if (element.HasAttribute("id"))

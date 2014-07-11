@@ -9,6 +9,7 @@ namespace HtmlRenderer.Css
 
         public void InheritStylesFrom(BoxSpec s)
         {
+           
             if (s == null)
             {
                 return;

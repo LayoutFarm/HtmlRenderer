@@ -18,11 +18,11 @@ using System.Drawing;
 using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Css
-{   
+{
     public sealed partial class BoxSpec
-    { 
+    {
         int _versionNum;
-        bool _freezed; 
+        bool _freezed;
         //==========================================================
         #region css values Inherit From Parent (by default)
         //inherit from parent by default
@@ -68,10 +68,6 @@ namespace HtmlRenderer.Css
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
         //==========================================================
 
-
-
-        //==========================================================
-
         #endregion
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
@@ -86,6 +82,10 @@ namespace HtmlRenderer.Css
         //------------------
         public BoxSpec()
         {
+
+           if(this.__aa_dbugId==58)
+           {
+           }
         }
         //---------------------------------------------------------------
         internal int VersionNumber
@@ -112,9 +112,9 @@ namespace HtmlRenderer.Css
             _cornerFeats.Freeze();//6.
             _backgroundFeats.Freeze();//7 
 
-          
+
         }
-         
+
         internal void Defreeze()
         {
             this._freezed = false;
@@ -626,18 +626,19 @@ namespace HtmlRenderer.Css
 
         public Font GetFont(float parentFontSize)
         {
+            
             //---------------------------------------
             if (_actualFont != null)
             {
                 return _actualFont;
             }
             //---------------------------------------
-            bool relateToParent = false; 
+            bool relateToParent = false;
             string fontFam = this.FontFamily;
             if (string.IsNullOrEmpty(FontFamily))
             {
                 fontFam = CssConstConfig.DEFAULT_FONT_NAME;
-            } 
+            }
             //-----------------------------------------------------------------------------
             //style
             FontStyle st = System.Drawing.FontStyle.Regular;
@@ -720,6 +721,7 @@ namespace HtmlRenderer.Css
             {
                 fsize = fontsize.Number;
             }
+
 
             if (fontsize.UnitOrNames == CssUnitOrNames.Ems)
             {

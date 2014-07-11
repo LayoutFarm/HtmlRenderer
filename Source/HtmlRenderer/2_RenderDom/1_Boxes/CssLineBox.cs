@@ -453,6 +453,7 @@ namespace HtmlRenderer.RenderDom
                                 font = latestOwner.ActualFont;
                                 color = latestOwner.ActualColor;
                             }
+                            
 
                             CssTextRun textRun = (CssTextRun)w;
 
