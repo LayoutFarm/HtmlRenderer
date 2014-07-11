@@ -1,7 +1,7 @@
 //BSD 2014
 //ArthurHub
 
-namespace HtmlRenderer.RenderDom.Composer
+namespace HtmlRenderer.Composers
 {
     internal static class CssDefaults
     {

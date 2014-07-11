@@ -13,9 +13,9 @@
 
 using System.Drawing;
 
-using HtmlRenderer.Utils;
+using HtmlRenderer.Utils; 
 
-namespace HtmlRenderer.RenderDom.Composer
+namespace HtmlRenderer.RenderDom
 {
     /// <summary>
     /// CSS box for hr element.

@@ -17,8 +17,8 @@ using System;
 using System.Drawing; 
 using HtmlRenderer.WebDom;
 using HtmlRenderer.Css;
-
-namespace HtmlRenderer.RenderDom.Composer
+using HtmlRenderer.RenderDom;
+namespace HtmlRenderer.Composers
 {
 
 

@@ -225,7 +225,7 @@ namespace HtmlRenderer.WebDom.Parser
             //1. lex 
             lexer.BeginLex();
             //2. mini parser   
-            HtmlDocument htmldoc = new HtmlDocument();
+            HtmlDocumentImpl htmldoc = new HtmlDocumentImpl();
             this.curHtmlNode = htmldoc.RootNode;
             this._resultHtmlDoc = htmldoc;
             lexer.Analyze(textSnapshot);

@@ -21,7 +21,8 @@ using HtmlRenderer.Css;
 using HtmlRenderer.Handlers;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.WebDom.Parser;
-namespace HtmlRenderer.RenderDom.Composer
+using HtmlRenderer.RenderDom;
+namespace HtmlRenderer.Composers
 {
     /// <summary>
     /// Handle css DOM tree generation from raw html and stylesheet.

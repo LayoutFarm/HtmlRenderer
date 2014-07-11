@@ -184,7 +184,7 @@ namespace HtmlRenderer
             set
             {
                 _baseRawCssData = value;
-                _baseCssData = RenderDom.Composer.CssParser.ParseStyleSheet(value, true);
+                _baseCssData =  Composers.CssParser.ParseStyleSheet(value, true);
             }
         }
 

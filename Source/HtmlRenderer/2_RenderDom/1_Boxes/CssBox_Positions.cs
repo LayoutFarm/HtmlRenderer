@@ -113,10 +113,12 @@ namespace HtmlRenderer.RenderDom
         float RecalculatePadding(CssLength padding, float cbWidth)
         {
             //www.w3.org/TR/CSS2/box.html#padding-properties
+            
             if (padding.IsAuto)
             {
                 return 0;
             }
+          
             return CssValueParser.ConvertToPx(padding, cbWidth, this);
         }
 
@@ -126,10 +128,7 @@ namespace HtmlRenderer.RenderDom
             get { return (this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0; }
         }
         internal void ReEvaluateFont(float parentFontSize)
-        {
-
-
-
+        {   
             this._actualFont = this._myspec.GetFont(parentFontSize);
         }
         /// <summary>

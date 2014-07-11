@@ -16,9 +16,9 @@
 using System;
 using HtmlRenderer.Css;
 using HtmlRenderer.Utils;
+using HtmlRenderer.RenderDom;
 
-
-namespace HtmlRenderer.RenderDom.Composer
+namespace HtmlRenderer.Composers
 {
 
     /// <summary>

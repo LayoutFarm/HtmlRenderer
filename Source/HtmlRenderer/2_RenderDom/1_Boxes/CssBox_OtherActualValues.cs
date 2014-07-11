@@ -53,9 +53,7 @@ namespace HtmlRenderer.RenderDom
         public float ActualWordSpacing
         {
             get { return _actualWordSpacing; }
-        }
-
-
+        } 
         protected float MeasureWordSpacing(LayoutVisitor lay)
         {   
             if ((this._prop_pass_eval & CssBoxAssignments.WORD_SPACING) == 0)

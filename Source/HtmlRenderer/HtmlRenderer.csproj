@@ -138,7 +138,7 @@
     <Compile Include="2_RenderDom\5_Render\BackgroundImageDrawHandler.cs" />
     <Compile Include="2_RenderDom\5_Render\BordersDrawHandler.cs" />
     <Compile Include="3_Composers\BoxModelBuilder.cs" />
-    <Compile Include="3_Composers\CssValueParser.cs" />
+    <Compile Include="2_RenderDom\1_Boxes\CssValueParser.cs" />
     <Compile Include="2_RenderDom\0_Root\HtmlContainer.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

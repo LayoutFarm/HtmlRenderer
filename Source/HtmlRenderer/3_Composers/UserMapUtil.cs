@@ -2,10 +2,11 @@
 using System;
 using System.Drawing;
 using System.Collections.Generic;
+
 using HtmlRenderer.Css;
 using HtmlRenderer.Internal;
-
-namespace HtmlRenderer.RenderDom.Composer
+using HtmlRenderer.RenderDom;
+namespace HtmlRenderer.Composers
 {
 
     static class UserMapUtil

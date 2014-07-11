@@ -16,9 +16,9 @@
 using System;
 using System.Drawing;
 using HtmlRenderer.Utils;
-using HtmlRenderer.Css;
+using HtmlRenderer.Css; 
 
-namespace HtmlRenderer.RenderDom 
+namespace HtmlRenderer.RenderDom
 {
     /// <summary>
     /// Parse CSS properties values like numbers, urls, etc.

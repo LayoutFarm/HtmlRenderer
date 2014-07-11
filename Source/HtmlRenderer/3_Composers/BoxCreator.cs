@@ -4,9 +4,9 @@ using System.Globalization;
 using HtmlRenderer.Utils;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.Css;
+using HtmlRenderer.RenderDom;
 
-
-namespace HtmlRenderer.RenderDom.Composer
+namespace HtmlRenderer.Composers
 {
 
     public abstract class CustomCssBoxGenerator

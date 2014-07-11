@@ -374,7 +374,7 @@ namespace HtmlRenderer
             { 
 
                 _cssData = baseCssData ?? CssUtils.DefaultCssData;
-                _rootBox = HtmlRenderer.RenderDom.Composer.BoxModelBuilder.ParseAndBuildBoxTree(htmlSource, this, _cssData);
+                _rootBox = HtmlRenderer.Composers.BoxModelBuilder.ParseAndBuildBoxTree(htmlSource, this, _cssData);
 
                 if (_rootBox != null)
                 {

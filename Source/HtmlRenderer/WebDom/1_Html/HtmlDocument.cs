@@ -1,27 +1,43 @@
 ﻿//BSD  2014 ,WinterDev  
 using HtmlRenderer.RenderDom;
-using HtmlRenderer.RenderDom.Composer;
-
+using HtmlRenderer.Composers;
 namespace HtmlRenderer.WebDom
-{
-
-    public class HtmlDocument
-    {
-
-        UniqueStringTable uniqueStringTable = HtmlPredefineNames.CreateUniqueStringTableClone();
+{   
+    class HtmlDocumentImpl : HtmlDocument
+    {   
         HtmlElement rootNode;
-        public HtmlDocument()
+        public HtmlDocumentImpl()
         {
             rootNode = new BrigeRootElement(this);
         }
-
-        public HtmlElement RootNode
+        public override HtmlElement RootNode
         {
             get
             {
                 return rootNode;
             }
         }
+        public override HtmlElement CreateElement(string prefix, string localName)
+        {
+            return new BridgeHtmlElement(this,
+                AddStringIfNotExists(prefix),
+                AddStringIfNotExists(localName));
+        }
+    }
+
+
+    public abstract class HtmlDocument
+    {
+
+        UniqueStringTable uniqueStringTable = HtmlPredefineNames.CreateUniqueStringTableClone();
+        public HtmlDocument()
+        {
+        }
+        public abstract HtmlElement RootNode
+        {
+            get;
+        }
+
         public int AddStringIfNotExists(string uniqueString)
         {
             return uniqueStringTable.AddStringIfNotExist(uniqueString);
@@ -36,24 +52,12 @@ namespace HtmlRenderer.WebDom
         }
         public HtmlAttribute CreateAttribute(string prefix, string localName)
         {
-
-
             return new HtmlAttribute(this,
                 uniqueStringTable.AddStringIfNotExist(prefix),
                 uniqueStringTable.AddStringIfNotExist(localName));
         }
 
-        public HtmlElement CreateElement(string prefix, string localName)
-        {
-            return new BridgeHtmlElement(this,
-                uniqueStringTable.AddStringIfNotExist(prefix),
-                uniqueStringTable.AddStringIfNotExist(localName));
-
-            //return new HtmlElement(this,
-            //    uniqueStringTable.AddStringIfNotExist(prefix),
-            //    uniqueStringTable.AddStringIfNotExist(localName));
-        }
-
+        public abstract HtmlElement CreateElement(string prefix, string localName);
         public HtmlComment CreateComent()
         {
             return new HtmlComment(this);
@@ -65,7 +69,7 @@ namespace HtmlRenderer.WebDom
 
         public HtmlTextNode CreateTextNode(char[] strBufferForElement)
         {
-            return new BridgeHtmlTextNode(this, strBufferForElement); 
+            return new BridgeHtmlTextNode(this, strBufferForElement);
         }
         public HtmlCDataNode CreateCDataNode()
         {
