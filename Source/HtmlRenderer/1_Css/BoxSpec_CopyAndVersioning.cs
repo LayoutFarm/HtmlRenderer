@@ -7,14 +7,16 @@ namespace HtmlRenderer.Css
     {
 
 
-        public void InheritStylesFrom(BoxSpec s)
+        internal void InheritStylesFrom(BoxSpec s)
         {
-           
+          
+            //----------------------------------------
             if (s == null)
             {
                 return;
             }
             //---------------------------------------
+            //only inheritable feautures
             this._fontFeats = s._fontFeats;
             this._listFeats = s._listFeats;
             //--------------------------------------- 
@@ -31,16 +33,15 @@ namespace HtmlRenderer.Css
             this._cssDirection = s._cssDirection;
             //--------------------------------------- 
 
-        }
-
-        public void CloneAllStylesFrom(BoxSpec s)
+        } 
+        internal void CloneAllStylesFrom(BoxSpec s)
         {
             //1.
             //=====================================
-            if (s._fontFeats.Owner == s)
-            {
-                //this._fontFeats = s._fontFeats;
-            }
+            //if (s._fontFeats.Owner == s)
+            //{
+            //    //this._fontFeats = s._fontFeats;
+            //}
             this._fontFeats = s._fontFeats;
             this._listFeats = s._listFeats;
             //--------------------------------------- 
@@ -103,6 +104,12 @@ namespace HtmlRenderer.Css
             //}
             //-----------------------------------
         }
+       
+        
+        
+        
+        
+        
         public BoxSpec GetAnonVersion()
         {
             if (anonVersion != null)

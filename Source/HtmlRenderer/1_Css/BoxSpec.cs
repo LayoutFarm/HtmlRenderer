@@ -82,10 +82,6 @@ namespace HtmlRenderer.Css
         //------------------
         public BoxSpec()
         {
-
-           if(this.__aa_dbugId==58)
-           {
-           }
         }
         //---------------------------------------------------------------
         internal int VersionNumber
@@ -626,7 +622,7 @@ namespace HtmlRenderer.Css
 
         public Font GetFont(float parentFontSize)
         {
-            
+
             //---------------------------------------
             if (_actualFont != null)
             {

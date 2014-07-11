@@ -50,6 +50,7 @@ namespace HtmlRenderer.RenderDom.Composer
                 case WellknownCssPropertyName.Display: 
                     spec.CssDisplay = UserMapUtil.GetDisplayType(cssValue);
                     break;
+                //------------------------------------------------
                 case WellknownCssPropertyName.BorderBottomWidth:
                     spec.BorderBottomWidth = cssValue.AsBorderLength();
                     break;
@@ -62,6 +63,7 @@ namespace HtmlRenderer.RenderDom.Composer
                 case WellknownCssPropertyName.BorderTopWidth:
                     spec.BorderTopWidth = cssValue.AsBorderLength();
                     break;
+                //------------------------------------------------
                 case WellknownCssPropertyName.BorderBottomStyle:
                     spec.BorderBottomStyle = UserMapUtil.GetBorderStyle(cssValue);
                     break;
@@ -74,6 +76,7 @@ namespace HtmlRenderer.RenderDom.Composer
                 case WellknownCssPropertyName.BorderTopStyle:
                     spec.BorderTopStyle = UserMapUtil.GetBorderStyle(cssValue);
                     break;
+                //------------------------------------------------
                 case WellknownCssPropertyName.BorderBottomColor:
                     spec.BorderBottomColor = cssValue.AsColor();
                     break;
@@ -86,7 +89,7 @@ namespace HtmlRenderer.RenderDom.Composer
                 case WellknownCssPropertyName.BorderTopColor:
                     spec.BorderTopColor = cssValue.AsColor();
                     break;
-
+                //------------------------------------------------
                 case WellknownCssPropertyName.BorderSpacing:
 
                     spec.SetBorderSpacing(cssValue);
@@ -94,6 +97,7 @@ namespace HtmlRenderer.RenderDom.Composer
                 case WellknownCssPropertyName.BorderCollapse:
                     spec.BorderCollapse = UserMapUtil.GetBorderCollapse(cssValue);
                     break;
+                //------------------------------------------------
                 case WellknownCssPropertyName.CornerRadius:
                     spec.SetCornerRadius(cssValue);
                     break;
@@ -109,6 +113,7 @@ namespace HtmlRenderer.RenderDom.Composer
                 case WellknownCssPropertyName.CornerSWRadius:
                     spec.CornerSWRadius = cssValue.AsLength();
                     break;
+                //------------------------------------------------
                 case WellknownCssPropertyName.MarginBottom:
                     spec.MarginBottom = cssValue.AsTranslatedLength();
                     break;
@@ -121,6 +126,7 @@ namespace HtmlRenderer.RenderDom.Composer
                 case WellknownCssPropertyName.MarginTop:
                     spec.MarginTop = cssValue.AsTranslatedLength();
                     break;
+                //------------------------------------------------
                 case WellknownCssPropertyName.PaddingBottom:
                     spec.PaddingBottom = cssValue.AsTranslatedLength();
                     break;
@@ -133,6 +139,7 @@ namespace HtmlRenderer.RenderDom.Composer
                 case WellknownCssPropertyName.PaddingTop:
                     spec.PaddingTop = cssValue.AsTranslatedLength();
                     break;
+                //------------------------------------------------
                 case WellknownCssPropertyName.Left:
                     spec.Left = cssValue.AsLength();
                     break;
@@ -275,6 +282,7 @@ namespace HtmlRenderer.RenderDom.Composer
                 case WellknownCssPropertyName.BorderTopWidth:
                     spec.BorderTopWidth = parentSpec.BorderTopWidth;
                     break;
+                //------------------------------------------------
                 case WellknownCssPropertyName.BorderBottomStyle:
                     spec.BorderBottomStyle = parentSpec.BorderBottomStyle;
                     break;
@@ -287,6 +295,7 @@ namespace HtmlRenderer.RenderDom.Composer
                 case WellknownCssPropertyName.BorderTopStyle:
                     spec.BorderTopStyle = parentSpec.BorderTopStyle;
                     break;
+                //------------------------------------------------
                 case WellknownCssPropertyName.BorderBottomColor:
                     spec.BorderBottomColor = parentSpec.BorderBottomColor;
                     break;
@@ -299,6 +308,7 @@ namespace HtmlRenderer.RenderDom.Composer
                 case WellknownCssPropertyName.BorderTopColor:
                     spec.BorderTopColor = parentSpec.BorderTopColor;
                     break;
+                //------------------------------------------------
                 case WellknownCssPropertyName.BorderSpacing:
 
                     spec.BorderSpacingHorizontal = parentSpec.BorderSpacingHorizontal;
@@ -307,6 +317,7 @@ namespace HtmlRenderer.RenderDom.Composer
                 case WellknownCssPropertyName.BorderCollapse:
                     spec.BorderCollapse = parentSpec.BorderCollapse;
                     break;
+                //------------------------------------------------
                 case WellknownCssPropertyName.CornerRadius:
                     spec.CornerNERadius = parentSpec.CornerNERadius;
                     spec.CornerNWRadius = parentSpec.CornerNWRadius;
@@ -326,6 +337,7 @@ namespace HtmlRenderer.RenderDom.Composer
                 case WellknownCssPropertyName.CornerSWRadius:
                     spec.CornerSWRadius = parentSpec.CornerSWRadius;
                     break;
+                //------------------------------------------------
                 case WellknownCssPropertyName.MarginBottom:
                     spec.MarginBottom = parentSpec.MarginBottom;
                     break;
@@ -338,8 +350,9 @@ namespace HtmlRenderer.RenderDom.Composer
                 case WellknownCssPropertyName.MarginTop:
                     spec.MarginTop = parentSpec.MarginTop;
                     break;
+                //------------------------------------------------
                 case WellknownCssPropertyName.PaddingBottom:
-                    spec.PaddingBottom = parentSpec.MarginBottom;
+                    spec.PaddingBottom = parentSpec.PaddingBottom;
                     break;
                 case WellknownCssPropertyName.PaddingLeft:
                     spec.PaddingLeft = parentSpec.PaddingLeft;
@@ -350,6 +363,7 @@ namespace HtmlRenderer.RenderDom.Composer
                 case WellknownCssPropertyName.PaddingTop:
                     spec.PaddingTop = parentSpec.PaddingTop;
                     break;
+                //------------------------------------------------
                 case WellknownCssPropertyName.Left:
                     spec.Left = parentSpec.Left;
                     break;

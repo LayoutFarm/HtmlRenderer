@@ -68,7 +68,6 @@ namespace HtmlRenderer.RenderDom.Composer
                             BridgeHtmlElement bridgeElement = (BridgeHtmlElement)node;
                             bridgeElement.WellknownElementName = UserMapUtil.EvaluateTagName(bridgeElement.LocalName);
 
-
                             switch (bridgeElement.WellknownElementName)
                             {
                                 case WellknownElementName.style:
@@ -97,7 +96,7 @@ namespace HtmlRenderer.RenderDom.Composer
                                         {
                                             //load  
                                             string stylesheet;
-                                            CssActiveSheet stylesheetData; 
+                                            CssActiveSheet stylesheetData;
 
                                             HtmlContainer.RaiseRequestStyleSheet(
                                                 container, bridgeElement.GetAttributeValue("href", null),
@@ -111,8 +110,8 @@ namespace HtmlRenderer.RenderDom.Composer
                                             else if (stylesheetData != null)
                                             {
                                                 activeCssTemplate.LoadAnotherStylesheet(stylesheetData);
-                                            }
-                                        }
+                                            } 
+                                        } 
                                         continue;
                                     }
                             }
@@ -120,6 +119,7 @@ namespace HtmlRenderer.RenderDom.Composer
                             //apply style for this node  
                             ApplyStyleSheetForSingleBridgeElement(bridgeElement, parentElement.Spec, activeCssTemplate);
                             //-----------------------------
+
                             //recursive 
                             PrepareChildNodes(container, bridgeElement, activeCssTemplate);
                             //-----------------------------
@@ -129,6 +129,7 @@ namespace HtmlRenderer.RenderDom.Composer
 
                             BridgeHtmlTextNode textnode = (BridgeHtmlTextNode)node;
                             //inner content is parsed here 
+
                             var parentSpec = parentElement.Spec;
                             char[] originalBuffer = textnode.GetOriginalBuffer();
 
@@ -601,20 +602,22 @@ namespace HtmlRenderer.RenderDom.Composer
         static void ApplyStyleSheetForSingleBridgeElement(BridgeHtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
         {
             BoxSpec curSpec = element.Spec;
+
             //0.
             curSpec.InheritStylesFrom(parentSpec);
 
             string classValue;
-            if (element.TryGetAttribute("class", out classValue))
+            if (!element.TryGetAttribute("class", out classValue))
             {
-                //1. apply style  
-                activeCssTemplate.ApplyActiveTemplate(element.Name,
-                   classValue,
-                   curSpec,
-                   parentSpec);
+                classValue = null;
             }
 
-         
+            //1. apply style  
+            activeCssTemplate.ApplyActiveTemplate(element.Name,
+               classValue,//class
+               curSpec,  
+               parentSpec);
+
             //-------------------------------------------------------------------                        
             //2. specific id
             if (element.HasAttribute("id"))

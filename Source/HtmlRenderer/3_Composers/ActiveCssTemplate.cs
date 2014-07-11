@@ -110,13 +110,15 @@ namespace HtmlRenderer.RenderDom.Composer
                 boxTemplate = new BoxSpec();
                 boxTemplate.CloneAllStylesFrom(currentBoxSpec);
 
+                currentBoxSpec.VersionNumber = parentSpec.VersionNumber;
+                currentBoxSpec.VersionNumber++;
                 //*** 
                 //----------------------------
                 //1. tag name
                 CssRuleSetGroup ruleGroup = activeSheet.GetRuleSetForTagName(elemName);
                 if (ruleGroup != null)
                 {
-                    currentBoxSpec.VersionNumber++;
+                    //currentBoxSpec.VersionNumber++;
                     foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
                     {
                         SpecSetter.AssignPropertyValue(boxTemplate, parentSpec, decl);
@@ -126,7 +128,7 @@ namespace HtmlRenderer.RenderDom.Composer
                 //2. series of class
                 if (class_value != null)
                 {
-                    currentBoxSpec.VersionNumber++;
+                    //currentBoxSpec.VersionNumber++;
                     string[] classNames = class_value.Split(_whiteSplitter, StringSplitOptions.RemoveEmptyEntries);
                     int j = classNames.Length;
                     if (j > 0)
@@ -154,12 +156,21 @@ namespace HtmlRenderer.RenderDom.Composer
                         }
                     }
                 }
+
+
                 templatesForTagName.Add(key, boxTemplate);
                 boxTemplate.Freeze();
+                //***********
+                currentBoxSpec.CloneAllStylesFrom(boxTemplate);
+                //*********** 
             }
-            //***********
-            currentBoxSpec.CloneAllStylesFrom(boxTemplate);
-            //*********** 
+            else
+            {
+                //***********
+                currentBoxSpec.CloneAllStylesFrom(boxTemplate);
+                //*********** 
+
+            }           
 
         }
         enum AssignPropertySource

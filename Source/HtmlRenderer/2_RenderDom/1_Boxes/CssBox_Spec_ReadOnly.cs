@@ -159,7 +159,7 @@ namespace HtmlRenderer.RenderDom
         }
         public CssLength PaddingBottom
         {
-            get { return this._myspec.MarginBottom; }
+            get { return this._myspec.PaddingBottom; }
         }
         //------------------------------------------------------ 
         public CssLength Left
