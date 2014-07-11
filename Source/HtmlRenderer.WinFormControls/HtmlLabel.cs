@@ -16,7 +16,7 @@ using System.ComponentModel;
 using System.Drawing.Text;
 using System.Windows.Forms;
 using HtmlRenderer.Entities;
-using HtmlRenderer.Parse;
+using HtmlRenderer.Css; 
 
 namespace HtmlRenderer
 {
@@ -81,7 +81,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the base stylesheet data used in the panel
         /// </summary>
-        private CssActiveSheet _baseCssData;
+        private WebDom.CssActiveSheet _baseCssData;
 
         /// <summary>
         /// is to handle auto size of the control height only
@@ -139,7 +139,7 @@ namespace HtmlRenderer
         /// Raised when an image is about to be loaded by file path or URI.<br/>
         /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
         /// </summary>
-        public event EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> ImageLoad;
+        public event EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> ImageLoad;
 
         /// <summary>
         /// Is content selection is enabled for the rendered html (default - true).<br/>
@@ -184,7 +184,7 @@ namespace HtmlRenderer
             set
             {
                 _baseRawCssData = value;
-                _baseCssData = CssParser.ParseStyleSheet(value, true);
+                _baseCssData = RenderDom.Composer.CssParser.ParseStyleSheet(value, true);
             }
         }
 
@@ -307,7 +307,8 @@ namespace HtmlRenderer
         /// <returns>generated html</returns>
         public string GetHtml()
         {
-            return _htmlContainer != null ? _htmlContainer.GetHtml() : null;
+            throw new NotSupportedException();
+            //return _htmlContainer != null ? _htmlContainer.GetHtml() : null;
         }
 
         /// <summary>
@@ -493,7 +494,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Propagate the image load event from root container.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlRenderer.Dom.HtmlImageRequestEventArgs e)
+        private void OnImageLoad(object sender, HtmlRenderer.RenderDom.HtmlImageRequestEventArgs e)
         {
             if (ImageLoad != null)
             {

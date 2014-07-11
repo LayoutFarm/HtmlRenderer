@@ -48,7 +48,7 @@ namespace HtmlRenderer.WebDom.Parser
                         if (curTextNode == null)
                         {
                             curTextNode = _resultHtmlDoc.CreateTextNode(
-                                HtmlUtils.DecodeHtml(this.textSnapshot, startIndex, len));
+                                HtmlDecodeHelper.DecodeHtml(this.textSnapshot, startIndex, len));
 
                             if (curHtmlNode != null)
                             {
@@ -57,7 +57,7 @@ namespace HtmlRenderer.WebDom.Parser
                         }
                         else
                         {
-                            curTextNode.AppendTextContent(HtmlUtils.DecodeHtml(this.textSnapshot, startIndex, len));
+                            curTextNode.AppendTextContent(HtmlDecodeHelper.DecodeHtml(this.textSnapshot, startIndex, len));
 
                         }
                     } break;
@@ -111,7 +111,7 @@ namespace HtmlRenderer.WebDom.Parser
                                     else
                                     {
                                         //if not equal then check if current node need close tag or not
-                                        if (HtmlUtils.IsSingleTag(curHtmlNode.nodeLocalNameIndex))
+                                        if (HtmlDecodeHelper.IsSingleTag(curHtmlNode.nodeLocalNameIndex))
                                         {
                                             if (htmlNodeStack.Count > 0)
                                             {

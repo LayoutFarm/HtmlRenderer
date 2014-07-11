@@ -16,7 +16,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
-using HtmlRenderer.Dom;
+using HtmlRenderer.RenderDom;
+using HtmlRenderer.WebDom;
 using HtmlRenderer.Entities;
 namespace HtmlRenderer.Utils
 {
@@ -333,7 +334,7 @@ namespace HtmlRenderer.Utils
                 switch (box.CssDisplay)
                 {
 
-                    case CssDisplay.TableRow:
+                    case Css.CssDisplay.TableRow:
                         {
 
                             foreach (var childBox in box.GetChildBoxIter())
@@ -541,7 +542,7 @@ namespace HtmlRenderer.Utils
         /// <returns>css word box if exists or null</returns>
         public static CssRun GetCssBoxWord(CssBox box, Point location)
         {
-            if (box == null || box.Visibility != CssVisibility.Visible)
+            if (box == null || box.Visibility != Css.CssVisibility.Visible)
             {
                 return null;
             }

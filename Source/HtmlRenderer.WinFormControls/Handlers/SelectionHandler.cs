@@ -13,7 +13,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using HtmlRenderer.Dom;
+using HtmlRenderer.RenderDom;
 using HtmlRenderer.Entities;
 using HtmlRenderer.Utils;
 
@@ -115,12 +115,12 @@ namespace HtmlRenderer.Handlers
 
         #endregion
 
-        HtmlContainer container;
+        HtmlContainerImpl container;
         /// <summary>
         /// Init.
         /// </summary>
         /// <param name="root">the root of the handled html tree</param>
-        public SelectionHandler(CssBox root, HtmlContainer container)
+        public SelectionHandler(CssBox root, HtmlContainerImpl container)
         {
 
             this.container = container;
@@ -460,8 +460,8 @@ namespace HtmlRenderer.Handlers
             if (this.container.SelectionRange != null)
             {
                 this.container.SelectionRange = null;
-            } 
-            this.container.SelectionRange = new Dom.SelectionRange(_latestMouseDownHitChain, hitChain, g);
+            }
+            this.container.SelectionRange = new RenderDom.SelectionRange(_latestMouseDownHitChain, hitChain, g);
         }
 
 

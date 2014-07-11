@@ -17,6 +17,7 @@ using System.Drawing.Imaging;
 using System.Drawing.Text;
 using HtmlRenderer.Entities;
 using HtmlRenderer.Utils;
+using HtmlRenderer.WebDom;
 
 namespace HtmlRenderer
 {
@@ -94,7 +95,7 @@ namespace HtmlRenderer
         /// <param name="fontFamily">The font family to add.</param>
         public static void AddFontFamily(FontFamily fontFamily)
         {
-             
+
             FontsUtils.AddFontFamily(fontFamily);
         }
 
@@ -110,7 +111,7 @@ namespace HtmlRenderer
         /// <param name="toFamily">the font family to replace with</param>
         public static void AddFontFamilyMapping(string fromFamily, string toFamily)
         {
-           
+
             FontsUtils.AddFontFamilyMapping(fromFamily, toFamily);
         }
 
@@ -129,10 +130,10 @@ namespace HtmlRenderer
         /// <returns>the size required for the html</returns>
         public static SizeF Measure(Graphics g, string html, HtmlContainer container,
             float maxWidth = 0, CssActiveSheet cssData = null,
-            EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, 
-            EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad = null)
+            EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null,
+            EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> imageLoad = null)
         {
-             
+
             return Measure(g, html, container, maxWidth, cssData, false, stylesheetLoad, imageLoad);
         }
 
@@ -153,9 +154,9 @@ namespace HtmlRenderer
             HtmlContainer container,
             float maxWidth = 0, CssActiveSheet cssData = null,
             EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null,
-            EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad = null)
+            EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> imageLoad = null)
         {
-            
+
             return Measure(g, html, container, maxWidth, cssData, true, stylesheetLoad, imageLoad);
         }
 
@@ -176,9 +177,9 @@ namespace HtmlRenderer
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the actual size of the rendered html</returns>
         public static SizeF Render(Graphics g, string html, float left = 0, float top = 0, float maxWidth = 0, CssActiveSheet cssData = null,
-                                   EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad = null)
+                                   EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> imageLoad = null)
         {
-            
+
             return RenderClip(g, html, new PointF(left, top), new SizeF(maxWidth, 0), cssData, false, stylesheetLoad, imageLoad);
         }
 
@@ -200,8 +201,8 @@ namespace HtmlRenderer
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the actual size of the rendered html</returns>
         public static SizeF Render(Graphics g, string html, PointF location, SizeF maxSize, CssActiveSheet cssData = null,
-                                   EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad = null)
-        {   
+                                   EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> imageLoad = null)
+        {
             return RenderClip(g, html, location, maxSize, cssData, false, stylesheetLoad, imageLoad);
         }
 
@@ -222,9 +223,9 @@ namespace HtmlRenderer
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the actual size of the rendered html</returns>
         public static SizeF RenderGdiPlus(Graphics g, string html, float left = 0, float top = 0, float maxWidth = 0, CssActiveSheet cssData = null,
-                                          EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad = null)
+                                          EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> imageLoad = null)
         {
-             
+
             return RenderClip(g, html, new PointF(left, top), new SizeF(maxWidth, 0), cssData, true, stylesheetLoad, imageLoad);
         }
 
@@ -246,9 +247,9 @@ namespace HtmlRenderer
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the actual size of the rendered html</returns>
         public static SizeF RenderGdiPlus(Graphics g, string html, PointF location, SizeF maxSize, CssActiveSheet cssData = null,
-                                          EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad = null)
+                                          EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> imageLoad = null)
         {
-             
+
             return RenderClip(g, html, location, maxSize, cssData, true, stylesheetLoad, imageLoad);
         }
 
@@ -266,9 +267,9 @@ namespace HtmlRenderer
         /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         public static void RenderToImage(Image image, string html, PointF location = new PointF(), CssActiveSheet cssData = null,
-                                         EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad = null)
+                                         EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> imageLoad = null)
         {
-             
+
             var maxSize = new SizeF(image.Size.Width - location.X, image.Size.Height - location.Y);
             RenderToImage(image, html, location, maxSize, cssData, stylesheetLoad, imageLoad);
         }
@@ -287,9 +288,9 @@ namespace HtmlRenderer
         /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         public static void RenderToImage(Image image, string html, PointF location, SizeF maxSize, CssActiveSheet cssData = null,
-                                         EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad = null)
+                                         EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> imageLoad = null)
         {
-             
+
 
             if (!string.IsNullOrEmpty(html))
             {
@@ -335,7 +336,7 @@ namespace HtmlRenderer
         /// <returns>the generated image of the html</returns>
         /// <exception cref="ArgumentOutOfRangeException">if <paramref name="backgroundColor"/> is <see cref="Color.Transparent"/></exception>.
         public static Image RenderToImage(string html, Size size, Color backgroundColor = new Color(), CssActiveSheet cssData = null,
-                                          EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad = null)
+                                          EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> imageLoad = null)
         {
             if (backgroundColor == Color.Transparent)
                 throw new ArgumentOutOfRangeException("backgroundColor", "Transparent background in not supported");
@@ -394,7 +395,7 @@ namespace HtmlRenderer
         public static Image RenderToImage(string html,
                         HtmlContainer container,
                         int maxWidth = 0, int maxHeight = 0, Color backgroundColor = new Color(), CssActiveSheet cssData = null,
-                        EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad = null)
+                        EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> imageLoad = null)
         {
             return RenderToImage(html, container,
                 Size.Empty, new Size(maxWidth, maxHeight), backgroundColor, cssData, stylesheetLoad, imageLoad);
@@ -426,7 +427,7 @@ namespace HtmlRenderer
             HtmlContainer container,
             Size minSize, Size maxSize,
             Color backgroundColor = new Color(), CssActiveSheet cssData = null,
-            EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad = null)
+            EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> imageLoad = null)
         {
             if (backgroundColor == Color.Transparent)
                 throw new ArgumentOutOfRangeException("backgroundColor", "Transparent background in not supported");
@@ -438,10 +439,12 @@ namespace HtmlRenderer
             container.AvoidAsyncImagesLoading = true;
             container.AvoidImagesLateLoading = true;
 
+            HtmlContainerImpl myContainer = (HtmlContainerImpl)container;
             if (stylesheetLoad != null)
-                container.StylesheetLoadingRequest += stylesheetLoad;
+
+                myContainer.StylesheetLoadingRequest += stylesheetLoad;
             if (imageLoad != null)
-                container.ImageLoadingRequest += imageLoad;
+                myContainer.ImageLoadingRequest += imageLoad;
             container.SetHtml(html, cssData);
 
             var finalSize = MeasureHtmlByRestrictions(container, minSize, maxSize);
@@ -495,7 +498,7 @@ namespace HtmlRenderer
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the generated image of the html</returns>
         public static Image RenderToImageGdiPlus(string html, Size size, TextRenderingHint textRenderingHint = TextRenderingHint.AntiAlias, CssActiveSheet cssData = null,
-                                                 EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad = null)
+                                                 EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> imageLoad = null)
         {
             var image = new Bitmap(size.Width, size.Height, PixelFormat.Format32bppArgb);
 
@@ -529,7 +532,7 @@ namespace HtmlRenderer
         public static Image RenderToImageGdiPlus(string html,
                 HtmlContainer container,
                 int maxWidth = 0, int maxHeight = 0, TextRenderingHint textRenderingHint = TextRenderingHint.AntiAlias, CssActiveSheet cssData = null,
-                EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad = null)
+                EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> imageLoad = null)
         {
             return RenderToImageGdiPlus(html, container, Size.Empty, new Size(maxWidth, maxHeight), textRenderingHint, cssData, stylesheetLoad, imageLoad);
         }
@@ -556,7 +559,7 @@ namespace HtmlRenderer
         public static Image RenderToImageGdiPlus(string html,
                         HtmlContainer container,
                         Size minSize, Size maxSize, TextRenderingHint textRenderingHint = TextRenderingHint.AntiAlias, CssActiveSheet cssData = null,
-                        EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad = null)
+                        EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> imageLoad = null)
         {
             if (string.IsNullOrEmpty(html))
                 return new Bitmap(0, 0, PixelFormat.Format32bppArgb);
@@ -565,11 +568,11 @@ namespace HtmlRenderer
             container.AvoidAsyncImagesLoading = true;
             container.AvoidImagesLateLoading = true;
             container.UseGdiPlusTextRendering = true;
-
+            HtmlContainerImpl myContainer = (HtmlContainerImpl)container;
             if (stylesheetLoad != null)
-                container.StylesheetLoadingRequest += stylesheetLoad;
+                myContainer.StylesheetLoadingRequest += stylesheetLoad;
             if (imageLoad != null)
-                container.ImageLoadingRequest += imageLoad;
+                myContainer.ImageLoadingRequest += imageLoad;
             container.SetHtml(html, cssData);
 
             var finalSize = MeasureHtmlByRestrictions(container, minSize, maxSize);
@@ -609,7 +612,7 @@ namespace HtmlRenderer
         private static SizeF Measure(Graphics g, string html,
             HtmlContainer container,
             float maxWidth, CssActiveSheet cssData, bool useGdiPlusTextRendering,
-            EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad, EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad)
+            EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad, EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> imageLoad)
         {
             SizeF actualSize = SizeF.Empty;
             if (!string.IsNullOrEmpty(html))
@@ -620,10 +623,11 @@ namespace HtmlRenderer
                 container.AvoidImagesLateLoading = true;
                 container.UseGdiPlusTextRendering = useGdiPlusTextRendering;
 
+                HtmlContainerImpl myContainer = (HtmlContainerImpl)container;
                 if (stylesheetLoad != null)
-                    container.StylesheetLoadingRequest += stylesheetLoad;
+                    myContainer.StylesheetLoadingRequest += stylesheetLoad;
                 if (imageLoad != null)
-                    container.ImageLoadingRequest += imageLoad;
+                    myContainer.ImageLoadingRequest += imageLoad;
 
                 container.SetHtml(html, cssData);
                 using (var gfx = new WinGraphics(g, container.UseGdiPlusTextRendering))
@@ -698,7 +702,7 @@ namespace HtmlRenderer
         /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the actual size of the rendered html</returns>
-        private static SizeF RenderClip(Graphics g, string html, PointF location, SizeF maxSize, CssActiveSheet cssData, bool useGdiPlusTextRendering, EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad, EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad)
+        private static SizeF RenderClip(Graphics g, string html, PointF location, SizeF maxSize, CssActiveSheet cssData, bool useGdiPlusTextRendering, EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad, EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> imageLoad)
         {
             Region prevClip = null;
             if (maxSize.Height > 0)
@@ -734,7 +738,7 @@ namespace HtmlRenderer
         /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the actual size of the rendered html</returns>
-        private static SizeF RenderHtml(Graphics g, string html, PointF location, SizeF maxSize, CssActiveSheet cssData, bool useGdiPlusTextRendering, EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad, EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> imageLoad)
+        private static SizeF RenderHtml(Graphics g, string html, PointF location, SizeF maxSize, CssActiveSheet cssData, bool useGdiPlusTextRendering, EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad, EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> imageLoad)
         {
             SizeF actualSize = SizeF.Empty;
 

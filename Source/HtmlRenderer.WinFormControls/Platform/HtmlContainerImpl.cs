@@ -5,10 +5,9 @@ using System.Text;
 using System.Drawing;
 
 using System.Diagnostics;
-using HtmlRenderer.Dom;
+using HtmlRenderer.RenderDom;
 using HtmlRenderer.Entities;
 using HtmlRenderer.Handlers;
-using HtmlRenderer.Parse;
 using HtmlRenderer.Utils;
 using System.Windows.Forms;
 
@@ -35,10 +34,64 @@ namespace HtmlRenderer
         public event EventHandler<HtmlScrollEventArgs> ScrollChange;
         CssBox _root;
 
+
+        /// <summary>
+        /// Raised when an error occurred during html rendering.<br/>
+        /// </summary>
+        /// <remarks>
+        /// There is no guarantee that the event will be raised on the main thread, it can be raised on thread-pool thread.
+        /// </remarks>
+        public event EventHandler<HtmlRenderErrorEventArgs> RenderError;
+
+        /// <summary>
+        /// Raised when a stylesheet is about to be loaded by file path or URI by link element.<br/>
+        /// This event allows to provide the stylesheet manually or provide new source (file or Uri) to load from.<br/>
+        /// If no alternative data is provided the original source will be used.<br/>
+        /// </summary>
+        public event EventHandler<HtmlStylesheetLoadEventArgs> StylesheetLoadingRequest;
+
+        /// <summary>
+        /// Raised when an image is about to be loaded by file path or URI.<br/>
+        /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
+        /// </summary>
+        public event EventHandler<HtmlImageRequestEventArgs> ImageLoadingRequest;
+        public event EventHandler<HtmlRefreshEventArgs> Refresh;
+
         public HtmlContainerImpl()
         {
         }
+        protected override void RequestRefresh(bool layout)
+        {
+            if (this.Refresh != null)
+            {
+                HtmlRefreshEventArgs arg = new HtmlRefreshEventArgs(layout);
+                this.Refresh(this, arg);
+            }
+        }
+        protected override void OnRequestImage(ImageBinder binder, CssBox requestBox, bool _sync)
+        {
+            if (this.ImageLoadingRequest != null)
+            {
+                HtmlImageRequestEventArgs arg = new HtmlImageRequestEventArgs(binder);
+                this.ImageLoadingRequest(this, arg);
+            }
+        }
+        protected override void OnRequestStyleSheet(string hrefSource, out string stylesheet, out WebDom.CssActiveSheet stylesheetData)
+        {
+            if (this.StylesheetLoadingRequest != null)
+            {
+                HtmlStylesheetLoadEventArgs arg = new HtmlStylesheetLoadEventArgs(hrefSource);
+                this.StylesheetLoadingRequest(this, arg);
+                stylesheet = arg.SetStyleSheet;
+                stylesheetData = arg.SetStyleSheetData;
+            }
+            else
+            {
+                stylesheet = null;
+                stylesheetData = null;
 
+            }
+        }
         public void PerformPaint(Graphics g)
         {
 
@@ -126,7 +179,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Get the currently selected text segment in the html.
         /// </summary>
-        public override string SelectedText
+        public string SelectedText
         {
             get { return _selectionHandler.GetSelectedText(); }
         }
@@ -134,11 +187,14 @@ namespace HtmlRenderer
         /// <summary>
         /// Copy the currently selected html segment with style.
         /// </summary>
-        public override string SelectedHtml
+        public string SelectedHtml
         {
             get { return _selectionHandler.GetSelectedHtml(); }
         }
-
+        public string GetHtml()
+        {
+            throw new NotSupportedException();
+        }
         /// <summary>
         /// Handle mouse down to handle selection.
         /// </summary>
@@ -364,6 +420,24 @@ namespace HtmlRenderer
             }
         }
 
+        /// <summary>
+        /// Is content selection is enabled for the rendered html (default - true).<br/>
+        /// If set to 'false' the rendered html will be static only with ability to click on links.
+        /// </summary>
+        public bool IsSelectionEnabled
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Is the build-in context menu enabled and will be shown on mouse right click (default - true)
+        /// </summary>
+        public bool IsContextMenuEnabled
+        {
+            get;
+            set;
+        }
 
 
 

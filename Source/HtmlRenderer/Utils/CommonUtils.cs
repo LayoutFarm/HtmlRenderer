@@ -292,32 +292,32 @@ namespace HtmlRenderer.Utils
         /// <param name="number">the number to convert</param>
         /// <param name="style">the css style to convert by</param>
         /// <returns>converted string</returns>
-        public static string ConvertToAlphaNumber(int number, HtmlRenderer.Dom.CssListStyleType style) // =   string style = CssConstants.UpperAlpha)
+        public static string ConvertToAlphaNumber(int number, HtmlRenderer.Css.CssListStyleType style) // =   string style = CssConstants.UpperAlpha)
         {
             if (number == 0)
                 return string.Empty;
             switch (style)
             {
-                case Dom.CssListStyleType.LowerGreek:
+                case Css.CssListStyleType.LowerGreek:
                     return ConvertToGreekNumber(number);
-                case Dom.CssListStyleType.LowerRoman:
+                case Css.CssListStyleType.LowerRoman:
                     return ConvertToRomanNumbers(number, true);
-                case Dom.CssListStyleType.UpperRoman:
+                case Css.CssListStyleType.UpperRoman:
                     return ConvertToRomanNumbers(number, false);
-                case Dom.CssListStyleType.Armenian:
+                case Css.CssListStyleType.Armenian:
                     return ConvertToSpecificNumbers(number, _armenianDigitsTable);
-                case Dom.CssListStyleType.Georgian:
+                case Css.CssListStyleType.Georgian:
                     return ConvertToSpecificNumbers(number, _georgianDigitsTable);
-                case Dom.CssListStyleType.Hebrew:
+                case Css.CssListStyleType.Hebrew:
                       return ConvertToSpecificNumbers(number, _hebrewDigitsTable);
-                case Dom.CssListStyleType.Hiragana:
-                case Dom.CssListStyleType.HiraganaIroha:
+                case Css.CssListStyleType.Hiragana:
+                case Css.CssListStyleType.HiraganaIroha:
                     return ConvertToSpecificNumbers2(number, _hiraganaDigitsTable);
-                case Dom.CssListStyleType.Katakana:
-                case Dom.CssListStyleType.KatakanaIroha:
+                case Css.CssListStyleType.Katakana:
+                case Css.CssListStyleType.KatakanaIroha:
                    return ConvertToSpecificNumbers2(number, _satakanaDigitsTable);
-                case Dom.CssListStyleType.LowerAlpha:
-                case Dom.CssListStyleType.LowerLatin:
+                case Css.CssListStyleType.LowerAlpha:
+                case Css.CssListStyleType.LowerLatin:
                     return ConvertToEnglishNumber(number, true);
                 default:
                     return ConvertToEnglishNumber(number, false);
@@ -444,5 +444,44 @@ namespace HtmlRenderer.Utils
             }
             return sb;
         }
+        /// <summary>
+        /// Make relative URLs absolute in the stylesheet using the URI of the stylesheet.
+        /// </summary>
+        /// <param name="stylesheet">the stylesheet to correct</param>
+        /// <param name="baseUri">the stylesheet uri to use to create absolute URLs</param>
+        /// <returns>Corrected stylesheet</returns>
+        private static string CorrectRelativeUrls(string stylesheet, Uri baseUri)
+        {
+            int idx = 0;
+            while (idx != -1 && idx < stylesheet.Length)
+            {
+                idx = stylesheet.IndexOf("url", idx, StringComparison.OrdinalIgnoreCase);
+                if (idx > 0)
+                {
+                    int endIdx = stylesheet.IndexOf(")", idx, StringComparison.OrdinalIgnoreCase);
+                    if (endIdx > 0)
+                    {
+                        var offset1 = 4 + (stylesheet[idx + 4] == '\'' ? 1 : 0);
+                        var offset2 = (stylesheet[endIdx - 1] == '\'' ? 1 : 0);
+                        var urlStr = stylesheet.Substring(idx + offset1, endIdx - idx - offset1 - offset2);
+                        Uri url;
+                        if (Uri.TryCreate(urlStr, UriKind.Relative, out url))
+                        {
+                            url = new Uri(baseUri, url);
+                            stylesheet = stylesheet.Remove(idx + 4, endIdx - idx - 4);
+                            stylesheet = stylesheet.Insert(idx + 4, url.AbsoluteUri);
+                            idx += url.AbsoluteUri.Length + 4;
+                        }
+                        else
+                        {
+                            idx = endIdx + 1;
+                        }
+                    }
+                }
+            }
+
+            return stylesheet;
+        }
+
     }
 }

@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace HtmlRenderer.Dom
+namespace HtmlRenderer.RenderDom
 {
     /// <summary>
     /// handle image load 

@@ -1,14 +1,14 @@
 ﻿//BSD  2014 ,WinterDev
 
- 
 
+using HtmlRenderer.Internal;
 namespace HtmlRenderer.WebDom
 {
 
 
-    public enum WellknownHtmlName
+    enum WellknownHtmlName
     {
-      
+
         Unknown,
 
         [Map("id")]
@@ -73,13 +73,13 @@ namespace HtmlRenderer.WebDom
         IFrame,
         [Map("hr")]
         Hr,
-        
+
         [Map("input")]
         Input,
 
         [Map("isindex")]
         IsIndex,
-        
+
         [Map("meta")]
         Meta,
         [Map("param")]
@@ -126,7 +126,7 @@ namespace HtmlRenderer.WebDom
     }
 
 
-    public static class HtmlPredefineNames
+    static class HtmlPredefineNames
     {
 
         static readonly ValueMap<WellknownHtmlName> _wellKnownHtmlNameMap =
@@ -135,18 +135,18 @@ namespace HtmlRenderer.WebDom
         static UniqueStringTable htmlUniqueStringTableTemplate = new UniqueStringTable();
 
         static HtmlPredefineNames()
-        {   
-            int j = _wellKnownHtmlNameMap.Count; 
+        {
+            int j = _wellKnownHtmlNameMap.Count;
             for (int i = 0; i < j; ++i)
             {
                 htmlUniqueStringTableTemplate.AddStringIfNotExist(_wellKnownHtmlNameMap.GetStringFromValue((WellknownHtmlName)i));
             }
         }
-        internal static UniqueStringTable CreateUniqueStringTableClone()
+        public static UniqueStringTable CreateUniqueStringTableClone()
         {
             return htmlUniqueStringTableTemplate.Clone();
         }
-        
+
     }
 
 

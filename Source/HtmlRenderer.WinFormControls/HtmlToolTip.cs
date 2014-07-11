@@ -15,7 +15,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using HtmlRenderer.Entities;
-using HtmlRenderer.Parse;
+
 using HtmlRenderer.Utils;
 
 namespace HtmlRenderer
@@ -40,7 +40,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the base stylesheet data used in the panel
         /// </summary>
-        private CssActiveSheet _baseCssData;
+        private WebDom.CssActiveSheet _baseCssData;
 
         /// <summary>
         /// timer used to handle mouse move events when mouse is over the tooltip.<br/>
@@ -123,7 +123,7 @@ namespace HtmlRenderer
         /// Raised when an image is about to be loaded by file path or URI.<br/>
         /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
         /// </summary>
-        public event EventHandler<HtmlRenderer.Dom.HtmlImageRequestEventArgs> ImageLoad;
+        public event EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> ImageLoad;
 
         /// <summary>
         /// Set base stylesheet to be used by html rendered in the panel.
@@ -137,7 +137,7 @@ namespace HtmlRenderer
             set
             {
                 _baseRawCssData = value;
-                _baseCssData = CssParser.ParseStyleSheet(value, true);
+                _baseCssData = RenderDom.Composer.CssParser.ParseStyleSheet(value, true);
             }
         }
 
@@ -294,7 +294,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Propagate the image load event from root container.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlRenderer.Dom.HtmlImageRequestEventArgs e)
+        private void OnImageLoad(object sender, HtmlRenderer.RenderDom.HtmlImageRequestEventArgs e)
         {
             if (ImageLoad != null)
             {
