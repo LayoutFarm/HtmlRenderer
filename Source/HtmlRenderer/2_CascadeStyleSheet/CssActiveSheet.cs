@@ -16,7 +16,7 @@
 using System;
 using System.Collections.Generic;
 using HtmlRenderer.Entities;
-using HtmlRenderer.Parse;
+
 using HtmlRenderer.Utils;
 
 namespace HtmlRenderer

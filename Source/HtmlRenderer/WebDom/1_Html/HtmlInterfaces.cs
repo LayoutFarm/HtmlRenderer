@@ -12,8 +12,8 @@
 // 
 // - Sun Tsu,
 // "The Art of War"
- 
-namespace HtmlRenderer 
+
+namespace HtmlRenderer.WebDom
 {
 
    

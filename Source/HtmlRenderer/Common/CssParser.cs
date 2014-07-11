@@ -16,7 +16,7 @@
 using System; 
 using HtmlRenderer.Utils; 
 
-namespace HtmlRenderer.Parse
+namespace HtmlRenderer 
 {
 
     /// <summary>

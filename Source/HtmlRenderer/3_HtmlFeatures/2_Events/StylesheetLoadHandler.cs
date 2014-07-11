@@ -26,7 +26,7 @@ namespace HtmlRenderer.Handlers
     /// Handler for loading a stylesheet data.
     /// </summary>
     internal static class StylesheetLoadHandler
-    {
+    {    
         /// <summary>
         /// Load stylesheet data from the given source.<br/>
         /// The source can be local file or web URI.<br/>

@@ -412,7 +412,7 @@ namespace HtmlRenderer.Dom
             //The computed value if the property is percentage multiplied by the 
             //element's computed font size. 
             return CssLength.MakePixelLength(
-                HtmlRenderer.Parse.CssValueParser.ConvertToPx(len, box.GetEmHeight(), box));
+                 CssValueParser.ConvertToPx(len, box.GetEmHeight(), box));
         }
 
         public static HtmlRenderer.WebDom.WellknownCssPropertyName GetWellKnownPropName(string propertyName)
@@ -622,7 +622,7 @@ namespace HtmlRenderer.Dom
         {
             if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.Color)
             {
-                Color actualColor = Parse.CssValueParser.GetActualColor(value.GetTranslatedStringValue());
+                Color actualColor = CssValueParser.GetActualColor(value.GetTranslatedStringValue());
                 value.SetColorValue(actualColor);
                 return actualColor;
             }

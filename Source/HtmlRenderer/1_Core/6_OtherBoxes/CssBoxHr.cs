@@ -12,7 +12,7 @@
 // "The Art of War"
 
 using System.Drawing; 
-using HtmlRenderer.Parse;
+
 using HtmlRenderer.Utils;
 
 namespace HtmlRenderer.Dom

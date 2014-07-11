@@ -16,7 +16,7 @@
 using System;
 using System.Drawing;
 using HtmlRenderer.Dom; 
-using HtmlRenderer.Parse;
+
 
 namespace HtmlRenderer.Utils
 {

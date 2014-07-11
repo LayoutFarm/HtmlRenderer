@@ -185,5 +185,7 @@ namespace HtmlRenderer.Dom
         Whitespace,
         SingleWhitespace,
         LineBreak,
-    } 
+    }
+
+   
 }

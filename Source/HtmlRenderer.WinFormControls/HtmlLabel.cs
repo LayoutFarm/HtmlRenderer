@@ -16,7 +16,7 @@ using System.ComponentModel;
 using System.Drawing.Text;
 using System.Windows.Forms;
 using HtmlRenderer.Entities;
-using HtmlRenderer.Parse;
+ 
 
 namespace HtmlRenderer
 {

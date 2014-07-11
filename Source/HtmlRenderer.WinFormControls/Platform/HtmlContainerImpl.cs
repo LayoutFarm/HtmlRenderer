@@ -7,8 +7,7 @@ using System.Drawing;
 using System.Diagnostics;
 using HtmlRenderer.Dom;
 using HtmlRenderer.Entities;
-using HtmlRenderer.Handlers;
-using HtmlRenderer.Parse;
+using HtmlRenderer.Handlers; 
 using HtmlRenderer.Utils;
 using System.Windows.Forms;
 

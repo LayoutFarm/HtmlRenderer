@@ -14,11 +14,10 @@
 // "The Art of War"
 
 using System;
-using System.Drawing; 
-using HtmlRenderer.Dom; 
+using System.Drawing;
 using HtmlRenderer.Utils;
 
-namespace HtmlRenderer.Parse
+namespace HtmlRenderer.Dom
 {
     /// <summary>
     /// Parse CSS properties values like numbers, urls, etc.

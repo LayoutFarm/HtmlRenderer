@@ -14,7 +14,5 @@ namespace HtmlRenderer
             this.Note = note;
         }
         public string Note { get; set; }
-
-        
     }
 }

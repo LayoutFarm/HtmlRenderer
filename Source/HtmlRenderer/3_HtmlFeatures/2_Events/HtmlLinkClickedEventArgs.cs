@@ -15,7 +15,7 @@
 
 using System;
 using System.Collections.Generic;
-
+using HtmlRenderer.WebDom;
 namespace HtmlRenderer.Entities
 {
     /// <summary>
