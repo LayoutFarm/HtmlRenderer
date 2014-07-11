@@ -59,14 +59,11 @@ namespace HtmlRenderer.RenderDom
             }
 
             this._controller = controller;
-
-
-
-
 #if DEBUG
             if (!spec.IsFreezed)
             {
-                //must be freeze
+                //must be freezed
+                throw new NotSupportedException();
             }
 #endif
 
@@ -78,16 +75,17 @@ namespace HtmlRenderer.RenderDom
         public CssBox(CssBox parentBox, object controller, Css.BoxSpec spec, Css.CssDisplay fixDisplayType)
         {
 
-            this._aa_boxes = new CssBoxCollection(this); 
+            this._aa_boxes = new CssBoxCollection(this);
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
-            } 
-            this._controller = controller;  
+            }
+            this._controller = controller;
 #if DEBUG
             if (!spec.IsFreezed)
             {
-                //must be freeze
+                //must be freezed 
+                throw new NotSupportedException();
             }
 #endif
 
@@ -102,7 +100,7 @@ namespace HtmlRenderer.RenderDom
         }
 
 
-      
+
         /// <summary>
         /// Gets the parent box of this box
         /// </summary>
@@ -124,7 +122,7 @@ namespace HtmlRenderer.RenderDom
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
-              
+
             }
         }
         internal void SetNewParentBox(int myIndexHint, CssBox parentBox)
@@ -135,7 +133,7 @@ namespace HtmlRenderer.RenderDom
             }
             if (parentBox != null)
             {
-                parentBox.Boxes.Add(this); 
+                parentBox.Boxes.Add(this);
             }
         }
         /// <summary>
@@ -582,7 +580,7 @@ namespace HtmlRenderer.RenderDom
                                         this.SetHeightToZero();
 
                                         //This will automatically set the bottom of this block
-                                        CssLayoutEngine.FlowContentRuns(this, lay); 
+                                        CssLayoutEngine.FlowContentRuns(this, lay);
 
                                     }
                                     else if (_aa_boxes.Count > 0)
@@ -853,7 +851,7 @@ namespace HtmlRenderer.RenderDom
         }
 
 
-        
+
 
 
         ///// <summary>
