@@ -93,7 +93,7 @@ namespace HtmlRenderer
             }
         }
         public void PerformPaint(Graphics g)
-        {   
+        {
             using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
             {
                 Region prevClip = null;
@@ -139,6 +139,7 @@ namespace HtmlRenderer
             //    //Console.WriteLine(string.Format("boxes{0}, lines{1}, runs{2}", dbugCounter.dbugBoxPaintCount, dbugCounter.dbugLinePaintCount, dbugCounter.dbugRunPaintCount));
             //    Console.WriteLine(ticks);
             //}
+            //System.Diagnostics.Debugger.Break();
         }
         public void PerformLayout(Graphics g)
         {
@@ -150,7 +151,6 @@ namespace HtmlRenderer
                 }
             }
         }
-
         protected override void OnRootDisposed()
         {
 

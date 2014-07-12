@@ -24,11 +24,17 @@ namespace HtmlRenderer.Boxes
             //-----------------------------------------------
             public const int HAS_ROUND_CORNER = 1 << (12 - 1);
             public const int HAS_SOME_VISIBLE_BORDER = 1 << (13 - 1);
-            public const int HAS_VISIBLE_BG = 1 << (14 - 1); 
+            public const int HAS_VISIBLE_BG = 1 << (14 - 1);
             //-----------------------------------------------
             public const int IS_INLINE_BOX = 1 << (16 - 1);
             //-----------------------------------------------
             public const int HAS_CONTAINER_PROP = 1 << (17 - 1);
+            //-----------------------------------------------
+            public const int BORDER_LEFT_VISIBLE = 1 << (18 - 1);
+            public const int BORDER_TOP_VISIBLE = 1 << (19 - 1);
+            public const int BORDER_RIGHT_VISIBLE = 1 << (20 - 1);
+            public const int BORDER_BOTTOM_VISIBLE = 1 << (21 - 1);
+            //-----------------------------------------------
 
         }
     }

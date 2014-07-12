@@ -51,6 +51,7 @@ namespace HtmlRenderer.Boxes
 
         public CssBox(CssBox parentBox, object controller, Css.BoxSpec spec)
         {
+
             this._aa_boxes = new CssBoxCollection(this);
 
             if (parentBox != null)
@@ -96,11 +97,7 @@ namespace HtmlRenderer.Boxes
             this._myspec = spec;
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
-
         }
-
-
-
         /// <summary>
         /// Gets the parent box of this box
         /// </summary>
@@ -122,20 +119,9 @@ namespace HtmlRenderer.Boxes
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
+            }
+        }
 
-            }
-        }
-        internal void SetNewParentBox(int myIndexHint, CssBox parentBox)
-        {
-            if (this._parentBox != null)
-            {
-                this._parentBox.Boxes.RemoveAt(myIndexHint);
-            }
-            if (parentBox != null)
-            {
-                parentBox.Boxes.Add(this);
-            }
-        }
         /// <summary>
         /// Is the box is of "br" element.
         /// </summary>
@@ -143,8 +129,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return this.isBrElement;
-
+                return this.isBrElement; 
             }
         }
 
@@ -458,15 +443,18 @@ namespace HtmlRenderer.Boxes
         {
             PerformContentLayout(lay);
         }
-
         internal void ChangeSiblingOrder(int siblingIndex)
         {
             if (siblingIndex < 0)
             {
                 throw new Exception("before box doesn't exist on parent");
-            }
+            } 
             this._parentBox.Boxes.ChangeSiblingIndex(this, siblingIndex);
         }
+        //internal int FindChildIndex(CssBox childBox)
+        //{
+        //    return this._aa_boxes.FindChildIndex(childBox);
+        //}
 
 
 
@@ -578,10 +566,8 @@ namespace HtmlRenderer.Boxes
                                     if (BoxUtils.ContainsInlinesOnly(this))
                                     {
                                         this.SetHeightToZero();
-
                                         //This will automatically set the bottom of this block
                                         CssLayoutEngine.FlowContentRuns(this, lay);
-
                                     }
                                     else if (_aa_boxes.Count > 0)
                                     {
@@ -792,7 +778,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return this.ParentBox.Boxes[this.ParentBox.ChildCount - 1] == this;
+                return this.ParentBox.Boxes.GetLastChild() == this;
             }
         }
         /// <summary>
@@ -834,11 +820,11 @@ namespace HtmlRenderer.Boxes
 
             if (ParentBox != null && this.IsLastChild && cbBox.ActualMarginBottom < 0.1)
             {
-                var lastChildBottomMargin = _aa_boxes[_aa_boxes.Count - 1].ActualMarginBottom;
+                var lastChildBottomMargin = _aa_boxes.GetLastChild().ActualMarginBottom;
 
                 margin = (Height.IsAuto) ? Math.Max(ActualMarginBottom, lastChildBottomMargin) : lastChildBottomMargin;
             }
-            return _aa_boxes[_aa_boxes.Count - 1].LocalBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
+            return _aa_boxes.GetLastChild().LocalBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
 
             //must have at least 1 child 
             //float lastChildBottomWithMarginRelativeToMe = this.LocalY + _boxes[_boxes.Count - 1].LocalActualBottom + margin + this.ActualPaddingBottom + this.ActualBorderBottomWidth;

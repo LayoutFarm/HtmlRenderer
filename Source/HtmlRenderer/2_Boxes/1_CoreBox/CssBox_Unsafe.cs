@@ -13,7 +13,17 @@ namespace HtmlRenderer.Boxes
         /// the parent css box of this css box in the hierarchy
         /// </summary>
         CssBox _parentBox;
+        LinkedListNode<CssBox> _linkedNode;
         //-------------------------------------------------------
+        internal static LinkedListNode<CssBox> UnsafeGetLinkedNode(CssBox box)
+        {
+            return box._linkedNode;
+        }
+        internal static void UnsafeSetNodes2(CssBox childNode, CssBox parent, LinkedListNode<CssBox> linkNode)
+        {
+            childNode._parentBox = parent;
+            childNode._linkedNode = linkNode;
+        }
         internal static void UnsafeSetNodes(CssBox childNode, CssBox parent, CssBox prevSibling)
         {
             childNode._parentBox = parent;
