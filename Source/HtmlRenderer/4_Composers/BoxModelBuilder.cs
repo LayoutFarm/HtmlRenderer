@@ -15,8 +15,8 @@
 
 using System;
 using System.Drawing;
-using System.Collections.Generic; 
-using HtmlRenderer.Css; 
+using System.Collections.Generic;
+using HtmlRenderer.Css;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.WebDom.Parser;
 using HtmlRenderer.Boxes;
@@ -151,7 +151,7 @@ namespace HtmlRenderer.Composers
             CssBox newChildBox,
             ref  bool isLineFormattingContext)
         {
-
+          
             int parentChildCount = parentBox.ChildCount;
 
             if (parentBox.IsBlock)
@@ -206,13 +206,16 @@ namespace HtmlRenderer.Composers
                     //1. create anon block 
                     if (parentChildCount > 1)
                     {
-                        var upperAnon = CssBox.CreateAnonBlock(parentBox, 0);
-                        //2. move prev child to new anon block
-                        for (int m = parentBox.ChildCount - 1; m >= 2; --m)
+                        var a = parentBox.GetFirstChild();
+                        var upperAnon = CssBox.CreateAnonBlock(parentBox, a);
+                        int ncount = parentBox.ChildCount - 1;
+                        while (ncount >= 2)
                         {
-                            var prevChild = parentBox.GetChildBox(1);
-                            prevChild.SetNewParentBox(upperAnon);
-                        }
+                            var tmp = a.GetNextNode();
+                            a.SetNewParentBox(upperAnon);
+                            a = tmp;
+                            ncount--;
+                        } 
                     }
 
                     isLineFormattingContext = false;

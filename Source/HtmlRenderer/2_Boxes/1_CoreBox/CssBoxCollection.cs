@@ -9,89 +9,47 @@ namespace HtmlRenderer.Boxes
 
     class CssBoxCollection
     {
-        List<CssBox> _boxes = new List<CssBox>();
+
+        LinkedList<CssBox> _boxes = new LinkedList<CssBox>();
         CssBox owner;
         public CssBoxCollection(CssBox owner)
         {
             this.owner = owner;
         }
-
         public IEnumerable<CssBox> GetChildBoxIter()
         {
-            List<CssBox> tmp = _boxes;
-            int j = tmp.Count;
-            for (int i = 0; i < j; ++i)
+            var cNode = _boxes.First;
+            while (cNode != null)
             {
-                yield return tmp[i];
+                yield return cNode.Value;
+                cNode = cNode.Next;
             }
         }
         public IEnumerable<CssBox> GetChildBoxBackwardIter()
         {
-            List<CssBox> tmp = _boxes;
-
-            for (int i = tmp.Count - 1; i >= 0; --i)
+            var cNode = _boxes.Last;
+            while (cNode != null)
             {
-                yield return tmp[i];
+                yield return cNode.Value;
+                cNode = cNode.Previous;
             }
         }
         public void Add(CssBox box)
         {
 
+#if DEBUG
             if (this.owner == box)
             {
                 throw new NotSupportedException();
             }
-            int count = _boxes.Count;
-            if (count > 0)
-            {
-                CssBox.UnsafeSetNodes(box, owner, _boxes[count - 1]);
-                this._boxes.Add(box);
-            }
-            else
-            {
-                CssBox.UnsafeSetNodes(box, owner, null);
-                this._boxes.Add(box);
-            }
+#endif
+            CssBox.UnsafeSetNodes2(box, this.owner, _boxes.AddLast(box));
         }
-        public void Insert(int index, CssBox box)
+        public void InsertBefore(CssBox beforeBox, CssBox box)
         {
-            int count = _boxes.Count;
-
-            switch (index)
-            {
-                case 0:
-                    {
-                        //insert at pos
-                        if (count > 0)
-                        {
-                            CssBox currentBoxAtIndex = _boxes[0];
-                            CssBox.UnsafeSetNodes(currentBoxAtIndex, owner, box);
-                        }
-                        this._boxes.Insert(index, box);
-                        CssBox.UnsafeSetNodes(box, owner, null);
-
-                    } break;
-                default:
-                    {
-                        CssBox currentBoxAtIndex = _boxes[index];
-                        CssBox currentBoxAtPreIndex = _boxes[index - 1];
-
-                        CssBox.UnsafeSetNodes(currentBoxAtIndex, owner, box);
-                        CssBox.UnsafeSetNodes(box, owner, currentBoxAtPreIndex);
-
-                        this._boxes.Insert(index, box);
-
-                    } break;
-            }
-        }
-        internal void ChangeSiblingIndex(CssBox box, int toNewIndex)
-        {
-            int existingIndex = this._boxes.IndexOf(box);
-            if (existingIndex != toNewIndex)
-            {
-                this.RemoveAt(existingIndex);
-                this.Insert(toNewIndex, box);
-            }
+            var beforeLinkedNode = CssBox.UnsafeGetLinkedNode(beforeBox);
+            CssBox.UnsafeSetNodes2(box, this.owner,
+                this._boxes.AddBefore(beforeLinkedNode, box));
         }
         public int Count
         {
@@ -102,38 +60,77 @@ namespace HtmlRenderer.Boxes
         }
         public void Remove(CssBox box)
         {
-            this.RemoveAt(this._boxes.IndexOf(box));
+            var linkedNode = CssBox.UnsafeGetLinkedNode(box);
+            this._boxes.Remove(linkedNode);
+            CssBox.UnsafeSetNodes2(box, null, null);
         }
-        public void RemoveAt(int index)
+        public CssBox GetFirstChild()
         {
-
-            CssBox tmp = this._boxes[index];
-            CssBox nextBox = null;
-            if (index < _boxes.Count - 1)
-            {
-                nextBox = this._boxes[index + 1];
-                CssBox preBox = null;
-                if (index > 0)
-                {
-                    preBox = this._boxes[index - 1];
-                }
-                CssBox.UnsafeSetNodes(nextBox, owner, preBox);
-            }
-            this._boxes.RemoveAt(index);
-            CssBox.UnsafeSetNodes(tmp, null, null);
+            return this._boxes.First.Value;
         }
-        public CssBox this[int index]
+        public CssBox GetLastChild()
         {
-            get
-            {
-                return this._boxes[index];
-            }
+            return this._boxes.Last.Value;
         }
         public IEnumerator<CssBox> GetEnumerator()
         {
             return this._boxes.GetEnumerator();
         }
+        internal LinkedListNode<CssBox> GetNodeAtIndex(int index)
+        {
+
+            switch (index)
+            {
+                //hint
+                case 0:
+                    {
+                        return this._boxes.First;//0
+                    }
+                case 1:
+                    {
+                        return this._boxes.First.Next;//0,1
+
+                    }
+                case 2:
+                    {
+                        return this._boxes.First.Next.Next;//0,1,2 
+                    }
+                case 3:
+                    {
+                        return this._boxes.First.Next.Next.Next;//0,1,2,3
+                    }
+                default:
+                    {
+
+                        int j = this._boxes.Count;
+                        var cnode = this._boxes.First;
+                        for (int i = 0; i < j; ++i)
+                        {
+                            if (i == index)
+                            {
+                                return cnode;
+
+                            }
+                            else if (i > index)
+                            {
+                                return null;
+                            }
+                            cnode = cnode.Next;
+                        }
+                        return null;//not found                         
+                    }
+            }
+        }
+        public void ChangeSiblingIndex(CssBox box, int newIndex)
+        {
+            //find target linked node 
+            LinkedListNode<CssBox> foundNode = this.GetNodeAtIndex(newIndex);
+            //1. remove from current box
+            this.Remove(box);
+            //2. 
+            CssBox.UnsafeSetNodes2(box, this.owner, this._boxes.AddBefore(foundNode, box)); 
+        }
     }
 
-   
+
 }

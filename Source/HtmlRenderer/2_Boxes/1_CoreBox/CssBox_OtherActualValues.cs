@@ -17,7 +17,7 @@ namespace HtmlRenderer.Boxes
         float _actualTextIndent;
 
         float _actualBorderSpacingHorizontal;
-        float _actualBorderSpacingVertical; 
+        float _actualBorderSpacingVertical;
 
         /// <summary>
         /// Gets the line height
@@ -26,7 +26,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return _actualLineHeight; 
+                return _actualLineHeight;
             }
         }
         public CssDisplay CssDisplay
@@ -43,7 +43,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return _actualTextIndent; 
+                return _actualTextIndent;
             }
         }
 
@@ -53,13 +53,13 @@ namespace HtmlRenderer.Boxes
         public float ActualWordSpacing
         {
             get { return _actualWordSpacing; }
-        } 
+        }
         protected float MeasureWordSpacing(LayoutVisitor lay)
-        {   
+        {
             if ((this._prop_pass_eval & CssBoxAssignments.WORD_SPACING) == 0)
             {
-                this._prop_pass_eval |= CssBoxAssignments.WORD_SPACING; 
-                _actualWordSpacing = lay.MeasureWhiteSpace(this); 
+                this._prop_pass_eval |= CssBoxAssignments.WORD_SPACING;
+                _actualWordSpacing = lay.MeasureWhiteSpace(this);
                 if (!this.WordSpacing.IsNormalWordSpacing)
                 {
                     _actualWordSpacing += CssValueParser.ConvertToPx(this.WordSpacing, 1, this);
@@ -95,7 +95,7 @@ namespace HtmlRenderer.Boxes
                     this._prop_pass_eval |= CssBoxAssignments.BORDER_SPACING_V;
                     _actualBorderSpacingVertical = this.BorderSpacingVertical.Number;
                 }
-                 
+
                 return _actualBorderSpacingVertical;
             }
         }
@@ -141,9 +141,12 @@ namespace HtmlRenderer.Boxes
                 box._cssDisplay = newdisplay;
             }
 
-            box.IsInline = (newdisplay == CssDisplay.BlockInsideInlineAfterCorrection) || ((newdisplay == CssDisplay.Inline ||
+            box.IsInline = (newdisplay == CssDisplay.BlockInsideInlineAfterCorrection) ||
+                    ((newdisplay == CssDisplay.Inline ||
                     newdisplay == CssDisplay.InlineBlock)
                     && !box.IsBrElement);
+
+
 
             box._isVisible = box._cssDisplay != CssDisplay.None && box._myspec.Visibility == CssVisibility.Visible;
             //-------------------------
@@ -166,6 +169,9 @@ namespace HtmlRenderer.Boxes
 
             //-------------------------
         }
-
+        internal static void SetAsBrBox(CssBox box)
+        {
+            box.isBrElement = true;
+        } 
     }
 }

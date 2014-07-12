@@ -8,15 +8,19 @@ namespace HtmlRenderer.Boxes
     {
 
 
-        internal static CssBox CreateAnonBlock(CssBox parent, int insertAt = -1)
+        internal static CssBox CreateAnonBlock(CssBox parent)
+        {
+            var newBox = new CssBox(parent, null, parent._myspec.GetAnonVersion());
+            ChangeDisplayType(newBox, Css.CssDisplay.Block);  
+            return newBox;
+        }
+        internal static CssBox CreateAnonBlock(CssBox parent,CssBox insertBefore)
         {
             var newBox = new CssBox(parent, null, parent._myspec.GetAnonVersion());
             ChangeDisplayType(newBox, Css.CssDisplay.Block);
 
-            if (insertAt > -1)
-            {
-                newBox.ChangeSiblingOrder(insertAt);
-            }
+            parent.Boxes.Remove(newBox);
+            parent.Boxes.InsertBefore(insertBefore, newBox);
             //-------------------------------------------
 #if DEBUG
             //if (parent.HtmlElement != null)

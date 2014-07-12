@@ -410,7 +410,7 @@ namespace HtmlRenderer.Boxes
 
 
             CssBox latestOwner = null;
-            Font font = null; 
+            Font font = null;
             Color color = Color.Empty;
             var tmpRuns = this._runs;
             int j = tmpRuns.Count;
@@ -453,7 +453,7 @@ namespace HtmlRenderer.Boxes
                                 font = latestOwner.ActualFont;
                                 color = latestOwner.ActualColor;
                             }
-                            
+
 
                             CssTextRun textRun = (CssTextRun)w;
 
@@ -547,8 +547,8 @@ namespace HtmlRenderer.Boxes
                 }
                 //-----------------------------------------------------------------
                 var stripArea = strip.Bound;
-                bool isFirstLine, isLastLine; 
-                CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine); 
+                bool isFirstLine, isLastLine;
+                CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
                 stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);
 
                 if (stripOwner.CssDisplay != Css.CssDisplay.TableCell

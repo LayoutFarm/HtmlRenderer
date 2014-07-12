@@ -12,7 +12,6 @@ namespace HtmlRenderer.Composers
     public abstract class CustomCssBoxGenerator
     {
         public abstract CssBox CreateCssBox(IHtmlElement tag, CssBox parentBox, BoxSpec spec);
-
     }
 
     public static class BoxCreator
