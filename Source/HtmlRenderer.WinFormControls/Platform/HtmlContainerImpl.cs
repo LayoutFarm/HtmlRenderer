@@ -139,7 +139,7 @@ namespace HtmlRenderer
                 //Console.WriteLine(string.Format("boxes{0}, lines{1}, runs{2}", dbugCounter.dbugBoxPaintCount, dbugCounter.dbugLinePaintCount, dbugCounter.dbugRunPaintCount));
                 Console.WriteLine(ticks);
             }
-            System.Diagnostics.Debugger.Break();
+            //System.Diagnostics.Debugger.Break();
         }
         public void PerformLayout(Graphics g)
         {
