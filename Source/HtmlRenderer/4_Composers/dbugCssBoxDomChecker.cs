@@ -15,7 +15,7 @@
 
 using HtmlRenderer.Drawing;
 using HtmlRenderer.Css;
-using HtmlRenderer.Boxes; 
+using HtmlRenderer.Boxes;
 namespace HtmlRenderer.Composers
 {
 #if DEBUG
@@ -36,9 +36,19 @@ namespace HtmlRenderer.Composers
             return;
 
             CssBoxCollection boxes = CssBox.UnsafeGetChildren(box);
-            for (int i = boxes.Count - 1; i >= 0; i--)
+            if (boxes.Count == 0)
             {
-                var childBox = boxes[i];
+                return;
+            }
+
+            //iter backward ***
+            var childBox = boxes.GetLastChild();
+            int count = boxes.Count;
+            int i = count - 1;
+
+            while (childBox != null)
+            {
+
                 if (childBox.MayHasSomeTextContent)
                 {
                     // is the box has text
@@ -60,19 +70,22 @@ namespace HtmlRenderer.Composers
                         {
                             //first
                             // is first/last box where is in inline box and it's next/previous box is inline
-                            keepBox = box.IsInline && boxes[1].IsInline;
+                            //keepBox = box.IsInline && boxes[1].IsInline;
+                            keepBox = box.IsInline && box.GetNextNode().IsInline;
                         }
                         else if (i == box.ChildCount - 1)
                         {
                             //last
                             // is first/last box where is in inline box and it's next/previous box is inline
-                            keepBox = box.IsInline && boxes[i - 1].IsInline;
+                            //keepBox = box.IsInline && boxes[i - 1].IsInline;
+                            keepBox = box.IsInline && box.GetPrevNode().IsInline;
                         }
                         else
                         {
                             //between
                             // is it a whitespace between two inline boxes
-                            keepBox = boxes[i - 1].IsInline && boxes[i + 1].IsInline;
+                            //keepBox = boxes[i - 1].IsInline && boxes[i + 1].IsInline;
+                            keepBox = box.GetPrevNode().IsInline && box.GetNextNode().IsInline;
                         }
                     }
 
@@ -84,7 +97,10 @@ namespace HtmlRenderer.Composers
                     else
                     {
 
-                        boxes.RemoveAt(i);
+                        //remove current node
+                        var prevNode = box.GetPrevNode();
+                        boxes.Remove(childBox);
+                        childBox = prevNode;
                     }
                 }
                 else
@@ -92,7 +108,19 @@ namespace HtmlRenderer.Composers
                     // recursive 
                     CorrectTextBoxes(childBox);
                 }
+
+                i--;//***
             }
+
+
+            //var linkedNode = CssBox.UnsafeGetLinkedNode(box);
+
+
+            //for (int i = boxes.Count - 1; i >= 0; i--)
+            //{
+            //    var childBox = boxes[i];
+
+            //}
         }
         /// <summary>
         /// Go over all image boxes and if its display style is set to block, 
@@ -108,7 +136,7 @@ namespace HtmlRenderer.Composers
                 if (childBox is CssBoxImage && childBox.CssDisplay == CssDisplay.Block)
                 {
                     //create new anonymous box
-                    var block = CssBox.CreateAnonBlock(childBox.ParentBox, childIndex);
+                    var block = CssBox.CreateAnonBlock(childBox.ParentBox, childBox);
                     //move this imgbox to new child 
                     childBox.SetNewParentBox(block);
                     CssBox.ChangeDisplayType(childBox, CssDisplay.Inline);
@@ -143,17 +171,17 @@ namespace HtmlRenderer.Composers
 
             CssBox brBox = null;//reset each loop
             int j = box.ChildCount;
-            for (int i = 0; i < j; i++)
+            var cnode = box.GetFirstChild();
+            int i = 0;
+            while (cnode != null)
             {
-                var curBox = box.GetChildBox(i);
-
-                if (curBox.IsBrElement)
+                if (cnode.IsBrElement)
                 {
-                    brBox = curBox;
+                    brBox = cnode;
                     //check prev box
                     if (i > 0)// is not first child 
                     {
-                        var prevBox = box.GetChildBox(i - 1);
+                        var prevBox = cnode.GetPrevNode();
                         if (prevBox.HasRuns)
                         {
                             followingBlock = false;
@@ -163,8 +191,6 @@ namespace HtmlRenderer.Composers
                             followingBlock = true;
                         }
                     }
-
-
                     CssBox.ChangeDisplayType(brBox, CssDisplay.Block);
                     if (followingBlock)
                     {
@@ -175,7 +201,45 @@ namespace HtmlRenderer.Composers
                         //brBox.Height = new CssLength(0.95f, CssUnitOrNames.Ems);
                     }
                 }
+
+
+                //--------------------------
+                cnode = cnode.GetNextNode();
+                i++;
             }
+            //for (int i = 0; i < j; i++)
+            //{
+            //    var curBox = box.GetChildBox(i);
+
+            //    if (curBox.IsBrElement)
+            //    {
+            //        brBox = curBox;
+            //        //check prev box
+            //        if (i > 0)// is not first child 
+            //        {
+            //            var prevBox = box.GetChildBox(i - 1);
+            //            if (prevBox.HasRuns)
+            //            {
+            //                followingBlock = false;
+            //            }
+            //            else if (prevBox.IsBlock)
+            //            {
+            //                followingBlock = true;
+            //            }
+            //        }
+
+
+            //        CssBox.ChangeDisplayType(brBox, CssDisplay.Block);
+            //        if (followingBlock)
+            //        {
+
+            //            // atodo: check the height to min-height when it is supported
+            //            //throw new NotSupportedException();
+            //            brBox.DirectSetHeight(FontDefaultConfig.DEFAULT_FONT_SIZE * 0.95f);
+            //            //brBox.Height = new CssLength(0.95f, CssUnitOrNames.Ems);
+            //        }
+            //    }
+            //}
         }
 
         /// <summary>
@@ -192,9 +256,10 @@ namespace HtmlRenderer.Composers
             }
             mixFlags = 0;
             var children = CssBox.UnsafeGetChildren(box);
-            for (int i = children.Count - 1; i >= 0; --i)
+            var cnode = children.GetLastChild();
+            while (cnode != null)
             {
-                if (children[i].IsInline)
+                if (cnode.IsInline)
                 {
                     mixFlags |= HAS_IN_LINE;
                 }
@@ -208,7 +273,27 @@ namespace HtmlRenderer.Composers
                     return true;
                 }
 
+                cnode = cnode.GetPrevNode();
             }
+
+
+            //for (int i = children.Count - 1; i >= 0; --i)
+            //{
+            //    if (children[i].IsInline)
+            //    {
+            //        mixFlags |= HAS_IN_LINE;
+            //    }
+            //    else
+            //    {
+            //        mixFlags |= HAS_BLOCK;
+            //    }
+
+            //    if (mixFlags == (HAS_BLOCK | HAS_IN_LINE))
+            //    {
+            //        return true;
+            //    }
+
+            //}
             return false;
         }
 
@@ -236,27 +321,54 @@ namespace HtmlRenderer.Composers
                 //if box contains both inline and block 
                 //then make all children to be block box
 
-                for (int i = 0; i < allChildren.Count; i++)
+                int i = 0;
+                var cnode = allChildren.GetFirstChild();
+                while (cnode != null)
                 {
-                    var curBox = allChildren[i];
-                    if (curBox.IsInline)
+                    if (cnode.IsInline)
                     {
                         //1. creat new box anonymous block (no html tag) then
-                        //  add it before this box 
-
-                        var newbox = CssBox.CreateAnonBlock(box, i);
+                        //  add it before this box  
+                        var newbox = CssBox.CreateAnonBlock(box, cnode);
                         //2. skip newly add box 
                         i++;
-
-                        //3. move next  inline child box to new anonymous box                                              
-                        CssBox tomoveBox = null;
-                        while (i < allChildren.Count && ((tomoveBox = allChildren[i]).IsInline))
+                        //3. move next  inline child box to new anonymous box               
+                        CssBox tomoveBox = cnode;
+                        while (i < allChildren.Count && (tomoveBox.IsInline))
                         {
                             //** allChildren number will be changed after move****    
-                            tomoveBox.SetNewParentBox(i, newbox);
+                            var tmpNext = tomoveBox.GetNextNode();
+                            tomoveBox.SetNewParentBox(newbox);
+                            tomoveBox = tmpNext;
                         }
                     }
+                    cnode = cnode.GetNextNode();
+                    i++;
                 }
+
+                //for (int i = 0; i < allChildren.Count; i++)
+                //{
+                //    var curBox = allChildren[i];
+                //    if (curBox.IsInline)
+                //    {
+                //        //1. creat new box anonymous block (no html tag) then
+                //        //  add it before this box  
+                //        var newbox = CssBox.CreateAnonBlock(box, i);
+                //        //2. skip newly add box 
+                //        i++;
+
+                //        //3. move next  inline child box to new anonymous box                                              
+                //        CssBox tomoveBox = null;
+                //        while (i < allChildren.Count && ((tomoveBox = allChildren[i]).IsInline))
+                //        {
+                //            //** allChildren number will be changed after move****    
+                //            tomoveBox.SetNewParentBox(newbox);
+                //        }
+                //    }
+                //}
+
+
+
                 //after correction , now all children in this box are block element 
             }
             //------------------------------------------------
@@ -347,7 +459,8 @@ namespace HtmlRenderer.Composers
 
                 leftAnonBox.ChangeSiblingOrder(0);
 
-                var splitBox = box.GetChildBox(1);
+                //var splitBox = box.GetChildBox(1);
+                var splitBox = box.GetFirstChild().GetNextNode();//1
                 ////remove splitbox 
                 splitBox.SetNewParentBox(null);
                 CorrectBlockSplitBadBox(box, splitBox, leftAnonBox);
@@ -355,11 +468,15 @@ namespace HtmlRenderer.Composers
 
                 if (box.ChildCount > 2)
                 {
-                    var rightAnonBox = CssBox.CreateAnonBlock(box, 2);
+
+                    var children = CssBox.UnsafeGetChildren(box);
+                    var rightAnonBox = CssBox.CreateAnonBlock(box, children.GetFirstChild());
                     int childCount = box.ChildCount;
                     while (childCount > 3)
                     {
-                        box.GetChildBox(3).SetNewParentBox(3, rightAnonBox);
+                        var thirdBox = children.GetNodeAtIndex(3).Value;
+                        //box.GetChildBox(3).SetNewParentBox(3, rightAnonBox);
+                        thirdBox.SetNewParentBox(rightAnonBox);
                         childCount--;
                     }
                 }
@@ -442,7 +559,8 @@ namespace HtmlRenderer.Composers
                 }
                 else
                 {
-                    rightPart = parentBox.GetChildBox(2);
+                    //rightPart = parentBox.GetChildBox(2);
+                    rightPart = parentBox.GetFirstChild().GetNextNode().GetNextNode();
                 }
 
 
@@ -450,7 +568,9 @@ namespace HtmlRenderer.Composers
                 while (splitBoxBoxes.Count > 0)
                 {
                     //move all children to right box                      
-                    splitBoxBoxes[0].SetNewParentBox(0, rightPart);
+                    var firstNode = splitBoxBoxes.GetFirstChild();
+                    firstNode.SetNewParentBox(rightPart);
+                    //splitBoxBoxes[0].SetNewParentBox(0, rightPart);
                 }
             }
             else if (firstChild.ParentBox != null && parentBox.ChildCount > 1)

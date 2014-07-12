@@ -66,11 +66,6 @@ namespace HtmlRenderer.Boxes
             get { return _aa_boxes; }
         }
 
-        internal bool specialBlockInsideInline
-        {
-            get;
-            set;
-        }
         internal int RunCount
         {
             get
@@ -82,7 +77,22 @@ namespace HtmlRenderer.Boxes
         {
             return this._aa_boxes.GetChildBoxIter();
         }
-
+        internal CssBox GetNextNode()
+        {
+            if (_linkedNode != null && _linkedNode.Next != null)
+            {
+                return _linkedNode.Next.Value;
+            }
+            return null;
+        }
+        internal CssBox GetPrevNode()
+        {
+            if (_linkedNode != null && _linkedNode.Previous != null)
+            {
+                return _linkedNode.Previous.Value;
+            }
+            return null;
+        }
         public IEnumerable<CssRun> GetRunIter()
         {
             if (this._aa_contentRuns != null)
@@ -121,15 +131,15 @@ namespace HtmlRenderer.Boxes
         public CssBox GetFirstChild()
         {
             return this._aa_boxes.GetFirstChild();
-        } 
-        //-----------------------------------
-        public CssBox GetChildBox(int index)
-        {    
-            return this._aa_boxes[index];
         }
-        public void InsertChild(int index, CssBox box)
+        public CssBox GetLastChild()
         {
-            this.Boxes.Insert(index, box);
+            return this._aa_boxes.GetLastChild();
+        }
+
+        public void InsertChild(CssBox beforeBox, CssBox box)
+        {
+            this.Boxes.InsertBefore(beforeBox, box);
         }
         //-------------------------------------
         internal void ResetLineBoxes()
@@ -186,7 +196,7 @@ namespace HtmlRenderer.Boxes
                 this._subBoxes = value;
             }
         }
-        
+
 
     }
 
