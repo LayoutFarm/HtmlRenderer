@@ -353,10 +353,10 @@ namespace HtmlRenderer.Handlers
         {
             if (container.IsSelectionEnabled)
             {
-                var html = BoxUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true);
-                var plainText = BoxUtils.GetSelectedPlainText(_root);
-                if (!string.IsNullOrEmpty(plainText))
-                    HtmlClipboardUtils.CopyToClipboard(html, plainText);
+                //var html = BoxUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true);
+                //var plainText = BoxUtils.GetSelectedPlainText(_root);
+                //if (!string.IsNullOrEmpty(plainText))
+                //    HtmlClipboardUtils.CopyToClipboard(html, plainText);
             }
         }
 
@@ -365,7 +365,8 @@ namespace HtmlRenderer.Handlers
         /// </summary>
         public string GetSelectedText()
         {
-            return container.IsSelectionEnabled ? BoxUtils.GetSelectedPlainText(_root) : null;
+            //wait for another techinque
+            return ""; 
         }
 
         /// <summary>
@@ -373,7 +374,9 @@ namespace HtmlRenderer.Handlers
         /// </summary>
         public string GetSelectedHtml()
         {
-            return container.IsSelectionEnabled ? BoxUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true) : null;
+            //wait for another technique
+            return "";
+            //return container.IsSelectionEnabled ? BoxUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true) : null;
         }
 
         /// <summary>
@@ -510,9 +513,9 @@ namespace HtmlRenderer.Handlers
         {
             if (_dragDropData == null)
             {
-                var html = BoxUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true);
-                var plainText = BoxUtils.GetSelectedPlainText(_root);
-                _dragDropData = HtmlClipboardUtils.GetDataObject(html, plainText);
+                //var html = BoxUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true);
+                //var plainText = BoxUtils.GetSelectedPlainText(_root);
+                //_dragDropData = HtmlClipboardUtils.GetDataObject(html, plainText);
             }
             control.DoDragDrop(_dragDropData, DragDropEffects.Copy);
         }

@@ -88,6 +88,7 @@
     <Compile Include="4_Composers\RunListHelper.cs" />
     <Compile Include="4_Composers\SpecSetter.cs" />
     <Compile Include="5_Diagnostics\DeprecatedAttribute.cs" />
+    <Compile Include="5_Diagnostics\HtmlGenerator.cs" />
     <Compile Include="Platform\MapAttribute.cs" />
     <Compile Include="4_Composers\ValueMaps.cs" />
     <Compile Include="WebDom.Parser\TextSnapshot.cs" />

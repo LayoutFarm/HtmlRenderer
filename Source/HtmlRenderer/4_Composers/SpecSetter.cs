@@ -159,7 +159,7 @@ namespace HtmlRenderer.Composers
                     spec.BackgroundColor = cssValue.AsColor();
                     break;
                 case WellknownCssPropertyName.BackgroundImage:
-                    spec.BackgroundImageBinder = new ImageBinder(cssValue.GetTranslatedStringValue());
+                    spec.BackgroundImageBinder = new Drawing.ImageBinder(cssValue.GetTranslatedStringValue());
                     break;
                 case WellknownCssPropertyName.BackgroundPosition:
 

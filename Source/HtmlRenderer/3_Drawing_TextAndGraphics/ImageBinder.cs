@@ -3,8 +3,8 @@
 using System;
 using System.Drawing;
 
-namespace HtmlRenderer 
-{   
+namespace HtmlRenderer.Drawing
+{
     public class ImageBinder
     {
         Image _image;
@@ -24,8 +24,8 @@ namespace HtmlRenderer
             get { return this._imageSource; }
         }
 
-        
-        
+
+
         public ImageBinderState State
         {
             get;

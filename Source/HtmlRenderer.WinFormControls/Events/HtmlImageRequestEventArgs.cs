@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using HtmlRenderer.WebDom;
+using HtmlRenderer.Drawing;
 namespace HtmlRenderer.Boxes
 {
     public class HtmlImageRequestEventArgs : EventArgs

@@ -678,7 +678,7 @@ namespace HtmlRenderer.Css
     {
         Color _bgColor, _bgGradient;
         float _bgGradientAngle;
-        ImageBinder _imgBinder;
+        HtmlRenderer.Drawing.ImageBinder _imgBinder;
         string _bgPosition;
         CssLength _bgPosX, _bgPosY;
         CssBackgroundRepeat _bgRepeat;
@@ -694,7 +694,7 @@ namespace HtmlRenderer.Css
             this.BackgroundColor = Color.Transparent; //"transparent";
             this.BackgroundGradient = Color.Transparent;// "none";
             this.BackgroundGradientAngle = 90.0f;
-            this.BackgroundImageBinder = ImageBinder.NoImage;
+            this.BackgroundImageBinder = HtmlRenderer.Drawing.ImageBinder.NoImage;
 
             this.BackgroundPosX = new CssLength(0, CssUnitOrNames.Percent);
             this.BackgroundPosY = new CssLength(0, CssUnitOrNames.Percent);
@@ -742,7 +742,7 @@ namespace HtmlRenderer.Css
             set { if (Assignable()) this._bgGradientAngle = value; }
         }
 
-        public ImageBinder BackgroundImageBinder
+        public HtmlRenderer.Drawing.ImageBinder BackgroundImageBinder
         {
             get { return this._imgBinder; }
             set { if (Assignable()) this._imgBinder = value; }
