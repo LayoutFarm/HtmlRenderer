@@ -19,15 +19,12 @@ namespace HtmlRenderer.Boxes
         {
             return box._linkedNode;
         }
-        internal static void UnsafeSetNodes2(CssBox childNode, CssBox parent, LinkedListNode<CssBox> linkNode)
+        internal static void UnsafeSetNodes(CssBox childNode, CssBox parent, LinkedListNode<CssBox> linkNode)
         {
             childNode._parentBox = parent;
             childNode._linkedNode = linkNode;
         }
-        internal static void UnsafeSetNodes(CssBox childNode, CssBox parent, CssBox prevSibling)
-        {
-            childNode._parentBox = parent;
-        }
+       
         internal static List<CssRun> UnsafeGetRunList(CssBox box)
         {
             return box._aa_contentRuns;
@@ -48,18 +45,11 @@ namespace HtmlRenderer.Boxes
             //box._htmlContainer = htmlContainer;
         }
 
-#if DEBUG
-        //internal BridgeHtmlElement dbugAnonCreator
-        //{
-        //    get;
-        //    set;
-        //}
-
+#if DEBUG 
         internal static object debugGetController(CssBox box)
         {
             return box._controller;
-        }
-
+        } 
 #endif
     }
 

@@ -43,12 +43,12 @@ namespace HtmlRenderer.Boxes
                 throw new NotSupportedException();
             }
 #endif
-            CssBox.UnsafeSetNodes2(box, this.owner, _boxes.AddLast(box));
+            CssBox.UnsafeSetNodes(box, this.owner, _boxes.AddLast(box));
         }
         public void InsertBefore(CssBox beforeBox, CssBox box)
         {
             var beforeLinkedNode = CssBox.UnsafeGetLinkedNode(beforeBox);
-            CssBox.UnsafeSetNodes2(box, this.owner,
+            CssBox.UnsafeSetNodes(box, this.owner,
                 this._boxes.AddBefore(beforeLinkedNode, box));
         }
         public int Count
@@ -62,12 +62,21 @@ namespace HtmlRenderer.Boxes
         {
             var linkedNode = CssBox.UnsafeGetLinkedNode(box);
             this._boxes.Remove(linkedNode);
-            CssBox.UnsafeSetNodes2(box, null, null);
+            CssBox.UnsafeSetNodes(box, null, null);
         }
         public CssBox GetFirstChild()
         {
             return this._boxes.First.Value;
         }
+        public LinkedListNode<CssBox> GetFirstLinkedNode()
+        {
+            return this._boxes.First;
+        }
+        public LinkedListNode<CssBox> GetLastLinkedNode()
+        {
+            return this._boxes.Last;
+        }
+
         public CssBox GetLastChild()
         {
             return this._boxes.Last.Value;
@@ -76,9 +85,13 @@ namespace HtmlRenderer.Boxes
         {
             return this._boxes.GetEnumerator();
         }
-        internal LinkedListNode<CssBox> GetNodeAtIndex(int index)
-        {
 
+
+
+#if DEBUG
+        internal LinkedListNode<CssBox> dbugGetNodeAtIndex(int index)
+        {
+            //for compat with old version
             switch (index)
             {
                 //hint
@@ -121,15 +134,20 @@ namespace HtmlRenderer.Boxes
                     }
             }
         }
-        public void ChangeSiblingIndex(CssBox box, int newIndex)
-        {
+
+
+
+        public void dbugChangeSiblingIndex(CssBox box, int newIndex)
+        {   
+            //for compat with old version
             //find target linked node 
-            LinkedListNode<CssBox> foundNode = this.GetNodeAtIndex(newIndex);
+            LinkedListNode<CssBox> foundNode = this.dbugGetNodeAtIndex(newIndex);
             //1. remove from current box
             this.Remove(box);
             //2. 
-            CssBox.UnsafeSetNodes2(box, this.owner, this._boxes.AddBefore(foundNode, box)); 
+            CssBox.UnsafeSetNodes(box, this.owner, this._boxes.AddBefore(foundNode, box));
         }
+#endif
     }
 
 

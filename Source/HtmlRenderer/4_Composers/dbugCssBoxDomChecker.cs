@@ -455,10 +455,8 @@ namespace HtmlRenderer.Composers
                     firstChild = box.GetFirstChild();
                 }
                 //------------------------------------------- 
-                //insert left block as leftmost (firstbox) in the line 
-
-                leftAnonBox.ChangeSiblingOrder(0);
-
+                //insert left block as leftmost (firstbox) in the line  
+                leftAnonBox.dbugChangeSiblingOrder(0); 
                 //var splitBox = box.GetChildBox(1);
                 var splitBox = box.GetFirstChild().GetNextNode();//1
                 ////remove splitbox 
@@ -474,7 +472,7 @@ namespace HtmlRenderer.Composers
                     int childCount = box.ChildCount;
                     while (childCount > 3)
                     {
-                        var thirdBox = children.GetNodeAtIndex(3).Value;
+                        var thirdBox = children.dbugGetNodeAtIndex(3).Value;
                         //box.GetChildBox(3).SetNewParentBox(3, rightAnonBox);
                         thirdBox.SetNewParentBox(rightAnonBox);
                         childCount--;
@@ -550,11 +548,11 @@ namespace HtmlRenderer.Composers
 
                     if (parentBox.ChildCount > 2)
                     {
-                        rightPart.ChangeSiblingOrder(1);
+                        rightPart.dbugChangeSiblingOrder(1);
                     }
                     if (firstChild.ParentBox != null)
                     {
-                        firstChild.ChangeSiblingOrder(1);
+                        firstChild.dbugChangeSiblingOrder(1);
                     }
                 }
                 else
@@ -576,7 +574,7 @@ namespace HtmlRenderer.Composers
             else if (firstChild.ParentBox != null && parentBox.ChildCount > 1)
             {
 
-                firstChild.ChangeSiblingOrder(1);
+                firstChild.dbugChangeSiblingOrder(1);
                 if (firstChild.IsBrElement && (had_new_leftbox || leftBlock.ChildCount > 1))
                 {
                     CssBox.ChangeDisplayType(firstChild, CssDisplay.Inline);

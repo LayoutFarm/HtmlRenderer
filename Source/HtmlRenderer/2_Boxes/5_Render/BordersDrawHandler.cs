@@ -85,6 +85,10 @@ namespace HtmlRenderer.Boxes
 
         #region Private methods
 
+
+
+
+
         /// <summary>
         /// Draw specific border (top/bottom/left/right) with the box data (style/width/rounded).<br/>
         /// </summary>
