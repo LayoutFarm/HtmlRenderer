@@ -40,8 +40,7 @@ namespace HtmlRenderer.Boxes
     public partial class CssBox
     {
 
-        readonly Css.BoxSpec _myspec;
-        LinkedListNode<CssBox> _linkedNode;
+        readonly Css.BoxSpec _myspec; 
 
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
