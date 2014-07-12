@@ -376,6 +376,10 @@ namespace HtmlRenderer.Boxes
                         //--------------------------
                         cnode = cnode.GetNextNode();
                         i++;
+                        if (i >= col_limit)
+                        {
+                            break;
+                        }
                     }
                     //for (i = 0; i < col_limit; ++i)// limit column width check
                     //{

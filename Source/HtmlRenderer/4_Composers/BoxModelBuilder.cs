@@ -151,7 +151,7 @@ namespace HtmlRenderer.Composers
             CssBox newChildBox,
             ref  bool isLineFormattingContext)
         {
-
+          
             int parentChildCount = parentBox.ChildCount;
 
             if (parentBox.IsBlock)
@@ -206,28 +206,16 @@ namespace HtmlRenderer.Composers
                     //1. create anon block 
                     if (parentChildCount > 1)
                     {
-                        var a = parentBox.GetFirstChild();                         
+                        var a = parentBox.GetFirstChild();
                         var upperAnon = CssBox.CreateAnonBlock(parentBox, a);
-                        //then ...
-                        //upperAnon, a
-                        //move any node start at a to upperAnon
-                        while (a != null)
+                        int ncount = parentBox.ChildCount - 1;
+                        while (ncount >= 2)
                         {
                             var tmp = a.GetNextNode();
                             a.SetNewParentBox(upperAnon);
                             a = tmp;
-                        }
-
-                        //for (int m = parentBox.ChildCount - 1; m >= 2; --m)
-                        //{
-
-                        //}
-
-                        //for (int m = parentBox.ChildCount - 1; m >= 2; --m)
-                        //{
-                        //    var prevChild = parentBox.GetChildBox(1);
-                        //    prevChild.SetNewParentBox(upperAnon);
-                        //}
+                            ncount--;
+                        } 
                     }
 
                     isLineFormattingContext = false;

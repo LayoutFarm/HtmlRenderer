@@ -93,7 +93,7 @@ namespace HtmlRenderer
             }
         }
         public void PerformPaint(Graphics g)
-        {   
+        {
             //using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
             //{
             //    Region prevClip = null;
@@ -151,7 +151,6 @@ namespace HtmlRenderer
                 }
             }
         }
-
         protected override void OnRootDisposed()
         {
 

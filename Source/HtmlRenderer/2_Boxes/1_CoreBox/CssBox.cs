@@ -129,8 +129,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return this.isBrElement;
-
+                return this.isBrElement; 
             }
         }
 
