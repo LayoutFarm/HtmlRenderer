@@ -13,9 +13,9 @@
 // "The Art of War"
 
 
-using HtmlRenderer.Utils;
+using HtmlRenderer.Drawing;
 using HtmlRenderer.Css;
-using HtmlRenderer.RenderDom;
+using HtmlRenderer.RenderDom; 
 namespace HtmlRenderer.Composers
 {
 #if DEBUG

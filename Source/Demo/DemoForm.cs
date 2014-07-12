@@ -23,7 +23,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
 using HtmlRenderer.Demo.Properties;
-using HtmlRenderer.Entities;
+using HtmlRenderer.Diagnostics;
 using Timer = System.Threading.Timer;
 
 namespace HtmlRenderer.Demo

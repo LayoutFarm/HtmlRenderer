@@ -48,6 +48,7 @@
     <Compile Include="Handlers\ContextMenuHandler.cs" />
     <Compile Include="Handlers\HtmlClipboardUtils.cs" />
     <Compile Include="Handlers\ImageContentManager.cs" />
+    <Compile Include="Handlers\ISelectHandler.cs" />
     <Compile Include="Handlers\ReadyStateChangedHandler.cs" />
     <Compile Include="Platform\ClibboardHelper.cs" />
     <Compile Include="Platform\HtmlContainerImpl.cs" />

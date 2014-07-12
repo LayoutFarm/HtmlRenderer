@@ -20,7 +20,7 @@ using System.Globalization;
 using System.Text;
 
 
-using HtmlRenderer.Utils;
+using HtmlRenderer.Drawing;
 
 
 namespace HtmlRenderer.RenderDom

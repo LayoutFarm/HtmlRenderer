@@ -14,7 +14,7 @@
 using System;
 using System.Drawing;
 using HtmlRenderer.RenderDom;
-using HtmlRenderer.Utils;
+using HtmlRenderer.Drawing;
 using HtmlRenderer.Css;
 
 namespace HtmlRenderer.RenderDom
@@ -22,7 +22,7 @@ namespace HtmlRenderer.RenderDom
     /// <summary>
     /// Contains all the paint code to paint different background images.
     /// </summary>
-    internal static class BackgroundImageDrawHandler
+    static class BackgroundImageDrawHandler
     {
         /// <summary>
         /// Draw the background image of the given box in the given rectangle.<br/>

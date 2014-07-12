@@ -22,7 +22,7 @@ using System.Net;
 using System.Text; 
 
  
-namespace HtmlRenderer.Utils
+namespace HtmlRenderer.Drawing
 {
     
     

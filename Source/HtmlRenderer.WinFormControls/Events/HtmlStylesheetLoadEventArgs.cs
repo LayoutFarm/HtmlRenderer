@@ -16,7 +16,7 @@
 using System;
 using System.Collections.Generic;
 using HtmlRenderer.WebDom;
-namespace HtmlRenderer.Entities
+namespace HtmlRenderer.Diagnostics
 {
     /// <summary>
     /// Invoked when a stylesheet is about to be loaded by file path or URL in 'link' element.<br/>

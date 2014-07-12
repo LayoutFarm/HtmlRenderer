@@ -81,7 +81,7 @@
     <Compile Include="4_Composers\ActiveCssTemplate.cs" />
     <Compile Include="2_RenderDom\3_Layout\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
     <Compile Include="2_RenderDom\3_Layout\CssTableLayoutEngine.TableColumns.cs" />
-    <Compile Include="Platform\ImageBinder.cs" />
+    <Compile Include="3_Drawing_TextAndGraphics\ImageBinder.cs" />
     <Compile Include="1_Css\BoxSpec.cs" />
     <Compile Include="1_Css\BoxSpec_CopyAndVersioning.cs" />
     <Compile Include="4_Composers\dbugCssBoxDomChecker.cs" />
@@ -91,7 +91,7 @@
     <Compile Include="Platform\MapAttribute.cs" />
     <Compile Include="Internal\ValueMaps.cs" />
     <Compile Include="WebDom.Parser\TextSnapshot.cs" />
-    <Compile Include="2_RenderDom\4_TextContent\ContentTextSplitter.cs" />
+    <Compile Include="4_Composers\ContentTextSplitter.cs" />
     <Compile Include="2_RenderDom\7_HitAndSelections\SelectionRange.cs" />
     <Compile Include="WebDom.Parser\dbugLexerReport.cs" />
     <Compile Include="WebDom.Parser\HtmlLexer.cs" />
@@ -111,7 +111,7 @@
     <Compile Include="2_RenderDom\1_Boxes\CssBox_Unsafe.cs" />
     <Compile Include="1_Css\CssFeatures.cs" />
     <Compile Include="WebDom\2_Css\CssActiveSheet.cs" />
-    <Compile Include="Platform\dbug.cs" />
+    <Compile Include="5_Diagnostics\dbug.cs" />
     <Compile Include="4_Composers\UserMapUtil.cs" />
     <Compile Include="2_RenderDom\1_Boxes\CssBox_Fields.cs" />
     <Compile Include="2_RenderDom\1_Boxes\CssBox_Paint.cs" />
@@ -130,11 +130,11 @@
     <Compile Include="2_RenderDom\3_Layout\CssTableLayoutEngine.cs" />
     <Compile Include="WebDom\1_Html\HtmlInterfaces.cs" />
     <Compile Include="2_RenderDom\1_Boxes\CssSideAndOrientation.cs" />
-    <Compile Include="Platform\HtmlRenderErrorType.cs" />
-    <Compile Include="4_Composers\HtmlGenerationStyle.cs" />
+    <Compile Include="5_Diagnostics\HtmlRenderErrorType.cs" />
+    <Compile Include="5_Diagnostics\HtmlGenerationStyle.cs" />
     <Compile Include="4_Composers\CssDefaults.cs" />
     <Compile Include="Platform\ExtensionAttribute.cs" />
-    <Compile Include="Platform\IGraphics.cs" />
+    <Compile Include="3_Drawing_TextAndGraphics\IGraphics.cs" />
     <Compile Include="2_RenderDom\5_Render\BackgroundImageDrawHandler.cs" />
     <Compile Include="2_RenderDom\5_Render\BordersDrawHandler.cs" />
     <Compile Include="4_Composers\BoxModelBuilder.cs" />
@@ -146,8 +146,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Internal\ArgCheckNotNullAttribute.cs" />
-    <Compile Include="3_Drawing\FontsUtils.cs" />
-    <Compile Include="3_Drawing\RenderUtils.cs" />
+    <Compile Include="3_Drawing_TextAndGraphics\FontsUtils.cs" />
+    <Compile Include="3_Drawing_TextAndGraphics\RenderUtils.cs" />
     <Compile Include="1_Css\CssConstants.cs" />
     <Compile Include="1_Css\CssUnitOrNames.cs" />
     <Compile Include="4_Composers\CssParser.cs" />
@@ -156,7 +156,6 @@
     <Compile Include="Utils\DomUtils.cs" />
     <Compile Include="WebDom.Parser\HtmlUtils.cs" />
     <Compile Include="Utils\CommonUtils.cs" />
-    <Compile Include="Platform\ISelectHandler.cs" />
     <Compile Include="WebDom\2_Css\WellknownCssPropertyName.cs" />
   </ItemGroup>
   <ItemGroup>

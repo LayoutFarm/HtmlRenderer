@@ -1,8 +1,9 @@
 ﻿//BSD 2014,WinterDev  
 using System.Collections.Generic;
-using HtmlRenderer.Css; 
+using HtmlRenderer.Css;
 
-namespace HtmlRenderer.RenderDom 
+using HtmlRenderer.RenderDom;
+namespace HtmlRenderer.Composers 
 { 
     class ContentTextSplitter
     {    

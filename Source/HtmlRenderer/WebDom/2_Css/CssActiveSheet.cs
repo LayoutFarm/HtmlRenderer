@@ -15,8 +15,8 @@
 
 using System;
 using System.Collections.Generic;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Utils;
+using HtmlRenderer.Diagnostics;
+using HtmlRenderer.Drawing;
 
 namespace HtmlRenderer.WebDom
 {

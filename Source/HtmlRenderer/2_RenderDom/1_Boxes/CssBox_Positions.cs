@@ -270,7 +270,7 @@ namespace HtmlRenderer.RenderDom
             //evaluate bg 
 
             if (BackgroundGradient != System.Drawing.Color.Transparent ||
-                Utils.RenderUtils.IsColorVisible(ActualBackgroundColor))
+                Drawing.RenderUtils.IsColorVisible(ActualBackgroundColor))
             {
                 this._boxCompactFlags |= CssBoxFlagsConst.HAS_VISIBLE_BG;
             }

@@ -6,9 +6,9 @@ using System.Drawing;
 
 using System.Diagnostics;
 using HtmlRenderer.RenderDom;
-using HtmlRenderer.Entities;
+using HtmlRenderer.Diagnostics;
 using HtmlRenderer.Handlers;
-using HtmlRenderer.Utils;
+using HtmlRenderer.Drawing;
 using System.Windows.Forms;
 
 

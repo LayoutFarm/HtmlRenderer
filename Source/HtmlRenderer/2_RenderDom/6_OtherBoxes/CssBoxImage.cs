@@ -16,7 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using HtmlRenderer.Utils;
+using HtmlRenderer.Drawing;
 
 namespace HtmlRenderer.RenderDom
 {

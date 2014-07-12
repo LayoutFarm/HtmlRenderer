@@ -18,7 +18,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D; 
 using HtmlRenderer.Properties;
 
-namespace HtmlRenderer.Utils
+namespace HtmlRenderer.Drawing
 {
     /// <summary>
     /// Provides some drawing functionallity

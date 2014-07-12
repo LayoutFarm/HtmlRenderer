@@ -10,8 +10,7 @@ namespace HtmlRenderer.RenderDom
     {
         HtmlContainer htmlContainer;
         float totalMarginLeftAndRight;
-        ContentTextSplitter contentTextSplitter;
-
+       
 
         internal LayoutVisitor(IGraphics gfx, HtmlContainer htmlContainer)
         {
@@ -20,15 +19,7 @@ namespace HtmlRenderer.RenderDom
         }
 
 
-        internal ContentTextSplitter GetSplitter()
-        {
-
-            if (contentTextSplitter == null)
-            {
-                return contentTextSplitter = new ContentTextSplitter();
-            }
-            return contentTextSplitter;
-        }
+         
 
         internal IGraphics Gfx
         {
@@ -98,7 +89,7 @@ namespace HtmlRenderer.RenderDom
         internal float MeasureWhiteSpace(CssBox box)
         {
             //depends on Font of this box
-            float w = HtmlRenderer.Utils.FontsUtils.MeasureWhitespace(this.Gfx, box.ActualFont);
+            float w = HtmlRenderer.Drawing.FontsUtils.MeasureWhitespace(this.Gfx, box.ActualFont);
             if (!(box.WordSpacing.IsEmpty || box.WordSpacing.IsNormalWordSpacing))
             {
                 w += CssValueParser.ConvertToPxWithFontAdjust(box.WordSpacing, 0, box);

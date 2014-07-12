@@ -18,7 +18,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using HtmlRenderer.Css;
 using HtmlRenderer.RenderDom;
-using HtmlRenderer.Utils;
+using HtmlRenderer.Drawing;
 
 namespace HtmlRenderer.RenderDom
 {

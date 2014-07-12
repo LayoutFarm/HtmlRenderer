@@ -3,8 +3,8 @@
 
 using System;
 using System.Collections.Generic;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Utils;
+using HtmlRenderer.Diagnostics;
+using HtmlRenderer.Drawing;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.Internal;
 using HtmlRenderer.RenderDom;

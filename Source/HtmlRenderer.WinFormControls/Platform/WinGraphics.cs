@@ -13,7 +13,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using HtmlRenderer.Utils;
+using HtmlRenderer.Drawing;
 
 namespace HtmlRenderer
 {

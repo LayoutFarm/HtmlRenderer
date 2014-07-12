@@ -14,9 +14,9 @@ using System;
 using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
-using HtmlRenderer.Entities;
+using HtmlRenderer.Diagnostics;
 
-using HtmlRenderer.Utils;
+using HtmlRenderer.Drawing;
 using HtmlRenderer.Css;
 namespace HtmlRenderer
 {

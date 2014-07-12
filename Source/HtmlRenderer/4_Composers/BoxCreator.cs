@@ -1,7 +1,7 @@
 ﻿//BSD 2014, WinterDev 
 using System.Collections.Generic;
 using System.Globalization;
-using HtmlRenderer.Utils;
+using HtmlRenderer.Drawing;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.Css;
 using HtmlRenderer.RenderDom;

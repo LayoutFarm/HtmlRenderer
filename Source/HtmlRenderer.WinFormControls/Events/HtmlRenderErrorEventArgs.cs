@@ -15,7 +15,7 @@
 
 using System;
 
-namespace HtmlRenderer.Entities
+namespace HtmlRenderer.Diagnostics
 {
     /// <summary>
     /// Raised when an error occured during html rendering.

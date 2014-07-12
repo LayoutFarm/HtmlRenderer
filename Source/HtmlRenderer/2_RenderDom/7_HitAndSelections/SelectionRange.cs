@@ -106,7 +106,7 @@ namespace HtmlRenderer.RenderDom
             CssBox latestLineBoxOwner = null;
             float latestLineBoxGlobalYPos = 0;
 
-            foreach (CssLineBox lineBox in Utils.DomUtils.GetDeepDownLineBoxIter(startBox))
+            foreach (CssLineBox lineBox in Drawing.DomUtils.GetDeepDownLineBoxIter(startBox))
             {
                 if (lineBox.CacheLineHeight == 0)
                 {
@@ -141,7 +141,7 @@ namespace HtmlRenderer.RenderDom
         static IEnumerable<CssLineBox> GetLineWalkIter(CssLineBox startLine, CssLineBox endLine)
         {
 
-            foreach (var lineOrBox in Utils.DomUtils.GetLineOrBoxIterWalk(startLine))
+            foreach (var lineOrBox in Drawing.DomUtils.GetLineOrBoxIterWalk(startLine))
             {
                 if (lineOrBox.isLine)
                 {
@@ -156,7 +156,7 @@ namespace HtmlRenderer.RenderDom
         }
         static IEnumerable<CssLineBox> GetLineWalkIter(CssLineBox startLine, CssBox endBox)
         {
-            foreach (var visit in Utils.DomUtils.GetLineOrBoxIterWalk(startLine))
+            foreach (var visit in Drawing.DomUtils.GetLineOrBoxIterWalk(startLine))
             {
                 if (visit.isLine)
                 {

@@ -7,7 +7,7 @@ using System;
 using System.Text;
 using System.Windows.Forms;
 
-namespace HtmlRenderer.Utils
+namespace HtmlRenderer.Drawing
 {
     /// <summary>
     /// Helper class to decode HTML from the clipboard.

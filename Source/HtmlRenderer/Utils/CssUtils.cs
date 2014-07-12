@@ -19,7 +19,7 @@ using HtmlRenderer.RenderDom;
 using HtmlRenderer.Composers;
 using HtmlRenderer.Css;
 
-namespace HtmlRenderer.Utils
+namespace HtmlRenderer.Drawing
 {
     /// <summary>
     /// Utility method for handling CSS stuff.

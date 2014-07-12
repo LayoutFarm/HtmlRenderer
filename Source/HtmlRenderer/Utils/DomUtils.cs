@@ -18,8 +18,8 @@ using System.Drawing;
 using System.Text;
 using HtmlRenderer.RenderDom;
 using HtmlRenderer.WebDom;
-using HtmlRenderer.Entities;
-namespace HtmlRenderer.Utils
+using HtmlRenderer.Diagnostics;
+namespace HtmlRenderer.Drawing
 {
     internal delegate bool EachCssTextRunHandler(CssTextRun trun);
 
@@ -54,7 +54,7 @@ namespace HtmlRenderer.Utils
             CssBox level1Sibling = DomUtils.GetNextSibling(curBox);
             while (level1Sibling != null)
             {
-                foreach (var visit in Utils.DomUtils.GetDeepBoxOrLineIter(level1Sibling))
+                foreach (var visit in Drawing.DomUtils.GetDeepBoxOrLineIter(level1Sibling))
                 {
                     yield return visit;
                 }
