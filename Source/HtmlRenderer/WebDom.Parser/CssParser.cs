@@ -1,8 +1,8 @@
 ﻿//BSD  2014 ,WinterDev
 
-using System; 
+using System;
 using System.Collections.Generic;
-using System.Text; 
+using System.Text;
 
 namespace HtmlRenderer.WebDom.Parser
 {
@@ -27,13 +27,13 @@ namespace HtmlRenderer.WebDom.Parser
             lexer = new CssLexer(LexerEmitHandler);
         }
 
-        
+
         public void ParseCssStyleSheet(char[] textBuffer)
         {
             this.textBuffer = textBuffer;
-            Reset(); 
+            Reset();
 
-            this.parseState = CssParseState.Init;      
+            this.parseState = CssParseState.Init;
             lexer.Lex(textBuffer);
             //-----------------------------
             //expand some compound property             
@@ -370,9 +370,11 @@ namespace HtmlRenderer.WebDom.Parser
                                     //block name
 
                                     //create css property 
+                                    var wellknownName = HtmlRenderer.Composers.UserMapUtil.GetWellKnownPropName(
+                                         new string(this.textBuffer, start, len));
+
                                     _currentRuleSet.AddCssCodeProperty(this._currentProperty =
-                                        new CssPropertyDeclaration(
-                                            new string(this.textBuffer, start, len)));
+                                        new CssPropertyDeclaration(wellknownName));
 
                                     this._latestPropertyValue = null;
 
@@ -693,19 +695,19 @@ namespace HtmlRenderer.WebDom.Parser
                             //font weight
                             //font named size         
                             //font family
-                            if (HtmlRenderer.Dom.UserMapUtil.IsFontStyle(value.Value))
+                            if (HtmlRenderer.Composers.UserMapUtil.IsFontStyle(value.Value))
                             {
                                 newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontStyle, value));
                                 continue;
                             }
 
-                            if (HtmlRenderer.Dom.UserMapUtil.IsFontVariant(value.Value))
+                            if (HtmlRenderer.Composers.UserMapUtil.IsFontVariant(value.Value))
                             {
                                 newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontVariant, value));
                                 continue;
                             }
                             //----------
-                            if (HtmlRenderer.Dom.UserMapUtil.IsFontWeight(value.Value))
+                            if (HtmlRenderer.Composers.UserMapUtil.IsFontWeight(value.Value))
                             {
                                 newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontWeight, value));
                                 continue;
@@ -866,8 +868,8 @@ namespace HtmlRenderer.WebDom.Parser
                 //what value means ?
                 //border width/ style / color
                 if (cssCodePropertyValue.Hint == CssValueHint.Number ||
-                    HtmlRenderer.Dom.UserMapUtil.IsNamedBorderWidth(cssCodePropertyValue.Value))
-                {
+                    HtmlRenderer.Composers.UserMapUtil.IsNamedBorderWidth(cssCodePropertyValue.Value))
+                {   
                     //border width
                     switch (borderDirection)
                     {
@@ -901,7 +903,7 @@ namespace HtmlRenderer.WebDom.Parser
                 }
 
                 //------
-                if (HtmlRenderer.Dom.UserMapUtil.IsBorderStyle(cssCodePropertyValue.Value))
+                if (HtmlRenderer.Composers.UserMapUtil.IsBorderStyle(cssCodePropertyValue.Value))
                 {
 
                     //border style

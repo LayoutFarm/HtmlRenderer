@@ -1,9 +1,9 @@
 ﻿//BSD  2014 ,WinterDev 
-using System; 
+using System;
 using System.Collections.Generic;
-using System.Text; 
-using HtmlRenderer.Dom;
-
+using System.Text;
+using HtmlRenderer.Boxes;
+using HtmlRenderer.Css;
 namespace HtmlRenderer.WebDom
 {
 
@@ -15,7 +15,7 @@ namespace HtmlRenderer.WebDom
         bool isAutoGen = false;
 
 
-        bool markedAsInherit;        
+        bool markedAsInherit;
         bool isExpand = false;
 
         CssCodeValueExpression propertyValue;
@@ -25,11 +25,10 @@ namespace HtmlRenderer.WebDom
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
 #endif
-        public CssPropertyDeclaration(string propertyName)
+        public CssPropertyDeclaration(WellknownCssPropertyName wellNamePropertyName)
         {
             //convert from name to wellknown property name; 
-            this.WellknownPropertyName = HtmlRenderer.Dom.UserMapUtil.GetWellKnownPropName(
-                propertyName.ToLower());
+            this.WellknownPropertyName = wellNamePropertyName; 
         }
         internal CssPropertyDeclaration(WellknownCssPropertyName wellNamePropertyName, CssCodeValueExpression value)
         {
@@ -357,9 +356,10 @@ namespace HtmlRenderer.WebDom
             get;
             private set;
         }
+
         CssValueEvaluatedAs evaluatedAs;
         System.Drawing.Color cachedColor;
-        HtmlRenderer.Dom.CssLength cachedLength;
+        HtmlRenderer.Css.CssLength cachedLength;
         int cachedInt;
         protected float number;
 
@@ -368,6 +368,8 @@ namespace HtmlRenderer.WebDom
             get;
             set;
         }
+       
+        //------------------------------------------------------
         internal float AsNumber()
         {
             return this.number;

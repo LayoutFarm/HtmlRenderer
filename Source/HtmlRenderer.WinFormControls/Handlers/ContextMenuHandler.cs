@@ -14,9 +14,9 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
-using HtmlRenderer.Dom;
-using HtmlRenderer.Entities;
-using HtmlRenderer.Utils;
+using HtmlRenderer.Boxes;
+using HtmlRenderer.Diagnostics;
+using HtmlRenderer.Drawing;
 
 namespace HtmlRenderer.Handlers
 {

@@ -23,7 +23,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
 using HtmlRenderer.Demo.Properties;
-using HtmlRenderer.Entities;
+using HtmlRenderer.Diagnostics;
 using Timer = System.Threading.Timer;
 
 namespace HtmlRenderer.Demo
@@ -395,7 +395,7 @@ namespace HtmlRenderer.Demo
         /// <summary>
         /// On image load in renderer set the image by event async.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlRenderer.Dom.HtmlImageRequestEventArgs e)
+        private void OnImageLoad(object sender, HtmlRenderer.Boxes.HtmlImageRequestEventArgs e)
         {
             var img = TryLoadResourceImage(e.ImagSource);
             e.SetResultImage(img);

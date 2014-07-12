@@ -38,9 +38,18 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\HtmlImageRequestEventArgs.cs" />
+    <Compile Include="Events\HtmlLinkClickedEventArgs.cs" />
+    <Compile Include="Events\HtmlLinkClickedException.cs" />
+    <Compile Include="Events\HtmlRefreshEventArgs.cs" />
+    <Compile Include="Events\HtmlRenderErrorEventArgs.cs" />
+    <Compile Include="Events\HtmlScrollEventArgs.cs" />
+    <Compile Include="Events\HtmlStylesheetLoadEventArgs.cs" />
     <Compile Include="Handlers\ContextMenuHandler.cs" />
     <Compile Include="Handlers\HtmlClipboardUtils.cs" />
     <Compile Include="Handlers\ImageContentManager.cs" />
+    <Compile Include="Handlers\ISelectHandler.cs" />
+    <Compile Include="Handlers\ReadyStateChangedHandler.cs" />
     <Compile Include="Platform\ClibboardHelper.cs" />
     <Compile Include="Platform\HtmlContainerImpl.cs" />
     <Compile Include="Handlers\SelectionHandler.cs" />
@@ -64,6 +73,7 @@
       <Name>HtmlRenderer</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,26 +1,23 @@
-﻿//BSD  2014 ,WinterDev 
-
-using HtmlRenderer.Dom;
+﻿//BSD  2014 ,WinterDev  
+using HtmlRenderer.Boxes;
+using HtmlRenderer.Composers;
 namespace HtmlRenderer.WebDom
 {
 
-    public class HtmlDocument
+
+
+    public abstract class HtmlDocument
     {
-
-        UniqueStringTable uniqueStringTable = HtmlPredefineNames.CreateUniqueStringTableClone();
-        HtmlElement rootNode;
-        public HtmlDocument()
+        UniqueStringTable uniqueStringTable;//     
+        public HtmlDocument(UniqueStringTable uniqueStringTable)
         {
-            rootNode = new BrigeRootElement(this);
+            this.uniqueStringTable = uniqueStringTable;
+        }
+        public abstract HtmlElement RootNode
+        {
+            get;
         }
 
-        public HtmlElement RootNode
-        {
-            get
-            {
-                return rootNode;
-            }
-        }
         public int AddStringIfNotExists(string uniqueString)
         {
             return uniqueStringTable.AddStringIfNotExist(uniqueString);
@@ -33,26 +30,15 @@ namespace HtmlRenderer.WebDom
         {
             return uniqueStringTable.GetStringIndex(uniqueString);
         }
+
+
         public HtmlAttribute CreateAttribute(string prefix, string localName)
         {
-
-
             return new HtmlAttribute(this,
                 uniqueStringTable.AddStringIfNotExist(prefix),
                 uniqueStringTable.AddStringIfNotExist(localName));
         }
-
-        public HtmlElement CreateElement(string prefix, string localName)
-        {
-            return new BridgeHtmlElement(this,
-                uniqueStringTable.AddStringIfNotExist(prefix),
-                uniqueStringTable.AddStringIfNotExist(localName));
-
-            //return new HtmlElement(this,
-            //    uniqueStringTable.AddStringIfNotExist(prefix),
-            //    uniqueStringTable.AddStringIfNotExist(localName));
-        }
-
+        public abstract HtmlElement CreateElement(string prefix, string localName);
         public HtmlComment CreateComent()
         {
             return new HtmlComment(this);
@@ -64,7 +50,7 @@ namespace HtmlRenderer.WebDom
 
         public HtmlTextNode CreateTextNode(char[] strBufferForElement)
         {
-            return new BridgeHtmlTextNode(this, strBufferForElement); 
+            return new BridgeHtmlTextNode(this, strBufferForElement);
         }
         public HtmlCDataNode CreateCDataNode()
         {

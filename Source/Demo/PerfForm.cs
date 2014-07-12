@@ -79,11 +79,16 @@ namespace HtmlRenderer.Demo
                 using (var img = new Bitmap(1, 1))
                 using (var g = Graphics.FromImage(img))
                 {
+                    HtmlRenderer.Composers.BoxModelBuilder bulder = new Composers.BoxModelBuilder();
+
                     for (int i = 0; i < iterations; i++)
                     {
                         foreach (var html in _perfTestSamples)
                         {
-                            htmlContainer.SetHtml(html);
+                            
+                           
+                            var rootBox = bulder.ParseAndBuildBoxTree(html, htmlContainer, null);
+                            htmlContainer.SetHtml(rootBox, null);
 
                             if (Layout)
                             {
@@ -140,7 +145,7 @@ namespace HtmlRenderer.Demo
         {
             var root = new TreeNode("HTML Renderer");
             _samplesTreeView.Nodes.Add(root);
-            
+
             var names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
             Array.Sort(names);
             foreach (string name in names)
@@ -162,7 +167,7 @@ namespace HtmlRenderer.Demo
                                 _samples[name] = sreader.ReadToEnd();
                             }
 
-                            string nameWithSzie = string.Format("{0} ({1:N0} KB)", shortName, _samples[name].Length*2/1024);
+                            string nameWithSzie = string.Format("{0} ({1:N0} KB)", shortName, _samples[name].Length * 2 / 1024);
                             var node = new TreeNode(nameWithSzie);
                             root.Nodes.Add(node);
                             node.Tag = name;
@@ -170,7 +175,7 @@ namespace HtmlRenderer.Demo
                     }
                 }
             }
-           
+
             root.Expand();
         }
 
@@ -195,7 +200,7 @@ namespace HtmlRenderer.Demo
             _htmlPanel.Text = null;
             GC.Collect();
         }
-        
+
         /// <summary>
         /// Execute performance test by setting all sample htmls in a loop.
         /// </summary>
@@ -209,7 +214,7 @@ namespace HtmlRenderer.Demo
 
                 var iterations = (float)_iterations.Value;
                 var html = _samples[(string)_samplesTreeView.SelectedNode.Tag];
-                
+
                 GC.Collect();
 #if NET_40
                 AppDomain.MonitoringIsEnabled = true;
