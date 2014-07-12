@@ -1,11 +1,11 @@
 ﻿//BSD  2014 ,WinterDev
 
+using System;
+using System.Text;
+using System.Collections.Generic;
 
-using HtmlRenderer.Internal;
 namespace HtmlRenderer.WebDom
 {
-
-
     enum WellknownHtmlName
     {
 
@@ -124,30 +124,4 @@ namespace HtmlRenderer.WebDom
         [Map("justify")]
         Justify,
     }
-
-
-    static class HtmlPredefineNames
-    {
-
-        static readonly ValueMap<WellknownHtmlName> _wellKnownHtmlNameMap =
-            new ValueMap<WellknownHtmlName>();
-
-        static UniqueStringTable htmlUniqueStringTableTemplate = new UniqueStringTable();
-
-        static HtmlPredefineNames()
-        {
-            int j = _wellKnownHtmlNameMap.Count;
-            for (int i = 0; i < j; ++i)
-            {
-                htmlUniqueStringTableTemplate.AddStringIfNotExist(_wellKnownHtmlNameMap.GetStringFromValue((WellknownHtmlName)i));
-            }
-        }
-        public static UniqueStringTable CreateUniqueStringTableClone()
-        {
-            return htmlUniqueStringTableTemplate.Clone();
-        }
-
-    }
-
-
 }

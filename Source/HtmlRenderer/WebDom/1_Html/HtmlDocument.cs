@@ -2,16 +2,16 @@
 using HtmlRenderer.Boxes;
 using HtmlRenderer.Composers;
 namespace HtmlRenderer.WebDom
-{   
-   
+{
+
 
 
     public abstract class HtmlDocument
     {
-
-        UniqueStringTable uniqueStringTable = HtmlPredefineNames.CreateUniqueStringTableClone();
-        public HtmlDocument()
+        UniqueStringTable uniqueStringTable;//     
+        public HtmlDocument(UniqueStringTable uniqueStringTable)
         {
+            this.uniqueStringTable = uniqueStringTable;
         }
         public abstract HtmlElement RootNode
         {
@@ -30,13 +30,14 @@ namespace HtmlRenderer.WebDom
         {
             return uniqueStringTable.GetStringIndex(uniqueString);
         }
+
+
         public HtmlAttribute CreateAttribute(string prefix, string localName)
         {
             return new HtmlAttribute(this,
                 uniqueStringTable.AddStringIfNotExist(prefix),
                 uniqueStringTable.AddStringIfNotExist(localName));
         }
-
         public abstract HtmlElement CreateElement(string prefix, string localName);
         public HtmlComment CreateComent()
         {

@@ -3,8 +3,7 @@ using System;
 using System.Drawing;
 using System.Collections.Generic;
 
-using HtmlRenderer.Css;
-using HtmlRenderer.Internal;
+using HtmlRenderer.Css; 
 using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer.Composers

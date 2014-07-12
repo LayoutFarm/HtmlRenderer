@@ -5,8 +5,7 @@ using System;
 using System.Collections.Generic;
 using HtmlRenderer.Diagnostics;
 using HtmlRenderer.Drawing;
-using HtmlRenderer.WebDom;
-using HtmlRenderer.Internal;
+using HtmlRenderer.WebDom; 
 using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer.Composers
@@ -14,7 +13,9 @@ namespace HtmlRenderer.Composers
     class BridgeHtmlDocument : HtmlDocument
     {
         HtmlElement rootNode;
+
         public BridgeHtmlDocument()
+            : base(HtmlPredefineNames.CreateUniqueStringTableClone())
         {
             rootNode = new BrigeRootElement(this);
         }
@@ -210,5 +211,28 @@ namespace HtmlRenderer.Composers
         LineBreak,
     }
 
+    
+    static class HtmlPredefineNames
+    {
+
+        static readonly ValueMap<WellknownHtmlName> _wellKnownHtmlNameMap =
+            new ValueMap<WellknownHtmlName>();
+
+        static UniqueStringTable htmlUniqueStringTableTemplate = new UniqueStringTable();
+
+        static HtmlPredefineNames()
+        {
+            int j = _wellKnownHtmlNameMap.Count;
+            for (int i = 0; i < j; ++i)
+            {
+                htmlUniqueStringTableTemplate.AddStringIfNotExist(_wellKnownHtmlNameMap.GetStringFromValue((WellknownHtmlName)i));
+            }
+        }
+        public static UniqueStringTable CreateUniqueStringTableClone()
+        {
+            return htmlUniqueStringTableTemplate.Clone();
+        }
+
+    }
 
 }

@@ -1,7 +1,7 @@
 ﻿//2014 ,BSD, WinterDev
 
-using System; 
-namespace HtmlRenderer.Internal
+using System;
+namespace HtmlRenderer.Diagnostics
 {
     class FeatureDeprecatedAttribute : Attribute
     {

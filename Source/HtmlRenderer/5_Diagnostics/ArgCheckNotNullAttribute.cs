@@ -1,7 +1,7 @@
 //BSD 2014,WinterDev
 
-using System; 
-namespace HtmlRenderer.Internal
+using System;
+namespace HtmlRenderer.Diagnostics
 {
     [AttributeUsage(AttributeTargets.Parameter)]
     public class ArgNotNullAttribute : Attribute
