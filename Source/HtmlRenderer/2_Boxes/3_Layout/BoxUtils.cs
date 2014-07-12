@@ -74,57 +74,9 @@ namespace HtmlRenderer.Boxes
         }
         public static CssBox GetNextSibling(CssBox a)
         {
-            if (a.ParentBox == null)
-            {
-                return null;
-            }
-            CssBox parent = a.ParentBox;
-            int childCount = parent.ChildCount;
-            for (int i = 0; i < childCount; ++i)
-            {
-                if (parent.GetChildBox(i) == a)
-                {
-                    //found 
-                    if (i < childCount - 1)
-                    {
-                        return parent.GetChildBox(i + 1);
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            return null;
+            return a.GetNextNode();           
         }
-        public static CssBox GetPrevSibling(CssBox a)
-        {
-            CssBox parent = a.ParentBox;
-            int aIndex = a.ParentBox.FindChildIndex(a);
-            if (aIndex > 0)
-            {   //not 0
-                return a.ParentBox.GetChildBox(aIndex);
-            }
-            return null;
-            //int childCount = parent.ChildCount;
-
-            //for (int i = 0; i < childCount; ++i)
-            //{
-            //    if (parent.GetChildBox(i) == a)
-            //    {
-            //        //found 
-            //        if (i == 0)
-            //        {
-            //            return null;
-            //        }
-            //        else
-            //        {
-            //            return parent.GetChildBox(i - 1);
-            //        }
-            //    }
-            //}
-            //return null;
-        }
+   
         internal static CssLineBox GetNearestLine(CssBox a, Point point, out bool found)
         {
             if (a.LineBoxCount > 0)

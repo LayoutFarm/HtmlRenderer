@@ -233,29 +233,34 @@ namespace HtmlRenderer.Boxes
                 {
                     //'row' loop 
                     int grid_index = 0;
-                    for (int c = 0; c < row.ChildCount; ++c)
+                    var cnode = row.GetFirstChild();
+                    int c = 0;
+                    while (cnode != null)
                     {
                         //'cell' in 'row' loop 
-                        CssBox cellBox = row.GetChildBox(c);
-                        int rowspan = cellBox.RowSpan;
-
+                        int rowspan = cnode.RowSpan;
                         if (rowspan > 1)
                         {
 
                             for (int i = rIndex + 1; (i < rIndex + rowspan) && (i < bodyRowCount); ++i)
                             {
                                 //fill rowspan (vertical expand down) 
-                                int insertAt;
+                                CssBox insertAt;
                                 CssBox lowerRow = bodyrows[i];
                                 if (FindVerticalCellSpacingBoxInsertionPoint(lowerRow, grid_index, out insertAt))
                                 {
-                                    lowerRow.InsertChild(insertAt, new CssVerticalCellSpacingBox(_tableBox, cellBox, rIndex));
+                                    lowerRow.InsertChild(insertAt, new CssVerticalCellSpacingBox(_tableBox, cnode, rIndex));
+
                                 }
                             }
                         }
 
-                        grid_index += cellBox.ColSpan;
+                        grid_index += cnode.ColSpan;
+                        //-------------------------------
+                        cnode = cnode.GetNextNode();
+                        c++;
                     }
+
                     rIndex++;//***
                 }
 
@@ -341,14 +346,17 @@ namespace HtmlRenderer.Boxes
                     //Check for column width in table-cell definitions
                     int col_limit = columnCount > MAX_COL_AT_THIS_VERSION ? MAX_COL_AT_THIS_VERSION : columnCount;
 
-                    for (int i = 0; i < col_limit; ++i)// limit column width check
+
+                    var cnode = row.GetFirstChild();
+                    int i = 0;
+                    while (cnode != null)
                     {
 
                         if (!columnCollection[i].HasSpecificWidth)
                         {
                             if (i < row.ChildCount)
                             {
-                                var childBox = row.GetChildBox(i);
+                                var childBox = cnode;
                                 if (childBox.CssDisplay == CssDisplay.TableCell)
                                 {
                                     float cellBoxWidth = CssValueParser.ConvertToPx(childBox.Width, availbleWidthForAllCells, childBox);
@@ -365,7 +373,35 @@ namespace HtmlRenderer.Boxes
                                 }
                             }
                         }
+                        //--------------------------
+                        cnode = cnode.GetNextNode();
+                        i++;
                     }
+                    //for (i = 0; i < col_limit; ++i)// limit column width check
+                    //{
+
+                    //    if (!columnCollection[i].HasSpecificWidth)
+                    //    {
+                    //        if (i < row.ChildCount)
+                    //        {
+                    //            var childBox = row.GetChildBox(i);
+                    //            if (childBox.CssDisplay == CssDisplay.TableCell)
+                    //            {
+                    //                float cellBoxWidth = CssValueParser.ConvertToPx(childBox.Width, availbleWidthForAllCells, childBox);
+                    //                if (cellBoxWidth > 0) //If some width specified
+                    //                {
+                    //                    int colspan = childBox.ColSpan;
+                    //                    cellBoxWidth /= colspan;
+
+                    //                    for (int n = i; n < i + colspan; n++)
+                    //                    {
+                    //                        columnCollection[n].UpdateIfWider(cellBoxWidth);
+                    //                    }
+                    //                }
+                    //            }
+                    //        }
+                    //    }
+                    //}
                 }
             }
             return availbleWidthForAllCells;
@@ -882,27 +918,50 @@ namespace HtmlRenderer.Boxes
                 }
             }
         }
-        static bool FindVerticalCellSpacingBoxInsertionPoint(CssBox curRow, int cIndex, out int insertAt)
+        static bool FindVerticalCellSpacingBoxInsertionPoint(CssBox curRow, int cIndex, out CssBox insertAt)
         {
             int colcount = 0;
             int cellCount = curRow.ChildCount;
-            for (int n = 0; n < cellCount; ++n)
+            var cnode = curRow.GetFirstChild();
+            int n = 0;
+            while (cnode != null)
             {
                 //all cell in this row
                 if (colcount == cIndex)
                 {
                     //insert new spacing box for table 
                     //at 'colcount' index                        
-                    insertAt = colcount;
+                    insertAt = cnode;
                     return true;//found
                 }
                 else
                 {
                     colcount++;
-                    cIndex -= (curRow.GetChildBox(n)).RowSpan - 1;
+                    cIndex -= cnode.RowSpan - 1;
                 }
+
+                //----------
+                cnode = cnode.GetNextNode();
+                n++;
             }
-            insertAt = -1;
+
+            //for (int n = 0; n < cellCount; ++n)
+            //{
+            //    //all cell in this row
+            //    if (colcount == cIndex)
+            //    {
+            //        //insert new spacing box for table 
+            //        //at 'colcount' index                        
+            //        insertAt = colcount;
+            //        return true;//found
+            //    }
+            //    else
+            //    {
+            //        colcount++;
+            //        cIndex -= (curRow.GetChildBox(n)).RowSpan - 1;
+            //    }
+            //}
+            insertAt = null;
             return false;
         }
 

@@ -40,7 +40,8 @@ namespace HtmlRenderer.Boxes
     public partial class CssBox
     {
 
-        readonly Css.BoxSpec _myspec; 
+        readonly Css.BoxSpec _myspec;
+
 
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
@@ -50,6 +51,7 @@ namespace HtmlRenderer.Boxes
 
         public CssBox(CssBox parentBox, object controller, Css.BoxSpec spec)
         {
+
             this._aa_boxes = new CssBoxCollection(this);
 
             if (parentBox != null)
@@ -95,11 +97,7 @@ namespace HtmlRenderer.Boxes
             this._myspec = spec;
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
-
         }
-
-
-
         /// <summary>
         /// Gets the parent box of this box
         /// </summary>
@@ -121,20 +119,9 @@ namespace HtmlRenderer.Boxes
             if (parentBox != null)
             {
                 parentBox.Boxes.Add(this);
+            }
+        }
 
-            }
-        }
-        internal void SetNewParentBox(int myIndexHint, CssBox parentBox)
-        {
-            if (this._parentBox != null)
-            {
-                this._parentBox.Boxes.RemoveAt(myIndexHint);
-            }
-            if (parentBox != null)
-            {
-                parentBox.Boxes.Add(this);
-            }
-        }
         /// <summary>
         /// Is the box is of "br" element.
         /// </summary>
@@ -457,20 +444,18 @@ namespace HtmlRenderer.Boxes
         {
             PerformContentLayout(lay);
         }
-
         internal void ChangeSiblingOrder(int siblingIndex)
         {
             if (siblingIndex < 0)
             {
                 throw new Exception("before box doesn't exist on parent");
-            }
+            } 
             this._parentBox.Boxes.ChangeSiblingIndex(this, siblingIndex);
         }
-
-        internal int FindChildIndex(CssBox childBox)
-        {
-            return this._aa_boxes.FindChildIndex(childBox);
-        }
+        //internal int FindChildIndex(CssBox childBox)
+        //{
+        //    return this._aa_boxes.FindChildIndex(childBox);
+        //}
 
 
 
