@@ -16,7 +16,7 @@
 using System;
 using System.Drawing;
 
-namespace HtmlRenderer.Entities
+namespace HtmlRenderer.Diagnostics
 {
     /// <summary>
     /// Raised when Html Renderer request scroll to specific location.<br/>

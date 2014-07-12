@@ -15,7 +15,7 @@
 
 using System;
 
-namespace HtmlRenderer.Entities
+namespace HtmlRenderer.Diagnostics
 {
     /// <summary>
     /// Raised when html renderer requires refresh of the control hosting (invalidation and re-layout).<br/>

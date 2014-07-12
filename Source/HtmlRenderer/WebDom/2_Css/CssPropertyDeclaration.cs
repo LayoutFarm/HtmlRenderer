@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using HtmlRenderer.RenderDom;
+using HtmlRenderer.Boxes;
 using HtmlRenderer.Css;
 namespace HtmlRenderer.WebDom
 {
@@ -368,6 +368,8 @@ namespace HtmlRenderer.WebDom
             get;
             set;
         }
+       
+        //------------------------------------------------------
         internal float AsNumber()
         {
             return this.number;

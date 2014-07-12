@@ -15,7 +15,7 @@
 
 using System;
 
-namespace HtmlRenderer.Entities
+namespace HtmlRenderer.Diagnostics
 {
     /// <summary>
     /// Exception thrown when client code subscribed to LinkClicked event throwed exception.

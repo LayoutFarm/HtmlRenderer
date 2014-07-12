@@ -5,10 +5,10 @@ using System.Text;
 using System.Drawing;
 
 using System.Diagnostics;
-using HtmlRenderer.RenderDom;
-using HtmlRenderer.Entities;
+using HtmlRenderer.Boxes;
+using HtmlRenderer.Diagnostics;
 using HtmlRenderer.Handlers;
-using HtmlRenderer.Utils;
+using HtmlRenderer.Drawing;
 using System.Windows.Forms;
 
 
@@ -93,11 +93,7 @@ namespace HtmlRenderer
             }
         }
         public void PerformPaint(Graphics g)
-        {
-
-
-
-
+        {   
             using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
             {
                 Region prevClip = null;

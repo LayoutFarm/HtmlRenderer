@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace HtmlRenderer.WebDom
 {
      
-    class UniqueStringTable
+    public class UniqueStringTable
     {
         Dictionary<string, int> dic;
         List<string> list;

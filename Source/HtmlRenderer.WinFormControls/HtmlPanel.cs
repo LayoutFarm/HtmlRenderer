@@ -14,9 +14,9 @@ using System;
 using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
-using HtmlRenderer.Entities;
+using HtmlRenderer.Diagnostics;
 
-using HtmlRenderer.Utils;
+using HtmlRenderer.Drawing;
 using HtmlRenderer.Css;
 namespace HtmlRenderer
 {
@@ -124,7 +124,7 @@ namespace HtmlRenderer
         /// Raised when an image is about to be loaded by file path or URI.<br/>
         /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
         /// </summary>
-        public event EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> ImageLoad;
+        public event EventHandler<HtmlRenderer.Boxes.HtmlImageRequestEventArgs> ImageLoad;
 
         /// <summary>
         /// Gets or sets a value indicating if anti-aliasing should be avoided for geometry like backgrounds and borders (default - false).
@@ -197,7 +197,7 @@ namespace HtmlRenderer
             set
             {
                 _baseRawCssData = value;
-                _baseCssData = HtmlRenderer.RenderDom.Composer.CssParser.ParseStyleSheet(value, true);
+                _baseCssData = HtmlRenderer.Composers.CssParser.ParseStyleSheet(value, true);
             }
         }
 
@@ -226,6 +226,7 @@ namespace HtmlRenderer
                 if (!IsDisposed)
                 {
                     VerticalScroll.Value = VerticalScroll.Minimum;
+
                     _htmlContainer.SetHtml(Text, _baseCssData);
                     PerformLayout();
                     Invalidate();
@@ -488,7 +489,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Propagate the image load event from root container.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlRenderer.RenderDom.HtmlImageRequestEventArgs e)
+        private void OnImageLoad(object sender, HtmlRenderer.Boxes.HtmlImageRequestEventArgs e)
         {
             if (ImageLoad != null)
             {
