@@ -3,8 +3,30 @@
 
 namespace HtmlRenderer.Composers
 {
-    internal static class CssDefaults
+    public static class CssDefaults
     {
+        /// <summary>
+        /// default CSS parsed data singleton
+        /// </summary>
+        static WebDom.CssActiveSheet _defaultCssData;
+        /// <summary>
+        /// default CSS parsed data singleton
+        /// </summary>
+        internal static WebDom.CssActiveSheet DefaultCssData
+        {
+            get
+            {
+                if (_defaultCssData == null)
+                {
+                    _defaultCssData = new WebDom.CssActiveSheet();
+                    CssParser.ParseStyleSheet(_defaultCssData, CssDefaults.DefaultStyleSheet);
+                }
+                return _defaultCssData;
+            }
+        }
+
+
+        ///=======================================================================
         /// <summary>
         /// CSS Specification's Default Style Sheet for HTML 4
         /// </summary>

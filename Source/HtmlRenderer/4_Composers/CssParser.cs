@@ -16,7 +16,7 @@
 using System;
 using HtmlRenderer.Css;
 using HtmlRenderer.Drawing;
-using HtmlRenderer.RenderDom;
+using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer.Composers
 {
@@ -40,7 +40,9 @@ namespace HtmlRenderer.Composers
         /// <returns>the CSS data with parsed CSS objects (never null)</returns>
         public static WebDom.CssActiveSheet ParseStyleSheet(string stylesheet, bool combineWithDefault)
         {
-            var cssData = combineWithDefault ? CssUtils.DefaultCssData.Clone(new object()) : new WebDom.CssActiveSheet();
+            var cssData = combineWithDefault ?
+                CssDefaults.DefaultCssData.Clone(new object()) : new WebDom.CssActiveSheet();
+
             if (!string.IsNullOrEmpty(stylesheet))
             {
                 ParseStyleSheet(cssData, stylesheet);

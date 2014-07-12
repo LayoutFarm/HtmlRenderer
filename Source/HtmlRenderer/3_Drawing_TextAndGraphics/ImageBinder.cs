@@ -4,9 +4,7 @@ using System;
 using System.Drawing;
 
 namespace HtmlRenderer 
-{
- 
-
+{   
     public class ImageBinder
     {
         Image _image;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using HtmlRenderer.Css;
 
-using HtmlRenderer.RenderDom;
+using HtmlRenderer.Boxes;
 namespace HtmlRenderer.Composers 
 { 
     class ContentTextSplitter

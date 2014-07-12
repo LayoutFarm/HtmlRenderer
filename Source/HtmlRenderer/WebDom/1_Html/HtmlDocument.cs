@@ -1,5 +1,5 @@
 ﻿//BSD  2014 ,WinterDev  
-using HtmlRenderer.RenderDom;
+using HtmlRenderer.Boxes;
 using HtmlRenderer.Composers;
 namespace HtmlRenderer.WebDom
 {   

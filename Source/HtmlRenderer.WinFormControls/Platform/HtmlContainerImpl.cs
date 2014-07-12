@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 
 using System.Diagnostics;
-using HtmlRenderer.RenderDom;
+using HtmlRenderer.Boxes;
 using HtmlRenderer.Diagnostics;
 using HtmlRenderer.Handlers;
 using HtmlRenderer.Drawing;

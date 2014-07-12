@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using HtmlRenderer.Css;
 using HtmlRenderer.WebDom;
-using HtmlRenderer.RenderDom;
+using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer.Composers
 {

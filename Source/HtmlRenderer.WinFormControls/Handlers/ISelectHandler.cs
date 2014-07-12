@@ -1,7 +1,7 @@
 ﻿//BSD 2014,WinterDev
 
 using System;
-using HtmlRenderer.RenderDom;
+using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer
 {

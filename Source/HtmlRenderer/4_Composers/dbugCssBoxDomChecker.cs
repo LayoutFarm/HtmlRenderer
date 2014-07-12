@@ -15,7 +15,7 @@
 
 using HtmlRenderer.Drawing;
 using HtmlRenderer.Css;
-using HtmlRenderer.RenderDom; 
+using HtmlRenderer.Boxes; 
 namespace HtmlRenderer.Composers
 {
 #if DEBUG
@@ -171,7 +171,7 @@ namespace HtmlRenderer.Composers
 
                         // atodo: check the height to min-height when it is supported
                         //throw new NotSupportedException();
-                        brBox.DirectSetHeight(CssConstConfig.DEFAULT_FONT_SIZE * 0.95f);
+                        brBox.DirectSetHeight(FontDefaultConfig.DEFAULT_FONT_SIZE * 0.95f);
                         //brBox.Height = new CssLength(0.95f, CssUnitOrNames.Ems);
                     }
                 }
@@ -286,11 +286,11 @@ namespace HtmlRenderer.Composers
             dbugCorrectCount++;
 #endif
             //recursive
-            bool containsInlinesOnly = DomUtils.ContainsInlinesOnly(box);
+            bool containsInlinesOnly = BoxUtils.ContainsInlinesOnly(box);
             if (containsInlinesOnly && !ContainsInlinesOnlyDeep(box))
             {
                 CorrectBlockInsideInlineImp(box);
-                containsInlinesOnly = DomUtils.ContainsInlinesOnly(box);
+                containsInlinesOnly = BoxUtils.ContainsInlinesOnly(box);
             }
             //----------------------------------------------------------------------
             if (!containsInlinesOnly)

@@ -13,7 +13,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using HtmlRenderer.RenderDom;
+using HtmlRenderer.Boxes;
 using HtmlRenderer.Diagnostics;
 using HtmlRenderer.Drawing;
 
@@ -197,7 +197,7 @@ namespace HtmlRenderer.Handlers
                     BoxHitChain hitChain = new BoxHitChain();
                     hitChain.SetRootGlobalPosition(loc.X, loc.Y);
 
-                    DomUtils.HitTest(_root, loc.X, loc.Y, hitChain);
+                    BoxUtils.HitTest(_root, loc.X, loc.Y, hitChain);
 
                     _latestMouseDownHitChain = hitChain;
                     HitInfo hitInfo = hitChain.GetLastHit();
@@ -353,8 +353,8 @@ namespace HtmlRenderer.Handlers
         {
             if (container.IsSelectionEnabled)
             {
-                var html = DomUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true);
-                var plainText = DomUtils.GetSelectedPlainText(_root);
+                var html = BoxUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true);
+                var plainText = BoxUtils.GetSelectedPlainText(_root);
                 if (!string.IsNullOrEmpty(plainText))
                     HtmlClipboardUtils.CopyToClipboard(html, plainText);
             }
@@ -365,7 +365,7 @@ namespace HtmlRenderer.Handlers
         /// </summary>
         public string GetSelectedText()
         {
-            return container.IsSelectionEnabled ? DomUtils.GetSelectedPlainText(_root) : null;
+            return container.IsSelectionEnabled ? BoxUtils.GetSelectedPlainText(_root) : null;
         }
 
         /// <summary>
@@ -373,7 +373,7 @@ namespace HtmlRenderer.Handlers
         /// </summary>
         public string GetSelectedHtml()
         {
-            return container.IsSelectionEnabled ? DomUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true) : null;
+            return container.IsSelectionEnabled ? BoxUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true) : null;
         }
 
         /// <summary>
@@ -454,14 +454,14 @@ namespace HtmlRenderer.Handlers
             BoxHitChain hitChain = new BoxHitChain();
             hitChain.SetRootGlobalPosition(loc.X, loc.Y);
 
-            DomUtils.HitTest(_root, loc.X, loc.Y, hitChain);
+            BoxUtils.HitTest(_root, loc.X, loc.Y, hitChain);
 
             //create selection range  
             if (this.container.SelectionRange != null)
             {
                 this.container.SelectionRange = null;
             }
-            this.container.SelectionRange = new RenderDom.SelectionRange(_latestMouseDownHitChain, hitChain, g);
+            this.container.SelectionRange = new Boxes.SelectionRange(_latestMouseDownHitChain, hitChain, g);
         }
 
 
@@ -510,8 +510,8 @@ namespace HtmlRenderer.Handlers
         {
             if (_dragDropData == null)
             {
-                var html = DomUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true);
-                var plainText = DomUtils.GetSelectedPlainText(_root);
+                var html = BoxUtils.GenerateHtml(_root, HtmlGenerationStyle.Inline, true);
+                var plainText = BoxUtils.GetSelectedPlainText(_root);
                 _dragDropData = HtmlClipboardUtils.GetDataObject(html, plainText);
             }
             control.DoDragDrop(_dragDropData, DragDropEffects.Copy);

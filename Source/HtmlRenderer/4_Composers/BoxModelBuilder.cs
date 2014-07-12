@@ -15,19 +15,22 @@
 
 using System;
 using System.Drawing;
-using System.Collections.Generic;
-
-using HtmlRenderer.Css;
-
+using System.Collections.Generic; 
+using HtmlRenderer.Css; 
 using HtmlRenderer.WebDom;
 using HtmlRenderer.WebDom.Parser;
-using HtmlRenderer.RenderDom;
+using HtmlRenderer.Boxes;
+using HtmlRenderer.Drawing;
+
 namespace HtmlRenderer.Composers
 {
+
+
+
     /// <summary>
     /// Handle css DOM tree generation from raw html and stylesheet.
     /// </summary>
-    static class BoxModelBuilder
+    public class BoxModelBuilder
     {
         //======================================
         static ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
@@ -111,8 +114,8 @@ namespace HtmlRenderer.Composers
                                             else if (stylesheetData != null)
                                             {
                                                 activeCssTemplate.LoadAnotherStylesheet(stylesheetData);
-                                            } 
-                                        } 
+                                            }
+                                        }
                                         continue;
                                     }
                             }
@@ -157,7 +160,7 @@ namespace HtmlRenderer.Composers
                 if (newChildBox.IsBrElement)
                 {
                     CssBox.ChangeDisplayType(newChildBox, CssDisplay.Block);
-                    newChildBox.DirectSetHeight(CssConstConfig.DEFAULT_FONT_SIZE * 0.95f);
+                    newChildBox.DirectSetHeight(FontDefaultConfig.DEFAULT_FONT_SIZE * 0.95f);
                 }
             }
             //----------
@@ -184,7 +187,7 @@ namespace HtmlRenderer.Composers
                     if (newChildBox.IsBrElement)
                     {
                         CssBox.ChangeDisplayType(newChildBox, CssDisplay.Block);
-                        newChildBox.DirectSetHeight(CssConstConfig.DEFAULT_FONT_SIZE * 0.95f);
+                        newChildBox.DirectSetHeight(FontDefaultConfig.DEFAULT_FONT_SIZE * 0.95f);
                     }
                 }
             }
@@ -500,6 +503,10 @@ namespace HtmlRenderer.Composers
             }
 
         }
+
+
+
+
         /// <summary>
         /// Generate css tree by parsing the given html and applying the given css style data on it.
         /// </summary>
@@ -507,7 +514,7 @@ namespace HtmlRenderer.Composers
         /// <param name="htmlContainer">the html container to use for reference resolve</param>
         /// <param name="cssData">the css data to use</param>
         /// <returns>the root of the generated tree</returns>
-        public static CssBox ParseAndBuildBoxTree(
+        public CssBox ParseAndBuildBoxTree(
             string html,
             HtmlContainer htmlContainer,
             CssActiveSheet cssData)
@@ -616,7 +623,7 @@ namespace HtmlRenderer.Composers
             //1. apply style  
             activeCssTemplate.ApplyActiveTemplate(element.Name,
                classValue,//class
-               curSpec,  
+               curSpec,
                parentSpec);
 
             //-------------------------------------------------------------------                        

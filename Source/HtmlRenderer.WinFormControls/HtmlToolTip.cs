@@ -123,7 +123,7 @@ namespace HtmlRenderer
         /// Raised when an image is about to be loaded by file path or URI.<br/>
         /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
         /// </summary>
-        public event EventHandler<HtmlRenderer.RenderDom.HtmlImageRequestEventArgs> ImageLoad;
+        public event EventHandler<HtmlRenderer.Boxes.HtmlImageRequestEventArgs> ImageLoad;
 
         /// <summary>
         /// Set base stylesheet to be used by html rendered in the panel.
@@ -194,6 +194,8 @@ namespace HtmlRenderer
             //Create fragment container
             var cssClass = string.IsNullOrEmpty(_tooltipCssClass) ? null : string.Format(" class=\"{0}\"", _tooltipCssClass);
             var toolipHtml = string.Format("<div{0}>{1}</div>", cssClass, GetToolTip(e.AssociatedControl));
+
+         
             _htmlContainer.SetHtml(toolipHtml, _baseCssData);
             _htmlContainer.MaxSize = MaximumSize;
 
@@ -294,7 +296,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Propagate the image load event from root container.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlRenderer.RenderDom.HtmlImageRequestEventArgs e)
+        private void OnImageLoad(object sender, HtmlRenderer.Boxes.HtmlImageRequestEventArgs e)
         {
             if (ImageLoad != null)
             {
