@@ -72,7 +72,6 @@ namespace HtmlRenderer.Boxes
                 goto RETRY;
             }
         }
-
         public static CssBox GetNextSibling(CssBox a)
         {
             if (a.ParentBox == null)
@@ -98,27 +97,33 @@ namespace HtmlRenderer.Boxes
             }
             return null;
         }
-
         public static CssBox GetPrevSibling(CssBox a)
         {
             CssBox parent = a.ParentBox;
-            int childCount = parent.ChildCount;
-            for (int i = 0; i < childCount; ++i)
-            {
-                if (parent.GetChildBox(i) == a)
-                {
-                    //found 
-                    if (i == 0)
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        return parent.GetChildBox(i - 1);
-                    }
-                }
+            int aIndex = a.ParentBox.FindChildIndex(a);
+            if (aIndex > 0)
+            {   //not 0
+                return a.ParentBox.GetChildBox(aIndex);
             }
             return null;
+            //int childCount = parent.ChildCount;
+
+            //for (int i = 0; i < childCount; ++i)
+            //{
+            //    if (parent.GetChildBox(i) == a)
+            //    {
+            //        //found 
+            //        if (i == 0)
+            //        {
+            //            return null;
+            //        }
+            //        else
+            //        {
+            //            return parent.GetChildBox(i - 1);
+            //        }
+            //    }
+            //}
+            //return null;
         }
         internal static CssLineBox GetNearestLine(CssBox a, Point point, out bool found)
         {
@@ -179,6 +184,8 @@ namespace HtmlRenderer.Boxes
             }
             return null;
         }
+
+
 
 
         /// <summary>
@@ -283,8 +290,8 @@ namespace HtmlRenderer.Boxes
                 }
 
             }
-            return false; 
-        } 
+            return false;
+        }
         internal static IEnumerable<LineOrBoxVisit> GetDeepBoxOrLineIter(CssBox box)
         {
             yield return new LineOrBoxVisit(box);
@@ -397,7 +404,7 @@ namespace HtmlRenderer.Boxes
             }
             return null;
         }
- 
+
 
     }
 }

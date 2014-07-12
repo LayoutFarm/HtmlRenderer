@@ -122,6 +122,7 @@ namespace HtmlRenderer.Boxes
             this._boxes.RemoveAt(index);
             CssBox.UnsafeSetNodes(tmp, null, null);
         }
+
         public CssBox this[int index]
         {
             get
@@ -129,11 +130,33 @@ namespace HtmlRenderer.Boxes
                 return this._boxes[index];
             }
         }
+        public CssBox GetFirstChild()
+        {
+            return this._boxes[0];
+        }
+        public CssBox GetLastChild()
+        {
+            return this._boxes[this._boxes.Count - 1];
+        }
+        public int FindChildIndex(CssBox child)
+        {
+            int j = this._boxes.Count;
+            for (int i = 0; i < j; ++i)
+            {
+                if (_boxes[i] == child)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
         public IEnumerator<CssBox> GetEnumerator()
         {
             return this._boxes.GetEnumerator();
         }
+
+
     }
 
-   
+
 }

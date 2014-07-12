@@ -41,7 +41,7 @@ namespace HtmlRenderer.Boxes
     {
 
         readonly Css.BoxSpec _myspec;
-
+        LinkedListNode<CssBox> _linkedNode;
 
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
@@ -468,6 +468,11 @@ namespace HtmlRenderer.Boxes
             this._parentBox.Boxes.ChangeSiblingIndex(this, siblingIndex);
         }
 
+        internal int FindChildIndex(CssBox childBox)
+        {
+            return this._aa_boxes.FindChildIndex(childBox);
+        }
+
 
 
         #region Private Methods
@@ -578,10 +583,8 @@ namespace HtmlRenderer.Boxes
                                     if (BoxUtils.ContainsInlinesOnly(this))
                                     {
                                         this.SetHeightToZero();
-
                                         //This will automatically set the bottom of this block
                                         CssLayoutEngine.FlowContentRuns(this, lay);
-
                                     }
                                     else if (_aa_boxes.Count > 0)
                                     {
@@ -792,7 +795,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return this.ParentBox.Boxes[this.ParentBox.ChildCount - 1] == this;
+                return this.ParentBox.Boxes.GetLastChild() == this;
             }
         }
         /// <summary>
@@ -834,11 +837,11 @@ namespace HtmlRenderer.Boxes
 
             if (ParentBox != null && this.IsLastChild && cbBox.ActualMarginBottom < 0.1)
             {
-                var lastChildBottomMargin = _aa_boxes[_aa_boxes.Count - 1].ActualMarginBottom;
+                var lastChildBottomMargin = _aa_boxes.GetLastChild().ActualMarginBottom;
 
                 margin = (Height.IsAuto) ? Math.Max(ActualMarginBottom, lastChildBottomMargin) : lastChildBottomMargin;
             }
-            return _aa_boxes[_aa_boxes.Count - 1].LocalBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
+            return _aa_boxes.GetLastChild().LocalBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
 
             //must have at least 1 child 
             //float lastChildBottomWithMarginRelativeToMe = this.LocalY + _boxes[_boxes.Count - 1].LocalActualBottom + margin + this.ActualPaddingBottom + this.ActualBorderBottomWidth;

@@ -26,7 +26,7 @@ namespace HtmlRenderer.Boxes
     {
 
         readonly object _controller;
-       
+
         //----------------------------------------------------
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
@@ -41,12 +41,12 @@ namespace HtmlRenderer.Boxes
         //1.1 contain lineBoxes for my children and  other children (share)
         LinkedList<CssLineBox> _clientLineBoxes;
         //1.2 contains box collection for my children
-        readonly CssBoxCollection _aa_boxes;
+        CssBoxCollection _aa_boxes;
         //----------------------------------------------------    
         //condition 2 :this Box is InlineBox          
         List<CssRun> _aa_contentRuns;
         char[] _buffer;
-
+        //----------------------------------------------------   
         bool isBrElement;
         bool _fixDisplayType;
 
@@ -117,15 +117,14 @@ namespace HtmlRenderer.Boxes
                 return this._aa_boxes.Count;
             }
         }
-
+        //-----------------------------------
         public CssBox GetFirstChild()
         {
-            return this._aa_boxes[0];
-        }
+            return this._aa_boxes.GetFirstChild();
+        } 
         //-----------------------------------
         public CssBox GetChildBox(int index)
-        {
-
+        {    
             return this._aa_boxes[index];
         }
         public void InsertChild(int index, CssBox box)
@@ -174,8 +173,8 @@ namespace HtmlRenderer.Boxes
         }
 
         //==================================================
-    
-       
+
+
         internal SubBoxCollection SubBoxes
         {
             get
@@ -187,11 +186,8 @@ namespace HtmlRenderer.Boxes
                 this._subBoxes = value;
             }
         }
-        internal static void SetAsBrBox(CssBox box)
-        {
-            box.isBrElement = true;
-        }
-       
+        
+
     }
 
 }
