@@ -721,9 +721,7 @@ namespace HtmlRenderer.Boxes
 
             int currentRow = 0;
             int col_count = this.columnCollection.Count;
-
-
-
+ 
             for (int i = 0; i < _allRowBoxes.Count; i++)
             {
 
@@ -746,20 +744,20 @@ namespace HtmlRenderer.Boxes
                         int colspan = cell.ColSpan;
                         float width = this.columnCollection.GetCellWidth(grid_index, colspan, horizontal_spacing);
 
-                        //HtmlRenderer.Utils.DomUtils.ForEachTextRunDeep(cell, trun =>
-                        //{
-                        //    if (trun.Text.Contains("Cell1"))
-                        //    {
-                        //        cell.dbugMark = 20;
-                        //        return true;
-                        //    }
-                        //    //else if (trun.Text.Contains("You1"))
-                        //    //{
-                        //    //    cell.dbugMark = 19;
-                        //    //    return true;
-                        //    //}
-                        //    return false;
-                        //});
+                       //HtmlRenderer.Boxes.BoxUtils.ForEachTextRunDeep(cell, trun =>
+                       //{
+                       //    if (trun.Text.Contains("Cell1"))
+                       //    {
+                       //        cell.dbugMark = 20;
+                       //        return true;
+                       //    }
+                       //    //else if (trun.Text.Contains("You1"))
+                       //    //{
+                       //    //    cell.dbugMark = 19;
+                       //    //    return true;
+                       //    //}
+                       //    return false;
+                       //});
 
                         //-----------------------------------------
                         cell.SetLocation(curX_local, curY_local);
@@ -904,8 +902,9 @@ namespace HtmlRenderer.Boxes
                     return;
             }
 
-            if (dist > 0.01)
+            if (dist > CssBoxConstConfig.TABLE_VERT_OFFSET_THESHOLD)
             {
+                //more than our threshold
                 if (cell.LineBoxCount > 0)
                 {
                     foreach (CssLineBox linebox in cell.GetLineBoxIter())

@@ -54,7 +54,7 @@ namespace HtmlRenderer.Boxes
 
             if (parentBox != null)
             {
-                parentBox.Boxes.Add(this);
+                parentBox.Boxes.AddChild(this);
             }
 
             this._controller = controller;
@@ -77,7 +77,7 @@ namespace HtmlRenderer.Boxes
             this._aa_boxes = new CssBoxCollection(this);
             if (parentBox != null)
             {
-                parentBox.Boxes.Add(this);
+                parentBox.Boxes.AddChild(this);
             }
             this._controller = controller;
 #if DEBUG
@@ -116,7 +116,7 @@ namespace HtmlRenderer.Boxes
             }
             if (parentBox != null)
             {
-                parentBox.Boxes.Add(this);
+                parentBox.Boxes.AddChild(this);
             }
         }
 
@@ -462,11 +462,9 @@ namespace HtmlRenderer.Boxes
                         return;
                     }
                 default:
-                    {
+                    {    //others
                         if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.LatestContainingBlock); }
-                        this.MeasureRunsSize(lay);
-
-                        //others
+                        this.MeasureRunsSize(lay); 
                     } break;
                 case Css.CssDisplay.BlockInsideInlineAfterCorrection:
                 case Css.CssDisplay.Block:

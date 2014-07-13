@@ -1264,9 +1264,8 @@ namespace HtmlRenderer.Composers
                                 //col,colgroup,tbody,td,tfoot,th,thead,tr
 
                                 WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
-                                          attr.Value.ToLower(), WebDom.CssValueHint.Iden);
-                                var spec = tag.Spec;
-                                spec.VerticalAlign = UserMapUtil.GetVerticalAlign(propValue);
+                                          attr.Value.ToLower(), WebDom.CssValueHint.Iden); 
+                                tag.Spec.VerticalAlign = UserMapUtil.GetVerticalAlign(propValue);
 
 
                             } break;

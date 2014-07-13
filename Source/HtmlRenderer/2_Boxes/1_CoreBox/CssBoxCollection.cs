@@ -34,7 +34,7 @@ namespace HtmlRenderer.Boxes
                 cNode = cNode.Previous;
             }
         }
-        public void Add(CssBox box)
+        public void AddChild(CssBox box)
         {
 
 #if DEBUG

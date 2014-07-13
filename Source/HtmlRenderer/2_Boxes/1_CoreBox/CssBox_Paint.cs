@@ -27,17 +27,24 @@ namespace HtmlRenderer.Boxes
 #if DEBUG
         public void dbugPaint(PaintVisitor p, RectangleF r)
         {
-            return;
+            //  return;
 
             var htmlE = CssBox.debugGetController(this);
             if (htmlE == null)
             {
                 p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);
-
             }
             else
             {
-                p.dbugDrawDiagonalBox(Pens.Green, r.Left, r.Top, r.Right, r.Bottom);
+                if (this._cssDisplay == Css.CssDisplay.TableCell)
+                {
+                    p.dbugDrawDiagonalBox(Pens.OrangeRed , r.Left, r.Top, r.Right, r.Bottom);
+                }
+                else
+                {
+                    p.dbugDrawDiagonalBox(Pens.Green, r.Left, r.Top, r.Right, r.Bottom);
+                }
+                
             }
         }
 #endif

@@ -115,7 +115,7 @@ namespace HtmlRenderer.Boxes
                 }
             }
 
-            // imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
+            //imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
         }
 
         public static void FlowContentRuns(CssBox hostBlock, LayoutVisitor lay)
@@ -141,8 +141,7 @@ namespace HtmlRenderer.Boxes
             FlowBox(lay, hostBlock, hostBlock, limitLocalRight, 0, startLocalX,
                   ref line, ref localX, ref localY, ref maxLocalRight, ref maxLocalBottom);
 
-            //****
-
+            //**** 
             // if width is not restricted we need to lower it to the actual width
             if (hostBlock.SizeWidth + lay.ContainerBlockGlobalX >= CssBoxConstConfig.BOX_MAX_RIGHT)
             {
@@ -279,7 +278,9 @@ namespace HtmlRenderer.Boxes
                          
                         CssBlockRun blockRun = new CssBlockRun(b); 
                         newline.AddRun(blockRun);
+                        //blockRun.SetLocation(current_line_x, current_line_y);
                         blockRun.SetSize(b.SizeWidth, b.SizeHeight);
+
                         maxBottomForHostBox += b.SizeHeight; 
                         //-----------------------------------------
                         if (childNumber < totalChildCount)

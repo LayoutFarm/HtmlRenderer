@@ -67,11 +67,7 @@ namespace HtmlRenderer.Boxes
         {
             get { return new RectangleF(this._x, this._y, this.Width, this.Height); }
         }
-        public void Offset(float xdiff, float ydiff)
-        {
-            this._x += xdiff;
-            this._y += ydiff;
-        }
+        
         public void MergeBound(float left, float top, float right, float bottom)
         {
 
@@ -98,15 +94,7 @@ namespace HtmlRenderer.Boxes
             this._width = sR - this._x;
             this._height = sB - this._y;
         }
-        public void SetTop(float y)
-        {
-            this._y = y;
-        }
-        public void SetLeft(float x)
-        {
-            this._x = x;
-        }
-
+         
 #if DEBUG
         public override string ToString()
         {
@@ -185,25 +173,19 @@ namespace HtmlRenderer.Boxes
             get;
             set;
         }
-        internal float OwnerLeft
-        {
-            get { return 0; }
-        }
+        
         internal float CachedLineContentWidth
         {
             get { return this._cacheContentWidth; }
             set
-            {
-                if (value < 0)
-                {
-
-                }
+            {  
                 this._cacheContentWidth = value;
             }
 
         }
         internal void CloseLine()
         {
+
 #if DEBUG
             this.dbugIsClosed = true;
 
@@ -262,9 +244,8 @@ namespace HtmlRenderer.Boxes
 
         internal void OffsetTop(float ydiff)
         {
-
-            this.CachedLineTop += ydiff;
-
+            
+            this.CachedLineTop += ydiff; 
             if (this.OwnerBox.SizeWidth < CachedLineContentWidth)
             {
                 this.CachedLineContentWidth = this.OwnerBox.SizeWidth;
@@ -484,7 +465,7 @@ namespace HtmlRenderer.Boxes
         {
 
 
-            return;
+            
             //linebox  
             float x1 = 0;
             float y1 = 0;
