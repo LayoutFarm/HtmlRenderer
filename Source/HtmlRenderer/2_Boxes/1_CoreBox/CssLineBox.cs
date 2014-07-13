@@ -274,7 +274,9 @@ namespace HtmlRenderer.Boxes
         {
             //Important notes on http://www.w3.org/TR/CSS21/tables.html#height-layout
             //iterate from rectstrip
-            //In a single LineBox ,  CssBox:RectStrip => 1:1 relation             
+            //In a single LineBox ,  CssBox:RectStrip => 1:1 relation           
+             
+
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
                 var rstrip = _bottomUpBoxStrips[i];

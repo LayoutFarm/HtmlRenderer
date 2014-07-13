@@ -16,6 +16,9 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -28,11 +31,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -149,44 +149,16 @@
     <None Include="Resources\paly32.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Samples\00.Intro.htm" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\comment16.gif" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\web_pallete.gif" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Samples\10.HtmlPanel.htm" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Samples\11.HtmlLabel.htm" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Samples\12.HtmlToolTip.htm" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Samples\02.Text.htm" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Samples\05.Images.htm" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Samples\04.Links.htm" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Samples\03.Tables.htm" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Samples\20.About.htm" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="SampleForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SampleForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Samples\07.Additional features.htm" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\image32.png" />
@@ -196,7 +168,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\method16.gif" />
-    <EmbeddedResource Include="Samples\13.HtmlRender.htm" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -226,42 +197,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TestSamples\02.Line break.htm" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Samples\21.IntroOld.htm" />
-    <EmbeddedResource Include="TestSamples\22.RTL.htm" />
-    <EmbeddedResource Include="TestSamples\21.Bullets.htm" />
-    <EmbeddedResource Include="TestSamples\20.Fonts decorations.htm" />
-    <EmbeddedResource Include="TestSamples\19.Many images.htm" />
-    <EmbeddedResource Include="TestSamples\18.Anchors.htm" />
-    <EmbeddedResource Include="TestSamples\00.ACID 1.htm" />
-    <EmbeddedResource Include="TestSamples\17.Languages.htm" />
-    <EmbeddedResource Include="Samples\08.Tooltip.htm" />
-    <EmbeddedResource Include="TestSamples\16.Borders.htm" />
-    <EmbeddedResource Include="PerfSamples\1.Big table.htm" />
     <Content Include="Resources\Event16.png" />
     <Content Include="Resources\html.ico" />
     <Content Include="Resources\html32.png" />
-    <EmbeddedResource Include="Samples\09.Using the library.htm" />
-    <EmbeddedResource Include="Samples\01.History.htm" />
-    <EmbeddedResource Include="Samples\06.Embeded video.htm" />
-    <EmbeddedResource Include="TestSamples\15.MaxWidth.htm" />
-    <EmbeddedResource Include="TestSamples\14.Iframes.htm" />
-    <EmbeddedResource Include="TestSamples\30.Misc.htm" />
-    <EmbeddedResource Include="TestSamples\07.Background Image.htm" />
-    <EmbeddedResource Include="TestSamples\06.External Image.htm" />
-    <EmbeddedResource Include="TestSamples\11.LineHeight.htm" />
-    <EmbeddedResource Include="Samples\14.HtmlContainer.htm" />
-    <EmbeddedResource Include="TestSamples\10.BlockInInline.htm" />
-    <EmbeddedResource Include="TestSamples\09.Inline.htm" />
-    <EmbeddedResource Include="TestSamples\13.Tables.htm" />
-    <EmbeddedResource Include="TestSamples\12.Text.htm" />
-    <EmbeddedResource Include="TestSamples\08.White-space.htm" />
-    <EmbeddedResource Include="TestSamples\05.Images.htm" />
-    <EmbeddedResource Include="TestSamples\04.Blockquotes.htm" />
-    <EmbeddedResource Include="TestSamples\03.Paragraphs.htm" />
-    <EmbeddedResource Include="TestSamples\01.Header.htm" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
