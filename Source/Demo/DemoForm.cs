@@ -90,7 +90,31 @@ namespace HtmlRenderer.Demo
 
 
             _updateHtmlTimer = new Timer(OnUpdateHtmlTimerTick);
-            this.Text += " M";
+            this.Text += " : " + Path.GetDirectoryName(Application.ExecutablePath);
+
+            this._samplesTreeView.NodeMouseClick += new TreeNodeMouseClickEventHandler(_samplesTreeView_NodeMouseClick);
+
+        }
+
+        void _samplesTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            var filename = e.Node.Tag as string;
+            if (filename == null ||
+                !File.Exists(filename))
+            {
+                return;
+            }
+            //------------------------------------
+            //load file
+            _updateLock = true;
+            Application.UseWaitCursor = true;
+            _htmlPanel.Text = File.ReadAllText(filename);
+            Application.UseWaitCursor = false;
+            _updateLock = false;
+            UpdateWebBrowserHtml();
+             
+
+
         }
         public void PrepareSamples()
         {
@@ -171,59 +195,45 @@ namespace HtmlRenderer.Demo
             }
         }
 
-        /// <summary>
-        /// On tree view node click load the html to the html panel and html editor.
-        /// </summary>
-        private void OnSamplesTreeViewAfterSelect(object sender, TreeViewEventArgs e)
-        {
-            var filename = e.Node.Tag as string;
-            if (filename == null ||
-                !File.Exists(filename))
-            {
-                return;
-            }
-            //------------------------------------
-            //load file
-            _updateLock = true;
-            Application.UseWaitCursor = true;
-            _htmlPanel.Text = File.ReadAllText(filename);
-            Application.UseWaitCursor = false;
-            _updateLock = false; 
-            UpdateWebBrowserHtml();
+        ///// <summary>
+        ///// On tree view node click load the html to the html panel and html editor.
+        ///// </summary>
+        //private void OnSamplesTreeViewAfterSelect(object sender, TreeViewEventArgs e)
+        //{
+           
+        //    //if (!string.IsNullOrEmpty(name))
+        //    //{
+        //    //    _updateLock = true;
 
-            //if (!string.IsNullOrEmpty(name))
-            //{
-            //    _updateLock = true;
+        //    //    string html = _samples[name];
 
-            //    string html = _samples[name];
+        //    //    if (!name.Contains("PerfSamples"))
+        //    //        SyntaxHilight.AddColoredText(html, _htmlEditor);
+        //    //    else
+        //    //        _htmlEditor.Text = html;
 
-            //    if (!name.Contains("PerfSamples"))
-            //        SyntaxHilight.AddColoredText(html, _htmlEditor);
-            //    else
-            //        _htmlEditor.Text = html;
+        //    //    Application.UseWaitCursor = true;
 
-            //    Application.UseWaitCursor = true;
+        //    //    _htmlPanel.AvoidImagesLateLoading = !name.Contains("Many images");
+        //    //    _htmlPanel.Text = html;
 
-            //    _htmlPanel.AvoidImagesLateLoading = !name.Contains("Many images");
-            //    _htmlPanel.Text = html;
+        //    //    //try
+        //    //    //{
+        //    //    //    _htmlPanel.AvoidImagesLateLoading = !name.Contains("Many images");
 
-            //    //try
-            //    //{
-            //    //    _htmlPanel.AvoidImagesLateLoading = !name.Contains("Many images");
+        //    //    //    _htmlPanel.Text = html;
+        //    //    //}
+        //    //    //catch (Exception ex)
+        //    //    //{
+        //    //    //    MessageBox.Show(ex.ToString(), "Failed to render HTML");
+        //    //    //}
 
-            //    //    _htmlPanel.Text = html;
-            //    //}
-            //    //catch (Exception ex)
-            //    //{
-            //    //    MessageBox.Show(ex.ToString(), "Failed to render HTML");
-            //    //}
+        //    //    Application.UseWaitCursor = false;
+        //    //    _updateLock = false;
 
-            //    Application.UseWaitCursor = false;
-            //    _updateLock = false;
-
-            //    UpdateWebBrowserHtml();
-            //}
-        }
+        //    //    UpdateWebBrowserHtml();
+        //    //}
+        //}
 
         /// <summary>
         /// On text change in the html editor update 

@@ -132,7 +132,8 @@ namespace HtmlRenderer.Demo
             this._samplesTreeView.Name = "_samplesTreeView";
             this._samplesTreeView.Size = new System.Drawing.Size(146, 439);
             this._samplesTreeView.TabIndex = 14;
-            this._samplesTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnSamplesTreeViewAfterSelect);
+
+            //this._samplesTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnSamplesTreeViewAfterSelect);
             // 
             // _splitContainer2
             // 

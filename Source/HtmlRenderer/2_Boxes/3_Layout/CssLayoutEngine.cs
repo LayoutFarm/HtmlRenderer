@@ -135,12 +135,13 @@ namespace HtmlRenderer.Boxes
             float maxLocalBottom = localY;
 
             //First line box
-            CssLineBox line = new CssLineBox(hostBlock);
-            hostBlock.AddLineBox(line);
-
-            //****
-            FlowBoxContentIntoHost(lay, hostBlock, hostBlock, limitLocalRight, 0, startLocalX,
-                  ref line, ref localX, ref localY, ref maxLocalRight, ref maxLocalBottom);
+            {
+                CssLineBox line = new CssLineBox(hostBlock);
+                hostBlock.AddLineBox(line); 
+                //****
+                FlowBoxContentIntoHost(lay, hostBlock, hostBlock, limitLocalRight, 0, startLocalX,
+                      ref line, ref localX, ref localY, ref maxLocalRight, ref maxLocalBottom);
+            }
 
             //**** 
             // if width is not restricted we need to lower it to the actual width
@@ -162,9 +163,9 @@ namespace HtmlRenderer.Boxes
                     ApplyAlignment(linebox, lay);
                     ApplyRightToLeft(hostBlock, linebox); //***
                     linebox.CloseLine(); //*** 
-  
-                    line.CachedLineTop = cy;
-                    cy += line.CacheLineHeight;
+
+                    linebox.CachedLineTop = cy;
+                    cy += linebox.CacheLineHeight; // + interline space?
                 }
             }
             else
@@ -172,11 +173,10 @@ namespace HtmlRenderer.Boxes
                 float cy = enterLocalY;
                 foreach (CssLineBox linebox in hostBlock.GetLineBoxIter())
                 {
-                    ApplyAlignment(linebox, lay);
-
+                    ApplyAlignment(linebox, lay); 
                     linebox.CloseLine(); //***
-                    line.CachedLineTop = cy;
-                    cy += line.CacheLineHeight;
+                    linebox.CachedLineTop = cy;
+                    cy += linebox.CacheLineHeight;
                 }
             }
 

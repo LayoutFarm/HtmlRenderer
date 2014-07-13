@@ -26,8 +26,7 @@ namespace HtmlRenderer.Demo
             demoForm.Show();
             demoForm.Activate();
         }
-
-
+         
 
         private void button2_Click(object sender, EventArgs e)
         {
