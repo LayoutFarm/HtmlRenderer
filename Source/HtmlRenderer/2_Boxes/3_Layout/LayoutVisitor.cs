@@ -1,6 +1,8 @@
 ﻿//BSD 2014, WinterDev
 
 using System;
+using System.Collections.Generic;
+
 using HtmlRenderer.Css;
 using HtmlRenderer.Drawing;
 namespace HtmlRenderer.Boxes
@@ -10,16 +12,13 @@ namespace HtmlRenderer.Boxes
     {
         HtmlContainer htmlContainer;
         float totalMarginLeftAndRight;
-       
-
+        Queue<Dictionary<CssBox, PartialBoxStrip>> dicStripPool;
+        Dictionary<CssBox, PartialBoxStrip> readyDicStrip = new Dictionary<CssBox, PartialBoxStrip>();
         internal LayoutVisitor(IGraphics gfx, HtmlContainer htmlContainer)
         {
             this.Gfx = gfx;
             this.htmlContainer = htmlContainer;
         }
-
-
-         
 
         internal IGraphics Gfx
         {
@@ -78,14 +77,7 @@ namespace HtmlRenderer.Boxes
                 requestFrom,
                 false);
         }
-        //internal void RequestImage(ImageBinder binder, CssBox requestFrom, ReadyStateChangedHandler handler)
-        //{
-        //    HtmlRenderer.HtmlContainer.RaiseRequestImage(
-        //         this.htmlContainer,
-        //         binder,
-        //         requestFrom,
-        //         handler); 
-        //}
+
         internal float MeasureWhiteSpace(CssBox box)
         {
             //depends on Font of this box
@@ -97,6 +89,48 @@ namespace HtmlRenderer.Boxes
             return w;
         }
 
+
+        //---------------------------------------------------------------
+        internal Dictionary<CssBox, PartialBoxStrip> GetReadyStripDic()
+        {
+            if (readyDicStrip == null)
+            {
+                if (this.dicStripPool == null || this.dicStripPool.Count == 0)
+                {
+                    return new Dictionary<CssBox, PartialBoxStrip>();
+                }
+                else
+                {
+                    return this.dicStripPool.Dequeue();
+                }
+            }
+            else
+            {
+                var tmpReadyStripDic = this.readyDicStrip;
+                this.readyDicStrip = null;
+                return tmpReadyStripDic;
+            }
+        }
+        internal void ReleaseStripDic(Dictionary<CssBox, PartialBoxStrip> dic)
+        {   
+            //clear before add to pool
+            dic.Clear();
+
+            if (this.readyDicStrip == null)
+            {
+                this.readyDicStrip = dic;
+            }
+            else
+            {
+                if (this.dicStripPool == null)
+                {
+                    this.dicStripPool = new Queue<Dictionary<CssBox, PartialBoxStrip>>();
+                }
+
+               
+                this.dicStripPool.Enqueue(dic);
+            }
+        }
     }
 
 

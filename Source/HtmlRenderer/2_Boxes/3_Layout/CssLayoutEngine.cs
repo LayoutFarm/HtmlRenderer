@@ -113,12 +113,12 @@ namespace HtmlRenderer.Boxes
                     float ratio = imageWord.Height / imageWord.Image.Height;
                     imageWord.Width = imageWord.Image.Width * ratio;
                 }
-            } 
+            }
             //imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
-        } 
+        }
         public static void FlowInlinesContent(CssBox hostBlock, LayoutVisitor lay)
         {
-            
+
             //*** hostBlock must confirm that it has all inline children             
 
             hostBlock.ResetLineBoxes();
@@ -137,7 +137,7 @@ namespace HtmlRenderer.Boxes
             //First line box
             {
                 CssLineBox line = new CssLineBox(hostBlock);
-                hostBlock.AddLineBox(line); 
+                hostBlock.AddLineBox(line);
                 //****
                 FlowBoxContentIntoHost(lay, hostBlock, hostBlock, limitLocalRight, 0, startLocalX,
                       ref line, ref localX, ref localY, ref maxLocalRight, ref maxLocalBottom);
@@ -162,7 +162,7 @@ namespace HtmlRenderer.Boxes
                 {
                     ApplyAlignment(linebox, lay);
                     ApplyRightToLeft(hostBlock, linebox); //***
-                    linebox.CloseLine(); //*** 
+                    linebox.CloseLine(lay); //*** 
 
                     linebox.CachedLineTop = cy;
                     cy += linebox.CacheLineHeight; // + interline space?
@@ -173,8 +173,8 @@ namespace HtmlRenderer.Boxes
                 float cy = enterLocalY;
                 foreach (CssLineBox linebox in hostBlock.GetLineBoxIter())
                 {
-                    ApplyAlignment(linebox, lay); 
-                    linebox.CloseLine(); //***
+                    ApplyAlignment(linebox, lay);
+                    linebox.CloseLine(lay); //***
                     linebox.CachedLineTop = cy;
                     cy += linebox.CacheLineHeight;
                 }
@@ -231,7 +231,7 @@ namespace HtmlRenderer.Boxes
             var oY = current_line_y;
 
             var localMaxRight = maxRightForHostBox;
-            var localMaxBottom = maxBottomForHostBox; 
+            var localMaxBottom = maxBottomForHostBox;
 
             float splitBoxActualLineHeight = splitableBox.ActualLineHeight;
             bool splitableParentIsBlock = splitableBox.ParentBox.IsBlock;
@@ -293,7 +293,7 @@ namespace HtmlRenderer.Boxes
                         CssBlockRun blockRun = new CssBlockRun(b);
                         newline.AddRun(blockRun);
 
-                        blockRun.SetLocation(firstRunStartX, 0); 
+                        blockRun.SetLocation(firstRunStartX, 0);
                         blockRun.SetSize(b.SizeWidth, b.SizeHeight);
 
                         maxBottomForHostBox += b.SizeHeight;
@@ -306,7 +306,6 @@ namespace HtmlRenderer.Boxes
                             hostBox.AddLineBox(newline);
                             newline.CachedLineTop = current_line_y = maxBottomForHostBox + interLineSpace;
                         }
-
 
                         hostLine = newline;
                         continue;
@@ -336,24 +335,12 @@ namespace HtmlRenderer.Boxes
             {
                 maxBottomForHostBox = oY + splitableBox.ExpectedHeight;
             }
-            //------------
-
+            //------------ 
             // handle width setting
-            if (splitableBox.IsInline && 0 <= current_line_x - oX && current_line_x - oX < splitableBox.ExpectedWidth)
+            if (splitableBox.IsInline &&
+                0 <= current_line_x - oX && current_line_x - oX < splitableBox.ExpectedWidth)
             {
                 throw new NotSupportedException();
-            }
-
-            // handle box that is only a whitespace
-            if (splitableBox.MayHasSomeTextContent &&
-                splitableBox.TextContentIsAllWhitespace &&
-                !splitableBox.IsImage &&
-                splitableBox.IsInline &&
-                splitableBox.ChildCount == 0 &&
-                splitableBox.RunCount == 0)
-            {
-                throw new NotSupportedException();
-                current_line_x += splitableBox.ActualWordSpacing;
             }
 
             // hack to support specific absolute position elements 

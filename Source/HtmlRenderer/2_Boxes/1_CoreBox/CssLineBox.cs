@@ -67,7 +67,7 @@ namespace HtmlRenderer.Boxes
         {
             get { return new RectangleF(this._x, this._y, this.Width, this.Height); }
         }
-        
+
         public void MergeBound(float left, float top, float right, float bottom)
         {
 
@@ -94,7 +94,7 @@ namespace HtmlRenderer.Boxes
             this._width = sR - this._x;
             this._height = sB - this._y;
         }
-         
+
 #if DEBUG
         public override string ToString()
         {
@@ -173,22 +173,23 @@ namespace HtmlRenderer.Boxes
             get;
             set;
         }
-        
+
         internal float CachedLineContentWidth
         {
             get { return this._cacheContentWidth; }
             set
-            {  
+            {
                 this._cacheContentWidth = value;
             }
 
         }
-        internal void CloseLine()
+
+
+        internal void CloseLine(LayoutVisitor lay)
         {
 
 #if DEBUG
             this.dbugIsClosed = true;
-
 #endif
 
             //=============================================================
@@ -198,11 +199,11 @@ namespace HtmlRenderer.Boxes
             var myruns = this._runs;
             CssBox lineOwner = this._ownerBox;
             int j = myruns.Count;
-
             List<PartialBoxStrip> totalStrips = this._bottomUpBoxStrips;
             //---------------------------------------------------------------------------
+
             //first level
-            Dictionary<CssBox, PartialBoxStrip> dicStrips = new Dictionary<CssBox, PartialBoxStrip>();
+            Dictionary<CssBox, PartialBoxStrip> unqiueStrips = lay.GetReadyStripDic();
             //location of run and strip related to its containng block
             float maxRight = 0;
             float maxBottom = 0;
@@ -218,15 +219,16 @@ namespace HtmlRenderer.Boxes
                 }
                 //-------------
                 //first level data
-                RegisterStripPart(run.OwnerBox, run.Left, run.Top, run.Right, run.Bottom, totalStrips, dicStrips);
+                RegisterStripPart(run.OwnerBox, run.Left, run.Top, run.Right, run.Bottom, totalStrips, unqiueStrips);
             }
             //---------------------------------------------------------------------------
             //other step to upper layer, until no new strip     
             int newStripIndex = 0;
             for (int numNewStripCreate = totalStrips.Count; numNewStripCreate > 0; newStripIndex += numNewStripCreate)
             {
-                numNewStripCreate = StepUpRegisterStrips(dicStrips, lineOwner, totalStrips, newStripIndex);
+                numNewStripCreate = StepUpRegisterStrips(unqiueStrips, lineOwner, totalStrips, newStripIndex);
             }
+            lay.ReleaseStripDic(unqiueStrips);
             //=============================================================
             //part 2: CalculateCacheData()
             //=============================================================
@@ -244,8 +246,8 @@ namespace HtmlRenderer.Boxes
 
         internal void OffsetTop(float ydiff)
         {
-            
-            this.CachedLineTop += ydiff; 
+
+            this.CachedLineTop += ydiff;
             if (this.OwnerBox.SizeWidth < CachedLineContentWidth)
             {
                 this.CachedLineContentWidth = this.OwnerBox.SizeWidth;
@@ -275,7 +277,7 @@ namespace HtmlRenderer.Boxes
             //Important notes on http://www.w3.org/TR/CSS21/tables.html#height-layout
             //iterate from rectstrip
             //In a single LineBox ,  CssBox:RectStrip => 1:1 relation           
-             
+
 
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {
@@ -467,7 +469,7 @@ namespace HtmlRenderer.Boxes
         {
 
 
-            
+
             //linebox  
             float x1 = 0;
             float y1 = 0;
