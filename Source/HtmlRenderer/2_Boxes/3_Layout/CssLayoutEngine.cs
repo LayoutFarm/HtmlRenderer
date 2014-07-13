@@ -113,13 +113,13 @@ namespace HtmlRenderer.Boxes
                     float ratio = imageWord.Height / imageWord.Image.Height;
                     imageWord.Width = imageWord.Image.Width * ratio;
                 }
-            }
-
+            } 
             //imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
-        }
-
-        public static void FlowContentRuns(CssBox hostBlock, LayoutVisitor lay)
+        } 
+        public static void FlowInlinesContent(CssBox hostBlock, LayoutVisitor lay)
         {
+            
+            //*** hostBlock must confirm that it has all inline children             
 
             hostBlock.ResetLineBoxes();
 
@@ -212,7 +212,8 @@ namespace HtmlRenderer.Boxes
         /// <param name="current_line_y">Current y coordinate that will be the top of the next word</param>
         /// <param name="maxRightForHostBox">Maximum right reached so far</param>
         /// <param name="maxBottomForHostBox">Maximum bottom reached so far</param>
-        static void FlowBoxContentIntoHost(LayoutVisitor lay,
+        static void FlowBoxContentIntoHost(
+          LayoutVisitor lay,
           CssBox hostBox,
           CssBox splitableBox,
           float limitLocalRight,
@@ -230,8 +231,7 @@ namespace HtmlRenderer.Boxes
             var oY = current_line_y;
 
             var localMaxRight = maxRightForHostBox;
-            var localMaxBottom = maxBottomForHostBox;
-
+            var localMaxBottom = maxBottomForHostBox; 
 
             float splitBoxActualLineHeight = splitableBox.ActualLineHeight;
             bool splitableParentIsBlock = splitableBox.ParentBox.IsBlock;
@@ -292,7 +292,8 @@ namespace HtmlRenderer.Boxes
 
                         CssBlockRun blockRun = new CssBlockRun(b);
                         newline.AddRun(blockRun);
-                        //blockRun.SetLocation(current_line_x, current_line_y);
+
+                        blockRun.SetLocation(firstRunStartX, 0); 
                         blockRun.SetSize(b.SizeWidth, b.SizeHeight);
 
                         maxBottomForHostBox += b.SizeHeight;
@@ -351,6 +352,7 @@ namespace HtmlRenderer.Boxes
                 splitableBox.ChildCount == 0 &&
                 splitableBox.RunCount == 0)
             {
+                throw new NotSupportedException();
                 current_line_x += splitableBox.ActualWordSpacing;
             }
 

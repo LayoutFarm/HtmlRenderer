@@ -74,8 +74,8 @@ namespace HtmlRenderer.Boxes
         }
         public static CssBox GetNextSibling(CssBox a)
         {
-            return a.GetNextNode();           
-        } 
+            return a.GetNextNode();
+        }
         internal static CssLineBox GetNearestLine(CssBox a, Point point, out bool found)
         {
             if (a.LineBoxCount > 0)
@@ -135,7 +135,7 @@ namespace HtmlRenderer.Boxes
             }
             return null;
         }
-         
+
         /// <summary>
         /// Check if the given box contains only inline child boxes.
         /// </summary>
@@ -146,7 +146,8 @@ namespace HtmlRenderer.Boxes
 
             foreach (CssBox b in box.GetChildBoxIter())
             {
-                if (!b.IsInline)
+                if (!b.IsInline &&
+                    (b.CssDisplay != Css.CssDisplay.BlockInsideInlineAfterCorrection))
                 {
                     return false;
                 }

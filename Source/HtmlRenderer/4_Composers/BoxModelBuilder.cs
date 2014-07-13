@@ -151,7 +151,7 @@ namespace HtmlRenderer.Composers
             CssBox newChildBox,
             ref  bool isLineFormattingContext)
         {
-          
+
             int parentChildCount = parentBox.ChildCount;
 
             if (parentBox.IsBlock)
@@ -215,7 +215,7 @@ namespace HtmlRenderer.Composers
                             a.SetNewParentBox(upperAnon);
                             a = tmp;
                             ncount--;
-                        } 
+                        }
                     }
 
                     isLineFormattingContext = false;
@@ -442,6 +442,9 @@ namespace HtmlRenderer.Composers
 
             int limLast = childCount - 1;
 
+            if (parentBox.__aa_dbugId == 5)
+            {
+            }
             //default
             bool isLineFormattingContext = true;
 
@@ -490,12 +493,10 @@ namespace HtmlRenderer.Composers
                                 continue;
                             }
 
+                            CssBox box = BoxCreator.CreateBox(parentBox, childElement); 
                             newBox++;
 
-                            CssBox box = BoxCreator.CreateBox(parentBox, childElement);
                             ValidateParentChildRelationship(parentBox, box, ref isLineFormattingContext);
-
-
                             GenerateCssBoxes(childElement, box);
 
                         } break;
@@ -1264,7 +1265,7 @@ namespace HtmlRenderer.Composers
                                 //col,colgroup,tbody,td,tfoot,th,thead,tr
 
                                 WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
-                                          attr.Value.ToLower(), WebDom.CssValueHint.Iden); 
+                                          attr.Value.ToLower(), WebDom.CssValueHint.Iden);
                                 tag.Spec.VerticalAlign = UserMapUtil.GetVerticalAlign(propValue);
 
 

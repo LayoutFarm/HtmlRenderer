@@ -32,19 +32,27 @@ namespace HtmlRenderer.Boxes
             var htmlE = CssBox.debugGetController(this);
             if (htmlE == null)
             {
+                //anonymous box
                 p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);
             }
             else
             {
-                if (this._cssDisplay == Css.CssDisplay.TableCell)
+
+                Pen selectedPens = null;
+                switch (this._cssDisplay)
                 {
-                    p.dbugDrawDiagonalBox(Pens.OrangeRed , r.Left, r.Top, r.Right, r.Bottom);
+                    case Css.CssDisplay.TableCell:
+                        selectedPens = Pens.OrangeRed;
+                        break;
+                    case Css.CssDisplay.BlockInsideInlineAfterCorrection:
+                        selectedPens = Pens.Magenta;
+                        break;
+                    default:
+                        selectedPens = Pens.Green;
+                        break;
                 }
-                else
-                {
-                    p.dbugDrawDiagonalBox(Pens.Green, r.Left, r.Top, r.Right, r.Bottom);
-                }
-                
+                p.dbugDrawDiagonalBox(selectedPens, r.Left, r.Top, r.Right, r.Bottom);
+
             }
         }
 #endif

@@ -547,7 +547,7 @@ namespace HtmlRenderer.Boxes
                                     {
                                         this.SetHeightToZero();
                                         //This will automatically set the bottom of this block
-                                        CssLayoutEngine.FlowContentRuns(this, lay);
+                                        CssLayoutEngine.FlowInlinesContent(this, lay);
                                     }
                                     else if (_aa_boxes.Count > 0)
                                     {
