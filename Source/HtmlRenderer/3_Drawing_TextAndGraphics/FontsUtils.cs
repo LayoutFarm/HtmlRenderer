@@ -28,7 +28,7 @@ namespace HtmlRenderer.Drawing
         {
             this.font = f;
         }
-
+        public int LineHeight { get; set; }
     }
 
     /// <summary>
@@ -251,19 +251,7 @@ namespace HtmlRenderer.Drawing
             float height;
             if (!_fontHeightCache.TryGetValue(font, out height))
             {
-                //if not found then register this font
-
-                //font height is expensive call ****
-                _fontHeightCache[font] = height = font.GetHeight();
-                //---also calculate font baseline ?
-
-                //from ...
-                //http://msdn.microsoft.com/en-us/library/xwf9s90b%28v=vs.100%29.aspx
-
-                //http://stackoverflow.com/questions/1006069/how-do-i-get-the-position-of-the-text-baseline-in-a-label-and-a-numericupdown
-
-
-
+                return RegisterFont(font).LineHeight;
             }
             return height;
         }
@@ -346,6 +334,13 @@ namespace HtmlRenderer.Drawing
         }
         static FontInfo RegisterFont(Font newFont)
         {
+
+            //from ...
+            //http://msdn.microsoft.com/en-us/library/xwf9s90b%28v=vs.100%29.aspx
+
+            //http://stackoverflow.com/questions/1006069/how-do-i-get-the-position-of-the-text-baseline-in-a-label-and-a-numericupdown
+
+
             //-------------------
             //evaluate this font, collect font matrix in pixel mode
             FontInfo fontInfo;
@@ -353,11 +348,26 @@ namespace HtmlRenderer.Drawing
             {
                 fontInfo = new FontInfo(newFont);
                 FontFamily ff = newFont.FontFamily;
+
                 int linespace = ff.GetLineSpacing(newFont.Style);
                 int ascent = ff.GetCellAscent(newFont.Style);
+
                 //font height is expensive call ****
-                int fontHeight = newFont.Height;
-                float baseline = fontHeight * ascent / linespace; 
+                int lineSpacing = newFont.Height;
+                fontInfo.LineHeight = lineSpacing;//?
+
+
+                float baseline = lineSpacing * ascent / linespace;
+
+
+
+
+                //1. info
+                _fontInfoCache.Add(newFont, fontInfo);
+                //2. line cache
+                _fontHeightCache.Add(newFont, lineSpacing);
+                //3. whitespace 
+
                 return fontInfo;
             }
             return fontInfo;
