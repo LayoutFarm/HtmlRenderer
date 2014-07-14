@@ -50,11 +50,11 @@ namespace HtmlRenderer.Boxes
         public CssBox(CssBox parentBox, object controller, Css.BoxSpec spec)
         {
 
-            this._aa_boxes = new CssBoxCollection(this);
+            this._aa_boxes = new CssBoxCollection();
 
             if (parentBox != null)
             {
-                parentBox.Boxes.AddChild(this);
+                parentBox.Boxes.AddChild(parentBox, this);
             }
 
             this._controller = controller;
@@ -74,10 +74,10 @@ namespace HtmlRenderer.Boxes
         public CssBox(CssBox parentBox, object controller, Css.BoxSpec spec, Css.CssDisplay fixDisplayType)
         {
 
-            this._aa_boxes = new CssBoxCollection(this);
+            this._aa_boxes = new CssBoxCollection();
             if (parentBox != null)
             {
-                parentBox.Boxes.AddChild(this);
+                parentBox.Boxes.AddChild(parentBox, this);
             }
             this._controller = controller;
 #if DEBUG
@@ -116,7 +116,7 @@ namespace HtmlRenderer.Boxes
             }
             if (parentBox != null)
             {
-                parentBox.Boxes.AddChild(this);
+                parentBox.Boxes.AddChild(parentBox, this);
             }
         }
 

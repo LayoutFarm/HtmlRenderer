@@ -11,10 +11,8 @@ namespace HtmlRenderer.Boxes
     {
 
         LinkedList<CssBox> _boxes = new LinkedList<CssBox>();
-        CssBox owner;
-        public CssBoxCollection(CssBox owner)
+        public CssBoxCollection()
         {
-            this.owner = owner;
         }
         public IEnumerable<CssBox> GetChildBoxIter()
         {
@@ -34,21 +32,21 @@ namespace HtmlRenderer.Boxes
                 cNode = cNode.Previous;
             }
         }
-        public void AddChild(CssBox box)
+        public void AddChild(CssBox owner, CssBox box)
         {
 
 #if DEBUG
-            if (this.owner == box)
+            if (owner == box)
             {
                 throw new NotSupportedException();
             }
 #endif
-            CssBox.UnsafeSetNodes(box, this.owner, _boxes.AddLast(box));
+            CssBox.UnsafeSetNodes(box, owner, _boxes.AddLast(box));
         }
-        public void InsertBefore(CssBox beforeBox, CssBox box)
+        public void InsertBefore(CssBox owner, CssBox beforeBox, CssBox box)
         {
             var beforeLinkedNode = CssBox.UnsafeGetLinkedNode(beforeBox);
-            CssBox.UnsafeSetNodes(box, this.owner,
+            CssBox.UnsafeSetNodes(box, owner,
                 this._boxes.AddBefore(beforeLinkedNode, box));
         }
         public int Count
@@ -137,15 +135,15 @@ namespace HtmlRenderer.Boxes
 
 
 
-        public void dbugChangeSiblingIndex(CssBox box, int newIndex)
-        {   
+        public void dbugChangeSiblingIndex(CssBox owner, CssBox box, int newIndex)
+        {
             //for compat with old version
             //find target linked node 
             LinkedListNode<CssBox> foundNode = this.dbugGetNodeAtIndex(newIndex);
             //1. remove from current box
             this.Remove(box);
             //2. 
-            CssBox.UnsafeSetNodes(box, this.owner, this._boxes.AddBefore(foundNode, box));
+            CssBox.UnsafeSetNodes(box, owner, this._boxes.AddBefore(foundNode, box));
         }
 #endif
     }

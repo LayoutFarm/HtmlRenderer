@@ -11,16 +11,16 @@ namespace HtmlRenderer.Boxes
         internal static CssBox CreateAnonBlock(CssBox parent)
         {
             var newBox = new CssBox(parent, null, parent._myspec.GetAnonVersion());
-            ChangeDisplayType(newBox, Css.CssDisplay.Block);  
+            ChangeDisplayType(newBox, Css.CssDisplay.Block);
             return newBox;
         }
-        internal static CssBox CreateAnonBlock(CssBox parent,CssBox insertBefore)
+        internal static CssBox CreateAnonBlock(CssBox parent, CssBox insertBefore)
         {
             var newBox = new CssBox(parent, null, parent._myspec.GetAnonVersion());
             ChangeDisplayType(newBox, Css.CssDisplay.Block);
 
             parent.Boxes.Remove(newBox);
-            parent.Boxes.InsertBefore(insertBefore, newBox);
+            parent.Boxes.InsertBefore(parent, insertBefore, newBox);
             //-------------------------------------------
 #if DEBUG
             //if (parent.HtmlElement != null)

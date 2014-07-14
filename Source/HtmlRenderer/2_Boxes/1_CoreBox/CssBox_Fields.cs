@@ -47,7 +47,7 @@ namespace HtmlRenderer.Boxes
         List<CssRun> _aa_contentRuns;
         char[] _buffer;
         //----------------------------------------------------   
-        
+
         //----------------------------------------------------  
         //for other subbox , list item , shadow... 
         SubBoxCollection _subBoxes;
@@ -105,16 +105,16 @@ namespace HtmlRenderer.Boxes
         }
 
         public IEnumerable<CssRun> GetRunBackwardIter()
-        {   
+        {
             if (this._aa_contentRuns != null)
-            {   
+            {
                 var tmpRuns = this._aa_contentRuns;
                 int j = tmpRuns.Count;
                 for (int i = tmpRuns.Count - 1; i >= 0; --i)
                 {
                     yield return tmpRuns[i];
                 }
-            } 
+            }
         }
 
         public int ChildCount
@@ -136,7 +136,7 @@ namespace HtmlRenderer.Boxes
 
         public void InsertChild(CssBox beforeBox, CssBox box)
         {
-            this.Boxes.InsertBefore(beforeBox, box);
+            this.Boxes.InsertBefore(this, beforeBox, box);
         }
         //-------------------------------------
         internal void ResetLineBoxes()
@@ -178,7 +178,7 @@ namespace HtmlRenderer.Boxes
             get;
             set;
         }
-          
+
         internal SubBoxCollection SubBoxes
         {
             get
@@ -200,7 +200,7 @@ namespace HtmlRenderer.Boxes
             {
                 throw new Exception("before box doesn't exist on parent");
             }
-            this._parentBox.Boxes.dbugChangeSiblingIndex(this, siblingIndex);
+            this._parentBox.Boxes.dbugChangeSiblingIndex(_parentBox,this, siblingIndex);
         }
 #endif
 
