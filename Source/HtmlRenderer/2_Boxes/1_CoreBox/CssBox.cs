@@ -463,8 +463,8 @@ namespace HtmlRenderer.Boxes
                     }
                 default:
                     {    //others
-                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.LatestContainingBlock); }
-                        this.MeasureRunsSize(lay); 
+                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.GetFontPool(), lay.LatestContainingBlock); }
+                        this.MeasureRunsSize(lay);
                     } break;
                 case Css.CssDisplay.BlockInsideInlineAfterCorrection:
                 case Css.CssDisplay.Block:
@@ -475,7 +475,7 @@ namespace HtmlRenderer.Boxes
                     {
 
                         CssBox myContainingBlock = lay.LatestContainingBlock;
-                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(myContainingBlock); }
+                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.GetFontPool(), myContainingBlock); }
 
                         this.MeasureRunsSize(lay);
 
@@ -641,9 +641,14 @@ namespace HtmlRenderer.Boxes
             }
             if (this.HasRuns)
             {
+                //find word spacing 
+
                 float actualWordspacing = MeasureWordSpacing(lay);
-                Font actualFont = this.ActualFont; 
-                float fontHeight = FontsUtils.GetFontHeight(actualFont);
+                Font actualFont = this.ActualFont;
+                var fontInfo = lay.GetFontInfo(actualFont);
+                float fontHeight = fontInfo.LineHeight;
+
+
 
                 var tmpRuns = this.Runs;
                 for (int i = tmpRuns.Count - 1; i >= 0; --i)
@@ -656,11 +661,17 @@ namespace HtmlRenderer.Boxes
                         case CssRunKind.Text:
                             {
                                 CssTextRun textRun = (CssTextRun)run;
-                                run.Width = FontsUtils.MeasureStringWidth(lay.Gfx,
+                                run.Width = lay.MeasureStringWidth(
                                     CssBox.UnsafeGetTextBuffer(this),
                                     textRun.TextStartIndex,
                                     textRun.TextLength,
                                     actualFont);
+
+                                //run.Width = FontsUtils.MeasureStringWidth(lay.Gfx,
+                                //    CssBox.UnsafeGetTextBuffer(this),
+                                //    textRun.TextStartIndex,
+                                //    textRun.TextLength,
+                                //    actualFont);
 
                             } break;
                         case CssRunKind.SingleSpace:
@@ -756,7 +767,7 @@ namespace HtmlRenderer.Boxes
                 maxRight = Math.Max(maxRight, cnode.Value.LocalRight);
                 cnode = cnode.Next;
             }
-            
+
             return maxRight + (this.ActualBorderLeftWidth + this.ActualPaddingLeft +
                 this.ActualPaddingRight + this.ActualBorderRightWidth);
         }

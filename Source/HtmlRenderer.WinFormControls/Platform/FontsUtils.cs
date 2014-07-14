@@ -20,15 +20,17 @@ using System.Drawing;
 namespace HtmlRenderer.Drawing
 {
 
-    class FontInfo
+    struct FontKey
     {
-        Font font;
-
-        public FontInfo(Font f)
+        public readonly string FontName;
+        public readonly float FontSize;
+        public readonly FontStyle FontStyle;
+        public FontKey(string lowerFontName, float fontSize, FontStyle fs)
         {
-            this.font = f;
+            this.FontName = lowerFontName;
+            this.FontSize = fontSize;
+            this.FontStyle = fs;
         }
-        public int LineHeight { get; set; }
     }
 
     /// <summary>
@@ -36,6 +38,8 @@ namespace HtmlRenderer.Drawing
     /// </summary>
     public static class FontsUtils
     {
+
+
         #region Fields and Consts
 
         /// <summary>
@@ -48,10 +52,6 @@ namespace HtmlRenderer.Drawing
         /// </summary>
         private static readonly Dictionary<string, FontFamily> _existingFontFamilies = new Dictionary<string, FontFamily>(StringComparer.InvariantCultureIgnoreCase);
 
-        /// <summary>
-        /// cache of all the font used not to create same font again and again
-        /// </summary>
-        private static readonly Dictionary<string, Dictionary<float, Dictionary<FontStyle, Font>>> _fontsCache = new Dictionary<string, Dictionary<float, Dictionary<FontStyle, Font>>>(StringComparer.InvariantCultureIgnoreCase);
 
         /// <summary>
         /// cache of H fonts for managed fonts
@@ -64,15 +64,16 @@ namespace HtmlRenderer.Drawing
         /// </summary>
         private static readonly Dictionary<Font, float> _fontHeightCache = new Dictionary<Font, float>();
 
-        //private static readonly Dictionary<Font, float> _fontEmHeight = new Dictionary<Font, float>();
-        //private static readonly Dictionary<Font, float> _fontBaselineCache = new Dictionary<Font, float>();
-        //private static readonly Dictionary<Font, float> _fontAscentCache = new Dictionary<Font, float>();
-        //private static readonly Dictionary<Font, float> _fontDescentCache = new Dictionary<Font, float>();
 
-        static readonly Dictionary<Font, float> _fontWhitespaceCache = new Dictionary<Font, float>();
         static readonly Dictionary<Font, FontInfo> _fontInfoCache = new Dictionary<Font, FontInfo>();
+        static readonly Dictionary<FontKey, FontInfo> _fontsCache = new Dictionary<FontKey, FontInfo>();
+        static readonly Dictionary<Font, float> _fontWsCache = new Dictionary<Font, float>();
+
 
         #endregion
+
+
+
 
 
         /// <summary>
@@ -87,6 +88,9 @@ namespace HtmlRenderer.Drawing
             {
                 _existingFontFamilies.Add(family.Name, family);
             }
+
+
+
         }
 
         /// <summary>
@@ -119,9 +123,7 @@ namespace HtmlRenderer.Drawing
 
             //cellHeight = font's ascent + descent
             //linespacing = cellHeight + external leading
-            //em height (size)= cellHeight - internal leading
-
-
+            //em height (size)= cellHeight - internal leading  
             return font.FontFamily.GetCellDescent(font.Style) * font.Size / font.FontFamily.GetEmHeight(font.Style);
         }
 
@@ -154,22 +156,7 @@ namespace HtmlRenderer.Drawing
             return g.MeasureString2(buffer, startAt, len, font).Width;
         }
 
-        /// <summary>
-        /// Measure regions for specific font empty space size.
-        /// </summary>
-        /// <param name="g">the graphics instance to use if calculation required</param>
-        /// <param name="font">the font to calculate for</param>
-        /// <returns>the calculated regions</returns>
-        public static float MeasureWhitespace(IGraphics g, Font font)
-        {
-            float width;
-            if (!_fontWhitespaceCache.TryGetValue(font, out width))
-            {
 
-                _fontWhitespaceCache[font] = width = g.MeasureString(" ", font).Width;
-            }
-            return width;
-        }
         /// <summary>
         /// Check if the given font family exists by name
         /// </summary>
@@ -189,41 +176,63 @@ namespace HtmlRenderer.Drawing
             return exists;
         }
 
+        public static float MeasureWhitespace(IGraphics gfx, Font f)
+        {
+            float ws;
+            if (!_fontWsCache.TryGetValue(f, out ws))
+            {
+                ws = gfx.MeasureString2(new char[] { ' ' }, 0, 1, f).Width;
+                _fontWsCache[f] = ws;
+            }
+            return ws;
+        }
+
         /// <summary>
         /// Get cached font instance for the given font properties.<br/>
         /// Improve performance not to create same font multiple times.
         /// </summary>
         /// <returns>cached font instance</returns>
-        public static Font GetCachedFont(string family, float size, FontStyle style)
+        public static FontInfo GetCachedFont(string family, float size, FontStyle style)
         {
             var font = TryGetFont(family, size, style);
             if (font == null)
             {
+                //check if font exist
                 if (!_existingFontFamilies.ContainsKey(family))
                 {
+                    //if not then check from font map
                     string mappedFamily;
                     if (_fontsMapping.TryGetValue(family, out mappedFamily))
                     {
+                        //if has map then try get from existing 
                         font = TryGetFont(mappedFamily, size, style);
+
                         if (font == null)
                         {
+                            //if not found then
+                            //create and register
                             font = CreateFont(mappedFamily, size, style);
-                            _fontsCache[mappedFamily][size][style] = font;
                         }
                     }
                 }
-
                 if (font == null)
                 {
+                    //if still null
                     font = CreateFont(family, size, style);
                 }
-
-                _fontsCache[family][size][style] = font;
-                _fontsUnmanagedCache[font] = font.ToHfont();
             }
             return font;
         }
-
+        public static FontInfo GetCachedFont(Font f)
+        {
+            FontInfo found;
+            if (!_fontInfoCache.TryGetValue(f, out found))
+            {
+                //if not found then create it
+                return RegisterFont(f, new FontKey(f.Name, f.Size, f.Style));
+            }
+            return found;
+        }
         /// <summary>
         /// Get pointer to unmanaged Hfont object for the given managed font object.
         /// </summary>
@@ -239,22 +248,6 @@ namespace HtmlRenderer.Drawing
             return hFont;
         }
 
-        /// <summary>
-        /// Get cached font height for the given font.<br/>
-        /// Improve performance not to access the GetHeight property of a font as it is expensive.<br/>
-        /// Should be used with <see cref="GetCachedFont"/> as the cache uses the font object itself as key.
-        /// </summary>
-        /// <param name="font">the font to get its height</param>
-        /// <returns>the height of the font</returns>
-        public static float GetFontHeight(Font font)
-        {
-            float height;
-            if (!_fontHeightCache.TryGetValue(font, out height))
-            {
-                return RegisterFont(font).LineHeight;
-            }
-            return height;
-        }
 
         /// <summary>
         /// Adds a font family to be used.
@@ -262,7 +255,6 @@ namespace HtmlRenderer.Drawing
         /// <param name="fontFamily">The font family to add.</param>
         public static void AddFontFamily(FontFamily fontFamily)
         {
-
             _existingFontFamilies[fontFamily.Name] = fontFamily;
         }
 
@@ -284,37 +276,41 @@ namespace HtmlRenderer.Drawing
         /// <summary>
         /// Get cached font if it exists in cache or null if it is not.
         /// </summary>
-        static Font TryGetFont(string family, float size, FontStyle style)
+        static FontInfo TryGetFont(string family, float size, FontStyle style)
         {
-            Font font = null;
-            if (_fontsCache.ContainsKey(family))
-            {
-                var a = _fontsCache[family];
-                if (a.ContainsKey(size))
-                {
-                    var b = a[size];
-                    if (b.ContainsKey(style))
-                    {
-                        font = b[style];
-                    }
-                }
-                else
-                {
-                    _fontsCache[family][size] = new Dictionary<FontStyle, Font>();
-                }
-            }
-            else
-            {
-                _fontsCache[family] = new Dictionary<float, Dictionary<FontStyle, Font>>();
-                _fontsCache[family][size] = new Dictionary<FontStyle, Font>();
-            }
-            return font;
+            FontInfo fontInfo = null;
+            FontKey fontKey = new FontKey(family.ToLower(), size, style);
+            _fontsCache.TryGetValue(fontKey, out fontInfo);
+            return fontInfo;
+
+            //if (_fontsCache.ContainsKey(family))
+            //{
+            //    var a = _fontsCache[family];
+            //    if (a.ContainsKey(size))
+            //    {
+            //        var b = a[size];
+            //        if (b.ContainsKey(style))
+            //        {
+            //            font = b[style];
+            //        }
+            //    }
+            //    else
+            //    {
+            //        _fontsCache[family][size] = new Dictionary<FontStyle, Font>();
+            //    }
+            //}
+            //else
+            //{
+            //    _fontsCache[family] = new Dictionary<float, Dictionary<FontStyle, Font>>();
+            //    _fontsCache[family][size] = new Dictionary<FontStyle, Font>();
+            //}
+            //return font;
         }
 
         /// <summary>
         // create font (try using existing font family to support custom fonts)
         /// </summary>
-        static Font CreateFont(string family, float size, FontStyle style)
+        static FontInfo CreateFont(string family, float size, FontStyle style)
         {
 
             FontFamily fontFamily;
@@ -328,11 +324,10 @@ namespace HtmlRenderer.Drawing
                 newFont = new Font(family, size, style);
             }
 
-            RegisterFont(newFont);
-
-            return newFont;
+            return RegisterFont(newFont, new FontKey(family, size, style));
         }
-        static FontInfo RegisterFont(Font newFont)
+
+        static FontInfo RegisterFont(Font newFont, FontKey fontKey)
         {
 
             //from ...
@@ -346,7 +341,7 @@ namespace HtmlRenderer.Drawing
             FontInfo fontInfo;
             if (!_fontInfoCache.TryGetValue(newFont, out fontInfo))
             {
-                fontInfo = new FontInfo(newFont);
+
                 FontFamily ff = newFont.FontFamily;
 
                 int linespace = ff.GetLineSpacing(newFont.Style);
@@ -354,19 +349,25 @@ namespace HtmlRenderer.Drawing
 
                 //font height is expensive call ****
                 int lineSpacing = newFont.Height;
-                fontInfo.LineHeight = lineSpacing;//?
 
+                //in design unit
+                fontInfo = new FontInfo(newFont, lineSpacing, 17);
 
                 float baseline = lineSpacing * ascent / linespace;
 
 
-
-
                 //1. info
                 _fontInfoCache.Add(newFont, fontInfo);
+                _fontsCache.Add(fontKey, fontInfo);
+                _fontsUnmanagedCache[newFont] = newFont.ToHfont();
+
                 //2. line cache
                 _fontHeightCache.Add(newFont, lineSpacing);
                 //3. whitespace 
+
+                //SizeF whitespaceSize = _myInternalGfx.MeasureString(" ", newFont);
+                //_fontWhitespaceCache.Add(newFont, whitespaceSize.Width);
+
 
                 return fontInfo;
             }

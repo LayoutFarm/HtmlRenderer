@@ -39,7 +39,7 @@ namespace HtmlRenderer.Composers
             }
             return null;
         }
-         
+
 
 
         static CssBox CreateImageBox(CssBox parent, BridgeHtmlElement childElement)
@@ -58,7 +58,7 @@ namespace HtmlRenderer.Composers
         }
 
         internal static CssBox CreateBox(CssBox parentBox, BridgeHtmlElement childElement)
-        {   
+        {
             CssBox newBox = null;
             //----------------------------------------- 
             //1. create new box
@@ -151,15 +151,14 @@ namespace HtmlRenderer.Composers
         /// Create new css block box.
         /// </summary>
         /// <returns>the new block box</returns>
-        internal static CssBox CreateRootBlock()
+        internal static CssBox CreateRootBlock(IFontPool fontPool)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
-
             var box = new CssBox(null, null, spec);
             //------------------------------------
-            box.ReEvaluateFont(10);
+            box.ReEvaluateFont(fontPool, 10);
             //------------------------------------
             return box;
         }

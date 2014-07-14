@@ -80,16 +80,28 @@ namespace HtmlRenderer.Boxes
 
         internal float MeasureWhiteSpace(CssBox box)
         {
-            //depends on Font of this box
-            float w = HtmlRenderer.Drawing.FontsUtils.MeasureWhitespace(this.Gfx, box.ActualFont);
+            //depends on Font of this box           
+            float w = this.htmlContainer.MeasureWhitespace(this.Gfx, box.ActualFont);
+
             if (!(box.WordSpacing.IsEmpty || box.WordSpacing.IsNormalWordSpacing))
             {
                 w += CssValueParser.ConvertToPxWithFontAdjust(box.WordSpacing, 0, box);
             }
             return w;
         }
+        internal FontInfo GetFontInfo(System.Drawing.Font f)
+        {
+            return this.htmlContainer.GetFontInfo(f);
+        }
+        internal float MeasureStringWidth(char[] buffer, int startIndex, int len, System.Drawing.Font f)
+        {
+            return this.Gfx.MeasureString2(buffer, startIndex, len, f).Width;
 
-
+        }
+        internal IFontPool GetFontPool()
+        {
+            return this.htmlContainer;
+        }
         //---------------------------------------------------------------
         internal Dictionary<CssBox, PartialBoxStrip> GetReadyStripDic()
         {
@@ -112,7 +124,7 @@ namespace HtmlRenderer.Boxes
             }
         }
         internal void ReleaseStripDic(Dictionary<CssBox, PartialBoxStrip> dic)
-        {   
+        {
             //clear before add to pool
             dic.Clear();
 
@@ -127,7 +139,7 @@ namespace HtmlRenderer.Boxes
                     this.dicStripPool = new Queue<Dictionary<CssBox, PartialBoxStrip>>();
                 }
 
-               
+
                 this.dicStripPool.Enqueue(dic);
             }
         }

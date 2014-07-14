@@ -552,7 +552,7 @@ namespace HtmlRenderer.Composers
             //ApplyStyleSheetTopDownForBridgeElement(bridgeRoot, null, activeCssTemplate);
             //----------------------------------------------------------------
             //5. box generation                 
-            rootBox = BoxCreator.CreateRootBlock();
+            rootBox = BoxCreator.CreateRootBlock(htmlContainer);
             //});
 
             // var t3 = dbugCounter.Snap(() =>

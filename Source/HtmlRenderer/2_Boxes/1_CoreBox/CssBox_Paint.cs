@@ -304,9 +304,10 @@ namespace HtmlRenderer.Boxes
                 case Css.CssTextDecoration.Underline:
                     {
                         //TODO: correct this ...
-                        var h = g.MeasureString(" ", ActualFont).Height;
-                        float desc = FontsUtils.GetDescentPx(ActualFont);
-                        y = (float)Math.Round(rectangle.Top + h - desc + 0.5);
+                        //var h = g.MeasureString(" ", ActualFont).Height;
+                        //float desc = FontsUtils.GetDescentPx(ActualFont);
+                        //y = (float)Math.Round(rectangle.Top + h - desc + 0.5);
+
                     } break;
                 case Css.CssTextDecoration.LineThrough:
                     {

@@ -52,7 +52,7 @@ namespace HtmlRenderer.Boxes
             var myContainingBlock = lay.LatestContainingBlock;
             if (this.NeedComputedValueEvaluation)
             {
-                this.ReEvaluateComputedValues(myContainingBlock);
+                this.ReEvaluateComputedValues(lay.GetFontPool(), myContainingBlock );
             }
             //// fix for hr tag 
             //var maringTopCollapse = MarginTopCollapse(prevSibling);

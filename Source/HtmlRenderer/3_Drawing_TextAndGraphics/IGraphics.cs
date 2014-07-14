@@ -6,7 +6,10 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace HtmlRenderer.Drawing
-{
+{  
+
+
+
     public interface IGraphics : IDisposable
     {   
         /// <summary>

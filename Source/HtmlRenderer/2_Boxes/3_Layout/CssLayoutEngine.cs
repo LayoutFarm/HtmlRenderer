@@ -258,6 +258,7 @@ namespace HtmlRenderer.Boxes
                 float leftMostSpace = 0, rightMostSpace = 0;
                 int totalChildCount = splitableBox.ChildCount;
 
+                var fontPool = lay.GetFontPool();
                 foreach (CssBox b in splitableBox.GetChildBoxIter())
                 {
                     if (b.IsAbsolutePosition())
@@ -268,7 +269,7 @@ namespace HtmlRenderer.Boxes
 
                     if (b.NeedComputedValueEvaluation)
                     {
-                        b.ReEvaluateComputedValues(hostBox);
+                        b.ReEvaluateComputedValues(fontPool, hostBox);
                     }
                     b.MeasureRunsSize(lay);
 
@@ -524,9 +525,9 @@ namespace HtmlRenderer.Boxes
         {
             if (lineBox.WordCount > 0)
             {
-             
+
                 float left = lineBox.GetFirstRun().Left;
-                float right = lineBox.GetLastRun().Right; 
+                float right = lineBox.GetLastRun().Right;
                 foreach (CssRun run in lineBox.GetRunIter())
                 {
                     float diff = run.Left - left;

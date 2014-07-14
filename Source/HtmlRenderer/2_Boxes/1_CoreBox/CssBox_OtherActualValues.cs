@@ -15,6 +15,7 @@ namespace HtmlRenderer.Boxes
         float _actualLineHeight;
         float _actualWordSpacing;
         float _actualTextIndent;
+        float _actualEmHeight;
 
         float _actualBorderSpacingHorizontal;
         float _actualBorderSpacingVertical;

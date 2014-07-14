@@ -72,6 +72,8 @@
     <Compile Include="2_Boxes\1_CoreBox\CssBoxAssignments.cs" />
     <Compile Include="2_Boxes\0_Root\CssBoxConstConfig.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_OtherActualValues.cs" />
+    <Compile Include="3_Drawing_TextAndGraphics\FontInfo.cs" />
+    <Compile Include="3_Drawing_TextAndGraphics\FontInfo_IFontPool.cs" />
     <Compile Include="4_Composers\WebBridgeElements.cs" />
     <Compile Include="2_Boxes\1_CoreBox\BoxVisitor.cs" />
     <Compile Include="2_Boxes\3_Layout\CssBoxLayoutExtension.cs" />

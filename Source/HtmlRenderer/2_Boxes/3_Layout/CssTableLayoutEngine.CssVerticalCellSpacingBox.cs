@@ -32,14 +32,16 @@ namespace HtmlRenderer.Boxes
             /// </summary>
             private readonly int _endRow;
 
-            public CssVerticalCellSpacingBox(CssBox tableBox, CssBox extendedBox, int startRow)
+            public CssVerticalCellSpacingBox(CssBox tableBox, 
+                HtmlRenderer.Drawing.IFontPool fontPool,
+                CssBox extendedBox, int startRow)
                 : base(tableBox, null, specForVCell)
             {
                 _extendedBox = extendedBox;
                 this.SetRowColSpan(1, 1);
                 _endRow = startRow + extendedBox.RowSpan - 1;
 
-                ReEvaluateComputedValues(tableBox);
+                ReEvaluateComputedValues(fontPool, tableBox);
                 ChangeDisplayType(this, Css.CssDisplay.None);
             }
 
@@ -54,15 +56,12 @@ namespace HtmlRenderer.Boxes
             {
                 get { return _endRow; }
             }
-
-
             //=========================================================
             static Css.BoxSpec specForVCell = new Css.BoxSpec();
             static CssVerticalCellSpacingBox()
             {
                 specForVCell.Freeze();
             }
-
         }
 
     }

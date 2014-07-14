@@ -63,7 +63,7 @@ namespace HtmlRenderer.Composers
         public static void ParseStyleSheet(WebDom.CssActiveSheet cssData, string cssTextSource)
         {
             if (!String.IsNullOrEmpty(cssTextSource))
-            {   
+            {
                 var parser = new WebDom.Parser.CssParser();
                 parser.ParseCssStyleSheet(cssTextSource.ToCharArray());
                 //-----------------------------------
@@ -121,11 +121,16 @@ namespace HtmlRenderer.Composers
                     adjEnd--;
 
                 var font = propValue.Substring(start, adjEnd - start + 1);
+                return font;
 
-                if (FontsUtils.IsFontExists(font))
-                {
-                    return font;
-                }
+                //if not found this font
+                //wait for another technique
+                throw new NotSupportedException();
+
+                //if (FontsUtils.IsFontExists(font))
+                //{
+                //    return font;
+                //}
 
                 start = end;
             }

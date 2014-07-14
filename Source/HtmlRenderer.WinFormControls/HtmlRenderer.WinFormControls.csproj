@@ -51,6 +51,7 @@
     <Compile Include="Handlers\ISelectHandler.cs" />
     <Compile Include="Handlers\ReadyStateChangedHandler.cs" />
     <Compile Include="Platform\ClibboardHelper.cs" />
+    <Compile Include="Platform\FontsUtils.cs" />
     <Compile Include="Platform\HtmlContainerImpl.cs" />
     <Compile Include="Handlers\SelectionHandler.cs" />
     <Compile Include="HtmlLabel.cs">
