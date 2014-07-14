@@ -179,7 +179,7 @@ namespace HtmlRenderer.Composers
 
         internal void ApplyActiveTemplateForSpecificElementId(BridgeHtmlElement element)
         {
-            var ruleset = activeSheet.GetRuleSetForId(element.ElementId);
+            var ruleset = activeSheet.GetRuleSetForId(element.AttrElementId);
             if (ruleset != null)
             {
                 //TODO:  implement this

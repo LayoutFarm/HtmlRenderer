@@ -265,8 +265,8 @@ namespace HtmlRenderer.WebDom
         List<HtmlAttribute> myAttributes;
         List<HtmlNode> myChildrenNodes;
         HtmlElement closeNode;
-        HtmlAttribute elemId;
-
+        HtmlAttribute attrElemId;
+        HtmlAttribute attrClass;
         internal HtmlElement(HtmlDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
         {
@@ -353,8 +353,12 @@ namespace HtmlRenderer.WebDom
             {
                 case (int)WellknownHtmlName.Id:
                     {
-                        this.elemId = attr;
+                        this.attrElemId = attr;
                         this.OwnerDocument.RegisterElementById(this);
+                    } break;
+                case (int)WellknownHtmlName.Class:
+                    {
+                        this.attrClass = attr;
                     } break;
             }
 
@@ -364,7 +368,7 @@ namespace HtmlRenderer.WebDom
 
 
         //---
-         
+
         //internal void AddAttributePartial(HtmlAttribute attr)
         //{
         //    if (myAttributes == null)
@@ -458,25 +462,45 @@ namespace HtmlRenderer.WebDom
             }
         }
 
-        public string ElementId
+
+        internal bool HasAttributeElementId
         {
             get
             {
-                if (elemId != null)
+                return this.attrElemId != null;
+            }
+        }
+        internal bool HasAttributeClass
+        {
+            get
+            {
+                return this.attrClass != null;
+            }
+        }
+        internal string AttrClassValue
+        {
+            get
+            {
+                if (this.attrClass != null)
                 {
-                    return this.elemId.Value;
+                    return this.attrClass.Value;
+                }
+                return null;
+            }
+        }
+        internal string AttrElementId
+        {
+            get
+            {
+                if (attrElemId != null)
+                {
+                    return this.attrElemId.Value;
                 }
 
                 return null;
             }
         }
-        internal bool HasElementId
-        {
-            get
-            {
-                return this.elemId != null;
-            }
-        }
+
         ////------------------------------------------
         ////temp fix
         //public string Id

@@ -57,7 +57,7 @@ namespace HtmlRenderer.WebDom
         {
             //replace exisitng if exists ***
 
-            registerElementsById[element.ElementId] = element;
+            registerElementsById[element.AttrElementId] = element;
         }
 
     }

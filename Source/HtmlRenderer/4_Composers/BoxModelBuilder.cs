@@ -621,31 +621,29 @@ namespace HtmlRenderer.Composers
         static void ApplyStyleSheetForSingleBridgeElement(BridgeHtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
         {
             BoxSpec curSpec = element.Spec;
-
             //0.
             curSpec.InheritStylesFrom(parentSpec);
-
-            string classValue;
-            if (!element.TryGetAttribute(WellknownHtmlName.Class, out classValue))
+            //--------------------------------
+            string classValue = null;
+            if (element.HasAttributeClass)
             {
-                classValue = null;
+                classValue = element.AttrClassValue;
             }
 
+            //--------------------------------
             //1. apply style  
             activeCssTemplate.ApplyActiveTemplate(element.LocalName,
                classValue,//class
                curSpec,
                parentSpec);
 
-            //-------------------------------------------------------------------                        
-
-            //2. specific id
-             
-            if (element.HasElementId)
+            //-------------------------------------------------------------------  
+            //2. specific id 
+            if (element.HasAttributeElementId)
             {
                 // element.ElementId;
                 activeCssTemplate.ApplyActiveTemplateForSpecificElementId(element);
-                 
+
             }
             //if (element.TryGetAttribute(WellknownHtmlName.Id, out idValue))
             //{
