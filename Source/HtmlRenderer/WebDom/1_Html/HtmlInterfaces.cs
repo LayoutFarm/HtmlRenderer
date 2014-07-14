@@ -36,12 +36,7 @@ namespace HtmlRenderer.WebDom
         /// </summary>
         /// <returns>true - has attributes, false - otherwise</returns>
         bool HasAttributes();
-        /// <summary>
-        /// Gets a boolean indicating if the attribute list has the specified attribute
-        /// </summary>
-        /// <param name="attribute">attribute name to check if exists</param>
-        /// <returns>true - attribute exists, false - otherwise</returns>
-        bool HasAttribute(string attribute);
+         
         /// <summary>
         /// Get attribute value for given attribute name or null if not exists.
         /// </summary>

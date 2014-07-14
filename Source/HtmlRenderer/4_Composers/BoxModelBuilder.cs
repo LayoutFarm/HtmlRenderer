@@ -626,7 +626,7 @@ namespace HtmlRenderer.Composers
             curSpec.InheritStylesFrom(parentSpec);
 
             string classValue;
-            if (!element.TryGetAttribute(WellknownHtmlName.Src, out classValue))
+            if (!element.TryGetAttribute(WellknownHtmlName.Class, out classValue))
             {
                 classValue = null;
             }
@@ -639,15 +639,21 @@ namespace HtmlRenderer.Composers
 
             //-------------------------------------------------------------------                        
             //2. specific id
-            if (element.HasAttribute("id"))
+                
+            string idValue;
+            if (element.TryGetAttribute(WellknownHtmlName.Id, out idValue))
             {
                 throw new NotSupportedException();
-                //string id = element.GetAttributeValue("id", null);
-                //if (id != null)
-                //{   
-                //    //AssignStylesForElementId(box, activeCssTemplate, "#" + id);
-                //}
             }
+            //if (element.HasAttribute("id"))
+            //{
+            //    throw new NotSupportedException();
+            //    //string id = element.GetAttributeValue("id", null);
+            //    //if (id != null)
+            //    //{   
+            //    //    //AssignStylesForElementId(box, activeCssTemplate, "#" + id);
+            //    //}
+            //}
 
             //3. some html translate attributes
             AssignStylesFromTranslatedAttributesHTML5(element, activeCssTemplate);

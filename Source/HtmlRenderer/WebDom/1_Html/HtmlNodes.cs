@@ -473,10 +473,7 @@ namespace HtmlRenderer.WebDom
             set { this._style = value; }
         }
         
-        public bool HasAttribute(string attrName)
-        {
-            return FindAttribute(attrName) != null;
-        }
+        
         public bool HasAttributes()
         {
             return this.AttributeCount > 0;
