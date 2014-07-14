@@ -75,7 +75,7 @@ namespace HtmlRenderer.WebDom
         }
     }
 
-    
+
     public abstract class HtmlTextNode : HtmlNode
     {
 
@@ -171,7 +171,7 @@ namespace HtmlRenderer.WebDom
     /// <summary>
     /// attribute node
     /// </summary>
-    public class HtmlAttribute : HtmlNode, IHtmlAttribute
+    public class HtmlAttribute : HtmlNode 
     {
 
         internal int nodePrefixNameIndex;
@@ -257,21 +257,15 @@ namespace HtmlRenderer.WebDom
         }
     }
 
-    public abstract class HtmlElement : HtmlNode, IHtmlElement
+    public abstract class HtmlElement : HtmlNode 
     {
 
         internal int nodePrefixNameIndex;
         internal int nodeLocalNameIndex;
-
         List<HtmlAttribute> myAttributes;
         List<HtmlNode> myChildrenNodes;
-
         HtmlElement closeNode;
-
-        string _elementId;
-        string _className;
-        string _style;
-
+        
         internal HtmlElement(HtmlDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
         {
@@ -314,17 +308,7 @@ namespace HtmlRenderer.WebDom
                 }
             }
         }
-        public IEnumerable<IHtmlAttribute> GetAttributeIter()
-        {
-            if (this.myAttributes != null)
-            {
-                foreach (var atttr in this.myAttributes)
-                {
-                    yield return atttr;
-                }
-            }
-        } 
-        
+       
         public int ChildrenCount
         {
             get
@@ -358,21 +342,53 @@ namespace HtmlRenderer.WebDom
 
         public void AddAttribute(HtmlAttribute attr)
         {
-
             if (myAttributes == null)
             {
                 myAttributes = new List<HtmlAttribute>();
             }
+            //-----------
+            //some wellknownattr 
+            switch (attr.LocalNameIndex)
+            {
+                case (int)WellknownHtmlName.Id:
+                    {
+                    } break;
+                case (int)WellknownHtmlName.Class:
+                    {
+                    } break;
+                case (int)WellknownHtmlName.Style:
+                    {
+                    } break;
+            }
+
             myAttributes.Add(attr);
             attr.SetParent(this);
         }
-
+        public void AddChild(HtmlNode childNode)
+        {
+            switch (childNode.NodeType)
+            {
+                case HtmlNodeType.Attribute:
+                    {
+                        AddAttribute((HtmlAttribute)childNode);
+                    } break;
+                default:
+                    {
+                        if (myChildrenNodes == null)
+                        {
+                            myChildrenNodes = new List<HtmlNode>();
+                        }
+                        myChildrenNodes.Add((HtmlNode)childNode);
+                        childNode.SetParent(this);
+                    } break;
+            }
+        }
 
         public HtmlAttribute FindAttribute(int attrLocalNameIndex)
         {
             if (myAttributes != null)
             {
-                for (int i = myAttributes.Count - 1; i >=0; --i)
+                for (int i = myAttributes.Count - 1; i >= 0; --i)
                 {
                     if (myAttributes[i].nodeLocalNameIndex == attrLocalNameIndex)
                     {
@@ -381,7 +397,7 @@ namespace HtmlRenderer.WebDom
                 }
             }
             return null;
-        } 
+        }
         public HtmlAttribute FindAttribute(string attrname)
         {
             int nameIndex = this.OwnerDocument.FindStringIndex(attrname);
@@ -418,71 +434,49 @@ namespace HtmlRenderer.WebDom
                 return OwnerDocument.GetString(this.nodeLocalNameIndex);
             }
         }
-        
-        public void AddChild(HtmlNode childNode)
-        {
-            switch (childNode.NodeType)
-            {
-                case HtmlNodeType.Attribute:
-                    {
-                        AddAttribute((HtmlAttribute)childNode); 
-                    } break;
-                default:
-                    {
-                        if (myChildrenNodes == null)
-                        {
-                            myChildrenNodes = new List<HtmlNode>();
-                        }
-                        myChildrenNodes.Add((HtmlNode)childNode);
-                        childNode.SetParent(this);
-                    } break;
-            }
-        }
-       
 
-        //------------------------------------------
-        //temp fix
-        public string Id
-        {//temp fix
-            get
-            {
-                throw new NotSupportedException();
-                return this._elementId;
-            }
-            set
-            {
-                this._elementId = value;
-            }
-        }
-        public string ClassName
-        {//temp fix
-            get
-            {
-                throw new NotSupportedException();
-                return this._className;
-            }
-            set { this._className = value; }
-        }
-        public string Style
-        {//temp fix
-            get
-            {
-                throw new NotSupportedException();
-                return this._style;
-            }
-            set { this._style = value; }
-        }
-        
-        
-        public bool HasAttributes()
-        {
-            return this.AttributeCount > 0;
-        }
+
+        ////------------------------------------------
+        ////temp fix
+        //public string Id
+        //{   //temp fix
+        //    get
+        //    {
+        //        throw new NotSupportedException();
+        //        return this._elementId;
+        //    }
+        //    set
+        //    {
+        //        this._elementId = value;
+        //    }
+        //}
+        //public string ClassName
+        //{//temp fix
+        //    get
+        //    {
+        //        throw new NotSupportedException();
+        //        return this._className;
+        //    }
+        //    set { this._className = value; }
+        //}
+        //public string Style
+        //{//temp fix
+        //    get
+        //    {
+        //        throw new NotSupportedException();
+        //        return this._style;
+        //    }
+        //    set { this._style = value; }
+        //} 
+        //public bool HasAttributes()
+        //{
+        //    return this.AttributeCount > 0;
+        //}
         public string Name
         {
             get { return this.LocalName; }
-        } 
-        
+        }
+
     }
- 
+
 }

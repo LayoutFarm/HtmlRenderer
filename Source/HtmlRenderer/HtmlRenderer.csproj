@@ -131,7 +131,6 @@
     <Compile Include="1_Css\CssLength.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssLineBox.cs" />
     <Compile Include="2_Boxes\3_Layout\CssTableLayoutEngine.cs" />
-    <Compile Include="WebDom\1_Html\HtmlInterfaces.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssSideAndOrientation.cs" />
     <Compile Include="6_Diagnostics\HtmlRenderErrorType.cs" />
     <Compile Include="6_Diagnostics\HtmlGenerationStyle.cs" />

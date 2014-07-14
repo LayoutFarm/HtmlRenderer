@@ -632,14 +632,14 @@ namespace HtmlRenderer.Composers
             }
 
             //1. apply style  
-            activeCssTemplate.ApplyActiveTemplate(element.Name,
+            activeCssTemplate.ApplyActiveTemplate(element.LocalName,
                classValue,//class
                curSpec,
                parentSpec);
 
             //-------------------------------------------------------------------                        
             //2. specific id
-                
+
             string idValue;
             if (element.TryGetAttribute(WellknownHtmlName.Id, out idValue))
             {
@@ -664,7 +664,7 @@ namespace HtmlRenderer.Composers
 
             if (element.TryGetAttribute(WellknownHtmlName.Style, out attrStyleValue))
             {
-                var ruleset = activeCssTemplate.ParseCssBlock(element.Name, attrStyleValue);
+                var ruleset = activeCssTemplate.ParseCssBlock(element.LocalName, attrStyleValue);
                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                 {
                     SpecSetter.AssignPropertyValue(
@@ -1107,9 +1107,9 @@ namespace HtmlRenderer.Composers
         {
             //some html attr contains css value  
 
-            if (tag.HasAttributes())
+            if (tag.AttributeCount > 0)
             {
-                foreach (IHtmlAttribute attr in tag.GetAttributeIter())
+                foreach (var attr in tag.GetAttributeIterForward())
                 {
                     //attr switch by wellknown property name 
                     switch ((WebDom.WellknownHtmlName)attr.LocalNameIndex)
@@ -1305,7 +1305,7 @@ namespace HtmlRenderer.Composers
         /// </summary>
         /// <param name="htmlLength"></param>
         /// <returns></returns>
-        public static CssLength TranslateLength(IHtmlAttribute attr)
+        public static CssLength TranslateLength(HtmlAttribute attr)
         {
             return UserMapUtil.TranslateLength(attr.Value.ToLower());
 
