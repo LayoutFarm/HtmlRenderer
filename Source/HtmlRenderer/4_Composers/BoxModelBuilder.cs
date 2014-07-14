@@ -442,9 +442,7 @@ namespace HtmlRenderer.Composers
 
             int limLast = childCount - 1;
 
-            if (parentBox.__aa_dbugId == 5)
-            {
-            }
+            
             //default
             bool isLineFormattingContext = true;
 

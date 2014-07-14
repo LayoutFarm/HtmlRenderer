@@ -158,10 +158,13 @@ namespace HtmlRenderer.Boxes
             if (hostBlock.CssDirection == CssDirection.Rtl)
             {
                 float cy = enterLocalY;
+                CssTextAlign textAlign = hostBlock.CssTextAlign;
                 foreach (CssLineBox linebox in hostBlock.GetLineBoxIter())
                 {
-                    ApplyAlignment(linebox, lay);
-                    ApplyRightToLeft(hostBlock, linebox); //***
+
+                    ApplyAlignment(linebox, textAlign);
+                    ApplyRightToLeft(linebox); //***
+
                     linebox.CloseLine(lay); //*** 
 
                     linebox.CachedLineTop = cy;
@@ -171,10 +174,13 @@ namespace HtmlRenderer.Boxes
             else
             {
                 float cy = enterLocalY;
+                CssTextAlign textAlign = hostBlock.CssTextAlign;
                 foreach (CssLineBox linebox in hostBlock.GetLineBoxIter())
                 {
-                    ApplyAlignment(linebox, lay);
+                    ApplyAlignment(linebox, textAlign);
+
                     linebox.CloseLine(lay); //***
+
                     linebox.CachedLineTop = cy;
                     cy += linebox.CacheLineHeight;
                 }
@@ -486,31 +492,27 @@ namespace HtmlRenderer.Boxes
         /// Applies vertical and horizontal alignment to words in lineboxes
         /// </summary>
         /// <param name="g"></param>
-        /// <param name="lineBox"></param>
-        private static void ApplyAlignment(CssLineBox lineBox, LayoutVisitor lay)
+        /// <param name="lineBox"></param> 
+        static void ApplyAlignment(CssLineBox lineBox, CssTextAlign textAlign)
         {
-            switch (lineBox.OwnerBox.CssTextAlign)
+            switch (textAlign)
             {
                 case CssTextAlign.Right:
-                    ApplyRightAlignment(lay.Gfx, lineBox);
+                    ApplyRightAlignment(lineBox);
                     break;
                 case CssTextAlign.Center:
-                    ApplyCenterAlignment(lay.Gfx, lineBox);
+                    ApplyCenterAlignment(lineBox);
                     break;
                 case CssTextAlign.Justify:
-                    ApplyJustifyAlignment(lay.Gfx, lineBox);
+                    ApplyJustifyAlignment(lineBox);
                     break;
                 default:
-                    //ApplyLeftAlignment(g, lineBox);
                     break;
             }
             //--------------------------------------------- 
-            // Applies vertical alignment to the linebox             
-
+            // Applies vertical alignment to the linebox     
             lineBox.ApplyBaseline(lineBox.CalculateTotalBoxBaseLine());
-
-            //--------------------------------------------- 
-
+            //---------------------------------------------  
         }
 
         /// <summary>
@@ -518,40 +520,19 @@ namespace HtmlRenderer.Boxes
         /// </summary>
         /// <param name="blockBox"></param>
         /// <param name="lineBox"></param>
-        static void ApplyRightToLeft(CssBox blockBox, CssLineBox lineBox)
+        static void ApplyRightToLeft(CssLineBox lineBox)
         {
-
-            if (blockBox.CssDirection == CssDirection.Rtl)
+            if (lineBox.WordCount > 0)
             {
-                //ApplyRightToLeftOnLine:
-                //apply RLT to all word in this lineBox  
-                //move all linebox content 
-                if (lineBox.WordCount > 0)
+             
+                float left = lineBox.GetFirstRun().Left;
+                float right = lineBox.GetLastRun().Right; 
+                foreach (CssRun run in lineBox.GetRunIter())
                 {
-                    //move only word ?
-                    //what about bg strip ?
-                    float left = lineBox.GetFirstRun().Left;
-                    float right = lineBox.GetLastRun().Right;
-
-                    foreach (CssRun run in lineBox.GetRunIter())
-                    {
-                        float diff = run.Left - left;
-                        float wright = right - diff;
-                        run.Left = wright - run.Width;
-                    }
+                    float diff = run.Left - left;
+                    float w_right = right - diff;
+                    run.Left = w_right - run.Width;
                 }
-            }
-            else
-            {
-                //apply RTL to some child box
-                //foreach (var box in lineBox.RelatedBoxes)
-                //{
-                //    // if (box.Direction == CssConstants.Rtl)
-                //    if (box.CssDirection == CssDirection.Rtl)
-                //    {
-                //        ApplyRightToLeftOnSingleBox(lineBox, box);
-                //    }
-                //}
             }
         }
 
@@ -604,7 +585,7 @@ namespace HtmlRenderer.Boxes
 
 
 
-        static void ApplyJustifyAlignment(IGraphics g, CssLineBox lineBox)
+        static void ApplyJustifyAlignment(CssLineBox lineBox)
         {
 
 
@@ -646,7 +627,7 @@ namespace HtmlRenderer.Boxes
         /// </summary>
         /// <param name="g"></param>
         /// <param name="line"></param>
-        private static void ApplyCenterAlignment(IGraphics g, CssLineBox line)
+        private static void ApplyCenterAlignment(CssLineBox line)
         {
 
             if (line.WordCount == 0) return;
@@ -667,7 +648,7 @@ namespace HtmlRenderer.Boxes
         /// </summary>
         /// <param name="g"></param>
         /// <param name="line"></param>
-        private static void ApplyRightAlignment(IGraphics g, CssLineBox line)
+        private static void ApplyRightAlignment(CssLineBox line)
         {
             if (line.WordCount == 0)
             {

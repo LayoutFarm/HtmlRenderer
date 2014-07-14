@@ -642,7 +642,7 @@ namespace HtmlRenderer.Boxes
             if (this.HasRuns)
             {
                 float actualWordspacing = MeasureWordSpacing(lay);
-                Font actualFont = this.ActualFont;
+                Font actualFont = this.ActualFont; 
                 float fontHeight = FontsUtils.GetFontHeight(actualFont);
 
                 var tmpRuns = this.Runs;

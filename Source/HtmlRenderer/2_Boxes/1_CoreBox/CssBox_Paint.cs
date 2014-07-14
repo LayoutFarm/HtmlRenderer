@@ -305,7 +305,7 @@ namespace HtmlRenderer.Boxes
                     {
                         //TODO: correct this ...
                         var h = g.MeasureString(" ", ActualFont).Height;
-                        float desc = FontsUtils.GetDescent(ActualFont, g);
+                        float desc = FontsUtils.GetDescentPx(ActualFont);
                         y = (float)Math.Round(rectangle.Top + h - desc + 0.5);
                     } break;
                 case Css.CssTextDecoration.LineThrough:

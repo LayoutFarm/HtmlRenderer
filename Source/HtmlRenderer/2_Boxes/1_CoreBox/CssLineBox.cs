@@ -198,29 +198,29 @@ namespace HtmlRenderer.Boxes
             //***
             var myruns = this._runs;
             CssBox lineOwner = this._ownerBox;
-            int j = myruns.Count;
             List<PartialBoxStrip> totalStrips = this._bottomUpBoxStrips;
-            //---------------------------------------------------------------------------
-
-            //first level
+            //--------------------------------------------------------------------------- 
+            //first level 
             Dictionary<CssBox, PartialBoxStrip> unqiueStrips = lay.GetReadyStripDic();
             //location of run and strip related to its containng block
             float maxRight = 0;
             float maxBottom = 0;
+            int j = myruns.Count;
             for (int i = 0; i < j; ++i)
             {
                 var run = myruns[i];
                 maxRight = run.Right > maxRight ? run.Right : maxRight;
                 maxBottom = run.Bottom > maxBottom ? run.Bottom : maxBottom;
-                //strip size include whitespace 
                 if (run.IsSpaces)
                 {
+                    //strip size include whitespace ?
                     continue;
                 }
                 //-------------
                 //first level data
                 RegisterStripPart(run.OwnerBox, run.Left, run.Top, run.Right, run.Bottom, totalStrips, unqiueStrips);
             }
+
             //---------------------------------------------------------------------------
             //other step to upper layer, until no new strip     
             int newStripIndex = 0;
@@ -229,29 +229,23 @@ namespace HtmlRenderer.Boxes
                 numNewStripCreate = StepUpRegisterStrips(unqiueStrips, lineOwner, totalStrips, newStripIndex);
             }
             lay.ReleaseStripDic(unqiueStrips);
+
             //=============================================================
-            //part 2: CalculateCacheData()
-            //=============================================================
+            //part 2: Calculate 
+            //=============================================================             
+
+
 
             this.CacheLineHeight = maxBottom;
             this.CachedLineContentWidth = maxRight;
-
-
             if (lineOwner.SizeWidth < CachedLineContentWidth)
             {
                 this.CachedLineContentWidth = this.OwnerBox.SizeWidth;
             }
         }
-
-
         internal void OffsetTop(float ydiff)
         {
-
             this.CachedLineTop += ydiff;
-            if (this.OwnerBox.SizeWidth < CachedLineContentWidth)
-            {
-                this.CachedLineContentWidth = this.OwnerBox.SizeWidth;
-            }
         }
         public bool HitTest(float x, float y)
         {
@@ -264,20 +258,27 @@ namespace HtmlRenderer.Boxes
 
         public float CalculateTotalBoxBaseLine()
         {
-            float baseline = Single.MinValue;
-            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
-            {
-                baseline = Math.Max(baseline, _bottomUpBoxStrips[i].Top);//?top 
-            }
+            return 0;
+            //int j = this._runs.Count;
+            //for (int i = this._runs.Count - 1; i >= 0; --i)
+            //{
+            //    Font ownerFont = _runs[i].OwnerBox.ActualFont;
+            //    HtmlRenderer.Drawing.FontsUtils.GetDescent(
+            //}
+            //return 0;
 
-            return baseline;
+            //float baseline = Single.MinValue;
+            //for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
+            //{
+            //    baseline = Math.Max(baseline, _bottomUpBoxStrips[i].Top);//?top 
+            //}
+            //return baseline;
         }
         public void ApplyBaseline(float baseline)
         {
             //Important notes on http://www.w3.org/TR/CSS21/tables.html#height-layout
             //iterate from rectstrip
-            //In a single LineBox ,  CssBox:RectStrip => 1:1 relation           
-
+            //In a single LineBox ,  CssBox:RectStrip => 1:1 relation     
 
             for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
             {

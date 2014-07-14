@@ -630,11 +630,9 @@ namespace HtmlRenderer.Css
             }
             //---------------------------------------
             bool relateToParent = false;
-            string fontFam = this.FontFamily;
-
+            string fontFam = this.FontFamily; 
             if (string.IsNullOrEmpty(FontFamily))
-            {
-
+            {   
                 fontFam = FontDefaultConfig.DEFAULT_FONT_NAME;
             }
 

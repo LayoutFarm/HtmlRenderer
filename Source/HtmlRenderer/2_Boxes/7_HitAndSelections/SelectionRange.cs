@@ -183,8 +183,7 @@ namespace HtmlRenderer.Boxes
                         int sel_offset;
 
                         run.FindSelectionPoint(g,
-                             startHit.localX,
-                             true,
+                             startHit.localX, 
                              out sel_index,
                              out sel_offset);
 
@@ -272,8 +271,7 @@ namespace HtmlRenderer.Boxes
                         int sel_index;
                         int sel_offset;
                         run.FindSelectionPoint(g,
-                             endHit.localX,
-                             true,
+                             endHit.localX, 
                              out sel_index,
                              out sel_offset);
                         this.endHitRunCharIndex = sel_index;

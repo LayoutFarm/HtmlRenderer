@@ -527,19 +527,20 @@ namespace HtmlRenderer.Boxes
         /// </summary>
         private void DrawTitle(IGraphics g, Rectangle rect)
         {
-            if (_videoTitle != null && _imageWord.Width > 40 && _imageWord.Height > 40)
-            {
-                var font = FontsUtils.GetCachedFont("Arial", 9f, System.Drawing.FontStyle.Regular);
-                g.FillRectangle(RenderUtils.GetSolidBrush(System.Drawing.Color.FromArgb(160, 0, 0, 0)), rect.Left, rect.Top, rect.Width, FontsUtils.GetFontHeight(font) + 7);
+            //if (_videoTitle != null && _imageWord.Width > 40 && _imageWord.Height > 40)
+            //{
+            //    var font = FontsUtils.GetCachedFont("Arial", 9f, System.Drawing.FontStyle.Regular);
+            //    g.FillRectangle(RenderUtils.GetSolidBrush(System.Drawing.Color.FromArgb(160, 0, 0, 0)),
+            //        rect.Left, rect.Top, rect.Width, FontsUtils.GetFontHeight(font) + 7);
 
-                using (var sf = new StringFormat(StringFormat.GenericTypographic))
-                {
-                    sf.FormatFlags = StringFormatFlags.NoWrap;
-                    sf.Trimming = StringTrimming.EllipsisCharacter;
-                    var titleRect = new RectangleF(rect.Left + 3, rect.Top + 3, rect.Width - 6, rect.Height - 6);
-                    g.DrawString(_videoTitle, font, System.Drawing.Color.WhiteSmoke, titleRect.Location, SizeF.Empty);
-                }
-            }
+            //    using (var sf = new StringFormat(StringFormat.GenericTypographic))
+            //    {
+            //        sf.FormatFlags = StringFormatFlags.NoWrap;
+            //        sf.Trimming = StringTrimming.EllipsisCharacter;
+            //        var titleRect = new RectangleF(rect.Left + 3, rect.Top + 3, rect.Width - 6, rect.Height - 6);
+            //        g.DrawString(_videoTitle, font, System.Drawing.Color.WhiteSmoke, titleRect.Location, SizeF.Empty);
+            //    }
+            //}
         }
 
         /// <summary>
