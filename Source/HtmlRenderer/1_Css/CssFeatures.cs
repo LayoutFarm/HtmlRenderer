@@ -3,8 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using HtmlRenderer.Css;
 
-namespace HtmlRenderer.Css
+namespace HtmlRenderer.Css 
 {
     abstract class CssFeatureBase
     {
@@ -805,29 +806,5 @@ namespace HtmlRenderer.Css
     }
 
 
-#if DEBUG
-    public class dbugPropCheckReport
-    {
-        List<string> msgs = new List<string>();
-        public void Check(string propName, bool testResult)
-        {
-            if (!testResult)
-            {
-                msgs.Add(propName);
-            }
-        }
-        public int Count
-        {
-            get { return this.msgs.Count; }
-        }
-        public void ClearMsgs()
-        {
-            this.msgs.Clear();
-        }
-        public List<string> GetList()
-        {
-            return this.msgs;
-        }
-    }
-#endif
+
 }

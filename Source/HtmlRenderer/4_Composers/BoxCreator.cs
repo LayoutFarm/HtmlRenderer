@@ -243,8 +243,7 @@ namespace HtmlRenderer.Composers
             //---------------------------------------------------------- 
             tableCell.SetRowColSpan(nRowSpan, nColSpan);
             return tableCell;
-        }
-
+        } 
     }
 
     static class ListItemBoxCreator

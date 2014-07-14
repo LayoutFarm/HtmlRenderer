@@ -18,8 +18,7 @@ namespace HtmlRenderer.Boxes
         Queue<List<PartialBoxStrip>> listStripPool;
 
         Dictionary<CssBox, PartialBoxStrip> readyDicStrip = new Dictionary<CssBox, PartialBoxStrip>();
-        List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>();
-
+        List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>(); 
 
 
         internal LayoutVisitor(IGraphics gfx, HtmlContainer htmlContainer)

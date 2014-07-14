@@ -15,7 +15,7 @@
 
 using System;
 using System.Drawing;
-using HtmlRenderer.Drawing;
+using HtmlRenderer.Drawing; 
 
 namespace HtmlRenderer.Css
 {
@@ -795,6 +795,30 @@ namespace HtmlRenderer.Css
 
 
     }
-
+#if DEBUG
+    public class dbugPropCheckReport
+    {
+        System.Collections.Generic.List<string> msgs = new System.Collections.Generic.List<string>();
+        public void Check(string propName, bool testResult)
+        {
+            if (!testResult)
+            {
+                msgs.Add(propName);
+            }
+        }
+        public int Count
+        {
+            get { return this.msgs.Count; }
+        }
+        public void ClearMsgs()
+        {
+            this.msgs.Clear();
+        }
+        public System.Collections.Generic.List<string> GetList()
+        {
+            return this.msgs;
+        }
+    }
+#endif
 
 }
