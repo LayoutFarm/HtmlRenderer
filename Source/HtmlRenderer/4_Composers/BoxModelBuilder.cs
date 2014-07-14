@@ -39,22 +39,22 @@ namespace HtmlRenderer.Composers
         /// Parses the source html to css boxes tree structure.
         /// </summary>
         /// <param name="source">the html source to parse</param>
-        static WebDom.HtmlDocument ParseDocument(TextSnapshot snapSource)
+        static BridgeHtmlDocument ParseDocument(TextSnapshot snapSource)
         {
             var parser = new HtmlRenderer.WebDom.Parser.HtmlParser();
             //------------------------
-            parser.Parse(snapSource);
-            return parser.ResultHtmlDoc;
+            var blankHtmlDoc = new BridgeHtmlDocument();
+            parser.Parse(snapSource, blankHtmlDoc);
+            return blankHtmlDoc;
         }
 
-        static BrigeRootElement PrepareBridgeTree(HtmlContainer container,
-            WebDom.HtmlDocument htmldoc,
-            ActiveCssTemplate activeCssTemplate)
+        //-----------------------------------------------------------------
+        void PrepareBridgeTree(HtmlContainer container,
+             WebDom.HtmlDocument htmldoc,
+             ActiveCssTemplate activeCssTemplate)
         {
             BrigeRootElement bridgeRoot = (BrigeRootElement)htmldoc.RootNode;
             PrepareChildNodes(container, bridgeRoot, activeCssTemplate);
-            return bridgeRoot;
-
         }
         static void PrepareChildNodes(
             HtmlContainer container,
@@ -96,26 +96,35 @@ namespace HtmlRenderer.Composers
                                     }
                                 case WellknownElementName.link:
                                     {
-                                        if (bridgeElement.GetAttributeValue("rel", string.Empty).Equals("stylesheet", StringComparison.CurrentCultureIgnoreCase))
+                                        //<link rel="stylesheet"
+                                        HtmlAttribute relAttr;
+                                        if (bridgeElement.TryGetAttribute(WellknownHtmlName.Rel, out relAttr)
+                                            && relAttr.Value.ToLower() == "stylesheet")
                                         {
-                                            //load  
+                                            //if found
                                             string stylesheet;
                                             CssActiveSheet stylesheetData;
 
-                                            HtmlContainer.RaiseRequestStyleSheet(
-                                                container, bridgeElement.GetAttributeValue("href", null),
+                                            HtmlAttribute hrefAttr;
+                                            if (bridgeElement.TryGetAttribute(WellknownHtmlName.Href, out hrefAttr))
+                                            {
+                                                HtmlContainer.RaiseRequestStyleSheet(
+                                                container,
+                                                hrefAttr.Value,
                                                 out stylesheet, out stylesheetData);
 
+                                                if (stylesheet != null)
+                                                {
+                                                    activeCssTemplate.LoadRawStyleElementContent(stylesheet);
+                                                }
+                                                else if (stylesheetData != null)
+                                                {
+                                                    activeCssTemplate.LoadAnotherStylesheet(stylesheetData);
+                                                }
 
-                                            if (stylesheet != null)
-                                            {
-                                                activeCssTemplate.LoadRawStyleElementContent(stylesheet);
-                                            }
-                                            else if (stylesheetData != null)
-                                            {
-                                                activeCssTemplate.LoadAnotherStylesheet(stylesheetData);
                                             }
                                         }
+
                                         continue;
                                     }
                             }
@@ -529,7 +538,6 @@ namespace HtmlRenderer.Composers
             CssBox rootBox = null;
             WebDom.HtmlDocument htmldoc = null; ;
             ActiveCssTemplate activeCssTemplate = null;
-            BrigeRootElement bridgeRoot = null;
 
             //1. parse
             //var t0 = dbugCounter.Snap(() =>
@@ -546,8 +554,8 @@ namespace HtmlRenderer.Composers
             //2. active css template 
             // var t2 = dbugCounter.Snap(() =>
             // {
-            //3. create bridge root
-            bridgeRoot = PrepareBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
+            //3. prepare tree
+            PrepareBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
             //----------------------------------------------------------------  
             //4. assign styles 
             //ApplyStyleSheetTopDownForBridgeElement(bridgeRoot, null, activeCssTemplate);
@@ -558,7 +566,7 @@ namespace HtmlRenderer.Composers
 
             // var t3 = dbugCounter.Snap(() =>
             // {
-            GenerateCssBoxes(bridgeRoot, rootBox);
+            GenerateCssBoxes((BrigeRootElement)htmldoc.RootNode, rootBox);
 #if DEBUG
             dbugTestParsePerformance(html);
 #endif
@@ -618,7 +626,7 @@ namespace HtmlRenderer.Composers
             curSpec.InheritStylesFrom(parentSpec);
 
             string classValue;
-            if (!element.TryGetAttribute("class", out classValue))
+            if (!element.TryGetAttribute(WellknownHtmlName.Src, out classValue))
             {
                 classValue = null;
             }
@@ -648,7 +656,7 @@ namespace HtmlRenderer.Composers
             //4. a style attribute value
             string attrStyleValue;
 
-            if (element.TryGetAttribute("style", out attrStyleValue))
+            if (element.TryGetAttribute(WellknownHtmlName.Style, out attrStyleValue))
             {
                 var ruleset = activeCssTemplate.ParseCssBlock(element.Name, attrStyleValue);
                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())

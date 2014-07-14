@@ -2,9 +2,9 @@
 //ArthurHub
 
 namespace HtmlRenderer.Composers
-{
+{  
     public static class CssDefaults
-    {
+    {    
         /// <summary>
         /// default CSS parsed data singleton
         /// </summary>

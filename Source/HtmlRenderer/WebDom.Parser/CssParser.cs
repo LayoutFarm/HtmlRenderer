@@ -2,11 +2,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Text; 
 
 namespace HtmlRenderer.WebDom.Parser
-{
-    public class CssParser
+{   
+
+    public class CssParser 
     {
         CssLexer lexer;
         char[] textBuffer;

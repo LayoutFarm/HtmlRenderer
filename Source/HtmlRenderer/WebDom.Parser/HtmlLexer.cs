@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace HtmlRenderer.WebDom.Parser
-{
+{    
     enum HtmlLexerEvent
     {
         VisitOpenAngle,        //  <a

@@ -1,11 +1,8 @@
 ﻿//BSD  2014 ,WinterDev  
 using HtmlRenderer.Boxes;
-using HtmlRenderer.Composers;
+
 namespace HtmlRenderer.WebDom
 {
-
-
-
     public abstract class HtmlDocument
     {
         UniqueStringTable uniqueStringTable;//     
@@ -31,7 +28,6 @@ namespace HtmlRenderer.WebDom
             return uniqueStringTable.GetStringIndex(uniqueString);
         }
 
-
         public HtmlAttribute CreateAttribute(string prefix, string localName)
         {
             return new HtmlAttribute(this,
@@ -48,13 +44,12 @@ namespace HtmlRenderer.WebDom
             return new HtmlProcessInstructionNode(this, nameIndex);
         }
 
-        public HtmlTextNode CreateTextNode(char[] strBufferForElement)
-        {
-            return new BridgeHtmlTextNode(this, strBufferForElement);
-        }
+        public abstract HtmlTextNode CreateTextNode(char[] strBufferForElement);
+
         public HtmlCDataNode CreateCDataNode()
         {
             return new HtmlCDataNode(this);
-        }
+        }         
+        
     }
 }

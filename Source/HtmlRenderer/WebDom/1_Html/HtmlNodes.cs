@@ -323,18 +323,8 @@ namespace HtmlRenderer.WebDom
                     yield return atttr;
                 }
             }
-        }
-
-
-
-        public void MarkAsShortTagElement()
-        {
-            SetNodeType(HtmlNodeType.ShortElement);
-        }
-        public void MarkAsCloseTagElement()
-        {
-            SetNodeType(HtmlNodeType.CloseElement);
-        }
+        } 
+        
         public int ChildrenCount
         {
             get
@@ -382,7 +372,7 @@ namespace HtmlRenderer.WebDom
         {
             if (myAttributes != null)
             {
-                for (int i = myAttributes.Count - 1; i > -1; --i)
+                for (int i = myAttributes.Count - 1; i >=0; --i)
                 {
                     if (myAttributes[i].nodeLocalNameIndex == attrLocalNameIndex)
                     {
@@ -391,8 +381,7 @@ namespace HtmlRenderer.WebDom
                 }
             }
             return null;
-        }
-
+        } 
         public HtmlAttribute FindAttribute(string attrname)
         {
             int nameIndex = this.OwnerDocument.FindStringIndex(attrname);
@@ -429,29 +418,14 @@ namespace HtmlRenderer.WebDom
                 return OwnerDocument.GetString(this.nodeLocalNameIndex);
             }
         }
-        public int LocalNameIndex
-        {
-            get
-            {
-                return this.nodeLocalNameIndex;
-            }
-        }
-        public int PrefixNameIndex
-        {
-            get
-            {
-                return this.nodePrefixNameIndex;
-            }
-        }
-
+        
         public void AddChild(HtmlNode childNode)
         {
             switch (childNode.NodeType)
             {
                 case HtmlNodeType.Attribute:
                     {
-                        AddAttribute((HtmlAttribute)childNode);
-
+                        AddAttribute((HtmlAttribute)childNode); 
                     } break;
                 default:
                     {
@@ -464,10 +438,7 @@ namespace HtmlRenderer.WebDom
                     } break;
             }
         }
-        public HtmlNode GetFirstNode()
-        {
-            return this.myChildrenNodes[0];
-        }
+       
 
         //------------------------------------------
         //temp fix
@@ -513,23 +484,8 @@ namespace HtmlRenderer.WebDom
         public string Name
         {
             get { return this.LocalName; }
-        }
-       
-
-        public bool TryGetAttribute(string attrName, out string value)
-        {
-            var attr = this.FindAttribute(attrName);
-            if (attr == null)
-            {
-                value = null;
-                return false;
-            }
-            else
-            {
-                value = attr.Value;
-                return true;
-            }
-        }
+        } 
+        
     }
  
 }

@@ -5,15 +5,15 @@ using System;
 using System.Collections.Generic;
 using HtmlRenderer.Diagnostics;
 using HtmlRenderer.Drawing;
-using HtmlRenderer.WebDom; 
+using HtmlRenderer.WebDom;
 using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer.Composers
 {
-    class BridgeHtmlDocument : HtmlDocument
+
+    public class BridgeHtmlDocument : HtmlDocument
     {
         HtmlElement rootNode;
-
         public BridgeHtmlDocument()
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
         {
@@ -32,7 +32,12 @@ namespace HtmlRenderer.Composers
                 AddStringIfNotExists(prefix),
                 AddStringIfNotExists(localName));
         }
+        public override HtmlTextNode CreateTextNode(char[] strBufferForElement)
+        {
+            return new BridgeHtmlTextNode(this, strBufferForElement);
+        }
     }
+
     enum WellknownElementName : byte
     {
         NotAssign, //extension , for anonymous element
@@ -130,6 +135,7 @@ namespace HtmlRenderer.Composers
         [Map("x")]
         X//test for extension 
     }
+
     class BridgeHtmlElement : HtmlElement
     {
         Css.BoxSpec boxSpec;
@@ -141,21 +147,37 @@ namespace HtmlRenderer.Composers
         public Css.BoxSpec Spec
         {
             get { return this.boxSpec; }
-
         }
-        public string GetAttributeValue(string attrName, string defaultValue)
+        public WellknownElementName WellknownElementName { get; set; }
+        public bool TryGetAttribute(WellknownHtmlName wellknownHtmlName, out HtmlAttribute result)
         {
-            var attr = base.FindAttribute(attrName);
-            if (attr == null)
+            var found = base.FindAttribute((int)wellknownHtmlName);
+            if (found != null)
             {
-                return defaultValue;
+                result = found;
+                return true;
             }
             else
             {
-                return attr.Value;
+                result = null;
+                return false;
             }
         }
-        internal WellknownElementName WellknownElementName { get; set; }
+        public bool TryGetAttribute(WellknownHtmlName wellknownHtmlName, out string value)
+        {
+            HtmlAttribute found;
+            if (this.TryGetAttribute(wellknownHtmlName, out found))
+            {
+                value = found.Value;
+                return true;
+            }
+            else
+            {
+                 value = null;
+                return false;
+            }
+            
+        }
     }
 
     sealed class BrigeRootElement : BridgeHtmlElement
@@ -211,7 +233,7 @@ namespace HtmlRenderer.Composers
         LineBreak,
     }
 
-    
+
     static class HtmlPredefineNames
     {
 
@@ -225,7 +247,7 @@ namespace HtmlRenderer.Composers
             int j = _wellKnownHtmlNameMap.Count;
             for (int i = 0; i < j; ++i)
             {
-                htmlUniqueStringTableTemplate.AddStringIfNotExist(_wellKnownHtmlNameMap.GetStringFromValue((WellknownHtmlName)i));
+                htmlUniqueStringTableTemplate.AddStringIfNotExist(_wellKnownHtmlNameMap.GetStringFromValue((WellknownHtmlName)(i + 1)));
             }
         }
         public static UniqueStringTable CreateUniqueStringTableClone()

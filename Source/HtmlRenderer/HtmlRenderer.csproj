@@ -89,8 +89,8 @@
     <Compile Include="4_Composers\dbugCssBoxDomChecker.cs" />
     <Compile Include="4_Composers\RunListHelper.cs" />
     <Compile Include="4_Composers\SpecSetter.cs" />
-    <Compile Include="5_Diagnostics\DeprecatedAttribute.cs" />
-    <Compile Include="5_Diagnostics\HtmlGenerator.cs" />
+    <Compile Include="6_Diagnostics\DeprecatedAttribute.cs" />
+    <Compile Include="6_Diagnostics\HtmlGenerator.cs" />
     <Compile Include="Platform\MapAttribute.cs" />
     <Compile Include="4_Composers\ValueMaps.cs" />
     <Compile Include="WebDom.Parser\TextSnapshot.cs" />
@@ -114,7 +114,7 @@
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Unsafe.cs" />
     <Compile Include="1_Css\CssFeatures.cs" />
     <Compile Include="WebDom\2_Css\CssActiveSheet.cs" />
-    <Compile Include="5_Diagnostics\dbug.cs" />
+    <Compile Include="6_Diagnostics\dbug.cs" />
     <Compile Include="4_Composers\UserMapUtil.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Fields.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Paint.cs" />
@@ -133,8 +133,8 @@
     <Compile Include="2_Boxes\3_Layout\CssTableLayoutEngine.cs" />
     <Compile Include="WebDom\1_Html\HtmlInterfaces.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssSideAndOrientation.cs" />
-    <Compile Include="5_Diagnostics\HtmlRenderErrorType.cs" />
-    <Compile Include="5_Diagnostics\HtmlGenerationStyle.cs" />
+    <Compile Include="6_Diagnostics\HtmlRenderErrorType.cs" />
+    <Compile Include="6_Diagnostics\HtmlGenerationStyle.cs" />
     <Compile Include="4_Composers\CssDefaults.cs" />
     <Compile Include="Platform\ExtensionAttribute.cs" />
     <Compile Include="3_Drawing_TextAndGraphics\IGraphics.cs" />
@@ -148,7 +148,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="5_Diagnostics\ArgCheckNotNullAttribute.cs" />
+    <Compile Include="6_Diagnostics\ArgCheckNotNullAttribute.cs" />
     <Compile Include="3_Drawing_TextAndGraphics\RenderUtils.cs" />
     <Compile Include="1_Css\CssConstants.cs" />
     <Compile Include="1_Css\CssUnitOrNames.cs" />

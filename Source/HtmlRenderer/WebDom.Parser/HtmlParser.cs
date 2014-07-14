@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace HtmlRenderer.WebDom.Parser
-{
+{    
     public class HtmlParser
     {
         HtmlDocument _resultHtmlDoc;
@@ -23,15 +23,7 @@ namespace HtmlRenderer.WebDom.Parser
             lexer = new HtmlLexer();
             lexer.LexStateChanged += LexStateChanaged;
         }
-
-        public HtmlDocument ResultHtmlDoc
-        {
-            get
-            {
-                return this._resultHtmlDoc;
-            }
-        }
-
+         
 
         void LexStateChanaged(HtmlLexerEvent lexEvent, int startIndex, int len)
         {
@@ -217,18 +209,16 @@ namespace HtmlRenderer.WebDom.Parser
         /// parse to htmldom
         /// </summary>
         /// <param name="stbuilder"></param>
-        public void Parse(TextSnapshot textSnapshot)
+        public void Parse(TextSnapshot textSnapshot, HtmlDocument blankHtmlDoc)
         {
             ResetParser();
 
             this.textSnapshot = textSnapshot;
             //1. lex 
             lexer.BeginLex();
-            //2. mini parser   
-
-            var htmldoc = new HtmlRenderer.Composers.BridgeHtmlDocument();
-            this.curHtmlNode = htmldoc.RootNode;
-            this._resultHtmlDoc = htmldoc;
+            //2. mini parser    
+            this.curHtmlNode = blankHtmlDoc.RootNode;
+            this._resultHtmlDoc = blankHtmlDoc;
             lexer.Analyze(textSnapshot);
             lexer.EndLex();
         }
