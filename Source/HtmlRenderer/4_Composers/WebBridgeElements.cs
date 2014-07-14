@@ -139,13 +139,13 @@ namespace HtmlRenderer.Composers
     class BridgeHtmlElement : HtmlElement
     {
         Css.BoxSpec boxSpec;
-        public BridgeHtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
+        public BridgeHtmlElement(BridgeHtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
             this.boxSpec = new Css.BoxSpec();
         }
         public Css.BoxSpec Spec
-        {
+        {  
             get { return this.boxSpec; }
         }
         public WellknownElementName WellknownElementName { get; set; }
@@ -173,16 +173,17 @@ namespace HtmlRenderer.Composers
             }
             else
             {
-                 value = null;
+                value = null;
                 return false;
             }
-            
+
         }
+       
     }
 
     sealed class BrigeRootElement : BridgeHtmlElement
     {
-        public BrigeRootElement(HtmlDocument ownerDoc)
+        public BrigeRootElement(BridgeHtmlDocument ownerDoc)
             : base(ownerDoc, 0, 0)
         {
         }

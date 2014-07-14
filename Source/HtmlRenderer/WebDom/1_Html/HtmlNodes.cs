@@ -171,7 +171,7 @@ namespace HtmlRenderer.WebDom
     /// <summary>
     /// attribute node
     /// </summary>
-    public class HtmlAttribute : HtmlNode 
+    public class HtmlAttribute : HtmlNode
     {
 
         internal int nodePrefixNameIndex;
@@ -257,7 +257,7 @@ namespace HtmlRenderer.WebDom
         }
     }
 
-    public abstract class HtmlElement : HtmlNode 
+    public abstract class HtmlElement : HtmlNode
     {
 
         internal int nodePrefixNameIndex;
@@ -265,7 +265,8 @@ namespace HtmlRenderer.WebDom
         List<HtmlAttribute> myAttributes;
         List<HtmlNode> myChildrenNodes;
         HtmlElement closeNode;
-        
+        HtmlAttribute elemId;
+
         internal HtmlElement(HtmlDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
         {
@@ -308,7 +309,7 @@ namespace HtmlRenderer.WebDom
                 }
             }
         }
-       
+
         public int ChildrenCount
         {
             get
@@ -352,18 +353,40 @@ namespace HtmlRenderer.WebDom
             {
                 case (int)WellknownHtmlName.Id:
                     {
-                    } break;
-                case (int)WellknownHtmlName.Class:
-                    {
-                    } break;
-                case (int)WellknownHtmlName.Style:
-                    {
+                        this.elemId = attr;
+                        this.OwnerDocument.RegisterElementById(this);
                     } break;
             }
 
             myAttributes.Add(attr);
             attr.SetParent(this);
         }
+
+
+        //---
+         
+        //internal void AddAttributePartial(HtmlAttribute attr)
+        //{
+        //    if (myAttributes == null)
+        //    {
+        //        myAttributes = new List<HtmlAttribute>();
+        //    }
+        //    //-----------
+        //    //some wellknownattr 
+        //    switch (attr.LocalNameIndex)
+        //    {
+        //        case (int)WellknownHtmlName.Id:
+        //            {
+        //                this.elemId = attr;
+        //                this.OwnerDocument.RegisterElementById(this);
+        //            } break;
+        //    }
+
+        //    myAttributes.Add(attr);
+        //    attr.SetParent(this);
+        //}
+
+
         public void AddChild(HtmlNode childNode)
         {
             switch (childNode.NodeType)
@@ -435,7 +458,25 @@ namespace HtmlRenderer.WebDom
             }
         }
 
+        public string ElementId
+        {
+            get
+            {
+                if (elemId != null)
+                {
+                    return this.elemId.Value;
+                }
 
+                return null;
+            }
+        }
+        internal bool HasElementId
+        {
+            get
+            {
+                return this.elemId != null;
+            }
+        }
         ////------------------------------------------
         ////temp fix
         //public string Id

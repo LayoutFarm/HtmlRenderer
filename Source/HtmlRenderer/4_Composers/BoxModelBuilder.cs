@@ -638,13 +638,20 @@ namespace HtmlRenderer.Composers
                parentSpec);
 
             //-------------------------------------------------------------------                        
-            //2. specific id
 
-            string idValue;
-            if (element.TryGetAttribute(WellknownHtmlName.Id, out idValue))
+            //2. specific id
+             
+            if (element.HasElementId)
             {
-                throw new NotSupportedException();
+                // element.ElementId;
+                activeCssTemplate.ApplyActiveTemplateForSpecificElementId(element);
+                 
             }
+            //if (element.TryGetAttribute(WellknownHtmlName.Id, out idValue))
+            //{
+
+            //    throw new NotSupportedException();
+            //}
             //if (element.HasAttribute("id"))
             //{
             //    throw new NotSupportedException();
@@ -725,6 +732,7 @@ namespace HtmlRenderer.Composers
         }
         private static void AssignStylesForElementId(CssBox box, ActiveCssTemplate activeCssTemplate, string elementId)
         {
+
             throw new NotSupportedException();
             //foreach (var ruleSet in cssData.GetCssRuleSetIter(elementId))
             //{

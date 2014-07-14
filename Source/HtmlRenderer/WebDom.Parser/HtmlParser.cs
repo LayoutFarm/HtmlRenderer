@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace HtmlRenderer.WebDom.Parser
-{    
+{
     public class HtmlParser
     {
         HtmlDocument _resultHtmlDoc;
@@ -21,11 +21,11 @@ namespace HtmlRenderer.WebDom.Parser
         public HtmlParser()
         {
             lexer = new HtmlLexer();
-            lexer.LexStateChanged += LexStateChanaged;
+            lexer.LexStateChanged += LexStateChanged;
         }
-         
 
-        void LexStateChanaged(HtmlLexerEvent lexEvent, int startIndex, int len)
+
+        void LexStateChanged(HtmlLexerEvent lexEvent, int startIndex, int len)
         {
             switch (lexEvent)
             {
@@ -55,17 +55,19 @@ namespace HtmlRenderer.WebDom.Parser
                     } break;
                 case HtmlLexerEvent.AttributeValueAsLiteralString:
                     {
-
+                        //assign value and add to parent
                         curAttr.Value = textSnapshot.Substring(startIndex, len);
+                        curHtmlNode.AddAttribute(curAttr);
+
                     } break;
                 case HtmlLexerEvent.AttributeValue:
                     {
                     } break;
                 case HtmlLexerEvent.Attribute:
                     {
-                        string nodename = textSnapshot.Substring(startIndex, len);
-                        curAttr = this._resultHtmlDoc.CreateAttribute(null, nodename);
-                        curHtmlNode.AddAttribute(curAttr);
+                        string nodename = textSnapshot.Substring(startIndex, len); 
+                        curAttr = this._resultHtmlDoc.CreateAttribute(null, nodename); 
+
                     } break;
                 case HtmlLexerEvent.NodeNameOrAttribute:
                     {
