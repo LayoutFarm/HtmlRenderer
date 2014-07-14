@@ -463,7 +463,7 @@ namespace HtmlRenderer.Boxes
                     }
                 default:
                     {    //others
-                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.GetFontPool(), lay.LatestContainingBlock); }
+                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.Gfx, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
                     } break;
                 case Css.CssDisplay.BlockInsideInlineAfterCorrection:
@@ -475,7 +475,7 @@ namespace HtmlRenderer.Boxes
                     {
 
                         CssBox myContainingBlock = lay.LatestContainingBlock;
-                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.GetFontPool(), myContainingBlock); }
+                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.Gfx, myContainingBlock); }
 
                         this.MeasureRunsSize(lay);
 

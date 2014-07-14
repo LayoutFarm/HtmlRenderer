@@ -195,7 +195,7 @@ namespace HtmlRenderer
             var cssClass = string.IsNullOrEmpty(_tooltipCssClass) ? null : string.Format(" class=\"{0}\"", _tooltipCssClass);
             var toolipHtml = string.Format("<div{0}>{1}</div>", cssClass, GetToolTip(e.AssociatedControl));
 
-         
+            
             _htmlContainer.SetHtml(toolipHtml, _baseCssData);
             _htmlContainer.MaxSize = MaximumSize;
 

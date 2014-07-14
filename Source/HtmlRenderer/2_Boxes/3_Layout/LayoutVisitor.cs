@@ -81,7 +81,7 @@ namespace HtmlRenderer.Boxes
         internal float MeasureWhiteSpace(CssBox box)
         {
             //depends on Font of this box           
-            float w = this.htmlContainer.MeasureWhitespace(this.Gfx, box.ActualFont);
+            float w = this.Gfx.MeasureWhitespace(box.ActualFont);
 
             if (!(box.WordSpacing.IsEmpty || box.WordSpacing.IsNormalWordSpacing))
             {
@@ -91,17 +91,13 @@ namespace HtmlRenderer.Boxes
         }
         internal FontInfo GetFontInfo(System.Drawing.Font f)
         {
-            return this.htmlContainer.GetFontInfo(f);
+            return this.Gfx.GetFontInfo(f);
         }
         internal float MeasureStringWidth(char[] buffer, int startIndex, int len, System.Drawing.Font f)
         {
-            return this.Gfx.MeasureString2(buffer, startIndex, len, f).Width;
-
+            return this.Gfx.MeasureString2(buffer, startIndex, len, f).Width; 
         }
-        internal IFontPool GetFontPool()
-        {
-            return this.htmlContainer;
-        }
+        
         //---------------------------------------------------------------
         internal Dictionary<CssBox, PartialBoxStrip> GetReadyStripDic()
         {

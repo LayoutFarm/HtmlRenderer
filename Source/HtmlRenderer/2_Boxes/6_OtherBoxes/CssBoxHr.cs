@@ -13,7 +13,7 @@
 
 using System.Drawing;
 
-using HtmlRenderer.Drawing; 
+using HtmlRenderer.Drawing;
 
 namespace HtmlRenderer.Boxes
 {
@@ -52,7 +52,7 @@ namespace HtmlRenderer.Boxes
             var myContainingBlock = lay.LatestContainingBlock;
             if (this.NeedComputedValueEvaluation)
             {
-                this.ReEvaluateComputedValues(lay.GetFontPool(), myContainingBlock );
+                this.ReEvaluateComputedValues(lay.Gfx, myContainingBlock);
             }
             //// fix for hr tag 
             //var maringTopCollapse = MarginTopCollapse(prevSibling);

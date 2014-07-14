@@ -434,20 +434,6 @@ namespace HtmlRenderer
             get;
             set;
         } 
-
-        //=====================================================
-        public override FontInfo GetFontInfo(Font f)
-        {
-            return FontsUtils.GetCachedFont(f);             
-                        
-        }
-        public override FontInfo GetFontInfo(string fontname, float fsize, FontStyle st)
-        {
-            return FontsUtils.GetCachedFont(fontname, fsize, st);   
-        }
-        public override float MeasureWhitespace(IGraphics g, Font f)
-        {
-            return FontsUtils.MeasureWhitespace(g, f);
-        }
+        
     }
 }

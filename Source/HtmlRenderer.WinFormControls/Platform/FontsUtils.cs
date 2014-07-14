@@ -88,44 +88,8 @@ namespace HtmlRenderer.Drawing
             {
                 _existingFontFamilies.Add(family.Name, family);
             }
-
-
-
         }
 
-        /// <summary>
-        /// Gets the ascent of the font
-        /// </summary>
-        /// <param name="font"></param>
-        /// <returns></returns>
-        /// <remarks>
-        /// Font metrics from http://msdn.microsoft.com/en-us/library/xwf9s90b(VS.71).aspx
-        /// </remarks>
-        public static float GetAscent(Font font)
-        {
-            return font.Size * font.FontFamily.GetCellAscent(font.Style) / font.FontFamily.GetEmHeight(font.Style);
-        }
-
-
-
-        /// <summary>
-        /// Gets the descent of the font
-        /// </summary>
-        /// <param name="font"></param>
-        /// <param name="graphics"></param>
-        /// <returns>pixel unit of descent</returns>
-        /// <remarks>
-        /// Font metrics from http://msdn.microsoft.com/en-us/library/xwf9s90b(VS.71).aspx
-        /// </remarks>
-        public static float GetDescentPx(Font font)
-        {
-            //http://msdn.microsoft.com/en-us/library/xwf9s90b%28v=vs.100%29.aspx
-
-            //cellHeight = font's ascent + descent
-            //linespacing = cellHeight + external leading
-            //em height (size)= cellHeight - internal leading  
-            return font.FontFamily.GetCellDescent(font.Style) * font.Size / font.FontFamily.GetEmHeight(font.Style);
-        }
 
         /// <summary>
         /// Gets the line spacing of the font
@@ -331,10 +295,13 @@ namespace HtmlRenderer.Drawing
         {
 
             //from ...
-            //http://msdn.microsoft.com/en-us/library/xwf9s90b%28v=vs.100%29.aspx
+            //1. http://msdn.microsoft.com/en-us/library/xwf9s90b%28v=vs.100%29.aspx
+            //3.  Font metrics from http://msdn.microsoft.com/en-us/library/xwf9s90b(VS.71).aspx
 
-            //http://stackoverflow.com/questions/1006069/how-do-i-get-the-position-of-the-text-baseline-in-a-label-and-a-numericupdown
-
+            //2. http://stackoverflow.com/questions/1006069/how-do-i-get-the-position-of-the-text-baseline-in-a-label-and-a-numericupdown
+            //cellHeight = font's ascent + descent
+            //linespacing = cellHeight + external leading
+            //em height (size)= cellHeight - internal leading  
 
             //-------------------
             //evaluate this font, collect font matrix in pixel mode
@@ -345,29 +312,29 @@ namespace HtmlRenderer.Drawing
                 FontFamily ff = newFont.FontFamily;
 
                 int linespace = ff.GetLineSpacing(newFont.Style);
-                int ascent = ff.GetCellAscent(newFont.Style);
-
                 //font height is expensive call ****
                 int lineSpacing = newFont.Height;
 
-                //in design unit
-                fontInfo = new FontInfo(newFont, lineSpacing, 17);
+                //convert descent 
+                int fontEmHeight = newFont.FontFamily.GetEmHeight(newFont.Style);
 
-                float baseline = lineSpacing * ascent / linespace;
+                float ascentPx = newFont.Size * newFont.FontFamily.GetCellAscent(newFont.Style) / fontEmHeight;
+                float descentPx = newFont.FontFamily.GetCellDescent(newFont.Style) * newFont.Size / fontEmHeight;
 
+                fontInfo = new FontInfo(newFont,
+                    lineSpacing,
+                    ascentPx,
+                    descentPx,
+                    lineSpacing * newFont.FontFamily.GetCellAscent(newFont.Style) / linespace);
+                
 
                 //1. info
                 _fontInfoCache.Add(newFont, fontInfo);
                 _fontsCache.Add(fontKey, fontInfo);
-                _fontsUnmanagedCache[newFont] = newFont.ToHfont();
 
+                _fontsUnmanagedCache[newFont] = newFont.ToHfont();
                 //2. line cache
                 _fontHeightCache.Add(newFont, lineSpacing);
-                //3. whitespace 
-
-                //SizeF whitespaceSize = _myInternalGfx.MeasureString(" ", newFont);
-                //_fontWhitespaceCache.Add(newFont, whitespaceSize.Width);
-
 
                 return fontInfo;
             }
@@ -375,4 +342,7 @@ namespace HtmlRenderer.Drawing
         }
         #endregion
     }
+
+
+  
 }

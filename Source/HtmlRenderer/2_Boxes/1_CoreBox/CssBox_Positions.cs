@@ -127,28 +127,27 @@ namespace HtmlRenderer.Boxes
         {
             get { return (this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0; }
         }
-        internal void ReEvaluateFont(HtmlRenderer.Drawing.IFontPool fontPool, float parentFontSize)
+        internal void ReEvaluateFont(HtmlRenderer.Drawing.IFonts iFonts, float parentFontSize)
         {
-
-            HtmlRenderer.Drawing.FontInfo fontInfo = this._myspec.GetFont(fontPool, parentFontSize);
+            HtmlRenderer.Drawing.FontInfo fontInfo = this._myspec.GetFont(iFonts, parentFontSize);
             this._actualFont = fontInfo.Font;
             this._actualLineHeight = fontInfo.LineHeight;
             this._actualEmHeight = fontInfo.LineHeight;
-            
+
 
         }
         /// <summary>
         /// evaluate computed value
         /// </summary>
-        internal void ReEvaluateComputedValues(HtmlRenderer.Drawing.IFontPool fontPool, CssBox containingBlock)
+        internal void ReEvaluateComputedValues(HtmlRenderer.Drawing.IFonts iFonts, CssBox containingBlock)
         {
             //see www.w3.org/TR/CSS2/box.html#padding-properties 
             //depend on parent
             //1. fonts
 
             if (this.ParentBox != null)
-            {
-                ReEvaluateFont(fontPool, this.ParentBox.ActualFont.Size);
+            {   
+                ReEvaluateFont(iFonts, this.ParentBox.ActualFont.Size);
                 //2. actual word spacing
                 //this._actualWordSpacing = this.NoEms(this.InitSpec.LineHeight);
                 //3. font size 

@@ -79,7 +79,7 @@ namespace HtmlRenderer
     /// Raised when an error occurred during html rendering.<br/>
     /// </para>
     /// </remarks>
-    public abstract class HtmlContainer : IFontPool, IDisposable
+    public abstract class HtmlContainer :  IDisposable
     {
         #region Fields and Consts
         /// <summary>
@@ -559,12 +559,7 @@ namespace HtmlRenderer
             out string stylesheet,
             out WebDom.CssActiveSheet stylesheetData);
 
-
-        public abstract FontInfo GetFontInfo(Font f);
-        public abstract FontInfo GetFontInfo(string fontname, float fsize, FontStyle st);
-        public abstract float MeasureWhitespace(IGraphics g, Font f);
-
-
+        
 
 
 

@@ -293,7 +293,6 @@ namespace HtmlRenderer.Boxes
                 }
             }
         }
-
         internal void PaintDecoration(IGraphics g, RectangleF rectangle, bool isFirst, bool isLast)
         {
             float y = 0f;
@@ -307,6 +306,10 @@ namespace HtmlRenderer.Boxes
                         //var h = g.MeasureString(" ", ActualFont).Height;
                         //float desc = FontsUtils.GetDescentPx(ActualFont);
                         //y = (float)Math.Round(rectangle.Top + h - desc + 0.5);
+                        FontInfo fontInfo = g.GetFontInfo(ActualFont);
+                        var h = fontInfo.LineHeight;
+                        float desc = fontInfo.DescentPx;
+                        y = (float)Math.Round(rectangle.Top + h - desc  );
 
                     } break;
                 case Css.CssTextDecoration.LineThrough:
@@ -320,7 +323,8 @@ namespace HtmlRenderer.Boxes
             }
 
 
-            y -= ActualPaddingBottom - ActualBorderBottomWidth;
+            //y -= ActualPaddingBottom - ActualBorderBottomWidth;
+            y -= (ActualPaddingBottom + ActualBorderBottomWidth);
 
             float x1 = rectangle.X;
             if (isFirst)

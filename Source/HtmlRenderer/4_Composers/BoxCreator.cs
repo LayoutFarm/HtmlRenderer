@@ -151,14 +151,14 @@ namespace HtmlRenderer.Composers
         /// Create new css block box.
         /// </summary>
         /// <returns>the new block box</returns>
-        internal static CssBox CreateRootBlock(IFontPool fontPool)
+        internal static CssBox CreateRootBlock(IFonts iFonts)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
             var box = new CssBox(null, null, spec);
             //------------------------------------
-            box.ReEvaluateFont(fontPool, 10);
+            box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
             return box;
         }

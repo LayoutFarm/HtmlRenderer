@@ -531,6 +531,23 @@ namespace HtmlRenderer
             }
         }
 
+        //=====================================================
+        public FontInfo GetFontInfo(Font f)
+        {
+            return FontsUtils.GetCachedFont(f);
+        }
+        public FontInfo GetFontInfo(string fontname, float fsize, FontStyle st)
+        {
+            return FontsUtils.GetCachedFont(fontname, fsize, st);
+        }
+        public float MeasureWhitespace(Font f)
+        {
+            return FontsUtils.MeasureWhitespace(this, f);
+        }
+
         #endregion
     }
+
+    
+
 }

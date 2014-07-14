@@ -258,7 +258,7 @@ namespace HtmlRenderer.Boxes
                 float leftMostSpace = 0, rightMostSpace = 0;
                 int totalChildCount = splitableBox.ChildCount;
 
-                var fontPool = lay.GetFontPool();
+                var fontPool = lay.Gfx;
                 foreach (CssBox b in splitableBox.GetChildBoxIter())
                 {
                     if (b.IsAbsolutePosition())

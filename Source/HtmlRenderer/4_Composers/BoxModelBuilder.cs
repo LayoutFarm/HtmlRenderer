@@ -442,7 +442,7 @@ namespace HtmlRenderer.Composers
 
             int limLast = childCount - 1;
 
-            
+
             //default
             bool isLineFormattingContext = true;
 
@@ -491,7 +491,7 @@ namespace HtmlRenderer.Composers
                                 continue;
                             }
 
-                            CssBox box = BoxCreator.CreateBox(parentBox, childElement); 
+                            CssBox box = BoxCreator.CreateBox(parentBox, childElement);
                             newBox++;
 
                             ValidateParentChildRelationship(parentBox, box, ref isLineFormattingContext);
@@ -518,6 +518,7 @@ namespace HtmlRenderer.Composers
         /// <returns>the root of the generated tree</returns>
         public CssBox ParseAndBuildBoxTree(
             string html,
+            IFonts iFonts,
             HtmlContainer htmlContainer,
             CssActiveSheet cssData)
         {
@@ -552,7 +553,7 @@ namespace HtmlRenderer.Composers
             //ApplyStyleSheetTopDownForBridgeElement(bridgeRoot, null, activeCssTemplate);
             //----------------------------------------------------------------
             //5. box generation                 
-            rootBox = BoxCreator.CreateRootBlock(htmlContainer);
+            rootBox = BoxCreator.CreateRootBlock(iFonts);
             //});
 
             // var t3 = dbugCounter.Snap(() =>

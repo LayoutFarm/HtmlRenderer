@@ -35,14 +35,10 @@ namespace HtmlRenderer.Boxes
         readonly CssBox _tableBox;
 
         readonly List<CssBox> _allRowBoxes = new List<CssBox>();
-        IFontPool _fontPool;
+        IFonts _tmpIFonts;
         TableColumnCollection columnCollection;
-
         const int MAX_COL_AT_THIS_VERSION = 20;
-
         #endregion
-
-
         /// <summary>
         /// Init.
         /// </summary>
@@ -61,9 +57,9 @@ namespace HtmlRenderer.Boxes
         public static void PerformLayout(CssBox tableBox, LayoutVisitor lay)
         {
             var table = new CssTableLayoutEngine(tableBox);
-            table._fontPool = lay.GetFontPool();
+            table._tmpIFonts = lay.Gfx;
             table.Layout(lay);
-            table._fontPool = null;
+            table._tmpIFonts = null;
         }
 
 
@@ -116,7 +112,7 @@ namespace HtmlRenderer.Boxes
             {
                 var latestCB = lay.LatestContainingBlock;
                 float box_fontsize = box.ActualFont.Size;
-                var fontPool = lay.GetFontPool();
+                var fontPool = lay.Gfx;
                 foreach (var childBox in box.GetChildBoxIter())
                 {
                     childBox.ReEvaluateFont(fontPool, box_fontsize);
@@ -232,6 +228,7 @@ namespace HtmlRenderer.Boxes
             {
                 int rIndex = 0;
                 int bodyRowCount = bodyrows.Count;
+                var ifonts = _tmpIFonts;
                 foreach (CssBox row in bodyrows)
                 {
                     //'row' loop 
@@ -255,7 +252,7 @@ namespace HtmlRenderer.Boxes
                                     lowerRow.InsertChild(insertAt,
                                         new CssVerticalCellSpacingBox(
                                             _tableBox,
-                                            _fontPool,
+                                            ifonts,
                                             cnode, rIndex));
                                 }
                             }
@@ -1034,6 +1031,7 @@ namespace HtmlRenderer.Boxes
             int col_count = this.columnCollection.Count;
             if (onlyNans)
             {
+                var ifonts = _tmpIFonts;
                 foreach (CssBox row in _allRowBoxes)
                 {
                     int gridIndex = 0;
@@ -1048,7 +1046,7 @@ namespace HtmlRenderer.Boxes
                             CalculateMinMaxWidth(
                                 cellBox,
                                 _tableBox,
-                                this._fontPool,
+                                ifonts,
                                 out minWidth,
                                 out maxWidth);
 
@@ -1075,6 +1073,7 @@ namespace HtmlRenderer.Boxes
             }
             else
             {
+                var ifonts = _tmpIFonts;
                 foreach (CssBox row in _allRowBoxes)
                 {
                     int gridIndex = 0;
@@ -1082,7 +1081,7 @@ namespace HtmlRenderer.Boxes
                     {
                         int cIndex = gridIndex < col_count ? gridIndex : col_count - 1;
                         float minWidth, maxWidth;
-                        CalculateMinMaxWidth(cellBox, _tableBox, _fontPool, out minWidth, out maxWidth);
+                        CalculateMinMaxWidth(cellBox, _tableBox, ifonts, out minWidth, out maxWidth);
                         int colSpan = cellBox.ColSpan;
                         if (colSpan == 1)
                         {
@@ -1113,7 +1112,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="maxWidth">The total width the content can take without line wrapping (with padding).</param>
         static void CalculateMinMaxWidth(CssBox box,
             CssBox cbBox,
-            IFontPool fontPool,
+            HtmlRenderer.Drawing.IFonts iFonts,
             out float minWidth, out float maxWidth)
         {
 
@@ -1122,8 +1121,8 @@ namespace HtmlRenderer.Boxes
             float paddingSum = 0f;
             float marginSum = 0f;
 
-            if (box.NeedComputedValueEvaluation) { box.ReEvaluateComputedValues(fontPool, cbBox); }
-            CalculateMinMaxSumWords(box, cbBox, fontPool, ref min, ref maxSum, ref paddingSum, ref marginSum);
+            if (box.NeedComputedValueEvaluation) { box.ReEvaluateComputedValues(iFonts, cbBox); }
+            CalculateMinMaxSumWords(box, cbBox, iFonts, ref min, ref maxSum, ref paddingSum, ref marginSum);
 
             maxWidth = paddingSum + maxSum;
             minWidth = paddingSum + (min < CssBoxConstConfig.BOX_MAX_RIGHT ? min : 0);
@@ -1141,14 +1140,13 @@ namespace HtmlRenderer.Boxes
         static void CalculateMinMaxSumWords(
             CssBox box,
             CssBox cbBox,
-            IFontPool fontPool,
+            IFonts iFonts,
             ref float min,
             ref float maxSum,
             ref float paddingSum,
             ref float marginSum)
         {
-            //recursive
-
+            //recursive 
             float? oldSum = null;
 
             // not inline (block) boxes start a new line so we need to reset the max sum 
@@ -1189,13 +1187,13 @@ namespace HtmlRenderer.Boxes
                     foreach (CssBox childBox in box.GetChildBoxIter())
                     {
 
-                        if (childBox.NeedComputedValueEvaluation) { childBox.ReEvaluateComputedValues(fontPool, box); }
+                        if (childBox.NeedComputedValueEvaluation) { childBox.ReEvaluateComputedValues(iFonts, box); }
 
                         float msum = childBox.ActualMarginLeft + childBox.ActualMarginRight;
 
                         marginSum += msum;
                         //recursive                        
-                        CalculateMinMaxSumWords(childBox, box, fontPool, ref min, ref maxSum, ref paddingSum, ref marginSum);
+                        CalculateMinMaxSumWords(childBox, box, iFonts, ref min, ref maxSum, ref paddingSum, ref marginSum);
                         marginSum -= msum;
                     }
                 }
@@ -1204,12 +1202,12 @@ namespace HtmlRenderer.Boxes
                     foreach (CssBox childBox in box.GetChildBoxIter())
                     {
 
-                        if (childBox.NeedComputedValueEvaluation) { childBox.ReEvaluateComputedValues(fontPool, cbBox); }
+                        if (childBox.NeedComputedValueEvaluation) { childBox.ReEvaluateComputedValues(iFonts, cbBox); }
 
                         float msum = childBox.ActualMarginLeft + childBox.ActualMarginRight;
                         marginSum += msum;
                         //recursive
-                        CalculateMinMaxSumWords(childBox, cbBox, fontPool, ref min, ref maxSum, ref paddingSum, ref marginSum);
+                        CalculateMinMaxSumWords(childBox, cbBox, iFonts, ref min, ref maxSum, ref paddingSum, ref marginSum);
 
                         marginSum -= msum;
                     }

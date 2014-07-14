@@ -621,7 +621,7 @@ namespace HtmlRenderer.Css
                 return this._backgroundFeats.BackgroundColor;
             }
         }
-        internal FontInfo GetFont(IFontPool fontPool, float parentFontSize)
+        internal FontInfo GetFont(HtmlRenderer.Drawing.IFonts fontPool, float parentFontSize)
         {
 
             //---------------------------------------
