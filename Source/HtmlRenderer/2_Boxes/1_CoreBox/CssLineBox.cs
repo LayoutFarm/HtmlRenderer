@@ -125,7 +125,7 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// handle part of cssBox in this line, handle task about bg/border/bounday of cssBox owner of strip        
         /// </summary>
-        readonly List<PartialBoxStrip> _bottomUpBoxStrips = new List<PartialBoxStrip>();
+        PartialBoxStrip[] _bottomUpBoxStrips;
         internal LinkedListNode<CssLineBox> linkedNode;
 
         float _cacheContentWidth;
@@ -198,7 +198,7 @@ namespace HtmlRenderer.Boxes
             //***
             var myruns = this._runs;
             CssBox lineOwner = this._ownerBox;
-            List<PartialBoxStrip> totalStrips = this._bottomUpBoxStrips;
+            List<PartialBoxStrip> tmpStrips = lay.GetReadyStripList();
             //--------------------------------------------------------------------------- 
             //first level 
             Dictionary<CssBox, PartialBoxStrip> unqiueStrips = lay.GetReadyStripDic();
@@ -218,18 +218,21 @@ namespace HtmlRenderer.Boxes
                 }
                 //-------------
                 //first level data
-                RegisterStripPart(run.OwnerBox, run.Left, run.Top, run.Right, run.Bottom, totalStrips, unqiueStrips);
+                RegisterStripPart(run.OwnerBox, run.Left, run.Top, run.Right, run.Bottom, tmpStrips, unqiueStrips);
             }
 
             //---------------------------------------------------------------------------
             //other step to upper layer, until no new strip     
             int newStripIndex = 0;
-            for (int numNewStripCreate = totalStrips.Count; numNewStripCreate > 0; newStripIndex += numNewStripCreate)
+            for (int numNewStripCreate = tmpStrips.Count; numNewStripCreate > 0; newStripIndex += numNewStripCreate)
             {
-                numNewStripCreate = StepUpRegisterStrips(unqiueStrips, lineOwner, totalStrips, newStripIndex);
+                numNewStripCreate = StepUpRegisterStrips(unqiueStrips, lineOwner, tmpStrips, newStripIndex);
             }
-            lay.ReleaseStripDic(unqiueStrips);
 
+            this._bottomUpBoxStrips = tmpStrips.ToArray();
+
+            lay.ReleaseStripList(tmpStrips);
+            lay.ReleaseStripDic(unqiueStrips);
             //=============================================================
             //part 2: Calculate 
             //=============================================================             
@@ -279,8 +282,11 @@ namespace HtmlRenderer.Boxes
             //Important notes on http://www.w3.org/TR/CSS21/tables.html#height-layout
             //iterate from rectstrip
             //In a single LineBox ,  CssBox:RectStrip => 1:1 relation     
-
-            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
+            if (this._bottomUpBoxStrips == null)
+            {
+                return;
+            }
+            for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
                 var rstrip = _bottomUpBoxStrips[i];
                 var rstripOwnerBox = rstrip.owner;
@@ -309,7 +315,7 @@ namespace HtmlRenderer.Boxes
         }
         public IEnumerable<float> GetAreaStripTopPosIter()
         {
-            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
+            for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
                 yield return _bottomUpBoxStrips[i].Top;
             }
@@ -523,7 +529,7 @@ namespace HtmlRenderer.Boxes
         {
             //iterate each strip
 
-            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
+            for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
                 var stripOwner = strip.owner;
@@ -549,7 +555,7 @@ namespace HtmlRenderer.Boxes
         internal void PaintDecoration(HtmlRenderer.Drawing.IGraphics g, PaintVisitor p)
         {
 
-            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
+            for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
                 CssBox ownerBox = strip.owner;

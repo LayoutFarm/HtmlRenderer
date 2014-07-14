@@ -12,8 +12,16 @@ namespace HtmlRenderer.Boxes
     {
         HtmlContainer htmlContainer;
         float totalMarginLeftAndRight;
+
+
         Queue<Dictionary<CssBox, PartialBoxStrip>> dicStripPool;
+        Queue<List<PartialBoxStrip>> listStripPool;
+
         Dictionary<CssBox, PartialBoxStrip> readyDicStrip = new Dictionary<CssBox, PartialBoxStrip>();
+        List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>();
+
+
+
         internal LayoutVisitor(IGraphics gfx, HtmlContainer htmlContainer)
         {
             this.Gfx = gfx;
@@ -95,9 +103,9 @@ namespace HtmlRenderer.Boxes
         }
         internal float MeasureStringWidth(char[] buffer, int startIndex, int len, System.Drawing.Font f)
         {
-            return this.Gfx.MeasureString2(buffer, startIndex, len, f).Width; 
+            return this.Gfx.MeasureString2(buffer, startIndex, len, f).Width;
         }
-        
+
         //---------------------------------------------------------------
         internal Dictionary<CssBox, PartialBoxStrip> GetReadyStripDic()
         {
@@ -137,6 +145,45 @@ namespace HtmlRenderer.Boxes
 
 
                 this.dicStripPool.Enqueue(dic);
+            }
+        }
+        //---------------------------------------------------------------
+        internal List<PartialBoxStrip> GetReadyStripList()
+        {
+            if (readyListStrip == null)
+            {
+                if (this.dicStripPool == null || this.dicStripPool.Count == 0)
+                {
+                    return new List<PartialBoxStrip>();
+                }
+                else
+                {
+                    return this.listStripPool.Dequeue();
+                }
+            }
+            else
+            {
+                var tmpReadyListStrip = this.readyListStrip;
+                this.readyListStrip = null;
+                return tmpReadyListStrip;
+            }
+        }
+        internal void ReleaseStripList(List<PartialBoxStrip> list)
+        {
+            //clear before add to pool
+            list.Clear();
+
+            if (this.readyListStrip == null)
+            {
+                this.readyListStrip = list;
+            }
+            else
+            {
+                if (this.listStripPool == null)
+                {
+                    this.listStripPool = new Queue<List<PartialBoxStrip>>();
+                }
+                this.listStripPool.Enqueue(list);
             }
         }
     }
