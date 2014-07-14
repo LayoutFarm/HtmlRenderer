@@ -311,22 +311,25 @@ namespace HtmlRenderer.Drawing
 
                 FontFamily ff = newFont.FontFamily;
 
-                int linespace = ff.GetLineSpacing(newFont.Style);
+                int lineSpacing = ff.GetLineSpacing(newFont.Style);
                 //font height is expensive call ****
-                int lineSpacing = newFont.Height;
+                int fontHeight = newFont.Height;
 
                 //convert descent 
-                int fontEmHeight = newFont.FontFamily.GetEmHeight(newFont.Style);
 
-                float ascentPx = newFont.Size * newFont.FontFamily.GetCellAscent(newFont.Style) / fontEmHeight;
-                float descentPx = newFont.FontFamily.GetCellDescent(newFont.Style) * newFont.Size / fontEmHeight;
+                float fontSize = newFont.Size;
+                int fontEmHeight = newFont.FontFamily.GetEmHeight(newFont.Style);
+                int fontAscent = newFont.FontFamily.GetCellAscent(newFont.Style);
+                float descent = newFont.FontFamily.GetCellDescent(newFont.Style);
 
                 fontInfo = new FontInfo(newFont,
-                    lineSpacing,
-                    ascentPx,
-                    descentPx,
-                    lineSpacing * newFont.FontFamily.GetCellAscent(newFont.Style) / linespace);
-                
+                    fontHeight,
+                    (fontAscent * fontSize / fontEmHeight),
+                    (descent * fontSize / fontEmHeight),
+                    fontHeight * fontAscent / lineSpacing);
+
+                //lineSpacing * newFont.FontFamily.GetCellAscent(newFont.Style) / linespace);
+
 
                 //1. info
                 _fontInfoCache.Add(newFont, fontInfo);
@@ -334,7 +337,7 @@ namespace HtmlRenderer.Drawing
 
                 _fontsUnmanagedCache[newFont] = newFont.ToHfont();
                 //2. line cache
-                _fontHeightCache.Add(newFont, lineSpacing);
+                _fontHeightCache.Add(newFont, fontHeight);
 
                 return fontInfo;
             }
@@ -344,5 +347,5 @@ namespace HtmlRenderer.Drawing
     }
 
 
-  
+
 }

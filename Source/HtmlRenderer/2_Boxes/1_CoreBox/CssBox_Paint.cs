@@ -27,8 +27,7 @@ namespace HtmlRenderer.Boxes
 #if DEBUG
         public void dbugPaint(PaintVisitor p, RectangleF r)
         {
-            //  return;
-
+            //return; 
             var htmlE = CssBox.debugGetController(this);
             if (htmlE == null)
             {
@@ -309,7 +308,7 @@ namespace HtmlRenderer.Boxes
                         FontInfo fontInfo = g.GetFontInfo(ActualFont);
                         var h = fontInfo.LineHeight;
                         float desc = fontInfo.DescentPx;
-                        y = (float)Math.Round(rectangle.Top + h - desc  );
+                        y = (float)Math.Round(rectangle.Top + h - desc);
 
                     } break;
                 case Css.CssTextDecoration.LineThrough:

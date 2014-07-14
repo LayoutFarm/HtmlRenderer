@@ -259,8 +259,26 @@ namespace HtmlRenderer.Boxes
             return false;
         }
 
-        public float CalculateTotalBoxBaseLine()
+        public float CalculateTotalBoxBaseLine(LayoutVisitor lay)
         {
+
+            //not correct !! 
+            float maxRunHeight = 0;
+            CssRun maxRun = null;
+            for (int i = this._runs.Count - 1; i >= 0; --i)
+            {
+                var run = this._runs[i];
+                if (run.Height > maxRunHeight)
+                {
+                    maxRun = run;
+                    maxRunHeight = run.Height;
+                }
+            }
+            if (maxRun != null)
+            {
+                var fontInfo = lay.GetFontInfo(maxRun.OwnerBox.ActualFont); 
+                return fontInfo.BaseLine;
+            }
             return 0;
             //int j = this._runs.Count;
             //for (int i = this._runs.Count - 1; i >= 0; --i)
@@ -281,37 +299,46 @@ namespace HtmlRenderer.Boxes
         {
             //Important notes on http://www.w3.org/TR/CSS21/tables.html#height-layout
             //iterate from rectstrip
-            //In a single LineBox ,  CssBox:RectStrip => 1:1 relation     
-            if (this._bottomUpBoxStrips == null)
+            //In a single LineBox ,  CssBox:RectStrip => 1:1 relation   
+
+
+            for (int i = this._runs.Count - 1; i >= 0; --i)
             {
-                return;
+                var run = this._runs[i];
+                //adjust base line
+                run.SetLocation(run.Left, baseline);
             }
-            for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
-            {
-                var rstrip = _bottomUpBoxStrips[i];
-                var rstripOwnerBox = rstrip.owner;
-                switch (rstripOwnerBox.VerticalAlign)
-                {
-                    case Css.CssVerticalAlign.Sub:
-                        {
-                            this.SetBaseLine(rstripOwnerBox, baseline + rstrip.Height * .2f);
-                        } break;
-                    case Css.CssVerticalAlign.Super:
-                        {
-                            this.SetBaseLine(rstripOwnerBox, baseline - rstrip.Height * .2f);
-                        } break;
-                    case Css.CssVerticalAlign.TextTop:
-                    case Css.CssVerticalAlign.TextBottom:
-                    case Css.CssVerticalAlign.Top:
-                    case Css.CssVerticalAlign.Bottom:
-                    case Css.CssVerticalAlign.Middle:
-                        break;
-                    default:
-                        //case: baseline
-                        this.SetBaseLine(rstripOwnerBox, baseline);
-                        break;
-                }
-            }
+
+            //if (this._bottomUpBoxStrips == null)
+            //{
+            //    return;
+            //}
+            //for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
+            //{
+            //    var rstrip = _bottomUpBoxStrips[i];
+            //    var rstripOwnerBox = rstrip.owner;
+            //    switch (rstripOwnerBox.VerticalAlign)
+            //    {
+            //        case Css.CssVerticalAlign.Sub:
+            //            {
+            //                this.SetBaseLine(rstripOwnerBox, baseline + rstrip.Height * .2f);
+            //            } break;
+            //        case Css.CssVerticalAlign.Super:
+            //            {
+            //                this.SetBaseLine(rstripOwnerBox, baseline - rstrip.Height * .2f);
+            //            } break;
+            //        case Css.CssVerticalAlign.TextTop:
+            //        case Css.CssVerticalAlign.TextBottom:
+            //        case Css.CssVerticalAlign.Top:
+            //        case Css.CssVerticalAlign.Bottom:
+            //        case Css.CssVerticalAlign.Middle:
+            //            break;
+            //        default:
+            //            //case: baseline
+            //            this.SetBaseLine(rstripOwnerBox, baseline);
+            //            break;
+            //    }
+            //}
         }
         public IEnumerable<float> GetAreaStripTopPosIter()
         {
@@ -474,9 +501,8 @@ namespace HtmlRenderer.Boxes
 
         internal void dbugPaintRuns(HtmlRenderer.Drawing.IGraphics g, PaintVisitor p)
         {
-
-
-
+             
+            //return;
             //linebox  
             float x1 = 0;
             float y1 = 0;

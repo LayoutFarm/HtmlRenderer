@@ -162,7 +162,7 @@ namespace HtmlRenderer.Boxes
                 foreach (CssLineBox linebox in hostBlock.GetLineBoxIter())
                 {
 
-                    ApplyAlignment(linebox, textAlign);
+                    ApplyAlignment(linebox, textAlign, lay);
                     ApplyRightToLeft(linebox); //***
 
                     linebox.CloseLine(lay); //*** 
@@ -177,7 +177,7 @@ namespace HtmlRenderer.Boxes
                 CssTextAlign textAlign = hostBlock.CssTextAlign;
                 foreach (CssLineBox linebox in hostBlock.GetLineBoxIter())
                 {
-                    ApplyAlignment(linebox, textAlign);
+                    ApplyAlignment(linebox, textAlign, lay);
 
                     linebox.CloseLine(lay); //***
 
@@ -494,8 +494,9 @@ namespace HtmlRenderer.Boxes
         /// </summary>
         /// <param name="g"></param>
         /// <param name="lineBox"></param> 
-        static void ApplyAlignment(CssLineBox lineBox, CssTextAlign textAlign)
+        static void ApplyAlignment(CssLineBox lineBox, CssTextAlign textAlign, LayoutVisitor lay)
         {
+          
             switch (textAlign)
             {
                 case CssTextAlign.Right:
@@ -511,8 +512,9 @@ namespace HtmlRenderer.Boxes
                     break;
             }
             //--------------------------------------------- 
-            // Applies vertical alignment to the linebox     
-            lineBox.ApplyBaseline(lineBox.CalculateTotalBoxBaseLine());
+            // Applies vertical alignment to the linebox 
+            return; 
+            lineBox.ApplyBaseline(lineBox.CalculateTotalBoxBaseLine(lay));
             //---------------------------------------------  
         }
 

@@ -59,6 +59,8 @@ namespace HtmlRenderer
 
         public HtmlContainerImpl()
         {
+
+            this.IsSelectionEnabled = true;
         }
         protected override void RequestRefresh(bool layout)
         {
