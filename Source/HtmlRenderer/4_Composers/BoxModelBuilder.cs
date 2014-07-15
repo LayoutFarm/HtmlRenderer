@@ -49,7 +49,7 @@ namespace HtmlRenderer.Composers
         }
 
         //-----------------------------------------------------------------
-        void PrepareBridgeTree(HtmlContainer container,
+        static void PrepareBridgeTree(HtmlContainer container,
              WebDom.HtmlDocument htmldoc,
              ActiveCssTemplate activeCssTemplate)
         {
@@ -277,15 +277,15 @@ namespace HtmlRenderer.Composers
                                         return;
                                     }
                                     newBox++;
+
                                     CssBox box = BoxCreator.CreateBox(parentBox, elem);
+                                    elem.SetPrinicalBox(box);
                                     //----------
                                     bool isInlineFormattingContext = true;
                                     ValidateParentChildRelationship(box, ref parentBox, ref isInlineFormattingContext);
-                                    //----------
-
-
-
+                                    //---------- 
                                     GenerateCssBoxes(elem, box);
+
                                 } break;
                         }
                     } break;
@@ -351,6 +351,8 @@ namespace HtmlRenderer.Composers
 
                             newBox++;
                             CssBox box = BoxCreator.CreateBox(parentBox, childElement);
+                            childElement.SetPrinicalBox(box);
+
                             ValidateParentChildRelationship(box, ref parentBox, ref isLineFormattingContext);
                             GenerateCssBoxes(childElement, box);
                         } break;
@@ -361,7 +363,7 @@ namespace HtmlRenderer.Composers
             }
         }
         static void CreateChildBoxesRespectNewLine(BridgeHtmlElement parentElement, CssBox parentBox)
-        {   
+        {
             int newBox = 0;
             int childCount = parentElement.ChildrenCount;
             bool isLineFormattingContext = false;
@@ -398,7 +400,7 @@ namespace HtmlRenderer.Composers
 
 
                             CssBox box = BoxCreator.CreateBox(parentBox, childElement);
-
+                            childElement.SetPrinicalBox(box);
                             ValidateParentChildRelationship(box, ref parentBox, ref isLineFormattingContext);
 
                             GenerateCssBoxes(childElement, box);
@@ -452,11 +454,11 @@ namespace HtmlRenderer.Composers
                                 continue;
                             }
 
-                            CssBox box = BoxCreator.CreateBox(currentParentBox, childElement);
+                            CssBox box = BoxCreator.CreateBox(currentParentBox, childElement); 
+                            childElement.SetPrinicalBox(box);
                             //current parent may change after validation process                            
+                            
                             ValidateParentChildRelationship(box, ref currentParentBox, ref isLineFormattingContext);
-
-
                             GenerateCssBoxes(childElement, box);
 
                         } break;
@@ -464,8 +466,7 @@ namespace HtmlRenderer.Composers
                         {
                         } break;
                 }
-            }
-
+            } 
         }
 
 
