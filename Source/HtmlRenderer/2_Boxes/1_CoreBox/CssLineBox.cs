@@ -502,7 +502,7 @@ namespace HtmlRenderer.Boxes
         internal void dbugPaintRuns(HtmlRenderer.Drawing.IGraphics g, PaintVisitor p)
         {
              
-            //return;
+           // return;
             //linebox  
             float x1 = 0;
             float y1 = 0;
@@ -569,11 +569,11 @@ namespace HtmlRenderer.Boxes
                 CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
                 stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);
 
-                if (stripOwner.CssDisplay != Css.CssDisplay.TableCell
-                    && stripOwner.HasSomeVisibleBorder)
-                {
-                    p.PaintBorders(stripOwner, stripArea, isFirstLine, isLastLine);
-                }
+                //if (stripOwner.CssDisplay != Css.CssDisplay.TableCell
+                //    && stripOwner.HasSomeVisibleBorder)
+                //{
+                //    p.PaintBorders(stripOwner, stripArea, isFirstLine, isLastLine);
+                //}
 
             }
         }

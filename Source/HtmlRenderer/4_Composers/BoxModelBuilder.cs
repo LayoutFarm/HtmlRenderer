@@ -322,8 +322,14 @@ namespace HtmlRenderer.Composers
 
                     } break;
             }
+        } 
+        
+        enum CurrentLineFormattingContext
+        {
+            Init, //not sure if inline or block
+            Inline,
+            Block
         }
-
 
         static void CreateChildBoxesPreserveWhitespace(BridgeHtmlElement parentElement, CssBox parentBox)
         {
@@ -376,6 +382,7 @@ namespace HtmlRenderer.Composers
 
                             CssBox box = BoxCreator.CreateBox(parentBox, childElement);
                             childElement.SetPrinicalBox(box);
+
                             startNewAnonBlockBeforeUse = CorrectParentChildRelationship(box, parentBox, isLineFormattingContext);
                             GenerateCssBoxes(childElement, box);
                         } break;
