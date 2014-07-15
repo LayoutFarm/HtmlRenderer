@@ -143,8 +143,7 @@ namespace HtmlRenderer.ContentManagers
                 lock (outputListSync)
                 {
                     if (outputList.Count > 0)
-                    {
-
+                    { 
                     }
                 }
             }
