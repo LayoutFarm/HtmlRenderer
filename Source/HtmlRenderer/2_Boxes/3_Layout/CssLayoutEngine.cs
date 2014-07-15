@@ -31,11 +31,11 @@ namespace HtmlRenderer.Boxes
         /// Measure image box size by the width\height set on the box and the actual rendered image size.<br/>
         /// If no image exists for the box error icon will be set.
         /// </summary>
-        /// <param name="imageWord">the image word to measure</param>
-        public static void MeasureImageSize(CssImageRun imageWord, LayoutVisitor lay)
+        /// <param name="imgRun">the image word to measure</param>
+        public static void MeasureImageSize(CssImageRun imgRun, LayoutVisitor lay)
         {
-            var width = imageWord.OwnerBox.Width;
-            var height = imageWord.OwnerBox.Height;
+            var width = imgRun.OwnerBox.Width;
+            var height = imgRun.OwnerBox.Height;
 
             bool hasImageTagWidth = width.Number > 0 && width.UnitOrNames == CssUnitOrNames.Pixels;
             bool hasImageTagHeight = height.Number > 0 && height.UnitOrNames == CssUnitOrNames.Pixels;
@@ -43,24 +43,24 @@ namespace HtmlRenderer.Boxes
 
             if (hasImageTagWidth)
             {
-                imageWord.Width = width.Number;
+                imgRun.Width = width.Number;
             }
             else if (width.Number > 0 && width.IsPercentage)
             {
 
-                imageWord.Width = width.Number * lay.LatestContainingBlock.SizeWidth;
+                imgRun.Width = width.Number * lay.LatestContainingBlock.SizeWidth;
                 scaleImageHeight = true;
             }
-            else if (imageWord.Image != null)
+            else if (imgRun.HasUserImageContent)
             {
-                imageWord.Width = imageWord.ImageRectangle == Rectangle.Empty ? imageWord.Image.Width : imageWord.ImageRectangle.Width;
+                imgRun.Width = imgRun.ImageRectangle == Rectangle.Empty ? imgRun.OriginalImageWidth : imgRun.ImageRectangle.Width;
             }
             else
             {
-                imageWord.Width = hasImageTagHeight ? height.Number / 1.14f : 20;
+                imgRun.Width = hasImageTagHeight ? height.Number / 1.14f : 20;
             }
 
-            var maxWidth = imageWord.OwnerBox.MaxWidth;// new CssLength(imageWord.OwnerBox.MaxWidth);
+            var maxWidth = imgRun.OwnerBox.MaxWidth;// new CssLength(imageWord.OwnerBox.MaxWidth);
             if (maxWidth.Number > 0)
             {
                 float maxWidthVal = -1;
@@ -77,41 +77,41 @@ namespace HtmlRenderer.Boxes
                 }
 
 
-                if (maxWidthVal > -1 && imageWord.Width > maxWidthVal)
+                if (maxWidthVal > -1 && imgRun.Width > maxWidthVal)
                 {
-                    imageWord.Width = maxWidthVal;
+                    imgRun.Width = maxWidthVal;
                     scaleImageHeight = !hasImageTagHeight;
                 }
             }
 
             if (hasImageTagHeight)
             {
-                imageWord.Height = height.Number;
+                imgRun.Height = height.Number;
             }
-            else if (imageWord.Image != null)
+            else if (imgRun.HasUserImageContent)
             {
-                imageWord.Height = imageWord.ImageRectangle == Rectangle.Empty ? imageWord.Image.Height : imageWord.ImageRectangle.Height;
+                imgRun.Height = imgRun.ImageRectangle == Rectangle.Empty ? imgRun.OriginalImageHeight : imgRun.ImageRectangle.Height;
             }
             else
             {
-                imageWord.Height = imageWord.Width > 0 ? imageWord.Width * 1.14f : 22.8f;
+                imgRun.Height = imgRun.Width > 0 ? imgRun.Width * 1.14f : 22.8f;
             }
 
-            if (imageWord.Image != null)
+            if (imgRun.HasUserImageContent)
             {
                 // If only the width was set in the html tag, ratio the height.
                 if ((hasImageTagWidth && !hasImageTagHeight) || scaleImageHeight)
                 {
                     // Divide the given tag width with the actual image width, to get the ratio.
-                    float ratio = imageWord.Width / imageWord.Image.Width;
-                    imageWord.Height = imageWord.Image.Height * ratio;
+                    float ratio = imgRun.Width / imgRun.OriginalImageWidth;
+                    imgRun.Height = imgRun.OriginalImageHeight * ratio;
                 }
                 // If only the height was set in the html tag, ratio the width.
                 else if (hasImageTagHeight && !hasImageTagWidth)
                 {
                     // Divide the given tag height with the actual image height, to get the ratio.
-                    float ratio = imageWord.Height / imageWord.Image.Height;
-                    imageWord.Width = imageWord.Image.Width * ratio;
+                    float ratio = imgRun.Height / imgRun.OriginalImageHeight;
+                    imgRun.Width = imgRun.OriginalImageWidth * ratio;
                 }
             }
             //imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
@@ -496,7 +496,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="lineBox"></param> 
         static void ApplyAlignment(CssLineBox lineBox, CssTextAlign textAlign, LayoutVisitor lay)
         {
-            
+
             switch (textAlign)
             {
                 case CssTextAlign.Right:
@@ -513,7 +513,7 @@ namespace HtmlRenderer.Boxes
             }
             //--------------------------------------------- 
             // Applies vertical alignment to the linebox 
-            return; 
+            return;
             lineBox.ApplyBaseline(lineBox.CalculateTotalBoxBaseLine(lay));
             //---------------------------------------------  
         }

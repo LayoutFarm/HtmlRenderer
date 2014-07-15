@@ -17,6 +17,11 @@ namespace HtmlRenderer
 
     public class HtmlContainerImpl : HtmlContainer
     {
+
+
+        ImageContentManager imageContentManager;
+
+
         /// <summary>
         /// Handler for text selection in the html. 
         /// </summary>
@@ -50,17 +55,14 @@ namespace HtmlRenderer
         /// </summary>
         public event EventHandler<HtmlStylesheetLoadEventArgs> StylesheetLoadingRequest;
 
-        /// <summary>
-        /// Raised when an image is about to be loaded by file path or URI.<br/>
-        /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
-        /// </summary>
-        public event EventHandler<HtmlImageRequestEventArgs> ImageLoadingRequest;
+
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
 
         public HtmlContainerImpl()
         {
 
             this.IsSelectionEnabled = true;
+            imageContentManager = new ImageContentManager(this);
         }
         protected override void RequestRefresh(bool layout)
         {
@@ -72,10 +74,26 @@ namespace HtmlRenderer
         }
         protected override void OnRequestImage(ImageBinder binder, CssBox requestBox, bool _sync)
         {
-            if (this.ImageLoadingRequest != null)
+
+            //manage image loading 
+            if (imageContentManager != null)
             {
-                HtmlImageRequestEventArgs arg = new HtmlImageRequestEventArgs(binder);
-                this.ImageLoadingRequest(this, arg);
+                if (binder.State == ImageBinderState.Unload)
+                {
+                    imageContentManager.AddRequestImage(new ImageContentRequest(binder, requestBox));
+                }
+            }
+            //if (this.ImageLoadingRequest != null)
+            //{
+            //    HtmlImageRequestEventArgs arg = new HtmlImageRequestEventArgs(binder);
+            //    this.ImageLoadingRequest(this, arg);
+            //}
+        }
+        public ImageContentManager ImageContentMan
+        {
+            get
+            {
+                return this.imageContentManager;
             }
         }
         protected override void OnRequestStyleSheet(string hrefSource, out string stylesheet, out WebDom.CssActiveSheet stylesheetData)
@@ -435,7 +453,7 @@ namespace HtmlRenderer
         {
             get;
             set;
-        } 
-        
+        }
+
     }
 }

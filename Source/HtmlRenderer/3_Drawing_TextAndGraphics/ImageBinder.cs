@@ -23,17 +23,16 @@ namespace HtmlRenderer.Drawing
         {
             get { return this._imageSource; }
         }
-         
+
         public ImageBinderState State
         {
             get;
-            private set;
+            set;
         }
         public Image Image
         {
             get { return this._image; }
         }
-
         public void SetImage(Image image)
         {
             if (image != null)
@@ -42,6 +41,9 @@ namespace HtmlRenderer.Drawing
                 this.State = ImageBinderState.Loaded;
             }
         }
+
+
+
 
     }
     public enum ImageBinderState

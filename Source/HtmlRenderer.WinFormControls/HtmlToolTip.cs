@@ -90,7 +90,7 @@ namespace HtmlRenderer
             _htmlContainer.LinkClicked += OnLinkClicked;
             _htmlContainer.RenderError += OnRenderError;
             _htmlContainer.StylesheetLoadingRequest += OnStylesheetLoad;
-            _htmlContainer.ImageLoadingRequest += OnImageLoad;
+            _htmlContainer.ImageContentMan.ImageLoadingRequest += OnImageLoad;
 
             Popup += OnToolTipPopup;
             Draw += OnToolTipDraw;
@@ -364,7 +364,7 @@ namespace HtmlRenderer
                 _htmlContainer.LinkClicked -= OnLinkClicked;
                 _htmlContainer.RenderError -= OnRenderError;
                 _htmlContainer.StylesheetLoadingRequest -= OnStylesheetLoad;
-                _htmlContainer.ImageLoadingRequest -= OnImageLoad;
+                _htmlContainer.ImageContentMan.ImageLoadingRequest -= OnImageLoad;
                 _htmlContainer.Dispose();
                 _htmlContainer = null;
             }

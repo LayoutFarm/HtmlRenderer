@@ -79,7 +79,7 @@ namespace HtmlRenderer
     /// Raised when an error occurred during html rendering.<br/>
     /// </para>
     /// </remarks>
-    public abstract class HtmlContainer :  IDisposable
+    public abstract class HtmlContainer : IDisposable
     {
         #region Fields and Consts
         /// <summary>
@@ -166,13 +166,35 @@ namespace HtmlRenderer
         const int MAX_WIDTH = 99999;
 
 
-
+        //-----------------------------------------------------------
+        //controll task of this container
+        System.Timers.Timer timTask = new System.Timers.Timer();
+        List<ImageBinder> requestImageBinderUpdates = new List<ImageBinder>();
+        //-----------------------------------------------------------
         public HtmlContainer()
         {
-
+            timTask.Interval = 20;//20 ms task
+            timTask.Elapsed += new System.Timers.ElapsedEventHandler(timTask_Elapsed);
+            timTask.Enabled = true;
         }
 
+#if DEBUG
+        static int dd = 0;
+#endif
 
+        void timTask_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (requestImageBinderUpdates.Count > 0)
+            {
+                requestImageBinderUpdates.Clear();
+                this.RequestRefresh(false);
+
+#if DEBUG
+                dd++;
+                Console.WriteLine(dd);
+#endif
+            }
+        }
         /// <summary>
         /// the parsed stylesheet data used for handling the html
         /// </summary>
@@ -180,7 +202,10 @@ namespace HtmlRenderer
         {
             get { return _cssData; }
         }
-
+        public void AddRequestImageBinderUpdate(ImageBinder binder)
+        {
+            this.requestImageBinderUpdates.Add(binder);
+        }
 
         public HtmlRenderer.Boxes.SelectionRange SelectionRange
         {
@@ -559,7 +584,7 @@ namespace HtmlRenderer
             out string stylesheet,
             out WebDom.CssActiveSheet stylesheetData);
 
-        
+
 
 
 

@@ -112,7 +112,7 @@ namespace HtmlRenderer.Boxes
                 binder,
                 requestFrom,
                 false);
-
+            //--------------------------------------------------
             if (binder.State == ImageBinderState.Loaded)
             {   
                 Image img= binder.Image;
@@ -122,10 +122,8 @@ namespace HtmlRenderer.Boxes
                     imgRun.ImageRectangle = new Rectangle(
                         (int)imgRun.Left, (int)imgRun.Top,
                         img.Width, img.Height);
-                }
-                    
-            }
-
+                }                    
+            } 
         }
         //internal void RequestImage(ImageBinder binder, CssBox requestFrom, ReadyStateChangedHandler handler)
         //{
