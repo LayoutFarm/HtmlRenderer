@@ -7,8 +7,11 @@ using System.Drawing.Drawing2D;
 
 namespace HtmlRenderer.Drawing
 {
-    public interface IGraphics : IDisposable
-    {   
+
+
+
+    public interface IGraphics : IFonts, IDisposable
+    {
         /// <summary>
         /// Gets a <see cref="T:System.Drawing.RectangleF"/> structure that bounds the clipping region of this <see cref="T:System.Drawing.Graphics"/>.
         /// </summary>
@@ -121,5 +124,9 @@ namespace HtmlRenderer.Drawing
         float CanvasOriginX { get; }
         float CanvasOriginY { get; }
         void SetCanvasOrigin(float x, float y);
+        //--------------------------------------------------
+
     }
+
+
 }

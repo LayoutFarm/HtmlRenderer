@@ -39,22 +39,22 @@ namespace HtmlRenderer.Composers
         /// Parses the source html to css boxes tree structure.
         /// </summary>
         /// <param name="source">the html source to parse</param>
-        static WebDom.HtmlDocument ParseDocument(TextSnapshot snapSource)
+        static BridgeHtmlDocument ParseDocument(TextSnapshot snapSource)
         {
             var parser = new HtmlRenderer.WebDom.Parser.HtmlParser();
             //------------------------
-            parser.Parse(snapSource);
-            return parser.ResultHtmlDoc;
+            var blankHtmlDoc = new BridgeHtmlDocument();
+            parser.Parse(snapSource, blankHtmlDoc);
+            return blankHtmlDoc;
         }
 
-        static BrigeRootElement PrepareBridgeTree(HtmlContainer container,
-            WebDom.HtmlDocument htmldoc,
-            ActiveCssTemplate activeCssTemplate)
+        //-----------------------------------------------------------------
+        static void PrepareBridgeTree(HtmlContainer container,
+             WebDom.HtmlDocument htmldoc,
+             ActiveCssTemplate activeCssTemplate)
         {
             BrigeRootElement bridgeRoot = (BrigeRootElement)htmldoc.RootNode;
             PrepareChildNodes(container, bridgeRoot, activeCssTemplate);
-            return bridgeRoot;
-
         }
         static void PrepareChildNodes(
             HtmlContainer container,
@@ -96,26 +96,35 @@ namespace HtmlRenderer.Composers
                                     }
                                 case WellknownElementName.link:
                                     {
-                                        if (bridgeElement.GetAttributeValue("rel", string.Empty).Equals("stylesheet", StringComparison.CurrentCultureIgnoreCase))
+                                        //<link rel="stylesheet"
+                                        HtmlAttribute relAttr;
+                                        if (bridgeElement.TryGetAttribute(WellknownHtmlName.Rel, out relAttr)
+                                            && relAttr.Value.ToLower() == "stylesheet")
                                         {
-                                            //load  
+                                            //if found
                                             string stylesheet;
                                             CssActiveSheet stylesheetData;
 
-                                            HtmlContainer.RaiseRequestStyleSheet(
-                                                container, bridgeElement.GetAttributeValue("href", null),
+                                            HtmlAttribute hrefAttr;
+                                            if (bridgeElement.TryGetAttribute(WellknownHtmlName.Href, out hrefAttr))
+                                            {
+                                                HtmlContainer.RaiseRequestStyleSheet(
+                                                container,
+                                                hrefAttr.Value,
                                                 out stylesheet, out stylesheetData);
 
+                                                if (stylesheet != null)
+                                                {
+                                                    activeCssTemplate.LoadRawStyleElementContent(stylesheet);
+                                                }
+                                                else if (stylesheetData != null)
+                                                {
+                                                    activeCssTemplate.LoadAnotherStylesheet(stylesheetData);
+                                                }
 
-                                            if (stylesheet != null)
-                                            {
-                                                activeCssTemplate.LoadRawStyleElementContent(stylesheet);
-                                            }
-                                            else if (stylesheetData != null)
-                                            {
-                                                activeCssTemplate.LoadAnotherStylesheet(stylesheetData);
                                             }
                                         }
+
                                         continue;
                                     }
                             }
@@ -147,11 +156,12 @@ namespace HtmlRenderer.Composers
             }
         }
 
-        static void ValidateParentChildRelationship(CssBox parentBox,
-            CssBox newChildBox,
-            ref  bool isLineFormattingContext)
+        static void CorrectParentChildRelationship(
+             CssBox newChildBox,
+             ref CssBox parentBox,
+             ref bool isLineFormattingContext)
         {
-          
+
             int parentChildCount = parentBox.ChildCount;
 
             if (parentBox.IsBlock)
@@ -195,9 +205,7 @@ namespace HtmlRenderer.Composers
             {
                 //throw new NotSupportedException();
             }
-            //----------
-
-
+            //---------- 
             if (isLineFormattingContext)
             {
                 if (newChildBox.IsBlock)
@@ -215,9 +223,16 @@ namespace HtmlRenderer.Composers
                             a.SetNewParentBox(upperAnon);
                             a = tmp;
                             ncount--;
-                        } 
+                        }
+                        //------------------------
+                        //change parent box to new context 
+                        var lowerAnon = CssBox.CreateAnonBlock(parentBox);
+                        parentBox = lowerAnon;
+                        isLineFormattingContext = true;
+                        return;
+                        //------------------------
                     }
-
+                    //change context
                     isLineFormattingContext = false;
                 }
             }
@@ -229,7 +244,6 @@ namespace HtmlRenderer.Composers
                     var newAnonBlock = CssBox.CreateAnonBlock(parentBox);
                     newChildBox.SetNewParentBox(newAnonBlock);
                 }
-
             }
         }
 
@@ -263,51 +277,49 @@ namespace HtmlRenderer.Composers
                                         return;
                                     }
                                     newBox++;
+
                                     CssBox box = BoxCreator.CreateBox(parentBox, elem);
+                                    elem.SetPrinicalBox(box);
                                     //----------
                                     bool isInlineFormattingContext = true;
-                                    ValidateParentChildRelationship(parentBox, box, ref isInlineFormattingContext);
+                                    CorrectParentChildRelationship(box, ref parentBox, ref isInlineFormattingContext);
+                                    //---------- 
                                     GenerateCssBoxes(elem, box);
 
                                 } break;
                         }
-
                     } break;
                 default:
-                    {
-
-                        BoxSpec parentSpec = parentElement.Spec;
+                    {   
                         switch (parentElement.Spec.WhiteSpace)
                         {
                             case CssWhiteSpace.Pre:
                             case CssWhiteSpace.PreWrap:
-                                {
-                                    CreateChildBoxPreserveWhitespace(parentElement, parentBox);
+                                {   
+                                    CreateChildBoxesPreserveWhitespace(parentElement, parentBox);
 
                                 } break;
                             case CssWhiteSpace.PreLine:
                                 {
-                                    CreateChildBoxRespectNewLine(parentElement, parentBox);
+                                    CreateChildBoxesRespectNewLine(parentElement, parentBox);
 
                                 } break;
                             default:
                                 {
-                                    CreateChildBoxDefault(parentElement, parentBox);
+                                    CreateChildBoxesDefault(parentElement, parentBox);
                                 } break;
                         }
 
                     } break;
             }
         }
-        static void CreateChildBoxPreserveWhitespace(BridgeHtmlElement parentElement, CssBox parentBox)
+
+
+        static void CreateChildBoxesPreserveWhitespace(BridgeHtmlElement parentElement, CssBox parentBox)
         {
 
             int newBox = 0;
             int childCount = parentElement.ChildrenCount;
-
-            var parentSpecWhitespace = parentElement.Spec.WhiteSpace;
-            var parentSpecWordBreak = parentElement.Spec.WordBreak;
-
             //default
             bool isLineFormattingContext = true;
             for (int i = 0; i < childCount; ++i)
@@ -319,25 +331,10 @@ namespace HtmlRenderer.Composers
                         {
                             BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
                             //-------------------------------------------------------------------------------
-                            if (isLineFormattingContext)
-                            {
-                                CssBox anonText = CssBox.CreateAnonInline(parentBox);
-                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
-#if DEBUG
-                                //anonText.dbugAnonCreator = parentElement;
-#endif
-                            }
-                            else
-                            {
-                                CssBox anonText = CssBox.CreateAnonBlock(parentBox);
-                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
-                                //anonText.SetTextContent(contentRuns);
-                                //anonText.UpdateRunList();
-#if DEBUG
-                                // anonText.dbugAnonCreator = parentElement;
-#endif
+                            RunListHelper.AddRunList(
+                                isLineFormattingContext ? CssBox.CreateAnonInline(parentBox) : CssBox.CreateAnonBlock(parentBox),
+                                parentElement.Spec, textNode);
 
-                            }
 
                             newBox++;
                         } break;
@@ -353,7 +350,9 @@ namespace HtmlRenderer.Composers
 
                             newBox++;
                             CssBox box = BoxCreator.CreateBox(parentBox, childElement);
-                            ValidateParentChildRelationship(parentBox, box, ref isLineFormattingContext);
+                            childElement.SetPrinicalBox(box);
+
+                            CorrectParentChildRelationship(box, ref parentBox, ref isLineFormattingContext);
                             GenerateCssBoxes(childElement, box);
                         } break;
                     default:
@@ -362,13 +361,10 @@ namespace HtmlRenderer.Composers
                 }
             }
         }
-        static void CreateChildBoxRespectNewLine(BridgeHtmlElement parentElement, CssBox parentBox)
+        static void CreateChildBoxesRespectNewLine(BridgeHtmlElement parentElement, CssBox parentBox)
         {
             int newBox = 0;
             int childCount = parentElement.ChildrenCount;
-
-            var parentSpecWhitespace = parentElement.Spec.WhiteSpace;
-            var parentSpecWordBreak = parentElement.Spec.WordBreak;
             bool isLineFormattingContext = false;
             for (int i = 0; i < childCount; ++i)
             {
@@ -382,24 +378,10 @@ namespace HtmlRenderer.Composers
                             {
                                 continue;//skip
                             }
-                            if (isLineFormattingContext)
-                            {
-                                CssBox anonText = CssBox.CreateAnonInline(parentBox);
-                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
+                            RunListHelper.AddRunList(
+                                isLineFormattingContext ? CssBox.CreateAnonInline(parentBox) : CssBox.CreateAnonBlock(parentBox),
+                                parentElement.Spec, textNode);
 
-#if DEBUG
-                                //lanonText.dbugAnonCreator = parentElement;
-#endif
-                            }
-                            else
-                            {
-                                CssBox anonText = CssBox.CreateAnonInline(parentBox);
-                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
-#if DEBUG
-                                //anonText.dbugAnonCreator = parentElement;
-#endif
-
-                            }
                             newBox++;
                         } break;
                     case HtmlNodeType.OpenElement:
@@ -417,8 +399,8 @@ namespace HtmlRenderer.Composers
 
 
                             CssBox box = BoxCreator.CreateBox(parentBox, childElement);
-
-                            ValidateParentChildRelationship(parentBox, box, ref isLineFormattingContext);
+                            childElement.SetPrinicalBox(box);
+                            CorrectParentChildRelationship(box, ref parentBox, ref isLineFormattingContext);
 
                             GenerateCssBoxes(childElement, box);
 
@@ -432,18 +414,14 @@ namespace HtmlRenderer.Composers
             }
         }
 
-        static void CreateChildBoxDefault(BridgeHtmlElement parentElement, CssBox parentBox)
+        static void CreateChildBoxesDefault(BridgeHtmlElement parentElement, CssBox parentBox)
         {
-            int newBox = 0;
+
             int childCount = parentElement.ChildrenCount;
-
-            var parentSpecWhitespace = parentElement.Spec.WhiteSpace;
-            var parentSpecWordBreak = parentElement.Spec.WordBreak;
-
-            int limLast = childCount - 1;
 
             //default
             bool isLineFormattingContext = true;
+            CssBox currentParentBox = parentBox;
 
             for (int i = 0; i < childCount; ++i)
             {
@@ -459,26 +437,11 @@ namespace HtmlRenderer.Composers
                                 continue;//skip
                             }
                             //-------------------------------------------------------------------------------
-                            if (isLineFormattingContext)
-                            {
-                                CssBox anonText = CssBox.CreateAnonInline(parentBox);
-                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
+                            RunListHelper.AddRunList(
+                                isLineFormattingContext ? CssBox.CreateAnonInline(currentParentBox) : CssBox.CreateAnonBlock(currentParentBox),
+                                parentElement.Spec, textNode);
 
-#if DEBUG
-                                //anonText.dbugAnonCreator = parentElement;
-#endif
-                            }
-                            else
-                            {
-                                CssBox anonText = CssBox.CreateAnonBlock(parentBox);
-                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
-#if DEBUG
-                                //anonText.dbugAnonCreator = parentElement;
-#endif
 
-                            }
-
-                            newBox++;
                         } break;
                     case HtmlNodeType.ShortElement:
                     case HtmlNodeType.OpenElement:
@@ -490,12 +453,11 @@ namespace HtmlRenderer.Composers
                                 continue;
                             }
 
-                            newBox++;
-
-                            CssBox box = BoxCreator.CreateBox(parentBox, childElement);
-                            ValidateParentChildRelationship(parentBox, box, ref isLineFormattingContext);
-
-
+                            CssBox box = BoxCreator.CreateBox(currentParentBox, childElement); 
+                            childElement.SetPrinicalBox(box);
+                            //current parent may change after validation process                            
+                            
+                            CorrectParentChildRelationship(box, ref currentParentBox, ref isLineFormattingContext);
                             GenerateCssBoxes(childElement, box);
 
                         } break;
@@ -503,8 +465,7 @@ namespace HtmlRenderer.Composers
                         {
                         } break;
                 }
-            }
-
+            } 
         }
 
 
@@ -519,6 +480,7 @@ namespace HtmlRenderer.Composers
         /// <returns>the root of the generated tree</returns>
         public CssBox ParseAndBuildBoxTree(
             string html,
+            IFonts iFonts,
             HtmlContainer htmlContainer,
             CssActiveSheet cssData)
         {
@@ -529,7 +491,6 @@ namespace HtmlRenderer.Composers
             CssBox rootBox = null;
             WebDom.HtmlDocument htmldoc = null; ;
             ActiveCssTemplate activeCssTemplate = null;
-            BrigeRootElement bridgeRoot = null;
 
             //1. parse
             //var t0 = dbugCounter.Snap(() =>
@@ -546,19 +507,19 @@ namespace HtmlRenderer.Composers
             //2. active css template 
             // var t2 = dbugCounter.Snap(() =>
             // {
-            //3. create bridge root
-            bridgeRoot = PrepareBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
+            //3. prepare tree
+            PrepareBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
             //----------------------------------------------------------------  
             //4. assign styles 
             //ApplyStyleSheetTopDownForBridgeElement(bridgeRoot, null, activeCssTemplate);
             //----------------------------------------------------------------
             //5. box generation                 
-            rootBox = BoxCreator.CreateRootBlock();
+            rootBox = BoxCreator.CreateRootBlock(iFonts);
             //});
 
             // var t3 = dbugCounter.Snap(() =>
             // {
-            GenerateCssBoxes(bridgeRoot, rootBox);
+            GenerateCssBoxes((BrigeRootElement)htmldoc.RootNode, rootBox);
 #if DEBUG
             dbugTestParsePerformance(html);
 #endif
@@ -613,33 +574,44 @@ namespace HtmlRenderer.Composers
         static void ApplyStyleSheetForSingleBridgeElement(BridgeHtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
         {
             BoxSpec curSpec = element.Spec;
-
             //0.
             curSpec.InheritStylesFrom(parentSpec);
-
-            string classValue;
-            if (!element.TryGetAttribute("class", out classValue))
+            //--------------------------------
+            string classValue = null;
+            if (element.HasAttributeClass)
             {
-                classValue = null;
+                classValue = element.AttrClassValue;
             }
 
+            //--------------------------------
             //1. apply style  
-            activeCssTemplate.ApplyActiveTemplate(element.Name,
+            activeCssTemplate.ApplyActiveTemplate(element.LocalName,
                classValue,//class
                curSpec,
                parentSpec);
 
-            //-------------------------------------------------------------------                        
-            //2. specific id
-            if (element.HasAttribute("id"))
+            //-------------------------------------------------------------------  
+            //2. specific id 
+            if (element.HasAttributeElementId)
             {
-                throw new NotSupportedException();
-                //string id = element.GetAttributeValue("id", null);
-                //if (id != null)
-                //{   
-                //    //AssignStylesForElementId(box, activeCssTemplate, "#" + id);
-                //}
+                // element.ElementId;
+                activeCssTemplate.ApplyActiveTemplateForSpecificElementId(element);
+
             }
+            //if (element.TryGetAttribute(WellknownHtmlName.Id, out idValue))
+            //{
+
+            //    throw new NotSupportedException();
+            //}
+            //if (element.HasAttribute("id"))
+            //{
+            //    throw new NotSupportedException();
+            //    //string id = element.GetAttributeValue("id", null);
+            //    //if (id != null)
+            //    //{   
+            //    //    //AssignStylesForElementId(box, activeCssTemplate, "#" + id);
+            //    //}
+            //}
 
             //3. some html translate attributes
             AssignStylesFromTranslatedAttributesHTML5(element, activeCssTemplate);
@@ -648,9 +620,9 @@ namespace HtmlRenderer.Composers
             //4. a style attribute value
             string attrStyleValue;
 
-            if (element.TryGetAttribute("style", out attrStyleValue))
+            if (element.TryGetAttribute(WellknownHtmlName.Style, out attrStyleValue))
             {
-                var ruleset = activeCssTemplate.ParseCssBlock(element.Name, attrStyleValue);
+                var ruleset = activeCssTemplate.ParseCssBlock(element.LocalName, attrStyleValue);
                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                 {
                     SpecSetter.AssignPropertyValue(
@@ -711,6 +683,7 @@ namespace HtmlRenderer.Composers
         }
         private static void AssignStylesForElementId(CssBox box, ActiveCssTemplate activeCssTemplate, string elementId)
         {
+
             throw new NotSupportedException();
             //foreach (var ruleSet in cssData.GetCssRuleSetIter(elementId))
             //{
@@ -1093,9 +1066,9 @@ namespace HtmlRenderer.Composers
         {
             //some html attr contains css value  
 
-            if (tag.HasAttributes())
+            if (tag.AttributeCount > 0)
             {
-                foreach (IHtmlAttribute attr in tag.GetAttributeIter())
+                foreach (var attr in tag.GetAttributeIterForward())
                 {
                     //attr switch by wellknown property name 
                     switch ((WebDom.WellknownHtmlName)attr.LocalNameIndex)
@@ -1265,8 +1238,7 @@ namespace HtmlRenderer.Composers
 
                                 WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
                                           attr.Value.ToLower(), WebDom.CssValueHint.Iden);
-                                var spec = tag.Spec;
-                                spec.VerticalAlign = UserMapUtil.GetVerticalAlign(propValue);
+                                tag.Spec.VerticalAlign = UserMapUtil.GetVerticalAlign(propValue);
 
 
                             } break;
@@ -1292,7 +1264,7 @@ namespace HtmlRenderer.Composers
         /// </summary>
         /// <param name="htmlLength"></param>
         /// <returns></returns>
-        public static CssLength TranslateLength(IHtmlAttribute attr)
+        public static CssLength TranslateLength(HtmlAttribute attr)
         {
             return UserMapUtil.TranslateLength(attr.Value.ToLower());
 

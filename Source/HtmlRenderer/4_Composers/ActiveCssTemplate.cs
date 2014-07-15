@@ -14,6 +14,7 @@ namespace HtmlRenderer.Composers
     {
 
         CssActiveSheet activeSheet;
+
         WebDom.Parser.CssParser miniCssParser;
 
         bool isCloneOnce = false;
@@ -108,7 +109,7 @@ namespace HtmlRenderer.Composers
             if (!templatesForTagName.TryGetValue(key, out boxTemplate))
             {
                 //create template for specific key  
-                boxTemplate = new BoxSpec(); 
+                boxTemplate = new BoxSpec();
                 boxTemplate.CloneAllStylesFrom(currentBoxSpec);
 
                 currentBoxSpec.VersionNumber = parentSpec.VersionNumber;
@@ -174,6 +175,22 @@ namespace HtmlRenderer.Composers
             }
 
         }
+
+
+        internal void ApplyActiveTemplateForSpecificElementId(BridgeHtmlElement element)
+        {
+            var ruleset = activeSheet.GetRuleSetForId(element.AttrElementId);
+            if (ruleset != null)
+            {
+                //TODO:  implement this
+                throw new NotSupportedException();
+            }
+
+
+        }
+
+
+
         enum AssignPropertySource
         {
             Inherit,

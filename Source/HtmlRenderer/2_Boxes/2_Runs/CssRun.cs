@@ -73,7 +73,7 @@ namespace HtmlRenderer.Boxes
         protected CssRun(CssRunKind rectKind)
         {
 #if  DEBUG
-          
+
 #endif
             this._runKind = rectKind;
         }
@@ -126,7 +126,7 @@ namespace HtmlRenderer.Boxes
                 return this._runKind;
             }
         }
-   
+
 
         /// <summary>
         /// Gets or sets the bounds of the rectangle
@@ -257,13 +257,7 @@ namespace HtmlRenderer.Boxes
         }
 
 
-        /// <summary>
-        /// Gets or sets an offset to be considered in measurements
-        /// </summary>
-        public float LeftGlyphPadding
-        {
-            get { return OwnerBox != null ? FontsUtils.GetFontLeftPadding(OwnerBox.ActualFont) : 0; }
-        }
+      
 
         /// <summary>
         /// Represents this word for debugging purposes
@@ -277,17 +271,14 @@ namespace HtmlRenderer.Boxes
         }
 
         public void FindSelectionPoint(IGraphics g,
-            int offset, bool inclusive, out int selectionIndex,
+            int offset, out int selectionIndex,
             out int selectionOffset)
         {
 
             int charFit;
             int charFitWidth;
-            var maxWidth = offset + (inclusive ? 0 : 1.5f * this.LeftGlyphPadding);
+            var maxWidth = offset;
 
-            //return new string(ownerTextBuff, this._textStartIndex, this._textLength); 
-            //g.MeasureString(word.Text, font, maxWidth, out charFit, out charFitWidth);  
-            //between
             switch (this.Kind)
             {
                 case CssRunKind.Image:

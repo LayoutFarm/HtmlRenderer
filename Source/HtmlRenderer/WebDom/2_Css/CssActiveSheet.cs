@@ -209,7 +209,12 @@ namespace HtmlRenderer.WebDom
             this.rulesForClassName.TryGetValue(className, out found);
             return found;
         }
-
+        internal CssRuleSetGroup GetRuleSetForId(string elementId)
+        {
+            CssRuleSetGroup found;
+            this.rulesForElementId.TryGetValue(elementId, out found);             
+            return found;
+        }
         internal CssActiveSheet Clone(object newOwner)
         {
             CssActiveSheet newclone = new CssActiveSheet();

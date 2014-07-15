@@ -11,7 +11,7 @@ namespace HtmlRenderer.Composers
 
     public abstract class CustomCssBoxGenerator
     {
-        public abstract CssBox CreateCssBox(IHtmlElement tag, CssBox parentBox, BoxSpec spec);
+        public abstract CssBox CreateCssBox(object tag, CssBox parentBox, BoxSpec spec);
     }
 
     public static class BoxCreator
@@ -23,30 +23,30 @@ namespace HtmlRenderer.Composers
         {
             generators.Add(generator);
         }
-        static CssBox CreateCustomCssBox(IHtmlElement tag, CssBox parentBox, BoxSpec spec)
-        {
-            int j = generators.Count;
-            if (j > 0)
-            {
-                for (int i = j - 1; i >= 0; --i)
-                {
-                    var box = generators[i].CreateCssBox(tag, parentBox, spec);
-                    if (box != null)
-                    {
-                        return box;
-                    }
-                }
-            }
-            return null;
-        }
-         
+        //static CssBox CreateCustomCssBox(IHtmlElement tag, CssBox parentBox, BoxSpec spec)
+        //{
+        //    int j = generators.Count;
+        //    if (j > 0)
+        //    {
+        //        for (int i = j - 1; i >= 0; --i)
+        //        {
+        //            var box = generators[i].CreateCssBox(tag, parentBox, spec);
+        //            if (box != null)
+        //            {
+        //                return box;
+        //            }
+        //        }
+        //    }
+        //    return null;
+        //}
+
 
 
         static CssBox CreateImageBox(CssBox parent, BridgeHtmlElement childElement)
         {
             string imgsrc;
             ImageBinder imgBinder = null;
-            if (childElement.TryGetAttribute("src", out imgsrc))
+            if (childElement.TryGetAttribute(WellknownHtmlName.Src, out imgsrc))
             {
                 imgBinder = new ImageBinder(imgsrc);
             }
@@ -58,7 +58,7 @@ namespace HtmlRenderer.Composers
         }
 
         internal static CssBox CreateBox(CssBox parentBox, BridgeHtmlElement childElement)
-        {   
+        {
             CssBox newBox = null;
             //----------------------------------------- 
             //1. create new box
@@ -129,12 +129,12 @@ namespace HtmlRenderer.Composers
                         case CssDisplay.ListItem:
                             return ListItemBoxCreator.CreateListItemBox(parentBox, childElement);
                         default:
-                            return newBox = new CssBox(parentBox, childElement, childElement.Spec);
+                            return newBox = new CssBox(parentBox, childElement, childSpec);
                     }
             }
         }
 
-        static CssBox CreateCustomBox(CssBox parent, IHtmlElement tag, BoxSpec boxspec)
+        static CssBox CreateCustomBox(CssBox parent, object tag, BoxSpec boxspec)
         {
             for (int i = generators.Count - 1; i >= 0; --i)
             {
@@ -151,15 +151,14 @@ namespace HtmlRenderer.Composers
         /// Create new css block box.
         /// </summary>
         /// <returns>the new block box</returns>
-        internal static CssBox CreateRootBlock()
+        internal static CssBox CreateRootBlock(IFonts iFonts)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
-
             var box = new CssBox(null, null, spec);
             //------------------------------------
-            box.ReEvaluateFont(10);
+            box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
             return box;
         }
@@ -194,9 +193,10 @@ namespace HtmlRenderer.Composers
                 col = new CssBox(parent, childElement, childElement.Spec);
 
             }
+
             string spanValue;
             int spanNum = 1;//default
-            if (childElement.TryGetAttribute("span", out spanValue))
+            if (childElement.TryGetAttribute(WellknownHtmlName.Span, out spanValue))
             {
                 if (!int.TryParse(spanValue, out spanNum))
                 {
@@ -222,11 +222,15 @@ namespace HtmlRenderer.Composers
             {
                 tableCell = new CssBox(parent, childElement, childElement.Spec);
             }
+            //----------------------------------------------------------------------------------------------
+
+
+            //----------------------------------------------------------------------------------------------
             //get rowspan and colspan here 
             int nRowSpan = 1;
             int nColSpan = 1;
             string rowspan;
-            if (childElement.TryGetAttribute("rowspan", out rowspan))
+            if (childElement.TryGetAttribute(WellknownHtmlName.RowSpan, out rowspan))
             {
                 if (!int.TryParse(rowspan, out nRowSpan))
                 {
@@ -234,7 +238,7 @@ namespace HtmlRenderer.Composers
                 }
             }
             string colspan;
-            if (childElement.TryGetAttribute("colspan", out colspan))
+            if (childElement.TryGetAttribute(WellknownHtmlName.ColSpan, out colspan))
             {
                 if (!int.TryParse(colspan, out nColSpan))
                 {
@@ -245,7 +249,6 @@ namespace HtmlRenderer.Composers
             tableCell.SetRowColSpan(nRowSpan, nColSpan);
             return tableCell;
         }
-
     }
 
     static class ListItemBoxCreator
@@ -326,12 +329,12 @@ namespace HtmlRenderer.Composers
 
             string reversedAttrValue;
             bool reversed = false;
-            if (parentNode.TryGetAttribute("reversed", out reversedAttrValue))
+            if (parentNode.TryGetAttribute(WellknownHtmlName.Reversed, out reversedAttrValue))
             {
                 reversed = true;
             }
             string startAttrValue;
-            if (!parentNode.TryGetAttribute("start", out startAttrValue))
+            if (!parentNode.TryGetAttribute(WellknownHtmlName.Start, out startAttrValue))
             {
                 //if not found
                 //TODO: not to loop count ?

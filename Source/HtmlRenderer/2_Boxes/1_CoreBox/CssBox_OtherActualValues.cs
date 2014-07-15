@@ -15,6 +15,7 @@ namespace HtmlRenderer.Boxes
         float _actualLineHeight;
         float _actualWordSpacing;
         float _actualTextIndent;
+        float _actualEmHeight;
 
         float _actualBorderSpacingHorizontal;
         float _actualBorderSpacingVertical;
@@ -135,19 +136,17 @@ namespace HtmlRenderer.Boxes
         }
         internal static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
+             
 
             if (!box._fixDisplayType)
             {
                 box._cssDisplay = newdisplay;
             }
 
-            box.IsInline = (newdisplay == CssDisplay.BlockInsideInlineAfterCorrection) ||
-                    ((newdisplay == CssDisplay.Inline ||
+            box.IsInline = ((newdisplay == CssDisplay.Inline ||
                     newdisplay == CssDisplay.InlineBlock)
                     && !box.IsBrElement);
-
-
-
+            //---------------------------
             box._isVisible = box._cssDisplay != CssDisplay.None && box._myspec.Visibility == CssVisibility.Visible;
             //-------------------------
             //check containing property 
@@ -171,7 +170,7 @@ namespace HtmlRenderer.Boxes
         }
         internal static void SetAsBrBox(CssBox box)
         {
-            box.isBrElement = true;
-        } 
+            box._isBrElement = true;
+        }
     }
 }

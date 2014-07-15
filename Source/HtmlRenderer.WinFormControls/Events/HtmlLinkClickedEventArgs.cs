@@ -36,7 +36,7 @@ namespace HtmlRenderer.Diagnostics
         /// Init.
         /// </summary>
         /// <param name="link">the link href that was clicked</param>
-        public HtmlLinkClickedEventArgs(string link,  IHtmlElement tag)
+        public HtmlLinkClickedEventArgs(string link, HtmlElement tag)
         {
             _link = link; 
         }

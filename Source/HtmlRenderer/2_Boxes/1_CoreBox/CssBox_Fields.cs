@@ -47,8 +47,6 @@ namespace HtmlRenderer.Boxes
         List<CssRun> _aa_contentRuns;
         char[] _buffer;
         //----------------------------------------------------   
-        bool isBrElement;
-        bool _fixDisplayType;
 
         //----------------------------------------------------  
         //for other subbox , list item , shadow... 
@@ -117,7 +115,6 @@ namespace HtmlRenderer.Boxes
                     yield return tmpRuns[i];
                 }
             }
-
         }
 
         public int ChildCount
@@ -136,10 +133,13 @@ namespace HtmlRenderer.Boxes
         {
             return this._aa_boxes.GetLastChild();
         }
-
+        public void AppendChild(CssBox box)
+        {
+            this.Boxes.AddChild(this, box);
+        }
         public void InsertChild(CssBox beforeBox, CssBox box)
         {
-            this.Boxes.InsertBefore(beforeBox, box);
+            this.Boxes.InsertBefore(this, beforeBox, box);
         }
         //-------------------------------------
         internal void ResetLineBoxes()
@@ -182,9 +182,6 @@ namespace HtmlRenderer.Boxes
             set;
         }
 
-        //==================================================
-
-
         internal SubBoxCollection SubBoxes
         {
             get
@@ -197,6 +194,18 @@ namespace HtmlRenderer.Boxes
             }
         }
 
+
+
+#if DEBUG
+        internal void dbugChangeSiblingOrder(int siblingIndex)
+        {
+            if (siblingIndex < 0)
+            {
+                throw new Exception("before box doesn't exist on parent");
+            }
+            this._parentBox.Boxes.dbugChangeSiblingIndex(_parentBox,this, siblingIndex);
+        }
+#endif
 
     }
 

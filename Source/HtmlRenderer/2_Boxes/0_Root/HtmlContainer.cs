@@ -79,7 +79,7 @@ namespace HtmlRenderer
     /// Raised when an error occurred during html rendering.<br/>
     /// </para>
     /// </remarks>
-    public abstract class HtmlContainer : IDisposable
+    public abstract class HtmlContainer :  IDisposable
     {
         #region Fields and Consts
         /// <summary>
@@ -558,6 +558,10 @@ namespace HtmlRenderer
         protected abstract void OnRequestStyleSheet(string hrefSource,
             out string stylesheet,
             out WebDom.CssActiveSheet stylesheetData);
+
+        
+
+
 
         ///// <summary>
         ///// request style sheet

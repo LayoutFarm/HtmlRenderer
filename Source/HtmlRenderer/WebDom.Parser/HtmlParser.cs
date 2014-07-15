@@ -21,19 +21,11 @@ namespace HtmlRenderer.WebDom.Parser
         public HtmlParser()
         {
             lexer = new HtmlLexer();
-            lexer.LexStateChanged += LexStateChanaged;
-        }
-
-        public HtmlDocument ResultHtmlDoc
-        {
-            get
-            {
-                return this._resultHtmlDoc;
-            }
+            lexer.LexStateChanged += LexStateChanged;
         }
 
 
-        void LexStateChanaged(HtmlLexerEvent lexEvent, int startIndex, int len)
+        void LexStateChanged(HtmlLexerEvent lexEvent, int startIndex, int len)
         {
             switch (lexEvent)
             {
@@ -63,17 +55,19 @@ namespace HtmlRenderer.WebDom.Parser
                     } break;
                 case HtmlLexerEvent.AttributeValueAsLiteralString:
                     {
-
+                        //assign value and add to parent
                         curAttr.Value = textSnapshot.Substring(startIndex, len);
+                        curHtmlNode.AddAttribute(curAttr);
+
                     } break;
                 case HtmlLexerEvent.AttributeValue:
                     {
                     } break;
                 case HtmlLexerEvent.Attribute:
                     {
-                        string nodename = textSnapshot.Substring(startIndex, len);
-                        curAttr = this._resultHtmlDoc.CreateAttribute(null, nodename);
-                        curHtmlNode.AddAttribute(curAttr);
+                        string nodename = textSnapshot.Substring(startIndex, len); 
+                        curAttr = this._resultHtmlDoc.CreateAttribute(null, nodename); 
+
                     } break;
                 case HtmlLexerEvent.NodeNameOrAttribute:
                     {
@@ -217,18 +211,16 @@ namespace HtmlRenderer.WebDom.Parser
         /// parse to htmldom
         /// </summary>
         /// <param name="stbuilder"></param>
-        public void Parse(TextSnapshot textSnapshot)
+        public void Parse(TextSnapshot textSnapshot, HtmlDocument blankHtmlDoc)
         {
             ResetParser();
 
             this.textSnapshot = textSnapshot;
             //1. lex 
             lexer.BeginLex();
-            //2. mini parser   
-
-            var htmldoc = new HtmlRenderer.Composers.BridgeHtmlDocument();
-            this.curHtmlNode = htmldoc.RootNode;
-            this._resultHtmlDoc = htmldoc;
+            //2. mini parser    
+            this.curHtmlNode = blankHtmlDoc.RootNode;
+            this._resultHtmlDoc = blankHtmlDoc;
             lexer.Analyze(textSnapshot);
             lexer.EndLex();
         }

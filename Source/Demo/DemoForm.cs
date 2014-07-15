@@ -90,12 +90,37 @@ namespace HtmlRenderer.Demo
 
 
             _updateHtmlTimer = new Timer(OnUpdateHtmlTimerTick);
-            this.Text += " M";
+            this.Text += " : " + Path.GetDirectoryName(Application.ExecutablePath);
+
+            this._samplesTreeView.NodeMouseClick += new TreeNodeMouseClickEventHandler(_samplesTreeView_NodeMouseClick);
+
+        }
+
+        void _samplesTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            var filename = e.Node.Tag as string;
+            if (filename == null ||
+                !File.Exists(filename))
+            {
+                return;
+            }
+            //------------------------------------
+            //load file
+            _updateLock = true;
+            Application.UseWaitCursor = true;
+            _htmlPanel.Text = File.ReadAllText(filename);
+            Application.UseWaitCursor = false;
+            _updateLock = false;
+            UpdateWebBrowserHtml();
+             
+
+
         }
         public void PrepareSamples()
         {
-            LoadSamples();
             LoadCustomFonts();
+            LoadSamples();
+
         }
 
         #region Private methods
@@ -105,67 +130,47 @@ namespace HtmlRenderer.Demo
         /// </summary>
         private void LoadSamples()
         {
+
+
+            //find sample folder 
+            string execFromFolder = Path.GetDirectoryName(Application.ExecutablePath);
+
+            //only from debug ?
+            if (!execFromFolder.EndsWith("\\Source\\Demo\\bin\\Debug"))
+            {
+                return;
+            }
+
+            int index = execFromFolder.LastIndexOf("\\Source\\Demo\\bin\\Debug");
+            string rootSampleFolder = execFromFolder.Substring(0, index) + "\\Source\\Demo\\Samples";
+
             var root = new TreeNode("HTML Renderer");
             _samplesTreeView.Nodes.Add(root);
 
-            var testSamplesRoot = new TreeNode("Test Samples");
-            _samplesTreeView.Nodes.Add(testSamplesRoot);
+            string[] sampleDirs = Directory.GetDirectories(rootSampleFolder);
 
-            var perfTestSamplesRoot = new TreeNode("Performance Samples");
-            _samplesTreeView.Nodes.Add(perfTestSamplesRoot);
-
-            var names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
-            Array.Sort(names);
-            foreach (string name in names)
+            //only 1 file level (not recursive)
+            foreach (string dirName in sampleDirs)
             {
-                int extPos = name.LastIndexOf('.');
-                int namePos = extPos > 0 && name.Length > 1 ? name.LastIndexOf('.', extPos - 1) : 0;
-                string ext = name.Substring(extPos >= 0 ? extPos : 0);
-                string shortName = namePos > 0 && name.Length > 2 ? name.Substring(namePos + 1, name.Length - namePos - ext.Length - 1) : name;
-
-                if (".htm".IndexOf(ext, StringComparison.Ordinal) >= 0)
+                var dirNode = new TreeNode(Path.GetFileName(dirName));
+                root.Nodes.Add(dirNode);
+                string[] fileNames = Directory.GetFiles(dirName, "*.htm");
+                foreach (string fname in fileNames)
                 {
-                    var resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(name);
-                    if (resourceStream != null)
+                    var onlyFileName = Path.GetFileName(fname);
+                    if (!onlyFileName.StartsWith("x"))
                     {
-                        using (var sreader = new StreamReader(resourceStream, Encoding.Default))
-                        {
-                            var html = sreader.ReadToEnd();
-                            html = html.Replace("$$Release$$", _htmlPanel.GetType().Assembly.GetName().Version.ToString());
-                            _samples[name] = html;
-                        }
-
-                        var node = new TreeNode(shortName);
-                        if (name.Contains("TestSamples."))
-                        {
-                            testSamplesRoot.Nodes.Add(node);
-                        }
-                        else if (name.Contains("PerfSamples"))
-                        {
-                            perfTestSamplesRoot.Nodes.Add(node);
-                        }
-                        else
-                        {
-                            root.Nodes.Add(node);
-                            _perfTestSamples.Add(_samples[name]);
-                        }
-                        node.Tag = name;
+                        //for our convention: 
+                        //file start with x will not show here  
+                        //(it used for comment out/backup file)
+                        var fileNameNode = new TreeNode(Path.GetFileName(fname));
+                        dirNode.Nodes.Add(fileNameNode);
+                        fileNameNode.Tag = fname;
                     }
                 }
             }
-
-            root.Expand();
-            //testSamplesRoot.Expand();
-
-            if (perfTestSamplesRoot.Nodes.Count < 1)
-            {
-                perfTestSamplesRoot.Remove();
-            }
-
-            if (root.Nodes.Count > 0)
-            {
-                _samplesTreeView.SelectedNode = root.Nodes[StartAtSampleIndex];
-            }
+            root.ExpandAll();
+            //-------------------------
         }
         public int StartAtSampleIndex
         {
@@ -190,45 +195,45 @@ namespace HtmlRenderer.Demo
             }
         }
 
-        /// <summary>
-        /// On tree view node click load the html to the html panel and html editor.
-        /// </summary>
-        private void OnSamplesTreeViewAfterSelect(object sender, TreeViewEventArgs e)
-        {
-            var name = e.Node.Tag as string;
-            if (!string.IsNullOrEmpty(name))
-            {
-                _updateLock = true;
+        ///// <summary>
+        ///// On tree view node click load the html to the html panel and html editor.
+        ///// </summary>
+        //private void OnSamplesTreeViewAfterSelect(object sender, TreeViewEventArgs e)
+        //{
+           
+        //    //if (!string.IsNullOrEmpty(name))
+        //    //{
+        //    //    _updateLock = true;
 
-                string html = _samples[name];
+        //    //    string html = _samples[name];
 
-                if (!name.Contains("PerfSamples"))
-                    SyntaxHilight.AddColoredText(html, _htmlEditor);
-                else
-                    _htmlEditor.Text = html;
+        //    //    if (!name.Contains("PerfSamples"))
+        //    //        SyntaxHilight.AddColoredText(html, _htmlEditor);
+        //    //    else
+        //    //        _htmlEditor.Text = html;
 
-                Application.UseWaitCursor = true;
+        //    //    Application.UseWaitCursor = true;
 
-                _htmlPanel.AvoidImagesLateLoading = !name.Contains("Many images");
-                _htmlPanel.Text = html;
+        //    //    _htmlPanel.AvoidImagesLateLoading = !name.Contains("Many images");
+        //    //    _htmlPanel.Text = html;
 
-                //try
-                //{
-                //    _htmlPanel.AvoidImagesLateLoading = !name.Contains("Many images");
+        //    //    //try
+        //    //    //{
+        //    //    //    _htmlPanel.AvoidImagesLateLoading = !name.Contains("Many images");
 
-                //    _htmlPanel.Text = html;
-                //}
-                //catch (Exception ex)
-                //{
-                //    MessageBox.Show(ex.ToString(), "Failed to render HTML");
-                //}
+        //    //    //    _htmlPanel.Text = html;
+        //    //    //}
+        //    //    //catch (Exception ex)
+        //    //    //{
+        //    //    //    MessageBox.Show(ex.ToString(), "Failed to render HTML");
+        //    //    //}
 
-                Application.UseWaitCursor = false;
-                _updateLock = false;
+        //    //    Application.UseWaitCursor = false;
+        //    //    _updateLock = false;
 
-                UpdateWebBrowserHtml();
-            }
-        }
+        //    //    UpdateWebBrowserHtml();
+        //    //}
+        //}
 
         /// <summary>
         /// On text change in the html editor update 

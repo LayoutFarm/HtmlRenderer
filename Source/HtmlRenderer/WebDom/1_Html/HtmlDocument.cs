@@ -1,14 +1,13 @@
 ﻿//BSD  2014 ,WinterDev  
 using HtmlRenderer.Boxes;
-using HtmlRenderer.Composers;
+using System.Collections.Generic;
+
 namespace HtmlRenderer.WebDom
 {
-
-
-
     public abstract class HtmlDocument
     {
-        UniqueStringTable uniqueStringTable;//     
+        UniqueStringTable uniqueStringTable;
+        Dictionary<string, HtmlElement> registerElementsById = new Dictionary<string, HtmlElement>();
         public HtmlDocument(UniqueStringTable uniqueStringTable)
         {
             this.uniqueStringTable = uniqueStringTable;
@@ -31,7 +30,6 @@ namespace HtmlRenderer.WebDom
             return uniqueStringTable.GetStringIndex(uniqueString);
         }
 
-
         public HtmlAttribute CreateAttribute(string prefix, string localName)
         {
             return new HtmlAttribute(this,
@@ -48,13 +46,19 @@ namespace HtmlRenderer.WebDom
             return new HtmlProcessInstructionNode(this, nameIndex);
         }
 
-        public HtmlTextNode CreateTextNode(char[] strBufferForElement)
-        {
-            return new BridgeHtmlTextNode(this, strBufferForElement);
-        }
+        public abstract HtmlTextNode CreateTextNode(char[] strBufferForElement);
+
         public HtmlCDataNode CreateCDataNode()
         {
             return new HtmlCDataNode(this);
         }
+
+        internal void RegisterElementById(HtmlElement element)
+        {
+            //replace exisitng if exists ***
+
+            registerElementsById[element.AttrElementId] = element;
+        }
+
     }
 }

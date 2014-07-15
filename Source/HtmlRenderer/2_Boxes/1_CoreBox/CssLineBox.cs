@@ -67,11 +67,7 @@ namespace HtmlRenderer.Boxes
         {
             get { return new RectangleF(this._x, this._y, this.Width, this.Height); }
         }
-        public void Offset(float xdiff, float ydiff)
-        {
-            this._x += xdiff;
-            this._y += ydiff;
-        }
+
         public void MergeBound(float left, float top, float right, float bottom)
         {
 
@@ -97,14 +93,6 @@ namespace HtmlRenderer.Boxes
 
             this._width = sR - this._x;
             this._height = sB - this._y;
-        }
-        public void SetTop(float y)
-        {
-            this._y = y;
-        }
-        public void SetLeft(float x)
-        {
-            this._x = x;
         }
 
 #if DEBUG
@@ -137,7 +125,7 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// handle part of cssBox in this line, handle task about bg/border/bounday of cssBox owner of strip        
         /// </summary>
-        readonly List<PartialBoxStrip> _bottomUpBoxStrips = new List<PartialBoxStrip>();
+        PartialBoxStrip[] _bottomUpBoxStrips;
         internal LinkedListNode<CssLineBox> linkedNode;
 
         float _cacheContentWidth;
@@ -185,28 +173,23 @@ namespace HtmlRenderer.Boxes
             get;
             set;
         }
-        internal float OwnerLeft
-        {
-            get { return 0; }
-        }
+
         internal float CachedLineContentWidth
         {
             get { return this._cacheContentWidth; }
             set
             {
-                if (value < 0)
-                {
-
-                }
                 this._cacheContentWidth = value;
             }
 
         }
-        internal void CloseLine()
+
+
+        internal void CloseLine(LayoutVisitor lay)
         {
+
 #if DEBUG
             this.dbugIsClosed = true;
-
 #endif
 
             //=============================================================
@@ -215,60 +198,57 @@ namespace HtmlRenderer.Boxes
             //***
             var myruns = this._runs;
             CssBox lineOwner = this._ownerBox;
-            int j = myruns.Count;
-
-            List<PartialBoxStrip> totalStrips = this._bottomUpBoxStrips;
-            //---------------------------------------------------------------------------
-            //first level
-            Dictionary<CssBox, PartialBoxStrip> dicStrips = new Dictionary<CssBox, PartialBoxStrip>();
+            List<PartialBoxStrip> tmpStrips = lay.GetReadyStripList();
+            //--------------------------------------------------------------------------- 
+            //first level 
+            Dictionary<CssBox, PartialBoxStrip> unqiueStrips = lay.GetReadyStripDic();
             //location of run and strip related to its containng block
             float maxRight = 0;
             float maxBottom = 0;
+            int j = myruns.Count;
             for (int i = 0; i < j; ++i)
             {
                 var run = myruns[i];
                 maxRight = run.Right > maxRight ? run.Right : maxRight;
                 maxBottom = run.Bottom > maxBottom ? run.Bottom : maxBottom;
-                //strip size include whitespace 
                 if (run.IsSpaces)
                 {
+                    //strip size include whitespace ?
                     continue;
                 }
                 //-------------
                 //first level data
-                RegisterStripPart(run.OwnerBox, run.Left, run.Top, run.Right, run.Bottom, totalStrips, dicStrips);
+                RegisterStripPart(run.OwnerBox, run.Left, run.Top, run.Right, run.Bottom, tmpStrips, unqiueStrips);
             }
+
             //---------------------------------------------------------------------------
             //other step to upper layer, until no new strip     
             int newStripIndex = 0;
-            for (int numNewStripCreate = totalStrips.Count; numNewStripCreate > 0; newStripIndex += numNewStripCreate)
+            for (int numNewStripCreate = tmpStrips.Count; numNewStripCreate > 0; newStripIndex += numNewStripCreate)
             {
-                numNewStripCreate = StepUpRegisterStrips(dicStrips, lineOwner, totalStrips, newStripIndex);
+                numNewStripCreate = StepUpRegisterStrips(unqiueStrips, lineOwner, tmpStrips, newStripIndex);
             }
+
+            this._bottomUpBoxStrips = tmpStrips.ToArray();
+
+            lay.ReleaseStripList(tmpStrips);
+            lay.ReleaseStripDic(unqiueStrips);
             //=============================================================
-            //part 2: CalculateCacheData()
-            //=============================================================
+            //part 2: Calculate 
+            //=============================================================             
+
+
 
             this.CacheLineHeight = maxBottom;
             this.CachedLineContentWidth = maxRight;
-
-
             if (lineOwner.SizeWidth < CachedLineContentWidth)
             {
                 this.CachedLineContentWidth = this.OwnerBox.SizeWidth;
             }
         }
-
-
         internal void OffsetTop(float ydiff)
         {
-
             this.CachedLineTop += ydiff;
-
-            if (this.OwnerBox.SizeWidth < CachedLineContentWidth)
-            {
-                this.CachedLineContentWidth = this.OwnerBox.SizeWidth;
-            }
         }
         public bool HitTest(float x, float y)
         {
@@ -279,51 +259,90 @@ namespace HtmlRenderer.Boxes
             return false;
         }
 
-        public float CalculateTotalBoxBaseLine()
+        public float CalculateTotalBoxBaseLine(LayoutVisitor lay)
         {
-            float baseline = Single.MinValue;
-            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
-            {
-                baseline = Math.Max(baseline, _bottomUpBoxStrips[i].Top);//?top 
-            }
 
-            return baseline;
+            //not correct !! 
+            float maxRunHeight = 0;
+            CssRun maxRun = null;
+            for (int i = this._runs.Count - 1; i >= 0; --i)
+            {
+                var run = this._runs[i];
+                if (run.Height > maxRunHeight)
+                {
+                    maxRun = run;
+                    maxRunHeight = run.Height;
+                }
+            }
+            if (maxRun != null)
+            {
+                var fontInfo = lay.GetFontInfo(maxRun.OwnerBox.ActualFont); 
+                return fontInfo.BaseLine;
+            }
+            return 0;
+            //int j = this._runs.Count;
+            //for (int i = this._runs.Count - 1; i >= 0; --i)
+            //{
+            //    Font ownerFont = _runs[i].OwnerBox.ActualFont;
+            //    HtmlRenderer.Drawing.FontsUtils.GetDescent(
+            //}
+            //return 0;
+
+            //float baseline = Single.MinValue;
+            //for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
+            //{
+            //    baseline = Math.Max(baseline, _bottomUpBoxStrips[i].Top);//?top 
+            //}
+            //return baseline;
         }
         public void ApplyBaseline(float baseline)
         {
             //Important notes on http://www.w3.org/TR/CSS21/tables.html#height-layout
             //iterate from rectstrip
-            //In a single LineBox ,  CssBox:RectStrip => 1:1 relation             
-            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
+            //In a single LineBox ,  CssBox:RectStrip => 1:1 relation   
+
+
+            for (int i = this._runs.Count - 1; i >= 0; --i)
             {
-                var rstrip = _bottomUpBoxStrips[i];
-                var rstripOwnerBox = rstrip.owner;
-                switch (rstripOwnerBox.VerticalAlign)
-                {
-                    case Css.CssVerticalAlign.Sub:
-                        {
-                            this.SetBaseLine(rstripOwnerBox, baseline + rstrip.Height * .2f);
-                        } break;
-                    case Css.CssVerticalAlign.Super:
-                        {
-                            this.SetBaseLine(rstripOwnerBox, baseline - rstrip.Height * .2f);
-                        } break;
-                    case Css.CssVerticalAlign.TextTop:
-                    case Css.CssVerticalAlign.TextBottom:
-                    case Css.CssVerticalAlign.Top:
-                    case Css.CssVerticalAlign.Bottom:
-                    case Css.CssVerticalAlign.Middle:
-                        break;
-                    default:
-                        //case: baseline
-                        this.SetBaseLine(rstripOwnerBox, baseline);
-                        break;
-                }
+                var run = this._runs[i];
+                //adjust base line
+                run.SetLocation(run.Left, baseline);
             }
+
+            //if (this._bottomUpBoxStrips == null)
+            //{
+            //    return;
+            //}
+            //for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
+            //{
+            //    var rstrip = _bottomUpBoxStrips[i];
+            //    var rstripOwnerBox = rstrip.owner;
+            //    switch (rstripOwnerBox.VerticalAlign)
+            //    {
+            //        case Css.CssVerticalAlign.Sub:
+            //            {
+            //                this.SetBaseLine(rstripOwnerBox, baseline + rstrip.Height * .2f);
+            //            } break;
+            //        case Css.CssVerticalAlign.Super:
+            //            {
+            //                this.SetBaseLine(rstripOwnerBox, baseline - rstrip.Height * .2f);
+            //            } break;
+            //        case Css.CssVerticalAlign.TextTop:
+            //        case Css.CssVerticalAlign.TextBottom:
+            //        case Css.CssVerticalAlign.Top:
+            //        case Css.CssVerticalAlign.Bottom:
+            //        case Css.CssVerticalAlign.Middle:
+            //            break;
+            //        default:
+            //            //case: baseline
+            //            this.SetBaseLine(rstripOwnerBox, baseline);
+            //            break;
+            //    }
+            //}
         }
         public IEnumerable<float> GetAreaStripTopPosIter()
         {
-            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
+            for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
                 yield return _bottomUpBoxStrips[i].Top;
             }
@@ -482,9 +501,8 @@ namespace HtmlRenderer.Boxes
 
         internal void dbugPaintRuns(HtmlRenderer.Drawing.IGraphics g, PaintVisitor p)
         {
-
-
-            return;
+             
+            //return;
             //linebox  
             float x1 = 0;
             float y1 = 0;
@@ -537,7 +555,7 @@ namespace HtmlRenderer.Boxes
         {
             //iterate each strip
 
-            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
+            for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
                 var stripOwner = strip.owner;
@@ -563,7 +581,7 @@ namespace HtmlRenderer.Boxes
         internal void PaintDecoration(HtmlRenderer.Drawing.IGraphics g, PaintVisitor p)
         {
 
-            for (int i = _bottomUpBoxStrips.Count - 1; i >= 0; --i)
+            for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
                 CssBox ownerBox = strip.owner;

@@ -27,17 +27,31 @@ namespace HtmlRenderer.Boxes
 #if DEBUG
         public void dbugPaint(PaintVisitor p, RectangleF r)
         {
-            return;
-
+            //return; 
             var htmlE = CssBox.debugGetController(this);
             if (htmlE == null)
             {
+                //anonymous box
                 p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);
-
             }
             else
             {
-                p.dbugDrawDiagonalBox(Pens.Green, r.Left, r.Top, r.Right, r.Bottom);
+
+                Pen selectedPens = null;
+                switch (this._cssDisplay)
+                {
+                    case Css.CssDisplay.TableCell:
+                        selectedPens = Pens.OrangeRed;
+                        break;
+                    case Css.CssDisplay.BlockInsideInlineAfterCorrection:
+                        selectedPens = Pens.Magenta;
+                        break;
+                    default:
+                        selectedPens = Pens.Green;
+                        break;
+                }
+                p.dbugDrawDiagonalBox(selectedPens, r.Left, r.Top, r.Right, r.Bottom);
+
             }
         }
 #endif
@@ -278,7 +292,6 @@ namespace HtmlRenderer.Boxes
                 }
             }
         }
-
         internal void PaintDecoration(IGraphics g, RectangleF rectangle, bool isFirst, bool isLast)
         {
             float y = 0f;
@@ -289,9 +302,14 @@ namespace HtmlRenderer.Boxes
                 case Css.CssTextDecoration.Underline:
                     {
                         //TODO: correct this ...
-                        var h = g.MeasureString(" ", ActualFont).Height;
-                        float desc = FontsUtils.GetDescent(ActualFont, g);
-                        y = (float)Math.Round(rectangle.Top + h - desc + 0.5);
+                        //var h = g.MeasureString(" ", ActualFont).Height;
+                        //float desc = FontsUtils.GetDescentPx(ActualFont);
+                        //y = (float)Math.Round(rectangle.Top + h - desc + 0.5);
+                        FontInfo fontInfo = g.GetFontInfo(ActualFont);
+                        var h = fontInfo.LineHeight;
+                        float desc = fontInfo.DescentPx;
+                        y = (float)Math.Round(rectangle.Top + h - desc);
+
                     } break;
                 case Css.CssTextDecoration.LineThrough:
                     {
@@ -304,7 +322,8 @@ namespace HtmlRenderer.Boxes
             }
 
 
-            y -= ActualPaddingBottom - ActualBorderBottomWidth;
+            //y -= ActualPaddingBottom - ActualBorderBottomWidth;
+            y -= (ActualPaddingBottom + ActualBorderBottomWidth);
 
             float x1 = rectangle.X;
             if (isFirst)

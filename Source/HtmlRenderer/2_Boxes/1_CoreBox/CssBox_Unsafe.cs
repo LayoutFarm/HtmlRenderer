@@ -19,15 +19,12 @@ namespace HtmlRenderer.Boxes
         {
             return box._linkedNode;
         }
-        internal static void UnsafeSetNodes2(CssBox childNode, CssBox parent, LinkedListNode<CssBox> linkNode)
+        internal static void UnsafeSetNodes(CssBox childNode, CssBox parent, LinkedListNode<CssBox> linkNode)
         {
             childNode._parentBox = parent;
             childNode._linkedNode = linkNode;
         }
-        internal static void UnsafeSetNodes(CssBox childNode, CssBox parent, CssBox prevSibling)
-        {
-            childNode._parentBox = parent;
-        }
+
         internal static List<CssRun> UnsafeGetRunList(CssBox box)
         {
             return box._aa_contentRuns;
@@ -49,17 +46,36 @@ namespace HtmlRenderer.Boxes
         }
 
 #if DEBUG
-        //internal BridgeHtmlElement dbugAnonCreator
-        //{
-        //    get;
-        //    set;
-        //}
-
         internal static object debugGetController(CssBox box)
         {
             return box._controller;
         }
-
+        public override string ToString()
+        {
+            if (this._controller != null)
+            {
+                if (this.HasRuns)
+                {
+                    return this._controller.ToString() + " " + this.CssDisplay + " r=" + this.RunCount;
+                }
+                else
+                {
+                    return this._controller.ToString() + " " + this.CssDisplay + " c=" + this.ChildCount;
+                }
+            }
+            else
+            {
+                if (this.HasRuns)
+                {
+                    return "!a " + " " + this.CssDisplay + " r=" + this.RunCount;
+                }
+                else
+                {
+                    return "!a " + " " + this.CssDisplay + " c=" + this.ChildCount;
+                }
+            }
+            return base.ToString();
+        }
 #endif
     }
 

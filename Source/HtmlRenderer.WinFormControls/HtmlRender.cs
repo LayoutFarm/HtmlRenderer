@@ -790,8 +790,13 @@ namespace HtmlRenderer
         public static void SetHtml(this HtmlContainer container, string html, CssActiveSheet cssData)
         {
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
-            var rootBox = builder.ParseAndBuildBoxTree(html, container, cssData);
-            container.SetHtml(rootBox, cssData);
+            using (var img = new Bitmap(1, 1))
+            using (var g = Graphics.FromImage(img))
+            {
+                WinGraphics winGfx = new WinGraphics(g, false);
+                var rootBox = builder.ParseAndBuildBoxTree(html, winGfx, container, cssData);
+                container.SetHtml(rootBox, cssData);
+            } 
         }
     }
 

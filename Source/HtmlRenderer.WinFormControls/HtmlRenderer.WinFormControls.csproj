@@ -51,6 +51,7 @@
     <Compile Include="Handlers\ISelectHandler.cs" />
     <Compile Include="Handlers\ReadyStateChangedHandler.cs" />
     <Compile Include="Platform\ClibboardHelper.cs" />
+    <Compile Include="Platform\FontsUtils.cs" />
     <Compile Include="Platform\HtmlContainerImpl.cs" />
     <Compile Include="Handlers\SelectionHandler.cs" />
     <Compile Include="HtmlLabel.cs">
@@ -73,7 +74,9 @@
       <Name>HtmlRenderer</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="WebDom\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -41,8 +41,6 @@ namespace HtmlRenderer.Boxes
     {
 
         readonly Css.BoxSpec _myspec;
-
-
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
@@ -52,11 +50,11 @@ namespace HtmlRenderer.Boxes
         public CssBox(CssBox parentBox, object controller, Css.BoxSpec spec)
         {
 
-            this._aa_boxes = new CssBoxCollection(this);
+            this._aa_boxes = new CssBoxCollection();
 
             if (parentBox != null)
-            {
-                parentBox.Boxes.Add(this);
+            { 
+                parentBox.AppendChild(this);
             }
 
             this._controller = controller;
@@ -76,10 +74,12 @@ namespace HtmlRenderer.Boxes
         public CssBox(CssBox parentBox, object controller, Css.BoxSpec spec, Css.CssDisplay fixDisplayType)
         {
 
-            this._aa_boxes = new CssBoxCollection(this);
+            this._aa_boxes = new CssBoxCollection();
+
             if (parentBox != null)
             {
-                parentBox.Boxes.Add(this);
+                parentBox.AppendChild(this);
+                 
             }
             this._controller = controller;
 #if DEBUG
@@ -93,7 +93,7 @@ namespace HtmlRenderer.Boxes
             //assign spec
             this._fixDisplayType = true;
             this._cssDisplay = fixDisplayType;
-
+            //----------------------------
             this._myspec = spec;
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
@@ -118,7 +118,7 @@ namespace HtmlRenderer.Boxes
             }
             if (parentBox != null)
             {
-                parentBox.Boxes.Add(this);
+                parentBox.Boxes.AddChild(parentBox, this);
             }
         }
 
@@ -129,7 +129,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return this.isBrElement; 
+                return this._isBrElement;
             }
         }
 
@@ -235,11 +235,11 @@ namespace HtmlRenderer.Boxes
             tmpFlags &= ~CssBoxFlagsConst.HAS_EVAL_WHITESPACE;
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_EMPTY;
+
             this._boxCompactFlags = tmpFlags;
         }
-
-
-        bool _isAllWhitespace;
+         
+     
         internal void SetTextBuffer(char[] textBuffer)
         {
             this._buffer = textBuffer;
@@ -260,18 +260,7 @@ namespace HtmlRenderer.Boxes
         {
             return box._buffer;
         }
-        internal bool TextContentIsAllWhitespace
-        {
-            get
-            {
-                return this._isAllWhitespace;
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.HAS_EVAL_WHITESPACE) == 0)
-                //{
-                //    EvaluateWhitespace();
-                //}
-                //return (this._boxCompactFlags & CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE) != 0;
-            }
-        }
+ 
         internal bool TextContentIsWhitespaceOrEmptyText
         {
             get
@@ -443,20 +432,6 @@ namespace HtmlRenderer.Boxes
         {
             PerformContentLayout(lay);
         }
-        internal void ChangeSiblingOrder(int siblingIndex)
-        {
-            if (siblingIndex < 0)
-            {
-                throw new Exception("before box doesn't exist on parent");
-            } 
-            this._parentBox.Boxes.ChangeSiblingIndex(this, siblingIndex);
-        }
-        //internal int FindChildIndex(CssBox childBox)
-        //{
-        //    return this._aa_boxes.FindChildIndex(childBox);
-        //}
-
-
 
         #region Private Methods
 
@@ -478,11 +453,9 @@ namespace HtmlRenderer.Boxes
                         return;
                     }
                 default:
-                    {
-                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.LatestContainingBlock); }
+                    {    //others
+                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.Gfx, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
-
-                        //others
                     } break;
                 case Css.CssDisplay.BlockInsideInlineAfterCorrection:
                 case Css.CssDisplay.Block:
@@ -493,7 +466,7 @@ namespace HtmlRenderer.Boxes
                     {
 
                         CssBox myContainingBlock = lay.LatestContainingBlock;
-                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(myContainingBlock); }
+                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.Gfx, myContainingBlock); }
 
                         this.MeasureRunsSize(lay);
 
@@ -558,16 +531,15 @@ namespace HtmlRenderer.Boxes
                                 } break;
                             default:
                                 {
-
                                     //formatting context for
                                     //1. inline formatting context
-                                    //2. block formatting context 
-
+                                    //2. block formatting context  
+                                
                                     if (BoxUtils.ContainsInlinesOnly(this))
                                     {
                                         this.SetHeightToZero();
                                         //This will automatically set the bottom of this block
-                                        CssLayoutEngine.FlowContentRuns(this, lay);
+                                        CssLayoutEngine.FlowInlinesContent(this, lay);
                                     }
                                     else if (_aa_boxes.Count > 0)
                                     {
@@ -575,15 +547,19 @@ namespace HtmlRenderer.Boxes
                                         var currentLevelLatestSibling = lay.LatestSiblingBox;
                                         lay.LatestSiblingBox = null;//reset
 
-                                        foreach (var childBox in Boxes)
+                                        //------------------------------------------
+                                        var cnode = this.Boxes.GetFirstLinkedNode();
+                                        while (cnode != null)
                                         {
+                                            var childBox = cnode.Value;
                                             childBox.PerformLayout(lay);
-
                                             if (childBox.CanBeRefererenceSibling)
                                             {
                                                 lay.LatestSiblingBox = childBox;
                                             }
+                                            cnode = cnode.Next;
                                         }
+                                        //------------------------------------------
 
                                         lay.LatestSiblingBox = currentLevelLatestSibling;
                                         lay.PopContainingBlock();
@@ -657,9 +633,14 @@ namespace HtmlRenderer.Boxes
             }
             if (this.HasRuns)
             {
+                //find word spacing 
+
                 float actualWordspacing = MeasureWordSpacing(lay);
                 Font actualFont = this.ActualFont;
-                float fontHeight = FontsUtils.GetFontHeight(actualFont);
+                var fontInfo = lay.GetFontInfo(actualFont);
+                float fontHeight = fontInfo.LineHeight;
+
+
 
                 var tmpRuns = this.Runs;
                 for (int i = tmpRuns.Count - 1; i >= 0; --i)
@@ -672,11 +653,17 @@ namespace HtmlRenderer.Boxes
                         case CssRunKind.Text:
                             {
                                 CssTextRun textRun = (CssTextRun)run;
-                                run.Width = FontsUtils.MeasureStringWidth(lay.Gfx,
+                                run.Width = lay.MeasureStringWidth(
                                     CssBox.UnsafeGetTextBuffer(this),
                                     textRun.TextStartIndex,
                                     textRun.TextLength,
                                     actualFont);
+
+                                //run.Width = FontsUtils.MeasureStringWidth(lay.Gfx,
+                                //    CssBox.UnsafeGetTextBuffer(this),
+                                //    textRun.TextStartIndex,
+                                //    textRun.TextLength,
+                                //    actualFont);
 
                             } break;
                         case CssRunKind.SingleSpace:
@@ -766,10 +753,13 @@ namespace HtmlRenderer.Boxes
         float CalculateActualWidth()
         {
             float maxRight = 0;
-            foreach (var box in Boxes)
+            var cnode = this.Boxes.GetFirstLinkedNode();
+            while (cnode != null)
             {
-                maxRight = Math.Max(maxRight, box.LocalRight);
+                maxRight = Math.Max(maxRight, cnode.Value.LocalRight);
+                cnode = cnode.Next;
             }
+
             return maxRight + (this.ActualBorderLeftWidth + this.ActualPaddingLeft +
                 this.ActualPaddingRight + this.ActualBorderRightWidth);
         }

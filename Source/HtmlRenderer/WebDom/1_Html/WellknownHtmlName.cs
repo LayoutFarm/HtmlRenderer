@@ -23,6 +23,12 @@ namespace HtmlRenderer.WebDom
         [Map("body")]
         Body,
 
+        [Map("style")]
+        Style,
+        [Map("src")]
+        Src,
+
+
         [Map("div")]
         Div,
         [Map("span")]
@@ -123,5 +129,13 @@ namespace HtmlRenderer.WebDom
         Dir,
         [Map("justify")]
         Justify,
+
+        [Map("href")]
+        Href,
+
+        [Map("start")]
+        Start,
+        [Map("reversed")]
+        Reversed,
     }
 }

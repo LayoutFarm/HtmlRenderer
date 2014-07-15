@@ -1,6 +1,8 @@
 ﻿//BSD 2014, WinterDev
 
 using System;
+using System.Collections.Generic;
+
 using HtmlRenderer.Css;
 using HtmlRenderer.Drawing;
 namespace HtmlRenderer.Boxes
@@ -10,16 +12,20 @@ namespace HtmlRenderer.Boxes
     {
         HtmlContainer htmlContainer;
         float totalMarginLeftAndRight;
-       
+
+
+        Queue<Dictionary<CssBox, PartialBoxStrip>> dicStripPool;
+        Queue<List<PartialBoxStrip>> listStripPool;
+
+        Dictionary<CssBox, PartialBoxStrip> readyDicStrip = new Dictionary<CssBox, PartialBoxStrip>();
+        List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>(); 
+
 
         internal LayoutVisitor(IGraphics gfx, HtmlContainer htmlContainer)
         {
             this.Gfx = gfx;
             this.htmlContainer = htmlContainer;
         }
-
-
-         
 
         internal IGraphics Gfx
         {
@@ -78,25 +84,107 @@ namespace HtmlRenderer.Boxes
                 requestFrom,
                 false);
         }
-        //internal void RequestImage(ImageBinder binder, CssBox requestFrom, ReadyStateChangedHandler handler)
-        //{
-        //    HtmlRenderer.HtmlContainer.RaiseRequestImage(
-        //         this.htmlContainer,
-        //         binder,
-        //         requestFrom,
-        //         handler); 
-        //}
+
         internal float MeasureWhiteSpace(CssBox box)
         {
-            //depends on Font of this box
-            float w = HtmlRenderer.Drawing.FontsUtils.MeasureWhitespace(this.Gfx, box.ActualFont);
+            //depends on Font of this box           
+            float w = this.Gfx.MeasureWhitespace(box.ActualFont);
+
             if (!(box.WordSpacing.IsEmpty || box.WordSpacing.IsNormalWordSpacing))
             {
                 w += CssValueParser.ConvertToPxWithFontAdjust(box.WordSpacing, 0, box);
             }
             return w;
         }
+        internal FontInfo GetFontInfo(System.Drawing.Font f)
+        {
+            return this.Gfx.GetFontInfo(f);
+        }
+        internal float MeasureStringWidth(char[] buffer, int startIndex, int len, System.Drawing.Font f)
+        {
+            return this.Gfx.MeasureString2(buffer, startIndex, len, f).Width;
+        }
 
+        //---------------------------------------------------------------
+        internal Dictionary<CssBox, PartialBoxStrip> GetReadyStripDic()
+        {
+            if (readyDicStrip == null)
+            {
+                if (this.dicStripPool == null || this.dicStripPool.Count == 0)
+                {
+                    return new Dictionary<CssBox, PartialBoxStrip>();
+                }
+                else
+                {
+                    return this.dicStripPool.Dequeue();
+                }
+            }
+            else
+            {
+                var tmpReadyStripDic = this.readyDicStrip;
+                this.readyDicStrip = null;
+                return tmpReadyStripDic;
+            }
+        }
+        internal void ReleaseStripDic(Dictionary<CssBox, PartialBoxStrip> dic)
+        {
+            //clear before add to pool
+            dic.Clear();
+
+            if (this.readyDicStrip == null)
+            {
+                this.readyDicStrip = dic;
+            }
+            else
+            {
+                if (this.dicStripPool == null)
+                {
+                    this.dicStripPool = new Queue<Dictionary<CssBox, PartialBoxStrip>>();
+                }
+
+
+                this.dicStripPool.Enqueue(dic);
+            }
+        }
+        //---------------------------------------------------------------
+        internal List<PartialBoxStrip> GetReadyStripList()
+        {
+            if (readyListStrip == null)
+            {
+                if (this.dicStripPool == null || this.dicStripPool.Count == 0)
+                {
+                    return new List<PartialBoxStrip>();
+                }
+                else
+                {
+                    return this.listStripPool.Dequeue();
+                }
+            }
+            else
+            {
+                var tmpReadyListStrip = this.readyListStrip;
+                this.readyListStrip = null;
+                return tmpReadyListStrip;
+            }
+        }
+        internal void ReleaseStripList(List<PartialBoxStrip> list)
+        {
+            //clear before add to pool
+            list.Clear();
+
+            if (this.readyListStrip == null)
+            {
+                this.readyListStrip = list;
+            }
+            else
+            {
+                if (this.listStripPool == null)
+                {
+                    this.listStripPool = new Queue<List<PartialBoxStrip>>();
+                }
+                this.listStripPool.Enqueue(list);
+            }
+        }
     }
 
 

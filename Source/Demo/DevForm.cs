@@ -20,14 +20,13 @@ namespace HtmlRenderer.Demo
         private void button1_Click(object sender, EventArgs e)
         {
             DemoForm demoForm = new DemoForm();
-            demoForm.StartAtSampleIndex = 2;
+            
             demoForm.PrepareSamples();
 
             demoForm.Show();
             demoForm.Activate();
         }
-
-
+         
 
         private void button2_Click(object sender, EventArgs e)
         {

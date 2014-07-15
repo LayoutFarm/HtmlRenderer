@@ -63,7 +63,7 @@ namespace HtmlRenderer.Composers
         public static void ParseStyleSheet(WebDom.CssActiveSheet cssData, string cssTextSource)
         {
             if (!String.IsNullOrEmpty(cssTextSource))
-            {   
+            {
                 var parser = new WebDom.Parser.CssParser();
                 parser.ParseCssStyleSheet(cssTextSource.ToCharArray());
                 //-----------------------------------
@@ -95,11 +95,7 @@ namespace HtmlRenderer.Composers
         {
             return ParseFontFamilyProperty(value);
         }
-
-
-
-
-
+         
         /// <summary>
         /// Parse a complex font family css property to check if it contains multiple fonts and if the font exists.<br/>
         /// returns the font family name to use or 'inherit' if failed.
@@ -121,11 +117,16 @@ namespace HtmlRenderer.Composers
                     adjEnd--;
 
                 var font = propValue.Substring(start, adjEnd - start + 1);
+                return font;
 
-                if (FontsUtils.IsFontExists(font))
-                {
-                    return font;
-                }
+                //if not found this font
+                //wait for another technique
+                throw new NotSupportedException();
+
+                //if (FontsUtils.IsFontExists(font))
+                //{
+                //    return font;
+                //}
 
                 start = end;
             }

@@ -15,7 +15,7 @@
 
 using System;
 using System.Drawing;
-using HtmlRenderer.Drawing;
+using HtmlRenderer.Drawing; 
 
 namespace HtmlRenderer.Css
 {
@@ -49,7 +49,9 @@ namespace HtmlRenderer.Css
         CssCornerFeature _cornerFeats = CssCornerFeature.Default;//features  6      
         CssBackgroundFeature _backgroundFeats = CssBackgroundFeature.Default;//features  7 
 
+        FontInfo _actualFontInfo;
         Font _actualFont;
+
         CssDisplay _cssDisplay = CssDisplay.Inline;
         CssFloat _float = CssFloat.None;
         //==========================================================
@@ -619,22 +621,19 @@ namespace HtmlRenderer.Css
                 return this._backgroundFeats.BackgroundColor;
             }
         }
-
-        public Font GetFont(float parentFontSize)
+        internal FontInfo GetFont(HtmlRenderer.Drawing.IFonts fontPool, float parentFontSize)
         {
 
             //---------------------------------------
-            if (_actualFont != null)
+            if (_actualFontInfo != null)
             {
-                return _actualFont;
+                return this._actualFontInfo;
             }
             //---------------------------------------
             bool relateToParent = false;
             string fontFam = this.FontFamily;
-
             if (string.IsNullOrEmpty(FontFamily))
             {
-
                 fontFam = FontDefaultConfig.DEFAULT_FONT_NAME;
             }
 
@@ -727,26 +726,20 @@ namespace HtmlRenderer.Css
                 fsize = fontsize.Number * FontDefaultConfig.DEFAULT_FONT_SIZE;
                 relateToParent = true;
             }
-
             if (fsize <= 1f)
             {
                 fsize = FontDefaultConfig.DEFAULT_FONT_SIZE;
             }
 
-
-            if (relateToParent)
+            FontInfo fontInfo = fontPool.GetFontInfo(fontFam, fsize, st);
+            if (!relateToParent)
             {
-                //not store to cache font
-                return FontsUtils.GetCachedFont(fontFam, fsize, st);
+                //cahce value
+                this._actualFont = fontInfo.Font;
+                this._actualFontInfo = fontInfo;
             }
-            else
-            {
-                return this._actualFont = FontsUtils.GetCachedFont(fontFam, fsize, st);
-
-            }
+            return fontInfo;
         }
-
-
 
 #if DEBUG
         public static bool dbugCompare(dbugPropCheckReport dbugR, BoxSpec boxBase, BoxSpec spec)
@@ -802,6 +795,30 @@ namespace HtmlRenderer.Css
 
 
     }
-
+#if DEBUG
+    public class dbugPropCheckReport
+    {
+        System.Collections.Generic.List<string> msgs = new System.Collections.Generic.List<string>();
+        public void Check(string propName, bool testResult)
+        {
+            if (!testResult)
+            {
+                msgs.Add(propName);
+            }
+        }
+        public int Count
+        {
+            get { return this.msgs.Count; }
+        }
+        public void ClearMsgs()
+        {
+            this.msgs.Clear();
+        }
+        public System.Collections.Generic.List<string> GetList()
+        {
+            return this.msgs;
+        }
+    }
+#endif
 
 }

@@ -263,11 +263,10 @@ namespace HtmlRenderer
 #endif
             if (_useGdiPlusTextRendering)
             {
-                ReleaseHdc();
-
-                _g.DrawString(str, font,
-                    RenderUtils.GetSolidBrush(color),
-                    (int)Math.Round(point.X + canvasOriginX - FontsUtils.GetFontLeftPadding(font) * .8f), (int)Math.Round(point.Y + canvasOriginY));
+                //ReleaseHdc(); 
+                //_g.DrawString(str, font,
+                //    RenderUtils.GetSolidBrush(color),
+                //    (int)Math.Round(point.X + canvasOriginX - FontsUtils.GetFontLeftPadding(font) * .8f), (int)Math.Round(point.Y + canvasOriginY));
             }
             else
             {
@@ -294,13 +293,13 @@ namespace HtmlRenderer
 #endif
             if (_useGdiPlusTextRendering)
             {
-                ReleaseHdc();
-                _g.DrawString(
-                    new string(str, startAt, len),
-                    font,
-                    RenderUtils.GetSolidBrush(color),
-                    (int)Math.Round(point.X + canvasOriginX - FontsUtils.GetFontLeftPadding(font) * .8f),
-                    (int)Math.Round(point.Y + canvasOriginY));
+                //ReleaseHdc();
+                //_g.DrawString(
+                //    new string(str, startAt, len),
+                //    font,
+                //    RenderUtils.GetSolidBrush(color),
+                //    (int)Math.Round(point.X + canvasOriginX - FontsUtils.GetFontLeftPadding(font) * .8f),
+                //    (int)Math.Round(point.Y + canvasOriginY));
 
             }
             else
@@ -532,6 +531,23 @@ namespace HtmlRenderer
             }
         }
 
+        //=====================================================
+        public FontInfo GetFontInfo(Font f)
+        {
+            return FontsUtils.GetCachedFont(f);
+        }
+        public FontInfo GetFontInfo(string fontname, float fsize, FontStyle st)
+        {
+            return FontsUtils.GetCachedFont(fontname, fsize, st);
+        }
+        public float MeasureWhitespace(Font f)
+        {
+            return FontsUtils.MeasureWhitespace(this, f);
+        }
+
         #endregion
     }
+
+    
+
 }
