@@ -105,13 +105,26 @@ namespace HtmlRenderer.Boxes
         /// </summary>
         /// <param name="binder"></param>
         /// <param name="requestFrom"></param>
-        internal void RequestImageAsync(ImageBinder binder,  CssBox requestFrom)
+        internal void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, CssBox requestFrom)
         {
             HtmlRenderer.HtmlContainer.RaiseRequestImage(
                 this.container,
                 binder,
                 requestFrom,
                 false);
+
+            if (binder.State == ImageBinderState.Loaded)
+            {   
+                Image img= binder.Image;
+                if (img != null)
+                {
+                    //set real image info
+                    imgRun.ImageRectangle = new Rectangle(
+                        (int)imgRun.Left, (int)imgRun.Top,
+                        img.Width, img.Height);
+                }
+                    
+            }
 
         }
         //internal void RequestImage(ImageBinder binder, CssBox requestFrom, ReadyStateChangedHandler handler)

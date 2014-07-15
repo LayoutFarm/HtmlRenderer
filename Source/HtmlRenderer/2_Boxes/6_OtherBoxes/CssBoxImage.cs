@@ -112,11 +112,10 @@ namespace HtmlRenderer.Boxes
                     {
                         //async request image
                         if (!tryLoadOnce)
-                        {  
+                        {
                             _imageWord.ImageBinder = this._imgBinder;
-                            
-                            p.RequestImageAsync(_imgBinder, this);
-
+                            p.RequestImageAsync(_imgBinder, this._imageWord, this);
+                            //retry again
                             tryLoadOnce = true;
                             goto EVAL_STATE;
                         }
