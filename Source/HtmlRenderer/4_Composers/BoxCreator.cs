@@ -129,7 +129,7 @@ namespace HtmlRenderer.Composers
                         case CssDisplay.ListItem:
                             return ListItemBoxCreator.CreateListItemBox(parentBox, childElement);
                         default:
-                            return newBox = new CssBox(parentBox, childElement, childElement.Spec);
+                            return newBox = new CssBox(parentBox, childElement, childSpec);
                     }
             }
         }
@@ -222,6 +222,10 @@ namespace HtmlRenderer.Composers
             {
                 tableCell = new CssBox(parent, childElement, childElement.Spec);
             }
+            //----------------------------------------------------------------------------------------------
+
+
+            //----------------------------------------------------------------------------------------------
             //get rowspan and colspan here 
             int nRowSpan = 1;
             int nColSpan = 1;

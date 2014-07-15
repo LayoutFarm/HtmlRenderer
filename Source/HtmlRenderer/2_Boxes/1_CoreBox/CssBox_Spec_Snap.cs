@@ -10,7 +10,7 @@ namespace HtmlRenderer.Boxes
 {
 
     partial class CssBox
-    {
+    {  
         CssDisplay _cssDisplay = CssDisplay.Inline;
 
         bool _isVisible;
@@ -22,7 +22,9 @@ namespace HtmlRenderer.Boxes
         bool _borderBottomVisble;
         
         bool _isBrElement;
-        bool _fixDisplayType; 
+        bool _fixDisplayType;
+        bool _isAllWhitespace;
+
 
         void EvaluateSpec(BoxSpec spec)
         {

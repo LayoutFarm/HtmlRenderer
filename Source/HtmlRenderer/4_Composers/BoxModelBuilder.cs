@@ -281,47 +281,46 @@ namespace HtmlRenderer.Composers
                                     //----------
                                     bool isInlineFormattingContext = true;
                                     ValidateParentChildRelationship(box, ref parentBox, ref isInlineFormattingContext);
-                                    GenerateCssBoxes(elem, box);
+                                    //----------
 
+
+
+                                    GenerateCssBoxes(elem, box);
                                 } break;
                         }
-
                     } break;
                 default:
                     {
-
                         BoxSpec parentSpec = parentElement.Spec;
                         switch (parentElement.Spec.WhiteSpace)
                         {
                             case CssWhiteSpace.Pre:
                             case CssWhiteSpace.PreWrap:
                                 {
-                                    CreateChildBoxPreserveWhitespace(parentElement, parentBox);
+                                    CreateChildBoxesPreserveWhitespace(parentElement, parentBox);
 
                                 } break;
                             case CssWhiteSpace.PreLine:
                                 {
-                                    CreateChildBoxRespectNewLine(parentElement, parentBox);
+                                    CreateChildBoxesRespectNewLine(parentElement, parentBox);
 
                                 } break;
                             default:
                                 {
-                                    CreateChildBoxDefault(parentElement, parentBox);
+                                    CreateChildBoxesDefault(parentElement, parentBox);
                                 } break;
                         }
 
                     } break;
             }
         }
-        static void CreateChildBoxPreserveWhitespace(BridgeHtmlElement parentElement, CssBox parentBox)
+
+
+        static void CreateChildBoxesPreserveWhitespace(BridgeHtmlElement parentElement, CssBox parentBox)
         {
 
             int newBox = 0;
             int childCount = parentElement.ChildrenCount;
-
-            var parentSpecWhitespace = parentElement.Spec.WhiteSpace;
-            var parentSpecWordBreak = parentElement.Spec.WordBreak;
-
             //default
             bool isLineFormattingContext = true;
             for (int i = 0; i < childCount; ++i)
@@ -333,25 +332,10 @@ namespace HtmlRenderer.Composers
                         {
                             BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
                             //-------------------------------------------------------------------------------
-                            if (isLineFormattingContext)
-                            {
-                                CssBox anonText = CssBox.CreateAnonInline(parentBox);
-                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
-#if DEBUG
-                                //anonText.dbugAnonCreator = parentElement;
-#endif
-                            }
-                            else
-                            {
-                                CssBox anonText = CssBox.CreateAnonBlock(parentBox);
-                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
-                                //anonText.SetTextContent(contentRuns);
-                                //anonText.UpdateRunList();
-#if DEBUG
-                                // anonText.dbugAnonCreator = parentElement;
-#endif
+                            RunListHelper.AddRunList(
+                                isLineFormattingContext ? CssBox.CreateAnonInline(parentBox) : CssBox.CreateAnonBlock(parentBox),
+                                parentElement.Spec, textNode);
 
-                            }
 
                             newBox++;
                         } break;
@@ -376,13 +360,10 @@ namespace HtmlRenderer.Composers
                 }
             }
         }
-        static void CreateChildBoxRespectNewLine(BridgeHtmlElement parentElement, CssBox parentBox)
-        {
+        static void CreateChildBoxesRespectNewLine(BridgeHtmlElement parentElement, CssBox parentBox)
+        {   
             int newBox = 0;
             int childCount = parentElement.ChildrenCount;
-
-            var parentSpecWhitespace = parentElement.Spec.WhiteSpace;
-            var parentSpecWordBreak = parentElement.Spec.WordBreak;
             bool isLineFormattingContext = false;
             for (int i = 0; i < childCount; ++i)
             {
@@ -396,24 +377,10 @@ namespace HtmlRenderer.Composers
                             {
                                 continue;//skip
                             }
-                            if (isLineFormattingContext)
-                            {
-                                CssBox anonText = CssBox.CreateAnonInline(parentBox);
-                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
+                            RunListHelper.AddRunList(
+                                isLineFormattingContext ? CssBox.CreateAnonInline(parentBox) : CssBox.CreateAnonBlock(parentBox),
+                                parentElement.Spec, textNode);
 
-#if DEBUG
-                                //lanonText.dbugAnonCreator = parentElement;
-#endif
-                            }
-                            else
-                            {
-                                CssBox anonText = CssBox.CreateAnonInline(parentBox);
-                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
-#if DEBUG
-                                //anonText.dbugAnonCreator = parentElement;
-#endif
-
-                            }
                             newBox++;
                         } break;
                     case HtmlNodeType.OpenElement:
@@ -446,16 +413,10 @@ namespace HtmlRenderer.Composers
             }
         }
 
-        static void CreateChildBoxDefault(BridgeHtmlElement parentElement, CssBox parentBox)
+        static void CreateChildBoxesDefault(BridgeHtmlElement parentElement, CssBox parentBox)
         {
-            int newBox = 0;
+
             int childCount = parentElement.ChildrenCount;
-
-            var parentSpecWhitespace = parentElement.Spec.WhiteSpace;
-            var parentSpecWordBreak = parentElement.Spec.WordBreak;
-
-            int limLast = childCount - 1;
-
 
             //default
             bool isLineFormattingContext = true;
@@ -475,26 +436,11 @@ namespace HtmlRenderer.Composers
                                 continue;//skip
                             }
                             //-------------------------------------------------------------------------------
-                            if (isLineFormattingContext)
-                            {
-                                CssBox anonText = CssBox.CreateAnonInline(currentParentBox);
-                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
+                            RunListHelper.AddRunList(
+                                isLineFormattingContext ? CssBox.CreateAnonInline(currentParentBox) : CssBox.CreateAnonBlock(currentParentBox),
+                                parentElement.Spec, textNode);
 
-#if DEBUG
-                                //anonText.dbugAnonCreator = parentElement;
-#endif
-                            }
-                            else
-                            {
-                                CssBox anonText = CssBox.CreateAnonBlock(currentParentBox);
-                                RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
-#if DEBUG
-                                //anonText.dbugAnonCreator = parentElement;
-#endif
 
-                            }
-
-                            newBox++;
                         } break;
                     case HtmlNodeType.ShortElement:
                     case HtmlNodeType.OpenElement:
@@ -507,8 +453,10 @@ namespace HtmlRenderer.Composers
                             }
 
                             CssBox box = BoxCreator.CreateBox(currentParentBox, childElement);
-                            newBox++;
+                            //current parent may change after validation process                            
                             ValidateParentChildRelationship(box, ref currentParentBox, ref isLineFormattingContext);
+
+
                             GenerateCssBoxes(childElement, box);
 
                         } break;

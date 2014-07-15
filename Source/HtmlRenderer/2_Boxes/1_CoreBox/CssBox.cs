@@ -53,8 +53,8 @@ namespace HtmlRenderer.Boxes
             this._aa_boxes = new CssBoxCollection();
 
             if (parentBox != null)
-            {
-                parentBox.Boxes.AddChild(parentBox, this);
+            { 
+                parentBox.AppendChild(this);
             }
 
             this._controller = controller;
@@ -75,9 +75,11 @@ namespace HtmlRenderer.Boxes
         {
 
             this._aa_boxes = new CssBoxCollection();
+
             if (parentBox != null)
             {
-                parentBox.Boxes.AddChild(parentBox, this);
+                parentBox.AppendChild(this);
+                 
             }
             this._controller = controller;
 #if DEBUG
@@ -91,7 +93,7 @@ namespace HtmlRenderer.Boxes
             //assign spec
             this._fixDisplayType = true;
             this._cssDisplay = fixDisplayType;
-
+            //----------------------------
             this._myspec = spec;
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
@@ -233,11 +235,11 @@ namespace HtmlRenderer.Boxes
             tmpFlags &= ~CssBoxFlagsConst.HAS_EVAL_WHITESPACE;
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
             tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_EMPTY;
+
             this._boxCompactFlags = tmpFlags;
         }
-
-
-        bool _isAllWhitespace;
+         
+     
         internal void SetTextBuffer(char[] textBuffer)
         {
             this._buffer = textBuffer;
@@ -258,18 +260,7 @@ namespace HtmlRenderer.Boxes
         {
             return box._buffer;
         }
-        internal bool TextContentIsAllWhitespace
-        {
-            get
-            {
-                return this._isAllWhitespace;
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.HAS_EVAL_WHITESPACE) == 0)
-                //{
-                //    EvaluateWhitespace();
-                //}
-                //return (this._boxCompactFlags & CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE) != 0;
-            }
-        }
+ 
         internal bool TextContentIsWhitespaceOrEmptyText
         {
             get

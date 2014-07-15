@@ -133,7 +133,10 @@ namespace HtmlRenderer.Boxes
         {
             return this._aa_boxes.GetLastChild();
         }
-
+        public void AppendChild(CssBox box)
+        {
+            this.Boxes.AddChild(this, box);
+        }
         public void InsertChild(CssBox beforeBox, CssBox box)
         {
             this.Boxes.InsertBefore(this, beforeBox, box);

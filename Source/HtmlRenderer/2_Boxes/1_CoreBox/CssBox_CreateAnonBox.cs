@@ -20,18 +20,7 @@ namespace HtmlRenderer.Boxes
             ChangeDisplayType(newBox, Css.CssDisplay.Block);
 
             parent.Boxes.Remove(newBox);
-            parent.Boxes.InsertBefore(parent, insertBefore, newBox);
-            //-------------------------------------------
-#if DEBUG
-            //if (parent.HtmlElement != null)
-            //{
-            //    //newBox.dbugAnonCreator = (BridgeHtmlElement)parent.HtmlElement;
-            //}
-            //else if (parent.dbugAnonCreator != null)
-            //{
-            //    //newBox.dbugAnonCreator = parent.dbugAnonCreator;
-            //}
-#endif
+            parent.Boxes.InsertBefore(parent, insertBefore, newBox); 
 
             return newBox;
         }
