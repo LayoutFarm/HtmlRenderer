@@ -24,7 +24,7 @@ namespace HtmlRenderer.Boxes
             childNode._parentBox = parent;
             childNode._linkedNode = linkNode;
         }
-       
+
         internal static List<CssRun> UnsafeGetRunList(CssBox box)
         {
             return box._aa_contentRuns;
@@ -45,11 +45,37 @@ namespace HtmlRenderer.Boxes
             //box._htmlContainer = htmlContainer;
         }
 
-#if DEBUG 
+#if DEBUG
         internal static object debugGetController(CssBox box)
         {
             return box._controller;
-        } 
+        }
+        public override string ToString()
+        {
+            if (this._controller != null)
+            {
+                if (this.HasRuns)
+                {
+                    return this._controller.ToString() + " " + this.CssDisplay + " r=" + this.RunCount;
+                }
+                else
+                {
+                    return this._controller.ToString() + " " + this.CssDisplay + " c=" + this.ChildCount;
+                }
+            }
+            else
+            {
+                if (this.HasRuns)
+                {
+                    return "!a " + " " + this.CssDisplay + " r=" + this.RunCount;
+                }
+                else
+                {
+                    return "!a " + " " + this.CssDisplay + " c=" + this.ChildCount;
+                }
+            }
+            return base.ToString();
+        }
 #endif
     }
 

@@ -543,6 +543,7 @@ namespace HtmlRenderer.Boxes
                                     //formatting context for
                                     //1. inline formatting context
                                     //2. block formatting context  
+                                
                                     if (BoxUtils.ContainsInlinesOnly(this))
                                     {
                                         this.SetHeightToZero();

@@ -496,7 +496,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="lineBox"></param> 
         static void ApplyAlignment(CssLineBox lineBox, CssTextAlign textAlign, LayoutVisitor lay)
         {
-          
+            
             switch (textAlign)
             {
                 case CssTextAlign.Right:

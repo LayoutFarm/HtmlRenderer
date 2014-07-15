@@ -156,9 +156,10 @@ namespace HtmlRenderer.Composers
             }
         }
 
-        static void ValidateParentChildRelationship(CssBox parentBox,
-            CssBox newChildBox,
-            ref  bool isLineFormattingContext)
+        static void ValidateParentChildRelationship(
+             CssBox newChildBox,
+             ref CssBox parentBox,
+             ref bool isLineFormattingContext)
         {
 
             int parentChildCount = parentBox.ChildCount;
@@ -204,9 +205,7 @@ namespace HtmlRenderer.Composers
             {
                 //throw new NotSupportedException();
             }
-            //----------
-
-
+            //---------- 
             if (isLineFormattingContext)
             {
                 if (newChildBox.IsBlock)
@@ -225,8 +224,15 @@ namespace HtmlRenderer.Composers
                             a = tmp;
                             ncount--;
                         }
+                        //------------------------
+                        //change parent box to new context 
+                        var lowerAnon = CssBox.CreateAnonBlock(parentBox);
+                        parentBox = lowerAnon;
+                        isLineFormattingContext = true;
+                        return;
+                        //------------------------
                     }
-
+                    //change context
                     isLineFormattingContext = false;
                 }
             }
@@ -238,7 +244,6 @@ namespace HtmlRenderer.Composers
                     var newAnonBlock = CssBox.CreateAnonBlock(parentBox);
                     newChildBox.SetNewParentBox(newAnonBlock);
                 }
-
             }
         }
 
@@ -275,7 +280,7 @@ namespace HtmlRenderer.Composers
                                     CssBox box = BoxCreator.CreateBox(parentBox, elem);
                                     //----------
                                     bool isInlineFormattingContext = true;
-                                    ValidateParentChildRelationship(parentBox, box, ref isInlineFormattingContext);
+                                    ValidateParentChildRelationship(box, ref parentBox, ref isInlineFormattingContext);
                                     GenerateCssBoxes(elem, box);
 
                                 } break;
@@ -362,7 +367,7 @@ namespace HtmlRenderer.Composers
 
                             newBox++;
                             CssBox box = BoxCreator.CreateBox(parentBox, childElement);
-                            ValidateParentChildRelationship(parentBox, box, ref isLineFormattingContext);
+                            ValidateParentChildRelationship(box, ref parentBox, ref isLineFormattingContext);
                             GenerateCssBoxes(childElement, box);
                         } break;
                     default:
@@ -427,7 +432,7 @@ namespace HtmlRenderer.Composers
 
                             CssBox box = BoxCreator.CreateBox(parentBox, childElement);
 
-                            ValidateParentChildRelationship(parentBox, box, ref isLineFormattingContext);
+                            ValidateParentChildRelationship(box, ref parentBox, ref isLineFormattingContext);
 
                             GenerateCssBoxes(childElement, box);
 
@@ -454,6 +459,7 @@ namespace HtmlRenderer.Composers
 
             //default
             bool isLineFormattingContext = true;
+            CssBox currentParentBox = parentBox;
 
             for (int i = 0; i < childCount; ++i)
             {
@@ -471,7 +477,7 @@ namespace HtmlRenderer.Composers
                             //-------------------------------------------------------------------------------
                             if (isLineFormattingContext)
                             {
-                                CssBox anonText = CssBox.CreateAnonInline(parentBox);
+                                CssBox anonText = CssBox.CreateAnonInline(currentParentBox);
                                 RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
 
 #if DEBUG
@@ -480,7 +486,7 @@ namespace HtmlRenderer.Composers
                             }
                             else
                             {
-                                CssBox anonText = CssBox.CreateAnonBlock(parentBox);
+                                CssBox anonText = CssBox.CreateAnonBlock(currentParentBox);
                                 RunListHelper.AddRunList(anonText, parentElement.Spec, textNode);
 #if DEBUG
                                 //anonText.dbugAnonCreator = parentElement;
@@ -500,10 +506,9 @@ namespace HtmlRenderer.Composers
                                 continue;
                             }
 
-                            CssBox box = BoxCreator.CreateBox(parentBox, childElement);
+                            CssBox box = BoxCreator.CreateBox(currentParentBox, childElement);
                             newBox++;
-
-                            ValidateParentChildRelationship(parentBox, box, ref isLineFormattingContext);
+                            ValidateParentChildRelationship(box, ref currentParentBox, ref isLineFormattingContext);
                             GenerateCssBoxes(childElement, box);
 
                         } break;
