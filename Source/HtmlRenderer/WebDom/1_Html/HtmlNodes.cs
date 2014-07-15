@@ -92,7 +92,7 @@ namespace HtmlRenderer.WebDom
             {
                 char[] newbuffer = new char[copyBuffer.Length + newCopyBuffer.Length];
                 Array.Copy(copyBuffer, newbuffer, copyBuffer.Length);
-                Array.Copy(newCopyBuffer, 0, newbuffer, copyBuffer.Length + 1, newCopyBuffer.Length);
+                Array.Copy(newCopyBuffer, 0, newbuffer, copyBuffer.Length  , newCopyBuffer.Length);
                 this.copyBuffer = newbuffer;
             }
             else

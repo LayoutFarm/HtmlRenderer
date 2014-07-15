@@ -156,7 +156,7 @@ namespace HtmlRenderer.Composers
             }
         }
 
-        static void ValidateParentChildRelationship(
+        static void CorrectParentChildRelationship(
              CssBox newChildBox,
              ref CssBox parentBox,
              ref bool isLineFormattingContext)
@@ -282,7 +282,7 @@ namespace HtmlRenderer.Composers
                                     elem.SetPrinicalBox(box);
                                     //----------
                                     bool isInlineFormattingContext = true;
-                                    ValidateParentChildRelationship(box, ref parentBox, ref isInlineFormattingContext);
+                                    CorrectParentChildRelationship(box, ref parentBox, ref isInlineFormattingContext);
                                     //---------- 
                                     GenerateCssBoxes(elem, box);
 
@@ -290,13 +290,12 @@ namespace HtmlRenderer.Composers
                         }
                     } break;
                 default:
-                    {
-                        BoxSpec parentSpec = parentElement.Spec;
+                    {   
                         switch (parentElement.Spec.WhiteSpace)
                         {
                             case CssWhiteSpace.Pre:
                             case CssWhiteSpace.PreWrap:
-                                {
+                                {   
                                     CreateChildBoxesPreserveWhitespace(parentElement, parentBox);
 
                                 } break;
@@ -353,7 +352,7 @@ namespace HtmlRenderer.Composers
                             CssBox box = BoxCreator.CreateBox(parentBox, childElement);
                             childElement.SetPrinicalBox(box);
 
-                            ValidateParentChildRelationship(box, ref parentBox, ref isLineFormattingContext);
+                            CorrectParentChildRelationship(box, ref parentBox, ref isLineFormattingContext);
                             GenerateCssBoxes(childElement, box);
                         } break;
                     default:
@@ -401,7 +400,7 @@ namespace HtmlRenderer.Composers
 
                             CssBox box = BoxCreator.CreateBox(parentBox, childElement);
                             childElement.SetPrinicalBox(box);
-                            ValidateParentChildRelationship(box, ref parentBox, ref isLineFormattingContext);
+                            CorrectParentChildRelationship(box, ref parentBox, ref isLineFormattingContext);
 
                             GenerateCssBoxes(childElement, box);
 
@@ -458,7 +457,7 @@ namespace HtmlRenderer.Composers
                             childElement.SetPrinicalBox(box);
                             //current parent may change after validation process                            
                             
-                            ValidateParentChildRelationship(box, ref currentParentBox, ref isLineFormattingContext);
+                            CorrectParentChildRelationship(box, ref currentParentBox, ref isLineFormattingContext);
                             GenerateCssBoxes(childElement, box);
 
                         } break;
