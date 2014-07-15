@@ -23,15 +23,33 @@ namespace HtmlRenderer.ContentManagers
     }
 
 
+    class ImageCacheSystem
+    {
+        Dictionary<string, Image> cacheImages = new Dictionary<string, Image>();
+        public ImageCacheSystem()
+        {
+        }
+        public bool TryGetCacheImage(string url, out Image img)
+        {
+            return cacheImages.TryGetValue(url, out img);
+        }
+        public void AddCacheImage(string url, Image img)
+        {
+            this.cacheImages[url] = img;
+        }
+    }
+
+
     public class ImageContentManager
     {
 
         public event EventHandler<HtmlImageRequestEventArgs> ImageLoadingRequest;
 
         LinkedList<ImageContentRequest> inputList = new LinkedList<ImageContentRequest>();
-
         LinkedList<ImageBinder> outputList = new LinkedList<ImageBinder>();
         HtmlContainer parentHtmlContainer;
+
+        ImageCacheSystem imageCacheLevel0 = new ImageCacheSystem();
 
         System.Timers.Timer timImageLoadMonitor = new System.Timers.Timer();
 
@@ -73,21 +91,44 @@ namespace HtmlRenderer.ContentManagers
 
                         var binder = req.binder;
 
-                        this.ImageLoadingRequest(
-                            this,
-                            new HtmlImageRequestEventArgs(
-                            binder));
-                        //....
-                        //process image infomation
-                        //....
+                        //1. check from cache if not found
+                        //then send request to external ... 
 
+                        Image foundImage;
+                        if (!this.imageCacheLevel0.TryGetCacheImage(
+                            binder.ImageSource,
+                            out foundImage))
+                        {
 
+                            this.ImageLoadingRequest(
+                                this,
+                                new HtmlImageRequestEventArgs(
+                                binder));
 
-                        //send ready image notification to
-                        //parent html container
-                        this.parentHtmlContainer.AddRequestImageBinderUpdate(binder);
+                            //....
+                            //process image infomation
+                            //.... 
+                            if (binder.State == ImageBinderState.Loaded)
+                            {
+                                
+                                //store to cache 
+                                //TODO: implement caching policy  
+                                imageCacheLevel0.AddCacheImage(binder.ImageSource, binder.Image);
+                                //send ready image notification to
+                                //parent html container
+                                this.parentHtmlContainer.AddRequestImageBinderUpdate(binder);
+                            }
+                        }
+                        else
+                        {
+                            //process image infomation
+                            //.... 
 
-
+                            binder.SetImage(foundImage);
+                            //send ready image notification to
+                            //parent html container
+                            this.parentHtmlContainer.AddRequestImageBinderUpdate(binder);
+                        }
 
                         //next image
                     }

@@ -81,6 +81,8 @@ namespace HtmlRenderer
     /// </remarks>
     public abstract class HtmlContainer : IDisposable
     {
+
+
         #region Fields and Consts
         /// <summary>
         /// the root css box of the parsed html
@@ -171,6 +173,8 @@ namespace HtmlRenderer
         System.Timers.Timer timTask = new System.Timers.Timer();
         List<ImageBinder> requestImageBinderUpdates = new List<ImageBinder>();
         //-----------------------------------------------------------
+
+
         public HtmlContainer()
         {
             timTask.Interval = 20;//20 ms task
