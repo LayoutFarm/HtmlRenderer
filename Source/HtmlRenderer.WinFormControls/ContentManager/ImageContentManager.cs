@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using HtmlRenderer.Drawing;
+using HtmlRenderer.Boxes;
 using System.Threading;
 
-namespace HtmlRenderer.Boxes
+
+namespace HtmlRenderer.ContentManagers
 {
 
     public struct ImageContentRequest
@@ -78,7 +80,7 @@ namespace HtmlRenderer.Boxes
                         //....
                         //process image infomation
                         //....
-  
+
 
 
                         //send ready image notification to

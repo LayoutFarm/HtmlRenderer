@@ -10,7 +10,7 @@ using HtmlRenderer.Diagnostics;
 using HtmlRenderer.Handlers;
 using HtmlRenderer.Drawing;
 using System.Windows.Forms;
-
+using HtmlRenderer.ContentManagers;
 
 namespace HtmlRenderer
 {
