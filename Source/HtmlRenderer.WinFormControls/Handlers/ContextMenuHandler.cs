@@ -495,18 +495,18 @@ namespace HtmlRenderer.Handlers
         /// </summary>
         private void OnCopyImageClick(object sender, EventArgs eventArgs)
         {
-            try
-            {
-                Clipboard.SetImage(_currentRun.Image);
-            }
-            catch (Exception ex)
-            {
-                _htmlContainer.ReportError(HtmlRenderErrorType.ContextMenu, "Failed to copy image to clipboard", ex);
-            }
-            finally
-            {
-                DisposeContextMenu();
-            }
+            //try
+            //{
+            //    Clipboard.SetImage(_currentRun.Image);
+            //}
+            //catch (Exception ex)
+            //{
+            //    _htmlContainer.ReportError(HtmlRenderErrorType.ContextMenu, "Failed to copy image to clipboard", ex);
+            //}
+            //finally
+            //{
+            //    DisposeContextMenu();
+            //}
         }
 
         /// <summary>

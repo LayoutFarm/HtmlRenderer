@@ -54,10 +54,7 @@ namespace HtmlRenderer.Boxes
             get { return this.container.AvoidGeometryAntialias; }
         }
         //-----------------------------------------------------
-        internal HtmlContainer HtmlContainer
-        {
-            get { return this.container; }
-        }
+
         internal float LocalViewportTop
         {
             get { return this.physicalViewportY - ig.CanvasOriginY; }
@@ -94,7 +91,6 @@ namespace HtmlRenderer.Boxes
             ig.SetClip(intersectResult);
             return !intersectResult.IsEmpty;
         }
-
         internal void PopLocalClipArea()
         {
             if (clipStacks.Count > 0)
@@ -104,8 +100,12 @@ namespace HtmlRenderer.Boxes
                 ig.SetClip(prevClip);
             }
         }
-
-        internal void RequestImage(ImageBinder binder, CssBox requestFrom)
+        /// <summary>
+        /// async request for image
+        /// </summary>
+        /// <param name="binder"></param>
+        /// <param name="requestFrom"></param>
+        internal void RequestImageAsync(ImageBinder binder,  CssBox requestFrom)
         {
             HtmlRenderer.HtmlContainer.RaiseRequestImage(
                 this.container,

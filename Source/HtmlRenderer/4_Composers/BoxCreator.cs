@@ -15,44 +15,23 @@ namespace HtmlRenderer.Composers
     }
 
     public static class BoxCreator
-    {
-
-
+    {   
         static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
         public static void RegisterCustomCssBoxGenerator(CustomCssBoxGenerator generator)
         {
             generators.Add(generator);
-        }
-        //static CssBox CreateCustomCssBox(IHtmlElement tag, CssBox parentBox, BoxSpec spec)
-        //{
-        //    int j = generators.Count;
-        //    if (j > 0)
-        //    {
-        //        for (int i = j - 1; i >= 0; --i)
-        //        {
-        //            var box = generators[i].CreateCssBox(tag, parentBox, spec);
-        //            if (box != null)
-        //            {
-        //                return box;
-        //            }
-        //        }
-        //    }
-        //    return null;
-        //}
-
-
-
+        } 
         static CssBox CreateImageBox(CssBox parent, BridgeHtmlElement childElement)
         {
             string imgsrc;
             ImageBinder imgBinder = null;
             if (childElement.TryGetAttribute(WellknownHtmlName.Src, out imgsrc))
             {
-                imgBinder = new ImageBinder(imgsrc);
+                imgBinder = new BridgeImageBinder(imgsrc);
             }
             else
             {
-                imgBinder = new ImageBinder(null);
+                imgBinder = new BridgeImageBinder(null);
             }
             return new CssBoxImage(parent, childElement, childElement.Spec, imgBinder);
         }
@@ -75,6 +54,7 @@ namespace HtmlRenderer.Composers
                     return newBox;
 
                 case WellknownElementName.img:
+
                     return CreateImageBox(parentBox, childElement);
 
                 case WellknownElementName.hr:

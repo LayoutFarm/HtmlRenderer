@@ -15,7 +15,7 @@ namespace HtmlRenderer.Drawing
         {
             this.State = ImageBinderState.NoImage;
         }
-        public ImageBinder(string imgSource)
+        protected ImageBinder(string imgSource)
         {
             this._imageSource = imgSource;
         }
@@ -23,9 +23,7 @@ namespace HtmlRenderer.Drawing
         {
             get { return this._imageSource; }
         }
-
-
-
+         
         public ImageBinderState State
         {
             get;
@@ -35,6 +33,7 @@ namespace HtmlRenderer.Drawing
         {
             get { return this._image; }
         }
+
         public void SetImage(Image image)
         {
             if (image != null)

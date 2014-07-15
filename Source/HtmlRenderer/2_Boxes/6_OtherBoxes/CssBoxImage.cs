@@ -26,23 +26,11 @@ namespace HtmlRenderer.Boxes
     sealed class CssBoxImage : CssBox
     {
         #region Fields and Consts
-
         /// <summary>
         /// the image word of this image box
         /// </summary>
-        private readonly CssImageRun _imageWord;
-
-        /////// <summary>
-        /////// handler used for image loading by source
-        /////// </summary>
-        //private ImageLoadHandler _imageLoadHandler;
-
+        readonly CssImageRun _imageWord;
         ImageBinder _imgBinder;
-        /// <summary>
-        /// is image load is finished, used to know if no image is found
-        /// </summary>
-        private bool _imageLoadingComplete;
-
         #endregion
 
         /// <summary>
@@ -101,21 +89,13 @@ namespace HtmlRenderer.Boxes
         internal void PaintImage(IGraphics g, RectangleF rect, PaintVisitor p)
         {
 
-            //if (_imgBinder == null)
-            //{
-            //    _imgBinder = new ImageBinder(GetAttribute("src"));
-            //}
-
-            //p.PushLocalClipArea(rect.Width, rect.Height);
-
             PaintBackground(p, rect, true, true);
 
             if (this.HasSomeVisibleBorder)
             {
                 p.PaintBorders(this, rect, true, true);
             }
-
-
+            //--------------------------------------------------------- 
             RectangleF r = _imageWord.Rectangle;
 
             r.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
@@ -123,35 +103,37 @@ namespace HtmlRenderer.Boxes
             r.X = (float)Math.Floor(r.X);
             r.Y = (float)Math.Floor(r.Y);
 
+            bool tryLoadOnce = false;
+
+        EVAL_STATE:
             switch (_imgBinder.State)
             {
                 case ImageBinderState.Unload:
                     {
+                        //async request image
+                        if (!tryLoadOnce)
+                        {  
+                            _imageWord.ImageBinder = this._imgBinder;
+                            
+                            p.RequestImageAsync(_imgBinder, this);
 
-                        p.RequestImage(_imgBinder, this);
-
-                        RenderUtils.DrawImageErrorIcon(g, r);
+                            tryLoadOnce = true;
+                            goto EVAL_STATE;
+                        }
                     } break;
                 case ImageBinderState.Loaded:
                     {
 
                         if (_imageWord.Image != null)
                         {
+
                             if (_imageWord.ImageRectangle == Rectangle.Empty)
                             {
                                 g.DrawImage(_imageWord.Image, Rectangle.Round(r));
                             }
                             else
                             {
-
                                 g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
-                            }
-                        }
-                        else if (_imageLoadingComplete)
-                        {
-                            if (_imageLoadingComplete && r.Width > 19 && r.Height > 19)
-                            {
-                                RenderUtils.DrawImageErrorIcon(g, r);
                             }
                         }
                         else
@@ -170,7 +152,6 @@ namespace HtmlRenderer.Boxes
                 case ImageBinderState.Error:
                     {
                         RenderUtils.DrawImageErrorIcon(g, r);
-
                     } break;
             }
 

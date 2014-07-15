@@ -140,6 +140,9 @@ namespace HtmlRenderer.Composers
     {
         CssBox principalBox;
         Css.BoxSpec boxSpec;
+
+        bool hasMyOwnCssBoxFactory;
+
         public BridgeHtmlElement(BridgeHtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {

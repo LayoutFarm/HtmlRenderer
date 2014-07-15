@@ -19,19 +19,14 @@ namespace HtmlRenderer.Boxes
     /// Represents a word inside an inline box
     /// </summary>
     internal sealed class CssImageRun : CssRun
-    {
+    {   
 
-        /// <summary>
-        /// the image object if it is image word (can be null if not loaded)
-        /// </summary>
-        private Image _image;
+        HtmlRenderer.Drawing.ImageBinder imgBinder;
 
         /// <summary>
         /// the image rectange restriction as returned from image load event
         /// </summary>
-        private Rectangle _imageRectangle;
-       
-
+        Rectangle _imageRectangle;
         /// <summary>
         /// Creates a new BoxWord which represents an image
         /// </summary>
@@ -39,22 +34,27 @@ namespace HtmlRenderer.Boxes
         public CssImageRun()
             : base(CssRunKind.Image)
         {
-           
         }
-        //public CssBoxImage BoxImage
-        //{
-        //    get { return this.boxImage; }
-        //}
-
         /// <summary>
         /// Gets the image this words represents (if one exists)
         /// </summary>
-        public override Image Image
+        public Image Image
         {
-            get { return _image; }
-            set { _image = value; }
+            get
+            {
+                if (this.imgBinder != null)
+                {
+                    return imgBinder.Image;
+                }
+                return null;
+            }
         }
 
+        public HtmlRenderer.Drawing.ImageBinder ImageBinder
+        {
+            get { return this.imgBinder; }
+            set { this.imgBinder = value; }
+        }
         /// <summary>
         /// the image rectange restriction as returned from image load event
         /// </summary>

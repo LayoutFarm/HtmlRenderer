@@ -208,14 +208,14 @@ namespace HtmlRenderer.Boxes
         {
             get { return this._y + this._height; }
         }
-        /// <summary>
-        /// Gets the image this words represents (if one exists)
-        /// </summary>
-        public virtual Image Image
-        {
-            get { return null; }
-            set { }
-        }
+        ///// <summary>
+        ///// Gets the image this words represents (if one exists)
+        ///// </summary>
+        //public virtual Image Image
+        //{
+        //    get { return null; }
+        //    set { }
+        //}
 
         /// <summary>
         /// Gets if the word represents an image.

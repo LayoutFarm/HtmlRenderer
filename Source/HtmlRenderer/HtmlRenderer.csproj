@@ -88,6 +88,7 @@
     <Compile Include="1_Css\BoxSpec_CopyAndVersioning.cs" />
     <Compile Include="4_Composers\RunListHelper.cs" />
     <Compile Include="4_Composers\SpecSetter.cs" />
+    <Compile Include="4_Composers\WebBridgeResourceMx.cs" />
     <Compile Include="6_Diagnostics\DeprecatedAttribute.cs" />
     <Compile Include="6_Diagnostics\HtmlGenerator.cs" />
     <Compile Include="Platform\MapAttribute.cs" />
