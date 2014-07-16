@@ -69,7 +69,6 @@
     <Compile Include="2_Boxes\2_Runs\CssBlockRun.cs" />
     <Compile Include="2_Boxes\7_HitAndSelections\BoxHitChain.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_FlagsConst.cs" />
-    <Compile Include="2_Boxes\1_CoreBox\CssBoxAssignments.cs" />
     <Compile Include="2_Boxes\0_Root\CssBoxConstConfig.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_OtherActualValues.cs" />
     <Compile Include="3_Drawing_TextAndGraphics\FontInfo.cs" />

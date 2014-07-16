@@ -181,7 +181,7 @@ namespace HtmlRenderer.Boxes
                     localTop = prevSibling.LocalBottom + prevSibling.ActualBorderBottomWidth;
                 }
 
-                localTop += box.MarginTopCollapse(prevSibling);
+                localTop += box.UpdateMarginTopCollapse(prevSibling);
 
                 box.SetLocation(localLeft, localTop);
                 box.SetHeightToZero();
@@ -398,7 +398,8 @@ namespace HtmlRenderer.Boxes
             lay.LatestSiblingBox = currentLevelLatestSibling;
             lay.PopContainingBlock();
             //------------------------------------------------ 
-            float width = box.CalculateActualWidth();
+            float width = CalculateActualWidth(box);
+
             if (lay.ContainerBlockGlobalX + width > CssBoxConstConfig.BOX_MAX_RIGHT)
             {
             }
@@ -412,6 +413,20 @@ namespace HtmlRenderer.Boxes
             box.SetHeight(box.GetHeightAfterMarginBottomCollapse(lay.LatestContainingBlock));
         }
 
+        static float CalculateActualWidth(CssBox box)
+        {
+            float maxRight = 0;
+            var boxes = CssBox.UnsafeGetChildren(box);
+            var cnode = boxes.GetFirstLinkedNode();
+            while (cnode != null)
+            {
+                float nodeRight = cnode.Value.LocalRight; 
+                maxRight = nodeRight > maxRight ? nodeRight : maxRight; 
+                cnode = cnode.Next;
+            }
+            return maxRight + (box.ActualBorderLeftWidth + box.ActualPaddingLeft +
+                box.ActualPaddingRight + box.ActualBorderRightWidth);
+        }
 
 
 
@@ -444,10 +459,10 @@ namespace HtmlRenderer.Boxes
             //recursive ***
 
             var oX = cx;
-       
+
             if (splitableBox.MayHasSomeTextContent)
-            {    
-                 
+            {
+
                 FlowRunsIntoHost(lay, hostBox, splitableBox, splitableBox, 0,
                      limitLocalRight, firstRunStartX,
                      0, 0,
@@ -456,7 +471,7 @@ namespace HtmlRenderer.Boxes
             }
             else
             {
-                int childNumber = 0; 
+                int childNumber = 0;
                 bool splitableParentIsBlock = splitableBox.ParentBox.IsBlock;
                 var fontPool = lay.Gfx;
 

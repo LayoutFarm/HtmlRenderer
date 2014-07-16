@@ -526,14 +526,11 @@ namespace HtmlRenderer.Boxes
             }
             if (this.HasRuns)
             {
-                //find word spacing 
-
-                float actualWordspacing = MeasureWordSpacing(lay);
+                //find word spacing  
+                float actualWordspacing = this._actualWordSpacing;
                 Font actualFont = this.ActualFont;
                 var fontInfo = lay.GetFontInfo(actualFont);
                 float fontHeight = fontInfo.LineHeight;
-
-
 
                 var tmpRuns = this.Runs;
                 for (int i = tmpRuns.Count - 1; i >= 0; --i)
@@ -629,33 +626,29 @@ namespace HtmlRenderer.Boxes
 
             float maxRunWidth = 0;
             CssRun foundRun = null;
-            foreach (CssLineBox lineBox in box.GetLineBoxIter())
+
+            if (box._clientLineBoxes != null)
             {
-                foreach (CssRun run in lineBox.GetRunIter())
+                var lineNode = box._clientLineBoxes.First;
+                while (lineNode != null)
                 {
-                    if (run.Width >= maxRunWidth)
+                    //------------------------
+                    var line = lineNode.Value;
+                    var tmpRun = line.FindMaxWidthRun(maxRunWidth);
+                    if (tmpRun != null)
                     {
-                        foundRun = run;
-                        maxRunWidth = run.Width;
+                        maxRunWidth = tmpRun.Width;
+                        foundRun = tmpRun;
                     }
-                }
-            }
+                    //------------------------
+                    lineNode = lineNode.Next;
+                } 
+            } 
+           
             maxWidth = maxRunWidth;
             maxWidthRun = foundRun;
         }
-        internal float CalculateActualWidth()
-        {
-            float maxRight = 0;
-            var cnode = this.Boxes.GetFirstLinkedNode();
-            while (cnode != null)
-            {
-                maxRight = Math.Max(maxRight, cnode.Value.LocalRight);
-                cnode = cnode.Next;
-            }
 
-            return maxRight + (this.ActualBorderLeftWidth + this.ActualPaddingLeft +
-                this.ActualPaddingRight + this.ActualBorderRightWidth);
-        }
 
         bool IsLastChild
         {
@@ -669,7 +662,7 @@ namespace HtmlRenderer.Boxes
         /// </summary>
         /// <param name="upperSibling">the previous box under the same parent</param>
         /// <returns>Resulting top margin</returns>
-        public float MarginTopCollapse(CssBox upperSibling)
+        public float UpdateMarginTopCollapse(CssBox upperSibling)
         {
             float value;
             if (upperSibling != null)

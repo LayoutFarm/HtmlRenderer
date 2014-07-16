@@ -72,6 +72,7 @@ namespace HtmlRenderer
         /// <returns>the value of the property, null if no such property exists</returns>
         public static string GetPropertyValue(CssBox cssBox, string propName)
         {
+             
             switch (propName)
             {
                 case "border-bottom-width":

@@ -10,7 +10,7 @@ using HtmlRenderer.Css;
 
 namespace HtmlRenderer.Boxes
 {
-   
+
 
 
     partial class CssBox
@@ -148,7 +148,7 @@ namespace HtmlRenderer.Boxes
             //depend on parent
             //1. fonts 
             if (this.ParentBox != null)
-            {   
+            {
                 ReEvaluateFont(iFonts, this.ParentBox.ActualFont.Size);
                 //2. actual word spacing
                 //this._actualWordSpacing = this.NoEms(this.InitSpec.LineHeight);
@@ -203,7 +203,7 @@ namespace HtmlRenderer.Boxes
                     } break;
                 default:
                     {
-                           
+
                         this._actualMarginLeft = RecalculateMargin(this.MarginLeft, cbWidth);
                         this._actualMarginTop = RecalculateMargin(this.MarginTop, cbWidth);
                         this._actualMarginRight = RecalculateMargin(this.MarginRight, cbWidth);
@@ -289,9 +289,22 @@ namespace HtmlRenderer.Boxes
             }
 
 
-            //text indent  
-            this._prop_pass_eval |= CssBoxAssignments.TEXT_INDENT;
+            if (spec.WordSpacing.IsNormalWordSpacing)
+            {
+                this._actualWordSpacing = iFonts.MeasureWhitespace(_actualFont);
+            }
+            else
+            {
+                this._actualWordSpacing = iFonts.MeasureWhitespace(_actualFont)
+                    + CssValueParser.ConvertToPx(spec.WordSpacing, 1, this);
+            }
+
+
+            //text indent   
+             
             this._actualTextIndent = CssValueParser.ConvertToPx(spec.TextIndent, containingBlock.SizeWidth, this);
+            this._actualBorderSpacingHorizontal = spec.BorderSpacingHorizontal.Number;
+            this._actualBorderSpacingVertical = spec.BorderSpacingVertical.Number;
 
             //this._actualLineHeight = 0.9f * CssValueParser.ConvertToPx(LineHeight, this.GetEmHeight(), this);
 

@@ -71,7 +71,7 @@ namespace HtmlRenderer.Boxes
                 localTop = prevSibling.LocalBottom + prevSibling.ActualBorderBottomWidth;
             }
 
-            float maringTopCollapse = MarginTopCollapse(prevSibling);
+            float maringTopCollapse = UpdateMarginTopCollapse(prevSibling);
 
             if (maringTopCollapse < 0.1)
             {

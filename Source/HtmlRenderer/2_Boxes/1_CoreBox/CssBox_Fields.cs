@@ -19,17 +19,11 @@ using System.Collections.Generic;
 
 namespace HtmlRenderer.Boxes
 {
-    public enum FormattingContext
-    {
-        NoFormat,
-        Lines,
-        Block
-    }
+    
 
     partial class CssBox
     {
-        FormattingContext formattingContent;
-
+        
         readonly object _controller;
         //----------------------------------------------------
         /// <summary>
@@ -56,10 +50,7 @@ namespace HtmlRenderer.Boxes
         //for other subbox , list item , shadow... 
         SubBoxCollection _subBoxes;
         //----------------------------------------------------   
-
-        //state
-        protected int _prop_pass_eval;
-
+         
         /// <summary>
         /// Gets the childrenn boxes of this box
         /// </summary>      
@@ -146,17 +137,7 @@ namespace HtmlRenderer.Boxes
         {
             this.Boxes.InsertBefore(this, beforeBox, box);
         } 
-        internal FormattingContext ContentFormattingContext
-        {
-            get
-            {
-                return this.formattingContent;
-            }
-            set
-            {
-                this.formattingContent = value;
-            }
-        }
+     
         //-------------------------------------
         internal void ResetLineBoxes()
         {
