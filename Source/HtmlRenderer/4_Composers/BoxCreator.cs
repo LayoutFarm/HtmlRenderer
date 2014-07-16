@@ -49,8 +49,8 @@ namespace HtmlRenderer.Composers
                 case WellknownElementName.br:
                     //special treatment for br
                     newBox = new CssBox(parentBox, childElement, childElement.Spec);
-                    CssBox.SetAsBrBox(newBox);
-                    CssBox.ChangeDisplayType(newBox, CssDisplay.BlockInsideInlineAfterCorrection);
+                    CssBox.SetAsBrBox(newBox); 
+                    CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
                     return newBox;
 
                 case WellknownElementName.img:
@@ -137,6 +137,7 @@ namespace HtmlRenderer.Composers
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
             var box = new CssBox(null, null, spec);
+            box.ContentFormattingContext = FormattingContext.Block;
             //------------------------------------
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------

@@ -32,6 +32,11 @@ namespace HtmlRenderer.Boxes
             if (htmlE == null)
             {
                 //anonymous box
+                //Font f = new Font("tahoma", 10);
+                //p.Gfx.DrawString(this.__aa_dbugId.ToString(), f, System.Drawing.Color.Black,
+                //     new PointF(r.Left + 10, r.Top + 10), new SizeF(r.Width, r.Height));
+                //f.Dispose();
+
                 p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);
             }
             else
@@ -43,9 +48,9 @@ namespace HtmlRenderer.Boxes
                     case Css.CssDisplay.TableCell:
                         selectedPens = Pens.OrangeRed;
                         break;
-                    case Css.CssDisplay.BlockInsideInlineAfterCorrection:
-                        selectedPens = Pens.Magenta;
-                        break;
+                    //case Css.CssDisplay.BlockInsideInlineAfterCorrection:
+                    //    selectedPens = Pens.Magenta;
+                    //    break;
                     default:
                         selectedPens = Pens.Green;
                         break;

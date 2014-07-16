@@ -53,7 +53,7 @@ namespace HtmlRenderer.Boxes
         /// </summary>
         public Image Image
         {
-            get { return _imageWord.Image; }
+            get { return this._imgBinder.Image; }
         }
         //void OnImageBinderLoadingComplete()
         //{
@@ -120,19 +120,30 @@ namespace HtmlRenderer.Boxes
                             goto EVAL_STATE;
                         }
                     } break;
+                case ImageBinderState.Loading:
+                    {
+                        //RenderUtils.DrawImageLoadingIcon(g, r);
+                    } break;
                 case ImageBinderState.Loaded:
                     {
 
-                        if (_imageWord.Image != null)
+                        System.Drawing.Image img;
+                        if ((img = _imgBinder.Image) != null)
                         {
 
                             if (_imageWord.ImageRectangle == Rectangle.Empty)
                             {
-                                g.DrawImage(_imageWord.Image, Rectangle.Round(r));
+                                g.DrawImage(img,
+                                    new RectangleF(r.Left, r.Top,
+                                        img.Width, img.Height));
+
+                               // g.DrawImage(img, Rectangle.Round(r));
                             }
                             else
                             {
-                                g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
+                                //
+                                g.DrawImage(img, _imageWord.ImageRectangle);
+                                //g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
                             }
                         }
                         else
@@ -187,9 +198,7 @@ namespace HtmlRenderer.Boxes
                 this.RunSizeMeasurePass = true;
             }
             CssLayoutEngine.MeasureImageSize(_imageWord, lay);
-        }
-
-
+        } 
         #region Private methods
 
         ///// <summary>

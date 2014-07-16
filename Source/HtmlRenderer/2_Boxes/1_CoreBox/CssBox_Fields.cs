@@ -19,14 +19,18 @@ using System.Collections.Generic;
 
 namespace HtmlRenderer.Boxes
 {
-
-    //collection features
+    public enum FormattingContext
+    {
+        NoFormat,
+        Lines,
+        Block
+    }
 
     partial class CssBox
     {
+        FormattingContext formattingContent;
 
         readonly object _controller;
-
         //----------------------------------------------------
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
@@ -133,6 +137,7 @@ namespace HtmlRenderer.Boxes
         {
             return this._aa_boxes.GetLastChild();
         }
+
         public void AppendChild(CssBox box)
         {
             this.Boxes.AddChild(this, box);
@@ -140,6 +145,17 @@ namespace HtmlRenderer.Boxes
         public void InsertChild(CssBox beforeBox, CssBox box)
         {
             this.Boxes.InsertBefore(this, beforeBox, box);
+        } 
+        internal FormattingContext ContentFormattingContext
+        {
+            get
+            {
+                return this.formattingContent;
+            }
+            set
+            {
+                this.formattingContent = value;
+            }
         }
         //-------------------------------------
         internal void ResetLineBoxes()
@@ -203,7 +219,7 @@ namespace HtmlRenderer.Boxes
             {
                 throw new Exception("before box doesn't exist on parent");
             }
-            this._parentBox.Boxes.dbugChangeSiblingIndex(_parentBox,this, siblingIndex);
+            this._parentBox.Boxes.dbugChangeSiblingIndex(_parentBox, this, siblingIndex);
         }
 #endif
 

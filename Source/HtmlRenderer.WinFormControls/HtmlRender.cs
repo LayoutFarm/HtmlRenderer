@@ -444,7 +444,7 @@ namespace HtmlRenderer
 
                 myContainer.StylesheetLoadingRequest += stylesheetLoad;
             if (imageLoad != null)
-                myContainer.ImageLoadingRequest += imageLoad;
+                myContainer.ImageContentMan.ImageLoadingRequest += imageLoad;
             container.SetHtml(html, cssData);
 
             var finalSize = MeasureHtmlByRestrictions(container, minSize, maxSize);
@@ -572,7 +572,7 @@ namespace HtmlRenderer
             if (stylesheetLoad != null)
                 myContainer.StylesheetLoadingRequest += stylesheetLoad;
             if (imageLoad != null)
-                myContainer.ImageLoadingRequest += imageLoad;
+                myContainer.ImageContentMan.ImageLoadingRequest += imageLoad;
             container.SetHtml(html, cssData);
 
             var finalSize = MeasureHtmlByRestrictions(container, minSize, maxSize);
@@ -627,7 +627,7 @@ namespace HtmlRenderer
                 if (stylesheetLoad != null)
                     myContainer.StylesheetLoadingRequest += stylesheetLoad;
                 if (imageLoad != null)
-                    myContainer.ImageLoadingRequest += imageLoad;
+                    myContainer.ImageContentMan.ImageLoadingRequest += imageLoad;
 
                 container.SetHtml(html, cssData);
                 using (var gfx = new WinGraphics(g, container.UseGdiPlusTextRendering))
@@ -755,7 +755,7 @@ namespace HtmlRenderer
                     if (stylesheetLoad != null)
                         container.StylesheetLoadingRequest += stylesheetLoad;
                     if (imageLoad != null)
-                        container.ImageLoadingRequest += imageLoad;
+                        container.ImageContentMan.ImageLoadingRequest += imageLoad;
 
                     container.SetHtml(html, cssData);
                     container.PerformLayout(g);

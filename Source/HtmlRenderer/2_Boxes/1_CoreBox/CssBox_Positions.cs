@@ -10,6 +10,9 @@ using HtmlRenderer.Css;
 
 namespace HtmlRenderer.Boxes
 {
+   
+
+
     partial class CssBox
     {
 
@@ -201,6 +204,7 @@ namespace HtmlRenderer.Boxes
                     } break;
                 default:
                     {
+                           
                         this._actualMarginLeft = RecalculateMargin(this.MarginLeft, cbWidth);
                         this._actualMarginTop = RecalculateMargin(this.MarginTop, cbWidth);
                         this._actualMarginRight = RecalculateMargin(this.MarginRight, cbWidth);

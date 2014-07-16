@@ -402,6 +402,9 @@ namespace HtmlRenderer.Demo
         /// </summary>
         private void OnImageLoad(object sender, HtmlRenderer.Boxes.HtmlImageRequestEventArgs e)
         {
+
+
+
             var img = TryLoadResourceImage(e.ImagSource);
             e.SetResultImage(img);
 

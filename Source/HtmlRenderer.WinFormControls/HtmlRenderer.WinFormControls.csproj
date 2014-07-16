@@ -38,6 +38,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentManager\TextContentManager.cs" />
     <Compile Include="Events\HtmlImageRequestEventArgs.cs" />
     <Compile Include="Events\HtmlLinkClickedEventArgs.cs" />
     <Compile Include="Events\HtmlLinkClickedException.cs" />
@@ -47,7 +48,6 @@
     <Compile Include="Events\HtmlStylesheetLoadEventArgs.cs" />
     <Compile Include="Handlers\ContextMenuHandler.cs" />
     <Compile Include="Handlers\HtmlClipboardUtils.cs" />
-    <Compile Include="Handlers\ImageContentManager.cs" />
     <Compile Include="Handlers\ISelectHandler.cs" />
     <Compile Include="Handlers\ReadyStateChangedHandler.cs" />
     <Compile Include="Platform\ClibboardHelper.cs" />
@@ -64,6 +64,7 @@
     <Compile Include="HtmlToolTip.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ContentManager\ImageContentManager.cs" />
     <Compile Include="Platform\WinGraphics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Win32Utils.cs" />

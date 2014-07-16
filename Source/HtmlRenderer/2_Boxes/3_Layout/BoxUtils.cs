@@ -136,24 +136,7 @@ namespace HtmlRenderer.Boxes
             return null;
         }
 
-        /// <summary>
-        /// Check if the given box contains only inline child boxes.
-        /// </summary>
-        /// <param name="box">the box to check</param>
-        /// <returns>true - only inline child boxes, false - otherwise</returns>
-        public static bool ContainsInlinesOnly(CssBox box)
-        {
-
-            foreach (CssBox b in box.GetChildBoxIter())
-            {
-                if (!b.IsInline &&
-                    (b.CssDisplay != Css.CssDisplay.BlockInsideInlineAfterCorrection))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        
 
 
 

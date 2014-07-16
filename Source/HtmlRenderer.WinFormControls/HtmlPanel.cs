@@ -97,7 +97,7 @@ namespace HtmlRenderer
             _htmlContainer.Refresh += OnRefresh;
             _htmlContainer.ScrollChange += OnScrollChange;
             _htmlContainer.StylesheetLoadingRequest += OnStylesheetLoad;
-            _htmlContainer.ImageLoadingRequest += OnImageLoad;
+            _htmlContainer.ImageContentMan.ImageLoadingRequest += OnImageLoad;
 
 
         }
@@ -566,7 +566,7 @@ namespace HtmlRenderer
                 _htmlContainer.Refresh -= OnRefresh;
                 _htmlContainer.ScrollChange -= OnScrollChange;
                 _htmlContainer.StylesheetLoadingRequest -= OnStylesheetLoad;
-                _htmlContainer.ImageLoadingRequest -= OnImageLoad;
+                _htmlContainer.ImageContentMan.ImageLoadingRequest -= OnImageLoad;
                 _htmlContainer.Dispose();
                 _htmlContainer = null;
             }

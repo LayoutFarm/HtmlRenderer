@@ -19,10 +19,9 @@ namespace HtmlRenderer.Boxes
     /// Represents a word inside an inline box
     /// </summary>
     internal sealed class CssImageRun : CssRun
-    {   
+    {
 
         HtmlRenderer.Drawing.ImageBinder imgBinder;
-
         /// <summary>
         /// the image rectange restriction as returned from image load event
         /// </summary>
@@ -38,7 +37,7 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// Gets the image this words represents (if one exists)
         /// </summary>
-        public Image Image
+        Image Image
         {
             get
             {
@@ -47,6 +46,37 @@ namespace HtmlRenderer.Boxes
                     return imgBinder.Image;
                 }
                 return null;
+            }
+        }
+        public int OriginalImageWidth
+        {
+            get
+            {
+                var img = this.Image;
+                if (img != null)
+                {
+                    return img.Width;
+                }
+                return 1; //default image width
+            }
+        }
+        public int OriginalImageHeight
+        {
+            get
+            {
+                var img = this.Image;
+                if (img != null)
+                {
+                    return img.Height;
+                }
+                return 1; //default image width
+            }
+        }
+        public bool HasUserImageContent
+        {
+            get
+            {
+                return this.Image != null;
             }
         }
 
@@ -64,6 +94,8 @@ namespace HtmlRenderer.Boxes
             set { _imageRectangle = value; }
         }
 
+
+#if DEBUG
         /// <summary>
         /// Represents this word for debugging purposes
         /// </summary>
@@ -72,5 +104,6 @@ namespace HtmlRenderer.Boxes
         {
             return "Image";
         }
+#endif
     }
 }
