@@ -5,16 +5,8 @@ namespace HtmlRenderer.Boxes
 
 
     static class CssBoxLayoutExtension
-    {
-
-        internal static void UseExpectedHeight(this CssBox box)
-        {
-            box.SetHeight(box.ExpectedHeight);
-        }
-        internal static bool IsAbsolutePosition(this CssBox box)
-        {
-            return box.Position == Css.CssPosition.Absolute;
-        }
+    { 
+        
         internal static float CalculateInnerContentHeight(this CssBox startBox)
         {
             //calculate inner content height
