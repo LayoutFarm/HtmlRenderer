@@ -3,14 +3,15 @@ using System.Collections.Generic;
 
 using System.Text;
 using System.Drawing;
-
+using System.Windows.Forms;
 using System.Diagnostics;
+
 using HtmlRenderer.Boxes;
-using HtmlRenderer.Diagnostics;
+using HtmlRenderer.WebDom;
 using HtmlRenderer.Handlers;
 using HtmlRenderer.Drawing;
-using System.Windows.Forms;
 using HtmlRenderer.ContentManagers;
+using HtmlRenderer.Diagnostics;
 
 namespace HtmlRenderer
 {
@@ -20,7 +21,7 @@ namespace HtmlRenderer
 
 
         ImageContentManager imageContentManager;
-
+        TextContentManager textContentManager;
 
         /// <summary>
         /// Handler for text selection in the html. 
@@ -48,12 +49,6 @@ namespace HtmlRenderer
         /// </remarks>
         public event EventHandler<HtmlRenderErrorEventArgs> RenderError;
 
-        /// <summary>
-        /// Raised when a stylesheet is about to be loaded by file path or URI by link element.<br/>
-        /// This event allows to provide the stylesheet manually or provide new source (file or Uri) to load from.<br/>
-        /// If no alternative data is provided the original source will be used.<br/>
-        /// </summary>
-        public event EventHandler<HtmlStylesheetLoadEventArgs> StylesheetLoadingRequest;
 
 
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
@@ -63,6 +58,8 @@ namespace HtmlRenderer
 
             this.IsSelectionEnabled = true;
             imageContentManager = new ImageContentManager(this);
+            textContentManager = new TextContentManager(this);
+
         }
         protected override void RequestRefresh(bool layout)
         {
@@ -83,11 +80,6 @@ namespace HtmlRenderer
                     imageContentManager.AddRequestImage(new ImageContentRequest(binder, requestBox));
                 }
             }
-            //if (this.ImageLoadingRequest != null)
-            //{
-            //    HtmlImageRequestEventArgs arg = new HtmlImageRequestEventArgs(binder);
-            //    this.ImageLoadingRequest(this, arg);
-            //}
         }
         public ImageContentManager ImageContentMan
         {
@@ -96,21 +88,29 @@ namespace HtmlRenderer
                 return this.imageContentManager;
             }
         }
-        protected override void OnRequestStyleSheet(string hrefSource, out string stylesheet, out WebDom.CssActiveSheet stylesheetData)
+        public TextContentManager TextContentMan
         {
-            if (this.StylesheetLoadingRequest != null)
+            get
             {
-                HtmlStylesheetLoadEventArgs arg = new HtmlStylesheetLoadEventArgs(hrefSource);
-                this.StylesheetLoadingRequest(this, arg);
-                stylesheet = arg.SetStyleSheet;
-                stylesheetData = arg.SetStyleSheetData;
+                return this.textContentManager;
+            }
+        }
+        protected override void OnRequestStyleSheet(string hrefSource,
+            out string stylesheet,
+            out WebDom.CssActiveSheet stylesheetData)
+        {
+            if (textContentManager != null)
+            {
+                textContentManager.AddStyleSheetRequest(hrefSource,
+                    out stylesheet,
+                    out stylesheetData);
             }
             else
             {
                 stylesheet = null;
                 stylesheetData = null;
-
             }
+
         }
         public void PerformPaint(Graphics g)
         {
@@ -234,7 +234,7 @@ namespace HtmlRenderer
             }
             catch (Exception ex)
             {
-                ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed mouse down handle", ex);
+                ReportError(HtmlRenderer.Diagnostics.HtmlRenderErrorType.KeyboardMouse, "Failed mouse down handle", ex);
             }
         }
         /// <summary>

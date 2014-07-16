@@ -1,8 +1,8 @@
 ﻿//2014 ,BSD, WinterDev 
-using System; 
-namespace HtmlRenderer 
+using System;
+namespace HtmlRenderer
 {
-     class MapAttribute : Attribute
+    class MapAttribute : Attribute
     {
         public MapAttribute(string name)
         {

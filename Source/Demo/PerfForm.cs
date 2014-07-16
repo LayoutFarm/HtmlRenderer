@@ -86,8 +86,8 @@ namespace HtmlRenderer.Demo
                         foreach (var html in _perfTestSamples)
                         {
                             WinGraphics winGfx = new WinGraphics(g, false);
-                            var rootBox = bulder.ParseAndBuildBoxTree(html, winGfx, htmlContainer, null); 
-                            htmlContainer.SetHtml(rootBox, null);
+                            var rootBox = bulder.ParseAndBuildBoxTree(html, winGfx, htmlContainer, null);
+                            htmlContainer.SetRootCssBox(rootBox);
 
                             if (Layout)
                             {

@@ -2,10 +2,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using HtmlRenderer.WebDom;
+using System.Drawing; 
 using HtmlRenderer.Drawing;
-namespace HtmlRenderer.Boxes
+
+namespace HtmlRenderer.WebDom
 {
     public class HtmlImageRequestEventArgs : EventArgs
     {

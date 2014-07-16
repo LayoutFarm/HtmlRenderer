@@ -1,5 +1,6 @@
-﻿
-//BSD 2014, WinterDev 
+﻿//BSD 2014, WinterDev 
+//ArthurHub
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -43,7 +44,7 @@ namespace HtmlRenderer.ContentManagers
     public class ImageContentManager
     {
 
-        public event EventHandler<HtmlImageRequestEventArgs> ImageLoadingRequest;
+        public event EventHandler<WebDom.HtmlImageRequestEventArgs> ImageLoadingRequest;
 
         LinkedList<ImageContentRequest> inputList = new LinkedList<ImageContentRequest>();
         LinkedList<ImageBinder> outputList = new LinkedList<ImageBinder>();
@@ -102,7 +103,7 @@ namespace HtmlRenderer.ContentManagers
 
                             this.ImageLoadingRequest(
                                 this,
-                                new HtmlImageRequestEventArgs(
+                                new WebDom.HtmlImageRequestEventArgs(
                                 binder));
 
                             //....
@@ -148,7 +149,6 @@ namespace HtmlRenderer.ContentManagers
                 }
             }
         }
-
         public void AddRequestImage(ImageContentRequest contentReq)
         {
             //binder and req box 
@@ -162,8 +162,5 @@ namespace HtmlRenderer.ContentManagers
             //and store in outputlist         
             hasSomeInputHint = true;
         }
-
-
-
     }
 }

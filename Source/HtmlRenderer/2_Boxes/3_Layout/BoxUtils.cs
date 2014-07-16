@@ -136,7 +136,7 @@ namespace HtmlRenderer.Boxes
             return null;
         }
 
-        
+
 
 
 
@@ -335,6 +335,29 @@ namespace HtmlRenderer.Boxes
                 }
             }
             return null;
+        }
+        /// <summary>
+        /// Gets the containing block-box of this box. (The nearest parent box with display=block)
+        /// </summary>
+        internal static CssBox SearchUpForContainingBlockBox(CssBox startBox)
+        {
+
+            if (startBox.ParentBox == null)
+            {
+                return startBox; //This is the initial containing block.
+            }
+
+            var box = startBox.ParentBox;
+            while (box.CssDisplay < Css.CssDisplay.__CONTAINER_BEGIN_HERE &&
+                box.ParentBox != null)
+            {
+                box = box.ParentBox;
+            }
+
+            //Comment this following line to treat always superior box as block
+            if (box == null)
+                throw new Exception("There's no containing block on the chain");
+            return box;
         }
 
 

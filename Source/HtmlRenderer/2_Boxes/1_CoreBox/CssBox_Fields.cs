@@ -99,19 +99,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-        public IEnumerable<CssRun> GetRunBackwardIter()
-        {
-            if (this._aa_contentRuns != null)
-            {
-                var tmpRuns = this._aa_contentRuns;
-                int j = tmpRuns.Count;
-                for (int i = tmpRuns.Count - 1; i >= 0; --i)
-                {
-                    yield return tmpRuns[i];
-                }
-            }
-        }
-
+       
         public int ChildCount
         {
             get
@@ -124,11 +112,7 @@ namespace HtmlRenderer.Boxes
         {
             return this._aa_boxes.GetFirstChild();
         }
-        public CssBox GetLastChild()
-        {
-            return this._aa_boxes.GetLastChild();
-        }
-
+         
         public void AppendChild(CssBox box)
         {
             this.Boxes.AddChild(this, box);
@@ -165,7 +149,8 @@ namespace HtmlRenderer.Boxes
                 return this._colSpan;
             }
         }
-        internal void SetRowColSpan(int rowSpan, int colSpan)
+
+        internal void SetRowSpanAndColSpan(int rowSpan, int colSpan)
         {
             this._rowSpan = rowSpan;
             this._colSpan = colSpan;

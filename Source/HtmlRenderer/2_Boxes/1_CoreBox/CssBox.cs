@@ -175,30 +175,7 @@ namespace HtmlRenderer.Boxes
                 return (this._boxCompactFlags & CssBoxFlagsConst.HAS_CONTAINER_PROP) != 0;
             }
         }
-        /// <summary>
-        /// Gets the containing block-box of this box. (The nearest parent box with display=block)
-        /// </summary>
-        internal CssBox SearchUpForContainingBlockBox()
-        {
-
-            if (ParentBox == null)
-            {
-                return this; //This is the initial containing block.
-            }
-
-            var box = ParentBox;
-            while (box.CssDisplay < Css.CssDisplay.__CONTAINER_BEGIN_HERE &&
-                box.ParentBox != null)
-            {
-                box = box.ParentBox;
-            }
-
-            //Comment this following line to treat always superior box as block
-            if (box == null)
-                throw new Exception("There's no containing block on the chain");
-            return box;
-        }
-
+      
         /// <summary>
         /// Gets if this box represents an image
         /// </summary>
@@ -216,8 +193,7 @@ namespace HtmlRenderer.Boxes
         public bool IsSpaceOrEmpty
         {
             get
-            {
-
+            {   
                 if (this.Boxes.Count != 0)
                 {
                     return true;
@@ -431,8 +407,7 @@ namespace HtmlRenderer.Boxes
         {
             //derived class can perform its own layout algo            
             //by override performContentLayout 
-            PerformContentLayout(lay);
-
+            PerformContentLayout(lay); 
         }
         #region Private Methods
 
@@ -475,8 +450,7 @@ namespace HtmlRenderer.Boxes
                         this.MeasureRunsSize(lay);
                         //---------------------------------------------------------
                         //for general block layout 
-                        CssLayoutEngine.PerformContentLayout(this, lay);
-
+                        CssLayoutEngine.PerformContentLayout(this, lay); 
 
                     } break;
             }

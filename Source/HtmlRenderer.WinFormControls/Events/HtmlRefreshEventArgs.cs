@@ -15,7 +15,7 @@
 
 using System;
 
-namespace HtmlRenderer.Diagnostics
+namespace HtmlRenderer.WebDom
 {
     /// <summary>
     /// Raised when html renderer requires refresh of the control hosting (invalidation and re-layout).<br/>

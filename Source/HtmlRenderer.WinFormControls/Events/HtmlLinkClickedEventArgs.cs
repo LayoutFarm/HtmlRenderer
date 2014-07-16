@@ -15,8 +15,8 @@
 
 using System;
 using System.Collections.Generic;
-using HtmlRenderer.WebDom;
-namespace HtmlRenderer.Diagnostics
+ 
+namespace HtmlRenderer.WebDom
 {
     /// <summary>
     /// Raised when the user clicks on a link in the html.

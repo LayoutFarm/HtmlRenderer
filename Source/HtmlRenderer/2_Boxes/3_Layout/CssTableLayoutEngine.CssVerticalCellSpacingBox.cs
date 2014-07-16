@@ -38,7 +38,7 @@ namespace HtmlRenderer.Boxes
                 : base(tableBox, null, specForVCell)
             {
                 _extendedBox = extendedBox;
-                this.SetRowColSpan(1, 1);
+                this.SetRowSpanAndColSpan(1, 1);
                 _endRow = startRow + extendedBox.RowSpan - 1;
 
                 ReEvaluateComputedValues(iFonts, tableBox);

@@ -88,6 +88,7 @@ namespace HtmlRenderer
         /// the root css box of the parsed html
         /// </summary>
         private CssBox _rootBox;
+
         /// <summary>
         /// the text fore color use for selected text
         /// </summary>
@@ -97,22 +98,6 @@ namespace HtmlRenderer
         /// the backcolor to use for selected text
         /// </summary>
         private Color _selectionBackColor;
-
-        /// <summary>
-        /// the parsed stylesheet data used for handling the html
-        /// </summary>
-        private WebDom.CssActiveSheet _cssData;
-
-        /// <summary>
-        /// Is content selection is enabled for the rendered html (default - true).<br/>
-        /// If set to 'false' the rendered html will be static only with ability to click on links.
-        /// </summary>
-        private bool _isSelectionEnabled = true;
-
-        /// <summary>
-        /// Is the build-in context menu enabled (default - true)
-        /// </summary>
-        private bool _isContextMenuEnabled = true;
 
         /// <summary>
         /// Gets or sets a value indicating if antialiasing should be avoided 
@@ -161,7 +146,6 @@ namespace HtmlRenderer
         #endregion
 
 
-
         /// <summary>
         /// 99999
         /// </summary>
@@ -199,13 +183,7 @@ namespace HtmlRenderer
 #endif
             }
         }
-        /// <summary>
-        /// the parsed stylesheet data used for handling the html
-        /// </summary>
-        public WebDom.CssActiveSheet CssData
-        {
-            get { return _cssData; }
-        }
+
         public void AddRequestImageBinderUpdate(ImageBinder binder)
         {
             this.requestImageBinderUpdates.Add(binder);
@@ -381,34 +359,8 @@ namespace HtmlRenderer
             set { _selectionBackColor = value; }
         }
 
-        ///// <summary>
-        ///// Init with optional document and stylesheet.
-        ///// </summary>
-        ///// <param name="htmlSource">the html to init with, init empty if not given</param>
-        ///// <param name="baseCssData">optional: the stylesheet to init with, init default if not given</param>
-        //public void SetHtml(string htmlSource, WebDom.CssActiveSheet baseCssData = null)
-        //{
 
-        //    if (_rootBox != null)
-        //    {
-        //        _rootBox = null;
-        //        //---------------------------
-        //        this.OnRootDisposed();
-        //    }
-
-        //    if (!string.IsNullOrEmpty(htmlSource))
-        //    {
-
-        //        _cssData = baseCssData ?? CssUtils.DefaultCssData;
-        //        _rootBox = HtmlRenderer.Composers.BoxModelBuilder.ParseAndBuildBoxTree(htmlSource, this, _cssData);
-
-        //        if (_rootBox != null)
-        //        {
-        //            this.OnRootCreated(_rootBox);
-        //        }
-        //    }
-        //}
-        public void SetHtml(CssBox rootBox, WebDom.CssActiveSheet baseCssData)
+        public void SetRootCssBox(CssBox rootBox)
         {
 
             if (_rootBox != null)
@@ -417,23 +369,12 @@ namespace HtmlRenderer
                 //---------------------------
                 this.OnRootDisposed();
             }
-            _cssData = baseCssData;
             _rootBox = rootBox;
             if (rootBox != null)
             {
                 this.OnRootCreated(_rootBox);
             }
-            //if (!string.IsNullOrEmpty(htmlSource))
-            //{
 
-            //    _cssData = baseCssData;
-            //    _rootBox = HtmlRenderer.Composers.BoxModelBuilder.ParseAndBuildBoxTree(htmlSource, this, _cssData);
-
-            //    if (_rootBox != null)
-            //    {
-            //        this.OnRootCreated(_rootBox);
-            //    }
-            //}
         }
         protected virtual void OnRootDisposed()
         {
@@ -502,8 +443,7 @@ namespace HtmlRenderer
             }
             //----------------------- 
             _actualWidth = _actualHeight = 0;
-            // if width is not restricted we set it to large value to get the actual later             
-
+            // if width is not restricted we set it to large value to get the actual later    
             _rootBox.SetLocation(_location.X, _location.Y);
             _rootBox.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
 
@@ -518,11 +458,11 @@ namespace HtmlRenderer
             {
                 // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
 
-
                 _rootBox.SetWidth((int)Math.Ceiling(this._actualWidth));
                 _actualWidth = _actualHeight = 0;
                 _rootBox.PerformLayout(layoutArgs);
             }
+
             layoutArgs.PopContainingBlock();
 
         }
@@ -584,142 +524,22 @@ namespace HtmlRenderer
                 out stylesheetData);
 
         }
+        
         protected abstract void OnRequestStyleSheet(string hrefSource,
             out string stylesheet,
             out WebDom.CssActiveSheet stylesheetData);
 
-
-
-
-
-        ///// <summary>
-        ///// request style sheet
-        ///// </summary>
-        ///// <param name="hrefSource"></param>
-        ///// <param name="stylesheet"></param>
-        ///// <param name="stylesheetData"></param>
-        //internal void RequestStyleSheet(string hrefSource,
-        //    out string stylesheet,
-        //    out WebDom.CssActiveSheet stylesheetData)
-        //{
-        //    if (hrefSource == null)
-        //    {
-        //        return;
-        //    }
-        //    //--------------------------------------------------
-
-
-
-        //    StylesheetLoadHandler.LoadStylesheet(container,
-        //        bridgeElement.GetAttributeValue("href", string.Empty),  //load style sheet from external ?
-        //        out stylesheet, out stylesheetData);
-
-        //    stylesheet = null;
-        //    stylesheetData = null;
-
-        //    var args = new HtmlStylesheetLoadEventArgs(src);
-        //    htmlContainer.RaiseHtmlStylesheetLoadEvent(args);
-
-        //    if (!string.IsNullOrEmpty(args.SetStyleSheet))
-        //    {
-        //        stylesheet = args.SetStyleSheet;
-        //    }
-        //    else if (args.SetStyleSheetData != null)
-        //    {
-        //        stylesheetData = args.SetStyleSheetData;
-        //    }
-        //    else if (args.SetSrc != null)
-        //    {
-        //        stylesheet = LoadStylesheet(htmlContainer, args.SetSrc);
-        //    }
-        //    else
-        //    {
-        //        stylesheet = LoadStylesheet(htmlContainer, src);
-        //    }
-        //}
-        ///// <summary>
-        ///// Raise the stylesheet load event with the given event args.
-        ///// </summary>
-        ///// <param name="args">the event args</param>
-        //internal void RaiseHtmlStylesheetLoadEvent(HtmlStylesheetLoadEventArgs args)
-        //{
-        //    //request for a resource
-
-        //    try
-        //    {
-        //        if (StylesheetLoadingRequest != null)
-        //        {
-        //            StylesheetLoadingRequest(this, args);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ReportError(HtmlRenderErrorType.CssParsing, "Failed stylesheet load event", ex);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Raise the image load event with the given event args.
-        ///// </summary>
-        ///// <param name="args">the event args</param>
-        //void RaiseHtmlImageLoadEvent(HtmlImageLoadEventArgs args)
-        //{
-        //    try
-        //    {
-        //        if (ImageLoadingRequest != null)
-        //        {
-        //            ImageLoadingRequest(this, args);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ReportError(HtmlRenderErrorType.Image, "Failed image load event", ex);
-        //    }
-        //}
+        //------------------------------------------------------------------
         protected abstract void OnRequestImage(ImageBinder binder,
-            CssBox requestBox, bool _sync);
-        //{
-        //    //version 1: sync ***
-        //    var htmlImageRequest = new HtmlImageRequestEventArgs(binder);
-
-        //    if (this.ImageLoadingRequest != null)
-        //    {
-        //        this.ImageLoadingRequest(this, htmlImageRequest);
-        //        if (readyCallBack != null)
-        //        {
-        //            readyCallBack();
-        //        }
-        //    }
-
-        //    ////send 
-        //    ////if load manager can't handle normal requst then  raise event out     
-        //    //HtmlImageLoadEventArgs args = new HtmlImageLoadEventArgs(binder.ImageSource, requestBox.HtmlTag,
-        //    //    (string path, Image image, Rectangle imageRectangle) =>
-        //    //    {
-        //    //        if (image != null)
-        //    //        {
-        //    //            //found
-        //    //            binder.SetImage(image);
-        //    //            if (readyCallBack != null)
-        //    //            {
-        //    //                readyCallBack();
-        //    //            }
-        //    //        }
-        //    //    });
-
-
-
-        //    //RaiseHtmlImageLoadEvent(args);
-        //}
+            CssBox requestBox, bool _sync); 
         internal static void RaiseRequestImage(HtmlContainer container,
             ImageBinder binder,
             CssBox requestBox,
             bool _sync)
         {
-
             container.OnRequestImage(binder, requestBox, false);
         }
-
+        //------------------------------------------------------------------
 
         protected abstract void RequestRefresh(bool layout);
 
@@ -817,7 +637,7 @@ namespace HtmlRenderer
                     //ImageLoadingRequest = null;
                 }
 
-                _cssData = null;
+
                 if (_rootBox != null)
                 {
 

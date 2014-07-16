@@ -189,7 +189,7 @@ namespace HtmlRenderer.Composers
                 }
             }
 
-            col.SetRowColSpan(1, spanNum);
+            col.SetRowSpanAndColSpan(1, spanNum);
             return col;
         }
         public static CssBox CreateTableCell(CssBox parent, BridgeHtmlElement childElement, bool fixDisplayType)
@@ -227,7 +227,7 @@ namespace HtmlRenderer.Composers
                 }
             }
             //---------------------------------------------------------- 
-            tableCell.SetRowColSpan(nRowSpan, nColSpan);
+            tableCell.SetRowSpanAndColSpan(nRowSpan, nColSpan);
             return tableCell;
         }
     }

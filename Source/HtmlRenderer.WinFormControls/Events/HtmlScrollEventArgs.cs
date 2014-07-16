@@ -16,7 +16,7 @@
 using System;
 using System.Drawing;
 
-namespace HtmlRenderer.Diagnostics
+namespace HtmlRenderer.WebDom
 {
     /// <summary>
     /// Raised when Html Renderer request scroll to specific location.<br/>
