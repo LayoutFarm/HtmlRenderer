@@ -155,15 +155,56 @@ namespace HtmlRenderer.Composers
                 }
             }
         }
-
-        static bool CorrectParentChildRelationship(
-             CssBox newChildBox,
-             CssBox parentBox,
-             bool isLineFormattingContext)
+        static bool CorrectFormattingContext(
+           CssBox newChildBox,
+           CssBox parentBox,
+           bool isLineFormattingContext)
         {
 
-            int parentChildCount = parentBox.ChildCount;
+            //=================================================
+            if (isLineFormattingContext)
+            {
 
+                if (newChildBox.IsBlock)
+                {
+                    if (parentBox.ChildCount > 1)
+                    {
+                        var a = parentBox.GetFirstChild();
+                        var upperAnon = CssBox.CreateAnonBlock(parentBox, a);
+                        int ncount = parentBox.ChildCount - 1;
+                        while (ncount >= 2)
+                        {
+                            var tmp = a.GetNextNode();
+                            a.SetNewParentBox(upperAnon);
+                            a = tmp;
+                            ncount--;
+                        }
+
+                    }
+                    return true;
+                }
+            }
+            else
+            {
+                //block formatting context
+
+                if (newChildBox.IsInline)
+                {
+                    newChildBox.SetNewParentBox(null);
+                    var newAnonBlock = CssBox.CreateAnonBlock(parentBox);
+                    newChildBox.SetNewParentBox(newAnonBlock);
+                }
+            }
+            return false;
+        }
+        
+        
+        static void CorrectParentChildRelationship(
+             CssBox parentBox,
+             CssBox newChildBox,
+             bool isLineFormattingContext)
+        {
+             
             if (parentBox.IsBlock)
             {
                 //br correction
@@ -182,8 +223,18 @@ namespace HtmlRenderer.Composers
                     CssBox.ChangeDisplayType(newChildBox, CssDisplay.BlockInsideInlineAfterCorrection);
                 }
             }
-            else if (parentBox.CssDisplay == CssDisplay.TableCell)//(parentBox.WellknownTagName == WellknownHtmlTagName.td)
+            else if (parentBox.CssDisplay == CssDisplay.TableCell)
             {
+                //if (parentBox.ChildCount > 1)
+                //{
+
+                //}
+                //else
+                //{
+
+
+
+                //}
                 if (isLineFormattingContext)
                 {
                     if (newChildBox.IsBlock)
@@ -204,78 +255,106 @@ namespace HtmlRenderer.Composers
             {
                 //throw new NotSupportedException();
             }
-            //---------- 
-            if (isLineFormattingContext)
-            {
-                if (newChildBox.IsBlock)
-                {
-                    //change to block level formatting context 
-                    //1. create anon block 
-                    if (parentChildCount > 1)
-                    {
-                        var a = parentBox.GetFirstChild();
-                        var upperAnon = CssBox.CreateAnonBlock(parentBox, a);
-                        int ncount = parentBox.ChildCount - 1;
-                        while (ncount >= 2)
-                        {
-                            var tmp = a.GetNextNode();
-                            a.SetNewParentBox(upperAnon);
-                            a = tmp;
-                            ncount--;
-                        }
-                    }
-
-                    //true //****
-                    return true;
-                    //    //------------------------
-                    //    //change parent box to new context 
-                    //    var lowerAnon = CssBox.CreateAnonBlock(parentBox);
-                    //    parentBox = lowerAnon;
-                    //    isLineFormattingContext = true;
-                    //    return;
-                    //    //------------------------
-                    //}
-                    //else
-                    //{
-                    //    //just lower anon
-                    //    var lowerAnon = CssBox.CreateAnonBlock(parentBox);
-                    //    parentBox = lowerAnon;
-                    //    isLineFormattingContext = true;
-                    //    return;
-                    //}
-                }
-            }
-            else
-            {
-                //block formatting context
-
-                if (newChildBox.IsInline)
-                {
-                    newChildBox.SetNewParentBox(null);
-                    var newAnonBlock = CssBox.CreateAnonBlock(parentBox);
-                    newChildBox.SetNewParentBox(newAnonBlock);
-                }
-            }
-            return false;
-
         }
-        static void GenerateCssBoxes(BridgeHtmlElement parentElement, CssBox parentBox)
+        //static void GenerateCssBoxes2(BridgeHtmlElement parentElement, CssBox parentBox)
+        //{
+
+        //    switch (parentElement.ChildrenCount)
+        //    {
+        //        case 0: { } break;
+        //        case 1:
+        //            {
+        //                //only one child -- easy
+
+        //                HtmlNode bridgeChild = parentElement.GetChildNode(0);
+        //                int newBox = 0;
+        //                switch (bridgeChild.NodeType)
+        //                {
+        //                    case HtmlNodeType.TextNode:
+        //                        {
+        //                            BridgeHtmlTextNode singleTextNode = (BridgeHtmlTextNode)bridgeChild;
+        //                            RunListHelper.AddRunList(parentBox, parentElement.Spec, singleTextNode);
+
+        //                        } break;
+        //                    case HtmlNodeType.ShortElement:
+        //                    case HtmlNodeType.OpenElement:
+        //                        {
+
+        //                            BridgeHtmlElement elem = (BridgeHtmlElement)bridgeChild;
+        //                            var spec = elem.Spec;
+        //                            if (spec.CssDisplay == CssDisplay.None)
+        //                            {
+        //                                return;
+        //                            }
+        //                            newBox++;
+
+        //                            //--------------------------------------------------
+        //                            CssBox newbox = BoxCreator.CreateBox(parentBox, elem);
+        //                            elem.SetPrincipalBox(newbox);
+
+        //                            bool isInlineFormattingContext = true;
+        //                            if (newbox.IsBlock)
+        //                            {
+        //                                isInlineFormattingContext = false;
+        //                            }
+
+        //                            CorrectParentChildRelationship(parentBox, newbox, isInlineFormattingContext);
+
+        //                            CorrectFormattingContext(newbox, parentBox, isInlineFormattingContext);
+
+        //                            GenerateCssBoxes(elem, newbox);
+
+        //                        } break;
+        //                }
+        //            } break;
+        //        default:
+        //            {
+        //                switch (parentElement.Spec.WhiteSpace)
+        //                {
+        //                    case CssWhiteSpace.Pre:
+        //                    case CssWhiteSpace.PreWrap:
+        //                        {
+        //                            CreateChildBoxesPreserveWhitespace(parentElement, parentBox);
+
+        //                        } break;
+        //                    case CssWhiteSpace.PreLine:
+        //                        {
+        //                            CreateChildBoxesRespectNewLine(parentElement, parentBox);
+
+        //                        } break;
+        //                    default:
+        //                        {
+        //                            CreateChildBoxesDefault(parentElement, parentBox);
+        //                        } break;
+        //                }
+
+        //            } break;
+        //    }
+        //}
+
+        static void GenerateAllChildBoxes(BridgeHtmlElement parentElement)
         {
+
+            //first just generate into primary pricipal box
+            //layout process  will correct it later 
+            CssBox principalBox = BridgeHtmlElement.InternalGetPrincipalBox(parentElement); 
+             
+
             switch (parentElement.ChildrenCount)
             {
                 case 0: { } break;
                 case 1:
                     {
+                        //only one child -- easy 
                         HtmlNode bridgeChild = parentElement.GetChildNode(0);
                         int newBox = 0;
                         switch (bridgeChild.NodeType)
                         {
                             case HtmlNodeType.TextNode:
                                 {
-                                    //parent has single child 
                                     BridgeHtmlTextNode singleTextNode = (BridgeHtmlTextNode)bridgeChild;
-                                    //create textrun under policy  
-                                    RunListHelper.AddRunList(parentBox, parentElement.Spec, singleTextNode);
+                                    RunListHelper.AddRunList(principalBox, parentElement.Spec, singleTextNode);
+
                                 } break;
                             case HtmlNodeType.ShortElement:
                             case HtmlNodeType.OpenElement:
@@ -289,189 +368,416 @@ namespace HtmlRenderer.Composers
                                     }
                                     newBox++;
 
-                                    CssBox box = BoxCreator.CreateBox(parentBox, elem);
-                                    elem.SetPrinicalBox(box);
-                                    //----------
-                                    bool isInlineFormattingContext = true;
-                                    CorrectParentChildRelationship(box, parentBox, isInlineFormattingContext);
-                                    GenerateCssBoxes(elem, box);
+                                    //--------------------------------------------------
+                                    CssBox newbox = BoxCreator.CreateBox(principalBox, elem);
+                                    elem.SetPrincipalBox(newbox);
+                                    GenerateAllChildBoxes(elem);
+                                    //--------------------------------------------------
+
+                                    //bool isInlineFormattingContext = true;
+                                    //if (newbox.IsBlock)
+                                    //{
+                                    //    isInlineFormattingContext = false;
+                                    //} 
+                                    //CorrectParentChildRelationship(parentBox, newbox, isInlineFormattingContext); 
+                                    //CorrectFormattingContext(newbox, parentBox, isInlineFormattingContext); 
+                                    //GenerateCssBoxes(elem, newbox);
 
                                 } break;
                         }
                     } break;
                 default:
                     {
+                        //switch (parentElement.Spec.WhiteSpace)
+                        //{
+                        //    case CssWhiteSpace.Pre:
+                        //    case CssWhiteSpace.PreWrap:
+                        //        {
+                        //            CreateChildBoxesPreserveWhitespace(parentElement, parentBox);
+
+                        //        } break;
+                        //    case CssWhiteSpace.PreLine:
+                        //        {
+                        //            CreateChildBoxesRespectNewLine(parentElement, parentBox);
+
+                        //        } break;
+                        //    default:
+                        //        {
+                        //            CreateChildBoxesDefault(parentElement, parentBox);
+                        //        } break;
+                        //}
                         switch (parentElement.Spec.WhiteSpace)
                         {
                             case CssWhiteSpace.Pre:
                             case CssWhiteSpace.PreWrap:
                                 {
-                                    CreateChildBoxesPreserveWhitespace(parentElement, parentBox);
-
+                                    CreateChildBoxesDefault(parentElement); 
                                 } break;
                             case CssWhiteSpace.PreLine:
                                 {
-                                    CreateChildBoxesRespectNewLine(parentElement, parentBox);
-
+                                    CreateChildBoxesDefault(parentElement); 
                                 } break;
                             default:
-                                {
-                                    CreateChildBoxesDefault(parentElement, parentBox);
+                                {  
+                                    CreateChildBoxesDefault(parentElement);
                                 } break;
                         }
-
                     } break;
             }
-        } 
-        
-        enum CurrentLineFormattingContext
-        {
-            Init, //not sure if inline or block
-            Inline,
-            Block
+            //----------------------------------
+            //summary formatting context
+            //that will be used on layout process
+
+            //----------------------------------
         }
 
-        static void CreateChildBoxesPreserveWhitespace(BridgeHtmlElement parentElement, CssBox parentBox)
+
+
+        //static void CreateChildBoxesPreserveWhitespace(BridgeHtmlElement parentElement, CssBox parentBox)
+        //{
+
+        //    int newBox = 0;
+        //    int childCount = parentElement.ChildrenCount;
+        //    //default
+        //    bool isLineFormattingContext = true;
+        //    bool startNewAnonBlockBeforeUse = false;
+
+        //    for (int i = 0; i < childCount; ++i)
+        //    {
+        //        var childNode = parentElement.GetChildNode(i);
+        //        switch (childNode.NodeType)
+        //        {
+        //            case HtmlNodeType.TextNode:
+        //                {
+        //                    BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
+        //                    //-------------------------------------------------------------------------------
+        //                    if (startNewAnonBlockBeforeUse)
+        //                    {
+        //                        parentBox = CssBox.CreateAnonBlock(parentBox);
+        //                        startNewAnonBlockBeforeUse = false;
+        //                        isLineFormattingContext = true;
+        //                    }
+
+        //                    RunListHelper.AddRunList(
+        //                        isLineFormattingContext ? CssBox.CreateAnonInline(parentBox) : CssBox.CreateAnonBlock(parentBox),
+        //                        parentElement.Spec, textNode);
+
+        //                    newBox++;
+        //                } break;
+        //            case HtmlNodeType.ShortElement:
+        //            case HtmlNodeType.OpenElement:
+        //                {
+        //                    BridgeHtmlElement childElement = (BridgeHtmlElement)childNode;
+        //                    var spec = childElement.Spec;
+        //                    if (spec.CssDisplay == CssDisplay.None)
+        //                    {
+        //                        continue;
+        //                    }
+
+        //                    newBox++;
+        //                    if (startNewAnonBlockBeforeUse)
+        //                    {
+        //                        parentBox = CssBox.CreateAnonBlock(parentBox);
+        //                        startNewAnonBlockBeforeUse = false;
+        //                        isLineFormattingContext = true;
+        //                    }
+
+        //                    CssBox box = BoxCreator.CreateBox(parentBox, childElement);
+        //                    childElement.SetPrincipalBox(box);
+
+        //                    CorrectParentChildRelationship(parentBox, box, isLineFormattingContext);
+        //                    startNewAnonBlockBeforeUse = CorrectFormattingContext(box, parentBox, isLineFormattingContext);
+
+        //                    GenerateCssBoxes(childElement, box);
+        //                } break;
+        //            default:
+        //                {
+        //                } break;
+        //        }
+        //    }
+        //}
+        //static void CreateChildBoxesRespectNewLine(BridgeHtmlElement parentElement, CssBox parentBox)
+        //{
+        //    int newBox = 0;
+        //    int childCount = parentElement.ChildrenCount;
+        //    bool isLineFormattingContext = false;
+        //    bool startNewAnonBlockBeforeUse = false;
+
+        //    for (int i = 0; i < childCount; ++i)
+        //    {
+        //        var childNode = parentElement.GetChildNode(i);
+
+        //        switch (childNode.NodeType)
+        //        {
+        //            case HtmlNodeType.TextNode:
+        //                {
+        //                    BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
+        //                    if (i == 0 && textNode.IsWhiteSpace)
+        //                    {
+        //                        continue;//skip
+        //                    }
+        //                    if (startNewAnonBlockBeforeUse)
+        //                    {
+        //                        parentBox = CssBox.CreateAnonBlock(parentBox);
+        //                        startNewAnonBlockBeforeUse = false;
+        //                        isLineFormattingContext = true;
+        //                    }
+        //                    RunListHelper.AddRunList(
+        //                        isLineFormattingContext ? CssBox.CreateAnonInline(parentBox) : CssBox.CreateAnonBlock(parentBox),
+        //                        parentElement.Spec, textNode);
+
+        //                    newBox++;
+        //                } break;
+        //            case HtmlNodeType.OpenElement:
+        //            case HtmlNodeType.ShortElement:
+        //                {
+        //                    //other node type
+        //                    BridgeHtmlElement childElement = (BridgeHtmlElement)childNode;
+        //                    var spec = childElement.Spec;
+        //                    if (spec.CssDisplay == CssDisplay.None)
+        //                    {
+        //                        continue;
+        //                    }
+        //                    newBox++;
+
+        //                    if (startNewAnonBlockBeforeUse)
+        //                    {
+        //                        parentBox = CssBox.CreateAnonBlock(parentBox);
+        //                        startNewAnonBlockBeforeUse = false;
+        //                        isLineFormattingContext = true;
+        //                    }
+
+        //                    CssBox box = BoxCreator.CreateBox(parentBox, childElement);
+        //                    childElement.SetPrincipalBox(box);
+        //                    CorrectParentChildRelationship(parentBox, box, isLineFormattingContext);
+        //                    startNewAnonBlockBeforeUse = CorrectFormattingContext(box, parentBox, isLineFormattingContext);
+
+
+        //                    GenerateCssBoxes(childElement, box);
+
+        //                } break;
+        //            default:
+        //                {
+
+        //                } break;
+        //        }
+        //    }
+        //} 
+        //static void CreateChildBoxesDefault(BridgeHtmlElement parentElement, CssBox parentBox)
+        //{
+
+        //    int childCount = parentElement.ChildrenCount;
+
+        //    //default
+        //    bool isLineFormattingContext = true;
+        //    bool startNewAnonBlockBeforeUse = false;
+        //    int newBox = 0;
+
+        //    for (int i = 0; i < childCount; ++i)
+        //    {
+        //        var childNode = parentElement.GetChildNode(i);
+        //        switch (childNode.NodeType)
+        //        {
+        //            case HtmlNodeType.TextNode:
+        //                {
+
+        //                    BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
+        //                    if (textNode.IsWhiteSpace)
+        //                    {
+        //                        continue;//skip
+        //                    }
+        //                    //-------------------------------------------------------------------------------
+        //                    if (startNewAnonBlockBeforeUse)
+        //                    {
+        //                        parentBox = CssBox.CreateAnonBlock(parentBox);
+        //                        startNewAnonBlockBeforeUse = false;
+        //                        isLineFormattingContext = true;
+        //                    }
+
+        //                    RunListHelper.AddRunList(
+        //                        isLineFormattingContext ? CssBox.CreateAnonInline(parentBox) : CssBox.CreateAnonBlock(parentBox),
+        //                        parentElement.Spec, textNode);
+
+
+        //                } break;
+        //            case HtmlNodeType.ShortElement:
+        //            case HtmlNodeType.OpenElement:
+        //                {
+        //                    BridgeHtmlElement childElement = (BridgeHtmlElement)childNode;
+        //                    var spec = childElement.Spec;
+        //                    if (spec.CssDisplay == CssDisplay.None)
+        //                    {
+        //                        continue;
+        //                    }
+
+        //                    if (startNewAnonBlockBeforeUse)
+        //                    {
+
+        //                        parentBox = CssBox.CreateAnonBlock(parentBox);
+        //                        startNewAnonBlockBeforeUse = false;
+        //                        isLineFormattingContext = true;
+        //                    }
+
+
+        //                    CssBox box = BoxCreator.CreateBox(parentBox, childElement);
+        //                    childElement.SetPrincipalBox(box);
+
+        //                    CorrectParentChildRelationship(parentBox, box, isLineFormattingContext);
+        //                    startNewAnonBlockBeforeUse = CorrectFormattingContext(box, parentBox, isLineFormattingContext);
+
+        //                    newBox++;
+        //                    GenerateCssBoxes(childElement, box);
+
+        //                } break;
+        //            default:
+        //                {
+        //                } break;
+        //        }
+        //    }
+        //}
+
+
+
+
+
+
+
+        //static void CreateChildBoxesPreserveWhitespace(BridgeHtmlElement parentElement)
+        //{
+        //    CssBox princialBox = BridgeHtmlElement.InternalGetPrincipalBox(parentElement);
+
+        //    int newBox = 0;
+        //    int childCount = parentElement.ChildrenCount;
+        //    //default
+        //    bool isLineFormattingContext = true;
+        //    bool startNewAnonBlockBeforeUse = false;
+
+        //    for (int i = 0; i < childCount; ++i)
+        //    {
+        //        var childNode = parentElement.GetChildNode(i);
+
+        //        switch (childNode.NodeType)
+        //        {
+        //            case HtmlNodeType.TextNode:
+        //                {   
+        //                    BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
+
+        //                    RunListHelper.AddRunList(
+        //                        isLineFormattingContext ? CssBox.CreateAnonInline(parentBox) : CssBox.CreateAnonBlock(parentBox),
+        //                        parentElement.Spec, textNode);
+
+        //                    newBox++;
+        //                } break;
+        //            case HtmlNodeType.ShortElement:
+        //            case HtmlNodeType.OpenElement:
+        //                {
+        //                    BridgeHtmlElement childElement = (BridgeHtmlElement)childNode;
+        //                    var spec = childElement.Spec;
+        //                    if (spec.CssDisplay == CssDisplay.None)
+        //                    {
+        //                        continue;
+        //                    }
+
+        //                    newBox++;
+        //                    if (startNewAnonBlockBeforeUse)
+        //                    {
+        //                        parentBox = CssBox.CreateAnonBlock(parentBox);
+        //                        startNewAnonBlockBeforeUse = false;
+        //                        isLineFormattingContext = true;
+        //                    }
+
+        //                    CssBox box = BoxCreator.CreateBox(parentBox, childElement);
+        //                    childElement.SetPrincipalBox(box);
+
+        //                    CorrectParentChildRelationship(parentBox, box, isLineFormattingContext);
+        //                    startNewAnonBlockBeforeUse = CorrectFormattingContext(box, parentBox, isLineFormattingContext);
+
+        //                    GenerateCssBoxes(childElement, box);
+        //                } break;
+        //            default:
+        //                {
+        //                } break;
+        //        }
+        //    }
+        //}
+        //static void CreateChildBoxesRespectNewLine(BridgeHtmlElement parentElement, CssBox parentBox)
+        //{
+        //    int newBox = 0;
+        //    int childCount = parentElement.ChildrenCount;
+        //    bool isLineFormattingContext = false;
+        //    bool startNewAnonBlockBeforeUse = false;
+
+        //    for (int i = 0; i < childCount; ++i)
+        //    {
+        //        var childNode = parentElement.GetChildNode(i);
+
+        //        switch (childNode.NodeType)
+        //        {
+        //            case HtmlNodeType.TextNode:
+        //                {
+        //                    BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
+        //                    if (i == 0 && textNode.IsWhiteSpace)
+        //                    {
+        //                        continue;//skip
+        //                    }
+        //                    if (startNewAnonBlockBeforeUse)
+        //                    {
+        //                        parentBox = CssBox.CreateAnonBlock(parentBox);
+        //                        startNewAnonBlockBeforeUse = false;
+        //                        isLineFormattingContext = true;
+        //                    }
+        //                    RunListHelper.AddRunList(
+        //                        isLineFormattingContext ? CssBox.CreateAnonInline(parentBox) : CssBox.CreateAnonBlock(parentBox),
+        //                        parentElement.Spec, textNode);
+
+        //                    newBox++;
+        //                } break;
+        //            case HtmlNodeType.OpenElement:
+        //            case HtmlNodeType.ShortElement:
+        //                {
+        //                    //other node type
+        //                    BridgeHtmlElement childElement = (BridgeHtmlElement)childNode;
+        //                    var spec = childElement.Spec;
+        //                    if (spec.CssDisplay == CssDisplay.None)
+        //                    {
+        //                        continue;
+        //                    }
+        //                    newBox++;
+
+        //                    if (startNewAnonBlockBeforeUse)
+        //                    {
+        //                        parentBox = CssBox.CreateAnonBlock(parentBox);
+        //                        startNewAnonBlockBeforeUse = false;
+        //                        isLineFormattingContext = true;
+        //                    }
+
+        //                    CssBox box = BoxCreator.CreateBox(parentBox, childElement);
+        //                    childElement.SetPrincipalBox(box);
+        //                    CorrectParentChildRelationship(parentBox, box, isLineFormattingContext);
+        //                    startNewAnonBlockBeforeUse = CorrectFormattingContext(box, parentBox, isLineFormattingContext);
+
+
+        //                    GenerateCssBoxes(childElement, box);
+
+        //                } break;
+        //            default:
+        //                {
+
+        //                } break;
+        //        }
+        //    }
+        //}
+
+
+
+        static void CreateChildBoxesDefault(BridgeHtmlElement parentElement)
         {
 
+            CssBox principalBox = BridgeHtmlElement.InternalGetPrincipalBox(parentElement);
+            int childCount = parentElement.ChildrenCount;
+
+            //default 
             int newBox = 0;
-            int childCount = parentElement.ChildrenCount;
-            //default
-            bool isLineFormattingContext = true;
-            bool startNewAnonBlockBeforeUse = false;
-
-            for (int i = 0; i < childCount; ++i)
-            {
-                var childNode = parentElement.GetChildNode(i);
-                switch (childNode.NodeType)
-                {
-                    case HtmlNodeType.TextNode:
-                        {
-                            BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
-                            //-------------------------------------------------------------------------------
-                            if (startNewAnonBlockBeforeUse)
-                            {
-                                parentBox = CssBox.CreateAnonBlock(parentBox);
-                                startNewAnonBlockBeforeUse = false;
-                                isLineFormattingContext = true;
-                            }
-
-                            RunListHelper.AddRunList(
-                                isLineFormattingContext ? CssBox.CreateAnonInline(parentBox) : CssBox.CreateAnonBlock(parentBox),
-                                parentElement.Spec, textNode);
-
-                            newBox++;
-                        } break;
-                    case HtmlNodeType.ShortElement:
-                    case HtmlNodeType.OpenElement:
-                        {
-                            BridgeHtmlElement childElement = (BridgeHtmlElement)childNode;
-                            var spec = childElement.Spec;
-                            if (spec.CssDisplay == CssDisplay.None)
-                            {
-                                continue;
-                            }
-
-                            newBox++;
-                            if (startNewAnonBlockBeforeUse)
-                            {
-                                parentBox = CssBox.CreateAnonBlock(parentBox);
-                                startNewAnonBlockBeforeUse = false;
-                                isLineFormattingContext = true;
-                            }
-
-                            CssBox box = BoxCreator.CreateBox(parentBox, childElement);
-                            childElement.SetPrinicalBox(box);
-
-                            startNewAnonBlockBeforeUse = CorrectParentChildRelationship(box, parentBox, isLineFormattingContext);
-                            GenerateCssBoxes(childElement, box);
-                        } break;
-                    default:
-                        {
-                        } break;
-                }
-            }
-        }
-        static void CreateChildBoxesRespectNewLine(BridgeHtmlElement parentElement, CssBox parentBox)
-        {
-            int newBox = 0;
-            int childCount = parentElement.ChildrenCount;
-            bool isLineFormattingContext = false;
-            bool startNewAnonBlockBeforeUse = false;
-
-            for (int i = 0; i < childCount; ++i)
-            {
-                var childNode = parentElement.GetChildNode(i);
-
-                switch (childNode.NodeType)
-                {
-                    case HtmlNodeType.TextNode:
-                        {
-                            BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
-                            if (i == 0 && textNode.IsWhiteSpace)
-                            {
-                                continue;//skip
-                            }
-                            if (startNewAnonBlockBeforeUse)
-                            {
-                                parentBox = CssBox.CreateAnonBlock(parentBox);
-                                startNewAnonBlockBeforeUse = false;
-                                isLineFormattingContext = true;
-                            }
-                            RunListHelper.AddRunList(
-                                isLineFormattingContext ? CssBox.CreateAnonInline(parentBox) : CssBox.CreateAnonBlock(parentBox),
-                                parentElement.Spec, textNode);
-
-                            newBox++;
-                        } break;
-                    case HtmlNodeType.OpenElement:
-                    case HtmlNodeType.ShortElement:
-                        {
-                            //other node type
-                            BridgeHtmlElement childElement = (BridgeHtmlElement)childNode;
-                            var spec = childElement.Spec;
-                            if (spec.CssDisplay == CssDisplay.None)
-                            {
-                                continue;
-                            }
-                            newBox++;
-
-                            if (startNewAnonBlockBeforeUse)
-                            {
-                                parentBox = CssBox.CreateAnonBlock(parentBox);
-                                startNewAnonBlockBeforeUse = false;
-                                isLineFormattingContext = true;
-                            }
-
-                            CssBox box = BoxCreator.CreateBox(parentBox, childElement);
-                            childElement.SetPrinicalBox(box);
-
-                            startNewAnonBlockBeforeUse = CorrectParentChildRelationship(box, parentBox, isLineFormattingContext);
-
-                            //    //switch to new anon block
-                            //    parentBox = CssBox.CreateAnonBlock(parentBox);
-                            //    isLineFormattingContext = true;
-                            //}
-
-                            GenerateCssBoxes(childElement, box);
-
-                        } break;
-                    default:
-                        {
-
-                        } break;
-                }
-            }
-        }
-
-        static void CreateChildBoxesDefault(BridgeHtmlElement parentElement, CssBox parentBox)
-        {
-
-            int childCount = parentElement.ChildrenCount;
-
-            //default
-            bool isLineFormattingContext = true;
-            bool startNewAnonBlockBeforeUse = false;
 
             for (int i = 0; i < childCount; ++i)
             {
@@ -486,18 +792,12 @@ namespace HtmlRenderer.Composers
                             {
                                 continue;//skip
                             }
-                            //-------------------------------------------------------------------------------
-                            if (startNewAnonBlockBeforeUse)
-                            {
-                                parentBox = CssBox.CreateAnonBlock(parentBox);
-                                startNewAnonBlockBeforeUse = false;
-                                isLineFormattingContext = true;
-                            }
+
+
                             RunListHelper.AddRunList(
-                                isLineFormattingContext ? CssBox.CreateAnonInline(parentBox) : CssBox.CreateAnonBlock(parentBox),
+                                CssBox.CreateAnonInlineForText(principalBox),
                                 parentElement.Spec, textNode);
-
-
+                            newBox++;
                         } break;
                     case HtmlNodeType.ShortElement:
                     case HtmlNodeType.OpenElement:
@@ -509,26 +809,11 @@ namespace HtmlRenderer.Composers
                                 continue;
                             }
 
-                            if (startNewAnonBlockBeforeUse)
-                            {
-                                parentBox = CssBox.CreateAnonBlock(parentBox);
-                                startNewAnonBlockBeforeUse = false;
-                                isLineFormattingContext = true;
-                            }
+                            CssBox box = BoxCreator.CreateBox(principalBox, childElement);
+                            childElement.SetPrincipalBox(box);
 
-
-                            CssBox box = BoxCreator.CreateBox(parentBox, childElement);
-                            childElement.SetPrinicalBox(box);
-                            //current parent may change after validation process                            
-
-                            startNewAnonBlockBeforeUse = CorrectParentChildRelationship(box, parentBox, isLineFormattingContext);
-                            //if (CorrectParentChildRelationship(box, parentBox, isLineFormattingContext))
-                            //{
-                            //    //switch to new anon block
-                            //    parentBox = CssBox.CreateAnonBlock(parentBox);
-                            //    isLineFormattingContext = true;
-                            //}
-                            GenerateCssBoxes(childElement, box);
+                            newBox++;
+                            GenerateAllChildBoxes(childElement);
 
                         } break;
                     default:
@@ -585,18 +870,21 @@ namespace HtmlRenderer.Composers
             //----------------------------------------------------------------
             //5. box generation                 
             rootBox = BoxCreator.CreateRootBlock(iFonts);
-            //});
 
+            ((BridgeHtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
+            //}); 
             // var t3 = dbugCounter.Snap(() =>
             // {
-            GenerateCssBoxes((BrigeRootElement)htmldoc.RootNode, rootBox);
+            GenerateAllChildBoxes((BrigeRootElement)htmldoc.RootNode);
+            SetTextSelectionStyle(htmlContainer, cssData);
+
+
 #if DEBUG
             dbugTestParsePerformance(html);
 #endif
 
-
-            SetTextSelectionStyle(htmlContainer, cssData);
             OnePassBoxCorrection(rootBox);
+
             // });
 
 

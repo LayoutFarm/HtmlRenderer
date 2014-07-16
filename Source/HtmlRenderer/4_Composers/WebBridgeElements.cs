@@ -188,10 +188,16 @@ namespace HtmlRenderer.Composers
         {
             return this.principalBox;
         }
-        internal void SetPrinicalBox(CssBox box)
+
+        internal void SetPrincipalBox(CssBox box)
         {
             this.principalBox = box;
         }
+        internal static CssBox InternalGetPrincipalBox(BridgeHtmlElement element)
+        {
+            return element.principalBox;
+        }
+
         //------------------------------------
     }
 

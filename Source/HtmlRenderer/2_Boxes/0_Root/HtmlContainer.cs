@@ -195,7 +195,7 @@ namespace HtmlRenderer
 
 #if DEBUG
                 dd++;
-                Console.WriteLine(dd);
+                //Console.WriteLine(dd);
 #endif
             }
         }

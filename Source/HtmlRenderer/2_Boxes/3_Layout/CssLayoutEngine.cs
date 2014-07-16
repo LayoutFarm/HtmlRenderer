@@ -116,6 +116,8 @@ namespace HtmlRenderer.Boxes
             }
             //imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
         }
+       
+
         public static void FlowInlinesContent(CssBox hostBlock, LayoutVisitor lay)
         {
 

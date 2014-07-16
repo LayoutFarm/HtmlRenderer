@@ -276,7 +276,7 @@ namespace HtmlRenderer.Boxes
             }
             if (maxRun != null)
             {
-                var fontInfo = lay.GetFontInfo(maxRun.OwnerBox.ActualFont); 
+                var fontInfo = lay.GetFontInfo(maxRun.OwnerBox.ActualFont);
                 return fontInfo.BaseLine;
             }
             return 0;
@@ -501,8 +501,8 @@ namespace HtmlRenderer.Boxes
 
         internal void dbugPaintRuns(HtmlRenderer.Drawing.IGraphics g, PaintVisitor p)
         {
-             
-           // return;
+
+            //return;
             //linebox  
             float x1 = 0;
             float y1 = 0;

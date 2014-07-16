@@ -137,6 +137,7 @@ namespace HtmlRenderer.Composers
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
             var box = new CssBox(null, null, spec);
+            box.ContentFormattingContext = FormattingContext.Block;
             //------------------------------------
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------

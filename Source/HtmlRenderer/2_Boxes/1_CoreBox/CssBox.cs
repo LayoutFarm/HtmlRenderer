@@ -53,7 +53,7 @@ namespace HtmlRenderer.Boxes
             this._aa_boxes = new CssBoxCollection();
 
             if (parentBox != null)
-            { 
+            {
                 parentBox.AppendChild(this);
             }
 
@@ -79,7 +79,7 @@ namespace HtmlRenderer.Boxes
             if (parentBox != null)
             {
                 parentBox.AppendChild(this);
-                 
+
             }
             this._controller = controller;
 #if DEBUG
@@ -238,8 +238,8 @@ namespace HtmlRenderer.Boxes
 
             this._boxCompactFlags = tmpFlags;
         }
-         
-     
+
+
         internal void SetTextBuffer(char[] textBuffer)
         {
             this._buffer = textBuffer;
@@ -260,7 +260,7 @@ namespace HtmlRenderer.Boxes
         {
             return box._buffer;
         }
- 
+
         internal bool TextContentIsWhitespaceOrEmptyText
         {
             get
@@ -432,7 +432,6 @@ namespace HtmlRenderer.Boxes
         {
             PerformContentLayout(lay);
         }
-
         #region Private Methods
 
         //static int dbugCC = 0;
@@ -453,9 +452,11 @@ namespace HtmlRenderer.Boxes
                         return;
                     }
                 default:
-                    {    //others
+                    {
+                        //others ... 
                         if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.Gfx, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
+
                     } break;
                 case Css.CssDisplay.BlockInsideInlineAfterCorrection:
                 case Css.CssDisplay.Block:
@@ -464,12 +465,16 @@ namespace HtmlRenderer.Boxes
                 case Css.CssDisplay.InlineTable:
                 case Css.CssDisplay.TableCell:
                     {
+                        //this box has its own  container property
+                        //this box may use...
+                        // 1) line formatting context  , or
+                        // 2) block formatting context
 
+                        //---------------------------------------------------------
                         CssBox myContainingBlock = lay.LatestContainingBlock;
                         if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.Gfx, myContainingBlock); }
-
                         this.MeasureRunsSize(lay);
-
+                        //---------------------------------------------------------  
                         if (CssDisplay != Css.CssDisplay.TableCell)
                         {
                             //-------------------------------------------
@@ -491,6 +496,7 @@ namespace HtmlRenderer.Boxes
                             float localLeft = myContainingBlock.ClientLeft + this.ActualMarginLeft;
                             float localTop = 0;
                             var prevSibling = lay.LatestSiblingBox;
+
                             if (prevSibling == null)
                             {
                                 //this is first child of parent
@@ -509,7 +515,6 @@ namespace HtmlRenderer.Boxes
                             this.SetLocation(localLeft, localTop);
                             this.SetHeightToZero();
                         }
-
                         //--------------------------------------------------------------------------
 
                         switch (this.CssDisplay)
@@ -533,8 +538,7 @@ namespace HtmlRenderer.Boxes
                                 {
                                     //formatting context for
                                     //1. inline formatting context
-                                    //2. block formatting context  
-                                
+                                    //2. block formatting context   
                                     if (BoxUtils.ContainsInlinesOnly(this))
                                     {
                                         this.SetHeightToZero();
@@ -543,24 +547,92 @@ namespace HtmlRenderer.Boxes
                                     }
                                     else if (_aa_boxes.Count > 0)
                                     {
+                                        //block formatting context.... 
                                         lay.PushContaingBlock(this);
                                         var currentLevelLatestSibling = lay.LatestSiblingBox;
-                                        lay.LatestSiblingBox = null;//reset
+                                        lay.LatestSiblingBox = null;//reset 
+                                        //------------------------------------------ 
 
-                                        //------------------------------------------
                                         var cnode = this.Boxes.GetFirstLinkedNode();
                                         while (cnode != null)
                                         {
                                             var childBox = cnode.Value;
-                                            childBox.PerformLayout(lay);
-                                            if (childBox.CanBeRefererenceSibling)
+                                            //----------------------------
+                                            if (childBox.IsBrElement)
                                             {
-                                                lay.LatestSiblingBox = childBox;
+                                                //br always block
+                                                CssBox.ChangeDisplayType(childBox, Css.CssDisplay.Block);
+                                                childBox.DirectSetHeight(FontDefaultConfig.DEFAULT_FONT_SIZE * 0.95f);
                                             }
-                                            cnode = cnode.Next;
-                                        }
-                                        //------------------------------------------
 
+                                            //-----------------------------
+                                            if (childBox.IsInline)
+                                            {
+
+                                                //inline correction on-the-fly ! 
+                                                //1. collect consecutive inlinebox
+                                                //   and move to new anon box
+                                                CssBox anoForInline = CssBox.CreateAnonBlock(this, childBox);
+                                                anoForInline.ReEvaluateComputedValues(lay.Gfx, this);
+
+                                                var tmp = cnode.Next;
+                                                do
+                                                {
+                                                    this.Boxes.Remove(childBox);
+                                                    anoForInline.AppendChild(childBox);
+
+                                                    if (tmp != null)
+                                                    {
+                                                        childBox = tmp.Value;
+                                                        if (childBox.IsInline)
+                                                        {
+                                                            tmp = tmp.Next;
+                                                            if (tmp == null)
+                                                            {
+                                                                break;
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            break;//break from do while
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        break;
+                                                    }
+                                                } while (true);
+
+                                                childBox = anoForInline;
+                                                //------------------------   
+                                                //2. move this inline box 
+                                                //to new anonbox 
+                                                cnode = tmp;
+                                                //------------------------ 
+                                                childBox.PerformLayout(lay);
+
+                                                if (childBox.CanBeRefererenceSibling)
+                                                {
+                                                    lay.LatestSiblingBox = childBox;
+                                                }
+                                            }
+                                            else
+                                            {
+
+
+                                                //----------------------------
+                                                childBox.PerformLayout(lay);
+                                                if (childBox.CanBeRefererenceSibling)
+                                                {
+                                                    lay.LatestSiblingBox = childBox;
+                                                }
+
+                                                cnode = cnode.Next;
+                                            }
+                                        }
+
+
+                                        //------------------------------------------
                                         lay.LatestSiblingBox = currentLevelLatestSibling;
                                         lay.PopContainingBlock();
                                         //------------------------------------------------

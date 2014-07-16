@@ -20,7 +20,7 @@ namespace HtmlRenderer.Boxes
             ChangeDisplayType(newBox, Css.CssDisplay.Block);
 
             parent.Boxes.Remove(newBox);
-            parent.Boxes.InsertBefore(parent, insertBefore, newBox); 
+            parent.Boxes.InsertBefore(parent, insertBefore, newBox);
 
             return newBox;
         }
@@ -30,6 +30,11 @@ namespace HtmlRenderer.Boxes
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
             return newBox;
         }
-
+        internal static CssBox CreateAnonInlineForText(CssBox parent)
+        {
+            var newBox = new CssBox(parent, null, parent._myspec.GetAnonVersion());
+            CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
+            return newBox;
+        }
     }
 }

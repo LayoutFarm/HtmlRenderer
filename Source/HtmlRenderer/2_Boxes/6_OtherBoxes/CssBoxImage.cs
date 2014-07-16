@@ -198,9 +198,7 @@ namespace HtmlRenderer.Boxes
                 this.RunSizeMeasurePass = true;
             }
             CssLayoutEngine.MeasureImageSize(_imageWord, lay);
-        }
-
-
+        } 
         #region Private methods
 
         ///// <summary>
