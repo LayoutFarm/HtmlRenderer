@@ -153,7 +153,7 @@ namespace HtmlRenderer.Boxes
             //-------------------------
             switch (newdisplay)
             {
-                case CssDisplay.BlockInsideInlineAfterCorrection:
+                //case CssDisplay.BlockInsideInlineAfterCorrection:
                 case CssDisplay.Block:
                 case CssDisplay.ListItem:
                 case CssDisplay.Table:

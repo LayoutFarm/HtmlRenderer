@@ -48,9 +48,9 @@ namespace HtmlRenderer.Boxes
                     case Css.CssDisplay.TableCell:
                         selectedPens = Pens.OrangeRed;
                         break;
-                    case Css.CssDisplay.BlockInsideInlineAfterCorrection:
-                        selectedPens = Pens.Magenta;
-                        break;
+                    //case Css.CssDisplay.BlockInsideInlineAfterCorrection:
+                    //    selectedPens = Pens.Magenta;
+                    //    break;
                     default:
                         selectedPens = Pens.Green;
                         break;

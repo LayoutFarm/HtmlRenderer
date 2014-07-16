@@ -421,17 +421,16 @@ namespace HtmlRenderer.Boxes
         internal CssRun FirstRun
         {
             get { return Runs[0]; }
-        } 
+        }
         /// <summary>
         /// Measures the bounds of box and children, recursively.<br/>
         /// Performs layout of the DOM structure creating lines by set bounds restrictions.
         /// </summary>
         /// <param name="g">Device context to use</param>
         public void PerformLayout(LayoutVisitor lay)
-        {   
+        {
             //derived class can perform its own layout algo            
-            //by override performContentLayout
-            
+            //by override performContentLayout 
             PerformContentLayout(lay);
 
         }
@@ -459,28 +458,28 @@ namespace HtmlRenderer.Boxes
                         //others ... 
                         if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.Gfx, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
+
                     } break;
-                case Css.CssDisplay.BlockInsideInlineAfterCorrection:
+                //case Css.CssDisplay.BlockInsideInlineAfterCorrection:
                 case Css.CssDisplay.Block:
                 case Css.CssDisplay.ListItem:
                 case Css.CssDisplay.Table:
                 case Css.CssDisplay.InlineTable:
                 case Css.CssDisplay.TableCell:
-                    {   
+                    {
                         //this box has its own  container property
                         //this box may use...
                         // 1) line formatting context  , or
-                        // 2) block formatting context
-
-                        //---------------------------------------------------------
-                        CssBox myContainingBlock = lay.LatestContainingBlock;
+                        // 2) block formatting context  
                         if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.Gfx, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
-                        //---------------------------------------------------------  
-                        //send to 
-                        CssLayoutEngine.DoContentLayout(this, lay); 
-                    } break; 
-            } 
+                        //---------------------------------------------------------
+                        //for general block layout 
+                        CssLayoutEngine.PerformContentLayout(this, lay);
+
+
+                    } break;
+            }
             //----------------------------------------------------------------------------- 
             //set height  
             UpdateIfHigher(this, ExpectedHeight);
@@ -501,7 +500,7 @@ namespace HtmlRenderer.Boxes
                 box.SetHeight(newHeight);
             }
         }
-        protected void SetHeightToZero()
+        internal void SetHeightToZero()
         {
             this.SetHeight(0);
         }
@@ -644,7 +643,7 @@ namespace HtmlRenderer.Boxes
             maxWidth = maxRunWidth;
             maxWidthRun = foundRun;
         }
-        float CalculateActualWidth()
+        internal float CalculateActualWidth()
         {
             float maxRight = 0;
             var cnode = this.Boxes.GetFirstLinkedNode();
@@ -670,7 +669,7 @@ namespace HtmlRenderer.Boxes
         /// </summary>
         /// <param name="upperSibling">the previous box under the same parent</param>
         /// <returns>Resulting top margin</returns>
-        protected float MarginTopCollapse(CssBox upperSibling)
+        public float MarginTopCollapse(CssBox upperSibling)
         {
             float value;
             if (upperSibling != null)
@@ -696,7 +695,7 @@ namespace HtmlRenderer.Boxes
         /// Gets the result of collapsing the vertical margins of the two boxes
         /// </summary>
         /// <returns>Resulting bottom margin</returns>
-        private float GetHeightAfterMarginBottomCollapse(CssBox cbBox)
+        internal float GetHeightAfterMarginBottomCollapse(CssBox cbBox)
         {
 
             float margin = 0;
