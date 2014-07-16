@@ -421,16 +421,19 @@ namespace HtmlRenderer.Boxes
         internal CssRun FirstRun
         {
             get { return Runs[0]; }
-        }
-
+        } 
         /// <summary>
         /// Measures the bounds of box and children, recursively.<br/>
         /// Performs layout of the DOM structure creating lines by set bounds restrictions.
         /// </summary>
         /// <param name="g">Device context to use</param>
         public void PerformLayout(LayoutVisitor lay)
-        {
+        {   
+            //derived class can perform its own layout algo            
+            //by override performContentLayout
+            
             PerformContentLayout(lay);
+
         }
         #region Private Methods
 
@@ -456,7 +459,6 @@ namespace HtmlRenderer.Boxes
                         //others ... 
                         if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.Gfx, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
-
                     } break;
                 case Css.CssDisplay.BlockInsideInlineAfterCorrection:
                 case Css.CssDisplay.Block:
@@ -464,7 +466,7 @@ namespace HtmlRenderer.Boxes
                 case Css.CssDisplay.Table:
                 case Css.CssDisplay.InlineTable:
                 case Css.CssDisplay.TableCell:
-                    {
+                    {   
                         //this box has its own  container property
                         //this box may use...
                         // 1) line formatting context  , or
@@ -472,193 +474,13 @@ namespace HtmlRenderer.Boxes
 
                         //---------------------------------------------------------
                         CssBox myContainingBlock = lay.LatestContainingBlock;
-                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.Gfx, myContainingBlock); }
+                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.Gfx, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
                         //---------------------------------------------------------  
-                        if (CssDisplay != Css.CssDisplay.TableCell)
-                        {
-                            //-------------------------------------------
-                            if (this.CssDisplay != Css.CssDisplay.Table)
-                            {
-                                float availableWidth = myContainingBlock.ClientWidth;
-
-                                if (!this.Width.IsEmptyOrAuto)
-                                {
-                                    availableWidth = CssValueParser.ConvertToPx(Width, availableWidth, this);
-                                }
-
-                                this.SetWidth(availableWidth);
-                                // must be separate because the margin can be calculated by percentage of the width
-                                this.SetWidth(availableWidth - ActualMarginLeft - ActualMarginRight);
-                            }
-                            //-------------------------------------------
-
-                            float localLeft = myContainingBlock.ClientLeft + this.ActualMarginLeft;
-                            float localTop = 0;
-                            var prevSibling = lay.LatestSiblingBox;
-
-                            if (prevSibling == null)
-                            {
-                                //this is first child of parent
-                                if (this.ParentBox != null)
-                                {
-                                    localTop = myContainingBlock.ClientTop;
-                                }
-                            }
-                            else
-                            {
-                                localTop = prevSibling.LocalBottom + prevSibling.ActualBorderBottomWidth;
-                            }
-
-                            localTop += MarginTopCollapse(prevSibling);
-
-                            this.SetLocation(localLeft, localTop);
-                            this.SetHeightToZero();
-                        }
-                        //--------------------------------------------------------------------------
-
-                        switch (this.CssDisplay)
-                        {
-                            case Css.CssDisplay.Table:
-                            case Css.CssDisplay.InlineTable:
-                                {
-                                    //If we're talking about a table here..
-
-                                    lay.PushContaingBlock(this);
-                                    var currentLevelLatestSibling = lay.LatestSiblingBox;
-                                    lay.LatestSiblingBox = null;//reset
-
-                                    CssTableLayoutEngine.PerformLayout(this, lay);
-
-                                    lay.LatestSiblingBox = currentLevelLatestSibling;
-                                    lay.PopContainingBlock();
-
-                                } break;
-                            default:
-                                {
-                                    //formatting context for
-                                    //1. inline formatting context
-                                    //2. block formatting context   
-                                    if (BoxUtils.ContainsInlinesOnly(this))
-                                    {
-                                        this.SetHeightToZero();
-                                        //This will automatically set the bottom of this block
-                                        CssLayoutEngine.FlowInlinesContent(this, lay);
-                                    }
-                                    else if (_aa_boxes.Count > 0)
-                                    {
-                                        //block formatting context.... 
-                                        lay.PushContaingBlock(this);
-                                        var currentLevelLatestSibling = lay.LatestSiblingBox;
-                                        lay.LatestSiblingBox = null;//reset 
-                                        //------------------------------------------ 
-
-                                        var cnode = this.Boxes.GetFirstLinkedNode();
-                                        while (cnode != null)
-                                        {
-                                            var childBox = cnode.Value;
-                                            //----------------------------
-                                            if (childBox.IsBrElement)
-                                            {
-                                                //br always block
-                                                CssBox.ChangeDisplayType(childBox, Css.CssDisplay.Block);
-                                                childBox.DirectSetHeight(FontDefaultConfig.DEFAULT_FONT_SIZE * 0.95f);
-                                            }
-
-                                            //-----------------------------
-                                            if (childBox.IsInline)
-                                            {
-
-                                                //inline correction on-the-fly ! 
-                                                //1. collect consecutive inlinebox
-                                                //   and move to new anon box
-                                                CssBox anoForInline = CssBox.CreateAnonBlock(this, childBox);
-                                                anoForInline.ReEvaluateComputedValues(lay.Gfx, this);
-
-                                                var tmp = cnode.Next;
-                                                do
-                                                {
-                                                    this.Boxes.Remove(childBox);
-                                                    anoForInline.AppendChild(childBox);
-
-                                                    if (tmp != null)
-                                                    {
-                                                        childBox = tmp.Value;
-                                                        if (childBox.IsInline)
-                                                        {
-                                                            tmp = tmp.Next;
-                                                            if (tmp == null)
-                                                            {
-                                                                break;
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            break;//break from do while
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        break;
-                                                    }
-                                                } while (true);
-
-                                                childBox = anoForInline;
-                                                //------------------------   
-                                                //2. move this inline box 
-                                                //to new anonbox 
-                                                cnode = tmp;
-                                                //------------------------ 
-                                                childBox.PerformLayout(lay);
-
-                                                if (childBox.CanBeRefererenceSibling)
-                                                {
-                                                    lay.LatestSiblingBox = childBox;
-                                                }
-                                            }
-                                            else
-                                            {
-
-
-                                                //----------------------------
-                                                childBox.PerformLayout(lay);
-                                                if (childBox.CanBeRefererenceSibling)
-                                                {
-                                                    lay.LatestSiblingBox = childBox;
-                                                }
-
-                                                cnode = cnode.Next;
-                                            }
-                                        }
-
-
-                                        //------------------------------------------
-                                        lay.LatestSiblingBox = currentLevelLatestSibling;
-                                        lay.PopContainingBlock();
-                                        //------------------------------------------------
-
-                                        float width = this.CalculateActualWidth();
-                                        if (lay.ContainerBlockGlobalX + width > CssBoxConstConfig.BOX_MAX_RIGHT)
-                                        {
-
-                                        }
-                                        else
-                                        {
-                                            if (this.CssDisplay != Css.CssDisplay.TableCell)
-                                            {
-                                                this.SetWidth(width);
-                                            }
-                                        }
-                                        this.SetHeight(GetHeightAfterMarginBottomCollapse(lay.LatestContainingBlock));
-                                    }
-                                } break;
-                        }
-
-                        //--------------------------------------------------------------------------
-                    } break;
-
-            }
-
+                        //send to 
+                        CssLayoutEngine.DoContentLayout(this, lay); 
+                    } break; 
+            } 
             //----------------------------------------------------------------------------- 
             //set height  
             UpdateIfHigher(this, ExpectedHeight);
