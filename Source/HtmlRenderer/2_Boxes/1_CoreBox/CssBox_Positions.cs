@@ -146,8 +146,7 @@ namespace HtmlRenderer.Boxes
         {
             //see www.w3.org/TR/CSS2/box.html#padding-properties 
             //depend on parent
-            //1. fonts
-
+            //1. fonts 
             if (this.ParentBox != null)
             {   
                 ReEvaluateFont(iFonts, this.ParentBox.ActualFont.Size);
