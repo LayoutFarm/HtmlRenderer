@@ -186,15 +186,7 @@ namespace HtmlRenderer.Boxes
         internal override void MeasureRunsSize(LayoutVisitor lay)
         {
             if (!this.RunSizeMeasurePass)
-            {
-
-                //if (_imgBinder == null && lay.AvoidImageAsyncLoadOrLateBind)
-                //{
-                //    _imgBinder = new ImageBinder(GetAttribute("src"));
-                //    lay.RequestImage(_imgBinder, this, OnImageBinderLoadingComplete);
-                //}
-
-                MeasureWordSpacing(lay);
+            {   
                 this.RunSizeMeasurePass = true;
             }
             CssLayoutEngine.MeasureImageSize(_imageWord, lay);

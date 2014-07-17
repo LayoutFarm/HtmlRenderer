@@ -15,12 +15,12 @@ namespace HtmlRenderer.Composers
     }
 
     public static class BoxCreator
-    {   
+    {
         static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
         public static void RegisterCustomCssBoxGenerator(CustomCssBoxGenerator generator)
         {
             generators.Add(generator);
-        } 
+        }
         static CssBox CreateImageBox(CssBox parent, BridgeHtmlElement childElement)
         {
             string imgsrc;
@@ -49,7 +49,7 @@ namespace HtmlRenderer.Composers
                 case WellknownElementName.br:
                     //special treatment for br
                     newBox = new CssBox(parentBox, childElement, childElement.Spec);
-                    CssBox.SetAsBrBox(newBox); 
+                    CssBox.SetAsBrBox(newBox);
                     CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
                     return newBox;
 
@@ -137,30 +137,22 @@ namespace HtmlRenderer.Composers
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
             var box = new CssBox(null, null, spec);
-            box.ContentFormattingContext = FormattingContext.Block;
+
             //------------------------------------
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
             return box;
-        }
-
-
-
-    }
-
-
-
+        } 
+    } 
 
     static class TableBoxCreator
     {
 
         public static CssBox CreateOtherPredefinedTableElement(CssBox parent,
             BridgeHtmlElement childElement, CssDisplay selectedCssDisplayType)
-        {
-            return new CssBox(parent, childElement, childElement.Spec, selectedCssDisplayType);
-
-        }
-
+        {   
+            return new CssBox(parent, childElement, childElement.Spec, selectedCssDisplayType); 
+        } 
         public static CssBox CreateTableColumnOrColumnGroup(CssBox parent,
             BridgeHtmlElement childElement, bool fixDisplayType, CssDisplay selectedCssDisplayType)
         {
@@ -189,7 +181,7 @@ namespace HtmlRenderer.Composers
                 }
             }
 
-            col.SetRowColSpan(1, spanNum);
+            col.SetRowSpanAndColSpan(1, spanNum);
             return col;
         }
         public static CssBox CreateTableCell(CssBox parent, BridgeHtmlElement childElement, bool fixDisplayType)
@@ -227,7 +219,7 @@ namespace HtmlRenderer.Composers
                 }
             }
             //---------------------------------------------------------- 
-            tableCell.SetRowColSpan(nRowSpan, nColSpan);
+            tableCell.SetRowSpanAndColSpan(nRowSpan, nColSpan);
             return tableCell;
         }
     }

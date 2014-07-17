@@ -10,7 +10,7 @@ using HtmlRenderer.Css;
 
 namespace HtmlRenderer.Boxes
 {
-   
+
 
 
     partial class CssBox
@@ -21,6 +21,7 @@ namespace HtmlRenderer.Boxes
         //location, size 
         float _sizeHeight;
         float _sizeWidth;
+        //----------------------------------
 
         /// <summary>
         /// user's expected height
@@ -54,6 +55,10 @@ namespace HtmlRenderer.Boxes
         float _actualCornerSW;
         float _actualCornerSE;
 
+        //------------------------------
+        int _lastCalculationEpisodeNum = 0;
+        float _cachedMinimumWidth = 0;
+        //------------------------------
 
 
         public float LocalX
@@ -88,7 +93,7 @@ namespace HtmlRenderer.Boxes
         {
             this._localX = localX;
             this._localY = localY;
-            this._boxCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
+            this._boxCompactFlags |= BoxFlags.HAS_ASSIGNED_LOCATION;
         }
 
         //=============================================================
@@ -128,7 +133,7 @@ namespace HtmlRenderer.Boxes
         //=============================================================
         internal bool NeedComputedValueEvaluation
         {
-            get { return (this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0; }
+            get { return (this._boxCompactFlags & BoxFlags.LAY_EVAL_COMPUTE_VALUES) == 0; }
         }
         internal void ReEvaluateFont(HtmlRenderer.Drawing.IFonts iFonts, float parentFontSize)
         {
@@ -146,10 +151,9 @@ namespace HtmlRenderer.Boxes
         {
             //see www.w3.org/TR/CSS2/box.html#padding-properties 
             //depend on parent
-            //1. fonts
-
+            //1. fonts 
             if (this.ParentBox != null)
-            {   
+            {
                 ReEvaluateFont(iFonts, this.ParentBox.ActualFont.Size);
                 //2. actual word spacing
                 //this._actualWordSpacing = this.NoEms(this.InitSpec.LineHeight);
@@ -162,25 +166,11 @@ namespace HtmlRenderer.Boxes
                 //this._actualFont = this.Spec.GetFont(containingBlock.Spec);
             }
 
-            //if (_actualFont == null)
-            //{
-            //}
-            //else if (_actualFont.Size < 4)
-            //{
-
-            //    var hh = _actualFont.GetHeight();
-            //}
-            //if (_actualFont != null)
-            //{
-            //    return _actualFont;
-            //}
-            ////-----------------------------------------------------------------------------                
-            //_actualFont = this._initSpec._fontFeats.GetCacheFont(this.GetParent());
-            //return _actualFont;
-
             //-----------------------------------------------------------------------
             float cbWidth = containingBlock.SizeWidth;
-            this._boxCompactFlags |= CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES;
+            this._boxCompactFlags |= BoxFlags.LAY_EVAL_COMPUTE_VALUES;
+           
+
             //www.w3.org/TR/CSS2/box.html#margin-properties
             //w3c: margin applies to all elements except elements table display type
             //other than table-caption,table and inline table
@@ -204,7 +194,7 @@ namespace HtmlRenderer.Boxes
                     } break;
                 default:
                     {
-                           
+
                         this._actualMarginLeft = RecalculateMargin(this.MarginLeft, cbWidth);
                         this._actualMarginTop = RecalculateMargin(this.MarginTop, cbWidth);
                         this._actualMarginRight = RecalculateMargin(this.MarginRight, cbWidth);
@@ -254,11 +244,11 @@ namespace HtmlRenderer.Boxes
             {
                 //css 2.1 border can't be nagative values 
 
-                this._boxCompactFlags |= CssBoxFlagsConst.HAS_SOME_VISIBLE_BORDER;
+                this._boxCompactFlags |= BoxFlags.HAS_SOME_VISIBLE_BORDER;
             }
             else
             {
-                this._boxCompactFlags &= ~CssBoxFlagsConst.HAS_SOME_VISIBLE_BORDER;
+                this._boxCompactFlags &= ~BoxFlags.HAS_SOME_VISIBLE_BORDER;
             }
             //---------------------------------------------------------------------------
 
@@ -270,11 +260,11 @@ namespace HtmlRenderer.Boxes
             if ((a1 + a2 + a3 + a4) > 0)
             {
                 //evaluate 
-                this._boxCompactFlags |= CssBoxFlagsConst.HAS_ROUND_CORNER;
+                this._boxCompactFlags |= BoxFlags.HAS_ROUND_CORNER;
             }
             else
             {
-                this._boxCompactFlags &= ~CssBoxFlagsConst.HAS_ROUND_CORNER;
+                this._boxCompactFlags &= ~BoxFlags.HAS_ROUND_CORNER;
             }
             //---------------------------------------------------------------------------
             //evaluate bg 
@@ -282,31 +272,33 @@ namespace HtmlRenderer.Boxes
             if (BackgroundGradient != System.Drawing.Color.Transparent ||
                 Drawing.RenderUtils.IsColorVisible(ActualBackgroundColor))
             {
-                this._boxCompactFlags |= CssBoxFlagsConst.HAS_VISIBLE_BG;
+                this._boxCompactFlags |= BoxFlags.HAS_VISIBLE_BG;
             }
             else
             {
-                this._boxCompactFlags &= ~CssBoxFlagsConst.HAS_VISIBLE_BG;
+                this._boxCompactFlags &= ~BoxFlags.HAS_VISIBLE_BG;
             }
 
 
-            //text indent  
-            this._prop_pass_eval |= CssBoxAssignments.TEXT_INDENT;
+            if (spec.WordSpacing.IsNormalWordSpacing)
+            {
+                this._actualWordSpacing = iFonts.MeasureWhitespace(_actualFont);
+            }
+            else
+            {
+                this._actualWordSpacing = iFonts.MeasureWhitespace(_actualFont)
+                    + CssValueParser.ConvertToPx(spec.WordSpacing, 1, this);
+            }
+
+
+            //text indent   
+
             this._actualTextIndent = CssValueParser.ConvertToPx(spec.TextIndent, containingBlock.SizeWidth, this);
+            this._actualBorderSpacingHorizontal = spec.BorderSpacingHorizontal.Number;
+            this._actualBorderSpacingVertical = spec.BorderSpacingVertical.Number;
 
             //this._actualLineHeight = 0.9f * CssValueParser.ConvertToPx(LineHeight, this.GetEmHeight(), this);
-
-            //---------------------------------------------------------------------------
-
-            //if ((this._prop_pass_eval & CssBoxAssignments.BORDER_WIDTH_BOTTOM) == 0)
-            //{
-            //    this._prop_pass_eval |= CssBoxAssignments.BORDER_WIDTH_BOTTOM;
-            //    return (this.BorderBottomStyle == CssBorderStyle.None) ?
-            //        _actualBorderBottomWidth = 0f :
-            //        _actualBorderBottomWidth = CssValueParser.GetActualBorderWidth(BorderBottomWidth, this);
-
-            //}
-
+            
 
             //expected width expected height
             //this._expectedWidth = CssValueParser.ParseLength(Width, cbWidth, this);
@@ -360,16 +352,16 @@ namespace HtmlRenderer.Boxes
         internal bool FreezeWidth
         {
             //temporary fix table cell width problem
-            get { return (this._boxCompactFlags & CssBoxFlagsConst.LAY_WIDTH_FREEZE) != 0; }
+            get { return (this._boxCompactFlags & BoxFlags.LAY_WIDTH_FREEZE) != 0; }
             set
             {
                 if (value)
                 {
-                    this._boxCompactFlags |= CssBoxFlagsConst.LAY_WIDTH_FREEZE;
+                    this._boxCompactFlags |= BoxFlags.LAY_WIDTH_FREEZE;
                 }
                 else
                 {
-                    this._boxCompactFlags &= ~CssBoxFlagsConst.LAY_WIDTH_FREEZE;
+                    this._boxCompactFlags &= ~BoxFlags.LAY_WIDTH_FREEZE;
                 }
             }
         }
@@ -457,7 +449,7 @@ namespace HtmlRenderer.Boxes
         //---------------------------------------------------------
         internal static void ValidateComputeValues(CssBox box)
         {
-            box._boxCompactFlags |= CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES;
+            box._boxCompactFlags |= BoxFlags.LAY_EVAL_COMPUTE_VALUES;
         }
 
         /// <summary>
@@ -743,14 +735,14 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return (this._boxCompactFlags & CssBoxFlagsConst.HAS_ROUND_CORNER) != 0;
+                return (this._boxCompactFlags & BoxFlags.HAS_ROUND_CORNER) != 0;
             }
         }
         internal bool HasVisibleBgColor
         {
             get
             {
-                return (this._boxCompactFlags & CssBoxFlagsConst.HAS_VISIBLE_BG) != 0;
+                return (this._boxCompactFlags & BoxFlags.HAS_VISIBLE_BG) != 0;
             }
         }
 
@@ -758,7 +750,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return (this._boxCompactFlags & CssBoxFlagsConst.HAS_SOME_VISIBLE_BORDER) != 0;
+                return (this._boxCompactFlags & BoxFlags.HAS_SOME_VISIBLE_BORDER) != 0;
             }
         }
 
@@ -767,17 +759,17 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return (this._boxCompactFlags & CssBoxFlagsConst.LAY_RUNSIZE_MEASURE) != 0;
+                return (this._boxCompactFlags & BoxFlags.LAY_RUNSIZE_MEASURE) != 0;
             }
             set
             {
                 if (value)
                 {
-                    this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
+                    this._boxCompactFlags |= BoxFlags.LAY_RUNSIZE_MEASURE;
                 }
                 else
                 {
-                    this._boxCompactFlags &= ~CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
+                    this._boxCompactFlags &= ~BoxFlags.LAY_RUNSIZE_MEASURE;
                 }
             }
         }
@@ -803,17 +795,17 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return (this._boxCompactFlags & CssBoxFlagsConst.LAY_TABLE_FIXED) != 0;
+                return (this._boxCompactFlags & BoxFlags.LAY_TABLE_FIXED) != 0;
             }
             set
             {
                 if (value)
                 {
-                    this._boxCompactFlags |= CssBoxFlagsConst.LAY_TABLE_FIXED;
+                    this._boxCompactFlags |= BoxFlags.LAY_TABLE_FIXED;
                 }
                 else
                 {
-                    this._boxCompactFlags &= ~CssBoxFlagsConst.LAY_TABLE_FIXED;
+                    this._boxCompactFlags &= ~BoxFlags.LAY_TABLE_FIXED;
                 }
             }
         }

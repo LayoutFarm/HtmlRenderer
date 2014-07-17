@@ -15,10 +15,11 @@
 
 using System;
 using System.Drawing;
-using HtmlRenderer.Drawing; 
-
+using HtmlRenderer.Drawing;
 namespace HtmlRenderer.Css
 {
+
+
     public sealed partial class BoxSpec
     {
         int _versionNum;
@@ -69,6 +70,7 @@ namespace HtmlRenderer.Css
         CssPosition _position = CssPosition.Static;
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
         //==========================================================
+        
 
         #endregion
 #if DEBUG
@@ -84,6 +86,8 @@ namespace HtmlRenderer.Css
         //------------------
         public BoxSpec()
         {
+
+
         }
         //---------------------------------------------------------------
         internal int VersionNumber
@@ -108,11 +112,9 @@ namespace HtmlRenderer.Css
             _paddingFeats.Freeze();//4.
             _marginFeats.Freeze();//5.
             _cornerFeats.Freeze();//6.
-            _backgroundFeats.Freeze();//7 
-
-
+            _backgroundFeats.Freeze();//7   
         }
-
+      
         internal void Defreeze()
         {
             this._freezed = false;
@@ -795,6 +797,8 @@ namespace HtmlRenderer.Css
 
 
     }
+
+
 #if DEBUG
     public class dbugPropCheckReport
     {

@@ -14,8 +14,9 @@
 // "The Art of War"
 
 using System;
+using HtmlRenderer.Diagnostics;
 
-namespace HtmlRenderer.Diagnostics
+namespace HtmlRenderer.WebDom
 {
     /// <summary>
     /// Raised when an error occured during html rendering.

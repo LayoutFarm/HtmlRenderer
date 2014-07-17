@@ -155,7 +155,7 @@ namespace HtmlRenderer.Composers
                 }
             }
         }
-        
+
         static void GenerateAllChildBoxes(BridgeHtmlElement parentElement)
         {
 
@@ -203,7 +203,7 @@ namespace HtmlRenderer.Composers
                     } break;
                 default:
                     {
-                       
+
                         switch (parentElement.Spec.WhiteSpace)
                         {
                             case CssWhiteSpace.Pre:
@@ -244,7 +244,7 @@ namespace HtmlRenderer.Composers
                         {
                             BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
                             RunListHelper.AddRunList(
-                                     CssBox.CreateAnonInlineForText(principalBox),
+                                     BoxUtils.CreateAnonInline(principalBox),
                                      parentElement.Spec, textNode);
 
                         } break;
@@ -286,7 +286,7 @@ namespace HtmlRenderer.Composers
                                 continue;//skip
                             }
                             RunListHelper.AddRunList(
-                                CssBox.CreateAnonInlineForText(principalBox),
+                                BoxUtils.CreateAnonInline(principalBox),
                                 parentElement.Spec, textNode);
                             newBox++;
                         } break;
@@ -336,7 +336,7 @@ namespace HtmlRenderer.Composers
                                 continue;//skip
                             }
                             RunListHelper.AddRunList(
-                                CssBox.CreateAnonInlineForText(principalBox),
+                                BoxUtils.CreateAnonInline(principalBox),
                                 parentElement.Spec, textNode);
 
                         } break;
@@ -516,10 +516,10 @@ namespace HtmlRenderer.Composers
             //------------------------------------------------------------------- 
             //4. a style attribute value
             string attrStyleValue;
-
             if (element.TryGetAttribute(WellknownHtmlName.Style, out attrStyleValue))
             {
                 var ruleset = activeCssTemplate.ParseCssBlock(element.LocalName, attrStyleValue);
+                curSpec.VersionNumber++; //***
                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                 {
                     SpecSetter.AssignPropertyValue(
@@ -527,6 +527,8 @@ namespace HtmlRenderer.Composers
                         parentSpec,
                         propDecl);
                 }
+
+
             }
             //===================== 
             curSpec.Freeze(); //***

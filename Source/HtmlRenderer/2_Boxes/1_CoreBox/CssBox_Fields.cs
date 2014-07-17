@@ -19,23 +19,19 @@ using System.Collections.Generic;
 
 namespace HtmlRenderer.Boxes
 {
-    public enum FormattingContext
-    {
-        NoFormat,
-        Lines,
-        Block
-    }
+    
 
     partial class CssBox
     {
-        FormattingContext formattingContent;
-
+        
         readonly object _controller;
         //----------------------------------------------------
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary> 
         int _boxCompactFlags;
+         
+
         //html rowspan: for td,th 
         int _rowSpan;
         int _colSpan;
@@ -50,16 +46,10 @@ namespace HtmlRenderer.Boxes
         //condition 2 :this Box is InlineBox          
         List<CssRun> _aa_contentRuns;
         char[] _buffer;
-        //----------------------------------------------------   
-
-        //----------------------------------------------------  
+        //----------------------------------------------------    
         //for other subbox , list item , shadow... 
         SubBoxCollection _subBoxes;
-        //----------------------------------------------------   
-
-        //state
-        protected int _prop_pass_eval;
-
+        //----------------------------------------------------    
         /// <summary>
         /// Gets the childrenn boxes of this box
         /// </summary>      
@@ -108,19 +98,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-        public IEnumerable<CssRun> GetRunBackwardIter()
-        {
-            if (this._aa_contentRuns != null)
-            {
-                var tmpRuns = this._aa_contentRuns;
-                int j = tmpRuns.Count;
-                for (int i = tmpRuns.Count - 1; i >= 0; --i)
-                {
-                    yield return tmpRuns[i];
-                }
-            }
-        }
-
+       
         public int ChildCount
         {
             get
@@ -133,11 +111,7 @@ namespace HtmlRenderer.Boxes
         {
             return this._aa_boxes.GetFirstChild();
         }
-        public CssBox GetLastChild()
-        {
-            return this._aa_boxes.GetLastChild();
-        }
-
+         
         public void AppendChild(CssBox box)
         {
             this.Boxes.AddChild(this, box);
@@ -146,17 +120,7 @@ namespace HtmlRenderer.Boxes
         {
             this.Boxes.InsertBefore(this, beforeBox, box);
         } 
-        internal FormattingContext ContentFormattingContext
-        {
-            get
-            {
-                return this.formattingContent;
-            }
-            set
-            {
-                this.formattingContent = value;
-            }
-        }
+     
         //-------------------------------------
         internal void ResetLineBoxes()
         {
@@ -184,7 +148,8 @@ namespace HtmlRenderer.Boxes
                 return this._colSpan;
             }
         }
-        internal void SetRowColSpan(int rowSpan, int colSpan)
+
+        internal void SetRowSpanAndColSpan(int rowSpan, int colSpan)
         {
             this._rowSpan = rowSpan;
             this._colSpan = colSpan;

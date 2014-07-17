@@ -22,8 +22,11 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
+
 using HtmlRenderer.Demo.Properties;
 using HtmlRenderer.Diagnostics;
+using HtmlRenderer.WebDom;
+
 using Timer = System.Threading.Timer;
 
 namespace HtmlRenderer.Demo
@@ -363,7 +366,7 @@ namespace HtmlRenderer.Demo
         /// <summary>
         /// Handle stylesheet resolve.
         /// </summary>
-        private static void OnStylesheetLoad(object sender, HtmlStylesheetLoadEventArgs e)
+        private static void OnStylesheetLoad(object sender, WebDom.HtmlStylesheetLoadEventArgs e)
         {
             var stylesheet = GetStylesheet(e.Src);
             if (stylesheet != null)
@@ -400,7 +403,7 @@ namespace HtmlRenderer.Demo
         /// <summary>
         /// On image load in renderer set the image by event async.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlRenderer.Boxes.HtmlImageRequestEventArgs e)
+        private void OnImageLoad(object sender, HtmlRenderer.WebDom.HtmlImageRequestEventArgs e)
         {
 
 

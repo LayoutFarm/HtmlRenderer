@@ -86,7 +86,7 @@ namespace HtmlRenderer.Boxes
             S4_DetermineMissingColumnWidths(availbleWidthForAllCells);
 
             //
-            S5_CalculateColumnMinWidths();
+            S5_CalculateColumnMinWidths(lay.EpisodeId);
 
             // Check for minimum sizes (increment widths if necessary)
             S6_EnforceMinimumSize();
@@ -1244,7 +1244,7 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// Gets the minimum width of each column
         /// </summary>
-        void S5_CalculateColumnMinWidths()
+        void S5_CalculateColumnMinWidths(int layoutIdEpisode)
         {
 
             int col_count = this.columnCollection.Count;
@@ -1262,7 +1262,7 @@ namespace HtmlRenderer.Boxes
                     var col = this.columnCollection[affect_col];
 
                     float spanned_width = 0;
-                    float minimumCellWidth = cellBox.CalculateMinimumWidth();
+                    float minimumCellWidth = cellBox.CalculateMinimumWidth(layoutIdEpisode);
 
                     if (colspan > 1)
                     {

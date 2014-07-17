@@ -18,13 +18,24 @@ namespace HtmlRenderer.Boxes
         Queue<List<PartialBoxStrip>> listStripPool;
 
         Dictionary<CssBox, PartialBoxStrip> readyDicStrip = new Dictionary<CssBox, PartialBoxStrip>();
-        List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>(); 
+        List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>();
 
+
+
+        static int totalLayoutIdEpisode = 0;
+        readonly int episodeId = ++totalLayoutIdEpisode;
 
         internal LayoutVisitor(IGraphics gfx, HtmlContainer htmlContainer)
         {
             this.Gfx = gfx;
             this.htmlContainer = htmlContainer;
+
+            if (episodeId == ushort.MaxValue - 1)
+            {
+                //reset
+                totalLayoutIdEpisode = 1;
+                episodeId = totalLayoutIdEpisode++;
+            }
         }
 
         internal IGraphics Gfx
@@ -48,7 +59,8 @@ namespace HtmlRenderer.Boxes
         }
         internal void UpdateRootSize(CssBox box)
         {
-            float candidateRootWidth = Math.Max(box.CalculateMinimumWidth() + CalculateWidthMarginTotalUp(box),
+
+            float candidateRootWidth = Math.Max(box.CalculateMinimumWidth(this.episodeId) + CalculateWidthMarginTotalUp(box),
                          (box.SizeWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.SizeWidth : 0);
 
             this.htmlContainer.UpdateSizeIfWiderOrHeigher(
@@ -186,15 +198,12 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-
-
         //---------------------------------------------------------------
 
-
-
-
-
-
+        internal int EpisodeId
+        {
+            get { return this.episodeId; }
+        } 
         //---------------------------------------------------------------
     }
 

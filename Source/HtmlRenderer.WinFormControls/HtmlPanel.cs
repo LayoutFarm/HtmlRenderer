@@ -14,7 +14,7 @@ using System;
 using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
-using HtmlRenderer.Diagnostics;
+using HtmlRenderer.WebDom;
 
 using HtmlRenderer.Drawing;
 using HtmlRenderer.Css;
@@ -96,7 +96,7 @@ namespace HtmlRenderer
             _htmlContainer.RenderError += OnRenderError;
             _htmlContainer.Refresh += OnRefresh;
             _htmlContainer.ScrollChange += OnScrollChange;
-            _htmlContainer.StylesheetLoadingRequest += OnStylesheetLoad;
+            _htmlContainer.TextContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
             _htmlContainer.ImageContentMan.ImageLoadingRequest += OnImageLoad;
 
 
@@ -124,7 +124,7 @@ namespace HtmlRenderer
         /// Raised when an image is about to be loaded by file path or URI.<br/>
         /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
         /// </summary>
-        public event EventHandler<HtmlRenderer.Boxes.HtmlImageRequestEventArgs> ImageLoad;
+        public event EventHandler<HtmlRenderer.WebDom.HtmlImageRequestEventArgs> ImageLoad;
 
         /// <summary>
         /// Gets or sets a value indicating if anti-aliasing should be avoided for geometry like backgrounds and borders (default - false).
@@ -489,7 +489,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Propagate the image load event from root container.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlRenderer.Boxes.HtmlImageRequestEventArgs e)
+        private void OnImageLoad(object sender, HtmlRenderer.WebDom.HtmlImageRequestEventArgs e)
         {
             if (ImageLoad != null)
             {
@@ -565,7 +565,7 @@ namespace HtmlRenderer
                 _htmlContainer.RenderError -= OnRenderError;
                 _htmlContainer.Refresh -= OnRefresh;
                 _htmlContainer.ScrollChange -= OnScrollChange;
-                _htmlContainer.StylesheetLoadingRequest -= OnStylesheetLoad;
+                _htmlContainer.TextContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
                 _htmlContainer.ImageContentMan.ImageLoadingRequest -= OnImageLoad;
                 _htmlContainer.Dispose();
                 _htmlContainer = null;

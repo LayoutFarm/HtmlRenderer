@@ -104,6 +104,7 @@ namespace HtmlRenderer.Composers
             {
                 parentSpecVersion = parentSpec.VersionNumber;
             }
+
             TemplateKey key = new TemplateKey(tagNameKey, classNameKey, parentSpecVersion);
             BoxSpec boxTemplate;
             if (!templatesForTagName.TryGetValue(key, out boxTemplate))

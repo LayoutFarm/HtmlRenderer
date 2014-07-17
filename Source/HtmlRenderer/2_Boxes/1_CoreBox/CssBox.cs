@@ -21,7 +21,7 @@ using System.Text;
 
 
 using HtmlRenderer.Drawing;
-
+using HtmlRenderer.Css;
 
 namespace HtmlRenderer.Boxes
 {
@@ -68,8 +68,10 @@ namespace HtmlRenderer.Boxes
 
             //assign spec 
             this._myspec = spec;
+
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
+
         }
         public CssBox(CssBox parentBox, object controller, Css.BoxSpec spec, Css.CssDisplay fixDisplayType)
         {
@@ -90,8 +92,8 @@ namespace HtmlRenderer.Boxes
             }
 #endif
 
-            //assign spec
-            this._fixDisplayType = true;
+            //assign spec             
+            this._boxCompactFlags |= BoxFlags.FIXED_DISPLAY_TYPE;
             this._cssDisplay = fixDisplayType;
             //----------------------------
             this._myspec = spec;
@@ -129,7 +131,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return this._isBrElement;
+                return (this._boxCompactFlags & BoxFlags.IS_BR_ELEM) != 0;
             }
         }
 
@@ -140,17 +142,17 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return (this._boxCompactFlags & CssBoxFlagsConst.IS_INLINE_BOX) != 0;
+                return (this._boxCompactFlags & BoxFlags.IS_INLINE_BOX) != 0;
             }
             set
             {
                 if (value)
                 {
-                    this._boxCompactFlags |= CssBoxFlagsConst.IS_INLINE_BOX;
+                    this._boxCompactFlags |= BoxFlags.IS_INLINE_BOX;
                 }
                 else
                 {
-                    this._boxCompactFlags &= ~CssBoxFlagsConst.IS_INLINE_BOX;
+                    this._boxCompactFlags &= ~BoxFlags.IS_INLINE_BOX;
                 }
             }
         }
@@ -172,31 +174,8 @@ namespace HtmlRenderer.Boxes
             get
             {
                 //this flags is evaluated when call ChangeDisplay ****
-                return (this._boxCompactFlags & CssBoxFlagsConst.HAS_CONTAINER_PROP) != 0;
+                return (this._boxCompactFlags & BoxFlags.HAS_CONTAINER_PROP) != 0;
             }
-        }
-        /// <summary>
-        /// Gets the containing block-box of this box. (The nearest parent box with display=block)
-        /// </summary>
-        internal CssBox SearchUpForContainingBlockBox()
-        {
-
-            if (ParentBox == null)
-            {
-                return this; //This is the initial containing block.
-            }
-
-            var box = ParentBox;
-            while (box.CssDisplay < Css.CssDisplay.__CONTAINER_BEGIN_HERE &&
-                box.ParentBox != null)
-            {
-                box = box.ParentBox;
-            }
-
-            //Comment this following line to treat always superior box as block
-            if (box == null)
-                throw new Exception("There's no containing block on the chain");
-            return box;
         }
 
         /// <summary>
@@ -217,7 +196,6 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-
                 if (this.Boxes.Count != 0)
                 {
                     return true;
@@ -232,9 +210,9 @@ namespace HtmlRenderer.Boxes
         void ResetTextFlags()
         {
             int tmpFlags = this._boxCompactFlags;
-            tmpFlags &= ~CssBoxFlagsConst.HAS_EVAL_WHITESPACE;
-            tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
-            tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_EMPTY;
+            tmpFlags &= ~BoxFlags.HAS_EVAL_WHITESPACE;
+            tmpFlags &= ~BoxFlags.TEXT_IS_ALL_WHITESPACE;
+            tmpFlags &= ~BoxFlags.TEXT_IS_EMPTY;
 
             this._boxCompactFlags = tmpFlags;
         }
@@ -247,7 +225,15 @@ namespace HtmlRenderer.Boxes
         internal void SetContentRuns(List<CssRun> runs, bool isAllWhitespace)
         {
             this._aa_contentRuns = runs;
-            this._isAllWhitespace = isAllWhitespace;
+            if (isAllWhitespace)
+            {
+                this._boxCompactFlags |= BoxFlags.TEXT_IS_ALL_WHITESPACE;
+            }
+            else
+            {
+                this._boxCompactFlags &= ~BoxFlags.TEXT_IS_ALL_WHITESPACE;
+                
+            }
         }
         public bool MayHasSomeTextContent
         {
@@ -267,7 +253,7 @@ namespace HtmlRenderer.Boxes
             {
                 if (this._aa_contentRuns != null)
                 {
-                    return this._isAllWhitespace;
+                    return (this._boxCompactFlags & BoxFlags.TEXT_IS_ALL_WHITESPACE) != 0;
                 }
                 else
                 {
@@ -302,6 +288,12 @@ namespace HtmlRenderer.Boxes
         internal void AddLineBox(CssLineBox linebox)
         {
             linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
+
+        }
+        protected void NeedRecomputeMinimalRun()
+        {
+
+
         }
         internal int LineBoxCount
         {
@@ -432,7 +424,6 @@ namespace HtmlRenderer.Boxes
             //derived class can perform its own layout algo            
             //by override performContentLayout 
             PerformContentLayout(lay);
-
         }
         #region Private Methods
 
@@ -477,7 +468,6 @@ namespace HtmlRenderer.Boxes
                         //for general block layout 
                         CssLayoutEngine.PerformContentLayout(this, lay);
 
-
                     } break;
             }
             //----------------------------------------------------------------------------- 
@@ -511,7 +501,7 @@ namespace HtmlRenderer.Boxes
         internal virtual void MeasureRunsSize(LayoutVisitor lay)
         {
             //measure once !
-            if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_RUNSIZE_MEASURE) != 0)
+            if ((this._boxCompactFlags & BoxFlags.LAY_RUNSIZE_MEASURE) != 0)
             {
                 return;
             }
@@ -526,14 +516,11 @@ namespace HtmlRenderer.Boxes
             }
             if (this.HasRuns)
             {
-                //find word spacing 
-
-                float actualWordspacing = MeasureWordSpacing(lay);
+                //find word spacing  
+                float actualWordspacing = this._actualWordSpacing;
                 Font actualFont = this.ActualFont;
                 var fontInfo = lay.GetFontInfo(actualFont);
                 float fontHeight = fontInfo.LineHeight;
-
-
 
                 var tmpRuns = this.Runs;
                 for (int i = tmpRuns.Count - 1; i >= 0; --i)
@@ -575,27 +562,32 @@ namespace HtmlRenderer.Boxes
                     }
                 }
             }
-            this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
+            this._boxCompactFlags |= BoxFlags.LAY_RUNSIZE_MEASURE;
         }
 
+
+       
         /// <summary>
         /// Gets the minimum width that the box can be.
         /// *** The box can be as thin as the longest word plus padding
         /// </summary>
         /// <returns></returns>
-        internal float CalculateMinimumWidth()
+        internal float CalculateMinimumWidth(int calculationEpisode)
         {
 
             float maxWidth = 0;
             float padding = 0f;
 
+            if (_lastCalculationEpisodeNum == calculationEpisode)
+            {
+                return _cachedMinimumWidth;
+            }
+            //---------------------------------------------------
             if (this.LineBoxCount > 0)
             {
                 //use line box technique *** 
                 CssRun maxWidthRun = null;
-
                 CalculateMinimumWidthAndWidestRun(this, out maxWidth, out maxWidthRun);
-
                 //--------------------------------  
                 if (maxWidthRun != null)
                 {
@@ -617,10 +609,9 @@ namespace HtmlRenderer.Boxes
                         }
                     }
                 }
-
             }
-
-            return maxWidth + padding;
+            this._lastCalculationEpisodeNum = calculationEpisode;
+            return _cachedMinimumWidth = maxWidth + padding;
 
         }
         static void CalculateMinimumWidthAndWidestRun(CssBox box, out float maxWidth, out CssRun maxWidthRun)
@@ -629,33 +620,29 @@ namespace HtmlRenderer.Boxes
 
             float maxRunWidth = 0;
             CssRun foundRun = null;
-            foreach (CssLineBox lineBox in box.GetLineBoxIter())
+
+            if (box._clientLineBoxes != null)
             {
-                foreach (CssRun run in lineBox.GetRunIter())
+                var lineNode = box._clientLineBoxes.First;
+                while (lineNode != null)
                 {
-                    if (run.Width >= maxRunWidth)
+                    //------------------------
+                    var line = lineNode.Value;
+                    var tmpRun = line.FindMaxWidthRun(maxRunWidth);
+                    if (tmpRun != null)
                     {
-                        foundRun = run;
-                        maxRunWidth = run.Width;
+                        maxRunWidth = tmpRun.Width;
+                        foundRun = tmpRun;
                     }
+                    //------------------------
+                    lineNode = lineNode.Next;
                 }
             }
+
             maxWidth = maxRunWidth;
             maxWidthRun = foundRun;
         }
-        internal float CalculateActualWidth()
-        {
-            float maxRight = 0;
-            var cnode = this.Boxes.GetFirstLinkedNode();
-            while (cnode != null)
-            {
-                maxRight = Math.Max(maxRight, cnode.Value.LocalRight);
-                cnode = cnode.Next;
-            }
 
-            return maxRight + (this.ActualBorderLeftWidth + this.ActualPaddingLeft +
-                this.ActualPaddingRight + this.ActualBorderRightWidth);
-        }
 
         bool IsLastChild
         {
@@ -669,7 +656,7 @@ namespace HtmlRenderer.Boxes
         /// </summary>
         /// <param name="upperSibling">the previous box under the same parent</param>
         /// <returns>Resulting top margin</returns>
-        public float MarginTopCollapse(CssBox upperSibling)
+        public float UpdateMarginTopCollapse(CssBox upperSibling)
         {
             float value;
             if (upperSibling != null)

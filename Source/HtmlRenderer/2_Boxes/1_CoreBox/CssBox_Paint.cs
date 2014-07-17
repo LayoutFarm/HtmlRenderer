@@ -73,7 +73,7 @@ namespace HtmlRenderer.Boxes
                 bool hasPrevClip = false;
                 RectangleF prevClip = RectangleF.Empty;
 
-                if (this._isHiddenOverflow)
+                if (this._myspec.Overflow == Css.CssOverflow.Hidden)
                 {
                     var expectedW = this.ExpectedWidth;
                     var expectedH = this.ExpectedHeight;
@@ -162,15 +162,20 @@ namespace HtmlRenderer.Boxes
                         float ox = g.CanvasOriginX;
                         float oy = g.CanvasOriginY;
 
-                        foreach (var b in this._aa_boxes)
+                        var node = this._aa_boxes.GetFirstLinkedNode();
+                        while (node != null)
                         {
+                            CssBox b = node.Value;
                             if (b.CssDisplay == Css.CssDisplay.None)
                             {
+                                node = node.Next;
                                 continue;
                             }
                             g.SetCanvasOrigin(ox + b.LocalX, oy + b.LocalY);
                             b.Paint(g, p);
+                            node = node.Next;
                         }
+
 
                         g.SetCanvasOrigin(ox, oy);
 
@@ -183,15 +188,20 @@ namespace HtmlRenderer.Boxes
                         float ox = g.CanvasOriginX;
                         float oy = g.CanvasOriginY;
 
-                        foreach (var b in this._aa_boxes)
+                        var node = this._aa_boxes.GetFirstLinkedNode();
+                        while (node != null)
                         {
+                            CssBox b = node.Value;
                             if (b.CssDisplay == Css.CssDisplay.None)
                             {
+                                node = node.Next;
                                 continue;
                             }
                             g.SetCanvasOrigin(ox + b.LocalX, oy + b.LocalY);
                             b.Paint(g, p);
+                            node = node.Next;
                         }
+                         
                         g.SetCanvasOrigin(ox, oy);
 
                     }

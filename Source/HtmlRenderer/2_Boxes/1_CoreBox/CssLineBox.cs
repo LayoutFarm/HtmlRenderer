@@ -670,6 +670,23 @@ namespace HtmlRenderer.Boxes
         {
             get { return this.linkedNode.Next == null; }
         }
-        //---------------------------------
+        //--------------------------------- 
+        internal CssRun FindMaxWidthRun(float minimum)
+        {
+            float max = minimum;
+            CssRun maxRun = null;
+            for (int i = this._runs.Count - 1; i >= 0; --i)
+            {
+                var r = _runs[i];
+                if (r.Width > max)
+                {
+                    max = r.Width;
+                    maxRun = r;
+                }
+            }
+            return maxRun;
+
+        }
+
     }
 }
