@@ -93,7 +93,7 @@ namespace HtmlRenderer.Boxes
 #endif
 
             //assign spec             
-            this._boxCompactFlags |= CssBoxFlagsConst.FIXED_DISPLAY_TYPE;
+            this._boxCompactFlags |= BoxFlags.FIXED_DISPLAY_TYPE;
             this._cssDisplay = fixDisplayType;
             //----------------------------
             this._myspec = spec;
@@ -131,7 +131,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return (this._boxCompactFlags & CssBoxFlagsConst.IS_BR_ELEM) != 0;
+                return (this._boxCompactFlags & BoxFlags.IS_BR_ELEM) != 0;
             }
         }
 
@@ -142,17 +142,17 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return (this._boxCompactFlags & CssBoxFlagsConst.IS_INLINE_BOX) != 0;
+                return (this._boxCompactFlags & BoxFlags.IS_INLINE_BOX) != 0;
             }
             set
             {
                 if (value)
                 {
-                    this._boxCompactFlags |= CssBoxFlagsConst.IS_INLINE_BOX;
+                    this._boxCompactFlags |= BoxFlags.IS_INLINE_BOX;
                 }
                 else
                 {
-                    this._boxCompactFlags &= ~CssBoxFlagsConst.IS_INLINE_BOX;
+                    this._boxCompactFlags &= ~BoxFlags.IS_INLINE_BOX;
                 }
             }
         }
@@ -174,7 +174,7 @@ namespace HtmlRenderer.Boxes
             get
             {
                 //this flags is evaluated when call ChangeDisplay ****
-                return (this._boxCompactFlags & CssBoxFlagsConst.HAS_CONTAINER_PROP) != 0;
+                return (this._boxCompactFlags & BoxFlags.HAS_CONTAINER_PROP) != 0;
             }
         }
 
@@ -210,9 +210,9 @@ namespace HtmlRenderer.Boxes
         void ResetTextFlags()
         {
             int tmpFlags = this._boxCompactFlags;
-            tmpFlags &= ~CssBoxFlagsConst.HAS_EVAL_WHITESPACE;
-            tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
-            tmpFlags &= ~CssBoxFlagsConst.TEXT_IS_EMPTY;
+            tmpFlags &= ~BoxFlags.HAS_EVAL_WHITESPACE;
+            tmpFlags &= ~BoxFlags.TEXT_IS_ALL_WHITESPACE;
+            tmpFlags &= ~BoxFlags.TEXT_IS_EMPTY;
 
             this._boxCompactFlags = tmpFlags;
         }
@@ -227,11 +227,11 @@ namespace HtmlRenderer.Boxes
             this._aa_contentRuns = runs;
             if (isAllWhitespace)
             {
-                this._boxCompactFlags |= CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
+                this._boxCompactFlags |= BoxFlags.TEXT_IS_ALL_WHITESPACE;
             }
             else
             {
-                this._boxCompactFlags &= ~CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
+                this._boxCompactFlags &= ~BoxFlags.TEXT_IS_ALL_WHITESPACE;
                 
             }
         }
@@ -253,7 +253,7 @@ namespace HtmlRenderer.Boxes
             {
                 if (this._aa_contentRuns != null)
                 {
-                    return (this._boxCompactFlags & CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE) != 0;
+                    return (this._boxCompactFlags & BoxFlags.TEXT_IS_ALL_WHITESPACE) != 0;
                 }
                 else
                 {
@@ -501,7 +501,7 @@ namespace HtmlRenderer.Boxes
         internal virtual void MeasureRunsSize(LayoutVisitor lay)
         {
             //measure once !
-            if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_RUNSIZE_MEASURE) != 0)
+            if ((this._boxCompactFlags & BoxFlags.LAY_RUNSIZE_MEASURE) != 0)
             {
                 return;
             }
@@ -562,7 +562,7 @@ namespace HtmlRenderer.Boxes
                     }
                 }
             }
-            this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
+            this._boxCompactFlags |= BoxFlags.LAY_RUNSIZE_MEASURE;
         }
 
 

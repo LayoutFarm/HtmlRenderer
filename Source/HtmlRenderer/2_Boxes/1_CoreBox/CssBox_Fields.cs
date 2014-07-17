@@ -46,13 +46,10 @@ namespace HtmlRenderer.Boxes
         //condition 2 :this Box is InlineBox          
         List<CssRun> _aa_contentRuns;
         char[] _buffer;
-        //----------------------------------------------------   
-
-        //----------------------------------------------------  
+        //----------------------------------------------------    
         //for other subbox , list item , shadow... 
         SubBoxCollection _subBoxes;
-        //----------------------------------------------------   
-         
+        //----------------------------------------------------    
         /// <summary>
         /// Gets the childrenn boxes of this box
         /// </summary>      

@@ -112,9 +112,7 @@ namespace HtmlRenderer.Css
             _paddingFeats.Freeze();//4.
             _marginFeats.Freeze();//5.
             _cornerFeats.Freeze();//6.
-            _backgroundFeats.Freeze();//7 
-
-             
+            _backgroundFeats.Freeze();//7   
         }
       
         internal void Defreeze()

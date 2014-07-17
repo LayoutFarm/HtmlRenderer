@@ -93,7 +93,7 @@ namespace HtmlRenderer.Boxes
         {
             this._localX = localX;
             this._localY = localY;
-            this._boxCompactFlags |= CssBoxFlagsConst.HAS_ASSIGNED_LOCATION;
+            this._boxCompactFlags |= BoxFlags.HAS_ASSIGNED_LOCATION;
         }
 
         //=============================================================
@@ -133,7 +133,7 @@ namespace HtmlRenderer.Boxes
         //=============================================================
         internal bool NeedComputedValueEvaluation
         {
-            get { return (this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0; }
+            get { return (this._boxCompactFlags & BoxFlags.LAY_EVAL_COMPUTE_VALUES) == 0; }
         }
         internal void ReEvaluateFont(HtmlRenderer.Drawing.IFonts iFonts, float parentFontSize)
         {
@@ -168,7 +168,7 @@ namespace HtmlRenderer.Boxes
 
             //-----------------------------------------------------------------------
             float cbWidth = containingBlock.SizeWidth;
-            this._boxCompactFlags |= CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES;
+            this._boxCompactFlags |= BoxFlags.LAY_EVAL_COMPUTE_VALUES;
            
 
             //www.w3.org/TR/CSS2/box.html#margin-properties
@@ -244,11 +244,11 @@ namespace HtmlRenderer.Boxes
             {
                 //css 2.1 border can't be nagative values 
 
-                this._boxCompactFlags |= CssBoxFlagsConst.HAS_SOME_VISIBLE_BORDER;
+                this._boxCompactFlags |= BoxFlags.HAS_SOME_VISIBLE_BORDER;
             }
             else
             {
-                this._boxCompactFlags &= ~CssBoxFlagsConst.HAS_SOME_VISIBLE_BORDER;
+                this._boxCompactFlags &= ~BoxFlags.HAS_SOME_VISIBLE_BORDER;
             }
             //---------------------------------------------------------------------------
 
@@ -260,11 +260,11 @@ namespace HtmlRenderer.Boxes
             if ((a1 + a2 + a3 + a4) > 0)
             {
                 //evaluate 
-                this._boxCompactFlags |= CssBoxFlagsConst.HAS_ROUND_CORNER;
+                this._boxCompactFlags |= BoxFlags.HAS_ROUND_CORNER;
             }
             else
             {
-                this._boxCompactFlags &= ~CssBoxFlagsConst.HAS_ROUND_CORNER;
+                this._boxCompactFlags &= ~BoxFlags.HAS_ROUND_CORNER;
             }
             //---------------------------------------------------------------------------
             //evaluate bg 
@@ -272,11 +272,11 @@ namespace HtmlRenderer.Boxes
             if (BackgroundGradient != System.Drawing.Color.Transparent ||
                 Drawing.RenderUtils.IsColorVisible(ActualBackgroundColor))
             {
-                this._boxCompactFlags |= CssBoxFlagsConst.HAS_VISIBLE_BG;
+                this._boxCompactFlags |= BoxFlags.HAS_VISIBLE_BG;
             }
             else
             {
-                this._boxCompactFlags &= ~CssBoxFlagsConst.HAS_VISIBLE_BG;
+                this._boxCompactFlags &= ~BoxFlags.HAS_VISIBLE_BG;
             }
 
 
@@ -352,16 +352,16 @@ namespace HtmlRenderer.Boxes
         internal bool FreezeWidth
         {
             //temporary fix table cell width problem
-            get { return (this._boxCompactFlags & CssBoxFlagsConst.LAY_WIDTH_FREEZE) != 0; }
+            get { return (this._boxCompactFlags & BoxFlags.LAY_WIDTH_FREEZE) != 0; }
             set
             {
                 if (value)
                 {
-                    this._boxCompactFlags |= CssBoxFlagsConst.LAY_WIDTH_FREEZE;
+                    this._boxCompactFlags |= BoxFlags.LAY_WIDTH_FREEZE;
                 }
                 else
                 {
-                    this._boxCompactFlags &= ~CssBoxFlagsConst.LAY_WIDTH_FREEZE;
+                    this._boxCompactFlags &= ~BoxFlags.LAY_WIDTH_FREEZE;
                 }
             }
         }
@@ -449,7 +449,7 @@ namespace HtmlRenderer.Boxes
         //---------------------------------------------------------
         internal static void ValidateComputeValues(CssBox box)
         {
-            box._boxCompactFlags |= CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES;
+            box._boxCompactFlags |= BoxFlags.LAY_EVAL_COMPUTE_VALUES;
         }
 
         /// <summary>
@@ -735,14 +735,14 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return (this._boxCompactFlags & CssBoxFlagsConst.HAS_ROUND_CORNER) != 0;
+                return (this._boxCompactFlags & BoxFlags.HAS_ROUND_CORNER) != 0;
             }
         }
         internal bool HasVisibleBgColor
         {
             get
             {
-                return (this._boxCompactFlags & CssBoxFlagsConst.HAS_VISIBLE_BG) != 0;
+                return (this._boxCompactFlags & BoxFlags.HAS_VISIBLE_BG) != 0;
             }
         }
 
@@ -750,7 +750,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return (this._boxCompactFlags & CssBoxFlagsConst.HAS_SOME_VISIBLE_BORDER) != 0;
+                return (this._boxCompactFlags & BoxFlags.HAS_SOME_VISIBLE_BORDER) != 0;
             }
         }
 
@@ -759,17 +759,17 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return (this._boxCompactFlags & CssBoxFlagsConst.LAY_RUNSIZE_MEASURE) != 0;
+                return (this._boxCompactFlags & BoxFlags.LAY_RUNSIZE_MEASURE) != 0;
             }
             set
             {
                 if (value)
                 {
-                    this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
+                    this._boxCompactFlags |= BoxFlags.LAY_RUNSIZE_MEASURE;
                 }
                 else
                 {
-                    this._boxCompactFlags &= ~CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
+                    this._boxCompactFlags &= ~BoxFlags.LAY_RUNSIZE_MEASURE;
                 }
             }
         }
@@ -795,17 +795,17 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return (this._boxCompactFlags & CssBoxFlagsConst.LAY_TABLE_FIXED) != 0;
+                return (this._boxCompactFlags & BoxFlags.LAY_TABLE_FIXED) != 0;
             }
             set
             {
                 if (value)
                 {
-                    this._boxCompactFlags |= CssBoxFlagsConst.LAY_TABLE_FIXED;
+                    this._boxCompactFlags |= BoxFlags.LAY_TABLE_FIXED;
                 }
                 else
                 {
-                    this._boxCompactFlags &= ~CssBoxFlagsConst.LAY_TABLE_FIXED;
+                    this._boxCompactFlags &= ~BoxFlags.LAY_TABLE_FIXED;
                 }
             }
         }

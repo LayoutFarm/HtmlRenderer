@@ -334,13 +334,13 @@ namespace HtmlRenderer
             }
         }
 
-        /// <summary>
-        /// the root css box of the parsed html
-        /// </summary>
-        internal CssBox Root
-        {
-            get { return _rootBox; }
-        }
+        ///// <summary>
+        ///// the root css box of the parsed html
+        ///// </summary>
+        //internal CssBox Root
+        //{
+        //    get { return _rootBox; }
+        //}
         /// <summary>
         /// the text fore color use for selected text
         /// </summary>
@@ -543,24 +543,7 @@ namespace HtmlRenderer
 
         protected abstract void RequestRefresh(bool layout);
 
-        ///// <summary>
-        ///// Request invalidation and re-layout of the control hosting the renderer.
-        ///// </summary>
-        ///// <param name="layout">is re-layout is required for the refresh</param>
-        //internal void RequestRefresh(bool layout)
-        //{
-        //    try
-        //    {
-        //        if (Refresh != null)
-        //        {
-        //            Refresh(this, new HtmlRefreshEventArgs(layout));
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ReportError(HtmlRenderErrorType.General, "Failed refresh request", ex);
-        //    }
-        //}
+       
 
         /// <summary>
         /// Report error in html render process.

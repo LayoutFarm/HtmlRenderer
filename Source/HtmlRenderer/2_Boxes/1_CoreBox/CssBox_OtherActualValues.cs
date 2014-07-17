@@ -115,7 +115,7 @@ namespace HtmlRenderer.Boxes
         internal static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
 
-            if ((box._boxCompactFlags & CssBoxFlagsConst.FIXED_DISPLAY_TYPE) == 0)
+            if ((box._boxCompactFlags & BoxFlags.FIXED_DISPLAY_TYPE) == 0)
             {
                 box._cssDisplay = newdisplay;
             }
@@ -137,11 +137,11 @@ namespace HtmlRenderer.Boxes
                 case CssDisplay.ListItem:
                 case CssDisplay.Table:
                 case CssDisplay.TableCell:
-                    box._boxCompactFlags |= CssBoxFlagsConst.HAS_CONTAINER_PROP;
+                    box._boxCompactFlags |= BoxFlags.HAS_CONTAINER_PROP;
                     break;
                 default:
                     //not container properties 
-                    box._boxCompactFlags &= ~CssBoxFlagsConst.HAS_CONTAINER_PROP;
+                    box._boxCompactFlags &= ~BoxFlags.HAS_CONTAINER_PROP;
                     break;
             }
 
@@ -149,7 +149,7 @@ namespace HtmlRenderer.Boxes
         }
         internal static void SetAsBrBox(CssBox box)
         {
-            box._boxCompactFlags |= CssBoxFlagsConst.IS_BR_ELEM;
+            box._boxCompactFlags |= BoxFlags.IS_BR_ELEM;
         }
     }
 }
