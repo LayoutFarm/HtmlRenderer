@@ -24,13 +24,9 @@ namespace HtmlRenderer.Handlers
     /// </summary>
     internal sealed class SelectionHandler :  IDisposable
     {
-        #region Fields and Consts
-
-
+        #region Fields and Consts 
         BoxHitChain _latestMouseDownHitChain = null;
-        Point _mouseDownLocation;
-
-
+        Point _mouseDownLocation; 
         /// <summary>
         /// the root of the handled html tree
         /// </summary>

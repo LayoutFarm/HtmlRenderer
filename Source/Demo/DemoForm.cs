@@ -81,9 +81,8 @@ namespace HtmlRenderer.Demo
             _htmlPanel.LinkClicked += OnLinkClicked;
             _htmlPanel.StylesheetLoad += OnStylesheetLoad;
             _htmlPanel.ImageLoad += OnImageLoad;
-            _htmlToolTip.ImageLoad += OnImageLoad;
-
-            _htmlToolTip.SetToolTip(_htmlPanel, Resources.Tooltip);
+            //_htmlToolTip.ImageLoad += OnImageLoad; 
+            //_htmlToolTip.SetToolTip(_htmlPanel, Resources.Tooltip);
 
             _htmlEditor.Font = new Font(FontFamily.GenericMonospace, 10);
 
@@ -510,11 +509,11 @@ namespace HtmlRenderer.Demo
             }
             else if (e.Link == "ShowSampleForm")
             {
-                using (var f = new SampleForm())
-                {
-                    f.ShowDialog();
-                    e.Handled = true;
-                }
+                //using (var f = new SampleForm())
+                //{
+                //    f.ShowDialog();
+                //    e.Handled = true;
+                //}
             }
         }
 
