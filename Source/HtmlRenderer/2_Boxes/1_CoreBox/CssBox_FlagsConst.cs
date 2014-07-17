@@ -10,8 +10,8 @@ namespace HtmlRenderer.Boxes
         static class CssBoxFlagsConst
         {
             public const int HAS_ASSIGNED_LOCATION = 1 << (2 - 1);
-            public const int EVAL_ROWSPAN = 1 << (3 - 1);
-            public const int EVAL_COLSPAN = 1 << (4 - 1);
+            public const int HAS_CONTAINER_PROP = 1 << (3 - 1);
+             
             public const int HAS_EVAL_WHITESPACE = 1 << (5 - 1);
             public const int TEXT_IS_ALL_WHITESPACE = 1 << (6 - 1);
             public const int TEXT_IS_EMPTY = 1 << (7 - 1);
@@ -23,19 +23,15 @@ namespace HtmlRenderer.Boxes
             public const int LAY_WIDTH_FREEZE = 1 << (11 - 1);
             //-----------------------------------------------
             public const int HAS_ROUND_CORNER = 1 << (12 - 1);
-            public const int HAS_SOME_VISIBLE_BORDER = 1 << (13 - 1);
-            public const int HAS_VISIBLE_BG = 1 << (14 - 1);
+            public const int HAS_VISIBLE_BG = 1 << (13 - 1);
+            public const int HAS_SOME_VISIBLE_BORDER = 1 << (14 - 1);
+            public const int BORDER_LEFT_VISIBLE = 1 << (15 - 1);
+            public const int BORDER_TOP_VISIBLE = 1 << (16 - 1);
+            public const int BORDER_RIGHT_VISIBLE = 1 << (17 - 1);
+            public const int BORDER_BOTTOM_VISIBLE = 1 << (18 - 1);
             //-----------------------------------------------
-            public const int IS_INLINE_BOX = 1 << (16 - 1);
-            //-----------------------------------------------
-            public const int HAS_CONTAINER_PROP = 1 << (17 - 1);
-            //-----------------------------------------------
-            public const int BORDER_LEFT_VISIBLE = 1 << (18 - 1);
-            public const int BORDER_TOP_VISIBLE = 1 << (19 - 1);
-            public const int BORDER_RIGHT_VISIBLE = 1 << (20 - 1);
-            public const int BORDER_BOTTOM_VISIBLE = 1 << (21 - 1);
-            //-----------------------------------------------
-
+            public const int IS_INLINE_BOX = 1 << (19 - 1);
+            public const int IS_BR_ELEM = 1 << (20 - 1);      
         }
     }
 }

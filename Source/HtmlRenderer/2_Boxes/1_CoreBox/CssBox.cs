@@ -68,10 +68,9 @@ namespace HtmlRenderer.Boxes
 
             //assign spec 
             this._myspec = spec;
-            
+
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
-             
 
         }
         public CssBox(CssBox parentBox, object controller, Css.BoxSpec spec, Css.CssDisplay fixDisplayType)
@@ -132,7 +131,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return this._isBrElement;
+                return (this._boxCompactFlags & CssBoxFlagsConst.IS_BR_ELEM) != 0;
             }
         }
 
@@ -178,7 +177,7 @@ namespace HtmlRenderer.Boxes
                 return (this._boxCompactFlags & CssBoxFlagsConst.HAS_CONTAINER_PROP) != 0;
             }
         }
-      
+
         /// <summary>
         /// Gets if this box represents an image
         /// </summary>
@@ -196,7 +195,7 @@ namespace HtmlRenderer.Boxes
         public bool IsSpaceOrEmpty
         {
             get
-            {   
+            {
                 if (this.Boxes.Count != 0)
                 {
                     return true;
@@ -281,6 +280,12 @@ namespace HtmlRenderer.Boxes
         internal void AddLineBox(CssLineBox linebox)
         {
             linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
+
+        }
+        protected void NeedRecomputeMinimalRun()
+        {
+
+
         }
         internal int LineBoxCount
         {
@@ -410,7 +415,7 @@ namespace HtmlRenderer.Boxes
         {
             //derived class can perform its own layout algo            
             //by override performContentLayout 
-            PerformContentLayout(lay); 
+            PerformContentLayout(lay);
         }
         #region Private Methods
 
@@ -453,7 +458,7 @@ namespace HtmlRenderer.Boxes
                         this.MeasureRunsSize(lay);
                         //---------------------------------------------------------
                         //for general block layout 
-                        CssLayoutEngine.PerformContentLayout(this, lay); 
+                        CssLayoutEngine.PerformContentLayout(this, lay);
 
                     } break;
             }
@@ -552,24 +557,33 @@ namespace HtmlRenderer.Boxes
             this._boxCompactFlags |= CssBoxFlagsConst.LAY_RUNSIZE_MEASURE;
         }
 
+
+        //------------------------------
+        int lastCalculationEpisodeNum = 0;
+        float cachedMinimumWidth = 0;
+        //------------------------------
+
         /// <summary>
         /// Gets the minimum width that the box can be.
         /// *** The box can be as thin as the longest word plus padding
         /// </summary>
         /// <returns></returns>
-        internal float CalculateMinimumWidth()
+        internal float CalculateMinimumWidth(int calculationEpisode)
         {
 
             float maxWidth = 0;
             float padding = 0f;
 
+            if (lastCalculationEpisodeNum == calculationEpisode)
+            {
+                return cachedMinimumWidth;
+            }
+            //---------------------------------------------------
             if (this.LineBoxCount > 0)
             {
                 //use line box technique *** 
                 CssRun maxWidthRun = null;
-
                 CalculateMinimumWidthAndWidestRun(this, out maxWidth, out maxWidthRun);
-
                 //--------------------------------  
                 if (maxWidthRun != null)
                 {
@@ -591,10 +605,9 @@ namespace HtmlRenderer.Boxes
                         }
                     }
                 }
-
             }
-
-            return maxWidth + padding;
+            this.lastCalculationEpisodeNum = calculationEpisode;
+            return cachedMinimumWidth = maxWidth + padding;
 
         }
         static void CalculateMinimumWidthAndWidestRun(CssBox box, out float maxWidth, out CssRun maxWidthRun)
@@ -619,9 +632,9 @@ namespace HtmlRenderer.Boxes
                     }
                     //------------------------
                     lineNode = lineNode.Next;
-                } 
-            } 
-           
+                }
+            }
+
             maxWidth = maxRunWidth;
             maxWidthRun = foundRun;
         }

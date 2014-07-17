@@ -84,7 +84,7 @@ namespace HtmlRenderer.Boxes
             this.SetHeightToZero();
 
             //width at 100% (or auto)
-            float minwidth = CalculateMinimumWidth();
+            float minwidth = CalculateMinimumWidth(lay.EpisodeId);
 
             float width = myContainingBlock.SizeWidth
                           - myContainingBlock.ActualPaddingLeft - myContainingBlock.ActualPaddingRight

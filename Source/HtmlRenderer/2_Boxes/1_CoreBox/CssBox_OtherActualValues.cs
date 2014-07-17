@@ -148,7 +148,7 @@ namespace HtmlRenderer.Boxes
         }
         internal static void SetAsBrBox(CssBox box)
         {
-            box._isBrElement = true;
+            box._boxCompactFlags |= CssBoxFlagsConst.IS_BR_ELEM;
         }
     }
 }

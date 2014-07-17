@@ -161,25 +161,11 @@ namespace HtmlRenderer.Boxes
                 //this._actualFont = this.Spec.GetFont(containingBlock.Spec);
             }
 
-            //if (_actualFont == null)
-            //{
-            //}
-            //else if (_actualFont.Size < 4)
-            //{
-
-            //    var hh = _actualFont.GetHeight();
-            //}
-            //if (_actualFont != null)
-            //{
-            //    return _actualFont;
-            //}
-            ////-----------------------------------------------------------------------------                
-            //_actualFont = this._initSpec._fontFeats.GetCacheFont(this.GetParent());
-            //return _actualFont;
-
             //-----------------------------------------------------------------------
             float cbWidth = containingBlock.SizeWidth;
             this._boxCompactFlags |= CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES;
+           
+
             //www.w3.org/TR/CSS2/box.html#margin-properties
             //w3c: margin applies to all elements except elements table display type
             //other than table-caption,table and inline table
@@ -301,24 +287,13 @@ namespace HtmlRenderer.Boxes
 
 
             //text indent   
-             
+
             this._actualTextIndent = CssValueParser.ConvertToPx(spec.TextIndent, containingBlock.SizeWidth, this);
             this._actualBorderSpacingHorizontal = spec.BorderSpacingHorizontal.Number;
             this._actualBorderSpacingVertical = spec.BorderSpacingVertical.Number;
 
             //this._actualLineHeight = 0.9f * CssValueParser.ConvertToPx(LineHeight, this.GetEmHeight(), this);
-
-            //---------------------------------------------------------------------------
-
-            //if ((this._prop_pass_eval & CssBoxAssignments.BORDER_WIDTH_BOTTOM) == 0)
-            //{
-            //    this._prop_pass_eval |= CssBoxAssignments.BORDER_WIDTH_BOTTOM;
-            //    return (this.BorderBottomStyle == CssBorderStyle.None) ?
-            //        _actualBorderBottomWidth = 0f :
-            //        _actualBorderBottomWidth = CssValueParser.GetActualBorderWidth(BorderBottomWidth, this);
-
-            //}
-
+            
 
             //expected width expected height
             //this._expectedWidth = CssValueParser.ParseLength(Width, cbWidth, this);
