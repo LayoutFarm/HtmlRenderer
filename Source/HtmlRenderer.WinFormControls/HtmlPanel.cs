@@ -66,6 +66,7 @@ namespace HtmlRenderer
         /// 
         /// </summary>
         private HtmlContainerImpl _htmlContainer;
+        HtmlEventBridge _htmlEventBridge;
 
         /// <summary>
         /// the raw base stylesheet data used in the control
@@ -92,14 +93,17 @@ namespace HtmlRenderer
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
             _htmlContainer = new HtmlContainerImpl();
-            _htmlContainer.LinkClicked += OnLinkClicked;
+            //_htmlContainer.LinkClicked += OnLinkClicked;
             _htmlContainer.RenderError += OnRenderError;
             _htmlContainer.Refresh += OnRefresh;
             _htmlContainer.ScrollChange += OnScrollChange;
             _htmlContainer.TextContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
             _htmlContainer.ImageContentMan.ImageLoadingRequest += OnImageLoad;
 
-
+            //-------------------------------------------
+            _htmlEventBridge = new HtmlEventBridge();
+            _htmlEventBridge.Bind(_htmlContainer);
+            //-------------------------------------------
         }
 
         /// <summary>
@@ -314,7 +318,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Perform html container layout by the current panel client size.
         /// </summary>
-        private void PerformHtmlLayout()
+        void PerformHtmlLayout()
         {
             if (_htmlContainer != null)
             {
@@ -323,9 +327,7 @@ namespace HtmlRenderer
                 using (var g = CreateGraphics())
                 {
                     _htmlContainer.PerformLayout(g);
-
                 }
-
                 AutoScrollMinSize = Size.Round(_htmlContainer.ActualSize);
             }
         }
@@ -366,6 +368,12 @@ namespace HtmlRenderer
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
+
+            if (this._htmlEventBridge != null)
+            {
+
+            }
+
             if (_htmlContainer != null)
                 _htmlContainer.HandleMouseMove(this, e);
         }
@@ -385,7 +393,11 @@ namespace HtmlRenderer
         /// </summary>
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            base.OnMouseDown(e);
+            base.OnMouseDown(e); 
+
+
+            this._htmlEventBridge.MouseDown(e.X, e.Y, (int)e.Button);
+
             if (_htmlContainer != null)
                 _htmlContainer.HandleMouseDown(this, e);
         }
@@ -396,6 +408,10 @@ namespace HtmlRenderer
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseClick(e);
+
+
+            this._htmlEventBridge.MouseUp(e.X, e.Y, (int)e.Button);
+
             if (_htmlContainer != null)
                 _htmlContainer.HandleMouseUp(this, e);
         }
@@ -406,6 +422,9 @@ namespace HtmlRenderer
         protected override void OnMouseDoubleClick(MouseEventArgs e)
         {
             base.OnMouseDoubleClick(e);
+
+            this._htmlEventBridge.MouseDoubleClick(e.X, e.Y, (int)e.Button);
+            
             if (_htmlContainer != null)
                 _htmlContainer.HandleMouseDoubleClick(this, e);
         }
@@ -416,50 +435,53 @@ namespace HtmlRenderer
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
-            if (_htmlContainer != null)
-                _htmlContainer.HandleKeyDown(this, e);
-            if (e.KeyCode == Keys.Up)
-            {
-                VerticalScroll.Value = Math.Max(VerticalScroll.Value - 70, VerticalScroll.Minimum);
-                PerformLayout();
-            }
-            else if (e.KeyCode == Keys.Down)
-            {
-                VerticalScroll.Value = Math.Min(VerticalScroll.Value + 70, VerticalScroll.Maximum);
-                PerformLayout();
-            }
-            else if (e.KeyCode == Keys.PageDown)
-            {
-                VerticalScroll.Value = Math.Min(VerticalScroll.Value + 400, VerticalScroll.Maximum);
-                PerformLayout();
-            }
-            else if (e.KeyCode == Keys.PageUp)
-            {
-                VerticalScroll.Value = Math.Max(VerticalScroll.Value - 400, VerticalScroll.Minimum);
-                PerformLayout();
-            }
-            else if (e.KeyCode == Keys.End)
-            {
-                VerticalScroll.Value = VerticalScroll.Maximum;
-                PerformLayout();
-            }
-            else if (e.KeyCode == Keys.Home)
-            {
-                VerticalScroll.Value = VerticalScroll.Minimum;
-                PerformLayout();
-            }
+
+
+
+            //if (_htmlContainer != null)
+            //    _htmlContainer.HandleKeyDown(this, e);
+            //if (e.KeyCode == Keys.Up)
+            //{
+            //    VerticalScroll.Value = Math.Max(VerticalScroll.Value - 70, VerticalScroll.Minimum);
+            //    PerformLayout();
+            //}
+            //else if (e.KeyCode == Keys.Down)
+            //{
+            //    VerticalScroll.Value = Math.Min(VerticalScroll.Value + 70, VerticalScroll.Maximum);
+            //    PerformLayout();
+            //}
+            //else if (e.KeyCode == Keys.PageDown)
+            //{
+            //    VerticalScroll.Value = Math.Min(VerticalScroll.Value + 400, VerticalScroll.Maximum);
+            //    PerformLayout();
+            //}
+            //else if (e.KeyCode == Keys.PageUp)
+            //{
+            //    VerticalScroll.Value = Math.Max(VerticalScroll.Value - 400, VerticalScroll.Minimum);
+            //    PerformLayout();
+            //}
+            //else if (e.KeyCode == Keys.End)
+            //{
+            //    VerticalScroll.Value = VerticalScroll.Maximum;
+            //    PerformLayout();
+            //}
+            //else if (e.KeyCode == Keys.Home)
+            //{
+            //    VerticalScroll.Value = VerticalScroll.Minimum;
+            //    PerformLayout();
+            //}
         }
 
-        /// <summary>
-        /// Propagate the LinkClicked event from root container.
-        /// </summary>
-        private void OnLinkClicked(object sender, HtmlLinkClickedEventArgs e)
-        {
-            if (LinkClicked != null)
-            {
-                LinkClicked(this, e);
-            }
-        }
+        ///// <summary>
+        ///// Propagate the LinkClicked event from root container.
+        ///// </summary>
+        //private void OnLinkClicked(object sender, HtmlLinkClickedEventArgs e)
+        //{
+        //    if (LinkClicked != null)
+        //    {
+        //        LinkClicked(this, e);
+        //    }
+        //}
 
         /// <summary>
         /// Propagate the Render Error event from root container.
@@ -561,7 +583,7 @@ namespace HtmlRenderer
         {
             if (_htmlContainer != null)
             {
-                _htmlContainer.LinkClicked -= OnLinkClicked;
+                //_htmlContainer.LinkClicked -= OnLinkClicked;
                 _htmlContainer.RenderError -= OnRenderError;
                 _htmlContainer.Refresh -= OnRefresh;
                 _htmlContainer.ScrollChange -= OnScrollChange;

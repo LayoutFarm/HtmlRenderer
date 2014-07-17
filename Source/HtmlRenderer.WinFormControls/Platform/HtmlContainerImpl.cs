@@ -19,7 +19,7 @@ namespace HtmlRenderer
     public class HtmlContainerImpl : HtmlContainer
     {
 
-
+        HtmlRenderer.Boxes.SelectionRange selRange;
         ImageContentManager imageContentManager;
         TextContentManager textContentManager;
 
@@ -223,9 +223,7 @@ namespace HtmlRenderer
             try
             {
 
-                //mouse down 
-
-
+                //mouse down  
                 if (_selectionHandler != null)
                 {
                     _selectionHandler.HandleMouseDown(parent, OffsetByScroll(e.Location),
@@ -455,5 +453,23 @@ namespace HtmlRenderer
             set;
         }
 
+
+        public HtmlRenderer.Boxes.SelectionRange SelectionRange
+        {
+            get
+            {
+                return this.selRange;
+            }
+            set
+            {
+                if (this.selRange != null)
+                {
+                    //1. 
+                    this.selRange.ClearSelectionStatus();
+                }
+                this.selRange = value;
+
+            }
+        }
     }
 }

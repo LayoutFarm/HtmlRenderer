@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentManager\TextContentManager.cs" />
+    <Compile Include="EventCore\HtmlEventBridge.cs" />
     <Compile Include="Events\HtmlImageRequestEventArgs.cs" />
     <Compile Include="Events\HtmlLinkClickedEventArgs.cs" />
     <Compile Include="Events\HtmlLinkClickedException.cs" />
@@ -76,6 +77,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="SelectionRange\" />
     <Folder Include="WebDom\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

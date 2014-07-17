@@ -142,7 +142,7 @@ namespace HtmlRenderer
 
         float _actualWidth;
         float _actualHeight;
-        SelectionRange selRange;
+       
         #endregion
 
 
@@ -189,23 +189,6 @@ namespace HtmlRenderer
             this.requestImageBinderUpdates.Add(binder);
         }
 
-        public HtmlRenderer.Boxes.SelectionRange SelectionRange
-        {
-            get
-            {
-                return this.selRange;
-            }
-            set
-            {
-                if (this.selRange != null)
-                {
-                    //1. 
-                    this.selRange.ClearSelectionStatus();
-                }
-                this.selRange = value;
-
-            }
-        }
 
         /// <summary>
         /// Gets or sets a value indicating if anti-aliasing should be avoided for geometry like backgrounds and borders (default - false).
@@ -334,13 +317,7 @@ namespace HtmlRenderer
             }
         }
 
-        ///// <summary>
-        ///// the root css box of the parsed html
-        ///// </summary>
-        //internal CssBox Root
-        //{
-        //    get { return _rootBox; }
-        //}
+       
         /// <summary>
         /// the text fore color use for selected text
         /// </summary>
@@ -360,6 +337,10 @@ namespace HtmlRenderer
         }
 
 
+        public CssBox GetRootCssBox()
+        {
+            return this._rootBox;
+        }
         public void SetRootCssBox(CssBox rootBox)
         {
 
@@ -524,14 +505,14 @@ namespace HtmlRenderer
                 out stylesheetData);
 
         }
-        
+
         protected abstract void OnRequestStyleSheet(string hrefSource,
             out string stylesheet,
             out WebDom.CssActiveSheet stylesheetData);
 
         //------------------------------------------------------------------
         protected abstract void OnRequestImage(ImageBinder binder,
-            CssBox requestBox, bool _sync); 
+            CssBox requestBox, bool _sync);
         internal static void RaiseRequestImage(HtmlContainer container,
             ImageBinder binder,
             CssBox requestBox,
@@ -543,7 +524,7 @@ namespace HtmlRenderer
 
         protected abstract void RequestRefresh(bool layout);
 
-       
+
 
         /// <summary>
         /// Report error in html render process.

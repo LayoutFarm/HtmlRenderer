@@ -62,6 +62,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="2_Boxes\7_HitAndSelections\SelectionRange.cs" />
     <Compile Include="3_Drawing_TextAndGraphics\FontDefaultConfig.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Spec_Snap.cs" />
     <Compile Include="2_Boxes\1_CoreBox\SubBoxCollection.cs" />
@@ -93,7 +94,6 @@
     <Compile Include="4_Composers\ValueMaps.cs" />
     <Compile Include="WebDom.Parser\TextSnapshot.cs" />
     <Compile Include="4_Composers\ContentTextSplitter.cs" />
-    <Compile Include="2_Boxes\7_HitAndSelections\SelectionRange.cs" />
     <Compile Include="WebDom.Parser\dbugLexerReport.cs" />
     <Compile Include="WebDom.Parser\HtmlLexer.cs" />
     <Compile Include="WebDom.Parser\CssParser.cs" />
@@ -186,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="0_Start\" />
+    <Folder Include="2_Boxes\8_Events\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

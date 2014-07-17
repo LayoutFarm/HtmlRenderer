@@ -22,9 +22,14 @@ namespace HtmlRenderer.Handlers
     /// <summary>
     /// Handler for text selection in the html.
     /// </summary>
-    internal sealed class SelectionHandler : ISelectionHandler, IDisposable
+    internal sealed class SelectionHandler :  IDisposable
     {
         #region Fields and Consts
+
+
+        BoxHitChain _latestMouseDownHitChain = null;
+        Point _mouseDownLocation;
+
 
         /// <summary>
         /// the root of the handled html tree
@@ -165,8 +170,7 @@ namespace HtmlRenderer.Handlers
             //}
         }
 
-        BoxHitChain _latestMouseDownHitChain = null;
-        Point _mouseDownLocation;
+    
 
         /// <summary>
         /// Handle mouse down to handle selection.
@@ -200,16 +204,16 @@ namespace HtmlRenderer.Handlers
                     BoxUtils.HitTest(_root, loc.X, loc.Y, hitChain);
 
                     _latestMouseDownHitChain = hitChain;
-                    HitInfo hitInfo = hitChain.GetLastHit();
-                    switch (hitInfo.hitObjectKind)
-                    {
-                        case HitObjectKind.Run:
-                            {
-                            } break;
-                        case HitObjectKind.CssBox:
-                            {
-                            } break;
-                    }
+                    //HitInfo hitInfo = hitChain.GetLastHit();
+                    //switch (hitInfo.hitObjectKind)
+                    //{
+                    //    case HitObjectKind.Run:
+                    //        {
+                    //        } break;
+                    //    case HitObjectKind.CssBox:
+                    //        {
+                    //        } break;
+                    //}
 
                     ////get cssword or cssbox at location ***
                     //var word = DomUtils.GetCssBoxWord(_root, loc);

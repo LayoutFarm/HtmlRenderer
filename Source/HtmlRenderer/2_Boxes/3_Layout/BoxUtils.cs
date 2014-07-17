@@ -51,46 +51,8 @@ namespace HtmlRenderer.Boxes
         }
 
 
-        internal static IEnumerable<LineOrBoxVisit> GetLineOrBoxIterWalk(CssLineBox startLine)
-        {
-            //start at line
-            //1. start line
-            yield return new LineOrBoxVisit(startLine);
-            CssLineBox curLine = startLine;
+      
 
-            //walk up and down the tree
-            CssLineBox nextline = startLine.NextLine;
-            while (nextline != null)
-            {
-                yield return new LineOrBoxVisit(nextline);
-                nextline = nextline.NextLine;
-            }
-            //--------------------
-            //no next line 
-            //then step up  
-            CssBox curBox = startLine.OwnerBox;
-        RETRY:
-            //ask for sibling
-            CssBox level1Sibling = BoxUtils.GetNextSibling(curBox);
-            while (level1Sibling != null)
-            {
-                foreach (var visit in BoxUtils.GetDeepBoxOrLineIter(level1Sibling))
-                {
-                    yield return visit;
-                }
-
-                level1Sibling = BoxUtils.GetNextSibling(level1Sibling);
-            }
-            //--------------------
-            //other further sibling
-            //then step to parent of lineOwner
-            if (curBox.ParentBox != null)
-            {
-                //if has parent                  
-                curBox = curBox.ParentBox;
-                goto RETRY;
-            }
-        }
         public static CssBox GetNextSibling(CssBox a)
         {
             return a.GetNextNode();
@@ -243,30 +205,7 @@ namespace HtmlRenderer.Boxes
             }
             return false;
         }
-        internal static IEnumerable<LineOrBoxVisit> GetDeepBoxOrLineIter(CssBox box)
-        {
-            yield return new LineOrBoxVisit(box);
-            if (box.LineBoxCount > 0)
-            {
-                foreach (CssLineBox linebox in box.GetLineBoxIter())
-                {
-                    yield return new LineOrBoxVisit(linebox);
-                }
-            }
-            else
-            {
-                if (box.ChildCount > 0)
-                {
-                    foreach (CssBox child in box.GetChildBoxIter())
-                    {
-                        foreach (var visit in GetDeepBoxOrLineIter(child))
-                        {
-                            yield return visit;
-                        }
-                    }
-                }
-            }
-        }
+       
         internal static IEnumerable<CssLineBox> GetDeepDownLineBoxIter(CssBox box)
         {
             if (box.LineBoxCount > 0)
