@@ -55,14 +55,14 @@ namespace HtmlRenderer.Boxes
         {
             get { return _actualWordSpacing; }
         }
-         
+
         /// <summary>
         /// Gets the actual horizontal border spacing for tables
         /// </summary>
         public float ActualBorderSpacingHorizontal
         {
             get
-            { 
+            {
                 return _actualBorderSpacingHorizontal;
             }
         }
@@ -74,7 +74,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                
+
                 return _actualBorderSpacingVertical;
             }
         }
@@ -114,17 +114,18 @@ namespace HtmlRenderer.Boxes
         }
         internal static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
-             
 
-            if (!box._fixDisplayType)
+            if ((box._boxCompactFlags & CssBoxFlagsConst.FIXED_DISPLAY_TYPE) == 0)
             {
                 box._cssDisplay = newdisplay;
             }
+            
 
             box.IsInline = ((newdisplay == CssDisplay.Inline ||
                     newdisplay == CssDisplay.InlineBlock)
                     && !box.IsBrElement);
             //---------------------------
+            
             box._isVisible = box._cssDisplay != CssDisplay.None && box._myspec.Visibility == CssVisibility.Visible;
             //-------------------------
             //check containing property 

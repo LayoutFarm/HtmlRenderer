@@ -21,6 +21,7 @@ namespace HtmlRenderer.Boxes
         //location, size 
         float _sizeHeight;
         float _sizeWidth;
+        //----------------------------------
 
         /// <summary>
         /// user's expected height
@@ -54,6 +55,10 @@ namespace HtmlRenderer.Boxes
         float _actualCornerSW;
         float _actualCornerSE;
 
+        //------------------------------
+        int _lastCalculationEpisodeNum = 0;
+        float _cachedMinimumWidth = 0;
+        //------------------------------
 
 
         public float LocalX

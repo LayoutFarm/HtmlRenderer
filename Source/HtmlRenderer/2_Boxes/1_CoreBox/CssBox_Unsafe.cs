@@ -1,7 +1,7 @@
 ﻿//BSD, 2014, WinterDev 
 using System;
 using System.Collections.Generic;
-
+using HtmlRenderer.Css;
 namespace HtmlRenderer.Boxes
 {
 
@@ -33,7 +33,7 @@ namespace HtmlRenderer.Boxes
         {
             return box.Boxes;
         }
-        internal static Css.BoxSpec UnsafeGetBoxSpec(CssBox box)
+        internal static  BoxSpec UnsafeGetBoxSpec(CssBox box)
         {
             //this method is for BoxCreator and debug only!
             //box.Spec is private

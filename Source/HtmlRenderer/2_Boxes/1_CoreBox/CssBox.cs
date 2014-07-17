@@ -21,7 +21,7 @@ using System.Text;
 
 
 using HtmlRenderer.Drawing;
-
+using HtmlRenderer.Css;
 
 namespace HtmlRenderer.Boxes
 {
@@ -92,8 +92,8 @@ namespace HtmlRenderer.Boxes
             }
 #endif
 
-            //assign spec
-            this._fixDisplayType = true;
+            //assign spec             
+            this._boxCompactFlags |= CssBoxFlagsConst.FIXED_DISPLAY_TYPE;
             this._cssDisplay = fixDisplayType;
             //----------------------------
             this._myspec = spec;
@@ -225,7 +225,15 @@ namespace HtmlRenderer.Boxes
         internal void SetContentRuns(List<CssRun> runs, bool isAllWhitespace)
         {
             this._aa_contentRuns = runs;
-            this._isAllWhitespace = isAllWhitespace;
+            if (isAllWhitespace)
+            {
+                this._boxCompactFlags |= CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
+            }
+            else
+            {
+                this._boxCompactFlags &= ~CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE;
+                
+            }
         }
         public bool MayHasSomeTextContent
         {
@@ -245,7 +253,7 @@ namespace HtmlRenderer.Boxes
             {
                 if (this._aa_contentRuns != null)
                 {
-                    return this._isAllWhitespace;
+                    return (this._boxCompactFlags & CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE) != 0;
                 }
                 else
                 {
@@ -558,11 +566,7 @@ namespace HtmlRenderer.Boxes
         }
 
 
-        //------------------------------
-        int lastCalculationEpisodeNum = 0;
-        float cachedMinimumWidth = 0;
-        //------------------------------
-
+       
         /// <summary>
         /// Gets the minimum width that the box can be.
         /// *** The box can be as thin as the longest word plus padding
@@ -574,9 +578,9 @@ namespace HtmlRenderer.Boxes
             float maxWidth = 0;
             float padding = 0f;
 
-            if (lastCalculationEpisodeNum == calculationEpisode)
+            if (_lastCalculationEpisodeNum == calculationEpisode)
             {
-                return cachedMinimumWidth;
+                return _cachedMinimumWidth;
             }
             //---------------------------------------------------
             if (this.LineBoxCount > 0)
@@ -606,8 +610,8 @@ namespace HtmlRenderer.Boxes
                     }
                 }
             }
-            this.lastCalculationEpisodeNum = calculationEpisode;
-            return cachedMinimumWidth = maxWidth + padding;
+            this._lastCalculationEpisodeNum = calculationEpisode;
+            return _cachedMinimumWidth = maxWidth + padding;
 
         }
         static void CalculateMinimumWidthAndWidestRun(CssBox box, out float maxWidth, out CssRun maxWidthRun)
