@@ -68,8 +68,11 @@ namespace HtmlRenderer.Boxes
 
             //assign spec 
             this._myspec = spec;
+            
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
+             
+
         }
         public CssBox(CssBox parentBox, object controller, Css.BoxSpec spec, Css.CssDisplay fixDisplayType)
         {

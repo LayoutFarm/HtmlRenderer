@@ -15,7 +15,7 @@
 
 using System;
 using System.Drawing;
-using HtmlRenderer.Drawing; 
+using HtmlRenderer.Drawing;
 
 namespace HtmlRenderer.Css
 {
@@ -84,6 +84,8 @@ namespace HtmlRenderer.Css
         //------------------
         public BoxSpec()
         {
+
+          
         }
         //---------------------------------------------------------------
         internal int VersionNumber

@@ -1,6 +1,6 @@
 ﻿//BSD 2014, WinterDev 
 //ArthurHub 
- 
+
 
 
 namespace HtmlRenderer.Css
@@ -12,7 +12,10 @@ namespace HtmlRenderer.Css
 
         internal void InheritStylesFrom(BoxSpec s)
         {
-          
+            //if (__aa_dbugId == 11)
+            //{
+
+            //}
             //----------------------------------------
             if (s == null)
             {
@@ -36,7 +39,7 @@ namespace HtmlRenderer.Css
             this._cssDirection = s._cssDirection;
             //--------------------------------------- 
 
-        } 
+        }
         internal void CloneAllStylesFrom(BoxSpec s)
         {
             //1.
@@ -107,12 +110,12 @@ namespace HtmlRenderer.Css
             //}
             //-----------------------------------
         }
-       
-        
-        
-        
-        
-        
+
+
+
+
+
+
         public BoxSpec GetAnonVersion()
         {
             if (anonVersion != null)
@@ -159,5 +162,5 @@ namespace HtmlRenderer.Css
 
 
     }
-    
+
 }

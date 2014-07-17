@@ -515,18 +515,20 @@ namespace HtmlRenderer.Composers
             //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
             //------------------------------------------------------------------- 
             //4. a style attribute value
-            string attrStyleValue;
-
+            string attrStyleValue; 
             if (element.TryGetAttribute(WellknownHtmlName.Style, out attrStyleValue))
             {
                 var ruleset = activeCssTemplate.ParseCssBlock(element.LocalName, attrStyleValue);
+                curSpec.VersionNumber++; //***
                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                 {
                     SpecSetter.AssignPropertyValue(
                         curSpec,
                         parentSpec,
                         propDecl);
-                }
+                } 
+
+
             }
             //===================== 
             curSpec.Freeze(); //***
