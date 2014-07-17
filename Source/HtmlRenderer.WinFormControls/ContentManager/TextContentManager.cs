@@ -8,9 +8,8 @@ using System.Drawing;
 using HtmlRenderer.Drawing;
 using HtmlRenderer.Boxes;
 using System.Threading;
-
-
 using HtmlRenderer.WebDom;
+
 namespace HtmlRenderer.ContentManagers
 {
 

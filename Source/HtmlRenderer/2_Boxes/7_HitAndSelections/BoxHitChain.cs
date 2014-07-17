@@ -82,6 +82,7 @@ namespace HtmlRenderer.Boxes
         public void Clear()
         {
             this.hitInfoList.Clear();
+            globalOffsetX = globalOffsetY = rootGlobalX = rootGlobalY = 0;
         }
         public int Count
         {
