@@ -748,7 +748,7 @@ namespace HtmlRenderer
             if (!string.IsNullOrEmpty(html))
             {
                 using (var container = new HtmlContainerImpl())
-                {
+                {   
                     container.Location = location;
                     container.MaxSize = maxSize;
                     container.AvoidAsyncImagesLoading = true;

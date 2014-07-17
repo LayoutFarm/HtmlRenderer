@@ -53,7 +53,6 @@
     <Compile Include="Platform\ClibboardHelper.cs" />
     <Compile Include="Platform\FontsUtils.cs" />
     <Compile Include="Platform\HtmlContainerImpl.cs" />
-    <Compile Include="Handlers\SelectionHandler.cs" />
     <Compile Include="HtmlPanel.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -277,24 +277,24 @@ namespace HtmlRenderer
             return _htmlContainer != null ? _htmlContainer.GetElementRectangle(elementId) : null;
         }
 
-        /// <summary>
-        /// Adjust the scrollbar of the panel on html element by the given id.<br/>
-        /// The top of the html element rectangle will be at the top of the panel, if there
-        /// is not enough height to scroll to the top the scroll will be at maximum.<br/>
-        /// </summary>
-        /// <param name="elementId">the id of the element to scroll to</param>
-        public void ScrollToElement(string elementId)
-        {
-            if (_htmlContainer != null)
-            {
-                var rect = _htmlContainer.GetElementRectangle(elementId);
-                if (rect.HasValue)
-                {
-                    UpdateScroll(Point.Round(rect.Value.Location));
-                    _htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons, 0, MousePosition.X, MousePosition.Y, 0));
-                }
-            }
-        }
+        ///// <summary>
+        ///// Adjust the scrollbar of the panel on html element by the given id.<br/>
+        ///// The top of the html element rectangle will be at the top of the panel, if there
+        ///// is not enough height to scroll to the top the scroll will be at maximum.<br/>
+        ///// </summary>
+        ///// <param name="elementId">the id of the element to scroll to</param>
+        //public void ScrollToElement(string elementId)
+        //{
+        //    if (_htmlContainer != null)
+        //    {
+        //        var rect = _htmlContainer.GetElementRectangle(elementId);
+        //        if (rect.HasValue)
+        //        {
+        //            UpdateScroll(Point.Round(rect.Value.Location));
+        //            _htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons, 0, MousePosition.X, MousePosition.Y, 0));
+        //        }
+        //    }
+        //}
 
         #region Private methods
 
@@ -348,8 +348,8 @@ namespace HtmlRenderer
                 _htmlContainer.PerformPaint(e.Graphics);
 
                 // call mouse move to handle paint after scroll or html change affecting mouse cursor.
-                var mp = PointToClient(MousePosition);
-                _htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0));
+                //var mp = PointToClient(MousePosition);
+                //_htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0));
             }
         }
 
@@ -367,15 +367,9 @@ namespace HtmlRenderer
         /// </summary>
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            base.OnMouseMove(e);
-
-            if (this._htmlEventBridge != null)
-            {
-
-            }
-
-            if (_htmlContainer != null)
-                _htmlContainer.HandleMouseMove(this, e);
+            base.OnMouseMove(e); 
+            _htmlEventBridge.MouseMove(e.X, e.Y, (int)e.Button);
+            this.Invalidate(); 
         }
 
         /// <summary>
@@ -384,8 +378,10 @@ namespace HtmlRenderer
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            if (_htmlContainer != null)
-                _htmlContainer.HandleMouseLeave(this);
+            _htmlEventBridge.MouseLeave();
+
+            //if (_htmlContainer != null)
+            //    _htmlContainer.HandleMouseLeave(this);
         }
 
         /// <summary>
@@ -394,12 +390,8 @@ namespace HtmlRenderer
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e); 
-
-
             this._htmlEventBridge.MouseDown(e.X, e.Y, (int)e.Button);
-
-            if (_htmlContainer != null)
-                _htmlContainer.HandleMouseDown(this, e);
+            this.Invalidate();
         }
 
         /// <summary>
@@ -407,13 +399,9 @@ namespace HtmlRenderer
         /// </summary>
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            base.OnMouseClick(e);
-
-
+            base.OnMouseClick(e); 
             this._htmlEventBridge.MouseUp(e.X, e.Y, (int)e.Button);
-
-            if (_htmlContainer != null)
-                _htmlContainer.HandleMouseUp(this, e);
+            this.Invalidate();
         }
 
         /// <summary>
@@ -424,9 +412,9 @@ namespace HtmlRenderer
             base.OnMouseDoubleClick(e);
 
             this._htmlEventBridge.MouseDoubleClick(e.X, e.Y, (int)e.Button);
-            
-            if (_htmlContainer != null)
-                _htmlContainer.HandleMouseDoubleClick(this, e);
+
+            //if (_htmlContainer != null)
+            //    _htmlContainer.HandleMouseDoubleClick(this, e);
         }
 
         /// <summary>

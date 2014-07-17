@@ -72,10 +72,10 @@ namespace HtmlRenderer.Handlers
         /// </summary>
         private static readonly string _copyVideoUrl;
 
-        /// <summary>
-        /// the selection handler linked to the context menu handler
-        /// </summary>
-        private readonly SelectionHandler _selectionHandler;
+        ///// <summary>
+        ///// the selection handler linked to the context menu handler
+        ///// </summary>
+        //private readonly SelectionHandler _selectionHandler;
 
         /// <summary>
         /// the html container the handler is on
@@ -256,17 +256,17 @@ namespace HtmlRenderer.Handlers
             }
         }
 
-        /// <summary>
-        /// Init.
-        /// </summary>
-        /// <param name="selectionHandler">the selection handler linked to the context menu handler</param>
-        /// <param name="htmlContainer">the html container the handler is on</param>
-        public ContextMenuHandler(SelectionHandler selectionHandler, HtmlContainer htmlContainer)
-        {
+        ///// <summary>
+        ///// Init.
+        ///// </summary>
+        ///// <param name="selectionHandler">the selection handler linked to the context menu handler</param>
+        ///// <param name="htmlContainer">the html container the handler is on</param>
+        //public ContextMenuHandler(SelectionHandler selectionHandler, HtmlContainer htmlContainer)
+        //{
 
-            _selectionHandler = selectionHandler;
-            _htmlContainer = htmlContainer;
-        }
+        //    _selectionHandler = selectionHandler;
+        //    _htmlContainer = htmlContainer;
+        //}
 
         /// <summary>
         /// Show context menu clicked on given rectangle.
@@ -514,18 +514,18 @@ namespace HtmlRenderer.Handlers
         /// </summary>
         private void OnCopyClick(object sender, EventArgs eventArgs)
         {
-            try
-            {
-                _selectionHandler.CopySelectedHtml();
-            }
-            catch (Exception ex)
-            {
-                _htmlContainer.ReportError(HtmlRenderErrorType.ContextMenu, "Failed to copy text to clipboard", ex);
-            }
-            finally
-            {
-                DisposeContextMenu();
-            }
+            //try
+            //{
+            //    _selectionHandler.CopySelectedHtml();
+            //}
+            //catch (Exception ex)
+            //{
+            //    _htmlContainer.ReportError(HtmlRenderErrorType.ContextMenu, "Failed to copy text to clipboard", ex);
+            //}
+            //finally
+            //{
+            //    DisposeContextMenu();
+            //}
         }
 
         /// <summary>
@@ -533,18 +533,18 @@ namespace HtmlRenderer.Handlers
         /// </summary>
         private void OnSelectAllClick(object sender, EventArgs eventArgs)
         {
-            try
-            {
-                _selectionHandler.SelectAll(_parentControl);
-            }
-            catch (Exception ex)
-            {
-                _htmlContainer.ReportError(HtmlRenderErrorType.ContextMenu, "Failed to select all text", ex);
-            }
-            finally
-            {
-                DisposeContextMenu();
-            }
+            //try
+            //{
+            //    _selectionHandler.SelectAll(_parentControl);
+            //}
+            //catch (Exception ex)
+            //{
+            //    _htmlContainer.ReportError(HtmlRenderErrorType.ContextMenu, "Failed to select all text", ex);
+            //}
+            //finally
+            //{
+            //    DisposeContextMenu();
+            //}
         }
 
         #endregion
