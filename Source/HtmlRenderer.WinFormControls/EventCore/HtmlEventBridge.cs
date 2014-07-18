@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using HtmlRenderer.Drawing;
 using HtmlRenderer.Boxes;
- 
+
 
 namespace HtmlRenderer.WebDom
 {
@@ -20,7 +20,7 @@ namespace HtmlRenderer.WebDom
         int _mousedownY;
         bool _isMouseDown;
         //----------------------------------------------- 
-        SelectionRange _currentSelectionRange = null; 
+        SelectionRange _currentSelectionRange = null;
         WinGraphics simpleWinGfx;
         Bitmap tempBmp = new Bitmap(1, 1);
         bool _isBinded;
@@ -49,6 +49,11 @@ namespace HtmlRenderer.WebDom
             {
                 return;
             }
+            var rootbox = _container.GetRootCssBox();
+            if (rootbox == null)
+            {
+                return;
+            }
             //---------------------------------------------------- 
             ClearPreviousSelection();
 
@@ -68,12 +73,12 @@ namespace HtmlRenderer.WebDom
 
             hitChain.SetRootGlobalPosition(x, y);
             //1. prob hit chain only
-            BoxUtils.HitTest(_container.GetRootCssBox(), x, y, hitChain);
+            BoxUtils.HitTest(rootbox, x, y, hitChain);
+            //2. invoke css event and script event  
 
 
-            //2. invoke css event and script event 
-            var hitInfo = hitChain.GetLastHit();
-
+            HtmlEventArgs eventArgs = new HtmlEventArgs(EventName.MouseDown);
+            PropagateEventOnBubblingPhase(hitChain, eventArgs);
 
         }
         public void MouseMove(int x, int y, int button)
@@ -82,6 +87,12 @@ namespace HtmlRenderer.WebDom
             {
                 return;
             }
+            var rootbox = _container.GetRootCssBox();
+            if (rootbox == null)
+            {
+                return;
+            }
+            //-----------------------------------------
             if (this._isMouseDown)
             {
                 //dragging
@@ -91,13 +102,12 @@ namespace HtmlRenderer.WebDom
                     BoxHitChain hitChain = GetFreeHitChain();
 
                     hitChain.SetRootGlobalPosition(x, y);
-                    BoxUtils.HitTest(this._container.GetRootCssBox(), x, y, hitChain);
+                    BoxUtils.HitTest(rootbox, x, y, hitChain);
                     ClearPreviousSelection();
 
                     _currentSelectionRange = new SelectionRange(_latestMouseDownHitChain, hitChain, simpleWinGfx);
 
                     ReleaseHitChain(hitChain);
-
                 }
             }
             else
@@ -114,15 +124,20 @@ namespace HtmlRenderer.WebDom
                 return;
             }
             this._isMouseDown = false;
+            var rootbox = _container.GetRootCssBox();
+            if (rootbox == null)
+            {
+                return;
+            }
+            //-----------------------------------------
 
             BoxHitChain hitChain = GetFreeHitChain();
             hitChain.SetRootGlobalPosition(x, y);
             //1. prob hit chain only
-            BoxUtils.HitTest(_container.GetRootCssBox(), x, y, hitChain);
+            BoxUtils.HitTest(rootbox, x, y, hitChain);
 
             //2. invoke css event and script event 
             var hitInfo = hitChain.GetLastHit();
-
 
             ReleaseHitChain(hitChain);
             if (_latestMouseDownHitChain != null)
@@ -179,5 +194,54 @@ namespace HtmlRenderer.WebDom
             hitChain.Clear();
             hitChainPools.Enqueue(hitChain);
         }
+
+        //-----------------------------------
+        static void PropagateEventOnCapturingPhase(BoxHitChain hitChain, HtmlEventArgs eventArgs)
+        {
+            //TODO: consider implement capture phase
+
+        }
+        static void PropagateEventOnBubblingPhase(BoxHitChain hitChain, HtmlEventArgs eventArgs)
+        {
+
+            for (int i = hitChain.Count - 1; i >= 0; --i)
+            {
+                //propagate up 
+                var hitInfo = hitChain.GetHitInfo(i);
+                HtmlElement controller = null;
+
+                switch (hitInfo.hitObjectKind)
+                {
+                    default:
+                        {
+                            continue;
+                        }
+                    case HitObjectKind.Run:
+                        {
+                            CssRun run = (CssRun)hitInfo.hitObject;
+                            controller = CssBox.UnsafeGetController(run.OwnerBox) as HtmlElement; 
+                        } break; 
+                    case HitObjectKind.CssBox:
+                        {
+                            CssBox box = (CssBox)hitInfo.hitObject;
+                            controller = CssBox.UnsafeGetController(box) as HtmlElement; 
+                        } break;
+                }
+
+                //---------------------
+                if (controller != null)
+                {
+                    controller.DispatchEvent(eventArgs);
+                    if (eventArgs.IsCanceled)
+                    {
+                        break;
+                    }
+                }
+                //---------------------
+            }
+
+
+        }
+
     }
 }

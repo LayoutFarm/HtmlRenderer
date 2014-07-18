@@ -92,7 +92,7 @@ namespace HtmlRenderer.WebDom
             {
                 char[] newbuffer = new char[copyBuffer.Length + newCopyBuffer.Length];
                 Array.Copy(copyBuffer, newbuffer, copyBuffer.Length);
-                Array.Copy(newCopyBuffer, 0, newbuffer, copyBuffer.Length  , newCopyBuffer.Length);
+                Array.Copy(newCopyBuffer, 0, newbuffer, copyBuffer.Length, newCopyBuffer.Length);
                 this.copyBuffer = newbuffer;
             }
             else
@@ -264,9 +264,14 @@ namespace HtmlRenderer.WebDom
         internal int nodeLocalNameIndex;
         List<HtmlAttribute> myAttributes;
         List<HtmlNode> myChildrenNodes;
+
         HtmlElement closeNode;
         HtmlAttribute attrElemId;
         HtmlAttribute attrClass;
+
+
+
+
         internal HtmlElement(HtmlDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
         {
@@ -365,31 +370,6 @@ namespace HtmlRenderer.WebDom
             myAttributes.Add(attr);
             attr.SetParent(this);
         }
-
-
-        //---
-
-        //internal void AddAttributePartial(HtmlAttribute attr)
-        //{
-        //    if (myAttributes == null)
-        //    {
-        //        myAttributes = new List<HtmlAttribute>();
-        //    }
-        //    //-----------
-        //    //some wellknownattr 
-        //    switch (attr.LocalNameIndex)
-        //    {
-        //        case (int)WellknownHtmlName.Id:
-        //            {
-        //                this.elemId = attr;
-        //                this.OwnerDocument.RegisterElementById(this);
-        //            } break;
-        //    }
-
-        //    myAttributes.Add(attr);
-        //    attr.SetParent(this);
-        //}
-
 
         public void AddChild(HtmlNode childNode)
         {
@@ -501,45 +481,60 @@ namespace HtmlRenderer.WebDom
             }
         }
 
-        ////------------------------------------------
-        ////temp fix
-        //public string Id
-        //{   //temp fix
-        //    get
-        //    {
-        //        throw new NotSupportedException();
-        //        return this._elementId;
-        //    }
-        //    set
-        //    {
-        //        this._elementId = value;
-        //    }
-        //}
-        //public string ClassName
-        //{//temp fix
-        //    get
-        //    {
-        //        throw new NotSupportedException();
-        //        return this._className;
-        //    }
-        //    set { this._className = value; }
-        //}
-        //public string Style
-        //{//temp fix
-        //    get
-        //    {
-        //        throw new NotSupportedException();
-        //        return this._style;
-        //    }
-        //    set { this._style = value; }
-        //} 
-        //public bool HasAttributes()
-        //{
-        //    return this.AttributeCount > 0;
-        //}
+        public virtual void DispatchEvent(HtmlEventArgs eventArgs)
+        {
+
+            switch (eventArgs.EventName)
+            {
+                //--------------------------
+                //primary mouse event
+                case EventName.MouseDown:
+                    {
+                        OnMouseDown(eventArgs);
+                    } break;
+                case EventName.MouseUp:
+                    {
+                        OnMouseUp(eventArgs);
+                    } break;
+                case EventName.MouseMove:
+                    {
+
+
+                    } break;
+                //-----------------------------
+                //secondary mouse event
+                case EventName.MouseOver:
+                    {
+                    } break;
+                case EventName.MouseLeave:
+                    {
+                    } break;
+                //-----------------------------
+            }
+        }
         public string Name
         {
             get { return this.LocalName; }
+        }
+        //------------------------------------------------------------------------ 
+        protected virtual void OnMouseDown(HtmlEventArgs eventArgs)
+        {
+            //some element has intrinsic reponse to event 
+            //eg. click on link 
+
+        }
+        protected virtual void OnMouseUp(HtmlEventArgs eventArgs)
+        {
+
+        }
+
+
+        public void AttachEvent(EventName eventName)
+        {
+        }
+        public void DetachEvent()
+        {
+
         }
 
     }

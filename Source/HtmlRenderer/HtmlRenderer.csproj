@@ -98,6 +98,7 @@
     <Compile Include="WebDom.Parser\HtmlLexer.cs" />
     <Compile Include="WebDom.Parser\CssParser.cs" />
     <Compile Include="WebDom.Parser\HtmlParser.cs" />
+    <Compile Include="WebDom\1_Html\HtmlEvents.cs" />
     <Compile Include="WebDom\1_Html\StringTable.cs" />
     <Compile Include="WebDom\1_Html\HtmlDocument.cs" />
     <Compile Include="WebDom\1_Html\HtmlNodes.cs" />

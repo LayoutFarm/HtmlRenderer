@@ -117,6 +117,7 @@ namespace HtmlRenderer.Boxes
             //position x,y relate with (0,0) of its run
             hitInfoList.Add(new HitInfo(run, x, y));
         }
+       
         public HitInfo GetHitInfo(int index)
         {
             return this.hitInfoList[index];
@@ -133,20 +134,7 @@ namespace HtmlRenderer.Boxes
             {
                 return hitInfoList[j - 1];
             }
-        }
-        public object GetLastHitObject()
-        {
-            int j = hitInfoList.Count;
-            if (j == 0)
-            {
-                return null;
-            }
-            else
-            {
-                return this.hitInfoList[j - 1].hitObject;
-            }
-        }
-
+        } 
         internal float GlobalOffsetX
         {
             get { return this.globalOffsetX; }
