@@ -21,11 +21,11 @@ namespace HtmlRenderer.Demo
 
             HtmlElement body, div, span;
 
+            //style 1
             rootNode.AddChild("body")
                         .AddChild("div", out div)
-                            .AddChild("span", out span);
-
-            //--------------------------------------------
+                            .AddChild("span", out span); 
+            //-------------------------------------------- 
             span.AddTextContent("ABCD");
 
             //2. add to view 

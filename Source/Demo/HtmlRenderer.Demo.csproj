@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoList\Demo02_CreateHtmlDom.cs" />
     <Compile Include="DemoList\DemoBase.cs" />
     <Compile Include="DevForm.cs">
       <SubType>Form</SubType>

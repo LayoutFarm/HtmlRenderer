@@ -15,7 +15,10 @@ namespace HtmlRenderer.Demo
         }
     }
 
-    static class BridgeHtmlExtension
+    public delegate void Decorate(HtmlElement h);
+
+
+    public static class BridgeHtmlExtension
     {
         //level 1
         public static HtmlElement AddChild(this HtmlElement h, string elementName)
@@ -31,6 +34,19 @@ namespace HtmlRenderer.Demo
             elemExit = newchild;
             return newchild;
         }
+        public static HtmlElement AddChild(this HtmlElement h, string elementName, Decorate d)
+        {
+            var newchild = h.OwnerDocument.CreateElement(elementName);
+            h.AddChild(newchild);
+            if (d != null)
+            {
+                d(newchild);
+            }
+            
+            return newchild;
+        }
+
+
         public static void AddTextContent(this HtmlElement h, string text)
         {
             var newTextNode = h.OwnerDocument.CreateTextNode(text.ToCharArray());
@@ -39,7 +55,7 @@ namespace HtmlRenderer.Demo
         //------------------------------------------------------------------------------
 
         //level 2
-        
+
 
     }
 }

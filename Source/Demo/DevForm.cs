@@ -60,10 +60,20 @@ namespace HtmlRenderer.Demo
             DemoForm demoForm = new DemoForm();
             demoForm.Show();
             demoForm.Activate();
-            Demo01CreateHtmlDom demo1 = new Demo01CreateHtmlDom();
-            demoForm.LoadDemo(demo1);
+            
+            demoForm.LoadDemo(new Demo01CreateHtmlDom());
 
 
+        }
+
+        private void createHtmlDomDemo2_Click(object sender, EventArgs e)
+        {
+
+            DemoForm demoForm = new DemoForm();
+            demoForm.Show();
+            demoForm.Activate();
+             
+            demoForm.LoadDemo(new Demo02CreateHtmlDom());
         }
     }
 }
