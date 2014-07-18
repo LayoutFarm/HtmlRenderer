@@ -12,12 +12,12 @@ namespace HtmlRenderer.Demo
         }
         protected virtual void OnStartDemo(HtmlPanel panel)
         {
-
         }
     }
 
     static class BridgeHtmlExtension
     {
+        //level 1
         public static HtmlElement AddChild(this HtmlElement h, string elementName)
         {
             var newchild = h.OwnerDocument.CreateElement(elementName);
@@ -36,5 +36,10 @@ namespace HtmlRenderer.Demo
             var newTextNode = h.OwnerDocument.CreateTextNode(text.ToCharArray());
             h.AddChild(newTextNode);
         }
+        //------------------------------------------------------------------------------
+
+        //level 2
+        
+
     }
 }
