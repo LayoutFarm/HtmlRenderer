@@ -19,27 +19,15 @@ namespace HtmlRenderer
     public class HtmlContainerImpl : HtmlContainer
     {
 
-        HtmlRenderer.Boxes.SelectionRange selRange;
+
         ImageContentManager imageContentManager;
         TextContentManager textContentManager;
-
-        ///// <summary>
-        ///// Handler for text selection in the html. 
-        ///// </summary>
-        //private SelectionHandler _selectionHandler;
-        /// <summary>
-        /// Raised when the user clicks on a link in the html.<br/>
-        /// Allows canceling the execution of the link.
-        /// </summary>
-        public event EventHandler<HtmlLinkClickedEventArgs> LinkClicked;
-
         /// <summary>
         /// Raised when Html Renderer request scroll to specific location.<br/>
         /// This can occur on document anchor click.
         /// </summary>
         public event EventHandler<HtmlScrollEventArgs> ScrollChange;
-        CssBox _root;
-
+        bool isRootCreated;
 
         /// <summary>
         /// Raised when an error occurred during html rendering.<br/>
@@ -163,7 +151,7 @@ namespace HtmlRenderer
         }
         public void PerformLayout(Graphics g)
         {
-            if (this._root != null)
+            if (this.isRootCreated)
             {
                 using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
                 {
@@ -174,48 +162,21 @@ namespace HtmlRenderer
         protected override void OnRootDisposed()
         {
 
-            //if (_selectionHandler != null)
-            //{
-            //    _selectionHandler.Dispose();
-            //}
-            //_selectionHandler = null;
-            this._root = null;
+            this.isRootCreated = false;
             base.OnRootDisposed();
         }
         protected override void OnRootCreated(CssBox root)
         {
-            this._root = root;
+            this.isRootCreated = true;
             //this._selectionHandler = new SelectionHandler(root, this);
             base.OnRootCreated(root);
         }
         protected override void OnAllDisposed()
         {
-            this.LinkClicked = null;
-        }
-        /// <summary>
-        /// Get the currently selected text segment in the html.
-        /// </summary>
-        public string SelectedText
-        {
-            get
-            {
-                throw new NotSupportedException();
-                //return _selectionHandler.GetSelectedText();
-            }
+
         }
 
-        /// <summary>
-        /// Copy the currently selected html segment with style.
-        /// </summary>
-        public string SelectedHtml
-        {
-            get
-            {
-                throw new NotSupportedException();
-                //return _selectionHandler.GetSelectedHtml();
 
-            }
-        }
         public string GetHtml()
         {
             throw new NotSupportedException();
@@ -362,7 +323,7 @@ namespace HtmlRenderer
         //public void HandleMouseMove(Control parent, MouseEventArgs e)
         //{
 
-            
+
         //    //try
         //    //{
         //    var loc = OffsetByScroll(e.Location);
@@ -463,23 +424,5 @@ namespace HtmlRenderer
             set;
         }
 
-
-        public HtmlRenderer.Boxes.SelectionRange SelectionRange
-        {
-            get
-            {
-                return this.selRange;
-            }
-            set
-            {
-                if (this.selRange != null)
-                {
-                    //1. 
-                    this.selRange.ClearSelectionStatus();
-                }
-                this.selRange = value;
-
-            }
-        }
     }
 }

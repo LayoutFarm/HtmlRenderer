@@ -240,15 +240,7 @@ namespace HtmlRenderer
             }
         }
 
-        /// <summary>
-        /// Get the currently selected text segment in the html.
-        /// </summary>
-        [Browsable(false)]
-        public string SelectedText
-        {
-            get { return _htmlContainer.SelectedText; }
-        }
-
+      
 
         public void LoadHtmlDom(HtmlRenderer.WebDom.HtmlDocument doc, string defaultCss)
         {
@@ -259,15 +251,7 @@ namespace HtmlRenderer
             Invalidate();
         }
 
-        /// <summary>
-        /// Copy the currently selected html segment with style.
-        /// </summary>
-        [Browsable(false)]
-        public string SelectedHtml
-        {
-            get { return _htmlContainer.SelectedHtml; }
-        }
-
+    
         /// <summary>
         /// Get html from the current DOM tree with inline style.
         /// </summary>
@@ -277,18 +261,7 @@ namespace HtmlRenderer
             return _htmlContainer != null ? _htmlContainer.GetHtml() : null;
         }
 
-        /// <summary>
-        /// Get the rectangle of html element as calculated by html layout.<br/>
-        /// Element if found by id (id attribute on the html element).<br/>
-        /// Note: to get the screen rectangle you need to adjust by the hosting control.<br/>
-        /// </summary>
-        /// <param name="elementId">the id of the element to get its rectangle</param>
-        /// <returns>the rectangle of the element or null if not found</returns>
-        public RectangleF? GetElementRectangle(string elementId)
-        {
-            return _htmlContainer != null ? _htmlContainer.GetElementRectangle(elementId) : null;
-        }
-
+       
         ///// <summary>
         ///// Adjust the scrollbar of the panel on html element by the given id.<br/>
         ///// The top of the html element rectangle will be at the top of the panel, if there

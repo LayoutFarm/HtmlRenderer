@@ -27,7 +27,7 @@ namespace HtmlRenderer.Demo
 
             //--------------------------------------------
             span.AddTextContent("ABCD");
-            
+
             //2. add to view 
             panel.LoadHtmlDom(htmldoc,
                HtmlRenderer.Composers.CssDefaults.DefaultStyleSheet);
@@ -36,12 +36,14 @@ namespace HtmlRenderer.Demo
             //3. attach event to specific span
             span.AttachEvent(EventName.MouseDown, e =>
             {
+
                 //-------------------------------
                 //mousedown on specific span !
                 //-------------------------------
 #if DEBUG
+                // System.Diagnostics.Debugger.Break();
                 Console.WriteLine("span");
-#endif          
+#endif
                 //test stop propagation 
                 e.StopPropagation();
 
@@ -49,11 +51,13 @@ namespace HtmlRenderer.Demo
 
             div.AttachEvent(EventName.MouseDown, e =>
             {
+
 #if DEBUG
                 //this will not print 
                 //if e has been stop by its child
+                // System.Diagnostics.Debugger.Break();
                 Console.WriteLine("div");
-#endif             
+#endif
 
             });
 

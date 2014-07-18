@@ -369,21 +369,9 @@ namespace HtmlRenderer.Composers
 
             CssBox rootBox = null;
 
-            ActiveCssTemplate activeCssTemplate = null;
-            //1. parse
-            //var t0 = dbugCounter.Snap(() =>
-            // {
-
-            // }); 
-            // long t1 = dbugCounter.Snap(() =>
-            // {
-            activeCssTemplate = new ActiveCssTemplate(cssData);
-            //});
-
-            //2. active css template 
-            // var t2 = dbugCounter.Snap(() =>
-            // {
-            //3. prepare tree
+            ActiveCssTemplate activeCssTemplate = null; 
+            activeCssTemplate = new ActiveCssTemplate(cssData); 
+             
             PrepareBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
             //----------------------------------------------------------------  
             //4. assign styles 

@@ -45,30 +45,8 @@ namespace HtmlRenderer
     /// This will adjust the rendered html by the given offset so the content will be "scrolled".<br/>
     /// Element that is rendered at location (50,100) with offset of (0,200) will not be rendered 
     /// at -100, therefore outside the client rectangle.
-    /// </para>
-    /// <para>
-    /// <b>LinkClicked event</b><br/>
-    /// Raised when the user clicks on a link in the html.<br/>
-    /// Allows canceling the execution of the link to overwrite by custom logic.<br/>
-    /// If error occurred in event handler it will propagate up the stack.
-    /// </para>
-    /// <para>
-    /// <b>StylesheetLoad event:</b><br/>
-    /// Raised when a stylesheet is about to be loaded by file path or URL in 'link' element.<br/>
-    /// Allows to overwrite the loaded stylesheet by providing the stylesheet data manually, or different source (file or URL) to load from.<br/>
-    /// Example: The stylesheet 'href' can be non-valid URI string that is interpreted in the overwrite delegate by custom logic to pre-loaded stylesheet object<br/>
-    /// If no alternative data is provided the original source will be used.<br/>
-    /// </para>
-    /// <para>
-    /// <b>ImageLoad event:</b><br/>
-    /// Raised when an image is about to be loaded by file path, URL or inline data in 'img' element or background-image CSS style.<br/>
-    /// Allows to overwrite the loaded image by providing the image object manually, or different source (file or URL) to load from.<br/>
-    /// Example: image 'src' can be non-valid string that is interpreted in the overwrite delegate by custom logic to resource image object<br/>
-    /// Example: image 'src' in the html is relative - the overwrite intercepts the load and provide full source URL to load the image from<br/>
-    /// Example: image download requires authentication - the overwrite intercepts the load, downloads the image to disk using custom code and provide 
-    /// file path to load the image from.<br/>
-    /// If no alternative data is provided the original source will be used.<br/>
-    /// </para>
+    /// </para> 
+      
     /// <para>
     /// <b>Refresh event:</b><br/>
     /// Raised when html renderer requires refresh of the control hosting (invalidation and re-layout).<br/>
@@ -141,24 +119,18 @@ namespace HtmlRenderer
         /// </summary>
 
         float _actualWidth;
-        float _actualHeight;
-       
-        #endregion
-
-
+        float _actualHeight; 
+        #endregion 
         /// <summary>
         /// 99999
         /// </summary>
-        const int MAX_WIDTH = 99999;
-
-
+        const int MAX_WIDTH = 99999; 
         //-----------------------------------------------------------
         //controll task of this container
         System.Timers.Timer timTask = new System.Timers.Timer();
         List<ImageBinder> requestImageBinderUpdates = new List<ImageBinder>();
         //-----------------------------------------------------------
-
-
+         
         public HtmlContainer()
         {
             timTask.Interval = 20;//20 ms task
@@ -175,15 +147,13 @@ namespace HtmlRenderer
             if (requestImageBinderUpdates.Count > 0)
             {
                 requestImageBinderUpdates.Clear();
-                this.RequestRefresh(false);
-
+                this.RequestRefresh(false); 
 #if DEBUG
                 dd++;
                 //Console.WriteLine(dd);
 #endif
             }
-        }
-
+        } 
         public void AddRequestImageBinderUpdate(ImageBinder binder)
         {
             this.requestImageBinderUpdates.Add(binder);
@@ -397,24 +367,7 @@ namespace HtmlRenderer
         //}
 
 
-
-        /// <summary>
-        /// Get the rectangle of html element as calculated by html layout.<br/>
-        /// Element if found by id (id attribute on the html element).<br/>
-        /// Note: to get the screen rectangle you need to adjust by the hosting control.<br/>
-        /// </summary>
-        /// <param name="elementId">the id of the element to get its rectangle</param>
-        /// <returns>the rectangle of the element or null if not found</returns>
-        public RectangleF? GetElementRectangle(string elementId)
-        {
-            //2014-04-27
-            throw new NotSupportedException();
-            //temp remove ,
-            //
-            //ArgChecker.AssertArgNotNullOrEmpty(elementId, "elementId");
-            //var box = DomUtils.GetBoxById(_root, elementId.ToLower());
-            //return box != null ? CommonUtils.GetFirstValueOrDefault(box.Rectangles, box.Bounds) : (RectangleF?)null;
-        }
+ 
         public void PerformLayout(IGraphics ig)
         {
 
