@@ -203,7 +203,7 @@ namespace HtmlRenderer
             set
             {
                 _baseRawCssData = value;
-                _baseCssData = HtmlRenderer.Composers.CssParser.ParseStyleSheet(value, true);
+                _baseCssData = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(value, true);
             }
         }
 
@@ -253,7 +253,7 @@ namespace HtmlRenderer
         public void LoadHtmlDom(HtmlRenderer.WebDom.HtmlDocument doc, string defaultCss)
         {
             _baseRawCssData = defaultCss; 
-            _baseCssData = HtmlRenderer.Composers.CssParser.ParseStyleSheet(defaultCss, true);             
+            _baseCssData = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(defaultCss, true);             
             _htmlContainer.SetHtml(doc, _baseCssData);
             PerformLayout();
             Invalidate();

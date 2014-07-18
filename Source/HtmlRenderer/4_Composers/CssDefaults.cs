@@ -20,7 +20,7 @@ namespace HtmlRenderer.Composers
                 if (_defaultCssData == null)
                 {
                     _defaultCssData = new WebDom.CssActiveSheet();
-                    CssParser.ParseStyleSheet(_defaultCssData, CssDefaults.DefaultStyleSheet);
+                    CssParserHelper.ParseStyleSheet(_defaultCssData, CssDefaults.DefaultStyleSheet);
                 }
                 return _defaultCssData;
             }

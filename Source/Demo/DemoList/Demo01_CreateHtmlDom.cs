@@ -27,6 +27,7 @@ namespace HtmlRenderer.Demo
 
             //--------------------------------------------
             span.AddTextContent("ABCD");
+            
             //2. add to view 
             panel.LoadHtmlDom(htmldoc,
                HtmlRenderer.Composers.CssDefaults.DefaultStyleSheet);
@@ -52,8 +53,7 @@ namespace HtmlRenderer.Demo
                 //this will not print 
                 //if e has been stop by its child
                 Console.WriteLine("div");
-#endif
-
+#endif             
 
             });
 
