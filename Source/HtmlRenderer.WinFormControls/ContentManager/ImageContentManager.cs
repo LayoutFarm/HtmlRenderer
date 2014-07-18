@@ -44,7 +44,7 @@ namespace HtmlRenderer.ContentManagers
     public class ImageContentManager
     {
 
-        public event EventHandler<HtmlImageRequestEventArgs> ImageLoadingRequest;
+        public event EventHandler<ImageRequestEventArgs> ImageLoadingRequest;
 
         LinkedList<ImageContentRequest> inputList = new LinkedList<ImageContentRequest>();
         LinkedList<ImageBinder> outputList = new LinkedList<ImageBinder>();
@@ -103,7 +103,7 @@ namespace HtmlRenderer.ContentManagers
 
                             this.ImageLoadingRequest(
                                 this,
-                                new ContentManagers.HtmlImageRequestEventArgs(
+                                new ContentManagers.ImageRequestEventArgs(
                                 binder));
 
                             //....

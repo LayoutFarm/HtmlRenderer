@@ -40,16 +40,14 @@
   <ItemGroup>
     <Compile Include="ContentManager\TextContentManager.cs" />
     <Compile Include="EventCore\HtmlEventBridge.cs" />
-    <Compile Include="ContentManager\HtmlImageRequestEventArgs.cs" />
+    <Compile Include="ContentManager\ImageRequestEventArgs.cs" />
     <Compile Include="Events\HtmlLinkClickedEventArgs.cs" />
     <Compile Include="Events\HtmlLinkClickedException.cs" />
     <Compile Include="Events\HtmlRefreshEventArgs.cs" />
     <Compile Include="Events\HtmlRenderErrorEventArgs.cs" />
     <Compile Include="Events\HtmlScrollEventArgs.cs" />
-    <Compile Include="ContentManager\HtmlStylesheetLoadEventArgs.cs" />
-    <Compile Include="Handlers\ContextMenuHandler.cs" />
+    <Compile Include="ContentManager\StylesheetLoadEventArgs.cs" />
     <Compile Include="Handlers\HtmlClipboardUtils.cs" />
-    <Compile Include="Handlers\ReadyStateChangedHandler.cs" />
     <Compile Include="Platform\ClibboardHelper.cs" />
     <Compile Include="Platform\FontsUtils.cs" />
     <Compile Include="Platform\HtmlContainerImpl.cs" />
@@ -68,9 +66,7 @@
       <Name>HtmlRenderer</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="WebDom\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

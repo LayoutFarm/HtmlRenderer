@@ -124,13 +124,13 @@ namespace HtmlRenderer
         /// This event allows to provide the stylesheet manually or provide new source (file or uri) to load from.<br/>
         /// If no alternative data is provided the original source will be used.<br/>
         /// </summary>
-        public event EventHandler<HtmlStylesheetLoadEventArgs> StylesheetLoad;
+        public event EventHandler<StylesheetLoadEventArgs> StylesheetLoad;
 
         /// <summary>
         /// Raised when an image is about to be loaded by file path or URI.<br/>
         /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
         /// </summary>
-        public event EventHandler<HtmlRenderer.ContentManagers.HtmlImageRequestEventArgs> ImageLoad;
+        public event EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs> ImageLoad;
 
         /// <summary>
         /// Gets or sets a value indicating if anti-aliasing should be avoided for geometry like backgrounds and borders (default - false).
@@ -473,7 +473,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Propagate the stylesheet load event from root container.
         /// </summary>
-        private void OnStylesheetLoad(object sender, HtmlStylesheetLoadEventArgs e)
+        private void OnStylesheetLoad(object sender, StylesheetLoadEventArgs e)
         {
             if (StylesheetLoad != null)
             {
@@ -484,7 +484,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Propagate the image load event from root container.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlRenderer.ContentManagers.HtmlImageRequestEventArgs e)
+        private void OnImageLoad(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
         {
             if (ImageLoad != null)
             {

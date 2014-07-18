@@ -7,8 +7,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 
 using HtmlRenderer.Boxes;
-using HtmlRenderer.WebDom;
-using HtmlRenderer.Handlers;
+using HtmlRenderer.WebDom; 
 using HtmlRenderer.Drawing;
 using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Diagnostics;
