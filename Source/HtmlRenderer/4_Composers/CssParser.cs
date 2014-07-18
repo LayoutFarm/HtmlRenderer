@@ -38,7 +38,9 @@ namespace HtmlRenderer.Composers
         /// <param name="stylesheet">raw css stylesheet to parse</param>
         /// <param name="combineWithDefault">true - combine the parsed css data with default css data, false - return only the parsed css data</param>
         /// <returns>the CSS data with parsed CSS objects (never null)</returns>
-        public static WebDom.CssActiveSheet ParseStyleSheet(string stylesheet, bool combineWithDefault)
+        public static WebDom.CssActiveSheet ParseStyleSheet(
+            string stylesheet, 
+            bool combineWithDefault)
         {
             var cssData = combineWithDefault ?
                 CssDefaults.DefaultCssData.Clone(new object()) : new WebDom.CssActiveSheet();

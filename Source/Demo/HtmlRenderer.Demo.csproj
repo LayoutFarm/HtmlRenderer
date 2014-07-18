@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoList\DemoBase.cs" />
     <Compile Include="DevForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,6 +83,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DemoList\Demo01_CreateHtmlDom.cs" />
     <EmbeddedResource Include="DevForm.resx">
       <DependentUpon>DevForm.cs</DependentUpon>
     </EmbeddedResource>

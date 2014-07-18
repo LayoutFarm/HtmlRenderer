@@ -58,4 +58,8 @@ namespace HtmlRenderer.WebDom
         }
     }
 
+    
+    
+    public delegate void HtmlEventHandler(HtmlEventArgs e);
+
 }

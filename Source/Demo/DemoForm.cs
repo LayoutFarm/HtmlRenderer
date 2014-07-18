@@ -113,18 +113,19 @@ namespace HtmlRenderer.Demo
             _htmlPanel.Text = File.ReadAllText(filename);
             Application.UseWaitCursor = false;
             _updateLock = false;
-            UpdateWebBrowserHtml();
-             
-
-
+            UpdateWebBrowserHtml(); 
         }
+         
         public void PrepareSamples()
         {
             LoadCustomFonts();
             LoadSamples();
 
         }
-
+        public void LoadDemo(DemoBase demoBase)
+        {
+            demoBase.StartDemo(this._htmlPanel);
+        }
         #region Private methods
 
         /// <summary>
@@ -365,7 +366,7 @@ namespace HtmlRenderer.Demo
         /// <summary>
         /// Handle stylesheet resolve.
         /// </summary>
-        private static void OnStylesheetLoad(object sender, WebDom.HtmlStylesheetLoadEventArgs e)
+        private static void OnStylesheetLoad(object sender, HtmlRenderer.ContentManagers.HtmlStylesheetLoadEventArgs e)
         {
             var stylesheet = GetStylesheet(e.Src);
             if (stylesheet != null)
@@ -402,7 +403,7 @@ namespace HtmlRenderer.Demo
         /// <summary>
         /// On image load in renderer set the image by event async.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlRenderer.WebDom.HtmlImageRequestEventArgs e)
+        private void OnImageLoad(object sender, HtmlRenderer.ContentManagers.HtmlImageRequestEventArgs e)
         {
 
 

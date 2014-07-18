@@ -20,13 +20,12 @@ namespace HtmlRenderer.Demo
         private void button1_Click(object sender, EventArgs e)
         {
             DemoForm demoForm = new DemoForm();
-            
             demoForm.PrepareSamples();
 
             demoForm.Show();
             demoForm.Activate();
         }
-         
+
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -49,6 +48,22 @@ namespace HtmlRenderer.Demo
                 demoForm.Close();
 
             }
+        }
+
+        private void cmdCreateHtmlDom_Click(object sender, EventArgs e)
+        {
+            //--------------------------------------
+            //test 
+            //create html dom  then add to webview
+            //--------------------------------------
+
+            DemoForm demoForm = new DemoForm();
+            demoForm.Show();
+            demoForm.Activate();
+            Demo01CreateHtmlDom demo1 = new Demo01CreateHtmlDom();
+            demoForm.LoadDemo(demo1);
+
+
         }
     }
 }

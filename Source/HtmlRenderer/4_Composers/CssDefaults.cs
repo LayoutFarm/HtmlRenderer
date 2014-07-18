@@ -9,6 +9,7 @@ namespace HtmlRenderer.Composers
         /// default CSS parsed data singleton
         /// </summary>
         static WebDom.CssActiveSheet _defaultCssData;
+
         /// <summary>
         /// default CSS parsed data singleton
         /// </summary>

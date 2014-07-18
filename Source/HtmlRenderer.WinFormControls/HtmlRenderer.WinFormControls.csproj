@@ -40,13 +40,13 @@
   <ItemGroup>
     <Compile Include="ContentManager\TextContentManager.cs" />
     <Compile Include="EventCore\HtmlEventBridge.cs" />
-    <Compile Include="Events\HtmlImageRequestEventArgs.cs" />
+    <Compile Include="ContentManager\HtmlImageRequestEventArgs.cs" />
     <Compile Include="Events\HtmlLinkClickedEventArgs.cs" />
     <Compile Include="Events\HtmlLinkClickedException.cs" />
     <Compile Include="Events\HtmlRefreshEventArgs.cs" />
     <Compile Include="Events\HtmlRenderErrorEventArgs.cs" />
     <Compile Include="Events\HtmlScrollEventArgs.cs" />
-    <Compile Include="Events\HtmlStylesheetLoadEventArgs.cs" />
+    <Compile Include="ContentManager\HtmlStylesheetLoadEventArgs.cs" />
     <Compile Include="Handlers\ContextMenuHandler.cs" />
     <Compile Include="Handlers\HtmlClipboardUtils.cs" />
     <Compile Include="Handlers\ReadyStateChangedHandler.cs" />

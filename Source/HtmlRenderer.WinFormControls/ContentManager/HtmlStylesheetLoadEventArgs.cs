@@ -15,8 +15,8 @@
 
 using System;
 using System.Collections.Generic;
- 
-namespace HtmlRenderer.WebDom
+
+namespace HtmlRenderer.ContentManagers
 {
     /// <summary>
     /// Invoked when a stylesheet is about to be loaded by file path or URL in 'link' element.<br/>
@@ -46,7 +46,7 @@ namespace HtmlRenderer.WebDom
         /// <summary>
         /// provide the stylesheet data to load
         /// </summary>
-        private CssActiveSheet _setStyleSheetData;
+        private HtmlRenderer.WebDom.CssActiveSheet _setStyleSheetData;
 
         #endregion
 

@@ -18,6 +18,8 @@ using HtmlRenderer.WebDom;
 
 using HtmlRenderer.Drawing;
 using HtmlRenderer.Css;
+using HtmlRenderer.ContentManagers;
+
 namespace HtmlRenderer
 {
     /// <summary>
@@ -128,7 +130,7 @@ namespace HtmlRenderer
         /// Raised when an image is about to be loaded by file path or URI.<br/>
         /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
         /// </summary>
-        public event EventHandler<HtmlRenderer.WebDom.HtmlImageRequestEventArgs> ImageLoad;
+        public event EventHandler<HtmlRenderer.ContentManagers.HtmlImageRequestEventArgs> ImageLoad;
 
         /// <summary>
         /// Gets or sets a value indicating if anti-aliasing should be avoided for geometry like backgrounds and borders (default - false).
@@ -245,6 +247,16 @@ namespace HtmlRenderer
         public string SelectedText
         {
             get { return _htmlContainer.SelectedText; }
+        }
+
+
+        public void LoadHtmlDom(HtmlRenderer.WebDom.HtmlDocument doc, string defaultCss)
+        {
+            _baseRawCssData = defaultCss; 
+            _baseCssData = HtmlRenderer.Composers.CssParser.ParseStyleSheet(defaultCss, true);             
+            _htmlContainer.SetHtml(doc, _baseCssData);
+            PerformLayout();
+            Invalidate();
         }
 
         /// <summary>
@@ -367,9 +379,9 @@ namespace HtmlRenderer
         /// </summary>
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            base.OnMouseMove(e); 
+            base.OnMouseMove(e);
             _htmlEventBridge.MouseMove(e.X, e.Y, (int)e.Button);
-            this.Invalidate(); 
+            this.Invalidate();
         }
 
         /// <summary>
@@ -389,7 +401,7 @@ namespace HtmlRenderer
         /// </summary>
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            base.OnMouseDown(e); 
+            base.OnMouseDown(e);
             this._htmlEventBridge.MouseDown(e.X, e.Y, (int)e.Button);
             this.Invalidate();
         }
@@ -399,7 +411,7 @@ namespace HtmlRenderer
         /// </summary>
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            base.OnMouseClick(e); 
+            base.OnMouseClick(e);
             this._htmlEventBridge.MouseUp(e.X, e.Y, (int)e.Button);
             this.Invalidate();
         }
@@ -499,7 +511,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Propagate the image load event from root container.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlRenderer.WebDom.HtmlImageRequestEventArgs e)
+        private void OnImageLoad(object sender, HtmlRenderer.ContentManagers.HtmlImageRequestEventArgs e)
         {
             if (ImageLoad != null)
             {

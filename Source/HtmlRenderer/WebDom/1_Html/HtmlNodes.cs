@@ -265,11 +265,14 @@ namespace HtmlRenderer.WebDom
         List<HtmlAttribute> myAttributes;
         List<HtmlNode> myChildrenNodes;
 
+        //-------------------------------------------
         HtmlElement closeNode;
         HtmlAttribute attrElemId;
         HtmlAttribute attrClass;
+        //-------------------------------------------
 
-
+        HtmlEventHandler evhMouseDown;
+        HtmlEventHandler evhMouseUp;
 
 
         internal HtmlElement(HtmlDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
@@ -517,26 +520,52 @@ namespace HtmlRenderer.WebDom
             get { return this.LocalName; }
         }
         //------------------------------------------------------------------------ 
-        protected virtual void OnMouseDown(HtmlEventArgs eventArgs)
+        protected virtual void OnMouseDown(HtmlEventArgs e)
         {
             //some element has intrinsic reponse to event 
-            //eg. click on link 
-
+            //eg. click on link  
+            if (this.evhMouseDown != null)
+            {
+                this.evhMouseDown(e);
+            }
         }
-        protected virtual void OnMouseUp(HtmlEventArgs eventArgs)
+        protected virtual void OnMouseUp(HtmlEventArgs e)
         {
-
+            if (this.evhMouseUp != null)
+            {
+                this.evhMouseUp(e);
+            }
         }
-
-
-        public void AttachEvent(EventName eventName)
+        public void AttachEvent(EventName eventName, HtmlEventHandler handler)
         {
+            switch (eventName)
+            {
+                case EventName.MouseDown:
+                    {
+                        this.evhMouseDown += handler;
+                    } break;
+                case EventName.MouseUp:
+                    {
+                        this.evhMouseUp += handler;
+                    } break;
+            }
         }
-        public void DetachEvent()
+        public void DetachEvent(EventName eventName, HtmlEventHandler handler)
         {
+            switch (eventName)
+            {
+                case EventName.MouseDown:
+                    {
+                        this.evhMouseDown -= handler;
+                    } break;
+                case EventName.MouseUp:
+                    {
+                        this.evhMouseUp -= handler;
+                    } break;
+            }
 
         }
-
+        //-------------------------------------------------------
     }
 
 }
