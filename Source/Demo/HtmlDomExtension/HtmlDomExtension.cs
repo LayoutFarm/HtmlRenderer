@@ -4,19 +4,8 @@ using HtmlRenderer.WebDom;
 
 namespace HtmlRenderer.Demo
 {
-    public abstract class DemoBase
-    {
-        public void StartDemo(HtmlPanel panel)
-        {
-            this.OnStartDemo(panel);
-        }
-        protected virtual void OnStartDemo(HtmlPanel panel)
-        {
-        }
-    }
 
     public delegate void Decorate(HtmlElement h);
-
 
     public static class BridgeHtmlExtension
     {
@@ -42,7 +31,7 @@ namespace HtmlRenderer.Demo
             {
                 d(newchild);
             }
-            
+
             return newchild;
         }
 
