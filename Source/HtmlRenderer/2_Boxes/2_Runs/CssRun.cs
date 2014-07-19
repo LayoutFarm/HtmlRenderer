@@ -208,14 +208,14 @@ namespace HtmlRenderer.Boxes
         {
             get { return this._y + this._height; }
         }
-        /// <summary>
-        /// Gets the image this words represents (if one exists)
-        /// </summary>
-        public virtual Image Image
-        {
-            get { return null; }
-            set { }
-        }
+        ///// <summary>
+        ///// Gets the image this words represents (if one exists)
+        ///// </summary>
+        //public virtual Image Image
+        //{
+        //    get { return null; }
+        //    set { }
+        //}
 
         /// <summary>
         /// Gets if the word represents an image.
@@ -257,7 +257,7 @@ namespace HtmlRenderer.Boxes
         }
 
 
-      
+
 
         /// <summary>
         /// Represents this word for debugging purposes
@@ -293,6 +293,7 @@ namespace HtmlRenderer.Boxes
                         CssTextRun textRun = (CssTextRun)this;
                         g.MeasureString2(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength,
                             this.OwnerBox.ActualFont, maxWidth, out charFit, out charFitWidth);
+                         
                         selectionIndex = charFit;
                         selectionOffset = charFitWidth;
                     } break;

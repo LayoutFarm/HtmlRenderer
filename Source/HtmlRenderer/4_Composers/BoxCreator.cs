@@ -16,43 +16,22 @@ namespace HtmlRenderer.Composers
 
     public static class BoxCreator
     {
-
-
         static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
         public static void RegisterCustomCssBoxGenerator(CustomCssBoxGenerator generator)
         {
             generators.Add(generator);
         }
-        //static CssBox CreateCustomCssBox(IHtmlElement tag, CssBox parentBox, BoxSpec spec)
-        //{
-        //    int j = generators.Count;
-        //    if (j > 0)
-        //    {
-        //        for (int i = j - 1; i >= 0; --i)
-        //        {
-        //            var box = generators[i].CreateCssBox(tag, parentBox, spec);
-        //            if (box != null)
-        //            {
-        //                return box;
-        //            }
-        //        }
-        //    }
-        //    return null;
-        //}
-
-
-
         static CssBox CreateImageBox(CssBox parent, BridgeHtmlElement childElement)
         {
             string imgsrc;
             ImageBinder imgBinder = null;
             if (childElement.TryGetAttribute(WellknownHtmlName.Src, out imgsrc))
             {
-                imgBinder = new ImageBinder(imgsrc);
+                imgBinder = new BridgeImageBinder(imgsrc);
             }
             else
             {
-                imgBinder = new ImageBinder(null);
+                imgBinder = new BridgeImageBinder(null);
             }
             return new CssBoxImage(parent, childElement, childElement.Spec, imgBinder);
         }
@@ -71,10 +50,11 @@ namespace HtmlRenderer.Composers
                     //special treatment for br
                     newBox = new CssBox(parentBox, childElement, childElement.Spec);
                     CssBox.SetAsBrBox(newBox);
-                    CssBox.ChangeDisplayType(newBox, CssDisplay.BlockInsideInlineAfterCorrection);
+                    CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
                     return newBox;
 
                 case WellknownElementName.img:
+
                     return CreateImageBox(parentBox, childElement);
 
                 case WellknownElementName.hr:
@@ -157,29 +137,22 @@ namespace HtmlRenderer.Composers
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
             var box = new CssBox(null, null, spec);
+
             //------------------------------------
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
             return box;
-        }
-
-
-
-    }
-
-
-
+        } 
+    } 
 
     static class TableBoxCreator
     {
 
         public static CssBox CreateOtherPredefinedTableElement(CssBox parent,
             BridgeHtmlElement childElement, CssDisplay selectedCssDisplayType)
-        {
-            return new CssBox(parent, childElement, childElement.Spec, selectedCssDisplayType);
-
-        }
-
+        {   
+            return new CssBox(parent, childElement, childElement.Spec, selectedCssDisplayType); 
+        } 
         public static CssBox CreateTableColumnOrColumnGroup(CssBox parent,
             BridgeHtmlElement childElement, bool fixDisplayType, CssDisplay selectedCssDisplayType)
         {
@@ -208,7 +181,7 @@ namespace HtmlRenderer.Composers
                 }
             }
 
-            col.SetRowColSpan(1, spanNum);
+            col.SetRowSpanAndColSpan(1, spanNum);
             return col;
         }
         public static CssBox CreateTableCell(CssBox parent, BridgeHtmlElement childElement, bool fixDisplayType)
@@ -246,7 +219,7 @@ namespace HtmlRenderer.Composers
                 }
             }
             //---------------------------------------------------------- 
-            tableCell.SetRowColSpan(nRowSpan, nColSpan);
+            tableCell.SetRowSpanAndColSpan(nRowSpan, nColSpan);
             return tableCell;
         }
     }

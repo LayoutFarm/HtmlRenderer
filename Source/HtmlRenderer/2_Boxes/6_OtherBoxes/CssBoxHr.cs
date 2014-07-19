@@ -71,7 +71,7 @@ namespace HtmlRenderer.Boxes
                 localTop = prevSibling.LocalBottom + prevSibling.ActualBorderBottomWidth;
             }
 
-            float maringTopCollapse = MarginTopCollapse(prevSibling);
+            float maringTopCollapse = UpdateMarginTopCollapse(prevSibling);
 
             if (maringTopCollapse < 0.1)
             {
@@ -84,7 +84,7 @@ namespace HtmlRenderer.Boxes
             this.SetHeightToZero();
 
             //width at 100% (or auto)
-            float minwidth = CalculateMinimumWidth();
+            float minwidth = CalculateMinimumWidth(lay.EpisodeId);
 
             float width = myContainingBlock.SizeWidth
                           - myContainingBlock.ActualPaddingLeft - myContainingBlock.ActualPaddingRight

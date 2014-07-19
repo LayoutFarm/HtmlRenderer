@@ -92,7 +92,7 @@ namespace HtmlRenderer.WebDom
             {
                 char[] newbuffer = new char[copyBuffer.Length + newCopyBuffer.Length];
                 Array.Copy(copyBuffer, newbuffer, copyBuffer.Length);
-                Array.Copy(newCopyBuffer, 0, newbuffer, copyBuffer.Length  , newCopyBuffer.Length);
+                Array.Copy(newCopyBuffer, 0, newbuffer, copyBuffer.Length, newCopyBuffer.Length);
                 this.copyBuffer = newbuffer;
             }
             else
@@ -264,9 +264,17 @@ namespace HtmlRenderer.WebDom
         internal int nodeLocalNameIndex;
         List<HtmlAttribute> myAttributes;
         List<HtmlNode> myChildrenNodes;
+
+        //-------------------------------------------
         HtmlElement closeNode;
         HtmlAttribute attrElemId;
         HtmlAttribute attrClass;
+        //-------------------------------------------
+
+        HtmlEventHandler evhMouseDown;
+        HtmlEventHandler evhMouseUp;
+
+
         internal HtmlElement(HtmlDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
         {
@@ -366,31 +374,6 @@ namespace HtmlRenderer.WebDom
             attr.SetParent(this);
         }
 
-
-        //---
-
-        //internal void AddAttributePartial(HtmlAttribute attr)
-        //{
-        //    if (myAttributes == null)
-        //    {
-        //        myAttributes = new List<HtmlAttribute>();
-        //    }
-        //    //-----------
-        //    //some wellknownattr 
-        //    switch (attr.LocalNameIndex)
-        //    {
-        //        case (int)WellknownHtmlName.Id:
-        //            {
-        //                this.elemId = attr;
-        //                this.OwnerDocument.RegisterElementById(this);
-        //            } break;
-        //    }
-
-        //    myAttributes.Add(attr);
-        //    attr.SetParent(this);
-        //}
-
-
         public void AddChild(HtmlNode childNode)
         {
             switch (childNode.NodeType)
@@ -410,7 +393,35 @@ namespace HtmlRenderer.WebDom
                     } break;
             }
         }
+        public bool RemoveChild(HtmlNode childNode)
+        {
+            switch (childNode.NodeType)
+            {
+                case HtmlNodeType.Attribute:
+                    {
 
+
+                        return false;
+                    }
+                default:
+                    if (myChildrenNodes != null)
+                    {
+                        return myChildrenNodes.Remove(childNode);
+                    }
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// clear all children elements
+        /// </summary>
+        public void ClearAllElements()
+        {
+            if (this.myChildrenNodes != null)
+            {
+                this.myChildrenNodes.Clear();
+            }
+        }
         public HtmlAttribute FindAttribute(int attrLocalNameIndex)
         {
             if (myAttributes != null)
@@ -501,47 +512,88 @@ namespace HtmlRenderer.WebDom
             }
         }
 
-        ////------------------------------------------
-        ////temp fix
-        //public string Id
-        //{   //temp fix
-        //    get
-        //    {
-        //        throw new NotSupportedException();
-        //        return this._elementId;
-        //    }
-        //    set
-        //    {
-        //        this._elementId = value;
-        //    }
-        //}
-        //public string ClassName
-        //{//temp fix
-        //    get
-        //    {
-        //        throw new NotSupportedException();
-        //        return this._className;
-        //    }
-        //    set { this._className = value; }
-        //}
-        //public string Style
-        //{//temp fix
-        //    get
-        //    {
-        //        throw new NotSupportedException();
-        //        return this._style;
-        //    }
-        //    set { this._style = value; }
-        //} 
-        //public bool HasAttributes()
-        //{
-        //    return this.AttributeCount > 0;
-        //}
+        public virtual void DispatchEvent(HtmlEventArgs eventArgs)
+        {
+
+            switch (eventArgs.EventName)
+            {
+                //--------------------------
+                //primary mouse event
+                case EventName.MouseDown:
+                    {
+                        OnMouseDown(eventArgs);
+                    } break;
+                case EventName.MouseUp:
+                    {
+                        OnMouseUp(eventArgs);
+                    } break;
+                case EventName.MouseMove:
+                    {
+
+
+                    } break;
+                //-----------------------------
+                //secondary mouse event
+                case EventName.MouseOver:
+                    {
+                    } break;
+                case EventName.MouseLeave:
+                    {
+                    } break;
+                //-----------------------------
+            }
+        }
         public string Name
         {
             get { return this.LocalName; }
         }
+        //------------------------------------------------------------------------ 
+        protected virtual void OnMouseDown(HtmlEventArgs e)
+        {
+            //some element has intrinsic reponse to event 
+            //eg. click on link  
+            if (this.evhMouseDown != null)
+            {
+                this.evhMouseDown(e);
+            }
+        }
+        protected virtual void OnMouseUp(HtmlEventArgs e)
+        {
+            if (this.evhMouseUp != null)
+            {
+                this.evhMouseUp(e);
+            }
+        }
+        public void AttachEvent(EventName eventName, HtmlEventHandler handler)
+        {
+            switch (eventName)
+            {
+                case EventName.MouseDown:
+                    {
+                        this.evhMouseDown += handler;
+                    } break;
+                case EventName.MouseUp:
+                    {
+                        this.evhMouseUp += handler;
+                    } break;
+            }
+        }
+        public void DetachEvent(EventName eventName, HtmlEventHandler handler)
+        {
+            switch (eventName)
+            {
+                case EventName.MouseDown:
+                    {
+                        this.evhMouseDown -= handler;
+                    } break;
+                case EventName.MouseUp:
+                    {
+                        this.evhMouseUp -= handler;
+                    } break;
+            }
 
+        }
+        //-------------------------------------------------------
     }
 
 }

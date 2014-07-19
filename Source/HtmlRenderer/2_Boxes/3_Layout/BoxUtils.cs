@@ -31,47 +31,28 @@ namespace HtmlRenderer.Boxes
     public sealed class BoxUtils
     {
 
-
-        internal static IEnumerable<LineOrBoxVisit> GetLineOrBoxIterWalk(CssLineBox startLine)
+        internal static CssBox CreateAnonBlock(CssBox parent, CssBox insertBefore)
         {
-            //start at line
-            //1. start line
-            yield return new LineOrBoxVisit(startLine);
-            CssLineBox curLine = startLine;
-
-            //walk up and down the tree
-            CssLineBox nextline = startLine.NextLine;
-            while (nextline != null)
-            {
-                yield return new LineOrBoxVisit(nextline);
-                nextline = nextline.NextLine;
-            }
-            //--------------------
-            //no next line 
-            //then step up  
-            CssBox curBox = startLine.OwnerBox;
-        RETRY:
-            //ask for sibling
-            CssBox level1Sibling = BoxUtils.GetNextSibling(curBox);
-            while (level1Sibling != null)
-            {
-                foreach (var visit in BoxUtils.GetDeepBoxOrLineIter(level1Sibling))
-                {
-                    yield return visit;
-                }
-
-                level1Sibling = BoxUtils.GetNextSibling(level1Sibling);
-            }
-            //--------------------
-            //other further sibling
-            //then step to parent of lineOwner
-            if (curBox.ParentBox != null)
-            {
-                //if has parent                  
-                curBox = curBox.ParentBox;
-                goto RETRY;
-            }
+            var spec = CssBox.UnsafeGetBoxSpec(parent);
+            var newBox = new CssBox(parent, null, spec.GetAnonVersion());
+            var boxCollection = CssBox.UnsafeGetChildren(parent);
+            CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Block);
+            boxCollection.Remove(newBox);
+            boxCollection.InsertBefore(parent, insertBefore, newBox);
+            return newBox;
         }
+
+        internal static CssBox CreateAnonInline(CssBox parent)
+        {
+            var spec = CssBox.UnsafeGetBoxSpec(parent);
+            var newBox = new CssBox(parent, null, spec.GetAnonVersion());
+            CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
+            return newBox;
+        }
+
+
+      
+
         public static CssBox GetNextSibling(CssBox a)
         {
             return a.GetNextNode();
@@ -136,24 +117,7 @@ namespace HtmlRenderer.Boxes
             return null;
         }
 
-        /// <summary>
-        /// Check if the given box contains only inline child boxes.
-        /// </summary>
-        /// <param name="box">the box to check</param>
-        /// <returns>true - only inline child boxes, false - otherwise</returns>
-        public static bool ContainsInlinesOnly(CssBox box)
-        {
 
-            foreach (CssBox b in box.GetChildBoxIter())
-            {
-                if (!b.IsInline &&
-                    (b.CssDisplay != Css.CssDisplay.BlockInsideInlineAfterCorrection))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
 
 
 
@@ -241,30 +205,7 @@ namespace HtmlRenderer.Boxes
             }
             return false;
         }
-        internal static IEnumerable<LineOrBoxVisit> GetDeepBoxOrLineIter(CssBox box)
-        {
-            yield return new LineOrBoxVisit(box);
-            if (box.LineBoxCount > 0)
-            {
-                foreach (CssLineBox linebox in box.GetLineBoxIter())
-                {
-                    yield return new LineOrBoxVisit(linebox);
-                }
-            }
-            else
-            {
-                if (box.ChildCount > 0)
-                {
-                    foreach (CssBox child in box.GetChildBoxIter())
-                    {
-                        foreach (var visit in GetDeepBoxOrLineIter(child))
-                        {
-                            yield return visit;
-                        }
-                    }
-                }
-            }
-        }
+       
         internal static IEnumerable<CssLineBox> GetDeepDownLineBoxIter(CssBox box)
         {
             if (box.LineBoxCount > 0)
@@ -352,6 +293,29 @@ namespace HtmlRenderer.Boxes
                 }
             }
             return null;
+        }
+        /// <summary>
+        /// Gets the containing block-box of this box. (The nearest parent box with display=block)
+        /// </summary>
+        internal static CssBox SearchUpForContainingBlockBox(CssBox startBox)
+        {
+
+            if (startBox.ParentBox == null)
+            {
+                return startBox; //This is the initial containing block.
+            }
+
+            var box = startBox.ParentBox;
+            while (box.CssDisplay < Css.CssDisplay.__CONTAINER_BEGIN_HERE &&
+                box.ParentBox != null)
+            {
+                box = box.ParentBox;
+            }
+
+            //Comment this following line to treat always superior box as block
+            if (box == null)
+                throw new Exception("There's no containing block on the chain");
+            return box;
         }
 
 

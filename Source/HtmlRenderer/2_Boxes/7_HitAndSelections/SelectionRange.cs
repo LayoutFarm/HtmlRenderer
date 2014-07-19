@@ -62,7 +62,7 @@ namespace HtmlRenderer.Boxes
             {
                 default:
                 case HitObjectKind.Unknown:
-                    {
+                    {   
                         throw new NotSupportedException();
                     }
                 case HitObjectKind.LineBox:
@@ -80,7 +80,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-        internal void ClearSelectionStatus()
+        public void ClearSelectionStatus()
         {
             if (this.selectedLines != null)
             {
@@ -141,7 +141,7 @@ namespace HtmlRenderer.Boxes
         static IEnumerable<CssLineBox> GetLineWalkIter(CssLineBox startLine, CssLineBox endLine)
         {
 
-            foreach (var lineOrBox in  BoxUtils.GetLineOrBoxIterWalk(startLine))
+            foreach (var lineOrBox in GetLineOrBoxIterWalk(startLine))
             {
                 if (lineOrBox.isLine)
                 {
@@ -156,7 +156,7 @@ namespace HtmlRenderer.Boxes
         }
         static IEnumerable<CssLineBox> GetLineWalkIter(CssLineBox startLine, CssBox endBox)
         {
-            foreach (var visit in BoxUtils.GetLineOrBoxIterWalk(startLine))
+            foreach (var visit in GetLineOrBoxIterWalk(startLine))
             {
                 if (visit.isLine)
                 {
@@ -168,7 +168,30 @@ namespace HtmlRenderer.Boxes
                 }
             }
         }
-
+        internal static IEnumerable<LineOrBoxVisit> GetDeepBoxOrLineIter(CssBox box)
+        {
+            yield return new LineOrBoxVisit(box);
+            if (box.LineBoxCount > 0)
+            {
+                foreach (CssLineBox linebox in box.GetLineBoxIter())
+                {
+                    yield return new LineOrBoxVisit(linebox);
+                }
+            }
+            else
+            {
+                if (box.ChildCount > 0)
+                {
+                    foreach (CssBox child in box.GetChildBoxIter())
+                    {
+                        foreach (var visit in GetDeepBoxOrLineIter(child))
+                        {
+                            yield return visit;
+                        }
+                    }
+                }
+            }
+        }
 
         void SetupStartHitPoint(BoxHitChain startChain, HtmlRenderer.Drawing.IGraphics g)
         {
@@ -183,7 +206,7 @@ namespace HtmlRenderer.Boxes
                         int sel_offset;
 
                         run.FindSelectionPoint(g,
-                             startHit.localX, 
+                             startHit.localX,
                              out sel_index,
                              out sel_offset);
 
@@ -222,6 +245,46 @@ namespace HtmlRenderer.Boxes
                     {
                         throw new NotSupportedException();
                     } break;
+            }
+        }
+        internal static IEnumerable<LineOrBoxVisit> GetLineOrBoxIterWalk(CssLineBox startLine)
+        {
+            //start at line
+            //1. start line
+            yield return new LineOrBoxVisit(startLine);
+            CssLineBox curLine = startLine;
+
+            //walk up and down the tree
+            CssLineBox nextline = startLine.NextLine;
+            while (nextline != null)
+            {
+                yield return new LineOrBoxVisit(nextline);
+                nextline = nextline.NextLine;
+            }
+            //--------------------
+            //no next line 
+            //then step up  
+            CssBox curBox = startLine.OwnerBox;
+        RETRY:
+            //ask for sibling
+            CssBox level1Sibling = BoxUtils.GetNextSibling(curBox);
+            while (level1Sibling != null)
+            {
+                foreach (var visit in GetDeepBoxOrLineIter(level1Sibling))
+                {
+                    yield return visit;
+                }
+
+                level1Sibling = BoxUtils.GetNextSibling(level1Sibling);
+            }
+            //--------------------
+            //other further sibling
+            //then step to parent of lineOwner
+            if (curBox.ParentBox != null)
+            {
+                //if has parent                  
+                curBox = curBox.ParentBox;
+                goto RETRY;
             }
         }
 
@@ -271,7 +334,7 @@ namespace HtmlRenderer.Boxes
                         int sel_index;
                         int sel_offset;
                         run.FindSelectionPoint(g,
-                             endHit.localX, 
+                             endHit.localX,
                              out sel_index,
                              out sel_offset);
                         this.endHitRunCharIndex = sel_index;

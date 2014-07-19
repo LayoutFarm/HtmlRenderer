@@ -45,30 +45,8 @@ namespace HtmlRenderer
     /// This will adjust the rendered html by the given offset so the content will be "scrolled".<br/>
     /// Element that is rendered at location (50,100) with offset of (0,200) will not be rendered 
     /// at -100, therefore outside the client rectangle.
-    /// </para>
-    /// <para>
-    /// <b>LinkClicked event</b><br/>
-    /// Raised when the user clicks on a link in the html.<br/>
-    /// Allows canceling the execution of the link to overwrite by custom logic.<br/>
-    /// If error occurred in event handler it will propagate up the stack.
-    /// </para>
-    /// <para>
-    /// <b>StylesheetLoad event:</b><br/>
-    /// Raised when a stylesheet is about to be loaded by file path or URL in 'link' element.<br/>
-    /// Allows to overwrite the loaded stylesheet by providing the stylesheet data manually, or different source (file or URL) to load from.<br/>
-    /// Example: The stylesheet 'href' can be non-valid URI string that is interpreted in the overwrite delegate by custom logic to pre-loaded stylesheet object<br/>
-    /// If no alternative data is provided the original source will be used.<br/>
-    /// </para>
-    /// <para>
-    /// <b>ImageLoad event:</b><br/>
-    /// Raised when an image is about to be loaded by file path, URL or inline data in 'img' element or background-image CSS style.<br/>
-    /// Allows to overwrite the loaded image by providing the image object manually, or different source (file or URL) to load from.<br/>
-    /// Example: image 'src' can be non-valid string that is interpreted in the overwrite delegate by custom logic to resource image object<br/>
-    /// Example: image 'src' in the html is relative - the overwrite intercepts the load and provide full source URL to load the image from<br/>
-    /// Example: image download requires authentication - the overwrite intercepts the load, downloads the image to disk using custom code and provide 
-    /// file path to load the image from.<br/>
-    /// If no alternative data is provided the original source will be used.<br/>
-    /// </para>
+    /// </para> 
+      
     /// <para>
     /// <b>Refresh event:</b><br/>
     /// Raised when html renderer requires refresh of the control hosting (invalidation and re-layout).<br/>
@@ -79,13 +57,16 @@ namespace HtmlRenderer
     /// Raised when an error occurred during html rendering.<br/>
     /// </para>
     /// </remarks>
-    public abstract class HtmlContainer :  IDisposable
+    public abstract class HtmlContainer : IDisposable
     {
+
+
         #region Fields and Consts
         /// <summary>
         /// the root css box of the parsed html
         /// </summary>
         private CssBox _rootBox;
+
         /// <summary>
         /// the text fore color use for selected text
         /// </summary>
@@ -95,22 +76,6 @@ namespace HtmlRenderer
         /// the backcolor to use for selected text
         /// </summary>
         private Color _selectionBackColor;
-
-        /// <summary>
-        /// the parsed stylesheet data used for handling the html
-        /// </summary>
-        private WebDom.CssActiveSheet _cssData;
-
-        /// <summary>
-        /// Is content selection is enabled for the rendered html (default - true).<br/>
-        /// If set to 'false' the rendered html will be static only with ability to click on links.
-        /// </summary>
-        private bool _isSelectionEnabled = true;
-
-        /// <summary>
-        /// Is the build-in context menu enabled (default - true)
-        /// </summary>
-        private bool _isContextMenuEnabled = true;
 
         /// <summary>
         /// Gets or sets a value indicating if antialiasing should be avoided 
@@ -154,51 +119,46 @@ namespace HtmlRenderer
         /// </summary>
 
         float _actualWidth;
-        float _actualHeight;
-        SelectionRange selRange;
-        #endregion
-
-
-
+        float _actualHeight; 
+        #endregion 
         /// <summary>
         /// 99999
         /// </summary>
-        const int MAX_WIDTH = 99999;
-
-
-
+        const int MAX_WIDTH = 99999; 
+        //-----------------------------------------------------------
+        //controll task of this container
+        System.Timers.Timer timTask = new System.Timers.Timer();
+        List<ImageBinder> requestImageBinderUpdates = new List<ImageBinder>();
+        //-----------------------------------------------------------
+         
         public HtmlContainer()
         {
-
+            timTask.Interval = 20;//20 ms task
+            timTask.Elapsed += new System.Timers.ElapsedEventHandler(timTask_Elapsed);
+            timTask.Enabled = true;
         }
 
+#if DEBUG
+        static int dd = 0;
+#endif
 
-        /// <summary>
-        /// the parsed stylesheet data used for handling the html
-        /// </summary>
-        public WebDom.CssActiveSheet CssData
+        void timTask_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            get { return _cssData; }
-        }
-
-
-        public HtmlRenderer.Boxes.SelectionRange SelectionRange
+            if (requestImageBinderUpdates.Count > 0)
+            {
+                requestImageBinderUpdates.Clear();
+                this.RequestRefresh(false); 
+#if DEBUG
+                dd++;
+                //Console.WriteLine(dd);
+#endif
+            }
+        } 
+        public void AddRequestImageBinderUpdate(ImageBinder binder)
         {
-            get
-            {
-                return this.selRange;
-            }
-            set
-            {
-                if (this.selRange != null)
-                {
-                    //1. 
-                    this.selRange.ClearSelectionStatus();
-                }
-                this.selRange = value;
-
-            }
+            this.requestImageBinderUpdates.Add(binder);
         }
+
 
         /// <summary>
         /// Gets or sets a value indicating if anti-aliasing should be avoided for geometry like backgrounds and borders (default - false).
@@ -327,13 +287,7 @@ namespace HtmlRenderer
             }
         }
 
-        /// <summary>
-        /// the root css box of the parsed html
-        /// </summary>
-        internal CssBox Root
-        {
-            get { return _rootBox; }
-        }
+       
         /// <summary>
         /// the text fore color use for selected text
         /// </summary>
@@ -352,34 +306,12 @@ namespace HtmlRenderer
             set { _selectionBackColor = value; }
         }
 
-        ///// <summary>
-        ///// Init with optional document and stylesheet.
-        ///// </summary>
-        ///// <param name="htmlSource">the html to init with, init empty if not given</param>
-        ///// <param name="baseCssData">optional: the stylesheet to init with, init default if not given</param>
-        //public void SetHtml(string htmlSource, WebDom.CssActiveSheet baseCssData = null)
-        //{
 
-        //    if (_rootBox != null)
-        //    {
-        //        _rootBox = null;
-        //        //---------------------------
-        //        this.OnRootDisposed();
-        //    }
-
-        //    if (!string.IsNullOrEmpty(htmlSource))
-        //    {
-
-        //        _cssData = baseCssData ?? CssUtils.DefaultCssData;
-        //        _rootBox = HtmlRenderer.Composers.BoxModelBuilder.ParseAndBuildBoxTree(htmlSource, this, _cssData);
-
-        //        if (_rootBox != null)
-        //        {
-        //            this.OnRootCreated(_rootBox);
-        //        }
-        //    }
-        //}
-        public void SetHtml(CssBox rootBox, WebDom.CssActiveSheet baseCssData)
+        public CssBox GetRootCssBox()
+        {
+            return this._rootBox;
+        }
+        public void SetRootCssBox(CssBox rootBox)
         {
 
             if (_rootBox != null)
@@ -388,23 +320,12 @@ namespace HtmlRenderer
                 //---------------------------
                 this.OnRootDisposed();
             }
-            _cssData = baseCssData;
             _rootBox = rootBox;
             if (rootBox != null)
             {
                 this.OnRootCreated(_rootBox);
             }
-            //if (!string.IsNullOrEmpty(htmlSource))
-            //{
 
-            //    _cssData = baseCssData;
-            //    _rootBox = HtmlRenderer.Composers.BoxModelBuilder.ParseAndBuildBoxTree(htmlSource, this, _cssData);
-
-            //    if (_rootBox != null)
-            //    {
-            //        this.OnRootCreated(_rootBox);
-            //    }
-            //}
         }
         protected virtual void OnRootDisposed()
         {
@@ -446,24 +367,7 @@ namespace HtmlRenderer
         //}
 
 
-
-        /// <summary>
-        /// Get the rectangle of html element as calculated by html layout.<br/>
-        /// Element if found by id (id attribute on the html element).<br/>
-        /// Note: to get the screen rectangle you need to adjust by the hosting control.<br/>
-        /// </summary>
-        /// <param name="elementId">the id of the element to get its rectangle</param>
-        /// <returns>the rectangle of the element or null if not found</returns>
-        public RectangleF? GetElementRectangle(string elementId)
-        {
-            //2014-04-27
-            throw new NotSupportedException();
-            //temp remove ,
-            //
-            //ArgChecker.AssertArgNotNullOrEmpty(elementId, "elementId");
-            //var box = DomUtils.GetBoxById(_root, elementId.ToLower());
-            //return box != null ? CommonUtils.GetFirstValueOrDefault(box.Rectangles, box.Bounds) : (RectangleF?)null;
-        }
+ 
         public void PerformLayout(IGraphics ig)
         {
 
@@ -473,8 +377,7 @@ namespace HtmlRenderer
             }
             //----------------------- 
             _actualWidth = _actualHeight = 0;
-            // if width is not restricted we set it to large value to get the actual later             
-
+            // if width is not restricted we set it to large value to get the actual later    
             _rootBox.SetLocation(_location.X, _location.Y);
             _rootBox.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
 
@@ -489,11 +392,11 @@ namespace HtmlRenderer
             {
                 // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
 
-
                 _rootBox.SetWidth((int)Math.Ceiling(this._actualWidth));
                 _actualWidth = _actualHeight = 0;
                 _rootBox.PerformLayout(layoutArgs);
             }
+
             layoutArgs.PopContainingBlock();
 
         }
@@ -555,163 +458,26 @@ namespace HtmlRenderer
                 out stylesheetData);
 
         }
+
         protected abstract void OnRequestStyleSheet(string hrefSource,
             out string stylesheet,
             out WebDom.CssActiveSheet stylesheetData);
 
-        
-
-
-
-        ///// <summary>
-        ///// request style sheet
-        ///// </summary>
-        ///// <param name="hrefSource"></param>
-        ///// <param name="stylesheet"></param>
-        ///// <param name="stylesheetData"></param>
-        //internal void RequestStyleSheet(string hrefSource,
-        //    out string stylesheet,
-        //    out WebDom.CssActiveSheet stylesheetData)
-        //{
-        //    if (hrefSource == null)
-        //    {
-        //        return;
-        //    }
-        //    //--------------------------------------------------
-
-
-
-        //    StylesheetLoadHandler.LoadStylesheet(container,
-        //        bridgeElement.GetAttributeValue("href", string.Empty),  //load style sheet from external ?
-        //        out stylesheet, out stylesheetData);
-
-        //    stylesheet = null;
-        //    stylesheetData = null;
-
-        //    var args = new HtmlStylesheetLoadEventArgs(src);
-        //    htmlContainer.RaiseHtmlStylesheetLoadEvent(args);
-
-        //    if (!string.IsNullOrEmpty(args.SetStyleSheet))
-        //    {
-        //        stylesheet = args.SetStyleSheet;
-        //    }
-        //    else if (args.SetStyleSheetData != null)
-        //    {
-        //        stylesheetData = args.SetStyleSheetData;
-        //    }
-        //    else if (args.SetSrc != null)
-        //    {
-        //        stylesheet = LoadStylesheet(htmlContainer, args.SetSrc);
-        //    }
-        //    else
-        //    {
-        //        stylesheet = LoadStylesheet(htmlContainer, src);
-        //    }
-        //}
-        ///// <summary>
-        ///// Raise the stylesheet load event with the given event args.
-        ///// </summary>
-        ///// <param name="args">the event args</param>
-        //internal void RaiseHtmlStylesheetLoadEvent(HtmlStylesheetLoadEventArgs args)
-        //{
-        //    //request for a resource
-
-        //    try
-        //    {
-        //        if (StylesheetLoadingRequest != null)
-        //        {
-        //            StylesheetLoadingRequest(this, args);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ReportError(HtmlRenderErrorType.CssParsing, "Failed stylesheet load event", ex);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Raise the image load event with the given event args.
-        ///// </summary>
-        ///// <param name="args">the event args</param>
-        //void RaiseHtmlImageLoadEvent(HtmlImageLoadEventArgs args)
-        //{
-        //    try
-        //    {
-        //        if (ImageLoadingRequest != null)
-        //        {
-        //            ImageLoadingRequest(this, args);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ReportError(HtmlRenderErrorType.Image, "Failed image load event", ex);
-        //    }
-        //}
+        //------------------------------------------------------------------
         protected abstract void OnRequestImage(ImageBinder binder,
             CssBox requestBox, bool _sync);
-        //{
-        //    //version 1: sync ***
-        //    var htmlImageRequest = new HtmlImageRequestEventArgs(binder);
-
-        //    if (this.ImageLoadingRequest != null)
-        //    {
-        //        this.ImageLoadingRequest(this, htmlImageRequest);
-        //        if (readyCallBack != null)
-        //        {
-        //            readyCallBack();
-        //        }
-        //    }
-
-        //    ////send 
-        //    ////if load manager can't handle normal requst then  raise event out     
-        //    //HtmlImageLoadEventArgs args = new HtmlImageLoadEventArgs(binder.ImageSource, requestBox.HtmlTag,
-        //    //    (string path, Image image, Rectangle imageRectangle) =>
-        //    //    {
-        //    //        if (image != null)
-        //    //        {
-        //    //            //found
-        //    //            binder.SetImage(image);
-        //    //            if (readyCallBack != null)
-        //    //            {
-        //    //                readyCallBack();
-        //    //            }
-        //    //        }
-        //    //    });
-
-
-
-        //    //RaiseHtmlImageLoadEvent(args);
-        //}
         internal static void RaiseRequestImage(HtmlContainer container,
             ImageBinder binder,
             CssBox requestBox,
             bool _sync)
         {
-
             container.OnRequestImage(binder, requestBox, false);
         }
-
+        //------------------------------------------------------------------
 
         protected abstract void RequestRefresh(bool layout);
 
-        ///// <summary>
-        ///// Request invalidation and re-layout of the control hosting the renderer.
-        ///// </summary>
-        ///// <param name="layout">is re-layout is required for the refresh</param>
-        //internal void RequestRefresh(bool layout)
-        //{
-        //    try
-        //    {
-        //        if (Refresh != null)
-        //        {
-        //            Refresh(this, new HtmlRefreshEventArgs(layout));
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ReportError(HtmlRenderErrorType.General, "Failed refresh request", ex);
-        //    }
-        //}
+
 
         /// <summary>
         /// Report error in html render process.
@@ -788,7 +554,7 @@ namespace HtmlRenderer
                     //ImageLoadingRequest = null;
                 }
 
-                _cssData = null;
+
                 if (_rootBox != null)
                 {
 

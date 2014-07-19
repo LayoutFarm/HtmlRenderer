@@ -16,7 +16,8 @@ namespace HtmlRenderer.Composers
         HtmlElement rootNode;
         public BridgeHtmlDocument()
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
-        {
+        {   
+            //default root
             rootNode = new BrigeRootElement(this);
         }
         public override HtmlElement RootNode
@@ -140,6 +141,9 @@ namespace HtmlRenderer.Composers
     {
         CssBox principalBox;
         Css.BoxSpec boxSpec;
+
+        bool hasMyOwnCssBoxFactory;
+
         public BridgeHtmlElement(BridgeHtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
@@ -185,10 +189,16 @@ namespace HtmlRenderer.Composers
         {
             return this.principalBox;
         }
-        internal void SetPrinicalBox(CssBox box)
+
+        internal void SetPrincipalBox(CssBox box)
         {
             this.principalBox = box;
         }
+        internal static CssBox InternalGetPrincipalBox(BridgeHtmlElement element)
+        {
+            return element.principalBox;
+        }
+
         //------------------------------------
     }
 

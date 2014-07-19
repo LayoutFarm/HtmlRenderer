@@ -15,7 +15,7 @@
 
 using System;
 
-namespace HtmlRenderer.Diagnostics
+namespace HtmlRenderer.WebDom
 {
     /// <summary>
     /// Exception thrown when client code subscribed to LinkClicked event throwed exception.

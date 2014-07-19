@@ -68,17 +68,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoList\Demo03_DynamicContent1.cs" />
+    <Compile Include="DemoList\Demo02_CreateHtmlDomStyle2.cs" />
+    <Compile Include="DemoList\DemoBase.cs" />
     <Compile Include="DevForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DevForm.Designer.cs">
       <DependentUpon>DevForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PerfForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PerfForm.Designer.cs">
-      <DependentUpon>PerfForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DemoForm.cs">
       <SubType>Form</SubType>
@@ -86,14 +83,12 @@
     <Compile Include="DemoForm.Designer.cs">
       <DependentUpon>DemoForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="HtmlDomExtension\HtmlDomExtension.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DemoList\Demo01_CreateHtmlDomStyle1.cs" />
     <EmbeddedResource Include="DevForm.resx">
       <DependentUpon>DevForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PerfForm.resx">
-      <DependentUpon>PerfForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="DemoForm.resx">
       <SubType>Designer</SubType>
@@ -108,12 +103,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="SampleForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SampleForm.Designer.cs">
-      <DependentUpon>SampleForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SyntaxHilight.cs" />
   </ItemGroup>
@@ -153,12 +142,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\web_pallete.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SampleForm.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>SampleForm.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\image32.png" />

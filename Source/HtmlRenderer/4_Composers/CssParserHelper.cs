@@ -24,7 +24,7 @@ namespace HtmlRenderer.Composers
     /// <summary>
     /// Parser to parse CSS stylesheet source string into CSS objects.
     /// </summary>
-    public static class CssParser
+    public static class CssParserHelper
     {
 
         /// <summary>
@@ -38,7 +38,9 @@ namespace HtmlRenderer.Composers
         /// <param name="stylesheet">raw css stylesheet to parse</param>
         /// <param name="combineWithDefault">true - combine the parsed css data with default css data, false - return only the parsed css data</param>
         /// <returns>the CSS data with parsed CSS objects (never null)</returns>
-        public static WebDom.CssActiveSheet ParseStyleSheet(string stylesheet, bool combineWithDefault)
+        public static WebDom.CssActiveSheet ParseStyleSheet(
+            string stylesheet,
+            bool combineWithDefault)
         {
             var cssData = combineWithDefault ?
                 CssDefaults.DefaultCssData.Clone(new object()) : new WebDom.CssActiveSheet();
@@ -60,7 +62,7 @@ namespace HtmlRenderer.Composers
         /// </summary>
         /// <param name="cssData">the CSS data to fill with parsed CSS objects</param>
         /// <param name="cssTextSource">raw css stylesheet to parse</param>
-        public static void ParseStyleSheet(WebDom.CssActiveSheet cssData, string cssTextSource)
+        internal static void ParseStyleSheet(WebDom.CssActiveSheet cssData, string cssTextSource)
         {
             if (!String.IsNullOrEmpty(cssTextSource))
             {
@@ -68,8 +70,6 @@ namespace HtmlRenderer.Composers
                 parser.ParseCssStyleSheet(cssTextSource.ToCharArray());
                 //-----------------------------------
                 WebDom.CssDocument cssDoc = parser.OutputCssDocument;
-
-
                 WebDom.CssActiveSheet cssActiveDoc = new WebDom.CssActiveSheet();
                 cssActiveDoc.LoadCssDoc(cssDoc);
 
@@ -85,54 +85,6 @@ namespace HtmlRenderer.Composers
             }
         }
 
-        /// <summary>
-        /// Parse a complex font family css property to check if it contains multiple fonts and if the font exists.<br/>
-        /// returns the font family name to use or 'inherit' if failed.
-        /// </summary>
-        /// <param name="value">the font-family value to parse</param>
-        /// <returns>parsed font-family value</returns>
-        public static string ParseFontFamily(string value)
-        {
-            return ParseFontFamilyProperty(value);
-        }
-         
-        /// <summary>
-        /// Parse a complex font family css property to check if it contains multiple fonts and if the font exists.<br/>
-        /// returns the font family name to use or 'inherit' if failed.
-        /// </summary>
-        /// <param name="propValue">the value of the property to parse</param>
-        /// <returns>parsed font-family value</returns>
-        static string ParseFontFamilyProperty(string propValue)
-        {
-            int start = 0;
-            while (start > -1 && start < propValue.Length)
-            {
-                while (char.IsWhiteSpace(propValue[start]) || propValue[start] == ',' || propValue[start] == '\'' || propValue[start] == '"')
-                    start++;
-                var end = propValue.IndexOf(',', start);
-                if (end < 0)
-                    end = propValue.Length;
-                var adjEnd = end - 1;
-                while (char.IsWhiteSpace(propValue[adjEnd]) || propValue[adjEnd] == '\'' || propValue[adjEnd] == '"')
-                    adjEnd--;
-
-                var font = propValue.Substring(start, adjEnd - start + 1);
-                return font;
-
-                //if not found this font
-                //wait for another technique
-                throw new NotSupportedException();
-
-                //if (FontsUtils.IsFontExists(font))
-                //{
-                //    return font;
-                //}
-
-                start = end;
-            }
-
-            return CssConstants.Inherit;
-        }
 
 
 

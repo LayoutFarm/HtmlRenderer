@@ -28,10 +28,15 @@ namespace HtmlRenderer.Boxes
         public void dbugPaint(PaintVisitor p, RectangleF r)
         {
             //return; 
-            var htmlE = CssBox.debugGetController(this);
+            var htmlE = CssBox.UnsafeGetController(this);
             if (htmlE == null)
             {
                 //anonymous box
+                //Font f = new Font("tahoma", 10);
+                //p.Gfx.DrawString(this.__aa_dbugId.ToString(), f, System.Drawing.Color.Black,
+                //     new PointF(r.Left + 10, r.Top + 10), new SizeF(r.Width, r.Height));
+                //f.Dispose();
+
                 p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);
             }
             else
@@ -43,9 +48,9 @@ namespace HtmlRenderer.Boxes
                     case Css.CssDisplay.TableCell:
                         selectedPens = Pens.OrangeRed;
                         break;
-                    case Css.CssDisplay.BlockInsideInlineAfterCorrection:
-                        selectedPens = Pens.Magenta;
-                        break;
+                    //case Css.CssDisplay.BlockInsideInlineAfterCorrection:
+                    //    selectedPens = Pens.Magenta;
+                    //    break;
                     default:
                         selectedPens = Pens.Green;
                         break;
@@ -68,7 +73,7 @@ namespace HtmlRenderer.Boxes
                 bool hasPrevClip = false;
                 RectangleF prevClip = RectangleF.Empty;
 
-                if (this._isHiddenOverflow)
+                if (this._myspec.Overflow == Css.CssOverflow.Hidden)
                 {
                     var expectedW = this.ExpectedWidth;
                     var expectedH = this.ExpectedHeight;
@@ -157,15 +162,20 @@ namespace HtmlRenderer.Boxes
                         float ox = g.CanvasOriginX;
                         float oy = g.CanvasOriginY;
 
-                        foreach (var b in this._aa_boxes)
+                        var node = this._aa_boxes.GetFirstLinkedNode();
+                        while (node != null)
                         {
+                            CssBox b = node.Value;
                             if (b.CssDisplay == Css.CssDisplay.None)
                             {
+                                node = node.Next;
                                 continue;
                             }
                             g.SetCanvasOrigin(ox + b.LocalX, oy + b.LocalY);
                             b.Paint(g, p);
+                            node = node.Next;
                         }
+
 
                         g.SetCanvasOrigin(ox, oy);
 
@@ -178,15 +188,20 @@ namespace HtmlRenderer.Boxes
                         float ox = g.CanvasOriginX;
                         float oy = g.CanvasOriginY;
 
-                        foreach (var b in this._aa_boxes)
+                        var node = this._aa_boxes.GetFirstLinkedNode();
+                        while (node != null)
                         {
+                            CssBox b = node.Value;
                             if (b.CssDisplay == Css.CssDisplay.None)
                             {
+                                node = node.Next;
                                 continue;
                             }
                             g.SetCanvasOrigin(ox + b.LocalX, oy + b.LocalY);
                             b.Paint(g, p);
+                            node = node.Next;
                         }
+                         
                         g.SetCanvasOrigin(ox, oy);
 
                     }

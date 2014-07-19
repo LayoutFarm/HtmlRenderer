@@ -26,23 +26,11 @@ namespace HtmlRenderer.Boxes
     sealed class CssBoxImage : CssBox
     {
         #region Fields and Consts
-
         /// <summary>
         /// the image word of this image box
         /// </summary>
-        private readonly CssImageRun _imageWord;
-
-        /////// <summary>
-        /////// handler used for image loading by source
-        /////// </summary>
-        //private ImageLoadHandler _imageLoadHandler;
-
+        readonly CssImageRun _imageWord;
         ImageBinder _imgBinder;
-        /// <summary>
-        /// is image load is finished, used to know if no image is found
-        /// </summary>
-        private bool _imageLoadingComplete;
-
         #endregion
 
         /// <summary>
@@ -65,7 +53,7 @@ namespace HtmlRenderer.Boxes
         /// </summary>
         public Image Image
         {
-            get { return _imageWord.Image; }
+            get { return this._imgBinder.Image; }
         }
         //void OnImageBinderLoadingComplete()
         //{
@@ -101,21 +89,13 @@ namespace HtmlRenderer.Boxes
         internal void PaintImage(IGraphics g, RectangleF rect, PaintVisitor p)
         {
 
-            //if (_imgBinder == null)
-            //{
-            //    _imgBinder = new ImageBinder(GetAttribute("src"));
-            //}
-
-            //p.PushLocalClipArea(rect.Width, rect.Height);
-
             PaintBackground(p, rect, true, true);
 
             if (this.HasSomeVisibleBorder)
             {
                 p.PaintBorders(this, rect, true, true);
             }
-
-
+            //--------------------------------------------------------- 
             RectangleF r = _imageWord.Rectangle;
 
             r.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
@@ -123,35 +103,47 @@ namespace HtmlRenderer.Boxes
             r.X = (float)Math.Floor(r.X);
             r.Y = (float)Math.Floor(r.Y);
 
+            bool tryLoadOnce = false;
+
+        EVAL_STATE:
             switch (_imgBinder.State)
             {
                 case ImageBinderState.Unload:
                     {
-
-                        p.RequestImage(_imgBinder, this);
-
-                        RenderUtils.DrawImageErrorIcon(g, r);
+                        //async request image
+                        if (!tryLoadOnce)
+                        {
+                            _imageWord.ImageBinder = this._imgBinder;
+                            p.RequestImageAsync(_imgBinder, this._imageWord, this);
+                            //retry again
+                            tryLoadOnce = true;
+                            goto EVAL_STATE;
+                        }
+                    } break;
+                case ImageBinderState.Loading:
+                    {
+                        //RenderUtils.DrawImageLoadingIcon(g, r);
                     } break;
                 case ImageBinderState.Loaded:
                     {
 
-                        if (_imageWord.Image != null)
+                        System.Drawing.Image img;
+                        if ((img = _imgBinder.Image) != null)
                         {
+
                             if (_imageWord.ImageRectangle == Rectangle.Empty)
                             {
-                                g.DrawImage(_imageWord.Image, Rectangle.Round(r));
+                                g.DrawImage(img,
+                                    new RectangleF(r.Left, r.Top,
+                                        img.Width, img.Height));
+
+                               // g.DrawImage(img, Rectangle.Round(r));
                             }
                             else
                             {
-
-                                g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
-                            }
-                        }
-                        else if (_imageLoadingComplete)
-                        {
-                            if (_imageLoadingComplete && r.Width > 19 && r.Height > 19)
-                            {
-                                RenderUtils.DrawImageErrorIcon(g, r);
+                                //
+                                g.DrawImage(img, _imageWord.ImageRectangle);
+                                //g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
                             }
                         }
                         else
@@ -170,7 +162,6 @@ namespace HtmlRenderer.Boxes
                 case ImageBinderState.Error:
                     {
                         RenderUtils.DrawImageErrorIcon(g, r);
-
                     } break;
             }
 
@@ -195,21 +186,11 @@ namespace HtmlRenderer.Boxes
         internal override void MeasureRunsSize(LayoutVisitor lay)
         {
             if (!this.RunSizeMeasurePass)
-            {
-
-                //if (_imgBinder == null && lay.AvoidImageAsyncLoadOrLateBind)
-                //{
-                //    _imgBinder = new ImageBinder(GetAttribute("src"));
-                //    lay.RequestImage(_imgBinder, this, OnImageBinderLoadingComplete);
-                //}
-
-                MeasureWordSpacing(lay);
+            {   
                 this.RunSizeMeasurePass = true;
             }
             CssLayoutEngine.MeasureImageSize(_imageWord, lay);
-        }
-
-
+        } 
         #region Private methods
 
         ///// <summary>

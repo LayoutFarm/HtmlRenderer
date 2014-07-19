@@ -37,6 +37,12 @@ namespace HtmlRenderer.WebDom
                 uniqueStringTable.AddStringIfNotExist(localName));
         }
         public abstract HtmlElement CreateElement(string prefix, string localName);
+
+        public HtmlElement CreateElement(string localName)
+        {
+            return this.CreateElement(null, localName);
+        }
+
         public HtmlComment CreateComent()
         {
             return new HtmlComment(this);

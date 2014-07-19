@@ -1,4 +1,4 @@
-﻿ //BSD 2014, WinterDev 
+﻿//BSD 2014, WinterDev 
 //ArthurHub
 
 // "Therefore those skilled at the unorthodox
@@ -14,7 +14,7 @@
 // "The Art of War"
 
 using System;
-using System.Drawing; 
+using System.Drawing;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.Css;
 using HtmlRenderer.Boxes;
@@ -47,7 +47,7 @@ namespace HtmlRenderer.Composers
             CssCodeValueExpression cssValue = decl.GetPropertyValue(0);
             switch (decl.WellknownPropertyName)
             {
-                case WellknownCssPropertyName.Display: 
+                case WellknownCssPropertyName.Display:
                     spec.CssDisplay = UserMapUtil.GetDisplayType(cssValue);
                     break;
                 //------------------------------------------------
@@ -159,7 +159,7 @@ namespace HtmlRenderer.Composers
                     spec.BackgroundColor = cssValue.AsColor();
                     break;
                 case WellknownCssPropertyName.BackgroundImage:
-                    spec.BackgroundImageBinder = new Drawing.ImageBinder(cssValue.GetTranslatedStringValue());
+                    spec.BackgroundImageBinder = new BridgeImageBinder(cssValue.GetTranslatedStringValue());
                     break;
                 case WellknownCssPropertyName.BackgroundPosition:
 

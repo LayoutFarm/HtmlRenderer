@@ -276,7 +276,7 @@ namespace HtmlRenderer.Boxes
             }
             if (maxRun != null)
             {
-                var fontInfo = lay.GetFontInfo(maxRun.OwnerBox.ActualFont); 
+                var fontInfo = lay.GetFontInfo(maxRun.OwnerBox.ActualFont);
                 return fontInfo.BaseLine;
             }
             return 0;
@@ -501,7 +501,7 @@ namespace HtmlRenderer.Boxes
 
         internal void dbugPaintRuns(HtmlRenderer.Drawing.IGraphics g, PaintVisitor p)
         {
-             
+
             //return;
             //linebox  
             float x1 = 0;
@@ -569,11 +569,11 @@ namespace HtmlRenderer.Boxes
                 CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
                 stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);
 
-                if (stripOwner.CssDisplay != Css.CssDisplay.TableCell
-                    && stripOwner.HasSomeVisibleBorder)
-                {
-                    p.PaintBorders(stripOwner, stripArea, isFirstLine, isLastLine);
-                }
+                //if (stripOwner.CssDisplay != Css.CssDisplay.TableCell
+                //    && stripOwner.HasSomeVisibleBorder)
+                //{
+                //    p.PaintBorders(stripOwner, stripArea, isFirstLine, isLastLine);
+                //}
 
             }
         }
@@ -670,6 +670,23 @@ namespace HtmlRenderer.Boxes
         {
             get { return this.linkedNode.Next == null; }
         }
-        //---------------------------------
+        //--------------------------------- 
+        internal CssRun FindMaxWidthRun(float minimum)
+        {
+            float max = minimum;
+            CssRun maxRun = null;
+            for (int i = this._runs.Count - 1; i >= 0; --i)
+            {
+                var r = _runs[i];
+                if (r.Width > max)
+                {
+                    max = r.Width;
+                    maxRun = r;
+                }
+            }
+            return maxRun;
+
+        }
+
     }
 }

@@ -21,17 +21,11 @@ namespace HtmlRenderer.Boxes
     internal sealed class CssImageRun : CssRun
     {
 
-        /// <summary>
-        /// the image object if it is image word (can be null if not loaded)
-        /// </summary>
-        private Image _image;
-
+        HtmlRenderer.Drawing.ImageBinder imgBinder;
         /// <summary>
         /// the image rectange restriction as returned from image load event
         /// </summary>
-        private Rectangle _imageRectangle;
-       
-
+        Rectangle _imageRectangle;
         /// <summary>
         /// Creates a new BoxWord which represents an image
         /// </summary>
@@ -39,22 +33,58 @@ namespace HtmlRenderer.Boxes
         public CssImageRun()
             : base(CssRunKind.Image)
         {
-           
         }
-        //public CssBoxImage BoxImage
-        //{
-        //    get { return this.boxImage; }
-        //}
-
         /// <summary>
         /// Gets the image this words represents (if one exists)
         /// </summary>
-        public override Image Image
+        Image Image
         {
-            get { return _image; }
-            set { _image = value; }
+            get
+            {
+                if (this.imgBinder != null)
+                {
+                    return imgBinder.Image;
+                }
+                return null;
+            }
+        }
+        public int OriginalImageWidth
+        {
+            get
+            {
+                var img = this.Image;
+                if (img != null)
+                {
+                    return img.Width;
+                }
+                return 1; //default image width
+            }
+        }
+        public int OriginalImageHeight
+        {
+            get
+            {
+                var img = this.Image;
+                if (img != null)
+                {
+                    return img.Height;
+                }
+                return 1; //default image width
+            }
+        }
+        public bool HasUserImageContent
+        {
+            get
+            {
+                return this.Image != null;
+            }
         }
 
+        public HtmlRenderer.Drawing.ImageBinder ImageBinder
+        {
+            get { return this.imgBinder; }
+            set { this.imgBinder = value; }
+        }
         /// <summary>
         /// the image rectange restriction as returned from image load event
         /// </summary>
@@ -64,6 +94,8 @@ namespace HtmlRenderer.Boxes
             set { _imageRectangle = value; }
         }
 
+
+#if DEBUG
         /// <summary>
         /// Represents this word for debugging purposes
         /// </summary>
@@ -72,5 +104,6 @@ namespace HtmlRenderer.Boxes
         {
             return "Image";
         }
+#endif
     }
 }

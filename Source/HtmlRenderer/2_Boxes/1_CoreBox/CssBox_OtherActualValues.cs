@@ -55,19 +55,7 @@ namespace HtmlRenderer.Boxes
         {
             get { return _actualWordSpacing; }
         }
-        protected float MeasureWordSpacing(LayoutVisitor lay)
-        {
-            if ((this._prop_pass_eval & CssBoxAssignments.WORD_SPACING) == 0)
-            {
-                this._prop_pass_eval |= CssBoxAssignments.WORD_SPACING;
-                _actualWordSpacing = lay.MeasureWhiteSpace(this);
-                if (!this.WordSpacing.IsNormalWordSpacing)
-                {
-                    _actualWordSpacing += CssValueParser.ConvertToPx(this.WordSpacing, 1, this);
-                }
-            }
-            return this._actualWordSpacing;
-        }
+
         /// <summary>
         /// Gets the actual horizontal border spacing for tables
         /// </summary>
@@ -75,11 +63,6 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                if ((this._prop_pass_eval & CssBoxAssignments.BORDER_SPACING_H) == 0)
-                {
-                    this._prop_pass_eval |= CssBoxAssignments.BORDER_SPACING_H;
-                    _actualBorderSpacingHorizontal = this.BorderSpacingHorizontal.Number;
-                }
                 return _actualBorderSpacingHorizontal;
             }
         }
@@ -91,11 +74,6 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                if ((this._prop_pass_eval & CssBoxAssignments.BORDER_SPACING_V) == 0)
-                {
-                    this._prop_pass_eval |= CssBoxAssignments.BORDER_SPACING_V;
-                    _actualBorderSpacingVertical = this.BorderSpacingVertical.Number;
-                }
 
                 return _actualBorderSpacingVertical;
             }
@@ -136,33 +114,34 @@ namespace HtmlRenderer.Boxes
         }
         internal static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
-             
 
-            if (!box._fixDisplayType)
+            if ((box._boxCompactFlags & BoxFlags.FIXED_DISPLAY_TYPE) == 0)
             {
                 box._cssDisplay = newdisplay;
             }
+            
 
             box.IsInline = ((newdisplay == CssDisplay.Inline ||
                     newdisplay == CssDisplay.InlineBlock)
                     && !box.IsBrElement);
             //---------------------------
+            
             box._isVisible = box._cssDisplay != CssDisplay.None && box._myspec.Visibility == CssVisibility.Visible;
             //-------------------------
             //check containing property 
             //-------------------------
             switch (newdisplay)
             {
-                case CssDisplay.BlockInsideInlineAfterCorrection:
+                //case CssDisplay.BlockInsideInlineAfterCorrection:
                 case CssDisplay.Block:
                 case CssDisplay.ListItem:
                 case CssDisplay.Table:
                 case CssDisplay.TableCell:
-                    box._boxCompactFlags |= CssBoxFlagsConst.HAS_CONTAINER_PROP;
+                    box._boxCompactFlags |= BoxFlags.HAS_CONTAINER_PROP;
                     break;
                 default:
                     //not container properties 
-                    box._boxCompactFlags &= ~CssBoxFlagsConst.HAS_CONTAINER_PROP;
+                    box._boxCompactFlags &= ~BoxFlags.HAS_CONTAINER_PROP;
                     break;
             }
 
@@ -170,7 +149,7 @@ namespace HtmlRenderer.Boxes
         }
         internal static void SetAsBrBox(CssBox box)
         {
-            box._isBrElement = true;
+            box._boxCompactFlags |= BoxFlags.IS_BR_ELEM;
         }
     }
 }

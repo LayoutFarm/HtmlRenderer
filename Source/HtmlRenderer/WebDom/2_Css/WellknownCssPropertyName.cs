@@ -185,7 +185,12 @@ namespace HtmlRenderer.WebDom
         [Map("page-break-before")]
         PageBreakBefore,
         [Map("page-break-after")]
-        PageBreakAfter
+        PageBreakAfter,
+        
+
+        //----------------------------------
+        [Map("cursor")]
+        Cursor
     }
 
 }

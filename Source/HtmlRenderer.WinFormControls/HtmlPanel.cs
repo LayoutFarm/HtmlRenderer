@@ -14,10 +14,12 @@ using System;
 using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
-using HtmlRenderer.Diagnostics;
+using HtmlRenderer.WebDom;
 
 using HtmlRenderer.Drawing;
 using HtmlRenderer.Css;
+using HtmlRenderer.ContentManagers;
+
 namespace HtmlRenderer
 {
     /// <summary>
@@ -66,6 +68,7 @@ namespace HtmlRenderer
         /// 
         /// </summary>
         private HtmlContainerImpl _htmlContainer;
+        HtmlEventBridge _htmlEventBridge;
 
         /// <summary>
         /// the raw base stylesheet data used in the control
@@ -92,14 +95,17 @@ namespace HtmlRenderer
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
             _htmlContainer = new HtmlContainerImpl();
-            _htmlContainer.LinkClicked += OnLinkClicked;
+            //_htmlContainer.LinkClicked += OnLinkClicked;
             _htmlContainer.RenderError += OnRenderError;
             _htmlContainer.Refresh += OnRefresh;
             _htmlContainer.ScrollChange += OnScrollChange;
-            _htmlContainer.StylesheetLoadingRequest += OnStylesheetLoad;
-            _htmlContainer.ImageLoadingRequest += OnImageLoad;
+            _htmlContainer.TextContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
+            _htmlContainer.ImageContentMan.ImageLoadingRequest += OnImageLoad;
 
-
+            //-------------------------------------------
+            _htmlEventBridge = new HtmlEventBridge();
+            _htmlEventBridge.Bind(_htmlContainer);
+            //-------------------------------------------
         }
 
         /// <summary>
@@ -118,13 +124,13 @@ namespace HtmlRenderer
         /// This event allows to provide the stylesheet manually or provide new source (file or uri) to load from.<br/>
         /// If no alternative data is provided the original source will be used.<br/>
         /// </summary>
-        public event EventHandler<HtmlStylesheetLoadEventArgs> StylesheetLoad;
+        public event EventHandler<StylesheetLoadEventArgs> StylesheetLoad;
 
         /// <summary>
         /// Raised when an image is about to be loaded by file path or URI.<br/>
         /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
         /// </summary>
-        public event EventHandler<HtmlRenderer.Boxes.HtmlImageRequestEventArgs> ImageLoad;
+        public event EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs> ImageLoad;
 
         /// <summary>
         /// Gets or sets a value indicating if anti-aliasing should be avoided for geometry like backgrounds and borders (default - false).
@@ -197,7 +203,7 @@ namespace HtmlRenderer
             set
             {
                 _baseRawCssData = value;
-                _baseCssData = HtmlRenderer.Composers.CssParser.ParseStyleSheet(value, true);
+                _baseCssData = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(value, true);
             }
         }
 
@@ -234,23 +240,30 @@ namespace HtmlRenderer
             }
         }
 
-        /// <summary>
-        /// Get the currently selected text segment in the html.
-        /// </summary>
-        [Browsable(false)]
-        public string SelectedText
+
+
+        public void LoadHtmlDom(HtmlRenderer.WebDom.HtmlDocument doc, string defaultCss)
         {
-            get { return _htmlContainer.SelectedText; }
+            _baseRawCssData = defaultCss;
+            _baseCssData = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(defaultCss, true);
+            _htmlContainer.SetHtml(doc, _baseCssData);
+
+            PerformLayout();
+            Invalidate();
+        }
+        public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.HtmlDocument doc)
+        {   
+           
+            _htmlContainer.RefreshHtmlDomChange(doc, _baseCssData);
+
+            PerformLayout();
+            Invalidate();
+        }
+        public HtmlContainer GetHtmlContainer()
+        {
+            return this._htmlContainer;
         }
 
-        /// <summary>
-        /// Copy the currently selected html segment with style.
-        /// </summary>
-        [Browsable(false)]
-        public string SelectedHtml
-        {
-            get { return _htmlContainer.SelectedHtml; }
-        }
 
         /// <summary>
         /// Get html from the current DOM tree with inline style.
@@ -261,36 +274,25 @@ namespace HtmlRenderer
             return _htmlContainer != null ? _htmlContainer.GetHtml() : null;
         }
 
-        /// <summary>
-        /// Get the rectangle of html element as calculated by html layout.<br/>
-        /// Element if found by id (id attribute on the html element).<br/>
-        /// Note: to get the screen rectangle you need to adjust by the hosting control.<br/>
-        /// </summary>
-        /// <param name="elementId">the id of the element to get its rectangle</param>
-        /// <returns>the rectangle of the element or null if not found</returns>
-        public RectangleF? GetElementRectangle(string elementId)
-        {
-            return _htmlContainer != null ? _htmlContainer.GetElementRectangle(elementId) : null;
-        }
 
-        /// <summary>
-        /// Adjust the scrollbar of the panel on html element by the given id.<br/>
-        /// The top of the html element rectangle will be at the top of the panel, if there
-        /// is not enough height to scroll to the top the scroll will be at maximum.<br/>
-        /// </summary>
-        /// <param name="elementId">the id of the element to scroll to</param>
-        public void ScrollToElement(string elementId)
-        {
-            if (_htmlContainer != null)
-            {
-                var rect = _htmlContainer.GetElementRectangle(elementId);
-                if (rect.HasValue)
-                {
-                    UpdateScroll(Point.Round(rect.Value.Location));
-                    _htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons, 0, MousePosition.X, MousePosition.Y, 0));
-                }
-            }
-        }
+        ///// <summary>
+        ///// Adjust the scrollbar of the panel on html element by the given id.<br/>
+        ///// The top of the html element rectangle will be at the top of the panel, if there
+        ///// is not enough height to scroll to the top the scroll will be at maximum.<br/>
+        ///// </summary>
+        ///// <param name="elementId">the id of the element to scroll to</param>
+        //public void ScrollToElement(string elementId)
+        //{
+        //    if (_htmlContainer != null)
+        //    {
+        //        var rect = _htmlContainer.GetElementRectangle(elementId);
+        //        if (rect.HasValue)
+        //        {
+        //            UpdateScroll(Point.Round(rect.Value.Location));
+        //            _htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons, 0, MousePosition.X, MousePosition.Y, 0));
+        //        }
+        //    }
+        //}
 
         #region Private methods
 
@@ -314,7 +316,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Perform html container layout by the current panel client size.
         /// </summary>
-        private void PerformHtmlLayout()
+        void PerformHtmlLayout()
         {
             if (_htmlContainer != null)
             {
@@ -323,9 +325,7 @@ namespace HtmlRenderer
                 using (var g = CreateGraphics())
                 {
                     _htmlContainer.PerformLayout(g);
-
                 }
-
                 AutoScrollMinSize = Size.Round(_htmlContainer.ActualSize);
             }
         }
@@ -346,8 +346,8 @@ namespace HtmlRenderer
                 _htmlContainer.PerformPaint(e.Graphics);
 
                 // call mouse move to handle paint after scroll or html change affecting mouse cursor.
-                var mp = PointToClient(MousePosition);
-                _htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0));
+                //var mp = PointToClient(MousePosition);
+                //_htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0));
             }
         }
 
@@ -366,8 +366,8 @@ namespace HtmlRenderer
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            if (_htmlContainer != null)
-                _htmlContainer.HandleMouseMove(this, e);
+            _htmlEventBridge.MouseMove(e.X, e.Y, (int)e.Button);
+            this.Invalidate();
         }
 
         /// <summary>
@@ -376,8 +376,10 @@ namespace HtmlRenderer
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            if (_htmlContainer != null)
-                _htmlContainer.HandleMouseLeave(this);
+            _htmlEventBridge.MouseLeave();
+
+            //if (_htmlContainer != null)
+            //    _htmlContainer.HandleMouseLeave(this);
         }
 
         /// <summary>
@@ -386,8 +388,8 @@ namespace HtmlRenderer
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            if (_htmlContainer != null)
-                _htmlContainer.HandleMouseDown(this, e);
+            this._htmlEventBridge.MouseDown(e.X, e.Y, (int)e.Button);
+            this.Invalidate();
         }
 
         /// <summary>
@@ -396,8 +398,8 @@ namespace HtmlRenderer
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseClick(e);
-            if (_htmlContainer != null)
-                _htmlContainer.HandleMouseUp(this, e);
+            this._htmlEventBridge.MouseUp(e.X, e.Y, (int)e.Button);
+            this.Invalidate();
         }
 
         /// <summary>
@@ -406,8 +408,11 @@ namespace HtmlRenderer
         protected override void OnMouseDoubleClick(MouseEventArgs e)
         {
             base.OnMouseDoubleClick(e);
-            if (_htmlContainer != null)
-                _htmlContainer.HandleMouseDoubleClick(this, e);
+
+            this._htmlEventBridge.MouseDoubleClick(e.X, e.Y, (int)e.Button);
+
+            //if (_htmlContainer != null)
+            //    _htmlContainer.HandleMouseDoubleClick(this, e);
         }
 
         /// <summary>
@@ -416,50 +421,53 @@ namespace HtmlRenderer
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
-            if (_htmlContainer != null)
-                _htmlContainer.HandleKeyDown(this, e);
-            if (e.KeyCode == Keys.Up)
-            {
-                VerticalScroll.Value = Math.Max(VerticalScroll.Value - 70, VerticalScroll.Minimum);
-                PerformLayout();
-            }
-            else if (e.KeyCode == Keys.Down)
-            {
-                VerticalScroll.Value = Math.Min(VerticalScroll.Value + 70, VerticalScroll.Maximum);
-                PerformLayout();
-            }
-            else if (e.KeyCode == Keys.PageDown)
-            {
-                VerticalScroll.Value = Math.Min(VerticalScroll.Value + 400, VerticalScroll.Maximum);
-                PerformLayout();
-            }
-            else if (e.KeyCode == Keys.PageUp)
-            {
-                VerticalScroll.Value = Math.Max(VerticalScroll.Value - 400, VerticalScroll.Minimum);
-                PerformLayout();
-            }
-            else if (e.KeyCode == Keys.End)
-            {
-                VerticalScroll.Value = VerticalScroll.Maximum;
-                PerformLayout();
-            }
-            else if (e.KeyCode == Keys.Home)
-            {
-                VerticalScroll.Value = VerticalScroll.Minimum;
-                PerformLayout();
-            }
+
+
+
+            //if (_htmlContainer != null)
+            //    _htmlContainer.HandleKeyDown(this, e);
+            //if (e.KeyCode == Keys.Up)
+            //{
+            //    VerticalScroll.Value = Math.Max(VerticalScroll.Value - 70, VerticalScroll.Minimum);
+            //    PerformLayout();
+            //}
+            //else if (e.KeyCode == Keys.Down)
+            //{
+            //    VerticalScroll.Value = Math.Min(VerticalScroll.Value + 70, VerticalScroll.Maximum);
+            //    PerformLayout();
+            //}
+            //else if (e.KeyCode == Keys.PageDown)
+            //{
+            //    VerticalScroll.Value = Math.Min(VerticalScroll.Value + 400, VerticalScroll.Maximum);
+            //    PerformLayout();
+            //}
+            //else if (e.KeyCode == Keys.PageUp)
+            //{
+            //    VerticalScroll.Value = Math.Max(VerticalScroll.Value - 400, VerticalScroll.Minimum);
+            //    PerformLayout();
+            //}
+            //else if (e.KeyCode == Keys.End)
+            //{
+            //    VerticalScroll.Value = VerticalScroll.Maximum;
+            //    PerformLayout();
+            //}
+            //else if (e.KeyCode == Keys.Home)
+            //{
+            //    VerticalScroll.Value = VerticalScroll.Minimum;
+            //    PerformLayout();
+            //}
         }
 
-        /// <summary>
-        /// Propagate the LinkClicked event from root container.
-        /// </summary>
-        private void OnLinkClicked(object sender, HtmlLinkClickedEventArgs e)
-        {
-            if (LinkClicked != null)
-            {
-                LinkClicked(this, e);
-            }
-        }
+        ///// <summary>
+        ///// Propagate the LinkClicked event from root container.
+        ///// </summary>
+        //private void OnLinkClicked(object sender, HtmlLinkClickedEventArgs e)
+        //{
+        //    if (LinkClicked != null)
+        //    {
+        //        LinkClicked(this, e);
+        //    }
+        //}
 
         /// <summary>
         /// Propagate the Render Error event from root container.
@@ -478,7 +486,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Propagate the stylesheet load event from root container.
         /// </summary>
-        private void OnStylesheetLoad(object sender, HtmlStylesheetLoadEventArgs e)
+        private void OnStylesheetLoad(object sender, StylesheetLoadEventArgs e)
         {
             if (StylesheetLoad != null)
             {
@@ -489,7 +497,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Propagate the image load event from root container.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlRenderer.Boxes.HtmlImageRequestEventArgs e)
+        private void OnImageLoad(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
         {
             if (ImageLoad != null)
             {
@@ -561,12 +569,12 @@ namespace HtmlRenderer
         {
             if (_htmlContainer != null)
             {
-                _htmlContainer.LinkClicked -= OnLinkClicked;
+                //_htmlContainer.LinkClicked -= OnLinkClicked;
                 _htmlContainer.RenderError -= OnRenderError;
                 _htmlContainer.Refresh -= OnRefresh;
                 _htmlContainer.ScrollChange -= OnScrollChange;
-                _htmlContainer.StylesheetLoadingRequest -= OnStylesheetLoad;
-                _htmlContainer.ImageLoadingRequest -= OnImageLoad;
+                _htmlContainer.TextContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
+                _htmlContainer.ImageContentMan.ImageLoadingRequest -= OnImageLoad;
                 _htmlContainer.Dispose();
                 _htmlContainer = null;
             }
