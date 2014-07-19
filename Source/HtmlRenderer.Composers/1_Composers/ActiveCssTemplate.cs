@@ -13,14 +13,11 @@ namespace HtmlRenderer.Composers
     class ActiveCssTemplate
     {
 
-        CssActiveSheet activeSheet; 
-        WebDom.Parser.CssParser miniCssParser; 
+        CssActiveSheet activeSheet;  
         bool isCloneOnce = false;
         public ActiveCssTemplate(CssActiveSheet activeSheet)
         {
-            this.activeSheet = activeSheet;
-            miniCssParser = new WebDom.Parser.CssParser();
-
+            this.activeSheet = activeSheet; 
         }
         public CssActiveSheet ActiveSheet
         {
@@ -54,12 +51,7 @@ namespace HtmlRenderer.Composers
             activeSheet.Combine(anotherActiveSheet);
         }
         //--------------------------------------------------------------------------------------------------       
-        public CssRuleSet ParseCssBlock(string className, string blockSource)
-        {
-            return miniCssParser.ParseCssPropertyDeclarationList(blockSource.ToCharArray());
-        }
-        //--------------------------------------------------------------------------------------------------
-
+       
 
         struct TemplateKey
         {

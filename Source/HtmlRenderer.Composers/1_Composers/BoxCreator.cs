@@ -36,6 +36,9 @@ namespace HtmlRenderer.Composers
             return new CssBoxImage(parent, childElement, childElement.Spec, imgBinder);
         }
 
+
+
+
         internal static CssBox CreateBox(CssBox parentBox, BridgeHtmlElement childElement)
         {
             CssBox newBox = null;
