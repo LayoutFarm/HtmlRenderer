@@ -16,8 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
-using HtmlRenderer.Drawing;
-using HtmlRenderer.WebDom;
+using HtmlRenderer.Drawing; 
 using HtmlRenderer.Diagnostics;
 
 namespace HtmlRenderer.Boxes
