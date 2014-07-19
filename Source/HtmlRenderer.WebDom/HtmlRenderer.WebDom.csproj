@@ -44,6 +44,7 @@
     <Compile Include="4_Composers\ContentTextSplitter.cs" />
     <Compile Include="4_Composers\SpecSetter.cs" />
     <Compile Include="4_Composers\UserMapUtil.cs" />
+    <Compile Include="4_Composers\ValueMaps.cs" />
     <Compile Include="ContentManagers\ImageRequestEventArgs.cs" />
     <Compile Include="ContentManagers\StylesheetLoadEventArgs.cs" />
     <Compile Include="WebDom\CssActiveSheet.cs" />

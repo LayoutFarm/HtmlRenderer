@@ -66,12 +66,12 @@ namespace HtmlRenderer.Composers
                 stylesheetData = null;
                 return;
             }
-            
+
             ContentManagers.StylesheetLoadEventArgs e = new ContentManagers.StylesheetLoadEventArgs(hrefSource);
             RequestStyleSheet(e);
             stylesheet = e.SetStyleSheet;
             stylesheetData = e.SetStyleSheetData;
-             
+
         }
 
         //protected abstract void OnRequestStyleSheet(string hrefSource,
@@ -100,7 +100,7 @@ namespace HtmlRenderer.Composers
                     case WebDom.HtmlNodeType.ShortElement:
                         {
                             BridgeHtmlElement bridgeElement = (BridgeHtmlElement)node;
-                            bridgeElement.WellknownElementName = HtmlNameMapHelper.GetWellknownHtmlName(bridgeElement.LocalName);
+                            bridgeElement.WellknownElementName = UserMapUtil.EvaluateTagName(bridgeElement.LocalName);
                             switch (bridgeElement.WellknownElementName)
                             {
                                 case WellknownElementName.style:

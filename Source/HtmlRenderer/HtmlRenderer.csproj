@@ -125,20 +125,17 @@
     <Compile Include="1_Css\CssUnitOrNames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="2_Boxes\3_Layout\BoxUtils.cs" />
-    <Compile Include="WebDom\1_Html\HtmlDocument.cs" />
-    <Compile Include="WebDom\1_Html\HtmlEvents.cs" />
-    <Compile Include="WebDom\1_Html\HtmlNodes.cs" />
-    <Compile Include="WebDom\1_Html\StringTable.cs" />
-    <Compile Include="WebDom\1_Html\WellknownHtmlName.cs" />
-    <Compile Include="WebDom\2_Css\CssAttributeSelector.cs" />
-    <Compile Include="WebDom\2_Css\CssDocMembers.cs" />
-    <Compile Include="WebDom\2_Css\CssDocument.cs" />
-    <Compile Include="WebDom\2_Css\CssElementSelectors.cs" />
-    <Compile Include="WebDom\2_Css\CssPropertyDeclaration.cs" />
-    <Compile Include="WebDom\2_Css\WellknownCssPropertyName.cs" />
-    <Compile Include="4_Composers\SpecSetter.cs" />
-    <Compile Include="4_Composers\UserMapUtil.cs" />
-    <Compile Include="4_Composers\ValueMaps.cs" />
+    <Compile Include="4_WebDom\1_Html\HtmlDocument.cs" />
+    <Compile Include="4_WebDom\1_Html\HtmlEvents.cs" />
+    <Compile Include="4_WebDom\1_Html\HtmlNodes.cs" />
+    <Compile Include="4_WebDom\1_Html\StringTable.cs" />
+    <Compile Include="4_WebDom\1_Html\WellknownHtmlName.cs" />
+    <Compile Include="4_WebDom\2_Css\CssAttributeSelector.cs" />
+    <Compile Include="4_WebDom\2_Css\CssDocMembers.cs" />
+    <Compile Include="4_WebDom\2_Css\CssDocument.cs" />
+    <Compile Include="4_WebDom\2_Css\CssElementSelectors.cs" />
+    <Compile Include="4_WebDom\2_Css\CssPropertyDeclaration.cs" />
+    <Compile Include="4_WebDom\2_Css\WellknownCssPropertyName.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
