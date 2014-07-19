@@ -11,8 +11,9 @@ using HtmlRenderer.Boxes;
 namespace HtmlRenderer.WebDom
 {
 
-    public class HtmlEventBridge
+    public class HtmlInputEventBridge
     {
+
         //-----------------------------------------------
         HtmlContainer _container;
         BoxHitChain _latestMouseDownHitChain = null;
@@ -20,13 +21,10 @@ namespace HtmlRenderer.WebDom
         int _mousedownY;
         bool _isMouseDown;
         //----------------------------------------------- 
-        SelectionRange _currentSelectionRange = null;
-
-        IGraphics sampleGraphics;
-
-        bool _isBinded;
-
-        public HtmlEventBridge()
+        SelectionRange _currentSelectionRange = null; 
+        IGraphics sampleGraphics; 
+        bool _isBinded; 
+        public HtmlInputEventBridge()
         {
         }
         public void Bind(HtmlContainer container)

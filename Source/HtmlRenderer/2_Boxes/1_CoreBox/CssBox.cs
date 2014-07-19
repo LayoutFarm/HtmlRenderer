@@ -218,24 +218,7 @@ namespace HtmlRenderer.Boxes
         }
 
 
-        public void SetTextBuffer(char[] textBuffer)
-        {
-            //TODO: change to unsafe static 
-            this._buffer = textBuffer;
-        }
-        public void SetContentRuns(List<CssRun> runs, bool isAllWhitespace)
-        {
-            this._aa_contentRuns = runs;
-            if (isAllWhitespace)
-            {
-                this._boxCompactFlags |= BoxFlags.TEXT_IS_ALL_WHITESPACE;
-            }
-            else
-            {
-                this._boxCompactFlags &= ~BoxFlags.TEXT_IS_ALL_WHITESPACE;
-
-            }
-        }
+        
         public bool MayHasSomeTextContent
         {
             get

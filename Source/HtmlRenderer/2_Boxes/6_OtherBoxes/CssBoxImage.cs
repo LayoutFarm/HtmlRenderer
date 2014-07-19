@@ -44,8 +44,9 @@ namespace HtmlRenderer.Boxes
 
             this._imageWord = new CssImageRun();
             this._imageWord.SetOwner(this);
-            this.SetContentRuns(new List<CssRun>() { _imageWord }, false);
             this._imgBinder = binder;
+            CssBox.UnsafeSetContentRuns(this, new List<CssRun>() { _imageWord }, false);
+            
         }
 
         /// <summary>
@@ -137,7 +138,7 @@ namespace HtmlRenderer.Boxes
                                     new RectangleF(r.Left, r.Top,
                                         img.Width, img.Height));
 
-                               // g.DrawImage(img, Rectangle.Round(r));
+                                // g.DrawImage(img, Rectangle.Round(r));
                             }
                             else
                             {
@@ -186,11 +187,11 @@ namespace HtmlRenderer.Boxes
         internal override void MeasureRunsSize(LayoutVisitor lay)
         {
             if (!this.RunSizeMeasurePass)
-            {   
+            {
                 this.RunSizeMeasurePass = true;
             }
             CssLayoutEngine.MeasureImageSize(_imageWord, lay);
-        } 
+        }
         #region Private methods
 
         ///// <summary>
