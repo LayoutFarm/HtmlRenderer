@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoList\Demo04_DynamicContent2.cs" />
     <Compile Include="DemoList\Demo03_DynamicContent1.cs" />
     <Compile Include="DemoList\Demo02_CreateHtmlDomStyle2.cs" />
     <Compile Include="DemoList\DemoBase.cs" />

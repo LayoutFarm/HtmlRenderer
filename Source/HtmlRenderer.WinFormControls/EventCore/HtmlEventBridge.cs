@@ -104,9 +104,14 @@ namespace HtmlRenderer.WebDom
                     hitChain.SetRootGlobalPosition(x, y);
                     BoxUtils.HitTest(rootbox, x, y, hitChain);
                     ClearPreviousSelection();
-
-                    _currentSelectionRange = new SelectionRange(_latestMouseDownHitChain, hitChain, simpleWinGfx);
-
+                    if (hitChain.Count > 0)
+                    {
+                        _currentSelectionRange = new SelectionRange(_latestMouseDownHitChain, hitChain, simpleWinGfx);
+                    }
+                    else
+                    {
+                        _currentSelectionRange = null;
+                    }
                     ReleaseHitChain(hitChain);
                 }
             }

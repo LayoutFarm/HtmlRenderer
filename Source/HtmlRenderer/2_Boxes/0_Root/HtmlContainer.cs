@@ -46,7 +46,7 @@ namespace HtmlRenderer
     /// Element that is rendered at location (50,100) with offset of (0,200) will not be rendered 
     /// at -100, therefore outside the client rectangle.
     /// </para> 
-      
+
     /// <para>
     /// <b>Refresh event:</b><br/>
     /// Raised when html renderer requires refresh of the control hosting (invalidation and re-layout).<br/>
@@ -119,18 +119,18 @@ namespace HtmlRenderer
         /// </summary>
 
         float _actualWidth;
-        float _actualHeight; 
-        #endregion 
+        float _actualHeight;
+        #endregion
         /// <summary>
         /// 99999
         /// </summary>
-        const int MAX_WIDTH = 99999; 
+        const int MAX_WIDTH = 99999;
         //-----------------------------------------------------------
         //controll task of this container
         System.Timers.Timer timTask = new System.Timers.Timer();
         List<ImageBinder> requestImageBinderUpdates = new List<ImageBinder>();
         //-----------------------------------------------------------
-         
+
         public HtmlContainer()
         {
             timTask.Interval = 20;//20 ms task
@@ -147,18 +147,17 @@ namespace HtmlRenderer
             if (requestImageBinderUpdates.Count > 0)
             {
                 requestImageBinderUpdates.Clear();
-                this.RequestRefresh(false); 
+                this.RequestRefresh(false);
 #if DEBUG
                 dd++;
                 //Console.WriteLine(dd);
 #endif
             }
-        } 
+        }
         public void AddRequestImageBinderUpdate(ImageBinder binder)
         {
             this.requestImageBinderUpdates.Add(binder);
         }
-
 
         /// <summary>
         /// Gets or sets a value indicating if anti-aliasing should be avoided for geometry like backgrounds and borders (default - false).
@@ -287,7 +286,7 @@ namespace HtmlRenderer
             }
         }
 
-       
+
         /// <summary>
         /// the text fore color use for selected text
         /// </summary>
@@ -305,15 +304,12 @@ namespace HtmlRenderer
             get { return _selectionBackColor; }
             set { _selectionBackColor = value; }
         }
-
-
         public CssBox GetRootCssBox()
         {
             return this._rootBox;
         }
         public void SetRootCssBox(CssBox rootBox)
         {
-
             if (_rootBox != null)
             {
                 _rootBox = null;
@@ -325,8 +321,8 @@ namespace HtmlRenderer
             {
                 this.OnRootCreated(_rootBox);
             }
-
         }
+
         protected virtual void OnRootDisposed()
         {
 
@@ -367,7 +363,7 @@ namespace HtmlRenderer
         //}
 
 
- 
+
         public void PerformLayout(IGraphics ig)
         {
 
@@ -416,6 +412,8 @@ namespace HtmlRenderer
             {
                 return;
             }
+
+
 
             PaintVisitor args = new PaintVisitor(this, ig);
             float scX = this.ScrollOffset.X;
