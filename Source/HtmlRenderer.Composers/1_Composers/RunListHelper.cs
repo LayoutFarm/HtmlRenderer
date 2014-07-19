@@ -23,7 +23,8 @@ namespace HtmlRenderer.Composers
             char[] buffer,
             bool isAllWhitespace)
         {   
-            toBox.SetTextBuffer(buffer);
+             
+            CssBox.UnsafeSetTextBuffer(toBox, buffer);
             if (runlist != null)
             {
                 for (int i = runlist.Count - 1; i >= 0; --i)
@@ -31,7 +32,8 @@ namespace HtmlRenderer.Composers
                     runlist[i].SetOwner(toBox);
                 }
             }
-            toBox.SetContentRuns(runlist, isAllWhitespace); 
+             
+            CssBox.UnsafeSetContentRuns(toBox, runlist, isAllWhitespace);
         } 
     }
 }

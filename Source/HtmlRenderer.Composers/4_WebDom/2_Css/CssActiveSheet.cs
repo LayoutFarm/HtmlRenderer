@@ -37,6 +37,7 @@ namespace HtmlRenderer.WebDom
 
         public CssActiveSheet()
         {
+
         }
         public void LoadCssDoc(WebDom.CssDocument cssDoc)
         {
@@ -212,7 +213,7 @@ namespace HtmlRenderer.WebDom
         internal CssRuleSetGroup GetRuleSetForId(string elementId)
         {
             CssRuleSetGroup found;
-            this.rulesForElementId.TryGetValue(elementId, out found);             
+            this.rulesForElementId.TryGetValue(elementId, out found);
             return found;
         }
         public CssActiveSheet Clone(object newOwner)

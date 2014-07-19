@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlRenderer", "HtmlRendere
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlRenderer.WinFormControls", "HtmlRenderer.WinFormControls\HtmlRenderer.WinFormControls.csproj", "{0D90518E-B04A-460E-97C1-732197742A29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlRenderer.WebDom", "HtmlRenderer.WebDom\HtmlRenderer.WebDom.csproj", "{401603CD-34FB-431F-9E1C-59C952932B94}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlRenderer.Composers", "HtmlRenderer.Composers\HtmlRenderer.Composers.csproj", "{401603CD-34FB-431F-9E1C-59C952932B94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

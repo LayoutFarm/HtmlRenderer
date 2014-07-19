@@ -170,9 +170,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HtmlRenderer.WebDom\HtmlRenderer.WebDom.csproj">
+    <ProjectReference Include="..\HtmlRenderer.Composers\HtmlRenderer.Composers.csproj">
       <Project>{401603CD-34FB-431F-9E1C-59C952932B94}</Project>
-      <Name>HtmlRenderer.WebDom</Name>
+      <Name>HtmlRenderer.Composers</Name>
     </ProjectReference>
     <ProjectReference Include="..\HtmlRenderer.WinFormControls\HtmlRenderer.WinFormControls.csproj">
       <Project>{0D90518E-B04A-460E-97C1-732197742A29}</Project>

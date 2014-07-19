@@ -277,12 +277,11 @@ namespace HtmlRenderer.Composers
                         } break;
                 }
                 //---------------------------------------------------------------
-                itemBulletBox.SetTextBuffer(text_content);
-
+                 
+                CssBox.UnsafeSetTextBuffer(itemBulletBox, text_content);
 
                 List<CssRun> runlist;
-                bool hasSomeCharacter;
-                itemBulletBox.SetTextBuffer(text_content);
+                bool hasSomeCharacter; 
                 splitter.ParseWordContent(text_content, spec, out runlist, out  hasSomeCharacter);
 
                 RunListHelper.AddRunList(itemBulletBox, spec, runlist, text_content, false);

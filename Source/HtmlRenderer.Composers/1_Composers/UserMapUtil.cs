@@ -108,7 +108,7 @@ namespace HtmlRenderer.Composers
     }
 
 
-   public static class UserMapUtil
+    static class UserMapUtil
     {
 
         static readonly ValueMap<CssDisplay> _cssDisplayMap = new ValueMap<CssDisplay>();
@@ -937,13 +937,7 @@ namespace HtmlRenderer.Composers
         }
     }
     //---------------------------------------------------------------
-    public static class HtmlNameMapHelper
-    {
-        public static WellknownElementName GetWellknownHtmlName(string name)
-        {
-            return UserMapUtil.EvaluateTagName(name);
-        }
-    }
+    
 
 
 }

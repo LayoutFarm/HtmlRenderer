@@ -363,35 +363,35 @@ namespace HtmlRenderer.WebDom
         int cachedInt;
         protected float number;
 
-        internal bool IsInherit
+        public bool IsInherit
         {
             get;
-            set;
+            internal set;
         }
 
         //------------------------------------------------------
-        internal float AsNumber()
+        public float AsNumber()
         {
             return this.number;
         }
 
-        internal void SetIntValue(int intValue, CssValueEvaluatedAs evaluatedAs)
+        public void SetIntValue(int intValue, CssValueEvaluatedAs evaluatedAs)
         {
             this.evaluatedAs = evaluatedAs;
             this.cachedInt = intValue;
         }
-        internal void SetColorValue(System.Drawing.Color color)
+        public void SetColorValue(System.Drawing.Color color)
         {
             this.evaluatedAs = CssValueEvaluatedAs.Color;
             this.cachedColor = color;
         }
-        internal void SetCssLength(CssLength len, WebDom.CssValueEvaluatedAs evalAs)
+        public void SetCssLength(CssLength len, WebDom.CssValueEvaluatedAs evalAs)
         {
             this.cachedLength = len;
             this.evaluatedAs = evalAs;
         }
 
-        internal CssValueEvaluatedAs EvaluatedAs
+        public CssValueEvaluatedAs EvaluatedAs
         {
             get
             {
@@ -399,11 +399,11 @@ namespace HtmlRenderer.WebDom
             }
         }
 
-        internal System.Drawing.Color GetCacheColor()
+        public System.Drawing.Color GetCacheColor()
         {
             return this.cachedColor;
         }
-        internal CssLength GetCacheCssLength()
+        public CssLength GetCacheCssLength()
         {
             return this.cachedLength;
         }
@@ -411,7 +411,7 @@ namespace HtmlRenderer.WebDom
         {
             return this.ToString();
         }
-        internal int GetCacheIntValue()
+        public int GetCacheIntValue()
         {
             return this.cachedInt;
         }

@@ -1,15 +1,11 @@
 ﻿//BSD  2014 ,WinterDev
 
-using System;
- 
+using System; 
 using System.Collections.Generic;
-using System.Text;
- 
+using System.Text; 
 
 namespace HtmlRenderer.WebDom
-{
-
-
+{ 
     public class CssDocument
     {
         List<CssDocMember> cssItemCollection = new List<CssDocMember>();

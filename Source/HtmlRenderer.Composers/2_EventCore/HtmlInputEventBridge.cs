@@ -11,8 +11,9 @@ using HtmlRenderer.Boxes;
 namespace HtmlRenderer.WebDom
 {
 
-    public class HtmlEventBridge
+    public class HtmlInputEventBridge
     {
+
         //-----------------------------------------------
         HtmlContainer _container;
         BoxHitChain _latestMouseDownHitChain = null;
@@ -20,12 +21,10 @@ namespace HtmlRenderer.WebDom
         int _mousedownY;
         bool _isMouseDown;
         //----------------------------------------------- 
-        SelectionRange _currentSelectionRange = null;
-        WinGraphics simpleWinGfx;
-        Bitmap tempBmp = new Bitmap(1, 1);
-        bool _isBinded;
-
-        public HtmlEventBridge()
+        SelectionRange _currentSelectionRange = null; 
+        IGraphics sampleGraphics; 
+        bool _isBinded; 
+        public HtmlInputEventBridge()
         {
         }
         public void Bind(HtmlContainer container)
@@ -34,7 +33,7 @@ namespace HtmlRenderer.WebDom
             {
                 this._container = container;
             }
-            simpleWinGfx = new WinGraphics(Graphics.FromImage(tempBmp), false);
+            this.sampleGraphics = container.GetSampleGraphics();
             _isBinded = true;
         }
         public void Unbind()
@@ -106,7 +105,10 @@ namespace HtmlRenderer.WebDom
                     ClearPreviousSelection();
                     if (hitChain.Count > 0)
                     {
-                        _currentSelectionRange = new SelectionRange(_latestMouseDownHitChain, hitChain, simpleWinGfx);
+                        _currentSelectionRange = new SelectionRange(
+                            _latestMouseDownHitChain,
+                            hitChain, sampleGraphics);
+
                     }
                     else
                     {
@@ -224,12 +226,12 @@ namespace HtmlRenderer.WebDom
                     case HitObjectKind.Run:
                         {
                             CssRun run = (CssRun)hitInfo.hitObject;
-                            controller = CssBox.UnsafeGetController(run.OwnerBox) as HtmlElement; 
-                        } break; 
+                            controller = CssBox.UnsafeGetController(run.OwnerBox) as HtmlElement;
+                        } break;
                     case HitObjectKind.CssBox:
                         {
                             CssBox box = (CssBox)hitInfo.hitObject;
-                            controller = CssBox.UnsafeGetController(box) as HtmlElement; 
+                            controller = CssBox.UnsafeGetController(box) as HtmlElement;
                         } break;
                 }
 

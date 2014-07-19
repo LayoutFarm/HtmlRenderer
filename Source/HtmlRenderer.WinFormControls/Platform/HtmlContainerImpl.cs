@@ -19,14 +19,15 @@ namespace HtmlRenderer
 
         HtmlDocument doc;
         CssActiveSheet activeCssSheet;
-
         ImageContentManager imageContentManager;
         TextContentManager textContentManager;
+
         /// <summary>
         /// Raised when Html Renderer request scroll to specific location.<br/>
         /// This can occur on document anchor click.
         /// </summary>
         public event EventHandler<HtmlScrollEventArgs> ScrollChange;
+        
         bool isRootCreated;
 
         /// <summary>
@@ -40,6 +41,7 @@ namespace HtmlRenderer
 
 
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
+        Bitmap tempBmp = new Bitmap(1, 1);
 
         public HtmlContainerImpl()
         {
@@ -48,6 +50,11 @@ namespace HtmlRenderer
             imageContentManager = new ImageContentManager(this);
             textContentManager = new TextContentManager(this);
 
+        }
+        public override IGraphics GetSampleGraphics()
+        {
+            
+            return new WinGraphics(Graphics.FromImage(tempBmp), false);
         }
         protected override void RequestRefresh(bool layout)
         {
@@ -103,7 +110,7 @@ namespace HtmlRenderer
         public HtmlRenderer.WebDom.HtmlDocument HtmlDoc
         {
             get { return this.doc; }
-            
+
         }
         public void SetHtmlDoc(HtmlRenderer.WebDom.HtmlDocument doc)
         {
@@ -131,14 +138,14 @@ namespace HtmlRenderer
 
                 if (doc.DocumentState == DocumentState.ChangedAfterIdle)
                 {
-                    
+
                     HtmlRenderExtensions.RefreshHtmlDomChange(
                         this,
                         doc,
                         this.activeCssSheet);
                     doc.SetDocumentState(DocumentState.Idle);
                     this.PerformLayout(g);
-                    
+
                 }
 
                 this.PerformPaint(gfx);

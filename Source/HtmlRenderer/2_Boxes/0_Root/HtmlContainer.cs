@@ -453,6 +453,7 @@ namespace HtmlRenderer
         //------------------------------------------------------------------
 
         protected abstract void RequestRefresh(bool layout);
+        public abstract IGraphics GetSampleGraphics();
 
 
 

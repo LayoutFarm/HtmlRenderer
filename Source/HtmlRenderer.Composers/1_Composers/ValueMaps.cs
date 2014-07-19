@@ -1,15 +1,15 @@
 ﻿//2014 ,BSD, WinterDev
 
-using System; 
+using System;
 using System.Collections.Generic;
 
 namespace HtmlRenderer.Composers
 {
-  
 
-   public class ValueMap<T>
+
+    class ValueMap<T>
     {
-        static Type mapNameAttrType = typeof(MapAttribute); 
+        static Type mapNameAttrType = typeof(MapAttribute);
         readonly Dictionary<string, T> stringToValue;
         readonly Dictionary<T, string> valueToString;
         public ValueMap()
@@ -19,7 +19,7 @@ namespace HtmlRenderer.Composers
         }
 
 
-        static void LoadAndAssignValues (out Dictionary<string, T> stringToValue, out Dictionary<T, string> valueToString)
+        static void LoadAndAssignValues(out Dictionary<string, T> stringToValue, out Dictionary<T, string> valueToString)
         {
             stringToValue = new Dictionary<string, T>();
             valueToString = new Dictionary<T, string>();

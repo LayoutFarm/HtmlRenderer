@@ -38,15 +38,12 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContentManager\ImageContentManager.cs" />
-    <Compile Include="ContentManager\TextContentManager.cs" />
-    <Compile Include="EventCore\HtmlEventBridge.cs" />
     <Compile Include="Events\HtmlLinkClickedEventArgs.cs" />
     <Compile Include="Events\HtmlLinkClickedException.cs" />
     <Compile Include="Events\HtmlRefreshEventArgs.cs" />
     <Compile Include="Events\HtmlRenderErrorEventArgs.cs" />
     <Compile Include="Events\HtmlScrollEventArgs.cs" />
-    <Compile Include="Handlers\HtmlClipboardUtils.cs" />
+    <Compile Include="Platform\HtmlClipboardUtils.cs" />
     <Compile Include="Platform\ClibboardHelper.cs" />
     <Compile Include="Platform\FontsUtils.cs" />
     <Compile Include="Platform\HtmlContainerImpl.cs" />
@@ -59,9 +56,9 @@
     <Compile Include="Win32Utils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HtmlRenderer.WebDom\HtmlRenderer.WebDom.csproj">
+    <ProjectReference Include="..\HtmlRenderer.Composers\HtmlRenderer.Composers.csproj">
       <Project>{401603CD-34FB-431F-9E1C-59C952932B94}</Project>
-      <Name>HtmlRenderer.WebDom</Name>
+      <Name>HtmlRenderer.Composers</Name>
     </ProjectReference>
     <ProjectReference Include="..\HtmlRenderer\HtmlRenderer.csproj">
       <Project>{1B058920-24B4-4140-8AE7-C8C6C38CA52D}</Project>
