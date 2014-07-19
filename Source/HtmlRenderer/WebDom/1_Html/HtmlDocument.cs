@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace HtmlRenderer.WebDom
 {
+
     public abstract class HtmlDocument
     {
         UniqueStringTable uniqueStringTable;
@@ -11,6 +12,7 @@ namespace HtmlRenderer.WebDom
         public HtmlDocument(UniqueStringTable uniqueStringTable)
         {
             this.uniqueStringTable = uniqueStringTable;
+            this.DocumentState = WebDom.DocumentState.Init;
         }
         public abstract HtmlElement RootNode
         {
@@ -59,6 +61,7 @@ namespace HtmlRenderer.WebDom
             return new HtmlCDataNode(this);
         }
 
+        //-------------------------------------------------------
         internal void RegisterElementById(HtmlElement element)
         {
             //replace exisitng if exists ***
@@ -66,5 +69,28 @@ namespace HtmlRenderer.WebDom
             registerElementsById[element.AttrElementId] = element;
         }
 
+
+        //-------------------------------------------------------
+        public DocumentState DocumentState
+        {
+            get;
+            private set;
+        }
+        public void SetDocumentState(DocumentState docstate)
+        {
+            this.DocumentState = docstate;
+        }
     }
+
+    public enum DocumentState
+    {
+
+        Init,
+        BuildingElement,
+        Layout,
+        Render,
+        Idle,
+        ChangedAfterIdle
+    }
+
 }

@@ -369,25 +369,26 @@ namespace HtmlRenderer.Composers
 
             CssBox rootBox = null;
 
-            ActiveCssTemplate activeCssTemplate = null; 
-            activeCssTemplate = new ActiveCssTemplate(cssData); 
-             
+            ActiveCssTemplate activeCssTemplate = null;
+            activeCssTemplate = new ActiveCssTemplate(cssData);
+
+            htmldoc.SetDocumentState(DocumentState.Layout);
+
             PrepareBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
             //----------------------------------------------------------------  
             //4. assign styles 
             //ApplyStyleSheetTopDownForBridgeElement(bridgeRoot, null, activeCssTemplate);
-            //----------------------------------------------------------------
+            //---------------------------------------------------------------- 
             //5. box generation                 
             rootBox = BoxCreator.CreateRootBlock(iFonts);
-
             ((BridgeHtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
             //}); 
             // var t3 = dbugCounter.Snap(() =>
             // {
             GenerateAllChildBoxes((BrigeRootElement)htmldoc.RootNode);
 
+            htmldoc.SetDocumentState(DocumentState.Idle);
             SetTextSelectionStyle(htmlContainer, cssData);
-
 
             //OnePassBoxCorrection(rootBox);
 
@@ -399,7 +400,7 @@ namespace HtmlRenderer.Composers
             //Console.WriteLine(t0 + t1 + t2 + t3);
             return rootBox;
         }
-        
+
         //------------------------------------------
         #region Private methods
 #if DEBUG
