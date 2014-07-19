@@ -42,9 +42,9 @@
     <Compile Include="1_Composers\1_Model\BoxModelBuilder.cs" />
     <Compile Include="2_BridgeHtmlDom\BulletNumberFormatter.cs" />
     <Compile Include="1_Composers\1_Model\ContentTextSplitter.cs" />
-    <Compile Include="1_Composers\1_Model\SpecSetter.cs" />
-    <Compile Include="1_Composers\1_Model\UserMapUtil.cs" />
-    <Compile Include="1_Composers\1_Model\ValueMaps.cs" />
+    <Compile Include="1_Composers\2_Css\SpecSetter.cs" />
+    <Compile Include="1_Composers\2_Css\UserMapUtil.cs" />
+    <Compile Include="1_Composers\2_Css\ValueMaps.cs" />
     <Compile Include="2_BridgeHtmlDom\BoxCreator.cs" />
     <Compile Include="2_BridgeHtmlDom\BridgeHtmlDocument.cs" />
     <Compile Include="3_ContentManagers\ImageContentManager.cs" />
