@@ -28,14 +28,9 @@ namespace HtmlRenderer.ContentManagers
         {
             this.parentHtmlContainer = parentHtmlContainer;
         }
-        public void AddStyleSheetRequest(string hrefSource, out string stylesheet,
-            out WebDom.CssActiveSheet stylesheetData)
-        {   
-            
-            StylesheetLoadEventArgs arg = new StylesheetLoadEventArgs(hrefSource);
-            this.StylesheetLoadingRequest(this, arg);
-            stylesheet = arg.SetStyleSheet;
-            stylesheetData = arg.SetStyleSheetData;
+        public void AddStyleSheetRequest(StylesheetLoadEventArgs arg)
+        {
+            this.StylesheetLoadingRequest(this, arg);             
         }
     }
 

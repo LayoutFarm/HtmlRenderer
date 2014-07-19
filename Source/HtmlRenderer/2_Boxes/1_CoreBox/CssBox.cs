@@ -218,11 +218,12 @@ namespace HtmlRenderer.Boxes
         }
 
 
-        internal void SetTextBuffer(char[] textBuffer)
+        public void SetTextBuffer(char[] textBuffer)
         {
+            //TODO: change to unsafe static 
             this._buffer = textBuffer;
         }
-        internal void SetContentRuns(List<CssRun> runs, bool isAllWhitespace)
+        public void SetContentRuns(List<CssRun> runs, bool isAllWhitespace)
         {
             this._aa_contentRuns = runs;
             if (isAllWhitespace)
@@ -232,7 +233,7 @@ namespace HtmlRenderer.Boxes
             else
             {
                 this._boxCompactFlags &= ~BoxFlags.TEXT_IS_ALL_WHITESPACE;
-                
+
             }
         }
         public bool MayHasSomeTextContent
@@ -566,7 +567,7 @@ namespace HtmlRenderer.Boxes
         }
 
 
-       
+
         /// <summary>
         /// Gets the minimum width that the box can be.
         /// *** The box can be as thin as the longest word plus padding

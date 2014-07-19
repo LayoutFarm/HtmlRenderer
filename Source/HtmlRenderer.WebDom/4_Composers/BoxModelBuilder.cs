@@ -26,14 +26,22 @@ namespace HtmlRenderer.Composers
 {
 
 
+    public delegate void RequestStyleSheetEventHandler(ContentManagers.StylesheetLoadEventArgs args);
+
 
     /// <summary>
     /// Handle css DOM tree generation from raw html and stylesheet.
     /// </summary>
     public class BoxModelBuilder
     {
-        //======================================
+
         static ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
+        public event RequestStyleSheetEventHandler RequestStyleSheet;
+
+        public BoxModelBuilder()
+        {
+
+        }
 
         /// <summary>
         /// Parses the source html to css boxes tree structure.
@@ -47,19 +55,41 @@ namespace HtmlRenderer.Composers
             parser.Parse(snapSource, blankHtmlDoc);
             return blankHtmlDoc;
         }
+        void RaiseRequestStyleSheet(HtmlContainer container,
+            string hrefSource,
+            out string stylesheet,
+            out CssActiveSheet stylesheetData)
+        {
+            if (hrefSource == null || RequestStyleSheet == null)
+            {
+                stylesheet = null;
+                stylesheetData = null;
+                return;
+            }
+            
+            ContentManagers.StylesheetLoadEventArgs e = new ContentManagers.StylesheetLoadEventArgs(hrefSource);
+            RequestStyleSheet(e);
+            stylesheet = e.SetStyleSheet;
+            stylesheetData = e.SetStyleSheetData;
+             
+        }
+
+        //protected abstract void OnRequestStyleSheet(string hrefSource,
+        //    out string stylesheet,
+        //    out WebDom.CssActiveSheet stylesheetData);
 
         //-----------------------------------------------------------------
-        static void PrepareBridgeTree(HtmlContainer container,
-             WebDom.HtmlDocument htmldoc,
-             ActiveCssTemplate activeCssTemplate)
+        void PrepareBridgeTree(HtmlContainer container,
+           WebDom.HtmlDocument htmldoc,
+           ActiveCssTemplate activeCssTemplate)
         {
             BrigeRootElement bridgeRoot = (BrigeRootElement)htmldoc.RootNode;
             PrepareChildNodes(container, bridgeRoot, activeCssTemplate);
         }
-        static void PrepareChildNodes(
-            HtmlContainer container,
-            BridgeHtmlElement parentElement,
-            ActiveCssTemplate activeCssTemplate)
+        void PrepareChildNodes(
+          HtmlContainer container,
+          BridgeHtmlElement parentElement,
+          ActiveCssTemplate activeCssTemplate)
         {
             //recursive 
             foreach (WebDom.HtmlNode node in parentElement.GetChildNodeIterForward())
@@ -70,8 +100,7 @@ namespace HtmlRenderer.Composers
                     case WebDom.HtmlNodeType.ShortElement:
                         {
                             BridgeHtmlElement bridgeElement = (BridgeHtmlElement)node;
-                            bridgeElement.WellknownElementName = UserMapUtil.EvaluateTagName(bridgeElement.LocalName);
-
+                            bridgeElement.WellknownElementName = HtmlNameMapHelper.GetWellknownHtmlName(bridgeElement.LocalName);
                             switch (bridgeElement.WellknownElementName)
                             {
                                 case WellknownElementName.style:
@@ -108,7 +137,7 @@ namespace HtmlRenderer.Composers
                                             HtmlAttribute hrefAttr;
                                             if (bridgeElement.TryGetAttribute(WellknownHtmlName.Href, out hrefAttr))
                                             {
-                                                HtmlContainer.RaiseRequestStyleSheet(
+                                                RaiseRequestStyleSheet(
                                                 container,
                                                 hrefAttr.Value,
                                                 out stylesheet, out stylesheetData);

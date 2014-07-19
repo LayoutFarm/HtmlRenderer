@@ -28,9 +28,9 @@ namespace HtmlRenderer.WebDom
         public CssPropertyDeclaration(WellknownCssPropertyName wellNamePropertyName)
         {
             //convert from name to wellknown property name; 
-            this.WellknownPropertyName = wellNamePropertyName; 
+            this.WellknownPropertyName = wellNamePropertyName;
         }
-        internal CssPropertyDeclaration(WellknownCssPropertyName wellNamePropertyName, CssCodeValueExpression value)
+        public CssPropertyDeclaration(WellknownCssPropertyName wellNamePropertyName, CssCodeValueExpression value)
         {
             //from another 
             this.WellknownPropertyName = wellNamePropertyName;
@@ -42,12 +42,12 @@ namespace HtmlRenderer.WebDom
             //auto gen from another prop
             this.isAutoGen = true;
         }
-        internal bool IsExpand
+        public bool IsExpand
         {
             get { return this.isExpand; }
             set { this.isExpand = value; }
         }
-        internal void AddUnitToLatestValue(string unit)
+        public void AddUnitToLatestValue(string unit)
         {
             CssCodePrimitiveExpression latestValue = null;
             if (moreValues != null)
@@ -368,7 +368,7 @@ namespace HtmlRenderer.WebDom
             get;
             set;
         }
-       
+
         //------------------------------------------------------
         internal float AsNumber()
         {
@@ -390,6 +390,7 @@ namespace HtmlRenderer.WebDom
             this.cachedLength = len;
             this.evaluatedAs = evalAs;
         }
+
         internal CssValueEvaluatedAs EvaluatedAs
         {
             get
@@ -416,7 +417,7 @@ namespace HtmlRenderer.WebDom
         }
     }
 
-    enum CssValueEvaluatedAs : byte
+    public enum CssValueEvaluatedAs : byte
     {
         UnEvaluate,
         Unknown,

@@ -3,7 +3,7 @@
 using System;
 namespace HtmlRenderer.Diagnostics
 {
-    class FeatureDeprecatedAttribute : Attribute
+    public class FeatureDeprecatedAttribute : Attribute
     {
         public FeatureDeprecatedAttribute()
         {

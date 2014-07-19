@@ -77,7 +77,7 @@ namespace HtmlRenderer.Boxes
 #endif
             this._runKind = rectKind;
         }
-        internal void SetOwner(CssBox owner)
+        public void SetOwner(CssBox owner)
         {
             this._owner = owner;
         }

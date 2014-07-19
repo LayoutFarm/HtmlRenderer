@@ -20,7 +20,7 @@ namespace HtmlRenderer.Boxes
     /// <summary>
     /// CSS box for hr element.
     /// </summary>
-    sealed class CssBoxHr : CssBox
+    public sealed class CssBoxHr : CssBox
     {
 
         /// <summary>

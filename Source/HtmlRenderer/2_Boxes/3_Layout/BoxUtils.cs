@@ -42,7 +42,7 @@ namespace HtmlRenderer.Boxes
             return newBox;
         }
 
-        internal static CssBox CreateAnonInline(CssBox parent)
+        public static CssBox CreateAnonInline(CssBox parent)
         {
             var spec = CssBox.UnsafeGetBoxSpec(parent);
             var newBox = new CssBox(parent, null, spec.GetAnonVersion());

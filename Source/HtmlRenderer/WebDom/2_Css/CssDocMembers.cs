@@ -61,7 +61,7 @@ namespace HtmlRenderer.WebDom
             return sb.ToString();
         }
 #endif
-        internal void PrepareExpression(CssCombinatorOperator combinator)
+        public void PrepareExpression(CssCombinatorOperator combinator)
         {
             switch (combinator)
             {

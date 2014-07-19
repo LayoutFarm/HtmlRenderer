@@ -68,14 +68,7 @@ namespace HtmlRenderer.ContentManagers
         {
             get { return _src; }
         }
-
-        ///// <summary>
-        ///// collection of all the attributes that are defined on the link element
-        ///// </summary>
-        //public Dictionary<string, string> Attributes
-        //{
-        //    get { return _attributes; }
-        //}
+         
 
         /// <summary>
         /// provide the new source (file path or URL) to load stylesheet from

@@ -2,7 +2,7 @@
 using System;
 namespace HtmlRenderer
 {
-    class MapAttribute : Attribute
+    public class MapAttribute : Attribute
     {
         public MapAttribute(string name)
         {

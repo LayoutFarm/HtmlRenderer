@@ -89,13 +89,13 @@ namespace HtmlRenderer.WebDom
     {
 
         char[] copyBuffer;
-        internal HtmlTextNode(HtmlDocument ownerDoc, char[] copyBuffer)
+        public HtmlTextNode(HtmlDocument ownerDoc, char[] copyBuffer)
             : base(ownerDoc)
         {
             SetNodeType(HtmlNodeType.TextNode);
             this.copyBuffer = copyBuffer;
         }
-        internal void AppendTextContent(char[] newCopyBuffer)
+        public void AppendTextContent(char[] newCopyBuffer)
         {
             if (copyBuffer != null)
             {
@@ -109,13 +109,9 @@ namespace HtmlRenderer.WebDom
                 this.copyBuffer = newCopyBuffer;
             }
         }
-        internal char[] GetOriginalBuffer()
+        public char[] GetOriginalBuffer()
         {
             return copyBuffer;
-            //if(copyBuffer
-            //char[] copyBuffer = new char[this._sb.Length];
-            //_sb.CopyTo(0, copyBuffer, 0, copyBuffer.Length);
-            //return copyBuffer;
         }
 #if DEBUG
         public override string ToString()
@@ -282,7 +278,7 @@ namespace HtmlRenderer.WebDom
         HtmlEventHandler evhMouseUp;
 
 
-        internal HtmlElement(HtmlDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
+        public HtmlElement(HtmlDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
         {
 
@@ -365,14 +361,10 @@ namespace HtmlRenderer.WebDom
                         this.attrClass = attr;
                     } break;
             }
-
             myAttributes.Add(attr);
             attr.SetParent(this);
-
-
-
+            //-----------
         }
-
         public void AddChild(HtmlNode childNode)
         {
             switch (childNode.NodeType)
@@ -426,7 +418,7 @@ namespace HtmlRenderer.WebDom
                     {
                         //change 
                         this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
-                    } break; 
+                    } break;
             }
         }
 
@@ -481,23 +473,27 @@ namespace HtmlRenderer.WebDom
                 return OwnerDocument.GetString(this.nodeLocalNameIndex);
             }
         }
+        public int LocalNameIndex
+        {
+            //TODO:
+            get { return this.nodeLocalNameIndex; }
+        }
 
-
-        internal bool HasAttributeElementId
+        public bool HasAttributeElementId
         {
             get
             {
                 return this.attrElemId != null;
             }
         }
-        internal bool HasAttributeClass
+        public bool HasAttributeClass
         {
             get
             {
                 return this.attrClass != null;
             }
         }
-        internal string AttrClassValue
+        public string AttrClassValue
         {
             get
             {
@@ -508,7 +504,7 @@ namespace HtmlRenderer.WebDom
                 return null;
             }
         }
-        internal string AttrElementId
+        public string AttrElementId
         {
             get
             {

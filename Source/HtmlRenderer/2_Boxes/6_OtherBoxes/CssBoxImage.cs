@@ -23,7 +23,7 @@ namespace HtmlRenderer.Boxes
     /// <summary>
     /// CSS box for image element.
     /// </summary>
-    sealed class CssBoxImage : CssBox
+    public sealed class CssBoxImage : CssBox
     {
         #region Fields and Consts
         /// <summary>

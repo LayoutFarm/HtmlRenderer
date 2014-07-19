@@ -39,7 +39,7 @@ namespace HtmlRenderer.Boxes
             //box.Spec is private
             return box._myspec;
         }
-        internal static void UnsafeSetParent(CssBox box, CssBox parent)
+        public static void UnsafeSetParent(CssBox box, CssBox parent)
         {
             box._parentBox = parent; 
         }

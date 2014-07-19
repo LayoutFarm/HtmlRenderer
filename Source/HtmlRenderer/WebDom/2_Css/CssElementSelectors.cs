@@ -1,9 +1,9 @@
 ﻿//BSD  2014 ,WinterDev
 
 
-using System; 
+using System;
 using System.Collections.Generic;
-using System.Text; 
+using System.Text;
 
 namespace HtmlRenderer.WebDom
 {
@@ -50,7 +50,7 @@ namespace HtmlRenderer.WebDom
             {
                 return this._name;
             }
-            internal set
+            set
             {
                 this._name = value;
             }
@@ -111,7 +111,7 @@ namespace HtmlRenderer.WebDom
                 (another.selectorType == this.selectorType);
 
         }
-        internal static bool IsCompatible(CssSimpleElementSelector sel1, CssSimpleElementSelector sel2)
+        public static bool IsCompatible(CssSimpleElementSelector sel1, CssSimpleElementSelector sel2)
         {
             //walk top of both
 

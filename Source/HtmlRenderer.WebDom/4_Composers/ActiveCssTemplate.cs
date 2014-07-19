@@ -13,10 +13,8 @@ namespace HtmlRenderer.Composers
     class ActiveCssTemplate
     {
 
-        CssActiveSheet activeSheet;
-
-        WebDom.Parser.CssParser miniCssParser;
-
+        CssActiveSheet activeSheet; 
+        WebDom.Parser.CssParser miniCssParser; 
         bool isCloneOnce = false;
         public ActiveCssTemplate(CssActiveSheet activeSheet)
         {
@@ -185,9 +183,7 @@ namespace HtmlRenderer.Composers
             {
                 //TODO:  implement this
                 throw new NotSupportedException();
-            }
-
-
+            } 
         }
 
 

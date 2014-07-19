@@ -3,13 +3,112 @@ using System;
 using System.Drawing;
 using System.Collections.Generic;
 
-using HtmlRenderer.Css; 
+using HtmlRenderer.Css;
 using HtmlRenderer.Boxes;
+using HtmlRenderer.Diagnostics;
 
 namespace HtmlRenderer.Composers
 {
+    public enum WellknownElementName : byte
+    {
+        NotAssign, //extension , for anonymous element
+        Unknown,
+        //---------------- 
+        [Map("html")]
+        html,
+        [Map("a")]
+        a,
+        [Map("area")]
+        area,
+        [Map("hr")]
+        hr,
+        [Map("br")]
+        br,
+        [Map("style")]
+        style,
+        [Map("script")]
+        script,
+        [Map("img")]
+        img,
+        [Map("input")]
+        input,
 
-    static class UserMapUtil
+        [Map("div")]
+        div,
+        [Map("span")]
+        span,
+
+        [Map("link")]
+        link,
+        [Map("p")]
+        p,
+
+        //----------------------------------
+        [Map("table")]
+        table,
+
+        [Map("tr")]
+        tr,//table-row
+
+        [Map("tbody")]
+        tbody,//table-row-group
+
+        [Map("thead")]
+        thead, //table-header-group
+        //from css2.1 spec:
+        //thead: like 'table-row-group' ,but for visual formatting.
+        //the row group is always displayed before all other rows and row groups and
+        //after any top captions...
+
+        [Map("tfoot")]
+        tfoot, //table-footer-group
+        //css2.1: like 'table-row-group',but for visual formatting
+
+        [Map("col")]
+        col,//table-column, specifics that an element describes a column of cells
+
+        [Map("colgroup")]
+        colgroup,//table-column-group, specific that an element groups one or more columns;
+
+        [Map("td")]
+        td,//table-cell                
+        [Map("th")]
+        th,//table-cell
+
+        [Map("caption")]
+        caption,//table-caption element
+        //----------------------------------------
+
+
+        [Map("iframe")]
+        iframe,
+
+
+        //----------------------------------------
+        [FeatureDeprecated("not support in Html5")]
+        [Map("frame")]
+        frame,
+        [FeatureDeprecated("not support in Html5,Use Css instead")]
+        [Map("font")]
+        font,
+        [FeatureDeprecated("not support in Html5,Use Css instead")]
+        [Map("basefont")]
+        basefont,
+
+        [Map("base")]
+        _base,
+
+        [Map("meta")]
+        meta,
+        [Map("param")]
+        _param,
+
+        [Map("x")]
+        X//test for extension 
+    }
+
+
+   public static class UserMapUtil
     {
 
         static readonly ValueMap<CssDisplay> _cssDisplayMap = new ValueMap<CssDisplay>();
@@ -835,6 +934,14 @@ namespace HtmlRenderer.Composers
                 return new CssLength(parsedNumber, unit);
             }
 
+        }
+    }
+    //---------------------------------------------------------------
+    public static class HtmlNameMapHelper
+    {
+        public static WellknownElementName GetWellknownHtmlName(string name)
+        {
+            return UserMapUtil.EvaluateTagName(name);
         }
     }
 

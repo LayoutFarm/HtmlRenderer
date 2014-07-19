@@ -215,7 +215,7 @@ namespace HtmlRenderer.WebDom
             this.rulesForElementId.TryGetValue(elementId, out found);             
             return found;
         }
-        internal CssActiveSheet Clone(object newOwner)
+        public CssActiveSheet Clone(object newOwner)
         {
             CssActiveSheet newclone = new CssActiveSheet();
             newclone.rulesForTagName = CloneNew(this.rulesForTagName);
@@ -234,7 +234,7 @@ namespace HtmlRenderer.WebDom
         ///  consume 
         /// </summary>
         /// <param name="another"></param>
-        internal void Combine(CssActiveSheet another)
+        public void Combine(CssActiveSheet another)
         {
             MergeContent(this.rulesForClassName, another.rulesForClassName);
             MergeContent(this.rulesForAll, another.rulesForAll);

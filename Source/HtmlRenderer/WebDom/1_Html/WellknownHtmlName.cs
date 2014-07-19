@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace HtmlRenderer.WebDom
 {
-    enum WellknownHtmlName
+    public enum WellknownHtmlName
     {
 
         Unknown,

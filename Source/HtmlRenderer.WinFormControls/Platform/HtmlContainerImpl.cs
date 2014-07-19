@@ -83,27 +83,27 @@ namespace HtmlRenderer
                 return this.textContentManager;
             }
         }
-        protected override void OnRequestStyleSheet(string hrefSource,
-            out string stylesheet,
-            out WebDom.CssActiveSheet stylesheetData)
-        {
-            if (textContentManager != null)
-            {
-                textContentManager.AddStyleSheetRequest(hrefSource,
-                    out stylesheet,
-                    out stylesheetData);
-            }
-            else
-            {
-                stylesheet = null;
-                stylesheetData = null;
-            }
+        //protected override void OnRequestStyleSheet(string hrefSource,
+        //    out string stylesheet,
+        //    out WebDom.CssActiveSheet stylesheetData)
+        //{
+        //    if (textContentManager != null)
+        //    {
+        //        textContentManager.AddStyleSheetRequest(hrefSource,
+        //            out stylesheet,
+        //            out stylesheetData);
+        //    }
+        //    else
+        //    {
+        //        stylesheet = null;
+        //        stylesheetData = null;
+        //    }
 
-        }
+        //}
         public HtmlRenderer.WebDom.HtmlDocument HtmlDoc
         {
             get { return this.doc; }
-            set { this.doc = value; }
+            
         }
         public void SetHtmlDoc(HtmlRenderer.WebDom.HtmlDocument doc)
         {
@@ -116,7 +116,10 @@ namespace HtmlRenderer
         }
         public void PerformPaint(Graphics g)
         {
-
+            if (doc == null)
+            {
+                return;
+            }
             using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
             {
                 Region prevClip = null;

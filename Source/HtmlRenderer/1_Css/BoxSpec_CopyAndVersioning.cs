@@ -9,7 +9,7 @@ namespace HtmlRenderer.Css
     {
 
 
-        internal void InheritStylesFrom(BoxSpec s)
+        public void InheritStylesFrom(BoxSpec s)
         {
             //if (__aa_dbugId == 11)
             //{
@@ -39,7 +39,7 @@ namespace HtmlRenderer.Css
             //--------------------------------------- 
 
         }
-        internal void CloneAllStylesFrom(BoxSpec s)
+        public void CloneAllStylesFrom(BoxSpec s)
         {
             //1.
             //=====================================

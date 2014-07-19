@@ -6,7 +6,7 @@ namespace HtmlRenderer.Boxes
     /// for special sub layer of a CssBox,
     /// (storing list-item, element shadow etc)
     /// </summary>
-    class SubBoxCollection
+    public class SubBoxCollection
     {
         CssBox _listItemBulletBox;
         public SubBoxCollection()

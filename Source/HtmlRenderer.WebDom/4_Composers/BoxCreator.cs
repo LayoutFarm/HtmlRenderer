@@ -27,11 +27,11 @@ namespace HtmlRenderer.Composers
             ImageBinder imgBinder = null;
             if (childElement.TryGetAttribute(WellknownHtmlName.Src, out imgsrc))
             {
-                imgBinder = new BridgeImageBinder(imgsrc);
+                imgBinder = new ImageBinder(imgsrc);
             }
             else
             {
-                imgBinder = new BridgeImageBinder(null);
+                imgBinder = new ImageBinder(null);
             }
             return new CssBoxImage(parent, childElement, childElement.Spec, imgBinder);
         }
@@ -142,17 +142,17 @@ namespace HtmlRenderer.Composers
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
             return box;
-        } 
-    } 
+        }
+    }
 
     static class TableBoxCreator
     {
 
         public static CssBox CreateOtherPredefinedTableElement(CssBox parent,
             BridgeHtmlElement childElement, CssDisplay selectedCssDisplayType)
-        {   
-            return new CssBox(parent, childElement, childElement.Spec, selectedCssDisplayType); 
-        } 
+        {
+            return new CssBox(parent, childElement, childElement.Spec, selectedCssDisplayType);
+        }
         public static CssBox CreateTableColumnOrColumnGroup(CssBox parent,
             BridgeHtmlElement childElement, bool fixDisplayType, CssDisplay selectedCssDisplayType)
         {

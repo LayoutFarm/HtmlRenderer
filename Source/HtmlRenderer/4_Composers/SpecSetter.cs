@@ -22,10 +22,10 @@ namespace HtmlRenderer.Composers
 {
 
 
-    static class SpecSetter
+    public static class SpecSetter
     {
         //=======================================================================================
-        internal static void AssignPropertyValue(BoxSpec spec, BoxSpec parentSpec, CssPropertyDeclaration decl)
+        public static void AssignPropertyValue(BoxSpec spec, BoxSpec parentSpec, CssPropertyDeclaration decl)
         {
             if (decl.IsExpand)
             {
@@ -159,7 +159,7 @@ namespace HtmlRenderer.Composers
                     spec.BackgroundColor = cssValue.AsColor();
                     break;
                 case WellknownCssPropertyName.BackgroundImage:
-                    spec.BackgroundImageBinder = new BridgeImageBinder(cssValue.GetTranslatedStringValue());
+                    spec.BackgroundImageBinder = new Drawing.ImageBinder(cssValue.GetTranslatedStringValue());
                     break;
                 case WellknownCssPropertyName.BackgroundPosition:
 

@@ -105,7 +105,7 @@ namespace HtmlRenderer.WebDom.Parser
                                     else
                                     {
                                         //if not equal then check if current node need close tag or not
-                                        if (HtmlDecodeHelper.IsSingleTag(curHtmlNode.nodeLocalNameIndex))
+                                        if (HtmlDecodeHelper.IsSingleTag(curHtmlNode.LocalNameIndex))
                                         {
                                             if (htmlNodeStack.Count > 0)
                                             {

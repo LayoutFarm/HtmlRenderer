@@ -19,7 +19,7 @@ namespace HtmlRenderer.Boxes
     /// <summary>
     /// Represents a word inside an inline box
     /// </summary>
-    sealed class CssTextRun : CssRun
+    public sealed class CssTextRun : CssRun
     {
         int _textStartIndex;
         int _textLength;

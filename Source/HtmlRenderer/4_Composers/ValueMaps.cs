@@ -7,7 +7,7 @@ namespace HtmlRenderer.Composers
 {
   
 
-    class ValueMap<T>
+   public class ValueMap<T>
     {
         static Type mapNameAttrType = typeof(MapAttribute); 
         readonly Dictionary<string, T> stringToValue;
