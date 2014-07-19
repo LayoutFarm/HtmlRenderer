@@ -28,16 +28,16 @@ namespace HtmlRenderer.Demo
                     div.AddChild("span", span =>
                     {
                         span.AddTextContent("ABCD");
+                        
                         //3. attach event to specific span
-                        span.AttachEvent(EventName.MouseDown, e =>
+                        span.AttachMouseDownEvent(e =>
                         {
 #if DEBUG
                             // System.Diagnostics.Debugger.Break();                           
-                            //test change span property
-
+                            //test change span property 
                             //clear prev content and add new  text content 
                             span.ClearAllElements();
-                            span.AddTextContent("XYZ0001");  
+                            span.AddTextContent("XYZ0001");
 #endif
 
                             e.StopPropagation();
@@ -48,8 +48,12 @@ namespace HtmlRenderer.Demo
                     div.AddChild("span", span =>
                     {
                         span.AddTextContent("EFGHIJK");
-                    });
-
+                        span.AttachMouseDownEvent(e =>
+                        {
+                            span.ClearAllElements();
+                            span.AddTextContent("LMNOP0003");
+                        });
+                    }); 
                     //----------------------
                     div.AttachEvent(EventName.MouseDown, e =>
                     {
