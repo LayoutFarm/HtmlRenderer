@@ -38,14 +38,12 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContentManager\ImageContentManager.cs" />
-    <Compile Include="ContentManager\TextContentManager.cs" />
     <Compile Include="Events\HtmlLinkClickedEventArgs.cs" />
     <Compile Include="Events\HtmlLinkClickedException.cs" />
     <Compile Include="Events\HtmlRefreshEventArgs.cs" />
     <Compile Include="Events\HtmlRenderErrorEventArgs.cs" />
     <Compile Include="Events\HtmlScrollEventArgs.cs" />
-    <Compile Include="Handlers\HtmlClipboardUtils.cs" />
+    <Compile Include="Platform\HtmlClipboardUtils.cs" />
     <Compile Include="Platform\ClibboardHelper.cs" />
     <Compile Include="Platform\FontsUtils.cs" />
     <Compile Include="Platform\HtmlContainerImpl.cs" />

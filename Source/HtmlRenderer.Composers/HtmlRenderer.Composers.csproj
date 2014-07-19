@@ -45,9 +45,11 @@
     <Compile Include="1_Composers\SpecSetter.cs" />
     <Compile Include="1_Composers\UserMapUtil.cs" />
     <Compile Include="1_Composers\ValueMaps.cs" />
+    <Compile Include="3_ContentManagers\ImageContentManager.cs" />
     <Compile Include="3_ContentManagers\ImageRequestEventArgs.cs" />
     <Compile Include="3_ContentManagers\StylesheetLoadEventArgs.cs" />
     <Compile Include="2_EventCore\HtmlInputEventBridge.cs" />
+    <Compile Include="3_ContentManagers\TextContentManager.cs" />
     <Compile Include="4_WebDom\2_Css\CssAttributeSelector.cs" />
     <Compile Include="4_WebDom\2_Css\CssDocMembers.cs" />
     <Compile Include="4_WebDom\2_Css\CssDocument.cs" />

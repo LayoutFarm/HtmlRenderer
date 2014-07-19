@@ -73,11 +73,7 @@ namespace HtmlRenderer.Composers
             stylesheetData = e.SetStyleSheetData;
 
         }
-
-        //protected abstract void OnRequestStyleSheet(string hrefSource,
-        //    out string stylesheet,
-        //    out WebDom.CssActiveSheet stylesheetData);
-
+         
         //-----------------------------------------------------------------
         void PrepareBridgeTree(HtmlContainer container,
            WebDom.HtmlDocument htmldoc,
