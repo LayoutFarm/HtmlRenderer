@@ -254,8 +254,7 @@ namespace HtmlRenderer
         public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.HtmlDocument doc)
         {   
            
-            _htmlContainer.RefreshHtmlDomChange(doc, _baseCssData);
-
+            _htmlContainer.RefreshHtmlDomChange(doc, _baseCssData); 
             PerformLayout();
             Invalidate();
         }

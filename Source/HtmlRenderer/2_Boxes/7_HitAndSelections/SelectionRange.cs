@@ -62,7 +62,7 @@ namespace HtmlRenderer.Boxes
             {
                 default:
                 case HitObjectKind.Unknown:
-                    {   
+                    {
                         throw new NotSupportedException();
                     }
                 case HitObjectKind.LineBox:

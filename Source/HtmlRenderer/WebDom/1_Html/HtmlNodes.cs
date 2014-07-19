@@ -40,9 +40,15 @@ namespace HtmlRenderer.WebDom
 #if DEBUG
             this.dbugId = dbugTotalId;
             dbugTotalId++;
-
 #endif
 
+        }
+        public DocumentState DocState
+        {
+            get
+            {
+                return this.ownerDoc.DocumentState;
+            }
         }
         public HtmlNode ParentNode
         {
@@ -62,10 +68,7 @@ namespace HtmlRenderer.WebDom
                 return nodeType;
             }
         }
-        internal void SetParent(HtmlNode parentNode)
-        {
-            this.parentNode = parentNode;
-        }
+
         public HtmlDocument OwnerDocument
         {
             get
@@ -73,6 +76,12 @@ namespace HtmlRenderer.WebDom
                 return ownerDoc;
             }
         }
+
+        internal void SetParent(HtmlNode parentNode)
+        {
+            this.parentNode = parentNode;
+        }
+
     }
 
 
@@ -264,9 +273,7 @@ namespace HtmlRenderer.WebDom
         internal int nodeLocalNameIndex;
         List<HtmlAttribute> myAttributes;
         List<HtmlNode> myChildrenNodes;
-
-        //-------------------------------------------
-        HtmlElement closeNode;
+        //------------------------------------------- 
         HtmlAttribute attrElemId;
         HtmlAttribute attrClass;
         //-------------------------------------------
@@ -337,17 +344,6 @@ namespace HtmlRenderer.WebDom
         {
             return this.myChildrenNodes[index];
         }
-        public HtmlElement CloseNode
-        {
-            get
-            {
-                return this.closeNode;
-            }
-            set
-            {
-                this.closeNode = value;
-            }
-        }
 
         public void AddAttribute(HtmlAttribute attr)
         {
@@ -372,6 +368,9 @@ namespace HtmlRenderer.WebDom
 
             myAttributes.Add(attr);
             attr.SetParent(this);
+
+
+
         }
 
         public void AddChild(HtmlNode childNode)
@@ -421,7 +420,17 @@ namespace HtmlRenderer.WebDom
             {
                 this.myChildrenNodes.Clear();
             }
+            switch (this.DocState)
+            {
+                case DocumentState.Idle:
+                    {
+                        //change 
+                        this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
+                    } break; 
+            }
         }
+
+        //------------------------------------------
         public HtmlAttribute FindAttribute(int attrLocalNameIndex)
         {
             if (myAttributes != null)

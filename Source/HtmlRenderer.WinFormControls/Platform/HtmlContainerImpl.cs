@@ -3,11 +3,10 @@ using System.Collections.Generic;
 
 using System.Text;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Diagnostics;
 
 using HtmlRenderer.Boxes;
-using HtmlRenderer.WebDom; 
+using HtmlRenderer.WebDom;
 using HtmlRenderer.Drawing;
 using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Diagnostics;
@@ -18,6 +17,8 @@ namespace HtmlRenderer
     public class HtmlContainerImpl : HtmlContainer
     {
 
+        HtmlDocument doc;
+        CssActiveSheet activeCssSheet;
 
         ImageContentManager imageContentManager;
         TextContentManager textContentManager;
@@ -99,8 +100,23 @@ namespace HtmlRenderer
             }
 
         }
+        public HtmlRenderer.WebDom.HtmlDocument HtmlDoc
+        {
+            get { return this.doc; }
+            set { this.doc = value; }
+        }
+        public void SetHtmlDoc(HtmlRenderer.WebDom.HtmlDocument doc)
+        {
+            this.doc = doc;
+        }
+        public void SetRootCssBox(CssBox rootBox, HtmlRenderer.WebDom.CssActiveSheet activeCss)
+        {
+            this.activeCssSheet = activeCss;
+            base.SetRootCssBox(rootBox);
+        }
         public void PerformPaint(Graphics g)
         {
+
             using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
             {
                 Region prevClip = null;
@@ -108,6 +124,18 @@ namespace HtmlRenderer
                 {
                     prevClip = g.Clip;
                     g.SetClip(new RectangleF(this.Location, this.MaxSize));
+                }
+
+                if (doc.DocumentState == DocumentState.ChangedAfterIdle)
+                {
+                    
+                    HtmlRenderExtensions.RefreshHtmlDomChange(
+                        this,
+                        doc,
+                        this.activeCssSheet);
+                    doc.SetDocumentState(DocumentState.Idle);
+                    this.PerformLayout(g);
+                    
                 }
 
                 this.PerformPaint(gfx);
@@ -174,7 +202,6 @@ namespace HtmlRenderer
         {
 
         }
-
 
         public string GetHtml()
         {
@@ -373,36 +400,36 @@ namespace HtmlRenderer
         //    }
         //}
 
-        /// <summary>
-        /// Handle key down event for selection and copy.
-        /// </summary>
-        /// <param name="parent">the control hosting the html to invalidate</param>
-        /// <param name="e">the pressed key</param>
-        public void HandleKeyDown(Control parent, KeyEventArgs e)
-        {
+        ///// <summary>
+        ///// Handle key down event for selection and copy.
+        ///// </summary>
+        ///// <param name="parent">the control hosting the html to invalidate</param>
+        ///// <param name="e">the pressed key</param>
+        //public void HandleKeyDown(Control parent, KeyEventArgs e)
+        //{
 
-            //try
-            //{
-            //    if (e.Control && _selectionHandler != null)
-            //    {
-            //        // select all
-            //        if (e.KeyCode == Keys.A)
-            //        {
-            //            _selectionHandler.SelectAll(parent);
-            //        }
+        //    //try
+        //    //{
+        //    //    if (e.Control && _selectionHandler != null)
+        //    //    {
+        //    //        // select all
+        //    //        if (e.KeyCode == Keys.A)
+        //    //        {
+        //    //            _selectionHandler.SelectAll(parent);
+        //    //        }
 
-            //        // copy currently selected text
-            //        if (e.KeyCode == Keys.C)
-            //        {
-            //            _selectionHandler.CopySelectedHtml();
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed key down handle", ex);
-            //}
-        }
+        //    //        // copy currently selected text
+        //    //        if (e.KeyCode == Keys.C)
+        //    //        {
+        //    //            _selectionHandler.CopySelectedHtml();
+        //    //        }
+        //    //    }
+        //    //}
+        //    //catch (Exception ex)
+        //    //{
+        //    //    ReportError(HtmlRenderErrorType.KeyboardMouse, "Failed key down handle", ex);
+        //    //}
+        //}
 
         /// <summary>
         /// Is content selection is enabled for the rendered html (default - true).<br/>
