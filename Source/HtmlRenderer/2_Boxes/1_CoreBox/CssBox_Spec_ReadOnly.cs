@@ -377,7 +377,7 @@ namespace HtmlRenderer.Boxes
         /// Gets the height of the font in the specified units
         /// </summary>
         /// <returns></returns>
-        internal float GetEmHeight()
+        public float GetEmHeight()
         {
             //after has actual font 
             return this._actualEmHeight;//  

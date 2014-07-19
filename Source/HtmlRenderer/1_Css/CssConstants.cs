@@ -21,7 +21,7 @@ namespace HtmlRenderer.Css
     /// <summary>
     /// String constants to avoid typing errors.
     /// </summary>
-    static class CssConstants
+    public static class CssConstants
     {
         public const string Absolute = "absolute";
         public const string Auto = "auto";

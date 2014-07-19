@@ -42,13 +42,14 @@
     <Compile Include="4_Composers\BoxModelBuilder.cs" />
     <Compile Include="4_Composers\CommonUtils.cs" />
     <Compile Include="4_Composers\ContentTextSplitter.cs" />
+    <Compile Include="4_Composers\SpecSetter.cs" />
+    <Compile Include="4_Composers\UserMapUtil.cs" />
     <Compile Include="ContentManagers\ImageRequestEventArgs.cs" />
     <Compile Include="ContentManagers\StylesheetLoadEventArgs.cs" />
     <Compile Include="WebDom\CssActiveSheet.cs" />
     <Compile Include="4_Composers\CssDefaults.cs" />
     <Compile Include="4_Composers\CssParserHelper.cs" />
     <Compile Include="4_Composers\RunListHelper.cs" />
-    <Compile Include="4_Composers\SpecSetter.cs" />
     <Compile Include="4_Composers\WebBridgeElements.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebDom.Parser\CssParser.cs" />
