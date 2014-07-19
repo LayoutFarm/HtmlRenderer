@@ -240,18 +240,31 @@ namespace HtmlRenderer
             }
         }
 
-      
+
 
         public void LoadHtmlDom(HtmlRenderer.WebDom.HtmlDocument doc, string defaultCss)
         {
-            _baseRawCssData = defaultCss; 
-            _baseCssData = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(defaultCss, true);             
+            _baseRawCssData = defaultCss;
+            _baseCssData = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(defaultCss, true);
             _htmlContainer.SetHtml(doc, _baseCssData);
+
             PerformLayout();
             Invalidate();
         }
+        public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.HtmlDocument doc)
+        {   
+           
+            _htmlContainer.RefreshHtmlDomChange(doc, _baseCssData);
 
-    
+            PerformLayout();
+            Invalidate();
+        }
+        public HtmlContainer GetHtmlContainer()
+        {
+            return this._htmlContainer;
+        }
+
+
         /// <summary>
         /// Get html from the current DOM tree with inline style.
         /// </summary>
@@ -261,7 +274,7 @@ namespace HtmlRenderer
             return _htmlContainer != null ? _htmlContainer.GetHtml() : null;
         }
 
-       
+
         ///// <summary>
         ///// Adjust the scrollbar of the panel on html element by the given id.<br/>
         ///// The top of the html element rectangle will be at the top of the panel, if there

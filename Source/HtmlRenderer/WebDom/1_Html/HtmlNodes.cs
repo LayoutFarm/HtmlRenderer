@@ -393,7 +393,35 @@ namespace HtmlRenderer.WebDom
                     } break;
             }
         }
+        public bool RemoveChild(HtmlNode childNode)
+        {
+            switch (childNode.NodeType)
+            {
+                case HtmlNodeType.Attribute:
+                    {
 
+
+                        return false;
+                    }
+                default:
+                    if (myChildrenNodes != null)
+                    {
+                        return myChildrenNodes.Remove(childNode);
+                    }
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// clear all children elements
+        /// </summary>
+        public void ClearAllElements()
+        {
+            if (this.myChildrenNodes != null)
+            {
+                this.myChildrenNodes.Clear();
+            }
+        }
         public HtmlAttribute FindAttribute(int attrLocalNameIndex)
         {
             if (myAttributes != null)

@@ -61,7 +61,7 @@ namespace HtmlRenderer.Demo
             demoForm.Show();
             demoForm.Activate();
             
-            demoForm.LoadDemo(new Demo01CreateHtmlDom());
+            demoForm.LoadDemo(new Demo01_CreateHtmlDomStyle1());
 
 
         }
@@ -73,7 +73,20 @@ namespace HtmlRenderer.Demo
             demoForm.Show();
             demoForm.Activate();
              
-            demoForm.LoadDemo(new Demo02CreateHtmlDom());
+            demoForm.LoadDemo(new Demo02_CreateHtmlDomStyle2());
         }
+
+        private void cmdDemo3_Click(object sender, EventArgs e)
+        {
+            DemoForm demoForm = new DemoForm();
+            demoForm.Show();
+            demoForm.Activate();
+
+            demoForm.LoadDemo(new Demo03_DynamicContent1());
+
+
+        }
+
+        
     }
 }

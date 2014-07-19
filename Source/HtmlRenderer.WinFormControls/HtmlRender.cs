@@ -814,6 +814,18 @@ namespace HtmlRenderer
                 container.SetRootCssBox(rootBox);
             }
         }
+        public static void RefreshHtmlDomChange(this HtmlContainer container, HtmlRenderer.WebDom.HtmlDocument doc, CssActiveSheet cssData)
+        {
+            
+            HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
+            using (var img = new Bitmap(1, 1))
+            using (var g = Graphics.FromImage(img))
+            {
+                WinGraphics winGfx = new WinGraphics(g, false);
+                var rootBox = builder.BuildCssTree(doc, winGfx, container, cssData);
+                container.SetRootCssBox(rootBox);
+            }
+        }
     }
 
 }

@@ -5,10 +5,10 @@ using HtmlRenderer.WebDom;
 namespace HtmlRenderer.Demo
 {
 
-    class Demo01CreateHtmlDom : DemoBase
+    class Demo01_CreateHtmlDomStyle1 : DemoBase
     {
 
-        public Demo01CreateHtmlDom()
+        public Demo01_CreateHtmlDomStyle1()
         {
 
         }

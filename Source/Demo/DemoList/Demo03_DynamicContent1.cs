@@ -5,16 +5,15 @@ using HtmlRenderer.WebDom;
 namespace HtmlRenderer.Demo
 {
 
-    class Demo02CreateHtmlDom : DemoBase
+    class Demo03_DynamicContent1 : DemoBase
     {
 
-
-        public Demo02CreateHtmlDom()
+        public Demo03_DynamicContent1()
         {
 
         }
         protected override void OnStartDemo(HtmlPanel panel)
-        {  
+        {
             BridgeHtmlDocument htmldoc = new BridgeHtmlDocument();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
@@ -31,19 +30,29 @@ namespace HtmlRenderer.Demo
                         //3. attach event to specific span
                         span.AttachEvent(EventName.MouseDown, e =>
                         {
-
-                            //-------------------------------
-                            //mousedown on specific span !
-                            //-------------------------------
 #if DEBUG
-                            // System.Diagnostics.Debugger.Break();
-                            Console.WriteLine("span");
+                            // System.Diagnostics.Debugger.Break();                           
+                            //test change span property
+
+                            //clear prev content and add new  text content 
+                            span.ClearAllElements();
+                            span.AddTextContent("XYZ0001");
+
+                            //affect layout of html dom
+                            panel.ForceRefreshHtmlDomChange(htmldoc);
+
 #endif
-                            //test stop propagation 
+
                             e.StopPropagation();
 
                         });
                     });
+
+                    div.AddChild("span", span =>
+                    {
+                        span.AddTextContent("EFGHIJK");
+                    });
+
                     //----------------------
                     div.AttachEvent(EventName.MouseDown, e =>
                     {
@@ -56,11 +65,11 @@ namespace HtmlRenderer.Demo
 
                     });
                 });
-            }); 
+            });
 
             //2. add to view 
             panel.LoadHtmlDom(htmldoc,
-               HtmlRenderer.Composers.CssDefaults.DefaultStyleSheet); 
+               HtmlRenderer.Composers.CssDefaults.DefaultStyleSheet);
 
 
         }
