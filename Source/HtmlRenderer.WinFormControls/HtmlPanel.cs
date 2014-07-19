@@ -68,7 +68,7 @@ namespace HtmlRenderer
         /// 
         /// </summary>
         private HtmlContainerImpl _htmlContainer;
-        HtmlInputEventBridge _htmlEventBridge;
+        Composers.HtmlInputEventBridge _htmlEventBridge;
 
         /// <summary>
         /// the raw base stylesheet data used in the control
@@ -103,7 +103,7 @@ namespace HtmlRenderer
             _htmlContainer.ImageContentMan.ImageLoadingRequest += OnImageLoad;
 
             //-------------------------------------------
-            _htmlEventBridge = new HtmlInputEventBridge();
+            _htmlEventBridge = new Composers.HtmlInputEventBridge();
             _htmlEventBridge.Bind(_htmlContainer);
             //-------------------------------------------
         }

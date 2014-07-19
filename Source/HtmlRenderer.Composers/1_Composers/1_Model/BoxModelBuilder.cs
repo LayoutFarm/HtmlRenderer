@@ -513,10 +513,11 @@ namespace HtmlRenderer.Composers
             string attrStyleValue;
             if (element.TryGetAttribute(WellknownHtmlName.Style, out attrStyleValue))
             {
-                var ruleset = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray());
+                var ruleset = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray()); 
+                
+                //step up version number
+                BoxSpec.SetVersionNumber(curSpec, curSpec.VersionNumber + 1);
 
-                 
-                curSpec.VersionNumber++; //***
                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                 {
                     SpecSetter.AssignPropertyValue(

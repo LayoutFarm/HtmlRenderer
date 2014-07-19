@@ -13,11 +13,11 @@ namespace HtmlRenderer.Composers
     class ActiveCssTemplate
     {
 
-        CssActiveSheet activeSheet;  
+        CssActiveSheet activeSheet;
         bool isCloneOnce = false;
         public ActiveCssTemplate(CssActiveSheet activeSheet)
         {
-            this.activeSheet = activeSheet; 
+            this.activeSheet = activeSheet;
         }
         public CssActiveSheet ActiveSheet
         {
@@ -51,7 +51,7 @@ namespace HtmlRenderer.Composers
             activeSheet.Combine(anotherActiveSheet);
         }
         //--------------------------------------------------------------------------------------------------       
-       
+
 
         struct TemplateKey
         {
@@ -100,11 +100,10 @@ namespace HtmlRenderer.Composers
             if (!templatesForTagName.TryGetValue(key, out boxTemplate))
             {
                 //create template for specific key  
-                boxTemplate = new BoxSpec();                 
+                boxTemplate = new BoxSpec();
                 BoxSpec.CloneAllStyles(boxTemplate, currentBoxSpec);
-
-                currentBoxSpec.VersionNumber = parentSpec.VersionNumber;
-                currentBoxSpec.VersionNumber++;
+                BoxSpec.SetVersionNumber(currentBoxSpec, parentSpec.VersionNumber + 1);
+                 
                 //*** 
                 //----------------------------
                 //1. tag name
@@ -154,14 +153,14 @@ namespace HtmlRenderer.Composers
                 templatesForTagName.Add(key, boxTemplate);
                 boxTemplate.Freeze();
                 //***********
-                 
+
                 //*********** 
                 BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
             }
             else
             {
                 //***********
-                 
+
                 BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
                 //*********** 
 
@@ -177,7 +176,7 @@ namespace HtmlRenderer.Composers
             {
                 //TODO:  implement this
                 throw new NotSupportedException();
-            } 
+            }
         }
 
 

@@ -90,18 +90,7 @@ namespace HtmlRenderer.Css
 
         }
         //---------------------------------------------------------------
-        public int VersionNumber
-        {
-            get
-            {
-                return this._versionNum;
-            }
-            set
-            {
-                this._versionNum = value;
-                this.anonVersion = null;
-            }
-        }
+        
         public void Freeze()
         {
             this._freezed = true;

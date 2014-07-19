@@ -97,7 +97,17 @@ namespace HtmlRenderer.Css
             target._cssDirection = source._cssDirection;
         }
 
-
+        public static void SetVersionNumber(BoxSpec target, int versionNumber)
+        {
+            target._versionNum = versionNumber;
+        }
+        public int VersionNumber
+        {
+            get
+            {
+                return this._versionNum;
+            }
+        }
 
         public BoxSpec GetAnonVersion()
         {

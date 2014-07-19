@@ -6,9 +6,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using HtmlRenderer.Drawing;
 using HtmlRenderer.Boxes;
+using HtmlRenderer.WebDom;
 
+namespace HtmlRenderer.Composers
 
-namespace HtmlRenderer.WebDom
 {
 
     public class HtmlInputEventBridge

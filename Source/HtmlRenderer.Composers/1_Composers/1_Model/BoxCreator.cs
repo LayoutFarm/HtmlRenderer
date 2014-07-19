@@ -276,7 +276,7 @@ namespace HtmlRenderer.Composers
                         } break;
                     default:
                         {
-                            text_content = (CommonUtils.ConvertToAlphaNumber(GetIndexForList(newBox, childElement), spec.ListStyleType) + ".").ToCharArray();
+                            text_content = (BulletNumberFormatter.ConvertToAlphaNumber(GetIndexForList(newBox, childElement), spec.ListStyleType) + ".").ToCharArray();
                         } break;
                 }
                 //---------------------------------------------------------------

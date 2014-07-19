@@ -31,8 +31,7 @@ namespace HtmlRenderer.Composers
                 {
                     runlist[i].SetOwner(toBox);
                 }
-            }
-             
+            } 
             CssBox.UnsafeSetContentRuns(toBox, runlist, isAllWhitespace);
         } 
     }
