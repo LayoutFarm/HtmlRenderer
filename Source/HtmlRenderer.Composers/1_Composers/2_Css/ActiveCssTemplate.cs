@@ -103,7 +103,7 @@ namespace HtmlRenderer.Composers
                 boxTemplate = new BoxSpec();
                 BoxSpec.CloneAllStyles(boxTemplate, currentBoxSpec);
                 BoxSpec.SetVersionNumber(currentBoxSpec, parentSpec.VersionNumber + 1);
-                 
+
                 //*** 
                 //----------------------------
                 //1. tag name
@@ -169,7 +169,7 @@ namespace HtmlRenderer.Composers
         }
 
 
-        internal void ApplyActiveTemplateForSpecificElementId(BridgeHtmlElement element)
+        internal void ApplyActiveTemplateForSpecificElementId(HtmlElement element)
         {
             var ruleset = activeSheet.GetRuleSetForId(element.AttrElementId);
             if (ruleset != null)

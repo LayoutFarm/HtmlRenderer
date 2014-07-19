@@ -38,17 +38,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="1_Composers\2_Css\ActiveCssTemplate.cs" />
-    <Compile Include="1_Composers\1_Model\BoxCreator.cs" />
+    <Compile Include="1_Composers\1_Model\CustomCssBoxGenerator.cs" />
     <Compile Include="1_Composers\1_Model\BoxModelBuilder.cs" />
-    <Compile Include="1_Composers\1_Model\BulletNumberFormatter.cs" />
+    <Compile Include="2_BridgeHtmlDom\BulletNumberFormatter.cs" />
     <Compile Include="1_Composers\1_Model\ContentTextSplitter.cs" />
     <Compile Include="1_Composers\1_Model\SpecSetter.cs" />
     <Compile Include="1_Composers\1_Model\UserMapUtil.cs" />
     <Compile Include="1_Composers\1_Model\ValueMaps.cs" />
+    <Compile Include="2_BridgeHtmlDom\BoxCreator.cs" />
+    <Compile Include="2_BridgeHtmlDom\BridgeHtmlDocument.cs" />
     <Compile Include="3_ContentManagers\ImageContentManager.cs" />
     <Compile Include="3_ContentManagers\ImageRequestEventArgs.cs" />
     <Compile Include="3_ContentManagers\StylesheetLoadEventArgs.cs" />
-    <Compile Include="1_Composers\3_HtmlDom\HtmlInputEventBridge.cs" />
+    <Compile Include="1_Composers\1_Model\HtmlInputEventBridge.cs" />
     <Compile Include="3_ContentManagers\TextContentManager.cs" />
     <Compile Include="4_WebDom\2_Css\CssAttributeSelector.cs" />
     <Compile Include="4_WebDom\2_Css\CssDocMembers.cs" />
@@ -56,8 +58,8 @@
     <Compile Include="4_WebDom\2_Css\CssActiveSheet.cs" />
     <Compile Include="1_Composers\2_Css\CssDefaults.cs" />
     <Compile Include="1_Composers\2_Css\CssParserHelper.cs" />
-    <Compile Include="1_Composers\1_Model\RunListHelper.cs" />
-    <Compile Include="1_Composers\3_HtmlDom\WebBridgeElements.cs" />
+    <Compile Include="2_BridgeHtmlDom\RunListHelper.cs" />
+    <Compile Include="3_ContentManagers\BridgeElements.cs" />
     <Compile Include="4_WebDom\3_Gen\HtmlGenerationStyle.cs" />
     <Compile Include="4_WebDom\3_Gen\HtmlGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -18,6 +18,10 @@ using System.Collections.Generic;
 
 namespace HtmlRenderer.ContentManagers
 {
+
+    public delegate void RequestStyleSheetEventHandler(StylesheetLoadEventArgs args);
+
+
     /// <summary>
     /// Invoked when a stylesheet is about to be loaded by file path or URL in 'link' element.<br/>
     /// Allows to overwrite the loaded stylesheet by providing the stylesheet data manually, or different source (file or URL) to load from.<br/>
@@ -68,7 +72,7 @@ namespace HtmlRenderer.ContentManagers
         {
             get { return _src; }
         }
-         
+
 
         /// <summary>
         /// provide the new source (file path or URL) to load stylesheet from

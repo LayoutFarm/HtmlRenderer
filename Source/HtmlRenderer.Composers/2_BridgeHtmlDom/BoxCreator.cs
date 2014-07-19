@@ -6,15 +6,9 @@ using HtmlRenderer.WebDom;
 using HtmlRenderer.Css;
 using HtmlRenderer.Boxes;
 
-namespace HtmlRenderer.Composers
+namespace HtmlRenderer.Composers.BridgeHtml
 {
-
-    public abstract class CustomCssBoxGenerator
-    {
-        public abstract CssBox CreateCssBox(object tag, CssBox parentBox, BoxSpec spec);
-    }
-
-    public static class BoxCreator
+    static class BoxCreator
     {
         static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
         public static void RegisterCustomCssBoxGenerator(CustomCssBoxGenerator generator)
@@ -35,9 +29,6 @@ namespace HtmlRenderer.Composers
             }
             return new CssBoxImage(parent, childElement, childElement.Spec, imgBinder);
         }
-
-
-
 
         internal static CssBox CreateBox(CssBox parentBox, BridgeHtmlElement childElement)
         {
@@ -280,11 +271,11 @@ namespace HtmlRenderer.Composers
                         } break;
                 }
                 //---------------------------------------------------------------
-                 
+
                 CssBox.UnsafeSetTextBuffer(itemBulletBox, text_content);
 
                 List<CssRun> runlist;
-                bool hasSomeCharacter; 
+                bool hasSomeCharacter;
                 splitter.ParseWordContent(text_content, spec, out runlist, out  hasSomeCharacter);
 
                 RunListHelper.AddRunList(itemBulletBox, spec, runlist, text_content, false);

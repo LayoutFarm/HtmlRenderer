@@ -21,12 +21,11 @@ using HtmlRenderer.WebDom;
 using HtmlRenderer.WebDom.Parser;
 using HtmlRenderer.Boxes;
 using HtmlRenderer.Drawing;
+using HtmlRenderer.Composers.BridgeHtml;
 
 namespace HtmlRenderer.Composers
 {
 
-
-    public delegate void RequestStyleSheetEventHandler(ContentManagers.StylesheetLoadEventArgs args);
 
 
     /// <summary>
@@ -36,8 +35,7 @@ namespace HtmlRenderer.Composers
     {
 
         ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
-
-        public event RequestStyleSheetEventHandler RequestStyleSheet;
+        public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
         WebDom.Parser.CssParser miniCssParser = new CssParser();
         public BoxModelBuilder()
         {
@@ -513,8 +511,8 @@ namespace HtmlRenderer.Composers
             string attrStyleValue;
             if (element.TryGetAttribute(WellknownHtmlName.Style, out attrStyleValue))
             {
-                var ruleset = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray()); 
-                
+                var ruleset = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray());
+
                 //step up version number
                 BoxSpec.SetVersionNumber(curSpec, curSpec.VersionNumber + 1);
 

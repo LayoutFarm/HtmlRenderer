@@ -7,7 +7,7 @@ using HtmlRenderer.WebDom;
 using HtmlRenderer.Css;
 using HtmlRenderer.Boxes;
 
-namespace HtmlRenderer.Composers
+namespace HtmlRenderer.Composers.BridgeHtml
 {
     static class RunListHelper
     {

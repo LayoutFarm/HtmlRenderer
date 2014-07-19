@@ -15,19 +15,19 @@
 
 using System;
 using System.Collections.Generic;
- 
+
 using System.Globalization;
 using System.IO;
 using System.Net;
-using System.Text; 
+using System.Text;
 
- 
-namespace HtmlRenderer.Composers
+
+namespace HtmlRenderer.Composers.BridgeHtml
 {
-    
-    
-   
-    internal static class BulletNumberFormatter
+
+
+
+    static class BulletNumberFormatter
     {
         #region Fields and Consts
 
@@ -78,7 +78,7 @@ namespace HtmlRenderer.Composers
 
         #endregion
 
- 
+
         /// <summary>
         /// Convert number to alpha numeric system by the requested style (UpperAlpha, LowerRoman, Hebrew, etc.).
         /// </summary>
@@ -102,20 +102,20 @@ namespace HtmlRenderer.Composers
                 case Css.CssListStyleType.Georgian:
                     return ConvertToSpecificNumbers(number, _georgianDigitsTable);
                 case Css.CssListStyleType.Hebrew:
-                      return ConvertToSpecificNumbers(number, _hebrewDigitsTable);
+                    return ConvertToSpecificNumbers(number, _hebrewDigitsTable);
                 case Css.CssListStyleType.Hiragana:
                 case Css.CssListStyleType.HiraganaIroha:
                     return ConvertToSpecificNumbers2(number, _hiraganaDigitsTable);
                 case Css.CssListStyleType.Katakana:
                 case Css.CssListStyleType.KatakanaIroha:
-                   return ConvertToSpecificNumbers2(number, _satakanaDigitsTable);
+                    return ConvertToSpecificNumbers2(number, _satakanaDigitsTable);
                 case Css.CssListStyleType.LowerAlpha:
                 case Css.CssListStyleType.LowerLatin:
                     return ConvertToEnglishNumber(number, true);
                 default:
                     return ConvertToEnglishNumber(number, false);
             }
-             
+
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace HtmlRenderer.Composers
             }
             return sb;
         }
-        
+
 
     }
 }
