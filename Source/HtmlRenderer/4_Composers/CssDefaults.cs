@@ -9,6 +9,7 @@ namespace HtmlRenderer.Composers
         /// default CSS parsed data singleton
         /// </summary>
         static WebDom.CssActiveSheet _defaultCssData;
+
         /// <summary>
         /// default CSS parsed data singleton
         /// </summary>
@@ -19,7 +20,7 @@ namespace HtmlRenderer.Composers
                 if (_defaultCssData == null)
                 {
                     _defaultCssData = new WebDom.CssActiveSheet();
-                    CssParser.ParseStyleSheet(_defaultCssData, CssDefaults.DefaultStyleSheet);
+                    CssParserHelper.ParseStyleSheet(_defaultCssData, CssDefaults.DefaultStyleSheet);
                 }
                 return _defaultCssData;
             }

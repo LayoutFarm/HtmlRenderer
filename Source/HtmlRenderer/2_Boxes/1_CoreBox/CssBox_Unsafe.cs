@@ -33,7 +33,7 @@ namespace HtmlRenderer.Boxes
         {
             return box.Boxes;
         }
-        internal static  BoxSpec UnsafeGetBoxSpec(CssBox box)
+        internal static BoxSpec UnsafeGetBoxSpec(CssBox box)
         {
             //this method is for BoxCreator and debug only!
             //box.Spec is private
@@ -41,15 +41,13 @@ namespace HtmlRenderer.Boxes
         }
         internal static void UnsafeSetParent(CssBox box, CssBox parent)
         {
-            box._parentBox = parent;
-            //box._htmlContainer = htmlContainer;
+            box._parentBox = parent; 
         }
-
-#if DEBUG
-        internal static object debugGetController(CssBox box)
+        public static object UnsafeGetController(CssBox box)
         {
             return box._controller;
         }
+#if DEBUG
         public override string ToString()
         {
             if (this._controller != null)

@@ -16,7 +16,8 @@ namespace HtmlRenderer.Composers
         HtmlElement rootNode;
         public BridgeHtmlDocument()
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
-        {
+        {   
+            //default root
             rootNode = new BrigeRootElement(this);
         }
         public override HtmlElement RootNode

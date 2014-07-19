@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Drawing; 
 using HtmlRenderer.Drawing;
 
-namespace HtmlRenderer.WebDom
+namespace HtmlRenderer.ContentManagers
 {
-    public class HtmlImageRequestEventArgs : EventArgs
+    public class ImageRequestEventArgs : EventArgs
     {
-        public HtmlImageRequestEventArgs(ImageBinder binder)
+        public ImageRequestEventArgs(ImageBinder binder)
         { 
             this.ImageBinder = binder;
         }

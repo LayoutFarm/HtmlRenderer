@@ -15,8 +15,8 @@
 
 using System;
 using System.Collections.Generic;
- 
-namespace HtmlRenderer.WebDom
+
+namespace HtmlRenderer.ContentManagers
 {
     /// <summary>
     /// Invoked when a stylesheet is about to be loaded by file path or URL in 'link' element.<br/>
@@ -24,7 +24,7 @@ namespace HtmlRenderer.WebDom
     /// Example: The stylesheet 'href' can be non-valid URI string that is interpreted in the overwrite delegate by custom logic to pre-loaded stylesheet object<br/>
     /// If no alternative data is provided the original source will be used.<br/>
     /// </summary>
-    public sealed class HtmlStylesheetLoadEventArgs : EventArgs
+    public sealed class StylesheetLoadEventArgs : EventArgs
     {
         #region Fields and Consts
 
@@ -46,7 +46,7 @@ namespace HtmlRenderer.WebDom
         /// <summary>
         /// provide the stylesheet data to load
         /// </summary>
-        private CssActiveSheet _setStyleSheetData;
+        private HtmlRenderer.WebDom.CssActiveSheet _setStyleSheetData;
 
         #endregion
 
@@ -56,7 +56,7 @@ namespace HtmlRenderer.WebDom
         /// </summary>
         /// <param name="src">the source of the image (file path or URL)</param>
         /// <param name="attributes">collection of all the attributes that are defined on the image element</param>
-        public HtmlStylesheetLoadEventArgs(string src)
+        public StylesheetLoadEventArgs(string src)
         {
             _src = src;
         }

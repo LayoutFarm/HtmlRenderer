@@ -39,7 +39,7 @@ namespace HtmlRenderer.Composers
         /// Parses the source html to css boxes tree structure.
         /// </summary>
         /// <param name="source">the html source to parse</param>
-        static BridgeHtmlDocument ParseDocument(TextSnapshot snapSource)
+        public HtmlDocument ParseDocument(TextSnapshot snapSource)
         {
             var parser = new HtmlRenderer.WebDom.Parser.HtmlParser();
             //------------------------
@@ -362,46 +362,16 @@ namespace HtmlRenderer.Composers
             }
         }
 
-
-
-
-        /// <summary>
-        /// Generate css tree by parsing the given html and applying the given css style data on it.
-        /// </summary>
-        /// <param name="html">the html to parse</param>
-        /// <param name="htmlContainer">the html container to use for reference resolve</param>
-        /// <param name="cssData">the css data to use</param>
-        /// <returns>the root of the generated tree</returns>
-        public CssBox ParseAndBuildBoxTree(
-            string html,
-            IFonts iFonts,
+        public CssBox BuildCssTree(HtmlDocument htmldoc, IFonts iFonts,
             HtmlContainer htmlContainer,
             CssActiveSheet cssData)
         {
 
-#if DEBUG
-
-#endif
             CssBox rootBox = null;
-            WebDom.HtmlDocument htmldoc = null; ;
-            ActiveCssTemplate activeCssTemplate = null;
 
-            //1. parse
-            //var t0 = dbugCounter.Snap(() =>
-            // {
-            htmldoc = ParseDocument(new TextSnapshot(html.ToCharArray()));
-
-            // });
-
-            // long t1 = dbugCounter.Snap(() =>
-            // {
-            activeCssTemplate = new ActiveCssTemplate(cssData);
-            //});
-
-            //2. active css template 
-            // var t2 = dbugCounter.Snap(() =>
-            // {
-            //3. prepare tree
+            ActiveCssTemplate activeCssTemplate = null; 
+            activeCssTemplate = new ActiveCssTemplate(cssData); 
+             
             PrepareBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
             //----------------------------------------------------------------  
             //4. assign styles 
@@ -415,12 +385,9 @@ namespace HtmlRenderer.Composers
             // var t3 = dbugCounter.Snap(() =>
             // {
             GenerateAllChildBoxes((BrigeRootElement)htmldoc.RootNode);
+
             SetTextSelectionStyle(htmlContainer, cssData);
 
-
-#if DEBUG
-            dbugTestParsePerformance(html);
-#endif
 
             //OnePassBoxCorrection(rootBox);
 
@@ -432,6 +399,7 @@ namespace HtmlRenderer.Composers
             //Console.WriteLine(t0 + t1 + t2 + t3);
             return rootBox;
         }
+        
         //------------------------------------------
         #region Private methods
 #if DEBUG

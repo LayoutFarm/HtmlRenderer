@@ -81,9 +81,8 @@ namespace HtmlRenderer.Demo
             _htmlPanel.LinkClicked += OnLinkClicked;
             _htmlPanel.StylesheetLoad += OnStylesheetLoad;
             _htmlPanel.ImageLoad += OnImageLoad;
-            _htmlToolTip.ImageLoad += OnImageLoad;
-
-            _htmlToolTip.SetToolTip(_htmlPanel, Resources.Tooltip);
+            //_htmlToolTip.ImageLoad += OnImageLoad; 
+            //_htmlToolTip.SetToolTip(_htmlPanel, Resources.Tooltip);
 
             _htmlEditor.Font = new Font(FontFamily.GenericMonospace, 10);
 
@@ -114,18 +113,19 @@ namespace HtmlRenderer.Demo
             _htmlPanel.Text = File.ReadAllText(filename);
             Application.UseWaitCursor = false;
             _updateLock = false;
-            UpdateWebBrowserHtml();
-             
-
-
+            UpdateWebBrowserHtml(); 
         }
+         
         public void PrepareSamples()
         {
             LoadCustomFonts();
             LoadSamples();
 
         }
-
+        public void LoadDemo(DemoBase demoBase)
+        {
+            demoBase.StartDemo(this._htmlPanel);
+        }
         #region Private methods
 
         /// <summary>
@@ -366,7 +366,7 @@ namespace HtmlRenderer.Demo
         /// <summary>
         /// Handle stylesheet resolve.
         /// </summary>
-        private static void OnStylesheetLoad(object sender, WebDom.HtmlStylesheetLoadEventArgs e)
+        private static void OnStylesheetLoad(object sender, HtmlRenderer.ContentManagers.StylesheetLoadEventArgs e)
         {
             var stylesheet = GetStylesheet(e.Src);
             if (stylesheet != null)
@@ -403,7 +403,7 @@ namespace HtmlRenderer.Demo
         /// <summary>
         /// On image load in renderer set the image by event async.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlRenderer.WebDom.HtmlImageRequestEventArgs e)
+        private void OnImageLoad(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
         {
 
 
@@ -510,11 +510,11 @@ namespace HtmlRenderer.Demo
             }
             else if (e.Link == "ShowSampleForm")
             {
-                using (var f = new SampleForm())
-                {
-                    f.ShowDialog();
-                    e.Handled = true;
-                }
+                //using (var f = new SampleForm())
+                //{
+                //    f.ShowDialog();
+                //    e.Handled = true;
+                //}
             }
         }
 

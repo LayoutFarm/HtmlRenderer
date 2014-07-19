@@ -28,7 +28,7 @@ namespace HtmlRenderer.Boxes
         public void dbugPaint(PaintVisitor p, RectangleF r)
         {
             //return; 
-            var htmlE = CssBox.debugGetController(this);
+            var htmlE = CssBox.UnsafeGetController(this);
             if (htmlE == null)
             {
                 //anonymous box

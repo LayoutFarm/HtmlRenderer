@@ -40,7 +40,7 @@ namespace HtmlRenderer.Demo
             this._webBrowser = new System.Windows.Forms.WebBrowser();
             this._reloadColorsLink = new System.Windows.Forms.LinkLabel();
             this._htmlEditor = new System.Windows.Forms.RichTextBox();
-            this._htmlToolTip = new HtmlRenderer.HtmlToolTip();
+            //this._htmlToolTip = new HtmlRenderer.HtmlToolTip();
             this._splitContainer1.Panel1.SuspendLayout();
             this._splitContainer1.Panel2.SuspendLayout();
             this._splitContainer1.SuspendLayout();
@@ -217,13 +217,13 @@ namespace HtmlRenderer.Demo
             // 
             // _htmlToolTip
             // 
-            this._htmlToolTip.AllowLinksHandling = true;
-            this._htmlToolTip.AutoPopDelay = 15000;
-            this._htmlToolTip.BaseStylesheet = null;
-            this._htmlToolTip.InitialDelay = 500;
-            this._htmlToolTip.MaximumSize = new System.Drawing.Size(0, 0);
-            this._htmlToolTip.OwnerDraw = true;
-            this._htmlToolTip.ReshowDelay = 100;
+            //this._htmlToolTip.AllowLinksHandling = true;
+            //this._htmlToolTip.AutoPopDelay = 15000;
+            //this._htmlToolTip.BaseStylesheet = null;
+            //this._htmlToolTip.InitialDelay = 500;
+            //this._htmlToolTip.MaximumSize = new System.Drawing.Size(0, 0);
+            //this._htmlToolTip.OwnerDraw = true;
+            //this._htmlToolTip.ReshowDelay = 100;
             // 
             // DemoForm
             // 
@@ -259,7 +259,7 @@ namespace HtmlRenderer.Demo
         private System.Windows.Forms.Splitter _splitter;
         private System.Windows.Forms.WebBrowser _webBrowser;
         private System.Windows.Forms.RichTextBox _htmlEditor;
-        private HtmlToolTip _htmlToolTip;
+       // private HtmlToolTip _htmlToolTip;
         private System.Windows.Forms.Button _openExternalViewButton;
         private System.Windows.Forms.CheckBox _showGeneratedHtmlCB;
         private System.Windows.Forms.LinkLabel _reloadColorsLink;

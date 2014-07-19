@@ -48,7 +48,7 @@ namespace HtmlRenderer.Composers
         public void LoadRawStyleElementContent(string rawStyleElementContent)
         {
             CloneActiveCssSheetOnce();
-            CssParser.ParseStyleSheet(activeSheet, rawStyleElementContent);
+            CssParserHelper.ParseStyleSheet(activeSheet, rawStyleElementContent);
         }
         public void LoadAnotherStylesheet(WebDom.CssActiveSheet anotherActiveSheet)
         {

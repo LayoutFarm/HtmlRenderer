@@ -257,7 +257,7 @@ namespace HtmlRenderer.Boxes
         }
 
 
-      
+
 
         /// <summary>
         /// Represents this word for debugging purposes
@@ -293,6 +293,7 @@ namespace HtmlRenderer.Boxes
                         CssTextRun textRun = (CssTextRun)this;
                         g.MeasureString2(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength,
                             this.OwnerBox.ActualFont, maxWidth, out charFit, out charFitWidth);
+                         
                         selectionIndex = charFit;
                         selectionOffset = charFitWidth;
                     } break;
