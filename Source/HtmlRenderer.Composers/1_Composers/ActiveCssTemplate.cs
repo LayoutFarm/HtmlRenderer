@@ -108,8 +108,8 @@ namespace HtmlRenderer.Composers
             if (!templatesForTagName.TryGetValue(key, out boxTemplate))
             {
                 //create template for specific key  
-                boxTemplate = new BoxSpec();
-                boxTemplate.CloneAllStylesFrom(currentBoxSpec);
+                boxTemplate = new BoxSpec();                 
+                BoxSpec.CloneAllStyles(boxTemplate, currentBoxSpec);
 
                 currentBoxSpec.VersionNumber = parentSpec.VersionNumber;
                 currentBoxSpec.VersionNumber++;
@@ -162,13 +162,15 @@ namespace HtmlRenderer.Composers
                 templatesForTagName.Add(key, boxTemplate);
                 boxTemplate.Freeze();
                 //***********
-                currentBoxSpec.CloneAllStylesFrom(boxTemplate);
+                 
                 //*********** 
+                BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
             }
             else
             {
                 //***********
-                currentBoxSpec.CloneAllStylesFrom(boxTemplate);
+                 
+                BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
                 //*********** 
 
             }

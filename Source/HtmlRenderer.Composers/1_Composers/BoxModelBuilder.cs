@@ -466,7 +466,8 @@ namespace HtmlRenderer.Composers
         {
             BoxSpec curSpec = element.Spec;
             //0.
-            curSpec.InheritStylesFrom(parentSpec);
+             
+            BoxSpec.InheritStyles(curSpec, parentSpec);
             //--------------------------------
             string classValue = null;
             if (element.HasAttributeClass)
