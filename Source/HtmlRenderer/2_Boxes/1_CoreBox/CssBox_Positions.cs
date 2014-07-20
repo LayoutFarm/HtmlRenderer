@@ -147,6 +147,15 @@ namespace HtmlRenderer.Boxes
             this._actualFont = fontInfo.Font;
             this._actualLineHeight = fontInfo.LineHeight;
             this._actualEmHeight = fontInfo.LineHeight;
+            if (_myspec.WordSpacing.IsNormalWordSpacing)
+            {
+                this._actualWordSpacing = iFonts.MeasureWhitespace(_actualFont);
+            }
+            else
+            {
+                this._actualWordSpacing = iFonts.MeasureWhitespace(_actualFont)
+                    + CssValueParser.ConvertToPx(_myspec.WordSpacing, 1, this);
+            }
         }
         /// <summary>
         /// evaluate computed value
@@ -283,7 +292,7 @@ namespace HtmlRenderer.Boxes
                 this._boxCompactFlags &= ~BoxFlags.HAS_VISIBLE_BG;
             }
 
-
+        
             if (spec.WordSpacing.IsNormalWordSpacing)
             {
                 this._actualWordSpacing = iFonts.MeasureWhitespace(_actualFont);

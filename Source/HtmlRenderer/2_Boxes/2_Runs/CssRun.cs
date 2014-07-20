@@ -179,7 +179,11 @@ namespace HtmlRenderer.Boxes
         public float Width
         {
             get { return this._width; }
-            set { this._width = value; }
+            set
+            {
+              
+                this._width = value;
+            }
         }
 
 
@@ -293,7 +297,7 @@ namespace HtmlRenderer.Boxes
                         CssTextRun textRun = (CssTextRun)this;
                         g.MeasureString2(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength,
                             this.OwnerBox.ActualFont, maxWidth, out charFit, out charFitWidth);
-                         
+
                         selectionIndex = charFit;
                         selectionOffset = charFitWidth;
                     } break;
