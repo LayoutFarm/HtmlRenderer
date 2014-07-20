@@ -802,16 +802,18 @@ namespace HtmlRenderer
                 if (textContentManager != null)
                 {
                     textContentManager.AddStyleSheetRequest(e);
-                } 
+                }
             };
 
 
-
             var htmldoc = builder.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
+
             using (var img = new Bitmap(1, 1))
             using (var g = Graphics.FromImage(img))
             {
                 WinGraphics winGfx = new WinGraphics(g, false);
+
+                //build rootbox from htmldoc
                 var rootBox = builder.BuildCssTree(htmldoc, winGfx, container, cssData);
                 HtmlContainerImpl containerImp = container as HtmlContainerImpl;
                 if (containerImp != null)

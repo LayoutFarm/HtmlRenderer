@@ -8,39 +8,8 @@ using HtmlRenderer.Drawing;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.Boxes;
 
-namespace HtmlRenderer.Composers
-{
-
-    public class BridgeHtmlDocument : HtmlDocument
-    {
-        HtmlElement rootNode;
-        public BridgeHtmlDocument()
-            : base(HtmlPredefineNames.CreateUniqueStringTableClone())
-        {   
-            //default root
-            rootNode = new BrigeRootElement(this);
-        }
-        public override HtmlElement RootNode
-        {
-            get
-            {
-                return rootNode;
-            }
-        }
-        public override HtmlElement CreateElement(string prefix, string localName)
-        {
-            return new BridgeHtmlElement(this,
-                AddStringIfNotExists(prefix),
-                AddStringIfNotExists(localName));
-        }
-        public override HtmlTextNode CreateTextNode(char[] strBufferForElement)
-        {
-            return new BridgeHtmlTextNode(this, strBufferForElement);
-        }
-    }
-
-    
-
+namespace HtmlRenderer.Composers.BridgeHtml
+{ 
     class BridgeHtmlElement : HtmlElement
     {
         CssBox principalBox;

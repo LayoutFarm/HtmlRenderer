@@ -21,12 +21,11 @@ using HtmlRenderer.WebDom;
 using HtmlRenderer.WebDom.Parser;
 using HtmlRenderer.Boxes;
 using HtmlRenderer.Drawing;
+using HtmlRenderer.Composers.BridgeHtml;
 
 namespace HtmlRenderer.Composers
 {
 
-
-    public delegate void RequestStyleSheetEventHandler(ContentManagers.StylesheetLoadEventArgs args);
 
 
     /// <summary>
@@ -35,9 +34,9 @@ namespace HtmlRenderer.Composers
     public class BoxModelBuilder
     {
 
-        static ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
-        public event RequestStyleSheetEventHandler RequestStyleSheet;
-
+        ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
+        public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
+        WebDom.Parser.CssParser miniCssParser = new CssParser();
         public BoxModelBuilder()
         {
 
@@ -49,13 +48,16 @@ namespace HtmlRenderer.Composers
         /// <param name="source">the html source to parse</param>
         public HtmlDocument ParseDocument(TextSnapshot snapSource)
         {
-            var parser = new HtmlRenderer.WebDom.Parser.HtmlParser();
+            var parser = new HtmlParser();
             //------------------------
             var blankHtmlDoc = new BridgeHtmlDocument();
             parser.Parse(snapSource, blankHtmlDoc);
             return blankHtmlDoc;
         }
-        void RaiseRequestStyleSheet(HtmlContainer container,
+        //-----------------------------------------------------------------
+
+
+        void RaiseRequestStyleSheet(
             string hrefSource,
             out string stylesheet,
             out CssActiveSheet stylesheetData)
@@ -73,17 +75,9 @@ namespace HtmlRenderer.Composers
             stylesheetData = e.SetStyleSheetData;
 
         }
-         
-        //-----------------------------------------------------------------
-        void PrepareBridgeTree(HtmlContainer container,
-           WebDom.HtmlDocument htmldoc,
-           ActiveCssTemplate activeCssTemplate)
-        {
-            BrigeRootElement bridgeRoot = (BrigeRootElement)htmldoc.RootNode;
-            PrepareChildNodes(container, bridgeRoot, activeCssTemplate);
-        }
+
+
         void PrepareChildNodes(
-          HtmlContainer container,
           BridgeHtmlElement parentElement,
           ActiveCssTemplate activeCssTemplate)
         {
@@ -134,7 +128,6 @@ namespace HtmlRenderer.Composers
                                             if (bridgeElement.TryGetAttribute(WellknownHtmlName.Href, out hrefAttr))
                                             {
                                                 RaiseRequestStyleSheet(
-                                                container,
                                                 hrefAttr.Value,
                                                 out stylesheet, out stylesheetData);
 
@@ -159,7 +152,7 @@ namespace HtmlRenderer.Composers
                             //-----------------------------
 
                             //recursive 
-                            PrepareChildNodes(container, bridgeElement, activeCssTemplate);
+                            PrepareChildNodes(bridgeElement, activeCssTemplate);
                             //-----------------------------
                         } break;
                     case WebDom.HtmlNodeType.TextNode:
@@ -387,7 +380,8 @@ namespace HtmlRenderer.Composers
             }
         }
 
-        public CssBox BuildCssTree(HtmlDocument htmldoc, IFonts iFonts,
+        public CssBox BuildCssTree(HtmlDocument htmldoc,
+            IFonts iFonts,
             HtmlContainer htmlContainer,
             CssActiveSheet cssData)
         {
@@ -396,10 +390,11 @@ namespace HtmlRenderer.Composers
 
             ActiveCssTemplate activeCssTemplate = null;
             activeCssTemplate = new ActiveCssTemplate(cssData);
-
             htmldoc.SetDocumentState(DocumentState.Layout);
+            //----------------------------------------------------------------  
+            BrigeRootElement bridgeRoot = (BrigeRootElement)htmldoc.RootNode;
+            PrepareChildNodes(bridgeRoot, activeCssTemplate);
 
-            PrepareBridgeTree(htmlContainer, htmldoc, activeCssTemplate);
             //----------------------------------------------------------------  
             //4. assign styles 
             //ApplyStyleSheetTopDownForBridgeElement(bridgeRoot, null, activeCssTemplate);
@@ -462,11 +457,14 @@ namespace HtmlRenderer.Composers
 
         }
 #endif
-        static void ApplyStyleSheetForSingleBridgeElement(BridgeHtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
+        void ApplyStyleSheetForSingleBridgeElement(
+          BridgeHtmlElement element,
+          BoxSpec parentSpec,
+          ActiveCssTemplate activeCssTemplate)
         {
             BoxSpec curSpec = element.Spec;
-            //0.
-            curSpec.InheritStylesFrom(parentSpec);
+            //0. 
+            BoxSpec.InheritStyles(curSpec, parentSpec);
             //--------------------------------
             string classValue = null;
             if (element.HasAttributeClass)
@@ -509,11 +507,15 @@ namespace HtmlRenderer.Composers
             //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
             //------------------------------------------------------------------- 
             //4. a style attribute value
+
             string attrStyleValue;
             if (element.TryGetAttribute(WellknownHtmlName.Style, out attrStyleValue))
             {
-                var ruleset = activeCssTemplate.ParseCssBlock(element.LocalName, attrStyleValue);
-                curSpec.VersionNumber++; //***
+                var ruleset = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray());
+
+                //step up version number
+                BoxSpec.SetVersionNumber(curSpec, curSpec.VersionNumber + 1);
+
                 foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
                 {
                     SpecSetter.AssignPropertyValue(
@@ -528,7 +530,7 @@ namespace HtmlRenderer.Composers
             curSpec.Freeze(); //***
             //===================== 
         }
-        static void ApplyStyleSheetTopDownForBridgeElement(BridgeHtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
+        void ApplyStyleSheetTopDownForBridgeElement(BridgeHtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
         {
 
             ApplyStyleSheetForSingleBridgeElement(element, parentSpec, activeCssTemplate);

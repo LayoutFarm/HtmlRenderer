@@ -7,7 +7,7 @@ using HtmlRenderer.WebDom;
 using HtmlRenderer.Css;
 using HtmlRenderer.Boxes;
 
-namespace HtmlRenderer.Composers
+namespace HtmlRenderer.Composers.BridgeHtml
 {
     static class RunListHelper
     {
@@ -31,8 +31,7 @@ namespace HtmlRenderer.Composers
                 {
                     runlist[i].SetOwner(toBox);
                 }
-            }
-             
+            } 
             CssBox.UnsafeSetContentRuns(toBox, runlist, isAllWhitespace);
         } 
     }

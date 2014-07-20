@@ -13,14 +13,11 @@ namespace HtmlRenderer.Composers
     class ActiveCssTemplate
     {
 
-        CssActiveSheet activeSheet; 
-        WebDom.Parser.CssParser miniCssParser; 
+        CssActiveSheet activeSheet;
         bool isCloneOnce = false;
         public ActiveCssTemplate(CssActiveSheet activeSheet)
         {
             this.activeSheet = activeSheet;
-            miniCssParser = new WebDom.Parser.CssParser();
-
         }
         public CssActiveSheet ActiveSheet
         {
@@ -54,11 +51,6 @@ namespace HtmlRenderer.Composers
             activeSheet.Combine(anotherActiveSheet);
         }
         //--------------------------------------------------------------------------------------------------       
-        public CssRuleSet ParseCssBlock(string className, string blockSource)
-        {
-            return miniCssParser.ParseCssPropertyDeclarationList(blockSource.ToCharArray());
-        }
-        //--------------------------------------------------------------------------------------------------
 
 
         struct TemplateKey
@@ -109,10 +101,9 @@ namespace HtmlRenderer.Composers
             {
                 //create template for specific key  
                 boxTemplate = new BoxSpec();
-                boxTemplate.CloneAllStylesFrom(currentBoxSpec);
+                BoxSpec.CloneAllStyles(boxTemplate, currentBoxSpec);
+                BoxSpec.SetVersionNumber(currentBoxSpec, parentSpec.VersionNumber + 1);
 
-                currentBoxSpec.VersionNumber = parentSpec.VersionNumber;
-                currentBoxSpec.VersionNumber++;
                 //*** 
                 //----------------------------
                 //1. tag name
@@ -162,13 +153,15 @@ namespace HtmlRenderer.Composers
                 templatesForTagName.Add(key, boxTemplate);
                 boxTemplate.Freeze();
                 //***********
-                currentBoxSpec.CloneAllStylesFrom(boxTemplate);
+
                 //*********** 
+                BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
             }
             else
             {
                 //***********
-                currentBoxSpec.CloneAllStylesFrom(boxTemplate);
+
+                BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
                 //*********** 
 
             }
@@ -176,14 +169,14 @@ namespace HtmlRenderer.Composers
         }
 
 
-        internal void ApplyActiveTemplateForSpecificElementId(BridgeHtmlElement element)
+        internal void ApplyActiveTemplateForSpecificElementId(HtmlElement element)
         {
             var ruleset = activeSheet.GetRuleSetForId(element.AttrElementId);
             if (ruleset != null)
             {
                 //TODO:  implement this
                 throw new NotSupportedException();
-            } 
+            }
         }
 
 
