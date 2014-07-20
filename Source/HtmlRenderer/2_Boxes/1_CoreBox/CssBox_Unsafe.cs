@@ -65,9 +65,11 @@ namespace HtmlRenderer.Boxes
             }
             else
             {
-                box._boxCompactFlags &= ~BoxFlags.TEXT_IS_ALL_WHITESPACE;
-
+                box._boxCompactFlags &= ~BoxFlags.TEXT_IS_ALL_WHITESPACE; 
             }
+            
+            //**
+            box._boxCompactFlags &= ~BoxFlags.LAY_RUNSIZE_MEASURE;
         }
 
 #if DEBUG

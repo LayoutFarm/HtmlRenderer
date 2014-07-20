@@ -206,8 +206,8 @@ namespace HtmlRenderer.Composers
                             case HtmlNodeType.OpenElement:
                                 {
 
-                                    BridgeHtmlElement elem = (BridgeHtmlElement)bridgeChild;
-                                    var spec = elem.Spec;
+                                    BridgeHtmlElement childElement = (BridgeHtmlElement)bridgeChild;
+                                    var spec = childElement.Spec;
                                     if (spec.CssDisplay == CssDisplay.None)
                                     {
                                         return;
@@ -216,15 +216,27 @@ namespace HtmlRenderer.Composers
                                     //-------------------------------------------------- 
                                     if (fullmode)
                                     {
-                                        CssBox newbox = BoxCreator.CreateBox(principalBox, elem);
-                                        elem.SetPrincipalBox(newbox);
-                                        S02_GenerateChildBoxes(elem, fullmode);
+                                        CssBox newbox = BoxCreator.CreateBox(principalBox, childElement);
+                                        childElement.SetPrincipalBox(newbox);
+                                        S02_GenerateChildBoxes(childElement, fullmode);
                                     }
                                     else
                                     {
-                                        CssBox newbox = BoxCreator.CreateBox(principalBox, elem);
-                                        elem.SetPrincipalBox(newbox);
-                                        S02_GenerateChildBoxes(elem, fullmode);
+                                        CssBox existing = BridgeHtmlElement.InternalGetPrincipalBox(childElement);
+                                        if (existing == null)
+                                        {
+                                            CssBox box = BoxCreator.CreateBox(principalBox, childElement);
+                                            childElement.SetPrincipalBox(box);
+                                            S02_GenerateChildBoxes(childElement, fullmode);
+                                        }
+                                        else
+                                        {
+                                            //just insert                                                 
+                                            principalBox.AppendChild(existing);
+                                            existing.Clear();
+
+                                            S02_GenerateChildBoxes(childElement, fullmode);
+                                        }
                                     }
                                     //--------------------------------------------------  
 
@@ -299,9 +311,21 @@ namespace HtmlRenderer.Composers
                                         }
                                         else
                                         {
-                                            CssBox box = BoxCreator.CreateBox(principalBox, childElement);
-                                            childElement.SetPrincipalBox(box);
-                                            S02_GenerateChildBoxes(childElement, fullmode);
+                                            CssBox existing = BridgeHtmlElement.InternalGetPrincipalBox(childElement);
+                                            if (existing == null)
+                                            {
+                                                CssBox box = BoxCreator.CreateBox(principalBox, childElement);
+                                                childElement.SetPrincipalBox(box);
+                                                S02_GenerateChildBoxes(childElement, fullmode);
+                                            }
+                                            else
+                                            {
+                                                //just insert                                                 
+                                                principalBox.AppendChild(existing);
+                                                existing.Clear();
+
+                                                S02_GenerateChildBoxes(childElement, fullmode);
+                                            }
                                         }
                                         newBox++;
                                     } break;
