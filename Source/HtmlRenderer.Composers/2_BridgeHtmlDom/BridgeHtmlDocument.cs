@@ -39,6 +39,13 @@ namespace HtmlRenderer.Composers
         {
             return new BridgeHtmlTextNode(this, strBufferForElement);
         }
+
+
+        internal ActiveCssTemplate ActiveCssTemplate
+        {
+            get;
+            set;
+        }
     }
 
 }

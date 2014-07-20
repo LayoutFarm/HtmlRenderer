@@ -69,12 +69,10 @@ namespace HtmlRenderer
             }
         }
         public static void RefreshHtmlDomChange(this HtmlContainerImpl container,
-            HtmlRenderer.WebDom.HtmlDocument doc,
-            CssActiveSheet cssData)
+            HtmlRenderer.WebDom.HtmlDocument doc, CssActiveSheet cssData)
         {
 
-            PartialRebuildCssTree(container, doc, cssData);
-            //FullRebuildCssTree(container, doc, cssData);
+            PartialRebuildCssTree(container, doc);
         }
         static void FullRebuildCssTree(HtmlContainerImpl container,
             HtmlRenderer.WebDom.HtmlDocument doc,
@@ -100,8 +98,7 @@ namespace HtmlRenderer
             }
         }
         static void PartialRebuildCssTree(HtmlContainerImpl container,
-            HtmlRenderer.WebDom.HtmlDocument doc,
-            CssActiveSheet cssData)
+            HtmlRenderer.WebDom.HtmlDocument doc)
         {
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>
@@ -116,10 +113,10 @@ namespace HtmlRenderer
             using (var g = Graphics.FromImage(img))
             {
                 WinGraphics winGfx = new WinGraphics(g, false);
-                var rootBox = builder.BuildCssTree(doc, winGfx, container, cssData);
+                var rootBox = builder.RefreshCssTree(doc, winGfx, container);
 
-                container.SetHtmlDoc(doc);
-                container.SetRootCssBox(rootBox, cssData);
+                //container.SetHtmlDoc(doc);
+                //container.SetRootCssBox(rootBox, cssData);
             }
         }
     }

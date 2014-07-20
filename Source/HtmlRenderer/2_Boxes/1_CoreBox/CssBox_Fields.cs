@@ -19,18 +19,18 @@ using System.Collections.Generic;
 
 namespace HtmlRenderer.Boxes
 {
-    
+
 
     partial class CssBox
     {
-        
+
         readonly object _controller;
         //----------------------------------------------------
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary> 
         int _boxCompactFlags;
-         
+
 
         //html rowspan: for td,th 
         int _rowSpan;
@@ -98,7 +98,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-       
+
         public int ChildCount
         {
             get
@@ -111,7 +111,7 @@ namespace HtmlRenderer.Boxes
         {
             return this._aa_boxes.GetFirstChild();
         }
-         
+
         public void AppendChild(CssBox box)
         {
             this.Boxes.AddChild(this, box);
@@ -119,8 +119,11 @@ namespace HtmlRenderer.Boxes
         public void InsertChild(CssBox beforeBox, CssBox box)
         {
             this.Boxes.InsertBefore(this, beforeBox, box);
-        } 
-     
+        }
+        public void Clear()
+        {
+            this.Boxes.Clear();
+        }
         //-------------------------------------
         internal void ResetLineBoxes()
         {

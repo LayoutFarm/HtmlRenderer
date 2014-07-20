@@ -9,13 +9,13 @@ using HtmlRenderer.WebDom;
 using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer.Composers.BridgeHtml
-{ 
+{
     class BridgeHtmlElement : HtmlElement
     {
         CssBox principalBox;
         Css.BoxSpec boxSpec;
 
-        
+
 
         public BridgeHtmlElement(BridgeHtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
@@ -87,8 +87,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
     {
         //---------------------------------
         //this node may be simple text node  
+        bool freeze;
         bool hasSomeChar;
         List<CssRun> runs;
+
         public BridgeHtmlTextNode(HtmlDocument ownerDoc, char[] buffer)
             : base(ownerDoc, buffer)
         {
@@ -102,10 +104,15 @@ namespace HtmlRenderer.Composers.BridgeHtml
         }
         internal void SetSplitParts(List<CssRun> runs, bool hasSomeChar)
         {
+
+            this.freeze = false;
             this.runs = runs;
             this.hasSomeChar = hasSomeChar;
         }
-
+        public bool IsFreeze
+        {
+            get { return this.freeze; }
+        }
 #if DEBUG
         public override string ToString()
         {
@@ -115,6 +122,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
         internal List<CssRun> InternalGetRuns()
         {
+            this.freeze = true;
             return this.runs;
         }
 
