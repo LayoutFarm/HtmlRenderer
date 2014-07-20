@@ -14,6 +14,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using HtmlRenderer.Drawing;
+using HtmlRenderer.Drawing.Win32;
 
 namespace HtmlRenderer
 {

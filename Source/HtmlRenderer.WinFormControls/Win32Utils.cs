@@ -14,12 +14,12 @@ using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace HtmlRenderer.Drawing
+namespace HtmlRenderer.Drawing.Win32
 {
     /// <summary>
     /// Utility for Win32 API.
     /// </summary>
-    static class Win32Utils
+    public static class Win32Utils
     {
         /// <summary>
         /// Const for BitBlt copy raster-operation code.
@@ -175,7 +175,7 @@ namespace HtmlRenderer.Drawing
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct BlendFunction
+    public struct BlendFunction
     {
         public byte BlendOp;
         public byte BlendFlags;
@@ -192,7 +192,7 @@ namespace HtmlRenderer.Drawing
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct BitMapInfo
+    public struct BitMapInfo
     {
         public int biSize;
         public int biWidth;

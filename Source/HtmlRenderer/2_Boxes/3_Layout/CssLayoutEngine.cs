@@ -229,6 +229,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="lay"></param>
         static void PerformLayoutLinesContext(CssBox hostBlock, LayoutVisitor lay)
         {
+            
             //this in line formatting context
             //*** hostBlock must confirm that it has all inline children             
             hostBlock.SetHeightToZero();

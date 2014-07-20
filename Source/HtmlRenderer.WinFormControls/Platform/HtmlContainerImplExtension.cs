@@ -13,7 +13,7 @@ using HtmlRenderer.Diagnostics;
 
 namespace HtmlRenderer
 {
-    static class HtmlContainerImplExtension
+    public static class HtmlContainerImplExtension
     {
         public static void SetHtml(this HtmlContainerImpl container, string html, CssActiveSheet cssData)
         {

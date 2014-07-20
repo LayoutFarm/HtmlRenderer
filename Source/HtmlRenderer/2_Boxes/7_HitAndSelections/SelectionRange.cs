@@ -33,7 +33,6 @@ namespace HtmlRenderer.Boxes
                     endChain = startChain;
                     startChain = tmp;
                 }
-
             }
             else
             {
@@ -45,10 +44,18 @@ namespace HtmlRenderer.Boxes
                     startChain = tmp;
                 }
             }
+            //Console.WriteLine(endChain.RootGlobalY);
+            //if (endChain.RootGlobalY > 91)
+            //{
+
+
+            //}
+
             //1.
             this.SetupStartHitPoint(startChain, g);
-            //2.
+            //2. 
             this.SetupEndHitPoint(endChain, g);
+
         }
         static bool IsOnTheSameLine(BoxHitChain startChain, BoxHitChain endChain)
         {
@@ -156,6 +163,7 @@ namespace HtmlRenderer.Boxes
         }
         static IEnumerable<CssLineBox> GetLineWalkIter(CssLineBox startLine, CssBox endBox)
         {
+            bool foundEndBox = false;
             foreach (var visit in GetLineOrBoxIterWalk(startLine))
             {
                 if (visit.isLine)
@@ -164,7 +172,21 @@ namespace HtmlRenderer.Boxes
                 }
                 else if (visit.box == endBox)
                 {
-                    break;
+                    foundEndBox = true;
+                    foreach(var visit2 in GetDeepBoxOrLineIter(endBox))
+                    {
+                        if (visit2.isLine)
+                        {
+                            yield return visit2.lineBox;
+                        }
+                    }
+                }
+                else
+                {
+                    if (foundEndBox)
+                    {
+                        break;
+                    }
                 }
             }
         }
@@ -384,9 +406,7 @@ namespace HtmlRenderer.Boxes
 
 
                         CssLineBox endline = (CssLineBox)endHit.hitObject;
-                        //find selection direction
-
-
+                        //find selection direction 
                         if (this.startHitHostLine == endline)
                         {
                             endline.LineSelectionWidth = endHit.localX - startHitHostLine.LineSelectionStart;
@@ -437,6 +457,7 @@ namespace HtmlRenderer.Boxes
                         //check if should use first line of this box                         
                         //or last line box this box
 
+                     
                         foreach (var line in GetLineWalkIter(this.startHitHostLine, hitBox))
                         {
                             if (line == startHitHostLine)
@@ -447,7 +468,7 @@ namespace HtmlRenderer.Boxes
                             }
                             else
                             {
-
+                                
                                 //----------------------
                                 //find cssbox
                                 var ownerBox = line.OwnerBox;
@@ -459,8 +480,7 @@ namespace HtmlRenderer.Boxes
                                 {
                                     latestLine = line;
                                     line.SelectFull();
-                                    selectedLines.Add(line);
-
+                                    selectedLines.Add(line); 
                                 }
                                 else if (line.CacheLineHeight > 0)
                                 {
@@ -473,16 +493,7 @@ namespace HtmlRenderer.Boxes
                                 }
                             }
                         }
-                        //------------------------------------------------------
-                        if (latestLine != null)
-                        {
-                            //this.xposOnEndLine = endHit.localX;
-
-                        }
-                        else
-                        {
-                        }
-
+                        
                     } break;
 
             }

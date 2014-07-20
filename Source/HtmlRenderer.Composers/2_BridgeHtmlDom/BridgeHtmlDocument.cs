@@ -35,6 +35,12 @@ namespace HtmlRenderer.Composers
                 AddStringIfNotExists(prefix),
                 AddStringIfNotExists(localName));
         }
+        public HtmlAttribute CreateAttribute(WellknownHtmlName attrName)
+        {
+            return new HtmlAttribute(this,
+                0,
+                (int)attrName);
+        }
         public override HtmlTextNode CreateTextNode(char[] strBufferForElement)
         {
             return new BridgeHtmlTextNode(this, strBufferForElement);

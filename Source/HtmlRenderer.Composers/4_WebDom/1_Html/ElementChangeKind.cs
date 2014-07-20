@@ -9,5 +9,6 @@ namespace HtmlRenderer.WebDom
         AddChild,
         AddAttribute,
         RemoveChild,
+        Spec
     }
 }

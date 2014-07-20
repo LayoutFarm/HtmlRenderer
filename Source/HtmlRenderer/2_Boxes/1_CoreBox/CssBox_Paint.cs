@@ -111,23 +111,29 @@ namespace HtmlRenderer.Boxes
                     float viewport_top = p.LocalViewportTop;
                     float viewport_bottom = p.LocalViewportBottom;
 
-                    foreach (var line in this._clientLineBoxes)
+                    int drawState = 0;
+
+                    var c_line = this._clientLineBoxes.First;
+
+                    while (c_line != null)
                     {
+
+                        var line = c_line.Value;
 
                         if (line.CachedLineBottom >= viewport_top &&
                             line.CachedLineTop <= viewport_bottom)
                         {
-
-
 #if DEBUG
                             dbugCounter.dbugLinePaintCount++;
 #endif
+
+                            drawState = 1;//drawing in viewport area
 
                             float cX = g.CanvasOriginX;
                             float cy = g.CanvasOriginY;
 
                             g.SetCanvasOrigin(cX, cy + line.CachedLineTop);
-                            //----------------------------------------
+
                             //1.                                 
                             line.PaintBackgroundAndBorder(p);
 
@@ -135,7 +141,7 @@ namespace HtmlRenderer.Boxes
                             {
                                 line.PaintSelection(p);
                             }
-                            //------------
+
                             //2.                                
                             line.PaintRuns(g, p);
                             //3. 
@@ -146,10 +152,17 @@ namespace HtmlRenderer.Boxes
 #endif
 
                             g.SetCanvasOrigin(cX, cy);//back
-                            //---------------------------------------- 
-                        }
-                    }
 
+                        }
+                        else if (drawState == 1)
+                        {
+                            //outof viewport -> break
+                            break;
+                        }
+
+                        //----------------------------------------
+                        c_line = c_line.Next;
+                    }
                 }
                 else
                 {
@@ -171,6 +184,7 @@ namespace HtmlRenderer.Boxes
                                 node = node.Next;
                                 continue;
                             }
+
                             g.SetCanvasOrigin(ox + b.LocalX, oy + b.LocalY);
                             b.Paint(g, p);
                             node = node.Next;
@@ -201,7 +215,7 @@ namespace HtmlRenderer.Boxes
                             b.Paint(g, p);
                             node = node.Next;
                         }
-                         
+
                         g.SetCanvasOrigin(ox, oy);
 
                     }

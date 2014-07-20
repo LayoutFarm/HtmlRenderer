@@ -380,18 +380,8 @@ namespace HtmlRenderer.WebDom
                         }
                         myChildrenNodes.Add((HtmlNode)childNode);
                         childNode.SetParent(this);
-                        //----------------------------------------
 
-                        switch (this.DocState)
-                        {
-                            //-------------------------
-                            case DocumentState.Idle:
-                                {
-                                    //notify parent 
-                                    NotifyChangeOnIdleState(ElementChangeKind.AddChild);
-                                } break;
-                            //-------------------------
-                        }
+                        NotifyChange(ElementChangeKind.AddChild);
 
                     } break;
             }
@@ -411,16 +401,7 @@ namespace HtmlRenderer.WebDom
                         bool result = myChildrenNodes.Remove(childNode);
                         if (result)
                         {
-                            //-------------------------
-                            switch (this.DocState)
-                            {
-                                case DocumentState.Idle:
-                                    {
-                                        //notify parent 
-                                        NotifyChangeOnIdleState(ElementChangeKind.RemoveChild);
-                                    } break;
-                            }
-                            //-------------------------
+                            NotifyChange(ElementChangeKind.RemoveChild);
                         }
                         return result;
                     }
@@ -436,21 +417,24 @@ namespace HtmlRenderer.WebDom
             if (this.myChildrenNodes != null)
             {
                 this.myChildrenNodes.Clear();
-            }
-            //-----------------------------------
+                NotifyChange(ElementChangeKind.ClearAllChildren);
+            }            
+          
+        } 
+        void NotifyChange(ElementChangeKind changeKind)
+        {
             switch (this.DocState)
             {
+                case DocumentState.ChangedAfterIdle:
                 case DocumentState.Idle:
                     {
                         //notify parent 
-                        NotifyChangeOnIdleState(ElementChangeKind.ClearAllChildren);
+                        OnChangeInIdleState(changeKind);
                     } break;
             }
-            //-----------------------------------
         }
-        protected virtual void NotifyChangeOnIdleState(ElementChangeKind changeKind)
+        protected virtual void OnChangeInIdleState(ElementChangeKind changeKind)
         {
-
 
         }
         //------------------------------------------

@@ -115,7 +115,7 @@ namespace HtmlRenderer.Boxes
                 var fontPool = lay.Gfx;
                 foreach (var childBox in box.GetChildBoxIter())
                 {
-                    childBox.ReEvaluateFont(fontPool, box_fontsize);
+                    childBox.ReEvaluateFont(fontPool, box_fontsize); 
                     childBox.MeasureRunsSize(lay);
                     S1_RecursiveMeasureRunContentSize(childBox, lay); //recursive
                 }
