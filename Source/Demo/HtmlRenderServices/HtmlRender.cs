@@ -19,6 +19,8 @@ using HtmlRenderer.Diagnostics;
 using HtmlRenderer.Drawing;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.ContentManagers;
+using HtmlRenderer.Drawing.Win32;
+
 namespace HtmlRenderer
 {
     /// <summary>

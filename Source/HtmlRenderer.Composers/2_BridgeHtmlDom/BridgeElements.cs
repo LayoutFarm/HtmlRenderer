@@ -15,6 +15,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         CssBox principalBox;
         Css.BoxSpec boxSpec;
 
+        CssRuleSet elementRuleSet;
 
         public BridgeHtmlElement(BridgeHtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
@@ -61,11 +62,13 @@ namespace HtmlRenderer.Composers.BridgeHtml
         {
             return this.principalBox;
         }
+
         internal void SetPrincipalBox(CssBox box)
         {
             this.principalBox = box;
             this.SkipPrincipalBoxEvalulation = true;
         }
+
         internal bool SkipPrincipalBoxEvalulation
         {
             get;
@@ -77,11 +80,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
             return element.principalBox;
         }
         //------------------------------------
-        protected override void NotifyChangeOnIdleState(ElementChangeKind changeKind)
+        protected override void OnChangeInIdleState(ElementChangeKind changeKind)
         {
             //1. 
             this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
-
             //2.
             this.SkipPrincipalBoxEvalulation = false;
             var cnode = this.ParentNode;
@@ -90,9 +92,29 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 ((BridgeHtmlElement)cnode).SkipPrincipalBoxEvalulation = false;
                 cnode = cnode.ParentNode;
             }
+        } 
 
+        internal static void InvokeNotifyChangeOnIdleState(BridgeHtmlElement elem, ElementChangeKind changeKind)
+        {
+            elem.OnChangeInIdleState(changeKind);
         }
 
+        internal CssRuleSet ElementRuleSet
+        {
+            get
+            {
+                return this.elementRuleSet;
+            }
+            set
+            {
+                this.elementRuleSet = value;
+            }
+        }
+        internal bool IsStyleEvaluated
+        {
+            get;
+            set;
+        }
     }
 
     sealed class BridgeRootElement : BridgeHtmlElement

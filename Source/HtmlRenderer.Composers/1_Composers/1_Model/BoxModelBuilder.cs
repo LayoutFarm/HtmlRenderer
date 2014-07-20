@@ -93,7 +93,7 @@ namespace HtmlRenderer.Composers
                             BridgeHtmlElement bridgeElement = (BridgeHtmlElement)node;
                             bridgeElement.WellknownElementName = UserMapUtil.EvaluateTagName(bridgeElement.LocalName);
                             switch (bridgeElement.WellknownElementName)
-                            {
+                            {   
                                 case WellknownElementName.style:
                                     {
                                         //style element should have textnode child
@@ -492,26 +492,58 @@ namespace HtmlRenderer.Composers
             AssignStylesFromTranslatedAttributesHTML5(element, activeCssTemplate);
             //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
             //------------------------------------------------------------------- 
-            //4. a style attribute value
-
-            string attrStyleValue;
-            if (element.TryGetAttribute(WellknownHtmlName.Style, out attrStyleValue))
+            //4. a style attribute value 
+            //'style' object of this element
+            if (!element.IsStyleEvaluated)
             {
-                var ruleset = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray());
-
-                //step up version number
-                BoxSpec.SetVersionNumber(curSpec, curSpec.VersionNumber + 1);
-
-                foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
+                CssRuleSet parsedRuleSet = null;
+                string attrStyleValue;
+                if (element.TryGetAttribute(WellknownHtmlName.Style, out attrStyleValue))
                 {
-                    SpecSetter.AssignPropertyValue(
-                        curSpec,
-                        parentSpec,
-                        propDecl);
+                    parsedRuleSet = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray());
+                    //step up version number
+                    //after apply style  
+                    BoxSpec.SetVersionNumber(curSpec, curSpec.VersionNumber + 1);
+                    if (curSpec.IsFreezed)
+                    {
+                        curSpec.Defreeze();
+                    }
+                    foreach (WebDom.CssPropertyDeclaration propDecl in parsedRuleSet.GetAssignmentIter())
+                    {
+                        SpecSetter.AssignPropertyValue(
+                            curSpec,
+                            parentSpec,
+                            propDecl);
+                    }
+                }
+                //----------------------------------------------------------------
+                element.IsStyleEvaluated = true;
+                element.ElementRuleSet = parsedRuleSet;
+            }
+            else
+            {
+                var elemRuleSet = element.ElementRuleSet;
+                if (elemRuleSet != null)
+                {
+                    BoxSpec.SetVersionNumber(curSpec, curSpec.VersionNumber + 1);
+                    if (curSpec.IsFreezed)
+                    {
+                        curSpec.Defreeze();
+                    }
+                    foreach (WebDom.CssPropertyDeclaration propDecl in elemRuleSet.GetAssignmentIter())
+                    {
+                        SpecSetter.AssignPropertyValue(
+                            curSpec,
+                            parentSpec,
+                            propDecl);
+                    }
+                    
                 }
 
-
             }
+
+
+
             //===================== 
             curSpec.Freeze(); //***
             //===================== 

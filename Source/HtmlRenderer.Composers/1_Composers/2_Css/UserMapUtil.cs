@@ -723,9 +723,16 @@ namespace HtmlRenderer.Composers
         {
             if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.Color)
             {
-                Color actualColor = CssValueParser.GetActualColor(value.GetTranslatedStringValue());
-                value.SetColorValue(actualColor);
-                return actualColor;
+                if (value is WebDom.CssCodeColor)
+                {   
+                    return ((WebDom.CssCodeColor)value).ActualColor;
+                }
+                else
+                {
+                    Color actualColor = CssValueParser.GetActualColor(value.GetTranslatedStringValue());
+                    value.SetColorValue(actualColor);
+                    return actualColor;
+                }
             }
             return value.GetCacheColor();
         }
@@ -937,7 +944,7 @@ namespace HtmlRenderer.Composers
         }
     }
     //---------------------------------------------------------------
-    
+
 
 
 }

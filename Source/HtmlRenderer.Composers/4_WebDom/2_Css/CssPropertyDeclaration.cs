@@ -192,7 +192,20 @@ namespace HtmlRenderer.WebDom
         Iden,
         Func
     }
-
+    public class CssCodeColor : CssCodeValueExpression
+    {
+        System.Drawing.Color color;
+        public CssCodeColor(System.Drawing.Color color)
+            : base(CssValueHint.HexColor)
+        {
+            this.color = color;
+            SetColorValue(color);
+        }
+        public System.Drawing.Color ActualColor
+        {
+            get { return this.color; }
+        }
+    }
     public class CssCodePrimitiveExpression : CssCodeValueExpression
     {
         string unit;
@@ -221,8 +234,6 @@ namespace HtmlRenderer.WebDom
             //number             
             this.number = number;
         }
-
-
         public string Unit
         {
             get { return unit; }
@@ -263,7 +274,11 @@ namespace HtmlRenderer.WebDom
             }
 
         }
+
     }
+
+
+
     public class CssCodeFunctionCallExpression : CssCodeValueExpression
     {
 

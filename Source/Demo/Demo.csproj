@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoList\Demo05_Dynamic_BoxSpec.cs" />
     <Compile Include="DemoList\Demo04_DynamicContent2.cs" />
     <Compile Include="DemoList\Demo03_DynamicContent1.cs" />
     <Compile Include="DemoList\Demo02_CreateHtmlDomStyle2.cs" />
@@ -85,6 +86,7 @@
       <DependentUpon>DemoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HtmlDomExtension\HtmlDomExtension.cs" />
+    <Compile Include="HtmlRenderServices\HtmlRender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DemoList\Demo01_CreateHtmlDomStyle1.cs" />
