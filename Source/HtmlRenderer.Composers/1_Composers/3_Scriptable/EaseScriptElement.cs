@@ -21,6 +21,8 @@ namespace HtmlRenderer.Composers
         {
             get { return this.elem != null; }
         }
+
+        
         public void ChangeFontColor(Color newcolor)
         {
             //change prop
@@ -63,6 +65,11 @@ namespace HtmlRenderer.Composers
             {
                 return;
             }
+
+            BridgeHtmlElement.InvokeNotifyChangeOnIdleState(
+                elem,
+                ElementChangeKind.Spec);
+
             var existingRuleSet = elem.ElementRuleSet;
             if (existingRuleSet == null)
             {
@@ -70,14 +77,18 @@ namespace HtmlRenderer.Composers
                 elem.ElementRuleSet = existingRuleSet = new CssRuleSet();
                 elem.IsStyleEvaluated = true;
             }
+         
+            //-------------------------------------
             existingRuleSet.AddCssCodeProperty(
                new CssPropertyDeclaration(
                    WellknownCssPropertyName.BackgroundColor,
                    new CssCodeColor(backgroundColor)));
             BridgeHtmlElement.InvokeNotifyChangeOnIdleState(elem, ElementChangeKind.Spec);
-            elem.SkipPrincipalBoxEvalulation = false;
 
+            elem.SkipPrincipalBoxEvalulation = false;
+            
             var cssbox = BridgeHtmlElement.InternalGetPrincipalBox(elem);
+
             if (cssbox != null)
             {
                 CssBox.InvalidateComputeValue(cssbox);
