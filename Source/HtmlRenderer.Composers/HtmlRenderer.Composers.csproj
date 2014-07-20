@@ -41,6 +41,7 @@
     <Compile Include="1_Composers\2_Css\ActiveCssTemplate.cs" />
     <Compile Include="1_Composers\1_Model\CustomCssBoxGenerator.cs" />
     <Compile Include="1_Composers\1_Model\BoxModelBuilder.cs" />
+    <Compile Include="1_Composers\3_Scriptable\EaseScriptableElement.cs" />
     <Compile Include="2_BridgeHtmlDom\BulletNumberFormatter.cs" />
     <Compile Include="1_Composers\1_Model\ContentTextSplitter.cs" />
     <Compile Include="1_Composers\2_Css\SpecSetter.cs" />

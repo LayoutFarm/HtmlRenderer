@@ -86,8 +86,7 @@ namespace HtmlRenderer.Css
         //------------------
         public BoxSpec()
         {
-
-
+             
         }
         //---------------------------------------------------------------
         
@@ -104,11 +103,11 @@ namespace HtmlRenderer.Css
             _backgroundFeats.Freeze();//7   
         }
 
-        internal void Defreeze()
+        public void Defreeze()
         {
             this._freezed = false;
         }
-        internal bool IsFreezed
+        public bool IsFreezed
         {
             get { return this._freezed; }
         }
