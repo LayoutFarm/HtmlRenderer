@@ -457,7 +457,7 @@ namespace HtmlRenderer.Boxes
                         //check if should use first line of this box                         
                         //or last line box this box
 
-                        bool hasSomeOtherLine = false;
+                     
                         foreach (var line in GetLineWalkIter(this.startHitHostLine, hitBox))
                         {
                             if (line == startHitHostLine)
@@ -468,7 +468,7 @@ namespace HtmlRenderer.Boxes
                             }
                             else
                             {
-                                hasSomeOtherLine = true;
+                                
                                 //----------------------
                                 //find cssbox
                                 var ownerBox = line.OwnerBox;
