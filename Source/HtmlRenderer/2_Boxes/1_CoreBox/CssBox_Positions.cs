@@ -131,18 +131,22 @@ namespace HtmlRenderer.Boxes
         }
 
         //=============================================================
+        public static void InvalidateComputeValue(CssBox box)
+        {
+            //box values need to recompute value again 
+            box._boxCompactFlags &= ~BoxFlags.LAY_EVAL_COMPUTE_VALUES;
+        }
         internal bool NeedComputedValueEvaluation
         {
             get { return (this._boxCompactFlags & BoxFlags.LAY_EVAL_COMPUTE_VALUES) == 0; }
         }
+
         public void ReEvaluateFont(HtmlRenderer.Drawing.IFonts iFonts, float parentFontSize)
         {
             HtmlRenderer.Drawing.FontInfo fontInfo = this._myspec.GetFont(iFonts, parentFontSize);
             this._actualFont = fontInfo.Font;
             this._actualLineHeight = fontInfo.LineHeight;
             this._actualEmHeight = fontInfo.LineHeight;
-
-
         }
         /// <summary>
         /// evaluate computed value
@@ -169,7 +173,7 @@ namespace HtmlRenderer.Boxes
             //-----------------------------------------------------------------------
             float cbWidth = containingBlock.SizeWidth;
             this._boxCompactFlags |= BoxFlags.LAY_EVAL_COMPUTE_VALUES;
-           
+
 
             //www.w3.org/TR/CSS2/box.html#margin-properties
             //w3c: margin applies to all elements except elements table display type
@@ -298,7 +302,7 @@ namespace HtmlRenderer.Boxes
             this._actualBorderSpacingVertical = spec.BorderSpacingVertical.Number;
 
             //this._actualLineHeight = 0.9f * CssValueParser.ConvertToPx(LineHeight, this.GetEmHeight(), this);
-            
+
 
             //expected width expected height
             //this._expectedWidth = CssValueParser.ParseLength(Width, cbWidth, this);

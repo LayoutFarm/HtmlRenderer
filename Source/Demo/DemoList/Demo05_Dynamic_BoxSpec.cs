@@ -35,7 +35,7 @@ namespace HtmlRenderer.Demo
 
 #if DEBUG
                              
-                            var s_span = new EaseScriptableElement(span);
+                            var s_span = new EaseScriptElement(span);
                             s_span.ChangeFontColor(System.Drawing.Color.Blue);
 #endif
 
@@ -51,8 +51,10 @@ namespace HtmlRenderer.Demo
                         {
                             span.ClearAllElements();
                             span.AddTextContent("LMNOP0003");
-                            var s_span = new EaseScriptableElement(span);
+                            var s_span = new EaseScriptElement(span);
                             s_span.ChangeFontColor(System.Drawing.Color.Red);
+                            s_span.ChangeBackgroundColor(System.Drawing.Color.Yellow);
+
                         });
                     });
                     //----------------------

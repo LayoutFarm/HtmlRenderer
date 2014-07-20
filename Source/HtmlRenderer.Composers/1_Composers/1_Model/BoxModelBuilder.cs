@@ -93,7 +93,7 @@ namespace HtmlRenderer.Composers
                             BridgeHtmlElement bridgeElement = (BridgeHtmlElement)node;
                             bridgeElement.WellknownElementName = UserMapUtil.EvaluateTagName(bridgeElement.LocalName);
                             switch (bridgeElement.WellknownElementName)
-                            {
+                            {   
                                 case WellknownElementName.style:
                                     {
                                         //style element should have textnode child
@@ -537,6 +537,7 @@ namespace HtmlRenderer.Composers
                             parentSpec,
                             propDecl);
                     }
+                    
                 }
 
             }
