@@ -19,19 +19,17 @@ using System.Collections.Generic;
 
 namespace HtmlRenderer.Boxes
 {
-    
+
 
     partial class CssBox
     {
-        
+
         readonly object _controller;
         //----------------------------------------------------
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary> 
-        int _boxCompactFlags;
-         
-
+        int _boxCompactFlags; 
         //html rowspan: for td,th 
         int _rowSpan;
         int _colSpan;
@@ -43,8 +41,9 @@ namespace HtmlRenderer.Boxes
         //1.2 contains box collection for my children
         CssBoxCollection _aa_boxes;
         //----------------------------------------------------    
-        //condition 2 :this Box is InlineBox          
-        List<CssRun> _aa_contentRuns;
+        //condition 2 :this Box is InlineBox     
+        //_aa_contentRuns may come from other data source
+        List<CssRun> _aa_contentRuns; 
         char[] _buffer;
         //----------------------------------------------------    
         //for other subbox , list item , shadow... 
@@ -98,7 +97,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-       
+
         public int ChildCount
         {
             get
@@ -111,7 +110,7 @@ namespace HtmlRenderer.Boxes
         {
             return this._aa_boxes.GetFirstChild();
         }
-         
+
         public void AppendChild(CssBox box)
         {
             this.Boxes.AddChild(this, box);
@@ -119,8 +118,15 @@ namespace HtmlRenderer.Boxes
         public void InsertChild(CssBox beforeBox, CssBox box)
         {
             this.Boxes.InsertBefore(this, beforeBox, box);
-        } 
-     
+        }
+        public void Clear()
+        {
+            //_aa_contentRuns may come from other data source
+            //so just set it to null
+            this._aa_contentRuns = null;           
+
+            this.Boxes.Clear();
+        }
         //-------------------------------------
         internal void ResetLineBoxes()
         {

@@ -31,8 +31,7 @@ namespace HtmlRenderer.WebDom
         Dictionary<string, CssRuleSetGroup> rulesForAll = new Dictionary<string, CssRuleSetGroup>();
 
 #if DEBUG
-        CssActiveSheet dbugOriginal;
-
+        CssActiveSheet dbugOriginal; 
 #endif
 
         public CssActiveSheet()

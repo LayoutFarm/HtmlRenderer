@@ -37,6 +37,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="1_Composers\1_Model\LiveComposer.cs" />
     <Compile Include="1_Composers\2_Css\ActiveCssTemplate.cs" />
     <Compile Include="1_Composers\1_Model\CustomCssBoxGenerator.cs" />
     <Compile Include="1_Composers\1_Model\BoxModelBuilder.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="3_ContentManagers\StylesheetLoadEventArgs.cs" />
     <Compile Include="1_Composers\1_Model\HtmlInputEventBridge.cs" />
     <Compile Include="3_ContentManagers\TextContentManager.cs" />
+    <Compile Include="4_WebDom\1_Html\ElementChangeKind.cs" />
     <Compile Include="4_WebDom\2_Css\CssAttributeSelector.cs" />
     <Compile Include="4_WebDom\2_Css\CssDocMembers.cs" />
     <Compile Include="4_WebDom\2_Css\CssDocument.cs" />
@@ -59,7 +61,7 @@
     <Compile Include="1_Composers\2_Css\CssDefaults.cs" />
     <Compile Include="1_Composers\2_Css\CssParserHelper.cs" />
     <Compile Include="2_BridgeHtmlDom\RunListHelper.cs" />
-    <Compile Include="3_ContentManagers\BridgeElements.cs" />
+    <Compile Include="2_BridgeHtmlDom\BridgeElements.cs" />
     <Compile Include="4_WebDom\3_Gen\HtmlGenerationStyle.cs" />
     <Compile Include="4_WebDom\3_Gen\HtmlGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

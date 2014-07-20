@@ -147,24 +147,12 @@ namespace HtmlRenderer.Composers
                             }
                         }
                     }
-                }
-
-
+                } 
                 templatesForTagName.Add(key, boxTemplate);
-                boxTemplate.Freeze();
-                //***********
-
-                //*********** 
-                BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
+                boxTemplate.Freeze(); 
+               
             }
-            else
-            {
-                //***********
-
-                BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
-                //*********** 
-
-            }
+            BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
 
         }
 

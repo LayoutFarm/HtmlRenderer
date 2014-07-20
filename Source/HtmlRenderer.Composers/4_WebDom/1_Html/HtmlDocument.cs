@@ -59,17 +59,13 @@ namespace HtmlRenderer.WebDom
         public HtmlCDataNode CreateCDataNode()
         {
             return new HtmlCDataNode(this);
-        }
-
+        } 
         //-------------------------------------------------------
         internal void RegisterElementById(HtmlElement element)
         {
-            //replace exisitng if exists ***
-
+            //replace exisitng if exists *** 
             registerElementsById[element.AttrElementId] = element;
-        }
-
-
+        } 
         //-------------------------------------------------------
         public DocumentState DocumentState
         {
@@ -83,12 +79,9 @@ namespace HtmlRenderer.WebDom
     }
 
     public enum DocumentState
-    {
-
+    {  
         Init,
-        BuildingElement,
-        Layout,
-        Render,
+        Building, 
         Idle,
         ChangedAfterIdle
     }
