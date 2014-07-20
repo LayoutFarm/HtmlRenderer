@@ -49,6 +49,17 @@ namespace HtmlRenderer.Boxes
             CssBox.UnsafeSetNodes(box, owner,
                 this._boxes.AddBefore(beforeLinkedNode, box));
         }
+        public void Clear()
+        {
+            var linkNode = this._boxes.First;
+            while (linkNode != null)
+            {
+                var box = linkNode.Value;
+                CssBox.UnsafeSetParent(box, null);
+                linkNode = linkNode.Next;
+            }
+            this._boxes.Clear();
+        }
         public int Count
         {
             get

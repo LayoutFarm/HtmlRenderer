@@ -33,6 +33,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 }
             } 
             CssBox.UnsafeSetContentRuns(toBox, runlist, isAllWhitespace);
+            
         } 
     }
 }

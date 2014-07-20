@@ -7,6 +7,7 @@ using HtmlRenderer.Diagnostics;
 using HtmlRenderer.Drawing;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.Boxes;
+
 using HtmlRenderer.Composers.BridgeHtml;
 
 namespace HtmlRenderer.Composers
@@ -19,7 +20,7 @@ namespace HtmlRenderer.Composers
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
         {
             //default root
-            rootNode = new BrigeRootElement(this);
+            rootNode = new BridgeRootElement(this);
         }
         public override HtmlElement RootNode
         {
@@ -37,6 +38,13 @@ namespace HtmlRenderer.Composers
         public override HtmlTextNode CreateTextNode(char[] strBufferForElement)
         {
             return new BridgeHtmlTextNode(this, strBufferForElement);
+        }
+
+
+        internal ActiveCssTemplate ActiveCssTemplate
+        {
+            get;
+            set;
         }
     }
 

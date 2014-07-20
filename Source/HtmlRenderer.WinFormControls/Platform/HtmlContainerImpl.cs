@@ -37,10 +37,9 @@ namespace HtmlRenderer
         /// There is no guarantee that the event will be raised on the main thread, it can be raised on thread-pool thread.
         /// </remarks>
         public event EventHandler<HtmlRenderErrorEventArgs> RenderError;
-
-
-
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
+
+
         Bitmap tempBmp = new Bitmap(1, 1);
 
         public HtmlContainerImpl()
@@ -127,6 +126,7 @@ namespace HtmlRenderer
             {
                 return;
             }
+
             using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
             {
                 Region prevClip = null;
@@ -136,17 +136,19 @@ namespace HtmlRenderer
                     g.SetClip(new RectangleF(this.Location, this.MaxSize));
                 }
 
+                //------------------------------------------------------
+                //
                 if (doc.DocumentState == DocumentState.ChangedAfterIdle)
                 {
 
-                    HtmlRenderExtensions.RefreshHtmlDomChange(
+                    HtmlContainerImplExtension.RefreshHtmlDomChange(
                         this,
                         doc,
-                        this.activeCssSheet);
-                    doc.SetDocumentState(DocumentState.Idle);
-                    this.PerformLayout(g);
+                        this.activeCssSheet); 
 
+                    this.PerformLayout(gfx);
                 }
+                //------------------------------------------------------ 
 
                 this.PerformPaint(gfx);
 

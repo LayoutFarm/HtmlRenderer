@@ -51,6 +51,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="HtmlRender.cs" />
+    <Compile Include="Platform\HtmlContainerImplExtension.cs" />
     <Compile Include="Platform\WinGraphics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Win32Utils.cs" />

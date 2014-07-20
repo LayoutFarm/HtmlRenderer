@@ -9,13 +9,12 @@ using HtmlRenderer.WebDom;
 using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer.Composers.BridgeHtml
-{ 
+{
     class BridgeHtmlElement : HtmlElement
     {
         CssBox principalBox;
         Css.BoxSpec boxSpec;
 
-        bool hasMyOwnCssBoxFactory;
 
         public BridgeHtmlElement(BridgeHtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
@@ -62,22 +61,43 @@ namespace HtmlRenderer.Composers.BridgeHtml
         {
             return this.principalBox;
         }
-
         internal void SetPrincipalBox(CssBox box)
         {
             this.principalBox = box;
+            this.SkipPrincipalBoxEvalulation = true;
+        }
+        internal bool SkipPrincipalBoxEvalulation
+        {
+            get;
+            set;
+
         }
         internal static CssBox InternalGetPrincipalBox(BridgeHtmlElement element)
         {
             return element.principalBox;
         }
-
         //------------------------------------
+        protected override void NotifyChangeOnIdleState(ElementChangeKind changeKind)
+        {
+            //1. 
+            this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
+
+            //2.
+            this.SkipPrincipalBoxEvalulation = false;
+            var cnode = this.ParentNode;
+            while (cnode != null)
+            {
+                ((BridgeHtmlElement)cnode).SkipPrincipalBoxEvalulation = false;
+                cnode = cnode.ParentNode;
+            }
+
+        }
+
     }
 
-    sealed class BrigeRootElement : BridgeHtmlElement
+    sealed class BridgeRootElement : BridgeHtmlElement
     {
-        public BrigeRootElement(BridgeHtmlDocument ownerDoc)
+        public BridgeRootElement(BridgeHtmlDocument ownerDoc)
             : base(ownerDoc, 0, 0)
         {
         }
@@ -87,8 +107,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
     {
         //---------------------------------
         //this node may be simple text node  
+        bool freeze;
         bool hasSomeChar;
         List<CssRun> runs;
+
         public BridgeHtmlTextNode(HtmlDocument ownerDoc, char[] buffer)
             : base(ownerDoc, buffer)
         {
@@ -102,10 +124,15 @@ namespace HtmlRenderer.Composers.BridgeHtml
         }
         internal void SetSplitParts(List<CssRun> runs, bool hasSomeChar)
         {
+
+            this.freeze = false;
             this.runs = runs;
             this.hasSomeChar = hasSomeChar;
         }
-
+        public bool IsFreeze
+        {
+            get { return this.freeze; }
+        }
 #if DEBUG
         public override string ToString()
         {
@@ -115,6 +142,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
         internal List<CssRun> InternalGetRuns()
         {
+            this.freeze = true;
             return this.runs;
         }
 
