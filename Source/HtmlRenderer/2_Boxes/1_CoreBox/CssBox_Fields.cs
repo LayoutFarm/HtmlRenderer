@@ -29,9 +29,7 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary> 
-        int _boxCompactFlags;
-
-
+        int _boxCompactFlags; 
         //html rowspan: for td,th 
         int _rowSpan;
         int _colSpan;

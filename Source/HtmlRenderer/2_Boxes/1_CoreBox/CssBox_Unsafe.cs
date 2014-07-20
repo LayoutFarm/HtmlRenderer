@@ -41,10 +41,7 @@ namespace HtmlRenderer.Boxes
         }
         public static void UnsafeSetParent(CssBox box, CssBox parent)
         {
-            if (box._aa_contentRuns != null)
-            {
-                box._aa_contentRuns.Clear();
-            }
+           
             box._parentBox = parent;
         }
         public static object UnsafeGetController(CssBox box)

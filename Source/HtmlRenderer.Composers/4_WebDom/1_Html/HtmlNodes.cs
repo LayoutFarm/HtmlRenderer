@@ -363,7 +363,6 @@ namespace HtmlRenderer.WebDom
             }
             myAttributes.Add(attr);
             attr.SetParent(this);
-            //-----------
         }
         public void AddChild(HtmlNode childNode)
         {
@@ -381,6 +380,19 @@ namespace HtmlRenderer.WebDom
                         }
                         myChildrenNodes.Add((HtmlNode)childNode);
                         childNode.SetParent(this);
+                        //----------------------------------------
+
+                        switch (this.DocState)
+                        {
+                            //-------------------------
+                            case DocumentState.Idle:
+                                {
+                                    //notify parent 
+                                    NotifyChangeOnIdleState(ElementChangeKind.AddChild);
+                                } break;
+                            //-------------------------
+                        }
+
                     } break;
             }
         }
@@ -390,14 +402,27 @@ namespace HtmlRenderer.WebDom
             {
                 case HtmlNodeType.Attribute:
                     {
-
-
+                        //TODO: support remove attribute
                         return false;
                     }
                 default:
                     if (myChildrenNodes != null)
                     {
-                        return myChildrenNodes.Remove(childNode);
+                        bool result = myChildrenNodes.Remove(childNode);
+                        if (result)
+                        {
+                            //-------------------------
+                            switch (this.DocState)
+                            {
+                                case DocumentState.Idle:
+                                    {
+                                        //notify parent 
+                                        NotifyChangeOnIdleState(ElementChangeKind.RemoveChild);
+                                    } break;
+                            }
+                            //-------------------------
+                        }
+                        return result;
                     }
                     return false;
             }
@@ -412,18 +437,22 @@ namespace HtmlRenderer.WebDom
             {
                 this.myChildrenNodes.Clear();
             }
-
+            //-----------------------------------
             switch (this.DocState)
             {
                 case DocumentState.Idle:
                     {
-                        //notify parent
-
-                        this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
+                        //notify parent 
+                        NotifyChangeOnIdleState(ElementChangeKind.ClearAllChildren);
                     } break;
             }
+            //-----------------------------------
         }
+        protected virtual void NotifyChangeOnIdleState(ElementChangeKind changeKind)
+        {
 
+
+        }
         //------------------------------------------
         public HtmlAttribute FindAttribute(int attrLocalNameIndex)
         {

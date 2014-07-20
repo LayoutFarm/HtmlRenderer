@@ -16,7 +16,6 @@ namespace HtmlRenderer.Composers.BridgeHtml
         Css.BoxSpec boxSpec;
 
 
-
         public BridgeHtmlElement(BridgeHtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
@@ -62,17 +61,38 @@ namespace HtmlRenderer.Composers.BridgeHtml
         {
             return this.principalBox;
         }
-
         internal void SetPrincipalBox(CssBox box)
         {
             this.principalBox = box;
+            this.SkipPrincipalBoxEvalulation = true;
+        }
+        internal bool SkipPrincipalBoxEvalulation
+        {
+            get;
+            set;
+
         }
         internal static CssBox InternalGetPrincipalBox(BridgeHtmlElement element)
         {
             return element.principalBox;
         }
-
         //------------------------------------
+        protected override void NotifyChangeOnIdleState(ElementChangeKind changeKind)
+        {
+            //1. 
+            this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
+
+            //2.
+            this.SkipPrincipalBoxEvalulation = false;
+            var cnode = this.ParentNode;
+            while (cnode != null)
+            {
+                ((BridgeHtmlElement)cnode).SkipPrincipalBoxEvalulation = false;
+                cnode = cnode.ParentNode;
+            }
+
+        }
+
     }
 
     sealed class BridgeRootElement : BridgeHtmlElement

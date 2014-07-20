@@ -144,8 +144,7 @@ namespace HtmlRenderer
                     HtmlContainerImplExtension.RefreshHtmlDomChange(
                         this,
                         doc,
-                        this.activeCssSheet);
-                    doc.SetDocumentState(DocumentState.Idle);
+                        this.activeCssSheet); 
 
                     this.PerformLayout(gfx);
                 }

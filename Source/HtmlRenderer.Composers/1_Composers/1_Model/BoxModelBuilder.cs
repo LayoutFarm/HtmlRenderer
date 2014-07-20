@@ -233,9 +233,12 @@ namespace HtmlRenderer.Composers
                                         {
                                             //just insert                                                 
                                             principalBox.AppendChild(existing);
-                                            existing.Clear();
-
-                                            S02_GenerateChildBoxes(childElement, fullmode);
+                                            if (!childElement.SkipPrincipalBoxEvalulation)
+                                            {
+                                                existing.Clear();
+                                                S02_GenerateChildBoxes(childElement, fullmode);
+                                                childElement.SkipPrincipalBoxEvalulation = true;
+                                            }
                                         }
                                     }
                                     //--------------------------------------------------  
@@ -311,7 +314,9 @@ namespace HtmlRenderer.Composers
                                         }
                                         else
                                         {
+
                                             CssBox existing = BridgeHtmlElement.InternalGetPrincipalBox(childElement);
+
                                             if (existing == null)
                                             {
                                                 CssBox box = BoxCreator.CreateBox(principalBox, childElement);
@@ -320,11 +325,15 @@ namespace HtmlRenderer.Composers
                                             }
                                             else
                                             {
-                                                //just insert                                                 
+                                                //just insert           
                                                 principalBox.AppendChild(existing);
-                                                existing.Clear();
+                                                if (!childElement.SkipPrincipalBoxEvalulation)
+                                                {
+                                                    existing.Clear();
+                                                    S02_GenerateChildBoxes(childElement, fullmode);
+                                                    childElement.SkipPrincipalBoxEvalulation = true;
+                                                }
 
-                                                S02_GenerateChildBoxes(childElement, fullmode);
                                             }
                                         }
                                         newBox++;
