@@ -8,8 +8,7 @@ using HtmlRenderer.Drawing;
 using HtmlRenderer.Boxes;
 using HtmlRenderer.WebDom;
 
-namespace HtmlRenderer.Composers
-
+namespace HtmlRenderer.Composers 
 {
 
     public class HtmlInputEventBridge

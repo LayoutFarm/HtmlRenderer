@@ -15,7 +15,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         CssBox principalBox;
         Css.BoxSpec boxSpec;
 
-        bool hasMyOwnCssBoxFactory;
+        
 
         public BridgeHtmlElement(BridgeHtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)

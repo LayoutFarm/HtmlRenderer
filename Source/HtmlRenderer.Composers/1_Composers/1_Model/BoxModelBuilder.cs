@@ -34,9 +34,10 @@ namespace HtmlRenderer.Composers
     public class BoxModelBuilder
     {
 
-        ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
-        public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
         WebDom.Parser.CssParser miniCssParser = new CssParser();
+        ContentTextSplitter contentTextSplitter = new ContentTextSplitter(); 
+        public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
+
         public BoxModelBuilder()
         {
 
@@ -77,7 +78,7 @@ namespace HtmlRenderer.Composers
         }
 
 
-        void PrepareChildNodes(
+        void S01_PrepareStylesAndContentOfChildNodes(
           BridgeHtmlElement parentElement,
           ActiveCssTemplate activeCssTemplate)
         {
@@ -128,8 +129,9 @@ namespace HtmlRenderer.Composers
                                             if (bridgeElement.TryGetAttribute(WellknownHtmlName.Href, out hrefAttr))
                                             {
                                                 RaiseRequestStyleSheet(
-                                                hrefAttr.Value,
-                                                out stylesheet, out stylesheetData);
+                                                    hrefAttr.Value,
+                                                    out stylesheet,
+                                                    out stylesheetData);
 
                                                 if (stylesheet != null)
                                                 {
@@ -152,7 +154,7 @@ namespace HtmlRenderer.Composers
                             //-----------------------------
 
                             //recursive 
-                            PrepareChildNodes(bridgeElement, activeCssTemplate);
+                            S01_PrepareStylesAndContentOfChildNodes(bridgeElement, activeCssTemplate);
                             //-----------------------------
                         } break;
                     case WebDom.HtmlNodeType.TextNode:
@@ -174,8 +176,9 @@ namespace HtmlRenderer.Composers
             }
         }
 
-        static void GenerateAllChildBoxes(BridgeHtmlElement parentElement)
+        static void S02_GenerateAllChildBoxes(BridgeHtmlElement parentElement)
         {
+            //recursive *** 
 
             //first just generate into primary pricipal box
             //layout process  will correct it later 
@@ -213,7 +216,7 @@ namespace HtmlRenderer.Composers
                                     //--------------------------------------------------
                                     CssBox newbox = BoxCreator.CreateBox(principalBox, elem);
                                     elem.SetPrincipalBox(newbox);
-                                    GenerateAllChildBoxes(elem);
+                                    S02_GenerateAllChildBoxes(elem);
 
                                     //-------------------------------------------------- 
                                 } break;
@@ -277,7 +280,7 @@ namespace HtmlRenderer.Composers
                             }
                             CssBox box = BoxCreator.CreateBox(principalBox, childElement);
                             childElement.SetPrincipalBox(box);
-                            GenerateAllChildBoxes(childElement);
+                            S02_GenerateAllChildBoxes(childElement);
                         } break;
                     default:
                         {
@@ -320,7 +323,7 @@ namespace HtmlRenderer.Composers
                             }
                             CssBox box = BoxCreator.CreateBox(principalBox, childElement);
                             childElement.SetPrincipalBox(box);
-                            GenerateAllChildBoxes(childElement);
+                            S02_GenerateAllChildBoxes(childElement);
                             newBox++;
                         } break;
                     default:
@@ -370,7 +373,7 @@ namespace HtmlRenderer.Composers
 
                             CssBox box = BoxCreator.CreateBox(principalBox, childElement);
                             childElement.SetPrincipalBox(box);
-                            GenerateAllChildBoxes(childElement);
+                            S02_GenerateAllChildBoxes(childElement);
 
                         } break;
                     default:
@@ -387,37 +390,23 @@ namespace HtmlRenderer.Composers
         {
 
             CssBox rootBox = null;
-
             ActiveCssTemplate activeCssTemplate = null;
             activeCssTemplate = new ActiveCssTemplate(cssData);
-            htmldoc.SetDocumentState(DocumentState.Layout);
+
+            htmldoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
             BrigeRootElement bridgeRoot = (BrigeRootElement)htmldoc.RootNode;
-            PrepareChildNodes(bridgeRoot, activeCssTemplate);
+            S01_PrepareStylesAndContentOfChildNodes(bridgeRoot, activeCssTemplate);
 
-            //----------------------------------------------------------------  
-            //4. assign styles 
-            //ApplyStyleSheetTopDownForBridgeElement(bridgeRoot, null, activeCssTemplate);
-            //---------------------------------------------------------------- 
-            //5. box generation                 
+
             rootBox = BoxCreator.CreateRootBlock(iFonts);
             ((BridgeHtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
-            //}); 
-            // var t3 = dbugCounter.Snap(() =>
-            // {
-            GenerateAllChildBoxes((BrigeRootElement)htmldoc.RootNode);
+
+            S02_GenerateAllChildBoxes((BrigeRootElement)htmldoc.RootNode);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
+            //----------------------------------------------------------------  
             SetTextSelectionStyle(htmlContainer, cssData);
-
-            //OnePassBoxCorrection(rootBox);
-
-            // });
-
-
-            //Console.Write("2245=> ");
-            //Console.WriteLine(string.Format("t0:{0}, t1:{1}, t2:{2}, total={3}", t0, t1, t2, (t0 + t1 + t2)));
-            //Console.WriteLine(t0 + t1 + t2 + t3);
             return rootBox;
         }
 
@@ -1193,9 +1182,7 @@ namespace HtmlRenderer.Composers
                 }
             }
         }
-        //static void OnePassBoxCorrection(CssBox root)
-        //{ 
-        //}
+
         #endregion
     }
 

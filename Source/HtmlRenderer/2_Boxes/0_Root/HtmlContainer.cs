@@ -333,35 +333,7 @@ namespace HtmlRenderer
         protected virtual void OnAllDisposed()
         {
         }
-
-
-
-
-        ///// <summary>
-        ///// Get html from the current DOM tree with style if requested.
-        ///// </summary>
-        ///// <param name="styleGen">Optional: controls the way styles are generated when html is generated (default: <see cref="HtmlGenerationStyle.Inline"/>)</param>
-        ///// <returns>generated html</returns>
-        //public string GetHtml(HtmlGenerationStyle styleGen = HtmlGenerationStyle.Inline)
-        //{
-        //    return DomUtils.GenerateHtml(_rootBox, styleGen);
-        //}
-
-        ///// <summary>
-        ///// Get attribute value of element at the given x,y location by given key.<br/>
-        ///// If more than one element exist with the attribute at the location the inner most is returned.
-        ///// </summary>
-        ///// <param name="location">the location to find the attribute at</param>
-        ///// <param name="attribute">the attribute key to get value by</param>
-        ///// <returns>found attribute value or null if not found</returns>
-        //public string GetAttributeAt(Point location, string attribute)
-        //{
-        //    ArgChecker.AssertArgNotNullOrEmpty(attribute, "attribute");
-
-        //    var cssBox = DomUtils.GetCssBox(_root, OffsetByScroll(location));
-        //    return cssBox != null ? DomUtils.GetAttribute(cssBox, attribute) : null;
-        //}
-
+         
 
 
         public void PerformLayout(IGraphics ig)

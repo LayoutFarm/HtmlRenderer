@@ -215,10 +215,7 @@ namespace HtmlRenderer.Boxes
             tmpFlags &= ~BoxFlags.TEXT_IS_EMPTY;
 
             this._boxCompactFlags = tmpFlags;
-        }
-
-
-        
+        } 
         public bool MayHasSomeTextContent
         {
             get
@@ -243,15 +240,7 @@ namespace HtmlRenderer.Boxes
                 {
                     return ChildCount == 0;
                 }
-                //if (ChildCount == 0)
-                //{
-                //}
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.HAS_EVAL_WHITESPACE) == 0)
-                //{
-                //    EvaluateWhitespace();
-                //}
-                //return ((this._boxCompactFlags & CssBoxFlagsConst.TEXT_IS_ALL_WHITESPACE) != 0) ||
-                //        ((this._boxCompactFlags & CssBoxFlagsConst.TEXT_IS_EMPTY) != 0);
+                
             }
         }
 #if DEBUG

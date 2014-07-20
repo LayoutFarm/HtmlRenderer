@@ -412,11 +412,13 @@ namespace HtmlRenderer.WebDom
             {
                 this.myChildrenNodes.Clear();
             }
+
             switch (this.DocState)
             {
                 case DocumentState.Idle:
                     {
-                        //change 
+                        //notify parent
+
                         this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
                     } break;
             }
