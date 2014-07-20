@@ -86,6 +86,7 @@
       <DependentUpon>DemoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HtmlDomExtension\HtmlDomExtension.cs" />
+    <Compile Include="HtmlRenderServices\HtmlRender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DemoList\Demo01_CreateHtmlDomStyle1.cs" />
