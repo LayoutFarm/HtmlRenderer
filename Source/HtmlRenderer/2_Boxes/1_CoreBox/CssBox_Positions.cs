@@ -135,7 +135,7 @@ namespace HtmlRenderer.Boxes
         {
             get { return (this._boxCompactFlags & BoxFlags.LAY_EVAL_COMPUTE_VALUES) == 0; }
         }
-        internal void ReEvaluateFont(HtmlRenderer.Drawing.IFonts iFonts, float parentFontSize)
+        public void ReEvaluateFont(HtmlRenderer.Drawing.IFonts iFonts, float parentFontSize)
         {
             HtmlRenderer.Drawing.FontInfo fontInfo = this._myspec.GetFont(iFonts, parentFontSize);
             this._actualFont = fontInfo.Font;

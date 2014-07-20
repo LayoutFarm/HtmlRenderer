@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using HtmlRenderer.Drawing;
-using HtmlRenderer.WebDom;
 using HtmlRenderer.Diagnostics;
 
 namespace HtmlRenderer.Boxes
@@ -30,97 +29,13 @@ namespace HtmlRenderer.Boxes
     /// </summary>
     public sealed class BoxUtils
     {
-
-        internal static CssBox CreateAnonBlock(CssBox parent, CssBox insertBefore)
-        {
-            var spec = CssBox.UnsafeGetBoxSpec(parent);
-            var newBox = new CssBox(parent, null, spec.GetAnonVersion());
-            var boxCollection = CssBox.UnsafeGetChildren(parent);
-            CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Block);
-            boxCollection.Remove(newBox);
-            boxCollection.InsertBefore(parent, insertBefore, newBox);
-            return newBox;
-        }
-
-        internal static CssBox CreateAnonInline(CssBox parent)
+        public static CssBox CreateAnonInline(CssBox parent)
         {
             var spec = CssBox.UnsafeGetBoxSpec(parent);
             var newBox = new CssBox(parent, null, spec.GetAnonVersion());
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
             return newBox;
         }
-
-
-      
-
-        public static CssBox GetNextSibling(CssBox a)
-        {
-            return a.GetNextNode();
-        }
-        internal static CssLineBox GetNearestLine(CssBox a, Point point, out bool found)
-        {
-            if (a.LineBoxCount > 0)
-            {
-                CssLineBox latestLine = null;
-
-                int y = point.Y;
-                found = false;
-                foreach (CssLineBox linebox in a.GetLineBoxIter())
-                {
-                    if (linebox.CachedLineBottom < y)
-                    {
-                        latestLine = linebox;
-                    }
-                    else
-                    {
-                        if (latestLine != null)
-                        {
-                            found = true;
-                        }
-                        break;
-                    }
-                }
-
-                return latestLine;
-            }
-            else
-            {
-                bool foundExact = false;
-                CssLineBox lastLine = null;
-                foreach (CssBox cbox in a.GetChildBoxIter())
-                {
-
-                    CssLineBox candidateLine = GetNearestLine(cbox, point, out foundExact);
-                    if (candidateLine != null)
-                    {
-                        if (foundExact)
-                        {
-                            found = true;
-                            return lastLine;
-                        }
-                        //not exact
-                        lastLine = candidateLine;
-                    }
-                    else
-                    {
-                        if (lastLine != null)
-                        {
-                            found = false;
-                            return lastLine;
-                        }
-                    }
-                }
-                found = foundExact;
-
-
-            }
-            return null;
-        }
-
-
-
-
-
         public static bool HitTest(CssBox box, float x, float y, BoxHitChain hitChain)
         {
             //recursive  
@@ -205,7 +120,86 @@ namespace HtmlRenderer.Boxes
             }
             return false;
         }
-       
+
+
+
+
+        internal static CssBox CreateAnonBlock(CssBox parent, CssBox insertBefore)
+        {
+            var spec = CssBox.UnsafeGetBoxSpec(parent);
+            var newBox = new CssBox(parent, null, spec.GetAnonVersion());
+            var boxCollection = CssBox.UnsafeGetChildren(parent);
+            CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Block);
+            boxCollection.Remove(newBox);
+            boxCollection.InsertBefore(parent, insertBefore, newBox);
+            return newBox;
+        }      
+
+        internal static CssBox GetNextSibling(CssBox a)
+        {
+            return a.GetNextNode();
+        }
+        internal static CssLineBox GetNearestLine(CssBox a, Point point, out bool found)
+        {
+            if (a.LineBoxCount > 0)
+            {
+                CssLineBox latestLine = null;
+
+                int y = point.Y;
+                found = false;
+                foreach (CssLineBox linebox in a.GetLineBoxIter())
+                {
+                    if (linebox.CachedLineBottom < y)
+                    {
+                        latestLine = linebox;
+                    }
+                    else
+                    {
+                        if (latestLine != null)
+                        {
+                            found = true;
+                        }
+                        break;
+                    }
+                }
+
+                return latestLine;
+            }
+            else
+            {
+                bool foundExact = false;
+                CssLineBox lastLine = null;
+                foreach (CssBox cbox in a.GetChildBoxIter())
+                {
+
+                    CssLineBox candidateLine = GetNearestLine(cbox, point, out foundExact);
+                    if (candidateLine != null)
+                    {
+                        if (foundExact)
+                        {
+                            found = true;
+                            return lastLine;
+                        }
+                        //not exact
+                        lastLine = candidateLine;
+                    }
+                    else
+                    {
+                        if (lastLine != null)
+                        {
+                            found = false;
+                            return lastLine;
+                        }
+                    }
+                }
+                found = foundExact;
+
+
+            }
+            return null;
+        }
+
+      
         internal static IEnumerable<CssLineBox> GetDeepDownLineBoxIter(CssBox box)
         {
             if (box.LineBoxCount > 0)
@@ -317,7 +311,5 @@ namespace HtmlRenderer.Boxes
                 throw new Exception("There's no containing block on the chain");
             return box;
         }
-
-
     }
 }

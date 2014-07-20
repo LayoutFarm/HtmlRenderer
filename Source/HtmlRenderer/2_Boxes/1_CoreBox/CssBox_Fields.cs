@@ -149,7 +149,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-        internal void SetRowSpanAndColSpan(int rowSpan, int colSpan)
+        public void SetRowSpanAndColSpan(int rowSpan, int colSpan)
         {
             this._rowSpan = rowSpan;
             this._colSpan = colSpan;
@@ -163,7 +163,7 @@ namespace HtmlRenderer.Boxes
             set;
         }
 
-        internal SubBoxCollection SubBoxes
+        public SubBoxCollection SubBoxes
         {
             get
             {

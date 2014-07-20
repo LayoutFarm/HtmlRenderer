@@ -360,7 +360,7 @@ namespace HtmlRenderer.Demo
         /// </summary>
         private void OnReloadColorsLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            SyntaxHilight.AddColoredText(_htmlEditor.Text, _htmlEditor);
+            //SyntaxHilight.AddColoredText(_htmlEditor.Text, _htmlEditor);
         }
 
         /// <summary>

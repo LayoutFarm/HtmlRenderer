@@ -70,7 +70,7 @@ namespace HtmlRenderer.Css
         CssPosition _position = CssPosition.Static;
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
         //==========================================================
-        
+
 
         #endregion
 #if DEBUG
@@ -90,19 +90,8 @@ namespace HtmlRenderer.Css
 
         }
         //---------------------------------------------------------------
-        internal int VersionNumber
-        {
-            get
-            {
-                return this._versionNum;
-            }
-            set
-            {
-                this._versionNum = value;
-                this.anonVersion = null;
-            }
-        }
-        internal void Freeze()
+        
+        public void Freeze()
         {
             this._freezed = true;
             _fontFeats.Freeze(); //1.
@@ -114,7 +103,7 @@ namespace HtmlRenderer.Css
             _cornerFeats.Freeze();//6.
             _backgroundFeats.Freeze();//7   
         }
-      
+
         internal void Defreeze()
         {
             this._freezed = false;

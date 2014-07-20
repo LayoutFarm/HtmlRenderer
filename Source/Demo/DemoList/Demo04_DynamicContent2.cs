@@ -2,6 +2,7 @@
 using HtmlRenderer.Composers;
 using HtmlRenderer.WebDom;
 
+ 
 namespace HtmlRenderer.Demo
 {
 
@@ -28,7 +29,6 @@ namespace HtmlRenderer.Demo
                     div.AddChild("span", span =>
                     {
                         span.AddTextContent("ABCD");
-                        
                         //3. attach event to specific span
                         span.AttachMouseDownEvent(e =>
                         {
@@ -53,7 +53,7 @@ namespace HtmlRenderer.Demo
                             span.ClearAllElements();
                             span.AddTextContent("LMNOP0003");
                         });
-                    }); 
+                    });
                     //----------------------
                     div.AttachEvent(EventName.MouseDown, e =>
                     {

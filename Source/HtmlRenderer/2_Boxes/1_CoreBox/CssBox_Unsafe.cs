@@ -39,14 +39,33 @@ namespace HtmlRenderer.Boxes
             //box.Spec is private
             return box._myspec;
         }
-        internal static void UnsafeSetParent(CssBox box, CssBox parent)
+        public static void UnsafeSetParent(CssBox box, CssBox parent)
         {
-            box._parentBox = parent; 
+            box._parentBox = parent;
         }
         public static object UnsafeGetController(CssBox box)
         {
             return box._controller;
         }
+        public static void UnsafeSetTextBuffer(CssBox box, char[] textBuffer)
+        {
+            //TODO: change to unsafe static 
+            box._buffer = textBuffer;
+        }
+        public static void UnsafeSetContentRuns(CssBox box, List<CssRun> runs, bool isAllWhitespace)
+        {
+            box._aa_contentRuns = runs;
+            if (isAllWhitespace)
+            {
+                box._boxCompactFlags |= BoxFlags.TEXT_IS_ALL_WHITESPACE;
+            }
+            else
+            {
+                box._boxCompactFlags &= ~BoxFlags.TEXT_IS_ALL_WHITESPACE;
+
+            }
+        }
+
 #if DEBUG
         public override string ToString()
         {

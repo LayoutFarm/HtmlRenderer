@@ -15,7 +15,7 @@ namespace HtmlRenderer.Drawing
         {
             this.State = ImageBinderState.NoImage;
         }
-        protected ImageBinder(string imgSource)
+        public ImageBinder(string imgSource)
         {
             this._imageSource = imgSource;
         }

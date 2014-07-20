@@ -112,20 +112,20 @@ namespace HtmlRenderer.Boxes
         {
             this._sizeHeight = px;
         }
-        internal static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
+        public static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
 
             if ((box._boxCompactFlags & BoxFlags.FIXED_DISPLAY_TYPE) == 0)
             {
                 box._cssDisplay = newdisplay;
             }
-            
+
 
             box.IsInline = ((newdisplay == CssDisplay.Inline ||
                     newdisplay == CssDisplay.InlineBlock)
                     && !box.IsBrElement);
             //---------------------------
-            
+
             box._isVisible = box._cssDisplay != CssDisplay.None && box._myspec.Visibility == CssVisibility.Visible;
             //-------------------------
             //check containing property 
@@ -143,11 +143,10 @@ namespace HtmlRenderer.Boxes
                     //not container properties 
                     box._boxCompactFlags &= ~BoxFlags.HAS_CONTAINER_PROP;
                     break;
-            }
-
+            } 
             //-------------------------
         }
-        internal static void SetAsBrBox(CssBox box)
+        public static void SetAsBrBox(CssBox box)
         {
             box._boxCompactFlags |= BoxFlags.IS_BR_ELEM;
         }

@@ -23,7 +23,7 @@ namespace HtmlRenderer.Boxes
     /// <summary>
     /// Parse CSS properties values like numbers, urls, etc.
     /// </summary>
-    static class CssValueParser
+    public static class CssValueParser
     {
         /// <summary>
         /// get length in pixel

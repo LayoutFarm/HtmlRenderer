@@ -446,7 +446,7 @@ namespace HtmlRenderer
             if (imageLoad != null)
                 myContainer.ImageContentMan.ImageLoadingRequest += imageLoad;
 
-            container.SetHtml(html, cssData);
+            myContainer.SetHtml(html, cssData);
 
             var finalSize = MeasureHtmlByRestrictions(container, minSize, maxSize);
             container.MaxSize = finalSize;
@@ -574,7 +574,7 @@ namespace HtmlRenderer
                 myContainer.TextContentMan.StylesheetLoadingRequest += stylesheetLoad;
             if (imageLoad != null)
                 myContainer.ImageContentMan.ImageLoadingRequest += imageLoad;
-            container.SetHtml(html, cssData);
+            myContainer.SetHtml(html, cssData);
 
 
 
@@ -632,7 +632,7 @@ namespace HtmlRenderer
                 if (imageLoad != null)
                     myContainer.ImageContentMan.ImageLoadingRequest += imageLoad;
 
-                container.SetHtml(html, cssData);
+                myContainer.SetHtml(html, cssData);
                 using (var gfx = new WinGraphics(g, container.UseGdiPlusTextRendering))
                 {
                     container.PerformLayout(gfx);
@@ -793,14 +793,27 @@ namespace HtmlRenderer
 
     static class HtmlRenderExtensions
     {
-        public static void SetHtml(this HtmlContainer container, string html, CssActiveSheet cssData)
+        public static void SetHtml(this HtmlContainerImpl container, string html, CssActiveSheet cssData)
         {
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
+            builder.RequestStyleSheet += (e) =>
+            {
+                var textContentManager = container.TextContentMan;
+                if (textContentManager != null)
+                {
+                    textContentManager.AddStyleSheetRequest(e);
+                }
+            };
+
+
             var htmldoc = builder.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
+
             using (var img = new Bitmap(1, 1))
             using (var g = Graphics.FromImage(img))
             {
                 WinGraphics winGfx = new WinGraphics(g, false);
+
+                //build rootbox from htmldoc
                 var rootBox = builder.BuildCssTree(htmldoc, winGfx, container, cssData);
                 HtmlContainerImpl containerImp = container as HtmlContainerImpl;
                 if (containerImp != null)
@@ -808,12 +821,23 @@ namespace HtmlRenderer
                     containerImp.SetHtmlDoc(htmldoc);
                     containerImp.SetRootCssBox(rootBox, cssData);
                 }
-                 
+
             }
         }
+
         public static void SetHtml(this HtmlContainerImpl container, HtmlRenderer.WebDom.HtmlDocument doc, CssActiveSheet cssData)
         {
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
+            builder.RequestStyleSheet += (e) =>
+            {
+                var textContentManager = container.TextContentMan;
+                if (textContentManager != null)
+                {
+                    textContentManager.AddStyleSheetRequest(e);
+                }
+            };
+
+
             using (var img = new Bitmap(1, 1))
             using (var g = Graphics.FromImage(img))
             {
@@ -827,6 +851,17 @@ namespace HtmlRenderer
         {
 
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
+            builder.RequestStyleSheet += (e) =>
+            {
+                var textContentManager = container.TextContentMan;
+                if (textContentManager != null)
+                {
+                    textContentManager.AddStyleSheetRequest(e);
+                }
+            };
+
+
+
             using (var img = new Bitmap(1, 1))
             using (var g = Graphics.FromImage(img))
             {

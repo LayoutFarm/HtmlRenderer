@@ -290,7 +290,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the text fore color use for selected text
         /// </summary>
-        internal Color SelectionForeColor
+        public Color SelectionForeColor
         {
             get { return _selectionForeColor; }
             set { _selectionForeColor = value; }
@@ -299,7 +299,7 @@ namespace HtmlRenderer
         /// <summary>
         /// the back-color to use for selected text
         /// </summary>
-        internal Color SelectionBackColor
+        public Color SelectionBackColor
         {
             get { return _selectionBackColor; }
             set { _selectionBackColor = value; }
@@ -439,28 +439,7 @@ namespace HtmlRenderer
         }
 
 
-        internal static void RaiseRequestStyleSheet(HtmlContainer container,
-            string hrefSource,
-            out string stylesheet,
-            out WebDom.CssActiveSheet stylesheetData)
-        {
-            if (hrefSource == null)
-            {
-                stylesheet = null;
-                stylesheetData = null;
-                return;
-            }
-            container.OnRequestStyleSheet(
-                hrefSource,
-                out stylesheet,
-                out stylesheetData);
-
-        }
-
-        protected abstract void OnRequestStyleSheet(string hrefSource,
-            out string stylesheet,
-            out WebDom.CssActiveSheet stylesheetData);
-
+        
         //------------------------------------------------------------------
         protected abstract void OnRequestImage(ImageBinder binder,
             CssBox requestBox, bool _sync);
@@ -474,6 +453,7 @@ namespace HtmlRenderer
         //------------------------------------------------------------------
 
         protected abstract void RequestRefresh(bool layout);
+        public abstract IGraphics GetSampleGraphics();
 
 
 
