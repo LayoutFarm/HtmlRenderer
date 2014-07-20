@@ -181,6 +181,7 @@ namespace HtmlRenderer.Composers
             //recursive ***  
             //first just generate into primary pricipal box
             //layout process  will correct it later  
+
             switch (parentElement.ChildrenCount)
             {
                 case 0: { } break;
@@ -190,13 +191,13 @@ namespace HtmlRenderer.Composers
                         CssBox principalBox = BridgeHtmlElement.InternalGetPrincipalBox(parentElement);
 
                         //only one child -- easy 
-                        HtmlNode bridgeChild = parentElement.GetChildNode(0); 
+                        HtmlNode bridgeChild = parentElement.GetChildNode(0);
                         int newBox = 0;
                         switch (bridgeChild.NodeType)
                         {
                             case HtmlNodeType.TextNode:
                                 {
-                                    
+
                                     BridgeHtmlTextNode singleTextNode = (BridgeHtmlTextNode)bridgeChild;
                                     RunListHelper.AddRunList(principalBox, parentElement.Spec, singleTextNode);
 
@@ -212,11 +213,19 @@ namespace HtmlRenderer.Composers
                                         return;
                                     }
                                     newBox++;
-                                    //--------------------------------------------------
-
-                                    CssBox newbox = BoxCreator.CreateBox(principalBox, elem);
-                                    elem.SetPrincipalBox(newbox);
-                                    S02_GenerateChildBoxes(elem, fullmode);
+                                    //-------------------------------------------------- 
+                                    if (fullmode)
+                                    {
+                                        CssBox newbox = BoxCreator.CreateBox(principalBox, elem);
+                                        elem.SetPrincipalBox(newbox);
+                                        S02_GenerateChildBoxes(elem, fullmode);
+                                    }
+                                    else
+                                    {
+                                        CssBox newbox = BoxCreator.CreateBox(principalBox, elem);
+                                        elem.SetPrincipalBox(newbox);
+                                        S02_GenerateChildBoxes(elem, fullmode);
+                                    }
                                     //--------------------------------------------------  
 
                                 } break;
@@ -282,10 +291,18 @@ namespace HtmlRenderer.Composers
                                         {
                                             continue;
                                         }
-
-                                        CssBox box = BoxCreator.CreateBox(principalBox, childElement);
-                                        childElement.SetPrincipalBox(box);
-                                        S02_GenerateChildBoxes(childElement, fullmode);
+                                        if (fullmode)
+                                        {
+                                            CssBox box = BoxCreator.CreateBox(principalBox, childElement);
+                                            childElement.SetPrincipalBox(box);
+                                            S02_GenerateChildBoxes(childElement, fullmode);
+                                        }
+                                        else
+                                        {
+                                            CssBox box = BoxCreator.CreateBox(principalBox, childElement);
+                                            childElement.SetPrincipalBox(box);
+                                            S02_GenerateChildBoxes(childElement, fullmode);
+                                        }
                                         newBox++;
                                     } break;
                                 default:
@@ -300,7 +317,7 @@ namespace HtmlRenderer.Composers
             //summary formatting context
             //that will be used on layout process 
             //----------------------------------
-        } 
+        }
 
         public CssBox BuildCssTree(HtmlDocument htmldoc,
             IFonts iFonts,
@@ -317,14 +334,14 @@ namespace HtmlRenderer.Composers
 
             htmldoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
-            BrigeRootElement bridgeRoot = (BrigeRootElement)htmldoc.RootNode;
+            BridgeRootElement bridgeRoot = (BridgeRootElement)htmldoc.RootNode;
             S01_PrepareStylesAndContentOfChildNodes(bridgeRoot, activeCssTemplate);
 
             //----------------------------------------------------------------  
             rootBox = BoxCreator.CreateRootBlock(iFonts);
             ((BridgeHtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
-            S02_GenerateChildBoxes((BrigeRootElement)htmldoc.RootNode, true);
+            S02_GenerateChildBoxes((BridgeRootElement)htmldoc.RootNode, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
@@ -344,11 +361,13 @@ namespace HtmlRenderer.Composers
 
             htmldoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
-            BrigeRootElement bridgeRoot = (BrigeRootElement)htmldoc.RootNode;
+            BridgeRootElement bridgeRoot = (BridgeRootElement)htmldoc.RootNode;
             S01_PrepareStylesAndContentOfChildNodes(bridgeRoot, activeCssTemplate);
 
             //----------------------------------------------------------------  
-            S02_GenerateChildBoxes((BrigeRootElement)htmldoc.RootNode, false);
+            CssBox principalBox = BridgeRootElement.InternalGetPrincipalBox(bridgeRoot);
+            principalBox.Clear();
+            S02_GenerateChildBoxes((BridgeRootElement)htmldoc.RootNode, false);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  

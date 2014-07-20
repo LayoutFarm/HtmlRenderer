@@ -20,7 +20,7 @@ namespace HtmlRenderer.Composers
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
         {
             //default root
-            rootNode = new BrigeRootElement(this);
+            rootNode = new BridgeRootElement(this);
         }
         public override HtmlElement RootNode
         {

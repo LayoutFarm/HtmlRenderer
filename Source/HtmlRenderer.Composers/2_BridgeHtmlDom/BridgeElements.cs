@@ -75,9 +75,9 @@ namespace HtmlRenderer.Composers.BridgeHtml
         //------------------------------------
     }
 
-    sealed class BrigeRootElement : BridgeHtmlElement
+    sealed class BridgeRootElement : BridgeHtmlElement
     {
-        public BrigeRootElement(BridgeHtmlDocument ownerDoc)
+        public BridgeRootElement(BridgeHtmlDocument ownerDoc)
             : base(ownerDoc, 0, 0)
         {
         }
