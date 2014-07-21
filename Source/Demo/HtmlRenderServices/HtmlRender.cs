@@ -752,13 +752,20 @@ namespace HtmlRenderer
 
             if (!string.IsNullOrEmpty(html))
             {
+
+                var boxComposer = new Composers.BoxComposer();
                 using (var visualRootBox = new WinRootVisualBox())
-                {
+                {                   
+
+                    visualRootBox.BoxComposer = boxComposer;
+
                     visualRootBox.Location = location;
                     visualRootBox.MaxSize = maxSize;
                     visualRootBox.AvoidAsyncImagesLoading = true;
                     visualRootBox.AvoidImagesLateLoading = true;
                     visualRootBox.UseGdiPlusTextRendering = useGdiPlusTextRendering;
+
+                    
 
                     if (stylesheetLoad != null)
                         visualRootBox.TextContentMan.StylesheetLoadingRequest += stylesheetLoad;

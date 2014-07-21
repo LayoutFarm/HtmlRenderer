@@ -60,7 +60,7 @@ namespace HtmlRenderer.ContentManagers
 
         object outputListSync = new object();
         object inputListSync = new object();
-        Thread imageLoadingThread;
+        
 
         public ImageContentManager(RootVisualBox parentHtmlContainer)
         {

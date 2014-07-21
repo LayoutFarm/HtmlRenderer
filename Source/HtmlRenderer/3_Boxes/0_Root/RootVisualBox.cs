@@ -382,12 +382,14 @@ namespace HtmlRenderer
         //------------------------------------------------------------------
         protected abstract void OnRequestImage(ImageBinder binder,
             CssBox requestBox, bool _sync);
-        internal static void RaiseRequestImage(RootVisualBox container,
+
+        internal static void RaiseRequestImage(RootVisualBox rootBox,
             ImageBinder binder,
             CssBox requestBox,
             bool _sync)
         {
-            container.OnRequestImage(binder, requestBox, false);
+            
+            rootBox.OnRequestImage(binder, requestBox, false);
         }
         //------------------------------------------------------------------
 

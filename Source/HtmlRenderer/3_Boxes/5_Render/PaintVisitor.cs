@@ -110,7 +110,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="requestFrom"></param>
         internal void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, CssBox requestFrom)
         {
-            HtmlRenderer.RootVisualBox.RaiseRequestImage(
+                RootVisualBox.RaiseRequestImage(
                 this.visualRootBox,
                 binder,
                 requestFrom,

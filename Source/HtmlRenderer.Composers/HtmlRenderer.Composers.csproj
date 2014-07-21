@@ -37,7 +37,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="1_Composers\1_Model\LiveComposer.cs" />
+    <Compile Include="0_Start\BoxComposer.cs" />
     <Compile Include="1_Composers\2_Css\ActiveCssTemplate.cs" />
     <Compile Include="1_Composers\1_Model\CustomCssBoxGenerator.cs" />
     <Compile Include="1_Composers\1_Model\BoxModelBuilder.cs" />

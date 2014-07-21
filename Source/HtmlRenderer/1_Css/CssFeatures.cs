@@ -17,7 +17,7 @@ namespace HtmlRenderer.Css
 
         protected readonly object owner;
         bool freezed;
-
+       
         public CssFeatureBase(object owner)
         {
             this.owner = owner;

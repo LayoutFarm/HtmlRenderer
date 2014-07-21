@@ -90,7 +90,7 @@ namespace HtmlRenderer.Boxes
 
         internal void RequestImage(ImageBinder binder, CssBox requestFrom)
         {
-            HtmlRenderer.RootVisualBox.RaiseRequestImage(
+            RootVisualBox.RaiseRequestImage(
                 this.visualRootBox,
                 binder,
                 requestFrom,
@@ -203,7 +203,7 @@ namespace HtmlRenderer.Boxes
         internal int EpisodeId
         {
             get { return this.episodeId; }
-        } 
+        }
         //---------------------------------------------------------------
     }
 

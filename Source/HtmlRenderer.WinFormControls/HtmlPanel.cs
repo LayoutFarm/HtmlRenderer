@@ -62,13 +62,18 @@ namespace HtmlRenderer
     public class HtmlPanel : ScrollableControl
     {
 
+
+
         #region Fields and Consts
 
-        /// <summary>
-        /// 
-        /// </summary>
-        private WinRootVisualBox _visualRootBox;
+
+
+
+        WinRootVisualBox _visualRootBox;
+        Composers.BoxComposer _boxComposer;
         Composers.HtmlInputEventBridge _htmlEventBridge;
+
+
 
         /// <summary>
         /// the raw base stylesheet data used in the control
@@ -94,17 +99,29 @@ namespace HtmlRenderer
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
-            _visualRootBox = new WinRootVisualBox(); 
+
+            _boxComposer = new Composers.BoxComposer();
+
+            _visualRootBox = new WinRootVisualBox();
+            _visualRootBox.BoxComposer = _boxComposer;
+
+
+
             _visualRootBox.RenderError += OnRenderError;
             _visualRootBox.Refresh += OnRefresh;
             _visualRootBox.ScrollChange += OnScrollChange;
             _visualRootBox.TextContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
             _visualRootBox.ImageContentMan.ImageLoadingRequest += OnImageLoad;
 
+
+
             //-------------------------------------------
             _htmlEventBridge = new Composers.HtmlInputEventBridge();
             _htmlEventBridge.Bind(_visualRootBox);
             //-------------------------------------------
+
+
+
         }
 
         /// <summary>
@@ -251,9 +268,9 @@ namespace HtmlRenderer
             Invalidate();
         }
         public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.HtmlDocument doc)
-        {   
-           
-            _visualRootBox.RefreshHtmlDomChange(doc, _baseCssData); 
+        {
+
+            _visualRootBox.RefreshHtmlDomChange(doc, _baseCssData);
             PerformLayout();
             Invalidate();
         }

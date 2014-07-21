@@ -13,10 +13,10 @@ namespace HtmlRenderer.Composers
 {
 
 
-    public class LiveComposer
+    public class BoxComposer
     {
 
-        public LiveComposer()
+        public BoxComposer()
         {
 
         }
