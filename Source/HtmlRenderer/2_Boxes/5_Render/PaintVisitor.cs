@@ -29,10 +29,12 @@ namespace HtmlRenderer.Boxes
         float physicalViewportX;
         float physicalViewportY;
 
+        bool aviodGeometyAntialias;
         public PaintVisitor(RootVisualBox container, IGraphics ig)
-        {   
+        {
             this.visualRootBox = container;
             this.htmlContainerScrollOffset = container.ScrollOffset;
+            this.aviodGeometyAntialias = container.AvoidGeometryAntialias;
             this.ig = ig;
         }
         internal void SetPhysicalViewportBound(float x, float y, float width, float height)
@@ -52,7 +54,7 @@ namespace HtmlRenderer.Boxes
         }
         internal bool AvoidGeometryAntialias
         {
-            get { return this.visualRootBox.AvoidGeometryAntialias; }
+            get { return this.aviodGeometyAntialias; }
         }
         //-----------------------------------------------------
 
@@ -115,16 +117,16 @@ namespace HtmlRenderer.Boxes
                 false);
             //--------------------------------------------------
             if (binder.State == ImageBinderState.Loaded)
-            {   
-                Image img= binder.Image;
+            {
+                Image img = binder.Image;
                 if (img != null)
                 {
                     //set real image info
                     imgRun.ImageRectangle = new Rectangle(
                         (int)imgRun.Left, (int)imgRun.Top,
                         img.Width, img.Height);
-                }                    
-            } 
+                }
+            }
         }
         //internal void RequestImage(ImageBinder binder, CssBox requestFrom, ReadyStateChangedHandler handler)
         //{

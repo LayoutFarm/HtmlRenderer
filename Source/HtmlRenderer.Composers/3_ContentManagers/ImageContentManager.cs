@@ -48,8 +48,8 @@ namespace HtmlRenderer.ContentManagers
 
         LinkedList<ImageContentRequest> inputList = new LinkedList<ImageContentRequest>();
         LinkedList<ImageBinder> outputList = new LinkedList<ImageBinder>();
-        RootVisualBox parentHtmlContainer;
 
+        RootVisualBox parentRootBox;
         ImageCacheSystem imageCacheLevel0 = new ImageCacheSystem();
 
         System.Timers.Timer timImageLoadMonitor = new System.Timers.Timer();
@@ -64,7 +64,7 @@ namespace HtmlRenderer.ContentManagers
 
         public ImageContentManager(RootVisualBox parentHtmlContainer)
         {
-            this.parentHtmlContainer = parentHtmlContainer;
+            this.parentRootBox = parentHtmlContainer;
             timImageLoadMonitor.Interval = 50;//30 ms check state
             timImageLoadMonitor.Elapsed += new System.Timers.ElapsedEventHandler(timImageLoadMonitor_Elapsed);
             timImageLoadMonitor.Start();
@@ -117,7 +117,7 @@ namespace HtmlRenderer.ContentManagers
                                 imageCacheLevel0.AddCacheImage(binder.ImageSource, binder.Image);
                                 //send ready image notification to
                                 //parent html container
-                                this.parentHtmlContainer.AddRequestImageBinderUpdate(binder);
+                                this.parentRootBox.AddRequestImageBinderUpdate(binder);
                             }
                         }
                         else
@@ -128,7 +128,7 @@ namespace HtmlRenderer.ContentManagers
                             binder.SetImage(foundImage);
                             //send ready image notification to
                             //parent html container
-                            this.parentHtmlContainer.AddRequestImageBinderUpdate(binder);
+                            this.parentRootBox.AddRequestImageBinderUpdate(binder);
                         }
 
                         //next image

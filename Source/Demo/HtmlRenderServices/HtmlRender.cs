@@ -752,23 +752,23 @@ namespace HtmlRenderer
 
             if (!string.IsNullOrEmpty(html))
             {
-                using (var container = new WinRootVisualBox())
+                using (var visualRootBox = new WinRootVisualBox())
                 {
-                    container.Location = location;
-                    container.MaxSize = maxSize;
-                    container.AvoidAsyncImagesLoading = true;
-                    container.AvoidImagesLateLoading = true;
-                    container.UseGdiPlusTextRendering = useGdiPlusTextRendering;
+                    visualRootBox.Location = location;
+                    visualRootBox.MaxSize = maxSize;
+                    visualRootBox.AvoidAsyncImagesLoading = true;
+                    visualRootBox.AvoidImagesLateLoading = true;
+                    visualRootBox.UseGdiPlusTextRendering = useGdiPlusTextRendering;
 
                     if (stylesheetLoad != null)
-                        container.TextContentMan.StylesheetLoadingRequest += stylesheetLoad;
+                        visualRootBox.TextContentMan.StylesheetLoadingRequest += stylesheetLoad;
                     if (imageLoad != null)
-                        container.ImageContentMan.ImageLoadingRequest += imageLoad;
+                        visualRootBox.ImageContentMan.ImageLoadingRequest += imageLoad;
 
-                    container.SetHtml(html, cssData);
-                    container.PerformLayout(g);
-                    container.PerformPaint(g);
-                    actualSize = container.ActualSize;
+                    visualRootBox.SetHtml(html, cssData);
+                    visualRootBox.PerformLayout(g);
+                    visualRootBox.PerformPaint(g);
+                    actualSize = visualRootBox.ActualSize;
                 }
             }
 
