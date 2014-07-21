@@ -26,14 +26,14 @@ namespace HtmlRenderer
 {
 
 
-    public abstract class AbstractRootVisualBox : IDisposable
+    public abstract class RootVisualBox : IDisposable
     {
-         
+
 
         /// <summary>
         /// the root css box of the parsed html
         /// </summary>
-        private CssBox _rootBox;
+        CssBox _rootBox;
 
         /// <summary>
         /// the text fore color use for selected text
@@ -85,7 +85,6 @@ namespace HtmlRenderer
         /// <summary>
         /// The actual size of the rendered html (after layout)
         /// </summary>
-
         float _actualWidth;
         float _actualHeight;
 
@@ -99,7 +98,7 @@ namespace HtmlRenderer
         List<ImageBinder> requestImageBinderUpdates = new List<ImageBinder>();
         //-----------------------------------------------------------
 
-        public AbstractRootVisualBox()
+        public RootVisualBox()
         {
             timTask.Interval = 20;//20 ms task
             timTask.Elapsed += new System.Timers.ElapsedEventHandler(timTask_Elapsed);
@@ -383,7 +382,7 @@ namespace HtmlRenderer
         //------------------------------------------------------------------
         protected abstract void OnRequestImage(ImageBinder binder,
             CssBox requestBox, bool _sync);
-        internal static void RaiseRequestImage(AbstractRootVisualBox container,
+        internal static void RaiseRequestImage(RootVisualBox container,
             ImageBinder binder,
             CssBox requestBox,
             bool _sync)

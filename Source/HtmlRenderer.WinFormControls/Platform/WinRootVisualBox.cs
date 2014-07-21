@@ -14,7 +14,7 @@ using HtmlRenderer.Diagnostics;
 namespace HtmlRenderer
 {
 
-    public class WinRootVisualBox : AbstractRootVisualBox
+    public class WinRootVisualBox : RootVisualBox
     {
 
         HtmlDocument doc;

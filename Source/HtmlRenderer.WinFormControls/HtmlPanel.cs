@@ -258,7 +258,7 @@ namespace HtmlRenderer
             PerformLayout();
             Invalidate();
         }
-        public AbstractRootVisualBox GetHtmlContainer()
+        public RootVisualBox GetHtmlContainer()
         {
             return this._htmlContainer;
         }

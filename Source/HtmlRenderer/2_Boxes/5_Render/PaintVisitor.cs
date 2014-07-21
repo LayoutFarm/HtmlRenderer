@@ -18,7 +18,8 @@ namespace HtmlRenderer.Boxes
         static PointF[] borderPoints = new PointF[4];
 
         PointF htmlContainerScrollOffset;
-        AbstractRootVisualBox container;
+
+        RootVisualBox visualRootBox;
         IGraphics ig;
 
         RectangleF latestClip = new RectangleF(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
@@ -28,9 +29,9 @@ namespace HtmlRenderer.Boxes
         float physicalViewportX;
         float physicalViewportY;
 
-        public PaintVisitor(AbstractRootVisualBox container, IGraphics ig)
-        {
-            this.container = container;
+        public PaintVisitor(RootVisualBox container, IGraphics ig)
+        {   
+            this.visualRootBox = container;
             this.htmlContainerScrollOffset = container.ScrollOffset;
             this.ig = ig;
         }
@@ -51,7 +52,7 @@ namespace HtmlRenderer.Boxes
         }
         internal bool AvoidGeometryAntialias
         {
-            get { return this.container.AvoidGeometryAntialias; }
+            get { return this.visualRootBox.AvoidGeometryAntialias; }
         }
         //-----------------------------------------------------
 
@@ -107,8 +108,8 @@ namespace HtmlRenderer.Boxes
         /// <param name="requestFrom"></param>
         internal void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, CssBox requestFrom)
         {
-            HtmlRenderer.AbstractRootVisualBox.RaiseRequestImage(
-                this.container,
+            HtmlRenderer.RootVisualBox.RaiseRequestImage(
+                this.visualRootBox,
                 binder,
                 requestFrom,
                 false);
