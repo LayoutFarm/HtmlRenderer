@@ -86,9 +86,6 @@
     <Compile Include="Filter Effects\ISvgFilterable.cs" />
     <Compile Include="Filter Effects\SvgFilter.cs" />
     <Compile Include="Filter Effects\SvgFilterPrimitive.cs" />
-    <Compile Include="Net20\SomeExtensionMethods.cs" />
-    <Compile Include="Net20\Delegates.cs" />
-    <Compile Include="Net20\Tuple.cs" />
     <Compile Include="Painting\EnumConverters.cs" />
     <Compile Include="Painting\ISvgBoundable.cs" />
     <Compile Include="Painting\ISvgStylable.cs" />
@@ -147,12 +144,6 @@
   <ItemGroup>
     <None Include="Basic Shapes\DOM.cd" />
     <None Include="Resources\svg11.dtd" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\HtmlRenderer\HtmlRenderer.csproj">
-      <Project>{1B058920-24B4-4140-8AE7-C8C6C38CA52D}</Project>
-      <Name>HtmlRenderer</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

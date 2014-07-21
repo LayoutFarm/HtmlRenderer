@@ -6,13 +6,7 @@ using System.Drawing.Drawing2D;
 using System.Xml; 
 using System.ComponentModel;
 
-//namespace System.Web.UI.WebControls
-//{
-//    public class Dummy
-//    {
-//    }
-//}
-
+ 
 namespace Svg
 {
     /// <summary>
