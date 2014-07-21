@@ -18,7 +18,7 @@ namespace HtmlRenderer.Boxes
         static PointF[] borderPoints = new PointF[4];
 
         PointF htmlContainerScrollOffset;
-        HtmlContainer container;
+        AbstractRootVisualBox container;
         IGraphics ig;
 
         RectangleF latestClip = new RectangleF(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
@@ -28,7 +28,7 @@ namespace HtmlRenderer.Boxes
         float physicalViewportX;
         float physicalViewportY;
 
-        public PaintVisitor(HtmlContainer container, IGraphics ig)
+        public PaintVisitor(AbstractRootVisualBox container, IGraphics ig)
         {
             this.container = container;
             this.htmlContainerScrollOffset = container.ScrollOffset;
@@ -107,7 +107,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="requestFrom"></param>
         internal void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, CssBox requestFrom)
         {
-            HtmlRenderer.HtmlContainer.RaiseRequestImage(
+            HtmlRenderer.AbstractRootVisualBox.RaiseRequestImage(
                 this.container,
                 binder,
                 requestFrom,

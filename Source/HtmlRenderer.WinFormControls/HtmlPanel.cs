@@ -67,7 +67,7 @@ namespace HtmlRenderer
         /// <summary>
         /// 
         /// </summary>
-        private HtmlContainerImpl _htmlContainer;
+        private WinRootVisualBox _htmlContainer;
         Composers.HtmlInputEventBridge _htmlEventBridge;
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace HtmlRenderer
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
-            _htmlContainer = new HtmlContainerImpl();
+            _htmlContainer = new WinRootVisualBox();
             //_htmlContainer.LinkClicked += OnLinkClicked;
             _htmlContainer.RenderError += OnRenderError;
             _htmlContainer.Refresh += OnRefresh;
@@ -258,7 +258,7 @@ namespace HtmlRenderer
             PerformLayout();
             Invalidate();
         }
-        public HtmlContainer GetHtmlContainer()
+        public AbstractRootVisualBox GetHtmlContainer()
         {
             return this._htmlContainer;
         }

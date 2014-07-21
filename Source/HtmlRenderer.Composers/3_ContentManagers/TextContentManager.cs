@@ -15,7 +15,7 @@ namespace HtmlRenderer.ContentManagers
 
     public class TextContentManager
     {
-        HtmlContainer parentHtmlContainer;
+        AbstractRootVisualBox parentHtmlContainer;
 
         /// <summary>
         /// Raised when a stylesheet is about to be loaded by file path or URI by link element.<br/>
@@ -24,7 +24,7 @@ namespace HtmlRenderer.ContentManagers
         /// </summary>
         public event EventHandler<StylesheetLoadEventArgs> StylesheetLoadingRequest;
 
-        public TextContentManager(HtmlContainer parentHtmlContainer)
+        public TextContentManager(AbstractRootVisualBox parentHtmlContainer)
         {
             this.parentHtmlContainer = parentHtmlContainer;
         }

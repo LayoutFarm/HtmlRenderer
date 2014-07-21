@@ -113,7 +113,7 @@
     <Compile Include="2_Boxes\5_Render\BackgroundImageDrawHandler.cs" />
     <Compile Include="2_Boxes\5_Render\BordersDrawHandler.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssValueParser.cs" />
-    <Compile Include="2_Boxes\0_Root\HtmlContainer.cs" />
+    <Compile Include="2_Boxes\0_Root\AbstractRootVisualBox.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

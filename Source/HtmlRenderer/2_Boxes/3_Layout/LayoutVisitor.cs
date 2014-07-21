@@ -10,7 +10,7 @@ namespace HtmlRenderer.Boxes
 
     public class LayoutVisitor : BoxVisitor
     {
-        HtmlContainer htmlContainer;
+        AbstractRootVisualBox htmlContainer;
         float totalMarginLeftAndRight;
 
 
@@ -25,7 +25,7 @@ namespace HtmlRenderer.Boxes
         static int totalLayoutIdEpisode = 0;
         readonly int episodeId = ++totalLayoutIdEpisode;
 
-        internal LayoutVisitor(IGraphics gfx, HtmlContainer htmlContainer)
+        internal LayoutVisitor(IGraphics gfx, AbstractRootVisualBox htmlContainer)
         {
             this.Gfx = gfx;
             this.htmlContainer = htmlContainer;
@@ -90,7 +90,7 @@ namespace HtmlRenderer.Boxes
 
         internal void RequestImage(ImageBinder binder, CssBox requestFrom)
         {
-            HtmlRenderer.HtmlContainer.RaiseRequestImage(
+            HtmlRenderer.AbstractRootVisualBox.RaiseRequestImage(
                 this.htmlContainer,
                 binder,
                 requestFrom,

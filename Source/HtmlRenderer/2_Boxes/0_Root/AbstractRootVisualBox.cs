@@ -25,43 +25,11 @@ using HtmlRenderer.Css;
 namespace HtmlRenderer
 {
 
-    /// <summary>
-    /// Low level handling of Html Renderer logic.<br/>
-    /// Allows html layout and rendering without association to actual control, those allowing to handle html rendering on any graphics object.<br/>
-    /// Using this class will require the client to handle all propagations of mouse/keyboard events, layout/paint calls, scrolling offset, 
-    /// location/size/rectangle handling and UI refresh requests.<br/>
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// <b>MaxSize and ActualSize:</b><br/>
-    /// The max width and height of the rendered html.<br/>
-    /// The max width will effect the html layout wrapping lines, resize images and tables where possible.<br/>
-    /// The max height does NOT effect layout, but will not render outside it (clip).<br/>
-    /// <see cref="ActualSize"/> can exceed the max size by layout restrictions (unwrap-able line, set image size, etc.).<br/>
-    /// Set zero for unlimited (width/height separately).<br/>
-    /// </para>
-    /// <para>
-    /// <b>ScrollOffset:</b><br/>
-    /// This will adjust the rendered html by the given offset so the content will be "scrolled".<br/>
-    /// Element that is rendered at location (50,100) with offset of (0,200) will not be rendered 
-    /// at -100, therefore outside the client rectangle.
-    /// </para> 
 
-    /// <para>
-    /// <b>Refresh event:</b><br/>
-    /// Raised when html renderer requires refresh of the control hosting (invalidation and re-layout).<br/>
-    /// There is no guarantee that the event will be raised on the main thread, it can be raised on thread-pool thread.
-    /// </para>
-    /// <para>
-    /// <b>RenderError event:</b><br/>
-    /// Raised when an error occurred during html rendering.<br/>
-    /// </para>
-    /// </remarks>
-    public abstract class HtmlContainer : IDisposable
+    public abstract class AbstractRootVisualBox : IDisposable
     {
+         
 
-
-        #region Fields and Consts
         /// <summary>
         /// the root css box of the parsed html
         /// </summary>
@@ -120,7 +88,7 @@ namespace HtmlRenderer
 
         float _actualWidth;
         float _actualHeight;
-        #endregion
+
         /// <summary>
         /// 99999
         /// </summary>
@@ -131,7 +99,7 @@ namespace HtmlRenderer
         List<ImageBinder> requestImageBinderUpdates = new List<ImageBinder>();
         //-----------------------------------------------------------
 
-        public HtmlContainer()
+        public AbstractRootVisualBox()
         {
             timTask.Interval = 20;//20 ms task
             timTask.Elapsed += new System.Timers.ElapsedEventHandler(timTask_Elapsed);
@@ -333,7 +301,7 @@ namespace HtmlRenderer
         protected virtual void OnAllDisposed()
         {
         }
-         
+
 
 
         public void PerformLayout(IGraphics ig)
@@ -411,11 +379,11 @@ namespace HtmlRenderer
         }
 
 
-        
+
         //------------------------------------------------------------------
         protected abstract void OnRequestImage(ImageBinder binder,
             CssBox requestBox, bool _sync);
-        internal static void RaiseRequestImage(HtmlContainer container,
+        internal static void RaiseRequestImage(AbstractRootVisualBox container,
             ImageBinder binder,
             CssBox requestBox,
             bool _sync)
