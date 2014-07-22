@@ -165,6 +165,7 @@ namespace Svg.Web
             /// <param name="extraData">The extra data.</param>
             public SvgAsyncRenderState(HttpContext context, AsyncCallback callback, object extraData)
             {
+                
                 _context = context;
                 _callback = callback;
                 _extraData = extraData;
