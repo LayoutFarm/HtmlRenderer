@@ -537,15 +537,17 @@ namespace HtmlRenderer.Css
             set { if (Assignable()) this._overflow = value; }
         }
 
-        public string ListStyle
-        {
-            get { return this._listFeats.ListStyle; }
-            set { if (Assignable()) CheckListPropVersion().ListStyle = value; }
-        }
+      
         public CssListStylePosition ListStylePosition
         {
             get { return this._listFeats.ListStylePosition; }
             set { if (Assignable()) CheckListPropVersion().ListStylePosition = value; }
+        }
+
+        public string ListStyle
+        {
+            get { return this._listFeats.ListStyle; }
+            set { if (Assignable()) CheckListPropVersion().ListStyle = value; }
         }
         public string ListStyleImage
         {

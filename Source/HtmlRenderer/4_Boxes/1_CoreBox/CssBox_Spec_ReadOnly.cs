@@ -21,7 +21,6 @@ using HtmlRenderer.Drawing;
 
 namespace HtmlRenderer.Boxes
 {
-
     /// <summary>
     /// Base class for css box to handle the css properties.<br/>
     /// Has field and property for every css property that can be set, the properties add additional parsing like
@@ -29,6 +28,8 @@ namespace HtmlRenderer.Boxes
     /// Has additional fields to control the location and size of the box and 'actual' css values for some properties
     /// that require additional calculations and parsing.<br/>
     /// </summary>
+
+
     partial class CssBox
     {
         public CssLength Height
@@ -40,24 +41,7 @@ namespace HtmlRenderer.Boxes
         {
             get { return this._myspec.CssDirection; }
         }
-        //---------------------------------------------- 
-        public CssLength BorderLeftWidth
-        {
-            get { return this._myspec.BorderLeftWidth; }
-        }
-        public CssLength BorderTopWidth
-        {
-            get { return this._myspec.BorderTopWidth; }
-        }
-        public CssLength BorderRightWidth
-        {
-            get { return this._myspec.BorderRightWidth; }
-        }
 
-        public CssLength BorderBottomWidth
-        {
-            get { return this._myspec.BorderBottomWidth; }
-        }
         //----------------------------------------------- 
         public CssBorderStyle BorderLeftStyle
         {
@@ -110,57 +94,7 @@ namespace HtmlRenderer.Boxes
         {
             get { return this.BorderCollapse == CssBorderCollapse.Collapse; }
         }
-        //------------------------------------------------------
-        public CssLength CornerNERadius
-        {
-            get { return this._myspec.CornerNERadius; }
-        }
-        public CssLength CornerNWRadius
-        {
-            get { return this._myspec.CornerNWRadius; }
-        }
-        public CssLength CornerSERadius
-        {
-            get { return this._myspec.CornerSERadius; }
-        }
-        public CssLength CornerSWRadius
-        {
-            get { return this._myspec.CornerSWRadius; }
-        }
-        //------------------------------------------------------ 
-        public CssLength MarginLeft
-        {
-            get { return this._myspec.MarginLeft; }
-        }
-        public CssLength MarginTop
-        {
-            get { return this._myspec.MarginTop; }
-        }
-        public CssLength MarginRight
-        {
-            get { return this._myspec.MarginRight; }
-        }
-        public CssLength MarginBottom
-        {
-            get { return this._myspec.MarginBottom; }
-        }
-        //------------------------------------------------------
-        public CssLength PaddingLeft
-        {
-            get { return this._myspec.PaddingLeft; }
-        }
-        public CssLength PaddingTop
-        {
-            get { return this._myspec.PaddingTop; }
-        }
-        public CssLength PaddingRight
-        {
-            get { return this._myspec.PaddingRight; }
-        }
-        public CssLength PaddingBottom
-        {
-            get { return this._myspec.PaddingBottom; }
-        }
+        
         //------------------------------------------------------ 
         public CssLength Left
         {
@@ -170,6 +104,7 @@ namespace HtmlRenderer.Boxes
         {
             get { return this._myspec.Top; }
         }
+
         public CssLength Width
         {
             get { return this._myspec.Width; }
@@ -180,7 +115,7 @@ namespace HtmlRenderer.Boxes
         }
 
         //------------------------------------------------------ 
-        public Color BackgroundColor
+        Color BackgroundColor
         {
             get { return this._myspec.BackgroundColor; }
         }
@@ -209,19 +144,12 @@ namespace HtmlRenderer.Boxes
         {
             get { return this._myspec.ActualBackgroundGradientAngle; }
         }
-        //------------------------------------------------------ 
-        /// <summary>
-        /// font color
-        /// </summary>
-        public Color Color
-        {
-            get { return this._myspec.Color; }
-        }
+
         public CssEmptyCell EmptyCells
         {
             get { return this._myspec.EmptyCells; }
         }
-        public CssFloat Float
+        CssFloat Float
         {
             get { return this._myspec.Float; }
         }
@@ -230,19 +158,21 @@ namespace HtmlRenderer.Boxes
             get { return this._myspec.Position; }
         }
         //----------------------------------------------------
-        public CssLength LineHeight
-        {
-            get { return this._myspec.LineHeight; }
 
-        }
         public CssVerticalAlign VerticalAlign
         {
             get { return this._myspec.VerticalAlign; }
         }
-        public CssLength TextIndent
+        CssLength TextIndent
         {
             get { return this._myspec.TextIndent; }
         }
+        CssLength LineHeight
+        {
+            get { return this._myspec.LineHeight; }
+
+        }
+
         public CssTextAlign CssTextAlign
         {
             get { return this._myspec.CssTextAlign; }
@@ -257,7 +187,7 @@ namespace HtmlRenderer.Boxes
             get { return this._myspec.WhiteSpace; }
         }
         //----------------------------------- 
-        public CssVisibility Visibility
+        CssVisibility Visibility
         {
             get { return this._myspec.Visibility; }
         }
@@ -265,58 +195,18 @@ namespace HtmlRenderer.Boxes
         {
             get { return this._myspec.WordSpacing; }
         }
-
-        public CssWordBreak WordBreak
+        CssWordBreak WordBreak
         {
             get { return this._myspec.WordBreak; }
         }
-        //----------------------------------- 
-        public string FontFamily
-        {
-            get { return this._myspec.FontFamily; }
-        }
-
-        public CssLength FontSize
-        {
-            get { return this._myspec.FontSize; }
-        }
-
-        public CssFontStyle FontStyle
-        {
-            get { return this._myspec.FontStyle; }
-        }
-
-        public CssFontVariant FontVariant
-        {
-            get { return this._myspec.FontVariant; }
-        }
-
-        public CssFontWeight FontWeight
-        {
-            get { return this._myspec.FontWeight; }
-        }
+        //-----------------------------------  
         public CssOverflow Overflow
         {
             get { return this._myspec.Overflow; }
         }
         //----------------------------------- 
-        public string ListStyle
-        {
-            get { return this._myspec.ListStyle; }
-        }
-        public CssListStylePosition ListStylePosition
-        {
-            get { return this._myspec.ListStylePosition; }
-        }
-        public string ListStyleImage
-        {
-            get { return this._myspec.ListStyleImage; }
-        }
 
-        public CssListStyleType ListStyleType
-        {
-            get { return this._myspec.ListStyleType; }
-        }
+
 
         /// <summary>
         /// Gets the second color that creates a gradient for the background
@@ -382,7 +272,132 @@ namespace HtmlRenderer.Boxes
             //after has actual font 
             return this._actualEmHeight;//  
         }
-
-
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    //-----------
+    partial class CssBox
+    {
+        CssLength BorderLeftWidth
+        {
+            get { return this._myspec.BorderLeftWidth; }
+        }
+        CssLength BorderTopWidth
+        {
+            get { return this._myspec.BorderTopWidth; }
+        }
+        CssLength BorderRightWidth
+        {
+            get { return this._myspec.BorderRightWidth; }
+        }
+
+        CssLength BorderBottomWidth
+        {
+            get { return this._myspec.BorderBottomWidth; }
+        }
+        string FontFamily
+        {
+            get { return this._myspec.FontFamily; }
+        }
+
+        CssLength FontSize
+        {
+            get { return this._myspec.FontSize; }
+        }
+
+        CssFontStyle FontStyle
+        {
+            get { return this._myspec.FontStyle; }
+        }
+
+        CssFontVariant FontVariant
+        {
+            get { return this._myspec.FontVariant; }
+        }
+
+        CssFontWeight FontWeight
+        {
+            get { return this._myspec.FontWeight; }
+        }
+        CssListStylePosition ListStylePosition
+        {
+            get { return this._myspec.ListStylePosition; }
+        }
+        string ListStyle
+        {
+            get { return this._myspec.ListStyle; }
+        }
+        string ListStyleImage
+        {
+            get { return this._myspec.ListStyleImage; }
+        }
+
+        CssListStyleType ListStyleType
+        {
+            get { return this._myspec.ListStyleType; }
+        }
+        //------------------------------------------------------
+        CssLength CornerNERadius
+        {
+            get { return this._myspec.CornerNERadius; }
+        }
+        CssLength CornerNWRadius
+        {
+            get { return this._myspec.CornerNWRadius; }
+        }
+        CssLength CornerSERadius
+        {
+            get { return this._myspec.CornerSERadius; }
+        }
+        CssLength CornerSWRadius
+        {
+            get { return this._myspec.CornerSWRadius; }
+        }
+        //------------------------------------------------------ 
+        CssLength MarginLeft
+        {
+            get { return this._myspec.MarginLeft; }
+        }
+        CssLength MarginTop
+        {
+            get { return this._myspec.MarginTop; }
+        }
+        CssLength MarginRight
+        {
+            get { return this._myspec.MarginRight; }
+        }
+        CssLength MarginBottom
+        {
+            get { return this._myspec.MarginBottom; }
+        }
+        //------------------------------------------------------
+        CssLength PaddingLeft
+        {
+            get { return this._myspec.PaddingLeft; }
+        }
+        CssLength PaddingTop
+        {
+            get { return this._myspec.PaddingTop; }
+        }
+        CssLength PaddingRight
+        {
+            get { return this._myspec.PaddingRight; }
+        }
+        CssLength PaddingBottom
+        {
+            get { return this._myspec.PaddingBottom; }
+        }
+    }
+
+
 }

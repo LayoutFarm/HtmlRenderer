@@ -188,6 +188,8 @@ namespace HtmlRenderer.Boxes
             //w3c: margin applies to all elements except elements table display type
             //other than table-caption,table and inline table
             var cssDisplay = this.CssDisplay;
+            BoxSpec spec = _myspec;
+
             switch (cssDisplay)
             {
                 case CssDisplay.None:
@@ -208,10 +210,10 @@ namespace HtmlRenderer.Boxes
                 default:
                     {
 
-                        this._actualMarginLeft = RecalculateMargin(this.MarginLeft, cbWidth);
-                        this._actualMarginTop = RecalculateMargin(this.MarginTop, cbWidth);
-                        this._actualMarginRight = RecalculateMargin(this.MarginRight, cbWidth);
-                        this._actualMarginBottom = RecalculateMargin(this.MarginBottom, cbWidth);
+                        this._actualMarginLeft = RecalculateMargin(spec.MarginLeft, cbWidth);
+                        this._actualMarginTop = RecalculateMargin(spec.MarginTop, cbWidth);
+                        this._actualMarginRight = RecalculateMargin(spec.MarginRight, cbWidth);
+                        this._actualMarginBottom = RecalculateMargin(spec.MarginBottom, cbWidth);
 
                     } break;
             }
@@ -231,22 +233,24 @@ namespace HtmlRenderer.Boxes
                     {
                         //-----------------------------------------------------------------------
                         //padding
-                        this._actualPaddingLeft = RecalculatePadding(this.PaddingLeft, cbWidth);
-                        this._actualPaddingTop = RecalculatePadding(this.PaddingTop, cbWidth);
-                        this._actualPaddingRight = RecalculatePadding(this.PaddingRight, cbWidth);
-                        this._actualPaddingBottom = RecalculatePadding(this.PaddingBottom, cbWidth);
+                        this._actualPaddingLeft = RecalculatePadding(spec.PaddingLeft, cbWidth);
+                        this._actualPaddingTop = RecalculatePadding(spec.PaddingTop, cbWidth);
+                        this._actualPaddingRight = RecalculatePadding(spec.PaddingRight, cbWidth);
+                        this._actualPaddingBottom = RecalculatePadding(spec.PaddingBottom, cbWidth);
                     } break;
             }
 
             //-----------------------------------------------------------------------
             //borders         
             float a1, a2, a3, a4;
-            this._actualBorderLeftWidth = a1 = (this.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderLeftWidth, this);
-            this._actualBorderTopWidth = a2 = (this.BorderTopStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderTopWidth, this);
-            this._actualBorderRightWidth = a3 = (this.BorderRightStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderRightWidth, this);
-            this._actualBorderBottomWidth = a4 = (this.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(BorderBottomWidth, this);
+
+
+            this._actualBorderLeftWidth = a1 = (spec.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderLeftWidth, this);
+            this._actualBorderTopWidth = a2 = (spec.BorderTopStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderTopWidth, this);
+            this._actualBorderRightWidth = a3 = (spec.BorderRightStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderRightWidth, this);
+            this._actualBorderBottomWidth = a4 = (spec.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderBottomWidth, this);
             //---------------------------------------------------------------------------
-            var spec = _myspec;
+
             this._borderLeftVisible = a1 > 0 && spec.BorderLeftStyle >= CssBorderStyle.Visible;
             this._borderTopVisible = a2 > 0 && spec.BorderTopStyle >= CssBorderStyle.Visible;
             this._borderRightVisible = a3 > 0 && spec.BorderRightStyle >= CssBorderStyle.Visible;
@@ -265,10 +269,10 @@ namespace HtmlRenderer.Boxes
             }
             //---------------------------------------------------------------------------
 
-            this._actualCornerNE = a1 = CssValueParser.ConvertToPx(CornerNERadius, 0, this);
-            this._actualCornerNW = a2 = CssValueParser.ConvertToPx(CornerNWRadius, 0, this);
-            this._actualCornerSE = a3 = CssValueParser.ConvertToPx(CornerSERadius, 0, this);
-            this._actualCornerSW = a4 = CssValueParser.ConvertToPx(CornerSWRadius, 0, this);
+            this._actualCornerNE = a1 = CssValueParser.ConvertToPx(spec.CornerNERadius, 0, this);
+            this._actualCornerNW = a2 = CssValueParser.ConvertToPx(spec.CornerNWRadius, 0, this);
+            this._actualCornerSE = a3 = CssValueParser.ConvertToPx(spec.CornerSERadius, 0, this);
+            this._actualCornerSW = a4 = CssValueParser.ConvertToPx(spec.CornerSWRadius, 0, this);
 
             if ((a1 + a2 + a3 + a4) > 0)
             {
@@ -292,7 +296,7 @@ namespace HtmlRenderer.Boxes
                 this._boxCompactFlags &= ~BoxFlags.HAS_VISIBLE_BG;
             }
 
-        
+
             if (spec.WordSpacing.IsNormalWordSpacing)
             {
                 this._actualWordSpacing = iFonts.MeasureWhitespace(_actualFont);
@@ -580,19 +584,11 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// Gets the actual Margin of the bottom
         /// </summary>
-        public float ActualMarginBottom
+        internal float ActualMarginBottom
         {
             get
             {
 
-#if DEBUG
-
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
                 return this._actualMarginBottom;
             }
         }
@@ -600,26 +596,18 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// Gets the actual Margin on the right
         /// </summary>
-        public float ActualMarginRight
+        internal float ActualMarginRight
         {
             get
             {
-#if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
                 return this._actualMarginRight;
-
             }
         }
         //====================================================
         /// <summary>
         /// Gets the actual top border width
         /// </summary>
-        public float ActualBorderTopWidth
+        internal float ActualBorderTopWidth
         {
             get
             {
@@ -638,19 +626,10 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// Gets the actual Left border width
         /// </summary>
-        public float ActualBorderLeftWidth
+        internal float ActualBorderLeftWidth
         {
             get
             {
-
-#if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
-
                 return _actualBorderLeftWidth;
             }
         }
@@ -658,18 +637,10 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// Gets the actual Bottom border width
         /// </summary>
-        public float ActualBorderBottomWidth
+        internal float ActualBorderBottomWidth
         {
             get
             {
-#if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
-
                 return _actualBorderBottomWidth;
             }
         }
@@ -677,17 +648,10 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// Gets the actual Right border width
         /// </summary>
-        public float ActualBorderRightWidth
+        internal float ActualBorderRightWidth
         {
             get
             {
-#if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
 
                 return _actualBorderRightWidth;
             }
@@ -696,7 +660,7 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// Gets the actual lenght of the north west corner
         /// </summary>
-        public float ActualCornerNW
+        internal float ActualCornerNW
         {
             get
             {
@@ -708,7 +672,7 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// Gets the actual lenght of the north east corner
         /// </summary>
-        public float ActualCornerNE
+        internal float ActualCornerNE
         {
             get
             {
@@ -720,7 +684,7 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// Gets the actual lenght of the south east corner
         /// </summary>
-        public float ActualCornerSE
+        internal float ActualCornerSE
         {
             get
             {
@@ -732,7 +696,7 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// Gets the actual lenght of the south west corner
         /// </summary>
-        public float ActualCornerSW
+        internal float ActualCornerSW
         {
             get
             {

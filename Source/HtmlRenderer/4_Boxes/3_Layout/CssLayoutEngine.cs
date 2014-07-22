@@ -229,7 +229,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="lay"></param>
         static void PerformLayoutLinesContext(CssBox hostBlock, LayoutVisitor lay)
         {
-            
+
             //this in line formatting context
             //*** hostBlock must confirm that it has all inline children             
             hostBlock.SetHeightToZero();
@@ -303,8 +303,8 @@ namespace HtmlRenderer.Boxes
             hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
             // handle limiting block height when overflow is hidden             
             if (hostBlock.Overflow == CssOverflow.Hidden &&
-               !hostBlock.Height.IsEmptyOrAuto &&
-               hostBlock.SizeHeight > hostBlock.ExpectedHeight)
+                !hostBlock.Height.IsEmptyOrAuto &&
+                hostBlock.SizeHeight > hostBlock.ExpectedHeight)
             {
                 hostBlock.SetHeight(hostBlock.ExpectedHeight);
             }
@@ -421,8 +421,8 @@ namespace HtmlRenderer.Boxes
             var cnode = boxes.GetFirstLinkedNode();
             while (cnode != null)
             {
-                float nodeRight = cnode.Value.LocalRight; 
-                maxRight = nodeRight > maxRight ? nodeRight : maxRight; 
+                float nodeRight = cnode.Value.LocalRight;
+                maxRight = nodeRight > maxRight ? nodeRight : maxRight;
                 cnode = cnode.Next;
             }
             return maxRight + (box.ActualBorderLeftWidth + box.ActualPaddingLeft +
@@ -592,8 +592,8 @@ namespace HtmlRenderer.Boxes
             //flow runs into hostLine, create new line if need  
             List<CssRun> runs = CssBox.UnsafeGetRunList(b);
             bool wrapNoWrapBox = false;
-
-            if (b.WhiteSpace == CssWhiteSpace.NoWrap && cx > firstRunStartX)
+            var bWhiteSpace = b.WhiteSpace;
+            if (bWhiteSpace == CssWhiteSpace.NoWrap && cx > firstRunStartX)
             {
                 var tmpRight = cx;
                 for (int i = runs.Count - 1; i >= 0; --i)
@@ -616,9 +616,9 @@ namespace HtmlRenderer.Boxes
                 //---------------------------------------------------
                 //check if need to start new line ? 
                 if ((cx + run.Width + rightMostSpace > limitRight &&
-                     b.WhiteSpace != CssWhiteSpace.NoWrap &&
-                     b.WhiteSpace != CssWhiteSpace.Pre &&
-                     (b.WhiteSpace != CssWhiteSpace.PreWrap || !run.IsSpaces))
+                     bWhiteSpace != CssWhiteSpace.NoWrap &&
+                     bWhiteSpace != CssWhiteSpace.Pre &&
+                     (bWhiteSpace != CssWhiteSpace.PreWrap || !run.IsSpaces))
                      || run.IsLineBreak || wrapNoWrapBox)
                 {
 

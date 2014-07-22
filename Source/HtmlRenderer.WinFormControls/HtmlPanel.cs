@@ -71,7 +71,7 @@ namespace HtmlRenderer
 
         WinRootVisualBox _visualRootBox;
         Composers.BoxComposer _boxComposer;
-        Composers.HtmlInputEventBridge _htmlEventBridge;
+        Composers.InputEventBridge _htmlEventBridge;
 
 
 
@@ -116,7 +116,7 @@ namespace HtmlRenderer
 
 
             //-------------------------------------------
-            _htmlEventBridge = new Composers.HtmlInputEventBridge();
+            _htmlEventBridge = new Composers.InputEventBridge();
             _htmlEventBridge.Bind(_visualRootBox);
             //-------------------------------------------
 

@@ -253,7 +253,7 @@ namespace HtmlRenderer.Boxes
         public bool HitTest(float x, float y)
         {
             if (y >= this.CachedLineTop && y <= this.CachedLineBottom)
-            {
+            {   
                 return true;
             }
             return false;

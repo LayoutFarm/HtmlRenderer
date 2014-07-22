@@ -115,7 +115,7 @@ namespace HtmlRenderer.Boxes
                 var fontPool = lay.Gfx;
                 foreach (var childBox in box.GetChildBoxIter())
                 {
-                    childBox.ReEvaluateFont(fontPool, box_fontsize); 
+                    childBox.ReEvaluateFont(fontPool, box_fontsize);
                     childBox.MeasureRunsSize(lay);
                     S1_RecursiveMeasureRunContentSize(childBox, lay); //recursive
                 }
@@ -904,19 +904,20 @@ namespace HtmlRenderer.Boxes
                 default:
                     return;
             }
-
             if (dist > CssBoxConstConfig.TABLE_VERT_OFFSET_THESHOLD)
             {
                 //more than our threshold
                 if (cell.LineBoxCount > 0)
                 {
-                    foreach (CssLineBox linebox in cell.GetLineBoxIter())
+                    var linebox = cell.GetFirstLineBox();
+                    while (linebox != null)
                     {
                         linebox.OffsetTop(dist);
-                    }
+                        linebox = linebox.NextLine;
+                    } 
                 }
                 else
-                {
+                {   
                     foreach (CssBox b in cell.GetChildBoxIter())
                     {
                         b.OffsetLocalTop(dist);

@@ -41,7 +41,6 @@ namespace HtmlRenderer.Boxes
             //recursive  
             if (box.IsPointInArea(x, y))
             {
-
                 float boxHitLocalX = x - box.LocalX;
                 float boxHitLocalY = y - box.LocalY;
 
@@ -55,14 +54,14 @@ namespace HtmlRenderer.Boxes
                 if (box.LineBoxCount > 0)
                 {
 
+                    bool foundSomeLine = false;
                     foreach (var lineBox in box.GetLineBoxIter())
                     {
-
+                        //line box not overlap
                         if (lineBox.HitTest(boxHitLocalX, boxHitLocalY))
                         {
-
+                            foundSomeLine = true;
                             float lineBoxLocalY = boxHitLocalY - lineBox.CachedLineTop;
-
                             //2.
                             hitChain.AddHit(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
 
@@ -76,6 +75,10 @@ namespace HtmlRenderer.Boxes
                             //found line box
                             hitChain.PopContextBox(box);
                             return true;
+                        }
+                        else if (foundSomeLine)
+                        {
+                            return false;
                         }
                     }
                 }
@@ -121,9 +124,6 @@ namespace HtmlRenderer.Boxes
             return false;
         }
 
-
-
-
         internal static CssBox CreateAnonBlock(CssBox parent, CssBox insertBefore)
         {
             var spec = CssBox.UnsafeGetBoxSpec(parent);
@@ -133,7 +133,7 @@ namespace HtmlRenderer.Boxes
             boxCollection.Remove(newBox);
             boxCollection.InsertBefore(parent, insertBefore, newBox);
             return newBox;
-        }      
+        }
 
         internal static CssBox GetNextSibling(CssBox a)
         {
@@ -199,7 +199,7 @@ namespace HtmlRenderer.Boxes
             return null;
         }
 
-      
+
         internal static IEnumerable<CssLineBox> GetDeepDownLineBoxIter(CssBox box)
         {
             if (box.LineBoxCount > 0)

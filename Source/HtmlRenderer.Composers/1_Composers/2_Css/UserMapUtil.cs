@@ -345,18 +345,18 @@ namespace HtmlRenderer.Composers
                 box.BorderSpacingHorizontal = box.BorderSpacingVertical = primValue.AsLength();
             }
         }
-        public static string GetCornerRadius(this CssBox box)
-        {
-            System.Text.StringBuilder stbuilder = new System.Text.StringBuilder();
-            stbuilder.Append(box.CornerNERadius);
-            stbuilder.Append(' ');
-            stbuilder.Append(box.CornerNWRadius);
-            stbuilder.Append(' ');
-            stbuilder.Append(box.CornerSERadius);
-            stbuilder.Append(' ');
-            stbuilder.Append(box.CornerSWRadius);
-            return stbuilder.ToString();
-        }
+        //public static string GetCornerRadius(this CssBox box)
+        //{
+        //    System.Text.StringBuilder stbuilder = new System.Text.StringBuilder();
+        //    stbuilder.Append(box.CornerNERadius);
+        //    stbuilder.Append(' ');
+        //    stbuilder.Append(box.CornerNWRadius);
+        //    stbuilder.Append(' ');
+        //    stbuilder.Append(box.CornerSERadius);
+        //    stbuilder.Append(' ');
+        //    stbuilder.Append(box.CornerSWRadius);
+        //    return stbuilder.ToString();
+        //}
         static CssUnitOrNames GetCssUnit(string u)
         {
             switch (u)

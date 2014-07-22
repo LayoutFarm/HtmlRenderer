@@ -11,7 +11,7 @@ using HtmlRenderer.WebDom;
 namespace HtmlRenderer.Composers 
 {
 
-    public class HtmlInputEventBridge
+    public class InputEventBridge
     {
 
         //-----------------------------------------------
@@ -24,7 +24,7 @@ namespace HtmlRenderer.Composers
         SelectionRange _currentSelectionRange = null; 
         IGraphics sampleGraphics; 
         bool _isBinded; 
-        public HtmlInputEventBridge()
+        public InputEventBridge()
         {
         }
         public void Bind(RootVisualBox container)
