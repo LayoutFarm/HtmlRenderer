@@ -16,9 +16,7 @@ namespace HtmlRenderer.SvgDom
     }
 
     public class SvgFragment
-    {
-
-
+    { 
     }
 
 }

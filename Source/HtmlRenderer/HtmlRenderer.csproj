@@ -89,6 +89,7 @@
     <Compile Include="3_Css\BoxSpec.cs" />
     <Compile Include="3_Css\BoxSpec_CopyAndVersioning.cs" />
     <Compile Include="6_SVG\SvgBoxes.cs" />
+    <Compile Include="6_SVG\SvgElements.cs" />
     <Compile Include="9_Diagnostics\DeprecatedAttribute.cs" />
     <Compile Include="9_Diagnostics\HtmlGenerator.cs" />
     <Compile Include="Platform\Delegates.cs" />

@@ -71,25 +71,34 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                     //-------------------------------------------------- 
                                     if (fullmode)
                                     {
-                                        CssBox newbox = BoxCreator.CreateBox(hostBox, childElement);
+                                        bool alreadyHandleChildrenNode;
+                                        CssBox newbox = BoxCreator.CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
                                         childElement.SetPrincipalBox(newbox);
-                                        GenerateChildBoxes(childElement, fullmode);
+                                        if (!alreadyHandleChildrenNode)
+                                        {                                             
+                                            GenerateChildBoxes(childElement, fullmode);
+                                        }
                                     }
                                     else
                                     {
                                         CssBox existing = HtmlElement.InternalGetPrincipalBox(childElement);
                                         if (existing == null)
                                         {
-                                            CssBox box = BoxCreator.CreateBox(hostBox, childElement);
+                                            bool alreadyHandleChildrenNode;
+                                            CssBox box = BoxCreator.CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
                                             childElement.SetPrincipalBox(box);
-                                            GenerateChildBoxes(childElement, fullmode);
+                                            if (!alreadyHandleChildrenNode)
+                                            {
+                                              
+                                                GenerateChildBoxes(childElement, fullmode);
+                                            }
                                         }
                                         else
                                         {
                                             //just insert                                                 
                                             hostBox.AppendChild(existing);
                                             if (!childElement.SkipPrincipalBoxEvalulation)
-                                            {
+                                            {   
                                                 existing.Clear();
                                                 GenerateChildBoxes(childElement, fullmode);
                                                 childElement.SkipPrincipalBoxEvalulation = true;
@@ -163,9 +172,13 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                         }
                                         if (fullmode)
                                         {
-                                            CssBox box = BoxCreator.CreateBox(hostBox, childElement);
+                                            bool alreadyHandleChildrenNode;
+                                            CssBox box = BoxCreator.CreateBox(hostBox, childElement,out alreadyHandleChildrenNode);
                                             childElement.SetPrincipalBox(box);
-                                            GenerateChildBoxes(childElement, fullmode);
+                                            if (!alreadyHandleChildrenNode)
+                                            {
+                                                GenerateChildBoxes(childElement, fullmode);
+                                            }
                                         }
                                         else
                                         {
@@ -173,9 +186,13 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                             CssBox existing = HtmlElement.InternalGetPrincipalBox(childElement);
                                             if (existing == null)
                                             {
-                                                CssBox box = BoxCreator.CreateBox(hostBox, childElement);
+                                                bool alreadyHandleChildrenNode;
+                                                CssBox box = BoxCreator.CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
                                                 childElement.SetPrincipalBox(box);
-                                                GenerateChildBoxes(childElement, fullmode);
+                                                if (!alreadyHandleChildrenNode)
+                                                {
+                                                    GenerateChildBoxes(childElement, fullmode);
+                                                }
                                             }
                                             else
                                             {
@@ -206,10 +223,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
             //----------------------------------
         }
 
-        internal static CssBox CreateBox(CssBox parentBox, HtmlElement childElement)
+        internal static CssBox CreateBox(CssBox parentBox, HtmlElement childElement, out bool alreadyHandleChildrenNodes)
         {
 
-
+            alreadyHandleChildrenNodes = false;
             CssBox newBox = null;
             //----------------------------------------- 
             //1. create new box
@@ -266,8 +283,8 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 case WellKnownDomNodeName.svg:
                     {
                         //1. create svg container node
+                        alreadyHandleChildrenNodes = true;
                         return SvgDom.SvgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
-
                     }
                 //---------------------------------------------------
                 default:
