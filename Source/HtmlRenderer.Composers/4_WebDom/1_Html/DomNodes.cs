@@ -20,11 +20,11 @@ namespace HtmlRenderer.WebDom
 
 
 
-    public abstract class HtmlNode
+    public abstract class DomNode
     {
 
         HtmlDocument ownerDoc;
-        HtmlNode parentNode;
+        DomNode parentNode;
 
         HtmlNodeType nodeType;
 
@@ -33,7 +33,7 @@ namespace HtmlRenderer.WebDom
         public int dbugId;
 #endif
 
-        internal HtmlNode(HtmlDocument ownerDoc)
+        internal DomNode(HtmlDocument ownerDoc)
         {
             this.ownerDoc = ownerDoc;
 
@@ -50,7 +50,7 @@ namespace HtmlRenderer.WebDom
                 return this.ownerDoc.DocumentState;
             }
         }
-        public HtmlNode ParentNode
+        public DomNode ParentNode
         {
             get
             {
@@ -77,7 +77,7 @@ namespace HtmlRenderer.WebDom
             }
         }
 
-        internal void SetParent(HtmlNode parentNode)
+        internal void SetParent(DomNode parentNode)
         {
             this.parentNode = parentNode;
         }
@@ -85,7 +85,7 @@ namespace HtmlRenderer.WebDom
     }
 
 
-    public abstract class HtmlTextNode : HtmlNode
+    public abstract class HtmlTextNode : DomNode
     {
 
         char[] copyBuffer;
@@ -128,9 +128,9 @@ namespace HtmlRenderer.WebDom
 #endif
     }
 
-    public class HtmlComment : HtmlNode
+    public class DomComment : DomNode
     {
-        internal HtmlComment(HtmlDocument ownerDoc)
+        internal DomComment(HtmlDocument ownerDoc)
             : base(ownerDoc)
         {
             SetNodeType(HtmlNodeType.Comment);
@@ -142,10 +142,10 @@ namespace HtmlRenderer.WebDom
         }
 
     }
-    public class HtmlProcessInstructionNode : HtmlNode
+    public class DomProcessInstructionNode : DomNode
     {
         int procName;
-        internal HtmlProcessInstructionNode(HtmlDocument ownerDoc, int procName)
+        internal DomProcessInstructionNode(HtmlDocument ownerDoc, int procName)
             : base(ownerDoc)
         {
             this.procName = procName;
@@ -158,9 +158,9 @@ namespace HtmlRenderer.WebDom
         }
 
     }
-    public class HtmlCDataNode : HtmlNode
+    public class DomCDataNode : DomNode
     {
-        internal HtmlCDataNode(HtmlDocument ownerDoc)
+        internal DomCDataNode(HtmlDocument ownerDoc)
             : base(ownerDoc)
         {
             SetNodeType(HtmlNodeType.CData);
@@ -176,14 +176,14 @@ namespace HtmlRenderer.WebDom
     /// <summary>
     /// attribute node
     /// </summary>
-    public class HtmlAttribute : HtmlNode
+    public class DomAttribute : DomNode
     {
 
         internal int nodePrefixNameIndex;
         internal int nodeLocalNameIndex;
         string attrValue;
 
-        internal HtmlAttribute(HtmlDocument ownerDoc,
+        internal DomAttribute(HtmlDocument ownerDoc,
             int nodePrefixNameIndex,
             int nodeLocalNameIndex)
             : base(ownerDoc)
@@ -262,23 +262,23 @@ namespace HtmlRenderer.WebDom
         }
     }
 
-    public abstract class HtmlElement : HtmlNode
+    public abstract class DomElement : DomNode
     {
 
         internal int nodePrefixNameIndex;
         internal int nodeLocalNameIndex;
-        List<HtmlAttribute> myAttributes;
-        List<HtmlNode> myChildrenNodes;
+        List<DomAttribute> myAttributes;
+        List<DomNode> myChildrenNodes;
         //------------------------------------------- 
-        HtmlAttribute attrElemId;
-        HtmlAttribute attrClass;
+        DomAttribute attrElemId;
+        DomAttribute attrClass;
         //-------------------------------------------
 
         HtmlEventHandler evhMouseDown;
         HtmlEventHandler evhMouseUp;
 
 
-        public HtmlElement(HtmlDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
+        public DomElement(HtmlDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
         {
 
@@ -287,7 +287,7 @@ namespace HtmlRenderer.WebDom
             SetNodeType(HtmlNodeType.OpenElement);
         }
 
-        public static bool EqualNames(HtmlElement node1, HtmlElement node2)
+        public static bool EqualNames(DomElement node1, DomElement node2)
         {
             return node1.nodeLocalNameIndex == node2.nodeLocalNameIndex
                 && node1.nodePrefixNameIndex == node2.nodePrefixNameIndex;
@@ -298,7 +298,7 @@ namespace HtmlRenderer.WebDom
             return "e-node: " + this.LocalName;
         }
 #endif
-        public IEnumerable<HtmlAttribute> GetAttributeIterForward()
+        public IEnumerable<DomAttribute> GetAttributeIterForward()
         {
             if (myAttributes != null)
             {
@@ -309,7 +309,7 @@ namespace HtmlRenderer.WebDom
                 }
             }
         }
-        public IEnumerable<HtmlNode> GetChildNodeIterForward()
+        public IEnumerable<DomNode> GetChildNodeIterForward()
         {
             if (myChildrenNodes != null)
             {
@@ -336,16 +336,16 @@ namespace HtmlRenderer.WebDom
             }
         }
 
-        public HtmlNode GetChildNode(int index)
+        public DomNode GetChildNode(int index)
         {
             return this.myChildrenNodes[index];
         }
 
-        public void AddAttribute(HtmlAttribute attr)
+        public void AddAttribute(DomAttribute attr)
         {
             if (myAttributes == null)
             {
-                myAttributes = new List<HtmlAttribute>();
+                myAttributes = new List<DomAttribute>();
             }
             //-----------
             //some wellknownattr 
@@ -364,21 +364,21 @@ namespace HtmlRenderer.WebDom
             myAttributes.Add(attr);
             attr.SetParent(this);
         }
-        public void AddChild(HtmlNode childNode)
+        public void AddChild(DomNode childNode)
         {
             switch (childNode.NodeType)
             {
                 case HtmlNodeType.Attribute:
                     {
-                        AddAttribute((HtmlAttribute)childNode);
+                        AddAttribute((DomAttribute)childNode);
                     } break;
                 default:
                     {
                         if (myChildrenNodes == null)
                         {
-                            myChildrenNodes = new List<HtmlNode>();
+                            myChildrenNodes = new List<DomNode>();
                         }
-                        myChildrenNodes.Add((HtmlNode)childNode);
+                        myChildrenNodes.Add((DomNode)childNode);
                         childNode.SetParent(this);
 
                         NotifyChange(ElementChangeKind.AddChild);
@@ -386,7 +386,7 @@ namespace HtmlRenderer.WebDom
                     } break;
             }
         }
-        public bool RemoveChild(HtmlNode childNode)
+        public bool RemoveChild(DomNode childNode)
         {
             switch (childNode.NodeType)
             {
@@ -438,7 +438,7 @@ namespace HtmlRenderer.WebDom
 
         }
         //------------------------------------------
-        public HtmlAttribute FindAttribute(int attrLocalNameIndex)
+        public DomAttribute FindAttribute(int attrLocalNameIndex)
         {
             if (myAttributes != null)
             {
@@ -452,7 +452,7 @@ namespace HtmlRenderer.WebDom
             }
             return null;
         }
-        public HtmlAttribute FindAttribute(string attrname)
+        public DomAttribute FindAttribute(string attrname)
         {
             int nameIndex = this.OwnerDocument.FindStringIndex(attrname);
             if (nameIndex >= 0)

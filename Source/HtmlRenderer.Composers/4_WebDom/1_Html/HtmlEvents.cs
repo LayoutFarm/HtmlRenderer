@@ -22,8 +22,8 @@ namespace HtmlRenderer.WebDom
     public class HtmlEventArgs
     {
         EventName name;
-        HtmlElement srcElement;
-        HtmlElement currentContextElement;
+        DomElement srcElement;
+        DomElement currentContextElement;
 
         public HtmlEventArgs(EventName name)
         {
@@ -33,11 +33,11 @@ namespace HtmlRenderer.WebDom
         {
             get { return this.name; }
         }
-        public HtmlElement EventSourceElement
+        public DomElement EventSourceElement
         {
             get { return this.srcElement; }
         }
-        public HtmlElement CurrentContextElement
+        public DomElement CurrentContextElement
         {
             get { return this.currentContextElement; }
         }
@@ -50,11 +50,11 @@ namespace HtmlRenderer.WebDom
         {
             this.IsCanceled = true;
         }
-        public void SetEventSourceElement(HtmlElement srcElement)
+        public void SetEventSourceElement(DomElement srcElement)
         {
             this.srcElement = srcElement;
         }
-        public void SetCurrentContextElement(HtmlElement currentContextElement)
+        public void SetCurrentContextElement(DomElement currentContextElement)
         {
             this.currentContextElement = currentContextElement;
         }

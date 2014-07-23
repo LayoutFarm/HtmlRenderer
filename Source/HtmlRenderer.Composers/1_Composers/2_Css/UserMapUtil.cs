@@ -103,6 +103,9 @@ namespace HtmlRenderer.Composers
         [Map("param")]
         _param,
 
+        [Map("svg")]
+        svg,
+
         [Map("x")]
         X//test for extension 
     }

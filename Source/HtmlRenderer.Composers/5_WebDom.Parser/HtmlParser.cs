@@ -11,8 +11,8 @@ namespace HtmlRenderer.WebDom.Parser
         HtmlDocument _resultHtmlDoc;
         HtmlStack htmlNodeStack = new HtmlStack();
 
-        HtmlElement curHtmlNode = null;
-        HtmlAttribute curAttr = null;
+        DomElement curHtmlNode = null;
+        DomAttribute curAttr = null;
         HtmlTextNode curTextNode = null;
         int parseState = 0;
         TextSnapshot textSnapshot;
@@ -77,7 +77,8 @@ namespace HtmlRenderer.WebDom.Parser
                             case 0:
                                 {
 
-                                    HtmlElement elem = this._resultHtmlDoc.CreateElement(null, nodename);
+                                    DomElement elem = this._resultHtmlDoc.CreateElement(null, nodename);
+
                                     if (curHtmlNode != null)
                                     {
                                         curHtmlNode.AddChild(elem);
@@ -88,7 +89,6 @@ namespace HtmlRenderer.WebDom.Parser
                                     curTextNode = null;
                                     curAttr = null;
                                 } break;
-
                             case 2:
                                 {
                                     //node name after open slash
@@ -229,24 +229,24 @@ namespace HtmlRenderer.WebDom.Parser
     }
     class HtmlStack
     {
-        List<HtmlElement> nodes = new List<HtmlElement>();
+        List<DomElement> nodes = new List<DomElement>();
         int count;
         public HtmlStack()
         {
         }
-        public void Push(HtmlElement node)
+        public void Push(DomElement node)
         {
             count++;
             this.nodes.Add(node);
         }
-        public HtmlElement Pop()
+        public DomElement Pop()
         {
-            HtmlElement node = this.nodes[count - 1];
+            DomElement node = this.nodes[count - 1];
             this.nodes.RemoveAt(count - 1);
             count--;
             return node;
         }
-        public HtmlElement Peek()
+        public DomElement Peek()
         {
             if (count > 1)
             {

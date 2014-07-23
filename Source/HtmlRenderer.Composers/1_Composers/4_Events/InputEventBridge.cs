@@ -215,7 +215,7 @@ namespace HtmlRenderer.Composers
             {
                 //propagate up 
                 var hitInfo = hitChain.GetHitInfo(i);
-                HtmlElement controller = null;
+                DomElement controller = null;
 
                 switch (hitInfo.hitObjectKind)
                 {
@@ -226,12 +226,12 @@ namespace HtmlRenderer.Composers
                     case HitObjectKind.Run:
                         {
                             CssRun run = (CssRun)hitInfo.hitObject;
-                            controller = CssBox.UnsafeGetController(run.OwnerBox) as HtmlElement;
+                            controller = CssBox.UnsafeGetController(run.OwnerBox) as DomElement;
                         } break;
                     case HitObjectKind.CssBox:
                         {
                             CssBox box = (CssBox)hitInfo.hitObject;
-                            controller = CssBox.UnsafeGetController(box) as HtmlElement;
+                            controller = CssBox.UnsafeGetController(box) as DomElement;
                         } break;
                 }
 

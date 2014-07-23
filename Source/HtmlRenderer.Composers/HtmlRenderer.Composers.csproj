@@ -65,6 +65,8 @@
     <Compile Include="2_BridgeHtmlDom\BridgeElements.cs" />
     <Compile Include="4_WebDom\3_Gen\HtmlGenerationStyle.cs" />
     <Compile Include="4_WebDom\3_Gen\HtmlGenerator.cs" />
+    <Compile Include="6_SvgDom\SvgCreator.cs" />
+    <Compile Include="6_SvgDom\SvgElements.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="5_WebDom.Parser\CssParser.cs" />
     <Compile Include="5_WebDom.Parser\dbugLexerReport.cs" />
@@ -74,7 +76,7 @@
     <Compile Include="5_WebDom.Parser\TextSnapshot.cs" />
     <Compile Include="4_WebDom\1_Html\HtmlDocument.cs" />
     <Compile Include="4_WebDom\1_Html\HtmlEvents.cs" />
-    <Compile Include="4_WebDom\1_Html\HtmlNodes.cs" />
+    <Compile Include="4_WebDom\1_Html\DomNodes.cs" />
     <Compile Include="4_WebDom\1_Html\StringTable.cs" />
     <Compile Include="4_WebDom\1_Html\WellknownHtmlName.cs" />
     <Compile Include="4_WebDom\2_Css\CssElementSelectors.cs" />
@@ -87,7 +89,9 @@
       <Name>HtmlRenderer</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="6_SvgDom\license.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

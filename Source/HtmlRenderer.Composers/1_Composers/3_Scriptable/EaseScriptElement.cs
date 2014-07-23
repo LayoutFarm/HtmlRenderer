@@ -13,7 +13,7 @@ namespace HtmlRenderer.Composers
     public struct EaseScriptElement
     {
         BridgeHtmlElement elem;
-        public EaseScriptElement(HtmlElement elem)
+        public EaseScriptElement(DomElement elem)
         {
             this.elem = elem as BridgeHtmlElement;
         }

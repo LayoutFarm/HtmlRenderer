@@ -8,13 +8,13 @@ namespace HtmlRenderer.WebDom
     public abstract class HtmlDocument
     {
         UniqueStringTable uniqueStringTable;
-        Dictionary<string, HtmlElement> registerElementsById = new Dictionary<string, HtmlElement>();
+        Dictionary<string, DomElement> registerElementsById = new Dictionary<string, DomElement>();
         public HtmlDocument(UniqueStringTable uniqueStringTable)
         {
             this.uniqueStringTable = uniqueStringTable;
             this.DocumentState = WebDom.DocumentState.Init;
         }
-        public abstract HtmlElement RootNode
+        public abstract DomElement RootNode
         {
             get;
         }
@@ -32,36 +32,36 @@ namespace HtmlRenderer.WebDom
             return uniqueStringTable.GetStringIndex(uniqueString);
         }
 
-        public HtmlAttribute CreateAttribute(string prefix, string localName)
+        public DomAttribute CreateAttribute(string prefix, string localName)
         {
-            return new HtmlAttribute(this,
+            return new DomAttribute(this,
                 uniqueStringTable.AddStringIfNotExist(prefix),
                 uniqueStringTable.AddStringIfNotExist(localName));
         }
-        public abstract HtmlElement CreateElement(string prefix, string localName);
+        public abstract DomElement CreateElement(string prefix, string localName);
 
-        public HtmlElement CreateElement(string localName)
+        public DomElement CreateElement(string localName)
         {
             return this.CreateElement(null, localName);
         }
 
-        public HtmlComment CreateComent()
+        public DomComment CreateComent()
         {
-            return new HtmlComment(this);
+            return new DomComment(this);
         }
-        public HtmlProcessInstructionNode CreateProcessInstructionNode(int nameIndex)
+        public DomProcessInstructionNode CreateProcessInstructionNode(int nameIndex)
         {
-            return new HtmlProcessInstructionNode(this, nameIndex);
+            return new DomProcessInstructionNode(this, nameIndex);
         }
 
         public abstract HtmlTextNode CreateTextNode(char[] strBufferForElement);
 
-        public HtmlCDataNode CreateCDataNode()
+        public DomCDataNode CreateCDataNode()
         {
-            return new HtmlCDataNode(this);
+            return new DomCDataNode(this);
         } 
         //-------------------------------------------------------
-        internal void RegisterElementById(HtmlElement element)
+        internal void RegisterElementById(DomElement element)
         {
             //replace exisitng if exists *** 
             registerElementsById[element.AttrElementId] = element;

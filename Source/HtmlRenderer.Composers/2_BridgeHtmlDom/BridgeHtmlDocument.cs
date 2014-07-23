@@ -15,29 +15,29 @@ namespace HtmlRenderer.Composers
 
     public class BridgeHtmlDocument : HtmlDocument
     {
-        HtmlElement rootNode;
+        DomElement rootNode;
         public BridgeHtmlDocument()
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
         {
             //default root
             rootNode = new BridgeRootElement(this);
         }
-        public override HtmlElement RootNode
+        public override DomElement RootNode
         {
             get
             {
                 return rootNode;
             }
         }
-        public override HtmlElement CreateElement(string prefix, string localName)
+        public override DomElement CreateElement(string prefix, string localName)
         {
             return new BridgeHtmlElement(this,
                 AddStringIfNotExists(prefix),
                 AddStringIfNotExists(localName));
         }
-        public HtmlAttribute CreateAttribute(WellknownHtmlName attrName)
+        public DomAttribute CreateAttribute(WellknownHtmlName attrName)
         {
-            return new HtmlAttribute(this,
+            return new DomAttribute(this,
                 0,
                 (int)attrName);
         }

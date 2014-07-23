@@ -10,12 +10,11 @@ using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer.Composers.BridgeHtml
 {
-    class BridgeHtmlElement : HtmlElement
+    class BridgeHtmlElement : DomElement
     {
         CssBox principalBox;
-        Css.BoxSpec boxSpec;
-
-        CssRuleSet elementRuleSet;
+        Css.BoxSpec boxSpec;        
+        CssRuleSet elementRuleSet; 
 
         public BridgeHtmlElement(BridgeHtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
@@ -27,7 +26,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             get { return this.boxSpec; }
         }
         public WellknownElementName WellknownElementName { get; set; }
-        public bool TryGetAttribute(WellknownHtmlName wellknownHtmlName, out HtmlAttribute result)
+        public bool TryGetAttribute(WellknownHtmlName wellknownHtmlName, out DomAttribute result)
         {
             var found = base.FindAttribute((int)wellknownHtmlName);
             if (found != null)
@@ -43,7 +42,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         }
         public bool TryGetAttribute(WellknownHtmlName wellknownHtmlName, out string value)
         {
-            HtmlAttribute found;
+            DomAttribute found;
             if (this.TryGetAttribute(wellknownHtmlName, out found))
             {
                 value = found.Value;

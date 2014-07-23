@@ -78,12 +78,12 @@ namespace HtmlRenderer.Composers
         }
 
 
-        void S01_PrepareStylesAndContentOfChildNodes(
+        void PrepareStylesAndContentOfChildNodes(
           BridgeHtmlElement parentElement,
           ActiveCssTemplate activeCssTemplate)
         {
             //recursive 
-            foreach (WebDom.HtmlNode node in parentElement.GetChildNodeIterForward())
+            foreach (WebDom.DomNode node in parentElement.GetChildNodeIterForward())
             {
                 switch (node.NodeType)
                 {
@@ -93,7 +93,7 @@ namespace HtmlRenderer.Composers
                             BridgeHtmlElement bridgeElement = (BridgeHtmlElement)node;
                             bridgeElement.WellknownElementName = UserMapUtil.EvaluateTagName(bridgeElement.LocalName);
                             switch (bridgeElement.WellknownElementName)
-                            {   
+                            {
                                 case WellknownElementName.style:
                                     {
                                         //style element should have textnode child
@@ -117,7 +117,7 @@ namespace HtmlRenderer.Composers
                                 case WellknownElementName.link:
                                     {
                                         //<link rel="stylesheet"
-                                        HtmlAttribute relAttr;
+                                        DomAttribute relAttr;
                                         if (bridgeElement.TryGetAttribute(WellknownHtmlName.Rel, out relAttr)
                                             && relAttr.Value.ToLower() == "stylesheet")
                                         {
@@ -125,7 +125,7 @@ namespace HtmlRenderer.Composers
                                             string stylesheet;
                                             CssActiveSheet stylesheetData;
 
-                                            HtmlAttribute hrefAttr;
+                                            DomAttribute hrefAttr;
                                             if (bridgeElement.TryGetAttribute(WellknownHtmlName.Href, out hrefAttr))
                                             {
                                                 RaiseRequestStyleSheet(
@@ -154,7 +154,7 @@ namespace HtmlRenderer.Composers
                             //-----------------------------
 
                             //recursive 
-                            S01_PrepareStylesAndContentOfChildNodes(bridgeElement, activeCssTemplate);
+                            PrepareStylesAndContentOfChildNodes(bridgeElement, activeCssTemplate);
                             //-----------------------------
                         } break;
                     case WebDom.HtmlNodeType.TextNode:
@@ -176,182 +176,7 @@ namespace HtmlRenderer.Composers
             }
         }
 
-        static void S02_GenerateChildBoxes(BridgeHtmlElement parentElement, bool fullmode)
-        {
-            //recursive ***  
-            //first just generate into primary pricipal box
-            //layout process  will correct it later  
-
-            switch (parentElement.ChildrenCount)
-            {
-                case 0: { } break;
-                case 1:
-                    {
-
-                        CssBox principalBox = BridgeHtmlElement.InternalGetPrincipalBox(parentElement);
-
-                        //only one child -- easy 
-                        HtmlNode bridgeChild = parentElement.GetChildNode(0);
-                        int newBox = 0;
-                        switch (bridgeChild.NodeType)
-                        {
-                            case HtmlNodeType.TextNode:
-                                {
-
-                                    BridgeHtmlTextNode singleTextNode = (BridgeHtmlTextNode)bridgeChild;
-                                    RunListHelper.AddRunList(principalBox, parentElement.Spec, singleTextNode);
-
-                                } break;
-                            case HtmlNodeType.ShortElement:
-                            case HtmlNodeType.OpenElement:
-                                {
-
-                                    BridgeHtmlElement childElement = (BridgeHtmlElement)bridgeChild;
-                                    var spec = childElement.Spec;
-                                    if (spec.CssDisplay == CssDisplay.None)
-                                    {
-                                        return;
-                                    }
-                                    newBox++;
-                                    //-------------------------------------------------- 
-                                    if (fullmode)
-                                    {
-                                        CssBox newbox = BoxCreator.CreateBox(principalBox, childElement);
-                                        childElement.SetPrincipalBox(newbox);
-                                        S02_GenerateChildBoxes(childElement, fullmode);
-                                    }
-                                    else
-                                    {
-                                        CssBox existing = BridgeHtmlElement.InternalGetPrincipalBox(childElement);
-                                        if (existing == null)
-                                        {
-                                            CssBox box = BoxCreator.CreateBox(principalBox, childElement);
-                                            childElement.SetPrincipalBox(box);
-                                            S02_GenerateChildBoxes(childElement, fullmode);
-                                        }
-                                        else
-                                        {
-                                            //just insert                                                 
-                                            principalBox.AppendChild(existing);
-                                            if (!childElement.SkipPrincipalBoxEvalulation)
-                                            {
-                                                existing.Clear();
-                                                S02_GenerateChildBoxes(childElement, fullmode);
-                                                childElement.SkipPrincipalBoxEvalulation = true;
-                                            }
-                                        }
-                                    }
-                                    //--------------------------------------------------  
-
-                                } break;
-                        }
-                    } break;
-                default:
-                    {
-                        CssWhiteSpace ws = parentElement.Spec.WhiteSpace;
-                        CssBox principalBox = BridgeHtmlElement.InternalGetPrincipalBox(parentElement);
-                        int childCount = parentElement.ChildrenCount;
-
-                        int newBox = 0;
-                        for (int i = 0; i < childCount; ++i)
-                        {
-                            var childNode = parentElement.GetChildNode(i);
-                            switch (childNode.NodeType)
-                            {
-                                case HtmlNodeType.TextNode:
-                                    {
-                                        BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
-                                        switch (ws)
-                                        {
-                                            case CssWhiteSpace.Pre:
-                                            case CssWhiteSpace.PreWrap:
-                                                {
-                                                    RunListHelper.AddRunList(
-                                                        BoxUtils.CreateAnonInline(principalBox),
-                                                        parentElement.Spec, textNode);
-                                                } break;
-                                            case CssWhiteSpace.PreLine:
-                                                {
-                                                    if (newBox == 0 && textNode.IsWhiteSpace)
-                                                    {
-                                                        continue;//skip
-                                                    }
-
-                                                    RunListHelper.AddRunList(
-                                                        BoxUtils.CreateAnonInline(principalBox),
-                                                        parentElement.Spec, textNode);
-
-                                                } break;
-                                            default:
-                                                {
-                                                    if (textNode.IsWhiteSpace)
-                                                    {
-                                                        continue;//skip
-                                                    }
-                                                    RunListHelper.AddRunList(
-                                                        BoxUtils.CreateAnonInline(principalBox),
-                                                        parentElement.Spec, textNode);
-                                                } break;
-                                        }
-
-                                        newBox++;
-
-                                    } break;
-                                case HtmlNodeType.ShortElement:
-                                case HtmlNodeType.OpenElement:
-                                    {
-                                        BridgeHtmlElement childElement = (BridgeHtmlElement)childNode;
-                                        var spec = childElement.Spec;
-                                        if (spec.CssDisplay == CssDisplay.None)
-                                        {
-                                            continue;
-                                        }
-                                        if (fullmode)
-                                        {
-                                            CssBox box = BoxCreator.CreateBox(principalBox, childElement);
-                                            childElement.SetPrincipalBox(box);
-                                            S02_GenerateChildBoxes(childElement, fullmode);
-                                        }
-                                        else
-                                        {
-
-                                            CssBox existing = BridgeHtmlElement.InternalGetPrincipalBox(childElement);
-
-                                            if (existing == null)
-                                            {
-                                                CssBox box = BoxCreator.CreateBox(principalBox, childElement);
-                                                childElement.SetPrincipalBox(box);
-                                                S02_GenerateChildBoxes(childElement, fullmode);
-                                            }
-                                            else
-                                            {
-                                                //just insert           
-                                                principalBox.AppendChild(existing);
-                                                if (!childElement.SkipPrincipalBoxEvalulation)
-                                                {
-                                                    existing.Clear();
-                                                    S02_GenerateChildBoxes(childElement, fullmode);
-                                                    childElement.SkipPrincipalBoxEvalulation = true;
-                                                }
-
-                                            }
-                                        }
-                                        newBox++;
-                                    } break;
-                                default:
-                                    {
-                                    } break;
-                            }
-                        }
-
-                    } break;
-            }
-            //----------------------------------
-            //summary formatting context
-            //that will be used on layout process 
-            //----------------------------------
-        }
-
+      
         public CssBox BuildCssTree(HtmlDocument htmldoc,
             IFonts iFonts,
             RootVisualBox htmlContainer,
@@ -368,13 +193,13 @@ namespace HtmlRenderer.Composers
             htmldoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
             BridgeRootElement bridgeRoot = (BridgeRootElement)htmldoc.RootNode;
-            S01_PrepareStylesAndContentOfChildNodes(bridgeRoot, activeCssTemplate);
+            PrepareStylesAndContentOfChildNodes(bridgeRoot, activeCssTemplate);
 
             //----------------------------------------------------------------  
             rootBox = BoxCreator.CreateRootBlock(iFonts);
             ((BridgeHtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
-            S02_GenerateChildBoxes((BridgeRootElement)htmldoc.RootNode, true);
+            BoxCreator.GenerateChildBoxes((BridgeRootElement)htmldoc.RootNode, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
@@ -395,12 +220,12 @@ namespace HtmlRenderer.Composers
             htmldoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
             BridgeRootElement bridgeRoot = (BridgeRootElement)htmldoc.RootNode;
-            S01_PrepareStylesAndContentOfChildNodes(bridgeRoot, activeCssTemplate);
+            PrepareStylesAndContentOfChildNodes(bridgeRoot, activeCssTemplate);
 
             //----------------------------------------------------------------  
             CssBox principalBox = BridgeRootElement.InternalGetPrincipalBox(bridgeRoot);
             principalBox.Clear();
-            S02_GenerateChildBoxes((BridgeRootElement)htmldoc.RootNode, false);
+            BoxCreator.GenerateChildBoxes((BridgeRootElement)htmldoc.RootNode, false);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
@@ -537,7 +362,7 @@ namespace HtmlRenderer.Composers
                             parentSpec,
                             propDecl);
                     }
-                    
+
                 }
 
             }
@@ -1177,7 +1002,7 @@ namespace HtmlRenderer.Composers
         /// </summary>
         /// <param name="htmlLength"></param>
         /// <returns></returns>
-        public static CssLength TranslateLength(HtmlAttribute attr)
+        public static CssLength TranslateLength(DomAttribute attr)
         {
             return UserMapUtil.TranslateLength(attr.Value.ToLower());
 

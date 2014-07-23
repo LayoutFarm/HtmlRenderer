@@ -31,8 +31,7 @@ namespace HtmlRenderer.Boxes
         public CssBoxHr(CssBox parent, object tag, Css.BoxSpec spec)
             : base(parent, tag, spec)
         {
-            ChangeDisplayType(this, Css.CssDisplay.Block);
-
+            ChangeDisplayType(this, Css.CssDisplay.Block); 
         }
 
         /// <summary>
