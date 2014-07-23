@@ -2,6 +2,7 @@
 //2014, WinterDev
 
 using System;
+using System.Drawing;
 using System.Collections.Generic;
 using HtmlRenderer.Css;
 
@@ -109,8 +110,8 @@ namespace HtmlRenderer.SvgDom
 
     public class SvgRect : SvgElement
     {
-         
-
+        Color strokeColor = Color.Transparent;
+        Color fillColor = Color.Black;
         public SvgRect()
         {
         }
@@ -130,6 +131,22 @@ namespace HtmlRenderer.SvgDom
             set;
         }
         public CssLength Height
+        {
+            get;
+            set;
+        }
+
+        public Color ActualColor
+        {
+            get { return this.fillColor; }
+            set { this.fillColor = value; }
+        }
+        public Color StrokeColor
+        {
+            get { return this.strokeColor; }
+            set { this.strokeColor = value; }
+        }
+        public CssLength StrokeWidth
         {
             get;
             set;
@@ -155,6 +172,11 @@ namespace HtmlRenderer.SvgDom
             get;
             set;
         }
+        public float ActualStrokeWidth
+        {
+            get;
+            set;
+        }
 
         //----------------------------
         public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
@@ -165,18 +187,37 @@ namespace HtmlRenderer.SvgDom
             this.ActualWidth = ConvertToPx(this.Width, containerW, emHeight);
             this.ActualHeight = ConvertToPx(this.Height, containerW, emHeight);
 
+            this.ActualStrokeWidth = ConvertToPx(this.StrokeWidth, containerW, emHeight);
+
         }
 
         public override void Paint(Drawing.IGraphics g)
         {
-           
-            g.FillRectangle(
-                System.Drawing.Brushes.Black,
-                this.ActualX,
-                this.ActualY,
-                this.ActualWidth,
-                this.ActualHeight);
-                  
+
+            using (SolidBrush sb = new SolidBrush(this.ActualColor))
+            {
+                g.FillRectangle(
+                    sb,
+                    this.ActualX,
+                    this.ActualY,
+                    this.ActualWidth,
+                    this.ActualHeight);
+
+            }
+            if (this.strokeColor != Color.Transparent
+                && this.ActualStrokeWidth > 0)
+            {
+                using (SolidBrush sb = new SolidBrush(this.strokeColor))
+                using (Pen pen = new Pen(sb))
+                {
+                    pen.Width = this.ActualStrokeWidth;
+                    g.DrawRectangle(pen,
+                        this.ActualX,
+                        this.ActualY,
+                        this.ActualWidth,
+                        this.ActualHeight);
+                }
+            }
 
         }
     }

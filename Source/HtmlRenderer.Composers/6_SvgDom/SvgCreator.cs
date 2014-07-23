@@ -33,27 +33,27 @@ namespace HtmlRenderer.SvgDom
                 if (node == null)
                 {
                     continue;
-                } 
+                }
                 switch (node.WellknownElementName)
                 {
                     case WellKnownDomNodeName.svg_rect:
-                        { 
-                            CreateSvgRect(fragment, node); 
+                        {
+                            CreateSvgRect(fragment, node);
                         } break;
                     default:
                         {
 
-                        }break;
+                        } break;
                 }
-            } 
+            }
             return rootBox;
         }
-        static void CreateSvgRect(SvgElement parentNode,HtmlElement elem)
-        {   
+        static void CreateSvgRect(SvgElement parentNode, HtmlElement elem)
+        {
             SvgRect rect = new SvgRect();
             //translate attribute
             TranslateSvgRectAttributes(rect, elem);
-            parentNode.AddChild(rect); 
+            parentNode.AddChild(rect);
         }
         //public static void GenerateChildBoxes(SvgElement parentSVG, HtmlElement parentElement)
         //{
@@ -131,14 +131,11 @@ namespace HtmlRenderer.SvgDom
                 {
                     case WebDom.WellknownName.Svg_X:
                         {
-
                             rect.X = UserMapUtil.ParseGenericLength(attr.Value);
-
                         } break;
-                    case WebDom.WellknownName.SVG_Y:
+                    case WebDom.WellknownName.Svg_Y:
                         {
                             rect.Y = UserMapUtil.ParseGenericLength(attr.Value);
-
                         } break;
                     case WebDom.WellknownName.Width:
                         {
@@ -147,7 +144,18 @@ namespace HtmlRenderer.SvgDom
                     case WebDom.WellknownName.Height:
                         {
                             rect.Height = UserMapUtil.ParseGenericLength(attr.Value);
-
+                        } break;
+                    case WebDom.WellknownName.Svg_Fill:
+                        {
+                            rect.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke:
+                        {
+                            rect.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke_Width:
+                        {
+                            rect.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
                     default:
                         {

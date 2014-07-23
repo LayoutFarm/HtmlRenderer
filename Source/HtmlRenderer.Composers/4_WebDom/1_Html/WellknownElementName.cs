@@ -143,7 +143,15 @@ namespace HtmlRenderer.WebDom
         [Map("x")]
         Svg_X,
         [Map("y")]
-        SVG_Y
+        Svg_Y,
+        
+        [Map("fill")]
+        Svg_Fill,
+
+        [Map("stroke")]
+        Svg_Stroke,
+        [Map("stroke-width")]
+        Svg_Stroke_Width
 
     }
 }
