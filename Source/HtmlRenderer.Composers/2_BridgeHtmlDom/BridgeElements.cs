@@ -26,7 +26,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             get { return this.boxSpec; }
         }
         public WellKnownDomNodeName WellknownElementName { get; set; }
-        public bool TryGetAttribute(WellknownElementName wellknownHtmlName, out DomAttribute result)
+        public bool TryGetAttribute(WellknownName wellknownHtmlName, out DomAttribute result)
         {
             var found = base.FindAttribute((int)wellknownHtmlName);
             if (found != null)
@@ -40,7 +40,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 return false;
             }
         }
-        public bool TryGetAttribute(WellknownElementName wellknownHtmlName, out string value)
+        public bool TryGetAttribute(WellknownName wellknownHtmlName, out string value)
         {
             DomAttribute found;
             if (this.TryGetAttribute(wellknownHtmlName, out found))
@@ -114,6 +114,8 @@ namespace HtmlRenderer.Composers.BridgeHtml
             get;
             set;
         }
+
+        
     }
 
     sealed class RootElement : HtmlElement
@@ -181,8 +183,8 @@ namespace HtmlRenderer.Composers.BridgeHtml
     static class HtmlPredefineNames
     {
 
-        static readonly ValueMap<WellknownElementName> _wellKnownHtmlNameMap =
-            new ValueMap<WellknownElementName>();
+        static readonly ValueMap<WellknownName> _wellKnownHtmlNameMap =
+            new ValueMap<WellknownName>();
 
         static UniqueStringTable htmlUniqueStringTableTemplate = new UniqueStringTable();
 
@@ -191,7 +193,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             int j = _wellKnownHtmlNameMap.Count;
             for (int i = 0; i < j; ++i)
             {
-                htmlUniqueStringTableTemplate.AddStringIfNotExist(_wellKnownHtmlNameMap.GetStringFromValue((WellknownElementName)(i + 1)));
+                htmlUniqueStringTableTemplate.AddStringIfNotExist(_wellKnownHtmlNameMap.GetStringFromValue((WellknownName)(i + 1)));
             }
         }
         public static UniqueStringTable CreateUniqueStringTableClone()

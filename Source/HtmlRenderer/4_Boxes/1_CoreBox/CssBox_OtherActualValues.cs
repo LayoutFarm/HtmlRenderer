@@ -143,12 +143,16 @@ namespace HtmlRenderer.Boxes
                     //not container properties 
                     box._boxCompactFlags &= ~BoxFlags.HAS_CONTAINER_PROP;
                     break;
-            } 
+            }
             //-------------------------
         }
         public static void SetAsBrBox(CssBox box)
         {
             box._boxCompactFlags |= BoxFlags.IS_BR_ELEM;
+        }
+        public static void SetAsSvgRoot(CssBox box)
+        {
+            box._boxCompactFlags |= BoxFlags.IS_SVG_ROOT;
         }
     }
 }

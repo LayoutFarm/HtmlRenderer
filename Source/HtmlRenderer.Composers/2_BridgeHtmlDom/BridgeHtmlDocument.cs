@@ -35,7 +35,7 @@ namespace HtmlRenderer.Composers
                 AddStringIfNotExists(prefix),
                 AddStringIfNotExists(localName));
         }
-        public DomAttribute CreateAttribute(WellknownElementName attrName)
+        public DomAttribute CreateAttribute(WellknownName attrName)
         {
             return new DomAttribute(this,
                 0,

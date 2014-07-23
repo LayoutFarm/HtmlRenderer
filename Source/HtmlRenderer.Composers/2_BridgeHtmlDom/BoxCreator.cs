@@ -10,6 +10,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
 {
     static class BoxCreator
     {
+         
         static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
         public static void RegisterCustomCssBoxGenerator(CustomCssBoxGenerator generator)
         {
@@ -19,7 +20,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         {
             string imgsrc;
             ImageBinder imgBinder = null;
-            if (childElement.TryGetAttribute(WellknownElementName.Src, out imgsrc))
+            if (childElement.TryGetAttribute(WellknownName.Src, out imgsrc))
             {
                 imgBinder = new ImageBinder(imgsrc);
             }
@@ -75,7 +76,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                         CssBox newbox = BoxCreator.CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
                                         childElement.SetPrincipalBox(newbox);
                                         if (!alreadyHandleChildrenNode)
-                                        {                                             
+                                        {
                                             GenerateChildBoxes(childElement, fullmode);
                                         }
                                     }
@@ -88,8 +89,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                             CssBox box = BoxCreator.CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
                                             childElement.SetPrincipalBox(box);
                                             if (!alreadyHandleChildrenNode)
-                                            {
-                                              
+                                            {   
                                                 GenerateChildBoxes(childElement, fullmode);
                                             }
                                         }
@@ -98,15 +98,13 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                             //just insert                                                 
                                             hostBox.AppendChild(existing);
                                             if (!childElement.SkipPrincipalBoxEvalulation)
-                                            {   
+                                            {
                                                 existing.Clear();
                                                 GenerateChildBoxes(childElement, fullmode);
                                                 childElement.SkipPrincipalBoxEvalulation = true;
                                             }
                                         }
                                     }
-                                    //--------------------------------------------------  
-
                                 } break;
                         }
                     } break;
@@ -173,7 +171,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                         if (fullmode)
                                         {
                                             bool alreadyHandleChildrenNode;
-                                            CssBox box = BoxCreator.CreateBox(hostBox, childElement,out alreadyHandleChildrenNode);
+                                            CssBox box = BoxCreator.CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
                                             childElement.SetPrincipalBox(box);
                                             if (!alreadyHandleChildrenNode)
                                             {
@@ -361,7 +359,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
             string spanValue;
             int spanNum = 1;//default
-            if (childElement.TryGetAttribute(WellknownElementName.Span, out spanValue))
+            if (childElement.TryGetAttribute(WellknownName.Span, out spanValue))
             {
                 if (!int.TryParse(spanValue, out spanNum))
                 {
@@ -395,7 +393,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             int nRowSpan = 1;
             int nColSpan = 1;
             string rowspan;
-            if (childElement.TryGetAttribute(WellknownElementName.RowSpan, out rowspan))
+            if (childElement.TryGetAttribute(WellknownName.RowSpan, out rowspan))
             {
                 if (!int.TryParse(rowspan, out nRowSpan))
                 {
@@ -403,7 +401,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 }
             }
             string colspan;
-            if (childElement.TryGetAttribute(WellknownElementName.ColSpan, out colspan))
+            if (childElement.TryGetAttribute(WellknownName.ColSpan, out colspan))
             {
                 if (!int.TryParse(colspan, out nColSpan))
                 {
@@ -493,12 +491,12 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
             string reversedAttrValue;
             bool reversed = false;
-            if (parentNode.TryGetAttribute(WellknownElementName.Reversed, out reversedAttrValue))
+            if (parentNode.TryGetAttribute(WellknownName.Reversed, out reversedAttrValue))
             {
                 reversed = true;
             }
             string startAttrValue;
-            if (!parentNode.TryGetAttribute(WellknownElementName.Start, out startAttrValue))
+            if (!parentNode.TryGetAttribute(WellknownName.Start, out startAttrValue))
             {
                 //if not found
                 //TODO: not to loop count ?

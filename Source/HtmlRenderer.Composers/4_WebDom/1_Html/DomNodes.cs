@@ -191,6 +191,7 @@ namespace HtmlRenderer.WebDom
             SetNodeType(HtmlNodeType.Attribute);
             this.nodePrefixNameIndex = nodePrefixNameIndex;
             this.nodeLocalNameIndex = nodeLocalNameIndex;
+            
         }
 
         public string Value
@@ -282,6 +283,7 @@ namespace HtmlRenderer.WebDom
             : base(ownerDoc)
         {
 
+             
             this.nodePrefixNameIndex = nodePrefixNameIndex;
             this.nodeLocalNameIndex = nodeLocalNameIndex;
             SetNodeType(HtmlNodeType.OpenElement);
@@ -351,12 +353,12 @@ namespace HtmlRenderer.WebDom
             //some wellknownattr 
             switch (attr.LocalNameIndex)
             {
-                case (int)WellknownElementName.Id:
+                case (int)WellknownName.Id:
                     {
                         this.attrElemId = attr;
                         this.OwnerDocument.RegisterElementById(this);
                     } break;
-                case (int)WellknownElementName.Class:
+                case (int)WellknownName.Class:
                     {
                         this.attrClass = attr;
                     } break;

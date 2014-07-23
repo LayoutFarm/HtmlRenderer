@@ -209,15 +209,27 @@ namespace HtmlRenderer.Boxes
                     {
                         //formatting context for...
                         //1. line formatting context
-                        //2. block formatting context     
-                        if (ContainsInlinesOnly(box))
+                        //2. block formatting context
+
+                        if (box.IsSvgRootElement)
                         {
-                            //This will automatically set the bottom of this block
-                            PerformLayoutLinesContext(box, lay);
+                            //goto svg layout system
+                            box.ReEvaluateComputedValues(lay.Gfx, lay.LatestContainingBlock);
+
+                            ((Svg.SvgRootBox)box).ReComputeSvgAspectValue(lay.LatestContainingBlock);
+
                         }
-                        else if (box.ChildCount > 0)
+                        else
                         {
-                            PerformLayoutBlocksContext(box, lay);
+                            if (ContainsInlinesOnly(box))
+                            {
+                                //This will automatically set the bottom of this block
+                                PerformLayoutLinesContext(box, lay);
+                            }
+                            else if (box.ChildCount > 0)
+                            {
+                                PerformLayoutBlocksContext(box, lay);
+                            }
                         }
                     } break;
             }

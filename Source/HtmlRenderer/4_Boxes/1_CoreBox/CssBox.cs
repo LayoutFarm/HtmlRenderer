@@ -134,7 +134,13 @@ namespace HtmlRenderer.Boxes
                 return (this._boxCompactFlags & BoxFlags.IS_BR_ELEM) != 0;
             }
         }
-
+        public bool IsSvgRootElement
+        {
+            get
+            {
+                return (this._boxCompactFlags & BoxFlags.IS_SVG_ROOT) != 0;
+            }
+        }
         /// <summary>
         /// is the box "Display" is "Inline", is this is an inline box and not block.
         /// </summary>
@@ -215,7 +221,7 @@ namespace HtmlRenderer.Boxes
             tmpFlags &= ~BoxFlags.TEXT_IS_EMPTY;
 
             this._boxCompactFlags = tmpFlags;
-        } 
+        }
         public bool MayHasSomeTextContent
         {
             get
@@ -240,7 +246,7 @@ namespace HtmlRenderer.Boxes
                 {
                     return ChildCount == 0;
                 }
-                
+
             }
         }
 #if DEBUG
@@ -658,10 +664,10 @@ namespace HtmlRenderer.Boxes
         internal float GetHeightAfterMarginBottomCollapse(CssBox cbBox)
         {
 
-            float margin = 0; 
+            float margin = 0;
             if (ParentBox != null && this.IsLastChild && cbBox.ActualMarginBottom < 0.1)
             {
-                var lastChildBottomMargin = _aa_boxes.GetLastChild().ActualMarginBottom; 
+                var lastChildBottomMargin = _aa_boxes.GetLastChild().ActualMarginBottom;
                 margin = (Height.IsAuto) ? Math.Max(ActualMarginBottom, lastChildBottomMargin) : lastChildBottomMargin;
             }
             return _aa_boxes.GetLastChild().LocalBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;

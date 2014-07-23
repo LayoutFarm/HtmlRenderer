@@ -337,7 +337,7 @@ namespace HtmlRenderer.Boxes
             //}
 
         }
-
+    
         //--------------------------------
         public float ClientLeft
         {

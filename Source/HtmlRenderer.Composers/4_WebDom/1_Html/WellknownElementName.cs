@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace HtmlRenderer.WebDom
 {
-    public enum WellknownElementName
+    public enum WellknownName
     {
 
         Unknown,
@@ -137,5 +137,13 @@ namespace HtmlRenderer.WebDom
         Start,
         [Map("reversed")]
         Reversed,
+        //-------------------
+
+
+        [Map("x")]
+        Svg_X,
+        [Map("y")]
+        SVG_Y
+
     }
 }
