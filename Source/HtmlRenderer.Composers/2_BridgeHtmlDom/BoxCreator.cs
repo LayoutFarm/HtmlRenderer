@@ -15,7 +15,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         {
             generators.Add(generator);
         }
-        static CssBox CreateImageBox(CssBox parent, BridgeHtmlElement childElement)
+        static CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
         {
             string imgsrc;
             ImageBinder imgBinder = null;
@@ -30,7 +30,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             return new CssBoxImage(parent, childElement, childElement.Spec, imgBinder);
         }
 
-        public static void GenerateChildBoxes(BridgeHtmlElement parentElement, bool fullmode)
+        public static void GenerateChildBoxes(HtmlElement parentElement, bool fullmode)
         {
             //recursive ***  
             //first just generate into primary pricipal box
@@ -42,7 +42,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 case 1:
                     {
 
-                        CssBox hostBox = BridgeHtmlElement.InternalGetPrincipalBox(parentElement);
+                        CssBox hostBox = HtmlElement.InternalGetPrincipalBox(parentElement);
 
                         //only one child -- easy 
                         DomNode bridgeChild = parentElement.GetChildNode(0);
@@ -52,7 +52,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                             case HtmlNodeType.TextNode:
                                 {
 
-                                    BridgeHtmlTextNode singleTextNode = (BridgeHtmlTextNode)bridgeChild;
+                                    HtmlTextNode singleTextNode = (HtmlTextNode)bridgeChild;
                                     RunListHelper.AddRunList(hostBox, parentElement.Spec, singleTextNode);
 
                                 } break;
@@ -60,7 +60,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                             case HtmlNodeType.OpenElement:
                                 {
 
-                                    BridgeHtmlElement childElement = (BridgeHtmlElement)bridgeChild;
+                                    HtmlElement childElement = (HtmlElement)bridgeChild;
                                     var spec = childElement.Spec;
                                     if (spec.CssDisplay == CssDisplay.None)
                                     {
@@ -77,7 +77,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                     }
                                     else
                                     {
-                                        CssBox existing = BridgeHtmlElement.InternalGetPrincipalBox(childElement);
+                                        CssBox existing = HtmlElement.InternalGetPrincipalBox(childElement);
                                         if (existing == null)
                                         {
                                             CssBox box = BoxCreator.CreateBox(hostBox, childElement);
@@ -103,7 +103,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                     } break;
                 default:
                     {
-                        CssBox hostBox = BridgeHtmlElement.InternalGetPrincipalBox(parentElement);
+                        CssBox hostBox = HtmlElement.InternalGetPrincipalBox(parentElement);
                         CssWhiteSpace ws = parentElement.Spec.WhiteSpace;
                         int childCount = parentElement.ChildrenCount;
 
@@ -115,7 +115,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                             {
                                 case HtmlNodeType.TextNode:
                                     {
-                                        BridgeHtmlTextNode textNode = (BridgeHtmlTextNode)childNode;
+                                        HtmlTextNode textNode = (HtmlTextNode)childNode;
                                         switch (ws)
                                         {
                                             case CssWhiteSpace.Pre:
@@ -155,7 +155,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                 case HtmlNodeType.ShortElement:
                                 case HtmlNodeType.OpenElement:
                                     {
-                                        BridgeHtmlElement childElement = (BridgeHtmlElement)childNode;
+                                        HtmlElement childElement = (HtmlElement)childNode;
                                         var spec = childElement.Spec;
                                         if (spec.CssDisplay == CssDisplay.None)
                                         {
@@ -170,7 +170,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                         else
                                         {
 
-                                            CssBox existing = BridgeHtmlElement.InternalGetPrincipalBox(childElement);
+                                            CssBox existing = HtmlElement.InternalGetPrincipalBox(childElement);
                                             if (existing == null)
                                             {
                                                 CssBox box = BoxCreator.CreateBox(hostBox, childElement);
@@ -206,7 +206,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             //----------------------------------
         }
 
-        internal static CssBox CreateBox(CssBox parentBox, BridgeHtmlElement childElement)
+        internal static CssBox CreateBox(CssBox parentBox, HtmlElement childElement)
         {
 
 
@@ -217,43 +217,43 @@ namespace HtmlRenderer.Composers.BridgeHtml
             //some box has predefined behaviour
             switch (childElement.WellknownElementName)
             {
-                case WellknownElementName.br:
+                case WellKnownDomNodeName.br:
                     //special treatment for br
                     newBox = new CssBox(parentBox, childElement, childElement.Spec);
                     CssBox.SetAsBrBox(newBox);
                     CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
                     return newBox;
-                case WellknownElementName.img:
+                case WellKnownDomNodeName.img:
                     return CreateImageBox(parentBox, childElement);
-                case WellknownElementName.hr:
+                case WellKnownDomNodeName.hr:
                     return new CssBoxHr(parentBox, childElement, childElement.Spec);
 
                 //-----------------------------------------------------
                 //TODO: simplify this ...
                 //table-display elements, fix display type
-                case WellknownElementName.td:
-                case WellknownElementName.th:
+                case WellKnownDomNodeName.td:
+                case WellKnownDomNodeName.th:
                     newBox = TableBoxCreator.CreateTableCell(parentBox, childElement, true);
                     return newBox;
-                case WellknownElementName.col:
+                case WellKnownDomNodeName.col:
                     return TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, true, CssDisplay.TableColumn);
-                case WellknownElementName.colgroup:
+                case WellKnownDomNodeName.colgroup:
                     return TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, true, CssDisplay.TableColumnGroup);
-                case WellknownElementName.tr:
+                case WellKnownDomNodeName.tr:
                     return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableRow);
-                case WellknownElementName.tbody:
+                case WellKnownDomNodeName.tbody:
                     return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableRowGroup);
-                case WellknownElementName.table:
+                case WellKnownDomNodeName.table:
                     return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.Table);
-                case WellknownElementName.caption:
+                case WellKnownDomNodeName.caption:
                     return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableCaption);
-                case WellknownElementName.thead:
+                case WellKnownDomNodeName.thead:
                     return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableHeaderGroup);
-                case WellknownElementName.tfoot:
+                case WellKnownDomNodeName.tfoot:
                     return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableFooterGroup);
                 //---------------------------------------------------
                 //test extension box
-                case WellknownElementName.X:
+                case WellKnownDomNodeName.X:
                     {
                         newBox = CreateCustomBox(parentBox, childElement, childElement.Spec);
                         if (newBox == null)
@@ -263,7 +263,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                         return newBox;
                     }
                 //---------------------------------------------------
-                case WellknownElementName.svg:
+                case WellKnownDomNodeName.svg:
                     {
                         //1. create svg container node
                         return SvgDom.SvgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
@@ -324,12 +324,12 @@ namespace HtmlRenderer.Composers.BridgeHtml
     {
 
         public static CssBox CreateOtherPredefinedTableElement(CssBox parent,
-            BridgeHtmlElement childElement, CssDisplay selectedCssDisplayType)
+            HtmlElement childElement, CssDisplay selectedCssDisplayType)
         {
             return new CssBox(parent, childElement, childElement.Spec, selectedCssDisplayType);
         }
         public static CssBox CreateTableColumnOrColumnGroup(CssBox parent,
-            BridgeHtmlElement childElement, bool fixDisplayType, CssDisplay selectedCssDisplayType)
+            HtmlElement childElement, bool fixDisplayType, CssDisplay selectedCssDisplayType)
         {
             CssBox col = null;
             if (fixDisplayType)
@@ -359,7 +359,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             col.SetRowSpanAndColSpan(1, spanNum);
             return col;
         }
-        public static CssBox CreateTableCell(CssBox parent, BridgeHtmlElement childElement, bool fixDisplayType)
+        public static CssBox CreateTableCell(CssBox parent, HtmlElement childElement, bool fixDisplayType)
         {
             CssBox tableCell = null;
             if (fixDisplayType)
@@ -406,7 +406,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         static readonly char[] squareItem = new[] { '♠' };
         static ContentTextSplitter splitter = new ContentTextSplitter();
 
-        public static CssBox CreateListItemBox(CssBox parent, BridgeHtmlElement childElement)
+        public static CssBox CreateListItemBox(CssBox parent, HtmlElement childElement)
         {
             var spec = childElement.Spec;
             var newBox = new CssBox(parent, childElement, spec);
@@ -468,10 +468,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
         /// Gets the index of the box to be used on a (ordered) list
         /// </summary>
         /// <returns></returns>
-        static int GetIndexForList(CssBox box, BridgeHtmlElement childElement)
+        static int GetIndexForList(CssBox box, HtmlElement childElement)
         {
 
-            BridgeHtmlElement parentNode = childElement.ParentNode as BridgeHtmlElement;
+            HtmlElement parentNode = childElement.ParentNode as HtmlElement;
             int index = 1;
 
             string reversedAttrValue;

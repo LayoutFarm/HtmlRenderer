@@ -13,7 +13,7 @@ namespace HtmlRenderer.SvgDom
     {
 
         public static CssBox CreateSvgBox(CssBox parentBox,
-            Composers.BridgeHtml.BridgeHtmlElement elementNode,
+            Composers.BridgeHtml.HtmlElement elementNode,
             Css.BoxSpec spec)
         {
 

@@ -13,7 +13,7 @@ namespace HtmlRenderer.WebDom.Parser
 
         DomElement curHtmlNode = null;
         DomAttribute curAttr = null;
-        HtmlTextNode curTextNode = null;
+        DomTextNode curTextNode = null;
         int parseState = 0;
         TextSnapshot textSnapshot;
         HtmlLexer lexer;

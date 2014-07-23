@@ -9,7 +9,7 @@ using HtmlRenderer.Diagnostics;
 
 namespace HtmlRenderer.Composers
 {
-    public enum WellknownElementName : byte
+    public enum WellKnownDomNodeName : byte
     {
         NotAssign, //extension , for anonymous element
         Unknown,
@@ -140,7 +140,7 @@ namespace HtmlRenderer.Composers
 
 
         static readonly ValueMap<HtmlRenderer.WebDom.WellknownCssPropertyName> _wellKnownCssPropNameMap = new ValueMap<WebDom.WellknownCssPropertyName>();
-        static readonly ValueMap<WellknownElementName> _wellknownHtmlTagNameMap = new ValueMap<WellknownElementName>();
+        static readonly ValueMap<WellKnownDomNodeName> _wellknownHtmlTagNameMap = new ValueMap<WellKnownDomNodeName>();
 
 
 
@@ -845,9 +845,9 @@ namespace HtmlRenderer.Composers
         }
 
 
-        public static WellknownElementName EvaluateTagName(string name)
+        public static WellKnownDomNodeName EvaluateTagName(string name)
         {
-            return _wellknownHtmlTagNameMap.GetValueFromString(name, WellknownElementName.Unknown);
+            return _wellknownHtmlTagNameMap.GetValueFromString(name, WellKnownDomNodeName.Unknown);
         }
         internal static void SetBackgroundPosition(this CssBox box, WebDom.CssCodeValueExpression value)
         {

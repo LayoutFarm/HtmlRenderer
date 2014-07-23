@@ -54,7 +54,7 @@ namespace HtmlRenderer.WebDom
             return new DomProcessInstructionNode(this, nameIndex);
         }
 
-        public abstract HtmlTextNode CreateTextNode(char[] strBufferForElement);
+        public abstract DomTextNode CreateTextNode(char[] strBufferForElement);
 
         public DomCDataNode CreateCDataNode()
         {

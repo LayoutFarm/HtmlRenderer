@@ -20,7 +20,7 @@ namespace HtmlRenderer.Composers
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
         {
             //default root
-            rootNode = new BridgeRootElement(this);
+            rootNode = new RootElement(this);
         }
         public override DomElement RootNode
         {
@@ -31,7 +31,7 @@ namespace HtmlRenderer.Composers
         }
         public override DomElement CreateElement(string prefix, string localName)
         {
-            return new BridgeHtmlElement(this,
+            return new HtmlElement(this,
                 AddStringIfNotExists(prefix),
                 AddStringIfNotExists(localName));
         }
@@ -41,9 +41,9 @@ namespace HtmlRenderer.Composers
                 0,
                 (int)attrName);
         }
-        public override HtmlTextNode CreateTextNode(char[] strBufferForElement)
+        public override DomTextNode CreateTextNode(char[] strBufferForElement)
         {
-            return new BridgeHtmlTextNode(this, strBufferForElement);
+            return new HtmlTextNode(this, strBufferForElement);
         }
 
 

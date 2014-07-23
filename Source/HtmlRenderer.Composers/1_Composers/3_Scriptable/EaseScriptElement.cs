@@ -12,10 +12,10 @@ namespace HtmlRenderer.Composers
 
     public struct EaseScriptElement
     {
-        BridgeHtmlElement elem;
+        HtmlElement elem;
         public EaseScriptElement(DomElement elem)
         {
-            this.elem = elem as BridgeHtmlElement;
+            this.elem = elem as HtmlElement;
         }
         public bool IsScriptable
         {
@@ -37,7 +37,7 @@ namespace HtmlRenderer.Composers
                 return;
             }
 
-            BridgeHtmlElement.InvokeNotifyChangeOnIdleState(
+            HtmlElement.InvokeNotifyChangeOnIdleState(
                 elem,
                 ElementChangeKind.Spec);
             //-------------------------------------
@@ -52,7 +52,7 @@ namespace HtmlRenderer.Composers
                 new CssPropertyDeclaration(
                     WellknownCssPropertyName.Color,
                     new CssCodeColor(newcolor)));
-            BridgeHtmlElement.InvokeNotifyChangeOnIdleState(elem, ElementChangeKind.Spec);
+            HtmlElement.InvokeNotifyChangeOnIdleState(elem, ElementChangeKind.Spec);
         }
         public void ChangeBackgroundColor(Color backgroundColor)
         {
@@ -66,7 +66,7 @@ namespace HtmlRenderer.Composers
                 return;
             }
 
-            BridgeHtmlElement.InvokeNotifyChangeOnIdleState(
+            HtmlElement.InvokeNotifyChangeOnIdleState(
                 elem,
                 ElementChangeKind.Spec);
 
@@ -83,11 +83,11 @@ namespace HtmlRenderer.Composers
                new CssPropertyDeclaration(
                    WellknownCssPropertyName.BackgroundColor,
                    new CssCodeColor(backgroundColor)));
-            BridgeHtmlElement.InvokeNotifyChangeOnIdleState(elem, ElementChangeKind.Spec);
+            HtmlElement.InvokeNotifyChangeOnIdleState(elem, ElementChangeKind.Spec);
 
             elem.SkipPrincipalBoxEvalulation = false;
             
-            var cssbox = BridgeHtmlElement.InternalGetPrincipalBox(elem);
+            var cssbox = HtmlElement.InternalGetPrincipalBox(elem);
 
             if (cssbox != null)
             {

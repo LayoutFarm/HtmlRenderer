@@ -85,11 +85,11 @@ namespace HtmlRenderer.WebDom
     }
 
 
-    public abstract class HtmlTextNode : DomNode
+    public abstract class DomTextNode : DomNode
     {
 
         char[] copyBuffer;
-        public HtmlTextNode(WebDocument ownerDoc, char[] copyBuffer)
+        public DomTextNode(WebDocument ownerDoc, char[] copyBuffer)
             : base(ownerDoc)
         {
             SetNodeType(HtmlNodeType.TextNode);

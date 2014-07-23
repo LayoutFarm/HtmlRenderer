@@ -10,13 +10,13 @@ using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer.Composers.BridgeHtml
 {
-    class BridgeHtmlElement : DomElement
+    class HtmlElement : DomElement
     {
         CssBox principalBox;
         Css.BoxSpec boxSpec;        
         CssRuleSet elementRuleSet; 
 
-        public BridgeHtmlElement(BridgeHtmlDocument owner, int prefix, int localNameIndex)
+        public HtmlElement(BridgeHtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
             this.boxSpec = new Css.BoxSpec();
@@ -25,7 +25,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         {
             get { return this.boxSpec; }
         }
-        public WellknownElementName WellknownElementName { get; set; }
+        public WellKnownDomNodeName WellknownElementName { get; set; }
         public bool TryGetAttribute(WellknownElementName wellknownHtmlName, out DomAttribute result)
         {
             var found = base.FindAttribute((int)wellknownHtmlName);
@@ -74,7 +74,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             set;
 
         }
-        internal static CssBox InternalGetPrincipalBox(BridgeHtmlElement element)
+        internal static CssBox InternalGetPrincipalBox(HtmlElement element)
         {
             return element.principalBox;
         }
@@ -88,12 +88,12 @@ namespace HtmlRenderer.Composers.BridgeHtml
             var cnode = this.ParentNode;
             while (cnode != null)
             {
-                ((BridgeHtmlElement)cnode).SkipPrincipalBoxEvalulation = false;
+                ((HtmlElement)cnode).SkipPrincipalBoxEvalulation = false;
                 cnode = cnode.ParentNode;
             }
         } 
 
-        internal static void InvokeNotifyChangeOnIdleState(BridgeHtmlElement elem, ElementChangeKind changeKind)
+        internal static void InvokeNotifyChangeOnIdleState(HtmlElement elem, ElementChangeKind changeKind)
         {
             elem.OnChangeInIdleState(changeKind);
         }
@@ -116,15 +116,15 @@ namespace HtmlRenderer.Composers.BridgeHtml
         }
     }
 
-    sealed class BridgeRootElement : BridgeHtmlElement
+    sealed class RootElement : HtmlElement
     {
-        public BridgeRootElement(BridgeHtmlDocument ownerDoc)
+        public RootElement(BridgeHtmlDocument ownerDoc)
             : base(ownerDoc, 0, 0)
         {
         }
     }
 
-    class BridgeHtmlTextNode : HtmlTextNode
+    class HtmlTextNode : DomTextNode
     {
         //---------------------------------
         //this node may be simple text node  
@@ -132,7 +132,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         bool hasSomeChar;
         List<CssRun> runs;
 
-        public BridgeHtmlTextNode(WebDocument ownerDoc, char[] buffer)
+        public HtmlTextNode(WebDocument ownerDoc, char[] buffer)
             : base(ownerDoc, buffer)
         {
         }
