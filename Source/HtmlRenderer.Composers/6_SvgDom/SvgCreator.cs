@@ -157,6 +157,20 @@ namespace HtmlRenderer.SvgDom
                         {
                             rect.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
+                    case WebDom.WellknownName.Svg_Rx:
+                        {
+                            rect.CornerRadiusX = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Ry:
+                        {
+                            rect.CornerRadiusY = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Transform:
+                        {   
+                            //TODO: parse svg transform function 
+
+
+                        } break;
                     default:
                         {
                             //other attrs

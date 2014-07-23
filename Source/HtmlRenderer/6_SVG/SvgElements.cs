@@ -3,6 +3,7 @@
 
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Collections.Generic;
 using HtmlRenderer.Css;
 
@@ -112,6 +113,9 @@ namespace HtmlRenderer.SvgDom
     {
         Color strokeColor = Color.Transparent;
         Color fillColor = Color.Black;
+        //test path
+        GraphicsPath _path;
+
         public SvgRect()
         {
         }
@@ -131,6 +135,17 @@ namespace HtmlRenderer.SvgDom
             set;
         }
         public CssLength Height
+        {
+            get;
+            set;
+        }
+
+        public CssLength CornerRadiusX
+        {
+            get;
+            set;
+        }
+        public CssLength CornerRadiusY
         {
             get;
             set;
@@ -177,18 +192,121 @@ namespace HtmlRenderer.SvgDom
             get;
             set;
         }
-
+        public float ActualCornerRx
+        {
+            get;
+            set;
+        }
+        public float ActualCornerRy
+        {
+            get;
+            set;
+        }
         //----------------------------
         public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
         {
             this.ActualX = ConvertToPx(this.X, containerW, emHeight);
             this.ActualY = ConvertToPx(this.Y, containerW, emHeight);
-
             this.ActualWidth = ConvertToPx(this.Width, containerW, emHeight);
             this.ActualHeight = ConvertToPx(this.Height, containerW, emHeight);
-
             this.ActualStrokeWidth = ConvertToPx(this.StrokeWidth, containerW, emHeight);
 
+            this.ActualCornerRx = ConvertToPx(this.CornerRadiusX, containerW, emHeight);
+            this.ActualCornerRy = ConvertToPx(this.CornerRadiusY, containerW, emHeight);
+
+            //update graphic path
+            if (this.ActualCornerRx == 0 && this.ActualCornerRy == 0)
+            {
+                this._path = CreateRectGraphicPath(
+                    this.ActualX,
+                    this.ActualY,
+                    this.ActualWidth,
+                    this.ActualHeight);
+            }
+            else
+            {
+                this._path = CreateRoundRectGraphicPath(
+                    this.ActualX,
+                    this.ActualY,
+                    this.ActualWidth,
+                    this.ActualHeight,
+                    this.ActualCornerRx,
+                    this.ActualCornerRy);
+            }
+
+        }
+        static GraphicsPath CreateRectGraphicPath(float x, float y, float w, float h)
+        {
+            var _path = new GraphicsPath();
+            _path.StartFigure();
+            _path.AddRectangle(new RectangleF(x, y, w, h));
+            _path.CloseFigure();
+            return _path;
+        }
+        static GraphicsPath CreateRoundRectGraphicPath(float x, float y, float w, float h, float c_rx, float c_ry)
+        {
+            var _path = new GraphicsPath();
+            var arcBounds = new RectangleF();
+            var lineStart = new PointF();
+            var lineEnd = new PointF();
+            var width = w;
+            var height = h;
+            var rx = c_rx * 2;
+            var ry = c_ry * 2;
+
+            // Start
+            _path.StartFigure();
+
+            // Add first arc
+            arcBounds.Location = new PointF(x, y);
+            arcBounds.Width = rx;
+            arcBounds.Height = ry;
+            _path.AddArc(arcBounds, 180, 90);
+
+            // Add first line
+            lineStart.X = Math.Min(x + rx, x + width * 0.5f);
+            lineStart.Y = y;
+            lineEnd.X = Math.Max(x + width - rx, x + width * 0.5f);
+            lineEnd.Y = lineStart.Y;
+            _path.AddLine(lineStart, lineEnd);
+
+            // Add second arc
+            arcBounds.Location = new PointF(x + width - rx, y);
+            _path.AddArc(arcBounds, 270, 90);
+
+            // Add second line
+            lineStart.X = x + width;
+            lineStart.Y = Math.Min(y + ry, y + height * 0.5f);
+            lineEnd.X = lineStart.X;
+            lineEnd.Y = Math.Max(y + height - ry, y + height * 0.5f);
+            _path.AddLine(lineStart, lineEnd);
+
+            // Add third arc
+            arcBounds.Location = new PointF(x + width - rx, y + height - ry);
+            _path.AddArc(arcBounds, 0, 90);
+
+            // Add third line
+            lineStart.X = Math.Max(x + width - rx, x + width * 0.5f);
+            lineStart.Y = y + height;
+            lineEnd.X = Math.Min(x + rx, x + width * 0.5f);
+            lineEnd.Y = lineStart.Y;
+            _path.AddLine(lineStart, lineEnd);
+
+            // Add third arc
+            arcBounds.Location = new PointF(x, y + height - ry);
+            _path.AddArc(arcBounds, 90, 90);
+
+            // Add fourth line
+            lineStart.X = x;
+            lineStart.Y = Math.Max(y + height - ry, y + height * 0.5f);
+            lineEnd.X = lineStart.X;
+            lineEnd.Y = Math.Min(y + ry, y + height * 0.5f);
+            _path.AddLine(lineStart, lineEnd);
+
+            // Close
+            _path.CloseFigure();
+
+            return _path;
         }
 
         public override void Paint(Drawing.IGraphics g)
@@ -196,12 +314,7 @@ namespace HtmlRenderer.SvgDom
 
             using (SolidBrush sb = new SolidBrush(this.ActualColor))
             {
-                g.FillRectangle(
-                    sb,
-                    this.ActualX,
-                    this.ActualY,
-                    this.ActualWidth,
-                    this.ActualHeight);
+                g.FillPath(sb, this._path);
 
             }
             if (this.strokeColor != Color.Transparent
@@ -211,11 +324,7 @@ namespace HtmlRenderer.SvgDom
                 using (Pen pen = new Pen(sb))
                 {
                     pen.Width = this.ActualStrokeWidth;
-                    g.DrawRectangle(pen,
-                        this.ActualX,
-                        this.ActualY,
-                        this.ActualWidth,
-                        this.ActualHeight);
+                    g.DrawPath(pen, this._path);
                 }
             }
 
