@@ -46,7 +46,7 @@ namespace HtmlRenderer
 
             }
         }
-        public static void SetHtml(this WinRootVisualBox container, HtmlRenderer.WebDom.HtmlDocument doc, CssActiveSheet cssData)
+        public static void SetHtml(this WinRootVisualBox container, HtmlRenderer.WebDom.WebDocument doc, CssActiveSheet cssData)
         {
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>
@@ -69,13 +69,13 @@ namespace HtmlRenderer
             }
         }
         public static void RefreshHtmlDomChange(this WinRootVisualBox container,
-            HtmlRenderer.WebDom.HtmlDocument doc, CssActiveSheet cssData)
+            HtmlRenderer.WebDom.WebDocument doc, CssActiveSheet cssData)
         {
 
             PartialRebuildCssTree(container, doc);
         }
         static void FullRebuildCssTree(WinRootVisualBox container,
-            HtmlRenderer.WebDom.HtmlDocument doc,
+            HtmlRenderer.WebDom.WebDocument doc,
             CssActiveSheet cssData)
         {
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
@@ -98,7 +98,7 @@ namespace HtmlRenderer
             }
         }
         static void PartialRebuildCssTree(WinRootVisualBox container,
-            HtmlRenderer.WebDom.HtmlDocument doc)
+            HtmlRenderer.WebDom.WebDocument doc)
         {
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>

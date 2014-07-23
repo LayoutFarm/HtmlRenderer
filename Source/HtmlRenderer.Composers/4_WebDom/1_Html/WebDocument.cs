@@ -5,11 +5,11 @@ using System.Collections.Generic;
 namespace HtmlRenderer.WebDom
 {
 
-    public abstract class HtmlDocument
-    {
+    public abstract class WebDocument
+    {   
         UniqueStringTable uniqueStringTable;
         Dictionary<string, DomElement> registerElementsById = new Dictionary<string, DomElement>();
-        public HtmlDocument(UniqueStringTable uniqueStringTable)
+        public WebDocument(UniqueStringTable uniqueStringTable)
         {
             this.uniqueStringTable = uniqueStringTable;
             this.DocumentState = WebDom.DocumentState.Init;

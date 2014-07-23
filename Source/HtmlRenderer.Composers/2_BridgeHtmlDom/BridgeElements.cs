@@ -26,7 +26,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             get { return this.boxSpec; }
         }
         public WellknownElementName WellknownElementName { get; set; }
-        public bool TryGetAttribute(WellknownHtmlName wellknownHtmlName, out DomAttribute result)
+        public bool TryGetAttribute(WellknownElementName wellknownHtmlName, out DomAttribute result)
         {
             var found = base.FindAttribute((int)wellknownHtmlName);
             if (found != null)
@@ -40,7 +40,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 return false;
             }
         }
-        public bool TryGetAttribute(WellknownHtmlName wellknownHtmlName, out string value)
+        public bool TryGetAttribute(WellknownElementName wellknownHtmlName, out string value)
         {
             DomAttribute found;
             if (this.TryGetAttribute(wellknownHtmlName, out found))
@@ -132,7 +132,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         bool hasSomeChar;
         List<CssRun> runs;
 
-        public BridgeHtmlTextNode(HtmlDocument ownerDoc, char[] buffer)
+        public BridgeHtmlTextNode(WebDocument ownerDoc, char[] buffer)
             : base(ownerDoc, buffer)
         {
         }
@@ -181,8 +181,8 @@ namespace HtmlRenderer.Composers.BridgeHtml
     static class HtmlPredefineNames
     {
 
-        static readonly ValueMap<WellknownHtmlName> _wellKnownHtmlNameMap =
-            new ValueMap<WellknownHtmlName>();
+        static readonly ValueMap<WellknownElementName> _wellKnownHtmlNameMap =
+            new ValueMap<WellknownElementName>();
 
         static UniqueStringTable htmlUniqueStringTableTemplate = new UniqueStringTable();
 
@@ -191,7 +191,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             int j = _wellKnownHtmlNameMap.Count;
             for (int i = 0; i < j; ++i)
             {
-                htmlUniqueStringTableTemplate.AddStringIfNotExist(_wellKnownHtmlNameMap.GetStringFromValue((WellknownHtmlName)(i + 1)));
+                htmlUniqueStringTableTemplate.AddStringIfNotExist(_wellKnownHtmlNameMap.GetStringFromValue((WellknownElementName)(i + 1)));
             }
         }
         public static UniqueStringTable CreateUniqueStringTableClone()

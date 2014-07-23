@@ -74,11 +74,11 @@
     <Compile Include="5_WebDom.Parser\HtmlParser.cs" />
     <Compile Include="5_WebDom.Parser\HtmlUtils.cs" />
     <Compile Include="5_WebDom.Parser\TextSnapshot.cs" />
-    <Compile Include="4_WebDom\1_Html\HtmlDocument.cs" />
+    <Compile Include="4_WebDom\1_Html\WebDocument.cs" />
     <Compile Include="4_WebDom\1_Html\HtmlEvents.cs" />
     <Compile Include="4_WebDom\1_Html\DomNodes.cs" />
     <Compile Include="4_WebDom\1_Html\StringTable.cs" />
-    <Compile Include="4_WebDom\1_Html\WellknownHtmlName.cs" />
+    <Compile Include="4_WebDom\1_Html\WellknownElementName.cs" />
     <Compile Include="4_WebDom\2_Css\CssElementSelectors.cs" />
     <Compile Include="4_WebDom\2_Css\CssPropertyDeclaration.cs" />
     <Compile Include="4_WebDom\2_Css\WellknownCssPropertyName.cs" />

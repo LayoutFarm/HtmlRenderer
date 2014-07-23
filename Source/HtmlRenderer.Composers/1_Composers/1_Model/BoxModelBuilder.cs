@@ -47,7 +47,7 @@ namespace HtmlRenderer.Composers
         /// Parses the source html to css boxes tree structure.
         /// </summary>
         /// <param name="source">the html source to parse</param>
-        public HtmlDocument ParseDocument(TextSnapshot snapSource)
+        public WebDocument ParseDocument(TextSnapshot snapSource)
         {
             var parser = new HtmlParser();
             //------------------------
@@ -118,7 +118,7 @@ namespace HtmlRenderer.Composers
                                     {
                                         //<link rel="stylesheet"
                                         DomAttribute relAttr;
-                                        if (bridgeElement.TryGetAttribute(WellknownHtmlName.Rel, out relAttr)
+                                        if (bridgeElement.TryGetAttribute(WellknownElementName.Rel, out relAttr)
                                             && relAttr.Value.ToLower() == "stylesheet")
                                         {
                                             //if found
@@ -126,7 +126,7 @@ namespace HtmlRenderer.Composers
                                             CssActiveSheet stylesheetData;
 
                                             DomAttribute hrefAttr;
-                                            if (bridgeElement.TryGetAttribute(WellknownHtmlName.Href, out hrefAttr))
+                                            if (bridgeElement.TryGetAttribute(WellknownElementName.Href, out hrefAttr))
                                             {
                                                 RaiseRequestStyleSheet(
                                                     hrefAttr.Value,
@@ -177,7 +177,7 @@ namespace HtmlRenderer.Composers
         }
 
       
-        public CssBox BuildCssTree(HtmlDocument htmldoc,
+        public CssBox BuildCssTree(WebDocument htmldoc,
             IFonts iFonts,
             RootVisualBox htmlContainer,
             CssActiveSheet cssData)
@@ -208,7 +208,7 @@ namespace HtmlRenderer.Composers
         }
 
         //----------------------------------------------------------------
-        public CssBox RefreshCssTree(HtmlDocument htmldoc,
+        public CssBox RefreshCssTree(WebDocument htmldoc,
           IFonts iFonts,
           RootVisualBox htmlContainer)
         {
@@ -323,7 +323,7 @@ namespace HtmlRenderer.Composers
             {
                 CssRuleSet parsedRuleSet = null;
                 string attrStyleValue;
-                if (element.TryGetAttribute(WellknownHtmlName.Style, out attrStyleValue))
+                if (element.TryGetAttribute(WellknownElementName.Style, out attrStyleValue))
                 {
                     parsedRuleSet = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray());
                     //step up version number
@@ -809,9 +809,9 @@ namespace HtmlRenderer.Composers
                 foreach (var attr in tag.GetAttributeIterForward())
                 {
                     //attr switch by wellknown property name 
-                    switch ((WebDom.WellknownHtmlName)attr.LocalNameIndex)
+                    switch ((WebDom.WellknownElementName)attr.LocalNameIndex)
                     {
-                        case WebDom.WellknownHtmlName.Align:
+                        case WebDom.WellknownElementName.Align:
                             {
                                 //deprecated in HTML4.1
                                 //string value = attr.Value.ToLower();
@@ -833,15 +833,15 @@ namespace HtmlRenderer.Composers
                                 //}
                                 //break;
                             } break;
-                        case WebDom.WellknownHtmlName.Background:
+                        case WebDom.WellknownElementName.Background:
                             //deprecated in HTML4.1
                             //box.BackgroundImageBinder = new ImageBinder(attr.Value.ToLower());
                             break;
-                        case WebDom.WellknownHtmlName.BackgroundColor:
+                        case WebDom.WellknownElementName.BackgroundColor:
                             //deprecated in HTML5
                             //box.BackgroundColor = CssValueParser.GetActualColor(attr.Value.ToLower());
                             break;
-                        case WebDom.WellknownHtmlName.Border:
+                        case WebDom.WellknownElementName.Border:
                             {
                                 //not support in HTML5 
                                 //CssLength borderLen = TranslateLength(UserMapUtil.MakeBorderLength(attr.Value.ToLower()));
@@ -876,7 +876,7 @@ namespace HtmlRenderer.Composers
 
                                 //}
                             } break;
-                        case WebDom.WellknownHtmlName.BorderColor:
+                        case WebDom.WellknownElementName.BorderColor:
 
                             //box.BorderLeftColor =
                             //    box.BorderTopColor =
@@ -884,13 +884,13 @@ namespace HtmlRenderer.Composers
                             //    box.BorderBottomColor = CssValueParser.GetActualColor(attr.Value.ToLower());
 
                             break;
-                        case WebDom.WellknownHtmlName.CellSpacing:
+                        case WebDom.WellknownElementName.CellSpacing:
 
                             //html5 not support in HTML5, use CSS instead
                             //box.BorderSpacingHorizontal = box.BorderSpacingVertical = TranslateLength(attr);
 
                             break;
-                        case WebDom.WellknownHtmlName.CellPadding:
+                        case WebDom.WellknownElementName.CellPadding:
                             {
                                 //html5 not support in HTML5, use CSS instead ***
 
@@ -914,12 +914,12 @@ namespace HtmlRenderer.Composers
                                 //                                }
 
                             } break;
-                        case WebDom.WellknownHtmlName.Color:
+                        case WebDom.WellknownElementName.Color:
 
                             //deprecate  
                             // box.Color = CssValueParser.GetActualColor(attr.Value.ToLower());
                             break;
-                        case WebDom.WellknownHtmlName.Dir:
+                        case WebDom.WellknownElementName.Dir:
                             {
                                 WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
                                         attr.Value.ToLower(), WebDom.CssValueHint.Iden);
@@ -928,25 +928,25 @@ namespace HtmlRenderer.Composers
                                 spec.CssDirection = UserMapUtil.GetCssDirection(propValue);
                             }
                             break;
-                        case WebDom.WellknownHtmlName.Face:
+                        case WebDom.WellknownElementName.Face:
                             //deprecate
                             //box.FontFamily = CssParser.ParseFontFamily(attr.Value.ToLower());
                             break;
-                        case WebDom.WellknownHtmlName.Height:
+                        case WebDom.WellknownElementName.Height:
                             {
                                 var spec = tag.Spec;
                                 spec.Height = TranslateLength(attr);
 
                             } break;
-                        case WebDom.WellknownHtmlName.HSpace:
+                        case WebDom.WellknownElementName.HSpace:
                             //deprecated
                             //box.MarginRight = box.MarginLeft = TranslateLength(attr);
                             break;
-                        case WebDom.WellknownHtmlName.Nowrap:
+                        case WebDom.WellknownElementName.Nowrap:
                             //deprecate
                             //box.WhiteSpace = CssWhiteSpace.NoWrap;
                             break;
-                        case WebDom.WellknownHtmlName.Size:
+                        case WebDom.WellknownElementName.Size:
                             {
                                 //deprecate 
                                 //switch (tag.WellknownTagName)
@@ -968,7 +968,7 @@ namespace HtmlRenderer.Composers
                                 //        } break;
                                 //}
                             } break;
-                        case WebDom.WellknownHtmlName.VAlign:
+                        case WebDom.WellknownElementName.VAlign:
                             {
                                 //w3.org 
                                 //valign for table display elements:
@@ -980,11 +980,11 @@ namespace HtmlRenderer.Composers
 
 
                             } break;
-                        case WebDom.WellknownHtmlName.VSpace:
+                        case WebDom.WellknownElementName.VSpace:
                             //deprecated
                             //box.MarginTop = box.MarginBottom = TranslateLength(attr);
                             break;
-                        case WebDom.WellknownHtmlName.Width:
+                        case WebDom.WellknownElementName.Width:
                             {
                                 var spec = tag.Spec;
                                 spec.Width = TranslateLength(attr);

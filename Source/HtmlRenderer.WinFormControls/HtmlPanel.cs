@@ -258,7 +258,7 @@ namespace HtmlRenderer
 
 
 
-        public void LoadHtmlDom(HtmlRenderer.WebDom.HtmlDocument doc, string defaultCss)
+        public void LoadHtmlDom(HtmlRenderer.WebDom.WebDocument doc, string defaultCss)
         {
             _baseRawCssData = defaultCss;
             _baseCssData = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(defaultCss, true);
@@ -267,7 +267,7 @@ namespace HtmlRenderer
             PerformLayout();
             Invalidate();
         }
-        public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.HtmlDocument doc)
+        public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.WebDocument doc)
         {
 
             _visualRootBox.RefreshHtmlDomChange(doc, _baseCssData);

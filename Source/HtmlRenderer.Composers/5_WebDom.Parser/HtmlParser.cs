@@ -8,7 +8,7 @@ namespace HtmlRenderer.WebDom.Parser
 {
     public class HtmlParser
     {
-        HtmlDocument _resultHtmlDoc;
+        WebDocument _resultHtmlDoc;
         HtmlStack htmlNodeStack = new HtmlStack();
 
         DomElement curHtmlNode = null;
@@ -211,7 +211,7 @@ namespace HtmlRenderer.WebDom.Parser
         /// parse to htmldom
         /// </summary>
         /// <param name="stbuilder"></param>
-        public void Parse(TextSnapshot textSnapshot, HtmlDocument blankHtmlDoc)
+        public void Parse(TextSnapshot textSnapshot, WebDocument blankHtmlDoc)
         {
             ResetParser();
 

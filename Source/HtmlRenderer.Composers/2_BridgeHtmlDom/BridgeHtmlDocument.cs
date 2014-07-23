@@ -13,7 +13,7 @@ using HtmlRenderer.Composers.BridgeHtml;
 namespace HtmlRenderer.Composers
 {
 
-    public class BridgeHtmlDocument : HtmlDocument
+    public class BridgeHtmlDocument : WebDocument
     {
         DomElement rootNode;
         public BridgeHtmlDocument()
@@ -35,7 +35,7 @@ namespace HtmlRenderer.Composers
                 AddStringIfNotExists(prefix),
                 AddStringIfNotExists(localName));
         }
-        public DomAttribute CreateAttribute(WellknownHtmlName attrName)
+        public DomAttribute CreateAttribute(WellknownElementName attrName)
         {
             return new DomAttribute(this,
                 0,

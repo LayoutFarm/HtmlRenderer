@@ -23,7 +23,7 @@ namespace HtmlRenderer.WebDom
     public abstract class DomNode
     {
 
-        HtmlDocument ownerDoc;
+        WebDocument ownerDoc;
         DomNode parentNode;
 
         HtmlNodeType nodeType;
@@ -33,7 +33,7 @@ namespace HtmlRenderer.WebDom
         public int dbugId;
 #endif
 
-        internal DomNode(HtmlDocument ownerDoc)
+        internal DomNode(WebDocument ownerDoc)
         {
             this.ownerDoc = ownerDoc;
 
@@ -69,7 +69,7 @@ namespace HtmlRenderer.WebDom
             }
         }
 
-        public HtmlDocument OwnerDocument
+        public WebDocument OwnerDocument
         {
             get
             {
@@ -89,7 +89,7 @@ namespace HtmlRenderer.WebDom
     {
 
         char[] copyBuffer;
-        public HtmlTextNode(HtmlDocument ownerDoc, char[] copyBuffer)
+        public HtmlTextNode(WebDocument ownerDoc, char[] copyBuffer)
             : base(ownerDoc)
         {
             SetNodeType(HtmlNodeType.TextNode);
@@ -130,7 +130,7 @@ namespace HtmlRenderer.WebDom
 
     public class DomComment : DomNode
     {
-        internal DomComment(HtmlDocument ownerDoc)
+        internal DomComment(WebDocument ownerDoc)
             : base(ownerDoc)
         {
             SetNodeType(HtmlNodeType.Comment);
@@ -145,7 +145,7 @@ namespace HtmlRenderer.WebDom
     public class DomProcessInstructionNode : DomNode
     {
         int procName;
-        internal DomProcessInstructionNode(HtmlDocument ownerDoc, int procName)
+        internal DomProcessInstructionNode(WebDocument ownerDoc, int procName)
             : base(ownerDoc)
         {
             this.procName = procName;
@@ -160,7 +160,7 @@ namespace HtmlRenderer.WebDom
     }
     public class DomCDataNode : DomNode
     {
-        internal DomCDataNode(HtmlDocument ownerDoc)
+        internal DomCDataNode(WebDocument ownerDoc)
             : base(ownerDoc)
         {
             SetNodeType(HtmlNodeType.CData);
@@ -183,7 +183,7 @@ namespace HtmlRenderer.WebDom
         internal int nodeLocalNameIndex;
         string attrValue;
 
-        internal DomAttribute(HtmlDocument ownerDoc,
+        internal DomAttribute(WebDocument ownerDoc,
             int nodePrefixNameIndex,
             int nodeLocalNameIndex)
             : base(ownerDoc)
@@ -278,7 +278,7 @@ namespace HtmlRenderer.WebDom
         HtmlEventHandler evhMouseUp;
 
 
-        public DomElement(HtmlDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
+        public DomElement(WebDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
         {
 
@@ -351,12 +351,12 @@ namespace HtmlRenderer.WebDom
             //some wellknownattr 
             switch (attr.LocalNameIndex)
             {
-                case (int)WellknownHtmlName.Id:
+                case (int)WellknownElementName.Id:
                     {
                         this.attrElemId = attr;
                         this.OwnerDocument.RegisterElementById(this);
                     } break;
-                case (int)WellknownHtmlName.Class:
+                case (int)WellknownElementName.Class:
                     {
                         this.attrClass = attr;
                     } break;

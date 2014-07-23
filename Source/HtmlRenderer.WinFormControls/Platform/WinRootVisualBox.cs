@@ -18,7 +18,7 @@ namespace HtmlRenderer
     {
 
 
-        HtmlDocument doc;
+        WebDocument doc;
         CssActiveSheet activeCssSheet;
         ImageContentManager imageContentManager;
         TextContentManager textContentManager;
@@ -100,7 +100,7 @@ namespace HtmlRenderer
             }
         }
 
-        public void SetHtmlDoc(HtmlRenderer.WebDom.HtmlDocument doc)
+        public void SetHtmlDoc(HtmlRenderer.WebDom.WebDocument doc)
         {
             this.doc = doc;
         }

@@ -19,7 +19,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         {
             string imgsrc;
             ImageBinder imgBinder = null;
-            if (childElement.TryGetAttribute(WellknownHtmlName.Src, out imgsrc))
+            if (childElement.TryGetAttribute(WellknownElementName.Src, out imgsrc))
             {
                 imgBinder = new ImageBinder(imgsrc);
             }
@@ -344,7 +344,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
             string spanValue;
             int spanNum = 1;//default
-            if (childElement.TryGetAttribute(WellknownHtmlName.Span, out spanValue))
+            if (childElement.TryGetAttribute(WellknownElementName.Span, out spanValue))
             {
                 if (!int.TryParse(spanValue, out spanNum))
                 {
@@ -378,7 +378,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             int nRowSpan = 1;
             int nColSpan = 1;
             string rowspan;
-            if (childElement.TryGetAttribute(WellknownHtmlName.RowSpan, out rowspan))
+            if (childElement.TryGetAttribute(WellknownElementName.RowSpan, out rowspan))
             {
                 if (!int.TryParse(rowspan, out nRowSpan))
                 {
@@ -386,7 +386,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 }
             }
             string colspan;
-            if (childElement.TryGetAttribute(WellknownHtmlName.ColSpan, out colspan))
+            if (childElement.TryGetAttribute(WellknownElementName.ColSpan, out colspan))
             {
                 if (!int.TryParse(colspan, out nColSpan))
                 {
@@ -476,12 +476,12 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
             string reversedAttrValue;
             bool reversed = false;
-            if (parentNode.TryGetAttribute(WellknownHtmlName.Reversed, out reversedAttrValue))
+            if (parentNode.TryGetAttribute(WellknownElementName.Reversed, out reversedAttrValue))
             {
                 reversed = true;
             }
             string startAttrValue;
-            if (!parentNode.TryGetAttribute(WellknownHtmlName.Start, out startAttrValue))
+            if (!parentNode.TryGetAttribute(WellknownElementName.Start, out startAttrValue))
             {
                 //if not found
                 //TODO: not to loop count ?
