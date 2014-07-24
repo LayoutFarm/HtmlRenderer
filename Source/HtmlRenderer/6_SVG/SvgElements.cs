@@ -107,6 +107,19 @@ namespace HtmlRenderer.SvgDom
         {
 
         }
+        public virtual bool HitTestCore(Boxes.SvgHitChain svgChain, float x, float y)
+        {
+
+            return false;
+        }
+
+        //------------------------------------------------------
+        public static void InvokeOnMouseDown(SvgElement elem)
+        {
+
+        }
+        
+
     }
 
     public class SvgRect : SvgElement
@@ -118,6 +131,7 @@ namespace HtmlRenderer.SvgDom
 
         public SvgRect()
         {
+
         }
         public CssLength X
         {
@@ -309,6 +323,21 @@ namespace HtmlRenderer.SvgDom
             return _path;
         }
 
+
+        public override bool HitTestCore(Boxes.SvgHitChain svgChain, float x, float y)
+        {
+            if (y >= this.ActualY & y < (this.ActualY + this.ActualHeight))
+            {
+                if (x >= this.ActualX && x < this.ActualX + this.ActualWidth)
+                {
+
+                    svgChain.AddHit(this, x, y);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public override void Paint(Drawing.IGraphics g)
         {
 
@@ -329,7 +358,20 @@ namespace HtmlRenderer.SvgDom
             }
 
         }
+
+
+
+
+
     }
+
+
+
+
+
+
+
+
 
     public class SvgFragment : SvgElement
     {

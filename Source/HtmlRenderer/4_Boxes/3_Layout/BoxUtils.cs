@@ -48,9 +48,8 @@ namespace HtmlRenderer.Boxes
                 int boxHitGlobalY = (int)(boxHitLocalY + hitChain.GlobalOffsetY);
 
                 hitChain.AddHit(box, (int)boxHitLocalX, (int)boxHitLocalY);
-
                 hitChain.PushContextBox(box);
-
+ 
                 if (box.LineBoxCount > 0)
                 {
 

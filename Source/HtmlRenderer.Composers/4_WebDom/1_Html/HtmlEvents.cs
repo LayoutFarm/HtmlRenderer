@@ -24,7 +24,7 @@ namespace HtmlRenderer.WebDom
         EventName name;
         DomElement srcElement;
         DomElement currentContextElement;
-
+        
         public HtmlEventArgs(EventName name)
         {
             this.name = name;
@@ -58,6 +58,17 @@ namespace HtmlRenderer.WebDom
         {
             this.currentContextElement = currentContextElement;
         }
+        public float X
+        {
+            get;
+            set;
+        }
+        public float Y
+        {
+            get;
+            set;
+        }
+
     }
 
     

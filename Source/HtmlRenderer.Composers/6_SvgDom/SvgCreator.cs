@@ -5,8 +5,7 @@ using System;
 using System.Collections.Generic;
 using HtmlRenderer.Drawing;
 using HtmlRenderer.Boxes;
-using HtmlRenderer.Css;
-using HtmlRenderer.Boxes.Svg;
+using HtmlRenderer.Css; 
 using HtmlRenderer.Composers;
 using HtmlRenderer.Composers.BridgeHtml;
 

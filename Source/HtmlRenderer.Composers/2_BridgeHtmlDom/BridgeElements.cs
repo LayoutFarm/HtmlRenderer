@@ -12,9 +12,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
 {
     class HtmlElement : DomElement
     {
+
         CssBox principalBox;
-        Css.BoxSpec boxSpec;        
-        CssRuleSet elementRuleSet; 
+        Css.BoxSpec boxSpec;
+        CssRuleSet elementRuleSet;
 
         public HtmlElement(BridgeHtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
@@ -91,7 +92,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 ((HtmlElement)cnode).SkipPrincipalBoxEvalulation = false;
                 cnode = cnode.ParentNode;
             }
-        } 
+        }
 
         internal static void InvokeNotifyChangeOnIdleState(HtmlElement elem, ElementChangeKind changeKind)
         {
@@ -114,8 +115,36 @@ namespace HtmlRenderer.Composers.BridgeHtml
             get;
             set;
         }
+        //------------------------------------
+        protected override void OnMouseDown(HtmlEventArgs e)
+        {   
 
-        
+
+            var box = this.GetPrincipalBox();
+            if (box != null)
+            {
+
+                SvgRootBox svgBox = box as SvgRootBox;
+                if (svgBox != null)
+                {
+                    SvgHitChain hitChain = new SvgHitChain();
+                    svgBox.HitTestCore(hitChain, e.X, e.Y);
+
+                    PropagateEventOnBubblingPhase(hitChain, e);
+                }
+            }
+            base.OnMouseDown(e);
+        }
+        static void PropagateEventOnBubblingPhase(SvgHitChain hitChain, HtmlEventArgs eventArgs)
+        {
+            int hitCount = hitChain.Count;
+            //then propagate
+            for (int i = hitCount - 1; i >= 0; --i)
+            {
+                SvgHitInfo hitInfo = hitChain.GetHitInfo(i);
+                
+            }
+        }
     }
 
     sealed class RootElement : HtmlElement

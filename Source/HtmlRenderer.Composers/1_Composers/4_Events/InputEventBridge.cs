@@ -8,7 +8,7 @@ using HtmlRenderer.Drawing;
 using HtmlRenderer.Boxes;
 using HtmlRenderer.WebDom;
 
-namespace HtmlRenderer.Composers 
+namespace HtmlRenderer.Composers
 {
 
     public class InputEventBridge
@@ -21,9 +21,9 @@ namespace HtmlRenderer.Composers
         int _mousedownY;
         bool _isMouseDown;
         //----------------------------------------------- 
-        SelectionRange _currentSelectionRange = null; 
-        IGraphics sampleGraphics; 
-        bool _isBinded; 
+        SelectionRange _currentSelectionRange = null;
+        IGraphics sampleGraphics;
+        bool _isBinded;
         public InputEventBridge()
         {
         }
@@ -73,8 +73,7 @@ namespace HtmlRenderer.Composers
             hitChain.SetRootGlobalPosition(x, y);
             //1. prob hit chain only
             BoxUtils.HitTest(rootbox, x, y, hitChain);
-            //2. invoke css event and script event  
-
+            //2. invoke css event and script event   
 
             HtmlEventArgs eventArgs = new HtmlEventArgs(EventName.MouseDown);
             PropagateEventOnBubblingPhase(hitChain, eventArgs);
@@ -215,7 +214,7 @@ namespace HtmlRenderer.Composers
             {
                 //propagate up 
                 var hitInfo = hitChain.GetHitInfo(i);
-                DomElement controller = null;
+                DomElement controller = null; 
 
                 switch (hitInfo.hitObjectKind)
                 {
@@ -227,6 +226,7 @@ namespace HtmlRenderer.Composers
                         {
                             CssRun run = (CssRun)hitInfo.hitObject;
                             controller = CssBox.UnsafeGetController(run.OwnerBox) as DomElement;
+
                         } break;
                     case HitObjectKind.CssBox:
                         {
@@ -238,7 +238,12 @@ namespace HtmlRenderer.Composers
                 //---------------------
                 if (controller != null)
                 {
+                    eventArgs.X = hitInfo.localX;
+                    eventArgs.Y = hitInfo.localY;
+
                     controller.DispatchEvent(eventArgs);
+                    
+
                     if (eventArgs.IsCanceled)
                     {
                         break;

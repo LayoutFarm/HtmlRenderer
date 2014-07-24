@@ -1,10 +1,11 @@
 ﻿//BSD 2014,WinterDev
 
 using System.Drawing;
+using System.Collections.Generic;
 using HtmlRenderer.Drawing;
 using HtmlRenderer.SvgDom;
 
-namespace HtmlRenderer.Boxes.Svg
+namespace HtmlRenderer.Boxes
 {
 
     public sealed class SvgRootBox : CssBox
@@ -25,7 +26,7 @@ namespace HtmlRenderer.Boxes.Svg
             var cnode = this.SvgSpec.GetFirstNode();
             while (cnode != null)
             {
-                 
+
                 cnode.Value.Paint(g);
                 cnode = cnode.Next;
             }
@@ -57,7 +58,64 @@ namespace HtmlRenderer.Boxes.Svg
             this.SetSize(500, 500);
         }
 
-
+        public void HitTestCore(SvgHitChain chain, float x, float y)
+        {
+            //1.
+            SvgElement root = this.SvgSpec;
+            chain.AddHit(root, x, y);
+            //2. find hit child
+            var child = root.GetFirstNode();
+            while (child != null)
+            {
+                var node = child.Value;
+                if (node.HitTestCore(chain, x, y))
+                {
+                    break;
+                }
+                child = child.Next;
+            }
+        }
     }
 
+    public class SvgHitChain
+    {
+
+        List<SvgHitInfo> svgList = new List<SvgHitInfo>();
+        public SvgHitChain()
+        {
+        }
+        public void AddHit(SvgElement svg, float x, float y)
+        {
+            svgList.Add(new SvgHitInfo(svg, x, y));
+        }
+        public int Count
+        {
+            get
+            {
+                return this.svgList.Count;
+            }
+        }
+        public SvgHitInfo GetHitInfo(int index)
+        {
+            return this.svgList[index];
+        }
+        public SvgHitInfo GetLastHitInfo()
+        {
+            return this.svgList[svgList.Count - 1];
+        }
+    }
+
+
+    public struct SvgHitInfo
+    {
+        public readonly SvgElement svg;
+        public readonly float x;
+        public readonly float y;
+        public SvgHitInfo(SvgElement svg, float x, float y)
+        {
+            this.svg = svg;
+            this.x = x;
+            this.y = y;
+        }
+    }
 }
