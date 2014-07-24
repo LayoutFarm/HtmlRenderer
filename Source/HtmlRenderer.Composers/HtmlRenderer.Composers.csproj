@@ -83,6 +83,10 @@
     <Compile Include="4_WebDom\2_Css\WellknownCssPropertyName.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\HtmlRenderer.LeanBox\HtmlRenderer.LeanBox.csproj">
+      <Project>{B9EDE609-8EFF-4102-BD06-35D11A7F8A11}</Project>
+      <Name>HtmlRenderer.LeanBox</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HtmlRenderer.Svg\HtmlRenderer.Svg.csproj">
       <Project>{4E185663-158F-4B19-A86D-435D9F203A07}</Project>
       <Name>HtmlRenderer.Svg</Name>

@@ -72,9 +72,6 @@ namespace HtmlRenderer.Boxes
         /// <param name="owner">the CSS box owner of the word</param>
         protected CssRun(CssRunKind rectKind)
         {
-#if  DEBUG
-
-#endif
             this._runKind = rectKind;
         }
         public void SetOwner(CssBox owner)

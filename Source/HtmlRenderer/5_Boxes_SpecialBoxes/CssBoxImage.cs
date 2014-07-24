@@ -25,13 +25,11 @@ namespace HtmlRenderer.Boxes
     /// </summary>
     public sealed class CssBoxImage : CssBox
     {
-        #region Fields and Consts
+
         /// <summary>
         /// the image word of this image box
         /// </summary>
-        readonly CssImageRun _imageWord;
-        ImageBinder _imgBinder;
-        #endregion
+        readonly CssImageRun _imgRun; 
 
         /// <summary>
         /// Init.
@@ -42,20 +40,26 @@ namespace HtmlRenderer.Boxes
             : base(parent, tag, boxSpec)
         {
 
-            this._imageWord = new CssImageRun();
-            this._imageWord.SetOwner(this);
-            this._imgBinder = binder;
-            CssBox.UnsafeSetContentRuns(this, new List<CssRun>() { _imageWord }, false);
-            
+            this._imgRun = new CssImageRun();
+            this._imgRun.ImageBinder = binder;
+            this._imgRun.SetOwner(this);
+
+
+            var runlist = new List<CssRun>(1);
+
+            runlist.Add(_imgRun);
+
+            CssBox.UnsafeSetContentRuns(this, runlist, false);
+
         }
 
-        /// <summary>
-        /// Get the image of this image box.
-        /// </summary>
-        public Image Image
-        {
-            get { return this._imgBinder.Image; }
-        }
+        ///// <summary>
+        ///// Get the image of this image box.
+        ///// </summary>
+        //public Image Image
+        //{
+        //    get { return this._imgRun.ImageBinder.Image; }
+        //}
         //void OnImageBinderLoadingComplete()
         //{
         //    //when binder state changed 
@@ -97,7 +101,7 @@ namespace HtmlRenderer.Boxes
                 p.PaintBorders(this, rect, true, true);
             }
             //--------------------------------------------------------- 
-            RectangleF r = _imageWord.Rectangle;
+            RectangleF r = _imgRun.Rectangle;
 
             r.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
             r.Y += ActualBorderTopWidth + ActualPaddingTop;
@@ -107,15 +111,15 @@ namespace HtmlRenderer.Boxes
             bool tryLoadOnce = false;
 
         EVAL_STATE:
-            switch (_imgBinder.State)
+            switch (_imgRun.ImageBinder.State)
             {
                 case ImageBinderState.Unload:
                     {
                         //async request image
                         if (!tryLoadOnce)
                         {
-                            _imageWord.ImageBinder = this._imgBinder;
-                            p.RequestImageAsync(_imgBinder, this._imageWord, this);
+
+                            p.RequestImageAsync(_imgRun.ImageBinder, this._imgRun, this);
                             //retry again
                             tryLoadOnce = true;
                             goto EVAL_STATE;
@@ -129,10 +133,10 @@ namespace HtmlRenderer.Boxes
                     {
 
                         System.Drawing.Image img;
-                        if ((img = _imgBinder.Image) != null)
+                        if ((img = _imgRun.ImageBinder.Image) != null)
                         {
 
-                            if (_imageWord.ImageRectangle == Rectangle.Empty)
+                            if (_imgRun.ImageRectangle == Rectangle.Empty)
                             {
                                 g.DrawImage(img,
                                     new RectangleF(r.Left, r.Top,
@@ -143,7 +147,7 @@ namespace HtmlRenderer.Boxes
                             else
                             {
                                 //
-                                g.DrawImage(img, _imageWord.ImageRectangle);
+                                g.DrawImage(img, _imgRun.ImageRectangle);
                                 //g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
                             }
                         }
@@ -190,23 +194,11 @@ namespace HtmlRenderer.Boxes
             {
                 this.RunSizeMeasurePass = true;
             }
-            CssLayoutEngine.MeasureImageSize(_imageWord, lay);
+            CssLayoutEngine.MeasureImageSize(_imgRun, lay);
         }
         #region Private methods
 
-        ///// <summary>
-        ///// Set error image border on the image box.
-        ///// </summary>
-        //private void SetErrorBorder()
-        //{
-
-        //    this.SetAllBorders(
-        //        CssBorderStyle.Solid, CssLength.MakePixelLength(2),
-        //        System.Drawing.Color.FromArgb(0xA0, 0xA0, 0xA0));
-
-        //    BorderRightColor = BorderBottomColor = System.Drawing.Color.FromArgb(0xE3, 0xE3, 0xE3);// "#E3E3E3";
-        //}
-
+       
 
 
         #endregion

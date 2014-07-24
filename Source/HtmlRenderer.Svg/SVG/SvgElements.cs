@@ -308,7 +308,7 @@ namespace HtmlRenderer.SvgDom
             return _path;
         }
 
-
+        //------------------------------------------------
         public override bool HitTestCore(SvgHitChain svgChain, float x, float y)
         {
             if (y >= this.ActualY & y < (this.ActualY + this.ActualHeight))
@@ -354,6 +354,7 @@ namespace HtmlRenderer.SvgDom
         public SvgPolygon(SvgPolygon polygonSpec, object controller)
             : base(controller)
         {
+
         }
     }
 
@@ -367,6 +368,7 @@ namespace HtmlRenderer.SvgDom
             : base(controller)
         {
         }
+
         public float ActualX1
         {
             get;

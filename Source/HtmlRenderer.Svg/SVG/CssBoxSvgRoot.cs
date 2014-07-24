@@ -1,4 +1,5 @@
-﻿//BSD 2014,WinterDev
+﻿//MS-PL, Apache2 
+//2014, WinterDev
 
 using System.Drawing;
 using System.Collections.Generic;

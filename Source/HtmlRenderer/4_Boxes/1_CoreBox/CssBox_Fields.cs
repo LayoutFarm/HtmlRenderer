@@ -24,16 +24,7 @@ namespace HtmlRenderer.Boxes
     partial class CssBox
     {
 
-        readonly object _controller;
-        //----------------------------------------------------
-        /// <summary>
-        /// the html tag that is associated with this css box, null if anonymous box
-        /// </summary> 
-        int _boxCompactFlags; 
-        //html rowspan: for td,th 
-        int _rowSpan;
-        int _colSpan;
-        //---------------------------------------------------- 
+
 
         //condition 1 :this Box is BlockBox
         //1.1 contain lineBoxes for my children and  other children (share)
@@ -43,12 +34,15 @@ namespace HtmlRenderer.Boxes
         //----------------------------------------------------    
         //condition 2 :this Box is InlineBox     
         //_aa_contentRuns may come from other data source
-        List<CssRun> _aa_contentRuns; 
+        List<CssRun> _aa_contentRuns;
         char[] _buffer;
         //----------------------------------------------------    
         //for other subbox , list item , shadow... 
         SubBoxCollection _subBoxes;
         //----------------------------------------------------    
+
+
+
         /// <summary>
         /// Gets the childrenn boxes of this box
         /// </summary>      
@@ -123,7 +117,7 @@ namespace HtmlRenderer.Boxes
         {
             //_aa_contentRuns may come from other data source
             //so just set it to null
-            this._aa_contentRuns = null;           
+            this._aa_contentRuns = null;
 
             this.Boxes.Clear();
         }

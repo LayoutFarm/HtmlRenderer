@@ -41,6 +41,8 @@ namespace HtmlRenderer.Boxes
     {
 
         readonly Css.BoxSpec _myspec;
+        readonly object _controller; 
+
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
