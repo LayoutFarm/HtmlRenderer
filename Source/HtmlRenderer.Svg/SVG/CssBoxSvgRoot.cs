@@ -16,7 +16,22 @@ namespace HtmlRenderer.Boxes
             //create svg node 
             this.SvgSpec = svgSpec;
             ChangeDisplayType(this, Css.CssDisplay.Block);
-            SetAsSvgRoot(this);
+            SetAsCustomCssBox(this);
+        }
+        public override void CustomRecomputedValue(CssBox containingBlock)
+        {
+            var svgElement = this.SvgSpec;
+            //recompute value if need 
+            var cnode = svgElement.GetFirstNode();
+            float containerW = containingBlock.SizeWidth;
+            float emH = containingBlock.GetEmHeight();
+            while (cnode != null)
+            {
+                cnode.Value.ReEvaluateComputeValue(containerW, 100, emH);
+                cnode = cnode.Next;
+            }
+
+            this.SetSize(500, 500);
         }
         protected override void PaintImp(IGraphics g, PaintVisitor p)
         {
@@ -36,26 +51,7 @@ namespace HtmlRenderer.Boxes
             set;
         }
 
-        /// <summary>
-        /// for svg
-        /// </summary>
-        /// <param name="containingBlock"></param>
-        internal void ReComputeSvgAspectValue(CssBox containingBlock)
-        {
-
-            var svgElement = this.SvgSpec;
-            //recompute value if need 
-            var cnode = svgElement.GetFirstNode();
-            float containerW = containingBlock.SizeWidth;
-            float emH = containingBlock.GetEmHeight();
-            while (cnode != null)
-            {
-                cnode.Value.ReEvaluateComputeValue(containerW, 100, emH);
-                cnode = cnode.Next;
-            }
-
-            this.SetSize(500, 500);
-        }
+       
 
         public void HitTestCore(SvgHitChain chain, float x, float y)
         {

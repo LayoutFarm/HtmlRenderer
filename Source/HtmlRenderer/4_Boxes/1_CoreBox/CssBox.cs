@@ -138,7 +138,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return (this._boxCompactFlags & BoxFlags.IS_SVG_ROOT) != 0;
+                return (this._boxCompactFlags & BoxFlags.IS_CUSTOM_CSSBOX) != 0;
             }
         }
         /// <summary>

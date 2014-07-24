@@ -215,8 +215,7 @@ namespace HtmlRenderer.Boxes
                         {
                             //goto svg layout system
                             box.ReEvaluateComputedValues(lay.Gfx, lay.LatestContainingBlock);
-
-                            ((CssBoxSvgRoot)box).ReComputeSvgAspectValue(lay.LatestContainingBlock);
+                            box.CustomRecomputedValue(lay.LatestContainingBlock);                            
 
                         }
                         else

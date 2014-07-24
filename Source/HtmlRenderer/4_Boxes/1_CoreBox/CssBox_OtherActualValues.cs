@@ -150,9 +150,9 @@ namespace HtmlRenderer.Boxes
         {
             box._boxCompactFlags |= BoxFlags.IS_BR_ELEM;
         }
-        public static void SetAsSvgRoot(CssBox box)
+        public static void SetAsCustomCssBox(CssBox box)
         {
-            box._boxCompactFlags |= BoxFlags.IS_SVG_ROOT;
+            box._boxCompactFlags |= BoxFlags.IS_CUSTOM_CSSBOX;
         }
     }
 }

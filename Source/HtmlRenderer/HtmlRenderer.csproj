@@ -88,10 +88,6 @@
     <Compile Include="1_Drawing_TextAndGraphics\ImageBinder.cs" />
     <Compile Include="3_Css\BoxSpec.cs" />
     <Compile Include="3_Css\BoxSpec_CopyAndVersioning.cs" />
-    <Compile Include="6_SVG\SvgHitChain.cs" />
-    <Compile Include="5_Boxes_SpecialBoxes\CssBoxSvgRoot.cs" />
-    <Compile Include="6_SVG\SvgElements.cs" />
-    <Compile Include="6_SVG\SvgRectSpec.cs" />
     <Compile Include="9_Diagnostics\DeprecatedAttribute.cs" />
     <Compile Include="9_Diagnostics\HtmlGenerator.cs" />
     <Compile Include="Platform\Delegates.cs" />
