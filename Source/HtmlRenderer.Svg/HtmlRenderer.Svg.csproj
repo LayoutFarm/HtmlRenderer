@@ -35,7 +35,7 @@
     <Compile Include="SVG\CssBoxSvgRoot.cs" />
     <Compile Include="SVG\SvgElements.cs" />
     <Compile Include="SVG\SvgHitChain.cs" />
-    <Compile Include="SVG\SvgRectSpec.cs" />
+    <Compile Include="SVG\SvgSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

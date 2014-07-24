@@ -9,11 +9,28 @@ using HtmlRenderer.Css;
 
 namespace HtmlRenderer.SvgDom
 {
-    public class SvgRectSpec
+    public class SvgVisualSpec
     {
         Color fillColor = Color.Black;
         Color strokeColor = Color.Transparent;
-
+        public Color ActualColor
+        {
+            get { return this.fillColor; }
+            set { this.fillColor = value; }
+        }
+        public Color StrokeColor
+        {
+            get { return this.strokeColor; }
+            set { this.strokeColor = value; }
+        }
+        public CssLength StrokeWidth
+        {
+            get;
+            set;
+        }
+    }
+    public class SvgRectSpec : SvgVisualSpec
+    { 
         public CssLength X
         {
             get;
@@ -44,22 +61,13 @@ namespace HtmlRenderer.SvgDom
         {
             get;
             set;
-        }
-
-        public Color ActualColor
-        {
-            get { return this.fillColor; }
-            set { this.fillColor = value; }
-        }
-        public Color StrokeColor
-        {
-            get { return this.strokeColor; }
-            set { this.strokeColor = value; }
-        }
-        public CssLength StrokeWidth
-        {
-            get;
-            set;
-        }
+        } 
     }
+
+    
+    public class SvgPolygonSpec : SvgVisualSpec
+    {
+
+    }
+
 }

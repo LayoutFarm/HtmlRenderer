@@ -125,14 +125,35 @@ namespace HtmlRenderer.SvgDom
 
     }
 
-    public class SvgRect : SvgElement
+
+    public class SvgFragment : SvgElement
+    {
+        public SvgFragment()
+            : base(null)
+        {
+        }
+    }
+
+    public abstract class SvgVisualElement : SvgElement
     {
 
-        SvgRectSpec rectSpec;
+        public SvgVisualElement(object controller)
+            : base(controller)
+        {
+
+        }
+    }
+
+    public class SvgRect : SvgVisualElement
+    {
+
+
         Color strokeColor = Color.Transparent;
         Color fillColor = Color.Black;
-        //test path
         GraphicsPath _path;
+
+
+        SvgRectSpec rectSpec;
         public SvgRect(SvgRectSpec rectSpec, object controller)
             : base(controller)
         {
@@ -324,13 +345,52 @@ namespace HtmlRenderer.SvgDom
 
     }
 
-    public class SvgFragment : SvgElement
+    public class SvgPolygon : SvgVisualElement
     {
-        public SvgFragment()
-            : base(null)
+        List<PointF> pointList = new List<PointF>();
+        Color strokeColor = Color.Transparent;
+        Color fillColor = Color.Black;
+        GraphicsPath _path;
+        public SvgPolygon(SvgPolygon polygonSpec, object controller)
+            : base(controller)
         {
         }
     }
+
+    public class SvgLine : SvgVisualElement
+    {
+        Color strokeColor = Color.Transparent;
+        Color fillColor = Color.Black;
+        GraphicsPath _path;
+
+        public SvgLine(object controller)
+            : base(controller)
+        {
+        }
+        public float ActualX1
+        {
+            get;
+            set;
+        }
+        public float ActualY1
+        {
+            get;
+            set;
+        }
+        public float ActualX2
+        {
+            get;
+            set;
+        }
+        public float ActualY2
+        {
+            get;
+            set;
+        }
+
+    }
+
+
 
 
 
