@@ -62,13 +62,18 @@ namespace HtmlRenderer
     public class HtmlPanel : ScrollableControl
     {
 
+
+
         #region Fields and Consts
 
-        /// <summary>
-        /// 
-        /// </summary>
-        private WinRootVisualBox _htmlContainer;
-        Composers.HtmlInputEventBridge _htmlEventBridge;
+
+
+
+        WinRootVisualBox _visualRootBox;
+        Composers.BoxComposer _boxComposer;
+        Composers.InputEventBridge _htmlEventBridge;
+
+
 
         /// <summary>
         /// the raw base stylesheet data used in the control
@@ -94,18 +99,29 @@ namespace HtmlRenderer
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
-            _htmlContainer = new WinRootVisualBox();
-            //_htmlContainer.LinkClicked += OnLinkClicked;
-            _htmlContainer.RenderError += OnRenderError;
-            _htmlContainer.Refresh += OnRefresh;
-            _htmlContainer.ScrollChange += OnScrollChange;
-            _htmlContainer.TextContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
-            _htmlContainer.ImageContentMan.ImageLoadingRequest += OnImageLoad;
+
+            _boxComposer = new Composers.BoxComposer();
+
+            _visualRootBox = new WinRootVisualBox();
+            _visualRootBox.BoxComposer = _boxComposer;
+
+
+
+            _visualRootBox.RenderError += OnRenderError;
+            _visualRootBox.Refresh += OnRefresh;
+            _visualRootBox.ScrollChange += OnScrollChange;
+            _visualRootBox.TextContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
+            _visualRootBox.ImageContentMan.ImageLoadingRequest += OnImageLoad;
+
+
 
             //-------------------------------------------
-            _htmlEventBridge = new Composers.HtmlInputEventBridge();
-            _htmlEventBridge.Bind(_htmlContainer);
+            _htmlEventBridge = new Composers.InputEventBridge();
+            _htmlEventBridge.Bind(_visualRootBox);
             //-------------------------------------------
+
+
+
         }
 
         /// <summary>
@@ -137,8 +153,8 @@ namespace HtmlRenderer
         /// </summary>
         public bool AvoidGeometryAntialias
         {
-            get { return _htmlContainer.AvoidGeometryAntialias; }
-            set { _htmlContainer.AvoidGeometryAntialias = value; }
+            get { return _visualRootBox.AvoidGeometryAntialias; }
+            set { _visualRootBox.AvoidGeometryAntialias = value; }
         }
 
         /// <summary>
@@ -156,8 +172,8 @@ namespace HtmlRenderer
         /// </remarks>
         public bool AvoidImagesLateLoading
         {
-            get { return _htmlContainer.AvoidImagesLateLoading; }
-            set { _htmlContainer.AvoidImagesLateLoading = value; }
+            get { return _visualRootBox.AvoidImagesLateLoading; }
+            set { _visualRootBox.AvoidImagesLateLoading = value; }
         }
 
         /// <summary>
@@ -172,8 +188,8 @@ namespace HtmlRenderer
         [Description("Is content selection is enabled for the rendered html.")]
         public bool IsSelectionEnabled
         {
-            get { return _htmlContainer.IsSelectionEnabled; }
-            set { _htmlContainer.IsSelectionEnabled = value; }
+            get { return _visualRootBox.IsSelectionEnabled; }
+            set { _visualRootBox.IsSelectionEnabled = value; }
         }
 
         /// <summary>
@@ -187,8 +203,8 @@ namespace HtmlRenderer
         [Description("Is the build-in context menu enabled and will be shown on mouse right click.")]
         public bool IsContextMenuEnabled
         {
-            get { return _htmlContainer.IsContextMenuEnabled; }
-            set { _htmlContainer.IsContextMenuEnabled = value; }
+            get { return _visualRootBox.IsContextMenuEnabled; }
+            set { _visualRootBox.IsContextMenuEnabled = value; }
         }
 
         /// <summary>
@@ -233,7 +249,7 @@ namespace HtmlRenderer
                 {
                     VerticalScroll.Value = VerticalScroll.Minimum;
 
-                    _htmlContainer.SetHtml(Text, _baseCssData);
+                    _visualRootBox.SetHtml(Text, _baseCssData);
                     PerformLayout();
                     Invalidate();
                 }
@@ -242,25 +258,25 @@ namespace HtmlRenderer
 
 
 
-        public void LoadHtmlDom(HtmlRenderer.WebDom.HtmlDocument doc, string defaultCss)
+        public void LoadHtmlDom(HtmlRenderer.WebDom.WebDocument doc, string defaultCss)
         {
             _baseRawCssData = defaultCss;
             _baseCssData = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(defaultCss, true);
-            _htmlContainer.SetHtml(doc, _baseCssData);
+            _visualRootBox.SetHtml(doc, _baseCssData);
 
             PerformLayout();
             Invalidate();
         }
-        public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.HtmlDocument doc)
-        {   
-           
-            _htmlContainer.RefreshHtmlDomChange(doc, _baseCssData); 
+        public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.WebDocument doc)
+        {
+
+            _visualRootBox.RefreshHtmlDomChange(doc, _baseCssData);
             PerformLayout();
             Invalidate();
         }
         public RootVisualBox GetHtmlContainer()
         {
-            return this._htmlContainer;
+            return this._visualRootBox;
         }
 
 
@@ -270,7 +286,7 @@ namespace HtmlRenderer
         /// <returns>generated html</returns>
         public string GetHtml()
         {
-            return _htmlContainer != null ? _htmlContainer.GetHtml() : null;
+            return _visualRootBox != null ? _visualRootBox.GetHtml() : null;
         }
 
 
@@ -305,7 +321,7 @@ namespace HtmlRenderer
             base.OnLayout(levent);
 
             // to handle if vertical scrollbar is appearing or disappearing
-            if (_htmlContainer != null && Math.Abs(_htmlContainer.MaxSize.Width - ClientSize.Width) > 0.1)
+            if (_visualRootBox != null && Math.Abs(_visualRootBox.MaxSize.Width - ClientSize.Width) > 0.1)
             {
                 PerformHtmlLayout();
                 base.OnLayout(levent);
@@ -317,15 +333,15 @@ namespace HtmlRenderer
         /// </summary>
         void PerformHtmlLayout()
         {
-            if (_htmlContainer != null)
+            if (_visualRootBox != null)
             {
-                _htmlContainer.MaxSize = new SizeF(ClientSize.Width, 0);
+                _visualRootBox.MaxSize = new SizeF(ClientSize.Width, 0);
 
                 using (var g = CreateGraphics())
                 {
-                    _htmlContainer.PerformLayout(g);
+                    _visualRootBox.PerformLayout(g);
                 }
-                AutoScrollMinSize = Size.Round(_htmlContainer.ActualSize);
+                AutoScrollMinSize = Size.Round(_visualRootBox.ActualSize);
             }
         }
 
@@ -336,13 +352,13 @@ namespace HtmlRenderer
         {
             base.OnPaint(e);
 
-            if (_htmlContainer != null)
+            if (_visualRootBox != null)
             {
 
-                _htmlContainer.ScrollOffset = AutoScrollPosition;
-                _htmlContainer.PhysicalViewportBound = this.Bounds;
+                _visualRootBox.ScrollOffset = AutoScrollPosition;
+                _visualRootBox.PhysicalViewportBound = this.Bounds;
 
-                _htmlContainer.PerformPaint(e.Graphics);
+                _visualRootBox.PerformPaint(e.Graphics);
 
                 // call mouse move to handle paint after scroll or html change affecting mouse cursor.
                 //var mp = PointToClient(MousePosition);
@@ -537,7 +553,7 @@ namespace HtmlRenderer
         private void UpdateScroll(Point location)
         {
             AutoScrollPosition = location;
-            _htmlContainer.ScrollOffset = AutoScrollPosition;
+            _visualRootBox.ScrollOffset = AutoScrollPosition;
         }
 
         /// <summary>
@@ -566,16 +582,16 @@ namespace HtmlRenderer
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if (_htmlContainer != null)
+            if (_visualRootBox != null)
             {
                 //_htmlContainer.LinkClicked -= OnLinkClicked;
-                _htmlContainer.RenderError -= OnRenderError;
-                _htmlContainer.Refresh -= OnRefresh;
-                _htmlContainer.ScrollChange -= OnScrollChange;
-                _htmlContainer.TextContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
-                _htmlContainer.ImageContentMan.ImageLoadingRequest -= OnImageLoad;
-                _htmlContainer.Dispose();
-                _htmlContainer = null;
+                _visualRootBox.RenderError -= OnRenderError;
+                _visualRootBox.Refresh -= OnRefresh;
+                _visualRootBox.ScrollChange -= OnScrollChange;
+                _visualRootBox.TextContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
+                _visualRootBox.ImageContentMan.ImageLoadingRequest -= OnImageLoad;
+                _visualRootBox.Dispose();
+                _visualRootBox = null;
             }
             base.Dispose(disposing);
         }

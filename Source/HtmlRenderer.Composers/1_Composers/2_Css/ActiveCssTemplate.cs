@@ -157,7 +157,7 @@ namespace HtmlRenderer.Composers
         }
 
 
-        internal void ApplyActiveTemplateForSpecificElementId(HtmlElement element)
+        internal void ApplyActiveTemplateForSpecificElementId(DomElement element)
         {
             var ruleset = activeSheet.GetRuleSetForId(element.AttrElementId);
             if (ruleset != null)

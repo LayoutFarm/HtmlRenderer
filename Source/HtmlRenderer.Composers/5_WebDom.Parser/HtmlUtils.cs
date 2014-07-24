@@ -23,7 +23,7 @@ namespace HtmlRenderer.WebDom.Parser
         /// <summary>
         /// List of html tags that don't have content
         /// </summary>
-        static readonly Dictionary<WellknownHtmlName, byte> noContantTags = new Dictionary<WellknownHtmlName, byte>();
+        static readonly Dictionary<WellknownName, byte> noContantTags = new Dictionary<WellknownName, byte>();
 
         /// <summary>
         /// the html decode only pairs
@@ -36,19 +36,19 @@ namespace HtmlRenderer.WebDom.Parser
         static HtmlDecodeHelper()
         {
 
-            noContantTags.Add(WebDom.WellknownHtmlName.Area, 0);
-            noContantTags.Add(WebDom.WellknownHtmlName.Base, 0);
-            noContantTags.Add(WebDom.WellknownHtmlName.BaseFont, 0);
-            noContantTags.Add(WebDom.WellknownHtmlName.Br, 0);
-            noContantTags.Add(WebDom.WellknownHtmlName.Col, 0);
-            noContantTags.Add(WebDom.WellknownHtmlName.Frame, 0);
-            noContantTags.Add(WebDom.WellknownHtmlName.Hr, 0);
-            noContantTags.Add(WebDom.WellknownHtmlName.Img, 0);
-            noContantTags.Add(WebDom.WellknownHtmlName.Input, 0);
-            noContantTags.Add(WebDom.WellknownHtmlName.IsIndex, 0);
-            noContantTags.Add(WebDom.WellknownHtmlName.Link, 0);
-            noContantTags.Add(WebDom.WellknownHtmlName.Meta, 0);
-            noContantTags.Add(WebDom.WellknownHtmlName.Param, 0);
+            noContantTags.Add(WebDom.WellknownName.Area, 0);
+            noContantTags.Add(WebDom.WellknownName.Base, 0);
+            noContantTags.Add(WebDom.WellknownName.BaseFont, 0);
+            noContantTags.Add(WebDom.WellknownName.Br, 0);
+            noContantTags.Add(WebDom.WellknownName.Col, 0);
+            noContantTags.Add(WebDom.WellknownName.Frame, 0);
+            noContantTags.Add(WebDom.WellknownName.Hr, 0);
+            noContantTags.Add(WebDom.WellknownName.Img, 0);
+            noContantTags.Add(WebDom.WellknownName.Input, 0);
+            noContantTags.Add(WebDom.WellknownName.IsIndex, 0);
+            noContantTags.Add(WebDom.WellknownName.Link, 0);
+            noContantTags.Add(WebDom.WellknownName.Meta, 0);
+            noContantTags.Add(WebDom.WellknownName.Param, 0);
 
 
 
@@ -308,7 +308,7 @@ namespace HtmlRenderer.WebDom.Parser
         /// <returns>true - is single tag, false - otherwise</returns>
         public static bool IsSingleTag(int nameIndex)// HtmlRenderer.Dom.WellknownHtmlTagName tagName)
         {
-            return noContantTags.ContainsKey((WellknownHtmlName)nameIndex); 
+            return noContantTags.ContainsKey((WellknownName)nameIndex); 
         } 
         static int FindIndexOfOrWhitespace(char[] sourceBuffer, int startIndex, int len, char findingChar1)
         {

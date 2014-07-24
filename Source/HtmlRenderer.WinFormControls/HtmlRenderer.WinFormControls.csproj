@@ -43,8 +43,6 @@
     <Compile Include="Events\HtmlRefreshEventArgs.cs" />
     <Compile Include="Events\HtmlRenderErrorEventArgs.cs" />
     <Compile Include="Events\HtmlScrollEventArgs.cs" />
-    <Compile Include="Platform\HtmlClipboardUtils.cs" />
-    <Compile Include="Platform\ClibboardHelper.cs" />
     <Compile Include="Platform\FontsUtils.cs" />
     <Compile Include="Platform\WinRootVisualBox.cs" />
     <Compile Include="HtmlPanel.cs">

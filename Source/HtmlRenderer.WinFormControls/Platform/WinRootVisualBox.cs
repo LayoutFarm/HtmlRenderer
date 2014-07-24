@@ -17,7 +17,8 @@ namespace HtmlRenderer
     public class WinRootVisualBox : RootVisualBox
     {
 
-        HtmlDocument doc;
+
+        WebDocument doc;
         CssActiveSheet activeCssSheet;
         ImageContentManager imageContentManager;
         TextContentManager textContentManager;
@@ -27,7 +28,7 @@ namespace HtmlRenderer
         /// This can occur on document anchor click.
         /// </summary>
         public event EventHandler<HtmlScrollEventArgs> ScrollChange;
-        
+
         bool isRootCreated;
 
         /// <summary>
@@ -46,12 +47,22 @@ namespace HtmlRenderer
         {
 
             this.IsSelectionEnabled = true;
+
             imageContentManager = new ImageContentManager(this);
             textContentManager = new TextContentManager(this);
-
         }
+        /// <summary>
+        /// connect to box composer 
+        /// </summary>
+        public Composers.BoxComposer BoxComposer
+        {
+            get;
+            set;
+        }
+
+
         public override IGraphics GetSampleGraphics()
-        {               
+        {
             return new WinGraphics(Graphics.FromImage(tempBmp), false);
         }
         protected override void RequestRefresh(bool layout)
@@ -88,8 +99,8 @@ namespace HtmlRenderer
                 return this.textContentManager;
             }
         }
-       
-        public void SetHtmlDoc(HtmlRenderer.WebDom.HtmlDocument doc)
+
+        public void SetHtmlDoc(HtmlRenderer.WebDom.WebDocument doc)
         {
             this.doc = doc;
         }
@@ -122,7 +133,7 @@ namespace HtmlRenderer
                     WinHtmlRootVisualBoxExtension.RefreshHtmlDomChange(
                         this,
                         doc,
-                        this.activeCssSheet); 
+                        this.activeCssSheet);
 
                     this.PerformLayout(gfx);
                 }
@@ -176,7 +187,7 @@ namespace HtmlRenderer
                 }
             }
         }
-      
+
         protected override void OnRootDisposed()
         {
 
@@ -198,7 +209,7 @@ namespace HtmlRenderer
         {
             throw new NotSupportedException();
         }
-      
+
         /// <summary>
         /// Is content selection is enabled for the rendered html (default - true).<br/>
         /// If set to 'false' the rendered html will be static only with ability to click on links.

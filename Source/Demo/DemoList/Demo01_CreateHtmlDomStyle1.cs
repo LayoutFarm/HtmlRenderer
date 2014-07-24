@@ -19,7 +19,7 @@ namespace HtmlRenderer.Demo
             //1. create body node             
             // and content 
 
-            HtmlElement body, div, span;
+            DomElement body, div, span;
 
             //style 1
             rootNode.AddChild("body")

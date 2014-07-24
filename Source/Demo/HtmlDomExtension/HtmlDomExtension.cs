@@ -5,25 +5,25 @@ using HtmlRenderer.WebDom;
 namespace HtmlRenderer.Demo
 {
 
-    public delegate void Decorate(HtmlElement h);
+    public delegate void Decorate(DomElement h);
 
     public static class BridgeHtmlExtension
     {
         //level 1
-        public static HtmlElement AddChild(this HtmlElement elem, string elementName)
+        public static DomElement AddChild(this DomElement elem, string elementName)
         {
             var newchild = elem.OwnerDocument.CreateElement(elementName);
             elem.AddChild(newchild);
             return newchild;
         }
-        public static HtmlElement AddChild(this HtmlElement elem, string elementName, out HtmlElement elemExit)
+        public static DomElement AddChild(this DomElement elem, string elementName, out DomElement elemExit)
         {
             var newchild = elem.OwnerDocument.CreateElement(elementName);
             elem.AddChild(newchild);
             elemExit = newchild;
             return newchild;
         }
-        public static HtmlElement AddChild(this HtmlElement elem, string elementName, Decorate d)
+        public static DomElement AddChild(this DomElement elem, string elementName, Decorate d)
         {
             var newchild = elem.OwnerDocument.CreateElement(elementName);
             elem.AddChild(newchild);
@@ -36,7 +36,7 @@ namespace HtmlRenderer.Demo
         }
 
 
-        public static void AddTextContent(this HtmlElement elem, string text)
+        public static void AddTextContent(this DomElement elem, string text)
         {
             var newTextNode = elem.OwnerDocument.CreateTextNode(text.ToCharArray());
             elem.AddChild(newTextNode);
@@ -44,11 +44,11 @@ namespace HtmlRenderer.Demo
         //------------------------------------------------------------------------------
 
         //level 2
-        public static void AttachMouseDownEvent(this HtmlElement elem, HtmlEventHandler hdl)
+        public static void AttachMouseDownEvent(this DomElement elem, HtmlEventHandler hdl)
         {
             elem.AttachEvent(EventName.MouseDown, hdl);
         }
-        public static void AttachMouseUpEvent(this HtmlElement elem, HtmlEventHandler hdl)
+        public static void AttachMouseUpEvent(this DomElement elem, HtmlEventHandler hdl)
         {
             elem.AttachEvent(EventName.MouseUp, hdl);
         }
