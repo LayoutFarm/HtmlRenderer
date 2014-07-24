@@ -12,7 +12,6 @@ namespace HtmlRenderer.SvgDom
 
     public abstract class SvgNode
     {
-
     }
 
 
@@ -21,10 +20,14 @@ namespace HtmlRenderer.SvgDom
         LinkedListNode<SvgElement> linkedNode = null;
         LinkedList<SvgElement> children;
         SvgElement parent;
-        public SvgElement()
-        {
+        object controller;
 
+        public SvgElement(object controller)
+        {
+            this.controller = controller;
         }
+
+
         public SvgElement Parent
         {
             get
@@ -107,79 +110,36 @@ namespace HtmlRenderer.SvgDom
         {
 
         }
-        public virtual bool HitTestCore(Boxes.SvgHitChain svgChain, float x, float y)
+        public virtual bool HitTestCore(SvgHitChain svgChain, float x, float y)
         {
 
             return false;
         }
 
-        //------------------------------------------------------
-        public static void InvokeOnMouseDown(SvgElement elem)
-        {
 
+        //--------------------------------
+        public static object UnsafeGetController(SvgElement elem)
+        {
+            return elem.controller;
         }
-        
 
     }
 
     public class SvgRect : SvgElement
     {
+
+        SvgRectSpec rectSpec;
         Color strokeColor = Color.Transparent;
         Color fillColor = Color.Black;
         //test path
         GraphicsPath _path;
-
-        public SvgRect()
+        public SvgRect(SvgRectSpec rectSpec, object controller)
+            : base(controller)
         {
 
-        }
-        public CssLength X
-        {
-            get;
-            set;
-        }
-        public CssLength Y
-        {
-            get;
-            set;
-        }
-        public CssLength Width
-        {
-            get;
-            set;
-        }
-        public CssLength Height
-        {
-            get;
-            set;
+            this.rectSpec = rectSpec;
         }
 
-        public CssLength CornerRadiusX
-        {
-            get;
-            set;
-        }
-        public CssLength CornerRadiusY
-        {
-            get;
-            set;
-        }
-
-        public Color ActualColor
-        {
-            get { return this.fillColor; }
-            set { this.fillColor = value; }
-        }
-        public Color StrokeColor
-        {
-            get { return this.strokeColor; }
-            set { this.strokeColor = value; }
-        }
-        public CssLength StrokeWidth
-        {
-            get;
-            set;
-        }
         //----------------------------
         public float ActualX
         {
@@ -219,14 +179,18 @@ namespace HtmlRenderer.SvgDom
         //----------------------------
         public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
         {
-            this.ActualX = ConvertToPx(this.X, containerW, emHeight);
-            this.ActualY = ConvertToPx(this.Y, containerW, emHeight);
-            this.ActualWidth = ConvertToPx(this.Width, containerW, emHeight);
-            this.ActualHeight = ConvertToPx(this.Height, containerW, emHeight);
-            this.ActualStrokeWidth = ConvertToPx(this.StrokeWidth, containerW, emHeight);
+            var myspec = this.rectSpec;
+            this.fillColor = myspec.ActualColor;
+            this.strokeColor = myspec.StrokeColor;
 
-            this.ActualCornerRx = ConvertToPx(this.CornerRadiusX, containerW, emHeight);
-            this.ActualCornerRy = ConvertToPx(this.CornerRadiusY, containerW, emHeight);
+            this.ActualX = ConvertToPx(myspec.X, containerW, emHeight);
+            this.ActualY = ConvertToPx(myspec.Y, containerW, emHeight);
+            this.ActualWidth = ConvertToPx(myspec.Width, containerW, emHeight);
+            this.ActualHeight = ConvertToPx(myspec.Height, containerW, emHeight);
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
+
+            this.ActualCornerRx = ConvertToPx(myspec.CornerRadiusX, containerW, emHeight);
+            this.ActualCornerRy = ConvertToPx(myspec.CornerRadiusY, containerW, emHeight);
 
             //update graphic path
             if (this.ActualCornerRx == 0 && this.ActualCornerRy == 0)
@@ -324,7 +288,7 @@ namespace HtmlRenderer.SvgDom
         }
 
 
-        public override bool HitTestCore(Boxes.SvgHitChain svgChain, float x, float y)
+        public override bool HitTestCore(SvgHitChain svgChain, float x, float y)
         {
             if (y >= this.ActualY & y < (this.ActualY + this.ActualHeight))
             {
@@ -337,11 +301,10 @@ namespace HtmlRenderer.SvgDom
             }
             return false;
         }
-
         public override void Paint(Drawing.IGraphics g)
         {
 
-            using (SolidBrush sb = new SolidBrush(this.ActualColor))
+            using (SolidBrush sb = new SolidBrush(this.fillColor))
             {
                 g.FillPath(sb, this._path);
 
@@ -359,23 +322,14 @@ namespace HtmlRenderer.SvgDom
 
         }
 
-
-
-
-
     }
-
-
-
-
-
-
-
-
 
     public class SvgFragment : SvgElement
     {
-
+        public SvgFragment()
+            : base(null)
+        {
+        }
     }
 
 

@@ -88,8 +88,10 @@
     <Compile Include="1_Drawing_TextAndGraphics\ImageBinder.cs" />
     <Compile Include="3_Css\BoxSpec.cs" />
     <Compile Include="3_Css\BoxSpec_CopyAndVersioning.cs" />
-    <Compile Include="6_SVG\SvgBoxes.cs" />
+    <Compile Include="6_SVG\SvgHitChain.cs" />
+    <Compile Include="5_Boxes_SpecialBoxes\CssBoxSvgRoot.cs" />
     <Compile Include="6_SVG\SvgElements.cs" />
+    <Compile Include="6_SVG\SvgRectSpec.cs" />
     <Compile Include="9_Diagnostics\DeprecatedAttribute.cs" />
     <Compile Include="9_Diagnostics\HtmlGenerator.cs" />
     <Compile Include="Platform\Delegates.cs" />
@@ -103,10 +105,10 @@
     <Compile Include="3_Css\CssProps.cs" />
     <Compile Include="4_Boxes\2_Runs\CssTextRun.cs" />
     <Compile Include="4_Boxes\2_Runs\CssImageRun.cs" />
-    <Compile Include="5_Boxes_SpecialHtmlElements\CssBoxFrame.cs" />
-    <Compile Include="5_Boxes_SpecialHtmlElements\CssBoxHr.cs" />
+    <Compile Include="5_Boxes_SpecialBoxes\CssBoxFrame.cs" />
+    <Compile Include="5_Boxes_SpecialBoxes\CssBoxHr.cs" />
     <Compile Include="4_Boxes\1_CoreBox\CssBox.cs" />
-    <Compile Include="5_Boxes_SpecialHtmlElements\CssBoxImage.cs" />
+    <Compile Include="5_Boxes_SpecialBoxes\CssBoxImage.cs" />
     <Compile Include="4_Boxes\2_Runs\CssRun.cs" />
     <Compile Include="4_Boxes\1_CoreBox\CssBox_Spec_ReadOnly.cs" />
     <Compile Include="4_Boxes\3_Layout\CssLayoutEngine.cs" />

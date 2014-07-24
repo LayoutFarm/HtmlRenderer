@@ -798,7 +798,7 @@ namespace HtmlRenderer.Composers
 
         static void AssignSvgAttributes(HtmlElement tag)
         {
-            SvgDom.SvgCreator.TranslateSvgAttributesMain(tag); 
+            SvgCreator.TranslateSvgAttributesMain(tag);
         }
         static void AssignStylesFromTranslatedAttributesHTML5(HtmlElement tag)
         {

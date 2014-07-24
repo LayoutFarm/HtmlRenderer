@@ -5,21 +5,23 @@ using System;
 using System.Collections.Generic;
 using HtmlRenderer.Drawing;
 using HtmlRenderer.Boxes;
-using HtmlRenderer.Css; 
+using HtmlRenderer.Css;
 using HtmlRenderer.Composers;
 using HtmlRenderer.Composers.BridgeHtml;
 
-namespace HtmlRenderer.SvgDom
+using HtmlRenderer.SvgDom;
+using HtmlRenderer.WebDom;
+namespace HtmlRenderer.Composers.BridgeHtml
 {
     static class SvgCreator
     {
 
-        public static SvgRootBox CreateSvgBox(CssBox parentBox,
+        public static CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
             HtmlElement elementNode,
             Css.BoxSpec spec)
         {
             SvgFragment fragment = new SvgFragment();
-            SvgRootBox rootBox = new SvgRootBox(parentBox,
+            CssBoxSvgRoot rootBox = new CssBoxSvgRoot(parentBox,
                 elementNode,
                 elementNode.Spec,
                 fragment);
@@ -49,40 +51,13 @@ namespace HtmlRenderer.SvgDom
         }
         static void CreateSvgRect(SvgElement parentNode, HtmlElement elem)
         {
-            SvgRect rect = new SvgRect();
+
+            SvgRectSpec rectSpec = new SvgRectSpec();
+            SvgRect rect = new SvgRect(rectSpec, elem);
             //translate attribute
-            TranslateSvgRectAttributes(rect, elem);
+            TranslateSvgRectAttributes(rectSpec, elem);
             parentNode.AddChild(rect);
         }
-        //public static void GenerateChildBoxes(SvgElement parentSVG, HtmlElement parentElement)
-        //{
-
-        //    int j = parentElement.ChildrenCount;
-        //    for (int i = 0; i < j; ++i)
-        //    {
-        //        HtmlElement node = parentElement.GetChildNode(i) as HtmlElement;
-
-
-        //        if (node == null)
-        //        {
-        //            continue;
-        //        }
-        //        node.WellknownElementName = UserMapUtil.EvaluateTagName(node.LocalName);
-        //        switch (node.WellknownElementName)
-        //        {
-        //            case WellKnownDomNodeName.svg_rect:
-        //                {
-        //                    SvgRect rect = new SvgRect();
-        //                    //translate attribute to real value
-        //                    TranslateSvgAttributes(rect, node);
-        //                } break;
-        //            default:
-        //                {
-
-        //                } break;
-        //        }
-        //    }
-        //}
 
         public static void TranslateSvgAttributesMain(HtmlElement elem)
         {
@@ -119,7 +94,7 @@ namespace HtmlRenderer.SvgDom
             //    }
             //}
         }
-        public static void TranslateSvgRectAttributes(SvgRect rect, HtmlElement elem)
+        public static void TranslateSvgRectAttributes(SvgRectSpec rectSpec, HtmlElement elem)
         {
 
             foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
@@ -130,42 +105,42 @@ namespace HtmlRenderer.SvgDom
                 {
                     case WebDom.WellknownName.Svg_X:
                         {
-                            rect.X = UserMapUtil.ParseGenericLength(attr.Value);
+                            rectSpec.X = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
                     case WebDom.WellknownName.Svg_Y:
                         {
-                            rect.Y = UserMapUtil.ParseGenericLength(attr.Value);
+                            rectSpec.Y = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
                     case WebDom.WellknownName.Width:
                         {
-                            rect.Width = UserMapUtil.ParseGenericLength(attr.Value);
+                            rectSpec.Width = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
                     case WebDom.WellknownName.Height:
                         {
-                            rect.Height = UserMapUtil.ParseGenericLength(attr.Value);
+                            rectSpec.Height = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
                     case WebDom.WellknownName.Svg_Fill:
                         {
-                            rect.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                            rectSpec.ActualColor = CssValueParser.GetActualColor(attr.Value);
                         } break;
                     case WebDom.WellknownName.Svg_Stroke:
                         {
-                            rect.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                            rectSpec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
                         } break;
                     case WebDom.WellknownName.Svg_Stroke_Width:
                         {
-                            rect.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
+                            rectSpec.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
                     case WebDom.WellknownName.Svg_Rx:
                         {
-                            rect.CornerRadiusX = UserMapUtil.ParseGenericLength(attr.Value);
+                            rectSpec.CornerRadiusX = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
                     case WebDom.WellknownName.Svg_Ry:
                         {
-                            rect.CornerRadiusY = UserMapUtil.ParseGenericLength(attr.Value);
+                            rectSpec.CornerRadiusY = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
                     case WebDom.WellknownName.Svg_Transform:
-                        {   
+                        {
                             //TODO: parse svg transform function 
 
 
@@ -175,6 +150,37 @@ namespace HtmlRenderer.SvgDom
                             //other attrs
                         } break;
 
+                }
+            }
+        }
+    }
+
+    static class SvgElementPortal
+    {
+
+        public static void HandleSvgMouseDown(CssBoxSvgRoot svgBox, HtmlEventArgs e)
+        {
+
+            SvgHitChain hitChain = new SvgHitChain();
+            svgBox.HitTestCore(hitChain, e.X, e.Y); 
+            PropagateEventOnBubblingPhase(hitChain, e);
+        }
+
+        static void PropagateEventOnBubblingPhase(SvgHitChain hitChain, HtmlEventArgs eventArgs)
+        {
+            int hitCount = hitChain.Count;
+            //then propagate
+            for (int i = hitCount - 1; i >= 0; --i)
+            {
+                SvgHitInfo hitInfo = hitChain.GetHitInfo(i);
+                SvgDom.SvgElement svg = hitInfo.svg;
+                if (svg != null)
+                {
+                    BridgeHtml.HtmlElement elem = SvgDom.SvgElement.UnsafeGetController(hitInfo.svg) as BridgeHtml.HtmlElement;
+                    if (elem != null)
+                    {
+                        elem.DispatchEvent(eventArgs);
+                    }
                 }
             }
         }

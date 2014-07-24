@@ -282,7 +282,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                     {
                         //1. create svg container node
                         alreadyHandleChildrenNodes = true;
-                        return SvgDom.SvgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
+                        return  SvgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
                     }
                 //---------------------------------------------------
                 default:

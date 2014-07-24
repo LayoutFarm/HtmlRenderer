@@ -15,8 +15,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
         CssBox principalBox;
         Css.BoxSpec boxSpec;
-        CssRuleSet elementRuleSet;
-
+        CssRuleSet elementRuleSet; 
         public HtmlElement(BridgeHtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
@@ -117,34 +116,23 @@ namespace HtmlRenderer.Composers.BridgeHtml
         }
         //------------------------------------
         protected override void OnMouseDown(HtmlEventArgs e)
-        {   
+        {
 
 
             var box = this.GetPrincipalBox();
             if (box != null)
             {
-
-                SvgRootBox svgBox = box as SvgRootBox;
+                 
+                CssBoxSvgRoot svgBox = box as CssBoxSvgRoot;
                 if (svgBox != null)
                 {
-                    SvgHitChain hitChain = new SvgHitChain();
-                    svgBox.HitTestCore(hitChain, e.X, e.Y);
+                    SvgElementPortal.HandleSvgMouseDown(svgBox, e);
 
-                    PropagateEventOnBubblingPhase(hitChain, e);
                 }
             }
             base.OnMouseDown(e);
         }
-        static void PropagateEventOnBubblingPhase(SvgHitChain hitChain, HtmlEventArgs eventArgs)
-        {
-            int hitCount = hitChain.Count;
-            //then propagate
-            for (int i = hitCount - 1; i >= 0; --i)
-            {
-                SvgHitInfo hitInfo = hitChain.GetHitInfo(i);
-                
-            }
-        }
+        
     }
 
     sealed class RootElement : HtmlElement
