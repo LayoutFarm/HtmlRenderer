@@ -21,11 +21,12 @@ namespace HtmlRenderer.Composers.BridgeHtml
             Css.BoxSpec spec)
         {
             SvgFragment fragment = new SvgFragment();
-            CssBoxSvgRoot rootBox = new CssBoxSvgRoot(parentBox,
+            CssBoxSvgRoot rootBox = new CssBoxSvgRoot(
                 elementNode,
                 elementNode.Spec,
-                fragment);
-            //generate its child 
+                fragment); 
+            parentBox.AppendChild(rootBox);
+            
 
             int j = elementNode.ChildrenCount;
             for (int i = 0; i < j; ++i)
@@ -162,7 +163,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         {
 
             SvgHitChain hitChain = new SvgHitChain();
-            svgBox.HitTestCore(hitChain, e.X, e.Y); 
+            svgBox.HitTestCore(hitChain, e.X, e.Y);
             PropagateEventOnBubblingPhase(hitChain, e);
         }
 

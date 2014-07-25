@@ -29,10 +29,11 @@ namespace HtmlRenderer.Boxes
     /// </summary>
     public sealed class BoxUtils
     {
-        public static CssBox CreateAnonInline(CssBox parent)
+        public static CssBox AddNewAnonInline(CssBox parent)
         {
             var spec = CssBox.UnsafeGetBoxSpec(parent);
-            var newBox = new CssBox(parent, null, spec.GetAnonVersion());
+            var newBox = new CssBox( null, spec.GetAnonVersion());
+            parent.AppendChild(newBox);
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
             return newBox;
         }
@@ -49,7 +50,7 @@ namespace HtmlRenderer.Boxes
 
                 hitChain.AddHit(box, (int)boxHitLocalX, (int)boxHitLocalY);
                 hitChain.PushContextBox(box);
- 
+
                 if (box.LineBoxCount > 0)
                 {
 
@@ -126,7 +127,8 @@ namespace HtmlRenderer.Boxes
         internal static CssBox CreateAnonBlock(CssBox parent, CssBox insertBefore)
         {
             var spec = CssBox.UnsafeGetBoxSpec(parent);
-            var newBox = new CssBox(parent, null, spec.GetAnonVersion());
+            var newBox = new CssBox(null, spec.GetAnonVersion());
+            parent.AppendChild(newBox);
             var boxCollection = CssBox.UnsafeGetChildren(parent);
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Block);
             boxCollection.Remove(newBox);

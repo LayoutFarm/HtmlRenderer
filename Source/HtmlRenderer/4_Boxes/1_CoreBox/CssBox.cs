@@ -48,44 +48,31 @@ namespace HtmlRenderer.Boxes
         static int dbugTotalId;
         public int dbugMark;
 #endif
-
-        public CssBox(CssBox parentBox, object controller, Css.BoxSpec spec)
+ 
+    
+        public CssBox(object controller, Css.BoxSpec spec) 
         {
-
             this._aa_boxes = new CssBoxCollection();
-
-            if (parentBox != null)
-            {
-                parentBox.AppendChild(this);
-            }
-
-            this._controller = controller;
+            this._controller = controller; 
 #if DEBUG
             if (!spec.IsFreezed)
             {
                 //must be freezed
                 throw new NotSupportedException();
             }
-#endif
+#endif   
 
             //assign spec 
             this._myspec = spec;
-
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
 
         }
-        public CssBox(CssBox parentBox, object controller, Css.BoxSpec spec, Css.CssDisplay fixDisplayType)
+        public CssBox(object controller, Css.BoxSpec spec, Css.CssDisplay fixDisplayType) 
         {
-
             this._aa_boxes = new CssBoxCollection();
+            this._controller = controller; 
 
-            if (parentBox != null)
-            {
-                parentBox.AppendChild(this);
-
-            }
-            this._controller = controller;
 #if DEBUG
             if (!spec.IsFreezed)
             {
@@ -101,6 +88,8 @@ namespace HtmlRenderer.Boxes
             this._myspec = spec;
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
+
+
         }
         /// <summary>
         /// Gets the parent box of this box

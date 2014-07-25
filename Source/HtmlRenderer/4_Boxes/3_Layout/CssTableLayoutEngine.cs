@@ -249,11 +249,12 @@ namespace HtmlRenderer.Boxes
                                 CssBox lowerRow = bodyrows[i];
                                 if (FindVerticalCellSpacingBoxInsertionPoint(lowerRow, grid_index, out insertAt))
                                 {
-                                    lowerRow.InsertChild(insertAt,
-                                        new CssVerticalCellSpacingBox(
-                                            _tableBox,
-                                            ifonts,
-                                            cnode, rIndex));
+
+                                    var verticalCellSpacingBox = new CssVerticalCellSpacingBox(cnode, rIndex); 
+                                    verticalCellSpacingBox.ReEvaluateComputedValues(ifonts, _tableBox);
+                                    CssBox.ChangeDisplayType(verticalCellSpacingBox, Css.CssDisplay.None); 
+
+                                    lowerRow.InsertChild(insertAt, verticalCellSpacingBox);
                                 }
                             }
                         }
@@ -914,10 +915,10 @@ namespace HtmlRenderer.Boxes
                     {
                         linebox.OffsetTop(dist);
                         linebox = linebox.NextLine;
-                    } 
+                    }
                 }
                 else
-                {   
+                {
                     foreach (CssBox b in cell.GetChildBoxIter())
                     {
                         b.OffsetLocalTop(dist);

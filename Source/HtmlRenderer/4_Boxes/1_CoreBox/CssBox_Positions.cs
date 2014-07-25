@@ -187,7 +187,7 @@ namespace HtmlRenderer.Boxes
             }
             else
             {
-                throw new NotSupportedException();
+                ReEvaluateFont(iFonts, containingBlock.ActualFont.Size);
                 //this._actualFont = this.Spec.GetFont(containingBlock.Spec);
             }
 
@@ -328,7 +328,7 @@ namespace HtmlRenderer.Boxes
                     + CssValueParser.ConvertToPx(spec.WordSpacing, 1, this);
             }
 
-           
+
 
             //---------------------------------------------- 
             this._boxCompactFlags = tmpBoxCompactFlags;

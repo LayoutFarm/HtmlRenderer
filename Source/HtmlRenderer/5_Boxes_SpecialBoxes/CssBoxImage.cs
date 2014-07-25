@@ -29,15 +29,15 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// the image word of this image box
         /// </summary>
-        readonly CssImageRun _imgRun; 
+        readonly CssImageRun _imgRun;
 
         /// <summary>
         /// Init.
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxImage(CssBox parent, object tag, Css.BoxSpec boxSpec, ImageBinder binder)
-            : base(parent, tag, boxSpec)
+        public CssBoxImage(object tag, Css.BoxSpec boxSpec, ImageBinder binder)
+            : base(tag, boxSpec)
         {
 
             this._imgRun = new CssImageRun();
@@ -198,7 +198,7 @@ namespace HtmlRenderer.Boxes
         }
         #region Private methods
 
-       
+
 
 
         #endregion
