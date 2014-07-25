@@ -87,6 +87,50 @@ namespace HtmlRenderer.Boxes
 
 
 
+        static void GetBorderBorderDrawingInfo(CssBox box,
+            CssSide borderSide,
+            out CssBorderStyle borderStyle,
+            out Color borderColor,
+            out float actualBorderWidth)
+        {
+            switch (borderSide)
+            {
+                case CssSide.Top:
+
+                    actualBorderWidth = box.ActualBorderTopWidth;
+                    borderStyle = box.BorderTopStyle;
+                    borderColor = (borderStyle == CssBorderStyle.Inset) ?
+                                    Darken(box.BorderTopColor) :
+                                    box.BorderTopColor;
+                    break;
+                case CssSide.Left:
+                    actualBorderWidth = box.ActualBorderLeftWidth;
+                    borderStyle = box.BorderLeftStyle;
+                    borderColor = (borderStyle == CssBorderStyle.Inset) ?
+                                    Darken(box.BorderLeftColor) :
+                                    box.BorderLeftColor;
+                    break;
+                case CssSide.Right:
+                    actualBorderWidth = box.ActualBorderRightWidth;
+                    borderStyle = box.BorderRightStyle;
+                    borderColor = (borderStyle == CssBorderStyle.Outset) ?
+                                    Darken(box.BorderRightColor) :
+                                    box.BorderRightColor;
+
+                    break;
+                case CssSide.Bottom:
+                    actualBorderWidth = box.ActualBorderTopWidth;
+                    borderStyle = box.BorderBottomStyle;
+                    borderColor = (borderStyle == CssBorderStyle.Outset) ?
+                                    Darken(box.BorderBottomColor) :
+                                    box.BorderBottomColor;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException("border");
+            }
+
+        }
 
 
         /// <summary>
@@ -102,34 +146,31 @@ namespace HtmlRenderer.Boxes
             Painter p, RectangleF rect, bool isLineStart, bool isLineEnd)
         {
 
-            //------------------------------------------------------
-            BoxSpec boxspec = CssBox.UnsafeGetBoxSpec(box);
+            float actualBorderWidth;
+            Color borderColor;
+            CssBorderStyle style;
+            GetBorderBorderDrawingInfo(box, borderSide, out style, out borderColor, out actualBorderWidth);
 
-            CssBorderStyle style = GetBorderStyle(borderSide, box);
-            var color = GetBorderColor(borderSide, box, style);
-            GraphicsPath borderPath = null;
-
-            if (box.HasSomeRoundCorner)
-            {
-                borderPath = GetRoundedBorderPath(borderSide, box, rect);
-            }
 
             IGraphics g = p.Gfx;
-            if (borderPath != null)
+            if (box.HasSomeRoundCorner)
             {
-                // rounded border need special path 
-                var smooth = g.SmoothingMode;
-                if (!p.AvoidGeometryAntialias && box.HasSomeRoundCorner)
+                GraphicsPath borderPath = GetRoundedBorderPath(borderSide, box, rect);
+                if (borderPath != null)
                 {
-                    g.SmoothingMode = SmoothingMode.AntiAlias;
+                    // rounded border need special path 
+                    var smooth = g.SmoothingMode;
+                    if (!p.AvoidGeometryAntialias && box.HasSomeRoundCorner)
+                    {
+                        g.SmoothingMode = SmoothingMode.AntiAlias;
+                    }
+                    var pen = GetPen(style, borderColor, actualBorderWidth);
+                    using (borderPath)
+                    {
+                        g.DrawPath(pen, borderPath);
+                    }
+                    g.SmoothingMode = smooth;
                 }
-                var pen = GetPen(style, color, GetWidth(borderSide, box));
-                using (borderPath)
-                {
-                    g.DrawPath(pen, borderPath);
-                }
-
-                g.SmoothingMode = smooth;
             }
             else
             {
@@ -143,12 +184,13 @@ namespace HtmlRenderer.Boxes
                             PointF[] borderPnts = new PointF[4];
 
                             SetInOutsetRectanglePoints(borderSide, box, rect, isLineStart, isLineEnd, borderPnts);
-                            g.FillPolygon(RenderUtils.GetSolidBrush(color), borderPnts);
+
+                            g.FillPolygon(RenderUtils.GetSolidBrush(borderColor), borderPnts);
                         } break;
                     default:
                         {
                             // solid/dotted/dashed border draw as simple line
-                            var pen = GetPen(style, color, GetWidth(borderSide, box));
+                            var pen = GetPen(style, borderColor, actualBorderWidth);
                             switch (borderSide)
                             {
                                 case CssSide.Top:
@@ -349,65 +391,8 @@ namespace HtmlRenderer.Boxes
             return p;
         }
 
-        /// <summary>
-        /// Get the border color for the given box border.
-        /// </summary>
-        static Color GetBorderColor(CssSide border, CssBox box, CssBorderStyle style)
-        {
-            switch (border)
-            {
-                case CssSide.Top:
-                    return style == CssBorderStyle.Inset ? Darken(box.BorderTopColor) : box.BorderTopColor;
-                case CssSide.Right:
-                    return style == CssBorderStyle.Outset ? Darken(box.BorderRightColor) : box.BorderRightColor;
-                case CssSide.Bottom:
-                    return style == CssBorderStyle.Outset ? Darken(box.BorderBottomColor) : box.BorderBottomColor;
-                case CssSide.Left:
-                    return style == CssBorderStyle.Inset ? Darken(box.BorderLeftColor) : box.BorderLeftColor;
-                default:
-                    throw new ArgumentOutOfRangeException("border");
-            }
-        }
 
-        /// <summary>
-        /// Get the border width for the given box border.
-        /// </summary>
-        static float GetWidth(CssSide border, CssBox box)
-        {
-            switch (border)
-            {
-                case CssSide.Top:
-                    return box.ActualBorderTopWidth;
-                case CssSide.Right:
-                    return box.ActualBorderRightWidth;
-                case CssSide.Bottom:
-                    return box.ActualBorderBottomWidth;
-                case CssSide.Left:
-                    return box.ActualBorderLeftWidth;
-                default:
-                    throw new ArgumentOutOfRangeException("border");
-            }
-        }
 
-        /// <summary>
-        /// Get the border style for the given box border.
-        /// </summary>
-        static CssBorderStyle GetBorderStyle(CssSide border, CssBox box)
-        {
-            switch (border)
-            {
-                case CssSide.Top:
-                    return box.BorderTopStyle;
-                case CssSide.Right:
-                    return box.BorderRightStyle;
-                case CssSide.Bottom:
-                    return box.BorderBottomStyle;
-                case CssSide.Left:
-                    return box.BorderLeftStyle;
-                default:
-                    throw new ArgumentOutOfRangeException("border");
-            }
-        }
 
         /// <summary>
         /// Makes the specified color darker for inset/outset borders.
