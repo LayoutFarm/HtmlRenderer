@@ -25,8 +25,7 @@ namespace HtmlRenderer.Boxes
         {
 
 
-            private readonly CssBox _extendedBox;
-
+            private readonly CssBox _extendedBox; 
             /// <summary>
             /// the index of the row where box ends
             /// </summary>
@@ -37,8 +36,7 @@ namespace HtmlRenderer.Boxes
             {
                 _extendedBox = extendedBox;
                 this.SetRowSpanAndColSpan(1, 1);
-                _endRow = startRow + extendedBox.RowSpan - 1;
-
+                _endRow = startRow + extendedBox.RowSpan - 1; 
             }
 
             public CssBox ExtendedBox

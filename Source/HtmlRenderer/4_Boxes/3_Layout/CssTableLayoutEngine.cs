@@ -1277,11 +1277,8 @@ namespace HtmlRenderer.Boxes
 
                     gridIndex += cellBox.ColSpan;
                 }
-            }
-
-        }
-
-
+            } 
+        } 
 
         /// <summary>
         /// Gets the actual horizontal spacing of the table

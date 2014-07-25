@@ -188,12 +188,8 @@ namespace HtmlRenderer.Boxes
                             g.SetCanvasOrigin(ox + b.LocalX, oy + b.LocalY);
                             b.Paint(g, p);
                             node = node.Next;
-                        }
-
-
-                        g.SetCanvasOrigin(ox, oy);
-
-
+                        } 
+                        g.SetCanvasOrigin(ox, oy); 
                         p.PopContainingBlock();
                     }
                     else

@@ -437,12 +437,18 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
         public static CssBox CreateListItemBox(CssBox parent, HtmlElement childElement)
         {
+
+
             var spec = childElement.Spec;
-            var newBox = new CssBox(childElement, spec);
+            var newBox = new CssBoxListItem(childElement, spec);
+
             parent.AppendChild(newBox);
+
             if (spec.ListStyleType != CssListStyleType.None)
             {
+
                 //create sub item collection
+                
                 var subBoxs = new SubBoxCollection();
                 newBox.SubBoxes = subBoxs;
                 var itemBulletBox = new CssBox(null, spec.GetAnonVersion());

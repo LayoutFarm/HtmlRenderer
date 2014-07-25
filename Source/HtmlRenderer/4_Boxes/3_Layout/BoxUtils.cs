@@ -32,7 +32,8 @@ namespace HtmlRenderer.Boxes
         public static CssBox AddNewAnonInline(CssBox parent)
         {
             var spec = CssBox.UnsafeGetBoxSpec(parent);
-            var newBox = new CssBox( null, spec.GetAnonVersion());
+            var newBox = new CssBox(null, spec.GetAnonVersion());
+
             parent.AppendChild(newBox);
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
             return newBox;
@@ -124,17 +125,7 @@ namespace HtmlRenderer.Boxes
             return false;
         }
 
-        internal static CssBox CreateAnonBlock(CssBox parent, CssBox insertBefore)
-        {
-            var spec = CssBox.UnsafeGetBoxSpec(parent);
-            var newBox = new CssBox(null, spec.GetAnonVersion());
-            parent.AppendChild(newBox);
-            var boxCollection = CssBox.UnsafeGetChildren(parent);
-            CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Block);
-            boxCollection.Remove(newBox);
-            boxCollection.InsertBefore(parent, insertBefore, newBox);
-            return newBox;
-        }
+       
 
         internal static CssBox GetNextSibling(CssBox a)
         {

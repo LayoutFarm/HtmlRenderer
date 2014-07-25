@@ -310,8 +310,8 @@ namespace HtmlRenderer.Boxes
 
             }
 
-           
-            hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth); 
+
+            hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
             if (hostBlock.Overflow == CssOverflow.Hidden &&
                 !hostBlock.Height.IsEmptyOrAuto &&
                 hostBlock.SizeHeight > hostBlock.ExpectedHeight)
@@ -345,7 +345,7 @@ namespace HtmlRenderer.Boxes
                     //inline correction on-the-fly ! 
                     //1. collect consecutive inlinebox
                     //   and move to new anon box
-                    CssBox anoForInline = BoxUtils.CreateAnonBlock(box, childBox);
+                    CssBox anoForInline = CreateAnonBlock(box, childBox);
                     anoForInline.ReEvaluateComputedValues(lay.Gfx, box);
 
                     var tmp = cnode.Next;
@@ -362,7 +362,6 @@ namespace HtmlRenderer.Boxes
                                 tmp = tmp.Next;
                                 if (tmp == null)
                                 {
-
                                     children.Remove(childBox);
                                     anoForInline.AppendChild(childBox);
                                     break;
@@ -439,7 +438,15 @@ namespace HtmlRenderer.Boxes
                 box.ActualPaddingRight + box.ActualBorderRightWidth);
         }
 
+        static CssBox CreateAnonBlock(CssBox parent, CssBox insertBefore)
+        {   
+            //auto gen by layout engine ***
 
+            var newBox = new CssBox(null, CssBox.UnsafeGetBoxSpec(parent).GetAnonVersion()); 
+            CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Block); 
+            parent.InsertChild(insertBefore, newBox); 
+            return newBox;
+        }
 
 #if DEBUG
         static int dbugPassTotal = 0;
@@ -510,7 +517,7 @@ namespace HtmlRenderer.Boxes
                         FlowRunsIntoHost(lay, hostBox, splitableBox, b, childNumber,
                          limitLocalRight, firstRunStartX,
                          leftMostSpace, rightMostSpace,
-                         ref hostLine, ref cx); 
+                         ref hostLine, ref cx);
                     }
                     else
                     {
