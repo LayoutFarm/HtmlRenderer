@@ -94,7 +94,7 @@ namespace HtmlRenderer.Boxes
         {
             get { return this.BorderCollapse == CssBorderCollapse.Collapse; }
         }
-        
+
         //------------------------------------------------------ 
         public CssLength Left
         {
@@ -145,7 +145,7 @@ namespace HtmlRenderer.Boxes
             get { return this._myspec.ActualBackgroundGradientAngle; }
         }
 
-        public CssEmptyCell EmptyCells
+        CssEmptyCell EmptyCells
         {
             get { return this._myspec.EmptyCells; }
         }

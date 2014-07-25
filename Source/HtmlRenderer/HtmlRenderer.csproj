@@ -70,7 +70,6 @@
     <Compile Include="4_Boxes\4_Animation\ArtParallelTimeline.cs" />
     <Compile Include="1_Drawing_TextAndGraphics\FontDefaultConfig.cs" />
     <Compile Include="4_Boxes\1_CoreBox\CssBox_Spec_Snap.cs" />
-    <Compile Include="4_Boxes\1_CoreBox\SubBoxCollection.cs" />
     <Compile Include="4_Boxes\2_Runs\CssBlockRun.cs" />
     <Compile Include="4_Boxes\7_HitAndSelections\BoxHitChain.cs" />
     <Compile Include="4_Boxes\1_CoreBox\CssBox_BoxFlags.cs" />

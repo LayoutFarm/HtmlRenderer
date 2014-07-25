@@ -450,10 +450,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
                 //create sub item collection
                 
-                var subBoxs = new SubBoxCollection();
-                newBox.SubBoxes = subBoxs;
+                 
                 var itemBulletBox = new CssBox(null, spec.GetAnonVersion());
-                subBoxs.ListItemBulletBox = itemBulletBox;
+                newBox.BulletBox = itemBulletBox;
+                 
 
                 CssBox.UnsafeSetParent(itemBulletBox, newBox);
                 CssBox.ChangeDisplayType(itemBulletBox, CssDisplay.Inline);

@@ -48,13 +48,13 @@ namespace HtmlRenderer.Boxes
         static int dbugTotalId;
         public int dbugMark;
 #endif
- 
-    
-        public CssBox(object controller, Css.BoxSpec spec) 
+
+
+        public CssBox(object controller, Css.BoxSpec spec)
         {
 
             this._aa_boxes = new CssBoxCollection();
-            this._controller = controller; 
+            this._controller = controller;
 
 #if DEBUG
             if (!spec.IsFreezed)
@@ -62,7 +62,7 @@ namespace HtmlRenderer.Boxes
                 //must be freezed
                 throw new NotSupportedException();
             }
-#endif   
+#endif
 
             //assign spec 
             this._myspec = spec;
@@ -70,10 +70,10 @@ namespace HtmlRenderer.Boxes
             ChangeDisplayType(this, _myspec.CssDisplay);
 
         }
-        public CssBox(object controller, Css.BoxSpec spec, Css.CssDisplay fixDisplayType) 
+        public CssBox(object controller, Css.BoxSpec spec, Css.CssDisplay fixDisplayType)
         {
             this._aa_boxes = new CssBoxCollection();
-            this._controller = controller; 
+            this._controller = controller;
 
 #if DEBUG
             if (!spec.IsFreezed)
@@ -93,7 +93,7 @@ namespace HtmlRenderer.Boxes
 
 
         }
-       
+
         /// <summary>
         /// Gets the parent box of this box
         /// </summary>
@@ -192,7 +192,7 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// Tells if the box is empty or contains just blank spaces
         /// </summary>
-        public bool IsSpaceOrEmpty
+        bool IsSpaceOrEmpty
         {
             get
             {
@@ -440,11 +440,7 @@ namespace HtmlRenderer.Boxes
             //set height  
             UpdateIfHigher(this, ExpectedHeight);
 
-            if (_subBoxes != null)
-            {
-                //layout
-                _subBoxes.PerformLayout(this, lay);
-            }
+            
             //update back 
             lay.UpdateRootSize(this);
         }

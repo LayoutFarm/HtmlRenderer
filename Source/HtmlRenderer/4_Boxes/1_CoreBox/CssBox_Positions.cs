@@ -316,7 +316,8 @@ namespace HtmlRenderer.Boxes
             {
                 tmpBoxCompactFlags &= ~BoxFlags.OVERFLOW_HIDDEN;
             }
-
+            //-----------------------
+             
 
             if (spec.WordSpacing.IsNormalWordSpacing)
             {
@@ -328,7 +329,7 @@ namespace HtmlRenderer.Boxes
                     + CssValueParser.ConvertToPx(spec.WordSpacing, 1, this);
             }
 
-
+          
 
             //---------------------------------------------- 
             this._boxCompactFlags = tmpBoxCompactFlags;
@@ -339,7 +340,9 @@ namespace HtmlRenderer.Boxes
             this._actualBorderSpacingHorizontal = spec.BorderSpacingHorizontal.Number;
             this._actualBorderSpacingVertical = spec.BorderSpacingVertical.Number;
 
+           
 
+            //-----------------------
             //this._actualLineHeight = 0.9f * CssValueParser.ConvertToPx(LineHeight, this.GetEmHeight(), this);
 
 

@@ -66,10 +66,7 @@ namespace HtmlRenderer.Boxes
         //only in condition 3
         char[] _buffer;
         //----------------------------------------------------    
-        //for other subbox , list item , shadow... 
-        SubBoxCollection _subBoxes;
-        //----------------------------------------------------     
-
+      
 
         internal int RunCount
         {
@@ -181,18 +178,25 @@ namespace HtmlRenderer.Boxes
             get;
             set;
         }
-
-        public SubBoxCollection SubBoxes
+        protected bool HasCustomRenderTechnique
         {
             get
             {
-                return this._subBoxes;
+                return (this._boxCompactFlags & BoxFlags.HAS_CUSTOM_RENDER_TECHNIQUE) != 0;
             }
             set
             {
-                this._subBoxes = value;
+                if (value)
+                {
+                    this._boxCompactFlags |= BoxFlags.HAS_CUSTOM_RENDER_TECHNIQUE;
+                }
+                else
+                {
+                    this._boxCompactFlags &= ~BoxFlags.HAS_CUSTOM_RENDER_TECHNIQUE;
+                }
             }
         }
+ 
 
 
 

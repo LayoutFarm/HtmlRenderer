@@ -64,10 +64,8 @@ namespace HtmlRenderer.Boxes
         protected virtual void PaintImp(IGraphics g, Painter p)
         {
             Css.CssDisplay display = this.CssDisplay;
-
-            if (display != Css.CssDisplay.None &&
-               (display != Css.CssDisplay.TableCell ||
-                this.EmptyCells != Css.CssEmptyCell.Hide || !IsSpaceOrEmpty))
+            if (display != Css.CssDisplay.TableCell ||
+                this.EmptyCells != Css.CssEmptyCell.Hide || !IsSpaceOrEmpty)
             {
 
                 bool hasPrevClip = false;
@@ -188,8 +186,8 @@ namespace HtmlRenderer.Boxes
                             g.SetCanvasOrigin(ox + b.LocalX, oy + b.LocalY);
                             b.Paint(g, p);
                             node = node.Next;
-                        } 
-                        g.SetCanvasOrigin(ox, oy); 
+                        }
+                        g.SetCanvasOrigin(ox, oy);
                         p.PopContainingBlock();
                     }
                     else
@@ -227,12 +225,7 @@ namespace HtmlRenderer.Boxes
                 {
                     p.PopLocalClipArea();
                 }
-                //------------------------------------------   
-                if (_subBoxes != null && _subBoxes.ListItemBulletBox != null)
-                {
-                    _subBoxes.ListItemBulletBox.Paint(g, p);
-                }
-
+                 
             }
         }
 
