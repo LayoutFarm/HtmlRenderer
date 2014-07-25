@@ -59,7 +59,7 @@ namespace HtmlRenderer.SvgDom
             }
         }
 
-        internal LinkedListNode<SvgElement> GetFirstNode()
+        public LinkedListNode<SvgElement> GetFirstNode()
         {
             return this.children.First;
         }
