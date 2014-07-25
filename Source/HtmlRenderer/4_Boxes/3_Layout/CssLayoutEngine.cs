@@ -345,6 +345,7 @@ namespace HtmlRenderer.Boxes
                     //inline correction on-the-fly ! 
                     //1. collect consecutive inlinebox
                     //   and move to new anon box
+                     
                     CssBox anoForInline = CreateAnonBlock(box, childBox);
                     anoForInline.ReEvaluateComputedValues(lay.Gfx, box);
 

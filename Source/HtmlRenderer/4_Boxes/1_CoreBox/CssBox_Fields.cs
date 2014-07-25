@@ -55,8 +55,8 @@ namespace HtmlRenderer.Boxes
         //condition 2: invalid *
         //condition 3: valid 
         List<CssRun> _aa_contentRuns;
-        
-        
+
+
         //condition 1: invalid *
         //condition 2: valid  
         //condition 3: valid  
@@ -69,13 +69,7 @@ namespace HtmlRenderer.Boxes
         //for other subbox , list item , shadow... 
         SubBoxCollection _subBoxes;
         //----------------------------------------------------     
-        /// <summary>
-        /// Gets the childrenn boxes of this box
-        /// </summary>      
-        CssBoxCollection Boxes
-        {
-            get { return _aa_boxes; }
-        }
+
 
         internal int RunCount
         {
@@ -130,23 +124,22 @@ namespace HtmlRenderer.Boxes
         {
             return this._aa_boxes.GetFirstChild();
         }
-
         public void AppendChild(CssBox box)
         {
-            this.Boxes.AddChild(this, box);
+            this._aa_boxes.AddChild(this, box);
         }
         public void InsertChild(CssBox beforeBox, CssBox box)
         {
-            this.Boxes.InsertBefore(this, beforeBox, box);
+            this._aa_boxes.InsertBefore(this, beforeBox, box);
         }
         public void Clear()
         {
             //_aa_contentRuns may come from other data source
             //so just set it to null
             this._aa_contentRuns = null;
-
-            this.Boxes.Clear();
+            this._aa_boxes.Clear();
         }
+
         //-------------------------------------
         internal void ResetLineBoxes()
         {
@@ -210,7 +203,7 @@ namespace HtmlRenderer.Boxes
             {
                 throw new Exception("before box doesn't exist on parent");
             }
-            this._parentBox.Boxes.dbugChangeSiblingIndex(_parentBox, this, siblingIndex);
+            this._parentBox._aa_boxes.dbugChangeSiblingIndex(_parentBox, this, siblingIndex);
         }
 #endif
 

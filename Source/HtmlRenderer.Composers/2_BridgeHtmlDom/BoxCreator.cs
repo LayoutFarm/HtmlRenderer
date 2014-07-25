@@ -113,6 +113,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 default:
                     {
                         CssBox hostBox = HtmlElement.InternalGetPrincipalBox(parentElement);
+
                         CssWhiteSpace ws = parentElement.Spec.WhiteSpace;
                         int childCount = parentElement.ChildrenCount;
 
@@ -183,8 +184,8 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                         else
                                         {
 
-                                            CssBox existing = HtmlElement.InternalGetPrincipalBox(childElement);
-                                            if (existing == null)
+                                            CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(childElement);
+                                            if (existingCssBox == null)
                                             {
                                                 bool alreadyHandleChildrenNode;
                                                 CssBox box = BoxCreator.CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
@@ -197,10 +198,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                             else
                                             {
                                                 //just insert           
-                                                hostBox.AppendChild(existing);
+                                                hostBox.AppendChild(existingCssBox);
                                                 if (!childElement.SkipPrincipalBoxEvalulation)
                                                 {
-                                                    existing.Clear();
+                                                    existingCssBox.Clear();
                                                     GenerateChildBoxes(childElement, fullmode);
                                                     childElement.SkipPrincipalBoxEvalulation = true;
                                                 }

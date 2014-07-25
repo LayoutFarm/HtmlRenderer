@@ -52,8 +52,10 @@ namespace HtmlRenderer.Boxes
     
         public CssBox(object controller, Css.BoxSpec spec) 
         {
+
             this._aa_boxes = new CssBoxCollection();
             this._controller = controller; 
+
 #if DEBUG
             if (!spec.IsFreezed)
             {
@@ -108,11 +110,11 @@ namespace HtmlRenderer.Boxes
         {
             if (this._parentBox != null)
             {
-                this._parentBox.Boxes.Remove(this);
+                this._parentBox._aa_boxes.Remove(this);
             }
             if (parentBox != null)
             {
-                parentBox.Boxes.AddChild(parentBox, this);
+                parentBox._aa_boxes.AddChild(parentBox, this);
             }
         }
 
@@ -194,7 +196,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                if (this.Boxes.Count != 0)
+                if (this._aa_boxes.Count != 0)
                 {
                     return true;
                 }
@@ -612,7 +614,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return this.ParentBox.Boxes.GetLastChild() == this;
+                return this.ParentBox._aa_boxes.GetLastChild() == this;
             }
         }
         /// <summary>
