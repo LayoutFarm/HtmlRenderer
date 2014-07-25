@@ -55,14 +55,14 @@ namespace HtmlRenderer.Boxes
             }
             //// fix for hr tag 
             //var maringTopCollapse = MarginTopCollapse(prevSibling);
-            float localLeft = myContainingBlock.ClientLeft + this.ActualMarginLeft;
+            float localLeft = myContainingBlock.GetClientLeft() + this.ActualMarginLeft;
             float localTop = 0;
 
             if (prevSibling == null)
             {
                 if (this.ParentBox != null)
                 {
-                    localTop = myContainingBlock.ClientTop;
+                    localTop = myContainingBlock.GetClientTop();
                 }
             }
             else

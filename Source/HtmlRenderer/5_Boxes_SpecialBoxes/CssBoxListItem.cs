@@ -27,11 +27,12 @@ namespace HtmlRenderer.Boxes
         }
         protected override void PerformContentLayout(LayoutVisitor lay)
         {
+
             base.PerformContentLayout(lay);
+
              if (_listItemBulletBox != null)
              {
                  //layout list item
-
                  var prevSibling = lay.LatestSiblingBox;
                  lay.LatestSiblingBox = null;//reset
                  _listItemBulletBox.PerformLayout(lay);

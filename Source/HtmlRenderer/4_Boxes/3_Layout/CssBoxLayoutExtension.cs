@@ -5,8 +5,31 @@ namespace HtmlRenderer.Boxes
 
 
     static class CssBoxLayoutExtension
-    { 
-        
+    {
+        //--------------------------------
+        public static float GetClientLeft(this CssBox box)
+        {
+            return box.ActualBorderLeftWidth + box.ActualPaddingLeft;
+        }
+        public static float GetClientRight(this CssBox box)
+        {
+            return box.SizeWidth - box.ActualPaddingRight - box.ActualBorderRightWidth;
+        }
+        //--------------------------------
+        public static float GetClientTop(this CssBox box)
+        {
+            return box.ActualBorderTopWidth + box.ActualPaddingTop;
+        }
+        //------------------------------------------
+        public static float GetClientWidth(this CssBox box)
+        {
+            return box.SizeWidth - (box.ActualBorderLeftWidth +
+                box.ActualPaddingLeft + box.ActualPaddingRight + box.ActualBorderRightWidth);
+        }
+        public static  float GetClientHeight(this CssBox box)
+        {
+            return box.SizeHeight - (box.ActualBorderTopWidth + box.ActualPaddingTop  + box.ActualPaddingBottom + box.ActualBorderBottomWidth);
+        }
         internal static float CalculateInnerContentHeight(this CssBox startBox)
         {
             //calculate inner content height
@@ -29,6 +52,6 @@ namespace HtmlRenderer.Boxes
                 }
                 return maxBottom;
             }
-        } 
+        }
     }
 }

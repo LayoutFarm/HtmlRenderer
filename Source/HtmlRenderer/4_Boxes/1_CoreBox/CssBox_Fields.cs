@@ -66,7 +66,7 @@ namespace HtmlRenderer.Boxes
         //only in condition 3
         char[] _buffer;
         //----------------------------------------------------    
-      
+
 
         internal int RunCount
         {
@@ -133,6 +133,8 @@ namespace HtmlRenderer.Boxes
         {
             //_aa_contentRuns may come from other data source
             //so just set it to null
+
+            this._clientLineBoxes = null;
             this._aa_contentRuns = null;
             this._aa_boxes.Clear();
         }
@@ -196,7 +198,7 @@ namespace HtmlRenderer.Boxes
                 }
             }
         }
- 
+
 
 
 

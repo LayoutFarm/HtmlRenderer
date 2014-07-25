@@ -151,7 +151,7 @@ namespace HtmlRenderer.Boxes
                 //-------------------------------------------
                 if (box.CssDisplay != Css.CssDisplay.Table)
                 {
-                    float availableWidth = myContainingBlock.ClientWidth;
+                    float availableWidth = myContainingBlock.GetClientWidth();
 
                     if (!box.Width.IsEmptyOrAuto)
                     {
@@ -164,7 +164,7 @@ namespace HtmlRenderer.Boxes
                 }
                 //-------------------------------------------
 
-                float localLeft = myContainingBlock.ClientLeft + box.ActualMarginLeft;
+                float localLeft = myContainingBlock.GetClientLeft() + box.ActualMarginLeft;
                 float localTop = 0;
                 var prevSibling = lay.LatestSiblingBox;
 
@@ -173,7 +173,7 @@ namespace HtmlRenderer.Boxes
                     //this is first child of parent
                     if (box.ParentBox != null)
                     {
-                        localTop = myContainingBlock.ClientTop;
+                        localTop = myContainingBlock.GetClientTop();
                     }
                 }
                 else
@@ -345,7 +345,7 @@ namespace HtmlRenderer.Boxes
                     //inline correction on-the-fly ! 
                     //1. collect consecutive inlinebox
                     //   and move to new anon box
-                     
+
                     CssBox anoForInline = CreateAnonBlock(box, childBox);
                     anoForInline.ReEvaluateComputedValues(lay.Gfx, box);
 
@@ -440,12 +440,12 @@ namespace HtmlRenderer.Boxes
         }
 
         static CssBox CreateAnonBlock(CssBox parent, CssBox insertBefore)
-        {   
+        {
             //auto gen by layout engine ***
 
-            var newBox = new CssBox(null, CssBox.UnsafeGetBoxSpec(parent).GetAnonVersion()); 
-            CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Block); 
-            parent.InsertChild(insertBefore, newBox); 
+            var newBox = new CssBox(null, CssBox.UnsafeGetBoxSpec(parent).GetAnonVersion());
+            CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Block);
+            parent.InsertChild(insertBefore, newBox);
             return newBox;
         }
 
@@ -779,7 +779,7 @@ namespace HtmlRenderer.Boxes
             float runWidthSum = 0f;
             int runCount = 0;
 
-            float availableWidth = lineBox.OwnerBox.ClientWidth - indent;
+            float availableWidth = lineBox.OwnerBox.GetClientWidth() - indent;
 
             // Gather text sum
             foreach (CssRun w in lineBox.GetRunIter())
@@ -792,7 +792,7 @@ namespace HtmlRenderer.Boxes
 
             float spaceOfEachRun = (availableWidth - runWidthSum) / runCount; //Spacing that will be used
 
-            float cX = lineBox.OwnerBox.ClientLeft + indent;
+            float cX = lineBox.OwnerBox.GetClientLeft() + indent;
             CssRun lastRun = lineBox.GetLastRun();
             foreach (CssRun run in lineBox.GetRunIter())
             {
@@ -800,7 +800,7 @@ namespace HtmlRenderer.Boxes
                 cX = run.Right + spaceOfEachRun;
                 if (run == lastRun)
                 {
-                    run.Left = lineBox.OwnerBox.ClientRight - run.Width;
+                    run.Left = lineBox.OwnerBox.GetClientRight() - run.Width;
                 }
             }
         }
@@ -815,7 +815,7 @@ namespace HtmlRenderer.Boxes
 
             if (line.WordCount == 0) return;
             CssRun lastRun = line.GetLastRun();
-            float diff = (line.OwnerBox.ClientWidth - lastRun.Right) / 2;
+            float diff = (line.OwnerBox.GetClientWidth() - lastRun.Right) / 2;
             if (diff > CSS_OFFSET_THRESHOLD)
             {
                 foreach (CssRun word in line.GetRunIter())
@@ -838,7 +838,7 @@ namespace HtmlRenderer.Boxes
                 return;
             }
             CssRun lastRun = line.GetLastRun();
-            float diff = line.OwnerBox.ClientWidth - line.GetLastRun().Right;
+            float diff = line.OwnerBox.GetClientWidth() - line.GetLastRun().Right;
             if (diff > CSS_OFFSET_THRESHOLD)
             {
                 foreach (CssRun word in line.GetRunIter())

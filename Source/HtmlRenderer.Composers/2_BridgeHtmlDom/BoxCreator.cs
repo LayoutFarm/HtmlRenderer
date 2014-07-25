@@ -448,12 +448,9 @@ namespace HtmlRenderer.Composers.BridgeHtml
             if (spec.ListStyleType != CssListStyleType.None)
             {
 
-                //create sub item collection
-                
-                 
+                //create sub item collection 
                 var itemBulletBox = new CssBox(null, spec.GetAnonVersion());
-                newBox.BulletBox = itemBulletBox;
-                 
+                newBox.BulletBox = itemBulletBox; 
 
                 CssBox.UnsafeSetParent(itemBulletBox, newBox);
                 CssBox.ChangeDisplayType(itemBulletBox, CssDisplay.Inline);
@@ -487,8 +484,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                             text_content = (BulletNumberFormatter.ConvertToAlphaNumber(GetIndexForList(newBox, childElement), spec.ListStyleType) + ".").ToCharArray();
                         } break;
                 }
-                //---------------------------------------------------------------
-
+                //--------------------------------------------------------------- 
                 CssBox.UnsafeSetTextBuffer(itemBulletBox, text_content);
 
                 List<CssRun> runlist;
