@@ -24,9 +24,9 @@ namespace HtmlRenderer.Composers.BridgeHtml
             CssBoxSvgRoot rootBox = new CssBoxSvgRoot(
                 elementNode,
                 elementNode.Spec,
-                fragment); 
+                fragment);
             parentBox.AppendChild(rootBox);
-            
+
 
             int j = elementNode.ChildrenCount;
             for (int i = 0; i < j; ++i)
@@ -42,6 +42,12 @@ namespace HtmlRenderer.Composers.BridgeHtml
                         {
                             CreateSvgRect(fragment, node);
                         } break;
+                    case WellKnownDomNodeName.svg_circle:
+                        {
+                            //sample circle from 
+                            //www.svgbasics.com/shapes.html
+                            CreateSvgCircle(fragment, node); 
+                        } break; 
                     default:
                         {
 
@@ -59,7 +65,15 @@ namespace HtmlRenderer.Composers.BridgeHtml
             TranslateSvgRectAttributes(rectSpec, elem);
             parentNode.AddChild(rect);
         }
+        static void CreateSvgCircle(SvgElement parentNode, HtmlElement elem)
+        {
 
+            SvgCircleSpec spec = new SvgCircleSpec();
+            SvgCircle rect = new SvgCircle(spec, elem);
+            //translate attribute
+            TranslateSvgCircleAttributes(spec, elem);
+            parentNode.AddChild(rect);
+        }
         public static void TranslateSvgAttributesMain(HtmlElement elem)
         {
             //if (elem.WellknownElementName != WellKnownDomNodeName.svg)
@@ -142,9 +156,53 @@ namespace HtmlRenderer.Composers.BridgeHtml
                         } break;
                     case WebDom.WellknownName.Svg_Transform:
                         {
-                            //TODO: parse svg transform function 
+                            //TODO: parse svg transform function  
+                        } break;
+                    default:
+                        {
+                            //other attrs
+                        } break;
 
+                }
+            }
+        }
+        public static void TranslateSvgCircleAttributes(SvgCircleSpec spec, HtmlElement elem)
+        {
 
+            foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
+            {
+                WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
+
+                switch (wellknownName)
+                {
+                    case WebDom.WellknownName.Svg_Cx:
+                        {
+                            spec.X = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Cy:
+                        {
+                            spec.Y = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WellknownName.Svg_R:
+                        {
+                            spec.Radius = UserMapUtil.ParseGenericLength(attr.Value);
+                         
+                        } break;
+                    case WebDom.WellknownName.Svg_Fill:
+                        {
+                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke:
+                        {
+                            spec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke_Width:
+                        {
+                            spec.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Transform:
+                        {
+                            //TODO: parse svg transform function  
                         } break;
                     default:
                         {

@@ -1,4 +1,4 @@
-﻿//BSD 2014,
+﻿//BSD 2014,WinterDev
 //ArthurHub
 
 // "Therefore those skilled at the unorthodox

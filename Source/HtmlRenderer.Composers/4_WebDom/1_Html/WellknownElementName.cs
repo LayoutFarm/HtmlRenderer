@@ -157,6 +157,14 @@ namespace HtmlRenderer.WebDom
         Svg_Rx,
         [Map("ry")]
         Svg_Ry,
+
+        [Map("r")]
+        Svg_R,
+        [Map("cx")]
+        Svg_Cx,
+        [Map("cy")]
+        Svg_Cy,
+
         [Map("transform")]
         Svg_Transform,
     }

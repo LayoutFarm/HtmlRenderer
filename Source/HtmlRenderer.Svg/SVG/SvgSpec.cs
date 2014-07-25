@@ -63,7 +63,24 @@ namespace HtmlRenderer.SvgDom
             set;
         } 
     }
-
+    public class SvgCircleSpec : SvgVisualSpec
+    {
+        public CssLength X
+        {
+            get;
+            set;
+        }
+        public CssLength Y
+        {
+            get;
+            set;
+        }
+        public CssLength Radius
+        {
+            get;
+            set;
+        } 
+    }
     
     public class SvgPolygonSpec : SvgVisualSpec
     {
