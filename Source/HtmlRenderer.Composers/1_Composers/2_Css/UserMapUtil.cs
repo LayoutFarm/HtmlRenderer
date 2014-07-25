@@ -115,6 +115,8 @@ namespace HtmlRenderer.Composers
         svg_rect,
         [Map("circle")]
         svg_circle,
+        [Map("ellipse")]
+        svg_ellipse
     }
 
 

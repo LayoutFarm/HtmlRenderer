@@ -30,7 +30,7 @@ namespace HtmlRenderer.SvgDom
         }
     }
     public class SvgRectSpec : SvgVisualSpec
-    { 
+    {
         public CssLength X
         {
             get;
@@ -61,7 +61,7 @@ namespace HtmlRenderer.SvgDom
         {
             get;
             set;
-        } 
+        }
     }
     public class SvgCircleSpec : SvgVisualSpec
     {
@@ -79,9 +79,31 @@ namespace HtmlRenderer.SvgDom
         {
             get;
             set;
-        } 
+        }
     }
-    
+    public class SvgEllipseSpec : SvgVisualSpec
+    {
+        public CssLength X
+        {
+            get;
+            set;
+        }
+        public CssLength Y
+        {
+            get;
+            set;
+        }
+        public CssLength RadiusX
+        {
+            get;
+            set;
+        }
+        public CssLength RadiusY
+        {
+            get;
+            set;
+        }
+    }
     public class SvgPolygonSpec : SvgVisualSpec
     {
 
