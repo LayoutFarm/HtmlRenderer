@@ -10,9 +10,9 @@ namespace HtmlRenderer.Boxes
 {
 
     public sealed class CssBoxSvgRoot : CssBox
-    {   
-        public CssBoxSvgRoot(CssBox owner, object controller, Css.BoxSpec spec, SvgElement svgSpec)
-            : base(owner, controller, spec, Css.CssDisplay.Block)
+    {
+        public CssBoxSvgRoot(object controller, Css.BoxSpec spec, SvgElement svgSpec)
+            : base(controller, spec, Css.CssDisplay.Block)
         {
             //create svg node 
             this.SvgSpec = svgSpec;
@@ -34,7 +34,7 @@ namespace HtmlRenderer.Boxes
 
             this.SetSize(500, 500);
         }
-        protected override void PaintImp(IGraphics g, PaintVisitor p)
+        protected override void PaintImp(IGraphics g, Painter p)
         {
 
             //render this svg
@@ -52,7 +52,7 @@ namespace HtmlRenderer.Boxes
             set;
         }
 
-       
+
 
         public void HitTestCore(SvgHitChain chain, float x, float y)
         {
@@ -73,5 +73,5 @@ namespace HtmlRenderer.Boxes
         }
     }
 
-   
+
 }

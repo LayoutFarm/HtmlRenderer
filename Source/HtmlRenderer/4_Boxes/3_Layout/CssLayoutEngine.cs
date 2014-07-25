@@ -151,7 +151,7 @@ namespace HtmlRenderer.Boxes
                 //-------------------------------------------
                 if (box.CssDisplay != Css.CssDisplay.Table)
                 {
-                    float availableWidth = myContainingBlock.ClientWidth;
+                    float availableWidth = myContainingBlock.GetClientWidth();
 
                     if (!box.Width.IsEmptyOrAuto)
                     {
@@ -164,7 +164,7 @@ namespace HtmlRenderer.Boxes
                 }
                 //-------------------------------------------
 
-                float localLeft = myContainingBlock.ClientLeft + box.ActualMarginLeft;
+                float localLeft = myContainingBlock.GetClientLeft() + box.ActualMarginLeft;
                 float localTop = 0;
                 var prevSibling = lay.LatestSiblingBox;
 
@@ -173,7 +173,7 @@ namespace HtmlRenderer.Boxes
                     //this is first child of parent
                     if (box.ParentBox != null)
                     {
-                        localTop = myContainingBlock.ClientTop;
+                        localTop = myContainingBlock.GetClientTop();
                     }
                 }
                 else
@@ -215,7 +215,7 @@ namespace HtmlRenderer.Boxes
                         {
                             //goto svg layout system
                             box.ReEvaluateComputedValues(lay.Gfx, lay.LatestContainingBlock);
-                            box.CustomRecomputedValue(lay.LatestContainingBlock);                            
+                            box.CustomRecomputedValue(lay.LatestContainingBlock);
 
                         }
                         else
@@ -310,9 +310,8 @@ namespace HtmlRenderer.Boxes
 
             }
 
-            //hostBlock.SetHeight(maxLocalBottom + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
+
             hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
-            // handle limiting block height when overflow is hidden             
             if (hostBlock.Overflow == CssOverflow.Hidden &&
                 !hostBlock.Height.IsEmptyOrAuto &&
                 hostBlock.SizeHeight > hostBlock.ExpectedHeight)
@@ -346,7 +345,8 @@ namespace HtmlRenderer.Boxes
                     //inline correction on-the-fly ! 
                     //1. collect consecutive inlinebox
                     //   and move to new anon box
-                    CssBox anoForInline = BoxUtils.CreateAnonBlock(box, childBox);
+
+                    CssBox anoForInline = CreateAnonBlock(box, childBox);
                     anoForInline.ReEvaluateComputedValues(lay.Gfx, box);
 
                     var tmp = cnode.Next;
@@ -363,7 +363,6 @@ namespace HtmlRenderer.Boxes
                                 tmp = tmp.Next;
                                 if (tmp == null)
                                 {
-
                                     children.Remove(childBox);
                                     anoForInline.AppendChild(childBox);
                                     break;
@@ -440,7 +439,15 @@ namespace HtmlRenderer.Boxes
                 box.ActualPaddingRight + box.ActualBorderRightWidth);
         }
 
+        static CssBox CreateAnonBlock(CssBox parent, CssBox insertBefore)
+        {
+            //auto gen by layout engine ***
 
+            var newBox = new CssBox(null, CssBox.UnsafeGetBoxSpec(parent).GetAnonVersion());
+            CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Block);
+            parent.InsertChild(insertBefore, newBox);
+            return newBox;
+        }
 
 #if DEBUG
         static int dbugPassTotal = 0;
@@ -472,9 +479,9 @@ namespace HtmlRenderer.Boxes
 
             var oX = cx;
 
-            if (splitableBox.MayHasSomeTextContent)
+            if (splitableBox.HasRuns)
             {
-
+                //condition 3 
                 FlowRunsIntoHost(lay, hostBox, splitableBox, splitableBox, 0,
                      limitLocalRight, firstRunStartX,
                      0, 0,
@@ -503,50 +510,8 @@ namespace HtmlRenderer.Boxes
                     }
 
                     b.MeasureRunsSize(lay);
+
                     cx += leftMostSpace;
-
-
-                    //--------------------------------------------------------------------
-                    //not used in this version ***
-                    //if (b.CssDisplay == CssDisplay.BlockInsideInlineAfterCorrection)
-                    //{ 
-                    //    //-----------------------------------------
-                    //    lay.PushContaingBlock(hostBox);
-                    //    var currentLevelLatestSibling = lay.LatestSiblingBox;
-                    //    lay.LatestSiblingBox = null;//reset
-
-                    //    b.PerformLayout(lay);
-
-                    //    lay.LatestSiblingBox = currentLevelLatestSibling;
-                    //    lay.PopContainingBlock();
-                    //    //----------------------------------------- 
-                    //    var newline = new CssLineBox(hostBox);
-                    //    hostBox.AddLineBox(newline);
-                    //    //reset x pos for new line
-                    //    current_line_x = firstRunStartX;
-                    //    //set y to new line      
-                    //    newline.CachedLineTop = current_line_y = maxBottomForHostBox + interLineSpace;
-
-                    //    CssBlockRun blockRun = new CssBlockRun(b);
-                    //    newline.AddRun(blockRun);
-
-                    //    blockRun.SetLocation(firstRunStartX, 0);
-                    //    blockRun.SetSize(b.SizeWidth, b.SizeHeight);
-
-                    //    maxBottomForHostBox += b.SizeHeight;
-                    //    //-----------------------------------------
-                    //    if (childNumber < totalChildCount)
-                    //    {
-                    //        //this is not last child
-                    //        //create new line 
-                    //        newline = new CssLineBox(hostBox);
-                    //        hostBox.AddLineBox(newline);
-                    //        newline.CachedLineTop = current_line_y = maxBottomForHostBox + interLineSpace;
-                    //    } 
-                    //    hostLine = newline;
-                    //    continue;
-                    //}
-                    //--------------------------------------------------------------------
 
                     if (b.HasRuns)
                     {
@@ -554,7 +519,6 @@ namespace HtmlRenderer.Boxes
                          limitLocalRight, firstRunStartX,
                          leftMostSpace, rightMostSpace,
                          ref hostLine, ref cx);
-
                     }
                     else
                     {
@@ -815,7 +779,7 @@ namespace HtmlRenderer.Boxes
             float runWidthSum = 0f;
             int runCount = 0;
 
-            float availableWidth = lineBox.OwnerBox.ClientWidth - indent;
+            float availableWidth = lineBox.OwnerBox.GetClientWidth() - indent;
 
             // Gather text sum
             foreach (CssRun w in lineBox.GetRunIter())
@@ -828,7 +792,7 @@ namespace HtmlRenderer.Boxes
 
             float spaceOfEachRun = (availableWidth - runWidthSum) / runCount; //Spacing that will be used
 
-            float cX = lineBox.OwnerBox.ClientLeft + indent;
+            float cX = lineBox.OwnerBox.GetClientLeft() + indent;
             CssRun lastRun = lineBox.GetLastRun();
             foreach (CssRun run in lineBox.GetRunIter())
             {
@@ -836,7 +800,7 @@ namespace HtmlRenderer.Boxes
                 cX = run.Right + spaceOfEachRun;
                 if (run == lastRun)
                 {
-                    run.Left = lineBox.OwnerBox.ClientRight - run.Width;
+                    run.Left = lineBox.OwnerBox.GetClientRight() - run.Width;
                 }
             }
         }
@@ -851,7 +815,7 @@ namespace HtmlRenderer.Boxes
 
             if (line.WordCount == 0) return;
             CssRun lastRun = line.GetLastRun();
-            float diff = (line.OwnerBox.ClientWidth - lastRun.Right) / 2;
+            float diff = (line.OwnerBox.GetClientWidth() - lastRun.Right) / 2;
             if (diff > CSS_OFFSET_THRESHOLD)
             {
                 foreach (CssRun word in line.GetRunIter())
@@ -874,7 +838,7 @@ namespace HtmlRenderer.Boxes
                 return;
             }
             CssRun lastRun = line.GetLastRun();
-            float diff = line.OwnerBox.ClientWidth - line.GetLastRun().Right;
+            float diff = line.OwnerBox.GetClientWidth() - line.GetLastRun().Right;
             if (diff > CSS_OFFSET_THRESHOLD)
             {
                 foreach (CssRun word in line.GetRunIter())

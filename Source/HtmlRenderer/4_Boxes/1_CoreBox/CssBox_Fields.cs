@@ -24,32 +24,49 @@ namespace HtmlRenderer.Boxes
     partial class CssBox
     {
 
+        //condition 1: 
+        //  box with multiple children box under block-formatting context
+        //  eg. 
+        //      <div>
+        //          <div></div>
+        //          <div></div>
+        //      </div>
+
+        //condition 2:
+        //box with multiple children box under line-formatting context
+        //eg.
+        //   <div>
+        //      <span><u></u></span>
+        //  </div>
+
+        //condition 3:
+        //box with runlist (no child box) ,  
+        //its content runlist will be flow on itself or another box(condition2 box)
+        //eg.
+        //   <span> AAA </span>
 
 
-        //condition 1 :this Box is BlockBox
-        //1.1 contain lineBoxes for my children and  other children (share)
-        LinkedList<CssLineBox> _clientLineBoxes;
-        //1.2 contains box collection for my children
+        //condition 1: valid  
+        //condition 2: valid  
+        //condition 3  : invalid *
         CssBoxCollection _aa_boxes;
-        //----------------------------------------------------    
-        //condition 2 :this Box is InlineBox     
-        //_aa_contentRuns may come from other data source
+
+        //condition 1: invalid *
+        //condition 2: invalid *
+        //condition 3: valid 
         List<CssRun> _aa_contentRuns;
+
+
+        //condition 1: invalid *
+        //condition 2: valid  
+        //condition 3: valid  
+        LinkedList<CssLineBox> _clientLineBoxes;
+
+        //----------------------------------------------------   
+        //only in condition 3
         char[] _buffer;
         //----------------------------------------------------    
-        //for other subbox , list item , shadow... 
-        SubBoxCollection _subBoxes;
-        //----------------------------------------------------    
 
-
-
-        /// <summary>
-        /// Gets the childrenn boxes of this box
-        /// </summary>      
-        CssBoxCollection Boxes
-        {
-            get { return _aa_boxes; }
-        }
 
         internal int RunCount
         {
@@ -104,23 +121,24 @@ namespace HtmlRenderer.Boxes
         {
             return this._aa_boxes.GetFirstChild();
         }
-
         public void AppendChild(CssBox box)
         {
-            this.Boxes.AddChild(this, box);
+            this._aa_boxes.AddChild(this, box);
         }
         public void InsertChild(CssBox beforeBox, CssBox box)
         {
-            this.Boxes.InsertBefore(this, beforeBox, box);
+            this._aa_boxes.InsertBefore(this, beforeBox, box);
         }
         public void Clear()
         {
             //_aa_contentRuns may come from other data source
             //so just set it to null
-            this._aa_contentRuns = null;
 
-            this.Boxes.Clear();
+            this._clientLineBoxes = null;
+            this._aa_contentRuns = null;
+            this._aa_boxes.Clear();
         }
+
         //-------------------------------------
         internal void ResetLineBoxes()
         {
@@ -162,18 +180,25 @@ namespace HtmlRenderer.Boxes
             get;
             set;
         }
-
-        public SubBoxCollection SubBoxes
+        protected bool HasCustomRenderTechnique
         {
             get
             {
-                return this._subBoxes;
+                return (this._boxCompactFlags & BoxFlags.HAS_CUSTOM_RENDER_TECHNIQUE) != 0;
             }
             set
             {
-                this._subBoxes = value;
+                if (value)
+                {
+                    this._boxCompactFlags |= BoxFlags.HAS_CUSTOM_RENDER_TECHNIQUE;
+                }
+                else
+                {
+                    this._boxCompactFlags &= ~BoxFlags.HAS_CUSTOM_RENDER_TECHNIQUE;
+                }
             }
         }
+
 
 
 
@@ -184,7 +209,7 @@ namespace HtmlRenderer.Boxes
             {
                 throw new Exception("before box doesn't exist on parent");
             }
-            this._parentBox.Boxes.dbugChangeSiblingIndex(_parentBox, this, siblingIndex);
+            this._parentBox._aa_boxes.dbugChangeSiblingIndex(_parentBox, this, siblingIndex);
         }
 #endif
 

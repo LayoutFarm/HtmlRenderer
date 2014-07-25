@@ -1,4 +1,4 @@
-﻿//BSD 2014,
+﻿//BSD 2014,WinterDev
 //ArthurHub
 
 // "Therefore those skilled at the unorthodox
@@ -29,15 +29,15 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// the image word of this image box
         /// </summary>
-        readonly CssImageRun _imgRun; 
+        readonly CssImageRun _imgRun;
 
         /// <summary>
         /// Init.
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxImage(CssBox parent, object tag, Css.BoxSpec boxSpec, ImageBinder binder)
-            : base(parent, tag, boxSpec)
+        public CssBoxImage(object tag, Css.BoxSpec boxSpec, ImageBinder binder)
+            : base(tag, boxSpec)
         {
 
             this._imgRun = new CssImageRun();
@@ -91,7 +91,7 @@ namespace HtmlRenderer.Boxes
         //            } break;
         //    }
         //}
-        internal void PaintImage(IGraphics g, RectangleF rect, PaintVisitor p)
+        internal void PaintImage(IGraphics g, RectangleF rect, Painter p)
         {
 
             PaintBackground(p, rect, true, true);
@@ -177,7 +177,7 @@ namespace HtmlRenderer.Boxes
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(IGraphics g, PaintVisitor p)
+        protected override void PaintImp(IGraphics g, Painter p)
         {
             // load image iff it is in visible rectangle  
             //1. single image can't be splited  
@@ -198,7 +198,7 @@ namespace HtmlRenderer.Boxes
         }
         #region Private methods
 
-       
+
 
 
         #endregion

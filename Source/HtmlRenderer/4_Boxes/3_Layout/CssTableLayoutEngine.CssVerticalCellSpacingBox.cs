@@ -25,24 +25,18 @@ namespace HtmlRenderer.Boxes
         {
 
 
-            private readonly CssBox _extendedBox;
-
+            private readonly CssBox _extendedBox; 
             /// <summary>
             /// the index of the row where box ends
             /// </summary>
             private readonly int _endRow;
 
-            public CssVerticalCellSpacingBox(CssBox tableBox,
-                HtmlRenderer.Drawing.IFonts iFonts,
-                CssBox extendedBox, int startRow)
-                : base(tableBox, null, specForVCell)
+            public CssVerticalCellSpacingBox(CssBox extendedBox, int startRow)
+                : base(null, specForVCell)
             {
                 _extendedBox = extendedBox;
                 this.SetRowSpanAndColSpan(1, 1);
-                _endRow = startRow + extendedBox.RowSpan - 1;
-
-                ReEvaluateComputedValues(iFonts, tableBox);
-                ChangeDisplayType(this, Css.CssDisplay.None);
+                _endRow = startRow + extendedBox.RowSpan - 1; 
             }
 
             public CssBox ExtendedBox

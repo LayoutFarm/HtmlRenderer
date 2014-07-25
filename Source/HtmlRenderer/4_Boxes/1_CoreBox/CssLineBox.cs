@@ -423,7 +423,7 @@ namespace HtmlRenderer.Boxes
 
 
 
-        internal void PaintRuns(HtmlRenderer.Drawing.IGraphics g, PaintVisitor p)
+        internal void PaintRuns(HtmlRenderer.Drawing.IGraphics g, Painter p)
         {
             //iterate from each words
 
@@ -476,11 +476,9 @@ namespace HtmlRenderer.Boxes
 
                             CssTextRun textRun = (CssTextRun)w;
 
-                            var wordPoint = new PointF(w.Left, w.Top);
+                            var wordPoint = new PointF(w.Left, w.Top); 
 
-                            char[] ownerBuffer = CssBox.UnsafeGetTextBuffer(w.OwnerBox);
-
-                            g.DrawString2(ownerBuffer,
+                            g.DrawString2(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
                                textRun.TextStartIndex,
                                textRun.TextLength, font,
                                color, wordPoint,
@@ -499,7 +497,7 @@ namespace HtmlRenderer.Boxes
 
 #if DEBUG
 
-        internal void dbugPaintRuns(HtmlRenderer.Drawing.IGraphics g, PaintVisitor p)
+        internal void dbugPaintRuns(HtmlRenderer.Drawing.IGraphics g, Painter p)
         {
 
             //return;
@@ -544,14 +542,14 @@ namespace HtmlRenderer.Boxes
             get;
             set;
         }
-        internal void PaintSelection(PaintVisitor p)
+        internal void PaintSelection(Painter p)
         {
             var gfx = p.Gfx;
             gfx.FillRectangle(Brushes.LightGray, this.LineSelectionStart, 0, this.LineSelectionWidth, this.CacheLineHeight);
         }
 
 
-        internal void PaintBackgroundAndBorder(PaintVisitor p)
+        internal void PaintBackgroundAndBorder(Painter p)
         {
             //iterate each strip
 
@@ -578,7 +576,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-        internal void PaintDecoration(HtmlRenderer.Drawing.IGraphics g, PaintVisitor p)
+        internal void PaintDecoration(HtmlRenderer.Drawing.IGraphics g, Painter p)
         {
 
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)

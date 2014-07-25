@@ -10,7 +10,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
 {
     static class BoxCreator
     {
-         
+
         static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
         public static void RegisterCustomCssBoxGenerator(CustomCssBoxGenerator generator)
         {
@@ -28,7 +28,9 @@ namespace HtmlRenderer.Composers.BridgeHtml
             {
                 imgBinder = new ImageBinder(null);
             }
-            return new CssBoxImage(parent, childElement, childElement.Spec, imgBinder);
+            CssBoxImage boxImage = new CssBoxImage(childElement, childElement.Spec, imgBinder);
+            parent.AppendChild(boxImage);
+            return boxImage;
         }
 
         public static void GenerateChildBoxes(HtmlElement parentElement, bool fullmode)
@@ -89,7 +91,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                             CssBox box = BoxCreator.CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
                                             childElement.SetPrincipalBox(box);
                                             if (!alreadyHandleChildrenNode)
-                                            {   
+                                            {
                                                 GenerateChildBoxes(childElement, fullmode);
                                             }
                                         }
@@ -111,6 +113,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 default:
                     {
                         CssBox hostBox = HtmlElement.InternalGetPrincipalBox(parentElement);
+
                         CssWhiteSpace ws = parentElement.Spec.WhiteSpace;
                         int childCount = parentElement.ChildrenCount;
 
@@ -129,7 +132,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                             case CssWhiteSpace.PreWrap:
                                                 {
                                                     RunListHelper.AddRunList(
-                                                        BoxUtils.CreateAnonInline(hostBox),
+                                                        BoxUtils.AddNewAnonInline(hostBox),
                                                         parentElement.Spec, textNode);
                                                 } break;
                                             case CssWhiteSpace.PreLine:
@@ -140,7 +143,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                                     }
 
                                                     RunListHelper.AddRunList(
-                                                        BoxUtils.CreateAnonInline(hostBox),
+                                                        BoxUtils.AddNewAnonInline(hostBox),
                                                         parentElement.Spec, textNode);
 
                                                 } break;
@@ -151,7 +154,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                                         continue;//skip
                                                     }
                                                     RunListHelper.AddRunList(
-                                                        BoxUtils.CreateAnonInline(hostBox),
+                                                        BoxUtils.AddNewAnonInline(hostBox),
                                                         parentElement.Spec, textNode);
                                                 } break;
                                         }
@@ -181,8 +184,8 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                         else
                                         {
 
-                                            CssBox existing = HtmlElement.InternalGetPrincipalBox(childElement);
-                                            if (existing == null)
+                                            CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(childElement);
+                                            if (existingCssBox == null)
                                             {
                                                 bool alreadyHandleChildrenNode;
                                                 CssBox box = BoxCreator.CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
@@ -195,10 +198,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                             else
                                             {
                                                 //just insert           
-                                                hostBox.AppendChild(existing);
+                                                hostBox.AppendChild(existingCssBox);
                                                 if (!childElement.SkipPrincipalBoxEvalulation)
                                                 {
-                                                    existing.Clear();
+                                                    existingCssBox.Clear();
                                                     GenerateChildBoxes(childElement, fullmode);
                                                     childElement.SkipPrincipalBoxEvalulation = true;
                                                 }
@@ -234,14 +237,21 @@ namespace HtmlRenderer.Composers.BridgeHtml
             {
                 case WellKnownDomNodeName.br:
                     //special treatment for br
-                    newBox = new CssBox(parentBox, childElement, childElement.Spec);
+                    newBox = new CssBox(childElement, childElement.Spec);
+                    parentBox.AppendChild(newBox);
+
                     CssBox.SetAsBrBox(newBox);
                     CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
                     return newBox;
                 case WellKnownDomNodeName.img:
+
                     return CreateImageBox(parentBox, childElement);
                 case WellKnownDomNodeName.hr:
-                    return new CssBoxHr(parentBox, childElement, childElement.Spec);
+
+                    newBox = new CssBoxHr(childElement, childElement.Spec);
+                    parentBox.AppendChild(newBox);
+                    return newBox;
+
 
                 //-----------------------------------------------------
                 //TODO: simplify this ...
@@ -282,7 +292,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                     {
                         //1. create svg container node
                         alreadyHandleChildrenNodes = true;
-                        return  SvgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
+                        return SvgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
                     }
                 //---------------------------------------------------
                 default:
@@ -299,7 +309,9 @@ namespace HtmlRenderer.Composers.BridgeHtml
                         case CssDisplay.ListItem:
                             return ListItemBoxCreator.CreateListItemBox(parentBox, childElement);
                         default:
-                            return newBox = new CssBox(parentBox, childElement, childSpec);
+                            newBox = new CssBox(childElement, childSpec);
+                            parentBox.AppendChild(newBox);
+                            return newBox;
                     }
             }
         }
@@ -326,8 +338,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
-            var box = new CssBox(null, null, spec);
-
+            var box = new CssBox(null, spec);
             //------------------------------------
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
@@ -341,7 +352,9 @@ namespace HtmlRenderer.Composers.BridgeHtml
         public static CssBox CreateOtherPredefinedTableElement(CssBox parent,
             HtmlElement childElement, CssDisplay selectedCssDisplayType)
         {
-            return new CssBox(parent, childElement, childElement.Spec, selectedCssDisplayType);
+            var newBox = new CssBox(childElement, childElement.Spec, selectedCssDisplayType);
+            parent.AppendChild(newBox);
+            return newBox;
         }
         public static CssBox CreateTableColumnOrColumnGroup(CssBox parent,
             HtmlElement childElement, bool fixDisplayType, CssDisplay selectedCssDisplayType)
@@ -349,13 +362,14 @@ namespace HtmlRenderer.Composers.BridgeHtml
             CssBox col = null;
             if (fixDisplayType)
             {
-                col = new CssBox(parent, childElement, childElement.Spec, selectedCssDisplayType);
+                col = new CssBox(childElement, childElement.Spec, selectedCssDisplayType);
             }
             else
             {
-                col = new CssBox(parent, childElement, childElement.Spec);
+                col = new CssBox(childElement, childElement.Spec);
 
             }
+            parent.AppendChild(col);
 
             string spanValue;
             int spanNum = 1;//default
@@ -379,12 +393,13 @@ namespace HtmlRenderer.Composers.BridgeHtml
             CssBox tableCell = null;
             if (fixDisplayType)
             {
-                tableCell = new CssBox(parent, childElement, childElement.Spec, CssDisplay.TableCell);
+                tableCell = new CssBox(childElement, childElement.Spec, CssDisplay.TableCell);
             }
             else
             {
-                tableCell = new CssBox(parent, childElement, childElement.Spec);
+                tableCell = new CssBox(childElement, childElement.Spec);
             }
+            parent.AppendChild(tableCell);
             //----------------------------------------------------------------------------------------------
 
 
@@ -423,16 +438,19 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
         public static CssBox CreateListItemBox(CssBox parent, HtmlElement childElement)
         {
+
+
             var spec = childElement.Spec;
-            var newBox = new CssBox(parent, childElement, spec);
+            var newBox = new CssBoxListItem(childElement, spec);
+
+            parent.AppendChild(newBox);
 
             if (spec.ListStyleType != CssListStyleType.None)
             {
-                //create sub item collection
-                var subBoxs = new SubBoxCollection();
-                newBox.SubBoxes = subBoxs;
-                var itemBulletBox = new CssBox(null, null, spec.GetAnonVersion());
-                subBoxs.ListItemBulletBox = itemBulletBox;
+
+                //create sub item collection 
+                var itemBulletBox = new CssBox(null, spec.GetAnonVersion());
+                newBox.BulletBox = itemBulletBox; 
 
                 CssBox.UnsafeSetParent(itemBulletBox, newBox);
                 CssBox.ChangeDisplayType(itemBulletBox, CssDisplay.Inline);
@@ -466,8 +484,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                             text_content = (BulletNumberFormatter.ConvertToAlphaNumber(GetIndexForList(newBox, childElement), spec.ListStyleType) + ".").ToCharArray();
                         } break;
                 }
-                //---------------------------------------------------------------
-
+                //--------------------------------------------------------------- 
                 CssBox.UnsafeSetTextBuffer(itemBulletBox, text_content);
 
                 List<CssRun> runlist;

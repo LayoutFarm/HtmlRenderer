@@ -14,7 +14,6 @@ namespace HtmlRenderer.Boxes
             public const int TEXT_IS_EMPTY = 1 << (6 - 1);
             //----------------------------------------------- 
             public const int FIXED_DISPLAY_TYPE = 1 << (7 - 1);
-
             
             public const int LAY_RUNSIZE_MEASURE = 1 << (8 - 1);
             public const int LAY_EVAL_COMPUTE_VALUES = 1 << (9 - 1);
@@ -27,9 +26,16 @@ namespace HtmlRenderer.Boxes
             //-----------------------------------------------
             public const int IS_INLINE_BOX = 1 << (15 - 1);
             public const int IS_BR_ELEM = 1 << (16 - 1); 
-            //---------------------------------------------------- 
+            //-----------------------------------------------
             public const int IS_CUSTOM_CSSBOX = 1 << (17 - 1);
-
+            //-----------------------------------------------
+            public const int OVERFLOW_HIDDEN = 1 << (18 - 1);
+            //-----------------------------------------------
+            
+            public const int HAS_CUSTOM_RENDER_TECHNIQUE = 1 << (20 - 1);
+            public const int HAS_CUSTOM_HIT_TEST_TECHNIQUE = 1 << (21 - 1);
+            public const int HAS_CUSTOM_LAYOUT_TECHNIQUE = 1 << (22 - 1);
+            //-----------------------------------------------
         }
     }
 

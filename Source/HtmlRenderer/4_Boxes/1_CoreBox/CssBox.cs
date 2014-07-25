@@ -41,7 +41,7 @@ namespace HtmlRenderer.Boxes
     {
 
         readonly Css.BoxSpec _myspec;
-        readonly object _controller; 
+        readonly object _controller;
 
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
@@ -49,17 +49,13 @@ namespace HtmlRenderer.Boxes
         public int dbugMark;
 #endif
 
-        public CssBox(CssBox parentBox, object controller, Css.BoxSpec spec)
+
+        public CssBox(object controller, Css.BoxSpec spec)
         {
 
             this._aa_boxes = new CssBoxCollection();
-
-            if (parentBox != null)
-            {
-                parentBox.AppendChild(this);
-            }
-
             this._controller = controller;
+
 #if DEBUG
             if (!spec.IsFreezed)
             {
@@ -70,22 +66,15 @@ namespace HtmlRenderer.Boxes
 
             //assign spec 
             this._myspec = spec;
-
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
 
         }
-        public CssBox(CssBox parentBox, object controller, Css.BoxSpec spec, Css.CssDisplay fixDisplayType)
+        public CssBox(object controller, Css.BoxSpec spec, Css.CssDisplay fixDisplayType)
         {
-
             this._aa_boxes = new CssBoxCollection();
-
-            if (parentBox != null)
-            {
-                parentBox.AppendChild(this);
-
-            }
             this._controller = controller;
+
 #if DEBUG
             if (!spec.IsFreezed)
             {
@@ -101,7 +90,10 @@ namespace HtmlRenderer.Boxes
             this._myspec = spec;
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
+
+
         }
+
         /// <summary>
         /// Gets the parent box of this box
         /// </summary>
@@ -118,11 +110,11 @@ namespace HtmlRenderer.Boxes
         {
             if (this._parentBox != null)
             {
-                this._parentBox.Boxes.Remove(this);
+                this._parentBox._aa_boxes.Remove(this);
             }
             if (parentBox != null)
             {
-                parentBox.Boxes.AddChild(parentBox, this);
+                parentBox._aa_boxes.AddChild(parentBox, this);
             }
         }
 
@@ -193,18 +185,18 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return this.HasRuns && this.FirstRun.IsImage;
+                return this.RunCount == 1 && this.FirstRun.IsImage;
             }
         }
 
         /// <summary>
         /// Tells if the box is empty or contains just blank spaces
         /// </summary>
-        public bool IsSpaceOrEmpty
+        bool IsSpaceOrEmpty
         {
             get
             {
-                if (this.Boxes.Count != 0)
+                if (this._aa_boxes.Count != 0)
                 {
                     return true;
                 }
@@ -224,13 +216,7 @@ namespace HtmlRenderer.Boxes
 
             this._boxCompactFlags = tmpFlags;
         }
-        public bool MayHasSomeTextContent
-        {
-            get
-            {
-                return this._aa_contentRuns != null;
-            }
-        }
+
         internal static char[] UnsafeGetTextBuffer(CssBox box)
         {
             return box._buffer;
@@ -376,7 +362,6 @@ namespace HtmlRenderer.Boxes
             get
             {
                 return this._aa_contentRuns;
-
             }
         }
 
@@ -384,7 +369,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return this._aa_contentRuns != null && this._aa_contentRuns.Count > 0;
+                return this._aa_contentRuns != null;
             }
         }
 
@@ -455,11 +440,7 @@ namespace HtmlRenderer.Boxes
             //set height  
             UpdateIfHigher(this, ExpectedHeight);
 
-            if (_subBoxes != null)
-            {
-                //layout
-                _subBoxes.PerformLayout(this, lay);
-            }
+            
             //update back 
             lay.UpdateRootSize(this);
         }
@@ -495,7 +476,7 @@ namespace HtmlRenderer.Boxes
                     lay.RequestImage(this.BackgroundImageBinder, this);
                 }
             }
-            if (this.HasRuns)
+            if (this.RunCount > 0)
             {
                 //find word spacing  
                 float actualWordspacing = this._actualWordSpacing;
@@ -629,7 +610,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return this.ParentBox.Boxes.GetLastChild() == this;
+                return this.ParentBox._aa_boxes.GetLastChild() == this;
             }
         }
         /// <summary>

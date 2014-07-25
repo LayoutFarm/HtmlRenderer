@@ -249,11 +249,12 @@ namespace HtmlRenderer.Boxes
                                 CssBox lowerRow = bodyrows[i];
                                 if (FindVerticalCellSpacingBoxInsertionPoint(lowerRow, grid_index, out insertAt))
                                 {
-                                    lowerRow.InsertChild(insertAt,
-                                        new CssVerticalCellSpacingBox(
-                                            _tableBox,
-                                            ifonts,
-                                            cnode, rIndex));
+
+                                    var verticalCellSpacingBox = new CssVerticalCellSpacingBox(cnode, rIndex);
+                                    verticalCellSpacingBox.ReEvaluateComputedValues(ifonts, _tableBox);
+                                    CssBox.ChangeDisplayType(verticalCellSpacingBox, Css.CssDisplay.None);
+
+                                    lowerRow.InsertChild(insertAt, verticalCellSpacingBox);
                                 }
                             }
                         }
@@ -709,8 +710,8 @@ namespace HtmlRenderer.Boxes
             float vertical_spacing = GetVerticalSpacing(_tableBox);
             float horizontal_spacing = GetHorizontalSpacing(_tableBox);
 
-            float startx_global = Math.Max(table_globalX + _tableBox.ClientLeft + horizontal_spacing, 0);
-            float starty_global = Math.Max(table_globalY + _tableBox.ClientTop + vertical_spacing, 0);
+            float startx_global = Math.Max(table_globalX + _tableBox.GetClientLeft() + horizontal_spacing, 0);
+            float starty_global = Math.Max(table_globalY + _tableBox.GetClientTop() + vertical_spacing, 0);
 
 
             float startx_local = startx_global - table_globalX;
@@ -896,10 +897,10 @@ namespace HtmlRenderer.Boxes
             switch (cell.VerticalAlign)
             {
                 case CssVerticalAlign.Bottom:
-                    dist = cell.ClientHeight - cell.CalculateInnerContentHeight();
+                    dist = cell.GetClientHeight() - cell.CalculateInnerContentHeight();
                     break;
                 case CssVerticalAlign.Middle:
-                    dist = (cell.ClientHeight - cell.CalculateInnerContentHeight()) / 2;
+                    dist = (cell.GetClientHeight() - cell.CalculateInnerContentHeight()) / 2;
                     break;
                 default:
                     return;
@@ -914,10 +915,10 @@ namespace HtmlRenderer.Boxes
                     {
                         linebox.OffsetTop(dist);
                         linebox = linebox.NextLine;
-                    } 
+                    }
                 }
                 else
-                {   
+                {
                     foreach (CssBox b in cell.GetChildBoxIter())
                     {
                         b.OffsetLocalTop(dist);
@@ -987,11 +988,11 @@ namespace HtmlRenderer.Boxes
             if (tblen.Number > 0)
             {
                 //has specific number
-                return CssValueParser.ConvertToPx(_tableBox.Width, _tableBox.ParentBox.ClientWidth, _tableBox);
+                return CssValueParser.ConvertToPx(_tableBox.Width, _tableBox.ParentBox.GetClientWidth(), _tableBox);
             }
             else
             {
-                return _tableBox.ParentBox.ClientWidth;
+                return _tableBox.ParentBox.GetClientWidth();
             }
         }
 
@@ -1010,7 +1011,7 @@ namespace HtmlRenderer.Boxes
             if (tblen.Number > 0)
             {
 
-                return CssValueParser.ConvertToPx(_tableBox.MaxWidth, _tableBox.ParentBox.ClientWidth, _tableBox);
+                return CssValueParser.ConvertToPx(_tableBox.MaxWidth, _tableBox.ParentBox.GetClientWidth(), _tableBox);
             }
             else
             {
@@ -1277,10 +1278,7 @@ namespace HtmlRenderer.Boxes
                     gridIndex += cellBox.ColSpan;
                 }
             }
-
         }
-
-
 
         /// <summary>
         /// Gets the actual horizontal spacing of the table

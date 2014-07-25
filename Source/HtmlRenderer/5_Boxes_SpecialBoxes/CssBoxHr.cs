@@ -28,10 +28,10 @@ namespace HtmlRenderer.Boxes
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxHr(CssBox parent, object tag, Css.BoxSpec spec)
-            : base(parent, tag, spec)
+        public CssBoxHr(object tag, Css.BoxSpec spec)
+            : base(tag, spec)
         {
-            ChangeDisplayType(this, Css.CssDisplay.Block); 
+            ChangeDisplayType(this, Css.CssDisplay.Block);
         }
 
         /// <summary>
@@ -55,14 +55,14 @@ namespace HtmlRenderer.Boxes
             }
             //// fix for hr tag 
             //var maringTopCollapse = MarginTopCollapse(prevSibling);
-            float localLeft = myContainingBlock.ClientLeft + this.ActualMarginLeft;
+            float localLeft = myContainingBlock.GetClientLeft() + this.ActualMarginLeft;
             float localTop = 0;
 
             if (prevSibling == null)
             {
                 if (this.ParentBox != null)
                 {
-                    localTop = myContainingBlock.ClientTop;
+                    localTop = myContainingBlock.GetClientTop();
                 }
             }
             else
@@ -129,7 +129,7 @@ namespace HtmlRenderer.Boxes
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(IGraphics g, PaintVisitor p)
+        protected override void PaintImp(IGraphics g, Painter p)
         {
 
             var rect = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);

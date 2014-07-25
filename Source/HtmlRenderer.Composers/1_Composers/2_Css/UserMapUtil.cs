@@ -103,7 +103,7 @@ namespace HtmlRenderer.Composers
         [Map("param")]
         _param,
 
-        
+
         [Map("x")]
         X,//test for extension 
 
@@ -113,6 +113,10 @@ namespace HtmlRenderer.Composers
         svg,
         [Map("rect")]
         svg_rect,
+        [Map("circle")]
+        svg_circle,
+        [Map("ellipse")]
+        svg_ellipse
     }
 
 
@@ -732,7 +736,7 @@ namespace HtmlRenderer.Composers
             if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.Color)
             {
                 if (value is WebDom.CssCodeColor)
-                {   
+                {
                     return ((WebDom.CssCodeColor)value).ActualColor;
                 }
                 else

@@ -59,12 +59,13 @@ namespace HtmlRenderer.SvgDom
             }
         }
 
-        internal LinkedListNode<SvgElement> GetFirstNode()
+        public LinkedListNode<SvgElement> GetFirstNode()
         {
             return this.children.First;
         }
         public virtual void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
         {
+
         }
 
         /// <summary>
@@ -147,12 +148,9 @@ namespace HtmlRenderer.SvgDom
     public class SvgRect : SvgVisualElement
     {
 
-
         Color strokeColor = Color.Transparent;
         Color fillColor = Color.Black;
         GraphicsPath _path;
-
-
         SvgRectSpec rectSpec;
         public SvgRect(SvgRectSpec rectSpec, object controller)
             : base(controller)
@@ -345,6 +343,179 @@ namespace HtmlRenderer.SvgDom
 
     }
 
+
+    public class SvgCircle : SvgVisualElement
+    {
+
+        Color strokeColor = Color.Transparent;
+        Color fillColor = Color.Black;
+        GraphicsPath _path;
+        SvgCircleSpec spec;
+        public SvgCircle(SvgCircleSpec spec, object controller)
+            : base(controller)
+        {
+
+            this.spec = spec;
+        }
+
+        //----------------------------
+        public float ActualX
+        {
+            get;
+            set;
+        }
+        public float ActualY
+        {
+            get;
+            set;
+        }
+        public float ActualRadius
+        {
+            get;
+            set;
+        }
+        public float ActualStrokeWidth
+        {
+            get;
+            set;
+        }
+        //----------------------------
+        public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        {
+            var myspec = this.spec;
+            this.fillColor = myspec.ActualColor;
+            this.strokeColor = myspec.StrokeColor;
+
+            this.ActualX = ConvertToPx(myspec.X, containerW, emHeight);
+            this.ActualY = ConvertToPx(myspec.Y, containerW, emHeight);
+            this.ActualRadius = ConvertToPx(myspec.Radius, containerW, emHeight);
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
+
+            _path = new GraphicsPath();
+            _path.StartFigure();
+            _path.AddEllipse(this.ActualX - this.ActualRadius, this.ActualY - this.ActualRadius, 2 * this.ActualRadius, 2 * ActualRadius);
+            _path.CloseFigure();
+
+        }
+
+        //------------------------------------------------
+        public override bool HitTestCore(SvgHitChain svgChain, float x, float y)
+        {
+            //is in circle area ?
+
+            return false;
+        }
+        public override void Paint(Drawing.IGraphics g)
+        {
+
+            using (SolidBrush sb = new SolidBrush(this.fillColor))
+            {
+                g.FillPath(sb, this._path);
+
+            }
+            if (this.strokeColor != Color.Transparent
+                && this.ActualStrokeWidth > 0)
+            {
+                using (SolidBrush sb = new SolidBrush(this.strokeColor))
+                using (Pen pen = new Pen(sb))
+                {
+                    pen.Width = this.ActualStrokeWidth;
+                    g.DrawPath(pen, this._path);
+                }
+            }
+
+        }
+
+    }
+    public class SvgEllipse : SvgVisualElement
+    {
+
+        Color strokeColor = Color.Transparent;
+        Color fillColor = Color.Black;
+        GraphicsPath _path;
+        SvgEllipseSpec spec;
+        public SvgEllipse(SvgEllipseSpec spec, object controller)
+            : base(controller)
+        {
+
+            this.spec = spec;
+        }
+
+        //----------------------------
+        public float ActualX
+        {
+            get;
+            set;
+        }
+        public float ActualY
+        {
+            get;
+            set;
+        }
+        public float ActualRadiusX
+        {
+            get;
+            set;
+        }
+        public float ActualRadiusY
+        {
+            get;
+            set;
+        }
+        public float ActualStrokeWidth
+        {
+            get;
+            set;
+        }
+        //----------------------------
+        public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        {
+            var myspec = this.spec;
+            this.fillColor = myspec.ActualColor;
+            this.strokeColor = myspec.StrokeColor;
+
+            this.ActualX = ConvertToPx(myspec.X, containerW, emHeight);
+            this.ActualY = ConvertToPx(myspec.Y, containerW, emHeight);
+            this.ActualRadiusX = ConvertToPx(myspec.RadiusX, containerW, emHeight);
+            this.ActualRadiusY = ConvertToPx(myspec.RadiusY, containerW, emHeight);
+
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
+
+            this._path = new GraphicsPath();
+            _path.StartFigure();
+            _path.AddEllipse(this.ActualX - this.ActualRadiusX, this.ActualY - this.ActualRadiusY, 2 * this.ActualRadiusX, 2 * this.ActualRadiusY);
+            _path.CloseFigure();
+        }
+
+        //------------------------------------------------
+        public override bool HitTestCore(SvgHitChain svgChain, float x, float y)
+        {
+            //is in circle area ?
+
+            return false;
+        }
+        public override void Paint(Drawing.IGraphics g)
+        {
+
+            using (SolidBrush sb = new SolidBrush(this.fillColor))
+            {
+                g.FillPath(sb, this._path);
+
+            }
+            if (this.strokeColor != Color.Transparent
+                && this.ActualStrokeWidth > 0)
+            {
+                using (SolidBrush sb = new SolidBrush(this.strokeColor))
+                using (Pen pen = new Pen(sb))
+                {
+                    pen.Width = this.ActualStrokeWidth;
+                    g.DrawPath(pen, this._path);
+                }
+            }
+
+        }
+
+    }
     public class SvgPolygon : SvgVisualElement
     {
         List<PointF> pointList = new List<PointF>();

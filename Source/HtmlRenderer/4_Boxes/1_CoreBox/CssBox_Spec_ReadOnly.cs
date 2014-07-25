@@ -94,7 +94,7 @@ namespace HtmlRenderer.Boxes
         {
             get { return this.BorderCollapse == CssBorderCollapse.Collapse; }
         }
-        
+
         //------------------------------------------------------ 
         public CssLength Left
         {
@@ -145,7 +145,7 @@ namespace HtmlRenderer.Boxes
             get { return this._myspec.ActualBackgroundGradientAngle; }
         }
 
-        public CssEmptyCell EmptyCells
+        CssEmptyCell EmptyCells
         {
             get { return this._myspec.EmptyCells; }
         }
@@ -285,119 +285,119 @@ namespace HtmlRenderer.Boxes
 
 
 
-    //-----------
-    partial class CssBox
-    {
-        CssLength BorderLeftWidth
-        {
-            get { return this._myspec.BorderLeftWidth; }
-        }
-        CssLength BorderTopWidth
-        {
-            get { return this._myspec.BorderTopWidth; }
-        }
-        CssLength BorderRightWidth
-        {
-            get { return this._myspec.BorderRightWidth; }
-        }
+    ////-----------
+    //partial class CssBox
+    //{
+    //    CssLength BorderLeftWidth
+    //    {
+    //        get { return this._myspec.BorderLeftWidth; }
+    //    }
+    //    CssLength BorderTopWidth
+    //    {
+    //        get { return this._myspec.BorderTopWidth; }
+    //    }
+    //    CssLength BorderRightWidth
+    //    {
+    //        get { return this._myspec.BorderRightWidth; }
+    //    }
 
-        CssLength BorderBottomWidth
-        {
-            get { return this._myspec.BorderBottomWidth; }
-        }
-        string FontFamily
-        {
-            get { return this._myspec.FontFamily; }
-        }
+    //    CssLength BorderBottomWidth
+    //    {
+    //        get { return this._myspec.BorderBottomWidth; }
+    //    }
+    //    string FontFamily
+    //    {
+    //        get { return this._myspec.FontFamily; }
+    //    }
 
-        CssLength FontSize
-        {
-            get { return this._myspec.FontSize; }
-        }
+    //    CssLength FontSize
+    //    {
+    //        get { return this._myspec.FontSize; }
+    //    }
 
-        CssFontStyle FontStyle
-        {
-            get { return this._myspec.FontStyle; }
-        }
+    //    CssFontStyle FontStyle
+    //    {
+    //        get { return this._myspec.FontStyle; }
+    //    }
 
-        CssFontVariant FontVariant
-        {
-            get { return this._myspec.FontVariant; }
-        }
+    //    CssFontVariant FontVariant
+    //    {
+    //        get { return this._myspec.FontVariant; }
+    //    }
 
-        CssFontWeight FontWeight
-        {
-            get { return this._myspec.FontWeight; }
-        }
-        CssListStylePosition ListStylePosition
-        {
-            get { return this._myspec.ListStylePosition; }
-        }
-        string ListStyle
-        {
-            get { return this._myspec.ListStyle; }
-        }
-        string ListStyleImage
-        {
-            get { return this._myspec.ListStyleImage; }
-        }
+    //    CssFontWeight FontWeight
+    //    {
+    //        get { return this._myspec.FontWeight; }
+    //    }
+    //    CssListStylePosition ListStylePosition
+    //    {
+    //        get { return this._myspec.ListStylePosition; }
+    //    }
+    //    string ListStyle
+    //    {
+    //        get { return this._myspec.ListStyle; }
+    //    }
+    //    string ListStyleImage
+    //    {
+    //        get { return this._myspec.ListStyleImage; }
+    //    }
 
-        CssListStyleType ListStyleType
-        {
-            get { return this._myspec.ListStyleType; }
-        }
-        //------------------------------------------------------
-        CssLength CornerNERadius
-        {
-            get { return this._myspec.CornerNERadius; }
-        }
-        CssLength CornerNWRadius
-        {
-            get { return this._myspec.CornerNWRadius; }
-        }
-        CssLength CornerSERadius
-        {
-            get { return this._myspec.CornerSERadius; }
-        }
-        CssLength CornerSWRadius
-        {
-            get { return this._myspec.CornerSWRadius; }
-        }
-        //------------------------------------------------------ 
-        CssLength MarginLeft
-        {
-            get { return this._myspec.MarginLeft; }
-        }
-        CssLength MarginTop
-        {
-            get { return this._myspec.MarginTop; }
-        }
-        CssLength MarginRight
-        {
-            get { return this._myspec.MarginRight; }
-        }
-        CssLength MarginBottom
-        {
-            get { return this._myspec.MarginBottom; }
-        }
-        //------------------------------------------------------
-        CssLength PaddingLeft
-        {
-            get { return this._myspec.PaddingLeft; }
-        }
-        CssLength PaddingTop
-        {
-            get { return this._myspec.PaddingTop; }
-        }
-        CssLength PaddingRight
-        {
-            get { return this._myspec.PaddingRight; }
-        }
-        CssLength PaddingBottom
-        {
-            get { return this._myspec.PaddingBottom; }
-        }
-    }
+    //    CssListStyleType ListStyleType
+    //    {
+    //        get { return this._myspec.ListStyleType; }
+    //    }
+    //    //------------------------------------------------------
+    //    CssLength CornerNERadius
+    //    {
+    //        get { return this._myspec.CornerNERadius; }
+    //    }
+    //    CssLength CornerNWRadius
+    //    {
+    //        get { return this._myspec.CornerNWRadius; }
+    //    }
+    //    CssLength CornerSERadius
+    //    {
+    //        get { return this._myspec.CornerSERadius; }
+    //    }
+    //    CssLength CornerSWRadius
+    //    {
+    //        get { return this._myspec.CornerSWRadius; }
+    //    }
+    //    //------------------------------------------------------ 
+    //    CssLength MarginLeft
+    //    {
+    //        get { return this._myspec.MarginLeft; }
+    //    }
+    //    CssLength MarginTop
+    //    {
+    //        get { return this._myspec.MarginTop; }
+    //    }
+    //    CssLength MarginRight
+    //    {
+    //        get { return this._myspec.MarginRight; }
+    //    }
+    //    CssLength MarginBottom
+    //    {
+    //        get { return this._myspec.MarginBottom; }
+    //    }
+    //    //------------------------------------------------------
+    //    CssLength PaddingLeft
+    //    {
+    //        get { return this._myspec.PaddingLeft; }
+    //    }
+    //    CssLength PaddingTop
+    //    {
+    //        get { return this._myspec.PaddingTop; }
+    //    }
+    //    CssLength PaddingRight
+    //    {
+    //        get { return this._myspec.PaddingRight; }
+    //    }
+    //    CssLength PaddingBottom
+    //    {
+    //        get { return this._myspec.PaddingBottom; }
+    //    }
+    //}
 
 
 }

@@ -31,7 +31,7 @@ namespace HtmlRenderer.Boxes
         }
         internal static CssBoxCollection UnsafeGetChildren(CssBox box)
         {
-            return box.Boxes;
+            return box._aa_boxes;
         }
         internal static BoxSpec UnsafeGetBoxSpec(CssBox box)
         {

@@ -23,7 +23,7 @@ namespace HtmlRenderer.Boxes
     {
         int _textStartIndex;
         int _textLength;
-
+       
         /// <summary>
         /// Init.
         /// </summary>
@@ -46,6 +46,7 @@ namespace HtmlRenderer.Boxes
             this._textLength = 1;
 
         }
+
         private CssTextRun(int whiteSpaceLength)
             : base(CssRunKind.Space)
         {

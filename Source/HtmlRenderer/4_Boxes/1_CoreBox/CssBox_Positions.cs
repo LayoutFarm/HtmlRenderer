@@ -187,12 +187,13 @@ namespace HtmlRenderer.Boxes
             }
             else
             {
-                throw new NotSupportedException();
+                ReEvaluateFont(iFonts, containingBlock.ActualFont.Size);
                 //this._actualFont = this.Spec.GetFont(containingBlock.Spec);
             }
 
             //-----------------------------------------------------------------------
             float cbWidth = containingBlock.SizeWidth;
+            int tmpBoxCompactFlags = this._boxCompactFlags;
             this._boxCompactFlags |= BoxFlags.LAY_EVAL_COMPUTE_VALUES;
 
 
@@ -273,11 +274,11 @@ namespace HtmlRenderer.Boxes
             {
                 //css 2.1 border can't be nagative values 
 
-                this._boxCompactFlags |= BoxFlags.HAS_SOME_VISIBLE_BORDER;
+                tmpBoxCompactFlags |= BoxFlags.HAS_SOME_VISIBLE_BORDER;
             }
             else
             {
-                this._boxCompactFlags &= ~BoxFlags.HAS_SOME_VISIBLE_BORDER;
+                tmpBoxCompactFlags &= ~BoxFlags.HAS_SOME_VISIBLE_BORDER;
             }
             //---------------------------------------------------------------------------
 
@@ -289,11 +290,11 @@ namespace HtmlRenderer.Boxes
             if ((a1 + a2 + a3 + a4) > 0)
             {
                 //evaluate 
-                this._boxCompactFlags |= BoxFlags.HAS_ROUND_CORNER;
+                tmpBoxCompactFlags |= BoxFlags.HAS_ROUND_CORNER;
             }
             else
             {
-                this._boxCompactFlags &= ~BoxFlags.HAS_ROUND_CORNER;
+                tmpBoxCompactFlags &= ~BoxFlags.HAS_ROUND_CORNER;
             }
             //---------------------------------------------------------------------------
             //evaluate bg 
@@ -301,13 +302,22 @@ namespace HtmlRenderer.Boxes
             if (BackgroundGradient != System.Drawing.Color.Transparent ||
                 Drawing.RenderUtils.IsColorVisible(ActualBackgroundColor))
             {
-                this._boxCompactFlags |= BoxFlags.HAS_VISIBLE_BG;
+                tmpBoxCompactFlags |= BoxFlags.HAS_VISIBLE_BG;
             }
             else
             {
-                this._boxCompactFlags &= ~BoxFlags.HAS_VISIBLE_BG;
+                tmpBoxCompactFlags &= ~BoxFlags.HAS_VISIBLE_BG;
             }
-
+            if (spec.Overflow == CssOverflow.Hidden)
+            {
+                tmpBoxCompactFlags |= BoxFlags.OVERFLOW_HIDDEN;
+            }
+            else
+            {
+                tmpBoxCompactFlags &= ~BoxFlags.OVERFLOW_HIDDEN;
+            }
+            //-----------------------
+             
 
             if (spec.WordSpacing.IsNormalWordSpacing)
             {
@@ -319,16 +329,19 @@ namespace HtmlRenderer.Boxes
                     + CssValueParser.ConvertToPx(spec.WordSpacing, 1, this);
             }
 
+          
+
+            //---------------------------------------------- 
+            this._boxCompactFlags = tmpBoxCompactFlags;
+            //---------------------------------------------- 
 
             //text indent   
-
             this._actualTextIndent = CssValueParser.ConvertToPx(spec.TextIndent, containingBlock.SizeWidth, this);
             this._actualBorderSpacingHorizontal = spec.BorderSpacingHorizontal.Number;
-            this._actualBorderSpacingVertical = spec.BorderSpacingVertical.Number;
+            this._actualBorderSpacingVertical = spec.BorderSpacingVertical.Number; 
 
-            //this._actualLineHeight = 0.9f * CssValueParser.ConvertToPx(LineHeight, this.GetEmHeight(), this);
-
-
+            //-----------------------
+            //this._actualLineHeight = 0.9f * CssValueParser.ConvertToPx(LineHeight, this.GetEmHeight(), this); 
             //expected width expected height
             //this._expectedWidth = CssValueParser.ParseLength(Width, cbWidth, this);
             //this._expectedHight = CssValueParser.ParseLength(Height, containingBlock.SizeHeight, this);
@@ -346,37 +359,9 @@ namespace HtmlRenderer.Boxes
             //else
             //{
             //    _actualLineHeight = .9f * (this.GetEmHeight());
-            //}
-
-        }
-
-        //--------------------------------
-        public float ClientLeft
-        {
-            get { return ActualBorderLeftWidth + ActualPaddingLeft; }
-        }
-        public float ClientRight
-        {
-            get { return this.SizeWidth - ActualPaddingRight - ActualBorderRightWidth; }
-        }
-        //--------------------------------
-        public float ClientTop
-        {
-            get { return ActualBorderTopWidth + ActualPaddingTop; }
-        }
-        public float ClientBottom
-        {
-            get { return this.SizeHeight - (ActualPaddingBottom + ActualBorderBottomWidth); }
-        }
-        //------------------------------------------
-        public float ClientWidth
-        {
-            get { return this.SizeWidth - (ActualBorderLeftWidth + ActualPaddingLeft + ActualPaddingRight + ActualBorderRightWidth); }
-        }
-        public float ClientHeight
-        {
-            get { return this.SizeHeight - (ActualBorderTopWidth + ActualPaddingTop + ActualPaddingBottom + ActualBorderBottomWidth); }
-        }
+            //} 
+        } 
+       
         //------------------------------------------ 
         internal bool FreezeWidth
         {
@@ -763,12 +748,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-        internal bool IsPointInClientArea(float x, float y)
-        {
-            //from parent view
-            return x >= this.ClientLeft && x < this.ClientRight &&
-                   y >= this.ClientTop && y < this.ClientBottom;
-        }
+        
         internal bool IsPointInArea(float x, float y)
         {
             //from parent view

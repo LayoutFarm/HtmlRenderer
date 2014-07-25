@@ -12,8 +12,10 @@ namespace HtmlRenderer.Boxes
     partial class CssBox
     {
         Font _actualFont;
+
         float _actualLineHeight;
-        float _actualWordSpacing;
+        float _actualWordSpacing; //assign for whitespace run ?
+
         float _actualTextIndent;
         float _actualEmHeight;
 
@@ -23,7 +25,7 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// Gets the line height
         /// </summary>
-        public float ActualLineHeight
+        float ActualLineHeight
         {
             get
             {
@@ -51,7 +53,7 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// Gets the actual width of whitespace between words.
         /// </summary>
-        public float ActualWordSpacing
+        float ActualWordSpacing
         {
             get { return _actualWordSpacing; }
         }
@@ -73,8 +75,7 @@ namespace HtmlRenderer.Boxes
         public float ActualBorderSpacingVertical
         {
             get
-            {
-
+            {   
                 return _actualBorderSpacingVertical;
             }
         }

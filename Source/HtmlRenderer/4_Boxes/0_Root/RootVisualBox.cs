@@ -354,7 +354,7 @@ namespace HtmlRenderer
 
 
 
-            PaintVisitor args = new PaintVisitor(this, ig);
+            Painter args = new Painter(this, ig);
             float scX = this.ScrollOffset.X;
             float scY = this.ScrollOffset.Y;
 

@@ -70,7 +70,6 @@
     <Compile Include="4_Boxes\4_Animation\ArtParallelTimeline.cs" />
     <Compile Include="1_Drawing_TextAndGraphics\FontDefaultConfig.cs" />
     <Compile Include="4_Boxes\1_CoreBox\CssBox_Spec_Snap.cs" />
-    <Compile Include="4_Boxes\1_CoreBox\SubBoxCollection.cs" />
     <Compile Include="4_Boxes\2_Runs\CssBlockRun.cs" />
     <Compile Include="4_Boxes\7_HitAndSelections\BoxHitChain.cs" />
     <Compile Include="4_Boxes\1_CoreBox\CssBox_BoxFlags.cs" />
@@ -82,12 +81,13 @@
     <Compile Include="4_Boxes\3_Layout\CssBoxLayoutExtension.cs" />
     <Compile Include="4_Boxes\1_CoreBox\CssBox_Positions.cs" />
     <Compile Include="4_Boxes\3_Layout\LayoutVisitor.cs" />
-    <Compile Include="4_Boxes\5_Render\PaintVisitor.cs" />
+    <Compile Include="4_Boxes\5_Render\Painter.cs" />
     <Compile Include="4_Boxes\3_Layout\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
     <Compile Include="4_Boxes\3_Layout\CssTableLayoutEngine.TableColumns.cs" />
     <Compile Include="1_Drawing_TextAndGraphics\ImageBinder.cs" />
     <Compile Include="3_Css\BoxSpec.cs" />
     <Compile Include="3_Css\BoxSpec_CopyAndVersioning.cs" />
+    <Compile Include="5_Boxes_SpecialBoxes\CssBoxListItem.cs" />
     <Compile Include="9_Diagnostics\DeprecatedAttribute.cs" />
     <Compile Include="9_Diagnostics\HtmlGenerator.cs" />
     <Compile Include="Platform\Delegates.cs" />
@@ -116,8 +116,8 @@
     <Compile Include="9_Diagnostics\HtmlGenerationStyle.cs" />
     <Compile Include="Platform\ExtensionAttribute.cs" />
     <Compile Include="1_Drawing_TextAndGraphics\IGraphics.cs" />
-    <Compile Include="4_Boxes\5_Render\BackgroundImageDrawHandler.cs" />
-    <Compile Include="4_Boxes\5_Render\BordersDrawHandler.cs" />
+    <Compile Include="4_Boxes\5_Render\BackgroundImagePaintHelper.cs" />
+    <Compile Include="4_Boxes\5_Render\BorderPaintHelper.cs" />
     <Compile Include="4_Boxes\1_CoreBox\CssValueParser.cs" />
     <Compile Include="4_Boxes\0_Root\RootVisualBox.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

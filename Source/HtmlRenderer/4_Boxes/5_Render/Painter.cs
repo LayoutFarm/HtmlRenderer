@@ -11,11 +11,11 @@ using HtmlRenderer.Css;
 namespace HtmlRenderer.Boxes
 {
     //----------------------------------------------------------------------------
-    public class PaintVisitor : BoxVisitor
+    public class Painter : BoxVisitor
     {
         Stack<RectangleF> clipStacks = new Stack<RectangleF>();
 
-        static PointF[] borderPoints = new PointF[4];
+        PointF[] borderPoints = new PointF[4];
 
         PointF htmlContainerScrollOffset;
 
@@ -30,7 +30,7 @@ namespace HtmlRenderer.Boxes
         float physicalViewportY;
 
         bool aviodGeometyAntialias;
-        public PaintVisitor(RootVisualBox container, IGraphics ig)
+        public Painter(RootVisualBox container, IGraphics ig)
         {
             this.visualRootBox = container;
             this.htmlContainerScrollOffset = container.ScrollOffset;
@@ -110,11 +110,11 @@ namespace HtmlRenderer.Boxes
         /// <param name="requestFrom"></param>
         internal void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, CssBox requestFrom)
         {
-                RootVisualBox.RaiseRequestImage(
-                this.visualRootBox,
-                binder,
-                requestFrom,
-                false);
+            RootVisualBox.RaiseRequestImage(
+            this.visualRootBox,
+            binder,
+            requestFrom,
+            false);
             //--------------------------------------------------
             if (binder.State == ImageBinderState.Loaded)
             {
@@ -140,7 +140,7 @@ namespace HtmlRenderer.Boxes
 
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
         {
-            HtmlRenderer.Boxes.BordersDrawHandler.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);
+            HtmlRenderer.Boxes.BorderPaintHelper.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);
         }
         internal void PaintBorders(CssBox box, RectangleF rect)
         {
@@ -152,23 +152,23 @@ namespace HtmlRenderer.Boxes
             var g = this.Gfx;
 
             var b1 = RenderUtils.GetSolidBrush(topColor);
-            BordersDrawHandler.DrawBorder(CssSide.Top, borderPoints, g, box, b1, rect);
+            BorderPaintHelper.DrawBorder(CssSide.Top, borderPoints, g, box, b1, rect);
 
             var b2 = RenderUtils.GetSolidBrush(leftColor);
-            BordersDrawHandler.DrawBorder(CssSide.Left, borderPoints, g, box, b2, rect);
+            BorderPaintHelper.DrawBorder(CssSide.Left, borderPoints, g, box, b2, rect);
 
             var b3 = RenderUtils.GetSolidBrush(rightColor);
-            BordersDrawHandler.DrawBorder(CssSide.Right, borderPoints, g, box, b3, rect);
+            BorderPaintHelper.DrawBorder(CssSide.Right, borderPoints, g, box, b3, rect);
 
             var b4 = RenderUtils.GetSolidBrush(bottomColor);
-            BordersDrawHandler.DrawBorder(CssSide.Bottom, borderPoints, g, box, b4, rect);
+            BorderPaintHelper.DrawBorder(CssSide.Bottom, borderPoints, g, box, b4, rect);
 
         }
         internal void PaintBorder(CssBox box, CssSide border, Color solidColor, RectangleF rect)
         {
             var b = RenderUtils.GetSolidBrush(solidColor);
             PointF[] borderPoints = new PointF[4];
-            BordersDrawHandler.DrawBorder(border, borderPoints, this.Gfx, box, b, rect);
+            BorderPaintHelper.DrawBorder(border, borderPoints, this.Gfx, box, b, rect);
         }
 
 #if DEBUG
