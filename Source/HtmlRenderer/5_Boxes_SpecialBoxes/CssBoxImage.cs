@@ -91,7 +91,7 @@ namespace HtmlRenderer.Boxes
         //            } break;
         //    }
         //}
-        internal void PaintImage(IGraphics g, RectangleF rect, PaintVisitor p)
+        internal void PaintImage(IGraphics g, RectangleF rect, Painter p)
         {
 
             PaintBackground(p, rect, true, true);
@@ -177,7 +177,7 @@ namespace HtmlRenderer.Boxes
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(IGraphics g, PaintVisitor p)
+        protected override void PaintImp(IGraphics g, Painter p)
         {
             // load image iff it is in visible rectangle  
             //1. single image can't be splited  

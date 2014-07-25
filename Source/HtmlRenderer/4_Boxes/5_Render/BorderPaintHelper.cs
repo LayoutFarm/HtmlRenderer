@@ -27,7 +27,7 @@ namespace HtmlRenderer.Boxes
     /// <summary>
     /// Contains all the complex paint code to paint different style borders.
     /// </summary>
-    static class BordersDrawHandler
+    static class BorderPaintHelper
     {
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="rect">the bounding rectangle to draw in</param>
         /// <param name="isFirst">is it the first rectangle of the element</param>
         /// <param name="isLast">is it the last rectangle of the element</param>
-        public static void DrawBoxBorders(PaintVisitor p, CssBox box, RectangleF rect, bool isFirst, bool isLast)
+        public static void DrawBoxBorders(Painter p, CssBox box, RectangleF rect, bool isFirst, bool isLast)
         {
 
             if (rect.Width > 0 && rect.Height > 0)
@@ -99,7 +99,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="isLineStart">Specifies if the border is for a starting line (no bevel on left)</param>
         /// <param name="isLineEnd">Specifies if the border is for an ending line (no bevel on right)</param>
         static void DrawBorder(CssSide borderSide, CssBox box,
-            PaintVisitor p, RectangleF rect, bool isLineStart, bool isLineEnd)
+            Painter p, RectangleF rect, bool isLineStart, bool isLineEnd)
         {
 
             //------------------------------------------------------
@@ -141,6 +141,7 @@ namespace HtmlRenderer.Boxes
                         {
                             // inset/outset border needs special rectangle
                             PointF[] borderPnts = new PointF[4];
+
                             SetInOutsetRectanglePoints(borderSide, box, rect, isLineStart, isLineEnd, borderPnts);
                             g.FillPolygon(RenderUtils.GetSolidBrush(color), borderPnts);
                         } break;

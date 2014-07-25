@@ -41,7 +41,7 @@ namespace HtmlRenderer.Boxes
     {
 
         readonly Css.BoxSpec _myspec;
-        readonly object _controller; 
+        readonly object _controller;
 
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
@@ -193,7 +193,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return this.HasRuns && this.FirstRun.IsImage;
+                return this.RunCount == 1 && this.FirstRun.IsImage;
             }
         }
 
@@ -224,13 +224,7 @@ namespace HtmlRenderer.Boxes
 
             this._boxCompactFlags = tmpFlags;
         }
-        public bool MayHasSomeTextContent
-        {
-            get
-            {
-                return this._aa_contentRuns != null;
-            }
-        }
+
         internal static char[] UnsafeGetTextBuffer(CssBox box)
         {
             return box._buffer;
@@ -376,7 +370,6 @@ namespace HtmlRenderer.Boxes
             get
             {
                 return this._aa_contentRuns;
-
             }
         }
 
@@ -384,7 +377,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
-                return this._aa_contentRuns != null && this._aa_contentRuns.Count > 0;
+                return this._aa_contentRuns != null;
             }
         }
 
@@ -495,7 +488,7 @@ namespace HtmlRenderer.Boxes
                     lay.RequestImage(this.BackgroundImageBinder, this);
                 }
             }
-            if (this.HasRuns)
+            if (this.RunCount > 0)
             {
                 //find word spacing  
                 float actualWordspacing = this._actualWordSpacing;

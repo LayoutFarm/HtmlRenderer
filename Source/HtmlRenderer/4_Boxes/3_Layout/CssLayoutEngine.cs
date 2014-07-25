@@ -215,7 +215,7 @@ namespace HtmlRenderer.Boxes
                         {
                             //goto svg layout system
                             box.ReEvaluateComputedValues(lay.Gfx, lay.LatestContainingBlock);
-                            box.CustomRecomputedValue(lay.LatestContainingBlock);                            
+                            box.CustomRecomputedValue(lay.LatestContainingBlock);
 
                         }
                         else
@@ -310,9 +310,8 @@ namespace HtmlRenderer.Boxes
 
             }
 
-            //hostBlock.SetHeight(maxLocalBottom + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
-            hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
-            // handle limiting block height when overflow is hidden             
+           
+            hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth); 
             if (hostBlock.Overflow == CssOverflow.Hidden &&
                 !hostBlock.Height.IsEmptyOrAuto &&
                 hostBlock.SizeHeight > hostBlock.ExpectedHeight)
@@ -472,9 +471,9 @@ namespace HtmlRenderer.Boxes
 
             var oX = cx;
 
-            if (splitableBox.MayHasSomeTextContent)
+            if (splitableBox.HasRuns)
             {
-
+                //condition 3 
                 FlowRunsIntoHost(lay, hostBox, splitableBox, splitableBox, 0,
                      limitLocalRight, firstRunStartX,
                      0, 0,
@@ -503,58 +502,15 @@ namespace HtmlRenderer.Boxes
                     }
 
                     b.MeasureRunsSize(lay);
+
                     cx += leftMostSpace;
-
-
-                    //--------------------------------------------------------------------
-                    //not used in this version ***
-                    //if (b.CssDisplay == CssDisplay.BlockInsideInlineAfterCorrection)
-                    //{ 
-                    //    //-----------------------------------------
-                    //    lay.PushContaingBlock(hostBox);
-                    //    var currentLevelLatestSibling = lay.LatestSiblingBox;
-                    //    lay.LatestSiblingBox = null;//reset
-
-                    //    b.PerformLayout(lay);
-
-                    //    lay.LatestSiblingBox = currentLevelLatestSibling;
-                    //    lay.PopContainingBlock();
-                    //    //----------------------------------------- 
-                    //    var newline = new CssLineBox(hostBox);
-                    //    hostBox.AddLineBox(newline);
-                    //    //reset x pos for new line
-                    //    current_line_x = firstRunStartX;
-                    //    //set y to new line      
-                    //    newline.CachedLineTop = current_line_y = maxBottomForHostBox + interLineSpace;
-
-                    //    CssBlockRun blockRun = new CssBlockRun(b);
-                    //    newline.AddRun(blockRun);
-
-                    //    blockRun.SetLocation(firstRunStartX, 0);
-                    //    blockRun.SetSize(b.SizeWidth, b.SizeHeight);
-
-                    //    maxBottomForHostBox += b.SizeHeight;
-                    //    //-----------------------------------------
-                    //    if (childNumber < totalChildCount)
-                    //    {
-                    //        //this is not last child
-                    //        //create new line 
-                    //        newline = new CssLineBox(hostBox);
-                    //        hostBox.AddLineBox(newline);
-                    //        newline.CachedLineTop = current_line_y = maxBottomForHostBox + interLineSpace;
-                    //    } 
-                    //    hostLine = newline;
-                    //    continue;
-                    //}
-                    //--------------------------------------------------------------------
 
                     if (b.HasRuns)
                     {
                         FlowRunsIntoHost(lay, hostBox, splitableBox, b, childNumber,
                          limitLocalRight, firstRunStartX,
                          leftMostSpace, rightMostSpace,
-                         ref hostLine, ref cx);
-
+                         ref hostLine, ref cx); 
                     }
                     else
                     {

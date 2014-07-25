@@ -82,7 +82,7 @@
     <Compile Include="4_Boxes\3_Layout\CssBoxLayoutExtension.cs" />
     <Compile Include="4_Boxes\1_CoreBox\CssBox_Positions.cs" />
     <Compile Include="4_Boxes\3_Layout\LayoutVisitor.cs" />
-    <Compile Include="4_Boxes\5_Render\PaintVisitor.cs" />
+    <Compile Include="4_Boxes\5_Render\Painter.cs" />
     <Compile Include="4_Boxes\3_Layout\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
     <Compile Include="4_Boxes\3_Layout\CssTableLayoutEngine.TableColumns.cs" />
     <Compile Include="1_Drawing_TextAndGraphics\ImageBinder.cs" />
@@ -116,8 +116,8 @@
     <Compile Include="9_Diagnostics\HtmlGenerationStyle.cs" />
     <Compile Include="Platform\ExtensionAttribute.cs" />
     <Compile Include="1_Drawing_TextAndGraphics\IGraphics.cs" />
-    <Compile Include="4_Boxes\5_Render\BackgroundImageDrawHandler.cs" />
-    <Compile Include="4_Boxes\5_Render\BordersDrawHandler.cs" />
+    <Compile Include="4_Boxes\5_Render\BackgroundImagePaintHelper.cs" />
+    <Compile Include="4_Boxes\5_Render\BorderPaintHelper.cs" />
     <Compile Include="4_Boxes\1_CoreBox\CssValueParser.cs" />
     <Compile Include="4_Boxes\0_Root\RootVisualBox.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

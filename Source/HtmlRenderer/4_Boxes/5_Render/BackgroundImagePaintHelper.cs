@@ -1,4 +1,6 @@
-﻿//ArthurHub 
+﻿//BSD 2014, WinterDev
+//ArthurHub 
+
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
@@ -22,7 +24,7 @@ namespace HtmlRenderer.Boxes
     /// <summary>
     /// Contains all the paint code to paint different background images.
     /// </summary>
-    static class BackgroundImageDrawHandler
+    static class BackgroundImagePaintHelper
     {
         /// <summary>
         /// Draw the background image of the given box in the given rectangle.<br/>

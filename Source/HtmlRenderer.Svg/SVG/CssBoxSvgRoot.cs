@@ -34,7 +34,7 @@ namespace HtmlRenderer.Boxes
 
             this.SetSize(500, 500);
         }
-        protected override void PaintImp(IGraphics g, PaintVisitor p)
+        protected override void PaintImp(IGraphics g, Painter p)
         {
 
             //render this svg

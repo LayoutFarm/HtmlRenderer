@@ -24,25 +24,51 @@ namespace HtmlRenderer.Boxes
     partial class CssBox
     {
 
+        //condition 1: 
+        //  box with multiple children box under block-formatting context
+        //  eg. 
+        //      <div>
+        //          <div></div>
+        //          <div></div>
+        //      </div>
+
+        //condition 2:
+        //box with multiple children box under line-formatting context
+        //eg.
+        //   <div>
+        //      <span><u></u></span>
+        //  </div>
+
+        //condition 3:
+        //box with runlist (no child box) ,  
+        //its content runlist will be flow on itself or another box(condition2 box)
+        //eg.
+        //   <span> AAA </span>
 
 
-        //condition 1 :this Box is BlockBox
-        //1.1 contain lineBoxes for my children and  other children (share)
-        LinkedList<CssLineBox> _clientLineBoxes;
-        //1.2 contains box collection for my children
+        //condition 1: valid  
+        //condition 2: valid  
+        //condition 3  : invalid *
         CssBoxCollection _aa_boxes;
-        //----------------------------------------------------    
-        //condition 2 :this Box is InlineBox     
-        //_aa_contentRuns may come from other data source
+
+        //condition 1: invalid *
+        //condition 2: invalid *
+        //condition 3: valid 
         List<CssRun> _aa_contentRuns;
+        
+        
+        //condition 1: invalid *
+        //condition 2: valid  
+        //condition 3: valid  
+        LinkedList<CssLineBox> _clientLineBoxes;
+
+        //----------------------------------------------------   
+        //only in condition 3
         char[] _buffer;
         //----------------------------------------------------    
         //for other subbox , list item , shadow... 
         SubBoxCollection _subBoxes;
-        //----------------------------------------------------    
-
-
-
+        //----------------------------------------------------     
         /// <summary>
         /// Gets the childrenn boxes of this box
         /// </summary>      

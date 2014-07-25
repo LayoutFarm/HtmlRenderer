@@ -14,7 +14,7 @@ namespace HtmlRenderer.Boxes
     partial class CssBox
     {
 
-        public void Paint(IGraphics g, PaintVisitor p)
+        public void Paint(IGraphics g, Painter p)
         {
 #if DEBUG
             dbugCounter.dbugBoxPaintCount++;
@@ -25,7 +25,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 #if DEBUG
-        public void dbugPaint(PaintVisitor p, RectangleF r)
+        public void dbugPaint(Painter p, RectangleF r)
         {
             //return; 
             var htmlE = CssBox.UnsafeGetController(this);
@@ -61,7 +61,7 @@ namespace HtmlRenderer.Boxes
         }
 #endif
 
-        protected virtual void PaintImp(IGraphics g, PaintVisitor p)
+        protected virtual void PaintImp(IGraphics g, Painter p)
         {
             Css.CssDisplay display = this.CssDisplay;
 
@@ -73,7 +73,7 @@ namespace HtmlRenderer.Boxes
                 bool hasPrevClip = false;
                 RectangleF prevClip = RectangleF.Empty;
 
-                if (this._myspec.Overflow == Css.CssOverflow.Hidden)
+                if ((this._boxCompactFlags & BoxFlags.OVERFLOW_HIDDEN) != 0)
                 {
                     var expectedW = this.ExpectedWidth;
                     var expectedH = this.ExpectedHeight;
@@ -247,7 +247,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="rect">the bounding rectangle to draw in</param>
         /// <param name="isFirst">is it the first rectangle of the element</param>
         /// <param name="isLast">is it the last rectangle of the element</param>
-        internal void PaintBackground(PaintVisitor p, RectangleF rect, bool isFirst, bool isLast)
+        internal void PaintBackground(Painter p, RectangleF rect, bool isFirst, bool isLast)
         {
             if (!this.HasVisibleBgColor)
             {
@@ -316,7 +316,7 @@ namespace HtmlRenderer.Boxes
                     var bgImageBinder = this.BackgroundImageBinder;
                     if (bgImageBinder != null && bgImageBinder.Image != null)
                     {
-                        BackgroundImageDrawHandler.DrawBackgroundImage(g, this, bgImageBinder, rect);
+                        BackgroundImagePaintHelper.DrawBackgroundImage(g, this, bgImageBinder, rect);
                     }
                 }
             }

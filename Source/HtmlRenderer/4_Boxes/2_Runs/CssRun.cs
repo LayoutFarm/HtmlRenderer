@@ -44,8 +44,7 @@ namespace HtmlRenderer.Boxes
     /// </remarks>
     public abstract class CssRun
     {
-
-
+         
         /// <summary>
         /// the CSS box owner of the word
         /// </summary>

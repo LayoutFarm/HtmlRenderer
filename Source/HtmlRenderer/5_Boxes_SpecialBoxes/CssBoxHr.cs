@@ -129,7 +129,7 @@ namespace HtmlRenderer.Boxes
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(IGraphics g, PaintVisitor p)
+        protected override void PaintImp(IGraphics g, Painter p)
         {
 
             var rect = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
