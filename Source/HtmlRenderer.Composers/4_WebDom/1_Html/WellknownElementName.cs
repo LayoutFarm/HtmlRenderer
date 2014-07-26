@@ -144,6 +144,15 @@ namespace HtmlRenderer.WebDom
         Svg_X,
         [Map("y")]
         Svg_Y,
+        [Map("x1")]
+        Svg_X1,
+        [Map("y1")]
+        Svg_Y1,
+        [Map("x2")]
+        Svg_X2,
+        [Map("y2")]
+        Svg_Y2,
+
 
         [Map("fill")]
         Svg_Fill,
@@ -170,5 +179,11 @@ namespace HtmlRenderer.WebDom
 
         [Map("transform")]
         Svg_Transform,
+
+        [Map("stop-color")]
+        Svg_StopColor,
+
+        [Map("offset")]
+        Svg_Offset         
     }
 }

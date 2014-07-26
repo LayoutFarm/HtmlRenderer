@@ -15,7 +15,6 @@ namespace HtmlRenderer.Composers.BridgeHtml
 {
     static class SvgCreator
     {
-
         public static CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
             HtmlElement elementNode,
             Css.BoxSpec spec)
@@ -26,7 +25,15 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 elementNode.Spec,
                 fragment);
             parentBox.AppendChild(rootBox);
+            CreateSvgBoxContent(fragment, elementNode);
 
+            return rootBox;
+
+        }
+        static void CreateSvgBoxContent(
+          SvgElement parentElement,
+          HtmlElement elementNode)
+        {
 
             int j = elementNode.ChildrenCount;
             for (int i = 0; i < j; ++i)
@@ -40,25 +47,33 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 {
                     case WellKnownDomNodeName.svg_rect:
                         {
-                            CreateSvgRect(fragment, node);
+                            CreateSvgRect(parentElement, node);
                         } break;
                     case WellKnownDomNodeName.svg_circle:
                         {
                             //sample circle from 
                             //www.svgbasics.com/shapes.html
-                            CreateSvgCircle(fragment, node);
+                            CreateSvgCircle(parentElement, node);
                         } break;
                     case WellKnownDomNodeName.svg_ellipse:
                         {
-                            CreateSvgEllipse(fragment, node);
+                            CreateSvgEllipse(parentElement, node);
                         } break;
                     case WellKnownDomNodeName.svg_polygon:
                         {
-                            CreateSvgPolygon(fragment, node);
+                            CreateSvgPolygon(parentElement, node);
                         } break;
                     case WellKnownDomNodeName.svg_polyline:
                         {
-                            CreateSvgPolyline(fragment, node);
+                            CreateSvgPolyline(parentElement, node);
+                        } break;
+                    case WellKnownDomNodeName.svg_defs:
+                        {
+                            CreateSvgDefs(parentElement, node);
+                        } break;
+                    case WellKnownDomNodeName.svg_linearGradient:
+                        {
+                            CreateSvgLinearGradient(parentElement, node);
                         } break;
                     default:
                         {
@@ -66,91 +81,88 @@ namespace HtmlRenderer.Composers.BridgeHtml
                         } break;
                 }
             }
-            return rootBox;
+
         }
+        static void CreateSvgDefs(SvgElement parentNode, HtmlElement elem)
+        {
+            //inside single definition
+            SvgDefinitionList svgDefList = new SvgDefinitionList(elem);
+            parentNode.AddChild(svgDefList);
+            CreateSvgBoxContent(svgDefList, elem);
+        }
+        static void CreateSvgLinearGradient(SvgElement parentNode, HtmlElement elem)
+        {
+            //linear gradient definition
+
+            SvgLinearGradient linearGradient = new SvgLinearGradient(elem);
+            
+            foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
+            {
+                WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
+                switch (wellknownName)
+                {
+                    case WellknownName.Svg_X1:
+                        {
+                            linearGradient.X1 = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WellknownName.Svg_X2:
+                        {
+                            linearGradient.X2 = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WellknownName.Svg_Y1:
+                        {
+                            linearGradient.Y1 = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WellknownName.Svg_Y2:
+                        {
+                            linearGradient.Y2 = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                }
+            }
+            //------------------------------------------------------------
+            int j = elem.ChildrenCount;
+            List<StopColorPoint> stopColorPoints = new List<StopColorPoint>(j);
+            for (int i = 0; i < j; ++i)
+            {
+                HtmlElement node = elem.GetChildNode(i) as HtmlElement;
+                if (node == null)
+                {
+                    continue;
+                }
+                switch (node.WellknownElementName)
+                {
+                    case WellKnownDomNodeName.svg_stop:
+                        {
+                            //stop point
+                            StopColorPoint stopPoint = new StopColorPoint();
+                            foreach (WebDom.DomAttribute attr in node.GetAttributeIterForward())
+                            {
+                                WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
+                                switch (wellknownName)
+                                {
+                                    case WellknownName.Svg_StopColor:
+                                        {
+                                            stopPoint.StopColor = CssValueParser.GetActualColor(attr.Value);
+                                        } break;
+                                    case WellknownName.Svg_Offset:
+                                        {
+                                            stopPoint.Offset = UserMapUtil.ParseGenericLength(attr.Value);
+                                        } break;
+                                }
+                            }
+                            stopColorPoints.Add(stopPoint);
+                        } break;
+                }
+            }
+        }
+
+
         static void CreateSvgRect(SvgElement parentNode, HtmlElement elem)
         {
 
             SvgRectSpec spec = new SvgRectSpec();
             SvgRect shape = new SvgRect(spec, elem);
-            //translate attribute
-            TranslateSvgRectAttributes(spec, elem);
             parentNode.AddChild(shape);
-        }
-        static void CreateSvgCircle(SvgElement parentNode, HtmlElement elem)
-        {
-
-            SvgCircleSpec spec = new SvgCircleSpec();
-            SvgCircle shape = new SvgCircle(spec, elem);
-            //translate attribute
-            TranslateSvgCircleAttributes(spec, elem);
-            parentNode.AddChild(shape);
-        }
-        static void CreateSvgEllipse(SvgElement parentNode, HtmlElement elem)
-        {
-
-            SvgEllipseSpec spec = new SvgEllipseSpec();
-            SvgEllipse shape = new SvgEllipse(spec, elem);
-            //translate attribute
-            TranslateSvgEllipseAttributes(spec, elem);
-            parentNode.AddChild(shape);
-        }
-        static void CreateSvgPolygon(SvgElement parentNode, HtmlElement elem)
-        {
-
-            SvgPolygonSpec spec = new SvgPolygonSpec();
-            SvgPolygon shape = new SvgPolygon(spec, elem);
-            TranslateSvgPolygonAttributes(spec, elem);
-
-            parentNode.AddChild(shape);
-        }
-        static void CreateSvgPolyline(SvgElement parentNode, HtmlElement elem)
-        {
-
-            SvgPolylineSpec spec = new SvgPolylineSpec();
-            SvgPolyline shape = new SvgPolyline(spec, elem);
-            TranslateSvgPolylineAttributes(spec, elem);
-
-            parentNode.AddChild(shape);
-        }
-        public static void TranslateSvgAttributesMain(HtmlElement elem)
-        {
-            //if (elem.WellknownElementName != WellKnownDomNodeName.svg)
-            //{
-            //    return;
-            //}
-            //int j = elem.ChildrenCount;
-            //for (int i = 0; i < j; ++i)
-            //{
-            //    HtmlElement node = elem.GetChildNode(i) as HtmlElement;
-            //    if (node == null)
-            //    {
-            //        continue;
-            //    }
-            //    node.WellknownElementName = UserMapUtil.EvaluateTagName(node.LocalName);
-            //    switch (node.WellknownElementName)
-            //    {
-            //        case WellKnownDomNodeName.svg_rect:
-            //            {
-            //                SvgRect rect = new SvgRect();
-            //                //translate attribute to real value
-
-            //                node.AttachSvgElement = rect;
-            //                TranslateSvgAttributes(rect, node);
-            //                //add to node like 
-            //                //boxspec
-
-            //            } break;
-            //        default:
-            //            {
-
-            //            } break;
-            //    }
-            //}
-        }
-        public static void TranslateSvgRectAttributes(SvgRectSpec rectSpec, HtmlElement elem)
-        {
-
             foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
             {
                 WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
@@ -159,39 +171,39 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 {
                     case WebDom.WellknownName.Svg_X:
                         {
-                            rectSpec.X = UserMapUtil.ParseGenericLength(attr.Value);
+                            spec.X = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
                     case WebDom.WellknownName.Svg_Y:
                         {
-                            rectSpec.Y = UserMapUtil.ParseGenericLength(attr.Value);
+                            spec.Y = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
                     case WebDom.WellknownName.Width:
                         {
-                            rectSpec.Width = UserMapUtil.ParseGenericLength(attr.Value);
+                            spec.Width = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
                     case WebDom.WellknownName.Height:
                         {
-                            rectSpec.Height = UserMapUtil.ParseGenericLength(attr.Value);
+                            spec.Height = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
                     case WebDom.WellknownName.Svg_Fill:
                         {
-                            rectSpec.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
                         } break;
                     case WebDom.WellknownName.Svg_Stroke:
                         {
-                            rectSpec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
                         } break;
                     case WebDom.WellknownName.Svg_Stroke_Width:
                         {
-                            rectSpec.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
+                            spec.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
                     case WebDom.WellknownName.Svg_Rx:
                         {
-                            rectSpec.CornerRadiusX = UserMapUtil.ParseGenericLength(attr.Value);
+                            spec.CornerRadiusX = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
                     case WebDom.WellknownName.Svg_Ry:
                         {
-                            rectSpec.CornerRadiusY = UserMapUtil.ParseGenericLength(attr.Value);
+                            spec.CornerRadiusY = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
                     case WebDom.WellknownName.Svg_Transform:
                         {
@@ -205,10 +217,13 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 }
             }
         }
-
-        public static void TranslateSvgCircleAttributes(SvgCircleSpec spec, HtmlElement elem)
+        static void CreateSvgCircle(SvgElement parentNode, HtmlElement elem)
         {
 
+            SvgCircleSpec spec = new SvgCircleSpec();
+            SvgCircle shape = new SvgCircle(spec, elem);
+            parentNode.AddChild(shape);
+            //translate attribute            
             foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
             {
                 WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
@@ -252,8 +267,13 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 }
             }
         }
-        public static void TranslateSvgEllipseAttributes(SvgEllipseSpec spec, HtmlElement elem)
+        static void CreateSvgEllipse(SvgElement parentNode, HtmlElement elem)
         {
+
+            SvgEllipseSpec spec = new SvgEllipseSpec();
+            SvgEllipse shape = new SvgEllipse(spec, elem);
+            parentNode.AddChild(shape);
+
             foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
             {
                 WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
@@ -302,83 +322,13 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 }
             }
         }
-        public static void TranslateSvgPolylineAttributes(SvgPolylineSpec spec, HtmlElement elem)
-        {
-            foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
-            {
-                WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
-
-                switch (wellknownName)
-                {
-                    case WebDom.WellknownName.Svg_Points:
-                        {
-
-                            //parse points
-                            spec.Points = ParsePointList(attr.Value); 
-
-
-                        } break;
-                    case WebDom.WellknownName.Svg_Fill:
-                        {
-                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
-                        } break;
-                    case WebDom.WellknownName.Svg_Stroke:
-                        {
-                            spec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
-                        } break;
-                    case WebDom.WellknownName.Svg_Stroke_Width:
-                        {
-                            spec.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
-                        } break;
-                    case WebDom.WellknownName.Svg_Transform:
-                        {
-                            //TODO: parse svg transform function  
-                        } break;
-                    default:
-                        {
-                            //other attrs
-                        } break;
-
-                }
-            }
-        }
-        static List<System.Drawing.PointF> ParsePointList(string str)
+        static void CreateSvgPolygon(SvgElement parentNode, HtmlElement elem)
         {
 
+            SvgPolygonSpec spec = new SvgPolygonSpec();
+            SvgPolygon shape = new SvgPolygon(spec, elem);
+            parentNode.AddChild(shape);
 
-            //easy parse 01
-            string[] allPoints = str.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
-            //should be even number
-            int j = allPoints.Length - 1;
-            if (j > 1)
-            {
-                var list = new List<System.Drawing.PointF>(j / 2);
-                for (int i = 0; i < j; i += 2)
-                {
-                    float x, y;
-                    if (!float.TryParse(allPoints[i], out x))
-                    {
-                        x = 0;
-                    }
-                    if (!float.TryParse(allPoints[i + 1], out y))
-                    {
-                        y = 0;
-                    }
-
-
-                    list.Add(new System.Drawing.PointF(x, y));
-                }
-                return list;
-
-            }
-            else
-            {
-                return new List<System.Drawing.PointF>();
-            }
-
-        }
-        public static void TranslateSvgPolygonAttributes(SvgPolygonSpec spec, HtmlElement elem)
-        {
             foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
             {
                 WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
@@ -415,6 +365,98 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 }
             }
         }
+        static void CreateSvgPolyline(SvgElement parentNode, HtmlElement elem)
+        {
+
+            SvgPolylineSpec spec = new SvgPolylineSpec();
+            SvgPolyline shape = new SvgPolyline(spec, elem);
+            parentNode.AddChild(shape);
+
+
+            foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
+            {
+                WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
+
+                switch (wellknownName)
+                {
+                    case WebDom.WellknownName.Svg_Points:
+                        {
+
+                            //parse points
+                            spec.Points = ParsePointList(attr.Value);
+
+
+                        } break;
+                    case WebDom.WellknownName.Svg_Fill:
+                        {
+                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke:
+                        {
+                            spec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke_Width:
+                        {
+                            spec.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Transform:
+                        {
+                            //TODO: parse svg transform function  
+                        } break;
+                    default:
+                        {
+                            //other attrs
+                        } break;
+
+                }
+            }
+        }
+        public static void TranslateSvgAttributesMain(HtmlElement elem)
+        {
+
+        }
+
+
+
+
+
+        static List<System.Drawing.PointF> ParsePointList(string str)
+        {
+
+
+            //easy parse 01
+            string[] allPoints = str.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
+            //should be even number
+            int j = allPoints.Length - 1;
+            if (j > 1)
+            {
+                var list = new List<System.Drawing.PointF>(j / 2);
+                for (int i = 0; i < j; i += 2)
+                {
+                    float x, y;
+                    if (!float.TryParse(allPoints[i], out x))
+                    {
+                        x = 0;
+                    }
+                    if (!float.TryParse(allPoints[i + 1], out y))
+                    {
+                        y = 0;
+                    }
+
+
+                    list.Add(new System.Drawing.PointF(x, y));
+                }
+                return list;
+
+            }
+            else
+            {
+                return new List<System.Drawing.PointF>();
+            }
+
+        }
+
+
     }
 
     static class SvgElementPortal

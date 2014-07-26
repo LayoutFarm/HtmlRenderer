@@ -1,5 +1,6 @@
-﻿//MS-PL, Apache2 
-//2014, WinterDev
+﻿//2014, Apache2 WinterDev
+//MS-PL,
+
 
 using System;
 using System.Drawing;

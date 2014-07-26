@@ -12,6 +12,7 @@ namespace HtmlRenderer.SvgDom
 
     public abstract class SvgNode
     {
+
     }
 
 
@@ -126,7 +127,16 @@ namespace HtmlRenderer.SvgDom
 
     }
 
+    public class SvgDefinitionList : SvgElement
+    {
 
+        public SvgDefinitionList(object controller)
+            : base(controller)
+        {
+
+        }
+
+    }
     public class SvgFragment : SvgElement
     {
         public SvgFragment()
@@ -149,6 +159,21 @@ namespace HtmlRenderer.SvgDom
             set;
         }
     }
+
+    public class SvgLinearGradient : SvgElement
+    {
+        public SvgLinearGradient(object controller)
+            : base(controller)
+        {
+
+        }
+        public List<StopColorPoint> StopList { get; set; }
+        public CssLength X1 { get; set; }
+        public CssLength Y1 { get; set; }
+        public CssLength X2 { get; set; }
+        public CssLength Y2 { get; set; }
+    }
+
 
     public class SvgRect : SvgVisualElement
     {
@@ -527,12 +552,12 @@ namespace HtmlRenderer.SvgDom
             var myspec = this.spec;
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
-             
+
             this.pointList = spec.Points.ToArray();
-            
+
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
 
-            
+
             this._path = new GraphicsPath();
             this._path.StartFigure();
 
@@ -562,7 +587,7 @@ namespace HtmlRenderer.SvgDom
             {
                 return pointList;
             }
-        } 
+        }
         public override void Paint(Drawing.IGraphics g)
         {
             using (SolidBrush sb = new SolidBrush(this.fillColor))
@@ -606,7 +631,7 @@ namespace HtmlRenderer.SvgDom
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
 
 
-            this._path = new GraphicsPath(); 
+            this._path = new GraphicsPath();
             PointF[] plist = this.pointList;
             int lim = plist.Length - 1;
             for (int i = 0; i < lim; ++i)
@@ -615,11 +640,11 @@ namespace HtmlRenderer.SvgDom
                 _path.AddLine(
                     plist[i],
                     plist[i + 1]);
-            } 
+            }
         }
         public override void Paint(Drawing.IGraphics g)
         {
-             
+
             if (this.strokeColor != Color.Transparent
                 && this.ActualStrokeWidth > 0)
             {

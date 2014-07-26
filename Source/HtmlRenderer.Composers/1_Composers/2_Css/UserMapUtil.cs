@@ -120,7 +120,14 @@ namespace HtmlRenderer.Composers
         [Map("polygon")]
         svg_polygon,
         [Map("polyline")]
-        svg_polyline
+        svg_polyline,
+
+        [Map("defs")]
+        svg_defs,
+        [Map("linearGradient")]
+        svg_linearGradient,
+        [Map("stop")]
+        svg_stop,
 
     }
 
