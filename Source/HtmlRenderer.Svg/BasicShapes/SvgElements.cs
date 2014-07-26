@@ -615,9 +615,7 @@ namespace HtmlRenderer.SvgDom
                 _path.AddLine(
                     plist[i],
                     plist[i + 1]);
-            }
-             
-            
+            } 
         }
         public override void Paint(Drawing.IGraphics g)
         {
