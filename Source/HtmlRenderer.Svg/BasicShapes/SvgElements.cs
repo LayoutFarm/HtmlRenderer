@@ -143,6 +143,11 @@ namespace HtmlRenderer.SvgDom
         {
 
         }
+        public float ActualStrokeWidth
+        {
+            get;
+            set;
+        }
     }
 
     public class SvgRect : SvgVisualElement
@@ -180,11 +185,7 @@ namespace HtmlRenderer.SvgDom
             get;
             set;
         }
-        public float ActualStrokeWidth
-        {
-            get;
-            set;
-        }
+
         public float ActualCornerRx
         {
             get;
@@ -374,11 +375,7 @@ namespace HtmlRenderer.SvgDom
             get;
             set;
         }
-        public float ActualStrokeWidth
-        {
-            get;
-            set;
-        }
+
         //----------------------------
         public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
         {
@@ -462,11 +459,7 @@ namespace HtmlRenderer.SvgDom
             get;
             set;
         }
-        public float ActualStrokeWidth
-        {
-            get;
-            set;
-        }
+
         //----------------------------
         public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
         {
@@ -518,17 +511,130 @@ namespace HtmlRenderer.SvgDom
     }
     public class SvgPolygon : SvgVisualElement
     {
-        List<PointF> pointList = new List<PointF>();
+        PointF[] pointList;
         Color strokeColor = Color.Transparent;
         Color fillColor = Color.Black;
         GraphicsPath _path;
-        public SvgPolygon(SvgPolygon polygonSpec, object controller)
+        SvgPolygonSpec spec;
+
+        public SvgPolygon(SvgPolygonSpec polygonSpec, object controller)
             : base(controller)
         {
+            this.spec = polygonSpec;
+        }
+        public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        {
+            var myspec = this.spec;
+            this.fillColor = myspec.ActualColor;
+            this.strokeColor = myspec.StrokeColor;
+             
+            this.pointList = spec.Points.ToArray();
+            
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
+
+            
+            this._path = new GraphicsPath();
+            this._path.StartFigure();
+
+
+
+            PointF[] plist = this.pointList;
+            int lim = plist.Length - 1;
+            for (int i = 0; i < lim; ++i)
+            {
+                //p1,p2
+                _path.AddLine(
+                    plist[i],
+                    plist[i + 1]);
+            }
+            //last point
+            if (lim > 0)
+            {
+                _path.AddLine(plist[lim], plist[0]);
+            }
+
+
+            this._path.CloseFigure();
+        }
+        public PointF[] Points
+        {
+            get
+            {
+                return pointList;
+            }
+        } 
+        public override void Paint(Drawing.IGraphics g)
+        {
+            using (SolidBrush sb = new SolidBrush(this.fillColor))
+            {
+                g.FillPath(sb, this._path);
+
+            }
+            if (this.strokeColor != Color.Transparent
+                && this.ActualStrokeWidth > 0)
+            {
+                using (SolidBrush sb = new SolidBrush(this.strokeColor))
+                using (Pen pen = new Pen(sb))
+                {
+                    pen.Width = this.ActualStrokeWidth;
+                    g.DrawPath(pen, this._path);
+                }
+            }
 
         }
     }
+    public class SvgPolyline : SvgVisualElement
+    {
+        Color strokeColor = Color.Transparent;
+        Color fillColor = Color.Black;
+        PointF[] pointList;
+        GraphicsPath _path;
+        SvgPolylineSpec spec;
+        public SvgPolyline(SvgPolylineSpec polylineSpec, object controller)
+            : base(controller)
+        {
+            this.spec = polylineSpec;
+        }
+        public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        {
+            var myspec = this.spec;
+            this.fillColor = myspec.ActualColor;
+            this.strokeColor = myspec.StrokeColor;
 
+            this.pointList = spec.Points.ToArray();
+
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
+
+
+            this._path = new GraphicsPath(); 
+            PointF[] plist = this.pointList;
+            int lim = plist.Length - 1;
+            for (int i = 0; i < lim; ++i)
+            {
+                //p1,p2
+                _path.AddLine(
+                    plist[i],
+                    plist[i + 1]);
+            }
+             
+            
+        }
+        public override void Paint(Drawing.IGraphics g)
+        {
+             
+            if (this.strokeColor != Color.Transparent
+                && this.ActualStrokeWidth > 0)
+            {
+                using (SolidBrush sb = new SolidBrush(this.strokeColor))
+                using (Pen pen = new Pen(sb))
+                {
+                    pen.Width = this.ActualStrokeWidth;
+                    g.DrawPath(pen, this._path);
+                }
+            }
+
+        }
+    }
     public class SvgLine : SvgVisualElement
     {
         Color strokeColor = Color.Transparent;

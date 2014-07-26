@@ -106,7 +106,12 @@ namespace HtmlRenderer.SvgDom
     }
     public class SvgPolygonSpec : SvgVisualSpec
     {
+        public List<PointF> Points { get; set; }
 
+    }
+    public class SvgPolylineSpec : SvgVisualSpec
+    {
+        public List<PointF> Points { get; set; }
     }
 
 }

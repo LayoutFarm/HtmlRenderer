@@ -165,6 +165,9 @@ namespace HtmlRenderer.WebDom
         [Map("cy")]
         Svg_Cy,
 
+        [Map("points")]
+        Svg_Points,
+
         [Map("transform")]
         Svg_Transform,
     }

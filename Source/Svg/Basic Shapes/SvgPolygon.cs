@@ -45,7 +45,8 @@ namespace Svg
                     {
                         for (int i = 2; i < this._points.Count; i+=2)
                         {
-                            PointF endPoint = new PointF(this._points[i].ToDeviceValue(this), this._points[i+1].ToDeviceValue(this));
+                            PointF endPoint = new PointF(this._points[i].ToDeviceValue(this), 
+                                this._points[i+1].ToDeviceValue(this));
 
                             //first line
                             if (_path.PointCount == 0)
