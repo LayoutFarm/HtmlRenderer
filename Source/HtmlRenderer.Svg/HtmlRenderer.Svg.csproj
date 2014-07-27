@@ -36,6 +36,13 @@
     <Compile Include="HitAndSelection\SvgHitChain.cs" />
     <Compile Include="BasicShapes\SvgSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Transforms\SvgMatrix.cs" />
+    <Compile Include="Transforms\SvgRotate.cs" />
+    <Compile Include="Transforms\SvgScale.cs" />
+    <Compile Include="Transforms\SvgShear.cs" />
+    <Compile Include="Transforms\SvgSkew.cs" />
+    <Compile Include="Transforms\SvgTransform.cs" />
+    <Compile Include="Transforms\SvgTranslate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
