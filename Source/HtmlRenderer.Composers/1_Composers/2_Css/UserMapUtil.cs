@@ -116,7 +116,19 @@ namespace HtmlRenderer.Composers
         [Map("circle")]
         svg_circle,
         [Map("ellipse")]
-        svg_ellipse
+        svg_ellipse,
+        [Map("polygon")]
+        svg_polygon,
+        [Map("polyline")]
+        svg_polyline,
+
+        [Map("defs")]
+        svg_defs,
+        [Map("linearGradient")]
+        svg_linearGradient,
+        [Map("stop")]
+        svg_stop,
+
     }
 
 

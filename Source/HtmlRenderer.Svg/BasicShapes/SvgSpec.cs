@@ -1,5 +1,5 @@
-﻿//MS-PL, Apache2 
-//2014, WinterDev
+﻿//2014, Apache2 WinterDev
+//MS-PL,  
 
 using System;
 using System.Drawing;
@@ -106,7 +106,27 @@ namespace HtmlRenderer.SvgDom
     }
     public class SvgPolygonSpec : SvgVisualSpec
     {
+        public List<PointF> Points { get; set; }
 
+    }
+    public class SvgPolylineSpec : SvgVisualSpec
+    {
+        public List<PointF> Points { get; set; }
+    }
+
+    
+    public class StopColorPoint
+    {
+        public Color StopColor
+        {
+            get;
+            set;
+        }
+        public CssLength Offset
+        {
+            get;
+            set;
+        }
     }
 
 }

@@ -32,9 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Svg\SvgElements.cs" />
-    <Compile Include="Svg\SvgHitChain.cs" />
-    <Compile Include="Svg\SvgSpec.cs" />
+    <Compile Include="BasicShapes\SvgElements.cs" />
+    <Compile Include="HitAndSelection\SvgHitChain.cs" />
+    <Compile Include="BasicShapes\SvgSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
