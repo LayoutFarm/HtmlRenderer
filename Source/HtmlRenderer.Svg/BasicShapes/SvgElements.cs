@@ -692,6 +692,10 @@ namespace HtmlRenderer.SvgDom
 
     }
 
+    public class SvgUse : SvgNode
+    {
+            
+    }
 
 
 

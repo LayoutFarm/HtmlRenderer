@@ -5,14 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4E185663-158F-4B19-A86D-435D9F203A07}</ProjectGuid>
+    <ProjectGuid>{D162FBBF-C555-4605-AFA3-31A4278334E2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HtmlRenderer.Svg</RootNamespace>
-    <AssemblyName>HtmlRenderer.Svg</AssemblyName>
+    <RootNamespace>LayoutFarm.TextEditLayer</RootNamespace>
+    <AssemblyName>LayoutFarm.TextEditLayer</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,29 +31,34 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="BasicShapes\SvgElements.cs" />
-    <Compile Include="HitAndSelection\SvgHitChain.cs" />
-    <Compile Include="BasicShapes\SvgSpec.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Transforms\SvgMatrix.cs" />
-    <Compile Include="Transforms\SvgRotate.cs" />
-    <Compile Include="Transforms\SvgScale.cs" />
-    <Compile Include="Transforms\SvgShear.cs" />
-    <Compile Include="Transforms\SvgSkew.cs" />
-    <Compile Include="Transforms\SvgTransform.cs" />
-    <Compile Include="Transforms\SvgTranslate.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="license.txt" />
+    <Compile Include="01_TextRun\ArtVisualTextRun.cs" />
+    <Compile Include="01_TextRun\VisualLocationInfo.cs" />
+    <Compile Include="01_TextRun\dbugMultiTextManRecorder.cs" />
+    <Compile Include="02_Lines\TextLineReaderWriter.cs" />
+    <Compile Include="01_TextRun\ArtEditableVisualTextRun.cs" />
+    <Compile Include="01_TextRun\ArtVisualTextRun_EditableFeatures.cs" />
+    <Compile Include="01_TextRun\VisualPointInfo.cs" />
+    <Compile Include="01_TextRun\VisualSelectionRange.cs" />
+    <Compile Include="03_Layer\1_EditableTextFlowLayer.cs" />
+    <Compile Include="03_Layer\1_EditableTextFlowLayer_CORE_Collection.cs" />
+    <Compile Include="03_Layer\1_EditableTextFlowLayer_Relocator_Feeder.cs" />
+    <Compile Include="02_Lines\0_EditableVisualElementLine.cs" />
+    <Compile Include="02_Lines\1_EditableVisualElementLine_CORE_Collection.cs" />
+    <Compile Include="02_Lines\2_EditableVisualElementLine_PRIVATE_CollectionFeatures2.cs" />
+    <Compile Include="02_Lines\3_EditableVisualElementLine_PUBLIC_CollectionFeatures.cs" />
+    <Compile Include="02_Lines\4_EditableVisualElementLine_ArrangeAndResizingMechanism.cs" />
+    <Compile Include="02_Lines\6_EditableVisualElementLine_Advanced.cs" />
+    <Compile Include="02_Lines\7_EditableVisualElementLine_SuppressNativeCollectionMethods.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HtmlRenderer\HtmlRenderer.csproj">
-      <Project>{1B058920-24B4-4140-8AE7-C8C6C38CA52D}</Project>
-      <Name>HtmlRenderer</Name>
+    <ProjectReference Include="..\LayoutFarm.LeanBox\LayoutFarm.LeanBox.csproj">
+      <Project>{5CDDBA62-67E4-40AA-A3C0-AFAE030E6969}</Project>
+      <Name>LayoutFarm.LeanBox</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
