@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -20,15 +21,15 @@ namespace LayoutFarm.Presentation
         Right
     }
 
-                public interface IVisualParentLink
+    public interface IVisualParentLink
     {
-                
-        void Unlink(ArtVisualElement ve);
-                                bool ControlChildPosition { get; }
-        bool MayHasOverlapChild { get; }
-                                ArtVisualElement ParentVisualElement { get; }
 
-                void Relocate(ArtVisualElement tomoveElement, ArtVisualElement relateTo, ParentLinkRelocatePosition pos);
+        void Unlink(ArtVisualElement ve);
+        bool ControlChildPosition { get; }
+        bool MayHasOverlapChild { get; }
+        ArtVisualElement ParentVisualElement { get; }
+
+        void Relocate(ArtVisualElement tomoveElement, ArtVisualElement relateTo, ParentLinkRelocatePosition pos);
         void AdjustParentLocation(ref System.Drawing.Point p);
         void PerformLayout(VisualElementArgs vinv);
         ArtVisualRootWindow GetWindowRoot();
@@ -49,7 +50,7 @@ namespace LayoutFarm.Presentation
 
     class SimpleLinkListParentLink : IVisualParentLink
     {
-                public readonly LinkedListNode<ArtVisualElement> internalLinkedNode;
+        public readonly LinkedListNode<ArtVisualElement> internalLinkedNode;
         VisualPlainLayer ownerLayer;
         public SimpleLinkListParentLink(VisualPlainLayer ownerLayer,
             LinkedListNode<ArtVisualElement> internalLinkedNode)
@@ -97,7 +98,7 @@ namespace LayoutFarm.Presentation
             get
             {
                 return false;
-                            }
+            }
 
         }
         public ArtVisualElement ParentVisualElement
@@ -123,31 +124,31 @@ namespace LayoutFarm.Presentation
         {
             goToFinalExit = false;
             return ownerLayer.InvalidateArrangement();
-                    }
+        }
         public void AdjustParentLocation(ref System.Drawing.Point p)
         {
 
         }
         public void Relocate(ArtVisualElement tomoveElement, ArtVisualElement relateTo, ParentLinkRelocatePosition pos)
         {
-                        
-                                                                                                                                                switch (pos)
+
+            switch (pos)
             {
                 default:
                     {
                     } break;
                 case ParentLinkRelocatePosition.After:
                     {
-                        
+
                         if (this.internalLinkedNode != null)
                         {
                             var list = internalLinkedNode.List as LinkedList<ArtVisualElement>;
                             list.Remove(tomoveElement);
                             list.AddAfter(internalLinkedNode, tomoveElement);
                         }
-                                                
-                                                                                                                        
-                                                                                                                                                                                                                                                                    } break;
+
+
+                    } break;
 
             }
 

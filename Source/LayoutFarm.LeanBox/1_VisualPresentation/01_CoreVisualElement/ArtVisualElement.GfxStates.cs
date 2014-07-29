@@ -1,24 +1,25 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-using System.Drawing.Drawing2D; 
+using System.Drawing.Drawing2D;
 
 namespace LayoutFarm.Presentation
 {
-            partial class ArtVisualElement
+    partial class ArtVisualElement
     {
 
-                                object myBehOrAnimator;
+        object myBehOrAnimator;
 
-                                public BoxStyle Beh
+        public BoxStyle Beh
         {
             get
             {
                 if (this.myBehOrAnimator != null)
                 {
                     return (BoxStyle)this.myBehOrAnimator;
-                   
+
                 }
                 return null;
             }
@@ -28,11 +29,11 @@ namespace LayoutFarm.Presentation
             get
             {
                 return this.Beh != null;
-                            }
+            }
         }
 
- 
-                                public bool TransparentForAllEvents
+
+        public bool TransparentForAllEvents
         {
             get
             {
@@ -43,7 +44,7 @@ namespace LayoutFarm.Presentation
             {
                 if (value)
                 {
-                                        uiFlags |= TRANSPARENT_FOR_ALL_EVENTS;
+                    uiFlags |= TRANSPARENT_FOR_ALL_EVENTS;
                 }
                 else
                 {
@@ -60,29 +61,29 @@ namespace LayoutFarm.Presentation
         }
         protected bool IsOnGroundGfxState
         {
-                        get
+            get
             {
                 return myBehOrAnimator == null || (uiFlags & USE_ANIMATOR) == 0;
 
             }
-        } 
-        
-                                void ResetEventState(VisualElementArgs vinv)
+        }
+
+        void ResetEventState(VisualElementArgs vinv)
         {
-                                    
-                                                                                    if ((uiFlags & IS_IN_ANIMATION_MODE) == 0)
+
+            if ((uiFlags & IS_IN_ANIMATION_MODE) == 0)
             {
-                                                                                                                                                                                                                                                                                            }
+            }
             else
             {
-                                                uiFlags |= ANIMATION_WAITING_FOR_NORMAL_MODE;
+                uiFlags |= ANIMATION_WAITING_FOR_NORMAL_MODE;
             }
 
             this.InvalidateGraphic(vinv);
-        } 
-                                        public virtual void SetBehavior(BoxStyle newbeh, VisualElementArgs vinv)
+        }
+        public virtual void SetBehavior(BoxStyle newbeh, VisualElementArgs vinv)
         {
-            
+
             BoxStyle beh = (BoxStyle)newbeh;
             if (newbeh == null)
             {
@@ -91,24 +92,25 @@ namespace LayoutFarm.Presentation
 
             if ((uiFlags & USE_ANIMATOR) == 0)
             {
-                                if (vinv != null)
+                if (vinv != null)
                 {
-                    this.InvalidateGraphic(vinv);                 }
+                    this.InvalidateGraphic(vinv);
+                }
 
                 this.myBehOrAnimator = beh;
                 if (beh.positionWidth > -1)
                 {
-                                        this.SetWidth(beh.positionWidth, vinv);
+                    this.SetWidth(beh.positionWidth, vinv);
                 }
                 if (beh.positionHeight > -1)
                 {
-                                        this.SetHeight(beh.positionHeight, vinv);
+                    this.SetHeight(beh.positionHeight, vinv);
                 }
 
-                                                                                                
-                                
-                                                                                                
-                                if (vinv != null)
+
+
+
+                if (vinv != null)
                 {
                     this.InvalidateGraphic(vinv);
                 }
@@ -117,9 +119,9 @@ namespace LayoutFarm.Presentation
             {
 
             }
-        } 
+        }
 
-         
-         
+
+
     }
 }

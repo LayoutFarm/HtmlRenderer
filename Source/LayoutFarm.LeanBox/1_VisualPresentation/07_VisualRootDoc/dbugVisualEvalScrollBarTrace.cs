@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -9,7 +10,7 @@ namespace LayoutFarm.Presentation
 {
 
 #if DEBUG
-                    public class dbugVisualEvalScrollBarTrace
+    public class dbugVisualEvalScrollBarTrace
     {
         FileStream fs;
         StreamWriter strmWriter;
@@ -29,7 +30,7 @@ namespace LayoutFarm.Presentation
             this.visualroot = visualroot;
             myTraceCount = tracerCount;
             ++tracerCount;
-            outputFileName = dbugCoreConst.dbugRootFolder +"\\invalidate\\" + myTraceCount + "_" + Guid.NewGuid().ToString() + ".txt";
+            outputFileName = dbugCoreConst.dbugRootFolder + "\\invalidate\\" + myTraceCount + "_" + Guid.NewGuid().ToString() + ".txt";
 
         }
         public void BeginNewContext()
@@ -58,14 +59,14 @@ namespace LayoutFarm.Presentation
             return elementStack.Peek();
         }
 
-                                public void Start()
+        public void Start()
         {
 
-                        fs = new FileStream(outputFileName, FileMode.Create);
+            fs = new FileStream(outputFileName, FileMode.Create);
             strmWriter = new StreamWriter(fs);
 
         }
-                                public void Stop()
+        public void Stop()
         {
             strmWriter.Close();
             strmWriter.Dispose();
@@ -75,14 +76,14 @@ namespace LayoutFarm.Presentation
             fs = null;
 
         }
-        
+
         public void WriteInfo(string info)
         {
             ++msgCounter;
             ShouldBreak();
             strmWriter.Write(new string('\t', indentCount));
             strmWriter.Write(info);
-            strmWriter.Write("\r\n");            strmWriter.Flush();
+            strmWriter.Write("\r\n"); strmWriter.Flush();
         }
         public void Flush()
         {
@@ -90,7 +91,7 @@ namespace LayoutFarm.Presentation
         }
         void ShouldBreak()
         {
-                                                                                }
+        }
 
     }
 #endif

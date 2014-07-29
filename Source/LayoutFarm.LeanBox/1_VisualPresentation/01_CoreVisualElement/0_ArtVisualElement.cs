@@ -1,4 +1,4 @@
-﻿
+﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace LayoutFarm.Presentation
             this.dbug_SetFixedElementCode(this.GetType().Name);
 #endif
         }
-        
+
         public object GetScriptUI()
         {
             return uiScriptElement;
@@ -58,7 +58,7 @@ namespace LayoutFarm.Presentation
                 }
                 else
                 {
-                                        return new VisualElementArgs(null as ArtVisualRootWindow);
+                    return new VisualElementArgs(null as ArtVisualRootWindow);
                 }
             }
         }
@@ -105,7 +105,7 @@ namespace LayoutFarm.Presentation
 
             if (visualParentLink == null)
             {
-                                return;
+                return;
             }
             if (vinv != null)
             {
@@ -128,7 +128,7 @@ namespace LayoutFarm.Presentation
         {
             visual.visualParentLink = null;
         }
-                                public virtual ArtVisualElement ParentVisualElement
+        public virtual ArtVisualElement ParentVisualElement
         {
             get
             {
@@ -160,7 +160,8 @@ namespace LayoutFarm.Presentation
 
                 if (value)
                 {
-                    uiFlags &= ~HIDDEN;                }
+                    uiFlags &= ~HIDDEN;
+                }
                 else
                 {
                     uiFlags |= HIDDEN;
@@ -172,7 +173,8 @@ namespace LayoutFarm.Presentation
                 InvalidateGraphic(vinv);
                 if (value)
                 {
-                    uiFlags &= ~HIDDEN;                }
+                    uiFlags &= ~HIDDEN;
+                }
                 else
                 {
                     uiFlags |= HIDDEN;
@@ -205,7 +207,7 @@ namespace LayoutFarm.Presentation
         {
             get
             {
-                
+
                 return (uiFlags & NOT_ACCEPT_FOCUS) == 0;
 
             }
@@ -225,13 +227,13 @@ namespace LayoutFarm.Presentation
         }
 
 
-                                        int uiFlags;
+        int uiFlags;
 
-                                        public int oneBitNativeEventFlags = 0;
-        
+        public int oneBitNativeEventFlags = 0;
+
 
         const int IS_TRANSLUCENT_BG = 1 << (1 - 1);
-        const int SCROLLABLE_FULL_MODE = 1 << (2 - 1);        const int TRANSPARENT_FOR_ALL_EVENTS = 1 << (3 - 1);
+        const int SCROLLABLE_FULL_MODE = 1 << (2 - 1); const int TRANSPARENT_FOR_ALL_EVENTS = 1 << (3 - 1);
         const int HIDDEN = 1 << (4 - 1);
         const int IS_GRAPHIC_VALID = 1 << (5 - 1);
         const int IS_DRAG_OVERRED = 1 << (6 - 1);

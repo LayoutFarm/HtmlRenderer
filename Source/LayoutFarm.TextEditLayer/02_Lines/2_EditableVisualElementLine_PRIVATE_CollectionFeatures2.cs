@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -9,29 +10,32 @@ using System.Drawing;
 namespace LayoutFarm.Presentation.Text
 {
 
-        
+
 
     partial class EditableVisualElementLine
-    {                                  void AddLineBreakAfter(ArtEditableVisualTextRun afterTextRun)
+    {
+        void AddLineBreakAfter(ArtEditableVisualTextRun afterTextRun)
         {
-                        if (afterTextRun == null)
+            if (afterTextRun == null)
             {
-                this.EndWithLineBreak = true;                EditableVisualElementLine newline = editableFlowLayer.InsertNewLine(currentLineNumber + 1);
+                this.EndWithLineBreak = true; EditableVisualElementLine newline = editableFlowLayer.InsertNewLine(currentLineNumber + 1);
                 if (editableFlowLayer.LineCount - 1 != newline.LineNumber)
-                {                       newline.EndWithLineBreak = true;
+                {
+                    newline.EndWithLineBreak = true;
                 }
                 return;
             }
-                        if (afterTextRun.NextTextRun == null)
+            if (afterTextRun.NextTextRun == null)
             {
-                                this.EndWithLineBreak = true;                EditableVisualElementLine newline = editableFlowLayer.InsertNewLine(currentLineNumber + 1);
-                                if (editableFlowLayer.LineCount - 1 != newline.LineNumber)
-                {                       newline.EndWithLineBreak = true;
+                this.EndWithLineBreak = true; EditableVisualElementLine newline = editableFlowLayer.InsertNewLine(currentLineNumber + 1);
+                if (editableFlowLayer.LineCount - 1 != newline.LineNumber)
+                {
+                    newline.EndWithLineBreak = true;
                 }
             }
             else
             {
-                                List<ArtEditableVisualTextRun> tempTextRuns = new List<ArtEditableVisualTextRun>(this.Count);
+                List<ArtEditableVisualTextRun> tempTextRuns = new List<ArtEditableVisualTextRun>(this.Count);
                 if (afterTextRun != null)
                 {
                     foreach (ArtEditableVisualTextRun t in GetVisualElementForward(afterTextRun.NextTextRun))
@@ -39,35 +43,35 @@ namespace LayoutFarm.Presentation.Text
                         tempTextRuns.Add(t);
                     }
                 }
-                                                                                                
-                this.EndWithLineBreak = true;                this.LocalSuspendLineReArrange();                 EditableVisualElementLine newTextline = editableFlowLayer.InsertNewLine(currentLineNumber + 1);
 
-                                int j = tempTextRuns.Count;
+                this.EndWithLineBreak = true; this.LocalSuspendLineReArrange(); EditableVisualElementLine newTextline = editableFlowLayer.InsertNewLine(currentLineNumber + 1);
+
+                int j = tempTextRuns.Count;
 
 
-                newTextline.LocalSuspendLineReArrange();                 int cx = 0;
+                newTextline.LocalSuspendLineReArrange(); int cx = 0;
 
                 for (int i = 0; i < j; ++i)
                 {
                     ArtEditableVisualTextRun t = tempTextRuns[i];
-                    this.Remove(t);                    newTextline.AddLast(t);                    ArtVisualElement.DirectSetVisualElementLocation(t, cx, 0);
+                    this.Remove(t); newTextline.AddLast(t); ArtVisualElement.DirectSetVisualElementLocation(t, cx, 0);
                     cx += t.Width;
                 }
 
-                newTextline.LocalResumeLineReArrange();                 this.LocalResumeLineReArrange();
-                            }
+                newTextline.LocalResumeLineReArrange(); this.LocalResumeLineReArrange();
+            }
 
         }
-                                        void AddLineBreakBefore(ArtEditableVisualTextRun beforeTextRun)
+        void AddLineBreakBefore(ArtEditableVisualTextRun beforeTextRun)
         {
             if (beforeTextRun == null)
             {
-                                this.EndWithLineBreak = true;
+                this.EndWithLineBreak = true;
                 editableFlowLayer.InsertNewLine(currentLineNumber + 1);
             }
             else
             {
-                                                List<ArtEditableVisualTextRun> tempTextRuns = new List<ArtEditableVisualTextRun>();
+                List<ArtEditableVisualTextRun> tempTextRuns = new List<ArtEditableVisualTextRun>();
                 if (beforeTextRun != null)
                 {
                     foreach (ArtEditableVisualTextRun t in GetVisualElementForward(beforeTextRun))
@@ -75,25 +79,25 @@ namespace LayoutFarm.Presentation.Text
                         tempTextRuns.Add(t);
                     }
                 }
-                                                this.EndWithLineBreak = true;
+                this.EndWithLineBreak = true;
                 EditableVisualElementLine newTextline = editableFlowLayer.InsertNewLine(currentLineNumber + 1);
-                
+
                 this.LocalSuspendLineReArrange();
                 newTextline.LocalSuspendLineReArrange();
                 int j = tempTextRuns.Count;
                 for (int i = 0; i < j; ++i)
                 {
-                                        ArtEditableVisualTextRun t = tempTextRuns[i];
+                    ArtEditableVisualTextRun t = tempTextRuns[i];
                     this.Remove(t);
-                                        newTextline.AddLast(t);
+                    newTextline.AddLast(t);
 
                 }
-                                this.LocalResumeLineReArrange();
+                this.LocalResumeLineReArrange();
                 newTextline.LocalResumeLineReArrange();
             }
         }
 
-                                        void RemoveLeft(ArtEditableVisualTextRun t)
+        void RemoveLeft(ArtEditableVisualTextRun t)
         {
             if (t != null)
             {
@@ -114,9 +118,9 @@ namespace LayoutFarm.Presentation.Text
                 LocalResumeLineReArrange();
             }
         }
-                                        void RemoveRight(ArtEditableVisualTextRun t)
+        void RemoveRight(ArtEditableVisualTextRun t)
         {
-                        if (t.IsLineBreak)
+            if (t.IsLineBreak)
             {
                 throw new NotSupportedException();
             }
@@ -133,7 +137,7 @@ namespace LayoutFarm.Presentation.Text
             LocalResumeLineReArrange();
 
         }
-                                                LinkedList<ArtEditableVisualTextRun> CollectLeftRuns(ArtEditableVisualTextRun t)
+        LinkedList<ArtEditableVisualTextRun> CollectLeftRuns(ArtEditableVisualTextRun t)
         {
 
             if (t.IsLineBreak)
@@ -148,8 +152,9 @@ namespace LayoutFarm.Presentation.Text
             }
             return colllectRun;
         }
-                                                LinkedList<ArtEditableVisualTextRun> CollectRightRuns(ArtEditableVisualTextRun t)
-        {               if (t.IsLineBreak)
+        LinkedList<ArtEditableVisualTextRun> CollectRightRuns(ArtEditableVisualTextRun t)
+        {
+            if (t.IsLineBreak)
             {
                 throw new NotSupportedException();
             }
@@ -160,7 +165,7 @@ namespace LayoutFarm.Presentation.Text
             }
             return colllectRun;
         }
-                                        public void ReplaceAll(IEnumerable<ArtEditableVisualTextRun> textRuns)
+        public void ReplaceAll(IEnumerable<ArtEditableVisualTextRun> textRuns)
         {
             this.Clear();
             this.LocalSuspendLineReArrange();

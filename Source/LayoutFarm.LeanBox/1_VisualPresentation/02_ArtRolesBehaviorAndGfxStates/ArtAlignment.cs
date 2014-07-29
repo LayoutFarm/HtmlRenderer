@@ -1,18 +1,19 @@
-﻿using System; 
+﻿//2014 Apache2, WinterDev
+using System;
 namespace LayoutFarm.Presentation
-{   
-                public enum ArtAlignment
+{
+    public enum ArtAlignment
     {
-                Begin = 0,
+        Begin = 0,
         Center = 1,
         End = 2
     }
     public enum ArtDockStyle
     {
-                None,        Top,
+        None, Top,
         Bottom,
         Left,
         Right,
-        Fill 
+        Fill
     }
 }

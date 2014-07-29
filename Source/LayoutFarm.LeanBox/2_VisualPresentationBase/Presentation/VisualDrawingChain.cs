@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -10,11 +11,11 @@ namespace LayoutFarm.Presentation
 
     public class VisualDrawingChain
     {
-       public List<ArtVisualElement> selectedVisualElements = new List<ArtVisualElement>();
-       public List<bool> containAllAreaTestResults = new List<bool>();
+        public List<ArtVisualElement> selectedVisualElements = new List<ArtVisualElement>();
+        public List<bool> containAllAreaTestResults = new List<bool>();
 
 
-                                Rectangle currentClipRect;
+        Rectangle currentClipRect;
 
         int useCount = 0;
         public VisualDrawingChain(Rectangle flushRect)
@@ -73,7 +74,8 @@ namespace LayoutFarm.Presentation
 
         public void OffsetCanvasOrigin(int dx, int dy)
         {
-                                                                        currentClipRect.Offset(-dx, -dy);        }
+            currentClipRect.Offset(-dx, -dy);
+        }
 
         public int UsedCount
         {
@@ -86,7 +88,7 @@ namespace LayoutFarm.Presentation
                 this.useCount = value;
             }
         }
-                                public void ClearForReuse()
+        public void ClearForReuse()
         {
 
             useCount = 0;
@@ -97,22 +99,23 @@ namespace LayoutFarm.Presentation
             this.selectedVisualElements.Clear();
             containAllAreaTestResults.Clear();
         }
-                                        public void OffsetCanvasOriginX(int dx)
+        public void OffsetCanvasOriginX(int dx)
         {
-                        currentClipRect.Offset(-dx, 0);        }
-                                        public void OffsetCanvasOriginY(int dy)
-        {                                                    currentClipRect.Offset(0, -dy);        }
-
-                
-
-
-                        
-                                
-
-                
+            currentClipRect.Offset(-dx, 0);
+        }
+        public void OffsetCanvasOriginY(int dy)
+        { currentClipRect.Offset(0, -dy); }
 
 
-                                                                                        
-                        
-                    }
+
+
+
+
+
+
+
+
+
+
+    }
 }

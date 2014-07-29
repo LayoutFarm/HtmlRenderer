@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -37,7 +38,7 @@ namespace LayoutFarm.Presentation
         AddToWindowRoot,
         InvalidateArea,
         NotifySizeChanged,
-        
+
     }
 
 

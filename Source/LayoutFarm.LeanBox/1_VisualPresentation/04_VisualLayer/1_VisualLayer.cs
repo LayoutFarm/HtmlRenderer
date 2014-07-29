@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
@@ -8,37 +9,37 @@ namespace LayoutFarm.Presentation
 {
 
 
-     
 
-                                                    public abstract class VisualLayer
+
+    public abstract class VisualLayer
     {
 
-                #if DEBUG
+#if DEBUG
         public int dbug_layer_id;
         static int dbug_layer_id_count = 0;
         public int dbug_InvalidateCount = 0;
         public int dbug_ValidateCount = 0;
 #endif
 
-                                        protected int layerFlags;
-                                                
-                                        protected const int IS_LAYER_HIDDEN = 1 << (14 - 1);
-                                protected const int IS_GROUND_LAYER = 1 << (15 - 1);
-                                protected const int MAY_HAS_OTHER_OVERLAP_CHILD = 1 << (16 - 1);
+        protected int layerFlags;
 
-                                                                protected const int DOUBLE_BACKCANVAS_WIDTH = 1 << (18 - 1);
-                                protected const int DOUBLE_BACKCANVAS_HEIGHT = 1 << (19 - 1);
-                                protected const int CONTENT_DRAWING = 1 << (22 - 1);
-                                protected const int ARRANGEMENT_VALID = 1 << (23 - 1);
+        protected const int IS_LAYER_HIDDEN = 1 << (14 - 1);
+        protected const int IS_GROUND_LAYER = 1 << (15 - 1);
+        protected const int MAY_HAS_OTHER_OVERLAP_CHILD = 1 << (16 - 1);
+
+        protected const int DOUBLE_BACKCANVAS_WIDTH = 1 << (18 - 1);
+        protected const int DOUBLE_BACKCANVAS_HEIGHT = 1 << (19 - 1);
+        protected const int CONTENT_DRAWING = 1 << (22 - 1);
+        protected const int ARRANGEMENT_VALID = 1 << (23 - 1);
         protected const int HAS_CALCULATE_SIZE = 1 << (24 - 1);
 
-                                                        protected const int FLOWLAYER_HAS_MULTILINE = 1 << (25 - 1);
+        protected const int FLOWLAYER_HAS_MULTILINE = 1 << (25 - 1);
 
 
-                                public readonly ArtVisualElement ownerVisualElement;
+        public readonly ArtVisualElement ownerVisualElement;
 
-                                int postCalculateContentWidth;
-                                int postCalculateContentHeight;
+        int postCalculateContentWidth;
+        int postCalculateContentHeight;
 
 
 
@@ -53,16 +54,16 @@ namespace LayoutFarm.Presentation
 #endif
         }
 
-                                public abstract void Clear();
+        public abstract void Clear();
 
-                                protected ArtVisualRootWindow WinRoot
+        protected ArtVisualRootWindow WinRoot
         {
             get
             {
                 return ownerVisualElement.WinRoot;
             }
         }
-                                protected bool HasWinRoot
+        protected bool HasWinRoot
         {
             get
             {
@@ -87,7 +88,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-                                public void InvalidateContentArrangementFromContainerSizeChanged()
+        public void InvalidateContentArrangementFromContainerSizeChanged()
         {
             layerFlags &= ~ARRANGEMENT_VALID;
 #if DEBUG
@@ -113,18 +114,20 @@ namespace LayoutFarm.Presentation
             {
                 if (value)
                 {
-                                        layerFlags &= ~IS_LAYER_HIDDEN;
+                    layerFlags &= ~IS_LAYER_HIDDEN;
                 }
                 else
-                {                       layerFlags |= IS_LAYER_HIDDEN;
+                {
+                    layerFlags |= IS_LAYER_HIDDEN;
                 }
             }
         }
 
-                                public ArtAlignment ContentAlignment
+        public ArtAlignment ContentAlignment
         {
             get
-            {                   return (ArtAlignment)((layerFlags >> 11) & 0x3);
+            {
+                return (ArtAlignment)((layerFlags >> 11) & 0x3);
             }
             set
             {
@@ -133,7 +136,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-                                public Size PostCalculateContentSize
+        public Size PostCalculateContentSize
         {
             get
             {
@@ -151,16 +154,16 @@ namespace LayoutFarm.Presentation
         }
 #endif
 
-                                protected void BeginDrawingChildContent()
+        protected void BeginDrawingChildContent()
         {
             layerFlags |= CONTENT_DRAWING;
         }
-                                protected void FinishDrawingChildContent()
+        protected void FinishDrawingChildContent()
         {
             layerFlags &= ~CONTENT_DRAWING;
         }
 
-                                        public bool DoubleBackCanvasWidth
+        public bool DoubleBackCanvasWidth
         {
             get
             {
@@ -179,7 +182,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-                                public bool DoubleBackCanvasHeight
+        public bool DoubleBackCanvasHeight
         {
             get
             {
@@ -202,14 +205,14 @@ namespace LayoutFarm.Presentation
             DoubleBackCanvasWidth = useWithWidth;
             DoubleBackCanvasHeight = useWithHeight;
         }
-                                                protected void SetPostCalculateLayerContentSize(int width, int height)
+        protected void SetPostCalculateLayerContentSize(int width, int height)
         {
             ValidateCalculateContentSize();
             postCalculateContentWidth = width;
             postCalculateContentHeight = height;
         }
 
-                                        protected void SetPostCalculateLayerContentSize(Size s)
+        protected void SetPostCalculateLayerContentSize(Size s)
         {
             ValidateCalculateContentSize();
             postCalculateContentWidth = s.Width;
@@ -217,17 +220,17 @@ namespace LayoutFarm.Presentation
 
         }
 
-                                                public abstract bool HitTestCore(ArtHitPointChain artHitResult);
+        public abstract bool HitTestCore(ArtHitPointChain artHitResult);
 
-                                public abstract void TopDownReCalculateContentSize(VisualElementArgs vinv);
+        public abstract void TopDownReCalculateContentSize(VisualElementArgs vinv);
 
 
 
-                                public abstract void TopDownReArrangeContent(VisualElementArgs vinv);
+        public abstract void TopDownReArrangeContent(VisualElementArgs vinv);
         public abstract void TopDownReArrangeContentToFit(VisualElementArgs vinv);
 
-                                                public abstract IEnumerable<ArtVisualElement> GetVisualElementIter();
-                                        public abstract IEnumerable<ArtVisualElement> GetVisualElementReverseIter();
+        public abstract IEnumerable<ArtVisualElement> GetVisualElementIter();
+        public abstract IEnumerable<ArtVisualElement> GetVisualElementReverseIter();
 
 
 
@@ -241,26 +244,27 @@ namespace LayoutFarm.Presentation
             layerFlags |= ARRANGEMENT_VALID;
         }
 
-                                                public abstract void DrawChildContent(ArtCanvas canvasPage, InternalRect updateArea);
-                                                public abstract bool PrepareDrawingChain(VisualDrawingChain chain);
-        
-                                public void BeginLayerGraphicUpdate(VisualElementArgs vinv)
+        public abstract void DrawChildContent(ArtCanvas canvasPage, InternalRect updateArea);
+        public abstract bool PrepareDrawingChain(VisualDrawingChain chain);
+
+        public void BeginLayerGraphicUpdate(VisualElementArgs vinv)
         {
             ownerVisualElement.BeginGraphicUpdate(vinv);
         }
-                                public void EndLayerGraphicUpdate(VisualElementArgs vinv)
+        public void EndLayerGraphicUpdate(VisualElementArgs vinv)
         {
             ownerVisualElement.EndGraphicUpdate(vinv);
         }
 
-                                public bool NeedReArrangeContent
+        public bool NeedReArrangeContent
         {
-                        get
+            get
             {
 
-                                return (layerFlags & ARRANGEMENT_VALID) == 0;             }
+                return (layerFlags & ARRANGEMENT_VALID) == 0;
+            }
         }
-                                public bool HasCalculateContentSize
+        public bool HasCalculateContentSize
         {
             get
             {
@@ -295,8 +299,8 @@ namespace LayoutFarm.Presentation
         public abstract void dbug_DumpElementProps(dbugLayoutMsgWriter writer);
 
 #endif
-                public abstract void AddTop(ArtVisualElement ve);
-                public abstract IEnumerable<ArtVisualElement> GetDrawingIter();
+        public abstract void AddTop(ArtVisualElement ve);
+        public abstract IEnumerable<ArtVisualElement> GetDrawingIter();
 
     }
 

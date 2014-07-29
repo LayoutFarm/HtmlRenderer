@@ -1,9 +1,10 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
- 
+
 using LayoutFarm.Presentation.Text;
 namespace LayoutFarm.Presentation.SampleControls
 {
@@ -12,22 +13,22 @@ namespace LayoutFarm.Presentation.SampleControls
     public class ArtUITextBox : ArtUIElement
     {
 
-        
 
-       
+
+
         internal ArtVisualTextEditBox visualTextSurface;
 
 
-        public ArtUITextBox(int width, int height) 
+        public ArtUITextBox(int width, int height)
         {
 
-            visualTextSurface = new ArtVisualTextEditBox(width, height, false);            visualTextSurface.SetRoleDefinition(textBoxRole, null);
+            visualTextSurface = new ArtVisualTextEditBox(width, height, false); visualTextSurface.SetRoleDefinition(textBoxRole, null);
             visualTextSurface.HasSpecificSize = true;
             visualTextSurface.SetScriptUI(this);
             SetPrimaryVisualElement(visualTextSurface);
         }
 
-                                public ArtVisualTextRun CurrentTextRun
+        public ArtVisualTextRun CurrentTextRun
         {
             get
             {

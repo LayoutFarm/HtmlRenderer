@@ -1,4 +1,4 @@
-﻿
+﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,8 +17,8 @@ namespace LayoutFarm.Presentation
     public abstract partial class VisualRoot
     {
 
-                                static int screenWidth = 1024;
-                                static int screenHeight = 800;
+        static int screenWidth = 1024;
+        static int screenHeight = 800;
 
         public static int ScreenWidth
         {

@@ -1,16 +1,17 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Drawing;
- 
+
 
 
 namespace LayoutFarm.Presentation
 {
     partial class ArtUIElement
     {
-                                                                int oneBitNativeEventFlags;
+        int oneBitNativeEventFlags;
 
-                                        protected void RegisterNativeEvent(int eventFlags)
+        protected void RegisterNativeEvent(int eventFlags)
         {
             this.oneBitNativeEventFlags |= eventFlags;
         }
@@ -55,14 +56,14 @@ namespace LayoutFarm.Presentation
         protected virtual void OnDragDrop(ArtDragEventArgs e)
         {
         }
-                protected virtual void OnCollapsed()
+        protected virtual void OnCollapsed()
         {
         }
         protected virtual void OnExpanded()
         {
 
         }
-                protected virtual void OnElementLanded()
+        protected virtual void OnElementLanded()
         {
 
         }
@@ -77,11 +78,11 @@ namespace LayoutFarm.Presentation
         {
 
         }
-                protected virtual void OnKeyDown(ArtKeyEventArgs e)
-        { 
+        protected virtual void OnKeyDown(ArtKeyEventArgs e)
+        {
         }
         protected virtual void OnKeyUp(ArtKeyEventArgs e)
-        { 
+        {
         }
         protected virtual void OnKeyPress(ArtKeyPressEventArgs e)
         {
@@ -93,25 +94,25 @@ namespace LayoutFarm.Presentation
 
         protected virtual void OnMouseMove(ArtMouseEventArgs e)
         {
-                                            }
+        }
         protected virtual void OnMouseHover(ArtMouseEventArgs e)
         {
-                    }
+        }
         protected virtual void OnMouseUp(ArtMouseEventArgs e)
         {
-                    }
+        }
         protected virtual void OnMouseEnter(ArtMouseEventArgs e)
         {
-                                    
-                    }
+
+        }
         protected virtual void OnMouseLeave(ArtMouseEventArgs e)
         {
-                    }
+        }
         protected virtual void OnDropInto()
         {
 
         }
-                protected virtual void OnSizeChanged(ArtSizeChangedEventArgs e)
+        protected virtual void OnSizeChanged(ArtSizeChangedEventArgs e)
         {
 
         }

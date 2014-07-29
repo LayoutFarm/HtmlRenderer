@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -9,9 +10,9 @@ using LayoutFarm.Presentation;
 
 namespace LayoutFarm.Presentation
 {
-                        public delegate void ArtDragEventHandler(object sender, ArtDragEventArgs e);
+    public delegate void ArtDragEventHandler(object sender, ArtDragEventArgs e);
 
-                public class ArtDragEventArgs : ArtEventArgs
+    public class ArtDragEventArgs : ArtEventArgs
     {
         public ArtMouseButtons Button;
 
@@ -59,7 +60,7 @@ namespace LayoutFarm.Presentation
             this.lastestLogicalViewportMouseDownY = lastestLogicalViewportMouseDownY;
             this.lastestLogicalViewportMouseDownX = lastestLogicalViewportMouseDownX;
             this.lastestXDiff = lastestXDiff;
-            this.lastestYDiff = lastestYDiff; 
+            this.lastestYDiff = lastestYDiff;
         }
         public int XDiffFromMouseDownPos
         {
@@ -77,24 +78,24 @@ namespace LayoutFarm.Presentation
         }
         public override void Clear()
         {
-                        Button = ArtMouseButtons.Left;
+            Button = ArtMouseButtons.Left;
             base.Clear();
         }
-                                public int XDiff
+        public int XDiff
         {
             get
             {
                 return lastestXDiff;
             }
         }
-                                public int YDiff
+        public int YDiff
         {
             get
             {
                 return lastestYDiff;
             }
         }
-                                        public bool IsDragOut
+        public bool IsDragOut
         {
             get
             {
@@ -102,7 +103,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-                                public object DraggingUI
+        public object DraggingUI
         {
             get
             {
@@ -116,13 +117,13 @@ namespace LayoutFarm.Presentation
                 }
             }
         }
-                                        public void SwapCurrentDragElement(ArtVisualElement withThisElement)
+        public void SwapCurrentDragElement(ArtVisualElement withThisElement)
         {
-                                                ArtVisualRootWindow winroot = this.WinRoot;            if (winroot != null)
+            ArtVisualRootWindow winroot = this.WinRoot; if (winroot != null)
             {
-                                winroot.CurrentDraggingElement = withThisElement;
+                winroot.CurrentDraggingElement = withThisElement;
             }
-                    }
+        }
 
     }
 

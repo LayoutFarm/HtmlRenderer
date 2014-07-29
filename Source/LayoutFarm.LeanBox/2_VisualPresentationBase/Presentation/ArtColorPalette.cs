@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,7 +13,7 @@ using System.IO;
 namespace LayoutFarm.Presentation
 {
 
-                public class ArtColorPalette
+    public class ArtColorPalette
     {
         string name;
         List<ArtColorBrush> colorBrushes;
@@ -36,13 +37,13 @@ namespace LayoutFarm.Presentation
             colorBrush.ownerPalette = this;
             colorBrushes.Add(colorBrush);
         }
-                                                public ArtColorBrush GetColorBrush(int index)
+        public ArtColorBrush GetColorBrush(int index)
         {
             return colorBrushes[index];
         }
-                                                public ArtColorBrush GetColorBrush(string name)
+        public ArtColorBrush GetColorBrush(string name)
         {
-                        foreach (ArtColorBrush brush in colorBrushes)
+            foreach (ArtColorBrush brush in colorBrushes)
             {
                 if (brush.Name == name)
                 {
@@ -82,11 +83,11 @@ namespace LayoutFarm.Presentation
 
 
 
-                public abstract class ArtColorBrush
+    public abstract class ArtColorBrush
     {
         public ArtColorPalette ownerPalette;
         string name;
-                                public string Name
+        public string Name
         {
             get
             {
@@ -97,7 +98,7 @@ namespace LayoutFarm.Presentation
                 name = value;
             }
         }
-                                public string FullName
+        public string FullName
         {
             get
             {
@@ -105,7 +106,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-                public Brush myBrush;                 
+        public Brush myBrush;
 
         public ArtColorBrush()
         {
@@ -138,7 +139,7 @@ namespace LayoutFarm.Presentation
             set
             {
                 color = value;
-                                                if (this.myBrush != null)
+                if (this.myBrush != null)
                 {
                     SolidBrush solidBrush = (SolidBrush)myBrush;
                     solidBrush.Color = value;
@@ -149,11 +150,11 @@ namespace LayoutFarm.Presentation
 
 
 
-                public class ArtGradientColorInfo
+    public class ArtGradientColorInfo
     {
         List<Color> colors = new List<Color>();
         List<Point> positions = new List<Point>();
-                                public int gradientType;
+        public int gradientType;
         public ArtGradientColorInfo()
         {
         }
@@ -185,16 +186,16 @@ namespace LayoutFarm.Presentation
 
         public LinearGradientBrush CreateLinearGradientBrush()
         {
-                        if (colors.Count == 2)
+            if (colors.Count == 2)
             {
                 return new System.Drawing.Drawing2D.LinearGradientBrush(
                      positions[0], positions[1], colors[0], colors[1]);
             }
             else if (colors.Count > 2)
             {
-                                return new System.Drawing.Drawing2D.LinearGradientBrush(
-                    positions[0], positions[1], colors[0], colors[1]);
-                            }
+                return new System.Drawing.Drawing2D.LinearGradientBrush(
+    positions[0], positions[1], colors[0], colors[1]);
+            }
             else
             {
                 return null;
@@ -202,7 +203,7 @@ namespace LayoutFarm.Presentation
         }
     }
 
-                public class ArtGradientBrush : ArtColorBrush
+    public class ArtGradientBrush : ArtColorBrush
     {
 
         ArtGradientColorInfo gradientColorInfo;
@@ -231,12 +232,12 @@ namespace LayoutFarm.Presentation
 
         public void RefreshGradient()
         {
-                        if (myBrush != null)
+            if (myBrush != null)
             {
                 myBrush.Dispose();
                 myBrush = null;
             }
-                        myBrush = gradientColorInfo.CreateLinearGradientBrush();
+            myBrush = gradientColorInfo.CreateLinearGradientBrush();
 
         }
     }

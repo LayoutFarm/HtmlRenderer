@@ -1,19 +1,20 @@
-﻿using System;
- 
+﻿//2014 Apache2, WinterDev
+using System;
+
 
 namespace LayoutFarm.Presentation
-{   
+{
     public enum VisualElementNature
     {
-                                        Shapes,
+        Shapes,
         CssBox,
         TextRun,
 
-        
-                                SimpleContainer,         WindowRoot,
-        NineSpaceContainer, 
+
+        SimpleContainer, WindowRoot,
+        NineSpaceContainer,
         TextEditContainer,
-        GridContainer, 
+        GridContainer,
         HtmlContainer
     }
 }

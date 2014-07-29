@@ -1,3 +1,4 @@
+//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
 using System.Collections;
@@ -11,13 +12,13 @@ namespace LayoutFarm.Presentation
 
     static class MyWin32
     {
-                        
-                        
-                              
-                                                        
-                             
-                                                                        
-                [DllImport("kernel32.dll", ExactSpelling = true)]
+
+
+
+
+
+
+        [DllImport("kernel32.dll", ExactSpelling = true)]
         public static extern IntPtr GlobalAlloc(int flags, int size);
         [DllImport("kernel32.dll", ExactSpelling = true)]
         public static extern IntPtr GlobalLock(IntPtr handle);
@@ -37,9 +38,9 @@ namespace LayoutFarm.Presentation
         [DllImport("user32.dll", ExactSpelling = true)]
         public static extern int GetWindowThreadProcessId(IntPtr hwnd, object dwProcessId);
 
-                                        [DllImport("gdi32.dll")]
+        [DllImport("gdi32.dll")]
         public static extern int SetDCBrushColor(IntPtr hdc, int crColor);
-                                        [DllImport("gdi32.dll")]
+        [DllImport("gdi32.dll")]
         public static extern int SetDCPenColor(IntPtr hdc, int crColor);
 
         [DllImport("gdi32.dll")]
@@ -85,21 +86,21 @@ namespace LayoutFarm.Presentation
         [DllImport("gdi32.dll")]
         public static extern IntPtr CreateRectRgn(int left, int top, int right, int bottom);
 
-                                                
+
         [DllImport("gdi32.dll")]
         public static extern int OffsetRgn(IntPtr hdc, int xoffset, int yoffset);
-                                        
+
 
 
         [DllImport("gdi32.dll")]
         public static extern bool SetRectRgn(IntPtr hrgn, int left, int top, int right, int bottom);
-                                                        
-                                                        [DllImport("gdi32.dll")]
+
+        [DllImport("gdi32.dll")]
         public static extern int GetRgnBox(IntPtr hrgn, ref Win32Rect lprc);
 
-                                                                                        [DllImport("gdi32.dll")]
+        [DllImport("gdi32.dll")]
         public static extern int SelectClipRgn(IntPtr hdc, IntPtr hrgn);
-                                
+
         public const int NULLREGION = 1;
         public const int SIMPLEREGION = 2;
         public const int COMPLEXREGION = 3;
@@ -107,28 +108,29 @@ namespace LayoutFarm.Presentation
 
 
 
-                                                        [DllImport("gdi32.dll")]
+        [DllImport("gdi32.dll")]
         public static unsafe extern bool SetViewportOrgEx(IntPtr hdc,
             int x, int y, IntPtr expoint);
-                                                                                                                                                                                                                [DllImport("gdi32.dll")]
+        [DllImport("gdi32.dll")]
         public static extern bool BitBlt(IntPtr hdcDest, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hdcSrc, int nXSrc, int nYSource, int dwRop);
 
 
         [DllImport("gdi32.dll")]
         public static extern bool PatBlt(IntPtr hdcDest, int nXDest, int nYDest, int nWidth, int nHeight, int dwRop);
-                                                                
-                                                                                                        
+
+
         [DllImport("Msimg32.dll")]
         public static extern bool AlphaBlend(IntPtr hdc, int nXOriginDest,
             int nYOriginDest, int nWidthDest, int nHeightDest, IntPtr hdcSrc,
             int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, ref _BLENDFUNCTION blendFunction);
 
-                                                        [StructLayout(LayoutKind.Sequential)]
+        [StructLayout(LayoutKind.Sequential)]
         public struct _BLENDFUNCTION
         {
-            public byte BlendOp;             public byte BlendFlags;            public byte SourceConstantAlpha;            public byte AlphaFormat;             public _BLENDFUNCTION(byte alphaValue)
+            public byte BlendOp; public byte BlendFlags; public byte SourceConstantAlpha; public byte AlphaFormat;
+            public _BLENDFUNCTION(byte alphaValue)
             {
-                                BlendOp = AC_SRC_OVER;
+                BlendOp = AC_SRC_OVER;
                 BlendFlags = 0;
                 SourceConstantAlpha = alphaValue;
                 AlphaFormat = 0;
@@ -136,18 +138,18 @@ namespace LayoutFarm.Presentation
             }
         }
         //
-                //
+        //
         public const int AC_SRC_OVER = 0x00;
         //
-                public const int AC_SRC_ALPHA = 0x01;
+        public const int AC_SRC_ALPHA = 0x01;
 
 
 
-                                                        [DllImport("gdi32.dll")]
+        [DllImport("gdi32.dll")]
         public static extern bool OffsetViewportOrgEx(IntPtr hdc, int nXOffset, int nYOffset, out IntPtr lpPoint);
 
 
-                                        [DllImport("gdi32.dll")]
+        [DllImport("gdi32.dll")]
         public static unsafe extern bool GetViewportOrgEx(IntPtr hdc, MyWin32.POINT* p);
 
 
@@ -167,7 +169,8 @@ namespace LayoutFarm.Presentation
         public const int BLACKNESS = 0x00000042;/* dest = BLACK                    */
         public const int WHITENESS = 0x00FF0062;/* dest = WHITE                    */
 
-        public const int CBM_Init = 0x04;         [DllImport("gdi32.dll")]
+        public const int CBM_Init = 0x04;
+        [DllImport("gdi32.dll")]
         public static extern bool Rectangle(IntPtr hDC, int l, int t, int r, int b);
 
         [DllImport("user32.dll")]
@@ -176,7 +179,7 @@ namespace LayoutFarm.Presentation
 
 
         [DllImport("gdi32.dll")]
-        public static extern bool TextOut(IntPtr hdc, int nXStart, int nYStart, string lpstring, int cbstring); 
+        public static extern bool TextOut(IntPtr hdc, int nXStart, int nYStart, string lpstring, int cbstring);
         [StructLayout(LayoutKind.Sequential)]
         public struct WIN32SIZE
         {
@@ -195,7 +198,7 @@ namespace LayoutFarm.Presentation
         public static extern bool GetTextExtentPoint32(IntPtr hdc, string lpstring, int c, out WIN32SIZE size);
 
         [DllImport("gdi32.dll")]
-        public static extern IntPtr CreateSolidBrush(int crColor);  
+        public static extern IntPtr CreateSolidBrush(int crColor);
 
 
         [DllImport("gdi32.dll")]
@@ -203,7 +206,7 @@ namespace LayoutFarm.Presentation
 
 
 
-                        public const int TA_LEFT = 0;
+        public const int TA_LEFT = 0;
         public const int TA_RIGHT = 2;
         public const int TA_CENTER = 6;
 
@@ -212,7 +215,8 @@ namespace LayoutFarm.Presentation
         public const int TA_BASELINE = 24;
 
         [DllImport("gdi32.dll")]
-        public extern static uint SetTextAlign(IntPtr hdc, uint fMode);         [DllImport("gdi32.dll")]
+        public extern static uint SetTextAlign(IntPtr hdc, uint fMode);
+        [DllImport("gdi32.dll")]
         public extern static uint GetTextAlign(IntPtr hdc);
 
 
@@ -223,27 +227,27 @@ namespace LayoutFarm.Presentation
         public const int _SetBkMode_OPAQUE = 2;
 
         [DllImport("gdi32.dll")]
-        public static extern IntPtr CreatePen(int fnPenStyle, int nWidth, int crColor);  
+        public static extern IntPtr CreatePen(int fnPenStyle, int nWidth, int crColor);
 
 
 
 
-                                                                                                                                        [DllImport("gdi32.dll", ExactSpelling = true)]
+        [DllImport("gdi32.dll", ExactSpelling = true)]
         public static extern int SetDIBitsToDevice(IntPtr hdc, int xdst, int ydst,
                                                 int width, int height, int xsrc, int ysrc, int start, int lines,
                                                 IntPtr bitsptr, IntPtr bmiptr, int color);
 
 
-                                                                [DllImport("gdi32.dll")]
+        [DllImport("gdi32.dll")]
         public static extern IntPtr CreateCompatibleBitmap(IntPtr hdc, int nWidth, int nHeight);
 
 
-                                                                                                [DllImport("gdi32.dll")]
+        [DllImport("gdi32.dll")]
         public static extern int SetDIBits(IntPtr hdc, IntPtr hBitmap, uint uStartScan, uint cScanLines, IntPtr lpbitmapArray, IntPtr lpBitmapData, uint fuColorUse);
 
 
 
-                                                                                
+
         [DllImport("gdi32.dll")]
         public static extern IntPtr CreateDIBitmap(IntPtr hdc, IntPtr lpBitmapInfo, int fdwInt, IntPtr lpbInit, IntPtr BitmapInfo, uint fuUsage);
 
@@ -297,17 +301,17 @@ namespace LayoutFarm.Presentation
         public static extern int SetWindowText(IntPtr hWnd, string text);
 
 
-        
+
         [DllImport("user32.dll")]
         public static extern void ShowCaret(IntPtr hWnd);
 
 
-                
+
         [DllImport("user32.dll")]
         public static extern bool FlashWindow(IntPtr hwnd, bool bInvert);
 
 
-                                                
+
 
         [DllImport("kernel32.dll")]
         public static extern int GetLastError();
@@ -329,8 +333,8 @@ namespace LayoutFarm.Presentation
             }
 
         }
-                        
-        
+
+
 
 
 
@@ -365,12 +369,12 @@ namespace LayoutFarm.Presentation
         [StructLayout(LayoutKind.Sequential)]
         public struct ABC
         {
-            public int abcA;            public uint abcB;            public int abcC;            
+            public int abcA; public uint abcB; public int abcC;
         }
         [StructLayout(LayoutKind.Sequential)]
         public struct ABCFLOAT
         {
-            public float abcfA;            public float abcfB;            public float abcfC;            
+            public float abcfA; public float abcfB; public float abcfC;
         }
 
 
@@ -398,7 +402,7 @@ namespace LayoutFarm.Presentation
         public static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, int flags);
 
 
-                
+
         [DllImport("user32.dll")]
         public static extern bool PostMessage(IntPtr hWnd, int msg, int wParam, int lParam);
 
@@ -414,7 +418,7 @@ namespace LayoutFarm.Presentation
         [DllImport("user32.dll")]
         public static extern int LoadKeyboardLayout(string pwszKLID, int flags);
 
-                
+
 
 
         public const int WM_KEYDOWN = 0x0100;
@@ -423,7 +427,7 @@ namespace LayoutFarm.Presentation
         public const int WM_LBUTTONUP = 0x0202;
         public const int WM_PAINT = 0x000F;
 
-                public const int WM_MOUSEMOVE = 0x0200;
+        public const int WM_MOUSEMOVE = 0x0200;
 
 
 
@@ -495,7 +499,7 @@ namespace LayoutFarm.Presentation
         {
             return (short)((n >> 0x10) & 0xffff);
         }
-                                                public static int MAKELONG(int low, int high)
+        public static int MAKELONG(int low, int high)
         {
             return ((high << 0x10) | (low & 0xffff));
         }

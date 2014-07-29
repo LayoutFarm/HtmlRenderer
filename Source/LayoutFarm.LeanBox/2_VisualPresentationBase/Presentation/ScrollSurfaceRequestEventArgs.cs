@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -9,33 +10,33 @@ using LayoutFarm.Presentation;
 
 namespace LayoutFarm.Presentation
 {
-            
+
     public enum ArtScrollEventType
     {
-                                SmallDecrement = 0,
+        SmallDecrement = 0,
         //
-                                SmallIncrement = 1,
+        SmallIncrement = 1,
         //
-                                        LargeDecrement = 2,
+        LargeDecrement = 2,
         //
-                                        LargeIncrement = 3,
+        LargeIncrement = 3,
         //
-                        ThumbPosition = 4,
+        ThumbPosition = 4,
         //
-                        ThumbTrack = 5,
+        ThumbTrack = 5,
         //
-                        First = 6,
+        First = 6,
         //
-                        Last = 7,
+        Last = 7,
         //
-                        EndScroll = 8,
+        EndScroll = 8,
     }
 
-                public enum ArtScrollOrientation
+    public enum ArtScrollOrientation
     {
-                        HorizontalScroll = 0,
+        HorizontalScroll = 0,
         //
-                        VerticalScroll = 1,
+        VerticalScroll = 1,
     }
     public class ArtScrollEventArgs : EventArgs
     {
@@ -78,10 +79,12 @@ namespace LayoutFarm.Presentation
             }
         }
     }
-   
-    public class ScrollSurfaceRequestEventArgs :EventArgs
+
+    public class ScrollSurfaceRequestEventArgs : EventArgs
     {
-        bool need_it = false;        public ScrollSurfaceRequestEventArgs(bool need)        {
+        bool need_it = false;
+        public ScrollSurfaceRequestEventArgs(bool need)
+        {
             need_it = need;
         }
         public bool Need

@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -9,19 +10,19 @@ namespace LayoutFarm.Presentation
 {
 
 #if DEBUG
-                    public class dbugVisualLayoutTracer
+    public class dbugVisualLayoutTracer
     {
         FileStream fs;
         StreamWriter strmWriter;
         VisualRoot visualroot;
-        string outputFileName = null; 
-        int msgLineNum = 0; 
+        string outputFileName = null;
+        int msgLineNum = 0;
         Stack<object> elementStack = new Stack<object>();
 
         int indentCount = 0;
         int myTraceCount = 0;
         static int tracerCount = 0;
-        
+
 
         public dbugVisualLayoutTracer(VisualRoot visualroot)
         {
@@ -53,10 +54,11 @@ namespace LayoutFarm.Presentation
             EndCurrentContext();
 
         }
-        public void PushLayerElement( VisualLayer layer)
+        public void PushLayerElement(VisualLayer layer)
         {
             elementStack.Push(layer);
-            BeginNewContext();        }
+            BeginNewContext();
+        }
         public void PopLayerElement()
         {
             elementStack.Pop();
@@ -69,14 +71,14 @@ namespace LayoutFarm.Presentation
             return elementStack.Peek();
         }
 
-                                public void Start()
+        public void Start()
         {
 
-                        fs = new FileStream(outputFileName, FileMode.Create);
+            fs = new FileStream(outputFileName, FileMode.Create);
             strmWriter = new StreamWriter(fs);
             strmWriter.AutoFlush = true;
         }
-                                public void Stop()
+        public void Stop()
         {
             strmWriter.Close();
             strmWriter.Dispose();
@@ -86,14 +88,14 @@ namespace LayoutFarm.Presentation
             fs = null;
 
         }
-                                                public void WriteInfo(ArtVisualElement v, string info, string indentPrefix, string indentPostfix)
+        public void WriteInfo(ArtVisualElement v, string info, string indentPrefix, string indentPostfix)
         {
             ++msgLineNum;
             ShouldBreak();
             strmWriter.Write(new string('\t', indentCount));
             strmWriter.Write(indentPrefix + indentCount + indentPostfix + info + " ");
             strmWriter.Write(v.dbug_FullElementDescription());
-            strmWriter.Write("\r\n");            strmWriter.Flush();
+            strmWriter.Write("\r\n"); strmWriter.Flush();
 
         }
         public void WriteInfo(string info)
@@ -102,7 +104,7 @@ namespace LayoutFarm.Presentation
             ShouldBreak();
             strmWriter.Write(new string('\t', indentCount));
             strmWriter.Write(info);
-            strmWriter.Write("\r\n");            strmWriter.Flush();
+            strmWriter.Write("\r\n"); strmWriter.Flush();
         }
         public void WriteInfo(string info, ArtVisualElement v)
         {
@@ -111,7 +113,7 @@ namespace LayoutFarm.Presentation
             strmWriter.Write(new string('\t', indentCount));
             strmWriter.Write(info);
             strmWriter.Write(v.dbug_FullElementDescription());
-            strmWriter.Write("\r\n");            strmWriter.Flush();
+            strmWriter.Write("\r\n"); strmWriter.Flush();
         }
         public void WriteInfo(string info, VisualLayer layer)
         {
@@ -120,7 +122,7 @@ namespace LayoutFarm.Presentation
             strmWriter.Write(new string('\t', indentCount));
             strmWriter.Write(info);
             strmWriter.Write(layer.ToString());
-            strmWriter.Write("\r\n");            strmWriter.Flush();
+            strmWriter.Write("\r\n"); strmWriter.Flush();
         }
         public void Flush()
         {
@@ -128,9 +130,9 @@ namespace LayoutFarm.Presentation
         }
         void ShouldBreak()
         {
-                                    
-                    }
-                                                                                
+
+        }
+
     }
 #endif
 

@@ -1,7 +1,8 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Drawing;
- 
+
 namespace LayoutFarm.Presentation
 {
     public enum UIKeyEventName
@@ -40,18 +41,18 @@ namespace LayoutFarm.Presentation
     }
 
 
-                public abstract partial class ArtUIElement : IVisualElementUI
+    public abstract partial class ArtUIElement : IVisualElementUI
     {
 
-                                
-                                
-                                ArtVisualElement primaryVisualElement; 
+
+
+        ArtVisualElement primaryVisualElement;
         public ArtUIElement()
-        {   
+        {
         }
 
-                                                                                                        
-                                                public void FreeVInv(VisualElementArgs vinv)
+
+        public void FreeVInv(VisualElementArgs vinv)
         {
         }
 
@@ -69,7 +70,7 @@ namespace LayoutFarm.Presentation
         {
         }
 
-                                        public void SetPrimaryVisualElement(ArtVisualElement visualElement)
+        public void SetPrimaryVisualElement(ArtVisualElement visualElement)
         {
             this.primaryVisualElement = visualElement;
         }

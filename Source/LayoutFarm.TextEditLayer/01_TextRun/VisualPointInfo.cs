@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -6,54 +7,54 @@ using System.Text;
 namespace LayoutFarm.Presentation.Text
 {
 
-                public abstract class VisualPointInfo
+    public abstract class VisualPointInfo
     {
 
-                                int lineCharIndex;
+        int lineCharIndex;
 
-                                                ArtEditableVisualTextRun onVisualElement;                                int onTextRunCharOffset;                int caretXPos;        int onTextRunPixelOffset;
+        ArtEditableVisualTextRun onVisualElement; int onTextRunCharOffset; int caretXPos; int onTextRunPixelOffset;
         public VisualPointInfo(int lineCharIndex)
         {
 
             this.lineCharIndex = lineCharIndex;
         }
 
-                                                                public void SetAdditionVisualInfo(ArtEditableVisualTextRun onTextRun, int onTextRunCharOffset, int caretXPos, int textRunPixelOffset)
+        public void SetAdditionVisualInfo(ArtEditableVisualTextRun onTextRun, int onTextRunCharOffset, int caretXPos, int textRunPixelOffset)
         {
             this.caretXPos = caretXPos;
-                        this.onVisualElement = onTextRun;
+            this.onVisualElement = onTextRun;
             this.onTextRunCharOffset = onTextRunCharOffset;
             this.onTextRunPixelOffset = textRunPixelOffset;
         }
-                                public int LineCharIndex
+        public int LineCharIndex
         {
             get
             {
                 return lineCharIndex;
             }
         }
-                                public int TextRunCharOffset
+        public int TextRunCharOffset
         {
-                        get
+            get
             {
                 return onTextRunCharOffset;
             }
         }
-                                public ArtEditableVisualTextRun TextRun
+        public ArtEditableVisualTextRun TextRun
         {
             get
             {
                 return onVisualElement;
             }
         }
-                                public bool IsOnTheBeginOfLine
+        public bool IsOnTheBeginOfLine
         {
             get
             {
                 return LocalSelectedIndex == -1;
             }
         }
-                                public abstract int LineId
+        public abstract int LineId
         {
             get;
 
@@ -74,21 +75,21 @@ namespace LayoutFarm.Presentation.Text
         {
             get;
         }
-                                public int LocalSelectedIndex
+        public int LocalSelectedIndex
         {
             get
             {
                 return lineCharIndex - onTextRunCharOffset;
             }
         }
-                                public int X
+        public int X
         {
             get
             {
                 return caretXPos;
             }
         }
-                                public int TextRunPixelOffset
+        public int TextRunPixelOffset
         {
             get
             {

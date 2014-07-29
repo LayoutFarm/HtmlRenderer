@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -24,21 +25,21 @@ namespace LayoutFarm.Presentation.Text
             }
 
         }
-                                                internal void SetPostArrangeLineSize(int lineWidth, int lineHeight)
-        {  
+        internal void SetPostArrangeLineSize(int lineWidth, int lineHeight)
+        {
             this.actualLineWidth = lineWidth;
             this.actualLineHeight = lineHeight;
         }
 
-        
-                                        
-                                public void LocalSuspendLineReArrange()
+
+
+        public void LocalSuspendLineReArrange()
         {
             lineFlags |= LOCAL_SUSPEND_LINE_REARRANGE;
-                    }
-                                public void LocalResumeLineReArrange()
+        }
+        public void LocalResumeLineReArrange()
         {
-                        lineFlags &= ~LOCAL_SUSPEND_LINE_REARRANGE;
+            lineFlags &= ~LOCAL_SUSPEND_LINE_REARRANGE;
 
             LinkedListNode<ArtEditableVisualTextRun> curNode = this.First;
             int cx = 0;
@@ -48,7 +49,7 @@ namespace LayoutFarm.Presentation.Text
                 ArtEditableVisualTextRun.DirectSetVisualElementLocation(ve, cx, 0);
                 cx += ve.Width;
                 curNode = curNode.Next;
-            } 
+            }
         }
 
     }

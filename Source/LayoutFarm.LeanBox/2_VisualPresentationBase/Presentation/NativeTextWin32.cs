@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -8,9 +9,9 @@ using System.Drawing;
 namespace LayoutFarm.Presentation
 {
     class NativeTextWin32
-    {           
+    {
         [DllImport("gdi32.dll")]
-        public static extern bool TextOut(IntPtr hdc, int nXStart, int nYStart, char[] charBuffer, int cbstring); 
+        public static extern bool TextOut(IntPtr hdc, int nXStart, int nYStart, char[] charBuffer, int cbstring);
         [DllImport("gdi32.dll")]
         public static extern bool GetTextExtentPoint32(IntPtr hdc, char[] charBuffer, int c, out WIN32SIZE size);
 
@@ -19,16 +20,16 @@ namespace LayoutFarm.Presentation
 
         [DllImport("gdi32.dll")]
         public static unsafe extern bool ExtTextOut(IntPtr hdc, int x, int y, uint fuOptions,
-            Rectangle* lpRect, char[] charBuffer, int cbCount, object arrayOfSpaceValues); 
+            Rectangle* lpRect, char[] charBuffer, int cbCount, object arrayOfSpaceValues);
 
-                                public const int ETO_OPAQUE = 0x0002;
-                                public const int ETO_CLIPPED = 0x0004;
-       
-
-                                                                                
+        public const int ETO_OPAQUE = 0x0002;
+        public const int ETO_CLIPPED = 0x0004;
 
 
-                                                                
+
+
+
+
         [DllImport("gdi32.dll")]
         public static unsafe extern int GetGlyphIndices(IntPtr hdc, string text, int c, char* buffer, int fl);
 
@@ -42,7 +43,7 @@ namespace LayoutFarm.Presentation
             public int abcA;
             public uint abcB;
             public int abcC;
-                        public int Sum
+            public int Sum
             {
                 get
                 {

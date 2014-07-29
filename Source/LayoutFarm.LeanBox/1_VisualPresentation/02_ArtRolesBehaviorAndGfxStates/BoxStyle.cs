@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
@@ -18,7 +19,7 @@ namespace LayoutFarm.Presentation
     {
         public BoxStyle()
         {
-                                                            this.SharedBgColorBrush = new ArtSolidBrush(Color.White);
+            this.SharedBgColorBrush = new ArtSolidBrush(Color.White);
         }
         public bool FontBold
         {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -8,29 +10,29 @@ namespace LayoutFarm.Presentation
 {
     public abstract partial class ArtVisualRootWindow : ArtVisualContainerBase
     {
-        VisualRoot visualRoot; 
-        VisualLayer groundLayer;             
-  
+        VisualRoot visualRoot;
+        VisualLayer groundLayer;
+
         public ArtVisualRootWindow(VisualRoot visualRoot, int width, int height)
             : base(width, height, VisualElementNature.WindowRoot)
         {
             this.visualRoot = visualRoot;
         }
 
-                                public abstract ArtVisualElement CurrentKeyboardFocusedElement
+        public abstract ArtVisualElement CurrentKeyboardFocusedElement
         {
             get;
             set;
         }
 
         public abstract void RootBeginGraphicUpdate();
-                                public abstract void RootEndGraphicUpdate();
+        public abstract void RootEndGraphicUpdate();
         public abstract ArtVisualElement CurrentDraggingElement { get; set; }
-        
-                                        public abstract void AddToLayoutQueue(ArtVisualElement vs);
+
+        public abstract void AddToLayoutQueue(ArtVisualElement vs);
         public abstract VisualRoot VisualRoot { get; }
         public abstract bool IsLayoutQueueClearing { get; }
-        public abstract void InvalidateGraphicArea(ArtVisualElement fromElement, InternalRect elementClientRect);        
+        public abstract void InvalidateGraphicArea(ArtVisualElement fromElement, InternalRect elementClientRect);
         public abstract void dbugShowRenderPart(ArtCanvas canvasPage, InternalRect updateArea);
         public override void ClearAllChildren()
         {
@@ -50,15 +52,15 @@ namespace LayoutFarm.Presentation
         }
 
 
-                                        protected override void GroundLayerAddChild(ArtVisualElement child)
+        protected override void GroundLayerAddChild(ArtVisualElement child)
         {
             if (groundLayer == null)
-            {   
-                groundLayer = new VisualPlainLayer(this); 
+            {
+                groundLayer = new VisualPlainLayer(this);
             }
 
             groundLayer.AddTop(child);
         }
-        
+
     }
 }

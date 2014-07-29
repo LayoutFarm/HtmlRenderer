@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,7 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-    #if DEBUG
+#if DEBUG
 
     public class dbugVisualElementLayoutMsg
     {
@@ -35,8 +36,8 @@ namespace LayoutFarm.Presentation
         public static dbugVisualElementLayoutMsg Clear_CAL_ARR = new dbugVisualElementLayoutMsg("ClEAR CAL+ARR : ");
         public static dbugVisualElementLayoutMsg Clear_ARR_CAL = new dbugVisualElementLayoutMsg("ClEAR ARR+CAL : ");
 
-        
-        
+
+
 
     }
 
@@ -52,29 +53,29 @@ namespace LayoutFarm.Presentation
             }
         }
 
-                                public string dbug_FixedElementCode = null;
-                                public int dbug_element_code_y = 0;                                 public bool dbug_hide_objIden = false;
-                                public readonly int dbug_obj_id = 0;
-                                static int dbug_totalObjectId = 0;
+        public string dbug_FixedElementCode = null;
+        public int dbug_element_code_y = 0; public bool dbug_hide_objIden = false;
+        public readonly int dbug_obj_id = 0;
+        static int dbug_totalObjectId = 0;
 
 
         public string dbug_ObjectNote;
 
-                                        public void dbug_SetFixedElementCode(string staticElementCode)
+        public void dbug_SetFixedElementCode(string staticElementCode)
         {
             dbug_FixedElementCode = staticElementCode;
         }
         public virtual void dbug_DumpVisualProps(dbugLayoutMsgWriter writer)
         {
-                        writer.Add(this, this.dbug_FullElementDescription());
+            writer.Add(this, this.dbug_FullElementDescription());
         }
 
 
-                                public virtual string dbug_FullElementDescription()
+        public virtual string dbug_FullElementDescription()
         {
 
             string user_elem_id = null;
-                                                                                                                        string element_iden = dbug_FixedElementCode;
+            string element_iden = dbug_FixedElementCode;
             if (dbug_ObjectNote != null)
             {
                 element_iden += " " + dbug_ObjectNote;
@@ -109,18 +110,18 @@ namespace LayoutFarm.Presentation
 
         }
 
-                        protected string dbug_GetBoundInfo()
+        protected string dbug_GetBoundInfo()
         {
 
-                                                
-                                    
-                        Rectangle r = this.Rect;
+
+
+            Rectangle r = this.Rect;
             string output = "{" + r.X + "," + r.Y + "," + r.Width + "," + r.Height +
                 ";dw=" + this.ElementDesiredWidth +
                 ";dh=" + this.ElementDesiredHeight;
-                                        return output;
+            return output;
 
-                                                
+
         }
         protected string dbug_GetLayoutInfo()
         {
@@ -138,10 +139,10 @@ namespace LayoutFarm.Presentation
 
             if (this.dbugNeedContentArrangement)
             {
-                                info += "[A:" + dbug_InvalidateContentArrEpisode + "," + "na:" + dbug_ValidateContentArrEpisode + "]";
+                info += "[A:" + dbug_InvalidateContentArrEpisode + "," + "na:" + dbug_ValidateContentArrEpisode + "]";
                 if (this.dbug_FinishArr != this.dbug_BeginArr)
                 {
-                                        info += "!";
+                    info += "!";
                 }
             }
             else
@@ -149,7 +150,7 @@ namespace LayoutFarm.Presentation
                 info += "[na:" + dbug_ValidateContentArrEpisode + ",A:" + dbug_ValidateContentArrEpisode + "]";
                 if (this.dbug_FinishArr != this.dbug_BeginArr)
                 {
-                                        info += "!";
+                    info += "!";
                 }
             }
 
@@ -161,41 +162,41 @@ namespace LayoutFarm.Presentation
             return info;
 
         }
-                               public int dbug_BeginArr;
-                               public int dbug_FinishArr;
-       public int dbug_InvalidateContentArrEpisode = 0;
-       public int dbug_ValidateContentArrEpisode = 0;
-       public int dbug_InvalidateRecalculateSizeEpisode = 0;
-       public int dbug_ValidateRecalculateSizeEpisode = 0;
-       public static int dbug_totalInvalidateContentArrEpisode = 0;
+        public int dbug_BeginArr;
+        public int dbug_FinishArr;
+        public int dbug_InvalidateContentArrEpisode = 0;
+        public int dbug_ValidateContentArrEpisode = 0;
+        public int dbug_InvalidateRecalculateSizeEpisode = 0;
+        public int dbug_ValidateRecalculateSizeEpisode = 0;
+        public static int dbug_totalInvalidateContentArrEpisode = 0;
 
-                                                                                                                                                                                                                                                                        
-                                                                                                                                                                                                                        
 
-                        
-        
-                                                                                                                                                        
-                                                        
-                                                                                                                                        
+
+
+
+
+
+
+
 
         public VisualRoot dbugVRoot
         {
             get
             {
                 return VisualRoot.dbugCurrentGlobalVRoot;
-                            }
+            }
         }
 
         void debug_RecordPostDrawInfo(ArtCanvas canvasPage)
         {
-                                                if (dbugVRoot.dbug_ShowElementOutline)
+            if (dbugVRoot.dbug_ShowElementOutline)
             {
                 canvasPage.DrawRectangle(Color.Red, new Rectangle(0, 0, this.Width - 1, this.Height - 1));
-                                                                                                                                                                                
+
             }
             if (dbugVRoot.dbug_ForceShowObjectIden)
             {
-                                canvasPage.PushTextColor(Color.Blue);
+                canvasPage.PushTextColor(Color.Blue);
                 canvasPage.DrawText(
                         ("<< " + dbug_FullElementDescription()).ToCharArray()
                         , 0, dbug_element_code_y);
@@ -203,7 +204,7 @@ namespace LayoutFarm.Presentation
             }
             else if (dbugVRoot.dbug_ShowObjectIden && !dbug_hide_objIden)
             {
-                                canvasPage.PushTextColor(Color.Blue);
+                canvasPage.PushTextColor(Color.Blue);
                 canvasPage.DrawText(
                         ("<< " + dbug_FullElementDescription()).ToCharArray()
                         , 0, dbug_element_code_y);
@@ -211,7 +212,7 @@ namespace LayoutFarm.Presentation
             }
 
 
-                    }
+        }
     }
 #endif
 }

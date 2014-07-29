@@ -1,4 +1,6 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -21,9 +23,9 @@ namespace LayoutFarm.Presentation
             return beh;
         }
 
-                                        static Size ReCalculateContentSizeVerticalStack(LinkedList<ArtVisualElement> velist, VisualElementArgs vinv)
+        static Size ReCalculateContentSizeVerticalStack(LinkedList<ArtVisualElement> velist, VisualElementArgs vinv)
         {
-                                    int local_desiredWidth = 0;
+            int local_desiredWidth = 0;
             int local_desiredHeight = 0;
 
             LinkedListNode<ArtVisualElement> curNode = velist.First;
@@ -34,7 +36,7 @@ namespace LayoutFarm.Presentation
                 if (!visualElement.HasCalculatedSize)
                 {
                     visualElement.TopDownReCalculateContentSize(vinv);
-                                    }
+                }
 #if DEBUG
                 else
                 {
@@ -45,54 +47,54 @@ namespace LayoutFarm.Presentation
                 {
                     local_desiredWidth = visualElement.ElementDesiredWidth;
                 }
-                                local_desiredHeight += visualElement.ElementDesiredHeight;
+                local_desiredHeight += visualElement.ElementDesiredHeight;
                 curNode = curNode.Next;
             }
 
-                                                
 
-                                                                                                                                                                                                                                    
+
+
 
 
 
             return new Size(local_desiredWidth, local_desiredHeight);
         }
 
-                                static Size ReCalculateContentSizeHorizontalStack(LinkedList<ArtVisualElement> velist, VisualElementArgs vinv)
+        static Size ReCalculateContentSizeHorizontalStack(LinkedList<ArtVisualElement> velist, VisualElementArgs vinv)
         {
-                                                
+
             int local_desiredWidth = 0;
             int local_desiredHeight = 17;
             LinkedListNode<ArtVisualElement> curNode = velist.First;
             while (curNode != null)
             {
                 ArtVisualElement visualElement = curNode.Value;
-                                if (!visualElement.HasCalculatedSize)
+                if (!visualElement.HasCalculatedSize)
                 {
                     visualElement.TopDownReCalculateContentSize(vinv);
-                                    }
+                }
 #if DEBUG
                 else
                 {
-                                        
+
                     vinv.dbug_WriteInfo(dbugVisitorMessage.SKIP, visualElement);
 
                 }
 #endif
-                
+
                 if (local_desiredHeight < visualElement.ElementDesiredHeight)
                 {
                     local_desiredHeight = visualElement.ElementDesiredHeight;
                 }
-                                local_desiredWidth += visualElement.ElementDesiredWidth;
+                local_desiredWidth += visualElement.ElementDesiredWidth;
                 curNode = curNode.Next;
             }
-            
-                                                
-                                                                                                                                    
-            
-                                    
-                                                                                                
+
+
+
+
+
+
 
 
             return new Size(local_desiredWidth, local_desiredHeight);
@@ -100,37 +102,39 @@ namespace LayoutFarm.Presentation
 
         public static Size GetFitWidthSize(Size contentSize, int containerWidth, bool maintainRatio)
         {
-                        if (maintainRatio)
+            if (maintainRatio)
             {
-                                                                if (contentSize == Size.Empty)
+                if (contentSize == Size.Empty)
                 {
-                                        contentSize = new Size(containerWidth, containerWidth);
+                    contentSize = new Size(containerWidth, containerWidth);
                 }
 
 
                 double client_width = (double)contentSize.Width;
                 double client_height = (double)contentSize.Height;
                 double ratio = client_width / client_height;
-                contentSize.Width = containerWidth;                contentSize.Height = (int)(contentSize.Width / ratio);                return contentSize;
+                contentSize.Width = containerWidth; contentSize.Height = (int)(contentSize.Width / ratio); return contentSize;
             }
             else
-            {                contentSize.Width = containerWidth;
+            {
+                contentSize.Width = containerWidth;
                 return contentSize;
             }
         }
         public static Size GetFitHeightSize(Size contentSize, int containerHeight, bool maintainRatio)
-        {            if (maintainRatio)
+        {
+            if (maintainRatio)
             {
-                                                if (contentSize == Size.Empty)
+                if (contentSize == Size.Empty)
                 {
-                                        contentSize = new Size(containerHeight, containerHeight);
+                    contentSize = new Size(containerHeight, containerHeight);
                 }
 
 
                 double client_width = (double)contentSize.Width;
                 double client_height = (double)contentSize.Height;
                 double ratio = client_width / client_height;
-                                contentSize.Height = containerHeight;                                contentSize.Width = (int)(contentSize.Height * ratio);
+                contentSize.Height = containerHeight; contentSize.Width = (int)(contentSize.Height * ratio);
                 return contentSize;
             }
             else
@@ -142,37 +146,38 @@ namespace LayoutFarm.Presentation
         }
         public static Size GetFitRectSize(Size contentSize, Size containerSize, bool maintainRatio)
         {
-                        if (maintainRatio)
+            if (maintainRatio)
             {
-                                if (contentSize == Size.Empty)
+                if (contentSize == Size.Empty)
                 {
                     contentSize = containerSize;
                 }
                 double client_width = (double)contentSize.Width;
                 double client_height = (double)contentSize.Height;
                 double ratio = client_width / client_height;
-                if (contentSize.Width > contentSize.Height)                 {
-                    contentSize.Width = containerSize.Width;                    contentSize.Height = (int)(contentSize.Width / ratio);                                        
-                                                            if (contentSize.Height > containerSize.Height)
+                if (contentSize.Width > contentSize.Height)
+                {
+                    contentSize.Width = containerSize.Width; contentSize.Height = (int)(contentSize.Width / ratio);
+                    if (contentSize.Height > containerSize.Height)
                     {
                         contentSize.Height = containerSize.Height;
-                                                contentSize.Width = (int)(ratio * contentSize.Height);
+                        contentSize.Width = (int)(ratio * contentSize.Height);
                     }
                     return contentSize;
                 }
                 else if (contentSize.Width < contentSize.Height)
                 {
-                                        contentSize.Height = containerSize.Height;                                        contentSize.Width = (int)(contentSize.Height * ratio);
-                                                            if (contentSize.Width > containerSize.Width)
+                    contentSize.Height = containerSize.Height; contentSize.Width = (int)(contentSize.Height * ratio);
+                    if (contentSize.Width > containerSize.Width)
                     {
                         contentSize.Width = containerSize.Width;
-                                                contentSize.Height = (int)(contentSize.Width / ratio);
+                        contentSize.Height = (int)(contentSize.Width / ratio);
                     }
                     return contentSize;
                 }
                 else
                 {
-                                        return containerSize;
+                    return containerSize;
 
                 }
             }

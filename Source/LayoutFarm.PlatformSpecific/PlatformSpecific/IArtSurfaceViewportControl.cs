@@ -1,13 +1,14 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing; 
-using System.Text; 
+using System.Drawing;
+using System.Text;
 
 namespace LayoutFarm.Presentation
 {
-        
-            
+
+
     public interface IArtSurfaceViewportControl
     {
 

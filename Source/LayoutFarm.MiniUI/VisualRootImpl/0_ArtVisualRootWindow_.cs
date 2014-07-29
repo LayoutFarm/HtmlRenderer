@@ -1,4 +1,4 @@
-﻿
+﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,88 +15,88 @@ namespace LayoutFarm.Presentation
     partial class ArtVisualWindowImpl
     {
 
-                                                                        
-                                System.Timers.Timer centralAnimationClock;
-                                                                                                        
 
-                                ArtVisualElement currentMouseActiveElement = null;
-                
-                                ArtVisualElement currentDragingElement = null;
+        System.Timers.Timer centralAnimationClock;
 
 
-                                                        
-                        int globalXOfCurrentUI = 0;
+        ArtVisualElement currentMouseActiveElement = null;
+
+        ArtVisualElement currentDragingElement = null;
+
+
+
+        int globalXOfCurrentUI = 0;
         int globalYOfCurrentUI = 0;
-        
 
 
-                                int currentXDistanceFromDragPoint = 0;
-                                int currentYDistanceFromDragPoint = 0;
 
-                                
-                                        bool isInRenderPhase = false;
-        
-
-                                readonly ArtHitPointChain hitPointChain = new ArtHitPointChain();
-                                
+        int currentXDistanceFromDragPoint = 0;
+        int currentYDistanceFromDragPoint = 0;
 
 
-                LinkedList<ArtVisualRootTimerTask> rootTimerTasks = new LinkedList<ArtVisualRootTimerTask>();
-                                System.Timers.Timer rootTasksTimer;
-
-                                ArtUIHoverMonitorTask hoverMonitoringTask;
-
-                
-                                public event EventHandler<ArtInvalidatedEventArgs> CanvasInvalidatedEvent;
-                                public event EventHandler<ArtCaretEventArgs> CanvasCaretEvent;
-                public event EventHandler<ArtCursorEventArgs> CursorStyleEventHandler;
-                                                public event EventHandler CanvasForcePaintMe;
-                                public event EventHandler CurrentFocusElementChanged;
-
-                                
-
-                        
-                                int msgChainVersion;
-                        
+        bool isInRenderPhase = false;
 
 
-                                                public void ChangeVisualRootSize(int width, int height)
+        readonly ArtHitPointChain hitPointChain = new ArtHitPointChain();
+
+
+
+        LinkedList<ArtVisualRootTimerTask> rootTimerTasks = new LinkedList<ArtVisualRootTimerTask>();
+        System.Timers.Timer rootTasksTimer;
+
+        ArtUIHoverMonitorTask hoverMonitoringTask;
+
+
+        public event EventHandler<ArtInvalidatedEventArgs> CanvasInvalidatedEvent;
+        public event EventHandler<ArtCaretEventArgs> CanvasCaretEvent;
+        public event EventHandler<ArtCursorEventArgs> CursorStyleEventHandler;
+        public event EventHandler CanvasForcePaintMe;
+        public event EventHandler CurrentFocusElementChanged;
+
+
+
+
+        int msgChainVersion;
+
+
+
+        public void ChangeVisualRootSize(int width, int height)
         {
             VisualElementArgs vinv = this.GetVInv();
             this.ChangeRootElementSize(width, height, vinv);
-                        this.FreeVInv(vinv);
+            this.FreeVInv(vinv);
         }
-                                public void Dispose()
+        public void Dispose()
         {
 
         }
 
-                LinkedList<LinkedListNode<ArtVisualRootTimerTask>> tobeRemoveTasks = new LinkedList<LinkedListNode<ArtVisualRootTimerTask>>();
-
-                                                                                                                                                                                                                                
+        LinkedList<LinkedListNode<ArtVisualRootTimerTask>> tobeRemoveTasks = new LinkedList<LinkedListNode<ArtVisualRootTimerTask>>();
 
 
 
-                                                                                                                                                                                                                                                                                                                                                                        
-                                                                
 
-                                                                
-                        
-                                                        
-                                                                        
+
+
+
+
+
+
+
+
         void SetCaretVisible(bool visible)
         {
-                                                if (CanvasCaretEvent != null)
+            if (CanvasCaretEvent != null)
             {
 
-                                                var e = eventStock.GetFreeCaretEventArgs();
+                var e = eventStock.GetFreeCaretEventArgs();
                 e.Visible = visible;
                 CanvasCaretEvent.Invoke(this, e);
                 eventStock.ReleaseEventArgs(e);
             }
         }
 
-                                public override ArtVisualElement CurrentKeyboardFocusedElement
+        public override ArtVisualElement CurrentKeyboardFocusedElement
         {
             get
             {
@@ -107,56 +107,57 @@ namespace LayoutFarm.Presentation
                 }
                 else
                 {
-                    return null;                }
+                    return null;
+                }
             }
             set
             {
-                                
+
                 if (value != null && !(value.Focusable))
                 {
                     return;
                 }
-                                if (currentKeyboardFocusedElement != null)
+                if (currentKeyboardFocusedElement != null)
                 {
-                                                            if (currentKeyboardFocusedElement == value)
+                    if (currentKeyboardFocusedElement == value)
                     {
                         return;
                     }
 
 
-                                                            ArtFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(value, currentKeyboardFocusedElement);
+                    ArtFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(value, currentKeyboardFocusedElement);
                     focusEventArg.SetWinRoot(this);
-                                        var script = currentKeyboardFocusedElement.GetScriptUI();
+                    var script = currentKeyboardFocusedElement.GetScriptUI();
                     if (script != null)
                     {
                     }
 
 
-                                                            if (currentKeyboardFocusedElement.IsTextEditContainer)
+                    if (currentKeyboardFocusedElement.IsTextEditContainer)
                     {
                         SetCaretVisible(false);
                         VisualElementArgs vinv = this.GetVInv();
                         currentKeyboardFocusedElement.InvalidateGraphic(vinv);
                         this.FreeVInv(vinv);
                     }
-                                        eventStock.ReleaseEventArgs(focusEventArg);
+                    eventStock.ReleaseEventArgs(focusEventArg);
                 }
-                                currentKeyboardFocusedElement = value;
+                currentKeyboardFocusedElement = value;
                 if (currentKeyboardFocusedElement != null)
                 {
                     ArtFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(value, currentKeyboardFocusedElement);
                     focusEventArg.SetWinRoot(this);
                     Point globalLocation = value.GetGlobalLocation();
-                                                            globalXOfCurrentUI = globalLocation.X;
+                    globalXOfCurrentUI = globalLocation.X;
                     globalYOfCurrentUI = globalLocation.Y;
                     focusEventArg.SetWinRoot(this);
-                    
+
                     IVisualElementUI ui = value.GetScriptUI() as IVisualElementUI;
                     if (ui != null)
                     {
 
                     }
-                                        eventStock.ReleaseEventArgs(focusEventArg);
+                    eventStock.ReleaseEventArgs(focusEventArg);
                     if (currentKeyboardFocusedElement.IsTextEditContainer)
                     {
 
@@ -166,7 +167,7 @@ namespace LayoutFarm.Presentation
                     {
                         SetCaretVisible(false);
                     }
-                                        if (CurrentFocusElementChanged != null)
+                    if (CurrentFocusElementChanged != null)
                     {
                         CurrentFocusElementChanged.Invoke(this, EventArgs.Empty);
                     }
@@ -179,128 +180,129 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        
-                                public override ArtVisualElement CurrentDraggingElement
+
+        public override ArtVisualElement CurrentDraggingElement
         {
-                                    get
+            get
             {
                 return currentDragingElement;
             }
             set
             {
-                                if (currentDragingElement != null
-                    && currentDragingElement != value)
+                if (currentDragingElement != null
+    && currentDragingElement != value)
                 {
-                                                            if (value != null)
+                    if (value != null)
                     {
-                                                                        currentDragingElement = value;
+                        currentDragingElement = value;
                     }
                     else
                     {
-                        
+
                     }
                 }
                 else if (currentDragingElement == null)
                 {
-                                        if (value != null)
+                    if (value != null)
                     {
-                                                                        currentDragingElement = value;
+                        currentDragingElement = value;
                     }
                 }
             }
         }
 
-                                internal ArtVisualElement CurrentMouseFocusedElement
+        internal ArtVisualElement CurrentMouseFocusedElement
         {
             get
             {
                 return currentMouseActiveElement;
             }
         }
-                                                                                                                                        
-                                                                                                                
-                        
-                                                                                                                                                                                                                                                                                        
-        
-                                                                                                
-        
-                                        
-                                
-        
-                        
-
-                                                                                
-                
-                                                                                                
-                                                                                                                                                                                                                                
-        
-        
 
 
-                                                
-        
-                                                                                                                                
-                                                                                                        
-                                                                                                                                                                                                                                        
 
 
-                                                                                                        public void ClearAllFocus()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public void ClearAllFocus()
         {
-                        CurrentKeyboardFocusedElement = null;
+            CurrentKeyboardFocusedElement = null;
             this.currentDragingElement = null;
         }
 
 
-                                        public void ClearAllResources()
+        public void ClearAllResources()
         {
             if (centralAnimationClock != null)
             {
-                centralAnimationClock.Stop();            }
+                centralAnimationClock.Stop();
+            }
             CurrentKeyboardFocusedElement = null;
-                                                                                    ClearAllChildren();
-                        hitPointChain.ClearAll();
+            ClearAllChildren();
+            hitPointChain.ClearAll();
 
 
 
         }
 
-                                                                                public new void OnDoubleClick(ArtMouseEventArgs e)
+        public new void OnDoubleClick(ArtMouseEventArgs e)
         {
 
-                                    ArtVisualElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.DblClick);
+            ArtVisualElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.DblClick);
             if (currentMouseActiveElement != null)
             {
                 e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
                 e.Location = hitPointChain.CurrentHitPoint;
                 e.SourceVisualElement = currentMouseActiveElement;
-                
+
                 IVisualElementUI ui = currentMouseActiveElement.GetScriptUI() as IVisualElementUI;
                 if (ui != null)
                 {
                 }
                 e.TranslateCanvasOriginBack();
 
-                                                
-                            }
+
+            }
             hitPointChain.SwapHitChain();
         }
 
-                        
-                
+
+
         public new void OnMouseWheel(ArtMouseEventArgs e)
         {
 
             if (currentMouseActiveElement != null)
             {
-                                IVisualElementUI ui = currentMouseActiveElement.GetScriptUI() as IVisualElementUI;
+                IVisualElementUI ui = currentMouseActiveElement.GetScriptUI() as IVisualElementUI;
                 if (ui != null)
                 {
                 }
             }
-                                                                                                                                                                                                                                                                                    
-                                }
 
-                                        public void OnMouseDown(ArtMouseEventArgs e)
+        }
+
+        public void OnMouseDown(ArtMouseEventArgs e)
         {
 
 #if DEBUG
@@ -315,20 +317,20 @@ namespace LayoutFarm.Presentation
 #endif
 
 
-            msgChainVersion = 1;            int local_msgVersion = 1; 
-                        ArtVisualElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.MouseDown);
+            msgChainVersion = 1; int local_msgVersion = 1;
+            ArtVisualElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.MouseDown);
             if (hitElement == this || hitElement == null)
             {
-                                                hitPointChain.SwapHitChain();                return;
+                hitPointChain.SwapHitChain(); return;
             }
-                                    disableGraphicOutputFlush = true;
+            disableGraphicOutputFlush = true;
 
-                                                                                                            e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
-                        e.Location = hitPointChain.CurrentHitPoint;
-                        e.SourceVisualElement = hitElement;
-            
-                                                                                                                                                
-                        currentMouseActiveElement = hitElement; 
+            e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
+            e.Location = hitPointChain.CurrentHitPoint;
+            e.SourceVisualElement = hitElement;
+
+
+            currentMouseActiveElement = hitElement;
 
 
             IVisualElementUI ui = hitElement.GetScriptUI() as IVisualElementUI;
@@ -337,15 +339,15 @@ namespace LayoutFarm.Presentation
                 ui.DispatchMouseEvent(UIMouseEventName.MouseDown, e);
             }
             e.TranslateCanvasOriginBack();
-                                                            #if DEBUG
-                        VisualRoot visualroot = this.dbugVRoot;
+#if DEBUG
+            VisualRoot visualroot = this.dbugVRoot;
             if (visualroot.dbug_RecordHitChain)
             {
-                                visualroot.dbug_rootHitChainMsg.Clear();
+                visualroot.dbug_rootHitChainMsg.Clear();
                 int i = 0;
                 foreach (ArtHitPointChain.HitPair hp in hitPointChain.HitPairIter)
                 {
-                    
+
                     ArtVisualElement ve = hp.elem;
                     ve.dbug_WriteOwnerLayerInfo(visualroot, i);
                     ve.dbug_WriteOwnerLineInfo(visualroot, i);
@@ -358,80 +360,80 @@ namespace LayoutFarm.Presentation
                 }
             }
 #endif
-                                    hitPointChain.SwapHitChain();
-                                    if (hitElement.ParentVisualElement == null)
+            hitPointChain.SwapHitChain();
+            if (hitElement.ParentVisualElement == null)
             {
                 currentMouseActiveElement = null;
-                                                return;
+                return;
             }
 
-                                                                                    if (local_msgVersion != msgChainVersion)
+            if (local_msgVersion != msgChainVersion)
             {
                 return;
             }
-                                                
 
-                        if (hitElement.Focusable)
+
+            if (hitElement.Focusable)
             {
-                                VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
+                VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
                 hitElement.Focus(vinv);
                 e.FreeVisualInvalidateCanvasArgs(vinv);
             }
-                                    disableGraphicOutputFlush = false;
-                        FlushGraphicUpdate();
-                                                                                                            
+            disableGraphicOutputFlush = false;
+            FlushGraphicUpdate();
+
 #if DEBUG
             visualroot.dbugHitTracker.Write("stop-mousedown");
             visualroot.dbugHitTracker.Play = false;
-            #endif
+#endif
 
         }
-                                                ArtVisualElement HitTestCoreWithPrevChainHint(int x, int y, HitEventName hitEvent)
+        ArtVisualElement HitTestCoreWithPrevChainHint(int x, int y, HitEventName hitEvent)
         {
-                                                                                    hitPointChain.SetVisualRootStartTestPoint(x, y);
-                        ArtVisualElement commonElement = hitPointChain.HitTestOnPrevChain();                         if (commonElement == null)
+            hitPointChain.SetVisualRootStartTestPoint(x, y);
+            ArtVisualElement commonElement = hitPointChain.HitTestOnPrevChain(); if (commonElement == null)
             {
-                                commonElement = this;
+                commonElement = this;
             }
-            commonElement.HitTestCore(hitPointChain);            return hitPointChain.CurrentHitElement; 
+            commonElement.HitTestCore(hitPointChain); return hitPointChain.CurrentHitElement;
         }
 
-                                        public void OnMouseMove(ArtMouseEventArgs e)
+        public void OnMouseMove(ArtMouseEventArgs e)
         {
-                                                                                                                                    #if DEBUG
+#if DEBUG
 
 #endif
             ArtVisualElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.MouseMove);
 
-                                    hoverMonitoringTask.Reset();                        hoverMonitoringTask.SetEnable(true, this);
-                        
-                        if (hitElement != currentMouseActiveElement)
+            hoverMonitoringTask.Reset(); hoverMonitoringTask.SetEnable(true, this);
+
+            if (hitElement != currentMouseActiveElement)
             {
-                                disableGraphicOutputFlush = true;
+                disableGraphicOutputFlush = true;
                 {
-                                        if (ArtVisualElement.IsTestableElement(currentMouseActiveElement))
+                    if (ArtVisualElement.IsTestableElement(currentMouseActiveElement))
                     {
-                                                Point prevElementGlobalLocation = currentMouseActiveElement.GetGlobalLocation();
-                        e.TranslateCanvasOrigin(prevElementGlobalLocation);                         e.Location = hitPointChain.PrevHitPoint;                        e.SourceVisualElement = currentMouseActiveElement;
-                                                                                                                                                IVisualElementUI ui = currentMouseActiveElement.GetScriptUI() as IVisualElementUI;
+                        Point prevElementGlobalLocation = currentMouseActiveElement.GetGlobalLocation();
+                        e.TranslateCanvasOrigin(prevElementGlobalLocation); e.Location = hitPointChain.PrevHitPoint; e.SourceVisualElement = currentMouseActiveElement;
+                        IVisualElementUI ui = currentMouseActiveElement.GetScriptUI() as IVisualElementUI;
                         if (ui != null)
                         {
                             ui.DispatchMouseEvent(UIMouseEventName.MouseLeave, e);
                         }
 
-                        e.TranslateCanvasOriginBack();                          currentMouseActiveElement = null;
+                        e.TranslateCanvasOriginBack(); currentMouseActiveElement = null;
                     }
 
-                                                            
+
                     if (ArtVisualElement.IsTestableElement(hitElement))
                     {
 
                         currentMouseActiveElement = hitElement;
-                                                                                                
 
-                                                                                                                                                e.TranslateCanvasOrigin(hitPointChain.LastestElementGlobalX, hitPointChain.LastestElementGlobalY);
-                        e.Location = hitPointChain.CurrentHitPoint;                        e.SourceVisualElement = hitElement;
-                                                                                                
+
+                        e.TranslateCanvasOrigin(hitPointChain.LastestElementGlobalX, hitPointChain.LastestElementGlobalY);
+                        e.Location = hitPointChain.CurrentHitPoint; e.SourceVisualElement = hitElement;
+
                         IVisualElementUI ui = hitElement.GetScriptUI() as IVisualElementUI;
                         if (ui != null)
                         {
@@ -446,10 +448,11 @@ namespace LayoutFarm.Presentation
                 FlushGraphicUpdate();
             }
             else if (hitElement != null)
-            {                                                                                   disableGraphicOutputFlush = true;
+            {
+                disableGraphicOutputFlush = true;
                 {
                     e.TranslateCanvasOrigin(hitPointChain.LastestElementGlobalX, hitPointChain.LastestElementGlobalY);
-                    e.Location = hitPointChain.CurrentHitPoint;                    e.SourceVisualElement = hitElement;
+                    e.Location = hitPointChain.CurrentHitPoint; e.SourceVisualElement = hitElement;
 
                     IVisualElementUI ui = hitElement.GetScriptUI() as IVisualElementUI;
                     if (ui != null)
@@ -463,33 +466,34 @@ namespace LayoutFarm.Presentation
                 FlushGraphicUpdate();
             }
 
-                                    hitPointChain.SwapHitChain();
-                                                                                                                                }
-                                        void OnMouseHover(object sender, EventArgs e)
+            hitPointChain.SwapHitChain();
+        }
+        void OnMouseHover(object sender, EventArgs e)
         {
-                                    ArtVisualElement hitElement = HitTestCoreWithPrevChainHint(hitPointChain.LastestRootX, hitPointChain.LastestRootY, HitEventName.MouseHover);
+            ArtVisualElement hitElement = HitTestCoreWithPrevChainHint(hitPointChain.LastestRootX, hitPointChain.LastestRootY, HitEventName.MouseHover);
             if (hitElement != null && ArtVisualElement.IsTestableElement(hitElement))
             {
-                                disableGraphicOutputFlush = true;
+                disableGraphicOutputFlush = true;
                 Point hitElementGlobalLocation = hitElement.GetGlobalLocation();
 
-                                ArtMouseEventArgs e2 = new ArtMouseEventArgs();
+                ArtMouseEventArgs e2 = new ArtMouseEventArgs();
 
-                                e2.Location = hitPointChain.CurrentHitPoint;                e2.SourceVisualElement = hitElement;
-                                IVisualElementUI ui = hitElement.GetScriptUI() as IVisualElementUI;
+                e2.Location = hitPointChain.CurrentHitPoint; e2.SourceVisualElement = hitElement;
+                IVisualElementUI ui = hitElement.GetScriptUI() as IVisualElementUI;
                 if (ui != null)
                 {
                     ui.DispatchMouseEvent(UIMouseEventName.MouseHover, e2);
                 }
 
                 disableGraphicOutputFlush = false;
-                                                FlushGraphicUpdate();
+                FlushGraphicUpdate();
             }
             hitPointChain.SwapHitChain();
 
-                                                                                                            hoverMonitoringTask.SetEnable(false, this);        }
+            hoverMonitoringTask.SetEnable(false, this);
+        }
 
-                public void OnDragStart(ArtDragEventArgs e)
+        public void OnDragStart(ArtDragEventArgs e)
         {
 
 #if DEBUG
@@ -502,68 +506,68 @@ namespace LayoutFarm.Presentation
 #endif
 
 
-                                    currentXDistanceFromDragPoint = 0;
+            currentXDistanceFromDragPoint = 0;
             currentYDistanceFromDragPoint = 0;
-                                                                                                                                                                                                                                                                                                                                    currentDragingElement = HitTestCoreWithPrevChainHint(
-                hitPointChain.LastestRootX,
-                hitPointChain.LastestRootY,
-                HitEventName.DragStart);
+            currentDragingElement = HitTestCoreWithPrevChainHint(
+hitPointChain.LastestRootX,
+hitPointChain.LastestRootY,
+HitEventName.DragStart);
 
             if (currentDragingElement != null && currentDragingElement != this)
             {
-                                                                                                                disableGraphicOutputFlush = true;
-                                Point globalLocation = currentDragingElement.GetGlobalLocation();
+                disableGraphicOutputFlush = true;
+                Point globalLocation = currentDragingElement.GetGlobalLocation();
                 e.TranslateCanvasOrigin(globalLocation);
                 e.Location = hitPointChain.CurrentHitPoint;
                 e.DragingElement = currentDragingElement;
                 e.SourceVisualElement = currentDragingElement;
-                                                                IVisualElementUI ui = currentDragingElement.GetScriptUI() as IVisualElementUI;
+                IVisualElementUI ui = currentDragingElement.GetScriptUI() as IVisualElementUI;
                 if (ui != null)
                 {
                     ui.DispatchDragEvent(UIDragEventName.DragStart, e);
                 }
-                                e.TranslateCanvasOriginBack();
+                e.TranslateCanvasOriginBack();
                 disableGraphicOutputFlush = false;
                 FlushGraphicUpdate();
                 hitPointChain.ClearDragHitElements();
             }
             hitPointChain.SwapHitChain();
 
-            
+
         }
 
-                                        public void OnDrag(ArtDragEventArgs e)
+        public void OnDrag(ArtDragEventArgs e)
         {
 
 #if DEBUG
             this.dbugVRoot.dbugEventIsDragging = true;
 #endif
 
-                                                                                                            if (currentDragingElement == null)
+            if (currentDragingElement == null)
             {
-                
+
                 return;
             }
             else
             {
-                            }
-
-                                                            
+            }
 
 
-                        currentXDistanceFromDragPoint += e.XDiff;             currentYDistanceFromDragPoint += e.YDiff; 
+
+
+            currentXDistanceFromDragPoint += e.XDiff; currentYDistanceFromDragPoint += e.YDiff;
 
             if (currentDragingElement.IsTextEditContainer)
             {
-                                                
+
                 disableGraphicOutputFlush = true;
                 Point globalLoca = currentDragingElement.GetGlobalLocation();
                 e.TranslateCanvasOrigin(globalLoca);
                 Point dragPoint = hitPointChain.PrevHitPoint;
                 dragPoint.Offset(currentXDistanceFromDragPoint, currentYDistanceFromDragPoint);
                 e.Location = dragPoint;
-                                e.SourceVisualElement = currentDragingElement;
-                                IVisualElementUI ui = currentDragingElement.GetScriptUI() as IVisualElementUI;
+                e.SourceVisualElement = currentDragingElement;
+                IVisualElementUI ui = currentDragingElement.GetScriptUI() as IVisualElementUI;
                 if (ui != null)
                 {
 
@@ -576,20 +580,20 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                                
+
                 disableGraphicOutputFlush = true;
 
-                                Point globalDragingElementLocation = currentDragingElement.GetGlobalLocation();
-                                e.TranslateCanvasOrigin(globalDragingElementLocation);
+                Point globalDragingElementLocation = currentDragingElement.GetGlobalLocation();
+                e.TranslateCanvasOrigin(globalDragingElementLocation);
                 e.SourceVisualElement = currentDragingElement;
                 Point dragPoint = hitPointChain.PrevHitPoint;
                 dragPoint.Offset(currentXDistanceFromDragPoint, currentYDistanceFromDragPoint);
                 e.Location = dragPoint;
                 e.DragingElement = currentDragingElement;
 
-                                
-                
-                                IVisualElementUI ui = currentDragingElement.GetScriptUI() as IVisualElementUI;
+
+
+                IVisualElementUI ui = currentDragingElement.GetScriptUI() as IVisualElementUI;
                 if (ui != null)
                 {
 
@@ -597,25 +601,25 @@ namespace LayoutFarm.Presentation
                 }
                 e.TranslateCanvasOriginBack();
 
-                                                                if (currentDragingElement.HasDragBroadcastable)
+                if (currentDragingElement.HasDragBroadcastable)
                 {
                     BroadcastDragHitEvents(e);
                 }
-                            }
-                        FlushGraphicUpdate();
-                                }
+            }
+            FlushGraphicUpdate();
+        }
 
 
-                                        void BroadcastDragHitEvents(ArtDragEventArgs e)
+        void BroadcastDragHitEvents(ArtDragEventArgs e)
         {
 
 
             Point globalDragingElementLocation = currentDragingElement.GetGlobalLocation();
             Rectangle dragRect = currentDragingElement.GetGlobalRect();
             VisualDrawingChain drawingChain = this.WinRootPrepareRenderingChain(dragRect);
-                        List<ArtVisualElement> selVisualElements = drawingChain.selectedVisualElements;
+            List<ArtVisualElement> selVisualElements = drawingChain.selectedVisualElements;
             int j = selVisualElements.Count;
-                        LinkedList<ArtVisualElement> underlyingElements = ArtUILinkListPool.GetFreeLinkedList();
+            LinkedList<ArtVisualElement> underlyingElements = ArtUILinkListPool.GetFreeLinkedList();
             for (int i = j - 1; i > -1; --i)
             {
 
@@ -650,7 +654,7 @@ namespace LayoutFarm.Presentation
                     var script = elem.GetScriptUI();
                     if (script != null)
                     {
-                                            }
+                    }
                     d_eventArg.TranslateCanvasOriginBack();
                 }
             }
@@ -669,7 +673,7 @@ namespace LayoutFarm.Presentation
                     var script = underlyingUI.GetScriptUI();
                     if (script != null)
                     {
-                                            }
+                    }
 
                     d_eventArg.TranslateCanvasOriginBack();
                 }
@@ -683,14 +687,14 @@ namespace LayoutFarm.Presentation
                     var script = underlyingUI.GetScriptUI();
                     if (script != null)
                     {
-                                            }
+                    }
 
                     d_eventArg.TranslateCanvasOriginBack();
                 }
             }
             ArtDragEventArgs.ReleaseEventArgs(d_eventArg);
 
-                        ArtUILinkListPool.Release(underlyingElements);
+            ArtUILinkListPool.Release(underlyingElements);
         }
         public new void OnDragStop(ArtDragEventArgs e)
         {
@@ -720,7 +724,7 @@ namespace LayoutFarm.Presentation
             }
 
             e.TranslateCanvasOriginBack();
-            
+
             if (currentMouseActiveElement != null)
             {
                 if (currentMouseActiveElement.IsTextEditContainer)
@@ -746,7 +750,7 @@ namespace LayoutFarm.Presentation
                     var script2 = elem.GetScriptUI();
                     if (script2 != null)
                     {
-                                            }
+                    }
 
                     d_eventArg.TranslateCanvasOriginBack();
                 }
@@ -819,10 +823,10 @@ namespace LayoutFarm.Presentation
 
 
                 FlushGraphicUpdate();
-                            }
+            }
 
             hitPointChain.SwapHitChain();
-                    }
+        }
         public new void OnKeyDown(ArtKeyEventArgs e)
         {
             var visualroot = this.MyVisualRoot;
@@ -900,7 +904,7 @@ namespace LayoutFarm.Presentation
                 IVisualElementUI ui = currentKeyboardFocusedElement.GetScriptUI() as IVisualElementUI;
                 if (ui != null)
                 {
-                                        result = ui.DispatchProcessDialogKey(e);
+                    result = ui.DispatchProcessDialogKey(e);
                 }
 
 
@@ -954,7 +958,7 @@ namespace LayoutFarm.Presentation
 
                 }
                 else
-                {    
+                {
                     return new Point(-10, -10);
                 }
             }

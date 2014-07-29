@@ -28,7 +28,7 @@ namespace TestGraphicPackage2
             {
                 formLayoutInspector = null;
             };
-                        formLayoutInspector.Connect(viewport);
+            formLayoutInspector.Connect(viewport);
             formLayoutInspector.Show();
 
         }
@@ -39,24 +39,24 @@ namespace TestGraphicPackage2
           out FormCanvas formCanvas)
         {
 
-                        formCanvas = new FormCanvas();
+            formCanvas = new FormCanvas();
             formCanvas.Text = "FormCanvas 1";
             formCanvas.InitViewport();
 
             visualRoot = new VisualRootImpl();
-                        
 
 
-                        var workingA = Screen.PrimaryScreen.WorkingArea;
+
+            var workingA = Screen.PrimaryScreen.WorkingArea;
             windowRoot = new ArtVisualWindowImpl(visualRoot, workingA.Width, workingA.Height);
 
 
 
-                        viewport = formCanvas.SurfaceViewport;
+            viewport = formCanvas.SurfaceViewport;
             viewport.SetupWindowRoot(windowRoot);
             viewport.PaintMe();
 
-                        formCanvas.Show();
+            formCanvas.Show();
 
 
         }
@@ -64,18 +64,18 @@ namespace TestGraphicPackage2
         private void cmdShowBasicFormCanvas_Click(object sender, EventArgs e)
         {
 
-                                                                                                                                                                        
-                                                                        
-                        
-                                    
 
-                                }
+
+
+
+
+        }
 
 
 
         private void cmdSampleTextBox_Click(object sender, EventArgs e)
         {
-                                                            VisualRootImpl visualRoot;
+            VisualRootImpl visualRoot;
             ArtSurfaceViewportControl viewport;
             ArtVisualWindowImpl winRoot;
             FormCanvas formCanvas;
@@ -84,16 +84,16 @@ namespace TestGraphicPackage2
                 out viewport,
                 out winRoot,
                 out formCanvas);
-                                    var textbox = new LayoutFarm.Presentation.SampleControls.ArtUITextBox(200, 30);
+            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUITextBox(200, 30);
             viewport.AddContent(textbox.PrimaryVisualElement);
-            
+
             ShowFormLayoutInspector(viewport);
         }
 
 
         private void cmdMultilineTextBox_Click(object sender, EventArgs e)
         {
-                                                            VisualRootImpl visualRoot;
+            VisualRootImpl visualRoot;
             ArtSurfaceViewportControl viewport;
             ArtVisualWindowImpl winRoot;
             FormCanvas formCanvas;
@@ -102,9 +102,9 @@ namespace TestGraphicPackage2
                 out viewport,
                 out winRoot,
                 out formCanvas);
-                                    var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 500, true);
+            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 500, true);
             viewport.AddContent(textbox.PrimaryVisualElement);
-            
+
             ShowFormlayoutInspectIfNeed(viewport);
         }
         private void cmdHtmlView_Click(object sender, EventArgs e)
@@ -114,7 +114,7 @@ namespace TestGraphicPackage2
         }
         void LoadHtmlTestView(string filename)
         {
-                                                            VisualRootImpl visualRoot;
+            VisualRootImpl visualRoot;
             ArtSurfaceViewportControl viewport;
             ArtVisualWindowImpl winRoot;
             FormCanvas formCanvas;
@@ -123,17 +123,17 @@ namespace TestGraphicPackage2
                 out viewport,
                 out winRoot,
                 out formCanvas);
-            
-                        
-                                                                                    
-                        ShowFormlayoutInspectIfNeed(viewport);
-            
+
+
+
+            ShowFormlayoutInspectIfNeed(viewport);
+
 
 
         }
         private void cmdMultiLineTextWithFormat_Click(object sender, EventArgs e)
         {
-                                                            VisualRootImpl visualRoot;
+            VisualRootImpl visualRoot;
             ArtSurfaceViewportControl viewport;
             ArtVisualWindowImpl winRoot;
             FormCanvas formCanvas;
@@ -142,9 +142,9 @@ namespace TestGraphicPackage2
                 out viewport,
                 out winRoot,
                 out formCanvas);
-                                    var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 500, true);
+            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 500, true);
             viewport.AddContent(textbox.PrimaryVisualElement);
-            
+
             ShowFormlayoutInspectIfNeed(viewport);
 
 
@@ -153,11 +153,11 @@ namespace TestGraphicPackage2
         private void cmdTestTextDom_Click(object sender, EventArgs e)
         {
 
-                                                                                                                                                            string value = "OKOKOK";
+            string value = "OKOKOK";
 
-                        
 
-                                                                        VisualRootImpl visualRoot;
+
+            VisualRootImpl visualRoot;
             ArtSurfaceViewportControl viewport;
             ArtVisualWindowImpl winRoot;
             FormCanvas formCanvas;
@@ -166,14 +166,14 @@ namespace TestGraphicPackage2
                 out viewport,
                 out winRoot,
                 out formCanvas);
-                                    var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(
-                 400, 500, true);
+            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(
+400, 500, true);
             viewport.AddContent(textbox.PrimaryVisualElement);
-                        ShowFormlayoutInspectIfNeed(viewport);
-            
+            ShowFormlayoutInspectIfNeed(viewport);
 
-                        
-                                }
+
+
+        }
         void ShowFormlayoutInspectIfNeed(ArtSurfaceViewportControl viewport)
         {
             if (this.chkShowLayoutInspector.Checked)
@@ -200,25 +200,25 @@ namespace TestGraphicPackage2
 
             return beh;
         }
-                                                                                                                                                                                                                                
+
         private void cmdShowMultipleBox_Click(object sender, EventArgs e)
         {
-                                                                                                                                                                        
-                                                                        
-                        
-                                    
-                                    
-                                    
-                                                                    }
+
+
+
+
+
+
+        }
 
         private void cmdHtmlViewNew_Click(object sender, EventArgs e)
         {
-            
-                                                                                                                                                                        
 
-                        
-                        
-                    }
+
+
+
+
+        }
 
 
     }

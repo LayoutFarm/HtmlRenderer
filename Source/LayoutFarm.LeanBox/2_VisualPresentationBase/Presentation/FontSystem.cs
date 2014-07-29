@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -16,10 +17,10 @@ namespace LayoutFarm.Presentation
 
         static FontManager()
         {
-                        defaultTextFontInfo = new TextFontInfo(new Font("Tahoma", 10), gdiFontHelper);
-                        fontDics.Add(defaultTextFontInfo.GetFontSignature(), defaultTextFontInfo);
+            defaultTextFontInfo = new TextFontInfo(new Font("Tahoma", 10), gdiFontHelper);
+            fontDics.Add(defaultTextFontInfo.GetFontSignature(), defaultTextFontInfo);
 
-                                    RegisterFont(new Font("Tahoma", 14, FontStyle.Bold));
+            RegisterFont(new Font("Tahoma", 14, FontStyle.Bold));
 
         }
 
@@ -29,10 +30,10 @@ namespace LayoutFarm.Presentation
             fontDics.Add(textfontInfo.GetFontSignature(), new TextFontInfo(fontInfo, gdiFontHelper));
 
         }
-                                                        public static TextFontInfo GetTextFontInfo(string fontface, float size, bool bold, bool itatic)
+        public static TextFontInfo GetTextFontInfo(string fontface, float size, bool bold, bool itatic)
         {
 
-            
+
             FontStyle fontStyle = FontStyle.Regular;
             if (bold)
             {
@@ -45,8 +46,8 @@ namespace LayoutFarm.Presentation
 
             FontSignature fontsig = new FontSignature(fontface, size, fontStyle);
 
-                                                
-                        TextFontInfo textFontInfo;
+
+            TextFontInfo textFontInfo;
 
             if (fontDics.TryGetValue(fontsig, out textFontInfo))
             {
@@ -63,7 +64,7 @@ namespace LayoutFarm.Presentation
         }
         public static TextFontInfo GetTextFontInfo(FontSignature fontSig)
         {
-                        TextFontInfo textFontInfo;
+            TextFontInfo textFontInfo;
             if (fontDics.TryGetValue(fontSig, out textFontInfo))
             {
                 return textFontInfo;
@@ -79,9 +80,9 @@ namespace LayoutFarm.Presentation
 
 
         }
-                                                        public static TextFontInfo GetTextFontInfo(string fontface, float size)
+        public static TextFontInfo GetTextFontInfo(string fontface, float size)
         {
-                        TextFontInfo textFontInfo;
+            TextFontInfo textFontInfo;
             FontSignature fontSig = new FontSignature(fontface, size, FontStyle.Regular);
 
             if (fontDics.TryGetValue(fontSig, out textFontInfo))
@@ -114,13 +115,13 @@ namespace LayoutFarm.Presentation
         {
             return defaultTextFontInfo.GetStringWidth(buffer);
         }
-                                                                    }
+    }
 
-                public struct FontSignature
+    public struct FontSignature
     {
         public static readonly FontSignature Empty = new FontSignature();
-                string _fontName;
-                float _fontSize;        FontStyle style;
+        string _fontName;
+        float _fontSize; FontStyle style;
         public FontSignature(string fontName, float fontSize, FontStyle style)
         {
             this._fontName = fontName;
@@ -194,25 +195,26 @@ namespace LayoutFarm.Presentation
             charWidths = new int[256];
             unsafe
             {
-                
+
                 NativeTextWin32.FontABC[] abcSizes = new NativeTextWin32.FontABC[256];
                 fixed (NativeTextWin32.FontABC* abc = abcSizes)
                 {
-                                                                                NativeTextWin32.GetCharABCWidths(hdc, (uint)0, (uint)255, abc);
+                    NativeTextWin32.GetCharABCWidths(hdc, (uint)0, (uint)255, abc);
 
                 }
 
-                                for (int i = 0; i < 161; i++)
-                {                       charWidths[i] = abcSizes[i].Sum;
+                for (int i = 0; i < 161; i++)
+                {
+                    charWidths[i] = abcSizes[i].Sum;
 
                 }
                 for (int i = 161; i < 255; i++)
                 {
-                                        charWidths[i] = abcSizes[i].Sum;
+                    charWidths[i] = abcSizes[i].Sum;
 
                 }
-                            }
-                                    return charWidths;
+            }
+            return charWidths;
         }
         public int MeasureStringWidth(IntPtr hFont, char[] buffer)
         {
@@ -221,28 +223,30 @@ namespace LayoutFarm.Presentation
             MyWin32.SelectObject(this.hdc, hFont);
             NativeTextWin32.WIN32SIZE size;
             NativeTextWin32.GetTextExtentPoint32(hdc, buffer, buffer.Length, out size);
-            return size.Width;        }
+            return size.Width;
+        }
         public int MeasureStringWidth(IntPtr hFont, char[] buffer, int length)
         {
             if (!isInit) Init();
             MyWin32.SelectObject(this.hdc, hFont);
             NativeTextWin32.WIN32SIZE size;
             NativeTextWin32.GetTextExtentPoint32(hdc, buffer, length, out size);
-            return size.Width;        }
+            return size.Width;
+        }
     }
-                public class TextFontInfo
+    public class TextFontInfo
     {
-        
-        int[] charWidths; 
+
+        int[] charWidths;
         Font myFont;
         IntPtr hFont;
 
         int fontHeight;
-        bool disposed;        BasicGdi32FontHelper gdiFontHelper;
+        bool disposed; BasicGdi32FontHelper gdiFontHelper;
 
-                public TextFontInfo(Font font, BasicGdi32FontHelper gdiFontHelper)
+        public TextFontInfo(Font font, BasicGdi32FontHelper gdiFontHelper)
         {
-                                                fontHeight = font.Height;            myFont = font;
+            fontHeight = font.Height; myFont = font;
             hFont = myFont.ToHfont();
             this.gdiFontHelper = gdiFontHelper;
             charWidths = gdiFontHelper.MeasureCharWidths(hFont);
@@ -256,7 +260,8 @@ namespace LayoutFarm.Presentation
         }
         ~TextFontInfo()
         {
-            Dispose();        }
+            Dispose();
+        }
         public int FontHeight
         {
             get
@@ -279,7 +284,7 @@ namespace LayoutFarm.Presentation
                 return hFont;
             }
         }
-                                                public int GetCharWidth(char c)
+        public int GetCharWidth(char c)
         {
             int converted = (int)c;
             if (converted > 160)
@@ -303,7 +308,7 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                                return gdiFontHelper.MeasureStringWidth(this.hFont, buffer);
+                return gdiFontHelper.MeasureStringWidth(this.hFont, buffer);
 
             }
         }
@@ -315,7 +320,7 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                                return this.gdiFontHelper.MeasureStringWidth(this.hFont, buffer, length);
+                return this.gdiFontHelper.MeasureStringWidth(this.hFont, buffer, length);
 
             }
         }

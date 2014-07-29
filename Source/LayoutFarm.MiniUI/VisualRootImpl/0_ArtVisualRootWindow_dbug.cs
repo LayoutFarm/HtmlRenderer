@@ -1,4 +1,4 @@
-﻿
+﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,7 +27,7 @@ namespace LayoutFarm.Presentation
         {
             if (debugVisualLay != null)
             {
-                debugVisualLay.BeginNewContext();                debugVisualLay.WriteInfo(msg.text, ve);
+                debugVisualLay.BeginNewContext(); debugVisualLay.WriteInfo(msg.text, ve);
             }
         }
         static void dbug_EndCurrentContext(dbugVisualLayoutTracer debugVisualLay, dbugVisitorMessage msg, ArtVisualElement ve)
@@ -36,17 +36,18 @@ namespace LayoutFarm.Presentation
             {
 
                 debugVisualLay.WriteInfo(msg.text, ve);
-                debugVisualLay.EndCurrentContext();            }
+                debugVisualLay.EndCurrentContext();
+            }
         }
-                                                                                #endif
+#endif
 
         public void dbug_DumpAllVisualElementProps(dbugLayoutMsgWriter writer)
         {
-                        this.dbug_DumpVisualProps(writer);
-            writer.Add(new dbugLayoutMsg(this,"FINISH")); 
-                                     
+            this.dbug_DumpVisualProps(writer);
+            writer.Add(new dbugLayoutMsg(this, "FINISH"));
+
         }
- 
+
         void dbug_Init()
         {
             hitPointChain.dbugHitTracker = this.dbugVRoot.dbugHitTracker;
@@ -54,9 +55,9 @@ namespace LayoutFarm.Presentation
 
         public static ArtVisualElement dbugVE_HighlightMe;
 
-        public override  void dbugShowRenderPart(ArtCanvas canvasPage, InternalRect updateArea)
+        public override void dbugShowRenderPart(ArtCanvas canvasPage, InternalRect updateArea)
         {
-            
+
             VisualRoot visualroot = this.dbugVRoot;
             if (visualroot.dbug_ShowRootUpdateArea)
             {
@@ -79,7 +80,7 @@ namespace LayoutFarm.Presentation
                 visualroot.dbug_RootUpdateCounter++;
             }
         }
-                                                                                                                                                        
+
     }
 #endif
 }

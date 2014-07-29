@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -10,17 +11,17 @@ namespace LayoutFarm.Presentation
 #if DEBUG
     [System.Diagnostics.DebuggerDisplay("Container {dbugGetCssBoxInfo}")]
 #endif
-                    public abstract partial class ArtVisualContainerBase : ArtVisualElement
+    public abstract partial class ArtVisualContainerBase : ArtVisualElement
     {
 
-                                int myviewportX;
-                                int myviewportY;
-        
-                                public int uiDesiredWidth = 0;
-                                public int uiDesiredHeight = 0;
-                                        List<VisualLayer> otherLayers; 
+        int myviewportX;
+        int myviewportY;
 
-                        public ArtVisualContainerBase(int width, int height, VisualElementNature nature)
+        public int uiDesiredWidth = 0;
+        public int uiDesiredHeight = 0;
+        List<VisualLayer> otherLayers;
+
+        public ArtVisualContainerBase(int width, int height, VisualElementNature nature)
             : base(width, height, nature)
         {
 
@@ -35,45 +36,45 @@ namespace LayoutFarm.Presentation
         }
         public override void CustomDrawToThisPage(ArtCanvas canvasPage, InternalRect updateArea)
         {
-            
-        }
-                                public int ClientTop
-        {
-            get
-            {
-                return 0;
-                                                                                                                                                            }
-        }
-                                public int ClientLeft
-        {
-            get
-            {
-                return 0;
-                                
-                                                                                                                            }
-        }
 
-                                                                                                                                                                                
-                                                                                                                                                
-                                                                                                                                                
-                
-                                                        
-                                public void InvalidateContentArrangementFromContainerSizeChanged()
+        }
+        public int ClientTop
         {
-                        this.MarkInvalidContentArrangement();
-            foreach (VisualLayer layer in this.GetAllLayerBottomToTopIter())
+            get
             {
-                                                layer.InvalidateContentArrangementFromContainerSizeChanged();
+                return 0;
             }
         }
-                                                                                                protected virtual void CloneGroundLayer(ArtVisualElement otherElement)
+        public int ClientLeft
         {
-                                    throw new NotSupportedException();
+            get
+            {
+                return 0;
+
+            }
         }
-                
-        
-                        
-                                                                                                                                public bool HasChild
+
+
+
+
+
+
+        public void InvalidateContentArrangementFromContainerSizeChanged()
+        {
+            this.MarkInvalidContentArrangement();
+            foreach (VisualLayer layer in this.GetAllLayerBottomToTopIter())
+            {
+                layer.InvalidateContentArrangementFromContainerSizeChanged();
+            }
+        }
+        protected virtual void CloneGroundLayer(ArtVisualElement otherElement)
+        {
+            throw new NotSupportedException();
+        }
+
+
+
+        public bool HasChild
         {
             get
             {
@@ -82,13 +83,13 @@ namespace LayoutFarm.Presentation
         }
 
         protected abstract bool HasGroundLayer();
-        
 
 
 
-                                                public void DrawChildContent(ArtCanvas canvasPage, InternalRect updateArea)
+
+        public void DrawChildContent(ArtCanvas canvasPage, InternalRect updateArea)
         {
-            
+
             if (HasSubGroundLayer)
             {
                 DrawSubGround(canvasPage, updateArea);
@@ -98,7 +99,7 @@ namespace LayoutFarm.Presentation
             {
                 groundLayer.DrawChildContent(canvasPage, updateArea);
             }
-                        if (otherLayers != null)
+            if (otherLayers != null)
             {
                 int j = otherLayers.Count;
                 for (int i = 0; i < j; i++)
@@ -112,79 +113,79 @@ namespace LayoutFarm.Presentation
 
 
         }
-                                                protected virtual void DrawSubGround(ArtCanvas canvasPage, InternalRect updateArea)
+        protected virtual void DrawSubGround(ArtCanvas canvasPage, InternalRect updateArea)
         {
 
         }
 #if DEBUG
-                                        void debug_RecordLayerInfo(VisualLayer layer)
+        void debug_RecordLayerInfo(VisualLayer layer)
         {
-                        VisualRoot visualroot = VisualRoot.dbugCurrentGlobalVRoot;
+            VisualRoot visualroot = VisualRoot.dbugCurrentGlobalVRoot;
             if (visualroot.dbug_RecordDrawingChain)
             {
                 visualroot.dbug_AddDrawLayer(layer);
             }
-                    }
-                                                                                                                #endif
+        }
+#endif
 
 
 
-                                                                                                                                
-                        
-                                                
-                                                                                                                                        
-                                
-        
+
+
+
+
+
+
         public void PrepareOriginalChildContentDrawingChain(VisualDrawingChain chain)
         {
-                                                if (otherLayers != null)
+            if (otherLayers != null)
             {
                 int j = otherLayers.Count;
                 for (int i = 0; i < j; i++)
                 {
                     if (otherLayers[i].PrepareDrawingChain(chain))
                     {
-                                                return;
+                        return;
                     }
                 }
             }
-                        VisualLayer groundLayer = this.GetGroundLayer();
+            VisualLayer groundLayer = this.GetGroundLayer();
             if (groundLayer != null)
             {
                 groundLayer.PrepareDrawingChain(chain);
             }
         }
-                                        public void ChildrenHitTestCore(ArtHitPointChain artHitResult)
+        public void ChildrenHitTestCore(ArtHitPointChain artHitResult)
         {
 
-                                    if (otherLayers != null)
+            if (otherLayers != null)
             {
-                                for (int i = otherLayers.Count - 1; i > -1; --i)
+                for (int i = otherLayers.Count - 1; i > -1; --i)
                 {
                     if (otherLayers[i].HitTestCore(artHitResult))
                     {
-                                                return;
+                        return;
                     }
                 }
             }
-                        VisualLayer groundLayer = this.GetGroundLayer();
+            VisualLayer groundLayer = this.GetGroundLayer();
             if (groundLayer != null)
             {
                 groundLayer.HitTestCore(artHitResult);
             }
-                    }
-                
-                                                                
-                                                                                                                        
-                                                                                                                                                                                                                                                        
-                                                        
-                                
-        
-        
-                                                                                                                                                                                                        
-                        
-                                        
-                                                                                                                                                                protected static void InnerDoTopDownReCalculateContentSize(ArtVisualContainerBase containerBase, VisualElementArgs vinv)
+        }
+
+
+
+
+
+
+
+
+
+
+
+        protected static void InnerDoTopDownReCalculateContentSize(ArtVisualContainerBase containerBase, VisualElementArgs vinv)
         {
             containerBase.TopDownReCalculateContentSize(vinv);
         }
@@ -192,44 +193,44 @@ namespace LayoutFarm.Presentation
         {
             containerBase.TopDownReArrangeContentIfNeed(vinv);
         }
-                                        public override sealed void TopDownReCalculateContentSize(VisualElementArgs vinv)
+        public override sealed void TopDownReCalculateContentSize(VisualElementArgs vinv)
         {
 
-                        if (!vinv.ForceReArrange && this.HasCalculatedSize)
+            if (!vinv.ForceReArrange && this.HasCalculatedSize)
             {
                 return;
             }
-            #if DEBUG
+#if DEBUG
             vinv.dbug_EnterTopDownReCalculateContent(this);
 #endif
-                        int cHeight = this.Height;
+            int cHeight = this.Height;
             int cWidth = this.Width;
-                        if (otherLayers != null)
+            if (otherLayers != null)
             {
-                                                for (int i = otherLayers.Count - 1; i > -1; --i)
+                for (int i = otherLayers.Count - 1; i > -1; --i)
                 {
-                                        otherLayers[i].TopDownReCalculateContentSize(vinv);
+                    otherLayers[i].TopDownReCalculateContentSize(vinv);
                 }
             }
-                        VisualLayer groundLayer = this.GetGroundLayer();
+            VisualLayer groundLayer = this.GetGroundLayer();
             Size ground_contentSize = Size.Empty;
             if (groundLayer != null)
             {
                 groundLayer.TopDownReCalculateContentSize(vinv);
                 ground_contentSize = groundLayer.PostCalculateContentSize;
-                            }
+            }
 
-                                    int finalWidth = ground_contentSize.Width;
+            int finalWidth = ground_contentSize.Width;
             if (finalWidth == 0)
             {
-                                finalWidth = this.Width;
+                finalWidth = this.Width;
             }
             int finalHeight = ground_contentSize.Height;
             if (finalHeight == 0)
             {
-                                finalHeight = this.Height;
+                finalHeight = this.Height;
             }
-                        switch (GetLayoutSpecificDimensionType(this))
+            switch (GetLayoutSpecificDimensionType(this))
             {
                 case LY_HAS_SPC_HEIGHT:
                     {
@@ -247,13 +248,13 @@ namespace LayoutFarm.Presentation
             }
 
 
-                                                                                                
-                                                                                    
-                                                                                                                                                                        
-                                                                        
-                                                                                                            
 
-                        SetCalculatedDesiredSize(this, finalWidth, finalHeight);
+
+
+
+
+
+            SetCalculatedDesiredSize(this, finalWidth, finalHeight);
 #if DEBUG
             vinv.dbug_ExitTopDownReCalculateContent(this);
 #endif
@@ -267,8 +268,8 @@ namespace LayoutFarm.Presentation
 #endif
 
 
-                                                                                                                                                                
-                                public void ForceTopDownReArrangeContent(VisualElementArgs vinv)
+
+        public void ForceTopDownReArrangeContent(VisualElementArgs vinv)
         {
 
 #if DEBUG
@@ -277,7 +278,7 @@ namespace LayoutFarm.Presentation
             this.dbug_BeginArr++;
             vinv.debug_PushTopDownElement(this);
 #endif
-                                                this.MarkValidContentArrangement();
+            this.MarkValidContentArrangement();
             vinv.IsInTopDownReArrangePhase = true;
 
             VisualLayer groundLayer = this.GetGroundLayer();
@@ -293,8 +294,8 @@ namespace LayoutFarm.Presentation
                 }
             }
 
-                                                                                                                                                ContainerBaseEvaluateScrollBar();
-                                                            
+            ContainerBaseEvaluateScrollBar();
+
 #if DEBUG
             this.dbug_FinishArr++;
             vinv.debug_PopTopDownElement(this);
@@ -303,33 +304,33 @@ namespace LayoutFarm.Presentation
         }
         protected void ContainerBaseEvaluateScrollBar()
         {
-                                                if (vscrollableSurface != null)
+            if (vscrollableSurface != null)
             {
                 vscrollableSurface.ConfirmSizeChanged();
             }
-                    }
+        }
 
         public void TopDownReArrangeContentToFit(VisualElementArgs vinv)
         {
-                        VisualLayer ground = this.GetGroundLayer();
+            VisualLayer ground = this.GetGroundLayer();
             if (ground != null)
             {
                 ground.TopDownReArrangeContentToFit(vinv);
             }
 
         }
-                                public void TopDownReArrangeContentIfNeed(VisualElementArgs vinv)
+        public void TopDownReArrangeContentIfNeed(VisualElementArgs vinv)
         {
 #if DEBUG
             bool isIncr = false;
 #endif
-                        
+
             if (!vinv.ForceReArrange && !this.NeedContentArrangement)
             {
-                                                                if (!this.FirstArrangementPass)
+                if (!this.FirstArrangementPass)
                 {
                     this.FirstArrangementPass = true;
-                    #if DEBUG
+#if DEBUG
                     vinv.dbug_WriteInfo(dbugVisitorMessage.PASS_FIRST_ARR);
 #endif
 
@@ -347,19 +348,19 @@ namespace LayoutFarm.Presentation
                 return;
             }
 
-                                    ForceTopDownReArrangeContent(vinv);
+            ForceTopDownReArrangeContent(vinv);
 
 
-            #if DEBUG
+#if DEBUG
             if (isIncr)
             {
                 this.dbugVRoot.dbugNotNeedArrCount--;
             }
 #endif
-        } 
+        }
 
         public abstract override void ClearAllChildren();
-                                protected void ClearAllChildrenInOtherLayers()
+        protected void ClearAllChildrenInOtherLayers()
         {
             if (otherLayers != null)
             {
@@ -370,7 +371,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-                                        protected virtual void GroundLayerAddChild(ArtVisualElement child)
+        protected virtual void GroundLayerAddChild(ArtVisualElement child)
         {
 
 #if DEBUG
@@ -378,13 +379,13 @@ namespace LayoutFarm.Presentation
 #endif
 
         }
-                                                        
-        
-                                                        
-                                        
-                                                                                
-        
-                                        public IEnumerable<VisualLayer> GetAllLayerBottomToTopIter()
+
+
+
+
+
+
+        public IEnumerable<VisualLayer> GetAllLayerBottomToTopIter()
         {
 
             if (this.HasGroundLayer())
@@ -410,40 +411,40 @@ namespace LayoutFarm.Presentation
         protected abstract VisualLayer GetGroundLayer();
 
 
-                                                        public override ArtVisualElement FindOverlapedChildElementAtPoint(ArtVisualElement afterThisChild, Point point)
+        public override ArtVisualElement FindOverlapedChildElementAtPoint(ArtVisualElement afterThisChild, Point point)
         {
-                        #if DEBUG
+#if DEBUG
             if (afterThisChild.ParentVisualElement != this)
             {
                 throw new Exception("not a parent-child relation");
             }
 #endif
 
-                        if (afterThisChild.ParentLink.MayHasOverlapChild)
+            if (afterThisChild.ParentLink.MayHasOverlapChild)
             {
 
                 return afterThisChild.ParentLink.FindOverlapedChildElementAtPoint(afterThisChild, point);
 
             }
 
-                        return null;
+            return null;
         }
 
         public void ScrollTo(int x, int y, VisualElementArgs vinv)
         {
             if (!this.IsScrollable)
             {
-                                return;
+                return;
             }
-                        MyScrollTo(x, y, vinv);
+            MyScrollTo(x, y, vinv);
         }
         public void ScrollBy(int dx, int dy, VisualElementArgs vinv)
         {
             if (!this.IsScrollable)
             {
-                                return;
+                return;
             }
-                        MyScrollBy(dx, dy, vinv);
+            MyScrollBy(dx, dy, vinv);
         }
         public VisualScrollableSurface VisualScrollableSurface
         {
@@ -453,14 +454,14 @@ namespace LayoutFarm.Presentation
             }
 
         }
-                                public static void ResetDesiredSize(ArtVisualContainerBase vscont)
+        public static void ResetDesiredSize(ArtVisualContainerBase vscont)
         {
 
             vscont.uiDesiredWidth = vscont.Width;
             vscont.uiDesiredHeight = vscont.Height;
 
         }
-                                        public void AddChild(ArtVisualElement child)
+        public void AddChild(ArtVisualElement child)
         {
 #if DEBUG
             if (this == child)
@@ -468,15 +469,15 @@ namespace LayoutFarm.Presentation
                 throw new NotSupportedException();
             }
 #endif
-                        GroundLayerAddChild(child);
+            GroundLayerAddChild(child);
         }
 #if DEBUG
         public override void dbug_DumpVisualProps(dbugLayoutMsgWriter writer)
         {
-                                                base.dbug_DumpVisualProps(writer);
+            base.dbug_DumpVisualProps(writer);
             writer.EnterNewLevel();
 
-                                                                        
+
 
             VisualLayer layer = this.GetGroundLayer();
             if (layer != null)
@@ -484,8 +485,8 @@ namespace LayoutFarm.Presentation
                 layer.dbug_DumpElementProps(writer);
             }
 
-                                                                        writer.LeaveCurrentLevel();
-                                }
+            writer.LeaveCurrentLevel();
+        }
 #endif
     }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -10,118 +11,118 @@ namespace LayoutFarm.Presentation
 {
 
 
-                public sealed class ArtCanvas
+    public sealed class ArtCanvas
     {
-                                                        private readonly static int[] _charFit = new int[1];
+        private readonly static int[] _charFit = new int[1];
 
-                                private readonly static int[] _charFitWidth = new int[1000];
-        
+        private readonly static int[] _charFitWidth = new int[1000];
+
         bool _useGdiPlusTextRendering;
 
-        
-                
-                                int left;                                 int top;                                  int right;                                  int bottom; 
 
-                                int pageNumFlags;
 
-                                int pageFlags;
+        int left; int top; int right; int bottom;
 
-                                const int CANVAS_UNUSED = 1 << (1 - 1);
-                                const int CANVAS_DIMEN_CHANGED = 1 << (2 - 1);
-                                IntPtr hFont = IntPtr.Zero; 
-                                Graphics gx;
+        int pageNumFlags;
+
+        int pageFlags;
+
+        const int CANVAS_UNUSED = 1 << (1 - 1);
+        const int CANVAS_DIMEN_CHANGED = 1 << (2 - 1);
+        IntPtr hFont = IntPtr.Zero;
+        Graphics gx;
         IntPtr originalHdc = IntPtr.Zero;
 
-                                                                int internalCanvasOriginX = 0;
-                                int internalCanvasOriginY = 0;
-        
-                                IntPtr hRgn = IntPtr.Zero;
-                
+        int internalCanvasOriginX = 0;
+        int internalCanvasOriginY = 0;
 
-                                Stack<int> prevWin32Colors = new Stack<int>();
+        IntPtr hRgn = IntPtr.Zero;
 
 
-                                Stack<IntPtr> prevHFonts = new Stack<IntPtr>();
-
-                                Stack<TextFontInfo> prevFonts = new Stack<TextFontInfo>();
-                                Stack<Color> prevColor = new Stack<Color>();
+        Stack<int> prevWin32Colors = new Stack<int>();
 
 
-                Color currentTextColor = Color.Black;                                TextFontInfo currentTextFont = null;
-                                        Stack<Rectangle> prevRegionRects = new Stack<Rectangle>();
+        Stack<IntPtr> prevHFonts = new Stack<IntPtr>();
 
-                                Pen internalPen;
-                                SolidBrush internalBrush;
+        Stack<TextFontInfo> prevFonts = new Stack<TextFontInfo>();
+        Stack<Color> prevColor = new Stack<Color>();
 
-                                Rectangle currentClipRect;
-        
-                                Stack<Rectangle> clipRectStack = new Stack<Rectangle>();
 
-                                        IntPtr hbmp;                 bool _avoidGeometryAntialias;
+        Color currentTextColor = Color.Black; TextFontInfo currentTextFont = null;
+        Stack<Rectangle> prevRegionRects = new Stack<Rectangle>();
+
+        Pen internalPen;
+        SolidBrush internalBrush;
+
+        Rectangle currentClipRect;
+
+        Stack<Rectangle> clipRectStack = new Stack<Rectangle>();
+
+        IntPtr hbmp; bool _avoidGeometryAntialias;
         bool _avoidTextAntialias;
 #if DEBUG
         static int dbug_canvasCount = 0;
-       public int debug_resetCount = 0;
-       public int debug_releaseCount = 0;
+        public int debug_resetCount = 0;
+        public int debug_releaseCount = 0;
         public int debug_canvas_id = 0;
 #endif
-                                bool isFromPrinter = false;
+        bool isFromPrinter = false;
         SolidBrush sharedSolidBrush;
 
-                                                                       public ArtCanvas(int horizontalPageNum, int verticalPageNum, int left, int top, int width, int height)
+        public ArtCanvas(int horizontalPageNum, int verticalPageNum, int left, int top, int width, int height)
         {
-            
-                                    this.pageNumFlags = (horizontalPageNum << 8) | verticalPageNum;
 
-                        this.left = left;
+            this.pageNumFlags = (horizontalPageNum << 8) | verticalPageNum;
+
+            this.left = left;
             this.top = top;
             this.right = left + width;
             this.bottom = top + height;
 
-            
-                        internalPen = new Pen(Color.Black);
+
+            internalPen = new Pen(Color.Black);
             internalBrush = new SolidBrush(Color.Black);
 
-                        originalHdc = MyWin32.CreateCompatibleDC(IntPtr.Zero);
-                                    Bitmap bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                        hbmp = bmp.GetHbitmap();
-                        MyWin32.SelectObject(originalHdc, hbmp);
-                        MyWin32.PatBlt(originalHdc, 0, 0, width, height, MyWin32.WHITENESS);
-                        MyWin32.SetBkMode(originalHdc, MyWin32._SetBkMode_TRANSPARENT);
-                        hFont = FontManager.CurrentFont.ToHfont();
-                        MyWin32.SelectObject(originalHdc, hFont);
+            originalHdc = MyWin32.CreateCompatibleDC(IntPtr.Zero);
+            Bitmap bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            hbmp = bmp.GetHbitmap();
+            MyWin32.SelectObject(originalHdc, hbmp);
+            MyWin32.PatBlt(originalHdc, 0, 0, width, height, MyWin32.WHITENESS);
+            MyWin32.SetBkMode(originalHdc, MyWin32._SetBkMode_TRANSPARENT);
+            hFont = FontManager.CurrentFont.ToHfont();
+            MyWin32.SelectObject(originalHdc, hFont);
 
-                                    currentClipRect = new Rectangle(0, 0, width, height);
+            currentClipRect = new Rectangle(0, 0, width, height);
             hRgn = MyWin32.CreateRectRgn(0, 0, width, height);
-                        MyWin32.SelectObject(originalHdc, hRgn);
+            MyWin32.SelectObject(originalHdc, hRgn);
 
-                        gx = Graphics.FromHdc(originalHdc);
+            gx = Graphics.FromHdc(originalHdc);
 
-                        PushFontInfoAndTextColor(FontManager.DefaultTextFontInfo, Color.Black);
+            PushFontInfoAndTextColor(FontManager.DefaultTextFontInfo, Color.Black);
 #if DEBUG
             debug_canvas_id = dbug_canvasCount + 1;
             dbug_canvasCount += 1;
 #endif
-                    }
+        }
 
-                                                                                public ArtCanvas(Graphics gx, int verticalPageNum, int horizontalPageNum, int left, int top, int width, int height)
+        public ArtCanvas(Graphics gx, int verticalPageNum, int horizontalPageNum, int left, int top, int width, int height)
         {
 
-                        this.pageNumFlags = (horizontalPageNum << 8) | verticalPageNum;
-                        this.left = left;
+            this.pageNumFlags = (horizontalPageNum << 8) | verticalPageNum;
+            this.left = left;
             this.top = top;
             this.right = left + width;
             this.bottom = top + height;
-                        internalPen = new Pen(Color.Black);
+            internalPen = new Pen(Color.Black);
             internalBrush = new SolidBrush(Color.Black);
 
-                        this.gx = gx;
-            
+            this.gx = gx;
 
-                        isFromPrinter = true;
-                        currentClipRect = new Rectangle(0, 0, width, height);
 
-                        PushFontInfoAndTextColor(FontManager.DefaultTextFontInfo, Color.Black);
+            isFromPrinter = true;
+            currentClipRect = new Rectangle(0, 0, width, height);
+
+            PushFontInfoAndTextColor(FontManager.DefaultTextFontInfo, Color.Black);
 
 #if DEBUG
             debug_canvas_id = dbug_canvasCount + 1;
@@ -130,12 +131,12 @@ namespace LayoutFarm.Presentation
 
         }
 
-                                        public bool AvoidGeometryAntialias
+        public bool AvoidGeometryAntialias
         {
             get { return _avoidGeometryAntialias; }
             set { _avoidGeometryAntialias = value; }
         }
-                                        public bool AvoidTextAntialias
+        public bool AvoidTextAntialias
         {
             get { return _avoidTextAntialias; }
             set { _avoidTextAntialias = value; }
@@ -153,7 +154,7 @@ namespace LayoutFarm.Presentation
             canvasFlags = FIRSTTIME_INVALID_AND_UPDATED_CONTENT;
         }
 
-                                public bool IsFromPrinter
+        public bool IsFromPrinter
         {
             get
             {
@@ -182,7 +183,7 @@ namespace LayoutFarm.Presentation
                 }
             }
         }
-       public bool DimensionInvalid
+        public bool DimensionInvalid
         {
             get
             {
@@ -210,10 +211,10 @@ namespace LayoutFarm.Presentation
             return sharedSolidBrush;
         }
 
-                                public void ReleaseUnManagedResource()
+        public void ReleaseUnManagedResource()
         {
 
-                                                                        if (hRgn != IntPtr.Zero)
+            if (hRgn != IntPtr.Zero)
             {
                 MyWin32.DeleteObject(hRgn);
                 hRgn = IntPtr.Zero;
@@ -238,54 +239,54 @@ namespace LayoutFarm.Presentation
 #endif
         }
 
-                                                        public bool IntersectsWith(InternalRect clientRect)
+        public bool IntersectsWith(InternalRect clientRect)
         {
-                                    return clientRect.IntersectsWith(left, top, right, bottom);
+            return clientRect.IntersectsWith(left, top, right, bottom);
         }
-                                                        public bool PushClipAreaForNativeScrollableElement(InternalRect updateArea)
+        public bool PushClipAreaForNativeScrollableElement(InternalRect updateArea)
         {
 
-                        clipRectStack.Push(currentClipRect);
-            
+            clipRectStack.Push(currentClipRect);
+
             Rectangle intersectResult = Rectangle.Intersect(
                 currentClipRect,
                 updateArea.ToRectangle()
-                ); 
+                );
             if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
             {
-                                currentClipRect = intersectResult;                return false;
+                currentClipRect = intersectResult; return false;
             }
 
-                        gx.SetClip(intersectResult);                         currentClipRect = intersectResult;
+            gx.SetClip(intersectResult); currentClipRect = intersectResult;
             return true;
-                                }
+        }
 
 
-                                                        public bool PushClipArea(int width, int height, InternalRect updateArea)
+        public bool PushClipArea(int width, int height, InternalRect updateArea)
         {
-                        clipRectStack.Push(currentClipRect);
-                        
+            clipRectStack.Push(currentClipRect);
+
             Rectangle intersectResult =
                 Rectangle.Intersect(
                     currentClipRect,
                     Rectangle.Intersect(updateArea.ToRectangle(), new Rectangle(0, 0, width, height)));
 
 
-                        currentClipRect = intersectResult;            if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
+            currentClipRect = intersectResult; if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
             {
-                                return false;
+                return false;
             }
             else
             {
-                                gx.SetClip(intersectResult);                 return true;
+                gx.SetClip(intersectResult); return true;
             }
         }
 
-                                public void DisableClipArea()
+        public void DisableClipArea()
         {
             gx.ResetClip();
         }
-                                public void EnableClipArea()
+        public void EnableClipArea()
         {
             gx.SetClip(currentClipRect);
         }
@@ -295,7 +296,7 @@ namespace LayoutFarm.Presentation
             gx.SetClip(clip, combineMode);
         }
 
-                                public Rectangle CurrentClipRect
+        public Rectangle CurrentClipRect
         {
             get
             {
@@ -305,14 +306,14 @@ namespace LayoutFarm.Presentation
 
 #if DEBUG
 
-       public int InternalOriginX
+        public int InternalOriginX
         {
             get
             {
                 return internalCanvasOriginX;
             }
         }
-       public int InternalOriginY
+        public int InternalOriginY
         {
             get
             {
@@ -321,12 +322,12 @@ namespace LayoutFarm.Presentation
         }
 
 #endif
-                                                       public bool PushClipArea(int x, int y, int width, int height)
+        public bool PushClipArea(int x, int y, int width, int height)
         {
-                        clipRectStack.Push(currentClipRect);
-                        Rectangle intersectRect = Rectangle.Intersect(
-                currentClipRect,
-                new Rectangle(x, y, width, height));
+            clipRectStack.Push(currentClipRect);
+            Rectangle intersectRect = Rectangle.Intersect(
+    currentClipRect,
+    new Rectangle(x, y, width, height));
 
 
             if (intersectRect.Width == 0 || intersectRect.Height == 0)
@@ -342,48 +343,51 @@ namespace LayoutFarm.Presentation
             }
         }
 
-                                public void PopClipArea()
+        public void PopClipArea()
         {
             if (clipRectStack.Count > 0)
             {
                 currentClipRect = clipRectStack.Pop();
 
-                gx.SetClip(currentClipRect);            }
+                gx.SetClip(currentClipRect);
+            }
 
 
-                                                
 
-                                                            
-            
-            
+
+
+
+
         }
-                        
-                                                                                                                                        
 
-                                
+
+
+
         ~ArtCanvas()
         {
             ReleaseUnManagedResource();
 
         }
-                                                                        
-                                                        
-                public int Top
+
+
+        public int Top
         {
-                                    get
+            get
             {
                 return top;
             }
         }
         public int Left
-        {                           get
+        {
+            get
             {
                 return left;
             }
         }
 
         public int Width
-        {                           get
+        {
+            get
             {
                 return right - left;
             }
@@ -417,28 +421,28 @@ namespace LayoutFarm.Presentation
             }
         }
 
-                                                                        public void DrawText(char[] buffer, int x, int y)
+        public void DrawText(char[] buffer, int x, int y)
         {
-                                                                                    
-                        if (isFromPrinter)
+
+            if (isFromPrinter)
             {
-                                gx.DrawString(new string(buffer),
-                    prevFonts.Peek().Font,
-                    internalBrush,
-                    x,
-                    y);
+                gx.DrawString(new string(buffer),
+    prevFonts.Peek().Font,
+    internalBrush,
+    x,
+    y);
 
             }
             else
             {
-                                                                IntPtr gxdc = gx.GetHdc();
-                                                MyWin32.SetViewportOrgEx(gxdc, internalCanvasOriginX, internalCanvasOriginY, IntPtr.Zero);
-                                NativeTextWin32.TextOut(gxdc, x, y, buffer, buffer.Length);
-                                MyWin32.SetViewportOrgEx(gxdc, -internalCanvasOriginX, -internalCanvasOriginY, IntPtr.Zero);
-                                gx.ReleaseHdc(gxdc);
+                IntPtr gxdc = gx.GetHdc();
+                MyWin32.SetViewportOrgEx(gxdc, internalCanvasOriginX, internalCanvasOriginY, IntPtr.Zero);
+                NativeTextWin32.TextOut(gxdc, x, y, buffer, buffer.Length);
+                MyWin32.SetViewportOrgEx(gxdc, -internalCanvasOriginX, -internalCanvasOriginY, IntPtr.Zero);
+                gx.ReleaseHdc(gxdc);
             }
         }
-                                                        public void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
+        public void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
         {
 
             if (isFromPrinter)
@@ -451,17 +455,17 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                                                                IntPtr gxdc = gx.GetHdc();
-                                                MyWin32.SetViewportOrgEx(gxdc, internalCanvasOriginX, internalCanvasOriginY, IntPtr.Zero);
-                                                Rectangle clipRect = Rectangle.Intersect(logicalTextBox, currentClipRect);
-                                clipRect.Offset(internalCanvasOriginX, internalCanvasOriginY);
-                                MyWin32.SetRectRgn(hRgn, clipRect.X, clipRect.Y, clipRect.Right, clipRect.Bottom);
-                                MyWin32.SelectClipRgn(gxdc, hRgn);
-                                NativeTextWin32.TextOut(gxdc, logicalTextBox.X, logicalTextBox.Y, buffer, buffer.Length);
-                                MyWin32.SelectClipRgn(gxdc, IntPtr.Zero);
+                IntPtr gxdc = gx.GetHdc();
+                MyWin32.SetViewportOrgEx(gxdc, internalCanvasOriginX, internalCanvasOriginY, IntPtr.Zero);
+                Rectangle clipRect = Rectangle.Intersect(logicalTextBox, currentClipRect);
+                clipRect.Offset(internalCanvasOriginX, internalCanvasOriginY);
+                MyWin32.SetRectRgn(hRgn, clipRect.X, clipRect.Y, clipRect.Right, clipRect.Bottom);
+                MyWin32.SelectClipRgn(gxdc, hRgn);
+                NativeTextWin32.TextOut(gxdc, logicalTextBox.X, logicalTextBox.Y, buffer, buffer.Length);
+                MyWin32.SelectClipRgn(gxdc, IntPtr.Zero);
 
-                                                MyWin32.SetViewportOrgEx(gxdc, -internalCanvasOriginX, -internalCanvasOriginY, IntPtr.Zero);
-                                gx.ReleaseHdc();
+                MyWin32.SetViewportOrgEx(gxdc, -internalCanvasOriginX, -internalCanvasOriginY, IntPtr.Zero);
+                gx.ReleaseHdc();
             }
         }
 
@@ -470,7 +474,7 @@ namespace LayoutFarm.Presentation
         public const int SAME_FONT_DIFF_TEXT_COLOR = 1;
         public const int DIFF_FONT_SAME_TEXT_COLOR = 2;
         public const int DIFF_FONT_DIFF_TEXT_COLOR = 3;
-                                                        public int EvaluateFontAndTextColor(TextFontInfo textFontInfo, Color color)
+        public int EvaluateFontAndTextColor(TextFontInfo textFontInfo, Color color)
         {
 
             if (textFontInfo != null && textFontInfo != currentTextFont)
@@ -496,14 +500,14 @@ namespace LayoutFarm.Presentation
                 }
             }
         }
-                                                public void PushFont(TextFontInfo textFontInfo)
+        public void PushFont(TextFontInfo textFontInfo)
         {
-                        prevFonts.Push(currentTextFont);                        currentTextFont = textFontInfo;
-                                    IntPtr hdc = gx.GetHdc();
-                        prevHFonts.Push(MyWin32.SelectObject(hdc, textFontInfo.HFont));
-                        gx.ReleaseHdc();
+            prevFonts.Push(currentTextFont); currentTextFont = textFontInfo;
+            IntPtr hdc = gx.GetHdc();
+            prevHFonts.Push(MyWin32.SelectObject(hdc, textFontInfo.HFont));
+            gx.ReleaseHdc();
         }
-                                        public void PopFont()
+        public void PopFont()
         {
             IntPtr hdc = gx.GetHdc();
             if (prevHFonts.Count > 0)
@@ -515,15 +519,15 @@ namespace LayoutFarm.Presentation
         }
         public void PushFontInfoAndTextColor(TextFontInfo textFontInfo, Color color)
         {
-                        prevFonts.Push(currentTextFont);                        currentTextFont = textFontInfo;
-                                    IntPtr hdc = gx.GetHdc();
-                        prevHFonts.Push(MyWin32.SelectObject(hdc, textFontInfo.HFont));
-                                    prevColor.Push(currentTextColor);            this.currentTextColor = color;
-                        prevWin32Colors.Push(MyWin32.SetTextColor(hdc, GraphicWin32InterOp.ColorToWin32(color)));
-                        gx.ReleaseHdc();
+            prevFonts.Push(currentTextFont); currentTextFont = textFontInfo;
+            IntPtr hdc = gx.GetHdc();
+            prevHFonts.Push(MyWin32.SelectObject(hdc, textFontInfo.HFont));
+            prevColor.Push(currentTextColor); this.currentTextColor = color;
+            prevWin32Colors.Push(MyWin32.SetTextColor(hdc, GraphicWin32InterOp.ColorToWin32(color)));
+            gx.ReleaseHdc();
 
         }
-                                public void PopFontInfoAndTextColor()
+        public void PopFontInfoAndTextColor()
         {
 
             IntPtr hdc = gx.GetHdc();
@@ -540,15 +544,15 @@ namespace LayoutFarm.Presentation
             gx.ReleaseHdc();
 
         }
-                                        public void PushTextColor(Color color)
+        public void PushTextColor(Color color)
         {
 
             IntPtr hdc = gx.GetHdc();
-            prevColor.Push(currentTextColor);            this.currentTextColor = color;
-                        prevWin32Colors.Push(MyWin32.SetTextColor(hdc, GraphicWin32InterOp.ColorToWin32(color)));
-                        gx.ReleaseHdc();
+            prevColor.Push(currentTextColor); this.currentTextColor = color;
+            prevWin32Colors.Push(MyWin32.SetTextColor(hdc, GraphicWin32InterOp.ColorToWin32(color)));
+            gx.ReleaseHdc();
         }
-                                public void PopTextColor()
+        public void PopTextColor()
         {
             IntPtr hdc = gx.GetHdc();
             if (prevColor.Count > 0)
@@ -558,82 +562,86 @@ namespace LayoutFarm.Presentation
             }
             gx.ReleaseHdc();
         }
-                                                                                
 
 
-                                                                                                                                
-                                                                                                
-                
-                                                
-
-                        
-        
-                
-        
-                        
 
 
-                                                                                public void CopyFrom(ArtCanvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea)
+
+
+
+
+
+
+
+
+
+
+
+        public void CopyFrom(ArtCanvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea)
         {
             if (sourceCanvas.gx != null)
             {
-                                                int phySrcX = logicalSrcX - sourceCanvas.left;
+                int phySrcX = logicalSrcX - sourceCanvas.left;
                 int phySrcY = logicalSrcY - sourceCanvas.top;
 
-                                                                                                Rectangle postIntersect = Rectangle.Intersect(currentClipRect, destArea);
-                                                phySrcX += postIntersect.X - destArea.X;                phySrcY += postIntersect.Y - destArea.Y;                destArea = postIntersect;                
-                                IntPtr gxdc = gx.GetHdc();
+                Rectangle postIntersect = Rectangle.Intersect(currentClipRect, destArea);
+                phySrcX += postIntersect.X - destArea.X; phySrcY += postIntersect.Y - destArea.Y; destArea = postIntersect;
+                IntPtr gxdc = gx.GetHdc();
 
-                                MyWin32.SetViewportOrgEx(gxdc, internalCanvasOriginX, internalCanvasOriginY, IntPtr.Zero);
-                                IntPtr source_gxdc = sourceCanvas.gx.GetHdc();
-                                MyWin32.SetViewportOrgEx(source_gxdc, sourceCanvas.internalCanvasOriginX, sourceCanvas.internalCanvasOriginY, IntPtr.Zero);
+                MyWin32.SetViewportOrgEx(gxdc, internalCanvasOriginX, internalCanvasOriginY, IntPtr.Zero);
+                IntPtr source_gxdc = sourceCanvas.gx.GetHdc();
+                MyWin32.SetViewportOrgEx(source_gxdc, sourceCanvas.internalCanvasOriginX, sourceCanvas.internalCanvasOriginY, IntPtr.Zero);
 
 
-                                MyWin32.BitBlt(gxdc, destArea.X, destArea.Y, destArea.Width,
-                destArea.Height, source_gxdc, phySrcX, phySrcY, MyWin32.SRCCOPY);
+                MyWin32.BitBlt(gxdc, destArea.X, destArea.Y, destArea.Width,
+destArea.Height, source_gxdc, phySrcX, phySrcY, MyWin32.SRCCOPY);
 
-                
-                                MyWin32.SetViewportOrgEx(source_gxdc, -sourceCanvas.internalCanvasOriginX, -sourceCanvas.internalCanvasOriginY, IntPtr.Zero);
+
+                MyWin32.SetViewportOrgEx(source_gxdc, -sourceCanvas.internalCanvasOriginX, -sourceCanvas.internalCanvasOriginY, IntPtr.Zero);
 
                 sourceCanvas.gx.ReleaseHdc();
 
-                                MyWin32.SetViewportOrgEx(gxdc, -internalCanvasOriginX, -internalCanvasOriginY, IntPtr.Zero);
+                MyWin32.SetViewportOrgEx(gxdc, -internalCanvasOriginX, -internalCanvasOriginY, IntPtr.Zero);
                 gx.ReleaseHdc();
 
 
 
             }
         }
-                                                                public void RenderTo(IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea)
+        public void RenderTo(IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea)
         {
-                        IntPtr gxdc = gx.GetHdc();
-                        MyWin32.SetViewportOrgEx(gxdc, internalCanvasOriginX, internalCanvasOriginY, IntPtr.Zero);
-                        MyWin32.BitBlt(destHdc, destArea.X, destArea.Y,
-                destArea.Width, destArea.Height, gxdc, sourceX, sourceY, MyWin32.SRCCOPY);
-                        MyWin32.SetViewportOrgEx(gxdc, -internalCanvasOriginX, -internalCanvasOriginY, IntPtr.Zero);
-                        gx.ReleaseHdc();
+            IntPtr gxdc = gx.GetHdc();
+            MyWin32.SetViewportOrgEx(gxdc, internalCanvasOriginX, internalCanvasOriginY, IntPtr.Zero);
+            MyWin32.BitBlt(destHdc, destArea.X, destArea.Y,
+    destArea.Width, destArea.Height, gxdc, sourceX, sourceY, MyWin32.SRCCOPY);
+            MyWin32.SetViewportOrgEx(gxdc, -internalCanvasOriginX, -internalCanvasOriginY, IntPtr.Zero);
+            gx.ReleaseHdc();
 
 #if DEBUG
-            #endif
+#endif
 
         }
 
 
-                                                public void OffsetCanvasOrigin(int dx, int dy)
+        public void OffsetCanvasOrigin(int dx, int dy)
         {
-                                                internalCanvasOriginX += dx;
+            internalCanvasOriginX += dx;
             internalCanvasOriginY += dy;
             gx.TranslateTransform(dx, dy);
-            currentClipRect.Offset(-dx, -dy);        }
-                                        public void OffsetCanvasOriginX(int dx)
+            currentClipRect.Offset(-dx, -dy);
+        }
+        public void OffsetCanvasOriginX(int dx)
         {
             internalCanvasOriginX += dx;
             gx.TranslateTransform(dx, 0);
-            currentClipRect.Offset(-dx, 0);        }
-                                        public void OffsetCanvasOriginY(int dy)
-        {                                        internalCanvasOriginY += dy;
+            currentClipRect.Offset(-dx, 0);
+        }
+        public void OffsetCanvasOriginY(int dy)
+        {
+            internalCanvasOriginY += dy;
             gx.TranslateTransform(0, dy);
-            currentClipRect.Offset(0, -dy);        }
+            currentClipRect.Offset(0, -dy);
+        }
 
 
         void ClearPreviousStoredValues()
@@ -646,14 +654,14 @@ namespace LayoutFarm.Presentation
             this.prevFonts.Clear();
             this.prevWin32Colors.Clear();
         }
-                                               public void Reuse(int hPageNum, int vPageNum)
+        public void Reuse(int hPageNum, int vPageNum)
         {
             this.pageNumFlags = (hPageNum << 8) | vPageNum;
 
             int w = this.Width;
             int h = this.Height;
 
-                                    this.ClearPreviousStoredValues();
+            this.ClearPreviousStoredValues();
 
             currentClipRect = new Rectangle(0, 0, w, h);
             gx.Clear(Color.White);
@@ -664,24 +672,24 @@ namespace LayoutFarm.Presentation
             right = left + w;
             bottom = top + h;
         }
-       public void Reset(int hPageNum, int vPageNum, int newWidth, int newHeight)
+        public void Reset(int hPageNum, int vPageNum, int newWidth, int newHeight)
         {
-                        this.pageNumFlags = (hPageNum << 8) | vPageNum;
+            this.pageNumFlags = (hPageNum << 8) | vPageNum;
 
             this.ReleaseUnManagedResource();
             this.ClearPreviousStoredValues();
 
-                        originalHdc = MyWin32.CreateCompatibleDC(IntPtr.Zero);
-                        Bitmap bmp = new Bitmap(newWidth, newHeight, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                        hbmp = bmp.GetHbitmap();
-                        MyWin32.SelectObject(originalHdc, hbmp);
-                        MyWin32.PatBlt(originalHdc, 0, 0, newWidth, newHeight, MyWin32.WHITENESS);
-                        MyWin32.SetBkMode(originalHdc, MyWin32._SetBkMode_TRANSPARENT);
-                        hFont = FontManager.CurrentFont.ToHfont();
-                        MyWin32.SelectObject(originalHdc, hFont);
-                                    currentClipRect = new Rectangle(0, 0, newWidth, newHeight);
-                        MyWin32.SelectObject(originalHdc, hRgn);
-                        gx = Graphics.FromHdc(originalHdc);
+            originalHdc = MyWin32.CreateCompatibleDC(IntPtr.Zero);
+            Bitmap bmp = new Bitmap(newWidth, newHeight, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            hbmp = bmp.GetHbitmap();
+            MyWin32.SelectObject(originalHdc, hbmp);
+            MyWin32.PatBlt(originalHdc, 0, 0, newWidth, newHeight, MyWin32.WHITENESS);
+            MyWin32.SetBkMode(originalHdc, MyWin32._SetBkMode_TRANSPARENT);
+            hFont = FontManager.CurrentFont.ToHfont();
+            MyWin32.SelectObject(originalHdc, hFont);
+            currentClipRect = new Rectangle(0, 0, newWidth, newHeight);
+            MyWin32.SelectObject(originalHdc, hRgn);
+            gx = Graphics.FromHdc(originalHdc);
 
             gx.Clear(Color.White);
             MyWin32.SetRectRgn(hRgn, 0, 0, newWidth, newHeight);
@@ -697,30 +705,31 @@ namespace LayoutFarm.Presentation
         }
 
 
-                                                                                
-                        
-                                                                                                                                        
-                        
-
-                        
-                
-                
 
 
-                        
-                                
-        
 
-                        
-                                                public void ClearSurface(InternalRect rect)
+
+
+
+
+
+
+
+
+
+
+
+
+        public void ClearSurface(InternalRect rect)
         {
-                                    PushClipArea(rect._left, rect._top, rect.Width, rect.Height);
-            gx.Clear(Color.White);             PopClipArea();
+            PushClipArea(rect._left, rect._top, rect.Width, rect.Height);
+            gx.Clear(Color.White); PopClipArea();
         }
-                                public void ClearSurface()
+        public void ClearSurface()
         {
-            gx.Clear(Color.White);         }
-                public void FillPolygon(Brush brush, PointF[] points)
+            gx.Clear(Color.White);
+        }
+        public void FillPolygon(Brush brush, PointF[] points)
         {
             gx.FillPolygon(brush, points);
         }
@@ -733,12 +742,13 @@ namespace LayoutFarm.Presentation
         {
             if (colorBrush is ArtSolidBrush)
             {
-                                ArtSolidBrush solidBrush = (ArtSolidBrush)colorBrush;
+                ArtSolidBrush solidBrush = (ArtSolidBrush)colorBrush;
                 gx.FillPolygon(colorBrush.myBrush, points);
 
             }
             else if (colorBrush is ArtGradientBrush)
-            {                   ArtGradientBrush gradientBrush = (ArtGradientBrush)colorBrush;
+            {
+                ArtGradientBrush gradientBrush = (ArtGradientBrush)colorBrush;
 
                 gx.FillPolygon(colorBrush.myBrush, points);
 
@@ -746,34 +756,35 @@ namespace LayoutFarm.Presentation
             }
             else if (colorBrush is ArtImageBrush)
             {
-                                ArtImageBrush imgBrush = (ArtImageBrush)colorBrush;
-                
-                                                                                                                                                                                                                                                                
+                ArtImageBrush imgBrush = (ArtImageBrush)colorBrush;
+
+
             }
         }
         public void FillRegion(ArtColorBrush colorBrush, Region rgn)
         {
             if (colorBrush is ArtSolidBrush)
             {
-                                ArtSolidBrush solidBrush = (ArtSolidBrush)colorBrush;
+                ArtSolidBrush solidBrush = (ArtSolidBrush)colorBrush;
                 gx.FillRegion(solidBrush.myBrush, rgn);
 
             }
             else if (colorBrush is ArtGradientBrush)
-            {                   ArtGradientBrush gradientBrush = (ArtGradientBrush)colorBrush;
+            {
+                ArtGradientBrush gradientBrush = (ArtGradientBrush)colorBrush;
 
                 gx.FillRegion(colorBrush.myBrush, rgn);
 
             }
             else if (colorBrush is ArtImageBrush)
             {
-                                ArtImageBrush imgBrush = (ArtImageBrush)colorBrush;
-                
-                                                                                                                                                                                                                                                                
+                ArtImageBrush imgBrush = (ArtImageBrush)colorBrush;
+
+
             }
         }
-                                                                                                                                                
-                        public void FillPath(GraphicsPath gfxPath, Color solidColor)
+
+        public void FillPath(GraphicsPath gfxPath, Color solidColor)
         {
 
             FillPath(gfxPath, new ArtSolidBrush(solidColor));
@@ -787,32 +798,33 @@ namespace LayoutFarm.Presentation
             gx.SmoothingMode = SmoothingMode.HighSpeed;
             if (colorBrush is ArtSolidBrush)
             {
-                                ArtSolidBrush solidBrush = (ArtSolidBrush)colorBrush;
+                ArtSolidBrush solidBrush = (ArtSolidBrush)colorBrush;
                 if (solidBrush.myBrush == null)
                 {
-                                        solidBrush.myBrush = new SolidBrush(solidBrush.Color);
+                    solidBrush.myBrush = new SolidBrush(solidBrush.Color);
                 }
                 gx.FillPath(solidBrush.myBrush, gfxPath);
 
             }
             else if (colorBrush is ArtGradientBrush)
-            {                   ArtGradientBrush gradientBrush = (ArtGradientBrush)colorBrush;
+            {
+                ArtGradientBrush gradientBrush = (ArtGradientBrush)colorBrush;
                 gx.FillPath(gradientBrush.myBrush, gfxPath);
 
             }
             else if (colorBrush is ArtImageBrush)
             {
-                                ArtImageBrush imgBrush = (ArtImageBrush)colorBrush;
-                            }
+                ArtImageBrush imgBrush = (ArtImageBrush)colorBrush;
+            }
 
         }
-                                        public void DrawPath(GraphicsPath gfxPath)
+        public void DrawPath(GraphicsPath gfxPath)
         {
             gx.DrawPath(internalPen, gfxPath);
         }
         public void DrawPath(GraphicsPath gfxPath, Color color)
         {
-                        internalPen.Color = color;
+            internalPen.Color = color;
             internalPen.Alignment = PenAlignment.Right;
             gx.DrawPath(internalPen, gfxPath);
         }
@@ -833,16 +845,16 @@ namespace LayoutFarm.Presentation
         }
         public void FillRectangle(Brush brush, Rectangle rect)
         {
-            
+
             gx.FillRectangle(brush, rect);
         }
         public void FillRectangle(Brush brush, RectangleF rectf)
         {
-                        gx.FillRectangle(brush, rectf);
+            gx.FillRectangle(brush, rectf);
         }
         public void FillRectangle(ArtColorBrush brush, RectangleF rectf)
         {
-            
+
             gx.FillRectangle(brush.myBrush, rectf);
         }
         public void FillRectangle(Color color, int left, int top, int right, int bottom)
@@ -861,7 +873,7 @@ namespace LayoutFarm.Presentation
         public float GetFontHeight(Font f)
         {
             return f.GetHeight(gx);
-                    }
+        }
         public Region[] MeasureCharacterRanges(string text, Font f, RectangleF layoutRectF, StringFormat strFormat)
         {
             return gx.MeasureCharacterRanges(text, f, layoutRectF, strFormat);
@@ -871,7 +883,7 @@ namespace LayoutFarm.Presentation
 
             if (_useGdiPlusTextRendering)
             {
-                                throw new NotSupportedException("Char fit string measuring is not supported for GDI+ text rendering");
+                throw new NotSupportedException("Char fit string measuring is not supported for GDI+ text rendering");
             }
             else
             {
@@ -879,14 +891,14 @@ namespace LayoutFarm.Presentation
 
                 throw new NotSupportedException();
 
-                
-                                                                                                                            }
+
+            }
         }
         public void FillRectangle(ArtColorBrush colorBrush, int left, int top, int right, int bottom)
         {
             if (colorBrush is ArtSolidBrush)
             {
-                                ArtSolidBrush solidBrush = (ArtSolidBrush)colorBrush;
+                ArtSolidBrush solidBrush = (ArtSolidBrush)colorBrush;
 
                 if (solidBrush.myBrush == null)
                 {
@@ -897,15 +909,15 @@ namespace LayoutFarm.Presentation
             }
             else if (colorBrush is ArtGradientBrush)
             {
-                                ArtGradientBrush gradientBrush = (ArtGradientBrush)colorBrush;
+                ArtGradientBrush gradientBrush = (ArtGradientBrush)colorBrush;
                 gx.FillRectangle(gradientBrush.myBrush, Rectangle.FromLTRB(left, top, right, bottom));
 
             }
             else if (colorBrush is ArtImageBrush)
             {
-                                ArtImageBrush imgBrush = (ArtImageBrush)colorBrush;
-                
-                                                                                                                                                                                                                if (imgBrush.MyImage != null)
+                ArtImageBrush imgBrush = (ArtImageBrush)colorBrush;
+
+                if (imgBrush.MyImage != null)
                 {
                     gx.DrawImageUnscaled(imgBrush.MyImage, 0, 0);
                 }
@@ -966,24 +978,24 @@ namespace LayoutFarm.Presentation
         }
         public void DrawImage(Image image, RectangleF rect)
         {
-                        gx.DrawImage(image, rect);
+            gx.DrawImage(image, rect);
         }
-                                                public void DrawImage(Image image, Rectangle rect)
+        public void DrawImage(Image image, Rectangle rect)
         {
-                        gx.DrawImage(image, rect);
+            gx.DrawImage(image, rect);
         }
         public void DrawImage(Bitmap image, int x, int y, int w, int h)
         {
-                        gx.DrawImage(image, x, y, w, h);
+            gx.DrawImage(image, x, y, w, h);
         }
         public void DrawImageUnScaled(Bitmap image, int x, int y)
         {
-                                    gx.DrawImageUnscaled(image, x, y);
+            gx.DrawImageUnscaled(image, x, y);
         }
 #if DEBUG
         public void dbug_DrawRuler(int x)
         {
-                        int canvas_top = this.top;
+            int canvas_top = this.top;
             int canvas_bottom = this.Bottom;
             for (int y = canvas_top; y < canvas_bottom; y += 10)
             {
@@ -999,7 +1011,7 @@ namespace LayoutFarm.Presentation
 #endif
         public void DrawBezire(Point[] points)
         {
-                        gx.DrawBeziers(Pens.Red, points);
+            gx.DrawBeziers(Pens.Red, points);
         }
         public void DrawLine(Pen pen, Point p1, Point p2)
         {
@@ -1007,14 +1019,16 @@ namespace LayoutFarm.Presentation
         }
         public void DrawLine(Color c, int x1, int y1, int x2, int y2)
         {
-            Color prevColor = internalPen.Color;            internalPen.Color = c;
+            Color prevColor = internalPen.Color; internalPen.Color = c;
             gx.DrawLine(internalPen, x1, y1, x2, y2);
-            internalPen.Color = prevColor;        }
+            internalPen.Color = prevColor;
+        }
         public void DrawLine(Color c, float x1, float y1, float x2, float y2)
         {
-            Color prevColor = internalPen.Color;            internalPen.Color = c;
+            Color prevColor = internalPen.Color; internalPen.Color = c;
             gx.DrawLine(internalPen, x1, y1, x2, y2);
-            internalPen.Color = prevColor;        }
+            internalPen.Color = prevColor;
+        }
         public void DrawLine(Pen pen, float x1, float y1, float x2, float y2)
         {
 
@@ -1022,9 +1036,10 @@ namespace LayoutFarm.Presentation
         }
         public void DrawLine(Color color, Point p1, Point p2)
         {
-            Color prevColor = internalPen.Color;            internalPen.Color = color;
+            Color prevColor = internalPen.Color; internalPen.Color = color;
             gx.DrawLine(internalPen, p1, p2);
-            internalPen.Color = prevColor;        }
+            internalPen.Color = prevColor;
+        }
         public void DrawLine(Color color, Point p1, Point p2, DashStyle lineDashStyle)
         {
             DashStyle prevLineDashStyle = internalPen.DashStyle;
@@ -1039,8 +1054,8 @@ namespace LayoutFarm.Presentation
             gx.SmoothingMode = SmoothingMode.HighQuality;
             gx.DrawArc(pen, r, startAngle, sweepAngle);
         }
-                                                
-                                                                                                        
+
+
         public void DrawLines(Color color, Point[] points)
         {
             internalPen.Color = color;
@@ -1062,7 +1077,7 @@ namespace LayoutFarm.Presentation
         public void FillEllipse(Color color, Rectangle rect)
         {
 
-            
+
             internalBrush.Color = color;
             gx.FillEllipse(internalBrush, rect);
 
@@ -1070,7 +1085,7 @@ namespace LayoutFarm.Presentation
         }
         public void FillEllipse(Color color, int x, int y, int width, int height)
         {
-            
+
             internalBrush.Color = color;
             gx.FillEllipse(internalBrush, x, y, width, height);
 
@@ -1082,7 +1097,7 @@ namespace LayoutFarm.Presentation
             int cornerSizeW = cornerSize.Width;
             int cornerSizeH = cornerSize.Height;
 
-                                    GraphicsPath gxPath = new GraphicsPath();
+            GraphicsPath gxPath = new GraphicsPath();
             gxPath.AddArc(new Rectangle(x, y, cornerSizeW * 2, cornerSizeH * 2), 180, 90);
             gxPath.AddLine(new Point(x + cornerSizeW, y), new Point(x + w - cornerSizeW, y));
 
@@ -1100,38 +1115,42 @@ namespace LayoutFarm.Presentation
             gxPath.Dispose();
         }
 
-                InternalRect invalidateArea = InternalRect.CreateFromLTRB(0, 0, 0, 0);        int canvasFlags = FIRSTTIME_INVALID; 
+        InternalRect invalidateArea = InternalRect.CreateFromLTRB(0, 0, 0, 0); int canvasFlags = FIRSTTIME_INVALID;
 
-                                const int WAIT_FOR_UPDATE = 0x0;
+        const int WAIT_FOR_UPDATE = 0x0;
 
-                                const int FIRSTTIME_INVALID = 0x1;                                const int UPDATED_CONTENT = 0x2;
-                                        const int FIRSTTIME_INVALID_AND_UPDATED_CONTENT = 0x3;
+        const int FIRSTTIME_INVALID = 0x1; const int UPDATED_CONTENT = 0x2;
+        const int FIRSTTIME_INVALID_AND_UPDATED_CONTENT = 0x3;
 
-                                public InternalRect InvalidateArea
+        public InternalRect InvalidateArea
         {
             get
             {
                 return invalidateArea;
             }
         }
-                                public bool IsContentUpdated
+        public bool IsContentUpdated
         {
             get
-            {                                   return ((canvasFlags & UPDATED_CONTENT) == UPDATED_CONTENT);
+            {
+                return ((canvasFlags & UPDATED_CONTENT) == UPDATED_CONTENT);
             }
         }
 
-                                                public void Invalidate(InternalRect rect)
+        public void Invalidate(InternalRect rect)
         {
 
-                        if ((canvasFlags & FIRSTTIME_INVALID) == FIRSTTIME_INVALID)
-            {                                   invalidateArea.LoadValues(rect);
+            if ((canvasFlags & FIRSTTIME_INVALID) == FIRSTTIME_INVALID)
+            {
+                invalidateArea.LoadValues(rect);
             }
             else
-            {                                   invalidateArea.MergeRect(rect);
+            {
+                invalidateArea.MergeRect(rect);
             }
 
-            canvasFlags = WAIT_FOR_UPDATE;         }
+            canvasFlags = WAIT_FOR_UPDATE;
+        }
 
     }
 

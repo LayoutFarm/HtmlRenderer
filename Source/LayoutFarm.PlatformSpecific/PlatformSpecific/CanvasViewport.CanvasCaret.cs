@@ -1,22 +1,23 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using System.Drawing; 
- 
+using System.Drawing;
+
 using LayoutFarm.Presentation;
 
- 
+
 namespace LayoutFarm.Presentation
-{   
+{
     partial class CanvasViewport
     {
-         
-                                static class CanvasCaret
+
+        static class CanvasCaret
         {
-                        static Timer caretBlinkTimer; 
-                                    static Bitmap caretBmp; 
-                                   
+            static Timer caretBlinkTimer;
+            static Bitmap caretBmp;
+
             static CanvasViewport canvasViewport;
 
             static IntPtr caretDc;
@@ -27,9 +28,9 @@ namespace LayoutFarm.Presentation
 
             static CanvasCaret()
             {
-                                caretBlinkTimer = new Timer();
+                caretBlinkTimer = new Timer();
                 caretBlinkTimer.Tick += new EventHandler(caretBlinkTimer_Tick);
-                caretBlinkTimer.Interval = 500;                                caretWidth = 1;
+                caretBlinkTimer.Interval = 500; caretWidth = 1;
                 caretHeight = 16;
                 caretBmp = new Bitmap(caretWidth, caretHeight);
                 caretWidth = caretBmp.Width;
@@ -41,20 +42,20 @@ namespace LayoutFarm.Presentation
                 IntPtr brush = MyWin32.CreateSolidBrush(GraphicWin32InterOp.ColorToWin32(Color.White));
                 MyWin32.FillRect(caretDc, ref r, brush);
                 MyWin32.DeleteObject(brush);
-                            }
+            }
 
             static void caretBlinkTimer_Tick(object sender, EventArgs e)
             {
-                                if (canvasViewport != null)
+                if (canvasViewport != null)
                 {
                     canvasViewport.Caret_Blink();
                 }
-            } 
-                        static void DestroyCaret(CanvasViewport viewport)
+            }
+            static void DestroyCaret(CanvasViewport viewport)
             {
                 if (canvasViewport != null && canvasViewport == viewport)
                 {
-                    caretBlinkTimer.Enabled = false;                    if (caretBmp != null)
+                    caretBlinkTimer.Enabled = false; if (caretBmp != null)
                     {
                         caretBmp.Dispose();
                         caretBmp = null;
@@ -68,43 +69,50 @@ namespace LayoutFarm.Presentation
             }
             public static void SetCaretTo(CanvasViewport viewport)
             {
-                                                                if (viewport != null && canvasViewport != viewport) 
+                if (viewport != null && canvasViewport != viewport)
                 {
-                    canvasViewport = viewport; 
+                    canvasViewport = viewport;
                 }
                 else if (viewport == null)
                 {
                     canvasViewport = null;
-                    caretBlinkTimer.Enabled = false; 
+                    caretBlinkTimer.Enabled = false;
                 }
             }
-                                                                                    public static void RenderCaretBlink(IntPtr destHdc, int x, int y)
-            {                   MyWin32.BitBlt(destHdc, x, y, caretWidth, caretHeight, caretDc, 0, 0, MyWin32.SRCERASE);
-                                isOdd = !isOdd;            }
-                                                                                    public static void ForceRenderCaret(IntPtr destHdc, int x, int y)
+            public static void RenderCaretBlink(IntPtr destHdc, int x, int y)
             {
-                                if (!isOdd)
+                MyWin32.BitBlt(destHdc, x, y, caretWidth, caretHeight, caretDc, 0, 0, MyWin32.SRCERASE);
+                isOdd = !isOdd;
+            }
+            public static void ForceRenderCaret(IntPtr destHdc, int x, int y)
+            {
+                if (!isOdd)
                 {
-                                                            MyWin32.BitBlt(destHdc, x, y, caretWidth, caretHeight, caretDc, 0, 0, MyWin32.SRCERASE);
-                    isOdd = !isOdd;                }             }
+                    MyWin32.BitBlt(destHdc, x, y, caretWidth, caretHeight, caretDc, 0, 0, MyWin32.SRCERASE);
+                    isOdd = !isOdd;
+                }
+            }
             public static void ForceHideCaret(IntPtr destHdc, int x, int y)
             {
                 if (isOdd)
                 {
-                                                            MyWin32.BitBlt(destHdc, x, y, caretWidth, caretHeight, caretDc, 0, 0, MyWin32.SRCERASE);
-                    isOdd = !isOdd;                }
+                    MyWin32.BitBlt(destHdc, x, y, caretWidth, caretHeight, caretDc, 0, 0, MyWin32.SRCERASE);
+                    isOdd = !isOdd;
+                }
             }
-                                                public static void StartCaretBlink()
+            public static void StartCaretBlink()
             {
-                                caretBlinkTimer.Enabled = true;
-                isOdd = false;             }
-                                                public static void StopCaretBlink()
+                caretBlinkTimer.Enabled = true;
+                isOdd = false;
+            }
+            public static void StopCaretBlink()
             {
-                
-                                caretBlinkTimer.Enabled = false;
-                                isOdd = false;             }
 
-        } 
+                caretBlinkTimer.Enabled = false;
+                isOdd = false;
+            }
+
+        }
 
     }
 

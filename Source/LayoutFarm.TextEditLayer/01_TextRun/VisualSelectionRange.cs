@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Drawing;
 namespace LayoutFarm.Presentation.Text
 {
 
-                public struct VisualSelectionRangeSnapShot
+    public struct VisualSelectionRangeSnapShot
     {
         public readonly int startLineNum;
         public readonly int startColumnNum;
@@ -29,15 +30,15 @@ namespace LayoutFarm.Presentation.Text
 
     }
 
-                public class VisualSelectionRange
+    public class VisualSelectionRange
     {
-                                                        EditableVisualPointInfo startPoint = null;
-                                EditableVisualPointInfo endPoint = null;
-                                                        public VisualSelectionRange(EditableVisualPointInfo startPoint, EditableVisualPointInfo endPoint)
+        EditableVisualPointInfo startPoint = null;
+        EditableVisualPointInfo endPoint = null;
+        public VisualSelectionRange(EditableVisualPointInfo startPoint, EditableVisualPointInfo endPoint)
         {
             this.startPoint = startPoint;
             this.endPoint = endPoint;
-                                            }
+        }
         public EditableVisualPointInfo StartPoint
         {
             get
@@ -56,7 +57,9 @@ namespace LayoutFarm.Presentation.Text
                 return endPoint;
             }
             set
-            {                   if (startPoint != null)                {
+            {
+                if (startPoint != null)
+                {
                     endPoint = value;
                 }
                 else
@@ -68,16 +71,17 @@ namespace LayoutFarm.Presentation.Text
         public bool IsOnTheSameLine
         {
             get
-            {                   return startPoint.LineId == endPoint.LineId;
+            {
+                return startPoint.LineId == endPoint.LineId;
             }
         }
 
 
-                                        public void SwapIfUnOrder()
+        public void SwapIfUnOrder()
         {
-                        if (IsOnTheSameLine)
+            if (IsOnTheSameLine)
             {
-                                if (startPoint.LineCharIndex > endPoint.LineCharIndex)
+                if (startPoint.LineCharIndex > endPoint.LineCharIndex)
                 {
                     EditableVisualPointInfo tmpPoint = startPoint;
                     startPoint = endPoint;
@@ -86,7 +90,7 @@ namespace LayoutFarm.Presentation.Text
             }
             else
             {
-                                                                if (startPoint.LineId > endPoint.LineId)
+                if (startPoint.LineId > endPoint.LineId)
                 {
                     EditableVisualPointInfo tmp = startPoint;
                     startPoint = endPoint;
@@ -95,19 +99,21 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-                                public bool IsValid
+        public bool IsValid
         {
             get
-            {                                   if (startPoint != null && endPoint != null)
+            {
+                if (startPoint != null && endPoint != null)
                 {
-                                        if ((startPoint.TextRun != null && startPoint.TextRun.IsFreeElement) ||
-                        (endPoint.TextRun != null && endPoint.TextRun.IsFreeElement))
+                    if ((startPoint.TextRun != null && startPoint.TextRun.IsFreeElement) ||
+    (endPoint.TextRun != null && endPoint.TextRun.IsFreeElement))
                     {
                         throw new NotSupportedException("text range err");
                     }
-                                        if ((startPoint.LineCharIndex == endPoint.LineCharIndex) &&
-                        (startPoint.LineId == endPoint.LineId))
-                    {                           return false;
+                    if ((startPoint.LineCharIndex == endPoint.LineCharIndex) &&
+    (startPoint.LineId == endPoint.LineId))
+                    {
+                        return false;
                     }
                     else
                     {
@@ -120,7 +126,7 @@ namespace LayoutFarm.Presentation.Text
                 }
             }
         }
-                                public EditableVisualPointInfo TopEnd
+        public EditableVisualPointInfo TopEnd
         {
             get
             {
@@ -129,7 +135,7 @@ namespace LayoutFarm.Presentation.Text
                     case -1:
                         return startPoint;
                     case 0:
-                                                if (startPoint.X <= endPoint.X)
+                        if (startPoint.X <= endPoint.X)
                         {
                             return startPoint;
                         }
@@ -141,7 +147,7 @@ namespace LayoutFarm.Presentation.Text
                 return endPoint;
             }
         }
-                                public EditableVisualPointInfo BottomEnd
+        public EditableVisualPointInfo BottomEnd
         {
             get
             {
@@ -150,7 +156,7 @@ namespace LayoutFarm.Presentation.Text
                     case -1:
                         return endPoint;
                     case 0:
-                                                if (endPoint.X > startPoint.X)
+                        if (endPoint.X > startPoint.X)
                         {
                             return endPoint;
                         }
@@ -163,7 +169,7 @@ namespace LayoutFarm.Presentation.Text
             }
 
         }
-                                                public void Draw(ArtCanvas destPage, InternalRect updateArea)
+        public void Draw(ArtCanvas destPage, InternalRect updateArea)
         {
 
             if (IsOnTheSameLine)
@@ -180,39 +186,39 @@ namespace LayoutFarm.Presentation.Text
             }
             else
             {
-                                                EditableVisualPointInfo topEndPoint = TopEnd;                                                int lineYPos = topEndPoint.LineTop;
+                EditableVisualPointInfo topEndPoint = TopEnd; int lineYPos = topEndPoint.LineTop;
 
                 destPage.FillRectangle(Color.LightGray, topEndPoint.X, lineYPos, topEndPoint.CurrentWidth,
                     lineYPos + topEndPoint.ActualLineHeight);
 
-                                int topLineId = topEndPoint.LineId;
+                int topLineId = topEndPoint.LineId;
                 int bottomLineId = BottomEnd.LineId;
                 if (bottomLineId - topLineId > 1)
                 {
-                                        EditableVisualElementLine adjacentStartLine = topEndPoint.EditableLine.Next;
-                                        while (adjacentStartLine != BottomEnd.Line)
+                    EditableVisualElementLine adjacentStartLine = topEndPoint.EditableLine.Next;
+                    while (adjacentStartLine != BottomEnd.Line)
                     {
                         destPage.FillRectangle(Color.LightGray, 0,
                             adjacentStartLine.LineTop,
                             adjacentStartLine.CurrentWidth,
                             adjacentStartLine.LineTop + adjacentStartLine.ActualLineHeight);
-                                                adjacentStartLine = adjacentStartLine.Next;
+                        adjacentStartLine = adjacentStartLine.Next;
                     }
                     EditableVisualElementLine adjacentStopLine = BottomEnd.Line.Prev;
-                                                                            }
-                                VisualPointInfo bottomEndPoint = BottomEnd;
+                }
+                VisualPointInfo bottomEndPoint = BottomEnd;
                 lineYPos = bottomEndPoint.LineTop;
-                                destPage.FillRectangle(Color.LightGray, 0, lineYPos, bottomEndPoint.X,
-                    lineYPos + bottomEndPoint.ActualLineHeight);
+                destPage.FillRectangle(Color.LightGray, 0, lineYPos, bottomEndPoint.X,
+    lineYPos + bottomEndPoint.ActualLineHeight);
 
             }
         }
-                                public void UpdateSelectionRange()
+        public void UpdateSelectionRange()
         {
             if (startPoint.TextRun != null && startPoint.TextRun.IsFreeElement)
             {
-                                                                EditableVisualElementLine startLine = startPoint.EditableLine;
-                                startPoint = startLine.GetTextPointInfoFromCharIndex(startPoint.LineCharIndex);
+                EditableVisualElementLine startLine = startPoint.EditableLine;
+                startPoint = startLine.GetTextPointInfoFromCharIndex(startPoint.LineCharIndex);
             }
             if (endPoint.TextRun != null && endPoint.TextRun.IsFreeElement)
             {
@@ -222,19 +228,19 @@ namespace LayoutFarm.Presentation.Text
 
         }
 
-                                public IEnumerable<ArtEditableVisualTextRun> GetPrintableTextRunIter()
+        public IEnumerable<ArtEditableVisualTextRun> GetPrintableTextRunIter()
         {
 
-            
-                                    ArtEditableVisualTextRun startRun = null;
+
+            ArtEditableVisualTextRun startRun = null;
             if (startPoint.TextRun == null)
             {
-                                EditableVisualElementLine line = startPoint.EditableLine;
+                EditableVisualElementLine line = startPoint.EditableLine;
                 startRun = line.FirstRun;
             }
             else
             {
-                                startRun = startPoint.TextRun.NextTextRun;
+                startRun = startPoint.TextRun.NextTextRun;
             }
 
             EditableTextFlowLayer layer = startRun.OwnerEditableLine.editableFlowLayer;
@@ -249,7 +255,7 @@ namespace LayoutFarm.Presentation.Text
 
         }
 
-                                        public VisualSelectionRangeSnapShot GetSelectionRangeSnapshot()
+        public VisualSelectionRangeSnapShot GetSelectionRangeSnapshot()
         {
             return new VisualSelectionRangeSnapShot(
                 startPoint.LineNumber,

@@ -1,4 +1,4 @@
-﻿
+﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,16 +14,16 @@ namespace LayoutFarm.Presentation
 {
     public class VisualRootImpl : VisualRoot
     {
-        
-                        
+
+
         List<VisualElementRequest> veReqList = new List<VisualElementRequest>();
- 
+
         static Stack<VisualElementArgs> visualArgStack = new Stack<VisualElementArgs>();
 
-         
+
         public VisualRootImpl()
         {
-            #if DEBUG
+#if DEBUG
             dbugCurrentGlobalVRoot = this;
             dbug_Init();
 #endif
@@ -33,7 +33,7 @@ namespace LayoutFarm.Presentation
         {
             dbugHitTracker.Close();
         }
-#endif 
+#endif
 
         public static VisualElementArgs GetVisualInvalidateArgs(ArtVisualRootWindow winroot)
         {
@@ -68,11 +68,11 @@ namespace LayoutFarm.Presentation
             visualArgStack.Push(vinv);
         }
 
-        
+
         public const int IS_SHIFT_KEYDOWN = 1 << (1 - 1);
-                                public const int IS_ALT_KEYDOWN = 1 << (2 - 1);
-                                public const int IS_CTRL_KEYDOWN = 1 << (3 - 1);
- 
+        public const int IS_ALT_KEYDOWN = 1 << (2 - 1);
+        public const int IS_CTRL_KEYDOWN = 1 << (3 - 1);
+
 
 
         public int VisualRequestCount
@@ -86,9 +86,9 @@ namespace LayoutFarm.Presentation
         {
             veReqList.Add(req);
         }
-                                        public void ClearVisualRequests(ArtVisualRootWindow winroot)
+        public void ClearVisualRequests(ArtVisualRootWindow winroot)
         {
-                                    int j = veReqList.Count;
+            int j = veReqList.Count;
             for (int i = 0; i < j; ++i)
             {
                 VisualElementRequest req = veReqList[i];
@@ -113,7 +113,7 @@ namespace LayoutFarm.Presentation
                         } break;
                     case RequestCommand.InvalidateArea:
                         {
-                                                        Rectangle r = (Rectangle)req.parameters;
+                            Rectangle r = (Rectangle)req.parameters;
 
                             InternalRect internalRect = InternalRect.CreateFromRect(r);
                             winroot.InvalidateGraphicArea(req.ve, internalRect);

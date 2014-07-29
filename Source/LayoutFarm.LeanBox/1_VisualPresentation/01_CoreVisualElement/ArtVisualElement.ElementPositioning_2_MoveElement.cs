@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -10,49 +11,53 @@ using LayoutFarm.Presentation;
 
 namespace LayoutFarm.Presentation
 {
-            
+
     partial class ArtVisualElement
     {
 
-                                                                protected static Point MoveCareParentBound(ArtVisualElement visualElement, int dx, int dy, VisualElementArgs vinv)
+        protected static Point MoveCareParentBound(ArtVisualElement visualElement, int dx, int dy, VisualElementArgs vinv)
         {
-                        ArtVisualElement parentElement = visualElement.ParentVisualElement;
+            ArtVisualElement parentElement = visualElement.ParentVisualElement;
             if (parentElement == null)
             {
-                                return Point.Empty;
+                return Point.Empty;
             }
             else
             {
-                                                                visualElement.BeforeBoundChangedInvalidateGraphics(vinv);
+                visualElement.BeforeBoundChangedInvalidateGraphics(vinv);
 
                 if (dx < 0)
                 {
-                                        if (visualElement.uiLeft + dx > -1)
+                    if (visualElement.uiLeft + dx > -1)
                     {
                         visualElement.uiLeft += dx;
-                                            }
+                    }
                     else
-                    {                           dx = 0;
+                    {
+                        dx = 0;
                     }
                 }
                 else
-                {                       if (visualElement.Right + dx < (parentElement.Right - parentElement.uiLeft))
+                {
+                    if (visualElement.Right + dx < (parentElement.Right - parentElement.uiLeft))
                     {
                         visualElement.uiLeft += dx;
-                                            }
+                    }
                     else
-                    {                           dx = 0;
+                    {
+                        dx = 0;
                     }
                 }
-                                if (dy < 0)
+                if (dy < 0)
                 {
-                                        if (visualElement.uiTop + dy > -1)
+                    if (visualElement.uiTop + dy > -1)
                     {
                         visualElement.uiTop += dy;
-                                            }
+                    }
                     else
                     {
-                        dy = 0;                     }
+                        dy = 0;
+                    }
                 }
                 else
                 {
@@ -60,27 +65,28 @@ namespace LayoutFarm.Presentation
                     {
                         visualElement.uiTop += dy;
 
-                                            }
+                    }
                     else
                     {
                         dy = 0;
                     }
                 }
                 visualElement.AfterBoundChangedInvalidateGraphics(vinv);
-                return new Point(dx, dy);            }
+                return new Point(dx, dy);
+            }
 
         }
 
-                                                        public void SetLocation(int x, int y, VisualElementArgs vinv)
+        public void SetLocation(int x, int y, VisualElementArgs vinv)
         {
-                        if (vinv == null)
+            if (vinv == null)
             {
                 uiLeft = x;
                 uiTop = y;
             }
             else
             {
-                                if (uiLeft == x && uiTop == y)
+                if (uiLeft == x && uiTop == y)
                 {
                     return;
                 }
@@ -91,11 +97,11 @@ namespace LayoutFarm.Presentation
                 this.AfterBoundChangedInvalidateGraphics(vinv);
             }
 
-                                                                                                                                                            
-                                                                                                                                                                                            }
-                                        public void SetLocation(Point p, VisualElementArgs vinv)
+
+        }
+        public void SetLocation(Point p, VisualElementArgs vinv)
         {
-                        SetLocation(p.X, p.Y, vinv);
+            SetLocation(p.X, p.Y, vinv);
         }
 
         public void SetLeft(int x, VisualElementArgs vinv)
@@ -125,9 +131,9 @@ namespace LayoutFarm.Presentation
             }
         }
 
-                                                public void Offset(int dx, int dy,VisualElementArgs vinv)
+        public void Offset(int dx, int dy, VisualElementArgs vinv)
         {
-                        if (visualParentLink == null)
+            if (visualParentLink == null)
             {
                 uiLeft += dx;
                 uiTop += dy;
@@ -141,7 +147,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-                                                public void Move(int dx, int dy,VisualElementArgs vinv)
+        public void Move(int dx, int dy, VisualElementArgs vinv)
         {
             if (visualParentLink == null)
             {

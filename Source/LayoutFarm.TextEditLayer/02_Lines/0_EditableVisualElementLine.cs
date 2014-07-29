@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -8,7 +9,7 @@ using LayoutFarm.Presentation.Text;
 namespace LayoutFarm.Presentation.Text
 {
 
-                
+
 
 #if DEBUG
     [DebuggerDisplay("ELN {dbugShortLineInfo}")]
@@ -16,32 +17,32 @@ namespace LayoutFarm.Presentation.Text
     public sealed partial class EditableVisualElementLine : LinkedList<ArtEditableVisualTextRun>
     {
 
-                                        int currentLineNumber;                                internal EditableTextFlowLayer editableFlowLayer;
+        int currentLineNumber; internal EditableTextFlowLayer editableFlowLayer;
 
-                                int actualLineHeight;
-                                int actualLineWidth;
-                                int lineTop;
-                                int lineFlags;
+        int actualLineHeight;
+        int actualLineWidth;
+        int lineTop;
+        int lineFlags;
 
-                                        const int LINE_CONTENT_ARRANGED = 1 << (1 - 1);
-                        const int LINE_SIZE_VALID = 1 << (2 - 1);
-                                                                const int LOCAL_SUSPEND_LINE_REARRANGE = 1 << (3 - 1);
-                const int END_WITH_LINE_BREAK = 1 << (4 - 1);
-
-
+        const int LINE_CONTENT_ARRANGED = 1 << (1 - 1);
+        const int LINE_SIZE_VALID = 1 << (2 - 1);
+        const int LOCAL_SUSPEND_LINE_REARRANGE = 1 << (3 - 1);
+        const int END_WITH_LINE_BREAK = 1 << (4 - 1);
 
 
-                        public const int DEFAULT_LINE_HEIGHT = 17;
+
+
+        public const int DEFAULT_LINE_HEIGHT = 17;
 
 #if DEBUG
         static int dbugLineTotalCount = 0;
         internal int dbugLineId;
 #endif
-                                        internal EditableVisualElementLine(EditableTextFlowLayer ownerFlowLayer)
+        internal EditableVisualElementLine(EditableTextFlowLayer ownerFlowLayer)
         {
 
             this.editableFlowLayer = ownerFlowLayer;
-                        this.actualLineHeight = DEFAULT_LINE_HEIGHT;
+            this.actualLineHeight = DEFAULT_LINE_HEIGHT;
 #if DEBUG
             this.dbugLineId = dbugLineTotalCount;
             dbugLineTotalCount++;
@@ -61,7 +62,7 @@ namespace LayoutFarm.Presentation.Text
                 }
             }
         }
-                                public void TextLineReCalculateActualLineSize()
+        public void TextLineReCalculateActualLineSize()
         {
             ArtEditableVisualTextRun r = this.FirstRun;
             int maxHeight = 2;
@@ -89,24 +90,24 @@ namespace LayoutFarm.Presentation.Text
             else
             {
                 LinkedListNode<ArtEditableVisualTextRun> cnode = this.First;
-                                chain.OffsetCanvasOriginY(this.lineTop);
+                chain.OffsetCanvasOriginY(this.lineTop);
 
                 while (cnode != null)
                 {
                     if (cnode.Value.PrepareDrawingChain(chain))
                     {
-                                                chain.OffsetCanvasOriginY(-this.lineTop);
+                        chain.OffsetCanvasOriginY(-this.lineTop);
                         return true;
                     }
                     cnode = cnode.Next;
                 }
 
                 chain.OffsetCanvasOriginY(-this.lineTop);
-                                                return false;
+                return false;
             }
         }
 
-                                                internal bool HitTestCore(ArtHitPointChain artHitResult)
+        internal bool HitTestCore(ArtHitPointChain artHitResult)
         {
 
             int testX;
@@ -120,26 +121,26 @@ namespace LayoutFarm.Presentation.Text
             else
             {
 
-                                                                                                 
+
                 LinkedListNode<ArtEditableVisualTextRun> cnode = this.First;
-                
+
                 int curLineTop = this.lineTop;
                 artHitResult.OffsetTestPoint(0, -curLineTop);
                 while (cnode != null)
                 {
                     if (cnode.Value.HitTestCore(artHitResult))
                     {
-                                                                        artHitResult.OffsetTestPoint(0, curLineTop);
+                        artHitResult.OffsetTestPoint(0, curLineTop);
                         return true;
                     }
                     cnode = cnode.Next;
                 }
                 artHitResult.OffsetTestPoint(0, curLineTop);
-                                return false;
+                return false;
             }
         }
 
-                                public ArtVisualElement OwnerElement
+        public ArtVisualElement OwnerElement
         {
             get
             {
@@ -160,7 +161,7 @@ namespace LayoutFarm.Presentation.Text
                 return this.editableFlowLayer;
             }
         }
-                                public bool EndWithLineBreak
+        public bool EndWithLineBreak
         {
             get
             {
@@ -179,7 +180,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-                                                public bool IntersectsWith(int y)
+        public bool IntersectsWith(int y)
         {
             return y >= lineTop && y < (lineTop + actualLineHeight);
         }
@@ -197,30 +198,30 @@ namespace LayoutFarm.Presentation.Text
                 return actualLineHeight;
             }
         }
-                                public int ActualLineWidth
+        public int ActualLineWidth
         {
             get
             {
                 return actualLineWidth;
             }
         }
-                                public Rectangle ActualLineArea
+        public Rectangle ActualLineArea
         {
             get
             {
-                                return new Rectangle(0, lineTop, actualLineWidth, actualLineHeight);
+                return new Rectangle(0, lineTop, actualLineWidth, actualLineHeight);
             }
         }
         public Rectangle ParentLineArea
         {
             get
             {
-                                return new Rectangle(0, lineTop, this.editableFlowLayer.ownerVisualElement.Width, 17);
+                return new Rectangle(0, lineTop, this.editableFlowLayer.ownerVisualElement.Width, 17);
             }
         }
-                                                        internal IEnumerable<ArtEditableVisualTextRun> GetVisualElementForward(ArtEditableVisualTextRun startVisualElement)
+        internal IEnumerable<ArtEditableVisualTextRun> GetVisualElementForward(ArtEditableVisualTextRun startVisualElement)
         {
-                        if (startVisualElement != null)
+            if (startVisualElement != null)
             {
                 yield return startVisualElement;
                 var curRun = startVisualElement.NextTextRun;
@@ -231,10 +232,11 @@ namespace LayoutFarm.Presentation.Text
                 }
             }
         }
-                                                        internal IEnumerable<ArtEditableVisualTextRun> GetVisualElementForward(ArtEditableVisualTextRun startVisualElement, ArtEditableVisualTextRun stopVisualElement)
+        internal IEnumerable<ArtEditableVisualTextRun> GetVisualElementForward(ArtEditableVisualTextRun startVisualElement, ArtEditableVisualTextRun stopVisualElement)
         {
-            
-            if (startVisualElement != null)             {
+
+            if (startVisualElement != null)
+            {
 
                 LinkedListNode<ArtEditableVisualTextRun> lexnode = GetLineLinkedNode(startVisualElement);
 
@@ -242,7 +244,8 @@ namespace LayoutFarm.Presentation.Text
                 {
                     yield return lexnode.Value;
                     if (lexnode.Value == stopVisualElement)
-                    {                                                   break;
+                    {
+                        break;
                     }
                     lexnode = lexnode.Next;
                 }
@@ -289,7 +292,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-                                public int Top
+        public int Top
         {
             get
             {
@@ -297,7 +300,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-                                        public void SetTop(int linetop)
+        public void SetTop(int linetop)
         {
             this.lineTop = linetop;
         }
@@ -315,32 +318,33 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 #endif
-                                        public int LineNumber
+        public int LineNumber
         {
             get
             {
                 return currentLineNumber;
             }
         }
-                                        internal void SetLineNumber(int value)
+        internal void SetLineNumber(int value)
         {
             this.currentLineNumber = value;
         }
-                                bool IsFirstLine
-        {   
+        bool IsFirstLine
+        {
             get
             {
                 return currentLineNumber == 0;
             }
         }
-                                bool IsLastLine
-        {               get
+        bool IsLastLine
+        {
+            get
             {
 
                 return currentLineNumber == editableFlowLayer.LineCount - 1;
-                            }
+            }
         }
-                                bool IsSingleLine
+        bool IsSingleLine
         {
             get
             {
@@ -348,14 +352,14 @@ namespace LayoutFarm.Presentation.Text
                 return IsFirstLine && IsLastLine;
             }
         }
-                                public bool IsBlankLine
+        public bool IsBlankLine
         {
             get
             {
                 return Count == 0;
             }
         }
-                                public EditableVisualElementLine Next
+        public EditableVisualElementLine Next
         {
             get
             {
@@ -399,14 +403,14 @@ namespace LayoutFarm.Presentation.Text
                 }
             }
         }
-                                public bool NeedArrange
+        public bool NeedArrange
         {
             get
             {
                 return (lineFlags & LINE_CONTENT_ARRANGED) == 0;
             }
         }
-                                internal void ValidateContentArrangement()
+        internal void ValidateContentArrangement()
         {
             lineFlags |= LINE_CONTENT_ARRANGED;
         }
@@ -414,17 +418,17 @@ namespace LayoutFarm.Presentation.Text
         {
             line.CopyLineContent(stBuilder);
         }
-                                                public void CopyLineContent(StringBuilder stBuilder)
+        public void CopyLineContent(StringBuilder stBuilder)
         {
             LinkedListNode<ArtEditableVisualTextRun> curNode = this.First;
             while (curNode != null)
             {
                 ArtEditableVisualTextRun v = curNode.Value;
                 v.CopyContentToStringBuilder(stBuilder);
-                                                                                curNode = curNode.Next;
+                curNode = curNode.Next;
             }
         }
-                                                                                                                        internal bool IsLocalSuspendLineRearrange
+        internal bool IsLocalSuspendLineRearrange
         {
             get
             {
@@ -432,15 +436,15 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-                                internal void InvalidateLineLayout()
+        internal void InvalidateLineLayout()
         {
             this.lineFlags &= ~LINE_SIZE_VALID;
             this.lineFlags &= ~LINE_CONTENT_ARRANGED;
         }
 
 
-                                                        
-                                                                                                    }
+
+    }
 
 
 

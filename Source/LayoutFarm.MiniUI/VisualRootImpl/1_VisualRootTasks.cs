@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -7,10 +8,11 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-                public abstract class ArtVisualRootTimerTask
+    public abstract class ArtVisualRootTimerTask
     {
         ArtVisualElement targetVisualElement;
-        bool isInQueue;        bool isEnabled;        public ArtVisualRootTimerTask(ArtVisualElement targetVisualElement)
+        bool isInQueue; bool isEnabled;
+        public ArtVisualRootTimerTask(ArtVisualElement targetVisualElement)
         {
             this.targetVisualElement = targetVisualElement;
         }
@@ -20,32 +22,32 @@ namespace LayoutFarm.Presentation
             {
                 return isEnabled;
             }
-                        
-                                            }
+
+        }
         public void SetEnable(bool value, ArtVisualWindowImpl winroot)
         {
             isEnabled = value;
             if (isEnabled)
             {
-                                                                if (!isInQueue)
+                if (!isInQueue)
                 {
 
 
                     if (winroot != null)
                     {
                         winroot.AddTimerTask(this);
-                        isInQueue = true;                                                                        winroot.EnableTaskTimer();
+                        isInQueue = true; winroot.EnableTaskTimer();
                     }
                 }
             }
         }
-                                public virtual void Tick()
-        {
-                    }
-                                public virtual void Reset()
+        public virtual void Tick()
         {
         }
-                                public bool IsInQueue
+        public virtual void Reset()
+        {
+        }
+        public bool IsInQueue
         {
             get
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -6,19 +7,19 @@ using System.Drawing.Drawing2D;
 namespace LayoutFarm.Presentation
 {
 
-    
+
     public class VisualElementArgs
     {
-                                ArtVisualRootWindow winroot;
+        ArtVisualRootWindow winroot;
         VisualRoot visualRoot;
-        
+
 #if DEBUG
-                const int VISUAL_ELEMENT = 0x0;
+        const int VISUAL_ELEMENT = 0x0;
         const int LINE = 0x1;
         const int LAYER = 0x2;
         dbugVisualLayoutTracer debugVisualLay;
-                                object dbugInitObject;
-                                int dbugFlags;
+        object dbugInitObject;
+        int dbugFlags;
         int dbugId;
         static int dbugTotalId;
 #endif
@@ -44,12 +45,12 @@ namespace LayoutFarm.Presentation
         }
 
 
-                                        public static void ClearForReuse(VisualElementArgs vinv)
+        public static void ClearForReuse(VisualElementArgs vinv)
         {
             vinv.winroot = null;
             vinv.IsInTopDownReArrangePhase = false;
             vinv.visualRoot = null;
-            vinv.ForceReArrange = false;            
+            vinv.ForceReArrange = false;
 #if DEBUG
             vinv.dbugBreakOnSelectedVisuallElement = false;
             vinv.debugVisualLay = null;
@@ -63,10 +64,10 @@ namespace LayoutFarm.Presentation
         {
             get
             {
-                                return this.winroot;
+                return this.winroot;
             }
         }
-                                        public void SetWinRoot(ArtVisualRootWindow winroot)
+        public void SetWinRoot(ArtVisualRootWindow winroot)
         {
             this.winroot = winroot;
         }
@@ -96,11 +97,11 @@ namespace LayoutFarm.Presentation
         {
             if (winroot != null)
             {
-                                winroot.CurrentKeyboardFocusedElement = ve;
+                winroot.CurrentKeyboardFocusedElement = ve;
             }
             else
             {
-                                AddRequest(new VisualElementRequest(ve, RequestCommand.DoFocus));
+                AddRequest(new VisualElementRequest(ve, RequestCommand.DoFocus));
             }
         }
         public void AddToWindowRootLater(ArtVisualElement ve)
@@ -130,15 +131,15 @@ namespace LayoutFarm.Presentation
                   rect.ToRectangle()));
             }
 
-                                                                                    
-                                                                    }
-                                                                                                                                
-                
-        
+
+        }
 
 
-                                        
-                                                        
+
+
+
+
+
 
 
 #if DEBUG
@@ -151,13 +152,13 @@ namespace LayoutFarm.Presentation
             this.dbugInitObject = initLayer;
             dbugFlags |= LAYER;
         }
-                public void debug_PushTopDownElement(ArtVisualContainerBase v)
+        public void debug_PushTopDownElement(ArtVisualContainerBase v)
         {
-                    }
+        }
         public void debug_PopTopDownElement(ArtVisualContainerBase v)
         {
-                    }
-                public void dbug_EnterTopDownReCalculateContent(ArtVisualElement v)
+        }
+        public void dbug_EnterTopDownReCalculateContent(ArtVisualElement v)
         {
 
             if (debugVisualLay != null)
@@ -175,7 +176,7 @@ namespace LayoutFarm.Presentation
             }
 
         }
-                public void dbug_WriteInfo(dbugVisitorMessage msg)
+        public void dbug_WriteInfo(dbugVisitorMessage msg)
         {
             if (debugVisualLay != null)
             {
@@ -190,28 +191,31 @@ namespace LayoutFarm.Presentation
                 debugVisualLay.WriteInfo(msg.text, ve);
             }
         }
-                public void dbug_BeginNewContext(dbugVisitorMessage msg, ArtVisualElement ve)
+        public void dbug_BeginNewContext(dbugVisitorMessage msg, ArtVisualElement ve)
         {
             if (debugVisualLay != null)
             {
-                debugVisualLay.BeginNewContext();                debugVisualLay.WriteInfo(msg.text, ve);            }
+                debugVisualLay.BeginNewContext(); debugVisualLay.WriteInfo(msg.text, ve);
+            }
         }
         public void dbug_EndCurrentContext(dbugVisitorMessage msg, ArtVisualElement ve)
         {
             if (debugVisualLay != null)
             {
-                debugVisualLay.WriteInfo(msg.text, ve);                debugVisualLay.EndCurrentContext();
+                debugVisualLay.WriteInfo(msg.text, ve); debugVisualLay.EndCurrentContext();
             }
         }
-                public void dbug_BeginSetElementBound(ArtVisualElement v)
+        public void dbug_BeginSetElementBound(ArtVisualElement v)
         {
-                                                
-                                    this.dbug_BeginNewContext(dbugVisitorMessage.WITH_0, v);        }
+
+            this.dbug_BeginNewContext(dbugVisitorMessage.WITH_0, v);
+        }
         public void dbug_EndSetElementBound(ArtVisualElement v)
         {
-            this.dbug_EndCurrentContext(dbugVisitorMessage.WITH_1, v);        }
-        
-                                                                                                                                                public void dbug_EnterReArrangeContent(ArtVisualElement v)
+            this.dbug_EndCurrentContext(dbugVisitorMessage.WITH_1, v);
+        }
+
+        public void dbug_EnterReArrangeContent(ArtVisualElement v)
         {
             if (debugVisualLay != null)
             {
@@ -228,7 +232,7 @@ namespace LayoutFarm.Presentation
                 debugVisualLay.PopVisualElement();
             }
         }
-                public void dbug_EnterLayerReArrangeContent(VisualLayer layer)
+        public void dbug_EnterLayerReArrangeContent(VisualLayer layer)
         {
             if (debugVisualLay != null)
             {
@@ -246,7 +250,7 @@ namespace LayoutFarm.Presentation
 
             }
         }
-                public void dbug_EnterLayerReCalculateContent(VisualLayer layer)
+        public void dbug_EnterLayerReCalculateContent(VisualLayer layer)
         {
             if (debugVisualLay != null)
             {
@@ -263,7 +267,7 @@ namespace LayoutFarm.Presentation
                 debugVisualLay.PopLayerElement();
             }
         }
-                public void dbug_StartLayoutTrace(dbugVisualElementLayoutMsg msg, int suffixNum)
+        public void dbug_StartLayoutTrace(dbugVisualElementLayoutMsg msg, int suffixNum)
         {
 
             VisualRoot visualroot = VisualRoot.dbugCurrentGlobalVRoot;
@@ -278,11 +282,11 @@ namespace LayoutFarm.Presentation
                     {
                         ArtVisualElement v = (ArtVisualElement)dbugInitObject;
                         debugVisualLay.WriteInfo(msg.msg + suffixNum.ToString());
-                                                debugVisualLay.WriteInfo("*** init visual : " + v.dbug_FullElementDescription());
+                        debugVisualLay.WriteInfo("*** init visual : " + v.dbug_FullElementDescription());
                     } break;
                 case LINE:
                     {
-                                                                                                                    } break;
+                    } break;
                 case LAYER:
                     {
                         VisualLayer layer = (VisualLayer)dbugInitObject;
@@ -303,8 +307,8 @@ namespace LayoutFarm.Presentation
                 return;
             }
 
-                                                                                                                                                                                                            
-                                                            debugVisualLay = visualroot.dbug_GetLastestVisualLayoutTracer();
+
+            debugVisualLay = visualroot.dbug_GetLastestVisualLayoutTracer();
 
             switch (dbugFlags & 0x3)
             {
@@ -312,11 +316,11 @@ namespace LayoutFarm.Presentation
                     {
                         ArtVisualElement v = (ArtVisualElement)dbugInitObject;
                         debugVisualLay.WriteInfo(msg.msg);
-                                                debugVisualLay.WriteInfo("*** init visual : " + v.dbug_FullElementDescription());
+                        debugVisualLay.WriteInfo("*** init visual : " + v.dbug_FullElementDescription());
                     } break;
                 case LINE:
                     {
-                                                                                                                    } break;
+                    } break;
                 case LAYER:
                     {
                         VisualLayer layer = (VisualLayer)dbugInitObject;

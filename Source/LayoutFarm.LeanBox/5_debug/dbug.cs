@@ -1,12 +1,13 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
- 
+
 
 namespace LayoutFarm.Presentation
 {
-    #if DEBUG
+#if DEBUG
 
     public enum dbugLayoutMsgOwnerKind
     {
@@ -66,21 +67,21 @@ namespace LayoutFarm.Presentation
                 this.msgOwnerKind = dbugLayoutMsgOwnerKind.VisualElement;
             }
         }
-        public dbugLayoutMsg( VisualLayer layer, string msg)
+        public dbugLayoutMsg(VisualLayer layer, string msg)
         {
             this.owner = layer;
             this.msg = msg;
             this.msgOwnerKind = dbugLayoutMsgOwnerKind.Layer;
         }
-                                                        public override string ToString()
+        public override string ToString()
         {
             return new string('.', indentLevel) + "[" + indentLevel +
                 "]" + this.msg;
-        } 
+        }
     }
-    
+
 
 #endif
 
-   
+
 }

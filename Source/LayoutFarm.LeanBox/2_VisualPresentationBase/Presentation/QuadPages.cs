@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -8,16 +9,16 @@ using System.Drawing.Drawing2D;
 namespace LayoutFarm.Presentation
 {
 
-                public class QuadPages
+    public class QuadPages
     {
 
-       public ArtCanvas pageA;
-       public ArtCanvas pageB;
-       public ArtCanvas pageC;
-       public ArtCanvas pageD;
+        public ArtCanvas pageA;
+        public ArtCanvas pageB;
+        public ArtCanvas pageC;
+        public ArtCanvas pageD;
 
 
-                                ArtCanvasCollection physicalCanvasCollection;
+        ArtCanvasCollection physicalCanvasCollection;
 
         public QuadPages(int cachedPageNum, int eachCachedPageWidth, int eachCachedPageHeight)
         {
@@ -39,7 +40,7 @@ namespace LayoutFarm.Presentation
                 return physicalCanvasCollection.EachPageHeight;
             }
         }
-                                public void Dispose()
+        public void Dispose()
         {
             if (physicalCanvasCollection != null)
             {
@@ -58,7 +59,7 @@ namespace LayoutFarm.Presentation
             {
                 pageB.Invalidate(r);
             }
-                        if (pageC != null && pageC.IntersectsWith(r))
+            if (pageC != null && pageC.IntersectsWith(r))
             {
                 pageC.Invalidate(r);
             }
@@ -67,13 +68,13 @@ namespace LayoutFarm.Presentation
                 pageD.Invalidate(r);
             }
         }
-                                public bool IsValid
+        public bool IsValid
         {
             get
             {
                 if (pageA != null)
                 {
-                                        if (!pageA.IsContentUpdated)
+                    if (!pageA.IsContentUpdated)
                     {
                         return false;
                     }
@@ -90,8 +91,8 @@ namespace LayoutFarm.Presentation
                         return false;
                     }
 
-                                                                                                    
-                                                                                                                    }
+
+                }
                 return true;
             }
         }
@@ -103,28 +104,28 @@ namespace LayoutFarm.Presentation
         public const int PAGE_AC = 2;
         public const int PAGE_ABCD = 3;
 
-                                        public void RenderToOutputWindowFullMode(
-            ArtVisualRootWindow rootElement,
-            IntPtr destOutputHdc,
-            int viewportX, int viewportY, int viewportWidth, int viewportHeight)
+        public void RenderToOutputWindowFullMode(
+ArtVisualRootWindow rootElement,
+IntPtr destOutputHdc,
+int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
 
-                                                            
+
             int render_part = PAGE_A;
-                                    
-                        if (pageA != null && !pageA.IsContentUpdated)
+
+            if (pageA != null && !pageA.IsContentUpdated)
             {
                 UpdateAllArea(pageA, rootElement);
             }
             if (pageB != null)
             {
-                                render_part |= PAGE_AB;
+                render_part |= PAGE_AB;
                 if (!pageB.IsContentUpdated)
                 {
                     UpdateAllArea(pageB, rootElement);
                 }
             }
-                        if (pageC != null)
+            if (pageC != null)
             {
                 render_part |= PAGE_AC;
                 if (!pageC.IsContentUpdated)
@@ -141,8 +142,8 @@ namespace LayoutFarm.Presentation
                 }
             }
 
-            
-                                    switch (render_part)
+
+            switch (render_part)
             {
                 case PAGE_A:
                     {
@@ -165,7 +166,7 @@ namespace LayoutFarm.Presentation
                     } break;
                 case PAGE_AC:
                     {
-                                                int remainingWidthOfPageA = pageA.Right - viewportX;
+                        int remainingWidthOfPageA = pageA.Right - viewportX;
 
                         pageA.RenderTo(destOutputHdc,
                             viewportX - pageA.Left, viewportY - pageA.Top,
@@ -188,46 +189,46 @@ namespace LayoutFarm.Presentation
 
                     } break;
             }
-                                    
-                                                                                                                                                                                                                                    
-                                                            
-            
+
+
+
+
         }
 
-                                        static void UpdateAllArea(ArtCanvas artCanvas, ArtVisualRootWindow rootElement)
+        static void UpdateAllArea(ArtCanvas artCanvas, ArtVisualRootWindow rootElement)
         {
-            
+
             artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
             InternalRect rect = InternalRect.CreateFromRect(artCanvas.Rect);
 
-            
+
 
             rootElement.DrawToThisPage(artCanvas, rect);
-                                                            
-                        
 
-                                                
-                        
-                                                                        
-                                    #if DEBUG
+
+
+
+
+
+#if DEBUG
             rootElement.dbugShowRenderPart(artCanvas, rect);
 #endif
-            
+
             InternalRect.FreeInternalRect(rect);
 
 #if DEBUG
-                        #endif
+#endif
             artCanvas.MarkAsFirstTimeInvalidateAndUpdateContent();
-            
+
             artCanvas.OffsetCanvasOrigin(artCanvas.Left, artCanvas.Top);
         }
-                                                        static void UpdateInvalidArea(ArtCanvas artCanvas, ArtVisualRootWindow rootElement, VisualDrawingChain renderingChain)
+        static void UpdateInvalidArea(ArtCanvas artCanvas, ArtVisualRootWindow rootElement, VisualDrawingChain renderingChain)
         {
 
             List<ArtVisualElement> selectedVisualElements = renderingChain.selectedVisualElements;
             List<bool> containAllAreaTestResults = renderingChain.containAllAreaTestResults;
 
-                        
+
             int j = containAllAreaTestResults.Count;
 
             artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
@@ -238,12 +239,12 @@ namespace LayoutFarm.Presentation
 
                 if (containAllAreaTestResults[i])
                 {
-                    
+
 
                     ArtVisualElement ve = selectedVisualElements[i];
-                                        if (!ve.IsInRenderChain)
+                    if (!ve.IsInRenderChain)
                     {
-                                                continue;
+                        continue;
                     }
                     if (!ve.HasSolidBackground)
                     {
@@ -253,7 +254,7 @@ namespace LayoutFarm.Presentation
 
 
 
-                                        
+
                     Point globalLocation = ve.GetGlobalLocation();
 
                     artCanvas.OffsetCanvasOrigin(globalLocation.X, globalLocation.Y);
@@ -264,12 +265,12 @@ namespace LayoutFarm.Presentation
 #if DEBUG
                     rootElement.dbugShowRenderPart(artCanvas, rect);
 #endif
-                    
+
 #if DEBUG
 
-                                        #endif
+#endif
                     artCanvas.MarkAsFirstTimeInvalidateAndUpdateContent();
-                                        rect.Offset(globalLocation.X, globalLocation.Y);
+                    rect.Offset(globalLocation.X, globalLocation.Y);
                     artCanvas.OffsetCanvasOrigin(-globalLocation.X, -globalLocation.Y);
 
                     ve.IsInRenderChain = false;
@@ -278,16 +279,16 @@ namespace LayoutFarm.Presentation
                 }
             }
             artCanvas.OffsetCanvasOrigin(artCanvas.Left, artCanvas.Top);
-                                    for (int i = j - 1; i > -1; --i)
+            for (int i = j - 1; i > -1; --i)
             {
                 selectedVisualElements[i].IsInRenderChain = true;
             }
-                    }
-                                        static void UpdateInvalidArea(ArtCanvas artCanvas, ArtVisualRootWindow rootElement)
+        }
+        static void UpdateInvalidArea(ArtCanvas artCanvas, ArtVisualRootWindow rootElement)
         {
 #if DEBUG
-            #endif
-            
+#endif
+
 
             artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
             InternalRect rect = artCanvas.InvalidateArea;
@@ -295,23 +296,23 @@ namespace LayoutFarm.Presentation
 #if DEBUG
             rootElement.dbugShowRenderPart(artCanvas, rect);
 #endif
-            
+
 #if DEBUG
 
-                        #endif
+#endif
             artCanvas.MarkAsFirstTimeInvalidateAndUpdateContent();
-                        artCanvas.OffsetCanvasOrigin(artCanvas.Left, artCanvas.Top);
+            artCanvas.OffsetCanvasOrigin(artCanvas.Left, artCanvas.Top);
 
         }
-        
 
-                                        public void RenderToOutputWindowPartialMode(
-            ArtVisualRootWindow rootElement,
-            IntPtr destOutputHdc,
-            int viewportX, int viewportY, int viewportWidth, int viewportHeight)
+
+        public void RenderToOutputWindowPartialMode(
+ArtVisualRootWindow rootElement,
+IntPtr destOutputHdc,
+int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
 
-                                                                                    VisualDrawingChain renderChain = null;                                    switch (render_parts)
+            VisualDrawingChain renderChain = null; switch (render_parts)
             {
                 case PAGE_A:
                     {
@@ -320,7 +321,7 @@ namespace LayoutFarm.Presentation
                         {
                             if (renderChain != null)
                             {
-                                                                UpdateInvalidArea(pageA, rootElement, renderChain);
+                                UpdateInvalidArea(pageA, rootElement, renderChain);
                             }
                             else
                             {
@@ -429,8 +430,8 @@ namespace LayoutFarm.Presentation
             }
 
 
-            
-                                    switch (render_parts)
+
+            switch (render_parts)
             {
                 case PAGE_A:
                     {
@@ -445,7 +446,7 @@ namespace LayoutFarm.Presentation
                 case PAGE_AB:
                     {
 
-                                                                                                                                                                        int remainingHeightOfPageA = pageA.Top + pageA.Height - viewportY;
+                        int remainingHeightOfPageA = pageA.Top + pageA.Height - viewportY;
 
                         pageA.RenderTo(destOutputHdc, viewportX - pageA.Left, viewportY - pageA.Top,
                             new Rectangle(0, 0, viewportWidth, remainingHeightOfPageA));
@@ -463,54 +464,56 @@ namespace LayoutFarm.Presentation
         }
 
 
-                                                                        
-                                                                
 
 
-                                
-                                                                                                                                                                                                                                                                                                                                                                                        
-        
-                                                
-                                        
-                        
-                                                        
-                                                                                        
-                                                                                public void CalculateCanvasPages(int viewportX, int viewportY, int viewportWidth, int viewportHeight)
+
+
+
+
+
+
+
+
+
+
+        public void CalculateCanvasPages(int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
             int firstVerticalPageNum = viewportY / physicalCanvasCollection.EachPageHeight;
             int firstHorizontalPageNum = viewportX / physicalCanvasCollection.EachPageWidth;
 
-                        render_parts = PAGE_A;
+            render_parts = PAGE_A;
 
-            if (pageA == null)             {
-                                                                pageA = physicalCanvasCollection.GetCanvasPage(firstHorizontalPageNum, firstVerticalPageNum);
+            if (pageA == null)
+            {
+                pageA = physicalCanvasCollection.GetCanvasPage(firstHorizontalPageNum, firstVerticalPageNum);
 
             }
             else
-            {                    if (!pageA.IsPageNumber(firstHorizontalPageNum, firstVerticalPageNum))
+            {
+                if (!pageA.IsPageNumber(firstHorizontalPageNum, firstVerticalPageNum))
                 {
-                                                            physicalCanvasCollection.ReleasePage(pageA);
+                    physicalCanvasCollection.ReleasePage(pageA);
                     pageA = physicalCanvasCollection.GetCanvasPage(firstHorizontalPageNum, firstVerticalPageNum);
                 }
-                            }
+            }
 
-                                    if (pageA.Right >= viewportX + viewportWidth)
+            if (pageA.Right >= viewportX + viewportWidth)
             {
-                                if (pageC != null)
+                if (pageC != null)
                 {
                     physicalCanvasCollection.ReleasePage(pageC);
                     pageC = null;
                 }
-                            }
+            }
             else
             {
-                                if (pageC == null)
+                if (pageC == null)
                 {
                     pageC = physicalCanvasCollection.GetCanvasPage(firstHorizontalPageNum + 1, firstVerticalPageNum);
                 }
                 else
                 {
-                                        if (!pageC.IsPageNumber(firstHorizontalPageNum + 1, firstVerticalPageNum))
+                    if (!pageC.IsPageNumber(firstHorizontalPageNum + 1, firstVerticalPageNum))
                     {
                         physicalCanvasCollection.ReleasePage(pageC);
                         pageC = physicalCanvasCollection.GetCanvasPage(firstHorizontalPageNum + 1, firstVerticalPageNum);
@@ -519,35 +522,35 @@ namespace LayoutFarm.Presentation
                 render_parts |= PAGE_AC;
             }
 
-                                                            if (pageA.Bottom >= viewportY + viewportHeight)
+            if (pageA.Bottom >= viewportY + viewportHeight)
             {
-                                if (pageB != null)
+                if (pageB != null)
                 {
-                                        physicalCanvasCollection.ReleasePage(pageB);
+                    physicalCanvasCollection.ReleasePage(pageB);
                     pageB = null;
                 }
             }
             else
             {
-                                render_parts |= PAGE_AB;
+                render_parts |= PAGE_AB;
                 if (pageB == null)
                 {
                     pageB = physicalCanvasCollection.GetCanvasPage(firstHorizontalPageNum, firstVerticalPageNum + 1);
                 }
                 else
                 {
-                                        if (!pageB.IsPageNumber(firstHorizontalPageNum, firstVerticalPageNum + 1))
+                    if (!pageB.IsPageNumber(firstHorizontalPageNum, firstVerticalPageNum + 1))
                     {
-                                                                        physicalCanvasCollection.ReleasePage(pageB);
+                        physicalCanvasCollection.ReleasePage(pageB);
                         pageB = physicalCanvasCollection.GetCanvasPage(firstHorizontalPageNum, firstVerticalPageNum + 1);
                     }
-                                    }
+                }
 
-                                                if (pageC != null)
+                if (pageC != null)
                 {
 
                     render_parts = PAGE_ABCD;
-                                        if (pageD == null)
+                    if (pageD == null)
                     {
                         pageD = physicalCanvasCollection.GetCanvasPage(firstHorizontalPageNum + 1, firstVerticalPageNum + 1);
                     }
@@ -563,16 +566,16 @@ namespace LayoutFarm.Presentation
                 }
                 else
                 {
-                                        if (pageD != null)
+                    if (pageD != null)
                     {
-                                                physicalCanvasCollection.ReleasePage(pageD);
+                        physicalCanvasCollection.ReleasePage(pageD);
                         pageD = null;
                     }
                 }
             }
         }
 
-                                                                                                                                                                                                                                                                public int RenderParts
+        public int RenderParts
         {
             get
             {
@@ -581,7 +584,7 @@ namespace LayoutFarm.Presentation
         }
         public void ResizeAllPages(int newWidth, int newHeight)
         {
-                                                                                                            physicalCanvasCollection.Dispose();                         physicalCanvasCollection.ResizeAllPages(newWidth, newHeight);
+            physicalCanvasCollection.Dispose(); physicalCanvasCollection.ResizeAllPages(newWidth, newHeight);
             render_parts = 0;
 
             if (pageA != null)
@@ -618,7 +621,7 @@ namespace LayoutFarm.Presentation
             new Rectangle(0, 0, viewportWidth, viewportHeight),
             destPage.CurrentClipRect);
 
-                        switch (render_parts)
+            switch (render_parts)
             {
                 case PAGE_A:
                     {
@@ -630,82 +633,82 @@ namespace LayoutFarm.Presentation
                     } break;
                 case PAGE_AB:
                     {
-                                                int remainHeightOfPageA = pageA.Bottom - viewportY;                         TransferDataFromSourceCanvas(
+                        int remainHeightOfPageA = pageA.Bottom - viewportY; TransferDataFromSourceCanvas(
 
-                            pageA, logicalArea,
-                                                        Rectangle.Intersect(
-                            new Rectangle(0, 0, viewportWidth, remainHeightOfPageA),
-                            clipRect),                         destPage);
+pageA, logicalArea,
+        Rectangle.Intersect(
+new Rectangle(0, 0, viewportWidth, remainHeightOfPageA),
+clipRect), destPage);
 
                         TransferDataFromSourceCanvas(
 
                             pageB, logicalArea,
                                                      Rectangle.Intersect(
                                new Rectangle(0, remainHeightOfPageA, viewportWidth, viewportHeight - remainHeightOfPageA),
-                               clipRect),                         destPage);
+                               clipRect), destPage);
                     } break;
                 case PAGE_AC:
                     {
-                                                int remainWidthOfPageA = pageA.Right - viewportX;                         TransferDataFromSourceCanvas(
-                            pageA, logicalArea,
-                                                        Rectangle.Intersect(
-                            new Rectangle(0, 0, remainWidthOfPageA, viewportHeight),
-                            clipRect),                         destPage);
+                        int remainWidthOfPageA = pageA.Right - viewportX; TransferDataFromSourceCanvas(
+pageA, logicalArea,
+        Rectangle.Intersect(
+new Rectangle(0, 0, remainWidthOfPageA, viewportHeight),
+clipRect), destPage);
 
                         TransferDataFromSourceCanvas(
                             pageC, logicalArea,
                                                      Rectangle.Intersect(
                                new Rectangle(remainWidthOfPageA, 0, viewportWidth - remainWidthOfPageA, viewportHeight),
-                               clipRect),                         destPage);
+                               clipRect), destPage);
 
                     } break;
                 case PAGE_ABCD:
                     {
-                        int remainHeightOfPageA = pageA.Bottom - viewportY;                         TransferDataFromSourceCanvas(
-                            pageA, logicalArea,
-                                                        Rectangle.Intersect(
-                            new Rectangle(0, 0, viewportWidth, remainHeightOfPageA),
-                            clipRect),                         destPage);
+                        int remainHeightOfPageA = pageA.Bottom - viewportY; TransferDataFromSourceCanvas(
+    pageA, logicalArea,
+                                Rectangle.Intersect(
+    new Rectangle(0, 0, viewportWidth, remainHeightOfPageA),
+    clipRect), destPage);
 
                         TransferDataFromSourceCanvas(
                             pageB, logicalArea,
                                                      Rectangle.Intersect(
                                new Rectangle(0, remainHeightOfPageA, viewportWidth, viewportHeight - remainHeightOfPageA),
-                               clipRect),                         destPage);
+                               clipRect), destPage);
 
-                        int remainWidthOfPageA = pageA.Right - viewportX; 
+                        int remainWidthOfPageA = pageA.Right - viewportX;
                         TransferDataFromSourceCanvas(
                             pageC, logicalArea,
                                                      Rectangle.Intersect(
                                new Rectangle(remainWidthOfPageA, 0, viewportWidth - remainWidthOfPageA, viewportHeight),
-                               clipRect),                         destPage);
+                               clipRect), destPage);
 
-                                                TransferDataFromSourceCanvas(
-                            pageD, logicalArea,
-                                                    Rectangle.Intersect(
-                              new Rectangle(remainWidthOfPageA, remainHeightOfPageA,
-                                  viewportWidth - remainWidthOfPageA, viewportHeight - remainHeightOfPageA),
-                              clipRect),                         destPage);
+                        TransferDataFromSourceCanvas(
+    pageD, logicalArea,
+                            Rectangle.Intersect(
+      new Rectangle(remainWidthOfPageA, remainHeightOfPageA,
+          viewportWidth - remainWidthOfPageA, viewportHeight - remainHeightOfPageA),
+      clipRect), destPage);
 
 
                     } break;
             }
 
-                                                                                                                                                                                                            
-                                                                                            }
+
+        }
         void TransferDataFromSourceCanvas(
                 ArtCanvas sourceCanvas,
                 InternalRect logicalSourceArea, Rectangle physicalUpdateArea, ArtCanvas destPage)
         {
 
-                        Rectangle logicalClip = Rectangle.Intersect(logicalSourceArea.ToRectangle(), sourceCanvas.Rect);
+            Rectangle logicalClip = Rectangle.Intersect(logicalSourceArea.ToRectangle(), sourceCanvas.Rect);
             if (logicalClip.Width > 0 && logicalClip.Height > 0)
             {
-                                                                destPage.CopyFrom(sourceCanvas,
-                   logicalClip.Left, logicalClip.Top,
-                   physicalUpdateArea);
-                
-                                                                                                                                                                                                                                            }
+                destPage.CopyFrom(sourceCanvas,
+logicalClip.Left, logicalClip.Top,
+physicalUpdateArea);
+
+            }
         }
 
 #if DEBUG
@@ -714,7 +717,7 @@ namespace LayoutFarm.Presentation
             srcX -= srcCanvas.Left;
             srcY -= srcCanvas.Top;
 
-                                                                                                            
+
         }
 #endif
 

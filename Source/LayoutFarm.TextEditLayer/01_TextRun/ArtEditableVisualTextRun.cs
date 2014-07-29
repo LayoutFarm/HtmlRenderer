@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -12,40 +13,40 @@ namespace LayoutFarm.Presentation.Text
     public partial class ArtEditableVisualTextRun : ArtVisualTextRun
     {
 
-       
+
         private ArtEditableVisualTextRun(char[] myBuffer)
             : base(myBuffer)
         {
-            
+
         }
 
         public ArtEditableVisualTextRun(char c)
             : base(c)
         {
-            
+
         }
         public ArtEditableVisualTextRun(string str)
             : base(str)
         {
-           
+
         }
 
         public int GetRunWidth(int charCount)
         {
             return CalculateDrawingStringSize(mybuffer, charCount).Width;
         }
-                                        internal ArtEditableVisualTextRun Clone()
+        internal ArtEditableVisualTextRun Clone()
         {
             return new ArtEditableVisualTextRun(this.Text);
         }
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
-                                    TextFontInfo textFontInfo = GetTextFontInfo();
+            TextFontInfo textFontInfo = GetTextFontInfo();
             return new Size(
                  textFontInfo.GetStringWidth(buffer, length),
                  textFontInfo.FontHeight);
         }
-                                public bool IsInsertable
+        public bool IsInsertable
         {
             get
             {
@@ -53,7 +54,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-                                public int LineTop
+        public int LineTop
         {
             get
             {
@@ -70,16 +71,16 @@ namespace LayoutFarm.Presentation.Text
         }
         public void CopyContentToStringBuilder(StringBuilder stBuilder)
         {
-                        if (IsLineBreak)
+            if (IsLineBreak)
             {
                 stBuilder.Append("\r\n");
             }
             else
             {
                 stBuilder.Append(mybuffer);
-                                                                                                                                                                                                                                                                                                                                                                                            }
+            }
         }
-                                                public char this[int index]
+        public char this[int index]
         {
             get
             {
@@ -87,18 +88,19 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-                                public int CharacterCount
+        public int CharacterCount
         {
             get
-            {   
+            {
                 return mybuffer.Length;
             }
         }
-         
+
         public ArtEditableVisualTextRun Copy(int startIndex, int length)
         {
-                                                
-                        if (startIndex > -1 && length > 0)            {
+
+            if (startIndex > -1 && length > 0)
+            {
                 return MakeTextRun(startIndex, length);
             }
             else
@@ -119,11 +121,11 @@ namespace LayoutFarm.Presentation.Text
                 {
                     return null;
                 }
-                            }
+            }
         }
         ArtEditableVisualTextRun MakeTextRun(int sourceIndex, int length)
         {
-                        
+
             if (length > 0)
             {
                 char[] newContent = new char[length];
@@ -132,7 +134,7 @@ namespace LayoutFarm.Presentation.Text
                 BoxStyle bah = this.Beh;
                 if (bah != null)
                 {
-                                        newTextRun.SetBehavior(bah, null);
+                    newTextRun.SetBehavior(bah, null);
                 }
 
                 newTextRun.IsLineBreak = this.IsLineBreak;
@@ -147,9 +149,10 @@ namespace LayoutFarm.Presentation.Text
         }
         public ArtEditableVisualTextRun Copy(int startIndex)
         {
-                                                            
+
             int length = mybuffer.Length - startIndex;
-            if (startIndex > -1 && length > 0)            {
+            if (startIndex > -1 && length > 0)
+            {
                 return MakeTextRun(startIndex, length);
             }
             else
@@ -157,8 +160,8 @@ namespace LayoutFarm.Presentation.Text
                 return null;
             }
         }
-       
-        
+
+
         public static IEnumerable<ArtEditableVisualTextRun> GetTextRunIterForward(ArtEditableVisualTextRun nextToRun)
         {
             EditableVisualElementLine line = nextToRun.OwnerEditableLine;
@@ -170,12 +173,12 @@ namespace LayoutFarm.Presentation.Text
                     yield return (ArtEditableVisualTextRun)curNode;
                     curNode = curNode.NextTextRun;
                 }
-                                line = line.Next;
+                line = line.Next;
                 if (line != null)
                 {
                     curNode = line.FirstRun;
                 }
-            } 
+            }
         }
         public static IEnumerable<ArtEditableVisualTextRun> GetTextRunIterBackward(ArtEditableVisualTextRun beforeThisRun)
         {
@@ -188,7 +191,7 @@ namespace LayoutFarm.Presentation.Text
                     yield return (ArtEditableVisualTextRun)curNode;
                     curNode = curNode.PrevTextRun;
                 }
-                                line = line.Prev;
+                line = line.Prev;
                 if (line != null)
                 {
                     curNode = line.LastRun;
@@ -212,7 +215,7 @@ namespace LayoutFarm.Presentation.Text
         {
             get
             {
-                                VisualEditableLineParentLink parent = (VisualEditableLineParentLink)this.ParentLink;
+                VisualEditableLineParentLink parent = (VisualEditableLineParentLink)this.ParentLink;
                 return parent.Next as ArtEditableVisualTextRun;
 
 
