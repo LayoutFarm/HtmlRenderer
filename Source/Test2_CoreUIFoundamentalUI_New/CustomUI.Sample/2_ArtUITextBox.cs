@@ -11,14 +11,9 @@ namespace LayoutFarm.Presentation.SampleControls
 
 
     public class ArtUITextBox : ArtUIElement
-    {
+    { 
 
-
-
-
-        internal ArtVisualTextEditBox visualTextSurface;
-
-
+        internal ArtVisualTextEditBox visualTextSurface; 
         public ArtUITextBox(int width, int height)
         {
 

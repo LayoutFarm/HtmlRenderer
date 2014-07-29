@@ -109,7 +109,7 @@ namespace TestGraphicPackage2
         }
         private void cmdHtmlView_Click(object sender, EventArgs e)
         {
-            LoadHtmlTestView("d:\\WImageTest8\\rt_html39.html");
+            
 
         }
         void LoadHtmlTestView(string filename)
