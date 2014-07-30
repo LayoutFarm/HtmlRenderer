@@ -55,8 +55,8 @@
     <Compile Include="VisualRootImpl\ToNotifySizeChangedEvent.cs" />
     <Compile Include="VisualRootImpl\UIHoverMonitor.cs" />
     <Compile Include="VisualRootImpl\VisualRootImpl.cs" />
-    <Compile Include="ArtUIElement\ArtUIElement_EventVirtualMethodChain.cs" />
-    <Compile Include="ArtUIElement\ArtUIElement_Instance.cs" />
+    <Compile Include="ArtUIElement\ArtUIElement_.cs" />
+    <Compile Include="ArtUIElement\IEventDispatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VisualCoreBridge\Clipboard.cs" />
     <Compile Include="VisualCoreBridge\Keys.cs" />

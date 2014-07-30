@@ -42,30 +42,4 @@ namespace LayoutFarm.Presentation
     }
 
 
-    public abstract partial class ArtUIElement : IEventDispatcher
-    {   
-       
-        public ArtUIElement()
-        {
-        }
-        
-        
-#if DEBUG
-
-        object dbugTagObject;
-        public object dbugTag
-        {
-            get
-            {
-                return this.dbugTagObject;
-            }
-            set
-            {
-                this.dbugTagObject = value;
-            }
-        }
-#endif
-
-
-    }
 }
