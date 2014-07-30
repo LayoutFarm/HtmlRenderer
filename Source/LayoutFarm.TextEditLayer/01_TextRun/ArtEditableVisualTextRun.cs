@@ -33,6 +33,7 @@ namespace LayoutFarm.Presentation.Text
 
         public int GetRunWidth(int charCount)
         {
+
             return CalculateDrawingStringSize(mybuffer, charCount).Width;
         }
         internal ArtEditableVisualTextRun Clone()
@@ -53,22 +54,7 @@ namespace LayoutFarm.Presentation.Text
                 return true;
             }
         }
-
-        public int LineTop
-        {
-            get
-            {
-                EditableVisualElementLine ownerLine = this.OwnerEditableLine;
-                if (ownerLine != null)
-                {
-                    return ownerLine.Top;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-        }
+         
         public void CopyContentToStringBuilder(StringBuilder stBuilder)
         {
             if (IsLineBreak)
@@ -161,44 +147,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-
-        public static IEnumerable<ArtEditableVisualTextRun> GetTextRunIterForward(ArtEditableVisualTextRun nextToRun)
-        {
-            EditableVisualElementLine line = nextToRun.OwnerEditableLine;
-            ArtEditableVisualTextRun curNode = nextToRun.NextTextRun;
-            while (line != null)
-            {
-                while (curNode != null)
-                {
-                    yield return (ArtEditableVisualTextRun)curNode;
-                    curNode = curNode.NextTextRun;
-                }
-                line = line.Next;
-                if (line != null)
-                {
-                    curNode = line.FirstRun;
-                }
-            }
-        }
-        public static IEnumerable<ArtEditableVisualTextRun> GetTextRunIterBackward(ArtEditableVisualTextRun beforeThisRun)
-        {
-            EditableVisualElementLine line = beforeThisRun.OwnerEditableLine;
-            ArtEditableVisualTextRun curNode = beforeThisRun.PrevTextRun;
-            while (line != null)
-            {
-                while (curNode != null)
-                {
-                    yield return (ArtEditableVisualTextRun)curNode;
-                    curNode = curNode.PrevTextRun;
-                }
-                line = line.Prev;
-                if (line != null)
-                {
-                    curNode = line.LastRun;
-                }
-            }
-        }
-
+         
         public EditableVisualElementLine OwnerEditableLine
         {
             get
@@ -216,9 +165,7 @@ namespace LayoutFarm.Presentation.Text
             get
             {
                 VisualEditableLineParentLink parent = (VisualEditableLineParentLink)this.ParentLink;
-                return parent.Next as ArtEditableVisualTextRun;
-
-
+                return parent.Next as ArtEditableVisualTextRun; 
             }
         }
         public ArtEditableVisualTextRun PrevTextRun

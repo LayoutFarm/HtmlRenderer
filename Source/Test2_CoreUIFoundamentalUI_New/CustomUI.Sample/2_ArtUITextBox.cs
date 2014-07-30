@@ -46,17 +46,17 @@ namespace LayoutFarm.Presentation.SampleControls
         }
 
 
-        public string TextContent
-        {
-            get
-            {
-                return visualTextSurface.Text;
-            }
-            set
-            {
-                visualTextSurface.SetTextContent(value, null);
-            }
-        }
+        //public string TextContent
+        //{
+        //    get
+        //    {
+        //        return visualTextSurface.Text;
+        //    }
+        //    set
+        //    {
+        //        visualTextSurface.SetTextContent(value, null);
+        //    }
+        //}
         public int CurrentLineId
         {
             get

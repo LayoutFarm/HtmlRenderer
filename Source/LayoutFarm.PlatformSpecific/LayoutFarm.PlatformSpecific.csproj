@@ -61,7 +61,7 @@
     <Compile Include="PlatformSpecific\PlatformMessageBox.cs" />
     <Compile Include="PlatformSpecific\VisualScreens.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Win32Gdi\ArtCanvas1.cs" />
+    <Compile Include="Win32Gdi\ArtCanvasImpl.cs" />
     <Compile Include="Win32Gdi\ArtCanvasCollection.cs" />
     <Compile Include="Win32Gdi\FontManager.cs" />
     <Compile Include="Win32Gdi\GfxWin32InterOp.cs" />

@@ -17,6 +17,11 @@ namespace LayoutFarm.Presentation.Text
 
         public event EventHandler Reflow;
 
+        public static TextFontInfo DefaultFontInfo
+        {
+            get;
+            set;
+        }
 
         public EditableTextFlowLayer(ArtVisualContainerBase owner)
             : base(owner)
@@ -24,6 +29,7 @@ namespace LayoutFarm.Presentation.Text
 
             lineCollection = new EditableVisualElementLine(this);
         }
+
         public void SetUseDoubleCanvas(bool useWithWidth, bool useWithHeight)
         {
             this.SetDoubleCanvas(useWithWidth, useWithHeight);

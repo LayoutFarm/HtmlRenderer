@@ -100,37 +100,37 @@ namespace LayoutFarm.Presentation.Text
 
 
 
-        public void SetTextContent(string value, VisualElementArgs vinv)
-        {
+        //public void SetTextContent(string value, VisualElementArgs vinv)
+        //{
 
-            internalTextLayerController.Clear();
-            if (!string.IsNullOrEmpty(value))
-            {
-                StringReader reader = new StringReader(value);
-                string line = reader.ReadLine();
-                int lineCount = 0;
-                while (line != null)
-                {
-                    if (lineCount > 0)
-                    {
-                        internalTextLayerController.SplitCurrentLineIntoNewLine(vinv);
-                    }
-                    lineCount++;
-                    internalTextLayerController.AddTextRunsToCurrentLine(
-                        new ArtEditableVisualTextRun[] { 
-                            new ArtEditableVisualTextRun(line) }, vinv);
-                    line = reader.ReadLine();
-                }
-                internalTextLayerController.DoEnd();
-            }
+        //    internalTextLayerController.Clear();
+        //    if (!string.IsNullOrEmpty(value))
+        //    {
+        //        StringReader reader = new StringReader(value);
+        //        string line = reader.ReadLine();
+        //        int lineCount = 0;
+        //        while (line != null)
+        //        {
+        //            if (lineCount > 0)
+        //            {
+        //                internalTextLayerController.SplitCurrentLineIntoNewLine(vinv);
+        //            }
+        //            lineCount++;
+        //            internalTextLayerController.AddTextRunsToCurrentLine(
+        //                new ArtEditableVisualTextRun[] { 
+        //                    new ArtEditableVisualTextRun(line) }, vinv);
+        //            line = reader.ReadLine();
+        //        }
+        //        internalTextLayerController.DoEnd();
+        //    }
 
-            EnsureCaretVisible(vinv);
+        //    EnsureCaretVisible(vinv);
 
-            if (textSurfaceEventListener != null)
-            {
-                TextSurfaceEventListener.NotifyReplaceAll(textSurfaceEventListener, new TextDomEventArgs(false));
-            }
-        }
+        //    if (textSurfaceEventListener != null)
+        //    {
+        //        TextSurfaceEventListener.NotifyReplaceAll(textSurfaceEventListener, new TextDomEventArgs(false));
+        //    }
+        //}
         public int LineCount
         {
             get

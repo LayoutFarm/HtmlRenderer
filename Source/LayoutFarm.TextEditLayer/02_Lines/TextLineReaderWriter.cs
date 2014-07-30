@@ -13,9 +13,12 @@ namespace LayoutFarm.Presentation.Text
     public class TextLineWriter : TextLineReader
     {
         BackGroundTextLineWriter backgroundWriter;
+        
+
         public TextLineWriter(EditableTextFlowLayer textLayer)
             : base(textLayer)
         {
+            
         }
         public BackGroundTextLineWriter GetBackgroundWriter()
         {
@@ -127,11 +130,9 @@ namespace LayoutFarm.Presentation.Text
 
         public void Add(char c, VisualElementArgs vinv)
         {
-
-
             if (CurrentLine.IsBlankLine)
             {
-                ArtEditableVisualTextRun t = new ArtEditableVisualTextRun(c);
+                ArtEditableVisualTextRun t = new ArtEditableVisualTextRun(c );
 
                 var owner = this.FlowLayer.ownerVisualElement;
 
@@ -236,7 +237,9 @@ namespace LayoutFarm.Presentation.Text
 
         public void SplitToNewLine(VisualElementArgs vinv)
         {
-            ArtEditableVisualTextRun lineBreakRun = new ArtEditableVisualTextRun('\n'); ArtEditableVisualTextRun currentRun = CurrentTextRun;
+
+            ArtEditableVisualTextRun lineBreakRun = new ArtEditableVisualTextRun('\n');
+            ArtEditableVisualTextRun currentRun = CurrentTextRun;
             if (CurrentLine.IsBlankLine)
             {
 
@@ -639,10 +642,7 @@ ArtEditableVisualTextRun.InnerGetCharacterFromPixelOffset(currentTextRun, value 
                     dbugTextManRecorder.WriteInfo("TextLineReader::CharIndex_set=" + value);
                     dbugTextManRecorder.BeginContext();
                 }
-#endif
-
-
-
+#endif          
                 if (value < -1 || value > currentLine.CharCount - 1)
                 {
                     throw new NotSupportedException("index out of range");

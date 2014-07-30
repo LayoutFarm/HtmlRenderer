@@ -17,6 +17,7 @@ namespace LayoutFarm.Presentation
         public ArtVisualTextRun(string s)
             : base(10, 10, VisualElementNature.TextRun)
         {
+
             if (s != null && s.Length > 0)
             {
 
@@ -51,6 +52,7 @@ namespace LayoutFarm.Presentation
         public ArtVisualTextRun(char[] mybuffer)
             : base(10, 10, VisualElementNature.TextRun)
         {
+
             this.mybuffer = mybuffer;
             this.TransparentForAllEvents = true;
         }
@@ -196,10 +198,10 @@ namespace LayoutFarm.Presentation
 
         protected TextFontInfo GetTextFontInfo()
         {
+             
             if (!HasBeh)
             {
-                return null;
-                //return FontManager.DefaultTextFontInfo;
+                return LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo;
             }
             else
             {
@@ -210,8 +212,7 @@ namespace LayoutFarm.Presentation
                 }
                 else
                 {
-                    return null;
-                    //return FontManager.DefaultTextFontInfo;
+                    return LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo;
                 }
             }
         }

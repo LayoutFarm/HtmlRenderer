@@ -125,12 +125,14 @@ namespace LayoutFarm.Presentation.Text
                         startLine.RightCopy(startPoint, output);
                         for (int i = startLineId + 1; i < stopLineId; i++)
                         {
-                            output.AddLast(new ArtEditableVisualTextRun('\n')); EditableVisualElementLine line = editableFlowLayer.GetTextLine(i);
+                            output.AddLast(new ArtEditableVisualTextRun('\n'));
+                            EditableVisualElementLine line = editableFlowLayer.GetTextLine(i);
                             line.Copy(output);
                         }
                         if (endPoint.LineCharIndex > -1)
                         {
-                            output.AddLast(new ArtEditableVisualTextRun('\n')); stopLine.LeftCopy(endPoint, output);
+                            output.AddLast(new ArtEditableVisualTextRun('\n'));
+                            stopLine.LeftCopy(endPoint, output);
                         }
 
                     }
@@ -855,9 +857,12 @@ ArtEditableVisualTextRun onTextRun, int textRunCharOffset, int textRunPixelOffse
                 {
 
                     int localCharOffset = charIndex - rCharOffset;
+
                     int pixelOffset = lastestRun.GetRunWidth(localCharOffset);
-                    textPointInfo.SetAdditionVisualInfo(lastestRun, localCharOffset, rPixelOffset + pixelOffset
-    , rPixelOffset);
+
+                    textPointInfo.SetAdditionVisualInfo(lastestRun,
+                        localCharOffset, rPixelOffset + pixelOffset
+                        , rPixelOffset);
 
                     return textPointInfo;
                 }

@@ -21,17 +21,17 @@ namespace LayoutFarm.Presentation.SampleControls
         public event ArtMouseEventHandler MouseDown;
         public ArtUIMultiLineTextBox(int width, int height, bool multiline)
         {
-
+                 
             visualTextEdit = new ArtVisualTextEditBox(width, height, multiline);
             visualTextEdit.SetRoleDefinition(textBoxRole, null);
             visualTextEdit.HasSpecificSize = true;
             this.SetPrimaryVisualElement(visualTextEdit);
             visualTextEdit.SetScriptUI(this);
             RegisterNativeEvent(
-  1 << ArtEventIdentifier.NE_MOUSE_DOWN
-  | 1 << ArtEventIdentifier.NE_LOST_FOCUS
-  | 1 << ArtEventIdentifier.NE_SIZE_CHANGED
-  );
+              1 << ArtEventIdentifier.NE_MOUSE_DOWN
+              | 1 << ArtEventIdentifier.NE_LOST_FOCUS
+              | 1 << ArtEventIdentifier.NE_SIZE_CHANGED
+              );
         }
         protected override void OnKeyPress(ArtKeyPressEventArgs e)
         {

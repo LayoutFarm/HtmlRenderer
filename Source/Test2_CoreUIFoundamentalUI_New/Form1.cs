@@ -58,7 +58,8 @@ namespace TestGraphicPackage2
 
             formCanvas.Show();
 
-
+            LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo = new TextFontInfo(new Font("tahoma", 10), new BasicGdi32FontHelper());
+         
         }
 
         private void cmdShowBasicFormCanvas_Click(object sender, EventArgs e)
@@ -102,7 +103,9 @@ namespace TestGraphicPackage2
                 out viewport,
                 out winRoot,
                 out formCanvas);
+
             var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 500, true);
+
             viewport.AddContent(textbox.PrimaryVisualElement);
 
             ShowFormlayoutInspectIfNeed(viewport);
@@ -166,8 +169,7 @@ namespace TestGraphicPackage2
                 out viewport,
                 out winRoot,
                 out formCanvas);
-            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(
-400, 500, true);
+            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 500, true);
             viewport.AddContent(textbox.PrimaryVisualElement);
             ShowFormlayoutInspectIfNeed(viewport);
 

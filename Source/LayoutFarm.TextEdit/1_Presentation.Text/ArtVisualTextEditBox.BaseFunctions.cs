@@ -31,15 +31,15 @@ namespace LayoutFarm.Presentation.Text
             base(width, height, VisualElementNature.TextEditContainer)
         {
             RegisterNativeEvent((1 << ArtEventIdentifier.NE_DRAG_START)
-| (1 << ArtEventIdentifier.NE_DRAGING)
-| (1 << ArtEventIdentifier.NE_DRAG_STOP)
-| (1 << ArtEventIdentifier.NE_MOUSE_DOWN)
-| (1 << ArtEventIdentifier.NE_MOUSE_MOVE)
-| (1 << ArtEventIdentifier.NE_MOUSE_HOVER)
-| (1 << ArtEventIdentifier.NE_MOUSE_UP)
-| (1 << ArtEventIdentifier.NE_DBLCLICK)
-| (1 << ArtEventIdentifier.NE_KEY_DOWN)
-| (1 << ArtEventIdentifier.NE_KEY_PRESS));
+                | (1 << ArtEventIdentifier.NE_DRAGING)
+                | (1 << ArtEventIdentifier.NE_DRAG_STOP)
+                | (1 << ArtEventIdentifier.NE_MOUSE_DOWN)
+                | (1 << ArtEventIdentifier.NE_MOUSE_MOVE)
+                | (1 << ArtEventIdentifier.NE_MOUSE_HOVER)
+                | (1 << ArtEventIdentifier.NE_MOUSE_UP)
+                | (1 << ArtEventIdentifier.NE_DBLCLICK)
+                | (1 << ArtEventIdentifier.NE_KEY_DOWN)
+                | (1 << ArtEventIdentifier.NE_KEY_PRESS));
 
 
             textLayer = new EditableTextFlowLayer(this);
