@@ -410,15 +410,15 @@ namespace LayoutFarm.Presentation
         }
         public void dbug_BeginLayoutTraceSession(string beginMsg)
         {
-            this.winroot.VisualRoot.dbug_BeginLayoutTraceSession(beginMsg);
+            LayoutFarm.Presentation.dbugRootLog.dbug_BeginLayoutTraceSession(beginMsg);
         }
         public void dbug_DisableAllDebugInfo()
         {
-            this.winroot.VisualRoot.dbug_DisableAllDebugInfo();
+            LayoutFarm.Presentation.dbugRootLog.dbug_DisableAllDebugInfo();
         }
         public void dbug_EnableAllDebugInfo()
         {
-            this.winroot.VisualRoot.dbug_EnableAllDebugInfo();
+            LayoutFarm.Presentation.dbugRootLog.dbug_EnableAllDebugInfo();
         }
         public void dbug_ReArrangeWithBreakOnSelectedNode()
         {

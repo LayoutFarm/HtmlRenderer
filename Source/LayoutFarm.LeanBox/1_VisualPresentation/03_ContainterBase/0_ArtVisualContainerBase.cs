@@ -120,10 +120,10 @@ namespace LayoutFarm.Presentation
 #if DEBUG
         void debug_RecordLayerInfo(VisualLayer layer)
         {
-            VisualRoot visualroot = VisualRoot.dbugCurrentGlobalVRoot;
-            if (visualroot.dbug_RecordDrawingChain)
+
+            if (dbugRootLog.dbug_RecordDrawingChain)
             {
-                visualroot.dbug_AddDrawLayer(layer);
+                dbugRootLog.dbug_AddDrawLayer(layer);
             }
         }
 #endif
@@ -331,10 +331,10 @@ namespace LayoutFarm.Presentation
                 {
 #if DEBUG
                     isIncr = true;
-                    this.dbugVRoot.dbugNotNeedArrCount++;
-                    this.dbugVRoot.dbugNotNeedArrCountEpisode++;
+                    dbugRootLog.dbugNotNeedArrCount++;
+                    dbugRootLog.dbugNotNeedArrCountEpisode++;
                     vinv.dbug_WriteInfo(dbugVisitorMessage.NOT_NEED_ARR);
-                    this.dbugVRoot.dbugNotNeedArrCount--;
+                    dbugRootLog.dbugNotNeedArrCount--;
 #endif
                 }
                 return;
@@ -346,7 +346,7 @@ namespace LayoutFarm.Presentation
 #if DEBUG
             if (isIncr)
             {
-                this.dbugVRoot.dbugNotNeedArrCount--;
+                dbugRootLog.dbugNotNeedArrCount--;
             }
 #endif
         }

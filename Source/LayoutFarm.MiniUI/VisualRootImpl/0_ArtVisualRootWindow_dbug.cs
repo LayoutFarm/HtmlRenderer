@@ -50,7 +50,7 @@ namespace LayoutFarm.Presentation
 
         void dbug_Init()
         {
-            hitPointChain.dbugHitTracker = this.dbugVRoot.dbugHitTracker;
+            hitPointChain.dbugHitTracker = LayoutFarm.Presentation.dbugRootLog.dbugHitTracker;
         }
 
         public static ArtVisualElement dbugVE_HighlightMe;
@@ -58,8 +58,8 @@ namespace LayoutFarm.Presentation
         public override void dbugShowRenderPart(ArtCanvas canvasPage, InternalRect updateArea)
         {
 
-            VisualRoot visualroot = this.dbugVRoot;
-            if (visualroot.dbug_ShowRootUpdateArea)
+             
+            if (LayoutFarm.Presentation.dbugRootLog.dbug_ShowRootUpdateArea)
             {
                 canvasPage.FillRectangle(Color.FromArgb(50, Color.Black),
                     new Rectangle(updateArea._left, updateArea._top,
@@ -71,13 +71,13 @@ namespace LayoutFarm.Presentation
                         updateArea.Width - 1, updateArea.Height - 1));
 
                 canvasPage.PushTextColor(Color.White);
-                canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea._left, updateArea._top);
+                canvasPage.DrawText(LayoutFarm.Presentation.dbugRootLog.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea._left, updateArea._top);
                 if (updateArea.Height > 25)
                 {
-                    canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea._left, updateArea._top + (updateArea.Height - 20));
+                    canvasPage.DrawText(LayoutFarm.Presentation.dbugRootLog.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea._left, updateArea._top + (updateArea.Height - 20));
                 }
                 canvasPage.PopTextColor();
-                visualroot.dbug_RootUpdateCounter++;
+                LayoutFarm.Presentation.dbugRootLog.dbug_RootUpdateCounter++;
             }
         }
 

@@ -14,33 +14,33 @@ using LayoutFarm.Presentation;
 
 namespace LayoutFarm.Presentation
 {
-
-    partial class VisualRoot
-    {
-
 #if DEBUG
+    public static partial class dbugRootLog
+    {   
+        public static bool dbug_ShowRootUpdateArea = false;
+        public static bool dbug_ShowNativeScrollableElementUpdateArea = false;
+        public static bool dbug_ShowNativeScrollableElementDrawToThisPage = false;
+        public static bool dbug_ShowElementOutline = false;
+        public static bool dbug_ShowObjectIden = false;
+        public static bool dbug_ForceShowObjectIden = false;
+        public static bool dbug_RecordHitChain = false;
+        public static bool dbug_RecordDrawingChain = false;
+        public static bool dbugEnableGraphicInvalidateTrace = false;
+        public static bool dbug_StartTestMode = false;
+        public static bool dbugEnableLayoutProfiler = false;
+        public static System.IO.StreamWriter dbugLayoutProfilerWriter;
+        public static bool dbugEventIsDragging;
 
-        public bool dbug_ShowRootUpdateArea = false;
-        public bool dbug_ShowNativeScrollableElementUpdateArea = false;
-        public bool dbug_ShowNativeScrollableElementDrawToThisPage = false;
-        public bool dbug_ShowElementOutline = false;
-        public bool dbug_ShowObjectIden = false;
-        public bool dbug_ForceShowObjectIden = false; public bool dbug_RecordHitChain = false; public bool dbug_RecordDrawingChain = false;
-        public bool dbugEnableGraphicInvalidateTrace = false;
-        public bool dbug_StartTestMode = false;
-        public bool dbugEnableLayoutProfiler = false;
-        public System.IO.StreamWriter dbugLayoutProfilerWriter;
-        public bool dbugEventIsDragging;
 
-
-        public int dbug_RootUpdateCounter = 0; public int dbug_drawLevel = 0;
-        public LinkedList<dbugLayoutMsg> dbug_rootHitChainMsg = new LinkedList<dbugLayoutMsg>();
-        public LinkedList<dbugLayoutMsg> dbug_rootDrawingMsg = new LinkedList<dbugLayoutMsg>();
-        public dbugHitTestTracker dbugHitTracker;
-        public Stack<dbugVisualInvalidationTracer> dbugInvalidateTracerStack = new Stack<dbugVisualInvalidationTracer>();
-        public dbugVisualInvalidationTracer dbugGraphicInvalidateTracer;
-        public dbugVisualEvalScrollBarTrace dbugEvalScrollBarTracer;
-        public void dbug_DisableAllDebugInfo()
+        public static int dbug_RootUpdateCounter = 0;
+        public static int dbug_drawLevel = 0;
+        public static LinkedList<dbugLayoutMsg> dbug_rootHitChainMsg = new LinkedList<dbugLayoutMsg>();
+        public static LinkedList<dbugLayoutMsg> dbug_rootDrawingMsg = new LinkedList<dbugLayoutMsg>();
+        public static dbugHitTestTracker dbugHitTracker;
+        public static Stack<dbugVisualInvalidationTracer> dbugInvalidateTracerStack = new Stack<dbugVisualInvalidationTracer>();
+        public static dbugVisualInvalidationTracer dbugGraphicInvalidateTracer;
+        public static dbugVisualEvalScrollBarTrace dbugEvalScrollBarTracer;
+        public static void dbug_DisableAllDebugInfo()
         {
             dbug_ShowRootUpdateArea = false;
             dbug_ShowNativeScrollableElementUpdateArea = false;
@@ -49,7 +49,7 @@ namespace LayoutFarm.Presentation
             dbug_ShowObjectIden = false;
             dbug_ForceShowObjectIden = false; dbug_RecordHitChain = false; dbug_RecordDrawingChain = false;
         }
-        public void dbug_EnableAllDebugInfo()
+        public static void dbug_EnableAllDebugInfo()
         {
             dbug_ShowRootUpdateArea = true;
             dbug_ShowNativeScrollableElementUpdateArea = true;
@@ -58,11 +58,11 @@ namespace LayoutFarm.Presentation
             dbug_ShowObjectIden = true;
             dbug_ForceShowObjectIden = true; dbug_RecordHitChain = true; dbug_RecordDrawingChain = true;
         }
-        public void dbug_Init()
+        public static void dbug_Init()
         {
 
             dbugHitTracker = new dbugHitTestTracker();
-            dbugEvalScrollBarTracer = new dbugVisualEvalScrollBarTrace(this);
+            dbugEvalScrollBarTracer = new dbugVisualEvalScrollBarTrace();
 
             if (dbugEnableLayoutProfiler)
             {
@@ -74,13 +74,13 @@ namespace LayoutFarm.Presentation
             }
             if (dbugEnableGraphicInvalidateTrace)
             {
-                dbugGraphicInvalidateTracer = new dbugVisualInvalidationTracer(this);
+                dbugGraphicInvalidateTracer = new dbugVisualInvalidationTracer();
                 dbugGraphicInvalidateTracer.Start();
                 dbugGraphicInvalidateTracer.WriteInfo("root_debug_init()");
             }
 
         }
-        public void dbug_WriteTick(long tick)
+        public static void dbug_WriteTick(long tick)
         {
             if (dbugEnableLayoutProfiler)
             {
@@ -88,7 +88,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        string dbugGetFormatTickCount(long tickCount)
+        static string dbugGetFormatTickCount(long tickCount)
         {
             string tickInStr = ((double)tickCount / (double)10000000).ToString();
             int pos = tickInStr.IndexOf('.');
@@ -110,11 +110,11 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public void dbug_AddDrawElement(ArtVisualElement visualElement, ArtCanvas currentCanvas)
+        public static void dbug_AddDrawElement(ArtVisualElement visualElement, ArtCanvas currentCanvas)
         {
             dbug_AddDrawElement(visualElement, currentCanvas, null);
         }
-        public void dbug_AddDrawElement(ArtVisualElement visualElement, ArtCanvas currentCanvas, string additionalMsg)
+        public static void dbug_AddDrawElement(ArtVisualElement visualElement, ArtCanvas currentCanvas, string additionalMsg)
         {
 
             StringBuilder stBuilder = new StringBuilder();
@@ -150,17 +150,17 @@ namespace LayoutFarm.Presentation
 
         }
 
-        public void dbug_AddDrawLayer(VisualLayer layer)
+        public static void dbug_AddDrawLayer(VisualLayer layer)
         {
 
             dbug_rootDrawingMsg.AddLast(new dbugLayoutMsg(layer,
                 new string('.', dbug_drawLevel) + "[F" + dbug_drawLevel + "] " + layer.ToString()));
         }
-        public void dbug_AddMessage(dbugLayoutMsg msg)
+        public static void dbug_AddMessage(dbugLayoutMsg msg)
         {
             dbug_rootDrawingMsg.AddLast(msg);
         }
-        public void dbug_DumpRootDrawingMsg(List<dbugLayoutMsg> outputlist)
+        public static void dbug_DumpRootDrawingMsg(List<dbugLayoutMsg> outputlist)
         {
             outputlist.Add(new dbugLayoutMsg(null as ArtVisualElement, "Asc n= " + dbug_rootDrawingMsg.Count));
             LinkedListNode<dbugLayoutMsg> u_node = dbug_rootDrawingMsg.First;
@@ -172,7 +172,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public void dbug_DumpCurrentHitChain(List<dbugLayoutMsg> outputlist)
+        public static void dbug_DumpCurrentHitChain(List<dbugLayoutMsg> outputlist)
         {
             foreach (dbugLayoutMsg s in dbug_rootHitChainMsg)
             {
@@ -180,7 +180,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public void dbug_BeginVisualInvalidateTrace(string strmsg)
+        public static void dbug_BeginVisualInvalidateTrace(string strmsg)
         {
             if (dbugEnableGraphicInvalidateTrace)
             {
@@ -192,14 +192,14 @@ namespace LayoutFarm.Presentation
                 }
                 else
                 {
-                    dbugGraphicInvalidateTracer = new dbugVisualInvalidationTracer(this);
+                    dbugGraphicInvalidateTracer = new dbugVisualInvalidationTracer();
                     dbugGraphicInvalidateTracer.Start();
                     dbugGraphicInvalidateTracer.WriteInfo(strmsg);
                 }
             }
 
         }
-        public void dbug_EndVisualInvalidateTrace()
+        public static void dbug_EndVisualInvalidateTrace()
         {
             if (dbugGraphicInvalidateTracer != null)
             {
@@ -218,46 +218,46 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public void dbug_PushInvalidateMsg(dbugVisualRootMsg msg, ArtVisualElement ve)
+        public static void dbug_PushInvalidateMsg(dbugVisualRootMsg msg, ArtVisualElement ve)
         {
-            if (this.dbugEnableGraphicInvalidateTrace && dbugGraphicInvalidateTracer != null)
+            if (dbugRootLog.dbugEnableGraphicInvalidateTrace && dbugGraphicInvalidateTracer != null)
             {
                 dbugGraphicInvalidateTracer.WriteInfo(msg.msg, ve);
             }
         }
-        public dbugVisualInvalidationTracer GetVisualInvalidateTracer()
+        public static dbugVisualInvalidationTracer GetVisualInvalidateTracer()
         {
             return dbugGraphicInvalidateTracer;
         }
 
-        dbugVisualLayoutTracer dbugLastestDebugVisualLay;
-        Stack<dbugVisualLayoutTracer> debugLayoutTracerStack = new Stack<dbugVisualLayoutTracer>();
+        static dbugVisualLayoutTracer dbugLastestDebugVisualLay;
+        static Stack<dbugVisualLayoutTracer> debugLayoutTracerStack = new Stack<dbugVisualLayoutTracer>();
 
-        public dbugVisualLayoutTracer dbug_GetLastestVisualLayoutTracer()
+        public static dbugVisualLayoutTracer dbug_GetLastestVisualLayoutTracer()
         {
             return dbugLastestDebugVisualLay;
         }
-        public bool dbug_IsRecordLayoutTraceEnable
+        public static bool dbug_IsRecordLayoutTraceEnable
         {
             get
             {
                 return dbugLastestDebugVisualLay != null;
             }
         }
-        public void dbug_BeginLayoutTraceSession(string beginMsg)
+        public static void dbug_BeginLayoutTraceSession(string beginMsg)
         {
             if (dbugLastestDebugVisualLay != null)
             {
                 dbugLastestDebugVisualLay.WriteInfo("---------switch to new sesssion---------");
                 debugLayoutTracerStack.Push(dbugLastestDebugVisualLay);
             }
-            dbugLastestDebugVisualLay = new dbugVisualLayoutTracer(this);
+            dbugLastestDebugVisualLay = new dbugVisualLayoutTracer();
             dbugLastestDebugVisualLay.Start();
             dbugLastestDebugVisualLay.WriteInfo("---------Layout Trace---------");
             dbugLastestDebugVisualLay.WriteInfo(beginMsg);
             dbugLastestDebugVisualLay.WriteInfo("------------------------------");
         }
-        public void dbug_FinishLayoutTraceSession()
+        public static void dbug_FinishLayoutTraceSession()
         {
             if (dbugLastestDebugVisualLay != null)
             {
@@ -273,7 +273,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public void dbug_PushLayoutTraceMessage(dbugVisualRootMsg msg)
+        public static void dbug_PushLayoutTraceMessage(dbugVisualRootMsg msg)
         {
             if (dbugLastestDebugVisualLay != null)
             {
@@ -281,14 +281,14 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public void dbug_PushLayoutTraceMessage(dbugVisualRootMsg msg, int number)
+        public static void dbug_PushLayoutTraceMessage(dbugVisualRootMsg msg, int number)
         {
             if (dbugLastestDebugVisualLay != null)
             {
                 dbugLastestDebugVisualLay.WriteInfo(msg.msg + number);
             }
         }
-        public void dbug_PushLayoutTraceMessage(string str)
+        public static void dbug_PushLayoutTraceMessage(string str)
         {
             if (dbugLastestDebugVisualLay != null)
             {
@@ -296,11 +296,11 @@ namespace LayoutFarm.Presentation
                 dbugLastestDebugVisualLay.WriteInfo(str);
             }
         }
-        public int dbugNotNeedArrCount = 0;
-        public int dbugNotNeedArrCountEpisode = 0;
+        public static int dbugNotNeedArrCount = 0;
+        public static int dbugNotNeedArrCountEpisode = 0;
 
 
-        public void dbug_PushLayoutTraceMessage(dbugVisualRootMsg msg, VisualLayer layer)
+        public static void dbug_PushLayoutTraceMessage(dbugVisualRootMsg msg, VisualLayer layer)
         {
             if (dbugLastestDebugVisualLay != null)
             {
@@ -308,7 +308,7 @@ namespace LayoutFarm.Presentation
                 dbugLastestDebugVisualLay.WriteInfo(msg.msg, layer);
             }
         }
-        public void dbug_PushLayoutTraceMessage(dbugVisualRootMsg msg, ArtVisualElement ve)
+        public static void dbug_PushLayoutTraceMessage(dbugVisualRootMsg msg, ArtVisualElement ve)
         {
             if (dbugLastestDebugVisualLay != null)
             {
@@ -316,14 +316,14 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public void dbug_LayoutTraceBeginContext(dbugVisualRootMsg msg, ArtVisualElement ve)
+        public static void dbug_LayoutTraceBeginContext(dbugVisualRootMsg msg, ArtVisualElement ve)
         {
             if (dbugLastestDebugVisualLay != null)
             {
                 dbugLastestDebugVisualLay.BeginNewContext(); dbugLastestDebugVisualLay.WriteInfo(msg.msg, ve);
             }
         }
-        public void dbug_LayoutTraceEndContext(dbugVisualRootMsg msg, ArtVisualElement ve)
+        public static void dbug_LayoutTraceEndContext(dbugVisualRootMsg msg, ArtVisualElement ve)
         {
             if (dbugLastestDebugVisualLay != null)
             {
@@ -331,22 +331,17 @@ namespace LayoutFarm.Presentation
                 dbugLastestDebugVisualLay.EndCurrentContext();
             }
         }
-
-
-        public void dbug_FlushLayoutTraceMessage()
+        public static void dbug_FlushLayoutTraceMessage()
         {
             if (dbugLastestDebugVisualLay != null)
             {
                 dbugLastestDebugVisualLay.Flush();
             }
         }
-
-
-        public ArtVisualElement dbug_GetElementById(object id)
+        public static ArtVisualElement dbug_GetElementById(object id)
         {
             return null;
         }
-        public static VisualRoot dbugCurrentGlobalVRoot;
-#endif
     }
+#endif
 }

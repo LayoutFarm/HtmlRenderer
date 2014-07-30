@@ -137,12 +137,13 @@ namespace LayoutFarm.Presentation
 
 #if DEBUG
 
-            VisualRoot visualroot = VisualRoot.dbugCurrentGlobalVRoot; if (visualroot.dbug_RecordDrawingChain)
+            
+            if (LayoutFarm.Presentation.dbugRootLog.dbug_RecordDrawingChain)
             {
                 List<dbugLayoutMsg> outputMsgs = outputWindow.dbug_rootDocDebugMsgs;
                 outputMsgs.Clear();
                 outputMsgs.Add(new dbugLayoutMsg(null as ArtVisualElement, "[" + debug_render_to_output_count + "]"));
-                visualroot.dbug_DumpRootDrawingMsg(outputMsgs);
+                LayoutFarm.Presentation.dbugRootLog.dbug_DumpRootDrawingMsg(outputMsgs);
                 outputWindow.dbug_InvokeVisualRootDrawMsg();
                 debug_render_to_output_count++;
             }
@@ -277,11 +278,11 @@ namespace LayoutFarm.Presentation
             }
 
 #if DEBUG
-            VisualRoot visualroot = rootElement.dbugVRoot;
-            if (visualroot.dbug_RecordHitChain)
+
+            if (LayoutFarm.Presentation.dbugRootLog.dbug_RecordHitChain)
             {
                 outputWindow.dbug_rootDocHitChainMsgs.Clear();
-                visualroot.dbug_DumpCurrentHitChain(outputWindow.dbug_rootDocHitChainMsgs);
+                LayoutFarm.Presentation.dbugRootLog.dbug_DumpCurrentHitChain(outputWindow.dbug_rootDocHitChainMsgs);
                 outputWindow.dbug_InvokeHitChainMsg();
             }
 #endif
@@ -317,9 +318,9 @@ namespace LayoutFarm.Presentation
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
 
 #if DEBUG
-            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("======");
-            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (Keys)e.KeyData);
-            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("======");
+            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage("======");
+            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage("KEYDOWN " + (Keys)e.KeyData);
+            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage("======");
 #endif
 
             rootElement.OnKeyDown(e);
@@ -345,9 +346,9 @@ namespace LayoutFarm.Presentation
         internal void OnKeyPress(ArtKeyPressEventArgs e)
         {
 #if DEBUG
-            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("======");
-            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("KEYPRESS " + e.KeyChar);
-            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("======");
+            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage("======");
+            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage("KEYPRESS " + e.KeyChar);
+            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage("======");
 #endif
 
             fullMode = false;

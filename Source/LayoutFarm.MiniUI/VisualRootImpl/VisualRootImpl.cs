@@ -12,7 +12,7 @@ using LayoutFarm.Presentation;
 
 namespace LayoutFarm.Presentation
 {
-    public class VisualRootImpl : VisualRoot
+    public class VisualRootImpl
     {
 
 
@@ -24,14 +24,15 @@ namespace LayoutFarm.Presentation
         public VisualRootImpl()
         {
 #if DEBUG
-            dbugCurrentGlobalVRoot = this;
-            dbug_Init();
+            // dbugCurrentGlobalVRoot = this;
+            dbugRootLog.dbug_Init();
 #endif
         }
 #if DEBUG
         ~VisualRootImpl()
         {
-            dbugHitTracker.Close();
+            dbugRootLog.dbugHitTracker.Close();
+            //dbugHitTracker.Close();
         }
 #endif
 
@@ -48,17 +49,17 @@ namespace LayoutFarm.Presentation
                 return new VisualElementArgs(winroot);
             }
         }
-        public static VisualElementArgs GetVisualInvalidateArgs(VisualRoot vsroot)
+        public static VisualElementArgs GetVisualInvalidateArgs(VisualRootImpl vsroot)
         {
             if (visualArgStack.Count > 0)
             {
                 VisualElementArgs vinv = visualArgStack.Pop();
-                vinv.SetVisualRoot(vsroot);
+
                 return vinv;
             }
             else
             {
-                return new VisualElementArgs(vsroot);
+                return new VisualElementArgs();
             }
         }
 
@@ -82,10 +83,10 @@ namespace LayoutFarm.Presentation
                 return veReqList.Count;
             }
         }
-        public override void AddVisualRequest(VisualElementRequest req)
-        {
-            veReqList.Add(req);
-        }
+        //public override void AddVisualRequest(VisualElementRequest req)
+        //{
+        //    veReqList.Add(req);
+        //}
         public void ClearVisualRequests(ArtVisualRootWindow winroot)
         {
             int j = veReqList.Count;

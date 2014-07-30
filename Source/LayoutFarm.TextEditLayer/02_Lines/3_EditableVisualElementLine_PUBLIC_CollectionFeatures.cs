@@ -43,13 +43,7 @@ namespace LayoutFarm.Presentation.Text
         {
             return "editable-link";
         }
-        VisualRoot dbugVRoot
-        {
-            get
-            {
-                return VisualRoot.dbugCurrentGlobalVRoot;
-            }
-        }
+      
 #endif
         public ArtVisualElement NotifyParentToInvalidate(out bool goToFinalExit
 #if DEBUG
@@ -62,11 +56,11 @@ namespace LayoutFarm.Presentation.Text
 
             EditableVisualElementLine line = this.OwnerLine;
 #if DEBUG
-            dbugVRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_VisualElementLine_INVALIDATE_enter, ve);
+            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage(dbugRootLog.dbugMsg_VisualElementLine_INVALIDATE_enter, ve);
 #endif
             line.InvalidateLineLayout();
 #if DEBUG
-            dbugVRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_VisualElementLine_INVALIDATE_exit, ve);
+            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage(dbugRootLog.dbugMsg_VisualElementLine_INVALIDATE_exit, ve);
 #endif
 
             if (!line.IsLocalSuspendLineRearrange)
@@ -76,7 +70,7 @@ namespace LayoutFarm.Presentation.Text
             else
             {
 #if DEBUG
-                dbugVRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_VisualElementLine_OwnerFlowElementIsIn_SUSPEND_MODE_enter, ve);
+                LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage(dbugRootLog.dbugMsg_VisualElementLine_OwnerFlowElementIsIn_SUSPEND_MODE_enter, ve);
 #endif
                 goToFinalExit = true;
             }

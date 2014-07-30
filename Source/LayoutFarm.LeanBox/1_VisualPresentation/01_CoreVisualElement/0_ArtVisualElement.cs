@@ -188,19 +188,17 @@ namespace LayoutFarm.Presentation
         {
             return (ui != null) && ((ui.uiFlags & HIDDEN) == 0) && (ui.visualParentLink != null);
 
-        }
+        } 
 
+        //public void Focus(VisualElementArgs vinv)
+        //{
 
-
-        public void Focus(VisualElementArgs vinv)
-        {
-
-            if (Focusable)
-            {
-                vinv.SetFocusElement(this);
-                this.InvalidateGraphic(vinv);
-            }
-        }
+        //    if (Focusable)
+        //    {
+        //        vinv.SetFocusElement(this);
+        //        this.InvalidateGraphic(vinv);
+        //    }
+        //}
 
         public bool Focusable
         {

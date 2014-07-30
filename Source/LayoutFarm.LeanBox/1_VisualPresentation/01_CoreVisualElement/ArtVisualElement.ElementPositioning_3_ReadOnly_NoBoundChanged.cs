@@ -696,7 +696,7 @@ y + height <= uiTop + uiHeight;
         static ArtVisualElement BubbleUpInvalidLayoutToTopMost(ArtVisualElement ve, ArtVisualRootWindow winroot)
         {    
 #if DEBUG
-            VisualRoot dbugVRoot = ve.dbugVRoot;
+            
 #endif
 
             ve.MarkInvalidContentSize();
@@ -708,7 +708,7 @@ y + height <= uiTop + uiHeight;
                 { 
                 }
 
-                dbugVRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_NO_OWNER_LAY);
+                dbugRootLog.dbug_PushLayoutTraceMessage(dbugRootLog.dbugMsg_NO_OWNER_LAY);
 #endif
                 return null;
             }
@@ -727,7 +727,7 @@ y + height <= uiTop + uiHeight;
                 }
             }
 #if DEBUG
-            dbugVRoot.dbug_LayoutTraceBeginContext(VisualRoot.dbugMsg_E_CHILD_LAYOUT_INV_BUB_enter, ve);
+            dbugRootLog.dbug_LayoutTraceBeginContext(dbugRootLog.dbugMsg_E_CHILD_LAYOUT_INV_BUB_enter, ve);
 #endif
 
             bool goFinalExit;
@@ -780,7 +780,7 @@ ve
 
         finalExit:
 #if DEBUG
-            dbugVRoot.dbug_LayoutTraceEndContext(VisualRoot.dbugMsg_E_CHILD_LAYOUT_INV_BUB_exit, ve);
+            dbugRootLog.dbug_LayoutTraceEndContext(dbugRootLog.dbugMsg_E_CHILD_LAYOUT_INV_BUB_exit, ve);
 #endif
 
             return parentVisualElem;
@@ -808,7 +808,7 @@ ve
         {
 
 #if DEBUG
-            dbugVRoot.dbug_LayoutTraceBeginContext(VisualRoot.dbugMsg_E_LAYOUT_INV_BUB_FIRST_enter, this);
+            dbugRootLog.dbug_LayoutTraceBeginContext(dbugRootLog.dbugMsg_E_LAYOUT_INV_BUB_FIRST_enter, this);
 #endif
             ArtVisualRootWindow winroot = this.InternalGetWinRootElement();
             ArtVisualElement tobeAddToLayoutQueue = BubbleUpInvalidLayoutToTopMost(this, winroot);
@@ -824,7 +824,7 @@ ve
             }
 
 #if DEBUG
-            dbugVRoot.dbug_LayoutTraceEndContext(VisualRoot.dbugMsg_E_LAYOUT_INV_BUB_FIRST_exit, this);
+            dbugRootLog.dbug_LayoutTraceEndContext(dbugRootLog.dbugMsg_E_LAYOUT_INV_BUB_FIRST_exit, this);
 #endif
 
         }

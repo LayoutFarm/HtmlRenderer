@@ -10,11 +10,11 @@ namespace LayoutFarm.Presentation
 {
 
 #if DEBUG
-    public class dbugVisualEvalScrollBarTrace
+    public class dbugVisualInvalidationTracer
     {
         FileStream fs;
         StreamWriter strmWriter;
-        VisualRoot visualroot;
+  
         string outputFileName = null;
 
         int msgCounter = 0;
@@ -22,20 +22,21 @@ namespace LayoutFarm.Presentation
         Stack<ArtVisualElement> elementStack = new Stack<ArtVisualElement>();
 
         int indentCount = 0;
-        int myTraceCount = 0;
+        int dbug_Id = 0;
+        static int dbug_totalId = 0;
 
-        static int tracerCount = 0;
-        public dbugVisualEvalScrollBarTrace(VisualRoot visualroot)
+        public dbugVisualInvalidationTracer( )
         {
-            this.visualroot = visualroot;
-            myTraceCount = tracerCount;
-            ++tracerCount;
-            outputFileName = dbugCoreConst.dbugRootFolder + "\\invalidate\\" + myTraceCount + "_" + Guid.NewGuid().ToString() + ".txt";
+           
+            dbug_Id = dbug_totalId;
+            ++dbug_totalId;
+            outputFileName = dbugCoreConst.dbugRootFolder + "\\invalidate\\" + dbug_Id + "_" + Guid.NewGuid().ToString() + ".txt";
 
         }
         public void BeginNewContext()
         {
             ++indentCount;
+
         }
         public void EndCurrentContext()
         {
@@ -76,7 +77,6 @@ namespace LayoutFarm.Presentation
             fs = null;
 
         }
-
         public void WriteInfo(string info)
         {
             ++msgCounter;
@@ -85,12 +85,25 @@ namespace LayoutFarm.Presentation
             strmWriter.Write(info);
             strmWriter.Write("\r\n"); strmWriter.Flush();
         }
+        public void WriteInfo(string info, ArtVisualElement ve)
+        {
+            ++msgCounter;
+            ShouldBreak();
+            strmWriter.Write(new string('\t', indentCount));
+            strmWriter.Write(info);
+            strmWriter.Write(ve.dbug_FullElementDescription());
+            strmWriter.Write("\r\n"); strmWriter.Flush();
+        }
         public void Flush()
         {
             strmWriter.Flush();
         }
         void ShouldBreak()
         {
+            if (msgCounter >= 40)
+            {
+
+            }
         }
 
     }

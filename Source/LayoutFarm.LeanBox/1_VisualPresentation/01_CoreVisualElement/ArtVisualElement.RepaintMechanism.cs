@@ -45,15 +45,15 @@ namespace LayoutFarm.Presentation
             if ((uiLayoutFlags & LY_SUSPEND_GRAPHIC) != 0)
             {
 #if DEBUG
-                dbugVRoot.dbug_PushInvalidateMsg(VisualRoot.dbugMsg_BLOCKED, this);
+               // dbugVRoot.dbug_PushInvalidateMsg(VisualRoot.dbugMsg_BLOCKED, this);
 #endif
                 return;
             }
 
 
-            InternalRect internalRect = InternalRect.CreateFromWH(uiWidth, uiHeight);
-            vinv.AddInvalidateRequest(this, internalRect);
-            InternalRect.FreeInternalRect(internalRect);
+            //InternalRect internalRect = InternalRect.CreateFromWH(uiWidth, uiHeight);
+            //vinv.AddInvalidateRequest(this, internalRect);
+            //InternalRect.FreeInternalRect(internalRect);
         }
         public void BeginGraphicUpdate(VisualElementArgs vinv)
         {

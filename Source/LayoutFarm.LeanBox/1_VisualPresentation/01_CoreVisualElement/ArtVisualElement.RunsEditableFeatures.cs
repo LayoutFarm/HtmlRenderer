@@ -23,16 +23,16 @@ namespace LayoutFarm.Presentation
             }
         }
 #if DEBUG
-        public virtual void dbug_WriteOwnerLayerInfo(VisualRoot visualroot, int i)
+        public void dbug_WriteOwnerLayerInfo(int i)
         {
 
-            if (this.visualParentLink != null)
-            {
-                visualroot.dbug_rootHitChainMsg.AddLast(new dbugLayoutMsg(this, new string('.', i) + " [Ly:" + i + "] " +
-                      visualParentLink.dbugGetLinkInfo()));
-            }
+            //if (this.visualParentLink != null)
+            //{
+            //    visualroot.dbug_rootHitChainMsg.AddLast(new dbugLayoutMsg(this, new string('.', i) + " [Ly:" + i + "] " +
+            //          visualParentLink.dbugGetLinkInfo()));
+            //}
         }
-        public virtual void dbug_WriteOwnerLineInfo(VisualRoot visualroot, int i)
+        public void dbug_WriteOwnerLineInfo(int i)
         {
 
         }
