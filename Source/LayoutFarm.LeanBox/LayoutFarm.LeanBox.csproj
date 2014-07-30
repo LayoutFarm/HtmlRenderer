@@ -54,7 +54,6 @@
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.CombineFlags.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.ElementPositioning_0_DirectSetBounds.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.ElementPositioning_1_WithSizeChanged.cs" />
-    <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.ElementPositioning_2_MoveElement.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.ElementPositioning_3_ReadOnly_NoBoundChanged.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.GfxStates.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.Render.cs" />
