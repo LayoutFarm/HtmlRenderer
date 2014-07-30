@@ -24,8 +24,7 @@ namespace LayoutFarm.Presentation.Text
         int verticalExpectedCharIndex; bool isMultiLine = false;
         bool isInVerticalPhase = false;
 
-
-        public event ArtVisualPaintEventHandler SubgroundPaint;
+         
 
         public ArtVisualTextEditBox(int width, int height, bool isMultiLine) :
             base(width, height, VisualElementNature.TextEditContainer)
@@ -42,10 +41,7 @@ namespace LayoutFarm.Presentation.Text
                 | (1 << ArtEventIdentifier.NE_KEY_PRESS));
 
 
-            textLayer = new EditableTextFlowLayer(this);
-
-
-
+            textLayer = new EditableTextFlowLayer(this) 
 
             InnerSetHasSubGroupLayer(this, true);
             internalTextLayerController = new InternalTextLayerController(this, textLayer);

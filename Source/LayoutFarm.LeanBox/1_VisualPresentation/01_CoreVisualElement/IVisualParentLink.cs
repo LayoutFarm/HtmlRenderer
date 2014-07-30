@@ -72,10 +72,8 @@ namespace LayoutFarm.Presentation
         }
         public void PerformLayout(VisualElementArgs vinv)
         {
-            ownerLayer.TopDownReArrangeContent(vinv);
-
-        }
-
+            ownerLayer.TopDownReArrangeContent(vinv); 
+        } 
         public bool MayHasOverlapChild
         {
             get
