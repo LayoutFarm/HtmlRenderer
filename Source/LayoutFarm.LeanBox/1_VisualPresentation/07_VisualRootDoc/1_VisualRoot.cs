@@ -11,13 +11,9 @@ using LayoutFarm.Presentation;
 
 
 namespace LayoutFarm.Presentation
-{
-
-
+{   
     public abstract partial class VisualRoot
-    {
-         
-        public abstract void AddVisualRequest(VisualElementRequest req);
+    { 
 
     }
 }

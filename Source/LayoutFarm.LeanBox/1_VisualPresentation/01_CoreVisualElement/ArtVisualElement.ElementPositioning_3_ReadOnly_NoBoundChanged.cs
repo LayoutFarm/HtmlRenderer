@@ -391,12 +391,7 @@ y + height <= uiTop + uiHeight;
         public const int LY_SUSPEND_GRAPHIC = 1 << (12 - 1);
         public const int LY_IN_LAYOUT_QUEUE = 1 << (13 - 1);
         public const int LY_IN_LAYOUT_QCHAIN_UP = 1 << (10 - 1);
-
-
-
-
-
-
+         
 
         public int ElementDesiredWidth
         {
@@ -539,91 +534,8 @@ y + height <= uiTop + uiHeight;
 
 
 
-
-        public bool ReachMinWidth
-        {
-            get
-            {
-                return ((uiLayoutFlags & LY_REACH_MIN_WIDTH) == LY_REACH_MIN_WIDTH);
-
-            }
-            set
-            {
-                if (value)
-                {
-                    uiLayoutFlags |= LY_REACH_MIN_WIDTH;
-                }
-                else
-                {
-                    uiLayoutFlags &= ~LY_REACH_MIN_WIDTH;
-                }
-
-
-            }
-        }
-        public bool ReachMaxWidth
-        {
-            get
-            {
-                return ((uiLayoutFlags & LY_REACH_MAX_WIDTH) == LY_REACH_MAX_WIDTH);
-
-            }
-            set
-            {
-                if (value)
-                {
-                    uiLayoutFlags |= LY_REACH_MAX_WIDTH;
-                }
-                else
-                {
-                    uiLayoutFlags &= ~LY_REACH_MAX_WIDTH;
-                }
-            }
-        }
-        public bool ReachMinHeight
-        {
-            get
-            {
-                return ((uiLayoutFlags & LY_REACH_MIN_HEIGHT) == LY_REACH_MIN_HEIGHT);
-
-            }
-            set
-            {
-                if (value)
-                {
-                    uiLayoutFlags |= LY_REACH_MIN_HEIGHT;
-                }
-                else
-                {
-                    uiLayoutFlags &= ~LY_REACH_MIN_HEIGHT;
-                }
-            }
-        }
-        public bool ReachMaxHeight
-        {
-            get
-            {
-                return ((uiLayoutFlags & LY_REACH_MAX_HEIGHT) == LY_REACH_MAX_HEIGHT);
-            }
-            set
-            {
-                if (value)
-                {
-                    uiLayoutFlags |= LY_REACH_MAX_HEIGHT;
-                }
-                else
-                {
-                    uiLayoutFlags &= ~LY_REACH_MAX_HEIGHT;
-                }
-            }
-        }
-
-
-
-
-
-
-
+ 
+   
         public bool HasCalculatedSize
         {
             get
@@ -692,9 +604,9 @@ y + height <= uiTop + uiHeight;
         public static void InnerInvalidateLayoutAndStartBubbleUp(ArtVisualElement ve)
         {
             ve.InvalidateLayoutAndStartBubbleUp();
-        } 
+        }
         static ArtVisualElement BubbleUpInvalidLayoutToTopMost(ArtVisualElement ve, ArtVisualRootWindow winroot)
-        {    
+        {
 #if DEBUG
             VisualRoot dbugVRoot = ve.dbugVRoot;
 #endif
@@ -705,7 +617,7 @@ y + height <= uiTop + uiHeight;
             {
 #if DEBUG
                 if (ve.IsWindowRoot)
-                { 
+                {
                 }
 
                 dbugVRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_NO_OWNER_LAY);

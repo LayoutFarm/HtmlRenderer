@@ -8,12 +8,5 @@ namespace LayoutFarm.Presentation
         Center = 1,
         End = 2
     }
-    public enum ArtDockStyle
-    {
-        None, Top,
-        Bottom,
-        Left,
-        Right,
-        Fill
-    }
+     
 }

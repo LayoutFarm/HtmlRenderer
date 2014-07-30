@@ -116,10 +116,10 @@ namespace LayoutFarm.Presentation.Text
             {
                 internalTextLayerController.SelectionRange.Draw(canvasPage, updateArea);
             }
-            if (SubgroundPaint != null)
-            {
-                SubgroundPaint(this, new ArtVisualPaintEventArgs(canvasPage, updateArea));
-            }
+            //if (SubgroundPaint != null)
+            //{
+            //    SubgroundPaint(this, new ArtVisualPaintEventArgs(canvasPage, updateArea));
+            //}
         }
 
 

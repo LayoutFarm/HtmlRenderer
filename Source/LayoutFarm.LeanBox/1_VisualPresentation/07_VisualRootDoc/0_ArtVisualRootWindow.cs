@@ -33,7 +33,7 @@ namespace LayoutFarm.Presentation
         public abstract VisualRoot VisualRoot { get; }
         public abstract bool IsLayoutQueueClearing { get; }
         public abstract void InvalidateGraphicArea(ArtVisualElement fromElement, InternalRect elementClientRect);
-        public abstract void dbugShowRenderPart(ArtCanvas canvasPage, InternalRect updateArea);
+
         public override void ClearAllChildren()
         {
             if (groundLayer != null)
@@ -62,5 +62,8 @@ namespace LayoutFarm.Presentation
             groundLayer.AddTop(child);
         }
 
+#if DEBUG
+        public abstract void dbugShowRenderPart(ArtCanvas canvasPage, InternalRect updateArea);
+#endif
     }
 }

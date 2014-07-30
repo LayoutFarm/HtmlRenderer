@@ -170,14 +170,7 @@ namespace LayoutFarm.Presentation
         public int dbug_ValidateRecalculateSizeEpisode = 0;
         public static int dbug_totalInvalidateContentArrEpisode = 0;
 
-
-
-
-
-
-
-
-
+         
 
         public VisualRoot dbugVRoot
         {

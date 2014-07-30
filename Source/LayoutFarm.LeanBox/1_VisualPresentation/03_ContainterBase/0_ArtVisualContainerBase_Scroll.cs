@@ -423,7 +423,6 @@ VisualElementArgs vinv)
             }
         }
 
-
         public void AddVScrollHandler(EventHandler<ArtScrollEventArgs> vscrollChanged, EventHandler<ScrollSurfaceRequestEventArgs> vscrollSupport)
         {
             if (vscrollableSurface != null)

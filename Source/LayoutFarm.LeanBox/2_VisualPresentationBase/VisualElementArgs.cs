@@ -104,12 +104,7 @@ namespace LayoutFarm.Presentation
                 AddRequest(new VisualElementRequest(ve, RequestCommand.DoFocus));
             }
         }
-        //public void AddToWindowRootLater(ArtVisualElement ve)
-        //{
-        //    AddRequest(new VisualElementRequest(
-        //       ve, RequestCommand.AddToWindowRoot));
-        //}
-
+         
         void AddRequest(VisualElementRequest req)
         {
             

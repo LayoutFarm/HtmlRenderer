@@ -186,8 +186,8 @@ namespace LayoutFarm.Presentation
 
         public static bool IsTestableElement(ArtVisualElement ui)
         {
-            return (ui != null) && ((ui.uiFlags & HIDDEN) == 0) && (ui.visualParentLink != null); 
-        } 
+            return (ui != null) && ((ui.uiFlags & HIDDEN) == 0) && (ui.visualParentLink != null);
+        }
 
         public bool Focusable
         {
@@ -213,9 +213,9 @@ namespace LayoutFarm.Presentation
         }
 
 
-        int uiFlags;
-
-        public int oneBitNativeEventFlags = 0;
+        int uiFlags; 
+        int oneBitNativeEventFlags = 0;
+        int uiCombineFlags;
 
 
         const int IS_TRANSLUCENT_BG = 1 << (1 - 1);
@@ -451,6 +451,17 @@ namespace LayoutFarm.Presentation
         }
 
 
+        public VisualElementNature ElementNature
+        {
+            get
+            {
+                return (VisualElementNature)(uiCombineFlags & 0xF);
+            }
+        }
+        static void SetVisualElementNature(ArtVisualElement target, VisualElementNature visualNature)
+        {
+            target.uiCombineFlags = (target.uiCombineFlags & ~0xF) | (int)visualNature;
+        }
 
         public bool IsTranslucentBackground
         {

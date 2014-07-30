@@ -63,6 +63,7 @@
     <Compile Include="1_Presentation.Text\1.2_VisualTextModel\MultilineTextLayerController\TextLayerController.TextFunctions.cs" />
     <Compile Include="1_Presentation.Text\1.2_VisualTextModel\MultilineTextLayerController\TextSurfaceEventListener.cs" />
     <Compile Include="1_Presentation.Text\1.2_VisualTextModel\TextDomManipulator\VisualTextEditContentProducer.cs" />
+    <Compile Include="1_Presentation.Text\ArtVisualPaintEventArgs.cs" />
     <Compile Include="1_Presentation.Text\ArtVisualTextEditBox.BaseFunctions.cs" />
     <Compile Include="1_Presentation.Text\ArtVisualTextEditBox.TextSurfaceFuntions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

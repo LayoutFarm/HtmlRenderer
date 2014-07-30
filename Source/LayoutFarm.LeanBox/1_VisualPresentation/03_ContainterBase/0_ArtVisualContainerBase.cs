@@ -75,10 +75,7 @@ namespace LayoutFarm.Presentation
 
  
 
-        protected abstract bool HasGroundLayer();
-
-
-
+        protected abstract bool HasGroundLayer(); 
 
         public void DrawChildContent(ArtCanvas canvasPage, InternalRect updateArea)
         {
