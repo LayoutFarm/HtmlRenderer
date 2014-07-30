@@ -1,8 +1,8 @@
-﻿
+﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using System.Text; 
-using System.Drawing; 
+using System.Text;
+using System.Drawing;
 
 
 namespace LayoutFarm.Presentation
@@ -23,11 +23,11 @@ namespace LayoutFarm.Presentation
     {
         int x;
         int y;
-                                ArtVisualElement sourceVisualElement;
-                                public bool CancelBubbling = false;
+        ArtVisualElement sourceVisualElement;
+        public bool CancelBubbling = false;
 
 
-                        int canvasXOrigin;
+        int canvasXOrigin;
         int canvasYOrigin;
 
         public ArtEventArgs()
@@ -43,12 +43,12 @@ namespace LayoutFarm.Presentation
             y = 0;
             CancelBubbling = false;
 
-                        canvasXOrigin = 0;
+            canvasXOrigin = 0;
             canvasYOrigin = 0;
-            this.vroot = null;
+             
             this.winRoot = null;
-                                }
-                                public ArtVisualElement SourceVisualElement
+        }
+        public ArtVisualElement SourceVisualElement
         {
             get
             {
@@ -59,32 +59,33 @@ namespace LayoutFarm.Presentation
                 sourceVisualElement = value;
             }
         }
-                                                                                                                                                                public bool IsShiftKeyDown
+        public bool IsShiftKeyDown
         {
             get;
             set;
-                        
-                                }
-                                public bool IsAltKeyDown
+
+        }
+        public bool IsAltKeyDown
         {
             get;
             set;
-                        
-                                }
-                                public bool IsCtrlKeyDown
+
+        }
+        public bool IsCtrlKeyDown
         {
             get;
             set;
-                        
-                                }
-                public Point Location
+
+        }
+        public Point Location
         {
             get
-            {                   return new Point(x, y);
+            {
+                return new Point(x, y);
             }
             set
             {
-                                                x = value.X;
+                x = value.X;
                 y = value.Y;
             }
         }
@@ -108,38 +109,32 @@ namespace LayoutFarm.Presentation
             }
         }
 
-                int beforeTranslateOriginX = 0;
+        int beforeTranslateOriginX = 0;
         int beforeTranslateOriginY = 0;
-                public void TranslateCanvasOrigin(Point newOrigin)
+        public void TranslateCanvasOrigin(Point newOrigin)
         {
-                        beforeTranslateOriginX = canvasXOrigin;             beforeTranslateOriginY = canvasYOrigin;
-                        OffsetCanvasOrigin(newOrigin.X - canvasXOrigin, newOrigin.Y - canvasYOrigin);
+            beforeTranslateOriginX = canvasXOrigin; beforeTranslateOriginY = canvasYOrigin;
+            OffsetCanvasOrigin(newOrigin.X - canvasXOrigin, newOrigin.Y - canvasYOrigin);
         }
         public void TranslateCanvasOrigin(int newXOrigin, int newYOrigin)
         {
-                        beforeTranslateOriginX = canvasXOrigin;             beforeTranslateOriginY = canvasYOrigin;
-                        OffsetCanvasOrigin(newXOrigin - canvasXOrigin, newYOrigin - canvasYOrigin);
+            beforeTranslateOriginX = canvasXOrigin; beforeTranslateOriginY = canvasYOrigin;
+            OffsetCanvasOrigin(newXOrigin - canvasXOrigin, newYOrigin - canvasYOrigin);
         }
         public void TranslateCanvasOriginBack()
         {
-                        OffsetCanvasOrigin(beforeTranslateOriginX - canvasXOrigin, beforeTranslateOriginY - canvasYOrigin);
+            OffsetCanvasOrigin(beforeTranslateOriginX - canvasXOrigin, beforeTranslateOriginY - canvasYOrigin);
         }
-                                public void OffsetCanvasOrigin(int dx, int dy)
+        public void OffsetCanvasOrigin(int dx, int dy)
         {
-            if (dx != 0 || dy != 0)             {
-                x -= dx;                 y -= dy;                                                                 canvasXOrigin += dx;
+            if (dx != 0 || dy != 0)
+            {
+                x -= dx; y -= dy; canvasXOrigin += dx;
                 canvasYOrigin += dy;
             }
 
         }
-        public VisualRoot VisualRoot
-        {
-            get
-            {
-                return vroot;
-            }
-
-        }
+       
         public ArtVisualRootWindow WinRoot
         {
             get
@@ -149,24 +144,23 @@ namespace LayoutFarm.Presentation
         }
         public void SetWinRoot(ArtVisualRootWindow winRoot)
         {
-            this.winRoot = winRoot;
-            this.vroot = winRoot.VisualRoot;
+            this.winRoot = winRoot; 
         }
 
-        VisualRoot vroot;
+         
         ArtVisualRootWindow winRoot;
 
-                public VisualElementArgs GetVisualInvalidateCanvasArgs()
+        public VisualElementArgs GetVisualInvalidateCanvasArgs()
         {
             return winRoot.GetVInv();
-                    }
+        }
         public void FreeVisualInvalidateCanvasArgs(VisualElementArgs vinv)
         {
             winRoot.FreeVInv(vinv);
-                    }
-            }
+        }
+    }
 
-    
+
     public enum ArtMouseButtons
     {
         Left,
@@ -179,8 +173,8 @@ namespace LayoutFarm.Presentation
         public ArtMouseButtons Button;
         public int Delta;
         public int Clicks;
-                                public int XDiff;
-                                public int YDiff;
+        public int XDiff;
+        public int YDiff;
 
         public ArtVisualMouseEventType EventType;
         public ArtMouseEventArgs()
@@ -200,7 +194,8 @@ namespace LayoutFarm.Presentation
             Delta = delta;
         }
         public override void Clear()
-        {               Button = 0;
+        {
+            Button = 0;
             Clicks = 0;
             XDiff = 0;
             YDiff = 0;
@@ -212,7 +207,7 @@ namespace LayoutFarm.Presentation
         int keyData;
         bool shift, alt, control;
 
-        
+
         public ArtKeyEventArgs()
         {
         }
@@ -309,9 +304,9 @@ namespace LayoutFarm.Presentation
 
 
 
-                public class ArtSizeChangedEventArgs : ArtEventArgs
+    public class ArtSizeChangedEventArgs : ArtEventArgs
     {
-                                AffectedElementSideFlags changeFromSideFlags;
+        AffectedElementSideFlags changeFromSideFlags;
         static Stack<ArtSizeChangedEventArgs> pool = new Stack<ArtSizeChangedEventArgs>();
         private ArtSizeChangedEventArgs(ArtVisualElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
         {
@@ -354,7 +349,7 @@ namespace LayoutFarm.Presentation
 
     public class ArtInvalidatedEventArgs : ArtEventArgs
     {
-                        
+
         public InternalRect InvalidArea;
         public ArtInvalidatedEventArgs()
         {
@@ -364,7 +359,7 @@ namespace LayoutFarm.Presentation
 
     public class ArtCaretEventArgs : ArtEventArgs
     {
-                public bool Visible = false;
+        public bool Visible = false;
         public override void Clear()
         {
             Visible = false;
@@ -396,7 +391,7 @@ namespace LayoutFarm.Presentation
 
     public class ArtRectChangeEventArgs : ArtEventArgs
     {
-                public int affectedSize = 0;
+        public int affectedSize = 0;
         public int xdiff = 0;
         public int ydiff = 0;
         public ArtRectChangeEventArgs(int xdiff, int ydiff)
@@ -409,7 +404,7 @@ namespace LayoutFarm.Presentation
 
     public class ArtFocusEventArgs : ArtEventArgs
     {
-                ArtVisualElement tobeFocusElement;
+        ArtVisualElement tobeFocusElement;
         ArtVisualElement tobeLostFocusElement;
         FocusEventType focusEventType = FocusEventType.PreviewLostFocus;
         public ArtFocusEventArgs()
@@ -427,7 +422,7 @@ namespace LayoutFarm.Presentation
                 focusEventType = value;
             }
         }
-                                public ArtVisualElement ToBeFocusElement
+        public ArtVisualElement ToBeFocusElement
         {
             get
             {
@@ -438,7 +433,7 @@ namespace LayoutFarm.Presentation
                 tobeFocusElement = value;
             }
         }
-                                public ArtVisualElement ToBeLostFocusElement
+        public ArtVisualElement ToBeLostFocusElement
         {
             get
             {
@@ -460,7 +455,7 @@ namespace LayoutFarm.Presentation
     }
     public class ArtFocusEventArgs2 : ArtEventArgs
     {
-                object tobeFocusElement;
+        object tobeFocusElement;
         object tobeLostFocusElement;
         FocusEventType focusEventType = FocusEventType.PreviewLostFocus;
         public ArtFocusEventArgs2()
@@ -478,7 +473,7 @@ namespace LayoutFarm.Presentation
                 focusEventType = value;
             }
         }
-                                public object ToBeFocusElement
+        public object ToBeFocusElement
         {
             get
             {
@@ -489,7 +484,7 @@ namespace LayoutFarm.Presentation
                 tobeFocusElement = value;
             }
         }
-                                public object ToBeLostFocusElement
+        public object ToBeLostFocusElement
         {
             get
             {
@@ -512,7 +507,7 @@ namespace LayoutFarm.Presentation
 
     public class ArtRectHitEventArgs : ArtEventArgs
     {
-        Rectangle hitRect;         object hitter;         ArtMouseButtons button;
+        Rectangle hitRect; object hitter; ArtMouseButtons button;
 
         public ArtRectHitEventArgs(
              ArtMouseButtons button,
@@ -546,11 +541,12 @@ namespace LayoutFarm.Presentation
         }
         public Size SuggestedOffset(Rectangle testRect)
         {
-                                    int xOffset;
+            int xOffset;
             int yOffset;
             if (hitRect.Left >= testRect.Left + testRect.Width / 2)
             {
-                xOffset = -hitRect.Width;             }
+                xOffset = -hitRect.Width;
+            }
             else
             {
                 xOffset = hitRect.Width;

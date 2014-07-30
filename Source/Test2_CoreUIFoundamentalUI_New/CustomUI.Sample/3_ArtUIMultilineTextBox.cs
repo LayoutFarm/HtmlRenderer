@@ -1,36 +1,46 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
- 
+
 using LayoutFarm.Presentation;
 using LayoutFarm.Presentation.Text;
 
 
 namespace LayoutFarm.Presentation.SampleControls
 {
-   
+
     public class ArtUIMultiLineTextBox : ArtUIElement
     {
-        
-        ArtVisualTextEditBox visualTextEdit;
-       
-        public event ArtMouseEventHandler MouseDown;
-        public ArtUIMultiLineTextBox(int width, int height, bool multiline)            
+        ArtVisualElement primaryVisualElement;
+        ArtVisualTextEditBox visualTextEdit; 
+        public ArtUIMultiLineTextBox(int width, int height, bool multiline)
         {
-
+                 
             visualTextEdit = new ArtVisualTextEditBox(width, height, multiline);
-            visualTextEdit.SetRoleDefinition(textBoxRole, null);
+            visualTextEdit.SetStyleDefinition(textBoxRole, null);
             visualTextEdit.HasSpecificSize = true;
-                        this.SetPrimaryVisualElement(visualTextEdit);
-            visualTextEdit.SetScriptUI(this);
-                        RegisterNativeEvent(
+            this.SetPrimaryVisualElement(visualTextEdit);
+            visualTextEdit.SetController(this);
+            RegisterNativeEvent(
               1 << ArtEventIdentifier.NE_MOUSE_DOWN
               | 1 << ArtEventIdentifier.NE_LOST_FOCUS
               | 1 << ArtEventIdentifier.NE_SIZE_CHANGED
               );
+        }
+        public ArtVisualElement PrimaryVisualElement
+        {
+            get
+            {
+                return primaryVisualElement;
+            }
+        } 
+        public void SetPrimaryVisualElement(ArtVisualElement visualElement)
+        {
+            this.primaryVisualElement = visualElement;
         }
         protected override void OnKeyPress(ArtKeyPressEventArgs e)
         {
@@ -54,7 +64,7 @@ namespace LayoutFarm.Presentation.SampleControls
         {
 
             visualTextEdit.OnMouseDown(e);
-                                                                    }
+        }
         protected override void OnMouseUp(ArtMouseEventArgs e)
         {
             visualTextEdit.OnMouseUp(e);
@@ -65,7 +75,7 @@ namespace LayoutFarm.Presentation.SampleControls
             visualTextEdit.OnDoubleClick(e);
         }
         protected override void OnDragDrop(ArtDragEventArgs e)
-        { 
+        {
         }
         protected override void OnDragStart(ArtDragEventArgs e)
         {
@@ -79,7 +89,7 @@ namespace LayoutFarm.Presentation.SampleControls
         {
             visualTextEdit.OnDragStop(e);
         }
-        
+
         static BoxStyle textBoxRole;
         static ArtUIMultiLineTextBox()
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -6,16 +7,16 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-                    
-                                                                                                                                                                                                    
-  
 
 
-                public class ArtHitPointChain
+
+
+
+    public class ArtHitPointChain
     {
-                        public struct HitPair
+        public struct HitPair
         {
-                        public Point point;
+            public Point point;
             public ArtVisualElement elem;
 
             public static readonly HitPair Empty = new HitPair();
@@ -49,15 +50,15 @@ namespace LayoutFarm.Presentation
 #endif
         }
 
-        
-                
-        LinkedList<HitPair> currentHitChain;        LinkedList<HitPair> prevHitChain;        readonly LinkedList<HitPair> hitChainA = new LinkedList<HitPair>();        readonly LinkedList<HitPair> hitChainB = new LinkedList<HitPair>();
 
-                                int globalOffsetX = 0;
-                                int globalOffsetY = 0;
 
-                                int visualrootStartTestX;
-                                int visualrootStartTestY;
+        LinkedList<HitPair> currentHitChain; LinkedList<HitPair> prevHitChain; readonly LinkedList<HitPair> hitChainA = new LinkedList<HitPair>(); readonly LinkedList<HitPair> hitChainB = new LinkedList<HitPair>();
+
+        int globalOffsetX = 0;
+        int globalOffsetY = 0;
+
+        int visualrootStartTestX;
+        int visualrootStartTestY;
 
         int testPointX;
         int testPointY;
@@ -69,57 +70,59 @@ namespace LayoutFarm.Presentation
 
         public ArtHitPointChain()
         {
-                                    currentHitChain = hitChainA;
+            currentHitChain = hitChainA;
             prevHitChain = hitChainB;
         }
-                                public Point TestPoint
+        public Point TestPoint
         {
             get
             {
                 return new Point(testPointX, testPointY);
             }
         }
-                                public void GetTestPoint(out int x, out int y)
+        public void GetTestPoint(out int x, out int y)
         {
             x = this.testPointX;
             y = this.testPointY;
         }
-                                        
 
 
-                                                public void SetVisualRootStartTestPoint(int x, int y)
+
+        public void SetVisualRootStartTestPoint(int x, int y)
         {
-            
+
             testPointX = x;
             testPointY = y;
             visualrootStartTestX = x;
             visualrootStartTestY = y;
         }
-                                public int LastestRootX
-        {             get
+        public int LastestRootX
+        {
+            get
             {
                 return visualrootStartTestX;
             }
         }
-                                public int LastestRootY
-        {             get
+        public int LastestRootY
+        {
+            get
             {
                 return visualrootStartTestY;
             }
         }
         public void OffsetTestPoint(int dx, int dy)
         {
-                        globalOffsetX += dx;
+            globalOffsetX += dx;
             globalOffsetY += dy;
             testPointX += dx;
             testPointY += dy;
 
         }
-                        public void ClearAll()
+        public void ClearAll()
         {
-                        globalOffsetX = 0;
+            globalOffsetX = 0;
             globalOffsetY = 0;
-                        currentHitChain.Clear();
+            currentHitChain.Clear();
             prevHitChain.Clear();
             testPointX = 0;
             testPointY = 0;
@@ -155,9 +158,9 @@ namespace LayoutFarm.Presentation
                 }
             }
         }
-                                public ArtVisualElement CurrentHitElement
+        public ArtVisualElement CurrentHitElement
         {
-                        get
+            get
             {
                 if (currentHitChain.Count > 0)
                 {
@@ -169,9 +172,9 @@ namespace LayoutFarm.Presentation
                 }
             }
         }
-                                public Point CurrentHitPoint
+        public Point CurrentHitPoint
         {
-                        get
+            get
             {
                 if (currentHitChain.Count > 0)
                 {
@@ -199,27 +202,27 @@ namespace LayoutFarm.Presentation
         }
 
 
-                                        public void AddHit(ArtVisualElement aobj)
+        public void AddHit(ArtVisualElement aobj)
         {
-                        currentHitChain.AddLast(new HitPair(aobj, new Point(testPointX, testPointY)));
+            currentHitChain.AddLast(new HitPair(aobj, new Point(testPointX, testPointY)));
 #if DEBUG
-                        dbugHitTracker.WriteTrackNode(currentHitChain.Count, new Point(testPointX, testPointY).ToString() + " on " + aobj.Rect.ToString() + aobj.GetType().Name);
+            dbugHitTracker.WriteTrackNode(currentHitChain.Count, new Point(testPointX, testPointY).ToString() + " on " + aobj.Rect.ToString() + aobj.GetType().Name);
 #endif
         }
-                                public int Level
+        public int Level
         {
             get
             {
                 return currentHitChain.Count;
             }
         }
-                                        public void RemoveHit(LinkedListNode<HitPair> hitPair)
+        public void RemoveHit(LinkedListNode<HitPair> hitPair)
         {
             currentHitChain.Remove(hitPair);
         }
-                                public void SwapHitChain()
+        public void SwapHitChain()
         {
-                                    if (currentHitChain == hitChainA)
+            if (currentHitChain == hitChainA)
             {
                 prevHitChain = hitChainA;
                 currentHitChain = hitChainB;
@@ -229,13 +232,13 @@ namespace LayoutFarm.Presentation
                 prevHitChain = hitChainB;
                 currentHitChain = hitChainA;
             }
-                        currentHitChain.Clear();
+            currentHitChain.Clear();
         }
         public ArtVisualElement HitTestOnPrevChain()
         {
-                                                                        
 
-                                                            if (prevHitChain.Count > 0)
+
+            if (prevHitChain.Count > 0)
             {
 
                 foreach (HitPair hp in prevHitChain)
@@ -243,24 +246,25 @@ namespace LayoutFarm.Presentation
                     ArtVisualElement elem = hp.elem;
                     if (ArtVisualElement.IsTestableElement(elem))
                     {
-                                                                        if (elem.HitTestCoreNoRecursive(hp.point))
+                        if (elem.HitTestCoreNoRecursive(hp.point))
                         {
-                                                                                                                                                                        
+
                             ArtVisualElement foundOverlapChild = elem.ParentVisualElement.FindOverlapedChildElementAtPoint(elem, hp.point);
 
 
-                                                        if (foundOverlapChild == null)
+                            if (foundOverlapChild == null)
                             {
-                                                                                                Point leftTop = elem.Location;
-                                                                                                globalOffsetX -= leftTop.X;
+                                Point leftTop = elem.Location;
+                                globalOffsetX -= leftTop.X;
                                 globalOffsetY -= leftTop.Y;
                                 testPointX += leftTop.X;
                                 testPointY += leftTop.Y;
 
-                                                                currentHitChain.AddLast(new HitPair(elem, new Point(testPointX, testPointY)));
+                                currentHitChain.AddLast(new HitPair(elem, new Point(testPointX, testPointY)));
                             }
                             else
-                            {                                   break;
+                            {
+                                break;
                             }
                         }
                         else
@@ -273,7 +277,7 @@ namespace LayoutFarm.Presentation
                         break;
                     }
                 }
-                                if (currentHitChain.Count > 0)
+                if (currentHitChain.Count > 0)
                 {
                     return currentHitChain.Last.Value.elem;
                 }
@@ -284,16 +288,17 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                return null;            }
+                return null;
+            }
         }
-                                public int LastestElementGlobalX
+        public int LastestElementGlobalX
         {
             get
             {
                 return globalOffsetX;
             }
         }
-                                public int LastestElementGlobalY
+        public int LastestElementGlobalY
         {
             get
             {
@@ -301,18 +306,18 @@ namespace LayoutFarm.Presentation
             }
         }
 
-                                LinkedList<ArtVisualElement> dragHitElements = new LinkedList<ArtVisualElement>();
-                                public void ClearDragHitElements()
-        {                           
+        LinkedList<ArtVisualElement> dragHitElements = new LinkedList<ArtVisualElement>();
+        public void ClearDragHitElements()
+        {
             dragHitElements.Clear();
         }
 
 
-                                        public void AddDragHitElement(ArtVisualElement element)
+        public void AddDragHitElement(ArtVisualElement element)
         {
             dragHitElements.AddLast(element);
         }
-                                        public void RemoveDragHitElement(ArtVisualElement element)
+        public void RemoveDragHitElement(ArtVisualElement element)
         {
             dragHitElements.Remove(element);
         }
@@ -333,7 +338,7 @@ namespace LayoutFarm.Presentation
             }
         }
 #if DEBUG
-                public IEnumerable<HitPair> HitPairIter
+        public IEnumerable<HitPair> HitPairIter
         {
             get
             {

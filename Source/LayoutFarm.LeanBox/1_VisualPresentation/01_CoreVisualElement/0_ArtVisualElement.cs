@@ -1,4 +1,4 @@
-﻿
+﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,10 +13,9 @@ namespace LayoutFarm.Presentation
 
 
         IVisualParentLink visualParentLink;
-        object uiScriptElement;
-        public ArtVisualElement(int width,
-            int height,
-            VisualElementNature nature)
+        object controller;
+
+        public ArtVisualElement(int width, int height, VisualElementNature nature)
         {
 
             this.uiWidth = width;
@@ -28,15 +27,15 @@ namespace LayoutFarm.Presentation
             this.dbug_SetFixedElementCode(this.GetType().Name);
 #endif
         }
-        
-        public object GetScriptUI()
+
+        public object GetController()
         {
-            return uiScriptElement;
+            return controller;
         }
 
-        public void SetScriptUI(object ui)
+        public void SetController(object ui)
         {
-            this.uiScriptElement = ui;
+            this.controller = ui;
         }
 
         public VisualElementArgs GetVInv()
@@ -58,7 +57,7 @@ namespace LayoutFarm.Presentation
                 }
                 else
                 {
-                                        return new VisualElementArgs(null as ArtVisualRootWindow);
+                    return new VisualElementArgs(null as ArtVisualRootWindow);
                 }
             }
         }
@@ -105,7 +104,7 @@ namespace LayoutFarm.Presentation
 
             if (visualParentLink == null)
             {
-                                return;
+                return;
             }
             if (vinv != null)
             {
@@ -128,7 +127,7 @@ namespace LayoutFarm.Presentation
         {
             visual.visualParentLink = null;
         }
-                                public virtual ArtVisualElement ParentVisualElement
+        public virtual ArtVisualElement ParentVisualElement
         {
             get
             {
@@ -160,7 +159,8 @@ namespace LayoutFarm.Presentation
 
                 if (value)
                 {
-                    uiFlags &= ~HIDDEN;                }
+                    uiFlags &= ~HIDDEN;
+                }
                 else
                 {
                     uiFlags |= HIDDEN;
@@ -172,7 +172,8 @@ namespace LayoutFarm.Presentation
                 InvalidateGraphic(vinv);
                 if (value)
                 {
-                    uiFlags &= ~HIDDEN;                }
+                    uiFlags &= ~HIDDEN;
+                }
                 else
                 {
                     uiFlags |= HIDDEN;
@@ -187,25 +188,23 @@ namespace LayoutFarm.Presentation
         {
             return (ui != null) && ((ui.uiFlags & HIDDEN) == 0) && (ui.visualParentLink != null);
 
-        }
+        } 
 
+        //public void Focus(VisualElementArgs vinv)
+        //{
 
-
-        public void Focus(VisualElementArgs vinv)
-        {
-
-            if (Focusable)
-            {
-                vinv.SetFocusElement(this);
-                this.InvalidateGraphic(vinv);
-            }
-        }
+        //    if (Focusable)
+        //    {
+        //        vinv.SetFocusElement(this);
+        //        this.InvalidateGraphic(vinv);
+        //    }
+        //}
 
         public bool Focusable
         {
             get
             {
-                
+
                 return (uiFlags & NOT_ACCEPT_FOCUS) == 0;
 
             }
@@ -225,13 +224,13 @@ namespace LayoutFarm.Presentation
         }
 
 
-                                        int uiFlags;
+        int uiFlags;
 
-                                        public int oneBitNativeEventFlags = 0;
-        
+        public int oneBitNativeEventFlags = 0;
+
 
         const int IS_TRANSLUCENT_BG = 1 << (1 - 1);
-        const int SCROLLABLE_FULL_MODE = 1 << (2 - 1);        const int TRANSPARENT_FOR_ALL_EVENTS = 1 << (3 - 1);
+        const int SCROLLABLE_FULL_MODE = 1 << (2 - 1); const int TRANSPARENT_FOR_ALL_EVENTS = 1 << (3 - 1);
         const int HIDDEN = 1 << (4 - 1);
         const int IS_GRAPHIC_VALID = 1 << (5 - 1);
         const int IS_DRAG_OVERRED = 1 << (6 - 1);
@@ -479,18 +478,6 @@ namespace LayoutFarm.Presentation
 
             return null;
         }
-
-
-
-
-        public bool HasScriptElement
-        {
-            get
-            {
-                return uiScriptElement != null;
-            }
-        }
-
 
         public static void ClearVisualElementInternalLinkedNode(ArtVisualElement childElement)
         {

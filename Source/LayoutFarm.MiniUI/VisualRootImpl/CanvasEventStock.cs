@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,10 +7,10 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-   
+
     public class CanvasEventsStock
     {
-                        Stack<ArtMouseEventArgs> mouseEventsQ = new Stack<ArtMouseEventArgs>();
+        Stack<ArtMouseEventArgs> mouseEventsQ = new Stack<ArtMouseEventArgs>();
         Stack<ArtKeyEventArgs> keyEventsQ = new Stack<ArtKeyEventArgs>();
         Stack<ArtKeyPressEventArgs> keyPressEventsQ = new Stack<ArtKeyPressEventArgs>();
         Stack<ArtInvalidatedEventArgs> canvasInvalidatedEventsQ = new Stack<ArtInvalidatedEventArgs>();
@@ -26,7 +27,7 @@ namespace LayoutFarm.Presentation
             canvasInvalidatedEventsQ.Push(new ArtInvalidatedEventArgs());
             canvasFocusEventsQ.Push(new ArtFocusEventArgs());
 
-                        caretEventQ.Push(new ArtCaretEventArgs());
+            caretEventQ.Push(new ArtCaretEventArgs());
             cursorEventQ.Push(new ArtCursorEventArgs());
             popEventQ.Push(new ArtPopupEventArgs());
         }
@@ -110,7 +111,8 @@ namespace LayoutFarm.Presentation
         public void ReleaseEventArgs(ArtMouseEventArgs e)
         {
             e.Clear();
-            mouseEventsQ.Push(e);        }
+            mouseEventsQ.Push(e);
+        }
         public ArtKeyEventArgs GetFreeKeyEventArgs()
         {
             if (keyEventsQ.Count > 0)

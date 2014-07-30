@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
@@ -40,12 +41,12 @@ namespace LayoutFarm.Presentation.Text
                     return flowLayer.ownerVisualElement.Height;
                 }
             }
-                                                            public void Load(EditableTextFlowLayer flowLayer)
+            public void Load(EditableTextFlowLayer flowLayer)
             {
                 this.flowLayer = flowLayer;
-                                this.feeder = FlowFeeder.GetNewFlowFeeder();
-                                this.feeder.Load(flowLayer);
-                                if ((flowLayer.layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
+                this.feeder = FlowFeeder.GetNewFlowFeeder();
+                this.feeder.Load(flowLayer);
+                if ((flowLayer.layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
                 {
                     Load((List<EditableVisualElementLine>)flowLayer.lineCollection);
                 }
@@ -72,11 +73,11 @@ namespace LayoutFarm.Presentation.Text
                 isFirstRunOfLine = true;
 
             }
-                                                public bool ReadNextRun()
+            public bool ReadNextRun()
             {
                 return feeder.Read2();
             }
-                                                public void Accept()
+            public void Accept()
             {
                 ArtEditableVisualTextRun v = null;
                 int sourceLineId = feeder.CurrentLineId;
@@ -87,20 +88,20 @@ namespace LayoutFarm.Presentation.Text
                 }
                 else if (sourceLineId > this.currentRelocatorLineId)
                 {
-                                                            v = feeder.UnsafeRemoveCurrent();
+                    v = feeder.UnsafeRemoveCurrent();
                     currentLine.UnsafeAddLast(v);
 
                     if (feeder.IsUnStableBlankLine)
                     {
-                                                feeder.RemoveCurrentBlankLine();
+                        feeder.RemoveCurrentBlankLine();
                     }
                 }
                 else
                 {
-                                                                                                    v = feeder.CurrentRun;
+                    v = feeder.CurrentRun;
                     EditableVisualElementLine sourceLine = v.OwnerEditableLine;
                     sourceLine.SplitToNewLine(v);
-                                        feeder.Read();                                                                                 currentRelocatorLineId = sourceLineId + 1;
+                    feeder.Read(); currentRelocatorLineId = sourceLineId + 1;
                     currentLine = sourceLines[currentRelocatorLineId];
 
                 }
@@ -117,7 +118,7 @@ namespace LayoutFarm.Presentation.Text
                 }
             }
 
-                                                public ArtEditableVisualTextRun CurrentRun
+            public ArtEditableVisualTextRun CurrentRun
             {
                 get
                 {
@@ -140,50 +141,51 @@ namespace LayoutFarm.Presentation.Text
             }
 
 
-                                                public void RemoveCurrentBlankLine()
+            public void RemoveCurrentBlankLine()
             {
                 feeder.RemoveCurrentBlankLine();
 
             }
-                                                public bool IsFirstRunOfLine
+            public bool IsFirstRunOfLine
             {
                 get
                 {
                     return isFirstRunOfLine;
                 }
             }
-                                                public void SplitIntoNewLine()
+            public void SplitIntoNewLine()
             {
 
                 ArtEditableVisualTextRun currentRun = feeder.CurrentRun;
                 EditableVisualElementLine line = currentRun.OwnerEditableLine;
-                                line.SplitToNewLine(currentRun);
+                line.SplitToNewLine(currentRun);
 
-                feeder.Read();            }
+                feeder.Read();
+            }
 
-                                                            public void CloseCurrentLineWithLineBreak(int lineWidth, int lineHeight)
+            public void CloseCurrentLineWithLineBreak(int lineWidth, int lineHeight)
             {
                 currentLine.EndWithLineBreak = true;
                 CloseCurrentLine(lineWidth, lineHeight);
             }
-                                                                        public void SetCurrentLineSize(int lineWidth, int lineHeight)
+            public void SetCurrentLineSize(int lineWidth, int lineHeight)
             {
                 currentLine.SetPostArrangeLineSize(lineWidth, lineHeight);
             }
-                                                public void CloseCurrentLine(int lineWidth, int lineHeight)
+            public void CloseCurrentLine(int lineWidth, int lineHeight)
             {
 
-                                currentLine.SetPostArrangeLineSize(lineWidth, lineHeight);
-                                if (isMultiLine)
+                currentLine.SetPostArrangeLineSize(lineWidth, lineHeight);
+                if (isMultiLine)
                 {
                     if (currentRelocatorLineId < sourceLines.Count - 1)
                     {
-                                                                        ++currentRelocatorLineId;
+                        ++currentRelocatorLineId;
                         currentLine = sourceLines[currentRelocatorLineId];
                     }
                     else
                     {
-                                                currentRelocatorLineId++;
+                        currentRelocatorLineId++;
                         EditableVisualElementLine newLine = new EditableVisualElementLine(flowLayer);
                         flowLayer.AppendLine(newLine);
                         currentLine = newLine;
@@ -192,7 +194,7 @@ namespace LayoutFarm.Presentation.Text
                 else
                 {
 
-                                        currentRelocatorLineId++;
+                    currentRelocatorLineId++;
                     EditableVisualElementLine newLine = new EditableVisualElementLine(flowLayer);
                     flowLayer.AppendLine(newLine);
                     sourceLines = (List<EditableVisualElementLine>)flowLayer.lineCollection;
@@ -216,59 +218,59 @@ namespace LayoutFarm.Presentation.Text
             }
             public static void FreeFlowRelocator(FlowReLocator flowRelocator)
             {
-                                                flowRelocator.sourceLines = null;
+                flowRelocator.sourceLines = null;
                 flowRelocator.isMultiLine = false;
                 flowRelocator.currentRelocatorLineId = 0;
                 flowRelocator.currentLine = null;
-                                                flowRelocator.isFirstRunOfLine = true;
+                flowRelocator.isFirstRunOfLine = true;
 
                 FlowFeeder.FreeFlowFeeder(flowRelocator.feeder);
                 flowRelocator.feeder = null;
 
-                                flowRelcatorStack.Push(flowRelocator);
+                flowRelcatorStack.Push(flowRelocator);
             }
 
         }
-                                                
-        
-                
-
-                
-        
-
-                                                                                                                        
-                                
-
-                        
-                                                                        
-
-        
-                        
 
 
-                                                                                
 
-                                                        
-                                                                                                                        
-                        
-                                                                                                                                                                                                                                                                        
-                
-                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                        
-                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                                                                                                                                                                                                                                                                                                                
-                
-                                                                
-                                                                                                        
-                                        
-                                                                
-                                                                                        
-                                                                
-                                                                                                                                                                                                                                                                                        
 
-                                                                                                                                                                                                                
 
-                class FlowFeeder
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        class FlowFeeder
         {
 
             List<EditableVisualElementLine> sourceLines;
@@ -288,7 +290,7 @@ namespace LayoutFarm.Presentation.Text
             public void Load(EditableTextFlowLayer flowLayer)
             {
                 this.flowLayer = flowLayer;
-                                if ((flowLayer.layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
+                if ((flowLayer.layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
                 {
                     Load((List<EditableVisualElementLine>)flowLayer.lineCollection);
                 }
@@ -301,15 +303,15 @@ namespace LayoutFarm.Presentation.Text
             {
 
                 this.currentLine = sourceLine;
-                                readState = 2;
+                readState = 2;
 
-                                                                                                                                                                                                                                            }
+            }
             void Load(List<EditableVisualElementLine> sourceLines)
             {
 
                 if (sourceLines.Count > 0)
                 {
-                    this.currentLine = sourceLines[0]; 
+                    this.currentLine = sourceLines[0];
                 }
 
 
@@ -333,11 +335,11 @@ namespace LayoutFarm.Presentation.Text
                 if (isMultiLine)
                 {
                     sourceLines.RemoveAt(currentFeederLineId);
-                                                            if (currentFeederLineId > 0)
+                    if (currentFeederLineId > 0)
                     {
-                                                currentFeederLineId--;
+                        currentFeederLineId--;
                         currentLine = sourceLines[currentFeederLineId];
-                                                curNode = currentLine.Last;
+                        curNode = currentLine.Last;
                         if (curNode == null)
                         {
                             if (currentLine.EndWithLineBreak)
@@ -351,12 +353,12 @@ namespace LayoutFarm.Presentation.Text
                         }
                         else
                         {
-                                                        readState = 0;
+                            readState = 0;
                         }
                     }
                     else if (currentFeederLineId == 0)
                     {
-                                                if (sourceLines.Count > 0)
+                        if (sourceLines.Count > 0)
                         {
                             currentLine = sourceLines[currentFeederLineId];
 #if DEBUG
@@ -365,11 +367,11 @@ namespace LayoutFarm.Presentation.Text
                             curNode = currentLine.First; ;
                             readState = 2;
 
-                                                                                                                                                                                                                                                                                    }
+                        }
                     }
                 }
             }
-                                                public bool IsUnStableBlankLine
+            public bool IsUnStableBlankLine
             {
                 get
                 {
@@ -384,37 +386,37 @@ namespace LayoutFarm.Presentation.Text
 
                 if (tobeRemoveNode == line.First)
                 {
-                                        curNode = null;
+                    curNode = null;
                     readState = 2;
                 }
                 else
                 {
                     curNode = tobeRemoveNode.Previous;
-                                                        }
+                }
                 line.UnsafeRemoveVisualElement(v);
                 return v;
             }
 
             public bool Read2()
             {
-                                switch (readState)
+                switch (readState)
                 {
                     case 2:
-                        
+
                         if (this.currentLine != null)
                         {
-                                                        curNode = currentLine.First;                            if (curNode != null)
+                            curNode = currentLine.First; if (curNode != null)
                             {
-                                readState = 0;                                return true;
+                                readState = 0; return true;
                             }
                             else if (currentLine.EndWithLineBreak)
                             {
-                                readState = 1;                                return true;
+                                readState = 1; return true;
                             }
                         }
 
                         readState = 4;
-                                                
+
 
 
 
@@ -422,23 +424,23 @@ namespace LayoutFarm.Presentation.Text
                         return true;
                     case 0:
                         {
-                                                        curNode = curNode.Next;
+                            curNode = curNode.Next;
                             if (curNode != null)
                             {
-                                                                return true;
+                                return true;
                             }
                             else
                             {
-                                                                                                if (currentLine.EndWithLineBreak)
+                                if (currentLine.EndWithLineBreak)
                                 {
-                                                                        readState = 1;
+                                    readState = 1;
                                     return true;
                                 }
                                 else
                                 {
-                                                                        if (!isMultiLine)
+                                    if (!isMultiLine)
                                     {
-                                                                                                                        if (flowLayer.lineCollection is List<EditableVisualElementLine>)
+                                        if (flowLayer.lineCollection is List<EditableVisualElementLine>)
                                         {
                                             sourceLines = (List<EditableVisualElementLine>)flowLayer.lineCollection;
                                             isMultiLine = true;
@@ -451,7 +453,7 @@ namespace LayoutFarm.Presentation.Text
                                         readState = 3;
                                         if (currentFeederLineId < sourceLines.Count - 1)
                                         {
-                                                                                        ++currentFeederLineId;                                            currentLine = sourceLines[currentFeederLineId];
+                                            ++currentFeederLineId; currentLine = sourceLines[currentFeederLineId];
                                             curNode = currentLine.First;
                                             if (curNode != null)
                                             {
@@ -465,7 +467,7 @@ namespace LayoutFarm.Presentation.Text
                                             }
                                             else
                                             {
-                                                                                                readState = 4;
+                                                readState = 4;
                                                 return true;
                                             }
                                         }
@@ -482,7 +484,7 @@ namespace LayoutFarm.Presentation.Text
                                 readState = 3;
                                 if (currentFeederLineId < sourceLines.Count - 1)
                                 {
-                                                                        ++currentFeederLineId;                                    currentLine = sourceLines[currentFeederLineId];
+                                    ++currentFeederLineId; currentLine = sourceLines[currentFeederLineId];
                                     curNode = currentLine.First;
                                     if (curNode != null)
                                     {
@@ -496,7 +498,7 @@ namespace LayoutFarm.Presentation.Text
                                     }
                                     else
                                     {
-                                                                                readState = 4;
+                                        readState = 4;
                                         return true;
                                     }
                                 }
@@ -510,12 +512,12 @@ namespace LayoutFarm.Presentation.Text
                         }
                     case 4:
                         {
-                                                                                    if (isMultiLine)
+                            if (isMultiLine)
                             {
                                 readState = 3;
                                 if (currentFeederLineId < sourceLines.Count - 1)
                                 {
-                                                                        ++currentFeederLineId;                                    currentLine = sourceLines[currentFeederLineId];
+                                    ++currentFeederLineId; currentLine = sourceLines[currentFeederLineId];
                                     curNode = currentLine.First;
                                     if (curNode != null)
                                     {
@@ -529,7 +531,7 @@ namespace LayoutFarm.Presentation.Text
                                     }
                                     else
                                     {
-                                                                                readState = 4;
+                                        readState = 4;
                                         return true;
                                     }
                                 }
@@ -539,43 +541,43 @@ namespace LayoutFarm.Presentation.Text
                 }
                 return false;
             }
-                                                            public bool Read()
+            public bool Read()
             {
 
-                                switch (readState)
+                switch (readState)
                 {
                     case 2:
-                                                if (this.currentLine != null)
+                        if (this.currentLine != null)
                         {
-                                                        curNode = currentLine.First;                            if (curNode != null)
+                            curNode = currentLine.First; if (curNode != null)
                             {
-                                readState = 0;                                return true;
+                                readState = 0; return true;
                             }
                             else if (currentLine.EndWithLineBreak)
                             {
-                                readState = 1;                                return true;
+                                readState = 1; return true;
                             }
                         }
-                        readState = 3;                        return false;
+                        readState = 3; return false;
                     case 0:
                         {
-                                                        curNode = curNode.Next;
+                            curNode = curNode.Next;
                             if (curNode != null)
                             {
-                                                                return true;
+                                return true;
                             }
                             else
                             {
-                                                                                                if (currentLine.EndWithLineBreak)
+                                if (currentLine.EndWithLineBreak)
                                 {
-                                                                        readState = 1;
+                                    readState = 1;
                                     return true;
                                 }
                                 else
                                 {
-                                                                        if (!isMultiLine)
+                                    if (!isMultiLine)
                                     {
-                                                                                                                        if (flowLayer.lineCollection is List<EditableVisualElementLine>)
+                                        if (flowLayer.lineCollection is List<EditableVisualElementLine>)
                                         {
                                             sourceLines = (List<EditableVisualElementLine>)flowLayer.lineCollection;
                                             isMultiLine = true;
@@ -588,7 +590,7 @@ namespace LayoutFarm.Presentation.Text
                                         readState = 3;
                                         while (currentFeederLineId < sourceLines.Count - 1)
                                         {
-                                            ++currentFeederLineId;                                            currentLine = sourceLines[currentFeederLineId];
+                                            ++currentFeederLineId; currentLine = sourceLines[currentFeederLineId];
                                             curNode = currentLine.First;
                                             if (curNode != null)
                                             {
@@ -616,7 +618,7 @@ namespace LayoutFarm.Presentation.Text
                                 readState = 3;
                                 while (currentFeederLineId < sourceLines.Count - 1)
                                 {
-                                    ++currentFeederLineId;                                    currentLine = sourceLines[currentFeederLineId];
+                                    ++currentFeederLineId; currentLine = sourceLines[currentFeederLineId];
                                     curNode = currentLine.First;
                                     if (curNode != null)
                                     {
@@ -651,7 +653,7 @@ namespace LayoutFarm.Presentation.Text
                     }
                     else
                     {
-                                                return null;
+                        return null;
                     }
                 }
             }
@@ -678,13 +680,13 @@ namespace LayoutFarm.Presentation.Text
             }
             public static void FreeFlowFeeder(FlowFeeder flowFeeder)
             {
-                                                flowFeeder.sourceLines = null;
+                flowFeeder.sourceLines = null;
                 flowFeeder.isMultiLine = false;
                 flowFeeder.currentFeederLineId = 0;
                 flowFeeder.currentLine = null;
                 flowFeeder.curNode = null;
                 flowFeeder.readState = 0;
-                                flowFeederStack.Push(flowFeeder);
+                flowFeederStack.Push(flowFeeder);
             }
 
 

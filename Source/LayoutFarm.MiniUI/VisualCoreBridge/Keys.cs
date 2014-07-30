@@ -1,397 +1,397 @@
-﻿using System;
-
+﻿//2014 Apache2, WinterDev
+using System;
 namespace LayoutFarm.Presentation
 {
 
     public enum ArtKeys
     {
-                        Modifiers = -65536,
+        Modifiers = -65536,
         //
-                        None = 0,
+        None = 0,
         //
-                        LButton = 1,
+        LButton = 1,
         //
-                        RButton = 2,
+        RButton = 2,
         //
-                        Cancel = 3,
+        Cancel = 3,
         //
-                        MButton = 4,
+        MButton = 4,
         //
-                        XButton1 = 5,
+        XButton1 = 5,
         //
-                        XButton2 = 6,
+        XButton2 = 6,
         //
-                        Back = 8,
+        Back = 8,
         //
-                        Tab = 9,
+        Tab = 9,
         //
-                        LineFeed = 10,
+        LineFeed = 10,
         //
-                        Clear = 12,
+        Clear = 12,
         //
-                        Enter = 13,
+        Enter = 13,
         //
-                        Return = 13,
+        Return = 13,
         //
-                        ShiftKey = 16,
+        ShiftKey = 16,
         //
-                        ControlKey = 17,
+        ControlKey = 17,
         //
-                        Menu = 18,
+        Menu = 18,
         //
-                        Pause = 19,
+        Pause = 19,
         //
-                        CapsLock = 20,
+        CapsLock = 20,
         //
-                        Capital = 20,
+        Capital = 20,
         //
-                        KanaMode = 21,
+        KanaMode = 21,
         //
-                        HanguelMode = 21,
+        HanguelMode = 21,
         //
-                        HangulMode = 21,
+        HangulMode = 21,
         //
-                        JunjaMode = 23,
+        JunjaMode = 23,
         //
-                        FinalMode = 24,
+        FinalMode = 24,
         //
-                        KanjiMode = 25,
+        KanjiMode = 25,
         //
-                        HanjaMode = 25,
+        HanjaMode = 25,
         //
-                        Escape = 27,
+        Escape = 27,
         //
-                        IMEConvert = 28,
+        IMEConvert = 28,
         //
-                        IMENonconvert = 29,
+        IMENonconvert = 29,
         //
-                        IMEAceept = 30,
+        IMEAceept = 30,
         //
-                        IMEAccept = 30,
+        IMEAccept = 30,
         //
-                        IMEModeChange = 31,
+        IMEModeChange = 31,
         //
-                        Space = 32,
+        Space = 32,
         //
-                        Prior = 33,
+        Prior = 33,
         //
-                        PageUp = 33,
+        PageUp = 33,
         //
-                        Next = 34,
+        Next = 34,
         //
-                        PageDown = 34,
+        PageDown = 34,
         //
-                        End = 35,
+        End = 35,
         //
-                        Home = 36,
+        Home = 36,
         //
-                        Left = 37,
+        Left = 37,
         //
-                        Up = 38,
+        Up = 38,
         //
-                        Right = 39,
+        Right = 39,
         //
-                        Down = 40,
+        Down = 40,
         //
-                        Select = 41,
+        Select = 41,
         //
-                        Print = 42,
+        Print = 42,
         //
-                        Execute = 43,
+        Execute = 43,
         //
-                        PrintScreen = 44,
+        PrintScreen = 44,
         //
-                        Snapshot = 44,
+        Snapshot = 44,
         //
-                        Insert = 45,
+        Insert = 45,
         //
-                        Delete = 46,
+        Delete = 46,
         //
-                        Help = 47,
+        Help = 47,
         //
-                        D0 = 48,
+        D0 = 48,
         //
-                        D1 = 49,
+        D1 = 49,
         //
-                        D2 = 50,
+        D2 = 50,
         //
-                        D3 = 51,
+        D3 = 51,
         //
-                        D4 = 52,
+        D4 = 52,
         //
-                        D5 = 53,
+        D5 = 53,
         //
-                        D6 = 54,
+        D6 = 54,
         //
-                        D7 = 55,
+        D7 = 55,
         //
-                        D8 = 56,
+        D8 = 56,
         //
-                        D9 = 57,
+        D9 = 57,
         //
-                        A = 65,
+        A = 65,
         //
-                        B = 66,
+        B = 66,
         //
-                        C = 67,
+        C = 67,
         //
-                        D = 68,
+        D = 68,
         //
-                        E = 69,
+        E = 69,
         //
-                        F = 70,
+        F = 70,
         //
-                        G = 71,
+        G = 71,
         //
-                        H = 72,
+        H = 72,
         //
-                        I = 73,
+        I = 73,
         //
-                        J = 74,
+        J = 74,
         //
-                        K = 75,
+        K = 75,
         //
-                        L = 76,
+        L = 76,
         //
-                        M = 77,
+        M = 77,
         //
-                        N = 78,
+        N = 78,
         //
-                        O = 79,
+        O = 79,
         //
-                        P = 80,
+        P = 80,
         //
-                        Q = 81,
+        Q = 81,
         //
-                        R = 82,
+        R = 82,
         //
-                        S = 83,
+        S = 83,
         //
-                        T = 84,
+        T = 84,
         //
-                        U = 85,
+        U = 85,
         //
-                        V = 86,
+        V = 86,
         //
-                        W = 87,
+        W = 87,
         //
-                        X = 88,
+        X = 88,
         //
-                        Y = 89,
+        Y = 89,
         //
-                        Z = 90,
+        Z = 90,
         //
-                        LWin = 91,
+        LWin = 91,
         //
-                        RWin = 92,
+        RWin = 92,
         //
-                        Apps = 93,
+        Apps = 93,
         //
-                        Sleep = 95,
+        Sleep = 95,
         //
-                        NumPad0 = 96,
+        NumPad0 = 96,
         //
-                        NumPad1 = 97,
+        NumPad1 = 97,
         //
-                        NumPad2 = 98,
+        NumPad2 = 98,
         //
-                        NumPad3 = 99,
+        NumPad3 = 99,
         //
-                        NumPad4 = 100,
+        NumPad4 = 100,
         //
-                        NumPad5 = 101,
+        NumPad5 = 101,
         //
-                        NumPad6 = 102,
+        NumPad6 = 102,
         //
-                        NumPad7 = 103,
+        NumPad7 = 103,
         //
-                        NumPad8 = 104,
+        NumPad8 = 104,
         //
-                        NumPad9 = 105,
+        NumPad9 = 105,
         //
-                        Multiply = 106,
+        Multiply = 106,
         //
-                        Add = 107,
+        Add = 107,
         //
-                        Separator = 108,
+        Separator = 108,
         //
-                        Subtract = 109,
+        Subtract = 109,
         //
-                        Decimal = 110,
+        Decimal = 110,
         //
-                        Divide = 111,
+        Divide = 111,
         //
-                        F1 = 112,
+        F1 = 112,
         //
-                        F2 = 113,
+        F2 = 113,
         //
-                        F3 = 114,
+        F3 = 114,
         //
-                        F4 = 115,
+        F4 = 115,
         //
-                        F5 = 116,
+        F5 = 116,
         //
-                        F6 = 117,
+        F6 = 117,
         //
-                        F7 = 118,
+        F7 = 118,
         //
-                        F8 = 119,
+        F8 = 119,
         //
-                        F9 = 120,
+        F9 = 120,
         //
-                        F10 = 121,
+        F10 = 121,
         //
-                        F11 = 122,
+        F11 = 122,
         //
-                        F12 = 123,
+        F12 = 123,
         //
-                        F13 = 124,
+        F13 = 124,
         //
-                        F14 = 125,
+        F14 = 125,
         //
-                        F15 = 126,
+        F15 = 126,
         //
-                        F16 = 127,
+        F16 = 127,
         //
-                        F17 = 128,
+        F17 = 128,
         //
-                        F18 = 129,
+        F18 = 129,
         //
-                        F19 = 130,
+        F19 = 130,
         //
-                        F20 = 131,
+        F20 = 131,
         //
-                        F21 = 132,
+        F21 = 132,
         //
-                        F22 = 133,
+        F22 = 133,
         //
-                        F23 = 134,
+        F23 = 134,
         //
-                        F24 = 135,
+        F24 = 135,
         //
-                        NumLock = 144,
+        NumLock = 144,
         //
-                        Scroll = 145,
+        Scroll = 145,
         //
-                        LShiftKey = 160,
+        LShiftKey = 160,
         //
-                        RShiftKey = 161,
+        RShiftKey = 161,
         //
-                        LControlKey = 162,
+        LControlKey = 162,
         //
-                        RControlKey = 163,
+        RControlKey = 163,
         //
-                        LMenu = 164,
+        LMenu = 164,
         //
-                        RMenu = 165,
+        RMenu = 165,
         //
-                        BrowserBack = 166,
+        BrowserBack = 166,
         //
-                        BrowserForward = 167,
+        BrowserForward = 167,
         //
-                        BrowserRefresh = 168,
+        BrowserRefresh = 168,
         //
-                        BrowserStop = 169,
+        BrowserStop = 169,
         //
-                        BrowserSearch = 170,
+        BrowserSearch = 170,
         //
-                        BrowserFavorites = 171,
+        BrowserFavorites = 171,
         //
-                        BrowserHome = 172,
+        BrowserHome = 172,
         //
-                        VolumeMute = 173,
+        VolumeMute = 173,
         //
-                        VolumeDown = 174,
+        VolumeDown = 174,
         //
-                        VolumeUp = 175,
+        VolumeUp = 175,
         //
-                        MediaNextTrack = 176,
+        MediaNextTrack = 176,
         //
-                        MediaPreviousTrack = 177,
+        MediaPreviousTrack = 177,
         //
-                        MediaStop = 178,
+        MediaStop = 178,
         //
-                        MediaPlayPause = 179,
+        MediaPlayPause = 179,
         //
-                        LaunchMail = 180,
+        LaunchMail = 180,
         //
-                        SelectMedia = 181,
+        SelectMedia = 181,
         //
-                        LaunchApplication1 = 182,
+        LaunchApplication1 = 182,
         //
-                        LaunchApplication2 = 183,
+        LaunchApplication2 = 183,
         //
-                        Oem1 = 186,
+        Oem1 = 186,
         //
-                        OemSemicolon = 186,
+        OemSemicolon = 186,
         //
-                        Oemplus = 187,
+        Oemplus = 187,
         //
-                        Oemcomma = 188,
+        Oemcomma = 188,
         //
-                        OemMinus = 189,
+        OemMinus = 189,
         //
-                        OemPeriod = 190,
+        OemPeriod = 190,
         //
-                        OemQuestion = 191,
+        OemQuestion = 191,
         //
-                        Oem2 = 191,
+        Oem2 = 191,
         //
-                        Oemtilde = 192,
+        Oemtilde = 192,
         //
-                        Oem3 = 192,
+        Oem3 = 192,
         //
-                        Oem4 = 219,
+        Oem4 = 219,
         //
-                        OemOpenBrackets = 219,
+        OemOpenBrackets = 219,
         //
-                        OemPipe = 220,
+        OemPipe = 220,
         //
-                        Oem5 = 220,
+        Oem5 = 220,
         //
-                        Oem6 = 221,
+        Oem6 = 221,
         //
-                        OemCloseBrackets = 221,
+        OemCloseBrackets = 221,
         //
-                        Oem7 = 222,
+        Oem7 = 222,
         //
-                                OemQuotes = 222,
+        OemQuotes = 222,
         //
-                        Oem8 = 223,
+        Oem8 = 223,
         //
-                        Oem102 = 226,
+        Oem102 = 226,
         //
-                                OemBackslash = 226,
+        OemBackslash = 226,
         //
-                        ProcessKey = 229,
+        ProcessKey = 229,
         //
-                                        Packet = 231,
+        Packet = 231,
         //
-                        Attn = 246,
+        Attn = 246,
         //
-                        Crsel = 247,
+        Crsel = 247,
         //
-                        Exsel = 248,
+        Exsel = 248,
         //
-                        EraseEof = 249,
+        EraseEof = 249,
         //
-                        Play = 250,
+        Play = 250,
         //
-                        Zoom = 251,
+        Zoom = 251,
         //
-                        NoName = 252,
+        NoName = 252,
         //
-                        Pa1 = 253,
+        Pa1 = 253,
         //
-                        OemClear = 254,
+        OemClear = 254,
         //
-                        KeyCode = 65535,
+        KeyCode = 65535,
         //
-                        Shift = 65536,
+        Shift = 65536,
         //
-                        Control = 131072,
+        Control = 131072,
         //
-                        Alt = 262144,
+        Alt = 262144,
     }
 
 }

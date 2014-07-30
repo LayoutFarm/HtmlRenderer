@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -14,40 +15,40 @@ using LayoutFarm.Presentation.Text;
 namespace LayoutFarm.Presentation.Text
 {
 
-                public sealed partial class ArtVisualTextEditBox : ArtVisualContainerBase
+    public sealed partial class ArtVisualTextEditBox : ArtVisualContainerBase
     {
 
-                                EditableTextFlowLayer textLayer;
+        EditableTextFlowLayer textLayer;
 
-                                InternalTextLayerController internalTextLayerController; 
-                                int verticalExpectedCharIndex;                                bool isMultiLine = false;
-                                        bool isInVerticalPhase = false;
+        InternalTextLayerController internalTextLayerController;
+        int verticalExpectedCharIndex; bool isMultiLine = false;
+        bool isInVerticalPhase = false;
 
 
-                                public event ArtVisualPaintEventHandler SubgroundPaint;
+        public event ArtVisualPaintEventHandler SubgroundPaint;
 
         public ArtVisualTextEditBox(int width, int height, bool isMultiLine) :
             base(width, height, VisualElementNature.TextEditContainer)
         {
-                        RegisterNativeEvent((1 << ArtEventIdentifier.NE_DRAG_START)
-            | (1 << ArtEventIdentifier.NE_DRAGING)
-            | (1 << ArtEventIdentifier.NE_DRAG_STOP)
-            | (1 << ArtEventIdentifier.NE_MOUSE_DOWN)
-            | (1 << ArtEventIdentifier.NE_MOUSE_MOVE)
-            | (1 << ArtEventIdentifier.NE_MOUSE_HOVER)
-            | (1 << ArtEventIdentifier.NE_MOUSE_UP)
-            | (1 << ArtEventIdentifier.NE_DBLCLICK)
-            | (1 << ArtEventIdentifier.NE_KEY_DOWN)
-            | (1 << ArtEventIdentifier.NE_KEY_PRESS));
-            
-                        
+            RegisterNativeEvent((1 << ArtEventIdentifier.NE_DRAG_START)
+                | (1 << ArtEventIdentifier.NE_DRAGING)
+                | (1 << ArtEventIdentifier.NE_DRAG_STOP)
+                | (1 << ArtEventIdentifier.NE_MOUSE_DOWN)
+                | (1 << ArtEventIdentifier.NE_MOUSE_MOVE)
+                | (1 << ArtEventIdentifier.NE_MOUSE_HOVER)
+                | (1 << ArtEventIdentifier.NE_MOUSE_UP)
+                | (1 << ArtEventIdentifier.NE_DBLCLICK)
+                | (1 << ArtEventIdentifier.NE_KEY_DOWN)
+                | (1 << ArtEventIdentifier.NE_KEY_PRESS));
+
+
             textLayer = new EditableTextFlowLayer(this);
 
 
-                                                
-                                                            
+
+
             InnerSetHasSubGroupLayer(this, true);
-                                    internalTextLayerController = new InternalTextLayerController(this, textLayer);
+            internalTextLayerController = new InternalTextLayerController(this, textLayer);
 
             this.isMultiLine = isMultiLine;
             if (isMultiLine)
@@ -61,7 +62,7 @@ namespace LayoutFarm.Presentation.Text
             }
             this.IsBlockElement = false;
 
-                                                this.IsScrollable = true;
+            this.IsScrollable = true;
         }
 
         protected override bool HasGroundLayer()
@@ -82,20 +83,20 @@ namespace LayoutFarm.Presentation.Text
         }
         public static void NotifyTextContentSizeChanged(ArtVisualTextEditBox ts)
         {
-                                                ts.ContainerBaseEvaluateScrollBar();
+            ts.ContainerBaseEvaluateScrollBar();
         }
 
-                                                                        public Rectangle GetRectAreaOf(int beginlineNum, int beginColumnNum, int endLineNum, int endColumnNum)
+        public Rectangle GetRectAreaOf(int beginlineNum, int beginColumnNum, int endLineNum, int endColumnNum)
         {
 
             EditableTextFlowLayer flowLayer = this.textLayer;
-            EditableVisualElementLine beginLine = flowLayer.GetTextLineAtPos(beginlineNum);            if (beginLine == null)
+            EditableVisualElementLine beginLine = flowLayer.GetTextLineAtPos(beginlineNum); if (beginLine == null)
             {
                 return Rectangle.Empty;
             }
             if (beginlineNum == endLineNum)
             {
-                                                VisualPointInfo beginPoint = beginLine.GetTextPointInfoFromCharIndex(beginColumnNum);
+                VisualPointInfo beginPoint = beginLine.GetTextPointInfoFromCharIndex(beginColumnNum);
                 VisualPointInfo endPoint = beginLine.GetTextPointInfoFromCharIndex(endColumnNum);
                 return new Rectangle(beginPoint.X, beginLine.Top, endPoint.X, beginLine.ActualLineHeight);
             }
@@ -103,8 +104,8 @@ namespace LayoutFarm.Presentation.Text
             {
                 VisualPointInfo beginPoint = beginLine.GetTextPointInfoFromCharIndex(beginColumnNum);
 
-                EditableVisualElementLine endLine = flowLayer.GetTextLineAtPos(endLineNum);                VisualPointInfo endPoint = endLine.GetTextPointInfoFromCharIndex(endColumnNum);
-                                return new Rectangle(beginPoint.X, beginLine.Top, endPoint.X, beginLine.ActualLineHeight);
+                EditableVisualElementLine endLine = flowLayer.GetTextLineAtPos(endLineNum); VisualPointInfo endPoint = endLine.GetTextPointInfoFromCharIndex(endColumnNum);
+                return new Rectangle(beginPoint.X, beginLine.Top, endPoint.X, beginLine.ActualLineHeight);
             }
 
         }
@@ -113,19 +114,19 @@ namespace LayoutFarm.Presentation.Text
         {
             if (internalTextLayerController.SelectionRange != null)
             {
-                                internalTextLayerController.SelectionRange.Draw(canvasPage, updateArea);
+                internalTextLayerController.SelectionRange.Draw(canvasPage, updateArea);
             }
             if (SubgroundPaint != null)
             {
-                                SubgroundPaint(this, new ArtVisualPaintEventArgs(canvasPage, updateArea));
+                SubgroundPaint(this, new ArtVisualPaintEventArgs(canvasPage, updateArea));
             }
         }
 
 
-                                        
+
         public void OnKeyPress(ArtKeyPressEventArgs e)
         {
-            
+
             if (!e.IsControlKey)
             {
                 VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
@@ -135,7 +136,7 @@ namespace LayoutFarm.Presentation.Text
                 if (internalTextLayerController.SelectionRange != null
                     && internalTextLayerController.SelectionRange.IsValid)
                 {
-                                        InvalidateGraphicLocalArea(this, GetSelectionUpdateArea(), vinv);
+                    InvalidateGraphicLocalArea(this, GetSelectionUpdateArea(), vinv);
                 }
 
                 if (textSurfaceEventListener != null && !TextSurfaceEventListener.NotifyPreviewKeydown(textSurfaceEventListener, c))
@@ -143,9 +144,9 @@ namespace LayoutFarm.Presentation.Text
                     internalTextLayerController.UpdateSelectionRange();
 
                 }
-                                                                if (internalTextLayerController.SelectionRange != null)
+                if (internalTextLayerController.SelectionRange != null)
                 {
-                                                                                
+
                     internalTextLayerController.AddCharToCurrentLine(c, vinv);
                     if (textSurfaceEventListener != null)
                     {
@@ -154,36 +155,37 @@ namespace LayoutFarm.Presentation.Text
                 }
                 else
                 {
-                                        internalTextLayerController.AddCharToCurrentLine(c, vinv);
+                    internalTextLayerController.AddCharToCurrentLine(c, vinv);
                     if (textSurfaceEventListener != null)
                     {
                         TextSurfaceEventListener.NotifyCharacterAdded(textSurfaceEventListener, e.KeyChar);
                     }
                 }
-                                EnsureCaretVisible(vinv);
-                                e.FreeVisualInvalidateCanvasArgs(vinv);
+                EnsureCaretVisible(vinv);
+                e.FreeVisualInvalidateCanvasArgs(vinv);
             }
         }
 
-                                void InvalidateGraphicOfCurrentLineArea(VisualElementArgs vinv)
+        void InvalidateGraphicOfCurrentLineArea(VisualElementArgs vinv)
         {
-            #if DEBUG
+#if DEBUG
             Rectangle c_lineArea = this.internalTextLayerController.CurrentParentLineArea;
 #endif
             InvalidateGraphicLocalArea(this, this.internalTextLayerController.CurrentParentLineArea, vinv);
 
         }
 
-                        
+
         public void OnMouseDown(ArtMouseEventArgs e)
         {
-                        if (e.Button == ArtMouseButtons.Left)
+            if (e.Button == ArtMouseButtons.Left)
             {
-                                VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
-                InvalidateGraphicOfCurrentLineArea(vinv);                internalTextLayerController.CaretPos = e.Location;                                 if (internalTextLayerController.SelectionRange != null)
+                VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
+                InvalidateGraphicOfCurrentLineArea(vinv); internalTextLayerController.CaretPos = e.Location; if (internalTextLayerController.SelectionRange != null)
                 {
-                    Rectangle r = GetSelectionUpdateArea();                    internalTextLayerController.CancelSelect();
-                    InvalidateGraphicLocalArea(this, r, vinv);                }
+                    Rectangle r = GetSelectionUpdateArea(); internalTextLayerController.CancelSelect();
+                    InvalidateGraphicLocalArea(this, r, vinv);
+                }
                 else
                 {
                     InvalidateGraphicOfCurrentLineArea(vinv);
@@ -195,11 +197,11 @@ namespace LayoutFarm.Presentation.Text
         public void OnDoubleClick(ArtMouseEventArgs e)
         {
 
-                                                internalTextLayerController.CancelSelect();
-                        ArtEditableVisualTextRun textRun = this.CurrentTextRun;
+            internalTextLayerController.CancelSelect();
+            ArtEditableVisualTextRun textRun = this.CurrentTextRun;
             if (textRun != null)
             {
-                                VisualPointInfo pointInfo = internalTextLayerController.GetCurrentPointInfo();
+                VisualPointInfo pointInfo = internalTextLayerController.GetCurrentPointInfo();
                 int lineCharacterIndex = pointInfo.LineCharIndex;
                 int localselIndex = pointInfo.LocalSelectedIndex;
                 internalTextLayerController.CharIndex = lineCharacterIndex - localselIndex - 1;
@@ -214,11 +216,11 @@ namespace LayoutFarm.Presentation.Text
         {
 
 
-            
+
             if ((ArtMouseButtons)e.Button == ArtMouseButtons.Left)
             {
 
-                internalTextLayerController.CaretPos = e.Location;                 internalTextLayerController.EndSelect();
+                internalTextLayerController.CaretPos = e.Location; internalTextLayerController.EndSelect();
                 VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
                 this.InvalidateGraphic(vinv);
                 e.FreeVisualInvalidateCanvasArgs(vinv);
@@ -300,7 +302,7 @@ namespace LayoutFarm.Presentation.Text
 
                             InvalidateGraphicOfCurrentLineArea(vinv);
                         }
-                                                if (textSurfaceEventListener == null)
+                        if (textSurfaceEventListener == null)
                         {
 
                             internalTextLayerController.DoBackspace(vinv);
@@ -378,7 +380,7 @@ namespace LayoutFarm.Presentation.Text
                         {
                             InvalidateGraphicOfCurrentLineArea(vinv);
                         }
-                                                if (textSurfaceEventListener == null)
+                        if (textSurfaceEventListener == null)
                         {
 
                             internalTextLayerController.DoDelete(vinv);
@@ -414,7 +416,7 @@ namespace LayoutFarm.Presentation.Text
                     } break;
             }
 
-                                                if (e.HasKeyData && e.Control)
+            if (e.HasKeyData && e.Control)
             {
 
                 switch (keycode)
@@ -501,7 +503,7 @@ namespace LayoutFarm.Presentation.Text
                         } break;
                     case ArtKeys.B:
                         {
-                                                        BoxStyle defaultBeh1 = internalTextLayerController.GetFirstTextStyleInSelectedRange();
+                            BoxStyle defaultBeh1 = internalTextLayerController.GetFirstTextStyleInSelectedRange();
 
                             BoxStyle textStyle = null;
                             if (defaultBeh1 != null)
@@ -545,12 +547,12 @@ namespace LayoutFarm.Presentation.Text
 
         public bool OnProcessDialogKey(ArtKeyEventArgs e)
         {
-                        ArtKeys keyData = (ArtKeys)e.KeyData;
+            ArtKeys keyData = (ArtKeys)e.KeyData;
 
 
             if (isInVerticalPhase && (keyData != ArtKeys.Up || keyData != ArtKeys.Down))
             {
-                                isInVerticalPhase = false;
+                isInVerticalPhase = false;
             }
             switch (keyData)
             {
@@ -563,7 +565,7 @@ namespace LayoutFarm.Presentation.Text
                         {
                             return true;
                         }
-                                                if (isMultiLine)
+                        if (isMultiLine)
                         {
                             VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
 
@@ -609,7 +611,7 @@ namespace LayoutFarm.Presentation.Text
                         }
                         VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
                         InvalidateGraphicOfCurrentLineArea(vinv);
-                                                if (!e.IsShiftKeyDown)
+                        if (!e.IsShiftKeyDown)
                         {
                             internalTextLayerController.CancelSelect();
                         }
@@ -621,7 +623,7 @@ namespace LayoutFarm.Presentation.Text
                             }
                         }
 
-                                                Point currentCaretPos = Point.Empty;
+                        Point currentCaretPos = Point.Empty;
                         if (!isMultiLine)
                         {
                             while (!internalTextLayerController.IsOnStartOfLine)
@@ -659,8 +661,8 @@ namespace LayoutFarm.Presentation.Text
                                 }
                             }
                         }
-                                                EnsureCaretVisible(vinv);
-                                                if (textSurfaceEventListener != null)
+                        EnsureCaretVisible(vinv);
+                        if (textSurfaceEventListener != null)
                         {
                             TextSurfaceEventListener.NotifyArrowKeyCaretPosChanged(textSurfaceEventListener, keyData);
                         }
@@ -676,8 +678,8 @@ namespace LayoutFarm.Presentation.Text
                             return true;
                         }
                         VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
-                                                InvalidateGraphicOfCurrentLineArea(vinv);
-                                                if (!e.IsShiftKeyDown)
+                        InvalidateGraphicOfCurrentLineArea(vinv);
+                        if (!e.IsShiftKeyDown)
                         {
                             internalTextLayerController.CancelSelect();
                         }
@@ -689,8 +691,8 @@ namespace LayoutFarm.Presentation.Text
                                 internalTextLayerController.StartSelect();
                             }
                         }
-                        
-                        
+
+
                         Point currentCaretPos = Point.Empty;
                         if (!isMultiLine)
                         {
@@ -727,9 +729,9 @@ namespace LayoutFarm.Presentation.Text
                                 }
                             }
                         }
-                        
+
                         EnsureCaretVisible(vinv);
-                                                if (textSurfaceEventListener != null)
+                        if (textSurfaceEventListener != null)
                         {
                             TextSurfaceEventListener.NotifyArrowKeyCaretPosChanged(textSurfaceEventListener, keyData);
                         }
@@ -744,7 +746,7 @@ namespace LayoutFarm.Presentation.Text
 
                             return true;
                         }
-                                                if (isMultiLine)
+                        if (isMultiLine)
                         {
                             if (!isInVerticalPhase)
                             {
@@ -774,16 +776,16 @@ namespace LayoutFarm.Presentation.Text
                             {
                                 InvalidateGraphicOfCurrentLineArea(vinv);
                             }
-                                                        e.FreeVisualInvalidateCanvasArgs(vinv);
+                            e.FreeVisualInvalidateCanvasArgs(vinv);
                         }
                         else
                         {
                         }
-                                                if (textSurfaceEventListener != null)
+                        if (textSurfaceEventListener != null)
                         {
                             TextSurfaceEventListener.NotifyArrowKeyCaretPosChanged(textSurfaceEventListener, keyData);
                         }
-                                                return true;
+                        return true;
 
                     }
                 case ArtKeys.Up:
@@ -793,7 +795,7 @@ namespace LayoutFarm.Presentation.Text
                         {
                             return true;
                         }
-                        
+
                         if (isMultiLine)
                         {
                             if (!isInVerticalPhase)
@@ -825,16 +827,16 @@ namespace LayoutFarm.Presentation.Text
                                 InvalidateGraphicOfCurrentLineArea(vinv);
                             }
                             e.FreeVisualInvalidateCanvasArgs(vinv);
-                                                    }
+                        }
                         else
                         {
                         }
-                                                if (textSurfaceEventListener != null)
+                        if (textSurfaceEventListener != null)
                         {
                             TextSurfaceEventListener.NotifyArrowKeyCaretPosChanged(textSurfaceEventListener, keyData);
 
                         }
-                                                return true;
+                        return true;
                     }
                 case ArtKeys.Tab:
                     {
@@ -857,45 +859,45 @@ namespace LayoutFarm.Presentation.Text
         {
             get
             {
-                                Point textManCaretPos = internalTextLayerController.CaretPos;
-                                textManCaretPos.Offset(-ViewportX, -ViewportY);
+                Point textManCaretPos = internalTextLayerController.CaretPos;
+                textManCaretPos.Offset(-ViewportX, -ViewportY);
                 return textManCaretPos;
             }
         }
-    
+
         public Point GlobalCaretPosition
         {
             get
             {
-                Point caretPos = this.CaretPosition; 
+                Point caretPos = this.CaretPosition;
                 Point globalCaret = this.GetGlobalLocation();
                 caretPos.Offset(globalCaret.X, globalCaret.Y);
                 return caretPos;
             }
-        } 
-    
-                                void EnsureCaretVisible(VisualElementArgs vinv)
-        { 
-            Point textManCaretPos = internalTextLayerController.CaretPos; 
+        }
+
+        void EnsureCaretVisible(VisualElementArgs vinv)
+        {
+            Point textManCaretPos = internalTextLayerController.CaretPos;
             textManCaretPos.Offset(-ViewportX, -ViewportY);
 
-            if (textManCaretPos.X >= this.Width)  
-            {   
+            if (textManCaretPos.X >= this.Width)
+            {
                 if (!isMultiLine)
                 {
-                   
-                    Rectangle r = internalTextLayerController.CurrentParentLineArea; 
+
+                    Rectangle r = internalTextLayerController.CurrentParentLineArea;
                     if (r.Width >= this.Width)
-                    { 
+                    {
 #if DEBUG
                         vinv.dbug_SetInitObject(this);
                         vinv.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.ArtVisualTextSurafce_EnsureCaretVisible);
-                        
-#endif     
-                    
-                        InnerDoTopDownReCalculateContentSize(this, vinv); 
+
+#endif
+
+                        InnerDoTopDownReCalculateContentSize(this, vinv);
                         this.ContainerBaseEvaluateScrollBar();
-                        RefreshSnapshotCanvas(); 
+                        RefreshSnapshotCanvas();
 
 #if DEBUG
                         vinv.dbug_EndLayoutTrace();
@@ -905,14 +907,15 @@ namespace LayoutFarm.Presentation.Text
                 }
                 else
                 {
-                                                                            }
+                }
 
                 ScrollBy(textManCaretPos.X - this.Width, 0, vinv);
             }
-            else if (textManCaretPos.X < 0)             {
-                                ScrollBy(textManCaretPos.X - this.X, 0, vinv);
+            else if (textManCaretPos.X < 0)
+            {
+                ScrollBy(textManCaretPos.X - this.X, 0, vinv);
             }
-                        if (internalTextLayerController.updateJustCurrentLine)
+            if (internalTextLayerController.updateJustCurrentLine)
             {
                 InvalidateGraphicOfCurrentLineArea(vinv);
             }
@@ -921,7 +924,7 @@ namespace LayoutFarm.Presentation.Text
                 InvalidateGraphic(vinv);
             }
         }
-                                void RefreshSnapshotCanvas()
+        void RefreshSnapshotCanvas()
         {
 
         }
@@ -933,7 +936,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-                                public int CurrentLineCharIndex
+        public int CurrentLineCharIndex
         {
             get
             {
@@ -941,7 +944,7 @@ namespace LayoutFarm.Presentation.Text
                 return internalTextLayerController.CurrentLineCharIndex;
             }
         }
-                                public int CurrentTextRunCharIndex
+        public int CurrentTextRunCharIndex
         {
             get
             {
@@ -964,7 +967,7 @@ namespace LayoutFarm.Presentation.Text
             this.ScrollTo(0, internalTextLayerController.CaretPos.Y, vinv);
         }
 
-                                public void DoTab(VisualElementArgs vinv)
+        public void DoTab(VisualElementArgs vinv)
         {
             if (internalTextLayerController.SelectionRange != null)
             {
@@ -981,10 +984,10 @@ namespace LayoutFarm.Presentation.Text
             {
                 TextSurfaceEventListener.NotifyCharacterAdded(textSurfaceEventListener, '\t');
             }
-                        InvalidateGraphicOfCurrentLineArea(vinv);
+            InvalidateGraphicOfCurrentLineArea(vinv);
         }
 
-                                        public void DoTyping(string text, VisualElementArgs vinv)
+        public void DoTyping(string text, VisualElementArgs vinv)
         {
 
 
@@ -999,7 +1002,7 @@ namespace LayoutFarm.Presentation.Text
             {
                 internalTextLayerController.AddCharToCurrentLine(charBuff[i], vinv);
             }
-                        InvalidateGraphicOfCurrentLineArea(vinv);
+            InvalidateGraphicOfCurrentLineArea(vinv);
         }
     }
 }

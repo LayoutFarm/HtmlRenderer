@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -13,7 +14,7 @@ namespace LayoutFarm.Presentation.Text
 
         public bool updateJustCurrentLine;
         public readonly ArtKeys key;
-        public readonly char c; 
+        public readonly char c;
         public bool Canceled;
         public TextDomEventArgs(char c)
         {

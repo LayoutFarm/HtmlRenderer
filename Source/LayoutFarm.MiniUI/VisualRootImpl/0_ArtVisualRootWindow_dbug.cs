@@ -1,4 +1,4 @@
-﻿
+﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,7 +27,7 @@ namespace LayoutFarm.Presentation
         {
             if (debugVisualLay != null)
             {
-                debugVisualLay.BeginNewContext();                debugVisualLay.WriteInfo(msg.text, ve);
+                debugVisualLay.BeginNewContext(); debugVisualLay.WriteInfo(msg.text, ve);
             }
         }
         static void dbug_EndCurrentContext(dbugVisualLayoutTracer debugVisualLay, dbugVisitorMessage msg, ArtVisualElement ve)
@@ -36,29 +36,30 @@ namespace LayoutFarm.Presentation
             {
 
                 debugVisualLay.WriteInfo(msg.text, ve);
-                debugVisualLay.EndCurrentContext();            }
+                debugVisualLay.EndCurrentContext();
+            }
         }
-                                                                                #endif
+#endif
 
         public void dbug_DumpAllVisualElementProps(dbugLayoutMsgWriter writer)
         {
-                        this.dbug_DumpVisualProps(writer);
-            writer.Add(new dbugLayoutMsg(this,"FINISH")); 
-                                     
+            this.dbug_DumpVisualProps(writer);
+            writer.Add(new dbugLayoutMsg(this, "FINISH"));
+
         }
- 
+
         void dbug_Init()
         {
-            hitPointChain.dbugHitTracker = this.dbugVRoot.dbugHitTracker;
+            hitPointChain.dbugHitTracker = LayoutFarm.Presentation.dbugRootLog.dbugHitTracker;
         }
 
         public static ArtVisualElement dbugVE_HighlightMe;
 
-        public override  void dbugShowRenderPart(ArtCanvas canvasPage, InternalRect updateArea)
+        public override void dbugShowRenderPart(ArtCanvas canvasPage, InternalRect updateArea)
         {
-            
-            VisualRoot visualroot = this.dbugVRoot;
-            if (visualroot.dbug_ShowRootUpdateArea)
+
+             
+            if (LayoutFarm.Presentation.dbugRootLog.dbug_ShowRootUpdateArea)
             {
                 canvasPage.FillRectangle(Color.FromArgb(50, Color.Black),
                     new Rectangle(updateArea._left, updateArea._top,
@@ -70,16 +71,16 @@ namespace LayoutFarm.Presentation
                         updateArea.Width - 1, updateArea.Height - 1));
 
                 canvasPage.PushTextColor(Color.White);
-                canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea._left, updateArea._top);
+                canvasPage.DrawText(LayoutFarm.Presentation.dbugRootLog.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea._left, updateArea._top);
                 if (updateArea.Height > 25)
                 {
-                    canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea._left, updateArea._top + (updateArea.Height - 20));
+                    canvasPage.DrawText(LayoutFarm.Presentation.dbugRootLog.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea._left, updateArea._top + (updateArea.Height - 20));
                 }
                 canvasPage.PopTextColor();
-                visualroot.dbug_RootUpdateCounter++;
+                LayoutFarm.Presentation.dbugRootLog.dbug_RootUpdateCounter++;
             }
         }
-                                                                                                                                                        
+
     }
 #endif
 }

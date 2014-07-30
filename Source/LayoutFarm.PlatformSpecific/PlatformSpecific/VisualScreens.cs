@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿//2014 Apache2, WinterDev
+using System;
+using System.Drawing;
 namespace LayoutFarm.Presentation
 {
     public static class VisualScreen

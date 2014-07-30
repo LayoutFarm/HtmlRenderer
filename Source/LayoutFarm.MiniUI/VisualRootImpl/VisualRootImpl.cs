@@ -1,4 +1,4 @@
-﻿
+﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,28 +12,29 @@ using LayoutFarm.Presentation;
 
 namespace LayoutFarm.Presentation
 {
-    public class VisualRootImpl : VisualRoot
+    public class VisualRootImpl
     {
-        
-                        
+
+
         List<VisualElementRequest> veReqList = new List<VisualElementRequest>();
- 
+
         static Stack<VisualElementArgs> visualArgStack = new Stack<VisualElementArgs>();
 
-         
+
         public VisualRootImpl()
         {
-            #if DEBUG
-            dbugCurrentGlobalVRoot = this;
-            dbug_Init();
+#if DEBUG
+            // dbugCurrentGlobalVRoot = this;
+            dbugRootLog.dbug_Init();
 #endif
         }
 #if DEBUG
         ~VisualRootImpl()
         {
-            dbugHitTracker.Close();
+            dbugRootLog.dbugHitTracker.Close();
+            //dbugHitTracker.Close();
         }
-#endif 
+#endif
 
         public static VisualElementArgs GetVisualInvalidateArgs(ArtVisualRootWindow winroot)
         {
@@ -48,17 +49,17 @@ namespace LayoutFarm.Presentation
                 return new VisualElementArgs(winroot);
             }
         }
-        public static VisualElementArgs GetVisualInvalidateArgs(VisualRoot vsroot)
+        public static VisualElementArgs GetVisualInvalidateArgs(VisualRootImpl vsroot)
         {
             if (visualArgStack.Count > 0)
             {
                 VisualElementArgs vinv = visualArgStack.Pop();
-                vinv.SetVisualRoot(vsroot);
+
                 return vinv;
             }
             else
             {
-                return new VisualElementArgs(vsroot);
+                return new VisualElementArgs();
             }
         }
 
@@ -68,11 +69,11 @@ namespace LayoutFarm.Presentation
             visualArgStack.Push(vinv);
         }
 
-        
+
         public const int IS_SHIFT_KEYDOWN = 1 << (1 - 1);
-                                public const int IS_ALT_KEYDOWN = 1 << (2 - 1);
-                                public const int IS_CTRL_KEYDOWN = 1 << (3 - 1);
- 
+        public const int IS_ALT_KEYDOWN = 1 << (2 - 1);
+        public const int IS_CTRL_KEYDOWN = 1 << (3 - 1);
+
 
 
         public int VisualRequestCount
@@ -82,13 +83,13 @@ namespace LayoutFarm.Presentation
                 return veReqList.Count;
             }
         }
-        public override void AddVisualRequest(VisualElementRequest req)
+        //public override void AddVisualRequest(VisualElementRequest req)
+        //{
+        //    veReqList.Add(req);
+        //}
+        public void ClearVisualRequests(ArtVisualRootWindow winroot)
         {
-            veReqList.Add(req);
-        }
-                                        public void ClearVisualRequests(ArtVisualRootWindow winroot)
-        {
-                                    int j = veReqList.Count;
+            int j = veReqList.Count;
             for (int i = 0; i < j; ++i)
             {
                 VisualElementRequest req = veReqList[i];
@@ -113,7 +114,7 @@ namespace LayoutFarm.Presentation
                         } break;
                     case RequestCommand.InvalidateArea:
                         {
-                                                        Rectangle r = (Rectangle)req.parameters;
+                            Rectangle r = (Rectangle)req.parameters;
 
                             InternalRect internalRect = InternalRect.CreateFromRect(r);
                             winroot.InvalidateGraphicArea(req.ve, internalRect);

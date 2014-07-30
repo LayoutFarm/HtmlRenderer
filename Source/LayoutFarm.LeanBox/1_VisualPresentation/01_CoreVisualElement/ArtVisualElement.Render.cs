@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -19,9 +20,9 @@ namespace LayoutFarm.Presentation
         {
             get
             {
-                if (Beh != null)
+                if (MyBoxStyle != null)
                 {
-                    BoxStyle beh = (BoxStyle)Beh;
+                    BoxStyle beh = (BoxStyle)MyBoxStyle;
                     ArtColorBrush colorBrush = beh.SharedBgColorBrush;
 
                     return colorBrush != null;
@@ -38,19 +39,13 @@ namespace LayoutFarm.Presentation
             {
                 return;
             }
-            int j = 0;
-            int i = 0;
+            
             canvasPage.FillRectangle(colorBrush, 0, 0, visualElement.uiWidth, visualElement.uiHeight);
 
-        }
-
-
-
+        } 
 
         public abstract void CustomDrawToThisPage(ArtCanvas canvasPage, InternalRect updateArea);
-
-
-
+         
         public bool PrepareDrawingChain(VisualDrawingChain drawingChain)
         {
             if ((uiFlags & HIDDEN) == HIDDEN)
@@ -120,15 +115,16 @@ namespace LayoutFarm.Presentation
                 return;
             }
 #if DEBUG
-            dbugVRoot.dbug_drawLevel++;
+           
+            dbugRootLog.dbug_drawLevel++;
 #endif
 
             if (canvasPage.PushClipArea(uiWidth, uiHeight, updateArea))
             {
 #if DEBUG
-                if (dbugVRoot.dbug_RecordDrawingChain)
+                if (dbugRootLog.dbug_RecordDrawingChain)
                 {
-                    dbugVRoot.dbug_AddDrawElement(this, canvasPage);
+                    dbugRootLog.dbug_AddDrawElement(this, canvasPage);
                 }
 #endif
                 switch ((VisualElementNature)(uiCombineFlags & 0xF))
@@ -172,7 +168,7 @@ namespace LayoutFarm.Presentation
 
             canvasPage.PopClipArea();
 #if DEBUG
-            dbugVRoot.dbug_drawLevel--;
+            dbugRootLog.dbug_drawLevel--;
 #endif
         }
 

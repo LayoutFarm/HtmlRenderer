@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,7 @@ namespace LayoutFarm.Presentation
         public ArtVisualTextRun(string s)
             : base(10, 10, VisualElementNature.TextRun)
         {
+
             if (s != null && s.Length > 0)
             {
 
@@ -50,6 +52,7 @@ namespace LayoutFarm.Presentation
         public ArtVisualTextRun(char[] mybuffer)
             : base(10, 10, VisualElementNature.TextRun)
         {
+
             this.mybuffer = mybuffer;
             this.TransparentForAllEvents = true;
         }
@@ -81,8 +84,8 @@ namespace LayoutFarm.Presentation
                 return new string(mybuffer);
             }
         }
-       
-                public int RunDesiredHeight
+
+        public int RunDesiredHeight
         {
             get
             {
@@ -96,7 +99,7 @@ namespace LayoutFarm.Presentation
                 return this.ElementDesiredWidth;
             }
         }
-        
+
 #if DEBUG
         public override string dbug_FullElementDescription()
         {
@@ -115,13 +118,13 @@ namespace LayoutFarm.Presentation
 #endif
         public void SetStyle(BoxStyle value, VisualElementArgs vinv)
         {
-                                    this.SetBehavior(value, vinv);
-                        UpdateRunWidth(vinv);
+            base.SetStyle(value, vinv);
+            UpdateRunWidth(vinv);
         }
 
-                                                        internal static void DrawArtVisualTextRun(ArtVisualTextRun visualTextRun, ArtCanvas canvasPage, InternalRect updateArea)
+        internal static void DrawArtVisualTextRun(ArtVisualTextRun visualTextRun, ArtCanvas canvasPage, InternalRect updateArea)
         {
-                        visualTextRun.DrawCharacters(canvasPage, updateArea, visualTextRun.mybuffer);
+            visualTextRun.DrawCharacters(canvasPage, updateArea, visualTextRun.mybuffer);
         }
         public override void CustomDrawToThisPage(ArtCanvas canvasPage, InternalRect updateArea)
         {
@@ -135,14 +138,14 @@ namespace LayoutFarm.Presentation
             int bWidth = this.Width;
             int bHeight = this.Height;
 
-            if (!this.HasBeh)
+            if (!this.HasStyle)
             {
-                                canvasPage.DrawText(textArray, new Rectangle(0, 0, bWidth, bHeight), 0);
+                canvasPage.DrawText(textArray, new Rectangle(0, 0, bWidth, bHeight), 0);
             }
             else
             {
-                BoxStyle beh = (BoxStyle)this.Beh;
-                                switch (canvasPage.EvaluateFontAndTextColor(beh.textFontInfo, beh.FontColor))
+                BoxStyle beh = (BoxStyle)this.MyBoxStyle;
+                switch (canvasPage.EvaluateFontAndTextColor(beh.textFontInfo, beh.FontColor))
                 {
                     case ArtCanvas.DIFF_FONT_SAME_TEXT_COLOR:
                         {
@@ -175,7 +178,7 @@ namespace LayoutFarm.Presentation
                         } break;
                     default:
                         {
-                                                        canvasPage.DrawText(textArray,
+                            canvasPage.DrawText(textArray,
                                new Rectangle(0, 0, bWidth, bHeight),
                                beh.ContentHAlign);
                         } break;
@@ -184,36 +187,37 @@ namespace LayoutFarm.Presentation
 
         }
 
-                                                        Size CalculateDrawingStringSize(char[] buffer)
+        Size CalculateDrawingStringSize(char[] buffer)
         {
-                                    TextFontInfo textFontInfo = GetTextFontInfo();
-                                                                                                                        return new Size(
-                    textFontInfo.GetStringWidth(buffer),
-                    textFontInfo.FontHeight
-                    );
+            TextFontInfo textFontInfo = GetTextFontInfo();
+            return new Size(
+                textFontInfo.GetStringWidth(buffer),
+                textFontInfo.FontHeight
+                );
         }
 
         protected TextFontInfo GetTextFontInfo()
         {
-            if (!HasBeh)
+
+            if (!HasStyle)
             {
-                return FontManager.DefaultTextFontInfo;
+                return LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo;
             }
             else
             {
-                                BoxStyle beh = (BoxStyle)Beh;
+                BoxStyle beh = (BoxStyle)MyBoxStyle;
                 if (beh != null && beh.textFontInfo != null)
                 {
                     return beh.textFontInfo;
-                                    }
+                }
                 else
                 {
-                    return FontManager.DefaultTextFontInfo;
+                    return LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo;
                 }
             }
         }
 
-        #if DEBUG
+#if DEBUG
         public override string ToString()
         {
 
@@ -222,7 +226,7 @@ namespace LayoutFarm.Presentation
 #endif
         public static void InnerTextRunTopDownReCalculateContentSize(ArtVisualTextRun ve, VisualElementArgs vinv)
         {
-                                                            #if DEBUG
+#if DEBUG
             vinv.dbug_EnterTopDownReCalculateContent(ve);
 #endif
 
@@ -236,7 +240,7 @@ namespace LayoutFarm.Presentation
         {
             InnerTextRunTopDownReCalculateContentSize(this, vinv);
         }
-                        
+
 
     }
 }

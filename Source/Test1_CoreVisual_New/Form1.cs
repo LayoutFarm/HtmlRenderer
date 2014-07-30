@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -27,51 +28,51 @@ namespace TestGraphicPackage
             {
                 formLayoutInspector = null;
             };
-                        formLayoutInspector.Connect(viewport);
+            formLayoutInspector.Connect(viewport);
             formLayoutInspector.Show();
 
         }
         private void cmdShowBasicFormCanvas_Click(object sender, EventArgs e)
         {
-                                                
-                        FormCanvas formCanvas = new FormCanvas();
+
+            FormCanvas formCanvas = new FormCanvas();
             formCanvas.Text = "FormCanvas 1";
             formCanvas.InitViewport();
 
-                        var visualRoot = new VisualRootImpl();
-            
+            var visualRoot = new VisualRootImpl();
 
-                                    var windowRoot = new ArtVisualWindowImpl(visualRoot, this.Width, this.Height); 
 
-                        var viewport = formCanvas.SurfaceViewport;
+            var windowRoot = new ArtVisualWindowImpl(visualRoot, this.Width, this.Height);
+
+            var viewport = formCanvas.SurfaceViewport;
             viewport.SetupWindowRoot(windowRoot);
             viewport.PaintMe();
 
-                        formCanvas.Show();
+            formCanvas.Show();
 
-                                    ShowFormLayoutInspector(viewport);
+            ShowFormLayoutInspector(viewport);
         }
 
         private void cmdShowEmbededViewport_Click(object sender, EventArgs e)
         {
-                                                                        Form simpleForm = new Form();
+            Form simpleForm = new Form();
             simpleForm.Text = "SimpleForm2";
             simpleForm.WindowState = FormWindowState.Maximized;
-                                                Rectangle screenClientAreaRect = Screen.PrimaryScreen.WorkingArea;
+            Rectangle screenClientAreaRect = Screen.PrimaryScreen.WorkingArea;
             ArtSurfaceViewportControl viewport = new ArtSurfaceViewportControl();
-                        viewport.Bounds = new Rectangle(0, 0, screenClientAreaRect.Width, screenClientAreaRect.Height);
+            viewport.Bounds = new Rectangle(0, 0, screenClientAreaRect.Width, screenClientAreaRect.Height);
             simpleForm.Controls.Add(viewport);
-                                    var visualRoot = new VisualRootImpl();
-            
-                                    var windowRoot = new ArtVisualWindowImpl(visualRoot, this.Width, this.Height); 
+            var visualRoot = new VisualRootImpl();
 
-            
+            var windowRoot = new ArtVisualWindowImpl(visualRoot, this.Width, this.Height);
+
+
             viewport.SetupWindowRoot(windowRoot);
             viewport.PaintMe();
 
-                                    simpleForm.Show();
+            simpleForm.Show();
 
-                        ShowFormLayoutInspector(viewport);
+            ShowFormLayoutInspector(viewport);
         }
     }
 }

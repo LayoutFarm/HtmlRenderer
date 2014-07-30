@@ -1,59 +1,55 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-
-
-
-
-
 namespace LayoutFarm.Presentation
 {
 
 
-
-                public partial class ArtVisualWindowImpl : ArtVisualRootWindow
+    public partial class ArtVisualWindowImpl : ArtVisualRootWindow
     {
-       
-                                                List<ArtVisualElement> layoutQueue = new List<ArtVisualElement>();
+
+        List<ArtVisualElement> layoutQueue = new List<ArtVisualElement>();
         List<ArtVisualElement> layoutQueue2 = new List<ArtVisualElement>();
-       
+
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
         VisualRootImpl visualroot;
         CanvasEventsStock eventStock = new CanvasEventsStock();
 
-                                IVisualElementUI currentMouseUIFocus = null;
+        IEventDispatcher currentMouseUIFocus = null;
 
 
         public ArtVisualWindowImpl(
-            VisualRootImpl visualroot,             int width, int height)
-            : base(visualroot, width, height)
+            VisualRootImpl visualroot, int width, int height)
+            : base(width, height)
         {
-                                                this.visualroot = visualroot;
-                                                
-                                                                        centralAnimationClock = new System.Timers.Timer();
-                        centralAnimationClock.Interval = 40;
+            this.visualroot = visualroot;
+
+            centralAnimationClock = new System.Timers.Timer();
+            centralAnimationClock.Interval = 40;
             centralAnimationClock.Elapsed += new System.Timers.ElapsedEventHandler(centralAnimationClock_Elapsed);
-            centralAnimationClock.Enabled = false;                        rootTasksTimer = new System.Timers.Timer();
-            rootTasksTimer.Interval = 100;            rootTasksTimer.Elapsed += new System.Timers.ElapsedEventHandler(rootTasksTimer_Elapsed);
-            rootTasksTimer.Enabled = false;            
-                                    hoverMonitoringTask = new ArtUIHoverMonitorTask(this, this.OnMouseHover);
-                                    #if DEBUG
-            dbug_hide_objIden = true;             dbug_Init();
+            centralAnimationClock.Enabled = false; rootTasksTimer = new System.Timers.Timer();
+            rootTasksTimer.Interval = 100; rootTasksTimer.Elapsed += new System.Timers.ElapsedEventHandler(rootTasksTimer_Elapsed);
+            rootTasksTimer.Enabled = false;
+            hoverMonitoringTask = new ArtUIHoverMonitorTask(this, this.OnMouseHover);
+#if DEBUG
+            dbug_hide_objIden = true; dbug_Init();
 #endif
 
-                                            }
+        }
 
         void rootTasksTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
 
-            
+
             LinkedListNode<ArtVisualRootTimerTask> node = rootTimerTasks.First;
             while (node != null)
             {
                 ArtVisualRootTimerTask rootTask = node.Value;
                 if (rootTask.Enabled)
-                {                       node.Value.Tick();
+                {
+                    node.Value.Tick();
                 }
                 else
                 {
@@ -67,7 +63,8 @@ namespace LayoutFarm.Presentation
                 foreach (LinkedListNode<ArtVisualRootTimerTask> tobeRemoveNode in tobeRemoveTasks)
                 {
                     rootTimerTasks.Remove(tobeRemoveNode);
-                    tobeRemoveNode.Value.IsInQueue = false;                }
+                    tobeRemoveNode.Value.IsInQueue = false;
+                }
                 tobeRemoveTasks.Clear();
             }
             if (rootTimerTasks.Count == 0)
@@ -79,15 +76,15 @@ namespace LayoutFarm.Presentation
         void centralAnimationClock_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
 
-                                                            
-                                                                        
-                                                            
-            
-                                                                                                            
-                        
-                                                                                            }
 
-                                        public void SetAsCurrentMouseFocus(IVisualElementUI ui)
+
+
+
+
+
+        }
+
+        public void SetAsCurrentMouseFocus(IEventDispatcher ui)
         {
             if (this.currentMouseUIFocus != null &&
                 this.currentMouseUIFocus != ui)
@@ -98,13 +95,13 @@ namespace LayoutFarm.Presentation
                 e.ToBeFocusElement = ui;
                 e.ToBeLostFocusElement = currentMouseUIFocus;
 
-                                
+
                 currentMouseUIFocus = null;
             }
 
-                        this.currentMouseUIFocus = ui;
-                    }
-        public override VisualRoot VisualRoot
+            this.currentMouseUIFocus = ui;
+        }
+        public VisualRootImpl VisualRoot
         {
             get
             {
@@ -132,12 +129,12 @@ namespace LayoutFarm.Presentation
             }
         }
 
-                                                void ChangeRootElementSize(int width, int height, VisualElementArgs vinv)
+        void ChangeRootElementSize(int width, int height, VisualElementArgs vinv)
         {
             Size currentSize = this.Size;
             if (currentSize.Width != width || currentSize.Height != height)
             {
-                                this.SetSize(width, height, vinv);
+                this.SetSize(width, height, vinv);
 
                 this.InvalidateContentArrangementFromContainerSizeChanged();
                 this.TopDownReCalculateContentSize(vinv);
@@ -147,19 +144,19 @@ namespace LayoutFarm.Presentation
 
         bool layoutQueueClearing = false;
 
-                                                                                                                
-        
-                                        public override void AddToLayoutQueue(ArtVisualElement vs)
+
+
+        public override void AddToLayoutQueue(ArtVisualElement vs)
         {
 #if DEBUG
-            VisualRoot dbugVisualRoot = this.dbugVRoot;
+             
 #endif
 
-                        if (layoutQueueClearing)
+            if (layoutQueueClearing)
             {
                 if (vs.IsInLayoutQueue)
                 {
-                                        return;
+                    return;
                 }
                 else
                 {
@@ -170,7 +167,8 @@ namespace LayoutFarm.Presentation
             }
 
 #if DEBUG
-            dbugVisualRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_ADD_TO_LAYOUT_QUEUE, vs);
+            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage(
+                LayoutFarm.Presentation.dbugRootLog.dbugMsg_ADD_TO_LAYOUT_QUEUE, vs);
 #endif
 
             vs.IsInLayoutQueue = true;
@@ -185,16 +183,16 @@ namespace LayoutFarm.Presentation
             {
                 case 0:
                     {
-                                                                                                if (contvs.NeedReCalculateContentSize)
+                        if (contvs.NeedReCalculateContentSize)
                         {
-                            
+
 #if DEBUG
                             vinv.dbug_SetInitObject(contvs);
                             vinv.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_CAL_ARR, i);
 #endif
                             if (!vinv.IsInTopDownReArrangePhase)
                             {
-                                                                ArtVisualContainerBase topMostToBeCal = FindTopMostToBeRecalculate(contvs);
+                                ArtVisualContainerBase topMostToBeCal = FindTopMostToBeRecalculate(contvs);
                                 if (topMostToBeCal != null)
                                 {
                                     topMostToBeCal.TopDownReCalculateContentSize(vinv);
@@ -209,10 +207,10 @@ namespace LayoutFarm.Presentation
                         {
 
 #if DEBUG
-                                                        vinv.dbug_SetInitObject(contvs);
+                            vinv.dbug_SetInitObject(contvs);
                             vinv.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_ARR_CAL, i);
 #endif
-                                                        contvs.TopDownReArrangeContentIfNeed(vinv);
+                            contvs.TopDownReArrangeContentIfNeed(vinv);
 #if DEBUG
                             vinv.dbug_EndLayoutTrace();
 #endif
@@ -222,20 +220,20 @@ namespace LayoutFarm.Presentation
                 case 1:
                     {
 
-                        
+
 #if DEBUG
-                                                vinv.dbug_SetInitObject(contvs);
+                        vinv.dbug_SetInitObject(contvs);
                         vinv.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_CAL, i);
 #endif
-                                                if (!vinv.IsInTopDownReArrangePhase)
+                        if (!vinv.IsInTopDownReArrangePhase)
                         {
-                                                        ArtVisualContainerBase topMostToBeCal = FindTopMostToBeRecalculate(contvs);
+                            ArtVisualContainerBase topMostToBeCal = FindTopMostToBeRecalculate(contvs);
                             if (topMostToBeCal != null)
                             {
                                 topMostToBeCal.TopDownReCalculateContentSize(vinv);
                             }
                         }
-                                                contvs.TopDownReArrangeContentIfNeed(vinv);
+                        contvs.TopDownReArrangeContentIfNeed(vinv);
 
 #if DEBUG
                         vinv.dbug_EndLayoutTrace();
@@ -244,9 +242,9 @@ namespace LayoutFarm.Presentation
                     } break;
                 case 2:
                     {
-                                                                        
+
 #if DEBUG
-                                                vinv.dbug_SetInitObject(contvs);
+                        vinv.dbug_SetInitObject(contvs);
                         vinv.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_ARR, i);
 #endif
                         contvs.TopDownReArrangeContentIfNeed(vinv);
@@ -260,7 +258,7 @@ namespace LayoutFarm.Presentation
             }
 
         }
-                                public override bool IsLayoutQueueClearing
+        public override bool IsLayoutQueueClearing
         {
             get
             {
@@ -269,35 +267,36 @@ namespace LayoutFarm.Presentation
         }
         public void PrepareRender()
         {
-                        if (this.MyVisualRoot.VisualRequestCount > 0)
+            if (this.MyVisualRoot.VisualRequestCount > 0)
             {
                 MyVisualRoot.ClearVisualRequests(this);
             }
-            
+
             if (this.layoutQueue.Count > 0)
             {
-                                ClearLayoutQueue();
+                ClearLayoutQueue();
             }
         }
-         
-                                        static ArtVisualContainerBase FindTopMostToBeRecalculate(ArtVisualContainerBase veContainerBase)
+
+        static ArtVisualContainerBase FindTopMostToBeRecalculate(ArtVisualContainerBase veContainerBase)
         {
 
 #if DEBUG
-            dbugVisualLayoutTracer debugVisualLay = VisualRoot.dbugCurrentGlobalVRoot.dbug_GetLastestVisualLayoutTracer();
+            dbugVisualLayoutTracer debugVisualLay =
+                LayoutFarm.Presentation.dbugRootLog.dbug_GetLastestVisualLayoutTracer();
 
 #endif
 
             if (veContainerBase.IsLayoutSuspending)
             {
 #if DEBUG
-                                dbug_WriteInfo(debugVisualLay, dbugVisitorMessage.E_RECAL_BUB_EARLY_EXIT, veContainerBase);
+                dbug_WriteInfo(debugVisualLay, dbugVisitorMessage.E_RECAL_BUB_EARLY_EXIT, veContainerBase);
 
 #endif
                 return null;
             }
 
-                        if (!veContainerBase.NeedReCalculateContentSize)
+            if (!veContainerBase.NeedReCalculateContentSize)
             {
 #if DEBUG
                 dbug_WriteInfo(debugVisualLay, dbugVisitorMessage.NOT_NEED_RECAL, veContainerBase);
@@ -306,13 +305,13 @@ namespace LayoutFarm.Presentation
             }
 #if DEBUG
 
-                        dbug_BeginNewContext(debugVisualLay, dbugVisitorMessage.E_RECAL_BUB_0, veContainerBase);
+            dbug_BeginNewContext(debugVisualLay, dbugVisitorMessage.E_RECAL_BUB_0, veContainerBase);
 #endif
 
 
             if (veContainerBase.IsWindowRoot)
             {
-                #if DEBUG
+#if DEBUG
 
                 dbug_EndCurrentContext(debugVisualLay, dbugVisitorMessage.E_RECAL_BUB_1, veContainerBase);
 #endif
@@ -320,16 +319,16 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                
-                                ArtVisualContainerBase ownerContainer = veContainerBase.GetOwnerContainer();
+
+                ArtVisualContainerBase ownerContainer = veContainerBase.GetOwnerContainer();
 
                 if (ownerContainer != null && !ownerContainer.IsLayoutSuspending)
                 {
-                                                                                                                                            
-                                        if (ownerContainer.HasOwner)
+
+                    if (ownerContainer.HasOwner)
                     {
 
-                                                ArtVisualContainerBase found = FindTopMostToBeRecalculate(ownerContainer);
+                        ArtVisualContainerBase found = FindTopMostToBeRecalculate(ownerContainer);
                         if (found != null)
                         {
 #if DEBUG
@@ -361,7 +360,8 @@ namespace LayoutFarm.Presentation
 #if DEBUG
                 else
                 {
-                                        if (ownerContainer == null)                    {
+                    if (ownerContainer == null)
+                    {
                         dbug_WriteInfo(debugVisualLay, dbugVisitorMessage.NO_OWNER_LAY, null);
                     }
                     else if (ownerContainer.IsLayoutSuspending)
@@ -378,8 +378,8 @@ namespace LayoutFarm.Presentation
 #endif
             return null;
         }
-                                                        
-                                internal void ClearLayoutQueue()
+
+        internal void ClearLayoutQueue()
         {
 
 
@@ -387,12 +387,12 @@ namespace LayoutFarm.Presentation
             this.layoutQueueClearing = true;
 
 #if DEBUG
-            VisualRoot visualroot = this.dbugVRoot;
+             
             int total = layoutQueue.Count;
-            visualroot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_CLEAR_LAYOUT_enter, total);
+            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage(LayoutFarm.Presentation.dbugRootLog.dbugMsg_CLEAR_LAYOUT_enter, total);
 #endif
 
-                                    VisualElementArgs vinv = this.GetVInv();
+            VisualElementArgs vinv = this.GetVInv();
             if (this.NeedReCalculateContentSize || this.NeedContentArrangement)
             {
                 ClearLayoutOn(vinv, this, 0);
@@ -408,15 +408,15 @@ namespace LayoutFarm.Presentation
             {
 
                 ArtVisualElement elem = layoutQueue[i];
-                                if (elem.ParentLink != null && elem.IsVisualContainerBase)
+                if (elem.ParentLink != null && elem.IsVisualContainerBase)
                 {
-                                        ArtVisualContainerBase contvs = (ArtVisualContainerBase)elem;
+                    ArtVisualContainerBase contvs = (ArtVisualContainerBase)elem;
                     ClearLayoutOn(vinv, contvs, i);
                 }
                 elem.IsInLayoutQueue = false;
             }
 
-                        layoutQueue.Clear();
+            layoutQueue.Clear();
             this.layoutQueueClearing = false;
             if (layoutQueue2.Count > 0)
             {
@@ -439,21 +439,21 @@ namespace LayoutFarm.Presentation
 
                 layoutQueue2.Clear();
             }
-            
-                        this.FreeVInv(vinv);
+
+            this.FreeVInv(vinv);
 #if DEBUG
 
-            visualroot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_CLEAR_LAYOUT_exit); 
+            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage(LayoutFarm.Presentation.dbugRootLog.dbugMsg_CLEAR_LAYOUT_exit);
 #endif
         }
     }
 
 
 
-                static class ArtUILinkListPool
+    static class ArtUILinkListPool
     {
         static Stack<LinkedList<ArtVisualElement>> pool = new Stack<LinkedList<ArtVisualElement>>(5);
-                                        public static LinkedList<ArtVisualElement> GetFreeLinkedList()
+        public static LinkedList<ArtVisualElement> GetFreeLinkedList()
         {
             if (pool.Count == 0)
             {
@@ -464,9 +464,9 @@ namespace LayoutFarm.Presentation
                 return pool.Pop();
             }
         }
-                                        public static void Release(LinkedList<ArtVisualElement> linkedList)
+        public static void Release(LinkedList<ArtVisualElement> linkedList)
         {
-                        linkedList.Clear();
+            linkedList.Clear();
             pool.Push(linkedList);
         }
 

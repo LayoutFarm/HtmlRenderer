@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -35,11 +36,12 @@ namespace LayoutFarm.Presentation
             ArtVisualElement startVisualElement = fromElement;
 #if DEBUG
 
-            VisualRoot dbugMyroot = this.dbugVRoot;
-            if (dbugMyroot.dbugEnableGraphicInvalidateTrace && dbugMyroot.dbugGraphicInvalidateTracer != null)
+
+            if (LayoutFarm.Presentation.dbugRootLog.dbugEnableGraphicInvalidateTrace &&
+                  LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer != null)
             {
 
-                dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(">> :" + elementClientRect.ToRectangle().ToString()
+                LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo(">> :" + elementClientRect.ToRectangle().ToString()
                     , startVisualElement);
             }
 
@@ -54,8 +56,8 @@ namespace LayoutFarm.Presentation
                 if (!fromElement.Visible)
                 {
 
-                    if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                        dbugMyroot.dbugGraphicInvalidateTracer != null)
+                    if (LayoutFarm.Presentation.dbugRootLog.dbugEnableGraphicInvalidateTrace &&
+                          LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer != null)
                     {
 
                         string state_str = "EARLY-RET: ";
@@ -63,10 +65,11 @@ namespace LayoutFarm.Presentation
                         {
                             state_str = "!!" + state_str;
                         }
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement);
+
+                        LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement);
                         while (dbug_ncount > 0)
                         {
-                            dbugMyroot.dbugGraphicInvalidateTracer.PopElement();
+                            LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.PopElement();
                             dbug_ncount--;
                         }
                     }
@@ -74,17 +77,17 @@ namespace LayoutFarm.Presentation
                 }
                 else if (fromElement.IsInvalidateGraphicBlocked)
                 {
-                    if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-dbugMyroot.dbugGraphicInvalidateTracer != null)
+                    if (LayoutFarm.Presentation.dbugRootLog.dbugEnableGraphicInvalidateTrace &&
+                        LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer != null)
                     {
                         string state_str = "BLOCKED2: ";
                         if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
                         {
                             state_str = "!!" + state_str;
                         }
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement); while (dbug_ncount > 0)
+                        LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement); while (dbug_ncount > 0)
                         {
-                            dbugMyroot.dbugGraphicInvalidateTracer.PopElement();
+                            LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.PopElement();
                             dbug_ncount--;
                         }
                     }
@@ -99,17 +102,17 @@ dbugMyroot.dbugGraphicInvalidateTracer != null)
 
 
 #if DEBUG
-                if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                    dbugMyroot.dbugGraphicInvalidateTracer != null)
+                if (LayoutFarm.Presentation.dbugRootLog.dbugEnableGraphicInvalidateTrace &&
+                    LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer != null)
                 {
                     dbug_ncount++;
-                    dbugMyroot.dbugGraphicInvalidateTracer.PushVisualElement(fromElement);
+                    LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.PushVisualElement(fromElement);
                     string state_str = ">> ";
                     if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
                     {
                         state_str = "!!" + state_str;
                     }
-                    dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement);
+                    LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement);
                 }
 #endif
 
@@ -152,17 +155,17 @@ dbugMyroot.dbugGraphicInvalidateTracer != null)
                     {
 
 
-                        if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                            dbugMyroot.dbugGraphicInvalidateTracer != null)
+                        if (LayoutFarm.Presentation.dbugRootLog.dbugEnableGraphicInvalidateTrace &&
+                            LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer != null)
                         {
                             string state_str = "BLOCKED3: ";
                             if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
                             {
                                 state_str = "!!" + state_str;
                             }
-                            dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement); while (dbug_ncount > 0)
+                            LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement); while (dbug_ncount > 0)
                             {
-                                dbugMyroot.dbugGraphicInvalidateTracer.PopElement();
+                                LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.PopElement();
                                 dbug_ncount--;
                             }
                         }
@@ -179,12 +182,12 @@ dbugMyroot.dbugGraphicInvalidateTracer != null)
             } while (true);
 
 #if DEBUG
-            if (dbugMyroot.dbugEnableGraphicInvalidateTrace
-    && dbugMyroot.dbugGraphicInvalidateTracer != null)
+            if (LayoutFarm.Presentation.dbugRootLog.dbugEnableGraphicInvalidateTrace
+    && LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer != null)
             {
                 while (dbug_ncount > 0)
                 {
-                    dbugMyroot.dbugGraphicInvalidateTracer.PopElement();
+                    LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.PopElement();
                     dbug_ncount--;
                 }
             }
@@ -201,11 +204,11 @@ dbugMyroot.dbugGraphicInvalidateTracer != null)
                 || elementClientRect._right < 0)
             {
 #if DEBUG
-                if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-    dbugMyroot.dbugGraphicInvalidateTracer != null)
+                if (LayoutFarm.Presentation.dbugRootLog.dbugEnableGraphicInvalidateTrace &&
+    LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer != null)
                 {
-                    dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("ZERO-EEX");
-                    dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
+                    LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo("ZERO-EEX");
+                    LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
                 }
 #endif
                 return;
@@ -218,16 +221,16 @@ dbugMyroot.dbugGraphicInvalidateTracer != null)
 
                     accumulateArtRect.MergeRect(rootGlobalArea);
 #if DEBUG
-                    if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-    dbugMyroot.dbugGraphicInvalidateTracer != null)
+                    if (LayoutFarm.Presentation.dbugRootLog.dbugEnableGraphicInvalidateTrace &&
+    LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer != null)
                     {
                         string state_str = "SUDDEN_1: ";
                         if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
                         {
                             state_str = "!!" + state_str;
                         }
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str + accumulateArtRect.ToRectangle());
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
+                        LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo(state_str + accumulateArtRect.ToRectangle());
+                        LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
                     }
 #endif
 
@@ -259,8 +262,8 @@ dbugMyroot.dbugGraphicInvalidateTracer != null)
                         InternalRect.FreeInternalRect(internalRect);
                         eventStock.ReleaseEventArgs(e);
 #if DEBUG
-                        if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-    dbugMyroot.dbugGraphicInvalidateTracer != null)
+                        if (LayoutFarm.Presentation.dbugRootLog.dbugEnableGraphicInvalidateTrace &&
+    LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer != null)
                         {
 
                             string state_str = "SUDDEN_2: ";
@@ -268,10 +271,10 @@ dbugMyroot.dbugGraphicInvalidateTracer != null)
                             {
                                 state_str = "!!" + state_str;
                             }
-                            dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str +
+                            LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo(state_str +
                                    internalRect.ToString() + " " +
                                    startVisualElement.dbug_FullElementDescription());
-                            dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
+                            LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
                         }
 #endif
                     }
@@ -291,16 +294,16 @@ dbugMyroot.dbugGraphicInvalidateTracer != null)
 
 
 #if DEBUG
-                if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-    dbugMyroot.dbugGraphicInvalidateTracer != null)
+                if (LayoutFarm.Presentation.dbugRootLog.dbugEnableGraphicInvalidateTrace &&
+    LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer != null)
                 {
                     string state_str = "ACC: ";
                     if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
                     {
                         state_str = "!!" + state_str;
                     }
-                    dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("ACC: " + accumulateArtRect.ToString());
-                    dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
+                    LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo("ACC: " + accumulateArtRect.ToString());
+                    LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
                 }
 #endif
             }
@@ -338,10 +341,7 @@ dbugMyroot.dbugGraphicInvalidateTracer != null)
                     var e = this.eventStock.GetFreeCanvasInvalidatedEventArgs();
                     e.InvalidArea = accumulateArtRect;
 #if DEBUG
-                    if (this.visualroot.dbugEnableGraphicInvalidateTrace)
-                    {
-
-                    }
+                     
 #endif
 
                     CanvasInvalidatedEvent.Invoke(this, e);
@@ -406,9 +406,9 @@ dbugMyroot.dbugGraphicInvalidateTracer != null)
         {
             isInRenderPhase = true;
 #if DEBUG
-            VisualRoot myroot = this.dbugVRoot;
-            myroot.dbug_rootDrawingMsg.Clear();
-            myroot.dbug_drawLevel = 0;
+             
+            LayoutFarm.Presentation.dbugRootLog.dbug_rootDrawingMsg.Clear();
+            LayoutFarm.Presentation.dbugRootLog.dbug_drawLevel = 0;
 #endif
         }
         public void EndRenderPhase()

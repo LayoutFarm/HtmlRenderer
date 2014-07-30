@@ -10,36 +10,37 @@ using LayoutFarm.Presentation;
 using LayoutFarm.Presentation.Text;
 
 
+//2014 Apache2, WinterDev
 namespace LayoutFarm.Presentation.Text
 {
 
-                partial class ArtVisualTextEditBox
+    partial class ArtVisualTextEditBox
     {
 
-                                        bool IsMultiLine
+        bool IsMultiLine
         {
             get
             {
                 return isMultiLine;
             }
         }
-                                        TextSurfaceEventListener textSurfaceEventListener;
-                                public TextSurfaceEventListener TextDomListener
+        TextSurfaceEventListener textSurfaceEventListener;
+        public TextSurfaceEventListener TextDomListener
         {
-                        get
+            get
             {
                 return textSurfaceEventListener;
             }
             set
             {
-                                                                textSurfaceEventListener = value;
+                textSurfaceEventListener = value;
                 if (value != null)
                 {
-                                        textSurfaceEventListener.SetMonitoringTextSurface(this);
+                    textSurfaceEventListener.SetMonitoringTextSurface(this);
                 }
             }
         }
-       
+
 
         public override void ClearAllChildren()
         {
@@ -48,7 +49,8 @@ namespace LayoutFarm.Presentation.Text
         }
 
         public int Column
-        {               get
+        {
+            get
             {
                 if (internalTextLayerController != null)
                 {
@@ -82,63 +84,64 @@ namespace LayoutFarm.Presentation.Text
         }
         static void ReleaseStringBuilder(StringBuilder stBuilder)
         {
-            stBuilder.Length = 0;            stringBuilderPool.Push(stBuilder);
-        } 
+            stBuilder.Length = 0; stringBuilderPool.Push(stBuilder);
+        }
         public string Text
         {
             get
-            {                   StringBuilder stBuilder = GetFreeStringBuilder();
+            {
+                StringBuilder stBuilder = GetFreeStringBuilder();
                 CopyContentToStringBuilder(stBuilder);
                 string output = stBuilder.ToString();
                 ReleaseStringBuilder(stBuilder);
                 return output;
             }
-        } 
-
- 
-
-        public void SetTextContent(string value, VisualElementArgs vinv)
-        {
-            
-            internalTextLayerController.Clear();
-                        if (!string.IsNullOrEmpty(value))
-            {
-                                                                StringReader reader = new StringReader(value);
-                string line = reader.ReadLine();
-                int lineCount = 0;
-                while (line != null)
-                {
-                    if (lineCount > 0)
-                    {
-                        internalTextLayerController.SplitCurrentLineIntoNewLine(vinv);
-                    }
-                    lineCount++;
-                    internalTextLayerController.AddTextRunsToCurrentLine(
-                        new ArtEditableVisualTextRun[] { 
-                            new ArtEditableVisualTextRun(line) }, vinv);
-                                        line = reader.ReadLine();
-                }
-                                                internalTextLayerController.DoEnd();
-            }
-
-            EnsureCaretVisible(vinv);
-
-            if (textSurfaceEventListener != null)
-            {
-                TextSurfaceEventListener.NotifyReplaceAll(textSurfaceEventListener, new TextDomEventArgs(false));
-            }
         }
-                                public int LineCount
+
+
+
+        //public void SetTextContent(string value, VisualElementArgs vinv)
+        //{
+
+        //    internalTextLayerController.Clear();
+        //    if (!string.IsNullOrEmpty(value))
+        //    {
+        //        StringReader reader = new StringReader(value);
+        //        string line = reader.ReadLine();
+        //        int lineCount = 0;
+        //        while (line != null)
+        //        {
+        //            if (lineCount > 0)
+        //            {
+        //                internalTextLayerController.SplitCurrentLineIntoNewLine(vinv);
+        //            }
+        //            lineCount++;
+        //            internalTextLayerController.AddTextRunsToCurrentLine(
+        //                new ArtEditableVisualTextRun[] { 
+        //                    new ArtEditableVisualTextRun(line) }, vinv);
+        //            line = reader.ReadLine();
+        //        }
+        //        internalTextLayerController.DoEnd();
+        //    }
+
+        //    EnsureCaretVisible(vinv);
+
+        //    if (textSurfaceEventListener != null)
+        //    {
+        //        TextSurfaceEventListener.NotifyReplaceAll(textSurfaceEventListener, new TextDomEventArgs(false));
+        //    }
+        //}
+        public int LineCount
         {
             get
             {
                 return internalTextLayerController.LineCount;
             }
-        } 
+        }
         public void ReplaceCurrentTextRunContent(int nBackspace, string t)
         {
             VisualElementArgs vinv = GetVInv();
-            
+
             internalTextLayerController.ReplaceCurrentTextRunContent(nBackspace, t, vinv);
 
             FreeVInv(vinv);
@@ -147,25 +150,25 @@ namespace LayoutFarm.Presentation.Text
         {
             internalTextLayerController.LoadTextRun(textRuns);
         }
-                                        public void ReplaceCurrentLineTextRuns(IEnumerable<ArtEditableVisualTextRun> textRuns)
+        public void ReplaceCurrentLineTextRuns(IEnumerable<ArtEditableVisualTextRun> textRuns)
         {
             internalTextLayerController.ReplaceCurrentLineTextRun(textRuns);
         }
-                                                public void ReplaceLine(int lineNum, IEnumerable<ArtEditableVisualTextRun> textRuns)
-        {   
+        public void ReplaceLine(int lineNum, IEnumerable<ArtEditableVisualTextRun> textRuns)
+        {
             internalTextLayerController.ReplaceLine(lineNum, textRuns);
         }
-                                        public void CopyCurrentLine(StringBuilder output)
+        public void CopyCurrentLine(StringBuilder output)
         {
             internalTextLayerController.CopyCurrentLine(output);
-        } 
-                                                public void CopyLine(int lineNum, StringBuilder output)
+        }
+        public void CopyLine(int lineNum, StringBuilder output)
         {
             internalTextLayerController.CopyLine(lineNum, output);
         }
-                                        public void CopyContentToStringBuilder(StringBuilder stBuilder)
+        public void CopyContentToStringBuilder(StringBuilder stBuilder)
         {
-            
+
             internalTextLayerController.CopyAllToPlainText(stBuilder);
         }
 
@@ -176,7 +179,7 @@ namespace LayoutFarm.Presentation.Text
                 return internalTextLayerController.CurrentTextRun;
             }
         }
-                                                public void GetSelectedText(StringBuilder output)
+        public void GetSelectedText(StringBuilder output)
         {
             internalTextLayerController.CopySelectedTextToPlainText(output);
         }

@@ -1,9 +1,10 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
- 
+
 using LayoutFarm.Presentation.Text;
 namespace LayoutFarm.Presentation.SampleControls
 {
@@ -11,23 +12,30 @@ namespace LayoutFarm.Presentation.SampleControls
 
     public class ArtUITextBox : ArtUIElement
     {
-
-        
-
-       
+        ArtVisualElement primaryVisualElement;
         internal ArtVisualTextEditBox visualTextSurface;
-
-
-        public ArtUITextBox(int width, int height) 
+        public ArtUITextBox(int width, int height)
         {
 
-            visualTextSurface = new ArtVisualTextEditBox(width, height, false);            visualTextSurface.SetRoleDefinition(textBoxRole, null);
+            visualTextSurface = new ArtVisualTextEditBox(width, height, false);
+            visualTextSurface.SetStyleDefinition(textBoxRole, null);
             visualTextSurface.HasSpecificSize = true;
-            visualTextSurface.SetScriptUI(this);
+            visualTextSurface.SetController(this);
             SetPrimaryVisualElement(visualTextSurface);
         }
-
-                                public ArtVisualTextRun CurrentTextRun
+       
+        public void SetPrimaryVisualElement(ArtVisualElement visualElement)
+        {
+            this.primaryVisualElement = visualElement;
+        }
+        public ArtVisualElement PrimaryVisualElement
+        {
+            get
+            {
+                return primaryVisualElement;
+            }
+        } 
+        public ArtVisualTextRun CurrentTextRun
         {
             get
             {
@@ -48,19 +56,7 @@ namespace LayoutFarm.Presentation.SampleControls
                 return this.visualTextSurface;
             }
         }
-
-
-        public string TextContent
-        {
-            get
-            {
-                return visualTextSurface.Text;
-            }
-            set
-            {
-                visualTextSurface.SetTextContent(value, null);
-            }
-        }
+         
         public int CurrentLineId
         {
             get

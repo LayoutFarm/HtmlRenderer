@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,20 +15,20 @@ namespace LayoutFarm.Presentation.Text
     {
         public const string dbugRootFolder = "c:\\WImageTest";
     }
-                    public class dbugMultiTextManRecorder 
+    public class dbugMultiTextManRecorder
     {
         FileStream fs;
         StreamWriter strmWriter;
-        
-        string outputFileName = null; 
-        int msgCounter = 0; 
+
+        string outputFileName = null;
+        int msgCounter = 0;
         int indentCount = 0;
         int myTraceCount = 0;
 
         static int tracerCount = 0;
         public dbugMultiTextManRecorder()
         {
-             
+
             myTraceCount = tracerCount;
             ++tracerCount;
             outputFileName = dbugCoreConst.dbugRootFolder + "\\invalidate\\" + myTraceCount + "_" + Guid.NewGuid().ToString() + ".txt";
@@ -41,29 +42,29 @@ namespace LayoutFarm.Presentation.Text
         {
             indentCount--;
         }
-                                public void Start()
+        public void Start()
         {
 
-                        fs = new FileStream(outputFileName, FileMode.Create);
+            fs = new FileStream(outputFileName, FileMode.Create);
             strmWriter = new StreamWriter(fs);
-                        strmWriter.AutoFlush = true;
+            strmWriter.AutoFlush = true;
         }
-                                public void Stop()
+        public void Stop()
         {
             strmWriter.Close();
-            strmWriter.Dispose(); 
+            strmWriter.Dispose();
             fs.Close();
             fs.Dispose();
-            fs = null; 
-        } 
-        
+            fs = null;
+        }
+
         public void WriteInfo(string info)
         {
             ++msgCounter;
             ShouldBreak();
             strmWriter.Write(new string('\t', indentCount));
             strmWriter.Write(info);
-            strmWriter.Write("\r\n");            strmWriter.Flush();
+            strmWriter.Write("\r\n"); strmWriter.Flush();
         }
         public void WriteInfo(VisualSelectionRange range)
         {
@@ -71,12 +72,12 @@ namespace LayoutFarm.Presentation.Text
             {
                 return;
             }
-            
+
             WriteInfo(range.ToString());
         }
-                                        void ShouldBreak()
+        void ShouldBreak()
         {
-                                                                                }
+        }
 
     }
 #endif

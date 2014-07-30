@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -42,7 +43,7 @@ namespace LayoutFarm.Presentation.Dev
             {
                 return;
             }
-                        switch (msg.msgOwnerKind)
+            switch (msg.msgOwnerKind)
             {
                 case dbugLayoutMsgOwnerKind.Layer:
                     {
@@ -55,10 +56,10 @@ namespace LayoutFarm.Presentation.Dev
                 case dbugLayoutMsgOwnerKind.VisualElement:
                     {
                         ArtVisualElement ve = (ArtVisualElement)msg.owner;
-                                                ArtVisualWindowImpl.dbugVE_HighlightMe = ve;
-                                                lastestSelectVE = ve;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-                                                vwport.PaintMe();
+                        ArtVisualWindowImpl.dbugVE_HighlightMe = ve;
+                        lastestSelectVE = ve;
+
+                        vwport.PaintMe();
 
                     } break;
 
@@ -74,7 +75,7 @@ namespace LayoutFarm.Presentation.Dev
             {
                 return;
             }
-                        switch (msg.msgOwnerKind)
+            switch (msg.msgOwnerKind)
             {
                 case dbugLayoutMsgOwnerKind.Layer:
                     {
@@ -88,10 +89,10 @@ namespace LayoutFarm.Presentation.Dev
                 case dbugLayoutMsgOwnerKind.VisualElement:
                     {
                         ArtVisualElement ve = (ArtVisualElement)msg.owner;
-                                                ArtVisualWindowImpl.dbugVE_HighlightMe = ve;
-                                                lastestSelectVE = ve;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-                                                vwport.PaintMe();
+                        ArtVisualWindowImpl.dbugVE_HighlightMe = ve;
+                        lastestSelectVE = ve;
+
+                        vwport.PaintMe();
 
                     } break;
 
@@ -151,7 +152,7 @@ namespace LayoutFarm.Presentation.Dev
                 for (int i = 0; i < j; ++i)
                 {
                     strmWriter.WriteLine(listBox1.Items[i].ToString());
-                                    }
+                }
 
                 strmWriter.Close();
                 fs.Close();
@@ -159,28 +160,28 @@ namespace LayoutFarm.Presentation.Dev
             }
         }
 #endif
-                                        public void Connect(ArtSurfaceViewportControl vwport)
+        public void Connect(ArtSurfaceViewportControl vwport)
         {
 #if DEBUG
             this.vwport = vwport;
             vwport.dbug_VisualRootDrawMsg += rootDrawMsgEventHandler;
             vwport.dbug_VisualRootHitChainMsg += new EventHandler(artUISurfaceViewport1_dbug_VisualRootHitChainMsg);
-                        vwport.dbug_EnableAllDebugInfo();
+            vwport.dbug_EnableAllDebugInfo();
 #endif
         }
 #if DEBUG
         protected override void OnClosing(CancelEventArgs e)
         {
-                        vwport.dbug_VisualRootDrawMsg -= rootDrawMsgEventHandler;
+            vwport.dbug_VisualRootDrawMsg -= rootDrawMsgEventHandler;
             vwport.dbug_VisualRootHitChainMsg -= rootHitMsgEventHandler;
-                        vwport.dbug_DisableAllDebugInfo();
+            vwport.dbug_DisableAllDebugInfo();
             base.OnClosing(e);
         }
 
         void artUISurfaceViewport1_dbug_VisualRootHitChainMsg(object sender, EventArgs e)
         {
             LoadList2NewContent(this.vwport.dbug_rootDocHitChainMsgs);
-                    }
+        }
         void artUISurfaceViewport1_dbug_VisualRootDebugMsg(object sender, EventArgs e)
         {
             LoadList1NewContent(this.vwport.dbug_rootDocDebugMsgs);
@@ -189,17 +190,17 @@ namespace LayoutFarm.Presentation.Dev
         {
             if (!pauseRecord)
             {
-                pauseRecord = true;                vwport.dbug_VisualRootDrawMsg -= rootDrawMsgEventHandler;
+                pauseRecord = true; vwport.dbug_VisualRootDrawMsg -= rootDrawMsgEventHandler;
                 this.Text = "Pause - LayoutFarm Victory 2012";
 
                 StringBuilder stBuilder = new StringBuilder();
-                                CollectList1Item(stBuilder);
-                                                System.Windows.Forms.Clipboard.SetText(stBuilder.ToString());
+                CollectList1Item(stBuilder);
+                System.Windows.Forms.Clipboard.SetText(stBuilder.ToString());
 
-                            }
+            }
             else
             {
-                                pauseRecord = false;
+                pauseRecord = false;
                 vwport.dbug_VisualRootDrawMsg += rootDrawMsgEventHandler;
                 this.Text = "LayoutFarm Victory 2012";
             }
@@ -209,7 +210,7 @@ namespace LayoutFarm.Presentation.Dev
         {
 
 #if DEBUG
-                        int j = listBox1.Items.Count;
+            int j = listBox1.Items.Count;
             StringBuilder stBuilder = new StringBuilder();
             for (int i = 0; i < j; ++i)
             {
@@ -228,7 +229,7 @@ namespace LayoutFarm.Presentation.Dev
                 dbugLayoutMsgWriter writer = new dbugLayoutMsgWriter();
                 lastestSelectVE.dbug_DumpVisualProps(writer);
                 lastestMessages = writer.allMessages;
-                                listBox3.Items.Clear();
+                listBox3.Items.Clear();
                 int j = lastestMessages.Count;
                 for (int i = 0; i < j; ++i)
                 {
@@ -241,7 +242,7 @@ namespace LayoutFarm.Presentation.Dev
         private void tlstrpSaveSelectedVisualProps_Click(object sender, EventArgs e)
         {
 #if DEBUG
-                        int j = lastestMessages.Count;
+            int j = lastestMessages.Count;
             if (j > 0)
             {
                 FileStream fs = new FileStream("c:\\WImageTest\\layout_trace\\" + Guid.NewGuid().ToString() + ".txt", FileMode.Create);
@@ -261,7 +262,7 @@ namespace LayoutFarm.Presentation.Dev
 
         private void tlstrpReArrange_Click(object sender, EventArgs e)
         {
-            
+
 #if DEBUG
             vwport.dbug_ReArrangeWithBreakOnSelectedNode();
 #endif

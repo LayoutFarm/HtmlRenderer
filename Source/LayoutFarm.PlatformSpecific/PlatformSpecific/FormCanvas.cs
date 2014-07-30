@@ -1,23 +1,24 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
- 
 
 
- 
+
+
 namespace LayoutFarm.Presentation
 {
-                public partial class FormCanvas : Form
+    public partial class FormCanvas : Form
     {
-        
-                                ArtSurfaceViewportControl artUISurfaceViewport1;
+
+        ArtSurfaceViewportControl artUISurfaceViewport1;
 
         public FormCanvas()
-        {    
+        {
             InitializeComponent();
             this.WindowState = FormWindowState.Maximized;
             this.SizeChanged += new EventHandler(FormCanvas_SizeChanged);
@@ -36,42 +37,42 @@ namespace LayoutFarm.Presentation
                     return sc1;
                 }
             }
-                        return Screen.PrimaryScreen;
+            return Screen.PrimaryScreen;
         }
         void FormCanvas_SizeChanged(object sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Maximized)
             {
-                                                Screen currentScreen = GetScreenFromX(this.Left); 
+                Screen currentScreen = GetScreenFromX(this.Left);
                 if (artUISurfaceViewport1 != null)
                 {
                     artUISurfaceViewport1.Size = currentScreen.WorkingArea.Size;
-                    artUISurfaceViewport1.UpdateRootdocViewportSize(); 
+                    artUISurfaceViewport1.UpdateRootdocViewportSize();
                 }
             }
         }
-                                        protected sealed override void OnClosing(CancelEventArgs e)
+        protected sealed override void OnClosing(CancelEventArgs e)
         {
-                                    artUISurfaceViewport1.Close();
-                                            } 
-                                        public void InitViewport()
+            artUISurfaceViewport1.Close();
+        }
+        public void InitViewport()
         {
-                                                                        Rectangle screenClientAreaRect = Screen.PrimaryScreen.WorkingArea;
+            Rectangle screenClientAreaRect = Screen.PrimaryScreen.WorkingArea;
             artUISurfaceViewport1 = new ArtSurfaceViewportControl();
-                        artUISurfaceViewport1.Bounds = new Rectangle(0, 0, screenClientAreaRect.Width, screenClientAreaRect.Height);
+            artUISurfaceViewport1.Bounds = new Rectangle(0, 0, screenClientAreaRect.Width, screenClientAreaRect.Height);
             this.Controls.Add(artUISurfaceViewport1);
-                                }
+        }
 
-        
-                                public ArtSurfaceViewportControl SurfaceViewport
+
+        public ArtSurfaceViewportControl SurfaceViewport
         {
             get
             {
                 return artUISurfaceViewport1;
             }
-        } 
-                
-                                        
+        }
+
+
 
     }
 }
