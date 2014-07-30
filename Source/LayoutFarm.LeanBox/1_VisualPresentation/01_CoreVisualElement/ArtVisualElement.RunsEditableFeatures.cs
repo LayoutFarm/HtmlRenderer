@@ -62,28 +62,6 @@ namespace LayoutFarm.Presentation
                     uiFlags &= ~IS_LINE_BREAK;
                 }
             }
-        }
-        public bool IsStretchable
-        {
-            get
-            {
-                return ((uiFlags & IS_STRECHABLE) == IS_STRECHABLE);
-            }
-            set
-            {
-                if (value)
-                {
-                    uiFlags |= IS_STRECHABLE;
-                }
-                else
-                {
-                    uiFlags &= ~IS_STRECHABLE;
-                }
-            }
-        }
-
-
-
-
+        } 
     }
 }

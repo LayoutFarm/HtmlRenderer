@@ -93,19 +93,9 @@ namespace LayoutFarm.Presentation
 
 
                         } break;
-                }
-
-
-            }
-
-            return false;
-
-
-
-
-
-
-
+                } 
+            } 
+            return false; 
         }
         public void DrawToThisPage(ArtCanvas canvasPage, InternalRect updateArea)
         {

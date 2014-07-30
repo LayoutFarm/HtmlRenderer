@@ -297,17 +297,11 @@ namespace LayoutFarm.Presentation
 #endif
 
             SetPostCalculateLayerContentSize(ReCalculateContentSizeNoLayout(this.myElements, vinv));
-
-             
-
+ 
 #if DEBUG
             vinv.dbug_ExitLayerReCalculateContent();
 #endif
-        }
-
-
-
-
+        } 
 #if DEBUG
         public override string ToString()
         {
