@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{14840A73-6D38-4A2A-A71C-F84DC4FB4620}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{C66B2968-E6F6-4BBC-BC7B-9780F7B1A628}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Test3_MixHtml</RootNamespace>
-    <AssemblyName>Test3_MixHtml</AssemblyName>
+    <RootNamespace>LayoutFarm.HtmlRenderer.WinForm</RootNamespace>
+    <AssemblyName>LayoutFarm.HtmlRenderer.WinForm</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,22 +31,21 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="Events\HtmlLinkClickedEventArgs.cs" />
+    <Compile Include="Events\HtmlLinkClickedException.cs" />
+    <Compile Include="Events\HtmlRefreshEventArgs.cs" />
+    <Compile Include="Events\HtmlRenderErrorEventArgs.cs" />
+    <Compile Include="Events\HtmlScrollEventArgs.cs" />
+    <Compile Include="Platform\FontsUtils.cs" />
+    <Compile Include="Platform\Win32Utils.cs" />
+    <Compile Include="Platform\WinGraphics.cs" />
+    <Compile Include="Platform\WinHtmlRootVisualBoxExtension.cs" />
+    <Compile Include="Platform\WinRootVisualBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -53,21 +53,9 @@
       <Project>{401603CD-34FB-431F-9E1C-59C952932B94}</Project>
       <Name>HtmlRenderer.Composers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HtmlRenderer.Svg\HtmlRenderer.Svg.csproj">
-      <Project>{4E185663-158F-4B19-A86D-435D9F203A07}</Project>
-      <Name>HtmlRenderer.Svg</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HtmlRenderer.WinFormControls\HtmlRenderer.WinFormControls.csproj">
-      <Project>{0D90518E-B04A-460E-97C1-732197742A29}</Project>
-      <Name>HtmlRenderer.WinFormControls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\HtmlRenderer\HtmlRenderer.csproj">
       <Project>{1B058920-24B4-4140-8AE7-C8C6C38CA52D}</Project>
       <Name>HtmlRenderer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.HtmlRenderer.WinForm\LayoutFarm.HtmlRenderer.WinForm.csproj">
-      <Project>{C66B2968-E6F6-4BBC-BC7B-9780F7B1A628}</Project>
-      <Name>LayoutFarm.HtmlRenderer.WinForm</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.LeanBox\LayoutFarm.LeanBox.csproj">
       <Project>{5CDDBA62-67E4-40AA-A3C0-AFAE030E6969}</Project>
@@ -81,23 +69,6 @@
       <Project>{8424932F-2499-4A72-87D8-1E1246EF8E59}</Project>
       <Name>LayoutFarm.PlatformSpecific</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.TextEditLayer\LayoutFarm.TextEditLayer.csproj">
-      <Project>{D162FBBF-C555-4605-AFA3-31A4278334E2}</Project>
-      <Name>LayoutFarm.TextEditLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
-      <Project>{CFB41C52-614E-476C-8BBE-D07C26FB582D}</Project>
-      <Name>LayoutFarm.TextEdit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Test0_PresentationDevHelper_New\Test0_PresentationDevHelper_New.csproj">
-      <Project>{05C84CAB-2F5D-4D74-9A62-EADDF5B4CC0B}</Project>
-      <Name>Test0_PresentationDevHelper_New</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

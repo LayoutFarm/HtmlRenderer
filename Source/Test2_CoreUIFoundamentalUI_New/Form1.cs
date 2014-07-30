@@ -33,91 +33,69 @@ namespace TestGraphicPackage2
 
         }
 
-        void CreateReadyForm(out VisualRootImpl visualRoot,
-          out ArtSurfaceViewportControl viewport,
-          out ArtVisualWindowImpl windowRoot,
-          out FormCanvas formCanvas)
+        static void CreateReadyForm( 
+          out ArtSurfaceViewportControl viewport, 
+          out Form formCanvas)
         {
 
-            formCanvas = new FormCanvas();
-            formCanvas.Text = "FormCanvas 1";
-            formCanvas.InitViewport();
-
-            visualRoot = new VisualRootImpl(); 
 
             LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo = new TextFontInfo(new Font("tahoma", 10), new BasicGdi32FontHelper());
-            var workingA = Screen.PrimaryScreen.WorkingArea;
-            windowRoot = new ArtVisualWindowImpl(visualRoot, workingA.Width, workingA.Height);
-             
-            viewport = formCanvas.SurfaceViewport;
-            viewport.SetupWindowRoot(windowRoot);
+            formCanvas = FormCanvasHelper.CreateNewFormCanvas(out viewport);
+            formCanvas.Text = "FormCanvas 1";                        
+                         
             viewport.PaintMe();
 
-            formCanvas.Show(); 
-         
+            formCanvas.WindowState = FormWindowState.Maximized;
+            formCanvas.Show();
+        
         }
 
         private void cmdShowBasicFormCanvas_Click(object sender, EventArgs e)
         {
 
-
-
-
-
-
         }
-
-
 
         private void cmdSampleTextBox_Click(object sender, EventArgs e)
         {
-            VisualRootImpl visualRoot;
+            
             ArtSurfaceViewportControl viewport;
-            ArtVisualWindowImpl winRoot;
-            FormCanvas formCanvas;
-            CreateReadyForm(
-                out visualRoot,
-                out viewport,
-                out winRoot,
-                out formCanvas);
-            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUITextBox(200, 30);
-            viewport.AddContent(textbox.PrimaryVisualElement); 
-            ShowFormLayoutInspector(viewport);
-        } 
-        private void cmdMultilineTextBox_Click(object sender, EventArgs e)
-        {
-            VisualRootImpl visualRoot;
-            ArtSurfaceViewportControl viewport;
-            ArtVisualWindowImpl winRoot;
-            FormCanvas formCanvas;
-            CreateReadyForm(
-                out visualRoot,
-                out viewport,
-                out winRoot,
+            
+            Form formCanvas;
+            CreateReadyForm( 
+                out viewport, 
                 out formCanvas);
 
-            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 500, true); 
-            viewport.AddContent(textbox.PrimaryVisualElement); 
+            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUITextBox(200, 30);
+            viewport.AddContent(textbox.PrimaryVisualElement);
+            ShowFormLayoutInspector(viewport);
+        }
+        private void cmdMultilineTextBox_Click(object sender, EventArgs e)
+        {
+          
+            ArtSurfaceViewportControl viewport; 
+            Form formCanvas;
+            CreateReadyForm( 
+                out viewport, 
+                out formCanvas);
+
+            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 500, true);
+            viewport.AddContent(textbox.PrimaryVisualElement);
             ShowFormlayoutInspectIfNeed(viewport);
         }
         private void cmdHtmlView_Click(object sender, EventArgs e)
         {
-            
+
 
         }
         void LoadHtmlTestView(string filename)
         {
-            VisualRootImpl visualRoot;
+          
             ArtSurfaceViewportControl viewport;
-            ArtVisualWindowImpl winRoot;
-            FormCanvas formCanvas;
-            CreateReadyForm(
-                out visualRoot,
+        
+            Form formCanvas;
+            CreateReadyForm( 
                 out viewport,
-                out winRoot,
-                out formCanvas);
-
-
+                out formCanvas); 
 
             ShowFormlayoutInspectIfNeed(viewport);
 
@@ -126,36 +104,30 @@ namespace TestGraphicPackage2
         }
         private void cmdMultiLineTextWithFormat_Click(object sender, EventArgs e)
         {
-            VisualRootImpl visualRoot;
-            ArtSurfaceViewportControl viewport;
-            ArtVisualWindowImpl winRoot;
-            FormCanvas formCanvas;
-            CreateReadyForm(
-                out visualRoot,
-                out viewport,
-                out winRoot,
+           
+            ArtSurfaceViewportControl viewport; 
+            Form formCanvas;
+            CreateReadyForm( 
+                out viewport, 
                 out formCanvas);
             var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 500, true);
-            viewport.AddContent(textbox.PrimaryVisualElement); 
-            ShowFormlayoutInspectIfNeed(viewport); 
+            viewport.AddContent(textbox.PrimaryVisualElement);
+            ShowFormlayoutInspectIfNeed(viewport);
         }
         private void cmdTestTextDom_Click(object sender, EventArgs e)
         {
 
-            string value = "OKOKOK"; 
+            string value = "OKOKOK";
 
-            VisualRootImpl visualRoot;
-            ArtSurfaceViewportControl viewport;
-            ArtVisualWindowImpl winRoot;
-            FormCanvas formCanvas;
-            CreateReadyForm(
-                out visualRoot,
-                out viewport,
-                out winRoot,
+           
+            ArtSurfaceViewportControl viewport; 
+            Form formCanvas;
+            CreateReadyForm( 
+                out viewport, 
                 out formCanvas);
             var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 500, true);
             viewport.AddContent(textbox.PrimaryVisualElement);
-            ShowFormlayoutInspectIfNeed(viewport); 
+            ShowFormlayoutInspectIfNeed(viewport);
         }
         void ShowFormlayoutInspectIfNeed(ArtSurfaceViewportControl viewport)
         {

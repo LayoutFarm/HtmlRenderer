@@ -9,7 +9,7 @@ using System.Drawing.Drawing2D;
 namespace LayoutFarm.Presentation
 {
 
-    public class QuadPages
+    class QuadPages
     {
 
         public ArtCanvas pageA;

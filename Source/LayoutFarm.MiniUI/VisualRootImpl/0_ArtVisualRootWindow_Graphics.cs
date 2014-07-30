@@ -18,7 +18,9 @@ namespace LayoutFarm.Presentation
     {
 
 
-        bool disableGraphicOutputFlush = false; InternalRect accumulateArtRect = null; Rectangle flushRect;
+        bool disableGraphicOutputFlush = false; 
+        InternalRect accumulateArtRect = null; 
+        Rectangle flushRect;
         Stack<VisualDrawingChain> renderingChainStock = new Stack<VisualDrawingChain>();
 
         int graphicUpdateBlockCount = 0;

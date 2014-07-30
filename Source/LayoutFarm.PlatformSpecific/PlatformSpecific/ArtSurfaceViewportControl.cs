@@ -19,7 +19,10 @@ namespace LayoutFarm.Presentation
     {
         CanvasEventsStock eventStock = new CanvasEventsStock();
         CanvasViewport viewport;
-        bool isMouseDown = false; bool isDraging = false; int prevLogicalMouseX = 0;
+        bool isMouseDown = false;
+        bool isDraging = false;
+
+        int prevLogicalMouseX = 0;
         int prevLogicalMouseY = 0;
         int lastestLogicalMouseDownX = 0;
         int lastestLogicalMouseDownY = 0;
@@ -59,9 +62,7 @@ namespace LayoutFarm.Presentation
             {
                 parentFormClosedHandler(sender, e);
             }
-        }
-
-
+        } 
         internal void UpdateRootdocViewportSize()
         {
             viewport.UpdateCanvasViewportSize(this.Width, this.Height);

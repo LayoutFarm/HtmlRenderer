@@ -632,7 +632,7 @@ namespace LayoutFarm.Presentation
         {
             fullMode = value;
         }
-        void Caret_Blink()
+        internal void Caret_Blink()
         {
             IntPtr surfaceHandler = outputWindow.Handle;
             IntPtr hdc = MyWin32.GetDC(surfaceHandler);

@@ -23,6 +23,7 @@ namespace LayoutFarm.Presentation
         void PaintMe();
         void WhenParentFormClosed(EventHandler<EventArgs> handler);
         void SetupWindowRoot(ArtVisualWindowImpl winroot);
+
 #if DEBUG
         List<dbugLayoutMsg> dbug_rootDocDebugMsgs { get; }
         void dbug_InvokeVisualRootDrawMsg();

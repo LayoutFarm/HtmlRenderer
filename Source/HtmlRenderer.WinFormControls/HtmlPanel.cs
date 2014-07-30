@@ -64,15 +64,11 @@ namespace HtmlRenderer
 
 
 
-        #region Fields and Consts
-
-
-
+        #region Fields and Consts 
 
         WinRootVisualBox _visualRootBox;
         Composers.BoxComposer _boxComposer;
-        Composers.InputEventBridge _htmlEventBridge;
-
+        Composers.InputEventBridge _htmlEventBridge; 
 
 
         /// <summary>
@@ -100,6 +96,7 @@ namespace HtmlRenderer
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
 
+            //-------------------------------------------------------
             _boxComposer = new Composers.BoxComposer();
 
             _visualRootBox = new WinRootVisualBox();
