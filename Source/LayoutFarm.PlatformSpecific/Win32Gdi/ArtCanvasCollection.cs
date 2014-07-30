@@ -94,12 +94,10 @@ namespace LayoutFarm.Presentation
                 InternalRect rect = InternalRect.CreateFromRect(page.Rect);
                 page.Invalidate(rect); InternalRect.FreeInternalRect(rect);
                 return page;
-
             }
             else
-            {
-                return new ArtCanvas(hPageNum, vPageNum,
-hPageNum * eachPageWidth, eachPageHeight * vPageNum, eachPageWidth, eachPageHeight);
+            { 
+                return new ArtCanvasImpl(hPageNum, vPageNum, hPageNum * eachPageWidth, eachPageHeight * vPageNum, eachPageWidth, eachPageHeight);
 
             }
         }

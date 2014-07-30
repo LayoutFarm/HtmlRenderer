@@ -49,7 +49,6 @@
     <Compile Include="1_VisualPresentation\07_VisualRootDoc\VisualElementRequest.cs" />
     <Compile Include="5_debug\dbug.cs" />
     <Compile Include="5_debug\dbugVisitorMessage.cs" />
-    <Compile Include="2_VisualPresentationBase\Presentation\QuadPages.cs" />
     <Compile Include="2_VisualPresentationBase\Presentation\VisualDrawingChain.cs" />
     <Compile Include="2_VisualPresentationBase\Presentation\VisualElementArgs.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\0_ArtVisualElement.cs" />
@@ -77,18 +76,16 @@
     <Compile Include="1_VisualPresentation\02_ArtRolesBehaviorAndGfxStates\ArtAlignment.cs" />
     <Compile Include="1_VisualPresentation\02_ArtRolesBehaviorAndGfxStates\BoxStyle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="2_VisualPresentationBase\Platform\GfxWin32InterOp.cs" />
-    <Compile Include="2_VisualPresentationBase\Platform\MyWin32.cs" />
     <Compile Include="2_VisualPresentationBase\Presentation\ArtCanvas.cs" />
-    <Compile Include="2_VisualPresentationBase\Presentation\ArtCanvasCollection.cs" />
     <Compile Include="2_VisualPresentationBase\Presentation\InternalRect.cs" />
     <Compile Include="2_VisualPresentationBase\Presentation\InternalRect2.cs" />
     <Compile Include="2_VisualPresentationBase\Presentation\ArtColorPalette.cs" />
     <Compile Include="2_VisualPresentationBase\Presentation\ArtImageBrush.cs" />
     <Compile Include="2_VisualPresentationBase\Presentation\FontSystem.cs" />
-    <Compile Include="2_VisualPresentationBase\Presentation\NativeTextWin32.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="2_VisualPresentationBase\Platform\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

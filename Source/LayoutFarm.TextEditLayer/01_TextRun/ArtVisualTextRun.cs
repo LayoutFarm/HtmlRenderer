@@ -177,8 +177,8 @@ namespace LayoutFarm.Presentation
                     default:
                         {
                             canvasPage.DrawText(textArray,
-   new Rectangle(0, 0, bWidth, bHeight),
-   beh.ContentHAlign);
+                               new Rectangle(0, 0, bWidth, bHeight),
+                               beh.ContentHAlign);
                         } break;
                 }
             }
@@ -189,16 +189,17 @@ namespace LayoutFarm.Presentation
         {
             TextFontInfo textFontInfo = GetTextFontInfo();
             return new Size(
-textFontInfo.GetStringWidth(buffer),
-textFontInfo.FontHeight
-);
+                textFontInfo.GetStringWidth(buffer),
+                textFontInfo.FontHeight
+                );
         }
 
         protected TextFontInfo GetTextFontInfo()
         {
             if (!HasBeh)
             {
-                return FontManager.DefaultTextFontInfo;
+                return null;
+                //return FontManager.DefaultTextFontInfo;
             }
             else
             {
@@ -209,7 +210,8 @@ textFontInfo.FontHeight
                 }
                 else
                 {
-                    return FontManager.DefaultTextFontInfo;
+                    return null;
+                    //return FontManager.DefaultTextFontInfo;
                 }
             }
         }

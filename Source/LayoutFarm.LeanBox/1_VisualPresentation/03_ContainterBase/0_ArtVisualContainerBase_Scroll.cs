@@ -10,33 +10,11 @@ namespace LayoutFarm.Presentation
     {
         VisualScrollableSurface vscrollableSurface;
 
-        public void EnableScrollableMechanism()
+        public VisualScrollableSurface ScrollableSurface
         {
-            if (vscrollableSurface == null)
-            {
-                int initW = VisualRoot.ScreenWidth;
-                int initH = VisualRoot.ScreenHeight;
-                if (this.Width < initW / 3)
-                {
-                    initW /= 2;
-                }
-                if (this.Height < initH / 3)
-                {
-                    initH /= 2;
-                }
-
-                vscrollableSurface = new VisualScrollableSurface(this, initW, initH);
-            }
-
-            this.IsScrollable = true;
-            this.HasDoubleScrollableSurface = true;
-
+            get { return this.vscrollableSurface; }
+            set { this.vscrollableSurface = value; }
         }
-        public void DisableScrollableMechanism()
-        {
-
-        }
-
         public void ScrollableDrawContent(ArtCanvas destPage, InternalRect updateArea)
         {
             vscrollableSurface.DrawToThisPage(destPage, updateArea);

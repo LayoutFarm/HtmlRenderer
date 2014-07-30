@@ -12,11 +12,7 @@ namespace LayoutFarm.Presentation
 
     static class MyWin32
     {
-
-
-
-
-
+         
 
         [DllImport("kernel32.dll", ExactSpelling = true)]
         public static extern IntPtr GlobalAlloc(int flags, int size);

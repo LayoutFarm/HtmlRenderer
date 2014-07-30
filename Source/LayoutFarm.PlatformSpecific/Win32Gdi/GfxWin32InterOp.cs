@@ -4,7 +4,7 @@ using System.Drawing;
 namespace LayoutFarm.Presentation
 {
 
-    public static class GraphicWin32InterOp
+    static class GraphicWin32InterOp
     {
         public static int ColorToWin32(Color c)
         {
