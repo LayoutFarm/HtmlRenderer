@@ -14,7 +14,7 @@ namespace LayoutFarm.Presentation
     {
         FileStream fs;
         StreamWriter strmWriter;
-  
+        VisualRoot visualroot;
         string outputFileName = null;
 
         int msgCounter = 0;
@@ -25,9 +25,9 @@ namespace LayoutFarm.Presentation
         int dbug_Id = 0;
         static int dbug_totalId = 0;
 
-        public dbugVisualInvalidationTracer( )
+        public dbugVisualInvalidationTracer(VisualRoot visualroot)
         {
-           
+            this.visualroot = visualroot;
             dbug_Id = dbug_totalId;
             ++dbug_totalId;
             outputFileName = dbugCoreConst.dbugRootFolder + "\\invalidate\\" + dbug_Id + "_" + Guid.NewGuid().ToString() + ".txt";

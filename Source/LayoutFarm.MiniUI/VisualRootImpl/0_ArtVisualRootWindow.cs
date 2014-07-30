@@ -3,8 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+
+
+
+
+
 namespace LayoutFarm.Presentation
 {
+
 
 
     public partial class ArtVisualWindowImpl : ArtVisualRootWindow
@@ -22,7 +28,7 @@ namespace LayoutFarm.Presentation
 
         public ArtVisualWindowImpl(
             VisualRootImpl visualroot, int width, int height)
-            : base(width, height)
+            : base(visualroot, width, height)
         {
             this.visualroot = visualroot;
 
@@ -101,7 +107,7 @@ namespace LayoutFarm.Presentation
 
             this.currentMouseUIFocus = ui;
         }
-        public VisualRootImpl VisualRoot
+        public override VisualRoot VisualRoot
         {
             get
             {
@@ -149,7 +155,7 @@ namespace LayoutFarm.Presentation
         public override void AddToLayoutQueue(ArtVisualElement vs)
         {
 #if DEBUG
-             
+            VisualRoot dbugVisualRoot = this.dbugVRoot;
 #endif
 
             if (layoutQueueClearing)
@@ -167,8 +173,7 @@ namespace LayoutFarm.Presentation
             }
 
 #if DEBUG
-            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage(
-                LayoutFarm.Presentation.dbugRootLog.dbugMsg_ADD_TO_LAYOUT_QUEUE, vs);
+            dbugVisualRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_ADD_TO_LAYOUT_QUEUE, vs);
 #endif
 
             vs.IsInLayoutQueue = true;
@@ -282,8 +287,7 @@ namespace LayoutFarm.Presentation
         {
 
 #if DEBUG
-            dbugVisualLayoutTracer debugVisualLay =
-                LayoutFarm.Presentation.dbugRootLog.dbug_GetLastestVisualLayoutTracer();
+            dbugVisualLayoutTracer debugVisualLay = VisualRoot.dbugCurrentGlobalVRoot.dbug_GetLastestVisualLayoutTracer();
 
 #endif
 
@@ -387,9 +391,9 @@ namespace LayoutFarm.Presentation
             this.layoutQueueClearing = true;
 
 #if DEBUG
-             
+            VisualRoot visualroot = this.dbugVRoot;
             int total = layoutQueue.Count;
-            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage(LayoutFarm.Presentation.dbugRootLog.dbugMsg_CLEAR_LAYOUT_enter, total);
+            visualroot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_CLEAR_LAYOUT_enter, total);
 #endif
 
             VisualElementArgs vinv = this.GetVInv();
@@ -443,7 +447,7 @@ namespace LayoutFarm.Presentation
             this.FreeVInv(vinv);
 #if DEBUG
 
-            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage(LayoutFarm.Presentation.dbugRootLog.dbugMsg_CLEAR_LAYOUT_exit);
+            visualroot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_CLEAR_LAYOUT_exit);
 #endif
         }
     }

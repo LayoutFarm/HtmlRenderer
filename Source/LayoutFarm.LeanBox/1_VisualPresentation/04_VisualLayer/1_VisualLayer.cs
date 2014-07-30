@@ -145,13 +145,13 @@ namespace LayoutFarm.Presentation
         }
 
 #if DEBUG
-        //public VisualRoot dbugVRoot
-        //{
-        //    get
-        //    {
-        //        return LayoutFarm.Presentation.VisualRoot.dbugCurrentGlobalVRoot;
-        //    }
-        //}
+        public VisualRoot dbugVRoot
+        {
+            get
+            {
+                return LayoutFarm.Presentation.VisualRoot.dbugCurrentGlobalVRoot;
+            }
+        }
 #endif
 
         protected void BeginDrawingChildContent()

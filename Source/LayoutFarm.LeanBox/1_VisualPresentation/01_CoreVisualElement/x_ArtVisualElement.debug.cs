@@ -35,11 +35,16 @@ namespace LayoutFarm.Presentation
         public static dbugVisualElementLayoutMsg Clear_ARR = new dbugVisualElementLayoutMsg("ClEAR ARR : ");
         public static dbugVisualElementLayoutMsg Clear_CAL_ARR = new dbugVisualElementLayoutMsg("ClEAR CAL+ARR : ");
         public static dbugVisualElementLayoutMsg Clear_ARR_CAL = new dbugVisualElementLayoutMsg("ClEAR ARR+CAL : ");
-         
+
+
+
+
     }
 
     partial class ArtVisualElement
-    {  
+    {
+
+
         public string dbugGetCssBoxInfo
         {
             get
@@ -165,24 +170,31 @@ namespace LayoutFarm.Presentation
         public int dbug_ValidateRecalculateSizeEpisode = 0;
         public static int dbug_totalInvalidateContentArrEpisode = 0;
 
-         
 
-        //public VisualRoot dbugVRoot
-        //{
-        //    get
-        //    {
-        //        return VisualRoot.dbugCurrentGlobalVRoot;
-        //    }
-        //}
+
+
+
+
+
+
+
+
+        public VisualRoot dbugVRoot
+        {
+            get
+            {
+                return VisualRoot.dbugCurrentGlobalVRoot;
+            }
+        }
 
         void debug_RecordPostDrawInfo(ArtCanvas canvasPage)
         {
-            if (dbugRootLog.dbug_ShowElementOutline)
+            if (dbugVRoot.dbug_ShowElementOutline)
             {
                 canvasPage.DrawRectangle(Color.Red, new Rectangle(0, 0, this.Width - 1, this.Height - 1));
 
             }
-            if (dbugRootLog.dbug_ForceShowObjectIden)
+            if (dbugVRoot.dbug_ForceShowObjectIden)
             {
                 canvasPage.PushTextColor(Color.Blue);
                 canvasPage.DrawText(
@@ -190,7 +202,7 @@ namespace LayoutFarm.Presentation
                         , 0, dbug_element_code_y);
                 canvasPage.PopTextColor();
             }
-            else if (dbugRootLog.dbug_ShowObjectIden && !dbug_hide_objIden)
+            else if (dbugVRoot.dbug_ShowObjectIden && !dbug_hide_objIden)
             {
                 canvasPage.PushTextColor(Color.Blue);
                 canvasPage.DrawText(

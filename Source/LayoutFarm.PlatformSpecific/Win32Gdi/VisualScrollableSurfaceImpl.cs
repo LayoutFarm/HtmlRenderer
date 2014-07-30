@@ -170,9 +170,9 @@ namespace LayoutFarm.Presentation
                 internalCanvas.ClearSurface();
 
 #if DEBUG
-                if (LayoutFarm.Presentation.dbugRootLog.dbug_RecordDrawingChain)
+                if (dbugVRoot.dbug_RecordDrawingChain)
                 {
-                    LayoutFarm.Presentation.dbugRootLog.dbug_AddDrawElement(this.ownerVisualElement, internalCanvas, "?pageName" + " { --update_inv_area--");
+                    dbugVRoot.dbug_AddDrawElement(this.ownerVisualElement, internalCanvas, "?pageName" + " { --update_inv_area--");
                 }
 #endif
 
@@ -181,13 +181,13 @@ namespace LayoutFarm.Presentation
 
 #if DEBUG
 
-                if (LayoutFarm.Presentation.dbugRootLog.dbug_ShowNativeScrollableElementUpdateArea)
+                if (dbugVRoot.dbug_ShowNativeScrollableElementUpdateArea)
                 {
                     internalCanvas.dbug_DrawCrossRect(Color.Magenta, updateArea.ToRectangle());
                 }
-                if (LayoutFarm.Presentation.dbugRootLog.dbug_RecordDrawingChain)
+                if (dbugVRoot.dbug_RecordDrawingChain)
                 {
-                    LayoutFarm.Presentation.dbugRootLog.dbug_AddDrawElement(this.ownerVisualElement, internalCanvas, "?pageName" + " }--update_inv_area--");
+                    dbugVRoot.dbug_AddDrawElement(this.ownerVisualElement, internalCanvas, "?pageName" + " }--update_inv_area--");
                 }
 #endif
             }
@@ -443,9 +443,11 @@ namespace LayoutFarm.Presentation
             int newBackCanvasWidth = this.Width;
             int newBackCanvasHeight = this.Height;
 
+            //static int screenWidth = 1024;
+            //static int screenHeight = 800;
 
-            int initW = 1024;// VisualRoot.ScreenWidth;
-            int initH = 800;// VisualRoot.ScreenHeight;
+            int initW = 1024;
+            int initH = 800;
 
             if (newBackCanvasWidth < initW / 3)
             {
@@ -469,7 +471,7 @@ namespace LayoutFarm.Presentation
 #if DEBUG
         public void dbug_DrawRuler(ArtCanvas myInternalCanvas, int x)
         {
-            if (LayoutFarm.Presentation.dbugRootLog.dbug_ShowNativeScrollableElementDrawToThisPage)
+            if (dbugVRoot.dbug_ShowNativeScrollableElementDrawToThisPage)
             {
                 int internalCx = myInternalCanvas.Left;
                 int internalCy = myInternalCanvas.Top;
@@ -481,7 +483,14 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        
+        VisualRoot dbugVRoot
+        {
+            get
+            {
+
+                return VisualRoot.dbugCurrentGlobalVRoot;
+            }
+        }
         public string dbug_FullElementDescription()
         {
             return " SCR-INNER:" + OwnerInnerContentSize.ToString();

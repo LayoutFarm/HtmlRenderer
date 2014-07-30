@@ -186,10 +186,8 @@ namespace LayoutFarm.Presentation
 
         public static bool IsTestableElement(ArtVisualElement ui)
         {
-            return (ui != null) && ((ui.uiFlags & HIDDEN) == 0) && (ui.visualParentLink != null);
-
+            return (ui != null) && ((ui.uiFlags & HIDDEN) == 0) && (ui.visualParentLink != null); 
         } 
-         
 
         public bool Focusable
         {

@@ -115,16 +115,15 @@ namespace LayoutFarm.Presentation
                 return;
             }
 #if DEBUG
-           
-            dbugRootLog.dbug_drawLevel++;
+            dbugVRoot.dbug_drawLevel++;
 #endif
 
             if (canvasPage.PushClipArea(uiWidth, uiHeight, updateArea))
             {
 #if DEBUG
-                if (dbugRootLog.dbug_RecordDrawingChain)
+                if (dbugVRoot.dbug_RecordDrawingChain)
                 {
-                    dbugRootLog.dbug_AddDrawElement(this, canvasPage);
+                    dbugVRoot.dbug_AddDrawElement(this, canvasPage);
                 }
 #endif
                 switch ((VisualElementNature)(uiCombineFlags & 0xF))
@@ -168,7 +167,7 @@ namespace LayoutFarm.Presentation
 
             canvasPage.PopClipArea();
 #if DEBUG
-            dbugRootLog.dbug_drawLevel--;
+            dbugVRoot.dbug_drawLevel--;
 #endif
         }
 

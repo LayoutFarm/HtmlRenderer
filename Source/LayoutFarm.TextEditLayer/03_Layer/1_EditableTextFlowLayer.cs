@@ -180,8 +180,8 @@ namespace LayoutFarm.Presentation.Text
 #if DEBUG
         void debug_RecordLineInfo(ArtVisualContainerBase owner, EditableVisualElementLine line)
         {
-
-            if (LayoutFarm.Presentation.dbugRootLog.dbug_RecordDrawingChain)
+            VisualRoot visualroot = this.dbugVRoot;
+            if (visualroot.dbug_RecordDrawingChain)
             {
             }
         }
@@ -769,7 +769,7 @@ int ownerClientTop, VisualElementArgs vinv)
 #if DEBUG
             if (this.ownerVisualElement.IsTextEditContainer)
             {
-                LayoutFarm.Presentation.dbugRootLog.dbug_WriteTick(DateTime.Now.Ticks - startTick);
+                this.dbugVRoot.dbug_WriteTick(DateTime.Now.Ticks - startTick);
             }
 #endif
         }
@@ -919,7 +919,7 @@ int ownerClientTop, VisualElementArgs vinv)
 
             if (this.ownerVisualElement.IsTextEditContainer)
             {
-                LayoutFarm.Presentation.dbugRootLog.dbug_WriteTick(DateTime.Now.Ticks - startTick);
+                this.dbugVRoot.dbug_WriteTick(DateTime.Now.Ticks - startTick);
             }
 #endif
 

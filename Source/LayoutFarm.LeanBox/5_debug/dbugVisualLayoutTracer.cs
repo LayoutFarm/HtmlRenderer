@@ -14,7 +14,7 @@ namespace LayoutFarm.Presentation
     {
         FileStream fs;
         StreamWriter strmWriter;
-        
+        VisualRoot visualroot;
         string outputFileName = null;
         int msgLineNum = 0;
         Stack<object> elementStack = new Stack<object>();
@@ -24,8 +24,9 @@ namespace LayoutFarm.Presentation
         static int tracerCount = 0;
 
 
-        public dbugVisualLayoutTracer( )
-        { 
+        public dbugVisualLayoutTracer(VisualRoot visualroot)
+        {
+            this.visualroot = visualroot;
             myTraceCount = tracerCount;
             ++tracerCount;
             outputFileName = dbugCoreConst.dbugRootFolder + "\\layout_trace\\" + myTraceCount + "_" + Guid.NewGuid().ToString() + ".txt";
