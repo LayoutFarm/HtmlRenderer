@@ -15,7 +15,15 @@ namespace LayoutFarm.Presentation
         {
             this.oneBitNativeEventFlags |= eventFlags;
         }
-
+        protected virtual void OnLostFocus(ArtFocusEventArgs e)
+        {
+        }
+        protected virtual void OnLostMouseFocus(ArtFocusEventArgs2 e)
+        {
+        }
+        protected virtual void OnGotFocus(ArtFocusEventArgs e)
+        {
+        }
 
         protected virtual void OnDoubleClick(ArtMouseEventArgs e)
         {

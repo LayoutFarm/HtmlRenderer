@@ -15,10 +15,8 @@ namespace LayoutFarm.Presentation.SampleControls
 
     public class ArtUIMultiLineTextBox : ArtUIElement
     {
-
-        ArtVisualTextEditBox visualTextEdit;
-
-        public event ArtMouseEventHandler MouseDown;
+        ArtVisualElement primaryVisualElement;
+        ArtVisualTextEditBox visualTextEdit; 
         public ArtUIMultiLineTextBox(int width, int height, bool multiline)
         {
                  
@@ -32,6 +30,17 @@ namespace LayoutFarm.Presentation.SampleControls
               | 1 << ArtEventIdentifier.NE_LOST_FOCUS
               | 1 << ArtEventIdentifier.NE_SIZE_CHANGED
               );
+        }
+        public ArtVisualElement PrimaryVisualElement
+        {
+            get
+            {
+                return primaryVisualElement;
+            }
+        } 
+        public void SetPrimaryVisualElement(ArtVisualElement visualElement)
+        {
+            this.primaryVisualElement = visualElement;
         }
         protected override void OnKeyPress(ArtKeyPressEventArgs e)
         {

@@ -81,12 +81,9 @@ namespace TestGraphicPackage2
                 out winRoot,
                 out formCanvas);
             var textbox = new LayoutFarm.Presentation.SampleControls.ArtUITextBox(200, 30);
-            viewport.AddContent(textbox.PrimaryVisualElement);
-
+            viewport.AddContent(textbox.PrimaryVisualElement); 
             ShowFormLayoutInspector(viewport);
-        }
-
-
+        } 
         private void cmdMultilineTextBox_Click(object sender, EventArgs e)
         {
             VisualRootImpl visualRoot;
@@ -99,10 +96,8 @@ namespace TestGraphicPackage2
                 out winRoot,
                 out formCanvas);
 
-            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 500, true);
-
-            viewport.AddContent(textbox.PrimaryVisualElement);
-
+            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 500, true); 
+            viewport.AddContent(textbox.PrimaryVisualElement); 
             ShowFormlayoutInspectIfNeed(viewport);
         }
         private void cmdHtmlView_Click(object sender, EventArgs e)
@@ -141,19 +136,13 @@ namespace TestGraphicPackage2
                 out winRoot,
                 out formCanvas);
             var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 500, true);
-            viewport.AddContent(textbox.PrimaryVisualElement);
-
-            ShowFormlayoutInspectIfNeed(viewport);
-
-
-
+            viewport.AddContent(textbox.PrimaryVisualElement); 
+            ShowFormlayoutInspectIfNeed(viewport); 
         }
         private void cmdTestTextDom_Click(object sender, EventArgs e)
         {
 
-            string value = "OKOKOK";
-
-
+            string value = "OKOKOK"; 
 
             VisualRootImpl visualRoot;
             ArtSurfaceViewportControl viewport;
@@ -166,10 +155,7 @@ namespace TestGraphicPackage2
                 out formCanvas);
             var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 500, true);
             viewport.AddContent(textbox.PrimaryVisualElement);
-            ShowFormlayoutInspectIfNeed(viewport);
-
-
-
+            ShowFormlayoutInspectIfNeed(viewport); 
         }
         void ShowFormlayoutInspectIfNeed(ArtSurfaceViewportControl viewport)
         {

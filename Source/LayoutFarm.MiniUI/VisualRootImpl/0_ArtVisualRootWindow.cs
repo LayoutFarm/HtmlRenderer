@@ -23,7 +23,7 @@ namespace LayoutFarm.Presentation
         VisualRootImpl visualroot;
         CanvasEventsStock eventStock = new CanvasEventsStock();
 
-        IVisualElementUI currentMouseUIFocus = null;
+        IEventDispatcher currentMouseUIFocus = null;
 
 
         public ArtVisualWindowImpl(
@@ -90,7 +90,7 @@ namespace LayoutFarm.Presentation
 
         }
 
-        public void SetAsCurrentMouseFocus(IVisualElementUI ui)
+        public void SetAsCurrentMouseFocus(IEventDispatcher ui)
         {
             if (this.currentMouseUIFocus != null &&
                 this.currentMouseUIFocus != ui)
