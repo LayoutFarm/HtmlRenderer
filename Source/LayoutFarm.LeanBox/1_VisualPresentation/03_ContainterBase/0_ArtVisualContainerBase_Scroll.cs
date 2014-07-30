@@ -279,7 +279,7 @@ VisualElementArgs vinv)
                 destPage.OffsetCanvasOrigin(-myviewportX, -myviewportY);
                 updateArea.Offset(myviewportX, myviewportY);
             }
-            if (Beh == null)
+            if (MyBoxStyle == null)
             {
                 DrawBackground(this, destPage, updateArea);
                 ((ArtVisualContainerBase)this).DrawChildContent(destPage, updateArea);
@@ -289,7 +289,7 @@ VisualElementArgs vinv)
             else
             {
 
-                BoxStyle beh = (BoxStyle)Beh;
+                BoxStyle beh = (BoxStyle)MyBoxStyle;
                 DrawBackground(this, destPage, updateArea);
                 ((ArtVisualContainerBase)this).DrawChildContent(destPage, updateArea);
             }

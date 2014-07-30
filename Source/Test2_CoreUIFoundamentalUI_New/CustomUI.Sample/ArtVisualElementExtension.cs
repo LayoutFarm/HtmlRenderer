@@ -10,9 +10,9 @@ namespace LayoutFarm.Presentation
     public static class ArtVisualElementExtensions
     {
 
-        public static void SetRoleDefinition(this ArtVisualElement ve, BoxStyle beh, VisualElementArgs vinv)
+        public static void SetStyleDefinition(this ArtVisualElement ve, BoxStyle beh, VisualElementArgs vinv)
         {
-            ve.SetBehavior(beh, vinv);
+            ve.SetStyle(beh, vinv);
         }
 
     }

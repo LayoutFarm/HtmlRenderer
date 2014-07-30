@@ -18,7 +18,7 @@ namespace LayoutFarm.Presentation.SampleControls
         {
 
             visualTextSurface = new ArtVisualTextEditBox(width, height, false);
-            visualTextSurface.SetRoleDefinition(textBoxRole, null);
+            visualTextSurface.SetStyleDefinition(textBoxRole, null);
             visualTextSurface.HasSpecificSize = true;
             visualTextSurface.SetController(this);
             SetPrimaryVisualElement(visualTextSurface);

@@ -117,10 +117,10 @@ namespace LayoutFarm.Presentation.Text
                 char[] newContent = new char[length];
                 Array.Copy(this.mybuffer, sourceIndex, newContent, 0, length);
                 ArtEditableVisualTextRun newTextRun = new ArtEditableVisualTextRun(newContent);
-                BoxStyle bah = this.Beh;
+                BoxStyle bah = this.MyBoxStyle;
                 if (bah != null)
                 {
-                    newTextRun.SetBehavior(bah, null);
+                    newTextRun.SetStyle(bah, null);
                 }
 
                 newTextRun.IsLineBreak = this.IsLineBreak;

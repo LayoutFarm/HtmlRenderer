@@ -310,15 +310,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public void TopDownReArrangeContentToFit(VisualElementArgs vinv)
-        {
-            VisualLayer ground = this.GetGroundLayer();
-            if (ground != null)
-            {
-                ground.TopDownReArrangeContentToFit(vinv);
-            }
-
-        }
+       
         public void TopDownReArrangeContentIfNeed(VisualElementArgs vinv)
         {
 #if DEBUG

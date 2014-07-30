@@ -36,7 +36,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="2_VisualPresentationBase\Presentation\ScrollSurfaceRequestEventArgs.cs" />
+    <Compile Include="2_VisualPresentationBase\ScrollSurfaceRequestEventArgs.cs" />
     <Compile Include="0_Start\dbugCoreConst.cs" />
     <Compile Include="0_Start\ExtensionAttribute.cs" />
     <Compile Include="1_VisualPresentation\07_VisualRootDoc\0_ArtVisualRootWindow1.cs" />
@@ -49,8 +49,8 @@
     <Compile Include="1_VisualPresentation\07_VisualRootDoc\VisualElementRequest.cs" />
     <Compile Include="5_debug\dbug.cs" />
     <Compile Include="5_debug\dbugVisitorMessage.cs" />
-    <Compile Include="2_VisualPresentationBase\Presentation\VisualDrawingChain.cs" />
-    <Compile Include="2_VisualPresentationBase\Presentation\VisualElementArgs.cs" />
+    <Compile Include="2_VisualPresentationBase\VisualDrawingChain.cs" />
+    <Compile Include="2_VisualPresentationBase\VisualElementArgs.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\0_ArtVisualElement.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.CombineFlags.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.ElementPositioning_0_DirectSetBounds.cs" />
@@ -68,7 +68,7 @@
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\x_ArtVisualElement.debug.cs" />
     <Compile Include="1_VisualPresentation\03_ContainterBase\0_ArtVisualContainerBase.cs" />
     <Compile Include="1_VisualPresentation\03_ContainterBase\0_ArtVisualContainerBase_Scroll.cs" />
-    <Compile Include="2_VisualPresentationBase\Presentation\1_VisualScrollableSurface.cs" />
+    <Compile Include="2_VisualPresentationBase\1_VisualScrollableSurface.cs" />
     <Compile Include="1_VisualPresentation\04_VisualLayer\1_VisualLayer.cs" />
     <Compile Include="1_VisualPresentation\04_VisualLayer\4_VisualPlainLayer.cs" />
     <Compile Include="1_VisualPresentation\06_HitTest\ArtHitPointChain.cs" />
@@ -76,12 +76,12 @@
     <Compile Include="1_VisualPresentation\02_Styles\ArtAlignment.cs" />
     <Compile Include="1_VisualPresentation\02_Styles\BoxStyle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="2_VisualPresentationBase\Presentation\ArtCanvas.cs" />
-    <Compile Include="2_VisualPresentationBase\Presentation\InternalRect.cs" />
-    <Compile Include="2_VisualPresentationBase\Presentation\InternalRect2.cs" />
-    <Compile Include="2_VisualPresentationBase\Presentation\ArtColorPalette.cs" />
-    <Compile Include="2_VisualPresentationBase\Presentation\ArtImageBrush.cs" />
-    <Compile Include="2_VisualPresentationBase\Presentation\FontSystem.cs" />
+    <Compile Include="2_VisualPresentationBase\ArtCanvas.cs" />
+    <Compile Include="2_VisualPresentationBase\InternalRect.cs" />
+    <Compile Include="2_VisualPresentationBase\InternalRect2.cs" />
+    <Compile Include="2_VisualPresentationBase\ArtColorPalette.cs" />
+    <Compile Include="2_VisualPresentationBase\ArtImageBrush.cs" />
+    <Compile Include="2_VisualPresentationBase\FontSystem.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

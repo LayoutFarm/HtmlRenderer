@@ -118,7 +118,7 @@ namespace LayoutFarm.Presentation
 #endif
         public void SetStyle(BoxStyle value, VisualElementArgs vinv)
         {
-            this.SetBehavior(value, vinv);
+            base.SetStyle(value, vinv);
             UpdateRunWidth(vinv);
         }
 
@@ -138,13 +138,13 @@ namespace LayoutFarm.Presentation
             int bWidth = this.Width;
             int bHeight = this.Height;
 
-            if (!this.HasBeh)
+            if (!this.HasStyle)
             {
                 canvasPage.DrawText(textArray, new Rectangle(0, 0, bWidth, bHeight), 0);
             }
             else
             {
-                BoxStyle beh = (BoxStyle)this.Beh;
+                BoxStyle beh = (BoxStyle)this.MyBoxStyle;
                 switch (canvasPage.EvaluateFontAndTextColor(beh.textFontInfo, beh.FontColor))
                 {
                     case ArtCanvas.DIFF_FONT_SAME_TEXT_COLOR:
@@ -198,14 +198,14 @@ namespace LayoutFarm.Presentation
 
         protected TextFontInfo GetTextFontInfo()
         {
-             
-            if (!HasBeh)
+
+            if (!HasStyle)
             {
                 return LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo;
             }
             else
             {
-                BoxStyle beh = (BoxStyle)Beh;
+                BoxStyle beh = (BoxStyle)MyBoxStyle;
                 if (beh != null && beh.textFontInfo != null)
                 {
                     return beh.textFontInfo;

@@ -11,11 +11,7 @@ using LayoutFarm.Presentation;
 namespace LayoutFarm.Presentation
 {
     partial class ArtVisualElement
-    {
-
-
-
-
+    { 
 
         public static void InvalidateGraphicLocalArea(ArtVisualElement ve, Rectangle localArea, VisualElementArgs vinv)
         {

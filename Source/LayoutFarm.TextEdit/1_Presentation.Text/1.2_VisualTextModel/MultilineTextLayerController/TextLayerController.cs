@@ -319,7 +319,7 @@ namespace LayoutFarm.Presentation.Text
             {
                 if (selectionRange.StartPoint.TextRun != null)
                 {
-                    return selectionRange.StartPoint.TextRun.Beh;
+                    return selectionRange.StartPoint.TextRun.MyBoxStyle;
                 }
                 else
                 {

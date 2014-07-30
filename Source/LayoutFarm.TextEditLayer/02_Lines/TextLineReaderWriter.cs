@@ -136,9 +136,9 @@ namespace LayoutFarm.Presentation.Text
 
                 var owner = this.FlowLayer.ownerVisualElement;
 
-                if (owner.Beh != null)
+                if (owner.MyBoxStyle != null)
                 {
-                    t.SetBehavior(owner.Beh, vinv);
+                    t.SetStyle(owner.MyBoxStyle, vinv);
                 }
                 CurrentLine.AddLast(t);
 

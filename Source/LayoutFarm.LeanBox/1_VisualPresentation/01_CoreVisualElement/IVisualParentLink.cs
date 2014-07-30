@@ -19,11 +19,11 @@ namespace LayoutFarm.Presentation
     {
 
         void Unlink(ArtVisualElement ve);
-        bool ControlChildPosition { get; }
+       
         bool MayHasOverlapChild { get; }
         ArtVisualElement ParentVisualElement { get; }
 
-        void Relocate(ArtVisualElement tomoveElement, ArtVisualElement relateTo, ParentLinkRelocatePosition pos);
+        
         void AdjustParentLocation(ref System.Drawing.Point p);
         void PerformLayout(VisualElementArgs vinv);
         ArtVisualRootWindow GetWindowRoot();
@@ -87,14 +87,7 @@ namespace LayoutFarm.Presentation
         {
             (internalLinkedNode.List).Remove(ve);
         }
-        public bool ControlChildPosition
-        {
-            get
-            {
-                return false;
-            }
-
-        }
+        
         public ArtVisualElement ParentVisualElement
         {
             get
@@ -123,30 +116,6 @@ namespace LayoutFarm.Presentation
         {
 
         }
-        public void Relocate(ArtVisualElement tomoveElement, ArtVisualElement relateTo, ParentLinkRelocatePosition pos)
-        {
-
-            switch (pos)
-            {
-                default:
-                    {
-                    } break;
-                case ParentLinkRelocatePosition.After:
-                    {
-
-                        if (this.internalLinkedNode != null)
-                        {
-                            var list = internalLinkedNode.List as LinkedList<ArtVisualElement>;
-                            list.Remove(tomoveElement);
-                            list.AddAfter(internalLinkedNode, tomoveElement);
-                        }
-
-
-                    } break;
-
-            }
-
-
-        }
+        
     }
 }

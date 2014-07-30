@@ -692,58 +692,9 @@ y + height <= uiTop + uiHeight;
         public static void InnerInvalidateLayoutAndStartBubbleUp(ArtVisualElement ve)
         {
             ve.InvalidateLayoutAndStartBubbleUp();
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        } 
         static ArtVisualElement BubbleUpInvalidLayoutToTopMost(ArtVisualElement ve, ArtVisualRootWindow winroot)
-        {
-
-
+        {    
 #if DEBUG
             VisualRoot dbugVRoot = ve.dbugVRoot;
 #endif
@@ -754,8 +705,7 @@ y + height <= uiTop + uiHeight;
             {
 #if DEBUG
                 if (ve.IsWindowRoot)
-                {
-
+                { 
                 }
 
                 dbugVRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_NO_OWNER_LAY);

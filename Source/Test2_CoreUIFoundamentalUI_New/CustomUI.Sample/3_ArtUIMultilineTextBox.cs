@@ -23,7 +23,7 @@ namespace LayoutFarm.Presentation.SampleControls
         {
                  
             visualTextEdit = new ArtVisualTextEditBox(width, height, multiline);
-            visualTextEdit.SetRoleDefinition(textBoxRole, null);
+            visualTextEdit.SetStyleDefinition(textBoxRole, null);
             visualTextEdit.HasSpecificSize = true;
             this.SetPrimaryVisualElement(visualTextEdit);
             visualTextEdit.SetController(this);

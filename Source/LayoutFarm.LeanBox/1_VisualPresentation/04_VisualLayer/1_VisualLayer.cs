@@ -227,8 +227,7 @@ namespace LayoutFarm.Presentation
 
 
         public abstract void TopDownReArrangeContent(VisualElementArgs vinv);
-        public abstract void TopDownReArrangeContentToFit(VisualElementArgs vinv);
-
+        
         public abstract IEnumerable<ArtVisualElement> GetVisualElementIter();
         public abstract IEnumerable<ArtVisualElement> GetVisualElementReverseIter();
 

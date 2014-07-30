@@ -20,21 +20,13 @@ namespace LayoutFarm.Presentation
         {
 
             visualElement.uiWidth = width;
-            visualElement.uiHeight = height;
-
+            visualElement.uiHeight = height; 
             if (visualElement.IsVisualContainerBase)
             {
                 ArtVisualContainerBase.ResetDesiredSize((ArtVisualContainerBase)visualElement);
             }
         }
-
-        public static void DirectSetVisualElementSizeAndDoTopDownArrangement(ArtVisualContainerBase vsCont, int width, int height, VisualElementArgs vinv)
-        {
-            DirectSetVisualElementSize(vsCont, width, height);
-
-            vsCont.ForceTopDownReArrangeContent(vinv);
-
-        }
+ 
 
         public static void DirectSetVisualElementLocation(ArtVisualElement visualElement, int x, int y)
         {

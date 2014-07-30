@@ -20,9 +20,9 @@ namespace LayoutFarm.Presentation
         {
             get
             {
-                if (Beh != null)
+                if (MyBoxStyle != null)
                 {
-                    BoxStyle beh = (BoxStyle)Beh;
+                    BoxStyle beh = (BoxStyle)MyBoxStyle;
                     ArtColorBrush colorBrush = beh.SharedBgColorBrush;
 
                     return colorBrush != null;
@@ -39,19 +39,13 @@ namespace LayoutFarm.Presentation
             {
                 return;
             }
-            int j = 0;
-            int i = 0;
+            
             canvasPage.FillRectangle(colorBrush, 0, 0, visualElement.uiWidth, visualElement.uiHeight);
 
-        }
-
-
-
+        } 
 
         public abstract void CustomDrawToThisPage(ArtCanvas canvasPage, InternalRect updateArea);
-
-
-
+         
         public bool PrepareDrawingChain(VisualDrawingChain drawingChain)
         {
             if ((uiFlags & HIDDEN) == HIDDEN)

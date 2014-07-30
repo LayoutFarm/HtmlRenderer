@@ -26,13 +26,7 @@ namespace LayoutFarm.Presentation.Text
         public void PerformLayout(VisualElementArgs vinv)
         {
         }
-        public bool ControlChildPosition
-        {
-            get
-            {
-                return true;
-            }
-        }
+        
         public ArtVisualRootWindow GetWindowRoot()
         {
             return ownerLine.OwnerElement.WinRoot;
@@ -151,20 +145,7 @@ namespace LayoutFarm.Presentation.Text
                 }
             }
         }
-        public void Relocate(ArtVisualElement tomoveElement, ArtVisualElement relateTo, ParentLinkRelocatePosition pos)
-        {
-            switch (pos)
-            {
-                case ParentLinkRelocatePosition.After:
-                    {
-                        throw new NotSupportedException();
-
-
-
-                    } break;
-
-            }
-        }
+        
         public void AdjustParentLocation(ref System.Drawing.Point p)
         {
             p.Y += this.OwnerLine.LineTop;

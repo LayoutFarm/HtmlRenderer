@@ -122,10 +122,8 @@ namespace LayoutFarm.Presentation
 
         public void SetWidth(int width, VisualElementArgs vinv)
         {
-            this.SetSize(width, this.uiHeight, vinv);
-
-        }
-
+            this.SetSize(width, this.uiHeight, vinv); 
+        } 
         public void SetHeight(int height, VisualElementArgs vinv)
         {
             this.SetSize(this.uiWidth, height, vinv);

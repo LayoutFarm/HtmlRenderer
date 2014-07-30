@@ -10,25 +10,25 @@ namespace LayoutFarm.Presentation
     partial class ArtVisualElement
     {
 
-        object myBehOrAnimator;
+        object basicStyle;
 
-        public BoxStyle Beh
+        public BoxStyle MyBoxStyle
         {
             get
             {
-                if (this.myBehOrAnimator != null)
+                if (this.basicStyle != null)
                 {
-                    return (BoxStyle)this.myBehOrAnimator;
+                    return (BoxStyle)this.basicStyle;
 
                 }
                 return null;
             }
         }
-        protected bool HasBeh
+        protected bool HasStyle
         {
             get
             {
-                return this.Beh != null;
+                return this.MyBoxStyle != null;
             }
         }
 
@@ -52,36 +52,8 @@ namespace LayoutFarm.Presentation
                 }
 
             }
-        }
-
-
-        protected ArtColorBrush GetSharedBgColorBrush()
-        {
-            return Beh.SharedBgColorBrush;
-        }
-        protected bool IsOnGroundGfxState
-        {
-            get
-            {
-                return myBehOrAnimator == null || (uiFlags & USE_ANIMATOR) == 0;
-
-            }
-        }
-
-        void ResetEventState(VisualElementArgs vinv)
-        {
-
-            if ((uiFlags & IS_IN_ANIMATION_MODE) == 0)
-            {
-            }
-            else
-            {
-                uiFlags |= ANIMATION_WAITING_FOR_NORMAL_MODE;
-            }
-
-            this.InvalidateGraphic(vinv);
-        }
-        public virtual void SetBehavior(BoxStyle newbeh, VisualElementArgs vinv)
+        } 
+        public virtual void SetStyle(BoxStyle newbeh, VisualElementArgs vinv)
         {
 
             BoxStyle beh = (BoxStyle)newbeh;
@@ -97,7 +69,7 @@ namespace LayoutFarm.Presentation
                     this.InvalidateGraphic(vinv);
                 }
 
-                this.myBehOrAnimator = beh;
+                this.basicStyle = beh;
                 if (beh.positionWidth > -1)
                 {
                     this.SetWidth(beh.positionWidth, vinv);
