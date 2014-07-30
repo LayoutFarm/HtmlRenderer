@@ -36,9 +36,7 @@ namespace TestGraphicPackage2
         static void CreateReadyForm( 
           out ArtSurfaceViewportControl viewport, 
           out Form formCanvas)
-        {
-
-
+        { 
             LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo = new TextFontInfo(new Font("tahoma", 10), new BasicGdi32FontHelper());
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(out viewport);
             formCanvas.Text = "FormCanvas 1";                        

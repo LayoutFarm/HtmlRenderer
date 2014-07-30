@@ -81,14 +81,6 @@
       <Project>{8424932F-2499-4A72-87D8-1E1246EF8E59}</Project>
       <Name>LayoutFarm.PlatformSpecific</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.TextEditLayer\LayoutFarm.TextEditLayer.csproj">
-      <Project>{D162FBBF-C555-4605-AFA3-31A4278334E2}</Project>
-      <Name>LayoutFarm.TextEditLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
-      <Project>{CFB41C52-614E-476C-8BBE-D07C26FB582D}</Project>
-      <Name>LayoutFarm.TextEdit</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Test0_PresentationDevHelper_New\Test0_PresentationDevHelper_New.csproj">
       <Project>{05C84CAB-2F5D-4D74-9A62-EADDF5B4CC0B}</Project>
       <Name>Test0_PresentationDevHelper_New</Name>

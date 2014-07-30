@@ -31,9 +31,7 @@ namespace LayoutFarm.Presentation
         public event EventHandler<ScrollSurfaceRequestEventArgs> HScrollRequest;
         public event EventHandler<ArtScrollEventArgs> VScrollChanged;
         public event EventHandler<ArtScrollEventArgs> HScrollChanged;
-
-
-
+         
         ArtVisualWindowImpl winroot;
 
         EventHandler<EventArgs> parentFormClosedHandler;

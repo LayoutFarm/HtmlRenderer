@@ -32,7 +32,30 @@ namespace TestGraphicPackage2
             formLayoutInspector.Show();
 
         }
+        static void CreateReadyForm(
+          out ArtSurfaceViewportControl viewport,
+          out Form formCanvas)
+        {
+            
+            formCanvas = FormCanvasHelper.CreateNewFormCanvas(out viewport);
+            formCanvas.Text = "FormCanvas 1";
 
-        
+            viewport.PaintMe();
+
+            formCanvas.WindowState = FormWindowState.Maximized;
+            formCanvas.Show();
+
+        }
+
+        private void cmdMixHtml_Click(object sender, EventArgs e)
+        {
+            ArtSurfaceViewportControl viewport;
+            Form formCanvas;
+            CreateReadyForm(
+                out viewport,
+                out formCanvas);
+        }
+
+      
     }
 }

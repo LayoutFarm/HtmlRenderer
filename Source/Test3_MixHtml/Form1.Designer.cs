@@ -18,6 +18,7 @@
                                         private void InitializeComponent()
         {
             this.chkShowLayoutInspector = new System.Windows.Forms.CheckBox();
+            this.cmdMixHtml = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // chkShowLayoutInspector
@@ -30,11 +31,22 @@
             this.chkShowLayoutInspector.Text = "Also show LayoutInspector";
             this.chkShowLayoutInspector.UseVisualStyleBackColor = true;
             // 
+            // cmdMixHtml
+            // 
+            this.cmdMixHtml.Location = new System.Drawing.Point(12, 160);
+            this.cmdMixHtml.Name = "cmdMixHtml";
+            this.cmdMixHtml.Size = new System.Drawing.Size(173, 46);
+            this.cmdMixHtml.TabIndex = 6;
+            this.cmdMixHtml.Text = "MixHtml";
+            this.cmdMixHtml.UseVisualStyleBackColor = true;
+            this.cmdMixHtml.Click += new System.EventHandler(this.cmdMixHtml_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1087, 529);
+            this.Controls.Add(this.cmdMixHtml);
             this.Controls.Add(this.chkShowLayoutInspector);
             this.Name = "Form1";
             this.Text = "TestGraphicPackage2";
@@ -46,6 +58,7 @@
         #endregion
 
                                         private System.Windows.Forms.CheckBox chkShowLayoutInspector;
+                                        private System.Windows.Forms.Button cmdMixHtml;
     }
 }
 
