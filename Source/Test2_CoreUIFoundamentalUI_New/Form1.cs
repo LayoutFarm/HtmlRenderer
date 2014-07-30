@@ -43,22 +43,17 @@ namespace TestGraphicPackage2
             formCanvas.Text = "FormCanvas 1";
             formCanvas.InitViewport();
 
-            visualRoot = new VisualRootImpl();
+            visualRoot = new VisualRootImpl(); 
 
-
-
+            LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo = new TextFontInfo(new Font("tahoma", 10), new BasicGdi32FontHelper());
             var workingA = Screen.PrimaryScreen.WorkingArea;
             windowRoot = new ArtVisualWindowImpl(visualRoot, workingA.Width, workingA.Height);
-
-
-
+             
             viewport = formCanvas.SurfaceViewport;
             viewport.SetupWindowRoot(windowRoot);
             viewport.PaintMe();
 
-            formCanvas.Show();
-
-            LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo = new TextFontInfo(new Font("tahoma", 10), new BasicGdi32FontHelper());
+            formCanvas.Show(); 
          
         }
 

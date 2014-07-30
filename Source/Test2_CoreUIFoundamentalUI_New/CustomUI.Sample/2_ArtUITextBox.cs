@@ -11,15 +11,16 @@ namespace LayoutFarm.Presentation.SampleControls
 
 
     public class ArtUITextBox : ArtUIElement
-    { 
+    {
 
-        internal ArtVisualTextEditBox visualTextSurface; 
+        internal ArtVisualTextEditBox visualTextSurface;
         public ArtUITextBox(int width, int height)
         {
 
-            visualTextSurface = new ArtVisualTextEditBox(width, height, false); visualTextSurface.SetRoleDefinition(textBoxRole, null);
+            visualTextSurface = new ArtVisualTextEditBox(width, height, false);
+            visualTextSurface.SetRoleDefinition(textBoxRole, null);
             visualTextSurface.HasSpecificSize = true;
-            visualTextSurface.SetScriptUI(this);
+            visualTextSurface.SetController(this);
             SetPrimaryVisualElement(visualTextSurface);
         }
 

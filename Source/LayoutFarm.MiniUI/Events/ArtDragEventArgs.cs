@@ -103,20 +103,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public object DraggingUI
-        {
-            get
-            {
-                if (DragingElement.HasScriptElement)
-                {
-                    return DragingElement.GetScriptUI();
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
+       
         public void SwapCurrentDragElement(ArtVisualElement withThisElement)
         {
             ArtVisualRootWindow winroot = this.WinRoot; if (winroot != null)

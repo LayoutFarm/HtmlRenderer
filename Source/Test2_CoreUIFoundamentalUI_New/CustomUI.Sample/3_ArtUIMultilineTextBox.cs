@@ -26,7 +26,7 @@ namespace LayoutFarm.Presentation.SampleControls
             visualTextEdit.SetRoleDefinition(textBoxRole, null);
             visualTextEdit.HasSpecificSize = true;
             this.SetPrimaryVisualElement(visualTextEdit);
-            visualTextEdit.SetScriptUI(this);
+            visualTextEdit.SetController(this);
             RegisterNativeEvent(
               1 << ArtEventIdentifier.NE_MOUSE_DOWN
               | 1 << ArtEventIdentifier.NE_LOST_FOCUS

@@ -127,7 +127,7 @@ namespace LayoutFarm.Presentation
 
                     ArtFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(value, currentKeyboardFocusedElement);
                     focusEventArg.SetWinRoot(this);
-                    var script = currentKeyboardFocusedElement.GetScriptUI();
+                    var script = currentKeyboardFocusedElement.GetController();
                     if (script != null)
                     {
                     }
@@ -152,7 +152,7 @@ namespace LayoutFarm.Presentation
                     globalYOfCurrentUI = globalLocation.Y;
                     focusEventArg.SetWinRoot(this);
 
-                    IVisualElementUI ui = value.GetScriptUI() as IVisualElementUI;
+                    IVisualElementUI ui = value.GetController() as IVisualElementUI;
                     if (ui != null)
                     {
 
@@ -276,7 +276,7 @@ namespace LayoutFarm.Presentation
                 e.Location = hitPointChain.CurrentHitPoint;
                 e.SourceVisualElement = currentMouseActiveElement;
 
-                IVisualElementUI ui = currentMouseActiveElement.GetScriptUI() as IVisualElementUI;
+                IVisualElementUI ui = currentMouseActiveElement.GetController() as IVisualElementUI;
                 if (ui != null)
                 {
                 }
@@ -294,7 +294,7 @@ namespace LayoutFarm.Presentation
 
             if (currentMouseActiveElement != null)
             {
-                IVisualElementUI ui = currentMouseActiveElement.GetScriptUI() as IVisualElementUI;
+                IVisualElementUI ui = currentMouseActiveElement.GetController() as IVisualElementUI;
                 if (ui != null)
                 {
                 }
@@ -333,7 +333,7 @@ namespace LayoutFarm.Presentation
             currentMouseActiveElement = hitElement;
 
 
-            IVisualElementUI ui = hitElement.GetScriptUI() as IVisualElementUI;
+            IVisualElementUI ui = hitElement.GetController() as IVisualElementUI;
             if (ui != null)
             {
                 ui.DispatchMouseEvent(UIMouseEventName.MouseDown, e);
@@ -415,7 +415,7 @@ namespace LayoutFarm.Presentation
                     {
                         Point prevElementGlobalLocation = currentMouseActiveElement.GetGlobalLocation();
                         e.TranslateCanvasOrigin(prevElementGlobalLocation); e.Location = hitPointChain.PrevHitPoint; e.SourceVisualElement = currentMouseActiveElement;
-                        IVisualElementUI ui = currentMouseActiveElement.GetScriptUI() as IVisualElementUI;
+                        IVisualElementUI ui = currentMouseActiveElement.GetController() as IVisualElementUI;
                         if (ui != null)
                         {
                             ui.DispatchMouseEvent(UIMouseEventName.MouseLeave, e);
@@ -434,7 +434,7 @@ namespace LayoutFarm.Presentation
                         e.TranslateCanvasOrigin(hitPointChain.LastestElementGlobalX, hitPointChain.LastestElementGlobalY);
                         e.Location = hitPointChain.CurrentHitPoint; e.SourceVisualElement = hitElement;
 
-                        IVisualElementUI ui = hitElement.GetScriptUI() as IVisualElementUI;
+                        IVisualElementUI ui = hitElement.GetController() as IVisualElementUI;
                         if (ui != null)
                         {
                             ui.DispatchMouseEvent(UIMouseEventName.MouseEnter, e);
@@ -454,7 +454,7 @@ namespace LayoutFarm.Presentation
                     e.TranslateCanvasOrigin(hitPointChain.LastestElementGlobalX, hitPointChain.LastestElementGlobalY);
                     e.Location = hitPointChain.CurrentHitPoint; e.SourceVisualElement = hitElement;
 
-                    IVisualElementUI ui = hitElement.GetScriptUI() as IVisualElementUI;
+                    IVisualElementUI ui = hitElement.GetController() as IVisualElementUI;
                     if (ui != null)
                     {
                         ui.DispatchMouseEvent(UIMouseEventName.MouseMove, e);
@@ -479,7 +479,7 @@ namespace LayoutFarm.Presentation
                 ArtMouseEventArgs e2 = new ArtMouseEventArgs();
 
                 e2.Location = hitPointChain.CurrentHitPoint; e2.SourceVisualElement = hitElement;
-                IVisualElementUI ui = hitElement.GetScriptUI() as IVisualElementUI;
+                IVisualElementUI ui = hitElement.GetController() as IVisualElementUI;
                 if (ui != null)
                 {
                     ui.DispatchMouseEvent(UIMouseEventName.MouseHover, e2);
@@ -521,7 +521,7 @@ HitEventName.DragStart);
                 e.Location = hitPointChain.CurrentHitPoint;
                 e.DragingElement = currentDragingElement;
                 e.SourceVisualElement = currentDragingElement;
-                IVisualElementUI ui = currentDragingElement.GetScriptUI() as IVisualElementUI;
+                IVisualElementUI ui = currentDragingElement.GetController() as IVisualElementUI;
                 if (ui != null)
                 {
                     ui.DispatchDragEvent(UIDragEventName.DragStart, e);
@@ -567,7 +567,7 @@ HitEventName.DragStart);
                 dragPoint.Offset(currentXDistanceFromDragPoint, currentYDistanceFromDragPoint);
                 e.Location = dragPoint;
                 e.SourceVisualElement = currentDragingElement;
-                IVisualElementUI ui = currentDragingElement.GetScriptUI() as IVisualElementUI;
+                IVisualElementUI ui = currentDragingElement.GetController() as IVisualElementUI;
                 if (ui != null)
                 {
 
@@ -593,7 +593,7 @@ HitEventName.DragStart);
 
 
 
-                IVisualElementUI ui = currentDragingElement.GetScriptUI() as IVisualElementUI;
+                IVisualElementUI ui = currentDragingElement.GetController() as IVisualElementUI;
                 if (ui != null)
                 {
 
@@ -651,7 +651,7 @@ HitEventName.DragStart);
                     Point globalLocation = elem.GetGlobalLocation();
                     d_eventArg.TranslateCanvasOrigin(globalLocation);
                     d_eventArg.SourceVisualElement = elem;
-                    var script = elem.GetScriptUI();
+                    var script = elem.GetController();
                     if (script != null)
                     {
                     }
@@ -670,7 +670,7 @@ HitEventName.DragStart);
                     d_eventArg.TranslateCanvasOrigin(globalLocation);
                     d_eventArg.SourceVisualElement = underlyingUI;
 
-                    var script = underlyingUI.GetScriptUI();
+                    var script = underlyingUI.GetController();
                     if (script != null)
                     {
                     }
@@ -684,7 +684,7 @@ HitEventName.DragStart);
                     d_eventArg.TranslateCanvasOrigin(globalLocation);
                     d_eventArg.SourceVisualElement = underlyingUI;
 
-                    var script = underlyingUI.GetScriptUI();
+                    var script = underlyingUI.GetController();
                     if (script != null)
                     {
                     }
@@ -717,7 +717,7 @@ HitEventName.DragStart);
             e.Location = dragPoint;
 
             e.SourceVisualElement = currentDragingElement;
-            var script = currentDragingElement.GetScriptUI() as IVisualElementUI;
+            var script = currentDragingElement.GetController() as IVisualElementUI;
             if (script != null)
             {
                 script.DispatchDragEvent(UIDragEventName.DragStop, e);
@@ -747,7 +747,7 @@ HitEventName.DragStart);
                     d_eventArg.SourceVisualElement = elem;
                     d_eventArg.DragingElement = currentDragingElement;
 
-                    var script2 = elem.GetScriptUI();
+                    var script2 = elem.GetController();
                     if (script2 != null)
                     {
                     }
@@ -805,7 +805,7 @@ HitEventName.DragStart);
                 e.Location = hitPointChain.CurrentHitPoint;
 
                 e.SourceVisualElement = hitElement;
-                IVisualElementUI ui = hitElement.GetScriptUI() as IVisualElementUI;
+                IVisualElementUI ui = hitElement.GetController() as IVisualElementUI;
                 if (ui != null)
                 {
                     ui.DispatchMouseEvent(UIMouseEventName.MouseUp, e);
@@ -839,7 +839,7 @@ HitEventName.DragStart);
 
                 e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
                 e.SourceVisualElement = currentKeyboardFocusedElement;
-                IVisualElementUI ui = currentKeyboardFocusedElement.GetScriptUI() as IVisualElementUI;
+                IVisualElementUI ui = currentKeyboardFocusedElement.GetController() as IVisualElementUI;
                 if (ui != null)
                 {
                     ui.DispatchKeyEvent(UIKeyEventName.KeyDown, e);
@@ -862,7 +862,7 @@ HitEventName.DragStart);
                 e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
                 e.SourceVisualElement = currentKeyboardFocusedElement;
 
-                IVisualElementUI ui = currentKeyboardFocusedElement.GetScriptUI() as IVisualElementUI;
+                IVisualElementUI ui = currentKeyboardFocusedElement.GetController() as IVisualElementUI;
                 if (ui != null)
                 {
                     ui.DispatchKeyEvent(UIKeyEventName.KeyUp, e);
@@ -881,7 +881,7 @@ HitEventName.DragStart);
 
                 e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
                 e.SourceVisualElement = currentKeyboardFocusedElement;
-                IVisualElementUI ui = currentKeyboardFocusedElement.GetScriptUI() as IVisualElementUI;
+                IVisualElementUI ui = currentKeyboardFocusedElement.GetController() as IVisualElementUI;
                 if (ui != null)
                 {
                     ui.DispatchKeyPressEvent(e);
@@ -901,7 +901,7 @@ HitEventName.DragStart);
                 e.SourceVisualElement = currentKeyboardFocusedElement;
 
 
-                IVisualElementUI ui = currentKeyboardFocusedElement.GetScriptUI() as IVisualElementUI;
+                IVisualElementUI ui = currentKeyboardFocusedElement.GetController() as IVisualElementUI;
                 if (ui != null)
                 {
                     result = ui.DispatchProcessDialogKey(e);

@@ -174,7 +174,6 @@ namespace LayoutFarm.Presentation.Text
             {
                 VisualEditableLineParentLink parent = (VisualEditableLineParentLink)this.ParentLink;
                 return parent.Prev as ArtEditableVisualTextRun;
-
             }
         }
 

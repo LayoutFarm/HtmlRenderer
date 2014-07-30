@@ -13,13 +13,7 @@ namespace LayoutFarm.Presentation
         After,
         Before
     }
-    public enum BoundAffectedSide
-    {
-        Top,
-        Bottom,
-        Left,
-        Right
-    }
+  
 
     public interface IVisualParentLink
     {

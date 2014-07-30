@@ -13,10 +13,9 @@ namespace LayoutFarm.Presentation
 
 
         IVisualParentLink visualParentLink;
-        object uiScriptElement;
-        public ArtVisualElement(int width,
-            int height,
-            VisualElementNature nature)
+        object controller;
+
+        public ArtVisualElement(int width, int height, VisualElementNature nature)
         {
 
             this.uiWidth = width;
@@ -29,14 +28,14 @@ namespace LayoutFarm.Presentation
 #endif
         }
 
-        public object GetScriptUI()
+        public object GetController()
         {
-            return uiScriptElement;
+            return controller;
         }
 
-        public void SetScriptUI(object ui)
+        public void SetController(object ui)
         {
-            this.uiScriptElement = ui;
+            this.controller = ui;
         }
 
         public VisualElementArgs GetVInv()
@@ -481,18 +480,6 @@ namespace LayoutFarm.Presentation
 
             return null;
         }
-
-
-
-
-        public bool HasScriptElement
-        {
-            get
-            {
-                return uiScriptElement != null;
-            }
-        }
-
 
         public static void ClearVisualElementInternalLinkedNode(ArtVisualElement childElement)
         {
