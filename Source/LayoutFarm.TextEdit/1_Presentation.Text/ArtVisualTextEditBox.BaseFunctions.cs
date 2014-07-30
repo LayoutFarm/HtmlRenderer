@@ -41,7 +41,7 @@ namespace LayoutFarm.Presentation.Text
                 | (1 << ArtEventIdentifier.NE_KEY_PRESS));
 
 
-            textLayer = new EditableTextFlowLayer(this) 
+            textLayer = new EditableTextFlowLayer(this);
 
             InnerSetHasSubGroupLayer(this, true);
             internalTextLayerController = new InternalTextLayerController(this, textLayer);

@@ -61,7 +61,6 @@
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.RunsEditableFeatures.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.StaticExtensions.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElementNature.cs" />
-    <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualPaintEventArgs.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\IVisualParentLink.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\x_ArtVisualElement.debug.cs" />
     <Compile Include="1_VisualPresentation\03_ContainterBase\0_ArtVisualContainerBase.cs" />

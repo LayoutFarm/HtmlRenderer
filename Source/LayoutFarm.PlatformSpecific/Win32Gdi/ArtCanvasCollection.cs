@@ -9,7 +9,7 @@ using LayoutFarm.Presentation;
 namespace LayoutFarm.Presentation
 {
 
-    public class ArtCanvasCollection
+    class ArtCanvasCollection
     {
         List<ArtCanvas> cachePages;
         int numOfCachePages;
@@ -96,7 +96,7 @@ namespace LayoutFarm.Presentation
                 return page;
             }
             else
-            { 
+            {
                 return new ArtCanvasImpl(hPageNum, vPageNum, hPageNum * eachPageWidth, eachPageHeight * vPageNum, eachPageWidth, eachPageHeight);
 
             }
