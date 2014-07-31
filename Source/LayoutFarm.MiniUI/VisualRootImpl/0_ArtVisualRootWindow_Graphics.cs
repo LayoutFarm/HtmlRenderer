@@ -18,13 +18,14 @@ namespace LayoutFarm.Presentation
     {
 
 
-        bool disableGraphicOutputFlush = false; 
-        InternalRect accumulateArtRect = null; 
+        bool disableGraphicOutputFlush = false;
+        InternalRect accumulateArtRect = null;
         Rectangle flushRect;
         Stack<VisualDrawingChain> renderingChainStock = new Stack<VisualDrawingChain>();
 
         int graphicUpdateBlockCount = 0;
 
+       
         public override void InvalidateGraphicArea(ArtVisualElement fromElement, InternalRect elementClientRect)
         {
             if (isInRenderPhase)
@@ -78,7 +79,7 @@ namespace LayoutFarm.Presentation
                 else if (fromElement.IsInvalidateGraphicBlocked)
                 {
                     if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-dbugMyroot.dbugGraphicInvalidateTracer != null)
+                            dbugMyroot.dbugGraphicInvalidateTracer != null)
                     {
                         string state_str = "BLOCKED2: ";
                         if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
@@ -183,7 +184,7 @@ dbugMyroot.dbugGraphicInvalidateTracer != null)
 
 #if DEBUG
             if (dbugMyroot.dbugEnableGraphicInvalidateTrace
-    && dbugMyroot.dbugGraphicInvalidateTracer != null)
+             && dbugMyroot.dbugGraphicInvalidateTracer != null)
             {
                 while (dbug_ncount > 0)
                 {
@@ -205,7 +206,7 @@ dbugMyroot.dbugGraphicInvalidateTracer != null)
             {
 #if DEBUG
                 if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-    dbugMyroot.dbugGraphicInvalidateTracer != null)
+                    dbugMyroot.dbugGraphicInvalidateTracer != null)
                 {
                     dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("ZERO-EEX");
                     dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");

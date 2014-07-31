@@ -39,13 +39,13 @@ namespace LayoutFarm.Presentation
             {
                 return;
             }
-            
+
             canvasPage.FillRectangle(colorBrush, 0, 0, visualElement.uiWidth, visualElement.uiHeight);
 
-        } 
+        }
 
         public abstract void CustomDrawToThisPage(ArtCanvas canvasPage, InternalRect updateArea);
-         
+
         public bool PrepareDrawingChain(VisualDrawingChain drawingChain)
         {
             if ((uiFlags & HIDDEN) == HIDDEN)
@@ -93,9 +93,9 @@ namespace LayoutFarm.Presentation
 
 
                         } break;
-                } 
-            } 
-            return false; 
+                }
+            }
+            return false;
         }
         public void DrawToThisPage(ArtCanvas canvasPage, InternalRect updateArea)
         {
@@ -107,7 +107,10 @@ namespace LayoutFarm.Presentation
 #if DEBUG
             dbugVRoot.dbug_drawLevel++;
 #endif
+            if (updateArea.Width == 0 || updateArea.Height == 0)
+            {
 
+            }
             if (canvasPage.PushClipArea(uiWidth, uiHeight, updateArea))
             {
 #if DEBUG
@@ -118,20 +121,17 @@ namespace LayoutFarm.Presentation
 #endif
                 switch ((VisualElementNature)(uiCombineFlags & 0xF))
                 {
-                    case VisualElementNature.HtmlContainer:
-                        {
-                            throw new NotSupportedException();
-                        } break;
+
+
                     case VisualElementNature.CssBox:
                         {
 
                             throw new NotSupportedException();
-
-
                         } break;
                     case VisualElementNature.Shapes:
                         {
                         } break;
+                    case VisualElementNature.HtmlContainer:
                     case VisualElementNature.TextRun:
                         {
                             this.CustomDrawToThisPage(canvasPage, updateArea);

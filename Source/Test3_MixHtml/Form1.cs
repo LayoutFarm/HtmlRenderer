@@ -36,7 +36,7 @@ namespace TestGraphicPackage2
           out ArtSurfaceViewportControl viewport,
           out Form formCanvas)
         {
-            
+
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(out viewport);
             formCanvas.Text = "FormCanvas 1";
 
@@ -45,8 +45,17 @@ namespace TestGraphicPackage2
             formCanvas.WindowState = FormWindowState.Maximized;
             formCanvas.Show();
 
-        }
+            ArtUIHtmlBox htmlBox = new ArtUIHtmlBox(800, 600);
+            ArtVisualHtmlBox innerHtmlBox = htmlBox.PrimaryVisual;
+            viewport.AddContent(innerHtmlBox);
 
+            string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
+            htmlBox.LoadHtmlText(html);
+            var vinv = innerHtmlBox.WinRoot.GetVInv();
+            innerHtmlBox.InvalidateGraphic(vinv);
+            innerHtmlBox.WinRoot.FreeVInv(vinv);
+
+        }
         private void cmdMixHtml_Click(object sender, EventArgs e)
         {
             ArtSurfaceViewportControl viewport;
@@ -54,8 +63,10 @@ namespace TestGraphicPackage2
             CreateReadyForm(
                 out viewport,
                 out formCanvas);
+
+            viewport.PaintMe();
         }
 
-      
+
     }
 }

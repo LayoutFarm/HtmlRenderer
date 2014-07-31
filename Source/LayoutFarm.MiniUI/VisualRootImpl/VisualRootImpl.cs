@@ -82,10 +82,7 @@ namespace LayoutFarm.Presentation
                 return veReqList.Count;
             }
         }
-        //public override void AddVisualRequest(VisualElementRequest req)
-        //{
-        //    //veReqList.Add(req);
-        //}
+         
         public void ClearVisualRequests(ArtVisualRootWindow winroot)
         {
             int j = veReqList.Count;

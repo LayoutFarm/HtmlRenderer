@@ -284,13 +284,9 @@ namespace LayoutFarm.Presentation
 #if DEBUG
             vinv.dbug_ExitLayerReArrangeContent();
 #endif
-        } 
-         
-
+        }  
         public override void TopDownReCalculateContentSize(VisualElementArgs vinv)
-        {
-
-
+        { 
 #if DEBUG
 
             vinv.dbug_EnterLayerReCalculateContent(this);

@@ -24,6 +24,7 @@ namespace LayoutFarm.Presentation
             get;
             set;
         }
+        public abstract Graphics CreateGraphics();
 
         public abstract void RootBeginGraphicUpdate();
         public abstract void RootEndGraphicUpdate();

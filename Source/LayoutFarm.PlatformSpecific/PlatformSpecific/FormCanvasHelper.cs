@@ -21,13 +21,12 @@ namespace LayoutFarm.Presentation
             canvasViewport = new ArtSurfaceViewportControl();
             ArtSurfaceViewportControl innerViewport = canvasViewport;
             Rectangle screenClientAreaRect = Screen.PrimaryScreen.WorkingArea;
-
-            
-            
+             
             //----------------------
             var visualRoot = new VisualRootImpl();
             var windowRoot = new ArtVisualWindowImpl(visualRoot, form1.Width, form1.Height);
-        
+             
+
             canvasViewport.SetupWindowRoot(windowRoot);
             canvasViewport.Bounds = new Rectangle(0, 0, screenClientAreaRect.Width, screenClientAreaRect.Height);
             //----------------------

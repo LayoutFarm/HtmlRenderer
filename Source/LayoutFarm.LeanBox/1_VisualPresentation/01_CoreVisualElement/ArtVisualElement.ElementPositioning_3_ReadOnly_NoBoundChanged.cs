@@ -249,9 +249,7 @@ namespace LayoutFarm.Presentation
             return ContainPoint(testPoint.X, testPoint.Y);
         }
         public bool HitTestCore(ArtHitPointChain artHitResult)
-        {
-
-
+        {   
 
             if ((uiFlags & HIDDEN) != 0)
             {
@@ -263,27 +261,21 @@ namespace LayoutFarm.Presentation
                 case VisualElementNature.CssBox:
                     {
                         throw new NotSupportedException();
-                    }
-                case VisualElementNature.HtmlContainer:
-                    {
-                        throw new NotSupportedException();
-                    }
+                    } 
                 case VisualElementNature.Shapes:
                     {
                         throw new NotSupportedException();
                     } break;
+                case VisualElementNature.HtmlContainer:
                 default:
                     {
                         int testX;
                         int testY;
                         artHitResult.GetTestPoint(out testX, out testY);
                         if ((testY >= uiTop && testY <= (uiTop + uiHeight)
-    && (testX >= uiLeft && testX <= (uiLeft + uiWidth))))
-                        {
-
-
-                            ArtVisualContainerBase scContainer = null;
-
+                        && (testX >= uiLeft && testX <= (uiLeft + uiWidth))))
+                        { 
+                            ArtVisualContainerBase scContainer = null; 
                             if (this.IsScrollable)
                             {
                                 scContainer = (ArtVisualContainerBase)this;
@@ -304,8 +296,8 @@ namespace LayoutFarm.Presentation
                             if (this.IsScrollable)
                             {
                                 artHitResult.OffsetTestPoint(
-    uiLeft - scContainer.ViewportX,
-    uiTop - scContainer.ViewportY);
+                                        uiLeft - scContainer.ViewportX,
+                                        uiTop - scContainer.ViewportY);
                             }
                             else
                             {

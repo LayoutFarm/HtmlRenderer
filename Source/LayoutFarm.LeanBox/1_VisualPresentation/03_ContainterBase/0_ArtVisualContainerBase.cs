@@ -145,7 +145,7 @@ namespace LayoutFarm.Presentation
                 groundLayer.PrepareDrawingChain(chain);
             }
         }
-        public void ChildrenHitTestCore(ArtHitPointChain artHitResult)
+        public virtual void ChildrenHitTestCore(ArtHitPointChain artHitResult)
         {
 
             if (otherLayers != null)

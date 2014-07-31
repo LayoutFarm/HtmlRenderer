@@ -51,13 +51,8 @@ namespace LayoutFarm.Presentation
         public event EventHandler<ArtCaretEventArgs> CanvasCaretEvent;
         public event EventHandler<ArtCursorEventArgs> CursorStyleEventHandler;
         public event EventHandler CanvasForcePaintMe;
-        public event EventHandler CurrentFocusElementChanged;
-
-
-
-
-        int msgChainVersion;
-
+        public event EventHandler CurrentFocusElementChanged; 
+        int msgChainVersion; 
 
 
         public void ChangeVisualRootSize(int width, int height)
@@ -72,16 +67,7 @@ namespace LayoutFarm.Presentation
         }
 
         LinkedList<LinkedListNode<ArtVisualRootTimerTask>> tobeRemoveTasks = new LinkedList<LinkedListNode<ArtVisualRootTimerTask>>();
-
-
-
-
-
-
-
-
-
-
+         
 
 
         void SetCaretVisible(bool visible)
@@ -619,7 +605,7 @@ HitEventName.DragStart);
             VisualDrawingChain drawingChain = this.WinRootPrepareRenderingChain(dragRect);
             List<ArtVisualElement> selVisualElements = drawingChain.selectedVisualElements;
             int j = selVisualElements.Count;
-            LinkedList<ArtVisualElement> underlyingElements = ArtUILinkListPool.GetFreeLinkedList();
+            LinkedList<ArtVisualElement> underlyingElements = new LinkedList<ArtVisualElement>();
             for (int i = j - 1; i > -1; --i)
             {
 
@@ -694,9 +680,9 @@ HitEventName.DragStart);
             }
             ArtDragEventArgs.ReleaseEventArgs(d_eventArg);
 
-            ArtUILinkListPool.Release(underlyingElements);
+
         }
-        public new void OnDragStop(ArtDragEventArgs e)
+        public void OnDragStop(ArtDragEventArgs e)
         {
 
 

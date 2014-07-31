@@ -3,11 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-
-using System.IO;
-
-
+using System.Drawing.Drawing2D; 
+using System.IO; 
 
 using LayoutFarm.Presentation;
 using LayoutFarm.Presentation.Text;
@@ -18,13 +15,11 @@ namespace LayoutFarm.Presentation.Text
     public sealed partial class ArtVisualTextEditBox : ArtVisualContainerBase
     {
 
-        EditableTextFlowLayer textLayer;
-
+        EditableTextFlowLayer textLayer; 
         InternalTextLayerController internalTextLayerController;
-        int verticalExpectedCharIndex; bool isMultiLine = false;
-        bool isInVerticalPhase = false;
-
-         
+        int verticalExpectedCharIndex;
+        bool isMultiLine = false;
+        bool isInVerticalPhase = false; 
 
         public ArtVisualTextEditBox(int width, int height, bool isMultiLine) :
             base(width, height, VisualElementNature.TextEditContainer)

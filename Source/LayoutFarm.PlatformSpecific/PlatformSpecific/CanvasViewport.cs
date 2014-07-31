@@ -58,9 +58,9 @@ namespace LayoutFarm.Presentation
             canvasCursorChangedHandler = Canvas_CursorChange;
             canvasSizeChangedHandler = Canvas_SizeChanged;
             canvasForcePaintMe = PaintMe;
+
             winroot.CanvasCaretEvent += canvasCaretHandler;
             winroot.CursorStyleEventHandler += canvasCursorChangedHandler;
-
             winroot.CanvasInvalidatedEvent += canvasInvalidateHandler;
             winroot.CanvasForcePaintMe += canvasForcePaintMe;
 
@@ -137,7 +137,8 @@ namespace LayoutFarm.Presentation
 
 #if DEBUG
 
-            VisualRoot visualroot = VisualRoot.dbugCurrentGlobalVRoot; if (visualroot.dbug_RecordDrawingChain)
+            VisualRoot visualroot = VisualRoot.dbugCurrentGlobalVRoot;
+            if (visualroot.dbug_RecordDrawingChain)
             {
                 List<dbugLayoutMsg> outputMsgs = outputWindow.dbug_rootDocDebugMsgs;
                 outputMsgs.Clear();
@@ -164,16 +165,7 @@ namespace LayoutFarm.Presentation
         {
             PaintMe();
         }
-
-
-
-
-
-
-
-
-
-
+         
 
 #if DEBUG
         int debug_render_to_output_count = -1;
