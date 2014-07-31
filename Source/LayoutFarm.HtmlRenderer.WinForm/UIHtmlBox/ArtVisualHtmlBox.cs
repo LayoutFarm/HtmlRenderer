@@ -136,7 +136,8 @@ namespace LayoutFarm.Presentation
         }
         protected override VisualLayer GetGroundLayer()
         {
-            throw new NotImplementedException();
+            return null;
+            
         }
         public override void CustomDrawToThisPage(ArtCanvas canvasPage, InternalRect updateArea)
         {

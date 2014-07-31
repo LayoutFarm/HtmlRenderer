@@ -54,17 +54,8 @@ namespace HtmlRenderer.Drawing
         Size MeasureString(string str, Font font, float maxWidth, out int charFit, out int charFitWidth);
         Size MeasureString2(char[] str, int startAt, int len, Font font, float maxWidth, out int charFit, out int charFitWidth);
 
-        /// <summary>
-        /// Draw the given string using the given font and foreground color at given location.
-        /// </summary>
-        /// <param name="str">the string to draw</param>
-        /// <param name="font">the font to use to draw the string</param>
-        /// <param name="color">the text color to set</param>
-        /// <param name="point">the location to start string draw (top-left)</param>
-        /// <param name="size">used to know the size of the rendered text for transparent text support</param>
-        void DrawString(String str, Font font, Color color, PointF point, SizeF size);
-
-        void DrawString2(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size);
+        
+        void DrawString(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size);
 
 
 

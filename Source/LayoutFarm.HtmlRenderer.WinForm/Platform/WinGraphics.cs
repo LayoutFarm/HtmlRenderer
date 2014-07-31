@@ -248,45 +248,9 @@ namespace HtmlRenderer
                 return size;
             }
         }
+         
 
-        /// <summary>
-        /// Draw the given string using the given font and foreground color at given location.
-        /// </summary>
-        /// <param name="str">the string to draw</param>
-        /// <param name="font">the font to use to draw the string</param>
-        /// <param name="color">the text color to set</param>
-        /// <param name="point">the location to start string draw (top-left)</param>
-        /// <param name="size">used to know the size of the rendered text for transparent text support</param>
-        public void DrawString(String str, Font font, Color color, PointF point, SizeF size)
-        {
-#if DEBUG
-            dbugCounter.dbugDrawStringCount++;
-#endif
-            if (_useGdiPlusTextRendering)
-            {
-                //ReleaseHdc(); 
-                //_g.DrawString(str, font,
-                //    RenderUtils.GetSolidBrush(color),
-                //    (int)Math.Round(point.X + canvasOriginX - FontsUtils.GetFontLeftPadding(font) * .8f), (int)Math.Round(point.Y + canvasOriginY));
-            }
-            else
-            {
-                if (color.A == 255)
-                {
-                    SetFont(font);
-                    SetTextColor(color);
-
-                    Win32Utils.TextOut(_hdc, (int)Math.Round(point.X + canvasOriginX), (int)Math.Round(point.Y + canvasOriginY), str, str.Length);
-                }
-                else
-                {
-                    InitHdc();
-                    DrawTransparentText(_hdc, str, font, new Point((int)Math.Round(point.X + canvasOriginX), (int)Math.Round(point.Y + canvasOriginY)), Size.Round(size), color);
-                }
-            }
-        }
-
-        public void DrawString2(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size)
+        public void DrawString(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size)
         {
 
 #if DEBUG
