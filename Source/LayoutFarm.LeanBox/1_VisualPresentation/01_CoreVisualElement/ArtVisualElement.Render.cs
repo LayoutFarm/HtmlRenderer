@@ -107,10 +107,7 @@ namespace LayoutFarm.Presentation
 #if DEBUG
             dbugVRoot.dbug_drawLevel++;
 #endif
-            if (updateArea.Width == 0 || updateArea.Height == 0)
-            {
-
-            }
+           
             if (canvasPage.PushClipArea(uiWidth, uiHeight, updateArea))
             {
 #if DEBUG
