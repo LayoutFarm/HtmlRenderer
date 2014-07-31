@@ -3,11 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-
-using System.IO;
-
-
+using System.Drawing.Drawing2D; 
+using System.IO; 
 
 using LayoutFarm.Presentation;
 using LayoutFarm.Presentation.Text;
@@ -18,14 +15,11 @@ namespace LayoutFarm.Presentation.Text
     public sealed partial class ArtVisualTextEditBox : ArtVisualContainerBase
     {
 
-        EditableTextFlowLayer textLayer;
-
+        EditableTextFlowLayer textLayer; 
         InternalTextLayerController internalTextLayerController;
-        int verticalExpectedCharIndex; bool isMultiLine = false;
-        bool isInVerticalPhase = false;
-
-
-        public event ArtVisualPaintEventHandler SubgroundPaint;
+        int verticalExpectedCharIndex;
+        bool isMultiLine = false;
+        bool isInVerticalPhase = false; 
 
         public ArtVisualTextEditBox(int width, int height, bool isMultiLine) :
             base(width, height, VisualElementNature.TextEditContainer)
@@ -43,9 +37,6 @@ namespace LayoutFarm.Presentation.Text
 
 
             textLayer = new EditableTextFlowLayer(this);
-
-
-
 
             InnerSetHasSubGroupLayer(this, true);
             internalTextLayerController = new InternalTextLayerController(this, textLayer);
@@ -116,10 +107,10 @@ namespace LayoutFarm.Presentation.Text
             {
                 internalTextLayerController.SelectionRange.Draw(canvasPage, updateArea);
             }
-            if (SubgroundPaint != null)
-            {
-                SubgroundPaint(this, new ArtVisualPaintEventArgs(canvasPage, updateArea));
-            }
+            //if (SubgroundPaint != null)
+            //{
+            //    SubgroundPaint(this, new ArtVisualPaintEventArgs(canvasPage, updateArea));
+            //}
         }
 
 

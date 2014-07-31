@@ -14,8 +14,7 @@ using System;
 using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
-using HtmlRenderer.WebDom;
-
+using HtmlRenderer.WebDom; 
 using HtmlRenderer.Drawing;
 using HtmlRenderer.Css;
 using HtmlRenderer.ContentManagers;
@@ -64,15 +63,11 @@ namespace HtmlRenderer
 
 
 
-        #region Fields and Consts
-
-
-
+        
 
         WinRootVisualBox _visualRootBox;
         Composers.BoxComposer _boxComposer;
-        Composers.InputEventBridge _htmlEventBridge;
-
+        Composers.InputEventBridge _htmlEventBridge; 
 
 
         /// <summary>
@@ -85,7 +80,7 @@ namespace HtmlRenderer
         /// </summary>
         private WebDom.CssActiveSheet _baseCssData;
 
-        #endregion
+         
 
 
         /// <summary>
@@ -100,6 +95,7 @@ namespace HtmlRenderer
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
 
+            //-------------------------------------------------------
             _boxComposer = new Composers.BoxComposer();
 
             _visualRootBox = new WinRootVisualBox();

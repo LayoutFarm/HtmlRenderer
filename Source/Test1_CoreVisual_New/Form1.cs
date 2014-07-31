@@ -35,21 +35,12 @@ namespace TestGraphicPackage
         private void cmdShowBasicFormCanvas_Click(object sender, EventArgs e)
         {
 
-            FormCanvas formCanvas = new FormCanvas();
-            formCanvas.Text = "FormCanvas 1";
-            formCanvas.InitViewport();
+             
 
-            var visualRoot = new VisualRootImpl();
-
-
-            var windowRoot = new ArtVisualWindowImpl(visualRoot, this.Width, this.Height);
-
-            var viewport = formCanvas.SurfaceViewport;
-            viewport.SetupWindowRoot(windowRoot);
-            viewport.PaintMe();
-
-            formCanvas.Show();
-
+            ArtSurfaceViewportControl viewport;
+            Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(out viewport); 
+            viewport.PaintMe(); 
+            formCanvas.Show(); 
             ShowFormLayoutInspector(viewport);
         }
 

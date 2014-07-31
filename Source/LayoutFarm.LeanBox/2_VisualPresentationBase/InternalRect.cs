@@ -13,10 +13,7 @@ namespace LayoutFarm.Presentation
         public int _left;
         public int _top;
         public int _right;
-        public int _bottom;
-
-
-
+        public int _bottom; 
         private InternalRect()
         {
         }

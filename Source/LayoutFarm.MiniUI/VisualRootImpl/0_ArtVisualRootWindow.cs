@@ -3,42 +3,58 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+
+
+
+
+
 namespace LayoutFarm.Presentation
 {
 
 
+
     public partial class ArtVisualWindowImpl : ArtVisualRootWindow
     {
+        bool layoutQueueClearing = false;
 
         List<ArtVisualElement> layoutQueue = new List<ArtVisualElement>();
         List<ArtVisualElement> layoutQueue2 = new List<ArtVisualElement>();
 
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
+
         VisualRootImpl visualroot;
         CanvasEventsStock eventStock = new CanvasEventsStock();
-
         IEventDispatcher currentMouseUIFocus = null;
 
 
         public ArtVisualWindowImpl(
             VisualRootImpl visualroot, int width, int height)
-            : base(width, height)
+            : base(visualroot, width, height)
         {
             this.visualroot = visualroot;
 
             centralAnimationClock = new System.Timers.Timer();
             centralAnimationClock.Interval = 40;
             centralAnimationClock.Elapsed += new System.Timers.ElapsedEventHandler(centralAnimationClock_Elapsed);
-            centralAnimationClock.Enabled = false; rootTasksTimer = new System.Timers.Timer();
-            rootTasksTimer.Interval = 100; rootTasksTimer.Elapsed += new System.Timers.ElapsedEventHandler(rootTasksTimer_Elapsed);
+            centralAnimationClock.Enabled = false;
+
+            rootTasksTimer = new System.Timers.Timer();
+            rootTasksTimer.Interval = 100; 
+            rootTasksTimer.Elapsed += new System.Timers.ElapsedEventHandler(rootTasksTimer_Elapsed);
             rootTasksTimer.Enabled = false;
             hoverMonitoringTask = new ArtUIHoverMonitorTask(this, this.OnMouseHover);
 #if DEBUG
-            dbug_hide_objIden = true; dbug_Init();
+            dbug_hide_objIden = true; 
+            dbug_Init();
 #endif
 
         }
+        public override Graphics CreateGraphics()
+        {       
+             
 
+            throw new NotImplementedException();
+        }
         void rootTasksTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
 
@@ -74,14 +90,7 @@ namespace LayoutFarm.Presentation
         }
 
         void centralAnimationClock_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-
-
-
-
-
-
-
+        { 
         }
 
         public void SetAsCurrentMouseFocus(IEventDispatcher ui)
@@ -93,15 +102,13 @@ namespace LayoutFarm.Presentation
                 ArtFocusEventArgs2 e = new ArtFocusEventArgs2();
                 e.SetWinRoot(this);
                 e.ToBeFocusElement = ui;
-                e.ToBeLostFocusElement = currentMouseUIFocus;
-
-
+                e.ToBeLostFocusElement = currentMouseUIFocus; 
                 currentMouseUIFocus = null;
             }
 
             this.currentMouseUIFocus = ui;
         }
-        public VisualRootImpl VisualRoot
+        public override VisualRoot VisualRoot
         {
             get
             {
@@ -142,14 +149,13 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        bool layoutQueueClearing = false;
-
+        
 
 
         public override void AddToLayoutQueue(ArtVisualElement vs)
         {
 #if DEBUG
-             
+            VisualRoot dbugVisualRoot = this.dbugVRoot;
 #endif
 
             if (layoutQueueClearing)
@@ -167,8 +173,7 @@ namespace LayoutFarm.Presentation
             }
 
 #if DEBUG
-            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage(
-                LayoutFarm.Presentation.dbugRootLog.dbugMsg_ADD_TO_LAYOUT_QUEUE, vs);
+            dbugVisualRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_ADD_TO_LAYOUT_QUEUE, vs);
 #endif
 
             vs.IsInLayoutQueue = true;
@@ -282,8 +287,7 @@ namespace LayoutFarm.Presentation
         {
 
 #if DEBUG
-            dbugVisualLayoutTracer debugVisualLay =
-                LayoutFarm.Presentation.dbugRootLog.dbug_GetLastestVisualLayoutTracer();
+            dbugVisualLayoutTracer debugVisualLay = VisualRoot.dbugCurrentGlobalVRoot.dbug_GetLastestVisualLayoutTracer();
 
 #endif
 
@@ -387,9 +391,9 @@ namespace LayoutFarm.Presentation
             this.layoutQueueClearing = true;
 
 #if DEBUG
-             
+            VisualRoot visualroot = this.dbugVRoot;
             int total = layoutQueue.Count;
-            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage(LayoutFarm.Presentation.dbugRootLog.dbugMsg_CLEAR_LAYOUT_enter, total);
+            visualroot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_CLEAR_LAYOUT_enter, total);
 #endif
 
             VisualElementArgs vinv = this.GetVInv();
@@ -443,32 +447,9 @@ namespace LayoutFarm.Presentation
             this.FreeVInv(vinv);
 #if DEBUG
 
-            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage(LayoutFarm.Presentation.dbugRootLog.dbugMsg_CLEAR_LAYOUT_exit);
+            visualroot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_CLEAR_LAYOUT_exit);
 #endif
         }
-    }
-
-
-
-    static class ArtUILinkListPool
-    {
-        static Stack<LinkedList<ArtVisualElement>> pool = new Stack<LinkedList<ArtVisualElement>>(5);
-        public static LinkedList<ArtVisualElement> GetFreeLinkedList()
-        {
-            if (pool.Count == 0)
-            {
-                return new LinkedList<ArtVisualElement>();
-            }
-            else
-            {
-                return pool.Pop();
-            }
-        }
-        public static void Release(LinkedList<ArtVisualElement> linkedList)
-        {
-            linkedList.Clear();
-            pool.Push(linkedList);
-        }
-
-    }
+    } 
+     
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014 Apache2, WinterDev
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -10,7 +11,7 @@ using LayoutFarm.Presentation;
 using LayoutFarm.Presentation.Text;
 
 
-//2014 Apache2, WinterDev
+
 namespace LayoutFarm.Presentation.Text
 {
 

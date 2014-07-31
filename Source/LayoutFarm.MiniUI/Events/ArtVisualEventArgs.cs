@@ -45,7 +45,7 @@ namespace LayoutFarm.Presentation
 
             canvasXOrigin = 0;
             canvasYOrigin = 0;
-             
+            this.vroot = null;
             this.winRoot = null;
         }
         public ArtVisualElement SourceVisualElement
@@ -134,7 +134,14 @@ namespace LayoutFarm.Presentation
             }
 
         }
-       
+        public VisualRoot VisualRoot
+        {
+            get
+            {
+                return vroot;
+            }
+
+        }
         public ArtVisualRootWindow WinRoot
         {
             get
@@ -144,10 +151,11 @@ namespace LayoutFarm.Presentation
         }
         public void SetWinRoot(ArtVisualRootWindow winRoot)
         {
-            this.winRoot = winRoot; 
+            this.winRoot = winRoot;
+            this.vroot = winRoot.VisualRoot;
         }
 
-         
+        VisualRoot vroot;
         ArtVisualRootWindow winRoot;
 
         public VisualElementArgs GetVisualInvalidateCanvasArgs()

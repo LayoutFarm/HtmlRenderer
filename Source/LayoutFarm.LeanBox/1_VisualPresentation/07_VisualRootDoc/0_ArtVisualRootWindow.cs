@@ -10,13 +10,13 @@ namespace LayoutFarm.Presentation
 {
     public abstract partial class ArtVisualRootWindow : ArtVisualContainerBase
     {
-
+        VisualRoot visualRoot;
         VisualLayer groundLayer;
 
-        public ArtVisualRootWindow(int width, int height)
+        public ArtVisualRootWindow(VisualRoot visualRoot, int width, int height)
             : base(width, height, VisualElementNature.WindowRoot)
         {
-
+            this.visualRoot = visualRoot;
         }
 
         public abstract ArtVisualElement CurrentKeyboardFocusedElement
@@ -24,16 +24,17 @@ namespace LayoutFarm.Presentation
             get;
             set;
         }
+        public abstract Graphics CreateGraphics();
 
         public abstract void RootBeginGraphicUpdate();
         public abstract void RootEndGraphicUpdate();
         public abstract ArtVisualElement CurrentDraggingElement { get; set; }
 
         public abstract void AddToLayoutQueue(ArtVisualElement vs);
-
+        public abstract VisualRoot VisualRoot { get; }
         public abstract bool IsLayoutQueueClearing { get; }
         public abstract void InvalidateGraphicArea(ArtVisualElement fromElement, InternalRect elementClientRect);
-        public abstract void dbugShowRenderPart(ArtCanvas canvasPage, InternalRect updateArea);
+
         public override void ClearAllChildren()
         {
             if (groundLayer != null)
@@ -62,5 +63,8 @@ namespace LayoutFarm.Presentation
             groundLayer.AddTop(child);
         }
 
+#if DEBUG
+        public abstract void dbugShowRenderPart(ArtCanvas canvasPage, InternalRect updateArea);
+#endif
     }
 }

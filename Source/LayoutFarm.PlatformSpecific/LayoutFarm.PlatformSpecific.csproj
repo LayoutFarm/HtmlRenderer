@@ -49,26 +49,19 @@
     <Compile Include="PlatformSpecific\ArtSurfaceViewportControl.Designer.cs">
       <DependentUpon>ArtSurfaceViewportControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="PlatformSpecific\CanvasViewport.CanvasCaret.cs" />
+    <Compile Include="PlatformSpecific\CanvasCaret.cs" />
     <Compile Include="PlatformSpecific\CanvasViewport.cs" />
-    <Compile Include="PlatformSpecific\FormCanvas.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PlatformSpecific\FormCanvas.Designer.cs">
-      <DependentUpon>FormCanvas.cs</DependentUpon>
-    </Compile>
+    <Compile Include="PlatformSpecific\FormCanvasHelper.cs" />
     <Compile Include="PlatformSpecific\IArtSurfaceViewportControl.cs" />
-    <Compile Include="PlatformSpecific\PlatformMessageBox.cs" />
-    <Compile Include="PlatformSpecific\VisualScreens.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Win32Gdi\ArtCanvasImpl.cs" />
-    <Compile Include="Win32Gdi\ArtCanvasCollection.cs" />
+    <Compile Include="PlatformSpecific\ArtCanvasImpl.cs" />
+    <Compile Include="PlatformSpecific\ArtCanvasCollection.cs" />
     <Compile Include="Win32Gdi\FontManager.cs" />
     <Compile Include="Win32Gdi\GfxWin32InterOp.cs" />
     <Compile Include="Win32Gdi\MyWin32.cs" />
     <Compile Include="Win32Gdi\NativeTextWin32.cs" />
-    <Compile Include="Win32Gdi\QuadPages.cs" />
-    <Compile Include="Win32Gdi\VisualScrollableSurfaceImpl.cs" />
+    <Compile Include="PlatformSpecific\QuadPages.cs" />
+    <Compile Include="PlatformSpecific\VisualScrollableSurfaceImpl.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

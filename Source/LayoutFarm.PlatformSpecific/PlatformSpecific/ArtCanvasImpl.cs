@@ -148,7 +148,10 @@ namespace LayoutFarm.Presentation
         {
             canvasFlags = FIRSTTIME_INVALID_AND_UPDATED_CONTENT;
         }
-
+        public override Graphics GetGfx()
+        {
+            return this.gx;
+        }
         public override bool IsFromPrinter
         {
             get
@@ -1077,7 +1080,8 @@ namespace LayoutFarm.Presentation
             gxPath.Dispose();
         }
 
-        InternalRect invalidateArea = InternalRect.CreateFromLTRB(0, 0, 0, 0); int canvasFlags = FIRSTTIME_INVALID;
+        InternalRect invalidateArea = InternalRect.CreateFromLTRB(0, 0, 0, 0);
+        int canvasFlags = FIRSTTIME_INVALID;
 
         const int WAIT_FOR_UPDATE = 0x0;
 

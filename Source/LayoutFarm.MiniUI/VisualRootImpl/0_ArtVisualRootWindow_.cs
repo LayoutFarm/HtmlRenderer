@@ -51,13 +51,8 @@ namespace LayoutFarm.Presentation
         public event EventHandler<ArtCaretEventArgs> CanvasCaretEvent;
         public event EventHandler<ArtCursorEventArgs> CursorStyleEventHandler;
         public event EventHandler CanvasForcePaintMe;
-        public event EventHandler CurrentFocusElementChanged;
-
-
-
-
-        int msgChainVersion;
-
+        public event EventHandler CurrentFocusElementChanged; 
+        int msgChainVersion; 
 
 
         public void ChangeVisualRootSize(int width, int height)
@@ -72,16 +67,7 @@ namespace LayoutFarm.Presentation
         }
 
         LinkedList<LinkedListNode<ArtVisualRootTimerTask>> tobeRemoveTasks = new LinkedList<LinkedListNode<ArtVisualRootTimerTask>>();
-
-
-
-
-
-
-
-
-
-
+         
 
 
         void SetCaretVisible(bool visible)
@@ -220,6 +206,31 @@ namespace LayoutFarm.Presentation
         }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public void ClearAllFocus()
         {
             CurrentKeyboardFocusedElement = null;
@@ -236,9 +247,12 @@ namespace LayoutFarm.Presentation
             CurrentKeyboardFocusedElement = null;
             ClearAllChildren();
             hitPointChain.ClearAll();
+
+
+
         }
 
-        public void OnDoubleClick(ArtMouseEventArgs e)
+        public new void OnDoubleClick(ArtMouseEventArgs e)
         {
 
             ArtVisualElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.DblClick);
@@ -253,11 +267,15 @@ namespace LayoutFarm.Presentation
                 {
                 }
                 e.TranslateCanvasOriginBack();
+
+
             }
             hitPointChain.SwapHitChain();
         }
 
-        public void OnMouseWheel(ArtMouseEventArgs e)
+
+
+        public new void OnMouseWheel(ArtMouseEventArgs e)
         {
 
             if (currentMouseActiveElement != null)
@@ -274,11 +292,11 @@ namespace LayoutFarm.Presentation
 
 #if DEBUG
 
-            if (LayoutFarm.Presentation.dbugRootLog.dbugEnableGraphicInvalidateTrace)
+            if (this.visualroot.dbugEnableGraphicInvalidateTrace)
             {
-                LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo("================");
-                LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo("MOUSEDOWN");
-                LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("MOUSEDOWN");
+                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
 
 #endif
@@ -307,22 +325,22 @@ namespace LayoutFarm.Presentation
             }
             e.TranslateCanvasOriginBack();
 #if DEBUG
-
-            if (LayoutFarm.Presentation.dbugRootLog.dbug_RecordHitChain)
+            VisualRoot visualroot = this.dbugVRoot;
+            if (visualroot.dbug_RecordHitChain)
             {
-                LayoutFarm.Presentation.dbugRootLog.dbug_rootHitChainMsg.Clear();
+                visualroot.dbug_rootHitChainMsg.Clear();
                 int i = 0;
                 foreach (ArtHitPointChain.HitPair hp in hitPointChain.HitPairIter)
                 {
 
                     ArtVisualElement ve = hp.elem;
-                    ve.dbug_WriteOwnerLayerInfo(i);
-                    ve.dbug_WriteOwnerLineInfo(i);
+                    ve.dbug_WriteOwnerLayerInfo(visualroot, i);
+                    ve.dbug_WriteOwnerLineInfo(visualroot, i);
 
                     string hit_info = new string('.', i) + " [" + i + "] "
                         + "(" + hp.point.X + "," + hp.point.Y + ") "
                         + ve.dbug_FullElementDescription();
-                    LayoutFarm.Presentation.dbugRootLog.dbug_rootHitChainMsg.AddLast(new dbugLayoutMsg(ve, hit_info));
+                    visualroot.dbug_rootHitChainMsg.AddLast(new dbugLayoutMsg(ve, hit_info));
                     i++;
                 }
             }
@@ -343,6 +361,7 @@ namespace LayoutFarm.Presentation
             if (hitElement.Focusable)
             {
                 VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
+                //hitElement.Focus(vinv);
                 hitElement.WinRoot.CurrentKeyboardFocusedElement = hitElement;
                 e.FreeVisualInvalidateCanvasArgs(vinv);
             }
@@ -350,8 +369,8 @@ namespace LayoutFarm.Presentation
             FlushGraphicUpdate();
 
 #if DEBUG
-            LayoutFarm.Presentation.dbugRootLog.dbugHitTracker.Write("stop-mousedown");
-            LayoutFarm.Presentation.dbugRootLog.dbugHitTracker.Play = false;
+            visualroot.dbugHitTracker.Write("stop-mousedown");
+            visualroot.dbugHitTracker.Play = false;
 #endif
 
         }
@@ -464,11 +483,11 @@ namespace LayoutFarm.Presentation
         {
 
 #if DEBUG
-            if (LayoutFarm.Presentation.dbugRootLog.dbugEnableGraphicInvalidateTrace)
+            if (this.visualroot.dbugEnableGraphicInvalidateTrace)
             {
-                LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo("================");
-                LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo("START_DRAG");
-                LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("START_DRAG");
+                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
 #endif
 
@@ -507,7 +526,7 @@ HitEventName.DragStart);
         {
 
 #if DEBUG
-            LayoutFarm.Presentation.dbugRootLog.dbugEventIsDragging = true;
+            this.dbugVRoot.dbugEventIsDragging = true;
 #endif
 
             if (currentDragingElement == null)
@@ -586,7 +605,7 @@ HitEventName.DragStart);
             VisualDrawingChain drawingChain = this.WinRootPrepareRenderingChain(dragRect);
             List<ArtVisualElement> selVisualElements = drawingChain.selectedVisualElements;
             int j = selVisualElements.Count;
-            LinkedList<ArtVisualElement> underlyingElements = ArtUILinkListPool.GetFreeLinkedList();
+            LinkedList<ArtVisualElement> underlyingElements = new LinkedList<ArtVisualElement>();
             for (int i = j - 1; i > -1; --i)
             {
 
@@ -661,14 +680,14 @@ HitEventName.DragStart);
             }
             ArtDragEventArgs.ReleaseEventArgs(d_eventArg);
 
-            ArtUILinkListPool.Release(underlyingElements);
+
         }
         public void OnDragStop(ArtDragEventArgs e)
         {
 
 
 #if DEBUG
-
+            this.dbugVRoot.dbugEventIsDragging = false;
 #endif
             if (currentDragingElement == null)
             {
@@ -753,11 +772,11 @@ HitEventName.DragStart);
 
 #if DEBUG
 
-            if (LayoutFarm.Presentation.dbugRootLog.dbugEnableGraphicInvalidateTrace)
+            if (this.visualroot.dbugEnableGraphicInvalidateTrace)
             {
-                LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo("================");
-                LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo("MOUSEUP");
-                LayoutFarm.Presentation.dbugRootLog.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("MOUSEUP");
+                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
 
 #endif
@@ -785,6 +804,7 @@ HitEventName.DragStart);
                 {
                     VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
                     //hitElement.Focus(vinv);
+                    hitElement.WinRoot.CurrentKeyboardFocusedElement = hitElement;
                     e.FreeVisualInvalidateCanvasArgs(vinv);
                 }
 

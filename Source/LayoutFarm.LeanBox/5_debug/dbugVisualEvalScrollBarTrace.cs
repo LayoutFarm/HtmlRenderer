@@ -14,7 +14,7 @@ namespace LayoutFarm.Presentation
     {
         FileStream fs;
         StreamWriter strmWriter;
-      
+        VisualRoot visualroot;
         string outputFileName = null;
 
         int msgCounter = 0;
@@ -25,8 +25,9 @@ namespace LayoutFarm.Presentation
         int myTraceCount = 0;
 
         static int tracerCount = 0;
-        public dbugVisualEvalScrollBarTrace( )
-        {    
+        public dbugVisualEvalScrollBarTrace(VisualRoot visualroot)
+        {
+            this.visualroot = visualroot;
             myTraceCount = tracerCount;
             ++tracerCount;
             outputFileName = dbugCoreConst.dbugRootFolder + "\\invalidate\\" + myTraceCount + "_" + Guid.NewGuid().ToString() + ".txt";

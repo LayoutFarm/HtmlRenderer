@@ -23,16 +23,16 @@ namespace LayoutFarm.Presentation
             }
         }
 #if DEBUG
-        public void dbug_WriteOwnerLayerInfo(int i)
+        public virtual void dbug_WriteOwnerLayerInfo(VisualRoot visualroot, int i)
         {
 
-            //if (this.visualParentLink != null)
-            //{
-            //    visualroot.dbug_rootHitChainMsg.AddLast(new dbugLayoutMsg(this, new string('.', i) + " [Ly:" + i + "] " +
-            //          visualParentLink.dbugGetLinkInfo()));
-            //}
+            if (this.visualParentLink != null)
+            {
+                visualroot.dbug_rootHitChainMsg.AddLast(new dbugLayoutMsg(this, new string('.', i) + " [Ly:" + i + "] " +
+                      visualParentLink.dbugGetLinkInfo()));
+            }
         }
-        public void dbug_WriteOwnerLineInfo(int i)
+        public virtual void dbug_WriteOwnerLineInfo(VisualRoot visualroot, int i)
         {
 
         }
@@ -62,28 +62,6 @@ namespace LayoutFarm.Presentation
                     uiFlags &= ~IS_LINE_BREAK;
                 }
             }
-        }
-        public bool IsStretchable
-        {
-            get
-            {
-                return ((uiFlags & IS_STRECHABLE) == IS_STRECHABLE);
-            }
-            set
-            {
-                if (value)
-                {
-                    uiFlags |= IS_STRECHABLE;
-                }
-                else
-                {
-                    uiFlags &= ~IS_STRECHABLE;
-                }
-            }
-        }
-
-
-
-
+        } 
     }
 }

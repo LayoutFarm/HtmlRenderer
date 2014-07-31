@@ -249,9 +249,7 @@ namespace LayoutFarm.Presentation
             return ContainPoint(testPoint.X, testPoint.Y);
         }
         public bool HitTestCore(ArtHitPointChain artHitResult)
-        {
-
-
+        {   
 
             if ((uiFlags & HIDDEN) != 0)
             {
@@ -263,27 +261,21 @@ namespace LayoutFarm.Presentation
                 case VisualElementNature.CssBox:
                     {
                         throw new NotSupportedException();
-                    }
-                case VisualElementNature.HtmlContainer:
-                    {
-                        throw new NotSupportedException();
-                    }
+                    } 
                 case VisualElementNature.Shapes:
                     {
                         throw new NotSupportedException();
                     } break;
+                case VisualElementNature.HtmlContainer:
                 default:
                     {
                         int testX;
                         int testY;
                         artHitResult.GetTestPoint(out testX, out testY);
                         if ((testY >= uiTop && testY <= (uiTop + uiHeight)
-    && (testX >= uiLeft && testX <= (uiLeft + uiWidth))))
-                        {
-
-
-                            ArtVisualContainerBase scContainer = null;
-
+                        && (testX >= uiLeft && testX <= (uiLeft + uiWidth))))
+                        { 
+                            ArtVisualContainerBase scContainer = null; 
                             if (this.IsScrollable)
                             {
                                 scContainer = (ArtVisualContainerBase)this;
@@ -304,8 +296,8 @@ namespace LayoutFarm.Presentation
                             if (this.IsScrollable)
                             {
                                 artHitResult.OffsetTestPoint(
-    uiLeft - scContainer.ViewportX,
-    uiTop - scContainer.ViewportY);
+                                        uiLeft - scContainer.ViewportX,
+                                        uiTop - scContainer.ViewportY);
                             }
                             else
                             {
@@ -391,12 +383,7 @@ y + height <= uiTop + uiHeight;
         public const int LY_SUSPEND_GRAPHIC = 1 << (12 - 1);
         public const int LY_IN_LAYOUT_QUEUE = 1 << (13 - 1);
         public const int LY_IN_LAYOUT_QCHAIN_UP = 1 << (10 - 1);
-
-
-
-
-
-
+         
 
         public int ElementDesiredWidth
         {
@@ -539,91 +526,8 @@ y + height <= uiTop + uiHeight;
 
 
 
-
-        public bool ReachMinWidth
-        {
-            get
-            {
-                return ((uiLayoutFlags & LY_REACH_MIN_WIDTH) == LY_REACH_MIN_WIDTH);
-
-            }
-            set
-            {
-                if (value)
-                {
-                    uiLayoutFlags |= LY_REACH_MIN_WIDTH;
-                }
-                else
-                {
-                    uiLayoutFlags &= ~LY_REACH_MIN_WIDTH;
-                }
-
-
-            }
-        }
-        public bool ReachMaxWidth
-        {
-            get
-            {
-                return ((uiLayoutFlags & LY_REACH_MAX_WIDTH) == LY_REACH_MAX_WIDTH);
-
-            }
-            set
-            {
-                if (value)
-                {
-                    uiLayoutFlags |= LY_REACH_MAX_WIDTH;
-                }
-                else
-                {
-                    uiLayoutFlags &= ~LY_REACH_MAX_WIDTH;
-                }
-            }
-        }
-        public bool ReachMinHeight
-        {
-            get
-            {
-                return ((uiLayoutFlags & LY_REACH_MIN_HEIGHT) == LY_REACH_MIN_HEIGHT);
-
-            }
-            set
-            {
-                if (value)
-                {
-                    uiLayoutFlags |= LY_REACH_MIN_HEIGHT;
-                }
-                else
-                {
-                    uiLayoutFlags &= ~LY_REACH_MIN_HEIGHT;
-                }
-            }
-        }
-        public bool ReachMaxHeight
-        {
-            get
-            {
-                return ((uiLayoutFlags & LY_REACH_MAX_HEIGHT) == LY_REACH_MAX_HEIGHT);
-            }
-            set
-            {
-                if (value)
-                {
-                    uiLayoutFlags |= LY_REACH_MAX_HEIGHT;
-                }
-                else
-                {
-                    uiLayoutFlags &= ~LY_REACH_MAX_HEIGHT;
-                }
-            }
-        }
-
-
-
-
-
-
-
+ 
+   
         public bool HasCalculatedSize
         {
             get
@@ -692,11 +596,11 @@ y + height <= uiTop + uiHeight;
         public static void InnerInvalidateLayoutAndStartBubbleUp(ArtVisualElement ve)
         {
             ve.InvalidateLayoutAndStartBubbleUp();
-        } 
+        }
         static ArtVisualElement BubbleUpInvalidLayoutToTopMost(ArtVisualElement ve, ArtVisualRootWindow winroot)
-        {    
+        {
 #if DEBUG
-            
+            VisualRoot dbugVRoot = ve.dbugVRoot;
 #endif
 
             ve.MarkInvalidContentSize();
@@ -705,10 +609,10 @@ y + height <= uiTop + uiHeight;
             {
 #if DEBUG
                 if (ve.IsWindowRoot)
-                { 
+                {
                 }
 
-                dbugRootLog.dbug_PushLayoutTraceMessage(dbugRootLog.dbugMsg_NO_OWNER_LAY);
+                dbugVRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_NO_OWNER_LAY);
 #endif
                 return null;
             }
@@ -727,7 +631,7 @@ y + height <= uiTop + uiHeight;
                 }
             }
 #if DEBUG
-            dbugRootLog.dbug_LayoutTraceBeginContext(dbugRootLog.dbugMsg_E_CHILD_LAYOUT_INV_BUB_enter, ve);
+            dbugVRoot.dbug_LayoutTraceBeginContext(VisualRoot.dbugMsg_E_CHILD_LAYOUT_INV_BUB_enter, ve);
 #endif
 
             bool goFinalExit;
@@ -780,7 +684,7 @@ ve
 
         finalExit:
 #if DEBUG
-            dbugRootLog.dbug_LayoutTraceEndContext(dbugRootLog.dbugMsg_E_CHILD_LAYOUT_INV_BUB_exit, ve);
+            dbugVRoot.dbug_LayoutTraceEndContext(VisualRoot.dbugMsg_E_CHILD_LAYOUT_INV_BUB_exit, ve);
 #endif
 
             return parentVisualElem;
@@ -808,7 +712,7 @@ ve
         {
 
 #if DEBUG
-            dbugRootLog.dbug_LayoutTraceBeginContext(dbugRootLog.dbugMsg_E_LAYOUT_INV_BUB_FIRST_enter, this);
+            dbugVRoot.dbug_LayoutTraceBeginContext(VisualRoot.dbugMsg_E_LAYOUT_INV_BUB_FIRST_enter, this);
 #endif
             ArtVisualRootWindow winroot = this.InternalGetWinRootElement();
             ArtVisualElement tobeAddToLayoutQueue = BubbleUpInvalidLayoutToTopMost(this, winroot);
@@ -824,7 +728,7 @@ ve
             }
 
 #if DEBUG
-            dbugRootLog.dbug_LayoutTraceEndContext(dbugRootLog.dbugMsg_E_LAYOUT_INV_BUB_FIRST_exit, this);
+            dbugVRoot.dbug_LayoutTraceEndContext(VisualRoot.dbugMsg_E_LAYOUT_INV_BUB_FIRST_exit, this);
 #endif
 
         }

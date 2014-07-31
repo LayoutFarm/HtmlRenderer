@@ -57,12 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="1_Presentation.Text\1.2_VisualTextModel\DocumentActions.cs" />
-    <Compile Include="1_Presentation.Text\1.2_VisualTextModel\InternalVisualRoleHelper.cs" />
+    <Compile Include="1_Presentation.Text\StyleHelper.cs" />
     <Compile Include="1_Presentation.Text\1.2_VisualTextModel\MultilineTextLayerController\TextLayerController.cs" />
     <Compile Include="1_Presentation.Text\1.2_VisualTextModel\MultilineTextLayerController\TextLayerController.KeyboardFunctions.cs" />
     <Compile Include="1_Presentation.Text\1.2_VisualTextModel\MultilineTextLayerController\TextLayerController.TextFunctions.cs" />
     <Compile Include="1_Presentation.Text\1.2_VisualTextModel\MultilineTextLayerController\TextSurfaceEventListener.cs" />
-    <Compile Include="1_Presentation.Text\1.2_VisualTextModel\TextDomManipulator\VisualTextEditContentProducer.cs" />
+    <Compile Include="1_Presentation.Text\ArtVisualPaintEventArgs.cs" />
     <Compile Include="1_Presentation.Text\ArtVisualTextEditBox.BaseFunctions.cs" />
     <Compile Include="1_Presentation.Text\ArtVisualTextEditBox.TextSurfaceFuntions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

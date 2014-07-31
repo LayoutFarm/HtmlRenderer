@@ -13,7 +13,7 @@ namespace LayoutFarm.Presentation
         ArtVisualElement targetVisualElement;
         bool isInQueue; bool isEnabled;
         public ArtVisualRootTimerTask(ArtVisualElement targetVisualElement)
-        {   
+        {
             this.targetVisualElement = targetVisualElement;
         }
         public bool Enabled

@@ -18,8 +18,11 @@ namespace LayoutFarm.Presentation
     public partial class ArtSurfaceViewportControl : UserControl, IArtSurfaceViewportControl
     {
         CanvasEventsStock eventStock = new CanvasEventsStock();
-        CanvasViewport viewport;
-        bool isMouseDown = false; bool isDraging = false; int prevLogicalMouseX = 0;
+        CanvasViewport canvasViewport;
+        bool isMouseDown = false;
+        bool isDraging = false;
+
+        int prevLogicalMouseX = 0;
         int prevLogicalMouseY = 0;
         int lastestLogicalMouseDownX = 0;
         int lastestLogicalMouseDownY = 0;
@@ -28,9 +31,7 @@ namespace LayoutFarm.Presentation
         public event EventHandler<ScrollSurfaceRequestEventArgs> HScrollRequest;
         public event EventHandler<ArtScrollEventArgs> VScrollChanged;
         public event EventHandler<ArtScrollEventArgs> HScrollChanged;
-
-
-
+         
         ArtVisualWindowImpl winroot;
 
         EventHandler<EventArgs> parentFormClosedHandler;
@@ -49,8 +50,9 @@ namespace LayoutFarm.Presentation
         {
 
             this.winroot = winroot;
-            viewport = new CanvasViewport(this, winroot, this.Size, 4);
-            winroot.CanvasForcePaintMe += viewport.PaintMe;
+            canvasViewport = new CanvasViewport(this, winroot, this.Size, 4);
+            //if request from winroot
+            winroot.CanvasForcePaintMe += canvasViewport.PaintMe;
 
         }
         void ParentForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -59,12 +61,10 @@ namespace LayoutFarm.Presentation
             {
                 parentFormClosedHandler(sender, e);
             }
-        }
-
-
+        } 
         internal void UpdateRootdocViewportSize()
         {
-            viewport.UpdateCanvasViewportSize(this.Width, this.Height);
+            canvasViewport.UpdateCanvasViewportSize(this.Width, this.Height);
         }
 
         public void Invoke(Delegate d, object o)
@@ -94,27 +94,26 @@ namespace LayoutFarm.Presentation
             {
                 return winroot;
             }
-        }
-
+        } 
         public void AddContent(ArtVisualElement vi)
         {
             winroot.AddChild(vi);
         }
         public void Close()
         {
-            viewport.Close();
+            canvasViewport.Close();
         }
         public void PaintMe()
         {
-            viewport.PaintMe(this, EventArgs.Empty);
+            canvasViewport.PaintMe(this, EventArgs.Empty);
         }
         public void ScrollBy(int dx, int dy)
         {
-            viewport.ScrollBy(dx, dy);
+            canvasViewport.ScrollBy(dx, dy);
         }
         public void ScrollTo(int x, int y)
         {
-            viewport.ScrollTo(x, y);
+            canvasViewport.ScrollTo(x, y);
         }
         public void viewport_HScrollChanged(object sender, ArtScrollEventArgs e)
         {
@@ -152,7 +151,7 @@ namespace LayoutFarm.Presentation
         protected override void OnGotFocus(EventArgs e)
         {
             ArtFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
-            viewport.OnGotFocus(focusEventArg);
+            canvasViewport.OnGotFocus(focusEventArg);
             base.OnGotFocus(e);
             eventStock.ReleaseEventArgs(focusEventArg);
         }
@@ -160,7 +159,7 @@ namespace LayoutFarm.Presentation
         {
 
             ArtFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
-            viewport.OnLostFocus(focusEventArg);
+            canvasViewport.OnLostFocus(focusEventArg);
             base.OnLostFocus(e); eventStock.ReleaseEventArgs(focusEventArg);
 
 
@@ -178,7 +177,7 @@ namespace LayoutFarm.Presentation
             SetArtMouseEventArgsInfo(mouseEventArg, newMouseEventArgs);
 
 
-            viewport.OnDoubleClick(mouseEventArg);
+            canvasViewport.OnDoubleClick(mouseEventArg);
             eventStock.ReleaseEventArgs(mouseEventArg);
 
         }
@@ -188,7 +187,7 @@ namespace LayoutFarm.Presentation
             isMouseDown = true;
             isDraging = false;
 
-            Point viewLocation = viewport.LogicalViewportLocation;
+            Point viewLocation = canvasViewport.LogicalViewportLocation;
             lastestLogicalMouseDownX = (viewLocation.X + e.X);
             lastestLogicalMouseDownY = (viewLocation.Y + e.Y);
 
@@ -196,13 +195,13 @@ namespace LayoutFarm.Presentation
             mouseEventArg.SetWinRoot(winroot);
             SetArtMouseEventArgsInfo(mouseEventArg, e);
 
-            base.OnMouseDown(e); viewport.OnMouseDown(mouseEventArg);
+            base.OnMouseDown(e); canvasViewport.OnMouseDown(mouseEventArg);
             eventStock.ReleaseEventArgs(mouseEventArg);
 
         }
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            Point viewLocation = viewport.LogicalViewportLocation;
+            Point viewLocation = canvasViewport.LogicalViewportLocation;
 
             if (isMouseDown)
             {
@@ -212,7 +211,7 @@ namespace LayoutFarm.Presentation
                     dragEventArg.SetEventInfo(e.Location, GetArtMouseButton(e.Button),
                         lastestLogicalMouseDownX, lastestLogicalMouseDownY,
                         (viewLocation.X + e.X), (viewLocation.Y + e.Y),
-                        xdiff, ydiff); viewport.OnDragStart(dragEventArg);
+                        xdiff, ydiff); canvasViewport.OnDragStart(dragEventArg);
                     isDraging = true; ArtDragEventArgs.ReleaseEventArgs(dragEventArg);
                 }
                 else
@@ -223,7 +222,7 @@ namespace LayoutFarm.Presentation
                         dragEventArg.SetEventInfo(e.Location, GetArtMouseButton(e.Button),
                             lastestLogicalMouseDownX, lastestLogicalMouseDownY,
                             (viewLocation.X + e.X), (viewLocation.Y + e.Y),
-                            xdiff, ydiff); viewport.OnDrag(dragEventArg);
+                            xdiff, ydiff); canvasViewport.OnDrag(dragEventArg);
                         ArtDragEventArgs.ReleaseEventArgs(dragEventArg);
                     }
                 }
@@ -236,7 +235,7 @@ namespace LayoutFarm.Presentation
                 SetArtMouseEventArgsInfo(mouseEventArg, e);
                 mouseEventArg.SetDiff(
                     (viewLocation.X + e.X) - prevLogicalMouseX, (viewLocation.Y + e.Y) - prevLogicalMouseY);
-                viewport.OnMouseMove(mouseEventArg);
+                canvasViewport.OnMouseMove(mouseEventArg);
                 eventStock.ReleaseEventArgs(mouseEventArg);
             }
             prevLogicalMouseX = (viewLocation.X + e.X);
@@ -251,13 +250,13 @@ namespace LayoutFarm.Presentation
             isMouseDown = false; if (isDraging)
             {
                 ArtDragEventArgs mouseDragEventArg = ArtDragEventArgs.GetFreeDragEventArgs();
-                Point viewLocation = viewport.LogicalViewportLocation;
+                Point viewLocation = canvasViewport.LogicalViewportLocation;
                 mouseDragEventArg.SetWinRoot(this.winroot);
                 mouseDragEventArg.SetEventInfo(e.Location, GetArtMouseButton(e.Button),
                     lastestLogicalMouseDownX, lastestLogicalMouseDownY,
                     (viewLocation.X + e.X), (viewLocation.Y + e.Y),
                     (viewLocation.X + e.X) - lastestLogicalMouseDownX, (viewLocation.Y + e.Y) - lastestLogicalMouseDownY);
-                base.OnMouseUp(e); viewport.OnDragStop(mouseDragEventArg);
+                base.OnMouseUp(e); canvasViewport.OnDragStop(mouseDragEventArg);
                 ArtDragEventArgs.ReleaseEventArgs(mouseDragEventArg);
             }
             else
@@ -265,7 +264,7 @@ namespace LayoutFarm.Presentation
                 ArtMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
                 mouseEventArg.SetWinRoot(winroot);
                 SetArtMouseEventArgsInfo(mouseEventArg, e);
-                base.OnMouseUp(e); viewport.OnMouseUp(mouseEventArg);
+                base.OnMouseUp(e); canvasViewport.OnMouseUp(mouseEventArg);
                 eventStock.ReleaseEventArgs(mouseEventArg);
             }
         }
@@ -289,10 +288,10 @@ namespace LayoutFarm.Presentation
         }
         protected override void OnPaint(PaintEventArgs e)
         {
-            if (viewport != null)
+            if (canvasViewport != null)
             {
-                viewport.SetFullMode(true);
-                viewport.PaintMe(this, e);
+                canvasViewport.SetFullMode(true);
+                canvasViewport.PaintMe(this, e);
             }
             base.OnPaint(e);
         }
@@ -305,7 +304,7 @@ namespace LayoutFarm.Presentation
             SetArtMouseEventArgsInfo(mouseEventArg, e);
 
             base.OnMouseWheel(e);
-            viewport.OnMouseWheel(mouseEventArg);
+            canvasViewport.OnMouseWheel(mouseEventArg);
             eventStock.ReleaseEventArgs(mouseEventArg);
         }
         protected override void OnKeyDown(KeyEventArgs e)
@@ -314,7 +313,7 @@ namespace LayoutFarm.Presentation
             keyEventArgs.SetWinRoot(winroot);
             SetArtKeyData(keyEventArgs, e);
             base.OnKeyDown(e);
-            viewport.OnKeyDown(keyEventArgs);
+            canvasViewport.OnKeyDown(keyEventArgs);
             eventStock.ReleaseEventArgs(keyEventArgs);
 
         }
@@ -326,7 +325,7 @@ namespace LayoutFarm.Presentation
             SetArtKeyData(keyEventArgs, e);
             base.OnKeyUp(e);
 
-            viewport.OnKeyUp(keyEventArgs);
+            canvasViewport.OnKeyUp(keyEventArgs);
             eventStock.ReleaseEventArgs(keyEventArgs);
         }
         static void SetArtKeyData(ArtKeyEventArgs keyEventArgs, KeyEventArgs e)
@@ -346,7 +345,7 @@ namespace LayoutFarm.Presentation
             keyPressEventArgs.SetKeyChar(e.KeyChar);
 
             base.OnKeyPress(e);
-            viewport.OnKeyPress(keyPressEventArgs);
+            canvasViewport.OnKeyPress(keyPressEventArgs);
 
             eventStock.ReleaseEventArgs(keyPressEventArgs);
         }
@@ -356,7 +355,7 @@ namespace LayoutFarm.Presentation
             ArtKeyEventArgs keyEventArg = eventStock.GetFreeKeyEventArgs();
             keyEventArg.SetWinRoot(winroot);
             keyEventArg.KeyData = (int)keyData;
-            if (viewport.OnProcessDialogKey(keyEventArg))
+            if (canvasViewport.OnProcessDialogKey(keyEventArg))
             {
                 eventStock.ReleaseEventArgs(keyEventArg);
                 return true;
@@ -410,15 +409,15 @@ namespace LayoutFarm.Presentation
         }
         public void dbug_BeginLayoutTraceSession(string beginMsg)
         {
-            LayoutFarm.Presentation.dbugRootLog.dbug_BeginLayoutTraceSession(beginMsg);
+            this.winroot.VisualRoot.dbug_BeginLayoutTraceSession(beginMsg);
         }
         public void dbug_DisableAllDebugInfo()
         {
-            LayoutFarm.Presentation.dbugRootLog.dbug_DisableAllDebugInfo();
+            this.winroot.VisualRoot.dbug_DisableAllDebugInfo();
         }
         public void dbug_EnableAllDebugInfo()
         {
-            LayoutFarm.Presentation.dbugRootLog.dbug_EnableAllDebugInfo();
+            this.winroot.VisualRoot.dbug_EnableAllDebugInfo();
         }
         public void dbug_ReArrangeWithBreakOnSelectedNode()
         {

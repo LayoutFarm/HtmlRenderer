@@ -21,47 +21,7 @@ namespace LayoutFarm.Presentation
 #endif
         const int CANVAS_UNUSED = 1 << (1 - 1);
         const int CANVAS_DIMEN_CHANGED = 1 << (2 - 1);
-
-        //        public ArtCanvas(int horizontalPageNum, int verticalPageNum, int left, int top, int width, int height)
-        //        {
-
-        //            this.pageNumFlags = (horizontalPageNum << 8) | verticalPageNum;
-
-        //            this.left = left;
-        //            this.top = top;
-        //            this.right = left + width;
-        //            this.bottom = top + height;
-
-
-        //            internalPen = new Pen(Color.Black);
-        //            internalBrush = new SolidBrush(Color.Black);
-
-        //            originalHdc = MyWin32.CreateCompatibleDC(IntPtr.Zero);
-        //            Bitmap bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-        //            hbmp = bmp.GetHbitmap();
-        //            MyWin32.SelectObject(originalHdc, hbmp);
-        //            MyWin32.PatBlt(originalHdc, 0, 0, width, height, MyWin32.WHITENESS);
-        //            MyWin32.SetBkMode(originalHdc, MyWin32._SetBkMode_TRANSPARENT);
-        //            hFont = FontManager.CurrentFont.ToHfont();
-        //            MyWin32.SelectObject(originalHdc, hFont);
-
-        //            currentClipRect = new Rectangle(0, 0, width, height);
-        //            hRgn = MyWin32.CreateRectRgn(0, 0, width, height);
-        //            MyWin32.SelectObject(originalHdc, hRgn);
-
-        //            gx = Graphics.FromHdc(originalHdc);
-
-        //            PushFontInfoAndTextColor(FontManager.DefaultTextFontInfo, Color.Black);
-        //#if DEBUG
-        //            debug_canvas_id = dbug_canvasCount + 1;
-        //            dbug_canvasCount += 1;
-        //#endif
-        //        }
-
-        //        public ArtCanvas(Graphics gx, int verticalPageNum, int horizontalPageNum, int left, int top, int width, int height)
-        //        {
-        //        }
-
+ 
         public abstract bool AvoidGeometryAntialias
         {
             get;
@@ -72,7 +32,7 @@ namespace LayoutFarm.Presentation
             get;
             set;
         }
-
+        public abstract Graphics GetGfx();
         public abstract void MarkAsFirstTimeInvalidateAndUpdateContent();
 
         public abstract bool IsFromPrinter

@@ -39,9 +39,10 @@
     <Compile Include="2_VisualPresentationBase\ScrollSurfaceRequestEventArgs.cs" />
     <Compile Include="0_Start\dbugCoreConst.cs" />
     <Compile Include="0_Start\ExtensionAttribute.cs" />
-    <Compile Include="1_VisualPresentation\07_VisualRootDoc\ArtVisualRootWindow.cs" />
-    <Compile Include="5_debug\dbugRootLog.cs" />
-    <Compile Include="5_debug\dbugRootLog_Msg.cs" />
+    <Compile Include="1_VisualPresentation\07_VisualRootDoc\0_ArtVisualRootWindow.cs" />
+    <Compile Include="1_VisualPresentation\07_VisualRootDoc\1_VisualRoot.cs" />
+    <Compile Include="1_VisualPresentation\07_VisualRootDoc\1_VisualRoot.dbug.cs" />
+    <Compile Include="1_VisualPresentation\07_VisualRootDoc\1_VisualRoot.dbugVisualRootMsg.cs" />
     <Compile Include="5_debug\dbugVisualEvalScrollBarTrace.cs" />
     <Compile Include="5_debug\dbugVisualInvalidationTracer.cs" />
     <Compile Include="5_debug\dbugVisualLayoutTracer.cs" />
@@ -51,10 +52,8 @@
     <Compile Include="2_VisualPresentationBase\VisualDrawingChain.cs" />
     <Compile Include="2_VisualPresentationBase\VisualElementArgs.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\0_ArtVisualElement.cs" />
-    <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.CombineFlags.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.ElementPositioning_0_DirectSetBounds.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.ElementPositioning_1_WithSizeChanged.cs" />
-    <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.ElementPositioning_2_MoveElement.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.ElementPositioning_3_ReadOnly_NoBoundChanged.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.GfxStates.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.Render.cs" />
@@ -62,7 +61,6 @@
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.RunsEditableFeatures.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElement.StaticExtensions.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualElementNature.cs" />
-    <Compile Include="1_VisualPresentation\01_CoreVisualElement\ArtVisualPaintEventArgs.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\IVisualParentLink.cs" />
     <Compile Include="1_VisualPresentation\01_CoreVisualElement\x_ArtVisualElement.debug.cs" />
     <Compile Include="1_VisualPresentation\03_ContainterBase\0_ArtVisualContainerBase.cs" />

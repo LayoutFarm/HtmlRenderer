@@ -17,7 +17,7 @@ namespace LayoutFarm.Presentation
 {
 
 #if DEBUG
-    public static partial class dbugRootLog
+    partial class VisualRoot
     {
 
         public static readonly dbugVisualRootMsg dbugMsg_E_LAYOUT_INV_BUB_FIRST_enter = new dbugVisualRootMsg(">>E_LAYOUT_INV_BUB_FIRST* ");

@@ -58,9 +58,9 @@ namespace LayoutFarm.Presentation
             canvasCursorChangedHandler = Canvas_CursorChange;
             canvasSizeChangedHandler = Canvas_SizeChanged;
             canvasForcePaintMe = PaintMe;
+
             winroot.CanvasCaretEvent += canvasCaretHandler;
             winroot.CursorStyleEventHandler += canvasCursorChangedHandler;
-
             winroot.CanvasInvalidatedEvent += canvasInvalidateHandler;
             winroot.CanvasForcePaintMe += canvasForcePaintMe;
 
@@ -137,13 +137,13 @@ namespace LayoutFarm.Presentation
 
 #if DEBUG
 
-            
-            if (LayoutFarm.Presentation.dbugRootLog.dbug_RecordDrawingChain)
+            VisualRoot visualroot = VisualRoot.dbugCurrentGlobalVRoot;
+            if (visualroot.dbug_RecordDrawingChain)
             {
                 List<dbugLayoutMsg> outputMsgs = outputWindow.dbug_rootDocDebugMsgs;
                 outputMsgs.Clear();
                 outputMsgs.Add(new dbugLayoutMsg(null as ArtVisualElement, "[" + debug_render_to_output_count + "]"));
-                LayoutFarm.Presentation.dbugRootLog.dbug_DumpRootDrawingMsg(outputMsgs);
+                visualroot.dbug_DumpRootDrawingMsg(outputMsgs);
                 outputWindow.dbug_InvokeVisualRootDrawMsg();
                 debug_render_to_output_count++;
             }
@@ -165,16 +165,7 @@ namespace LayoutFarm.Presentation
         {
             PaintMe();
         }
-
-
-
-
-
-
-
-
-
-
+         
 
 #if DEBUG
         int debug_render_to_output_count = -1;
@@ -278,11 +269,11 @@ namespace LayoutFarm.Presentation
             }
 
 #if DEBUG
-
-            if (LayoutFarm.Presentation.dbugRootLog.dbug_RecordHitChain)
+            VisualRoot visualroot = rootElement.dbugVRoot;
+            if (visualroot.dbug_RecordHitChain)
             {
                 outputWindow.dbug_rootDocHitChainMsgs.Clear();
-                LayoutFarm.Presentation.dbugRootLog.dbug_DumpCurrentHitChain(outputWindow.dbug_rootDocHitChainMsgs);
+                visualroot.dbug_DumpCurrentHitChain(outputWindow.dbug_rootDocHitChainMsgs);
                 outputWindow.dbug_InvokeHitChainMsg();
             }
 #endif
@@ -318,9 +309,9 @@ namespace LayoutFarm.Presentation
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
 
 #if DEBUG
-            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage("======");
-            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage("KEYDOWN " + (Keys)e.KeyData);
-            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage("======");
+            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("======");
+            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (Keys)e.KeyData);
+            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("======");
 #endif
 
             rootElement.OnKeyDown(e);
@@ -346,9 +337,9 @@ namespace LayoutFarm.Presentation
         internal void OnKeyPress(ArtKeyPressEventArgs e)
         {
 #if DEBUG
-            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage("======");
-            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage("KEYPRESS " + e.KeyChar);
-            LayoutFarm.Presentation.dbugRootLog.dbug_PushLayoutTraceMessage("======");
+            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("======");
+            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("KEYPRESS " + e.KeyChar);
+            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("======");
 #endif
 
             fullMode = false;
@@ -633,7 +624,7 @@ namespace LayoutFarm.Presentation
         {
             fullMode = value;
         }
-        void Caret_Blink()
+        internal void Caret_Blink()
         {
             IntPtr surfaceHandler = outputWindow.Handle;
             IntPtr hdc = MyWin32.GetDC(surfaceHandler);

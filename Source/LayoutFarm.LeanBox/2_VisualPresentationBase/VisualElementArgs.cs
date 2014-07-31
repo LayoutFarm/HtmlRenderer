@@ -11,7 +11,7 @@ namespace LayoutFarm.Presentation
     public class VisualElementArgs
     {
         ArtVisualRootWindow winroot;
-
+        VisualRoot visualRoot;
 
 #if DEBUG
         const int VISUAL_ELEMENT = 0x0;
@@ -33,14 +33,15 @@ namespace LayoutFarm.Presentation
 #endif
             this.winroot = winroot;
         }
-
-        public VisualElementArgs()
+        public VisualElementArgs(VisualRoot vsroot)
         {
+
 #if DEBUG
             this.dbugId = dbugTotalId;
             dbugTotalId++;
 
-#endif  
+#endif
+            this.visualRoot = vsroot;
         }
 
 
@@ -48,7 +49,7 @@ namespace LayoutFarm.Presentation
         {
             vinv.winroot = null;
             vinv.IsInTopDownReArrangePhase = false;
-            //vinv.visualRoot = null;
+            vinv.visualRoot = null;
             vinv.ForceReArrange = false;
 #if DEBUG
             vinv.dbugBreakOnSelectedVisuallElement = false;
@@ -70,7 +71,10 @@ namespace LayoutFarm.Presentation
         {
             this.winroot = winroot;
         }
-
+        public void SetVisualRoot(VisualRoot vsroot)
+        {
+            this.visualRoot = vsroot;
+        }
         public bool ForceReArrange
         {
             get;
@@ -97,22 +101,14 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                // AddRequest(new VisualElementRequest(ve, RequestCommand.DoFocus));
+                AddRequest(new VisualElementRequest(ve, RequestCommand.DoFocus));
             }
         }
-        //public void AddToWindowRootLater(ArtVisualElement ve)
-        //{
-        //    AddRequest(new VisualElementRequest(
-        //       ve, RequestCommand.AddToWindowRoot));
-        //}
-
-        //void AddRequest(VisualElementRequest req)
-        //{
-        //    if (this.visualRoot != null)
-        //    {
-        //        visualRoot.AddVisualRequest(req);
-        //    }
-        //}
+         
+        void AddRequest(VisualElementRequest req)
+        {
+            
+        }
 
         public void AddInvalidateRequest(ArtVisualElement ve, InternalRect rect)
         {
@@ -123,8 +119,8 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                //AddRequest(new VisualElementRequest(ve, RequestCommand.InvalidateArea,
-                //  rect.ToRectangle()));
+                AddRequest(new VisualElementRequest(ve, RequestCommand.InvalidateArea,
+                  rect.ToRectangle()));
             }
 
 
@@ -266,12 +262,12 @@ namespace LayoutFarm.Presentation
         public void dbug_StartLayoutTrace(dbugVisualElementLayoutMsg msg, int suffixNum)
         {
 
-
-            if (!dbugRootLog.dbug_IsRecordLayoutTraceEnable)
+            VisualRoot visualroot = VisualRoot.dbugCurrentGlobalVRoot;
+            if (visualroot == null || !visualroot.dbug_IsRecordLayoutTraceEnable)
             {
                 return;
             }
-            debugVisualLay = dbugRootLog.dbug_GetLastestVisualLayoutTracer();
+            debugVisualLay = visualroot.dbug_GetLastestVisualLayoutTracer();
             switch (dbugFlags & 0x3)
             {
                 case VISUAL_ELEMENT:
@@ -297,14 +293,14 @@ namespace LayoutFarm.Presentation
         }
         public void dbug_StartLayoutTrace(dbugVisualElementLayoutMsg msg)
         {
-
-            if (!dbugRootLog.dbug_IsRecordLayoutTraceEnable)
+            VisualRoot visualroot = VisualRoot.dbugCurrentGlobalVRoot;
+            if (visualroot == null || !visualroot.dbug_IsRecordLayoutTraceEnable)
             {
                 return;
             }
 
 
-            debugVisualLay = dbugRootLog.dbug_GetLastestVisualLayoutTracer();
+            debugVisualLay = visualroot.dbug_GetLastestVisualLayoutTracer();
 
             switch (dbugFlags & 0x3)
             {

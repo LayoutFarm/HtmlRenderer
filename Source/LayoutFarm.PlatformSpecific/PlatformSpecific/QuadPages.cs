@@ -9,7 +9,7 @@ using System.Drawing.Drawing2D;
 namespace LayoutFarm.Presentation
 {
 
-    public class QuadPages
+    class QuadPages
     {
 
         public ArtCanvas pageA;
@@ -307,9 +307,9 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
 
 
         public void RenderToOutputWindowPartialMode(
-ArtVisualRootWindow rootElement,
-IntPtr destOutputHdc,
-int viewportX, int viewportY, int viewportWidth, int viewportHeight)
+        ArtVisualRootWindow rootElement,
+        IntPtr destOutputHdc,
+        int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
 
             VisualDrawingChain renderChain = null; switch (render_parts)

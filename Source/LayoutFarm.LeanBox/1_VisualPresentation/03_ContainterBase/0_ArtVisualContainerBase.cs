@@ -73,19 +73,9 @@ namespace LayoutFarm.Presentation
         }
 
 
+ 
 
-        public bool HasChild
-        {
-            get
-            {
-                return (HasGroundLayer()) || (otherLayers != null && otherLayers.Count != 0);
-            }
-        }
-
-        protected abstract bool HasGroundLayer();
-
-
-
+        protected abstract bool HasGroundLayer(); 
 
         public void DrawChildContent(ArtCanvas canvasPage, InternalRect updateArea)
         {
@@ -120,10 +110,10 @@ namespace LayoutFarm.Presentation
 #if DEBUG
         void debug_RecordLayerInfo(VisualLayer layer)
         {
-
-            if (dbugRootLog.dbug_RecordDrawingChain)
+            VisualRoot visualroot = VisualRoot.dbugCurrentGlobalVRoot;
+            if (visualroot.dbug_RecordDrawingChain)
             {
-                dbugRootLog.dbug_AddDrawLayer(layer);
+                visualroot.dbug_AddDrawLayer(layer);
             }
         }
 #endif
@@ -155,7 +145,7 @@ namespace LayoutFarm.Presentation
                 groundLayer.PrepareDrawingChain(chain);
             }
         }
-        public void ChildrenHitTestCore(ArtHitPointChain artHitResult)
+        public virtual void ChildrenHitTestCore(ArtHitPointChain artHitResult)
         {
 
             if (otherLayers != null)
@@ -331,10 +321,10 @@ namespace LayoutFarm.Presentation
                 {
 #if DEBUG
                     isIncr = true;
-                    dbugRootLog.dbugNotNeedArrCount++;
-                    dbugRootLog.dbugNotNeedArrCountEpisode++;
+                    this.dbugVRoot.dbugNotNeedArrCount++;
+                    this.dbugVRoot.dbugNotNeedArrCountEpisode++;
                     vinv.dbug_WriteInfo(dbugVisitorMessage.NOT_NEED_ARR);
-                    dbugRootLog.dbugNotNeedArrCount--;
+                    this.dbugVRoot.dbugNotNeedArrCount--;
 #endif
                 }
                 return;
@@ -346,7 +336,7 @@ namespace LayoutFarm.Presentation
 #if DEBUG
             if (isIncr)
             {
-                dbugRootLog.dbugNotNeedArrCount--;
+                this.dbugVRoot.dbugNotNeedArrCount--;
             }
 #endif
         }

@@ -593,8 +593,7 @@ namespace HtmlRenderer
                 container.PhysicalViewportBound = new RectangleF(0, 0, finalSize.Width, finalSize.Height);
                 using (var gfx = new WinGraphics(g, container.UseGdiPlusTextRendering))
                 {
-                    container.PerformPaint(gfx);
-
+                    container.PerformPaint(gfx); 
                 }
             }
             return image;
