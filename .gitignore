@@ -110,3 +110,4 @@ UpgradeLog*.XML
 *.DotSettings
 clrdev.setting
 *.DS_Store
+Source/HtmlRenderer.userprefs
