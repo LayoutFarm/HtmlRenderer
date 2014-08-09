@@ -79,12 +79,6 @@
     <Content Include="NoImage.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Svg\Svg.csproj">
-      <Project>{FD300FD4-86AC-45F7-AD07-0450BC2342D7}</Project>
-      <Name>Svg</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Web\Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

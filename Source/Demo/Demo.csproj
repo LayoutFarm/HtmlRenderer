@@ -57,15 +57,13 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\html.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DemoList\Demo05_Dynamic_BoxSpec.cs" />
@@ -90,6 +88,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DemoList\Demo01_CreateHtmlDomStyle1.cs" />
+    <Compile Include="Resource.Designer.cs">
+      <DependentUpon>Resource.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <EmbeddedResource Include="DevForm.resx">
       <DependentUpon>DevForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -97,62 +100,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>DemoForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\CustomFont.ttf" />
-    <None Include="Resources\Window.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\property32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\refreshdocument32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\delete16.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\delete32.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\exclamation32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\favorites32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\font32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\formula32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\paly32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\comment16.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\web_pallete.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\image32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\property16.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\method16.gif" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -186,11 +137,60 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Event16.png" />
-    <Content Include="Resources\html.ico" />
-    <Content Include="Resources\html32.png" />
+    <None Include="Resources\comment16.gif" />
+    <None Include="Resources\CustomFont.ttf" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\delete16.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete32.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Event16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exclamation32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\favorites32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\font32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\formula32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\html.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\html32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\image32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\method16.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\paly32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\property16.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\property32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refreshdocument32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\web_pallete.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Window.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

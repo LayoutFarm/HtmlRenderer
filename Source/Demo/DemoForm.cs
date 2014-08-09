@@ -23,7 +23,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
 
-using HtmlRenderer.Demo.Properties;
+
 using HtmlRenderer.Diagnostics;
 using HtmlRenderer.WebDom;
 
@@ -75,7 +75,7 @@ namespace HtmlRenderer.Demo
         {
             InitializeComponent();
 
-            Icon = Resources.html;
+
 
             _htmlPanel.RenderError += OnRenderError;
             _htmlPanel.LinkClicked += OnLinkClicked;
@@ -113,9 +113,9 @@ namespace HtmlRenderer.Demo
             _htmlPanel.Text = File.ReadAllText(filename);
             Application.UseWaitCursor = false;
             _updateLock = false;
-            UpdateWebBrowserHtml(); 
+            UpdateWebBrowserHtml();
         }
-         
+
         public void PrepareSamples()
         {
             LoadCustomFonts();
@@ -188,7 +188,7 @@ namespace HtmlRenderer.Demo
         {
             // load custom font font into private fonts collection
             var file = Path.GetTempFileName();
-            File.WriteAllBytes(file, Resources.CustomFont);
+            File.WriteAllBytes(file, HtmlRenderer.Demo.Resource.CustomFont);
             _privateFont.AddFontFile(file);
 
             // add the fonts to renderer
@@ -203,7 +203,7 @@ namespace HtmlRenderer.Demo
         ///// </summary>
         //private void OnSamplesTreeViewAfterSelect(object sender, TreeViewEventArgs e)
         //{
-           
+
         //    //if (!string.IsNullOrEmpty(name))
         //    //{
         //    //    _updateLock = true;
@@ -291,15 +291,15 @@ namespace HtmlRenderer.Demo
         /// </summary>
         private void OnToggleWebBrowserButton_Click(object sender, EventArgs e)
         {
-            _webBrowser.Visible = !_webBrowser.Visible;
-            _splitter.Visible = _webBrowser.Visible;
-            _toggleWebBrowserButton.Text = _webBrowser.Visible ? "Hide IE View" : "Show IE View";
+            //_webBrowser.Visible = !_webBrowser.Visible;
+            //_splitter.Visible = _webBrowser.Visible;
+            //_toggleWebBrowserButton.Text = _webBrowser.Visible ? "Hide IE View" : "Show IE View";
 
-            if (_webBrowser.Visible)
-            {
-                _webBrowser.Width = _splitContainer2.Panel2.Width / 2;
-                UpdateWebBrowserHtml();
-            }
+            //if (_webBrowser.Visible)
+            //{
+            //    _webBrowser.Width = _splitContainer2.Panel2.Width / 2;
+            //    UpdateWebBrowserHtml();
+            //}
         }
 
         /// <summary>
@@ -307,10 +307,10 @@ namespace HtmlRenderer.Demo
         /// </summary>
         private void UpdateWebBrowserHtml()
         {
-            if (_webBrowser.Visible)
-            {
-                _webBrowser.DocumentText = _showGeneratedHtmlCB.Checked ? _htmlPanel.GetHtml() : GetFixedHtml();
-            }
+            //if (_webBrowser.Visible)
+            //{
+            //    _webBrowser.DocumentText = _showGeneratedHtmlCB.Checked ? _htmlPanel.GetHtml() : GetFixedHtml();
+            //}
         }
 
         /// <summary>
@@ -459,28 +459,28 @@ namespace HtmlRenderer.Demo
                 switch (src.ToLower())
                 {
                     case "htmlicon":
-                        image = Resources.html32;
+                        image = HtmlRenderer.Demo.Resource.html32;
                         break;
                     case "staricon":
-                        image = Resources.favorites32;
+                        image = HtmlRenderer.Demo.Resource.favorites32;
                         break;
                     case "fonticon":
-                        image = Resources.font32;
+                        image = HtmlRenderer.Demo.Resource.font32;
                         break;
                     case "commenticon":
-                        image = Resources.comment16;
+                        image = HtmlRenderer.Demo.Resource.comment16;
                         break;
                     case "imageicon":
-                        image = Resources.image32;
+                        image = HtmlRenderer.Demo.Resource.image32;
                         break;
                     case "methodicon":
-                        image = Resources.method16;
+                        image = HtmlRenderer.Demo.Resource.method16;
                         break;
                     case "propertyicon":
-                        image = Resources.property16;
+                        image = HtmlRenderer.Demo.Resource.property16;
                         break;
                     case "eventicon":
-                        image = Resources.Event16;
+                        image = HtmlRenderer.Demo.Resource.Event16;
                         break;
                 }
 

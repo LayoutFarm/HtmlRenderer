@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HtmlRenderer.Demo.Properties {
+namespace HtmlRenderer.Demo {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace HtmlRenderer.Demo.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class Resource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal Resource() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace HtmlRenderer.Demo.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HtmlRenderer.Demo.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HtmlRenderer.Demo.Resource", typeof(Resource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -83,9 +83,39 @@ namespace HtmlRenderer.Demo.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap delete16 {
+            get {
+                object obj = ResourceManager.GetObject("delete16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap delete32 {
+            get {
+                object obj = ResourceManager.GetObject("delete32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Event16 {
             get {
                 object obj = ResourceManager.GetObject("Event16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap exclamation32 {
+            get {
+                object obj = ResourceManager.GetObject("exclamation32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -106,6 +136,16 @@ namespace HtmlRenderer.Demo.Properties {
         internal static System.Drawing.Bitmap font32 {
             get {
                 object obj = ResourceManager.GetObject("font32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap formula32 {
+            get {
+                object obj = ResourceManager.GetObject("formula32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,6 +193,16 @@ namespace HtmlRenderer.Demo.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap paly32 {
+            get {
+                object obj = ResourceManager.GetObject("paly32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap property16 {
             get {
                 object obj = ResourceManager.GetObject("property16", resourceCulture);
@@ -161,21 +211,22 @@ namespace HtmlRenderer.Demo.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;b&gt;HtmlPanel control showing &lt;u&gt;HTML Renderer&lt;/u&gt; capabilities&lt;/b&gt;
-        ///		&lt;table border=&quot;0&quot; style=&quot;margin: 10px 20px;&quot;&gt;
-        ///                &lt;tr&gt;
-        ///                    &lt;td width=&quot;32&quot; style=&quot;padding: 2px 5px 0 0&quot;&gt;
-        ///                        &lt;img src=&quot;HtmlIcon&quot; /&gt;
-        ///                    &lt;/td&gt;
-        ///                    &lt;td&gt;
-        ///                        You can select html samples on the left or you can edit &lt;br/&gt; the HTML of any document using the editor on the bottom.
-        ///                    &lt;/td&gt;
-        ///                &lt;/tr&gt;
-        ///             [rest of string was truncated]&quot;;.
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static string Tooltip {
+        internal static System.Drawing.Bitmap property32 {
             get {
-                return ResourceManager.GetString("Tooltip", resourceCulture);
+                object obj = ResourceManager.GetObject("property32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap refreshdocument32 {
+            get {
+                object obj = ResourceManager.GetObject("refreshdocument32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -185,6 +236,16 @@ namespace HtmlRenderer.Demo.Properties {
         internal static System.Drawing.Bitmap web_pallete {
             get {
                 object obj = ResourceManager.GetObject("web_pallete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Window {
+            get {
+                object obj = ResourceManager.GetObject("Window", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
