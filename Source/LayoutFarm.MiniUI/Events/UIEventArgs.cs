@@ -7,11 +7,11 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-    public delegate void ArtMouseEventHandler(object sender, ArtMouseEventArgs e);
-    public delegate void ArtKeyEventHandler(object sender, ArtKeyEventArgs e);
-    public delegate void ArtKeyPressEventHandler(object sender, ArtKeyPressEventArgs e);
+    public delegate void UIMouseEventHandler(object sender, UIMouseEventArgs e);
+    public delegate void UIKeyEventHandler(object sender, UIKeyEventArgs e);
+    public delegate void ArtKeyPressEventHandler(object sender, UIKeyPressEventArgs e);
 
-    public enum ArtVisualMouseEventType
+    public enum UIMouseEventType
     {
         MouseMove, MouseDown, MouseUp,
         MouseEnter, MouseLeave, MouseWheel,
@@ -19,7 +19,7 @@ namespace LayoutFarm.Presentation
 
     }
 
-    public abstract class ArtEventArgs : EventArgs
+    public abstract class UIEventArgs : EventArgs
     {
         int x;
         int y;
@@ -30,7 +30,7 @@ namespace LayoutFarm.Presentation
         int canvasXOrigin;
         int canvasYOrigin;
 
-        public ArtEventArgs()
+        public UIEventArgs()
         {
 
         }
@@ -169,23 +169,23 @@ namespace LayoutFarm.Presentation
     }
 
 
-    public enum ArtMouseButtons
+    public enum UIMouseButtons
     {
         Left,
         Right,
         Middle,
         None
     }
-    public class ArtMouseEventArgs : ArtEventArgs
+    public class UIMouseEventArgs : UIEventArgs
     {
-        public ArtMouseButtons Button;
+        public UIMouseButtons Button;
         public int Delta;
         public int Clicks;
         public int XDiff;
         public int YDiff;
 
-        public ArtVisualMouseEventType EventType;
-        public ArtMouseEventArgs()
+        public UIMouseEventType EventType;
+        public UIMouseEventArgs()
         {
         }
         public void SetDiff(int xdiff, int ydiff)
@@ -194,7 +194,7 @@ namespace LayoutFarm.Presentation
             this.YDiff = ydiff;
         }
 
-        public void SetEventInfo(Point location, ArtMouseButtons button, int clicks, int delta)
+        public void SetEventInfo(Point location, UIMouseButtons button, int clicks, int delta)
         {
             Location = location;
             Button = button;
@@ -210,13 +210,13 @@ namespace LayoutFarm.Presentation
             base.Clear();
         }
     }
-    public class ArtKeyEventArgs : ArtEventArgs
+    public class UIKeyEventArgs : UIEventArgs
     {
         int keyData;
         bool shift, alt, control;
 
 
-        public ArtKeyEventArgs()
+        public UIKeyEventArgs()
         {
         }
         public int KeyData
@@ -269,11 +269,11 @@ namespace LayoutFarm.Presentation
         }
 
     }
-    public class ArtKeyPressEventArgs : ArtEventArgs
+    public class UIKeyPressEventArgs : UIEventArgs
     {
 
         char c;
-        public ArtKeyPressEventArgs()
+        public UIKeyPressEventArgs()
         {
 
         }
@@ -312,11 +312,11 @@ namespace LayoutFarm.Presentation
 
 
 
-    public class ArtSizeChangedEventArgs : ArtEventArgs
+    public class UISizeChangedEventArgs : UIEventArgs
     {
         AffectedElementSideFlags changeFromSideFlags;
-        static Stack<ArtSizeChangedEventArgs> pool = new Stack<ArtSizeChangedEventArgs>();
-        private ArtSizeChangedEventArgs(ArtVisualElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
+        static Stack<UISizeChangedEventArgs> pool = new Stack<UISizeChangedEventArgs>();
+        private UISizeChangedEventArgs(ArtVisualElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
         {
             this.SourceVisualElement = sourceElement;
             this.SetLocation(widthDiff, heightDiff);
@@ -329,11 +329,11 @@ namespace LayoutFarm.Presentation
                 return changeFromSideFlags;
             }
         }
-        public static ArtSizeChangedEventArgs GetFreeOne(ArtVisualElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
+        public static UISizeChangedEventArgs GetFreeOne(ArtVisualElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
         {
             if (pool.Count > 0)
             {
-                ArtSizeChangedEventArgs e = pool.Pop();
+                UISizeChangedEventArgs e = pool.Pop();
                 e.SetLocation(widthDiff, heightDiff);
                 e.SourceVisualElement = sourceElement;
                 e.changeFromSideFlags = changeFromSideFlags;
@@ -341,31 +341,30 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                return new ArtSizeChangedEventArgs(sourceElement, widthDiff, heightDiff, changeFromSideFlags);
+                return new UISizeChangedEventArgs(sourceElement, widthDiff, heightDiff, changeFromSideFlags);
             }
         }
         public override void Clear()
         {
             base.Clear();
         }
-        public static void ReleaseOne(ArtSizeChangedEventArgs e)
+        public static void ReleaseOne(UISizeChangedEventArgs e)
         {
             e.Clear();
             pool.Push(e);
         }
     }
 
-    public class ArtInvalidatedEventArgs : ArtEventArgs
-    {
-
+    public class UIInvalidateEventArgs : UIEventArgs
+    {   
         public InternalRect InvalidArea;
-        public ArtInvalidatedEventArgs()
+        public UIInvalidateEventArgs()
         {
 
         }
     }
 
-    public class ArtCaretEventArgs : ArtEventArgs
+    public class UICaretEventArgs : UIEventArgs
     {
         public bool Visible = false;
         public override void Clear()
@@ -374,11 +373,11 @@ namespace LayoutFarm.Presentation
             base.Clear();
         }
     }
-    public class ArtCursorEventArgs : ArtEventArgs
+    public class UICursorEventArgs : UIEventArgs
     {
 
     }
-    public class ArtPopupEventArgs : ArtEventArgs
+    public class UIPopupEventArgs : UIEventArgs
     {
         public bool pleaseShow = false;
         public object popupWindow;
@@ -397,25 +396,15 @@ namespace LayoutFarm.Presentation
         LostFocus
     }
 
-    public class ArtRectChangeEventArgs : ArtEventArgs
-    {
-        public int affectedSize = 0;
-        public int xdiff = 0;
-        public int ydiff = 0;
-        public ArtRectChangeEventArgs(int xdiff, int ydiff)
-        {
-            this.xdiff = xdiff;
-            this.ydiff = ydiff;
-        }
-    }
+  
+     
 
-
-    public class ArtFocusEventArgs : ArtEventArgs
+    public class UIFocusEventArgs : UIEventArgs
     {
         ArtVisualElement tobeFocusElement;
         ArtVisualElement tobeLostFocusElement;
         FocusEventType focusEventType = FocusEventType.PreviewLostFocus;
-        public ArtFocusEventArgs()
+        public UIFocusEventArgs()
         {
         }
 
@@ -461,12 +450,12 @@ namespace LayoutFarm.Presentation
         }
 
     }
-    public class ArtFocusEventArgs2 : ArtEventArgs
+    public class UIFocusEventArgs2 : UIEventArgs
     {
         object tobeFocusElement;
         object tobeLostFocusElement;
         FocusEventType focusEventType = FocusEventType.PreviewLostFocus;
-        public ArtFocusEventArgs2()
+        public UIFocusEventArgs2()
         {
         }
 
@@ -513,65 +502,6 @@ namespace LayoutFarm.Presentation
     }
 
 
-    public class ArtRectHitEventArgs : ArtEventArgs
-    {
-        Rectangle hitRect; object hitter; ArtMouseButtons button;
-
-        public ArtRectHitEventArgs(
-             ArtMouseButtons button,
-             object hitter,
-             Rectangle hitRect)
-        {
-            this.hitRect = hitRect;
-            this.hitter = hitter;
-            this.button = button;
-        }
-        public ArtMouseButtons Button
-        {
-            get
-            {
-                return button;
-            }
-        }
-        public object Hitter
-        {
-            get
-            {
-                return hitter;
-            }
-        }
-        public Rectangle HitRect
-        {
-            get
-            {
-                return hitRect;
-            }
-        }
-        public Size SuggestedOffset(Rectangle testRect)
-        {
-            int xOffset;
-            int yOffset;
-            if (hitRect.Left >= testRect.Left + testRect.Width / 2)
-            {
-                xOffset = -hitRect.Width;
-            }
-            else
-            {
-                xOffset = hitRect.Width;
-            }
-
-            if (hitRect.Top >= testRect.Top + testRect.Height / 2)
-            {
-                yOffset = -hitRect.Height;
-            }
-            else
-            {
-                yOffset = hitRect.Height;
-            }
-            return new Size(xOffset, yOffset);
-
-
-        }
-    }
+   
 
 }

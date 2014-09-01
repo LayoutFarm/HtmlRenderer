@@ -99,7 +99,7 @@ namespace LayoutFarm.Presentation
                 this.currentMouseUIFocus != ui)
             {
 
-                ArtFocusEventArgs2 e = new ArtFocusEventArgs2();
+                UIFocusEventArgs2 e = new UIFocusEventArgs2();
                 e.SetWinRoot(this);
                 e.ToBeFocusElement = ui;
                 e.ToBeLostFocusElement = currentMouseUIFocus; 

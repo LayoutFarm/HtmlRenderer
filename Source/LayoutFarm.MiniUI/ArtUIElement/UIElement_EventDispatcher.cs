@@ -7,13 +7,13 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-    partial class ArtUIElement
+    partial class UIElement
     {
-        void IEventDispatcher.DispatchKeyPressEvent(ArtKeyPressEventArgs args)
+        void IEventDispatcher.DispatchKeyPressEvent(UIKeyPressEventArgs args)
         {
             OnKeyPress(args);
         }
-        void IEventDispatcher.DispatchKeyEvent(UIKeyEventName keyEventName, ArtKeyEventArgs args)
+        void IEventDispatcher.DispatchKeyEvent(UIKeyEventName keyEventName, UIKeyEventArgs args)
         {
             switch (keyEventName)
             {
@@ -27,11 +27,11 @@ namespace LayoutFarm.Presentation
                     } break;
             }
         }
-        bool IEventDispatcher.DispatchProcessDialogKey(ArtKeyEventArgs e)
+        bool IEventDispatcher.DispatchProcessDialogKey(UIKeyEventArgs e)
         {
             return OnProcessDialogKey(e);
         }
-        void IEventDispatcher.DispatchMouseEvent(UIMouseEventName evName, ArtMouseEventArgs e)
+        void IEventDispatcher.DispatchMouseEvent(UIMouseEventName evName, UIMouseEventArgs e)
         {
             switch (evName)
             {
@@ -61,7 +61,7 @@ namespace LayoutFarm.Presentation
                     } break;
             }
         }
-        void IEventDispatcher.DispatchDragEvent(UIDragEventName evName, ArtDragEventArgs e)
+        void IEventDispatcher.DispatchDragEvent(UIDragEventName evName, UIDragEventArgs e)
         {
             switch (evName)
             {

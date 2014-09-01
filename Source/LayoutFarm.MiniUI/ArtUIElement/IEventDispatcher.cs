@@ -34,11 +34,11 @@ namespace LayoutFarm.Presentation
 
     public interface IEventDispatcher
     {
-        void DispatchKeyPressEvent(ArtKeyPressEventArgs args);
-        void DispatchKeyEvent(UIKeyEventName keyEventName, ArtKeyEventArgs e);
-        bool DispatchProcessDialogKey(ArtKeyEventArgs args);
-        void DispatchMouseEvent(UIMouseEventName mouseEventName, ArtMouseEventArgs e);
-        void DispatchDragEvent(UIDragEventName dragEventName, ArtDragEventArgs e);
+        void DispatchKeyPressEvent(UIKeyPressEventArgs args);
+        void DispatchKeyEvent(UIKeyEventName keyEventName, UIKeyEventArgs e);
+        bool DispatchProcessDialogKey(UIKeyEventArgs args);
+        void DispatchMouseEvent(UIMouseEventName mouseEventName, UIMouseEventArgs e);
+        void DispatchDragEvent(UIDragEventName dragEventName, UIDragEventArgs e);
     }
 
 

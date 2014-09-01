@@ -115,7 +115,7 @@ namespace LayoutFarm.Presentation.Text
 
 
 
-        public void OnKeyPress(ArtKeyPressEventArgs e)
+        public void OnKeyPress(UIKeyPressEventArgs e)
         {
 
             if (!e.IsControlKey)
@@ -167,9 +167,9 @@ namespace LayoutFarm.Presentation.Text
         }
 
 
-        public void OnMouseDown(ArtMouseEventArgs e)
+        public void OnMouseDown(UIMouseEventArgs e)
         {
-            if (e.Button == ArtMouseButtons.Left)
+            if (e.Button == UIMouseButtons.Left)
             {
                 VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
                 InvalidateGraphicOfCurrentLineArea(vinv); internalTextLayerController.CaretPos = e.Location; if (internalTextLayerController.SelectionRange != null)
@@ -185,7 +185,7 @@ namespace LayoutFarm.Presentation.Text
             }
 
         }
-        public void OnDoubleClick(ArtMouseEventArgs e)
+        public void OnDoubleClick(UIMouseEventArgs e)
         {
 
             internalTextLayerController.CancelSelect();
@@ -203,12 +203,12 @@ namespace LayoutFarm.Presentation.Text
             }
 
         }
-        public void OnDrag(ArtDragEventArgs e)
+        public void OnDrag(UIDragEventArgs e)
         {
 
 
 
-            if ((ArtMouseButtons)e.Button == ArtMouseButtons.Left)
+            if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
 
                 internalTextLayerController.CaretPos = e.Location; internalTextLayerController.EndSelect();
@@ -218,9 +218,9 @@ namespace LayoutFarm.Presentation.Text
             }
 
         }
-        public void OnDragStart(ArtDragEventArgs e)
+        public void OnDragStart(UIDragEventArgs e)
         {
-            if ((ArtMouseButtons)e.Button == ArtMouseButtons.Left)
+            if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
                 internalTextLayerController.CaretPos = e.Location;
                 internalTextLayerController.StartSelect();
@@ -231,9 +231,9 @@ namespace LayoutFarm.Presentation.Text
 
             }
         }
-        public void OnDragStop(ArtDragEventArgs e)
+        public void OnDragStop(UIDragEventArgs e)
         {
-            if ((ArtMouseButtons)e.Button == ArtMouseButtons.Left)
+            if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
                 internalTextLayerController.CaretPos = e.Location;
                 internalTextLayerController.EndSelect();
@@ -263,11 +263,11 @@ namespace LayoutFarm.Presentation.Text
                 return Rectangle.Empty;
             }
         }
-        public void OnMouseUp(ArtMouseEventArgs e)
+        public void OnMouseUp(UIMouseEventArgs e)
         {
 
         }
-        public void OnKeyDown(ArtKeyEventArgs e)
+        public void OnKeyDown(UIKeyEventArgs e)
         {
 
             if (!e.HasKeyData)
@@ -536,7 +536,7 @@ namespace LayoutFarm.Presentation.Text
 
         }
 
-        public bool OnProcessDialogKey(ArtKeyEventArgs e)
+        public bool OnProcessDialogKey(UIKeyEventArgs e)
         {
             ArtKeys keyData = (ArtKeys)e.KeyData;
 

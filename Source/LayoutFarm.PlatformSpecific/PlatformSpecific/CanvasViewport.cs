@@ -32,9 +32,9 @@ namespace LayoutFarm.Presentation
         int h_largeChange = 0;
         int v_smallChange = 0;
         int v_largeChange = 0;
-        EventHandler<ArtInvalidatedEventArgs> canvasInvalidateHandler;
-        EventHandler<ArtCursorEventArgs> canvasCursorChangedHandler;
-        EventHandler<ArtCaretEventArgs> canvasCaretHandler;
+        EventHandler<UIInvalidateEventArgs> canvasInvalidateHandler;
+        EventHandler<UICursorEventArgs> canvasCursorChangedHandler;
+        EventHandler<UICaretEventArgs> canvasCaretHandler;
         EventHandler<EventArgs> canvasSizeChangedHandler;
         EventHandler canvasForcePaintMe;
 
@@ -92,11 +92,11 @@ namespace LayoutFarm.Presentation
         }
 
 
-        void Canvas_CursorChange(object sender, ArtCursorEventArgs e)
+        void Canvas_CursorChange(object sender, UICursorEventArgs e)
         {
 
         }
-        void Canvas_CaretChange(object sender, ArtCaretEventArgs e)
+        void Canvas_CaretChange(object sender, UICaretEventArgs e)
         {
             if (e.Visible)
             {
@@ -112,7 +112,7 @@ namespace LayoutFarm.Presentation
         {
             EvaluateScrollBar();
         }
-        void Canvas_Invalidate(object sender, ArtInvalidatedEventArgs e)
+        void Canvas_Invalidate(object sender, UIInvalidateEventArgs e)
         {
             quadPages.CanvasInvalidate(e.InvalidArea);
         }
@@ -170,7 +170,7 @@ namespace LayoutFarm.Presentation
 #if DEBUG
         int debug_render_to_output_count = -1;
 #endif
-        internal void OnMouseMove(ArtMouseEventArgs e)
+        internal void OnMouseMove(UIMouseEventArgs e)
         {
             e.OffsetCanvasOrigin(-viewportX, -viewportY); rootElement.OnMouseMove(e);
             e.OffsetCanvasOrigin(viewportX, viewportY); if (!quadPages.IsValid)
@@ -179,7 +179,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        internal void OnDoubleClick(ArtMouseEventArgs e)
+        internal void OnDoubleClick(UIMouseEventArgs e)
         {
             e.OffsetCanvasOrigin(-viewportX, -viewportY); rootElement.OnDoubleClick(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
@@ -188,7 +188,7 @@ namespace LayoutFarm.Presentation
                 PaintMe();
             }
         }
-        internal void OnMouseWheel(ArtMouseEventArgs e)
+        internal void OnMouseWheel(UIMouseEventArgs e)
         {
             fullMode = true;
             e.OffsetCanvasOrigin(-viewportX, -viewportY); rootElement.OnMouseWheel(e);
@@ -198,7 +198,7 @@ namespace LayoutFarm.Presentation
                 PaintMe();
             }
         }
-        internal void OnMouseUp(ArtMouseEventArgs e)
+        internal void OnMouseUp(UIMouseEventArgs e)
         {
 #if DEBUG
             dbugMouseDown = false;
@@ -218,7 +218,7 @@ namespace LayoutFarm.Presentation
                 ShowCaret();
             }
         }
-        internal void OnLostFocus(ArtFocusEventArgs e)
+        internal void OnLostFocus(UIFocusEventArgs e)
         {
 
             fullMode = false;
@@ -227,7 +227,7 @@ namespace LayoutFarm.Presentation
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
         }
-        internal void OnGotFocus(ArtFocusEventArgs e)
+        internal void OnGotFocus(UIFocusEventArgs e)
         {
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
@@ -236,7 +236,7 @@ namespace LayoutFarm.Presentation
 
 
         }
-        internal void OnDrag(ArtDragEventArgs e)
+        internal void OnDrag(UIDragEventArgs e)
         {
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
@@ -250,7 +250,7 @@ namespace LayoutFarm.Presentation
 #if DEBUG
         public static bool dbugMouseDown = false;
 #endif
-        internal void OnMouseDown(ArtMouseEventArgs e)
+        internal void OnMouseDown(UIMouseEventArgs e)
         {
 
 #if DEBUG
@@ -278,7 +278,7 @@ namespace LayoutFarm.Presentation
             }
 #endif
         }
-        internal void OnDragStart(ArtDragEventArgs e)
+        internal void OnDragStart(UIDragEventArgs e)
         {
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
@@ -290,7 +290,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        internal void OnDragStop(ArtDragEventArgs e)
+        internal void OnDragStop(UIDragEventArgs e)
         {
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
@@ -303,7 +303,7 @@ namespace LayoutFarm.Presentation
             }
 
         }
-        internal void OnKeyDown(ArtKeyEventArgs e)
+        internal void OnKeyDown(UIKeyEventArgs e)
         {
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
@@ -334,7 +334,7 @@ namespace LayoutFarm.Presentation
 
             }
         }
-        internal void OnKeyPress(ArtKeyPressEventArgs e)
+        internal void OnKeyPress(UIKeyPressEventArgs e)
         {
 #if DEBUG
             rootElement.VisualRoot.dbug_PushLayoutTraceMessage("======");
@@ -360,7 +360,7 @@ namespace LayoutFarm.Presentation
                 }
             }
         }
-        internal void OnKeyUp(ArtKeyEventArgs e)
+        internal void OnKeyUp(UIKeyEventArgs e)
         {
             fullMode = false;
 
@@ -369,7 +369,7 @@ namespace LayoutFarm.Presentation
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
         }
-        internal bool OnProcessDialogKey(ArtKeyEventArgs e)
+        internal bool OnProcessDialogKey(UIKeyEventArgs e)
         {
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY); bool result = rootElement.OnProcessDialogKey(e);

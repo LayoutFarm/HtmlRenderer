@@ -395,12 +395,12 @@ namespace LayoutFarm.Presentation
                 for (int i = 0; i < sizeChangeCount; ++i)
                 {
                     ToNotifySizeChangedEvent item = tobeNotifySizeChangedList[i];
-                    ArtSizeChangedEventArgs sizeChangedEventArg = ArtSizeChangedEventArgs.GetFreeOne(
+                    UISizeChangedEventArgs sizeChangedEventArg = UISizeChangedEventArgs.GetFreeOne(
                         null, item.xdiff, item.ydiff, item.affectedSideFlags);
 
 
 
-                    ArtSizeChangedEventArgs.ReleaseOne(sizeChangedEventArg);
+                    UISizeChangedEventArgs.ReleaseOne(sizeChangedEventArg);
                 }
                 tobeNotifySizeChangedList.Clear();
             }

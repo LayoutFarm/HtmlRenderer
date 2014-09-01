@@ -150,7 +150,7 @@ namespace LayoutFarm.Presentation
 
         protected override void OnGotFocus(EventArgs e)
         {
-            ArtFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
+            UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
             canvasViewport.OnGotFocus(focusEventArg);
             base.OnGotFocus(e);
             eventStock.ReleaseEventArgs(focusEventArg);
@@ -158,7 +158,7 @@ namespace LayoutFarm.Presentation
         protected override void OnLostFocus(EventArgs e)
         {
 
-            ArtFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
+            UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
             canvasViewport.OnLostFocus(focusEventArg);
             base.OnLostFocus(e); eventStock.ReleaseEventArgs(focusEventArg);
 
@@ -171,7 +171,7 @@ namespace LayoutFarm.Presentation
             MouseEventArgs newMouseEventArgs = new MouseEventArgs(MouseButtons.Left, 1,
                 lastestLogicalMouseDownX,
                 lastestLogicalMouseDownY, 0);
-            ArtMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
+            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
 
             mouseEventArg.SetWinRoot(winroot);
             SetArtMouseEventArgsInfo(mouseEventArg, newMouseEventArgs);
@@ -191,7 +191,7 @@ namespace LayoutFarm.Presentation
             lastestLogicalMouseDownX = (viewLocation.X + e.X);
             lastestLogicalMouseDownY = (viewLocation.Y + e.Y);
 
-            ArtMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
+            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
             mouseEventArg.SetWinRoot(winroot);
             SetArtMouseEventArgsInfo(mouseEventArg, e);
 
@@ -207,29 +207,29 @@ namespace LayoutFarm.Presentation
             {
                 int xdiff = (viewLocation.X + e.X) - prevLogicalMouseX; int ydiff = (viewLocation.Y + e.Y) - prevLogicalMouseY; if (!isDraging)
                 {
-                    ArtDragEventArgs dragEventArg = ArtDragEventArgs.GetFreeDragEventArgs(); dragEventArg.SetWinRoot(this.winroot);
+                    UIDragEventArgs dragEventArg = UIDragEventArgs.GetFreeDragEventArgs(); dragEventArg.SetWinRoot(this.winroot);
                     dragEventArg.SetEventInfo(e.Location, GetArtMouseButton(e.Button),
                         lastestLogicalMouseDownX, lastestLogicalMouseDownY,
                         (viewLocation.X + e.X), (viewLocation.Y + e.Y),
                         xdiff, ydiff); canvasViewport.OnDragStart(dragEventArg);
-                    isDraging = true; ArtDragEventArgs.ReleaseEventArgs(dragEventArg);
+                    isDraging = true; UIDragEventArgs.ReleaseEventArgs(dragEventArg);
                 }
                 else
                 {
                     if (!(xdiff == 0 && ydiff == 0))
                     {
-                        ArtDragEventArgs dragEventArg = ArtDragEventArgs.GetFreeDragEventArgs(); dragEventArg.SetWinRoot(this.winroot);
+                        UIDragEventArgs dragEventArg = UIDragEventArgs.GetFreeDragEventArgs(); dragEventArg.SetWinRoot(this.winroot);
                         dragEventArg.SetEventInfo(e.Location, GetArtMouseButton(e.Button),
                             lastestLogicalMouseDownX, lastestLogicalMouseDownY,
                             (viewLocation.X + e.X), (viewLocation.Y + e.Y),
                             xdiff, ydiff); canvasViewport.OnDrag(dragEventArg);
-                        ArtDragEventArgs.ReleaseEventArgs(dragEventArg);
+                        UIDragEventArgs.ReleaseEventArgs(dragEventArg);
                     }
                 }
             }
             else
             {
-                ArtMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
+                UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
                 mouseEventArg.SetWinRoot(winroot);
 
                 SetArtMouseEventArgsInfo(mouseEventArg, e);
@@ -249,7 +249,7 @@ namespace LayoutFarm.Presentation
 
             isMouseDown = false; if (isDraging)
             {
-                ArtDragEventArgs mouseDragEventArg = ArtDragEventArgs.GetFreeDragEventArgs();
+                UIDragEventArgs mouseDragEventArg = UIDragEventArgs.GetFreeDragEventArgs();
                 Point viewLocation = canvasViewport.LogicalViewportLocation;
                 mouseDragEventArg.SetWinRoot(this.winroot);
                 mouseDragEventArg.SetEventInfo(e.Location, GetArtMouseButton(e.Button),
@@ -257,32 +257,32 @@ namespace LayoutFarm.Presentation
                     (viewLocation.X + e.X), (viewLocation.Y + e.Y),
                     (viewLocation.X + e.X) - lastestLogicalMouseDownX, (viewLocation.Y + e.Y) - lastestLogicalMouseDownY);
                 base.OnMouseUp(e); canvasViewport.OnDragStop(mouseDragEventArg);
-                ArtDragEventArgs.ReleaseEventArgs(mouseDragEventArg);
+                UIDragEventArgs.ReleaseEventArgs(mouseDragEventArg);
             }
             else
             {
-                ArtMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
+                UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
                 mouseEventArg.SetWinRoot(winroot);
                 SetArtMouseEventArgsInfo(mouseEventArg, e);
                 base.OnMouseUp(e); canvasViewport.OnMouseUp(mouseEventArg);
                 eventStock.ReleaseEventArgs(mouseEventArg);
             }
         }
-        static ArtMouseButtons GetArtMouseButton(MouseButtons mouseButton)
+        static UIMouseButtons GetArtMouseButton(MouseButtons mouseButton)
         {
             switch (mouseButton)
             {
                 case MouseButtons.Right:
-                    return ArtMouseButtons.Right;
+                    return UIMouseButtons.Right;
                 case MouseButtons.Middle:
-                    return ArtMouseButtons.Middle;
+                    return UIMouseButtons.Middle;
                 case MouseButtons.None:
-                    return ArtMouseButtons.None;
+                    return UIMouseButtons.None;
                 default:
-                    return ArtMouseButtons.Left;
+                    return UIMouseButtons.Left;
             }
         }
-        static void SetArtMouseEventArgsInfo(ArtMouseEventArgs mouseEventArg, MouseEventArgs e)
+        static void SetArtMouseEventArgsInfo(UIMouseEventArgs mouseEventArg, MouseEventArgs e)
         {
             mouseEventArg.SetEventInfo(e.Location, GetArtMouseButton(e.Button), e.Clicks, e.Delta);
         }
@@ -298,7 +298,7 @@ namespace LayoutFarm.Presentation
 
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            ArtMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
+            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
 
             mouseEventArg.SetWinRoot(winroot);
             SetArtMouseEventArgsInfo(mouseEventArg, e);
@@ -309,7 +309,7 @@ namespace LayoutFarm.Presentation
         }
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            ArtKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
+            UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
             keyEventArgs.SetWinRoot(winroot);
             SetArtKeyData(keyEventArgs, e);
             base.OnKeyDown(e);
@@ -319,7 +319,7 @@ namespace LayoutFarm.Presentation
         }
         protected override void OnKeyUp(KeyEventArgs e)
         {
-            ArtKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
+            UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
 
             keyEventArgs.SetWinRoot(winroot);
             SetArtKeyData(keyEventArgs, e);
@@ -328,7 +328,7 @@ namespace LayoutFarm.Presentation
             canvasViewport.OnKeyUp(keyEventArgs);
             eventStock.ReleaseEventArgs(keyEventArgs);
         }
-        static void SetArtKeyData(ArtKeyEventArgs keyEventArgs, KeyEventArgs e)
+        static void SetArtKeyData(UIKeyEventArgs keyEventArgs, KeyEventArgs e)
         {
             keyEventArgs.SetEventInfo((int)e.KeyCode, e.Shift, e.Alt, e.Control);
         }
@@ -339,7 +339,7 @@ namespace LayoutFarm.Presentation
                 return;
             }
 
-            ArtKeyPressEventArgs keyPressEventArgs = eventStock.GetFreeKeyPressEventArgs();
+            UIKeyPressEventArgs keyPressEventArgs = eventStock.GetFreeKeyPressEventArgs();
 
             keyPressEventArgs.SetWinRoot(winroot);
             keyPressEventArgs.SetKeyChar(e.KeyChar);
@@ -352,7 +352,7 @@ namespace LayoutFarm.Presentation
         protected override bool ProcessDialogKey(Keys keyData)
         {
 
-            ArtKeyEventArgs keyEventArg = eventStock.GetFreeKeyEventArgs();
+            UIKeyEventArgs keyEventArg = eventStock.GetFreeKeyEventArgs();
             keyEventArg.SetWinRoot(winroot);
             keyEventArg.KeyData = (int)keyData;
             if (canvasViewport.OnProcessDialogKey(keyEventArg))

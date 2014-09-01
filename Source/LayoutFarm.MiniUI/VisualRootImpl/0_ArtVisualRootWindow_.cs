@@ -47,9 +47,9 @@ namespace LayoutFarm.Presentation
         ArtUIHoverMonitorTask hoverMonitoringTask;
 
 
-        public event EventHandler<ArtInvalidatedEventArgs> CanvasInvalidatedEvent;
-        public event EventHandler<ArtCaretEventArgs> CanvasCaretEvent;
-        public event EventHandler<ArtCursorEventArgs> CursorStyleEventHandler;
+        public event EventHandler<UIInvalidateEventArgs> CanvasInvalidatedEvent;
+        public event EventHandler<UICaretEventArgs> CanvasCaretEvent;
+        public event EventHandler<UICursorEventArgs> CursorStyleEventHandler;
         public event EventHandler CanvasForcePaintMe;
         public event EventHandler CurrentFocusElementChanged; 
         int msgChainVersion; 
@@ -111,7 +111,7 @@ namespace LayoutFarm.Presentation
                     }
 
 
-                    ArtFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(value, currentKeyboardFocusedElement);
+                    UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(value, currentKeyboardFocusedElement);
                     focusEventArg.SetWinRoot(this);
                     var script = currentKeyboardFocusedElement.GetController();
                     if (script != null)
@@ -131,7 +131,7 @@ namespace LayoutFarm.Presentation
                 currentKeyboardFocusedElement = value;
                 if (currentKeyboardFocusedElement != null)
                 {
-                    ArtFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(value, currentKeyboardFocusedElement);
+                    UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(value, currentKeyboardFocusedElement);
                     focusEventArg.SetWinRoot(this);
                     Point globalLocation = value.GetGlobalLocation();
                     globalXOfCurrentUI = globalLocation.X;
@@ -252,7 +252,7 @@ namespace LayoutFarm.Presentation
 
         }
 
-        public new void OnDoubleClick(ArtMouseEventArgs e)
+        public new void OnDoubleClick(UIMouseEventArgs e)
         {
 
             ArtVisualElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.DblClick);
@@ -275,7 +275,7 @@ namespace LayoutFarm.Presentation
 
 
 
-        public new void OnMouseWheel(ArtMouseEventArgs e)
+        public new void OnMouseWheel(UIMouseEventArgs e)
         {
 
             if (currentMouseActiveElement != null)
@@ -287,7 +287,7 @@ namespace LayoutFarm.Presentation
                 }
             }
         }
-        public void OnMouseDown(ArtMouseEventArgs e)
+        public void OnMouseDown(UIMouseEventArgs e)
         {
 
 #if DEBUG
@@ -384,7 +384,7 @@ namespace LayoutFarm.Presentation
             commonElement.HitTestCore(hitPointChain); return hitPointChain.CurrentHitElement;
         }
 
-        public void OnMouseMove(ArtMouseEventArgs e)
+        public void OnMouseMove(UIMouseEventArgs e)
         {
 #if DEBUG
 
@@ -462,7 +462,7 @@ namespace LayoutFarm.Presentation
                 disableGraphicOutputFlush = true;
                 Point hitElementGlobalLocation = hitElement.GetGlobalLocation();
 
-                ArtMouseEventArgs e2 = new ArtMouseEventArgs();
+                UIMouseEventArgs e2 = new UIMouseEventArgs();
 
                 e2.Location = hitPointChain.CurrentHitPoint; e2.SourceVisualElement = hitElement;
                 IEventDispatcher ui = hitElement.GetController() as IEventDispatcher;
@@ -479,7 +479,7 @@ namespace LayoutFarm.Presentation
             hoverMonitoringTask.SetEnable(false, this);
         }
 
-        public void OnDragStart(ArtDragEventArgs e)
+        public void OnDragStart(UIDragEventArgs e)
         {
 
 #if DEBUG
@@ -522,7 +522,7 @@ HitEventName.DragStart);
 
         }
 
-        public void OnDrag(ArtDragEventArgs e)
+        public void OnDrag(UIDragEventArgs e)
         {
 
 #if DEBUG
@@ -596,7 +596,7 @@ HitEventName.DragStart);
         }
 
 
-        void BroadcastDragHitEvents(ArtDragEventArgs e)
+        void BroadcastDragHitEvents(UIDragEventArgs e)
         {
 
 
@@ -628,7 +628,7 @@ HitEventName.DragStart);
                     }
                 }
             }
-            ArtDragEventArgs d_eventArg = ArtDragEventArgs.GetFreeDragEventArgs();
+            UIDragEventArgs d_eventArg = UIDragEventArgs.GetFreeDragEventArgs();
 
             if (hitPointChain.DragHitElementCount > 0)
             {
@@ -678,11 +678,11 @@ HitEventName.DragStart);
                     d_eventArg.TranslateCanvasOriginBack();
                 }
             }
-            ArtDragEventArgs.ReleaseEventArgs(d_eventArg);
+            UIDragEventArgs.ReleaseEventArgs(d_eventArg);
 
 
         }
-        public void OnDragStop(ArtDragEventArgs e)
+        public void OnDragStop(UIDragEventArgs e)
         {
 
 
@@ -723,7 +723,7 @@ HitEventName.DragStart);
                 }
             }
 
-            ArtDragEventArgs d_eventArg = ArtDragEventArgs.GetFreeDragEventArgs();
+            UIDragEventArgs d_eventArg = UIDragEventArgs.GetFreeDragEventArgs();
             if (hitPointChain.DragHitElementCount > 0)
             {
                 foreach (ArtVisualElement elem in hitPointChain.GetDragHitElementIter())
@@ -743,7 +743,7 @@ HitEventName.DragStart);
             }
 
             hitPointChain.ClearDragHitElements();
-            ArtDragEventArgs.ReleaseEventArgs(d_eventArg);
+            UIDragEventArgs.ReleaseEventArgs(d_eventArg);
 
 
             currentDragingElement = null;
@@ -751,7 +751,7 @@ HitEventName.DragStart);
             FlushGraphicUpdate();
 
         }
-        public void OnGotFocus(ArtFocusEventArgs e)
+        public void OnGotFocus(UIFocusEventArgs e)
         {
 
             if (currentMouseActiveElement != null)
@@ -763,11 +763,11 @@ HitEventName.DragStart);
             }
 
         }
-        public void OnLostFocus(ArtFocusEventArgs e)
+        public void OnLostFocus(UIFocusEventArgs e)
         {
 
         }
-        public void OnMouseUp(ArtMouseEventArgs e)
+        public void OnMouseUp(UIMouseEventArgs e)
         {
 
 #if DEBUG
@@ -814,7 +814,7 @@ HitEventName.DragStart);
 
             hitPointChain.SwapHitChain();
         }
-        public new void OnKeyDown(ArtKeyEventArgs e)
+        public new void OnKeyDown(UIKeyEventArgs e)
         {
             var visualroot = this.MyVisualRoot;
             e.IsShiftKeyDown = e.Shift;
@@ -834,7 +834,7 @@ HitEventName.DragStart);
                 e.TranslateCanvasOriginBack();
             }
         }
-        public new void OnKeyUp(ArtKeyEventArgs e)
+        public new void OnKeyUp(UIKeyEventArgs e)
         {
 
 
@@ -860,7 +860,7 @@ HitEventName.DragStart);
 
 
         }
-        public void OnKeyPress(ArtKeyPressEventArgs e)
+        public void OnKeyPress(UIKeyPressEventArgs e)
         {
 
             if (currentKeyboardFocusedElement != null)
@@ -877,7 +877,7 @@ HitEventName.DragStart);
             }
         }
 
-        public bool OnProcessDialogKey(ArtKeyEventArgs e)
+        public bool OnProcessDialogKey(UIKeyEventArgs e)
         {
 
             bool result = false;

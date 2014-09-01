@@ -44,9 +44,9 @@ namespace LayoutFarm.Presentation.Text
         public event EventHandler<TextDomEventArgs> ReplacedAll;
         public event EventHandler<TextDomEventArgs> ArrowKeyCaretPosChanged;
 
-        public event EventHandler<ArtKeyEventArgs> SpecialKeyInserted;
+        public event EventHandler<UIKeyEventArgs> SpecialKeyInserted;
 
-        public event EventHandler<ArtKeyEventArgs> SplitedNewLine;
+        public event EventHandler<UIKeyEventArgs> SplitedNewLine;
 
         public TextSurfaceEventListener()
         {
@@ -163,7 +163,7 @@ namespace LayoutFarm.Presentation.Text
         }
 
 
-        internal static void NofitySplitNewLine(TextSurfaceEventListener listener, ArtKeyEventArgs e)
+        internal static void NofitySplitNewLine(TextSurfaceEventListener listener, UIKeyEventArgs e)
         {
             if (listener.SplitedNewLine != null)
             {

@@ -10,28 +10,28 @@ namespace LayoutFarm.Presentation
 
     public class CanvasEventsStock
     {
-        Stack<ArtMouseEventArgs> mouseEventsQ = new Stack<ArtMouseEventArgs>();
-        Stack<ArtKeyEventArgs> keyEventsQ = new Stack<ArtKeyEventArgs>();
-        Stack<ArtKeyPressEventArgs> keyPressEventsQ = new Stack<ArtKeyPressEventArgs>();
-        Stack<ArtInvalidatedEventArgs> canvasInvalidatedEventsQ = new Stack<ArtInvalidatedEventArgs>();
+        Stack<UIMouseEventArgs> mouseEventsQ = new Stack<UIMouseEventArgs>();
+        Stack<UIKeyEventArgs> keyEventsQ = new Stack<UIKeyEventArgs>();
+        Stack<UIKeyPressEventArgs> keyPressEventsQ = new Stack<UIKeyPressEventArgs>();
+        Stack<UIInvalidateEventArgs> canvasInvalidatedEventsQ = new Stack<UIInvalidateEventArgs>();
 
-        Stack<ArtCaretEventArgs> caretEventQ = new Stack<ArtCaretEventArgs>();
-        Stack<ArtCursorEventArgs> cursorEventQ = new Stack<ArtCursorEventArgs>();
-        Stack<ArtPopupEventArgs> popEventQ = new Stack<ArtPopupEventArgs>();
+        Stack<UICaretEventArgs> caretEventQ = new Stack<UICaretEventArgs>();
+        Stack<UICursorEventArgs> cursorEventQ = new Stack<UICursorEventArgs>();
+        Stack<UIPopupEventArgs> popEventQ = new Stack<UIPopupEventArgs>();
 
         public CanvasEventsStock()
         {
-            mouseEventsQ.Push(new ArtMouseEventArgs());
-            keyEventsQ.Push(new ArtKeyEventArgs());
-            keyPressEventsQ.Push(new ArtKeyPressEventArgs());
-            canvasInvalidatedEventsQ.Push(new ArtInvalidatedEventArgs());
-            canvasFocusEventsQ.Push(new ArtFocusEventArgs());
+            mouseEventsQ.Push(new UIMouseEventArgs());
+            keyEventsQ.Push(new UIKeyEventArgs());
+            keyPressEventsQ.Push(new UIKeyPressEventArgs());
+            canvasInvalidatedEventsQ.Push(new UIInvalidateEventArgs());
+            canvasFocusEventsQ.Push(new UIFocusEventArgs());
 
-            caretEventQ.Push(new ArtCaretEventArgs());
-            cursorEventQ.Push(new ArtCursorEventArgs());
-            popEventQ.Push(new ArtPopupEventArgs());
+            caretEventQ.Push(new UICaretEventArgs());
+            cursorEventQ.Push(new UICursorEventArgs());
+            popEventQ.Push(new UIPopupEventArgs());
         }
-        public ArtPopupEventArgs GetFreeCanvasPopupEventArgs()
+        public UIPopupEventArgs GetFreeCanvasPopupEventArgs()
         {
             if (popEventQ.Count > 0)
             {
@@ -39,15 +39,15 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                return new ArtPopupEventArgs();
+                return new UIPopupEventArgs();
             }
         }
-        public void ReleaseEventArgs(ArtPopupEventArgs e)
+        public void ReleaseEventArgs(UIPopupEventArgs e)
         {
             e.Clear();
             popEventQ.Push(e);
         }
-        public ArtCursorEventArgs GetFreeCursorEventArgs()
+        public UICursorEventArgs GetFreeCursorEventArgs()
         {
             if (cursorEventQ.Count > 0)
             {
@@ -55,15 +55,15 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                return new ArtCursorEventArgs();
+                return new UICursorEventArgs();
             }
         }
-        public void ReleaseEventArgs(ArtCursorEventArgs e)
+        public void ReleaseEventArgs(UICursorEventArgs e)
         {
             e.Clear();
             cursorEventQ.Push(e);
         }
-        public ArtCaretEventArgs GetFreeCaretEventArgs()
+        public UICaretEventArgs GetFreeCaretEventArgs()
         {
             if (caretEventQ.Count > 0)
             {
@@ -71,16 +71,16 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                return new ArtCaretEventArgs();
+                return new UICaretEventArgs();
             }
         }
-        public void ReleaseEventArgs(ArtCaretEventArgs e)
+        public void ReleaseEventArgs(UICaretEventArgs e)
         {
             e.Clear();
             caretEventQ.Push(e);
         }
 
-        public ArtInvalidatedEventArgs GetFreeCanvasInvalidatedEventArgs()
+        public UIInvalidateEventArgs GetFreeCanvasInvalidatedEventArgs()
         {
             if (canvasInvalidatedEventsQ.Count > 0)
             {
@@ -88,16 +88,16 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                return new ArtInvalidatedEventArgs();
+                return new UIInvalidateEventArgs();
             }
 
         }
-        public void ReleaseEventArgs(ArtInvalidatedEventArgs e)
+        public void ReleaseEventArgs(UIInvalidateEventArgs e)
         {
             e.Clear();
             canvasInvalidatedEventsQ.Push(e);
         }
-        public ArtMouseEventArgs GetFreeMouseEventArgs()
+        public UIMouseEventArgs GetFreeMouseEventArgs()
         {
             if (mouseEventsQ.Count > 0)
             {
@@ -105,15 +105,15 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                return new ArtMouseEventArgs();
+                return new UIMouseEventArgs();
             }
         }
-        public void ReleaseEventArgs(ArtMouseEventArgs e)
+        public void ReleaseEventArgs(UIMouseEventArgs e)
         {
             e.Clear();
             mouseEventsQ.Push(e);
         }
-        public ArtKeyEventArgs GetFreeKeyEventArgs()
+        public UIKeyEventArgs GetFreeKeyEventArgs()
         {
             if (keyEventsQ.Count > 0)
             {
@@ -121,16 +121,16 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                return new ArtKeyEventArgs();
+                return new UIKeyEventArgs();
             }
 
         }
-        public void ReleaseEventArgs(ArtKeyEventArgs e)
+        public void ReleaseEventArgs(UIKeyEventArgs e)
         {
             e.Clear();
             keyEventsQ.Push(e);
         }
-        public ArtKeyPressEventArgs GetFreeKeyPressEventArgs()
+        public UIKeyPressEventArgs GetFreeKeyPressEventArgs()
         {
             if (keyPressEventsQ.Count > 0)
             {
@@ -138,35 +138,35 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                return new ArtKeyPressEventArgs();
+                return new UIKeyPressEventArgs();
             }
         }
-        public void ReleaseEventArgs(ArtKeyPressEventArgs e)
+        public void ReleaseEventArgs(UIKeyPressEventArgs e)
         {
             e.Clear();
             keyPressEventsQ.Push(e);
         }
-        Stack<ArtFocusEventArgs> canvasFocusEventsQ = new Stack<ArtFocusEventArgs>();
+        Stack<UIFocusEventArgs> canvasFocusEventsQ = new Stack<UIFocusEventArgs>();
 
-        public ArtFocusEventArgs GetFreeFocusEventArgs(ArtVisualElement tobeFocusElement, ArtVisualElement tobeLostFocusElement)
+        public UIFocusEventArgs GetFreeFocusEventArgs(ArtVisualElement tobeFocusElement, ArtVisualElement tobeLostFocusElement)
         {
             if (canvasFocusEventsQ.Count > 0)
             {
-                ArtFocusEventArgs e = canvasFocusEventsQ.Pop();
+                UIFocusEventArgs e = canvasFocusEventsQ.Pop();
                 e.ToBeFocusElement = tobeFocusElement;
                 e.ToBeLostFocusElement = tobeLostFocusElement;
                 return e;
             }
             else
             {
-                ArtFocusEventArgs e = new ArtFocusEventArgs();
+                UIFocusEventArgs e = new UIFocusEventArgs();
                 e.ToBeFocusElement = tobeFocusElement;
                 e.ToBeLostFocusElement = tobeLostFocusElement;
                 return e;
 
             }
         }
-        public void ReleaseEventArgs(ArtFocusEventArgs e)
+        public void ReleaseEventArgs(UIFocusEventArgs e)
         {
             e.Clear();
             canvasFocusEventsQ.Push(e);

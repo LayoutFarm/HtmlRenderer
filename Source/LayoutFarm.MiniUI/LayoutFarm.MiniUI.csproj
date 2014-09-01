@@ -41,9 +41,9 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArtUIElement\ArtUIElement_EventDispatcher.cs" />
-    <Compile Include="Events\ArtDragEventArgs.cs" />
-    <Compile Include="Events\ArtVisualEventArgs.cs" />
+    <Compile Include="ArtUIElement\UIElement_EventDispatcher.cs" />
+    <Compile Include="Events\UIDragEventArgs.cs" />
+    <Compile Include="Events\UIEventArgs.cs" />
     <Compile Include="VisualRootImpl\0_ArtVisualRootWindow.cs" />
     <Compile Include="VisualRootImpl\0_ArtVisualRootWindow_.cs" />
     <Compile Include="VisualRootImpl\0_ArtVisualRootWindow_dbug.cs" />
@@ -55,7 +55,7 @@
     <Compile Include="VisualRootImpl\ToNotifySizeChangedEvent.cs" />
     <Compile Include="VisualRootImpl\UIHoverMonitor.cs" />
     <Compile Include="VisualRootImpl\VisualRootImpl.cs" />
-    <Compile Include="ArtUIElement\ArtUIElement_.cs" />
+    <Compile Include="ArtUIElement\UIElement.cs" />
     <Compile Include="ArtUIElement\IEventDispatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VisualCoreBridge\Clipboard.cs" />

@@ -10,7 +10,7 @@ namespace LayoutFarm.Presentation.SampleControls
 {
 
 
-    public class ArtUITextBox : ArtUIElement
+    public class ArtUITextBox : UIElement
     {
         ArtVisualElement primaryVisualElement;
         internal ArtVisualTextEditBox visualTextSurface;

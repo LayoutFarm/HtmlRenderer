@@ -13,7 +13,7 @@ using LayoutFarm.Presentation.Text;
 namespace LayoutFarm.Presentation.SampleControls
 {
 
-    public class ArtUIMultiLineTextBox : ArtUIElement
+    public class ArtUIMultiLineTextBox : UIElement
     {
         ArtVisualElement primaryVisualElement;
         ArtVisualTextEditBox visualTextEdit; 
@@ -42,50 +42,50 @@ namespace LayoutFarm.Presentation.SampleControls
         {
             this.primaryVisualElement = visualElement;
         }
-        protected override void OnKeyPress(ArtKeyPressEventArgs e)
+        protected override void OnKeyPress(UIKeyPressEventArgs e)
         {
             visualTextEdit.OnKeyPress(e);
         }
-        protected override void OnKeyDown(ArtKeyEventArgs e)
+        protected override void OnKeyDown(UIKeyEventArgs e)
         {
             visualTextEdit.OnKeyDown(e);
 
         }
-        protected override void OnKeyUp(ArtKeyEventArgs e)
+        protected override void OnKeyUp(UIKeyEventArgs e)
         {
 
         }
-        protected override bool OnProcessDialogKey(ArtKeyEventArgs e)
+        protected override bool OnProcessDialogKey(UIKeyEventArgs e)
         {
             return visualTextEdit.OnProcessDialogKey(e);
 
         }
-        protected override void OnMouseDown(ArtMouseEventArgs e)
+        protected override void OnMouseDown(UIMouseEventArgs e)
         {
 
             visualTextEdit.OnMouseDown(e);
         }
-        protected override void OnMouseUp(ArtMouseEventArgs e)
+        protected override void OnMouseUp(UIMouseEventArgs e)
         {
             visualTextEdit.OnMouseUp(e);
         }
 
-        protected override void OnDoubleClick(ArtMouseEventArgs e)
+        protected override void OnDoubleClick(UIMouseEventArgs e)
         {
             visualTextEdit.OnDoubleClick(e);
         }
-        protected override void OnDragDrop(ArtDragEventArgs e)
+        protected override void OnDragDrop(UIDragEventArgs e)
         {
         }
-        protected override void OnDragStart(ArtDragEventArgs e)
+        protected override void OnDragStart(UIDragEventArgs e)
         {
             visualTextEdit.OnDragStart(e);
         }
-        protected override void OnDragging(ArtDragEventArgs e)
+        protected override void OnDragging(UIDragEventArgs e)
         {
             visualTextEdit.OnDrag(e);
         }
-        protected override void OnDragStop(ArtDragEventArgs e)
+        protected override void OnDragStop(UIDragEventArgs e)
         {
             visualTextEdit.OnDragStop(e);
         }

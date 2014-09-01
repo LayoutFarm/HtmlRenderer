@@ -10,26 +10,26 @@ using LayoutFarm.Presentation;
 
 namespace LayoutFarm.Presentation
 {
-    public delegate void ArtDragEventHandler(object sender, ArtDragEventArgs e);
+    public delegate void UIDragEventHandler(object sender, UIDragEventArgs e);
 
-    public class ArtDragEventArgs : ArtEventArgs
+    public class UIDragEventArgs : UIEventArgs
     {
-        public ArtMouseButtons Button;
+        public UIMouseButtons Button;
 
         int lastestLogicalViewportMouseDownX, lastestLogicalViewportMouseDownY, currentLogicalX, currentLogicalY;
         int lastestXDiff, lastestYDiff;
 
-        public ArtVisualMouseEventType EventType;
+        public UIMouseEventType EventType;
         public ArtVisualElement DragingElement;
-        public ArtMouseEventArgs MouseInfo;
+        public UIMouseEventArgs MouseInfo;
 
-        static Stack<ArtDragEventArgs> dragEventArgsPool = new Stack<ArtDragEventArgs>();
+        static Stack<UIDragEventArgs> dragEventArgsPool = new Stack<UIDragEventArgs>();
 
-        private ArtDragEventArgs()
+        private UIDragEventArgs()
         {
-            EventType = ArtVisualMouseEventType.Drag;
+            EventType = UIMouseEventType.Drag;
         }
-        public static ArtDragEventArgs GetFreeDragEventArgs()
+        public static UIDragEventArgs GetFreeDragEventArgs()
         {
             if (dragEventArgsPool.Count > 0)
             {
@@ -37,15 +37,15 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                return new ArtDragEventArgs();
+                return new UIDragEventArgs();
             }
         }
-        public static void ReleaseEventArgs(ArtDragEventArgs e)
+        public static void ReleaseEventArgs(UIDragEventArgs e)
         {
             e.Clear();
             dragEventArgsPool.Push(e);
         }
-        public void SetEventInfo(Point loca, ArtMouseButtons button, int lastestLogicalViewportMouseDownX,
+        public void SetEventInfo(Point loca, UIMouseButtons button, int lastestLogicalViewportMouseDownX,
             int lastestLogicalViewportMouseDownY,
             int currentLogicalX,
             int currentLogicalY,
@@ -78,7 +78,7 @@ namespace LayoutFarm.Presentation
         }
         public override void Clear()
         {
-            Button = ArtMouseButtons.Left;
+            Button = UIMouseButtons.Left;
             base.Clear();
         }
         public int XDiff
