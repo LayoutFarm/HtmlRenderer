@@ -1,0 +1,23 @@
+<html>
+<head>
+    <link rel="Stylesheet" href="StyleSheet" />
+	<style type="text/css">
+       svg {diplay:block;background-color:gray;width:500px;height:500px}
+	</style>
+</head>
+<body> 
+	<h3> Hello SVG!</h3>
+    <svg version="1.1">
+		<defs>
+			<rect id="r1" width="350px" height="350px" stroke="black" stroke-width="1px"/>
+			<linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+				<stop stop-color="black" offset="0%"/>
+				<stop stop-color="teal" offset="50%"/>
+				<stop stop-color="white" offset="100%"/>
+			</linearGradient> 
+		</defs>
+		<use x="30px" y="25px" xlink:href="#r1" fill="url(#g1)"/>
+		OKOK
+	</svg>
+</body>
+</html>

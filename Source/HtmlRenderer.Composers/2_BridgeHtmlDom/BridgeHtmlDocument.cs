@@ -13,37 +13,37 @@ using HtmlRenderer.Composers.BridgeHtml;
 namespace HtmlRenderer.Composers
 {
 
-    public class BridgeHtmlDocument : HtmlDocument
+    public class BridgeHtmlDocument : WebDocument
     {
-        HtmlElement rootNode;
+        DomElement rootNode;
         public BridgeHtmlDocument()
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
         {
             //default root
-            rootNode = new BridgeRootElement(this);
+            rootNode = new RootElement(this);
         }
-        public override HtmlElement RootNode
+        public override DomElement RootNode
         {
             get
             {
                 return rootNode;
             }
         }
-        public override HtmlElement CreateElement(string prefix, string localName)
+        public override DomElement CreateElement(string prefix, string localName)
         {
-            return new BridgeHtmlElement(this,
+            return new HtmlElement(this,
                 AddStringIfNotExists(prefix),
                 AddStringIfNotExists(localName));
         }
-        public HtmlAttribute CreateAttribute(WellknownHtmlName attrName)
+        public DomAttribute CreateAttribute(WellknownName attrName)
         {
-            return new HtmlAttribute(this,
+            return new DomAttribute(this,
                 0,
                 (int)attrName);
         }
-        public override HtmlTextNode CreateTextNode(char[] strBufferForElement)
+        public override DomTextNode CreateTextNode(char[] strBufferForElement)
         {
-            return new BridgeHtmlTextNode(this, strBufferForElement);
+            return new HtmlTextNode(this, strBufferForElement);
         }
 
 

@@ -43,17 +43,15 @@
     <Compile Include="Events\HtmlRefreshEventArgs.cs" />
     <Compile Include="Events\HtmlRenderErrorEventArgs.cs" />
     <Compile Include="Events\HtmlScrollEventArgs.cs" />
-    <Compile Include="Platform\HtmlClipboardUtils.cs" />
-    <Compile Include="Platform\ClibboardHelper.cs" />
     <Compile Include="Platform\FontsUtils.cs" />
-    <Compile Include="Platform\HtmlContainerImpl.cs" />
+    <Compile Include="Platform\WinRootVisualBox.cs" />
     <Compile Include="HtmlPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Platform\HtmlContainerImplExtension.cs" />
+    <Compile Include="Platform\WinHtmlRootVisualBoxExtension.cs" />
     <Compile Include="Platform\WinGraphics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Win32Utils.cs" />
+    <Compile Include="Platform\Win32Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HtmlRenderer.Composers\HtmlRenderer.Composers.csproj">

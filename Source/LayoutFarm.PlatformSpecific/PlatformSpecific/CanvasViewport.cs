@@ -1,0 +1,663 @@
+﻿//2014 Apache2, WinterDev
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows.Forms;
+using System.Drawing;
+
+
+
+using LayoutFarm.Presentation;
+
+
+namespace LayoutFarm.Presentation
+{
+
+
+
+
+    public partial class CanvasViewport
+    {
+        int viewportX;
+        int viewportY;
+        int viewportWidth;
+        int viewportHeight;
+
+
+        ArtVisualWindowImpl rootElement;
+
+        QuadPages quadPages = null;
+
+        int h_smallChange = 0;
+        int h_largeChange = 0;
+        int v_smallChange = 0;
+        int v_largeChange = 0;
+        EventHandler<ArtInvalidatedEventArgs> canvasInvalidateHandler;
+        EventHandler<ArtCursorEventArgs> canvasCursorChangedHandler;
+        EventHandler<ArtCaretEventArgs> canvasCaretHandler;
+        EventHandler<EventArgs> canvasSizeChangedHandler;
+        EventHandler canvasForcePaintMe;
+
+
+        bool fullMode = true;
+        IArtSurfaceViewportControl outputWindow;
+        public CanvasViewport(IArtSurfaceViewportControl outputWindow,
+            ArtVisualWindowImpl winroot,
+            Size viewportSize, int cachedPageNum)
+        {
+            this.outputWindow = outputWindow;
+            this.rootElement = winroot;
+
+            quadPages = new QuadPages(cachedPageNum, viewportSize.Width, viewportSize.Height * 2);
+
+            this.viewportWidth = viewportSize.Width;
+            this.viewportHeight = viewportSize.Height;
+
+            canvasCaretHandler = Canvas_CaretChange;
+            canvasInvalidateHandler = Canvas_Invalidate;
+            canvasCursorChangedHandler = Canvas_CursorChange;
+            canvasSizeChangedHandler = Canvas_SizeChanged;
+            canvasForcePaintMe = PaintMe;
+
+            winroot.CanvasCaretEvent += canvasCaretHandler;
+            winroot.CursorStyleEventHandler += canvasCursorChangedHandler;
+            winroot.CanvasInvalidatedEvent += canvasInvalidateHandler;
+            winroot.CanvasForcePaintMe += canvasForcePaintMe;
+
+            viewportX = 0;
+            viewportY = 0;
+            CalculateCanvasPages();
+            EvaluateScrollBar();
+        }
+
+        public void UpdateCanvasViewportSize(int viewportWidth, int viewportHeight)
+        {
+
+            if (this.viewportWidth != viewportWidth || this.viewportHeight != viewportHeight)
+            {
+                this.viewportWidth = viewportWidth;
+                this.viewportHeight = viewportHeight;
+
+                quadPages.ResizeAllPages(viewportWidth, viewportHeight);
+                CalculateCanvasPages();
+
+                rootElement.ChangeVisualRootSize(viewportWidth, viewportHeight);
+            }
+
+        }
+
+        ~CanvasViewport()
+        {
+            quadPages.Dispose();
+        }
+
+
+        void Canvas_CursorChange(object sender, ArtCursorEventArgs e)
+        {
+
+        }
+        void Canvas_CaretChange(object sender, ArtCaretEventArgs e)
+        {
+            if (e.Visible)
+            {
+                ShowCaret();
+            }
+            else
+            {
+                HideCaret();
+            }
+        }
+
+        void Canvas_SizeChanged(object sender, EventArgs e)
+        {
+            EvaluateScrollBar();
+        }
+        void Canvas_Invalidate(object sender, ArtInvalidatedEventArgs e)
+        {
+            quadPages.CanvasInvalidate(e.InvalidArea);
+        }
+
+        void PaintMe()
+        {
+            IntPtr hdc = MyWin32.GetDC(outputWindow.Handle);
+            rootElement.PrepareRender();
+            rootElement.ClearNotificationSizeChangeList();
+            rootElement.BeginRenderPhase();
+
+            if (fullMode)
+            {
+                quadPages.RenderToOutputWindowFullMode(rootElement, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
+            }
+            else
+            {
+                quadPages.RenderToOutputWindowPartialMode(rootElement, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
+            }
+
+            rootElement.EndRenderPhase();
+
+#if DEBUG
+
+            VisualRoot visualroot = VisualRoot.dbugCurrentGlobalVRoot;
+            if (visualroot.dbug_RecordDrawingChain)
+            {
+                List<dbugLayoutMsg> outputMsgs = outputWindow.dbug_rootDocDebugMsgs;
+                outputMsgs.Clear();
+                outputMsgs.Add(new dbugLayoutMsg(null as ArtVisualElement, "[" + debug_render_to_output_count + "]"));
+                visualroot.dbug_DumpRootDrawingMsg(outputMsgs);
+                outputWindow.dbug_InvokeVisualRootDrawMsg();
+                debug_render_to_output_count++;
+            }
+#endif
+
+
+            MyWin32.ReleaseDC(outputWindow.Handle, hdc);
+#if DEBUG
+
+            if (ArtVisualWindowImpl.dbugVE_HighlightMe != null)
+            {
+                outputWindow.dbug_HighlightMeNow(ArtVisualWindowImpl.dbugVE_HighlightMe.GetGlobalRect());
+
+            }
+#endif
+        }
+
+        public void PaintMe(object sender, EventArgs e)
+        {
+            PaintMe();
+        }
+         
+
+#if DEBUG
+        int debug_render_to_output_count = -1;
+#endif
+        internal void OnMouseMove(ArtMouseEventArgs e)
+        {
+            e.OffsetCanvasOrigin(-viewportX, -viewportY); rootElement.OnMouseMove(e);
+            e.OffsetCanvasOrigin(viewportX, viewportY); if (!quadPages.IsValid)
+            {
+                PaintMe();
+            }
+        }
+
+        internal void OnDoubleClick(ArtMouseEventArgs e)
+        {
+            e.OffsetCanvasOrigin(-viewportX, -viewportY); rootElement.OnDoubleClick(e);
+            e.OffsetCanvasOrigin(viewportX, viewportY);
+            if (!quadPages.IsValid)
+            {
+                PaintMe();
+            }
+        }
+        internal void OnMouseWheel(ArtMouseEventArgs e)
+        {
+            fullMode = true;
+            e.OffsetCanvasOrigin(-viewportX, -viewportY); rootElement.OnMouseWheel(e);
+            e.OffsetCanvasOrigin(viewportX, viewportY);
+            if (!quadPages.IsValid)
+            {
+                PaintMe();
+            }
+        }
+        internal void OnMouseUp(ArtMouseEventArgs e)
+        {
+#if DEBUG
+            dbugMouseDown = false;
+#endif
+            fullMode = false;
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
+            rootElement.OnMouseUp(e);
+            e.OffsetCanvasOrigin(viewportX, viewportY);
+
+            if (!quadPages.IsValid)
+            {
+                PaintMe();
+            }
+
+            if (rootElement.IsCurrentElementUseCaret)
+            {
+                ShowCaret();
+            }
+        }
+        internal void OnLostFocus(ArtFocusEventArgs e)
+        {
+
+            fullMode = false;
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
+            rootElement.OnLostFocus(e);
+            e.OffsetCanvasOrigin(viewportX, viewportY);
+
+        }
+        internal void OnGotFocus(ArtFocusEventArgs e)
+        {
+            fullMode = false;
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
+            rootElement.OnGotFocus(e);
+            e.OffsetCanvasOrigin(viewportX, viewportY);
+
+
+        }
+        internal void OnDrag(ArtDragEventArgs e)
+        {
+            fullMode = false;
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
+            rootElement.OnDrag(e);
+            e.OffsetCanvasOrigin(viewportX, viewportY);
+            if (!quadPages.IsValid)
+            {
+                PaintMe();
+            }
+        }
+#if DEBUG
+        public static bool dbugMouseDown = false;
+#endif
+        internal void OnMouseDown(ArtMouseEventArgs e)
+        {
+
+#if DEBUG
+            dbugMouseDown = true;
+#endif
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
+            rootElement.OnMouseDown(e);
+
+            e.OffsetCanvasOrigin(viewportX, viewportY); if (rootElement.IsCurrentElementUseCaret)
+            {
+                HideCaret();
+            }
+            if (!quadPages.IsValid)
+            {
+                PaintMe();
+            }
+
+#if DEBUG
+            VisualRoot visualroot = rootElement.dbugVRoot;
+            if (visualroot.dbug_RecordHitChain)
+            {
+                outputWindow.dbug_rootDocHitChainMsgs.Clear();
+                visualroot.dbug_DumpCurrentHitChain(outputWindow.dbug_rootDocHitChainMsgs);
+                outputWindow.dbug_InvokeHitChainMsg();
+            }
+#endif
+        }
+        internal void OnDragStart(ArtDragEventArgs e)
+        {
+            fullMode = false;
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
+            rootElement.OnDragStart(e);
+            e.OffsetCanvasOrigin(viewportX, viewportY);
+            if (!quadPages.IsValid)
+            {
+                PaintMe();
+            }
+        }
+
+        internal void OnDragStop(ArtDragEventArgs e)
+        {
+            fullMode = false;
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
+            rootElement.OnDragStop(e);
+            e.OffsetCanvasOrigin(viewportX, viewportY);
+
+            if (!quadPages.IsValid)
+            {
+                PaintMe();
+            }
+
+        }
+        internal void OnKeyDown(ArtKeyEventArgs e)
+        {
+            fullMode = false;
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
+
+#if DEBUG
+            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("======");
+            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (Keys)e.KeyData);
+            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("======");
+#endif
+
+            rootElement.OnKeyDown(e);
+
+            e.OffsetCanvasOrigin(viewportX, viewportY);
+
+            if (!quadPages.IsValid)
+            {
+
+                if (rootElement.IsCurrentElementUseCaret)
+                {
+                    HideCaret();
+                    PaintMe();
+                    ShowCaret();
+                }
+                else
+                {
+                    PaintMe();
+                }
+
+            }
+        }
+        internal void OnKeyPress(ArtKeyPressEventArgs e)
+        {
+#if DEBUG
+            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("======");
+            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("KEYPRESS " + e.KeyChar);
+            rootElement.VisualRoot.dbug_PushLayoutTraceMessage("======");
+#endif
+
+            fullMode = false;
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
+            rootElement.OnKeyPress(e);
+            e.OffsetCanvasOrigin(viewportX, viewportY);
+            if (!quadPages.IsValid)
+            {
+                if (rootElement.IsCurrentElementUseCaret)
+                {
+                    HideCaret();
+                    PaintMe();
+                    ShowCaret();
+                }
+                else
+                {
+                    PaintMe();
+                }
+            }
+        }
+        internal void OnKeyUp(ArtKeyEventArgs e)
+        {
+            fullMode = false;
+
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
+            rootElement.OnKeyUp(e);
+            e.OffsetCanvasOrigin(viewportX, viewportY);
+
+        }
+        internal bool OnProcessDialogKey(ArtKeyEventArgs e)
+        {
+            fullMode = false;
+            e.OffsetCanvasOrigin(-viewportX, -viewportY); bool result = rootElement.OnProcessDialogKey(e);
+            e.OffsetCanvasOrigin(viewportX, viewportY);
+            if (!quadPages.IsValid)
+            {
+                if (rootElement.IsCurrentElementUseCaret)
+                {
+                    HideCaret();
+                    PaintMe();
+                    ShowCaret();
+                }
+                else
+                {
+                    PaintMe();
+                }
+            }
+            return result;
+        }
+
+        public Point LogicalViewportLocation
+        {
+            get
+            {
+                return new Point(viewportX, viewportY);
+            }
+
+        }
+
+
+
+        void CalculateCanvasPages()
+        {
+            quadPages.CalculateCanvasPages(viewportX, viewportY, viewportWidth, viewportHeight);
+            fullMode = true;
+        }
+
+        public void ScrollByNotRaiseEvent(int dx, int dy, out ArtScrollEventArgs hScrollEventArgs, out ArtScrollEventArgs vScrollEventArgs)
+        {
+            vScrollEventArgs = null;
+            if (dy < 0)
+            {
+                int old_y = viewportY;
+                if (viewportY + dy < 0)
+                {
+                    dy = -viewportY;
+                    viewportY = 0;
+                }
+                else
+                {
+                    viewportY += dy;
+                }
+                vScrollEventArgs = new ArtScrollEventArgs(ArtScrollEventType.ThumbPosition,
+    old_y, viewportY, ArtScrollOrientation.VerticalScroll);
+
+            }
+            else if (dy > 0)
+            {
+                int old_y = viewportY;
+                int viewportButtom = viewportY + viewportHeight; if (viewportButtom + dy > rootElement.Height)
+                {
+                    if (viewportButtom < rootElement.Height)
+                    {
+                        viewportY = rootElement.Height - viewportHeight;
+                    }
+                }
+                else
+                {
+
+                    viewportY += dy;
+                }
+                vScrollEventArgs = new ArtScrollEventArgs(ArtScrollEventType.ThumbPosition, old_y, viewportY, ArtScrollOrientation.VerticalScroll);
+
+            }
+            hScrollEventArgs = null;
+            if (dx == 0)
+            {
+            }
+            else if (dx > 0)
+            {
+
+                int old_x = viewportX;
+                int viewportRight = viewportX + viewportWidth; if (viewportRight + dx > rootElement.Width)
+                {
+                    if (viewportRight < rootElement.Width)
+                    {
+                        viewportX = rootElement.Width - viewportWidth;
+                    }
+                }
+                else
+                {
+                    viewportX += dx;
+                }
+                hScrollEventArgs = new ArtScrollEventArgs(ArtScrollEventType.ThumbPosition, old_x, viewportX, ArtScrollOrientation.HorizontalScroll);
+
+            }
+            else
+            {
+                int old_x = viewportX;
+                if (old_x + dx < 0)
+                {
+                    dx = -viewportX;
+                    viewportX = 0;
+                }
+                else
+                {
+                    viewportX += dx;
+                }
+                hScrollEventArgs = new ArtScrollEventArgs(ArtScrollEventType.ThumbPosition, old_x, viewportX, ArtScrollOrientation.HorizontalScroll);
+
+            }
+            CalculateCanvasPages();
+
+        }
+        internal void ScrollBy(int dx, int dy)
+        {
+            ArtScrollEventArgs hScrollEventArgs;
+            ArtScrollEventArgs vScrollEventArgs;
+            ScrollByNotRaiseEvent(dx, dy, out hScrollEventArgs, out vScrollEventArgs);
+            if (vScrollEventArgs != null)
+            {
+                outputWindow.viewport_VScrollChanged(this, vScrollEventArgs);
+
+            }
+            if (hScrollEventArgs != null)
+            {
+                outputWindow.viewport_HScrollChanged(this, hScrollEventArgs);
+            }
+            PaintMe();
+        }
+        public void ScrollToNotRaiseScrollChangedEvent(int x, int y, out ArtScrollEventArgs hScrollEventArgs, out ArtScrollEventArgs vScrollEventArgs)
+        {
+            hScrollEventArgs = null;
+            vScrollEventArgs = null;
+            if (x > rootElement.Width - viewportWidth)
+            {
+                x = rootElement.Width - viewportWidth;
+
+            }
+            if (x < 0)
+            {
+                x = 0;
+            }
+            if (y < 0)
+            {
+                y = 0;
+            }
+            else if (y > 0)
+            {
+                if (y > rootElement.Height - viewportHeight)
+                {
+
+                    y = rootElement.Height - viewportHeight;
+                    if (y < 0)
+                    {
+                        y = 0;
+                    }
+                }
+            }
+            int old_y = viewportY; viewportX = x;
+            viewportY = y;
+            vScrollEventArgs = new ArtScrollEventArgs(ArtScrollEventType.ThumbPosition, old_y, viewportY, ArtScrollOrientation.VerticalScroll);
+            CalculateCanvasPages();
+
+        }
+        public void ScrollTo(int x, int y)
+        {
+            if (this.viewportY == y && this.viewportX == x)
+            {
+                return;
+            }
+            ArtScrollEventArgs hScrollEventArgs;
+            ArtScrollEventArgs vScrollEventArgs;
+            ScrollToNotRaiseScrollChangedEvent(x, y, out hScrollEventArgs, out vScrollEventArgs);
+
+            if (vScrollEventArgs != null)
+            {
+                outputWindow.viewport_VScrollChanged(this, vScrollEventArgs);
+
+            }
+            if (hScrollEventArgs != null)
+            {
+
+                outputWindow.viewport_HScrollChanged(this, vScrollEventArgs);
+            }
+            PaintMe();
+        }
+        void EvaluateScrollBar(out ScrollSurfaceRequestEventArgs hScrollSupportEventArgs,
+            out ScrollSurfaceRequestEventArgs vScrollSupportEventArgs)
+        {
+
+
+
+
+            hScrollSupportEventArgs = null;
+            vScrollSupportEventArgs = null;
+
+
+            v_largeChange = viewportHeight;
+            v_smallChange = v_largeChange / 4;
+
+            h_largeChange = viewportWidth;
+            h_smallChange = h_largeChange / 4;
+
+            if (rootElement.Height <= viewportHeight)
+            {
+
+                vScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(false);
+            }
+            else
+            {
+                vScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(true);
+            }
+
+            if (rootElement.Width <= viewportWidth)
+            {
+                hScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(false);
+            }
+            else
+            {
+                hScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(true);
+            }
+        }
+        void EvaluateScrollBar()
+        {
+
+            ScrollSurfaceRequestEventArgs hScrollSupportEventArgs;
+            ScrollSurfaceRequestEventArgs vScrollSupportEventArgs;
+            EvaluateScrollBar(out hScrollSupportEventArgs, out vScrollSupportEventArgs);
+            if (hScrollSupportEventArgs != null)
+            {
+                outputWindow.viewport_HScrollRequest(this, hScrollSupportEventArgs);
+            }
+            if (vScrollSupportEventArgs != null)
+            {
+                outputWindow.viewport_VScrollRequest(this, vScrollSupportEventArgs);
+            }
+
+        }
+
+        Point PhysicalCaretPosition
+        {
+
+            get
+            {
+                Point caretpos = rootElement.CaretPosition;
+                caretpos.Offset(-viewportX, -viewportY);
+                return caretpos;
+            }
+        }
+        public void SetFullMode(bool value)
+        {
+            fullMode = value;
+        }
+        internal void Caret_Blink()
+        {
+            IntPtr surfaceHandler = outputWindow.Handle;
+            IntPtr hdc = MyWin32.GetDC(surfaceHandler);
+            Point physicalCaretPosition = PhysicalCaretPosition;
+            CanvasCaret.RenderCaretBlink(hdc, physicalCaretPosition.X, physicalCaretPosition.Y);
+            MyWin32.ReleaseDC(surfaceHandler, hdc);
+        }
+        void ShowCaret()
+        {
+            Point physicalCaretPosition = PhysicalCaretPosition;
+
+            IntPtr surfaceHandler = outputWindow.Handle;
+            IntPtr hdc = MyWin32.GetDC(surfaceHandler);
+            CanvasCaret.ForceRenderCaret(hdc, physicalCaretPosition.X, physicalCaretPosition.Y);
+            MyWin32.ReleaseDC(surfaceHandler, hdc);
+            CanvasCaret.SetCaretTo(this); //
+            CanvasCaret.StartCaretBlink();
+        }
+        void HideCaret()
+        {
+            Point physicalCaretPosition = PhysicalCaretPosition;
+
+            IntPtr surfaceHandler = outputWindow.Handle;
+            IntPtr hdc = MyWin32.GetDC(surfaceHandler);
+            CanvasCaret.ForceHideCaret(hdc, physicalCaretPosition.X, physicalCaretPosition.Y);
+            MyWin32.ReleaseDC(surfaceHandler, hdc);
+            CanvasCaret.SetCaretTo(this); //
+            CanvasCaret.StopCaretBlink();
+        }
+
+        public void Close()
+        {
+            HideCaret();
+        }
+    }
+}

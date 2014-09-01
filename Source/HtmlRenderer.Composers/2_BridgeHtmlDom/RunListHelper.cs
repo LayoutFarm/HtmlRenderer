@@ -12,7 +12,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
     static class RunListHelper
     {
 
-        public static void AddRunList(CssBox toBox, BoxSpec spec, BridgeHtmlTextNode textnode)
+        public static void AddRunList(CssBox toBox, BoxSpec spec, HtmlTextNode textnode)
         {
             AddRunList(toBox, spec, textnode.InternalGetRuns(), textnode.GetOriginalBuffer(), textnode.IsWhiteSpace);
         }

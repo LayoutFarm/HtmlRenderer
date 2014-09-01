@@ -10,14 +10,13 @@ using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer.Composers.BridgeHtml
 {
-    class BridgeHtmlElement : HtmlElement
+    class HtmlElement : DomElement
     {
+
         CssBox principalBox;
         Css.BoxSpec boxSpec;
-
-        CssRuleSet elementRuleSet;
-
-        public BridgeHtmlElement(BridgeHtmlDocument owner, int prefix, int localNameIndex)
+        CssRuleSet elementRuleSet; 
+        public HtmlElement(BridgeHtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
             this.boxSpec = new Css.BoxSpec();
@@ -26,8 +25,8 @@ namespace HtmlRenderer.Composers.BridgeHtml
         {
             get { return this.boxSpec; }
         }
-        public WellknownElementName WellknownElementName { get; set; }
-        public bool TryGetAttribute(WellknownHtmlName wellknownHtmlName, out HtmlAttribute result)
+        public WellKnownDomNodeName WellknownElementName { get; set; }
+        public bool TryGetAttribute(WellknownName wellknownHtmlName, out DomAttribute result)
         {
             var found = base.FindAttribute((int)wellknownHtmlName);
             if (found != null)
@@ -41,9 +40,9 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 return false;
             }
         }
-        public bool TryGetAttribute(WellknownHtmlName wellknownHtmlName, out string value)
+        public bool TryGetAttribute(WellknownName wellknownHtmlName, out string value)
         {
-            HtmlAttribute found;
+            DomAttribute found;
             if (this.TryGetAttribute(wellknownHtmlName, out found))
             {
                 value = found.Value;
@@ -75,7 +74,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             set;
 
         }
-        internal static CssBox InternalGetPrincipalBox(BridgeHtmlElement element)
+        internal static CssBox InternalGetPrincipalBox(HtmlElement element)
         {
             return element.principalBox;
         }
@@ -89,12 +88,12 @@ namespace HtmlRenderer.Composers.BridgeHtml
             var cnode = this.ParentNode;
             while (cnode != null)
             {
-                ((BridgeHtmlElement)cnode).SkipPrincipalBoxEvalulation = false;
+                ((HtmlElement)cnode).SkipPrincipalBoxEvalulation = false;
                 cnode = cnode.ParentNode;
             }
-        } 
+        }
 
-        internal static void InvokeNotifyChangeOnIdleState(BridgeHtmlElement elem, ElementChangeKind changeKind)
+        internal static void InvokeNotifyChangeOnIdleState(HtmlElement elem, ElementChangeKind changeKind)
         {
             elem.OnChangeInIdleState(changeKind);
         }
@@ -115,17 +114,36 @@ namespace HtmlRenderer.Composers.BridgeHtml
             get;
             set;
         }
+        //------------------------------------
+        protected override void OnMouseDown(HtmlEventArgs e)
+        {
+
+
+            var box = this.GetPrincipalBox();
+            if (box != null)
+            {
+                 
+                CssBoxSvgRoot svgBox = box as CssBoxSvgRoot;
+                if (svgBox != null)
+                {
+                    SvgElementPortal.HandleSvgMouseDown(svgBox, e);
+
+                }
+            }
+            base.OnMouseDown(e);
+        }
+        
     }
 
-    sealed class BridgeRootElement : BridgeHtmlElement
+    sealed class RootElement : HtmlElement
     {
-        public BridgeRootElement(BridgeHtmlDocument ownerDoc)
+        public RootElement(BridgeHtmlDocument ownerDoc)
             : base(ownerDoc, 0, 0)
         {
         }
     }
 
-    class BridgeHtmlTextNode : HtmlTextNode
+    class HtmlTextNode : DomTextNode
     {
         //---------------------------------
         //this node may be simple text node  
@@ -133,7 +151,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         bool hasSomeChar;
         List<CssRun> runs;
 
-        public BridgeHtmlTextNode(HtmlDocument ownerDoc, char[] buffer)
+        public HtmlTextNode(WebDocument ownerDoc, char[] buffer)
             : base(ownerDoc, buffer)
         {
         }
@@ -182,8 +200,8 @@ namespace HtmlRenderer.Composers.BridgeHtml
     static class HtmlPredefineNames
     {
 
-        static readonly ValueMap<WellknownHtmlName> _wellKnownHtmlNameMap =
-            new ValueMap<WellknownHtmlName>();
+        static readonly ValueMap<WellknownName> _wellKnownHtmlNameMap =
+            new ValueMap<WellknownName>();
 
         static UniqueStringTable htmlUniqueStringTableTemplate = new UniqueStringTable();
 
@@ -192,7 +210,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             int j = _wellKnownHtmlNameMap.Count;
             for (int i = 0; i < j; ++i)
             {
-                htmlUniqueStringTableTemplate.AddStringIfNotExist(_wellKnownHtmlNameMap.GetStringFromValue((WellknownHtmlName)(i + 1)));
+                htmlUniqueStringTableTemplate.AddStringIfNotExist(_wellKnownHtmlNameMap.GetStringFromValue((WellknownName)(i + 1)));
             }
         }
         public static UniqueStringTable CreateUniqueStringTableClone()

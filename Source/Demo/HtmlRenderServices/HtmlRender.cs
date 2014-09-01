@@ -26,7 +26,7 @@ namespace HtmlRenderer
     /// <summary>
     /// Standalone static class for simple and direct HTML rendering.<br/>
     /// For WinForms UI prefer using HTML controls: <see cref="HtmlPanel"/> or <see cref="HtmlLabel"/>.<br/>
-    /// For low-level control and performance consider using <see cref="HtmlContainer"/>.<br/>
+    /// For low-level control and performance consider using <see cref="RootVisualBox"/>.<br/>
     /// </summary>
     /// <remarks>
     /// <para>
@@ -87,7 +87,7 @@ namespace HtmlRenderer
     {
         /// <summary>
         /// Adds a font family to be used in html rendering.<br/>
-        /// The added font will be used by all rendering function including <see cref="HtmlContainer"/> and all WinForms controls.
+        /// The added font will be used by all rendering function including <see cref="RootVisualBox"/> and all WinForms controls.
         /// </summary>
         /// <remarks>
         /// The given font family instance must be remain alive while the renderer is in use.<br/>
@@ -130,7 +130,7 @@ namespace HtmlRenderer
         /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the size required for the html</returns>
-        public static SizeF Measure(Graphics g, string html, HtmlContainer container,
+        public static SizeF Measure(Graphics g, string html, RootVisualBox container,
             float maxWidth = 0, CssActiveSheet cssData = null,
             EventHandler<StylesheetLoadEventArgs> stylesheetLoad = null,
             EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs> imageLoad = null)
@@ -153,7 +153,7 @@ namespace HtmlRenderer
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the size required for the html</returns>
         public static SizeF MeasureGdiPlus(Graphics g, string html,
-            HtmlContainer container,
+            RootVisualBox container,
             float maxWidth = 0, CssActiveSheet cssData = null,
             EventHandler<StylesheetLoadEventArgs> stylesheetLoad = null,
             EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs> imageLoad = null)
@@ -395,7 +395,7 @@ namespace HtmlRenderer
         /// <returns>the generated image of the html</returns>
         /// <exception cref="ArgumentOutOfRangeException">if <paramref name="backgroundColor"/> is <see cref="Color.Transparent"/></exception>.
         public static Image RenderToImage(string html,
-                        HtmlContainer container,
+                        RootVisualBox container,
                         int maxWidth = 0, int maxHeight = 0, Color backgroundColor = new Color(), CssActiveSheet cssData = null,
                         EventHandler<StylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs> imageLoad = null)
         {
@@ -426,7 +426,7 @@ namespace HtmlRenderer
         /// <exception cref="ArgumentOutOfRangeException">if <paramref name="backgroundColor"/> is <see cref="Color.Transparent"/></exception>.
         public static Image RenderToImage(
             string html,
-            HtmlContainer container,
+            RootVisualBox container,
             Size minSize, Size maxSize,
             Color backgroundColor = new Color(), CssActiveSheet cssData = null,
             EventHandler<StylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs> imageLoad = null)
@@ -441,7 +441,7 @@ namespace HtmlRenderer
             container.AvoidAsyncImagesLoading = true;
             container.AvoidImagesLateLoading = true;
 
-            HtmlContainerImpl myContainer = (HtmlContainerImpl)container;
+            WinRootVisualBox myContainer = (WinRootVisualBox)container;
             if (stylesheetLoad != null)
                 myContainer.TextContentMan.StylesheetLoadingRequest += stylesheetLoad;
 
@@ -533,7 +533,7 @@ namespace HtmlRenderer
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the generated image of the html</returns>
         public static Image RenderToImageGdiPlus(string html,
-                HtmlContainer container,
+                RootVisualBox container,
                 int maxWidth = 0, int maxHeight = 0, TextRenderingHint textRenderingHint = TextRenderingHint.AntiAlias, CssActiveSheet cssData = null,
                 EventHandler<StylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs> imageLoad = null)
         {
@@ -560,7 +560,7 @@ namespace HtmlRenderer
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the generated image of the html</returns>
         public static Image RenderToImageGdiPlus(string html,
-                        HtmlContainer container,
+                        RootVisualBox container,
                         Size minSize, Size maxSize, TextRenderingHint textRenderingHint = TextRenderingHint.AntiAlias, CssActiveSheet cssData = null,
                         EventHandler<StylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs> imageLoad = null)
         {
@@ -571,7 +571,7 @@ namespace HtmlRenderer
             container.AvoidAsyncImagesLoading = true;
             container.AvoidImagesLateLoading = true;
             container.UseGdiPlusTextRendering = true;
-            HtmlContainerImpl myContainer = (HtmlContainerImpl)container;
+            WinRootVisualBox myContainer = (WinRootVisualBox)container;
             if (stylesheetLoad != null)
                 myContainer.TextContentMan.StylesheetLoadingRequest += stylesheetLoad;
             if (imageLoad != null)
@@ -593,8 +593,7 @@ namespace HtmlRenderer
                 container.PhysicalViewportBound = new RectangleF(0, 0, finalSize.Width, finalSize.Height);
                 using (var gfx = new WinGraphics(g, container.UseGdiPlusTextRendering))
                 {
-                    container.PerformPaint(gfx);
-
+                    container.PerformPaint(gfx); 
                 }
             }
             return image;
@@ -615,7 +614,7 @@ namespace HtmlRenderer
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the size required for the html</returns>
         private static SizeF Measure(Graphics g, string html,
-            HtmlContainer container,
+            RootVisualBox container,
             float maxWidth, CssActiveSheet cssData, bool useGdiPlusTextRendering,
             EventHandler<StylesheetLoadEventArgs> stylesheetLoad, EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs> imageLoad)
         {
@@ -628,7 +627,7 @@ namespace HtmlRenderer
                 container.AvoidImagesLateLoading = true;
                 container.UseGdiPlusTextRendering = useGdiPlusTextRendering;
 
-                HtmlContainerImpl myContainer = (HtmlContainerImpl)container;
+                WinRootVisualBox myContainer = (WinRootVisualBox)container;
                 if (stylesheetLoad != null)
                     myContainer.TextContentMan.StylesheetLoadingRequest += stylesheetLoad;
                 if (imageLoad != null)
@@ -654,7 +653,7 @@ namespace HtmlRenderer
         /// <param name="minSize">the minimal size of the rendered html (zero - not limit the width/height)</param>
         /// <param name="maxSize">the maximum size of the rendered html, if not zero and html cannot be layout within the limit it will be clipped (zero - not limit the width/height)</param>
         /// <returns>return: the size of the html to be rendered within the min/max limits</returns>
-        private static Size MeasureHtmlByRestrictions(HtmlContainer htmlContainer, Size minSize, Size maxSize)
+        private static Size MeasureHtmlByRestrictions(RootVisualBox htmlContainer, Size minSize, Size maxSize)
         {
             // use desktop created graphics to measure the HTML
             using (var measureGraphics = Graphics.FromHwnd(IntPtr.Zero))
@@ -752,23 +751,30 @@ namespace HtmlRenderer
 
             if (!string.IsNullOrEmpty(html))
             {
-                using (var container = new HtmlContainerImpl())
-                {
-                    container.Location = location;
-                    container.MaxSize = maxSize;
-                    container.AvoidAsyncImagesLoading = true;
-                    container.AvoidImagesLateLoading = true;
-                    container.UseGdiPlusTextRendering = useGdiPlusTextRendering;
+
+                var boxComposer = new Composers.BoxComposer();
+                using (var visualRootBox = new WinRootVisualBox())
+                {                   
+
+                    visualRootBox.BoxComposer = boxComposer;
+
+                    visualRootBox.Location = location;
+                    visualRootBox.MaxSize = maxSize;
+                    visualRootBox.AvoidAsyncImagesLoading = true;
+                    visualRootBox.AvoidImagesLateLoading = true;
+                    visualRootBox.UseGdiPlusTextRendering = useGdiPlusTextRendering;
+
+                    
 
                     if (stylesheetLoad != null)
-                        container.TextContentMan.StylesheetLoadingRequest += stylesheetLoad;
+                        visualRootBox.TextContentMan.StylesheetLoadingRequest += stylesheetLoad;
                     if (imageLoad != null)
-                        container.ImageContentMan.ImageLoadingRequest += imageLoad;
+                        visualRootBox.ImageContentMan.ImageLoadingRequest += imageLoad;
 
-                    container.SetHtml(html, cssData);
-                    container.PerformLayout(g);
-                    container.PerformPaint(g);
-                    actualSize = container.ActualSize;
+                    visualRootBox.SetHtml(html, cssData);
+                    visualRootBox.PerformLayout(g);
+                    visualRootBox.PerformPaint(g);
+                    actualSize = visualRootBox.ActualSize;
                 }
             }
 

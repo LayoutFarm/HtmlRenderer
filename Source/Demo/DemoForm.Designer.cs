@@ -35,12 +35,10 @@ namespace HtmlRenderer.Demo
             this._runTestButton = new System.Windows.Forms.Button();
             this._samplesTreeView = new System.Windows.Forms.TreeView();
             this._splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this._htmlPanel = new HtmlRenderer.HtmlPanel();
             this._splitter = new System.Windows.Forms.Splitter();
-            this._webBrowser = new System.Windows.Forms.WebBrowser();
             this._reloadColorsLink = new System.Windows.Forms.LinkLabel();
             this._htmlEditor = new System.Windows.Forms.RichTextBox();
-            //this._htmlToolTip = new HtmlRenderer.HtmlToolTip();
+            this._htmlPanel = new HtmlRenderer.HtmlPanel();
             this._splitContainer1.Panel1.SuspendLayout();
             this._splitContainer1.Panel2.SuspendLayout();
             this._splitContainer1.SuspendLayout();
@@ -132,8 +130,6 @@ namespace HtmlRenderer.Demo
             this._samplesTreeView.Name = "_samplesTreeView";
             this._samplesTreeView.Size = new System.Drawing.Size(146, 439);
             this._samplesTreeView.TabIndex = 14;
-
-            //this._samplesTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnSamplesTreeViewAfterSelect);
             // 
             // _splitContainer2
             // 
@@ -146,7 +142,6 @@ namespace HtmlRenderer.Demo
             // 
             this._splitContainer2.Panel1.Controls.Add(this._htmlPanel);
             this._splitContainer2.Panel1.Controls.Add(this._splitter);
-            this._splitContainer2.Panel1.Controls.Add(this._webBrowser);
             // 
             // _splitContainer2.Panel2
             // 
@@ -157,39 +152,15 @@ namespace HtmlRenderer.Demo
             this._splitContainer2.TabIndex = 13;
             this._splitContainer2.TabStop = false;
             // 
-            // _htmlPanel
-            // 
-            this._htmlPanel.AutoScroll = true;
-            this._htmlPanel.AvoidGeometryAntialias = false;
-            this._htmlPanel.AvoidImagesLateLoading = false;
-            this._htmlPanel.BackColor = System.Drawing.SystemColors.Window;
-            this._htmlPanel.BaseStylesheet = null;
-            this._htmlPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._htmlPanel.Location = new System.Drawing.Point(0, 0);
-            this._htmlPanel.Name = "_htmlPanel";
-            this._htmlPanel.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
-            this._htmlPanel.Size = new System.Drawing.Size(273, 354);
-            this._htmlPanel.TabIndex = 8;
-            // 
             // _splitter
             // 
             this._splitter.Dock = System.Windows.Forms.DockStyle.Right;
-            this._splitter.Location = new System.Drawing.Point(273, 0);
+            this._splitter.Location = new System.Drawing.Point(514, 0);
             this._splitter.Name = "_splitter";
             this._splitter.Size = new System.Drawing.Size(3, 354);
             this._splitter.TabIndex = 9;
             this._splitter.TabStop = false;
             this._splitter.Visible = false;
-            // 
-            // _webBrowser
-            // 
-            this._webBrowser.Dock = System.Windows.Forms.DockStyle.Right;
-            this._webBrowser.Location = new System.Drawing.Point(276, 0);
-            this._webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this._webBrowser.Name = "_webBrowser";
-            this._webBrowser.Size = new System.Drawing.Size(241, 354);
-            this._webBrowser.TabIndex = 7;
-            this._webBrowser.Visible = false;
             // 
             // _reloadColorsLink
             // 
@@ -215,15 +186,20 @@ namespace HtmlRenderer.Demo
             this._htmlEditor.Text = "";
             this._htmlEditor.TextChanged += new System.EventHandler(this.OnHtmlEditorTextChanged);
             // 
-            // _htmlToolTip
+            // _htmlPanel
             // 
-            //this._htmlToolTip.AllowLinksHandling = true;
-            //this._htmlToolTip.AutoPopDelay = 15000;
-            //this._htmlToolTip.BaseStylesheet = null;
-            //this._htmlToolTip.InitialDelay = 500;
-            //this._htmlToolTip.MaximumSize = new System.Drawing.Size(0, 0);
-            //this._htmlToolTip.OwnerDraw = true;
-            //this._htmlToolTip.ReshowDelay = 100;
+            this._htmlPanel.AutoScroll = true;
+            this._htmlPanel.AvoidGeometryAntialias = false;
+            this._htmlPanel.AvoidImagesLateLoading = false;
+            this._htmlPanel.BackColor = System.Drawing.SystemColors.Window;
+            this._htmlPanel.BaseStylesheet = null;
+            this._htmlPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._htmlPanel.IsContextMenuEnabled = false;
+            this._htmlPanel.Location = new System.Drawing.Point(0, 0);
+            this._htmlPanel.Name = "_htmlPanel";
+            this._htmlPanel.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
+            this._htmlPanel.Size = new System.Drawing.Size(514, 354);
+            this._htmlPanel.TabIndex = 8;
             // 
             // DemoForm
             // 
@@ -257,7 +233,6 @@ namespace HtmlRenderer.Demo
         private System.Windows.Forms.SplitContainer _splitContainer2;
         private HtmlPanel _htmlPanel;
         private System.Windows.Forms.Splitter _splitter;
-        private System.Windows.Forms.WebBrowser _webBrowser;
         private System.Windows.Forms.RichTextBox _htmlEditor;
        // private HtmlToolTip _htmlToolTip;
         private System.Windows.Forms.Button _openExternalViewButton;

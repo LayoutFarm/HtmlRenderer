@@ -9,7 +9,7 @@ using HtmlRenderer.Diagnostics;
 
 namespace HtmlRenderer.Composers
 {
-    public enum WellknownElementName : byte
+    public enum WellKnownDomNodeName : byte
     {
         NotAssign, //extension , for anonymous element
         Unknown,
@@ -103,8 +103,32 @@ namespace HtmlRenderer.Composers
         [Map("param")]
         _param,
 
+
         [Map("x")]
-        X//test for extension 
+        X,//test for extension 
+
+
+
+        [Map("svg")]
+        svg,
+        [Map("rect")]
+        svg_rect,
+        [Map("circle")]
+        svg_circle,
+        [Map("ellipse")]
+        svg_ellipse,
+        [Map("polygon")]
+        svg_polygon,
+        [Map("polyline")]
+        svg_polyline,
+
+        [Map("defs")]
+        svg_defs,
+        [Map("linearGradient")]
+        svg_linearGradient,
+        [Map("stop")]
+        svg_stop,
+
     }
 
 
@@ -137,7 +161,7 @@ namespace HtmlRenderer.Composers
 
 
         static readonly ValueMap<HtmlRenderer.WebDom.WellknownCssPropertyName> _wellKnownCssPropNameMap = new ValueMap<WebDom.WellknownCssPropertyName>();
-        static readonly ValueMap<WellknownElementName> _wellknownHtmlTagNameMap = new ValueMap<WellknownElementName>();
+        static readonly ValueMap<WellKnownDomNodeName> _wellknownHtmlTagNameMap = new ValueMap<WellKnownDomNodeName>();
 
 
 
@@ -345,18 +369,18 @@ namespace HtmlRenderer.Composers
                 box.BorderSpacingHorizontal = box.BorderSpacingVertical = primValue.AsLength();
             }
         }
-        public static string GetCornerRadius(this CssBox box)
-        {
-            System.Text.StringBuilder stbuilder = new System.Text.StringBuilder();
-            stbuilder.Append(box.CornerNERadius);
-            stbuilder.Append(' ');
-            stbuilder.Append(box.CornerNWRadius);
-            stbuilder.Append(' ');
-            stbuilder.Append(box.CornerSERadius);
-            stbuilder.Append(' ');
-            stbuilder.Append(box.CornerSWRadius);
-            return stbuilder.ToString();
-        }
+        //public static string GetCornerRadius(this CssBox box)
+        //{
+        //    System.Text.StringBuilder stbuilder = new System.Text.StringBuilder();
+        //    stbuilder.Append(box.CornerNERadius);
+        //    stbuilder.Append(' ');
+        //    stbuilder.Append(box.CornerNWRadius);
+        //    stbuilder.Append(' ');
+        //    stbuilder.Append(box.CornerSERadius);
+        //    stbuilder.Append(' ');
+        //    stbuilder.Append(box.CornerSWRadius);
+        //    return stbuilder.ToString();
+        //}
         static CssUnitOrNames GetCssUnit(string u)
         {
             switch (u)
@@ -724,7 +748,7 @@ namespace HtmlRenderer.Composers
             if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.Color)
             {
                 if (value is WebDom.CssCodeColor)
-                {   
+                {
                     return ((WebDom.CssCodeColor)value).ActualColor;
                 }
                 else
@@ -842,9 +866,9 @@ namespace HtmlRenderer.Composers
         }
 
 
-        public static WellknownElementName EvaluateTagName(string name)
+        public static WellKnownDomNodeName EvaluateTagName(string name)
         {
-            return _wellknownHtmlTagNameMap.GetValueFromString(name, WellknownElementName.Unknown);
+            return _wellknownHtmlTagNameMap.GetValueFromString(name, WellKnownDomNodeName.Unknown);
         }
         internal static void SetBackgroundPosition(this CssBox box, WebDom.CssCodeValueExpression value)
         {

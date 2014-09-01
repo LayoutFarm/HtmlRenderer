@@ -36,7 +36,7 @@ namespace HtmlRenderer.WebDom
         /// Init.
         /// </summary>
         /// <param name="link">the link href that was clicked</param>
-        public HtmlLinkClickedEventArgs(string link, HtmlElement tag)
+        public HtmlLinkClickedEventArgs(string link, DomElement tag)
         {
             _link = link; 
         }

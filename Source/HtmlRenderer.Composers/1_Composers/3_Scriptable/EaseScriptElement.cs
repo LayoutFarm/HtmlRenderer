@@ -12,15 +12,17 @@ namespace HtmlRenderer.Composers
 
     public struct EaseScriptElement
     {
-        BridgeHtmlElement elem;
-        public EaseScriptElement(HtmlElement elem)
+        HtmlElement elem;
+        public EaseScriptElement(DomElement elem)
         {
-            this.elem = elem as BridgeHtmlElement;
+            this.elem = elem as HtmlElement;
         }
         public bool IsScriptable
         {
             get { return this.elem != null; }
         }
+
+        
         public void ChangeFontColor(Color newcolor)
         {
             //change prop
@@ -35,7 +37,7 @@ namespace HtmlRenderer.Composers
                 return;
             }
 
-            BridgeHtmlElement.InvokeNotifyChangeOnIdleState(
+            HtmlElement.InvokeNotifyChangeOnIdleState(
                 elem,
                 ElementChangeKind.Spec);
             //-------------------------------------
@@ -50,7 +52,7 @@ namespace HtmlRenderer.Composers
                 new CssPropertyDeclaration(
                     WellknownCssPropertyName.Color,
                     new CssCodeColor(newcolor)));
-            BridgeHtmlElement.InvokeNotifyChangeOnIdleState(elem, ElementChangeKind.Spec);
+            HtmlElement.InvokeNotifyChangeOnIdleState(elem, ElementChangeKind.Spec);
         }
         public void ChangeBackgroundColor(Color backgroundColor)
         {
@@ -63,6 +65,11 @@ namespace HtmlRenderer.Composers
             {
                 return;
             }
+
+            HtmlElement.InvokeNotifyChangeOnIdleState(
+                elem,
+                ElementChangeKind.Spec);
+
             var existingRuleSet = elem.ElementRuleSet;
             if (existingRuleSet == null)
             {
@@ -70,14 +77,18 @@ namespace HtmlRenderer.Composers
                 elem.ElementRuleSet = existingRuleSet = new CssRuleSet();
                 elem.IsStyleEvaluated = true;
             }
+         
+            //-------------------------------------
             existingRuleSet.AddCssCodeProperty(
                new CssPropertyDeclaration(
                    WellknownCssPropertyName.BackgroundColor,
                    new CssCodeColor(backgroundColor)));
-            BridgeHtmlElement.InvokeNotifyChangeOnIdleState(elem, ElementChangeKind.Spec);
-            elem.SkipPrincipalBoxEvalulation = false;
+            HtmlElement.InvokeNotifyChangeOnIdleState(elem, ElementChangeKind.Spec);
 
-            var cssbox = BridgeHtmlElement.InternalGetPrincipalBox(elem);
+            elem.SkipPrincipalBoxEvalulation = false;
+            
+            var cssbox = HtmlElement.InternalGetPrincipalBox(elem);
+
             if (cssbox != null)
             {
                 CssBox.InvalidateComputeValue(cssbox);
