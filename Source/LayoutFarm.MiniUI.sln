@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test3_MixHtml", "Test3_MixH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.HtmlRenderer.WinForm", "LayoutFarm.HtmlRenderer.WinForm\LayoutFarm.HtmlRenderer.WinForm.csproj", "{C66B2968-E6F6-4BBC-BC7B-9780F7B1A628}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlRenderer.HtmlCanvas", "HtmlRenderer.HtmlCanvas\HtmlRenderer.HtmlCanvas.csproj", "{EA5B8896-AF27-4C21-8FCC-3AE4171C621C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,10 @@ Global
 		{C66B2968-E6F6-4BBC-BC7B-9780F7B1A628}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C66B2968-E6F6-4BBC-BC7B-9780F7B1A628}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C66B2968-E6F6-4BBC-BC7B-9780F7B1A628}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA5B8896-AF27-4C21-8FCC-3AE4171C621C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA5B8896-AF27-4C21-8FCC-3AE4171C621C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA5B8896-AF27-4C21-8FCC-3AE4171C621C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA5B8896-AF27-4C21-8FCC-3AE4171C621C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

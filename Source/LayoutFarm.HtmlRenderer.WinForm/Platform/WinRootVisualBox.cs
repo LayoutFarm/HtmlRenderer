@@ -23,11 +23,11 @@ namespace HtmlRenderer
         ImageContentManager imageContentManager;
         TextContentManager textContentManager;
 
-        /// <summary>
-        /// Raised when Html Renderer request scroll to specific location.<br/>
-        /// This can occur on document anchor click.
-        /// </summary>
-        public event EventHandler<HtmlScrollEventArgs> ScrollChange;
+        ///// <summary>
+        ///// Raised when Html Renderer request scroll to specific location.<br/>
+        ///// This can occur on document anchor click.
+        ///// </summary>
+        //public event EventHandler<HtmlScrollEventArgs> ScrollChange;
 
         bool isRootCreated;
 

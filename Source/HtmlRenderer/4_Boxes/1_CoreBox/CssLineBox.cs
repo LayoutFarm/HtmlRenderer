@@ -478,7 +478,7 @@ namespace HtmlRenderer.Boxes
 
                             var wordPoint = new PointF(w.Left, w.Top); 
 
-                            g.DrawString2(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
+                            g.DrawString(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
                                textRun.TextStartIndex,
                                textRun.TextLength, font,
                                color, wordPoint,

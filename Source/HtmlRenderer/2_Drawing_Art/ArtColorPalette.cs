@@ -9,7 +9,7 @@ using System.IO;
 
 namespace HtmlRenderer.Drawing.Art
 {
- 
+    
     public class ArtGfxInstructionInfo
     {   
         public const int ROLE_BEGIN = 1;

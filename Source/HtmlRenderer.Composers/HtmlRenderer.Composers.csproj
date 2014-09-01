@@ -84,6 +84,10 @@
     <Compile Include="4_WebDom\2_Css\WellknownCssPropertyName.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HtmlRenderer.HtmlCanvas\HtmlRenderer.HtmlCanvas.csproj">
+      <Project>{EA5B8896-AF27-4C21-8FCC-3AE4171C621C}</Project>
+      <Name>HtmlRenderer.HtmlCanvas</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HtmlRenderer.Svg\HtmlRenderer.Svg.csproj">
       <Project>{4E185663-158F-4B19-A86D-435D9F203A07}</Project>
       <Name>HtmlRenderer.Svg</Name>

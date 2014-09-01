@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C66B2968-E6F6-4BBC-BC7B-9780F7B1A628}</ProjectGuid>
+    <ProjectGuid>{EA5B8896-AF27-4C21-8FCC-3AE4171C621C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LayoutFarm.HtmlRenderer.WinForm</RootNamespace>
-    <AssemblyName>LayoutFarm.HtmlRenderer.WinForm</AssemblyName>
+    <RootNamespace>HtmlRenderer.HtmlCanvas</RootNamespace>
+    <AssemblyName>HtmlRenderer.HtmlCanvas</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,40 +35,15 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\HtmlRefreshEventArgs.cs" />
-    <Compile Include="Events\HtmlRenderErrorEventArgs.cs" />
-    <Compile Include="Platform\FontsUtils.cs" />
-    <Compile Include="Platform\Win32Utils.cs" />
-    <Compile Include="Platform\WinGraphics.cs" />
-    <Compile Include="Platform\WinHtmlRootVisualBoxExtension.cs" />
-    <Compile Include="Platform\WinRootVisualBox.cs" />
+    <Compile Include="CanvasContextRendering2D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UIHtmlBox\ArtUIHtmlBox.cs" />
-    <Compile Include="UIHtmlBox\ArtVisualHtmlBox.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HtmlRenderer.Composers\HtmlRenderer.Composers.csproj">
-      <Project>{401603CD-34FB-431F-9E1C-59C952932B94}</Project>
-      <Name>HtmlRenderer.Composers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\HtmlRenderer\HtmlRenderer.csproj">
       <Project>{1B058920-24B4-4140-8AE7-C8C6C38CA52D}</Project>
       <Name>HtmlRenderer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.LeanBox\LayoutFarm.LeanBox.csproj">
-      <Project>{5CDDBA62-67E4-40AA-A3C0-AFAE030E6969}</Project>
-      <Name>LayoutFarm.LeanBox</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.MiniUI\LayoutFarm.MiniUI.csproj">
-      <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
-      <Name>LayoutFarm.MiniUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.PlatformSpecific\LayoutFarm.PlatformSpecific.csproj">
-      <Project>{8424932F-2499-4A72-87D8-1E1246EF8E59}</Project>
-      <Name>LayoutFarm.PlatformSpecific</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

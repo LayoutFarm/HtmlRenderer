@@ -119,55 +119,60 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="comment16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\comment16.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="favorites32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\favorites32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="font32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\font32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="image32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\image32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="method16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\method16.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="property16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\property16.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Tooltip" xml:space="preserve">
-    <value>&lt;b&gt;HtmlPanel control showing &lt;u&gt;HTML Renderer&lt;/u&gt; capabilities&lt;/b&gt;
-		&lt;table border="0" style="margin: 10px 20px;"&gt;
-                &lt;tr&gt;
-                    &lt;td width="32" style="padding: 2px 5px 0 0"&gt;
-                        &lt;img src="HtmlIcon" /&gt;
-                    &lt;/td&gt;
-                    &lt;td&gt;
-                        You can select html samples on the left or you can edit &lt;br/&gt; the HTML of any document using the editor on the bottom.
-                    &lt;/td&gt;
-                &lt;/tr&gt;
-            &lt;/table&gt;
-		&lt;hr/&gt;
-		&lt;br/&gt;
-		&lt;div&gt;
-			This is an &lt;b&gt;HtmlToolTip&lt;/b&gt; and it's very &lt;b color=blue&gt;COOL&lt;/b&gt;!!!&lt;br/&gt;
-			You can even click on the &lt;a href="https://htmlrenderer.codeplex.com/"&gt;links&lt;/a&gt;!
-		&lt;/div&gt;</value>
-  </data>
-  <data name="web_pallete" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\web_pallete.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="html" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\html.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Event16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\event16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="html32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\html32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>Resources\comment16.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CustomFont" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\customfont.ttf;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>Resources\CustomFont.ttf;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="delete16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\delete16.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="delete32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\delete32.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Event16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Event16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="exclamation32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\exclamation32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="favorites32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\favorites32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="font32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\font32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="formula32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\formula32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="html" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\html.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="html32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\html32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="image32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\image32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="method16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\method16.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="paly32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\paly32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="property16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\property16.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="property32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\property32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refreshdocument32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\refreshdocument32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="web_pallete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\web_pallete.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Window" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Window.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
