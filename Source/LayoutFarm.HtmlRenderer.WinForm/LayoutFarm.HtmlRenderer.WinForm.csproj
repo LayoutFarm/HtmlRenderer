@@ -36,11 +36,8 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\HtmlLinkClickedEventArgs.cs" />
-    <Compile Include="Events\HtmlLinkClickedException.cs" />
     <Compile Include="Events\HtmlRefreshEventArgs.cs" />
     <Compile Include="Events\HtmlRenderErrorEventArgs.cs" />
-    <Compile Include="Events\HtmlScrollEventArgs.cs" />
     <Compile Include="Platform\FontsUtils.cs" />
     <Compile Include="Platform\Win32Utils.cs" />
     <Compile Include="Platform\WinGraphics.cs" />
