@@ -522,7 +522,7 @@ namespace LayoutFarm.Presentation.Text
 #endif
         }
 
-        
+
         public override void TopDownReCalculateContentSize(VisualElementArgs vinv)
         {
 #if DEBUG

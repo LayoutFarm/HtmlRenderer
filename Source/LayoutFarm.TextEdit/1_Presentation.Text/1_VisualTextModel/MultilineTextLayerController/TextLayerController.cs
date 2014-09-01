@@ -23,13 +23,11 @@ namespace LayoutFarm.Presentation.Text
             this.visualTextSurface.TextDomListener = listener;
         }
         public void AddTextRunsToCurrentLine(IEnumerable<EditableVisualTextRun> textRuns, VisualElementArgs vinv)
-        {
-
+        {   
             this.innerTextMan.AddTextRunsToCurrentLine(textRuns, vinv);
         }
         public void SplitCurrentLineIntoNewLine(VisualElementArgs vinv)
         {
-
             this.innerTextMan.SplitCurrentLineIntoNewLine(vinv);
 
         }

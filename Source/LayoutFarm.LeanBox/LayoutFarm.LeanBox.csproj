@@ -73,7 +73,7 @@
     <Compile Include="1_VisualPresentation\02_Styles\ArtAlignment.cs" />
     <Compile Include="1_VisualPresentation\02_Styles\BoxStyle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="2_VisualPresentationBase\ArtCanvas.cs" />
+    <Compile Include="2_VisualPresentationBase\CanvasBase.cs" />
     <Compile Include="2_VisualPresentationBase\InternalRect.cs" />
     <Compile Include="2_VisualPresentationBase\InternalRect2.cs" />
     <Compile Include="2_VisualPresentationBase\ArtColorPalette.cs" />

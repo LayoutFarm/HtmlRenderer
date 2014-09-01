@@ -17,7 +17,8 @@ namespace LayoutFarm.Presentation.Text
     public sealed partial class EditableVisualElementLine : LinkedList<EditableVisualTextRun>
     {
 
-        int currentLineNumber; internal EditableTextFlowLayer editableFlowLayer;
+        int currentLineNumber; 
+        internal EditableTextFlowLayer editableFlowLayer;
 
         int actualLineHeight;
         int actualLineWidth;
@@ -27,11 +28,7 @@ namespace LayoutFarm.Presentation.Text
         const int LINE_CONTENT_ARRANGED = 1 << (1 - 1);
         const int LINE_SIZE_VALID = 1 << (2 - 1);
         const int LOCAL_SUSPEND_LINE_REARRANGE = 1 << (3 - 1);
-        const int END_WITH_LINE_BREAK = 1 << (4 - 1);
-
-
-
-
+        const int END_WITH_LINE_BREAK = 1 << (4 - 1); 
         public const int DEFAULT_LINE_HEIGHT = 17;
 
 #if DEBUG

@@ -10,11 +10,11 @@ namespace LayoutFarm.Presentation.SampleControls
 {
 
 
-    public class ArtUITextBox : UIElement
+    public class UITextBox : UIElement
     {
         ArtVisualElement primaryVisualElement;
         internal ArtVisualTextEditBox visualTextSurface;
-        public ArtUITextBox(int width, int height)
+        public UITextBox(int width, int height)
         {
 
             visualTextSurface = new ArtVisualTextEditBox(width, height, false);
@@ -82,7 +82,7 @@ namespace LayoutFarm.Presentation.SampleControls
         }
         static BoxStyle textBoxRole;
 
-        static ArtUITextBox()
+        static UITextBox()
         {
             textBoxRole = InternalVisualRoleHelper.CreateSimpleRole(Color.White);
         }

@@ -17,7 +17,7 @@ namespace LayoutFarm.Presentation
         public CanvasBase canvas;
         public InternalRect updateArea;
         public VisualPaintEventArgs(CanvasBase canvas, InternalRect updateArea)
-        {
+        {   
             this.canvas = canvas;
             this.updateArea = updateArea;
         }

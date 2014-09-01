@@ -3,14 +3,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-
-using System.Drawing;
-
-
-
-
-
+using System.Text; 
+using System.Drawing; 
 namespace LayoutFarm.Presentation
 {
     public static class ArtVisualElementUtils
@@ -49,14 +43,7 @@ namespace LayoutFarm.Presentation
                 }
                 local_desiredHeight += visualElement.ElementDesiredHeight;
                 curNode = curNode.Next;
-            }
-
-
-
-
-
-
-
+            } 
             return new Size(local_desiredWidth, local_desiredHeight);
         }
 

@@ -14,10 +14,8 @@ namespace LayoutFarm.Presentation.Text
     {   
         private EditableVisualTextRun(char[] myBuffer)
             : base(myBuffer)
-        {
-
-        }
-
+        { 
+        } 
         public EditableVisualTextRun(char c)
             : base(c)
         {

@@ -106,7 +106,7 @@ namespace TestGraphicPackage2
             //================================================== 
 
             //textbox
-            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 100, true);
+            var textbox = new LayoutFarm.Presentation.SampleControls.UIMultiLineTextBox(400, 100, true);
             var visualTextBox = textbox.PrimaryVisualElement;
             viewport.AddContent(visualTextBox);
 
