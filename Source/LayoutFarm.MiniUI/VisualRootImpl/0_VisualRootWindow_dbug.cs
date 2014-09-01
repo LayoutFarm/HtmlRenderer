@@ -12,7 +12,7 @@ using LayoutFarm.Presentation;
 namespace LayoutFarm.Presentation
 {
 #if DEBUG
-    partial class ArtVisualWindowImpl
+    partial class VisualWindowImpl
     {
 #if DEBUG
         public static bool dbugMark01;
@@ -55,7 +55,7 @@ namespace LayoutFarm.Presentation
 
         public static ArtVisualElement dbugVE_HighlightMe;
 
-        public override void dbugShowRenderPart(ArtCanvas canvasPage, InternalRect updateArea)
+        public override void dbugShowRenderPart(CanvasBase canvasPage, InternalRect updateArea)
         {
 
             VisualRoot visualroot = this.dbugVRoot;

@@ -106,7 +106,7 @@ namespace LayoutFarm.Presentation
        
         public void SwapCurrentDragElement(ArtVisualElement withThisElement)
         {
-            ArtVisualRootWindow winroot = this.WinRoot; if (winroot != null)
+            VisualRootWindow winroot = this.WinRoot; if (winroot != null)
             {
                 winroot.CurrentDraggingElement = withThisElement;
             }

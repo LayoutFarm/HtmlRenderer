@@ -12,18 +12,18 @@ namespace LayoutFarm.Presentation
     class QuadPages
     {
 
-        public ArtCanvas pageA;
-        public ArtCanvas pageB;
-        public ArtCanvas pageC;
-        public ArtCanvas pageD;
+        public CanvasBase pageA;
+        public CanvasBase pageB;
+        public CanvasBase pageC;
+        public CanvasBase pageD;
 
 
-        ArtCanvasCollection physicalCanvasCollection;
+        CanvasCollection physicalCanvasCollection;
 
         public QuadPages(int cachedPageNum, int eachCachedPageWidth, int eachCachedPageHeight)
         {
 
-            physicalCanvasCollection = new ArtCanvasCollection(cachedPageNum, eachCachedPageWidth, eachCachedPageHeight);
+            physicalCanvasCollection = new CanvasCollection(cachedPageNum, eachCachedPageWidth, eachCachedPageHeight);
 
         }
         public int EachPageWidth
@@ -105,7 +105,7 @@ namespace LayoutFarm.Presentation
         public const int PAGE_ABCD = 3;
 
         public void RenderToOutputWindowFullMode(
-ArtVisualRootWindow rootElement,
+VisualRootWindow rootElement,
 IntPtr destOutputHdc,
 int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
@@ -195,7 +195,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
 
         }
 
-        static void UpdateAllArea(ArtCanvas artCanvas, ArtVisualRootWindow rootElement)
+        static void UpdateAllArea(CanvasBase artCanvas, VisualRootWindow rootElement)
         {
 
             artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
@@ -222,7 +222,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
 
             artCanvas.OffsetCanvasOrigin(artCanvas.Left, artCanvas.Top);
         }
-        static void UpdateInvalidArea(ArtCanvas artCanvas, ArtVisualRootWindow rootElement, VisualDrawingChain renderingChain)
+        static void UpdateInvalidArea(CanvasBase artCanvas, VisualRootWindow rootElement, VisualDrawingChain renderingChain)
         {
 
             List<ArtVisualElement> selectedVisualElements = renderingChain.selectedVisualElements;
@@ -284,7 +284,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
                 selectedVisualElements[i].IsInRenderChain = true;
             }
         }
-        static void UpdateInvalidArea(ArtCanvas artCanvas, ArtVisualRootWindow rootElement)
+        static void UpdateInvalidArea(CanvasBase artCanvas, VisualRootWindow rootElement)
         {
 #if DEBUG
 #endif
@@ -307,7 +307,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
 
 
         public void RenderToOutputWindowPartialMode(
-        ArtVisualRootWindow rootElement,
+        VisualRootWindow rootElement,
         IntPtr destOutputHdc,
         int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
@@ -614,7 +614,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         public void TransferDataFromSourceCanvas(
             InternalRect logicalArea,
             int viewportX, int viewportY,
-            int viewportWidth, int viewportHeight, ArtCanvas destPage)
+            int viewportWidth, int viewportHeight, CanvasBase destPage)
         {
 
             Rectangle clipRect = Rectangle.Intersect(
@@ -697,8 +697,8 @@ clipRect), destPage);
 
         }
         void TransferDataFromSourceCanvas(
-                ArtCanvas sourceCanvas,
-                InternalRect logicalSourceArea, Rectangle physicalUpdateArea, ArtCanvas destPage)
+                CanvasBase sourceCanvas,
+                InternalRect logicalSourceArea, Rectangle physicalUpdateArea, CanvasBase destPage)
         {
 
             Rectangle logicalClip = Rectangle.Intersect(logicalSourceArea.ToRectangle(), sourceCanvas.Rect);
@@ -712,7 +712,7 @@ physicalUpdateArea);
         }
 
 #if DEBUG
-        void dbug_PrintBitbltInfo(ArtCanvas srcCanvas, string srcCanvasName, int srcX, int srcY, ArtCanvas destCanvas, Rectangle destRect)
+        void dbug_PrintBitbltInfo(CanvasBase srcCanvas, string srcCanvasName, int srcX, int srcY, CanvasBase destCanvas, Rectangle destRect)
         {
             srcX -= srcCanvas.Left;
             srcY -= srcCanvas.Top;

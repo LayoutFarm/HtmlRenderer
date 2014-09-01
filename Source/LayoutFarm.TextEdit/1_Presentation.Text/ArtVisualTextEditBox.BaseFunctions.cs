@@ -24,16 +24,16 @@ namespace LayoutFarm.Presentation.Text
         public ArtVisualTextEditBox(int width, int height, bool isMultiLine) :
             base(width, height, VisualElementNature.TextEditContainer)
         {
-            RegisterNativeEvent((1 << ArtEventIdentifier.NE_DRAG_START)
-                | (1 << ArtEventIdentifier.NE_DRAGING)
-                | (1 << ArtEventIdentifier.NE_DRAG_STOP)
-                | (1 << ArtEventIdentifier.NE_MOUSE_DOWN)
-                | (1 << ArtEventIdentifier.NE_MOUSE_MOVE)
-                | (1 << ArtEventIdentifier.NE_MOUSE_HOVER)
-                | (1 << ArtEventIdentifier.NE_MOUSE_UP)
-                | (1 << ArtEventIdentifier.NE_DBLCLICK)
-                | (1 << ArtEventIdentifier.NE_KEY_DOWN)
-                | (1 << ArtEventIdentifier.NE_KEY_PRESS));
+            RegisterNativeEvent((1 << UIEventIdentifier.NE_DRAG_START)
+                | (1 << UIEventIdentifier.NE_DRAGING)
+                | (1 << UIEventIdentifier.NE_DRAG_STOP)
+                | (1 << UIEventIdentifier.NE_MOUSE_DOWN)
+                | (1 << UIEventIdentifier.NE_MOUSE_MOVE)
+                | (1 << UIEventIdentifier.NE_MOUSE_HOVER)
+                | (1 << UIEventIdentifier.NE_MOUSE_UP)
+                | (1 << UIEventIdentifier.NE_DBLCLICK)
+                | (1 << UIEventIdentifier.NE_KEY_DOWN)
+                | (1 << UIEventIdentifier.NE_KEY_PRESS));
 
 
             textLayer = new EditableTextFlowLayer(this);
@@ -101,7 +101,7 @@ namespace LayoutFarm.Presentation.Text
 
         }
 
-        protected override void DrawSubGround(ArtCanvas canvasPage, InternalRect updateArea)
+        protected override void DrawSubGround(CanvasBase canvasPage, InternalRect updateArea)
         {
             if (internalTextLayerController.SelectionRange != null)
             {
@@ -189,7 +189,7 @@ namespace LayoutFarm.Presentation.Text
         {
 
             internalTextLayerController.CancelSelect();
-            ArtEditableVisualTextRun textRun = this.CurrentTextRun;
+            EditableVisualTextRun textRun = this.CurrentTextRun;
             if (textRun != null)
             {
                 VisualPointInfo pointInfo = internalTextLayerController.GetCurrentPointInfo();
@@ -274,11 +274,11 @@ namespace LayoutFarm.Presentation.Text
             {
                 return;
             }
-            ArtKeys keycode = (ArtKeys)e.KeyData;
+            UIKeys keycode = (UIKeys)e.KeyData;
 
             switch (keycode)
             {
-                case ArtKeys.Back:
+                case UIKeys.Back:
                     {
 
                         VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
@@ -312,7 +312,7 @@ namespace LayoutFarm.Presentation.Text
                         EnsureCaretVisible(vinv);
                         e.FreeVisualInvalidateCanvasArgs(vinv);
                     } break;
-                case ArtKeys.Home:
+                case UIKeys.Home:
                     {
 
                         if (!e.IsShiftKeyDown)
@@ -334,7 +334,7 @@ namespace LayoutFarm.Presentation.Text
                         EnsureCaretVisible(vinv);
                         e.FreeVisualInvalidateCanvasArgs(vinv);
                     } break;
-                case ArtKeys.End:
+                case UIKeys.End:
                     {
                         if (!e.IsShiftKeyDown)
                         {
@@ -359,7 +359,7 @@ namespace LayoutFarm.Presentation.Text
                         EnsureCaretVisible(vinv);
                         e.FreeVisualInvalidateCanvasArgs(vinv);
                     } break;
-                case ArtKeys.Delete:
+                case UIKeys.Delete:
                     {
 
                         VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
@@ -394,7 +394,7 @@ namespace LayoutFarm.Presentation.Text
                         if (textSurfaceEventListener != null)
                         {
 
-                            if (keycode >= ArtKeys.F1 && keycode <= ArtKeys.F12)
+                            if (keycode >= UIKeys.F1 && keycode <= UIKeys.F12)
                             {
                                 VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
                                 InvalidateGraphicLocalArea(this, GetSelectionUpdateArea(), vinv);
@@ -412,7 +412,7 @@ namespace LayoutFarm.Presentation.Text
 
                 switch (keycode)
                 {
-                    case ArtKeys.C:
+                    case UIKeys.C:
                         {
                             StringBuilder stBuilder = GetFreeStringBuilder();
                             internalTextLayerController.CopySelectedTextToPlainText(stBuilder);
@@ -430,7 +430,7 @@ namespace LayoutFarm.Presentation.Text
                             ReleaseStringBuilder(stBuilder);
 
                         } break;
-                    case ArtKeys.V:
+                    case UIKeys.V:
                         {
 
                             if (Clipboard.ContainUnicodeText())
@@ -438,8 +438,8 @@ namespace LayoutFarm.Presentation.Text
                                 VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
 
                                 internalTextLayerController.AddTextRunsToCurrentLine(
-                                    new ArtEditableVisualTextRun[]{ 
-                                        new ArtEditableVisualTextRun( 
+                                    new EditableVisualTextRun[]{ 
+                                        new EditableVisualTextRun( 
                                             Clipboard.GetUnicodeText())
                                            }, vinv);
                                 EnsureCaretVisible(vinv);
@@ -447,7 +447,7 @@ namespace LayoutFarm.Presentation.Text
                             }
 
                         } break;
-                    case ArtKeys.X:
+                    case UIKeys.X:
                         {
 
                             if (internalTextLayerController.SelectionRange != null)
@@ -475,7 +475,7 @@ namespace LayoutFarm.Presentation.Text
 
                         } break;
 
-                    case ArtKeys.Z:
+                    case UIKeys.Z:
                         {
                             VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
                             internalTextLayerController.UndoLastAction(vinv);
@@ -483,7 +483,7 @@ namespace LayoutFarm.Presentation.Text
                             e.FreeVisualInvalidateCanvasArgs(vinv);
                         } break;
 
-                    case ArtKeys.Y:
+                    case UIKeys.Y:
                         {
 
                             VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
@@ -492,7 +492,7 @@ namespace LayoutFarm.Presentation.Text
                             e.FreeVisualInvalidateCanvasArgs(vinv);
 
                         } break;
-                    case ArtKeys.B:
+                    case UIKeys.B:
                         {
                             BoxStyle defaultBeh1 = internalTextLayerController.GetFirstTextStyleInSelectedRange();
 
@@ -538,17 +538,17 @@ namespace LayoutFarm.Presentation.Text
 
         public bool OnProcessDialogKey(UIKeyEventArgs e)
         {
-            ArtKeys keyData = (ArtKeys)e.KeyData;
+            UIKeys keyData = (UIKeys)e.KeyData;
 
 
-            if (isInVerticalPhase && (keyData != ArtKeys.Up || keyData != ArtKeys.Down))
+            if (isInVerticalPhase && (keyData != UIKeys.Up || keyData != UIKeys.Down))
             {
                 isInVerticalPhase = false;
             }
             switch (keyData)
             {
-                case ArtKeys.Return:
-                case ArtKeys.Return | ArtKeys.Shift:
+                case UIKeys.Return:
+                case UIKeys.Return | UIKeys.Shift:
                     {
 
                         if (textSurfaceEventListener != null &&
@@ -593,7 +593,7 @@ namespace LayoutFarm.Presentation.Text
                         }
                         return true;
                     }
-                case ArtKeys.Left:
+                case UIKeys.Left:
                     {
                         if (textSurfaceEventListener != null &&
                             TextSurfaceEventListener.NotifyPreviewArrow(textSurfaceEventListener, keyData))
@@ -660,7 +660,7 @@ namespace LayoutFarm.Presentation.Text
                         e.FreeVisualInvalidateCanvasArgs(vinv);
                         return true;
                     }
-                case ArtKeys.Right:
+                case UIKeys.Right:
                     {
                         if (textSurfaceEventListener != null &&
                             TextSurfaceEventListener.NotifyPreviewArrow(textSurfaceEventListener, keyData))
@@ -729,7 +729,7 @@ namespace LayoutFarm.Presentation.Text
                         e.FreeVisualInvalidateCanvasArgs(vinv);
                         return true;
                     }
-                case ArtKeys.Down:
+                case UIKeys.Down:
                     {
                         if (textSurfaceEventListener != null &&
                             TextSurfaceEventListener.NotifyPreviewArrow(textSurfaceEventListener, keyData))
@@ -779,7 +779,7 @@ namespace LayoutFarm.Presentation.Text
                         return true;
 
                     }
-                case ArtKeys.Up:
+                case UIKeys.Up:
                     {
                         if (textSurfaceEventListener != null &&
                             TextSurfaceEventListener.NotifyPreviewArrow(textSurfaceEventListener, keyData))
@@ -829,7 +829,7 @@ namespace LayoutFarm.Presentation.Text
                         }
                         return true;
                     }
-                case ArtKeys.Tab:
+                case UIKeys.Tab:
                     {
                         VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
                         DoTab(vinv);

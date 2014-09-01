@@ -24,7 +24,7 @@ namespace LayoutFarm.Presentation
         int viewportHeight;
 
 
-        ArtVisualWindowImpl rootElement;
+        VisualWindowImpl rootElement;
 
         QuadPages quadPages = null;
 
@@ -42,7 +42,7 @@ namespace LayoutFarm.Presentation
         bool fullMode = true;
         IArtSurfaceViewportControl outputWindow;
         public CanvasViewport(IArtSurfaceViewportControl outputWindow,
-            ArtVisualWindowImpl winroot,
+            VisualWindowImpl winroot,
             Size viewportSize, int cachedPageNum)
         {
             this.outputWindow = outputWindow;
@@ -153,9 +153,9 @@ namespace LayoutFarm.Presentation
             MyWin32.ReleaseDC(outputWindow.Handle, hdc);
 #if DEBUG
 
-            if (ArtVisualWindowImpl.dbugVE_HighlightMe != null)
+            if (VisualWindowImpl.dbugVE_HighlightMe != null)
             {
-                outputWindow.dbug_HighlightMeNow(ArtVisualWindowImpl.dbugVE_HighlightMe.GetGlobalRect());
+                outputWindow.dbug_HighlightMeNow(VisualWindowImpl.dbugVE_HighlightMe.GetGlobalRect());
 
             }
 #endif

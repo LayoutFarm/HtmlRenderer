@@ -7,11 +7,7 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-
-
-
-
-
+     
     public class ArtHitPointChain
     {
         public struct HitPair

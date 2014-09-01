@@ -98,7 +98,7 @@ namespace LayoutFarm.Presentation
 
 
         public abstract void WindowRootNotifyInvalidArea(InternalRect clientRect);
-        public abstract void DrawToThisPage(ArtCanvas destPage, InternalRect updateArea);
+        public abstract void DrawToThisPage(CanvasBase destPage, InternalRect updateArea);
         //------------------------------------
     }
 

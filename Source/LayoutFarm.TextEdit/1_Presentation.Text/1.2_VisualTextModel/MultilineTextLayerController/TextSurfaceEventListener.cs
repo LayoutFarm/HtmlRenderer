@@ -13,14 +13,14 @@ namespace LayoutFarm.Presentation.Text
     {
 
         public bool updateJustCurrentLine;
-        public readonly ArtKeys key;
+        public readonly UIKeys key;
         public readonly char c;
         public bool Canceled;
         public TextDomEventArgs(char c)
         {
             this.c = c;
         }
-        public TextDomEventArgs(ArtKeys key)
+        public TextDomEventArgs(UIKeys key)
         {
             this.key = key;
         }
@@ -78,7 +78,7 @@ namespace LayoutFarm.Presentation.Text
         {
             if (listener.PreviewEnterKeyDown != null)
             {
-                TextDomEventArgs e = new TextDomEventArgs(ArtKeys.Enter);
+                TextDomEventArgs e = new TextDomEventArgs(UIKeys.Enter);
                 listener.PreviewEnterKeyDown(listener, e);
                 return e.Canceled;
             }
@@ -88,13 +88,13 @@ namespace LayoutFarm.Presentation.Text
         {
             if (listener.PreviewBackSpaceKeyDown != null)
             {
-                TextDomEventArgs e = new TextDomEventArgs(ArtKeys.Back);
+                TextDomEventArgs e = new TextDomEventArgs(UIKeys.Back);
                 listener.PreviewBackSpaceKeyDown(listener, e);
                 return e.Canceled;
             }
             return false;
         }
-        internal static bool NotifyPreviewArrow(TextSurfaceEventListener listener, ArtKeys key)
+        internal static bool NotifyPreviewArrow(TextSurfaceEventListener listener, UIKeys key)
         {
 
             if (listener.PreviewArrowKeyDown != null)
@@ -118,7 +118,7 @@ namespace LayoutFarm.Presentation.Text
             }
             return false;
         }
-        internal static void NotifyArrowKeyCaretPosChanged(TextSurfaceEventListener listener, ArtKeys key)
+        internal static void NotifyArrowKeyCaretPosChanged(TextSurfaceEventListener listener, UIKeys key)
         {
             if (listener.ArrowKeyCaretPosChanged != null)
             {
@@ -178,7 +178,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        internal static void NotifyFunctionKeyDown(TextSurfaceEventListener listener, ArtKeys key)
+        internal static void NotifyFunctionKeyDown(TextSurfaceEventListener listener, UIKeys key)
         {
 
         }

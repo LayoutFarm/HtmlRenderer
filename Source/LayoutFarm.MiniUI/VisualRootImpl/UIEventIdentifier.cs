@@ -9,7 +9,7 @@ using System.Drawing;
 namespace LayoutFarm.Presentation
 {
 
-    public static class ArtEventIdentifier
+    public static class UIEventIdentifier
     {
 
         public const int NE_KEY_PRESS = 1;
@@ -40,14 +40,7 @@ namespace LayoutFarm.Presentation
         public const int NE_FOCUS = 23;
         public const int NE_LOST_FOCUS = 24;
         public const int NE_SIZE_CHANGED = 25;
-        public const int NE_LOST_MOUSE_FOCUS = 26;
-
-
-
-
-
-
-
+        public const int NE_LOST_MOUSE_FOCUS = 26; 
 
     }
 

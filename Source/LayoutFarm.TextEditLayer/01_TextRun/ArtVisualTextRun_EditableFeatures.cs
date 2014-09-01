@@ -9,11 +9,11 @@ using System.Drawing.Drawing2D;
 namespace LayoutFarm.Presentation.Text
 {
 
-    partial class ArtEditableVisualTextRun
+    partial class EditableVisualTextRun
     {
-        internal ArtEditableVisualTextRun Remove(int startIndex, int length, bool withFreeRun, VisualElementArgs vinv)
+        internal EditableVisualTextRun Remove(int startIndex, int length, bool withFreeRun, VisualElementArgs vinv)
         {
-            ArtEditableVisualTextRun freeRun = null;
+            EditableVisualTextRun freeRun = null;
             if (startIndex > -1 && length > 0)
             {
 
@@ -42,16 +42,16 @@ namespace LayoutFarm.Presentation.Text
                 return null;
             }
         }
-        public static ArtEditableVisualTextRun InnerRemove(ArtEditableVisualTextRun tt, int startIndex, int length, bool withFreeRun, VisualElementArgs vinv)
+        public static EditableVisualTextRun InnerRemove(EditableVisualTextRun tt, int startIndex, int length, bool withFreeRun, VisualElementArgs vinv)
         {
             return tt.Remove(startIndex, length, withFreeRun, vinv);
         }
-        public static ArtEditableVisualTextRun InnerRemove(ArtEditableVisualTextRun tt, int startIndex, bool withFreeRun, VisualElementArgs vinv)
+        public static EditableVisualTextRun InnerRemove(EditableVisualTextRun tt, int startIndex, bool withFreeRun, VisualElementArgs vinv)
         {
 
             return tt.Remove(startIndex, tt.CharacterCount - (startIndex), withFreeRun, vinv);
         }
-        public static VisualLocationInfo InnerGetCharacterFromPixelOffset(ArtEditableVisualTextRun tt, int pixelOffset)
+        public static VisualLocationInfo InnerGetCharacterFromPixelOffset(EditableVisualTextRun tt, int pixelOffset)
         {
             return tt.GetCharacterFromPixelOffset(pixelOffset);
         }
@@ -100,7 +100,7 @@ namespace LayoutFarm.Presentation.Text
             }
 
         }
-        public ArtEditableVisualTextRun LeftCopy(int index)
+        public EditableVisualTextRun LeftCopy(int index)
         {
 
             if (index > -1)

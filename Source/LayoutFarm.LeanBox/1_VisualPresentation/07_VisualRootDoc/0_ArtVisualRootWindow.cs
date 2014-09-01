@@ -8,12 +8,12 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-    public abstract partial class ArtVisualRootWindow : ArtVisualContainerBase
+    public abstract partial class VisualRootWindow : ArtVisualContainerBase
     {
         VisualRoot visualRoot;
         VisualLayer groundLayer;
 
-        public ArtVisualRootWindow(VisualRoot visualRoot, int width, int height)
+        public VisualRootWindow(VisualRoot visualRoot, int width, int height)
             : base(width, height, VisualElementNature.WindowRoot)
         {
             this.visualRoot = visualRoot;
@@ -64,7 +64,7 @@ namespace LayoutFarm.Presentation
         }
 
 #if DEBUG
-        public abstract void dbugShowRenderPart(ArtCanvas canvasPage, InternalRect updateArea);
+        public abstract void dbugShowRenderPart(CanvasBase canvasPage, InternalRect updateArea);
 #endif
     }
 }

@@ -12,13 +12,13 @@ namespace LayoutFarm.Presentation.Text
     partial class InternalTextLayerController
     {
 
-        public void ReplaceCurrentLineTextRun(IEnumerable<ArtEditableVisualTextRun> textruns)
+        public void ReplaceCurrentLineTextRun(IEnumerable<EditableVisualTextRun> textruns)
         {
             textLineWriter.ReplaceCurrentLine(textruns);
         }
 
 
-        public void ReplaceLine(int lineNum, IEnumerable<ArtEditableVisualTextRun> textruns)
+        public void ReplaceLine(int lineNum, IEnumerable<EditableVisualTextRun> textruns)
         {
 
             if (textLineWriter.LineNumber == backGroundTextLineWriter.LineNumber)
@@ -34,7 +34,7 @@ namespace LayoutFarm.Presentation.Text
         }
 
 
-        public void LoadTextRun(IEnumerable<ArtEditableVisualTextRun> runs)
+        public void LoadTextRun(IEnumerable<EditableVisualTextRun> runs)
         {
             this.CancelSelect();
             textLineWriter.Clear();
@@ -43,7 +43,7 @@ namespace LayoutFarm.Presentation.Text
             textLineWriter.MoveToLine(0);
         }
 
-        public void ReplaceCurrentTextRunContent(int nBackSpace, ArtEditableVisualTextRun newTextRun, VisualElementArgs vinv)
+        public void ReplaceCurrentTextRunContent(int nBackSpace, EditableVisualTextRun newTextRun, VisualElementArgs vinv)
         {
             if (newTextRun != null)
             {
@@ -60,7 +60,7 @@ namespace LayoutFarm.Presentation.Text
                 textLineWriter.EnsureCurrentTextRun();
 
                 undoActionCollection.AddDocAction(
-                    new DocActionInsertRuns(new ArtEditableVisualTextRun[] { newTextRun }, startLineNum, startCharIndex,
+                    new DocActionInsertRuns(new EditableVisualTextRun[] { newTextRun }, startLineNum, startCharIndex,
                         textLineWriter.LineNumber, textLineWriter.CharIndex));
             }
 
@@ -85,7 +85,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        public void AddTextRunsToCurrentLine(IEnumerable<ArtEditableVisualTextRun> textRuns, VisualElementArgs vinv)
+        public void AddTextRunsToCurrentLine(IEnumerable<EditableVisualTextRun> textRuns, VisualElementArgs vinv)
         {
             RemoveSelectedText(vinv);
             int startLineNum = textLineWriter.LineNumber;
@@ -93,7 +93,7 @@ namespace LayoutFarm.Presentation.Text
 
             bool isRecordingHx = EnableUndoHistoryRecording;
 
-            EnableUndoHistoryRecording = false; foreach (ArtEditableVisualTextRun t in textRuns)
+            EnableUndoHistoryRecording = false; foreach (EditableVisualTextRun t in textRuns)
             {
                 if (t.IsLineBreak)
                 {
@@ -140,8 +140,8 @@ namespace LayoutFarm.Presentation.Text
                 selectionRange.SwapIfUnOrder();
                 if (selectionRange.IsOnTheSameLine)
                 {
-                    LinkedList<ArtEditableVisualTextRun> runs = textLineWriter.CopySelectedTextRuns(selectionRange);
-                    foreach (ArtEditableVisualTextRun t in runs)
+                    LinkedList<EditableVisualTextRun> runs = textLineWriter.CopySelectedTextRuns(selectionRange);
+                    foreach (EditableVisualTextRun t in runs)
                     {
                         t.CopyContentToStringBuilder(stBuilder);
                     }
@@ -152,8 +152,8 @@ namespace LayoutFarm.Presentation.Text
                     CurrentLineNumber = startPoint.LineId;
                     textLineWriter.CharIndex = startPoint.LineCharIndex;
 
-                    LinkedList<ArtEditableVisualTextRun> runs = textLineWriter.CopySelectedTextRuns(selectionRange);
-                    foreach (ArtEditableVisualTextRun t in runs)
+                    LinkedList<EditableVisualTextRun> runs = textLineWriter.CopySelectedTextRuns(selectionRange);
+                    foreach (EditableVisualTextRun t in runs)
                     {
                         t.CopyContentToStringBuilder(stBuilder);
                     }

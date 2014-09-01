@@ -14,9 +14,9 @@ namespace LayoutFarm.Presentation.Text
     partial class EditableVisualElementLine
     {
 
-        void AddNormalRunToLast(ArtEditableVisualTextRun v)
+        void AddNormalRunToLast(EditableVisualTextRun v)
         {
-            ArtEditableVisualTextRun.SetVisualElementAsChildOfOther(v, new VisualEditableLineParentLink(this, base.AddLast(v)));
+            EditableVisualTextRun.SetVisualElementAsChildOfOther(v, new VisualEditableLineParentLink(this, base.AddLast(v)));
 
 #if DEBUG
 #endif
@@ -31,9 +31,9 @@ namespace LayoutFarm.Presentation.Text
 #endif
 
         }
-        void AddNormalRunToFirst(ArtEditableVisualTextRun v)
+        void AddNormalRunToFirst(EditableVisualTextRun v)
         {
-            ArtEditableVisualTextRun.SetVisualElementAsChildOfOther(v, new VisualEditableLineParentLink(this, base.AddFirst(v)));
+            EditableVisualTextRun.SetVisualElementAsChildOfOther(v, new VisualEditableLineParentLink(this, base.AddFirst(v)));
             if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
             {
                 return;
@@ -42,13 +42,13 @@ namespace LayoutFarm.Presentation.Text
 
         }
 
-        static LinkedListNode<ArtEditableVisualTextRun> GetLineLinkedNode(ArtEditableVisualTextRun ve)
+        static LinkedListNode<EditableVisualTextRun> GetLineLinkedNode(EditableVisualTextRun ve)
         {
             return ((VisualEditableLineParentLink)ve.MyParentLink).internalLinkedNode;
         }
-        void AddNormalRunBefore(ArtEditableVisualTextRun beforeVisualElement, ArtEditableVisualTextRun v)
+        void AddNormalRunBefore(EditableVisualTextRun beforeVisualElement, EditableVisualTextRun v)
         {
-            ArtEditableVisualTextRun.SetVisualElementAsChildOfOther(v,
+            EditableVisualTextRun.SetVisualElementAsChildOfOther(v,
                new VisualEditableLineParentLink(this, base.AddBefore(GetLineLinkedNode(beforeVisualElement), v)));
             if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
             {
@@ -57,9 +57,9 @@ namespace LayoutFarm.Presentation.Text
             v.StartBubbleUpLayoutInvalidState();
 
         }
-        void AddNormalRunAfter(ArtEditableVisualTextRun afterVisualElement, ArtEditableVisualTextRun v)
+        void AddNormalRunAfter(EditableVisualTextRun afterVisualElement, EditableVisualTextRun v)
         {
-            ArtEditableVisualTextRun.SetVisualElementAsChildOfOther(v,
+            EditableVisualTextRun.SetVisualElementAsChildOfOther(v,
              new VisualEditableLineParentLink(this, base.AddAfter(GetLineLinkedNode(afterVisualElement), v)));
 
             if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
@@ -72,17 +72,17 @@ namespace LayoutFarm.Presentation.Text
         }
         public new void Clear()
         {
-            LinkedListNode<ArtEditableVisualTextRun> curNode = this.First;
+            LinkedListNode<EditableVisualTextRun> curNode = this.First;
             while (curNode != null)
             {
-                ArtEditableVisualTextRun.ClearVisualElementInternalLinkedNode(curNode.Value);
+                EditableVisualTextRun.ClearVisualElementInternalLinkedNode(curNode.Value);
                 curNode = curNode.Next;
             }
 
             base.Clear();
         }
 
-        public new void Remove(ArtEditableVisualTextRun v)
+        public new void Remove(EditableVisualTextRun v)
         {
 #if DEBUG
             if (v.IsLineBreak)
@@ -97,7 +97,7 @@ namespace LayoutFarm.Presentation.Text
             }
             base.Remove(GetLineLinkedNode(v));
 
-            ArtEditableVisualTextRun.ClearVisualElementInternalLinkedNode(v);
+            EditableVisualTextRun.ClearVisualElementInternalLinkedNode(v);
 
 
             if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)

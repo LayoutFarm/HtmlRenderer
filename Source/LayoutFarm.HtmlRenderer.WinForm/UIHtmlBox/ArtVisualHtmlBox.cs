@@ -139,7 +139,7 @@ namespace LayoutFarm.Presentation
             return null;
             
         }
-        public override void CustomDrawToThisPage(ArtCanvas canvasPage, InternalRect updateArea)
+        public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
         {
             _visualRootBox.PhysicalViewportBound = new RectangleF(0, 0, myWidth, myHeight);
             _visualRootBox.PerformPaint(canvasPage.GetGfx());

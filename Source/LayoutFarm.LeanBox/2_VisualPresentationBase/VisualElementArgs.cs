@@ -10,7 +10,7 @@ namespace LayoutFarm.Presentation
 
     public class VisualElementArgs
     {
-        ArtVisualRootWindow winroot;
+        VisualRootWindow winroot;
         VisualRoot visualRoot;
 
 #if DEBUG
@@ -24,7 +24,7 @@ namespace LayoutFarm.Presentation
         static int dbugTotalId;
 #endif
 
-        public VisualElementArgs(ArtVisualRootWindow winroot)
+        public VisualElementArgs(VisualRootWindow winroot)
         {
 #if DEBUG
             this.dbugId = dbugTotalId;
@@ -60,14 +60,14 @@ namespace LayoutFarm.Presentation
 
         }
 
-        public ArtVisualRootWindow WinRoot
+        public VisualRootWindow WinRoot
         {
             get
             {
                 return this.winroot;
             }
         }
-        public void SetWinRoot(ArtVisualRootWindow winroot)
+        public void SetWinRoot(VisualRootWindow winroot)
         {
             this.winroot = winroot;
         }

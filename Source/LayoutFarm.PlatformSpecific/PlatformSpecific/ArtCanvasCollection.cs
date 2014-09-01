@@ -7,14 +7,14 @@ using System.Drawing;
 namespace LayoutFarm.Presentation
 {
 
-    class ArtCanvasCollection
+    class CanvasCollection
     {
-        List<ArtCanvas> cachePages;
+        List<CanvasBase> cachePages;
         int numOfCachePages;
         int eachPageWidth;
         int eachPageHeight;
 
-        public ArtCanvasCollection(int numOfCachePages, int eachPageWidth, int eachPageHeight)
+        public CanvasCollection(int numOfCachePages, int eachPageWidth, int eachPageHeight)
         {
             if (eachPageWidth < 1)
             {
@@ -24,7 +24,7 @@ namespace LayoutFarm.Presentation
             {
                 eachPageHeight = 1;
             }
-            cachePages = new List<ArtCanvas>(numOfCachePages);
+            cachePages = new List<CanvasBase>(numOfCachePages);
             this.eachPageWidth = eachPageWidth;
             this.eachPageHeight = eachPageHeight;
             this.numOfCachePages = numOfCachePages;
@@ -57,11 +57,11 @@ namespace LayoutFarm.Presentation
             }
 
         }
-        public ArtCanvas GetCanvasPage(int hPageNum, int vPageNum)
+        public CanvasBase GetCanvasPage(int hPageNum, int vPageNum)
         {
             int j = cachePages.Count; for (int i = j - 1; i > -1; i--)
             {
-                ArtCanvas page = cachePages[i];
+                CanvasBase page = cachePages[i];
                 if (page.IsPageNumber(hPageNum, vPageNum))
                 {
                     cachePages.RemoveAt(i);
@@ -76,7 +76,7 @@ namespace LayoutFarm.Presentation
 
             if (j >= numOfCachePages)
             {
-                ArtCanvas page = cachePages[0];
+                CanvasBase page = cachePages[0];
                 cachePages.RemoveAt(0);
                 page.IsUnused = false;
 
@@ -95,18 +95,18 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                return new ArtCanvasImpl(hPageNum, vPageNum, hPageNum * eachPageWidth, eachPageHeight * vPageNum, eachPageWidth, eachPageHeight);
+                return new CanvasImpl(hPageNum, vPageNum, hPageNum * eachPageWidth, eachPageHeight * vPageNum, eachPageWidth, eachPageHeight);
 
             }
         }
-        public void ReleasePage(ArtCanvas page)
+        public void ReleasePage(CanvasBase page)
         {
             page.IsUnused = true;
             cachePages.Add(page);
         }
         public void Dispose()
         {
-            foreach (ArtCanvas canvasPage in cachePages)
+            foreach (CanvasBase canvasPage in cachePages)
             {
                 canvasPage.ReleaseUnManagedResource();
             }

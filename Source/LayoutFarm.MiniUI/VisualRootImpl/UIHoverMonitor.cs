@@ -12,12 +12,12 @@ namespace LayoutFarm.Presentation
 {
 
 
-    public class ArtUIHoverMonitorTask : ArtVisualRootTimerTask
+    public class UIHoverMonitorTask : VisualRootTimerTask
     {
 
         int mouseMoveCounter = -1;
         EventHandler targetEventHandler;
-        public ArtUIHoverMonitorTask(ArtVisualRootWindow winroot, EventHandler targetEventHandler)
+        public UIHoverMonitorTask(VisualRootWindow winroot, EventHandler targetEventHandler)
             : base(winroot)
         {
             this.targetEventHandler = targetEventHandler;

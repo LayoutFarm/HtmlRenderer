@@ -10,11 +10,11 @@ using LayoutFarm.Presentation;
 namespace LayoutFarm.Presentation
 {
 
-    public abstract class ArtVisualTextRun : ArtVisualElement
+    public abstract class VisualTextRun : ArtVisualElement
     {
 
         protected char[] mybuffer;
-        public ArtVisualTextRun(string s)
+        public VisualTextRun(string s)
             : base(10, 10, VisualElementNature.TextRun)
         {
 
@@ -36,7 +36,7 @@ namespace LayoutFarm.Presentation
             this.TransparentForAllEvents = true;
         }
 
-        public ArtVisualTextRun(char c)
+        public VisualTextRun(char c)
             : base(10, 10, VisualElementNature.TextRun)
         {
 
@@ -49,7 +49,7 @@ namespace LayoutFarm.Presentation
             this.TransparentForAllEvents = true;
             UpdateRunWidth(null);
         }
-        public ArtVisualTextRun(char[] mybuffer)
+        public VisualTextRun(char[] mybuffer)
             : base(10, 10, VisualElementNature.TextRun)
         {
 
@@ -107,12 +107,12 @@ namespace LayoutFarm.Presentation
             if (user_elem_id != null)
             {
                 return dbug_FixedElementCode + dbug_GetBoundInfo() + " "
-                    + " i" + dbug_obj_id + "a " + ((ArtVisualTextRun)this).Text + ",(ID " + user_elem_id + ") " + dbug_GetLayoutInfo();
+                    + " i" + dbug_obj_id + "a " + ((VisualTextRun)this).Text + ",(ID " + user_elem_id + ") " + dbug_GetLayoutInfo();
             }
             else
             {
                 return dbug_FixedElementCode + dbug_GetBoundInfo() + " "
-                 + " i" + dbug_obj_id + "a " + ((ArtVisualTextRun)this).Text + " " + dbug_GetLayoutInfo();
+                 + " i" + dbug_obj_id + "a " + ((VisualTextRun)this).Text + " " + dbug_GetLayoutInfo();
             }
         }
 #endif
@@ -122,17 +122,17 @@ namespace LayoutFarm.Presentation
             UpdateRunWidth(vinv);
         }
 
-        internal static void DrawArtVisualTextRun(ArtVisualTextRun visualTextRun, ArtCanvas canvasPage, InternalRect updateArea)
+        internal static void DrawArtVisualTextRun(VisualTextRun visualTextRun, CanvasBase canvasPage, InternalRect updateArea)
         {
             visualTextRun.DrawCharacters(canvasPage, updateArea, visualTextRun.mybuffer);
         }
-        public override void CustomDrawToThisPage(ArtCanvas canvasPage, InternalRect updateArea)
+        public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
         {
             DrawArtVisualTextRun(this, canvasPage, updateArea);
         }
 
 
-        void DrawCharacters(ArtCanvas canvasPage, InternalRect updateArea, char[] textArray)
+        void DrawCharacters(CanvasBase canvasPage, InternalRect updateArea, char[] textArray)
         {
 
             int bWidth = this.Width;
@@ -147,7 +147,7 @@ namespace LayoutFarm.Presentation
                 BoxStyle beh = (BoxStyle)this.MyBoxStyle;
                 switch (canvasPage.EvaluateFontAndTextColor(beh.textFontInfo, beh.FontColor))
                 {
-                    case ArtCanvas.DIFF_FONT_SAME_TEXT_COLOR:
+                    case CanvasBase.DIFF_FONT_SAME_TEXT_COLOR:
                         {
 
                             canvasPage.PushFont(beh.textFontInfo);
@@ -157,7 +157,7 @@ namespace LayoutFarm.Presentation
                             canvasPage.PopFont();
 
                         } break;
-                    case ArtCanvas.DIFF_FONT_DIFF_TEXT_COLOR:
+                    case CanvasBase.DIFF_FONT_DIFF_TEXT_COLOR:
                         {
 
                             canvasPage.PushFontInfoAndTextColor(beh.textFontInfo, beh.FontColor);
@@ -167,7 +167,7 @@ namespace LayoutFarm.Presentation
                             canvasPage.PopFontInfoAndTextColor();
 
                         } break;
-                    case ArtCanvas.SAME_FONT_DIFF_TEXT_COLOR:
+                    case CanvasBase.SAME_FONT_DIFF_TEXT_COLOR:
                         {
                             canvasPage.PushTextColor(beh.FontColor);
                             canvasPage.DrawText(textArray,
@@ -224,7 +224,7 @@ namespace LayoutFarm.Presentation
             return "[" + this.dbug_obj_id + "]" + Text;
         }
 #endif
-        public static void InnerTextRunTopDownReCalculateContentSize(ArtVisualTextRun ve, VisualElementArgs vinv)
+        public static void InnerTextRunTopDownReCalculateContentSize(VisualTextRun ve, VisualElementArgs vinv)
         {
 #if DEBUG
             vinv.dbug_EnterTopDownReCalculateContent(ve);

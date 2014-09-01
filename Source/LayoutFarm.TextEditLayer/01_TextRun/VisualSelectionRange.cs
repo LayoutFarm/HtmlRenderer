@@ -169,7 +169,7 @@ namespace LayoutFarm.Presentation.Text
             }
 
         }
-        public void Draw(ArtCanvas destPage, InternalRect updateArea)
+        public void Draw(CanvasBase destPage, InternalRect updateArea)
         {
 
             if (IsOnTheSameLine)
@@ -228,11 +228,11 @@ namespace LayoutFarm.Presentation.Text
 
         }
 
-        public IEnumerable<ArtEditableVisualTextRun> GetPrintableTextRunIter()
+        public IEnumerable<EditableVisualTextRun> GetPrintableTextRunIter()
         {
 
 
-            ArtEditableVisualTextRun startRun = null;
+            EditableVisualTextRun startRun = null;
             if (startPoint.TextRun == null)
             {
                 EditableVisualElementLine line = startPoint.EditableLine;
@@ -244,7 +244,7 @@ namespace LayoutFarm.Presentation.Text
             }
 
             EditableTextFlowLayer layer = startRun.OwnerEditableLine.editableFlowLayer;
-            foreach (ArtEditableVisualTextRun t in layer.GetDrawingIter(startRun, endPoint.TextRun))
+            foreach (EditableVisualTextRun t in layer.GetDrawingIter(startRun, endPoint.TextRun))
             {
                 if (!t.IsLineBreak)
                 {

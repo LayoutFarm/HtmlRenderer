@@ -15,7 +15,7 @@ namespace LayoutFarm.Presentation
             get { return this.vscrollableSurface; }
             set { this.vscrollableSurface = value; }
         }
-        public void ScrollableDrawContent(ArtCanvas destPage, InternalRect updateArea)
+        public void ScrollableDrawContent(CanvasBase destPage, InternalRect updateArea)
         {
             vscrollableSurface.DrawToThisPage(destPage, updateArea);
         }
@@ -272,7 +272,7 @@ VisualElementArgs vinv)
             }
         }
 
-        public void ContainerDrawOriginalContent(ArtCanvas destPage, InternalRect updateArea)
+        public void ContainerDrawOriginalContent(CanvasBase destPage, InternalRect updateArea)
         {
             if (this.IsScrollable && !this.HasDoubleScrollableSurface)
             {

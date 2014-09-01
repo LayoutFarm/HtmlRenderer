@@ -35,7 +35,7 @@ namespace LayoutFarm.Presentation.SampleControls
                 return primaryVisualElement;
             }
         } 
-        public ArtVisualTextRun CurrentTextRun
+        public VisualTextRun CurrentTextRun
         {
             get
             {

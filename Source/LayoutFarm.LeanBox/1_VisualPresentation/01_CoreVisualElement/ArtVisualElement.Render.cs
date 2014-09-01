@@ -30,7 +30,7 @@ namespace LayoutFarm.Presentation
                 return false;
             }
         }
-        protected static void DrawBackground(ArtVisualElement visualElement, ArtCanvas canvasPage, InternalRect updateArea)
+        protected static void DrawBackground(ArtVisualElement visualElement, CanvasBase canvasPage, InternalRect updateArea)
         {
             ArtColorBrush colorBrush = new ArtSolidBrush(Color.White);
             colorBrush.myBrush = Brushes.White;
@@ -44,7 +44,7 @@ namespace LayoutFarm.Presentation
 
         }
 
-        public abstract void CustomDrawToThisPage(ArtCanvas canvasPage, InternalRect updateArea);
+        public abstract void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea);
 
         public bool PrepareDrawingChain(VisualDrawingChain drawingChain)
         {
@@ -97,7 +97,7 @@ namespace LayoutFarm.Presentation
             }
             return false;
         }
-        public void DrawToThisPage(ArtCanvas canvasPage, InternalRect updateArea)
+        public void DrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
         {
 
             if ((uiFlags & HIDDEN) == HIDDEN)

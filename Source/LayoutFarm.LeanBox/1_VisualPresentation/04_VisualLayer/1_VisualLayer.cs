@@ -56,7 +56,7 @@ namespace LayoutFarm.Presentation
 
         public abstract void Clear();
 
-        protected ArtVisualRootWindow WinRoot
+        protected VisualRootWindow WinRoot
         {
             get
             {
@@ -243,7 +243,7 @@ namespace LayoutFarm.Presentation
             layerFlags |= ARRANGEMENT_VALID;
         }
 
-        public abstract void DrawChildContent(ArtCanvas canvasPage, InternalRect updateArea);
+        public abstract void DrawChildContent(CanvasBase canvasPage, InternalRect updateArea);
         public abstract bool PrepareDrawingChain(VisualDrawingChain chain);
 
         public void BeginLayerGraphicUpdate(VisualElementArgs vinv)

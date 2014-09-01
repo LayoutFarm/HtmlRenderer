@@ -11,7 +11,7 @@ namespace LayoutFarm.Presentation
 {
 
 
-    public abstract class ArtCanvas
+    public abstract class CanvasBase
     {
 #if DEBUG
         public static int dbug_canvasCount = 0;
@@ -120,7 +120,7 @@ namespace LayoutFarm.Presentation
         public abstract void PopTextColor();
 
 
-        public abstract void CopyFrom(ArtCanvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea);
+        public abstract void CopyFrom(CanvasBase sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea);
 
         public abstract void RenderTo(IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea);
 

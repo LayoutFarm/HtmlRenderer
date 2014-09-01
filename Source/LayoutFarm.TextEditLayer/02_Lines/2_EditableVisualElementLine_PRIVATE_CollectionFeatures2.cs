@@ -14,7 +14,7 @@ namespace LayoutFarm.Presentation.Text
 
     partial class EditableVisualElementLine
     {
-        void AddLineBreakAfter(ArtEditableVisualTextRun afterTextRun)
+        void AddLineBreakAfter(EditableVisualTextRun afterTextRun)
         {
             if (afterTextRun == null)
             {
@@ -35,10 +35,10 @@ namespace LayoutFarm.Presentation.Text
             }
             else
             {
-                List<ArtEditableVisualTextRun> tempTextRuns = new List<ArtEditableVisualTextRun>(this.Count);
+                List<EditableVisualTextRun> tempTextRuns = new List<EditableVisualTextRun>(this.Count);
                 if (afterTextRun != null)
                 {
-                    foreach (ArtEditableVisualTextRun t in GetVisualElementForward(afterTextRun.NextTextRun))
+                    foreach (EditableVisualTextRun t in GetVisualElementForward(afterTextRun.NextTextRun))
                     {
                         tempTextRuns.Add(t);
                     }
@@ -53,7 +53,7 @@ namespace LayoutFarm.Presentation.Text
 
                 for (int i = 0; i < j; ++i)
                 {
-                    ArtEditableVisualTextRun t = tempTextRuns[i];
+                    EditableVisualTextRun t = tempTextRuns[i];
                     this.Remove(t); newTextline.AddLast(t); ArtVisualElement.DirectSetVisualElementLocation(t, cx, 0);
                     cx += t.Width;
                 }
@@ -62,7 +62,7 @@ namespace LayoutFarm.Presentation.Text
             }
 
         }
-        void AddLineBreakBefore(ArtEditableVisualTextRun beforeTextRun)
+        void AddLineBreakBefore(EditableVisualTextRun beforeTextRun)
         {
             if (beforeTextRun == null)
             {
@@ -71,10 +71,10 @@ namespace LayoutFarm.Presentation.Text
             }
             else
             {
-                List<ArtEditableVisualTextRun> tempTextRuns = new List<ArtEditableVisualTextRun>();
+                List<EditableVisualTextRun> tempTextRuns = new List<EditableVisualTextRun>();
                 if (beforeTextRun != null)
                 {
-                    foreach (ArtEditableVisualTextRun t in GetVisualElementForward(beforeTextRun))
+                    foreach (EditableVisualTextRun t in GetVisualElementForward(beforeTextRun))
                     {
                         tempTextRuns.Add(t);
                     }
@@ -87,7 +87,7 @@ namespace LayoutFarm.Presentation.Text
                 int j = tempTextRuns.Count;
                 for (int i = 0; i < j; ++i)
                 {
-                    ArtEditableVisualTextRun t = tempTextRuns[i];
+                    EditableVisualTextRun t = tempTextRuns[i];
                     this.Remove(t);
                     newTextline.AddLast(t);
 
@@ -97,7 +97,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        void RemoveLeft(ArtEditableVisualTextRun t)
+        void RemoveLeft(EditableVisualTextRun t)
         {
             if (t != null)
             {
@@ -106,9 +106,9 @@ namespace LayoutFarm.Presentation.Text
                     throw new NotSupportedException();
                 }
 
-                LinkedList<ArtEditableVisualTextRun> tobeRemoveTextRuns = CollectLeftRuns(t);
+                LinkedList<EditableVisualTextRun> tobeRemoveTextRuns = CollectLeftRuns(t);
 
-                LinkedListNode<ArtEditableVisualTextRun> curNode = tobeRemoveTextRuns.First;
+                LinkedListNode<EditableVisualTextRun> curNode = tobeRemoveTextRuns.First;
                 LocalSuspendLineReArrange();
                 while (curNode != null)
                 {
@@ -118,16 +118,16 @@ namespace LayoutFarm.Presentation.Text
                 LocalResumeLineReArrange();
             }
         }
-        void RemoveRight(ArtEditableVisualTextRun t)
+        void RemoveRight(EditableVisualTextRun t)
         {
             if (t.IsLineBreak)
             {
                 throw new NotSupportedException();
             }
 
-            LinkedList<ArtEditableVisualTextRun> tobeRemoveTextRuns = CollectRightRuns(t);
+            LinkedList<EditableVisualTextRun> tobeRemoveTextRuns = CollectRightRuns(t);
 
-            LinkedListNode<ArtEditableVisualTextRun> curNode = tobeRemoveTextRuns.First;
+            LinkedListNode<EditableVisualTextRun> curNode = tobeRemoveTextRuns.First;
             LocalSuspendLineReArrange();
             while (curNode != null)
             {
@@ -137,7 +137,7 @@ namespace LayoutFarm.Presentation.Text
             LocalResumeLineReArrange();
 
         }
-        LinkedList<ArtEditableVisualTextRun> CollectLeftRuns(ArtEditableVisualTextRun t)
+        LinkedList<EditableVisualTextRun> CollectLeftRuns(EditableVisualTextRun t)
         {
 
             if (t.IsLineBreak)
@@ -145,31 +145,31 @@ namespace LayoutFarm.Presentation.Text
                 throw new NotSupportedException();
             }
 
-            LinkedList<ArtEditableVisualTextRun> colllectRun = new LinkedList<ArtEditableVisualTextRun>();
-            foreach (ArtEditableVisualTextRun r in GetVisualElementForward(this.FirstRun, t))
+            LinkedList<EditableVisualTextRun> colllectRun = new LinkedList<EditableVisualTextRun>();
+            foreach (EditableVisualTextRun r in GetVisualElementForward(this.FirstRun, t))
             {
                 colllectRun.AddLast(r);
             }
             return colllectRun;
         }
-        LinkedList<ArtEditableVisualTextRun> CollectRightRuns(ArtEditableVisualTextRun t)
+        LinkedList<EditableVisualTextRun> CollectRightRuns(EditableVisualTextRun t)
         {
             if (t.IsLineBreak)
             {
                 throw new NotSupportedException();
             }
-            LinkedList<ArtEditableVisualTextRun> colllectRun = new LinkedList<ArtEditableVisualTextRun>();
-            foreach (ArtEditableVisualTextRun r in editableFlowLayer.TextRunForward(t, this.LastRun))
+            LinkedList<EditableVisualTextRun> colllectRun = new LinkedList<EditableVisualTextRun>();
+            foreach (EditableVisualTextRun r in editableFlowLayer.TextRunForward(t, this.LastRun))
             {
                 colllectRun.AddLast(r);
             }
             return colllectRun;
         }
-        public void ReplaceAll(IEnumerable<ArtEditableVisualTextRun> textRuns)
+        public void ReplaceAll(IEnumerable<EditableVisualTextRun> textRuns)
         {
             this.Clear();
             this.LocalSuspendLineReArrange();
-            foreach (ArtEditableVisualTextRun r in textRuns)
+            foreach (EditableVisualTextRun r in textRuns)
             {
                 this.AddLast(r);
             }

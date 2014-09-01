@@ -9,7 +9,7 @@ namespace LayoutFarm.Presentation
 {
     public delegate void UIMouseEventHandler(object sender, UIMouseEventArgs e);
     public delegate void UIKeyEventHandler(object sender, UIKeyEventArgs e);
-    public delegate void ArtKeyPressEventHandler(object sender, UIKeyPressEventArgs e);
+    public delegate void UIKeyPressEventHandler(object sender, UIKeyPressEventArgs e);
 
     public enum UIMouseEventType
     {
@@ -142,21 +142,21 @@ namespace LayoutFarm.Presentation
             }
 
         }
-        public ArtVisualRootWindow WinRoot
+        public VisualRootWindow WinRoot
         {
             get
             {
                 return winRoot;
             }
         }
-        public void SetWinRoot(ArtVisualRootWindow winRoot)
+        public void SetWinRoot(VisualRootWindow winRoot)
         {
             this.winRoot = winRoot;
             this.vroot = winRoot.VisualRoot;
         }
 
         VisualRoot vroot;
-        ArtVisualRootWindow winRoot;
+        VisualRootWindow winRoot;
 
         public VisualElementArgs GetVisualInvalidateCanvasArgs()
         {

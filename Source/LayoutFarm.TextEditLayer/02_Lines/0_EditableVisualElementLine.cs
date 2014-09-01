@@ -14,7 +14,7 @@ namespace LayoutFarm.Presentation.Text
 #if DEBUG
     [DebuggerDisplay("ELN {dbugShortLineInfo}")]
 #endif
-    public sealed partial class EditableVisualElementLine : LinkedList<ArtEditableVisualTextRun>
+    public sealed partial class EditableVisualElementLine : LinkedList<EditableVisualTextRun>
     {
 
         int currentLineNumber; internal EditableTextFlowLayer editableFlowLayer;
@@ -48,7 +48,7 @@ namespace LayoutFarm.Presentation.Text
             dbugLineTotalCount++;
 #endif
         }
-        internal ArtEditableVisualTextRun LastRun
+        internal EditableVisualTextRun LastRun
         {
             get
             {
@@ -64,7 +64,7 @@ namespace LayoutFarm.Presentation.Text
         }
         public void TextLineReCalculateActualLineSize()
         {
-            ArtEditableVisualTextRun r = this.FirstRun;
+            EditableVisualTextRun r = this.FirstRun;
             int maxHeight = 2;
             int lw = 0;
             while (r != null)
@@ -89,7 +89,7 @@ namespace LayoutFarm.Presentation.Text
             }
             else
             {
-                LinkedListNode<ArtEditableVisualTextRun> cnode = this.First;
+                LinkedListNode<EditableVisualTextRun> cnode = this.First;
                 chain.OffsetCanvasOriginY(this.lineTop);
 
                 while (cnode != null)
@@ -122,7 +122,7 @@ namespace LayoutFarm.Presentation.Text
             {
 
 
-                LinkedListNode<ArtEditableVisualTextRun> cnode = this.First;
+                LinkedListNode<EditableVisualTextRun> cnode = this.First;
 
                 int curLineTop = this.lineTop;
                 artHitResult.OffsetTestPoint(0, -curLineTop);
@@ -219,7 +219,7 @@ namespace LayoutFarm.Presentation.Text
                 return new Rectangle(0, lineTop, this.editableFlowLayer.ownerVisualElement.Width, 17);
             }
         }
-        internal IEnumerable<ArtEditableVisualTextRun> GetVisualElementForward(ArtEditableVisualTextRun startVisualElement)
+        internal IEnumerable<EditableVisualTextRun> GetVisualElementForward(EditableVisualTextRun startVisualElement)
         {
             if (startVisualElement != null)
             {
@@ -232,13 +232,13 @@ namespace LayoutFarm.Presentation.Text
                 }
             }
         }
-        internal IEnumerable<ArtEditableVisualTextRun> GetVisualElementForward(ArtEditableVisualTextRun startVisualElement, ArtEditableVisualTextRun stopVisualElement)
+        internal IEnumerable<EditableVisualTextRun> GetVisualElementForward(EditableVisualTextRun startVisualElement, EditableVisualTextRun stopVisualElement)
         {
 
             if (startVisualElement != null)
             {
 
-                LinkedListNode<ArtEditableVisualTextRun> lexnode = GetLineLinkedNode(startVisualElement);
+                LinkedListNode<EditableVisualTextRun> lexnode = GetLineLinkedNode(startVisualElement);
 
                 while (lexnode != null)
                 {
@@ -259,7 +259,7 @@ namespace LayoutFarm.Presentation.Text
             get
             {
                 int charCount = 0;
-                foreach (ArtEditableVisualTextRun r in this)
+                foreach (EditableVisualTextRun r in this)
                 {
                     charCount += r.CharacterCount;
                 }
@@ -389,7 +389,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        public ArtEditableVisualTextRun FirstRun
+        public EditableVisualTextRun FirstRun
         {
             get
             {
@@ -420,10 +420,10 @@ namespace LayoutFarm.Presentation.Text
         }
         public void CopyLineContent(StringBuilder stBuilder)
         {
-            LinkedListNode<ArtEditableVisualTextRun> curNode = this.First;
+            LinkedListNode<EditableVisualTextRun> curNode = this.First;
             while (curNode != null)
             {
-                ArtEditableVisualTextRun v = curNode.Value;
+                EditableVisualTextRun v = curNode.Value;
                 v.CopyContentToStringBuilder(stBuilder);
                 curNode = curNode.Next;
             }

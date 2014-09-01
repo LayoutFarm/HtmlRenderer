@@ -13,7 +13,7 @@ namespace LayoutFarm.Presentation
 
 
 
-    public partial class ArtVisualWindowImpl : ArtVisualRootWindow
+    public partial class VisualWindowImpl : VisualRootWindow
     {
         bool layoutQueueClearing = false;
 
@@ -27,7 +27,7 @@ namespace LayoutFarm.Presentation
         IEventDispatcher currentMouseUIFocus = null;
 
 
-        public ArtVisualWindowImpl(
+        public VisualWindowImpl(
             VisualRootImpl visualroot, int width, int height)
             : base(visualroot, width, height)
         {
@@ -42,7 +42,7 @@ namespace LayoutFarm.Presentation
             rootTasksTimer.Interval = 100; 
             rootTasksTimer.Elapsed += new System.Timers.ElapsedEventHandler(rootTasksTimer_Elapsed);
             rootTasksTimer.Enabled = false;
-            hoverMonitoringTask = new ArtUIHoverMonitorTask(this, this.OnMouseHover);
+            hoverMonitoringTask = new UIHoverMonitorTask(this, this.OnMouseHover);
 #if DEBUG
             dbug_hide_objIden = true; 
             dbug_Init();
@@ -59,10 +59,10 @@ namespace LayoutFarm.Presentation
         {
 
 
-            LinkedListNode<ArtVisualRootTimerTask> node = rootTimerTasks.First;
+            LinkedListNode<VisualRootTimerTask> node = rootTimerTasks.First;
             while (node != null)
             {
-                ArtVisualRootTimerTask rootTask = node.Value;
+                VisualRootTimerTask rootTask = node.Value;
                 if (rootTask.Enabled)
                 {
                     node.Value.Tick();
@@ -76,7 +76,7 @@ namespace LayoutFarm.Presentation
             }
             if (tobeRemoveTasks.Count > 0)
             {
-                foreach (LinkedListNode<ArtVisualRootTimerTask> tobeRemoveNode in tobeRemoveTasks)
+                foreach (LinkedListNode<VisualRootTimerTask> tobeRemoveNode in tobeRemoveTasks)
                 {
                     rootTimerTasks.Remove(tobeRemoveNode);
                     tobeRemoveNode.Value.IsInQueue = false;
@@ -124,7 +124,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        internal void AddTimerTask(ArtVisualRootTimerTask task)
+        internal void AddTimerTask(VisualRootTimerTask task)
         {
             rootTimerTasks.AddLast(task);
         }

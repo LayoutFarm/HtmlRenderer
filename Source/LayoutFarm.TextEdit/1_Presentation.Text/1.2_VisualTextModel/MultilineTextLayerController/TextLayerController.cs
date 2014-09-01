@@ -22,7 +22,7 @@ namespace LayoutFarm.Presentation.Text
         {
             this.visualTextSurface.TextDomListener = listener;
         }
-        public void AddTextRunsToCurrentLine(IEnumerable<ArtEditableVisualTextRun> textRuns, VisualElementArgs vinv)
+        public void AddTextRunsToCurrentLine(IEnumerable<EditableVisualTextRun> textRuns, VisualElementArgs vinv)
         {
 
             this.innerTextMan.AddTextRunsToCurrentLine(textRuns, vinv);
@@ -41,7 +41,7 @@ namespace LayoutFarm.Presentation.Text
         {
             this.visualTextSurface.FreeVInv(vinv);
         }
-        public ArtEditableVisualTextRun CurrentTextRun
+        public EditableVisualTextRun CurrentTextRun
         {
             get
             {
@@ -170,7 +170,7 @@ namespace LayoutFarm.Presentation.Text
             }
 #endif
         }
-        public ArtEditableVisualTextRun CurrentTextRun
+        public EditableVisualTextRun CurrentTextRun
         {
             get
             {
@@ -228,7 +228,7 @@ namespace LayoutFarm.Presentation.Text
             textLineWriter.CharIndex = startPoint.LineCharIndex;
             if (selectionRange.IsOnTheSameLine)
             {
-                LinkedList<ArtEditableVisualTextRun> tobeDeleteTextRun = textLineWriter.CopySelectedTextRuns(selectionRange);
+                LinkedList<EditableVisualTextRun> tobeDeleteTextRun = textLineWriter.CopySelectedTextRuns(selectionRange);
                 if (tobeDeleteTextRun != null)
                 {
 
@@ -248,7 +248,7 @@ namespace LayoutFarm.Presentation.Text
                 int startPointLindId = startPoint.LineId;
                 int startPointCharIndex = startPoint.LineCharIndex;
 
-                LinkedList<ArtEditableVisualTextRun> tobeDeleteTextRun = textLineWriter.CopySelectedTextRuns(selectionRange);
+                LinkedList<EditableVisualTextRun> tobeDeleteTextRun = textLineWriter.CopySelectedTextRuns(selectionRange);
                 if (tobeDeleteTextRun != null)
                 {
                     undoActionCollection.AddDocAction(
@@ -343,7 +343,7 @@ namespace LayoutFarm.Presentation.Text
             if (selRange != null)
             {
 
-                foreach (ArtEditableVisualTextRun r in selRange.GetPrintableTextRunIter())
+                foreach (EditableVisualTextRun r in selRange.GetPrintableTextRunIter())
                 {
                     r.SetStyle(textStyle, vinv);
                 }

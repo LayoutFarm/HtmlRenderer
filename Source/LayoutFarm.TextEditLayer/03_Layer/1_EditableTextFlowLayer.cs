@@ -64,7 +64,7 @@ namespace LayoutFarm.Presentation.Text
             throw new NotImplementedException();
         }
 #if DEBUG
-        public IEnumerable<ArtEditableVisualTextRun> dbugGetDrawingIter2()
+        public IEnumerable<EditableVisualTextRun> dbugGetDrawingIter2()
         {
 
             if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
@@ -73,7 +73,7 @@ namespace LayoutFarm.Presentation.Text
                 int j = lines.Count;
                 for (int i = 0; i < j; ++i)
                 {
-                    LinkedListNode<ArtEditableVisualTextRun> curNode = lines[i].First;
+                    LinkedListNode<EditableVisualTextRun> curNode = lines[i].First;
                     while (curNode != null)
                     {
                         yield return curNode.Value;
@@ -84,7 +84,7 @@ namespace LayoutFarm.Presentation.Text
             else
             {
                 EditableVisualElementLine onlyLine = (EditableVisualElementLine)lineCollection;
-                LinkedListNode<ArtEditableVisualTextRun> curNode = onlyLine.First;
+                LinkedListNode<EditableVisualTextRun> curNode = onlyLine.First;
                 while (curNode != null)
                 {
                     yield return curNode.Value;
@@ -94,7 +94,7 @@ namespace LayoutFarm.Presentation.Text
         }
 #endif
 
-        internal IEnumerable<ArtEditableVisualTextRun> GetDrawingIter(ArtEditableVisualTextRun start, ArtEditableVisualTextRun stop)
+        internal IEnumerable<EditableVisualTextRun> GetDrawingIter(EditableVisualTextRun start, EditableVisualTextRun stop)
         {
 
             if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
@@ -103,7 +103,7 @@ namespace LayoutFarm.Presentation.Text
                 int j = lines.Count;
                 for (int i = 0; i < j; ++i)
                 {
-                    LinkedListNode<ArtEditableVisualTextRun> curNode = lines[i].Last;
+                    LinkedListNode<EditableVisualTextRun> curNode = lines[i].Last;
                     while (curNode != null)
                     {
                         yield return curNode.Value;
@@ -114,7 +114,7 @@ namespace LayoutFarm.Presentation.Text
             else
             {
                 EditableVisualElementLine onlyLine = (EditableVisualElementLine)lineCollection;
-                LinkedListNode<ArtEditableVisualTextRun> curNode = onlyLine.Last;
+                LinkedListNode<EditableVisualTextRun> curNode = onlyLine.Last;
                 while (curNode != null)
                 {
                     yield return curNode.Value;
@@ -193,7 +193,7 @@ namespace LayoutFarm.Presentation.Text
                 this, this.ToString()));
             writer.EnterNewLevel();
 
-            foreach (ArtEditableVisualTextRun child in this.dbugGetDrawingIter2())
+            foreach (EditableVisualTextRun child in this.dbugGetDrawingIter2())
             {
                 child.dbug_DumpVisualProps(writer);
             }
@@ -201,7 +201,7 @@ namespace LayoutFarm.Presentation.Text
 
         }
 #endif
-        public override void DrawChildContent(ArtCanvas canvasPage, InternalRect updateArea)
+        public override void DrawChildContent(CanvasBase canvasPage, InternalRect updateArea)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) != 0)
             {
@@ -233,7 +233,7 @@ namespace LayoutFarm.Presentation.Text
 
                     int y = line.Top;
 
-                    LinkedListNode<ArtEditableVisualTextRun> curNode = line.First;
+                    LinkedListNode<EditableVisualTextRun> curNode = line.First;
                     if (!foundFirstLine)
                     {
                         if (y + line.ActualLineHeight < renderAreaTop)
@@ -255,7 +255,7 @@ namespace LayoutFarm.Presentation.Text
 
                     updateArea.OffsetY(-y); canvasPage.OffsetCanvasOriginY(y); while (curNode != null)
                     {
-                        ArtEditableVisualTextRun child = curNode.Value;
+                        EditableVisualTextRun child = curNode.Value;
                         if (child.IntersectOnHorizontalWith(updateArea))
                         {
                             int x = child.X;
@@ -279,7 +279,7 @@ namespace LayoutFarm.Presentation.Text
                 }
 #endif
 
-                LinkedListNode<ArtEditableVisualTextRun> curNode = line.First;
+                LinkedListNode<EditableVisualTextRun> curNode = line.First;
 
                 if (curNode != null)
                 {
@@ -287,7 +287,7 @@ namespace LayoutFarm.Presentation.Text
                     int y = line.Top;
                     canvasPage.OffsetCanvasOriginY(y); updateArea.OffsetY(-y); while (curNode != null)
                     {
-                        ArtEditableVisualTextRun child = curNode.Value;
+                        EditableVisualTextRun child = curNode.Value;
                         if (child.IntersectOnHorizontalWith(updateArea))
                         {
                             int x = child.X;
@@ -367,11 +367,11 @@ namespace LayoutFarm.Presentation.Text
 
 
             int childCount = 0;
-            ArtEditableVisualTextRun lastNotNullElement = null;
+            EditableVisualTextRun lastNotNullElement = null;
 
             while (flowFeeder.Read())
             {
-                ArtEditableVisualTextRun currentRun = flowFeeder.CurrentRun;
+                EditableVisualTextRun currentRun = flowFeeder.CurrentRun;
                 if (currentRun != null)
                 {
 #if DEBUG
@@ -403,7 +403,7 @@ namespace LayoutFarm.Presentation.Text
                         }
                         if (!currentRun.HasCalculatedSize)
                         {
-                            ArtVisualTextRun.InnerTextRunTopDownReCalculateContentSize(currentRun, vinv);
+                            VisualTextRun.InnerTextRunTopDownReCalculateContentSize(currentRun, vinv);
 
                         }
 #if DEBUG
@@ -431,7 +431,7 @@ namespace LayoutFarm.Presentation.Text
 
                         if (!currentRun.HasCalculatedSize)
                         {
-                            ArtVisualTextRun.InnerTextRunTopDownReCalculateContentSize(currentRun, vinv);
+                            VisualTextRun.InnerTextRunTopDownReCalculateContentSize(currentRun, vinv);
 
                         }
 #if DEBUG
@@ -664,7 +664,7 @@ int ownerClientTop, VisualElementArgs vinv)
                     line.ValidateContentArrangement();
 
                     bool isFirstRunInThisLine = true;
-                    foreach (ArtEditableVisualTextRun currentRun in line)
+                    foreach (EditableVisualTextRun currentRun in line)
                     {
 #if DEBUG
                         vinv.dbug_BeginSetElementBound(currentRun);
@@ -679,7 +679,7 @@ int ownerClientTop, VisualElementArgs vinv)
                             {
                                 maxHeightInRow = v_desired_height;
                             }
-                            ArtEditableVisualTextRun.DirectSetVisualElementLocation(currentRun, curX, 0);
+                            EditableVisualTextRun.DirectSetVisualElementLocation(currentRun, curX, 0);
                             if (v_desired_height > maxHeightInRow)
                             {
                                 maxHeightInRow = v_desired_height;
@@ -689,7 +689,7 @@ int ownerClientTop, VisualElementArgs vinv)
                                 v_desired_width = ownerClientWidth;
                             }
 
-                            ArtEditableVisualTextRun.DirectSetVisualElementSize(currentRun,
+                            EditableVisualTextRun.DirectSetVisualElementSize(currentRun,
                                     v_desired_width, v_desired_height);
 
                             currentRun.MarkValidContentArrangement();
@@ -711,7 +711,7 @@ int ownerClientTop, VisualElementArgs vinv)
                                 curY_fromTop = curY;
                                 maxHeightInRow = EditableVisualElementLine.DEFAULT_LINE_HEIGHT;
 
-                                ArtEditableVisualTextRun nextR = currentRun.NextTextRun;
+                                EditableVisualTextRun nextR = currentRun.NextTextRun;
 
                                 while (nextR != null)
                                 {
@@ -740,9 +740,9 @@ int ownerClientTop, VisualElementArgs vinv)
                                 {
                                     maxHeightInRow = v_desired_height;
                                 }
-                                ArtEditableVisualTextRun.DirectSetVisualElementLocation(currentRun, curX, 0);
+                                EditableVisualTextRun.DirectSetVisualElementLocation(currentRun, curX, 0);
 
-                                ArtEditableVisualTextRun.DirectSetVisualElementSize(currentRun,
+                                EditableVisualTextRun.DirectSetVisualElementSize(currentRun,
                                        v_desired_width, v_desired_height);
                                 currentRun.MarkValidContentArrangement();
                                 curX += v_desired_width;
@@ -806,12 +806,12 @@ int ownerClientTop, VisualElementArgs vinv)
 
             FlowReLocator flowRelocator = FlowReLocator.GetNewFlowRelocator();
             flowRelocator.Load(this);
-            ArtEditableVisualTextRun lastNotNullElement = null;
+            EditableVisualTextRun lastNotNullElement = null;
             int childCount = 0;
             while (flowRelocator.ReadNextRun())
             {
 
-                ArtEditableVisualTextRun currentRun = flowRelocator.CurrentRun;
+                EditableVisualTextRun currentRun = flowRelocator.CurrentRun;
                 if (currentRun != null)
                 {
                     lastNotNullElement = currentRun;
@@ -847,14 +847,14 @@ int ownerClientTop, VisualElementArgs vinv)
                         {
                             maxHeightInRow = v_desired_height;
                         }
-                        ArtEditableVisualTextRun.DirectSetVisualElementLocation(currentRun, curX, 0);
+                        EditableVisualTextRun.DirectSetVisualElementLocation(currentRun, curX, 0);
 
                         if (lastestIsBlock)
                         {
                             v_desired_width = flowRelocator.OwnerElementWidth;
                         }
 
-                        ArtEditableVisualTextRun.DirectSetVisualElementSize(currentRun,
+                        EditableVisualTextRun.DirectSetVisualElementSize(currentRun,
        v_desired_width, v_desired_height);
 
 
@@ -871,9 +871,9 @@ int ownerClientTop, VisualElementArgs vinv)
                         {
                             maxHeightInRow = v_desired_height;
                         }
-                        ArtEditableVisualTextRun.DirectSetVisualElementLocation(currentRun, curX, 0);
+                        EditableVisualTextRun.DirectSetVisualElementLocation(currentRun, curX, 0);
 
-                        ArtEditableVisualTextRun.DirectSetVisualElementSize(
+                        EditableVisualTextRun.DirectSetVisualElementSize(
     currentRun,
     v_desired_width,
     v_desired_height);
@@ -1046,20 +1046,20 @@ int ownerClientTop, VisualElementArgs vinv)
             }
         }
 
-        internal IEnumerable<ArtEditableVisualTextRun> TextRunForward(ArtEditableVisualTextRun startRun, ArtEditableVisualTextRun stopRun)
+        internal IEnumerable<EditableVisualTextRun> TextRunForward(EditableVisualTextRun startRun, EditableVisualTextRun stopRun)
         {
             EditableVisualElementLine currentLine = startRun.OwnerEditableLine;
             EditableVisualElementLine stopLine = stopRun.OwnerEditableLine;
             if (currentLine == stopLine)
             {
-                foreach (ArtEditableVisualTextRun r in currentLine.GetVisualElementForward(startRun, stopRun))
+                foreach (EditableVisualTextRun r in currentLine.GetVisualElementForward(startRun, stopRun))
                 {
                     yield return r;
                 }
             }
             else
             {
-                foreach (ArtEditableVisualTextRun r in currentLine.GetVisualElementForward(startRun))
+                foreach (EditableVisualTextRun r in currentLine.GetVisualElementForward(startRun))
                 {
                     yield return r;
                 }
@@ -1068,7 +1068,7 @@ int ownerClientTop, VisualElementArgs vinv)
                 {
                     if (currentLine == stopLine)
                     {
-                        foreach (ArtEditableVisualTextRun r in currentLine)
+                        foreach (EditableVisualTextRun r in currentLine)
                         {
                             if (r == stopRun)
                             {
@@ -1084,7 +1084,7 @@ int ownerClientTop, VisualElementArgs vinv)
                     }
                     else
                     {
-                        foreach (ArtEditableVisualTextRun r in currentLine)
+                        foreach (EditableVisualTextRun r in currentLine)
                         {
                             yield return r;
                         }
@@ -1094,11 +1094,11 @@ int ownerClientTop, VisualElementArgs vinv)
 
             }
         }
-        internal void Reload(IEnumerable<ArtEditableVisualTextRun> runs)
+        internal void Reload(IEnumerable<EditableVisualTextRun> runs)
         {
 
             Clear();
-            foreach (ArtEditableVisualTextRun run in runs)
+            foreach (EditableVisualTextRun run in runs)
             {
                 AddTop(run);
             }

@@ -35,7 +35,7 @@ namespace LayoutFarm.Presentation
         }
 #endif
 
-        public static VisualElementArgs GetVisualInvalidateArgs(ArtVisualRootWindow winroot)
+        public static VisualElementArgs GetVisualInvalidateArgs(VisualRootWindow winroot)
         {
             if (visualArgStack.Count > 0)
             {
@@ -83,7 +83,7 @@ namespace LayoutFarm.Presentation
             }
         }
          
-        public void ClearVisualRequests(ArtVisualRootWindow winroot)
+        public void ClearVisualRequests(VisualRootWindow winroot)
         {
             int j = veReqList.Count;
             for (int i = 0; i < j; ++i)

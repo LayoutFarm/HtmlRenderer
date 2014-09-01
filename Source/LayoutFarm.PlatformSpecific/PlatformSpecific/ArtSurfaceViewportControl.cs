@@ -15,7 +15,7 @@ namespace LayoutFarm.Presentation
 
 
 
-    public partial class ArtSurfaceViewportControl : UserControl, IArtSurfaceViewportControl
+    public partial class UISurfaceViewportControl : UserControl, IArtSurfaceViewportControl
     {
         CanvasEventsStock eventStock = new CanvasEventsStock();
         CanvasViewport canvasViewport;
@@ -32,11 +32,11 @@ namespace LayoutFarm.Presentation
         public event EventHandler<ArtScrollEventArgs> VScrollChanged;
         public event EventHandler<ArtScrollEventArgs> HScrollChanged;
          
-        ArtVisualWindowImpl winroot;
+        VisualWindowImpl winroot;
 
         EventHandler<EventArgs> parentFormClosedHandler;
 
-        public ArtSurfaceViewportControl()
+        public UISurfaceViewportControl()
         {
             InitializeComponent();
         }
@@ -46,7 +46,7 @@ namespace LayoutFarm.Presentation
             this.parentFormClosedHandler = handler;
             this.ParentForm.FormClosed += new FormClosedEventHandler(ParentForm_FormClosed);
         }
-        public void SetupWindowRoot(ArtVisualWindowImpl winroot)
+        public void SetupWindowRoot(VisualWindowImpl winroot)
         {
 
             this.winroot = winroot;
@@ -88,7 +88,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public ArtVisualRootWindow WinRoot
+        public VisualRootWindow WinRoot
         {
             get
             {

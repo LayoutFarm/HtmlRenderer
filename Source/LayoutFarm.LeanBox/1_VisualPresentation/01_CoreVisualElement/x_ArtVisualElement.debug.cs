@@ -180,7 +180,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        void debug_RecordPostDrawInfo(ArtCanvas canvasPage)
+        void debug_RecordPostDrawInfo(CanvasBase canvasPage)
         {
             if (dbugVRoot.dbug_ShowElementOutline)
             {

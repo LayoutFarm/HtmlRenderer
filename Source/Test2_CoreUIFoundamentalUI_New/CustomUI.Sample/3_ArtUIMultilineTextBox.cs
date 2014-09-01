@@ -26,9 +26,9 @@ namespace LayoutFarm.Presentation.SampleControls
             this.SetPrimaryVisualElement(visualTextEdit);
             visualTextEdit.SetController(this);
             RegisterNativeEvent(
-              1 << ArtEventIdentifier.NE_MOUSE_DOWN
-              | 1 << ArtEventIdentifier.NE_LOST_FOCUS
-              | 1 << ArtEventIdentifier.NE_SIZE_CHANGED
+              1 << UIEventIdentifier.NE_MOUSE_DOWN
+              | 1 << UIEventIdentifier.NE_LOST_FOCUS
+              | 1 << UIEventIdentifier.NE_SIZE_CHANGED
               );
         }
         public ArtVisualElement PrimaryVisualElement

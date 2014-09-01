@@ -34,7 +34,7 @@ namespace LayoutFarm.Presentation
                 return Point.Empty;
             }
         }
-        public override void CustomDrawToThisPage(ArtCanvas canvasPage, InternalRect updateArea)
+        public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
         {
 
         }
@@ -52,12 +52,7 @@ namespace LayoutFarm.Presentation
                 return 0;
 
             }
-        }
-
-
-
-
-
+        } 
 
         public void InvalidateContentArrangementFromContainerSizeChanged()
         {
@@ -70,14 +65,10 @@ namespace LayoutFarm.Presentation
         protected virtual void CloneGroundLayer(ArtVisualElement otherElement)
         {
             throw new NotSupportedException();
-        }
-
-
- 
-
+        } 
         protected abstract bool HasGroundLayer(); 
 
-        public void DrawChildContent(ArtCanvas canvasPage, InternalRect updateArea)
+        public void DrawChildContent(CanvasBase canvasPage, InternalRect updateArea)
         {
 
             if (HasSubGroundLayer)
@@ -103,7 +94,7 @@ namespace LayoutFarm.Presentation
 
 
         }
-        protected virtual void DrawSubGround(ArtCanvas canvasPage, InternalRect updateArea)
+        protected virtual void DrawSubGround(CanvasBase canvasPage, InternalRect updateArea)
         {
 
         }

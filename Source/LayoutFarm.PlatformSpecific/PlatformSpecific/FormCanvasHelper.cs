@@ -14,17 +14,17 @@ namespace LayoutFarm.Presentation
 {
     public static class FormCanvasHelper
     {
-        public static Form CreateNewFormCanvas(out ArtSurfaceViewportControl canvasViewport)
+        public static Form CreateNewFormCanvas(out UISurfaceViewportControl canvasViewport)
         {
 
             Form form1 = new Form();
-            canvasViewport = new ArtSurfaceViewportControl();
-            ArtSurfaceViewportControl innerViewport = canvasViewport;
+            canvasViewport = new UISurfaceViewportControl();
+            UISurfaceViewportControl innerViewport = canvasViewport;
             Rectangle screenClientAreaRect = Screen.PrimaryScreen.WorkingArea;
              
             //----------------------
             var visualRoot = new VisualRootImpl();
-            var windowRoot = new ArtVisualWindowImpl(visualRoot, form1.Width, form1.Height);
+            var windowRoot = new VisualWindowImpl(visualRoot, form1.Width, form1.Height);
              
 
             canvasViewport.SetupWindowRoot(windowRoot);
@@ -53,7 +53,7 @@ namespace LayoutFarm.Presentation
             return form1;
 
         }
-        public static void MakeFormCanvas(Form form1, ArtSurfaceViewportControl surfaceViewportControl)
+        public static void MakeFormCanvas(Form form1, UISurfaceViewportControl surfaceViewportControl)
         {
             form1.FormClosing += (s, e) =>
             {

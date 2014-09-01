@@ -18,7 +18,7 @@ namespace TestGraphicPackage2
 
         }
 
-        static void ShowFormLayoutInspector(ArtSurfaceViewportControl viewport)
+        static void ShowFormLayoutInspector(UISurfaceViewportControl viewport)
         {
 
             var formLayoutInspector = new LayoutFarm.Presentation.Dev.FormLayoutInspector();
@@ -34,7 +34,7 @@ namespace TestGraphicPackage2
         }
 
         static void CreateReadyForm( 
-          out ArtSurfaceViewportControl viewport, 
+          out UISurfaceViewportControl viewport, 
           out Form formCanvas)
         { 
             LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo = new TextFontInfo(new Font("tahoma", 10), new BasicGdi32FontHelper());
@@ -56,7 +56,7 @@ namespace TestGraphicPackage2
         private void cmdSampleTextBox_Click(object sender, EventArgs e)
         {
             
-            ArtSurfaceViewportControl viewport;
+            UISurfaceViewportControl viewport;
             
             Form formCanvas;
             CreateReadyForm( 
@@ -70,7 +70,7 @@ namespace TestGraphicPackage2
         private void cmdMultilineTextBox_Click(object sender, EventArgs e)
         {
           
-            ArtSurfaceViewportControl viewport; 
+            UISurfaceViewportControl viewport; 
             Form formCanvas;
             CreateReadyForm( 
                 out viewport, 
@@ -88,7 +88,7 @@ namespace TestGraphicPackage2
         void LoadHtmlTestView(string filename)
         {
           
-            ArtSurfaceViewportControl viewport;
+            UISurfaceViewportControl viewport;
         
             Form formCanvas;
             CreateReadyForm( 
@@ -103,7 +103,7 @@ namespace TestGraphicPackage2
         private void cmdMultiLineTextWithFormat_Click(object sender, EventArgs e)
         {
            
-            ArtSurfaceViewportControl viewport; 
+            UISurfaceViewportControl viewport; 
             Form formCanvas;
             CreateReadyForm( 
                 out viewport, 
@@ -118,7 +118,7 @@ namespace TestGraphicPackage2
             string value = "OKOKOK";
 
            
-            ArtSurfaceViewportControl viewport; 
+            UISurfaceViewportControl viewport; 
             Form formCanvas;
             CreateReadyForm( 
                 out viewport, 
@@ -127,7 +127,7 @@ namespace TestGraphicPackage2
             viewport.AddContent(textbox.PrimaryVisualElement);
             ShowFormlayoutInspectIfNeed(viewport);
         }
-        void ShowFormlayoutInspectIfNeed(ArtSurfaceViewportControl viewport)
+        void ShowFormlayoutInspectIfNeed(UISurfaceViewportControl viewport)
         {
             if (this.chkShowLayoutInspector.Checked)
             {

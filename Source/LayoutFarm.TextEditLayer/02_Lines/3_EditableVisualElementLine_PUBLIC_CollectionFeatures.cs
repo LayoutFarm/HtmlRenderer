@@ -12,9 +12,9 @@ namespace LayoutFarm.Presentation.Text
 
     class VisualEditableLineParentLink : IVisualParentLink
     {
-        internal readonly LinkedListNode<ArtEditableVisualTextRun> internalLinkedNode;
+        internal readonly LinkedListNode<EditableVisualTextRun> internalLinkedNode;
         EditableVisualElementLine ownerLine;
-        internal VisualEditableLineParentLink(EditableVisualElementLine ownerLine, LinkedListNode<ArtEditableVisualTextRun> linkNode)
+        internal VisualEditableLineParentLink(EditableVisualElementLine ownerLine, LinkedListNode<EditableVisualTextRun> linkNode)
         {
             this.internalLinkedNode = linkNode;
             this.ownerLine = ownerLine;
@@ -27,7 +27,7 @@ namespace LayoutFarm.Presentation.Text
         {
         }
         
-        public ArtVisualRootWindow GetWindowRoot()
+        public VisualRootWindow GetWindowRoot()
         {
             return ownerLine.OwnerElement.WinRoot;
         }
@@ -84,7 +84,7 @@ namespace LayoutFarm.Presentation.Text
         }
         public void Unlink(ArtVisualElement ve)
         {
-            this.OwnerLine.Remove((ArtEditableVisualTextRun)ve);
+            this.OwnerLine.Remove((EditableVisualTextRun)ve);
         }
         internal EditableTextFlowLayer OwnerFlowLayer
         {
@@ -104,7 +104,7 @@ namespace LayoutFarm.Presentation.Text
         {
             get
             {
-                LinkedListNode<ArtEditableVisualTextRun> next = this.internalLinkedNode.Next;
+                LinkedListNode<EditableVisualTextRun> next = this.internalLinkedNode.Next;
                 if (next != null)
                 {
                     return next.Value;
@@ -119,7 +119,7 @@ namespace LayoutFarm.Presentation.Text
         {
             get
             {
-                LinkedListNode<ArtEditableVisualTextRun> prv = this.internalLinkedNode.Previous;
+                LinkedListNode<EditableVisualTextRun> prv = this.internalLinkedNode.Previous;
                 if (prv != null)
                 {
                     return prv.Value;
@@ -157,7 +157,7 @@ namespace LayoutFarm.Presentation.Text
     {
 
 
-        public new void AddLast(ArtEditableVisualTextRun v)
+        public new void AddLast(EditableVisualTextRun v)
         {
             if (!v.IsLineBreak)
             {
@@ -171,7 +171,7 @@ namespace LayoutFarm.Presentation.Text
                 AddLineBreakAfter(this.LastRun);
             }
         }
-        public new void AddFirst(ArtEditableVisualTextRun v)
+        public new void AddFirst(EditableVisualTextRun v)
         {
             if (!v.IsLineBreak)
             {
@@ -183,7 +183,7 @@ namespace LayoutFarm.Presentation.Text
             }
 
         }
-        public void AddBefore(ArtEditableVisualTextRun beforeVisualElement, ArtEditableVisualTextRun v)
+        public void AddBefore(EditableVisualTextRun beforeVisualElement, EditableVisualTextRun v)
         {
             if (!v.IsLineBreak)
             {
@@ -195,7 +195,7 @@ namespace LayoutFarm.Presentation.Text
             }
 
         }
-        public void AddAfter(ArtEditableVisualTextRun afterVisualElement, ArtEditableVisualTextRun v)
+        public void AddAfter(EditableVisualTextRun afterVisualElement, EditableVisualTextRun v)
         {
             if (!v.IsLineBreak)
             {
@@ -207,21 +207,21 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        internal void UnsafeAddLast(ArtEditableVisualTextRun run)
+        internal void UnsafeAddLast(EditableVisualTextRun run)
         {
-            ArtEditableVisualTextRun.SetVisualElementAsChildOfOther(run, new VisualEditableLineParentLink(this, base.AddLast(run)));
+            EditableVisualTextRun.SetVisualElementAsChildOfOther(run, new VisualEditableLineParentLink(this, base.AddLast(run)));
         }
-        internal void UnsafeAddFirst(ArtEditableVisualTextRun run)
+        internal void UnsafeAddFirst(EditableVisualTextRun run)
         {
-            ArtEditableVisualTextRun.SetVisualElementAsChildOfOther(run, new VisualEditableLineParentLink(this, base.AddFirst(run)));
+            EditableVisualTextRun.SetVisualElementAsChildOfOther(run, new VisualEditableLineParentLink(this, base.AddFirst(run)));
         }
-        internal void UnsafeAddAfter(ArtEditableVisualTextRun after, ArtEditableVisualTextRun run)
+        internal void UnsafeAddAfter(EditableVisualTextRun after, EditableVisualTextRun run)
         {
-            ArtEditableVisualTextRun.SetVisualElementAsChildOfOther(run,
+            EditableVisualTextRun.SetVisualElementAsChildOfOther(run,
             new VisualEditableLineParentLink(this,
                 base.AddAfter(GetLineLinkedNode(after), run)));
         }
-        internal void UnsafeRemoveVisualElement(ArtEditableVisualTextRun v)
+        internal void UnsafeRemoveVisualElement(EditableVisualTextRun v)
         {
             base.Remove(GetLineLinkedNode(v));
         }

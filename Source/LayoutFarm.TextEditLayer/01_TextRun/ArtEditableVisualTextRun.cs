@@ -10,22 +10,20 @@ using System.IO;
 namespace LayoutFarm.Presentation.Text
 {
 
-    public partial class ArtEditableVisualTextRun : ArtVisualTextRun
-    {
-
-
-        private ArtEditableVisualTextRun(char[] myBuffer)
+    public partial class EditableVisualTextRun : VisualTextRun
+    {   
+        private EditableVisualTextRun(char[] myBuffer)
             : base(myBuffer)
         {
 
         }
 
-        public ArtEditableVisualTextRun(char c)
+        public EditableVisualTextRun(char c)
             : base(c)
         {
 
         }
-        public ArtEditableVisualTextRun(string str)
+        public EditableVisualTextRun(string str)
             : base(str)
         {
 
@@ -36,9 +34,9 @@ namespace LayoutFarm.Presentation.Text
 
             return CalculateDrawingStringSize(mybuffer, charCount).Width;
         }
-        internal ArtEditableVisualTextRun Clone()
+        internal EditableVisualTextRun Clone()
         {
-            return new ArtEditableVisualTextRun(this.Text);
+            return new EditableVisualTextRun(this.Text);
         }
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
@@ -82,7 +80,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        public ArtEditableVisualTextRun Copy(int startIndex, int length)
+        public EditableVisualTextRun Copy(int startIndex, int length)
         {
 
             if (startIndex > -1 && length > 0)
@@ -109,14 +107,14 @@ namespace LayoutFarm.Presentation.Text
                 }
             }
         }
-        ArtEditableVisualTextRun MakeTextRun(int sourceIndex, int length)
+        EditableVisualTextRun MakeTextRun(int sourceIndex, int length)
         {
 
             if (length > 0)
             {
                 char[] newContent = new char[length];
                 Array.Copy(this.mybuffer, sourceIndex, newContent, 0, length);
-                ArtEditableVisualTextRun newTextRun = new ArtEditableVisualTextRun(newContent);
+                EditableVisualTextRun newTextRun = new EditableVisualTextRun(newContent);
                 BoxStyle bah = this.MyBoxStyle;
                 if (bah != null)
                 {
@@ -133,7 +131,7 @@ namespace LayoutFarm.Presentation.Text
             }
 
         }
-        public ArtEditableVisualTextRun Copy(int startIndex)
+        public EditableVisualTextRun Copy(int startIndex)
         {
 
             int length = mybuffer.Length - startIndex;
@@ -160,20 +158,20 @@ namespace LayoutFarm.Presentation.Text
                 return null;
             }
         }
-        public ArtEditableVisualTextRun NextTextRun
+        public EditableVisualTextRun NextTextRun
         {
             get
             {
                 VisualEditableLineParentLink parent = (VisualEditableLineParentLink)this.ParentLink;
-                return parent.Next as ArtEditableVisualTextRun; 
+                return parent.Next as EditableVisualTextRun; 
             }
         }
-        public ArtEditableVisualTextRun PrevTextRun
+        public EditableVisualTextRun PrevTextRun
         {
             get
             {
                 VisualEditableLineParentLink parent = (VisualEditableLineParentLink)this.ParentLink;
-                return parent.Prev as ArtEditableVisualTextRun;
+                return parent.Prev as EditableVisualTextRun;
             }
         }
 

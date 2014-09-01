@@ -109,10 +109,10 @@ namespace LayoutFarm.Presentation.Text
     }
     class DocActionDeleteRange : DocumentAction
     {
-        LinkedList<ArtEditableVisualTextRun> deletedTextRuns;
+        LinkedList<EditableVisualTextRun> deletedTextRuns;
         int endLineNumber;
         int endCharIndex;
-        public DocActionDeleteRange(LinkedList<ArtEditableVisualTextRun> deletedTextRuns, int startLineNum, int startColumnNum,
+        public DocActionDeleteRange(LinkedList<EditableVisualTextRun> deletedTextRuns, int startLineNum, int startColumnNum,
             int endLineNum, int endColumnNum)
             : base(startLineNum, startColumnNum)
         {
@@ -139,10 +139,10 @@ namespace LayoutFarm.Presentation.Text
 
     class DocActionInsertRuns : DocumentAction
     {
-        IEnumerable<ArtEditableVisualTextRun> insertingTextRuns;
+        IEnumerable<EditableVisualTextRun> insertingTextRuns;
         int endLineNumber;
         int endCharIndex;
-        public DocActionInsertRuns(IEnumerable<ArtEditableVisualTextRun> insertingTextRuns,
+        public DocActionInsertRuns(IEnumerable<EditableVisualTextRun> insertingTextRuns,
             int startLineNumber, int startCharIndex, int endLineNumber, int endCharIndex)
             : base(startLineNumber, startCharIndex)
         {

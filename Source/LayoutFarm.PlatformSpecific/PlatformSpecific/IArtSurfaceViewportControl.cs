@@ -22,7 +22,7 @@ namespace LayoutFarm.Presentation
         void Invoke(Delegate del, object req);
         void PaintMe();
         void WhenParentFormClosed(EventHandler<EventArgs> handler);
-        void SetupWindowRoot(ArtVisualWindowImpl winroot);
+        void SetupWindowRoot(VisualWindowImpl winroot);
 
 #if DEBUG
         List<dbugLayoutMsg> dbug_rootDocDebugMsgs { get; }

@@ -12,7 +12,7 @@ using LayoutFarm.Presentation;
 namespace LayoutFarm.Presentation
 {
 
-    partial class ArtVisualWindowImpl
+    partial class VisualWindowImpl
     {
 
 
@@ -41,10 +41,10 @@ namespace LayoutFarm.Presentation
 
 
 
-        LinkedList<ArtVisualRootTimerTask> rootTimerTasks = new LinkedList<ArtVisualRootTimerTask>();
+        LinkedList<VisualRootTimerTask> rootTimerTasks = new LinkedList<VisualRootTimerTask>();
         System.Timers.Timer rootTasksTimer;
 
-        ArtUIHoverMonitorTask hoverMonitoringTask;
+        UIHoverMonitorTask hoverMonitoringTask;
 
 
         public event EventHandler<UIInvalidateEventArgs> CanvasInvalidatedEvent;
@@ -66,7 +66,7 @@ namespace LayoutFarm.Presentation
 
         }
 
-        LinkedList<LinkedListNode<ArtVisualRootTimerTask>> tobeRemoveTasks = new LinkedList<LinkedListNode<ArtVisualRootTimerTask>>();
+        LinkedList<LinkedListNode<VisualRootTimerTask>> tobeRemoveTasks = new LinkedList<LinkedListNode<VisualRootTimerTask>>();
          
 
 

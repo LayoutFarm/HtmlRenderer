@@ -12,16 +12,16 @@ using System.Drawing;
 namespace LayoutFarm.Presentation
 {
 
-    public class ArtVisualPaintEventArgs : EventArgs
+    public class VisualPaintEventArgs : EventArgs
     {
-        public ArtCanvas canvas;
+        public CanvasBase canvas;
         public InternalRect updateArea;
-        public ArtVisualPaintEventArgs(ArtCanvas canvas, InternalRect updateArea)
+        public VisualPaintEventArgs(CanvasBase canvas, InternalRect updateArea)
         {
             this.canvas = canvas;
             this.updateArea = updateArea;
         }
-        public ArtCanvas Canvas
+        public CanvasBase Canvas
         {
             get
             {
@@ -37,6 +37,6 @@ namespace LayoutFarm.Presentation
         }
     }
 
-    public delegate void ArtVisualPaintEventHandler(object sender, ArtVisualPaintEventArgs e);
+    public delegate void VisualPaintEventHandler(object sender, VisualPaintEventArgs e);
 
 }

@@ -18,7 +18,7 @@ namespace LayoutFarm.Presentation
             : base(owner)
         {
         }
-        public ArtVisualRootWindow GetWindowRoot()
+        public VisualRootWindow GetWindowRoot()
         {
             if (this.ownerVisualElement == null)
             {
@@ -26,7 +26,7 @@ namespace LayoutFarm.Presentation
             }
             if (this.ownerVisualElement.IsWindowRoot)
             {
-                return (ArtVisualRootWindow)this.ownerVisualElement;
+                return (VisualRootWindow)this.ownerVisualElement;
             }
             else
             {
@@ -148,7 +148,7 @@ namespace LayoutFarm.Presentation
 
 
         }
-        public override void DrawChildContent(ArtCanvas canvasPage, InternalRect updateArea)
+        public override void DrawChildContent(CanvasBase canvasPage, InternalRect updateArea)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) != 0)
             {

@@ -110,11 +110,11 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public void dbug_AddDrawElement(ArtVisualElement visualElement, ArtCanvas currentCanvas)
+        public void dbug_AddDrawElement(ArtVisualElement visualElement, CanvasBase currentCanvas)
         {
             dbug_AddDrawElement(visualElement, currentCanvas, null);
         }
-        public void dbug_AddDrawElement(ArtVisualElement visualElement, ArtCanvas currentCanvas, string additionalMsg)
+        public void dbug_AddDrawElement(ArtVisualElement visualElement, CanvasBase currentCanvas, string additionalMsg)
         {
 
             StringBuilder stBuilder = new StringBuilder();
