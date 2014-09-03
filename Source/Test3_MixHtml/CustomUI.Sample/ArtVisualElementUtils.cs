@@ -10,8 +10,7 @@ namespace LayoutFarm.Presentation
     public static class ArtVisualElementUtils
     {
         public static BoxStyle CreateSimpleRole(Color color)
-        {
-
+        {   
             BoxStyle beh = new BoxStyle();
             beh.SharedBgColorBrush = new ArtSolidBrush(color);
             return beh;
@@ -75,14 +74,7 @@ namespace LayoutFarm.Presentation
                 }
                 local_desiredWidth += visualElement.ElementDesiredWidth;
                 curNode = curNode.Next;
-            }
-
-
-
-
-
-
-
+            } 
 
             return new Size(local_desiredWidth, local_desiredHeight);
         }

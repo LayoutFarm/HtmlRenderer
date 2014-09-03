@@ -17,8 +17,8 @@ namespace LayoutFarm.Presentation
         int myviewportX;
         int myviewportY;
 
-        public int uiDesiredWidth = 0;
-        public int uiDesiredHeight = 0;
+        //public int uiDesiredWidth = 0;
+        //public int uiDesiredHeight = 0;
         List<VisualLayer> otherLayers;
 
         public ArtVisualContainerBase(int width, int height, VisualElementNature nature)
@@ -227,13 +227,7 @@ namespace LayoutFarm.Presentation
                         finalHeight = cHeight;
                     } break;
             }
-
-
-
-
-
-
-
+             
 
             SetCalculatedDesiredSize(this, finalWidth, finalHeight);
 #if DEBUG
@@ -427,13 +421,13 @@ namespace LayoutFarm.Presentation
             }
 
         }
-        public static void ResetDesiredSize(ArtVisualContainerBase vscont)
-        {
+        //public static void ResetDesiredSize(ArtVisualContainerBase vscont)
+        //{
 
-            vscont.uiDesiredWidth = vscont.Width;
-            vscont.uiDesiredHeight = vscont.Height;
+        //    vscont.ui = vscont.Width;
+        //    vscont.uiDesiredHeight = vscont.Height;
 
-        }
+        //}
         public void AddChild(ArtVisualElement child)
         {
 #if DEBUG

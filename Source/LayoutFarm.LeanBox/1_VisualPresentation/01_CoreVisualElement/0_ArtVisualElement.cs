@@ -11,7 +11,6 @@ namespace LayoutFarm.Presentation
     public abstract partial class ArtVisualElement
     {
 
-
         IVisualParentLink visualParentLink;
         object controller;
 
@@ -193,9 +192,7 @@ namespace LayoutFarm.Presentation
         {
             get
             {
-
                 return (uiFlags & NOT_ACCEPT_FOCUS) == 0;
-
             }
             set
             {

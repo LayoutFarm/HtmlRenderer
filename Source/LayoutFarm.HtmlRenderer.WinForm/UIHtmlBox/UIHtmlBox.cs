@@ -8,10 +8,10 @@ using System.Drawing;
 namespace LayoutFarm.Presentation
 {
 
-    public class ArtUIHtmlBox : UIElement
+    public class UIHtmlBox : UIElement
     {
         ArtVisualHtmlBox myHtmlBox;
-        public ArtUIHtmlBox(int width, int height)
+        public UIHtmlBox(int width, int height)
         {
             myHtmlBox = new ArtVisualHtmlBox(width, height);
         }

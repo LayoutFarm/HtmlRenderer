@@ -16,8 +16,7 @@ namespace LayoutFarm.Presentation
     partial class ArtVisualElement
     {
         int uiTop;
-        int uiLeft;
-
+        int uiLeft; 
         int uiWidth;
         int uiHeight;
 
@@ -249,7 +248,7 @@ namespace LayoutFarm.Presentation
             return ContainPoint(testPoint.X, testPoint.Y);
         }
         public bool HitTestCore(ArtHitPointChain artHitResult)
-        {   
+        {
 
             if ((uiFlags & HIDDEN) != 0)
             {
@@ -261,7 +260,7 @@ namespace LayoutFarm.Presentation
                 case VisualElementNature.CssBox:
                     {
                         throw new NotSupportedException();
-                    } 
+                    }
                 case VisualElementNature.Shapes:
                     {
                         throw new NotSupportedException();
@@ -274,8 +273,8 @@ namespace LayoutFarm.Presentation
                         artHitResult.GetTestPoint(out testX, out testY);
                         if ((testY >= uiTop && testY <= (uiTop + uiHeight)
                         && (testX >= uiLeft && testX <= (uiLeft + uiWidth))))
-                        { 
-                            ArtVisualContainerBase scContainer = null; 
+                        {
+                            ArtVisualContainerBase scContainer = null;
                             if (this.IsScrollable)
                             {
                                 scContainer = (ArtVisualContainerBase)this;
@@ -383,35 +382,13 @@ y + height <= uiTop + uiHeight;
         public const int LY_SUSPEND_GRAPHIC = 1 << (12 - 1);
         public const int LY_IN_LAYOUT_QUEUE = 1 << (13 - 1);
         public const int LY_IN_LAYOUT_QCHAIN_UP = 1 << (10 - 1);
-         
+
 
         public int ElementDesiredWidth
         {
             get
             {
-                if (this.IsVisualContainerBase)
-                {
-                    if (HasSpecificWidth)
-                    {
-                        return this.uiWidth;
-                    }
-                    else
-                    {
-                        if (HasCalculatedSize)
-                        {
-                            return ((ArtVisualContainerBase)this).uiDesiredWidth;
-                        }
-                        else
-                        {
-                            return this.uiWidth;
-                        }
-                    }
-                }
-                else
-                {
-                    return uiWidth;
-                }
-
+                return this.uiWidth;
             }
         }
         public int ElementDesiredRight
@@ -434,30 +411,7 @@ y + height <= uiTop + uiHeight;
         {
             get
             {
-                if (this.IsVisualContainerBase)
-                {
-                    if (HasSpecificHeight)
-                    {
-                        return uiHeight;
-                    }
-                    else
-                    {
-                        if (HasCalculatedSize)
-                        {
-                            return ((ArtVisualContainerBase)this).uiDesiredHeight;
-                        }
-                        else
-                        {
-                            return this.uiHeight;
-                        }
-
-                    }
-                }
-                else
-                {
-                    return uiHeight;
-                }
-
+                return uiHeight; 
             }
         }
 
@@ -526,8 +480,8 @@ y + height <= uiTop + uiHeight;
 
 
 
- 
-   
+
+
         public bool HasCalculatedSize
         {
             get

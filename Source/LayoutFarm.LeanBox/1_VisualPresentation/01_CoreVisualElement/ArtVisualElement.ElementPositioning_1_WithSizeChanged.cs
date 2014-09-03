@@ -26,8 +26,10 @@ namespace LayoutFarm.Presentation
 
         public static void SetCalculatedDesiredSize(ArtVisualContainerBase v, int desiredWidth, int desiredHeight)
         {
-            v.uiDesiredWidth = desiredWidth;
-            v.uiDesiredHeight = desiredHeight;
+            //v.uiDesiredWidth = desiredWidth;
+            //v.uiDesiredHeight = desiredHeight;
+            v.uiWidth = desiredWidth;
+            v.uiHeight = desiredHeight;
             v.MarkHasValidCalculateSize();
         }
 
@@ -122,8 +124,8 @@ namespace LayoutFarm.Presentation
 
         public void SetWidth(int width, VisualElementArgs vinv)
         {
-            this.SetSize(width, this.uiHeight, vinv); 
-        } 
+            this.SetSize(width, this.uiHeight, vinv);
+        }
         public void SetHeight(int height, VisualElementArgs vinv)
         {
             this.SetSize(this.uiWidth, height, vinv);
@@ -178,8 +180,8 @@ namespace LayoutFarm.Presentation
 #endif
             }
         }
-          
-         
+
+
 
     }
 }

@@ -58,11 +58,9 @@ namespace TestGraphicPackage2
                 out viewport,
                 out formCanvas);
 
-
-
             //==================================================
             //html box
-            ArtUIHtmlBox htmlBox = new ArtUIHtmlBox(800, 600);
+            UIHtmlBox htmlBox = new UIHtmlBox(800, 600);
             ArtVisualHtmlBox innerHtmlBox = htmlBox.PrimaryVisual;
             viewport.AddContent(innerHtmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
@@ -93,7 +91,7 @@ namespace TestGraphicPackage2
 
             ////==================================================
             //html box
-            ArtUIHtmlBox htmlBox = new ArtUIHtmlBox(800, 400);
+            UIHtmlBox htmlBox = new UIHtmlBox(800, 400);
             ArtVisualHtmlBox innerHtmlBox = htmlBox.PrimaryVisual;
             viewport.AddContent(innerHtmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
