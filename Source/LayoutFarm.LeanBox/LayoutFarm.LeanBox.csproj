@@ -41,8 +41,8 @@
     <Compile Include="0_Start\ExtensionAttribute.cs" />
     <Compile Include="1_VisualPresentation\07_VisualRootDoc\0_ArtVisualRootWindow.cs" />
     <Compile Include="1_VisualPresentation\07_VisualRootDoc\1_VisualRoot.cs" />
-    <Compile Include="1_VisualPresentation\07_VisualRootDoc\1_VisualRoot.dbug.cs" />
-    <Compile Include="1_VisualPresentation\07_VisualRootDoc\1_VisualRoot.dbugVisualRootMsg.cs" />
+    <Compile Include="1_VisualPresentation\07_VisualRootDoc\1_VisualRoot.dbug1.cs" />
+    <Compile Include="1_VisualPresentation\07_VisualRootDoc\1_VisualRoot.dbug2.cs" />
     <Compile Include="5_debug\dbugVisualEvalScrollBarTrace.cs" />
     <Compile Include="5_debug\dbugVisualInvalidationTracer.cs" />
     <Compile Include="5_debug\dbugVisualLayoutTracer.cs" />

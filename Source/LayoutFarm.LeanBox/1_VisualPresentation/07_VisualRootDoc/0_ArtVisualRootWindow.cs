@@ -8,12 +8,12 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-    public abstract partial class VisualRootWindow : ArtVisualContainerBase
+    public abstract partial class ArtVisualRootWindow : ArtVisualContainerBase
     {
         VisualRoot visualRoot;
         VisualLayer groundLayer;
 
-        public VisualRootWindow(VisualRoot visualRoot, int width, int height)
+        public ArtVisualRootWindow(VisualRoot visualRoot, int width, int height)
             : base(width, height, VisualElementNature.WindowRoot)
         {
             this.visualRoot = visualRoot;

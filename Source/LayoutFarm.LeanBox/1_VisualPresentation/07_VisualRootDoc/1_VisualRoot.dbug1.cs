@@ -14,11 +14,11 @@ using LayoutFarm.Presentation;
 
 namespace LayoutFarm.Presentation
 {
-
+#if DEBUG
     partial class VisualRoot
     {
 
-#if DEBUG
+
 
         public bool dbug_ShowRootUpdateArea = false;
         public bool dbug_ShowNativeScrollableElementUpdateArea = false;
@@ -225,7 +225,7 @@ namespace LayoutFarm.Presentation
                 dbugGraphicInvalidateTracer.WriteInfo(msg.msg, ve);
             }
         }
-        public dbugVisualInvalidationTracer GetVisualInvalidateTracer()
+        public dbugVisualInvalidationTracer dbugGetVisualInvalidateTracer()
         {
             return dbugGraphicInvalidateTracer;
         }
@@ -346,7 +346,7 @@ namespace LayoutFarm.Presentation
         {
             return null;
         }
-        public static VisualRoot dbugCurrentGlobalVRoot;
-#endif
+        public static VisualRoot dbugCurrentGlobalVRoot; 
     }
+#endif
 }

@@ -15,7 +15,7 @@ namespace LayoutFarm.Presentation
 
 
 
-    public partial class UISurfaceViewportControl : UserControl, IArtSurfaceViewportControl
+    public partial class UISurfaceViewportControl : UserControl, ISurfaceViewportControl
     {
         CanvasEventsStock eventStock = new CanvasEventsStock();
         CanvasViewport canvasViewport;
@@ -88,7 +88,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public VisualRootWindow WinRoot
+        public ArtVisualRootWindow WinRoot
         {
             get
             {

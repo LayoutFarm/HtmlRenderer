@@ -9,7 +9,7 @@ namespace LayoutFarm.Presentation
 {
 
 
-    public interface IArtSurfaceViewportControl
+    public interface ISurfaceViewportControl
     {
 
         IntPtr Handle { get; }

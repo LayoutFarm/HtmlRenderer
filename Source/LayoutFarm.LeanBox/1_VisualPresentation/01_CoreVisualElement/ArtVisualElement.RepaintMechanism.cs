@@ -59,7 +59,7 @@ namespace LayoutFarm.Presentation
         {
             InvalidateGraphic(vinv);
 
-            VisualRootWindow winroot = vinv.WinRoot;
+            ArtVisualRootWindow winroot = vinv.WinRoot;
             if (winroot != null)
             {
                 winroot.RootBeginGraphicUpdate();
@@ -74,7 +74,7 @@ namespace LayoutFarm.Presentation
         public void EndGraphicUpdate(VisualElementArgs vinv)
         {
             this.uiLayoutFlags &= ~LY_SUSPEND_GRAPHIC; InvalidateGraphic(vinv);
-            VisualRootWindow winroot = vinv.WinRoot;
+            ArtVisualRootWindow winroot = vinv.WinRoot;
             if (winroot != null)
             {
                 winroot.RootEndGraphicUpdate();
@@ -90,7 +90,7 @@ namespace LayoutFarm.Presentation
             {
                 InvalidateGraphic(vinv);
 
-                VisualRootWindow winroot = vinv.WinRoot;
+                ArtVisualRootWindow winroot = vinv.WinRoot;
                 if (winroot != null)
                 {
                     winroot.RootBeginGraphicUpdate();
@@ -108,7 +108,7 @@ namespace LayoutFarm.Presentation
             {
                 InvalidateGraphic(vinv);
 
-                VisualRootWindow winroot = vinv.WinRoot;
+                ArtVisualRootWindow winroot = vinv.WinRoot;
                 if (winroot != null)
                 {
                     winroot.RootEndGraphicUpdate();

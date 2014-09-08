@@ -111,17 +111,13 @@ namespace LayoutFarm.Presentation.Text
             //{
             //    SubgroundPaint(this, new ArtVisualPaintEventArgs(canvasPage, updateArea));
             //}
-        }
-
-
-
+        } 
         public void OnKeyPress(UIKeyPressEventArgs e)
         {
 
             if (!e.IsControlKey)
             {
-                VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
-
+                VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs(); 
                 char c = e.KeyChar;
                 e.CancelBubbling = true;
                 if (internalTextLayerController.SelectionRange != null

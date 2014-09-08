@@ -52,7 +52,7 @@
     <Compile Include="PlatformSpecific\CanvasCaret.cs" />
     <Compile Include="PlatformSpecific\CanvasViewport.cs" />
     <Compile Include="PlatformSpecific\FormCanvasHelper.cs" />
-    <Compile Include="PlatformSpecific\IArtSurfaceViewportControl.cs" />
+    <Compile Include="PlatformSpecific\ISurfaceViewportControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PlatformSpecific\ArtCanvasImpl.cs" />
     <Compile Include="PlatformSpecific\ArtCanvasCollection.cs" />

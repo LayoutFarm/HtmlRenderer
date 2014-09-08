@@ -13,7 +13,7 @@ namespace LayoutFarm.Presentation
 
 
 
-    public partial class VisualWindowImpl : VisualRootWindow
+    public partial class VisualWindowImpl : ArtVisualRootWindow
     {
         bool layoutQueueClearing = false;
 

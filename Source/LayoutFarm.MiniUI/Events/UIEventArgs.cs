@@ -142,21 +142,21 @@ namespace LayoutFarm.Presentation
             }
 
         }
-        public VisualRootWindow WinRoot
+        public ArtVisualRootWindow WinRoot
         {
             get
             {
                 return winRoot;
             }
         }
-        public void SetWinRoot(VisualRootWindow winRoot)
+        public void SetWinRoot(ArtVisualRootWindow winRoot)
         {
             this.winRoot = winRoot;
             this.vroot = winRoot.VisualRoot;
         }
 
         VisualRoot vroot;
-        VisualRootWindow winRoot;
+        ArtVisualRootWindow winRoot;
 
         public VisualElementArgs GetVisualInvalidateCanvasArgs()
         {

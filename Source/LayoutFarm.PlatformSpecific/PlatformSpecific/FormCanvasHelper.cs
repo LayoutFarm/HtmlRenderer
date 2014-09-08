@@ -3,12 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using System.Drawing;
-
-
-
-using LayoutFarm.Presentation;
-
+using System.Drawing; 
+ 
 
 namespace LayoutFarm.Presentation
 {
@@ -36,8 +32,7 @@ namespace LayoutFarm.Presentation
             MakeFormCanvas(form1, canvasViewport);
             //----------------------
             form1.SizeChanged += (s, e) =>
-            {
-
+            {   
                 if (form1.WindowState == FormWindowState.Maximized)
                 {
                     Screen currentScreen = GetScreenFromX(form1.Left);

@@ -551,7 +551,7 @@ y + height <= uiTop + uiHeight;
         {
             ve.InvalidateLayoutAndStartBubbleUp();
         }
-        static ArtVisualElement BubbleUpInvalidLayoutToTopMost(ArtVisualElement ve, VisualRootWindow winroot)
+        static ArtVisualElement BubbleUpInvalidLayoutToTopMost(ArtVisualElement ve, ArtVisualRootWindow winroot)
         {
 #if DEBUG
             VisualRoot dbugVRoot = ve.dbugVRoot;
@@ -644,13 +644,13 @@ ve
             return parentVisualElem;
         }
 
-        VisualRootWindow InternalGetWinRootElement()
+        ArtVisualRootWindow InternalGetWinRootElement()
         {
             if (visualParentLink == null)
             {
                 if (this.IsWindowRoot)
                 {
-                    return (VisualRootWindow)this;
+                    return (ArtVisualRootWindow)this;
                 }
                 else
                 {
@@ -668,7 +668,7 @@ ve
 #if DEBUG
             dbugVRoot.dbug_LayoutTraceBeginContext(VisualRoot.dbugMsg_E_LAYOUT_INV_BUB_FIRST_enter, this);
 #endif
-            VisualRootWindow winroot = this.InternalGetWinRootElement();
+            ArtVisualRootWindow winroot = this.InternalGetWinRootElement();
             ArtVisualElement tobeAddToLayoutQueue = BubbleUpInvalidLayoutToTopMost(this, winroot);
 #if DEBUG
 

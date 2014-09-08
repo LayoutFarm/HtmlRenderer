@@ -33,28 +33,7 @@ namespace LayoutFarm.Presentation
             v.MarkHasValidCalculateSize();
         }
 
-        public void SuspendLayout()
-        {
-            uiLayoutFlags |= LY_SUSPEND;
-
-        }
-        public void ResumeLayout()
-        {
-            VisualElementArgs vinv = this.GetVInv();
-
-#if DEBUG
-            vinv.dbug_SetInitObject(this);
-            vinv.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.ArtVisualElement_ResumeLayout);
-#endif
-
-            this.ResumeLayout(vinv);
-
-#if DEBUG
-            vinv.dbug_EndLayoutTrace();
-#endif
-            this.FreeVInv(vinv);
-
-        }
+    
 
         public bool IsLayoutSuspending
         {

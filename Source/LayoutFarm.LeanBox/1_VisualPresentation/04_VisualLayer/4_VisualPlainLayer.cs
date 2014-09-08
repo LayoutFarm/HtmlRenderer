@@ -18,7 +18,7 @@ namespace LayoutFarm.Presentation
             : base(owner)
         {
         }
-        public VisualRootWindow GetWindowRoot()
+        public ArtVisualRootWindow GetWindowRoot()
         {
             if (this.ownerVisualElement == null)
             {
@@ -26,7 +26,7 @@ namespace LayoutFarm.Presentation
             }
             if (this.ownerVisualElement.IsWindowRoot)
             {
-                return (VisualRootWindow)this.ownerVisualElement;
+                return (ArtVisualRootWindow)this.ownerVisualElement;
             }
             else
             {

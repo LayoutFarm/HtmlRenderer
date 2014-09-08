@@ -105,7 +105,7 @@ namespace LayoutFarm.Presentation
         public const int PAGE_ABCD = 3;
 
         public void RenderToOutputWindowFullMode(
-VisualRootWindow rootElement,
+ArtVisualRootWindow rootElement,
 IntPtr destOutputHdc,
 int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
@@ -195,7 +195,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
 
         }
 
-        static void UpdateAllArea(CanvasBase artCanvas, VisualRootWindow rootElement)
+        static void UpdateAllArea(CanvasBase artCanvas, ArtVisualRootWindow rootElement)
         {
 
             artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
@@ -222,7 +222,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
 
             artCanvas.OffsetCanvasOrigin(artCanvas.Left, artCanvas.Top);
         }
-        static void UpdateInvalidArea(CanvasBase artCanvas, VisualRootWindow rootElement, VisualDrawingChain renderingChain)
+        static void UpdateInvalidArea(CanvasBase artCanvas, ArtVisualRootWindow rootElement, VisualDrawingChain renderingChain)
         {
 
             List<ArtVisualElement> selectedVisualElements = renderingChain.selectedVisualElements;
@@ -284,7 +284,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
                 selectedVisualElements[i].IsInRenderChain = true;
             }
         }
-        static void UpdateInvalidArea(CanvasBase artCanvas, VisualRootWindow rootElement)
+        static void UpdateInvalidArea(CanvasBase artCanvas, ArtVisualRootWindow rootElement)
         {
 #if DEBUG
 #endif
@@ -307,7 +307,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
 
 
         public void RenderToOutputWindowPartialMode(
-        VisualRootWindow rootElement,
+        ArtVisualRootWindow rootElement,
         IntPtr destOutputHdc,
         int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {

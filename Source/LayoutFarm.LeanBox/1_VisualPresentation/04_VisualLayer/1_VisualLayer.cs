@@ -56,7 +56,7 @@ namespace LayoutFarm.Presentation
 
         public abstract void Clear();
 
-        protected VisualRootWindow WinRoot
+        protected ArtVisualRootWindow WinRoot
         {
             get
             {

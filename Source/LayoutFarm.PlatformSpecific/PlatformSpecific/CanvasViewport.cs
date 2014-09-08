@@ -40,8 +40,8 @@ namespace LayoutFarm.Presentation
 
 
         bool fullMode = true;
-        IArtSurfaceViewportControl outputWindow;
-        public CanvasViewport(IArtSurfaceViewportControl outputWindow,
+        ISurfaceViewportControl outputWindow;
+        public CanvasViewport(ISurfaceViewportControl outputWindow,
             VisualWindowImpl winroot,
             Size viewportSize, int cachedPageNum)
         {

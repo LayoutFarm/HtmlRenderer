@@ -27,7 +27,7 @@ namespace LayoutFarm.Presentation.Text
         {
         }
         
-        public VisualRootWindow GetWindowRoot()
+        public ArtVisualRootWindow GetWindowRoot()
         {
             return ownerLine.OwnerElement.WinRoot;
         }
