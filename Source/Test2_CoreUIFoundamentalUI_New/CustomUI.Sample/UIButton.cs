@@ -16,7 +16,7 @@ namespace LayoutFarm.Presentation.SampleControls
         ArtVisualElement primaryVisualElement;
         public UIButton(int width, int height)
         {
-            primaryVisualElement = new ArtVisualBox(width, height);
+            primaryVisualElement = new CustomVisualBox(width, height);
         }
         public ArtVisualElement PrimaryVisualElement
         {
@@ -36,15 +36,13 @@ namespace LayoutFarm.Presentation.SampleControls
         public void SetLocation(int left, int top)
         {
             ArtVisualElement.DirectSetVisualElementLocation(this.primaryVisualElement, left, top);
-        }
-
-
+        } 
     }
 
-    class ArtVisualBox : ArtVisualElement
+    class CustomVisualBox : ArtVisualElement
     {
 
-        public ArtVisualBox(int w, int h)
+        public CustomVisualBox(int w, int h)
             : base(w, h, VisualElementNature.Shapes)
         {
 

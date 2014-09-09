@@ -51,7 +51,7 @@ namespace LayoutFarm.Presentation
             }
 
 
-            InternalRect internalRect = InternalRect.CreateFromWH(uiWidth, uiHeight);
+            InternalRect internalRect = InternalRect.CreateFromWH(b_width, b_Height);
             vinv.AddInvalidateRequest(this, internalRect);
             InternalRect.FreeInternalRect(internalRect);
         }

@@ -199,16 +199,8 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
 
             artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
-            InternalRect rect = InternalRect.CreateFromRect(artCanvas.Rect);
-
-
-
-            rootElement.DrawToThisPage(artCanvas, rect);
-
-
-
-
-
+            InternalRect rect = InternalRect.CreateFromRect(artCanvas.Rect); 
+            rootElement.DrawToThisPage(artCanvas, rect); 
 
 #if DEBUG
             rootElement.dbugShowRenderPart(artCanvas, rect);

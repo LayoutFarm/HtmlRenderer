@@ -137,7 +137,7 @@ namespace LayoutFarm.Presentation
                         VisualScrollableSurface scrollableElement = container.VisualScrollableSurface;
                         scrollableElement.WindowRootNotifyInvalidArea(elementClientRect);
                     }
-                    Rectangle elementRect = fromElement.Rect;
+                    Rectangle elementRect = fromElement.BoundRect;
                     elementRect.Offset(container.ViewportX, container.ViewportY);
                     elementClientRect.Intersect(elementRect);
                     globalX = -container.ViewportX;

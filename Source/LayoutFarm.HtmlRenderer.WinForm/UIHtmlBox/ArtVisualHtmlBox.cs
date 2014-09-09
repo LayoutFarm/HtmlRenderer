@@ -46,7 +46,7 @@ namespace LayoutFarm.Presentation
         int myWidth;
         int myHeight;
         public ArtVisualHtmlBox(int width, int height)
-            : base(width, height, VisualElementNature.HtmlContainer)
+            : base(width, height, VisualElementNature.CustomContainer)
         {
             this.myWidth = width;
             this.myHeight = height;

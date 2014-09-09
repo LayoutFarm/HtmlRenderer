@@ -186,11 +186,13 @@ namespace TestGraphicPackage2
             {
                 var textbox = new LayoutFarm.Presentation.SampleControls.UIButton(30, 30);
                 textbox.SetLocation(i * 40, 0);
-                viewport.AddContent(textbox.PrimaryVisualElement);
 
-                var vinv = textbox.PrimaryVisualElement.GetVInv();
-                textbox.PrimaryVisualElement.InvalidateGraphic(vinv);
-                textbox.PrimaryVisualElement.FreeVInv(vinv);
+                var v = textbox.PrimaryVisualElement;
+                viewport.AddContent(v);
+
+                var vinv = v.GetVInv();
+                v.InvalidateGraphic(vinv);
+                v.FreeVInv(vinv);
             }
 
             //================================================== 

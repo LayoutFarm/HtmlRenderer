@@ -148,7 +148,7 @@ namespace LayoutFarm.Presentation.Text
         {
             get
             {
-                var parentLink = this.MyParentLink as VisualEditableLineParentLink;
+                var parentLink = this.ParentLink as VisualEditableLineParentLink;
                 if (parentLink != null)
                 {
                     return (EditableVisualElementLine)(parentLink.internalLinkedNode.List);

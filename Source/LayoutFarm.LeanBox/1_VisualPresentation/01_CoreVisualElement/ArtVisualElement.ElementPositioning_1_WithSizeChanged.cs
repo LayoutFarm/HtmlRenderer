@@ -28,8 +28,8 @@ namespace LayoutFarm.Presentation
         {
             //v.uiDesiredWidth = desiredWidth;
             //v.uiDesiredHeight = desiredHeight;
-            v.uiWidth = desiredWidth;
-            v.uiHeight = desiredHeight;
+            v.b_width = desiredWidth;
+            v.b_Height = desiredHeight;
             v.MarkHasValidCalculateSize();
         }
 
@@ -103,24 +103,24 @@ namespace LayoutFarm.Presentation
 
         public void SetWidth(int width, VisualElementArgs vinv)
         {
-            this.SetSize(width, this.uiHeight, vinv);
+            this.SetSize(width, this.b_Height, vinv);
         }
         public void SetHeight(int height, VisualElementArgs vinv)
         {
-            this.SetSize(this.uiWidth, height, vinv);
+            this.SetSize(this.b_width, height, vinv);
         }
         public void SetSize(int width, int height, VisualElementArgs vinv)
         {
 
             if (visualParentLink == null)
             {
-                this.uiWidth = width;
-                this.uiHeight = height;
+                this.b_width = width;
+                this.b_Height = height;
             }
             else
             {
 
-                int prevWidth = this.uiWidth; int prevHeight = this.uiHeight;
+                int prevWidth = this.b_width; int prevHeight = this.b_Height;
                 this.BeforeBoundChangedInvalidateGraphics(vinv);
                 PrivateSetSize(width, height, vinv);
                 this.AfterBoundChangedInvalidateGraphics(vinv);

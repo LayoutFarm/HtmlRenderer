@@ -14,11 +14,13 @@ namespace LayoutFarm.Presentation
         IVisualParentLink visualParentLink;
         object controller;
 
-        public ArtVisualElement(int width, int height, VisualElementNature nature)
+        public ArtVisualElement(int width, 
+            int height, 
+            VisualElementNature nature)
         {
 
-            this.uiWidth = width;
-            this.uiHeight = height;
+            this.b_width = width;
+            this.b_Height = height;
             SetVisualElementNature(this, nature);
 #if DEBUG
             dbug_totalObjectId++;
@@ -26,16 +28,16 @@ namespace LayoutFarm.Presentation
             this.dbug_SetFixedElementCode(this.GetType().Name);
 #endif
         }
-
+        //=========================================
         public object GetController()
         {
             return controller;
-        }
-
+        } 
         public void SetController(object ui)
         {
             this.controller = ui;
         }
+        //=========================================
 
         public VisualElementArgs GetVInv()
         {
@@ -83,16 +85,14 @@ namespace LayoutFarm.Presentation
         public virtual void ClearAllChildren()
         {
 
-        }
-
-        public IVisualParentLink MyParentLink
+        } 
+        public IVisualParentLink ParentLink
         {
             get
             {
-                return this.visualParentLink;
+                return visualParentLink;
             }
         }
-
         protected void RegisterNativeEvent(int registerEventFlags)
         {
             oneBitNativeEventFlags |= registerEventFlags;
@@ -111,17 +111,8 @@ namespace LayoutFarm.Presentation
             }
             visualParentLink.Unlink(this);
             visualParentLink = null;
-        }
-
-
-
-        public IVisualParentLink ParentLink
-        {
-            get
-            {
-                return visualParentLink;
-            }
-        }
+        } 
+        
         public static void RemoveParentLink(ArtVisualElement visual)
         {
             visual.visualParentLink = null;
@@ -430,11 +421,8 @@ namespace LayoutFarm.Presentation
                 {
                     if (!ListeningDragEvent)
                     {
-
                         uiFlags |= LISTEN_DRAG_EVENT;
-
                     }
-
                 }
                 else
                 {
@@ -459,17 +447,7 @@ namespace LayoutFarm.Presentation
         {
             target.uiCombineFlags = (target.uiCombineFlags & ~0xF) | (int)visualNature;
         }
-
-        public bool IsTranslucentBackground
-        {
-
-            get
-            {
-
-                return ((uiFlags & IS_TRANSLUCENT_BG) != 0);
-            }
-
-        }
+         
         public virtual ArtVisualElement FindOverlapedChildElementAtPoint(ArtVisualElement afterThisChild, Point point)
         {
 

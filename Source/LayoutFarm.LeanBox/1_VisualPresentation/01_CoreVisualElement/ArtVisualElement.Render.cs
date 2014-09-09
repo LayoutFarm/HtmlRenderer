@@ -40,7 +40,7 @@ namespace LayoutFarm.Presentation
                 return;
             }
 
-            canvasPage.FillRectangle(colorBrush, 0, 0, visualElement.uiWidth, visualElement.uiHeight);
+            canvasPage.FillRectangle(colorBrush, 0, 0, visualElement.b_width, visualElement.b_Height);
 
         }
 
@@ -59,10 +59,7 @@ namespace LayoutFarm.Presentation
 
                 switch ((VisualElementNature)(uiCombineFlags & 0xF))
                 {
-                    case VisualElementNature.CssBox:
-                        {
-                            drawingChain.AddVisualElement(this, containAll);
-                        } break;
+                     
                     case VisualElementNature.Shapes:
                         {
                             drawingChain.AddVisualElement(this, containAll);
@@ -70,14 +67,13 @@ namespace LayoutFarm.Presentation
                     case VisualElementNature.TextRun:
                         {
 
-                        } break;
-
+                        } break; 
                     default:
                         {
                             drawingChain.AddVisualElement(this, containAll);
 
-                            int x = this.uiLeft;
-                            int y = this.uiTop;
+                            int x = this.b_left;
+                            int y = this.b_top;
 
                             if (this.IsScrollable)
                             {
@@ -108,7 +104,7 @@ namespace LayoutFarm.Presentation
             dbugVRoot.dbug_drawLevel++;
 #endif
            
-            if (canvasPage.PushClipArea(uiWidth, uiHeight, updateArea))
+            if (canvasPage.PushClipArea(b_width, b_Height, updateArea))
             {
 #if DEBUG
                 if (dbugVRoot.dbug_RecordDrawingChain)
@@ -120,13 +116,9 @@ namespace LayoutFarm.Presentation
                 {
 
 
-                    case VisualElementNature.CssBox:
-                        {
-
-                            throw new NotSupportedException();
-                        } break;
+                     
                     case VisualElementNature.Shapes: 
-                    case VisualElementNature.HtmlContainer:
+                    case VisualElementNature.CustomContainer:
                     case VisualElementNature.TextRun:
                         {
                             this.CustomDrawToThisPage(canvasPage, updateArea);
@@ -211,7 +203,7 @@ namespace LayoutFarm.Presentation
         {
             get
             {
-                return this.ElementNature >= VisualElementNature.SimpleContainer;
+                return this.ElementNature >= VisualElementNature.WindowRoot;
             }
         }
 

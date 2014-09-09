@@ -115,7 +115,7 @@ namespace LayoutFarm.Presentation
 
 
 
-            Rectangle r = this.Rect;
+            Rectangle r = this.BoundRect;
             string output = "{" + r.X + "," + r.Y + "," + r.Width + "," + r.Height +
                 ";dw=" + this.ElementDesiredWidth +
                 ";dh=" + this.ElementDesiredHeight;

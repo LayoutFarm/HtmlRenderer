@@ -44,7 +44,7 @@ namespace LayoutFarm.Presentation.Text
 
         static LinkedListNode<EditableVisualTextRun> GetLineLinkedNode(EditableVisualTextRun ve)
         {
-            return ((VisualEditableLineParentLink)ve.MyParentLink).internalLinkedNode;
+            return ((VisualEditableLineParentLink)ve.ParentLink).internalLinkedNode;
         }
         void AddNormalRunBefore(EditableVisualTextRun beforeVisualElement, EditableVisualTextRun v)
         {

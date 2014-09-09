@@ -19,16 +19,16 @@ namespace LayoutFarm.Presentation
         public static void DirectSetVisualElementSize(ArtVisualElement visualElement, int width, int height)
         {
 
-            visualElement.uiWidth = width;
-            visualElement.uiHeight = height;
+            visualElement.b_width = width;
+            visualElement.b_Height = height;
         }
  
 
         public static void DirectSetVisualElementLocation(ArtVisualElement visualElement, int x, int y)
         {
 
-            visualElement.uiLeft = x;
-            visualElement.uiTop = y;
+            visualElement.b_left = x;
+            visualElement.b_top = y;
 
 
         }

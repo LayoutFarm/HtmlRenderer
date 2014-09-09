@@ -106,12 +106,12 @@ namespace LayoutFarm.Presentation.Text
                 if (startPoint != null && endPoint != null)
                 {
                     if ((startPoint.TextRun != null && startPoint.TextRun.IsFreeElement) ||
-    (endPoint.TextRun != null && endPoint.TextRun.IsFreeElement))
+                        (endPoint.TextRun != null && endPoint.TextRun.IsFreeElement))
                     {
                         throw new NotSupportedException("text range err");
                     }
                     if ((startPoint.LineCharIndex == endPoint.LineCharIndex) &&
-    (startPoint.LineId == endPoint.LineId))
+                    (startPoint.LineId == endPoint.LineId))
                     {
                         return false;
                     }

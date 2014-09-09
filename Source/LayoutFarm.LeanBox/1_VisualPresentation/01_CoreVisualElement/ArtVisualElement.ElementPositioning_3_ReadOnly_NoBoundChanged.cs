@@ -15,20 +15,23 @@ namespace LayoutFarm.Presentation
 
     partial class ArtVisualElement
     {
-        int uiTop;
-        int uiLeft; 
-        int uiWidth;
-        int uiHeight;
+        //----------------------
+        //rectangle boundary area
+
+        int b_top;
+        int b_left;
+        int b_width;
+        int b_Height;
 
 
         public bool IntersectsWith(InternalRect r)
         {
-            int left = this.uiLeft;
+            int left = this.b_left;
 
             if (((left <= r._left) && (this.Right > r._left)) ||
                 ((left >= r._left) && (left < r._right)))
             {
-                int top = this.uiTop;
+                int top = this.b_top;
                 if (((top <= r._top) && (this.Bottom > r._top)) ||
                ((top >= r._top) && (top < r._bottom)))
                 {
@@ -40,12 +43,12 @@ namespace LayoutFarm.Presentation
 
         public bool IntersectsWith(Rectangle r)
         {
-            int left = this.uiLeft;
+            int left = this.b_left;
 
             if (((left <= r.Left) && (this.Right > r.Left)) ||
                 ((left >= r.Left) && (left < r.Right)))
             {
-                int top = this.uiTop;
+                int top = this.b_top;
                 if (((top <= r.Top) && (this.Bottom > r.Top)) ||
                ((top >= r.Top) && (top < r.Bottom)))
                 {
@@ -59,7 +62,7 @@ namespace LayoutFarm.Presentation
 
         public bool IntersectOnHorizontalWith(InternalRect r)
         {
-            int left = this.uiLeft;
+            int left = this.b_left;
 
             if (((left <= r._left) && (this.Right > r._left)) ||
                 ((left >= r._left) && (left < r._right)))
@@ -71,34 +74,16 @@ namespace LayoutFarm.Presentation
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         protected Rectangle GetLocalArea()
         {
-            return new Rectangle(0, 0, uiWidth, uiHeight);
+            return new Rectangle(0, 0, b_width, b_Height);
         }
 
-        public Rectangle Rect
+        public Rectangle BoundRect
         {
             get
             {
-                return new Rectangle(uiLeft, uiTop, uiWidth, uiHeight);
+                return new Rectangle(b_left, b_top, b_width, b_Height);
 
             }
         }
@@ -106,14 +91,14 @@ namespace LayoutFarm.Presentation
         {
             get
             {
-                return new Size(uiWidth, uiHeight);
+                return new Size(b_width, b_Height);
             }
         }
         public int X
         {
             get
             {
-                return uiLeft;
+                return b_left;
             }
 
         }
@@ -121,7 +106,7 @@ namespace LayoutFarm.Presentation
         {
             get
             {
-                return uiTop;
+                return b_top;
             }
 
         }
@@ -129,35 +114,35 @@ namespace LayoutFarm.Presentation
         {
             get
             {
-                return uiLeft + uiWidth;
+                return b_left + b_width;
             }
         }
         public int Bottom
         {
             get
             {
-                return uiTop + uiHeight;
+                return b_top + b_Height;
             }
         }
         public Point Location
         {
             get
             {
-                return new Point(uiLeft, uiTop);
+                return new Point(b_left, b_top);
             }
         }
         public int Width
         {
             get
             {
-                return uiWidth;
+                return b_width;
             }
         }
         public int Height
         {
             get
             {
-                return uiHeight;
+                return b_Height;
             }
         }
 
@@ -175,17 +160,17 @@ namespace LayoutFarm.Presentation
             ArtVisualElement parentVisualElement = this.ParentVisualElement;
             if (parentVisualElement == parentHint)
             {
-                return new Point(this.uiLeft, this.uiTop);
+                return new Point(this.b_left, this.b_top);
             }
             else
             {
                 if (parentVisualElement != null)
                 {
-                    Point parentPos = parentVisualElement.GetLocationLimitTo(parentHint); return new Point(uiLeft + parentPos.X, uiTop + parentPos.Y);
+                    Point parentPos = parentVisualElement.GetLocationLimitTo(parentHint); return new Point(b_left + parentPos.X, b_top + parentPos.Y);
                 }
                 else
                 {
-                    return new Point(uiLeft, uiTop);
+                    return new Point(b_left, b_top);
                 }
             }
         }
@@ -195,7 +180,7 @@ namespace LayoutFarm.Presentation
             Point relativeElemLoca = relativeElement.Location;
             Point relativeElementGlobalLocation = relativeElement.GetGlobalLocation();
             relativeElementGlobalLocation.Offset(
-               uiLeft - relativeElemLoca.X, uiTop - relativeElemLoca.Y); return relativeElementGlobalLocation;
+               b_left - relativeElemLoca.X, b_top - relativeElemLoca.Y); return relativeElementGlobalLocation;
         }
         public Point GetLocationAsChildOf(ArtVisualElement relativeElement)
         {
@@ -225,12 +210,12 @@ namespace LayoutFarm.Presentation
                 if (parentVisualElement.IsVisualContainerBase)
                 {
                     ArtVisualContainerBase parentAsContainerBase = (ArtVisualContainerBase)parentVisualElement;
-                    return new Point(ui.uiLeft + parentGlobalLocation.X - parentAsContainerBase.ViewportX,
-                        ui.uiTop + parentGlobalLocation.Y - parentAsContainerBase.ViewportY);
+                    return new Point(ui.b_left + parentGlobalLocation.X - parentAsContainerBase.ViewportX,
+                        ui.b_top + parentGlobalLocation.Y - parentAsContainerBase.ViewportY);
                 }
                 else
                 {
-                    return new Point(ui.uiLeft + parentGlobalLocation.X, ui.uiTop + parentGlobalLocation.Y);
+                    return new Point(ui.b_left + parentGlobalLocation.X, ui.b_top + parentGlobalLocation.Y);
                 }
             }
             else
@@ -255,32 +240,27 @@ namespace LayoutFarm.Presentation
                 return false;
             }
             switch (this.ElementNature)
-            {
-
-                case VisualElementNature.CssBox:
-                    {
-                        throw new NotSupportedException();
-                    }
-                case VisualElementNature.Shapes: 
-                case VisualElementNature.HtmlContainer:
+            {   
+                case VisualElementNature.Shapes:
+                case VisualElementNature.CustomContainer:
                 default:
                     {
                         int testX;
                         int testY;
                         artHitResult.GetTestPoint(out testX, out testY);
-                        if ((testY >= uiTop && testY <= (uiTop + uiHeight)
-                        && (testX >= uiLeft && testX <= (uiLeft + uiWidth))))
+                        if ((testY >= b_top && testY <= (b_top + b_Height)
+                        && (testX >= b_left && testX <= (b_left + b_width))))
                         {
                             ArtVisualContainerBase scContainer = null;
                             if (this.IsScrollable)
                             {
                                 scContainer = (ArtVisualContainerBase)this;
-                                artHitResult.OffsetTestPoint(-uiLeft + scContainer.ViewportX,
-                                    -uiTop + scContainer.ViewportY);
+                                artHitResult.OffsetTestPoint(-b_left + scContainer.ViewportX,
+                                    -b_top + scContainer.ViewportY);
                             }
                             else
                             {
-                                artHitResult.OffsetTestPoint(-uiLeft, -uiTop);
+                                artHitResult.OffsetTestPoint(-b_left, -b_top);
                             }
 
                             artHitResult.AddHit(this);
@@ -292,12 +272,12 @@ namespace LayoutFarm.Presentation
                             if (this.IsScrollable)
                             {
                                 artHitResult.OffsetTestPoint(
-                                        uiLeft - scContainer.ViewportX,
-                                        uiTop - scContainer.ViewportY);
+                                        b_left - scContainer.ViewportX,
+                                        b_top - scContainer.ViewportY);
                             }
                             else
                             {
-                                artHitResult.OffsetTestPoint(uiLeft, uiTop);
+                                artHitResult.OffsetTestPoint(b_left, b_top);
                             }
 
                             if ((uiFlags & TRANSPARENT_FOR_ALL_EVENTS) != 0 && artHitResult.CurrentHitElement == this)
@@ -329,7 +309,7 @@ namespace LayoutFarm.Presentation
         }
         public bool ContainPoint(int x, int y)
         {
-            return ((x >= uiLeft && x < Right) && (y >= uiTop && y < Bottom));
+            return ((x >= b_left && x < Right) && (y >= b_top && y < Bottom));
         }
         public bool ContainPoint(Point p)
         {
@@ -337,24 +317,24 @@ namespace LayoutFarm.Presentation
         }
         public bool ContainRect(InternalRect testRect)
         {
-            return testRect._left >= uiLeft &&
-testRect._top >= uiTop &&
-testRect._right <= uiLeft + uiWidth &&
-testRect._bottom <= uiTop + uiHeight;
+            return testRect._left >= b_left &&
+                    testRect._top >= b_top &&
+                    testRect._right <= b_left + b_width &&
+                    testRect._bottom <= b_top + b_Height;
         }
         public bool ContainRect(Rectangle r)
         {
-            return r.Left >= uiLeft &&
-r.Top >= uiTop &&
-r.Right <= uiLeft + uiWidth &&
-r.Bottom <= uiTop + uiHeight;
+            return r.Left >= b_left &&
+                    r.Top >= b_top &&
+                    r.Right <= b_left + b_width &&
+                    r.Bottom <= b_top + b_Height;
         }
         public bool ContainRect(int x, int y, int width, int height)
         {
-            return x >= uiLeft &&
-y >= uiTop &&
-x + width <= uiLeft + uiWidth &&
-y + height <= uiTop + uiHeight;
+            return x >= b_left &&
+                    y >= b_top &&
+                    x + width <= b_left + b_width &&
+                    y + height <= b_top + b_Height;
         }
 
 
@@ -385,14 +365,14 @@ y + height <= uiTop + uiHeight;
         {
             get
             {
-                return this.uiWidth;
+                return this.b_width;
             }
         }
         public int ElementDesiredRight
         {
             get
             {
-                return uiLeft + this.ElementDesiredWidth;
+                return b_left + this.ElementDesiredWidth;
             }
         }
 
@@ -400,7 +380,7 @@ y + height <= uiTop + uiHeight;
         {
             get
             {
-                return uiTop + this.ElementDesiredHeight;
+                return b_top + this.ElementDesiredHeight;
 
             }
         }
@@ -408,7 +388,7 @@ y + height <= uiTop + uiHeight;
         {
             get
             {
-                return uiHeight; 
+                return b_Height;
             }
         }
 

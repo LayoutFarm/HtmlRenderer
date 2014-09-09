@@ -202,7 +202,7 @@ namespace LayoutFarm.Presentation
         {
             currentHitChain.AddLast(new HitPair(aobj, new Point(testPointX, testPointY)));
 #if DEBUG
-            dbugHitTracker.WriteTrackNode(currentHitChain.Count, new Point(testPointX, testPointY).ToString() + " on " + aobj.Rect.ToString() + aobj.GetType().Name);
+            dbugHitTracker.WriteTrackNode(currentHitChain.Count, new Point(testPointX, testPointY).ToString() + " on " + aobj.BoundRect.ToString() + aobj.GetType().Name);
 #endif
         }
         public int Level
