@@ -36,7 +36,7 @@ namespace LayoutFarm.Presentation
         protected const int FLOWLAYER_HAS_MULTILINE = 1 << (25 - 1);
 
 
-        public readonly ArtVisualElement ownerVisualElement;
+        public readonly RenderElement ownerVisualElement;
 
         int postCalculateContentWidth;
         int postCalculateContentHeight;
@@ -44,7 +44,7 @@ namespace LayoutFarm.Presentation
 
 
 
-        protected VisualLayer(ArtVisualContainerBase owner)
+        protected VisualLayer(MultiLayerRenderBox owner)
         {
             this.ownerVisualElement = owner;
 
@@ -56,7 +56,7 @@ namespace LayoutFarm.Presentation
 
         public abstract void Clear();
 
-        protected ArtVisualRootWindow WinRoot
+        protected RootWindowRenderBox WinRoot
         {
             get
             {
@@ -95,7 +95,7 @@ namespace LayoutFarm.Presentation
             this.dbug_InvalidateCount++;
 #endif
         }
-        public ArtVisualElement InvalidateArrangement()
+        public RenderElement InvalidateArrangement()
         {
 #if DEBUG
             this.dbug_InvalidateCount++;
@@ -145,11 +145,11 @@ namespace LayoutFarm.Presentation
         }
 
 #if DEBUG
-        public VisualRoot dbugVRoot
+        public dbugRootElement dbugVRoot
         {
             get
             {
-                return LayoutFarm.Presentation.VisualRoot.dbugCurrentGlobalVRoot;
+                return LayoutFarm.Presentation.dbugRootElement.dbugCurrentGlobalVRoot;
             }
         }
 #endif
@@ -220,12 +220,12 @@ namespace LayoutFarm.Presentation
 
         }
 
-        public abstract bool HitTestCore(ArtHitPointChain artHitResult); 
+        public abstract bool HitTestCore(HitPointChain artHitResult); 
         public abstract void TopDownReCalculateContentSize(VisualElementArgs vinv); 
         public abstract void TopDownReArrangeContent(VisualElementArgs vinv);
         
-        public abstract IEnumerable<ArtVisualElement> GetVisualElementIter();
-        public abstract IEnumerable<ArtVisualElement> GetVisualElementReverseIter();
+        public abstract IEnumerable<RenderElement> GetVisualElementIter();
+        public abstract IEnumerable<RenderElement> GetVisualElementReverseIter();
         
 
         protected void ValidateArrangement()
@@ -292,8 +292,8 @@ namespace LayoutFarm.Presentation
         public abstract void dbug_DumpElementProps(dbugLayoutMsgWriter writer);
 
 #endif
-        public abstract void AddTop(ArtVisualElement ve);
-        public abstract IEnumerable<ArtVisualElement> GetDrawingIter();
+        public abstract void AddTop(RenderElement ve);
+        public abstract IEnumerable<RenderElement> GetDrawingIter();
 
     }
 

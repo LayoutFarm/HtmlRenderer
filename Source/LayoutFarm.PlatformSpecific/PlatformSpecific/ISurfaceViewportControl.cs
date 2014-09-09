@@ -13,9 +13,9 @@ namespace LayoutFarm.Presentation
     {
 
         IntPtr Handle { get; }
-        void viewport_HScrollChanged(object sender, ArtScrollEventArgs e);
+        void viewport_HScrollChanged(object sender, UIScrollEventArgs e);
         void viewport_HScrollRequest(object sender, ScrollSurfaceRequestEventArgs e);
-        void viewport_VScrollChanged(object sender, ArtScrollEventArgs e);
+        void viewport_VScrollChanged(object sender, UIScrollEventArgs e);
         void viewport_VScrollRequest(object sender, ScrollSurfaceRequestEventArgs e);
         int WindowWidth { get; }
         int WindowHeight { get; }

@@ -41,7 +41,7 @@ namespace LayoutFarm.Presentation
 
     }
 
-    partial class ArtVisualElement
+    partial class RenderElement
     {
 
 
@@ -172,11 +172,11 @@ namespace LayoutFarm.Presentation
 
          
 
-        public VisualRoot dbugVRoot
+        public dbugRootElement dbugVRoot
         {
             get
             {
-                return VisualRoot.dbugCurrentGlobalVRoot;
+                return dbugRootElement.dbugCurrentGlobalVRoot;
             }
         }
 

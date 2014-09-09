@@ -13,9 +13,9 @@ using System.Drawing;
 namespace LayoutFarm.Presentation
 {
 
-    partial class ArtVisualElement
+    partial class RenderElement
     {
-        protected static void InnerSetHasSubGroupLayer(ArtVisualElement ve, bool value)
+        protected static void InnerSetHasSubGroupLayer(RenderElement ve, bool value)
         {
 
 

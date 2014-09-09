@@ -8,15 +8,15 @@ using System.Drawing;
 namespace LayoutFarm.Presentation
 {
 
-    public abstract partial class ArtVisualElement
+    public abstract partial class RenderElement
     {
 
-        IVisualParentLink visualParentLink;
+        IParentLink visualParentLink;
         object controller;
 
-        public ArtVisualElement(int width, 
+        public RenderElement(int width, 
             int height, 
-            VisualElementNature nature)
+            ElementNature nature)
         {
 
             this.b_width = width;
@@ -45,20 +45,20 @@ namespace LayoutFarm.Presentation
             if (this.IsWindowRoot)
             {
 
-                return new VisualElementArgs((ArtVisualRootWindow)this);
+                return new VisualElementArgs((RootWindowRenderBox)this);
 
             }
             else
             {
-                ArtVisualRootWindow winroot = this.InternalGetWinRootElement();
+                RootWindowRenderBox winroot = this.InternalGetWinRootElement();
                 if (winroot != null)
                 {
-                    return new VisualElementArgs((ArtVisualRootWindow)winroot);
+                    return new VisualElementArgs((RootWindowRenderBox)winroot);
 
                 }
                 else
                 {
-                    return new VisualElementArgs(null as ArtVisualRootWindow);
+                    return new VisualElementArgs(null as RootWindowRenderBox);
                 }
             }
         }
@@ -67,7 +67,7 @@ namespace LayoutFarm.Presentation
 
         }
 
-        public ArtVisualRootWindow WinRoot
+        public RootWindowRenderBox WinRoot
         {
             get
             {
@@ -86,7 +86,7 @@ namespace LayoutFarm.Presentation
         {
 
         } 
-        public IVisualParentLink ParentLink
+        public IParentLink ParentLink
         {
             get
             {
@@ -113,11 +113,11 @@ namespace LayoutFarm.Presentation
             visualParentLink = null;
         } 
         
-        public static void RemoveParentLink(ArtVisualElement visual)
+        public static void RemoveParentLink(RenderElement visual)
         {
             visual.visualParentLink = null;
         }
-        public virtual ArtVisualElement ParentVisualElement
+        public virtual RenderElement ParentVisualElement
         {
             get
             {
@@ -174,7 +174,7 @@ namespace LayoutFarm.Presentation
 
         }
 
-        public static bool IsTestableElement(ArtVisualElement ui)
+        public static bool IsTestableElement(RenderElement ui)
         {
             return (ui != null) && ((ui.uiFlags & HIDDEN) == 0) && (ui.visualParentLink != null);
         }
@@ -436,38 +436,38 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public VisualElementNature ElementNature
+        public ElementNature ElementNature
         {
             get
             {
-                return (VisualElementNature)(uiCombineFlags & 0xF);
+                return (ElementNature)(uiCombineFlags & 0xF);
             }
         }
-        static void SetVisualElementNature(ArtVisualElement target, VisualElementNature visualNature)
+        static void SetVisualElementNature(RenderElement target, ElementNature visualNature)
         {
             target.uiCombineFlags = (target.uiCombineFlags & ~0xF) | (int)visualNature;
         }
          
-        public virtual ArtVisualElement FindOverlapedChildElementAtPoint(ArtVisualElement afterThisChild, Point point)
+        public virtual RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
 
             return null;
         }
 
-        public static void ClearVisualElementInternalLinkedNode(ArtVisualElement childElement)
+        public static void ClearVisualElementInternalLinkedNode(RenderElement childElement)
         {
 
             childElement.visualParentLink = null;
         }
 
-        public static void SetVisualElementAsChildOfOther(ArtVisualElement childElement, IVisualParentLink lineLinkedNode)
+        public static void SetVisualElementAsChildOfOther(RenderElement childElement, IParentLink lineLinkedNode)
         {
             if (lineLinkedNode == null)
             {
             }
             childElement.visualParentLink = lineLinkedNode;
         }
-        public static void SetVisualElementAsChildOfSimpleContainer(ArtVisualElement childElement, IVisualParentLink lineLinkedNode)
+        public static void SetVisualElementAsChildOfSimpleContainer(RenderElement childElement, IParentLink lineLinkedNode)
         {
 
             childElement.visualParentLink = lineLinkedNode;

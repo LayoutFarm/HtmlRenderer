@@ -55,7 +55,7 @@ namespace LayoutFarm.Presentation.Dev
                     } break;
                 case dbugLayoutMsgOwnerKind.VisualElement:
                     {
-                        ArtVisualElement ve = (ArtVisualElement)msg.owner;
+                        RenderElement ve = (RenderElement)msg.owner;
                         VisualWindowImpl.dbugVE_HighlightMe = ve;
                         lastestSelectVE = ve;
 
@@ -88,7 +88,7 @@ namespace LayoutFarm.Presentation.Dev
                     } break;
                 case dbugLayoutMsgOwnerKind.VisualElement:
                     {
-                        ArtVisualElement ve = (ArtVisualElement)msg.owner;
+                        RenderElement ve = (RenderElement)msg.owner;
                         VisualWindowImpl.dbugVE_HighlightMe = ve;
                         lastestSelectVE = ve;
 
@@ -101,7 +101,7 @@ namespace LayoutFarm.Presentation.Dev
         }
 
 #if DEBUG
-        ArtVisualElement lastestSelectVE;
+        RenderElement lastestSelectVE;
         List<dbugLayoutMsg> lastestMessages;
 
 #endif

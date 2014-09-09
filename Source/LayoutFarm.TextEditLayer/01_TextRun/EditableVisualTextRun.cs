@@ -90,7 +90,7 @@ namespace LayoutFarm.Presentation.Text
                 return null;
             }
         }
-        public override ArtVisualElement ParentVisualElement
+        public override RenderElement ParentVisualElement
         {
             get
             {

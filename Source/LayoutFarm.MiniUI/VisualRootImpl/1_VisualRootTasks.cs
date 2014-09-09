@@ -10,9 +10,9 @@ namespace LayoutFarm.Presentation
 {
     public abstract class VisualRootTimerTask
     {
-        ArtVisualElement targetVisualElement;
+        RenderElement targetVisualElement;
         bool isInQueue; bool isEnabled;
-        public VisualRootTimerTask(ArtVisualElement targetVisualElement)
+        public VisualRootTimerTask(RenderElement targetVisualElement)
         {
             this.targetVisualElement = targetVisualElement;
         }

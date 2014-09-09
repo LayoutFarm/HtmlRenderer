@@ -12,11 +12,11 @@ namespace LayoutFarm.Presentation
 {
 
 
-    partial class ArtVisualElement
+    partial class RenderElement
     {
 
 
-        public static void DirectSetVisualElementSize(ArtVisualElement visualElement, int width, int height)
+        public static void DirectSetVisualElementSize(RenderElement visualElement, int width, int height)
         {
 
             visualElement.b_width = width;
@@ -24,7 +24,7 @@ namespace LayoutFarm.Presentation
         }
  
 
-        public static void DirectSetVisualElementLocation(ArtVisualElement visualElement, int x, int y)
+        public static void DirectSetVisualElementLocation(RenderElement visualElement, int x, int y)
         {
 
             visualElement.b_left = x;

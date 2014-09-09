@@ -11,7 +11,7 @@ using LayoutFarm.Presentation;
 namespace LayoutFarm.Presentation
 {
 
-    public enum ArtScrollEventType
+    public enum UIScrollEventType
     {
         SmallDecrement = 0,
         //
@@ -32,26 +32,26 @@ namespace LayoutFarm.Presentation
         EndScroll = 8,
     }
 
-    public enum ArtScrollOrientation
+    public enum UIScrollOrientation
     {
         HorizontalScroll = 0,
         //
         VerticalScroll = 1,
     }
-    public class ArtScrollEventArgs : EventArgs
+    public class UIScrollEventArgs : EventArgs
     {
-        ArtScrollEventType eventType;
+        UIScrollEventType eventType;
         int oldValue;
         int newValue;
-        ArtScrollOrientation orientation;
-        public ArtScrollEventArgs(ArtScrollEventType eventType, int oldValue, int newValue, ArtScrollOrientation orientation)
+        UIScrollOrientation orientation;
+        public UIScrollEventArgs(UIScrollEventType eventType, int oldValue, int newValue, UIScrollOrientation orientation)
         {
             this.eventType = eventType;
             this.oldValue = oldValue;
             this.newValue = newValue;
             this.orientation = orientation;
         }
-        public ArtScrollEventArgs(ArtScrollEventType eventType, int oldValue, int newValue)
+        public UIScrollEventArgs(UIScrollEventType eventType, int oldValue, int newValue)
         {
             this.eventType = eventType;
             this.oldValue = oldValue;
@@ -71,7 +71,7 @@ namespace LayoutFarm.Presentation
                 return this.oldValue;
             }
         }
-        public ArtScrollEventType Type
+        public UIScrollEventType Type
         {
             get
             {

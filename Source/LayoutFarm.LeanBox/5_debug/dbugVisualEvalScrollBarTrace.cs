@@ -14,18 +14,18 @@ namespace LayoutFarm.Presentation
     {
         FileStream fs;
         StreamWriter strmWriter;
-        VisualRoot visualroot;
+        dbugRootElement visualroot;
         string outputFileName = null;
 
         int msgCounter = 0;
 
-        Stack<ArtVisualElement> elementStack = new Stack<ArtVisualElement>();
+        Stack<RenderElement> elementStack = new Stack<RenderElement>();
 
         int indentCount = 0;
         int myTraceCount = 0;
 
         static int tracerCount = 0;
-        public dbugVisualEvalScrollBarTrace(VisualRoot visualroot)
+        public dbugVisualEvalScrollBarTrace(dbugRootElement visualroot)
         {
             this.visualroot = visualroot;
             myTraceCount = tracerCount;
@@ -41,20 +41,20 @@ namespace LayoutFarm.Presentation
         {
             --indentCount;
         }
-        public void PushVisualElement(ArtVisualElement v)
+        public void PushVisualElement(RenderElement v)
         {
             elementStack.Push(v);
             BeginNewContext();
 
         }
 
-        public ArtVisualElement PopElement()
+        public RenderElement PopElement()
         {
-            ArtVisualElement v = elementStack.Pop();
+            RenderElement v = elementStack.Pop();
             EndCurrentContext();
             return v;
         }
-        public ArtVisualElement PeekElement()
+        public RenderElement PeekElement()
         {
             return elementStack.Peek();
         }

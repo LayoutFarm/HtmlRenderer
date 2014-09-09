@@ -10,7 +10,7 @@ namespace LayoutFarm.Presentation
 {
 
 
-    partial class ArtVisualElement
+    partial class RenderElement
     {
 
 
@@ -24,7 +24,7 @@ namespace LayoutFarm.Presentation
 
 
 
-        public static void SetCalculatedDesiredSize(ArtVisualContainerBase v, int desiredWidth, int desiredHeight)
+        public static void SetCalculatedDesiredSize(MultiLayerRenderBox v, int desiredWidth, int desiredHeight)
         {
             //v.uiDesiredWidth = desiredWidth;
             //v.uiDesiredHeight = desiredHeight;
@@ -55,7 +55,7 @@ namespace LayoutFarm.Presentation
                     else
                     {
 
-                        ArtVisualElement parentElement = this.ParentVisualElement;
+                        RenderElement parentElement = this.ParentVisualElement;
                         if (parentElement != null)
                         {
                             return parentElement.IsLayoutSuspending;
@@ -95,7 +95,7 @@ namespace LayoutFarm.Presentation
                     if (this.IsWindowRoot)
                     {
                         this.TopDownReCalculateContentSize(vinv);
-                        ((ArtVisualContainerBase)this).TopDownReArrangeContentIfNeed(vinv);
+                        ((MultiLayerRenderBox)this).TopDownReArrangeContentIfNeed(vinv);
                     }
                 }
             }
@@ -129,11 +129,11 @@ namespace LayoutFarm.Presentation
         }
         void PrivateSetSize(int width, int height, VisualElementArgs vinv)
         {
-            ArtVisualElement.DirectSetVisualElementSize(this, width, height);
+            RenderElement.DirectSetVisualElementSize(this, width, height);
 
             if (this.IsVisualContainerBase)
             {
-                ArtVisualContainerBase vscont = (ArtVisualContainerBase)this;
+                MultiLayerRenderBox vscont = (MultiLayerRenderBox)this;
                 if (!vinv.IsInTopDownReArrangePhase)
                 {
                     vscont.InvalidateContentArrangementFromContainerSizeChanged();

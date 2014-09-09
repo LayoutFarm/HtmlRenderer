@@ -117,7 +117,7 @@ namespace LayoutFarm.Presentation.Text
                 var ownerVe = editableFlowLayer.ownerVisualElement;
                 if (ownerVe != null)
                 {
-                    ArtVisualElement.InnerInvalidateLayoutAndStartBubbleUp(ownerVe);
+                    RenderElement.InnerInvalidateLayoutAndStartBubbleUp(ownerVe);
                 }
                 else
                 {

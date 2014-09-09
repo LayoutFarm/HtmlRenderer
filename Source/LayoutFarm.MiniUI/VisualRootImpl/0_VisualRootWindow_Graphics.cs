@@ -26,7 +26,7 @@ namespace LayoutFarm.Presentation
         int graphicUpdateBlockCount = 0;
 
        
-        public override void InvalidateGraphicArea(ArtVisualElement fromElement, InternalRect elementClientRect)
+        public override void InvalidateGraphicArea(RenderElement fromElement, InternalRect elementClientRect)
         {
             if (isInRenderPhase)
             {
@@ -36,10 +36,10 @@ namespace LayoutFarm.Presentation
             int globalY = 0;
             bool isBubbleUp = false;
 
-            ArtVisualElement startVisualElement = fromElement;
+            RenderElement startVisualElement = fromElement;
 #if DEBUG
 
-            VisualRoot dbugMyroot = this.dbugVRoot;
+            dbugRootElement dbugMyroot = this.dbugVRoot;
             if (dbugMyroot.dbugEnableGraphicInvalidateTrace && dbugMyroot.dbugGraphicInvalidateTracer != null)
             {
 
@@ -127,14 +127,14 @@ namespace LayoutFarm.Presentation
                 {
 
 
-                    ArtVisualContainerBase container = (ArtVisualContainerBase)fromElement;
+                    MultiLayerRenderBox container = (MultiLayerRenderBox)fromElement;
 
 
                     elementClientRect.Offset(globalX, globalY);
 
                     if (fromElement.HasDoubleScrollableSurface)
                     {
-                        VisualScrollableSurface scrollableElement = container.VisualScrollableSurface;
+                        ScrollableSurface scrollableElement = container.VisualScrollableSurface;
                         scrollableElement.WindowRootNotifyInvalidArea(elementClientRect);
                     }
                     Rectangle elementRect = fromElement.BoundRect;
@@ -144,7 +144,7 @@ namespace LayoutFarm.Presentation
                     globalY = -container.ViewportY;
                 }
 
-                if (fromElement.ElementNature == VisualElementNature.WindowRoot)
+                if (fromElement.ElementNature == ElementNature.WindowRoot)
                 {
                     break;
                 }
@@ -363,7 +363,7 @@ namespace LayoutFarm.Presentation
             graphicUpdateBlockCount = 0;
         }
 
-        ArtVisualElement currentKeyboardFocusedElement = null;
+        RenderElement currentKeyboardFocusedElement = null;
         public bool IsCurrentElementUseCaret
         {
             get
@@ -410,7 +410,7 @@ namespace LayoutFarm.Presentation
         {
             isInRenderPhase = true;
 #if DEBUG
-            VisualRoot myroot = this.dbugVRoot;
+            dbugRootElement myroot = this.dbugVRoot;
             myroot.dbug_rootDrawingMsg.Clear();
             myroot.dbug_drawLevel = 0;
 #endif

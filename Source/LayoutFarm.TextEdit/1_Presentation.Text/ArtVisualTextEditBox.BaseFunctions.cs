@@ -12,7 +12,7 @@ using LayoutFarm.Presentation.Text;
 namespace LayoutFarm.Presentation.Text
 {
 
-    public sealed partial class ArtVisualTextEditBox : ArtVisualContainerBase
+    public sealed partial class ArtVisualTextEditBox : MultiLayerRenderBox
     {
 
         EditableTextFlowLayer textLayer; 
@@ -22,7 +22,7 @@ namespace LayoutFarm.Presentation.Text
         bool isInVerticalPhase = false; 
 
         public ArtVisualTextEditBox(int width, int height, bool isMultiLine) :
-            base(width, height, VisualElementNature.TextEditContainer)
+            base(width, height, ElementNature.TextEditContainer)
         {
             RegisterNativeEvent((1 << UIEventIdentifier.NE_DRAG_START)
                 | (1 << UIEventIdentifier.NE_DRAGING)

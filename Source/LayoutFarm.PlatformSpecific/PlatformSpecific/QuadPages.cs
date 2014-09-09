@@ -105,7 +105,7 @@ namespace LayoutFarm.Presentation
         public const int PAGE_ABCD = 3;
 
         public void RenderToOutputWindowFullMode(
-ArtVisualRootWindow rootElement,
+RootWindowRenderBox rootElement,
 IntPtr destOutputHdc,
 int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
@@ -195,7 +195,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
 
         }
 
-        static void UpdateAllArea(CanvasBase artCanvas, ArtVisualRootWindow rootElement)
+        static void UpdateAllArea(CanvasBase artCanvas, RootWindowRenderBox rootElement)
         {
 
             artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
@@ -214,10 +214,10 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
 
             artCanvas.OffsetCanvasOrigin(artCanvas.Left, artCanvas.Top);
         }
-        static void UpdateInvalidArea(CanvasBase artCanvas, ArtVisualRootWindow rootElement, VisualDrawingChain renderingChain)
+        static void UpdateInvalidArea(CanvasBase artCanvas, RootWindowRenderBox rootElement, VisualDrawingChain renderingChain)
         {
 
-            List<ArtVisualElement> selectedVisualElements = renderingChain.selectedVisualElements;
+            List<RenderElement> selectedVisualElements = renderingChain.selectedVisualElements;
             List<bool> containAllAreaTestResults = renderingChain.containAllAreaTestResults;
 
 
@@ -233,7 +233,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
                 {
 
 
-                    ArtVisualElement ve = selectedVisualElements[i];
+                    RenderElement ve = selectedVisualElements[i];
                     if (!ve.IsInRenderChain)
                     {
                         continue;
@@ -276,7 +276,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
                 selectedVisualElements[i].IsInRenderChain = true;
             }
         }
-        static void UpdateInvalidArea(CanvasBase artCanvas, ArtVisualRootWindow rootElement)
+        static void UpdateInvalidArea(CanvasBase artCanvas, RootWindowRenderBox rootElement)
         {
 #if DEBUG
 #endif
@@ -299,7 +299,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
 
 
         public void RenderToOutputWindowPartialMode(
-        ArtVisualRootWindow rootElement,
+        RootWindowRenderBox rootElement,
         IntPtr destOutputHdc,
         int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {

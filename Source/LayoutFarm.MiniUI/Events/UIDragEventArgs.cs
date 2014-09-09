@@ -20,7 +20,7 @@ namespace LayoutFarm.Presentation
         int lastestXDiff, lastestYDiff;
 
         public UIMouseEventType EventType;
-        public ArtVisualElement DragingElement;
+        public RenderElement DragingElement;
         public UIMouseEventArgs MouseInfo;
 
         static Stack<UIDragEventArgs> dragEventArgsPool = new Stack<UIDragEventArgs>();
@@ -104,9 +104,9 @@ namespace LayoutFarm.Presentation
         }
 
        
-        public void SwapCurrentDragElement(ArtVisualElement withThisElement)
+        public void SwapCurrentDragElement(RenderElement withThisElement)
         {
-            ArtVisualRootWindow winroot = this.WinRoot; if (winroot != null)
+            RootWindowRenderBox winroot = this.WinRoot; if (winroot != null)
             {
                 winroot.CurrentDraggingElement = withThisElement;
             }

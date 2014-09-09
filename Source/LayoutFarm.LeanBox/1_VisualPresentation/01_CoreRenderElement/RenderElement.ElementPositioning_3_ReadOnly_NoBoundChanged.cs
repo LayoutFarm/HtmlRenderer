@@ -13,7 +13,7 @@ namespace LayoutFarm.Presentation
 {
 
 
-    partial class ArtVisualElement
+    partial class RenderElement
     {
         //----------------------
         //rectangle boundary area
@@ -155,9 +155,9 @@ namespace LayoutFarm.Presentation
 
             return GetGlobalLocationStatic(this);
         }
-        public Point GetLocationLimitTo(ArtVisualElement parentHint)
+        public Point GetLocationLimitTo(RenderElement parentHint)
         {
-            ArtVisualElement parentVisualElement = this.ParentVisualElement;
+            RenderElement parentVisualElement = this.ParentVisualElement;
             if (parentVisualElement == parentHint)
             {
                 return new Point(this.b_left, this.b_top);
@@ -174,7 +174,7 @@ namespace LayoutFarm.Presentation
                 }
             }
         }
-        public Point GetGlobalLocationRelativeTo(ArtVisualElement relativeElement)
+        public Point GetGlobalLocationRelativeTo(RenderElement relativeElement)
         {
 
             Point relativeElemLoca = relativeElement.Location;
@@ -182,15 +182,15 @@ namespace LayoutFarm.Presentation
             relativeElementGlobalLocation.Offset(
                b_left - relativeElemLoca.X, b_top - relativeElemLoca.Y); return relativeElementGlobalLocation;
         }
-        public Point GetLocationAsChildOf(ArtVisualElement relativeElement)
+        public Point GetLocationAsChildOf(RenderElement relativeElement)
         {
             Point relativeElementGlobalLocation = relativeElement.GetGlobalLocation();
             Point thisGlobalLoca = GetGlobalLocation();
             return new Point(thisGlobalLoca.X - relativeElementGlobalLocation.X, thisGlobalLoca.Y - relativeElementGlobalLocation.Y);
         }
-        public Point GetLocationAsSiblingOf(ArtVisualElement relativeElement)
+        public Point GetLocationAsSiblingOf(RenderElement relativeElement)
         {
-            ArtVisualElement parent = relativeElement.ParentVisualElement;
+            RenderElement parent = relativeElement.ParentVisualElement;
             return GetLocationAsChildOf(parent);
         }
         public Rectangle GetGlobalRect()
@@ -198,10 +198,10 @@ namespace LayoutFarm.Presentation
             return new Rectangle(GetGlobalLocationStatic(this), Size);
         }
 
-        static Point GetGlobalLocationStatic(ArtVisualElement ui)
+        static Point GetGlobalLocationStatic(RenderElement ui)
         {
 
-            ArtVisualElement parentVisualElement = ui.ParentVisualElement;
+            RenderElement parentVisualElement = ui.ParentVisualElement;
             if (parentVisualElement != null)
             {
                 Point parentGlobalLocation = GetGlobalLocationStatic(parentVisualElement);
@@ -209,7 +209,7 @@ namespace LayoutFarm.Presentation
 
                 if (parentVisualElement.IsVisualContainerBase)
                 {
-                    ArtVisualContainerBase parentAsContainerBase = (ArtVisualContainerBase)parentVisualElement;
+                    MultiLayerRenderBox parentAsContainerBase = (MultiLayerRenderBox)parentVisualElement;
                     return new Point(ui.b_left + parentGlobalLocation.X - parentAsContainerBase.ViewportX,
                         ui.b_top + parentGlobalLocation.Y - parentAsContainerBase.ViewportY);
                 }
@@ -232,7 +232,7 @@ namespace LayoutFarm.Presentation
             }
             return ContainPoint(testPoint.X, testPoint.Y);
         }
-        public bool HitTestCore(ArtHitPointChain artHitResult)
+        public bool HitTestCore(HitPointChain artHitResult)
         {
 
             if ((uiFlags & HIDDEN) != 0)
@@ -241,8 +241,8 @@ namespace LayoutFarm.Presentation
             }
             switch (this.ElementNature)
             {   
-                case VisualElementNature.Shapes:
-                case VisualElementNature.CustomContainer:
+                case ElementNature.Shapes:
+                case ElementNature.CustomContainer:
                 default:
                     {
                         int testX;
@@ -251,10 +251,10 @@ namespace LayoutFarm.Presentation
                         if ((testY >= b_top && testY <= (b_top + b_Height)
                         && (testX >= b_left && testX <= (b_left + b_width))))
                         {
-                            ArtVisualContainerBase scContainer = null;
+                            MultiLayerRenderBox scContainer = null;
                             if (this.IsScrollable)
                             {
-                                scContainer = (ArtVisualContainerBase)this;
+                                scContainer = (MultiLayerRenderBox)this;
                                 artHitResult.OffsetTestPoint(-b_left + scContainer.ViewportX,
                                     -b_top + scContainer.ViewportY);
                             }
@@ -267,7 +267,7 @@ namespace LayoutFarm.Presentation
 
                             if (this.IsVisualContainerBase)
                             {
-                                ((ArtVisualContainerBase)this).ChildrenHitTestCore(artHitResult);
+                                ((MultiLayerRenderBox)this).ChildrenHitTestCore(artHitResult);
                             }
                             if (this.IsScrollable)
                             {
@@ -300,7 +300,7 @@ namespace LayoutFarm.Presentation
 
         }
 
-        public bool FindUnderlingSibling(LinkedList<ArtVisualElement> foundElements)
+        public bool FindUnderlingSibling(LinkedList<RenderElement> foundElements)
         {
             throw new NotSupportedException();
 
@@ -450,7 +450,7 @@ namespace LayoutFarm.Presentation
                 }
             }
         }
-        public static int GetLayoutSpecificDimensionType(ArtVisualElement visualElement)
+        public static int GetLayoutSpecificDimensionType(RenderElement visualElement)
         {
             return visualElement.uiLayoutFlags & 0x3;
         }
@@ -524,14 +524,14 @@ namespace LayoutFarm.Presentation
                 StartBubbleUpLayoutInvalidState();
             }
         }
-        public static void InnerInvalidateLayoutAndStartBubbleUp(ArtVisualElement ve)
+        public static void InnerInvalidateLayoutAndStartBubbleUp(RenderElement ve)
         {
             ve.InvalidateLayoutAndStartBubbleUp();
         }
-        static ArtVisualElement BubbleUpInvalidLayoutToTopMost(ArtVisualElement ve, ArtVisualRootWindow winroot)
+        static RenderElement BubbleUpInvalidLayoutToTopMost(RenderElement ve, RootWindowRenderBox winroot)
         {
 #if DEBUG
-            VisualRoot dbugVRoot = ve.dbugVRoot;
+            dbugRootElement dbugVRoot = ve.dbugVRoot;
 #endif
 
             ve.MarkInvalidContentSize();
@@ -543,7 +543,7 @@ namespace LayoutFarm.Presentation
                 {
                 }
 
-                dbugVRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_NO_OWNER_LAY);
+                dbugVRoot.dbug_PushLayoutTraceMessage(dbugRootElement.dbugMsg_NO_OWNER_LAY);
 #endif
                 return null;
             }
@@ -562,11 +562,11 @@ namespace LayoutFarm.Presentation
                 }
             }
 #if DEBUG
-            dbugVRoot.dbug_LayoutTraceBeginContext(VisualRoot.dbugMsg_E_CHILD_LAYOUT_INV_BUB_enter, ve);
+            dbugVRoot.dbug_LayoutTraceBeginContext(dbugRootElement.dbugMsg_E_CHILD_LAYOUT_INV_BUB_enter, ve);
 #endif
 
             bool goFinalExit;
-            ArtVisualElement parentVisualElem = ve.visualParentLink.NotifyParentToInvalidate(out goFinalExit
+            RenderElement parentVisualElem = ve.visualParentLink.NotifyParentToInvalidate(out goFinalExit
 #if DEBUG
 ,
 ve
@@ -599,7 +599,7 @@ ve
 
                     parentVisualElem.IsInLayoutQueueChainUp = true;
 
-                    ArtVisualElement upper = BubbleUpInvalidLayoutToTopMost(parentVisualElem, winroot);
+                    RenderElement upper = BubbleUpInvalidLayoutToTopMost(parentVisualElem, winroot);
 
                     if (upper != null)
                     {
@@ -615,19 +615,19 @@ ve
 
         finalExit:
 #if DEBUG
-            dbugVRoot.dbug_LayoutTraceEndContext(VisualRoot.dbugMsg_E_CHILD_LAYOUT_INV_BUB_exit, ve);
+            dbugVRoot.dbug_LayoutTraceEndContext(dbugRootElement.dbugMsg_E_CHILD_LAYOUT_INV_BUB_exit, ve);
 #endif
 
             return parentVisualElem;
         }
 
-        ArtVisualRootWindow InternalGetWinRootElement()
+        RootWindowRenderBox InternalGetWinRootElement()
         {
             if (visualParentLink == null)
             {
                 if (this.IsWindowRoot)
                 {
-                    return (ArtVisualRootWindow)this;
+                    return (RootWindowRenderBox)this;
                 }
                 else
                 {
@@ -643,10 +643,10 @@ ve
         {
 
 #if DEBUG
-            dbugVRoot.dbug_LayoutTraceBeginContext(VisualRoot.dbugMsg_E_LAYOUT_INV_BUB_FIRST_enter, this);
+            dbugVRoot.dbug_LayoutTraceBeginContext(dbugRootElement.dbugMsg_E_LAYOUT_INV_BUB_FIRST_enter, this);
 #endif
-            ArtVisualRootWindow winroot = this.InternalGetWinRootElement();
-            ArtVisualElement tobeAddToLayoutQueue = BubbleUpInvalidLayoutToTopMost(this, winroot);
+            RootWindowRenderBox winroot = this.InternalGetWinRootElement();
+            RenderElement tobeAddToLayoutQueue = BubbleUpInvalidLayoutToTopMost(this, winroot);
 #if DEBUG
 
 #endif
@@ -659,7 +659,7 @@ ve
             }
 
 #if DEBUG
-            dbugVRoot.dbug_LayoutTraceEndContext(VisualRoot.dbugMsg_E_LAYOUT_INV_BUB_FIRST_exit, this);
+            dbugVRoot.dbug_LayoutTraceEndContext(dbugRootElement.dbugMsg_E_LAYOUT_INV_BUB_FIRST_exit, this);
 #endif
 
         }

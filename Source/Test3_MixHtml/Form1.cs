@@ -111,7 +111,7 @@ namespace TestGraphicPackage2
             var vinv2 = visualTextBox.WinRoot.GetVInv();
             visualTextBox.InvalidateGraphic(vinv2);
             visualTextBox.WinRoot.FreeVInv(vinv2);
-            ArtVisualElement.DirectSetVisualElementLocation(visualTextBox, 0, 200);
+            RenderElement.DirectSetVisualElementLocation(visualTextBox, 0, 200);
             vinv2 = visualTextBox.WinRoot.GetVInv();
             visualTextBox.InvalidateGraphic(vinv2);
             visualTextBox.WinRoot.FreeVInv(vinv2);

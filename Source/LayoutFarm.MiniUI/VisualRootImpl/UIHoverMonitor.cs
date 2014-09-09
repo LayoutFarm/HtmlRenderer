@@ -17,7 +17,7 @@ namespace LayoutFarm.Presentation
 
         int mouseMoveCounter = -1;
         EventHandler targetEventHandler;
-        public UIHoverMonitorTask(ArtVisualRootWindow winroot, EventHandler targetEventHandler)
+        public UIHoverMonitorTask(RootWindowRenderBox winroot, EventHandler targetEventHandler)
             : base(winroot)
         {
             this.targetEventHandler = targetEventHandler;

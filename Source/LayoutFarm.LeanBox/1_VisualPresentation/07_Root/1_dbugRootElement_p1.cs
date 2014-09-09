@@ -3,22 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-
 using System.Diagnostics;
-
-
-
 using LayoutFarm.Presentation;
-
-
 
 namespace LayoutFarm.Presentation
 {
 #if DEBUG
-    partial class VisualRoot
-    {
-
-
+    partial class dbugRootElement
+    {   
 
         public bool dbug_ShowRootUpdateArea = false;
         public bool dbug_ShowNativeScrollableElementUpdateArea = false;
@@ -110,11 +102,11 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public void dbug_AddDrawElement(ArtVisualElement visualElement, CanvasBase currentCanvas)
+        public void dbug_AddDrawElement(RenderElement visualElement, CanvasBase currentCanvas)
         {
             dbug_AddDrawElement(visualElement, currentCanvas, null);
         }
-        public void dbug_AddDrawElement(ArtVisualElement visualElement, CanvasBase currentCanvas, string additionalMsg)
+        public void dbug_AddDrawElement(RenderElement visualElement, CanvasBase currentCanvas, string additionalMsg)
         {
 
             StringBuilder stBuilder = new StringBuilder();
@@ -162,7 +154,7 @@ namespace LayoutFarm.Presentation
         }
         public void dbug_DumpRootDrawingMsg(List<dbugLayoutMsg> outputlist)
         {
-            outputlist.Add(new dbugLayoutMsg(null as ArtVisualElement, "Asc n= " + dbug_rootDrawingMsg.Count));
+            outputlist.Add(new dbugLayoutMsg(null as RenderElement, "Asc n= " + dbug_rootDrawingMsg.Count));
             LinkedListNode<dbugLayoutMsg> u_node = dbug_rootDrawingMsg.First;
             while (u_node != null)
             {
@@ -218,7 +210,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public void dbug_PushInvalidateMsg(dbugVisualRootMsg msg, ArtVisualElement ve)
+        public void dbug_PushInvalidateMsg(dbugVisualRootMsg msg, RenderElement ve)
         {
             if (this.dbugEnableGraphicInvalidateTrace && dbugGraphicInvalidateTracer != null)
             {
@@ -308,7 +300,7 @@ namespace LayoutFarm.Presentation
                 dbugLastestDebugVisualLay.WriteInfo(msg.msg, layer);
             }
         }
-        public void dbug_PushLayoutTraceMessage(dbugVisualRootMsg msg, ArtVisualElement ve)
+        public void dbug_PushLayoutTraceMessage(dbugVisualRootMsg msg, RenderElement ve)
         {
             if (dbugLastestDebugVisualLay != null)
             {
@@ -316,14 +308,14 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public void dbug_LayoutTraceBeginContext(dbugVisualRootMsg msg, ArtVisualElement ve)
+        public void dbug_LayoutTraceBeginContext(dbugVisualRootMsg msg, RenderElement ve)
         {
             if (dbugLastestDebugVisualLay != null)
             {
                 dbugLastestDebugVisualLay.BeginNewContext(); dbugLastestDebugVisualLay.WriteInfo(msg.msg, ve);
             }
         }
-        public void dbug_LayoutTraceEndContext(dbugVisualRootMsg msg, ArtVisualElement ve)
+        public void dbug_LayoutTraceEndContext(dbugVisualRootMsg msg, RenderElement ve)
         {
             if (dbugLastestDebugVisualLay != null)
             {
@@ -342,11 +334,11 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public ArtVisualElement dbug_GetElementById(object id)
+        public RenderElement dbug_GetElementById(object id)
         {
             return null;
         }
-        public static VisualRoot dbugCurrentGlobalVRoot; 
+        public static dbugRootElement dbugCurrentGlobalVRoot; 
     }
 #endif
 }

@@ -9,7 +9,7 @@ using System.Drawing.Drawing2D;
 
 namespace LayoutFarm.Presentation
 {
-    public class VisualScrollableSurface1 : VisualScrollableSurface
+    public class VisualScrollableSurface1 : ScrollableSurface
     {
 
 
@@ -20,9 +20,9 @@ namespace LayoutFarm.Presentation
 
         int viewport_v_smallChange = 0;
         int viewport_v_largeChange = 0;
-        ArtVisualContainerBase ownerVisualElement;
+        MultiLayerRenderBox ownerVisualElement;
         bool scrollableFullMode;
-        public VisualScrollableSurface1(ArtVisualContainerBase ownerVisualElement, int width, int height)
+        public VisualScrollableSurface1(MultiLayerRenderBox ownerVisualElement, int width, int height)
             : base(ownerVisualElement)
         {
 
@@ -483,12 +483,12 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        VisualRoot dbugVRoot
+        dbugRootElement dbugVRoot
         {
             get
             {
 
-                return VisualRoot.dbugCurrentGlobalVRoot;
+                return dbugRootElement.dbugCurrentGlobalVRoot;
             }
         }
         public string dbug_FullElementDescription()

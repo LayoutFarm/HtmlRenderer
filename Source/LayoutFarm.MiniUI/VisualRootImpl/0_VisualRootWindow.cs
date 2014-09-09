@@ -13,23 +13,23 @@ namespace LayoutFarm.Presentation
 
 
 
-    public partial class VisualWindowImpl : ArtVisualRootWindow
+    public partial class VisualWindowImpl : RootWindowRenderBox
     {
         bool layoutQueueClearing = false;
 
-        List<ArtVisualElement> layoutQueue = new List<ArtVisualElement>();
-        List<ArtVisualElement> layoutQueue2 = new List<ArtVisualElement>();
+        List<RenderElement> layoutQueue = new List<RenderElement>();
+        List<RenderElement> layoutQueue2 = new List<RenderElement>();
 
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
 
-        VisualRootImpl visualroot;
+        RenderRootElement visualroot;
         CanvasEventsStock eventStock = new CanvasEventsStock();
         IEventListener currentMouseUIFocus = null;
 
 
         public VisualWindowImpl(
-            VisualRootImpl visualroot, int width, int height)
-            : base(visualroot, width, height)
+            RenderRootElement visualroot, int width, int height)
+            : base(width, height)
         {
             this.visualroot = visualroot;
 
@@ -39,19 +39,19 @@ namespace LayoutFarm.Presentation
             centralAnimationClock.Enabled = false;
 
             rootTasksTimer = new System.Timers.Timer();
-            rootTasksTimer.Interval = 100; 
+            rootTasksTimer.Interval = 100;
             rootTasksTimer.Elapsed += new System.Timers.ElapsedEventHandler(rootTasksTimer_Elapsed);
             rootTasksTimer.Enabled = false;
             hoverMonitoringTask = new UIHoverMonitorTask(this, this.OnMouseHover);
 #if DEBUG
-            dbug_hide_objIden = true; 
+            dbug_hide_objIden = true;
             dbug_Init();
 #endif
 
         }
         public override Graphics CreateGraphics()
-        {       
-             
+        {
+
 
             throw new NotImplementedException();
         }
@@ -90,7 +90,7 @@ namespace LayoutFarm.Presentation
         }
 
         void centralAnimationClock_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        { 
+        {
         }
 
         public void SetAsCurrentMouseFocus(IEventListener ui)
@@ -102,20 +102,22 @@ namespace LayoutFarm.Presentation
                 UIFocusEventArgs2 e = new UIFocusEventArgs2();
                 e.SetWinRoot(this);
                 e.ToBeFocusElement = ui;
-                e.ToBeLostFocusElement = currentMouseUIFocus; 
+                e.ToBeLostFocusElement = currentMouseUIFocus;
                 currentMouseUIFocus = null;
             }
 
             this.currentMouseUIFocus = ui;
         }
-        public override VisualRoot VisualRoot
+#if DEBUG
+        public override dbugRootElement dbugVisualRoot
         {
             get
             {
                 return this.visualroot;
             }
         }
-        public VisualRootImpl MyVisualRoot
+#endif
+        public RenderRootElement MyVisualRoot
         {
             get
             {
@@ -149,13 +151,13 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        
 
 
-        public override void AddToLayoutQueue(ArtVisualElement vs)
+
+        public override void AddToLayoutQueue(RenderElement vs)
         {
 #if DEBUG
-            VisualRoot dbugVisualRoot = this.dbugVRoot;
+            dbugRootElement dbugVisualRoot = this.dbugVRoot;
 #endif
 
             if (layoutQueueClearing)
@@ -173,7 +175,7 @@ namespace LayoutFarm.Presentation
             }
 
 #if DEBUG
-            dbugVisualRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_ADD_TO_LAYOUT_QUEUE, vs);
+            dbugVisualRoot.dbug_PushLayoutTraceMessage(dbugRootElement.dbugMsg_ADD_TO_LAYOUT_QUEUE, vs);
 #endif
 
             vs.IsInLayoutQueue = true;
@@ -181,7 +183,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        static void ClearLayoutOn(VisualElementArgs vinv, ArtVisualContainerBase contvs, int i)
+        static void ClearLayoutOn(VisualElementArgs vinv, MultiLayerRenderBox contvs, int i)
         {
 
             switch (contvs.GetReLayoutState())
@@ -197,7 +199,7 @@ namespace LayoutFarm.Presentation
 #endif
                             if (!vinv.IsInTopDownReArrangePhase)
                             {
-                                ArtVisualContainerBase topMostToBeCal = FindTopMostToBeRecalculate(contvs);
+                                MultiLayerRenderBox topMostToBeCal = FindTopMostToBeRecalculate(contvs);
                                 if (topMostToBeCal != null)
                                 {
                                     topMostToBeCal.TopDownReCalculateContentSize(vinv);
@@ -232,7 +234,7 @@ namespace LayoutFarm.Presentation
 #endif
                         if (!vinv.IsInTopDownReArrangePhase)
                         {
-                            ArtVisualContainerBase topMostToBeCal = FindTopMostToBeRecalculate(contvs);
+                            MultiLayerRenderBox topMostToBeCal = FindTopMostToBeRecalculate(contvs);
                             if (topMostToBeCal != null)
                             {
                                 topMostToBeCal.TopDownReCalculateContentSize(vinv);
@@ -283,11 +285,11 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        static ArtVisualContainerBase FindTopMostToBeRecalculate(ArtVisualContainerBase veContainerBase)
+        static MultiLayerRenderBox FindTopMostToBeRecalculate(MultiLayerRenderBox veContainerBase)
         {
 
 #if DEBUG
-            dbugVisualLayoutTracer debugVisualLay = VisualRoot.dbugCurrentGlobalVRoot.dbug_GetLastestVisualLayoutTracer();
+            dbugVisualLayoutTracer debugVisualLay = dbugRootElement.dbugCurrentGlobalVRoot.dbug_GetLastestVisualLayoutTracer();
 
 #endif
 
@@ -324,7 +326,7 @@ namespace LayoutFarm.Presentation
             else
             {
 
-                ArtVisualContainerBase ownerContainer = veContainerBase.GetOwnerContainer();
+                MultiLayerRenderBox ownerContainer = veContainerBase.GetOwnerContainer();
 
                 if (ownerContainer != null && !ownerContainer.IsLayoutSuspending)
                 {
@@ -332,7 +334,7 @@ namespace LayoutFarm.Presentation
                     if (ownerContainer.HasOwner)
                     {
 
-                        ArtVisualContainerBase found = FindTopMostToBeRecalculate(ownerContainer);
+                        MultiLayerRenderBox found = FindTopMostToBeRecalculate(ownerContainer);
                         if (found != null)
                         {
 #if DEBUG
@@ -391,9 +393,9 @@ namespace LayoutFarm.Presentation
             this.layoutQueueClearing = true;
 
 #if DEBUG
-            VisualRoot visualroot = this.dbugVRoot;
+            dbugRootElement visualroot = this.dbugVRoot;
             int total = layoutQueue.Count;
-            visualroot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_CLEAR_LAYOUT_enter, total);
+            visualroot.dbug_PushLayoutTraceMessage(dbugRootElement.dbugMsg_CLEAR_LAYOUT_enter, total);
 #endif
 
             VisualElementArgs vinv = this.GetVInv();
@@ -411,10 +413,10 @@ namespace LayoutFarm.Presentation
             for (int i = preClear - 1; i > -1; --i)
             {
 
-                ArtVisualElement elem = layoutQueue[i];
+                RenderElement elem = layoutQueue[i];
                 if (elem.ParentLink != null && elem.IsVisualContainerBase)
                 {
-                    ArtVisualContainerBase contvs = (ArtVisualContainerBase)elem;
+                    MultiLayerRenderBox contvs = (MultiLayerRenderBox)elem;
                     ClearLayoutOn(vinv, contvs, i);
                 }
                 elem.IsInLayoutQueue = false;
@@ -428,7 +430,7 @@ namespace LayoutFarm.Presentation
                 int lay2Count = layoutQueue2.Count;
                 for (int i = 0; i < lay2Count; ++i)
                 {
-                    ArtVisualElement elem = layoutQueue2[i];
+                    RenderElement elem = layoutQueue2[i];
                     if (elem.NeedContentArrangement)
                     {
                         elem.ResumeLayout(vinv);
@@ -437,7 +439,7 @@ namespace LayoutFarm.Presentation
 
                 for (int i = 0; i < lay2Count; ++i)
                 {
-                    ArtVisualElement elem = layoutQueue2[i];
+                    RenderElement elem = layoutQueue2[i];
                     elem.IsInLayoutQueue = false;
                 }
 
@@ -447,9 +449,9 @@ namespace LayoutFarm.Presentation
             this.FreeVInv(vinv);
 #if DEBUG
 
-            visualroot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_CLEAR_LAYOUT_exit);
+            visualroot.dbug_PushLayoutTraceMessage(dbugRootElement.dbugMsg_CLEAR_LAYOUT_exit);
 #endif
         }
-    } 
-     
+    }
+
 }

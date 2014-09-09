@@ -23,7 +23,7 @@ namespace LayoutFarm.Presentation
     {
         int x;
         int y;
-        ArtVisualElement sourceVisualElement;
+        RenderElement sourceVisualElement;
         public bool CancelBubbling = false;
 
 
@@ -45,10 +45,10 @@ namespace LayoutFarm.Presentation
 
             canvasXOrigin = 0;
             canvasYOrigin = 0;
-            this.vroot = null;
+           
             this.winRoot = null;
         }
-        public ArtVisualElement SourceVisualElement
+        public RenderElement SourceVisualElement
         {
             get
             {
@@ -134,29 +134,22 @@ namespace LayoutFarm.Presentation
             }
 
         }
-        public VisualRoot VisualRoot
-        {
-            get
-            {
-                return vroot;
-            }
-
-        }
-        public ArtVisualRootWindow WinRoot
+         
+        public RootWindowRenderBox WinRoot
         {
             get
             {
                 return winRoot;
             }
         }
-        public void SetWinRoot(ArtVisualRootWindow winRoot)
+        public void SetWinRoot(RootWindowRenderBox winRoot)
         {
             this.winRoot = winRoot;
-            this.vroot = winRoot.VisualRoot;
+            
         }
 
-        VisualRoot vroot;
-        ArtVisualRootWindow winRoot;
+         
+        RootWindowRenderBox winRoot;
 
         public VisualElementArgs GetVisualInvalidateCanvasArgs()
         {
@@ -316,7 +309,7 @@ namespace LayoutFarm.Presentation
     {
         AffectedElementSideFlags changeFromSideFlags;
         static Stack<UISizeChangedEventArgs> pool = new Stack<UISizeChangedEventArgs>();
-        private UISizeChangedEventArgs(ArtVisualElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
+        private UISizeChangedEventArgs(RenderElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
         {
             this.SourceVisualElement = sourceElement;
             this.SetLocation(widthDiff, heightDiff);
@@ -329,7 +322,7 @@ namespace LayoutFarm.Presentation
                 return changeFromSideFlags;
             }
         }
-        public static UISizeChangedEventArgs GetFreeOne(ArtVisualElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
+        public static UISizeChangedEventArgs GetFreeOne(RenderElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
         {
             if (pool.Count > 0)
             {
@@ -401,8 +394,8 @@ namespace LayoutFarm.Presentation
 
     public class UIFocusEventArgs : UIEventArgs
     {
-        ArtVisualElement tobeFocusElement;
-        ArtVisualElement tobeLostFocusElement;
+        RenderElement tobeFocusElement;
+        RenderElement tobeLostFocusElement;
         FocusEventType focusEventType = FocusEventType.PreviewLostFocus;
         public UIFocusEventArgs()
         {
@@ -419,7 +412,7 @@ namespace LayoutFarm.Presentation
                 focusEventType = value;
             }
         }
-        public ArtVisualElement ToBeFocusElement
+        public RenderElement ToBeFocusElement
         {
             get
             {
@@ -430,7 +423,7 @@ namespace LayoutFarm.Presentation
                 tobeFocusElement = value;
             }
         }
-        public ArtVisualElement ToBeLostFocusElement
+        public RenderElement ToBeLostFocusElement
         {
             get
             {

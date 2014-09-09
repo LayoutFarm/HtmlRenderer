@@ -13,12 +13,12 @@ namespace LayoutFarm.Presentation
 
         public event EventHandler ReArrangeContentRequest;
 
-        LinkedList<ArtVisualElement> myElements = new LinkedList<ArtVisualElement>();
-        public VisualPlainLayer(ArtVisualContainerBase owner)
+        LinkedList<RenderElement> myElements = new LinkedList<RenderElement>();
+        public VisualPlainLayer(MultiLayerRenderBox owner)
             : base(owner)
         {
         }
-        public ArtVisualRootWindow GetWindowRoot()
+        public RootWindowRenderBox GetWindowRoot()
         {
             if (this.ownerVisualElement == null)
             {
@@ -26,7 +26,7 @@ namespace LayoutFarm.Presentation
             }
             if (this.ownerVisualElement.IsWindowRoot)
             {
-                return (ArtVisualRootWindow)this.ownerVisualElement;
+                return (RootWindowRenderBox)this.ownerVisualElement;
             }
             else
             {
@@ -34,18 +34,18 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public override IEnumerable<ArtVisualElement> GetVisualElementReverseIter()
+        public override IEnumerable<RenderElement> GetVisualElementReverseIter()
         {
-            LinkedListNode<ArtVisualElement> cur = myElements.Last;
+            LinkedListNode<RenderElement> cur = myElements.Last;
             while (cur != null)
             {
                 yield return cur.Value;
                 cur = cur.Previous;
             }
         }
-        public override IEnumerable<ArtVisualElement> GetVisualElementIter()
+        public override IEnumerable<RenderElement> GetVisualElementIter()
         {
-            LinkedListNode<ArtVisualElement> cur = myElements.First;
+            LinkedListNode<RenderElement> cur = myElements.First;
             while (cur != null)
             {
                 yield return cur.Value;
@@ -53,7 +53,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public override void AddTop(ArtVisualElement visualElement)
+        public override void AddTop(RenderElement visualElement)
         {
 #if DEBUG
             if (visualElement.ParentLink != null)
@@ -62,8 +62,8 @@ namespace LayoutFarm.Presentation
             }
 #endif
 
-            LinkedListNode<ArtVisualElement> linkNode = myElements.AddLast(visualElement);
-            ArtVisualElement.SetVisualElementAsChildOfSimpleContainer(visualElement,
+            LinkedListNode<RenderElement> linkNode = myElements.AddLast(visualElement);
+            RenderElement.SetVisualElementAsChildOfSimpleContainer(visualElement,
                 new SimpleLinkListParentLink(this, linkNode));
 
 
@@ -74,10 +74,10 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public override IEnumerable<ArtVisualElement> GetDrawingIter()
+        public override IEnumerable<RenderElement> GetDrawingIter()
         {
 
-            LinkedListNode<ArtVisualElement> curNode = this.myElements.First;
+            LinkedListNode<RenderElement> curNode = this.myElements.First;
             while (curNode != null)
             {
                 yield return curNode.Value;
@@ -85,10 +85,10 @@ namespace LayoutFarm.Presentation
             }
 
         }
-        IEnumerable<ArtVisualElement> GetHitTestIter()
+        IEnumerable<RenderElement> GetHitTestIter()
         {
 
-            LinkedListNode<ArtVisualElement> curNode = this.myElements.Last;
+            LinkedListNode<RenderElement> curNode = this.myElements.Last;
             while (curNode != null)
             {
                 yield return curNode.Value;
@@ -112,7 +112,7 @@ namespace LayoutFarm.Presentation
             }
 
             this.BeginDrawingChildContent();
-            foreach (ArtVisualElement child in this.GetDrawingIter())
+            foreach (RenderElement child in this.GetDrawingIter())
             {
 
                 if (child.IntersectsWith(updateArea))
@@ -168,7 +168,7 @@ namespace LayoutFarm.Presentation
                 this, this.ToString()));
             writer.EnterNewLevel();
 
-            foreach (ArtVisualElement child in this.GetDrawingIter())
+            foreach (RenderElement child in this.GetDrawingIter())
             {
                 child.dbug_DumpVisualProps(writer);
             }
@@ -178,12 +178,12 @@ namespace LayoutFarm.Presentation
 #endif
 
 
-        public override bool HitTestCore(ArtHitPointChain artHitResult)
+        public override bool HitTestCore(HitPointChain artHitResult)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) == 0)
             {
 
-                foreach (ArtVisualElement ui in this.GetHitTestIter())
+                foreach (RenderElement ui in this.GetHitTestIter())
                 {
 
                     if (ui.HitTestCore(artHitResult))
@@ -196,14 +196,14 @@ namespace LayoutFarm.Presentation
         }
 
 
-        static Size ReCalculateContentSizeNoLayout(LinkedList<ArtVisualElement> velist, VisualElementArgs vinv)
+        static Size ReCalculateContentSizeNoLayout(LinkedList<RenderElement> velist, VisualElementArgs vinv)
         {
             int local_lineWidth = 0;
-            int local_lineHeight = 17; LinkedListNode<ArtVisualElement> curNode = velist.First;
+            int local_lineHeight = 17; LinkedListNode<RenderElement> curNode = velist.First;
 
             while (curNode != null)
             {
-                ArtVisualElement visualElement = curNode.Value;
+                RenderElement visualElement = curNode.Value;
                 if (!visualElement.HasCalculatedSize)
                 {
                     visualElement.TopDownReCalculateContentSize(vinv);

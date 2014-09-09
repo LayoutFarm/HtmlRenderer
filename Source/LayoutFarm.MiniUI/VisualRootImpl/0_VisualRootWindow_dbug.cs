@@ -16,21 +16,21 @@ namespace LayoutFarm.Presentation
     {
 #if DEBUG
         public static bool dbugMark01;
-        static void dbug_WriteInfo(dbugVisualLayoutTracer debugVisualLay, dbugVisitorMessage msg, ArtVisualElement ve)
+        static void dbug_WriteInfo(dbugVisualLayoutTracer debugVisualLay, dbugVisitorMessage msg, RenderElement ve)
         {
             if (debugVisualLay != null)
             {
                 debugVisualLay.WriteInfo(msg.text, ve);
             }
         }
-        static void dbug_BeginNewContext(dbugVisualLayoutTracer debugVisualLay, dbugVisitorMessage msg, ArtVisualElement ve)
+        static void dbug_BeginNewContext(dbugVisualLayoutTracer debugVisualLay, dbugVisitorMessage msg, RenderElement ve)
         {
             if (debugVisualLay != null)
             {
                 debugVisualLay.BeginNewContext(); debugVisualLay.WriteInfo(msg.text, ve);
             }
         }
-        static void dbug_EndCurrentContext(dbugVisualLayoutTracer debugVisualLay, dbugVisitorMessage msg, ArtVisualElement ve)
+        static void dbug_EndCurrentContext(dbugVisualLayoutTracer debugVisualLay, dbugVisitorMessage msg, RenderElement ve)
         {
             if (debugVisualLay != null)
             {
@@ -53,12 +53,12 @@ namespace LayoutFarm.Presentation
             hitPointChain.dbugHitTracker = this.dbugVRoot.dbugHitTracker;
         }
 
-        public static ArtVisualElement dbugVE_HighlightMe;
+        public static RenderElement dbugVE_HighlightMe;
 
         public override void dbugShowRenderPart(CanvasBase canvasPage, InternalRect updateArea)
         {
 
-            VisualRoot visualroot = this.dbugVRoot;
+            dbugRootElement visualroot = this.dbugVRoot;
             if (visualroot.dbug_ShowRootUpdateArea)
             {
                 canvasPage.FillRectangle(Color.FromArgb(50, Color.Black),

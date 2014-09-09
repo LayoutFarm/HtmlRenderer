@@ -11,7 +11,7 @@ namespace LayoutFarm.Presentation
 
     public class VisualDrawingChain
     {
-        public List<ArtVisualElement> selectedVisualElements = new List<ArtVisualElement>();
+        public List<RenderElement> selectedVisualElements = new List<RenderElement>();
         public List<bool> containAllAreaTestResults = new List<bool>();
 
 
@@ -64,7 +64,7 @@ namespace LayoutFarm.Presentation
                 return currentClipRect;
             }
         }
-        public void AddVisualElement(ArtVisualElement ve, bool containAllArea)
+        public void AddVisualElement(RenderElement ve, bool containAllArea)
         {
 
             ve.IsInRenderChain = true;

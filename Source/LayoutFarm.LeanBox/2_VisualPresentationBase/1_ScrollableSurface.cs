@@ -11,14 +11,14 @@ using LayoutFarm.Presentation;
 namespace LayoutFarm.Presentation
 {
 
-    public abstract class VisualScrollableSurface
+    public abstract class ScrollableSurface
     {
         public event EventHandler<ScrollSurfaceRequestEventArgs> VScrollRequest;
         public event EventHandler<ScrollSurfaceRequestEventArgs> HScrollRequest;
-        public event EventHandler<ArtScrollEventArgs> VScrollChanged;
-        public event EventHandler<ArtScrollEventArgs> HScrollChanged;
-        ArtVisualContainerBase ownerVisualElement;
-        public VisualScrollableSurface(ArtVisualContainerBase ownerVisualElement)
+        public event EventHandler<UIScrollEventArgs> VScrollChanged;
+        public event EventHandler<UIScrollEventArgs> HScrollChanged;
+        MultiLayerRenderBox ownerVisualElement;
+        public ScrollableSurface(MultiLayerRenderBox ownerVisualElement)
         {
             this.ownerVisualElement = ownerVisualElement;
         }
@@ -42,7 +42,7 @@ namespace LayoutFarm.Presentation
                 return this.VScrollChanged != null;
             }
         }
-        public void RaiseProperEvents(ArtScrollEventArgs hScrollEventArgs, ArtScrollEventArgs vScrollEventArgs)
+        public void RaiseProperEvents(UIScrollEventArgs hScrollEventArgs, UIScrollEventArgs vScrollEventArgs)
         {
             if (this.VScrollChanged != null && vScrollEventArgs != null)
             {

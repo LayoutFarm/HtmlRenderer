@@ -10,12 +10,12 @@ using LayoutFarm.Presentation;
 namespace LayoutFarm.Presentation
 {
 
-    public abstract class VisualTextRun : ArtVisualElement
+    public abstract class VisualTextRun : RenderElement
     {
 
         protected char[] mybuffer;
         public VisualTextRun(string s)
-            : base(10, 10, VisualElementNature.TextRun)
+            : base(10, 10, ElementNature.TextRun)
         {
 
             if (s != null && s.Length > 0)
@@ -37,7 +37,7 @@ namespace LayoutFarm.Presentation
         }
 
         public VisualTextRun(char c)
-            : base(10, 10, VisualElementNature.TextRun)
+            : base(10, 10, ElementNature.TextRun)
         {
 
             mybuffer = new char[] { c };
@@ -50,7 +50,7 @@ namespace LayoutFarm.Presentation
             UpdateRunWidth(null);
         }
         public VisualTextRun(char[] mybuffer)
-            : base(10, 10, VisualElementNature.TextRun)
+            : base(10, 10, ElementNature.TextRun)
         {
 
             this.mybuffer = mybuffer;

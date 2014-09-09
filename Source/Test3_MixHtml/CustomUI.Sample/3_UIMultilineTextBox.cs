@@ -15,7 +15,7 @@ namespace LayoutFarm.Presentation.SampleControls
 
     public class UIMultiLineTextBox : UIElement
     {
-        ArtVisualElement primaryVisualElement;
+        RenderElement primaryVisualElement;
         ArtVisualTextEditBox visualTextEdit; 
         public UIMultiLineTextBox(int width, int height, bool multiline)
         {
@@ -31,14 +31,14 @@ namespace LayoutFarm.Presentation.SampleControls
               | 1 << UIEventIdentifier.NE_SIZE_CHANGED
               );
         }
-        public ArtVisualElement PrimaryVisualElement
+        public RenderElement PrimaryVisualElement
         {
             get
             {
                 return primaryVisualElement;
             }
         } 
-        public void SetPrimaryVisualElement(ArtVisualElement visualElement)
+        public void SetPrimaryVisualElement(RenderElement visualElement)
         {
             this.primaryVisualElement = visualElement;
         }

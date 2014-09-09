@@ -13,7 +13,7 @@ namespace LayoutFarm.Presentation.SampleControls
 
     public class UITextBox : UIElement
     {
-        ArtVisualElement primaryVisualElement;
+        RenderElement primaryVisualElement;
         ArtVisualTextEditBox visualTextSurface;
         public UITextBox(int width, int height)
         {
@@ -25,11 +25,11 @@ namespace LayoutFarm.Presentation.SampleControls
             SetPrimaryVisualElement(visualTextSurface);
         }
 
-        public void SetPrimaryVisualElement(ArtVisualElement visualElement)
+        public void SetPrimaryVisualElement(RenderElement visualElement)
         {
             this.primaryVisualElement = visualElement;
         }
-        public ArtVisualElement PrimaryVisualElement
+        public RenderElement PrimaryVisualElement
         {
             get
             {

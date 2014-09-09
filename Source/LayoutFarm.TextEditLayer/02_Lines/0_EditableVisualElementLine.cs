@@ -104,7 +104,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        internal bool HitTestCore(ArtHitPointChain artHitResult)
+        internal bool HitTestCore(HitPointChain artHitResult)
         {
 
             int testX;
@@ -137,7 +137,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        public ArtVisualElement OwnerElement
+        public RenderElement OwnerElement
         {
             get
             {

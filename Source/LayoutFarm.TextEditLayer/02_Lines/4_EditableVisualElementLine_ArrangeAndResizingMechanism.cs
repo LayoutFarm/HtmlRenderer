@@ -16,7 +16,7 @@ namespace LayoutFarm.Presentation.Text
             int lastestX = 0;
             while (r != null)
             {
-                ArtVisualElement.DirectSetVisualElementLocation(
+                RenderElement.DirectSetVisualElementLocation(
                         r,
                         lastestX,
                         r.Y);

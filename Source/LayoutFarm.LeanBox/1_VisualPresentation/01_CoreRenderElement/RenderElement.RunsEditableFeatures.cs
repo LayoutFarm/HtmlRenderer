@@ -10,7 +10,7 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-    partial class ArtVisualElement
+    partial class RenderElement
     {
 
 
@@ -23,7 +23,7 @@ namespace LayoutFarm.Presentation
             }
         }
 #if DEBUG
-        public virtual void dbug_WriteOwnerLayerInfo(VisualRoot visualroot, int i)
+        public virtual void dbug_WriteOwnerLayerInfo(dbugRootElement visualroot, int i)
         {
 
             if (this.visualParentLink != null)
@@ -32,16 +32,16 @@ namespace LayoutFarm.Presentation
                       visualParentLink.dbugGetLinkInfo()));
             }
         }
-        public virtual void dbug_WriteOwnerLineInfo(VisualRoot visualroot, int i)
+        public virtual void dbug_WriteOwnerLineInfo(dbugRootElement visualroot, int i)
         {
 
         }
 #endif
-        public ArtVisualContainerBase GetOwnerContainer()
+        public MultiLayerRenderBox GetOwnerContainer()
         {
             if (this.visualParentLink != null)
             {
-                return visualParentLink.ParentVisualElement as ArtVisualContainerBase;
+                return visualParentLink.ParentVisualElement as MultiLayerRenderBox;
             }
             return null;
         }

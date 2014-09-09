@@ -15,23 +15,23 @@ namespace LayoutFarm.Presentation
     }
   
 
-    public interface IVisualParentLink
+    public interface IParentLink
     {
 
-        void Unlink(ArtVisualElement ve);
+        void Unlink(RenderElement ve);
        
         bool MayHasOverlapChild { get; }
-        ArtVisualElement ParentVisualElement { get; }
+        RenderElement ParentVisualElement { get; }
 
         
         void AdjustParentLocation(ref System.Drawing.Point p);
         void PerformLayout(VisualElementArgs vinv);
-        ArtVisualRootWindow GetWindowRoot();
-        ArtVisualElement FindOverlapedChildElementAtPoint(ArtVisualElement afterThisChild, System.Drawing.Point point);
-        ArtVisualElement NotifyParentToInvalidate(out bool goToFinalExit
+        RootWindowRenderBox GetWindowRoot();
+        RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, System.Drawing.Point point);
+        RenderElement NotifyParentToInvalidate(out bool goToFinalExit
 
 #if DEBUG
-, ArtVisualElement ve
+, RenderElement ve
 #endif
 );
 
@@ -42,17 +42,17 @@ namespace LayoutFarm.Presentation
     }
 
 
-    class SimpleLinkListParentLink : IVisualParentLink
+    class SimpleLinkListParentLink : IParentLink
     {
-        public readonly LinkedListNode<ArtVisualElement> internalLinkedNode;
+        public readonly LinkedListNode<RenderElement> internalLinkedNode;
         VisualPlainLayer ownerLayer;
         public SimpleLinkListParentLink(VisualPlainLayer ownerLayer,
-            LinkedListNode<ArtVisualElement> internalLinkedNode)
+            LinkedListNode<RenderElement> internalLinkedNode)
         {
             this.ownerLayer = ownerLayer;
             this.internalLinkedNode = internalLinkedNode;
         }
-        public ArtVisualElement FindOverlapedChildElementAtPoint(ArtVisualElement afterThisChild, System.Drawing.Point point)
+        public RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, System.Drawing.Point point)
         {
             var curnode = internalLinkedNode.Previous;
             while (curnode != null)
@@ -66,7 +66,7 @@ namespace LayoutFarm.Presentation
             }
             return null;
         }
-        public ArtVisualRootWindow GetWindowRoot()
+        public RootWindowRenderBox GetWindowRoot()
         {
             return this.ownerLayer.GetWindowRoot();
         }
@@ -81,12 +81,12 @@ namespace LayoutFarm.Presentation
                 return true;
             }
         }
-        public void Unlink(ArtVisualElement ve)
+        public void Unlink(RenderElement ve)
         {
             (internalLinkedNode.List).Remove(ve);
         }
         
-        public ArtVisualElement ParentVisualElement
+        public RenderElement ParentVisualElement
         {
             get
             {
@@ -100,10 +100,10 @@ namespace LayoutFarm.Presentation
             return ownerLayer.ToString();
         }
 #endif
-        public ArtVisualElement NotifyParentToInvalidate(out bool goToFinalExit
+        public RenderElement NotifyParentToInvalidate(out bool goToFinalExit
 
 #if DEBUG
-, ArtVisualElement ve
+, RenderElement ve
 #endif
 )
         {

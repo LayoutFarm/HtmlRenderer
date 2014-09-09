@@ -23,7 +23,7 @@ namespace LayoutFarm.Presentation.Text
             set;
         }
 
-        public EditableTextFlowLayer(ArtVisualContainerBase owner)
+        public EditableTextFlowLayer(MultiLayerRenderBox owner)
             : base(owner)
         {
 
@@ -35,7 +35,7 @@ namespace LayoutFarm.Presentation.Text
             this.SetDoubleCanvas(useWithWidth, useWithHeight);
         }
 
-        public override void AddTop(ArtVisualElement ve)
+        public override void AddTop(RenderElement ve)
         {
 
         }
@@ -59,7 +59,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        public override IEnumerable<ArtVisualElement> GetDrawingIter()
+        public override IEnumerable<RenderElement> GetDrawingIter()
         {
             throw new NotImplementedException();
         }
@@ -178,9 +178,9 @@ namespace LayoutFarm.Presentation.Text
             return false;
         }
 #if DEBUG
-        void debug_RecordLineInfo(ArtVisualContainerBase owner, EditableVisualElementLine line)
+        void debug_RecordLineInfo(MultiLayerRenderBox owner, EditableVisualElementLine line)
         {
-            VisualRoot visualroot = this.dbugVRoot;
+            dbugRootElement visualroot = this.dbugVRoot;
             if (visualroot.dbug_RecordDrawingChain)
             {
             }
@@ -225,9 +225,9 @@ namespace LayoutFarm.Presentation.Text
                     EditableVisualElementLine line = lines[i];
 
 #if DEBUG
-                    if (this.ownerVisualElement is ArtVisualContainerBase)
+                    if (this.ownerVisualElement is MultiLayerRenderBox)
                     {
-                        debug_RecordLineInfo((ArtVisualContainerBase)ownerVisualElement, line);
+                        debug_RecordLineInfo((MultiLayerRenderBox)ownerVisualElement, line);
                     }
 #endif
 
@@ -273,9 +273,9 @@ namespace LayoutFarm.Presentation.Text
             {
                 EditableVisualElementLine line = (EditableVisualElementLine)lineCollection;
 #if DEBUG
-                if (ownerVisualElement is ArtVisualContainerBase)
+                if (ownerVisualElement is MultiLayerRenderBox)
                 {
-                    debug_RecordLineInfo((ArtVisualContainerBase)ownerVisualElement, line);
+                    debug_RecordLineInfo((MultiLayerRenderBox)ownerVisualElement, line);
                 }
 #endif
 
@@ -306,7 +306,7 @@ namespace LayoutFarm.Presentation.Text
         }
 
 
-        public override bool HitTestCore(ArtHitPointChain artHitResult)
+        public override bool HitTestCore(HitPointChain artHitResult)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) == 0)
             {
@@ -499,7 +499,7 @@ namespace LayoutFarm.Presentation.Text
             this.BeginLayerGraphicUpdate(vinv);
 
 
-            ArtVisualContainerBase container = this.ownerVisualElement as ArtVisualContainerBase;
+            MultiLayerRenderBox container = this.ownerVisualElement as MultiLayerRenderBox;
             if (container != null)
             {
                 if (ownerVisualElement.IsScrollable)

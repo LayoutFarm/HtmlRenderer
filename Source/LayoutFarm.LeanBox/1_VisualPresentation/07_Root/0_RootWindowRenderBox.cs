@@ -8,18 +8,18 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-    public abstract partial class ArtVisualRootWindow : ArtVisualContainerBase
+    public abstract partial class RootWindowRenderBox : MultiLayerRenderBox
     {
-        VisualRoot visualRoot;
+
         VisualLayer groundLayer;
 
-        public ArtVisualRootWindow(VisualRoot visualRoot, int width, int height)
-            : base(width, height, VisualElementNature.WindowRoot)
+        public RootWindowRenderBox(int width, int height)
+            : base(width, height, ElementNature.WindowRoot)
         {
-            this.visualRoot = visualRoot;
+
         }
 
-        public abstract ArtVisualElement CurrentKeyboardFocusedElement
+        public abstract RenderElement CurrentKeyboardFocusedElement
         {
             get;
             set;
@@ -28,12 +28,15 @@ namespace LayoutFarm.Presentation
 
         public abstract void RootBeginGraphicUpdate();
         public abstract void RootEndGraphicUpdate();
-        public abstract ArtVisualElement CurrentDraggingElement { get; set; }
+        public abstract RenderElement CurrentDraggingElement { get; set; }
 
-        public abstract void AddToLayoutQueue(ArtVisualElement vs);
-        public abstract VisualRoot VisualRoot { get; }
+        public abstract void AddToLayoutQueue(RenderElement vs);
+#if DEBUG
+        public abstract dbugRootElement dbugVisualRoot { get; }
+#endif
         public abstract bool IsLayoutQueueClearing { get; }
-        public abstract void InvalidateGraphicArea(ArtVisualElement fromElement, InternalRect elementClientRect);
+
+        public abstract void InvalidateGraphicArea(RenderElement fromElement, InternalRect elementClientRect);
 
         public override void ClearAllChildren()
         {
@@ -53,7 +56,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        protected override void GroundLayerAddChild(ArtVisualElement child)
+        protected override void GroundLayerAddChild(RenderElement child)
         {
             if (groundLayer == null)
             {

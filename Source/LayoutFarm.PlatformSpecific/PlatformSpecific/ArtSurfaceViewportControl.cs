@@ -29,8 +29,8 @@ namespace LayoutFarm.Presentation
 
         public event EventHandler<ScrollSurfaceRequestEventArgs> VScrollRequest;
         public event EventHandler<ScrollSurfaceRequestEventArgs> HScrollRequest;
-        public event EventHandler<ArtScrollEventArgs> VScrollChanged;
-        public event EventHandler<ArtScrollEventArgs> HScrollChanged;
+        public event EventHandler<UIScrollEventArgs> VScrollChanged;
+        public event EventHandler<UIScrollEventArgs> HScrollChanged;
          
         VisualWindowImpl winroot;
 
@@ -88,14 +88,14 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public ArtVisualRootWindow WinRoot
+        public RootWindowRenderBox WinRoot
         {
             get
             {
                 return winroot;
             }
         } 
-        public void AddContent(ArtVisualElement vi)
+        public void AddContent(RenderElement vi)
         {
             winroot.AddChild(vi);
         }
@@ -115,7 +115,7 @@ namespace LayoutFarm.Presentation
         {
             canvasViewport.ScrollTo(x, y);
         }
-        public void viewport_HScrollChanged(object sender, ArtScrollEventArgs e)
+        public void viewport_HScrollChanged(object sender, UIScrollEventArgs e)
         {
             if (HScrollChanged != null)
             {
@@ -129,7 +129,7 @@ namespace LayoutFarm.Presentation
                 HScrollRequest.Invoke(sender, e);
             }
         }
-        public void viewport_VScrollChanged(object sender, ArtScrollEventArgs e)
+        public void viewport_VScrollChanged(object sender, UIScrollEventArgs e)
         {
 
 
@@ -409,15 +409,15 @@ namespace LayoutFarm.Presentation
         }
         public void dbug_BeginLayoutTraceSession(string beginMsg)
         {
-            this.winroot.VisualRoot.dbug_BeginLayoutTraceSession(beginMsg);
+            this.winroot.dbugVisualRoot.dbug_BeginLayoutTraceSession(beginMsg);
         }
         public void dbug_DisableAllDebugInfo()
         {
-            this.winroot.VisualRoot.dbug_DisableAllDebugInfo();
+            this.winroot.dbugVisualRoot.dbug_DisableAllDebugInfo();
         }
         public void dbug_EnableAllDebugInfo()
         {
-            this.winroot.VisualRoot.dbug_EnableAllDebugInfo();
+            this.winroot.dbugVisualRoot.dbug_EnableAllDebugInfo();
         }
         public void dbug_ReArrangeWithBreakOnSelectedNode()
         {

@@ -6,13 +6,10 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 namespace LayoutFarm.Presentation
 {
-
-
+     
     public class VisualElementArgs
     {
-        ArtVisualRootWindow winroot;
-        VisualRoot visualRoot;
-
+        RootWindowRenderBox winroot; 
 #if DEBUG
         const int VISUAL_ELEMENT = 0x0;
         const int LINE = 0x1;
@@ -24,32 +21,20 @@ namespace LayoutFarm.Presentation
         static int dbugTotalId;
 #endif
 
-        public VisualElementArgs(ArtVisualRootWindow winroot)
+        public VisualElementArgs(RootWindowRenderBox winroot)
         {
 #if DEBUG
             this.dbugId = dbugTotalId;
-            dbugTotalId++;
-
+            dbugTotalId++; 
 #endif
             this.winroot = winroot;
         }
-        public VisualElementArgs(VisualRoot vsroot)
-        {
-
-#if DEBUG
-            this.dbugId = dbugTotalId;
-            dbugTotalId++;
-
-#endif
-            this.visualRoot = vsroot;
-        }
-
-
+       
         public static void ClearForReuse(VisualElementArgs vinv)
         {
             vinv.winroot = null;
             vinv.IsInTopDownReArrangePhase = false;
-            vinv.visualRoot = null;
+           
             vinv.ForceReArrange = false;
 #if DEBUG
             vinv.dbugBreakOnSelectedVisuallElement = false;
@@ -60,21 +45,18 @@ namespace LayoutFarm.Presentation
 
         }
 
-        public ArtVisualRootWindow WinRoot
+        public RootWindowRenderBox WinRoot
         {
             get
             {
                 return this.winroot;
             }
         }
-        public void SetWinRoot(ArtVisualRootWindow winroot)
+        public void SetWinRoot(RootWindowRenderBox winroot)
         {
             this.winroot = winroot;
         }
-        public void SetVisualRoot(VisualRoot vsroot)
-        {
-            this.visualRoot = vsroot;
-        }
+         
         public bool ForceReArrange
         {
             get;
@@ -93,7 +75,7 @@ namespace LayoutFarm.Presentation
             get;
             set;
         }
-        public void SetFocusElement(ArtVisualElement ve)
+        public void SetFocusElement(RenderElement ve)
         {
             if (winroot != null)
             {
@@ -101,16 +83,16 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                AddRequest(new VisualElementRequest(ve, RequestCommand.DoFocus));
+                AddRequest(new RenderElementRequest(ve, RequestCommand.DoFocus));
             }
         }
          
-        void AddRequest(VisualElementRequest req)
+        void AddRequest(RenderElementRequest req)
         {
             
         }
 
-        public void AddInvalidateRequest(ArtVisualElement ve, InternalRect rect)
+        public void AddInvalidateRequest(RenderElement ve, InternalRect rect)
         {
 
             if (winroot != null)
@@ -119,7 +101,7 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                AddRequest(new VisualElementRequest(ve, RequestCommand.InvalidateArea,
+                AddRequest(new RenderElementRequest(ve, RequestCommand.InvalidateArea,
                   rect.ToRectangle()));
             }
 
@@ -135,7 +117,7 @@ namespace LayoutFarm.Presentation
 
 
 #if DEBUG
-        public void dbug_SetInitObject(ArtVisualElement initVisualElement)
+        public void dbug_SetInitObject(RenderElement initVisualElement)
         {
             this.dbugInitObject = initVisualElement;
         }
@@ -144,13 +126,13 @@ namespace LayoutFarm.Presentation
             this.dbugInitObject = initLayer;
             dbugFlags |= LAYER;
         }
-        public void debug_PushTopDownElement(ArtVisualContainerBase v)
+        public void debug_PushTopDownElement(MultiLayerRenderBox v)
         {
         }
-        public void debug_PopTopDownElement(ArtVisualContainerBase v)
+        public void debug_PopTopDownElement(MultiLayerRenderBox v)
         {
         }
-        public void dbug_EnterTopDownReCalculateContent(ArtVisualElement v)
+        public void dbug_EnterTopDownReCalculateContent(RenderElement v)
         {
 
             if (debugVisualLay != null)
@@ -159,7 +141,7 @@ namespace LayoutFarm.Presentation
                 debugVisualLay.WriteInfo(v, ">>TOPDOWN_RECAL_CONTENT ", "-", "&");
             }
         }
-        public void dbug_ExitTopDownReCalculateContent(ArtVisualElement v)
+        public void dbug_ExitTopDownReCalculateContent(RenderElement v)
         {
             if (debugVisualLay != null)
             {
@@ -176,38 +158,38 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public void dbug_WriteInfo(dbugVisitorMessage msg, ArtVisualElement ve)
+        public void dbug_WriteInfo(dbugVisitorMessage msg, RenderElement ve)
         {
             if (debugVisualLay != null)
             {
                 debugVisualLay.WriteInfo(msg.text, ve);
             }
         }
-        public void dbug_BeginNewContext(dbugVisitorMessage msg, ArtVisualElement ve)
+        public void dbug_BeginNewContext(dbugVisitorMessage msg, RenderElement ve)
         {
             if (debugVisualLay != null)
             {
                 debugVisualLay.BeginNewContext(); debugVisualLay.WriteInfo(msg.text, ve);
             }
         }
-        public void dbug_EndCurrentContext(dbugVisitorMessage msg, ArtVisualElement ve)
+        public void dbug_EndCurrentContext(dbugVisitorMessage msg, RenderElement ve)
         {
             if (debugVisualLay != null)
             {
                 debugVisualLay.WriteInfo(msg.text, ve); debugVisualLay.EndCurrentContext();
             }
         }
-        public void dbug_BeginSetElementBound(ArtVisualElement v)
+        public void dbug_BeginSetElementBound(RenderElement v)
         {
 
             this.dbug_BeginNewContext(dbugVisitorMessage.WITH_0, v);
         }
-        public void dbug_EndSetElementBound(ArtVisualElement v)
+        public void dbug_EndSetElementBound(RenderElement v)
         {
             this.dbug_EndCurrentContext(dbugVisitorMessage.WITH_1, v);
         }
 
-        public void dbug_EnterReArrangeContent(ArtVisualElement v)
+        public void dbug_EnterReArrangeContent(RenderElement v)
         {
             if (debugVisualLay != null)
             {
@@ -219,7 +201,7 @@ namespace LayoutFarm.Presentation
         {
             if (debugVisualLay != null)
             {
-                ArtVisualElement v = (ArtVisualElement)debugVisualLay.PeekElement();
+                RenderElement v = (RenderElement)debugVisualLay.PeekElement();
                 debugVisualLay.WriteInfo(v, "ARR_INNER", "<<", "&");
                 debugVisualLay.PopVisualElement();
             }
@@ -262,7 +244,7 @@ namespace LayoutFarm.Presentation
         public void dbug_StartLayoutTrace(dbugVisualElementLayoutMsg msg, int suffixNum)
         {
 
-            VisualRoot visualroot = VisualRoot.dbugCurrentGlobalVRoot;
+            dbugRootElement visualroot = dbugRootElement.dbugCurrentGlobalVRoot;
             if (visualroot == null || !visualroot.dbug_IsRecordLayoutTraceEnable)
             {
                 return;
@@ -272,7 +254,7 @@ namespace LayoutFarm.Presentation
             {
                 case VISUAL_ELEMENT:
                     {
-                        ArtVisualElement v = (ArtVisualElement)dbugInitObject;
+                        RenderElement v = (RenderElement)dbugInitObject;
                         debugVisualLay.WriteInfo(msg.msg + suffixNum.ToString());
                         debugVisualLay.WriteInfo("*** init visual : " + v.dbug_FullElementDescription());
                     } break;
@@ -293,7 +275,7 @@ namespace LayoutFarm.Presentation
         }
         public void dbug_StartLayoutTrace(dbugVisualElementLayoutMsg msg)
         {
-            VisualRoot visualroot = VisualRoot.dbugCurrentGlobalVRoot;
+            dbugRootElement visualroot = dbugRootElement.dbugCurrentGlobalVRoot;
             if (visualroot == null || !visualroot.dbug_IsRecordLayoutTraceEnable)
             {
                 return;
@@ -306,7 +288,7 @@ namespace LayoutFarm.Presentation
             {
                 case VISUAL_ELEMENT:
                     {
-                        ArtVisualElement v = (ArtVisualElement)dbugInitObject;
+                        RenderElement v = (RenderElement)dbugInitObject;
                         debugVisualLay.WriteInfo(msg.msg);
                         debugVisualLay.WriteInfo("*** init visual : " + v.dbug_FullElementDescription());
                     } break;

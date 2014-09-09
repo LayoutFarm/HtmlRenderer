@@ -23,16 +23,16 @@ namespace LayoutFarm.Presentation
             return beh;
         }
 
-        static Size ReCalculateContentSizeVerticalStack(LinkedList<ArtVisualElement> velist, VisualElementArgs vinv)
+        static Size ReCalculateContentSizeVerticalStack(LinkedList<RenderElement> velist, VisualElementArgs vinv)
         {
             int local_desiredWidth = 0;
             int local_desiredHeight = 0;
 
-            LinkedListNode<ArtVisualElement> curNode = velist.First;
+            LinkedListNode<RenderElement> curNode = velist.First;
             while (curNode != null)
             {
 
-                ArtVisualElement visualElement = curNode.Value;
+                RenderElement visualElement = curNode.Value;
                 if (!visualElement.HasCalculatedSize)
                 {
                     visualElement.TopDownReCalculateContentSize(vinv);
@@ -60,15 +60,15 @@ namespace LayoutFarm.Presentation
             return new Size(local_desiredWidth, local_desiredHeight);
         }
 
-        static Size ReCalculateContentSizeHorizontalStack(LinkedList<ArtVisualElement> velist, VisualElementArgs vinv)
+        static Size ReCalculateContentSizeHorizontalStack(LinkedList<RenderElement> velist, VisualElementArgs vinv)
         {
 
             int local_desiredWidth = 0;
             int local_desiredHeight = 17;
-            LinkedListNode<ArtVisualElement> curNode = velist.First;
+            LinkedListNode<RenderElement> curNode = velist.First;
             while (curNode != null)
             {
-                ArtVisualElement visualElement = curNode.Value;
+                RenderElement visualElement = curNode.Value;
                 if (!visualElement.HasCalculatedSize)
                 {
                     visualElement.TopDownReCalculateContentSize(vinv);

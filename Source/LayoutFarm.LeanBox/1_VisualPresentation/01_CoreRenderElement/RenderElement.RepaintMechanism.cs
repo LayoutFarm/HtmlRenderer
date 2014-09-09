@@ -10,10 +10,10 @@ using LayoutFarm.Presentation;
 
 namespace LayoutFarm.Presentation
 {
-    partial class ArtVisualElement
+    partial class RenderElement
     { 
 
-        public static void InvalidateGraphicLocalArea(ArtVisualElement ve, Rectangle localArea, VisualElementArgs vinv)
+        public static void InvalidateGraphicLocalArea(RenderElement ve, Rectangle localArea, VisualElementArgs vinv)
         {
             if (localArea.Height == 0 || localArea.Width == 0)
             {
@@ -45,7 +45,7 @@ namespace LayoutFarm.Presentation
             if ((uiLayoutFlags & LY_SUSPEND_GRAPHIC) != 0)
             {
 #if DEBUG
-                dbugVRoot.dbug_PushInvalidateMsg(VisualRoot.dbugMsg_BLOCKED, this);
+                dbugVRoot.dbug_PushInvalidateMsg(dbugRootElement.dbugMsg_BLOCKED, this);
 #endif
                 return;
             }
@@ -59,7 +59,7 @@ namespace LayoutFarm.Presentation
         {
             InvalidateGraphic(vinv);
 
-            ArtVisualRootWindow winroot = vinv.WinRoot;
+            RootWindowRenderBox winroot = vinv.WinRoot;
             if (winroot != null)
             {
                 winroot.RootBeginGraphicUpdate();
@@ -74,7 +74,7 @@ namespace LayoutFarm.Presentation
         public void EndGraphicUpdate(VisualElementArgs vinv)
         {
             this.uiLayoutFlags &= ~LY_SUSPEND_GRAPHIC; InvalidateGraphic(vinv);
-            ArtVisualRootWindow winroot = vinv.WinRoot;
+            RootWindowRenderBox winroot = vinv.WinRoot;
             if (winroot != null)
             {
                 winroot.RootEndGraphicUpdate();
@@ -90,7 +90,7 @@ namespace LayoutFarm.Presentation
             {
                 InvalidateGraphic(vinv);
 
-                ArtVisualRootWindow winroot = vinv.WinRoot;
+                RootWindowRenderBox winroot = vinv.WinRoot;
                 if (winroot != null)
                 {
                     winroot.RootBeginGraphicUpdate();
@@ -108,7 +108,7 @@ namespace LayoutFarm.Presentation
             {
                 InvalidateGraphic(vinv);
 
-                ArtVisualRootWindow winroot = vinv.WinRoot;
+                RootWindowRenderBox winroot = vinv.WinRoot;
                 if (winroot != null)
                 {
                     winroot.RootEndGraphicUpdate();

@@ -4,7 +4,7 @@ using System;
 
 namespace LayoutFarm.Presentation
 {
-    public enum VisualElementNature
+    public enum ElementNature
     {   
         Shapes, 
         TextRun, 

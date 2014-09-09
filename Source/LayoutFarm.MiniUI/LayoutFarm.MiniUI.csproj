@@ -54,7 +54,7 @@
     <Compile Include="VisualRootImpl\HitEventName.cs" />
     <Compile Include="VisualRootImpl\ToNotifySizeChangedEvent.cs" />
     <Compile Include="VisualRootImpl\UIHoverMonitor.cs" />
-    <Compile Include="VisualRootImpl\VisualRootImpl.cs" />
+    <Compile Include="VisualRootImpl\RenderRootElement.cs" />
     <Compile Include="ArtUIElement\UIElement.cs" />
     <Compile Include="ArtUIElement\IEventListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

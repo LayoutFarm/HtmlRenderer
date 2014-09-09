@@ -10,7 +10,7 @@ using System.Drawing;
 namespace LayoutFarm.Presentation.Text
 {
 
-    class VisualEditableLineParentLink : IVisualParentLink
+    class VisualEditableLineParentLink : IParentLink
     {
         internal readonly LinkedListNode<EditableVisualTextRun> internalLinkedNode;
         EditableVisualElementLine ownerLine;
@@ -19,7 +19,7 @@ namespace LayoutFarm.Presentation.Text
             this.internalLinkedNode = linkNode;
             this.ownerLine = ownerLine;
         }
-        public ArtVisualElement FindOverlapedChildElementAtPoint(ArtVisualElement afterThisChild, System.Drawing.Point point)
+        public RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, System.Drawing.Point point)
         {
             return null;
         }
@@ -27,7 +27,7 @@ namespace LayoutFarm.Presentation.Text
         {
         }
         
-        public ArtVisualRootWindow GetWindowRoot()
+        public RootWindowRenderBox GetWindowRoot()
         {
             return ownerLine.OwnerElement.WinRoot;
         }
@@ -43,30 +43,30 @@ namespace LayoutFarm.Presentation.Text
         {
             return "editable-link";
         }
-        VisualRoot dbugVRoot
+        dbugRootElement dbugVRoot
         {
             get
             {
-                return VisualRoot.dbugCurrentGlobalVRoot;
+                return dbugRootElement.dbugCurrentGlobalVRoot;
             }
         }
 #endif
-        public ArtVisualElement NotifyParentToInvalidate(out bool goToFinalExit
+        public RenderElement NotifyParentToInvalidate(out bool goToFinalExit
 #if DEBUG
-, ArtVisualElement ve
+, RenderElement ve
 #endif
 )
         {
-            ArtVisualElement parentVisualElem = null;
+            RenderElement parentVisualElem = null;
             goToFinalExit = false;
 
             EditableVisualElementLine line = this.OwnerLine;
 #if DEBUG
-            dbugVRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_VisualElementLine_INVALIDATE_enter, ve);
+            dbugVRoot.dbug_PushLayoutTraceMessage(dbugRootElement.dbugMsg_VisualElementLine_INVALIDATE_enter, ve);
 #endif
             line.InvalidateLineLayout();
 #if DEBUG
-            dbugVRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_VisualElementLine_INVALIDATE_exit, ve);
+            dbugVRoot.dbug_PushLayoutTraceMessage(dbugRootElement.dbugMsg_VisualElementLine_INVALIDATE_exit, ve);
 #endif
 
             if (!line.IsLocalSuspendLineRearrange)
@@ -76,13 +76,13 @@ namespace LayoutFarm.Presentation.Text
             else
             {
 #if DEBUG
-                dbugVRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_VisualElementLine_OwnerFlowElementIsIn_SUSPEND_MODE_enter, ve);
+                dbugVRoot.dbug_PushLayoutTraceMessage(dbugRootElement.dbugMsg_VisualElementLine_OwnerFlowElementIsIn_SUSPEND_MODE_enter, ve);
 #endif
                 goToFinalExit = true;
             }
             return parentVisualElem;
         }
-        public void Unlink(ArtVisualElement ve)
+        public void Unlink(RenderElement ve)
         {
             this.OwnerLine.Remove((EditableVisualTextRun)ve);
         }
@@ -100,7 +100,7 @@ namespace LayoutFarm.Presentation.Text
                 return (EditableVisualElementLine)(internalLinkedNode.List);
             }
         }
-        public ArtVisualElement Next
+        public RenderElement Next
         {
             get
             {
@@ -115,7 +115,7 @@ namespace LayoutFarm.Presentation.Text
                 }
             }
         }
-        public ArtVisualElement Prev
+        public RenderElement Prev
         {
             get
             {
@@ -130,7 +130,7 @@ namespace LayoutFarm.Presentation.Text
                 }
             }
         }
-        public ArtVisualElement ParentVisualElement
+        public RenderElement ParentVisualElement
         {
             get
             {

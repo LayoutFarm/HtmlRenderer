@@ -6,10 +6,10 @@ using System.Drawing;
 namespace LayoutFarm.Presentation
 {
 
-
-    public abstract partial class VisualRoot
+#if DEBUG
+    public abstract partial class dbugRootElement
     {
 
     }
-
+#endif
 }

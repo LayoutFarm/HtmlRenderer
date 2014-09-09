@@ -19,9 +19,9 @@ namespace LayoutFarm.Presentation
         System.Timers.Timer centralAnimationClock;
 
 
-        ArtVisualElement currentMouseActiveElement = null;
+        RenderElement currentMouseActiveElement = null;
 
-        ArtVisualElement currentDragingElement = null;
+        RenderElement currentDragingElement = null;
 
 
 
@@ -37,7 +37,7 @@ namespace LayoutFarm.Presentation
         bool isInRenderPhase = false;
 
 
-        readonly ArtHitPointChain hitPointChain = new ArtHitPointChain();
+        readonly HitPointChain hitPointChain = new HitPointChain();
 
 
 
@@ -82,7 +82,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public override ArtVisualElement CurrentKeyboardFocusedElement
+        public override RenderElement CurrentKeyboardFocusedElement
         {
             get
             {
@@ -167,7 +167,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public override ArtVisualElement CurrentDraggingElement
+        public override RenderElement CurrentDraggingElement
         {
             get
             {
@@ -197,7 +197,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        internal ArtVisualElement CurrentMouseFocusedElement
+        internal RenderElement CurrentMouseFocusedElement
         {
             get
             {
@@ -255,7 +255,7 @@ namespace LayoutFarm.Presentation
         public new void OnDoubleClick(UIMouseEventArgs e)
         {
 
-            ArtVisualElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.DblClick);
+            RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.DblClick);
             if (currentMouseActiveElement != null)
             {
                 e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
@@ -303,7 +303,7 @@ namespace LayoutFarm.Presentation
 
 
             msgChainVersion = 1; int local_msgVersion = 1;
-            ArtVisualElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.MouseDown);
+            RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.MouseDown);
             if (hitElement == this || hitElement == null)
             {
                 hitPointChain.SwapHitChain(); return;
@@ -325,15 +325,15 @@ namespace LayoutFarm.Presentation
             }
             e.TranslateCanvasOriginBack();
 #if DEBUG
-            VisualRoot visualroot = this.dbugVRoot;
+            dbugRootElement visualroot = this.dbugVRoot;
             if (visualroot.dbug_RecordHitChain)
             {
                 visualroot.dbug_rootHitChainMsg.Clear();
                 int i = 0;
-                foreach (ArtHitPointChain.HitPair hp in hitPointChain.HitPairIter)
+                foreach (HitPointChain.HitPair hp in hitPointChain.HitPairIter)
                 {
 
-                    ArtVisualElement ve = hp.elem;
+                    RenderElement ve = hp.elem;
                     ve.dbug_WriteOwnerLayerInfo(visualroot, i);
                     ve.dbug_WriteOwnerLineInfo(visualroot, i);
 
@@ -374,10 +374,10 @@ namespace LayoutFarm.Presentation
 #endif
 
         }
-        ArtVisualElement HitTestCoreWithPrevChainHint(int x, int y, HitEventName hitEvent)
+        RenderElement HitTestCoreWithPrevChainHint(int x, int y, HitEventName hitEvent)
         {
             hitPointChain.SetVisualRootStartTestPoint(x, y);
-            ArtVisualElement commonElement = hitPointChain.HitTestOnPrevChain(); if (commonElement == null)
+            RenderElement commonElement = hitPointChain.HitTestOnPrevChain(); if (commonElement == null)
             {
                 commonElement = this;
             }
@@ -389,7 +389,7 @@ namespace LayoutFarm.Presentation
 #if DEBUG
 
 #endif
-            ArtVisualElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.MouseMove);
+            RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.MouseMove);
 
             hoverMonitoringTask.Reset(); hoverMonitoringTask.SetEnable(true, this);
 
@@ -397,7 +397,7 @@ namespace LayoutFarm.Presentation
             {
                 disableGraphicOutputFlush = true;
                 {
-                    if (ArtVisualElement.IsTestableElement(currentMouseActiveElement))
+                    if (RenderElement.IsTestableElement(currentMouseActiveElement))
                     {
                         Point prevElementGlobalLocation = currentMouseActiveElement.GetGlobalLocation();
                         e.TranslateCanvasOrigin(prevElementGlobalLocation); e.Location = hitPointChain.PrevHitPoint; e.SourceVisualElement = currentMouseActiveElement;
@@ -411,7 +411,7 @@ namespace LayoutFarm.Presentation
                     }
 
 
-                    if (ArtVisualElement.IsTestableElement(hitElement))
+                    if (RenderElement.IsTestableElement(hitElement))
                     {
 
                         currentMouseActiveElement = hitElement;
@@ -456,8 +456,8 @@ namespace LayoutFarm.Presentation
         }
         void OnMouseHover(object sender, EventArgs e)
         {
-            ArtVisualElement hitElement = HitTestCoreWithPrevChainHint(hitPointChain.LastestRootX, hitPointChain.LastestRootY, HitEventName.MouseHover);
-            if (hitElement != null && ArtVisualElement.IsTestableElement(hitElement))
+            RenderElement hitElement = HitTestCoreWithPrevChainHint(hitPointChain.LastestRootX, hitPointChain.LastestRootY, HitEventName.MouseHover);
+            if (hitElement != null && RenderElement.IsTestableElement(hitElement))
             {
                 disableGraphicOutputFlush = true;
                 Point hitElementGlobalLocation = hitElement.GetGlobalLocation();
@@ -603,9 +603,9 @@ HitEventName.DragStart);
             Point globalDragingElementLocation = currentDragingElement.GetGlobalLocation();
             Rectangle dragRect = currentDragingElement.GetGlobalRect();
             VisualDrawingChain drawingChain = this.WinRootPrepareRenderingChain(dragRect);
-            List<ArtVisualElement> selVisualElements = drawingChain.selectedVisualElements;
+            List<RenderElement> selVisualElements = drawingChain.selectedVisualElements;
             int j = selVisualElements.Count;
-            LinkedList<ArtVisualElement> underlyingElements = new LinkedList<ArtVisualElement>();
+            LinkedList<RenderElement> underlyingElements = new LinkedList<RenderElement>();
             for (int i = j - 1; i > -1; --i)
             {
 
@@ -617,7 +617,7 @@ HitEventName.DragStart);
 
             if (underlyingElements.Count > 0)
             {
-                foreach (ArtVisualElement underlyingUI in underlyingElements)
+                foreach (RenderElement underlyingUI in underlyingElements)
                 {
 
                     if (underlyingUI.IsDragedOver)
@@ -632,7 +632,7 @@ HitEventName.DragStart);
 
             if (hitPointChain.DragHitElementCount > 0)
             {
-                foreach (ArtVisualElement elem in hitPointChain.GetDragHitElementIter())
+                foreach (RenderElement elem in hitPointChain.GetDragHitElementIter())
                 {
                     Point globalLocation = elem.GetGlobalLocation();
                     d_eventArg.TranslateCanvasOrigin(globalLocation);
@@ -646,7 +646,7 @@ HitEventName.DragStart);
             }
             hitPointChain.ClearDragHitElements();
 
-            foreach (ArtVisualElement underlyingUI in underlyingElements)
+            foreach (RenderElement underlyingUI in underlyingElements)
             {
 
                 hitPointChain.AddDragHitElement(underlyingUI);
@@ -726,7 +726,7 @@ HitEventName.DragStart);
             UIDragEventArgs d_eventArg = UIDragEventArgs.GetFreeDragEventArgs();
             if (hitPointChain.DragHitElementCount > 0)
             {
-                foreach (ArtVisualElement elem in hitPointChain.GetDragHitElementIter())
+                foreach (RenderElement elem in hitPointChain.GetDragHitElementIter())
                 {
                     Point globalLocation = elem.GetGlobalLocation();
                     d_eventArg.TranslateCanvasOrigin(globalLocation);
@@ -781,7 +781,7 @@ HitEventName.DragStart);
 
 #endif
 
-            ArtVisualElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.MouseUp);
+            RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.MouseUp);
             if (hitElement != null)
             {
                 disableGraphicOutputFlush = true;
@@ -915,11 +915,11 @@ HitEventName.DragStart);
         {
             get
             {
-                ArtVisualElement currentElem = this.currentKeyboardFocusedElement;
+                RenderElement currentElem = this.currentKeyboardFocusedElement;
                 if (currentElem != null && currentElem.IsTextEditContainer)
                 {
 
-                    Point elementCaretPosition = ((ArtVisualContainerBase)currentElem).CaretPosition;
+                    Point elementCaretPosition = ((MultiLayerRenderBox)currentElem).CaretPosition;
 
                     bool caretOutOfScope = false;
                     if (elementCaretPosition.X >= currentElem.Right)

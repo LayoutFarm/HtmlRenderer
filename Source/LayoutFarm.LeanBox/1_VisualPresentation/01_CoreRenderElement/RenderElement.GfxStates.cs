@@ -7,7 +7,7 @@ using System.Drawing.Drawing2D;
 
 namespace LayoutFarm.Presentation
 {
-    partial class ArtVisualElement
+    partial class RenderElement
     {
 
         object basicStyle;

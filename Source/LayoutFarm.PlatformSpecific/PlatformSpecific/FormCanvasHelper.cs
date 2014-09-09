@@ -19,7 +19,7 @@ namespace LayoutFarm.Presentation
             Rectangle screenClientAreaRect = Screen.PrimaryScreen.WorkingArea;
              
             //----------------------
-            var visualRoot = new VisualRootImpl();
+            var visualRoot = new RenderRootElement();
             var windowRoot = new VisualWindowImpl(visualRoot, form1.Width, form1.Height);
              
 

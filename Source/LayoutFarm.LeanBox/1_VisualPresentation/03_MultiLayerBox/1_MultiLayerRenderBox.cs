@@ -11,17 +11,14 @@ namespace LayoutFarm.Presentation
 #if DEBUG
     [System.Diagnostics.DebuggerDisplay("Container {dbugGetCssBoxInfo}")]
 #endif
-    public abstract partial class ArtVisualContainerBase : ArtVisualElement
+    public abstract partial class MultiLayerRenderBox : RenderElement
     {
 
         int myviewportX;
-        int myviewportY;
-
-        //public int uiDesiredWidth = 0;
-        //public int uiDesiredHeight = 0;
+        int myviewportY; 
         List<VisualLayer> otherLayers;
 
-        public ArtVisualContainerBase(int width, int height, VisualElementNature nature)
+        public MultiLayerRenderBox(int width, int height, ElementNature nature)
             : base(width, height, nature)
         {
 
@@ -62,7 +59,7 @@ namespace LayoutFarm.Presentation
                 layer.InvalidateContentArrangementFromContainerSizeChanged();
             }
         }
-        protected virtual void CloneGroundLayer(ArtVisualElement otherElement)
+        protected virtual void CloneGroundLayer(RenderElement otherElement)
         {
             throw new NotSupportedException();
         } 
@@ -101,7 +98,7 @@ namespace LayoutFarm.Presentation
 #if DEBUG
         void debug_RecordLayerInfo(VisualLayer layer)
         {
-            VisualRoot visualroot = VisualRoot.dbugCurrentGlobalVRoot;
+            dbugRootElement visualroot = dbugRootElement.dbugCurrentGlobalVRoot;
             if (visualroot.dbug_RecordDrawingChain)
             {
                 visualroot.dbug_AddDrawLayer(layer);
@@ -128,7 +125,7 @@ namespace LayoutFarm.Presentation
                 groundLayer.PrepareDrawingChain(chain);
             }
         }
-        public virtual void ChildrenHitTestCore(ArtHitPointChain artHitResult)
+        public virtual void ChildrenHitTestCore(HitPointChain artHitResult)
         {
 
             if (otherLayers != null)
@@ -158,11 +155,11 @@ namespace LayoutFarm.Presentation
 
 
 
-        protected static void InnerDoTopDownReCalculateContentSize(ArtVisualContainerBase containerBase, VisualElementArgs vinv)
+        protected static void InnerDoTopDownReCalculateContentSize(MultiLayerRenderBox containerBase, VisualElementArgs vinv)
         {
             containerBase.TopDownReCalculateContentSize(vinv);
         }
-        protected static void InnerTopDownReArrangeContentIfNeed(ArtVisualContainerBase containerBase, VisualElementArgs vinv)
+        protected static void InnerTopDownReArrangeContentIfNeed(MultiLayerRenderBox containerBase, VisualElementArgs vinv)
         {
             containerBase.TopDownReArrangeContentIfNeed(vinv);
         }
@@ -330,7 +327,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        protected virtual void GroundLayerAddChild(ArtVisualElement child)
+        protected virtual void GroundLayerAddChild(RenderElement child)
         {
 
 #if DEBUG
@@ -370,7 +367,7 @@ namespace LayoutFarm.Presentation
         protected abstract VisualLayer GetGroundLayer();
 
 
-        public override ArtVisualElement FindOverlapedChildElementAtPoint(ArtVisualElement afterThisChild, Point point)
+        public override RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
 #if DEBUG
             if (afterThisChild.ParentVisualElement != this)
@@ -405,7 +402,7 @@ namespace LayoutFarm.Presentation
             }
             MyScrollBy(dx, dy, vinv);
         }
-        public VisualScrollableSurface VisualScrollableSurface
+        public ScrollableSurface VisualScrollableSurface
         {
             get
             {
@@ -420,7 +417,7 @@ namespace LayoutFarm.Presentation
         //    vscont.uiDesiredHeight = vscont.Height;
 
         //}
-        public void AddChild(ArtVisualElement child)
+        public void AddChild(RenderElement child)
         {
 #if DEBUG
             if (this == child)

@@ -14,18 +14,18 @@ namespace LayoutFarm.Presentation
     {
         FileStream fs;
         StreamWriter strmWriter;
-        VisualRoot visualroot;
+        dbugRootElement visualroot;
         string outputFileName = null;
 
         int msgCounter = 0;
 
-        Stack<ArtVisualElement> elementStack = new Stack<ArtVisualElement>();
+        Stack<RenderElement> elementStack = new Stack<RenderElement>();
 
         int indentCount = 0;
         int dbug_Id = 0;
         static int dbug_totalId = 0;
 
-        public dbugVisualInvalidationTracer(VisualRoot visualroot)
+        public dbugVisualInvalidationTracer(dbugRootElement visualroot)
         {
             this.visualroot = visualroot;
             dbug_Id = dbug_totalId;
@@ -42,20 +42,20 @@ namespace LayoutFarm.Presentation
         {
             --indentCount;
         }
-        public void PushVisualElement(ArtVisualElement v)
+        public void PushVisualElement(RenderElement v)
         {
             elementStack.Push(v);
             BeginNewContext();
 
         }
 
-        public ArtVisualElement PopElement()
+        public RenderElement PopElement()
         {
-            ArtVisualElement v = elementStack.Pop();
+            RenderElement v = elementStack.Pop();
             EndCurrentContext();
             return v;
         }
-        public ArtVisualElement PeekElement()
+        public RenderElement PeekElement()
         {
             return elementStack.Peek();
         }
@@ -85,7 +85,7 @@ namespace LayoutFarm.Presentation
             strmWriter.Write(info);
             strmWriter.Write("\r\n"); strmWriter.Flush();
         }
-        public void WriteInfo(string info, ArtVisualElement ve)
+        public void WriteInfo(string info, RenderElement ve)
         {
             ++msgCounter;
             ShouldBreak();

@@ -11,11 +11,8 @@ using System.Drawing.Drawing2D;
 
 namespace LayoutFarm.Presentation
 {
-    partial class ArtVisualElement
-    {
-
-
-
+    partial class RenderElement
+    {   
         public bool HasSolidBackground
         {
             get
@@ -30,7 +27,7 @@ namespace LayoutFarm.Presentation
                 return false;
             }
         }
-        protected static void DrawBackground(ArtVisualElement visualElement, CanvasBase canvasPage, InternalRect updateArea)
+        protected static void DrawBackground(RenderElement visualElement, CanvasBase canvasPage, InternalRect updateArea)
         {
             ArtColorBrush colorBrush = new ArtSolidBrush(Color.White);
             colorBrush.myBrush = Brushes.White;
@@ -57,14 +54,14 @@ namespace LayoutFarm.Presentation
             {
                 bool containAll = this.ContainRect(drawingChain.CurrentClipRect);
 
-                switch ((VisualElementNature)(uiCombineFlags & 0xF))
+                switch ((ElementNature)(uiCombineFlags & 0xF))
                 {
                      
-                    case VisualElementNature.Shapes:
+                    case ElementNature.Shapes:
                         {
                             drawingChain.AddVisualElement(this, containAll);
                         } break;
-                    case VisualElementNature.TextRun:
+                    case ElementNature.TextRun:
                         {
 
                         } break; 
@@ -77,14 +74,14 @@ namespace LayoutFarm.Presentation
 
                             if (this.IsScrollable)
                             {
-                                ArtVisualContainerBase scContainer = (ArtVisualContainerBase)this;
+                                MultiLayerRenderBox scContainer = (MultiLayerRenderBox)this;
                                 x -= scContainer.ViewportX;
                                 y -= scContainer.ViewportY;
                             }
 
 
                             drawingChain.OffsetCanvasOrigin(x, y);
-                            ((ArtVisualContainerBase)this).PrepareOriginalChildContentDrawingChain(drawingChain);
+                            ((MultiLayerRenderBox)this).PrepareOriginalChildContentDrawingChain(drawingChain);
                             drawingChain.OffsetCanvasOrigin(-x, -y);
 
 
@@ -112,14 +109,14 @@ namespace LayoutFarm.Presentation
                     dbugVRoot.dbug_AddDrawElement(this, canvasPage);
                 }
 #endif
-                switch ((VisualElementNature)(uiCombineFlags & 0xF))
+                switch ((ElementNature)(uiCombineFlags & 0xF))
                 {
 
 
                      
-                    case VisualElementNature.Shapes: 
-                    case VisualElementNature.CustomContainer:
-                    case VisualElementNature.TextRun:
+                    case ElementNature.Shapes: 
+                    case ElementNature.CustomContainer:
+                    case ElementNature.TextRun:
                         {
                             this.CustomDrawToThisPage(canvasPage, updateArea);
                         } break;
@@ -127,11 +124,11 @@ namespace LayoutFarm.Presentation
                         {
                             if (this.HasDoubleScrollableSurface)
                             {
-                                ((ArtVisualContainerBase)this).ScrollableDrawContent(canvasPage, updateArea);
+                                ((MultiLayerRenderBox)this).ScrollableDrawContent(canvasPage, updateArea);
                             }
                             else
                             {
-                                ((ArtVisualContainerBase)this).ContainerDrawOriginalContent(canvasPage, updateArea);
+                                ((MultiLayerRenderBox)this).ContainerDrawOriginalContent(canvasPage, updateArea);
                             }
                         } break;
                 }
@@ -152,14 +149,14 @@ namespace LayoutFarm.Presentation
         {
             get
             {
-                return this.ElementNature == VisualElementNature.TextEditContainer;
+                return this.ElementNature == ElementNature.TextEditContainer;
             }
         }
         public bool IsWindowRoot
         {
             get
             {
-                return this.ElementNature == VisualElementNature.WindowRoot;
+                return this.ElementNature == ElementNature.WindowRoot;
             }
         }
         public bool IsScrollable
@@ -203,7 +200,7 @@ namespace LayoutFarm.Presentation
         {
             get
             {
-                return this.ElementNature >= VisualElementNature.WindowRoot;
+                return this.ElementNature >= ElementNature.WindowRoot;
             }
         }
 

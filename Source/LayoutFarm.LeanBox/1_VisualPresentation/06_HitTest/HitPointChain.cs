@@ -8,15 +8,15 @@ using System.Drawing;
 namespace LayoutFarm.Presentation
 {
      
-    public class ArtHitPointChain
+    public class HitPointChain
     {
         public struct HitPair
         {
             public Point point;
-            public ArtVisualElement elem;
+            public RenderElement elem;
 
             public static readonly HitPair Empty = new HitPair();
-            public HitPair(ArtVisualElement elem, Point point)
+            public HitPair(RenderElement elem, Point point)
             {
                 this.point = point;
                 this.elem = elem;
@@ -64,7 +64,7 @@ namespace LayoutFarm.Presentation
 
 #endif
 
-        public ArtHitPointChain()
+        public HitPointChain()
         {
             currentHitChain = hitChainA;
             prevHitChain = hitChainB;
@@ -124,7 +124,7 @@ namespace LayoutFarm.Presentation
             testPointY = 0;
 
         }
-        public ArtVisualElement PrevHitElement
+        public RenderElement PrevHitElement
         {
             get
             {
@@ -154,7 +154,7 @@ namespace LayoutFarm.Presentation
                 }
             }
         }
-        public ArtVisualElement CurrentHitElement
+        public RenderElement CurrentHitElement
         {
             get
             {
@@ -198,7 +198,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public void AddHit(ArtVisualElement aobj)
+        public void AddHit(RenderElement aobj)
         {
             currentHitChain.AddLast(new HitPair(aobj, new Point(testPointX, testPointY)));
 #if DEBUG
@@ -230,7 +230,7 @@ namespace LayoutFarm.Presentation
             }
             currentHitChain.Clear();
         }
-        public ArtVisualElement HitTestOnPrevChain()
+        public RenderElement HitTestOnPrevChain()
         {
 
 
@@ -239,13 +239,13 @@ namespace LayoutFarm.Presentation
 
                 foreach (HitPair hp in prevHitChain)
                 {
-                    ArtVisualElement elem = hp.elem;
-                    if (ArtVisualElement.IsTestableElement(elem))
+                    RenderElement elem = hp.elem;
+                    if (RenderElement.IsTestableElement(elem))
                     {
                         if (elem.HitTestCoreNoRecursive(hp.point))
                         {
 
-                            ArtVisualElement foundOverlapChild = elem.ParentVisualElement.FindOverlapedChildElementAtPoint(elem, hp.point);
+                            RenderElement foundOverlapChild = elem.ParentVisualElement.FindOverlapedChildElementAtPoint(elem, hp.point);
 
 
                             if (foundOverlapChild == null)
@@ -302,24 +302,24 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        LinkedList<ArtVisualElement> dragHitElements = new LinkedList<ArtVisualElement>();
+        LinkedList<RenderElement> dragHitElements = new LinkedList<RenderElement>();
         public void ClearDragHitElements()
         {
             dragHitElements.Clear();
         }
 
 
-        public void AddDragHitElement(ArtVisualElement element)
+        public void AddDragHitElement(RenderElement element)
         {
             dragHitElements.AddLast(element);
         }
-        public void RemoveDragHitElement(ArtVisualElement element)
+        public void RemoveDragHitElement(RenderElement element)
         {
             dragHitElements.Remove(element);
         }
-        public IEnumerable<ArtVisualElement> GetDragHitElementIter()
+        public IEnumerable<RenderElement> GetDragHitElementIter()
         {
-            LinkedListNode<ArtVisualElement> node = dragHitElements.First;
+            LinkedListNode<RenderElement> node = dragHitElements.First;
             while (node != null)
             {
                 yield return node.Value;

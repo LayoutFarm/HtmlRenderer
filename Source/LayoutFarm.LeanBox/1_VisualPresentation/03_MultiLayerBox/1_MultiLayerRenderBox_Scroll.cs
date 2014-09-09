@@ -6,11 +6,11 @@ using System.Drawing;
 namespace LayoutFarm.Presentation
 {
 
-    partial class ArtVisualContainerBase
+    partial class MultiLayerRenderBox
     {
-        VisualScrollableSurface vscrollableSurface;
+        ScrollableSurface vscrollableSurface;
 
-        public VisualScrollableSurface ScrollableSurface
+        public ScrollableSurface ScrollableSurface
         {
             get { return this.vscrollableSurface; }
             set { this.vscrollableSurface = value; }
@@ -38,8 +38,8 @@ namespace LayoutFarm.Presentation
                 return;
             }
 
-            ArtScrollEventArgs hScrollEventArgs;
-            ArtScrollEventArgs vScrollEventArgs;
+            UIScrollEventArgs hScrollEventArgs;
+            UIScrollEventArgs vScrollEventArgs;
             MyScrollToNotRaiseEvent(x, y, out hScrollEventArgs, out vScrollEventArgs, vinv);
 
         }
@@ -47,7 +47,7 @@ namespace LayoutFarm.Presentation
 
 
         void MyScrollToNotRaiseEvent(int x, int y,
-        out ArtScrollEventArgs hScrollEventArgs, out ArtScrollEventArgs vScrollEventArgs,
+        out UIScrollEventArgs hScrollEventArgs, out UIScrollEventArgs vScrollEventArgs,
         VisualElementArgs vinv)
         {
             hScrollEventArgs = null;
@@ -97,12 +97,12 @@ namespace LayoutFarm.Presentation
             {
                 if (myviewportX != x && vscrollableSurface.HasHScrollChanged)
                 {
-                    hScrollEventArgs = new ArtScrollEventArgs(ArtScrollEventType.ThumbPosition, myviewportX, x, ArtScrollOrientation.HorizontalScroll);
+                    hScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, myviewportX, x, UIScrollOrientation.HorizontalScroll);
 
                 }
                 if (myviewportY != y && vscrollableSurface.HasVScrollChanged)
                 {
-                    vScrollEventArgs = new ArtScrollEventArgs(ArtScrollEventType.ThumbPosition, myviewportY, y, ArtScrollOrientation.VerticalScroll);
+                    vScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, myviewportY, y, UIScrollOrientation.VerticalScroll);
                 }
                 myviewportX = x;
                 myviewportY = y;
@@ -116,7 +116,7 @@ namespace LayoutFarm.Presentation
             } 
 
         }
-        void MyScrollByNotRaiseEvent(int dx, int dy, out ArtScrollEventArgs hScrollEventArgs, out ArtScrollEventArgs vScrollEventArgs)
+        void MyScrollByNotRaiseEvent(int dx, int dy, out UIScrollEventArgs hScrollEventArgs, out UIScrollEventArgs vScrollEventArgs)
         {
             vScrollEventArgs = null;
             System.Drawing.Size innerContentSize = this.InnerContentSize; ;
@@ -135,10 +135,10 @@ namespace LayoutFarm.Presentation
 
                 if (this.vscrollableSurface != null && vscrollableSurface.HasVScrollChanged)
                 {
-                    vScrollEventArgs = new ArtScrollEventArgs(
-                        ArtScrollEventType.ThumbPosition,
+                    vScrollEventArgs = new UIScrollEventArgs(
+                        UIScrollEventType.ThumbPosition,
                         old_y, myviewportY,
-                        ArtScrollOrientation.VerticalScroll);
+                        UIScrollOrientation.VerticalScroll);
 
                 }
             }
@@ -160,7 +160,7 @@ namespace LayoutFarm.Presentation
                 }
                 if (vscrollableSurface != null && vscrollableSurface.HasVScrollChanged)
                 {
-                    vScrollEventArgs = new ArtScrollEventArgs(ArtScrollEventType.ThumbPosition, old_y, myviewportY, ArtScrollOrientation.VerticalScroll);
+                    vScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, old_y, myviewportY, UIScrollOrientation.VerticalScroll);
 
                 }
             }
@@ -192,7 +192,7 @@ namespace LayoutFarm.Presentation
                 }
                 if (vscrollableSurface != null && vscrollableSurface.HasHScrollChanged)
                 {
-                    hScrollEventArgs = new ArtScrollEventArgs(ArtScrollEventType.ThumbPosition, old_x, myviewportX, ArtScrollOrientation.HorizontalScroll);
+                    hScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, old_x, myviewportX, UIScrollOrientation.HorizontalScroll);
 
                 }
             }
@@ -210,8 +210,8 @@ namespace LayoutFarm.Presentation
                 }
                 if (vscrollableSurface != null && vscrollableSurface.HasHScrollChanged)
                 {
-                    hScrollEventArgs = new ArtScrollEventArgs(ArtScrollEventType.ThumbPosition,
-                        old_x, myviewportX, ArtScrollOrientation.HorizontalScroll);
+                    hScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition,
+                        old_x, myviewportX, UIScrollOrientation.HorizontalScroll);
 
                 }
             }
@@ -230,8 +230,8 @@ namespace LayoutFarm.Presentation
             {
                 return;
             }
-            ArtScrollEventArgs hScrollEventArgs;
-            ArtScrollEventArgs vScrollEventArgs;
+            UIScrollEventArgs hScrollEventArgs;
+            UIScrollEventArgs vScrollEventArgs;
 
             MyScrollByNotRaiseEvent(dx, dy, out hScrollEventArgs, out vScrollEventArgs);
             if (vscrollableSurface != null)
@@ -255,8 +255,8 @@ namespace LayoutFarm.Presentation
                 return;
             }
 
-            ArtScrollEventArgs hScrollEventArgs;
-            ArtScrollEventArgs vScrollEventArgs;
+            UIScrollEventArgs hScrollEventArgs;
+            UIScrollEventArgs vScrollEventArgs;
             MyScrollToNotRaiseEvent(x, y, out hScrollEventArgs, out vScrollEventArgs, vinv);
 
 
@@ -276,7 +276,7 @@ namespace LayoutFarm.Presentation
             if (MyBoxStyle == null)
             {
                 DrawBackground(this, destPage, updateArea);
-                ((ArtVisualContainerBase)this).DrawChildContent(destPage, updateArea);
+                ((MultiLayerRenderBox)this).DrawChildContent(destPage, updateArea);
 
 
             }
@@ -285,7 +285,7 @@ namespace LayoutFarm.Presentation
 
                 BoxStyle beh = (BoxStyle)MyBoxStyle;
                 DrawBackground(this, destPage, updateArea);
-                ((ArtVisualContainerBase)this).DrawChildContent(destPage, updateArea);
+                ((MultiLayerRenderBox)this).DrawChildContent(destPage, updateArea);
             }
 
             if (this.IsScrollable && !this.HasDoubleScrollableSurface)
@@ -417,7 +417,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public void AddVScrollHandler(EventHandler<ArtScrollEventArgs> vscrollChanged, EventHandler<ScrollSurfaceRequestEventArgs> vscrollSupport)
+        public void AddVScrollHandler(EventHandler<UIScrollEventArgs> vscrollChanged, EventHandler<ScrollSurfaceRequestEventArgs> vscrollSupport)
         {
             if (vscrollableSurface != null)
             {
@@ -425,7 +425,7 @@ namespace LayoutFarm.Presentation
                 vscrollableSurface.VScrollRequest += vscrollSupport;
             }
         }
-        public void RemoveVScrollHandler(EventHandler<ArtScrollEventArgs> vscrollChanged, EventHandler<ScrollSurfaceRequestEventArgs> vscrollSupport)
+        public void RemoveVScrollHandler(EventHandler<UIScrollEventArgs> vscrollChanged, EventHandler<ScrollSurfaceRequestEventArgs> vscrollSupport)
         {
             if (vscrollableSurface != null)
             {
@@ -433,7 +433,7 @@ namespace LayoutFarm.Presentation
                 vscrollableSurface.VScrollRequest -= vscrollSupport;
             }
         }
-        public void AddHScrollHandler(EventHandler<ArtScrollEventArgs> hscrollChanged, EventHandler<ScrollSurfaceRequestEventArgs> hscrollSupport)
+        public void AddHScrollHandler(EventHandler<UIScrollEventArgs> hscrollChanged, EventHandler<ScrollSurfaceRequestEventArgs> hscrollSupport)
         {
             if (vscrollableSurface != null)
             {
@@ -441,7 +441,7 @@ namespace LayoutFarm.Presentation
                 vscrollableSurface.HScrollRequest += hscrollSupport;
             }
         }
-        public void RemoveHScrollHandler(EventHandler<ArtScrollEventArgs> hscrollChanged, EventHandler<ScrollSurfaceRequestEventArgs> hscrollSupport)
+        public void RemoveHScrollHandler(EventHandler<UIScrollEventArgs> hscrollChanged, EventHandler<ScrollSurfaceRequestEventArgs> hscrollSupport)
         {
             if (vscrollableSurface != null)
             {

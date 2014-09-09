@@ -12,19 +12,19 @@ using System.Text;
 namespace LayoutFarm.Presentation
 {
 
-    public struct VisualElementRequest
+    public struct RenderElementRequest
     {
-        public ArtVisualElement ve;
+        public RenderElement ve;
         public RequestCommand req;
         public object parameters;
 
-        public VisualElementRequest(ArtVisualElement ve, RequestCommand req)
+        public RenderElementRequest(RenderElement ve, RequestCommand req)
         {
             this.ve = ve;
             this.req = req;
             this.parameters = null;
         }
-        public VisualElementRequest(ArtVisualElement ve, RequestCommand req, object parameters)
+        public RenderElementRequest(RenderElement ve, RequestCommand req, object parameters)
         {
             this.ve = ve;
             this.req = req;
