@@ -2,18 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
-
-
-
-
+using System.Drawing; 
 
 namespace LayoutFarm.Presentation
 {
 
 
 
-    public partial class VisualWindowImpl : RootWindowRenderBox
+    public partial class RootWindowRenderBoxImpl : RootWindowRenderBox
     {
         bool layoutQueueClearing = false;
 
@@ -27,7 +23,7 @@ namespace LayoutFarm.Presentation
         IEventListener currentMouseUIFocus = null;
 
 
-        public VisualWindowImpl(
+        public RootWindowRenderBoxImpl(
             RenderRootElement visualroot, int width, int height)
             : base(width, height)
         {

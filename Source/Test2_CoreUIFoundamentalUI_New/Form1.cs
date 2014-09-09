@@ -57,19 +57,24 @@ namespace TestGraphicPackage2
                 out viewport,
                 out formCanvas);
 
-            var textbox = new LayoutFarm.Presentation.SampleControls.UIButton(30, 30);
-            viewport.AddContent(textbox.PrimaryVisualElement);
-
-            var vinv = textbox.PrimaryVisualElement.GetVInv();
-            textbox.PrimaryVisualElement.InvalidateGraphic(vinv);
-            textbox.PrimaryVisualElement.FreeVInv(vinv);
-            //================================================== 
-
-
-
+            var sampleButton = new LayoutFarm.Presentation.SampleControls.UIButton(30, 30);
+            viewport.AddContent(sampleButton.PrimaryVisualElement);
+            var vinv = sampleButton.PrimaryVisualElement.GetVInv();
+            sampleButton.PrimaryVisualElement.InvalidateGraphic(vinv);
+            sampleButton.PrimaryVisualElement.FreeVInv(vinv);
+            //==================================================  
             viewport.PaintMe();
             //ShowFormLayoutInspector(viewport);
+
+
+            int count = 0;
+            sampleButton.MouseDown += new EventHandler<UIMouseEventArgs>((s, e2) =>
+            {
+                this.Text = "Click!" + count++;
+            });
         }
+
+
 
         private void cmdSampleTextBox_Click(object sender, EventArgs e)
         {
@@ -98,7 +103,7 @@ namespace TestGraphicPackage2
             viewport.AddContent(textbox.PrimaryVisualElement);
             ShowFormlayoutInspectIfNeed(viewport);
         }
-        
+
         void LoadHtmlTestView(string filename)
         {
 
@@ -109,7 +114,7 @@ namespace TestGraphicPackage2
                 out viewport,
                 out formCanvas);
 
-            ShowFormlayoutInspectIfNeed(viewport); 
+            ShowFormlayoutInspectIfNeed(viewport);
 
         }
         private void cmdMultiLineTextWithFormat_Click(object sender, EventArgs e)
@@ -180,7 +185,7 @@ namespace TestGraphicPackage2
             {
                 var textbox = new LayoutFarm.Presentation.SampleControls.UIButton(30, 30);
                 textbox.SetLocation(i * 40, 0);
-                
+
 
                 var v = textbox.PrimaryVisualElement;
                 viewport.AddContent(v);
@@ -201,7 +206,7 @@ namespace TestGraphicPackage2
 
 
         }
-         
+
 
     }
 }

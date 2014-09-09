@@ -13,10 +13,13 @@ namespace LayoutFarm.Presentation.SampleControls
 
     public class UIButton : UIElement
     {
+        public event EventHandler<UIMouseEventArgs> MouseDown;
+
         RenderElement primaryVisualElement;
         public UIButton(int width, int height)
         {
             primaryVisualElement = new CustomVisualBox(width, height);
+            primaryVisualElement.SetController(this);
         }
         public RenderElement PrimaryVisualElement
         {
@@ -27,16 +30,24 @@ namespace LayoutFarm.Presentation.SampleControls
         }
         public int Left
         {
-            get { return this.primaryVisualElement.Location.X; } 
+            get { return this.primaryVisualElement.Location.X; }
         }
         public int Top
         {
-            get { return this.primaryVisualElement.Location.Y; } 
+            get { return this.primaryVisualElement.Location.Y; }
         }
         public void SetLocation(int left, int top)
         {
             RenderElement.DirectSetVisualElementLocation(this.primaryVisualElement, left, top);
-        } 
+        }
+        protected override void OnMouseDown(UIMouseEventArgs e)
+        {
+            if (MouseDown != null)
+            {
+                MouseDown(this, e);
+            }
+            base.OnMouseDown(e);
+        }
     }
 
     class CustomVisualBox : RenderElement
@@ -52,11 +63,12 @@ namespace LayoutFarm.Presentation.SampleControls
         {
 
         }
-
+        
         public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
         {
             canvasPage.FillRectangle(Brushes.Green, new Rectangle(0, 0, this.Width, this.Height));
         }
+
     }
 
 }

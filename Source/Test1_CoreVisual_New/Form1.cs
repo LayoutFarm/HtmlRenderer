@@ -55,7 +55,7 @@ namespace TestGraphicPackage
             simpleForm.Controls.Add(viewport);
             var visualRoot = new RenderRootElement();
 
-            var windowRoot = new VisualWindowImpl(visualRoot, this.Width, this.Height);
+            var windowRoot = new RootWindowRenderBoxImpl(visualRoot, this.Width, this.Height);
 
 
             viewport.SetupWindowRoot(windowRoot);
