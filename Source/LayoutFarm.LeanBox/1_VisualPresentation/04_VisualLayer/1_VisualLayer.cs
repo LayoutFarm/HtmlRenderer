@@ -220,19 +220,13 @@ namespace LayoutFarm.Presentation
 
         }
 
-        public abstract bool HitTestCore(ArtHitPointChain artHitResult);
-
-        public abstract void TopDownReCalculateContentSize(VisualElementArgs vinv);
-
-
-
+        public abstract bool HitTestCore(ArtHitPointChain artHitResult); 
+        public abstract void TopDownReCalculateContentSize(VisualElementArgs vinv); 
         public abstract void TopDownReArrangeContent(VisualElementArgs vinv);
         
         public abstract IEnumerable<ArtVisualElement> GetVisualElementIter();
         public abstract IEnumerable<ArtVisualElement> GetVisualElementReverseIter();
-
-
-
+        
 
         protected void ValidateArrangement()
         {

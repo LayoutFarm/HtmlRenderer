@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-    public abstract partial class UIElement : IEventDispatcher
+    public abstract partial class UIElement : IEventListener
     {   
         public UIElement()
         {
@@ -26,11 +26,7 @@ namespace LayoutFarm.Presentation
             }
         }
 #endif
-
-
-
         int oneBitNativeEventFlags;
-
         protected void RegisterNativeEvent(int eventFlags)
         {
             this.oneBitNativeEventFlags |= eventFlags;

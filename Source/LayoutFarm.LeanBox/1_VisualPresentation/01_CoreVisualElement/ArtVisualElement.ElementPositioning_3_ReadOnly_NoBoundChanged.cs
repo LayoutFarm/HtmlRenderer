@@ -261,10 +261,7 @@ namespace LayoutFarm.Presentation
                     {
                         throw new NotSupportedException();
                     }
-                case VisualElementNature.Shapes:
-                    {
-                        throw new NotSupportedException();
-                    } break;
+                case VisualElementNature.Shapes: 
                 case VisualElementNature.HtmlContainer:
                 default:
                     {

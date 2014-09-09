@@ -13,11 +13,11 @@ using LayoutFarm.Presentation.Text;
 namespace LayoutFarm.Presentation.SampleControls
 {
 
-    public class ArtUIMultiLineTextBox : UIElement
+    public class UIMultiLineTextBox : UIElement
     {
         ArtVisualElement primaryVisualElement;
         ArtVisualTextEditBox visualTextEdit; 
-        public ArtUIMultiLineTextBox(int width, int height, bool multiline)
+        public UIMultiLineTextBox(int width, int height, bool multiline)
         {
                  
             visualTextEdit = new ArtVisualTextEditBox(width, height, multiline);
@@ -91,7 +91,7 @@ namespace LayoutFarm.Presentation.SampleControls
         }
 
         static BoxStyle textBoxRole;
-        static ArtUIMultiLineTextBox()
+        static UIMultiLineTextBox()
         {
 
             textBoxRole = InternalVisualRoleHelper.CreateSimpleRole(Color.White);

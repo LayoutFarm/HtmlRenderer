@@ -41,7 +41,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArtUIElement\UIElement_EventDispatcher.cs" />
+    <Compile Include="ArtUIElement\UIElement_EventListener.cs" />
     <Compile Include="Events\UIDragEventArgs.cs" />
     <Compile Include="Events\UIEventArgs.cs" />
     <Compile Include="VisualRootImpl\0_VisualRootWindow.cs" />
@@ -56,7 +56,7 @@
     <Compile Include="VisualRootImpl\UIHoverMonitor.cs" />
     <Compile Include="VisualRootImpl\VisualRootImpl.cs" />
     <Compile Include="ArtUIElement\UIElement.cs" />
-    <Compile Include="ArtUIElement\IEventDispatcher.cs" />
+    <Compile Include="ArtUIElement\IEventListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VisualCoreBridge\Clipboard.cs" />
     <Compile Include="VisualCoreBridge\Keys.cs" />

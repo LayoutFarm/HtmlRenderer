@@ -33,50 +33,68 @@ namespace TestGraphicPackage2
 
         }
 
-        static void CreateReadyForm( 
-          out UISurfaceViewportControl viewport, 
+        static void CreateReadyForm(
+          out UISurfaceViewportControl viewport,
           out Form formCanvas)
-        { 
+        {
             LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo = new TextFontInfo(new Font("tahoma", 10), new BasicGdi32FontHelper());
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(out viewport);
-            formCanvas.Text = "FormCanvas 1";                        
-                         
+            formCanvas.Text = "FormCanvas 1";
+
             viewport.PaintMe();
 
             formCanvas.WindowState = FormWindowState.Maximized;
             formCanvas.Show();
-        
+
         }
 
         private void cmdShowBasicFormCanvas_Click(object sender, EventArgs e)
         {
+            UISurfaceViewportControl viewport;
 
+            Form formCanvas;
+            CreateReadyForm(
+                out viewport,
+                out formCanvas);
+
+            var textbox = new LayoutFarm.Presentation.SampleControls.UIButton(30, 30);
+            viewport.AddContent(textbox.PrimaryVisualElement);
+
+            var vinv = textbox.PrimaryVisualElement.GetVInv();
+            textbox.PrimaryVisualElement.InvalidateGraphic(vinv);
+            textbox.PrimaryVisualElement.FreeVInv(vinv);
+            //================================================== 
+
+
+
+            viewport.PaintMe();
+            //ShowFormLayoutInspector(viewport);
         }
 
         private void cmdSampleTextBox_Click(object sender, EventArgs e)
         {
-            
+
             UISurfaceViewportControl viewport;
-            
+
             Form formCanvas;
-            CreateReadyForm( 
-                out viewport, 
+            CreateReadyForm(
+                out viewport,
                 out formCanvas);
 
-            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUITextBox(200, 30);
+            var textbox = new LayoutFarm.Presentation.SampleControls.UITextBox(200, 30);
             viewport.AddContent(textbox.PrimaryVisualElement);
             ShowFormLayoutInspector(viewport);
         }
         private void cmdMultilineTextBox_Click(object sender, EventArgs e)
         {
-          
-            UISurfaceViewportControl viewport; 
+
+            UISurfaceViewportControl viewport;
             Form formCanvas;
-            CreateReadyForm( 
-                out viewport, 
+            CreateReadyForm(
+                out viewport,
                 out formCanvas);
 
-            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 500, true);
+            var textbox = new LayoutFarm.Presentation.SampleControls.UIMultiLineTextBox(400, 500, true);
             viewport.AddContent(textbox.PrimaryVisualElement);
             ShowFormlayoutInspectIfNeed(viewport);
         }
@@ -87,13 +105,13 @@ namespace TestGraphicPackage2
         }
         void LoadHtmlTestView(string filename)
         {
-          
+
             UISurfaceViewportControl viewport;
-        
+
             Form formCanvas;
-            CreateReadyForm( 
+            CreateReadyForm(
                 out viewport,
-                out formCanvas); 
+                out formCanvas);
 
             ShowFormlayoutInspectIfNeed(viewport);
 
@@ -102,28 +120,28 @@ namespace TestGraphicPackage2
         }
         private void cmdMultiLineTextWithFormat_Click(object sender, EventArgs e)
         {
-           
-            UISurfaceViewportControl viewport; 
+
+            UISurfaceViewportControl viewport;
             Form formCanvas;
-            CreateReadyForm( 
-                out viewport, 
+            CreateReadyForm(
+                out viewport,
                 out formCanvas);
-            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 500, true);
+            var textbox = new LayoutFarm.Presentation.SampleControls.UIMultiLineTextBox(400, 500, true);
             viewport.AddContent(textbox.PrimaryVisualElement);
             ShowFormlayoutInspectIfNeed(viewport);
         }
         private void cmdTestTextDom_Click(object sender, EventArgs e)
         {
 
-            string value = "OKOKOK";
 
-           
-            UISurfaceViewportControl viewport; 
+
+
+            UISurfaceViewportControl viewport;
             Form formCanvas;
-            CreateReadyForm( 
-                out viewport, 
+            CreateReadyForm(
+                out viewport,
                 out formCanvas);
-            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 500, true);
+            var textbox = new LayoutFarm.Presentation.SampleControls.UIMultiLineTextBox(400, 500, true);
             viewport.AddContent(textbox.PrimaryVisualElement);
             ShowFormlayoutInspectIfNeed(viewport);
         }
@@ -156,7 +174,30 @@ namespace TestGraphicPackage2
 
         private void cmdShowMultipleBox_Click(object sender, EventArgs e)
         {
+            UISurfaceViewportControl viewport;
 
+            Form formCanvas;
+            CreateReadyForm(
+                out viewport,
+                out formCanvas);
+
+
+            for (int i = 0; i < 5; ++i)
+            {
+                var textbox = new LayoutFarm.Presentation.SampleControls.UIButton(30, 30);
+                textbox.SetLocation(i * 40, 0);
+                viewport.AddContent(textbox.PrimaryVisualElement);
+
+                var vinv = textbox.PrimaryVisualElement.GetVInv();
+                textbox.PrimaryVisualElement.InvalidateGraphic(vinv);
+                textbox.PrimaryVisualElement.FreeVInv(vinv);
+            }
+
+            //================================================== 
+
+
+
+            viewport.PaintMe();
 
 
 

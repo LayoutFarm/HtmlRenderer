@@ -201,12 +201,9 @@ namespace LayoutFarm.Presentation.Text
         }
         public void OnDrag(UIDragEventArgs e)
         {
-
-
-
+             
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
-            {
-
+            {   
                 internalTextLayerController.CaretPos = e.Location; internalTextLayerController.EndSelect();
                 VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
                 this.InvalidateGraphic(vinv);

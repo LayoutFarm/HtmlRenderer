@@ -459,13 +459,7 @@ namespace LayoutFarm.Presentation
                 gx.ReleaseHdc();
             }
         }
-
-
-        public const int SAME_FONT_SAME_TEXT_COLOR = 0;
-        public const int SAME_FONT_DIFF_TEXT_COLOR = 1;
-        public const int DIFF_FONT_SAME_TEXT_COLOR = 2;
-        public const int DIFF_FONT_DIFF_TEXT_COLOR = 3;
-
+ 
 
         public override int EvaluateFontAndTextColor(TextFontInfo textFontInfo, Color color)
         {

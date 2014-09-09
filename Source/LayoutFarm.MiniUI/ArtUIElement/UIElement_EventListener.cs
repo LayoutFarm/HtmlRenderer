@@ -9,11 +9,11 @@ namespace LayoutFarm.Presentation
 {
     partial class UIElement
     {
-        void IEventDispatcher.DispatchKeyPressEvent(UIKeyPressEventArgs args)
+        void IEventListener.ListenKeyPressEvent(UIKeyPressEventArgs args)
         {
             OnKeyPress(args);
         }
-        void IEventDispatcher.DispatchKeyEvent(UIKeyEventName keyEventName, UIKeyEventArgs args)
+        void IEventListener.ListenKeyEvent(UIKeyEventName keyEventName, UIKeyEventArgs args)
         {
             switch (keyEventName)
             {
@@ -27,11 +27,11 @@ namespace LayoutFarm.Presentation
                     } break;
             }
         }
-        bool IEventDispatcher.DispatchProcessDialogKey(UIKeyEventArgs e)
+        bool IEventListener.ListenProcessDialogKey(UIKeyEventArgs e)
         {
             return OnProcessDialogKey(e);
         }
-        void IEventDispatcher.DispatchMouseEvent(UIMouseEventName evName, UIMouseEventArgs e)
+        void IEventListener.ListenMouseEvent(UIMouseEventName evName, UIMouseEventArgs e)
         {
             switch (evName)
             {
@@ -61,7 +61,7 @@ namespace LayoutFarm.Presentation
                     } break;
             }
         }
-        void IEventDispatcher.DispatchDragEvent(UIDragEventName evName, UIDragEventArgs e)
+        void IEventListener.ListenDragEvent(UIDragEventName evName, UIDragEventArgs e)
         {
             switch (evName)
             {

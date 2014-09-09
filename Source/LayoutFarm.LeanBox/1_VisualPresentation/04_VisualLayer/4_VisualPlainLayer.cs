@@ -102,51 +102,7 @@ namespace LayoutFarm.Presentation
 
         public override bool PrepareDrawingChain(VisualDrawingChain chain)
         {
-            return false;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            return false; 
         }
         public override void DrawChildContent(CanvasBase canvasPage, InternalRect updateArea)
         {

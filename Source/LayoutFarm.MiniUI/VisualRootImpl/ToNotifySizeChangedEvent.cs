@@ -14,7 +14,7 @@ namespace LayoutFarm.Presentation
     {
         public int xdiff;
         public int ydiff;
-        public IEventDispatcher ui;
+        public IEventListener ui;
         public AffectedElementSideFlags affectedSideFlags;
 
     }

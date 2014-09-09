@@ -312,7 +312,8 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
 
-            VisualDrawingChain renderChain = null; switch (render_parts)
+            VisualDrawingChain renderChain = null; 
+            switch (render_parts)
             {
                 case PAGE_A:
                     {

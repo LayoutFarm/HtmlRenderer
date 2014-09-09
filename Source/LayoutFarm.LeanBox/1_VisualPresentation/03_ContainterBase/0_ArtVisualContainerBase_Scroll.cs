@@ -47,8 +47,8 @@ namespace LayoutFarm.Presentation
 
 
         void MyScrollToNotRaiseEvent(int x, int y,
-out ArtScrollEventArgs hScrollEventArgs, out ArtScrollEventArgs vScrollEventArgs,
-VisualElementArgs vinv)
+        out ArtScrollEventArgs hScrollEventArgs, out ArtScrollEventArgs vScrollEventArgs,
+        VisualElementArgs vinv)
         {
             hScrollEventArgs = null;
             vScrollEventArgs = null;
@@ -113,13 +113,7 @@ VisualElementArgs vinv)
                 this.InvalidateGraphic(vinv);
 
                 vscrollableSurface.FullModeUpdate = false;
-            }
-
-
-
-
-
-
+            } 
 
         }
         void MyScrollByNotRaiseEvent(int dx, int dy, out ArtScrollEventArgs hScrollEventArgs, out ArtScrollEventArgs vScrollEventArgs)

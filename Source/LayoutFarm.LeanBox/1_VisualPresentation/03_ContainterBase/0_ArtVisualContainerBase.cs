@@ -108,15 +108,7 @@ namespace LayoutFarm.Presentation
             }
         }
 #endif
-
-
-
-
-
-
-
-
-
+         
         public void PrepareOriginalChildContentDrawingChain(VisualDrawingChain chain)
         {
             if (otherLayers != null)

@@ -6,15 +6,16 @@ using System.Text;
 using System.Drawing;
 
 using LayoutFarm.Presentation.Text;
+
 namespace LayoutFarm.Presentation.SampleControls
 {
 
 
-    public class ArtUITextBox : UIElement
+    public class UITextBox : UIElement
     {
         ArtVisualElement primaryVisualElement;
-        internal ArtVisualTextEditBox visualTextSurface;
-        public ArtUITextBox(int width, int height)
+        ArtVisualTextEditBox visualTextSurface;
+        public UITextBox(int width, int height)
         {
 
             visualTextSurface = new ArtVisualTextEditBox(width, height, false);
@@ -23,7 +24,7 @@ namespace LayoutFarm.Presentation.SampleControls
             visualTextSurface.SetController(this);
             SetPrimaryVisualElement(visualTextSurface);
         }
-       
+
         public void SetPrimaryVisualElement(ArtVisualElement visualElement)
         {
             this.primaryVisualElement = visualElement;
@@ -34,7 +35,7 @@ namespace LayoutFarm.Presentation.SampleControls
             {
                 return primaryVisualElement;
             }
-        } 
+        }
         public VisualTextRun CurrentTextRun
         {
             get
@@ -56,7 +57,7 @@ namespace LayoutFarm.Presentation.SampleControls
                 return this.visualTextSurface;
             }
         }
-         
+
         public int CurrentLineId
         {
             get
@@ -82,7 +83,7 @@ namespace LayoutFarm.Presentation.SampleControls
         }
         static BoxStyle textBoxRole;
 
-        static ArtUITextBox()
+        static UITextBox()
         {
             textBoxRole = InternalVisualRoleHelper.CreateSimpleRole(Color.White);
         }

@@ -20,11 +20,7 @@ namespace LayoutFarm.Presentation
         {
 
             visualElement.uiWidth = width;
-            visualElement.uiHeight = height; 
-            //if (visualElement.IsVisualContainerBase)
-            //{
-            //    ArtVisualContainerBase.ResetDesiredSize((ArtVisualContainerBase)visualElement);
-            //}
+            visualElement.uiHeight = height;
         }
  
 

@@ -32,13 +32,13 @@ namespace LayoutFarm.Presentation
         Dragging
     }
 
-    public interface IEventDispatcher
+    public interface IEventListener
     {
-        void DispatchKeyPressEvent(UIKeyPressEventArgs args);
-        void DispatchKeyEvent(UIKeyEventName keyEventName, UIKeyEventArgs e);
-        bool DispatchProcessDialogKey(UIKeyEventArgs args);
-        void DispatchMouseEvent(UIMouseEventName mouseEventName, UIMouseEventArgs e);
-        void DispatchDragEvent(UIDragEventName dragEventName, UIDragEventArgs e);
+        void ListenKeyPressEvent(UIKeyPressEventArgs args);
+        void ListenKeyEvent(UIKeyEventName keyEventName, UIKeyEventArgs e);
+        bool ListenProcessDialogKey(UIKeyEventArgs args);
+        void ListenMouseEvent(UIMouseEventName mouseEventName, UIMouseEventArgs e);
+        void ListenDragEvent(UIDragEventName dragEventName, UIDragEventArgs e);
     }
 
 

@@ -125,9 +125,7 @@ namespace LayoutFarm.Presentation
 
                             throw new NotSupportedException();
                         } break;
-                    case VisualElementNature.Shapes:
-                        {
-                        } break;
+                    case VisualElementNature.Shapes: 
                     case VisualElementNature.HtmlContainer:
                     case VisualElementNature.TextRun:
                         {
