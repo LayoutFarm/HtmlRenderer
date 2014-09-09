@@ -98,11 +98,7 @@ namespace TestGraphicPackage2
             viewport.AddContent(textbox.PrimaryVisualElement);
             ShowFormlayoutInspectIfNeed(viewport);
         }
-        private void cmdHtmlView_Click(object sender, EventArgs e)
-        {
-
-
-        }
+        
         void LoadHtmlTestView(string filename)
         {
 
@@ -113,9 +109,7 @@ namespace TestGraphicPackage2
                 out viewport,
                 out formCanvas);
 
-            ShowFormlayoutInspectIfNeed(viewport);
-
-
+            ShowFormlayoutInspectIfNeed(viewport); 
 
         }
         private void cmdMultiLineTextWithFormat_Click(object sender, EventArgs e)
@@ -186,6 +180,7 @@ namespace TestGraphicPackage2
             {
                 var textbox = new LayoutFarm.Presentation.SampleControls.UIButton(30, 30);
                 textbox.SetLocation(i * 40, 0);
+                
 
                 var v = textbox.PrimaryVisualElement;
                 viewport.AddContent(v);
@@ -206,16 +201,7 @@ namespace TestGraphicPackage2
 
 
         }
-
-        private void cmdHtmlViewNew_Click(object sender, EventArgs e)
-        {
-
-
-
-
-
-        }
-
+         
 
     }
 }
