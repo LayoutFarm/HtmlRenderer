@@ -45,8 +45,8 @@
     <Compile Include="CustomUI.Sample\UIButton.cs" />
     <Compile Include="CustomUI.Sample\UITextBox.cs" />
     <Compile Include="CustomUI.Sample\UIMultilineTextBox.cs" />
-    <Compile Include="CustomUI.Sample\ArtVisualElementExtension.cs" />
-    <Compile Include="CustomUI.Sample\ArtVisualElementUtils.cs" />
+    <Compile Include="CustomUI.Sample\RenderElementExtensions.cs" />
+    <Compile Include="CustomUI.Sample\MixUtils.cs" />
     <Compile Include="CustomUI.Sample\InternalVisualRoleHelper.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

@@ -258,7 +258,7 @@ namespace LayoutFarm.Presentation
                 }
             }
 
-            ContainerBaseEvaluateScrollBar();
+            BoxEvaluateScrollBar();
 
 #if DEBUG
             this.dbug_FinishArr++;
@@ -266,7 +266,7 @@ namespace LayoutFarm.Presentation
             vinv.dbug_ExitReArrangeContent();
 #endif
         }
-        protected void ContainerBaseEvaluateScrollBar()
+        protected void BoxEvaluateScrollBar()
         {
             if (vscrollableSurface != null)
             {
@@ -407,16 +407,9 @@ namespace LayoutFarm.Presentation
             get
             {
                 return vscrollableSurface;
-            }
-
+            } 
         }
-        //public static void ResetDesiredSize(ArtVisualContainerBase vscont)
-        //{
-
-        //    vscont.ui = vscont.Width;
-        //    vscont.uiDesiredHeight = vscont.Height;
-
-        //}
+       
         public void AddChild(RenderElement child)
         {
 #if DEBUG

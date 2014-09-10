@@ -7,10 +7,9 @@ using System.Drawing;
 
 using LayoutFarm.Presentation.Text;
 using LayoutFarm.Presentation.UI;
+
 namespace LayoutFarm.Presentation.SampleControls
 {
-
-
     public class UIButton : UIElement
     {
         public event EventHandler<UIMouseEventArgs> MouseDown;
@@ -56,16 +55,10 @@ namespace LayoutFarm.Presentation.SampleControls
         public CustomVisualBox(int w, int h)
             : base(w, h, ElementNature.Shapes)
         {
-
         }
-
-        public override void ClearAllChildren()
-        {
-
-        }
-        
         public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
         {
+
             canvasPage.FillRectangle(Brushes.Green, new Rectangle(0, 0, this.Width, this.Height));
         }
 

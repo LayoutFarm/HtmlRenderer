@@ -113,7 +113,7 @@ namespace LayoutFarm.Presentation
                 this.InvalidateGraphic(vinv);
 
                 vscrollableSurface.FullModeUpdate = false;
-            } 
+            }
 
         }
         void MyScrollByNotRaiseEvent(int dx, int dy, out UIScrollEventArgs hScrollEventArgs, out UIScrollEventArgs vScrollEventArgs)
@@ -273,20 +273,9 @@ namespace LayoutFarm.Presentation
                 destPage.OffsetCanvasOrigin(-myviewportX, -myviewportY);
                 updateArea.Offset(myviewportX, myviewportY);
             }
-            if (MyBoxStyle == null)
-            {
-                DrawBackground(this, destPage, updateArea);
-                ((MultiLayerRenderBox)this).DrawChildContent(destPage, updateArea);
 
-
-            }
-            else
-            {
-
-                BoxStyle beh = (BoxStyle)MyBoxStyle;
-                DrawBackground(this, destPage, updateArea);
-                ((MultiLayerRenderBox)this).DrawChildContent(destPage, updateArea);
-            }
+            DrawBackground(this, destPage, updateArea);
+            ((MultiLayerRenderBox)this).DrawChildContent(destPage, updateArea);
 
             if (this.IsScrollable && !this.HasDoubleScrollableSurface)
             {
@@ -382,8 +371,6 @@ namespace LayoutFarm.Presentation
             get
             {
                 return this.Bottom + myviewportY;
-
-
             }
         }
         public int ViewportRight

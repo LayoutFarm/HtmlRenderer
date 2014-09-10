@@ -24,6 +24,7 @@ namespace LayoutFarm.Presentation.SampleControls
             visualTextSurface.SetStyleDefinition(textBoxRole, null);
             visualTextSurface.HasSpecificSize = true;
             visualTextSurface.SetController(this);
+
             SetPrimaryVisualElement(visualTextSurface);
         }
 

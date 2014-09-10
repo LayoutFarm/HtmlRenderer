@@ -116,12 +116,12 @@ namespace LayoutFarm.Presentation
             }
         }
 #endif
-        public void SetStyle(BoxStyle value, VisualElementArgs vinv)
+       
+        public override void SetStyle(BoxStyle newbeh, VisualElementArgs vinv)
         {
-            base.SetStyle(value, vinv);
+            base.SetStyle(newbeh, vinv);
             UpdateRunWidth(vinv);
         }
-
         internal static void DrawArtVisualTextRun(VisualTextRun visualTextRun, CanvasBase canvasPage, InternalRect updateArea)
         {
             visualTextRun.DrawCharacters(canvasPage, updateArea, visualTextRun.mybuffer);
@@ -131,7 +131,13 @@ namespace LayoutFarm.Presentation
             DrawArtVisualTextRun(this, canvasPage, updateArea);
         }
 
-
+        protected bool HasStyle
+        {
+            get
+            {
+                return this.MyBoxStyle != null;
+            }
+        }
         void DrawCharacters(CanvasBase canvasPage, InternalRect updateArea, char[] textArray)
         {
 
@@ -144,7 +150,7 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                BoxStyle beh = (BoxStyle)this.MyBoxStyle;
+                BoxStyle beh = this.MyBoxStyle;
                 switch (canvasPage.EvaluateFontAndTextColor(beh.textFontInfo, beh.FontColor))
                 {
                     case CanvasBase.DIFF_FONT_SAME_TEXT_COLOR:

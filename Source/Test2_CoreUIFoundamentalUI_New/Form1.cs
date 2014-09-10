@@ -72,9 +72,7 @@ namespace TestGraphicPackage2
             {
                 this.Text = "Click!" + count++;
             });
-        }
-
-
+        } 
 
         private void cmdSampleTextBox_Click(object sender, EventArgs e)
         {
@@ -88,7 +86,7 @@ namespace TestGraphicPackage2
 
             var textbox = new LayoutFarm.Presentation.SampleControls.UITextBox(200, 30);
             viewport.AddContent(textbox.PrimaryVisualElement);
-            ShowFormLayoutInspector(viewport);
+           // ShowFormLayoutInspector(viewport);
         }
         private void cmdMultilineTextBox_Click(object sender, EventArgs e)
         {

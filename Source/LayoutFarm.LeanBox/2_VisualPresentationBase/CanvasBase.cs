@@ -3,13 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-
-
-
+using System.Drawing.Drawing2D; 
 namespace LayoutFarm.Presentation
-{
-
+{ 
 
     public abstract class CanvasBase
     {

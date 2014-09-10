@@ -24,35 +24,7 @@ namespace LayoutFarm.Presentation
                 return null;
             }
         }
-        protected bool HasStyle
-        {
-            get
-            {
-                return this.MyBoxStyle != null;
-            }
-        }
 
-
-        public bool TransparentForAllEvents
-        {
-            get
-            {
-                return (uiFlags & TRANSPARENT_FOR_ALL_EVENTS) != 0;
-
-            }
-            set
-            {
-                if (value)
-                {
-                    uiFlags |= TRANSPARENT_FOR_ALL_EVENTS;
-                }
-                else
-                {
-                    uiFlags &= ~TRANSPARENT_FOR_ALL_EVENTS;
-                }
-
-            }
-        } 
         public virtual void SetStyle(BoxStyle newbeh, VisualElementArgs vinv)
         {
 
@@ -78,10 +50,6 @@ namespace LayoutFarm.Presentation
                 {
                     this.SetHeight(beh.positionHeight, vinv);
                 }
-
-
-
-
                 if (vinv != null)
                 {
                     this.InvalidateGraphic(vinv);
@@ -94,6 +62,28 @@ namespace LayoutFarm.Presentation
         }
 
 
+
+
+        public bool TransparentForAllEvents
+        {
+            get
+            {
+                return (uiFlags & TRANSPARENT_FOR_ALL_EVENTS) != 0;
+
+            }
+            set
+            {
+                if (value)
+                {
+                    uiFlags |= TRANSPARENT_FOR_ALL_EVENTS;
+                }
+                else
+                {
+                    uiFlags &= ~TRANSPARENT_FOR_ALL_EVENTS;
+                }
+
+            }
+        }
 
     }
 }

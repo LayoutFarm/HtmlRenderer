@@ -110,10 +110,7 @@ namespace LayoutFarm.Presentation
                 }
 #endif
                 switch ((ElementNature)(uiCombineFlags & 0xF))
-                {
-
-
-                     
+                {   
                     case ElementNature.Shapes: 
                     case ElementNature.CustomContainer:
                     case ElementNature.TextRun:

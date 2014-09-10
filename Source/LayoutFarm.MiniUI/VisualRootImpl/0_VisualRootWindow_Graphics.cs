@@ -125,17 +125,13 @@ namespace LayoutFarm.Presentation
 #endif
                 if (fromElement.IsScrollable && isBubbleUp)
                 {
-
-
-                    MultiLayerRenderBox container = (MultiLayerRenderBox)fromElement;
-
-
-                    elementClientRect.Offset(globalX, globalY);
-
+                     
+                    MultiLayerRenderBox container = (MultiLayerRenderBox)fromElement; 
+                    elementClientRect.Offset(globalX, globalY); 
                     if (fromElement.HasDoubleScrollableSurface)
                     {
-                        ScrollableSurface scrollableElement = container.VisualScrollableSurface;
-                        scrollableElement.WindowRootNotifyInvalidArea(elementClientRect);
+                         
+                        container.VisualScrollableSurface.WindowRootNotifyInvalidArea(elementClientRect);
                     }
                     Rectangle elementRect = fromElement.BoundRect;
                     elementRect.Offset(container.ViewportX, container.ViewportY);

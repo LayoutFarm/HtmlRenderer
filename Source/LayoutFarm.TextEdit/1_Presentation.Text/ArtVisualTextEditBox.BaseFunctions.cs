@@ -74,7 +74,7 @@ namespace LayoutFarm.Presentation.Text
         }
         public static void NotifyTextContentSizeChanged(ArtVisualTextEditBox ts)
         {
-            ts.ContainerBaseEvaluateScrollBar();
+            ts.BoxEvaluateScrollBar();
         }
 
         public Rectangle GetRectAreaOf(int beginlineNum, int beginColumnNum, int endLineNum, int endColumnNum)
@@ -880,7 +880,7 @@ namespace LayoutFarm.Presentation.Text
 #endif
 
                         InnerDoTopDownReCalculateContentSize(this, vinv);
-                        this.ContainerBaseEvaluateScrollBar();
+                        this.BoxEvaluateScrollBar();
                         RefreshSnapshotCanvas();
 
 #if DEBUG

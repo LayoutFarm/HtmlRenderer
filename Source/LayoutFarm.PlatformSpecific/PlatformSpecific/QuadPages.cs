@@ -230,9 +230,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
             {
 
                 if (containAllAreaTestResults[i])
-                {
-
-
+                {   
                     RenderElement ve = selectedVisualElements[i];
                     if (!ve.IsInRenderChain)
                     {
@@ -241,12 +239,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
                     if (!ve.HasSolidBackground)
                     {
                         continue;
-                    }
-
-
-
-
-
+                    } 
                     Point globalLocation = ve.GetGlobalLocation();
 
                     artCanvas.OffsetCanvasOrigin(globalLocation.X, globalLocation.Y);
