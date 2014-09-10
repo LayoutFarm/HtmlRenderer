@@ -27,7 +27,7 @@ namespace LayoutFarm.Presentation.Text
         {
         }
         
-        public RootWindowRenderBox GetWindowRoot()
+        public TopWindowRenderBox GetWindowRoot()
         {
             return ownerLine.OwnerElement.WinRoot;
         }

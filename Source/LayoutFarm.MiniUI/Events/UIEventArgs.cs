@@ -135,21 +135,21 @@ namespace LayoutFarm.Presentation
 
         }
          
-        public RootWindowRenderBox WinRoot
+        public TopWindowRenderBox WinRoot
         {
             get
             {
                 return winRoot;
             }
         }
-        public void SetWinRoot(RootWindowRenderBox winRoot)
+        public void SetWinRoot(TopWindowRenderBox winRoot)
         {
             this.winRoot = winRoot;
             
         }
 
          
-        RootWindowRenderBox winRoot;
+        TopWindowRenderBox winRoot;
 
         public VisualElementArgs GetVisualInvalidateCanvasArgs()
         {

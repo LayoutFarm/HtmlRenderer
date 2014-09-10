@@ -17,7 +17,7 @@ namespace LayoutFarm.Presentation
             : base(owner)
         {
         }
-        public RootWindowRenderBox GetWindowRoot()
+        public TopWindowRenderBox GetWindowRoot()
         {
             if (this.ownerVisualElement == null)
             {
@@ -25,7 +25,7 @@ namespace LayoutFarm.Presentation
             }
             if (this.ownerVisualElement.IsWindowRoot)
             {
-                return (RootWindowRenderBox)this.ownerVisualElement;
+                return (TopWindowRenderBox)this.ownerVisualElement;
             }
             else
             {

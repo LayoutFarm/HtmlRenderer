@@ -106,7 +106,7 @@ namespace LayoutFarm.Presentation
        
         public void SwapCurrentDragElement(RenderElement withThisElement)
         {
-            RootWindowRenderBox winroot = this.WinRoot; if (winroot != null)
+            TopWindowRenderBox winroot = this.WinRoot; if (winroot != null)
             {
                 winroot.CurrentDraggingElement = withThisElement;
             }

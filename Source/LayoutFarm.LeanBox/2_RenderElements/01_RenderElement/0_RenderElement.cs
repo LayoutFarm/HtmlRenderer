@@ -45,20 +45,20 @@ namespace LayoutFarm.Presentation
             if (this.IsWindowRoot)
             {
 
-                return new VisualElementArgs((RootWindowRenderBox)this);
+                return new VisualElementArgs((TopWindowRenderBox)this);
 
             }
             else
             {
-                RootWindowRenderBox winroot = this.InternalGetWinRootElement();
+                TopWindowRenderBox winroot = this.InternalGetWinRootElement();
                 if (winroot != null)
                 {
-                    return new VisualElementArgs((RootWindowRenderBox)winroot);
+                    return new VisualElementArgs((TopWindowRenderBox)winroot);
 
                 }
                 else
                 {
-                    return new VisualElementArgs(null as RootWindowRenderBox);
+                    return new VisualElementArgs(null as TopWindowRenderBox);
                 }
             }
         }
@@ -67,7 +67,7 @@ namespace LayoutFarm.Presentation
 
         }
 
-        public RootWindowRenderBox WinRoot
+        public TopWindowRenderBox WinRoot
         {
             get
             {

@@ -4,13 +4,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-
-using LayoutFarm.Presentation;
 namespace LayoutFarm.Presentation
 {
-    public class RenderRootElement 
+    public class RenderRootElement
 #if DEBUG
-        : dbugRootElement
+ : dbugRootElement
 #endif
     {
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
@@ -30,8 +28,25 @@ namespace LayoutFarm.Presentation
             dbugHitTracker.Close();
         }
 #endif
-
-        public static VisualElementArgs GetVisualInvalidateArgs(RootWindowRenderBox winroot)
+        static Point localCaretPos;
+        static RenderElement caretOwner;
+        public static Point GetGlobalCaretPosition()
+        {
+            if (caretOwner == null)
+            {
+                return Point.Empty;
+            }
+            Point caretPos = localCaretPos;
+            Point globalCaret = caretOwner.GetGlobalLocation();
+            caretPos.Offset(globalCaret.X, globalCaret.Y);
+            return caretPos;
+        }
+        public static void SetCarentPosition(Point p, RenderElement owner)
+        {
+            caretOwner = owner;
+            localCaretPos = p;
+        }
+        public static VisualElementArgs GetVisualInvalidateArgs(TopWindowRenderBox winroot)
         {
             if (visualArgStack.Count > 0)
             {
@@ -54,7 +69,7 @@ namespace LayoutFarm.Presentation
 
         public const int IS_SHIFT_KEYDOWN = 1 << (1 - 1);
         public const int IS_ALT_KEYDOWN = 1 << (2 - 1);
-        public const int IS_CTRL_KEYDOWN = 1 << (3 - 1); 
+        public const int IS_CTRL_KEYDOWN = 1 << (3 - 1);
 
 
         public int VisualRequestCount
@@ -65,7 +80,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public void ClearVisualRequests(RootWindowRenderBox winroot)
+        public void ClearVisualRequests(TopWindowRenderBox winroot)
         {
             int j = veReqList.Count;
             for (int i = 0; i < j; ++i)

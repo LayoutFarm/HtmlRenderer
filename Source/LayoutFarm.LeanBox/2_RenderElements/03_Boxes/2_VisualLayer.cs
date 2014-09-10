@@ -51,7 +51,7 @@ namespace LayoutFarm.Presentation
 
         public abstract void Clear();
 
-        protected RootWindowRenderBox WinRoot
+        protected TopWindowRenderBox WinRoot
         {
             get
             {

@@ -837,32 +837,36 @@ namespace LayoutFarm.Presentation.Text
         }
 
 
-        public override Point CaretPosition
-        {
-            get
-            {
-                Point textManCaretPos = internalTextLayerController.CaretPos;
-                textManCaretPos.Offset(-ViewportX, -ViewportY);
-                return textManCaretPos;
-            }
-        }
+        //public override Point CaretPosition
+        //{
+        //    get
+        //    {
+        //        Point textManCaretPos = internalTextLayerController.CaretPos;
+        //        textManCaretPos.Offset(-ViewportX, -ViewportY);
+        //        return textManCaretPos;
+        //    }
+        //}
 
-        public Point GlobalCaretPosition
-        {
-            get
-            {
-                Point caretPos = this.CaretPosition;
-                Point globalCaret = this.GetGlobalLocation();
-                caretPos.Offset(globalCaret.X, globalCaret.Y);
-                return caretPos;
-            }
-        }
+        //public Point GlobalCaretPosition
+        //{
+        //    get
+        //    {
+        //        Point caretPos = this.CaretPosition;
+        //        Point globalCaret = this.GetGlobalLocation();
+        //        caretPos.Offset(globalCaret.X, globalCaret.Y);
+        //        return caretPos;
+        //    }
+        //}
 
         void EnsureCaretVisible(VisualElementArgs vinv)
         {
+           
             Point textManCaretPos = internalTextLayerController.CaretPos;
-            textManCaretPos.Offset(-ViewportX, -ViewportY);
 
+            
+            textManCaretPos.Offset(-ViewportX, -ViewportY);
+            RenderRootElement.SetCarentPosition(textManCaretPos, this);
+           
             if (textManCaretPos.X >= this.Width)
             {
                 if (!isMultiLine)

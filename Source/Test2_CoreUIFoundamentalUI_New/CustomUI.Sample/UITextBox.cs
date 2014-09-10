@@ -21,7 +21,7 @@ namespace LayoutFarm.Presentation.SampleControls
         {
 
             visualTextSurface = new TextEditRenderBox(width, height, false);
-            visualTextSurface.SetStyleDefinition(textBoxRole, null);
+            //visualTextSurface.SetStyleDefinition(textBoxRole, null);
             visualTextSurface.HasSpecificSize = true;
             visualTextSurface.SetController(this);
 

@@ -9,7 +9,7 @@ namespace LayoutFarm.Presentation
 
 
 
-    public partial class MyRootWindowRenderBox : RootWindowRenderBox
+    public partial class MyTopWindowRenderBox : TopWindowRenderBox
     {
         bool layoutQueueClearing = false;
 
@@ -23,7 +23,7 @@ namespace LayoutFarm.Presentation
         IEventListener currentMouseUIFocus = null;
 
 
-        public MyRootWindowRenderBox(
+        public MyTopWindowRenderBox(
             RenderRootElement visualroot, int width, int height)
             : base(width, height)
         {

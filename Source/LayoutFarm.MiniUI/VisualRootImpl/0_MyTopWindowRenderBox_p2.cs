@@ -12,7 +12,7 @@ using LayoutFarm.Presentation;
 namespace LayoutFarm.Presentation
 {
 
-    partial class MyRootWindowRenderBox
+    partial class MyTopWindowRenderBox
     {
 
 
@@ -51,8 +51,8 @@ namespace LayoutFarm.Presentation
         public event EventHandler<UICaretEventArgs> CanvasCaretEvent;
         public event EventHandler<UICursorEventArgs> CursorStyleEventHandler;
         public event EventHandler CanvasForcePaintMe;
-        public event EventHandler CurrentFocusElementChanged; 
-        int msgChainVersion; 
+        public event EventHandler CurrentFocusElementChanged;
+        int msgChainVersion;
 
 
         public void ChangeVisualRootSize(int width, int height)
@@ -67,7 +67,7 @@ namespace LayoutFarm.Presentation
         }
 
         LinkedList<LinkedListNode<VisualRootTimerTask>> tobeRemoveTasks = new LinkedList<LinkedListNode<VisualRootTimerTask>>();
-         
+
 
 
         void SetCaretVisible(bool visible)
@@ -905,46 +905,45 @@ HitEventName.DragStart);
             }
 
             return result;
-        } 
-        public Point CaretPosition
-        {
-            get
-            {
-                RenderElement currentElem = this.currentKeyboardFocusedElement;
-                if (currentElem != null && currentElem.IsTextEditContainer)
-                {
-
-                    Point elementCaretPosition = ((MultiLayerRenderBox)currentElem).CaretPosition;
-
-                    bool caretOutOfScope = false;
-                    if (elementCaretPosition.X >= currentElem.Right)
-                    {
-                        caretOutOfScope = true;
-                    }
-                    if (elementCaretPosition.Y >= currentElem.Bottom)
-                    {
-                        caretOutOfScope = true;
-                    }
-
-
-                    if (!caretOutOfScope)
-                    {
-                        elementCaretPosition.Offset(currentElem.GetGlobalLocation());
-                        return elementCaretPosition;
-                    }
-                    else
-                    {
-
-                        return new Point(-10, -10);
-                    }
-
-                }
-                else
-                {
-                    return new Point(-10, -10);
-                }
-            }
         }
+     
+        //public Point CaretPosition
+        //{
+        //    get
+        //    {
+        //        RenderElement currentElem = this.currentKeyboardFocusedElement;
+        //        if (currentElem != null && currentElem.IsTextEditContainer)
+        //        {
+
+        //            Point elementCaretPosition = ((MultiLayerRenderBox)currentElem).CaretPosition;
+
+        //            bool caretOutOfScope = false;
+        //            if (elementCaretPosition.X >= currentElem.Right)
+        //            {
+        //                caretOutOfScope = true;
+        //            }
+        //            if (elementCaretPosition.Y >= currentElem.Bottom)
+        //            {
+        //                caretOutOfScope = true;
+        //            } 
+        //            if (!caretOutOfScope)
+        //            {
+        //                elementCaretPosition.Offset(currentElem.GetGlobalLocation());
+        //                return elementCaretPosition;
+        //            }
+        //            else
+        //            {
+
+        //                return new Point(-10, -10);
+        //            }
+
+        //        }
+        //        else
+        //        {
+        //            return new Point(-10, -10);
+        //        }
+        //    }
+        //}
 
     }
 }

@@ -10,8 +10,10 @@ namespace LayoutFarm.Presentation.Text
 
     partial class TextEditRenderBox
     {
-        RenderSurfaceScrollRelation scrollRelation;
-        CustomRenderSurface vscrollableSurface;
+        
+        RenderSurfaceScrollRelation scrollRelation;         
+        CustomRenderSurface vscrollableSurface;//built in 
+
         public CustomRenderSurface ScrollableSurface
         {
             get { return this.vscrollableSurface; }

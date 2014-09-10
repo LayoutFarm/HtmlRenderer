@@ -22,13 +22,6 @@ namespace LayoutFarm.Presentation
 
         }
 
-        public virtual Point CaretPosition
-        {
-            get
-            {
-                return Point.Empty;
-            }
-        }
         public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
         {
             //-------------------

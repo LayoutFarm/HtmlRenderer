@@ -1,5 +1,5 @@
 ﻿//2014 Apache2, WinterDev
- 
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace LayoutFarm.Presentation.Text
             this.visualTextSurface.TextDomListener = listener;
         }
         public void AddTextRunsToCurrentLine(IEnumerable<EditableVisualTextRun> textRuns, VisualElementArgs vinv)
-        {   
+        {
             this.innerTextMan.AddTextRunsToCurrentLine(textRuns, vinv);
         }
         public void SplitCurrentLineIntoNewLine(VisualElementArgs vinv)
@@ -514,7 +514,7 @@ namespace LayoutFarm.Presentation.Text
         {
             get
             {
-                return textLineWriter.CaretPosition;
+                return this.textLineWriter.CaretPosition;
             }
             set
             {
@@ -529,8 +529,10 @@ namespace LayoutFarm.Presentation.Text
 
                     }
 
-                    CurrentLineNumber = calculatedLineId;
-                    textLineWriter.CaretXPos = value.X;
+                    this.CurrentLineNumber = calculatedLineId;
+                    this.textLineWriter.CaretXPos = value.X;
+
+                   
                 }
             }
         }

@@ -32,7 +32,7 @@ namespace LayoutFarm.Presentation
         public event EventHandler<UIScrollEventArgs> VScrollChanged;
         public event EventHandler<UIScrollEventArgs> HScrollChanged;
          
-        MyRootWindowRenderBox winroot;
+        MyTopWindowRenderBox winroot;
 
         EventHandler<EventArgs> parentFormClosedHandler;
 
@@ -46,7 +46,7 @@ namespace LayoutFarm.Presentation
             this.parentFormClosedHandler = handler;
             this.ParentForm.FormClosed += new FormClosedEventHandler(ParentForm_FormClosed);
         }
-        public void SetupWindowRoot(MyRootWindowRenderBox winroot)
+        public void SetupWindowRoot(MyTopWindowRenderBox winroot)
         {
 
             this.winroot = winroot;
@@ -88,7 +88,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public RootWindowRenderBox WinRoot
+        public TopWindowRenderBox WinRoot
         {
             get
             {

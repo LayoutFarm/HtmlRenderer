@@ -13,12 +13,12 @@ namespace LayoutFarm.Presentation.Text
     public class TextLineWriter : TextLineReader
     {
         BackGroundTextLineWriter backgroundWriter;
-        
+
 
         public TextLineWriter(EditableTextFlowLayer textLayer)
             : base(textLayer)
         {
-            
+
         }
         public BackGroundTextLineWriter GetBackgroundWriter()
         {
@@ -132,7 +132,7 @@ namespace LayoutFarm.Presentation.Text
         {
             if (CurrentLine.IsBlankLine)
             {
-                EditableVisualTextRun t = new EditableVisualTextRun(c );
+                EditableVisualTextRun t = new EditableVisualTextRun(c);
 
                 var owner = this.FlowLayer.ownerVisualElement;
 
@@ -574,8 +574,7 @@ namespace LayoutFarm.Presentation.Text
                         int thisTextRunPixelLength = currentTextRun.Width;
                         if (rPixelOffset + thisTextRunPixelLength > value)
                         {
-                            VisualLocationInfo foundLocation =
-EditableVisualTextRun.InnerGetCharacterFromPixelOffset(currentTextRun, value - rPixelOffset);
+                            VisualLocationInfo foundLocation = EditableVisualTextRun.InnerGetCharacterFromPixelOffset(currentTextRun, value - rPixelOffset);
                             if (foundLocation.charIndex == -1)
                             {
                                 if (!(MoveToPreviousTextRun()))
@@ -590,7 +589,8 @@ EditableVisualTextRun.InnerGetCharacterFromPixelOffset(currentTextRun, value - r
                             }
                             return;
                         }
-                    } while (MoveToNextTextRun()); caretXPos = rPixelOffset + currentTextRun.Width;
+                    } while (MoveToNextTextRun());
+                    caretXPos = rPixelOffset + currentTextRun.Width;
                     charIndex = rCharOffset + currentTextRun.CharacterCount - 1;
                     return;
                 }
@@ -642,7 +642,7 @@ EditableVisualTextRun.InnerGetCharacterFromPixelOffset(currentTextRun, value - r
                     dbugTextManRecorder.WriteInfo("TextLineReader::CharIndex_set=" + value);
                     dbugTextManRecorder.BeginContext();
                 }
-#endif          
+#endif
                 if (value < -1 || value > currentLine.CharCount - 1)
                 {
                     throw new NotSupportedException("index out of range");

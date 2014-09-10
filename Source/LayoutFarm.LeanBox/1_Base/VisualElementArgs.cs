@@ -9,7 +9,7 @@ namespace LayoutFarm.Presentation
      
     public class VisualElementArgs
     {
-        RootWindowRenderBox winroot; 
+        TopWindowRenderBox winroot; 
 #if DEBUG
         const int VISUAL_ELEMENT = 0x0;
         const int LINE = 0x1;
@@ -21,7 +21,7 @@ namespace LayoutFarm.Presentation
         static int dbugTotalId;
 #endif
 
-        public VisualElementArgs(RootWindowRenderBox winroot)
+        public VisualElementArgs(TopWindowRenderBox winroot)
         {
 #if DEBUG
             this.dbugId = dbugTotalId;
@@ -45,14 +45,14 @@ namespace LayoutFarm.Presentation
 
         }
 
-        public RootWindowRenderBox WinRoot
+        public TopWindowRenderBox WinRoot
         {
             get
             {
                 return this.winroot;
             }
         }
-        public void SetWinRoot(RootWindowRenderBox winroot)
+        public void SetWinRoot(TopWindowRenderBox winroot)
         {
             this.winroot = winroot;
         }

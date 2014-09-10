@@ -105,7 +105,7 @@ namespace LayoutFarm.Presentation
         public const int PAGE_ABCD = 3;
 
         public void RenderToOutputWindowFullMode(
-RootWindowRenderBox rootElement,
+TopWindowRenderBox rootElement,
 IntPtr destOutputHdc,
 int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
@@ -195,7 +195,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
 
         }
 
-        static void UpdateAllArea(CanvasBase artCanvas, RootWindowRenderBox rootElement)
+        static void UpdateAllArea(CanvasBase artCanvas, TopWindowRenderBox rootElement)
         {
 
             artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
@@ -214,7 +214,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
 
             artCanvas.OffsetCanvasOrigin(artCanvas.Left, artCanvas.Top);
         }
-        static void UpdateInvalidArea(CanvasBase artCanvas, RootWindowRenderBox rootElement, VisualDrawingChain renderingChain)
+        static void UpdateInvalidArea(CanvasBase artCanvas, TopWindowRenderBox rootElement, VisualDrawingChain renderingChain)
         {
 
             List<RenderElement> selectedVisualElements = renderingChain.selectedVisualElements;
@@ -240,6 +240,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
                     {
                         continue;
                     } 
+
                     Point globalLocation = ve.GetGlobalLocation();
 
                     artCanvas.OffsetCanvasOrigin(globalLocation.X, globalLocation.Y);
@@ -269,7 +270,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
                 selectedVisualElements[i].IsInRenderChain = true;
             }
         }
-        static void UpdateInvalidArea(CanvasBase artCanvas, RootWindowRenderBox rootElement)
+        static void UpdateInvalidArea(CanvasBase artCanvas, TopWindowRenderBox rootElement)
         {
 #if DEBUG
 #endif
@@ -292,7 +293,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
 
 
         public void RenderToOutputWindowPartialMode(
-        RootWindowRenderBox rootElement,
+        TopWindowRenderBox rootElement,
         IntPtr destOutputHdc,
         int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
