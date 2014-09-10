@@ -240,7 +240,7 @@ namespace LayoutFarm.Presentation
                 return false;
             }
             switch (this.ElementNature)
-            {   
+            {
                 case ElementNature.Shapes:
                 case ElementNature.CustomContainer:
                 default:
@@ -269,6 +269,7 @@ namespace LayoutFarm.Presentation
                             {
                                 ((MultiLayerRenderBox)this).ChildrenHitTestCore(artHitResult);
                             }
+
                             if (this.IsScrollable)
                             {
                                 artHitResult.OffsetTestPoint(

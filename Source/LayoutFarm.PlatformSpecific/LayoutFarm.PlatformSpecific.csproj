@@ -61,7 +61,7 @@
     <Compile Include="Win32Gdi\MyWin32.cs" />
     <Compile Include="Win32Gdi\NativeTextWin32.cs" />
     <Compile Include="PlatformSpecific\QuadPages.cs" />
-    <Compile Include="PlatformSpecific\VisualScrollableSurfaceImpl.cs" />
+    <Compile Include="PlatformSpecific\MyCustomRenderSurface.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

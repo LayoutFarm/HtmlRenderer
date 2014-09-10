@@ -3,22 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-namespace LayoutFarm.Presentation
+
+namespace LayoutFarm.Presentation.Text
 {
 
-    partial class MultiLayerRenderBox
-    {
-        ScrollableSurface vscrollableSurface;
 
-        public ScrollableSurface ScrollableSurface
+    partial class ArtVisualTextEditBox
+    {
+
+        public CustomRenderSurface ScrollableSurface
         {
             get { return this.vscrollableSurface; }
             set { this.vscrollableSurface = value; }
         }
-        public void ScrollableDrawContent(CanvasBase destPage, InternalRect updateArea)
-        {
-            vscrollableSurface.DrawToThisPage(destPage, updateArea);
-        }
+
 
         public void ScrollToNotRaiseEvent(int x, int y, VisualElementArgs vinv)
         {
@@ -33,7 +31,7 @@ namespace LayoutFarm.Presentation
 
         public void MyScrollToNotRaiseEvent(int x, int y, VisualElementArgs vinv)
         {
-            if (y == myviewportY && x == myviewportX)
+            if (y == this.ViewportY && x == this.ViewportX)
             {
                 return;
             }
@@ -47,8 +45,9 @@ namespace LayoutFarm.Presentation
 
 
         void MyScrollToNotRaiseEvent(int x, int y,
-        out UIScrollEventArgs hScrollEventArgs, out UIScrollEventArgs vScrollEventArgs,
-        VisualElementArgs vinv)
+            out UIScrollEventArgs hScrollEventArgs,
+            out UIScrollEventArgs vScrollEventArgs,
+            VisualElementArgs vinv)
         {
             hScrollEventArgs = null;
             vScrollEventArgs = null;
@@ -89,24 +88,24 @@ namespace LayoutFarm.Presentation
             if (vscrollableSurface == null)
             {
                 this.InvalidateGraphic(vinv);
-                myviewportX = x;
-                myviewportY = y;
+                this.ViewportX = x;
+                this.ViewportY = y;
+
                 this.InvalidateGraphic(vinv);
             }
             else
             {
-                if (myviewportX != x && vscrollableSurface.HasHScrollChanged)
+                if (ViewportX != x && vscrollableSurface.HasHScrollChanged)
                 {
-                    hScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, myviewportX, x, UIScrollOrientation.HorizontalScroll);
+                    hScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, this.ViewportX, x, UIScrollOrientation.HorizontalScroll);
 
                 }
-                if (myviewportY != y && vscrollableSurface.HasVScrollChanged)
+                if (ViewportY != y && vscrollableSurface.HasVScrollChanged)
                 {
-                    vScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, myviewportY, y, UIScrollOrientation.VerticalScroll);
+                    vScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, this.ViewportY, y, UIScrollOrientation.VerticalScroll);
                 }
-                myviewportX = x;
-                myviewportY = y;
-
+                this.ViewportX = x;
+                this.ViewportY = y;
 
                 vscrollableSurface.QuadPagesCalculateCanvas();
                 vscrollableSurface.FullModeUpdate = true;
@@ -122,45 +121,45 @@ namespace LayoutFarm.Presentation
             System.Drawing.Size innerContentSize = this.InnerContentSize; ;
             if (dy < 0)
             {
-                int old_y = myviewportY;
-                if (myviewportY + dy < 0)
+                int old_y = this.ViewportY;
+                if (ViewportY + dy < 0)
                 {
-                    dy = -myviewportY;
-                    myviewportY = 0;
+                    dy = -ViewportY;
+                    ViewportY = 0;
                 }
                 else
                 {
-                    myviewportY += dy;
+                    ViewportY += dy;
                 }
 
                 if (this.vscrollableSurface != null && vscrollableSurface.HasVScrollChanged)
                 {
                     vScrollEventArgs = new UIScrollEventArgs(
                         UIScrollEventType.ThumbPosition,
-                        old_y, myviewportY,
+                        old_y, ViewportY,
                         UIScrollOrientation.VerticalScroll);
 
                 }
             }
             else if (dy > 0)
             {
-                int old_y = myviewportY;
-                int viewportButtom = myviewportY + Height;
+                int old_y = ViewportY;
+                int viewportButtom = ViewportY + Height;
                 if (viewportButtom + dy > innerContentSize.Height)
                 {
                     if (viewportButtom < innerContentSize.Height)
                     {
-                        myviewportY = innerContentSize.Height - Height;
+                        ViewportY = innerContentSize.Height - Height;
                     }
                 }
                 else
                 {
 
-                    myviewportY += dy;
+                    this.ViewportY += dy;
                 }
                 if (vscrollableSurface != null && vscrollableSurface.HasVScrollChanged)
                 {
-                    vScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, old_y, myviewportY, UIScrollOrientation.VerticalScroll);
+                    vScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, old_y, this.ViewportY, UIScrollOrientation.VerticalScroll);
 
                 }
             }
@@ -171,47 +170,47 @@ namespace LayoutFarm.Presentation
             else if (dx > 0)
             {
 
-                int old_x = myviewportX;
-                int viewportRight = myviewportX + Width; if (viewportRight + dx > innerContentSize.Width)
+                int old_x = this.ViewportX;
+                int viewportRight = ViewportX + Width; if (viewportRight + dx > innerContentSize.Width)
                 {
                     if (this.IsTextEditContainer)
                     {
-                        myviewportX += dx;
+                        ViewportX += dx;
                     }
                     else
                     {
                         if (viewportRight < innerContentSize.Width)
                         {
-                            myviewportX = innerContentSize.Width - Width;
+                            ViewportX = innerContentSize.Width - Width;
                         }
                     }
                 }
                 else
                 {
-                    myviewportX += dx;
+                    ViewportX += dx;
                 }
                 if (vscrollableSurface != null && vscrollableSurface.HasHScrollChanged)
                 {
-                    hScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, old_x, myviewportX, UIScrollOrientation.HorizontalScroll);
+                    hScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, old_x, ViewportX, UIScrollOrientation.HorizontalScroll);
 
                 }
             }
             else
             {
-                int old_x = myviewportX;
+                int old_x = this.ViewportX;
                 if (old_x + dx < 0)
                 {
-                    dx = -myviewportX;
-                    myviewportX = 0;
+                    dx = -ViewportX;
+                    ViewportX = 0;
                 }
                 else
                 {
-                    myviewportX += dx;
+                    ViewportX += dx;
                 }
                 if (vscrollableSurface != null && vscrollableSurface.HasHScrollChanged)
                 {
                     hScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition,
-                        old_x, myviewportX, UIScrollOrientation.HorizontalScroll);
+                        old_x, this.ViewportX, UIScrollOrientation.HorizontalScroll);
 
                 }
             }
@@ -250,11 +249,10 @@ namespace LayoutFarm.Presentation
         }
         void MyScrollTo(int x, int y, VisualElementArgs vinv)
         {
-            if (y == myviewportY && x == myviewportX)
+            if (y == this.ViewportY && x == this.ViewportX)
             {
                 return;
             }
-
             UIScrollEventArgs hScrollEventArgs;
             UIScrollEventArgs vScrollEventArgs;
             MyScrollToNotRaiseEvent(x, y, out hScrollEventArgs, out vScrollEventArgs, vinv);
@@ -265,25 +263,6 @@ namespace LayoutFarm.Presentation
                 vscrollableSurface.RaiseProperEvents(hScrollEventArgs, vScrollEventArgs);
             }
         }
-
-        public void ContainerDrawOriginalContent(CanvasBase destPage, InternalRect updateArea)
-        {
-            if (this.IsScrollable && !this.HasDoubleScrollableSurface)
-            {
-                destPage.OffsetCanvasOrigin(-myviewportX, -myviewportY);
-                updateArea.Offset(myviewportX, myviewportY);
-            }
-
-            DrawBackground(this, destPage, updateArea);
-            ((MultiLayerRenderBox)this).DrawChildContent(destPage, updateArea);
-
-            if (this.IsScrollable && !this.HasDoubleScrollableSurface)
-            {
-                destPage.OffsetCanvasOrigin(myviewportX, myviewportY);
-                updateArea.Offset(-myviewportX, -myviewportY);
-            }
-        }
-
         public int HorizontalLargeChange
         {
             get
@@ -341,68 +320,7 @@ namespace LayoutFarm.Presentation
                 }
             }
         }
-        public Size InnerContentSize
-        {
-            get
-            {
-                VisualLayer groundLayer = GetGroundLayer();
-                if (groundLayer == null)
-                {
-                    return this.Size;
-                }
-                else
-                {
-                    Size s1 = groundLayer.PostCalculateContentSize;
-                    if (s1.Width < this.Width)
-                    {
-                        s1.Width = this.Width;
-                    }
-                    if (s1.Height < this.Height)
-                    {
-                        s1.Height = this.Height;
-                    }
-                    return s1;
-                }
-            }
-        }
 
-        public int ViewportBottom
-        {
-            get
-            {
-                return this.Bottom + myviewportY;
-            }
-        }
-        public int ViewportRight
-        {
-            get
-            {
-                return this.Right + this.myviewportX;
-            }
-        }
-        public int ViewportY
-        {
-            get
-            {
-                return this.myviewportY;
-            }
-            set
-            {
-                this.myviewportY = value;
-            }
-        }
-        public int ViewportX
-        {
-            get
-            {
-
-                return this.myviewportX;
-            }
-            set
-            {
-                this.myviewportX = value;
-            }
-        }
 
         public void AddVScrollHandler(EventHandler<UIScrollEventArgs> vscrollChanged, EventHandler<ScrollSurfaceRequestEventArgs> vscrollSupport)
         {
@@ -436,6 +354,30 @@ namespace LayoutFarm.Presentation
                 vscrollableSurface.HScrollRequest -= hscrollSupport;
             }
         }
+        public void ScrollTo(int x, int y, VisualElementArgs vinv)
+        {
+            if (!this.IsScrollable)
+            {
+                return;
+            }
+            MyScrollTo(x, y, vinv);
+        }
+        public void ScrollBy(int dx, int dy, VisualElementArgs vinv)
+        {
+            if (!this.IsScrollable)
+            {
+                return;
+            }
+            MyScrollBy(dx, dy, vinv);
+        }
+        public CustomRenderSurface VisualScrollableSurface
+        {
+            get
+            {
+                return vscrollableSurface;
+            }
+        }
+
 
 
     }

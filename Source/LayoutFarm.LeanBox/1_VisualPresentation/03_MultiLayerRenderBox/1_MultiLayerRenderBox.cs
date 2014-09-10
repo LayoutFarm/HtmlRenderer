@@ -15,7 +15,7 @@ namespace LayoutFarm.Presentation
     {
 
         int myviewportX;
-        int myviewportY; 
+        int myviewportY;
         List<VisualLayer> otherLayers;
 
         public MultiLayerRenderBox(int width, int height, ElementNature nature)
@@ -33,7 +33,22 @@ namespace LayoutFarm.Presentation
         }
         public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
         {
+            //-------------------
+            if (this.IsScrollable && !this.HasDoubleScrollableSurface)
+            {
+                canvasPage.OffsetCanvasOrigin(-myviewportX, -myviewportY);
+                updateArea.Offset(myviewportX, myviewportY);
+            }
 
+            DrawBackground(this, canvasPage, updateArea);
+            this.DrawChildContent(canvasPage, updateArea);
+
+            if (this.IsScrollable && !this.HasDoubleScrollableSurface)
+            {
+                canvasPage.OffsetCanvasOrigin(myviewportX, myviewportY);
+                updateArea.Offset(-myviewportX, -myviewportY);
+            }
+            //-------------------
         }
         public int ClientTop
         {
@@ -49,7 +64,7 @@ namespace LayoutFarm.Presentation
                 return 0;
 
             }
-        } 
+        }
 
         public void InvalidateContentArrangementFromContainerSizeChanged()
         {
@@ -62,8 +77,8 @@ namespace LayoutFarm.Presentation
         protected virtual void CloneGroundLayer(RenderElement otherElement)
         {
             throw new NotSupportedException();
-        } 
-        protected abstract bool HasGroundLayer(); 
+        }
+        protected abstract bool HasGroundLayer();
 
         public void DrawChildContent(CanvasBase canvasPage, InternalRect updateArea)
         {
@@ -105,7 +120,7 @@ namespace LayoutFarm.Presentation
             }
         }
 #endif
-         
+
         public void PrepareOriginalChildContentDrawingChain(VisualDrawingChain chain)
         {
             if (otherLayers != null)
@@ -216,7 +231,7 @@ namespace LayoutFarm.Presentation
                         finalHeight = cHeight;
                     } break;
             }
-             
+
 
             SetCalculatedDesiredSize(this, finalWidth, finalHeight);
 #if DEBUG
@@ -266,15 +281,7 @@ namespace LayoutFarm.Presentation
             vinv.dbug_ExitReArrangeContent();
 #endif
         }
-        protected void BoxEvaluateScrollBar()
-        {
-            if (vscrollableSurface != null)
-            {
-                vscrollableSurface.ConfirmSizeChanged();
-            }
-        }
 
-       
         public void TopDownReArrangeContentIfNeed(VisualElementArgs vinv)
         {
 #if DEBUG
@@ -386,30 +393,7 @@ namespace LayoutFarm.Presentation
             return null;
         }
 
-        public void ScrollTo(int x, int y, VisualElementArgs vinv)
-        {
-            if (!this.IsScrollable)
-            {
-                return;
-            }
-            MyScrollTo(x, y, vinv);
-        }
-        public void ScrollBy(int dx, int dy, VisualElementArgs vinv)
-        {
-            if (!this.IsScrollable)
-            {
-                return;
-            }
-            MyScrollBy(dx, dy, vinv);
-        }
-        public ScrollableSurface VisualScrollableSurface
-        {
-            get
-            {
-                return vscrollableSurface;
-            } 
-        }
-       
+
         public void AddChild(RenderElement child)
         {
 #if DEBUG
@@ -420,6 +404,85 @@ namespace LayoutFarm.Presentation
 #endif
             GroundLayerAddChild(child);
         }
+        public Size InnerContentSize
+        {
+            get
+            {
+                VisualLayer groundLayer = GetGroundLayer();
+                if (groundLayer == null)
+                {
+                    return this.Size;
+                }
+                else
+                {
+                    Size s1 = groundLayer.PostCalculateContentSize;
+                    if (s1.Width < this.Width)
+                    {
+                        s1.Width = this.Width;
+                    }
+                    if (s1.Height < this.Height)
+                    {
+                        s1.Height = this.Height;
+                    }
+                    return s1;
+                }
+            }
+        }
+
+        public int ViewportBottom
+        {
+            get
+            {
+                return this.Bottom + myviewportY;
+            }
+        }
+        public int ViewportRight
+        {
+            get
+            {
+                return this.Right + this.myviewportX;
+            }
+        }
+        public int ViewportY
+        {
+            get
+            {
+                return this.myviewportY;
+            }
+            set
+            {
+                this.myviewportY = value;
+            }
+        }
+        public int ViewportX
+        {
+            get
+            {
+
+                return this.myviewportX;
+            }
+            set
+            {
+                this.myviewportX = value;
+            }
+        }
+
+        //--------------------------------------------
+        protected CustomRenderSurface vscrollableSurface;
+
+        public void ScrollableDrawContent(CanvasBase destPage, InternalRect updateArea)
+        {
+            vscrollableSurface.DrawToThisPage(destPage, updateArea);
+        }
+        protected virtual void BoxEvaluateScrollBar()
+        {
+            if (vscrollableSurface != null)
+            {
+                vscrollableSurface.ConfirmSizeChanged();
+            }
+        }
+         
+        //--------------------------------------------
 #if DEBUG
         public override void dbug_DumpVisualProps(dbugLayoutMsgWriter writer)
         {

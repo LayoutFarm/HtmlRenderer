@@ -131,7 +131,7 @@ namespace LayoutFarm.Presentation
                     if (fromElement.HasDoubleScrollableSurface)
                     {
                          
-                        container.VisualScrollableSurface.WindowRootNotifyInvalidArea(elementClientRect);
+                        //container.VisualScrollableSurface.WindowRootNotifyInvalidArea(elementClientRect);
                     }
                     Rectangle elementRect = fromElement.BoundRect;
                     elementRect.Offset(container.ViewportX, container.ViewportY);

@@ -9,7 +9,7 @@ using System.Drawing.Drawing2D;
 
 namespace LayoutFarm.Presentation
 {
-    public class VisualScrollableSurface1 : ScrollableSurface
+    public class MyCustomRenderSurface : CustomRenderSurface
     {
 
 
@@ -22,7 +22,7 @@ namespace LayoutFarm.Presentation
         int viewport_v_largeChange = 0;
         MultiLayerRenderBox ownerVisualElement;
         bool scrollableFullMode;
-        public VisualScrollableSurface1(MultiLayerRenderBox ownerVisualElement, int width, int height)
+        public MyCustomRenderSurface(MultiLayerRenderBox ownerVisualElement, int width, int height)
             : base(ownerVisualElement)
         {
 
@@ -80,7 +80,8 @@ namespace LayoutFarm.Presentation
         {
             get
             {
-                return ownerVisualElement.InnerContentSize;
+
+                return new Size(ownerVisualElement.ElementDesiredWidth, ownerVisualElement.ElementDesiredHeight);
 
             }
         }
@@ -176,8 +177,8 @@ namespace LayoutFarm.Presentation
                 }
 #endif
 
-
-                ownerVisualElement.ContainerDrawOriginalContent(internalCanvas, updateArea);
+                ownerVisualElement.CustomDrawToThisPage(internalCanvas, updateArea);
+                //ownerVisualElement.DrawOriginalContent(internalCanvas, updateArea);
 
 #if DEBUG
 
@@ -233,7 +234,7 @@ namespace LayoutFarm.Presentation
             if (destPage.PushClipAreaForNativeScrollableElement(internalRect))
             {
                 destPage.ClearSurface();
-                ownerVisualElement.ContainerDrawOriginalContent(destPage, updateArea);
+                ownerVisualElement.CustomDrawToThisPage(destPage, updateArea);
 
             }
             destPage.PopClipArea();

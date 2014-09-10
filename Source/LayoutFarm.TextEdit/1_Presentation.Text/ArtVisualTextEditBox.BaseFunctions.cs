@@ -566,11 +566,9 @@ namespace LayoutFarm.Presentation.Text
                                 e.FreeVisualInvalidateCanvasArgs(vinv);
                                 TextSurfaceEventListener.NofitySplitNewLine(textSurfaceEventListener, e);
                                 vinv = e.GetVisualInvalidateCanvasArgs();
-                            }
+                            } 
 
-
-                            Rectangle lineArea = internalTextLayerController.CurrentLineArea;
-
+                            Rectangle lineArea = internalTextLayerController.CurrentLineArea; 
                             if (lineArea.Bottom > this.ViewportBottom)
                             {
 

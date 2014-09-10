@@ -11,16 +11,16 @@ using LayoutFarm.Presentation;
 namespace LayoutFarm.Presentation
 {
 
-    public abstract class ScrollableSurface
+    public abstract class CustomRenderSurface
     {
         public event EventHandler<ScrollSurfaceRequestEventArgs> VScrollRequest;
         public event EventHandler<ScrollSurfaceRequestEventArgs> HScrollRequest;
         public event EventHandler<UIScrollEventArgs> VScrollChanged;
         public event EventHandler<UIScrollEventArgs> HScrollChanged;
-        MultiLayerRenderBox ownerVisualElement;
-        public ScrollableSurface(MultiLayerRenderBox ownerVisualElement)
+        object owner;
+        public CustomRenderSurface(object owner)
         {
-            this.ownerVisualElement = ownerVisualElement;
+            this.owner = owner;
         }
 
         public abstract bool FullModeUpdate
@@ -46,11 +46,11 @@ namespace LayoutFarm.Presentation
         {
             if (this.VScrollChanged != null && vScrollEventArgs != null)
             {
-                VScrollChanged.Invoke(ownerVisualElement, vScrollEventArgs);
+                VScrollChanged.Invoke(owner, vScrollEventArgs);
             }
             if (this.HScrollChanged != null && hScrollEventArgs != null)
             {
-                HScrollChanged.Invoke(ownerVisualElement, hScrollEventArgs);
+                HScrollChanged.Invoke(owner, hScrollEventArgs);
             }
         }
         protected void RaiseScrollChangedEvents(bool needVeritcal, bool needHorizontal)
@@ -79,6 +79,7 @@ namespace LayoutFarm.Presentation
         {
             get;
         }
+       
         public abstract int VerticalSmallChange
         {
             get;

@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="1_Presentation.Text\1_VisualTextModel\DocumentActions.cs" />
+    <Compile Include="1_Presentation.Text\ArtVisualTextEdit_Scroll.cs" />
     <Compile Include="1_Presentation.Text\StyleHelper.cs" />
     <Compile Include="1_Presentation.Text\1_VisualTextModel\MultilineTextLayerController\TextLayerController.cs" />
     <Compile Include="1_Presentation.Text\1_VisualTextModel\MultilineTextLayerController\TextLayerController.KeyboardFunctions.cs" />

@@ -905,12 +905,7 @@ HitEventName.DragStart);
             }
 
             return result;
-        }
-
-
-
-
-
+        } 
         public Point CaretPosition
         {
             get

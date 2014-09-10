@@ -12,7 +12,7 @@ using System.Drawing.Drawing2D;
 namespace LayoutFarm.Presentation
 {
     partial class RenderElement
-    {   
+    {
         public bool HasSolidBackground
         {
             get
@@ -56,7 +56,7 @@ namespace LayoutFarm.Presentation
 
                 switch ((ElementNature)(uiCombineFlags & 0xF))
                 {
-                     
+
                     case ElementNature.Shapes:
                         {
                             drawingChain.AddVisualElement(this, containAll);
@@ -64,7 +64,7 @@ namespace LayoutFarm.Presentation
                     case ElementNature.TextRun:
                         {
 
-                        } break; 
+                        } break;
                     default:
                         {
                             drawingChain.AddVisualElement(this, containAll);
@@ -100,7 +100,7 @@ namespace LayoutFarm.Presentation
 #if DEBUG
             dbugVRoot.dbug_drawLevel++;
 #endif
-           
+
             if (canvasPage.PushClipArea(b_width, b_Height, updateArea))
             {
 #if DEBUG
@@ -109,27 +109,31 @@ namespace LayoutFarm.Presentation
                     dbugVRoot.dbug_AddDrawElement(this, canvasPage);
                 }
 #endif
-                switch ((ElementNature)(uiCombineFlags & 0xF))
-                {   
-                    case ElementNature.Shapes: 
-                    case ElementNature.CustomContainer:
-                    case ElementNature.TextRun:
-                        {
-                            this.CustomDrawToThisPage(canvasPage, updateArea);
-                        } break;
-                    default:
-                        {
-                            if (this.HasDoubleScrollableSurface)
-                            {
-                                ((MultiLayerRenderBox)this).ScrollableDrawContent(canvasPage, updateArea);
-                            }
-                            else
-                            {
-                                ((MultiLayerRenderBox)this).ContainerDrawOriginalContent(canvasPage, updateArea);
-                            }
-                        } break;
-                }
+                //------------------------------------------
+                this.CustomDrawToThisPage(canvasPage, updateArea);
 
+                //switch ((ElementNature)(uiCombineFlags & 0xF))
+                //{
+                //    case ElementNature.Shapes:
+                //    case ElementNature.CustomContainer:
+                //    case ElementNature.TextRun:
+                //        {
+                //            this.CustomDrawToThisPage(canvasPage, updateArea);
+                //        } break;
+                //    default:
+                //        {
+                //            if (this.HasDoubleScrollableSurface)
+                //            {
+                //                ((MultiLayerRenderBox)this).ScrollableDrawContent(canvasPage, updateArea);
+                //            }
+                //            else
+                //            {
+                //                ((MultiLayerRenderBox)this).ContainerDrawOriginalContent(canvasPage, updateArea);
+                //            }
+                //        } break;
+                //}
+
+                //------------------------------------------
                 uiFlags |= IS_GRAPHIC_VALID;
 #if DEBUG
                 debug_RecordPostDrawInfo(canvasPage);

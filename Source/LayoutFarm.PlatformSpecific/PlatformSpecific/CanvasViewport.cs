@@ -422,8 +422,10 @@ namespace LayoutFarm.Presentation
                 {
                     viewportY += dy;
                 }
-                vScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition,
-    old_y, viewportY, UIScrollOrientation.VerticalScroll);
+                vScrollEventArgs = new UIScrollEventArgs(
+                    UIScrollEventType.ThumbPosition,
+                    old_y,
+                    viewportY, UIScrollOrientation.VerticalScroll);
 
             }
             else if (dy > 0)

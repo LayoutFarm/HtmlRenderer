@@ -49,6 +49,7 @@
     <Compile Include="VisualRootImpl\0_MyRootWindowRenderBox_dbug.cs" />
     <Compile Include="VisualRootImpl\0_MyRootWindowRenderBox_Graphics.cs" />
     <Compile Include="VisualRootImpl\1_VisualRootTasks.cs" />
+    <Compile Include="VisualRootImpl\RenderSurfaceScrollRelation.cs" />
     <Compile Include="VisualRootImpl\UIEventIdentifier.cs" />
     <Compile Include="VisualRootImpl\CanvasEventStock.cs" />
     <Compile Include="VisualRootImpl\HitEventName.cs" />
