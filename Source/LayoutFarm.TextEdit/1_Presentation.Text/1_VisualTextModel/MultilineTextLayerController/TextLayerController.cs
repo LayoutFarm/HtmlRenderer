@@ -310,7 +310,7 @@ namespace LayoutFarm.Presentation.Text
         }
 
 
-        public BoxStyle GetFirstTextStyleInSelectedRange()
+        public TextRunStyle GetFirstTextStyleInSelectedRange()
         {
             VisualSelectionRange selRange = SelectionRange;
             if (selRange != null)
@@ -330,7 +330,7 @@ namespace LayoutFarm.Presentation.Text
                 return null;
             }
         }
-        public void DoFormatSelection(BoxStyle textStyle, VisualElementArgs vinv)
+        public void DoFormatSelection(TextRunStyle textStyle, VisualElementArgs vinv)
         {
             int startLineNum = textLineWriter.LineNumber;
             int startCharIndex = textLineWriter.CharIndex;

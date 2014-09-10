@@ -487,12 +487,12 @@ namespace LayoutFarm.Presentation.Text
                         } break;
                     case UIKeys.B:
                         {
-                            BoxStyle defaultBeh1 = internalTextLayerController.GetFirstTextStyleInSelectedRange();
+                            TextRunStyle defaultBeh1 = internalTextLayerController.GetFirstTextStyleInSelectedRange();
 
-                            BoxStyle textStyle = null;
+                            TextRunStyle textStyle = null;
                             if (defaultBeh1 != null)
                             {
-                                BoxStyle defaultBeh = ((BoxStyle)defaultBeh1);
+                                TextRunStyle defaultBeh = ((TextRunStyle)defaultBeh1);
                                 if (defaultBeh.FontBold)
                                 {
                                     textStyle = StyleHelper.CreateNewStyle(Color.Black);

@@ -5,16 +5,7 @@ using System.Collections.Generic;
 
 namespace LayoutFarm.Presentation
 {
-    public enum ParentLinkRelocatePosition
-    {
-        TopMost,
-        First,
-        Last,
-        After,
-        Before
-    }
-  
-
+    
     public interface IParentLink
     {
 
@@ -25,6 +16,7 @@ namespace LayoutFarm.Presentation
 
         
         void AdjustParentLocation(ref System.Drawing.Point p);
+
         void PerformLayout(VisualElementArgs vinv);
         TopWindowRenderBox GetWindowRoot();
         RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, System.Drawing.Point point);

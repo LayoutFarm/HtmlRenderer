@@ -13,18 +13,16 @@ namespace LayoutFarm.Presentation
 {
     partial class RenderElement
     {
+        bool hasTransparentBg;
         public bool HasSolidBackground
         {
             get
             {
-                if (MyBoxStyle != null)
-                {
-                    BoxStyle beh = (BoxStyle)MyBoxStyle;
-                    ArtColorBrush colorBrush = beh.SharedBgColorBrush;
-
-                    return colorBrush != null;
-                }
-                return false;
+                return !hasTransparentBg;
+            }
+            set
+            {
+                this.hasTransparentBg = !value;
             }
         }
         protected static void DrawBackground(RenderElement visualElement, CanvasBase canvasPage, InternalRect updateArea)

@@ -35,6 +35,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="01_TextRun\TextRunStyle.cs" />
     <Compile Include="01_TextRun\VisualTextRun.cs" />
     <Compile Include="01_TextRun\VisualLocationInfo.cs" />
     <Compile Include="01_TextRun\dbugMultiTextManRecorder.cs" />

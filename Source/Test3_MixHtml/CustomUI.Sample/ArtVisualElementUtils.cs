@@ -9,9 +9,9 @@ namespace LayoutFarm.Presentation
 {
     public static class ArtVisualElementUtils
     {
-        public static BoxStyle CreateSimpleRole(Color color)
+        public static TextRunStyle CreateSimpleRole(Color color)
         {   
-            BoxStyle beh = new BoxStyle();
+            TextRunStyle beh = new TextRunStyle();
             beh.SharedBgColorBrush = new ArtSolidBrush(color);
             return beh;
         }

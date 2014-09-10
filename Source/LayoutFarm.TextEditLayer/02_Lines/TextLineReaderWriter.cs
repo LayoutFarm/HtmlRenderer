@@ -132,14 +132,15 @@ namespace LayoutFarm.Presentation.Text
         {
             if (CurrentLine.IsBlankLine)
             {
+                //1. new 
                 EditableVisualTextRun t = new EditableVisualTextRun(c);
 
                 var owner = this.FlowLayer.ownerVisualElement;
 
-                if (owner.MyBoxStyle != null)
-                {
-                    t.SetStyle(owner.MyBoxStyle, vinv);
-                }
+                //if (owner.MyBoxStyle != null)
+                //{
+                //    t.SetStyle(owner.MyBoxStyle, vinv);
+                //}
                 CurrentLine.AddLast(t);
 
                 SetCurrentTextRun(t);

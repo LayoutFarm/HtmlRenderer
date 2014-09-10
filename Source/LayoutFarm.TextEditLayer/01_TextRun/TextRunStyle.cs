@@ -12,12 +12,12 @@ using System.Drawing;
 
 
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm.Presentation 
 {
 
-    public class BoxStyle
+    public class TextRunStyle
     {
-        public BoxStyle()
+        public TextRunStyle()
         {
             this.SharedBgColorBrush = new ArtSolidBrush(Color.White);
         }

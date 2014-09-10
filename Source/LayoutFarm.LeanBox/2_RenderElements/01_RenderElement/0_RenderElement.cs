@@ -201,7 +201,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        int uiFlags; 
+        protected int uiFlags; 
         int oneBitNativeEventFlags = 0;
         int uiCombineFlags;
 
@@ -230,7 +230,7 @@ namespace LayoutFarm.Presentation
         const int FIRST_ARR_PASS = 1 << (27 - 1);
         const int HAS_SUB_GROUND = 1 << (28 - 1);
         const int IS_FLOATING_WINDOW = 1 << (29 - 1);
-        const int USE_ANIMATOR = 1 << (30 - 1);
+        protected const int USE_ANIMATOR = 1 << (30 - 1);
 
 
 
@@ -473,6 +473,20 @@ namespace LayoutFarm.Presentation
             childElement.visualParentLink = lineLinkedNode;
         }
 
-
+        public bool HasOwner
+        {
+            get
+            {
+                return this.visualParentLink != null;
+            }
+        }
+        public RenderElement GetOwnerRenderElement()
+        {
+            if (this.visualParentLink != null)
+            {
+                return visualParentLink.ParentVisualElement as MultiLayerRenderBox;
+            }
+            return null;
+        }
     }
 }

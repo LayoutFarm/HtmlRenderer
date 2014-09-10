@@ -19,7 +19,7 @@ namespace LayoutFarm.Presentation.SampleControls
         {
 
             visualTextSurface = new TextEditRenderBox(width, height, false);
-            visualTextSurface.SetStyleDefinition(textBoxRole, null);
+             
             visualTextSurface.HasSpecificSize = true;
             visualTextSurface.SetController(this);
             SetPrimaryVisualElement(visualTextSurface);
@@ -80,13 +80,7 @@ namespace LayoutFarm.Presentation.SampleControls
 
                 return visualTextSurface.CurrentTextRunCharIndex;
             }
-        }
-        static BoxStyle textBoxRole;
-
-        static UITextBox()
-        {
-            textBoxRole = InternalVisualRoleHelper.CreateSimpleRole(Color.White);
-        }
+        } 
     }
 
 

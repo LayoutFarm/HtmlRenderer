@@ -58,7 +58,60 @@ namespace LayoutFarm.Presentation
         }
 
         static char[] emptyline = new char[] { 'I' };
+        object basicStyle;
+        bool isLineBreak;
 
+        public TextRunStyle MyBoxStyle
+        {
+            get
+            {
+                if (this.basicStyle != null)
+                {
+                    return (TextRunStyle)this.basicStyle;
+
+                }
+                return null;
+            }
+        }
+
+        public virtual void SetStyle(TextRunStyle newbeh, VisualElementArgs vinv)
+        {
+
+            TextRunStyle beh = (TextRunStyle)newbeh;
+            if (newbeh == null)
+            {
+                return;
+            }
+
+            if ((uiFlags & USE_ANIMATOR) == 0)
+            {
+                if (vinv != null)
+                {
+                    this.InvalidateGraphic(vinv);
+                }
+
+                this.basicStyle = beh;
+                if (beh.positionWidth > -1)
+                {
+                    this.SetWidth(beh.positionWidth, vinv);
+                }
+                if (beh.positionHeight > -1)
+                {
+                    this.SetHeight(beh.positionHeight, vinv);
+                }
+                if (vinv != null)
+                {
+                    this.InvalidateGraphic(vinv);
+                }
+            }
+            else
+            {
+
+            }
+
+
+            UpdateRunWidth(vinv);
+        }
         protected void UpdateRunWidth(VisualElementArgs vinv)
         {
             Size size;
@@ -116,12 +169,8 @@ namespace LayoutFarm.Presentation
             }
         }
 #endif
-       
-        public override void SetStyle(BoxStyle newbeh, VisualElementArgs vinv)
-        {
-            base.SetStyle(newbeh, vinv);
-            UpdateRunWidth(vinv);
-        }
+
+
         internal static void DrawArtVisualTextRun(VisualTextRun visualTextRun, CanvasBase canvasPage, InternalRect updateArea)
         {
             visualTextRun.DrawCharacters(canvasPage, updateArea, visualTextRun.mybuffer);
@@ -150,7 +199,7 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                BoxStyle beh = this.MyBoxStyle;
+                TextRunStyle beh = this.MyBoxStyle;
                 switch (canvasPage.EvaluateFontAndTextColor(beh.textFontInfo, beh.FontColor))
                 {
                     case CanvasBase.DIFF_FONT_SAME_TEXT_COLOR:
@@ -211,7 +260,7 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-                BoxStyle beh = (BoxStyle)MyBoxStyle;
+                TextRunStyle beh = (TextRunStyle)MyBoxStyle;
                 if (beh != null && beh.textFontInfo != null)
                 {
                     return beh.textFontInfo;
@@ -246,7 +295,17 @@ namespace LayoutFarm.Presentation
         {
             InnerTextRunTopDownReCalculateContentSize(this, vinv);
         }
-
+        public bool IsLineBreak
+        {
+            get
+            {
+                return isLineBreak;
+            }
+            set
+            {
+                this.isLineBreak = value;
+            }
+        }
 
     }
 }

@@ -113,7 +113,7 @@ namespace LayoutFarm.Presentation.Text
                 char[] newContent = new char[length];
                 Array.Copy(this.mybuffer, sourceIndex, newContent, 0, length);
                 EditableVisualTextRun newTextRun = new EditableVisualTextRun(newContent);
-                BoxStyle bah = this.MyBoxStyle;
+                TextRunStyle bah = this.MyBoxStyle;
                 if (bah != null)
                 {
                     newTextRun.SetStyle(bah, null);

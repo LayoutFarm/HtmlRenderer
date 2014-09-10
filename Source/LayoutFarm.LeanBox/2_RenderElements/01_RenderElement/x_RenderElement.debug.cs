@@ -43,8 +43,21 @@ namespace LayoutFarm.Presentation
 
     partial class RenderElement
     {
+ 
+        public virtual void dbug_WriteOwnerLayerInfo(dbugRootElement visualroot, int i)
+        {
 
+            if (this.visualParentLink != null)
+            {
+                visualroot.dbug_rootHitChainMsg.AddLast(new dbugLayoutMsg(this, new string('.', i) + " [Ly:" + i + "] " +
+                      visualParentLink.dbugGetLinkInfo()));
+            }
+        }
+        public virtual void dbug_WriteOwnerLineInfo(dbugRootElement visualroot, int i)
+        {
 
+        }
+ 
         public string dbugGetCssBoxInfo
         {
             get

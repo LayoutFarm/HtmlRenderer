@@ -21,7 +21,7 @@ namespace LayoutFarm.Presentation.SampleControls
         {
                  
             visualTextEdit = new TextEditRenderBox(width, height, multiline);
-            visualTextEdit.SetStyleDefinition(textBoxRole, null);
+           
             visualTextEdit.HasSpecificSize = true;
             this.SetPrimaryVisualElement(visualTextEdit);
             visualTextEdit.SetController(this);
@@ -88,15 +88,6 @@ namespace LayoutFarm.Presentation.SampleControls
         protected override void OnDragStop(UIDragEventArgs e)
         {
             visualTextEdit.OnDragStop(e);
-        }
-
-        static BoxStyle textBoxRole;
-        static UIMultiLineTextBox()
-        {
-
-            textBoxRole = InternalVisualRoleHelper.CreateSimpleRole(Color.White);
-        }
-
-
+        } 
     }
 }

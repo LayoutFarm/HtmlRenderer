@@ -149,20 +149,20 @@ namespace TestGraphicPackage2
                 ShowFormLayoutInspector(viewport);
             }
         }
-        static BoxStyle[] CreateRoleSet(TextFontInfo fontInfo, params Color[] colors)
+        static TextRunStyle[] CreateRoleSet(TextFontInfo fontInfo, params Color[] colors)
         {
             int j = colors.Length;
-            BoxStyle[] roleSet = new BoxStyle[j];
+            TextRunStyle[] roleSet = new TextRunStyle[j];
             for (int i = 0; i < j; ++i)
             {
                 roleSet[i] = CreateSimpleTextRole(fontInfo, colors[i]);
             }
             return roleSet;
         }
-        static BoxStyle CreateSimpleTextRole(TextFontInfo textFontInfo, Color textColor)
+        static TextRunStyle CreateSimpleTextRole(TextFontInfo textFontInfo, Color textColor)
         {
 
-            BoxStyle beh = new BoxStyle();
+            TextRunStyle beh = new TextRunStyle();
             beh.FontColor = textColor;
 
 

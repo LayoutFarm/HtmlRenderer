@@ -171,8 +171,8 @@ namespace LayoutFarm.Presentation.Text
     {
         int endLineNumber;
         int endCharIndex;
-        BoxStyle textStyle;
-        public DocActionFormatting(BoxStyle textStyle, int startLineNumber, int startCharIndex, int endLineNumber, int endCharIndex)
+        TextRunStyle textStyle;
+        public DocActionFormatting(TextRunStyle textStyle, int startLineNumber, int startCharIndex, int endLineNumber, int endCharIndex)
             : base(startLineNumber, startCharIndex)
         {
             this.textStyle = textStyle;

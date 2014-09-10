@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing; 
+using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
@@ -195,7 +195,7 @@ namespace LayoutFarm.Presentation
 #endif
                             if (!vinv.IsInTopDownReArrangePhase)
                             {
-                                MultiLayerRenderBox topMostToBeCal = FindTopMostToBeRecalculate(contvs);
+                                RenderElement topMostToBeCal = FindTopMostToBeRecalculate(contvs);
                                 if (topMostToBeCal != null)
                                 {
                                     topMostToBeCal.TopDownReCalculateContentSize(vinv);
@@ -230,7 +230,7 @@ namespace LayoutFarm.Presentation
 #endif
                         if (!vinv.IsInTopDownReArrangePhase)
                         {
-                            MultiLayerRenderBox topMostToBeCal = FindTopMostToBeRecalculate(contvs);
+                            RenderElement topMostToBeCal = FindTopMostToBeRecalculate(contvs);
                             if (topMostToBeCal != null)
                             {
                                 topMostToBeCal.TopDownReCalculateContentSize(vinv);
@@ -281,7 +281,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        static MultiLayerRenderBox FindTopMostToBeRecalculate(MultiLayerRenderBox veContainerBase)
+        static RenderElement FindTopMostToBeRecalculate(RenderElement veContainerBase)
         {
 
 #if DEBUG
@@ -322,7 +322,7 @@ namespace LayoutFarm.Presentation
             else
             {
 
-                MultiLayerRenderBox ownerContainer = veContainerBase.GetOwnerContainer();
+                RenderElement ownerContainer = veContainerBase.GetOwnerRenderElement();
 
                 if (ownerContainer != null && !ownerContainer.IsLayoutSuspending)
                 {
@@ -330,7 +330,7 @@ namespace LayoutFarm.Presentation
                     if (ownerContainer.HasOwner)
                     {
 
-                        MultiLayerRenderBox found = FindTopMostToBeRecalculate(ownerContainer);
+                        RenderElement found = FindTopMostToBeRecalculate(ownerContainer);
                         if (found != null)
                         {
 #if DEBUG
