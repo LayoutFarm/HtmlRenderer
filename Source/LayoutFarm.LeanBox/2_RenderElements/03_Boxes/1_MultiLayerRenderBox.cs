@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
-
-
+using System.Drawing; 
 namespace LayoutFarm.Presentation
 {
 
@@ -34,20 +32,20 @@ namespace LayoutFarm.Presentation
         public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
         {
             //-------------------
-            if (this.IsScrollable && !this.HasDoubleScrollableSurface)
-            {
-                canvasPage.OffsetCanvasOrigin(-myviewportX, -myviewportY);
-                updateArea.Offset(myviewportX, myviewportY);
-            }
+            //if (this.IsScrollable && !this.HasDoubleScrollableSurface)
+            //{
+            canvasPage.OffsetCanvasOrigin(-myviewportX, -myviewportY);
+            updateArea.Offset(myviewportX, myviewportY);
+            //}
 
             DrawBackground(this, canvasPage, updateArea);
             this.DrawChildContent(canvasPage, updateArea);
 
-            if (this.IsScrollable && !this.HasDoubleScrollableSurface)
-            {
-                canvasPage.OffsetCanvasOrigin(myviewportX, myviewportY);
-                updateArea.Offset(-myviewportX, -myviewportY);
-            }
+            //if (this.IsScrollable && !this.HasDoubleScrollableSurface)
+            //{
+            canvasPage.OffsetCanvasOrigin(myviewportX, myviewportY);
+            updateArea.Offset(-myviewportX, -myviewportY);
+            //}
             //-------------------
         }
         public int ClientTop
@@ -245,9 +243,6 @@ namespace LayoutFarm.Presentation
         static int dbug_topDownReArrContentPass = 0;
 
 #endif
-
-
-
         public void ForceTopDownReArrangeContent(VisualElementArgs vinv)
         {
 
@@ -273,7 +268,7 @@ namespace LayoutFarm.Presentation
                 }
             }
 
-            BoxEvaluateScrollBar();
+           // BoxEvaluateScrollBar();
 
 #if DEBUG
             this.dbug_FinishArr++;
@@ -465,23 +460,7 @@ namespace LayoutFarm.Presentation
             {
                 this.myviewportX = value;
             }
-        }
-
-        //--------------------------------------------
-        protected CustomRenderSurface vscrollableSurface;
-
-        public void ScrollableDrawContent(CanvasBase destPage, InternalRect updateArea)
-        {
-            vscrollableSurface.DrawToThisPage(destPage, updateArea);
-        }
-        protected virtual void BoxEvaluateScrollBar()
-        {
-            if (vscrollableSurface != null)
-            {
-                vscrollableSurface.ConfirmSizeChanged();
-            }
-        }
-         
+        } 
         //--------------------------------------------
 #if DEBUG
         public override void dbug_DumpVisualProps(dbugLayoutMsgWriter writer)

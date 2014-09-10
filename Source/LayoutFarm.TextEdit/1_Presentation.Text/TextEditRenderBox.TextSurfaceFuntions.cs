@@ -15,7 +15,7 @@ using LayoutFarm.Presentation.Text;
 namespace LayoutFarm.Presentation.Text
 {
 
-    partial class ArtVisualTextEditBox
+    partial class TextEditRenderBox
     {
 
         bool IsMultiLine

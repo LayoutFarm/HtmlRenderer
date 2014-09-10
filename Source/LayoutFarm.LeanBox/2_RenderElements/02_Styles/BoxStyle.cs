@@ -44,8 +44,7 @@ namespace LayoutFarm.Presentation
             set;
         }
         public TextFontInfo textFontInfo;
-        public ArtAlignment horizontalAlignment;
-        public ArtAlignment verticalAlignment;
+         
         public int ContentHAlign;
         public int positionWidth = -1;
         public int positionHeight = -1;

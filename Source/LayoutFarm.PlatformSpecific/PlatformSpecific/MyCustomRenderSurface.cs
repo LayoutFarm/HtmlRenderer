@@ -15,11 +15,11 @@ namespace LayoutFarm.Presentation
 
         QuadPages quadPages;
 
-        int viewport_h_smallChange = 0;
-        int viewport_h_largeChange = 0;
+        //int viewport_h_smallChange = 0;
+        //int viewport_h_largeChange = 0; 
+        //int viewport_v_smallChange = 0;
+        //int viewport_v_largeChange = 0;
 
-        int viewport_v_smallChange = 0;
-        int viewport_v_largeChange = 0;
         MultiLayerRenderBox ownerVisualElement;
         bool scrollableFullMode;
         public MyCustomRenderSurface(MultiLayerRenderBox ownerVisualElement, int width, int height)
@@ -85,34 +85,34 @@ namespace LayoutFarm.Presentation
 
             }
         }
-        public override int VerticalSmallChange
-        {
-            get
-            {
-                return viewport_v_smallChange;
-            }
-        }
-        public override int VerticalLargeChange
-        {
-            get
-            {
-                return viewport_v_largeChange;
-            }
-        }
-        public override int HorizontalLargeChange
-        {
-            get
-            {
-                return viewport_h_largeChange;
-            }
-        }
-        public override int HorizontalSmallChange
-        {
-            get
-            {
-                return viewport_h_smallChange;
-            }
-        }
+        //public override int VerticalSmallChange
+        //{
+        //    get
+        //    {
+        //        return viewport_v_smallChange;
+        //    }
+        //}
+        //public override int VerticalLargeChange
+        //{
+        //    get
+        //    {
+        //        return viewport_v_largeChange;
+        //    }
+        //}
+        //public override int HorizontalLargeChange
+        //{
+        //    get
+        //    {
+        //        return viewport_h_largeChange;
+        //    }
+        //}
+        //public override int HorizontalSmallChange
+        //{
+        //    get
+        //    {
+        //        return viewport_h_smallChange;
+        //    }
+        //}
 
 
         public override void WindowRootNotifyInvalidArea(InternalRect clientRect)
@@ -213,16 +213,16 @@ namespace LayoutFarm.Presentation
         {
             System.Drawing.Size innerContentSize = this.OwnerInnerContentSize;
 
-            viewport_v_largeChange = 32;
-            viewport_v_smallChange = viewport_v_largeChange / 4;
+            //viewport_v_largeChange = 32;
+            //viewport_v_smallChange = viewport_v_largeChange / 4;
 
-            viewport_h_largeChange = Width / 2;
-            viewport_h_smallChange = viewport_h_largeChange / 4;
+            //viewport_h_largeChange = Width / 2;
+            //viewport_h_smallChange = viewport_h_largeChange / 4;
 
 
             QuadPagesCalculateCanvas();
 
-            this.RaiseScrollChangedEvents(innerContentSize.Height > this.Height, innerContentSize.Width > this.Width);
+            //this.RaiseScrollChangedEvents(innerContentSize.Height > this.Height, innerContentSize.Width > this.Width);
 
         }
 

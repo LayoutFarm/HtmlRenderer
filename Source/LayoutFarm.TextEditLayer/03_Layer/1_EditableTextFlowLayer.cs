@@ -776,8 +776,8 @@ int ownerClientTop, VisualElementArgs vinv)
 
 
         void PerformHorizontalFlowArrange(
-int ownerClientLeft, int ownerClientWidth,
-int ownerClientTop, VisualElementArgs vinv)
+            int ownerClientLeft, int ownerClientWidth,
+            int ownerClientTop, VisualElementArgs vinv)
         {
             if (lineCollection == null)
             {

@@ -32,7 +32,7 @@ namespace LayoutFarm.Presentation.Text
 
     public sealed class TextSurfaceEventListener
     {
-        ArtVisualTextEditBox targetTextSurface;
+        TextEditRenderBox targetTextSurface;
         char[] previewKeyDownRegisterChars;
         public event EventHandler<TextDomEventArgs> PreviewArrowKeyDown;
         public event EventHandler<TextDomEventArgs> PreviewEnterKeyDown;
@@ -63,14 +63,14 @@ namespace LayoutFarm.Presentation.Text
                 previewKeyDownRegisterChars = value;
             }
         }
-        public ArtVisualTextEditBox TextSurfaceElement
+        public TextEditRenderBox TextSurfaceElement
         {
             get
             {
                 return targetTextSurface;
             }
         }
-        public void SetMonitoringTextSurface(ArtVisualTextEditBox textSurfaceElement)
+        public void SetMonitoringTextSurface(TextEditRenderBox textSurfaceElement)
         {
             this.targetTextSurface = textSurfaceElement;
         }

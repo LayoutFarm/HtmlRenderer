@@ -12,7 +12,7 @@ using LayoutFarm.Presentation.Text;
 namespace LayoutFarm.Presentation.Text
 {
 
-    public sealed partial class ArtVisualTextEditBox : MultiLayerRenderBox
+    public sealed partial class TextEditRenderBox : MultiLayerRenderBox
     {
 
         EditableTextFlowLayer textLayer; 
@@ -21,7 +21,7 @@ namespace LayoutFarm.Presentation.Text
         bool isMultiLine = false;
         bool isInVerticalPhase = false; 
 
-        public ArtVisualTextEditBox(int width, int height, bool isMultiLine) :
+        public TextEditRenderBox(int width, int height, bool isMultiLine) :
             base(width, height, ElementNature.TextEditContainer)
         {
             RegisterNativeEvent((1 << UIEventIdentifier.NE_DRAG_START)
@@ -72,7 +72,7 @@ namespace LayoutFarm.Presentation.Text
                 return this.internalTextLayerController.TextMan;
             }
         }
-        public static void NotifyTextContentSizeChanged(ArtVisualTextEditBox ts)
+        public static void NotifyTextContentSizeChanged(TextEditRenderBox ts)
         {
             ts.BoxEvaluateScrollBar();
         }

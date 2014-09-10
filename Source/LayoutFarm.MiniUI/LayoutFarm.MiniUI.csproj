@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArtUIElement\UIElement_EventListener.cs" />
+    <Compile Include="Events\ScrollSurfaceRequestEventArgs.cs" />
     <Compile Include="Events\UIDragEventArgs.cs" />
     <Compile Include="Events\UIEventArgs.cs" />
     <Compile Include="VisualRootImpl\0_MyRootWindowRenderBox.cs" />

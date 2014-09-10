@@ -16,11 +16,11 @@ namespace LayoutFarm.Presentation.SampleControls
     public class UITextBox : UIElement
     {
         RenderElement primaryVisualElement;
-        ArtVisualTextEditBox visualTextSurface;
+        TextEditRenderBox visualTextSurface;
         public UITextBox(int width, int height)
         {
 
-            visualTextSurface = new ArtVisualTextEditBox(width, height, false);
+            visualTextSurface = new TextEditRenderBox(width, height, false);
             visualTextSurface.SetStyleDefinition(textBoxRole, null);
             visualTextSurface.HasSpecificSize = true;
             visualTextSurface.SetController(this);
@@ -53,7 +53,7 @@ namespace LayoutFarm.Presentation.SampleControls
                 return this.visualTextSurface.TextDomListener;
             }
         }
-        public ArtVisualTextEditBox VisualTextSurface
+        public TextEditRenderBox VisualTextSurface
         {
             get
             {

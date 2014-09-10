@@ -10,8 +10,7 @@ namespace LayoutFarm.Presentation
 
     public class VisualPlainLayer : VisualLayer
     {
-
-        public event EventHandler ReArrangeContentRequest;
+   
 
         LinkedList<RenderElement> myElements = new LinkedList<RenderElement>();
         public VisualPlainLayer(MultiLayerRenderBox owner)
@@ -232,9 +231,7 @@ namespace LayoutFarm.Presentation
 #if DEBUG
             vinv.dbug_EnterLayerReArrangeContent(this);
 #endif
-            this.BeginLayerGraphicUpdate(vinv);
-
-
+            this.BeginLayerGraphicUpdate(vinv);  
 
             this.EndLayerGraphicUpdate(vinv);
 #if DEBUG

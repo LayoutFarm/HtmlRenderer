@@ -12,8 +12,8 @@ namespace LayoutFarm.Presentation.Text
     public class TextMan
     {
         InternalTextLayerController innerTextMan;
-        ArtVisualTextEditBox visualTextSurface;
-        internal TextMan(InternalTextLayerController innerTextMan, ArtVisualTextEditBox visualTextSurface)
+        TextEditRenderBox visualTextSurface;
+        internal TextMan(InternalTextLayerController innerTextMan, TextEditRenderBox visualTextSurface)
         {
             this.innerTextMan = innerTextMan;
             this.visualTextSurface = visualTextSurface;
@@ -71,7 +71,7 @@ namespace LayoutFarm.Presentation.Text
 
         BackGroundTextLineWriter backGroundTextLineWriter;
         TextLineWriter textLineWriter;
-        ArtVisualTextEditBox visualTextSurface;
+        TextEditRenderBox visualTextSurface;
 
         TextMan textMan;
 
@@ -81,7 +81,7 @@ namespace LayoutFarm.Presentation.Text
 #endif
 
         public InternalTextLayerController(
-            ArtVisualTextEditBox visualTextSurface,
+            TextEditRenderBox visualTextSurface,
             EditableTextFlowLayer textLayer)
         {
 
@@ -262,7 +262,7 @@ namespace LayoutFarm.Presentation.Text
                     textLineWriter.CharIndex = startPointCharIndex;
                 }
             }
-            CancelSelect(); ArtVisualTextEditBox.NotifyTextContentSizeChanged(visualTextSurface);
+            CancelSelect(); TextEditRenderBox.NotifyTextContentSizeChanged(visualTextSurface);
 
 #if DEBUG
             if (dbugEnableTextManRecorder)
@@ -306,7 +306,7 @@ namespace LayoutFarm.Presentation.Text
 
             updateJustCurrentLine = false;
 
-            ArtVisualTextEditBox.NotifyTextContentSizeChanged(visualTextSurface);
+            TextEditRenderBox.NotifyTextContentSizeChanged(visualTextSurface);
         }
 
 
@@ -559,7 +559,7 @@ namespace LayoutFarm.Presentation.Text
         void JoinWithNextLine()
         {
             textLineWriter.JoinWithNextLine();
-            ArtVisualTextEditBox.NotifyTextContentSizeChanged(visualTextSurface);
+            TextEditRenderBox.NotifyTextContentSizeChanged(visualTextSurface);
         }
         public void UndoLastAction(VisualElementArgs vinv)
         {

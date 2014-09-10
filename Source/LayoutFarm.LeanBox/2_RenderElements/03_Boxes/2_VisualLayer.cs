@@ -118,17 +118,17 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public ArtAlignment ContentAlignment
-        {
-            get
-            {
-                return (ArtAlignment)((layerFlags >> 11) & 0x3);
-            }
-            set
-            {
-                layerFlags = (layerFlags & ~(0x3 << 11)) | ((int)value << 11);
-            }
-        }
+        //public ArtAlignment ContentAlignment
+        //{
+        //    get
+        //    {
+        //        return (ArtAlignment)((layerFlags >> 11) & 0x3);
+        //    }
+        //    set
+        //    {
+        //        layerFlags = (layerFlags & ~(0x3 << 11)) | ((int)value << 11);
+        //    }
+        //}
 
 
         public Size PostCalculateContentSize

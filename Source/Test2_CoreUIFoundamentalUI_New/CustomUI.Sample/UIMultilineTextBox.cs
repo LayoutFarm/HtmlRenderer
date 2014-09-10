@@ -17,11 +17,11 @@ namespace LayoutFarm.Presentation.SampleControls
     public class UIMultiLineTextBox : UIElement
     {
         RenderElement primaryVisualElement;
-        ArtVisualTextEditBox visualTextEdit; 
+        TextEditRenderBox visualTextEdit; 
         public UIMultiLineTextBox(int width, int height, bool multiline)
         {
                  
-            visualTextEdit = new ArtVisualTextEditBox(width, height, multiline);
+            visualTextEdit = new TextEditRenderBox(width, height, multiline);
             visualTextEdit.SetStyleDefinition(textBoxRole, null);
             visualTextEdit.HasSpecificSize = true;
             this.SetPrimaryVisualElement(visualTextEdit);

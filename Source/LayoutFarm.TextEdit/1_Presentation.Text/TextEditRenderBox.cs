@@ -8,16 +8,36 @@ namespace LayoutFarm.Presentation.Text
 {
 
 
-    partial class ArtVisualTextEditBox
+    partial class TextEditRenderBox
     {
-
+        RenderSurfaceScrollRelation scrollRelation;
+        CustomRenderSurface vscrollableSurface;
         public CustomRenderSurface ScrollableSurface
         {
             get { return this.vscrollableSurface; }
             set { this.vscrollableSurface = value; }
         }
-
-
+        public RenderSurfaceScrollRelation ScrollRelation
+        {
+            get { return this.scrollRelation; }
+            set { this.scrollRelation = value; }
+        }
+   
+        public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
+        {
+            if (vscrollableSurface != null)
+            {
+                vscrollableSurface.DrawToThisPage(canvasPage, updateArea);
+            }
+            base.CustomDrawToThisPage(canvasPage, updateArea);
+        }
+        internal void BoxEvaluateScrollBar()
+        {
+            if (vscrollableSurface != null)
+            {
+                vscrollableSurface.ConfirmSizeChanged();
+            }
+        }
         public void ScrollToNotRaiseEvent(int x, int y, VisualElementArgs vinv)
         {
 
@@ -95,12 +115,12 @@ namespace LayoutFarm.Presentation.Text
             }
             else
             {
-                if (ViewportX != x && vscrollableSurface.HasHScrollChanged)
+                if (ViewportX != x && scrollRelation.HasHScrollChanged)
                 {
                     hScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, this.ViewportX, x, UIScrollOrientation.HorizontalScroll);
 
                 }
-                if (ViewportY != y && vscrollableSurface.HasVScrollChanged)
+                if (ViewportY != y && scrollRelation.HasVScrollChanged)
                 {
                     vScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, this.ViewportY, y, UIScrollOrientation.VerticalScroll);
                 }
@@ -132,7 +152,7 @@ namespace LayoutFarm.Presentation.Text
                     ViewportY += dy;
                 }
 
-                if (this.vscrollableSurface != null && vscrollableSurface.HasVScrollChanged)
+                if (this.vscrollableSurface != null && scrollRelation.HasVScrollChanged)
                 {
                     vScrollEventArgs = new UIScrollEventArgs(
                         UIScrollEventType.ThumbPosition,
@@ -157,7 +177,7 @@ namespace LayoutFarm.Presentation.Text
 
                     this.ViewportY += dy;
                 }
-                if (vscrollableSurface != null && vscrollableSurface.HasVScrollChanged)
+                if (vscrollableSurface != null && scrollRelation.HasVScrollChanged)
                 {
                     vScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, old_y, this.ViewportY, UIScrollOrientation.VerticalScroll);
 
@@ -189,7 +209,7 @@ namespace LayoutFarm.Presentation.Text
                 {
                     ViewportX += dx;
                 }
-                if (vscrollableSurface != null && vscrollableSurface.HasHScrollChanged)
+                if (vscrollableSurface != null && scrollRelation.HasHScrollChanged)
                 {
                     hScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, old_x, ViewportX, UIScrollOrientation.HorizontalScroll);
 
@@ -207,7 +227,7 @@ namespace LayoutFarm.Presentation.Text
                 {
                     ViewportX += dx;
                 }
-                if (vscrollableSurface != null && vscrollableSurface.HasHScrollChanged)
+                if (vscrollableSurface != null && scrollRelation.HasHScrollChanged)
                 {
                     hScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition,
                         old_x, this.ViewportX, UIScrollOrientation.HorizontalScroll);
@@ -224,7 +244,6 @@ namespace LayoutFarm.Presentation.Text
         }
         void MyScrollBy(int dx, int dy, VisualElementArgs vinv)
         {
-
             if (dy == 0 && dx == 0)
             {
                 return;
@@ -235,7 +254,7 @@ namespace LayoutFarm.Presentation.Text
             MyScrollByNotRaiseEvent(dx, dy, out hScrollEventArgs, out vScrollEventArgs);
             if (vscrollableSurface != null)
             {
-                vscrollableSurface.RaiseProperEvents(hScrollEventArgs, vScrollEventArgs);
+                scrollRelation.RaiseProperEvents(hScrollEventArgs, vScrollEventArgs);
                 this.InvalidateGraphic(vinv);
                 vscrollableSurface.FullModeUpdate = false;
             }
@@ -243,9 +262,6 @@ namespace LayoutFarm.Presentation.Text
             {
                 this.InvalidateGraphic(vinv);
             }
-
-
-
         }
         void MyScrollTo(int x, int y, VisualElementArgs vinv)
         {
@@ -260,7 +276,7 @@ namespace LayoutFarm.Presentation.Text
 
             if (vscrollableSurface != null)
             {
-                vscrollableSurface.RaiseProperEvents(hScrollEventArgs, vScrollEventArgs);
+                scrollRelation.RaiseProperEvents(hScrollEventArgs, vScrollEventArgs);
             }
         }
         public int HorizontalLargeChange
@@ -270,7 +286,7 @@ namespace LayoutFarm.Presentation.Text
 
                 if (vscrollableSurface != null)
                 {
-                    return vscrollableSurface.HorizontalLargeChange;
+                    return scrollRelation.HorizontalLargeChange;
                 }
                 else
                 {
@@ -284,7 +300,7 @@ namespace LayoutFarm.Presentation.Text
             {
                 if (vscrollableSurface != null)
                 {
-                    return vscrollableSurface.HorizontalSmallChange;
+                    return scrollRelation.HorizontalSmallChange;
                 }
                 else
                 {
@@ -298,7 +314,7 @@ namespace LayoutFarm.Presentation.Text
             {
                 if (vscrollableSurface != null)
                 {
-                    return vscrollableSurface.VerticalLargeChange;
+                    return scrollRelation.VerticalLargeChange;
                 }
                 else
                 {
@@ -312,7 +328,7 @@ namespace LayoutFarm.Presentation.Text
             {
                 if (vscrollableSurface != null)
                 {
-                    return vscrollableSurface.VerticalSmallChange;
+                    return scrollRelation.VerticalSmallChange;
                 }
                 else
                 {
@@ -326,32 +342,33 @@ namespace LayoutFarm.Presentation.Text
         {
             if (vscrollableSurface != null)
             {
-                vscrollableSurface.VScrollChanged += vscrollChanged;
-                vscrollableSurface.VScrollRequest += vscrollSupport;
+
+                scrollRelation.VScrollChanged += vscrollChanged;
+                scrollRelation.VScrollRequest += vscrollSupport;
             }
         }
         public void RemoveVScrollHandler(EventHandler<UIScrollEventArgs> vscrollChanged, EventHandler<ScrollSurfaceRequestEventArgs> vscrollSupport)
         {
             if (vscrollableSurface != null)
             {
-                vscrollableSurface.VScrollChanged -= vscrollChanged;
-                vscrollableSurface.VScrollRequest -= vscrollSupport;
+                scrollRelation.VScrollChanged -= vscrollChanged;
+                scrollRelation.VScrollRequest -= vscrollSupport;
             }
         }
         public void AddHScrollHandler(EventHandler<UIScrollEventArgs> hscrollChanged, EventHandler<ScrollSurfaceRequestEventArgs> hscrollSupport)
         {
             if (vscrollableSurface != null)
             {
-                vscrollableSurface.HScrollChanged += hscrollChanged;
-                vscrollableSurface.HScrollRequest += hscrollSupport;
+                scrollRelation.HScrollChanged += hscrollChanged;
+                scrollRelation.HScrollRequest += hscrollSupport;
             }
         }
         public void RemoveHScrollHandler(EventHandler<UIScrollEventArgs> hscrollChanged, EventHandler<ScrollSurfaceRequestEventArgs> hscrollSupport)
         {
             if (vscrollableSurface != null)
             {
-                vscrollableSurface.HScrollChanged -= hscrollChanged;
-                vscrollableSurface.HScrollRequest -= hscrollSupport;
+                scrollRelation.HScrollChanged -= hscrollChanged;
+                scrollRelation.HScrollRequest -= hscrollSupport;
             }
         }
         public void ScrollTo(int x, int y, VisualElementArgs vinv)

@@ -111,7 +111,7 @@ namespace LayoutFarm.Presentation.Text
                     textLineWriter.LineNumber, textLineWriter.CharIndex));
 
             updateJustCurrentLine = false;
-            ArtVisualTextEditBox.NotifyTextContentSizeChanged(visualTextSurface);
+            TextEditRenderBox.NotifyTextContentSizeChanged(visualTextSurface);
 
         }
 
@@ -123,7 +123,7 @@ namespace LayoutFarm.Presentation.Text
         {
             CancelSelect();
             textLineWriter.Clear();
-            ArtVisualTextEditBox.NotifyTextContentSizeChanged(visualTextSurface);
+            TextEditRenderBox.NotifyTextContentSizeChanged(visualTextSurface);
         }
 
 
