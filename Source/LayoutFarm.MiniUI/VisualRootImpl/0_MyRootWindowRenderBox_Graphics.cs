@@ -14,7 +14,7 @@ using LayoutFarm.Presentation;
 namespace LayoutFarm.Presentation
 {
 
-    partial class RootWindowRenderBoxImpl
+    partial class MyRootWindowRenderBox
     {
 
 

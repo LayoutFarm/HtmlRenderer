@@ -63,11 +63,11 @@
     <Compile Include="1_VisualPresentation\01_CoreRenderElement\ElementNature.cs" />
     <Compile Include="1_VisualPresentation\01_CoreRenderElement\IParentLink.cs" />
     <Compile Include="1_VisualPresentation\01_CoreRenderElement\x_RenderElement.debug.cs" />
-    <Compile Include="1_VisualPresentation\03_MultiLayerBox\1_MultiLayerRenderBox.cs" />
-    <Compile Include="1_VisualPresentation\03_MultiLayerBox\1_MultiLayerRenderBox_Scroll.cs" />
+    <Compile Include="1_VisualPresentation\03_MultiLayerRenderBox\1_MultiLayerRenderBox.cs" />
+    <Compile Include="1_VisualPresentation\03_MultiLayerRenderBox\1_MultiLayerRenderBox_Scroll.cs" />
     <Compile Include="2_VisualPresentationBase\1_ScrollableSurface.cs" />
-    <Compile Include="1_VisualPresentation\03_MultiLayerBox\2_VisualLayer.cs" />
-    <Compile Include="1_VisualPresentation\03_MultiLayerBox\4_VisualPlainLayer.cs" />
+    <Compile Include="1_VisualPresentation\03_MultiLayerRenderBox\2_VisualLayer.cs" />
+    <Compile Include="1_VisualPresentation\03_MultiLayerRenderBox\4_VisualPlainLayer.cs" />
     <Compile Include="1_VisualPresentation\06_HitTest\HitPointChain.cs" />
     <Compile Include="5_debug\dbugHitTracker.cs" />
     <Compile Include="1_VisualPresentation\02_Styles\ArtAlignment.cs" />

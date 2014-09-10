@@ -12,7 +12,7 @@ using LayoutFarm.Presentation;
 namespace LayoutFarm.Presentation
 {
 #if DEBUG
-    partial class RootWindowRenderBoxImpl
+    partial class MyRootWindowRenderBox
     {
 #if DEBUG
         public static bool dbugMark01;

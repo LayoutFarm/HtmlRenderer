@@ -24,7 +24,7 @@ namespace LayoutFarm.Presentation
             }
 
         }
-        public void SetEnable(bool value, RootWindowRenderBoxImpl winroot)
+        public void SetEnable(bool value, MyRootWindowRenderBox winroot)
         {
             isEnabled = value;
             if (isEnabled)

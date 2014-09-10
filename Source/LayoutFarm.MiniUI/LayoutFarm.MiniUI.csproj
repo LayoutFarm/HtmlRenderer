@@ -44,10 +44,10 @@
     <Compile Include="ArtUIElement\UIElement_EventListener.cs" />
     <Compile Include="Events\UIDragEventArgs.cs" />
     <Compile Include="Events\UIEventArgs.cs" />
-    <Compile Include="VisualRootImpl\0_VisualRootWindow.cs" />
-    <Compile Include="VisualRootImpl\0_VisualRootWindow_.cs" />
-    <Compile Include="VisualRootImpl\0_VisualRootWindow_dbug.cs" />
-    <Compile Include="VisualRootImpl\0_VisualRootWindow_Graphics.cs" />
+    <Compile Include="VisualRootImpl\0_MyRootWindowRenderBox.cs" />
+    <Compile Include="VisualRootImpl\0_MyRootWindowRenderBox_p2.cs" />
+    <Compile Include="VisualRootImpl\0_MyRootWindowRenderBox_dbug.cs" />
+    <Compile Include="VisualRootImpl\0_MyRootWindowRenderBox_Graphics.cs" />
     <Compile Include="VisualRootImpl\1_VisualRootTasks.cs" />
     <Compile Include="VisualRootImpl\UIEventIdentifier.cs" />
     <Compile Include="VisualRootImpl\CanvasEventStock.cs" />

@@ -20,7 +20,7 @@ namespace LayoutFarm.Presentation
              
             //----------------------
             var visualRoot = new RenderRootElement();
-            var windowRoot = new RootWindowRenderBoxImpl(visualRoot, form1.Width, form1.Height);
+            var windowRoot = new MyRootWindowRenderBox(visualRoot, form1.Width, form1.Height);
              
 
             canvasViewport.SetupWindowRoot(windowRoot);
