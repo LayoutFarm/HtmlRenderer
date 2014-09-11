@@ -74,7 +74,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public virtual void SetStyle(TextRunStyle newbeh, VisualElementArgs vinv)
+        public virtual void SetStyle(TextRunStyle newbeh, LayoutPhaseVisitor vinv)
         {
 
             TextRunStyle beh = (TextRunStyle)newbeh;
@@ -112,7 +112,7 @@ namespace LayoutFarm.Presentation
 
             UpdateRunWidth(vinv);
         }
-        protected void UpdateRunWidth(VisualElementArgs vinv)
+        protected void UpdateRunWidth(LayoutPhaseVisitor vinv)
         {
             Size size;
             if (IsLineBreak)
@@ -279,7 +279,7 @@ namespace LayoutFarm.Presentation
             return "[" + this.dbug_obj_id + "]" + Text;
         }
 #endif
-        public static void InnerTextRunTopDownReCalculateContentSize(VisualTextRun ve, VisualElementArgs vinv)
+        public static void InnerTextRunTopDownReCalculateContentSize(VisualTextRun ve, LayoutPhaseVisitor vinv)
         {
 #if DEBUG
             vinv.dbug_EnterTopDownReCalculateContent(ve);
@@ -291,7 +291,7 @@ namespace LayoutFarm.Presentation
             vinv.dbug_ExitTopDownReCalculateContent(ve);
 #endif
         }
-        public override void TopDownReCalculateContentSize(VisualElementArgs vinv)
+        public override void TopDownReCalculateContentSize(LayoutPhaseVisitor vinv)
         {
             InnerTextRunTopDownReCalculateContentSize(this, vinv);
         }

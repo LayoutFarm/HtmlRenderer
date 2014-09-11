@@ -63,7 +63,7 @@ namespace LayoutFarm.Presentation.Text
                 vscrollableSurface.ConfirmSizeChanged();
             }
         }
-        public void ScrollToNotRaiseEvent(int x, int y, VisualElementArgs vinv)
+        public void ScrollToNotRaiseEvent(int x, int y, LayoutPhaseVisitor vinv)
         {
 
             if (!this.IsScrollable)
@@ -74,7 +74,7 @@ namespace LayoutFarm.Presentation.Text
 
         }
 
-        public void MyScrollToNotRaiseEvent(int x, int y, VisualElementArgs vinv)
+        public void MyScrollToNotRaiseEvent(int x, int y, LayoutPhaseVisitor vinv)
         {
             if (y == this.ViewportY && x == this.ViewportX)
             {
@@ -92,7 +92,7 @@ namespace LayoutFarm.Presentation.Text
         void MyScrollToNotRaiseEvent(int x, int y,
             out UIScrollEventArgs hScrollEventArgs,
             out UIScrollEventArgs vScrollEventArgs,
-            VisualElementArgs vinv)
+            LayoutPhaseVisitor vinv)
         {
             hScrollEventArgs = null;
             vScrollEventArgs = null;
@@ -267,7 +267,7 @@ namespace LayoutFarm.Presentation.Text
                 vscrollableSurface.FullModeUpdate = true;
             }
         }
-        void MyScrollBy(int dx, int dy, VisualElementArgs vinv)
+        void MyScrollBy(int dx, int dy, LayoutPhaseVisitor vinv)
         {
             if (dy == 0 && dx == 0)
             {
@@ -288,7 +288,7 @@ namespace LayoutFarm.Presentation.Text
                 this.InvalidateGraphic(vinv);
             }
         }
-        void MyScrollTo(int x, int y, VisualElementArgs vinv)
+        void MyScrollTo(int x, int y, LayoutPhaseVisitor vinv)
         {
             if (y == this.ViewportY && x == this.ViewportX)
             {
@@ -396,7 +396,7 @@ namespace LayoutFarm.Presentation.Text
                 scrollRelation.HScrollRequest -= hscrollSupport;
             }
         }
-        public void ScrollTo(int x, int y, VisualElementArgs vinv)
+        public void ScrollTo(int x, int y, LayoutPhaseVisitor vinv)
         {
             if (!this.IsScrollable)
             {
@@ -404,7 +404,7 @@ namespace LayoutFarm.Presentation.Text
             }
             MyScrollTo(x, y, vinv);
         }
-        public void ScrollBy(int dx, int dy, VisualElementArgs vinv)
+        public void ScrollBy(int dx, int dy, LayoutPhaseVisitor vinv)
         {
             if (!this.IsScrollable)
             {

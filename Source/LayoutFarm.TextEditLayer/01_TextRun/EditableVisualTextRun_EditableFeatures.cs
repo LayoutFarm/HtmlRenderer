@@ -11,7 +11,7 @@ namespace LayoutFarm.Presentation.Text
 
     partial class EditableVisualTextRun
     {
-        internal EditableVisualTextRun Remove(int startIndex, int length, bool withFreeRun, VisualElementArgs vinv)
+        internal EditableVisualTextRun Remove(int startIndex, int length, bool withFreeRun, LayoutPhaseVisitor vinv)
         {
             EditableVisualTextRun freeRun = null;
             if (startIndex > -1 && length > 0)
@@ -42,11 +42,11 @@ namespace LayoutFarm.Presentation.Text
                 return null;
             }
         }
-        public static EditableVisualTextRun InnerRemove(EditableVisualTextRun tt, int startIndex, int length, bool withFreeRun, VisualElementArgs vinv)
+        public static EditableVisualTextRun InnerRemove(EditableVisualTextRun tt, int startIndex, int length, bool withFreeRun, LayoutPhaseVisitor vinv)
         {
             return tt.Remove(startIndex, length, withFreeRun, vinv);
         }
-        public static EditableVisualTextRun InnerRemove(EditableVisualTextRun tt, int startIndex, bool withFreeRun, VisualElementArgs vinv)
+        public static EditableVisualTextRun InnerRemove(EditableVisualTextRun tt, int startIndex, bool withFreeRun, LayoutPhaseVisitor vinv)
         {
 
             return tt.Remove(startIndex, tt.CharacterCount - (startIndex), withFreeRun, vinv);
@@ -112,7 +112,7 @@ namespace LayoutFarm.Presentation.Text
                 return null;
             }
         }
-        public void InsertAfter(int index, char c, VisualElementArgs vinv)
+        public void InsertAfter(int index, char c, LayoutPhaseVisitor vinv)
         {
             int oldLexLength = mybuffer.Length; char[] newBuff = new char[oldLexLength + 1];
             if (index > -1 && index < mybuffer.Length - 1)

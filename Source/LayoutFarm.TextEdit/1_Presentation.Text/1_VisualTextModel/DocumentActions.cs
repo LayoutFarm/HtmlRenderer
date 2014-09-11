@@ -17,9 +17,9 @@ namespace LayoutFarm.Presentation.Text
             this.startCharIndex = charIndex;
         }
 
-        public abstract void InvokeUndo(InternalTextLayerController textdom, VisualElementArgs vinv);
+        public abstract void InvokeUndo(InternalTextLayerController textdom, LayoutPhaseVisitor vinv);
 
-        public abstract void InvokeRedo(InternalTextLayerController textdom, VisualElementArgs vinv);
+        public abstract void InvokeRedo(InternalTextLayerController textdom, LayoutPhaseVisitor vinv);
 
     }
 
@@ -32,13 +32,13 @@ namespace LayoutFarm.Presentation.Text
             this.c = c;
         }
 
-        public override void InvokeUndo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeUndo(InternalTextLayerController textdom, LayoutPhaseVisitor vinv)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
             textdom.DoBackspace(vinv);
         }
-        public override void InvokeRedo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeRedo(InternalTextLayerController textdom, LayoutPhaseVisitor vinv)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
@@ -52,13 +52,13 @@ namespace LayoutFarm.Presentation.Text
             : base(lineNumber, charIndex)
         {
         }
-        public override void InvokeUndo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeUndo(InternalTextLayerController textdom, LayoutPhaseVisitor vinv)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.DoEnd();
             textdom.DoDelete(vinv);
         }
-        public override void InvokeRedo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeRedo(InternalTextLayerController textdom, LayoutPhaseVisitor vinv)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
@@ -71,13 +71,13 @@ namespace LayoutFarm.Presentation.Text
             : base(lineNumber, charIndex)
         {
         }
-        public override void InvokeUndo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeUndo(InternalTextLayerController textdom, LayoutPhaseVisitor vinv)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
             textdom.SplitCurrentLineIntoNewLine(vinv);
         }
-        public override void InvokeRedo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeRedo(InternalTextLayerController textdom, LayoutPhaseVisitor vinv)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
@@ -94,13 +94,13 @@ namespace LayoutFarm.Presentation.Text
         {
             this.c = c;
         }
-        public override void InvokeUndo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeUndo(InternalTextLayerController textdom, LayoutPhaseVisitor vinv)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
             textdom.AddCharToCurrentLine(c, vinv);
         }
-        public override void InvokeRedo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeRedo(InternalTextLayerController textdom, LayoutPhaseVisitor vinv)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
@@ -121,11 +121,11 @@ namespace LayoutFarm.Presentation.Text
             this.endCharIndex = endColumnNum;
         }
 
-        public override void InvokeUndo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeUndo(InternalTextLayerController textdom, LayoutPhaseVisitor vinv)
         {
             textdom.CancelSelect(); textdom.AddTextRunsToCurrentLine(deletedTextRuns, vinv);
         }
-        public override void InvokeRedo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeRedo(InternalTextLayerController textdom, LayoutPhaseVisitor vinv)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
@@ -150,7 +150,7 @@ namespace LayoutFarm.Presentation.Text
             this.endLineNumber = endLineNumber;
             this.endCharIndex = endCharIndex;
         }
-        public override void InvokeUndo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeUndo(InternalTextLayerController textdom, LayoutPhaseVisitor vinv)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
@@ -160,7 +160,7 @@ namespace LayoutFarm.Presentation.Text
 
             textdom.DoDelete(vinv);
         }
-        public override void InvokeRedo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeRedo(InternalTextLayerController textdom, LayoutPhaseVisitor vinv)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
@@ -181,7 +181,7 @@ namespace LayoutFarm.Presentation.Text
         }
 
 
-        public override void InvokeUndo(InternalTextLayerController textMan, VisualElementArgs vinv)
+        public override void InvokeUndo(InternalTextLayerController textMan, LayoutPhaseVisitor vinv)
         {
             textMan.CurrentLineNumber = startLineNumber;
             textMan.CharIndex = startCharIndex;
@@ -190,7 +190,7 @@ namespace LayoutFarm.Presentation.Text
             textMan.CharIndex = endCharIndex;
             textMan.EndSelect();
         }
-        public override void InvokeRedo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeRedo(InternalTextLayerController textdom, LayoutPhaseVisitor vinv)
         {
         }
     }
@@ -251,7 +251,7 @@ namespace LayoutFarm.Presentation.Text
                 undoList.RemoveFirst();
             }
         }
-        public void UndoLastAction(VisualElementArgs vinv)
+        public void UndoLastAction(LayoutPhaseVisitor vinv)
         {
             DocumentAction docAction = PopUndoCommand();
             if (docAction != null)
@@ -262,7 +262,7 @@ namespace LayoutFarm.Presentation.Text
                 reverseUndoAction.Push(docAction);
             }
         }
-        public void ReverseLastUndoAction(VisualElementArgs vinv)
+        public void ReverseLastUndoAction(LayoutPhaseVisitor vinv)
         {
             if (reverseUndoAction.Count > 0)
             {

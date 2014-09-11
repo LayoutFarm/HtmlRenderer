@@ -115,15 +115,15 @@ namespace LayoutFarm.Presentation
 
 
 
-        protected static void InnerDoTopDownReCalculateContentSize(RenderBoxBase containerBase, VisualElementArgs vinv)
+        protected static void InnerDoTopDownReCalculateContentSize(RenderBoxBase containerBase, LayoutPhaseVisitor vinv)
         {
             containerBase.TopDownReCalculateContentSize(vinv);
         }
-        protected static void InnerTopDownReArrangeContentIfNeed(RenderBoxBase containerBase, VisualElementArgs vinv)
+        protected static void InnerTopDownReArrangeContentIfNeed(RenderBoxBase containerBase, LayoutPhaseVisitor vinv)
         {
             containerBase.TopDownReArrangeContentIfNeed(vinv);
         }
-        public override sealed void TopDownReCalculateContentSize(VisualElementArgs vinv)
+        public override sealed void TopDownReCalculateContentSize(LayoutPhaseVisitor vinv)
         {
 
             if (!vinv.ForceReArrange && this.HasCalculatedSize)
@@ -177,7 +177,7 @@ namespace LayoutFarm.Presentation
 
 
 
-        public void ForceTopDownReArrangeContent(VisualElementArgs vinv)
+        public void ForceTopDownReArrangeContent(LayoutPhaseVisitor vinv)
         {
 
 #if DEBUG
@@ -199,7 +199,7 @@ namespace LayoutFarm.Presentation
 #endif
         }
 
-        public void TopDownReArrangeContentIfNeed(VisualElementArgs vinv)
+        public void TopDownReArrangeContentIfNeed(LayoutPhaseVisitor vinv)
         {
 #if DEBUG
             bool isIncr = false;

@@ -11,9 +11,9 @@ using LayoutFarm.Presentation;
 namespace LayoutFarm.Presentation
 {
     partial class RenderElement
-    { 
+    {
 
-        public static void InvalidateGraphicLocalArea(RenderElement ve, Rectangle localArea, VisualElementArgs vinv)
+        public static void InvalidateGraphicLocalArea(RenderElement ve, Rectangle localArea, LayoutPhaseVisitor vinv)
         {
             if (localArea.Height == 0 || localArea.Width == 0)
             {
@@ -38,7 +38,7 @@ namespace LayoutFarm.Presentation
 #endif
             }
         }
-        public void InvalidateGraphic(VisualElementArgs vinv)
+        public void InvalidateGraphic(LayoutPhaseVisitor vinv)
         {
             uiFlags &= ~IS_GRAPHIC_VALID;
 
@@ -55,7 +55,9 @@ namespace LayoutFarm.Presentation
             vinv.AddInvalidateRequest(this, internalRect);
             InternalRect.FreeInternalRect(internalRect);
         }
-        public void BeginGraphicUpdate(VisualElementArgs vinv)
+      
+      
+        public void BeginGraphicUpdate(LayoutPhaseVisitor vinv)
         {
             InvalidateGraphic(vinv);
 
@@ -70,10 +72,10 @@ namespace LayoutFarm.Presentation
             }
             this.uiLayoutFlags |= LY_SUSPEND_GRAPHIC;
         }
-
-        public void EndGraphicUpdate(VisualElementArgs vinv)
+        public void EndGraphicUpdate(LayoutPhaseVisitor vinv)
         {
-            this.uiLayoutFlags &= ~LY_SUSPEND_GRAPHIC; InvalidateGraphic(vinv);
+            this.uiLayoutFlags &= ~LY_SUSPEND_GRAPHIC;
+            InvalidateGraphic(vinv);
             TopWindowRenderBox winroot = vinv.WinRoot;
             if (winroot != null)
             {
@@ -84,7 +86,8 @@ namespace LayoutFarm.Presentation
 
             }
         }
-        void BeforeBoundChangedInvalidateGraphics(VisualElementArgs vinv)
+         
+        void BeforeBoundChangedInvalidateGraphics(LayoutPhaseVisitor vinv)
         {
             if (vinv != null)
             {
@@ -102,7 +105,7 @@ namespace LayoutFarm.Presentation
             }
             this.uiLayoutFlags |= LY_SUSPEND_GRAPHIC;
         }
-        void AfterBoundChangedInvalidateGraphics(VisualElementArgs vinv)
+        void AfterBoundChangedInvalidateGraphics(LayoutPhaseVisitor vinv)
         {
             this.uiLayoutFlags &= ~LY_SUSPEND_GRAPHIC; if (vinv != null)
             {

@@ -217,7 +217,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        internal void Remove(VisualSelectionRange selectionRange, VisualElementArgs vinv)
+        internal void Remove(VisualSelectionRange selectionRange, LayoutPhaseVisitor vinv)
         {
             EditableVisualPointInfo startPoint = selectionRange.StartPoint;
             EditableVisualPointInfo endPoint = selectionRange.EndPoint;

@@ -151,11 +151,11 @@ namespace LayoutFarm.Presentation
          
         TopWindowRenderBox winRoot;
 
-        public VisualElementArgs GetVisualInvalidateCanvasArgs()
+        public LayoutPhaseVisitor GetVisualInvalidateCanvasArgs()
         {
             return winRoot.GetVInv();
         }
-        public void FreeVisualInvalidateCanvasArgs(VisualElementArgs vinv)
+        public void FreeVisualInvalidateCanvasArgs(LayoutPhaseVisitor vinv)
         {
             winRoot.FreeVInv(vinv);
         }

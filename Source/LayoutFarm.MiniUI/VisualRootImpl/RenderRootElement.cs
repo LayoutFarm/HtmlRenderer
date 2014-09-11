@@ -12,7 +12,7 @@ namespace LayoutFarm.Presentation
 #endif
     {
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
-        static Stack<VisualElementArgs> visualArgStack = new Stack<VisualElementArgs>();
+        static Stack<LayoutPhaseVisitor> visualArgStack = new Stack<LayoutPhaseVisitor>();
 
 
         public RenderRootElement()
@@ -46,23 +46,23 @@ namespace LayoutFarm.Presentation
             caretOwner = owner;
             localCaretPos = p;
         }
-        public static VisualElementArgs GetVisualInvalidateArgs(TopWindowRenderBox winroot)
+        public static LayoutPhaseVisitor GetVisualInvalidateArgs(TopWindowRenderBox winroot)
         {
             if (visualArgStack.Count > 0)
             {
-                VisualElementArgs vinv = visualArgStack.Pop();
+                LayoutPhaseVisitor vinv = visualArgStack.Pop();
                 vinv.SetWinRoot(winroot);
                 return vinv;
             }
             else
             {
-                return new VisualElementArgs(winroot);
+                return new LayoutPhaseVisitor(winroot);
             }
         }
 
-        public static void FreeVisualInvalidateArgs(VisualElementArgs vinv)
+        public static void FreeVisualInvalidateArgs(LayoutPhaseVisitor vinv)
         {
-            VisualElementArgs.ClearForReuse(vinv);
+            LayoutPhaseVisitor.ClearForReuse(vinv);
             visualArgStack.Push(vinv);
         }
 
@@ -100,7 +100,7 @@ namespace LayoutFarm.Presentation
                             if (ve.WinRoot != null)
                             {
                                 ve.WinRoot.CurrentKeyboardFocusedElement = ve;
-                                VisualElementArgs vinv = ve.GetVInv();
+                                LayoutPhaseVisitor vinv = ve.GetVInv();
                                 ve.InvalidateGraphic(vinv);
                                 ve.FreeVInv(vinv);
                             }

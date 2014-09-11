@@ -13,7 +13,7 @@ namespace LayoutFarm.Presentation.Text
     partial class InternalTextLayerController
     {
 
-        public VisualSelectionRangeSnapShot DoDelete(VisualElementArgs vinv)
+        public VisualSelectionRangeSnapShot DoDelete(LayoutPhaseVisitor vinv)
         {
 
 #if DEBUG
@@ -60,7 +60,7 @@ new DocActionDeleteChar(deletedChar, textLineWriter.LineNumber, textLineWriter.C
 #if DEBUG
         int dbug_BackSpaceCount = 0;
 #endif
-        public bool DoBackspace(VisualElementArgs vinv)
+        public bool DoBackspace(LayoutPhaseVisitor vinv)
         {
 
 

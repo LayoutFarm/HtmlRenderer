@@ -43,7 +43,7 @@ namespace LayoutFarm.Presentation.Text
             textLineWriter.MoveToLine(0);
         }
 
-        public void ReplaceCurrentTextRunContent(int nBackSpace, EditableVisualTextRun newTextRun, VisualElementArgs vinv)
+        public void ReplaceCurrentTextRunContent(int nBackSpace, EditableVisualTextRun newTextRun, LayoutPhaseVisitor vinv)
         {
             if (newTextRun != null)
             {
@@ -66,7 +66,7 @@ namespace LayoutFarm.Presentation.Text
 
         }
 
-        public void ReplaceCurrentTextRunContent(int nBackSpace, string content, VisualElementArgs vinv)
+        public void ReplaceCurrentTextRunContent(int nBackSpace, string content, LayoutPhaseVisitor vinv)
         {
             if (content != null)
             {
@@ -85,7 +85,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        public void AddTextRunsToCurrentLine(IEnumerable<EditableVisualTextRun> textRuns, VisualElementArgs vinv)
+        public void AddTextRunsToCurrentLine(IEnumerable<EditableVisualTextRun> textRuns, LayoutPhaseVisitor vinv)
         {
             RemoveSelectedText(vinv);
             int startLineNum = textLineWriter.LineNumber;

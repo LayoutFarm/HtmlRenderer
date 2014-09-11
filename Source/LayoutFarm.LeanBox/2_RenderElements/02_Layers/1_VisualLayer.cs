@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
- 
+
 namespace LayoutFarm.Presentation
-{ 
+{
     public abstract class VisualLayer
     {
 
@@ -34,7 +34,7 @@ namespace LayoutFarm.Presentation
         public readonly RenderElement ownerVisualElement;
 
         int postCalculateContentWidth;
-        int postCalculateContentHeight; 
+        int postCalculateContentHeight;
 
 
         protected VisualLayer(RenderBoxBase owner)
@@ -114,7 +114,7 @@ namespace LayoutFarm.Presentation
                     layerFlags |= IS_LAYER_HIDDEN;
                 }
             }
-        } 
+        }
 
         public Size PostCalculateContentSize
         {
@@ -200,13 +200,13 @@ namespace LayoutFarm.Presentation
 
         }
 
-        public abstract bool HitTestCore(HitPointChain artHitResult); 
-        public abstract void TopDownReCalculateContentSize(VisualElementArgs vinv); 
-        public abstract void TopDownReArrangeContent(VisualElementArgs vinv);
-        
+        public abstract bool HitTestCore(HitPointChain artHitResult);
+        public abstract void TopDownReCalculateContentSize(LayoutPhaseVisitor vinv);
+        public abstract void TopDownReArrangeContent(LayoutPhaseVisitor vinv);
+
         public abstract IEnumerable<RenderElement> GetVisualElementIter();
         public abstract IEnumerable<RenderElement> GetVisualElementReverseIter();
-        
+
 
         protected void ValidateArrangement()
         {
@@ -220,15 +220,15 @@ namespace LayoutFarm.Presentation
         public abstract void DrawChildContent(CanvasBase canvasPage, InternalRect updateArea);
         public abstract bool PrepareDrawingChain(VisualDrawingChain chain);
 
-        public void BeginLayerGraphicUpdate(VisualElementArgs vinv)
+ 
+        public void BeginLayerLayoutUpdate(LayoutPhaseVisitor vinv)
         {
             ownerVisualElement.BeginGraphicUpdate(vinv);
         }
-        public void EndLayerGraphicUpdate(VisualElementArgs vinv)
+        public void EndLayerLayoutUpdate(LayoutPhaseVisitor vinv)
         {
             ownerVisualElement.EndGraphicUpdate(vinv);
         }
-
         public bool NeedReArrangeContent
         {
             get

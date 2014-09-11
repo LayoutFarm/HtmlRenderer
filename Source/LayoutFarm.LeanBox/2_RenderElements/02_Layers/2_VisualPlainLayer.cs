@@ -10,7 +10,7 @@ namespace LayoutFarm.Presentation
 
     public class VisualPlainLayer : VisualLayer
     {
-   
+
 
         LinkedList<RenderElement> myElements = new LinkedList<RenderElement>();
         public VisualPlainLayer(RenderBoxBase owner)
@@ -64,7 +64,7 @@ namespace LayoutFarm.Presentation
             LinkedListNode<RenderElement> linkNode = myElements.AddLast(visualElement);
             RenderElement.SetVisualElementAsChildOfSimpleContainer(visualElement,
                 new SimpleLinkListParentLink(this, linkNode));
-            
+
         }
         public override void Clear()
         {
@@ -100,7 +100,7 @@ namespace LayoutFarm.Presentation
 
         public override bool PrepareDrawingChain(VisualDrawingChain chain)
         {
-            return false; 
+            return false;
         }
         public override void DrawChildContent(CanvasBase canvasPage, InternalRect updateArea)
         {
@@ -126,7 +126,7 @@ namespace LayoutFarm.Presentation
                 }
 
             }
-             
+
             this.FinishDrawingChildContent();
 
         }
@@ -166,10 +166,10 @@ namespace LayoutFarm.Presentation
         }
 
 
-        static Size ReCalculateContentSizeNoLayout(LinkedList<RenderElement> velist, VisualElementArgs vinv)
+        static Size ReCalculateContentSizeNoLayout(LinkedList<RenderElement> velist, LayoutPhaseVisitor vinv)
         {
             int local_lineWidth = 0;
-            int local_lineHeight = 17; 
+            int local_lineHeight = 17;
             LinkedListNode<RenderElement> curNode = velist.First;
 
             while (curNode != null)
@@ -197,32 +197,32 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public override void TopDownReArrangeContent(VisualElementArgs vinv)
+        public override void TopDownReArrangeContent(LayoutPhaseVisitor vinv)
         {
             vinv.IsInTopDownReArrangePhase = true;
 #if DEBUG
             vinv.dbug_EnterLayerReArrangeContent(this);
 #endif
-            this.BeginLayerGraphicUpdate(vinv);  
+            this.BeginLayerLayoutUpdate(vinv);
 
-            this.EndLayerGraphicUpdate(vinv);
+            this.EndLayerLayoutUpdate(vinv);
 #if DEBUG
             vinv.dbug_ExitLayerReArrangeContent();
 #endif
-        }  
-        public override void TopDownReCalculateContentSize(VisualElementArgs vinv)
-        { 
+        }
+        public override void TopDownReCalculateContentSize(LayoutPhaseVisitor vinv)
+        {
 #if DEBUG
 
             vinv.dbug_EnterLayerReCalculateContent(this);
 #endif
 
             SetPostCalculateLayerContentSize(ReCalculateContentSizeNoLayout(this.myElements, vinv));
- 
+
 #if DEBUG
             vinv.dbug_ExitLayerReCalculateContent();
 #endif
-        } 
+        }
 #if DEBUG
         public override string ToString()
         {

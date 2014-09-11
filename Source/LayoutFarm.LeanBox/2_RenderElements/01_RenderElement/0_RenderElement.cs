@@ -39,13 +39,13 @@ namespace LayoutFarm.Presentation
         }
         //=========================================
 
-        public VisualElementArgs GetVInv()
+        public LayoutPhaseVisitor GetVInv()
         {
 
             if (this.IsWindowRoot)
             {
 
-                return new VisualElementArgs((TopWindowRenderBox)this);
+                return new LayoutPhaseVisitor((TopWindowRenderBox)this);
 
             }
             else
@@ -53,16 +53,16 @@ namespace LayoutFarm.Presentation
                 TopWindowRenderBox winroot = this.InternalGetWinRootElement();
                 if (winroot != null)
                 {
-                    return new VisualElementArgs((TopWindowRenderBox)winroot);
+                    return new LayoutPhaseVisitor((TopWindowRenderBox)winroot);
 
                 }
                 else
                 {
-                    return new VisualElementArgs(null as TopWindowRenderBox);
+                    return new LayoutPhaseVisitor(null as TopWindowRenderBox);
                 }
             }
         }
-        public void FreeVInv(VisualElementArgs vinv)
+        public void FreeVInv(LayoutPhaseVisitor vinv)
         {
 
         }
@@ -98,7 +98,7 @@ namespace LayoutFarm.Presentation
             oneBitNativeEventFlags |= registerEventFlags;
 
         }
-        public void RemoveSelf(VisualElementArgs vinv)
+        public void RemoveSelf(LayoutPhaseVisitor vinv)
         {
 
             if (visualParentLink == null)
@@ -141,7 +141,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public void SetVisible(bool value, VisualElementArgs vinv)
+        public void SetVisible(bool value, LayoutPhaseVisitor vinv)
         {
 
             if (visualParentLink == null)

@@ -16,7 +16,7 @@ namespace LayoutFarm.Presentation
             return beh;
         }
 
-        static Size ReCalculateContentSizeVerticalStack(LinkedList<RenderElement> velist, VisualElementArgs vinv)
+        static Size ReCalculateContentSizeVerticalStack(LinkedList<RenderElement> velist, LayoutPhaseVisitor vinv)
         {
             int local_desiredWidth = 0;
             int local_desiredHeight = 0;
@@ -46,7 +46,7 @@ namespace LayoutFarm.Presentation
             return new Size(local_desiredWidth, local_desiredHeight);
         }
 
-        static Size ReCalculateContentSizeHorizontalStack(LinkedList<RenderElement> velist, VisualElementArgs vinv)
+        static Size ReCalculateContentSizeHorizontalStack(LinkedList<RenderElement> velist, LayoutPhaseVisitor vinv)
         {
 
             int local_desiredWidth = 0;

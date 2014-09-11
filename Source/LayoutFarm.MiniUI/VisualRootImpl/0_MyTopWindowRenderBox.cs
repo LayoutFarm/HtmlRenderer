@@ -135,7 +135,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        void ChangeRootElementSize(int width, int height, VisualElementArgs vinv)
+        void ChangeRootElementSize(int width, int height, LayoutPhaseVisitor vinv)
         {
             Size currentSize = this.Size;
             if (currentSize.Width != width || currentSize.Height != height)
@@ -180,7 +180,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        static void ClearLayoutOn(VisualElementArgs vinv, RenderBoxBase contvs, int i)
+        static void ClearLayoutOn(LayoutPhaseVisitor vinv, RenderBoxBase contvs, int i)
         {
 
             switch (contvs.GetReLayoutState())
@@ -222,9 +222,7 @@ namespace LayoutFarm.Presentation
 
                     } break;
                 case 1:
-                    {
-
-
+                    { 
 #if DEBUG
                         vinv.dbug_SetInitObject(contvs);
                         vinv.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_CAL, i);
@@ -395,7 +393,7 @@ namespace LayoutFarm.Presentation
             visualroot.dbug_PushLayoutTraceMessage(dbugRootElement.dbugMsg_CLEAR_LAYOUT_enter, total);
 #endif
 
-            VisualElementArgs vinv = this.GetVInv();
+            LayoutPhaseVisitor vinv = this.GetVInv();
             if (this.NeedReCalculateContentSize || this.NeedContentArrangement)
             {
                 ClearLayoutOn(vinv, this, 0);

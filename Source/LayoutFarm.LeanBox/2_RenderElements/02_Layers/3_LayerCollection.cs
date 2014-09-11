@@ -222,7 +222,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public static void ForceTopDownReArrangeContent(this VisualLayerCollection layers, VisualElementArgs vinv)
+        public static void ForceTopDownReArrangeContent(this VisualLayerCollection layers, LayoutPhaseVisitor vinv)
         {
             if (layers == null)
             {
@@ -254,7 +254,7 @@ namespace LayoutFarm.Presentation
                     } break;
             }
         }
-        public static Size TopDownReCalculateContentSize(this VisualLayerCollection layers, VisualElementArgs vinv)
+        public static Size TopDownReCalculateContentSize(this VisualLayerCollection layers, LayoutPhaseVisitor vinv)
         {
 
             if (layers != null)

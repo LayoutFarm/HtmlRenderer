@@ -141,7 +141,7 @@ namespace LayoutFarm.Presentation.Text
         }
         public void ReplaceCurrentTextRunContent(int nBackspace, string t)
         {
-            VisualElementArgs vinv = GetVInv();
+            LayoutPhaseVisitor vinv = GetVInv();
 
             internalTextLayerController.ReplaceCurrentTextRunContent(nBackspace, t, vinv);
 

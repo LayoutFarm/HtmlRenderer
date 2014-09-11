@@ -14,7 +14,7 @@ namespace LayoutFarm.Presentation
     {
 
 
-        public virtual void TopDownReCalculateContentSize(VisualElementArgs vinv)
+        public virtual void TopDownReCalculateContentSize(LayoutPhaseVisitor vinv)
         {
 
 #if DEBUG
@@ -77,7 +77,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public void ResumeLayout(VisualElementArgs vinv)
+        public void ResumeLayout(LayoutPhaseVisitor vinv)
         {
             uiLayoutFlags &= ~LY_SUSPEND;
 
@@ -101,15 +101,15 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public void SetWidth(int width, VisualElementArgs vinv)
+        public void SetWidth(int width, LayoutPhaseVisitor vinv)
         {
             this.SetSize(width, this.b_Height, vinv);
         }
-        public void SetHeight(int height, VisualElementArgs vinv)
+        public void SetHeight(int height, LayoutPhaseVisitor vinv)
         {
             this.SetSize(this.b_width, height, vinv);
         }
-        public void SetSize(int width, int height, VisualElementArgs vinv)
+        public void SetSize(int width, int height, LayoutPhaseVisitor vinv)
         {
 
             if (visualParentLink == null)
@@ -128,7 +128,7 @@ namespace LayoutFarm.Presentation
             }
 
         }
-        void PrivateSetSize(int width, int height, VisualElementArgs vinv)
+        void PrivateSetSize(int width, int height, LayoutPhaseVisitor vinv)
         {
             RenderElement.DirectSetVisualElementSize(this, width, height);
 

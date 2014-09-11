@@ -57,7 +57,7 @@ namespace LayoutFarm.Presentation
 
         public void ChangeVisualRootSize(int width, int height)
         {
-            VisualElementArgs vinv = this.GetVInv();
+            LayoutPhaseVisitor vinv = this.GetVInv();
             this.ChangeRootElementSize(width, height, vinv);
             this.FreeVInv(vinv);
         }
@@ -122,7 +122,7 @@ namespace LayoutFarm.Presentation
                     if (currentKeyboardFocusedElement.IsTextEditContainer)
                     {
                         SetCaretVisible(false);
-                        VisualElementArgs vinv = this.GetVInv();
+                        LayoutPhaseVisitor vinv = this.GetVInv();
                         currentKeyboardFocusedElement.InvalidateGraphic(vinv);
                         this.FreeVInv(vinv);
                     }
@@ -360,7 +360,7 @@ namespace LayoutFarm.Presentation
 
             if (hitElement.Focusable)
             {
-                VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
+                LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
                 //hitElement.Focus(vinv);
                 hitElement.WinRoot.CurrentKeyboardFocusedElement = hitElement;
                 e.FreeVisualInvalidateCanvasArgs(vinv);
@@ -801,7 +801,7 @@ HitEventName.DragStart);
 
                 if (hitElement.Focusable)
                 {
-                    VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
+                    LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
                     //hitElement.Focus(vinv);
                     hitElement.WinRoot.CurrentKeyboardFocusedElement = hitElement;
                     e.FreeVisualInvalidateCanvasArgs(vinv);
@@ -896,7 +896,7 @@ HitEventName.DragStart);
 
                 if (result && currentKeyboardFocusedElement != null)
                 {
-                    VisualElementArgs vinv = this.GetVInv();
+                    LayoutPhaseVisitor vinv = this.GetVInv();
                     currentKeyboardFocusedElement.InvalidateGraphic(vinv);
                     this.FreeVInv(vinv);
                 }

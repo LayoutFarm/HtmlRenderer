@@ -345,7 +345,7 @@ namespace LayoutFarm.Presentation.Text
             return false;
         }
 
-        static Size ReCalculateContentSizeHorizontalFlow(EditableTextFlowLayer layer, VisualElementArgs vinv)
+        static Size ReCalculateContentSizeHorizontalFlow(EditableTextFlowLayer layer, LayoutPhaseVisitor vinv)
         {
 
             if (layer.lineCollection == null)
@@ -490,14 +490,14 @@ namespace LayoutFarm.Presentation.Text
 
         }
 
-        public override void TopDownReArrangeContent(VisualElementArgs vinv)
+        public override void TopDownReArrangeContent(LayoutPhaseVisitor vinv)
         {
             vinv.IsInTopDownReArrangePhase = true;
 #if DEBUG
             vinv.dbug_EnterLayerReArrangeContent(this);
 #endif
-            this.BeginLayerGraphicUpdate(vinv);
-
+            //this.BeginLayerGraphicUpdate(vinv);
+            this.BeginLayerLayoutUpdate(vinv);
 
             RenderBoxBase container = this.ownerVisualElement as RenderBoxBase;
             if (container != null)
@@ -516,14 +516,14 @@ namespace LayoutFarm.Presentation.Text
                 Reflow(this, EventArgs.Empty);
             }
 
-            this.EndLayerGraphicUpdate(vinv);
+            this.EndLayerLayoutUpdate(vinv);
 #if DEBUG
             vinv.dbug_ExitLayerReArrangeContent();
 #endif
         }
 
 
-        public override void TopDownReCalculateContentSize(VisualElementArgs vinv)
+        public override void TopDownReCalculateContentSize(LayoutPhaseVisitor vinv)
         {
 #if DEBUG
 
@@ -625,7 +625,7 @@ namespace LayoutFarm.Presentation.Text
         }
         void PerformHorizontalFlowArrangeForMultilineText(
 int ownerClientLeft, int ownerClientWidth,
-int ownerClientTop, VisualElementArgs vinv)
+int ownerClientTop, LayoutPhaseVisitor vinv)
         {
 
 
@@ -777,7 +777,7 @@ int ownerClientTop, VisualElementArgs vinv)
 
         void PerformHorizontalFlowArrange(
             int ownerClientLeft, int ownerClientWidth,
-            int ownerClientTop, VisualElementArgs vinv)
+            int ownerClientTop, LayoutPhaseVisitor vinv)
         {
             if (lineCollection == null)
             {
