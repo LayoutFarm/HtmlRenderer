@@ -532,7 +532,7 @@ namespace LayoutFarm.Presentation
         static RenderElement BubbleUpInvalidLayoutToTopMost(RenderElement ve, TopWindowRenderBox winroot)
         {
 #if DEBUG
-            dbugRootElement dbugVRoot = ve.dbugVRoot;
+            RootGraphic dbugVRoot = ve.dbugVRoot;
 #endif
 
             ve.MarkInvalidContentSize();
@@ -544,7 +544,7 @@ namespace LayoutFarm.Presentation
                 {
                 }
 
-                dbugVRoot.dbug_PushLayoutTraceMessage(dbugRootElement.dbugMsg_NO_OWNER_LAY);
+                dbugVRoot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_NO_OWNER_LAY);
 #endif
                 return null;
             }
@@ -563,7 +563,7 @@ namespace LayoutFarm.Presentation
                 }
             }
 #if DEBUG
-            dbugVRoot.dbug_LayoutTraceBeginContext(dbugRootElement.dbugMsg_E_CHILD_LAYOUT_INV_BUB_enter, ve);
+            dbugVRoot.dbug_LayoutTraceBeginContext(RootGraphic.dbugMsg_E_CHILD_LAYOUT_INV_BUB_enter, ve);
 #endif
 
             bool goFinalExit;
@@ -616,7 +616,7 @@ ve
 
         finalExit:
 #if DEBUG
-            dbugVRoot.dbug_LayoutTraceEndContext(dbugRootElement.dbugMsg_E_CHILD_LAYOUT_INV_BUB_exit, ve);
+            dbugVRoot.dbug_LayoutTraceEndContext(RootGraphic.dbugMsg_E_CHILD_LAYOUT_INV_BUB_exit, ve);
 #endif
 
             return parentVisualElem;
@@ -644,7 +644,7 @@ ve
         {
 
 #if DEBUG
-            dbugVRoot.dbug_LayoutTraceBeginContext(dbugRootElement.dbugMsg_E_LAYOUT_INV_BUB_FIRST_enter, this);
+            dbugVRoot.dbug_LayoutTraceBeginContext(RootGraphic.dbugMsg_E_LAYOUT_INV_BUB_FIRST_enter, this);
 #endif
             TopWindowRenderBox winroot = this.InternalGetWinRootElement();
             RenderElement tobeAddToLayoutQueue = BubbleUpInvalidLayoutToTopMost(this, winroot);
@@ -660,7 +660,7 @@ ve
             }
 
 #if DEBUG
-            dbugVRoot.dbug_LayoutTraceEndContext(dbugRootElement.dbugMsg_E_LAYOUT_INV_BUB_FIRST_exit, this);
+            dbugVRoot.dbug_LayoutTraceEndContext(RootGraphic.dbugMsg_E_LAYOUT_INV_BUB_FIRST_exit, this);
 #endif
 
         }

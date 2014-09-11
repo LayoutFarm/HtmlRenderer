@@ -38,9 +38,9 @@
   <ItemGroup>
     <Compile Include="2_RenderElements\01_RenderElement\RenderElementHelper.cs" />
     <Compile Include="2_RenderElements\02_Layers\3_LayerCollection.cs" />
-    <Compile Include="2_RenderElements\05_Root\1_dbugRootElement.cs" />
-    <Compile Include="2_RenderElements\05_Root\1_dbugRootElement_p1.cs" />
-    <Compile Include="2_RenderElements\05_Root\1_dbugRootElement_p2.cs" />
+    <Compile Include="2_RenderElements\05_Root\1_RootGraphic.cs" />
+    <Compile Include="2_RenderElements\05_Root\1_RootGraphic_p1.cs" />
+    <Compile Include="2_RenderElements\05_Root\1_RootGraphic_p2.cs" />
     <Compile Include="0_Start\dbugCoreConst.cs" />
     <Compile Include="0_Start\ExtensionAttribute.cs" />
     <Compile Include="2_RenderElements\03_Boxes\TopWindowRenderBox.cs" />

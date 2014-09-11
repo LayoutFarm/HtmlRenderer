@@ -325,7 +325,7 @@ namespace LayoutFarm.Presentation
             }
             e.TranslateCanvasOriginBack();
 #if DEBUG
-            dbugRootElement visualroot = this.dbugVRoot;
+            RootGraphic visualroot = this.dbugVRoot;
             if (visualroot.dbug_RecordHitChain)
             {
                 visualroot.dbug_rootHitChainMsg.Clear();

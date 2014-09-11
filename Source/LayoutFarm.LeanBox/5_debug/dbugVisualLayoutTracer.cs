@@ -14,7 +14,7 @@ namespace LayoutFarm.Presentation
     {
         FileStream fs;
         StreamWriter strmWriter;
-        dbugRootElement visualroot;
+        RootGraphic visualroot;
         string outputFileName = null;
         int msgLineNum = 0;
         Stack<object> elementStack = new Stack<object>();
@@ -24,7 +24,7 @@ namespace LayoutFarm.Presentation
         static int tracerCount = 0;
 
 
-        public dbugVisualLayoutTracer(dbugRootElement visualroot)
+        public dbugVisualLayoutTracer(RootGraphic visualroot)
         {
             this.visualroot = visualroot;
             myTraceCount = tracerCount;

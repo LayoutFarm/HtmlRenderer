@@ -345,7 +345,7 @@ namespace LayoutFarm.Presentation
         }
         void debug_RecordLayerInfo(VisualLayer layer)
         {
-            dbugRootElement visualroot = dbugRootElement.dbugCurrentGlobalVRoot;
+            RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
             if (visualroot.dbug_RecordDrawingChain)
             {
                 visualroot.dbug_AddDrawLayer(layer);

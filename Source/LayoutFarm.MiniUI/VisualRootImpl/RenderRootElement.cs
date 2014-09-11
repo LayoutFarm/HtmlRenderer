@@ -6,16 +6,12 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-    public class RenderRootElement
-#if DEBUG
- : dbugRootElement
-#endif
-    {
+    public class UIRootGraphic : RootGraphic
+    {   
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
         static Stack<LayoutPhaseVisitor> visualArgStack = new Stack<LayoutPhaseVisitor>();
 
-
-        public RenderRootElement()
+        public UIRootGraphic()
         {
 #if DEBUG
             dbugCurrentGlobalVRoot = this;
@@ -23,7 +19,7 @@ namespace LayoutFarm.Presentation
 #endif
         }
 #if DEBUG
-        ~RenderRootElement()
+        ~UIRootGraphic()
         {
             dbugHitTracker.Close();
         }

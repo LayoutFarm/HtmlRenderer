@@ -125,11 +125,11 @@ namespace LayoutFarm.Presentation
         }
 
 #if DEBUG
-        public dbugRootElement dbugVRoot
+        public RootGraphic dbugVRoot
         {
             get
             {
-                return LayoutFarm.Presentation.dbugRootElement.dbugCurrentGlobalVRoot;
+                return LayoutFarm.Presentation.RootGraphic.dbugCurrentGlobalVRoot;
             }
         }
 #endif

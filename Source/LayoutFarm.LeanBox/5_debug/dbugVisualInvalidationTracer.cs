@@ -14,7 +14,7 @@ namespace LayoutFarm.Presentation
     {
         FileStream fs;
         StreamWriter strmWriter;
-        dbugRootElement visualroot;
+        RootGraphic visualroot;
         string outputFileName = null;
 
         int msgCounter = 0;
@@ -25,7 +25,7 @@ namespace LayoutFarm.Presentation
         int dbug_Id = 0;
         static int dbug_totalId = 0;
 
-        public dbugVisualInvalidationTracer(dbugRootElement visualroot)
+        public dbugVisualInvalidationTracer(RootGraphic visualroot)
         {
             this.visualroot = visualroot;
             dbug_Id = dbug_totalId;

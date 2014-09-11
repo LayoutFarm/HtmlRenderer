@@ -5,12 +5,10 @@ using System.Text;
 using System.Drawing;
 
 namespace LayoutFarm.Presentation
-{
-
-#if DEBUG
-    public abstract partial class dbugRootElement
+{ 
+    public abstract partial class RootGraphic
     {
 
     }
-#endif
+
 }

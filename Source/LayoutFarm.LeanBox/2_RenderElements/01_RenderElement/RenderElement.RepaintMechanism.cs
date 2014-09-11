@@ -45,7 +45,7 @@ namespace LayoutFarm.Presentation
             if ((uiLayoutFlags & LY_SUSPEND_GRAPHIC) != 0)
             {
 #if DEBUG
-                dbugVRoot.dbug_PushInvalidateMsg(dbugRootElement.dbugMsg_BLOCKED, this);
+                dbugVRoot.dbug_PushInvalidateMsg(RootGraphic.dbugMsg_BLOCKED, this);
 #endif
                 return;
             }

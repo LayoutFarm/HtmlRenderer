@@ -39,7 +39,7 @@ namespace LayoutFarm.Presentation
             RenderElement startVisualElement = fromElement;
 #if DEBUG
 
-            dbugRootElement dbugMyroot = this.dbugVRoot;
+            RootGraphic dbugMyroot = this.dbugVRoot;
             if (dbugMyroot.dbugEnableGraphicInvalidateTrace && dbugMyroot.dbugGraphicInvalidateTracer != null)
             {
 
@@ -406,7 +406,7 @@ namespace LayoutFarm.Presentation
         {
             isInRenderPhase = true;
 #if DEBUG
-            dbugRootElement myroot = this.dbugVRoot;
+            RootGraphic myroot = this.dbugVRoot;
             myroot.dbug_rootDrawingMsg.Clear();
             myroot.dbug_drawLevel = 0;
 #endif

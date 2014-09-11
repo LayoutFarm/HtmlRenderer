@@ -233,7 +233,7 @@ namespace LayoutFarm.Presentation
         public void dbug_StartLayoutTrace(dbugVisualElementLayoutMsg msg, int suffixNum)
         {
 
-            dbugRootElement visualroot = dbugRootElement.dbugCurrentGlobalVRoot;
+            RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
             if (visualroot == null || !visualroot.dbug_IsRecordLayoutTraceEnable)
             {
                 return;
@@ -264,7 +264,7 @@ namespace LayoutFarm.Presentation
         }
         public void dbug_StartLayoutTrace(dbugVisualElementLayoutMsg msg)
         {
-            dbugRootElement visualroot = dbugRootElement.dbugCurrentGlobalVRoot;
+            RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
             if (visualroot == null || !visualroot.dbug_IsRecordLayoutTraceEnable)
             {
                 return;

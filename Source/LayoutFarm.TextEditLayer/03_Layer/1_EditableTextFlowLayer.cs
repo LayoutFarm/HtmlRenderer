@@ -180,7 +180,7 @@ namespace LayoutFarm.Presentation.Text
 #if DEBUG
         void debug_RecordLineInfo(RenderBoxBase owner, EditableVisualElementLine line)
         {
-            dbugRootElement visualroot = this.dbugVRoot;
+            RootGraphic visualroot = this.dbugVRoot;
             if (visualroot.dbug_RecordDrawingChain)
             {
             }

@@ -44,7 +44,7 @@ namespace LayoutFarm.Presentation
     partial class RenderElement
     {
  
-        public virtual void dbug_WriteOwnerLayerInfo(dbugRootElement visualroot, int i)
+        public virtual void dbug_WriteOwnerLayerInfo(RootGraphic visualroot, int i)
         {
 
             if (this.visualParentLink != null)
@@ -53,7 +53,7 @@ namespace LayoutFarm.Presentation
                       visualParentLink.dbugGetLinkInfo()));
             }
         }
-        public virtual void dbug_WriteOwnerLineInfo(dbugRootElement visualroot, int i)
+        public virtual void dbug_WriteOwnerLineInfo(RootGraphic visualroot, int i)
         {
 
         }
@@ -185,11 +185,11 @@ namespace LayoutFarm.Presentation
 
          
 
-        public dbugRootElement dbugVRoot
+        public RootGraphic dbugVRoot
         {
             get
             {
-                return dbugRootElement.dbugCurrentGlobalVRoot;
+                return RootGraphic.dbugCurrentGlobalVRoot;
             }
         }
 

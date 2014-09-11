@@ -29,7 +29,7 @@ namespace LayoutFarm.Presentation
 
         public abstract void AddToLayoutQueue(RenderElement vs);
 #if DEBUG
-        public abstract dbugRootElement dbugVisualRoot { get; }
+        public abstract RootGraphic dbugVisualRoot { get; }
 #endif
         public abstract bool IsLayoutQueueClearing { get; }
 

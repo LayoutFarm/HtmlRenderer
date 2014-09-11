@@ -137,7 +137,7 @@ namespace LayoutFarm.Presentation
 
 #if DEBUG
 
-            dbugRootElement visualroot = dbugRootElement.dbugCurrentGlobalVRoot;
+            RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
             if (visualroot.dbug_RecordDrawingChain)
             {
                 List<dbugLayoutMsg> outputMsgs = outputWindow.dbug_rootDocDebugMsgs;
@@ -269,7 +269,7 @@ namespace LayoutFarm.Presentation
             }
 
 #if DEBUG
-            dbugRootElement visualroot = rootElement.dbugVRoot;
+            RootGraphic visualroot = rootElement.dbugVRoot;
             if (visualroot.dbug_RecordHitChain)
             {
                 outputWindow.dbug_rootDocHitChainMsgs.Clear();
@@ -615,7 +615,7 @@ namespace LayoutFarm.Presentation
 
             get
             {
-                Point caretpos = RenderRootElement.GetGlobalCaretPosition();// rootElement.CaretPosition;
+                Point caretpos = UIRootGraphic.GetGlobalCaretPosition();// rootElement.CaretPosition;
                 caretpos.Offset(-viewportX, -viewportY);
                 return caretpos;
             }

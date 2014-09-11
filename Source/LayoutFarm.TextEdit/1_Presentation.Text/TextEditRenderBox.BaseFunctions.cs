@@ -850,7 +850,7 @@ namespace LayoutFarm.Presentation.Text
 
 
             textManCaretPos.Offset(-ViewportX, -ViewportY);
-            RenderRootElement.SetCarentPosition(textManCaretPos, this);
+            UIRootGraphic.SetCarentPosition(textManCaretPos, this);
 
             if (textManCaretPos.X >= this.Width)
             {
