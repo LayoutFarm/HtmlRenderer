@@ -13,7 +13,7 @@ namespace LayoutFarm.Presentation
    
 
         LinkedList<RenderElement> myElements = new LinkedList<RenderElement>();
-        public VisualPlainLayer(MultiLayerRenderBox owner)
+        public VisualPlainLayer(RenderBoxBase owner)
             : base(owner)
         {
         }
@@ -64,8 +64,7 @@ namespace LayoutFarm.Presentation
             LinkedListNode<RenderElement> linkNode = myElements.AddLast(visualElement);
             RenderElement.SetVisualElementAsChildOfSimpleContainer(visualElement,
                 new SimpleLinkListParentLink(this, linkNode));
-
-
+            
         }
         public override void Clear()
         {
@@ -127,35 +126,7 @@ namespace LayoutFarm.Presentation
                 }
 
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+             
             this.FinishDrawingChildContent();
 
         }
@@ -198,7 +169,8 @@ namespace LayoutFarm.Presentation
         static Size ReCalculateContentSizeNoLayout(LinkedList<RenderElement> velist, VisualElementArgs vinv)
         {
             int local_lineWidth = 0;
-            int local_lineHeight = 17; LinkedListNode<RenderElement> curNode = velist.First;
+            int local_lineHeight = 17; 
+            LinkedListNode<RenderElement> curNode = velist.First;
 
             while (curNode != null)
             {

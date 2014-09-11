@@ -126,7 +126,7 @@ namespace LayoutFarm.Presentation
                 if (fromElement.IsScrollable && isBubbleUp)
                 {
                      
-                    MultiLayerRenderBox container = (MultiLayerRenderBox)fromElement; 
+                    RenderBoxBase container = (RenderBoxBase)fromElement; 
                     elementClientRect.Offset(globalX, globalY); 
                     if (fromElement.HasDoubleScrollableSurface)
                     {

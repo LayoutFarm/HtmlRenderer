@@ -20,9 +20,9 @@ namespace LayoutFarm.Presentation
         //int viewport_v_smallChange = 0;
         //int viewport_v_largeChange = 0;
 
-        MultiLayerRenderBox ownerVisualElement;
+        RenderBoxBase ownerVisualElement;
         bool scrollableFullMode;
-        public MyCustomRenderSurface(MultiLayerRenderBox ownerVisualElement, int width, int height)
+        public MyCustomRenderSurface(RenderBoxBase ownerVisualElement, int width, int height)
             : base(ownerVisualElement)
         {
 
@@ -178,7 +178,7 @@ namespace LayoutFarm.Presentation
 #endif
 
                 ownerVisualElement.CustomDrawToThisPage(internalCanvas, updateArea);
-                //ownerVisualElement.DrawOriginalContent(internalCanvas, updateArea);
+                
 
 #if DEBUG
 

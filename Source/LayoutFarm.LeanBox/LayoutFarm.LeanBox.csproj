@@ -36,16 +36,18 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="2_RenderElements\07_Root\1_dbugRootElement.cs" />
-    <Compile Include="2_RenderElements\07_Root\1_dbugRootElement_p1.cs" />
-    <Compile Include="2_RenderElements\07_Root\1_dbugRootElement_p2.cs" />
+    <Compile Include="2_RenderElements\01_RenderElement\RenderElementHelper.cs" />
+    <Compile Include="2_RenderElements\02_Layers\3_LayerCollection.cs" />
+    <Compile Include="2_RenderElements\05_Root\1_dbugRootElement.cs" />
+    <Compile Include="2_RenderElements\05_Root\1_dbugRootElement_p1.cs" />
+    <Compile Include="2_RenderElements\05_Root\1_dbugRootElement_p2.cs" />
     <Compile Include="0_Start\dbugCoreConst.cs" />
     <Compile Include="0_Start\ExtensionAttribute.cs" />
     <Compile Include="2_RenderElements\03_Boxes\TopWindowRenderBox.cs" />
     <Compile Include="5_debug\dbugVisualEvalScrollBarTrace.cs" />
     <Compile Include="5_debug\dbugVisualInvalidationTracer.cs" />
     <Compile Include="5_debug\dbugVisualLayoutTracer.cs" />
-    <Compile Include="2_RenderElements\07_Root\RenderRequest.cs" />
+    <Compile Include="2_RenderElements\05_Root\RenderRequest.cs" />
     <Compile Include="5_debug\dbug.cs" />
     <Compile Include="5_debug\dbugVisitorMessage.cs" />
     <Compile Include="1_Base\VisualDrawingChain.cs" />
@@ -57,14 +59,13 @@
     <Compile Include="2_RenderElements\01_RenderElement\RenderElement.GfxStates.cs" />
     <Compile Include="2_RenderElements\01_RenderElement\RenderElement.Render.cs" />
     <Compile Include="2_RenderElements\01_RenderElement\RenderElement.RepaintMechanism.cs" />
-    <Compile Include="2_RenderElements\01_RenderElement\RenderElement.StaticExtensions.cs" />
     <Compile Include="2_RenderElements\01_RenderElement\ElementNature.cs" />
     <Compile Include="2_RenderElements\01_RenderElement\IParentLink.cs" />
     <Compile Include="2_RenderElements\01_RenderElement\x_RenderElement.debug.cs" />
-    <Compile Include="2_RenderElements\03_Boxes\1_MultiLayerRenderBox.cs" />
+    <Compile Include="2_RenderElements\03_Boxes\RenderBoxBase.cs" />
     <Compile Include="1_Base\CustomRenderSurface.cs" />
-    <Compile Include="2_RenderElements\03_Boxes\2_VisualLayer.cs" />
-    <Compile Include="2_RenderElements\03_Boxes\4_VisualPlainLayer.cs" />
+    <Compile Include="2_RenderElements\02_Layers\1_VisualLayer.cs" />
+    <Compile Include="2_RenderElements\02_Layers\2_VisualPlainLayer.cs" />
     <Compile Include="2_RenderElements\04_HitTest\HitPointChain.cs" />
     <Compile Include="5_debug\dbugHitTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

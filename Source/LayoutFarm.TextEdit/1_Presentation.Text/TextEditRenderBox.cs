@@ -10,8 +10,8 @@ namespace LayoutFarm.Presentation.Text
 
     partial class TextEditRenderBox
     {
-        
-        RenderSurfaceScrollRelation scrollRelation;         
+
+        RenderSurfaceScrollRelation scrollRelation;
         CustomRenderSurface vscrollableSurface;//built in 
 
         public CustomRenderSurface ScrollableSurface
@@ -24,7 +24,30 @@ namespace LayoutFarm.Presentation.Text
             get { return this.scrollRelation; }
             set { this.scrollRelation = value; }
         }
-   
+        protected override void BoxDrawContent(CanvasBase canvasPage, InternalRect updateArea)
+        {
+            //1. bg
+            RenderElementHelper.DrawBackground(this, canvasPage, updateArea.Width, updateArea.Height, Color.White);
+            //2. sub ground
+             
+            if (internalTextLayerController.SelectionRange != null)
+            {
+                internalTextLayerController.SelectionRange.Draw(canvasPage, updateArea);
+            }
+            //3. each layer
+            if (vscrollableSurface != null)
+            {
+                vscrollableSurface.DrawToThisPage(canvasPage, updateArea);
+            }
+            else
+            {
+                if (this.Layers != null)
+                {
+                    this.Layers.LayersDrawContent(canvasPage, updateArea); 
+                }
+               
+            }
+        }
         public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
         {
             if (vscrollableSurface != null)
@@ -140,7 +163,7 @@ namespace LayoutFarm.Presentation.Text
         void MyScrollByNotRaiseEvent(int dx, int dy, out UIScrollEventArgs hScrollEventArgs, out UIScrollEventArgs vScrollEventArgs)
         {
             vScrollEventArgs = null;
-            System.Drawing.Size innerContentSize = this.InnerContentSize; ;
+            System.Drawing.Size innerContentSize = this.InnerContentSize; 
             if (dy < 0)
             {
                 int old_y = this.ViewportY;

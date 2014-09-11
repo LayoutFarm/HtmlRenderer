@@ -25,19 +25,9 @@ namespace LayoutFarm.Presentation
                 this.hasTransparentBg = !value;
             }
         }
-        protected static void DrawBackground(RenderElement visualElement, CanvasBase canvasPage, InternalRect updateArea)
-        {
-            ArtColorBrush colorBrush = new ArtSolidBrush(Color.White);
-            colorBrush.myBrush = Brushes.White;
 
-            if (colorBrush == null)
-            {
-                return;
-            }
 
-            canvasPage.FillRectangle(colorBrush, 0, 0, visualElement.b_width, visualElement.b_Height);
-
-        }
+       
 
         public abstract void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea);
 
@@ -72,14 +62,14 @@ namespace LayoutFarm.Presentation
 
                             if (this.IsScrollable)
                             {
-                                MultiLayerRenderBox scContainer = (MultiLayerRenderBox)this;
+                                RenderBoxBase scContainer = (RenderBoxBase)this;
                                 x -= scContainer.ViewportX;
                                 y -= scContainer.ViewportY;
                             }
 
 
                             drawingChain.OffsetCanvasOrigin(x, y);
-                            ((MultiLayerRenderBox)this).PrepareOriginalChildContentDrawingChain(drawingChain);
+                            ((RenderBoxBase)this).PrepareOriginalChildContentDrawingChain(drawingChain);
                             drawingChain.OffsetCanvasOrigin(-x, -y);
 
 
@@ -108,28 +98,8 @@ namespace LayoutFarm.Presentation
                 }
 #endif
                 //------------------------------------------
-                this.CustomDrawToThisPage(canvasPage, updateArea);
-
-                //switch ((ElementNature)(uiCombineFlags & 0xF))
-                //{
-                //    case ElementNature.Shapes:
-                //    case ElementNature.CustomContainer:
-                //    case ElementNature.TextRun:
-                //        {
-                //            this.CustomDrawToThisPage(canvasPage, updateArea);
-                //        } break;
-                //    default:
-                //        {
-                //            if (this.HasDoubleScrollableSurface)
-                //            {
-                //                ((MultiLayerRenderBox)this).ScrollableDrawContent(canvasPage, updateArea);
-                //            }
-                //            else
-                //            {
-                //                ((MultiLayerRenderBox)this).ContainerDrawOriginalContent(canvasPage, updateArea);
-                //            }
-                //        } break;
-                //}
+                
+                this.CustomDrawToThisPage(canvasPage, updateArea); 
 
                 //------------------------------------------
                 uiFlags |= IS_GRAPHIC_VALID;

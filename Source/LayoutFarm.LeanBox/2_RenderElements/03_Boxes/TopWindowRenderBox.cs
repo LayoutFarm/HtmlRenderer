@@ -8,17 +8,14 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-    public abstract partial class TopWindowRenderBox : MultiLayerRenderBox
+    public abstract partial class TopWindowRenderBox : RenderBoxBase
     {
-
-        VisualLayer groundLayer; 
         public TopWindowRenderBox(int width, int height)
             : base(width, height, ElementNature.WindowRoot)
         {
-
+            this.Layers = new VisualLayerCollection();
+            this.Layers.AddLayer(new VisualPlainLayer(this));
         }
-
-       
         public abstract RenderElement CurrentKeyboardFocusedElement
         {
             get;
@@ -40,31 +37,11 @@ namespace LayoutFarm.Presentation
 
         public override void ClearAllChildren()
         {
-            if (groundLayer != null)
-            {
-                groundLayer.Clear();
-            }
-            ClearAllChildrenInOtherLayers();
-        }
-        protected override bool HasGroundLayer()
-        {
-            return groundLayer != null;
-        }
-        protected override VisualLayer GetGroundLayer()
-        {
-            return groundLayer;
+            this.Layers.ClearAllContentInEachLayer();
+
         }
 
 
-        protected override void GroundLayerAddChild(RenderElement child)
-        {
-            if (groundLayer == null)
-            {
-                groundLayer = new VisualPlainLayer(this);
-            }
-
-            groundLayer.AddTop(child);
-        }
 
 #if DEBUG
         public abstract void dbugShowRenderPart(CanvasBase canvasPage, InternalRect updateArea);

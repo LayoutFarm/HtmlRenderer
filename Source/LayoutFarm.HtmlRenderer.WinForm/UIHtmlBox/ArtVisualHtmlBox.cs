@@ -17,7 +17,7 @@ using HtmlRenderer.Composers;
 namespace LayoutFarm.Presentation
 {
 
-    public class ArtVisualHtmlBox : MultiLayerRenderBox
+    public class ArtVisualHtmlBox : RenderBoxBase
     {
         WinRootVisualBox _visualRootBox;
         BoxComposer _boxComposer;
@@ -130,15 +130,7 @@ namespace LayoutFarm.Presentation
         {
 
         }
-        protected override bool HasGroundLayer()
-        {
-            return true;
-        }
-        protected override VisualLayer GetGroundLayer()
-        {
-            return null;
-            
-        }
+        
         public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
         {
             _visualRootBox.PhysicalViewportBound = new RectangleF(0, 0, myWidth, myHeight);

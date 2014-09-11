@@ -179,7 +179,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        static void ClearLayoutOn(VisualElementArgs vinv, MultiLayerRenderBox contvs, int i)
+        static void ClearLayoutOn(VisualElementArgs vinv, RenderBoxBase contvs, int i)
         {
 
             switch (contvs.GetReLayoutState())
@@ -412,7 +412,7 @@ namespace LayoutFarm.Presentation
                 RenderElement elem = layoutQueue[i];
                 if (elem.ParentLink != null && elem.IsVisualContainerBase)
                 {
-                    MultiLayerRenderBox contvs = (MultiLayerRenderBox)elem;
+                    RenderBoxBase contvs = (RenderBoxBase)elem;
                     ClearLayoutOn(vinv, contvs, i);
                 }
                 elem.IsInLayoutQueue = false;
