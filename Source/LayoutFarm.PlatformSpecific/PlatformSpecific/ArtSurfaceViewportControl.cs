@@ -421,8 +421,7 @@ namespace LayoutFarm.Presentation
         }
         public void dbug_ReArrangeWithBreakOnSelectedNode()
         {
-            var vinv = this.winroot.GetVInv();
-            vinv.ForceReArrange = true;
+            var vinv = this.winroot.GetVInv(); 
             vinv.dbugBreakOnSelectedVisuallElement = true;
             this.winroot.TopDownReArrangeContentIfNeed(vinv);
             this.winroot.FreeVInv(vinv);

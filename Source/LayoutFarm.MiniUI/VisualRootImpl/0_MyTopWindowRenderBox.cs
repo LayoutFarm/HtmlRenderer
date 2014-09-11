@@ -24,7 +24,8 @@ namespace LayoutFarm.Presentation
 
 
         public MyTopWindowRenderBox(
-            RenderRootElement visualroot, int width, int height)
+            RenderRootElement visualroot,
+            int width, int height)
             : base(width, height)
         {
             this.visualroot = visualroot;

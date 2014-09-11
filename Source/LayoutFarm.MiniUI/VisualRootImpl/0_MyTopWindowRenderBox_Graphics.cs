@@ -306,21 +306,21 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        internal VisualDrawingChain WinRootPrepareRenderingChain(Rectangle globalRect)
-        {
-            VisualDrawingChain chain = new VisualDrawingChain(globalRect);
-            this.PrepareDrawingChain(chain);
-            return chain;
-        }
-        internal VisualDrawingChain WinRootPrepareRenderingChain()
-        {
-            VisualDrawingChain chain = new VisualDrawingChain(flushRect);
-            this.PrepareDrawingChain(chain);
-            return chain;
-        }
-        internal void FreeRenderingChain(VisualDrawingChain chain)
-        {
-        }
+        //internal VisualDrawingChain WinRootPrepareRenderingChain(Rectangle globalRect)
+        //{
+        //    VisualDrawingChain chain = new VisualDrawingChain(globalRect);
+        //    this.PrepareDrawingChain(chain);
+        //    return chain;
+        //}
+        //internal VisualDrawingChain WinRootPrepareRenderingChain()
+        //{
+        //    VisualDrawingChain chain = new VisualDrawingChain(flushRect);
+        //    this.PrepareDrawingChain(chain);
+        //    return chain;
+        //}
+        //internal void FreeRenderingChain(VisualDrawingChain chain)
+        //{
+        //}
         void SuspendGraphicUpdate()
         {
             disableGraphicOutputFlush = true;

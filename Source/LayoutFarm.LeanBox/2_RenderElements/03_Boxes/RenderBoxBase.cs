@@ -102,43 +102,7 @@ namespace LayoutFarm.Presentation
 
             if (this.layers != null)
             {
-                int j = this.layers.LayerCount;
-                switch (j)
-                {
-                    case 0:
-                        {
-
-                        } break;
-                    case 1:
-                        {
-                            layers.Layer0.PrepareDrawingChain(chain);
-#if DEBUG
-                            debug_RecordLayerInfo(layers.Layer0);
-#endif
-                        } break;
-                    case 2:
-                        {
-                            layers.Layer0.PrepareDrawingChain(chain);
-#if DEBUG
-                            debug_RecordLayerInfo(layers.Layer0);
-#endif
-                            layers.Layer1.PrepareDrawingChain(chain);
-#if DEBUG
-                            debug_RecordLayerInfo(layers.Layer1);
-#endif
-                        } break;
-                    default:
-                        {
-                            for (int i = 0; i < j; ++i)
-                            {
-                                var layer = this.layers.GetLayer(i);
-                                layer.PrepareDrawingChain(chain);
-#if DEBUG
-                                debug_RecordLayerInfo(layer);
-#endif
-                            }
-                        } break;
-                }
+                layers.PrepareOriginalChildContentDrawingChain(chain); 
             }
         }
         public virtual void ChildrenHitTestCore(HitPointChain artHitResult)
@@ -146,8 +110,7 @@ namespace LayoutFarm.Presentation
             if (this.layers != null)
             {
                 layers.ChildrenHitTestCore(artHitResult);
-            }
-
+            } 
         }
 
 
@@ -223,6 +186,7 @@ namespace LayoutFarm.Presentation
             this.dbug_BeginArr++;
             vinv.debug_PushTopDownElement(this);
 #endif
+
             this.MarkValidContentArrangement();
             vinv.IsInTopDownReArrangePhase = true;
             this.layers.ForceTopDownReArrangeContent(vinv);

@@ -33,9 +33,9 @@ namespace LayoutFarm.Presentation
         {
             return controller;
         }
-        public void SetController(object ui)
+        public void SetController(object controller)
         {
-            this.controller = ui;
+            this.controller = controller;
         }
         //=========================================
 

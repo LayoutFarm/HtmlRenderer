@@ -293,9 +293,9 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
 
 
         public void RenderToOutputWindowPartialMode(
-        TopWindowRenderBox rootElement,
-        IntPtr destOutputHdc,
-        int viewportX, int viewportY, int viewportWidth, int viewportHeight)
+            TopWindowRenderBox rootElement,
+            IntPtr destOutputHdc,
+            int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
 
             VisualDrawingChain renderChain = null; 

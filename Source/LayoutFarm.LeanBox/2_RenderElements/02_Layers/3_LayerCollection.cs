@@ -355,6 +355,8 @@ namespace LayoutFarm.Presentation
                     } break;
             }
         }
+
+     
 #if DEBUG
         public static void dbug_DumpVisualProps(this VisualLayerCollection layers, dbugLayoutMsgWriter writer)
         {

@@ -27,8 +27,6 @@ namespace LayoutFarm.Presentation
         }
 
 
-       
-
         public abstract void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea);
 
         public bool PrepareDrawingChain(VisualDrawingChain drawingChain)
@@ -51,7 +49,6 @@ namespace LayoutFarm.Presentation
                         } break;
                     case ElementNature.TextRun:
                         {
-
                         } break;
                     default:
                         {
@@ -66,8 +63,7 @@ namespace LayoutFarm.Presentation
                                 x -= scContainer.ViewportX;
                                 y -= scContainer.ViewportY;
                             }
-
-
+                            
                             drawingChain.OffsetCanvasOrigin(x, y);
                             ((RenderBoxBase)this).PrepareOriginalChildContentDrawingChain(drawingChain);
                             drawingChain.OffsetCanvasOrigin(-x, -y);

@@ -33,7 +33,7 @@ namespace LayoutFarm.Presentation
             v.MarkHasValidCalculateSize();
         }
 
-    
+
 
         public bool IsLayoutSuspending
         {
@@ -79,9 +79,9 @@ namespace LayoutFarm.Presentation
 
         public void ResumeLayout(VisualElementArgs vinv)
         {
+            uiLayoutFlags &= ~LY_SUSPEND;
 
-
-            uiLayoutFlags &= ~LY_SUSPEND; if (this.IsVisualContainerBase)
+            if (this.IsVisualContainerBase)
             {
                 if (this.HasOwner)
                 {
