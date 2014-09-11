@@ -126,10 +126,10 @@ namespace LayoutFarm.Presentation
             this.dbugInitObject = initLayer;
             dbugFlags |= LAYER;
         }
-        public void debug_PushTopDownElement(MultiLayerRenderBox v)
+        public void debug_PushTopDownElement(RenderBoxBase v)
         {
         }
-        public void debug_PopTopDownElement(MultiLayerRenderBox v)
+        public void debug_PopTopDownElement(RenderBoxBase v)
         {
         }
         public void dbug_EnterTopDownReCalculateContent(RenderElement v)

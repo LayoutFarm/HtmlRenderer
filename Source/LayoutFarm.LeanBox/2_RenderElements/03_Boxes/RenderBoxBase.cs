@@ -2,24 +2,25 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing; 
+using System.Drawing;
 namespace LayoutFarm.Presentation
 {
 
+
 #if DEBUG
-    [System.Diagnostics.DebuggerDisplay("Container {dbugGetCssBoxInfo}")]
+    [System.Diagnostics.DebuggerDisplay("RenderBoxBase {dbugGetCssBoxInfo}")]
 #endif
-    public abstract partial class MultiLayerRenderBox : RenderElement
+    public abstract partial class RenderBoxBase : RenderElement
     {
 
         int myviewportX;
         int myviewportY;
+
         List<VisualLayer> otherLayers;
 
-        public MultiLayerRenderBox(int width, int height, ElementNature nature)
+        public RenderBoxBase(int width, int height, ElementNature nature)
             : base(width, height, nature)
         {
-
         }
 
         public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
@@ -29,10 +30,9 @@ namespace LayoutFarm.Presentation
             //{
             canvasPage.OffsetCanvasOrigin(-myviewportX, -myviewportY);
             updateArea.Offset(myviewportX, myviewportY);
-            //}
+            //} 
 
-            DrawBackground(this, canvasPage, updateArea);
-            this.DrawChildContent(canvasPage, updateArea);
+            this.BoxDrawContent(canvasPage, updateArea);
 
             //if (this.IsScrollable && !this.HasDoubleScrollableSurface)
             //{
@@ -41,22 +41,6 @@ namespace LayoutFarm.Presentation
             //}
             //-------------------
         }
-        public int ClientTop
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public int ClientLeft
-        {
-            get
-            {
-                return 0;
-
-            }
-        }
-
         public void InvalidateContentArrangementFromContainerSizeChanged()
         {
             this.MarkInvalidContentArrangement();
@@ -65,19 +49,13 @@ namespace LayoutFarm.Presentation
                 layer.InvalidateContentArrangementFromContainerSizeChanged();
             }
         }
-        protected virtual void CloneGroundLayer(RenderElement otherElement)
+        protected virtual void BoxDrawContent(CanvasBase canvasPage, InternalRect updateArea)
         {
-            throw new NotSupportedException();
-        }
-        protected abstract bool HasGroundLayer();
-
-        public void DrawChildContent(CanvasBase canvasPage, InternalRect updateArea)
-        {
-
-            if (HasSubGroundLayer)
-            {
-                DrawSubGround(canvasPage, updateArea);
-            }
+            //sample ***
+            //1. draw background
+            RenderElementHelper.DrawBackground(this, canvasPage, updateArea.Width, updateArea.Height, Color.White);
+            //2. draw each layer
+            
             VisualLayer groundLayer = this.GetGroundLayer();
             if (groundLayer != null)
             {
@@ -95,22 +73,11 @@ namespace LayoutFarm.Presentation
                 }
             }
 
-
         }
         protected virtual void DrawSubGround(CanvasBase canvasPage, InternalRect updateArea)
         {
 
         }
-#if DEBUG
-        void debug_RecordLayerInfo(VisualLayer layer)
-        {
-            dbugRootElement visualroot = dbugRootElement.dbugCurrentGlobalVRoot;
-            if (visualroot.dbug_RecordDrawingChain)
-            {
-                visualroot.dbug_AddDrawLayer(layer);
-            }
-        }
-#endif
 
         public void PrepareOriginalChildContentDrawingChain(VisualDrawingChain chain)
         {
@@ -153,19 +120,11 @@ namespace LayoutFarm.Presentation
 
 
 
-
-
-
-
-
-
-
-
-        protected static void InnerDoTopDownReCalculateContentSize(MultiLayerRenderBox containerBase, VisualElementArgs vinv)
+        protected static void InnerDoTopDownReCalculateContentSize(RenderBoxBase containerBase, VisualElementArgs vinv)
         {
             containerBase.TopDownReCalculateContentSize(vinv);
         }
-        protected static void InnerTopDownReArrangeContentIfNeed(MultiLayerRenderBox containerBase, VisualElementArgs vinv)
+        protected static void InnerTopDownReArrangeContentIfNeed(RenderBoxBase containerBase, VisualElementArgs vinv)
         {
             containerBase.TopDownReArrangeContentIfNeed(vinv);
         }
@@ -232,10 +191,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-#if DEBUG
-        static int dbug_topDownReArrContentPass = 0;
 
-#endif
         public void ForceTopDownReArrangeContent(VisualElementArgs vinv)
         {
 
@@ -261,7 +217,7 @@ namespace LayoutFarm.Presentation
                 }
             }
 
-           // BoxEvaluateScrollBar();
+            // BoxEvaluateScrollBar();
 
 #if DEBUG
             this.dbug_FinishArr++;
@@ -310,6 +266,7 @@ namespace LayoutFarm.Presentation
 #endif
         }
 
+        //-------------------------------------------------------------------------------
         public abstract override void ClearAllChildren();
         protected void ClearAllChildrenInOtherLayers()
         {
@@ -321,7 +278,7 @@ namespace LayoutFarm.Presentation
                 }
             }
         }
-
+        protected abstract bool HasGroundLayer();
         protected virtual void GroundLayerAddChild(RenderElement child)
         {
 
@@ -330,12 +287,6 @@ namespace LayoutFarm.Presentation
 #endif
 
         }
-
-
-
-
-
-
         public IEnumerable<VisualLayer> GetAllLayerBottomToTopIter()
         {
 
@@ -360,7 +311,7 @@ namespace LayoutFarm.Presentation
             return otherLayers != null;
         }
         protected abstract VisualLayer GetGroundLayer();
-
+        //-------------------------------------------------------------------------------
 
         public override RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
@@ -453,7 +404,22 @@ namespace LayoutFarm.Presentation
             {
                 this.myviewportX = value;
             }
-        } 
+        }
+        public int ClientTop
+        {
+            get
+            {
+                return 0;
+            }
+        }
+        public int ClientLeft
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
         //--------------------------------------------
 #if DEBUG
         public override void dbug_DumpVisualProps(dbugLayoutMsgWriter writer)
@@ -471,7 +437,17 @@ namespace LayoutFarm.Presentation
 
             writer.LeaveCurrentLevel();
         }
+        void debug_RecordLayerInfo(VisualLayer layer)
+        {
+            dbugRootElement visualroot = dbugRootElement.dbugCurrentGlobalVRoot;
+            if (visualroot.dbug_RecordDrawingChain)
+            {
+                visualroot.dbug_AddDrawLayer(layer);
+            }
+        }
+        static int dbug_topDownReArrContentPass = 0;
 #endif
+
     }
 
 }

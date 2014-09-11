@@ -14,8 +14,8 @@ namespace LayoutFarm.Presentation
         IParentLink visualParentLink;
         object controller;
 
-        public RenderElement(int width, 
-            int height, 
+        public RenderElement(int width,
+            int height,
             ElementNature nature)
         {
 
@@ -32,7 +32,7 @@ namespace LayoutFarm.Presentation
         public object GetController()
         {
             return controller;
-        } 
+        }
         public void SetController(object ui)
         {
             this.controller = ui;
@@ -85,7 +85,7 @@ namespace LayoutFarm.Presentation
         public virtual void ClearAllChildren()
         {
 
-        } 
+        }
         public IParentLink ParentLink
         {
             get
@@ -111,8 +111,8 @@ namespace LayoutFarm.Presentation
             }
             visualParentLink.Unlink(this);
             visualParentLink = null;
-        } 
-        
+        }
+
         public static void RemoveParentLink(RenderElement visual)
         {
             visual.visualParentLink = null;
@@ -201,7 +201,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        protected int uiFlags; 
+        protected int uiFlags;
         int oneBitNativeEventFlags = 0;
         int uiCombineFlags;
 
@@ -329,25 +329,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public bool HasSubGroundLayer
-        {
-
-            get
-            {
-                return (uiFlags & HAS_SUB_GROUND) != 0;
-            }
-            set
-            {
-                if (value)
-                {
-                    uiFlags |= HAS_SUB_GROUND;
-                }
-                else
-                {
-                    uiFlags &= ~HAS_SUB_GROUND;
-                }
-            }
-        }
+        
 
         public bool FirstArrangementPass
         {
@@ -447,7 +429,7 @@ namespace LayoutFarm.Presentation
         {
             target.uiCombineFlags = (target.uiCombineFlags & ~0xF) | (int)visualNature;
         }
-         
+
         public virtual RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
 
@@ -484,7 +466,7 @@ namespace LayoutFarm.Presentation
         {
             if (this.visualParentLink != null)
             {
-                return visualParentLink.ParentVisualElement as MultiLayerRenderBox;
+                return visualParentLink.ParentVisualElement as RenderBoxBase;
             }
             return null;
         }

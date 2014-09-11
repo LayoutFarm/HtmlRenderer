@@ -209,7 +209,7 @@ namespace LayoutFarm.Presentation
 
                 if (parentVisualElement.IsVisualContainerBase)
                 {
-                    MultiLayerRenderBox parentAsContainerBase = (MultiLayerRenderBox)parentVisualElement;
+                    RenderBoxBase parentAsContainerBase = (RenderBoxBase)parentVisualElement;
                     return new Point(ui.b_left + parentGlobalLocation.X - parentAsContainerBase.ViewportX,
                         ui.b_top + parentGlobalLocation.Y - parentAsContainerBase.ViewportY);
                 }
@@ -251,10 +251,10 @@ namespace LayoutFarm.Presentation
                         if ((testY >= b_top && testY <= (b_top + b_Height)
                         && (testX >= b_left && testX <= (b_left + b_width))))
                         {
-                            MultiLayerRenderBox scContainer = null;
+                            RenderBoxBase scContainer = null;
                             if (this.IsScrollable)
                             {
-                                scContainer = (MultiLayerRenderBox)this;
+                                scContainer = (RenderBoxBase)this;
                                 artHitResult.OffsetTestPoint(-b_left + scContainer.ViewportX,
                                     -b_top + scContainer.ViewportY);
                             }
@@ -267,7 +267,7 @@ namespace LayoutFarm.Presentation
 
                             if (this.IsVisualContainerBase)
                             {
-                                ((MultiLayerRenderBox)this).ChildrenHitTestCore(artHitResult);
+                                ((RenderBoxBase)this).ChildrenHitTestCore(artHitResult);
                             }
 
                             if (this.IsScrollable)

@@ -34,12 +34,10 @@ namespace LayoutFarm.Presentation
         public readonly RenderElement ownerVisualElement;
 
         int postCalculateContentWidth;
-        int postCalculateContentHeight;
+        int postCalculateContentHeight; 
 
 
-
-
-        protected VisualLayer(MultiLayerRenderBox owner)
+        protected VisualLayer(RenderBoxBase owner)
         {
             this.ownerVisualElement = owner;
 
@@ -116,20 +114,7 @@ namespace LayoutFarm.Presentation
                     layerFlags |= IS_LAYER_HIDDEN;
                 }
             }
-        }
-
-        //public ArtAlignment ContentAlignment
-        //{
-        //    get
-        //    {
-        //        return (ArtAlignment)((layerFlags >> 11) & 0x3);
-        //    }
-        //    set
-        //    {
-        //        layerFlags = (layerFlags & ~(0x3 << 11)) | ((int)value << 11);
-        //    }
-        //}
-
+        } 
 
         public Size PostCalculateContentSize
         {

@@ -10,8 +10,8 @@ namespace LayoutFarm.Presentation.Text
 
     partial class TextEditRenderBox
     {
-        
-        RenderSurfaceScrollRelation scrollRelation;         
+
+        RenderSurfaceScrollRelation scrollRelation;
         CustomRenderSurface vscrollableSurface;//built in 
 
         public CustomRenderSurface ScrollableSurface
@@ -24,7 +24,41 @@ namespace LayoutFarm.Presentation.Text
             get { return this.scrollRelation; }
             set { this.scrollRelation = value; }
         }
-   
+        protected override void BoxDrawContent(CanvasBase canvasPage, InternalRect updateArea)
+        {
+            //1. bg
+            RenderElementHelper.DrawBackground(this, canvasPage, updateArea.Width, updateArea.Height, Color.White);
+            //2. sub ground
+             
+            if (internalTextLayerController.SelectionRange != null)
+            {
+                internalTextLayerController.SelectionRange.Draw(canvasPage, updateArea);
+            }
+            //3. each layer
+            if (vscrollableSurface != null)
+            {
+                vscrollableSurface.DrawToThisPage(canvasPage, updateArea);
+            }
+            else
+            {
+                VisualLayer groundLayer = this.GetGroundLayer();
+                if (groundLayer != null)
+                {
+                    groundLayer.DrawChildContent(canvasPage, updateArea);
+                }
+//                if (otherLayers != null)
+//                {
+//                    int j = otherLayers.Count;
+//                    for (int i = 0; i < j; i++)
+//                    {
+//#if DEBUG
+//                        debug_RecordLayerInfo(otherLayers[i]);
+//#endif
+//                        otherLayers[i].DrawChildContent(canvasPage, updateArea);
+//                    }
+//                }
+            }
+        }
         public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
         {
             if (vscrollableSurface != null)

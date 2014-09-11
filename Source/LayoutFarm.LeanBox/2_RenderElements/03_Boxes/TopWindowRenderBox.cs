@@ -8,17 +8,14 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-    public abstract partial class TopWindowRenderBox : MultiLayerRenderBox
+    public abstract partial class TopWindowRenderBox : RenderBoxBase
     {
 
         VisualLayer groundLayer; 
         public TopWindowRenderBox(int width, int height)
             : base(width, height, ElementNature.WindowRoot)
-        {
-
-        }
-
-       
+        { 
+        } 
         public abstract RenderElement CurrentKeyboardFocusedElement
         {
             get;

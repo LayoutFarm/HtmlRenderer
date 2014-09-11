@@ -24,7 +24,7 @@ namespace LayoutFarm.Presentation
 
 
 
-        public static void SetCalculatedDesiredSize(MultiLayerRenderBox v, int desiredWidth, int desiredHeight)
+        public static void SetCalculatedDesiredSize(RenderBoxBase v, int desiredWidth, int desiredHeight)
         {
             //v.uiDesiredWidth = desiredWidth;
             //v.uiDesiredHeight = desiredHeight;
@@ -95,7 +95,7 @@ namespace LayoutFarm.Presentation
                     if (this.IsWindowRoot)
                     {
                         this.TopDownReCalculateContentSize(vinv);
-                        ((MultiLayerRenderBox)this).TopDownReArrangeContentIfNeed(vinv);
+                        ((RenderBoxBase)this).TopDownReArrangeContentIfNeed(vinv);
                     }
                 }
             }
@@ -133,7 +133,7 @@ namespace LayoutFarm.Presentation
 
             if (this.IsVisualContainerBase)
             {
-                MultiLayerRenderBox vscont = (MultiLayerRenderBox)this;
+                RenderBoxBase vscont = (RenderBoxBase)this;
                 if (!vinv.IsInTopDownReArrangePhase)
                 {
                     vscont.InvalidateContentArrangementFromContainerSizeChanged();

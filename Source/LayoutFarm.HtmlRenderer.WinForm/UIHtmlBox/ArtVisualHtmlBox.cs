@@ -17,7 +17,7 @@ using HtmlRenderer.Composers;
 namespace LayoutFarm.Presentation
 {
 
-    public class ArtVisualHtmlBox : MultiLayerRenderBox
+    public class ArtVisualHtmlBox : RenderBoxBase
     {
         WinRootVisualBox _visualRootBox;
         BoxComposer _boxComposer;

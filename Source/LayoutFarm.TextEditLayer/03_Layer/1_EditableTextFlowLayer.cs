@@ -23,7 +23,7 @@ namespace LayoutFarm.Presentation.Text
             set;
         }
 
-        public EditableTextFlowLayer(MultiLayerRenderBox owner)
+        public EditableTextFlowLayer(RenderBoxBase owner)
             : base(owner)
         {
 
@@ -178,7 +178,7 @@ namespace LayoutFarm.Presentation.Text
             return false;
         }
 #if DEBUG
-        void debug_RecordLineInfo(MultiLayerRenderBox owner, EditableVisualElementLine line)
+        void debug_RecordLineInfo(RenderBoxBase owner, EditableVisualElementLine line)
         {
             dbugRootElement visualroot = this.dbugVRoot;
             if (visualroot.dbug_RecordDrawingChain)
@@ -225,9 +225,9 @@ namespace LayoutFarm.Presentation.Text
                     EditableVisualElementLine line = lines[i];
 
 #if DEBUG
-                    if (this.ownerVisualElement is MultiLayerRenderBox)
+                    if (this.ownerVisualElement is RenderBoxBase)
                     {
-                        debug_RecordLineInfo((MultiLayerRenderBox)ownerVisualElement, line);
+                        debug_RecordLineInfo((RenderBoxBase)ownerVisualElement, line);
                     }
 #endif
 
@@ -273,9 +273,9 @@ namespace LayoutFarm.Presentation.Text
             {
                 EditableVisualElementLine line = (EditableVisualElementLine)lineCollection;
 #if DEBUG
-                if (ownerVisualElement is MultiLayerRenderBox)
+                if (ownerVisualElement is RenderBoxBase)
                 {
-                    debug_RecordLineInfo((MultiLayerRenderBox)ownerVisualElement, line);
+                    debug_RecordLineInfo((RenderBoxBase)ownerVisualElement, line);
                 }
 #endif
 
@@ -499,7 +499,7 @@ namespace LayoutFarm.Presentation.Text
             this.BeginLayerGraphicUpdate(vinv);
 
 
-            MultiLayerRenderBox container = this.ownerVisualElement as MultiLayerRenderBox;
+            RenderBoxBase container = this.ownerVisualElement as RenderBoxBase;
             if (container != null)
             {
                 if (ownerVisualElement.IsScrollable)

@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-using System.Drawing.Drawing2D; 
-using System.IO; 
+using System.Drawing.Drawing2D;
+using System.IO;
 
 using LayoutFarm.Presentation;
 using LayoutFarm.Presentation.Text;
@@ -12,14 +12,14 @@ using LayoutFarm.Presentation.Text;
 namespace LayoutFarm.Presentation.Text
 {
 
-    public sealed partial class TextEditRenderBox : MultiLayerRenderBox
+    public sealed partial class TextEditRenderBox : RenderBoxBase
     {
 
-        EditableTextFlowLayer textLayer; 
+        EditableTextFlowLayer textLayer;
         InternalTextLayerController internalTextLayerController;
         int verticalExpectedCharIndex;
         bool isMultiLine = false;
-        bool isInVerticalPhase = false; 
+        bool isInVerticalPhase = false;
 
         public TextEditRenderBox(int width, int height, bool isMultiLine) :
             base(width, height, ElementNature.TextEditContainer)
@@ -38,7 +38,7 @@ namespace LayoutFarm.Presentation.Text
 
             textLayer = new EditableTextFlowLayer(this);
 
-            InnerSetHasSubGroupLayer(this, true);
+            
             internalTextLayerController = new InternalTextLayerController(this, textLayer);
 
             this.isMultiLine = isMultiLine;
@@ -101,23 +101,13 @@ namespace LayoutFarm.Presentation.Text
 
         }
 
-        protected override void DrawSubGround(CanvasBase canvasPage, InternalRect updateArea)
-        {
-            if (internalTextLayerController.SelectionRange != null)
-            {
-                internalTextLayerController.SelectionRange.Draw(canvasPage, updateArea);
-            }
-            //if (SubgroundPaint != null)
-            //{
-            //    SubgroundPaint(this, new ArtVisualPaintEventArgs(canvasPage, updateArea));
-            //}
-        } 
+        
         public void OnKeyPress(UIKeyPressEventArgs e)
         {
 
             if (!e.IsControlKey)
             {
-                VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs(); 
+                VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
                 char c = e.KeyChar;
                 e.CancelBubbling = true;
                 if (internalTextLayerController.SelectionRange != null
@@ -201,9 +191,9 @@ namespace LayoutFarm.Presentation.Text
         }
         public void OnDrag(UIDragEventArgs e)
         {
-             
+
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
-            {   
+            {
                 internalTextLayerController.CaretPos = e.Location; internalTextLayerController.EndSelect();
                 VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
                 this.InvalidateGraphic(vinv);
@@ -566,9 +556,9 @@ namespace LayoutFarm.Presentation.Text
                                 e.FreeVisualInvalidateCanvasArgs(vinv);
                                 TextSurfaceEventListener.NofitySplitNewLine(textSurfaceEventListener, e);
                                 vinv = e.GetVisualInvalidateCanvasArgs();
-                            } 
+                            }
 
-                            Rectangle lineArea = internalTextLayerController.CurrentLineArea; 
+                            Rectangle lineArea = internalTextLayerController.CurrentLineArea;
                             if (lineArea.Bottom > this.ViewportBottom)
                             {
 
@@ -860,13 +850,13 @@ namespace LayoutFarm.Presentation.Text
 
         void EnsureCaretVisible(VisualElementArgs vinv)
         {
-           
+
             Point textManCaretPos = internalTextLayerController.CaretPos;
 
-            
+
             textManCaretPos.Offset(-ViewportX, -ViewportY);
             RenderRootElement.SetCarentPosition(textManCaretPos, this);
-           
+
             if (textManCaretPos.X >= this.Width)
             {
                 if (!isMultiLine)

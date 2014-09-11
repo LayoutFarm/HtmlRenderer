@@ -13,7 +13,7 @@ namespace LayoutFarm.Presentation
    
 
         LinkedList<RenderElement> myElements = new LinkedList<RenderElement>();
-        public VisualPlainLayer(MultiLayerRenderBox owner)
+        public VisualPlainLayer(RenderBoxBase owner)
             : base(owner)
         {
         }
