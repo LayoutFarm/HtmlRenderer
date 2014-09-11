@@ -41,22 +41,11 @@ namespace LayoutFarm.Presentation.Text
             }
             else
             {
-                VisualLayer groundLayer = this.GetGroundLayer();
-                if (groundLayer != null)
+                if (this.Layers != null)
                 {
-                    groundLayer.DrawChildContent(canvasPage, updateArea);
+                    this.Layers.LayersDrawContent(canvasPage, updateArea); 
                 }
-//                if (otherLayers != null)
-//                {
-//                    int j = otherLayers.Count;
-//                    for (int i = 0; i < j; i++)
-//                    {
-//#if DEBUG
-//                        debug_RecordLayerInfo(otherLayers[i]);
-//#endif
-//                        otherLayers[i].DrawChildContent(canvasPage, updateArea);
-//                    }
-//                }
+               
             }
         }
         public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
@@ -174,7 +163,7 @@ namespace LayoutFarm.Presentation.Text
         void MyScrollByNotRaiseEvent(int dx, int dy, out UIScrollEventArgs hScrollEventArgs, out UIScrollEventArgs vScrollEventArgs)
         {
             vScrollEventArgs = null;
-            System.Drawing.Size innerContentSize = this.InnerContentSize; ;
+            System.Drawing.Size innerContentSize = this.InnerContentSize; 
             if (dy < 0)
             {
                 int old_y = this.ViewportY;

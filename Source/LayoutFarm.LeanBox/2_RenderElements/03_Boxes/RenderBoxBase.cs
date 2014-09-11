@@ -15,39 +15,40 @@ namespace LayoutFarm.Presentation
 
         int myviewportX;
         int myviewportY;
+        VisualLayerCollection layers;
 
-        List<VisualLayer> otherLayers;
 
         public RenderBoxBase(int width, int height, ElementNature nature)
             : base(width, height, nature)
         {
         }
-
+        public VisualLayerCollection Layers
+        {
+            get { return this.layers; }
+            set { this.layers = value; }
+        }
         public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
         {
             //-------------------
-            //if (this.IsScrollable && !this.HasDoubleScrollableSurface)
-            //{
+
             canvasPage.OffsetCanvasOrigin(-myviewportX, -myviewportY);
             updateArea.Offset(myviewportX, myviewportY);
-            //} 
+
 
             this.BoxDrawContent(canvasPage, updateArea);
 
-            //if (this.IsScrollable && !this.HasDoubleScrollableSurface)
-            //{
             canvasPage.OffsetCanvasOrigin(myviewportX, myviewportY);
             updateArea.Offset(-myviewportX, -myviewportY);
-            //}
+
             //-------------------
         }
         public void InvalidateContentArrangementFromContainerSizeChanged()
         {
             this.MarkInvalidContentArrangement();
-            foreach (VisualLayer layer in this.GetAllLayerBottomToTopIter())
-            {
-                layer.InvalidateContentArrangementFromContainerSizeChanged();
-            }
+            //foreach (VisualLayer layer in this.GetAllLayerBottomToTopIter())
+            //{
+            //    layer.InvalidateContentArrangementFromContainerSizeChanged();
+            //}
         }
         protected virtual void BoxDrawContent(CanvasBase canvasPage, InternalRect updateArea)
         {
@@ -55,67 +56,98 @@ namespace LayoutFarm.Presentation
             //1. draw background
             RenderElementHelper.DrawBackground(this, canvasPage, updateArea.Width, updateArea.Height, Color.White);
             //2. draw each layer
-            
-            VisualLayer groundLayer = this.GetGroundLayer();
-            if (groundLayer != null)
+            if (this.layers != null)
             {
-                groundLayer.DrawChildContent(canvasPage, updateArea);
-            }
-            if (otherLayers != null)
-            {
-                int j = otherLayers.Count;
-                for (int i = 0; i < j; i++)
+                int j = this.layers.LayerCount;
+                switch (j)
                 {
+                    case 0:
+                        {
+
+                        } break;
+                    case 1:
+                        {
+                            layers.Layer0.DrawChildContent(canvasPage, updateArea);
 #if DEBUG
-                    debug_RecordLayerInfo(otherLayers[i]);
+                            debug_RecordLayerInfo(layers.Layer0);
 #endif
-                    otherLayers[i].DrawChildContent(canvasPage, updateArea);
+                        } break;
+                    case 2:
+                        {
+                            layers.Layer0.DrawChildContent(canvasPage, updateArea);
+#if DEBUG
+                            debug_RecordLayerInfo(layers.Layer0);
+#endif
+                            layers.Layer1.DrawChildContent(canvasPage, updateArea);
+#if DEBUG
+                            debug_RecordLayerInfo(layers.Layer1);
+#endif
+                        } break;
+                    default:
+                        {
+                            for (int i = 0; i < j; ++i)
+                            {
+                                var layer = this.layers.GetLayer(i);
+                                layer.DrawChildContent(canvasPage, updateArea);
+#if DEBUG
+                                debug_RecordLayerInfo(layer);
+#endif
+                            }
+                        } break;
                 }
             }
-
         }
-        protected virtual void DrawSubGround(CanvasBase canvasPage, InternalRect updateArea)
-        {
-
-        }
-
         public void PrepareOriginalChildContentDrawingChain(VisualDrawingChain chain)
         {
-            if (otherLayers != null)
+
+            if (this.layers != null)
             {
-                int j = otherLayers.Count;
-                for (int i = 0; i < j; i++)
+                int j = this.layers.LayerCount;
+                switch (j)
                 {
-                    if (otherLayers[i].PrepareDrawingChain(chain))
-                    {
-                        return;
-                    }
+                    case 0:
+                        {
+
+                        } break;
+                    case 1:
+                        {
+                            layers.Layer0.PrepareDrawingChain(chain);
+#if DEBUG
+                            debug_RecordLayerInfo(layers.Layer0);
+#endif
+                        } break;
+                    case 2:
+                        {
+                            layers.Layer0.PrepareDrawingChain(chain);
+#if DEBUG
+                            debug_RecordLayerInfo(layers.Layer0);
+#endif
+                            layers.Layer1.PrepareDrawingChain(chain);
+#if DEBUG
+                            debug_RecordLayerInfo(layers.Layer1);
+#endif
+                        } break;
+                    default:
+                        {
+                            for (int i = 0; i < j; ++i)
+                            {
+                                var layer = this.layers.GetLayer(i);
+                                layer.PrepareDrawingChain(chain);
+#if DEBUG
+                                debug_RecordLayerInfo(layer);
+#endif
+                            }
+                        } break;
                 }
-            }
-            VisualLayer groundLayer = this.GetGroundLayer();
-            if (groundLayer != null)
-            {
-                groundLayer.PrepareDrawingChain(chain);
             }
         }
         public virtual void ChildrenHitTestCore(HitPointChain artHitResult)
         {
+            if (this.layers != null)
+            {
+                layers.ChildrenHitTestCore(artHitResult);
+            }
 
-            if (otherLayers != null)
-            {
-                for (int i = otherLayers.Count - 1; i > -1; --i)
-                {
-                    if (otherLayers[i].HitTestCore(artHitResult))
-                    {
-                        return;
-                    }
-                }
-            }
-            VisualLayer groundLayer = this.GetGroundLayer();
-            if (groundLayer != null)
-            {
-                groundLayer.HitTestCore(artHitResult);
-            }
         }
 
 
@@ -140,21 +172,11 @@ namespace LayoutFarm.Presentation
 #endif
             int cHeight = this.Height;
             int cWidth = this.Width;
-            if (otherLayers != null)
-            {
-                for (int i = otherLayers.Count - 1; i > -1; --i)
-                {
-                    otherLayers[i].TopDownReCalculateContentSize(vinv);
-                }
-            }
-            VisualLayer groundLayer = this.GetGroundLayer();
             Size ground_contentSize = Size.Empty;
-            if (groundLayer != null)
+            if (layers != null)
             {
-                groundLayer.TopDownReCalculateContentSize(vinv);
-                ground_contentSize = groundLayer.PostCalculateContentSize;
+                ground_contentSize = layers.TopDownReCalculateContentSize(vinv);
             }
-
             int finalWidth = ground_contentSize.Width;
             if (finalWidth == 0)
             {
@@ -203,20 +225,7 @@ namespace LayoutFarm.Presentation
 #endif
             this.MarkValidContentArrangement();
             vinv.IsInTopDownReArrangePhase = true;
-
-            VisualLayer groundLayer = this.GetGroundLayer();
-            if (groundLayer != null)
-            {
-                groundLayer.TopDownReArrangeContent(vinv);
-            }
-            if (otherLayers != null)
-            {
-                for (int i = otherLayers.Count - 1; i > -1; --i)
-                {
-                    otherLayers[i].TopDownReArrangeContent(vinv);
-                }
-            }
-
+            this.layers.ForceTopDownReArrangeContent(vinv);
             // BoxEvaluateScrollBar();
 
 #if DEBUG
@@ -268,50 +277,6 @@ namespace LayoutFarm.Presentation
 
         //-------------------------------------------------------------------------------
         public abstract override void ClearAllChildren();
-        protected void ClearAllChildrenInOtherLayers()
-        {
-            if (otherLayers != null)
-            {
-                for (int i = otherLayers.Count - 1; i > -1; --i)
-                {
-                    otherLayers[i].Clear();
-                }
-            }
-        }
-        protected abstract bool HasGroundLayer();
-        protected virtual void GroundLayerAddChild(RenderElement child)
-        {
-
-#if DEBUG
-            throw new NotSupportedException("item error");
-#endif
-
-        }
-        public IEnumerable<VisualLayer> GetAllLayerBottomToTopIter()
-        {
-
-            if (this.HasGroundLayer())
-            {
-                yield return GetGroundLayer();
-            }
-            if (otherLayers != null)
-            {
-                int j = otherLayers.Count;
-                for (int i = 0; i < j; ++i)
-                {
-                    if (otherLayers[i] != null)
-                    {
-                        yield return otherLayers[i];
-                    }
-                }
-            }
-        }
-        protected bool HasOtherLayers()
-        {
-            return otherLayers != null;
-        }
-        protected abstract VisualLayer GetGroundLayer();
-        //-------------------------------------------------------------------------------
 
         public override RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
@@ -321,40 +286,20 @@ namespace LayoutFarm.Presentation
                 throw new Exception("not a parent-child relation");
             }
 #endif
-
             if (afterThisChild.ParentLink.MayHasOverlapChild)
             {
-
                 return afterThisChild.ParentLink.FindOverlapedChildElementAtPoint(afterThisChild, point);
-
             }
-
             return null;
-        }
-
-
-        public void AddChild(RenderElement child)
-        {
-#if DEBUG
-            if (this == child)
-            {
-                throw new NotSupportedException();
-            }
-#endif
-            GroundLayerAddChild(child);
         }
         public Size InnerContentSize
         {
             get
             {
-                VisualLayer groundLayer = GetGroundLayer();
-                if (groundLayer == null)
+                if (this.layers != null && layers.LayerCount > 0)
                 {
-                    return this.Size;
-                }
-                else
-                {
-                    Size s1 = groundLayer.PostCalculateContentSize;
+                    var layer0 = this.layers.Layer0;
+                    Size s1 = layer0.PostCalculateContentSize;
                     if (s1.Width < this.Width)
                     {
                         s1.Width = this.Width;
@@ -365,6 +310,11 @@ namespace LayoutFarm.Presentation
                     }
                     return s1;
                 }
+                else
+                {
+                    return this.Size;
+                }
+
             }
         }
 
@@ -427,14 +377,6 @@ namespace LayoutFarm.Presentation
             base.dbug_DumpVisualProps(writer);
             writer.EnterNewLevel();
 
-
-
-            VisualLayer layer = this.GetGroundLayer();
-            if (layer != null)
-            {
-                layer.dbug_DumpElementProps(writer);
-            }
-
             writer.LeaveCurrentLevel();
         }
         void debug_RecordLayerInfo(VisualLayer layer)
@@ -450,4 +392,17 @@ namespace LayoutFarm.Presentation
 
     }
 
+
+
+    public static class RenderBoxBaseHelper
+    {
+        public static void AddChild(this RenderBoxBase box, RenderElement e)
+        {
+            if (box.Layers != null)
+            {
+                box.Layers.Layer0.AddTop(e);
+
+            }
+        }
+    }
 }

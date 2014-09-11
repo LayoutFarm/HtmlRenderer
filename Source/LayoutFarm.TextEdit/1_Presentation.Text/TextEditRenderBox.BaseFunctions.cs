@@ -37,6 +37,8 @@ namespace LayoutFarm.Presentation.Text
 
 
             textLayer = new EditableTextFlowLayer(this);
+            this.Layers = new VisualLayerCollection();
+            this.Layers.AddLayer(textLayer);
 
             
             internalTextLayerController = new InternalTextLayerController(this, textLayer);
@@ -56,14 +58,7 @@ namespace LayoutFarm.Presentation.Text
             this.IsScrollable = true;
         }
 
-        protected override bool HasGroundLayer()
-        {
-            return true;
-        }
-        protected override VisualLayer GetGroundLayer()
-        {
-            return textLayer;
-        }
+         
 
         public TextMan TextMan
         {

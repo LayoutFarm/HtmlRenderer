@@ -59,7 +59,10 @@ namespace TestGraphicPackage2
 
             var sampleButton = new LayoutFarm.Presentation.SampleControls.UIButton(30, 30);
             viewport.AddContent(sampleButton.PrimaryVisualElement);
+
             var vinv = sampleButton.PrimaryVisualElement.GetVInv();
+            vinv.ForceReArrange = true;
+            viewport.WinRoot.TopDownReCalculateContentSize(vinv);
             sampleButton.PrimaryVisualElement.InvalidateGraphic(vinv);
             sampleButton.PrimaryVisualElement.FreeVInv(vinv);
             //==================================================  
@@ -72,7 +75,7 @@ namespace TestGraphicPackage2
             {
                 this.Text = "Click!" + count++;
             });
-        } 
+        }
 
         private void cmdSampleTextBox_Click(object sender, EventArgs e)
         {
@@ -86,7 +89,7 @@ namespace TestGraphicPackage2
 
             var textbox = new LayoutFarm.Presentation.SampleControls.UITextBox(200, 30);
             viewport.AddContent(textbox.PrimaryVisualElement);
-           // ShowFormLayoutInspector(viewport);
+            // ShowFormLayoutInspector(viewport);
         }
         private void cmdMultilineTextBox_Click(object sender, EventArgs e)
         {
@@ -194,8 +197,10 @@ namespace TestGraphicPackage2
             }
 
             //================================================== 
-
-
+            var vinv2 = viewport.WinRoot.GetVInv();
+            vinv2.ForceReArrange = true;
+            viewport.WinRoot.TopDownReCalculateContentSize(vinv2);
+            viewport.WinRoot.FreeVInv(vinv2);
 
             viewport.PaintMe();
 

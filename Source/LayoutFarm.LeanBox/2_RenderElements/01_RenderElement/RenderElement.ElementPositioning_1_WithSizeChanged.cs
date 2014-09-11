@@ -120,7 +120,8 @@ namespace LayoutFarm.Presentation
             else
             {
 
-                int prevWidth = this.b_width; int prevHeight = this.b_Height;
+                int prevWidth = this.b_width;
+                int prevHeight = this.b_Height;
                 this.BeforeBoundChangedInvalidateGraphics(vinv);
                 PrivateSetSize(width, height, vinv);
                 this.AfterBoundChangedInvalidateGraphics(vinv);

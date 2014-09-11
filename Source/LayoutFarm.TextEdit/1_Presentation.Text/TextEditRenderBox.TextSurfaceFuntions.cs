@@ -46,7 +46,7 @@ namespace LayoutFarm.Presentation.Text
         public override void ClearAllChildren()
         {
             internalTextLayerController.Clear();
-            ClearAllChildrenInOtherLayers();
+            this.Layers.ClearAllContentInEachLayer();
         }
 
         public int Column
