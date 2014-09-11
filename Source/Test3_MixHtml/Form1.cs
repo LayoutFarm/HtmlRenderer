@@ -18,7 +18,7 @@ namespace TestGraphicPackage2
 
         }
 
-        static void ShowFormLayoutInspector(ArtSurfaceViewportControl viewport)
+        static void ShowFormLayoutInspector(UISurfaceViewportControl viewport)
         {
 
             var formLayoutInspector = new LayoutFarm.Presentation.Dev.FormLayoutInspector();
@@ -33,7 +33,7 @@ namespace TestGraphicPackage2
 
         }
         static void CreateReadyForm(
-          out ArtSurfaceViewportControl viewport,
+          out UISurfaceViewportControl viewport,
           out Form formCanvas)
         {
 
@@ -52,17 +52,15 @@ namespace TestGraphicPackage2
         }
         private void cmdMixHtml_Click(object sender, EventArgs e)
         {
-            ArtSurfaceViewportControl viewport;
+            UISurfaceViewportControl viewport;
             Form formCanvas;
             CreateReadyForm(
                 out viewport,
                 out formCanvas);
 
-
-
             //==================================================
             //html box
-            ArtUIHtmlBox htmlBox = new ArtUIHtmlBox(800, 600);
+            UIHtmlBox htmlBox = new UIHtmlBox(800, 600);
             ArtVisualHtmlBox innerHtmlBox = htmlBox.PrimaryVisual;
             viewport.AddContent(innerHtmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
@@ -83,7 +81,7 @@ namespace TestGraphicPackage2
             LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo = new TextFontInfo(new Font("tahoma", 10), new BasicGdi32FontHelper());
 
 
-            ArtSurfaceViewportControl viewport;
+            UISurfaceViewportControl viewport;
             Form formCanvas;
             CreateReadyForm(
                 out viewport,
@@ -93,7 +91,7 @@ namespace TestGraphicPackage2
 
             ////==================================================
             //html box
-            ArtUIHtmlBox htmlBox = new ArtUIHtmlBox(800, 400);
+            UIHtmlBox htmlBox = new UIHtmlBox(800, 400);
             ArtVisualHtmlBox innerHtmlBox = htmlBox.PrimaryVisual;
             viewport.AddContent(innerHtmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
@@ -106,14 +104,14 @@ namespace TestGraphicPackage2
             //================================================== 
 
             //textbox
-            var textbox = new LayoutFarm.Presentation.SampleControls.ArtUIMultiLineTextBox(400, 100, true);
+            var textbox = new LayoutFarm.Presentation.SampleControls.UIMultiLineTextBox(400, 100, true);
             var visualTextBox = textbox.PrimaryVisualElement;
             viewport.AddContent(visualTextBox);
 
             var vinv2 = visualTextBox.WinRoot.GetVInv();
             visualTextBox.InvalidateGraphic(vinv2);
             visualTextBox.WinRoot.FreeVInv(vinv2);
-            ArtVisualElement.DirectSetVisualElementLocation(visualTextBox, 0, 200);
+            RenderElement.DirectSetVisualElementLocation(visualTextBox, 0, 200);
             vinv2 = visualTextBox.WinRoot.GetVInv();
             visualTextBox.InvalidateGraphic(vinv2);
             visualTextBox.WinRoot.FreeVInv(vinv2);

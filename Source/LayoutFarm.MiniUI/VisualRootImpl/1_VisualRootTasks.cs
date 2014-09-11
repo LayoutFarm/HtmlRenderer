@@ -8,11 +8,11 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-    public abstract class ArtVisualRootTimerTask
+    public abstract class VisualRootTimerTask
     {
-        ArtVisualElement targetVisualElement;
+        RenderElement targetVisualElement;
         bool isInQueue; bool isEnabled;
-        public ArtVisualRootTimerTask(ArtVisualElement targetVisualElement)
+        public VisualRootTimerTask(RenderElement targetVisualElement)
         {
             this.targetVisualElement = targetVisualElement;
         }
@@ -24,7 +24,7 @@ namespace LayoutFarm.Presentation
             }
 
         }
-        public void SetEnable(bool value, ArtVisualWindowImpl winroot)
+        public void SetEnable(bool value, MyTopWindowRenderBox winroot)
         {
             isEnabled = value;
             if (isEnabled)

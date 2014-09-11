@@ -11,9 +11,9 @@ namespace LayoutFarm.Presentation
     static class InternalVisualRoleHelper
     {
 
-        public static BoxStyle CreateSimpleRole(Color color)
+        public static TextRunStyle CreateSimpleRole(Color color)
         {
-            BoxStyle simpleBeh = new BoxStyle();
+            TextRunStyle simpleBeh = new TextRunStyle();
             simpleBeh.SharedBgColorBrush = new ArtSolidBrush(color);
             return simpleBeh;
 

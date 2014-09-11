@@ -3,36 +3,29 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-
-using System.Drawing;
-
-
-
-
-
+using System.Text; 
+using System.Drawing; 
 namespace LayoutFarm.Presentation
 {
     public static class ArtVisualElementUtils
     {
-        public static BoxStyle CreateSimpleRole(Color color)
-        {
-
-            BoxStyle beh = new BoxStyle();
+        public static TextRunStyle CreateSimpleRole(Color color)
+        {   
+            TextRunStyle beh = new TextRunStyle();
             beh.SharedBgColorBrush = new ArtSolidBrush(color);
             return beh;
         }
 
-        static Size ReCalculateContentSizeVerticalStack(LinkedList<ArtVisualElement> velist, VisualElementArgs vinv)
+        static Size ReCalculateContentSizeVerticalStack(LinkedList<RenderElement> velist, VisualElementArgs vinv)
         {
             int local_desiredWidth = 0;
             int local_desiredHeight = 0;
 
-            LinkedListNode<ArtVisualElement> curNode = velist.First;
+            LinkedListNode<RenderElement> curNode = velist.First;
             while (curNode != null)
             {
 
-                ArtVisualElement visualElement = curNode.Value;
+                RenderElement visualElement = curNode.Value;
                 if (!visualElement.HasCalculatedSize)
                 {
                     visualElement.TopDownReCalculateContentSize(vinv);
@@ -49,26 +42,19 @@ namespace LayoutFarm.Presentation
                 }
                 local_desiredHeight += visualElement.ElementDesiredHeight;
                 curNode = curNode.Next;
-            }
-
-
-
-
-
-
-
+            } 
             return new Size(local_desiredWidth, local_desiredHeight);
         }
 
-        static Size ReCalculateContentSizeHorizontalStack(LinkedList<ArtVisualElement> velist, VisualElementArgs vinv)
+        static Size ReCalculateContentSizeHorizontalStack(LinkedList<RenderElement> velist, VisualElementArgs vinv)
         {
 
             int local_desiredWidth = 0;
             int local_desiredHeight = 17;
-            LinkedListNode<ArtVisualElement> curNode = velist.First;
+            LinkedListNode<RenderElement> curNode = velist.First;
             while (curNode != null)
             {
-                ArtVisualElement visualElement = curNode.Value;
+                RenderElement visualElement = curNode.Value;
                 if (!visualElement.HasCalculatedSize)
                 {
                     visualElement.TopDownReCalculateContentSize(vinv);
@@ -88,14 +74,7 @@ namespace LayoutFarm.Presentation
                 }
                 local_desiredWidth += visualElement.ElementDesiredWidth;
                 curNode = curNode.Next;
-            }
-
-
-
-
-
-
-
+            } 
 
             return new Size(local_desiredWidth, local_desiredHeight);
         }

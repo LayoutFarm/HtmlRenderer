@@ -1,6 +1,6 @@
 ﻿namespace LayoutFarm.Presentation
 {
-    partial class ArtSurfaceViewportControl
+    partial class UISurfaceViewportControl
     {
                                 private System.ComponentModel.IContainer components = null;
 

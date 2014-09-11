@@ -3,7 +3,7 @@ using System;
 namespace LayoutFarm.Presentation
 {
 
-    public enum ArtKeys
+    public enum UIKeys
     {
         Modifiers = -65536,
         //

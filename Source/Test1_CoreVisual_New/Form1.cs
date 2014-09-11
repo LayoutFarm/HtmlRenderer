@@ -18,7 +18,7 @@ namespace TestGraphicPackage
             InitializeComponent();
         }
 
-        static void ShowFormLayoutInspector(ArtSurfaceViewportControl viewport)
+        static void ShowFormLayoutInspector(UISurfaceViewportControl viewport)
         {
 
             var formLayoutInspector = new LayoutFarm.Presentation.Dev.FormLayoutInspector();
@@ -37,7 +37,7 @@ namespace TestGraphicPackage
 
              
 
-            ArtSurfaceViewportControl viewport;
+            UISurfaceViewportControl viewport;
             Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(out viewport); 
             viewport.PaintMe(); 
             formCanvas.Show(); 
@@ -50,12 +50,12 @@ namespace TestGraphicPackage
             simpleForm.Text = "SimpleForm2";
             simpleForm.WindowState = FormWindowState.Maximized;
             Rectangle screenClientAreaRect = Screen.PrimaryScreen.WorkingArea;
-            ArtSurfaceViewportControl viewport = new ArtSurfaceViewportControl();
+            UISurfaceViewportControl viewport = new UISurfaceViewportControl();
             viewport.Bounds = new Rectangle(0, 0, screenClientAreaRect.Width, screenClientAreaRect.Height);
             simpleForm.Controls.Add(viewport);
-            var visualRoot = new VisualRootImpl();
+            var visualRoot = new RenderRootElement();
 
-            var windowRoot = new ArtVisualWindowImpl(visualRoot, this.Width, this.Height);
+            var windowRoot = new MyTopWindowRenderBox(visualRoot, this.Width, this.Height);
 
 
             viewport.SetupWindowRoot(windowRoot);

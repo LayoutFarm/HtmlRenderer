@@ -437,7 +437,9 @@ namespace HtmlRenderer.Boxes
             for (int i = 0; i < j; ++i)
             {
                 //-----------------
+#if DEBUG
                 dbugCounter.dbugRunPaintCount++;
+#endif
                 //-----------------
 
                 CssRun w = tmpRuns[i];

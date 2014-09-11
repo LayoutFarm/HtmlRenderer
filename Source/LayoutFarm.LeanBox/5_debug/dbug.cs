@@ -31,7 +31,7 @@ namespace LayoutFarm.Presentation
             msg.indentLevel = this.currentIndentLevel;
             allMessages.Add(msg);
         }
-        public void Add(ArtVisualElement ve, string msg)
+        public void Add(RenderElement ve, string msg)
         {
             this.Add(new dbugLayoutMsg(ve, msg));
 
@@ -54,7 +54,7 @@ namespace LayoutFarm.Presentation
         public string msg;
         public int indentLevel;
 
-        public dbugLayoutMsg(ArtVisualElement ve, string msg)
+        public dbugLayoutMsg(RenderElement ve, string msg)
         {
             this.owner = ve;
             this.msg = msg;

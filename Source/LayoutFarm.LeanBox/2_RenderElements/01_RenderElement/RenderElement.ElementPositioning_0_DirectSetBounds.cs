@@ -1,0 +1,37 @@
+﻿//2014 Apache2, WinterDev
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+using System.Drawing;
+
+using LayoutFarm.Presentation;
+
+
+namespace LayoutFarm.Presentation
+{
+
+
+    partial class RenderElement
+    {
+
+
+        public static void DirectSetVisualElementSize(RenderElement visualElement, int width, int height)
+        {
+
+            visualElement.b_width = width;
+            visualElement.b_Height = height;
+        }
+ 
+
+        public static void DirectSetVisualElementLocation(RenderElement visualElement, int x, int y)
+        {
+
+            visualElement.b_left = x;
+            visualElement.b_top = y;
+
+
+        }
+
+    }
+}

@@ -52,7 +52,7 @@
     <Compile Include="PlatformSpecific\CanvasCaret.cs" />
     <Compile Include="PlatformSpecific\CanvasViewport.cs" />
     <Compile Include="PlatformSpecific\FormCanvasHelper.cs" />
-    <Compile Include="PlatformSpecific\IArtSurfaceViewportControl.cs" />
+    <Compile Include="PlatformSpecific\ISurfaceViewportControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PlatformSpecific\ArtCanvasImpl.cs" />
     <Compile Include="PlatformSpecific\ArtCanvasCollection.cs" />
@@ -61,7 +61,7 @@
     <Compile Include="Win32Gdi\MyWin32.cs" />
     <Compile Include="Win32Gdi\NativeTextWin32.cs" />
     <Compile Include="PlatformSpecific\QuadPages.cs" />
-    <Compile Include="PlatformSpecific\VisualScrollableSurfaceImpl.cs" />
+    <Compile Include="PlatformSpecific\MyCustomRenderSurface.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

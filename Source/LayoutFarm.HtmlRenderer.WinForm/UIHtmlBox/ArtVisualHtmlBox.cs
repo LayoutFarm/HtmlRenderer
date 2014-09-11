@@ -17,7 +17,7 @@ using HtmlRenderer.Composers;
 namespace LayoutFarm.Presentation
 {
 
-    public class ArtVisualHtmlBox : ArtVisualContainerBase
+    public class ArtVisualHtmlBox : MultiLayerRenderBox
     {
         WinRootVisualBox _visualRootBox;
         BoxComposer _boxComposer;
@@ -46,7 +46,7 @@ namespace LayoutFarm.Presentation
         int myWidth;
         int myHeight;
         public ArtVisualHtmlBox(int width, int height)
-            : base(width, height, VisualElementNature.HtmlContainer)
+            : base(width, height, ElementNature.CustomContainer)
         {
             this.myWidth = width;
             this.myHeight = height;
@@ -139,12 +139,12 @@ namespace LayoutFarm.Presentation
             return null;
             
         }
-        public override void CustomDrawToThisPage(ArtCanvas canvasPage, InternalRect updateArea)
+        public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
         {
             _visualRootBox.PhysicalViewportBound = new RectangleF(0, 0, myWidth, myHeight);
             _visualRootBox.PerformPaint(canvasPage.GetGfx());
         }
-        public override void ChildrenHitTestCore(ArtHitPointChain artHitResult)
+        public override void ChildrenHitTestCore(HitPointChain artHitResult)
         {
             //hit test in another system 
         }

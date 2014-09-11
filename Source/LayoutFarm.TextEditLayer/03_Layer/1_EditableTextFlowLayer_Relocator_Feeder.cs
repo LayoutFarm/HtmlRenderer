@@ -79,7 +79,7 @@ namespace LayoutFarm.Presentation.Text
             }
             public void Accept()
             {
-                ArtEditableVisualTextRun v = null;
+                EditableVisualTextRun v = null;
                 int sourceLineId = feeder.CurrentLineId;
 
                 if (this.currentRelocatorLineId == sourceLineId)
@@ -118,7 +118,7 @@ namespace LayoutFarm.Presentation.Text
                 }
             }
 
-            public ArtEditableVisualTextRun CurrentRun
+            public EditableVisualTextRun CurrentRun
             {
                 get
                 {
@@ -156,7 +156,7 @@ namespace LayoutFarm.Presentation.Text
             public void SplitIntoNewLine()
             {
 
-                ArtEditableVisualTextRun currentRun = feeder.CurrentRun;
+                EditableVisualTextRun currentRun = feeder.CurrentRun;
                 EditableVisualElementLine line = currentRun.OwnerEditableLine;
                 line.SplitToNewLine(currentRun);
 
@@ -278,7 +278,7 @@ namespace LayoutFarm.Presentation.Text
             int currentFeederLineId = 0;
             EditableVisualElementLine currentLine;
 
-            LinkedListNode<ArtEditableVisualTextRun> curNode;
+            LinkedListNode<EditableVisualTextRun> curNode;
 
             int readState = 0;
             EditableTextFlowLayer flowLayer;
@@ -378,10 +378,10 @@ namespace LayoutFarm.Presentation.Text
                     return currentLine != null && currentLine.Count == 0 && !currentLine.EndWithLineBreak;
                 }
             }
-            public ArtEditableVisualTextRun UnsafeRemoveCurrent()
+            public EditableVisualTextRun UnsafeRemoveCurrent()
             {
-                LinkedListNode<ArtEditableVisualTextRun> tobeRemoveNode = curNode;
-                ArtEditableVisualTextRun v = tobeRemoveNode.Value;
+                LinkedListNode<EditableVisualTextRun> tobeRemoveNode = curNode;
+                EditableVisualTextRun v = tobeRemoveNode.Value;
                 EditableVisualElementLine line = v.OwnerEditableLine;
 
                 if (tobeRemoveNode == line.First)
@@ -643,7 +643,7 @@ namespace LayoutFarm.Presentation.Text
                 }
                 return false;
             }
-            public ArtEditableVisualTextRun CurrentRun
+            public EditableVisualTextRun CurrentRun
             {
                 get
                 {
