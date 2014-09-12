@@ -66,9 +66,9 @@ namespace TestGraphicPackage2
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
             htmlBox.LoadHtmlText(html);
 
-            var vinv = innerHtmlBox.WinRoot.GetVInv();
+            
             innerHtmlBox.InvalidateGraphic();
-            innerHtmlBox.WinRoot.FreeVInv();
+            
             //================================================== 
 
 
@@ -98,9 +98,9 @@ namespace TestGraphicPackage2
             //ArtVisualHtmlBox.DirectSetVisualElementLocation(innerHtmlBox, 100, 100);
             htmlBox.LoadHtmlText(html);
 
-            var vinv = innerHtmlBox.WinRoot.GetVInv();
+            
             innerHtmlBox.InvalidateGraphic();
-            innerHtmlBox.WinRoot.FreeVInv();
+            
             //================================================== 
 
             //textbox
@@ -114,7 +114,7 @@ namespace TestGraphicPackage2
             RenderElement.DirectSetVisualElementLocation(visualTextBox, 0, 200);
             //vinv2 = visualTextBox.WinRoot.GetVInv();
             visualTextBox.InvalidateGraphic();
-            visualTextBox.WinRoot.FreeVInv();
+            
 
             viewport.WinRoot.CurrentKeyboardFocusedElement = visualTextBox;
             viewport.PaintMe();

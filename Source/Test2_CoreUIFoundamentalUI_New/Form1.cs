@@ -60,10 +60,10 @@ namespace TestGraphicPackage2
             var sampleButton = new LayoutFarm.Presentation.SampleControls.UIButton(30, 30);
             viewport.AddContent(sampleButton.PrimaryVisualElement);
 
-            var vinv = sampleButton.PrimaryVisualElement.GetVInv(); 
+           
             viewport.WinRoot.TopDownReCalculateContentSize();
             sampleButton.PrimaryVisualElement.InvalidateGraphic();
-            sampleButton.PrimaryVisualElement.FreeVInv();
+             
             //==================================================  
             viewport.PaintMe();
             //ShowFormLayoutInspector(viewport);
@@ -189,11 +189,11 @@ namespace TestGraphicPackage2
                 var v = textbox.PrimaryVisualElement;
                 viewport.AddContent(v);
 
-                var vinv = v.GetVInv(); 
+             
                 viewport.WinRoot.TopDownReCalculateContentSize();
 
                 v.InvalidateGraphic();
-                v.FreeVInv();
+          
             } 
 
             viewport.PaintMe();  

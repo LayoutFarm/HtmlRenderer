@@ -9,8 +9,7 @@ namespace LayoutFarm.Presentation
     public class UIRootGraphic : RootGraphic
     {
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
-        static Stack<LayoutPhaseVisitor> visualArgStack = new Stack<LayoutPhaseVisitor>();
-
+         
         public UIRootGraphic()
         {
 #if DEBUG
@@ -47,19 +46,7 @@ namespace LayoutFarm.Presentation
         {
 
         }
-        public static LayoutPhaseVisitor GetVisualInvalidateArgs(TopWindowRenderBox winroot)
-        {
-            if (visualArgStack.Count > 0)
-            {
-                LayoutPhaseVisitor vinv = visualArgStack.Pop();
-                vinv_SetWinRoot(winroot);
-                return vinv;
-            }
-            else
-            {
-                return new LayoutPhaseVisitor(winroot);
-            }
-        }
+        
 
          
 
@@ -96,9 +83,9 @@ namespace LayoutFarm.Presentation
                             if (ve.WinRoot != null)
                             {
                                 ve.WinRoot.CurrentKeyboardFocusedElement = ve;
-                                LayoutPhaseVisitor vinv = ve.GetVInv();
+                              
                                 ve.InvalidateGraphic();
-                                ve.FreeVInv();
+                                
                             }
                         } break;
                     case RequestCommand.InvalidateArea:

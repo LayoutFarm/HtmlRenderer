@@ -39,33 +39,7 @@ namespace LayoutFarm.Presentation
         }
         //=========================================
 
-        public LayoutPhaseVisitor GetVInv()
-        {
-
-            if (this.IsWindowRoot)
-            {
-
-                return new LayoutPhaseVisitor((TopWindowRenderBox)this);
-
-            }
-            else
-            {
-                TopWindowRenderBox winroot = this.InternalGetWinRootElement();
-                if (winroot != null)
-                {
-                    return new LayoutPhaseVisitor((TopWindowRenderBox)winroot);
-
-                }
-                else
-                {
-                    return new LayoutPhaseVisitor(null as TopWindowRenderBox);
-                }
-            }
-        }
-        public void FreeVInv()
-        {
-
-        }
+        
 
         public TopWindowRenderBox WinRoot
         {

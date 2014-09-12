@@ -30,14 +30,8 @@ namespace LayoutFarm.Presentation.Text
         {
             this.innerTextMan.SplitCurrentLineIntoNewLine(); 
         }
-        public LayoutPhaseVisitor GetVInv()
-        {
-            return this.visualTextSurface.GetVInv();
-        }
-        public void FreeVinv()
-        {
-            this.visualTextSurface.FreeVInv();
-        }
+        
+        
         public EditableVisualTextRun CurrentTextRun
         {
             get

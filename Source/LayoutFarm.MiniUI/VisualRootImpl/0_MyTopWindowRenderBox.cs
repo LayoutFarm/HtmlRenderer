@@ -180,7 +180,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        static void ClearLayoutOn(LayoutPhaseVisitor vinv, RenderBoxBase contvs, int i)
+        static void ClearLayoutOn(RenderBoxBase contvs, int i)
         {
 
             switch (contvs.GetReLayoutState())
@@ -222,7 +222,7 @@ namespace LayoutFarm.Presentation
 
                     } break;
                 case 1:
-                    { 
+                    {
 #if DEBUG
                         vinv_dbug_SetInitObject(contvs);
                         vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_CAL, i);
@@ -393,10 +393,10 @@ namespace LayoutFarm.Presentation
             visualroot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_CLEAR_LAYOUT_enter, total);
 #endif
 
-            LayoutPhaseVisitor vinv = this.GetVInv();
+             
             if (this.NeedReCalculateContentSize || this.NeedContentArrangement)
             {
-                ClearLayoutOn(vinv, this, 0);
+                ClearLayoutOn(this, 0);
                 this.IsInLayoutQueue = false;
             }
             else
@@ -412,7 +412,7 @@ namespace LayoutFarm.Presentation
                 if (elem.ParentLink != null && elem.IsVisualContainerBase)
                 {
                     RenderBoxBase contvs = (RenderBoxBase)elem;
-                    ClearLayoutOn(vinv, contvs, i);
+                    ClearLayoutOn(contvs, i);
                 }
                 elem.IsInLayoutQueue = false;
             }
@@ -440,8 +440,7 @@ namespace LayoutFarm.Presentation
 
                 layoutQueue2.Clear();
             }
-
-            this.FreeVInv();
+ 
 #if DEBUG
 
             visualroot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_CLEAR_LAYOUT_exit);

@@ -40,7 +40,7 @@ namespace LayoutFarm.Presentation.Text
             this.Layers = new VisualLayerCollection();
             this.Layers.AddLayer(textLayer);
 
-            
+
             internalTextLayerController = new InternalTextLayerController(this, textLayer);
 
             this.isMultiLine = isMultiLine;
@@ -58,7 +58,7 @@ namespace LayoutFarm.Presentation.Text
             this.IsScrollable = true;
         }
 
-         
+
 
         public TextMan TextMan
         {
@@ -96,13 +96,13 @@ namespace LayoutFarm.Presentation.Text
 
         }
 
-        
+
         public void OnKeyPress(UIKeyPressEventArgs e)
         {
 
             if (!e.IsControlKey)
             {
-                LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+               
                 char c = e.KeyChar;
                 e.CancelBubbling = true;
                 if (internalTextLayerController.SelectionRange != null
@@ -134,7 +134,7 @@ namespace LayoutFarm.Presentation.Text
                     }
                 }
                 EnsureCaretVisible();
-                e.FreeVisualInvalidateCanvasArgs();
+                
             }
         }
 
@@ -152,7 +152,7 @@ namespace LayoutFarm.Presentation.Text
         {
             if (e.Button == UIMouseButtons.Left)
             {
-                LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+               
                 InvalidateGraphicOfCurrentLineArea(); internalTextLayerController.CaretPos = e.Location; if (internalTextLayerController.SelectionRange != null)
                 {
                     Rectangle r = GetSelectionUpdateArea(); internalTextLayerController.CancelSelect();
@@ -162,7 +162,7 @@ namespace LayoutFarm.Presentation.Text
                 {
                     InvalidateGraphicOfCurrentLineArea();
                 }
-                e.FreeVisualInvalidateCanvasArgs();
+                
             }
 
         }
@@ -190,9 +190,9 @@ namespace LayoutFarm.Presentation.Text
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
                 internalTextLayerController.CaretPos = e.Location; internalTextLayerController.EndSelect();
-                LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+                
                 this.InvalidateGraphic();
-                e.FreeVisualInvalidateCanvasArgs();
+                 
             }
 
         }
@@ -203,9 +203,9 @@ namespace LayoutFarm.Presentation.Text
                 internalTextLayerController.CaretPos = e.Location;
                 internalTextLayerController.StartSelect();
                 internalTextLayerController.EndSelect();
-                LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+                 
                 this.InvalidateGraphic();
-                e.FreeVisualInvalidateCanvasArgs();
+       
 
             }
         }
@@ -216,9 +216,9 @@ namespace LayoutFarm.Presentation.Text
                 internalTextLayerController.CaretPos = e.Location;
                 internalTextLayerController.EndSelect();
 
-                LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+                 
                 this.InvalidateGraphic();
-                e.FreeVisualInvalidateCanvasArgs();
+              
             }
         }
 
@@ -259,7 +259,7 @@ namespace LayoutFarm.Presentation.Text
                 case UIKeys.Back:
                     {
 
-                        LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+                         
 
                         if (internalTextLayerController.SelectionRange != null)
                         {
@@ -288,7 +288,7 @@ namespace LayoutFarm.Presentation.Text
                         }
 
                         EnsureCaretVisible();
-                        e.FreeVisualInvalidateCanvasArgs();
+                        
                     } break;
                 case UIKeys.Home:
                     {
@@ -308,9 +308,9 @@ namespace LayoutFarm.Presentation.Text
                             internalTextLayerController.DoHome();
                             internalTextLayerController.EndSelect();
                         }
-                        LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+                         
                         EnsureCaretVisible();
-                        e.FreeVisualInvalidateCanvasArgs();
+                         
                     } break;
                 case UIKeys.End:
                     {
@@ -333,14 +333,14 @@ namespace LayoutFarm.Presentation.Text
                             internalTextLayerController.EndSelect();
 
                         }
-                        LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+                        
                         EnsureCaretVisible();
-                        e.FreeVisualInvalidateCanvasArgs();
+                       
                     } break;
                 case UIKeys.Delete:
                     {
 
-                        LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+                         
                         if (internalTextLayerController.SelectionRange != null)
                         {
                             InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
@@ -364,7 +364,7 @@ namespace LayoutFarm.Presentation.Text
                         }
 
                         EnsureCaretVisible();
-                        e.FreeVisualInvalidateCanvasArgs();
+                       
 
                     } break;
                 default:
@@ -374,11 +374,11 @@ namespace LayoutFarm.Presentation.Text
 
                             if (keycode >= UIKeys.F1 && keycode <= UIKeys.F12)
                             {
-                                LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+                                 
                                 InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
                                 TextSurfaceEventListener.NotifyFunctionKeyDown(textSurfaceEventListener, keycode);
                                 EnsureCaretVisible();
-                                e.FreeVisualInvalidateCanvasArgs();
+                                 
                             }
                         }
 
@@ -413,7 +413,6 @@ namespace LayoutFarm.Presentation.Text
 
                             if (Clipboard.ContainUnicodeText())
                             {
-                                LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
 
                                 internalTextLayerController.AddTextRunsToCurrentLine(
                                     new EditableVisualTextRun[]{ 
@@ -421,7 +420,7 @@ namespace LayoutFarm.Presentation.Text
                                             Clipboard.GetUnicodeText())
                                            });
                                 EnsureCaretVisible();
-                                e.FreeVisualInvalidateCanvasArgs();
+
                             }
 
                         } break;
@@ -430,7 +429,7 @@ namespace LayoutFarm.Presentation.Text
 
                             if (internalTextLayerController.SelectionRange != null)
                             {
-                                LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+
                                 if (internalTextLayerController.SelectionRange != null)
                                 {
 
@@ -448,26 +447,26 @@ namespace LayoutFarm.Presentation.Text
 
                                 EnsureCaretVisible();
                                 ReleaseStringBuilder(stBuilder);
-                                e.FreeVisualInvalidateCanvasArgs();
+
                             }
 
                         } break;
 
                     case UIKeys.Z:
                         {
-                            LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+
                             internalTextLayerController.UndoLastAction();
                             EnsureCaretVisible();
-                            e.FreeVisualInvalidateCanvasArgs();
+
                         } break;
 
                     case UIKeys.Y:
                         {
 
-                            LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+                           
                             internalTextLayerController.ReverseLastUndoAction();
                             EnsureCaretVisible();
-                            e.FreeVisualInvalidateCanvasArgs();
+                            
 
                         } break;
                     case UIKeys.B:
@@ -493,7 +492,7 @@ namespace LayoutFarm.Presentation.Text
 
                             }
 
-                            LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+
                             internalTextLayerController.DoFormatSelection(textStyle);
 
                             if (internalTextLayerController.updateJustCurrentLine)
@@ -506,7 +505,7 @@ namespace LayoutFarm.Presentation.Text
                                 InvalidateGraphic();
 
                             }
-                            e.FreeVisualInvalidateCanvasArgs();
+                            
                         } break;
 
                 }
@@ -536,7 +535,6 @@ namespace LayoutFarm.Presentation.Text
                         }
                         if (isMultiLine)
                         {
-                            LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
 
                             if (internalTextLayerController.SelectionRange != null)
                             {
@@ -548,9 +546,9 @@ namespace LayoutFarm.Presentation.Text
                             if (textSurfaceEventListener != null)
                             {
 
-                                e.FreeVisualInvalidateCanvasArgs();
+                                
                                 TextSurfaceEventListener.NofitySplitNewLine(textSurfaceEventListener, e);
-                                vinv = e.GetVisualInvalidateCanvasArgs();
+                                 
                             }
 
                             Rectangle lineArea = internalTextLayerController.CurrentLineArea;
@@ -564,7 +562,7 @@ namespace LayoutFarm.Presentation.Text
                                 InvalidateGraphicOfCurrentLineArea();
                             }
                             EnsureCaretVisible();
-                            e.FreeVisualInvalidateCanvasArgs();
+                            
                             return true;
                         }
                         return true;
@@ -576,7 +574,7 @@ namespace LayoutFarm.Presentation.Text
                         {
                             return true;
                         }
-                        LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+
                         InvalidateGraphicOfCurrentLineArea();
                         if (!e.IsShiftKeyDown)
                         {
@@ -633,7 +631,7 @@ namespace LayoutFarm.Presentation.Text
                         {
                             TextSurfaceEventListener.NotifyArrowKeyCaretPosChanged(textSurfaceEventListener, keyData);
                         }
-                        e.FreeVisualInvalidateCanvasArgs();
+                        
                         return true;
                     }
                 case UIKeys.Right:
@@ -644,7 +642,7 @@ namespace LayoutFarm.Presentation.Text
 
                             return true;
                         }
-                        LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+
                         InvalidateGraphicOfCurrentLineArea();
                         if (!e.IsShiftKeyDown)
                         {
@@ -702,7 +700,7 @@ namespace LayoutFarm.Presentation.Text
                         {
                             TextSurfaceEventListener.NotifyArrowKeyCaretPosChanged(textSurfaceEventListener, keyData);
                         }
-                        e.FreeVisualInvalidateCanvasArgs();
+                        
                         return true;
                     }
                 case UIKeys.Down:
@@ -722,7 +720,7 @@ namespace LayoutFarm.Presentation.Text
 
                                 verticalExpectedCharIndex = internalTextLayerController.CharIndex;
                             }
-                            LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+
                             internalTextLayerController.CurrentLineNumber++;
 
                             if (verticalExpectedCharIndex > internalTextLayerController.CurrentLineCharCount - 1)
@@ -743,7 +741,7 @@ namespace LayoutFarm.Presentation.Text
                             {
                                 InvalidateGraphicOfCurrentLineArea();
                             }
-                            e.FreeVisualInvalidateCanvasArgs();
+
                         }
                         else
                         {
@@ -784,7 +782,7 @@ namespace LayoutFarm.Presentation.Text
                             }
 
                             Rectangle lineArea = internalTextLayerController.CurrentLineArea;
-                            LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+
                             if (lineArea.Top < ViewportY)
                             {
                                 ScrollBy(0, lineArea.Top - ViewportY);
@@ -793,7 +791,7 @@ namespace LayoutFarm.Presentation.Text
                             {   //
                                 InvalidateGraphicOfCurrentLineArea();
                             }
-                            e.FreeVisualInvalidateCanvasArgs();
+
                         }
                         else
                         {
@@ -807,9 +805,9 @@ namespace LayoutFarm.Presentation.Text
                     }
                 case UIKeys.Tab:
                     {
-                        LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
+
                         DoTab();
-                        e.FreeVisualInvalidateCanvasArgs();
+
 
                         return true;
                     }

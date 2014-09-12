@@ -141,11 +141,11 @@ namespace LayoutFarm.Presentation.Text
         }
         public void ReplaceCurrentTextRunContent(int nBackspace, string t)
         {
-            LayoutPhaseVisitor vinv = GetVInv();
+            
 
             internalTextLayerController.ReplaceCurrentTextRunContent(nBackspace, t);
 
-            FreeVInv();
+         
         }
         public void LoadTextRun(IEnumerable<EditableVisualTextRun> textRuns)
         {
