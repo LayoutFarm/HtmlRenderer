@@ -204,7 +204,7 @@ namespace LayoutFarm.Presentation
             if (parentVisualElement != null)
             {
                 Point parentGlobalLocation = GetGlobalLocationStatic(parentVisualElement);
-                ui.visualParentLink.AdjustParentLocation(ref parentGlobalLocation);
+                ui.visualParentLink.AdjustLocation(ref parentGlobalLocation);
 
                 if (parentVisualElement.MayHasViewport)
                 {

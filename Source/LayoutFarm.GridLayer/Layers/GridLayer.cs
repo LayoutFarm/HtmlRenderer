@@ -73,12 +73,12 @@ namespace LayoutFarm.Presentation.Grids
             artHitResult.GetTestPoint(out testX, out testY);
             GridItem gridItem = GetGridItemByPosition(testX, testY);
 
-            if (gridItem != null && gridItem.contentElement != null)
+            if (gridItem != null && gridItem.ContentElement != null)
             {
 
                 artHitResult.OffsetTestPoint(-gridItem.X, -gridItem.Y);
                 //  2010-09-04 ?
-                gridItem.contentElement.HitTestCore(artHitResult);
+                gridItem.ContentElement.HitTestCore(artHitResult);
 
                 artHitResult.OffsetTestPoint(gridItem.X, gridItem.Y);
                 return true;
@@ -627,7 +627,7 @@ namespace LayoutFarm.Presentation.Grids
 
                     GridItem gridItem = currentColumn.GetCell(i);
 
-                    if (gridItem != null && gridItem.contentElement != null)
+                    if (gridItem != null && gridItem.ContentElement != null)
                     {
 
                         if (gridItem.PrepareDrawingChain(chain))
@@ -735,7 +735,7 @@ namespace LayoutFarm.Presentation.Grids
 
                     GridItem gridItem = currentColumn.GetCell(i);
 
-                    if (gridItem != null && gridItem.contentElement != null)
+                    if (gridItem != null && gridItem.ContentElement != null)
                     {
 
                         int x = gridItem.X;

@@ -56,16 +56,7 @@ namespace LayoutFarm.Presentation
                 return visualParentLink;
             }
         } 
-        public void RemoveSelf()
-        { 
-            if (visualParentLink == null)
-            {
-                return;
-            } 
-            this.InvalidateGraphic(); 
-            visualParentLink.Unlink(this);
-            visualParentLink = null;
-        }
+        
 
         public static void RemoveParentLink(RenderElement visual)
         {
@@ -417,9 +408,7 @@ namespace LayoutFarm.Presentation
             }
 
         }
-
-
-
+        
 
         public virtual RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
@@ -435,9 +424,7 @@ namespace LayoutFarm.Presentation
 
         public static void SetVisualElementAsChildOfOther(RenderElement childElement, IParentLink lineLinkedNode)
         {
-            if (lineLinkedNode == null)
-            {
-            }
+          
             childElement.visualParentLink = lineLinkedNode;
         }
         public static void SetVisualElementAsChildOfSimpleContainer(RenderElement childElement, IParentLink lineLinkedNode)

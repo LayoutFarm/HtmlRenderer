@@ -187,7 +187,7 @@ namespace LayoutFarm.Presentation.Grids
             int j = cells.Count;
             for (int i = 0; i < j; ++i)
             {
-                RenderElement v = cells[i].contentElement;
+                RenderElement v = cells[i].ContentElement;
                 if (v != null)
                 {
                     yield return v;
@@ -199,7 +199,7 @@ namespace LayoutFarm.Presentation.Grids
 
             for (int i = cells.Count - 1; i > -1; --i)
             {
-                RenderElement v = cells[i].contentElement;
+                RenderElement v = cells[i].ContentElement;
                 if (v != null)
                 {
                     yield return v;
@@ -226,14 +226,14 @@ namespace LayoutFarm.Presentation.Grids
                     if (!firstFoundContentCell)
                     {
 
-                        firstFoundContentCell = (cell.contentElement != null);
+                        firstFoundContentCell = (cell.ContentElement != null);
                     }
                     if (cellDesiredWidth > local_desired_width)
                     {
                         if (firstFoundContentCell)
                         {
 
-                            if (cell.contentElement != null)
+                            if (cell.ContentElement != null)
                             {
                                 local_desired_width = cellDesiredWidth;
 
@@ -304,7 +304,7 @@ namespace LayoutFarm.Presentation.Grids
             int dW = this.columnWidth;
             for (int i = 0; i < j; ++i)
             {
-                RenderElement content = cells[i].contentElement;
+                RenderElement content = cells[i].ContentElement;
                 if (content != null)
                 {
                     //RenderElement.DirectSetVisualElementWidth(content, dW);
@@ -583,12 +583,13 @@ namespace LayoutFarm.Presentation.Grids
 
     }
 
-    public class GridItem
+    public class GridItem 
     {
 
         internal GridRow row;
         internal GridColumn column;
         RenderElement content;
+
         internal GridItem(GridColumn column, GridRow row)
         {
             this.row = row;
@@ -680,11 +681,18 @@ namespace LayoutFarm.Presentation.Grids
         }
 
 
-        internal RenderElement contentElement
+        internal RenderElement ContentElement
         {
             get
             {
                 return this.content;
+            }
+            set
+            {
+
+                this.content = value;
+                RenderElement.SetVisualElementAsChildOfOther(value, null);
+
             }
         }
 
@@ -747,27 +755,13 @@ namespace LayoutFarm.Presentation.Grids
             }
         }
 
-        public RenderElement ContentElement
-        {
-            get
-            {
-                return contentElement;
-            }
-            set
-            {
-
-                this.content = value;
-                RenderElement.SetVisualElementAsChildOfOther(value, null);
-
-            }
-        }
 
         internal void DrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
         {
 
             if (canvasPage.PushClipArea(this.Width, this.Height, updateArea))
             {
-                contentElement.DrawToThisPage(canvasPage, updateArea);
+                ContentElement.DrawToThisPage(canvasPage, updateArea);
             }
 
             canvasPage.PopClipArea();
@@ -775,7 +769,7 @@ namespace LayoutFarm.Presentation.Grids
         }
         internal bool PrepareDrawingChain(VisualDrawingChain chain)
         {
-            return this.contentElement.PrepareDrawingChain(chain);
+            return this.ContentElement.PrepareDrawingChain(chain);
         }
 
         public GridItem GetNeighborGrid(GridNeighborType nb)
@@ -849,9 +843,9 @@ namespace LayoutFarm.Presentation.Grids
         internal void ReCalculateContentSize()
         {
 
-            if (contentElement != null && !contentElement.HasCalculatedSize)
+            if (ContentElement != null && !ContentElement.HasCalculatedSize)
             {
-                contentElement.TopDownReCalculateContentSize();
+                ContentElement.TopDownReCalculateContentSize();
             }
         }
 
@@ -859,9 +853,9 @@ namespace LayoutFarm.Presentation.Grids
         {
             get
             {
-                if (contentElement != null)
+                if (ContentElement != null)
                 {
-                    int content_desired_width = contentElement.ElementDesiredWidth;
+                    int content_desired_width = ContentElement.ElementDesiredWidth;
                     if (content_desired_width > column.Width)
                     {
                         return content_desired_width;
@@ -883,9 +877,9 @@ namespace LayoutFarm.Presentation.Grids
         {
             get
             {
-                if (contentElement != null)
+                if (ContentElement != null)
                 {
-                    int content_desired_height = contentElement.ElementDesiredHeight;
+                    int content_desired_height = ContentElement.ElementDesiredHeight;
                     if (content_desired_height > row.Height)
                     {
                         return content_desired_height;
@@ -917,7 +911,7 @@ namespace LayoutFarm.Presentation.Grids
     {
 
 
-        GridLayer _ownerGridLayer; 
+        GridLayer _ownerGridLayer;
         List<GridColumn> cols = new List<GridColumn>();
 
         public GridColumnCollection(GridLayer ownerGridLayer)

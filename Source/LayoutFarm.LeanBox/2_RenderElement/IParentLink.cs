@@ -7,17 +7,11 @@ namespace LayoutFarm.Presentation
 {
     
     public interface IParentLink
-    {
-
-        void Unlink(RenderElement ve);
-       
+    { 
         bool MayHasOverlapChild { get; }
-        RenderElement ParentVisualElement { get; }
-
+        RenderElement ParentVisualElement { get; } 
+        void AdjustLocation(ref System.Drawing.Point p); 
         
-        void AdjustParentLocation(ref System.Drawing.Point p);
-
-        void PerformLayout();
         TopWindowRenderBox GetWindowRoot();
         RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, System.Drawing.Point point);
         RenderElement NotifyParentToInvalidate(out bool goToFinalExit
@@ -62,10 +56,7 @@ namespace LayoutFarm.Presentation
         {
             return this.ownerLayer.GetWindowRoot();
         }
-        public void PerformLayout()
-        {
-            ownerLayer.TopDownReArrangeContent(); 
-        } 
+        
         public bool MayHasOverlapChild
         {
             get
@@ -73,11 +64,7 @@ namespace LayoutFarm.Presentation
                 return true;
             }
         }
-        public void Unlink(RenderElement ve)
-        {
-            (internalLinkedNode.List).Remove(ve);
-        }
-        
+       
         public RenderElement ParentVisualElement
         {
             get
@@ -102,7 +89,7 @@ namespace LayoutFarm.Presentation
             goToFinalExit = false;
             return ownerLayer.InvalidateArrangement();
         }
-        public void AdjustParentLocation(ref System.Drawing.Point p)
+        public void AdjustLocation(ref System.Drawing.Point p)
         {
 
         }

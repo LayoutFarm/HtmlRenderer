@@ -19,9 +19,6 @@ namespace LayoutFarm.Presentation.Text
         {
             return null;
         }
-        public void PerformLayout()
-        {
-        }
         
         public TopWindowRenderBox GetWindowRoot()
         {
@@ -78,10 +75,7 @@ namespace LayoutFarm.Presentation.Text
             }
             return parentVisualElem;
         }
-        public void Unlink(RenderElement ve)
-        {
-            this.OwnerLine.Remove((EditableVisualTextRun)ve);
-        }
+          
         internal EditableTextFlowLayer OwnerFlowLayer
         {
             get
@@ -142,7 +136,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
         
-        public void AdjustParentLocation(ref System.Drawing.Point p)
+        public void AdjustLocation(ref System.Drawing.Point p)
         {
             p.Y += this.OwnerLine.LineTop;
         }
