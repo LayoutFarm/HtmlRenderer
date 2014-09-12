@@ -60,11 +60,10 @@ namespace TestGraphicPackage2
             var sampleButton = new LayoutFarm.Presentation.SampleControls.UIButton(30, 30);
             viewport.AddContent(sampleButton.PrimaryVisualElement);
 
-            var vinv = sampleButton.PrimaryVisualElement.GetVInv();
-            vinv.ForceReArrange = true;
-            viewport.WinRoot.TopDownReCalculateContentSize(vinv);
-            sampleButton.PrimaryVisualElement.InvalidateGraphic(vinv);
-            sampleButton.PrimaryVisualElement.FreeVInv(vinv);
+           
+            viewport.WinRoot.TopDownReCalculateContentSize();
+            sampleButton.PrimaryVisualElement.InvalidateGraphic();
+             
             //==================================================  
             viewport.PaintMe();
             //ShowFormLayoutInspector(viewport);
@@ -179,8 +178,7 @@ namespace TestGraphicPackage2
             Form formCanvas;
             CreateReadyForm(
                 out viewport,
-                out formCanvas);
-
+                out formCanvas); 
 
             for (int i = 0; i < 5; ++i)
             {
@@ -191,28 +189,15 @@ namespace TestGraphicPackage2
                 var v = textbox.PrimaryVisualElement;
                 viewport.AddContent(v);
 
-                var vinv = v.GetVInv();
-                vinv.ForceReArrange = true;
-                viewport.WinRoot.TopDownReCalculateContentSize(vinv);
+             
+                viewport.WinRoot.TopDownReCalculateContentSize();
 
-                v.InvalidateGraphic(vinv);
-                v.FreeVInv(vinv);
-            }
-
-            //================================================== 
-            //var vinv2 = viewport.WinRoot.GetVInv();
-            //vinv2.ForceReArrange = true;
-            //viewport.WinRoot.TopDownReCalculateContentSize(vinv2);
-            //viewport.WinRoot.FreeVInv(vinv2);
+                v.InvalidateGraphic();
+          
+            } 
 
             viewport.PaintMe();
-
-
-
-
-
-        }
-
-
+            //ShowFormLayoutInspector(viewport);
+        } 
     }
 }

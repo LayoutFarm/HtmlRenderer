@@ -17,9 +17,9 @@ namespace LayoutFarm.Presentation.Text
             this.startCharIndex = charIndex;
         }
 
-        public abstract void InvokeUndo(InternalTextLayerController textdom, VisualElementArgs vinv);
+        public abstract void InvokeUndo(InternalTextLayerController textdom);
 
-        public abstract void InvokeRedo(InternalTextLayerController textdom, VisualElementArgs vinv);
+        public abstract void InvokeRedo(InternalTextLayerController textdom);
 
     }
 
@@ -32,17 +32,17 @@ namespace LayoutFarm.Presentation.Text
             this.c = c;
         }
 
-        public override void InvokeUndo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeUndo(InternalTextLayerController textdom)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
-            textdom.DoBackspace(vinv);
+            textdom.DoBackspace();
         }
-        public override void InvokeRedo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeRedo(InternalTextLayerController textdom)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
-            textdom.AddCharToCurrentLine(c, vinv);
+            textdom.AddCharToCurrentLine(c);
         }
     }
 
@@ -52,17 +52,17 @@ namespace LayoutFarm.Presentation.Text
             : base(lineNumber, charIndex)
         {
         }
-        public override void InvokeUndo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeUndo(InternalTextLayerController textdom)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.DoEnd();
-            textdom.DoDelete(vinv);
+            textdom.DoDelete();
         }
-        public override void InvokeRedo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeRedo(InternalTextLayerController textdom)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
-            textdom.SplitCurrentLineIntoNewLine(vinv);
+            textdom.SplitCurrentLineIntoNewLine();
         }
     }
     class DocActionJoinWithNextLine : DocumentAction
@@ -71,17 +71,17 @@ namespace LayoutFarm.Presentation.Text
             : base(lineNumber, charIndex)
         {
         }
-        public override void InvokeUndo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeUndo(InternalTextLayerController textdom)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
-            textdom.SplitCurrentLineIntoNewLine(vinv);
+            textdom.SplitCurrentLineIntoNewLine();
         }
-        public override void InvokeRedo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeRedo(InternalTextLayerController textdom)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
-            textdom.DoDelete(vinv);
+            textdom.DoDelete();
         }
     }
 
@@ -94,17 +94,17 @@ namespace LayoutFarm.Presentation.Text
         {
             this.c = c;
         }
-        public override void InvokeUndo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeUndo(InternalTextLayerController textdom)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
-            textdom.AddCharToCurrentLine(c, vinv);
+            textdom.AddCharToCurrentLine(c);
         }
-        public override void InvokeRedo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeRedo(InternalTextLayerController textdom)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
-            textdom.DoDelete(vinv);
+            textdom.DoDelete();
         }
     }
     class DocActionDeleteRange : DocumentAction
@@ -121,11 +121,11 @@ namespace LayoutFarm.Presentation.Text
             this.endCharIndex = endColumnNum;
         }
 
-        public override void InvokeUndo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeUndo(InternalTextLayerController textdom)
         {
-            textdom.CancelSelect(); textdom.AddTextRunsToCurrentLine(deletedTextRuns, vinv);
+            textdom.CancelSelect(); textdom.AddTextRunsToCurrentLine(deletedTextRuns);
         }
-        public override void InvokeRedo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeRedo(InternalTextLayerController textdom)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
@@ -133,7 +133,7 @@ namespace LayoutFarm.Presentation.Text
             textdom.CurrentLineNumber = endLineNumber;
             textdom.CharIndex = endCharIndex;
             textdom.EndSelect();
-            textdom.DoDelete(vinv);
+            textdom.DoDelete();
         }
     }
 
@@ -150,7 +150,7 @@ namespace LayoutFarm.Presentation.Text
             this.endLineNumber = endLineNumber;
             this.endCharIndex = endCharIndex;
         }
-        public override void InvokeUndo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeUndo(InternalTextLayerController textdom)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
@@ -158,13 +158,13 @@ namespace LayoutFarm.Presentation.Text
             textdom.CharIndex = endCharIndex;
             textdom.EndSelect();
 
-            textdom.DoDelete(vinv);
+            textdom.DoDelete();
         }
-        public override void InvokeRedo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeRedo(InternalTextLayerController textdom)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
-            textdom.AddTextRunsToCurrentLine(insertingTextRuns, vinv);
+            textdom.AddTextRunsToCurrentLine(insertingTextRuns);
         }
     }
     class DocActionFormatting : DocumentAction
@@ -181,7 +181,7 @@ namespace LayoutFarm.Presentation.Text
         }
 
 
-        public override void InvokeUndo(InternalTextLayerController textMan, VisualElementArgs vinv)
+        public override void InvokeUndo(InternalTextLayerController textMan)
         {
             textMan.CurrentLineNumber = startLineNumber;
             textMan.CharIndex = startCharIndex;
@@ -190,7 +190,7 @@ namespace LayoutFarm.Presentation.Text
             textMan.CharIndex = endCharIndex;
             textMan.EndSelect();
         }
-        public override void InvokeRedo(InternalTextLayerController textdom, VisualElementArgs vinv)
+        public override void InvokeRedo(InternalTextLayerController textdom)
         {
         }
     }
@@ -251,25 +251,25 @@ namespace LayoutFarm.Presentation.Text
                 undoList.RemoveFirst();
             }
         }
-        public void UndoLastAction(VisualElementArgs vinv)
+        public void UndoLastAction()
         {
             DocumentAction docAction = PopUndoCommand();
             if (docAction != null)
             {
                 textdom.EnableUndoHistoryRecording = false;
-                docAction.InvokeUndo(textdom, vinv);
+                docAction.InvokeUndo(textdom);
                 textdom.EnableUndoHistoryRecording = true;
                 reverseUndoAction.Push(docAction);
             }
         }
-        public void ReverseLastUndoAction(VisualElementArgs vinv)
+        public void ReverseLastUndoAction()
         {
             if (reverseUndoAction.Count > 0)
             {
                 textdom.EnableUndoHistoryRecording = false;
                 DocumentAction docAction = reverseUndoAction.Pop();
                 textdom.EnableUndoHistoryRecording = true;
-                docAction.InvokeRedo(textdom, vinv);
+                docAction.InvokeRedo(textdom);
                 undoList.AddLast(docAction);
             }
 

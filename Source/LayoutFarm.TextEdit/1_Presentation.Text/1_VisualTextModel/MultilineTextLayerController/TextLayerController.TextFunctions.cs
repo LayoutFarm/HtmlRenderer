@@ -43,13 +43,13 @@ namespace LayoutFarm.Presentation.Text
             textLineWriter.MoveToLine(0);
         }
 
-        public void ReplaceCurrentTextRunContent(int nBackSpace, EditableVisualTextRun newTextRun, VisualElementArgs vinv)
+        public void ReplaceCurrentTextRunContent(int nBackSpace, EditableVisualTextRun newTextRun)
         {
             if (newTextRun != null)
             {
                 EnableUndoHistoryRecording = false; for (int i = 0; i < nBackSpace; i++)
                 {
-                    DoBackspace(vinv);
+                    DoBackspace();
                 }
                 EnableUndoHistoryRecording = true;
                 int startLineNum = textLineWriter.LineNumber;
@@ -66,28 +66,28 @@ namespace LayoutFarm.Presentation.Text
 
         }
 
-        public void ReplaceCurrentTextRunContent(int nBackSpace, string content, VisualElementArgs vinv)
+        public void ReplaceCurrentTextRunContent(int nBackSpace, string content)
         {
             if (content != null)
             {
                 for (int i = 0; i < nBackSpace; i++)
                 {
-                    DoBackspace(vinv);
+                    DoBackspace();
                 }
                 int j = content.Length;
                 if (j > 0)
                 {
                     for (int i = 0; i < j; i++)
                     {
-                        textLineWriter.Add(content[i], vinv);
+                        textLineWriter.Add(content[i]);
                     }
                 }
             }
         }
 
-        public void AddTextRunsToCurrentLine(IEnumerable<EditableVisualTextRun> textRuns, VisualElementArgs vinv)
+        public void AddTextRunsToCurrentLine(IEnumerable<EditableVisualTextRun> textRuns)
         {
-            RemoveSelectedText(vinv);
+            RemoveSelectedText();
             int startLineNum = textLineWriter.LineNumber;
             int startCharIndex = textLineWriter.CharIndex;
 
@@ -97,7 +97,7 @@ namespace LayoutFarm.Presentation.Text
             {
                 if (t.IsLineBreak)
                 {
-                    textLineWriter.SplitToNewLine(vinv);
+                    textLineWriter.SplitToNewLine();
                     CurrentLineNumber++;
                 }
                 else

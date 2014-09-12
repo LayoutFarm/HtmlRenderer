@@ -102,43 +102,7 @@ namespace LayoutFarm.Presentation
 
             if (this.layers != null)
             {
-                int j = this.layers.LayerCount;
-                switch (j)
-                {
-                    case 0:
-                        {
-
-                        } break;
-                    case 1:
-                        {
-                            layers.Layer0.PrepareDrawingChain(chain);
-#if DEBUG
-                            debug_RecordLayerInfo(layers.Layer0);
-#endif
-                        } break;
-                    case 2:
-                        {
-                            layers.Layer0.PrepareDrawingChain(chain);
-#if DEBUG
-                            debug_RecordLayerInfo(layers.Layer0);
-#endif
-                            layers.Layer1.PrepareDrawingChain(chain);
-#if DEBUG
-                            debug_RecordLayerInfo(layers.Layer1);
-#endif
-                        } break;
-                    default:
-                        {
-                            for (int i = 0; i < j; ++i)
-                            {
-                                var layer = this.layers.GetLayer(i);
-                                layer.PrepareDrawingChain(chain);
-#if DEBUG
-                                debug_RecordLayerInfo(layer);
-#endif
-                            }
-                        } break;
-                }
+                layers.PrepareOriginalChildContentDrawingChain(chain);
             }
         }
         public virtual void ChildrenHitTestCore(HitPointChain artHitResult)
@@ -147,35 +111,34 @@ namespace LayoutFarm.Presentation
             {
                 layers.ChildrenHitTestCore(artHitResult);
             }
-
         }
 
 
 
-        protected static void InnerDoTopDownReCalculateContentSize(RenderBoxBase containerBase, VisualElementArgs vinv)
+        protected static void InnerDoTopDownReCalculateContentSize(RenderBoxBase containerBase)
         {
-            containerBase.TopDownReCalculateContentSize(vinv);
+            containerBase.TopDownReCalculateContentSize();
         }
-        protected static void InnerTopDownReArrangeContentIfNeed(RenderBoxBase containerBase, VisualElementArgs vinv)
+        protected static void InnerTopDownReArrangeContentIfNeed(RenderBoxBase containerBase)
         {
-            containerBase.TopDownReArrangeContentIfNeed(vinv);
+            containerBase.TopDownReArrangeContentIfNeed();
         }
-        public override sealed void TopDownReCalculateContentSize(VisualElementArgs vinv)
+        public override sealed void TopDownReCalculateContentSize()
         {
 
-            if (!vinv.ForceReArrange && this.HasCalculatedSize)
+            if (!vinv_ForceReArrange && this.HasCalculatedSize)
             {
                 return;
             }
 #if DEBUG
-            vinv.dbug_EnterTopDownReCalculateContent(this);
+            vinv_dbug_EnterTopDownReCalculateContent(this);
 #endif
             int cHeight = this.Height;
             int cWidth = this.Width;
             Size ground_contentSize = Size.Empty;
             if (layers != null)
             {
-                ground_contentSize = layers.TopDownReCalculateContentSize(vinv);
+                ground_contentSize = layers.TopDownReCalculateContentSize();
             }
             int finalWidth = ground_contentSize.Width;
             if (finalWidth == 0)
@@ -207,47 +170,67 @@ namespace LayoutFarm.Presentation
 
             SetCalculatedDesiredSize(this, finalWidth, finalHeight);
 #if DEBUG
-            vinv.dbug_ExitTopDownReCalculateContent(this);
+            vinv_dbug_ExitTopDownReCalculateContent(this);
 #endif
 
         }
+        //-----------------------------------------------------------------
+        protected static void vinv_dbug_WriteInfo(dbugVisitorMessage m)
+        {
 
+        }
+        protected static void vinv_debug_PushTopDownElement(RenderElement ve)
+        {
+        }
+        protected static void vinv_debug_PopTopDownElement(RenderElement ve)
+        {
 
+        }
+        protected static void vinv_dbug_ExitReArrangeContent()
+        {
 
-        public void ForceTopDownReArrangeContent(VisualElementArgs vinv)
+        }
+        protected static bool vinv_IsInTopDownReArrangePhase
+        {
+            get;
+            set;
+        }
+        //-----------------------------------------------------------------
+        public void ForceTopDownReArrangeContent()
         {
 
 #if DEBUG
-            vinv.dbug_EnterReArrangeContent(this);
+            vinv_dbug_EnterReArrangeContent(this);
             dbug_topDownReArrContentPass++;
             this.dbug_BeginArr++;
-            vinv.debug_PushTopDownElement(this);
+            vinv_debug_PushTopDownElement(this);
 #endif
+
             this.MarkValidContentArrangement();
-            vinv.IsInTopDownReArrangePhase = true;
-            this.layers.ForceTopDownReArrangeContent(vinv);
+            vinv_IsInTopDownReArrangePhase = true;
+            this.layers.ForceTopDownReArrangeContent();
             // BoxEvaluateScrollBar();
 
 #if DEBUG
             this.dbug_FinishArr++;
-            vinv.debug_PopTopDownElement(this);
-            vinv.dbug_ExitReArrangeContent();
+            vinv_debug_PopTopDownElement(this);
+            vinv_dbug_ExitReArrangeContent();
 #endif
         }
 
-        public void TopDownReArrangeContentIfNeed(VisualElementArgs vinv)
+        public void TopDownReArrangeContentIfNeed()
         {
 #if DEBUG
             bool isIncr = false;
 #endif
 
-            if (!vinv.ForceReArrange && !this.NeedContentArrangement)
+            if (!vinv_ForceReArrange && !this.NeedContentArrangement)
             {
                 if (!this.FirstArrangementPass)
                 {
                     this.FirstArrangementPass = true;
 #if DEBUG
-                    vinv.dbug_WriteInfo(dbugVisitorMessage.PASS_FIRST_ARR);
+                    vinv_dbug_WriteInfo(dbugVisitorMessage.PASS_FIRST_ARR);
 #endif
 
                 }
@@ -257,14 +240,14 @@ namespace LayoutFarm.Presentation
                     isIncr = true;
                     this.dbugVRoot.dbugNotNeedArrCount++;
                     this.dbugVRoot.dbugNotNeedArrCountEpisode++;
-                    vinv.dbug_WriteInfo(dbugVisitorMessage.NOT_NEED_ARR);
+                    vinv_dbug_WriteInfo(dbugVisitorMessage.NOT_NEED_ARR);
                     this.dbugVRoot.dbugNotNeedArrCount--;
 #endif
                 }
                 return;
             }
 
-            ForceTopDownReArrangeContent(vinv);
+            ForceTopDownReArrangeContent();
 
 
 #if DEBUG
@@ -381,7 +364,7 @@ namespace LayoutFarm.Presentation
         }
         void debug_RecordLayerInfo(VisualLayer layer)
         {
-            dbugRootElement visualroot = dbugRootElement.dbugCurrentGlobalVRoot;
+            RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
             if (visualroot.dbug_RecordDrawingChain)
             {
                 visualroot.dbug_AddDrawLayer(layer);

@@ -116,11 +116,11 @@ namespace LayoutFarm.Presentation.Text
                 TextRunStyle bah = this.MyBoxStyle;
                 if (bah != null)
                 {
-                    newTextRun.SetStyle(bah, null);
+                    newTextRun.SetStyle(bah);
                 }
 
                 newTextRun.IsLineBreak = this.IsLineBreak;
-                newTextRun.UpdateRunWidth(null);
+                newTextRun.UpdateRunWidth();
                 return newTextRun;
             }
             else

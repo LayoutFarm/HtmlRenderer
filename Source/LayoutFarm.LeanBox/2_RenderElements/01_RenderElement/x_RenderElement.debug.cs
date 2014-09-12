@@ -43,8 +43,8 @@ namespace LayoutFarm.Presentation
 
     partial class RenderElement
     {
- 
-        public virtual void dbug_WriteOwnerLayerInfo(dbugRootElement visualroot, int i)
+
+        public virtual void dbug_WriteOwnerLayerInfo(RootGraphic visualroot, int i)
         {
 
             if (this.visualParentLink != null)
@@ -53,11 +53,11 @@ namespace LayoutFarm.Presentation
                       visualParentLink.dbugGetLinkInfo()));
             }
         }
-        public virtual void dbug_WriteOwnerLineInfo(dbugRootElement visualroot, int i)
+        public virtual void dbug_WriteOwnerLineInfo(RootGraphic visualroot, int i)
         {
 
         }
- 
+
         public string dbugGetCssBoxInfo
         {
             get
@@ -73,6 +73,7 @@ namespace LayoutFarm.Presentation
 
 
         public string dbug_ObjectNote;
+
 
         public void dbug_SetFixedElementCode(string staticElementCode)
         {
@@ -117,24 +118,17 @@ namespace LayoutFarm.Presentation
                 else
                 {
                     return element_iden + dbug_GetBoundInfo() + " " + " i" + dbug_obj_id + "a " + dbug_GetLayoutInfo();
-                }
-
-            }
-
+                } 
+            } 
         }
 
         protected string dbug_GetBoundInfo()
-        {
-
-
-
+        { 
             Rectangle r = this.BoundRect;
             string output = "{" + r.X + "," + r.Y + "," + r.Width + "," + r.Height +
                 ";dw=" + this.ElementDesiredWidth +
                 ";dh=" + this.ElementDesiredHeight;
-            return output;
-
-
+            return output; 
         }
         protected string dbug_GetLayoutInfo()
         {
@@ -183,13 +177,13 @@ namespace LayoutFarm.Presentation
         public int dbug_ValidateRecalculateSizeEpisode = 0;
         public static int dbug_totalInvalidateContentArrEpisode = 0;
 
-         
 
-        public dbugRootElement dbugVRoot
+
+        public RootGraphic dbugVRoot
         {
             get
             {
-                return dbugRootElement.dbugCurrentGlobalVRoot;
+                return RootGraphic.dbugCurrentGlobalVRoot;
             }
         }
 
@@ -216,9 +210,146 @@ namespace LayoutFarm.Presentation
                         , 0, dbug_element_code_y);
                 canvasPage.PopTextColor();
             }
+        }
 
+        //-------------------------------------------------------------------------
+        protected static void vinv_dbug_EnterTopDownReCalculateContent(RenderElement v)
+        {
+            var debugVisualLay = dbugGetLayoutTracer();
+            if (debugVisualLay == null) return;
+
+
+
+            debugVisualLay.PushVisualElement(v);
+            debugVisualLay.WriteInfo(v, ">>TOPDOWN_RECAL_CONTENT ", "-", "&");
 
         }
+        protected static void vinv_dbug_ExitTopDownReCalculateContent(RenderElement v)
+        {
+            var debugVisualLay = dbugGetLayoutTracer();
+            if (debugVisualLay == null) return; 
+
+            debugVisualLay.WriteInfo(v, "<<TOPDOWN_RECAL_CONTENT ", "-", "&");
+            debugVisualLay.PopVisualElement();
+
+        }
+        protected static void vinv_dbug_SetInitObject(RenderElement ve)
+        {
+            dbugInitObject = ve;
+        }
+        protected static void vinv_dbug_EnterReArrangeContent(RenderElement v)
+        {
+            var debugVisualLay = dbugGetLayoutTracer();
+            if (debugVisualLay == null) return;
+
+
+
+            debugVisualLay.PushVisualElement(v);
+            debugVisualLay.WriteInfo(v, "ARR_INNER", ">>", "&");
+
+        }
+
+        protected static void vinv_dbug_ExitReArrangeContent(RenderElement ve)
+        {
+            var debugVisualLay = dbugGetLayoutTracer();
+            if (debugVisualLay == null) return;
+
+
+            RenderElement v = (RenderElement)debugVisualLay.PeekElement();
+            debugVisualLay.WriteInfo(v, "ARR_INNER", "<<", "&");
+            debugVisualLay.PopVisualElement();
+
+        }
+        protected static void vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg m, int i)
+        {
+            //RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
+            //if (visualroot == null || !visualroot.dbug_IsRecordLayoutTraceEnable)
+            //{
+            //    return;
+            //}
+
+
+            //debugVisualLay = visualroot.dbug_GetLastestVisualLayoutTracer();
+
+            //switch (dbugFlags & 0x3)
+            //{
+            //    case VISUAL_ELEMENT:
+            //        {
+            //            RenderElement v = (RenderElement)dbugInitObject;
+            //            debugVisualLay.WriteInfo(msg.msg);
+            //            debugVisualLay.WriteInfo("*** init visual : " + v.dbug_FullElementDescription());
+            //        } break;
+            //    case LINE:
+            //        {
+            //        } break;
+            //    case LAYER:
+            //        {
+            //            VisualLayer layer = (VisualLayer)dbugInitObject;
+            //            debugVisualLay.WriteInfo(msg.msg);
+            //            debugVisualLay.WriteInfo("*** init layer (" + layer.dbug_layer_id + "):" + layer.ToString());
+            //        } break;
+            //    default:
+            //        {
+            //            debugVisualLay.WriteInfo(msg.msg);
+            //        } break;
+            //}
+        }
+        protected static void vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg m)
+        {
+            var debugVisualLay = dbugGetLayoutTracer();
+            if (debugVisualLay == null) return;
+
+
+            //switch (dbugFlags & 0x3)
+            //{
+            //    case VISUAL_ELEMENT:
+            //        {
+            //            RenderElement v = (RenderElement)dbugInitObject;
+            //            debugVisualLay.WriteInfo(msg.msg);
+            //            debugVisualLay.WriteInfo("*** init visual : " + v.dbug_FullElementDescription());
+            //        } break;
+            //    case LINE:
+            //        {
+            //        } break;
+            //    case LAYER:
+            //        {
+            //            VisualLayer layer = (VisualLayer)dbugInitObject;
+            //            debugVisualLay.WriteInfo(msg.msg);
+            //            debugVisualLay.WriteInfo("*** init layer (" + layer.dbug_layer_id + "):" + layer.ToString());
+            //        } break;
+            //    default:
+            //        {
+            //            debugVisualLay.WriteInfo(msg.msg);
+            //        } break;
+            //}
+        }
+
+        protected static void vinv_dbug_EndLayoutTrace()
+        {
+
+            var debugVisualLay = dbugGetLayoutTracer();
+            if (debugVisualLay == null) return;
+
+            debugVisualLay.WriteInfo("-----  END SESSION -------");
+
+            //-------------------------------------------------------------
+        }
+        static dbugVisualLayoutTracer dbugGetLayoutTracer()
+        {
+            RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
+            if (visualroot == null || !visualroot.dbug_IsRecordLayoutTraceEnable)
+            {
+                return null;
+            }
+            else
+            {
+                return visualroot.dbug_GetLastestVisualLayoutTracer();
+            }
+        }
+
+
+        //temp
+        static object dbugInitObject;
     }
 #endif
 }

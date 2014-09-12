@@ -38,9 +38,9 @@
   <ItemGroup>
     <Compile Include="2_RenderElements\01_RenderElement\RenderElementHelper.cs" />
     <Compile Include="2_RenderElements\02_Layers\3_LayerCollection.cs" />
-    <Compile Include="2_RenderElements\05_Root\1_dbugRootElement.cs" />
-    <Compile Include="2_RenderElements\05_Root\1_dbugRootElement_p1.cs" />
-    <Compile Include="2_RenderElements\05_Root\1_dbugRootElement_p2.cs" />
+    <Compile Include="2_RenderElements\05_Root\1_RootGraphic.cs" />
+    <Compile Include="2_RenderElements\05_Root\1_RootGraphic_p1.cs" />
+    <Compile Include="2_RenderElements\05_Root\1_RootGraphic_p2.cs" />
     <Compile Include="0_Start\dbugCoreConst.cs" />
     <Compile Include="0_Start\ExtensionAttribute.cs" />
     <Compile Include="2_RenderElements\03_Boxes\TopWindowRenderBox.cs" />
@@ -51,7 +51,6 @@
     <Compile Include="5_debug\dbug.cs" />
     <Compile Include="5_debug\dbugVisitorMessage.cs" />
     <Compile Include="1_Base\VisualDrawingChain.cs" />
-    <Compile Include="1_Base\VisualElementArgs.cs" />
     <Compile Include="2_RenderElements\01_RenderElement\0_RenderElement.cs" />
     <Compile Include="2_RenderElements\01_RenderElement\RenderElement.ElementPositioning_0_DirectSetBounds.cs" />
     <Compile Include="2_RenderElements\01_RenderElement\RenderElement.ElementPositioning_1_WithSizeChanged.cs" />

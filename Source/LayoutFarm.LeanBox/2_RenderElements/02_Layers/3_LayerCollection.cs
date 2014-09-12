@@ -222,7 +222,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public static void ForceTopDownReArrangeContent(this VisualLayerCollection layers, VisualElementArgs vinv)
+        public static void ForceTopDownReArrangeContent(this VisualLayerCollection layers)
         {
             if (layers == null)
             {
@@ -238,23 +238,23 @@ namespace LayoutFarm.Presentation
                     } break;
                 case 1:
                     {
-                        layers.Layer0.TopDownReArrangeContent(vinv);
+                        layers.Layer0.TopDownReArrangeContent();
                     } break;
                 case 2:
                     {
-                        layers.Layer1.TopDownReArrangeContent(vinv);
-                        layers.Layer0.TopDownReArrangeContent(vinv);
+                        layers.Layer1.TopDownReArrangeContent();
+                        layers.Layer0.TopDownReArrangeContent();
                     } break;
                 default:
                     {
                         for (int i = j - 1; i >= 0; --i)
                         {
-                            layers.GetLayer(i).TopDownReArrangeContent(vinv);
+                            layers.GetLayer(i).TopDownReArrangeContent();
                         }
                     } break;
             }
         }
-        public static Size TopDownReCalculateContentSize(this VisualLayerCollection layers, VisualElementArgs vinv)
+        public static Size TopDownReCalculateContentSize(this VisualLayerCollection layers)
         {
 
             if (layers != null)
@@ -268,20 +268,20 @@ namespace LayoutFarm.Presentation
                         } break;
                     case 1:
                         {
-                            layers.Layer0.TopDownReCalculateContentSize(vinv);
+                            layers.Layer0.TopDownReCalculateContentSize();
                             return layers.Layer0.PostCalculateContentSize;
                         }
                     case 2:
                         {
-                            layers.Layer1.TopDownReCalculateContentSize(vinv);
-                            layers.Layer0.TopDownReCalculateContentSize(vinv);
+                            layers.Layer1.TopDownReCalculateContentSize();
+                            layers.Layer0.TopDownReCalculateContentSize();
                             return layers.Layer0.PostCalculateContentSize;
                         }
                     default:
                         {
                             for (int i = j - 1; i >= 0; --i)
                             {
-                                layers.GetLayer(i).TopDownReCalculateContentSize(vinv);
+                                layers.GetLayer(i).TopDownReCalculateContentSize();
                             }
                             return layers.Layer0.PostCalculateContentSize;
                         }
@@ -355,6 +355,8 @@ namespace LayoutFarm.Presentation
                     } break;
             }
         }
+
+     
 #if DEBUG
         public static void dbug_DumpVisualProps(this VisualLayerCollection layers, dbugLayoutMsgWriter writer)
         {

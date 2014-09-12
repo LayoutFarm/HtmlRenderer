@@ -114,18 +114,18 @@ namespace LayoutFarm.Presentation.Text
         //        {
         //            if (lineCount > 0)
         //            {
-        //                internalTextLayerController.SplitCurrentLineIntoNewLine(vinv);
+        //                internalTextLayerController.SplitCurrentLineIntoNewLine();
         //            }
         //            lineCount++;
         //            internalTextLayerController.AddTextRunsToCurrentLine(
         //                new ArtEditableVisualTextRun[] { 
-        //                    new ArtEditableVisualTextRun(line) }, vinv);
+        //                    new ArtEditableVisualTextRun(line) });
         //            line = reader.ReadLine();
         //        }
         //        internalTextLayerController.DoEnd();
         //    }
 
-        //    EnsureCaretVisible(vinv);
+        //    EnsureCaretVisible();
 
         //    if (textSurfaceEventListener != null)
         //    {
@@ -141,11 +141,11 @@ namespace LayoutFarm.Presentation.Text
         }
         public void ReplaceCurrentTextRunContent(int nBackspace, string t)
         {
-            VisualElementArgs vinv = GetVInv();
+            
 
-            internalTextLayerController.ReplaceCurrentTextRunContent(nBackspace, t, vinv);
+            internalTextLayerController.ReplaceCurrentTextRunContent(nBackspace, t);
 
-            FreeVInv(vinv);
+         
         }
         public void LoadTextRun(IEnumerable<EditableVisualTextRun> textRuns)
         {

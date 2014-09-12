@@ -57,9 +57,9 @@ namespace LayoutFarm.Presentation
 
         public void ChangeVisualRootSize(int width, int height)
         {
-            VisualElementArgs vinv = this.GetVInv();
-            this.ChangeRootElementSize(width, height, vinv);
-            this.FreeVInv(vinv);
+            
+            this.ChangeRootElementSize(width, height);
+           
         }
         public void Dispose()
         {
@@ -122,9 +122,9 @@ namespace LayoutFarm.Presentation
                     if (currentKeyboardFocusedElement.IsTextEditContainer)
                     {
                         SetCaretVisible(false);
-                        VisualElementArgs vinv = this.GetVInv();
-                        currentKeyboardFocusedElement.InvalidateGraphic(vinv);
-                        this.FreeVInv(vinv);
+                       
+                        currentKeyboardFocusedElement.InvalidateGraphic();
+                         
                     }
                     eventStock.ReleaseEventArgs(focusEventArg);
                 }
@@ -325,7 +325,7 @@ namespace LayoutFarm.Presentation
             }
             e.TranslateCanvasOriginBack();
 #if DEBUG
-            dbugRootElement visualroot = this.dbugVRoot;
+            RootGraphic visualroot = this.dbugVRoot;
             if (visualroot.dbug_RecordHitChain)
             {
                 visualroot.dbug_rootHitChainMsg.Clear();
@@ -360,10 +360,10 @@ namespace LayoutFarm.Presentation
 
             if (hitElement.Focusable)
             {
-                VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
-                //hitElement.Focus(vinv);
+                 
+                //hitElement.Focus();
                 hitElement.WinRoot.CurrentKeyboardFocusedElement = hitElement;
-                e.FreeVisualInvalidateCanvasArgs(vinv);
+                
             }
             disableGraphicOutputFlush = false;
             FlushGraphicUpdate();
@@ -536,11 +536,9 @@ HitEventName.DragStart);
             }
             else
             {
-            }
-
-
-
-
+            } 
+            
+            //--------------
             currentXDistanceFromDragPoint += e.XDiff; currentYDistanceFromDragPoint += e.YDiff;
 
             if (currentDragingElement.IsTextEditContainer)
@@ -600,85 +598,86 @@ HitEventName.DragStart);
         {
 
 
-            Point globalDragingElementLocation = currentDragingElement.GetGlobalLocation();
-            Rectangle dragRect = currentDragingElement.GetGlobalRect();
-            VisualDrawingChain drawingChain = this.WinRootPrepareRenderingChain(dragRect);
-            List<RenderElement> selVisualElements = drawingChain.selectedVisualElements;
-            int j = selVisualElements.Count;
-            LinkedList<RenderElement> underlyingElements = new LinkedList<RenderElement>();
-            for (int i = j - 1; i > -1; --i)
-            {
+            //Point globalDragingElementLocation = currentDragingElement.GetGlobalLocation();
+            //Rectangle dragRect = currentDragingElement.GetGlobalRect();
 
-                if (selVisualElements[i].ListeningDragEvent)
-                {
-                    underlyingElements.AddLast(selVisualElements[i]);
-                }
-            }
+            //VisualDrawingChain drawingChain = this.WinRootPrepareRenderingChain(dragRect);
 
-            if (underlyingElements.Count > 0)
-            {
-                foreach (RenderElement underlyingUI in underlyingElements)
-                {
+            //List<RenderElement> selVisualElements = drawingChain.selectedVisualElements;
+            //int j = selVisualElements.Count;
+            //LinkedList<RenderElement> underlyingElements = new LinkedList<RenderElement>();
+            //for (int i = j - 1; i > -1; --i)
+            //{
 
-                    if (underlyingUI.IsDragedOver)
-                    {
+            //    if (selVisualElements[i].ListeningDragEvent)
+            //    {
+            //        underlyingElements.AddLast(selVisualElements[i]);
+            //    }
+            //}
 
-                        hitPointChain.RemoveDragHitElement(underlyingUI);
-                        underlyingUI.IsDragedOver = false;
-                    }
-                }
-            }
-            UIDragEventArgs d_eventArg = UIDragEventArgs.GetFreeDragEventArgs();
+            //if (underlyingElements.Count > 0)
+            //{
+            //    foreach (RenderElement underlyingUI in underlyingElements)
+            //    {
 
-            if (hitPointChain.DragHitElementCount > 0)
-            {
-                foreach (RenderElement elem in hitPointChain.GetDragHitElementIter())
-                {
-                    Point globalLocation = elem.GetGlobalLocation();
-                    d_eventArg.TranslateCanvasOrigin(globalLocation);
-                    d_eventArg.SourceVisualElement = elem;
-                    var script = elem.GetController();
-                    if (script != null)
-                    {
-                    }
-                    d_eventArg.TranslateCanvasOriginBack();
-                }
-            }
-            hitPointChain.ClearDragHitElements();
+            //        if (underlyingUI.IsDragedOver)
+            //        {   
+            //            hitPointChain.RemoveDragHitElement(underlyingUI);
+            //            underlyingUI.IsDragedOver = false;
+            //        }
+            //    }
+            //}
+            //UIDragEventArgs d_eventArg = UIDragEventArgs.GetFreeDragEventArgs();
 
-            foreach (RenderElement underlyingUI in underlyingElements)
-            {
+            //if (hitPointChain.DragHitElementCount > 0)
+            //{
+            //    foreach (RenderElement elem in hitPointChain.GetDragHitElementIter())
+            //    {
+            //        Point globalLocation = elem.GetGlobalLocation();
+            //        d_eventArg.TranslateCanvasOrigin(globalLocation);
+            //        d_eventArg.SourceVisualElement = elem;
+            //        var script = elem.GetController();
+            //        if (script != null)
+            //        {
+            //        }
+            //        d_eventArg.TranslateCanvasOriginBack();
+            //    }
+            //}
+            //hitPointChain.ClearDragHitElements();
 
-                hitPointChain.AddDragHitElement(underlyingUI);
-                if (underlyingUI.IsDragedOver)
-                {
-                    Point globalLocation = underlyingUI.GetGlobalLocation();
-                    d_eventArg.TranslateCanvasOrigin(globalLocation);
-                    d_eventArg.SourceVisualElement = underlyingUI;
+            //foreach (RenderElement underlyingUI in underlyingElements)
+            //{
 
-                    var script = underlyingUI.GetController();
-                    if (script != null)
-                    {
-                    }
+            //    hitPointChain.AddDragHitElement(underlyingUI);
+            //    if (underlyingUI.IsDragedOver)
+            //    {
+            //        Point globalLocation = underlyingUI.GetGlobalLocation();
+            //        d_eventArg.TranslateCanvasOrigin(globalLocation);
+            //        d_eventArg.SourceVisualElement = underlyingUI;
 
-                    d_eventArg.TranslateCanvasOriginBack();
-                }
-                else
-                {
-                    underlyingUI.IsDragedOver = true;
-                    Point globalLocation = underlyingUI.GetGlobalLocation();
-                    d_eventArg.TranslateCanvasOrigin(globalLocation);
-                    d_eventArg.SourceVisualElement = underlyingUI;
+            //        var script = underlyingUI.GetController();
+            //        if (script != null)
+            //        {
+            //        }
 
-                    var script = underlyingUI.GetController();
-                    if (script != null)
-                    {
-                    }
+            //        d_eventArg.TranslateCanvasOriginBack();
+            //    }
+            //    else
+            //    {
+            //        underlyingUI.IsDragedOver = true;
+            //        Point globalLocation = underlyingUI.GetGlobalLocation();
+            //        d_eventArg.TranslateCanvasOrigin(globalLocation);
+            //        d_eventArg.SourceVisualElement = underlyingUI;
 
-                    d_eventArg.TranslateCanvasOriginBack();
-                }
-            }
-            UIDragEventArgs.ReleaseEventArgs(d_eventArg);
+            //        var script = underlyingUI.GetController();
+            //        if (script != null)
+            //        {
+            //        }
+
+            //        d_eventArg.TranslateCanvasOriginBack();
+            //    }
+            //}
+            //UIDragEventArgs.ReleaseEventArgs(d_eventArg);
 
 
         }
@@ -802,10 +801,10 @@ HitEventName.DragStart);
 
                 if (hitElement.Focusable)
                 {
-                    VisualElementArgs vinv = e.GetVisualInvalidateCanvasArgs();
-                    //hitElement.Focus(vinv);
+                 
+                    //hitElement.Focus();
                     hitElement.WinRoot.CurrentKeyboardFocusedElement = hitElement;
-                    e.FreeVisualInvalidateCanvasArgs(vinv);
+                    
                 }
 
 
@@ -897,9 +896,9 @@ HitEventName.DragStart);
 
                 if (result && currentKeyboardFocusedElement != null)
                 {
-                    VisualElementArgs vinv = this.GetVInv();
-                    currentKeyboardFocusedElement.InvalidateGraphic(vinv);
-                    this.FreeVInv(vinv);
+                    
+                    currentKeyboardFocusedElement.InvalidateGraphic();
+                     
                 }
                 e.TranslateCanvasOriginBack();
             }

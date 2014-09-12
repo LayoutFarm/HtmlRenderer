@@ -14,7 +14,7 @@ namespace LayoutFarm.Presentation
     {
         FileStream fs;
         StreamWriter strmWriter;
-        dbugRootElement visualroot;
+        RootGraphic visualroot;
         string outputFileName = null;
 
         int msgCounter = 0;
@@ -25,7 +25,7 @@ namespace LayoutFarm.Presentation
         int myTraceCount = 0;
 
         static int tracerCount = 0;
-        public dbugVisualEvalScrollBarTrace(dbugRootElement visualroot)
+        public dbugVisualEvalScrollBarTrace(RootGraphic visualroot)
         {
             this.visualroot = visualroot;
             myTraceCount = tracerCount;

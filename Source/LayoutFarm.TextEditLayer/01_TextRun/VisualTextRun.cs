@@ -26,7 +26,7 @@ namespace LayoutFarm.Presentation
                 {
                     this.IsLineBreak = true;
                 }
-                UpdateRunWidth(null);
+                UpdateRunWidth();
             }
             else
             {
@@ -47,7 +47,7 @@ namespace LayoutFarm.Presentation
             }
 
             this.TransparentForAllEvents = true;
-            UpdateRunWidth(null);
+            UpdateRunWidth();
         }
         public VisualTextRun(char[] mybuffer)
             : base(10, 10, ElementNature.TextRun)
@@ -74,7 +74,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public virtual void SetStyle(TextRunStyle newbeh, VisualElementArgs vinv)
+        public virtual void SetStyle(TextRunStyle newbeh)
         {
 
             TextRunStyle beh = (TextRunStyle)newbeh;
@@ -85,24 +85,22 @@ namespace LayoutFarm.Presentation
 
             if ((uiFlags & USE_ANIMATOR) == 0)
             {
-                if (vinv != null)
-                {
-                    this.InvalidateGraphic(vinv);
-                }
+                
+                    this.InvalidateGraphic();
+                
 
                 this.basicStyle = beh;
                 if (beh.positionWidth > -1)
                 {
-                    this.SetWidth(beh.positionWidth, vinv);
+                    this.SetWidth(beh.positionWidth);
                 }
                 if (beh.positionHeight > -1)
                 {
-                    this.SetHeight(beh.positionHeight, vinv);
+                    this.SetHeight(beh.positionHeight);
                 }
-                if (vinv != null)
-                {
-                    this.InvalidateGraphic(vinv);
-                }
+                
+                    this.InvalidateGraphic();
+                 
             }
             else
             {
@@ -110,9 +108,9 @@ namespace LayoutFarm.Presentation
             }
 
 
-            UpdateRunWidth(vinv);
+            UpdateRunWidth();
         }
-        protected void UpdateRunWidth(VisualElementArgs vinv)
+        protected void UpdateRunWidth()
         {
             Size size;
             if (IsLineBreak)
@@ -125,7 +123,7 @@ namespace LayoutFarm.Presentation
                 size = CalculateDrawingStringSize(mybuffer);
             }
 
-            this.SetSize(size.Width, size.Height, vinv);
+            this.SetSize(size.Width, size.Height);
 
 
             MarkHasValidCalculateSize();
@@ -279,21 +277,21 @@ namespace LayoutFarm.Presentation
             return "[" + this.dbug_obj_id + "]" + Text;
         }
 #endif
-        public static void InnerTextRunTopDownReCalculateContentSize(VisualTextRun ve, VisualElementArgs vinv)
+        public static void InnerTextRunTopDownReCalculateContentSize(VisualTextRun ve)
         {
 #if DEBUG
-            vinv.dbug_EnterTopDownReCalculateContent(ve);
+            vinv_dbug_EnterTopDownReCalculateContent(ve);
 #endif
 
-            ve.UpdateRunWidth(vinv);
+            ve.UpdateRunWidth();
 
 #if DEBUG
-            vinv.dbug_ExitTopDownReCalculateContent(ve);
+            vinv_dbug_ExitTopDownReCalculateContent(ve);
 #endif
         }
-        public override void TopDownReCalculateContentSize(VisualElementArgs vinv)
+        public override void TopDownReCalculateContentSize()
         {
-            InnerTextRunTopDownReCalculateContentSize(this, vinv);
+            InnerTextRunTopDownReCalculateContentSize(this);
         }
         public bool IsLineBreak
         {

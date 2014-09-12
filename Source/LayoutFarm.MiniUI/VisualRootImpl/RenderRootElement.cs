@@ -6,16 +6,11 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-    public class RenderRootElement
-#if DEBUG
- : dbugRootElement
-#endif
+    public class UIRootGraphic : RootGraphic
     {
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
-        static Stack<VisualElementArgs> visualArgStack = new Stack<VisualElementArgs>();
-
-
-        public RenderRootElement()
+         
+        public UIRootGraphic()
         {
 #if DEBUG
             dbugCurrentGlobalVRoot = this;
@@ -23,7 +18,7 @@ namespace LayoutFarm.Presentation
 #endif
         }
 #if DEBUG
-        ~RenderRootElement()
+        ~UIRootGraphic()
         {
             dbugHitTracker.Close();
         }
@@ -45,27 +40,15 @@ namespace LayoutFarm.Presentation
         {
             caretOwner = owner;
             localCaretPos = p;
+        
         }
-        public static VisualElementArgs GetVisualInvalidateArgs(TopWindowRenderBox winroot)
+        static void vinv_SetWinRoot(TopWindowRenderBox winroot)
         {
-            if (visualArgStack.Count > 0)
-            {
-                VisualElementArgs vinv = visualArgStack.Pop();
-                vinv.SetWinRoot(winroot);
-                return vinv;
-            }
-            else
-            {
-                return new VisualElementArgs(winroot);
-            }
-        }
 
-        public static void FreeVisualInvalidateArgs(VisualElementArgs vinv)
-        {
-            VisualElementArgs.ClearForReuse(vinv);
-            visualArgStack.Push(vinv);
         }
+        
 
+         
 
         public const int IS_SHIFT_KEYDOWN = 1 << (1 - 1);
         public const int IS_ALT_KEYDOWN = 1 << (2 - 1);
@@ -100,9 +83,9 @@ namespace LayoutFarm.Presentation
                             if (ve.WinRoot != null)
                             {
                                 ve.WinRoot.CurrentKeyboardFocusedElement = ve;
-                                VisualElementArgs vinv = ve.GetVInv();
-                                ve.InvalidateGraphic(vinv);
-                                ve.FreeVInv(vinv);
+                              
+                                ve.InvalidateGraphic();
+                                
                             }
                         } break;
                     case RequestCommand.InvalidateArea:

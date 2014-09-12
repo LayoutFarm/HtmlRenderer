@@ -31,17 +31,11 @@ namespace LayoutFarm.Presentation
         /// </summary>
         public event EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs> ImageLoad;
 
-
-        /// <summary>
-        /// the raw base stylesheet data used in the control
-        /// </summary>
-        string _baseRawCssData;
-
+ 
         /// <summary>
         /// the base stylesheet data used in the control
         /// </summary>
-        CssActiveSheet _baseCssData;
-
+        CssActiveSheet _baseCssData; 
 
         int myWidth;
         int myHeight;

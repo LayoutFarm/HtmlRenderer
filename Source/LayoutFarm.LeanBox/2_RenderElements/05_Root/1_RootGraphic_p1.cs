@@ -3,13 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-using System.Diagnostics;
-using LayoutFarm.Presentation;
-
+using System.Diagnostics; 
 namespace LayoutFarm.Presentation
 {
 #if DEBUG
-    partial class dbugRootElement
+    partial class RootGraphic
     {   
 
         public bool dbug_ShowRootUpdateArea = false;
@@ -338,7 +336,7 @@ namespace LayoutFarm.Presentation
         {
             return null;
         }
-        public static dbugRootElement dbugCurrentGlobalVRoot; 
+        public static RootGraphic dbugCurrentGlobalVRoot; 
     }
 #endif
 }

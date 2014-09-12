@@ -150,15 +150,7 @@ namespace LayoutFarm.Presentation
 
          
         TopWindowRenderBox winRoot;
-
-        public VisualElementArgs GetVisualInvalidateCanvasArgs()
-        {
-            return winRoot.GetVInv();
-        }
-        public void FreeVisualInvalidateCanvasArgs(VisualElementArgs vinv)
-        {
-            winRoot.FreeVInv(vinv);
-        }
+         
     }
 
 

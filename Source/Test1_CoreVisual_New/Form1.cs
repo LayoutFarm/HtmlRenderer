@@ -53,7 +53,7 @@ namespace TestGraphicPackage
             UISurfaceViewportControl viewport = new UISurfaceViewportControl();
             viewport.Bounds = new Rectangle(0, 0, screenClientAreaRect.Width, screenClientAreaRect.Height);
             simpleForm.Controls.Add(viewport);
-            var visualRoot = new RenderRootElement();
+            var visualRoot = new UIRootGraphic();
 
             var windowRoot = new MyTopWindowRenderBox(visualRoot, this.Width, this.Height);
 

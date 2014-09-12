@@ -484,12 +484,12 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        dbugRootElement dbugVRoot
+        RootGraphic dbugVRoot
         {
             get
             {
 
-                return dbugRootElement.dbugCurrentGlobalVRoot;
+                return RootGraphic.dbugCurrentGlobalVRoot;
             }
         }
         public string dbug_FullElementDescription()

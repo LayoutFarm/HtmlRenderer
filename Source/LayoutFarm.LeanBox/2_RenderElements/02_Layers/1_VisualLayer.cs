@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
- 
+
 namespace LayoutFarm.Presentation
-{ 
+{
     public abstract class VisualLayer
     {
 
@@ -34,10 +34,10 @@ namespace LayoutFarm.Presentation
         public readonly RenderElement ownerVisualElement;
 
         int postCalculateContentWidth;
-        int postCalculateContentHeight; 
+        int postCalculateContentHeight;
 
 
-        protected VisualLayer(RenderBoxBase owner)
+        protected VisualLayer(RenderElement owner)
         {
             this.ownerVisualElement = owner;
 
@@ -114,7 +114,7 @@ namespace LayoutFarm.Presentation
                     layerFlags |= IS_LAYER_HIDDEN;
                 }
             }
-        } 
+        }
 
         public Size PostCalculateContentSize
         {
@@ -125,11 +125,11 @@ namespace LayoutFarm.Presentation
         }
 
 #if DEBUG
-        public dbugRootElement dbugVRoot
+        public RootGraphic dbugVRoot
         {
             get
             {
-                return LayoutFarm.Presentation.dbugRootElement.dbugCurrentGlobalVRoot;
+                return LayoutFarm.Presentation.RootGraphic.dbugCurrentGlobalVRoot;
             }
         }
 #endif
@@ -200,13 +200,13 @@ namespace LayoutFarm.Presentation
 
         }
 
-        public abstract bool HitTestCore(HitPointChain artHitResult); 
-        public abstract void TopDownReCalculateContentSize(VisualElementArgs vinv); 
-        public abstract void TopDownReArrangeContent(VisualElementArgs vinv);
-        
+        public abstract bool HitTestCore(HitPointChain artHitResult);
+        public abstract void TopDownReCalculateContentSize();
+        public abstract void TopDownReArrangeContent();
+
         public abstract IEnumerable<RenderElement> GetVisualElementIter();
         public abstract IEnumerable<RenderElement> GetVisualElementReverseIter();
-        
+
 
         protected void ValidateArrangement()
         {
@@ -220,15 +220,15 @@ namespace LayoutFarm.Presentation
         public abstract void DrawChildContent(CanvasBase canvasPage, InternalRect updateArea);
         public abstract bool PrepareDrawingChain(VisualDrawingChain chain);
 
-        public void BeginLayerGraphicUpdate(VisualElementArgs vinv)
-        {
-            ownerVisualElement.BeginGraphicUpdate(vinv);
-        }
-        public void EndLayerGraphicUpdate(VisualElementArgs vinv)
-        {
-            ownerVisualElement.EndGraphicUpdate(vinv);
-        }
 
+        public void BeginLayerLayoutUpdate()
+        {
+            ownerVisualElement.BeginGraphicUpdate();
+        }
+        public void EndLayerLayoutUpdate()
+        {
+            ownerVisualElement.EndGraphicUpdate();
+        }
         public bool NeedReArrangeContent
         {
             get
@@ -270,11 +270,89 @@ namespace LayoutFarm.Presentation
             }
         }
         public abstract void dbug_DumpElementProps(dbugLayoutMsgWriter writer);
+        static dbugVisualLayoutTracer dbugGetLayoutTracer()
+        {
+            RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
+            if (visualroot == null || !visualroot.dbug_IsRecordLayoutTraceEnable)
+            {
+                return null;
+            }
+            else
+            {
+                return visualroot.dbug_GetLastestVisualLayoutTracer();
+            }
+        }
+        protected static void vinv_dbug_EnterLayerReCalculateContent(VisualLayer layer)
+        {
+            var debugVisualLay = dbugGetLayoutTracer();
+            if (debugVisualLay == null) return;
 
+            debugVisualLay.PushLayerElement(layer);
+            debugVisualLay.WriteInfo("..>L_RECAL_TOPDOWN :" + layer.ToString());
+
+        }
+        protected static void vinv_dbug_ExitLayerReCalculateContent()
+        {
+            var debugVisualLay = dbugGetLayoutTracer();
+            if (debugVisualLay == null) return;
+            VisualLayer layer = (VisualLayer)debugVisualLay.PeekElement();
+            debugVisualLay.WriteInfo("<..L_RECAL_TOPDOWN  :" + layer.ToString());
+            debugVisualLay.PopLayerElement();
+
+        }
+        protected static void vinv_dbug_BeginSetElementBound(RenderElement ve)
+        {
+            var debugVisualLay = dbugGetLayoutTracer();
+            if (debugVisualLay == null) return;
+            debugVisualLay.BeginNewContext();
+            debugVisualLay.WriteInfo(dbugVisitorMessage.WITH_0.text, ve);
+
+        }
+        protected static void vinv_dbug_EndSetElementBound(RenderElement ve)
+        {
+            var debugVisualLay = dbugGetLayoutTracer();
+            if (debugVisualLay == null) return;
+
+            debugVisualLay.WriteInfo(dbugVisitorMessage.WITH_1.text, ve);
+            debugVisualLay.EndCurrentContext();
+
+        }
+        protected static void vinv_dbug_EnterLayerReArrangeContent(VisualLayer layer)
+        {
+            var debugVisualLay = dbugGetLayoutTracer();
+            if (debugVisualLay == null) return;
+            debugVisualLay.PushLayerElement(layer);
+            debugVisualLay.WriteInfo("..>LAYER_ARR :" + layer.ToString());
+
+        }
+        protected static void vinv_dbug_ExitLayerReArrangeContent()
+        {
+
+            var debugVisualLay = dbugGetLayoutTracer();
+            if (debugVisualLay == null) return;
+
+            VisualLayer layer = (VisualLayer)debugVisualLay.PeekElement();
+            debugVisualLay.WriteInfo("<..LAYER_ARR :" + layer.ToString());
+            debugVisualLay.PopLayerElement();
+
+
+        }
+        protected static void vinv_dbug_WriteInfo(dbugVisitorMessage msg, object o)
+        {
+            var debugVisualLay = dbugGetLayoutTracer();
+            if (debugVisualLay == null) return;
+
+            debugVisualLay.WriteInfo(msg.text);
+
+        }
 #endif
         public abstract void AddTop(RenderElement ve);
         public abstract IEnumerable<RenderElement> GetDrawingIter();
-
+        protected static bool vinv_IsInTopDownReArrangePhase
+        {
+            get;
+            set;
+        }
     }
 
 

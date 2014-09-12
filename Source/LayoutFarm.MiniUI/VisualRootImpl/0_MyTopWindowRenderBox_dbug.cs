@@ -58,7 +58,7 @@ namespace LayoutFarm.Presentation
         public override void dbugShowRenderPart(CanvasBase canvasPage, InternalRect updateArea)
         {
 
-            dbugRootElement visualroot = this.dbugVRoot;
+            RootGraphic visualroot = this.dbugVRoot;
             if (visualroot.dbug_ShowRootUpdateArea)
             {
                 canvasPage.FillRectangle(Color.FromArgb(50, Color.Black),

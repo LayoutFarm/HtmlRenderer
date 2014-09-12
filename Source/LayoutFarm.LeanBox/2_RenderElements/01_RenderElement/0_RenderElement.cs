@@ -33,39 +33,13 @@ namespace LayoutFarm.Presentation
         {
             return controller;
         }
-        public void SetController(object ui)
+        public void SetController(object controller)
         {
-            this.controller = ui;
+            this.controller = controller;
         }
         //=========================================
 
-        public VisualElementArgs GetVInv()
-        {
-
-            if (this.IsWindowRoot)
-            {
-
-                return new VisualElementArgs((TopWindowRenderBox)this);
-
-            }
-            else
-            {
-                TopWindowRenderBox winroot = this.InternalGetWinRootElement();
-                if (winroot != null)
-                {
-                    return new VisualElementArgs((TopWindowRenderBox)winroot);
-
-                }
-                else
-                {
-                    return new VisualElementArgs(null as TopWindowRenderBox);
-                }
-            }
-        }
-        public void FreeVInv(VisualElementArgs vinv)
-        {
-
-        }
+        
 
         public TopWindowRenderBox WinRoot
         {
@@ -98,17 +72,16 @@ namespace LayoutFarm.Presentation
             oneBitNativeEventFlags |= registerEventFlags;
 
         }
-        public void RemoveSelf(VisualElementArgs vinv)
+        public void RemoveSelf()
         {
 
             if (visualParentLink == null)
             {
                 return;
             }
-            if (vinv != null)
-            {
-                this.InvalidateGraphic(vinv);
-            }
+
+            this.InvalidateGraphic();
+
             visualParentLink.Unlink(this);
             visualParentLink = null;
         }
@@ -141,7 +114,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public void SetVisible(bool value, VisualElementArgs vinv)
+        public void SetVisible(bool value)
         {
 
             if (visualParentLink == null)
@@ -159,7 +132,7 @@ namespace LayoutFarm.Presentation
             else
             {
 
-                InvalidateGraphic(vinv);
+                InvalidateGraphic();
                 if (value)
                 {
                     uiFlags &= ~HIDDEN;
@@ -168,7 +141,7 @@ namespace LayoutFarm.Presentation
                 {
                     uiFlags |= HIDDEN;
                 }
-                InvalidateGraphic(vinv);
+                InvalidateGraphic();
 
             }
 
@@ -329,7 +302,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        
+
 
         public bool FirstArrangementPass
         {
