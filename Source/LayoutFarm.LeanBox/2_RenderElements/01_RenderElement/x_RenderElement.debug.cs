@@ -43,7 +43,7 @@ namespace LayoutFarm.Presentation
 
     partial class RenderElement
     {
- 
+
         public virtual void dbug_WriteOwnerLayerInfo(RootGraphic visualroot, int i)
         {
 
@@ -57,7 +57,7 @@ namespace LayoutFarm.Presentation
         {
 
         }
- 
+
         public string dbugGetCssBoxInfo
         {
             get
@@ -73,6 +73,7 @@ namespace LayoutFarm.Presentation
 
 
         public string dbug_ObjectNote;
+
 
         public void dbug_SetFixedElementCode(string staticElementCode)
         {
@@ -183,7 +184,7 @@ namespace LayoutFarm.Presentation
         public int dbug_ValidateRecalculateSizeEpisode = 0;
         public static int dbug_totalInvalidateContentArrEpisode = 0;
 
-         
+
 
         public RootGraphic dbugVRoot
         {
@@ -216,9 +217,36 @@ namespace LayoutFarm.Presentation
                         , 0, dbug_element_code_y);
                 canvasPage.PopTextColor();
             }
+        }
 
+        //-------------------------------------------------------------------------
+        protected static void vinv_dbug_EnterTopDownReCalculateContent(RenderElement ve)
+        {
+        }
+        protected static void vinv_dbug_ExitTopDownReCalculateContent(RenderElement ve)
+        {
+        }
+        protected static void vinv_dbug_SetInitObject(RenderElement ve)
+        {
 
         }
+        protected static void vinv_dbug_EnterReArrangeContent(RenderElement ve)
+        {
+        }
+        protected static void vinv_dbug_ExitReArrangeContent(RenderElement ve)
+        {
+        }
+        protected static void vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg m, int i)
+        {
+        }
+        protected static void vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg m)
+        {
+        }
+        protected static void vinv_dbug_EndLayoutTrace()
+        {
+        }
+        //       vinv_dbug_SetInitObject(contvs);
+        //                      vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_CAL_ARR, i);
     }
 #endif
 }

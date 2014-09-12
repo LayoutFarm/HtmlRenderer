@@ -135,16 +135,16 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        void ChangeRootElementSize(int width, int height, LayoutPhaseVisitor vinv)
+        void ChangeRootElementSize(int width, int height)
         {
             Size currentSize = this.Size;
             if (currentSize.Width != width || currentSize.Height != height)
             {
-                this.SetSize(width, height, vinv);
+                this.SetSize(width, height);
 
                 this.InvalidateContentArrangementFromContainerSizeChanged();
-                this.TopDownReCalculateContentSize(vinv);
-                this.TopDownReArrangeContentIfNeed(vinv);
+                this.TopDownReCalculateContentSize();
+                this.TopDownReArrangeContentIfNeed();
             }
         }
 
@@ -191,32 +191,32 @@ namespace LayoutFarm.Presentation
                         {
 
 #if DEBUG
-                            vinv.dbug_SetInitObject(contvs);
-                            vinv.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_CAL_ARR, i);
+                            vinv_dbug_SetInitObject(contvs);
+                            vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_CAL_ARR, i);
 #endif
-                            if (!vinv.IsInTopDownReArrangePhase)
+                            if (!vinv_IsInTopDownReArrangePhase)
                             {
                                 RenderElement topMostToBeCal = FindTopMostToBeRecalculate(contvs);
                                 if (topMostToBeCal != null)
                                 {
-                                    topMostToBeCal.TopDownReCalculateContentSize(vinv);
+                                    topMostToBeCal.TopDownReCalculateContentSize();
                                 }
                             }
-                            contvs.TopDownReArrangeContentIfNeed(vinv);
+                            contvs.TopDownReArrangeContentIfNeed();
 #if DEBUG
-                            vinv.dbug_EndLayoutTrace();
+                            vinv_dbug_EndLayoutTrace();
 #endif
                         }
                         else
                         {
 
 #if DEBUG
-                            vinv.dbug_SetInitObject(contvs);
-                            vinv.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_ARR_CAL, i);
+                            vinv_dbug_SetInitObject(contvs);
+                            vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_ARR_CAL, i);
 #endif
-                            contvs.TopDownReArrangeContentIfNeed(vinv);
+                            contvs.TopDownReArrangeContentIfNeed();
 #if DEBUG
-                            vinv.dbug_EndLayoutTrace();
+                            vinv_dbug_EndLayoutTrace();
 #endif
                         }
 
@@ -224,21 +224,21 @@ namespace LayoutFarm.Presentation
                 case 1:
                     { 
 #if DEBUG
-                        vinv.dbug_SetInitObject(contvs);
-                        vinv.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_CAL, i);
+                        vinv_dbug_SetInitObject(contvs);
+                        vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_CAL, i);
 #endif
-                        if (!vinv.IsInTopDownReArrangePhase)
+                        if (!vinv_IsInTopDownReArrangePhase)
                         {
                             RenderElement topMostToBeCal = FindTopMostToBeRecalculate(contvs);
                             if (topMostToBeCal != null)
                             {
-                                topMostToBeCal.TopDownReCalculateContentSize(vinv);
+                                topMostToBeCal.TopDownReCalculateContentSize();
                             }
                         }
-                        contvs.TopDownReArrangeContentIfNeed(vinv);
+                        contvs.TopDownReArrangeContentIfNeed();
 
 #if DEBUG
-                        vinv.dbug_EndLayoutTrace();
+                        vinv_dbug_EndLayoutTrace();
 #endif
 
                     } break;
@@ -246,12 +246,12 @@ namespace LayoutFarm.Presentation
                     {
 
 #if DEBUG
-                        vinv.dbug_SetInitObject(contvs);
-                        vinv.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_ARR, i);
+                        vinv_dbug_SetInitObject(contvs);
+                        vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_ARR, i);
 #endif
-                        contvs.TopDownReArrangeContentIfNeed(vinv);
+                        contvs.TopDownReArrangeContentIfNeed();
 #if DEBUG
-                        vinv.dbug_EndLayoutTrace();
+                        vinv_dbug_EndLayoutTrace();
 #endif
 
 
@@ -428,7 +428,7 @@ namespace LayoutFarm.Presentation
                     RenderElement elem = layoutQueue2[i];
                     if (elem.NeedContentArrangement)
                     {
-                        elem.ResumeLayout(vinv);
+                        elem.ResumeLayout();
                     }
                 }
 
@@ -441,7 +441,7 @@ namespace LayoutFarm.Presentation
                 layoutQueue2.Clear();
             }
 
-            this.FreeVInv(vinv);
+            this.FreeVInv();
 #if DEBUG
 
             visualroot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_CLEAR_LAYOUT_exit);

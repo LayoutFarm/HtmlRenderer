@@ -166,7 +166,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        static Size ReCalculateContentSizeNoLayout(LinkedList<RenderElement> velist, LayoutPhaseVisitor vinv)
+        static Size ReCalculateContentSizeNoLayout(LinkedList<RenderElement> velist)
         {
             int local_lineWidth = 0;
             int local_lineHeight = 17;
@@ -177,7 +177,7 @@ namespace LayoutFarm.Presentation
                 RenderElement visualElement = curNode.Value;
                 if (!visualElement.HasCalculatedSize)
                 {
-                    visualElement.TopDownReCalculateContentSize(vinv);
+                    visualElement.TopDownReCalculateContentSize();
                 }
                 int e_desiredRight = visualElement.ElementDesiredRight;
 
@@ -197,30 +197,35 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public override void TopDownReArrangeContent(LayoutPhaseVisitor vinv)
+        public override void TopDownReArrangeContent()
         {
-            vinv.IsInTopDownReArrangePhase = true;
+            vinv_IsInTopDownReArrangePhase = true;
 #if DEBUG
-            vinv.dbug_EnterLayerReArrangeContent(this);
+            vinv_dbug_EnterLayerReArrangeContent(this);
 #endif
-            this.BeginLayerLayoutUpdate(vinv);
+            this.BeginLayerLayoutUpdate();
 
-            this.EndLayerLayoutUpdate(vinv);
+            this.EndLayerLayoutUpdate();
 #if DEBUG
-            vinv.dbug_ExitLayerReArrangeContent();
+            vinv_dbug_ExitLayerReArrangeContent();
 #endif
         }
-        public override void TopDownReCalculateContentSize(LayoutPhaseVisitor vinv)
+
+        protected static bool vinv_IsInTopDownReArrangePhase { get; set; }
+        protected static void vinv_dbug_EnterLayerReArrangeContent(VisualLayer layer) { }
+        protected static void vinv_dbug_ExitLayerReArrangeContent() { }
+        protected static void vinv_dbug_ExitLayerReCalculateContent() { }
+        public override void TopDownReCalculateContentSize()
         {
 #if DEBUG
 
-            vinv.dbug_EnterLayerReCalculateContent(this);
+            vinv_dbug_EnterLayerReCalculateContent(this);
 #endif
 
-            SetPostCalculateLayerContentSize(ReCalculateContentSizeNoLayout(this.myElements, vinv));
+            SetPostCalculateLayerContentSize(ReCalculateContentSizeNoLayout(this.myElements));
 
 #if DEBUG
-            vinv.dbug_ExitLayerReCalculateContent();
+            vinv_dbug_ExitLayerReCalculateContent();
 #endif
         }
 #if DEBUG

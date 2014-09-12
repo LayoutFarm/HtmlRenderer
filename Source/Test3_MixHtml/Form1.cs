@@ -67,8 +67,8 @@ namespace TestGraphicPackage2
             htmlBox.LoadHtmlText(html);
 
             var vinv = innerHtmlBox.WinRoot.GetVInv();
-            innerHtmlBox.InvalidateGraphic(vinv);
-            innerHtmlBox.WinRoot.FreeVInv(vinv);
+            innerHtmlBox.InvalidateGraphic();
+            innerHtmlBox.WinRoot.FreeVInv();
             //================================================== 
 
 
@@ -99,8 +99,8 @@ namespace TestGraphicPackage2
             htmlBox.LoadHtmlText(html);
 
             var vinv = innerHtmlBox.WinRoot.GetVInv();
-            innerHtmlBox.InvalidateGraphic(vinv);
-            innerHtmlBox.WinRoot.FreeVInv(vinv);
+            innerHtmlBox.InvalidateGraphic();
+            innerHtmlBox.WinRoot.FreeVInv();
             //================================================== 
 
             //textbox
@@ -108,13 +108,13 @@ namespace TestGraphicPackage2
             var visualTextBox = textbox.PrimaryVisualElement;
             viewport.AddContent(visualTextBox);
 
-            var vinv2 = visualTextBox.WinRoot.GetVInv();
-            visualTextBox.InvalidateGraphic(vinv2);
-            visualTextBox.WinRoot.FreeVInv(vinv2);
+            //var vinv2 = visualTextBox.WinRoot.GetVInv();
+            visualTextBox.InvalidateGraphic();
+            //visualTextBox.WinRoot.FreeVInv();
             RenderElement.DirectSetVisualElementLocation(visualTextBox, 0, 200);
-            vinv2 = visualTextBox.WinRoot.GetVInv();
-            visualTextBox.InvalidateGraphic(vinv2);
-            visualTextBox.WinRoot.FreeVInv(vinv2);
+            //vinv2 = visualTextBox.WinRoot.GetVInv();
+            visualTextBox.InvalidateGraphic();
+            visualTextBox.WinRoot.FreeVInv();
 
             viewport.WinRoot.CurrentKeyboardFocusedElement = visualTextBox;
             viewport.PaintMe();

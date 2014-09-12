@@ -201,8 +201,8 @@ namespace LayoutFarm.Presentation
         }
 
         public abstract bool HitTestCore(HitPointChain artHitResult);
-        public abstract void TopDownReCalculateContentSize(LayoutPhaseVisitor vinv);
-        public abstract void TopDownReArrangeContent(LayoutPhaseVisitor vinv);
+        public abstract void TopDownReCalculateContentSize();
+        public abstract void TopDownReArrangeContent();
 
         public abstract IEnumerable<RenderElement> GetVisualElementIter();
         public abstract IEnumerable<RenderElement> GetVisualElementReverseIter();
@@ -221,13 +221,13 @@ namespace LayoutFarm.Presentation
         public abstract bool PrepareDrawingChain(VisualDrawingChain chain);
 
  
-        public void BeginLayerLayoutUpdate(LayoutPhaseVisitor vinv)
+        public void BeginLayerLayoutUpdate()
         {
-            ownerVisualElement.BeginGraphicUpdate(vinv);
+            ownerVisualElement.BeginGraphicUpdate();
         }
-        public void EndLayerLayoutUpdate(LayoutPhaseVisitor vinv)
+        public void EndLayerLayoutUpdate()
         {
-            ownerVisualElement.EndGraphicUpdate(vinv);
+            ownerVisualElement.EndGraphicUpdate();
         }
         public bool NeedReArrangeContent
         {
@@ -271,6 +271,10 @@ namespace LayoutFarm.Presentation
         }
         public abstract void dbug_DumpElementProps(dbugLayoutMsgWriter writer);
 
+        protected static void vinv_dbug_EnterLayerReCalculateContent(VisualLayer layer)
+        {
+
+        }
 #endif
         public abstract void AddTop(RenderElement ve);
         public abstract IEnumerable<RenderElement> GetDrawingIter();

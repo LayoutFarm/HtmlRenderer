@@ -108,7 +108,7 @@ namespace LayoutFarm.Presentation.Text
                 if (internalTextLayerController.SelectionRange != null
                     && internalTextLayerController.SelectionRange.IsValid)
                 {
-                    InvalidateGraphicLocalArea(this, GetSelectionUpdateArea(), vinv);
+                    InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
                 }
 
                 if (textSurfaceEventListener != null && !TextSurfaceEventListener.NotifyPreviewKeydown(textSurfaceEventListener, c))
@@ -119,7 +119,7 @@ namespace LayoutFarm.Presentation.Text
                 if (internalTextLayerController.SelectionRange != null)
                 {
 
-                    internalTextLayerController.AddCharToCurrentLine(c, vinv);
+                    internalTextLayerController.AddCharToCurrentLine(c);
                     if (textSurfaceEventListener != null)
                     {
                         TextSurfaceEventListener.NotifyCharactersReplaced(textSurfaceEventListener, e.KeyChar);
@@ -127,23 +127,23 @@ namespace LayoutFarm.Presentation.Text
                 }
                 else
                 {
-                    internalTextLayerController.AddCharToCurrentLine(c, vinv);
+                    internalTextLayerController.AddCharToCurrentLine(c);
                     if (textSurfaceEventListener != null)
                     {
                         TextSurfaceEventListener.NotifyCharacterAdded(textSurfaceEventListener, e.KeyChar);
                     }
                 }
-                EnsureCaretVisible(vinv);
-                e.FreeVisualInvalidateCanvasArgs(vinv);
+                EnsureCaretVisible();
+                e.FreeVisualInvalidateCanvasArgs();
             }
         }
 
-        void InvalidateGraphicOfCurrentLineArea(LayoutPhaseVisitor vinv)
+        void InvalidateGraphicOfCurrentLineArea()
         {
 #if DEBUG
             Rectangle c_lineArea = this.internalTextLayerController.CurrentParentLineArea;
 #endif
-            InvalidateGraphicLocalArea(this, this.internalTextLayerController.CurrentParentLineArea, vinv);
+            InvalidateGraphicLocalArea(this, this.internalTextLayerController.CurrentParentLineArea);
 
         }
 
@@ -153,16 +153,16 @@ namespace LayoutFarm.Presentation.Text
             if (e.Button == UIMouseButtons.Left)
             {
                 LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
-                InvalidateGraphicOfCurrentLineArea(vinv); internalTextLayerController.CaretPos = e.Location; if (internalTextLayerController.SelectionRange != null)
+                InvalidateGraphicOfCurrentLineArea(); internalTextLayerController.CaretPos = e.Location; if (internalTextLayerController.SelectionRange != null)
                 {
                     Rectangle r = GetSelectionUpdateArea(); internalTextLayerController.CancelSelect();
-                    InvalidateGraphicLocalArea(this, r, vinv);
+                    InvalidateGraphicLocalArea(this, r);
                 }
                 else
                 {
-                    InvalidateGraphicOfCurrentLineArea(vinv);
+                    InvalidateGraphicOfCurrentLineArea();
                 }
-                e.FreeVisualInvalidateCanvasArgs(vinv);
+                e.FreeVisualInvalidateCanvasArgs();
             }
 
         }
@@ -191,8 +191,8 @@ namespace LayoutFarm.Presentation.Text
             {
                 internalTextLayerController.CaretPos = e.Location; internalTextLayerController.EndSelect();
                 LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
-                this.InvalidateGraphic(vinv);
-                e.FreeVisualInvalidateCanvasArgs(vinv);
+                this.InvalidateGraphic();
+                e.FreeVisualInvalidateCanvasArgs();
             }
 
         }
@@ -204,8 +204,8 @@ namespace LayoutFarm.Presentation.Text
                 internalTextLayerController.StartSelect();
                 internalTextLayerController.EndSelect();
                 LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
-                this.InvalidateGraphic(vinv);
-                e.FreeVisualInvalidateCanvasArgs(vinv);
+                this.InvalidateGraphic();
+                e.FreeVisualInvalidateCanvasArgs();
 
             }
         }
@@ -217,8 +217,8 @@ namespace LayoutFarm.Presentation.Text
                 internalTextLayerController.EndSelect();
 
                 LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
-                this.InvalidateGraphic(vinv);
-                e.FreeVisualInvalidateCanvasArgs(vinv);
+                this.InvalidateGraphic();
+                e.FreeVisualInvalidateCanvasArgs();
             }
         }
 
@@ -264,22 +264,22 @@ namespace LayoutFarm.Presentation.Text
                         if (internalTextLayerController.SelectionRange != null)
                         {
 
-                            InvalidateGraphicLocalArea(this, GetSelectionUpdateArea(), vinv);
+                            InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
                         }
                         else
                         {
 
-                            InvalidateGraphicOfCurrentLineArea(vinv);
+                            InvalidateGraphicOfCurrentLineArea();
                         }
                         if (textSurfaceEventListener == null)
                         {
 
-                            internalTextLayerController.DoBackspace(vinv);
+                            internalTextLayerController.DoBackspace();
                         }
                         else
                         {
                             if (!TextSurfaceEventListener.NotifyPreviewBackSpace(textSurfaceEventListener) &&
-                                internalTextLayerController.DoBackspace(vinv))
+                                internalTextLayerController.DoBackspace())
                             {
 
                                 TextDomEventArgs textdomE = new TextDomEventArgs(internalTextLayerController.updateJustCurrentLine);
@@ -287,8 +287,8 @@ namespace LayoutFarm.Presentation.Text
                             }
                         }
 
-                        EnsureCaretVisible(vinv);
-                        e.FreeVisualInvalidateCanvasArgs(vinv);
+                        EnsureCaretVisible();
+                        e.FreeVisualInvalidateCanvasArgs();
                     } break;
                 case UIKeys.Home:
                     {
@@ -309,8 +309,8 @@ namespace LayoutFarm.Presentation.Text
                             internalTextLayerController.EndSelect();
                         }
                         LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
-                        EnsureCaretVisible(vinv);
-                        e.FreeVisualInvalidateCanvasArgs(vinv);
+                        EnsureCaretVisible();
+                        e.FreeVisualInvalidateCanvasArgs();
                     } break;
                 case UIKeys.End:
                     {
@@ -334,8 +334,8 @@ namespace LayoutFarm.Presentation.Text
 
                         }
                         LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
-                        EnsureCaretVisible(vinv);
-                        e.FreeVisualInvalidateCanvasArgs(vinv);
+                        EnsureCaretVisible();
+                        e.FreeVisualInvalidateCanvasArgs();
                     } break;
                 case UIKeys.Delete:
                     {
@@ -343,28 +343,28 @@ namespace LayoutFarm.Presentation.Text
                         LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
                         if (internalTextLayerController.SelectionRange != null)
                         {
-                            InvalidateGraphicLocalArea(this, GetSelectionUpdateArea(), vinv);
+                            InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
                         }
                         else
                         {
-                            InvalidateGraphicOfCurrentLineArea(vinv);
+                            InvalidateGraphicOfCurrentLineArea();
                         }
                         if (textSurfaceEventListener == null)
                         {
 
-                            internalTextLayerController.DoDelete(vinv);
+                            internalTextLayerController.DoDelete();
                         }
                         else
                         {
 
-                            VisualSelectionRangeSnapShot delpart = internalTextLayerController.DoDelete(vinv);
+                            VisualSelectionRangeSnapShot delpart = internalTextLayerController.DoDelete();
                             TextSurfaceEventListener.NotifyCharactersRemoved(textSurfaceEventListener,
                                 new TextDomEventArgs(internalTextLayerController.updateJustCurrentLine));
 
                         }
 
-                        EnsureCaretVisible(vinv);
-                        e.FreeVisualInvalidateCanvasArgs(vinv);
+                        EnsureCaretVisible();
+                        e.FreeVisualInvalidateCanvasArgs();
 
                     } break;
                 default:
@@ -375,10 +375,10 @@ namespace LayoutFarm.Presentation.Text
                             if (keycode >= UIKeys.F1 && keycode <= UIKeys.F12)
                             {
                                 LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
-                                InvalidateGraphicLocalArea(this, GetSelectionUpdateArea(), vinv);
+                                InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
                                 TextSurfaceEventListener.NotifyFunctionKeyDown(textSurfaceEventListener, keycode);
-                                EnsureCaretVisible(vinv);
-                                e.FreeVisualInvalidateCanvasArgs(vinv);
+                                EnsureCaretVisible();
+                                e.FreeVisualInvalidateCanvasArgs();
                             }
                         }
 
@@ -419,9 +419,9 @@ namespace LayoutFarm.Presentation.Text
                                     new EditableVisualTextRun[]{ 
                                         new EditableVisualTextRun( 
                                             Clipboard.GetUnicodeText())
-                                           }, vinv);
-                                EnsureCaretVisible(vinv);
-                                e.FreeVisualInvalidateCanvasArgs(vinv);
+                                           });
+                                EnsureCaretVisible();
+                                e.FreeVisualInvalidateCanvasArgs();
                             }
 
                         } break;
@@ -434,7 +434,7 @@ namespace LayoutFarm.Presentation.Text
                                 if (internalTextLayerController.SelectionRange != null)
                                 {
 
-                                    InvalidateGraphicLocalArea(this, GetSelectionUpdateArea(), vinv);
+                                    InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
                                 }
                                 StringBuilder stBuilder = GetFreeStringBuilder();
                                 internalTextLayerController.CopySelectedTextToPlainText(stBuilder);
@@ -443,12 +443,12 @@ namespace LayoutFarm.Presentation.Text
                                     Clipboard.SetText(stBuilder.ToString());
                                 }
 
-                                internalTextLayerController.DoDelete(vinv);
+                                internalTextLayerController.DoDelete();
 
 
-                                EnsureCaretVisible(vinv);
+                                EnsureCaretVisible();
                                 ReleaseStringBuilder(stBuilder);
-                                e.FreeVisualInvalidateCanvasArgs(vinv);
+                                e.FreeVisualInvalidateCanvasArgs();
                             }
 
                         } break;
@@ -456,18 +456,18 @@ namespace LayoutFarm.Presentation.Text
                     case UIKeys.Z:
                         {
                             LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
-                            internalTextLayerController.UndoLastAction(vinv);
-                            EnsureCaretVisible(vinv);
-                            e.FreeVisualInvalidateCanvasArgs(vinv);
+                            internalTextLayerController.UndoLastAction();
+                            EnsureCaretVisible();
+                            e.FreeVisualInvalidateCanvasArgs();
                         } break;
 
                     case UIKeys.Y:
                         {
 
                             LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
-                            internalTextLayerController.ReverseLastUndoAction(vinv);
-                            EnsureCaretVisible(vinv);
-                            e.FreeVisualInvalidateCanvasArgs(vinv);
+                            internalTextLayerController.ReverseLastUndoAction();
+                            EnsureCaretVisible();
+                            e.FreeVisualInvalidateCanvasArgs();
 
                         } break;
                     case UIKeys.B:
@@ -494,19 +494,19 @@ namespace LayoutFarm.Presentation.Text
                             }
 
                             LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
-                            internalTextLayerController.DoFormatSelection(textStyle, vinv);
+                            internalTextLayerController.DoFormatSelection(textStyle);
 
                             if (internalTextLayerController.updateJustCurrentLine)
                             {
 
-                                InvalidateGraphicOfCurrentLineArea(vinv);
+                                InvalidateGraphicOfCurrentLineArea();
                             }
                             else
                             {
-                                InvalidateGraphic(vinv);
+                                InvalidateGraphic();
 
                             }
-                            e.FreeVisualInvalidateCanvasArgs(vinv);
+                            e.FreeVisualInvalidateCanvasArgs();
                         } break;
 
                 }
@@ -540,15 +540,15 @@ namespace LayoutFarm.Presentation.Text
 
                             if (internalTextLayerController.SelectionRange != null)
                             {
-                                InvalidateGraphicLocalArea(this, GetSelectionUpdateArea(), vinv);
+                                InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
                             }
-                            internalTextLayerController.SplitCurrentLineIntoNewLine(vinv);
+                            internalTextLayerController.SplitCurrentLineIntoNewLine();
 
 
                             if (textSurfaceEventListener != null)
                             {
 
-                                e.FreeVisualInvalidateCanvasArgs(vinv);
+                                e.FreeVisualInvalidateCanvasArgs();
                                 TextSurfaceEventListener.NofitySplitNewLine(textSurfaceEventListener, e);
                                 vinv = e.GetVisualInvalidateCanvasArgs();
                             }
@@ -557,14 +557,14 @@ namespace LayoutFarm.Presentation.Text
                             if (lineArea.Bottom > this.ViewportBottom)
                             {
 
-                                ScrollBy(0, lineArea.Bottom - this.ViewportBottom, vinv);
+                                ScrollBy(0, lineArea.Bottom - this.ViewportBottom);
                             }
                             else
                             {
-                                InvalidateGraphicOfCurrentLineArea(vinv);
+                                InvalidateGraphicOfCurrentLineArea();
                             }
-                            EnsureCaretVisible(vinv);
-                            e.FreeVisualInvalidateCanvasArgs(vinv);
+                            EnsureCaretVisible();
+                            e.FreeVisualInvalidateCanvasArgs();
                             return true;
                         }
                         return true;
@@ -577,7 +577,7 @@ namespace LayoutFarm.Presentation.Text
                             return true;
                         }
                         LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
-                        InvalidateGraphicOfCurrentLineArea(vinv);
+                        InvalidateGraphicOfCurrentLineArea();
                         if (!e.IsShiftKeyDown)
                         {
                             internalTextLayerController.CancelSelect();
@@ -628,12 +628,12 @@ namespace LayoutFarm.Presentation.Text
                                 }
                             }
                         }
-                        EnsureCaretVisible(vinv);
+                        EnsureCaretVisible();
                         if (textSurfaceEventListener != null)
                         {
                             TextSurfaceEventListener.NotifyArrowKeyCaretPosChanged(textSurfaceEventListener, keyData);
                         }
-                        e.FreeVisualInvalidateCanvasArgs(vinv);
+                        e.FreeVisualInvalidateCanvasArgs();
                         return true;
                     }
                 case UIKeys.Right:
@@ -645,7 +645,7 @@ namespace LayoutFarm.Presentation.Text
                             return true;
                         }
                         LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
-                        InvalidateGraphicOfCurrentLineArea(vinv);
+                        InvalidateGraphicOfCurrentLineArea();
                         if (!e.IsShiftKeyDown)
                         {
                             internalTextLayerController.CancelSelect();
@@ -697,12 +697,12 @@ namespace LayoutFarm.Presentation.Text
                             }
                         }
 
-                        EnsureCaretVisible(vinv);
+                        EnsureCaretVisible();
                         if (textSurfaceEventListener != null)
                         {
                             TextSurfaceEventListener.NotifyArrowKeyCaretPosChanged(textSurfaceEventListener, keyData);
                         }
-                        e.FreeVisualInvalidateCanvasArgs(vinv);
+                        e.FreeVisualInvalidateCanvasArgs();
                         return true;
                     }
                 case UIKeys.Down:
@@ -737,13 +737,13 @@ namespace LayoutFarm.Presentation.Text
                             Rectangle lineArea = internalTextLayerController.CurrentLineArea;
                             if (lineArea.Bottom > this.ViewportBottom)
                             {
-                                ScrollBy(0, lineArea.Bottom - this.ViewportBottom, vinv);
+                                ScrollBy(0, lineArea.Bottom - this.ViewportBottom);
                             }
                             else
                             {
-                                InvalidateGraphicOfCurrentLineArea(vinv);
+                                InvalidateGraphicOfCurrentLineArea();
                             }
-                            e.FreeVisualInvalidateCanvasArgs(vinv);
+                            e.FreeVisualInvalidateCanvasArgs();
                         }
                         else
                         {
@@ -787,13 +787,13 @@ namespace LayoutFarm.Presentation.Text
                             LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
                             if (lineArea.Top < ViewportY)
                             {
-                                ScrollBy(0, lineArea.Top - ViewportY, vinv);
+                                ScrollBy(0, lineArea.Top - ViewportY);
                             }
                             else
                             {   //
-                                InvalidateGraphicOfCurrentLineArea(vinv);
+                                InvalidateGraphicOfCurrentLineArea();
                             }
-                            e.FreeVisualInvalidateCanvasArgs(vinv);
+                            e.FreeVisualInvalidateCanvasArgs();
                         }
                         else
                         {
@@ -808,8 +808,8 @@ namespace LayoutFarm.Presentation.Text
                 case UIKeys.Tab:
                     {
                         LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
-                        DoTab(vinv);
-                        e.FreeVisualInvalidateCanvasArgs(vinv);
+                        DoTab();
+                        e.FreeVisualInvalidateCanvasArgs();
 
                         return true;
                     }
@@ -843,7 +843,7 @@ namespace LayoutFarm.Presentation.Text
         //    }
         //}
 
-        void EnsureCaretVisible(LayoutPhaseVisitor vinv)
+        void EnsureCaretVisible()
         {
 
             Point textManCaretPos = internalTextLayerController.CaretPos;
@@ -861,17 +861,17 @@ namespace LayoutFarm.Presentation.Text
                     if (r.Width >= this.Width)
                     {
 #if DEBUG
-                        vinv.dbug_SetInitObject(this);
-                        vinv.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.ArtVisualTextSurafce_EnsureCaretVisible);
+                        vinv_dbug_SetInitObject(this);
+                        vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.ArtVisualTextSurafce_EnsureCaretVisible);
 
 #endif
 
-                        InnerDoTopDownReCalculateContentSize(this, vinv);
+                        InnerDoTopDownReCalculateContentSize(this);
                         this.BoxEvaluateScrollBar();
                         RefreshSnapshotCanvas();
 
 #if DEBUG
-                        vinv.dbug_EndLayoutTrace();
+                        vinv_dbug_EndLayoutTrace();
 #endif
 
                     }
@@ -880,19 +880,19 @@ namespace LayoutFarm.Presentation.Text
                 {
                 }
 
-                ScrollBy(textManCaretPos.X - this.Width, 0, vinv);
+                ScrollBy(textManCaretPos.X - this.Width, 0);
             }
             else if (textManCaretPos.X < 0)
             {
-                ScrollBy(textManCaretPos.X - this.X, 0, vinv);
+                ScrollBy(textManCaretPos.X - this.X, 0);
             }
             if (internalTextLayerController.updateJustCurrentLine)
             {
-                InvalidateGraphicOfCurrentLineArea(vinv);
+                InvalidateGraphicOfCurrentLineArea();
             }
             else
             {
-                InvalidateGraphic(vinv);
+                InvalidateGraphic();
             }
         }
         void RefreshSnapshotCanvas()
@@ -933,47 +933,47 @@ namespace LayoutFarm.Presentation.Text
                 internalTextLayerController.CurrentLineNumber = value;
             }
         }
-        public void ScrollToCurrentLine(LayoutPhaseVisitor vinv)
+        public void ScrollToCurrentLine()
         {
-            this.ScrollTo(0, internalTextLayerController.CaretPos.Y, vinv);
+            this.ScrollTo(0, internalTextLayerController.CaretPos.Y);
         }
 
-        public void DoTab(LayoutPhaseVisitor vinv)
+        public void DoTab()
         {
             if (internalTextLayerController.SelectionRange != null)
             {
-                InvalidateGraphicLocalArea(this, GetSelectionUpdateArea(), vinv);
+                InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
             }
 
-            internalTextLayerController.AddCharToCurrentLine(' ', vinv);
-            internalTextLayerController.AddCharToCurrentLine(' ', vinv);
-            internalTextLayerController.AddCharToCurrentLine(' ', vinv);
-            internalTextLayerController.AddCharToCurrentLine(' ', vinv);
-            internalTextLayerController.AddCharToCurrentLine(' ', vinv);
+            internalTextLayerController.AddCharToCurrentLine(' ');
+            internalTextLayerController.AddCharToCurrentLine(' ');
+            internalTextLayerController.AddCharToCurrentLine(' ');
+            internalTextLayerController.AddCharToCurrentLine(' ');
+            internalTextLayerController.AddCharToCurrentLine(' ');
 
             if (textSurfaceEventListener != null)
             {
                 TextSurfaceEventListener.NotifyCharacterAdded(textSurfaceEventListener, '\t');
             }
-            InvalidateGraphicOfCurrentLineArea(vinv);
+            InvalidateGraphicOfCurrentLineArea();
         }
 
-        public void DoTyping(string text, LayoutPhaseVisitor vinv)
+        public void DoTyping(string text)
         {
 
 
             if (internalTextLayerController.SelectionRange != null)
             {
-                InvalidateGraphicLocalArea(this, GetSelectionUpdateArea(), vinv);
+                InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
             }
 
             char[] charBuff = text.ToCharArray();
             int j = charBuff.Length;
             for (int i = 0; i < j; ++i)
             {
-                internalTextLayerController.AddCharToCurrentLine(charBuff[i], vinv);
+                internalTextLayerController.AddCharToCurrentLine(charBuff[i]);
             }
-            InvalidateGraphicOfCurrentLineArea(vinv);
+            InvalidateGraphicOfCurrentLineArea();
         }
     }
 }

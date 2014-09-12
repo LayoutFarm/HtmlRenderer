@@ -344,8 +344,31 @@ namespace LayoutFarm.Presentation.Text
             }
             return false;
         }
+        protected static void vinv_dbug_BeginSetElementBound(RenderElement ve)
+        {
+        }
+        protected static void vinv_dbug_EndSetElementBound(RenderElement ve)
+        {
+        }
+        protected static void vinv_dbug_EnterLayerReArrangeContent(VisualLayer ve)
+        {
+        }
+        protected static bool vinv_IsInTopDownReArrangePhase
+        {
+            get;
+            set;
+        }
+        protected static void vinv_dbug_WriteInfo(dbugVisitorMessage m, object o)
+        {
+        }
+        protected static void vinv_dbug_ExitLayerReCalculateContent()
+        {
+        }
+        protected static void vinv_dbug_ExitLayerReArrangeContent()
+        {
 
-        static Size ReCalculateContentSizeHorizontalFlow(EditableTextFlowLayer layer, LayoutPhaseVisitor vinv)
+        }
+        static Size ReCalculateContentSizeHorizontalFlow(EditableTextFlowLayer layer)
         {
 
             if (layer.lineCollection == null)
@@ -375,7 +398,7 @@ namespace LayoutFarm.Presentation.Text
                 if (currentRun != null)
                 {
 #if DEBUG
-                    vinv.dbug_BeginSetElementBound(currentRun);
+                    vinv_dbug_BeginSetElementBound(currentRun);
 #endif
 
                     lastNotNullElement = currentRun;
@@ -403,13 +426,13 @@ namespace LayoutFarm.Presentation.Text
                         }
                         if (!currentRun.HasCalculatedSize)
                         {
-                            VisualTextRun.InnerTextRunTopDownReCalculateContentSize(currentRun, vinv);
+                            VisualTextRun.InnerTextRunTopDownReCalculateContentSize(currentRun);
 
                         }
 #if DEBUG
                         else
                         {
-                            vinv.dbug_WriteInfo(dbugVisitorMessage.SKIP, currentRun);
+                            vinv_dbug_WriteInfo(dbugVisitorMessage.SKIP, currentRun);
                         }
 #endif
                         int v_ds_height = currentRun.RunDesiredHeight;
@@ -431,13 +454,13 @@ namespace LayoutFarm.Presentation.Text
 
                         if (!currentRun.HasCalculatedSize)
                         {
-                            VisualTextRun.InnerTextRunTopDownReCalculateContentSize(currentRun, vinv);
+                            VisualTextRun.InnerTextRunTopDownReCalculateContentSize(currentRun);
 
                         }
 #if DEBUG
                         else
                         {
-                            vinv.dbug_WriteInfo(dbugVisitorMessage.SKIP, currentRun);
+                            vinv_dbug_WriteInfo(dbugVisitorMessage.SKIP, currentRun);
                         }
 #endif
                         int v_ds_height = currentRun.RunDesiredHeight;
@@ -453,7 +476,7 @@ namespace LayoutFarm.Presentation.Text
                         isFirstRunOfLine = false;
                     }
 #if DEBUG
-                    vinv.dbug_EndSetElementBound(currentRun);
+                    vinv_dbug_EndSetElementBound(currentRun);
 #endif
                 }
                 else
@@ -490,25 +513,25 @@ namespace LayoutFarm.Presentation.Text
 
         }
 
-        public override void TopDownReArrangeContent(LayoutPhaseVisitor vinv)
+        public override void TopDownReArrangeContent()
         {
-            vinv.IsInTopDownReArrangePhase = true;
+            vinv_IsInTopDownReArrangePhase = true;
 #if DEBUG
-            vinv.dbug_EnterLayerReArrangeContent(this);
+            vinv_dbug_EnterLayerReArrangeContent(this);
 #endif
-            //this.BeginLayerGraphicUpdate(vinv);
-            this.BeginLayerLayoutUpdate(vinv);
+            //this.BeginLayerGraphicUpdate();
+            this.BeginLayerLayoutUpdate();
 
             RenderBoxBase container = this.ownerVisualElement as RenderBoxBase;
             if (container != null)
             {
                 if (ownerVisualElement.IsScrollable)
                 {
-                    PerformHorizontalFlowArrange(container.ClientLeft, 1000, container.ClientTop, vinv);
+                    PerformHorizontalFlowArrange(container.ClientLeft, 1000, container.ClientTop);
                 }
                 else
                 {
-                    PerformHorizontalFlowArrange(container.ClientLeft, ownerVisualElement.Width, container.ClientTop, vinv);
+                    PerformHorizontalFlowArrange(container.ClientLeft, ownerVisualElement.Width, container.ClientTop);
                 }
             }
             if (Reflow != null)
@@ -516,18 +539,18 @@ namespace LayoutFarm.Presentation.Text
                 Reflow(this, EventArgs.Empty);
             }
 
-            this.EndLayerLayoutUpdate(vinv);
+            this.EndLayerLayoutUpdate();
 #if DEBUG
-            vinv.dbug_ExitLayerReArrangeContent();
+            vinv_dbug_ExitLayerReArrangeContent();
 #endif
         }
 
 
-        public override void TopDownReCalculateContentSize(LayoutPhaseVisitor vinv)
+        public override void TopDownReCalculateContentSize()
         {
 #if DEBUG
 
-            vinv.dbug_EnterLayerReCalculateContent(this);
+            vinv_dbug_EnterLayerReCalculateContent(this);
 #endif
             if (this.LineCount > 1)
             {
@@ -540,10 +563,10 @@ namespace LayoutFarm.Presentation.Text
             else
             {
 
-                SetPostCalculateLayerContentSize(ReCalculateContentSizeHorizontalFlow(this, vinv));
+                SetPostCalculateLayerContentSize(ReCalculateContentSizeHorizontalFlow(this ));
             }
 #if DEBUG
-            vinv.dbug_ExitLayerReCalculateContent();
+            vinv_dbug_ExitLayerReCalculateContent();
 #endif
         }
 
@@ -625,7 +648,7 @@ namespace LayoutFarm.Presentation.Text
         }
         void PerformHorizontalFlowArrangeForMultilineText(
 int ownerClientLeft, int ownerClientWidth,
-int ownerClientTop, LayoutPhaseVisitor vinv)
+int ownerClientTop)
         {
 
 
@@ -667,7 +690,7 @@ int ownerClientTop, LayoutPhaseVisitor vinv)
                     foreach (EditableVisualTextRun currentRun in line)
                     {
 #if DEBUG
-                        vinv.dbug_BeginSetElementBound(currentRun);
+                        vinv_dbug_BeginSetElementBound(currentRun);
 #endif
                         int v_desired_width = currentRun.RunDesiredWidth;
                         int v_desired_height = currentRun.RunDesiredHeight;
@@ -751,7 +774,7 @@ int ownerClientTop, LayoutPhaseVisitor vinv)
                         }
 
 #if DEBUG
-                        vinv.dbug_EndSetElementBound(currentRun);
+                        vinv_dbug_EndSetElementBound(currentRun);
 #endif
 
                     }
@@ -777,7 +800,7 @@ int ownerClientTop, LayoutPhaseVisitor vinv)
 
         void PerformHorizontalFlowArrange(
             int ownerClientLeft, int ownerClientWidth,
-            int ownerClientTop, LayoutPhaseVisitor vinv)
+            int ownerClientTop)
         {
             if (lineCollection == null)
             {
@@ -786,7 +809,7 @@ int ownerClientTop, LayoutPhaseVisitor vinv)
             if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
             {
                 PerformHorizontalFlowArrangeForMultilineText(ownerClientLeft,
-    ownerClientWidth, ownerClientTop, vinv);
+                ownerClientWidth, ownerClientTop);
                 return;
             }
             int ownerClientRight = ownerClientLeft + ownerClientWidth;
@@ -817,7 +840,7 @@ int ownerClientTop, LayoutPhaseVisitor vinv)
                     lastNotNullElement = currentRun;
                     childCount++;
 #if DEBUG
-                    vinv.dbug_BeginSetElementBound(currentRun);
+                    vinv_dbug_BeginSetElementBound(currentRun);
 #endif
 
                     int v_desired_width = currentRun.RunDesiredWidth;
@@ -880,7 +903,7 @@ int ownerClientTop, LayoutPhaseVisitor vinv)
                         curX += v_desired_width;
                     }
 #if DEBUG
-                    vinv.dbug_EndSetElementBound(currentRun);
+                    vinv_dbug_EndSetElementBound(currentRun);
 #endif
                 }
                 else

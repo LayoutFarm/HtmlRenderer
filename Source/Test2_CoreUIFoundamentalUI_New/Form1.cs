@@ -61,9 +61,9 @@ namespace TestGraphicPackage2
             viewport.AddContent(sampleButton.PrimaryVisualElement);
 
             var vinv = sampleButton.PrimaryVisualElement.GetVInv(); 
-            viewport.WinRoot.TopDownReCalculateContentSize(vinv);
-            sampleButton.PrimaryVisualElement.InvalidateGraphic(vinv);
-            sampleButton.PrimaryVisualElement.FreeVInv(vinv);
+            viewport.WinRoot.TopDownReCalculateContentSize();
+            sampleButton.PrimaryVisualElement.InvalidateGraphic();
+            sampleButton.PrimaryVisualElement.FreeVInv();
             //==================================================  
             viewport.PaintMe();
             //ShowFormLayoutInspector(viewport);
@@ -190,10 +190,10 @@ namespace TestGraphicPackage2
                 viewport.AddContent(v);
 
                 var vinv = v.GetVInv(); 
-                viewport.WinRoot.TopDownReCalculateContentSize(vinv);
+                viewport.WinRoot.TopDownReCalculateContentSize();
 
-                v.InvalidateGraphic(vinv);
-                v.FreeVInv(vinv);
+                v.InvalidateGraphic();
+                v.FreeVInv();
             } 
 
             viewport.PaintMe();  

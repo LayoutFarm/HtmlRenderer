@@ -8,7 +8,7 @@ namespace LayoutFarm.Presentation
 {
      
     public class LayoutPhaseVisitor
-    {
+    {   
         TopWindowRenderBox winroot; 
 #if DEBUG
         const int VISUAL_ELEMENT = 0x0;
@@ -31,18 +31,18 @@ namespace LayoutFarm.Presentation
             this.ForceReArrange = true;//default
         }
        
-        public static void ClearForReuse(LayoutPhaseVisitor vinv)
+        public static void ClearForReuse()
         {
-            vinv.winroot = null;
-            vinv.IsInTopDownReArrangePhase = false;
+//            vinv_winroot = null;
+//            vinv_IsInTopDownReArrangePhase = false;
            
-            vinv.ForceReArrange = false;
-#if DEBUG
-            vinv.dbugBreakOnSelectedVisuallElement = false;
-            vinv.debugVisualLay = null;
-            vinv.dbugInitObject = null;
-            vinv.dbugFlags = 0;
-#endif
+//            vinv_ForceReArrange = false;
+//#if DEBUG
+//            vinv_dbugBreakOnSelectedVisuallElement = false;
+//            vinv_debugVisualLay = null;
+//            vinv_dbugInitObject = null;
+//            vinv_dbugFlags = 0;
+//#endif
 
         }
 

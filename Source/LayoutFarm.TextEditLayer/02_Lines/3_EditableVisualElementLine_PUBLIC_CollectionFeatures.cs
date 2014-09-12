@@ -23,7 +23,7 @@ namespace LayoutFarm.Presentation.Text
         {
             return null;
         }
-        public void PerformLayout(LayoutPhaseVisitor vinv)
+        public void PerformLayout()
         {
         }
         

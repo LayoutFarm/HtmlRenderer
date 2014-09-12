@@ -14,7 +14,7 @@ namespace LayoutFarm.Presentation
     {
 
 
-        public virtual void TopDownReCalculateContentSize(LayoutPhaseVisitor vinv)
+        public virtual void TopDownReCalculateContentSize()
         {
 
 #if DEBUG
@@ -77,7 +77,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public void ResumeLayout(LayoutPhaseVisitor vinv)
+        public void ResumeLayout()
         {
             uiLayoutFlags &= ~LY_SUSPEND;
 
@@ -85,7 +85,7 @@ namespace LayoutFarm.Presentation
             {
                 if (this.HasOwner)
                 {
-                    if (!vinv.IsInTopDownReArrangePhase)
+                    if (!vinv_IsInTopDownReArrangePhase)
                     {
                         this.StartBubbleUpLayoutInvalidState();
                     }
@@ -94,22 +94,22 @@ namespace LayoutFarm.Presentation
                 {
                     if (this.IsWindowRoot)
                     {
-                        this.TopDownReCalculateContentSize(vinv);
-                        ((RenderBoxBase)this).TopDownReArrangeContentIfNeed(vinv);
+                        this.TopDownReCalculateContentSize();
+                        ((RenderBoxBase)this).TopDownReArrangeContentIfNeed();
                     }
                 }
             }
         }
 
-        public void SetWidth(int width, LayoutPhaseVisitor vinv)
+        public void SetWidth(int width)
         {
-            this.SetSize(width, this.b_Height, vinv);
+            this.SetSize(width, this.b_Height);
         }
-        public void SetHeight(int height, LayoutPhaseVisitor vinv)
+        public void SetHeight(int height)
         {
-            this.SetSize(this.b_width, height, vinv);
+            this.SetSize(this.b_width, height);
         }
-        public void SetSize(int width, int height, LayoutPhaseVisitor vinv)
+        public void SetSize(int width, int height)
         {
 
             if (visualParentLink == null)
@@ -122,20 +122,20 @@ namespace LayoutFarm.Presentation
 
                 int prevWidth = this.b_width;
                 int prevHeight = this.b_Height;
-                this.BeforeBoundChangedInvalidateGraphics(vinv);
-                PrivateSetSize(width, height, vinv);
-                this.AfterBoundChangedInvalidateGraphics(vinv);
+                this.BeforeBoundChangedInvalidateGraphics();
+                PrivateSetSize(width, height);
+                this.AfterBoundChangedInvalidateGraphics();
             }
 
         }
-        void PrivateSetSize(int width, int height, LayoutPhaseVisitor vinv)
+        void PrivateSetSize(int width, int height)
         {
             RenderElement.DirectSetVisualElementSize(this, width, height);
 
             if (this.IsVisualContainerBase)
             {
                 RenderBoxBase vscont = (RenderBoxBase)this;
-                if (!vinv.IsInTopDownReArrangePhase)
+                if (!vinv_IsInTopDownReArrangePhase)
                 {
                     vscont.InvalidateContentArrangementFromContainerSizeChanged();
                     this.InvalidateLayoutAndStartBubbleUp();
@@ -143,9 +143,9 @@ namespace LayoutFarm.Presentation
                 else
                 {
 #if DEBUG
-                    vinv.dbug_SetInitObject(this);
+                    vinv_dbug_SetInitObject(this);
 #endif
-                    vscont.ForceTopDownReArrangeContent(vinv);
+                    vscont.ForceTopDownReArrangeContent();
                 }
             }
             else

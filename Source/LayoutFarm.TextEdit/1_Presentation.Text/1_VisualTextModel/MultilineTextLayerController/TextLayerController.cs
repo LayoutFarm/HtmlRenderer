@@ -22,21 +22,21 @@ namespace LayoutFarm.Presentation.Text
         {
             this.visualTextSurface.TextDomListener = listener;
         }
-        public void AddTextRunsToCurrentLine(IEnumerable<EditableVisualTextRun> textRuns, LayoutPhaseVisitor vinv)
+        public void AddTextRunsToCurrentLine(IEnumerable<EditableVisualTextRun> textRuns)
         {
-            this.innerTextMan.AddTextRunsToCurrentLine(textRuns, vinv);
+            this.innerTextMan.AddTextRunsToCurrentLine(textRuns);
         }
-        public void SplitCurrentLineIntoNewLine(LayoutPhaseVisitor vinv)
+        public void SplitCurrentLineIntoNewLine()
         {
-            this.innerTextMan.SplitCurrentLineIntoNewLine(vinv); 
+            this.innerTextMan.SplitCurrentLineIntoNewLine(); 
         }
         public LayoutPhaseVisitor GetVInv()
         {
             return this.visualTextSurface.GetVInv();
         }
-        public void FreeVinv(LayoutPhaseVisitor vinv)
+        public void FreeVinv()
         {
-            this.visualTextSurface.FreeVInv(vinv);
+            this.visualTextSurface.FreeVInv();
         }
         public EditableVisualTextRun CurrentTextRun
         {
@@ -123,7 +123,7 @@ namespace LayoutFarm.Presentation.Text
         }
 
 
-        public void AddCharToCurrentLine(char c, LayoutPhaseVisitor vinv)
+        public void AddCharToCurrentLine(char c)
         {
             updateJustCurrentLine = true;
             bool passRemoveSelectedText = false;
@@ -144,7 +144,7 @@ namespace LayoutFarm.Presentation.Text
                     dbugTextManRecorder.WriteInfo(SelectionRange);
                 }
 #endif
-                RemoveSelectedText(vinv); passRemoveSelectedText = true;
+                RemoveSelectedText(); passRemoveSelectedText = true;
             }
             if (passRemoveSelectedText && c == ' ')
             {
@@ -156,7 +156,7 @@ namespace LayoutFarm.Presentation.Text
                   new DocActionCharTyping(c, textLineWriter.LineNumber, textLineWriter.CharIndex));
             }
 
-            textLineWriter.Add(c, vinv);
+            textLineWriter.Add(c);
 
 
 #if DEBUG
@@ -175,7 +175,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        VisualSelectionRangeSnapShot RemoveSelectedText(LayoutPhaseVisitor vinv)
+        VisualSelectionRangeSnapShot RemoveSelectedText()
         {
 
 #if DEBUG
@@ -236,7 +236,7 @@ namespace LayoutFarm.Presentation.Text
                         selSnapshot.endLineNum,
                         selSnapshot.endColumnNum));
 
-                    textLineWriter.RemoveSelectedTextRuns(selectionRange, vinv);
+                    textLineWriter.RemoveSelectedTextRuns(selectionRange);
                     updateJustCurrentLine = true;
                 }
             }
@@ -255,7 +255,7 @@ namespace LayoutFarm.Presentation.Text
                         selSnapshot.endLineNum,
                         selSnapshot.endColumnNum));
 
-                    textLineWriter.RemoveSelectedTextRuns(selectionRange, vinv);
+                    textLineWriter.RemoveSelectedTextRuns(selectionRange);
                     updateJustCurrentLine = false;
                     textLineWriter.MoveToLine(startPointLindId);
                     textLineWriter.CharIndex = startPointCharIndex;
@@ -292,14 +292,14 @@ namespace LayoutFarm.Presentation.Text
             }
 
         }
-        public void SplitCurrentLineIntoNewLine(LayoutPhaseVisitor vinv)
+        public void SplitCurrentLineIntoNewLine()
         {
-            RemoveSelectedText(vinv);
+            RemoveSelectedText();
 
             undoActionCollection.AddDocAction(
     new DocActionSplitToNewLine(textLineWriter.LineNumber, textLineWriter.CharIndex));
 
-            textLineWriter.SplitToNewLine(vinv);
+            textLineWriter.SplitToNewLine();
 
             CurrentLineNumber++;
 
@@ -329,7 +329,7 @@ namespace LayoutFarm.Presentation.Text
                 return null;
             }
         }
-        public void DoFormatSelection(TextRunStyle textStyle, LayoutPhaseVisitor vinv)
+        public void DoFormatSelection(TextRunStyle textStyle)
         {
             int startLineNum = textLineWriter.LineNumber;
             int startCharIndex = textLineWriter.CharIndex;
@@ -342,7 +342,7 @@ namespace LayoutFarm.Presentation.Text
 
                 foreach (EditableVisualTextRun r in selRange.GetPrintableTextRunIter())
                 {
-                    r.SetStyle(textStyle, vinv);
+                    r.SetStyle(textStyle);
                 }
 
                 this.updateJustCurrentLine = selectionRange.IsOnTheSameLine;
@@ -562,13 +562,13 @@ namespace LayoutFarm.Presentation.Text
             textLineWriter.JoinWithNextLine();
             TextEditRenderBox.NotifyTextContentSizeChanged(visualTextSurface);
         }
-        public void UndoLastAction(LayoutPhaseVisitor vinv)
+        public void UndoLastAction()
         {
-            undoActionCollection.UndoLastAction(vinv);
+            undoActionCollection.UndoLastAction();
         }
-        public void ReverseLastUndoAction(LayoutPhaseVisitor vinv)
+        public void ReverseLastUndoAction()
         {
-            undoActionCollection.ReverseLastUndoAction(vinv);
+            undoActionCollection.ReverseLastUndoAction();
         }
 
     }

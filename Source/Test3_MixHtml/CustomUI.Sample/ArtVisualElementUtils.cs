@@ -3,20 +3,26 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text; 
-using System.Drawing; 
+using System.Text;
+using System.Drawing;
 namespace LayoutFarm.Presentation
 {
     public static class ArtVisualElementUtils
     {
+        static void vinv_dbug_WriteInfo(dbugVisitorMessage msg, object o)
+        {
+
+        }
+
+
         public static TextRunStyle CreateSimpleRole(Color color)
-        {   
+        {
             TextRunStyle beh = new TextRunStyle();
             beh.SharedBgColorBrush = new ArtSolidBrush(color);
             return beh;
         }
 
-        static Size ReCalculateContentSizeVerticalStack(LinkedList<RenderElement> velist, LayoutPhaseVisitor vinv)
+        static Size ReCalculateContentSizeVerticalStack(LinkedList<RenderElement> velist)
         {
             int local_desiredWidth = 0;
             int local_desiredHeight = 0;
@@ -28,12 +34,12 @@ namespace LayoutFarm.Presentation
                 RenderElement visualElement = curNode.Value;
                 if (!visualElement.HasCalculatedSize)
                 {
-                    visualElement.TopDownReCalculateContentSize(vinv);
+                    visualElement.TopDownReCalculateContentSize();
                 }
 #if DEBUG
                 else
                 {
-                    vinv.dbug_WriteInfo(dbugVisitorMessage.SKIP_CAL, visualElement);
+                    vinv_dbug_WriteInfo(dbugVisitorMessage.SKIP_CAL, visualElement);
                 }
 #endif
                 if (local_desiredWidth < visualElement.ElementDesiredWidth)
@@ -42,11 +48,11 @@ namespace LayoutFarm.Presentation
                 }
                 local_desiredHeight += visualElement.ElementDesiredHeight;
                 curNode = curNode.Next;
-            } 
+            }
             return new Size(local_desiredWidth, local_desiredHeight);
         }
 
-        static Size ReCalculateContentSizeHorizontalStack(LinkedList<RenderElement> velist, LayoutPhaseVisitor vinv)
+        static Size ReCalculateContentSizeHorizontalStack(LinkedList<RenderElement> velist)
         {
 
             int local_desiredWidth = 0;
@@ -57,13 +63,13 @@ namespace LayoutFarm.Presentation
                 RenderElement visualElement = curNode.Value;
                 if (!visualElement.HasCalculatedSize)
                 {
-                    visualElement.TopDownReCalculateContentSize(vinv);
+                    visualElement.TopDownReCalculateContentSize();
                 }
 #if DEBUG
                 else
                 {
 
-                    vinv.dbug_WriteInfo(dbugVisitorMessage.SKIP, visualElement);
+                    vinv_dbug_WriteInfo(dbugVisitorMessage.SKIP, visualElement);
 
                 }
 #endif
@@ -74,7 +80,7 @@ namespace LayoutFarm.Presentation
                 }
                 local_desiredWidth += visualElement.ElementDesiredWidth;
                 curNode = curNode.Next;
-            } 
+            }
 
             return new Size(local_desiredWidth, local_desiredHeight);
         }

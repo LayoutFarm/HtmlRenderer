@@ -64,9 +64,9 @@ namespace LayoutFarm.Presentation.Text
         {
             EnsureCurrentTextRun(CharIndex);
         }
-        public void RemoveSelectedTextRuns(VisualSelectionRange selectionRange, LayoutPhaseVisitor vinv)
+        public void RemoveSelectedTextRuns(VisualSelectionRange selectionRange)
         {
-            int precutIndex = selectionRange.StartPoint.LineCharIndex; CurrentLine.Remove(selectionRange, vinv);
+            int precutIndex = selectionRange.StartPoint.LineCharIndex; CurrentLine.Remove(selectionRange);
             EnsureCurrentTextRun(precutIndex);
 
         }
@@ -83,7 +83,7 @@ namespace LayoutFarm.Presentation.Text
             EditableVisualElementLine.InnerDoJoinWithNextLine(this.CurrentLine);
             EnsureCurrentTextRun();
         }
-        char Delete(LayoutPhaseVisitor vinv)
+        char Delete()
         {
 
             if (CurrentTextRun == null)
@@ -101,7 +101,7 @@ namespace LayoutFarm.Presentation.Text
                 EditableVisualTextRun removingTextRun = CurrentTextRun;
                 int removeIndex = CurrentTextRunCharIndex;
                 CharIndex--;
-                EditableVisualTextRun.InnerRemove(removingTextRun, removeIndex, 1, false, vinv);
+                EditableVisualTextRun.InnerRemove(removingTextRun, removeIndex, 1, false);
                 if (removingTextRun.CharacterCount == 0)
                 {
                     CurrentLine.Remove(removingTextRun);
@@ -128,7 +128,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        public void Add(char c, LayoutPhaseVisitor vinv)
+        public void Add(char c)
         {
             if (CurrentLine.IsBlankLine)
             {
@@ -139,7 +139,7 @@ namespace LayoutFarm.Presentation.Text
 
                 //if (owner.MyBoxStyle != null)
                 //{
-                //    t.SetStyle(owner.MyBoxStyle, vinv);
+                //    t.SetStyle(owner.MyBoxStyle);
                 //}
                 CurrentLine.AddLast(t);
 
@@ -153,7 +153,7 @@ namespace LayoutFarm.Presentation.Text
 
                     if (cRun.IsInsertable)
                     {
-                        cRun.InsertAfter(CurrentTextRunCharIndex, c, vinv);
+                        cRun.InsertAfter(CurrentTextRunCharIndex, c);
 
                     }
                     else
@@ -219,16 +219,16 @@ namespace LayoutFarm.Presentation.Text
             EnsureCurrentTextRun(charIndex);
         }
 
-        public char DoBackspace(LayoutPhaseVisitor vinv)
+        public char DoBackspace()
         {
-            return Delete(vinv);
+            return Delete();
         }
-        public char DoDelete(LayoutPhaseVisitor vinv)
+        public char DoDelete()
         {
             if (CharIndex < CurrentLine.CharCount - 1)
             {
                 CharIndex++;
-                return Delete(vinv);
+                return Delete();
             }
             else
             {
@@ -236,7 +236,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        public void SplitToNewLine(LayoutPhaseVisitor vinv)
+        public void SplitToNewLine()
         {
 
             EditableVisualTextRun lineBreakRun = new EditableVisualTextRun('\n');
@@ -259,7 +259,7 @@ namespace LayoutFarm.Presentation.Text
                 {
 
                     EditableVisualTextRun rightSplitedPart = EditableVisualTextRun.InnerRemove(currentRun,
-                        CurrentTextRunCharIndex + 1, true, vinv);
+                        CurrentTextRunCharIndex + 1, true);
                     if (rightSplitedPart != null)
                     {
                         CurrentLine.AddAfter(currentRun, rightSplitedPart);
@@ -274,7 +274,7 @@ namespace LayoutFarm.Presentation.Text
             }
 
 
-            this.TextLayer.TopDownReCalculateContentSize(vinv);
+            this.TextLayer.TopDownReCalculateContentSize();
             EnsureCurrentTextRun();
         }
         public EditableVisualPointInfo[] SplitSelectedText(VisualSelectionRange selectionRange)

@@ -13,7 +13,7 @@ namespace LayoutFarm.Presentation.Text
     partial class InternalTextLayerController
     {
 
-        public VisualSelectionRangeSnapShot DoDelete(LayoutPhaseVisitor vinv)
+        public VisualSelectionRangeSnapShot DoDelete()
         {
 
 #if DEBUG
@@ -24,12 +24,12 @@ namespace LayoutFarm.Presentation.Text
             }
 #endif
 
-            VisualSelectionRangeSnapShot removedRange = this.RemoveSelectedText(vinv);
+            VisualSelectionRangeSnapShot removedRange = this.RemoveSelectedText();
 
             if (removedRange.IsEmpty())
             {
                 updateJustCurrentLine = true;
-                char deletedChar = textLineWriter.DoDelete(vinv);
+                char deletedChar = textLineWriter.DoDelete();
                 if (deletedChar == '\0')
                 {
                     undoActionCollection.AddDocAction(new DocActionJoinWithNextLine(
@@ -47,7 +47,7 @@ new DocActionDeleteChar(deletedChar, textLineWriter.LineNumber, textLineWriter.C
 
                     if (nextChar != '\0' && textLineWriter.NextCharWidth < 1)
                     {
-                        DoDelete(vinv);
+                        DoDelete();
                     }
                 }
             }
@@ -60,7 +60,7 @@ new DocActionDeleteChar(deletedChar, textLineWriter.LineNumber, textLineWriter.C
 #if DEBUG
         int dbug_BackSpaceCount = 0;
 #endif
-        public bool DoBackspace(LayoutPhaseVisitor vinv)
+        public bool DoBackspace()
         {
 
 
@@ -77,7 +77,7 @@ new DocActionDeleteChar(deletedChar, textLineWriter.LineNumber, textLineWriter.C
             }
 #endif
 
-            VisualSelectionRangeSnapShot removeSelRange = this.RemoveSelectedText(vinv);
+            VisualSelectionRangeSnapShot removeSelRange = this.RemoveSelectedText();
             if (!removeSelRange.IsEmpty())
             {
                 CancelSelect();
@@ -89,7 +89,7 @@ new DocActionDeleteChar(deletedChar, textLineWriter.LineNumber, textLineWriter.C
             else
             {
                 updateJustCurrentLine = true;
-                char deletedChar = textLineWriter.DoBackspace(vinv);
+                char deletedChar = textLineWriter.DoBackspace();
                 if (deletedChar == '\0')
                 {
                     if (!IsOnFirstLine)

@@ -17,7 +17,7 @@ namespace LayoutFarm.Presentation
         
         void AdjustParentLocation(ref System.Drawing.Point p);
 
-        void PerformLayout(LayoutPhaseVisitor vinv);
+        void PerformLayout();
         TopWindowRenderBox GetWindowRoot();
         RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, System.Drawing.Point point);
         RenderElement NotifyParentToInvalidate(out bool goToFinalExit
@@ -62,9 +62,9 @@ namespace LayoutFarm.Presentation
         {
             return this.ownerLayer.GetWindowRoot();
         }
-        public void PerformLayout(LayoutPhaseVisitor vinv)
+        public void PerformLayout()
         {
-            ownerLayer.TopDownReArrangeContent(vinv); 
+            ownerLayer.TopDownReArrangeContent(); 
         } 
         public bool MayHasOverlapChild
         {

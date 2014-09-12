@@ -58,8 +58,8 @@ namespace LayoutFarm.Presentation
         public void ChangeVisualRootSize(int width, int height)
         {
             LayoutPhaseVisitor vinv = this.GetVInv();
-            this.ChangeRootElementSize(width, height, vinv);
-            this.FreeVInv(vinv);
+            this.ChangeRootElementSize(width, height);
+            this.FreeVInv();
         }
         public void Dispose()
         {
@@ -123,8 +123,8 @@ namespace LayoutFarm.Presentation
                     {
                         SetCaretVisible(false);
                         LayoutPhaseVisitor vinv = this.GetVInv();
-                        currentKeyboardFocusedElement.InvalidateGraphic(vinv);
-                        this.FreeVInv(vinv);
+                        currentKeyboardFocusedElement.InvalidateGraphic();
+                        this.FreeVInv();
                     }
                     eventStock.ReleaseEventArgs(focusEventArg);
                 }
@@ -361,9 +361,9 @@ namespace LayoutFarm.Presentation
             if (hitElement.Focusable)
             {
                 LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
-                //hitElement.Focus(vinv);
+                //hitElement.Focus();
                 hitElement.WinRoot.CurrentKeyboardFocusedElement = hitElement;
-                e.FreeVisualInvalidateCanvasArgs(vinv);
+                e.FreeVisualInvalidateCanvasArgs();
             }
             disableGraphicOutputFlush = false;
             FlushGraphicUpdate();
@@ -802,9 +802,9 @@ HitEventName.DragStart);
                 if (hitElement.Focusable)
                 {
                     LayoutPhaseVisitor vinv = e.GetVisualInvalidateCanvasArgs();
-                    //hitElement.Focus(vinv);
+                    //hitElement.Focus();
                     hitElement.WinRoot.CurrentKeyboardFocusedElement = hitElement;
-                    e.FreeVisualInvalidateCanvasArgs(vinv);
+                    e.FreeVisualInvalidateCanvasArgs();
                 }
 
 
@@ -897,8 +897,8 @@ HitEventName.DragStart);
                 if (result && currentKeyboardFocusedElement != null)
                 {
                     LayoutPhaseVisitor vinv = this.GetVInv();
-                    currentKeyboardFocusedElement.InvalidateGraphic(vinv);
-                    this.FreeVInv(vinv);
+                    currentKeyboardFocusedElement.InvalidateGraphic();
+                    this.FreeVInv();
                 }
                 e.TranslateCanvasOriginBack();
             }

@@ -7,7 +7,7 @@ using System.Drawing;
 namespace LayoutFarm.Presentation
 {
     public class UIRootGraphic : RootGraphic
-    {   
+    {
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
         static Stack<LayoutPhaseVisitor> visualArgStack = new Stack<LayoutPhaseVisitor>();
 
@@ -41,13 +41,18 @@ namespace LayoutFarm.Presentation
         {
             caretOwner = owner;
             localCaretPos = p;
+        
+        }
+        static void vinv_SetWinRoot(TopWindowRenderBox winroot)
+        {
+
         }
         public static LayoutPhaseVisitor GetVisualInvalidateArgs(TopWindowRenderBox winroot)
         {
             if (visualArgStack.Count > 0)
             {
                 LayoutPhaseVisitor vinv = visualArgStack.Pop();
-                vinv.SetWinRoot(winroot);
+                vinv_SetWinRoot(winroot);
                 return vinv;
             }
             else
@@ -56,12 +61,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public static void FreeVisualInvalidateArgs(LayoutPhaseVisitor vinv)
-        {
-            LayoutPhaseVisitor.ClearForReuse(vinv);
-            visualArgStack.Push(vinv);
-        }
-
+         
 
         public const int IS_SHIFT_KEYDOWN = 1 << (1 - 1);
         public const int IS_ALT_KEYDOWN = 1 << (2 - 1);
@@ -97,8 +97,8 @@ namespace LayoutFarm.Presentation
                             {
                                 ve.WinRoot.CurrentKeyboardFocusedElement = ve;
                                 LayoutPhaseVisitor vinv = ve.GetVInv();
-                                ve.InvalidateGraphic(vinv);
-                                ve.FreeVInv(vinv);
+                                ve.InvalidateGraphic();
+                                ve.FreeVInv();
                             }
                         } break;
                     case RequestCommand.InvalidateArea:

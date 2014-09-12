@@ -62,7 +62,7 @@ namespace LayoutFarm.Presentation
                 }
             }
         }
-        public void FreeVInv(LayoutPhaseVisitor vinv)
+        public void FreeVInv()
         {
 
         }
@@ -98,17 +98,16 @@ namespace LayoutFarm.Presentation
             oneBitNativeEventFlags |= registerEventFlags;
 
         }
-        public void RemoveSelf(LayoutPhaseVisitor vinv)
+        public void RemoveSelf()
         {
 
             if (visualParentLink == null)
             {
                 return;
             }
-            if (vinv != null)
-            {
-                this.InvalidateGraphic(vinv);
-            }
+
+            this.InvalidateGraphic();
+
             visualParentLink.Unlink(this);
             visualParentLink = null;
         }
@@ -141,7 +140,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public void SetVisible(bool value, LayoutPhaseVisitor vinv)
+        public void SetVisible(bool value)
         {
 
             if (visualParentLink == null)
@@ -159,7 +158,7 @@ namespace LayoutFarm.Presentation
             else
             {
 
-                InvalidateGraphic(vinv);
+                InvalidateGraphic();
                 if (value)
                 {
                     uiFlags &= ~HIDDEN;
@@ -168,7 +167,7 @@ namespace LayoutFarm.Presentation
                 {
                     uiFlags |= HIDDEN;
                 }
-                InvalidateGraphic(vinv);
+                InvalidateGraphic();
 
             }
 
@@ -329,7 +328,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        
+
 
         public bool FirstArrangementPass
         {

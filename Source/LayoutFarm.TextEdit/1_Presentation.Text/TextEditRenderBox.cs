@@ -29,7 +29,7 @@ namespace LayoutFarm.Presentation.Text
             //1. bg
             RenderElementHelper.DrawBackground(this, canvasPage, updateArea.Width, updateArea.Height, Color.White);
             //2. sub ground
-             
+
             if (internalTextLayerController.SelectionRange != null)
             {
                 internalTextLayerController.SelectionRange.Draw(canvasPage, updateArea);
@@ -43,9 +43,9 @@ namespace LayoutFarm.Presentation.Text
             {
                 if (this.Layers != null)
                 {
-                    this.Layers.LayersDrawContent(canvasPage, updateArea); 
+                    this.Layers.LayersDrawContent(canvasPage, updateArea);
                 }
-               
+
             }
         }
         public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
@@ -63,18 +63,18 @@ namespace LayoutFarm.Presentation.Text
                 vscrollableSurface.ConfirmSizeChanged();
             }
         }
-        public void ScrollToNotRaiseEvent(int x, int y, LayoutPhaseVisitor vinv)
+        public void ScrollToNotRaiseEvent(int x, int y)
         {
 
             if (!this.IsScrollable)
             {
                 return;
             }
-            MyScrollToNotRaiseEvent(x, y, vinv);
+            MyScrollToNotRaiseEvent(x, y);
 
         }
 
-        public void MyScrollToNotRaiseEvent(int x, int y, LayoutPhaseVisitor vinv)
+        public void MyScrollToNotRaiseEvent(int x, int y)
         {
             if (y == this.ViewportY && x == this.ViewportX)
             {
@@ -83,7 +83,7 @@ namespace LayoutFarm.Presentation.Text
 
             UIScrollEventArgs hScrollEventArgs;
             UIScrollEventArgs vScrollEventArgs;
-            MyScrollToNotRaiseEvent(x, y, out hScrollEventArgs, out vScrollEventArgs, vinv);
+            MyScrollToNotRaiseEvent(x, y, out hScrollEventArgs, out vScrollEventArgs);
 
         }
 
@@ -91,8 +91,7 @@ namespace LayoutFarm.Presentation.Text
 
         void MyScrollToNotRaiseEvent(int x, int y,
             out UIScrollEventArgs hScrollEventArgs,
-            out UIScrollEventArgs vScrollEventArgs,
-            LayoutPhaseVisitor vinv)
+            out UIScrollEventArgs vScrollEventArgs)
         {
             hScrollEventArgs = null;
             vScrollEventArgs = null;
@@ -132,11 +131,11 @@ namespace LayoutFarm.Presentation.Text
 
             if (vscrollableSurface == null)
             {
-                this.InvalidateGraphic(vinv);
+                this.InvalidateGraphic();
                 this.ViewportX = x;
                 this.ViewportY = y;
 
-                this.InvalidateGraphic(vinv);
+                this.InvalidateGraphic();
             }
             else
             {
@@ -154,7 +153,7 @@ namespace LayoutFarm.Presentation.Text
 
                 vscrollableSurface.QuadPagesCalculateCanvas();
                 vscrollableSurface.FullModeUpdate = true;
-                this.InvalidateGraphic(vinv);
+                this.InvalidateGraphic();
 
                 vscrollableSurface.FullModeUpdate = false;
             }
@@ -163,7 +162,7 @@ namespace LayoutFarm.Presentation.Text
         void MyScrollByNotRaiseEvent(int dx, int dy, out UIScrollEventArgs hScrollEventArgs, out UIScrollEventArgs vScrollEventArgs)
         {
             vScrollEventArgs = null;
-            System.Drawing.Size innerContentSize = this.InnerContentSize; 
+            System.Drawing.Size innerContentSize = this.InnerContentSize;
             if (dy < 0)
             {
                 int old_y = this.ViewportY;
@@ -267,7 +266,7 @@ namespace LayoutFarm.Presentation.Text
                 vscrollableSurface.FullModeUpdate = true;
             }
         }
-        void MyScrollBy(int dx, int dy, LayoutPhaseVisitor vinv)
+        void MyScrollBy(int dx, int dy)
         {
             if (dy == 0 && dx == 0)
             {
@@ -280,15 +279,15 @@ namespace LayoutFarm.Presentation.Text
             if (vscrollableSurface != null)
             {
                 scrollRelation.RaiseProperEvents(hScrollEventArgs, vScrollEventArgs);
-                this.InvalidateGraphic(vinv);
+                this.InvalidateGraphic();
                 vscrollableSurface.FullModeUpdate = false;
             }
             else
             {
-                this.InvalidateGraphic(vinv);
+                this.InvalidateGraphic();
             }
         }
-        void MyScrollTo(int x, int y, LayoutPhaseVisitor vinv)
+        void MyScrollTo(int x, int y)
         {
             if (y == this.ViewportY && x == this.ViewportX)
             {
@@ -296,7 +295,7 @@ namespace LayoutFarm.Presentation.Text
             }
             UIScrollEventArgs hScrollEventArgs;
             UIScrollEventArgs vScrollEventArgs;
-            MyScrollToNotRaiseEvent(x, y, out hScrollEventArgs, out vScrollEventArgs, vinv);
+            MyScrollToNotRaiseEvent(x, y, out hScrollEventArgs, out vScrollEventArgs);
 
 
             if (vscrollableSurface != null)
@@ -396,21 +395,21 @@ namespace LayoutFarm.Presentation.Text
                 scrollRelation.HScrollRequest -= hscrollSupport;
             }
         }
-        public void ScrollTo(int x, int y, LayoutPhaseVisitor vinv)
+        public void ScrollTo(int x, int y)
         {
             if (!this.IsScrollable)
             {
                 return;
             }
-            MyScrollTo(x, y, vinv);
+            MyScrollTo(x, y);
         }
-        public void ScrollBy(int dx, int dy, LayoutPhaseVisitor vinv)
+        public void ScrollBy(int dx, int dy)
         {
             if (!this.IsScrollable)
             {
                 return;
             }
-            MyScrollBy(dx, dy, vinv);
+            MyScrollBy(dx, dy);
         }
         public CustomRenderSurface VisualScrollableSurface
         {

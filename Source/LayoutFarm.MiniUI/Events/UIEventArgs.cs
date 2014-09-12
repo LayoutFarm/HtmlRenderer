@@ -155,9 +155,9 @@ namespace LayoutFarm.Presentation
         {
             return winRoot.GetVInv();
         }
-        public void FreeVisualInvalidateCanvasArgs(LayoutPhaseVisitor vinv)
+        public void FreeVisualInvalidateCanvasArgs()
         {
-            winRoot.FreeVInv(vinv);
+            winRoot.FreeVInv();
         }
     }
 

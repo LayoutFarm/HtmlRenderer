@@ -217,7 +217,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        internal void Remove(VisualSelectionRange selectionRange, LayoutPhaseVisitor vinv)
+        internal void Remove(VisualSelectionRange selectionRange)
         {
             EditableVisualPointInfo startPoint = selectionRange.StartPoint;
             EditableVisualPointInfo endPoint = selectionRange.EndPoint;
@@ -230,7 +230,7 @@ namespace LayoutFarm.Presentation.Text
                     EditableVisualTextRun removedRun = (EditableVisualTextRun)startPoint.TextRun;
                     EditableVisualTextRun.InnerRemove(removedRun,
     startPoint.LocalSelectedIndex + 1,
-endPoint.LineCharIndex - startPoint.LineCharIndex, false, vinv);
+endPoint.LineCharIndex - startPoint.LineCharIndex, false);
 
                     if (removedRun.CharacterCount == 0)
                     {
