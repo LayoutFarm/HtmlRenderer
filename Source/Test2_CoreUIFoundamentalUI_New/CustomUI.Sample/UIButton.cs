@@ -53,7 +53,7 @@ namespace LayoutFarm.Presentation.SampleControls
     {
 
         public CustomVisualBox(int w, int h)
-            : base(w, h, ElementNature.Shapes)
+            : base(w, h )
         {
         }
         public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)

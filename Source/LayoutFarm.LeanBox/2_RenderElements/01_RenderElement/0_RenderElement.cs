@@ -13,15 +13,18 @@ namespace LayoutFarm.Presentation
 
         IParentLink visualParentLink;
         object controller;
+        //special
+        bool isWindowRoot;
+        bool mayHasChild;
+        bool mayHasViewport;
 
         public RenderElement(int width,
-            int height,
-            ElementNature nature)
+            int height )
         {
 
             this.b_width = width;
             this.b_Height = height;
-            SetVisualElementNature(this, nature);
+            
 #if DEBUG
             dbug_totalObjectId++;
             dbug_obj_id = dbug_totalObjectId;
@@ -37,10 +40,6 @@ namespace LayoutFarm.Presentation
         {
             this.controller = controller;
         }
-        //=========================================
-
-        
-
         public TopWindowRenderBox WinRoot
         {
             get
@@ -133,6 +132,8 @@ namespace LayoutFarm.Presentation
             {
 
                 InvalidateGraphic();
+
+
                 if (value)
                 {
                     uiFlags &= ~HIDDEN;
@@ -160,8 +161,6 @@ namespace LayoutFarm.Presentation
             }
             set
             {
-
-
                 if (value)
                 {
                     uiFlags &= ~NOT_ACCEPT_FOCUS;
@@ -180,7 +179,8 @@ namespace LayoutFarm.Presentation
 
 
         const int IS_TRANSLUCENT_BG = 1 << (1 - 1);
-        const int SCROLLABLE_FULL_MODE = 1 << (2 - 1); const int TRANSPARENT_FOR_ALL_EVENTS = 1 << (3 - 1);
+        const int SCROLLABLE_FULL_MODE = 1 << (2 - 1);
+        const int TRANSPARENT_FOR_ALL_EVENTS = 1 << (3 - 1);
         const int HIDDEN = 1 << (4 - 1);
         const int IS_GRAPHIC_VALID = 1 << (5 - 1);
         const int IS_DRAG_OVERRED = 1 << (6 - 1);
@@ -300,10 +300,6 @@ namespace LayoutFarm.Presentation
                 }
             }
         }
-
-
-
-
         public bool FirstArrangementPass
         {
 
@@ -390,18 +386,61 @@ namespace LayoutFarm.Presentation
             }
         }
 
+        internal static void SetIsWindowRoot(RenderElement e, bool isWinRoot)
+        {
+            e.isWindowRoot = isWinRoot;
+        }
+        public bool MayHasChild
+        {
+            get { return this.mayHasChild; }
+        }
+        internal static void SetMayHasChild(RenderElement e, bool mayHasChild)
+        {
+            e.mayHasChild = mayHasChild;
+        }
+        public bool MayHasViewport
+        {
+            get { return this.mayHasViewport; }
+        }
+        internal static void SetMayHasViewport(RenderElement e, bool mayHasViewport)
+        {
+            e.mayHasViewport = mayHasViewport;
+        }
 
-        public ElementNature ElementNature
+        
+        public int ViewportBottom
         {
             get
             {
-                return (ElementNature)(uiCombineFlags & 0xF);
+                return this.Bottom + this.ViewportY;
             }
         }
-        static void SetVisualElementNature(RenderElement target, ElementNature visualNature)
+        public int ViewportRight
         {
-            target.uiCombineFlags = (target.uiCombineFlags & ~0xF) | (int)visualNature;
+            get
+            {
+                return this.Right + this.ViewportX;
+            }
         }
+        public virtual int ViewportY
+        {
+            get
+            {
+                return 0;
+            }
+             
+        }
+        public virtual int ViewportX
+        {
+            get
+            {
+                return 0;                 
+            }
+           
+        }
+
+
+        
 
         public virtual RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {

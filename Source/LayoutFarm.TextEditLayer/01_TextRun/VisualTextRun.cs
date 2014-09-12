@@ -15,7 +15,7 @@ namespace LayoutFarm.Presentation
 
         protected char[] mybuffer;
         public VisualTextRun(string s)
-            : base(10, 10, ElementNature.TextRun)
+            : base(10, 10 )
         {
 
             if (s != null && s.Length > 0)
@@ -37,7 +37,7 @@ namespace LayoutFarm.Presentation
         }
 
         public VisualTextRun(char c)
-            : base(10, 10, ElementNature.TextRun)
+            : base(10, 10 )
         {
 
             mybuffer = new char[] { c };
@@ -50,7 +50,7 @@ namespace LayoutFarm.Presentation
             UpdateRunWidth();
         }
         public VisualTextRun(char[] mybuffer)
-            : base(10, 10, ElementNature.TextRun)
+            : base(10, 10)
         {
 
             this.mybuffer = mybuffer;
@@ -85,9 +85,8 @@ namespace LayoutFarm.Presentation
 
             if ((uiFlags & USE_ANIMATOR) == 0)
             {
-                
-                    this.InvalidateGraphic();
-                
+
+                this.InvalidateGraphic(); 
 
                 this.basicStyle = beh;
                 if (beh.positionWidth > -1)
@@ -98,9 +97,9 @@ namespace LayoutFarm.Presentation
                 {
                     this.SetHeight(beh.positionHeight);
                 }
-                
-                    this.InvalidateGraphic();
-                 
+
+                this.InvalidateGraphic();
+
             }
             else
             {

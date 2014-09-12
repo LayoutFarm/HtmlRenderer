@@ -119,7 +119,7 @@ namespace LayoutFarm.Presentation
                     }
 
 
-                    if (currentKeyboardFocusedElement.IsTextEditContainer)
+                    if (currentKeyboardFocusedElement.NeedSystemCaret)
                     {
                         SetCaretVisible(false);
                        
@@ -144,7 +144,7 @@ namespace LayoutFarm.Presentation
 
                     }
                     eventStock.ReleaseEventArgs(focusEventArg);
-                    if (currentKeyboardFocusedElement.IsTextEditContainer)
+                    if (currentKeyboardFocusedElement.NeedSystemCaret)
                     {
 
                         SetCaretVisible(true);
@@ -541,7 +541,7 @@ HitEventName.DragStart);
             //--------------
             currentXDistanceFromDragPoint += e.XDiff; currentYDistanceFromDragPoint += e.YDiff;
 
-            if (currentDragingElement.IsTextEditContainer)
+            if (currentDragingElement.NeedSystemCaret)
             {
 
                 disableGraphicOutputFlush = true;
@@ -712,14 +712,8 @@ HitEventName.DragStart);
 
             if (currentMouseActiveElement != null)
             {
-                if (currentMouseActiveElement.IsTextEditContainer)
-                {
-                    SetCaretVisible(true);
-                }
-                else
-                {
-                    SetCaretVisible(false);
-                }
+                SetCaretVisible(currentMouseActiveElement.NeedSystemCaret);
+                 
             }
 
             UIDragEventArgs d_eventArg = UIDragEventArgs.GetFreeDragEventArgs();
@@ -755,7 +749,7 @@ HitEventName.DragStart);
 
             if (currentMouseActiveElement != null)
             {
-                if (currentMouseActiveElement.IsTextEditContainer)
+                if (currentMouseActiveElement.NeedSystemCaret)
                 {
                     SetCaretVisible(true);
                 }

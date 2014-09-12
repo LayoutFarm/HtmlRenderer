@@ -11,10 +11,12 @@ namespace LayoutFarm.Presentation
     public abstract partial class TopWindowRenderBox : RenderBoxBase
     {
         public TopWindowRenderBox(int width, int height)
-            : base(width, height, ElementNature.WindowRoot)
+            : base(width, height)
         {
             this.Layers = new VisualLayerCollection();
             this.Layers.AddLayer(new VisualPlainLayer(this));
+
+            SetIsWindowRoot(this, true);
         }
         public abstract RenderElement CurrentKeyboardFocusedElement
         {

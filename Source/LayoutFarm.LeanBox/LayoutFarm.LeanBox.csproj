@@ -36,6 +36,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="2_RenderElements\01_RenderElement\BitpackProperties.cs" />
     <Compile Include="2_RenderElements\01_RenderElement\RenderElementHelper.cs" />
     <Compile Include="2_RenderElements\02_Layers\3_LayerCollection.cs" />
     <Compile Include="2_RenderElements\05_Root\1_RootGraphic.cs" />
@@ -58,7 +59,6 @@
     <Compile Include="2_RenderElements\01_RenderElement\RenderElement.GfxStates.cs" />
     <Compile Include="2_RenderElements\01_RenderElement\RenderElement.Render.cs" />
     <Compile Include="2_RenderElements\01_RenderElement\RenderElement.RepaintMechanism.cs" />
-    <Compile Include="2_RenderElements\01_RenderElement\ElementNature.cs" />
     <Compile Include="2_RenderElements\01_RenderElement\IParentLink.cs" />
     <Compile Include="2_RenderElements\01_RenderElement\x_RenderElement.debug.cs" />
     <Compile Include="2_RenderElements\03_Boxes\RenderBoxBase.cs" />

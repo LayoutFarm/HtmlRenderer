@@ -13,14 +13,16 @@ namespace LayoutFarm.Presentation
     public abstract partial class RenderBoxBase : RenderElement
     {
 
+
+        VisualLayerCollection layers;
         int myviewportX;
         int myviewportY;
-        VisualLayerCollection layers;
 
-
-        public RenderBoxBase(int width, int height, ElementNature nature)
-            : base(width, height, nature)
+        public RenderBoxBase(int width, int height)
+            : base(width, height)
         {
+            SetMayHasViewport(this, true);
+            SetMayHasChild(this, true);
         }
         public VisualLayerCollection Layers
         {
@@ -29,7 +31,6 @@ namespace LayoutFarm.Presentation
         }
         public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
         {
-            //-------------------
 
             canvasPage.OffsetCanvasOrigin(-myviewportX, -myviewportY);
             updateArea.Offset(myviewportX, myviewportY);
@@ -40,7 +41,13 @@ namespace LayoutFarm.Presentation
             canvasPage.OffsetCanvasOrigin(myviewportX, myviewportY);
             updateArea.Offset(-myviewportX, -myviewportY);
 
+
             //-------------------
+        }
+        public void SetViewport(int viewportX, int viewportY)
+        {
+            this.myviewportX = viewportX;
+            this.myviewportY = viewportY;
         }
         public void InvalidateContentArrangementFromContainerSizeChanged()
         {
@@ -114,7 +121,6 @@ namespace LayoutFarm.Presentation
         }
 
 
-
         protected static void InnerDoTopDownReCalculateContentSize(RenderBoxBase containerBase)
         {
             containerBase.TopDownReCalculateContentSize();
@@ -174,27 +180,8 @@ namespace LayoutFarm.Presentation
 #endif
 
         }
-        //-----------------------------------------------------------------
-        protected static void vinv_dbug_WriteInfo(dbugVisitorMessage m)
-        {
 
-        }
-        protected static void vinv_debug_PushTopDownElement(RenderElement ve)
-        {
-        }
-        protected static void vinv_debug_PopTopDownElement(RenderElement ve)
-        {
 
-        }
-        protected static void vinv_dbug_ExitReArrangeContent()
-        {
-
-        }
-        protected static bool vinv_IsInTopDownReArrangePhase
-        {
-            get;
-            set;
-        }
         //-----------------------------------------------------------------
         public void ForceTopDownReArrangeContent()
         {
@@ -208,6 +195,8 @@ namespace LayoutFarm.Presentation
 
             this.MarkValidContentArrangement();
             vinv_IsInTopDownReArrangePhase = true;
+            vinv_IsInTopDownReArrangePhase = true;
+
             this.layers.ForceTopDownReArrangeContent();
             // BoxEvaluateScrollBar();
 
@@ -301,43 +290,8 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public int ViewportBottom
-        {
-            get
-            {
-                return this.Bottom + myviewportY;
-            }
-        }
-        public int ViewportRight
-        {
-            get
-            {
-                return this.Right + this.myviewportX;
-            }
-        }
-        public int ViewportY
-        {
-            get
-            {
-                return this.myviewportY;
-            }
-            set
-            {
-                this.myviewportY = value;
-            }
-        }
-        public int ViewportX
-        {
-            get
-            {
 
-                return this.myviewportX;
-            }
-            set
-            {
-                this.myviewportX = value;
-            }
-        }
+
         public int ClientTop
         {
             get

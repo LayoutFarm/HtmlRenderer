@@ -502,14 +502,16 @@ namespace LayoutFarm.Presentation.Text
             RenderBoxBase container = this.ownerVisualElement as RenderBoxBase;
             if (container != null)
             {
-                if (ownerVisualElement.IsScrollable)
-                {
-                    PerformHorizontalFlowArrange(container.ClientLeft, 1000, container.ClientTop);
-                }
-                else
-                {
-                    PerformHorizontalFlowArrange(container.ClientLeft, ownerVisualElement.Width, container.ClientTop);
-                }
+
+                PerformHorizontalFlowArrange(container.ClientLeft, ownerVisualElement.Width, container.ClientTop);
+                //if (ownerVisualElement.MayHasChild)
+                //{
+                //    PerformHorizontalFlowArrange(container.ClientLeft, 1000, container.ClientTop);
+                //}
+                //else
+                //{
+                    
+                //}
             }
             if (Reflow != null)
             {
@@ -767,7 +769,7 @@ int ownerClientTop)
 
             ValidateArrangement();
 #if DEBUG
-            if (this.ownerVisualElement.IsTextEditContainer)
+            if (this.ownerVisualElement.NeedSystemCaret)
             {
                 this.dbugVRoot.dbug_WriteTick(DateTime.Now.Ticks - startTick);
             }
@@ -917,7 +919,7 @@ int ownerClientTop)
             }
 #if DEBUG
 
-            if (this.ownerVisualElement.IsTextEditContainer)
+            if (this.ownerVisualElement.NeedSystemCaret)
             {
                 this.dbugVRoot.dbug_WriteTick(DateTime.Now.Ticks - startTick);
             }

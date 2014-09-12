@@ -14,6 +14,14 @@ namespace LayoutFarm.Presentation
     partial class RenderElement
     {
         bool hasTransparentBg;
+        bool needSystemCaret;
+
+
+        public bool NeedSystemCaret
+        {
+            get { return this.needSystemCaret; }
+            set { this.needSystemCaret = value; }
+        }
         public bool HasSolidBackground
         {
             get
@@ -39,38 +47,20 @@ namespace LayoutFarm.Presentation
             if (this.IntersectsWith(drawingChain.CurrentClipRect))
             {
                 bool containAll = this.ContainRect(drawingChain.CurrentClipRect);
-
-                switch ((ElementNature)(uiCombineFlags & 0xF))
+                drawingChain.AddVisualElement(this, containAll);
+                if (this.MayHasViewport)
                 {
+                    int x = this.b_left;
+                    int y = this.b_top;
+                    x -= this.ViewportX;
+                    y -= this.ViewportY;
 
-                    case ElementNature.Shapes:
-                        {
-                            drawingChain.AddVisualElement(this, containAll);
-                        } break;
-                    case ElementNature.TextRun:
-                        {
-                        } break;
-                    default:
-                        {
-                            drawingChain.AddVisualElement(this, containAll);
+                    drawingChain.OffsetCanvasOrigin(x, y);
+                    ((RenderBoxBase)this).PrepareOriginalChildContentDrawingChain(drawingChain);
+                    drawingChain.OffsetCanvasOrigin(-x, -y);
 
-                            int x = this.b_left;
-                            int y = this.b_top;
-
-                            if (this.IsScrollable)
-                            {
-                                RenderBoxBase scContainer = (RenderBoxBase)this;
-                                x -= scContainer.ViewportX;
-                                y -= scContainer.ViewportY;
-                            }
-                            
-                            drawingChain.OffsetCanvasOrigin(x, y);
-                            ((RenderBoxBase)this).PrepareOriginalChildContentDrawingChain(drawingChain);
-                            drawingChain.OffsetCanvasOrigin(-x, -y);
-
-
-                        } break;
                 }
+               
             }
             return false;
         }
@@ -94,8 +84,8 @@ namespace LayoutFarm.Presentation
                 }
 #endif
                 //------------------------------------------
-                
-                this.CustomDrawToThisPage(canvasPage, updateArea); 
+
+                this.CustomDrawToThisPage(canvasPage, updateArea);
 
                 //------------------------------------------
                 uiFlags |= IS_GRAPHIC_VALID;
@@ -110,38 +100,16 @@ namespace LayoutFarm.Presentation
 #endif
         }
 
-        public bool IsTextEditContainer
-        {
-            get
-            {
-                return this.ElementNature == ElementNature.TextEditContainer;
-            }
-        }
+
         public bool IsWindowRoot
         {
             get
             {
-                return this.ElementNature == ElementNature.WindowRoot;
+                return this.isWindowRoot;
+
             }
         }
-        public bool IsScrollable
-        {
-            get
-            {
-                return (this.uiFlags & IS_SCROLLABLE) != 0;
-            }
-            protected set
-            {
-                if (value)
-                {
-                    this.uiFlags |= IS_SCROLLABLE;
-                }
-                else
-                {
-                    this.uiFlags &= ~IS_SCROLLABLE;
-                }
-            }
-        }
+         
         public bool HasDoubleScrollableSurface
         {
             get
@@ -161,15 +129,7 @@ namespace LayoutFarm.Presentation
             }
         }
 
-        public bool IsVisualContainerBase
-        {
-            get
-            {
-                return this.ElementNature >= ElementNature.WindowRoot;
-            }
-        }
-
-
-
+        
+        
     }
 }

@@ -39,11 +39,15 @@ namespace LayoutFarm.Presentation
             get { return true; }
             set { }
         }
-        protected bool vinv_IsInTopDownReArrangePhase
+        protected static bool vinv_IsInTopDownReArrangePhase
         {
             get
             {
                 return true;
+            }
+            set
+            {
+
             }
         }
         public bool IsInvalidateGraphicBlocked

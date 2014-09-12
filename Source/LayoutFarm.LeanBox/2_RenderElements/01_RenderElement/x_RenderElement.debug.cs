@@ -347,7 +347,22 @@ namespace LayoutFarm.Presentation
             }
         }
 
+        //-----------------------------------------------------------------
+        protected static void vinv_dbug_WriteInfo(dbugVisitorMessage m)
+        {
 
+        }
+        protected static void vinv_debug_PushTopDownElement(RenderElement ve)
+        {
+        }
+        protected static void vinv_debug_PopTopDownElement(RenderElement ve)
+        {
+
+        }
+        protected static void vinv_dbug_ExitReArrangeContent()
+        {
+
+        }
         //temp
         static object dbugInitObject;
     }
