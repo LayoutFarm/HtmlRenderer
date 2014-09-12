@@ -71,7 +71,7 @@ namespace LayoutFarm.Presentation
         }
 
 
-        public override IEnumerable<RenderElement> GetDrawingIter()
+       IEnumerable<RenderElement> GetDrawingIter()
         {
 
             LinkedListNode<RenderElement> curNode = this.myElements.First;
@@ -111,7 +111,6 @@ namespace LayoutFarm.Presentation
             this.BeginDrawingChildContent();
             foreach (RenderElement child in this.GetDrawingIter())
             {
-
                 if (child.IntersectsWith(updateArea))
                 {
 

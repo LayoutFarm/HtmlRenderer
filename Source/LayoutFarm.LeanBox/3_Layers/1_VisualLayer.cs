@@ -347,7 +347,7 @@ namespace LayoutFarm.Presentation
         }
 #endif
         public abstract void AddTop(RenderElement ve);
-        public abstract IEnumerable<RenderElement> GetDrawingIter();
+        
         protected static bool vinv_IsInTopDownReArrangePhase
         {
             get;

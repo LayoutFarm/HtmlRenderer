@@ -59,10 +59,6 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        public override IEnumerable<RenderElement> GetDrawingIter()
-        {
-            throw new NotImplementedException();
-        }
 #if DEBUG
         public IEnumerable<EditableVisualTextRun> dbugGetDrawingIter2()
         {
@@ -344,7 +340,7 @@ namespace LayoutFarm.Presentation.Text
             }
             return false;
         }
-        
+
         static Size ReCalculateContentSizeHorizontalFlow(EditableTextFlowLayer layer)
         {
 
@@ -510,7 +506,7 @@ namespace LayoutFarm.Presentation.Text
                 //}
                 //else
                 //{
-                    
+
                 //}
             }
             if (Reflow != null)
@@ -542,7 +538,7 @@ namespace LayoutFarm.Presentation.Text
             else
             {
 
-                SetPostCalculateLayerContentSize(ReCalculateContentSizeHorizontalFlow(this ));
+                SetPostCalculateLayerContentSize(ReCalculateContentSizeHorizontalFlow(this));
             }
 #if DEBUG
             vinv_dbug_ExitLayerReCalculateContent();
