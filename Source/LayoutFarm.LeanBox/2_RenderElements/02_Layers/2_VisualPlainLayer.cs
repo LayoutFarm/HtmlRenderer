@@ -9,13 +9,12 @@ namespace LayoutFarm.Presentation
 {
 
     public class VisualPlainLayer : VisualLayer
-    {
-
-
+    {   
         LinkedList<RenderElement> myElements = new LinkedList<RenderElement>();
-        public VisualPlainLayer(RenderBoxBase owner)
+        public VisualPlainLayer(RenderElement owner)
             : base(owner)
         {
+
         }
         public TopWindowRenderBox GetWindowRoot()
         {

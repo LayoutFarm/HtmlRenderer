@@ -196,7 +196,8 @@ namespace TestGraphicPackage2
           
             } 
 
-            viewport.PaintMe();  
+            viewport.PaintMe();
+            //ShowFormLayoutInspector(viewport);
         } 
     }
 }

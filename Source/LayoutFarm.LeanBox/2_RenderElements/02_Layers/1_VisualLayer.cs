@@ -37,7 +37,7 @@ namespace LayoutFarm.Presentation
         int postCalculateContentHeight;
 
 
-        protected VisualLayer(RenderBoxBase owner)
+        protected VisualLayer(RenderElement owner)
         {
             this.ownerVisualElement = owner;
 
