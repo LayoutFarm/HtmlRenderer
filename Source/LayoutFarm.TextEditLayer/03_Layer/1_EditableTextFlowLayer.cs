@@ -344,30 +344,7 @@ namespace LayoutFarm.Presentation.Text
             }
             return false;
         }
-        protected static void vinv_dbug_BeginSetElementBound(RenderElement ve)
-        {
-        }
-        protected static void vinv_dbug_EndSetElementBound(RenderElement ve)
-        {
-        }
-        protected static void vinv_dbug_EnterLayerReArrangeContent(VisualLayer ve)
-        {
-        }
-        protected static bool vinv_IsInTopDownReArrangePhase
-        {
-            get;
-            set;
-        }
-        protected static void vinv_dbug_WriteInfo(dbugVisitorMessage m, object o)
-        {
-        }
-        protected static void vinv_dbug_ExitLayerReCalculateContent()
-        {
-        }
-        protected static void vinv_dbug_ExitLayerReArrangeContent()
-        {
-
-        }
+        
         static Size ReCalculateContentSizeHorizontalFlow(EditableTextFlowLayer layer)
         {
 

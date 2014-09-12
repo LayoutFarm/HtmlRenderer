@@ -51,7 +51,6 @@
     <Compile Include="5_debug\dbug.cs" />
     <Compile Include="5_debug\dbugVisitorMessage.cs" />
     <Compile Include="1_Base\VisualDrawingChain.cs" />
-    <Compile Include="1_Base\VisualElementArgs.cs" />
     <Compile Include="2_RenderElements\01_RenderElement\0_RenderElement.cs" />
     <Compile Include="2_RenderElements\01_RenderElement\RenderElement.ElementPositioning_0_DirectSetBounds.cs" />
     <Compile Include="2_RenderElements\01_RenderElement\RenderElement.ElementPositioning_1_WithSizeChanged.cs" />
