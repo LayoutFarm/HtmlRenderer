@@ -47,7 +47,6 @@ namespace LayoutFarm.Presentation
          
         public int ContentHAlign;
         public int positionWidth = -1;
-        public int positionHeight = -1;
-
+        public int positionHeight = -1; 
     }
 }

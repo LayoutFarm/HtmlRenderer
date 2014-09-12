@@ -15,9 +15,8 @@ namespace LayoutFarm.Presentation
 
         protected char[] mybuffer;
         public VisualTextRun(string s)
-            : base(10, 10 )
+            : base(10, 10)
         {
-
             if (s != null && s.Length > 0)
             {
 
@@ -37,7 +36,7 @@ namespace LayoutFarm.Presentation
         }
 
         public VisualTextRun(char c)
-            : base(10, 10 )
+            : base(10, 10)
         {
 
             mybuffer = new char[] { c };
@@ -52,59 +51,47 @@ namespace LayoutFarm.Presentation
         public VisualTextRun(char[] mybuffer)
             : base(10, 10)
         {
-
             this.mybuffer = mybuffer;
             this.TransparentForAllEvents = true;
         }
 
         static char[] emptyline = new char[] { 'I' };
-        object basicStyle;
+
+        TextRunStyle runStyle;
         bool isLineBreak;
 
         public TextRunStyle MyBoxStyle
         {
             get
             {
-                if (this.basicStyle != null)
-                {
-                    return (TextRunStyle)this.basicStyle;
-
-                }
-                return null;
+                return this.runStyle;
             }
         }
 
-        public virtual void SetStyle(TextRunStyle newbeh)
+        public virtual void SetStyle(TextRunStyle beh)
         {
 
-            TextRunStyle beh = (TextRunStyle)newbeh;
-            if (newbeh == null)
+
+            if (beh == null)
             {
                 return;
             }
+            //------------------------------------------
 
-            if ((uiFlags & USE_ANIMATOR) == 0)
+
+            this.InvalidateGraphic();
+            this.runStyle = beh;
+            if (beh.positionWidth > -1)
             {
-
-                this.InvalidateGraphic(); 
-
-                this.basicStyle = beh;
-                if (beh.positionWidth > -1)
-                {
-                    this.SetWidth(beh.positionWidth);
-                }
-                if (beh.positionHeight > -1)
-                {
-                    this.SetHeight(beh.positionHeight);
-                }
-
-                this.InvalidateGraphic();
-
+                this.SetWidth(beh.positionWidth);
             }
-            else
+            if (beh.positionHeight > -1)
             {
-
+                this.SetHeight(beh.positionHeight);
             }
+
+            this.InvalidateGraphic();
+
 
 
             UpdateRunWidth();

@@ -21,8 +21,8 @@ namespace LayoutFarm.Presentation.Text
         bool isMultiLine = false;
         bool isInVerticalPhase = false;
 
-        public TextEditRenderBox(int width, int height, bool isMultiLine) :
-            base(width, height)
+        public TextEditRenderBox(int width, int height, bool isMultiLine)
+            : base(width, height)
         {
             RegisterNativeEvent((1 << UIEventIdentifier.NE_DRAG_START)
                 | (1 << UIEventIdentifier.NE_DRAGING)
@@ -39,7 +39,7 @@ namespace LayoutFarm.Presentation.Text
             textLayer = new EditableTextFlowLayer(this);
             this.Layers = new VisualLayerCollection();
             this.Layers.AddLayer(textLayer);
-
+            this.NeedSystemCaret = true;
 
             internalTextLayerController = new InternalTextLayerController(this, textLayer);
 

@@ -7,39 +7,28 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-
+   
+     
     public abstract partial class RenderElement
     {
 
-        IParentLink visualParentLink;
-        object controller;
+        IParentLink visualParentLink; 
         //special
         bool isWindowRoot;
         bool mayHasChild;
-        bool mayHasViewport;
-
-        public RenderElement(int width,
-            int height )
-        {
-
+        bool mayHasViewport; 
+        public RenderElement(int width, int height)
+        {    
             this.b_width = width;
             this.b_Height = height;
-            
+
 #if DEBUG
             dbug_totalObjectId++;
             dbug_obj_id = dbug_totalObjectId;
             this.dbug_SetFixedElementCode(this.GetType().Name);
 #endif
         }
-        //=========================================
-        public object GetController()
-        {
-            return controller;
-        }
-        public void SetController(object controller)
-        {
-            this.controller = controller;
-        }
+
         public TopWindowRenderBox WinRoot
         {
             get
@@ -203,8 +192,7 @@ namespace LayoutFarm.Presentation
         const int FIRST_ARR_PASS = 1 << (27 - 1);
         const int HAS_SUB_GROUND = 1 << (28 - 1);
         const int IS_FLOATING_WINDOW = 1 << (29 - 1);
-        protected const int USE_ANIMATOR = 1 << (30 - 1);
-
+        
 
 
 #if DEBUG
@@ -407,7 +395,7 @@ namespace LayoutFarm.Presentation
             e.mayHasViewport = mayHasViewport;
         }
 
-        
+
         public int ViewportBottom
         {
             get
@@ -428,19 +416,19 @@ namespace LayoutFarm.Presentation
             {
                 return 0;
             }
-             
+
         }
         public virtual int ViewportX
         {
             get
             {
-                return 0;                 
+                return 0;
             }
-           
+
         }
 
 
-        
+
 
         public virtual RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {

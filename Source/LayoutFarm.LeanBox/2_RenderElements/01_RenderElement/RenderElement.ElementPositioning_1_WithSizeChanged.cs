@@ -15,14 +15,9 @@ namespace LayoutFarm.Presentation
 
 
         public virtual void TopDownReCalculateContentSize()
-        {
-
-#if DEBUG
-#endif
+        {   
             MarkHasValidCalculateSize();
-        }
-
-
+        } 
 
         public static void SetCalculatedDesiredSize(RenderBoxBase v, int desiredWidth, int desiredHeight)
         {

@@ -401,9 +401,7 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-            }
-
-
+            } 
             int preClear = layoutQueue.Count;
             for (int i = preClear - 1; i > -1; --i)
             {

@@ -6,10 +6,7 @@ using System.Drawing;
 namespace LayoutFarm.Presentation.UI
 {
     public abstract partial class UIElement : IEventListener
-    {       
-
-
-
+    {        
         public UIElement()
         {
         }

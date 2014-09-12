@@ -16,8 +16,7 @@ namespace LayoutFarm.Presentation
     partial class RenderElement
     {
         //----------------------
-        //rectangle boundary area
-
+        //rectangle boundary area 
         int b_top;
         int b_left;
         int b_width;
@@ -450,12 +449,7 @@ namespace LayoutFarm.Presentation
         public static int GetLayoutSpecificDimensionType(RenderElement visualElement)
         {
             return visualElement.uiLayoutFlags & 0x3;
-        }
-
-
-
-
-
+        } 
         public bool HasCalculatedSize
         {
             get

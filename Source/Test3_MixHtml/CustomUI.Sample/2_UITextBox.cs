@@ -14,17 +14,17 @@ namespace LayoutFarm.Presentation.SampleControls
     public class UITextBox : UIElement
     {
         RenderElement primaryVisualElement;
-        internal TextEditRenderBox visualTextSurface;
+        TextEditRenderBox visualTextSurface;
         public UITextBox(int width, int height)
         {
 
             visualTextSurface = new TextEditRenderBox(width, height, false);
-             
+
             visualTextSurface.HasSpecificSize = true;
             visualTextSurface.SetController(this);
             SetPrimaryVisualElement(visualTextSurface);
         }
-       
+
         public void SetPrimaryVisualElement(RenderElement visualElement)
         {
             this.primaryVisualElement = visualElement;
@@ -35,14 +35,8 @@ namespace LayoutFarm.Presentation.SampleControls
             {
                 return primaryVisualElement;
             }
-        } 
-        public VisualTextRun CurrentTextRun
-        {
-            get
-            {
-                return visualTextSurface.CurrentTextRun;
-            }
         }
+
         public TextSurfaceEventListener TextDomListener
         {
             get
@@ -57,7 +51,7 @@ namespace LayoutFarm.Presentation.SampleControls
                 return this.visualTextSurface;
             }
         }
-         
+
         public int CurrentLineId
         {
             get
@@ -80,7 +74,7 @@ namespace LayoutFarm.Presentation.SampleControls
 
                 return visualTextSurface.CurrentTextRunCharIndex;
             }
-        } 
+        }
     }
 
 

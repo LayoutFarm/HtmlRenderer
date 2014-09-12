@@ -8,21 +8,15 @@ using System.Drawing.Drawing2D;
 namespace LayoutFarm.Presentation
 {
     partial class RenderElement
-    {
-
-        
-      
-
-
+    {   
         public bool TransparentForAllEvents
         {
             get
             {
-                return (uiFlags & TRANSPARENT_FOR_ALL_EVENTS) != 0;
-
+                return (uiFlags & TRANSPARENT_FOR_ALL_EVENTS) != 0; 
             }
             set
-            {
+            {   
                 if (value)
                 {
                     uiFlags |= TRANSPARENT_FOR_ALL_EVENTS;

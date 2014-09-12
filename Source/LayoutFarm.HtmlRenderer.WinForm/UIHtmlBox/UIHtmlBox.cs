@@ -3,11 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
-
+using System.Drawing; 
 using LayoutFarm.Presentation.UI;
+
 namespace LayoutFarm.Presentation
-{
+{  
 
     public class UIHtmlBox : UIElement
     {
@@ -26,8 +26,7 @@ namespace LayoutFarm.Presentation
         public void LoadHtmlText(string html)
         {
             myHtmlBox.LoadHtmlText(html); 
-        }
-
+        } 
     }
 }
 
