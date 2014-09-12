@@ -12,12 +12,12 @@ namespace LayoutFarm.Presentation.SampleControls
 {
     public class UIButton : UIElement
     {
-        public event EventHandler<UIMouseEventArgs> MouseDown;
-
+        public event EventHandler<UIMouseEventArgs> MouseDown; 
         RenderElement primaryVisualElement;
+
         public UIButton(int width, int height)
         {
-            primaryVisualElement = new CustomVisualBox(width, height);
+            primaryVisualElement = new CustomRenderElement(width, height);
             primaryVisualElement.SetController(this);
         }
         public override RenderElement PrimaryRenderElement
@@ -47,19 +47,6 @@ namespace LayoutFarm.Presentation.SampleControls
         }
     }
 
-    class CustomVisualBox : RenderElement
-    {
-
-        public CustomVisualBox(int w, int h)
-            : base(w, h)
-        {
-        }
-        public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
-        {
-
-            canvasPage.FillRectangle(Brushes.Green, new Rectangle(0, 0, this.Width, this.Height));
-        }
-
-    }
+   
 
 }

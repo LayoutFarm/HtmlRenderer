@@ -193,5 +193,33 @@ namespace TestGraphicPackage2
             viewport.PaintMe();
             //ShowFormLayoutInspector(viewport);
         }
+
+        private void cmdSampleGridBox_Click(object sender, EventArgs e)
+        {
+            UISurfaceViewportControl viewport;
+
+            Form formCanvas;
+            CreateReadyForm(
+                out viewport,
+                out formCanvas);
+
+            var sampleButton = new LayoutFarm.Presentation.SampleControls.UIButton(30, 30);
+            viewport.AddContent(sampleButton);
+
+
+            viewport.WinRoot.TopDownReCalculateContentSize();
+            sampleButton.PrimaryRenderElement.InvalidateGraphic();
+
+            //==================================================  
+            viewport.PaintMe();
+            //ShowFormLayoutInspector(viewport);
+
+
+            int count = 0;
+            sampleButton.MouseDown += new EventHandler<UIMouseEventArgs>((s, e2) =>
+            {
+                this.Text = "Click!" + count++;
+            });
+        }
     }
 }

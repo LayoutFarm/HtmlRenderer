@@ -519,6 +519,7 @@ namespace LayoutFarm.Presentation
         {
             ve.InvalidateLayoutAndStartBubbleUp();
         }
+
         static RenderElement BubbleUpInvalidLayoutToTopMost(RenderElement ve, TopWindowRenderBox winroot)
         {
 #if DEBUG
