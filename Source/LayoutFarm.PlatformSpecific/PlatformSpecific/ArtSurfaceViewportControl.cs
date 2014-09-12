@@ -31,7 +31,7 @@ namespace LayoutFarm.Presentation
         public event EventHandler<ScrollSurfaceRequestEventArgs> HScrollRequest;
         public event EventHandler<UIScrollEventArgs> VScrollChanged;
         public event EventHandler<UIScrollEventArgs> HScrollChanged;
-         
+
         MyTopWindowRenderBox winroot;
 
         EventHandler<EventArgs> parentFormClosedHandler;
@@ -61,7 +61,7 @@ namespace LayoutFarm.Presentation
             {
                 parentFormClosedHandler(sender, e);
             }
-        } 
+        }
         internal void UpdateRootdocViewportSize()
         {
             canvasViewport.UpdateCanvasViewportSize(this.Width, this.Height);
@@ -94,10 +94,14 @@ namespace LayoutFarm.Presentation
             {
                 return winroot;
             }
-        } 
+        }
         public void AddContent(RenderElement vi)
         {
             winroot.AddChild(vi);
+        }
+        public void AddContent(LayoutFarm.Presentation.UI.UIElement ui)
+        {
+            winroot.AddChild(ui.PrimaryRenderElement);
         }
         public void Close()
         {
@@ -421,10 +425,10 @@ namespace LayoutFarm.Presentation
         }
         public void dbug_ReArrangeWithBreakOnSelectedNode()
         {
-           
+
             vinv_dbugBreakOnSelectedVisuallElement = true;
             this.winroot.TopDownReArrangeContentIfNeed();
-            
+
         }
         protected bool vinv_dbugBreakOnSelectedVisuallElement
         {

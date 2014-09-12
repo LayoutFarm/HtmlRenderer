@@ -15,7 +15,7 @@ namespace LayoutFarm.Presentation.SampleControls
 
     public class UITextBox : UIElement
     {
-        RenderElement primaryVisualElement;
+         
         TextEditRenderBox visualTextSurface;
         public UITextBox(int width, int height)
         {
@@ -25,20 +25,13 @@ namespace LayoutFarm.Presentation.SampleControls
             visualTextSurface.HasSpecificSize = true;
             visualTextSurface.SetController(this);
 
-            SetPrimaryVisualElement(visualTextSurface);
+            
         }
-
-        public void SetPrimaryVisualElement(RenderElement visualElement)
+        public override RenderElement PrimaryRenderElement
         {
-            this.primaryVisualElement = visualElement;
+            get { return this.visualTextSurface; }
         }
-        public RenderElement PrimaryVisualElement
-        {
-            get
-            {
-                return primaryVisualElement;
-            }
-        }
+        
         public VisualTextRun CurrentTextRun
         {
             get
@@ -79,9 +72,9 @@ namespace LayoutFarm.Presentation.SampleControls
         public int CurrentTextRunCharIndex
         {
             get
-            { 
+            {
                 return visualTextSurface.CurrentTextRunCharIndex;
             }
-        } 
-    } 
+        }
+    }
 }

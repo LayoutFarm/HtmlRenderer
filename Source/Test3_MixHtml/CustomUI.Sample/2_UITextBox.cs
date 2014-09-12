@@ -13,7 +13,7 @@ namespace LayoutFarm.Presentation.SampleControls
 
     public class UITextBox : UIElement
     {
-        RenderElement primaryVisualElement;
+       
         TextEditRenderBox visualTextSurface;
         public UITextBox(int width, int height)
         {
@@ -21,21 +21,12 @@ namespace LayoutFarm.Presentation.SampleControls
             visualTextSurface = new TextEditRenderBox(width, height, false);
 
             visualTextSurface.HasSpecificSize = true;
-            visualTextSurface.SetController(this);
-            SetPrimaryVisualElement(visualTextSurface);
+            visualTextSurface.SetController(this);  
         }
-
-        public void SetPrimaryVisualElement(RenderElement visualElement)
+        public override RenderElement PrimaryRenderElement
         {
-            this.primaryVisualElement = visualElement;
-        }
-        public RenderElement PrimaryVisualElement
-        {
-            get
-            {
-                return primaryVisualElement;
-            }
-        }
+            get { return visualTextSurface; }
+        } 
 
         public TextSurfaceEventListener TextDomListener
         {

@@ -16,14 +16,14 @@ namespace LayoutFarm.Presentation.SampleControls
 
     public class UIMultiLineTextBox : UIElement
     {
-        RenderElement primaryVisualElement;
+       
         TextEditRenderBox visualTextEdit; 
         public UIMultiLineTextBox(int width, int height, bool multiline)
         {
                  
             visualTextEdit = new TextEditRenderBox(width, height, multiline); 
             visualTextEdit.HasSpecificSize = true;
-            this.SetPrimaryVisualElement(visualTextEdit);
+           
             visualTextEdit.SetController(this);
             RegisterNativeEvent(
               1 << UIEventIdentifier.NE_MOUSE_DOWN
@@ -31,17 +31,11 @@ namespace LayoutFarm.Presentation.SampleControls
               | 1 << UIEventIdentifier.NE_SIZE_CHANGED
               );
         }
-        public RenderElement PrimaryVisualElement
+        public override RenderElement PrimaryRenderElement
         {
-            get
-            {
-                return primaryVisualElement;
-            }
-        } 
-        public void SetPrimaryVisualElement(RenderElement visualElement)
-        {
-            this.primaryVisualElement = visualElement;
+            get { return this.visualTextEdit; }
         }
+       
         protected override void OnKeyPress(UIKeyPressEventArgs e)
         {
             visualTextEdit.OnKeyPress(e);

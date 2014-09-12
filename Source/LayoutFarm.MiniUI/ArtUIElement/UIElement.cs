@@ -29,6 +29,7 @@ namespace LayoutFarm.Presentation.UI
         {
             this.oneBitNativeEventFlags |= eventFlags;
         }
+        public abstract RenderElement PrimaryRenderElement { get; }
         protected virtual void OnLostFocus(UIFocusEventArgs e)
         {
         }
