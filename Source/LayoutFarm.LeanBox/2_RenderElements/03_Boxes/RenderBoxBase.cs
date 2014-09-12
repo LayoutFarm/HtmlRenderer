@@ -337,8 +337,7 @@ namespace LayoutFarm.Presentation
         {
             if (box.Layers != null)
             {
-                box.Layers.Layer0.AddTop(e);
-
+                box.Layers.Layer0.AddTop(e); 
             }
         }
     }

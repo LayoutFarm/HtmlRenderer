@@ -24,16 +24,16 @@ namespace LayoutFarm.Presentation.Text
         public TextEditRenderBox(int width, int height, bool isMultiLine)
             : base(width, height)
         {
-            RegisterNativeEvent((1 << UIEventIdentifier.NE_DRAG_START)
-                | (1 << UIEventIdentifier.NE_DRAGING)
-                | (1 << UIEventIdentifier.NE_DRAG_STOP)
-                | (1 << UIEventIdentifier.NE_MOUSE_DOWN)
-                | (1 << UIEventIdentifier.NE_MOUSE_MOVE)
-                | (1 << UIEventIdentifier.NE_MOUSE_HOVER)
-                | (1 << UIEventIdentifier.NE_MOUSE_UP)
-                | (1 << UIEventIdentifier.NE_DBLCLICK)
-                | (1 << UIEventIdentifier.NE_KEY_DOWN)
-                | (1 << UIEventIdentifier.NE_KEY_PRESS));
+            //RegisterNativeEvent((1 << UIEventIdentifier.NE_DRAG_START)
+            //    | (1 << UIEventIdentifier.NE_DRAGING)
+            //    | (1 << UIEventIdentifier.NE_DRAG_STOP)
+            //    | (1 << UIEventIdentifier.NE_MOUSE_DOWN)
+            //    | (1 << UIEventIdentifier.NE_MOUSE_MOVE)
+            //    | (1 << UIEventIdentifier.NE_MOUSE_HOVER)
+            //    | (1 << UIEventIdentifier.NE_MOUSE_UP)
+            //    | (1 << UIEventIdentifier.NE_DBLCLICK)
+            //    | (1 << UIEventIdentifier.NE_KEY_DOWN)
+            //    | (1 << UIEventIdentifier.NE_KEY_PRESS));
 
 
             textLayer = new EditableTextFlowLayer(this);

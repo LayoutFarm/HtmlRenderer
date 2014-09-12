@@ -26,7 +26,7 @@ namespace LayoutFarm.Presentation
         }
         protected static void vinv_AddInvalidateRequest(RenderElement ve, InternalRect rect)
         {
-            //throw new NotSupportedException();
+             
             var winroot = ve.WinRoot;
             if (winroot != null)
             {

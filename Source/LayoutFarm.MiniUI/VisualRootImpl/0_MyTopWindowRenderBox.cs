@@ -8,7 +8,6 @@ namespace LayoutFarm.Presentation
 {
 
 
-
     public partial class MyTopWindowRenderBox : TopWindowRenderBox
     {
         bool layoutQueueClearing = false;

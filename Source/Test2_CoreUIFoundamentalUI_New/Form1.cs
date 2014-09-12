@@ -183,15 +183,11 @@ namespace TestGraphicPackage2
             for (int i = 0; i < 5; ++i)
             {
                 var textbox = new LayoutFarm.Presentation.SampleControls.UIButton(30, 30);
-                textbox.SetLocation(i * 40, i * 40); 
-          
+                textbox.SetLocation(i * 40, i * 40);
+
                 viewport.AddContent(textbox);
-
-
                 viewport.WinRoot.TopDownReCalculateContentSize();
-
                 textbox.PrimaryRenderElement.InvalidateGraphic();
-
             }
 
             viewport.PaintMe();

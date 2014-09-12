@@ -7,18 +7,19 @@ using System.Drawing;
 
 namespace LayoutFarm.Presentation
 {
-   
-     
+
+
     public abstract partial class RenderElement
     {
 
-        IParentLink visualParentLink; 
+        IParentLink visualParentLink;
         //special
+
         bool isWindowRoot;
         bool mayHasChild;
-        bool mayHasViewport; 
+        bool mayHasViewport;
         public RenderElement(int width, int height)
-        {    
+        {
             this.b_width = width;
             this.b_Height = height;
 
@@ -54,22 +55,14 @@ namespace LayoutFarm.Presentation
             {
                 return visualParentLink;
             }
-        }
-        protected void RegisterNativeEvent(int registerEventFlags)
-        {
-            oneBitNativeEventFlags |= registerEventFlags;
-
-        }
+        } 
         public void RemoveSelf()
-        {
-
+        { 
             if (visualParentLink == null)
             {
                 return;
-            }
-
-            this.InvalidateGraphic();
-
+            } 
+            this.InvalidateGraphic(); 
             visualParentLink.Unlink(this);
             visualParentLink = null;
         }
@@ -162,10 +155,8 @@ namespace LayoutFarm.Presentation
         }
 
 
-        protected int uiFlags;
-        int oneBitNativeEventFlags = 0;
-        int uiCombineFlags;
-
+        int uiFlags;
+       
 
         const int IS_TRANSLUCENT_BG = 1 << (1 - 1);
         const int SCROLLABLE_FULL_MODE = 1 << (2 - 1);
@@ -192,7 +183,7 @@ namespace LayoutFarm.Presentation
         const int FIRST_ARR_PASS = 1 << (27 - 1);
         const int HAS_SUB_GROUND = 1 << (28 - 1);
         const int IS_FLOATING_WINDOW = 1 << (29 - 1);
-        
+
 
 
 #if DEBUG
