@@ -17,7 +17,7 @@ using HtmlRenderer.Composers;
 namespace LayoutFarm.Presentation
 {
 
-    public class ArtVisualHtmlBox : RenderBoxBase
+    public class HtmlRenderBox : RenderBoxBase
     {
         WinRootVisualBox _visualRootBox;
         BoxComposer _boxComposer;
@@ -31,16 +31,16 @@ namespace LayoutFarm.Presentation
         /// </summary>
         public event EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs> ImageLoad;
 
- 
+
         /// <summary>
         /// the base stylesheet data used in the control
         /// </summary>
-        CssActiveSheet _baseCssData; 
+        CssActiveSheet _baseCssData;
 
         int myWidth;
         int myHeight;
-        public ArtVisualHtmlBox(int width, int height)
-            : base(width, height, ElementNature.CustomContainer)
+        public HtmlRenderBox(int width, int height)
+            : base(width, height)
         {
             this.myWidth = width;
             this.myHeight = height;
@@ -124,7 +124,7 @@ namespace LayoutFarm.Presentation
         {
 
         }
-        
+
         public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
         {
             _visualRootBox.PhysicalViewportBound = new RectangleF(0, 0, myWidth, myHeight);
@@ -140,7 +140,7 @@ namespace LayoutFarm.Presentation
             using (Bitmap bb = new Bitmap(2, 2))
             using (Graphics g = Graphics.FromImage(bb))
             using (WinGraphics winGfx = new WinGraphics(g, false))
-            {   
+            {
                 this.PerformHtmlLayout(winGfx);
             }
 

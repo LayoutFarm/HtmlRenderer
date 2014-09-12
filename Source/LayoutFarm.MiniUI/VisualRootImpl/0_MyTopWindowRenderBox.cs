@@ -393,7 +393,7 @@ namespace LayoutFarm.Presentation
             visualroot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_CLEAR_LAYOUT_enter, total);
 #endif
 
-             
+
             if (this.NeedReCalculateContentSize || this.NeedContentArrangement)
             {
                 ClearLayoutOn(this, 0);
@@ -401,15 +401,13 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-            }
-
-
+            } 
             int preClear = layoutQueue.Count;
             for (int i = preClear - 1; i > -1; --i)
             {
 
                 RenderElement elem = layoutQueue[i];
-                if (elem.ParentLink != null && elem.IsVisualContainerBase)
+                if (elem.ParentLink != null && elem.MayHasChild)
                 {
                     RenderBoxBase contvs = (RenderBoxBase)elem;
                     ClearLayoutOn(contvs, i);
@@ -440,7 +438,7 @@ namespace LayoutFarm.Presentation
 
                 layoutQueue2.Clear();
             }
- 
+
 #if DEBUG
 
             visualroot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_CLEAR_LAYOUT_exit);

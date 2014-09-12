@@ -20,13 +20,11 @@ namespace LayoutFarm.Presentation.SampleControls
             primaryVisualElement = new CustomVisualBox(width, height);
             primaryVisualElement.SetController(this);
         }
-        public RenderElement PrimaryVisualElement
+        public override RenderElement PrimaryRenderElement
         {
-            get
-            {
-                return primaryVisualElement;
-            }
+            get { return this.primaryVisualElement; }
         }
+        
         public int Left
         {
             get { return this.primaryVisualElement.Location.X; }
@@ -53,7 +51,7 @@ namespace LayoutFarm.Presentation.SampleControls
     {
 
         public CustomVisualBox(int w, int h)
-            : base(w, h, ElementNature.Shapes)
+            : base(w, h)
         {
         }
         public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)

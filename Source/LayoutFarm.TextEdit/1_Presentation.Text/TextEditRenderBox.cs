@@ -66,7 +66,7 @@ namespace LayoutFarm.Presentation.Text
         public void ScrollToNotRaiseEvent(int x, int y)
         {
 
-            if (!this.IsScrollable)
+            if (!this.MayHasViewport)
             {
                 return;
             }
@@ -132,9 +132,8 @@ namespace LayoutFarm.Presentation.Text
             if (vscrollableSurface == null)
             {
                 this.InvalidateGraphic();
-                this.ViewportX = x;
-                this.ViewportY = y;
 
+                this.SetViewport(x, y);
                 this.InvalidateGraphic();
             }
             else
@@ -148,9 +147,8 @@ namespace LayoutFarm.Presentation.Text
                 {
                     vScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, this.ViewportY, y, UIScrollOrientation.VerticalScroll);
                 }
-                this.ViewportX = x;
-                this.ViewportY = y;
 
+                this.SetViewport(x, y);
                 vscrollableSurface.QuadPagesCalculateCanvas();
                 vscrollableSurface.FullModeUpdate = true;
                 this.InvalidateGraphic();
@@ -169,11 +167,13 @@ namespace LayoutFarm.Presentation.Text
                 if (ViewportY + dy < 0)
                 {
                     dy = -ViewportY;
-                    ViewportY = 0;
+
+                    this.SetViewport(this.ViewportX, 0);
                 }
                 else
                 {
-                    ViewportY += dy;
+
+                    this.SetViewport(this.ViewportX, this.ViewportY + dy);
                 }
 
                 if (this.vscrollableSurface != null && scrollRelation.HasVScrollChanged)
@@ -193,13 +193,14 @@ namespace LayoutFarm.Presentation.Text
                 {
                     if (viewportButtom < innerContentSize.Height)
                     {
-                        ViewportY = innerContentSize.Height - Height;
+
+                        this.SetViewport(this.ViewportX, innerContentSize.Height - Height);
                     }
                 }
                 else
                 {
+                    this.SetViewport(this.ViewportX, innerContentSize.Height + dy);
 
-                    this.ViewportY += dy;
                 }
                 if (vscrollableSurface != null && scrollRelation.HasVScrollChanged)
                 {
@@ -217,21 +218,22 @@ namespace LayoutFarm.Presentation.Text
                 int old_x = this.ViewportX;
                 int viewportRight = ViewportX + Width; if (viewportRight + dx > innerContentSize.Width)
                 {
-                    if (this.IsTextEditContainer)
+                    if (this.NeedSystemCaret)
                     {
-                        ViewportX += dx;
+
+                        this.SetViewport(this.ViewportX + dx, this.ViewportY);
                     }
                     else
                     {
                         if (viewportRight < innerContentSize.Width)
                         {
-                            ViewportX = innerContentSize.Width - Width;
+                            this.SetViewport(innerContentSize.Width - Width, this.ViewportY);
                         }
                     }
                 }
                 else
                 {
-                    ViewportX += dx;
+                    this.SetViewport(this.ViewportX + dx, this.ViewportY);
                 }
                 if (vscrollableSurface != null && scrollRelation.HasHScrollChanged)
                 {
@@ -242,14 +244,17 @@ namespace LayoutFarm.Presentation.Text
             else
             {
                 int old_x = this.ViewportX;
+
                 if (old_x + dx < 0)
                 {
                     dx = -ViewportX;
-                    ViewportX = 0;
+
+                    SetViewport(0, this.ViewportY);
                 }
                 else
                 {
-                    ViewportX += dx;
+
+                    SetViewport(this.ViewportX + dx, this.ViewportY);
                 }
                 if (vscrollableSurface != null && scrollRelation.HasHScrollChanged)
                 {
@@ -397,15 +402,16 @@ namespace LayoutFarm.Presentation.Text
         }
         public void ScrollTo(int x, int y)
         {
-            if (!this.IsScrollable)
+            if (!this.MayHasViewport)
             {
                 return;
             }
+
             MyScrollTo(x, y);
         }
         public void ScrollBy(int dx, int dy)
         {
-            if (!this.IsScrollable)
+            if (!this.MayHasViewport)
             {
                 return;
             }

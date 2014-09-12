@@ -15,19 +15,13 @@ namespace LayoutFarm.Presentation
 
 
         public virtual void TopDownReCalculateContentSize()
-        {
-
-#if DEBUG
-#endif
+        {   
             MarkHasValidCalculateSize();
-        }
-
-
+        } 
 
         public static void SetCalculatedDesiredSize(RenderBoxBase v, int desiredWidth, int desiredHeight)
         {
-            //v.uiDesiredWidth = desiredWidth;
-            //v.uiDesiredHeight = desiredHeight;
+ 
             v.b_width = desiredWidth;
             v.b_Height = desiredHeight;
             v.MarkHasValidCalculateSize();
@@ -81,7 +75,7 @@ namespace LayoutFarm.Presentation
         {
             uiLayoutFlags &= ~LY_SUSPEND;
 
-            if (this.IsVisualContainerBase)
+            if (this.MayHasChild)
             {
                 if (this.HasOwner)
                 {
@@ -132,7 +126,7 @@ namespace LayoutFarm.Presentation
         {
             RenderElement.DirectSetVisualElementSize(this, width, height);
 
-            if (this.IsVisualContainerBase)
+            if (this.MayHasChild)
             {
                 RenderBoxBase vscont = (RenderBoxBase)this;
                 if (!vinv_IsInTopDownReArrangePhase)

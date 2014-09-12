@@ -25,7 +25,7 @@ namespace LayoutFarm.Presentation
 
         int graphicUpdateBlockCount = 0;
 
-       
+
         public override void InvalidateGraphicArea(RenderElement fromElement, InternalRect elementClientRect)
         {
             if (isInRenderPhase)
@@ -123,14 +123,14 @@ namespace LayoutFarm.Presentation
 
 #if DEBUG
 #endif
-                if (fromElement.IsScrollable && isBubbleUp)
+                if (fromElement.MayHasViewport && isBubbleUp)
                 {
-                     
-                    RenderBoxBase container = (RenderBoxBase)fromElement; 
-                    elementClientRect.Offset(globalX, globalY); 
+
+                    RenderBoxBase container = (RenderBoxBase)fromElement;
+                    elementClientRect.Offset(globalX, globalY);
                     if (fromElement.HasDoubleScrollableSurface)
                     {
-                         
+
                         //container.VisualScrollableSurface.WindowRootNotifyInvalidArea(elementClientRect);
                     }
                     Rectangle elementRect = fromElement.BoundRect;
@@ -140,7 +140,7 @@ namespace LayoutFarm.Presentation
                     globalY = -container.ViewportY;
                 }
 
-                if (fromElement.ElementNature == ElementNature.WindowRoot)
+                if (fromElement.IsWindowRoot)
                 {
                     break;
                 }
@@ -364,7 +364,7 @@ namespace LayoutFarm.Presentation
         {
             get
             {
-                return currentKeyboardFocusedElement != null && currentKeyboardFocusedElement.IsTextEditContainer;
+                return currentKeyboardFocusedElement != null && currentKeyboardFocusedElement.NeedSystemCaret;
 
             }
         }

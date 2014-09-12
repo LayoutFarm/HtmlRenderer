@@ -210,10 +210,10 @@ namespace LayoutFarm.Presentation
 #endif
         }
 
-        protected static bool vinv_IsInTopDownReArrangePhase { get; set; }
-        protected static void vinv_dbug_EnterLayerReArrangeContent(VisualLayer layer) { }
-        protected static void vinv_dbug_ExitLayerReArrangeContent() { }
-        protected static void vinv_dbug_ExitLayerReCalculateContent() { }
+        //protected static bool vinv_IsInTopDownReArrangePhase { get; set; }
+        //protected static void vinv_dbug_EnterLayerReArrangeContent(VisualLayer layer) { }
+        //protected static void vinv_dbug_ExitLayerReArrangeContent() { }
+        //protected static void vinv_dbug_ExitLayerReCalculateContent() { }
         public override void TopDownReCalculateContentSize()
         {
 #if DEBUG

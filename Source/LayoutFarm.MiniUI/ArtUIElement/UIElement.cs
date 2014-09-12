@@ -6,10 +6,7 @@ using System.Drawing;
 namespace LayoutFarm.Presentation.UI
 {
     public abstract partial class UIElement : IEventListener
-    {       
-
-
-
+    {        
         public UIElement()
         {
         }
@@ -32,6 +29,7 @@ namespace LayoutFarm.Presentation.UI
         {
             this.oneBitNativeEventFlags |= eventFlags;
         }
+        public abstract RenderElement PrimaryRenderElement { get; }
         protected virtual void OnLostFocus(UIFocusEventArgs e)
         {
         }

@@ -61,13 +61,13 @@ namespace TestGraphicPackage2
             //==================================================
             //html box
             UIHtmlBox htmlBox = new UIHtmlBox(800, 600);
-            ArtVisualHtmlBox innerHtmlBox = htmlBox.PrimaryVisual;
-            viewport.AddContent(innerHtmlBox);
+
+            viewport.AddContent(htmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
             htmlBox.LoadHtmlText(html);
 
-            
-            innerHtmlBox.InvalidateGraphic();
+
+            htmlBox.PrimaryRenderElement.InvalidateGraphic();
             
             //================================================== 
 
@@ -91,22 +91,21 @@ namespace TestGraphicPackage2
 
             ////==================================================
             //html box
-            UIHtmlBox htmlBox = new UIHtmlBox(800, 400);
-            ArtVisualHtmlBox innerHtmlBox = htmlBox.PrimaryVisual;
-            viewport.AddContent(innerHtmlBox);
+            UIHtmlBox htmlBox = new UIHtmlBox(800, 400); 
+            viewport.AddContent(htmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
             //ArtVisualHtmlBox.DirectSetVisualElementLocation(innerHtmlBox, 100, 100);
             htmlBox.LoadHtmlText(html);
 
-            
-            innerHtmlBox.InvalidateGraphic();
+            htmlBox.PrimaryRenderElement.InvalidateGraphic();
+             
             
             //================================================== 
 
             //textbox
             var textbox = new LayoutFarm.Presentation.SampleControls.UIMultiLineTextBox(400, 100, true);
-            var visualTextBox = textbox.PrimaryVisualElement;
-            viewport.AddContent(visualTextBox);
+            var visualTextBox = textbox.PrimaryRenderElement;
+            viewport.AddContent(textbox);
 
             //var vinv2 = visualTextBox.WinRoot.GetVInv();
             visualTextBox.InvalidateGraphic();

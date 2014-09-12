@@ -16,8 +16,7 @@ namespace LayoutFarm.Presentation
     partial class RenderElement
     {
         //----------------------
-        //rectangle boundary area
-
+        //rectangle boundary area 
         int b_top;
         int b_left;
         int b_width;
@@ -207,11 +206,12 @@ namespace LayoutFarm.Presentation
                 Point parentGlobalLocation = GetGlobalLocationStatic(parentVisualElement);
                 ui.visualParentLink.AdjustParentLocation(ref parentGlobalLocation);
 
-                if (parentVisualElement.IsVisualContainerBase)
+                if (parentVisualElement.MayHasViewport)
                 {
-                    RenderBoxBase parentAsContainerBase = (RenderBoxBase)parentVisualElement;
-                    return new Point(ui.b_left + parentGlobalLocation.X - parentAsContainerBase.ViewportX,
-                        ui.b_top + parentGlobalLocation.Y - parentAsContainerBase.ViewportY);
+
+                    return new Point(
+                        ui.b_left + parentGlobalLocation.X - parentVisualElement.ViewportX,
+                        ui.b_top + parentGlobalLocation.Y - parentVisualElement.ViewportY);
                 }
                 else
                 {
@@ -239,65 +239,60 @@ namespace LayoutFarm.Presentation
             {
                 return false;
             }
-            switch (this.ElementNature)
+
+            int testX;
+            int testY;
+            artHitResult.GetTestPoint(out testX, out testY);
+            if ((testY >= b_top && testY <= (b_top + b_Height)
+            && (testX >= b_left && testX <= (b_left + b_width))))
             {
-                case ElementNature.Shapes:
-                case ElementNature.CustomContainer:
-                default:
-                    {
-                        int testX;
-                        int testY;
-                        artHitResult.GetTestPoint(out testX, out testY);
-                        if ((testY >= b_top && testY <= (b_top + b_Height)
-                        && (testX >= b_left && testX <= (b_left + b_width))))
-                        {
-                            RenderBoxBase scContainer = null;
-                            if (this.IsScrollable)
-                            {
-                                scContainer = (RenderBoxBase)this;
-                                artHitResult.OffsetTestPoint(-b_left + scContainer.ViewportX,
-                                    -b_top + scContainer.ViewportY);
-                            }
-                            else
-                            {
-                                artHitResult.OffsetTestPoint(-b_left, -b_top);
-                            }
 
-                            artHitResult.AddHit(this);
+                if (this.MayHasViewport)
+                {   
+                    artHitResult.OffsetTestPoint(
+                        -b_left + this.ViewportX,
+                        -b_top + this.ViewportY);
+                }
+                else
+                {
+                    artHitResult.OffsetTestPoint(-b_left, -b_top);
+                }
 
-                            if (this.IsVisualContainerBase)
-                            {
-                                ((RenderBoxBase)this).ChildrenHitTestCore(artHitResult);
-                            }
+                artHitResult.AddHit(this);
 
-                            if (this.IsScrollable)
-                            {
-                                artHitResult.OffsetTestPoint(
-                                        b_left - scContainer.ViewportX,
-                                        b_top - scContainer.ViewportY);
-                            }
-                            else
-                            {
-                                artHitResult.OffsetTestPoint(b_left, b_top);
-                            }
+                if (this.MayHasChild)
+                {
+                    ((RenderBoxBase)this).ChildrenHitTestCore(artHitResult);
+                }
 
-                            if ((uiFlags & TRANSPARENT_FOR_ALL_EVENTS) != 0 && artHitResult.CurrentHitElement == this)
-                            {
-                                artHitResult.RemoveHit(artHitResult.CurrentHitNode);
-                                return false;
-                            }
-                            else
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
+                if (this.MayHasViewport)
+                {   
+                    artHitResult.OffsetTestPoint(
+                            b_left - this.ViewportX,
+                            b_top - this.ViewportY);
+                }
+                else
+                {
+                    artHitResult.OffsetTestPoint(b_left, b_top);
+                }
 
-                            return false;
-                        }
-                    }
+                if ((uiFlags & TRANSPARENT_FOR_ALL_EVENTS) != 0 && artHitResult.CurrentHitElement == this)
+                {
+                    artHitResult.RemoveHit(artHitResult.CurrentHitNode);
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
+            else
+            {
+
+                return false;
+            }
+
+
 
         }
 
@@ -454,12 +449,7 @@ namespace LayoutFarm.Presentation
         public static int GetLayoutSpecificDimensionType(RenderElement visualElement)
         {
             return visualElement.uiLayoutFlags & 0x3;
-        }
-
-
-
-
-
+        } 
         public bool HasCalculatedSize
         {
             get
@@ -577,7 +567,7 @@ ve
 
             if (!goFinalExit)
             {
-                if (parentVisualElem.IsTextEditContainer)
+                if (parentVisualElem.NeedSystemCaret)
                 {
                     parentVisualElem.MarkInvalidContentArrangement();
                     parentVisualElem.IsInLayoutQueueChainUp = true;

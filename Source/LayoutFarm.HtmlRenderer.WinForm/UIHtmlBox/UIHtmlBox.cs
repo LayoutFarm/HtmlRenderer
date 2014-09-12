@@ -4,30 +4,27 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-
 using LayoutFarm.Presentation.UI;
+
 namespace LayoutFarm.Presentation
 {
 
     public class UIHtmlBox : UIElement
     {
-        ArtVisualHtmlBox myHtmlBox;
+        HtmlRenderBox myHtmlBox;
         public UIHtmlBox(int width, int height)
         {
-            myHtmlBox = new ArtVisualHtmlBox(width, height);
+            myHtmlBox = new HtmlRenderBox(width, height);
         }
-        public ArtVisualHtmlBox PrimaryVisual
+        public override RenderElement PrimaryRenderElement
         {
-            get
-            {
-                return this.myHtmlBox;
-            }
+            get { return this.myHtmlBox; }
         }
+        
         public void LoadHtmlText(string html)
         {
-            myHtmlBox.LoadHtmlText(html); 
+            myHtmlBox.LoadHtmlText(html);
         }
-
     }
 }
 
