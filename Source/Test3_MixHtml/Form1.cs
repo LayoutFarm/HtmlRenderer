@@ -61,7 +61,7 @@ namespace TestGraphicPackage2
             //==================================================
             //html box
             UIHtmlBox htmlBox = new UIHtmlBox(800, 600);
-            ArtVisualHtmlBox innerHtmlBox = htmlBox.PrimaryVisual;
+            HtmlRenderBox innerHtmlBox = htmlBox.PrimaryVisual;
             viewport.AddContent(innerHtmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
             htmlBox.LoadHtmlText(html);
@@ -92,7 +92,7 @@ namespace TestGraphicPackage2
             ////==================================================
             //html box
             UIHtmlBox htmlBox = new UIHtmlBox(800, 400);
-            ArtVisualHtmlBox innerHtmlBox = htmlBox.PrimaryVisual;
+            HtmlRenderBox innerHtmlBox = htmlBox.PrimaryVisual;
             viewport.AddContent(innerHtmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
             //ArtVisualHtmlBox.DirectSetVisualElementLocation(innerHtmlBox, 100, 100);

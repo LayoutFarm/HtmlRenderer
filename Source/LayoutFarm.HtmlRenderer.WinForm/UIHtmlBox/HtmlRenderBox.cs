@@ -17,7 +17,7 @@ using HtmlRenderer.Composers;
 namespace LayoutFarm.Presentation
 {
 
-    public class ArtVisualHtmlBox : RenderBoxBase
+    public class HtmlRenderBox : RenderBoxBase
     {
         WinRootVisualBox _visualRootBox;
         BoxComposer _boxComposer;
@@ -39,7 +39,7 @@ namespace LayoutFarm.Presentation
 
         int myWidth;
         int myHeight;
-        public ArtVisualHtmlBox(int width, int height)
+        public HtmlRenderBox(int width, int height)
             : base(width, height)
         {
             this.myWidth = width;

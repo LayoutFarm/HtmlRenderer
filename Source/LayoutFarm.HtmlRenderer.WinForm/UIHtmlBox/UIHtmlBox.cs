@@ -11,12 +11,12 @@ namespace LayoutFarm.Presentation
 
     public class UIHtmlBox : UIElement
     {
-        ArtVisualHtmlBox myHtmlBox;
+        HtmlRenderBox myHtmlBox;
         public UIHtmlBox(int width, int height)
         {
-            myHtmlBox = new ArtVisualHtmlBox(width, height);
+            myHtmlBox = new HtmlRenderBox(width, height);
         }
-        public ArtVisualHtmlBox PrimaryVisual
+        public HtmlRenderBox PrimaryVisual
         {
             get
             {
