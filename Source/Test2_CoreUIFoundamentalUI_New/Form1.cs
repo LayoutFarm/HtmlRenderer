@@ -58,12 +58,9 @@ namespace TestGraphicPackage2
                 out formCanvas);
 
             var sampleButton = new LayoutFarm.Presentation.SampleControls.UIButton(30, 30);
-            viewport.AddContent(sampleButton);
-
-
-            viewport.WinRoot.TopDownReCalculateContentSize();
-            sampleButton.PrimaryRenderElement.InvalidateGraphic();
-
+            viewport.AddContent(sampleButton); 
+            viewport.WinRoot.TopDownReCalculateContentSize();             
+            sampleButton.InvalidateGraphic();
             //==================================================  
             viewport.PaintMe();
             //ShowFormLayoutInspector(viewport);
@@ -186,8 +183,8 @@ namespace TestGraphicPackage2
                 textbox.SetLocation(i * 40, i * 40);
 
                 viewport.AddContent(textbox);
-                viewport.WinRoot.TopDownReCalculateContentSize();
-                textbox.PrimaryRenderElement.InvalidateGraphic();
+                viewport.WinRoot.TopDownReCalculateContentSize(); 
+                textbox.InvalidateGraphic();
             }
 
             viewport.PaintMe();
@@ -208,7 +205,7 @@ namespace TestGraphicPackage2
 
 
             viewport.WinRoot.TopDownReCalculateContentSize();
-            sampleButton.PrimaryRenderElement.InvalidateGraphic();
+            sampleButton.InvalidateGraphic();
 
             //==================================================  
             viewport.PaintMe();

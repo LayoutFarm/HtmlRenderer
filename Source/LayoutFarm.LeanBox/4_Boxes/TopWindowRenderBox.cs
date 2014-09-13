@@ -10,13 +10,19 @@ namespace LayoutFarm.Presentation
 {
     public abstract partial class TopWindowRenderBox : RenderBoxBase
     {
-        public TopWindowRenderBox(int width, int height)
+        RootGraphic rootGfx;
+        public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
             : base(width, height)
         {
+            this.rootGfx = rootGfx;
             this.Layers = new VisualLayerCollection();
             this.Layers.AddLayer(new VisualPlainLayer(this));
 
             SetIsWindowRoot(this, true);
+        }
+        public RootGraphic RootGraphic
+        {
+            get { return this.rootGfx; }
         }
         public abstract RenderElement CurrentKeyboardFocusedElement
         {

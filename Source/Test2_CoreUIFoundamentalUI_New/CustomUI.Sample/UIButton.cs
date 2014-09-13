@@ -10,32 +10,58 @@ using LayoutFarm.Presentation.UI;
 
 namespace LayoutFarm.Presentation.SampleControls
 {
+
     public class UIButton : UIElement
     {
-        public event EventHandler<UIMouseEventArgs> MouseDown; 
+        public event EventHandler<UIMouseEventArgs> MouseDown;
         RenderElement primaryVisualElement;
+        int _left;
+        int _top;
+        int _width;
+        int _height;
 
         public UIButton(int width, int height)
         {
-            primaryVisualElement = new CustomRenderElement(width, height);
-            primaryVisualElement.SetController(this);
+            this._width = width;
+            this._height = height;
         }
-        public override RenderElement PrimaryRenderElement
-        {
-            get { return this.primaryVisualElement; }
-        }
-        
         public int Left
         {
-            get { return this.primaryVisualElement.Location.X; }
+            get
+            {
+                if (this.primaryVisualElement != null)
+                {
+                    return this.primaryVisualElement.Location.X;
+                }
+                else
+                {
+                    return this._left;
+                }
+            }
         }
         public int Top
         {
-            get { return this.primaryVisualElement.Location.Y; }
+            get
+            {
+                if (this.primaryVisualElement != null)
+                {
+                    return this.primaryVisualElement.Location.Y;
+                }
+                else
+                {
+                    return this._top;
+                }
+            }
         }
         public void SetLocation(int left, int top)
         {
-            RenderElement.DirectSetVisualElementLocation(this.primaryVisualElement, left, top);
+            this._left = left;
+            this._top = top;
+
+            if (this.primaryVisualElement != null)
+            {
+                RenderElement.DirectSetVisualElementLocation(this.primaryVisualElement, left, top);
+            }
         }
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
@@ -45,8 +71,22 @@ namespace LayoutFarm.Presentation.SampleControls
             }
             base.OnMouseDown(e);
         }
+        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        {
+            if (primaryVisualElement == null)
+            {
+                primaryVisualElement = new CustomRenderElement(this._width, this._height);
+                primaryVisualElement.SetController(this);
+                RenderElement.DirectSetVisualElementLocation(primaryVisualElement, _left, _top);
+            }
+            return primaryVisualElement;
+        }
+        public override void InvalidateGraphic()
+        {
+            if (primaryVisualElement != null)
+                primaryVisualElement.InvalidateGraphic();
+        }
     }
 
-   
 
 }

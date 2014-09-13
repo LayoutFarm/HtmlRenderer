@@ -67,8 +67,8 @@ namespace TestGraphicPackage2
             htmlBox.LoadHtmlText(html);
 
 
-            htmlBox.PrimaryRenderElement.InvalidateGraphic();
-            
+            htmlBox.InvalidateGraphic();
+
             //================================================== 
 
 
@@ -91,31 +91,31 @@ namespace TestGraphicPackage2
 
             ////==================================================
             //html box
-            UIHtmlBox htmlBox = new UIHtmlBox(800, 400); 
+            UIHtmlBox htmlBox = new UIHtmlBox(800, 400);
             viewport.AddContent(htmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
             //ArtVisualHtmlBox.DirectSetVisualElementLocation(innerHtmlBox, 100, 100);
             htmlBox.LoadHtmlText(html);
 
-            htmlBox.PrimaryRenderElement.InvalidateGraphic();
-             
-            
+            htmlBox.InvalidateGraphic();
+
             //================================================== 
 
             //textbox
             var textbox = new LayoutFarm.Presentation.SampleControls.UIMultiLineTextBox(400, 100, true);
-            var visualTextBox = textbox.PrimaryRenderElement;
+            var renderTextBox = textbox.GetPrimaryRenderElement(viewport.WinRoot.RootGraphic);
             viewport.AddContent(textbox);
 
-            //var vinv2 = visualTextBox.WinRoot.GetVInv();
-            visualTextBox.InvalidateGraphic();
+            //var vinv2 = visualTextBox.WinRoot.GetVInv(); 
+            textbox.InvalidateGraphic();
             //visualTextBox.WinRoot.FreeVInv();
-            RenderElement.DirectSetVisualElementLocation(visualTextBox, 0, 200);
-            //vinv2 = visualTextBox.WinRoot.GetVInv();
-            visualTextBox.InvalidateGraphic();
-            
 
-            viewport.WinRoot.CurrentKeyboardFocusedElement = visualTextBox;
+            RenderElement.DirectSetVisualElementLocation(renderTextBox, 0, 200);
+            //vinv2 = visualTextBox.WinRoot.GetVInv();
+            textbox.InvalidateGraphic();
+
+
+            viewport.WinRoot.CurrentKeyboardFocusedElement = renderTextBox;
             viewport.PaintMe();
         }
 

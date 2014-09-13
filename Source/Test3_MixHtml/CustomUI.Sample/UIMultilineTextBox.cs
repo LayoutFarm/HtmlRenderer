@@ -7,36 +7,43 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using LayoutFarm.Presentation;
+using LayoutFarm.Presentation.UI;
 using LayoutFarm.Presentation.Text;
 
-using LayoutFarm.Presentation.UI;
+
 namespace LayoutFarm.Presentation.SampleControls
 {
 
     public class UIMultiLineTextBox : UIElement
     {
-      
-        TextEditRenderBox visualTextEdit; 
+
+        TextEditRenderBox visualTextEdit;
+        int _width, _height;
+        bool _multiline;
         public UIMultiLineTextBox(int width, int height, bool multiline)
         {
-                 
-            visualTextEdit = new TextEditRenderBox(width, height, multiline);
-           
-            visualTextEdit.HasSpecificSize = true;
-             
-            visualTextEdit.SetController(this);
-            RegisterNativeEvent(
-              1 << UIEventIdentifier.NE_MOUSE_DOWN
-              | 1 << UIEventIdentifier.NE_LOST_FOCUS
-              | 1 << UIEventIdentifier.NE_SIZE_CHANGED
-              );
+            this._width = width;
+            this._height = height;
+            this._multiline = multiline;
+
+        }
+        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        {
+            if (visualTextEdit == null)
+            {
+                visualTextEdit = new TextEditRenderBox(_width, _height, _multiline);
+                visualTextEdit.HasSpecificSize = true;
+
+                visualTextEdit.SetController(this);
+                RegisterNativeEvent(
+                  1 << UIEventIdentifier.NE_MOUSE_DOWN
+                  | 1 << UIEventIdentifier.NE_LOST_FOCUS
+                  | 1 << UIEventIdentifier.NE_SIZE_CHANGED
+                  );
+            }
+            return visualTextEdit;
         }
 
-        public override RenderElement PrimaryRenderElement
-        {
-            get { return this.visualTextEdit; }
-        }
-       
         protected override void OnKeyPress(UIKeyPressEventArgs e)
         {
             visualTextEdit.OnKeyPress(e);
@@ -83,6 +90,11 @@ namespace LayoutFarm.Presentation.SampleControls
         protected override void OnDragStop(UIDragEventArgs e)
         {
             visualTextEdit.OnDragStop(e);
-        } 
+        }
+        public override void InvalidateGraphic()
+        {
+            if (visualTextEdit != null)
+                visualTextEdit.InvalidateGraphic();
+        }
     }
 }

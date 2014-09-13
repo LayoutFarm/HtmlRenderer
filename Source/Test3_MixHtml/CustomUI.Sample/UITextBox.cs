@@ -5,33 +5,46 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
+
 using LayoutFarm.Presentation.Text;
 using LayoutFarm.Presentation.UI;
+
 namespace LayoutFarm.Presentation.SampleControls
 {
 
 
     public class UITextBox : UIElement
     {
-       
+        int _width, _height;
         TextEditRenderBox visualTextSurface;
         public UITextBox(int width, int height)
         {
 
-            visualTextSurface = new TextEditRenderBox(width, height, false);
-
-            visualTextSurface.HasSpecificSize = true;
-            visualTextSurface.SetController(this);  
+            this._width = width;
+            this._height = height;
         }
-        public override RenderElement PrimaryRenderElement
+        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-            get { return visualTextSurface; }
-        } 
+            if (this.visualTextSurface == null)
+            {
+                visualTextSurface = new TextEditRenderBox(_width, _height, false);
+                visualTextSurface.HasSpecificSize = true;
+                visualTextSurface.SetController(this);
+                //--------------------------------------
+
+            }
+            return visualTextSurface;
+        }
+
 
         public TextSurfaceEventListener TextDomListener
         {
             get
             {
+                if (this.visualTextSurface == null)
+                {
+                    return null;
+                }
                 return this.visualTextSurface.TextDomListener;
             }
         }
@@ -39,6 +52,7 @@ namespace LayoutFarm.Presentation.SampleControls
         {
             get
             {
+                 
                 return this.visualTextSurface;
             }
         }
@@ -62,14 +76,13 @@ namespace LayoutFarm.Presentation.SampleControls
         {
             get
             {
-
                 return visualTextSurface.CurrentTextRunCharIndex;
             }
         }
+        public override void InvalidateGraphic()
+        {
+            if (visualTextSurface != null)
+                visualTextSurface.InvalidateGraphic();
+        }
     }
-
-
-
-
-
 }

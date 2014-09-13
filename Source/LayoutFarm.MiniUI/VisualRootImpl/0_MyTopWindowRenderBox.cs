@@ -25,7 +25,7 @@ namespace LayoutFarm.Presentation
         public MyTopWindowRenderBox(
             UIRootGraphic visualroot,
             int width, int height)
-            : base(width, height)
+            : base(visualroot, width, height)
         {
             this.visualroot = visualroot;
 
@@ -113,7 +113,7 @@ namespace LayoutFarm.Presentation
             }
         }
 #endif
-        public UIRootGraphic MyVisualRoot
+        UIRootGraphic MyVisualRoot
         {
             get
             {
@@ -268,6 +268,7 @@ namespace LayoutFarm.Presentation
         }
         public void PrepareRender()
         {
+
             if (this.MyVisualRoot.VisualRequestCount > 0)
             {
                 MyVisualRoot.ClearVisualRequests(this);
@@ -400,7 +401,7 @@ namespace LayoutFarm.Presentation
             }
             else
             {
-            } 
+            }
             int preClear = layoutQueue.Count;
             for (int i = preClear - 1; i > -1; --i)
             {

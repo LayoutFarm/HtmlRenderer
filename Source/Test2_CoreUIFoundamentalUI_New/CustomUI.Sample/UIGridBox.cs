@@ -13,17 +13,26 @@ namespace LayoutFarm.Presentation.SampleControls
     public class UIGridBox : UIElement
     {
         CustomRenderElement simpleBox;
+        int _width, _height;
         public UIGridBox(int width, int height)
         {
-            simpleBox = new CustomRenderElement(width, height);
+            this._width = width;
+            this._height = height;
         }
-        public override RenderElement PrimaryRenderElement
+        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-            get
+            if (simpleBox == null)
             {
-                return this.simpleBox;
+                simpleBox = new CustomRenderElement(_width, _height);
+            }
+            return simpleBox;
+        }
+        public override void InvalidateGraphic()
+        {
+            if (simpleBox != null)
+            {
+                simpleBox.InvalidateGraphic();
             }
         }
-
     }
 }

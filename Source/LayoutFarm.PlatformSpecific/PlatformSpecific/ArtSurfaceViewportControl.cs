@@ -101,7 +101,7 @@ namespace LayoutFarm.Presentation
         }
         public void AddContent(LayoutFarm.Presentation.UI.UIElement ui)
         {
-            winroot.AddChild(ui.PrimaryRenderElement);
+            winroot.AddChild(ui.GetPrimaryRenderElement(winroot.RootGraphic));
         }
         public void Close()
         {

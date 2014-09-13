@@ -15,34 +15,36 @@ namespace LayoutFarm.Presentation.SampleControls
 
     public class UITextBox : UIElement
     {
-         
+        int _width, _height;
         TextEditRenderBox visualTextSurface;
         public UITextBox(int width, int height)
         {
 
-            visualTextSurface = new TextEditRenderBox(width, height, false);
-
-            visualTextSurface.HasSpecificSize = true;
-            visualTextSurface.SetController(this);
-
-            
+            this._width = width;
+            this._height = height;
         }
-        public override RenderElement PrimaryRenderElement
+        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-            get { return this.visualTextSurface; }
-        }
-        
-        public VisualTextRun CurrentTextRun
-        {
-            get
+            if (this.visualTextSurface == null)
             {
-                return visualTextSurface.CurrentTextRun;
+                visualTextSurface = new TextEditRenderBox(_width, _height, false);
+                visualTextSurface.HasSpecificSize = true;
+                visualTextSurface.SetController(this);
+                //--------------------------------------
+
             }
+            return visualTextSurface;
         }
+
+
         public TextSurfaceEventListener TextDomListener
         {
             get
             {
+                if (this.visualTextSurface == null)
+                {
+                    return null;
+                }
                 return this.visualTextSurface.TextDomListener;
             }
         }
@@ -50,6 +52,7 @@ namespace LayoutFarm.Presentation.SampleControls
         {
             get
             {
+                 
                 return this.visualTextSurface;
             }
         }
@@ -75,6 +78,11 @@ namespace LayoutFarm.Presentation.SampleControls
             {
                 return visualTextSurface.CurrentTextRunCharIndex;
             }
+        }
+        public override void InvalidateGraphic()
+        {
+            if (visualTextSurface != null)
+                visualTextSurface.InvalidateGraphic();
         }
     }
 }
