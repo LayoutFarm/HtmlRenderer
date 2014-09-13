@@ -58,7 +58,7 @@ namespace LayoutFarm.Grids
                 }
                 uniformCellHeight = rowHeight;
             }
-        } 
+        }
         public override bool HitTestCore(HitPointChain artHitResult)
         {
             int testX;
@@ -159,7 +159,7 @@ namespace LayoutFarm.Grids
 
 
 
-      
+
 
         public int RowCount
         {
@@ -217,6 +217,15 @@ namespace LayoutFarm.Grids
 
         public GridCell GetGridItemByPosition(int x, int y)
         {
+            if (y < 0)
+            {
+                y = 0;
+            }
+            if (x < 0)
+            {
+                x = 0;
+            }
+
             switch (flexgridType)
             {
                 case GridType.UniformWidth:
@@ -244,7 +253,7 @@ namespace LayoutFarm.Grids
                     } break;
                 case GridType.UniformHeight:
                     {
-
+                        
                         int rowNumber = y / uniformCellHeight;
                         if (rowNumber >= gridRows.Count)
                         {
@@ -266,6 +275,7 @@ namespace LayoutFarm.Grids
                     } break;
                 case GridType.UniformCell:
                     {
+                         
                         int rowNumber = y / uniformCellHeight;
                         if (rowNumber >= gridRows.Count)
                         {
@@ -748,14 +758,14 @@ namespace LayoutFarm.Grids
                     {
                         canvasPage.DrawText(new char[] { '.' }, gridItem.X, gridItem.Y);
                     }
-#endif 
+#endif
                 }
 
                 currentColumn = currentColumn.NextColumn;
 
-            } while (currentColumn != stopColumn); 
-            this.FinishDrawingChildContent(); 
-        } 
+            } while (currentColumn != stopColumn);
+            this.FinishDrawingChildContent();
+        }
 
 #if  DEBUG
         public override void dbug_DumpElementProps(dbugLayoutMsgWriter writer)

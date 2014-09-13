@@ -117,10 +117,12 @@ namespace LayoutFarm
                     int x = child.X;
                     int y = child.Y;
 
-                    canvasPage.OffsetCanvasOrigin(x, y); updateArea.Offset(-x, -y);
+                    canvasPage.OffsetCanvasOrigin(x, y);
+                    updateArea.Offset(-x, -y);
                     child.DrawToThisPage(canvasPage, updateArea);
 
-                    canvasPage.OffsetCanvasOrigin(-x, -y); updateArea.Offset(x, y);
+                    canvasPage.OffsetCanvasOrigin(-x, -y);
+                    updateArea.Offset(x, y);
                 }
 
             }
@@ -225,7 +227,7 @@ namespace LayoutFarm
         public override string ToString()
         {
 
-            return "flow layer " + "(L" + dbug_layer_id + this.dbugLayerState + ") postcal:" +
+            return "plain layer " + "(L" + dbug_layer_id + this.dbugLayerState + ") postcal:" +
                 this.PostCalculateContentSize.ToString() + " of " + ownerVisualElement.dbug_FullElementDescription();
         }
 #endif

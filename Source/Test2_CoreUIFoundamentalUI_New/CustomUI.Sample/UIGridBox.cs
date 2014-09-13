@@ -31,7 +31,12 @@ namespace LayoutFarm.SampleControls
         {
             if (gridBox == null)
             {
-                gridBox = new CustomRenderBox(this.Width, this.Height);
+                var myGridBox = new CustomRenderBox(this.Width, this.Height);
+                RenderElement.DirectSetVisualElementLocation(myGridBox, this.Left, this.Top);
+
+
+                this.gridBox = myGridBox;
+
                 var layers = new VisualLayerCollection();
 
                 gridBox.Layers = layers;
