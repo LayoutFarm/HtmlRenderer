@@ -17,7 +17,6 @@ namespace LayoutFarm.Presentation
         {
             this._width = width;
             this._height = height;
-
         }
 
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)

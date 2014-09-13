@@ -23,5 +23,18 @@ namespace LayoutFarm.Presentation.SampleControls
             canvasPage.FillRectangle(Brushes.Green, new Rectangle(0, 0, this.Width, this.Height));
         }
     }
-
+    class CustomRenderBox : RenderBoxBase
+    {
+        public CustomRenderBox(int width, int height)
+            : base(width, height)
+        {
+        }
+        public override void ClearAllChildren()
+        {
+        }
+        public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
+        {
+            canvasPage.FillRectangle(Brushes.Blue, new Rectangle(0, 0, this.Width, this.Height));
+        }
+    }
 }

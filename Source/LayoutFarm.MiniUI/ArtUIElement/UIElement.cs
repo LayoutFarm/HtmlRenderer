@@ -18,7 +18,10 @@ namespace LayoutFarm.Presentation.UI
         }
 
         public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
+        
         public abstract void InvalidateGraphic(); 
+
+
 
         protected virtual void OnLostFocus(UIFocusEventArgs e)
         {

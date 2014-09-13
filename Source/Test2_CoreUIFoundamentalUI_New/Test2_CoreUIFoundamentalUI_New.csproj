@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomUI.Sample\CustomRenderElements.cs" />
+    <Compile Include="CustomUI.Sample\UIBox.cs" />
     <Compile Include="CustomUI.Sample\UIButton.cs" />
     <Compile Include="CustomUI.Sample\UIGridBox.cs" />
     <Compile Include="CustomUI.Sample\UITextBox.cs" />

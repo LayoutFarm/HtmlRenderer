@@ -10,20 +10,28 @@ using LayoutFarm.Presentation.UI;
 
 namespace LayoutFarm.Presentation.SampleControls
 {
-    public class UIGridBox : UIElement
+    public class UIGridBox : UIBox
     {
-        CustomRenderElement simpleBox;
-        int _width, _height;
+        CustomRenderBox simpleBox;
+
         public UIGridBox(int width, int height)
+            : base(width, height)
         {
-            this._width = width;
-            this._height = height;
+        }
+        protected override RenderElement CurrentPrimaryRenderElement
+        {
+            get { return this.simpleBox; }
+        }
+        protected override bool HasReadyRenderElement
+        {
+            get { return this.simpleBox != null; }
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (simpleBox == null)
             {
-                simpleBox = new CustomRenderElement(_width, _height);
+                simpleBox = new CustomRenderBox(this.Width, this.Height);
+
             }
             return simpleBox;
         }

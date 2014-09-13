@@ -11,81 +11,37 @@ using LayoutFarm.Presentation.UI;
 namespace LayoutFarm.Presentation.SampleControls
 {
 
-    public class UIButton : UIElement
+    public class UIButton : UIBox
     {
-        public event EventHandler<UIMouseEventArgs> MouseDown;
-        RenderElement primaryVisualElement;
-        int _left;
-        int _top;
-        int _width;
-        int _height;
-
+        CustomRenderElement primElement;
         public UIButton(int width, int height)
+            : base(width, height)
         {
-            this._width = width;
-            this._height = height;
-        }
-        public int Left
-        {
-            get
-            {
-                if (this.primaryVisualElement != null)
-                {
-                    return this.primaryVisualElement.Location.X;
-                }
-                else
-                {
-                    return this._left;
-                }
-            }
-        }
-        public int Top
-        {
-            get
-            {
-                if (this.primaryVisualElement != null)
-                {
-                    return this.primaryVisualElement.Location.Y;
-                }
-                else
-                {
-                    return this._top;
-                }
-            }
-        }
-        public void SetLocation(int left, int top)
-        {
-            this._left = left;
-            this._top = top;
 
-            if (this.primaryVisualElement != null)
-            {
-                RenderElement.DirectSetVisualElementLocation(this.primaryVisualElement, left, top);
-            }
         }
-        protected override void OnMouseDown(UIMouseEventArgs e)
+
+        protected override bool HasReadyRenderElement
         {
-            if (MouseDown != null)
-            {
-                MouseDown(this, e);
-            }
-            base.OnMouseDown(e);
+            get { return this.primElement != null; }
         }
+        protected override RenderElement CurrentPrimaryRenderElement
+        {
+            get { return this.primElement; }
+        }
+
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-            if (primaryVisualElement == null)
+            if (primElement == null)
             {
-                primaryVisualElement = new CustomRenderElement(this._width, this._height);
-                primaryVisualElement.SetController(this);
-                RenderElement.DirectSetVisualElementLocation(primaryVisualElement, _left, _top);
+                var renderE = new CustomRenderElement(this.Width, this.Height);
+                renderE.SetController(this);
+                RenderElement.DirectSetVisualElementLocation(renderE, this.Left, this.Top);
+
+                primElement = renderE;
             }
-            return primaryVisualElement;
+            return primElement;
         }
-        public override void InvalidateGraphic()
-        {
-            if (primaryVisualElement != null)
-                primaryVisualElement.InvalidateGraphic();
-        }
+
     }
 
 

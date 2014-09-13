@@ -14,24 +14,32 @@ using LayoutFarm.Presentation.Text;
 namespace LayoutFarm.Presentation.SampleControls
 {
 
-    public class UIMultiLineTextBox : UIElement
+    public class UIMultiLineTextBox : UIBox
     {
 
         TextEditRenderBox visualTextEdit;
-        int _width, _height;
+
         bool _multiline;
         public UIMultiLineTextBox(int width, int height, bool multiline)
+            : base(width, height)
         {
-            this._width = width;
-            this._height = height;
             this._multiline = multiline;
-
+        }
+        protected override bool HasReadyRenderElement
+        {
+            get { return this.visualTextEdit != null; }
+        }
+        protected override RenderElement CurrentPrimaryRenderElement
+        {
+            get { return this.visualTextEdit; }
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (visualTextEdit == null)
             {
-                visualTextEdit = new TextEditRenderBox(_width, _height, _multiline);
+                visualTextEdit = new TextEditRenderBox(this.Width, this.Height, _multiline);
+                RenderElement.DirectSetVisualElementLocation(visualTextEdit, this.Left, this.Top);
+
                 visualTextEdit.HasSpecificSize = true;
 
                 visualTextEdit.SetController(this);

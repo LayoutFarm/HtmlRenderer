@@ -58,8 +58,8 @@ namespace TestGraphicPackage2
                 out formCanvas);
 
             var sampleButton = new LayoutFarm.Presentation.SampleControls.UIButton(30, 30);
-            viewport.AddContent(sampleButton); 
-            viewport.WinRoot.TopDownReCalculateContentSize();             
+            viewport.AddContent(sampleButton);
+            viewport.WinRoot.TopDownReCalculateContentSize();
             sampleButton.InvalidateGraphic();
             //==================================================  
             viewport.PaintMe();
@@ -183,7 +183,7 @@ namespace TestGraphicPackage2
                 textbox.SetLocation(i * 40, i * 40);
 
                 viewport.AddContent(textbox);
-                viewport.WinRoot.TopDownReCalculateContentSize(); 
+                viewport.WinRoot.TopDownReCalculateContentSize();
                 textbox.InvalidateGraphic();
             }
 
@@ -200,23 +200,18 @@ namespace TestGraphicPackage2
                 out viewport,
                 out formCanvas);
 
-            var sampleButton = new LayoutFarm.Presentation.SampleControls.UIButton(30, 30);
-            viewport.AddContent(sampleButton);
+            var gridBox = new LayoutFarm.Presentation.SampleControls.UIGridBox(100, 100);
+            
+            viewport.AddContent(gridBox);
 
 
             viewport.WinRoot.TopDownReCalculateContentSize();
-            sampleButton.InvalidateGraphic();
+            gridBox.InvalidateGraphic();
 
             //==================================================  
             viewport.PaintMe();
             //ShowFormLayoutInspector(viewport);
 
-
-            int count = 0;
-            sampleButton.MouseDown += new EventHandler<UIMouseEventArgs>((s, e2) =>
-            {
-                this.Text = "Click!" + count++;
-            });
         }
     }
 }

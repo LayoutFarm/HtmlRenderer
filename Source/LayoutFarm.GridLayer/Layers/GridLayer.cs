@@ -755,9 +755,7 @@ namespace LayoutFarm.Presentation.Grids
                     {
                         canvasPage.DrawText(new char[] { '0' }, gridItem.X, gridItem.Y);
                     }
-#endif
-
-
+#endif 
                 }
 
                 currentColumn = currentColumn.NextColumn;

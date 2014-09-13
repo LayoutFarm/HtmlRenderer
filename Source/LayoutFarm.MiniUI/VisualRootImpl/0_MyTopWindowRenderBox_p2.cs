@@ -246,10 +246,7 @@ namespace LayoutFarm.Presentation
             }
             CurrentKeyboardFocusedElement = null;
             ClearAllChildren();
-            hitPointChain.ClearAll();
-
-
-
+            hitPointChain.ClearAll(); 
         }
 
         public new void OnDoubleClick(UIMouseEventArgs e)

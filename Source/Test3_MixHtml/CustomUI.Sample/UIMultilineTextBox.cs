@@ -24,8 +24,7 @@ namespace LayoutFarm.Presentation.SampleControls
         {
             this._width = width;
             this._height = height;
-            this._multiline = multiline;
-
+            this._multiline = multiline; 
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {

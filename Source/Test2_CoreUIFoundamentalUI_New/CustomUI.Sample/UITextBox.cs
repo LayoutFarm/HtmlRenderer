@@ -13,27 +13,32 @@ namespace LayoutFarm.Presentation.SampleControls
 {
 
 
-    public class UITextBox : UIElement
+    public class UITextBox : UIBox
     {
-        int _width, _height;
-        TextEditRenderBox visualTextSurface;
-        public UITextBox(int width, int height)
-        {
 
-            this._width = width;
-            this._height = height;
+        TextEditRenderBox textEditRenderBox;
+        public UITextBox(int width, int height)
+            : base(width, height)
+        {
+        }
+        protected override bool HasReadyRenderElement
+        {
+            get { return this.textEditRenderBox != null; }
+        }
+        protected override RenderElement CurrentPrimaryRenderElement
+        {
+            get { return this.textEditRenderBox; }
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-            if (this.visualTextSurface == null)
+            if (this.textEditRenderBox == null)
             {
-                visualTextSurface = new TextEditRenderBox(_width, _height, false);
-                visualTextSurface.HasSpecificSize = true;
-                visualTextSurface.SetController(this);
-                //--------------------------------------
-
+                textEditRenderBox = new TextEditRenderBox(this.Width, this.Height, false);
+                RenderElement.DirectSetVisualElementLocation(textEditRenderBox, this.Left, this.Top);
+                textEditRenderBox.HasSpecificSize = true;
+                textEditRenderBox.SetController(this);
             }
-            return visualTextSurface;
+            return textEditRenderBox;
         }
 
 
@@ -41,19 +46,19 @@ namespace LayoutFarm.Presentation.SampleControls
         {
             get
             {
-                if (this.visualTextSurface == null)
+                if (this.textEditRenderBox == null)
                 {
                     return null;
                 }
-                return this.visualTextSurface.TextDomListener;
+                return this.textEditRenderBox.TextDomListener;
             }
         }
         public TextEditRenderBox VisualTextSurface
         {
             get
             {
-                 
-                return this.visualTextSurface;
+
+                return this.textEditRenderBox;
             }
         }
 
@@ -61,7 +66,7 @@ namespace LayoutFarm.Presentation.SampleControls
         {
             get
             {
-                return visualTextSurface.CurrentLineNumber;
+                return textEditRenderBox.CurrentLineNumber;
             }
         }
         public int CurrentLineCharIndex
@@ -69,20 +74,20 @@ namespace LayoutFarm.Presentation.SampleControls
             get
             {
 
-                return visualTextSurface.CurrentLineCharIndex;
+                return textEditRenderBox.CurrentLineCharIndex;
             }
         }
         public int CurrentTextRunCharIndex
         {
             get
             {
-                return visualTextSurface.CurrentTextRunCharIndex;
+                return textEditRenderBox.CurrentTextRunCharIndex;
             }
         }
         public override void InvalidateGraphic()
         {
-            if (visualTextSurface != null)
-                visualTextSurface.InvalidateGraphic();
+            if (textEditRenderBox != null)
+                textEditRenderBox.InvalidateGraphic();
         }
     }
 }
