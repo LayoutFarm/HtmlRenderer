@@ -35,7 +35,7 @@ namespace LayoutFarm
         }
 
 
-        public abstract void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea);
+        public abstract void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea);
 
         public bool PrepareDrawingChain(VisualDrawingChain drawingChain)
         {
@@ -64,7 +64,7 @@ namespace LayoutFarm
             }
             return false;
         }
-        public void DrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
+        public void DrawToThisPage(Canvas canvasPage, InternalRect updateArea)
         {
 
             if ((uiFlags & HIDDEN) == HIDDEN)

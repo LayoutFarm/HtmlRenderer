@@ -12,10 +12,10 @@ namespace LayoutFarm
     class QuadPages
     {
 
-        public CanvasBase pageA;
-        public CanvasBase pageB;
-        public CanvasBase pageC;
-        public CanvasBase pageD;
+        public Canvas pageA;
+        public Canvas pageB;
+        public Canvas pageC;
+        public Canvas pageD;
 
 
         CanvasCollection physicalCanvasCollection;
@@ -195,7 +195,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
 
         }
 
-        static void UpdateAllArea(CanvasBase artCanvas, TopWindowRenderBox rootElement)
+        static void UpdateAllArea(Canvas artCanvas, TopWindowRenderBox rootElement)
         {
 
             artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
@@ -214,7 +214,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
 
             artCanvas.OffsetCanvasOrigin(artCanvas.Left, artCanvas.Top);
         }
-        static void UpdateInvalidArea(CanvasBase artCanvas, TopWindowRenderBox rootElement, VisualDrawingChain renderingChain)
+        static void UpdateInvalidArea(Canvas artCanvas, TopWindowRenderBox rootElement, VisualDrawingChain renderingChain)
         {
 
             List<RenderElement> selectedVisualElements = renderingChain.selectedVisualElements;
@@ -270,7 +270,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
                 selectedVisualElements[i].IsInRenderChain = true;
             }
         }
-        static void UpdateInvalidArea(CanvasBase artCanvas, TopWindowRenderBox rootElement)
+        static void UpdateInvalidArea(Canvas artCanvas, TopWindowRenderBox rootElement)
         {
 #if DEBUG
 #endif
@@ -601,7 +601,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         public void TransferDataFromSourceCanvas(
             InternalRect logicalArea,
             int viewportX, int viewportY,
-            int viewportWidth, int viewportHeight, CanvasBase destPage)
+            int viewportWidth, int viewportHeight, Canvas destPage)
         {
 
             Rectangle clipRect = Rectangle.Intersect(
@@ -684,8 +684,8 @@ clipRect), destPage);
 
         }
         void TransferDataFromSourceCanvas(
-                CanvasBase sourceCanvas,
-                InternalRect logicalSourceArea, Rectangle physicalUpdateArea, CanvasBase destPage)
+                Canvas sourceCanvas,
+                InternalRect logicalSourceArea, Rectangle physicalUpdateArea, Canvas destPage)
         {
 
             Rectangle logicalClip = Rectangle.Intersect(logicalSourceArea.ToRectangle(), sourceCanvas.Rect);
@@ -699,7 +699,7 @@ physicalUpdateArea);
         }
 
 #if DEBUG
-        void dbug_PrintBitbltInfo(CanvasBase srcCanvas, string srcCanvasName, int srcX, int srcY, CanvasBase destCanvas, Rectangle destRect)
+        void dbug_PrintBitbltInfo(Canvas srcCanvas, string srcCanvasName, int srcX, int srcY, Canvas destCanvas, Rectangle destRect)
         {
             srcX -= srcCanvas.Left;
             srcY -= srcCanvas.Top;

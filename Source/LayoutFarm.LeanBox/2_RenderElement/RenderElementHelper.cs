@@ -11,7 +11,7 @@ namespace LayoutFarm
     {
 
         public static void DrawBackground(RenderElement visualElement,
-           CanvasBase canvasPage, int width, int height, Color color)
+           Canvas canvasPage, int width, int height, Color color)
         {
             ArtColorBrush colorBrush = new ArtSolidBrush(color);
 

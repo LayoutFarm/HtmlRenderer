@@ -28,7 +28,7 @@ namespace LayoutFarm.Grids
         int col_index = -1;
         int left = 0;
         int columnWidth = 0;
-        List<GridItem> cells = new List<GridItem>();
+        List<GridCell> cells = new List<GridCell>();
         int calculatedWidth = 0;
         int desiredHeight = 0;
         int columnFlags = 0;
@@ -95,7 +95,7 @@ namespace LayoutFarm.Grids
                 return;
             }
             int rowid = row.RowIndex;
-            GridItem removedGridItem = cells[rowid];
+            GridCell removedGridItem = cells[rowid];
             cells.RemoveAt(rowid);
         }
 
@@ -108,9 +108,9 @@ namespace LayoutFarm.Grids
             }
             cells.Clear();
         }
-        internal GridItem CreateGridItemForRow(GridRow row)
+        internal GridCell CreateGridItemForRow(GridRow row)
         {
-            GridItem gridItem = new GridItem(
+            GridCell gridItem = new GridCell(
                 this,
                 row);
             cells.Add(gridItem);
@@ -119,11 +119,11 @@ namespace LayoutFarm.Grids
         internal void AddRowRange(IEnumerable<GridRow> rows, int count)
         {
 
-            GridItem[] newGrids = new GridItem[count];
+            GridCell[] newGrids = new GridCell[count];
             int i = 0;
             foreach (GridRow row in rows)
             {
-                GridItem gridItem = new GridItem(this, row);
+                GridCell gridItem = new GridCell(this, row);
                 newGrids[i] = gridItem;
                 i++;
             }
@@ -131,7 +131,7 @@ namespace LayoutFarm.Grids
         }
         internal void InsertAfter(int index, GridRow row)
         {
-            GridItem gridItem = new GridItem(
+            GridCell gridItem = new GridCell(
                 this, row);
             cells.Insert(index + 1, gridItem);
         }
@@ -144,7 +144,7 @@ namespace LayoutFarm.Grids
             {
                 destRowIndex -= 1;
             }
-            GridItem fromGridItem = cells[fromRow.RowIndex];
+            GridCell fromGridItem = cells[fromRow.RowIndex];
             cells.RemoveAt(fromRow.RowIndex);
             cells.Insert(destRowIndex, fromGridItem);
         }
@@ -176,7 +176,7 @@ namespace LayoutFarm.Grids
                 }
             }
         }
-        public GridItem GetCell(int rowIndex)
+        public GridCell GetCell(int rowIndex)
         {
             return cells[rowIndex];
         }
@@ -217,7 +217,7 @@ namespace LayoutFarm.Grids
                 int local_desired_width = 0;
                 for (int i = 0; i < j; i++)
                 {
-                    GridItem cell = cells[i];
+                    GridCell cell = cells[i];
 
                     cell.ReCalculateContentSize();
                     int cellDesiredWidth = cell.DesiredWidth;
@@ -542,13 +542,13 @@ namespace LayoutFarm.Grids
         }
 
 
-        public IEnumerable<GridItem> GetGridItemIter()
+        public IEnumerable<GridCell> GetGridItemIter()
         {
             return parentRowCollection.GetCellIter(this);
         }
 
 
-        public GridItem GetGridItem(int columnId)
+        public GridCell GetGridItem(int columnId)
         {
 
             return parentRowCollection.OwnerGridLayer.GetCell(RowIndex, columnId);
@@ -583,14 +583,14 @@ namespace LayoutFarm.Grids
 
     }
 
-    public class GridItem 
+    public class GridCell
     {
 
         internal GridRow row;
         internal GridColumn column;
         RenderElement content;
 
-        internal GridItem(GridColumn column, GridRow row)
+        internal GridCell(GridColumn column, GridRow row)
         {
             this.row = row;
             this.column = column;
@@ -681,7 +681,7 @@ namespace LayoutFarm.Grids
         }
 
 
-        internal RenderElement ContentElement
+        public RenderElement ContentElement
         {
             get
             {
@@ -689,10 +689,9 @@ namespace LayoutFarm.Grids
             }
             set
             {
-
+                //set content to that cell
                 this.content = value;
-                RenderElement.SetVisualElementAsChildOfOther(value, null);
-
+                //RenderElement.SetVisualElementAsChildOfOther(value, null);
             }
         }
 
@@ -756,7 +755,7 @@ namespace LayoutFarm.Grids
         }
 
 
-        internal void DrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
+        internal void DrawToThisPage(Canvas canvasPage, InternalRect updateArea)
         {
 
             if (canvasPage.PushClipArea(this.Width, this.Height, updateArea))
@@ -772,7 +771,7 @@ namespace LayoutFarm.Grids
             return this.ContentElement.PrepareDrawingChain(chain);
         }
 
-        public GridItem GetNeighborGrid(GridNeighborType nb)
+        public GridCell GetNeighborGrid(GridNeighborType nb)
         {
 
             switch (nb)
@@ -1207,7 +1206,7 @@ namespace LayoutFarm.Grids
 
             }
         }
-        internal IEnumerable<GridItem> GetCellIter(GridRow rowdef)
+        internal IEnumerable<GridCell> GetCellIter(GridRow rowdef)
         {
 
             int rowId = rowdef.RowIndex;

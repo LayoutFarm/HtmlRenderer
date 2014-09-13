@@ -155,11 +155,11 @@ namespace LayoutFarm
 #endif
 
 
-        internal static void DrawArtVisualTextRun(VisualTextRun visualTextRun, CanvasBase canvasPage, InternalRect updateArea)
+        internal static void DrawArtVisualTextRun(VisualTextRun visualTextRun, Canvas canvasPage, InternalRect updateArea)
         {
             visualTextRun.DrawCharacters(canvasPage, updateArea, visualTextRun.mybuffer);
         }
-        public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
+        public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
         {
             DrawArtVisualTextRun(this, canvasPage, updateArea);
         }
@@ -171,7 +171,7 @@ namespace LayoutFarm
                 return this.MyBoxStyle != null;
             }
         }
-        void DrawCharacters(CanvasBase canvasPage, InternalRect updateArea, char[] textArray)
+        void DrawCharacters(Canvas canvasPage, InternalRect updateArea, char[] textArray)
         {
 
             int bWidth = this.Width;
@@ -186,7 +186,7 @@ namespace LayoutFarm
                 TextRunStyle beh = this.MyBoxStyle;
                 switch (canvasPage.EvaluateFontAndTextColor(beh.textFontInfo, beh.FontColor))
                 {
-                    case CanvasBase.DIFF_FONT_SAME_TEXT_COLOR:
+                    case Canvas.DIFF_FONT_SAME_TEXT_COLOR:
                         {
 
                             canvasPage.PushFont(beh.textFontInfo);
@@ -196,7 +196,7 @@ namespace LayoutFarm
                             canvasPage.PopFont();
 
                         } break;
-                    case CanvasBase.DIFF_FONT_DIFF_TEXT_COLOR:
+                    case Canvas.DIFF_FONT_DIFF_TEXT_COLOR:
                         {
 
                             canvasPage.PushFontInfoAndTextColor(beh.textFontInfo, beh.FontColor);
@@ -206,7 +206,7 @@ namespace LayoutFarm
                             canvasPage.PopFontInfoAndTextColor();
 
                         } break;
-                    case CanvasBase.SAME_FONT_DIFF_TEXT_COLOR:
+                    case Canvas.SAME_FONT_DIFF_TEXT_COLOR:
                         {
                             canvasPage.PushTextColor(beh.FontColor);
                             canvasPage.DrawText(textArray,

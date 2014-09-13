@@ -69,7 +69,7 @@
     <Compile Include="5_HitTest\HitPointChain.cs" />
     <Compile Include="7_debug\dbugHitTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="1_Base\CanvasBase.cs" />
+    <Compile Include="1_Base\Canvas.cs" />
     <Compile Include="1_Base\InternalRect.cs" />
     <Compile Include="1_Base\InternalRect2.cs" />
     <Compile Include="1_Base\ArtColorPalette.cs" />

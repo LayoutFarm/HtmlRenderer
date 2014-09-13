@@ -187,7 +187,7 @@ namespace LayoutFarm
             }
         }
 
-        void debug_RecordPostDrawInfo(CanvasBase canvasPage)
+        void debug_RecordPostDrawInfo(Canvas canvasPage)
         {
             if (dbugVRoot.dbug_ShowElementOutline)
             {

@@ -169,7 +169,7 @@ namespace LayoutFarm.Text
             }
 
         }
-        public void Draw(CanvasBase destPage, InternalRect updateArea)
+        public void Draw(Canvas destPage, InternalRect updateArea)
         {
 
             if (IsOnTheSameLine)

@@ -17,7 +17,7 @@ namespace LayoutFarm.SampleControls
         {
 
         }
-        public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
+        public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
         {
 
             canvasPage.FillRectangle(Brushes.Green, new Rectangle(0, 0, this.Width, this.Height));
@@ -32,9 +32,14 @@ namespace LayoutFarm.SampleControls
         public override void ClearAllChildren()
         {
         }
-        public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
+        public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
         {
-            canvasPage.FillRectangle(Brushes.Blue, new Rectangle(0, 0, this.Width, this.Height));
+            //sample bg
+            canvasPage.FillRectangle(Brushes.LightGray, new Rectangle(0, 0, this.Width, this.Height));
+            if (this.Layers != null)
+            {
+                this.Layers.LayersDrawContent(canvasPage, updateArea);
+            }
         }
     }
 }

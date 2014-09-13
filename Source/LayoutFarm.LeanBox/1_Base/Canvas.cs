@@ -7,7 +7,7 @@ using System.Drawing.Drawing2D;
 namespace LayoutFarm
 { 
 
-    public abstract class CanvasBase
+    public abstract class Canvas
     {
 #if DEBUG
         public static int dbug_canvasCount = 0;
@@ -116,7 +116,7 @@ namespace LayoutFarm
         public abstract void PopTextColor();
 
 
-        public abstract void CopyFrom(CanvasBase sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea);
+        public abstract void CopyFrom(Canvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea);
 
         public abstract void RenderTo(IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea);
 

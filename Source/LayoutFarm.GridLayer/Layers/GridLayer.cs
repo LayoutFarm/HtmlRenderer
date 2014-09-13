@@ -64,7 +64,7 @@ namespace LayoutFarm.Grids
             int testX;
             int testY;
             artHitResult.GetTestPoint(out testX, out testY);
-            GridItem gridItem = GetGridItemByPosition(testX, testY);
+            GridCell gridItem = GetGridItemByPosition(testX, testY);
 
             if (gridItem != null && gridItem.ContentElement != null)
             {
@@ -215,7 +215,7 @@ namespace LayoutFarm.Grids
             }
         }
 
-        public GridItem GetGridItemByPosition(int x, int y)
+        public GridCell GetGridItemByPosition(int x, int y)
         {
             switch (flexgridType)
             {
@@ -320,7 +320,7 @@ namespace LayoutFarm.Grids
             }
             return null;
         }
-        public GridItem GetCell(int rowIndex, int columnIndex)
+        public GridCell GetCell(int rowIndex, int columnIndex)
         {
 
             return gridCols[columnIndex].GetCell(rowIndex);
@@ -531,14 +531,14 @@ namespace LayoutFarm.Grids
         public override bool PrepareDrawingChain(VisualDrawingChain chain)
         {
 
-            GridItem leftTopGridItem = GetGridItemByPosition(chain.UpdateAreaX, chain.UpdateAreaY);
+            GridCell leftTopGridItem = GetGridItemByPosition(chain.UpdateAreaX, chain.UpdateAreaY);
             if (leftTopGridItem == null)
             {
                 return false;
             }
 
 
-            GridItem rightBottomGridItem = GetGridItemByPosition(chain.UpdateAreaRight, chain.UpdateAreaBottom);
+            GridCell rightBottomGridItem = GetGridItemByPosition(chain.UpdateAreaRight, chain.UpdateAreaBottom);
             if (rightBottomGridItem == null)
             {
                 return false;
@@ -618,7 +618,7 @@ namespace LayoutFarm.Grids
                 for (int i = startRowId; i < stopRowId; i++)
                 {
 
-                    GridItem gridItem = currentColumn.GetCell(i);
+                    GridCell gridItem = currentColumn.GetCell(i);
 
                     if (gridItem != null && gridItem.ContentElement != null)
                     {
@@ -646,15 +646,15 @@ namespace LayoutFarm.Grids
             return false;
 
         }
-        public override void DrawChildContent(CanvasBase canvasPage, InternalRect updateArea)
+        public override void DrawChildContent(Canvas canvasPage, InternalRect updateArea)
         {
-            GridItem leftTopGridItem = GetGridItemByPosition(updateArea._left, updateArea._top);
+            GridCell leftTopGridItem = GetGridItemByPosition(updateArea._left, updateArea._top);
             if (leftTopGridItem == null)
             {
                 return;
 
             }
-            GridItem rightBottomGridItem = GetGridItemByPosition(updateArea._right, updateArea._bottom);
+            GridCell rightBottomGridItem = GetGridItemByPosition(updateArea._right, updateArea._bottom);
             if (rightBottomGridItem == null)
             {
                 return;
@@ -685,8 +685,8 @@ namespace LayoutFarm.Grids
             do
             {
 
-                GridItem startGridItemInColumn = currentColumn.GetCell(startRowId);
-                GridItem stopGridItemInColumn = currentColumn.GetCell(stopRowId - 1);
+                GridCell startGridItemInColumn = currentColumn.GetCell(startRowId);
+                GridCell stopGridItemInColumn = currentColumn.GetCell(stopRowId - 1);
 
 
                 canvasPage.DrawLine(Color.DarkGray,
@@ -701,7 +701,7 @@ namespace LayoutFarm.Grids
                     for (int i = startRowId; i < stopRowId; i++)
                     {
 
-                        GridItem gridItem = currentColumn.GetCell(i);
+                        GridCell gridItem = currentColumn.GetCell(i);
                         int x = gridItem.X;
                         int gBottom = gridItem.Bottom;
 
@@ -726,7 +726,7 @@ namespace LayoutFarm.Grids
                 for (int i = startRowId; i < stopRowId; i++)
                 {
 
-                    GridItem gridItem = currentColumn.GetCell(i);
+                    GridCell gridItem = currentColumn.GetCell(i);
 
                     if (gridItem != null && gridItem.ContentElement != null)
                     {
@@ -746,7 +746,7 @@ namespace LayoutFarm.Grids
 #if DEBUG
                     else
                     {
-                        canvasPage.DrawText(new char[] { '0' }, gridItem.X, gridItem.Y);
+                        canvasPage.DrawText(new char[] { '.' }, gridItem.X, gridItem.Y);
                     }
 #endif 
                 }

@@ -58,7 +58,7 @@ namespace LayoutFarm
 
 
 #if DEBUG
-        public abstract void dbugShowRenderPart(CanvasBase canvasPage, InternalRect updateArea);
+        public abstract void dbugShowRenderPart(Canvas canvasPage, InternalRect updateArea);
 #endif
     }
 }

@@ -125,7 +125,7 @@ namespace LayoutFarm
 
         }
 
-        public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
+        public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
         {
             _visualRootBox.PhysicalViewportBound = new RectangleF(0, 0, myWidth, myHeight);
             _visualRootBox.PerformPaint(canvasPage.GetGfx());

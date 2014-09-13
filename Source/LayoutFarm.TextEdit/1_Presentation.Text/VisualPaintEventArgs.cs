@@ -10,14 +10,14 @@ namespace LayoutFarm
 
     public class VisualPaintEventArgs : EventArgs
     {
-        public CanvasBase canvas;
+        public Canvas canvas;
         public InternalRect updateArea;
-        public VisualPaintEventArgs(CanvasBase canvas, InternalRect updateArea)
+        public VisualPaintEventArgs(Canvas canvas, InternalRect updateArea)
         {   
             this.canvas = canvas;
             this.updateArea = updateArea;
         }
-        public CanvasBase Canvas
+        public Canvas Canvas
         {
             get
             {

@@ -38,10 +38,12 @@ namespace LayoutFarm.SampleControls
                 //1. create grid layer
                 GridLayer gridLayer = new GridLayer(gridBox,
                     10, 5, GridType.UniformCell);
-                layers.AddLayer(gridLayer); 
-                //2. add some small box to the grid
-                
+                layers.AddLayer(gridLayer);
 
+                //2. add some small box to the grid
+                UIButton simpleButton1 = new UIButton(10, 10);
+                GridCell gridCell = gridLayer.GetCell(1, 1);
+                gridCell.ContentElement = simpleButton1.GetPrimaryRenderElement(rootgfx);
             }
             return gridBox;
         }

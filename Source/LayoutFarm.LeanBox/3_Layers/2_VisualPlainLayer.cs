@@ -101,7 +101,7 @@ namespace LayoutFarm
         {
             return false;
         }
-        public override void DrawChildContent(CanvasBase canvasPage, InternalRect updateArea)
+        public override void DrawChildContent(Canvas canvasPage, InternalRect updateArea)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) != 0)
             {

@@ -120,7 +120,7 @@ namespace LayoutFarm
             FullModeUpdate = false; quadPages.CanvasInvalidate(clientRect);
 
         }
-        public override void DrawToThisPage(CanvasBase destPage, InternalRect updateArea)
+        public override void DrawToThisPage(Canvas destPage, InternalRect updateArea)
         {
             if (quadPages.pageA == null)
             {
@@ -157,7 +157,7 @@ namespace LayoutFarm
 
         //------------------------------------
 
-        void UpdateInternalCanvas(CanvasBase internalCanvas, InternalRect updateArea)
+        void UpdateInternalCanvas(Canvas internalCanvas, InternalRect updateArea)
         {
 
             int logicalCanvasX = internalCanvas.Left;
@@ -227,7 +227,7 @@ namespace LayoutFarm
         }
 
 
-        void DirectDrawToThisPage(CanvasBase destPage, InternalRect updateArea)
+        void DirectDrawToThisPage(Canvas destPage, InternalRect updateArea)
         {
 
             InternalRect internalRect = InternalRect.CreateFromWH(this.Width, this.Height);
@@ -470,7 +470,7 @@ namespace LayoutFarm
 
         }
 #if DEBUG
-        public void dbug_DrawRuler(CanvasBase myInternalCanvas, int x)
+        public void dbug_DrawRuler(Canvas myInternalCanvas, int x)
         {
             if (dbugVRoot.dbug_ShowNativeScrollableElementDrawToThisPage)
             {
