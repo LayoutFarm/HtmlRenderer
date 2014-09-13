@@ -4,17 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-
-
 namespace LayoutFarm
 {
-    public abstract partial class TopWindowRenderBox : RenderBoxBase
+
+
+    public abstract class TopWindowRenderBox : RenderBoxBase
     {
         RootGraphic rootGfx;
         VisualPlainLayer groundLayer;
         public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
-            : base(width, height)
-        {
+            : base(rootGfx, width, height)
+        {   
             this.rootGfx = rootGfx;
             this.Layers = new VisualLayerCollection();
             groundLayer = new VisualPlainLayer(this);
@@ -52,10 +52,7 @@ namespace LayoutFarm
         public override void ClearAllChildren()
         {
             this.Layers.ClearAllContentInEachLayer();
-
         }
-
-
 
 #if DEBUG
         public abstract void dbugShowRenderPart(Canvas canvasPage, InternalRect updateArea);

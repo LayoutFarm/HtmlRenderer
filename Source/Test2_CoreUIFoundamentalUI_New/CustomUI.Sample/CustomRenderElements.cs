@@ -12,8 +12,8 @@ namespace LayoutFarm.SampleControls
 {
     class CustomRenderElement : RenderElement
     {
-        public CustomRenderElement(int w, int h)
-            : base(w, h)
+        public CustomRenderElement(RootGraphic rootgfx, int w, int h)
+            : base(rootgfx, w, h)
         {
 
         }
@@ -25,8 +25,8 @@ namespace LayoutFarm.SampleControls
     }
     class CustomRenderBox : RenderBoxBase
     {
-        public CustomRenderBox(int width, int height)
-            : base(width, height)
+        public CustomRenderBox(RootGraphic rootgfx, int width, int height)
+            : base(rootgfx, width, height)
         {
         }
         public override void ClearAllChildren()

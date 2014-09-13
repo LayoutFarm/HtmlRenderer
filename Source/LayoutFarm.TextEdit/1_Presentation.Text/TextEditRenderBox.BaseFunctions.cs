@@ -21,8 +21,8 @@ namespace LayoutFarm.Text
         bool isMultiLine = false;
         bool isInVerticalPhase = false;
 
-        public TextEditRenderBox(int width, int height, bool isMultiLine)
-            : base(width, height)
+        public TextEditRenderBox(RootGraphic rootgfx, int width, int height, bool isMultiLine)
+            : base(rootgfx, width, height)
         {
             //RegisterNativeEvent((1 << UIEventIdentifier.NE_DRAG_START)
             //    | (1 << UIEventIdentifier.NE_DRAGING)

@@ -18,11 +18,12 @@ namespace LayoutFarm
         bool mayHasChild;
         bool mayHasViewport;
 
-        public RenderElement(int width, int height)
-        {  
+        RootGraphic rootGfx;
+        public RenderElement(RootGraphic rootGfx, int width, int height)
+        {
             this.b_width = width;
             this.b_Height = height;
-
+            this.rootGfx = rootGfx;
 #if DEBUG
             dbug_totalObjectId++;
             dbug_obj_id = dbug_totalObjectId;
@@ -55,8 +56,8 @@ namespace LayoutFarm
             {
                 return visualParentLink;
             }
-        } 
-        
+        }
+
 
         public static void RemoveParentLink(RenderElement visual)
         {
@@ -147,7 +148,7 @@ namespace LayoutFarm
 
 
         int uiFlags;
-       
+
 
         const int IS_TRANSLUCENT_BG = 1 << (1 - 1);
         const int SCROLLABLE_FULL_MODE = 1 << (2 - 1);
@@ -408,7 +409,7 @@ namespace LayoutFarm
             }
 
         }
-        
+
 
         public virtual RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
@@ -424,7 +425,7 @@ namespace LayoutFarm
 
         public static void SetVisualElementAsChildOfOther(RenderElement childElement, IParentLink lineLinkedNode)
         {
-          
+
             childElement.visualParentLink = lineLinkedNode;
         }
         public static void SetVisualElementAsChildOfSimpleContainer(RenderElement childElement, IParentLink lineLinkedNode)

@@ -39,8 +39,8 @@ namespace LayoutFarm
 
         int myWidth;
         int myHeight;
-        public HtmlRenderBox(int width, int height)
-            : base(width, height)
+        public HtmlRenderBox(RootGraphic rootgfx, int width, int height)
+            : base(rootgfx, width, height)
         {
             this.myWidth = width;
             this.myHeight = height;

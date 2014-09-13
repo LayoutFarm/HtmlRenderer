@@ -33,7 +33,7 @@ namespace LayoutFarm.SampleControls
         {
             if (this.textEditRenderBox == null)
             {
-                textEditRenderBox = new TextEditRenderBox(this.Width, this.Height, false);
+                textEditRenderBox = new TextEditRenderBox(rootgfx, this.Width, this.Height, false);
                 RenderElement.DirectSetVisualElementLocation(textEditRenderBox, this.Left, this.Top);
                 textEditRenderBox.HasSpecificSize = true;
                 textEditRenderBox.SetController(this);

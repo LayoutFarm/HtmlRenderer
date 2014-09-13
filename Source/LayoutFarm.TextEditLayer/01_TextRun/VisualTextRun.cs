@@ -15,7 +15,7 @@ namespace LayoutFarm
 
         protected char[] mybuffer;
         public VisualTextRun(string s)
-            : base(10, 10)
+            : base(null, 10, 10)
         {
             if (s != null && s.Length > 0)
             {
@@ -36,7 +36,7 @@ namespace LayoutFarm
         }
 
         public VisualTextRun(char c)
-            : base(10, 10)
+            : base(null, 10, 10)
         {
 
             mybuffer = new char[] { c };
@@ -49,7 +49,7 @@ namespace LayoutFarm
             UpdateRunWidth();
         }
         public VisualTextRun(char[] mybuffer)
-            : base(10, 10)
+            : base(null, 10, 10)
         {
             this.mybuffer = mybuffer;
             this.TransparentForAllEvents = true;

@@ -18,8 +18,8 @@ namespace LayoutFarm
         int myviewportX;
         int myviewportY;
 
-        public RenderBoxBase(int width, int height)
-            : base(width, height)
+        public RenderBoxBase(RootGraphic rootgfx, int width, int height)
+            : base(rootgfx, width, height)
         {
             SetMayHasViewport(this, true);
             SetMayHasChild(this, true);
@@ -330,5 +330,5 @@ namespace LayoutFarm
     }
 
 
-     
+
 }
