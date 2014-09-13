@@ -8,10 +8,10 @@ using System.Diagnostics;
 
 
 
-using LayoutFarm.Presentation;
+using LayoutFarm;
 
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
     partial class MyTopWindowRenderBox

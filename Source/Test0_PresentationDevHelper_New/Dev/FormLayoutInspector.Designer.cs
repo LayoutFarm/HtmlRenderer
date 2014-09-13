@@ -1,4 +1,4 @@
-﻿namespace LayoutFarm.Presentation.Dev
+﻿namespace LayoutFarm.Dev
 {
     partial class FormLayoutInspector
     {

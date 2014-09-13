@@ -7,10 +7,10 @@ using System.Drawing.Drawing2D;
 
 
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
   
-    public class CanvasImpl : CanvasBase
+    public class CanvasImpl : Canvas
     {
 
         private readonly static int[] _charFit = new int[1];
@@ -553,7 +553,7 @@ namespace LayoutFarm.Presentation
 
 
 
-        public override void CopyFrom(CanvasBase sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea)
+        public override void CopyFrom(Canvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea)
         {
             CanvasImpl s1 = (CanvasImpl)sourceCanvas;
 

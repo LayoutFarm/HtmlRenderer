@@ -6,51 +6,59 @@ using System.Text;
 using System.Drawing;
 
 
-using LayoutFarm.Presentation.Text;
-using LayoutFarm.Presentation.UI;
+using LayoutFarm.Text;
+using LayoutFarm.UI;
 
-namespace LayoutFarm.Presentation.SampleControls
+namespace LayoutFarm.SampleControls
 {
 
 
-    public class UITextBox : UIElement
+    public class UITextBox : UIBox
     {
-         
-        TextEditRenderBox visualTextSurface;
+
+        TextEditRenderBox textEditRenderBox;
         public UITextBox(int width, int height)
+            : base(width, height)
         {
-
-            visualTextSurface = new TextEditRenderBox(width, height, false);
-
-            visualTextSurface.HasSpecificSize = true;
-            visualTextSurface.SetController(this);
-
-            
         }
-        public override RenderElement PrimaryRenderElement
+        protected override bool HasReadyRenderElement
         {
-            get { return this.visualTextSurface; }
+            get { return this.textEditRenderBox != null; }
         }
-        
-        public VisualTextRun CurrentTextRun
+        protected override RenderElement CurrentPrimaryRenderElement
         {
-            get
+            get { return this.textEditRenderBox; }
+        }
+        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        {
+            if (this.textEditRenderBox == null)
             {
-                return visualTextSurface.CurrentTextRun;
+                textEditRenderBox = new TextEditRenderBox(this.Width, this.Height, false);
+                RenderElement.DirectSetVisualElementLocation(textEditRenderBox, this.Left, this.Top);
+                textEditRenderBox.HasSpecificSize = true;
+                textEditRenderBox.SetController(this);
             }
+            return textEditRenderBox;
         }
+
+
         public TextSurfaceEventListener TextDomListener
         {
             get
             {
-                return this.visualTextSurface.TextDomListener;
+                if (this.textEditRenderBox == null)
+                {
+                    return null;
+                }
+                return this.textEditRenderBox.TextDomListener;
             }
         }
         public TextEditRenderBox VisualTextSurface
         {
             get
             {
-                return this.visualTextSurface;
+
+                return this.textEditRenderBox;
             }
         }
 
@@ -58,7 +66,7 @@ namespace LayoutFarm.Presentation.SampleControls
         {
             get
             {
-                return visualTextSurface.CurrentLineNumber;
+                return textEditRenderBox.CurrentLineNumber;
             }
         }
         public int CurrentLineCharIndex
@@ -66,15 +74,20 @@ namespace LayoutFarm.Presentation.SampleControls
             get
             {
 
-                return visualTextSurface.CurrentLineCharIndex;
+                return textEditRenderBox.CurrentLineCharIndex;
             }
         }
         public int CurrentTextRunCharIndex
         {
             get
             {
-                return visualTextSurface.CurrentTextRunCharIndex;
+                return textEditRenderBox.CurrentTextRunCharIndex;
             }
+        }
+        public override void InvalidateGraphic()
+        {
+            if (textEditRenderBox != null)
+                textEditRenderBox.InvalidateGraphic();
         }
     }
 }

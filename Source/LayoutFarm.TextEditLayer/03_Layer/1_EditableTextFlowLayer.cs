@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-using LayoutFarm.Presentation;
+using LayoutFarm;
 
-namespace LayoutFarm.Presentation.Text
+namespace LayoutFarm.Text
 {
 
 
@@ -35,11 +35,7 @@ namespace LayoutFarm.Presentation.Text
             this.SetDoubleCanvas(useWithWidth, useWithHeight);
         }
 
-        public override void AddTop(RenderElement ve)
-        {
-
-        }
-
+        
         public bool FlowLayerHasMultiLines
         {
             get
@@ -59,10 +55,6 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        public override IEnumerable<RenderElement> GetDrawingIter()
-        {
-            throw new NotImplementedException();
-        }
 #if DEBUG
         public IEnumerable<EditableVisualTextRun> dbugGetDrawingIter2()
         {
@@ -201,7 +193,7 @@ namespace LayoutFarm.Presentation.Text
 
         }
 #endif
-        public override void DrawChildContent(CanvasBase canvasPage, InternalRect updateArea)
+        public override void DrawChildContent(Canvas canvasPage, InternalRect updateArea)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) != 0)
             {
@@ -344,7 +336,7 @@ namespace LayoutFarm.Presentation.Text
             }
             return false;
         }
-        
+
         static Size ReCalculateContentSizeHorizontalFlow(EditableTextFlowLayer layer)
         {
 
@@ -510,7 +502,7 @@ namespace LayoutFarm.Presentation.Text
                 //}
                 //else
                 //{
-                    
+
                 //}
             }
             if (Reflow != null)
@@ -542,7 +534,7 @@ namespace LayoutFarm.Presentation.Text
             else
             {
 
-                SetPostCalculateLayerContentSize(ReCalculateContentSizeHorizontalFlow(this ));
+                SetPostCalculateLayerContentSize(ReCalculateContentSizeHorizontalFlow(this));
             }
 #if DEBUG
             vinv_dbug_ExitLayerReCalculateContent();

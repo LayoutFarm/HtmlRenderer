@@ -1,4 +1,4 @@
-﻿namespace LayoutFarm.Presentation
+﻿namespace LayoutFarm
 {
     partial class UISurfaceViewportControl
     {

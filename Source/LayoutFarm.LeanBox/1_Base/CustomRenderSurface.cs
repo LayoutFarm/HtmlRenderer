@@ -6,9 +6,9 @@ using System.Text;
 
 using System.Drawing;
 
-using LayoutFarm.Presentation;
+using LayoutFarm;
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
     public abstract class CustomRenderSurface
@@ -44,7 +44,7 @@ namespace LayoutFarm.Presentation
         }
 
         public abstract void WindowRootNotifyInvalidArea(InternalRect clientRect);
-        public abstract void DrawToThisPage(CanvasBase destPage, InternalRect updateArea);
+        public abstract void DrawToThisPage(Canvas destPage, InternalRect updateArea);
         //------------------------------------
     }
 

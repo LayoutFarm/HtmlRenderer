@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 
 
-namespace LayoutFarm.Presentation.Text
+namespace LayoutFarm.Text
 {
 
 

@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
 

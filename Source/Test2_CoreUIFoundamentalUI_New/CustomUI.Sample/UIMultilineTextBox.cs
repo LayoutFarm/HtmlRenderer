@@ -6,36 +6,52 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 
-using LayoutFarm.Presentation;
-using LayoutFarm.Presentation.UI;
-using LayoutFarm.Presentation.Text;
+using LayoutFarm;
+using LayoutFarm.UI;
+using LayoutFarm.Text;
 
 
-namespace LayoutFarm.Presentation.SampleControls
+namespace LayoutFarm.SampleControls
 {
 
-    public class UIMultiLineTextBox : UIElement
+    public class UIMultiLineTextBox : UIBox
     {
-       
-        TextEditRenderBox visualTextEdit; 
+
+        TextEditRenderBox visualTextEdit;
+
+        bool _multiline;
         public UIMultiLineTextBox(int width, int height, bool multiline)
+            : base(width, height)
         {
-                 
-            visualTextEdit = new TextEditRenderBox(width, height, multiline); 
-            visualTextEdit.HasSpecificSize = true;
-           
-            visualTextEdit.SetController(this);
-            RegisterNativeEvent(
-              1 << UIEventIdentifier.NE_MOUSE_DOWN
-              | 1 << UIEventIdentifier.NE_LOST_FOCUS
-              | 1 << UIEventIdentifier.NE_SIZE_CHANGED
-              );
+            this._multiline = multiline;
         }
-        public override RenderElement PrimaryRenderElement
+        protected override bool HasReadyRenderElement
+        {
+            get { return this.visualTextEdit != null; }
+        }
+        protected override RenderElement CurrentPrimaryRenderElement
         {
             get { return this.visualTextEdit; }
         }
-       
+        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        {
+            if (visualTextEdit == null)
+            {
+                visualTextEdit = new TextEditRenderBox(this.Width, this.Height, _multiline);
+                RenderElement.DirectSetVisualElementLocation(visualTextEdit, this.Left, this.Top);
+
+                visualTextEdit.HasSpecificSize = true;
+
+                visualTextEdit.SetController(this);
+                RegisterNativeEvent(
+                  1 << UIEventIdentifier.NE_MOUSE_DOWN
+                  | 1 << UIEventIdentifier.NE_LOST_FOCUS
+                  | 1 << UIEventIdentifier.NE_SIZE_CHANGED
+                  );
+            }
+            return visualTextEdit;
+        }
+
         protected override void OnKeyPress(UIKeyPressEventArgs e)
         {
             visualTextEdit.OnKeyPress(e);
@@ -82,6 +98,11 @@ namespace LayoutFarm.Presentation.SampleControls
         protected override void OnDragStop(UIDragEventArgs e)
         {
             visualTextEdit.OnDragStop(e);
-        } 
+        }
+        public override void InvalidateGraphic()
+        {
+            if (visualTextEdit != null)
+                visualTextEdit.InvalidateGraphic();
+        }
     }
 }

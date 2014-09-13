@@ -1,35 +1,28 @@
 ﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using System.Drawing; 
+using System.Drawing;
 
-namespace LayoutFarm.Presentation.UI
+namespace LayoutFarm.UI
 {
     public abstract partial class UIElement : IEventListener
-    {        
+    {
         public UIElement()
         {
         }
-#if DEBUG 
-        object dbugTagObject;
-        public object dbugTag
-        {
-            get
-            {
-                return this.dbugTagObject;
-            }
-            set
-            {
-                this.dbugTagObject = value;
-            }
-        }
-#endif
+
         int oneBitNativeEventFlags;
         protected void RegisterNativeEvent(int eventFlags)
         {
             this.oneBitNativeEventFlags |= eventFlags;
         }
-        public abstract RenderElement PrimaryRenderElement { get; }
+
+        public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
+        
+        public abstract void InvalidateGraphic(); 
+
+
+
         protected virtual void OnLostFocus(UIFocusEventArgs e)
         {
         }
@@ -139,6 +132,19 @@ namespace LayoutFarm.Presentation.UI
         {
 
         }
-
+#if DEBUG
+        object dbugTagObject;
+        public object dbugTag
+        {
+            get
+            {
+                return this.dbugTagObject;
+            }
+            set
+            {
+                this.dbugTagObject = value;
+            }
+        }
+#endif
     }
 }

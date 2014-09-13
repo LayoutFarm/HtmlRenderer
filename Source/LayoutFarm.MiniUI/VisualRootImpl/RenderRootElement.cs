@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
     public class UIRootGraphic : RootGraphic
     {
@@ -75,7 +75,7 @@ namespace LayoutFarm.Presentation
                     case RequestCommand.AddToWindowRoot:
                         {
                             winroot.AddChild(req.ve);
-
+                            
                         } break;
                     case RequestCommand.DoFocus:
                         {

@@ -7,7 +7,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 
 
-namespace LayoutFarm.Presentation.Text
+namespace LayoutFarm.Text
 {
 
     public partial class EditableVisualTextRun : VisualTextRun

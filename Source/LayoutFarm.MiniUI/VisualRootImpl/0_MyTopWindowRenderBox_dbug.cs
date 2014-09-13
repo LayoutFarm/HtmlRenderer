@@ -5,11 +5,11 @@ using System.Text;
 using System.Drawing;
 
 
-using LayoutFarm.Presentation;
+using LayoutFarm;
 
 
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 #if DEBUG
     partial class MyTopWindowRenderBox
@@ -55,7 +55,7 @@ namespace LayoutFarm.Presentation
 
         public static RenderElement dbugVE_HighlightMe;
 
-        public override void dbugShowRenderPart(CanvasBase canvasPage, InternalRect updateArea)
+        public override void dbugShowRenderPart(Canvas canvasPage, InternalRect updateArea)
         {
 
             RootGraphic visualroot = this.dbugVRoot;

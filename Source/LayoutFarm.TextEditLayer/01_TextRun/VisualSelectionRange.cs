@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-namespace LayoutFarm.Presentation.Text
+namespace LayoutFarm.Text
 {
 
     public struct VisualSelectionRangeSnapShot
@@ -169,7 +169,7 @@ namespace LayoutFarm.Presentation.Text
             }
 
         }
-        public void Draw(CanvasBase destPage, InternalRect updateArea)
+        public void Draw(Canvas destPage, InternalRect updateArea)
         {
 
             if (IsOnTheSameLine)

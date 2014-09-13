@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
     static class MyWin32

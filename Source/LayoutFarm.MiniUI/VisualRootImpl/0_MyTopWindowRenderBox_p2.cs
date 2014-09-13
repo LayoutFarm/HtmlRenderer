@@ -5,11 +5,11 @@ using System.Text;
 using System.Drawing;
 
 
-using LayoutFarm.Presentation;
+using LayoutFarm;
 
 
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
     partial class MyTopWindowRenderBox
@@ -246,10 +246,7 @@ namespace LayoutFarm.Presentation
             }
             CurrentKeyboardFocusedElement = null;
             ClearAllChildren();
-            hitPointChain.ClearAll();
-
-
-
+            hitPointChain.ClearAll(); 
         }
 
         public new void OnDoubleClick(UIMouseEventArgs e)

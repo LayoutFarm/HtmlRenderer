@@ -5,61 +5,44 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-using LayoutFarm.Presentation.Text;
-using LayoutFarm.Presentation.UI;
+using LayoutFarm.Text;
+using LayoutFarm.UI;
 
-namespace LayoutFarm.Presentation.SampleControls
+namespace LayoutFarm.SampleControls
 {
-    public class UIButton : UIElement
-    {
-        public event EventHandler<UIMouseEventArgs> MouseDown;
 
-        RenderElement primaryVisualElement;
+    public class UIButton : UIBox
+    {
+        CustomRenderElement primElement;
         public UIButton(int width, int height)
+            : base(width, height)
         {
-            primaryVisualElement = new CustomVisualBox(width, height);
-            primaryVisualElement.SetController(this);
+
         }
-        public override RenderElement PrimaryRenderElement
+
+        protected override bool HasReadyRenderElement
         {
-            get { return this.primaryVisualElement; }
+            get { return this.primElement != null; }
         }
-        
-        public int Left
+        protected override RenderElement CurrentPrimaryRenderElement
         {
-            get { return this.primaryVisualElement.Location.X; }
+            get { return this.primElement; }
         }
-        public int Top
+
+        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-            get { return this.primaryVisualElement.Location.Y; }
-        }
-        public void SetLocation(int left, int top)
-        {
-            RenderElement.DirectSetVisualElementLocation(this.primaryVisualElement, left, top);
-        }
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {
-            if (MouseDown != null)
+            if (primElement == null)
             {
-                MouseDown(this, e);
+                var renderE = new CustomRenderElement(this.Width, this.Height);
+                renderE.SetController(this);
+                RenderElement.DirectSetVisualElementLocation(renderE, this.Left, this.Top);
+
+                primElement = renderE;
             }
-            base.OnMouseDown(e);
-        }
-    }
-
-    class CustomVisualBox : RenderElement
-    {
-
-        public CustomVisualBox(int w, int h)
-            : base(w, h)
-        {
-        }
-        public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
-        {
-
-            canvasPage.FillRectangle(Brushes.Green, new Rectangle(0, 0, this.Width, this.Height));
+            return primElement;
         }
 
     }
+
 
 }

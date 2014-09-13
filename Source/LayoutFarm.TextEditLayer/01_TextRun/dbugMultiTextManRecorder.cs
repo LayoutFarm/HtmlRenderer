@@ -8,7 +8,7 @@ using System.Text;
 
 
 
-namespace LayoutFarm.Presentation.Text
+namespace LayoutFarm.Text
 {
 #if DEBUG
     class dbugCoreConst

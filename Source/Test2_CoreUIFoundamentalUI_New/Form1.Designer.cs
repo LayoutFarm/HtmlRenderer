@@ -25,6 +25,7 @@
             this.cmdTestTextDom = new System.Windows.Forms.Button();
             this.cmdShowMultipleBox = new System.Windows.Forms.Button();
             this.lstHtmlTestFiles = new System.Windows.Forms.ListBox();
+            this.cmdSampleGridBox = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cmdShowBasicFormCanvas
@@ -104,11 +105,22 @@
             this.lstHtmlTestFiles.Size = new System.Drawing.Size(459, 251);
             this.lstHtmlTestFiles.TabIndex = 11;
             // 
+            // cmdSampleGridBox
+            // 
+            this.cmdSampleGridBox.Location = new System.Drawing.Point(294, 43);
+            this.cmdSampleGridBox.Name = "cmdSampleGridBox";
+            this.cmdSampleGridBox.Size = new System.Drawing.Size(249, 45);
+            this.cmdSampleGridBox.TabIndex = 12;
+            this.cmdSampleGridBox.Text = "1.3 SampleGridBox";
+            this.cmdSampleGridBox.UseVisualStyleBackColor = true;
+            this.cmdSampleGridBox.Click += new System.EventHandler(this.cmdSampleGridBox_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1087, 529);
+            this.Controls.Add(this.cmdSampleGridBox);
             this.Controls.Add(this.lstHtmlTestFiles);
             this.Controls.Add(this.cmdShowMultipleBox);
             this.Controls.Add(this.cmdTestTextDom);
@@ -134,6 +146,7 @@
         private System.Windows.Forms.Button cmdTestTextDom;
         private System.Windows.Forms.Button cmdShowMultipleBox;
         private System.Windows.Forms.ListBox lstHtmlTestFiles;
+        private System.Windows.Forms.Button cmdSampleGridBox;
     }
 }
 

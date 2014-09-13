@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LayoutFarm.Presentation.Text
+namespace LayoutFarm.Text
 {
 
     public abstract class VisualPointInfo

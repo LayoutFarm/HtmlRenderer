@@ -14,7 +14,7 @@ using HtmlRenderer.ContentManagers;
 using HtmlRenderer;
 using HtmlRenderer.Composers;
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
     public class HtmlRenderBox : RenderBoxBase
@@ -125,7 +125,7 @@ namespace LayoutFarm.Presentation
 
         }
 
-        public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
+        public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
         {
             _visualRootBox.PhysicalViewportBound = new RectangleF(0, 0, myWidth, myHeight);
             _visualRootBox.PerformPaint(canvasPage.GetGfx());

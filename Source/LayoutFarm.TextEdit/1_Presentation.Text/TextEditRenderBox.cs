@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-namespace LayoutFarm.Presentation.Text
+namespace LayoutFarm.Text
 {
 
 
@@ -24,7 +24,7 @@ namespace LayoutFarm.Presentation.Text
             get { return this.scrollRelation; }
             set { this.scrollRelation = value; }
         }
-        protected override void BoxDrawContent(CanvasBase canvasPage, InternalRect updateArea)
+        protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
         {
             //1. bg
             RenderElementHelper.DrawBackground(this, canvasPage, updateArea.Width, updateArea.Height, Color.White);
@@ -48,7 +48,7 @@ namespace LayoutFarm.Presentation.Text
 
             }
         }
-        public override void CustomDrawToThisPage(CanvasBase canvasPage, InternalRect updateArea)
+        public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
         {
             if (vscrollableSurface != null)
             {

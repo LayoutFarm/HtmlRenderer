@@ -5,7 +5,7 @@ using System.Drawing;
 
 
 
-namespace LayoutFarm.Presentation.UI
+namespace LayoutFarm.UI
 {
     partial class UIElement
     {

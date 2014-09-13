@@ -6,7 +6,7 @@ using System.Drawing;
 
 
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
     public abstract class VisualRootTimerTask
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
     public delegate void UIMouseEventHandler(object sender, UIMouseEventArgs e);
     public delegate void UIKeyEventHandler(object sender, UIKeyEventArgs e);

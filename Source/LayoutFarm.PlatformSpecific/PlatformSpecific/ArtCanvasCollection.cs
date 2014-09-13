@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
  
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
     class CanvasCollection
     {
-        List<CanvasBase> cachePages;
+        List<Canvas> cachePages;
         int numOfCachePages;
         int eachPageWidth;
         int eachPageHeight;
@@ -24,7 +24,7 @@ namespace LayoutFarm.Presentation
             {
                 eachPageHeight = 1;
             }
-            cachePages = new List<CanvasBase>(numOfCachePages);
+            cachePages = new List<Canvas>(numOfCachePages);
             this.eachPageWidth = eachPageWidth;
             this.eachPageHeight = eachPageHeight;
             this.numOfCachePages = numOfCachePages;
@@ -57,11 +57,11 @@ namespace LayoutFarm.Presentation
             }
 
         }
-        public CanvasBase GetCanvasPage(int hPageNum, int vPageNum)
+        public Canvas GetCanvasPage(int hPageNum, int vPageNum)
         {
             int j = cachePages.Count; for (int i = j - 1; i > -1; i--)
             {
-                CanvasBase page = cachePages[i];
+                Canvas page = cachePages[i];
                 if (page.IsPageNumber(hPageNum, vPageNum))
                 {
                     cachePages.RemoveAt(i);
@@ -76,7 +76,7 @@ namespace LayoutFarm.Presentation
 
             if (j >= numOfCachePages)
             {
-                CanvasBase page = cachePages[0];
+                Canvas page = cachePages[0];
                 cachePages.RemoveAt(0);
                 page.IsUnused = false;
 
@@ -99,14 +99,14 @@ namespace LayoutFarm.Presentation
 
             }
         }
-        public void ReleasePage(CanvasBase page)
+        public void ReleasePage(Canvas page)
         {
             page.IsUnused = true;
             cachePages.Add(page);
         }
         public void Dispose()
         {
-            foreach (CanvasBase canvasPage in cachePages)
+            foreach (Canvas canvasPage in cachePages)
             {
                 canvasPage.ReleaseUnManagedResource();
             }

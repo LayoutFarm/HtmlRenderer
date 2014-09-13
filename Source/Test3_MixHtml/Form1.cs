@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using LayoutFarm.Presentation;
+using LayoutFarm;
 
 
 namespace TestGraphicPackage2
@@ -21,7 +21,7 @@ namespace TestGraphicPackage2
         static void ShowFormLayoutInspector(UISurfaceViewportControl viewport)
         {
 
-            var formLayoutInspector = new LayoutFarm.Presentation.Dev.FormLayoutInspector();
+            var formLayoutInspector = new LayoutFarm.Dev.FormLayoutInspector();
             formLayoutInspector.Show();
 
             formLayoutInspector.FormClosed += (s, e2) =>
@@ -67,8 +67,8 @@ namespace TestGraphicPackage2
             htmlBox.LoadHtmlText(html);
 
 
-            htmlBox.PrimaryRenderElement.InvalidateGraphic();
-            
+            htmlBox.InvalidateGraphic();
+
             //================================================== 
 
 
@@ -78,7 +78,7 @@ namespace TestGraphicPackage2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo = new TextFontInfo(new Font("tahoma", 10), new BasicGdi32FontHelper());
+            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = new TextFontInfo(new Font("tahoma", 10), new BasicGdi32FontHelper());
 
 
             UISurfaceViewportControl viewport;
@@ -91,31 +91,31 @@ namespace TestGraphicPackage2
 
             ////==================================================
             //html box
-            UIHtmlBox htmlBox = new UIHtmlBox(800, 400); 
+            UIHtmlBox htmlBox = new UIHtmlBox(800, 400);
             viewport.AddContent(htmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
             //ArtVisualHtmlBox.DirectSetVisualElementLocation(innerHtmlBox, 100, 100);
             htmlBox.LoadHtmlText(html);
 
-            htmlBox.PrimaryRenderElement.InvalidateGraphic();
-             
-            
+            htmlBox.InvalidateGraphic();
+
             //================================================== 
 
             //textbox
-            var textbox = new LayoutFarm.Presentation.SampleControls.UIMultiLineTextBox(400, 100, true);
-            var visualTextBox = textbox.PrimaryRenderElement;
+            var textbox = new LayoutFarm.SampleControls.UIMultiLineTextBox(400, 100, true);
+            var renderTextBox = textbox.GetPrimaryRenderElement(viewport.WinRoot.RootGraphic);
             viewport.AddContent(textbox);
 
-            //var vinv2 = visualTextBox.WinRoot.GetVInv();
-            visualTextBox.InvalidateGraphic();
+            //var vinv2 = visualTextBox.WinRoot.GetVInv(); 
+            textbox.InvalidateGraphic();
             //visualTextBox.WinRoot.FreeVInv();
-            RenderElement.DirectSetVisualElementLocation(visualTextBox, 0, 200);
-            //vinv2 = visualTextBox.WinRoot.GetVInv();
-            visualTextBox.InvalidateGraphic();
-            
 
-            viewport.WinRoot.CurrentKeyboardFocusedElement = visualTextBox;
+            RenderElement.DirectSetVisualElementLocation(renderTextBox, 0, 200);
+            //vinv2 = visualTextBox.WinRoot.GetVInv();
+            textbox.InvalidateGraphic();
+
+
+            viewport.WinRoot.CurrentKeyboardFocusedElement = renderTextBox;
             viewport.PaintMe();
         }
 
