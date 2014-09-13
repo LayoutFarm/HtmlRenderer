@@ -5,21 +5,23 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using LayoutFarm;
 
-namespace LayoutFarm
+
+namespace LayoutFarm.Text
 {
 
-    public abstract class VisualTextRun : RenderElement
+    public abstract class TextSpan : RenderElement
     {
 
-        protected char[] mybuffer;
-        public VisualTextRun(string s)
+        protected char[] mybuffer; 
+        TextSpanSytle runStyle;
+        bool isLineBreak;
+
+        public TextSpan(string s)
             : base(null, 10, 10)
         {
             if (s != null && s.Length > 0)
-            {
-
+            {   
                 mybuffer = s.ToCharArray();
                 if (mybuffer.Length == 1 && mybuffer[0] == '\n')
                 {
@@ -35,7 +37,7 @@ namespace LayoutFarm
             this.TransparentForAllEvents = true;
         }
 
-        public VisualTextRun(char c)
+        public TextSpan(char c)
             : base(null, 10, 10)
         {
 
@@ -48,19 +50,16 @@ namespace LayoutFarm
             this.TransparentForAllEvents = true;
             UpdateRunWidth();
         }
-        public VisualTextRun(char[] mybuffer)
+        public TextSpan(char[] mybuffer)
             : base(null, 10, 10)
         {
             this.mybuffer = mybuffer;
             this.TransparentForAllEvents = true;
         }
 
-        static char[] emptyline = new char[] { 'I' };
+       
 
-        TextRunStyle runStyle;
-        bool isLineBreak;
-
-        public TextRunStyle MyBoxStyle
+        public TextSpanSytle MyBoxStyle
         {
             get
             {
@@ -68,7 +67,7 @@ namespace LayoutFarm
             }
         }
 
-        public virtual void SetStyle(TextRunStyle beh)
+        public virtual void SetStyle(TextSpanSytle beh)
         {
 
 
@@ -144,18 +143,18 @@ namespace LayoutFarm
             if (user_elem_id != null)
             {
                 return dbug_FixedElementCode + dbug_GetBoundInfo() + " "
-                    + " i" + dbug_obj_id + "a " + ((VisualTextRun)this).Text + ",(ID " + user_elem_id + ") " + dbug_GetLayoutInfo();
+                    + " i" + dbug_obj_id + "a " + ((TextSpan)this).Text + ",(ID " + user_elem_id + ") " + dbug_GetLayoutInfo();
             }
             else
             {
                 return dbug_FixedElementCode + dbug_GetBoundInfo() + " "
-                 + " i" + dbug_obj_id + "a " + ((VisualTextRun)this).Text + " " + dbug_GetLayoutInfo();
+                 + " i" + dbug_obj_id + "a " + ((TextSpan)this).Text + " " + dbug_GetLayoutInfo();
             }
         }
 #endif
 
 
-        internal static void DrawArtVisualTextRun(VisualTextRun visualTextRun, Canvas canvasPage, InternalRect updateArea)
+        internal static void DrawArtVisualTextRun(TextSpan visualTextRun, Canvas canvasPage, InternalRect updateArea)
         {
             visualTextRun.DrawCharacters(canvasPage, updateArea, visualTextRun.mybuffer);
         }
@@ -183,7 +182,7 @@ namespace LayoutFarm
             }
             else
             {
-                TextRunStyle beh = this.MyBoxStyle;
+                TextSpanSytle beh = this.MyBoxStyle;
                 switch (canvasPage.EvaluateFontAndTextColor(beh.textFontInfo, beh.FontColor))
                 {
                     case Canvas.DIFF_FONT_SAME_TEXT_COLOR:
@@ -244,7 +243,7 @@ namespace LayoutFarm
             }
             else
             {
-                TextRunStyle beh = (TextRunStyle)MyBoxStyle;
+                TextSpanSytle beh = (TextSpanSytle)MyBoxStyle;
                 if (beh != null && beh.textFontInfo != null)
                 {
                     return beh.textFontInfo;
@@ -263,7 +262,7 @@ namespace LayoutFarm
             return "[" + this.dbug_obj_id + "]" + Text;
         }
 #endif
-        public static void InnerTextRunTopDownReCalculateContentSize(VisualTextRun ve)
+        public static void InnerTextRunTopDownReCalculateContentSize(TextSpan ve)
         {
 #if DEBUG
             vinv_dbug_EnterTopDownReCalculateContent(ve);
@@ -291,5 +290,8 @@ namespace LayoutFarm
             }
         }
 
+
+        //------------------------------------------------
+        static char[] emptyline = new char[] { 'I' };
     }
 }

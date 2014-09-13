@@ -14,9 +14,9 @@ namespace LayoutFarm.Text
     partial class EditableVisualElementLine
     {
 
-        void AddNormalRunToLast(EditableVisualTextRun v)
+        void AddNormalRunToLast(EditableTextSpan v)
         {
-            EditableVisualTextRun.SetVisualElementAsChildOfOther(v, new VisualEditableLineParentLink(this, base.AddLast(v)));
+            EditableTextSpan.SetVisualElementAsChildOfOther(v, new VisualEditableLineParentLink(this, base.AddLast(v)));
 
 #if DEBUG
 #endif
@@ -31,9 +31,9 @@ namespace LayoutFarm.Text
 #endif
 
         }
-        void AddNormalRunToFirst(EditableVisualTextRun v)
+        void AddNormalRunToFirst(EditableTextSpan v)
         {
-            EditableVisualTextRun.SetVisualElementAsChildOfOther(v, new VisualEditableLineParentLink(this, base.AddFirst(v)));
+            EditableTextSpan.SetVisualElementAsChildOfOther(v, new VisualEditableLineParentLink(this, base.AddFirst(v)));
             if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
             {
                 return;
@@ -42,13 +42,13 @@ namespace LayoutFarm.Text
 
         }
 
-        static LinkedListNode<EditableVisualTextRun> GetLineLinkedNode(EditableVisualTextRun ve)
+        static LinkedListNode<EditableTextSpan> GetLineLinkedNode(EditableTextSpan ve)
         {
             return ((VisualEditableLineParentLink)ve.ParentLink).internalLinkedNode;
         }
-        void AddNormalRunBefore(EditableVisualTextRun beforeVisualElement, EditableVisualTextRun v)
+        void AddNormalRunBefore(EditableTextSpan beforeVisualElement, EditableTextSpan v)
         {
-            EditableVisualTextRun.SetVisualElementAsChildOfOther(v,
+            EditableTextSpan.SetVisualElementAsChildOfOther(v,
                new VisualEditableLineParentLink(this, base.AddBefore(GetLineLinkedNode(beforeVisualElement), v)));
             if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
             {
@@ -57,9 +57,9 @@ namespace LayoutFarm.Text
             v.StartBubbleUpLayoutInvalidState();
 
         }
-        void AddNormalRunAfter(EditableVisualTextRun afterVisualElement, EditableVisualTextRun v)
+        void AddNormalRunAfter(EditableTextSpan afterVisualElement, EditableTextSpan v)
         {
-            EditableVisualTextRun.SetVisualElementAsChildOfOther(v,
+            EditableTextSpan.SetVisualElementAsChildOfOther(v,
              new VisualEditableLineParentLink(this, base.AddAfter(GetLineLinkedNode(afterVisualElement), v)));
 
             if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
@@ -72,17 +72,17 @@ namespace LayoutFarm.Text
         }
         public new void Clear()
         {
-            LinkedListNode<EditableVisualTextRun> curNode = this.First;
+            LinkedListNode<EditableTextSpan> curNode = this.First;
             while (curNode != null)
             {
-                EditableVisualTextRun.ClearVisualElementInternalLinkedNode(curNode.Value);
+                EditableTextSpan.ClearVisualElementInternalLinkedNode(curNode.Value);
                 curNode = curNode.Next;
             }
 
             base.Clear();
         }
 
-        public new void Remove(EditableVisualTextRun v)
+        public new void Remove(EditableTextSpan v)
         {
 #if DEBUG
             if (v.IsLineBreak)
@@ -97,7 +97,7 @@ namespace LayoutFarm.Text
             }
             base.Remove(GetLineLinkedNode(v));
 
-            EditableVisualTextRun.ClearVisualElementInternalLinkedNode(v);
+            EditableTextSpan.ClearVisualElementInternalLinkedNode(v);
 
 
             if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)

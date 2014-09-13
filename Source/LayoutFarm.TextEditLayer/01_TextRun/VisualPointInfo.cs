@@ -12,14 +12,14 @@ namespace LayoutFarm.Text
 
         int lineCharIndex;
 
-        EditableVisualTextRun onVisualElement; int onTextRunCharOffset; int caretXPos; int onTextRunPixelOffset;
+        EditableTextSpan onVisualElement; int onTextRunCharOffset; int caretXPos; int onTextRunPixelOffset;
         public VisualPointInfo(int lineCharIndex)
         {
 
             this.lineCharIndex = lineCharIndex;
         }
 
-        public void SetAdditionVisualInfo(EditableVisualTextRun onTextRun, int onTextRunCharOffset, int caretXPos, int textRunPixelOffset)
+        public void SetAdditionVisualInfo(EditableTextSpan onTextRun, int onTextRunCharOffset, int caretXPos, int textRunPixelOffset)
         {
             this.caretXPos = caretXPos;
             this.onVisualElement = onTextRun;
@@ -40,7 +40,7 @@ namespace LayoutFarm.Text
                 return onTextRunCharOffset;
             }
         }
-        public EditableVisualTextRun TextRun
+        public EditableTextSpan TextRun
         {
             get
             {

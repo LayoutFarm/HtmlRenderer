@@ -166,7 +166,7 @@ namespace LayoutFarm.Text
         {
 
             internalTextLayerController.CancelSelect();
-            EditableVisualTextRun textRun = this.CurrentTextRun;
+            EditableTextSpan textRun = this.CurrentTextRun;
             if (textRun != null)
             {
                 VisualPointInfo pointInfo = internalTextLayerController.GetCurrentPointInfo();
@@ -411,8 +411,8 @@ namespace LayoutFarm.Text
                             {
 
                                 internalTextLayerController.AddTextRunsToCurrentLine(
-                                    new EditableVisualTextRun[]{ 
-                                        new EditableVisualTextRun( 
+                                    new EditableTextSpan[]{ 
+                                        new EditableTextSpan( 
                                             Clipboard.GetUnicodeText())
                                            });
                                 EnsureCaretVisible();
@@ -467,12 +467,12 @@ namespace LayoutFarm.Text
                         } break;
                     case UIKeys.B:
                         {
-                            TextRunStyle defaultBeh1 = internalTextLayerController.GetFirstTextStyleInSelectedRange();
+                            TextSpanSytle defaultBeh1 = internalTextLayerController.GetFirstTextStyleInSelectedRange();
 
-                            TextRunStyle textStyle = null;
+                            TextSpanSytle textStyle = null;
                             if (defaultBeh1 != null)
                             {
-                                TextRunStyle defaultBeh = ((TextRunStyle)defaultBeh1);
+                                TextSpanSytle defaultBeh = ((TextSpanSytle)defaultBeh1);
                                 if (defaultBeh.FontBold)
                                 {
                                     textStyle = StyleHelper.CreateNewStyle(Color.Black);

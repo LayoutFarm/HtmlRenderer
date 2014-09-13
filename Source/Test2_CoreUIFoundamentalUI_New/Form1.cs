@@ -148,25 +148,25 @@ namespace TestGraphicPackage2
                 ShowFormLayoutInspector(viewport);
             }
         }
-        static TextRunStyle[] CreateRoleSet(TextFontInfo fontInfo, params Color[] colors)
-        {
-            int j = colors.Length;
-            TextRunStyle[] roleSet = new TextRunStyle[j];
-            for (int i = 0; i < j; ++i)
-            {
-                roleSet[i] = CreateSimpleTextRole(fontInfo, colors[i]);
-            }
-            return roleSet;
-        }
-        static TextRunStyle CreateSimpleTextRole(TextFontInfo textFontInfo, Color textColor)
-        {
+        //static TextRunStyle[] CreateRoleSet(TextFontInfo fontInfo, params Color[] colors)
+        //{
+        //    int j = colors.Length;
+        //    TextRunStyle[] roleSet = new TextRunStyle[j];
+        //    for (int i = 0; i < j; ++i)
+        //    {
+        //        roleSet[i] = CreateSimpleTextRole(fontInfo, colors[i]);
+        //    }
+        //    return roleSet;
+        //}
+        //static TextRunStyle CreateSimpleTextRole(TextFontInfo textFontInfo, Color textColor)
+        //{
 
-            TextRunStyle beh = new TextRunStyle();
-            beh.FontColor = textColor;
+        //    TextRunStyle beh = new TextRunStyle();
+        //    beh.FontColor = textColor;
 
 
-            return beh;
-        }
+        //    return beh;
+        //}
 
         private void cmdShowMultipleBox_Click(object sender, EventArgs e)
         {

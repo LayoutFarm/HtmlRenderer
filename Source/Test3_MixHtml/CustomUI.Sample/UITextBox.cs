@@ -30,8 +30,7 @@ namespace LayoutFarm.SampleControls
                 visualTextSurface = new TextEditRenderBox(rootgfx, _width, _height, false);
                 visualTextSurface.HasSpecificSize = true;
                 visualTextSurface.SetController(this);
-                //--------------------------------------
-
+                //-------------------------------------- 
             }
             return visualTextSurface;
         }

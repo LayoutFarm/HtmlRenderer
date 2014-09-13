@@ -35,13 +35,13 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="01_TextRun\TextRunStyle.cs" />
-    <Compile Include="01_TextRun\VisualTextRun.cs" />
+    <Compile Include="01_TextRun\TextSpanSytle.cs" />
+    <Compile Include="01_TextRun\TextSpan.cs" />
     <Compile Include="01_TextRun\VisualLocationInfo.cs" />
     <Compile Include="01_TextRun\dbugMultiTextManRecorder.cs" />
     <Compile Include="02_Lines\TextLineReaderWriter.cs" />
-    <Compile Include="01_TextRun\EditableVisualTextRun.cs" />
-    <Compile Include="01_TextRun\EditableVisualTextRun_EditableFeatures.cs" />
+    <Compile Include="01_TextRun\EditableTextSpan.cs" />
+    <Compile Include="01_TextRun\EditableTextSpan_EditableFeatures.cs" />
     <Compile Include="01_TextRun\VisualPointInfo.cs" />
     <Compile Include="01_TextRun\VisualSelectionRange.cs" />
     <Compile Include="03_Layer\1_EditableTextFlowLayer.cs" />

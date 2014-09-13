@@ -12,7 +12,7 @@ namespace LayoutFarm.Text
     {
         public void RefreshInlineArrange()
         {
-            EditableVisualTextRun r = this.FirstRun;
+            EditableTextSpan r = this.FirstRun;
             int lastestX = 0;
             while (r != null)
             {
@@ -41,12 +41,12 @@ namespace LayoutFarm.Text
         {
             lineFlags &= ~LOCAL_SUSPEND_LINE_REARRANGE;
 
-            LinkedListNode<EditableVisualTextRun> curNode = this.First;
+            LinkedListNode<EditableTextSpan> curNode = this.First;
             int cx = 0;
             while (curNode != null)
             {
-                EditableVisualTextRun ve = curNode.Value;
-                EditableVisualTextRun.DirectSetVisualElementLocation(ve, cx, 0);
+                EditableTextSpan ve = curNode.Value;
+                EditableTextSpan.DirectSetVisualElementLocation(ve, cx, 0);
                 cx += ve.Width;
                 curNode = curNode.Next;
             }
