@@ -42,7 +42,7 @@ namespace LayoutFarm.SampleControls
                 gridBox.Layers = layers;
                 //1. create grid layer
                 GridLayer gridLayer = new GridLayer(gridBox,
-                    10, 5, GridType.UniformCell);
+                    10, 5, CellSizeStyle.UniformCell);
                 layers.AddLayer(gridLayer);
 
                 //2. add some small box to the grid

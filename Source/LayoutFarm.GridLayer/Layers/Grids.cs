@@ -6,14 +6,15 @@ using System.Text;
 
 namespace LayoutFarm.Grids
 {
-    public enum GridType
+    public enum CellSizeStyle
     {
-        Free,
+        ColumnAndRow,//depends on owner column and row
         UniformWidth,
         UniformHeight,
         UniformCell
     }
-    public enum GridNeighborType
+
+    public enum CellNeighbor
     {
         Left,
         Right,
@@ -28,6 +29,7 @@ namespace LayoutFarm.Grids
         int col_index = -1;
         int left = 0;
         int columnWidth = 0;
+
         List<GridCell> cells = new List<GridCell>();
         int calculatedWidth = 0;
         int desiredHeight = 0;
@@ -101,7 +103,6 @@ namespace LayoutFarm.Grids
 
         internal void ClearAllRows()
         {
-
             if (cells.Count == 0)
             {
                 return;
@@ -771,12 +772,12 @@ namespace LayoutFarm.Grids
             return this.ContentElement.PrepareDrawingChain(chain);
         }
 
-        public GridCell GetNeighborGrid(GridNeighborType nb)
+        public GridCell GetNeighborGrid(CellNeighbor nb)
         {
 
             switch (nb)
             {
-                case GridNeighborType.Left:
+                case CellNeighbor.Left:
                     {
 
                         GridColumn prevColumn = column.PrevColumn;
@@ -789,7 +790,7 @@ namespace LayoutFarm.Grids
                             return null;
                         }
                     }
-                case GridNeighborType.Right:
+                case CellNeighbor.Right:
                     {
                         GridColumn nextColumn = column.NextColumn;
                         if (nextColumn != null)
@@ -801,7 +802,7 @@ namespace LayoutFarm.Grids
                             return null;
                         }
                     }
-                case GridNeighborType.Up:
+                case CellNeighbor.Up:
                     {
                         if (row.RowIndex > 0)
                         {
@@ -813,7 +814,7 @@ namespace LayoutFarm.Grids
                             return null;
                         }
                     }
-                case GridNeighborType.Down:
+                case CellNeighbor.Down:
                     {
                         if (row.RowIndex < row.OwnerGridLayer.RowCount - 1)
                         {
@@ -1083,26 +1084,24 @@ namespace LayoutFarm.Grids
                 return cols[index];
             }
         }
-        public IEnumerable<GridColumn> ColumnIter
+        public IEnumerable<GridColumn> GetColumnIter()
         {
-            get
+
+            int j = cols.Count;
+            for (int i = 0; i < j; ++i)
             {
-                int j = cols.Count;
-                for (int i = 0; i < j; ++i)
-                {
-                    yield return cols[i];
-                }
+                yield return cols[i];
             }
+
         }
-        public IEnumerable<GridColumn> ColumnReverseIter
+        public IEnumerable<GridColumn> GetColumnReverseIter()
         {
-            get
+
+            for (int i = cols.Count - 1; i > -1; --i)
             {
-                for (int i = cols.Count - 1; i > -1; --i)
-                {
-                    yield return cols[i];
-                }
+                yield return cols[i];
             }
+
         }
 
         public GridColumn GetColumnAtPosition(int x)
@@ -1146,7 +1145,7 @@ namespace LayoutFarm.Grids
                 toRowIndex -= 1;
             }
 
-            foreach (GridColumn col in ownerGridLayer.gridCols.ColumnIter)
+            foreach (GridColumn col in ownerGridLayer.GetColumnIter())
             {
                 col.MoveRowAfter(fromRow, toRow);
             }
@@ -1213,7 +1212,7 @@ namespace LayoutFarm.Grids
             if (rowId > -1 && rowId < rows.Count)
             {
 
-                foreach (GridColumn coldef in ownerGridLayer.gridCols.ColumnIter)
+                foreach (GridColumn coldef in ownerGridLayer.GetColumnIter())
                 {
                     yield return coldef.GetCell(rowId);
                 }
@@ -1263,7 +1262,7 @@ namespace LayoutFarm.Grids
             if (!row.IsBoundToGrid)
             {
 
-                foreach (GridColumn column in ownerGridLayer.gridCols.ColumnIter)
+                foreach (GridColumn column in ownerGridLayer.GetColumnIter())
                 {
 
                     column.CreateGridItemForRow(row);
@@ -1280,7 +1279,7 @@ namespace LayoutFarm.Grids
         {
 
             GridRow removedRow = rows[rowid];
-            foreach (GridColumn coldef in ownerGridLayer.gridCols.ColumnIter)
+            foreach (GridColumn coldef in ownerGridLayer.GetColumnIter())
             {
 
                 coldef.RemoveRow(removedRow);//
@@ -1331,7 +1330,7 @@ namespace LayoutFarm.Grids
         public void ClearAll()
         {
 
-            foreach (GridColumn coldef in ownerGridLayer.gridCols.ColumnIter)
+            foreach (GridColumn coldef in ownerGridLayer.GetColumnIter())
             {
 
                 coldef.ClearAllRows();
@@ -1347,7 +1346,7 @@ namespace LayoutFarm.Grids
             row.RowIndex = afterRowId + 1;
             rows.Insert(afterRowId + 1, row);
 
-            foreach (GridColumn coldef in ownerGridLayer.gridCols.ColumnIter)
+            foreach (GridColumn coldef in ownerGridLayer.GetColumnIter())
             {
 
                 coldef.InsertAfter(afterRowId, row);

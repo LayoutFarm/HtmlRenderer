@@ -11,22 +11,19 @@ namespace LayoutFarm.Grids
 
     public sealed class GridLayer : VisualLayer
     {
-        internal GridRowCollection gridRows;
-        internal GridColumnCollection gridCols;
+        GridRowCollection gridRows;
+        GridColumnCollection gridCols;
 
         int uniformCellWidth;
         int uniformCellHeight;
-        GridType flexgridType;
-        public GridLayer(RenderElement owner, int nColumns, int nRows, GridType flexgridType)
+        CellSizeStyle flexgridType;
+        public GridLayer(RenderElement owner, int nColumns, int nRows, CellSizeStyle flexgridType)
             : base(owner)
         {
-            ////---------------------------------
-            //this.layerFlags |= IS_GRID_LAYER;
-            ////--------------------------------- 
+            this.flexgridType = flexgridType;
             gridRows = new GridRowCollection(this);
             gridCols = new GridColumnCollection(this);
 
-            this.flexgridType = flexgridType;
 
             int columnWidth = owner.Width;
             if (nColumns > 0)
@@ -38,8 +35,7 @@ namespace LayoutFarm.Grids
                     columnWidth = 1;
                 }
             }
-            //------------------------------------------------------------
-
+            //------------------------------------------------------------             
             for (int c = 0; c < nColumns; c++)
             {
                 gridCols.Add(new GridColumn(columnWidth));
@@ -51,7 +47,7 @@ namespace LayoutFarm.Grids
                 int cy = 0;
                 for (int r = 0; r < nRows; r++)
                 {
-                    GridRow rowDef = CreateNewRow(rowHeight);
+                    var rowDef = new GridRow(rowHeight);
                     rowDef.Top = cy;
                     gridRows.Add(rowDef);
                     cy += rowHeight;
@@ -84,8 +80,13 @@ namespace LayoutFarm.Grids
             gridCols = new GridColumnCollection(this);
             gridRows = new GridRowCollection(this);
         }
-
-
+        public int RowCount
+        {
+            get
+            {
+                return gridRows.Count;
+            }
+        }
 
         public override void TopDownReArrangeContent()
         {
@@ -110,7 +111,7 @@ namespace LayoutFarm.Grids
                 }
 
                 int curX = 0;
-                foreach (GridColumn gridCol in gridCols.ColumnIter)
+                foreach (GridColumn gridCol in gridCols.GetColumnIter())
                 {
 
                     gridCol.SetLeftAndPerformArrange(curX);
@@ -132,7 +133,7 @@ namespace LayoutFarm.Grids
 
             if (gridCols != null && gridCols.Count > 0)
             {
-                foreach (GridColumn gridCol in gridCols.ColumnIter)
+                foreach (GridColumn gridCol in gridCols.GetColumnIter())
                 {
 
                     foreach (RenderElement ve in gridCol.GetTopDownVisualElementIter())
@@ -146,7 +147,7 @@ namespace LayoutFarm.Grids
         {
             if (gridCols != null && gridCols.Count > 0)
             {
-                foreach (GridColumn gridCol in gridCols.ColumnReverseIter)
+                foreach (GridColumn gridCol in gridCols.GetColumnReverseIter())
                 {
                     foreach (RenderElement ve in gridCol.GetTopDownVisualElementIter())
                     {
@@ -154,24 +155,6 @@ namespace LayoutFarm.Grids
                     }
                 }
             }
-        }
-
-
-
-
-
-
-        public int RowCount
-        {
-            get
-            {
-                return gridRows.Count;
-            }
-        }
-
-        public GridRow CreateNewRow(int initRowHeight)
-        {
-            return new GridRow(initRowHeight);
         }
 
 
@@ -206,7 +189,7 @@ namespace LayoutFarm.Grids
             }
         }
 
-        public GridType GridType
+        public CellSizeStyle GridType
         {
             get
             {
@@ -228,7 +211,7 @@ namespace LayoutFarm.Grids
 
             switch (flexgridType)
             {
-                case GridType.UniformWidth:
+                case CellSizeStyle.UniformWidth:
                     {
                         GridRow row = gridRows.GetRowAtPos(y);
                         if (row != null)
@@ -251,9 +234,9 @@ namespace LayoutFarm.Grids
                             }
                         }
                     } break;
-                case GridType.UniformHeight:
+                case CellSizeStyle.UniformHeight:
                     {
-                        
+
                         int rowNumber = y / uniformCellHeight;
                         if (rowNumber >= gridRows.Count)
                         {
@@ -273,9 +256,9 @@ namespace LayoutFarm.Grids
                             }
                         }
                     } break;
-                case GridType.UniformCell:
+                case CellSizeStyle.UniformCell:
                     {
-                         
+
                         int rowNumber = y / uniformCellHeight;
                         if (rowNumber >= gridRows.Count)
                         {
@@ -362,16 +345,16 @@ namespace LayoutFarm.Grids
         {
             switch (flexgridType)
             {
-                case GridType.UniformCell:
+                case CellSizeStyle.UniformCell:
                     {
                         uniformCellWidth = cellItemWidth;
                         uniformCellHeight = cellItemHeight;
                     } break;
-                case GridType.UniformHeight:
+                case CellSizeStyle.UniformHeight:
                     {
                         uniformCellHeight = cellItemHeight;
                     } break;
-                case GridType.UniformWidth:
+                case CellSizeStyle.UniformWidth:
                     {
                         uniformCellWidth = cellItemWidth;
                     } break;
@@ -439,7 +422,7 @@ namespace LayoutFarm.Grids
 
         public IEnumerable<GridColumn> GetColumnIter()
         {
-            return gridCols.ColumnIter;
+            return gridCols.GetColumnIter();
         }
         public IEnumerable<GridRow> GetRowIter()
         {
@@ -485,7 +468,7 @@ namespace LayoutFarm.Grids
             //this.BeginReCalculatingContentSize();
             int sumWidth = 0;
             int maxHeight = 0;
-            foreach (GridColumn colDef in gridCols.ColumnIter)
+            foreach (GridColumn colDef in gridCols.GetColumnIter())
             {
 
                 colDef.ReCalculateColumnSize();
