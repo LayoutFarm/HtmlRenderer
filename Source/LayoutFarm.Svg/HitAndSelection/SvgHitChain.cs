@@ -1,14 +1,12 @@
 ﻿//2014, Apache2 WinterDev
-//MS-PL,
-
-
+//MS-PL, 
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Collections.Generic;
 using HtmlRenderer.Css;
 
-namespace HtmlRenderer.SvgDom
+namespace LayoutFarm.SvgDom
 {
     public class SvgHitChain
     {

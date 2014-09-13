@@ -8,8 +8,8 @@
     <ProjectGuid>{4E185663-158F-4B19-A86D-435D9F203A07}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HtmlRenderer.Svg</RootNamespace>
-    <AssemblyName>HtmlRenderer.Svg</AssemblyName>
+    <RootNamespace>LayoutFarm.Svg</RootNamespace>
+    <AssemblyName>LayoutFarm.Svg</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

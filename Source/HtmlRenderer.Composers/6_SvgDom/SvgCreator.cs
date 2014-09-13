@@ -9,8 +9,11 @@ using HtmlRenderer.Css;
 using HtmlRenderer.Composers;
 using HtmlRenderer.Composers.BridgeHtml;
 
-using HtmlRenderer.SvgDom;
+
 using HtmlRenderer.WebDom;
+
+using LayoutFarm.SvgDom;
+
 namespace HtmlRenderer.Composers.BridgeHtml
 {
     static class SvgCreator
@@ -95,7 +98,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             //linear gradient definition
 
             SvgLinearGradient linearGradient = new SvgLinearGradient(elem);
-            
+
             foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
             {
                 WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
@@ -477,10 +480,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
             for (int i = hitCount - 1; i >= 0; --i)
             {
                 SvgHitInfo hitInfo = hitChain.GetHitInfo(i);
-                SvgDom.SvgElement svg = hitInfo.svg;
+                SvgElement svg = hitInfo.svg;
                 if (svg != null)
                 {
-                    BridgeHtml.HtmlElement elem = SvgDom.SvgElement.UnsafeGetController(hitInfo.svg) as BridgeHtml.HtmlElement;
+                    BridgeHtml.HtmlElement elem = SvgElement.UnsafeGetController(hitInfo.svg) as BridgeHtml.HtmlElement;
                     if (elem != null)
                     {
                         elem.DispatchEvent(eventArgs);

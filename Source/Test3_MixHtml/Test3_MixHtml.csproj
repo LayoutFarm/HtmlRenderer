@@ -55,10 +55,6 @@
       <Project>{401603CD-34FB-431F-9E1C-59C952932B94}</Project>
       <Name>HtmlRenderer.Composers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HtmlRenderer.Svg\HtmlRenderer.Svg.csproj">
-      <Project>{4E185663-158F-4B19-A86D-435D9F203A07}</Project>
-      <Name>HtmlRenderer.Svg</Name>
-    </ProjectReference>
     <ProjectReference Include="..\HtmlRenderer.WinFormControls\HtmlRenderer.WinFormControls.csproj">
       <Project>{0D90518E-B04A-460E-97C1-732197742A29}</Project>
       <Name>HtmlRenderer.WinFormControls</Name>

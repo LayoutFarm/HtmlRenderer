@@ -5,9 +5,13 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Collections.Generic;
-using HtmlRenderer.Css;
 
-namespace HtmlRenderer.SvgDom
+
+using HtmlRenderer.Drawing;
+using HtmlRenderer.Css;
+using LayoutFarm.SvgDom;
+
+namespace LayoutFarm.SvgDom
 {
 
     public abstract class SvgNode
@@ -346,7 +350,7 @@ namespace HtmlRenderer.SvgDom
             }
             return false;
         }
-        public override void Paint(Drawing.IGraphics g)
+        public override void Paint(IGraphics g)
         {
 
             using (SolidBrush sb = new SolidBrush(this.fillColor))
@@ -427,7 +431,7 @@ namespace HtmlRenderer.SvgDom
 
             return false;
         }
-        public override void Paint(Drawing.IGraphics g)
+        public override void Paint(IGraphics g)
         {
 
             using (SolidBrush sb = new SolidBrush(this.fillColor))
@@ -512,7 +516,7 @@ namespace HtmlRenderer.SvgDom
 
             return false;
         }
-        public override void Paint(Drawing.IGraphics g)
+        public override void Paint(IGraphics g)
         {
 
             using (SolidBrush sb = new SolidBrush(this.fillColor))
@@ -588,7 +592,7 @@ namespace HtmlRenderer.SvgDom
                 return pointList;
             }
         }
-        public override void Paint(Drawing.IGraphics g)
+        public override void Paint(IGraphics g)
         {
             using (SolidBrush sb = new SolidBrush(this.fillColor))
             {
@@ -642,7 +646,7 @@ namespace HtmlRenderer.SvgDom
                     plist[i + 1]);
             }
         }
-        public override void Paint(Drawing.IGraphics g)
+        public override void Paint(IGraphics g)
         {
 
             if (this.strokeColor != Color.Transparent
@@ -694,7 +698,7 @@ namespace HtmlRenderer.SvgDom
 
     public class SvgUse : SvgNode
     {
-            
+
     }
 
 

@@ -5,9 +5,10 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Collections.Generic;
-using HtmlRenderer.Css;
 
-namespace HtmlRenderer.SvgDom
+using HtmlRenderer.Css;
+using LayoutFarm.SvgDom;
+namespace LayoutFarm.SvgDom
 {
     public class SvgVisualSpec
     {
@@ -114,7 +115,7 @@ namespace HtmlRenderer.SvgDom
         public List<PointF> Points { get; set; }
     }
 
-    
+
     public class StopColorPoint
     {
         public Color StopColor

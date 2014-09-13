@@ -4,7 +4,8 @@
 using System.Drawing;
 using System.Collections.Generic;
 using HtmlRenderer.Drawing;
-using HtmlRenderer.SvgDom;
+
+using LayoutFarm.SvgDom;
 
 namespace HtmlRenderer.Boxes
 {

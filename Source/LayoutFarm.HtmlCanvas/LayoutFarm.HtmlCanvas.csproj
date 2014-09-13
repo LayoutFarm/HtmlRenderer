@@ -8,8 +8,8 @@
     <ProjectGuid>{EA5B8896-AF27-4C21-8FCC-3AE4171C621C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HtmlRenderer.HtmlCanvas</RootNamespace>
-    <AssemblyName>HtmlRenderer.HtmlCanvas</AssemblyName>
+    <RootNamespace>LayoutFarm.HtmlCanvas</RootNamespace>
+    <AssemblyName>LayoutFarm.HtmlCanvas</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
