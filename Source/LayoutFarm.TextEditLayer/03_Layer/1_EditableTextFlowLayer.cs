@@ -35,11 +35,7 @@ namespace LayoutFarm.Text
             this.SetDoubleCanvas(useWithWidth, useWithHeight);
         }
 
-        public override void AddTop(RenderElement ve)
-        {
-
-        }
-
+        
         public bool FlowLayerHasMultiLines
         {
             get

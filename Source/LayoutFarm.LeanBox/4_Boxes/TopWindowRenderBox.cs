@@ -11,14 +11,20 @@ namespace LayoutFarm
     public abstract partial class TopWindowRenderBox : RenderBoxBase
     {
         RootGraphic rootGfx;
+        VisualPlainLayer groundLayer;
         public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
             : base(width, height)
         {
             this.rootGfx = rootGfx;
             this.Layers = new VisualLayerCollection();
-            this.Layers.AddLayer(new VisualPlainLayer(this));
+            groundLayer = new VisualPlainLayer(this);
+            this.Layers.AddLayer(groundLayer);
 
             SetIsWindowRoot(this, true);
+        }
+        public void AddChild(RenderElement renderE)
+        {
+            groundLayer.AddTop(renderE);
         }
         public RootGraphic RootGraphic
         {

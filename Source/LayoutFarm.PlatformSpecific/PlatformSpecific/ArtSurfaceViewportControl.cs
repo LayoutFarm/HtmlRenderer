@@ -97,11 +97,15 @@ namespace LayoutFarm
         }
         public void AddContent(RenderElement vi)
         {
-            winroot.AddChild(vi);
+            var layer0 = winroot.Layers.Layer0 as VisualPlainLayer;
+            if (layer0 != null)
+            {
+                layer0.AddTop(vi);
+            }             
         }
         public void AddContent(LayoutFarm.UI.UIElement ui)
         {
-            winroot.AddChild(ui.GetPrimaryRenderElement(winroot.RootGraphic));
+            AddContent(ui.GetPrimaryRenderElement(winroot.RootGraphic));
         }
         public void Close()
         {

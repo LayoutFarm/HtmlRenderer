@@ -58,14 +58,7 @@ namespace LayoutFarm.Grids
                 }
                 uniformCellHeight = rowHeight;
             }
-        }
-
-
-        public override void AddTop(RenderElement ve)
-        {
-            throw new NotImplementedException();
-        }
-
+        } 
         public override bool HitTestCore(HitPointChain artHitResult)
         {
             int testX;

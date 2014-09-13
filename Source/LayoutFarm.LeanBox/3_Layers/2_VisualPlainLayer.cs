@@ -51,7 +51,7 @@ namespace LayoutFarm
             }
         }
 
-        public override void AddTop(RenderElement visualElement)
+        public  void AddTop(RenderElement visualElement)
         {
 #if DEBUG
             if (visualElement.ParentLink != null)

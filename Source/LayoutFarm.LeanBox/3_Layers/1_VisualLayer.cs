@@ -346,7 +346,6 @@ namespace LayoutFarm
 
         }
 #endif
-        public abstract void AddTop(RenderElement ve);
         
         protected static bool vinv_IsInTopDownReArrangePhase
         {

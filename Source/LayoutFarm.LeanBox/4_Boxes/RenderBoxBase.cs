@@ -330,15 +330,5 @@ namespace LayoutFarm
     }
 
 
-
-    public static class RenderBoxBaseHelper
-    {
-        public static void AddChild(this RenderBoxBase box, RenderElement e)
-        {
-            if (box.Layers != null)
-            {
-                box.Layers.Layer0.AddTop(e); 
-            }
-        }
-    }
+     
 }

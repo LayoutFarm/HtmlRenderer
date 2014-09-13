@@ -33,8 +33,14 @@ namespace LayoutFarm.SampleControls
             {
                 gridBox = new CustomRenderBox(this.Width, this.Height);
                 var layers = new VisualLayerCollection();
-                //1. create grid layer
 
+                gridBox.Layers = layers;
+                //1. create grid layer
+                GridLayer gridLayer = new GridLayer(gridBox,
+                    10, 5, GridType.UniformCell);
+                layers.AddLayer(gridLayer); 
+                //2. add some small box to the grid
+                
 
             }
             return gridBox;
