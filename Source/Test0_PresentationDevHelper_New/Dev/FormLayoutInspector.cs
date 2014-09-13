@@ -6,9 +6,9 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using LayoutFarm.Presentation;
+using LayoutFarm;
 
-namespace LayoutFarm.Presentation.Dev
+namespace LayoutFarm.Dev
 {
 
 
@@ -18,7 +18,7 @@ namespace LayoutFarm.Presentation.Dev
 #if DEBUG
         EventHandler rootDrawMsgEventHandler;
         EventHandler rootHitMsgEventHandler;
-        ArtSurfaceViewportControl vwport;
+        UISurfaceViewportControl vwport;
         bool pauseRecord;
 #endif
         public FormLayoutInspector()
@@ -55,8 +55,8 @@ namespace LayoutFarm.Presentation.Dev
                     } break;
                 case dbugLayoutMsgOwnerKind.VisualElement:
                     {
-                        ArtVisualElement ve = (ArtVisualElement)msg.owner;
-                        ArtVisualWindowImpl.dbugVE_HighlightMe = ve;
+                        RenderElement ve = (RenderElement)msg.owner;
+                        MyTopWindowRenderBox.dbugVE_HighlightMe = ve;
                         lastestSelectVE = ve;
 
                         vwport.PaintMe();
@@ -88,8 +88,8 @@ namespace LayoutFarm.Presentation.Dev
                     } break;
                 case dbugLayoutMsgOwnerKind.VisualElement:
                     {
-                        ArtVisualElement ve = (ArtVisualElement)msg.owner;
-                        ArtVisualWindowImpl.dbugVE_HighlightMe = ve;
+                        RenderElement ve = (RenderElement)msg.owner;
+                        MyTopWindowRenderBox.dbugVE_HighlightMe = ve;
                         lastestSelectVE = ve;
 
                         vwport.PaintMe();
@@ -101,7 +101,7 @@ namespace LayoutFarm.Presentation.Dev
         }
 
 #if DEBUG
-        ArtVisualElement lastestSelectVE;
+        RenderElement lastestSelectVE;
         List<dbugLayoutMsg> lastestMessages;
 
 #endif
@@ -160,7 +160,7 @@ namespace LayoutFarm.Presentation.Dev
             }
         }
 #endif
-        public void Connect(ArtSurfaceViewportControl vwport)
+        public void Connect(UISurfaceViewportControl vwport)
         {
 #if DEBUG
             this.vwport = vwport;

@@ -7,9 +7,9 @@ using System.Drawing;
 
 
 
-using LayoutFarm.Presentation;
+using LayoutFarm;
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
     public static class Clipboard
     {

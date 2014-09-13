@@ -30,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -44,8 +45,8 @@
     <Compile Include="Platform\WinHtmlRootVisualBoxExtension.cs" />
     <Compile Include="Platform\WinRootVisualBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UIHtmlBox\ArtUIHtmlBox.cs" />
-    <Compile Include="UIHtmlBox\ArtVisualHtmlBox.cs" />
+    <Compile Include="UIHtmlBox\UIHtmlBox.cs" />
+    <Compile Include="UIHtmlBox\HtmlRenderBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HtmlRenderer.Composers\HtmlRenderer.Composers.csproj">

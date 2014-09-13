@@ -1,9 +1,9 @@
 ﻿//2014 Apache2, WinterDev
 using System;
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
-    public enum ArtKeys
+    public enum UIKeys
     {
         Modifiers = -65536,
         //

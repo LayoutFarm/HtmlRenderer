@@ -3,31 +3,24 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-
-
-
-
-namespace LayoutFarm.Presentation.Text
+namespace LayoutFarm.Text
 {
 
-    class VisualEditableLineParentLink : IVisualParentLink
+    class VisualEditableLineParentLink : IParentLink
     {
-        internal readonly LinkedListNode<ArtEditableVisualTextRun> internalLinkedNode;
+        internal readonly LinkedListNode<EditableVisualTextRun> internalLinkedNode;
         EditableVisualElementLine ownerLine;
-        internal VisualEditableLineParentLink(EditableVisualElementLine ownerLine, LinkedListNode<ArtEditableVisualTextRun> linkNode)
+        internal VisualEditableLineParentLink(EditableVisualElementLine ownerLine, LinkedListNode<EditableVisualTextRun> linkNode)
         {
             this.internalLinkedNode = linkNode;
             this.ownerLine = ownerLine;
         }
-        public ArtVisualElement FindOverlapedChildElementAtPoint(ArtVisualElement afterThisChild, System.Drawing.Point point)
+        public RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, System.Drawing.Point point)
         {
             return null;
         }
-        public void PerformLayout(VisualElementArgs vinv)
-        {
-        }
         
-        public ArtVisualRootWindow GetWindowRoot()
+        public TopWindowRenderBox GetWindowRoot()
         {
             return ownerLine.OwnerElement.WinRoot;
         }
@@ -43,30 +36,30 @@ namespace LayoutFarm.Presentation.Text
         {
             return "editable-link";
         }
-        VisualRoot dbugVRoot
+        RootGraphic dbugVRoot
         {
             get
             {
-                return VisualRoot.dbugCurrentGlobalVRoot;
+                return RootGraphic.dbugCurrentGlobalVRoot;
             }
         }
 #endif
-        public ArtVisualElement NotifyParentToInvalidate(out bool goToFinalExit
+        public RenderElement NotifyParentToInvalidate(out bool goToFinalExit
 #if DEBUG
-, ArtVisualElement ve
+, RenderElement ve
 #endif
 )
         {
-            ArtVisualElement parentVisualElem = null;
+            RenderElement parentVisualElem = null;
             goToFinalExit = false;
 
             EditableVisualElementLine line = this.OwnerLine;
 #if DEBUG
-            dbugVRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_VisualElementLine_INVALIDATE_enter, ve);
+            dbugVRoot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_VisualElementLine_INVALIDATE_enter, ve);
 #endif
             line.InvalidateLineLayout();
 #if DEBUG
-            dbugVRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_VisualElementLine_INVALIDATE_exit, ve);
+            dbugVRoot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_VisualElementLine_INVALIDATE_exit, ve);
 #endif
 
             if (!line.IsLocalSuspendLineRearrange)
@@ -76,16 +69,13 @@ namespace LayoutFarm.Presentation.Text
             else
             {
 #if DEBUG
-                dbugVRoot.dbug_PushLayoutTraceMessage(VisualRoot.dbugMsg_VisualElementLine_OwnerFlowElementIsIn_SUSPEND_MODE_enter, ve);
+                dbugVRoot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_VisualElementLine_OwnerFlowElementIsIn_SUSPEND_MODE_enter, ve);
 #endif
                 goToFinalExit = true;
             }
             return parentVisualElem;
         }
-        public void Unlink(ArtVisualElement ve)
-        {
-            this.OwnerLine.Remove((ArtEditableVisualTextRun)ve);
-        }
+          
         internal EditableTextFlowLayer OwnerFlowLayer
         {
             get
@@ -100,11 +90,11 @@ namespace LayoutFarm.Presentation.Text
                 return (EditableVisualElementLine)(internalLinkedNode.List);
             }
         }
-        public ArtVisualElement Next
+        public RenderElement Next
         {
             get
             {
-                LinkedListNode<ArtEditableVisualTextRun> next = this.internalLinkedNode.Next;
+                LinkedListNode<EditableVisualTextRun> next = this.internalLinkedNode.Next;
                 if (next != null)
                 {
                     return next.Value;
@@ -115,11 +105,11 @@ namespace LayoutFarm.Presentation.Text
                 }
             }
         }
-        public ArtVisualElement Prev
+        public RenderElement Prev
         {
             get
             {
-                LinkedListNode<ArtEditableVisualTextRun> prv = this.internalLinkedNode.Previous;
+                LinkedListNode<EditableVisualTextRun> prv = this.internalLinkedNode.Previous;
                 if (prv != null)
                 {
                     return prv.Value;
@@ -130,7 +120,7 @@ namespace LayoutFarm.Presentation.Text
                 }
             }
         }
-        public ArtVisualElement ParentVisualElement
+        public RenderElement ParentVisualElement
         {
             get
             {
@@ -146,7 +136,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
         
-        public void AdjustParentLocation(ref System.Drawing.Point p)
+        public void AdjustLocation(ref System.Drawing.Point p)
         {
             p.Y += this.OwnerLine.LineTop;
         }
@@ -157,7 +147,7 @@ namespace LayoutFarm.Presentation.Text
     {
 
 
-        public new void AddLast(ArtEditableVisualTextRun v)
+        public new void AddLast(EditableVisualTextRun v)
         {
             if (!v.IsLineBreak)
             {
@@ -171,7 +161,7 @@ namespace LayoutFarm.Presentation.Text
                 AddLineBreakAfter(this.LastRun);
             }
         }
-        public new void AddFirst(ArtEditableVisualTextRun v)
+        public new void AddFirst(EditableVisualTextRun v)
         {
             if (!v.IsLineBreak)
             {
@@ -183,7 +173,7 @@ namespace LayoutFarm.Presentation.Text
             }
 
         }
-        public void AddBefore(ArtEditableVisualTextRun beforeVisualElement, ArtEditableVisualTextRun v)
+        public void AddBefore(EditableVisualTextRun beforeVisualElement, EditableVisualTextRun v)
         {
             if (!v.IsLineBreak)
             {
@@ -195,7 +185,7 @@ namespace LayoutFarm.Presentation.Text
             }
 
         }
-        public void AddAfter(ArtEditableVisualTextRun afterVisualElement, ArtEditableVisualTextRun v)
+        public void AddAfter(EditableVisualTextRun afterVisualElement, EditableVisualTextRun v)
         {
             if (!v.IsLineBreak)
             {
@@ -207,21 +197,21 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        internal void UnsafeAddLast(ArtEditableVisualTextRun run)
+        internal void UnsafeAddLast(EditableVisualTextRun run)
         {
-            ArtEditableVisualTextRun.SetVisualElementAsChildOfOther(run, new VisualEditableLineParentLink(this, base.AddLast(run)));
+            EditableVisualTextRun.SetVisualElementAsChildOfOther(run, new VisualEditableLineParentLink(this, base.AddLast(run)));
         }
-        internal void UnsafeAddFirst(ArtEditableVisualTextRun run)
+        internal void UnsafeAddFirst(EditableVisualTextRun run)
         {
-            ArtEditableVisualTextRun.SetVisualElementAsChildOfOther(run, new VisualEditableLineParentLink(this, base.AddFirst(run)));
+            EditableVisualTextRun.SetVisualElementAsChildOfOther(run, new VisualEditableLineParentLink(this, base.AddFirst(run)));
         }
-        internal void UnsafeAddAfter(ArtEditableVisualTextRun after, ArtEditableVisualTextRun run)
+        internal void UnsafeAddAfter(EditableVisualTextRun after, EditableVisualTextRun run)
         {
-            ArtEditableVisualTextRun.SetVisualElementAsChildOfOther(run,
+            EditableVisualTextRun.SetVisualElementAsChildOfOther(run,
             new VisualEditableLineParentLink(this,
                 base.AddAfter(GetLineLinkedNode(after), run)));
         }
-        internal void UnsafeRemoveVisualElement(ArtEditableVisualTextRun v)
+        internal void UnsafeRemoveVisualElement(EditableVisualTextRun v)
         {
             base.Remove(GetLineLinkedNode(v));
         }

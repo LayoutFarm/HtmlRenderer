@@ -8,16 +8,16 @@ using System.Drawing;
 
 
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
 
-    public class ArtUIHoverMonitorTask : ArtVisualRootTimerTask
+    public class UIHoverMonitorTask : VisualRootTimerTask
     {
 
         int mouseMoveCounter = -1;
         EventHandler targetEventHandler;
-        public ArtUIHoverMonitorTask(ArtVisualRootWindow winroot, EventHandler targetEventHandler)
+        public UIHoverMonitorTask(TopWindowRenderBox winroot, EventHandler targetEventHandler)
             : base(winroot)
         {
             this.targetEventHandler = targetEventHandler;

@@ -7,10 +7,10 @@ using System.Drawing.Drawing2D;
 
 
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
   
-    public class ArtCanvasImpl : ArtCanvas
+    public class CanvasImpl : Canvas
     {
 
         private readonly static int[] _charFit = new int[1];
@@ -64,7 +64,7 @@ namespace LayoutFarm.Presentation
         bool isFromPrinter = false;
         SolidBrush sharedSolidBrush;
 
-        public ArtCanvasImpl(int horizontalPageNum, int verticalPageNum, int left, int top, int width, int height)
+        public CanvasImpl(int horizontalPageNum, int verticalPageNum, int left, int top, int width, int height)
         {
 
             this.pageNumFlags = (horizontalPageNum << 8) | verticalPageNum;
@@ -100,7 +100,7 @@ namespace LayoutFarm.Presentation
 #endif
         }
 
-        public ArtCanvasImpl(Graphics gx, int verticalPageNum, int horizontalPageNum, int left, int top, int width, int height)
+        public CanvasImpl(Graphics gx, int verticalPageNum, int horizontalPageNum, int left, int top, int width, int height)
         {
 
             this.pageNumFlags = (horizontalPageNum << 8) | verticalPageNum;
@@ -354,7 +354,7 @@ namespace LayoutFarm.Presentation
 
 
 
-        ~ArtCanvasImpl()
+        ~CanvasImpl()
         {
             ReleaseUnManagedResource();
 
@@ -459,13 +459,7 @@ namespace LayoutFarm.Presentation
                 gx.ReleaseHdc();
             }
         }
-
-
-        public const int SAME_FONT_SAME_TEXT_COLOR = 0;
-        public const int SAME_FONT_DIFF_TEXT_COLOR = 1;
-        public const int DIFF_FONT_SAME_TEXT_COLOR = 2;
-        public const int DIFF_FONT_DIFF_TEXT_COLOR = 3;
-
+ 
 
         public override int EvaluateFontAndTextColor(TextFontInfo textFontInfo, Color color)
         {
@@ -559,9 +553,9 @@ namespace LayoutFarm.Presentation
 
 
 
-        public override void CopyFrom(ArtCanvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea)
+        public override void CopyFrom(Canvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea)
         {
-            ArtCanvasImpl s1 = (ArtCanvasImpl)sourceCanvas;
+            CanvasImpl s1 = (CanvasImpl)sourceCanvas;
 
             if (s1.gx != null)
             {

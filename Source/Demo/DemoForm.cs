@@ -559,6 +559,7 @@ namespace HtmlRenderer.Demo
             long ms_total = 0;
             System.Diagnostics.Stopwatch sw = new Stopwatch();
 
+#if DEBUG
             for (int i = 0; i < iterations; i++)
             {
                 foreach (var sampleNum in selectedSamples)
@@ -574,7 +575,7 @@ namespace HtmlRenderer.Demo
                 }
 
             }
-
+#endif
             long endMemory = 0;
             float totalMem = 0;
 #if NET_40

@@ -6,15 +6,15 @@ using System.Drawing;
 
 
 
-using LayoutFarm.Presentation;
+using LayoutFarm;
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
     public struct ToNotifySizeChangedEvent
     {
         public int xdiff;
         public int ydiff;
-        public IEventDispatcher ui;
+        public IEventListener ui;
         public AffectedElementSideFlags affectedSideFlags;
 
     }

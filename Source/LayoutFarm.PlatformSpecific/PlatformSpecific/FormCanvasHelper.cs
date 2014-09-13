@@ -3,28 +3,24 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using System.Drawing;
+using System.Drawing; 
+ 
 
-
-
-using LayoutFarm.Presentation;
-
-
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
     public static class FormCanvasHelper
     {
-        public static Form CreateNewFormCanvas(out ArtSurfaceViewportControl canvasViewport)
+        public static Form CreateNewFormCanvas(out UISurfaceViewportControl canvasViewport)
         {
 
             Form form1 = new Form();
-            canvasViewport = new ArtSurfaceViewportControl();
-            ArtSurfaceViewportControl innerViewport = canvasViewport;
+            canvasViewport = new UISurfaceViewportControl();
+            UISurfaceViewportControl innerViewport = canvasViewport;
             Rectangle screenClientAreaRect = Screen.PrimaryScreen.WorkingArea;
              
             //----------------------
-            var visualRoot = new VisualRootImpl();
-            var windowRoot = new ArtVisualWindowImpl(visualRoot, form1.Width, form1.Height);
+            var visualRoot = new UIRootGraphic();
+            var windowRoot = new MyTopWindowRenderBox(visualRoot, form1.Width, form1.Height);
              
 
             canvasViewport.SetupWindowRoot(windowRoot);
@@ -36,8 +32,7 @@ namespace LayoutFarm.Presentation
             MakeFormCanvas(form1, canvasViewport);
             //----------------------
             form1.SizeChanged += (s, e) =>
-            {
-
+            {   
                 if (form1.WindowState == FormWindowState.Maximized)
                 {
                     Screen currentScreen = GetScreenFromX(form1.Left);
@@ -53,7 +48,7 @@ namespace LayoutFarm.Presentation
             return form1;
 
         }
-        public static void MakeFormCanvas(Form form1, ArtSurfaceViewportControl surfaceViewportControl)
+        public static void MakeFormCanvas(Form form1, UISurfaceViewportControl surfaceViewportControl)
         {
             form1.FormClosing += (s, e) =>
             {

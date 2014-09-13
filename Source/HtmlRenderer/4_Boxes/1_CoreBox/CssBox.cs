@@ -50,7 +50,7 @@ namespace HtmlRenderer.Boxes
 #endif
 
 
-        public CssBox(object controller, Css.BoxSpec spec)
+        public CssBox(object controller, BoxSpec spec)
         {
 
             this._aa_boxes = new CssBoxCollection();
@@ -70,7 +70,7 @@ namespace HtmlRenderer.Boxes
             ChangeDisplayType(this, _myspec.CssDisplay);
 
         }
-        public CssBox(object controller, Css.BoxSpec spec, Css.CssDisplay fixDisplayType)
+        public CssBox(object controller, BoxSpec spec, CssDisplay fixDisplayType)
         {
             this._aa_boxes = new CssBoxCollection();
             this._controller = controller;
@@ -89,8 +89,7 @@ namespace HtmlRenderer.Boxes
             //----------------------------
             this._myspec = spec;
             EvaluateSpec(spec);
-            ChangeDisplayType(this, _myspec.CssDisplay);
-
+            ChangeDisplayType(this, _myspec.CssDisplay); 
 
         }
 
@@ -440,7 +439,7 @@ namespace HtmlRenderer.Boxes
             //set height  
             UpdateIfHigher(this, ExpectedHeight);
 
-            
+
             //update back 
             lay.UpdateRootSize(this);
         }

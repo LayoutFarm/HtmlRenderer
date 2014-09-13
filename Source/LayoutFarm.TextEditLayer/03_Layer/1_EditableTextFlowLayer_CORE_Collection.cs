@@ -5,12 +5,12 @@ using System.Drawing;
 using System.Text;
 
 
-namespace LayoutFarm.Presentation.Text
+namespace LayoutFarm.Text
 {
 
     partial class EditableTextFlowLayer
     {
-        public override IEnumerable<ArtVisualElement> GetVisualElementReverseIter()
+        public override IEnumerable<RenderElement> GetVisualElementReverseIter()
         {
             if (lineCollection != null)
             {
@@ -21,7 +21,7 @@ namespace LayoutFarm.Presentation.Text
                     for (int i = lines.Count; i > -1; --i)
                     {
                         EditableVisualElementLine ln = lines[i];
-                        LinkedListNode<ArtEditableVisualTextRun> veNode = ln.Last;
+                        LinkedListNode<EditableVisualTextRun> veNode = ln.Last;
                         while (veNode != null)
                         {
                             yield return veNode.Value;
@@ -34,7 +34,7 @@ namespace LayoutFarm.Presentation.Text
                 {
 
                     EditableVisualElementLine ln = (EditableVisualElementLine)lineCollection;
-                    LinkedListNode<ArtEditableVisualTextRun> veNode = ln.Last;
+                    LinkedListNode<EditableVisualTextRun> veNode = ln.Last;
                     while (veNode != null)
                     {
                         yield return veNode.Value;
@@ -43,7 +43,7 @@ namespace LayoutFarm.Presentation.Text
                 }
             }
         }
-        public override IEnumerable<ArtVisualElement> GetVisualElementIter()
+        public override IEnumerable<RenderElement> GetVisualElementIter()
         {
             if (lineCollection != null)
             {
@@ -54,7 +54,7 @@ namespace LayoutFarm.Presentation.Text
                     for (int i = 0; i < j; ++i)
                     {
                         EditableVisualElementLine ln = lines[i];
-                        LinkedListNode<ArtEditableVisualTextRun> veNode = ln.First;
+                        LinkedListNode<EditableVisualTextRun> veNode = ln.First;
 
                         while (veNode != null)
                         {
@@ -67,7 +67,7 @@ namespace LayoutFarm.Presentation.Text
                 else
                 {
                     EditableVisualElementLine ln = (EditableVisualElementLine)lineCollection;
-                    LinkedListNode<ArtEditableVisualTextRun> veNode = ln.First;
+                    LinkedListNode<EditableVisualTextRun> veNode = ln.First;
 
                     while (veNode != null)
                     {
@@ -77,7 +77,7 @@ namespace LayoutFarm.Presentation.Text
                 }
             }
         }
-        public void AddTop(ArtEditableVisualTextRun visualElement)
+        public void AddTop(EditableVisualTextRun visualElement)
         {
 #if DEBUG
             if (visualElement.ParentLink != null)
@@ -99,7 +99,7 @@ namespace LayoutFarm.Presentation.Text
 
 
         }
-        public void AddBefore(ArtEditableVisualTextRun beforeVisualElement, ArtEditableVisualTextRun visualElement)
+        public void AddBefore(EditableVisualTextRun beforeVisualElement, EditableVisualTextRun visualElement)
         {
             EditableVisualElementLine targetLine = beforeVisualElement.OwnerEditableLine;
             if (targetLine != null)
@@ -114,7 +114,7 @@ namespace LayoutFarm.Presentation.Text
 
         }
 
-        public void AddAfter(ArtEditableVisualTextRun afterVisualElement, ArtEditableVisualTextRun visualElement)
+        public void AddAfter(EditableVisualTextRun afterVisualElement, EditableVisualTextRun visualElement)
         {
 
 

@@ -5,8 +5,8 @@ using System.Text;
 using System.Drawing;
 using System.Diagnostics;
 
-using LayoutFarm.Presentation.Text;
-namespace LayoutFarm.Presentation.Text
+using LayoutFarm.Text;
+namespace LayoutFarm.Text
 {
 
 
@@ -14,10 +14,11 @@ namespace LayoutFarm.Presentation.Text
 #if DEBUG
     [DebuggerDisplay("ELN {dbugShortLineInfo}")]
 #endif
-    public sealed partial class EditableVisualElementLine : LinkedList<ArtEditableVisualTextRun>
+    public sealed partial class EditableVisualElementLine : LinkedList<EditableVisualTextRun>
     {
 
-        int currentLineNumber; internal EditableTextFlowLayer editableFlowLayer;
+        int currentLineNumber; 
+        internal EditableTextFlowLayer editableFlowLayer;
 
         int actualLineHeight;
         int actualLineWidth;
@@ -27,11 +28,7 @@ namespace LayoutFarm.Presentation.Text
         const int LINE_CONTENT_ARRANGED = 1 << (1 - 1);
         const int LINE_SIZE_VALID = 1 << (2 - 1);
         const int LOCAL_SUSPEND_LINE_REARRANGE = 1 << (3 - 1);
-        const int END_WITH_LINE_BREAK = 1 << (4 - 1);
-
-
-
-
+        const int END_WITH_LINE_BREAK = 1 << (4 - 1); 
         public const int DEFAULT_LINE_HEIGHT = 17;
 
 #if DEBUG
@@ -48,7 +45,7 @@ namespace LayoutFarm.Presentation.Text
             dbugLineTotalCount++;
 #endif
         }
-        internal ArtEditableVisualTextRun LastRun
+        internal EditableVisualTextRun LastRun
         {
             get
             {
@@ -64,7 +61,7 @@ namespace LayoutFarm.Presentation.Text
         }
         public void TextLineReCalculateActualLineSize()
         {
-            ArtEditableVisualTextRun r = this.FirstRun;
+            EditableVisualTextRun r = this.FirstRun;
             int maxHeight = 2;
             int lw = 0;
             while (r != null)
@@ -89,7 +86,7 @@ namespace LayoutFarm.Presentation.Text
             }
             else
             {
-                LinkedListNode<ArtEditableVisualTextRun> cnode = this.First;
+                LinkedListNode<EditableVisualTextRun> cnode = this.First;
                 chain.OffsetCanvasOriginY(this.lineTop);
 
                 while (cnode != null)
@@ -107,7 +104,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        internal bool HitTestCore(ArtHitPointChain artHitResult)
+        internal bool HitTestCore(HitPointChain artHitResult)
         {
 
             int testX;
@@ -122,7 +119,7 @@ namespace LayoutFarm.Presentation.Text
             {
 
 
-                LinkedListNode<ArtEditableVisualTextRun> cnode = this.First;
+                LinkedListNode<EditableVisualTextRun> cnode = this.First;
 
                 int curLineTop = this.lineTop;
                 artHitResult.OffsetTestPoint(0, -curLineTop);
@@ -140,7 +137,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        public ArtVisualElement OwnerElement
+        public RenderElement OwnerElement
         {
             get
             {
@@ -219,7 +216,7 @@ namespace LayoutFarm.Presentation.Text
                 return new Rectangle(0, lineTop, this.editableFlowLayer.ownerVisualElement.Width, 17);
             }
         }
-        internal IEnumerable<ArtEditableVisualTextRun> GetVisualElementForward(ArtEditableVisualTextRun startVisualElement)
+        internal IEnumerable<EditableVisualTextRun> GetVisualElementForward(EditableVisualTextRun startVisualElement)
         {
             if (startVisualElement != null)
             {
@@ -232,13 +229,13 @@ namespace LayoutFarm.Presentation.Text
                 }
             }
         }
-        internal IEnumerable<ArtEditableVisualTextRun> GetVisualElementForward(ArtEditableVisualTextRun startVisualElement, ArtEditableVisualTextRun stopVisualElement)
+        internal IEnumerable<EditableVisualTextRun> GetVisualElementForward(EditableVisualTextRun startVisualElement, EditableVisualTextRun stopVisualElement)
         {
 
             if (startVisualElement != null)
             {
 
-                LinkedListNode<ArtEditableVisualTextRun> lexnode = GetLineLinkedNode(startVisualElement);
+                LinkedListNode<EditableVisualTextRun> lexnode = GetLineLinkedNode(startVisualElement);
 
                 while (lexnode != null)
                 {
@@ -259,7 +256,7 @@ namespace LayoutFarm.Presentation.Text
             get
             {
                 int charCount = 0;
-                foreach (ArtEditableVisualTextRun r in this)
+                foreach (EditableVisualTextRun r in this)
                 {
                     charCount += r.CharacterCount;
                 }
@@ -389,7 +386,7 @@ namespace LayoutFarm.Presentation.Text
             }
         }
 
-        public ArtEditableVisualTextRun FirstRun
+        public EditableVisualTextRun FirstRun
         {
             get
             {
@@ -420,10 +417,10 @@ namespace LayoutFarm.Presentation.Text
         }
         public void CopyLineContent(StringBuilder stBuilder)
         {
-            LinkedListNode<ArtEditableVisualTextRun> curNode = this.First;
+            LinkedListNode<EditableVisualTextRun> curNode = this.First;
             while (curNode != null)
             {
-                ArtEditableVisualTextRun v = curNode.Value;
+                EditableVisualTextRun v = curNode.Value;
                 v.CopyContentToStringBuilder(stBuilder);
                 curNode = curNode.Next;
             }

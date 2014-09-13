@@ -6,24 +6,24 @@ using System.Text;
 using System.Drawing;
 
 
-namespace LayoutFarm.Presentation.Text
+namespace LayoutFarm.Text
 {
     static class StyleHelper
     {
 
-        public static BoxStyle CreateNewStyle(Color color)
+        public static TextRunStyle CreateNewStyle(Color color)
         {
 
             if (color != Color.Empty)
             {
 
-                BoxStyle simpleBeh = new BoxStyle();
+                TextRunStyle simpleBeh = new TextRunStyle();
                 simpleBeh.SharedBgColorBrush = new ArtSolidBrush(color);
                 return simpleBeh;
             }
             else
             {
-                BoxStyle simpleBeh = new BoxStyle();
+                TextRunStyle simpleBeh = new TextRunStyle();
                 simpleBeh.SharedBgColorBrush = new ArtSolidBrush(color);
                 return simpleBeh;
 

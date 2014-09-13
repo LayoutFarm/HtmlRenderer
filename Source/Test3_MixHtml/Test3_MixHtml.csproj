@@ -39,11 +39,8 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomUI.Sample\2_ArtUITextBox.cs" />
-    <Compile Include="CustomUI.Sample\3_ArtUIMultilineTextBox.cs" />
-    <Compile Include="CustomUI.Sample\ArtVisualElementExtension.cs" />
-    <Compile Include="CustomUI.Sample\ArtVisualElementUtils.cs" />
-    <Compile Include="CustomUI.Sample\InternalVisualRoleHelper.cs" />
+    <Compile Include="CustomUI.Sample\UIMultilineTextBox.cs" />
+    <Compile Include="CustomUI.Sample\UITextBox.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
