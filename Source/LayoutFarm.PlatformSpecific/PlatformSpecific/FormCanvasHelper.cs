@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Drawing; 
  
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
     public static class FormCanvasHelper
     {

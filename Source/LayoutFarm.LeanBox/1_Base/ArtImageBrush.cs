@@ -7,7 +7,7 @@ using System.Drawing;
 
 
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
     public class ArtImageBrush : ArtColorBrush

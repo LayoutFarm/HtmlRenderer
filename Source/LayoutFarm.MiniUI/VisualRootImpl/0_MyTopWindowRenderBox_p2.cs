@@ -5,11 +5,11 @@ using System.Text;
 using System.Drawing;
 
 
-using LayoutFarm.Presentation;
+using LayoutFarm;
 
 
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
     partial class MyTopWindowRenderBox

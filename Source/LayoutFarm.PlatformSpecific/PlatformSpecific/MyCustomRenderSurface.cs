@@ -7,7 +7,7 @@ using System.Drawing.Drawing2D;
 
 
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
     public class MyCustomRenderSurface : CustomRenderSurface
     {

@@ -6,7 +6,7 @@ using System.IO;
 
 
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
 #if DEBUG

@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-using LayoutFarm.Presentation.Text;
-using LayoutFarm.Presentation.UI;
+using LayoutFarm.Text;
+using LayoutFarm.UI;
 
-namespace LayoutFarm.Presentation.SampleControls
+namespace LayoutFarm.SampleControls
 {
     class CustomRenderElement : RenderElement
     {

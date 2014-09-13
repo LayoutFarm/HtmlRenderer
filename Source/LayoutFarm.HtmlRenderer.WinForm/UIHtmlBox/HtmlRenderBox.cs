@@ -14,7 +14,7 @@ using HtmlRenderer.ContentManagers;
 using HtmlRenderer;
 using HtmlRenderer.Composers;
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
     public class HtmlRenderBox : RenderBoxBase

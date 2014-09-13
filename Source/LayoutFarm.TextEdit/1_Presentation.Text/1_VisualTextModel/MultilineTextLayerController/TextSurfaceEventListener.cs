@@ -7,7 +7,7 @@ using System.IO;
 using System.Text;
 
 
-namespace LayoutFarm.Presentation.Text
+namespace LayoutFarm.Text
 {
     public class TextDomEventArgs : EventArgs
     {

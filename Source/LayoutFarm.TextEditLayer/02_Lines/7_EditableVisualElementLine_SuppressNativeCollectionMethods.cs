@@ -6,7 +6,7 @@ using System.Drawing;
 
 
 
-namespace LayoutFarm.Presentation.Text
+namespace LayoutFarm.Text
 {
 
     partial class EditableVisualElementLine

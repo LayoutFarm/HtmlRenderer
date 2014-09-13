@@ -6,12 +6,12 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 
-using LayoutFarm.Presentation;
-using LayoutFarm.Presentation.UI;
-using LayoutFarm.Presentation.Text;
+using LayoutFarm;
+using LayoutFarm.UI;
+using LayoutFarm.Text;
 
 
-namespace LayoutFarm.Presentation.SampleControls
+namespace LayoutFarm.SampleControls
 {
 
     public class UIMultiLineTextBox : UIElement

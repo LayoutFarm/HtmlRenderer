@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-using LayoutFarm.Presentation;
+using LayoutFarm;
 
-namespace LayoutFarm.Presentation.Grids
+namespace LayoutFarm.Grids
 {
 
     public sealed class GridLayer : VisualLayer

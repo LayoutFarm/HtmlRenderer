@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using LayoutFarm.Presentation;
+using LayoutFarm;
 
 
 namespace TestGraphicPackage2
@@ -21,7 +21,7 @@ namespace TestGraphicPackage2
         static void ShowFormLayoutInspector(UISurfaceViewportControl viewport)
         {
 
-            var formLayoutInspector = new LayoutFarm.Presentation.Dev.FormLayoutInspector();
+            var formLayoutInspector = new LayoutFarm.Dev.FormLayoutInspector();
             formLayoutInspector.Show();
 
             formLayoutInspector.FormClosed += (s, e2) =>
@@ -37,7 +37,7 @@ namespace TestGraphicPackage2
           out UISurfaceViewportControl viewport,
           out Form formCanvas)
         {
-            LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo = new TextFontInfo(new Font("tahoma", 10), new BasicGdi32FontHelper());
+            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = new TextFontInfo(new Font("tahoma", 10), new BasicGdi32FontHelper());
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(out viewport);
             formCanvas.Text = "FormCanvas 1";
 
@@ -57,7 +57,7 @@ namespace TestGraphicPackage2
                 out viewport,
                 out formCanvas);
 
-            var sampleButton = new LayoutFarm.Presentation.SampleControls.UIButton(30, 30);
+            var sampleButton = new LayoutFarm.SampleControls.UIButton(30, 30);
             viewport.AddContent(sampleButton);
             viewport.WinRoot.TopDownReCalculateContentSize();
             sampleButton.InvalidateGraphic();
@@ -83,7 +83,7 @@ namespace TestGraphicPackage2
                 out viewport,
                 out formCanvas);
 
-            var textbox = new LayoutFarm.Presentation.SampleControls.UITextBox(200, 30);
+            var textbox = new LayoutFarm.SampleControls.UITextBox(200, 30);
             viewport.AddContent(textbox);
             // ShowFormLayoutInspector(viewport);
         }
@@ -96,7 +96,7 @@ namespace TestGraphicPackage2
                 out viewport,
                 out formCanvas);
 
-            var textbox = new LayoutFarm.Presentation.SampleControls.UIMultiLineTextBox(400, 500, true);
+            var textbox = new LayoutFarm.SampleControls.UIMultiLineTextBox(400, 500, true);
             viewport.AddContent(textbox);
             ShowFormlayoutInspectIfNeed(viewport);
         }
@@ -122,7 +122,7 @@ namespace TestGraphicPackage2
             CreateReadyForm(
                 out viewport,
                 out formCanvas);
-            var textbox = new LayoutFarm.Presentation.SampleControls.UIMultiLineTextBox(400, 500, true);
+            var textbox = new LayoutFarm.SampleControls.UIMultiLineTextBox(400, 500, true);
             viewport.AddContent(textbox);
             ShowFormlayoutInspectIfNeed(viewport);
         }
@@ -137,7 +137,7 @@ namespace TestGraphicPackage2
             CreateReadyForm(
                 out viewport,
                 out formCanvas);
-            var textbox = new LayoutFarm.Presentation.SampleControls.UIMultiLineTextBox(400, 500, true);
+            var textbox = new LayoutFarm.SampleControls.UIMultiLineTextBox(400, 500, true);
             viewport.AddContent(textbox);
             ShowFormlayoutInspectIfNeed(viewport);
         }
@@ -179,7 +179,7 @@ namespace TestGraphicPackage2
 
             for (int i = 0; i < 5; ++i)
             {
-                var textbox = new LayoutFarm.Presentation.SampleControls.UIButton(30, 30);
+                var textbox = new LayoutFarm.SampleControls.UIButton(30, 30);
                 textbox.SetLocation(i * 40, i * 40);
 
                 viewport.AddContent(textbox);
@@ -200,7 +200,7 @@ namespace TestGraphicPackage2
                 out viewport,
                 out formCanvas);
 
-            var gridBox = new LayoutFarm.Presentation.SampleControls.UIGridBox(100, 100);
+            var gridBox = new LayoutFarm.SampleControls.UIGridBox(100, 100);
             
             viewport.AddContent(gridBox);
 

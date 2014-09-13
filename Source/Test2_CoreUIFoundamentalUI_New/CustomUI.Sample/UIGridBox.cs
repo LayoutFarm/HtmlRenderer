@@ -5,14 +5,15 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-using LayoutFarm.Presentation.Text;
-using LayoutFarm.Presentation.UI;
+using LayoutFarm.Text;
+using LayoutFarm.UI;
+using LayoutFarm.Grids;
 
-namespace LayoutFarm.Presentation.SampleControls
+namespace LayoutFarm.SampleControls
 {
     public class UIGridBox : UIBox
     {
-        CustomRenderBox simpleBox;
+        CustomRenderBox gridBox;
 
         public UIGridBox(int width, int height)
             : base(width, height)
@@ -20,27 +21,24 @@ namespace LayoutFarm.Presentation.SampleControls
         }
         protected override RenderElement CurrentPrimaryRenderElement
         {
-            get { return this.simpleBox; }
+            get { return this.gridBox; }
         }
         protected override bool HasReadyRenderElement
         {
-            get { return this.simpleBox != null; }
+            get { return this.gridBox != null; }
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-            if (simpleBox == null)
+            if (gridBox == null)
             {
-                simpleBox = new CustomRenderBox(this.Width, this.Height);
+                gridBox = new CustomRenderBox(this.Width, this.Height);
+                var layers = new VisualLayerCollection();
+                //1. create grid layer
+
 
             }
-            return simpleBox;
+            return gridBox;
         }
-        public override void InvalidateGraphic()
-        {
-            if (simpleBox != null)
-            {
-                simpleBox.InvalidateGraphic();
-            }
-        }
+
     }
 }

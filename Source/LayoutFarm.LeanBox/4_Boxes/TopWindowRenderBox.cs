@@ -6,7 +6,7 @@ using System.Text;
 using System.Drawing;
 
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
     public abstract partial class TopWindowRenderBox : RenderBoxBase
     {

@@ -6,7 +6,7 @@ using System.Text;
 using System.Drawing;
 
 using System.Diagnostics; 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
 #if DEBUG

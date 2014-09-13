@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-namespace LayoutFarm.Presentation.Grids
+namespace LayoutFarm.Grids
 {
     public enum GridType
     {

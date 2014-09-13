@@ -5,8 +5,8 @@ using System.Text;
 using System.Drawing;
 using System.Diagnostics;
 
-using LayoutFarm.Presentation.Text;
-namespace LayoutFarm.Presentation.Text
+using LayoutFarm.Text;
+namespace LayoutFarm.Text
 {
 
 

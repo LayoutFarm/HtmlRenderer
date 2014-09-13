@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
     struct BitpackProperties  

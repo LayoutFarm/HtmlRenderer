@@ -9,7 +9,7 @@ using System.Text;
 
 
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
     public struct RenderElementRequest

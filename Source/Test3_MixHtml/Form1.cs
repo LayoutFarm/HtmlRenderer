@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using LayoutFarm.Presentation;
+using LayoutFarm;
 
 
 namespace TestGraphicPackage2
@@ -21,7 +21,7 @@ namespace TestGraphicPackage2
         static void ShowFormLayoutInspector(UISurfaceViewportControl viewport)
         {
 
-            var formLayoutInspector = new LayoutFarm.Presentation.Dev.FormLayoutInspector();
+            var formLayoutInspector = new LayoutFarm.Dev.FormLayoutInspector();
             formLayoutInspector.Show();
 
             formLayoutInspector.FormClosed += (s, e2) =>
@@ -78,7 +78,7 @@ namespace TestGraphicPackage2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo = new TextFontInfo(new Font("tahoma", 10), new BasicGdi32FontHelper());
+            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = new TextFontInfo(new Font("tahoma", 10), new BasicGdi32FontHelper());
 
 
             UISurfaceViewportControl viewport;
@@ -102,7 +102,7 @@ namespace TestGraphicPackage2
             //================================================== 
 
             //textbox
-            var textbox = new LayoutFarm.Presentation.SampleControls.UIMultiLineTextBox(400, 100, true);
+            var textbox = new LayoutFarm.SampleControls.UIMultiLineTextBox(400, 100, true);
             var renderTextBox = textbox.GetPrimaryRenderElement(viewport.WinRoot.RootGraphic);
             viewport.AddContent(textbox);
 

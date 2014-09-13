@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
 
@@ -99,7 +99,7 @@ namespace LayoutFarm.Presentation
         {
             winroot.AddChild(vi);
         }
-        public void AddContent(LayoutFarm.Presentation.UI.UIElement ui)
+        public void AddContent(LayoutFarm.UI.UIElement ui)
         {
             winroot.AddChild(ui.GetPrimaryRenderElement(winroot.RootGraphic));
         }

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace LayoutFarm.Presentation.UI
+namespace LayoutFarm.UI
 {
     public abstract partial class UIElement : IEventListener
     {

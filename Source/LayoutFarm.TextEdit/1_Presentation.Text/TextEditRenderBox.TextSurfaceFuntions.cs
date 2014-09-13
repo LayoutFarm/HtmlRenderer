@@ -7,12 +7,12 @@ using System.Drawing.Drawing2D;
 
 using System.IO;
 
-using LayoutFarm.Presentation;
-using LayoutFarm.Presentation.Text;
+using LayoutFarm;
+using LayoutFarm.Text;
 
 
 
-namespace LayoutFarm.Presentation.Text
+namespace LayoutFarm.Text
 {
 
     partial class TextEditRenderBox

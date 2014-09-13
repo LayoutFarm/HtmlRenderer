@@ -4,9 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-using LayoutFarm.Presentation.UI;
+using LayoutFarm.UI;
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
     public class UIHtmlBox : UIElement

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using LayoutFarm.Presentation;
+using LayoutFarm;
 
 namespace TestGraphicPackage
 {
@@ -21,7 +21,7 @@ namespace TestGraphicPackage
         static void ShowFormLayoutInspector(UISurfaceViewportControl viewport)
         {
 
-            var formLayoutInspector = new LayoutFarm.Presentation.Dev.FormLayoutInspector();
+            var formLayoutInspector = new LayoutFarm.Dev.FormLayoutInspector();
             formLayoutInspector.Show();
 
             formLayoutInspector.FormClosed += (s, e2) =>

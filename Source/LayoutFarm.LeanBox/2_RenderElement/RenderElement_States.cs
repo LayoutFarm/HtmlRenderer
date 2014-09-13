@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
     partial class RenderElement
     {   

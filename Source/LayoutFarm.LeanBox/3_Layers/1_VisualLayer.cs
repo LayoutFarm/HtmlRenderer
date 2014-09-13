@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
     public abstract class VisualLayer
     {
@@ -129,7 +129,7 @@ namespace LayoutFarm.Presentation
         {
             get
             {
-                return LayoutFarm.Presentation.RootGraphic.dbugCurrentGlobalVRoot;
+                return LayoutFarm.RootGraphic.dbugCurrentGlobalVRoot;
             }
         }
 #endif

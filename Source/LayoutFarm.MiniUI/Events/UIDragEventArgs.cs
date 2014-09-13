@@ -6,9 +6,9 @@ using System.Drawing;
 
 
 
-using LayoutFarm.Presentation;
+using LayoutFarm;
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
     public delegate void UIDragEventHandler(object sender, UIDragEventArgs e);
 

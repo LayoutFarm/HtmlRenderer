@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
     
     public interface IParentLink

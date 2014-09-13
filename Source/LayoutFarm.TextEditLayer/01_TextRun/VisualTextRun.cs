@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using LayoutFarm.Presentation;
+using LayoutFarm;
 
-namespace LayoutFarm.Presentation
+namespace LayoutFarm
 {
 
     public abstract class VisualTextRun : RenderElement
@@ -240,7 +240,7 @@ namespace LayoutFarm.Presentation
 
             if (!HasStyle)
             {
-                return LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo;
+                return LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo;
             }
             else
             {
@@ -251,7 +251,7 @@ namespace LayoutFarm.Presentation
                 }
                 else
                 {
-                    return LayoutFarm.Presentation.Text.EditableTextFlowLayer.DefaultFontInfo;
+                    return LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo;
                 }
             }
         }
