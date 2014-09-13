@@ -34,7 +34,7 @@ namespace LayoutFarm
             get
             {
 
-                if (this.IsWindowRoot)
+                if (this.IsTopWindow)
                 {
                     return (this.uiLayoutFlags & LY_SUSPEND) != 0;
                 }
@@ -86,7 +86,7 @@ namespace LayoutFarm
                 }
                 else
                 {
-                    if (this.IsWindowRoot)
+                    if (this.IsTopWindow)
                     {
                         this.TopDownReCalculateContentSize();
                         ((RenderBoxBase)this).TopDownReArrangeContentIfNeed();

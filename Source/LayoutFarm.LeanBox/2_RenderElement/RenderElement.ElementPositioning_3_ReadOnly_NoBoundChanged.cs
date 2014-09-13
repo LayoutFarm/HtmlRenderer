@@ -531,7 +531,7 @@ namespace LayoutFarm
             if (ve.visualParentLink == null)
             {
 #if DEBUG
-                if (ve.IsWindowRoot)
+                if (ve.IsTopWindow)
                 {
                 }
 
@@ -613,11 +613,11 @@ ve
             return parentVisualElem;
         }
 
-        TopWindowRenderBox InternalGetWinRootElement()
+        TopWindowRenderBox InternalGetTopWindowRenderBox()
         {
             if (visualParentLink == null)
             {
-                if (this.IsWindowRoot)
+                if (this.IsTopWindow)
                 {
                     return (TopWindowRenderBox)this;
                 }
@@ -637,7 +637,7 @@ ve
 #if DEBUG
             dbugVRoot.dbug_LayoutTraceBeginContext(RootGraphic.dbugMsg_E_LAYOUT_INV_BUB_FIRST_enter, this);
 #endif
-            TopWindowRenderBox winroot = this.InternalGetWinRootElement();
+            TopWindowRenderBox winroot = this.InternalGetTopWindowRenderBox();
             RenderElement tobeAddToLayoutQueue = BubbleUpInvalidLayoutToTopMost(this, winroot);
 #if DEBUG
 

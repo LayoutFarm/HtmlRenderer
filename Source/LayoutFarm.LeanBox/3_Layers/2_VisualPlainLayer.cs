@@ -22,7 +22,7 @@ namespace LayoutFarm
             {
                 return null;
             }
-            if (this.ownerVisualElement.IsWindowRoot)
+            if (this.ownerVisualElement.IsTopWindow)
             {
                 return (TopWindowRenderBox)this.ownerVisualElement;
             }

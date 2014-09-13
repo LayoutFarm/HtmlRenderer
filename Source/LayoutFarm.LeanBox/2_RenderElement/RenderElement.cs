@@ -13,13 +13,13 @@ namespace LayoutFarm
     {
 
         IParentLink visualParentLink;
-        //special
-
+        //special 
         bool isWindowRoot;
         bool mayHasChild;
         bool mayHasViewport;
+
         public RenderElement(int width, int height)
-        {
+        {  
             this.b_width = width;
             this.b_Height = height;
 
@@ -34,7 +34,7 @@ namespace LayoutFarm
         {
             get
             {
-                return this.InternalGetWinRootElement();
+                return this.InternalGetTopWindowRenderBox();
             }
         }
 
@@ -248,7 +248,7 @@ namespace LayoutFarm
             get
             {
                 return this.CanbeFloatingWindow &&
-                    this.ParentVisualElement == this.InternalGetWinRootElement();
+                    this.ParentVisualElement == this.InternalGetTopWindowRenderBox();
             }
         }
 

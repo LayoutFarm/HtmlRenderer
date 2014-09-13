@@ -140,7 +140,7 @@ namespace LayoutFarm
                     globalY = -container.ViewportY;
                 }
 
-                if (fromElement.IsWindowRoot)
+                if (fromElement.IsTopWindow)
                 {
                     break;
                 }

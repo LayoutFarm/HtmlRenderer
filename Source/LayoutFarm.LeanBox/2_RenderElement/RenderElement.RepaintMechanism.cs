@@ -148,7 +148,7 @@ namespace LayoutFarm
             get
             {
                 //find winroot
-                if (this.IsWindowRoot)
+                if (this.IsTopWindow)
                 {
                     return (TopWindowRenderBox)this;
                 }

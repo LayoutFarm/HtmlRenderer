@@ -82,10 +82,8 @@ namespace LayoutFarm
                             RenderElement ve = req.ve;
                             if (ve.WinRoot != null)
                             {
-                                ve.WinRoot.CurrentKeyboardFocusedElement = ve;
-                              
-                                ve.InvalidateGraphic();
-                                
+                                ve.WinRoot.CurrentKeyboardFocusedElement = ve;                              
+                                ve.InvalidateGraphic();                                
                             }
                         } break;
                     case RequestCommand.InvalidateArea:

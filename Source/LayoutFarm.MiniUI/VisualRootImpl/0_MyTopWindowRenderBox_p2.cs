@@ -791,14 +791,10 @@ HitEventName.DragStart);
                 disableGraphicOutputFlush = false;
 
                 if (hitElement.Focusable)
-                {
-                 
+                { 
                     //hitElement.Focus();
-                    hitElement.WinRoot.CurrentKeyboardFocusedElement = hitElement;
-                    
-                }
-
-
+                    hitElement.WinRoot.CurrentKeyboardFocusedElement = hitElement; 
+                } 
                 FlushGraphicUpdate();
             }
 

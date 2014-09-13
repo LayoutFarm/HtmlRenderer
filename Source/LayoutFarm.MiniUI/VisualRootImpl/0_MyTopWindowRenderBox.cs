@@ -310,7 +310,7 @@ namespace LayoutFarm
 #endif
 
 
-            if (veContainerBase.IsWindowRoot)
+            if (veContainerBase.IsTopWindow)
             {
 #if DEBUG
 

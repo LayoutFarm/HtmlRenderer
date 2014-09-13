@@ -101,7 +101,7 @@ namespace LayoutFarm
         }
 
 
-        public bool IsWindowRoot
+        public bool IsTopWindow
         {
             get
             {
