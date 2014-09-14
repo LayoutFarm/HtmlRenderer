@@ -310,7 +310,7 @@ namespace LayoutFarm.Text
             {
                 if (selectionRange.StartPoint.TextRun != null)
                 {
-                    return selectionRange.StartPoint.TextRun.MyBoxStyle;
+                    return selectionRange.StartPoint.TextRun.SpanStyle;
                 }
                 else
                 {

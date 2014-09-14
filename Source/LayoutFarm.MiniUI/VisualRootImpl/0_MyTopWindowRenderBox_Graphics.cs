@@ -25,8 +25,13 @@ namespace LayoutFarm
 
         int graphicUpdateBlockCount = 0;
 
-
-        public override void InvalidateGraphicArea(RenderElement fromElement, InternalRect elementClientRect)
+        public override void InvalidateGraphicArea(RenderElement fromElement, ref Rectangle elementClientRect)
+        {
+            var rect = InternalRect.CreateFromRect(elementClientRect);
+            InvalidateGraphicArea(fromElement, rect);
+            InternalRect.FreeInternalRect(rect);
+        }
+        void InvalidateGraphicArea(RenderElement fromElement, InternalRect elementClientRect)
         {
             if (isInRenderPhase)
             {
@@ -37,6 +42,7 @@ namespace LayoutFarm
             bool isBubbleUp = false;
 
             RenderElement startVisualElement = fromElement;
+            var myroot = this.MyVisualRoot;
 #if DEBUG
 
             RootGraphic dbugMyroot = this.dbugVRoot;
@@ -121,8 +127,7 @@ namespace LayoutFarm
                 globalX += fromElement.X;
                 globalY += fromElement.Y;
 
-#if DEBUG
-#endif
+
                 if (fromElement.MayHasViewport && isBubbleUp)
                 {
 
@@ -219,7 +224,7 @@ namespace LayoutFarm
                     accumulateArtRect.MergeRect(rootGlobalArea);
 #if DEBUG
                     if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-    dbugMyroot.dbugGraphicInvalidateTracer != null)
+                        dbugMyroot.dbugGraphicInvalidateTracer != null)
                     {
                         string state_str = "SUDDEN_1: ";
                         if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
@@ -260,7 +265,7 @@ namespace LayoutFarm
                         eventStock.ReleaseEventArgs(e);
 #if DEBUG
                         if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-    dbugMyroot.dbugGraphicInvalidateTracer != null)
+                        dbugMyroot.dbugGraphicInvalidateTracer != null)
                         {
 
                             string state_str = "SUDDEN_2: ";
@@ -292,7 +297,7 @@ namespace LayoutFarm
 
 #if DEBUG
                 if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-    dbugMyroot.dbugGraphicInvalidateTracer != null)
+                    dbugMyroot.dbugGraphicInvalidateTracer != null)
                 {
                     string state_str = "ACC: ";
                     if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
@@ -306,21 +311,7 @@ namespace LayoutFarm
             }
         }
 
-        //internal VisualDrawingChain WinRootPrepareRenderingChain(Rectangle globalRect)
-        //{
-        //    VisualDrawingChain chain = new VisualDrawingChain(globalRect);
-        //    this.PrepareDrawingChain(chain);
-        //    return chain;
-        //}
-        //internal VisualDrawingChain WinRootPrepareRenderingChain()
-        //{
-        //    VisualDrawingChain chain = new VisualDrawingChain(flushRect);
-        //    this.PrepareDrawingChain(chain);
-        //    return chain;
-        //}
-        //internal void FreeRenderingChain(VisualDrawingChain chain)
-        //{
-        //}
+        
         void SuspendGraphicUpdate()
         {
             disableGraphicOutputFlush = true;

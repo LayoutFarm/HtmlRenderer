@@ -13,15 +13,15 @@ namespace LayoutFarm.Text
     public abstract class TextSpan : RenderElement
     {
 
-        protected char[] mybuffer; 
-        TextSpanSytle runStyle;
+        protected char[] mybuffer;
+        TextSpanSytle spanStyle;
         bool isLineBreak;
 
         public TextSpan(string s)
             : base(null, 10, 10)
         {
             if (s != null && s.Length > 0)
-            {   
+            {
                 mybuffer = s.ToCharArray();
                 if (mybuffer.Length == 1 && mybuffer[0] == '\n')
                 {
@@ -53,21 +53,19 @@ namespace LayoutFarm.Text
         public TextSpan(char[] mybuffer)
             : base(null, 10, 10)
         {
+            //check line break?
             this.mybuffer = mybuffer;
             this.TransparentForAllEvents = true;
         }
-
-       
-
-        public TextSpanSytle MyBoxStyle
+        public TextSpanSytle SpanStyle
         {
             get
             {
-                return this.runStyle;
+                return this.spanStyle;
             }
         }
 
-        public virtual void SetStyle(TextSpanSytle beh)
+        public void SetStyle(TextSpanSytle beh)
         {
 
 
@@ -79,7 +77,7 @@ namespace LayoutFarm.Text
 
 
             this.InvalidateGraphic();
-            this.runStyle = beh;
+            this.spanStyle = beh;
             if (beh.positionWidth > -1)
             {
                 this.SetWidth(beh.positionWidth);
@@ -167,7 +165,7 @@ namespace LayoutFarm.Text
         {
             get
             {
-                return this.MyBoxStyle != null;
+                return this.SpanStyle != null;
             }
         }
         void DrawCharacters(Canvas canvasPage, InternalRect updateArea, char[] textArray)
@@ -182,7 +180,7 @@ namespace LayoutFarm.Text
             }
             else
             {
-                TextSpanSytle beh = this.MyBoxStyle;
+                TextSpanSytle beh = this.SpanStyle;
                 switch (canvasPage.EvaluateFontAndTextColor(beh.textFontInfo, beh.FontColor))
                 {
                     case Canvas.DIFF_FONT_SAME_TEXT_COLOR:
@@ -243,7 +241,7 @@ namespace LayoutFarm.Text
             }
             else
             {
-                TextSpanSytle beh = (TextSpanSytle)MyBoxStyle;
+                TextSpanSytle beh = (TextSpanSytle)SpanStyle;
                 if (beh != null && beh.textFontInfo != null)
                 {
                     return beh.textFontInfo;

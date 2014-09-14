@@ -14,7 +14,7 @@ namespace LayoutFarm
         VisualPlainLayer groundLayer;
         public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
-        {   
+        {
             this.rootGfx = rootGfx;
             this.Layers = new VisualLayerCollection();
             groundLayer = new VisualPlainLayer(this);
@@ -45,9 +45,9 @@ namespace LayoutFarm
 #if DEBUG
         public abstract RootGraphic dbugVisualRoot { get; }
 #endif
-        public abstract bool IsLayoutQueueClearing { get; }
-
-        public abstract void InvalidateGraphicArea(RenderElement fromElement, InternalRect elementClientRect);
+        public abstract bool IsLayoutQueueClearing { get; } 
+      
+        public abstract void InvalidateGraphicArea(RenderElement fromElement, ref Rectangle elementClientRect);
 
         public override void ClearAllChildren()
         {

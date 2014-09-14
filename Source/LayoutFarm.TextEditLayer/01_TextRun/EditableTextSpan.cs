@@ -113,7 +113,7 @@ namespace LayoutFarm.Text
                 char[] newContent = new char[length];
                 Array.Copy(this.mybuffer, sourceIndex, newContent, 0, length);
                 EditableTextSpan newTextRun = new EditableTextSpan(newContent);
-                TextSpanSytle bah = this.MyBoxStyle;
+                TextSpanSytle bah = this.SpanStyle;
                 if (bah != null)
                 {
                     newTextRun.SetStyle(bah);

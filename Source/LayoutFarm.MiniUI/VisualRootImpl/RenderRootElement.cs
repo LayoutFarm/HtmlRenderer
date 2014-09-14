@@ -9,7 +9,7 @@ namespace LayoutFarm
     public class UIRootGraphic : RootGraphic
     {
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
-         
+
         public UIRootGraphic()
         {
 #if DEBUG
@@ -40,15 +40,15 @@ namespace LayoutFarm
         {
             caretOwner = owner;
             localCaretPos = p;
-        
+
         }
         static void vinv_SetWinRoot(TopWindowRenderBox winroot)
         {
 
         }
-        
 
-         
+
+
 
         public const int IS_SHIFT_KEYDOWN = 1 << (1 - 1);
         public const int IS_ALT_KEYDOWN = 1 << (2 - 1);
@@ -75,24 +75,21 @@ namespace LayoutFarm
                     case RequestCommand.AddToWindowRoot:
                         {
                             winroot.AddChild(req.ve);
-                            
+
                         } break;
                     case RequestCommand.DoFocus:
                         {
                             RenderElement ve = req.ve;
                             if (ve.WinRoot != null)
                             {
-                                ve.WinRoot.CurrentKeyboardFocusedElement = ve;                              
-                                ve.InvalidateGraphic();                                
+                                ve.WinRoot.CurrentKeyboardFocusedElement = ve;
+                                ve.InvalidateGraphic();
                             }
                         } break;
                     case RequestCommand.InvalidateArea:
                         {
-                            Rectangle r = (Rectangle)req.parameters;
-
-                            InternalRect internalRect = InternalRect.CreateFromRect(r);
-                            winroot.InvalidateGraphicArea(req.ve, internalRect);
-                            InternalRect.FreeInternalRect(internalRect);
+                            Rectangle r = (Rectangle)req.parameters; 
+                            winroot.InvalidateGraphicArea(req.ve,ref r); 
 
                         } break;
 
