@@ -17,13 +17,15 @@ namespace LayoutFarm
     partial class MyTopWindowRenderBox
     {
 
-
+        RenderElement currentKeyboardFocusedElement = null;
         bool disableGraphicOutputFlush = false;
-        InternalRect accumulateArtRect = null;
-        Rectangle flushRect;
-        Stack<VisualDrawingChain> renderingChainStock = new Stack<VisualDrawingChain>();
+        InternalRect accumulateInvalidRect = null;
 
+        Stack<VisualDrawingChain> renderingChainStock = new Stack<VisualDrawingChain>();
         int graphicUpdateBlockCount = 0;
+
+
+        Rectangle flushRect;
 
         public override void InvalidateGraphicArea(RenderElement fromElement, ref Rectangle elementClientRect)
         {
@@ -42,7 +44,7 @@ namespace LayoutFarm
             bool isBubbleUp = false;
 
             RenderElement startVisualElement = fromElement;
-            var myroot = this.MyVisualRoot;
+
 #if DEBUG
 
             RootGraphic dbugMyroot = this.dbugVRoot;
@@ -52,9 +54,6 @@ namespace LayoutFarm
                 dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(">> :" + elementClientRect.ToRectangle().ToString()
                     , startVisualElement);
             }
-
-
-
             int dbug_ncount = 0;
 #endif
             do
@@ -135,7 +134,6 @@ namespace LayoutFarm
                     elementClientRect.Offset(globalX, globalY);
                     if (fromElement.HasDoubleScrollableSurface)
                     {
-
                         //container.VisualScrollableSurface.WindowRootNotifyInvalidArea(elementClientRect);
                     }
                     Rectangle elementRect = fromElement.BoundRect;
@@ -195,7 +193,7 @@ namespace LayoutFarm
             }
 #endif
 
-
+            //----------------------------------------
             elementClientRect.Offset(globalX, globalY);
             Rectangle rootGlobalArea = elementClientRect.ToRectangle();
 
@@ -218,10 +216,10 @@ namespace LayoutFarm
 
             if (!disableGraphicOutputFlush)
             {
-                if (accumulateArtRect != null)
+                if (accumulateInvalidRect != null)
                 {
 
-                    accumulateArtRect.MergeRect(rootGlobalArea);
+                    accumulateInvalidRect.MergeRect(rootGlobalArea);
 #if DEBUG
                     if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
                         dbugMyroot.dbugGraphicInvalidateTracer != null)
@@ -231,7 +229,7 @@ namespace LayoutFarm
                         {
                             state_str = "!!" + state_str;
                         }
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str + accumulateArtRect.ToRectangle());
+                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str + accumulateInvalidRect.ToRectangle());
                         dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
                     }
 #endif
@@ -239,29 +237,33 @@ namespace LayoutFarm
                     if (CanvasInvalidatedEvent != null)
                     {
 
-                        var e = this.eventStock.GetFreeCanvasInvalidatedEventArgs();
+                        UIInvalidateEventArgs e = this.eventStock.GetFreeCanvasInvalidatedEventArgs();
                         InternalRect internalRect = InternalRect.CreateFromRect(rootGlobalArea);
-                        e.InvalidArea = internalRect; CanvasInvalidatedEvent.Invoke(this, e);
+                        e.InvalidArea = internalRect;
+                        CanvasInvalidatedEvent(this, e);
                         InternalRect.FreeInternalRect(internalRect);
                         eventStock.ReleaseEventArgs(e);
                     }
 
-                    this.flushRect = accumulateArtRect.ToRectangle();
 
-                    InternalRect.FreeInternalRect(accumulateArtRect);
-                    accumulateArtRect = null;
+
+                    this.flushRect = accumulateInvalidRect.ToRectangle();
+
+
+                    InternalRect.FreeInternalRect(accumulateInvalidRect);
+                    accumulateInvalidRect = null;
                 }
                 else
                 {
                     if (CanvasInvalidatedEvent != null)
                     {
 
-                        var e = this.eventStock.GetFreeCanvasInvalidatedEventArgs();
+                        UIInvalidateEventArgs e = this.eventStock.GetFreeCanvasInvalidatedEventArgs();
                         InternalRect internalRect = InternalRect.CreateFromRect(rootGlobalArea);
                         e.InvalidArea = internalRect;
-                        CanvasInvalidatedEvent.Invoke(this, e);
-
+                        CanvasInvalidatedEvent(this, e);
                         InternalRect.FreeInternalRect(internalRect);
+
                         eventStock.ReleaseEventArgs(e);
 #if DEBUG
                         if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
@@ -285,13 +287,13 @@ namespace LayoutFarm
             }
             else
             {
-                if (accumulateArtRect == null)
+                if (accumulateInvalidRect == null)
                 {
-                    accumulateArtRect = InternalRect.CreateFromRect(rootGlobalArea);
+                    accumulateInvalidRect = InternalRect.CreateFromRect(rootGlobalArea);
                 }
                 else
                 {
-                    accumulateArtRect.MergeRect(rootGlobalArea);
+                    accumulateInvalidRect.MergeRect(rootGlobalArea);
                 }
 
 
@@ -304,53 +306,47 @@ namespace LayoutFarm
                     {
                         state_str = "!!" + state_str;
                     }
-                    dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("ACC: " + accumulateArtRect.ToString());
+                    dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("ACC: " + accumulateInvalidRect.ToString());
                     dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
                 }
 #endif
             }
         }
 
-        
-        void SuspendGraphicUpdate()
+        void FlushAccumGraphicUpdate()
         {
-            disableGraphicOutputFlush = true;
-        }
-        void FlushGraphicUpdate()
-        {
-
-
-            if (accumulateArtRect != null)
+            if (accumulateInvalidRect != null)
             {
 
                 if (CanvasInvalidatedEvent != null)
                 {
 
-                    var e = this.eventStock.GetFreeCanvasInvalidatedEventArgs();
-                    e.InvalidArea = accumulateArtRect;
+                    UIInvalidateEventArgs e = this.eventStock.GetFreeCanvasInvalidatedEventArgs();
+                    e.InvalidArea = accumulateInvalidRect;
 #if DEBUG
                     if (this.visualroot.dbugEnableGraphicInvalidateTrace)
                     {
 
                     }
 #endif
-
-                    CanvasInvalidatedEvent.Invoke(this, e);
+                    //--------------------------------
+                    //invoke actual platform-specific rendering process
+                    CanvasInvalidatedEvent(this, e);
+                    //--------------------------------
 
                     eventStock.ReleaseEventArgs(e);
                 }
 
+                flushRect = accumulateInvalidRect.ToRectangle();
 
-                flushRect = accumulateArtRect.ToRectangle();
-
-                InternalRect.FreeInternalRect(accumulateArtRect);
-                accumulateArtRect = null;
+                InternalRect.FreeInternalRect(accumulateInvalidRect);
+                accumulateInvalidRect = null;
 
             }
             graphicUpdateBlockCount = 0;
         }
 
-        RenderElement currentKeyboardFocusedElement = null;
+
         public bool IsCurrentElementUseCaret
         {
             get
@@ -370,7 +366,7 @@ namespace LayoutFarm
             if (graphicUpdateBlockCount <= 0)
             {
                 disableGraphicOutputFlush = false;
-                FlushGraphicUpdate();
+                FlushAccumGraphicUpdate();
                 graphicUpdateBlockCount = 0;
             }
         }

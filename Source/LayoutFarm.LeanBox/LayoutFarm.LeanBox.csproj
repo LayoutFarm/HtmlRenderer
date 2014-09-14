@@ -71,7 +71,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="1_Base\Canvas.cs" />
     <Compile Include="1_Base\InternalRect.cs" />
-    <Compile Include="1_Base\InternalRect2.cs" />
     <Compile Include="1_Base\ArtColorPalette.cs" />
     <Compile Include="1_Base\ArtImageBrush.cs" />
     <Compile Include="1_Base\FontSystem.cs" />

@@ -363,7 +363,7 @@ namespace LayoutFarm
                 
             }
             disableGraphicOutputFlush = false;
-            FlushGraphicUpdate();
+            FlushAccumGraphicUpdate();
 
 #if DEBUG
             visualroot.dbugHitTracker.Write("stop-mousedown");
@@ -428,7 +428,7 @@ namespace LayoutFarm
                     }
                 }
                 disableGraphicOutputFlush = false;
-                FlushGraphicUpdate();
+                FlushAccumGraphicUpdate();
             }
             else if (hitElement != null)
             {
@@ -446,7 +446,7 @@ namespace LayoutFarm
                     e.TranslateCanvasOriginBack();
                 }
                 disableGraphicOutputFlush = false;
-                FlushGraphicUpdate();
+                FlushAccumGraphicUpdate();
             }
 
             hitPointChain.SwapHitChain();
@@ -469,7 +469,7 @@ namespace LayoutFarm
                 }
 
                 disableGraphicOutputFlush = false;
-                FlushGraphicUpdate();
+                FlushAccumGraphicUpdate();
             }
             hitPointChain.SwapHitChain();
 
@@ -511,7 +511,7 @@ HitEventName.DragStart);
                 }
                 e.TranslateCanvasOriginBack();
                 disableGraphicOutputFlush = false;
-                FlushGraphicUpdate();
+                FlushAccumGraphicUpdate();
                 hitPointChain.ClearDragHitElements();
             }
             hitPointChain.SwapHitChain();
@@ -587,7 +587,7 @@ HitEventName.DragStart);
                     BroadcastDragHitEvents(e);
                 }
             }
-            FlushGraphicUpdate();
+            FlushAccumGraphicUpdate();
         }
 
 
@@ -738,7 +738,7 @@ HitEventName.DragStart);
 
             currentDragingElement = null;
             disableGraphicOutputFlush = false;
-            FlushGraphicUpdate();
+            FlushAccumGraphicUpdate();
 
         }
         public void OnGotFocus(UIFocusEventArgs e)
@@ -795,7 +795,7 @@ HitEventName.DragStart);
                     //hitElement.Focus();
                     hitElement.WinRoot.CurrentKeyboardFocusedElement = hitElement; 
                 } 
-                FlushGraphicUpdate();
+                FlushAccumGraphicUpdate();
             }
 
             hitPointChain.SwapHitChain();
