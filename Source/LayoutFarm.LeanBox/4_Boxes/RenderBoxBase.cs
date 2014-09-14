@@ -10,7 +10,7 @@ namespace LayoutFarm
 #if DEBUG
     [System.Diagnostics.DebuggerDisplay("RenderBoxBase {dbugGetCssBoxInfo}")]
 #endif
-    public abstract partial class RenderBoxBase : RenderElement
+    public abstract class RenderBoxBase : RenderElement
     {
 
 

@@ -45,12 +45,7 @@ namespace LayoutFarm
 #endif
 
         }
-        public override Graphics CreateGraphics()
-        {
-
-
-            throw new NotImplementedException();
-        }
+        
         void rootTasksTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
 
@@ -145,11 +140,7 @@ namespace LayoutFarm
                 this.TopDownReCalculateContentSize();
                 this.TopDownReArrangeContentIfNeed();
             }
-        }
-
-
-
-
+        } 
         public override void AddToLayoutQueue(RenderElement vs)
         {
 #if DEBUG

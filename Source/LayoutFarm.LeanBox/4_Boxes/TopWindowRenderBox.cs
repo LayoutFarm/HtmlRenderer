@@ -15,11 +15,10 @@ namespace LayoutFarm
         public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
-            this.rootGfx = rootGfx;
-            this.Layers = new VisualLayerCollection();
+            this.rootGfx = rootGfx; 
             groundLayer = new VisualPlainLayer(this);
+            this.Layers = new VisualLayerCollection();
             this.Layers.AddLayer(groundLayer);
-
             SetIsWindowRoot(this, true);
         }
         public void AddChild(RenderElement renderE)
@@ -35,8 +34,7 @@ namespace LayoutFarm
             get;
             set;
         }
-        public abstract Graphics CreateGraphics();
-
+       
         public abstract void RootBeginGraphicUpdate();
         public abstract void RootEndGraphicUpdate();
         public abstract RenderElement CurrentDraggingElement { get; set; }
@@ -51,7 +49,7 @@ namespace LayoutFarm
 
         public override void ClearAllChildren()
         {
-            this.Layers.ClearAllContentInEachLayer();
+            this.groundLayer.Clear();
         }
 
 #if DEBUG
