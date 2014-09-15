@@ -48,9 +48,9 @@ namespace LayoutFarm
                 physicalCanvasCollection = null;
             }
         }
-        public void CanvasInvalidate(InternalRect r)
+        public void CanvasInvalidate(Rectangle rect)
         {
-
+            InternalRect r = InternalRect.CreateFromRect(rect);
             if (pageA != null && pageA.IntersectsWith(r))
             {
                 pageA.Invalidate(r);
@@ -67,6 +67,7 @@ namespace LayoutFarm
             {
                 pageD.Invalidate(r);
             }
+            InternalRect.FreeInternalRect(r);
         }
         public bool IsValid
         {
@@ -199,8 +200,8 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
 
             artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
-            InternalRect rect = InternalRect.CreateFromRect(artCanvas.Rect); 
-            rootElement.DrawToThisPage(artCanvas, rect); 
+            InternalRect rect = InternalRect.CreateFromRect(artCanvas.Rect);
+            rootElement.DrawToThisPage(artCanvas, rect);
 
 #if DEBUG
             rootElement.dbugShowRenderPart(artCanvas, rect);
@@ -230,7 +231,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
             {
 
                 if (containAllAreaTestResults[i])
-                {   
+                {
                     RenderElement ve = selectedVisualElements[i];
                     if (!ve.IsInRenderChain)
                     {
@@ -239,7 +240,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
                     if (!ve.HasSolidBackground)
                     {
                         continue;
-                    } 
+                    }
 
                     Point globalLocation = ve.GetGlobalLocation();
 
@@ -298,7 +299,7 @@ int viewportX, int viewportY, int viewportWidth, int viewportHeight)
             int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
 
-            VisualDrawingChain renderChain = null; 
+            VisualDrawingChain renderChain = null;
             switch (render_parts)
             {
                 case PAGE_A:

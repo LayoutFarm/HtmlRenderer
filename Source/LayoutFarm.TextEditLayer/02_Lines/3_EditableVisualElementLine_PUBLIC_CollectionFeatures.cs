@@ -20,9 +20,9 @@ namespace LayoutFarm.Text
             return null;
         }
         
-        public TopWindowRenderBox GetWindowRoot()
+        public TopWindowRenderBox GetWinTop()
         {
-            return ownerLine.OwnerElement.WinRoot;
+            return ownerLine.OwnerElement.GetTopWindowRenderBox();
         }
         public bool MayHasOverlapChild
         {

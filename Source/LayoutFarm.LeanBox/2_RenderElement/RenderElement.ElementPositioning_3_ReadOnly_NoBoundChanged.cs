@@ -248,7 +248,7 @@ namespace LayoutFarm
             {
 
                 if (this.MayHasViewport)
-                {   
+                {
                     artHitResult.OffsetTestPoint(
                         -b_left + this.ViewportX,
                         -b_top + this.ViewportY);
@@ -266,7 +266,7 @@ namespace LayoutFarm
                 }
 
                 if (this.MayHasViewport)
-                {   
+                {
                     artHitResult.OffsetTestPoint(
                             b_left - this.ViewportX,
                             b_top - this.ViewportY);
@@ -449,7 +449,7 @@ namespace LayoutFarm
         public static int GetLayoutSpecificDimensionType(RenderElement visualElement)
         {
             return visualElement.uiLayoutFlags & 0x3;
-        } 
+        }
         public bool HasCalculatedSize
         {
             get
@@ -542,12 +542,12 @@ namespace LayoutFarm
 
             if (topBox != null)
             {
-                if (topBox.IsLayoutQueueClearing)
+                if (ve.rootGfx.LayoutQueueClearing)
                 {
                     return null;
                 }
                 else if (topBox.IsInLayoutQueue)
-                {   
+                {
                     ve.IsInLayoutQueueChainUp = true;
                     topBox.AddToLayoutQueue(ve);
                 }
@@ -612,7 +612,7 @@ ve
             return parentVisualElem;
         }
 
-        TopWindowRenderBox InternalGetTopWindowRenderBox()
+        public TopWindowRenderBox GetTopWindowRenderBox()
         {
             if (visualParentLink == null)
             {
@@ -627,7 +627,7 @@ ve
             }
             else
             {
-                return visualParentLink.GetWindowRoot();
+                return visualParentLink.GetWinTop();
             }
         }
         public void StartBubbleUpLayoutInvalidState()
@@ -637,9 +637,9 @@ ve
             dbugVRoot.dbug_LayoutTraceBeginContext(RootGraphic.dbugMsg_E_LAYOUT_INV_BUB_FIRST_enter, this);
 #endif
 
-            TopWindowRenderBox topWinBox = this.InternalGetTopWindowRenderBox();
+            TopWindowRenderBox topWinBox = this.GetTopWindowRenderBox();
             RenderElement tobeAddToLayoutQueue = BubbleUpInvalidLayoutToTopMost(this, topWinBox);
- 
+
             if (tobeAddToLayoutQueue != null
                 && topWinBox != null
                 && !tobeAddToLayoutQueue.IsInLayoutQueue)

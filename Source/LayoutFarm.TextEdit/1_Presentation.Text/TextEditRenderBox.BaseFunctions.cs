@@ -814,8 +814,7 @@ namespace LayoutFarm.Text
                     }
             }
         }
-
-
+         
         //public override Point CaretPosition
         //{
         //    get
@@ -843,7 +842,9 @@ namespace LayoutFarm.Text
             Point textManCaretPos = internalTextLayerController.CaretPos;
 
             textManCaretPos.Offset(-ViewportX, -ViewportY);
-            UIRootGraphic.SetCarentPosition(textManCaretPos, this);
+            this.Root.SetCarentPosition(textManCaretPos, this);
+
+            //RootGraphic.SetCarentPosition(textManCaretPos, this);
 
             if (textManCaretPos.X >= this.Width)
             {

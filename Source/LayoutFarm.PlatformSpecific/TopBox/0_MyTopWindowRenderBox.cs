@@ -10,20 +10,20 @@ namespace LayoutFarm
 
     public partial class MyTopWindowRenderBox : TopWindowRenderBox
     {
-        bool layoutQueueClearing = false;
+     
 
         List<RenderElement> layoutQueue = new List<RenderElement>();
         List<RenderElement> layoutQueue2 = new List<RenderElement>();
 
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
 
-        UIRootGraphic visualroot;
+        MyRootGraphic visualroot;
         CanvasEventsStock eventStock = new CanvasEventsStock();
         IEventListener currentMouseUIFocus = null;
 
 
         public MyTopWindowRenderBox(
-            UIRootGraphic visualroot,
+            MyRootGraphic visualroot,
             int width, int height)
             : base(visualroot, width, height)
         {
@@ -100,7 +100,7 @@ namespace LayoutFarm
             this.currentMouseUIFocus = ui;
         }
  
-        UIRootGraphic MyVisualRoot
+        MyRootGraphic MyVisualRoot
         {
             get
             {
@@ -139,7 +139,7 @@ namespace LayoutFarm
             RootGraphic dbugVisualRoot = this.dbugVRoot;
 #endif
 
-            if (layoutQueueClearing)
+            if (LayoutQueueClearing)
             {
                 if (vs.IsInLayoutQueue)
                 {
@@ -242,13 +242,7 @@ namespace LayoutFarm
             }
 
         }
-        public override bool IsLayoutQueueClearing
-        {
-            get
-            {
-                return this.layoutQueueClearing;
-            }
-        }
+        
         public void PrepareRender()
         {
 
@@ -364,11 +358,8 @@ namespace LayoutFarm
         }
 
         internal void ClearLayoutQueue()
-        {
-
-
-
-            this.layoutQueueClearing = true;
+        { 
+            this.LayoutQueueClearing = true;
 
 #if DEBUG
             RootGraphic visualroot = this.dbugVRoot;
@@ -399,7 +390,7 @@ namespace LayoutFarm
             }
 
             layoutQueue.Clear();
-            this.layoutQueueClearing = false;
+            this.LayoutQueueClearing = false;
             if (layoutQueue2.Count > 0)
             {
 

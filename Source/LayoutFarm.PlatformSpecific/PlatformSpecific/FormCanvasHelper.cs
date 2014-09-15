@@ -19,7 +19,7 @@ namespace LayoutFarm
             Rectangle screenClientAreaRect = Screen.PrimaryScreen.WorkingArea;
              
             //----------------------
-            var visualRoot = new UIRootGraphic();
+            var visualRoot = new MyRootGraphic(800,600);
             var windowRoot = new MyTopWindowRenderBox(visualRoot, form1.Width, form1.Height);
              
 

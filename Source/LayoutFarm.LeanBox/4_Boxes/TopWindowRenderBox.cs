@@ -35,22 +35,17 @@ namespace LayoutFarm
             set;
         }
 
+        //----------------------------------------------------------------------------
         public abstract void RootBeginGraphicUpdate();
         public abstract void RootEndGraphicUpdate();
-        
-        public abstract void AddToLayoutQueue(RenderElement vs);
- 
-        public abstract bool IsLayoutQueueClearing { get; }
-
-        public abstract void InvalidateGraphicArea(RenderElement fromElement, ref Rectangle elementClientRect);
-
-
-
+        public abstract void AddToLayoutQueue(RenderElement vs);         
+        public abstract void FlushGraphic(Rectangle rect);        
+        //---------------------------------------------------------------------------- 
         public override void ClearAllChildren()
         {
             this.groundLayer.Clear();
         }
-
+       
 #if DEBUG
         public abstract void dbugShowRenderPart(Canvas canvasPage, InternalRect updateArea);
         public RootGraphic dbugVisualRoot
@@ -59,7 +54,7 @@ namespace LayoutFarm
             {
                 return this.rootGfx;
             }
-        } 
+        }
 #endif
     }
 }

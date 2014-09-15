@@ -13,17 +13,14 @@ namespace LayoutFarm
     partial class RenderElement
     {
 
-        protected static void RootInvalidateGraphicArea(RenderElement elem, ref Rectangle rect)
+        protected static void RootInvalidateGraphicArea(RenderElement elem, ref Rectangle rect, out TopWindowRenderBox wintop)
         {
             //1.
             elem.uiFlags &= ~IS_GRAPHIC_VALID;
-            //2.
+            //2.  
 
-            var winroot = elem.WinRoot;
-            if (winroot != null)
-            {
-                winroot.InvalidateGraphicArea(elem, ref rect);
-            }
+            elem.rootGfx.InvalidateGraphicArea(elem, ref rect, out wintop);
+
         }
         public static void InvalidateGraphicLocalArea(RenderElement ve, Rectangle localArea)
         {
@@ -31,7 +28,17 @@ namespace LayoutFarm
             {
                 return;
             }
-            RootInvalidateGraphicArea(ve, ref localArea);
+            TopWindowRenderBox wintop;
+            RootInvalidateGraphicArea(ve, ref localArea, out wintop);
+        }
+        public static void InvalidateGraphicLocalArea(RenderElement ve, Rectangle localArea, out TopWindowRenderBox wintop)
+        {
+            if (localArea.Height == 0 || localArea.Width == 0)
+            {
+                wintop = null;
+                return;
+            }
+            RootInvalidateGraphicArea(ve, ref localArea, out wintop);
         }
 
         protected bool vinv_ForceReArrange
@@ -64,84 +71,56 @@ namespace LayoutFarm
         }
         public void InvalidateGraphic()
         {
+            TopWindowRenderBox wintop;
+            InvalidateGraphic(out wintop);
+            
+        }
+        public bool InvalidateGraphic(out TopWindowRenderBox wintop)
+        {
             uiFlags &= ~IS_GRAPHIC_VALID;
-
             if ((uiLayoutFlags & LY_SUSPEND_GRAPHIC) != 0)
             {
 #if DEBUG
                 dbugVRoot.dbug_PushInvalidateMsg(RootGraphic.dbugMsg_BLOCKED, this);
 #endif
-                return;
+                wintop = null;
+                return false;
             }
 
             Rectangle rect = new Rectangle(0, 0, b_width, b_Height);
-            RootInvalidateGraphicArea(this, ref rect);
+            RootInvalidateGraphicArea(this, ref rect, out wintop);
+            return wintop != null;
         }
         public void BeginGraphicUpdate()
         {
+
             InvalidateGraphic();
-
-
-            TopWindowRenderBox winroot = this.InternalGetTopWindowRenderBox();
-            if (winroot != null)
-            {
-                winroot.RootBeginGraphicUpdate();
-            }
-            else
-            {
-
-            }
-
+            this.rootGfx.BeginGraphicUpdate();
             this.uiLayoutFlags |= LY_SUSPEND_GRAPHIC;
         }
         public void EndGraphicUpdate()
         {
             this.uiLayoutFlags &= ~LY_SUSPEND_GRAPHIC;
-            InvalidateGraphic();
-            TopWindowRenderBox winroot = this.InternalGetTopWindowRenderBox();
-            if (winroot != null)
-            {
-                winroot.RootEndGraphicUpdate();
-            }
-            else
-            {
+            TopWindowRenderBox wintop;
+            if (InvalidateGraphic(out wintop)) { this.rootGfx.EndGraphicUpdate(wintop); }
 
-            }
+            this.GetTopWindowRenderBox();
         }
 
         void BeforeBoundChangedInvalidateGraphics()
         {
 
             InvalidateGraphic();
-
-            TopWindowRenderBox winroot = this.InternalGetTopWindowRenderBox();
-            if (winroot != null)
-            {
-                winroot.RootBeginGraphicUpdate();
-            }
-            else
-            {
-
-            }
-
+            this.rootGfx.BeginGraphicUpdate();
             this.uiLayoutFlags |= LY_SUSPEND_GRAPHIC;
         }
         void AfterBoundChangedInvalidateGraphics()
         {
             this.uiLayoutFlags &= ~LY_SUSPEND_GRAPHIC;
-
-            InvalidateGraphic();
-
-            TopWindowRenderBox winroot = this.InternalGetTopWindowRenderBox();
-            if (winroot != null)
-            {
-                winroot.RootEndGraphicUpdate();
-            }
-            else
-            {
-            }
+            TopWindowRenderBox wintop;
+            if (InvalidateGraphic(out wintop)) { this.rootGfx.EndGraphicUpdate(wintop); }
         }
-    
+
     }
 
 }

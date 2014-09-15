@@ -46,23 +46,10 @@ namespace LayoutFarm
             ++dbug_layer_id_count;
 #endif
         }
-
         public abstract void Clear();
-
-        protected TopWindowRenderBox WinRoot
-        {
-            get
-            {
-                return ownerVisualElement.WinRoot;
-            }
-        }
-        protected bool HasWinRoot
-        {
-            get
-            {
-
-                return ownerVisualElement.WinRoot != null;
-            }
+        protected TopWindowRenderBox GetTopWindowRenderBox()
+        { 
+            return ownerVisualElement.GetTopWindowRenderBox();  
         }
 
         public bool IsOwnerInArrangeQueue
@@ -346,7 +333,7 @@ namespace LayoutFarm
 
         }
 #endif
-        
+
         protected static bool vinv_IsInTopDownReArrangePhase
         {
             get;

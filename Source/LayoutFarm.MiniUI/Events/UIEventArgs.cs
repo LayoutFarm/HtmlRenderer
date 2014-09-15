@@ -29,7 +29,7 @@ namespace LayoutFarm
 
         int canvasXOrigin;
         int canvasYOrigin;
-
+        TopWindowRenderBox winRoot;
         public UIEventArgs()
         {
 
@@ -45,7 +45,7 @@ namespace LayoutFarm
 
             canvasXOrigin = 0;
             canvasYOrigin = 0;
-           
+
             this.winRoot = null;
         }
         public RenderElement SourceVisualElement
@@ -134,7 +134,7 @@ namespace LayoutFarm
             }
 
         }
-         
+
         public TopWindowRenderBox WinRoot
         {
             get
@@ -145,12 +145,10 @@ namespace LayoutFarm
         public void SetWinRoot(TopWindowRenderBox winRoot)
         {
             this.winRoot = winRoot;
-            
-        }
 
-         
-        TopWindowRenderBox winRoot;
-         
+        } 
+      
+
     }
 
 
@@ -167,9 +165,10 @@ namespace LayoutFarm
         public int Delta;
         public int Clicks;
         public int XDiff;
-        public int YDiff;
-
+        public int YDiff;        
         public UIMouseEventType EventType;
+        public TopWindowRenderBox WinTop;
+
         public UIMouseEventArgs()
         {
         }
@@ -341,8 +340,8 @@ namespace LayoutFarm
     }
 
     public class UIInvalidateEventArgs : UIEventArgs
-    {   
-        public InternalRect InvalidArea;
+    {
+        public Rectangle InvalidArea;
         public UIInvalidateEventArgs()
         {
 
@@ -381,8 +380,8 @@ namespace LayoutFarm
         LostFocus
     }
 
-  
-     
+
+
 
     public class UIFocusEventArgs : UIEventArgs
     {
@@ -487,6 +486,6 @@ namespace LayoutFarm
     }
 
 
-   
+
 
 }

@@ -103,7 +103,7 @@ namespace TestGraphicPackage2
 
             //textbox
             var textbox = new LayoutFarm.SampleControls.UIMultiLineTextBox(400, 100, true);
-            var renderTextBox = textbox.GetPrimaryRenderElement(viewport.WinRoot.RootGraphic);
+            var renderTextBox = textbox.GetPrimaryRenderElement(viewport.WinTop.RootGraphic);
             viewport.AddContent(textbox);
 
             //var vinv2 = visualTextBox.WinRoot.GetVInv(); 
@@ -115,7 +115,7 @@ namespace TestGraphicPackage2
             textbox.InvalidateGraphic();
 
 
-            viewport.WinRoot.CurrentKeyboardFocusedElement = renderTextBox;
+            viewport.WinTop.CurrentKeyboardFocusedElement = renderTextBox;
             viewport.PaintMe();
         }
 

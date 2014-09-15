@@ -30,14 +30,11 @@ namespace LayoutFarm
             this.dbug_SetFixedElementCode(this.GetType().Name);
 #endif
         }
-
-        public TopWindowRenderBox WinRoot
+        protected RootGraphic Root
         {
-            get
-            {
-                return this.InternalGetTopWindowRenderBox();
-            }
+            get { return this.rootGfx; }
         }
+        
 
         public bool IsFreeElement
         {
@@ -105,9 +102,7 @@ namespace LayoutFarm
             else
             {
 
-                InvalidateGraphic();
-
-
+                InvalidateGraphic(); 
                 if (value)
                 {
                     uiFlags &= ~HIDDEN;
@@ -117,7 +112,6 @@ namespace LayoutFarm
                     uiFlags |= HIDDEN;
                 }
                 InvalidateGraphic();
-
             }
 
         }
@@ -249,7 +243,7 @@ namespace LayoutFarm
             get
             {
                 return this.CanbeFloatingWindow &&
-                    this.ParentVisualElement == this.InternalGetTopWindowRenderBox();
+                    this.ParentVisualElement == this.GetTopWindowRenderBox();
             }
         }
 

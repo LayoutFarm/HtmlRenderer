@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-using System.Drawing.Drawing2D; 
+using System.Drawing.Drawing2D;
 namespace LayoutFarm
-{ 
+{
 
     public abstract class Canvas
     {
@@ -17,7 +17,7 @@ namespace LayoutFarm
 #endif
         const int CANVAS_UNUSED = 1 << (1 - 1);
         const int CANVAS_DIMEN_CHANGED = 1 << (2 - 1);
- 
+
         public abstract bool AvoidGeometryAntialias
         {
             get;

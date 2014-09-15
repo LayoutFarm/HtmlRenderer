@@ -34,7 +34,7 @@ namespace LayoutFarm
         int currentYDistanceFromDragPoint = 0;
 
 
-        bool isInRenderPhase = false;
+        
 
 
         readonly HitPointChain hitPointChain = new HitPointChain();
@@ -50,7 +50,7 @@ namespace LayoutFarm
         public event EventHandler<UIInvalidateEventArgs> CanvasInvalidatedEvent;
         public event EventHandler<UICaretEventArgs> CanvasCaretEvent;
         public event EventHandler<UICursorEventArgs> CursorStyleEventHandler;
-        public event EventHandler CanvasForcePaintMe;
+         
         public event EventHandler CurrentFocusElementChanged;
         int msgChainVersion;
         LinkedList<LinkedListNode<VisualRootTimerTask>> tobeRemoveTasks = new LinkedList<LinkedListNode<VisualRootTimerTask>>();
@@ -294,9 +294,8 @@ namespace LayoutFarm
             if (hitElement.Focusable)
             {
 
-                //hitElement.Focus();
-                hitElement.WinRoot.CurrentKeyboardFocusedElement = hitElement;
-
+                //hitElement.Focus();                 
+                e.WinTop.CurrentKeyboardFocusedElement = hitElement;
             }
             DisableGraphicOutputFlush = false;
             FlushAccumGraphicUpdate();
@@ -402,7 +401,7 @@ namespace LayoutFarm
                 Point hitElementGlobalLocation = hitElement.GetGlobalLocation();
 
                 UIMouseEventArgs e2 = new UIMouseEventArgs();
-
+                e2.WinTop = this;
                 e2.Location = hitPointChain.CurrentHitPoint;
                 e2.SourceVisualElement = hitElement;
                 IEventListener ui = hitElement.GetController() as IEventListener;
@@ -735,8 +734,8 @@ namespace LayoutFarm
 
                 if (hitElement.Focusable)
                 {
-                    //hitElement.Focus();
-                    hitElement.WinRoot.CurrentKeyboardFocusedElement = hitElement;
+                    //hitElement.Focus(); 
+                    e.WinTop.CurrentKeyboardFocusedElement = hitElement;
                 }
                 FlushAccumGraphicUpdate();
             }

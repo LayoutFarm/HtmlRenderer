@@ -488,23 +488,16 @@ namespace LayoutFarm.Text
 #if DEBUG
             vinv_dbug_EnterLayerReArrangeContent(this);
 #endif
-            //this.BeginLayerGraphicUpdate();
+
+           
             this.BeginLayerLayoutUpdate();
 
             RenderBoxBase container = this.ownerVisualElement as RenderBoxBase;
             if (container != null)
-            {
-
-                PerformHorizontalFlowArrange(container.ClientLeft, ownerVisualElement.Width, container.ClientTop);
-                //if (ownerVisualElement.MayHasChild)
-                //{
-                //    PerformHorizontalFlowArrange(container.ClientLeft, 1000, container.ClientTop);
-                //}
-                //else
-                //{
-
-                //}
+            {  
+                PerformHorizontalFlowArrange(container.ClientLeft, ownerVisualElement.Width, container.ClientTop);                
             }
+
             if (Reflow != null)
             {
                 Reflow(this, EventArgs.Empty);

@@ -59,7 +59,7 @@ namespace TestGraphicPackage2
 
             var sampleButton = new LayoutFarm.SampleControls.UIButton(30, 30);
             viewport.AddContent(sampleButton);
-            viewport.WinRoot.TopDownReCalculateContentSize();
+            viewport.WinTop.TopDownReCalculateContentSize();
             sampleButton.InvalidateGraphic();
             //==================================================  
             viewport.PaintMe();
@@ -183,7 +183,7 @@ namespace TestGraphicPackage2
                 textbox.SetLocation(i * 40, i * 40);
 
                 viewport.AddContent(textbox);
-                viewport.WinRoot.TopDownReCalculateContentSize();
+                viewport.WinTop.TopDownReCalculateContentSize();
                 textbox.InvalidateGraphic();
             }
 
@@ -206,7 +206,7 @@ namespace TestGraphicPackage2
             viewport.AddContent(gridBox);
 
 
-            viewport.WinRoot.TopDownReCalculateContentSize();
+            viewport.WinTop.TopDownReCalculateContentSize();
             gridBox.InvalidateGraphic();
 
             //==================================================  
