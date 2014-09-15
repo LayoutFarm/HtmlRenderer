@@ -60,7 +60,8 @@ namespace LayoutFarm.Text
         void AddNormalRunAfter(EditableTextSpan afterVisualElement, EditableTextSpan v)
         {
             EditableTextSpan.SetVisualElementAsChildOfOther(v,
-             new VisualEditableLineParentLink(this, base.AddAfter(GetLineLinkedNode(afterVisualElement), v)));
+             new VisualEditableLineParentLink(this,
+                 base.AddAfter(GetLineLinkedNode(afterVisualElement), v)));
 
             if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
             {

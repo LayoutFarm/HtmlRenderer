@@ -15,7 +15,7 @@ namespace LayoutFarm
         public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
-            this.rootGfx = rootGfx; 
+            this.rootGfx = rootGfx;
             groundLayer = new VisualPlainLayer(this);
             this.Layers = new VisualLayerCollection();
             this.Layers.AddLayer(groundLayer);
@@ -34,18 +34,17 @@ namespace LayoutFarm
             get;
             set;
         }
-       
+
         public abstract void RootBeginGraphicUpdate();
         public abstract void RootEndGraphicUpdate();
-        public abstract RenderElement CurrentDraggingElement { get; set; }
-
+        
         public abstract void AddToLayoutQueue(RenderElement vs);
-#if DEBUG
-        public abstract RootGraphic dbugVisualRoot { get; }
-#endif
-        public abstract bool IsLayoutQueueClearing { get; } 
-      
+ 
+        public abstract bool IsLayoutQueueClearing { get; }
+
         public abstract void InvalidateGraphicArea(RenderElement fromElement, ref Rectangle elementClientRect);
+
+
 
         public override void ClearAllChildren()
         {
@@ -54,6 +53,13 @@ namespace LayoutFarm
 
 #if DEBUG
         public abstract void dbugShowRenderPart(Canvas canvasPage, InternalRect updateArea);
+        public RootGraphic dbugVisualRoot
+        {
+            get
+            {
+                return this.rootGfx;
+            }
+        } 
 #endif
     }
 }

@@ -18,12 +18,10 @@ namespace LayoutFarm
     {
 
         RenderElement currentKeyboardFocusedElement = null;
-        bool disableGraphicOutputFlush = false;
+
         InternalRect accumulateInvalidRect = null;
 
         Stack<VisualDrawingChain> renderingChainStock = new Stack<VisualDrawingChain>();
-        int graphicUpdateBlockCount = 0;
-
 
         Rectangle flushRect;
 
@@ -32,6 +30,17 @@ namespace LayoutFarm
             var rect = InternalRect.CreateFromRect(elementClientRect);
             InvalidateGraphicArea(fromElement, rect);
             InternalRect.FreeInternalRect(rect);
+        }
+
+        int GraphicUpdateSuspendCount
+        {
+            get { return this.visualroot.graphicUpdateBlockCount; }
+            set { this.visualroot.graphicUpdateBlockCount = value; }
+        }
+        bool DisableGraphicOutputFlush
+        {
+            get { return this.visualroot.disableGraphicOutputFlush; }
+            set { this.visualroot.disableGraphicOutputFlush = value; }
         }
         void InvalidateGraphicArea(RenderElement fromElement, InternalRect elementClientRect)
         {
@@ -214,7 +223,7 @@ namespace LayoutFarm
                 return;
             }
 
-            if (!disableGraphicOutputFlush)
+            if (!DisableGraphicOutputFlush)
             {
                 if (accumulateInvalidRect != null)
                 {
@@ -343,7 +352,7 @@ namespace LayoutFarm
                 accumulateInvalidRect = null;
 
             }
-            graphicUpdateBlockCount = 0;
+            GraphicUpdateSuspendCount = 0;
         }
 
 
@@ -355,19 +364,20 @@ namespace LayoutFarm
 
             }
         }
+
         public override void RootBeginGraphicUpdate()
         {
-            graphicUpdateBlockCount++;
-            disableGraphicOutputFlush = true;
+            GraphicUpdateSuspendCount++;
+            DisableGraphicOutputFlush = true;
         }
         public override void RootEndGraphicUpdate()
         {
-            graphicUpdateBlockCount--;
-            if (graphicUpdateBlockCount <= 0)
+            GraphicUpdateSuspendCount--;
+            if (GraphicUpdateSuspendCount <= 0)
             {
-                disableGraphicOutputFlush = false;
+                DisableGraphicOutputFlush = false;
                 FlushAccumGraphicUpdate();
-                graphicUpdateBlockCount = 0;
+                GraphicUpdateSuspendCount = 0;
             }
         }
         public void ClearNotificationSizeChangeList()

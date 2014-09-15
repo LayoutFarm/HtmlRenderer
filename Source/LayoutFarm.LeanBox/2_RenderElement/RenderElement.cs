@@ -408,12 +408,9 @@ namespace LayoutFarm
                 return 0;
             }
 
-        }
-
-
+        } 
         public virtual RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
-        {
-
+        { 
             return null;
         }
 

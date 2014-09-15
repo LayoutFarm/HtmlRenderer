@@ -519,9 +519,9 @@ namespace LayoutFarm
         {
             ve.InvalidateLayoutAndStartBubbleUp();
         }
-
-        static RenderElement BubbleUpInvalidLayoutToTopMost(RenderElement ve, TopWindowRenderBox winroot)
+        static RenderElement BubbleUpInvalidLayoutToTopMost(RenderElement ve, TopWindowRenderBox topBox)
         {
+
 #if DEBUG
             RootGraphic dbugVRoot = ve.dbugVRoot;
 #endif
@@ -539,18 +539,17 @@ namespace LayoutFarm
 #endif
                 return null;
             }
-            if (winroot != null)
+
+            if (topBox != null)
             {
-                if (winroot.IsLayoutQueueClearing)
+                if (topBox.IsLayoutQueueClearing)
                 {
                     return null;
                 }
-                else if (winroot.IsInLayoutQueue)
-                {
-
-
+                else if (topBox.IsInLayoutQueue)
+                {   
                     ve.IsInLayoutQueueChainUp = true;
-                    winroot.AddToLayoutQueue(ve);
+                    topBox.AddToLayoutQueue(ve);
                 }
             }
 #if DEBUG
@@ -591,7 +590,7 @@ ve
 
                     parentVisualElem.IsInLayoutQueueChainUp = true;
 
-                    RenderElement upper = BubbleUpInvalidLayoutToTopMost(parentVisualElem, winroot);
+                    RenderElement upper = BubbleUpInvalidLayoutToTopMost(parentVisualElem, topBox);
 
                     if (upper != null)
                     {
@@ -637,17 +636,15 @@ ve
 #if DEBUG
             dbugVRoot.dbug_LayoutTraceBeginContext(RootGraphic.dbugMsg_E_LAYOUT_INV_BUB_FIRST_enter, this);
 #endif
-            TopWindowRenderBox winroot = this.InternalGetTopWindowRenderBox();
-            RenderElement tobeAddToLayoutQueue = BubbleUpInvalidLayoutToTopMost(this, winroot);
-#if DEBUG
 
-#endif
-
+            TopWindowRenderBox topWinBox = this.InternalGetTopWindowRenderBox();
+            RenderElement tobeAddToLayoutQueue = BubbleUpInvalidLayoutToTopMost(this, topWinBox);
+ 
             if (tobeAddToLayoutQueue != null
-                && winroot != null
+                && topWinBox != null
                 && !tobeAddToLayoutQueue.IsInLayoutQueue)
             {
-                winroot.AddToLayoutQueue(tobeAddToLayoutQueue);
+                topWinBox.AddToLayoutQueue(tobeAddToLayoutQueue);
             }
 
 #if DEBUG

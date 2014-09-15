@@ -99,15 +99,7 @@ namespace LayoutFarm
 
             this.currentMouseUIFocus = ui;
         }
-#if DEBUG
-        public override RootGraphic dbugVisualRoot
-        {
-            get
-            {
-                return this.visualroot;
-            }
-        }
-#endif
+ 
         UIRootGraphic MyVisualRoot
         {
             get
