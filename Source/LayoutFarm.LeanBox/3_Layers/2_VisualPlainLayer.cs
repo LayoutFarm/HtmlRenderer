@@ -9,8 +9,10 @@ namespace LayoutFarm
 {
 
     public class VisualPlainLayer : VisualLayer
-    {   
+    {
         LinkedList<RenderElement> myElements = new LinkedList<RenderElement>();
+        public event EventHandler CustomRearrangeContent;
+
         public VisualPlainLayer(RenderElement owner)
             : base(owner)
         {
@@ -51,7 +53,7 @@ namespace LayoutFarm
             }
         }
 
-        public  void AddTop(RenderElement visualElement)
+        public void AddTop(RenderElement visualElement)
         {
 #if DEBUG
             if (visualElement.ParentLink != null)
@@ -71,7 +73,7 @@ namespace LayoutFarm
         }
 
 
-       IEnumerable<RenderElement> GetDrawingIter()
+        IEnumerable<RenderElement> GetDrawingIter()
         {
 
             LinkedListNode<RenderElement> curNode = this.myElements.First;
@@ -204,12 +206,16 @@ namespace LayoutFarm
             vinv_dbug_EnterLayerReArrangeContent(this);
 #endif
             //this.BeginLayerLayoutUpdate();
+            if (CustomRearrangeContent != null)
+            {
+                CustomRearrangeContent(this, EventArgs.Empty);
+            }
 
             //this.EndLayerLayoutUpdate();
 #if DEBUG
             vinv_dbug_ExitLayerReArrangeContent();
 #endif
-        } 
+        }
         public override void TopDownReCalculateContentSize()
         {
 #if DEBUG

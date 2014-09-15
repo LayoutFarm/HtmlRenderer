@@ -40,11 +40,16 @@ namespace LayoutFarm
         protected VisualLayer(RenderElement owner)
         {
             this.ownerVisualElement = owner;
-
+           
 #if DEBUG
             this.dbug_layer_id = dbug_layer_id_count;
             ++dbug_layer_id_count;
 #endif
+        }
+         
+        public RootGraphic Root
+        {
+            get { return this.ownerVisualElement.Root; }
         }
         public abstract void Clear();
         protected TopWindowRenderBox GetTopWindowRenderBox()

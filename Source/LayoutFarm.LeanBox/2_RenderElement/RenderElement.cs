@@ -30,7 +30,7 @@ namespace LayoutFarm
             this.dbug_SetFixedElementCode(this.GetType().Name);
 #endif
         }
-        protected RootGraphic Root
+        public RootGraphic Root
         {
             get { return this.rootGfx; }
         }

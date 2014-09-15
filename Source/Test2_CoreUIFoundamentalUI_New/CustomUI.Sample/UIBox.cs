@@ -15,9 +15,7 @@ namespace LayoutFarm.SampleControls
         int _left;
         int _top;
         int _width;
-        int _height;
-
-        public event EventHandler<UIMouseEventArgs> MouseDown;
+        int _height; 
 
         public UIBox(int width, int height)
         {
@@ -70,13 +68,7 @@ namespace LayoutFarm.SampleControls
                     _height);
             }
         }
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {
-            if (this.MouseDown != null)
-            {
-                this.MouseDown(this, e);
-            }
-        }
+        
         protected abstract RenderElement CurrentPrimaryRenderElement
         {
             get;

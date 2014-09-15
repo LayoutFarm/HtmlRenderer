@@ -26,6 +26,7 @@
             this.cmdShowMultipleBox = new System.Windows.Forms.Button();
             this.lstHtmlTestFiles = new System.Windows.Forms.ListBox();
             this.cmdSampleGridBox = new System.Windows.Forms.Button();
+            this.cmdSampleScrollbar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cmdShowBasicFormCanvas
@@ -115,11 +116,22 @@
             this.cmdSampleGridBox.UseVisualStyleBackColor = true;
             this.cmdSampleGridBox.Click += new System.EventHandler(this.cmdSampleGridBox_Click);
             // 
+            // cmdSampleScrollbar
+            // 
+            this.cmdSampleScrollbar.Location = new System.Drawing.Point(294, 94);
+            this.cmdSampleScrollbar.Name = "cmdSampleScrollbar";
+            this.cmdSampleScrollbar.Size = new System.Drawing.Size(249, 45);
+            this.cmdSampleScrollbar.TabIndex = 13;
+            this.cmdSampleScrollbar.Text = "1.4 SampleScrollBar";
+            this.cmdSampleScrollbar.UseVisualStyleBackColor = true;
+            this.cmdSampleScrollbar.Click += new System.EventHandler(this.cmdSampleScrollbar_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1087, 529);
+            this.Controls.Add(this.cmdSampleScrollbar);
             this.Controls.Add(this.cmdSampleGridBox);
             this.Controls.Add(this.lstHtmlTestFiles);
             this.Controls.Add(this.cmdShowMultipleBox);
@@ -147,6 +159,7 @@
         private System.Windows.Forms.Button cmdShowMultipleBox;
         private System.Windows.Forms.ListBox lstHtmlTestFiles;
         private System.Windows.Forms.Button cmdSampleGridBox;
+        private System.Windows.Forms.Button cmdSampleScrollbar;
     }
 }
 

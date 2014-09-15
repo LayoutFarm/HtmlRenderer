@@ -214,5 +214,23 @@ namespace TestGraphicPackage2
             //ShowFormLayoutInspector(viewport);
 
         }
+
+        private void cmdSampleScrollbar_Click(object sender, EventArgs e)
+        {
+            UISurfaceViewportControl viewport;
+
+            Form formCanvas;
+            CreateReadyForm(
+                out viewport,
+                out formCanvas);
+
+            var scbar = new LayoutFarm.SampleControls.UIScrollBar(15, 200);
+            scbar.SetLocation(10, 10);
+            viewport.AddContent(scbar);
+            viewport.WinTop.TopDownReCalculateContentSize();
+            scbar.InvalidateGraphic();
+
+            viewport.PaintMe();
+        }
     }
 }

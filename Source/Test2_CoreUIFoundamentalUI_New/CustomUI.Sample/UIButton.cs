@@ -13,6 +13,7 @@ namespace LayoutFarm.SampleControls
 
     public class UIButton : UIBox
     {
+        public event EventHandler<UIMouseEventArgs> MouseDown;
         CustomRenderElement primElement;
         public UIButton(int width, int height)
             : base(width, height)
@@ -41,7 +42,14 @@ namespace LayoutFarm.SampleControls
             }
             return primElement;
         }
-
+        //----------------------------------------------------
+        protected override void OnMouseDown(UIMouseEventArgs e)
+        {
+            if (this.MouseDown != null)
+            {
+                this.MouseDown(this, e);
+            }
+        }
     }
 
 
