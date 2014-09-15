@@ -6,11 +6,12 @@ using System.Drawing;
 
 namespace LayoutFarm
 {
-    public class UIRootGraphic : RootGraphic
+
+    public class MyRootGraphic : RootGraphic
     {
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
-         
-        public UIRootGraphic()
+        public MyRootGraphic(int width, int height)
+            : base(width, height)
         {
 #if DEBUG
             dbugCurrentGlobalVRoot = this;
@@ -18,13 +19,14 @@ namespace LayoutFarm
 #endif
         }
 #if DEBUG
-        ~UIRootGraphic()
+        ~MyRootGraphic()
         {
             dbugHitTracker.Close();
         }
 #endif
         static Point localCaretPos;
         static RenderElement caretOwner;
+
         public static Point GetGlobalCaretPosition()
         {
             if (caretOwner == null)
@@ -36,19 +38,18 @@ namespace LayoutFarm
             caretPos.Offset(globalCaret.X, globalCaret.Y);
             return caretPos;
         }
-        public static void SetCarentPosition(Point p, RenderElement owner)
-        {
-            caretOwner = owner;
-            localCaretPos = p;
-        
-        }
-        static void vinv_SetWinRoot(TopWindowRenderBox winroot)
+
+        //public static void SetCarentPosition(Point p, RenderElement owner)
+        //{
+        //    caretOwner = owner;
+        //    localCaretPos = p; 
+        //}
+        public override void SetCarentPosition(Point p, RenderElement renderE)
         {
 
         }
-        
 
-         
+
 
         public const int IS_SHIFT_KEYDOWN = 1 << (1 - 1);
         public const int IS_ALT_KEYDOWN = 1 << (2 - 1);
@@ -63,7 +64,7 @@ namespace LayoutFarm
             }
         }
 
-        public void ClearVisualRequests(TopWindowRenderBox winroot)
+        public void ClearVisualRequests(TopWindowRenderBox wintop)
         {
             int j = veReqList.Count;
             for (int i = 0; i < j; ++i)
@@ -74,26 +75,21 @@ namespace LayoutFarm
 
                     case RequestCommand.AddToWindowRoot:
                         {
-                            winroot.AddChild(req.ve);
-                            
+                            wintop.AddChild(req.ve);
+
                         } break;
                     case RequestCommand.DoFocus:
                         {
                             RenderElement ve = req.ve;
-                            if (ve.WinRoot != null)
-                            {
-                                ve.WinRoot.CurrentKeyboardFocusedElement = ve;                              
-                                ve.InvalidateGraphic();                                
-                            }
+                            wintop.CurrentKeyboardFocusedElement = ve;
+                            ve.InvalidateGraphic();
+                             
                         } break;
                     case RequestCommand.InvalidateArea:
                         {
                             Rectangle r = (Rectangle)req.parameters;
-
-                            InternalRect internalRect = InternalRect.CreateFromRect(r);
-                            winroot.InvalidateGraphicArea(req.ve, internalRect);
-                            InternalRect.FreeInternalRect(internalRect);
-
+                            TopWindowRenderBox wintop2;
+                            this.InvalidateGraphicArea(req.ve, ref r, out wintop2);
                         } break;
 
                 }

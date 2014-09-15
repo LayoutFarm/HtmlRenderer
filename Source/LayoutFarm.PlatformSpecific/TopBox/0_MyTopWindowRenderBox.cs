@@ -10,20 +10,20 @@ namespace LayoutFarm
 
     public partial class MyTopWindowRenderBox : TopWindowRenderBox
     {
-        bool layoutQueueClearing = false;
+     
 
         List<RenderElement> layoutQueue = new List<RenderElement>();
         List<RenderElement> layoutQueue2 = new List<RenderElement>();
 
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
 
-        UIRootGraphic visualroot;
+        MyRootGraphic visualroot;
         CanvasEventsStock eventStock = new CanvasEventsStock();
         IEventListener currentMouseUIFocus = null;
 
 
         public MyTopWindowRenderBox(
-            UIRootGraphic visualroot,
+            MyRootGraphic visualroot,
             int width, int height)
             : base(visualroot, width, height)
         {
@@ -45,12 +45,7 @@ namespace LayoutFarm
 #endif
 
         }
-        public override Graphics CreateGraphics()
-        {
-
-
-            throw new NotImplementedException();
-        }
+        
         void rootTasksTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
 
@@ -104,16 +99,8 @@ namespace LayoutFarm
 
             this.currentMouseUIFocus = ui;
         }
-#if DEBUG
-        public override RootGraphic dbugVisualRoot
-        {
-            get
-            {
-                return this.visualroot;
-            }
-        }
-#endif
-        UIRootGraphic MyVisualRoot
+ 
+        MyRootGraphic MyVisualRoot
         {
             get
             {
@@ -145,18 +132,14 @@ namespace LayoutFarm
                 this.TopDownReCalculateContentSize();
                 this.TopDownReArrangeContentIfNeed();
             }
-        }
-
-
-
-
+        } 
         public override void AddToLayoutQueue(RenderElement vs)
         {
 #if DEBUG
             RootGraphic dbugVisualRoot = this.dbugVRoot;
 #endif
 
-            if (layoutQueueClearing)
+            if (LayoutQueueClearing)
             {
                 if (vs.IsInLayoutQueue)
                 {
@@ -259,13 +242,7 @@ namespace LayoutFarm
             }
 
         }
-        public override bool IsLayoutQueueClearing
-        {
-            get
-            {
-                return this.layoutQueueClearing;
-            }
-        }
+        
         public void PrepareRender()
         {
 
@@ -381,11 +358,8 @@ namespace LayoutFarm
         }
 
         internal void ClearLayoutQueue()
-        {
-
-
-
-            this.layoutQueueClearing = true;
+        { 
+            this.LayoutQueueClearing = true;
 
 #if DEBUG
             RootGraphic visualroot = this.dbugVRoot;
@@ -416,7 +390,7 @@ namespace LayoutFarm
             }
 
             layoutQueue.Clear();
-            this.layoutQueueClearing = false;
+            this.LayoutQueueClearing = false;
             if (layoutQueue2.Count > 0)
             {
 

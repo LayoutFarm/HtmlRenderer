@@ -59,7 +59,7 @@ namespace TestGraphicPackage2
 
             var sampleButton = new LayoutFarm.SampleControls.UIButton(30, 30);
             viewport.AddContent(sampleButton);
-            viewport.WinRoot.TopDownReCalculateContentSize();
+            viewport.WinTop.TopDownReCalculateContentSize();
             sampleButton.InvalidateGraphic();
             //==================================================  
             viewport.PaintMe();
@@ -148,25 +148,25 @@ namespace TestGraphicPackage2
                 ShowFormLayoutInspector(viewport);
             }
         }
-        static TextRunStyle[] CreateRoleSet(TextFontInfo fontInfo, params Color[] colors)
-        {
-            int j = colors.Length;
-            TextRunStyle[] roleSet = new TextRunStyle[j];
-            for (int i = 0; i < j; ++i)
-            {
-                roleSet[i] = CreateSimpleTextRole(fontInfo, colors[i]);
-            }
-            return roleSet;
-        }
-        static TextRunStyle CreateSimpleTextRole(TextFontInfo textFontInfo, Color textColor)
-        {
+        //static TextRunStyle[] CreateRoleSet(TextFontInfo fontInfo, params Color[] colors)
+        //{
+        //    int j = colors.Length;
+        //    TextRunStyle[] roleSet = new TextRunStyle[j];
+        //    for (int i = 0; i < j; ++i)
+        //    {
+        //        roleSet[i] = CreateSimpleTextRole(fontInfo, colors[i]);
+        //    }
+        //    return roleSet;
+        //}
+        //static TextRunStyle CreateSimpleTextRole(TextFontInfo textFontInfo, Color textColor)
+        //{
 
-            TextRunStyle beh = new TextRunStyle();
-            beh.FontColor = textColor;
+        //    TextRunStyle beh = new TextRunStyle();
+        //    beh.FontColor = textColor;
 
 
-            return beh;
-        }
+        //    return beh;
+        //}
 
         private void cmdShowMultipleBox_Click(object sender, EventArgs e)
         {
@@ -183,7 +183,7 @@ namespace TestGraphicPackage2
                 textbox.SetLocation(i * 40, i * 40);
 
                 viewport.AddContent(textbox);
-                viewport.WinRoot.TopDownReCalculateContentSize();
+                viewport.WinTop.TopDownReCalculateContentSize();
                 textbox.InvalidateGraphic();
             }
 
@@ -206,7 +206,7 @@ namespace TestGraphicPackage2
             viewport.AddContent(gridBox);
 
 
-            viewport.WinRoot.TopDownReCalculateContentSize();
+            viewport.WinTop.TopDownReCalculateContentSize();
             gridBox.InvalidateGraphic();
 
             //==================================================  

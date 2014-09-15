@@ -8,9 +8,9 @@ namespace LayoutFarm.Text
 
     class VisualEditableLineParentLink : IParentLink
     {
-        internal readonly LinkedListNode<EditableVisualTextRun> internalLinkedNode;
+        internal readonly LinkedListNode<EditableTextSpan> internalLinkedNode;
         EditableVisualElementLine ownerLine;
-        internal VisualEditableLineParentLink(EditableVisualElementLine ownerLine, LinkedListNode<EditableVisualTextRun> linkNode)
+        internal VisualEditableLineParentLink(EditableVisualElementLine ownerLine, LinkedListNode<EditableTextSpan> linkNode)
         {
             this.internalLinkedNode = linkNode;
             this.ownerLine = ownerLine;
@@ -20,9 +20,9 @@ namespace LayoutFarm.Text
             return null;
         }
         
-        public TopWindowRenderBox GetWindowRoot()
+        public TopWindowRenderBox GetWinTop()
         {
-            return ownerLine.OwnerElement.WinRoot;
+            return ownerLine.OwnerElement.GetTopWindowRenderBox();
         }
         public bool MayHasOverlapChild
         {
@@ -94,7 +94,7 @@ namespace LayoutFarm.Text
         {
             get
             {
-                LinkedListNode<EditableVisualTextRun> next = this.internalLinkedNode.Next;
+                LinkedListNode<EditableTextSpan> next = this.internalLinkedNode.Next;
                 if (next != null)
                 {
                     return next.Value;
@@ -109,7 +109,7 @@ namespace LayoutFarm.Text
         {
             get
             {
-                LinkedListNode<EditableVisualTextRun> prv = this.internalLinkedNode.Previous;
+                LinkedListNode<EditableTextSpan> prv = this.internalLinkedNode.Previous;
                 if (prv != null)
                 {
                     return prv.Value;
@@ -147,7 +147,7 @@ namespace LayoutFarm.Text
     {
 
 
-        public new void AddLast(EditableVisualTextRun v)
+        public new void AddLast(EditableTextSpan v)
         {
             if (!v.IsLineBreak)
             {
@@ -161,7 +161,7 @@ namespace LayoutFarm.Text
                 AddLineBreakAfter(this.LastRun);
             }
         }
-        public new void AddFirst(EditableVisualTextRun v)
+        public new void AddFirst(EditableTextSpan v)
         {
             if (!v.IsLineBreak)
             {
@@ -173,7 +173,7 @@ namespace LayoutFarm.Text
             }
 
         }
-        public void AddBefore(EditableVisualTextRun beforeVisualElement, EditableVisualTextRun v)
+        public void AddBefore(EditableTextSpan beforeVisualElement, EditableTextSpan v)
         {
             if (!v.IsLineBreak)
             {
@@ -185,7 +185,7 @@ namespace LayoutFarm.Text
             }
 
         }
-        public void AddAfter(EditableVisualTextRun afterVisualElement, EditableVisualTextRun v)
+        public void AddAfter(EditableTextSpan afterVisualElement, EditableTextSpan v)
         {
             if (!v.IsLineBreak)
             {
@@ -197,21 +197,21 @@ namespace LayoutFarm.Text
             }
         }
 
-        internal void UnsafeAddLast(EditableVisualTextRun run)
+        internal void UnsafeAddLast(EditableTextSpan run)
         {
-            EditableVisualTextRun.SetVisualElementAsChildOfOther(run, new VisualEditableLineParentLink(this, base.AddLast(run)));
+            EditableTextSpan.SetVisualElementAsChildOfOther(run, new VisualEditableLineParentLink(this, base.AddLast(run)));
         }
-        internal void UnsafeAddFirst(EditableVisualTextRun run)
+        internal void UnsafeAddFirst(EditableTextSpan run)
         {
-            EditableVisualTextRun.SetVisualElementAsChildOfOther(run, new VisualEditableLineParentLink(this, base.AddFirst(run)));
+            EditableTextSpan.SetVisualElementAsChildOfOther(run, new VisualEditableLineParentLink(this, base.AddFirst(run)));
         }
-        internal void UnsafeAddAfter(EditableVisualTextRun after, EditableVisualTextRun run)
+        internal void UnsafeAddAfter(EditableTextSpan after, EditableTextSpan run)
         {
-            EditableVisualTextRun.SetVisualElementAsChildOfOther(run,
+            EditableTextSpan.SetVisualElementAsChildOfOther(run,
             new VisualEditableLineParentLink(this,
                 base.AddAfter(GetLineLinkedNode(after), run)));
         }
-        internal void UnsafeRemoveVisualElement(EditableVisualTextRun v)
+        internal void UnsafeRemoveVisualElement(EditableTextSpan v)
         {
             base.Remove(GetLineLinkedNode(v));
         }

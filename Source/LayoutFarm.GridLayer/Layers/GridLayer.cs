@@ -94,8 +94,7 @@ namespace LayoutFarm.Grids
 #if DEBUG
             vinv_dbug_EnterLayerReArrangeContent(this);
 #endif
-            //---------------------------------
-
+            //--------------------------------- 
             this.BeginLayerLayoutUpdate();
             //---------------------------------
             if (gridCols != null && gridCols.Count > 0)

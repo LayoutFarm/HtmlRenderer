@@ -16,7 +16,7 @@ namespace LayoutFarm
         {
 
         }
-        public TopWindowRenderBox GetWindowRoot()
+        public TopWindowRenderBox GetWinTop()
         {
             if (this.ownerVisualElement == null)
             {
@@ -28,7 +28,7 @@ namespace LayoutFarm
             }
             else
             {
-                return this.WinRoot;
+                return this.GetTopWindowRenderBox();
             }
         }
 
@@ -203,9 +203,9 @@ namespace LayoutFarm
 #if DEBUG
             vinv_dbug_EnterLayerReArrangeContent(this);
 #endif
-            this.BeginLayerLayoutUpdate();
+            //this.BeginLayerLayoutUpdate();
 
-            this.EndLayerLayoutUpdate();
+            //this.EndLayerLayoutUpdate();
 #if DEBUG
             vinv_dbug_ExitLayerReArrangeContent();
 #endif

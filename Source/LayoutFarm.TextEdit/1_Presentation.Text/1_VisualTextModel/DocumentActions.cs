@@ -109,10 +109,10 @@ namespace LayoutFarm.Text
     }
     class DocActionDeleteRange : DocumentAction
     {
-        LinkedList<EditableVisualTextRun> deletedTextRuns;
+        LinkedList<EditableTextSpan> deletedTextRuns;
         int endLineNumber;
         int endCharIndex;
-        public DocActionDeleteRange(LinkedList<EditableVisualTextRun> deletedTextRuns, int startLineNum, int startColumnNum,
+        public DocActionDeleteRange(LinkedList<EditableTextSpan> deletedTextRuns, int startLineNum, int startColumnNum,
             int endLineNum, int endColumnNum)
             : base(startLineNum, startColumnNum)
         {
@@ -139,10 +139,10 @@ namespace LayoutFarm.Text
 
     class DocActionInsertRuns : DocumentAction
     {
-        IEnumerable<EditableVisualTextRun> insertingTextRuns;
+        IEnumerable<EditableTextSpan> insertingTextRuns;
         int endLineNumber;
         int endCharIndex;
-        public DocActionInsertRuns(IEnumerable<EditableVisualTextRun> insertingTextRuns,
+        public DocActionInsertRuns(IEnumerable<EditableTextSpan> insertingTextRuns,
             int startLineNumber, int startCharIndex, int endLineNumber, int endCharIndex)
             : base(startLineNumber, startCharIndex)
         {
@@ -171,8 +171,8 @@ namespace LayoutFarm.Text
     {
         int endLineNumber;
         int endCharIndex;
-        TextRunStyle textStyle;
-        public DocActionFormatting(TextRunStyle textStyle, int startLineNumber, int startCharIndex, int endLineNumber, int endCharIndex)
+        TextSpanSytle textStyle;
+        public DocActionFormatting(TextSpanSytle textStyle, int startLineNumber, int startCharIndex, int endLineNumber, int endCharIndex)
             : base(startLineNumber, startCharIndex)
         {
             this.textStyle = textStyle;

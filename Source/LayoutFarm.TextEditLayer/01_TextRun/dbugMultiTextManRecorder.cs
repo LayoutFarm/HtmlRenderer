@@ -4,16 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Text;
-
-
+using System.Text; 
 
 namespace LayoutFarm.Text
 {
 #if DEBUG
     class dbugCoreConst
     {
-        public const string dbugRootFolder = "c:\\WImageTest";
+        public const string dbugRootFolder = "d:\\WImageTest";
     }
     public class dbugMultiTextManRecorder
     {

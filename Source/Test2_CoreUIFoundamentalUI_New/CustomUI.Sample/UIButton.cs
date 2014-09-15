@@ -33,7 +33,7 @@ namespace LayoutFarm.SampleControls
         {
             if (primElement == null)
             {
-                var renderE = new CustomRenderElement(this.Width, this.Height);
+                var renderE = new CustomRenderElement(rootgfx, this.Width, this.Height);
                 renderE.SetController(this);
                 RenderElement.DirectSetVisualElementLocation(renderE, this.Left, this.Top);
 

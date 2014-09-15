@@ -21,7 +21,7 @@ namespace LayoutFarm.Text
                     for (int i = lines.Count; i > -1; --i)
                     {
                         EditableVisualElementLine ln = lines[i];
-                        LinkedListNode<EditableVisualTextRun> veNode = ln.Last;
+                        LinkedListNode<EditableTextSpan> veNode = ln.Last;
                         while (veNode != null)
                         {
                             yield return veNode.Value;
@@ -34,7 +34,7 @@ namespace LayoutFarm.Text
                 {
 
                     EditableVisualElementLine ln = (EditableVisualElementLine)lineCollection;
-                    LinkedListNode<EditableVisualTextRun> veNode = ln.Last;
+                    LinkedListNode<EditableTextSpan> veNode = ln.Last;
                     while (veNode != null)
                     {
                         yield return veNode.Value;
@@ -54,7 +54,7 @@ namespace LayoutFarm.Text
                     for (int i = 0; i < j; ++i)
                     {
                         EditableVisualElementLine ln = lines[i];
-                        LinkedListNode<EditableVisualTextRun> veNode = ln.First;
+                        LinkedListNode<EditableTextSpan> veNode = ln.First;
 
                         while (veNode != null)
                         {
@@ -67,7 +67,7 @@ namespace LayoutFarm.Text
                 else
                 {
                     EditableVisualElementLine ln = (EditableVisualElementLine)lineCollection;
-                    LinkedListNode<EditableVisualTextRun> veNode = ln.First;
+                    LinkedListNode<EditableTextSpan> veNode = ln.First;
 
                     while (veNode != null)
                     {
@@ -77,7 +77,7 @@ namespace LayoutFarm.Text
                 }
             }
         }
-        public void AddTop(EditableVisualTextRun visualElement)
+        public void AddTop(EditableTextSpan visualElement)
         {
 #if DEBUG
             if (visualElement.ParentLink != null)
@@ -99,7 +99,7 @@ namespace LayoutFarm.Text
 
 
         }
-        public void AddBefore(EditableVisualTextRun beforeVisualElement, EditableVisualTextRun visualElement)
+        public void AddBefore(EditableTextSpan beforeVisualElement, EditableTextSpan visualElement)
         {
             EditableVisualElementLine targetLine = beforeVisualElement.OwnerEditableLine;
             if (targetLine != null)
@@ -114,7 +114,7 @@ namespace LayoutFarm.Text
 
         }
 
-        public void AddAfter(EditableVisualTextRun afterVisualElement, EditableVisualTextRun visualElement)
+        public void AddAfter(EditableTextSpan afterVisualElement, EditableTextSpan visualElement)
         {
 
 

@@ -32,8 +32,7 @@ namespace LayoutFarm
         public event EventHandler<UIScrollEventArgs> VScrollChanged;
         public event EventHandler<UIScrollEventArgs> HScrollChanged;
 
-        MyTopWindowRenderBox winroot;
-
+        MyTopWindowRenderBox wintop; 
         EventHandler<EventArgs> parentFormClosedHandler;
 
         public UISurfaceViewportControl()
@@ -49,10 +48,10 @@ namespace LayoutFarm
         public void SetupWindowRoot(MyTopWindowRenderBox winroot)
         {
 
-            this.winroot = winroot;
+            this.wintop = winroot;
             canvasViewport = new CanvasViewport(this, winroot, this.Size, 4);
             //if request from winroot
-            winroot.CanvasForcePaintMe += canvasViewport.PaintMe;
+           // winroot.CanvasForcePaintMe += canvasViewport.PaintMe;
 
         }
         void ParentForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -85,19 +84,17 @@ namespace LayoutFarm
             {
                 return this.Height;
             }
-        }
-
-
-        public TopWindowRenderBox WinRoot
+        } 
+        public TopWindowRenderBox WinTop
         {
             get
             {
-                return winroot;
+                return wintop;
             }
         }
         public void AddContent(RenderElement vi)
         {
-            var layer0 = winroot.Layers.Layer0 as VisualPlainLayer;
+            var layer0 = wintop.Layers.Layer0 as VisualPlainLayer;
             if (layer0 != null)
             {
                 layer0.AddTop(vi);
@@ -105,7 +102,7 @@ namespace LayoutFarm
         }
         public void AddContent(LayoutFarm.UI.UIElement ui)
         {
-            AddContent(ui.GetPrimaryRenderElement(winroot.RootGraphic));
+            AddContent(ui.GetPrimaryRenderElement(wintop.RootGraphic));
         }
         public void Close()
         {
@@ -179,9 +176,9 @@ namespace LayoutFarm
             MouseEventArgs newMouseEventArgs = new MouseEventArgs(MouseButtons.Left, 1,
                 lastestLogicalMouseDownX,
                 lastestLogicalMouseDownY, 0);
-            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
+            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
 
-            mouseEventArg.SetWinRoot(winroot);
+            mouseEventArg.SetWinRoot(wintop);
             SetArtMouseEventArgsInfo(mouseEventArg, newMouseEventArgs);
 
 
@@ -199,8 +196,8 @@ namespace LayoutFarm
             lastestLogicalMouseDownX = (viewLocation.X + e.X);
             lastestLogicalMouseDownY = (viewLocation.Y + e.Y);
 
-            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
-            mouseEventArg.SetWinRoot(winroot);
+            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
+            mouseEventArg.SetWinRoot(wintop);
             SetArtMouseEventArgsInfo(mouseEventArg, e);
 
             base.OnMouseDown(e); canvasViewport.OnMouseDown(mouseEventArg);
@@ -215,7 +212,7 @@ namespace LayoutFarm
             {
                 int xdiff = (viewLocation.X + e.X) - prevLogicalMouseX; int ydiff = (viewLocation.Y + e.Y) - prevLogicalMouseY; if (!isDraging)
                 {
-                    UIDragEventArgs dragEventArg = UIDragEventArgs.GetFreeDragEventArgs(); dragEventArg.SetWinRoot(this.winroot);
+                    UIDragEventArgs dragEventArg = UIDragEventArgs.GetFreeDragEventArgs(); dragEventArg.SetWinRoot(this.wintop);
                     dragEventArg.SetEventInfo(e.Location, GetArtMouseButton(e.Button),
                         lastestLogicalMouseDownX, lastestLogicalMouseDownY,
                         (viewLocation.X + e.X), (viewLocation.Y + e.Y),
@@ -226,7 +223,7 @@ namespace LayoutFarm
                 {
                     if (!(xdiff == 0 && ydiff == 0))
                     {
-                        UIDragEventArgs dragEventArg = UIDragEventArgs.GetFreeDragEventArgs(); dragEventArg.SetWinRoot(this.winroot);
+                        UIDragEventArgs dragEventArg = UIDragEventArgs.GetFreeDragEventArgs(); dragEventArg.SetWinRoot(this.wintop);
                         dragEventArg.SetEventInfo(e.Location, GetArtMouseButton(e.Button),
                             lastestLogicalMouseDownX, lastestLogicalMouseDownY,
                             (viewLocation.X + e.X), (viewLocation.Y + e.Y),
@@ -237,8 +234,8 @@ namespace LayoutFarm
             }
             else
             {
-                UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
-                mouseEventArg.SetWinRoot(winroot);
+                UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
+                mouseEventArg.SetWinRoot(wintop);
 
                 SetArtMouseEventArgsInfo(mouseEventArg, e);
                 mouseEventArg.SetDiff(
@@ -259,7 +256,7 @@ namespace LayoutFarm
             {
                 UIDragEventArgs mouseDragEventArg = UIDragEventArgs.GetFreeDragEventArgs();
                 Point viewLocation = canvasViewport.LogicalViewportLocation;
-                mouseDragEventArg.SetWinRoot(this.winroot);
+                mouseDragEventArg.SetWinRoot(this.wintop);
                 mouseDragEventArg.SetEventInfo(e.Location, GetArtMouseButton(e.Button),
                     lastestLogicalMouseDownX, lastestLogicalMouseDownY,
                     (viewLocation.X + e.X), (viewLocation.Y + e.Y),
@@ -269,8 +266,8 @@ namespace LayoutFarm
             }
             else
             {
-                UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
-                mouseEventArg.SetWinRoot(winroot);
+                UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
+                mouseEventArg.SetWinRoot(wintop);
                 SetArtMouseEventArgsInfo(mouseEventArg, e);
                 base.OnMouseUp(e); canvasViewport.OnMouseUp(mouseEventArg);
                 eventStock.ReleaseEventArgs(mouseEventArg);
@@ -306,9 +303,9 @@ namespace LayoutFarm
 
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
+            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
 
-            mouseEventArg.SetWinRoot(winroot);
+            mouseEventArg.SetWinRoot(wintop);
             SetArtMouseEventArgsInfo(mouseEventArg, e);
 
             base.OnMouseWheel(e);
@@ -318,7 +315,7 @@ namespace LayoutFarm
         protected override void OnKeyDown(KeyEventArgs e)
         {
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
-            keyEventArgs.SetWinRoot(winroot);
+            keyEventArgs.SetWinRoot(wintop);
             SetArtKeyData(keyEventArgs, e);
             base.OnKeyDown(e);
             canvasViewport.OnKeyDown(keyEventArgs);
@@ -329,7 +326,7 @@ namespace LayoutFarm
         {
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
 
-            keyEventArgs.SetWinRoot(winroot);
+            keyEventArgs.SetWinRoot(wintop);
             SetArtKeyData(keyEventArgs, e);
             base.OnKeyUp(e);
 
@@ -349,7 +346,7 @@ namespace LayoutFarm
 
             UIKeyPressEventArgs keyPressEventArgs = eventStock.GetFreeKeyPressEventArgs();
 
-            keyPressEventArgs.SetWinRoot(winroot);
+            keyPressEventArgs.SetWinRoot(wintop);
             keyPressEventArgs.SetKeyChar(e.KeyChar);
 
             base.OnKeyPress(e);
@@ -361,7 +358,7 @@ namespace LayoutFarm
         {
 
             UIKeyEventArgs keyEventArg = eventStock.GetFreeKeyEventArgs();
-            keyEventArg.SetWinRoot(winroot);
+            keyEventArg.SetWinRoot(wintop);
             keyEventArg.KeyData = (int)keyData;
             if (canvasViewport.OnProcessDialogKey(keyEventArg))
             {
@@ -417,21 +414,21 @@ namespace LayoutFarm
         }
         public void dbug_BeginLayoutTraceSession(string beginMsg)
         {
-            this.winroot.dbugVisualRoot.dbug_BeginLayoutTraceSession(beginMsg);
+            this.wintop.dbugVisualRoot.dbug_BeginLayoutTraceSession(beginMsg);
         }
         public void dbug_DisableAllDebugInfo()
         {
-            this.winroot.dbugVisualRoot.dbug_DisableAllDebugInfo();
+            this.wintop.dbugVisualRoot.dbug_DisableAllDebugInfo();
         }
         public void dbug_EnableAllDebugInfo()
         {
-            this.winroot.dbugVisualRoot.dbug_EnableAllDebugInfo();
+            this.wintop.dbugVisualRoot.dbug_EnableAllDebugInfo();
         }
         public void dbug_ReArrangeWithBreakOnSelectedNode()
         {
 
             vinv_dbugBreakOnSelectedVisuallElement = true;
-            this.winroot.TopDownReArrangeContentIfNeed();
+            this.wintop.TopDownReArrangeContentIfNeed();
 
         }
         protected bool vinv_dbugBreakOnSelectedVisuallElement

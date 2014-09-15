@@ -23,7 +23,7 @@ namespace LayoutFarm
         {
             if (myHtmlBox == null)
             {
-                myHtmlBox = new HtmlRenderBox(_width, _height);
+                myHtmlBox = new HtmlRenderBox(rootgfx, _width, _height);
 
             }
             return myHtmlBox;

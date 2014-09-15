@@ -12,13 +12,13 @@ namespace LayoutFarm.Text
     partial class InternalTextLayerController
     {
 
-        public void ReplaceCurrentLineTextRun(IEnumerable<EditableVisualTextRun> textruns)
+        public void ReplaceCurrentLineTextRun(IEnumerable<EditableTextSpan> textruns)
         {
             textLineWriter.ReplaceCurrentLine(textruns);
         }
 
 
-        public void ReplaceLine(int lineNum, IEnumerable<EditableVisualTextRun> textruns)
+        public void ReplaceLine(int lineNum, IEnumerable<EditableTextSpan> textruns)
         {
 
             if (textLineWriter.LineNumber == backGroundTextLineWriter.LineNumber)
@@ -34,7 +34,7 @@ namespace LayoutFarm.Text
         }
 
 
-        public void LoadTextRun(IEnumerable<EditableVisualTextRun> runs)
+        public void LoadTextRun(IEnumerable<EditableTextSpan> runs)
         {
             this.CancelSelect();
             textLineWriter.Clear();
@@ -43,7 +43,7 @@ namespace LayoutFarm.Text
             textLineWriter.MoveToLine(0);
         }
 
-        public void ReplaceCurrentTextRunContent(int nBackSpace, EditableVisualTextRun newTextRun)
+        public void ReplaceCurrentTextRunContent(int nBackSpace, EditableTextSpan newTextRun)
         {
             if (newTextRun != null)
             {
@@ -60,7 +60,7 @@ namespace LayoutFarm.Text
                 textLineWriter.EnsureCurrentTextRun();
 
                 undoActionCollection.AddDocAction(
-                    new DocActionInsertRuns(new EditableVisualTextRun[] { newTextRun }, startLineNum, startCharIndex,
+                    new DocActionInsertRuns(new EditableTextSpan[] { newTextRun }, startLineNum, startCharIndex,
                         textLineWriter.LineNumber, textLineWriter.CharIndex));
             }
 
@@ -85,7 +85,7 @@ namespace LayoutFarm.Text
             }
         }
 
-        public void AddTextRunsToCurrentLine(IEnumerable<EditableVisualTextRun> textRuns)
+        public void AddTextRunsToCurrentLine(IEnumerable<EditableTextSpan> textRuns)
         {
             RemoveSelectedText();
             int startLineNum = textLineWriter.LineNumber;
@@ -93,7 +93,7 @@ namespace LayoutFarm.Text
 
             bool isRecordingHx = EnableUndoHistoryRecording;
 
-            EnableUndoHistoryRecording = false; foreach (EditableVisualTextRun t in textRuns)
+            EnableUndoHistoryRecording = false; foreach (EditableTextSpan t in textRuns)
             {
                 if (t.IsLineBreak)
                 {
@@ -140,8 +140,8 @@ namespace LayoutFarm.Text
                 selectionRange.SwapIfUnOrder();
                 if (selectionRange.IsOnTheSameLine)
                 {
-                    LinkedList<EditableVisualTextRun> runs = textLineWriter.CopySelectedTextRuns(selectionRange);
-                    foreach (EditableVisualTextRun t in runs)
+                    LinkedList<EditableTextSpan> runs = textLineWriter.CopySelectedTextRuns(selectionRange);
+                    foreach (EditableTextSpan t in runs)
                     {
                         t.CopyContentToStringBuilder(stBuilder);
                     }
@@ -152,8 +152,8 @@ namespace LayoutFarm.Text
                     CurrentLineNumber = startPoint.LineId;
                     textLineWriter.CharIndex = startPoint.LineCharIndex;
 
-                    LinkedList<EditableVisualTextRun> runs = textLineWriter.CopySelectedTextRuns(selectionRange);
-                    foreach (EditableVisualTextRun t in runs)
+                    LinkedList<EditableTextSpan> runs = textLineWriter.CopySelectedTextRuns(selectionRange);
+                    foreach (EditableTextSpan t in runs)
                     {
                         t.CopyContentToStringBuilder(stBuilder);
                     }

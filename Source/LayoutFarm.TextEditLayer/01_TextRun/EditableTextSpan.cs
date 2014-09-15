@@ -10,18 +10,18 @@ using System.IO;
 namespace LayoutFarm.Text
 {
 
-    public partial class EditableVisualTextRun : VisualTextRun
+    public partial class EditableTextSpan : TextSpan
     {   
-        private EditableVisualTextRun(char[] myBuffer)
+        private EditableTextSpan(char[] myBuffer)
             : base(myBuffer)
         { 
         } 
-        public EditableVisualTextRun(char c)
+        public EditableTextSpan(char c)
             : base(c)
         {
 
         }
-        public EditableVisualTextRun(string str)
+        public EditableTextSpan(string str)
             : base(str)
         {
 
@@ -32,9 +32,9 @@ namespace LayoutFarm.Text
 
             return CalculateDrawingStringSize(mybuffer, charCount).Width;
         }
-        internal EditableVisualTextRun Clone()
+        internal EditableTextSpan Clone()
         {
-            return new EditableVisualTextRun(this.Text);
+            return new EditableTextSpan(this.Text);
         }
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
@@ -78,7 +78,7 @@ namespace LayoutFarm.Text
             }
         }
 
-        public EditableVisualTextRun Copy(int startIndex, int length)
+        public EditableTextSpan Copy(int startIndex, int length)
         {
 
             if (startIndex > -1 && length > 0)
@@ -105,15 +105,15 @@ namespace LayoutFarm.Text
                 }
             }
         }
-        EditableVisualTextRun MakeTextRun(int sourceIndex, int length)
+        EditableTextSpan MakeTextRun(int sourceIndex, int length)
         {
 
             if (length > 0)
             {
                 char[] newContent = new char[length];
                 Array.Copy(this.mybuffer, sourceIndex, newContent, 0, length);
-                EditableVisualTextRun newTextRun = new EditableVisualTextRun(newContent);
-                TextRunStyle bah = this.MyBoxStyle;
+                EditableTextSpan newTextRun = new EditableTextSpan(newContent);
+                TextSpanSytle bah = this.SpanStyle;
                 if (bah != null)
                 {
                     newTextRun.SetStyle(bah);
@@ -129,7 +129,7 @@ namespace LayoutFarm.Text
             }
 
         }
-        public EditableVisualTextRun Copy(int startIndex)
+        public EditableTextSpan Copy(int startIndex)
         {
 
             int length = mybuffer.Length - startIndex;
@@ -156,20 +156,20 @@ namespace LayoutFarm.Text
                 return null;
             }
         }
-        public EditableVisualTextRun NextTextRun
+        public EditableTextSpan NextTextRun
         {
             get
             {
                 VisualEditableLineParentLink parent = (VisualEditableLineParentLink)this.ParentLink;
-                return parent.Next as EditableVisualTextRun; 
+                return parent.Next as EditableTextSpan; 
             }
         }
-        public EditableVisualTextRun PrevTextRun
+        public EditableTextSpan PrevTextRun
         {
             get
             {
                 VisualEditableLineParentLink parent = (VisualEditableLineParentLink)this.ParentLink;
-                return parent.Prev as EditableVisualTextRun;
+                return parent.Prev as EditableTextSpan;
             }
         }
 

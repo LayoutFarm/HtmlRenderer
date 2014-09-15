@@ -79,7 +79,7 @@ namespace LayoutFarm.Text
             }
             public void Accept()
             {
-                EditableVisualTextRun v = null;
+                EditableTextSpan v = null;
                 int sourceLineId = feeder.CurrentLineId;
 
                 if (this.currentRelocatorLineId == sourceLineId)
@@ -118,7 +118,7 @@ namespace LayoutFarm.Text
                 }
             }
 
-            public EditableVisualTextRun CurrentRun
+            public EditableTextSpan CurrentRun
             {
                 get
                 {
@@ -156,7 +156,7 @@ namespace LayoutFarm.Text
             public void SplitIntoNewLine()
             {
 
-                EditableVisualTextRun currentRun = feeder.CurrentRun;
+                EditableTextSpan currentRun = feeder.CurrentRun;
                 EditableVisualElementLine line = currentRun.OwnerEditableLine;
                 line.SplitToNewLine(currentRun);
 
@@ -278,7 +278,7 @@ namespace LayoutFarm.Text
             int currentFeederLineId = 0;
             EditableVisualElementLine currentLine;
 
-            LinkedListNode<EditableVisualTextRun> curNode;
+            LinkedListNode<EditableTextSpan> curNode;
 
             int readState = 0;
             EditableTextFlowLayer flowLayer;
@@ -378,10 +378,10 @@ namespace LayoutFarm.Text
                     return currentLine != null && currentLine.Count == 0 && !currentLine.EndWithLineBreak;
                 }
             }
-            public EditableVisualTextRun UnsafeRemoveCurrent()
+            public EditableTextSpan UnsafeRemoveCurrent()
             {
-                LinkedListNode<EditableVisualTextRun> tobeRemoveNode = curNode;
-                EditableVisualTextRun v = tobeRemoveNode.Value;
+                LinkedListNode<EditableTextSpan> tobeRemoveNode = curNode;
+                EditableTextSpan v = tobeRemoveNode.Value;
                 EditableVisualElementLine line = v.OwnerEditableLine;
 
                 if (tobeRemoveNode == line.First)
@@ -643,7 +643,7 @@ namespace LayoutFarm.Text
                 }
                 return false;
             }
-            public EditableVisualTextRun CurrentRun
+            public EditableTextSpan CurrentRun
             {
                 get
                 {

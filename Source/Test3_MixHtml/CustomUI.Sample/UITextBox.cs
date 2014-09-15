@@ -27,11 +27,10 @@ namespace LayoutFarm.SampleControls
         {
             if (this.visualTextSurface == null)
             {
-                visualTextSurface = new TextEditRenderBox(_width, _height, false);
+                visualTextSurface = new TextEditRenderBox(rootgfx, _width, _height, false);
                 visualTextSurface.HasSpecificSize = true;
                 visualTextSurface.SetController(this);
-                //--------------------------------------
-
+                //-------------------------------------- 
             }
             return visualTextSurface;
         }
@@ -52,7 +51,7 @@ namespace LayoutFarm.SampleControls
         {
             get
             {
-                 
+
                 return this.visualTextSurface;
             }
         }

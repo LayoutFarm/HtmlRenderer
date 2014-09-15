@@ -18,25 +18,23 @@ namespace LayoutFarm
         bool mayHasChild;
         bool mayHasViewport;
 
-        public RenderElement(int width, int height)
-        {  
+        RootGraphic rootGfx;
+        public RenderElement(RootGraphic rootGfx, int width, int height)
+        {
             this.b_width = width;
             this.b_Height = height;
-
+            this.rootGfx = rootGfx;
 #if DEBUG
             dbug_totalObjectId++;
             dbug_obj_id = dbug_totalObjectId;
             this.dbug_SetFixedElementCode(this.GetType().Name);
 #endif
         }
-
-        public TopWindowRenderBox WinRoot
+        protected RootGraphic Root
         {
-            get
-            {
-                return this.InternalGetTopWindowRenderBox();
-            }
+            get { return this.rootGfx; }
         }
+        
 
         public bool IsFreeElement
         {
@@ -55,8 +53,8 @@ namespace LayoutFarm
             {
                 return visualParentLink;
             }
-        } 
-        
+        }
+
 
         public static void RemoveParentLink(RenderElement visual)
         {
@@ -104,9 +102,7 @@ namespace LayoutFarm
             else
             {
 
-                InvalidateGraphic();
-
-
+                InvalidateGraphic(); 
                 if (value)
                 {
                     uiFlags &= ~HIDDEN;
@@ -116,7 +112,6 @@ namespace LayoutFarm
                     uiFlags |= HIDDEN;
                 }
                 InvalidateGraphic();
-
             }
 
         }
@@ -147,7 +142,7 @@ namespace LayoutFarm
 
 
         int uiFlags;
-       
+
 
         const int IS_TRANSLUCENT_BG = 1 << (1 - 1);
         const int SCROLLABLE_FULL_MODE = 1 << (2 - 1);
@@ -248,7 +243,7 @@ namespace LayoutFarm
             get
             {
                 return this.CanbeFloatingWindow &&
-                    this.ParentVisualElement == this.InternalGetTopWindowRenderBox();
+                    this.ParentVisualElement == this.GetTopWindowRenderBox();
             }
         }
 
@@ -407,12 +402,9 @@ namespace LayoutFarm
                 return 0;
             }
 
-        }
-        
-
+        } 
         public virtual RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
-        {
-
+        { 
             return null;
         }
 
@@ -424,7 +416,7 @@ namespace LayoutFarm
 
         public static void SetVisualElementAsChildOfOther(RenderElement childElement, IParentLink lineLinkedNode)
         {
-          
+
             childElement.visualParentLink = lineLinkedNode;
         }
         public static void SetVisualElementAsChildOfSimpleContainer(RenderElement childElement, IParentLink lineLinkedNode)

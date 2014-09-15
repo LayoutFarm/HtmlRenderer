@@ -22,7 +22,7 @@ namespace LayoutFarm.Text
         {
             this.visualTextSurface.TextDomListener = listener;
         }
-        public void AddTextRunsToCurrentLine(IEnumerable<EditableVisualTextRun> textRuns)
+        public void AddTextRunsToCurrentLine(IEnumerable<EditableTextSpan> textRuns)
         {
             this.innerTextMan.AddTextRunsToCurrentLine(textRuns);
         }
@@ -32,7 +32,7 @@ namespace LayoutFarm.Text
         }
         
         
-        public EditableVisualTextRun CurrentTextRun
+        public EditableTextSpan CurrentTextRun
         {
             get
             {
@@ -161,7 +161,7 @@ namespace LayoutFarm.Text
             }
 #endif
         }
-        public EditableVisualTextRun CurrentTextRun
+        public EditableTextSpan CurrentTextRun
         {
             get
             {
@@ -219,7 +219,7 @@ namespace LayoutFarm.Text
             textLineWriter.CharIndex = startPoint.LineCharIndex;
             if (selectionRange.IsOnTheSameLine)
             {
-                LinkedList<EditableVisualTextRun> tobeDeleteTextRun = textLineWriter.CopySelectedTextRuns(selectionRange);
+                LinkedList<EditableTextSpan> tobeDeleteTextRun = textLineWriter.CopySelectedTextRuns(selectionRange);
                 if (tobeDeleteTextRun != null)
                 {
 
@@ -239,7 +239,7 @@ namespace LayoutFarm.Text
                 int startPointLindId = startPoint.LineId;
                 int startPointCharIndex = startPoint.LineCharIndex;
 
-                LinkedList<EditableVisualTextRun> tobeDeleteTextRun = textLineWriter.CopySelectedTextRuns(selectionRange);
+                LinkedList<EditableTextSpan> tobeDeleteTextRun = textLineWriter.CopySelectedTextRuns(selectionRange);
                 if (tobeDeleteTextRun != null)
                 {
                     undoActionCollection.AddDocAction(
@@ -303,14 +303,14 @@ namespace LayoutFarm.Text
         }
 
 
-        public TextRunStyle GetFirstTextStyleInSelectedRange()
+        public TextSpanSytle GetFirstTextStyleInSelectedRange()
         {
             VisualSelectionRange selRange = SelectionRange;
             if (selRange != null)
             {
                 if (selectionRange.StartPoint.TextRun != null)
                 {
-                    return selectionRange.StartPoint.TextRun.MyBoxStyle;
+                    return selectionRange.StartPoint.TextRun.SpanStyle;
                 }
                 else
                 {
@@ -323,7 +323,7 @@ namespace LayoutFarm.Text
                 return null;
             }
         }
-        public void DoFormatSelection(TextRunStyle textStyle)
+        public void DoFormatSelection(TextSpanSytle textStyle)
         {
             int startLineNum = textLineWriter.LineNumber;
             int startCharIndex = textLineWriter.CharIndex;
@@ -334,7 +334,7 @@ namespace LayoutFarm.Text
             if (selRange != null)
             {
 
-                foreach (EditableVisualTextRun r in selRange.GetPrintableTextRunIter())
+                foreach (EditableTextSpan r in selRange.GetPrintableTextRunIter())
                 {
                     r.SetStyle(textStyle);
                 }

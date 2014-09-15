@@ -10,14 +10,12 @@ using System.Text.RegularExpressions;
 using System.Drawing.Drawing2D;
 using System.Drawing;
 
-
-
-namespace LayoutFarm 
+namespace LayoutFarm.Text
 {
 
-    public class TextRunStyle
+    public class TextSpanSytle
     {
-        public TextRunStyle()
+        public TextSpanSytle()
         {
             this.SharedBgColorBrush = new ArtSolidBrush(Color.White);
         }
@@ -44,9 +42,9 @@ namespace LayoutFarm
             set;
         }
         public TextFontInfo textFontInfo;
-         
+
         public int ContentHAlign;
         public int positionWidth = -1;
-        public int positionHeight = -1; 
+        public int positionHeight = -1;
     }
 }

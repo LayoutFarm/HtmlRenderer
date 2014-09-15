@@ -97,15 +97,19 @@ namespace LayoutFarm
             e.Clear();
             canvasInvalidatedEventsQ.Push(e);
         }
-        public UIMouseEventArgs GetFreeMouseEventArgs()
+        public UIMouseEventArgs GetFreeMouseEventArgs(TopWindowRenderBox wintop)
         {
             if (mouseEventsQ.Count > 0)
             {
-                return mouseEventsQ.Pop();
+                var mouseE = mouseEventsQ.Pop();
+                mouseE.WinTop = wintop;
+                return mouseE;
             }
             else
             {
-                return new UIMouseEventArgs();
+                var mouseE = new UIMouseEventArgs();
+                mouseE.WinTop = wintop;
+                return mouseE;
             }
         }
         public void ReleaseEventArgs(UIMouseEventArgs e)

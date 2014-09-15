@@ -37,7 +37,7 @@ namespace LayoutFarm.SampleControls
         {
             if (visualTextEdit == null)
             {
-                visualTextEdit = new TextEditRenderBox(this.Width, this.Height, _multiline);
+                visualTextEdit = new TextEditRenderBox(rootgfx, this.Width, this.Height, _multiline);
                 RenderElement.DirectSetVisualElementLocation(visualTextEdit, this.Left, this.Top);
 
                 visualTextEdit.HasSpecificSize = true;

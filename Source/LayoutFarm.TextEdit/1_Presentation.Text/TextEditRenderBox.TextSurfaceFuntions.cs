@@ -147,15 +147,15 @@ namespace LayoutFarm.Text
 
          
         }
-        public void LoadTextRun(IEnumerable<EditableVisualTextRun> textRuns)
+        public void LoadTextRun(IEnumerable<EditableTextSpan> textRuns)
         {
             internalTextLayerController.LoadTextRun(textRuns);
         }
-        public void ReplaceCurrentLineTextRuns(IEnumerable<EditableVisualTextRun> textRuns)
+        public void ReplaceCurrentLineTextRuns(IEnumerable<EditableTextSpan> textRuns)
         {
             internalTextLayerController.ReplaceCurrentLineTextRun(textRuns);
         }
-        public void ReplaceLine(int lineNum, IEnumerable<EditableVisualTextRun> textRuns)
+        public void ReplaceLine(int lineNum, IEnumerable<EditableTextSpan> textRuns)
         {
             internalTextLayerController.ReplaceLine(lineNum, textRuns);
         }
@@ -173,7 +173,7 @@ namespace LayoutFarm.Text
             internalTextLayerController.CopyAllToPlainText(stBuilder);
         }
 
-        public EditableVisualTextRun CurrentTextRun
+        public EditableTextSpan CurrentTextRun
         {
             get
             {

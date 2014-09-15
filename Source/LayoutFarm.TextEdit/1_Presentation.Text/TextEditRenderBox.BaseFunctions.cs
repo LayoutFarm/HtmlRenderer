@@ -21,8 +21,8 @@ namespace LayoutFarm.Text
         bool isMultiLine = false;
         bool isInVerticalPhase = false;
 
-        public TextEditRenderBox(int width, int height, bool isMultiLine)
-            : base(width, height)
+        public TextEditRenderBox(RootGraphic rootgfx, int width, int height, bool isMultiLine)
+            : base(rootgfx, width, height)
         {
             //RegisterNativeEvent((1 << UIEventIdentifier.NE_DRAG_START)
             //    | (1 << UIEventIdentifier.NE_DRAGING)
@@ -166,7 +166,7 @@ namespace LayoutFarm.Text
         {
 
             internalTextLayerController.CancelSelect();
-            EditableVisualTextRun textRun = this.CurrentTextRun;
+            EditableTextSpan textRun = this.CurrentTextRun;
             if (textRun != null)
             {
                 VisualPointInfo pointInfo = internalTextLayerController.GetCurrentPointInfo();
@@ -411,8 +411,8 @@ namespace LayoutFarm.Text
                             {
 
                                 internalTextLayerController.AddTextRunsToCurrentLine(
-                                    new EditableVisualTextRun[]{ 
-                                        new EditableVisualTextRun( 
+                                    new EditableTextSpan[]{ 
+                                        new EditableTextSpan( 
                                             Clipboard.GetUnicodeText())
                                            });
                                 EnsureCaretVisible();
@@ -467,12 +467,12 @@ namespace LayoutFarm.Text
                         } break;
                     case UIKeys.B:
                         {
-                            TextRunStyle defaultBeh1 = internalTextLayerController.GetFirstTextStyleInSelectedRange();
+                            TextSpanSytle defaultBeh1 = internalTextLayerController.GetFirstTextStyleInSelectedRange();
 
-                            TextRunStyle textStyle = null;
+                            TextSpanSytle textStyle = null;
                             if (defaultBeh1 != null)
                             {
-                                TextRunStyle defaultBeh = ((TextRunStyle)defaultBeh1);
+                                TextSpanSytle defaultBeh = ((TextSpanSytle)defaultBeh1);
                                 if (defaultBeh.FontBold)
                                 {
                                     textStyle = StyleHelper.CreateNewStyle(Color.Black);
@@ -814,8 +814,7 @@ namespace LayoutFarm.Text
                     }
             }
         }
-
-
+         
         //public override Point CaretPosition
         //{
         //    get
@@ -843,7 +842,9 @@ namespace LayoutFarm.Text
             Point textManCaretPos = internalTextLayerController.CaretPos;
 
             textManCaretPos.Offset(-ViewportX, -ViewportY);
-            UIRootGraphic.SetCarentPosition(textManCaretPos, this);
+            this.Root.SetCarentPosition(textManCaretPos, this);
+
+            //RootGraphic.SetCarentPosition(textManCaretPos, this);
 
             if (textManCaretPos.X >= this.Width)
             {

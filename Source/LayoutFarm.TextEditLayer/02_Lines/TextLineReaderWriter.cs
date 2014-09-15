@@ -32,7 +32,7 @@ namespace LayoutFarm.Text
             }
             return backgroundWriter;
         }
-        public void Reload(IEnumerable<EditableVisualTextRun> runs)
+        public void Reload(IEnumerable<EditableTextSpan> runs)
         {
             this.TextLayer.Reload(runs);
         }
@@ -71,7 +71,7 @@ namespace LayoutFarm.Text
 
         }
 
-        public void ReplaceCurrentLine(IEnumerable<EditableVisualTextRun> textRuns)
+        public void ReplaceCurrentLine(IEnumerable<EditableTextSpan> textRuns)
         {
             int currentCharIndex = CharIndex;
             CurrentLine.ReplaceAll(textRuns);
@@ -98,10 +98,10 @@ namespace LayoutFarm.Text
                 }
 
                 char toBeRemovedChar = CurrentChar;
-                EditableVisualTextRun removingTextRun = CurrentTextRun;
+                EditableTextSpan removingTextRun = CurrentTextRun;
                 int removeIndex = CurrentTextRunCharIndex;
                 CharIndex--;
-                EditableVisualTextRun.InnerRemove(removingTextRun, removeIndex, 1, false);
+                EditableTextSpan.InnerRemove(removingTextRun, removeIndex, 1, false);
                 if (removingTextRun.CharacterCount == 0)
                 {
                     CurrentLine.Remove(removingTextRun);
@@ -115,7 +115,7 @@ namespace LayoutFarm.Text
                 return toBeRemovedChar;
             }
         }
-        public EditableVisualTextRun GetCurrentTextRun()
+        public EditableTextSpan GetCurrentTextRun()
         {
             if (CurrentLine.IsBlankLine)
             {
@@ -133,7 +133,7 @@ namespace LayoutFarm.Text
             if (CurrentLine.IsBlankLine)
             {
                 //1. new 
-                EditableVisualTextRun t = new EditableVisualTextRun(c);
+                EditableTextSpan t = new EditableTextSpan(c);
 
                 var owner = this.FlowLayer.ownerVisualElement;
 
@@ -147,7 +147,7 @@ namespace LayoutFarm.Text
             }
             else
             {
-                EditableVisualTextRun cRun = CurrentTextRun;
+                EditableTextSpan cRun = CurrentTextRun;
                 if (cRun != null)
                 {
 
@@ -158,7 +158,7 @@ namespace LayoutFarm.Text
                     }
                     else
                     {
-                        Add(new EditableVisualTextRun(c));
+                        Add(new EditableTextSpan(c));
                         return;
                     }
                 }
@@ -173,7 +173,7 @@ namespace LayoutFarm.Text
 
             CharIndex++;
         }
-        public void Add(EditableVisualTextRun textRun)
+        public void Add(EditableTextSpan textRun)
         {
             if (CurrentLine.IsBlankLine)
             {
@@ -191,11 +191,11 @@ namespace LayoutFarm.Text
                     VisualPointInfo newPointInfo = CurrentLine.Split(GetCurrentPointInfo());
                     if (newPointInfo.IsOnTheBeginOfLine)
                     {
-                        CurrentLine.AddBefore((EditableVisualTextRun)newPointInfo.TextRun, textRun);
+                        CurrentLine.AddBefore((EditableTextSpan)newPointInfo.TextRun, textRun);
                     }
                     else
                     {
-                        CurrentLine.AddAfter((EditableVisualTextRun)newPointInfo.TextRun, textRun);
+                        CurrentLine.AddAfter((EditableTextSpan)newPointInfo.TextRun, textRun);
                     }
                     CurrentLine.TextLineReCalculateActualLineSize();
                     EnsureCurrentTextRun(CharIndex + textRun.CharacterCount);
@@ -206,7 +206,7 @@ namespace LayoutFarm.Text
                 }
             }
         }
-        public void ReplaceAllLineContent(EditableVisualTextRun[] runs)
+        public void ReplaceAllLineContent(EditableTextSpan[] runs)
         {
             int charIndex = CharIndex;
             CurrentLine.Clear();
@@ -239,8 +239,8 @@ namespace LayoutFarm.Text
         public void SplitToNewLine()
         {
 
-            EditableVisualTextRun lineBreakRun = new EditableVisualTextRun('\n');
-            EditableVisualTextRun currentRun = CurrentTextRun;
+            EditableTextSpan lineBreakRun = new EditableTextSpan('\n');
+            EditableTextSpan currentRun = CurrentTextRun;
             if (CurrentLine.IsBlankLine)
             {
 
@@ -258,7 +258,7 @@ namespace LayoutFarm.Text
                 else
                 {
 
-                    EditableVisualTextRun rightSplitedPart = EditableVisualTextRun.InnerRemove(currentRun,
+                    EditableTextSpan rightSplitedPart = EditableTextSpan.InnerRemove(currentRun,
                         CurrentTextRunCharIndex + 1, true);
                     if (rightSplitedPart != null)
                     {
@@ -300,7 +300,7 @@ namespace LayoutFarm.Text
         EditableVisualElementLine currentLine;
 
         int currentLineY = 0;
-        EditableVisualTextRun currentTextRun;
+        EditableTextSpan currentTextRun;
         int charIndex = -1;
         int caretXPos = 0; int rCharOffset = 0; int rPixelOffset = 0;
         public TextLineReader(EditableTextFlowLayer flowlayer)
@@ -343,14 +343,14 @@ namespace LayoutFarm.Text
             }
         }
 
-        protected EditableVisualTextRun CurrentTextRun
+        protected EditableTextSpan CurrentTextRun
         {
             get
             {
                 return currentTextRun;
             }
         }
-        protected void SetCurrentTextRun(EditableVisualTextRun r)
+        protected void SetCurrentTextRun(EditableTextSpan r)
         {
             currentTextRun = r;
         }
@@ -385,7 +385,7 @@ namespace LayoutFarm.Text
 #endif
 
 
-            EditableVisualTextRun nextTextRun = currentTextRun.NextTextRun;
+            EditableTextSpan nextTextRun = currentTextRun.NextTextRun;
             if (nextTextRun != null && !nextTextRun.IsLineBreak)
             {
                 rCharOffset += currentTextRun.CharacterCount;
@@ -405,7 +405,7 @@ namespace LayoutFarm.Text
 
             currentLineY = currentLine.Top;
 
-            currentTextRun = (EditableVisualTextRun)currentLine.FirstRun;
+            currentTextRun = (EditableTextSpan)currentLine.FirstRun;
             rCharOffset = 0;
             rPixelOffset = 0;
             charIndex = -1;
@@ -462,7 +462,7 @@ namespace LayoutFarm.Text
                     }
                     if (charIndex == rCharOffset + currentTextRun.CharacterCount - 1)
                     {
-                        EditableVisualTextRun nextRun = currentTextRun.NextTextRun;
+                        EditableTextSpan nextRun = currentTextRun.NextTextRun;
 
                         if (nextRun != null)
                         {
@@ -575,7 +575,7 @@ namespace LayoutFarm.Text
                         int thisTextRunPixelLength = currentTextRun.Width;
                         if (rPixelOffset + thisTextRunPixelLength > value)
                         {
-                            VisualLocationInfo foundLocation = EditableVisualTextRun.InnerGetCharacterFromPixelOffset(currentTextRun, value - rPixelOffset);
+                            VisualLocationInfo foundLocation = EditableTextSpan.InnerGetCharacterFromPixelOffset(currentTextRun, value - rPixelOffset);
                             if (foundLocation.charIndex == -1)
                             {
                                 if (!(MoveToPreviousTextRun()))
@@ -603,7 +603,7 @@ namespace LayoutFarm.Text
                         {
 
 
-                            VisualLocationInfo foundLocation = EditableVisualTextRun.InnerGetCharacterFromPixelOffset(currentTextRun, value - rPixelOffset);
+                            VisualLocationInfo foundLocation = EditableTextSpan.InnerGetCharacterFromPixelOffset(currentTextRun, value - rPixelOffset);
                             if (foundLocation.charIndex == -1)
                             {
                                 if (!MoveToPreviousTextRun())
@@ -808,9 +808,9 @@ namespace LayoutFarm.Text
         {
             currentLine.CopyLineContent(stBuilder);
         }
-        public LinkedList<EditableVisualTextRun> CopySelectedTextRuns(VisualSelectionRange selectionRange)
+        public LinkedList<EditableTextSpan> CopySelectedTextRuns(VisualSelectionRange selectionRange)
         {
-            LinkedList<EditableVisualTextRun> output = new LinkedList<EditableVisualTextRun>();
+            LinkedList<EditableTextSpan> output = new LinkedList<EditableTextSpan>();
             currentLine.Copy(selectionRange, output);
             return output;
         }

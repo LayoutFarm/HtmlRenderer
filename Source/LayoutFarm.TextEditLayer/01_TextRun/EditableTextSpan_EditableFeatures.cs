@@ -9,11 +9,11 @@ using System.Drawing.Drawing2D;
 namespace LayoutFarm.Text
 {
 
-    partial class EditableVisualTextRun
+    partial class EditableTextSpan
     {
-        internal EditableVisualTextRun Remove(int startIndex, int length, bool withFreeRun)
+        internal EditableTextSpan Remove(int startIndex, int length, bool withFreeRun)
         {
-            EditableVisualTextRun freeRun = null;
+            EditableTextSpan freeRun = null;
             if (startIndex > -1 && length > 0)
             {
 
@@ -42,16 +42,16 @@ namespace LayoutFarm.Text
                 return null;
             }
         }
-        public static EditableVisualTextRun InnerRemove(EditableVisualTextRun tt, int startIndex, int length, bool withFreeRun)
+        public static EditableTextSpan InnerRemove(EditableTextSpan tt, int startIndex, int length, bool withFreeRun)
         {
             return tt.Remove(startIndex, length, withFreeRun);
         }
-        public static EditableVisualTextRun InnerRemove(EditableVisualTextRun tt, int startIndex, bool withFreeRun)
+        public static EditableTextSpan InnerRemove(EditableTextSpan tt, int startIndex, bool withFreeRun)
         {
 
             return tt.Remove(startIndex, tt.CharacterCount - (startIndex), withFreeRun);
         }
-        public static VisualLocationInfo InnerGetCharacterFromPixelOffset(EditableVisualTextRun tt, int pixelOffset)
+        public static VisualLocationInfo InnerGetCharacterFromPixelOffset(EditableTextSpan tt, int pixelOffset)
         {
             return tt.GetCharacterFromPixelOffset(pixelOffset);
         }
@@ -100,7 +100,7 @@ namespace LayoutFarm.Text
             }
 
         }
-        public EditableVisualTextRun LeftCopy(int index)
+        public EditableTextSpan LeftCopy(int index)
         {
 
             if (index > -1)

@@ -35,12 +35,12 @@ namespace TestGraphicPackage
         private void cmdShowBasicFormCanvas_Click(object sender, EventArgs e)
         {
 
-             
+
 
             UISurfaceViewportControl viewport;
-            Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(out viewport); 
-            viewport.PaintMe(); 
-            formCanvas.Show(); 
+            Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(out viewport);
+            viewport.PaintMe();
+            formCanvas.Show();
             ShowFormLayoutInspector(viewport);
         }
 
@@ -53,8 +53,8 @@ namespace TestGraphicPackage
             UISurfaceViewportControl viewport = new UISurfaceViewportControl();
             viewport.Bounds = new Rectangle(0, 0, screenClientAreaRect.Width, screenClientAreaRect.Height);
             simpleForm.Controls.Add(viewport);
-            var visualRoot = new UIRootGraphic();
 
+            var visualRoot = new MyRootGraphic(800, 600);
             var windowRoot = new MyTopWindowRenderBox(visualRoot, this.Width, this.Height);
 
 
