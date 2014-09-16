@@ -20,6 +20,7 @@ namespace LayoutFarm
             this.Layers = new VisualLayerCollection();
             this.Layers.AddLayer(groundLayer);
             SetIsWindowRoot(this, true);
+            this.HasSpecificSize = true;
         }
         public void AddChild(RenderElement renderE)
         {
@@ -35,17 +36,22 @@ namespace LayoutFarm
             set;
         }
 
+        public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
+        {
+            canvasPage.FillRectangle(Color.White, new RectangleF(0, 0, this.Width, this.Height));
+            base.CustomDrawToThisPage(canvasPage, updateArea);
+        }
         //----------------------------------------------------------------------------
         public abstract void RootBeginGraphicUpdate();
         public abstract void RootEndGraphicUpdate();
-        public abstract void AddToLayoutQueue(RenderElement vs);         
-        public abstract void FlushGraphic(Rectangle rect);        
+        public abstract void AddToLayoutQueue(RenderElement vs);
+        public abstract void FlushGraphic(Rectangle rect);
         //---------------------------------------------------------------------------- 
         public override void ClearAllChildren()
         {
             this.groundLayer.Clear();
         }
-       
+
 #if DEBUG
         public abstract void dbugShowRenderPart(Canvas canvasPage, InternalRect updateArea);
         public RootGraphic dbugVisualRoot

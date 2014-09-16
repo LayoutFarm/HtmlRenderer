@@ -73,8 +73,8 @@ namespace LayoutFarm
         {
             TopWindowRenderBox wintop;
             InvalidateGraphic(out wintop);
-            
         }
+        
         public bool InvalidateGraphic(out TopWindowRenderBox wintop)
         {
             uiFlags &= ~IS_GRAPHIC_VALID;
@@ -91,20 +91,22 @@ namespace LayoutFarm
             RootInvalidateGraphicArea(this, ref rect, out wintop);
             return wintop != null;
         }
+   
         public void BeginGraphicUpdate()
         {
 
             InvalidateGraphic();
-            this.rootGfx.BeginGraphicUpdate();
+            this.rootGfx.BeginGraphicUpdate(); 
             this.uiLayoutFlags |= LY_SUSPEND_GRAPHIC;
         }
         public void EndGraphicUpdate()
         {
             this.uiLayoutFlags &= ~LY_SUSPEND_GRAPHIC;
             TopWindowRenderBox wintop;
-            if (InvalidateGraphic(out wintop)) { this.rootGfx.EndGraphicUpdate(wintop); }
-
-            this.GetTopWindowRenderBox();
+            if (InvalidateGraphic(out wintop))
+            {
+                this.rootGfx.EndGraphicUpdate(wintop);
+            }
         }
 
         void BeforeBoundChangedInvalidateGraphics()
@@ -118,7 +120,10 @@ namespace LayoutFarm
         {
             this.uiLayoutFlags &= ~LY_SUSPEND_GRAPHIC;
             TopWindowRenderBox wintop;
-            if (InvalidateGraphic(out wintop)) { this.rootGfx.EndGraphicUpdate(wintop); }
+            if (InvalidateGraphic(out wintop))
+            {
+                this.rootGfx.EndGraphicUpdate(wintop);
+            }
         }
 
     }

@@ -81,6 +81,7 @@ namespace LayoutFarm
             Button = UIMouseButtons.Left;
             base.Clear();
         }
+     
         public int XDiff
         {
             get
