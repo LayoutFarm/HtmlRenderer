@@ -68,8 +68,8 @@
     <Compile Include="Demo\1.2_Demo_MultipleBoxes.cs" />
     <Compile Include="Demo\1.1_Demo_SingleButton.cs" />
     <Compile Include="Demo\1.3_Demo_SampleGrid.cs" />
-    <Compile Include="Demo\1.4_Demo_ScrollBar.cs" />
-    <Compile Include="Demo\1.5_Demo_Drag.cs" />
+    <Compile Include="Demo\1.5_Demo_ScrollBar.cs" />
+    <Compile Include="Demo\1.4_Demo_Drag.cs" />
     <Compile Include="Demo\2.1_Demo_SingleLineTextBox.cs" />
     <Compile Include="Demo\2.2_Demo_MultilineTextBox.cs" />
     <Compile Include="Form1.cs">

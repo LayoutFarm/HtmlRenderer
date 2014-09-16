@@ -22,11 +22,15 @@ namespace LayoutFarm.SampleControls
         float maxValue;
         float minValue;
 
+        int minmax_boxHeight = 15;
+
+        
 
         public UIScrollBar(int width, int height)
             : base(width, height)
         {
 
+           
         }
         public void SetupSrollBar(ScrollBarCreationParameters creationParameters)
         {
@@ -80,22 +84,24 @@ namespace LayoutFarm.SampleControls
             layers.AddLayer(plain);
             //--------------
             //MinButton
-            var min_button = new UIScrollButton(this.Width, 15);
+            var min_button = new UIScrollButton(this.Width, minmax_boxHeight);
             min_button.BackColor = Color.DarkGray;
             plain.AddUI(min_button);
             this.minButton = min_button;
             //--------------
             //MaxButton
-            var max_button = new UIScrollButton(this.Width, 15);
+            var max_button = new UIScrollButton(this.Width, minmax_boxHeight);
             max_button.BackColor = Color.DarkGray;
-            max_button.SetLocation(0, this.Height - 15);
+            max_button.SetLocation(0, this.Height - minmax_boxHeight);
             plain.AddUI(max_button);
             this.maxButton = max_button;
             //-------------
             //ScrollButton
-            var scroll_button = new UIScrollButton(this.Width, 15);
+            var scroll_button = new UIScrollButton(this.Width, minmax_boxHeight);
             scroll_button.BackColor = Color.DarkBlue;
-            scroll_button.SetLocation(0, this.Height - 30);
+            scroll_button.SetLocation(0, this.Height - (minmax_boxHeight + minmax_boxHeight));
+
+            SetupScrollButtonProperties(scroll_button);
 
             plain.AddUI(scroll_button);
             this.scrollButton = scroll_button;
@@ -104,6 +110,30 @@ namespace LayoutFarm.SampleControls
         }
         void CreateHScrollbarContent(RootGraphic rootgfx)
         {
+
+        }
+        void SetupScrollButtonProperties(UIScrollButton button)
+        {
+            //3. drag
+
+            button.Dragging += (s, e) =>
+            {
+                Point pos = button.Position;
+                //if vscroll bar then move only y axis
+                int newYPos = pos.Y + e.YDiff;
+                //clamp!
+                if (newYPos >= this.Height - (minmax_boxHeight + scrollButton.Height))
+                {
+                    newYPos = this.Height - (minmax_boxHeight + scrollButton.Height);
+                }
+                else if (newYPos < minmax_boxHeight)
+                {
+                    newYPos = minmax_boxHeight;
+                }
+                button.SetLocation(pos.X, newYPos);
+
+                button.InvalidateGraphic();
+            };
         }
     }
     public enum ScrollBarType
@@ -154,7 +184,7 @@ namespace LayoutFarm.SampleControls
                 button_box.HasSpecificSize = true;
                 button_box.BackColor = this.backColor;
                 RenderElement.DirectSetVisualElementLocation(button_box, this.Left, this.Top);
-
+                button_box.SetController(this);
                 this.buttonBox = button_box;
             }
             return buttonBox;
@@ -162,6 +192,8 @@ namespace LayoutFarm.SampleControls
         //------------------------------------------------------
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
+        public event EventHandler<UIDragEventArgs> Dragging;
+
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
             if (MouseDown != null)
@@ -180,6 +212,10 @@ namespace LayoutFarm.SampleControls
         }
         protected override void OnDragging(UIDragEventArgs e)
         {
+            if (Dragging != null)
+            {
+                Dragging(this, e);
+            }
             base.OnDragging(e);
         }
     }

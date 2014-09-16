@@ -10,7 +10,7 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm
 {
-    [DemoNote("1.4 ScrollBar")]
+    [DemoNote("1.5 ScrollBar")]
     class Demo_ScrollBar : DemoBase
     {
         protected override void OnStartDemo(UISurfaceViewportControl viewport)
