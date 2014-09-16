@@ -19,10 +19,6 @@ namespace LayoutFarm
 
             var sampleButton = new LayoutFarm.SampleControls.UIButton(30, 30);
             viewport.AddContent(sampleButton);
-            viewport.WinTop.TopDownReCalculateContentSize();
-            sampleButton.InvalidateGraphic();
-            //==================================================  
-            viewport.PaintMe();
 
             int count = 0;
             sampleButton.MouseDown += new EventHandler<UIMouseEventArgs>((s, e2) =>

@@ -217,9 +217,9 @@ namespace LayoutFarm.Text
                     EditableVisualElementLine line = lines[i];
 
 #if DEBUG
-                    if (this.ownerVisualElement is RenderBoxBase)
+                    if (this.owner is RenderBoxBase)
                     {
-                        debug_RecordLineInfo((RenderBoxBase)ownerVisualElement, line);
+                        debug_RecordLineInfo((RenderBoxBase)owner, line);
                     }
 #endif
 
@@ -265,9 +265,9 @@ namespace LayoutFarm.Text
             {
                 EditableVisualElementLine line = (EditableVisualElementLine)lineCollection;
 #if DEBUG
-                if (ownerVisualElement is RenderBoxBase)
+                if (owner is RenderBoxBase)
                 {
-                    debug_RecordLineInfo((RenderBoxBase)ownerVisualElement, line);
+                    debug_RecordLineInfo((RenderBoxBase)owner, line);
                 }
 #endif
 
@@ -487,15 +487,13 @@ namespace LayoutFarm.Text
             vinv_IsInTopDownReArrangePhase = true;
 #if DEBUG
             vinv_dbug_EnterLayerReArrangeContent(this);
-#endif
-
-           
+#endif     
             this.BeginLayerLayoutUpdate();
 
-            RenderBoxBase container = this.ownerVisualElement as RenderBoxBase;
+            RenderBoxBase container = this.owner as RenderBoxBase;
             if (container != null)
             {  
-                PerformHorizontalFlowArrange(container.ClientLeft, ownerVisualElement.Width, container.ClientTop);                
+                PerformHorizontalFlowArrange(container.ClientLeft, owner.Width, container.ClientTop);                
             }
 
             if (Reflow != null)
@@ -754,7 +752,7 @@ int ownerClientTop)
 
             ValidateArrangement();
 #if DEBUG
-            if (this.ownerVisualElement.NeedSystemCaret)
+            if (this.owner.NeedSystemCaret)
             {
                 this.dbugVRoot.dbug_WriteTick(DateTime.Now.Ticks - startTick);
             }
@@ -904,7 +902,7 @@ int ownerClientTop)
             }
 #if DEBUG
 
-            if (this.ownerVisualElement.NeedSystemCaret)
+            if (this.owner.NeedSystemCaret)
             {
                 this.dbugVRoot.dbug_WriteTick(DateTime.Now.Ticks - startTick);
             }
@@ -1005,7 +1003,7 @@ int ownerClientTop)
         public override string ToString()
         {
             return "editable flow layer " + "(L" + dbug_layer_id + this.dbugLayerState + ") postcal:" +
-                this.PostCalculateContentSize.ToString() + " of " + ownerVisualElement.dbug_FullElementDescription();
+                this.PostCalculateContentSize.ToString() + " of " + owner.dbug_FullElementDescription();
         }
 #endif
 

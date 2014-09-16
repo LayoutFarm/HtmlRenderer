@@ -98,6 +98,7 @@ namespace LayoutFarm
             if (layer0 != null)
             {
                 layer0.AddTop(vi);
+                vi.InvalidateGraphic();
             }             
         }
         public void AddContent(LayoutFarm.UI.UIElement ui)

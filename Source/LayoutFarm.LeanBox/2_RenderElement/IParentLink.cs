@@ -69,7 +69,7 @@ namespace LayoutFarm
         {
             get
             {
-                return this.ownerLayer.ownerVisualElement;
+                return this.ownerLayer.owner;
             }
         }
 

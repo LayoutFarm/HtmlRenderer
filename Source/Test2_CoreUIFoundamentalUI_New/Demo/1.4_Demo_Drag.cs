@@ -21,7 +21,7 @@ namespace LayoutFarm
                 box1.SetLocation(10, 10);
                 SetupActiveBoxProperties(box1);
                 viewport.AddContent(box1);
-                box1.InvalidateGraphic();
+
             }
             //--------------------------------
             {
@@ -29,7 +29,6 @@ namespace LayoutFarm
                 box2.SetLocation(50, 50);
                 SetupActiveBoxProperties(box2);
                 viewport.AddContent(box2);
-                box2.InvalidateGraphic();
             }
         }
         static void SetupActiveBoxProperties(LayoutFarm.SampleControls.UIButton box)
@@ -54,7 +53,7 @@ namespace LayoutFarm
                 Point pos = box.Position;
                 box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
 
-                box.InvalidateGraphic();
+
             };
             box.DragStop += (s, e) =>
             {

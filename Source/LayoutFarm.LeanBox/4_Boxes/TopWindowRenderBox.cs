@@ -36,10 +36,11 @@ namespace LayoutFarm
             set;
         }
 
-        public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
+        
+        protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
         {
             canvasPage.FillRectangle(Color.White, new RectangleF(0, 0, this.Width, this.Height));
-            base.CustomDrawToThisPage(canvasPage, updateArea);
+            base.BoxDrawContent(canvasPage, updateArea);
         }
         //----------------------------------------------------------------------------
         public abstract void RootBeginGraphicUpdate();

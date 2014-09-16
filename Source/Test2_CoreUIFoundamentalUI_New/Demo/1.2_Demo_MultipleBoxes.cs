@@ -21,8 +21,8 @@ namespace LayoutFarm
                 textbox.SetLocation(i * 40, i * 40);
 
                 viewport.AddContent(textbox);
-                viewport.WinTop.TopDownReCalculateContentSize();
-                textbox.InvalidateGraphic();
+
+
             }
         }
     }

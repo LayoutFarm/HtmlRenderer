@@ -127,7 +127,7 @@ namespace LayoutFarm.Text
                 EditableTextFlowLayer ownerFlow = this.OwnerFlowLayer;
                 if (ownerFlow != null)
                 {
-                    return ownerFlow.ownerVisualElement;
+                    return ownerFlow.owner;
                 }
                 else
                 {

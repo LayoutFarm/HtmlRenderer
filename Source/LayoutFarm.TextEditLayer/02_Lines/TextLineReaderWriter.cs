@@ -135,7 +135,7 @@ namespace LayoutFarm.Text
                 //1. new 
                 EditableTextSpan t = new EditableTextSpan(c);
 
-                var owner = this.FlowLayer.ownerVisualElement;
+                var owner = this.FlowLayer.owner;
 
                 //if (owner.MyBoxStyle != null)
                 //{

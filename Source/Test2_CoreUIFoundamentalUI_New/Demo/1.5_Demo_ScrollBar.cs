@@ -25,8 +25,7 @@ namespace LayoutFarm
 
 
             viewport.AddContent(scbar);
-            viewport.WinTop.TopDownReCalculateContentSize();
-            scbar.InvalidateGraphic();
+
 
         }
     }

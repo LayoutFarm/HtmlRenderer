@@ -18,7 +18,11 @@ namespace LayoutFarm.SampleControls
         int _height;
 
 
+#if DEBUG
+        static int dbugTotalId;
+        public readonly int dbugId = dbugTotalId++;
 
+#endif
         public UIBox(int width, int height)
         {
             this._width = width;
@@ -32,7 +36,7 @@ namespace LayoutFarm.SampleControls
             if (this.HasReadyRenderElement)
             {
                 var renderE = this.CurrentPrimaryRenderElement;
-                renderE.SetLocation(left, top); 
+                renderE.SetLocation(left, top);
             }
         }
         public void SetSize(int width, int height)
@@ -156,7 +160,17 @@ namespace LayoutFarm.SampleControls
                 this.CurrentPrimaryRenderElement.InvalidateGraphic();
             }
         }
+        public virtual int ViewportX
+        {
+            get { return 0; }
+        }
+        public virtual int ViewportY
+        {
+            get { return 0; }
+        }
+        public virtual void SetViewport(int x,int y)
+        {
 
-
+        }
     }
 }

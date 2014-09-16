@@ -26,6 +26,10 @@ namespace LayoutFarm.Text
         }
         protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
         {
+            if (vscrollableSurface != null)
+            {
+                vscrollableSurface.DrawToThisPage(canvasPage, updateArea);
+            }
             //1. bg
             RenderElementHelper.DrawBackground(this, canvasPage, updateArea.Width, updateArea.Height, Color.White);
             //2. sub ground
@@ -48,14 +52,7 @@ namespace LayoutFarm.Text
 
             }
         }
-        public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
-        {
-            if (vscrollableSurface != null)
-            {
-                vscrollableSurface.DrawToThisPage(canvasPage, updateArea);
-            }
-            base.CustomDrawToThisPage(canvasPage, updateArea);
-        }
+         
         internal void BoxEvaluateScrollBar()
         {
             if (vscrollableSurface != null)

@@ -11,11 +11,11 @@ using LayoutFarm.UI;
 namespace LayoutFarm.SampleControls
 {
     static class LayerHelpers
-    {
-
+    {   
         public static void AddUI(this VisualPlainLayer plainLayer, UIElement ui)
         {
             plainLayer.AddTop(ui.GetPrimaryRenderElement(plainLayer.Root));
         }
     }
+
 }

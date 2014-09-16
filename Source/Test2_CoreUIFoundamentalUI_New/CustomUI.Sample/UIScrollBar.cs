@@ -19,7 +19,6 @@ namespace LayoutFarm.SampleControls
         UIScrollButton maxButton;
         UIScrollButton scrollButton;
 
-
         float maxValue;
         float minValue;
         float smallChange;
@@ -84,6 +83,11 @@ namespace LayoutFarm.SampleControls
             //---------------------------
             //update visual presentation             
             UpdateScrollButtonPosition();
+
+            if (this.UserScroll != null)
+            {
+                this.UserScroll(this, EventArgs.Empty);
+            }
         }
         public void StepSmallToMin()
         {
@@ -98,6 +102,10 @@ namespace LayoutFarm.SampleControls
             //---------------------------
             //update visual presentation   
             UpdateScrollButtonPosition();
+            if (this.UserScroll != null)
+            {
+                this.UserScroll(this, EventArgs.Empty);
+            }
         }
         void UpdateScrollButtonPosition()
         {
@@ -213,13 +221,9 @@ namespace LayoutFarm.SampleControls
                 {
                     this.onePixelFor = scrollValueRange / (physicalScrollLength - eachStep);
                 }
-              
+
             }
-
-            //4. 
-
-
-
+            //4.  
             if (this.onePixelFor < 1)
             {
                 //real range is smaller than physical scrollLength
@@ -243,9 +247,13 @@ namespace LayoutFarm.SampleControls
             //3. drag
             scroll_button.Dragging += (s, e) =>
             {
+
                 Point pos = scroll_button.Position;
                 //if vscroll bar then move only y axis
-                int newYPos = pos.Y + e.YDiff;
+
+                int newYPos = (int)(pos.Y + e.YDiff);
+
+
                 //clamp!
                 if (newYPos >= this.Height - (minmax_boxHeight + scrollButton.Height))
                 {
@@ -256,8 +264,18 @@ namespace LayoutFarm.SampleControls
                     newYPos = minmax_boxHeight;
                 }
 
+                //calculate value from position 
+
+                int currentMarkAt = (newYPos - minmax_boxHeight);
+                this.scrollValue = (float)(onePixelFor * currentMarkAt);
+                newYPos = CalculateThumbPosition() + minmax_boxHeight; 
                 scroll_button.SetLocation(pos.X, newYPos);
                 scroll_button.InvalidateGraphic();
+
+                if (this.UserScroll != null)
+                {
+                    this.UserScroll(this, EventArgs.Empty);
+                }
             };
         }
         //----------------------------------------------------------------------- 
@@ -308,6 +326,9 @@ namespace LayoutFarm.SampleControls
             }
         }
         //-----------------------------------------------------------------------
+
+        public event EventHandler<EventArgs> UserScroll;
+
     }
     public enum ScrollBarType
     {
@@ -405,6 +426,20 @@ namespace LayoutFarm.SampleControls
         public ScrollBarType scrollBarType;
     }
 
+    public class ScrollingRelation
+    {
+        UIScrollBar scBar;
+        UIBox panel;
+        public ScrollingRelation(UIScrollBar scBar, UIBox panel)
+        {
+            this.scBar = scBar;
+            this.panel = panel;
+            scBar.UserScroll += (s, e) =>
+            {
+                panel.SetViewport(0, (int)scBar.ScrollValue);
+            };
 
+        }
+    }
 
 }

@@ -20,13 +20,13 @@ namespace LayoutFarm
         }
         public TopWindowRenderBox GetWinTop()
         {
-            if (this.ownerVisualElement == null)
+            if (this.owner == null)
             {
                 return null;
             }
-            if (this.ownerVisualElement.IsTopWindow)
+            if (this.owner.IsTopWindow)
             {
-                return (TopWindowRenderBox)this.ownerVisualElement;
+                return (TopWindowRenderBox)this.owner;
             }
             else
             {
@@ -234,7 +234,7 @@ namespace LayoutFarm
         {
 
             return "plain layer " + "(L" + dbug_layer_id + this.dbugLayerState + ") postcal:" +
-                this.PostCalculateContentSize.ToString() + " of " + ownerVisualElement.dbug_FullElementDescription();
+                this.PostCalculateContentSize.ToString() + " of " + owner.dbug_FullElementDescription();
         }
 #endif
 

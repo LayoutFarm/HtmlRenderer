@@ -677,7 +677,7 @@ namespace LayoutFarm.Grids
         {
             get
             {
-                return column.OwnerGridLayer.ownerVisualElement;
+                return column.OwnerGridLayer.owner;
             }
         }
 
@@ -951,7 +951,7 @@ namespace LayoutFarm.Grids
             //contArrVisitor.dbug_StartLayoutTrace("GridCollection::Add(GridColumn)");
 #endif
 
-            OwnerGridLayer.ownerVisualElement.InvalidateLayoutAndStartBubbleUp();
+            OwnerGridLayer.owner.InvalidateLayoutAndStartBubbleUp();
 
 #if DEBUG
             //contArrVisitor.dbug_EndLayoutTrace();
@@ -985,7 +985,7 @@ namespace LayoutFarm.Grids
             //                contArrVisitor.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.GridColumnCollection_Insert);
             //#endif
 
-            OwnerGridLayer.ownerVisualElement.InvalidateLayoutAndStartBubbleUp();
+            OwnerGridLayer.owner.InvalidateLayoutAndStartBubbleUp();
 
 
             //#if DEBUG
@@ -1010,7 +1010,7 @@ namespace LayoutFarm.Grids
             }
             cols.RemoveAt(columnid);
 
-            OwnerGridLayer.ownerVisualElement.InvalidateLayoutAndStartBubbleUp();
+            OwnerGridLayer.owner.InvalidateLayoutAndStartBubbleUp();
 
 
         }
@@ -1061,7 +1061,7 @@ namespace LayoutFarm.Grids
 
             UpdateColumnIndex(Math.Min(afterColumn.ColumnIndex, toTargetColumnIndex));
 
-            OwnerGridLayer.ownerVisualElement.InvalidateLayoutAndStartBubbleUp();
+            OwnerGridLayer.owner.InvalidateLayoutAndStartBubbleUp();
 
         }
 
@@ -1270,7 +1270,7 @@ namespace LayoutFarm.Grids
             }
             row.SetOwnerParentRowCollection(this);
 
-            ownerGridLayer.ownerVisualElement.InvalidateLayoutAndStartBubbleUp();
+            ownerGridLayer.owner.InvalidateLayoutAndStartBubbleUp();
 
 
         }
@@ -1297,7 +1297,7 @@ namespace LayoutFarm.Grids
             }
 
 
-            ownerGridLayer.ownerVisualElement.InvalidateLayoutAndStartBubbleUp();
+            ownerGridLayer.owner.InvalidateLayoutAndStartBubbleUp();
 
         }
         public GridRow AddRow(int rowHeight)

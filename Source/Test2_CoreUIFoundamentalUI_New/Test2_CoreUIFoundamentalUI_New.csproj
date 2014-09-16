@@ -62,6 +62,7 @@
     <Compile Include="CustomUI.Sample\UIBox.cs" />
     <Compile Include="CustomUI.Sample\UIButton.cs" />
     <Compile Include="CustomUI.Sample\UIGridBox.cs" />
+    <Compile Include="CustomUI.Sample\UIPanel.cs" />
     <Compile Include="CustomUI.Sample\UIScrollBar.cs" />
     <Compile Include="CustomUI.Sample\UITextBox.cs" />
     <Compile Include="CustomUI.Sample\UIMultilineTextBox.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Demo\1.3_Demo_SampleGrid.cs" />
     <Compile Include="Demo\1.5_Demo_ScrollBar.cs" />
     <Compile Include="Demo\1.4_Demo_Drag.cs" />
+    <Compile Include="Demo\1.6_Demo_ScrollView.cs" />
     <Compile Include="Demo\2.1_Demo_SingleLineTextBox.cs" />
     <Compile Include="Demo\2.2_Demo_MultilineTextBox.cs" />
     <Compile Include="Form1.cs">

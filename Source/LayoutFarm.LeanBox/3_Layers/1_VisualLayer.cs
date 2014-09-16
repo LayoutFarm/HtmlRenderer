@@ -31,15 +31,13 @@ namespace LayoutFarm
         protected const int FLOWLAYER_HAS_MULTILINE = 1 << (25 - 1);
 
 
-        public readonly RenderElement ownerVisualElement;
+        public readonly RenderElement owner;
 
         int postCalculateContentWidth;
-        int postCalculateContentHeight;
-
-
+        int postCalculateContentHeight; 
         protected VisualLayer(RenderElement owner)
         {
-            this.ownerVisualElement = owner;
+            this.owner = owner;
            
 #if DEBUG
             this.dbug_layer_id = dbug_layer_id_count;
@@ -49,19 +47,19 @@ namespace LayoutFarm
          
         public RootGraphic Root
         {
-            get { return this.ownerVisualElement.Root; }
+            get { return this.owner.Root; }
         }
         public abstract void Clear();
         protected TopWindowRenderBox GetTopWindowRenderBox()
         { 
-            return ownerVisualElement.GetTopWindowRenderBox();  
+            return owner.GetTopWindowRenderBox();  
         }
 
         public bool IsOwnerInArrangeQueue
         {
             get
             {
-                return ownerVisualElement.IsInLayoutQueue;
+                return owner.IsInLayoutQueue;
             }
         }
         public bool IsOwnenerInSuspendingMode
@@ -69,7 +67,7 @@ namespace LayoutFarm
             get
             {
 
-                return ownerVisualElement.IsInLayoutSuspendMode;
+                return owner.IsInLayoutSuspendMode;
             }
         }
 
@@ -86,7 +84,7 @@ namespace LayoutFarm
             this.dbug_InvalidateCount++;
 #endif
             layerFlags &= ~ARRANGEMENT_VALID;
-            return this.ownerVisualElement;
+            return this.owner;
         }
 
         public bool Visible
@@ -215,11 +213,11 @@ namespace LayoutFarm
 
         public void BeginLayerLayoutUpdate()
         {
-            ownerVisualElement.BeginGraphicUpdate();
+            owner.BeginGraphicUpdate();
         }
         public void EndLayerLayoutUpdate()
         {
-            ownerVisualElement.EndGraphicUpdate();
+            owner.EndGraphicUpdate();
         }
         public bool NeedReArrangeContent
         {

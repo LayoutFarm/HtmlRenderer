@@ -115,7 +115,7 @@ namespace LayoutFarm.Text
             }
             else
             {
-                var ownerVe = editableFlowLayer.ownerVisualElement;
+                var ownerVe = editableFlowLayer.owner;
                 if (ownerVe != null)
                 {
                     RenderElement.InnerInvalidateLayoutAndStartBubbleUp(ownerVe);

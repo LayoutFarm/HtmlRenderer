@@ -17,9 +17,8 @@ namespace LayoutFarm
         {
 
             var gridBox = new LayoutFarm.SampleControls.UIGridBox(100, 100);
-            gridBox.SetLocation(50, 50); 
+            gridBox.SetLocation(50, 50);
             viewport.AddContent(gridBox);
-            gridBox.InvalidateGraphic();
         }
     }
 }
