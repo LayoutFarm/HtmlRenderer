@@ -15,7 +15,9 @@ namespace LayoutFarm.SampleControls
         int _left;
         int _top;
         int _width;
-        int _height; 
+        int _height;
+       
+
 
         public UIBox(int width, int height)
         {

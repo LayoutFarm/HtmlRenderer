@@ -232,5 +232,23 @@ namespace TestGraphicPackage2
 
             viewport.PaintMe();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            UISurfaceViewportControl viewport;
+
+            Form formCanvas;
+            CreateReadyForm(
+                out viewport,
+                out formCanvas);
+
+            var box = new LayoutFarm.SampleControls.UIButton(50, 50);
+            box.SetLocation(10, 10);
+            viewport.AddContent(box);
+            viewport.WinTop.TopDownReCalculateContentSize();
+            box.InvalidateGraphic();
+
+            viewport.PaintMe();
+        }
     }
 }

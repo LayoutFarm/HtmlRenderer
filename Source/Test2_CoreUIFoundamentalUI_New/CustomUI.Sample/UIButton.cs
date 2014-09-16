@@ -14,7 +14,9 @@ namespace LayoutFarm.SampleControls
     public class UIButton : UIBox
     {
         public event EventHandler<UIMouseEventArgs> MouseDown;
-        CustomRenderElement primElement;
+        CustomRenderBox primElement;
+        Color backColor = Color.LightGray;
+
         public UIButton(int width, int height)
             : base(width, height)
         {
@@ -29,15 +31,26 @@ namespace LayoutFarm.SampleControls
         {
             get { return this.primElement; }
         }
-
+        public Color BackColor
+        {
+            get { return this.backColor; }
+            set
+            {
+                this.backColor = value;
+                if (HasReadyRenderElement)
+                {
+                    this.primElement.BackColor = value;
+                }
+            }
+        }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (primElement == null)
             {
-                var renderE = new CustomRenderElement(rootgfx, this.Width, this.Height);
-                renderE.SetController(this);
+                var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
                 RenderElement.DirectSetVisualElementLocation(renderE, this.Left, this.Top);
 
+                renderE.SetController(this);
                 primElement = renderE;
             }
             return primElement;

@@ -26,7 +26,8 @@
             this.cmdShowMultipleBox = new System.Windows.Forms.Button();
             this.lstHtmlTestFiles = new System.Windows.Forms.ListBox();
             this.cmdSampleGridBox = new System.Windows.Forms.Button();
-            this.cmdSampleScrollbar = new System.Windows.Forms.Button();
+            this.cmdDrag = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cmdShowBasicFormCanvas
@@ -101,7 +102,7 @@
             // 
             // lstHtmlTestFiles
             // 
-            this.lstHtmlTestFiles.Location = new System.Drawing.Point(315, 181);
+            this.lstHtmlTestFiles.Location = new System.Drawing.Point(294, 257);
             this.lstHtmlTestFiles.Name = "lstHtmlTestFiles";
             this.lstHtmlTestFiles.Size = new System.Drawing.Size(459, 251);
             this.lstHtmlTestFiles.TabIndex = 11;
@@ -116,22 +117,33 @@
             this.cmdSampleGridBox.UseVisualStyleBackColor = true;
             this.cmdSampleGridBox.Click += new System.EventHandler(this.cmdSampleGridBox_Click);
             // 
-            // cmdSampleScrollbar
+            // cmdDrag
             // 
-            this.cmdSampleScrollbar.Location = new System.Drawing.Point(294, 94);
-            this.cmdSampleScrollbar.Name = "cmdSampleScrollbar";
-            this.cmdSampleScrollbar.Size = new System.Drawing.Size(249, 45);
-            this.cmdSampleScrollbar.TabIndex = 13;
-            this.cmdSampleScrollbar.Text = "1.4 SampleScrollBar";
-            this.cmdSampleScrollbar.UseVisualStyleBackColor = true;
-            this.cmdSampleScrollbar.Click += new System.EventHandler(this.cmdSampleScrollbar_Click);
+            this.cmdDrag.Location = new System.Drawing.Point(294, 94);
+            this.cmdDrag.Name = "cmdDrag";
+            this.cmdDrag.Size = new System.Drawing.Size(249, 45);
+            this.cmdDrag.TabIndex = 13;
+            this.cmdDrag.Text = "1.4 SampleScrollBar";
+            this.cmdDrag.UseVisualStyleBackColor = true;
+            this.cmdDrag.Click += new System.EventHandler(this.cmdSampleScrollbar_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(294, 145);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(249, 45);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "1.5 Drag";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1087, 529);
-            this.Controls.Add(this.cmdSampleScrollbar);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.cmdDrag);
             this.Controls.Add(this.cmdSampleGridBox);
             this.Controls.Add(this.lstHtmlTestFiles);
             this.Controls.Add(this.cmdShowMultipleBox);
@@ -159,7 +171,8 @@
         private System.Windows.Forms.Button cmdShowMultipleBox;
         private System.Windows.Forms.ListBox lstHtmlTestFiles;
         private System.Windows.Forms.Button cmdSampleGridBox;
-        private System.Windows.Forms.Button cmdSampleScrollbar;
+        private System.Windows.Forms.Button cmdDrag;
+        private System.Windows.Forms.Button button1;
     }
 }
 

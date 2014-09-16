@@ -10,19 +10,7 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm.SampleControls
 {
-    class CustomRenderElement : RenderElement
-    {
-        public CustomRenderElement(RootGraphic rootgfx, int w, int h)
-            : base(rootgfx, w, h)
-        {
-
-        }
-        public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
-        {
-
-            canvasPage.FillRectangle(Brushes.Green, new Rectangle(0, 0, this.Width, this.Height));
-        }
-    }
+     
     class CustomRenderBox : RenderBoxBase
     {
 
@@ -54,5 +42,5 @@ namespace LayoutFarm.SampleControls
     }
 
 
-   
+
 }

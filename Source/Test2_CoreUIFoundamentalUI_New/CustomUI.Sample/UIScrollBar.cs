@@ -19,8 +19,16 @@ namespace LayoutFarm.SampleControls
         UIScrollButton maxButton;
         UIScrollButton scrollButton;
 
+        float maxValue;
+        float minValue;
+
+
         public UIScrollBar(int width, int height)
             : base(width, height)
+        {
+
+        }
+        public void SetupSrollBar(ScrollBarCreationParameters creationParameters)
         {
 
         }
@@ -175,4 +183,19 @@ namespace LayoutFarm.SampleControls
             base.OnDragging(e);
         }
     }
+
+    public class ScrollBarCreationParameters
+    {
+        public Rectangle elementBound;
+        public Size arrowBoxSize;
+        public int thumbBoxLimit;
+        public int maximum;
+        public int minmum;
+        public int largeChange;
+        public int smallChange;
+        public ScrollBarType scrollBarType;
+    }
+
+
+
 }
