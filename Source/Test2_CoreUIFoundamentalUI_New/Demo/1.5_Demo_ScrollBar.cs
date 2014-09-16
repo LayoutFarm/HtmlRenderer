@@ -18,6 +18,12 @@ namespace LayoutFarm
 
             var scbar = new LayoutFarm.SampleControls.UIScrollBar(15, 200);
             scbar.SetLocation(10, 10);
+
+            scbar.MinValue = 0;
+            scbar.MaxValue = 170;
+            scbar.SmallChange = 100;
+
+
             viewport.AddContent(scbar);
             viewport.WinTop.TopDownReCalculateContentSize();
             scbar.InvalidateGraphic();

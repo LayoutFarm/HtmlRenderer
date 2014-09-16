@@ -19,22 +19,22 @@ namespace LayoutFarm.SampleControls
         UIScrollButton maxButton;
         UIScrollButton scrollButton;
 
+
         float maxValue;
         float minValue;
+        float smallChange;
+        float largeChange;
+        float scrollValue;
+
+
+        double onePixelFor = 1;
+        bool isScrollLengthLargerThanRealValue;
+
 
         int minmax_boxHeight = 15;
-
-        
-
         public UIScrollBar(int width, int height)
             : base(width, height)
         {
-
-           
-        }
-        public void SetupSrollBar(ScrollBarCreationParameters creationParameters)
-        {
-
         }
         protected override RenderElement CurrentPrimaryRenderElement
         {
@@ -59,7 +59,6 @@ namespace LayoutFarm.SampleControls
                         {
                             CreateVScrollbarContent(rootgfx);
                         } break;
-
                 }
 
             }
@@ -70,55 +69,181 @@ namespace LayoutFarm.SampleControls
             get;
             set;
         }
+        //--------------------------------------------------------------------------
+
+        public void StepSmallToMax()
+        {
+            if (this.scrollValue + smallChange < this.MaxValue)
+            {
+                scrollValue = this.scrollValue + smallChange;
+            }
+            else
+            {
+                scrollValue = this.MaxValue;
+            }
+            //---------------------------
+            //update visual presentation             
+            UpdateScrollButtonPosition();
+        }
+        public void StepSmallToMin()
+        {
+            if (this.scrollValue - smallChange >= this.minValue)
+            {
+                scrollValue = this.scrollValue - smallChange;
+            }
+            else
+            {
+                scrollValue = this.MinValue;
+            }
+            //---------------------------
+            //update visual presentation   
+            UpdateScrollButtonPosition();
+        }
+        void UpdateScrollButtonPosition()
+        {
+            int thumbPosY = CalculateThumbPosition() + minmax_boxHeight;
+            scrollButton.SetLocation(0, thumbPosY);
+
+        }
+        //--------------------------------------------------------------------------
         void CreateVScrollbarContent(RootGraphic rootgfx)
         {
             CustomRenderBox bgBox = new CustomRenderBox(rootgfx, this.Width, this.Height);
             bgBox.HasSpecificSize = true;
             RenderElement.DirectSetVisualElementLocation(bgBox, this.Left, this.Top);
-            //-------------- 
+            //---------------------------------------------------------
 
             VisualLayerCollection layers = new VisualLayerCollection();
             bgBox.Layers = layers;
 
             VisualPlainLayer plain = new VisualPlainLayer(bgBox);
             layers.AddLayer(plain);
-            //--------------
+            //-----------------------------------------------------
+
+
             //MinButton
-            var min_button = new UIScrollButton(this.Width, minmax_boxHeight);
-            min_button.BackColor = Color.DarkGray;
-            plain.AddUI(min_button);
-            this.minButton = min_button;
-            //--------------
+            SetupMinButtonProperties(plain);
             //MaxButton
-            var max_button = new UIScrollButton(this.Width, minmax_boxHeight);
-            max_button.BackColor = Color.DarkGray;
-            max_button.SetLocation(0, this.Height - minmax_boxHeight);
-            plain.AddUI(max_button);
-            this.maxButton = max_button;
-            //-------------
+            SetupMaxButtonProperties(plain);
             //ScrollButton
-            var scroll_button = new UIScrollButton(this.Width, minmax_boxHeight);
-            scroll_button.BackColor = Color.DarkBlue;
-            scroll_button.SetLocation(0, this.Height - (minmax_boxHeight + minmax_boxHeight));
-
-            SetupScrollButtonProperties(scroll_button);
-
-            plain.AddUI(scroll_button);
-            this.scrollButton = scroll_button;
+            SetupScrollButtonProperties(plain);
             //--------------
             this.mainBox = bgBox;
+        }
+        //----------------------------------------------------------------------- 
+        int CalculateThumbPosition()
+        {
+            if (this.isScrollLengthLargerThanRealValue)
+            {
+                return (int)(this.scrollValue / this.onePixelFor);
+            }
+            else
+            {
+                return (int)(this.scrollValue / this.onePixelFor);
+            }
+
         }
         void CreateHScrollbarContent(RootGraphic rootgfx)
         {
 
         }
-        void SetupScrollButtonProperties(UIScrollButton button)
+        void SetupMinButtonProperties(VisualPlainLayer plain)
         {
-            //3. drag
 
-            button.Dragging += (s, e) =>
+            var min_button = new UIScrollButton(this.Width, minmax_boxHeight);
+            min_button.BackColor = Color.DarkGray;
+
+            min_button.MouseUp += (s, e) => this.StepSmallToMin();
+
+
+            plain.AddUI(min_button);
+            this.minButton = min_button;
+        }
+        void SetupMaxButtonProperties(VisualPlainLayer plain)
+        {
+            var max_button = new UIScrollButton(this.Width, minmax_boxHeight);
+            max_button.BackColor = Color.DarkGray;
+            max_button.SetLocation(0, this.Height - minmax_boxHeight);
+
+
+            max_button.MouseUp += (s, e) => this.StepSmallToMax();
+
+            plain.AddUI(max_button);
+            this.maxButton = max_button;
+
+        }
+        void SetupScrollButtonProperties(VisualPlainLayer plain)
+        {
+            //calculate scroll length ratio
+            //scroll button height is ratio with real scroll length
+            float scrollValueRange = this.maxValue - this.minValue;
+            //2. 
+            float physicalScrollLength = this.Height - (this.minmax_boxHeight + this.minmax_boxHeight);
+            //3.
+            float valueViewLength = physicalScrollLength;
+
+            //-----------------
+            //calculate
+            // (physicalScrollLength/scrollValueRange) = (thumbBoxLength/physicalScrollLength);
+
+            int thumbBoxLength = 1;
+            if (scrollValueRange < physicalScrollLength)
             {
-                Point pos = button.Position;
+                //physical range is larger than 
+                float eachStep = physicalScrollLength / scrollValueRange;
+                thumbBoxLength = (int)Math.Round(eachStep) * 2;
+                isScrollLengthLargerThanRealValue = true;
+                this.onePixelFor = scrollValueRange / (physicalScrollLength - thumbBoxLength);
+            }
+            else
+            {
+                float eachStep = (physicalScrollLength * smallChange) / scrollValueRange;
+                thumbBoxLength = (int)Math.Round(eachStep) * 2;
+                if (thumbBoxLength < 10)
+                {
+                    thumbBoxLength = 10;//minimum scrollbox lenth
+                    this.onePixelFor = scrollValueRange / (physicalScrollLength - eachStep);
+                }
+                else if (thumbBoxLength > physicalScrollLength)
+                {
+                    thumbBoxLength = (int)eachStep;
+                    this.onePixelFor = scrollValueRange / (physicalScrollLength - eachStep);
+                }
+                else
+                {
+                    this.onePixelFor = scrollValueRange / (physicalScrollLength - eachStep);
+                }
+              
+            }
+
+            //4. 
+
+
+
+            if (this.onePixelFor < 1)
+            {
+                //real range is smaller than physical scrollLength
+
+            }
+            else
+            {
+                //real range is larger than physical scrollLength 
+            }
+
+
+            var scroll_button = new UIScrollButton(this.Width, thumbBoxLength);
+            scroll_button.BackColor = Color.DarkBlue;
+
+            int thumbPosY = CalculateThumbPosition() + minmax_boxHeight;
+            scroll_button.SetLocation(0, thumbPosY);
+
+            plain.AddUI(scroll_button);
+            this.scrollButton = scroll_button;
+
+            //3. drag
+            scroll_button.Dragging += (s, e) =>
+            {
+                Point pos = scroll_button.Position;
                 //if vscroll bar then move only y axis
                 int newYPos = pos.Y + e.YDiff;
                 //clamp!
@@ -130,11 +255,59 @@ namespace LayoutFarm.SampleControls
                 {
                     newYPos = minmax_boxHeight;
                 }
-                button.SetLocation(pos.X, newYPos);
 
-                button.InvalidateGraphic();
+                scroll_button.SetLocation(pos.X, newYPos);
+                scroll_button.InvalidateGraphic();
             };
         }
+        //----------------------------------------------------------------------- 
+        public void SetupScrollBar(ScrollBarCreationParameters creationParameters)
+        {
+            this.maxValue = creationParameters.maximum;
+            this.minValue = creationParameters.minmum;
+
+        }
+        public float MaxValue
+        {
+            get { return this.maxValue; }
+            set
+            {
+                this.maxValue = value;
+            }
+        }
+        public float MinValue
+        {
+            get { return this.minValue; }
+            set
+            {
+                this.minValue = value;
+            }
+        }
+        public float SmallChange
+        {
+            get { return this.smallChange; }
+            set
+            {
+                this.smallChange = value;
+            }
+        }
+        public float LargeChange
+        {
+            get { return this.largeChange; }
+            set
+            {
+                this.largeChange = value;
+            }
+        }
+        public float ScrollValue
+        {
+            get { return this.scrollValue; }
+            set
+            {
+                this.scrollValue = value;
+            }
+        }
+        //-----------------------------------------------------------------------
     }
     public enum ScrollBarType
     {
@@ -225,10 +398,10 @@ namespace LayoutFarm.SampleControls
         public Rectangle elementBound;
         public Size arrowBoxSize;
         public int thumbBoxLimit;
-        public int maximum;
-        public int minmum;
-        public int largeChange;
-        public int smallChange;
+        public float maximum;
+        public float minmum;
+        public float largeChange;
+        public float smallChange;
         public ScrollBarType scrollBarType;
     }
 
