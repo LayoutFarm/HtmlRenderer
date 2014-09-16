@@ -233,7 +233,7 @@ namespace TestGraphicPackage2
             viewport.PaintMe();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void cmdDragSample_Click(object sender, EventArgs e)
         {
             UISurfaceViewportControl viewport;
 
@@ -242,23 +242,25 @@ namespace TestGraphicPackage2
                 out viewport,
                 out formCanvas);
 
-
-
-            var box1 = new LayoutFarm.SampleControls.UIButton(50, 50);
-            box1.BackColor = Color.Red;
-            box1.SetLocation(10, 10);
-            SetupActiveBoxProperties(box1);
-            viewport.AddContent(box1);
-            box1.InvalidateGraphic();
+            {
+                var box1 = new LayoutFarm.SampleControls.UIButton(50, 50);
+                box1.BackColor = Color.Red;
+                box1.SetLocation(10, 10);
+                SetupActiveBoxProperties(box1);
+                viewport.AddContent(box1);
+                box1.InvalidateGraphic();
+            }
             //--------------------------------
-            var box2 = new LayoutFarm.SampleControls.UIButton(30, 30);
-            box2.SetLocation(50, 50);
-            SetupActiveBoxProperties(box2);
-            viewport.AddContent(box2);
-            box2.InvalidateGraphic();
+            {
+                var box2 = new LayoutFarm.SampleControls.UIButton(30, 30);
+                box2.SetLocation(50, 50);
+                SetupActiveBoxProperties(box2);
+                viewport.AddContent(box2);
+                box2.InvalidateGraphic();
+            }
             //--------------------------------
             viewport.WinTop.TopDownReCalculateContentSize();
-            
+
             //---------------------------------------------------------
 
             viewport.PaintMe();

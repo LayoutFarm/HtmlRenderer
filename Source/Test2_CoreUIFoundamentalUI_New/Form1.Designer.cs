@@ -27,7 +27,7 @@
             this.lstHtmlTestFiles = new System.Windows.Forms.ListBox();
             this.cmdSampleGridBox = new System.Windows.Forms.Button();
             this.cmdDrag = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.cmdDragSample = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cmdShowBasicFormCanvas
@@ -127,22 +127,22 @@
             this.cmdDrag.UseVisualStyleBackColor = true;
             this.cmdDrag.Click += new System.EventHandler(this.cmdSampleScrollbar_Click);
             // 
-            // button1
+            // cmdDragSample
             // 
-            this.button1.Location = new System.Drawing.Point(294, 145);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(249, 45);
-            this.button1.TabIndex = 14;
-            this.button1.Text = "1.5 Drag";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.cmdDragSample.Location = new System.Drawing.Point(294, 145);
+            this.cmdDragSample.Name = "cmdDragSample";
+            this.cmdDragSample.Size = new System.Drawing.Size(249, 45);
+            this.cmdDragSample.TabIndex = 14;
+            this.cmdDragSample.Text = "1.5 Drag";
+            this.cmdDragSample.UseVisualStyleBackColor = true;
+            this.cmdDragSample.Click += new System.EventHandler(this.cmdDragSample_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1087, 529);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.cmdDragSample);
             this.Controls.Add(this.cmdDrag);
             this.Controls.Add(this.cmdSampleGridBox);
             this.Controls.Add(this.lstHtmlTestFiles);
@@ -172,7 +172,7 @@
         private System.Windows.Forms.ListBox lstHtmlTestFiles;
         private System.Windows.Forms.Button cmdSampleGridBox;
         private System.Windows.Forms.Button cmdDrag;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button cmdDragSample;
     }
 }
 
