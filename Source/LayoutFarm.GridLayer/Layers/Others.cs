@@ -673,15 +673,7 @@ namespace LayoutFarm.Grids
                 return column.OwnerGridLayer;
             }
         }
-        public RenderElement OwnerVisualElement
-        {
-            get
-            {
-                return column.OwnerGridLayer.owner;
-            }
-        }
-
-
+        
         public RenderElement ContentElement
         {
             get
@@ -951,7 +943,8 @@ namespace LayoutFarm.Grids
             //contArrVisitor.dbug_StartLayoutTrace("GridCollection::Add(GridColumn)");
 #endif
 
-            OwnerGridLayer.owner.InvalidateLayoutAndStartBubbleUp();
+
+            OwnerGridLayer.OwnerInvalidateGraphicAndStartBubbleUp();
 
 #if DEBUG
             //contArrVisitor.dbug_EndLayoutTrace();
@@ -985,7 +978,8 @@ namespace LayoutFarm.Grids
             //                contArrVisitor.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.GridColumnCollection_Insert);
             //#endif
 
-            OwnerGridLayer.owner.InvalidateLayoutAndStartBubbleUp();
+
+            OwnerGridLayer.OwnerInvalidateGraphicAndStartBubbleUp();
 
 
             //#if DEBUG
@@ -1010,8 +1004,8 @@ namespace LayoutFarm.Grids
             }
             cols.RemoveAt(columnid);
 
-            OwnerGridLayer.owner.InvalidateLayoutAndStartBubbleUp();
-
+             
+            OwnerGridLayer.OwnerInvalidateGraphicAndStartBubbleUp();
 
         }
         public GridColumn First
@@ -1061,7 +1055,8 @@ namespace LayoutFarm.Grids
 
             UpdateColumnIndex(Math.Min(afterColumn.ColumnIndex, toTargetColumnIndex));
 
-            OwnerGridLayer.owner.InvalidateLayoutAndStartBubbleUp();
+
+            OwnerGridLayer.OwnerInvalidateGraphicAndStartBubbleUp();
 
         }
 
@@ -1270,8 +1265,8 @@ namespace LayoutFarm.Grids
             }
             row.SetOwnerParentRowCollection(this);
 
-            ownerGridLayer.owner.InvalidateLayoutAndStartBubbleUp();
-
+             
+            ownerGridLayer.OwnerInvalidateGraphicAndStartBubbleUp();
 
         }
 
@@ -1297,7 +1292,8 @@ namespace LayoutFarm.Grids
             }
 
 
-            ownerGridLayer.owner.InvalidateLayoutAndStartBubbleUp();
+
+            OwnerGridLayer.OwnerInvalidateGraphicAndStartBubbleUp();
 
         }
         public GridRow AddRow(int rowHeight)

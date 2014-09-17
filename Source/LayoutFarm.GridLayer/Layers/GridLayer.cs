@@ -170,7 +170,8 @@ namespace LayoutFarm.Grids
                 prevColumn = currentColumn;
                 currentColumn = currentColumn.NextColumn;
             }
-            owner.InvalidateLayoutAndStartBubbleUp();
+
+            this.OwnerInvalidateGraphicAndStartBubbleUp();
         }
         public int UniformCellWidth
         {
@@ -437,13 +438,14 @@ namespace LayoutFarm.Grids
         public void MoveRowAfter(GridRow fromRow, GridRow toRow)
         {
             this.gridRows.MoveRowAfter(fromRow, toRow);
+            this.OwnerInvalidateGraphic();
 
-            owner.InvalidateGraphic();
         }
         public void MoveColumnAfter(GridColumn tobeMoveColumn, GridColumn afterColumn)
         {
             this.gridCols.MoveColumnAfter(tobeMoveColumn, afterColumn);
-            owner.InvalidateGraphic();
+            this.OwnerInvalidateGraphic();
+
         }
 
         public override void TopDownReCalculateContentSize()
@@ -515,7 +517,7 @@ namespace LayoutFarm.Grids
 
             return "grid layer (L" + dbug_layer_id + this.dbugLayerState + ") postcal:" +
                  this.PostCalculateContentSize.ToString() +
-                " of " + owner.dbug_FullElementDescription();
+                " of " + this.OwnerRenderElement.dbug_FullElementDescription();
         }
 
 #endif

@@ -18,21 +18,7 @@ namespace LayoutFarm
         {
 
         }
-        public TopWindowRenderBox GetWinTop()
-        {
-            if (this.owner == null)
-            {
-                return null;
-            }
-            if (this.owner.IsTopWindow)
-            {
-                return (TopWindowRenderBox)this.owner;
-            }
-            else
-            {
-                return this.GetTopWindowRenderBox();
-            }
-        }
+       
 
         public override IEnumerable<RenderElement> GetVisualElementReverseIter()
         {
@@ -233,7 +219,7 @@ namespace LayoutFarm
         {
 
             return "plain layer " + "(L" + dbug_layer_id + this.dbugLayerState + ") postcal:" +
-                this.PostCalculateContentSize.ToString() + " of " + owner.dbug_FullElementDescription();
+                this.PostCalculateContentSize.ToString() + " of " + this.OwnerRenderElement.dbug_FullElementDescription();
         }
 #endif 
     } 

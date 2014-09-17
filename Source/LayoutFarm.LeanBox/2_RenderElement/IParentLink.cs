@@ -64,7 +64,7 @@ namespace LayoutFarm
         {
             get
             {
-                return this.ownerLayer.owner;
+                return this.ownerLayer.OwnerRenderElement;
             }
         }
 

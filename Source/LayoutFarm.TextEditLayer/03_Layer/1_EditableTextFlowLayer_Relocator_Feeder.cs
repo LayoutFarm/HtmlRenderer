@@ -31,14 +31,14 @@ namespace LayoutFarm.Text
             {
                 get
                 {
-                    return flowLayer.owner.Width;
+                    return flowLayer.OwnerRenderElement.Width;
                 }
             }
             public int OwnerElementHeight
             {
                 get
                 {
-                    return flowLayer.owner.Height;
+                    return flowLayer.OwnerRenderElement.Height;
                 }
             }
             public void Load(EditableTextFlowLayer flowLayer)

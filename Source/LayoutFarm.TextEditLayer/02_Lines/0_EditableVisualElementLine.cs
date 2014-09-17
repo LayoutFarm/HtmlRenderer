@@ -143,7 +143,7 @@ namespace LayoutFarm.Text
             {
                 if (editableFlowLayer != null)
                 {
-                    return editableFlowLayer.owner;
+                    return editableFlowLayer.OwnerRenderElement;
                 }
                 else
                 {
@@ -213,7 +213,7 @@ namespace LayoutFarm.Text
         {
             get
             {
-                return new Rectangle(0, lineTop, this.editableFlowLayer.owner.Width, 17);
+                return new Rectangle(0, lineTop, this.editableFlowLayer.OwnerRenderElement.Width, 17);
             }
         }
         internal IEnumerable<EditableTextSpan> GetVisualElementForward(EditableTextSpan startVisualElement)
