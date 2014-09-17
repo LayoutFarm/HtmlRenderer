@@ -148,8 +148,7 @@ namespace LayoutFarm.SampleControls
             else
             {
                 return (int)(this.scrollValue / this.onePixelFor);
-            }
-
+            } 
         }
         void CreateHScrollbarContent(RootGraphic rootgfx)
         {

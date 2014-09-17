@@ -20,10 +20,7 @@ namespace LayoutFarm.Text
             return null;
         }
         
-        public TopWindowRenderBox GetWinTop()
-        {
-            return ownerLine.OwnerElement.GetTopWindowRenderBox();
-        }
+       
         public bool MayHasOverlapChild
         {
             get

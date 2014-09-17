@@ -10,9 +10,7 @@ namespace LayoutFarm
     { 
         bool MayHasOverlapChild { get; }
         RenderElement ParentVisualElement { get; } 
-        void AdjustLocation(ref System.Drawing.Point p); 
-        
-        TopWindowRenderBox GetWinTop();
+        void AdjustLocation(ref System.Drawing.Point p);  
         RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, System.Drawing.Point point);
         RenderElement NotifyParentToInvalidate(out bool goToFinalExit
 
@@ -52,10 +50,7 @@ namespace LayoutFarm
             }
             return null;
         }
-        public TopWindowRenderBox GetWinTop()
-        {
-            return this.ownerLayer.GetWinTop();
-        }
+        
         
         public bool MayHasOverlapChild
         {

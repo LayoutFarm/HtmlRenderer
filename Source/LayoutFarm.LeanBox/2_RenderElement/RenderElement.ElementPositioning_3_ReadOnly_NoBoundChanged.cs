@@ -627,7 +627,11 @@ ve
             }
             else
             {
-                return visualParentLink.GetWinTop();
+                
+                var parentVisualElement = visualParentLink.ParentVisualElement;
+                return parentVisualElement.GetTopWindowRenderBox(); 
+
+           
             }
         }
         public void StartBubbleUpLayoutInvalidState()

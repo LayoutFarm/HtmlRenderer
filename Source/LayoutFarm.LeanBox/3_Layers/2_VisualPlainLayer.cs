@@ -95,8 +95,7 @@ namespace LayoutFarm
             }
 
         }
-
-
+         
 
 
         public override bool PrepareDrawingChain(VisualDrawingChain chain)
@@ -236,10 +235,6 @@ namespace LayoutFarm
             return "plain layer " + "(L" + dbug_layer_id + this.dbugLayerState + ") postcal:" +
                 this.PostCalculateContentSize.ToString() + " of " + owner.dbug_FullElementDescription();
         }
-#endif
-
-
-    }
-
-
+#endif 
+    } 
 }
