@@ -2,26 +2,28 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text; 
+using System.Text;
 using LayoutFarm;
 
-namespace LayoutFarm.Grids
+namespace LayoutFarm
 {
 
     public sealed class GridLayer : VisualLayer
     {
-        GridRowCollection gridRows;
-        GridColumnCollection gridCols;
-
+        GridTable.GridRowCollection gridRows;
+        GridTable.GridColumnCollection gridCols;
         int uniformCellWidth;
         int uniformCellHeight;
         CellSizeStyle flexgridType;
+        GridTable gridTable;
+
         public GridLayer(RenderElement owner, int nColumns, int nRows, CellSizeStyle flexgridType)
         {
-            this.OwnerRenderElement  = owner;
+            this.OwnerRenderElement = owner;
             this.flexgridType = flexgridType;
-            gridRows = new GridRowCollection(this);
-            gridCols = new GridColumnCollection(this);
+            this.gridTable = new GridTable();
+            gridRows = gridTable.Rows;
+            gridCols = gridTable.Columns;
 
 
             int columnWidth = owner.Width;
@@ -75,9 +77,8 @@ namespace LayoutFarm.Grids
         }
         public override void Clear()
         {
-
-            gridCols = new GridColumnCollection(this);
-            gridRows = new GridRowCollection(this);
+            //clear content in each rows and columns
+            
         }
         public int RowCount
         {
@@ -101,7 +102,7 @@ namespace LayoutFarm.Grids
 
 
                 int curY = 0;
-                foreach (GridRow rowDef in gridRows.RowIter)
+                foreach (GridRow rowDef in gridRows.GetRowIter())
                 {
 
                     rowDef.AcceptDesiredHeight(curY);
@@ -178,7 +179,7 @@ namespace LayoutFarm.Grids
             {
                 return uniformCellWidth;
             }
-        } 
+        }
         public int UniformCellHeight
         {
             get
@@ -359,14 +360,14 @@ namespace LayoutFarm.Grids
 
             }
         }
-        internal GridRowCollection Rows
+        internal GridTable.GridRowCollection Rows
         {
             get
             {
                 return gridRows;
             }
         }
-        internal GridColumnCollection Columns
+        internal GridTable.GridColumnCollection Columns
         {
             get
             {
@@ -418,14 +419,7 @@ namespace LayoutFarm.Grids
             gridRows.Add(new GridRow(initRowHeight));
         }
 
-        public IEnumerable<GridColumn> GetColumnIter()
-        {
-            return gridCols.GetColumnIter();
-        }
-        public IEnumerable<GridRow> GetRowIter()
-        {
-            return gridRows.RowIter;
-        }
+
         public int ColumnCount
         {
             get
@@ -486,7 +480,7 @@ namespace LayoutFarm.Grids
                     maxHeight = colDef.DesiredHeight;
                 }
             }
-            foreach (GridRow rowDef in gridRows.RowIter)
+            foreach (GridRow rowDef in gridRows.GetRowIter())
             {
                 rowDef.CalculateRowHeight();
             }

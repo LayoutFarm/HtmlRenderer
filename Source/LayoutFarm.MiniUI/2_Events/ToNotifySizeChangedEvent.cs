@@ -12,8 +12,7 @@ namespace LayoutFarm
         public int xdiff;
         public int ydiff;
         public IEventListener ui;
-        public AffectedElementSideFlags affectedSideFlags;
-
+        public AffectedElementSideFlags affectedSideFlags; 
     }
 
 }

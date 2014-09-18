@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-namespace LayoutFarm.Grids
+namespace LayoutFarm
 {
     public enum CellSizeStyle
     {
@@ -25,7 +25,7 @@ namespace LayoutFarm.Grids
     public class GridColumn
     {
 
-        GridColumnCollection parentColumnCollection;
+        GridTable.GridColumnCollection parentColumnCollection;
         int col_index = -1;
         int left = 0;
         int columnWidth = 0;
@@ -42,7 +42,7 @@ namespace LayoutFarm.Grids
         {
             this.columnWidth = columnWidth;
         }
-        internal void SetParentColumnCollection(GridColumnCollection parentColumnCollection)
+        internal void SetParentColumnCollection(GridTable.GridColumnCollection parentColumnCollection)
         {
             this.parentColumnCollection = parentColumnCollection;
         }
@@ -278,7 +278,8 @@ namespace LayoutFarm.Grids
             {
                 if (parentColumnCollection != null)
                 {
-                    return parentColumnCollection.OwnerGridLayer;
+                    throw new NotSupportedException();
+                    //return parentColumnCollection.OwnerGridLayer;
                 }
                 else
                 {
@@ -332,7 +333,7 @@ namespace LayoutFarm.Grids
     public class GridRow
     {
 
-        GridRowCollection parentRowCollection;
+        GridTable.GridRowCollection parentRowCollection;
 
         int row_Index = -1;
 
@@ -354,7 +355,7 @@ namespace LayoutFarm.Grids
             get { return this.row_Index; }
             internal set { this.row_Index = value; }
         }
-        internal void SetOwnerParentRowCollection(GridRowCollection parentRowCollection)
+        internal void SetOwnerParentRowCollection(GridTable.GridRowCollection parentRowCollection)
         {
             this.parentRowCollection = parentRowCollection;
         }
@@ -381,15 +382,14 @@ namespace LayoutFarm.Grids
             }
         }
 
-        public GridLayer OwnerGridLayer
-        {
 
+        public int OwnerGridRowCount
+        {
             get
             {
-                return parentRowCollection.OwnerGridLayer;
+                return this.parentRowCollection.GridTable.RowCount;
             }
         }
-
         public int Height
         {
             get
@@ -552,7 +552,7 @@ namespace LayoutFarm.Grids
         public GridCell GetGridItem(int columnId)
         {
 
-            return parentRowCollection.OwnerGridLayer.GetCell(RowIndex, columnId);
+            return parentRowCollection.GridTable.GetCell(RowIndex, columnId);
 
         }
 
@@ -613,7 +613,6 @@ namespace LayoutFarm.Grids
 
         public void Unlink(RenderElement ve)
         {
-
             this.content = null;
         }
         public bool ControlChildPosition
@@ -673,7 +672,7 @@ namespace LayoutFarm.Grids
                 return column.OwnerGridLayer;
             }
         }
-        
+
         public RenderElement ContentElement
         {
             get
@@ -808,7 +807,7 @@ namespace LayoutFarm.Grids
                     }
                 case CellNeighbor.Down:
                     {
-                        if (row.RowIndex < row.OwnerGridLayer.RowCount - 1)
+                        if (row.RowIndex < row.OwnerGridRowCount - 1)
                         {
 
                             return column.GetCell(row.RowIndex + 1);
@@ -898,491 +897,524 @@ namespace LayoutFarm.Grids
     }
 
 
-
-    class GridColumnCollection
+    public partial class GridTable
     {
+        GridColumnCollection cols;
+        GridRowCollection rows;
 
-
-        GridLayer _ownerGridLayer;
-        List<GridColumn> cols = new List<GridColumn>();
-
-        public GridColumnCollection(GridLayer ownerGridLayer)
+        public GridTable()
         {
-            this._ownerGridLayer = ownerGridLayer;
-        }
-        internal GridLayer OwnerGridLayer
-        {
-
-            get { return this._ownerGridLayer; }
+            this.cols = new GridColumnCollection(this);
+            this.rows = new GridRowCollection(this);
         }
 
-        public void Clear()
+        public IEnumerable<GridColumn> GetColumnIter()
         {
-            cols.Clear();
+            throw new NotSupportedException();
         }
-
-        public void Add(GridColumn newColumnDef)
+        public IEnumerable<GridRow> GetRowIter()
         {
-
-            int j = cols.Count;
-            if (j == 0)
-            {
-                newColumnDef.Left = 0;
-                newColumnDef.ColumnIndex = 0;
-            }
-            else
-            {
-
-                newColumnDef.Left = cols[j - 1].Right + 1;
-                newColumnDef.ColumnIndex = j;
-            }
-            newColumnDef.SetParentColumnCollection(this);
-            cols.Add(newColumnDef);
-
-#if DEBUG
-            //contArrVisitor.dbug_StartLayoutTrace("GridCollection::Add(GridColumn)");
-#endif
-
-
-            OwnerGridLayer.OwnerInvalidateGraphicAndStartBubbleUp();
-
-#if DEBUG
-            //contArrVisitor.dbug_EndLayoutTrace();
-#endif
-
-            //--------------------------------------------
+            throw new NotSupportedException();
         }
-
-        public void Insert(int index, GridColumn coldef)
+        public GridCell GetCell(int rowId, int columnId)
         {
-
-            cols.Insert(index, coldef);
-
-            int j = cols.Count;
-
-
-            for (int i = index + 1; i < j; i++)
-            {
-                cols[i].ColumnIndex = i;
-            }
-
-
-            foreach (GridRow rowdef in OwnerGridLayer.Rows.RowIter)
-            {
-                coldef.CreateGridItemForRow(rowdef);
-            }
-            //--------------------------------------------
-            //                ContentArrangementVisitor contArrVisitor = new ContentArrangementVisitor(ownerGridLayer);
-            //#if DEBUG
-            //                //contArrVisitor.dbug_StartLayoutTrace("GridColumnCollection::Insert");
-            //                contArrVisitor.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.GridColumnCollection_Insert);
-            //#endif
-
-
-            OwnerGridLayer.OwnerInvalidateGraphicAndStartBubbleUp();
-
-
-            //#if DEBUG
-            //                contArrVisitor.dbug_EndLayoutTrace();
-            //#endif
-            //--------------------------------------------
+            throw new NotSupportedException();
         }
-
-        public void Remove(int columnid)
-        {
-
-            GridColumn col = cols[columnid];
-            int removedColumnWidth = col.Width;
-            col.ClearAllRows();
-            int j = cols.Count;
-
-            for (int i = columnid + 1; i < j; i++)
-            {
-                col = cols[i];
-                col.ColumnIndex -= 1;
-                col.Left -= removedColumnWidth;
-            }
-            cols.RemoveAt(columnid);
-
-             
-            OwnerGridLayer.OwnerInvalidateGraphicAndStartBubbleUp();
-
-        }
-        public GridColumn First
+        public int RowCount
         {
             get
             {
-                if (cols.Count > 0)
+                throw new NotSupportedException();
+            }
+        }
+        public GridColumnCollection Columns
+        {
+            get { return this.cols; }
+        }
+        public GridRowCollection Rows
+        {
+            get { return this.rows; }
+        }
+    }
+    partial class GridTable
+    {
+        public class GridColumnCollection
+        {
+
+
+            GridTable table;
+            List<GridColumn> cols = new List<GridColumn>();
+
+            internal GridColumnCollection(GridTable table)
+            {
+                this.table = table;
+            }
+            public void Clear()
+            {
+                cols.Clear();
+            }
+
+            public void Add(GridColumn newColumnDef)
+            {
+
+                int j = cols.Count;
+                if (j == 0)
                 {
-                    return cols[0];
+                    newColumnDef.Left = 0;
+                    newColumnDef.ColumnIndex = 0;
                 }
                 else
                 {
-                    return null;
+
+                    newColumnDef.Left = cols[j - 1].Right + 1;
+                    newColumnDef.ColumnIndex = j;
                 }
+                newColumnDef.SetParentColumnCollection(this);
+                cols.Add(newColumnDef);
+
+#if DEBUG
+                //contArrVisitor.dbug_StartLayoutTrace("GridCollection::Add(GridColumn)");
+#endif
+
+                InvalidateGraphicAndStartBubbleUp();
+
+#if DEBUG
+                //contArrVisitor.dbug_EndLayoutTrace();
+#endif
+
+                //--------------------------------------------
             }
-        }
-        public GridColumn Last
-        {
-            get
+            void InvalidateGraphicAndStartBubbleUp()
             {
-                if (cols.Count > 0)
-                {
-                    return cols[cols.Count - 1];
-                }
-                else
-                {
-                    return null;
-                }
-
             }
-        }
-
-
-        public void MoveColumnAfter(GridColumn tobeMovedColumn, GridColumn afterColumn)
-        {
-            //---------------------------------------------------------
-
-            int toTargetColumnIndex = afterColumn.ColumnIndex;
-            if (tobeMovedColumn.ColumnIndex < toTargetColumnIndex)
+            public void Insert(int index, GridColumn coldef)
             {
 
-                toTargetColumnIndex -= 1;
-            }
-            cols.RemoveAt(tobeMovedColumn.ColumnIndex);
+                cols.Insert(index, coldef);
 
-            cols.Insert(afterColumn.ColumnIndex, tobeMovedColumn);
-
-            UpdateColumnIndex(Math.Min(afterColumn.ColumnIndex, toTargetColumnIndex));
+                int j = cols.Count;
 
 
-            OwnerGridLayer.OwnerInvalidateGraphicAndStartBubbleUp();
-
-        }
-
-        void UpdateColumnIndex(int startIndex)
-        {
-            int j = cols.Count;
-            if (startIndex < j)
-            {
-                for (int i = startIndex; i < j; i++)
+                for (int i = index + 1; i < j; i++)
                 {
                     cols[i].ColumnIndex = i;
                 }
-            }
-        }
 
-        public GridColumn this[int index]
-        {
-            get
-            {
-                return cols[index];
-            }
-        }
-        public IEnumerable<GridColumn> GetColumnIter()
-        {
 
-            int j = cols.Count;
-            for (int i = 0; i < j; ++i)
-            {
-                yield return cols[i];
-            }
-
-        }
-        public IEnumerable<GridColumn> GetColumnReverseIter()
-        {
-
-            for (int i = cols.Count - 1; i > -1; --i)
-            {
-                yield return cols[i];
-            }
-
-        }
-
-        public GridColumn GetColumnAtPosition(int x)
-        {
-            foreach (GridColumn coldef in cols)
-            {
-                if (coldef.Right >= x)
+                foreach (GridRow rowdef in this.table.GetRowIter())
                 {
-                    return coldef;
+                    coldef.CreateGridItemForRow(rowdef);
+                }
+                //--------------------------------------------
+                //                ContentArrangementVisitor contArrVisitor = new ContentArrangementVisitor(ownerGridLayer);
+                //#if DEBUG
+                //                //contArrVisitor.dbug_StartLayoutTrace("GridColumnCollection::Insert");
+                //                contArrVisitor.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.GridColumnCollection_Insert);
+                //#endif
+
+                InvalidateGraphicAndStartBubbleUp();
+                //OwnerGridLayer.OwnerInvalidateGraphicAndStartBubbleUp();
+
+
+                //#if DEBUG
+                //                contArrVisitor.dbug_EndLayoutTrace();
+                //#endif
+                //--------------------------------------------
+            }
+
+            public void Remove(int columnid)
+            {
+
+                GridColumn col = cols[columnid];
+                int removedColumnWidth = col.Width;
+                col.ClearAllRows();
+                int j = cols.Count;
+
+                for (int i = columnid + 1; i < j; i++)
+                {
+                    col = cols[i];
+                    col.ColumnIndex -= 1;
+                    col.Left -= removedColumnWidth;
+                }
+                cols.RemoveAt(columnid);
+                OwnerInvalidateGraphicAndStartBubbleUp();
+
+            }
+            void OwnerInvalidateGraphicAndStartBubbleUp()
+            {
+            }
+            public GridColumn First
+            {
+                get
+                {
+                    if (cols.Count > 0)
+                    {
+                        return cols[0];
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
             }
-            return null;
-        }
-        public int Count
-        {
-            get
+            public GridColumn Last
             {
-                return cols.Count;
-            }
-        }
-
-    }
-
-    class GridRowCollection
-    {
-
-
-        GridLayer ownerGridLayer;
-        List<GridRow> rows = new List<GridRow>();
-        internal GridRowCollection(GridLayer ownerGridLayer)
-        {
-            this.ownerGridLayer = ownerGridLayer;
-
-        }
-        public void MoveRowAfter(GridRow fromRow, GridRow toRow)
-        {
-
-            int toRowIndex = toRow.RowIndex;
-            if (fromRow.RowIndex < toRowIndex)
-            {
-                toRowIndex -= 1;
-            }
-
-            foreach (GridColumn col in ownerGridLayer.GetColumnIter())
-            {
-                col.MoveRowAfter(fromRow, toRow);
-            }
-
-            rows.RemoveAt(fromRow.RowIndex);
-            rows.Insert(toRowIndex, fromRow);
-
-            UpdateRowIndex(fromRow, toRow);
-        }
-
-        void UpdateRowIndex(GridRow row1, GridRow row2)
-        {
-            if (row1.RowIndex < row2.RowIndex)
-            {
-                int stopRowIndex = row2.RowIndex;
-                for (int i = row1.RowIndex; i <= stopRowIndex; i++)
+                get
                 {
-                    rows[i].RowIndex = i;
+                    if (cols.Count > 0)
+                    {
+                        return cols[cols.Count - 1];
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
                 }
             }
-            else
+
+
+            public void MoveColumnAfter(GridColumn tobeMovedColumn, GridColumn afterColumn)
             {
-                int stopRowIndex = row1.RowIndex;
-                for (int i = row2.RowIndex; i <= stopRowIndex; i++)
+                //---------------------------------------------------------
+
+                int toTargetColumnIndex = afterColumn.ColumnIndex;
+                if (tobeMovedColumn.ColumnIndex < toTargetColumnIndex)
                 {
-                    rows[i].RowIndex = i;
+
+                    toTargetColumnIndex -= 1;
+                }
+                cols.RemoveAt(tobeMovedColumn.ColumnIndex);
+
+                cols.Insert(afterColumn.ColumnIndex, tobeMovedColumn);
+
+                UpdateColumnIndex(Math.Min(afterColumn.ColumnIndex, toTargetColumnIndex));
+
+
+
+                this.OwnerInvalidateGraphicAndStartBubbleUp();
+            }
+
+            void UpdateColumnIndex(int startIndex)
+            {
+                int j = cols.Count;
+                if (startIndex < j)
+                {
+                    for (int i = startIndex; i < j; i++)
+                    {
+                        cols[i].ColumnIndex = i;
+                    }
+                }
+            }
+
+            public GridColumn this[int index]
+            {
+                get
+                {
+                    return cols[index];
+                }
+            }
+            public IEnumerable<GridColumn> GetColumnIter()
+            {
+
+                int j = cols.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    yield return cols[i];
+                }
+
+            }
+            public IEnumerable<GridColumn> GetColumnReverseIter()
+            {
+
+                for (int i = cols.Count - 1; i > -1; --i)
+                {
+                    yield return cols[i];
+                }
+
+            }
+
+            public GridColumn GetColumnAtPosition(int x)
+            {
+                foreach (GridColumn coldef in cols)
+                {
+                    if (coldef.Right >= x)
+                    {
+                        return coldef;
+                    }
+                }
+                return null;
+            }
+            public int Count
+            {
+                get
+                {
+                    return cols.Count;
                 }
             }
         }
 
-        public GridRow First
+        public class GridRowCollection
         {
-            get
+
+            GridTable table;
+            List<GridRow> rows = new List<GridRow>();
+            internal GridRowCollection(GridTable table)
             {
-                if (rows.Count > 0)
+                this.table = table;
+            }
+            public void MoveRowAfter(GridRow fromRow, GridRow toRow)
+            {
+
+                int toRowIndex = toRow.RowIndex;
+                if (fromRow.RowIndex < toRowIndex)
                 {
-                    return rows[0];
+                    toRowIndex -= 1;
+                }
+
+                foreach (GridColumn col in table.GetColumnIter())
+                {
+                    col.MoveRowAfter(fromRow, toRow);
+                }
+
+                rows.RemoveAt(fromRow.RowIndex);
+                rows.Insert(toRowIndex, fromRow);
+
+                UpdateRowIndex(fromRow, toRow);
+            }
+
+            void UpdateRowIndex(GridRow row1, GridRow row2)
+            {
+                if (row1.RowIndex < row2.RowIndex)
+                {
+                    int stopRowIndex = row2.RowIndex;
+                    for (int i = row1.RowIndex; i <= stopRowIndex; i++)
+                    {
+                        rows[i].RowIndex = i;
+                    }
                 }
                 else
                 {
-                    return null;
+                    int stopRowIndex = row1.RowIndex;
+                    for (int i = row2.RowIndex; i <= stopRowIndex; i++)
+                    {
+                        rows[i].RowIndex = i;
+                    }
                 }
             }
-        }
-        public GridRow Last
-        {
-            get
+
+            public GridRow First
             {
-                if (rows.Count > 0)
+                get
                 {
-                    return rows[rows.Count - 1];
-                }
-                else
-                {
-                    return null;
-                }
-
-            }
-        }
-        internal IEnumerable<GridCell> GetCellIter(GridRow rowdef)
-        {
-
-            int rowId = rowdef.RowIndex;
-            if (rowId > -1 && rowId < rows.Count)
-            {
-
-                foreach (GridColumn coldef in ownerGridLayer.GetColumnIter())
-                {
-                    yield return coldef.GetCell(rowId);
+                    if (rows.Count > 0)
+                    {
+                        return rows[0];
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
             }
-        }
-
-
-        public IEnumerable<GridRow> RowIter
-        {
-            get
+            public GridRow Last
             {
+                get
+                {
+                    if (rows.Count > 0)
+                    {
+                        return rows[rows.Count - 1];
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                }
+            }
+            internal IEnumerable<GridCell> GetCellIter(GridRow rowdef)
+            {
+
+                int rowId = rowdef.RowIndex;
+                if (rowId > -1 && rowId < rows.Count)
+                {
+
+                    foreach (GridColumn coldef in table.GetColumnIter())
+                    {
+                        yield return coldef.GetCell(rowId);
+                    }
+                }
+            }
+
+
+            public IEnumerable<GridRow> GetRowIter()
+            {
+
                 foreach (GridRow rowdef in rows)
                 {
                     yield return rowdef;
                 }
+
             }
-        }
-        public GridRow this[int index]
-        {
-            get
+            public GridRow this[int index]
             {
-                return rows[index];
-            }
-
-        }
-        public int Count
-        {
-            get
-            {
-                return rows.Count;
-            }
-        }
-
-        public void Add(GridRow row)
-        {
-
-
-            int lastcount = rows.Count;
-            row.RowIndex = lastcount;
-
-            if (lastcount > 0)
-            {
-                row.Top = rows[lastcount - 1].Bottom;
-            }
-
-            rows.Add(row);
-            if (!row.IsBoundToGrid)
-            {
-
-                foreach (GridColumn column in ownerGridLayer.GetColumnIter())
+                get
                 {
-
-                    column.CreateGridItemForRow(row);
-                }
-            }
-            row.SetOwnerParentRowCollection(this);
-
-             
-            ownerGridLayer.OwnerInvalidateGraphicAndStartBubbleUp();
-
-        }
-
-        public void Remove(int rowid)
-        {
-
-            GridRow removedRow = rows[rowid];
-            foreach (GridColumn coldef in ownerGridLayer.GetColumnIter())
-            {
-
-                coldef.RemoveRow(removedRow);//
-            }
-
-            rows.RemoveAt(rowid);
-            int j = rows.Count;
-            int removeRowHeight = removedRow.Height;
-            for (int i = rowid; i < j; i++)
-            {
-
-                GridRow r = rows[i];
-                r.RowIndex--;
-                r.Top -= removeRowHeight;
-            }
-
-
-
-            OwnerGridLayer.OwnerInvalidateGraphicAndStartBubbleUp();
-
-        }
-        public GridRow AddRow(int rowHeight)
-        {
-
-            return AddRowAfter(rows.Count - 1, rowHeight);
-        }
-
-        public GridRow AddRowAfter(int afterRowId, int rowHeight)
-        {
-
-            int newrowId = afterRowId + 1;
-            GridRow newGridRow = null;
-            if (afterRowId == -1)
-            {
-                newGridRow = new GridRow(rowHeight);
-                newGridRow.Top = 0;
-                Add(newGridRow);
-            }
-            else
-            {
-                GridRow refRowDefinition = rows[afterRowId];
-                newGridRow = new GridRow(rowHeight);
-                newGridRow.Top = refRowDefinition.Top + refRowDefinition.Height;
-                InsertAfter(afterRowId, newGridRow);
-            }
-
-            return newGridRow;
-        }
-        public void ClearAll()
-        {
-
-            foreach (GridColumn coldef in ownerGridLayer.GetColumnIter())
-            {
-
-                coldef.ClearAllRows();
-            }
-            rows.Clear();
-
-        }
-
-        internal void InsertAfter(int afterRowId, GridRow row)
-        {
-            int newRowHeight = row.Height;
-            row.SetOwnerParentRowCollection(this);
-            row.RowIndex = afterRowId + 1;
-            rows.Insert(afterRowId + 1, row);
-
-            foreach (GridColumn coldef in ownerGridLayer.GetColumnIter())
-            {
-
-                coldef.InsertAfter(afterRowId, row);
-            }
-
-            int j = rows.Count;
-            for (int i = afterRowId + 2; i < j; i++)
-            {
-
-                GridRow r = rows[i];
-                r.RowIndex = i;
-            }
-
-        }
-        public void InsertAfter(GridRow afterThisRow, GridRow row)
-        {
-
-            InsertAfter(afterThisRow.RowIndex, row);
-
-        }
-
-        public GridRow GetRowAtPos(int y)
-        {
-            int j = rows.Count;
-            for (int i = 0; i < j; ++i)
-            {
-
-                if (rows[i].Bottom >= y)
-                {
-                    return rows[i];
+                    return rows[index];
                 }
 
             }
-            return null;
-        }
-        public GridLayer OwnerGridLayer
-        {
-            get
+            public int Count
             {
-                return ownerGridLayer;
+                get
+                {
+                    return rows.Count;
+                }
+            }
+
+            public void Add(GridRow row)
+            {
+
+
+                int lastcount = rows.Count;
+                row.RowIndex = lastcount;
+
+                if (lastcount > 0)
+                {
+                    row.Top = rows[lastcount - 1].Bottom;
+                }
+
+                rows.Add(row);
+                if (!row.IsBoundToGrid)
+                {
+
+                    foreach (GridColumn column in table.GetColumnIter())
+                    {
+
+                        column.CreateGridItemForRow(row);
+                    }
+                }
+                row.SetOwnerParentRowCollection(this);
+
+
+                OwnerInvalidateGraphicAndStartBubbleUp();
+
+            }
+            void OwnerInvalidateGraphicAndStartBubbleUp()
+            {
+            }
+            public void Remove(int rowid)
+            {
+
+                GridRow removedRow = rows[rowid];
+                foreach (GridColumn coldef in table.GetColumnIter())
+                {
+
+                    coldef.RemoveRow(removedRow);//
+                }
+
+                rows.RemoveAt(rowid);
+                int j = rows.Count;
+                int removeRowHeight = removedRow.Height;
+                for (int i = rowid; i < j; i++)
+                {
+
+                    GridRow r = rows[i];
+                    r.RowIndex--;
+                    r.Top -= removeRowHeight;
+                }
+
+
+                this.OwnerInvalidateGraphicAndStartBubbleUp();
+
+
+            }
+            public GridRow AddRow(int rowHeight)
+            {
+                return AddRowAfter(rows.Count - 1, rowHeight);
+            }
+
+            public GridRow AddRowAfter(int afterRowId, int rowHeight)
+            {
+
+                int newrowId = afterRowId + 1;
+                GridRow newGridRow = null;
+                if (afterRowId == -1)
+                {
+                    newGridRow = new GridRow(rowHeight);
+                    newGridRow.Top = 0;
+                    Add(newGridRow);
+                }
+                else
+                {
+                    GridRow refRowDefinition = rows[afterRowId];
+                    newGridRow = new GridRow(rowHeight);
+                    newGridRow.Top = refRowDefinition.Top + refRowDefinition.Height;
+                    InsertAfter(afterRowId, newGridRow);
+                }
+
+                return newGridRow;
+            }
+            public void ClearAll()
+            {
+
+                foreach (GridColumn coldef in table.GetColumnIter())
+                {
+                    coldef.ClearAllRows();
+                }
+                rows.Clear();
+
+            }
+
+            internal void InsertAfter(int afterRowId, GridRow row)
+            {
+                int newRowHeight = row.Height;
+                row.SetOwnerParentRowCollection(this);
+                row.RowIndex = afterRowId + 1;
+                rows.Insert(afterRowId + 1, row);
+
+                foreach (GridColumn coldef in table.GetColumnIter())
+                {
+
+                    coldef.InsertAfter(afterRowId, row);
+                }
+
+                int j = rows.Count;
+                for (int i = afterRowId + 2; i < j; i++)
+                {
+
+                    GridRow r = rows[i];
+                    r.RowIndex = i;
+                }
+
+            }
+            public void InsertAfter(GridRow afterThisRow, GridRow row)
+            {
+
+                InsertAfter(afterThisRow.RowIndex, row);
+
+            }
+
+            public GridRow GetRowAtPos(int y)
+            {
+                int j = rows.Count;
+                for (int i = 0; i < j; ++i)
+                {
+
+                    if (rows[i].Bottom >= y)
+                    {
+                        return rows[i];
+                    }
+
+                }
+                return null;
+            }
+            public GridTable GridTable
+            {
+                get
+                {
+                    return this.table;
+                }
             }
         }
     }

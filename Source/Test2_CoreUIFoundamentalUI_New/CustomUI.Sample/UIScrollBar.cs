@@ -6,8 +6,7 @@ using System.Text;
 using System.Drawing;
 
 using LayoutFarm.Text;
-using LayoutFarm.UI;
-using LayoutFarm.Grids;
+using LayoutFarm.UI; 
 
 namespace LayoutFarm.SampleControls
 {

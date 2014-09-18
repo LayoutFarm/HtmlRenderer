@@ -63,24 +63,7 @@ namespace LayoutFarm
                 this.owner.InvalidateGraphic();
             }
         }
-
-
-        public bool IsOwnerInArrangeQueue
-        {
-            get
-            {
-                return owner.IsInLayoutQueue;
-            }
-        }
-        public bool IsOwnenerInSuspendingMode
-        {
-            get
-            {
-
-                return owner.IsInLayoutSuspendMode;
-            }
-        }
-
+         
         public void InvalidateContentArrangementFromContainerSizeChanged()
         {
             layerFlags &= ~ARRANGEMENT_VALID;

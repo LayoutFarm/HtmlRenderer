@@ -31,6 +31,8 @@ namespace LayoutFarm.UI
         {
             uiList.RemoveAt(index);
         }
-       
+        public void Clear()
+        {
+        }
     }
 }

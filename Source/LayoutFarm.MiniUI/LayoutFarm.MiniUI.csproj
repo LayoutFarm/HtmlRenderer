@@ -46,7 +46,7 @@
     <Compile Include="0_UIElement\UIElement_EventListener.cs" />
     <Compile Include="1_LayerElements\1_PlainLayerElement.cs" />
     <Compile Include="1_LayerElements\GridLayer.cs" />
-    <Compile Include="1_LayerElements\Others.cs" />
+    <Compile Include="1_LayerElements\GridTable.cs" />
     <Compile Include="2_Events\ScrollSurfaceRequestEventArgs.cs" />
     <Compile Include="2_Events\UIDragEventArgs.cs" />
     <Compile Include="2_Events\UIEventArgs.cs" />
