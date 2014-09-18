@@ -910,21 +910,21 @@ namespace LayoutFarm
 
         public IEnumerable<GridColumn> GetColumnIter()
         {
-            throw new NotSupportedException();
+            return this.cols.GetColumnIter();
         }
         public IEnumerable<GridRow> GetRowIter()
         {
-            throw new NotSupportedException();
+            return this.rows.GetRowIter();
         }
         public GridCell GetCell(int rowId, int columnId)
         {
-            throw new NotSupportedException();
+            return this.cols[columnId].GetCell(rowId);
         }
         public int RowCount
         {
             get
             {
-                throw new NotSupportedException();
+                return this.rows.Count;                 
             }
         }
         public GridColumnCollection Columns
@@ -936,6 +936,7 @@ namespace LayoutFarm
             get { return this.rows; }
         }
     }
+
     partial class GridTable
     {
         public class GridColumnCollection
