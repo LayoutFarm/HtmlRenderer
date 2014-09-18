@@ -13,8 +13,7 @@ namespace LayoutFarm.SampleControls
 {
     public class UIGridBox : UIBox
     {
-        CustomRenderBox gridBox;
-
+        CustomRenderBox gridBox; 
         public UIGridBox(int width, int height)
             : base(width, height)
         {
@@ -52,6 +51,8 @@ namespace LayoutFarm.SampleControls
             }
             return gridBox;
         }
-
     }
+
+
+
 }

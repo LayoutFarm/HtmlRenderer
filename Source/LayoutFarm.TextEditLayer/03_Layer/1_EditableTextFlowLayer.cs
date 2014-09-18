@@ -24,9 +24,9 @@ namespace LayoutFarm.Text
         }
 
         public EditableTextFlowLayer(RenderBoxBase owner)
-            : base(owner)
         {
 
+            this.OwnerRenderElement = owner;
             lineCollection = new EditableVisualElementLine(this);
         }
 

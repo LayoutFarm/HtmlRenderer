@@ -35,21 +35,19 @@ namespace LayoutFarm
 
         int postCalculateContentWidth;
         int postCalculateContentHeight;
-        protected VisualLayer(RenderElement owner)
+        public VisualLayer()
         {
-            this.owner = owner;
-
 #if DEBUG
             this.dbug_layer_id = dbug_layer_id_count;
             ++dbug_layer_id_count;
 #endif
         }
 
-
         public RootGraphic Root
         {
             get { return this.owner.Root; }
         }
+
         public abstract void Clear();
         public void OwnerInvalidateGraphicAndStartBubbleUp()
         {
@@ -65,10 +63,7 @@ namespace LayoutFarm
                 this.owner.InvalidateGraphic();
             }
         }
-        protected TopWindowRenderBox GetTopWindowRenderBox()
-        {
-            return owner.GetTopWindowRenderBox();
-        }
+
 
         public bool IsOwnerInArrangeQueue
         {
@@ -354,6 +349,10 @@ namespace LayoutFarm
         public RenderElement OwnerRenderElement
         {
             get { return this.owner; }
+            set
+            {
+                this.owner = value;
+            }
         }
         protected static bool vinv_IsInTopDownReArrangePhase
         {

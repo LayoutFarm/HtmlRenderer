@@ -86,10 +86,6 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LayoutFarm.GridLayer\LayoutFarm.GridLayer.csproj">
-      <Project>{CF92BB19-ADF5-42DE-BD05-6FB9B4F105E6}</Project>
-      <Name>LayoutFarm.GridLayer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.LeanBox\LayoutFarm.LeanBox.csproj">
       <Project>{5CDDBA62-67E4-40AA-A3C0-AFAE030E6969}</Project>
       <Name>LayoutFarm.LeanBox</Name>

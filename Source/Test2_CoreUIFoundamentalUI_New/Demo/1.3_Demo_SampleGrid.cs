@@ -14,10 +14,12 @@ namespace LayoutFarm
     class Demo_Grid : DemoBase
     {
         protected override void OnStartDemo(UISurfaceViewportControl viewport)
-        {
-
-            var gridBox = new LayoutFarm.SampleControls.UIGridBox(100, 100);
+        {   
+            var gridBox = new LayoutFarm.SampleControls.UIGridBox(100, 100);            
             gridBox.SetLocation(50, 50);
+
+            
+
             viewport.AddContent(gridBox);
         }
     }

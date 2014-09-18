@@ -9,7 +9,9 @@ using LayoutFarm.Text;
 using LayoutFarm.UI;
 
 namespace LayoutFarm.SampleControls
-{
+{   
+
+
     static class LayerHelpers
     {   
         public static void AddUI(this VisualPlainLayer plainLayer, UIElement ui)

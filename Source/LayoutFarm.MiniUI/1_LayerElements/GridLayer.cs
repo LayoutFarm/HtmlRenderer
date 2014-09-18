@@ -2,8 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
-
+using System.Text; 
 using LayoutFarm;
 
 namespace LayoutFarm.Grids
@@ -18,8 +17,8 @@ namespace LayoutFarm.Grids
         int uniformCellHeight;
         CellSizeStyle flexgridType;
         public GridLayer(RenderElement owner, int nColumns, int nRows, CellSizeStyle flexgridType)
-            : base(owner)
         {
+            this.OwnerRenderElement  = owner;
             this.flexgridType = flexgridType;
             gridRows = new GridRowCollection(this);
             gridCols = new GridColumnCollection(this);
@@ -179,8 +178,7 @@ namespace LayoutFarm.Grids
             {
                 return uniformCellWidth;
             }
-        }
-
+        } 
         public int UniformCellHeight
         {
             get

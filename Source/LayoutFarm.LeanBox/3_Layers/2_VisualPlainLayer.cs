@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
-
-
+using System.Text; 
 namespace LayoutFarm
 {
 
@@ -13,10 +11,9 @@ namespace LayoutFarm
         LinkedList<RenderElement> myElements = new LinkedList<RenderElement>();
         public event EventHandler CustomRearrangeContent;
 
-        public VisualPlainLayer(RenderElement owner)
-            : base(owner)
+        public VisualPlainLayer(RenderElement owner) 
         {
-
+            this.OwnerRenderElement  = owner;
         }
        
 

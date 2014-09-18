@@ -17,11 +17,8 @@ namespace LayoutFarm.UI
             this.oneBitNativeEventFlags |= eventFlags;
         }
 
-        public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
-        
-        public abstract void InvalidateGraphic(); 
-
-
+        public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx); 
+        public abstract void InvalidateGraphic();   
 
         protected virtual void OnLostFocus(UIFocusEventArgs e)
         {
