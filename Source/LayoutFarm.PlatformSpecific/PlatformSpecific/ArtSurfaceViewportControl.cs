@@ -97,7 +97,7 @@ namespace LayoutFarm
             var layer0 = wintop.Layers.Layer0 as VisualPlainLayer;
             if (layer0 != null)
             {
-                layer0.AddTop(vi);
+                layer0.AddChild(vi);
                 vi.InvalidateGraphic();
             }             
         }

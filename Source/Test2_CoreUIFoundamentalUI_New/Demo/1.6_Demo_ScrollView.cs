@@ -27,11 +27,8 @@ namespace LayoutFarm
             var panel = new LayoutFarm.SampleControls.UIPanel(300, 200);
             panel.SetLocation(30, 10);
             panel.BackColor = Color.LightGray;
-         
             viewport.AddContent(panel);
-            //-------------------------
-          
-
+            //------------------------- 
 
             //add relation between viewpanel and scroll bar 
             var scRelation = new LayoutFarm.SampleControls.ScrollingRelation(scbar, panel);
@@ -46,7 +43,7 @@ namespace LayoutFarm
                 panel.AddChildBox(box1);
             }
             //--------------------------   
-             panel.SetViewport(0,50);
+            panel.SetViewport(0, 50);
         }
     }
 }

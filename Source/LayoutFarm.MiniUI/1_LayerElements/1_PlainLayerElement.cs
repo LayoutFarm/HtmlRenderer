@@ -6,18 +6,24 @@ using System.Text;
 using System.Drawing;
 namespace LayoutFarm.UI
 {
+    public enum PlainLayoutType
+    {
+        NoLayout,
+        HorizontalStack,
+        VerticalStack,
+    }
     public class PlainLayerElement : LayerElement
-    {  
+    {
 
-        List<UIElement> uiList = new List<UIElement>();
-        VisualPlainLayer plainLayer; 
+        PlainLayoutType plainLayoutType;
+        List<UIElement> uiList = new List<UIElement>();        
 
         public PlainLayerElement()
         {
         }
         public void AddUI(UIElement ui)
         {
-            uiList.Add(ui);
+            uiList.Add(ui); 
         }
         public int Count
         {
@@ -39,5 +45,9 @@ namespace LayoutFarm.UI
         {
             return this.uiList[index];
         }
+
+
+
+
     }
 }

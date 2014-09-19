@@ -187,8 +187,8 @@ namespace LayoutFarm
         public abstract void TopDownReCalculateContentSize();
         public abstract void TopDownReArrangeContent();
 
-        public abstract IEnumerable<RenderElement> GetVisualElementIter();
-        public abstract IEnumerable<RenderElement> GetVisualElementReverseIter();
+        public abstract IEnumerable<RenderElement> GetRenderElementIter();
+        public abstract IEnumerable<RenderElement> GetRenderElementReverseIter();
 
 
         protected void ValidateArrangement()

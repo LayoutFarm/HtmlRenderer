@@ -8,10 +8,10 @@ using LayoutFarm;
 namespace LayoutFarm.UI
 {
 
-    public class GridLayerElement : LayerElement
+    public class GridLayerLogic
     {
         GridTable gridTable = new GridTable();
-        public GridLayerElement()
+        public GridLayerLogic()
         {
         } 
     }

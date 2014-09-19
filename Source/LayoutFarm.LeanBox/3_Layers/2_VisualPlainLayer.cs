@@ -2,22 +2,22 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text; 
+using System.Text;
 namespace LayoutFarm
 {
-
+   
     public class VisualPlainLayer : VisualLayer
     {
         LinkedList<RenderElement> myElements = new LinkedList<RenderElement>();
         public event EventHandler CustomRearrangeContent;
 
-        public VisualPlainLayer(RenderElement owner) 
+        public VisualPlainLayer(RenderElement owner)
         {
-            this.OwnerRenderElement  = owner;
+            this.OwnerRenderElement = owner;
         }
-       
 
-        public override IEnumerable<RenderElement> GetVisualElementReverseIter()
+
+        public override IEnumerable<RenderElement> GetRenderElementReverseIter()
         {
             LinkedListNode<RenderElement> cur = myElements.Last;
             while (cur != null)
@@ -26,7 +26,7 @@ namespace LayoutFarm
                 cur = cur.Previous;
             }
         }
-        public override IEnumerable<RenderElement> GetVisualElementIter()
+        public override IEnumerable<RenderElement> GetRenderElementIter()
         {
             LinkedListNode<RenderElement> cur = myElements.First;
             while (cur != null)
@@ -36,8 +36,9 @@ namespace LayoutFarm
             }
         }
 
-        public void AddTop(RenderElement visualElement)
+        public void AddChild(RenderElement visualElement)
         {
+
 #if DEBUG
             if (visualElement.ParentLink != null)
             {
@@ -48,6 +49,7 @@ namespace LayoutFarm
             LinkedListNode<RenderElement> linkNode = myElements.AddLast(visualElement);
             RenderElement.SetVisualElementAsChildOfSimpleContainer(visualElement,
                 new SimpleLinkListParentLink(this, linkNode));
+            //position of new visual element
 
         }
         public override void Clear()
@@ -78,7 +80,7 @@ namespace LayoutFarm
             }
 
         }
-         
+
 
 
         public override bool PrepareDrawingChain(VisualDrawingChain chain)
@@ -136,10 +138,8 @@ namespace LayoutFarm
         {
             if ((layerFlags & IS_LAYER_HIDDEN) == 0)
             {
-
                 foreach (RenderElement ui in this.GetHitTestIter())
                 {
-
                     if (ui.HitTestCore(artHitResult))
                     {
                         return true;
@@ -218,6 +218,6 @@ namespace LayoutFarm
             return "plain layer " + "(L" + dbug_layer_id + this.dbugLayerState + ") postcal:" +
                 this.PostCalculateContentSize.ToString() + " of " + this.OwnerRenderElement.dbug_FullElementDescription();
         }
-#endif 
-    } 
+#endif
+    }
 }

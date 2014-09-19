@@ -168,7 +168,7 @@ namespace LayoutFarm
                 }
             }
         }
-        public override IEnumerable<RenderElement> GetVisualElementIter()
+        public override IEnumerable<RenderElement> GetRenderElementIter()
         {
 
             if (gridCols != null && gridCols.Count > 0)
@@ -187,7 +187,7 @@ namespace LayoutFarm
                 }
             }
         }
-        public override IEnumerable<RenderElement> GetVisualElementReverseIter()
+        public override IEnumerable<RenderElement> GetRenderElementReverseIter()
         {
             if (gridCols != null && gridCols.Count > 0)
             {

@@ -10,7 +10,7 @@ namespace LayoutFarm.Text
 
     partial class EditableTextFlowLayer
     {
-        public override IEnumerable<RenderElement> GetVisualElementReverseIter()
+        public override IEnumerable<RenderElement> GetRenderElementReverseIter()
         {
             if (lineCollection != null)
             {
@@ -43,7 +43,7 @@ namespace LayoutFarm.Text
                 }
             }
         }
-        public override IEnumerable<RenderElement> GetVisualElementIter()
+        public override IEnumerable<RenderElement> GetRenderElementIter()
         {
             if (lineCollection != null)
             {

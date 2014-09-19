@@ -24,7 +24,7 @@ namespace LayoutFarm
         }
         public void AddChild(RenderElement renderE)
         {
-            groundLayer.AddTop(renderE);
+            groundLayer.AddChild(renderE);
         }
         public RootGraphic RootGraphic
         {

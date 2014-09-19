@@ -16,7 +16,7 @@ namespace LayoutFarm.SampleControls
     {   
         public static void AddUI(this VisualPlainLayer plainLayer, UIElement ui)
         {
-            plainLayer.AddTop(ui.GetPrimaryRenderElement(plainLayer.Root));
+            plainLayer.AddChild(ui.GetPrimaryRenderElement(plainLayer.Root));
         }
     }
 
