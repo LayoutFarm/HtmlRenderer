@@ -10,11 +10,10 @@ namespace LayoutFarm.UI
 
     public class GridLayerElement : LayerElement
     {
-        GridLayer gridLayer; 
+        GridTable gridTable = new GridTable();
         public GridLayerElement()
-        {  
-        }
-
+        {
+        } 
     }
-    
+
 }

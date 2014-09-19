@@ -23,14 +23,14 @@ namespace LayoutFarm.SampleControls
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
         int viewportX, viewportY;
-
-
-        List<UIElement> children = new List<UIElement>();
+        List<LayerElement> layers = new List<LayerElement>(1);
 
         public UIPanel(int width, int height)
             : base(width, height)
         {
 
+            PlainLayerElement plainLayer = new PlainLayerElement();
+            this.layers.Add(plainLayer);
         }
 
         protected override bool HasReadyRenderElement
@@ -63,26 +63,35 @@ namespace LayoutFarm.SampleControls
                 renderE.SetController(this);
                 renderE.HasSpecificSize = true;
 
-                renderE.dbugBreak = true;
-                //create layers and default ground layer
-                var groundLayer = new VisualPlainLayer(renderE);
+                //------------------------------------------------
+                //create visual layer
                 renderE.Layers = new VisualLayerCollection();
-                renderE.Layers.AddLayer(groundLayer);
-                renderE.SetViewport(this.viewportX, this.viewportY);
-                //---------------------------------
-                int j = children.Count;
-                for (int i = 0; i < j; ++i)
+                int layerCount = this.layers.Count;
+                for (int m = 0; m < layerCount; ++m)
                 {
-                    groundLayer.AddUI(children[0]);
+                    PlainLayerElement plain = (PlainLayerElement)this.layers[m];
+                    var groundLayer = new VisualPlainLayer(renderE);
+                    renderE.Layers.AddLayer(groundLayer);
+                    renderE.SetViewport(this.viewportX, this.viewportY);
+                    //---------------------------------
+                    int j = plain.Count;
+                    for (int i = 0; i < j; ++i)
+                    {
+                        groundLayer.AddUI(plain.GetElement(i));
+                    }
                 }
+
                 //---------------------------------
                 primElement = renderE;
             }
             return primElement;
         }
+
+
         public void AddChildBox(UIElement ui)
         {
-            this.children.Add(ui);
+            PlainLayerElement layer0 = (PlainLayerElement)this.layers[0];
+            layer0.AddUI(ui);
             if (this.HasReadyRenderElement)
             {
                 VisualPlainLayer plain1 = this.primElement.Layers.Layer0 as VisualPlainLayer;

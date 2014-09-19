@@ -6,16 +6,52 @@ using System.Text;
 using System.Drawing;
 
 using LayoutFarm.Text;
-using LayoutFarm.UI; 
+using LayoutFarm.UI;
 
 namespace LayoutFarm.SampleControls
 {
     public class UIGridBox : UIBox
     {
-        CustomRenderBox gridBox; 
+        CustomRenderBox gridBox;
+        GridTable gridTable = new GridTable();
+        CellSizeStyle cellSizeStyle;
         public UIGridBox(int width, int height)
             : base(width, height)
         {
+
+        }
+        public void BuildGrid(int ncols, int nrows, CellSizeStyle cellSizeStyle)
+        {
+            this.cellSizeStyle = cellSizeStyle;
+            //1. create cols
+            var cols = gridTable.Columns;
+            for (int n = 0; n < ncols; ++n)
+            {
+                //create with defatul width
+                GridColumn col = new GridColumn(1);
+                cols.Add(col);
+            }
+
+            //2. create rows
+            var rows = gridTable.Rows;
+            for (int n = 0; n < nrows; ++n)
+            {
+                GridRow row = new GridRow(1);//create with default height
+                rows.Add(row);
+            }
+        }
+
+        public void AddUI(UIElement ui, int rowIndex, int colIndex)
+        {
+            if (rowIndex < gridTable.RowCount && colIndex < gridTable.ColumnCount)
+            {
+
+            }
+        }
+        public CellSizeStyle CellSizeStyle
+        {
+            get { return this.cellSizeStyle; }
+            set { this.cellSizeStyle = value; }
         }
         protected override RenderElement CurrentPrimaryRenderElement
         {
@@ -31,26 +67,23 @@ namespace LayoutFarm.SampleControls
             {
                 var myGridBox = new CustomRenderBox(rootgfx, this.Width, this.Height);
                 RenderElement.DirectSetVisualElementLocation(myGridBox, this.Left, this.Top);
-
-
-                this.gridBox = myGridBox;
+                this.gridBox = myGridBox; 
 
                 var layers = new VisualLayerCollection();
-
                 gridBox.Layers = layers;
-                //1. create grid layer
-                GridLayer gridLayer = new GridLayer(gridBox,
-                    10, 5, CellSizeStyle.UniformCell);
-                layers.AddLayer(gridLayer);
 
-                //2. add some small box to the grid
-                UIButton simpleButton1 = new UIButton(10, 10);
-                GridCell gridCell = gridLayer.GetCell(1, 1);
-                gridCell.ContentElement = simpleButton1.GetPrimaryRenderElement(rootgfx);
+                //create layers
+                int nrows = this.gridTable.RowCount;
+                int ncols = this.gridTable.ColumnCount;
+                //---------------------------------------- 
+                GridLayer gridLayer = new GridLayer(gridBox, gridTable, this.cellSizeStyle);
+                 
+                layers.AddLayer(gridLayer);
             }
             return gridBox;
         }
     }
+
 
 
 

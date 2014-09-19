@@ -7,10 +7,10 @@ using System.Drawing;
 namespace LayoutFarm.UI
 {
     public class PlainLayerElement : LayerElement
-    {
+    {  
 
         List<UIElement> uiList = new List<UIElement>();
-        VisualPlainLayer plainLayer;
+        VisualPlainLayer plainLayer; 
 
         public PlainLayerElement()
         {
@@ -33,6 +33,11 @@ namespace LayoutFarm.UI
         }
         public void Clear()
         {
+            this.uiList.Clear();
+        }
+        public UIElement GetElement(int index)
+        {
+            return this.uiList[index];
         }
     }
 }

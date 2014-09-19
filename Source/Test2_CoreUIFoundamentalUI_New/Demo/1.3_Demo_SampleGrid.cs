@@ -14,13 +14,35 @@ namespace LayoutFarm
     class Demo_Grid : DemoBase
     {
         protected override void OnStartDemo(UISurfaceViewportControl viewport)
-        {   
-            var gridBox = new LayoutFarm.SampleControls.UIGridBox(100, 100);            
-            gridBox.SetLocation(50, 50);
+        {
+            //grid0
+            {
+                var gridBox = new LayoutFarm.SampleControls.UIGridBox(100, 100);
+                gridBox.SetLocation(50, 50);
+                gridBox.BuildGrid(2, 4, CellSizeStyle.UniformCell);
 
-            
+                viewport.AddContent(gridBox);
+            }
+            //grid1
+            {
+                var gridBox = new LayoutFarm.SampleControls.UIGridBox(100, 100);
+                gridBox.SetLocation(200, 50);
+                gridBox.BuildGrid(2, 4, CellSizeStyle.UniformCell);
+                
+                viewport.AddContent(gridBox);
+            }
 
-            viewport.AddContent(gridBox);
+
+            //-----
+            //grid2
+            {
+                var gridBox = new LayoutFarm.SampleControls.UIGridBox(100, 100);
+                gridBox.SetLocation(350, 50);
+                gridBox.BuildGrid(3, 8, CellSizeStyle.UniformCell);
+
+                viewport.AddContent(gridBox);
+            }
+
         }
     }
 }
