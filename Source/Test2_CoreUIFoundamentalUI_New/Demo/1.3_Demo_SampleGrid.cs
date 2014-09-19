@@ -28,8 +28,12 @@ namespace LayoutFarm
                 var gridBox = new LayoutFarm.SampleControls.UIGridBox(100, 100);
                 gridBox.SetLocation(200, 50);
                 gridBox.BuildGrid(2, 4, CellSizeStyle.UniformCell);
-                
+                 
                 viewport.AddContent(gridBox);
+
+                var simpleButton = new LayoutFarm.SampleControls.UIButton(20, 20);
+                simpleButton.BackColor = Color.OliveDrab;
+                gridBox.AddUI(simpleButton, 1, 1); 
             }
 
 

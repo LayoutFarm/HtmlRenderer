@@ -17,17 +17,16 @@ namespace LayoutFarm
         CellSizeStyle cellSizeStyle;
         GridTable gridTable;
 
-        public GridLayer(RenderElement owner, GridTable gridTable, CellSizeStyle flexgridType)
+        public GridLayer(RenderElement owner, int nColumns, int nRows, CellSizeStyle flexgridType)
         {
             this.OwnerRenderElement = owner;
             this.cellSizeStyle = flexgridType;
-            this.gridTable = gridTable;
-
+            this.gridTable = new GridTable();
+            
             gridRows = gridTable.Rows;
             gridCols = gridTable.Columns;
 
-            int columnWidth = owner.Width;
-            int nColumns = gridTable.ColumnCount;
+            int columnWidth = owner.Width; 
             if (nColumns > 0)
             {
                 columnWidth = columnWidth / nColumns;
@@ -42,20 +41,24 @@ namespace LayoutFarm
             int cx = 0;
             for (int c = 0; c < nColumns; c++)
             {
-                var col = gridCols[c];
+                GridColumn col = new GridColumn(columnWidth);                 
                 col.Width = columnWidth;
                 col.Left = cx;
+
                 cx += columnWidth;
+                gridCols.Add(col);
             }
             //------------------------------------------------------------
-            int nRows = gridTable.RowCount;
+            
             if (nRows > 0)
             {
                 int rowHeight = owner.Height / nRows;
                 int cy = 0;
                 for (int r = 0; r < nRows; r++)
                 {
-                    var row = gridRows[r];
+                    var row = new GridRow(rowHeight);
+                    gridRows.Add(row);
+
                     row.Height = rowHeight;
                     row.Top = cy;
                     cy += rowHeight;

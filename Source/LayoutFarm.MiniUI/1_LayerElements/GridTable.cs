@@ -184,8 +184,6 @@ namespace LayoutFarm
         {
             return cells[rowIndex];
         }
-
-
         public int CellCount
         {
             get { return this.cells.Count; }
@@ -442,22 +440,7 @@ namespace LayoutFarm
             //    oldrect.Height = height;
             //    cell.SetRectBound(oldrect);
             //}
-        }
-
-
-        public IEnumerable<GridCell> GetGridItemIter()
-        {
-            return parentRowCollection.GetCellIter(this);
-        }
-
-
-        public GridCell GetGridItem(int columnId)
-        {
-
-            return parentRowCollection.GridTable.GetCell(RowIndex, columnId);
-
-        }
-
+        } 
         public void CalculateRowHeight()
         {
 
@@ -734,6 +717,8 @@ namespace LayoutFarm
         {
             get { return this.rows; }
         }
+
+        
     }
 
     partial class GridTable

@@ -15,6 +15,8 @@ namespace LayoutFarm.SampleControls
         CustomRenderBox gridBox;
         GridTable gridTable = new GridTable();
         CellSizeStyle cellSizeStyle;
+        GridLayer gridLayer;
+
         public UIGridBox(int width, int height)
             : base(width, height)
         {
@@ -45,7 +47,11 @@ namespace LayoutFarm.SampleControls
         {
             if (rowIndex < gridTable.RowCount && colIndex < gridTable.ColumnCount)
             {
-
+                gridTable.GetCell(rowIndex, colIndex).ContentElement = ui;
+                if (this.HasReadyRenderElement)
+                {
+                    gridLayer.GetCell(rowIndex, colIndex).ContentElement = ui.GetPrimaryRenderElement(gridLayer.Root);                        
+                }
             }
         }
         public CellSizeStyle CellSizeStyle
@@ -67,17 +73,30 @@ namespace LayoutFarm.SampleControls
             {
                 var myGridBox = new CustomRenderBox(rootgfx, this.Width, this.Height);
                 RenderElement.DirectSetVisualElementLocation(myGridBox, this.Left, this.Top);
-                this.gridBox = myGridBox; 
+                this.gridBox = myGridBox;
 
                 var layers = new VisualLayerCollection();
                 gridBox.Layers = layers;
-
                 //create layers
                 int nrows = this.gridTable.RowCount;
                 int ncols = this.gridTable.ColumnCount;
-                //---------------------------------------- 
-                GridLayer gridLayer = new GridLayer(gridBox, gridTable, this.cellSizeStyle);
-                 
+                //----------------------------------------        
+                gridLayer = new GridLayer(gridBox, ncols, nrows, this.cellSizeStyle);
+                //add grid content
+                for (int c = 0; c < ncols; ++c)
+                {
+                    for (int r = 0; r < nrows; ++r)
+                    {
+                        var gridCell = gridTable.GetCell(r, c);
+                        var content = gridCell.ContentElement as UIElement;
+                        if (content != null)
+                        {
+                            RenderElement re = content.GetPrimaryRenderElement(rootgfx);
+                            gridLayer.GetCell(r, c).ContentElement = re;
+                        }
+                    }
+                } 
+
                 layers.AddLayer(gridLayer);
             }
             return gridBox;
