@@ -34,7 +34,7 @@ namespace LayoutFarm
         int currentYDistanceFromDragPoint = 0;
 
 
-        
+
 
 
         readonly HitPointChain hitPointChain = new HitPointChain();
@@ -48,34 +48,35 @@ namespace LayoutFarm
 
 
         public event EventHandler<UIInvalidateEventArgs> CanvasInvalidatedEvent;
-        public event EventHandler<UICaretEventArgs> CanvasCaretEvent;
+
         public event EventHandler<UICursorEventArgs> CursorStyleEventHandler;
-         
+        public event EventHandler<EventArgs> CanvasForcePaint;
+
         public event EventHandler CurrentFocusElementChanged;
         int msgChainVersion;
         LinkedList<LinkedListNode<VisualRootTimerTask>> tobeRemoveTasks = new LinkedList<LinkedListNode<VisualRootTimerTask>>();
 
 
         public void ChangeVisualRootSize(int width, int height)
-        {   
+        {
             this.ChangeRootElementSize(width, height);
 
         }
         public void Dispose()
         {
 
-        } 
-        void SetCaretVisible(bool visible)
-        {
-            if (CanvasCaretEvent != null)
-            {
-
-                var e = eventStock.GetFreeCaretEventArgs();
-                e.Visible = visible;
-                CanvasCaretEvent.Invoke(this, e);
-                eventStock.ReleaseEventArgs(e);
-            }
         }
+        //void SetCaretVisible(bool visible)
+        //{
+        //    if (CanvasCaretEvent != null)
+        //    {
+
+        //        var e = eventStock.GetFreeCaretEventArgs();
+        //        e.Visible = visible;
+        //        CanvasCaretEvent.Invoke(this, e);
+        //        eventStock.ReleaseEventArgs(e);
+        //    }
+        //}
 
         public override RenderElement CurrentKeyboardFocusedElement
         {
@@ -108,19 +109,16 @@ namespace LayoutFarm
 
                     UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(value, currentKeyboardFocusedElement);
                     focusEventArg.SetWinRoot(this);
-                    var script = currentKeyboardFocusedElement.GetController();
-                    if (script != null)
-                    {
-                    }
+                    //var script = currentKeyboardFocusedElement.GetController();
+                    //if (script != null)
+                    //{
+                    //} 
+                    //if (currentKeyboardFocusedElement.NeedSystemCaret)
+                    //{
+                    //    SetCaretVisible(false); 
+                    //    currentKeyboardFocusedElement.InvalidateGraphic();
 
-
-                    if (currentKeyboardFocusedElement.NeedSystemCaret)
-                    {
-                        SetCaretVisible(false);
-
-                        currentKeyboardFocusedElement.InvalidateGraphic();
-
-                    }
+                    //}
                     eventStock.ReleaseEventArgs(focusEventArg);
                 }
                 currentKeyboardFocusedElement = value;
@@ -139,15 +137,15 @@ namespace LayoutFarm
 
                     }
                     eventStock.ReleaseEventArgs(focusEventArg);
-                    if (currentKeyboardFocusedElement.NeedSystemCaret)
-                    {
+                    //if (currentKeyboardFocusedElement.NeedSystemCaret)
+                    //{
 
-                        SetCaretVisible(true);
-                    }
-                    else
-                    {
-                        SetCaretVisible(false);
-                    }
+                    //    SetCaretVisible(true);
+                    //}
+                    //else
+                    //{
+                    //    SetCaretVisible(false);
+                    //}
                     if (CurrentFocusElementChanged != null)
                     {
                         CurrentFocusElementChanged.Invoke(this, EventArgs.Empty);
@@ -160,7 +158,7 @@ namespace LayoutFarm
                 }
             }
         }
-         
+
         internal RenderElement CurrentMouseFocusedElement
         {
             get
@@ -169,7 +167,7 @@ namespace LayoutFarm
             }
         }
 
-         
+
         public void ClearAllFocus()
         {
             CurrentKeyboardFocusedElement = null;
@@ -202,11 +200,11 @@ namespace LayoutFarm
                 if (ui != null)
                 {
                 }
-                e.TranslateCanvasOriginBack(); 
+                e.TranslateCanvasOriginBack();
 
             }
             hitPointChain.SwapHitChain();
-        } 
+        }
         public void OnMouseWheel(UIMouseEventArgs e)
         {
 
@@ -224,11 +222,11 @@ namespace LayoutFarm
 
 #if DEBUG
 
-            if (this.visualroot.dbugEnableGraphicInvalidateTrace)
+            if (this.rootGraphic.dbugEnableGraphicInvalidateTrace)
             {
-                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("================");
-                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("MOUSEDOWN");
-                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("MOUSEDOWN");
+                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
 
 #endif
@@ -422,11 +420,11 @@ namespace LayoutFarm
         {
 
 #if DEBUG
-            if (this.visualroot.dbugEnableGraphicInvalidateTrace)
+            if (this.rootGraphic.dbugEnableGraphicInvalidateTrace)
             {
-                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("================");
-                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("START_DRAG");
-                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("START_DRAG");
+                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
 #endif
 
@@ -479,56 +477,30 @@ namespace LayoutFarm
 
             //--------------
             currentXDistanceFromDragPoint += e.XDiff; currentYDistanceFromDragPoint += e.YDiff;
+            
 
-            if (currentDragingElement.NeedSystemCaret)
-            {
+            DisableGraphicOutputFlush = true;
 
-                DisableGraphicOutputFlush = true;
-                Point globalLoca = currentDragingElement.GetGlobalLocation();
-                e.TranslateCanvasOrigin(globalLoca);
-                Point dragPoint = hitPointChain.PrevHitPoint;
-                dragPoint.Offset(currentXDistanceFromDragPoint, currentYDistanceFromDragPoint);
-                e.Location = dragPoint;
-                e.SourceVisualElement = currentDragingElement;
-                IEventListener ui = currentDragingElement.GetController() as IEventListener;
-                if (ui != null)
-                {
+            Point globalDragingElementLocation = currentDragingElement.GetGlobalLocation();
+            e.TranslateCanvasOrigin(globalDragingElementLocation);
+            e.SourceVisualElement = currentDragingElement;
+            Point dragPoint = hitPointChain.PrevHitPoint;
+            dragPoint.Offset(currentXDistanceFromDragPoint, currentYDistanceFromDragPoint);
+            e.Location = dragPoint;
+            e.DragingElement = currentDragingElement; 
 
-                    ui.ListenDragEvent(UIDragEventName.Dragging, e);
-                }
-
-                e.TranslateCanvasOriginBack();
-                DisableGraphicOutputFlush = false;
-
+            IEventListener ui = currentDragingElement.GetController() as IEventListener;
+            if (ui != null)
+            {  
+                ui.ListenDragEvent(UIDragEventName.Dragging, e);
             }
-            else
+            e.TranslateCanvasOriginBack();
+
+            if (currentDragingElement.HasDragBroadcastable)
             {
-
-                DisableGraphicOutputFlush = true;
-
-                Point globalDragingElementLocation = currentDragingElement.GetGlobalLocation();
-                e.TranslateCanvasOrigin(globalDragingElementLocation);
-                e.SourceVisualElement = currentDragingElement;
-                Point dragPoint = hitPointChain.PrevHitPoint;
-                dragPoint.Offset(currentXDistanceFromDragPoint, currentYDistanceFromDragPoint);
-                e.Location = dragPoint;
-                e.DragingElement = currentDragingElement;
-
-
-
-                IEventListener ui = currentDragingElement.GetController() as IEventListener;
-                if (ui != null)
-                {
-
-                    ui.ListenDragEvent(UIDragEventName.Dragging, e);
-                }
-                e.TranslateCanvasOriginBack();
-
-                if (currentDragingElement.HasDragBroadcastable)
-                {
-                    BroadcastDragHitEvents(e);
-                }
+                BroadcastDragHitEvents(e);
             }
+          
             FlushAccumGraphicUpdate();
         }
 
@@ -649,11 +621,11 @@ namespace LayoutFarm
 
             e.TranslateCanvasOriginBack();
 
-            if (currentMouseActiveElement != null)
-            {
-                SetCaretVisible(currentMouseActiveElement.NeedSystemCaret);
+            //if (currentMouseActiveElement != null)
+            //{
+            //    SetCaretVisible(currentMouseActiveElement.NeedSystemCaret);
 
-            }
+            //}
 
             UIDragEventArgs d_eventArg = UIDragEventArgs.GetFreeDragEventArgs();
             if (hitPointChain.DragHitElementCount > 0)
@@ -688,10 +660,7 @@ namespace LayoutFarm
 
             if (currentMouseActiveElement != null)
             {
-                if (currentMouseActiveElement.NeedSystemCaret)
-                {
-                    SetCaretVisible(true);
-                }
+
             }
 
         }
@@ -704,11 +673,11 @@ namespace LayoutFarm
 
 #if DEBUG
 
-            if (this.visualroot.dbugEnableGraphicInvalidateTrace)
+            if (this.rootGraphic.dbugEnableGraphicInvalidateTrace)
             {
-                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("================");
-                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("MOUSEUP");
-                this.visualroot.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("MOUSEUP");
+                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
 
 #endif

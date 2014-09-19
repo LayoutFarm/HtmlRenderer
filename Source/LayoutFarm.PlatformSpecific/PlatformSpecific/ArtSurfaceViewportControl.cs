@@ -32,14 +32,14 @@ namespace LayoutFarm
         public event EventHandler<UIScrollEventArgs> VScrollChanged;
         public event EventHandler<UIScrollEventArgs> HScrollChanged;
 
-        MyTopWindowRenderBox wintop; 
+        MyTopWindowRenderBox wintop;
         EventHandler<EventArgs> parentFormClosedHandler;
 
         public UISurfaceViewportControl()
         {
-            InitializeComponent();
+            InitializeComponent(); 
         }
-
+        
         public void WhenParentFormClosed(EventHandler<EventArgs> handler)
         {
             this.parentFormClosedHandler = handler;
@@ -51,7 +51,7 @@ namespace LayoutFarm
             this.wintop = winroot;
             canvasViewport = new CanvasViewport(this, winroot, this.Size, 4);
             //if request from winroot
-           // winroot.CanvasForcePaintMe += canvasViewport.PaintMe;
+            winroot.CanvasForcePaint += canvasViewport.PaintMe;
 
         }
         void ParentForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -84,7 +84,7 @@ namespace LayoutFarm
             {
                 return this.Height;
             }
-        } 
+        }
         public TopWindowRenderBox WinTop
         {
             get
@@ -99,7 +99,7 @@ namespace LayoutFarm
             {
                 layer0.AddChild(vi);
                 vi.InvalidateGraphic();
-            }             
+            }
         }
         public void AddContent(LayoutFarm.UI.UIElement ui)
         {
@@ -315,16 +315,20 @@ namespace LayoutFarm
         }
         protected override void OnKeyDown(KeyEventArgs e)
         {
+            MyRootGraphic.CurrentTopWindowRenderBox = this.wintop;
+            
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
             keyEventArgs.SetWinRoot(wintop);
             SetArtKeyData(keyEventArgs, e);
             base.OnKeyDown(e);
+            
             canvasViewport.OnKeyDown(keyEventArgs);
             eventStock.ReleaseEventArgs(keyEventArgs);
-
         }
         protected override void OnKeyUp(KeyEventArgs e)
         {
+            MyRootGraphic.CurrentTopWindowRenderBox = this.wintop;
+
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
 
             keyEventArgs.SetWinRoot(wintop);

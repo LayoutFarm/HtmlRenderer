@@ -14,16 +14,25 @@ namespace LayoutFarm.Text
 
     public sealed partial class TextEditRenderBox : RenderBoxBase
     {
-
+        CaretRenderElement myCaret;
         EditableTextFlowLayer textLayer;
         InternalTextLayerController internalTextLayerController;
         int verticalExpectedCharIndex;
         bool isMultiLine = false;
         bool isInVerticalPhase = false;
 
-        public TextEditRenderBox(RootGraphic rootgfx, int width, int height, bool isMultiLine)
+        public TextEditRenderBox(RootGraphic rootgfx, 
+            int width, int height,
+            bool isMultiLine)
             : base(rootgfx, width, height)
         {
+
+            GlobalCaretController.RegisterCaretBlink(rootgfx);
+
+
+            myCaret = new CaretRenderElement(rootgfx, 2, 17);
+            myCaret.TransparentForAllEvents = true;
+
             //RegisterNativeEvent((1 << UIEventIdentifier.NE_DRAG_START)
             //    | (1 << UIEventIdentifier.NE_DRAGING)
             //    | (1 << UIEventIdentifier.NE_DRAG_STOP)
@@ -33,13 +42,12 @@ namespace LayoutFarm.Text
             //    | (1 << UIEventIdentifier.NE_MOUSE_UP)
             //    | (1 << UIEventIdentifier.NE_DBLCLICK)
             //    | (1 << UIEventIdentifier.NE_KEY_DOWN)
-            //    | (1 << UIEventIdentifier.NE_KEY_PRESS));
-
-
+            //    | (1 << UIEventIdentifier.NE_KEY_PRESS)); 
             textLayer = new EditableTextFlowLayer(this);
             this.Layers = new VisualLayerCollection();
+
             this.Layers.AddLayer(textLayer);
-            this.NeedSystemCaret = true;
+           
 
             internalTextLayerController = new InternalTextLayerController(this, textLayer);
 
@@ -55,7 +63,7 @@ namespace LayoutFarm.Text
             }
             this.IsBlockElement = false;
         }
-
+        
         public TextMan TextMan
         {
             get
@@ -143,6 +151,7 @@ namespace LayoutFarm.Text
 
         }
 
+        internal bool StateHideCaret { get; set; }
 
         public void OnMouseDown(UIMouseEventArgs e)
         {
@@ -838,14 +847,13 @@ namespace LayoutFarm.Text
 
         void EnsureCaretVisible()
         {
-
-            Point textManCaretPos = internalTextLayerController.CaretPos;
-
+            //----------------------
+            Point textManCaretPos = internalTextLayerController.CaretPos; 
             textManCaretPos.Offset(-ViewportX, -ViewportY);
-            this.Root.SetCarentPosition(textManCaretPos, this);
 
-            //RootGraphic.SetCarentPosition(textManCaretPos, this);
-
+            GlobalCaretController.CurrentTextEditBox = this;
+             //this.Root.SetCarentPosition(textManCaretPos, this);
+            //----------------------  
             if (textManCaretPos.X >= this.Width)
             {
                 if (!isMultiLine)

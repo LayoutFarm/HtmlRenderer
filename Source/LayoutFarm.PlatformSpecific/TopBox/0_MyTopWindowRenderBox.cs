@@ -17,7 +17,7 @@ namespace LayoutFarm
 
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
 
-        MyRootGraphic visualroot;
+        MyRootGraphic rootGraphic;
         CanvasEventsStock eventStock = new CanvasEventsStock();
         IEventListener currentMouseUIFocus = null;
 
@@ -27,7 +27,7 @@ namespace LayoutFarm
             int width, int height)
             : base(visualroot, width, height)
         {
-            this.visualroot = visualroot;
+            this.rootGraphic = visualroot;
 
             centralAnimationClock = new System.Timers.Timer();
             centralAnimationClock.Interval = 40;
@@ -104,10 +104,13 @@ namespace LayoutFarm
         {
             get
             {
-                return this.visualroot;
+                return this.rootGraphic;
             }
         }
-
+        public void CloseWinRoot()
+        {
+            this.rootGraphic.CloseWinRoot();
+        }
 
         internal void AddTimerTask(VisualRootTimerTask task)
         {
@@ -417,6 +420,14 @@ namespace LayoutFarm
 
             visualroot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_CLEAR_LAYOUT_exit);
 #endif
+        }
+
+        internal void ForcePaint01()
+        {
+            if (this.CanvasForcePaint != null)
+            {
+                CanvasForcePaint(this, EventArgs.Empty);
+            }
         }
     }
 

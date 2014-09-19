@@ -11,6 +11,7 @@ namespace LayoutFarm.Text
     partial class TextEditRenderBox
     {
 
+
         RenderSurfaceScrollRelation scrollRelation;
         CustomRenderSurface vscrollableSurface;//built in 
 
@@ -32,8 +33,7 @@ namespace LayoutFarm.Text
             }
             //1. bg
             RenderElementHelper.DrawBackground(this, canvasPage, updateArea.Width, updateArea.Height, Color.White);
-            //2. sub ground
-
+            //2. sub ground 
             if (internalTextLayerController.SelectionRange != null)
             {
                 internalTextLayerController.SelectionRange.Draw(canvasPage, updateArea);
@@ -49,10 +49,23 @@ namespace LayoutFarm.Text
                 {
                     this.Layers.LayersDrawContent(canvasPage, updateArea);
                 }
-
+            }
+            //4. caret 
+            if (caretStateShow)
+            {
+                caretStateShow = false;
+                Console.WriteLine("a" + (dbugCCount++));
+                Point textManCaretPos = internalTextLayerController.CaretPos;
+                this.myCaret.DrawCaret(canvasPage, textManCaretPos.X, textManCaretPos.Y);
+            }
+            else
+            {
+                caretStateShow = true;
+                Console.WriteLine("b" + (dbugCCount++));
             }
         }
-         
+        bool caretStateShow = false;
+        static int dbugCCount;
         internal void BoxEvaluateScrollBar()
         {
             if (vscrollableSurface != null)
@@ -215,18 +228,12 @@ namespace LayoutFarm.Text
                 int old_x = this.ViewportX;
                 int viewportRight = ViewportX + Width; if (viewportRight + dx > innerContentSize.Width)
                 {
-                    if (this.NeedSystemCaret)
-                    {
 
-                        this.SetViewport(this.ViewportX + dx, this.ViewportY);
-                    }
-                    else
+                    if (viewportRight < innerContentSize.Width)
                     {
-                        if (viewportRight < innerContentSize.Width)
-                        {
-                            this.SetViewport(innerContentSize.Width - Width, this.ViewportY);
-                        }
+                        this.SetViewport(innerContentSize.Width - Width, this.ViewportY);
                     }
+
                 }
                 else
                 {

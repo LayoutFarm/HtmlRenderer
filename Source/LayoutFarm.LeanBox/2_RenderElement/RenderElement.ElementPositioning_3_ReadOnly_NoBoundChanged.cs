@@ -567,19 +567,24 @@ ve
 
             if (!goFinalExit)
             {
-                if (parentVisualElem.NeedSystemCaret)
+                //if (parentVisualElem.NeedSystemCaret)
+                //{
+                //    parentVisualElem.MarkInvalidContentArrangement();
+                //    parentVisualElem.IsInLayoutQueueChainUp = true;
+                //    goto finalExit;
+                //}
+                //else if (parentVisualElem.ActAsFloatingWindow)
+                //{
+                //    parentVisualElem.MarkInvalidContentArrangement();
+                //    parentVisualElem.IsInLayoutQueueChainUp = true;
+                //    goto finalExit;
+                //}
+                if (parentVisualElem.ActAsFloatingWindow)
                 {
                     parentVisualElem.MarkInvalidContentArrangement();
                     parentVisualElem.IsInLayoutQueueChainUp = true;
                     goto finalExit;
                 }
-                else if (parentVisualElem.ActAsFloatingWindow)
-                {
-                    parentVisualElem.MarkInvalidContentArrangement();
-                    parentVisualElem.IsInLayoutQueueChainUp = true;
-                    goto finalExit;
-                }
-
                 parentVisualElem.MarkInvalidContentSize();
                 parentVisualElem.MarkInvalidContentArrangement();
 
@@ -627,11 +632,11 @@ ve
             }
             else
             {
-                
-                var parentVisualElement = visualParentLink.ParentVisualElement;
-                return parentVisualElement.GetTopWindowRenderBox(); 
 
-           
+                var parentVisualElement = visualParentLink.ParentVisualElement;
+                return parentVisualElement.GetTopWindowRenderBox();
+
+
             }
         }
         public void StartBubbleUpLayoutInvalidState()

@@ -49,7 +49,6 @@
     <Compile Include="PlatformSpecific\ArtSurfaceViewportControl.Designer.cs">
       <DependentUpon>ArtSurfaceViewportControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="PlatformSpecific\CanvasCaret.cs" />
     <Compile Include="PlatformSpecific\CanvasViewport.cs" />
     <Compile Include="PlatformSpecific\FormCanvasHelper.cs" />
     <Compile Include="PlatformSpecific\ISurfaceViewportControl.cs" />
@@ -62,6 +61,7 @@
     <Compile Include="TopBox\0_MyTopWindowRenderBox_p2.cs" />
     <Compile Include="TopBox\1_VisualRootTasks.cs" />
     <Compile Include="TopBox\CanvasEventStock.cs" />
+    <Compile Include="TopBox\GraphicTimerSheet.cs" />
     <Compile Include="TopBox\UIHoverMonitor.cs" />
     <Compile Include="TopBox\MyRootGraphic.cs" />
     <Compile Include="Win32Gdi\FontManager.cs" />

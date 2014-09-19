@@ -751,12 +751,7 @@ int ownerClientTop)
             }
 
             ValidateArrangement();
-#if DEBUG
-            if (this.OwnerRenderElement.NeedSystemCaret)
-            {
-                this.dbugVRoot.dbug_WriteTick(DateTime.Now.Ticks - startTick);
-            }
-#endif
+ 
         }
 
 
@@ -900,13 +895,7 @@ int ownerClientTop)
 
                 }
             }
-#if DEBUG
-
-            if (this.OwnerRenderElement.NeedSystemCaret)
-            {
-                this.dbugVRoot.dbug_WriteTick(DateTime.Now.Ticks - startTick);
-            }
-#endif
+ 
 
             if (curX > maxWidth)
             {
