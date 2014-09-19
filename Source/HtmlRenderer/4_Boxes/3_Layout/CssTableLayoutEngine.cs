@@ -27,18 +27,17 @@ namespace HtmlRenderer.Boxes
     sealed partial class CssTableLayoutEngine
     {
 
-        #region Fields and Consts
-
+        
         /// <summary>
         /// the main box of the table
         /// </summary>
-        readonly CssBox _tableBox;
-
+        readonly CssBox _tableBox; 
         readonly List<CssBox> _allRowBoxes = new List<CssBox>();
         IFonts _tmpIFonts;
         TableColumnCollection columnCollection;
+
         const int MAX_COL_AT_THIS_VERSION = 20;
-        #endregion
+        
         /// <summary>
         /// Init.
         /// </summary>

@@ -133,14 +133,10 @@ namespace LayoutFarm.Text
             if (CurrentLine.IsBlankLine)
             {
                 //1. new 
-                EditableTextSpan t = new EditableTextSpan(c);
+                EditableTextSpan t = new EditableTextSpan(this.Root, c);
 
                 var owner = this.FlowLayer.OwnerRenderElement;
-
-                //if (owner.MyBoxStyle != null)
-                //{
-                //    t.SetStyle(owner.MyBoxStyle);
-                //}
+                 
                 CurrentLine.AddLast(t);
 
                 SetCurrentTextRun(t);
@@ -158,7 +154,7 @@ namespace LayoutFarm.Text
                     }
                     else
                     {
-                        Add(new EditableTextSpan(c));
+                        Add(new EditableTextSpan(this.Root, c));
                         return;
                     }
                 }
@@ -239,7 +235,7 @@ namespace LayoutFarm.Text
         public void SplitToNewLine()
         {
 
-            EditableTextSpan lineBreakRun = new EditableTextSpan('\n');
+            EditableTextSpan lineBreakRun = new EditableTextSpan(this.Root, '\n');
             EditableTextSpan currentRun = CurrentTextRun;
             if (CurrentLine.IsBlankLine)
             {
@@ -320,6 +316,10 @@ namespace LayoutFarm.Text
             {
                 currentTextRun = currentLine.FirstRun;
             }
+        }
+        protected RootGraphic Root
+        {
+            get { return this.visualFlowLayer.Root; }
         }
         public EditableTextFlowLayer FlowLayer
         {

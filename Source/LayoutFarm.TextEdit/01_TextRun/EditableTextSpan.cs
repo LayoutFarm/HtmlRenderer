@@ -11,18 +11,18 @@ namespace LayoutFarm.Text
 {
 
     public partial class EditableTextSpan : TextSpan
-    {   
-        private EditableTextSpan(char[] myBuffer)
-            : base(myBuffer)
-        { 
-        } 
-        public EditableTextSpan(char c)
-            : base(c)
+    {
+        private EditableTextSpan(RootGraphic gfx, char[] myBuffer)
+            : base(gfx, myBuffer)
+        {
+        }
+        public EditableTextSpan(RootGraphic gfx, char c)
+            : base(gfx, c)
         {
 
         }
-        public EditableTextSpan(string str)
-            : base(str)
+        public EditableTextSpan(RootGraphic gfx, string str)
+            : base(gfx, str)
         {
 
         }
@@ -34,7 +34,7 @@ namespace LayoutFarm.Text
         }
         internal EditableTextSpan Clone()
         {
-            return new EditableTextSpan(this.Text);
+            return new EditableTextSpan(this.Root, this.Text);
         }
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
@@ -50,7 +50,7 @@ namespace LayoutFarm.Text
                 return true;
             }
         }
-         
+
         public void CopyContentToStringBuilder(StringBuilder stBuilder)
         {
             if (IsLineBreak)
@@ -112,7 +112,7 @@ namespace LayoutFarm.Text
             {
                 char[] newContent = new char[length];
                 Array.Copy(this.mybuffer, sourceIndex, newContent, 0, length);
-                EditableTextSpan newTextRun = new EditableTextSpan(newContent);
+                EditableTextSpan newTextRun = new EditableTextSpan(this.Root, newContent);
                 TextSpanSytle bah = this.SpanStyle;
                 if (bah != null)
                 {
@@ -143,7 +143,7 @@ namespace LayoutFarm.Text
             }
         }
 
-         
+
         public EditableVisualElementLine OwnerEditableLine
         {
             get
@@ -161,7 +161,7 @@ namespace LayoutFarm.Text
             get
             {
                 VisualEditableLineParentLink parent = (VisualEditableLineParentLink)this.ParentLink;
-                return parent.Next as EditableTextSpan; 
+                return parent.Next as EditableTextSpan;
             }
         }
         public EditableTextSpan PrevTextRun

@@ -56,16 +56,35 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="1_Presentation.Text\1_VisualTextModel\DocumentActions.cs" />
-    <Compile Include="1_Presentation.Text\TextEditRenderBox.cs" />
-    <Compile Include="1_Presentation.Text\StyleHelper.cs" />
-    <Compile Include="1_Presentation.Text\1_VisualTextModel\MultilineTextLayerController\TextLayerController.cs" />
-    <Compile Include="1_Presentation.Text\1_VisualTextModel\MultilineTextLayerController\TextLayerController.KeyboardFunctions.cs" />
-    <Compile Include="1_Presentation.Text\1_VisualTextModel\MultilineTextLayerController\TextLayerController.TextFunctions.cs" />
-    <Compile Include="1_Presentation.Text\1_VisualTextModel\MultilineTextLayerController\TextSurfaceEventListener.cs" />
-    <Compile Include="1_Presentation.Text\VisualPaintEventArgs.cs" />
-    <Compile Include="1_Presentation.Text\TextEditRenderBox.BaseFunctions.cs" />
-    <Compile Include="1_Presentation.Text\TextEditRenderBox.TextSurfaceFuntions.cs" />
+    <Compile Include="01_TextRun\dbugMultiTextManRecorder.cs" />
+    <Compile Include="01_TextRun\EditableTextSpan.cs" />
+    <Compile Include="01_TextRun\EditableTextSpan_EditableFeatures.cs" />
+    <Compile Include="01_TextRun\TextSpan.cs" />
+    <Compile Include="01_TextRun\TextSpanSytle.cs" />
+    <Compile Include="01_TextRun\VisualLocationInfo.cs" />
+    <Compile Include="01_TextRun\VisualPointInfo.cs" />
+    <Compile Include="01_TextRun\VisualSelectionRange.cs" />
+    <Compile Include="02_Lines\0_EditableVisualElementLine.cs" />
+    <Compile Include="02_Lines\1_EditableVisualElementLine_CORE_Collection.cs" />
+    <Compile Include="02_Lines\2_EditableVisualElementLine_PRIVATE_CollectionFeatures2.cs" />
+    <Compile Include="02_Lines\3_EditableVisualElementLine_PUBLIC_CollectionFeatures.cs" />
+    <Compile Include="02_Lines\4_EditableVisualElementLine_ArrangeAndResizingMechanism.cs" />
+    <Compile Include="02_Lines\6_EditableVisualElementLine_Advanced.cs" />
+    <Compile Include="02_Lines\7_EditableVisualElementLine_SuppressNativeCollectionMethods.cs" />
+    <Compile Include="02_Lines\TextLineReaderWriter.cs" />
+    <Compile Include="03_Layer\1_EditableTextFlowLayer.cs" />
+    <Compile Include="03_Layer\1_EditableTextFlowLayer_CORE_Collection.cs" />
+    <Compile Include="03_Layer\1_EditableTextFlowLayer_Relocator_Feeder.cs" />
+    <Compile Include="04_MultiLineController\DocumentActions.cs" />
+    <Compile Include="05_TextRenderBox\TextEditRenderBox.cs" />
+    <Compile Include="05_TextRenderBox\StyleHelper.cs" />
+    <Compile Include="04_MultiLineController\TextLayerController.cs" />
+    <Compile Include="04_MultiLineController\TextLayerController.KeyboardFunctions.cs" />
+    <Compile Include="04_MultiLineController\TextLayerController.TextFunctions.cs" />
+    <Compile Include="04_MultiLineController\TextSurfaceEventListener.cs" />
+    <Compile Include="05_TextRenderBox\VisualPaintEventArgs.cs" />
+    <Compile Include="05_TextRenderBox\TextEditRenderBox.BaseFunctions.cs" />
+    <Compile Include="05_TextRenderBox\TextEditRenderBox.TextSurfaceFuntions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -96,10 +115,6 @@
     <ProjectReference Include="..\LayoutFarm.MiniUI\LayoutFarm.MiniUI.csproj">
       <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
       <Name>LayoutFarm.MiniUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.TextEditLayer\LayoutFarm.TextEditLayer.csproj">
-      <Project>{D162FBBF-C555-4605-AFA3-31A4278334E2}</Project>
-      <Name>LayoutFarm.TextEditLayer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -412,7 +412,7 @@ namespace LayoutFarm.Text
 
                                 internalTextLayerController.AddTextRunsToCurrentLine(
                                     new EditableTextSpan[]{ 
-                                        new EditableTextSpan( 
+                                        new EditableTextSpan(this.Root,  
                                             Clipboard.GetUnicodeText())
                                            });
                                 EnsureCaretVisible();
