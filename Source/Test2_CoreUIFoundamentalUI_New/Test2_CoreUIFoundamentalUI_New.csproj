@@ -66,7 +66,6 @@
     <Compile Include="CustomUI.Sample\UIPanel.cs" />
     <Compile Include="CustomUI.Sample\UIScrollBar.cs" />
     <Compile Include="CustomUI.Sample\UITextBox.cs" />
-    <Compile Include="CustomUI.Sample\UIMultilineTextBox.cs" />
     <Compile Include="Demo\1.2_Demo_MultipleBoxes.cs" />
     <Compile Include="Demo\1.1_Demo_SingleButton.cs" />
     <Compile Include="Demo\1.3_Demo_SampleGrid.cs" />

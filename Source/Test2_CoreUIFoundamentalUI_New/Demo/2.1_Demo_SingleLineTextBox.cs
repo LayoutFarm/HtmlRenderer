@@ -16,7 +16,7 @@ namespace LayoutFarm
 
         protected override void OnStartDemo(UISurfaceViewportControl viewport)
         {
-            var textbox = new LayoutFarm.SampleControls.UIMultiLineTextBox(400, 30, false);
+            var textbox = new LayoutFarm.SampleControls.UITextBox(400, 30, false);
             viewport.AddContent(textbox);
             textbox.InvalidateGraphic();
         }
