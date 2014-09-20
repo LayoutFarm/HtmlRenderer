@@ -34,7 +34,7 @@ namespace LayoutFarm.Text
             if (textEditBox != null)
             {
 
-                textEditBox.StateHideCaret = !textEditBox.StateHideCaret;
+                textEditBox.SwapCaretState();
                 //force render ?
                 textEditBox.InvalidateGraphic();
                 e.NeedUpdate = true;

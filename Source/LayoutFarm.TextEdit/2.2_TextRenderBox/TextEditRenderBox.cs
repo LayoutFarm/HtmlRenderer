@@ -11,7 +11,7 @@ namespace LayoutFarm.Text
     partial class TextEditRenderBox
     {
 
-
+        
         RenderSurfaceScrollRelation scrollRelation;
         CustomRenderSurface vscrollableSurface;//built in 
 
@@ -50,22 +50,16 @@ namespace LayoutFarm.Text
                     this.Layers.LayersDrawContent(canvasPage, updateArea);
                 }
             }
+
             //4. caret 
-            if (caretStateShow)
+            if (this.stateShowCaret)
             {
-                caretStateShow = false;
-                Console.WriteLine("a" + (dbugCCount++));
                 Point textManCaretPos = internalTextLayerController.CaretPos;
                 this.myCaret.DrawCaret(canvasPage, textManCaretPos.X, textManCaretPos.Y);
-            }
-            else
-            {
-                caretStateShow = true;
-                Console.WriteLine("b" + (dbugCCount++));
-            }
+            }            
         }
-        bool caretStateShow = false;
-        static int dbugCCount;
+        
+         
         internal void BoxEvaluateScrollBar()
         {
             if (vscrollableSurface != null)

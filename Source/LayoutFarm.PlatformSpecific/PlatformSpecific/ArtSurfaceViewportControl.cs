@@ -37,9 +37,9 @@ namespace LayoutFarm
 
         public UISurfaceViewportControl()
         {
-            InitializeComponent(); 
+            InitializeComponent();
         }
-        
+
         public void WhenParentFormClosed(EventHandler<EventArgs> handler)
         {
             this.parentFormClosedHandler = handler;
@@ -316,12 +316,12 @@ namespace LayoutFarm
         protected override void OnKeyDown(KeyEventArgs e)
         {
             MyRootGraphic.CurrentTopWindowRenderBox = this.wintop;
-            
+
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
             keyEventArgs.SetWinRoot(wintop);
             SetArtKeyData(keyEventArgs, e);
             base.OnKeyDown(e);
-            
+
             canvasViewport.OnKeyDown(keyEventArgs);
             eventStock.ReleaseEventArgs(keyEventArgs);
         }
@@ -395,13 +395,14 @@ namespace LayoutFarm
         public void dbug_HighlightMeNow(Rectangle r)
         {
 
-            Pen mpen = new Pen(Brushes.White, 2);
-            Graphics g = this.CreateGraphics();
-            g.DrawRectangle(mpen, r);
-            g.DrawLine(mpen, new Point(r.X, r.Y), new Point(r.Right, r.Bottom));
-            g.DrawLine(mpen, new Point(r.X, r.Bottom), new Point(r.Right, r.Y));
-            g.Dispose();
-            mpen.Dispose();
+            using (Pen mpen = new Pen(Brushes.White, 2))
+            using (Graphics g = this.CreateGraphics())
+            {
+                g.DrawRectangle(mpen, r);
+                g.DrawLine(mpen, new Point(r.X, r.Y), new Point(r.Right, r.Bottom));
+                g.DrawLine(mpen, new Point(r.X, r.Bottom), new Point(r.Right, r.Y));
+            }
+
         }
         public void dbug_InvokeVisualRootDrawMsg()
         {

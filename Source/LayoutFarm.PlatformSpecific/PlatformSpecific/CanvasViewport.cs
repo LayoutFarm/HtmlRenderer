@@ -238,10 +238,7 @@ namespace LayoutFarm
             topWindowBox.OnMouseDown(e);
 
             e.OffsetCanvasOrigin(viewportX, viewportY);
-            //if (topRenderBox.IsCurrentElementUseCaret)
-            //{
-            //    HideCaret();
-            //}
+            
             if (!quadPages.IsValid)
             {
                 PaintMe();
