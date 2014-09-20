@@ -37,24 +37,26 @@ namespace LayoutFarm.SampleControls
         {
             if (visualTextEdit == null)
             {
-                visualTextEdit = new TextEditRenderBox(rootgfx, this.Width, this.Height, _multiline);
-                RenderElement.DirectSetVisualElementLocation(visualTextEdit, this.Left, this.Top);
+                var tbox = new TextEditRenderBox(rootgfx, this.Width, this.Height, _multiline);
+                RenderElement.DirectSetVisualElementLocation(tbox, this.Left, this.Top);
 
-                visualTextEdit.HasSpecificSize = true;
+                tbox.HasSpecificSize = true;
 
-                visualTextEdit.SetController(this);
+                tbox.SetController(this);
                 RegisterNativeEvent(
                   1 << UIEventIdentifier.NE_MOUSE_DOWN
                   | 1 << UIEventIdentifier.NE_LOST_FOCUS
                   | 1 << UIEventIdentifier.NE_SIZE_CHANGED
                   );
+
+                this.visualTextEdit = tbox;
             }
             return visualTextEdit;
         }
 
         protected override void OnKeyPress(UIKeyPressEventArgs e)
         {
-           
+
             visualTextEdit.OnKeyPress(e);
         }
         protected override void OnKeyDown(UIKeyEventArgs e)

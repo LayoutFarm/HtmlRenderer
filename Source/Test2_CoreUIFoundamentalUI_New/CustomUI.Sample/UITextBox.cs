@@ -21,6 +21,10 @@ namespace LayoutFarm.SampleControls
             : base(width, height)
         {
         }
+        public void Focus()
+        {
+
+        }
         protected override bool HasReadyRenderElement
         {
             get { return this.textEditRenderBox != null; }
@@ -33,10 +37,14 @@ namespace LayoutFarm.SampleControls
         {
             if (this.textEditRenderBox == null)
             {
-                textEditRenderBox = new TextEditRenderBox(rootgfx, this.Width, this.Height, false);
-                RenderElement.DirectSetVisualElementLocation(textEditRenderBox, this.Left, this.Top);
-                textEditRenderBox.HasSpecificSize = true;
-                textEditRenderBox.SetController(this);
+                var tbox = new TextEditRenderBox(rootgfx, this.Width, this.Height, false);
+                RenderElement.DirectSetVisualElementLocation(tbox, this.Left, this.Top);
+                tbox.HasSpecificSize = true;
+                tbox.SetController(this);
+
+
+
+                this.textEditRenderBox = tbox;
             }
             return textEditRenderBox;
         }
