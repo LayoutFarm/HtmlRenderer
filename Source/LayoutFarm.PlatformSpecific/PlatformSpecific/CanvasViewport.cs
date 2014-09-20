@@ -284,9 +284,10 @@ namespace LayoutFarm
         }
         internal void OnKeyDown(UIKeyEventArgs e)
         {
+            topWindowBox.MyVisualRoot.TempStopCaret();
+
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
-
 #if DEBUG
             topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
             topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (Keys)e.KeyData);
@@ -296,25 +297,16 @@ namespace LayoutFarm
             topWindowBox.OnKeyDown(e);
 
             e.OffsetCanvasOrigin(viewportX, viewportY);
-
+          
+           
             if (!quadPages.IsValid)
-            {
-                PaintMe();
-                //if (topRenderBox.IsCurrentElementUseCaret)
-                //{
-                //    HideCaret();
-                //    PaintMe();
-                //    ShowCaret();
-                //}
-                //else
-                //{
-                //    PaintMe();
-                //}
-
+            { 
+                PaintMe(); 
             }
         }
         internal void OnKeyPress(UIKeyPressEventArgs e)
         {
+            topWindowBox.MyVisualRoot.TempStopCaret();
 #if DEBUG
             topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
             topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYPRESS " + e.KeyChar);
@@ -324,50 +316,34 @@ namespace LayoutFarm
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
             topWindowBox.OnKeyPress(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY);
+            e.OffsetCanvasOrigin(viewportX, viewportY); 
+            
             if (!quadPages.IsValid)
-            {
-                PaintMe();
-
-                //if (topRenderBox.IsCurrentElementUseCaret)
-                //{
-                //    HideCaret();
-                //    PaintMe();
-                //    ShowCaret();
-                //}
-                //else
-                //{
-                //    PaintMe();
-                //}
+            {   
+                PaintMe();  
             }
         }
         internal void OnKeyUp(UIKeyEventArgs e)
         {
-            fullMode = false;
+            topWindowBox.MyVisualRoot.TempStopCaret();
 
+            fullMode = false; 
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
             topWindowBox.OnKeyUp(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
+            topWindowBox.MyVisualRoot.TempRunCaret();
         }
         internal bool OnProcessDialogKey(UIKeyEventArgs e)
         {
+            topWindowBox.MyVisualRoot.TempStopCaret();
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY); bool result = topWindowBox.OnProcessDialogKey(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
+          
             if (!quadPages.IsValid)
             {
-                PaintMe();
-                //if (topRenderBox.IsCurrentElementUseCaret)
-                //{
-                //    HideCaret();
-                //    PaintMe();
-                //    ShowCaret();
-                //}
-                //else
-                //{
-                //    PaintMe();
-                //}
+                PaintMe(); 
             }
             return result;
         }

@@ -12,14 +12,13 @@ namespace LayoutFarm
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
         System.Windows.Forms.Timer graphicTimer1 = new System.Windows.Forms.Timer();
 
-        Dictionary<object, GraphicIntervalTask> graphicIntervalTasks = new Dictionary<object, GraphicIntervalTask>();
-        List<GraphicIntervalTask> intervalTasksList = new List<GraphicIntervalTask>();
-
+        TimerTaskCollection timerTasks;
         static MyTopWindowRenderBox currentTopWindowBox;
 
         public MyRootGraphic(int width, int height)
             : base(width, height)
         {
+            timerTasks = new TimerTaskCollection(this);
 
             graphicTimer1.Interval = 500; //300 ms
             graphicTimer1.Tick += new EventHandler(graphicTimer1_Tick);
@@ -41,24 +40,59 @@ namespace LayoutFarm
                 currentTopWindowBox = value;
             }
         }
-
+        internal void TempRunCaret()
+        {
+            graphicTimer1.Enabled = true;
+        }
+        internal void TempStopCaret()
+        {
+            graphicTimer1.Enabled = false;
+        }
 
 
         void graphicTimer1_Tick(object sender, EventArgs e)
         {
 
             //clear grahic timer
-            int j = intervalTasksList.Count;
+            int j = timerTasks.TaskCount;
+            MyIntervalTaskEventArgs args = GetTaskEventArgs();
+            bool needForcePaint = false;
             for (int i = 0; i < j; ++i)
             {
-                intervalTasksList[i].InvokeHandler();
+                timerTasks.GetTask(i).InvokeHandler(args);
+                if (!needForcePaint)
+                {
+                    needForcePaint = args.NeedUpdate;
+                }
+                args.ClearForReuse();
             }
-            if (j > 0 && currentTopWindowBox != null)
+            if (needForcePaint)
             {
-                currentTopWindowBox.ForcePaint01();
+                currentTopWindowBox.ForcePaint();
             }
-
+            FreeTaskEventArgs(args);
         }
+
+        Stack<MyIntervalTaskEventArgs> taskEventPools = new Stack<MyIntervalTaskEventArgs>();
+        MyIntervalTaskEventArgs GetTaskEventArgs()
+        {
+            if (taskEventPools.Count > 0)
+            {
+                return taskEventPools.Pop();
+            }
+            else
+            {
+                return new MyIntervalTaskEventArgs();
+            }
+        }
+        void FreeTaskEventArgs(MyIntervalTaskEventArgs args)
+        {
+            //clear for reues
+            args.ClearForReuse();
+            taskEventPools.Push(args);
+        }
+
+
         ~MyRootGraphic()
         {
 
@@ -75,25 +109,13 @@ namespace LayoutFarm
 
 
         public override GraphicIntervalTask RequestGraphicInternvalTask(object uniqueName,
-            int intervalMs, EventHandler<EventArgs> tickhandler)
+            int intervalMs, EventHandler<IntervalTaskEventArgs> tickhandler)
         {
-            GraphicIntervalTask existingTask;
-            if (!graphicIntervalTasks.TryGetValue(uniqueName, out existingTask))
-            {
-                existingTask = new GraphicIntervalTask(this, uniqueName, intervalMs, tickhandler);
-                graphicIntervalTasks.Add(uniqueName, existingTask);
-                intervalTasksList.Add(existingTask);
-            }
-            return existingTask;
+            return this.timerTasks.RequestGraphicInternvalTask(uniqueName, intervalMs, tickhandler);
         }
         public override void RemoveIntervalTask(object uniqueName)
         {
-            GraphicIntervalTask found;
-            if (graphicIntervalTasks.TryGetValue(uniqueName, out found))
-            {
-                intervalTasksList.Remove(found);
-                graphicIntervalTasks.Remove(uniqueName);
-            }
+            this.timerTasks.RemoveIntervalTask(uniqueName);
         }
 
 

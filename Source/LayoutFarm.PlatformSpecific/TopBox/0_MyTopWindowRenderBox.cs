@@ -10,7 +10,7 @@ namespace LayoutFarm
 
     public partial class MyTopWindowRenderBox : TopWindowRenderBox
     {
-     
+
 
         List<RenderElement> layoutQueue = new List<RenderElement>();
         List<RenderElement> layoutQueue2 = new List<RenderElement>();
@@ -45,7 +45,7 @@ namespace LayoutFarm
 #endif
 
         }
-        
+
         void rootTasksTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
 
@@ -99,8 +99,8 @@ namespace LayoutFarm
 
             this.currentMouseUIFocus = ui;
         }
- 
-        MyRootGraphic MyVisualRoot
+
+        internal MyRootGraphic MyVisualRoot
         {
             get
             {
@@ -135,7 +135,7 @@ namespace LayoutFarm
                 this.TopDownReCalculateContentSize();
                 this.TopDownReArrangeContentIfNeed();
             }
-        } 
+        }
         public override void AddToLayoutQueue(RenderElement vs)
         {
 #if DEBUG
@@ -245,7 +245,7 @@ namespace LayoutFarm
             }
 
         }
-        
+
         public void PrepareRender()
         {
 
@@ -361,7 +361,7 @@ namespace LayoutFarm
         }
 
         internal void ClearLayoutQueue()
-        { 
+        {
             this.LayoutQueueClearing = true;
 
 #if DEBUG
@@ -422,7 +422,7 @@ namespace LayoutFarm
 #endif
         }
 
-        internal void ForcePaint01()
+        internal void ForcePaint()
         {
             if (this.CanvasForcePaint != null)
             {

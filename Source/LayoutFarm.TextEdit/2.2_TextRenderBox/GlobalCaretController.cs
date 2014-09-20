@@ -12,12 +12,12 @@ namespace LayoutFarm.Text
         static bool enableCaretBlink = true;//default
         static TextEditRenderBox textEditBox;
         static bool caretRegistered = false;
-        static EventHandler<EventArgs> tickHandler;
+        static EventHandler<IntervalTaskEventArgs> tickHandler;
         static object caretBlinkTask = new object();
 
         static GlobalCaretController()
         {
-            tickHandler = new EventHandler<EventArgs>(caret_TickHandler);
+            tickHandler = new EventHandler<IntervalTaskEventArgs>(caret_TickHandler);
         }
         internal static void RegisterCaretBlink(RootGraphic gfx)
         {
@@ -29,7 +29,7 @@ namespace LayoutFarm.Text
             GraphicIntervalTask task = gfx.RequestGraphicInternvalTask(caretBlinkTask,
                 300, tickHandler);
         }
-        static void caret_TickHandler(object sender, EventArgs e)
+        static void caret_TickHandler(object sender, IntervalTaskEventArgs e)
         {
             if (textEditBox != null)
             {
@@ -37,6 +37,7 @@ namespace LayoutFarm.Text
                 textEditBox.StateHideCaret = !textEditBox.StateHideCaret;
                 //force render ?
                 textEditBox.InvalidateGraphic();
+                e.NeedUpdate = true;
             }
             else
             {

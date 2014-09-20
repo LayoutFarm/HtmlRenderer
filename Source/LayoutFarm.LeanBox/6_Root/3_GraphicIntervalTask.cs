@@ -7,16 +7,29 @@ using System.Drawing;
 namespace LayoutFarm
 {
 
+    public abstract class IntervalTaskEventArgs : EventArgs
+    {
+        public bool NeedUpdate
+        {
+            get;
+            set;
+        }
+        public Rectangle GraphicUpdateArea
+        {
+            get;
+            set;
+        }
+    }
     public class GraphicIntervalTask
     {
         RootGraphic rootgfx;
         bool enable;
         object uniqueName;
-        EventHandler<EventArgs> tickHandler;
+        EventHandler<IntervalTaskEventArgs> tickHandler;
         public GraphicIntervalTask(RootGraphic rootgfx,
             object uniqueName,
             int internvalMs,
-            EventHandler<EventArgs> tickHandler)
+            EventHandler<IntervalTaskEventArgs> tickHandler)
         {
             this.uniqueName = uniqueName;
             this.enable = false;
@@ -40,10 +53,10 @@ namespace LayoutFarm
             {
                 this.rootgfx.RemoveIntervalTask(this.uniqueName);
             }
-        } 
-        public void InvokeHandler()
+        }
+        public void InvokeHandler(IntervalTaskEventArgs args)
         {
-            this.tickHandler(this, EventArgs.Empty);
+            this.tickHandler(this, args);
         }
     }
 }

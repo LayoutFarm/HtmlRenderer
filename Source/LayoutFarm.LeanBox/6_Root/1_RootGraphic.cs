@@ -64,7 +64,7 @@ namespace LayoutFarm
         }
 
         public abstract GraphicIntervalTask RequestGraphicInternvalTask(object uniqueName,
-            int intervalMs, EventHandler<EventArgs> tickhandler);
+            int intervalMs, EventHandler<IntervalTaskEventArgs> tickhandler);
         public abstract void RemoveIntervalTask(object uniqueName);
         
 
