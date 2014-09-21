@@ -15,10 +15,10 @@ namespace LayoutFarm
     {
         protected override void OnStartDemo(UISurfaceViewportControl viewport)
         {
-            var listbox = new LayoutFarm.SampleControls.UIListView(300, 400);
-            listbox.SetLocation(10, 10);
-            listbox.BackColor = Color.LightGray;
-            viewport.AddContent(listbox);
+            var listview = new LayoutFarm.SampleControls.UIListView(300, 400);
+            listview.SetLocation(10, 10);
+            listview.BackColor = Color.LightGray;
+            viewport.AddContent(listview);
             
             //add 
             for (int i = 0; i < 10; ++i)
@@ -32,10 +32,9 @@ namespace LayoutFarm
                 {
                     listItem.BackColor = Color.Orange;
                 }
-                listbox.AddItem(listItem);
+                listview.AddItem(listItem);
             }
-
-
+             
             //var scbar = new LayoutFarm.SampleControls.UIScrollBar(15, 200);
             //scbar.SetLocation(10, 10);
             //scbar.MinValue = 0;

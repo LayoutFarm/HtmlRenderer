@@ -91,7 +91,7 @@ namespace LayoutFarm
             RootInvalidateGraphicArea(this, ref rect, out wintop);
             return wintop != null;
         }
-   
+         
         public void BeginGraphicUpdate()
         {
 

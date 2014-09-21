@@ -11,7 +11,8 @@ namespace LayoutFarm
     public abstract class VisualRootTimerTask
     {
         RenderElement targetVisualElement;
-        bool isInQueue; bool isEnabled;
+        bool isInQueue; 
+        bool isEnabled;
         public VisualRootTimerTask(RenderElement targetVisualElement)
         {
             this.targetVisualElement = targetVisualElement;

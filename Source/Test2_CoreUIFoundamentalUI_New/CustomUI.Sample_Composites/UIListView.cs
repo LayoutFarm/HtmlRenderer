@@ -13,7 +13,8 @@ namespace LayoutFarm.SampleControls
     public class UIListView : UIBox
     {
         //composite          
-        CustomRenderBox primElement;
+        CustomRenderBox primElement;//background
+
         Color backColor = Color.LightGray;
         int viewportX, viewportY;
         List<LayerElement> layers = new List<LayerElement>(1);
@@ -27,9 +28,8 @@ namespace LayoutFarm.SampleControls
             PlainLayerElement plainLayer = new PlainLayerElement();
             //panel for listview items
             this.panel = new UIPanel(width, height);
-            panel.BackColor = Color.Navy;
+            panel.BackColor = Color.LightGray;
             plainLayer.AddUI(panel);
-
             this.layers.Add(plainLayer);
         }
 
@@ -92,15 +92,7 @@ namespace LayoutFarm.SampleControls
         {
             ui.SetLocation(0, latestItemY);
             latestItemY += ui.Height;
-
-            PlainLayerElement layer0 = (PlainLayerElement)this.layers[0];
-            layer0.AddUI(ui);
-            if (this.HasReadyRenderElement)
-            {
-                VisualPlainLayer plain1 = this.primElement.Layers.Layer0 as VisualPlainLayer;
-
-                plain1.AddUI(ui);
-            }
+            panel.AddChildBox(ui);
 
         }
         //----------------------------------------------------
@@ -160,8 +152,7 @@ namespace LayoutFarm.SampleControls
             this.viewportY = y;
             if (this.HasReadyRenderElement)
             {
-                primElement.SetViewport(viewportX, viewportY);
-                primElement.InvalidateGraphic();
+                this.panel.SetViewport(x, y);                 
             }
         }
         //----------------------------------------------------

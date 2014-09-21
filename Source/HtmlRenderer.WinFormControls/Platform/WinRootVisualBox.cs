@@ -123,10 +123,9 @@ namespace HtmlRenderer
                 {
                     prevClip = g.Clip;
                     g.SetClip(new RectangleF(this.Location, this.MaxSize));
-                }
-
+                } 
                 //------------------------------------------------------
-                //
+               
                 if (doc.DocumentState == DocumentState.ChangedAfterIdle)
                 {
 

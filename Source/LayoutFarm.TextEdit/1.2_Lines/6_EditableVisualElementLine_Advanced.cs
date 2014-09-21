@@ -54,8 +54,9 @@ namespace LayoutFarm.Text
             {
                 output.AddLast(curNode.Value.Clone());
                 curNode = curNode.Next;
-            }
+            } 
         }
+        
         public void Copy(VisualSelectionRange selectionRange, LinkedList<EditableTextSpan> output)
         {
             EditableVisualPointInfo startPoint = selectionRange.StartPoint;
@@ -107,7 +108,7 @@ namespace LayoutFarm.Text
                         {
                             foreach (EditableTextSpan t in editableFlowLayer.TextRunForward(startPoint.TextRun.NextTextRun, endPoint.TextRun.PrevTextRun))
                             {
-                                output.AddLast(new EditableTextSpan(t.Text));
+                                output.AddLast(new EditableTextSpan(this.Root, t.Text));
                             }
                         }
 
@@ -125,13 +126,13 @@ namespace LayoutFarm.Text
                         startLine.RightCopy(startPoint, output);
                         for (int i = startLineId + 1; i < stopLineId; i++)
                         {
-                            output.AddLast(new EditableTextSpan('\n'));
+                            output.AddLast(new EditableTextSpan(this.Root, '\n'));
                             EditableVisualElementLine line = editableFlowLayer.GetTextLine(i);
                             line.Copy(output);
                         }
                         if (endPoint.LineCharIndex > -1)
                         {
-                            output.AddLast(new EditableTextSpan('\n'));
+                            output.AddLast(new EditableTextSpan(this.Root, '\n'));
                             stopLine.LeftCopy(endPoint, output);
                         }
 
@@ -208,7 +209,7 @@ namespace LayoutFarm.Text
                     startLine.RightCopy(startPoint, output);
                     for (int i = startLineId + 1; i < stopLineId; i++)
                     {
-                        output.AddLast(new EditableTextSpan('\n'));
+                        output.AddLast(new EditableTextSpan(this.Root, '\n'));
                         EditableVisualElementLine line = editableFlowLayer.GetTextLine(i);
                         line.Copy(output);
                     }

@@ -10,6 +10,7 @@ namespace LayoutFarm
     {
         Rectangle flushRect;
         InternalRect accumulateInvalidRect;
+        
         public RootGraphic(int width, int heigth)
         {
             this.Width = width;
@@ -46,8 +47,6 @@ namespace LayoutFarm
             set;
         }
 
-        public abstract void SetCarentPosition(Point p, RenderElement renderE);
-
         public void BeginGraphicUpdate()
         {
             GraphicUpdateBlockCount++;
@@ -63,6 +62,14 @@ namespace LayoutFarm
                 GraphicUpdateBlockCount = 0;
             }
         }
+
+        public abstract GraphicIntervalTask RequestGraphicInternvalTask(object uniqueName,
+            int intervalMs, EventHandler<IntervalTaskEventArgs> tickhandler);
+        public abstract void RemoveIntervalTask(object uniqueName);
+        
+
+
+
 #if DEBUG
         RootGraphic dbugVRoot
         {
@@ -90,7 +97,7 @@ namespace LayoutFarm
                 return;
             }
 
-            InternalRect elemRect = InternalRect.CreateFromRect(elementClientRect);             
+            InternalRect elemRect = InternalRect.CreateFromRect(elementClientRect);
             InvalidateGraphicArea(fromElement, elemRect, out wintop);
             InternalRect.FreeInternalRect(elemRect);
         }

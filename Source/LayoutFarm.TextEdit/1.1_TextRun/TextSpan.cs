@@ -17,8 +17,8 @@ namespace LayoutFarm.Text
         TextSpanSytle spanStyle;
         bool isLineBreak;
 
-        public TextSpan(string s)
-            : base(null, 10, 10)
+        public TextSpan(RootGraphic gfx, string s)
+            : base(gfx, 10, 10)
         {
             if (s != null && s.Length > 0)
             {
@@ -37,8 +37,8 @@ namespace LayoutFarm.Text
             this.TransparentForAllEvents = true;
         }
 
-        public TextSpan(char c)
-            : base(null, 10, 10)
+        public TextSpan(RootGraphic gfx, char c)
+            : base(gfx, 10, 10)
         {
 
             mybuffer = new char[] { c };
@@ -50,11 +50,11 @@ namespace LayoutFarm.Text
             this.TransparentForAllEvents = true;
             UpdateRunWidth();
         }
-        public TextSpan(char[] mybuffer)
-            : base(null, 10, 10)
+        public TextSpan(RootGraphic gfx, char[] copyBuffer)
+            : base(gfx, 10, 10)
         {
             //check line break?
-            this.mybuffer = mybuffer;
+            this.mybuffer = copyBuffer;
             this.TransparentForAllEvents = true;
         }
         public TextSpanSytle SpanStyle

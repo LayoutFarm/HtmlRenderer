@@ -32,7 +32,7 @@ namespace LayoutFarm
         public event EventHandler<UIScrollEventArgs> VScrollChanged;
         public event EventHandler<UIScrollEventArgs> HScrollChanged;
 
-        MyTopWindowRenderBox wintop; 
+        MyTopWindowRenderBox wintop;
         EventHandler<EventArgs> parentFormClosedHandler;
 
         public UISurfaceViewportControl()
@@ -51,7 +51,7 @@ namespace LayoutFarm
             this.wintop = winroot;
             canvasViewport = new CanvasViewport(this, winroot, this.Size, 4);
             //if request from winroot
-           // winroot.CanvasForcePaintMe += canvasViewport.PaintMe;
+            winroot.CanvasForcePaint += canvasViewport.PaintMe;
 
         }
         void ParentForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -84,7 +84,7 @@ namespace LayoutFarm
             {
                 return this.Height;
             }
-        } 
+        }
         public TopWindowRenderBox WinTop
         {
             get
@@ -99,7 +99,7 @@ namespace LayoutFarm
             {
                 layer0.AddChild(vi);
                 vi.InvalidateGraphic();
-            }             
+            }
         }
         public void AddContent(LayoutFarm.UI.UIElement ui)
         {
@@ -190,6 +190,8 @@ namespace LayoutFarm
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
+            MyRootGraphic.CurrentTopWindowRenderBox = this.wintop;
+
             isMouseDown = true;
             isDraging = false;
 
@@ -315,16 +317,20 @@ namespace LayoutFarm
         }
         protected override void OnKeyDown(KeyEventArgs e)
         {
+            MyRootGraphic.CurrentTopWindowRenderBox = this.wintop;
+
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
             keyEventArgs.SetWinRoot(wintop);
             SetArtKeyData(keyEventArgs, e);
             base.OnKeyDown(e);
+
             canvasViewport.OnKeyDown(keyEventArgs);
             eventStock.ReleaseEventArgs(keyEventArgs);
-
         }
         protected override void OnKeyUp(KeyEventArgs e)
         {
+            MyRootGraphic.CurrentTopWindowRenderBox = this.wintop;
+
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
 
             keyEventArgs.SetWinRoot(wintop);
@@ -391,13 +397,14 @@ namespace LayoutFarm
         public void dbug_HighlightMeNow(Rectangle r)
         {
 
-            Pen mpen = new Pen(Brushes.White, 2);
-            Graphics g = this.CreateGraphics();
-            g.DrawRectangle(mpen, r);
-            g.DrawLine(mpen, new Point(r.X, r.Y), new Point(r.Right, r.Bottom));
-            g.DrawLine(mpen, new Point(r.X, r.Bottom), new Point(r.Right, r.Y));
-            g.Dispose();
-            mpen.Dispose();
+            using (Pen mpen = new Pen(Brushes.White, 2))
+            using (Graphics g = this.CreateGraphics())
+            {
+                g.DrawRectangle(mpen, r);
+                g.DrawLine(mpen, new Point(r.X, r.Y), new Point(r.Right, r.Bottom));
+                g.DrawLine(mpen, new Point(r.X, r.Bottom), new Point(r.Right, r.Y));
+            }
+
         }
         public void dbug_InvokeVisualRootDrawMsg()
         {

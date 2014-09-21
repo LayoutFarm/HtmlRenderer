@@ -433,59 +433,6 @@ namespace LayoutFarm
             base.Clear();
         }
 
-    }
-    public class UIFocusEventArgs2 : UIEventArgs
-    {
-        object tobeFocusElement;
-        object tobeLostFocusElement;
-        FocusEventType focusEventType = FocusEventType.PreviewLostFocus;
-        public UIFocusEventArgs2()
-        {
-        }
-
-        public FocusEventType FocusEventType
-        {
-            get
-            {
-                return focusEventType;
-            }
-            set
-            {
-                focusEventType = value;
-            }
-        }
-        public object ToBeFocusElement
-        {
-            get
-            {
-                return tobeFocusElement;
-            }
-            set
-            {
-                tobeFocusElement = value;
-            }
-        }
-        public object ToBeLostFocusElement
-        {
-            get
-            {
-                return tobeLostFocusElement;
-            }
-            set
-            {
-                tobeLostFocusElement = value;
-            }
-        }
-        public override void Clear()
-        {
-            tobeFocusElement = null;
-            tobeLostFocusElement = null;
-            focusEventType = FocusEventType.PreviewFocus;
-            base.Clear();
-        }
-    }
-
-
-
+    } 
 
 }
