@@ -1,13 +1,9 @@
 ﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-
-
+using System.Drawing; 
 namespace LayoutFarm
-{
-
-
+{   
     public class InternalRect
     {
         public int _left;

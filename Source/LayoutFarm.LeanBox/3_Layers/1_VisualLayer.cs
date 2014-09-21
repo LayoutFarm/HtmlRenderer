@@ -31,56 +31,39 @@ namespace LayoutFarm
         protected const int FLOWLAYER_HAS_MULTILINE = 1 << (25 - 1);
 
 
-        public readonly RenderElement ownerVisualElement;
+        RenderElement owner;
 
         int postCalculateContentWidth;
         int postCalculateContentHeight;
-
-
-        protected VisualLayer(RenderElement owner)
+        public VisualLayer()
         {
-            this.ownerVisualElement = owner;
-
 #if DEBUG
             this.dbug_layer_id = dbug_layer_id_count;
             ++dbug_layer_id_count;
 #endif
         }
 
+        public RootGraphic Root
+        {
+            get { return this.owner.Root; }
+        }
+
         public abstract void Clear();
-
-        protected TopWindowRenderBox WinRoot
+        public void OwnerInvalidateGraphicAndStartBubbleUp()
         {
-            get
+            if (this.owner != null)
             {
-                return ownerVisualElement.WinRoot;
+                this.owner.InvalidateLayoutAndStartBubbleUp();
             }
         }
-        protected bool HasWinRoot
+        public void OwnerInvalidateGraphic()
         {
-            get
+            if (this.owner != null)
             {
-
-                return ownerVisualElement.WinRoot != null;
+                this.owner.InvalidateGraphic();
             }
         }
-
-        public bool IsOwnerInArrangeQueue
-        {
-            get
-            {
-                return ownerVisualElement.IsInLayoutQueue;
-            }
-        }
-        public bool IsOwnenerInSuspendingMode
-        {
-            get
-            {
-
-                return ownerVisualElement.IsInLayoutSuspendMode;
-            }
-        }
-
+         
         public void InvalidateContentArrangementFromContainerSizeChanged()
         {
             layerFlags &= ~ARRANGEMENT_VALID;
@@ -94,7 +77,7 @@ namespace LayoutFarm
             this.dbug_InvalidateCount++;
 #endif
             layerFlags &= ~ARRANGEMENT_VALID;
-            return this.ownerVisualElement;
+            return this.owner;
         }
 
         public bool Visible
@@ -204,8 +187,8 @@ namespace LayoutFarm
         public abstract void TopDownReCalculateContentSize();
         public abstract void TopDownReArrangeContent();
 
-        public abstract IEnumerable<RenderElement> GetVisualElementIter();
-        public abstract IEnumerable<RenderElement> GetVisualElementReverseIter();
+        public abstract IEnumerable<RenderElement> GetRenderElementIter();
+        public abstract IEnumerable<RenderElement> GetRenderElementReverseIter();
 
 
         protected void ValidateArrangement()
@@ -223,11 +206,11 @@ namespace LayoutFarm
 
         public void BeginLayerLayoutUpdate()
         {
-            ownerVisualElement.BeginGraphicUpdate();
+            owner.BeginGraphicUpdate();
         }
         public void EndLayerLayoutUpdate()
         {
-            ownerVisualElement.EndGraphicUpdate();
+            owner.EndGraphicUpdate();
         }
         public bool NeedReArrangeContent
         {
@@ -343,10 +326,17 @@ namespace LayoutFarm
             if (debugVisualLay == null) return;
 
             debugVisualLay.WriteInfo(msg.text);
-
         }
+
 #endif
-        
+        public RenderElement OwnerRenderElement
+        {
+            get { return this.owner; }
+            set
+            {
+                this.owner = value;
+            }
+        }
         protected static bool vinv_IsInTopDownReArrangePhase
         {
             get;

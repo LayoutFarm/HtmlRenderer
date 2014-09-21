@@ -10,36 +10,43 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm.SampleControls
 {
-    class CustomRenderElement : RenderElement
-    {
-        public CustomRenderElement(int w, int h)
-            : base(w, h)
-        {
 
-        }
-        public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
-        {
-
-            canvasPage.FillRectangle(Brushes.Green, new Rectangle(0, 0, this.Width, this.Height));
-        }
-    }
     class CustomRenderBox : RenderBoxBase
     {
-        public CustomRenderBox(int width, int height)
-            : base(width, height)
+#if DEBUG
+        public bool dbugBreak;
+#endif
+        public CustomRenderBox(RootGraphic rootgfx, int width, int height)
+            : base(rootgfx, width, height)
         {
+            this.BackColor = Color.LightGray;
+
         }
         public override void ClearAllChildren()
         {
         }
-        public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
+        public Color BackColor
         {
+            get;
+            set;
+        }
+        protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
+        {
+
             //sample bg
-            canvasPage.FillRectangle(Brushes.LightGray, new Rectangle(0, 0, this.Width, this.Height));
-            if (this.Layers != null)
+            using (Brush brush = new SolidBrush(BackColor))
             {
-                this.Layers.LayersDrawContent(canvasPage, updateArea);
+                canvasPage.FillRectangle(brush, updateArea.ToRectangle());
+                if (this.Layers != null)
+                {
+                    this.Layers.LayersDrawContent(canvasPage, updateArea);
+                }
             }
         }
+
+
     }
+
+
+
 }

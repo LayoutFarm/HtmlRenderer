@@ -46,10 +46,11 @@
     <Compile Include="0_Start\dbugCoreConst.cs" />
     <Compile Include="0_Start\ExtensionAttribute.cs" />
     <Compile Include="4_Boxes\TopWindowRenderBox.cs" />
+    <Compile Include="6_Root\3_GraphicIntervalTask.cs" />
     <Compile Include="7_debug\dbugVisualEvalScrollBarTrace.cs" />
     <Compile Include="7_debug\dbugVisualInvalidationTracer.cs" />
     <Compile Include="7_debug\dbugVisualLayoutTracer.cs" />
-    <Compile Include="6_Root\RenderRequest.cs" />
+    <Compile Include="6_Root\2_RenderRequest.cs" />
     <Compile Include="7_debug\dbug.cs" />
     <Compile Include="7_debug\dbugVisitorMessage.cs" />
     <Compile Include="1_Base\VisualDrawingChain.cs" />
@@ -71,7 +72,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="1_Base\Canvas.cs" />
     <Compile Include="1_Base\InternalRect.cs" />
-    <Compile Include="1_Base\InternalRect2.cs" />
     <Compile Include="1_Base\ArtColorPalette.cs" />
     <Compile Include="1_Base\ArtImageBrush.cs" />
     <Compile Include="1_Base\FontSystem.cs" />

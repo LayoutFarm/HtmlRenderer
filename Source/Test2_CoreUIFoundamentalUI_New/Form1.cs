@@ -15,7 +15,37 @@ namespace TestGraphicPackage2
         public Form1()
         {
             InitializeComponent();
+            this.Load += new EventHandler(Form1_Load);
+        }
 
+        void Form1_Load(object sender, EventArgs e)
+        {
+            LoadDemoList();
+            this.lstDemoList.DoubleClick += new EventHandler(lstDemoList_DoubleClick);
+        }
+
+        void lstDemoList_DoubleClick(object sender, EventArgs e)
+        {
+            //load demo sample
+            var selectedDemoInfo = this.lstDemoList.SelectedItem as DemoInfo;
+            if (selectedDemoInfo == null) return;
+            //------------------------------------------------------------\
+
+
+            DemoBase selectedDemo = (DemoBase)Activator.CreateInstance(selectedDemoInfo.DemoType);
+
+            UISurfaceViewportControl viewport;
+
+            Form formCanvas;
+            CreateReadyForm(
+                out viewport,
+                out formCanvas);
+
+            selectedDemo.StartDemo(viewport);
+            viewport.WinTop.TopDownReCalculateContentSize();
+            //==================================================  
+            viewport.PaintMe();
+            //ShowFormLayoutInspector(viewport); 
         }
 
         static void ShowFormLayoutInspector(UISurfaceViewportControl viewport)
@@ -48,58 +78,8 @@ namespace TestGraphicPackage2
 
         }
 
-        private void cmdShowBasicFormCanvas_Click(object sender, EventArgs e)
-        {
-            UISurfaceViewportControl viewport;
-
-            Form formCanvas;
-            CreateReadyForm(
-                out viewport,
-                out formCanvas);
-
-            var sampleButton = new LayoutFarm.SampleControls.UIButton(30, 30);
-            viewport.AddContent(sampleButton);
-            viewport.WinRoot.TopDownReCalculateContentSize();
-            sampleButton.InvalidateGraphic();
-            //==================================================  
-            viewport.PaintMe();
-            //ShowFormLayoutInspector(viewport);
-
-
-            int count = 0;
-            sampleButton.MouseDown += new EventHandler<UIMouseEventArgs>((s, e2) =>
-            {
-                this.Text = "Click!" + count++;
-            });
-        }
-
-        private void cmdSampleTextBox_Click(object sender, EventArgs e)
-        {
-
-            UISurfaceViewportControl viewport;
-
-            Form formCanvas;
-            CreateReadyForm(
-                out viewport,
-                out formCanvas);
-
-            var textbox = new LayoutFarm.SampleControls.UITextBox(200, 30);
-            viewport.AddContent(textbox);
-            // ShowFormLayoutInspector(viewport);
-        }
-        private void cmdMultilineTextBox_Click(object sender, EventArgs e)
-        {
-
-            UISurfaceViewportControl viewport;
-            Form formCanvas;
-            CreateReadyForm(
-                out viewport,
-                out formCanvas);
-
-            var textbox = new LayoutFarm.SampleControls.UIMultiLineTextBox(400, 500, true);
-            viewport.AddContent(textbox);
-            ShowFormlayoutInspectIfNeed(viewport);
-        }
+       
+       
 
         void LoadHtmlTestView(string filename)
         {
@@ -114,33 +94,8 @@ namespace TestGraphicPackage2
             ShowFormlayoutInspectIfNeed(viewport);
 
         }
-        private void cmdMultiLineTextWithFormat_Click(object sender, EventArgs e)
-        {
-
-            UISurfaceViewportControl viewport;
-            Form formCanvas;
-            CreateReadyForm(
-                out viewport,
-                out formCanvas);
-            var textbox = new LayoutFarm.SampleControls.UIMultiLineTextBox(400, 500, true);
-            viewport.AddContent(textbox);
-            ShowFormlayoutInspectIfNeed(viewport);
-        }
-        private void cmdTestTextDom_Click(object sender, EventArgs e)
-        {
-
-
-
-
-            UISurfaceViewportControl viewport;
-            Form formCanvas;
-            CreateReadyForm(
-                out viewport,
-                out formCanvas);
-            var textbox = new LayoutFarm.SampleControls.UIMultiLineTextBox(400, 500, true);
-            viewport.AddContent(textbox);
-            ShowFormlayoutInspectIfNeed(viewport);
-        }
+         
+        
         void ShowFormlayoutInspectIfNeed(UISurfaceViewportControl viewport)
         {
             if (this.chkShowLayoutInspector.Checked)
@@ -148,71 +103,54 @@ namespace TestGraphicPackage2
                 ShowFormLayoutInspector(viewport);
             }
         }
-        static TextRunStyle[] CreateRoleSet(TextFontInfo fontInfo, params Color[] colors)
+      
+       
+ 
+         
+
+      
+        void LoadDemoList()
         {
-            int j = colors.Length;
-            TextRunStyle[] roleSet = new TextRunStyle[j];
-            for (int i = 0; i < j; ++i)
+            this.lstDemoList.Items.Clear();
+
+            var demoBaseType = typeof(DemoBase);
+            var thisAssem = System.Reflection.Assembly.GetAssembly(this.GetType());
+            List<DemoInfo> demoInfoList = new List<DemoInfo>();
+            foreach (var t in thisAssem.GetTypes())
             {
-                roleSet[i] = CreateSimpleTextRole(fontInfo, colors[i]);
+                if (demoBaseType.IsAssignableFrom(t) && t != demoBaseType)
+                {
+                    string demoTypeName = t.Name;
+                    object[] notes = t.GetCustomAttributes(typeof(DemoNoteAttribute), false);
+                    string noteMsg = null;
+                    if (notes != null && notes.Length > 0)
+                    {
+                        //get one only
+                        DemoNoteAttribute note = notes[0] as DemoNoteAttribute;
+                        if (note != null)
+                        {
+                            noteMsg = note.Message;
+                        }
+                    }
+                    demoInfoList.Add(new DemoInfo(t, noteMsg));
+                }
             }
-            return roleSet;
-        }
-        static TextRunStyle CreateSimpleTextRole(TextFontInfo textFontInfo, Color textColor)
-        {
-
-            TextRunStyle beh = new TextRunStyle();
-            beh.FontColor = textColor;
-
-
-            return beh;
-        }
-
-        private void cmdShowMultipleBox_Click(object sender, EventArgs e)
-        {
-            UISurfaceViewportControl viewport;
-
-            Form formCanvas;
-            CreateReadyForm(
-                out viewport,
-                out formCanvas);
-
-            for (int i = 0; i < 5; ++i)
+            demoInfoList.Sort((d1, d2) =>
             {
-                var textbox = new LayoutFarm.SampleControls.UIButton(30, 30);
-                textbox.SetLocation(i * 40, i * 40);
-
-                viewport.AddContent(textbox);
-                viewport.WinRoot.TopDownReCalculateContentSize();
-                textbox.InvalidateGraphic();
+                if (d1.DemoNote != null && d2.DemoNote != null)
+                {
+                    return d1.DemoNote.CompareTo(d2.DemoNote);
+                }
+                else
+                {
+                    return d1.DemoType.Name.CompareTo(d2.DemoType.Name);
+                }
+            });
+            foreach (var demo in demoInfoList)
+            {
+                this.lstDemoList.Items.Add(demo);
             }
 
-            viewport.PaintMe();
-            //ShowFormLayoutInspector(viewport);
-        }
-
-        private void cmdSampleGridBox_Click(object sender, EventArgs e)
-        {
-            UISurfaceViewportControl viewport;
-
-            Form formCanvas;
-            CreateReadyForm(
-                out viewport,
-                out formCanvas);
-
-            var gridBox = new LayoutFarm.SampleControls.UIGridBox(100, 100);
-            gridBox.SetLocation(50, 50);
-
-            viewport.AddContent(gridBox);
-
-
-            viewport.WinRoot.TopDownReCalculateContentSize();
-            gridBox.InvalidateGraphic();
-
-            //==================================================  
-            viewport.PaintMe();
-            //ShowFormLayoutInspector(viewport);
-
-        }
+        } 
     }
 }

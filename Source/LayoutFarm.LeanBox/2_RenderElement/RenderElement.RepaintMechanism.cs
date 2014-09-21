@@ -13,25 +13,32 @@ namespace LayoutFarm
     partial class RenderElement
     {
 
+        protected static void RootInvalidateGraphicArea(RenderElement elem, ref Rectangle rect, out TopWindowRenderBox wintop)
+        {
+            //1.
+            elem.uiFlags &= ~IS_GRAPHIC_VALID;
+            //2.  
+
+            elem.rootGfx.InvalidateGraphicArea(elem, ref rect, out wintop);
+
+        }
         public static void InvalidateGraphicLocalArea(RenderElement ve, Rectangle localArea)
         {
             if (localArea.Height == 0 || localArea.Width == 0)
             {
                 return;
             }
-            ve.uiFlags &= ~IS_GRAPHIC_VALID;
-            InternalRect internalRect = InternalRect.CreateFromRect(localArea);
-            vinv_AddInvalidateRequest(ve, internalRect);
-            InternalRect.FreeInternalRect(internalRect);
+            TopWindowRenderBox wintop;
+            RootInvalidateGraphicArea(ve, ref localArea, out wintop);
         }
-        protected static void vinv_AddInvalidateRequest(RenderElement ve, InternalRect rect)
+        public static void InvalidateGraphicLocalArea(RenderElement ve, Rectangle localArea, out TopWindowRenderBox wintop)
         {
-             
-            var winroot = ve.WinRoot;
-            if (winroot != null)
+            if (localArea.Height == 0 || localArea.Width == 0)
             {
-                winroot.InvalidateGraphicArea(ve, rect);
+                wintop = null;
+                return;
             }
+            RootInvalidateGraphicArea(ve, ref localArea, out wintop);
         }
 
         protected bool vinv_ForceReArrange
@@ -64,50 +71,41 @@ namespace LayoutFarm
         }
         public void InvalidateGraphic()
         {
+            TopWindowRenderBox wintop;
+            InvalidateGraphic(out wintop);
+        }
+        
+        public bool InvalidateGraphic(out TopWindowRenderBox wintop)
+        {
             uiFlags &= ~IS_GRAPHIC_VALID;
-
             if ((uiLayoutFlags & LY_SUSPEND_GRAPHIC) != 0)
             {
 #if DEBUG
                 dbugVRoot.dbug_PushInvalidateMsg(RootGraphic.dbugMsg_BLOCKED, this);
 #endif
-                return;
+                wintop = null;
+                return false;
             }
 
-
-            InternalRect internalRect = InternalRect.CreateFromWH(b_width, b_Height);
-            vinv_AddInvalidateRequest(this, internalRect);
-            InternalRect.FreeInternalRect(internalRect);
+            Rectangle rect = new Rectangle(0, 0, b_width, b_Height);
+            RootInvalidateGraphicArea(this, ref rect, out wintop);
+            return wintop != null;
         }
-
-
+         
         public void BeginGraphicUpdate()
         {
+
             InvalidateGraphic();
-
-            TopWindowRenderBox winroot = vinv_WinRoot;
-            if (winroot != null)
-            {
-                winroot.RootBeginGraphicUpdate();
-            }
-            else
-            {
-
-            }
+            this.rootGfx.BeginGraphicUpdate(); 
             this.uiLayoutFlags |= LY_SUSPEND_GRAPHIC;
         }
         public void EndGraphicUpdate()
         {
             this.uiLayoutFlags &= ~LY_SUSPEND_GRAPHIC;
-            InvalidateGraphic();
-            TopWindowRenderBox winroot = vinv_WinRoot;
-            if (winroot != null)
+            TopWindowRenderBox wintop;
+            if (InvalidateGraphic(out wintop))
             {
-                winroot.RootEndGraphicUpdate();
-            }
-            else
-            {
-
+                this.rootGfx.EndGraphicUpdate(wintop);
             }
         }
 
@@ -115,53 +113,19 @@ namespace LayoutFarm
         {
 
             InvalidateGraphic();
-
-            TopWindowRenderBox winroot = vinv_WinRoot;
-            if (winroot != null)
-            {
-                winroot.RootBeginGraphicUpdate();
-            }
-            else
-            {
-
-            }
-
+            this.rootGfx.BeginGraphicUpdate();
             this.uiLayoutFlags |= LY_SUSPEND_GRAPHIC;
         }
         void AfterBoundChangedInvalidateGraphics()
         {
             this.uiLayoutFlags &= ~LY_SUSPEND_GRAPHIC;
-
-            InvalidateGraphic();
-
-            TopWindowRenderBox winroot = vinv_WinRoot;
-            if (winroot != null)
+            TopWindowRenderBox wintop;
+            if (InvalidateGraphic(out wintop))
             {
-                winroot.RootEndGraphicUpdate();
+                this.rootGfx.EndGraphicUpdate(wintop);
             }
-            else
-            { 
-            } 
-        } 
-        protected TopWindowRenderBox vinv_WinRoot
-        {
-            get
-            {
-                //find winroot
-                if (this.IsWindowRoot)
-                {
-                    return (TopWindowRenderBox)this;
-                }
-                else if (this.ParentVisualElement != null)
-                {
-                    return this.ParentVisualElement.vinv_WinRoot;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        } 
+        }
+
     }
 
 }

@@ -39,8 +39,8 @@ namespace LayoutFarm
 
         int myWidth;
         int myHeight;
-        public HtmlRenderBox(int width, int height)
-            : base(width, height)
+        public HtmlRenderBox(RootGraphic rootgfx, int width, int height)
+            : base(rootgfx, width, height)
         {
             this.myWidth = width;
             this.myHeight = height;
@@ -125,8 +125,10 @@ namespace LayoutFarm
 
         }
 
-        public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
+    
+        protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
         {
+
             _visualRootBox.PhysicalViewportBound = new RectangleF(0, 0, myWidth, myHeight);
             _visualRootBox.PerformPaint(canvasPage.GetGfx());
         }

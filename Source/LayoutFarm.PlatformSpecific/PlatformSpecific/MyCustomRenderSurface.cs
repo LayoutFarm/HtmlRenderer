@@ -79,47 +79,11 @@ namespace LayoutFarm
         public override Size OwnerInnerContentSize
         {
             get
-            {
-
+            {   
                 return new Size(ownerVisualElement.ElementDesiredWidth, ownerVisualElement.ElementDesiredHeight);
 
             }
-        }
-        //public override int VerticalSmallChange
-        //{
-        //    get
-        //    {
-        //        return viewport_v_smallChange;
-        //    }
-        //}
-        //public override int VerticalLargeChange
-        //{
-        //    get
-        //    {
-        //        return viewport_v_largeChange;
-        //    }
-        //}
-        //public override int HorizontalLargeChange
-        //{
-        //    get
-        //    {
-        //        return viewport_h_largeChange;
-        //    }
-        //}
-        //public override int HorizontalSmallChange
-        //{
-        //    get
-        //    {
-        //        return viewport_h_smallChange;
-        //    }
-        //}
-
-
-        public override void WindowRootNotifyInvalidArea(InternalRect clientRect)
-        {
-            FullModeUpdate = false; quadPages.CanvasInvalidate(clientRect);
-
-        }
+        } 
         public override void DrawToThisPage(Canvas destPage, InternalRect updateArea)
         {
             if (quadPages.pageA == null)

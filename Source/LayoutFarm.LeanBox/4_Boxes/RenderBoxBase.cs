@@ -10,7 +10,7 @@ namespace LayoutFarm
 #if DEBUG
     [System.Diagnostics.DebuggerDisplay("RenderBoxBase {dbugGetCssBoxInfo}")]
 #endif
-    public abstract partial class RenderBoxBase : RenderElement
+    public abstract class RenderBoxBase : RenderElement
     {
 
 
@@ -18,8 +18,8 @@ namespace LayoutFarm
         int myviewportX;
         int myviewportY;
 
-        public RenderBoxBase(int width, int height)
-            : base(width, height)
+        public RenderBoxBase(RootGraphic rootgfx, int width, int height)
+            : base(rootgfx, width, height)
         {
             SetMayHasViewport(this, true);
             SetMayHasChild(this, true);
@@ -29,9 +29,9 @@ namespace LayoutFarm
             get { return this.layers; }
             set { this.layers = value; }
         }
-        public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
+        public sealed override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
         {
-
+            
             canvasPage.OffsetCanvasOrigin(-myviewportX, -myviewportY);
             updateArea.Offset(myviewportX, myviewportY);
 
@@ -330,5 +330,5 @@ namespace LayoutFarm
     }
 
 
-     
+
 }

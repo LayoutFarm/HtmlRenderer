@@ -5,16 +5,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
-
-
-using LayoutFarm;
-
-
 namespace LayoutFarm
 {
-
-
-
 
     public partial class CanvasViewport
     {
@@ -24,7 +16,7 @@ namespace LayoutFarm
         int viewportHeight;
 
 
-        MyTopWindowRenderBox rootElement;
+        MyTopWindowRenderBox topWindowBox;
 
         QuadPages quadPages = null;
 
@@ -34,36 +26,33 @@ namespace LayoutFarm
         int v_largeChange = 0;
         EventHandler<UIInvalidateEventArgs> canvasInvalidateHandler;
         EventHandler<UICursorEventArgs> canvasCursorChangedHandler;
-        EventHandler<UICaretEventArgs> canvasCaretHandler;
+         
         EventHandler<EventArgs> canvasSizeChangedHandler;
-        EventHandler canvasForcePaintMe;
 
 
         bool fullMode = true;
         ISurfaceViewportControl outputWindow;
         public CanvasViewport(ISurfaceViewportControl outputWindow,
-            MyTopWindowRenderBox winroot,
+            MyTopWindowRenderBox wintop,
             Size viewportSize, int cachedPageNum)
         {
             this.outputWindow = outputWindow;
-            this.rootElement = winroot;
+            this.topWindowBox = wintop;
 
             quadPages = new QuadPages(cachedPageNum, viewportSize.Width, viewportSize.Height * 2);
 
             this.viewportWidth = viewportSize.Width;
             this.viewportHeight = viewportSize.Height;
 
-            canvasCaretHandler = Canvas_CaretChange;
+             
             canvasInvalidateHandler = Canvas_Invalidate;
             canvasCursorChangedHandler = Canvas_CursorChange;
             canvasSizeChangedHandler = Canvas_SizeChanged;
-            canvasForcePaintMe = PaintMe;
 
-            winroot.CanvasCaretEvent += canvasCaretHandler;
-            winroot.CursorStyleEventHandler += canvasCursorChangedHandler;
-            winroot.CanvasInvalidatedEvent += canvasInvalidateHandler;
-            winroot.CanvasForcePaintMe += canvasForcePaintMe;
-
+            
+            wintop.CursorStyleEventHandler += canvasCursorChangedHandler;
+            wintop.CanvasInvalidatedEvent += canvasInvalidateHandler;
+            
             viewportX = 0;
             viewportY = 0;
             CalculateCanvasPages();
@@ -81,7 +70,7 @@ namespace LayoutFarm
                 quadPages.ResizeAllPages(viewportWidth, viewportHeight);
                 CalculateCanvasPages();
 
-                rootElement.ChangeVisualRootSize(viewportWidth, viewportHeight);
+                topWindowBox.ChangeVisualRootSize(viewportWidth, viewportHeight);
             }
 
         }
@@ -96,18 +85,7 @@ namespace LayoutFarm
         {
 
         }
-        void Canvas_CaretChange(object sender, UICaretEventArgs e)
-        {
-            if (e.Visible)
-            {
-                ShowCaret();
-            }
-            else
-            {
-                HideCaret();
-            }
-        }
-
+         
         void Canvas_SizeChanged(object sender, EventArgs e)
         {
             EvaluateScrollBar();
@@ -120,20 +98,20 @@ namespace LayoutFarm
         void PaintMe()
         {
             IntPtr hdc = MyWin32.GetDC(outputWindow.Handle);
-            rootElement.PrepareRender();
-            rootElement.ClearNotificationSizeChangeList();
-            rootElement.BeginRenderPhase();
+            topWindowBox.PrepareRender();
+            topWindowBox.ClearNotificationSizeChangeList();
+            topWindowBox.BeginRenderPhase();
 
             if (fullMode)
             {
-                quadPages.RenderToOutputWindowFullMode(rootElement, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
+                quadPages.RenderToOutputWindowFullMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
             }
             else
             {
-                quadPages.RenderToOutputWindowPartialMode(rootElement, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
+                quadPages.RenderToOutputWindowPartialMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
             }
 
-            rootElement.EndRenderPhase();
+            topWindowBox.EndRenderPhase();
 
 #if DEBUG
 
@@ -172,7 +150,7 @@ namespace LayoutFarm
 #endif
         internal void OnMouseMove(UIMouseEventArgs e)
         {
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); rootElement.OnMouseMove(e);
+            e.OffsetCanvasOrigin(-viewportX, -viewportY); topWindowBox.OnMouseMove(e);
             e.OffsetCanvasOrigin(viewportX, viewportY); if (!quadPages.IsValid)
             {
                 PaintMe();
@@ -181,7 +159,7 @@ namespace LayoutFarm
 
         internal void OnDoubleClick(UIMouseEventArgs e)
         {
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); rootElement.OnDoubleClick(e);
+            e.OffsetCanvasOrigin(-viewportX, -viewportY); topWindowBox.OnDoubleClick(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
             if (!quadPages.IsValid)
             {
@@ -191,7 +169,7 @@ namespace LayoutFarm
         internal void OnMouseWheel(UIMouseEventArgs e)
         {
             fullMode = true;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); rootElement.OnMouseWheel(e);
+            e.OffsetCanvasOrigin(-viewportX, -viewportY); topWindowBox.OnMouseWheel(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
             if (!quadPages.IsValid)
             {
@@ -205,7 +183,7 @@ namespace LayoutFarm
 #endif
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            rootElement.OnMouseUp(e);
+            topWindowBox.OnMouseUp(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
             if (!quadPages.IsValid)
@@ -213,17 +191,17 @@ namespace LayoutFarm
                 PaintMe();
             }
 
-            if (rootElement.IsCurrentElementUseCaret)
-            {
-                ShowCaret();
-            }
+            //if (topRenderBox.IsCurrentElementUseCaret)
+            //{
+            //    ShowCaret();
+            //}
         }
         internal void OnLostFocus(UIFocusEventArgs e)
         {
 
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            rootElement.OnLostFocus(e);
+            topWindowBox.OnLostFocus(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
         }
@@ -231,7 +209,7 @@ namespace LayoutFarm
         {
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            rootElement.OnGotFocus(e);
+            topWindowBox.OnGotFocus(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
 
@@ -240,7 +218,7 @@ namespace LayoutFarm
         {
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            rootElement.OnDrag(e);
+            topWindowBox.OnDrag(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
             if (!quadPages.IsValid)
             {
@@ -257,19 +235,17 @@ namespace LayoutFarm
             dbugMouseDown = true;
 #endif
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            rootElement.OnMouseDown(e);
+            topWindowBox.OnMouseDown(e);
 
-            e.OffsetCanvasOrigin(viewportX, viewportY); if (rootElement.IsCurrentElementUseCaret)
-            {
-                HideCaret();
-            }
+            e.OffsetCanvasOrigin(viewportX, viewportY);
+            
             if (!quadPages.IsValid)
             {
                 PaintMe();
             }
 
 #if DEBUG
-            RootGraphic visualroot = rootElement.dbugVRoot;
+            RootGraphic visualroot = topWindowBox.dbugVRoot;
             if (visualroot.dbug_RecordHitChain)
             {
                 outputWindow.dbug_rootDocHitChainMsgs.Clear();
@@ -282,7 +258,7 @@ namespace LayoutFarm
         {
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            rootElement.OnDragStart(e);
+            topWindowBox.OnDragStart(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
             if (!quadPages.IsValid)
             {
@@ -294,7 +270,7 @@ namespace LayoutFarm
         {
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            rootElement.OnDragStop(e);
+            topWindowBox.OnDragStop(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
             if (!quadPages.IsValid)
@@ -305,87 +281,66 @@ namespace LayoutFarm
         }
         internal void OnKeyDown(UIKeyEventArgs e)
         {
+            topWindowBox.MyVisualRoot.TempStopCaret();
+
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
-
 #if DEBUG
-            rootElement.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-            rootElement.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (Keys)e.KeyData);
-            rootElement.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+            topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+            topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (Keys)e.KeyData);
+            topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
 #endif
 
-            rootElement.OnKeyDown(e);
+            topWindowBox.OnKeyDown(e);
 
             e.OffsetCanvasOrigin(viewportX, viewportY);
-
+          
+           
             if (!quadPages.IsValid)
-            {
-
-                if (rootElement.IsCurrentElementUseCaret)
-                {
-                    HideCaret();
-                    PaintMe();
-                    ShowCaret();
-                }
-                else
-                {
-                    PaintMe();
-                }
-
+            { 
+                PaintMe(); 
             }
         }
         internal void OnKeyPress(UIKeyPressEventArgs e)
         {
+            topWindowBox.MyVisualRoot.TempStopCaret();
 #if DEBUG
-            rootElement.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-            rootElement.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYPRESS " + e.KeyChar);
-            rootElement.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+            topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+            topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYPRESS " + e.KeyChar);
+            topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
 #endif
 
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            rootElement.OnKeyPress(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY);
+            topWindowBox.OnKeyPress(e);
+            e.OffsetCanvasOrigin(viewportX, viewportY); 
+            
             if (!quadPages.IsValid)
-            {
-                if (rootElement.IsCurrentElementUseCaret)
-                {
-                    HideCaret();
-                    PaintMe();
-                    ShowCaret();
-                }
-                else
-                {
-                    PaintMe();
-                }
+            {   
+                PaintMe();  
             }
         }
         internal void OnKeyUp(UIKeyEventArgs e)
         {
-            fullMode = false;
+            topWindowBox.MyVisualRoot.TempStopCaret();
 
+            fullMode = false; 
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            rootElement.OnKeyUp(e);
+            topWindowBox.OnKeyUp(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
+            topWindowBox.MyVisualRoot.TempRunCaret();
         }
         internal bool OnProcessDialogKey(UIKeyEventArgs e)
         {
+            topWindowBox.MyVisualRoot.TempStopCaret();
             fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); bool result = rootElement.OnProcessDialogKey(e);
+            e.OffsetCanvasOrigin(-viewportX, -viewportY); bool result = topWindowBox.OnProcessDialogKey(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
+          
             if (!quadPages.IsValid)
             {
-                if (rootElement.IsCurrentElementUseCaret)
-                {
-                    HideCaret();
-                    PaintMe();
-                    ShowCaret();
-                }
-                else
-                {
-                    PaintMe();
-                }
+                PaintMe(); 
             }
             return result;
         }
@@ -431,11 +386,11 @@ namespace LayoutFarm
             else if (dy > 0)
             {
                 int old_y = viewportY;
-                int viewportButtom = viewportY + viewportHeight; if (viewportButtom + dy > rootElement.Height)
+                int viewportButtom = viewportY + viewportHeight; if (viewportButtom + dy > topWindowBox.Height)
                 {
-                    if (viewportButtom < rootElement.Height)
+                    if (viewportButtom < topWindowBox.Height)
                     {
-                        viewportY = rootElement.Height - viewportHeight;
+                        viewportY = topWindowBox.Height - viewportHeight;
                     }
                 }
                 else
@@ -454,11 +409,11 @@ namespace LayoutFarm
             {
 
                 int old_x = viewportX;
-                int viewportRight = viewportX + viewportWidth; if (viewportRight + dx > rootElement.Width)
+                int viewportRight = viewportX + viewportWidth; if (viewportRight + dx > topWindowBox.Width)
                 {
-                    if (viewportRight < rootElement.Width)
+                    if (viewportRight < topWindowBox.Width)
                     {
-                        viewportX = rootElement.Width - viewportWidth;
+                        viewportX = topWindowBox.Width - viewportWidth;
                     }
                 }
                 else
@@ -506,9 +461,9 @@ namespace LayoutFarm
         {
             hScrollEventArgs = null;
             vScrollEventArgs = null;
-            if (x > rootElement.Width - viewportWidth)
+            if (x > topWindowBox.Width - viewportWidth)
             {
-                x = rootElement.Width - viewportWidth;
+                x = topWindowBox.Width - viewportWidth;
 
             }
             if (x < 0)
@@ -521,10 +476,10 @@ namespace LayoutFarm
             }
             else if (y > 0)
             {
-                if (y > rootElement.Height - viewportHeight)
+                if (y > topWindowBox.Height - viewportHeight)
                 {
 
-                    y = rootElement.Height - viewportHeight;
+                    y = topWindowBox.Height - viewportHeight;
                     if (y < 0)
                     {
                         y = 0;
@@ -576,7 +531,7 @@ namespace LayoutFarm
             h_largeChange = viewportWidth;
             h_smallChange = h_largeChange / 4;
 
-            if (rootElement.Height <= viewportHeight)
+            if (topWindowBox.Height <= viewportHeight)
             {
 
                 vScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(false);
@@ -586,7 +541,7 @@ namespace LayoutFarm
                 vScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(true);
             }
 
-            if (rootElement.Width <= viewportWidth)
+            if (topWindowBox.Width <= viewportWidth)
             {
                 hScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(false);
             }
@@ -610,54 +565,16 @@ namespace LayoutFarm
                 outputWindow.viewport_VScrollRequest(this, vScrollSupportEventArgs);
             }
         }
-        Point PhysicalCaretPosition
-        {
-
-            get
-            {
-                Point caretpos = UIRootGraphic.GetGlobalCaretPosition();// rootElement.CaretPosition;
-                caretpos.Offset(-viewportX, -viewportY);
-                return caretpos;
-            }
-        }
+        
         public void SetFullMode(bool value)
         {
             fullMode = value;
         }
-        internal void Caret_Blink()
-        {
-            IntPtr surfaceHandler = outputWindow.Handle;
-            IntPtr hdc = MyWin32.GetDC(surfaceHandler);
-            Point physicalCaretPosition = PhysicalCaretPosition;
-            CanvasCaret.RenderCaretBlink(hdc, physicalCaretPosition.X, physicalCaretPosition.Y);
-            MyWin32.ReleaseDC(surfaceHandler, hdc);
-        }
-        void ShowCaret()
-        {
-            Point physicalCaretPosition = PhysicalCaretPosition;
-
-            IntPtr surfaceHandler = outputWindow.Handle;
-            IntPtr hdc = MyWin32.GetDC(surfaceHandler);
-            CanvasCaret.ForceRenderCaret(hdc, physicalCaretPosition.X, physicalCaretPosition.Y);
-            MyWin32.ReleaseDC(surfaceHandler, hdc);
-            CanvasCaret.SetCaretTo(this); //
-            CanvasCaret.StartCaretBlink();
-        }
-        void HideCaret()
-        {
-            Point physicalCaretPosition = PhysicalCaretPosition;
-
-            IntPtr surfaceHandler = outputWindow.Handle;
-            IntPtr hdc = MyWin32.GetDC(surfaceHandler);
-            CanvasCaret.ForceHideCaret(hdc, physicalCaretPosition.X, physicalCaretPosition.Y);
-            MyWin32.ReleaseDC(surfaceHandler, hdc);
-            CanvasCaret.SetCaretTo(this); //
-            CanvasCaret.StopCaretBlink();
-        }
-
+        
         public void Close()
         {
-            HideCaret();
+            topWindowBox.CloseWinRoot();
+            
         }
     }
 }

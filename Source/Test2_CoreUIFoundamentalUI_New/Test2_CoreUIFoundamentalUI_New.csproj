@@ -58,11 +58,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomUI.Sample\CustomRenderElements.cs" />
+    <Compile Include="CustomUI.Sample\LayerHelper.cs" />
     <Compile Include="CustomUI.Sample\UIBox.cs" />
     <Compile Include="CustomUI.Sample\UIButton.cs" />
     <Compile Include="CustomUI.Sample\UIGridBox.cs" />
+    <Compile Include="CustomUI.Sample_Composites\UIListView.cs" />
+    <Compile Include="CustomUI.Sample\UIPanel.cs" />
+    <Compile Include="CustomUI.Sample\UIScrollBar.cs" />
     <Compile Include="CustomUI.Sample\UITextBox.cs" />
-    <Compile Include="CustomUI.Sample\UIMultilineTextBox.cs" />
+    <Compile Include="Demo\1.2_Demo_MultipleBoxes.cs" />
+    <Compile Include="Demo\1.1_Demo_SingleButton.cs" />
+    <Compile Include="Demo\1.3_Demo_SampleGrid.cs" />
+    <Compile Include="Demo\1.5_Demo_ScrollBar.cs" />
+    <Compile Include="Demo\1.4_Demo_Drag.cs" />
+    <Compile Include="Demo\1.6_Demo_ScrollView.cs" />
+    <Compile Include="Demo\1.7_Demo_ListView.cs" />
+    <Compile Include="Demo\2.1_Demo_SingleLineTextBox.cs" />
+    <Compile Include="Demo\2.2_Demo_MultilineTextBox.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,13 +83,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Demo\DemoBase.cs" />
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LayoutFarm.GridLayer\LayoutFarm.GridLayer.csproj">
-      <Project>{CF92BB19-ADF5-42DE-BD05-6FB9B4F105E6}</Project>
-      <Name>LayoutFarm.GridLayer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.LeanBox\LayoutFarm.LeanBox.csproj">
       <Project>{5CDDBA62-67E4-40AA-A3C0-AFAE030E6969}</Project>
       <Name>LayoutFarm.LeanBox</Name>
@@ -93,10 +102,6 @@
     <ProjectReference Include="..\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
       <Project>{CFB41C52-614E-476C-8BBE-D07C26FB582D}</Project>
       <Name>LayoutFarm.TextEdit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.TextEditLayer\LayoutFarm.TextEditLayer.csproj">
-      <Project>{D162FBBF-C555-4605-AFA3-31A4278334E2}</Project>
-      <Name>LayoutFarm.TextEditLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Test0_PresentationDevHelper_New\Test0_PresentationDevHelper_New.csproj">
       <Project>{05C84CAB-2F5D-4D74-9A62-EADDF5B4CC0B}</Project>
