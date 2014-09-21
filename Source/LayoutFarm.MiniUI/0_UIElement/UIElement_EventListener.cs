@@ -80,5 +80,20 @@ namespace LayoutFarm.UI
             }
         }
 
+        void IEventListener.ListenFocusEvent(UIFocusEventName evName, UIFocusEventArgs e)
+        {
+            switch (evName)
+            {
+                case UIFocusEventName.Focus:
+                    {
+                         
+                        OnGotFocus(e);
+                    } break;
+                case UIFocusEventName.LossingFocus:
+                    {
+                        OnLostFocus(e);
+                    } break;
+            }
+        }
     }
 }

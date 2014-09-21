@@ -31,7 +31,11 @@ namespace LayoutFarm
         DragStop,
         Dragging
     }
-
+    public enum UIFocusEventName
+    {
+        Focus,
+        LossingFocus
+    }
     public interface IEventListener
     {
         void ListenKeyPressEvent(UIKeyPressEventArgs args);
@@ -39,6 +43,8 @@ namespace LayoutFarm
         bool ListenProcessDialogKey(UIKeyEventArgs args);
         void ListenMouseEvent(UIMouseEventName mouseEventName, UIMouseEventArgs e);
         void ListenDragEvent(UIDragEventName dragEventName, UIDragEventArgs e);
+        void ListenFocusEvent(UIFocusEventName focusEventName, UIFocusEventArgs e);
+
     }
 
 

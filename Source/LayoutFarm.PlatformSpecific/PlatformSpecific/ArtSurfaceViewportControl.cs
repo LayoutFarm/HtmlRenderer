@@ -190,6 +190,8 @@ namespace LayoutFarm
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
+            MyRootGraphic.CurrentTopWindowRenderBox = this.wintop;
+
             isMouseDown = true;
             isDraging = false;
 

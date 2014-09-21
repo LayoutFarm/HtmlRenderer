@@ -20,8 +20,8 @@ namespace LayoutFarm.Text
         int verticalExpectedCharIndex;
         bool isMultiLine = false;
         bool isInVerticalPhase = false;
-
-        bool stateShowCaret = true;
+        bool isFocus = false;
+        bool stateShowCaret = false;
 
         public TextEditRenderBox(RootGraphic rootgfx,
             int width, int height,
@@ -80,7 +80,8 @@ namespace LayoutFarm.Text
         {
 
             EditableTextFlowLayer flowLayer = this.textLayer;
-            EditableVisualElementLine beginLine = flowLayer.GetTextLineAtPos(beginlineNum); if (beginLine == null)
+            EditableVisualElementLine beginLine = flowLayer.GetTextLineAtPos(beginlineNum); 
+            if (beginLine == null)
             {
                 return Rectangle.Empty;
             }
@@ -94,7 +95,8 @@ namespace LayoutFarm.Text
             {
                 VisualPointInfo beginPoint = beginLine.GetTextPointInfoFromCharIndex(beginColumnNum);
 
-                EditableVisualElementLine endLine = flowLayer.GetTextLineAtPos(endLineNum); VisualPointInfo endPoint = endLine.GetTextPointInfoFromCharIndex(endColumnNum);
+                EditableVisualElementLine endLine = flowLayer.GetTextLineAtPos(endLineNum); 
+                VisualPointInfo endPoint = endLine.GetTextPointInfoFromCharIndex(endColumnNum);
                 return new Rectangle(beginPoint.X, beginLine.Top, endPoint.X, beginLine.ActualLineHeight);
             }
 
@@ -107,7 +109,7 @@ namespace LayoutFarm.Text
             {
                 return;
             }
-            this.EnsureCaretInVisibleState();
+            this.SetCaretState(true);
 
             char c = e.KeyChar;
             e.CancelBubbling = true;
@@ -138,9 +140,9 @@ namespace LayoutFarm.Text
                 {
                     TextSurfaceEventListener.NotifyCharacterAdded(textSurfaceEventListener, e.KeyChar);
                 }
-            } 
-            EnsureCaretVisible(); 
-        } 
+            }
+            EnsureCaretVisible();
+        }
         void InvalidateGraphicOfCurrentLineArea()
         {
 #if DEBUG
@@ -149,20 +151,36 @@ namespace LayoutFarm.Text
             InvalidateGraphicLocalArea(this, this.internalTextLayerController.CurrentParentLineArea);
 
         }
-          
+
         internal void SwapCaretState()
         {
             this.stateShowCaret = !stateShowCaret;
         }
-        void EnsureCaretInVisibleState()
+        internal void SetCaretState(bool visible)
         {
-            this.stateShowCaret = true;
+            this.stateShowCaret = visible;
         }
+        public void Focus()
+        {
+            this.SetCaretState(true);
+            GlobalCaretController.CurrentTextEditBox = this;            
+            this.isFocus = true;  
+        }
+        public bool IsFocused
+        {
+            get
+            {
+                return this.isFocus;
+            }
+        }
+
         public void OnMouseDown(UIMouseEventArgs e)
         {
             if (e.Button == UIMouseButtons.Left)
-            {   
-                InvalidateGraphicOfCurrentLineArea(); internalTextLayerController.CaretPos = e.Location; if (internalTextLayerController.SelectionRange != null)
+            {
+                InvalidateGraphicOfCurrentLineArea(); 
+                internalTextLayerController.CaretPos = e.Location;
+                if (internalTextLayerController.SelectionRange != null)
                 {
                     Rectangle r = GetSelectionUpdateArea(); internalTextLayerController.CancelSelect();
                     InvalidateGraphicLocalArea(this, r);
@@ -170,8 +188,8 @@ namespace LayoutFarm.Text
                 else
                 {
                     InvalidateGraphicOfCurrentLineArea();
-                } 
-            } 
+                }
+            }
         }
         public void OnDoubleClick(UIMouseEventArgs e)
         {
@@ -196,7 +214,8 @@ namespace LayoutFarm.Text
 
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
-                internalTextLayerController.CaretPos = e.Location; internalTextLayerController.EndSelect();
+                internalTextLayerController.CaretPos = e.Location; 
+                internalTextLayerController.EndSelect();
 
                 this.InvalidateGraphic();
 
@@ -261,18 +280,18 @@ namespace LayoutFarm.Text
             }
 
             UIKeys keycode = (UIKeys)e.KeyData;
-            this.EnsureCaretInVisibleState();
+            this.SetCaretState(true);
 
             switch (keycode)
             {
                 case UIKeys.Back:
-                    {   
+                    {
                         if (internalTextLayerController.SelectionRange != null)
-                        {   
+                        {
                             InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
                         }
                         else
-                        {    
+                        {
                             InvalidateGraphicOfCurrentLineArea();
                         }
                         if (textSurfaceEventListener == null)
@@ -822,36 +841,13 @@ namespace LayoutFarm.Text
                     }
             }
         }
-
-        //public override Point CaretPosition
-        //{
-        //    get
-        //    {
-        //        Point textManCaretPos = internalTextLayerController.CaretPos;
-        //        textManCaretPos.Offset(-ViewportX, -ViewportY);
-        //        return textManCaretPos;
-        //    }
-        //}
-
-        //public Point GlobalCaretPosition
-        //{
-        //    get
-        //    {
-        //        Point caretPos = this.CaretPosition;
-        //        Point globalCaret = this.GetGlobalLocation();
-        //        caretPos.Offset(globalCaret.X, globalCaret.Y);
-        //        return caretPos;
-        //    }
-        //}
-
+         
         void EnsureCaretVisible()
         {
             //----------------------
             Point textManCaretPos = internalTextLayerController.CaretPos;
             textManCaretPos.Offset(-ViewportX, -ViewportY);
-
-            GlobalCaretController.CurrentTextEditBox = this;
-            //this.Root.SetCarentPosition(textManCaretPos, this);
+             
             //----------------------  
             if (textManCaretPos.X >= this.Width)
             {

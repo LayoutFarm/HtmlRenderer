@@ -17,18 +17,18 @@ namespace LayoutFarm.SampleControls
     public class UITextBox : UIBox
     {
 
-        TextEditRenderBox visualTextEdit; 
-        bool _multiline;
+        TextEditRenderBox visualTextEdit;
+        bool _multiline; 
         public UITextBox(int width, int height, bool multiline)
             : base(width, height)
         {
             this._multiline = multiline;
-        }
+        } 
         public void Focus()
         {
-
-        }
-
+            //request keyboard focus
+            visualTextEdit.Focus();
+        }        
         protected override bool HasReadyRenderElement
         {
             get { return this.visualTextEdit != null; }
@@ -57,7 +57,7 @@ namespace LayoutFarm.SampleControls
             }
             return visualTextEdit;
         }
-
+         
         protected override void OnKeyPress(UIKeyPressEventArgs e)
         {
 
@@ -79,7 +79,7 @@ namespace LayoutFarm.SampleControls
         }
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
-
+            this.Focus();
             visualTextEdit.OnMouseDown(e);
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
@@ -109,7 +109,12 @@ namespace LayoutFarm.SampleControls
         public override void InvalidateGraphic()
         {
             if (visualTextEdit != null)
+            {
                 visualTextEdit.InvalidateGraphic();
+            }
         }
+
+
+
     }
 }

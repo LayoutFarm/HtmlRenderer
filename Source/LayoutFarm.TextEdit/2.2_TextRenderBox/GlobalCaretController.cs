@@ -33,7 +33,6 @@ namespace LayoutFarm.Text
         {
             if (textEditBox != null)
             {
-
                 textEditBox.SwapCaretState();
                 //force render ?
                 textEditBox.InvalidateGraphic();
@@ -58,9 +57,28 @@ namespace LayoutFarm.Text
             get { return textEditBox; }
             set
             {
+                if (textEditBox != value)//&& textEditBox != null)
+                {
+                    //make lost focus on current textbox
+                    if (textEditBox != null)
+                    {   
+                        //stop caret on prev element
+                        textEditBox.SetCaretState(false);
+                        var evlistener = textEditBox.GetController() as IEventListener;
+
+                        textEditBox = null;
+                       
+                        if (evlistener != null)
+                        {
+                            evlistener.ListenFocusEvent(UIFocusEventName.LossingFocus, null);
+                        }
+                    }
+                } 
                 textEditBox = value;
             }
         }
+
+
 
     }
 

@@ -84,21 +84,7 @@ namespace LayoutFarm
         {
         }
 
-        public void SetAsCurrentMouseFocus(IEventListener ui)
-        {
-            if (this.currentMouseUIFocus != null &&
-                this.currentMouseUIFocus != ui)
-            {
-
-                UIFocusEventArgs2 e = new UIFocusEventArgs2();
-                e.SetWinRoot(this);
-                e.ToBeFocusElement = ui;
-                e.ToBeLostFocusElement = currentMouseUIFocus;
-                currentMouseUIFocus = null;
-            }
-
-            this.currentMouseUIFocus = ui;
-        }
+  
 
         internal MyRootGraphic MyVisualRoot
         {

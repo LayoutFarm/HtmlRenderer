@@ -52,7 +52,10 @@ namespace LayoutFarm
 
         void graphicTimer1_Tick(object sender, EventArgs e)
         {
-
+            if (currentTopWindowBox == null)
+            {
+                return;
+            }
             //clear grahic timer
             int j = timerTasks.TaskCount;
             MyIntervalTaskEventArgs args = GetTaskEventArgs();
