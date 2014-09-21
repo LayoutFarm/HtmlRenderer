@@ -17,8 +17,12 @@ namespace LayoutFarm.SampleControls
         int _width;
         int _height;
 
-        public event EventHandler<UIMouseEventArgs> MouseDown;
 
+#if DEBUG
+        static int dbugTotalId;
+        public readonly int dbugId = dbugTotalId++;
+
+#endif
         public UIBox(int width, int height)
         {
             this._width = width;
@@ -31,10 +35,8 @@ namespace LayoutFarm.SampleControls
 
             if (this.HasReadyRenderElement)
             {
-                RenderElement.DirectSetVisualElementLocation(
-                    this.CurrentPrimaryRenderElement,
-                    _left,
-                    _top);
+                var renderE = this.CurrentPrimaryRenderElement;
+                renderE.SetLocation(left, top);
             }
         }
         public void SetSize(int width, int height)
@@ -70,13 +72,7 @@ namespace LayoutFarm.SampleControls
                     _height);
             }
         }
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {
-            if (this.MouseDown != null)
-            {
-                this.MouseDown(this, e);
-            }
-        }
+
         protected abstract RenderElement CurrentPrimaryRenderElement
         {
             get;
@@ -111,6 +107,20 @@ namespace LayoutFarm.SampleControls
                 else
                 {
                     return this._top;
+                }
+            }
+        }
+        public Point Position
+        {
+            get
+            {
+                if (this.HasReadyRenderElement)
+                {
+                    return new Point(CurrentPrimaryRenderElement.X, CurrentPrimaryRenderElement.Y);
+                }
+                else
+                {
+                    return new Point(this._left, this._top);
                 }
             }
         }
@@ -149,6 +159,18 @@ namespace LayoutFarm.SampleControls
             {
                 this.CurrentPrimaryRenderElement.InvalidateGraphic();
             }
+        }
+        public virtual int ViewportX
+        {
+            get { return 0; }
+        }
+        public virtual int ViewportY
+        {
+            get { return 0; }
+        }
+        public virtual void SetViewport(int x,int y)
+        {
+
         }
     }
 }

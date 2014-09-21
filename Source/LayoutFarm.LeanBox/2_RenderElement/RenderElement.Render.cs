@@ -14,14 +14,8 @@ namespace LayoutFarm
     partial class RenderElement
     {
         bool hasTransparentBg;
-        bool needSystemCaret;
-
-
-        public bool NeedSystemCaret
-        {
-            get { return this.needSystemCaret; }
-            set { this.needSystemCaret = value; }
-        }
+       
+    
         public bool HasSolidBackground
         {
             get

@@ -10,14 +10,14 @@ namespace LayoutFarm
 
     public partial class MyTopWindowRenderBox : TopWindowRenderBox
     {
-     
+
 
         List<RenderElement> layoutQueue = new List<RenderElement>();
         List<RenderElement> layoutQueue2 = new List<RenderElement>();
 
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
 
-        MyRootGraphic visualroot;
+        MyRootGraphic rootGraphic;
         CanvasEventsStock eventStock = new CanvasEventsStock();
         IEventListener currentMouseUIFocus = null;
 
@@ -27,7 +27,7 @@ namespace LayoutFarm
             int width, int height)
             : base(visualroot, width, height)
         {
-            this.visualroot = visualroot;
+            this.rootGraphic = visualroot;
 
             centralAnimationClock = new System.Timers.Timer();
             centralAnimationClock.Interval = 40;
@@ -45,7 +45,7 @@ namespace LayoutFarm
 #endif
 
         }
-        
+
         void rootTasksTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
 
@@ -84,30 +84,19 @@ namespace LayoutFarm
         {
         }
 
-        public void SetAsCurrentMouseFocus(IEventListener ui)
-        {
-            if (this.currentMouseUIFocus != null &&
-                this.currentMouseUIFocus != ui)
-            {
+  
 
-                UIFocusEventArgs2 e = new UIFocusEventArgs2();
-                e.SetWinRoot(this);
-                e.ToBeFocusElement = ui;
-                e.ToBeLostFocusElement = currentMouseUIFocus;
-                currentMouseUIFocus = null;
-            }
-
-            this.currentMouseUIFocus = ui;
-        }
- 
-        MyRootGraphic MyVisualRoot
+        internal MyRootGraphic MyVisualRoot
         {
             get
             {
-                return this.visualroot;
+                return this.rootGraphic;
             }
         }
-
+        public void CloseWinRoot()
+        {
+            this.rootGraphic.CloseWinRoot();
+        }
 
         internal void AddTimerTask(VisualRootTimerTask task)
         {
@@ -132,7 +121,7 @@ namespace LayoutFarm
                 this.TopDownReCalculateContentSize();
                 this.TopDownReArrangeContentIfNeed();
             }
-        } 
+        }
         public override void AddToLayoutQueue(RenderElement vs)
         {
 #if DEBUG
@@ -242,7 +231,7 @@ namespace LayoutFarm
             }
 
         }
-        
+
         public void PrepareRender()
         {
 
@@ -358,7 +347,7 @@ namespace LayoutFarm
         }
 
         internal void ClearLayoutQueue()
-        { 
+        {
             this.LayoutQueueClearing = true;
 
 #if DEBUG
@@ -417,6 +406,14 @@ namespace LayoutFarm
 
             visualroot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_CLEAR_LAYOUT_exit);
 #endif
+        }
+
+        internal void ForcePaint()
+        {
+            if (this.CanvasForcePaint != null)
+            {
+                CanvasForcePaint(this, EventArgs.Empty);
+            }
         }
     }
 

@@ -41,19 +41,24 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArtUIElement\UIElement_EventListener.cs" />
-    <Compile Include="Events\ScrollSurfaceRequestEventArgs.cs" />
-    <Compile Include="Events\UIDragEventArgs.cs" />
-    <Compile Include="Events\UIEventArgs.cs" />
-    <Compile Include="VisualRootImpl\RenderSurfaceScrollRelation.cs" />
-    <Compile Include="VisualRootImpl\UIEventIdentifier.cs" />
-    <Compile Include="VisualRootImpl\HitEventName.cs" />
-    <Compile Include="VisualRootImpl\ToNotifySizeChangedEvent.cs" />
-    <Compile Include="ArtUIElement\UIElement.cs" />
-    <Compile Include="ArtUIElement\IEventListener.cs" />
+    <Compile Include="1_LayerElements\2_GridLayerElement.cs" />
+    <Compile Include="1_LayerElements\0_LayerElement.cs" />
+    <Compile Include="0_UIElement\UIElement_EventListener.cs" />
+    <Compile Include="1_LayerElements\1_PlainLayerElement.cs" />
+    <Compile Include="1_LayerElements\GridLayer.cs" />
+    <Compile Include="1_LayerElements\GridTable.cs" />
+    <Compile Include="2_Events\ScrollSurfaceRequestEventArgs.cs" />
+    <Compile Include="2_Events\UIDragEventArgs.cs" />
+    <Compile Include="2_Events\UIEventArgs.cs" />
+    <Compile Include="3_Others\RenderSurfaceScrollRelation.cs" />
+    <Compile Include="0_UIElement\UIEventIdentifier.cs" />
+    <Compile Include="0_UIElement\HitEventName.cs" />
+    <Compile Include="2_Events\ToNotifySizeChangedEvent.cs" />
+    <Compile Include="0_UIElement\UIElement.cs" />
+    <Compile Include="0_UIElement\IEventListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VisualCoreBridge\Clipboard.cs" />
-    <Compile Include="VisualCoreBridge\Keys.cs" />
+    <Compile Include="3_Others\Clipboard.cs" />
+    <Compile Include="3_Others\Keys.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -64,6 +69,7 @@
       <Name>LayoutFarm.LeanBox</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

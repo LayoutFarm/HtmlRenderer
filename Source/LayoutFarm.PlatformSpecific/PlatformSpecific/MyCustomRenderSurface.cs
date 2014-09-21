@@ -79,8 +79,7 @@ namespace LayoutFarm
         public override Size OwnerInnerContentSize
         {
             get
-            {
-
+            {   
                 return new Size(ownerVisualElement.ElementDesiredWidth, ownerVisualElement.ElementDesiredHeight);
 
             }

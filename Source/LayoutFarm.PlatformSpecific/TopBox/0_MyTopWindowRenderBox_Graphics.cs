@@ -22,18 +22,18 @@ namespace LayoutFarm
 
         int GraphicUpdateSuspendCount
         {
-            get { return this.visualroot.GraphicUpdateBlockCount; }
-            set { this.visualroot.GraphicUpdateBlockCount = value; }
+            get { return this.rootGraphic.GraphicUpdateBlockCount; }
+            set { this.rootGraphic.GraphicUpdateBlockCount = value; }
         }
         bool LayoutQueueClearing
         {
-            get { return this.visualroot.LayoutQueueClearing; }
-            set { this.visualroot.LayoutQueueClearing = value; }
+            get { return this.rootGraphic.LayoutQueueClearing; }
+            set { this.rootGraphic.LayoutQueueClearing = value; }
         }
         bool DisableGraphicOutputFlush
         {
-            get { return this.visualroot.DisableGraphicOutputFlush; }
-            set { this.visualroot.DisableGraphicOutputFlush = value; }
+            get { return this.rootGraphic.DisableGraphicOutputFlush; }
+            set { this.rootGraphic.DisableGraphicOutputFlush = value; }
         }
         public override void FlushGraphic(Rectangle rect)
         {
@@ -44,19 +44,10 @@ namespace LayoutFarm
         }
         void FlushAccumGraphicUpdate()
         {
-            this.visualroot.FlushAccumGraphicUpdate(this); 
+            this.rootGraphic.FlushAccumGraphicUpdate(this); 
         }
 
-
-        public bool IsCurrentElementUseCaret
-        {
-            get
-            {
-                return currentKeyboardFocusedElement != null && currentKeyboardFocusedElement.NeedSystemCaret;
-
-            }
-        }
-
+         
         public override void RootBeginGraphicUpdate()
         {
             GraphicUpdateSuspendCount++;
@@ -93,7 +84,7 @@ namespace LayoutFarm
 
         public void BeginRenderPhase()
         {
-            this.visualroot.IsInRenderPhase = true;
+            this.rootGraphic.IsInRenderPhase = true;
 #if DEBUG
             RootGraphic myroot = this.dbugVRoot;
             myroot.dbug_rootDrawingMsg.Clear();
@@ -102,7 +93,7 @@ namespace LayoutFarm
         }
         public void EndRenderPhase()
         {
-            this.visualroot.IsInRenderPhase = false;
+            this.rootGraphic.IsInRenderPhase = false;
         }
 
     }

@@ -29,9 +29,9 @@ namespace LayoutFarm
             get { return this.layers; }
             set { this.layers = value; }
         }
-        public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
+        public sealed override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
         {
-
+            
             canvasPage.OffsetCanvasOrigin(-myviewportX, -myviewportY);
             updateArea.Offset(myviewportX, myviewportY);
 

@@ -4,90 +4,117 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.Windows.Forms;
 
-
-using LayoutFarm.Text;
+using LayoutFarm;
 using LayoutFarm.UI;
+using LayoutFarm.Text;
+
 
 namespace LayoutFarm.SampleControls
 {
 
-
     public class UITextBox : UIBox
     {
 
-        TextEditRenderBox textEditRenderBox;
-        public UITextBox(int width, int height)
+        TextEditRenderBox visualTextEdit;
+        bool _multiline; 
+        public UITextBox(int width, int height, bool multiline)
             : base(width, height)
         {
-        }
+            this._multiline = multiline;
+        } 
+        public void Focus()
+        {
+            //request keyboard focus
+            visualTextEdit.Focus();
+        }        
         protected override bool HasReadyRenderElement
         {
-            get { return this.textEditRenderBox != null; }
+            get { return this.visualTextEdit != null; }
         }
         protected override RenderElement CurrentPrimaryRenderElement
         {
-            get { return this.textEditRenderBox; }
+            get { return this.visualTextEdit; }
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-            if (this.textEditRenderBox == null)
+            if (visualTextEdit == null)
             {
-                textEditRenderBox = new TextEditRenderBox(rootgfx, this.Width, this.Height, false);
-                RenderElement.DirectSetVisualElementLocation(textEditRenderBox, this.Left, this.Top);
-                textEditRenderBox.HasSpecificSize = true;
-                textEditRenderBox.SetController(this);
+                var tbox = new TextEditRenderBox(rootgfx, this.Width, this.Height, _multiline);
+                RenderElement.DirectSetVisualElementLocation(tbox, this.Left, this.Top);
+
+                tbox.HasSpecificSize = true;
+
+                tbox.SetController(this);
+                RegisterNativeEvent(
+                  1 << UIEventIdentifier.NE_MOUSE_DOWN
+                  | 1 << UIEventIdentifier.NE_LOST_FOCUS
+                  | 1 << UIEventIdentifier.NE_SIZE_CHANGED
+                  );
+
+                this.visualTextEdit = tbox;
             }
-            return textEditRenderBox;
+            return visualTextEdit;
+        }
+         
+        protected override void OnKeyPress(UIKeyPressEventArgs e)
+        {
+
+            visualTextEdit.OnKeyPress(e);
+        }
+        protected override void OnKeyDown(UIKeyEventArgs e)
+        {
+            visualTextEdit.OnKeyDown(e);
+
+        }
+        protected override void OnKeyUp(UIKeyEventArgs e)
+        {
+
+        }
+        protected override bool OnProcessDialogKey(UIKeyEventArgs e)
+        {
+            return visualTextEdit.OnProcessDialogKey(e);
+
+        }
+        protected override void OnMouseDown(UIMouseEventArgs e)
+        {
+            this.Focus();
+            visualTextEdit.OnMouseDown(e);
+        }
+        protected override void OnMouseUp(UIMouseEventArgs e)
+        {
+            visualTextEdit.OnMouseUp(e);
         }
 
-
-        public TextSurfaceEventListener TextDomListener
+        protected override void OnDoubleClick(UIMouseEventArgs e)
         {
-            get
-            {
-                if (this.textEditRenderBox == null)
-                {
-                    return null;
-                }
-                return this.textEditRenderBox.TextDomListener;
-            }
+            visualTextEdit.OnDoubleClick(e);
         }
-        public TextEditRenderBox VisualTextSurface
+        protected override void OnDragDrop(UIDragEventArgs e)
         {
-            get
-            {
-
-                return this.textEditRenderBox;
-            }
         }
-
-        public int CurrentLineId
+        protected override void OnDragStart(UIDragEventArgs e)
         {
-            get
-            {
-                return textEditRenderBox.CurrentLineNumber;
-            }
+            visualTextEdit.OnDragStart(e);
         }
-        public int CurrentLineCharIndex
+        protected override void OnDragging(UIDragEventArgs e)
         {
-            get
-            {
-
-                return textEditRenderBox.CurrentLineCharIndex;
-            }
+            visualTextEdit.OnDrag(e);
         }
-        public int CurrentTextRunCharIndex
+        protected override void OnDragStop(UIDragEventArgs e)
         {
-            get
-            {
-                return textEditRenderBox.CurrentTextRunCharIndex;
-            }
+            visualTextEdit.OnDragStop(e);
         }
         public override void InvalidateGraphic()
         {
-            if (textEditRenderBox != null)
-                textEditRenderBox.InvalidateGraphic();
+            if (visualTextEdit != null)
+            {
+                visualTextEdit.InvalidateGraphic();
+            }
         }
+
+
+
     }
 }

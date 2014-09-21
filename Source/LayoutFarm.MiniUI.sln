@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.LeanBox", "Layou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.MiniUI", "LayoutFarm.MiniUI\LayoutFarm.MiniUI.csproj", "{78DF827E-7E62-4140-8074-A883BF4B8EE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.TextEditLayer", "LayoutFarm.TextEditLayer\LayoutFarm.TextEditLayer.csproj", "{D162FBBF-C555-4605-AFA3-31A4278334E2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.TextEdit", "LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj", "{CFB41C52-614E-476C-8BBE-D07C26FB582D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test0_PresentationDevHelper_New", "Test0_PresentationDevHelper_New\Test0_PresentationDevHelper_New.csproj", "{05C84CAB-2F5D-4D74-9A62-EADDF5B4CC0B}"
@@ -29,8 +27,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test3_MixHtml", "Test3_MixH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.HtmlRenderer.WinForm", "LayoutFarm.HtmlRenderer.WinForm\LayoutFarm.HtmlRenderer.WinForm.csproj", "{C66B2968-E6F6-4BBC-BC7B-9780F7B1A628}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.GridLayer", "LayoutFarm.GridLayer\LayoutFarm.GridLayer.csproj", "{CF92BB19-ADF5-42DE-BD05-6FB9B4F105E6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.HtmlCanvas", "LayoutFarm.HtmlCanvas\LayoutFarm.HtmlCanvas.csproj", "{EA5B8896-AF27-4C21-8FCC-3AE4171C621C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Svg", "LayoutFarm.Svg\LayoutFarm.Svg.csproj", "{4E185663-158F-4B19-A86D-435D9F203A07}"
@@ -49,10 +45,6 @@ Global
 		{78DF827E-7E62-4140-8074-A883BF4B8EE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78DF827E-7E62-4140-8074-A883BF4B8EE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78DF827E-7E62-4140-8074-A883BF4B8EE8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D162FBBF-C555-4605-AFA3-31A4278334E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D162FBBF-C555-4605-AFA3-31A4278334E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D162FBBF-C555-4605-AFA3-31A4278334E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D162FBBF-C555-4605-AFA3-31A4278334E2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CFB41C52-614E-476C-8BBE-D07C26FB582D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CFB41C52-614E-476C-8BBE-D07C26FB582D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFB41C52-614E-476C-8BBE-D07C26FB582D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -97,10 +89,6 @@ Global
 		{C66B2968-E6F6-4BBC-BC7B-9780F7B1A628}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C66B2968-E6F6-4BBC-BC7B-9780F7B1A628}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C66B2968-E6F6-4BBC-BC7B-9780F7B1A628}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CF92BB19-ADF5-42DE-BD05-6FB9B4F105E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CF92BB19-ADF5-42DE-BD05-6FB9B4F105E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CF92BB19-ADF5-42DE-BD05-6FB9B4F105E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CF92BB19-ADF5-42DE-BD05-6FB9B4F105E6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EA5B8896-AF27-4C21-8FCC-3AE4171C621C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EA5B8896-AF27-4C21-8FCC-3AE4171C621C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA5B8896-AF27-4C21-8FCC-3AE4171C621C}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -4,10 +4,10 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Collections.Generic;
-
+using System.Collections.Generic; 
 using HtmlRenderer.Css;
 using LayoutFarm.SvgDom;
+
 namespace LayoutFarm.SvgDom
 {
     public class SvgVisualSpec

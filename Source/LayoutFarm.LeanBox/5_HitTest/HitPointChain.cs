@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace LayoutFarm
 {
-     
+
     public class HitPointChain
     {
         public struct HitPair
@@ -232,11 +232,8 @@ namespace LayoutFarm
         }
         public RenderElement HitTestOnPrevChain()
         {
-
-
             if (prevHitChain.Count > 0)
             {
-
                 foreach (HitPair hp in prevHitChain)
                 {
                     RenderElement elem = hp.elem;
@@ -244,9 +241,7 @@ namespace LayoutFarm
                     {
                         if (elem.HitTestCoreNoRecursive(hp.point))
                         {
-
                             RenderElement foundOverlapChild = elem.ParentVisualElement.FindOverlapedChildElementAtPoint(elem, hp.point);
-
 
                             if (foundOverlapChild == null)
                             {

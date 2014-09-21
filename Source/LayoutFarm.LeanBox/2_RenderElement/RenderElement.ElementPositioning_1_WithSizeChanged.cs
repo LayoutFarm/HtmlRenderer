@@ -15,13 +15,13 @@ namespace LayoutFarm
 
 
         public virtual void TopDownReCalculateContentSize()
-        {   
+        {
             MarkHasValidCalculateSize();
-        } 
+        }
 
         public static void SetCalculatedDesiredSize(RenderBoxBase v, int desiredWidth, int desiredHeight)
         {
- 
+
             v.b_width = desiredWidth;
             v.b_Height = desiredHeight;
             v.MarkHasValidCalculateSize();
@@ -105,7 +105,6 @@ namespace LayoutFarm
         }
         public void SetSize(int width, int height)
         {
-
             if (visualParentLink == null)
             {
                 this.b_width = width;
@@ -120,8 +119,25 @@ namespace LayoutFarm
                 PrivateSetSize(width, height);
                 this.AfterBoundChangedInvalidateGraphics();
             }
-
         }
+        public void SetLocation(int left, int top)
+        {
+            if (visualParentLink == null)
+            {
+                this.b_left = left;
+                this.b_top = top;
+            }
+            else
+            {
+
+                int prevWidth = this.b_width;
+                int prevHeight = this.b_Height;
+                this.BeginGraphicUpdate(); 
+                DirectSetVisualElementLocation(this, left, top); 
+                this.EndGraphicUpdate();
+            }
+        }
+
         void PrivateSetSize(int width, int height)
         {
             RenderElement.DirectSetVisualElementSize(this, width, height);
