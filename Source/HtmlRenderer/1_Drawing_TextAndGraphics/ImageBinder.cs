@@ -2,7 +2,6 @@
 
 using System;
 using System.Drawing;
-
 namespace HtmlRenderer.Drawing
 {
     public class ImageBinder
