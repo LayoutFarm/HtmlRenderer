@@ -1,10 +1,10 @@
 ﻿using System.Drawing;
 namespace LayoutFarm.Drawing
 {
-    public class Font:System.IDisposable
+    public class Font : System.IDisposable
     {
 
-        System.Drawing.Font  myFont;
+        System.Drawing.Font myFont;
         public Font(object f)
         {
             this.myFont = (System.Drawing.Font)f;
@@ -12,11 +12,11 @@ namespace LayoutFarm.Drawing
         public string Name
         {
             get { return this.myFont.Name; }
-            
+
         }
         public float Size
         {
-            get { return this.myFont.Size; }             
+            get { return this.myFont.Size; }
         }
         public FontStyle Style
         {
@@ -36,20 +36,21 @@ namespace LayoutFarm.Drawing
             get { return this.myFont; }
         }
     }
+
     public class FontFamily
     {
         System.Drawing.FontFamily ff;
         internal FontFamily(System.Drawing.FontFamily ff)
         {
             this.ff = ff;
-            
+
         }
         public string Name
         {
             get { return this.ff.Name; }
-            
+
         }
         public static FontFamily GenericSerif = new FontFamily(System.Drawing.FontFamily.GenericSansSerif);
-         
-    } 
+
+    }
 }

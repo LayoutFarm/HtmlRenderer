@@ -3,14 +3,11 @@ namespace LayoutFarm.Drawing
 {
     public abstract class Brush : System.IDisposable
     {
-        public virtual void Dispose()
-        {
-        }
+        public abstract void Dispose();
         public abstract object InnerBrush { get; }
     }
     public static class Brushes
-    {
-
+    {   
         public static SolidBrush White = new SolidBrush(Color.White);
         public static SolidBrush Black = new SolidBrush(Color.Black);
         public static SolidBrush Transparent = new SolidBrush(Color.Transparent);
@@ -71,7 +68,7 @@ namespace LayoutFarm.Drawing
                 brush.Dispose();
                 brush = null;
             }
-            base.Dispose();
+            
         }
         public override object InnerBrush
         {

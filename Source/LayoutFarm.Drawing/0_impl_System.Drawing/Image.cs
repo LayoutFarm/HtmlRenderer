@@ -3,8 +3,7 @@
 namespace LayoutFarm.Drawing
 {
     public abstract class Image : System.IDisposable
-    {
-
+    {   
         public abstract void Dispose();  
         public abstract int Width { get; }
         public abstract int Height { get; }
@@ -12,11 +11,10 @@ namespace LayoutFarm.Drawing
         public Size Size
         {
             get { return new Size(this.Width, this.Height); }
-        }
-
+        } 
     }
     public class Bitmap : Image
-    {
+    {   
         int width;
         int height;
         System.Drawing.Bitmap bmp;

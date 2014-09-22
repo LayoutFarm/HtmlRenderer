@@ -5,14 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0D90518E-B04A-460E-97C1-732197742A29}</ProjectGuid>
+    <ProjectGuid>{E22C7CED-9DD7-4758-95B4-B315659965C3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HtmlRender.Controls</RootNamespace>
-    <AssemblyName>HtmlRender.Controls</AssemblyName>
+    <RootNamespace>LayoutFarm.Drawing.PlateformWinGdi</RootNamespace>
+    <AssemblyName>LayoutFarm.Drawing.PlateformWinGdi</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,39 +30,19 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\HtmlLinkClickedEventArgs.cs" />
-    <Compile Include="Events\HtmlLinkClickedException.cs" />
-    <Compile Include="Events\HtmlRefreshEventArgs.cs" />
-    <Compile Include="Events\HtmlRenderErrorEventArgs.cs" />
-    <Compile Include="Events\HtmlScrollEventArgs.cs" />
-    <Compile Include="HtmlPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Platform\WinHtmlRootVisualBoxExtension.cs" />
-    <Compile Include="Platform\WinRootVisualBox.cs" />
+    <Compile Include="Implementation\Conv.cs" />
+    <Compile Include="Implementation\FontsUtils.cs" />
+    <Compile Include="Implementation\Win32Utils.cs" />
+    <Compile Include="Implementation\WinGraphics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HtmlRenderer.Composers\HtmlRenderer.Composers.csproj">
-      <Project>{401603CD-34FB-431F-9E1C-59C952932B94}</Project>
-      <Name>HtmlRenderer.Composers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HtmlRenderer\HtmlRenderer.csproj">
-      <Project>{1B058920-24B4-4140-8AE7-C8C6C38CA52D}</Project>
-      <Name>HtmlRenderer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Drawing.PlatformWinGdi\LayoutFarm.Drawing.PlatformWinGdi.csproj">
-      <Project>{E22C7CED-9DD7-4758-95B4-B315659965C3}</Project>
-      <Name>LayoutFarm.Drawing.PlatformWinGdi</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
       <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
       <Name>LayoutFarm.Drawing</Name>

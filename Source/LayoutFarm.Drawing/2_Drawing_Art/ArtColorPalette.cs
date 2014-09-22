@@ -4,10 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.IO;
-
- 
+  
 
 namespace LayoutFarm.Drawing 
 {
@@ -274,7 +271,8 @@ namespace LayoutFarm.Drawing
         {
 
             this.myBrush = linearGradient;
-            this.nativeBrush = (System.Drawing.Drawing2D.LinearGradientBrush)linearGradient.InnerBrush;
+            this.nativeBrush = 
+                (System.Drawing.Drawing2D.LinearGradientBrush)linearGradient.InnerBrush;
         }
         public ArtGradientBrush(ArtGradientColorInfo gradientColorInfo)
         {

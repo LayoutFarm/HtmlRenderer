@@ -186,16 +186,16 @@ namespace HtmlRenderer.Demo
         /// </summary>
         private void LoadCustomFonts()
         {
-            // load custom font font into private fonts collection
-            var file = Path.GetTempFileName();
-            File.WriteAllBytes(file, HtmlRenderer.Demo.Resource.CustomFont);
-            _privateFont.AddFontFile(file);
+            //// load custom font font into private fonts collection
+            //var file = Path.GetTempFileName();
+            //File.WriteAllBytes(file, HtmlRenderer.Demo.Resource.CustomFont);
+            //_privateFont.AddFontFile(file);
 
-            // add the fonts to renderer
-            foreach (var fontFamily in _privateFont.Families)
-            {
-                HtmlRender.AddFontFamily(fontFamily);
-            }
+            //// add the fonts to renderer
+            //foreach (var fontFamily in _privateFont.Families)
+            //{
+            //    HtmlRender.AddFontFamily(fontFamily);
+            //}
         }
 
         ///// <summary>

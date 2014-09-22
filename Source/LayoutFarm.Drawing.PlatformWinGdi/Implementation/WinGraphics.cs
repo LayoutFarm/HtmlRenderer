@@ -264,12 +264,17 @@ namespace LayoutFarm.Drawing
                 return Conv.ConvToSize(size);
             }
         }
-
+#if DEBUG
+        public static class dbugCounter
+        {
+            public static int dbugDrawStringCount;
+        }
+#endif
         public void DrawString(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size)
         {
 
-#if DEBUG
-           HtmlRenderer.dbugCounter.dbugDrawStringCount++;
+#if DEBUG  
+            dbugCounter.dbugDrawStringCount++;
 #endif
             if (_useGdiPlusTextRendering)
             {
