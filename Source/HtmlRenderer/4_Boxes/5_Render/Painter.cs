@@ -3,9 +3,7 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
-
-
-using LayoutFarm.Drawing;
+ 
 using HtmlRenderer.Css;
 
 namespace HtmlRenderer.Boxes
@@ -36,6 +34,11 @@ namespace HtmlRenderer.Boxes
             this.htmlContainerScrollOffset = container.ScrollOffset;
             this.aviodGeometyAntialias = container.AvoidGeometryAntialias;
             this.ig = ig;
+        }
+
+        public GraphicPlatform Platform
+        {
+            get { return this.ig.Platform; }
         }
         internal void SetPhysicalViewportBound(float x, float y, float width, float height)
         {

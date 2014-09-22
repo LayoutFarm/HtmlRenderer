@@ -1,5 +1,15 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+
+namespace System.Drawing
+{
+    public class dummy { }
+}
+namespace System.Drawing.Drawing2D
+{
+    public class Dummy { } 
+}
+
 namespace LayoutFarm.Drawing
 {
     public class Matrix

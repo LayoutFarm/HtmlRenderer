@@ -14,18 +14,19 @@
 // "The Art of War"
 
 using System.Collections.Generic;
-using LayoutFarm.Drawing; 
+using LayoutFarm.Drawing;
 
 namespace LayoutFarm.Drawing
 {
+
+
     /// <summary>
     /// Provides some drawing functionallity
     /// </summary>
     public static class RenderUtils
     {
 
-        static Bitmap errorImage = new Bitmap(5, 5);
-        static Bitmap loadingImage = new Bitmap(5, 5);
+
 
         #region Fields and Consts
 
@@ -87,8 +88,9 @@ namespace LayoutFarm.Drawing
                 Brush brush;
                 if (!_brushesCache.TryGetValue(color, out brush))
                 {
-                    brush = new SolidBrush(color);
-                    _brushesCache[color] = brush;
+
+                    _brushesCache[color] = brush = GraphicPlatform.CreateSolidBrushFromColor(color);
+
                 }
                 return brush;
             }
@@ -104,7 +106,8 @@ namespace LayoutFarm.Drawing
             Pen pen;
             if (!_penCache.TryGetValue(color, out pen))
             {
-                pen = new Pen(GetSolidBrush(color));
+                pen = GraphicPlatform.CreatePen(color);
+                //pen = new Pen(GetSolidBrush(color));
                 _penCache[color] = pen;
             }
             else
@@ -222,8 +225,8 @@ namespace LayoutFarm.Drawing
         /// <returns>image instance</returns>
         private static Image GetLoadImage()
         {
-            if (_loadImage == null)
-                _loadImage = loadingImage;
+            //if (_loadImage == null)
+            //    _loadImage = loadingImage;
             return _loadImage;
         }
 
@@ -233,11 +236,15 @@ namespace LayoutFarm.Drawing
         /// <returns>image instance</returns>
         private static Image GetErrorImage()
         {
-            if (_errorImage == null)
-                _errorImage = errorImage;
+            //if (_errorImage == null)
+            //    _errorImage = errorImage;
             return _errorImage;
         }
 
         #endregion
     }
+
+
+
+
 }

@@ -1,4 +1,35 @@
 ﻿//BSD 2014, WinterDev
+
+//
+// System.Drawing.KnownColors
+//
+// Authors:
+// Gonzalo Paniagua Javier (gonzalo@ximian.com)
+// Peter Dennis Bartok (pbartok@novell.com)
+// Sebastien Pouliot <sebastien@ximian.com>
+//
+// Copyright (C) 2007 Novell, Inc (http://www.novell.com)
+//
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
 using System.Drawing;
 namespace LayoutFarm.Drawing
 {
@@ -28,10 +59,7 @@ namespace LayoutFarm.Drawing
         {
             get { return this.a; }
         }
-        internal System.Drawing.Color ToDrawingColor()
-        {
-            return System.Drawing.Color.FromArgb(this.a, this.r, this.g, this.b);
-        }
+        
         public static Color FromArgb(int a, int r, int g, int b)
         {
             return new Color((byte)a, (byte)r, (byte)g, (byte)b);
@@ -40,14 +68,24 @@ namespace LayoutFarm.Drawing
         {
             return new Color(255, (byte)r, (byte)g, (byte)b);
         }
+
+
         public static readonly Color Empty = new Color(0, 0, 0, 0);
         public static readonly Color Transparent = new Color(0, 0, 0, 0);
         public static readonly Color White = new Color(255, 255, 255, 255);
         public static readonly Color Black = new Color(255, 0, 0, 0);
         public static readonly Color Blue = new Color(255, 0, 0, 255);
         public static readonly Color Red = new Color(255, 255, 0, 0);
-        public static readonly Color Yellow = ColorFromDrawingColor(System.Drawing.Color.Yellow);
-        public static readonly Color LightGray = ColorFromDrawingColor(System.Drawing.Color.LightGray);
+        public static readonly Color Yellow = new Color(255, 255, 255, 0);
+        public static readonly Color LightGray = new Color(0xFF, 0xD3, 0xD3, 0xD3);
+        public static readonly Color Gray = new Color(0xFF, 0x80, 0x80, 0x80);
+       
+        
+        public static readonly Color Green = new Color(0xFF, 0x00, 0x80, 0x00);
+        public static readonly Color OrangeRed = new Color(0xFF, 0xFF, 0x45, 0x00);//0xFF FF 45 00
+        public static readonly Color DeepPink = new Color(0xFF, 0xFF, 0x14, 0x93);
+
+
 
 
         internal static Color ColorFromDrawingColor(System.Drawing.Color c)

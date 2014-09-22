@@ -248,7 +248,7 @@ namespace HtmlRenderer.Boxes
 
                 if (BackgroundGradient != Color.Transparent)
                 {
-                    brush = new LinearGradientBrush(rect,
+                    brush = p.Platform.CreateLinearGradientBrush(rect,
                         ActualBackgroundColor,
                         ActualBackgroundGradient,
                         ActualBackgroundGradientAngle);

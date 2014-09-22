@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="1_Drawing\FontDefaultConfig.cs" />
+    <Compile Include="1_Drawing\RenderGraphicObjects.cs" />
     <Compile Include="4_Boxes\7_HitAndSelections\SelectionRange.cs" />
     <Compile Include="4_Boxes\4_Animation\ArtAnimationTimelines.cs" />
     <Compile Include="4_Boxes\4_Animation\ArtParallelTimeline.cs" />

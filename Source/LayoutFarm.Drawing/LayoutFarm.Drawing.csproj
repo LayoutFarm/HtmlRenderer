@@ -35,27 +35,27 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="0_impl_System.Drawing.Drawing2D\CombineMode.cs" />
-    <Compile Include="0_impl_System.Drawing.Drawing2D\Matrix.cs" />
-    <Compile Include="0_impl_System.Drawing.Drawing2D\SmoothingMode.cs" />
-    <Compile Include="0_impl_System.Drawing\Brushes_Pens.cs" />
-    <Compile Include="0_impl_System.Drawing\Color.cs" />
-    <Compile Include="0_impl_System.Drawing\DashStyle.cs" />
-    <Compile Include="0_impl_System.Drawing\Font.cs" />
-    <Compile Include="0_impl_System.Drawing.Drawing2D\GraphicsPath.cs" />
-    <Compile Include="0_impl_System.Drawing\FontStyle.cs" />
-    <Compile Include="0_impl_System.Drawing\Image.cs" />
-    <Compile Include="0_impl_System.Drawing\Rectangle.cs" />
-    <Compile Include="0_impl_System.Drawing\RectangleF.cs" />
-    <Compile Include="1_Drawing_TextAndGraphics\FontInfo.cs" />
-    <Compile Include="1_Drawing_TextAndGraphics\IFonts.cs" />
-    <Compile Include="1_Drawing_TextAndGraphics\IGraphics.cs" />
-    <Compile Include="1_Drawing_TextAndGraphics\ImageBinder.cs" />
-    <Compile Include="0_impl_System.Drawing\LinearGradientBrush.cs" />
-    <Compile Include="0_impl_System.Drawing\BasicGeometryObjects.cs" />
+    <Compile Include="1_impl_System.Drawing.Drawing2D\CombineMode.cs" />
+    <Compile Include="1_impl_System.Drawing.Drawing2D\Matrix.cs" />
+    <Compile Include="1_impl_System.Drawing.Drawing2D\SmoothingMode.cs" />
+    <Compile Include="1_impl_System.Drawing\Brushes_Pens.cs" />
+    <Compile Include="1_impl_System.Drawing\Color.cs" />
+    <Compile Include="1_impl_System.Drawing\DashStyle.cs" />
+    <Compile Include="1_impl_System.Drawing\Font.cs" />
+    <Compile Include="1_impl_System.Drawing.Drawing2D\GraphicsPath.cs" />
+    <Compile Include="1_impl_System.Drawing\FontStyle.cs" />
+    <Compile Include="1_impl_System.Drawing\Image.cs" />
+    <Compile Include="1_impl_System.Drawing\Rectangle.cs" />
+    <Compile Include="1_impl_System.Drawing\RectangleF.cs" />
+    <Compile Include="2_Drawing_TextAndGraphics\FontInfo.cs" />
+    <Compile Include="2_Drawing_TextAndGraphics\IFonts.cs" />
+    <Compile Include="2_Drawing_TextAndGraphics\IGraphics.cs" />
+    <Compile Include="2_Drawing_TextAndGraphics\ImageBinder.cs" />
+    <Compile Include="1_impl_System.Drawing\BasicGeometryObjects.cs" />
     <Compile Include="2_Drawing_Art\ArtColorPalette.cs" />
     <Compile Include="2_Drawing_Art\ColorComponentStepup.cs" />
     <Compile Include="2_Drawing_Art\GfxProcessorModule.cs" />
+    <Compile Include="0_Start\GraphicsPlateform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
