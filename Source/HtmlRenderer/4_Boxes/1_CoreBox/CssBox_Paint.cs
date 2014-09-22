@@ -4,9 +4,7 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
-using System.Drawing.Drawing2D;
-using LayoutFarm.Drawing;
-
+ 
 
 namespace HtmlRenderer.Boxes
 {

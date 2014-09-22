@@ -7,7 +7,7 @@ using LayoutFarm.Drawing;
 
 //implement simple timeline and animation
 
-namespace HtmlRenderer.Drawing.Art
+namespace LayoutFarm.Drawing.Animation
 {
 
 

@@ -2,12 +2,10 @@
 //2014, WinterDev
 
 using System;
-using LayoutFarm.Drawing;
-using LayoutFarm.Drawing;
+using LayoutFarm.Drawing; 
 using System.Collections.Generic;
 
-using HtmlRenderer;
-using HtmlRenderer.Drawing;
+using HtmlRenderer; 
 using HtmlRenderer.Css;
 using LayoutFarm.SvgDom;
 

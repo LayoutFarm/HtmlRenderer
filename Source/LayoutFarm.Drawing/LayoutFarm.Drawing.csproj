@@ -41,7 +41,6 @@
     <Compile Include="0_impl_System.Drawing\Brushes_Pens.cs" />
     <Compile Include="0_impl_System.Drawing\Color.cs" />
     <Compile Include="0_impl_System.Drawing\DashStyle.cs" />
-    <Compile Include="0_impl_System.Drawing\dummy.cs" />
     <Compile Include="0_impl_System.Drawing\Font.cs" />
     <Compile Include="0_impl_System.Drawing.Drawing2D\GraphicsPath.cs" />
     <Compile Include="0_impl_System.Drawing\FontStyle.cs" />

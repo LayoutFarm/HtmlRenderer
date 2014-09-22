@@ -7,7 +7,7 @@ using System.Text;
 
 using LayoutFarm.Drawing;
 
-namespace HtmlRenderer.Drawing.Art
+namespace LayoutFarm.Drawing.Animation
 {   
     public class ArtParallelTimeline
     {  
