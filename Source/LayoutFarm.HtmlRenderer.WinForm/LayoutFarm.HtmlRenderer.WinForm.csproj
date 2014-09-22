@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Events\HtmlRefreshEventArgs.cs" />
     <Compile Include="Events\HtmlRenderErrorEventArgs.cs" />
+    <Compile Include="Platform\Conv.cs" />
     <Compile Include="Platform\FontsUtils.cs" />
     <Compile Include="Platform\Win32Utils.cs" />
     <Compile Include="Platform\WinGraphics.cs" />
@@ -56,6 +57,10 @@
     <ProjectReference Include="..\HtmlRenderer\HtmlRenderer.csproj">
       <Project>{1B058920-24B4-4140-8AE7-C8C6C38CA52D}</Project>
       <Name>HtmlRenderer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
+      <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
+      <Name>LayoutFarm.Drawing</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.LeanBox\LayoutFarm.LeanBox.csproj">
       <Project>{5CDDBA62-67E4-40AA-A3C0-AFAE030E6969}</Project>

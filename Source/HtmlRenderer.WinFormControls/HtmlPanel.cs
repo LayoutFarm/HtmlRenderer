@@ -14,7 +14,7 @@ using System;
 using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
-using HtmlRenderer.WebDom; 
+using HtmlRenderer.WebDom;
 using HtmlRenderer.Drawing;
 using HtmlRenderer.Css;
 using HtmlRenderer.ContentManagers;
@@ -63,11 +63,11 @@ namespace HtmlRenderer
 
 
 
-        
+
 
         WinRootVisualBox _visualRootBox;
         Composers.BoxComposer _boxComposer;
-        Composers.InputEventBridge _htmlEventBridge; 
+        Composers.InputEventBridge _htmlEventBridge;
 
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace HtmlRenderer
         /// </summary>
         private WebDom.CssActiveSheet _baseCssData;
 
-         
+
 
 
         /// <summary>
@@ -331,13 +331,14 @@ namespace HtmlRenderer
         {
             if (_visualRootBox != null)
             {
-                _visualRootBox.MaxSize = new SizeF(ClientSize.Width, 0);
+                _visualRootBox.MaxSize = new LayoutFarm.Drawing.SizeF(ClientSize.Width, 0);
 
                 using (var g = CreateGraphics())
                 {
                     _visualRootBox.PerformLayout(g);
                 }
-                AutoScrollMinSize = Size.Round(_visualRootBox.ActualSize);
+                var asize = _visualRootBox.ActualSize;
+                AutoScrollMinSize = Size.Round(new SizeF(asize.Width, asize.Height));
             }
         }
 
@@ -351,8 +352,8 @@ namespace HtmlRenderer
             if (_visualRootBox != null)
             {
 
-                _visualRootBox.ScrollOffset = AutoScrollPosition;
-                _visualRootBox.PhysicalViewportBound = this.Bounds;
+                _visualRootBox.ScrollOffset = LayoutFarm.Drawing.Conv.ConvToPointF(AutoScrollPosition);
+                _visualRootBox.PhysicalViewportBound = LayoutFarm.Drawing.Conv.ConvToRectF(this.Bounds);
 
                 _visualRootBox.PerformPaint(e.Graphics);
 
@@ -361,6 +362,7 @@ namespace HtmlRenderer
                 //_htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0));
             }
         }
+
 
         /// <summary>
         /// Set focus on the control for keyboard scrrollbars handling.
@@ -549,7 +551,7 @@ namespace HtmlRenderer
         private void UpdateScroll(Point location)
         {
             AutoScrollPosition = location;
-            _visualRootBox.ScrollOffset = AutoScrollPosition;
+            _visualRootBox.ScrollOffset = LayoutFarm.Drawing.Conv.ConvToPoint( AutoScrollPosition);
         }
 
         /// <summary>

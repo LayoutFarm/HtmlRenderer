@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 
 
-namespace HtmlRenderer.Drawing.Art
+namespace LayoutFarm.Drawing
 {
 
      

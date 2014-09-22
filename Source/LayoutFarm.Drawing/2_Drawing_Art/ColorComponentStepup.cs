@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-namespace HtmlRenderer.Drawing.Art
+namespace LayoutFarm.Drawing 
 {
      
-    class ColorComponentStepup
+    public class ColorComponentStepup
     {
         public int component1;
         public int component2;

@@ -11,7 +11,7 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using System.Drawing;
+using LayoutFarm.Drawing;
 
 namespace HtmlRenderer.Boxes
 {
@@ -21,7 +21,7 @@ namespace HtmlRenderer.Boxes
     sealed class CssImageRun : CssRun
     {
 
-        HtmlRenderer.Drawing.ImageBinder imgBinder;
+        ImageBinder imgBinder;
         /// <summary>
         /// the image rectange restriction as returned from image load event
         /// </summary>
@@ -80,7 +80,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-        public HtmlRenderer.Drawing.ImageBinder ImageBinder
+        public  ImageBinder ImageBinder
         {
             get { return this.imgBinder; }
             set { this.imgBinder = value; }

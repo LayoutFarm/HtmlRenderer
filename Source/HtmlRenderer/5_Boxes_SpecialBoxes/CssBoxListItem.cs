@@ -2,8 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using HtmlRenderer.Drawing;
+using LayoutFarm.Drawing;
+using LayoutFarm.Drawing;
 
 namespace HtmlRenderer.Boxes
 {

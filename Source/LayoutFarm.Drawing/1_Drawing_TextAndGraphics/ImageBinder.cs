@@ -1,14 +1,13 @@
 ﻿//BSD 2014,WinterDev
-
 using System;
 using System.Drawing;
-namespace HtmlRenderer.Drawing
-{
+namespace LayoutFarm.Drawing
+{   
     public class ImageBinder
     {
         Image _image;
         string _imageSource;
-        internal static readonly ImageBinder NoImage = new ImageBinder();
+        public static readonly ImageBinder NoImage = new ImageBinder();
 
         private ImageBinder()
         {

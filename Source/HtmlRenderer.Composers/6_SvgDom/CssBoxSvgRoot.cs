@@ -1,9 +1,9 @@
 ﻿//MS-PL, Apache2 
 //2014, WinterDev
 
-using System.Drawing;
+using LayoutFarm.Drawing;
 using System.Collections.Generic;
-using HtmlRenderer.Drawing;
+using LayoutFarm.Drawing;
 
 using LayoutFarm.SvgDom;
 

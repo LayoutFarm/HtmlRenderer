@@ -16,7 +16,7 @@
 using System;
 using System.Collections.Generic;
 using HtmlRenderer.Css;
-using HtmlRenderer.Drawing;
+using LayoutFarm.Drawing;
 
 
 namespace HtmlRenderer.Boxes
@@ -1113,7 +1113,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="maxWidth">The total width the content can take without line wrapping (with padding).</param>
         static void CalculateMinMaxWidth(CssBox box,
             CssBox cbBox,
-            HtmlRenderer.Drawing.IFonts iFonts,
+            IFonts iFonts,
             out float minWidth, out float maxWidth)
         {
 

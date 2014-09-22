@@ -14,11 +14,10 @@
 // "The Art of War"
 
 using System;
-using System.Drawing;
+using LayoutFarm.Drawing;
 using System.Drawing.Drawing2D;
 using HtmlRenderer.Css;
-using HtmlRenderer.Boxes;
-using HtmlRenderer.Drawing;
+using HtmlRenderer.Boxes; 
 
 namespace HtmlRenderer.Boxes
 {

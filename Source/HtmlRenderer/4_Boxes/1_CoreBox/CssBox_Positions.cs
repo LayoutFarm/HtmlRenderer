@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
+using LayoutFarm.Drawing;
 using HtmlRenderer.Css;
 
 
@@ -148,9 +148,9 @@ namespace HtmlRenderer.Boxes
             get { return (this._boxCompactFlags & BoxFlags.LAY_EVAL_COMPUTE_VALUES) == 0; }
         }
 
-        public void ReEvaluateFont(HtmlRenderer.Drawing.IFonts iFonts, float parentFontSize)
+        public void ReEvaluateFont(IFonts iFonts, float parentFontSize)
         {
-            HtmlRenderer.Drawing.FontInfo fontInfo = this._myspec.GetFont(iFonts, parentFontSize);
+            FontInfo fontInfo = this._myspec.GetFont(iFonts, parentFontSize);
             this._actualFont = fontInfo.Font;
             this._actualLineHeight = fontInfo.LineHeight;
             this._actualEmHeight = fontInfo.LineHeight;
@@ -172,7 +172,7 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// evaluate computed value
         /// </summary>
-        internal void ReEvaluateComputedValues(HtmlRenderer.Drawing.IFonts iFonts, CssBox containingBlock)
+        internal void ReEvaluateComputedValues(IFonts iFonts, CssBox containingBlock)
         {
             //see www.w3.org/TR/CSS2/box.html#padding-properties 
             //depend on parent
@@ -299,8 +299,8 @@ namespace HtmlRenderer.Boxes
             //---------------------------------------------------------------------------
             //evaluate bg 
 
-            if (BackgroundGradient != System.Drawing.Color.Transparent ||
-                Drawing.RenderUtils.IsColorVisible(ActualBackgroundColor))
+            if (BackgroundGradient != Color.Transparent ||
+                LayoutFarm.Drawing.RenderUtils.IsColorVisible(ActualBackgroundColor))
             {
                 tmpBoxCompactFlags |= BoxFlags.HAS_VISIBLE_BG;
             }
@@ -317,7 +317,7 @@ namespace HtmlRenderer.Boxes
                 tmpBoxCompactFlags &= ~BoxFlags.OVERFLOW_HIDDEN;
             }
             //-----------------------
-             
+
 
             if (spec.WordSpacing.IsNormalWordSpacing)
             {
@@ -329,7 +329,7 @@ namespace HtmlRenderer.Boxes
                     + CssValueParser.ConvertToPx(spec.WordSpacing, 1, this);
             }
 
-          
+
 
             //---------------------------------------------- 
             this._boxCompactFlags = tmpBoxCompactFlags;
@@ -338,7 +338,7 @@ namespace HtmlRenderer.Boxes
             //text indent   
             this._actualTextIndent = CssValueParser.ConvertToPx(spec.TextIndent, containingBlock.SizeWidth, this);
             this._actualBorderSpacingHorizontal = spec.BorderSpacingHorizontal.Number;
-            this._actualBorderSpacingVertical = spec.BorderSpacingVertical.Number; 
+            this._actualBorderSpacingVertical = spec.BorderSpacingVertical.Number;
 
             //-----------------------
             //this._actualLineHeight = 0.9f * CssValueParser.ConvertToPx(LineHeight, this.GetEmHeight(), this); 
@@ -360,8 +360,8 @@ namespace HtmlRenderer.Boxes
             //{
             //    _actualLineHeight = .9f * (this.GetEmHeight());
             //} 
-        } 
-       
+        }
+
         //------------------------------------------ 
         internal bool FreezeWidth
         {
@@ -748,7 +748,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-        
+
         internal bool IsPointInArea(float x, float y)
         {
             //from parent view

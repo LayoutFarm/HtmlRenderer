@@ -451,7 +451,7 @@ namespace HtmlRenderer
             myContainer.SetHtml(html, cssData);
 
             var finalSize = MeasureHtmlByRestrictions(container, minSize, maxSize);
-            container.MaxSize = finalSize;
+            container.MaxSize = LayoutFarm.Drawing.Conv.ConvToSizeF(finalSize);
 
             // create the final image to render into by measured size
             var image = new Bitmap(finalSize.Width, finalSize.Height, PixelFormat.Format32bppArgb);
@@ -465,9 +465,9 @@ namespace HtmlRenderer
                 using (var memoryGraphics = Graphics.FromHdc(memoryHdc))
                 {
                     memoryGraphics.Clear(backgroundColor != Color.Empty ? backgroundColor : Color.White);
-                    container.PhysicalViewportBound = new RectangleF(0, 0, maxSize.Width, maxSize.Height);
+                    container.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, maxSize.Width, maxSize.Height);
 
-                    using (var gfx = new WinGraphics(memoryGraphics, container.UseGdiPlusTextRendering))
+                    using (var gfx = new LayoutFarm.Drawing.WinGraphics(memoryGraphics, container.UseGdiPlusTextRendering))
                     {
                         container.PerformPaint(gfx);
                     }
@@ -581,7 +581,7 @@ namespace HtmlRenderer
 
 
             var finalSize = MeasureHtmlByRestrictions(container, minSize, maxSize);
-            container.MaxSize = finalSize;
+            container.MaxSize = LayoutFarm.Drawing.Conv.ConvToSizeF(finalSize);
 
             // create the final image to render into by measured size
             var image = new Bitmap(finalSize.Width, finalSize.Height, PixelFormat.Format32bppArgb);
@@ -590,10 +590,10 @@ namespace HtmlRenderer
             using (var g = Graphics.FromImage(image))
             {
                 g.TextRenderingHint = textRenderingHint;
-                container.PhysicalViewportBound = new RectangleF(0, 0, finalSize.Width, finalSize.Height);
-                using (var gfx = new WinGraphics(g, container.UseGdiPlusTextRendering))
+                container.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, finalSize.Width, finalSize.Height);
+                using (var gfx = new LayoutFarm.Drawing.WinGraphics(g, container.UseGdiPlusTextRendering))
                 {
-                    container.PerformPaint(gfx); 
+                    container.PerformPaint(gfx);
                 }
             }
             return image;
@@ -622,7 +622,7 @@ namespace HtmlRenderer
             if (!string.IsNullOrEmpty(html))
             {
 
-                container.MaxSize = new SizeF(maxWidth, 0);
+                container.MaxSize = new LayoutFarm.Drawing.SizeF(maxWidth, 0);
                 container.AvoidAsyncImagesLoading = true;
                 container.AvoidImagesLateLoading = true;
                 container.UseGdiPlusTextRendering = useGdiPlusTextRendering;
@@ -634,13 +634,13 @@ namespace HtmlRenderer
                     myContainer.ImageContentMan.ImageLoadingRequest += imageLoad;
 
                 myContainer.SetHtml(html, cssData);
-                using (var gfx = new WinGraphics(g, container.UseGdiPlusTextRendering))
+                using (var gfx = new LayoutFarm.Drawing.WinGraphics(g, container.UseGdiPlusTextRendering))
                 {
                     container.PerformLayout(gfx);
                 }
 
 
-                actualSize = container.ActualSize;
+                actualSize = LayoutFarm.Drawing.Conv.ConvFromSizeF(container.ActualSize); 
 
             }
             return actualSize;
@@ -659,7 +659,7 @@ namespace HtmlRenderer
             using (var measureGraphics = Graphics.FromHwnd(IntPtr.Zero))
             {
                 int finalWidth = 0;
-                using (var winGfx = new WinGraphics(measureGraphics, htmlContainer.UseGdiPlusTextRendering))
+                using (var winGfx = new LayoutFarm.Drawing.WinGraphics(measureGraphics, htmlContainer.UseGdiPlusTextRendering))
                 {
                     // first layout without size restriction to know html actual size
                     htmlContainer.PerformLayout(winGfx);
@@ -667,7 +667,7 @@ namespace HtmlRenderer
                     if (maxSize.Width > 0 && maxSize.Width < htmlContainer.ActualSize.Width)
                     {
                         // to allow the actual size be smaller than max we need to set max size only if it is really larger
-                        htmlContainer.MaxSize = new SizeF(maxSize.Width, 0);
+                        htmlContainer.MaxSize = new LayoutFarm.Drawing.SizeF(maxSize.Width, 0);
                         htmlContainer.PerformLayout(winGfx);
                     }
 
@@ -677,7 +677,7 @@ namespace HtmlRenderer
                     // if the final width is larger than the actual we need to re-layout so the html can take the full given width.
                     if (finalWidth > htmlContainer.ActualSize.Width)
                     {
-                        htmlContainer.MaxSize = new SizeF(finalWidth, 0);
+                        htmlContainer.MaxSize = new LayoutFarm.Drawing.SizeF(finalWidth, 0);
                         htmlContainer.PerformLayout(winGfx);
                     }
                 }
@@ -744,7 +744,9 @@ namespace HtmlRenderer
         /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the actual size of the rendered html</returns>
-        private static SizeF RenderHtml(Graphics g, string html, PointF location, SizeF maxSize, CssActiveSheet cssData, bool useGdiPlusTextRendering, EventHandler<StylesheetLoadEventArgs> stylesheetLoad,
+        private static SizeF RenderHtml(Graphics g, string html,
+            PointF location, SizeF maxSize,
+            CssActiveSheet cssData, bool useGdiPlusTextRendering, EventHandler<StylesheetLoadEventArgs> stylesheetLoad,
             EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs> imageLoad)
         {
             SizeF actualSize = SizeF.Empty;
@@ -754,17 +756,17 @@ namespace HtmlRenderer
 
                 var boxComposer = new Composers.BoxComposer();
                 using (var visualRootBox = new WinRootVisualBox())
-                {                   
+                {
 
                     visualRootBox.BoxComposer = boxComposer;
 
-                    visualRootBox.Location = location;
-                    visualRootBox.MaxSize = maxSize;
+                    visualRootBox.Location = LayoutFarm.Drawing.Conv.ConvToPointF(location);
+                    visualRootBox.MaxSize = LayoutFarm.Drawing.Conv.ConvToSizeF(maxSize);
                     visualRootBox.AvoidAsyncImagesLoading = true;
                     visualRootBox.AvoidImagesLateLoading = true;
                     visualRootBox.UseGdiPlusTextRendering = useGdiPlusTextRendering;
 
-                    
+
 
                     if (stylesheetLoad != null)
                         visualRootBox.TextContentMan.StylesheetLoadingRequest += stylesheetLoad;
@@ -774,7 +776,7 @@ namespace HtmlRenderer
                     visualRootBox.SetHtml(html, cssData);
                     visualRootBox.PerformLayout(g);
                     visualRootBox.PerformPaint(g);
-                    actualSize = visualRootBox.ActualSize;
+                    actualSize = LayoutFarm.Drawing.Conv.ConvFromSizeF(visualRootBox.ActualSize);
                 }
             }
 
@@ -799,5 +801,5 @@ namespace HtmlRenderer
         #endregion
     }
 
-  
+
 }

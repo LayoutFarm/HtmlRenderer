@@ -33,7 +33,7 @@ namespace HtmlRenderer
             using (var img = new Bitmap(1, 1))
             using (var g = Graphics.FromImage(img))
             {
-                WinGraphics winGfx = new WinGraphics(g, false);
+                LayoutFarm.Drawing.WinGraphics winGfx = new LayoutFarm.Drawing.WinGraphics(g, false);
 
                 //build rootbox from htmldoc
                 var rootBox = builder.BuildCssTree(htmldoc, winGfx, container, cssData);
@@ -62,7 +62,7 @@ namespace HtmlRenderer
             using (var img = new Bitmap(1, 1))
             using (var g = Graphics.FromImage(img))
             {
-                WinGraphics winGfx = new WinGraphics(g, false);
+                LayoutFarm.Drawing.WinGraphics winGfx = new LayoutFarm.Drawing.WinGraphics(g, false);
                 var rootBox = builder.BuildCssTree(doc, winGfx, container, cssData);
                 container.SetHtmlDoc(doc);
                 container.SetRootCssBox(rootBox, cssData);
@@ -90,7 +90,7 @@ namespace HtmlRenderer
             using (var img = new Bitmap(1, 1))
             using (var g = Graphics.FromImage(img))
             {
-                WinGraphics winGfx = new WinGraphics(g, false);
+                LayoutFarm.Drawing.WinGraphics winGfx = new LayoutFarm.Drawing.WinGraphics(g, false);
                 var rootBox = builder.BuildCssTree(doc, winGfx, container, cssData);
 
                 container.SetHtmlDoc(doc);
@@ -112,7 +112,7 @@ namespace HtmlRenderer
             using (var img = new Bitmap(1, 1))
             using (var g = Graphics.FromImage(img))
             {
-                WinGraphics winGfx = new WinGraphics(g, false);
+                LayoutFarm.Drawing.WinGraphics winGfx = new LayoutFarm.Drawing.WinGraphics(g, false);
                 var rootBox = builder.RefreshCssTree(doc, winGfx, container);
 
                 //container.SetHtmlDoc(doc);

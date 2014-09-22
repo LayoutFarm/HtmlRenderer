@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 using HtmlRenderer.Boxes;
 using HtmlRenderer.WebDom;
-using HtmlRenderer.Drawing;
+using LayoutFarm.Drawing;
 using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Diagnostics;
 
@@ -41,7 +41,7 @@ namespace HtmlRenderer
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
 
 
-        Bitmap tempBmp = new Bitmap(1, 1);
+        System.Drawing.Bitmap tempBmp = new System.Drawing.Bitmap(1, 1);
 
         public WinRootVisualBox()
         {
@@ -122,7 +122,10 @@ namespace HtmlRenderer
                 if (this.MaxSize.Height > 0)
                 {
                     prevClip = g.Clip;
-                    g.SetClip(new RectangleF(this.Location, this.MaxSize));
+                    g.SetClip(new System.Drawing.RectangleF(
+                        Conv.ConvFromPointF(this.Location),
+                        Conv.ConvFromSizeF(this.MaxSize)));
+
                 }
 
                 //------------------------------------------------------

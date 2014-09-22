@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using HtmlRenderer.Boxes;
 using HtmlRenderer.Css;
+using LayoutFarm.Drawing;
 namespace HtmlRenderer.WebDom
 {
 
@@ -194,14 +195,14 @@ namespace HtmlRenderer.WebDom
     }
     public class CssCodeColor : CssCodeValueExpression
     {
-        System.Drawing.Color color;
-        public CssCodeColor(System.Drawing.Color color)
+        Color color;
+        public CssCodeColor(Color color)
             : base(CssValueHint.HexColor)
         {
             this.color = color;
             SetColorValue(color);
         }
-        public System.Drawing.Color ActualColor
+        public Color ActualColor
         {
             get { return this.color; }
         }
@@ -373,7 +374,7 @@ namespace HtmlRenderer.WebDom
         }
 
         CssValueEvaluatedAs evaluatedAs;
-        System.Drawing.Color cachedColor;
+        Color cachedColor;
         HtmlRenderer.Css.CssLength cachedLength;
         int cachedInt;
         protected float number;
@@ -395,7 +396,7 @@ namespace HtmlRenderer.WebDom
             this.evaluatedAs = evaluatedAs;
             this.cachedInt = intValue;
         }
-        public void SetColorValue(System.Drawing.Color color)
+        public void SetColorValue(Color color)
         {
             this.evaluatedAs = CssValueEvaluatedAs.Color;
             this.cachedColor = color;
@@ -414,7 +415,7 @@ namespace HtmlRenderer.WebDom
             }
         }
 
-        public System.Drawing.Color GetCacheColor()
+        public Color GetCacheColor()
         {
             return this.cachedColor;
         }

@@ -5,10 +5,9 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace HtmlRenderer.Drawing
+namespace LayoutFarm.Drawing
 {
-
-
+     
 
     public interface IGraphics : IFonts, IDisposable
     {

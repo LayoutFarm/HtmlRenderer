@@ -2,11 +2,11 @@
 //2014, WinterDev
 
 using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
+using LayoutFarm.Drawing;
+using LayoutFarm.Drawing;
 using System.Collections.Generic;
 
-
+using HtmlRenderer;
 using HtmlRenderer.Drawing;
 using HtmlRenderer.Css;
 using LayoutFarm.SvgDom;
@@ -112,7 +112,7 @@ namespace LayoutFarm.SvgDom
         }
 
 
-        public virtual void Paint(HtmlRenderer.Drawing.IGraphics g)
+        public virtual void Paint( IGraphics g)
         {
 
         }

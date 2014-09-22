@@ -3,9 +3,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using LayoutFarm.Drawing;
 using System.Drawing.Drawing2D;
-using HtmlRenderer.Drawing;
+using LayoutFarm.Drawing;
 
 
 namespace HtmlRenderer.Boxes
@@ -225,7 +225,7 @@ namespace HtmlRenderer.Boxes
                 {
                     p.PopLocalClipArea();
                 }
-                 
+
             }
         }
 
@@ -248,7 +248,7 @@ namespace HtmlRenderer.Boxes
                 Brush brush = null;
                 bool dispose = false;
 
-                if (BackgroundGradient != System.Drawing.Color.Transparent)
+                if (BackgroundGradient != Color.Transparent)
                 {
                     brush = new LinearGradientBrush(rect,
                         ActualBackgroundColor,

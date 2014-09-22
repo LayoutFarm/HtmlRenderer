@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using LayoutFarm.Drawing;
 using HtmlRenderer.Css;
 
 namespace HtmlRenderer.Css 
@@ -581,7 +581,7 @@ namespace HtmlRenderer.Css
             : base(owner)
         {
 
-            FontFamily = HtmlRenderer.Drawing.FontDefaultConfig.DEFAULT_FONT_NAME;
+            FontFamily =  FontDefaultConfig.DEFAULT_FONT_NAME;
             FontSize = CssLength.FontSizeMedium;
             FontStyle = CssFontStyle.Normal;
             FontVariant = CssFontVariant.Normal;
@@ -679,7 +679,7 @@ namespace HtmlRenderer.Css
     {
         Color _bgColor, _bgGradient;
         float _bgGradientAngle;
-        HtmlRenderer.Drawing.ImageBinder _imgBinder;
+         ImageBinder _imgBinder;
         string _bgPosition;
         CssLength _bgPosX, _bgPosY;
         CssBackgroundRepeat _bgRepeat;
@@ -695,7 +695,7 @@ namespace HtmlRenderer.Css
             this.BackgroundColor = Color.Transparent; //"transparent";
             this.BackgroundGradient = Color.Transparent;// "none";
             this.BackgroundGradientAngle = 90.0f;
-            this.BackgroundImageBinder = HtmlRenderer.Drawing.ImageBinder.NoImage;
+            this.BackgroundImageBinder =  ImageBinder.NoImage;
 
             this.BackgroundPosX = new CssLength(0, CssUnitOrNames.Percent);
             this.BackgroundPosY = new CssLength(0, CssUnitOrNames.Percent);
@@ -743,7 +743,7 @@ namespace HtmlRenderer.Css
             set { if (Assignable()) this._bgGradientAngle = value; }
         }
 
-        public HtmlRenderer.Drawing.ImageBinder BackgroundImageBinder
+        public  ImageBinder BackgroundImageBinder
         {
             get { return this._imgBinder; }
             set { if (Assignable()) this._imgBinder = value; }

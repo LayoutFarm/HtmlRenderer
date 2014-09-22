@@ -11,18 +11,16 @@
 // "The Art of War"
 
 using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using HtmlRenderer.Drawing;
 using HtmlRenderer.Drawing.Win32;
 
-namespace HtmlRenderer
+
+namespace LayoutFarm.Drawing
 {
 
     /// <summary>
     /// 
     /// </summary>
-    public sealed class WinGraphics : IGraphics
+    public sealed class WinGraphics : LayoutFarm.Drawing.IGraphics
     {
         #region Fields and Consts
 
@@ -39,17 +37,17 @@ namespace HtmlRenderer
         /// <summary>
         /// Used for GDI+ measure string.
         /// </summary>
-        private static readonly CharacterRange[] _characterRanges = new CharacterRange[1];
+        private static readonly System.Drawing.CharacterRange[] _characterRanges = new System.Drawing.CharacterRange[1];
 
         /// <summary>
         /// The string format to use for measuring strings for GDI+ text rendering
         /// </summary>
-        private static readonly StringFormat _stringFormat;
+        private static readonly System.Drawing.StringFormat _stringFormat;
 
         /// <summary>
         /// The wrapped WinForms graphics object
         /// </summary>
-        private readonly Graphics _g;
+        private readonly System.Drawing.Graphics _g;
 
         /// <summary>
         /// Use GDI+ text rendering to measure/draw text.
@@ -71,8 +69,8 @@ namespace HtmlRenderer
         /// </summary>
         static WinGraphics()
         {
-            _stringFormat = new StringFormat(StringFormat.GenericDefault);
-            _stringFormat.FormatFlags = StringFormatFlags.NoClip | StringFormatFlags.MeasureTrailingSpaces;
+            _stringFormat = new System.Drawing.StringFormat(System.Drawing.StringFormat.GenericDefault);
+            _stringFormat.FormatFlags = System.Drawing.StringFormatFlags.NoClip | System.Drawing.StringFormatFlags.MeasureTrailingSpaces;
         }
 
         /// <summary>
@@ -80,7 +78,7 @@ namespace HtmlRenderer
         /// </summary>
         /// <param name="g">the real graphics to use</param>
         /// <param name="useGdiPlusTextRendering">Use GDI+ text rendering to measure/draw text.</param>
-        public WinGraphics(Graphics g, bool useGdiPlusTextRendering)
+        public WinGraphics(System.Drawing.Graphics g, bool useGdiPlusTextRendering)
         {
             _g = g;
             _useGdiPlusTextRendering = useGdiPlusTextRendering;
@@ -110,17 +108,24 @@ namespace HtmlRenderer
         /// Gets the bounding clipping region of this graphics.
         /// </summary>
         /// <returns>The bounding rectangle for the clipping region</returns>
-        public RectangleF GetClip()
+        public LayoutFarm.Drawing.RectangleF GetClip()
         {
             if (_hdc == IntPtr.Zero)
             {
-                return _g.ClipBounds;
+                var clip1 = _g.ClipBounds;
+                return new LayoutFarm.Drawing.RectangleF(
+                    clip1.X, clip1.Y,
+                    clip1.Width, clip1.Height);
             }
             else
             {
-                Rectangle lprc;
+                System.Drawing.Rectangle lprc;
                 Win32Utils.GetClipBox(_hdc, out lprc);
-                return lprc;
+
+
+                return new LayoutFarm.Drawing.RectangleF(
+                    lprc.X, lprc.Y,
+                    lprc.Width, lprc.Height);
             }
         }
 
@@ -132,7 +137,7 @@ namespace HtmlRenderer
         public void SetClip(RectangleF rect, CombineMode combineMode = CombineMode.Replace)
         {
             ReleaseHdc();
-            _g.SetClip(rect, combineMode);
+            _g.SetClip(Conv.ConvFromRectF(rect), Conv.FromCombineMode(combineMode));
         }
 
         /// <summary>
@@ -147,18 +152,25 @@ namespace HtmlRenderer
             if (_useGdiPlusTextRendering)
             {
                 ReleaseHdc();
-                _characterRanges[0] = new CharacterRange(0, str.Length);
+                _characterRanges[0] = new System.Drawing.CharacterRange(0, str.Length);
                 _stringFormat.SetMeasurableCharacterRanges(_characterRanges);
-                var size = _g.MeasureCharacterRanges(str, font, RectangleF.Empty, _stringFormat)[0].GetBounds(_g).Size;
+
+                var font2 = font.InnerFont as System.Drawing.Font;
+                var size = _g.MeasureCharacterRanges(str,
+                    font2,
+                    System.Drawing.RectangleF.Empty,
+                    _stringFormat)[0].GetBounds(_g).Size;
+
                 return new Size((int)Math.Round(size.Width), (int)Math.Round(size.Height));
             }
             else
             {
                 SetFont(font);
 
-                var size = new Size();
+                var size = new System.Drawing.Size();
                 Win32Utils.GetTextExtentPoint32(_hdc, str, str.Length, ref size);
-                return size;
+                return Conv.ConvToSize(size);
+
             }
         }
         public Size MeasureString2(char[] buff, int startAt, int len, Font font)
@@ -166,15 +178,21 @@ namespace HtmlRenderer
             if (_useGdiPlusTextRendering)
             {
                 ReleaseHdc();
-                _characterRanges[0] = new CharacterRange(0, len);
+                _characterRanges[0] = new System.Drawing.CharacterRange(0, len);
                 _stringFormat.SetMeasurableCharacterRanges(_characterRanges);
-                var size = _g.MeasureCharacterRanges(new string(buff, startAt, len), font, RectangleF.Empty, _stringFormat)[0].GetBounds(_g).Size;
-                return new Size((int)Math.Round(size.Width), (int)Math.Round(size.Height));
+                System.Drawing.Font font2 = (System.Drawing.Font)font.InnerFont;
+
+                var size = _g.MeasureCharacterRanges(
+                    new string(buff, startAt, len),
+                    font2,
+                    System.Drawing.RectangleF.Empty,
+                    _stringFormat)[0].GetBounds(_g).Size;
+                return new LayoutFarm.Drawing.Size((int)Math.Round(size.Width), (int)Math.Round(size.Height));
             }
             else
             {
                 SetFont(font);
-                var size = new Size();
+                var size = new System.Drawing.Size();
                 unsafe
                 {
                     fixed (char* startAddr = &buff[0])
@@ -182,7 +200,7 @@ namespace HtmlRenderer
                         Win32Utils.UnsafeGetTextExtentPoint32(_hdc, startAddr + startAt, len, ref size);
                     }
                 }
-                return size;
+                return Conv.ConvToSize(size);
             }
         }
         /// <summary>
@@ -208,7 +226,7 @@ namespace HtmlRenderer
             {
                 SetFont(font);
 
-                var size = new Size();
+                var size = new System.Drawing.Size();
                 unsafe
                 {
                     fixed (char* startAddr = &buff[0])
@@ -220,12 +238,12 @@ namespace HtmlRenderer
 
                 }
                 charFit = _charFit[0];
-
                 charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
-                return size;
+                return Conv.ConvToSize(size);
             }
         }
-        public Size MeasureString(string str, Font font, float maxWidth, out int charFit, out int charFitWidth)
+        public Size MeasureString(string str, LayoutFarm.Drawing.Font font,
+            float maxWidth, out int charFit, out int charFitWidth)
         {
             if (_useGdiPlusTextRendering)
             {
@@ -236,24 +254,22 @@ namespace HtmlRenderer
             {
                 SetFont(font);
 
-                var size = new Size();
+                var size = new System.Drawing.Size();
 
                 Win32Utils.GetTextExtentExPoint(
                     _hdc, str, str.Length,
                     (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
-
                 charFit = _charFit[0];
-
                 charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
-                return size;
+                return Conv.ConvToSize(size);
             }
-        } 
+        }
 
         public void DrawString(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size)
         {
 
 #if DEBUG
-            dbugCounter.dbugDrawStringCount++;
+           HtmlRenderer.dbugCounter.dbugDrawStringCount++;
 #endif
             if (_useGdiPlusTextRendering)
             {
@@ -321,12 +337,12 @@ namespace HtmlRenderer
             get
             {
                 ReleaseHdc();
-                return _g.SmoothingMode;
+                return Conv.ToCombineMode(_g.SmoothingMode);
             }
             set
             {
                 ReleaseHdc();
-                _g.SmoothingMode = value;
+                _g.SmoothingMode = Conv.FromSmoothMode(value);
             }
         }
 
@@ -337,7 +353,7 @@ namespace HtmlRenderer
         public void DrawLine(Pen pen, float x1, float y1, float x2, float y2)
         {
             ReleaseHdc();
-            _g.DrawLine(pen, x1, y1, x2, y2);
+            _g.DrawLine(pen.InnerPen as System.Drawing.Pen, x1, y1, x2, y2);
         }
 
         /// <summary>
@@ -347,13 +363,13 @@ namespace HtmlRenderer
         public void DrawRectangle(Pen pen, float x, float y, float width, float height)
         {
             ReleaseHdc();
-            _g.DrawRectangle(pen, x, y, width, height);
+            _g.DrawRectangle((System.Drawing.Pen)pen.InnerPen, x, y, width, height);
         }
 
         public void FillRectangle(Brush getSolidBrush, float left, float top, float width, float height)
         {
             ReleaseHdc();
-            _g.FillRectangle(getSolidBrush, left, top, width, height);
+            _g.FillRectangle((System.Drawing.Brush)getSolidBrush.InnerBrush, left, top, width, height);
         }
 
         /// <summary>
@@ -366,7 +382,10 @@ namespace HtmlRenderer
         public void DrawImage(Image image, RectangleF destRect, RectangleF srcRect)
         {
             ReleaseHdc();
-            _g.DrawImage(image, destRect, srcRect, GraphicsUnit.Pixel);
+            _g.DrawImage(image.InnerImage as System.Drawing.Image,
+                Conv.ConvFromRectF(destRect),
+                Conv.ConvFromRectF(srcRect),
+                System.Drawing.GraphicsUnit.Pixel);
         }
 
         /// <summary>
@@ -376,7 +395,7 @@ namespace HtmlRenderer
         public void DrawImage(Image image, RectangleF destRect)
         {
             ReleaseHdc();
-            _g.DrawImage(image, destRect);
+            _g.DrawImage(image.InnerImage as System.Drawing.Image, Conv.ConvFromRectF(destRect));
         }
 
         /// <summary>
@@ -385,7 +404,8 @@ namespace HtmlRenderer
         /// <param name="pen"><see cref="T:System.Drawing.Pen"/> that determines the color, width, and style of the path. </param><param name="path"><see cref="T:System.Drawing.Drawing2D.GraphicsPath"/> to draw. </param><exception cref="T:System.ArgumentNullException"><paramref name="pen"/> is null.-or-<paramref name="path"/> is null.</exception><PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/></PermissionSet>
         public void DrawPath(Pen pen, GraphicsPath path)
         {
-            _g.DrawPath(pen, path);
+            _g.DrawPath(pen.InnerPen as System.Drawing.Pen,
+                path.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
         }
 
         /// <summary>
@@ -395,7 +415,8 @@ namespace HtmlRenderer
         public void FillPath(Brush brush, GraphicsPath path)
         {
             ReleaseHdc();
-            _g.FillPath(brush, path);
+            _g.FillPath(brush.InnerBrush as System.Drawing.Brush,
+                path.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
         }
 
         /// <summary>
@@ -405,7 +426,15 @@ namespace HtmlRenderer
         public void FillPolygon(Brush brush, PointF[] points)
         {
             ReleaseHdc();
-            _g.FillPolygon(brush, points);
+            //create Point
+            System.Drawing.PointF[] pps = new System.Drawing.PointF[points.Length];
+            //?
+            int j = points.Length;
+            for (int i = 0; i < j; ++i)
+            {
+                pps[i] = Conv.ConvFromPointF(points[i]);
+            }
+            _g.FillPolygon(brush.InnerBrush as System.Drawing.Brush, pps);
 
         }
 
@@ -449,7 +478,7 @@ namespace HtmlRenderer
         private void SetFont(Font font)
         {
             InitHdc();
-            Win32Utils.SelectObject(_hdc, FontsUtils.GetCachedHFont(font));
+            Win32Utils.SelectObject(_hdc, HtmlRenderer.Drawing.FontsUtils.GetCachedHFont(font.InnerFont as System.Drawing.Font));
         }
 
         /// <summary>
@@ -480,7 +509,7 @@ namespace HtmlRenderer
                 Win32Utils.BitBlt(memoryHdc, 0, 0, size.Width, size.Height, hdc, point.X, point.Y, Win32Utils.BitBltCopy);
 
                 // Create and select font
-                Win32Utils.SelectObject(memoryHdc, FontsUtils.GetCachedHFont(font));
+                Win32Utils.SelectObject(memoryHdc, HtmlRenderer.Drawing.FontsUtils.GetCachedHFont(font.InnerFont as System.Drawing.Font));
                 Win32Utils.SetTextColor(memoryHdc, (color.B & 0xFF) << 16 | (color.G & 0xFF) << 8 | color.R);
 
                 // Draw text to memory HDC
@@ -496,22 +525,22 @@ namespace HtmlRenderer
         }
 
         //=====================================================
-        public FontInfo GetFontInfo(Font f)
+        public LayoutFarm.Drawing.FontInfo GetFontInfo(Font f)
         {
-            return FontsUtils.GetCachedFont(f);
+            return HtmlRenderer.Drawing.FontsUtils.GetCachedFont(f.InnerFont as System.Drawing.Font);
         }
-        public FontInfo GetFontInfo(string fontname, float fsize, FontStyle st)
+        public LayoutFarm.Drawing.FontInfo GetFontInfo(string fontname, float fsize,FontStyle st)
         {
-            return FontsUtils.GetCachedFont(fontname, fsize, st);
+            return HtmlRenderer.Drawing.FontsUtils.GetCachedFont(fontname, fsize, Conv.FromFonStyle( st));
         }
-        public float MeasureWhitespace(Font f)
+        public float MeasureWhitespace(LayoutFarm.Drawing.Font f)
         {
-            return FontsUtils.MeasureWhitespace(this, f);
+            return HtmlRenderer.Drawing.FontsUtils.MeasureWhitespace(this, f);
         }
 
         #endregion
     }
 
-    
+
 
 }

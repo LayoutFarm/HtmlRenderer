@@ -14,8 +14,8 @@
 // "The Art of War"
 
 using System;
-using System.Drawing;
-using HtmlRenderer.Drawing;
+using LayoutFarm.Drawing;
+using LayoutFarm.Drawing;
 using HtmlRenderer.Css;
 
 namespace HtmlRenderer.Boxes

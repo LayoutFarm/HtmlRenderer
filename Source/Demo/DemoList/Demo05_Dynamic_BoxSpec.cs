@@ -34,9 +34,9 @@ namespace HtmlRenderer.Demo
                         {
 
 #if DEBUG
-                             
+
                             var s_span = new EaseScriptElement(span);
-                            s_span.ChangeFontColor(System.Drawing.Color.Blue);
+                            s_span.ChangeFontColor(LayoutFarm.Drawing.Color.Blue);
 #endif
 
                             e.StopPropagation();
@@ -52,8 +52,8 @@ namespace HtmlRenderer.Demo
                             span.ClearAllElements();
                             span.AddTextContent("LMNOP0003");
                             var s_span = new EaseScriptElement(span);
-                            s_span.ChangeFontColor(System.Drawing.Color.Red);
-                            s_span.ChangeBackgroundColor(System.Drawing.Color.Yellow);
+                            s_span.ChangeFontColor(LayoutFarm.Drawing.Color.Red);
+                            s_span.ChangeBackgroundColor(LayoutFarm.Drawing.Color.Yellow);
 
                         });
                     });

@@ -15,9 +15,9 @@
 //using System;
 //using System.Collections.Generic;
 
-//using System.Drawing;
+//using LayoutFarm.Drawing;
 //using System.Drawing.Drawing2D;
-//using HtmlRenderer.Drawing;
+//using LayoutFarm.Drawing;
 
 //namespace HtmlRenderer.Boxes
 //{

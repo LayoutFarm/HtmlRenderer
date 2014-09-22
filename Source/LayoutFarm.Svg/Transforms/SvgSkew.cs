@@ -2,8 +2,9 @@
 //license : Microsoft Public License (MS-PL) 
 
 ﻿using System;
-﻿using System.Drawing.Drawing2D;
+using LayoutFarm.Drawing;
 using System.Globalization;
+using HtmlRenderer;
 
 namespace Svg.Transforms
 {

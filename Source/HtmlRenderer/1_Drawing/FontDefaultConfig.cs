@@ -1,6 +1,6 @@
 ﻿//BSD 2014, WinterDev 
-using System.Drawing;
-namespace HtmlRenderer.Drawing
+using LayoutFarm.Drawing;
+namespace LayoutFarm.Drawing
 {
     static class FontDefaultConfig
     {        

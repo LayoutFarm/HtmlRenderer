@@ -15,8 +15,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using HtmlRenderer.Drawing;
+using LayoutFarm.Drawing;
+using LayoutFarm.Drawing;
 
 namespace HtmlRenderer.Boxes
 {
@@ -132,7 +132,7 @@ namespace HtmlRenderer.Boxes
                 case ImageBinderState.Loaded:
                     {
 
-                        System.Drawing.Image img;
+                        Image img;
                         if ((img = _imgRun.ImageBinder.Image) != null)
                         {
 

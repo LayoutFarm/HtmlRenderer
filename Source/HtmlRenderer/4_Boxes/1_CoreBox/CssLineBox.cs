@@ -15,7 +15,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using LayoutFarm.Drawing;
 
 namespace HtmlRenderer.Boxes
 {
@@ -253,7 +253,7 @@ namespace HtmlRenderer.Boxes
         public bool HitTest(float x, float y)
         {
             if (y >= this.CachedLineTop && y <= this.CachedLineBottom)
-            {   
+            {
                 return true;
             }
             return false;
@@ -423,7 +423,7 @@ namespace HtmlRenderer.Boxes
 
 
 
-        internal void PaintRuns(HtmlRenderer.Drawing.IGraphics g, Painter p)
+        internal void PaintRuns(IGraphics g, Painter p)
         {
             //iterate from each words
 
@@ -478,7 +478,7 @@ namespace HtmlRenderer.Boxes
 
                             CssTextRun textRun = (CssTextRun)w;
 
-                            var wordPoint = new PointF(w.Left, w.Top); 
+                            var wordPoint = new PointF(w.Left, w.Top);
 
                             g.DrawString(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
                                textRun.TextStartIndex,
@@ -499,7 +499,7 @@ namespace HtmlRenderer.Boxes
 
 #if DEBUG
 
-        internal void dbugPaintRuns(HtmlRenderer.Drawing.IGraphics g, Painter p)
+        internal void dbugPaintRuns(IGraphics g, Painter p)
         {
 
             //return;
@@ -578,7 +578,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-        internal void PaintDecoration(HtmlRenderer.Drawing.IGraphics g, Painter p)
+        internal void PaintDecoration(IGraphics g, Painter p)
         {
 
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)

@@ -4,8 +4,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing.Drawing2D;
+using LayoutFarm.Drawing;
 using System.Globalization;
+using HtmlRenderer;
 
 namespace Svg.Transforms
 {

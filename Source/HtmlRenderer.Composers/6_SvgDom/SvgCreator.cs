@@ -3,7 +3,7 @@
 
 using System;
 using System.Collections.Generic;
-using HtmlRenderer.Drawing;
+using LayoutFarm.Drawing;
 using HtmlRenderer.Boxes;
 using HtmlRenderer.Css;
 using HtmlRenderer.Composers;
@@ -423,7 +423,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
 
 
-        static List<System.Drawing.PointF> ParsePointList(string str)
+        static List<PointF> ParsePointList(string str)
         {
 
 
@@ -433,7 +433,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             int j = allPoints.Length - 1;
             if (j > 1)
             {
-                var list = new List<System.Drawing.PointF>(j / 2);
+                var list = new List<PointF>(j / 2);
                 for (int i = 0; i < j; i += 2)
                 {
                     float x, y;
@@ -447,14 +447,14 @@ namespace HtmlRenderer.Composers.BridgeHtml
                     }
 
 
-                    list.Add(new System.Drawing.PointF(x, y));
+                    list.Add(new PointF(x, y));
                 }
                 return list;
 
             }
             else
             {
-                return new List<System.Drawing.PointF>();
+                return new List<PointF>();
             }
 
         }

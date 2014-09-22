@@ -14,17 +14,20 @@
 // "The Art of War"
 
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D; 
-using HtmlRenderer.Properties;
+using LayoutFarm.Drawing;
+using System.Drawing.Drawing2D;
 
-namespace HtmlRenderer.Drawing
+namespace LayoutFarm.Drawing
 {
     /// <summary>
     /// Provides some drawing functionallity
     /// </summary>
     public static class RenderUtils
     {
+
+        static Bitmap errorImage = new Bitmap(5, 5);
+        static Bitmap loadingImage = new Bitmap(5, 5);
+
         #region Fields and Consts
 
         /// <summary>
@@ -110,7 +113,7 @@ namespace HtmlRenderer.Drawing
                 pen.Width = 1;
             }
             return pen;
-        } 
+        }
         /// <summary>
         /// Draw image loading icon.
         /// </summary>
@@ -221,7 +224,7 @@ namespace HtmlRenderer.Drawing
         private static Image GetLoadImage()
         {
             if (_loadImage == null)
-                _loadImage = Resources.LoadImage;
+                _loadImage = loadingImage;
             return _loadImage;
         }
 
@@ -232,7 +235,7 @@ namespace HtmlRenderer.Drawing
         private static Image GetErrorImage()
         {
             if (_errorImage == null)
-                _errorImage = Resources.ErrorImage;
+                _errorImage = errorImage;
             return _errorImage;
         }
 

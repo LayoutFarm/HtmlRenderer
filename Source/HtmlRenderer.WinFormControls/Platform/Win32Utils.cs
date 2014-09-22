@@ -10,10 +10,11 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using System;
-using System.Drawing;
+using System; 
 using System.Runtime.InteropServices;
-
+using System.Drawing;
+using System.Drawing.Drawing2D;
+ 
 namespace HtmlRenderer.Drawing.Win32
 {
     /// <summary>
@@ -133,7 +134,7 @@ namespace HtmlRenderer.Drawing.Win32
 
         [DllImport("gdi32.dll", EntryPoint = "GetTextExtentExPointW")]
         public static unsafe extern bool UnsafeGetTextExtentExPoint(
-            IntPtr hDc, char* str, int len, int nMaxExtent, int[] lpnFit, int[] alpDx, ref Size size);
+            IntPtr hDc, char* str, int len, int nMaxExtent, int[] lpnFit, int[] alpDx, ref System.Drawing.Size size);
 
 
 

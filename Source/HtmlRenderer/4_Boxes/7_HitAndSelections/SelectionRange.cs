@@ -1,8 +1,9 @@
 ﻿//BSD 2014 ,WinterDev 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using HtmlRenderer.Drawing;
+using LayoutFarm.Drawing;
+using LayoutFarm.Drawing;
+
 namespace HtmlRenderer.Boxes
 {
 
@@ -173,7 +174,7 @@ namespace HtmlRenderer.Boxes
                 else if (visit.box == endBox)
                 {
                     foundEndBox = true;
-                    foreach(var visit2 in GetDeepBoxOrLineIter(endBox))
+                    foreach (var visit2 in GetDeepBoxOrLineIter(endBox))
                     {
                         if (visit2.isLine)
                         {
@@ -215,7 +216,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-        void SetupStartHitPoint(BoxHitChain startChain, HtmlRenderer.Drawing.IGraphics g)
+        void SetupStartHitPoint(BoxHitChain startChain,  IGraphics g)
         {
             HitInfo startHit = startChain.GetLastHit();
             //-----------------------------
@@ -457,7 +458,7 @@ namespace HtmlRenderer.Boxes
                         //check if should use first line of this box                         
                         //or last line box this box
 
-                     
+
                         foreach (var line in GetLineWalkIter(this.startHitHostLine, hitBox))
                         {
                             if (line == startHitHostLine)
@@ -468,7 +469,7 @@ namespace HtmlRenderer.Boxes
                             }
                             else
                             {
-                                
+
                                 //----------------------
                                 //find cssbox
                                 var ownerBox = line.OwnerBox;
@@ -480,7 +481,7 @@ namespace HtmlRenderer.Boxes
                                 {
                                     latestLine = line;
                                     line.SelectFull();
-                                    selectedLines.Add(line); 
+                                    selectedLines.Add(line);
                                 }
                                 else if (line.CacheLineHeight > 0)
                                 {
@@ -493,7 +494,7 @@ namespace HtmlRenderer.Boxes
                                 }
                             }
                         }
-                        
+
                     } break;
 
             }

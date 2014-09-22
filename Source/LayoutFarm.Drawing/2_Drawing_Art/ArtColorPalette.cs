@@ -5,29 +5,31 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.IO; 
+using System.IO;
 
-namespace HtmlRenderer.Drawing.Art
+ 
+
+namespace LayoutFarm.Drawing 
 {
-    
+
     public class ArtGfxInstructionInfo
-    {   
+    {
         public const int ROLE_BEGIN = 1;
-        public const int ROLE_END = 2; 
+        public const int ROLE_END = 2;
         public const int ROLE_BEH_COUNT = 3;
 
         public const int BEH_BEGIN = 4;
-        public const int BEH_END = 5; 
+        public const int BEH_END = 5;
         public const int STATE_COUNT = 6;
 
-       
+
         public const int STATE_INSTRUCTION_BEGIN = 7;
         public const int STATE_INSTRUCTION_END = 8;
         public const int EVENT_ID = 9;
         //---------------------------  
         public const int BEH_STATE_ANIMATION_COUNT = 10;
         //--------------------------- 
-       
+
         public const int DT_BYTE = 1;
         public const int DT_INT16 = 2;
         public const int DT_INT32 = 3;
@@ -37,17 +39,17 @@ namespace HtmlRenderer.Drawing.Art
         public const int DT_COLOR = 7;
         public const int DT_OBJECT = 8;
         public const int DT_CURSOR = 9;
-        public const int DT_BRUSH = 11; 
+        public const int DT_BRUSH = 11;
 
         public const int DT_CSS = 13;
 
-         
+
         public readonly int instructionId;
-         
+
         public readonly int moduleId;
-       
+
         public readonly GfxProcessorModule module;
-        
+
         public readonly bool isAnimatable;
 
         public ArtGfxInstructionInfo(GfxProcessorModule module, int instructionId, bool isAnimatable)
@@ -58,13 +60,13 @@ namespace HtmlRenderer.Drawing.Art
             this.isAnimatable = isAnimatable;
         }
 
-    
+
         public static ArtGfxInstructionInfo RegisterGfxInfo(GfxProcessorModule module, int instructionId, bool isAnimatable, ArtGfxInstructionInfo[] table)
         {
             table[instructionId] = new ArtGfxInstructionInfo(module, instructionId, isAnimatable);
             return table[instructionId];
-        } 
-    } 
+        }
+    }
     public class ArtColorPalette
     {
         string name;
@@ -89,15 +91,15 @@ namespace HtmlRenderer.Drawing.Art
             colorBrush.ownerPalette = this;
             colorBrushes.Add(colorBrush);
         }
-        
+
         public ArtColorBrush GetColorBrush(int index)
         {
             return colorBrushes[index];
         }
-        
+
         public ArtColorBrush GetColorBrush(string name)
         {
-            
+
             foreach (ArtColorBrush brush in colorBrushes)
             {
                 if (brush.Name == name)
@@ -135,12 +137,12 @@ namespace HtmlRenderer.Drawing.Art
             }
         }
     }
-     
+
     public abstract class ArtColorBrush
     {
         internal ArtColorPalette ownerPalette;
         string name;
-        
+
         public string Name
         {
             get
@@ -152,7 +154,7 @@ namespace HtmlRenderer.Drawing.Art
                 name = value;
             }
         }
-        
+
         public string FullName
         {
             get
@@ -162,7 +164,8 @@ namespace HtmlRenderer.Drawing.Art
         }
 
         //-----------------------------------
-        public Brush myBrush;   
+        public Brush myBrush; 
+        internal System.Drawing.Brush nativeBrush;
 
         public ArtColorBrush()
         {
@@ -176,7 +179,7 @@ namespace HtmlRenderer.Drawing.Art
                 myBrush = null;
             }
         }
-    } 
+    }
     public class ArtSolidBrush : ArtColorBrush
     {
         Color color;
@@ -193,7 +196,7 @@ namespace HtmlRenderer.Drawing.Art
             }
             set
             {
-                color = value; 
+                color = value;
                 if (this.myBrush != null)
                 {
                     SolidBrush solidBrush = (SolidBrush)myBrush;
@@ -201,11 +204,11 @@ namespace HtmlRenderer.Drawing.Art
                 }
             }
         }
-    } 
+    }
     public class ArtGradientColorInfo
     {
         List<Color> colors = new List<Color>();
-        List<Point> positions = new List<Point>(); 
+        List<Point> positions = new List<Point>();
         public int gradientType;
         public ArtGradientColorInfo()
         {
@@ -238,25 +241,28 @@ namespace HtmlRenderer.Drawing.Art
 
         internal LinearGradientBrush CreateLinearGradientBrush()
         {
- 
+
             if (colors.Count == 2)
             {
-                return new System.Drawing.Drawing2D.LinearGradientBrush(
-                     positions[0], positions[1], colors[0], colors[1]);
+                return new LinearGradientBrush(
+                     positions[0],
+                     positions[1],
+                     colors[0],
+                     colors[1]);
             }
             else if (colors.Count > 2)
             {
-               
-                return new System.Drawing.Drawing2D.LinearGradientBrush(
+
+                return new LinearGradientBrush(
                     positions[0], positions[1], colors[0], colors[1]);
-                
+
             }
             else
             {
                 return null;
             }
         }
-    } 
+    }
     public class ArtGradientBrush : ArtColorBrush
     {
 
@@ -266,7 +272,9 @@ namespace HtmlRenderer.Drawing.Art
         }
         public ArtGradientBrush(LinearGradientBrush linearGradient)
         {
+
             this.myBrush = linearGradient;
+            this.nativeBrush = (System.Drawing.Drawing2D.LinearGradientBrush)linearGradient.InnerBrush;
         }
         public ArtGradientBrush(ArtGradientColorInfo gradientColorInfo)
         {
@@ -285,12 +293,12 @@ namespace HtmlRenderer.Drawing.Art
         }
 
         public void RefreshGradient()
-        { 
+        {
             if (myBrush != null)
             {
                 myBrush.Dispose();
                 myBrush = null;
-            } 
+            }
             myBrush = gradientColorInfo.CreateLinearGradientBrush();
 
         }

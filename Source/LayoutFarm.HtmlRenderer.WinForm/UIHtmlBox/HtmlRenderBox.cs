@@ -7,7 +7,7 @@ using System.Text;
 using System.Drawing;
 
 using HtmlRenderer.WebDom;
-using HtmlRenderer.Drawing;
+using LayoutFarm.Drawing;
 using HtmlRenderer.Css;
 using HtmlRenderer.ContentManagers;
 
@@ -110,7 +110,7 @@ namespace LayoutFarm
         {
             if (_visualRootBox != null)
             {
-                _visualRootBox.MaxSize = new SizeF(this.myWidth, 0);
+                _visualRootBox.MaxSize = new LayoutFarm.Drawing.SizeF(this.myWidth, 0);
                 _visualRootBox.PerformLayout(g);
 
                 //using (var g = CreateGraphics())
@@ -129,7 +129,7 @@ namespace LayoutFarm
         protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
         {
 
-            _visualRootBox.PhysicalViewportBound = new RectangleF(0, 0, myWidth, myHeight);
+            _visualRootBox.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
             _visualRootBox.PerformPaint(canvasPage.GetGfx());
         }
         public override void ChildrenHitTestCore(HitPointChain artHitResult)
@@ -139,7 +139,7 @@ namespace LayoutFarm
         internal void LoadHtmlText(string html)
         {
             _visualRootBox.SetHtml(html, _baseCssData);
-            using (Bitmap bb = new Bitmap(2, 2))
+            using (System.Drawing.Bitmap bb = new System.Drawing.Bitmap(2, 2))
             using (Graphics g = Graphics.FromImage(bb))
             using (WinGraphics winGfx = new WinGraphics(g, false))
             {

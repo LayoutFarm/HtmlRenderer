@@ -15,12 +15,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using LayoutFarm.Drawing;
 using System.Globalization;
 using System.Text;
 
 
-using HtmlRenderer.Drawing;
+using LayoutFarm.Drawing;
 using HtmlRenderer.Css;
 
 namespace HtmlRenderer.Boxes

@@ -1,5 +1,5 @@
 ﻿//BSD 2014, WinterDev 
-using System.Drawing; 
+using LayoutFarm.Drawing; 
 
 namespace HtmlRenderer.Boxes
 {

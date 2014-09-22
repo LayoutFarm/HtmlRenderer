@@ -14,8 +14,8 @@
 // "The Art of War"
 
 using System;
-using System.Drawing;
-using HtmlRenderer.Drawing;
+using LayoutFarm.Drawing;
+using LayoutFarm.Drawing;
 namespace HtmlRenderer.Css
 {
 
@@ -31,7 +31,7 @@ namespace HtmlRenderer.Css
         CssListFeature _listFeats = CssListFeature.Default; //features 2
         CssLength _lineHeight = CssLength.NormalWordOrLine;
         CssLength _textIndent = CssLength.ZeroNoUnit;
-        Color _actualColor = System.Drawing.Color.Black;
+        Color _actualColor = Color.Black;
         CssEmptyCell _emptyCells = CssEmptyCell.Show;
         CssTextAlign _textAlign = CssTextAlign.NotAssign;
         CssVerticalAlign _verticalAlign = CssVerticalAlign.Baseline;
@@ -86,10 +86,10 @@ namespace HtmlRenderer.Css
         //------------------
         public BoxSpec()
         {
-             
+
         }
         //---------------------------------------------------------------
-        
+
         public void Freeze()
         {
             this._freezed = true;
@@ -537,7 +537,7 @@ namespace HtmlRenderer.Css
             set { if (Assignable()) this._overflow = value; }
         }
 
-      
+
         public CssListStylePosition ListStylePosition
         {
             get { return this._listFeats.ListStylePosition; }
@@ -613,7 +613,7 @@ namespace HtmlRenderer.Css
                 return this._backgroundFeats.BackgroundColor;
             }
         }
-        internal FontInfo GetFont(HtmlRenderer.Drawing.IFonts fontPool, float parentFontSize)
+        internal FontInfo GetFont(IFonts fontPool, float parentFontSize)
         {
 
             //---------------------------------------
@@ -631,12 +631,12 @@ namespace HtmlRenderer.Css
 
             //-----------------------------------------------------------------------------
             //style
-            FontStyle st = System.Drawing.FontStyle.Regular;
+            FontStyle st = LayoutFarm.Drawing.FontStyle.Regular;
             switch (FontStyle)
             {
                 case CssFontStyle.Italic:
                 case CssFontStyle.Oblique:
-                    st |= System.Drawing.FontStyle.Italic;
+                    st |=  LayoutFarm.Drawing.FontStyle.Italic;
                     break;
             }
             //-----------------------------------------------------
@@ -653,7 +653,7 @@ namespace HtmlRenderer.Css
                     } break;
                 default:
                     {
-                        st |= System.Drawing.FontStyle.Bold;
+                        st |= LayoutFarm.Drawing.FontStyle.Bold;
                     } break;
             }
 

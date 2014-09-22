@@ -4,7 +4,8 @@ using System;
 using System.Collections.Generic;
 
 using HtmlRenderer.Css;
-using HtmlRenderer.Drawing;
+using LayoutFarm.Drawing;
+
 namespace HtmlRenderer.Boxes
 {
 
@@ -108,11 +109,11 @@ namespace HtmlRenderer.Boxes
             }
             return w;
         }
-        internal FontInfo GetFontInfo(System.Drawing.Font f)
+        internal FontInfo GetFontInfo( Font f)
         {
             return this.Gfx.GetFontInfo(f);
         }
-        internal float MeasureStringWidth(char[] buffer, int startIndex, int len, System.Drawing.Font f)
+        internal float MeasureStringWidth(char[] buffer, int startIndex, int len,  Font f)
         {
             return this.Gfx.MeasureString2(buffer, startIndex, len, f).Width;
         }
