@@ -83,7 +83,10 @@ namespace LayoutFarm.Drawing
             _g = g;
             _useGdiPlusTextRendering = useGdiPlusTextRendering;
         }
-
+        public GraphicPlatform  Platform
+        {
+            get { return WinGdiPlatform.WinGdi.Platform; }
+        }
         public void SetCanvasOrigin(float x, float y)
         {
             ReleaseHdc();

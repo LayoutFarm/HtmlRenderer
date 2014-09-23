@@ -147,7 +147,7 @@ namespace HtmlRenderer.Boxes
             while (destRect.X > rectangle.X)
                 destRect.X -= imgSize.Width;
 
-            using (var brush = new TextureBrush(img, srcRect))
+            using (var brush = g.Platform.CreateTextureBrush(img, srcRect))
             {
                 brush.TranslateTransform(destRect.X, destRect.Y);
                 g.FillRectangle(brush, rectangle.X, destRect.Y, rectangle.Width, srcRect.Height);
@@ -163,7 +163,7 @@ namespace HtmlRenderer.Boxes
             while (destRect.Y > rectangle.Y)
                 destRect.Y -= imgSize.Height;
 
-            using (var brush = new TextureBrush(img, srcRect))
+            using (var brush = g.Platform.CreateTextureBrush(img, srcRect))
             {
                 brush.TranslateTransform(destRect.X, destRect.Y);
                 g.FillRectangle(brush, destRect.X, rectangle.Y, srcRect.Width, rectangle.Height);
@@ -181,7 +181,7 @@ namespace HtmlRenderer.Boxes
             while (destRect.Y > rectangle.Y)
                 destRect.Y -= imgSize.Height;
 
-            using (var brush = new TextureBrush(img, srcRect))
+            using (var brush = g.Platform.CreateTextureBrush(img, srcRect))
             {
                 brush.TranslateTransform(destRect.X, destRect.Y);
                 g.FillRectangle(brush, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);

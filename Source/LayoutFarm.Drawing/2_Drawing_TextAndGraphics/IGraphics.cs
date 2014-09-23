@@ -17,6 +17,7 @@ namespace LayoutFarm.Drawing
         void SetCanvasOrigin(float x, float y);
         //--------------------------------------------------
 
+        GraphicPlatform Platform { get; }
         /// <summary>
         /// Gets a <see cref="T:System.Drawing.RectangleF"/> structure that bounds the clipping region of this <see cref="T:System.Drawing.Graphics"/>.
         /// </summary>

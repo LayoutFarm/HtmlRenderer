@@ -329,7 +329,7 @@ namespace HtmlRenderer.Drawing
                 int fontAscent = newFont.FontFamily.GetCellAscent(newFont.Style);
                 float descent = newFont.FontFamily.GetCellDescent(newFont.Style);
 
-                fontInfo = new LayoutFarm.Drawing.FontInfo(new LayoutFarm.Drawing.Font(newFont),
+                fontInfo = new LayoutFarm.Drawing.FontInfo(new LayoutFarm.Drawing.WinGdiPlatform.MyFont(newFont),
                     fontHeight,
                     (fontAscent * fontSize / fontEmHeight),
                     (descent * fontSize / fontEmHeight),

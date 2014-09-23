@@ -400,13 +400,14 @@ namespace HtmlRenderer.Demo
             return null;
         }
 
+        LayoutFarm.Drawing.GraphicPlatform gfxPlatform = LayoutFarm.Drawing.WinGdiPlatform.WinGdi.Platform;
         /// <summary>
         /// On image load in renderer set the image by event async.
         /// </summary>
         private void OnImageLoad(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
         {
             var img = TryLoadResourceImage(e.ImagSource);
-            e.SetResultImage(new LayoutFarm.Drawing.Bitmap(img));
+            e.SetResultImage(gfxPlatform.CreateBitmap(img));
 
             //if (!e.Handled && htmlTag != null)
             //{

@@ -34,7 +34,7 @@ namespace Svg.Transforms
         {
             get
             {
-                Matrix matrix = new Matrix();
+                Matrix matrix = CurrentGraphicPlatform.CreateMatrix();
                 matrix.Shear(this.X, this.Y);
                 return matrix;
             }

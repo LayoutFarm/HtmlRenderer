@@ -39,10 +39,6 @@
   <ItemGroup>
     <Compile Include="Events\HtmlRefreshEventArgs.cs" />
     <Compile Include="Events\HtmlRenderErrorEventArgs.cs" />
-    <Compile Include="Platform\Conv.cs" />
-    <Compile Include="Platform\FontsUtils.cs" />
-    <Compile Include="Platform\Win32Utils.cs" />
-    <Compile Include="Platform\WinGraphics.cs" />
     <Compile Include="Platform\WinHtmlRootVisualBoxExtension.cs" />
     <Compile Include="Platform\WinRootVisualBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

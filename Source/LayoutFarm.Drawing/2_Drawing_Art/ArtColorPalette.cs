@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-  
 
-namespace LayoutFarm.Drawing 
+
+namespace LayoutFarm.Drawing
 {
 
     public class ArtGfxInstructionInfo
@@ -161,9 +161,7 @@ namespace LayoutFarm.Drawing
         }
 
         //-----------------------------------
-        public Brush myBrush; 
-        internal System.Drawing.Brush nativeBrush;
-
+        public Brush myBrush;   
         public ArtColorBrush()
         {
         }
@@ -177,31 +175,31 @@ namespace LayoutFarm.Drawing
             }
         }
     }
-    public class ArtSolidBrush : ArtColorBrush
-    {
-        Color color;
-        public ArtSolidBrush(Color color)
-        {
-            this.color = color;
-            this.myBrush = new SolidBrush(color);
-        }
-        public Color Color
-        {
-            get
-            {
-                return color;
-            }
-            set
-            {
-                color = value;
-                if (this.myBrush != null)
-                {
-                    SolidBrush solidBrush = (SolidBrush)myBrush;
-                    solidBrush.Color = value;
-                }
-            }
-        }
-    }
+    //public class ArtSolidBrush : ArtColorBrush
+    //{
+    //    Color color;
+    //    public ArtSolidBrush(Color color)
+    //    {
+    //        this.color = color;
+    //        this.myBrush = new SolidBrush(color);
+    //    }
+    //    public Color Color
+    //    {
+    //        get
+    //        {
+    //            return color;
+    //        }
+    //        set
+    //        {
+    //            color = value;
+    //            if (this.myBrush != null)
+    //            {
+    //                SolidBrush solidBrush = (SolidBrush)myBrush;
+    //                solidBrush.Color = value;
+    //            }
+    //        }
+    //    }
+    //}
     public class ArtGradientColorInfo
     {
         List<Color> colors = new List<Color>();
@@ -236,29 +234,29 @@ namespace LayoutFarm.Drawing
             positions.Add(position);
         }
 
-        internal LinearGradientBrush CreateLinearGradientBrush()
-        {
+        //internal LinearGradientBrush CreateLinearGradientBrush()
+        //{
 
-            if (colors.Count == 2)
-            {
-                return new LinearGradientBrush(
-                     positions[0],
-                     positions[1],
-                     colors[0],
-                     colors[1]);
-            }
-            else if (colors.Count > 2)
-            {
+        //    if (colors.Count == 2)
+        //    {
+        //        return new LinearGradientBrush(
+        //             positions[0],
+        //             positions[1],
+        //             colors[0],
+        //             colors[1]);
+        //    }
+        //    else if (colors.Count > 2)
+        //    {
 
-                return new LinearGradientBrush(
-                    positions[0], positions[1], colors[0], colors[1]);
+        //        return new LinearGradientBrush(
+        //            positions[0], positions[1], colors[0], colors[1]);
 
-            }
-            else
-            {
-                return null;
-            }
-        }
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
     }
     public class ArtGradientBrush : ArtColorBrush
     {
@@ -271,8 +269,7 @@ namespace LayoutFarm.Drawing
         {
 
             this.myBrush = linearGradient;
-            this.nativeBrush = 
-                (System.Drawing.Drawing2D.LinearGradientBrush)linearGradient.InnerBrush;
+             
         }
         public ArtGradientBrush(ArtGradientColorInfo gradientColorInfo)
         {
@@ -290,15 +287,6 @@ namespace LayoutFarm.Drawing
             }
         }
 
-        public void RefreshGradient()
-        {
-            if (myBrush != null)
-            {
-                myBrush.Dispose();
-                myBrush = null;
-            }
-            myBrush = gradientColorInfo.CreateLinearGradientBrush();
 
-        }
     }
 }
