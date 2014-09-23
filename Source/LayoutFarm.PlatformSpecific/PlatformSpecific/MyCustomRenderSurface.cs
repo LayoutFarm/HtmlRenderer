@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-
+using LayoutFarm.Drawing;
 
 
 namespace LayoutFarm
@@ -175,7 +173,7 @@ namespace LayoutFarm
 
         void EvaluateScrollBar()
         {
-            System.Drawing.Size innerContentSize = this.OwnerInnerContentSize;
+            System.Drawing.Size innerContentSize = Conv.ConvFromSize( this.OwnerInnerContentSize);
 
             //viewport_v_largeChange = 32;
             //viewport_v_smallChange = viewport_v_largeChange / 4;

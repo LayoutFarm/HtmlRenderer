@@ -76,6 +76,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LayoutFarm.Drawing.PlatformWinGdi\LayoutFarm.Drawing.PlatformWinGdi.csproj">
+      <Project>{E22C7CED-9DD7-4758-95B4-B315659965C3}</Project>
+      <Name>LayoutFarm.Drawing.PlatformWinGdi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
       <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
       <Name>LayoutFarm.Drawing</Name>

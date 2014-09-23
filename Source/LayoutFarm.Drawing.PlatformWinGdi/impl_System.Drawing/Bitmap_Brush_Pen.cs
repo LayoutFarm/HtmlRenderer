@@ -39,16 +39,16 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         }
     }
 
-    class MyFont : Font
+    public class MyFont : Font
     {
         System.Drawing.Font myFont;
-        public MyFont(System.Drawing.Font f)
+        public MyFont(object f)
         {
-            this.myFont = f;
+            this.myFont = (System.Drawing.Font)f;
         }
         public override string Name
         {
-            get { return this.myFont.Name; } 
+            get { return this.myFont.Name; }
         }
         public override int Height
         {

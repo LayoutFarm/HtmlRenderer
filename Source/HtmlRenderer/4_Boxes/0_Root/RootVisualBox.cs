@@ -340,7 +340,7 @@ namespace HtmlRenderer
             get;
             set;
         }
-
+         
         /// <summary>
         /// Render the html using the given device.
         /// </summary>
@@ -350,10 +350,7 @@ namespace HtmlRenderer
             if (_rootBox == null)
             {
                 return;
-            }
-
-
-
+            } 
             Painter args = new Painter(this, ig);
             float scX = this.ScrollOffset.X;
             float scY = this.ScrollOffset.Y;

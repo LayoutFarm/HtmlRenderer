@@ -7,7 +7,7 @@ using System.Drawing.Drawing2D;
 
 namespace LayoutFarm.Drawing
 {
-     
+
 
     public interface IGraphics : IFonts, IDisposable
     {
@@ -87,7 +87,7 @@ namespace LayoutFarm.Drawing
         /// <param name="image"><see cref="T:System.Drawing.Image"/> to draw. </param><param name="destRect"><see cref="T:System.Drawing.Rectangle"/> structure that specifies the location and size of the drawn image. </param><exception cref="T:System.ArgumentNullException"><paramref name="image"/> is null.</exception><PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/></PermissionSet>
         void DrawImage(Image image, RectangleF destRect);
 
-      
+
         /// <summary>
         /// Fills the interior of a polygon defined by an array of points specified by <see cref="T:System.Drawing.PointF"/> structures.
         /// </summary>
@@ -116,6 +116,7 @@ namespace LayoutFarm.Drawing
 
     public interface IGraphics2
     {
+        object GetInnerGraphic();
     }
 
 }

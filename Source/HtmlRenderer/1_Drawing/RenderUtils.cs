@@ -89,7 +89,7 @@ namespace LayoutFarm.Drawing
                 if (!_brushesCache.TryGetValue(color, out brush))
                 {
 
-                    _brushesCache[color] = brush = CurrentGraphicPlatform.CreateSolidBrushFromColor(color);
+                    _brushesCache[color] = brush = CurrentGraphicPlatform.CreateSolidBrush(color);
 
                 }
                 return brush;

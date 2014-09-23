@@ -67,7 +67,12 @@ namespace TestGraphicPackage2
           out UISurfaceViewportControl viewport,
           out Form formCanvas)
         {
-            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = new TextFontInfo(new Font("tahoma", 10), new BasicGdi32FontHelper());
+            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo =
+                new TextFontInfo(
+                    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
+                     new System.Drawing.Font("tahoma", 10)),
+                    new BasicGdi32FontHelper());
+
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(out viewport);
             formCanvas.Text = "FormCanvas 1";
 
@@ -78,8 +83,8 @@ namespace TestGraphicPackage2
 
         }
 
-       
-       
+
+
 
         void LoadHtmlTestView(string filename)
         {
@@ -94,8 +99,8 @@ namespace TestGraphicPackage2
             ShowFormlayoutInspectIfNeed(viewport);
 
         }
-         
-        
+
+
         void ShowFormlayoutInspectIfNeed(UISurfaceViewportControl viewport)
         {
             if (this.chkShowLayoutInspector.Checked)
@@ -103,12 +108,12 @@ namespace TestGraphicPackage2
                 ShowFormLayoutInspector(viewport);
             }
         }
-      
-       
- 
-         
 
-      
+
+
+
+
+
         void LoadDemoList()
         {
             this.lstDemoList.Items.Clear();
@@ -151,6 +156,6 @@ namespace TestGraphicPackage2
                 this.lstDemoList.Items.Add(demo);
             }
 
-        } 
+        }
     }
 }

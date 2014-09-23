@@ -20,6 +20,6 @@ namespace LayoutFarm.Drawing
 
     public abstract class StringFormat
     {
-
+        public abstract object InnerFormat { get; }
     }
 }

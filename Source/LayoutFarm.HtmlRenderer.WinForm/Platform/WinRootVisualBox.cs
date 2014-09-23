@@ -109,6 +109,11 @@ namespace HtmlRenderer
             this.activeCssSheet = activeCss;
             base.SetRootCssBox(rootBox);
         }
+        public void PerformPaint(IGraphics2 g)
+        {
+
+            PerformPaint(g.GetInnerGraphic() as Graphics);
+        }
         public void PerformPaint(Graphics g)
         {
             if (doc == null)
@@ -125,7 +130,6 @@ namespace HtmlRenderer
                     g.SetClip(new System.Drawing.RectangleF(
                         Conv.ConvFromPointF(this.Location),
                         Conv.ConvFromSizeF(this.MaxSize)));
-
                 }
 
                 //------------------------------------------------------

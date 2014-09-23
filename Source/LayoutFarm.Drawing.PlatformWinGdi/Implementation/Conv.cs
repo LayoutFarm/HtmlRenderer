@@ -41,7 +41,10 @@ namespace LayoutFarm.Drawing
         {
             return new LayoutFarm.Drawing.Size(size.Width, size.Height);
         }
-        
+        public static System.Drawing.Size ConvFromSize(LayoutFarm.Drawing.Size size)
+        {
+            return new System.Drawing.Size(size.Width, size.Height);
+        }
         //------------------------------------------------
         public static System.Drawing.RectangleF ConvFromRectF(LayoutFarm.Drawing.RectangleF rect)
         {
@@ -50,6 +53,15 @@ namespace LayoutFarm.Drawing
         public static LayoutFarm.Drawing.RectangleF ConvToRectF(System.Drawing.RectangleF rect)
         {
             return new LayoutFarm.Drawing.RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+        }
+        //------------------------------------------------
+        public static System.Drawing.Rectangle ConvFromRect(LayoutFarm.Drawing.Rectangle rect)
+        {
+            return new System.Drawing.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
+        }
+        public static LayoutFarm.Drawing.Rectangle ConvToRect(System.Drawing.Rectangle rect)
+        {
+            return new LayoutFarm.Drawing.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
         }
         //------------------------------------------------
         public static System.Drawing.Drawing2D.CombineMode FromCombineMode(LayoutFarm.Drawing.CombineMode mode)

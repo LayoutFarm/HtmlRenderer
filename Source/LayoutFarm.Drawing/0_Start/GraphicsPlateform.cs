@@ -46,7 +46,7 @@ namespace LayoutFarm.Drawing
             CurrentGraphicPlatform.platform = platform;
         }
 
-        public static SolidBrush CreateSolidBrushFromColor(Color c)
+        public static SolidBrush CreateSolidBrush(Color c)
         {
             return platform.CreateSolidBrush(c);
         }
@@ -66,6 +66,10 @@ namespace LayoutFarm.Drawing
         {
             get;
             set;
+        }
+        public static Font CreateFont(object f)
+        {
+            return platform.CreateFont(f);
         }
 
     }

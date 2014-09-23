@@ -123,12 +123,9 @@ namespace LayoutFarm
         public override void ClearAllChildren()
         {
 
-        }
-
-    
+        } 
         protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
-        {
-
+        {  
             _visualRootBox.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
             _visualRootBox.PerformPaint(canvasPage.GetGfx());
         }

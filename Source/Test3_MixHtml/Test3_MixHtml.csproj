@@ -67,6 +67,10 @@
       <Project>{E22C7CED-9DD7-4758-95B4-B315659965C3}</Project>
       <Name>LayoutFarm.Drawing.PlatformWinGdi</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
+      <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
+      <Name>LayoutFarm.Drawing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlRenderer.WinForm\LayoutFarm.HtmlRenderer.WinForm.csproj">
       <Project>{C66B2968-E6F6-4BBC-BC7B-9780F7B1A628}</Project>
       <Name>LayoutFarm.HtmlRenderer.WinForm</Name>
