@@ -114,7 +114,8 @@ namespace LayoutFarm.Drawing
         //------------------------------------------   
     }
 
-
-
+    public interface IGraphics2
+    {
+    }
 
 }

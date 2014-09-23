@@ -79,7 +79,7 @@ namespace LayoutFarm.Drawing
         public static readonly Color Yellow = new Color(255, 255, 255, 0);
         public static readonly Color LightGray = new Color(0xFF, 0xD3, 0xD3, 0xD3);
         public static readonly Color Gray = new Color(0xFF, 0x80, 0x80, 0x80);
-       
+        
         
         public static readonly Color Green = new Color(0xFF, 0x00, 0x80, 0x00);
         public static readonly Color OrangeRed = new Color(0xFF, 0xFF, 0x45, 0x00);//0xFF FF 45 00

@@ -47,6 +47,7 @@
     <Compile Include="1_impl_System.Drawing\KnownColors.cs" />
     <Compile Include="1_impl_System.Drawing\Rectangle.cs" />
     <Compile Include="1_impl_System.Drawing\RectangleF.cs" />
+    <Compile Include="1_impl_System.Drawing\Region.cs" />
     <Compile Include="2_Drawing_TextAndGraphics\FontInfo.cs" />
     <Compile Include="2_Drawing_TextAndGraphics\IFonts.cs" />
     <Compile Include="2_Drawing_TextAndGraphics\IGraphics.cs" />
@@ -57,6 +58,9 @@
     <Compile Include="2_Drawing_Art\GfxProcessorModule.cs" />
     <Compile Include="0_Start\GraphicsPlateform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="3_LeanBoxDrawing\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

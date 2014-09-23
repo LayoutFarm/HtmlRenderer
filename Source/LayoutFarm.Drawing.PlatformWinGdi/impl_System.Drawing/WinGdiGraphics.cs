@@ -5,8 +5,15 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
     public static class WinGdi
     {
         static WinGdiGraphicsPlateform platform;
+        static bool isInit;
         public static void Start()
         {
+            if (isInit)
+            {
+                return;
+            }
+            isInit = true;
+
             platform = new WinGdiGraphicsPlateform();
             CurrentGraphicPlatform.SetCurrentPlatform(platform);
             CurrentGraphicPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
@@ -81,6 +88,10 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         public override GraphicsPath CreateGraphicPath()
         {
             return new MyGraphicsPath();
+        }
+        public override Region CreateRegion()
+        {
+            return new MyRegion();
         }
     }
 }

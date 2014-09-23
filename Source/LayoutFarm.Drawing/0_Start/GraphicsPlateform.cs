@@ -23,7 +23,7 @@ namespace LayoutFarm.Drawing
 
         public abstract GraphicsPath CreateGraphicPath();
 
-
+        public abstract Region CreateRegion();
 
     }
 

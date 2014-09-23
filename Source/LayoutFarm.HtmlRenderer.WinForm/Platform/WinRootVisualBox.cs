@@ -118,7 +118,7 @@ namespace HtmlRenderer
 
             using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
             {
-                Region prevClip = null;
+                System.Drawing.Region prevClip = null;
                 if (this.MaxSize.Height > 0)
                 {
                     prevClip = g.Clip;

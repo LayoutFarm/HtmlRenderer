@@ -1,4 +1,4 @@
-﻿ 
+﻿
 
 namespace LayoutFarm.Drawing
 {
@@ -46,6 +46,7 @@ namespace LayoutFarm.Drawing
         {
             return base.GetHashCode();
         }
+        public static readonly Point Empty = new Point();
     }
     public struct PointF
     {
@@ -82,10 +83,12 @@ namespace LayoutFarm.Drawing
         public int Width
         {
             get { return this._w; }
+            set { this._w = value; }
         }
         public int Height
         {
             get { return this._h; }
+            set { this._h = value; }
         }
         public static bool operator ==(Size s1, Size s2)
         {
@@ -107,7 +110,9 @@ namespace LayoutFarm.Drawing
         {
             return base.GetHashCode();
         }
-       
+
+        public static readonly Size Empty = new Size();
+
     }
     public struct SizeF
     {

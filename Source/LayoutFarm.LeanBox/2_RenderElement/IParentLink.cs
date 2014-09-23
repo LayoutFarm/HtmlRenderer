@@ -3,15 +3,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+using LayoutFarm.Drawing;
+
 namespace LayoutFarm
 {
-    
+
     public interface IParentLink
-    { 
+    {
         bool MayHasOverlapChild { get; }
-        RenderElement ParentVisualElement { get; } 
-        void AdjustLocation(ref System.Drawing.Point p);  
-        RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, System.Drawing.Point point);
+        RenderElement ParentVisualElement { get; }
+        void AdjustLocation(ref  Point p);
+        RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point);
         RenderElement NotifyParentToInvalidate(out bool goToFinalExit
 
 #if DEBUG
@@ -36,7 +38,7 @@ namespace LayoutFarm
             this.ownerLayer = ownerLayer;
             this.internalLinkedNode = internalLinkedNode;
         }
-        public RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, System.Drawing.Point point)
+        public RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
             var curnode = internalLinkedNode.Previous;
             while (curnode != null)
@@ -50,8 +52,8 @@ namespace LayoutFarm
             }
             return null;
         }
-        
-        
+
+
         public bool MayHasOverlapChild
         {
             get
@@ -59,7 +61,7 @@ namespace LayoutFarm
                 return true;
             }
         }
-       
+
         public RenderElement ParentVisualElement
         {
             get
@@ -84,10 +86,10 @@ namespace LayoutFarm
             goToFinalExit = false;
             return ownerLayer.InvalidateArrangement();
         }
-        public void AdjustLocation(ref System.Drawing.Point p)
+        public void AdjustLocation(ref  Point p)
         {
 
         }
-        
+
     }
 }

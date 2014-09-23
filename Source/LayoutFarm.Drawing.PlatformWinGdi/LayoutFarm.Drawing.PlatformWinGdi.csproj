@@ -40,6 +40,7 @@
     <Compile Include="Implementation\FontsUtils.cs" />
     <Compile Include="Implementation\Win32Utils.cs" />
     <Compile Include="Implementation\WinGraphics.cs" />
+    <Compile Include="impl_System.Drawing.Drawing2D\Region.cs" />
     <Compile Include="impl_System.Drawing\Bitmap_Brush_Pen.cs" />
     <Compile Include="impl_System.Drawing\MyMatrix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

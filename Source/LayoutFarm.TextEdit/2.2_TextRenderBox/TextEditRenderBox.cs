@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
+using LayoutFarm.Drawing;
 
 namespace LayoutFarm.Text
 {
@@ -105,7 +105,9 @@ namespace LayoutFarm.Text
             hScrollEventArgs = null;
             vScrollEventArgs = null;
 
-            System.Drawing.Size innerContentSize = this.InnerContentSize; if (x < 0)
+            Size innerContentSize = this.InnerContentSize;
+
+            if (x < 0)
             {
                 x = 0;
             }
@@ -169,7 +171,7 @@ namespace LayoutFarm.Text
         void MyScrollByNotRaiseEvent(int dx, int dy, out UIScrollEventArgs hScrollEventArgs, out UIScrollEventArgs vScrollEventArgs)
         {
             vScrollEventArgs = null;
-            System.Drawing.Size innerContentSize = this.InnerContentSize;
+            Size innerContentSize = this.InnerContentSize;
             if (dy < 0)
             {
                 int old_y = this.ViewportY;
