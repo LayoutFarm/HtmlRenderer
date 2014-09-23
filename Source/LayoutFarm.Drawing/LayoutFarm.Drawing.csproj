@@ -32,7 +32,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="1_impl_System.Drawing.Drawing2D\CombineMode.cs" />
@@ -45,6 +44,7 @@
     <Compile Include="1_impl_System.Drawing.Drawing2D\GraphicsPath.cs" />
     <Compile Include="1_impl_System.Drawing\FontStyle.cs" />
     <Compile Include="1_impl_System.Drawing\Image.cs" />
+    <Compile Include="1_impl_System.Drawing\KnownColors.cs" />
     <Compile Include="1_impl_System.Drawing\Rectangle.cs" />
     <Compile Include="1_impl_System.Drawing\RectangleF.cs" />
     <Compile Include="2_Drawing_TextAndGraphics\FontInfo.cs" />

@@ -262,7 +262,7 @@ namespace LayoutFarm.SvgDom
         }
         static GraphicsPath CreateRectGraphicPath(float x, float y, float w, float h)
         {
-            var _path = new GraphicsPath();
+            var _path = CurrentGraphicPlatform.CreateGraphicPath();
             _path.StartFigure();
             _path.AddRectangle(new RectangleF(x, y, w, h));
             _path.CloseFigure();
@@ -270,7 +270,7 @@ namespace LayoutFarm.SvgDom
         }
         static GraphicsPath CreateRoundRectGraphicPath(float x, float y, float w, float h, float c_rx, float c_ry)
         {
-            var _path = new GraphicsPath();
+            var _path = CurrentGraphicPlatform.CreateGraphicPath();
             var arcBounds = new RectangleF();
             var lineStart = new PointF();
             var lineEnd = new PointF();
@@ -414,7 +414,7 @@ namespace LayoutFarm.SvgDom
             this.ActualRadius = ConvertToPx(myspec.Radius, containerW, emHeight);
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
 
-            _path = new GraphicsPath();
+            _path = CurrentGraphicPlatform.CreateGraphicPath();
             _path.StartFigure();
             _path.AddEllipse(this.ActualX - this.ActualRadius, this.ActualY - this.ActualRadius, 2 * this.ActualRadius, 2 * ActualRadius);
             _path.CloseFigure();
@@ -500,7 +500,7 @@ namespace LayoutFarm.SvgDom
 
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
 
-            this._path = new GraphicsPath();
+            this._path = CurrentGraphicPlatform.CreateGraphicPath();
             _path.StartFigure();
             _path.AddEllipse(this.ActualX - this.ActualRadiusX, this.ActualY - this.ActualRadiusY, 2 * this.ActualRadiusX, 2 * this.ActualRadiusY);
             _path.CloseFigure();
@@ -559,7 +559,7 @@ namespace LayoutFarm.SvgDom
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
 
 
-            this._path = new GraphicsPath();
+            this._path = CurrentGraphicPlatform.CreateGraphicPath();
             this._path.StartFigure();
 
 
@@ -631,7 +631,7 @@ namespace LayoutFarm.SvgDom
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
 
 
-            this._path = new GraphicsPath();
+            this._path = CurrentGraphicPlatform.CreateGraphicPath();
             PointF[] plist = this.pointList;
             int lim = plist.Length - 1;
             for (int i = 0; i < lim; ++i)

@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-  
 
-namespace LayoutFarm.Drawing 
+
+namespace LayoutFarm.Drawing
 {
 
     public class ArtGfxInstructionInfo
@@ -161,9 +161,7 @@ namespace LayoutFarm.Drawing
         }
 
         //-----------------------------------
-        public Brush myBrush; 
-        internal System.Drawing.Brush nativeBrush;
-
+        public Brush myBrush;   
         public ArtColorBrush()
         {
         }
@@ -271,8 +269,7 @@ namespace LayoutFarm.Drawing
         {
 
             this.myBrush = linearGradient;
-            this.nativeBrush = 
-                (System.Drawing.Drawing2D.LinearGradientBrush)linearGradient.InnerBrush;
+             
         }
         public ArtGradientBrush(ArtGradientColorInfo gradientColorInfo)
         {
@@ -290,6 +287,6 @@ namespace LayoutFarm.Drawing
             }
         }
 
-       
+
     }
 }

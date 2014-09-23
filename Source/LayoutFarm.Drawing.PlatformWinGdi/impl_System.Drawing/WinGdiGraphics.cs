@@ -8,8 +8,8 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         public static void Start()
         {
             platform = new WinGdiGraphicsPlateform();
-            GraphicPlatform.SetCurrentPlatform(platform);
-            GraphicPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
+            CurrentGraphicPlatform.SetCurrentPlatform(platform);
+            CurrentGraphicPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
         }
         public static void End()
         {
@@ -69,6 +69,18 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         public override LinearGradientBrush CreateLinearGradientBrush(RectangleF rect, Color startColor, Color stopColor, float angle)
         {
             return new MyLinearGradientBrush(rect, startColor, stopColor, angle);
+        }
+        public override Matrix CreateMatrix()
+        {
+            return new MyMatrix();
+        }
+        public override Matrix CreateMatrix(float m11, float m12, float m21, float m22, float dx, float dy)
+        {
+            return new MyMatrix(m11,m12,m21,m22,dx,dy);
+        }
+        public override GraphicsPath CreateGraphicPath()
+        {
+            return new MyGraphicsPath();
         }
     }
 }

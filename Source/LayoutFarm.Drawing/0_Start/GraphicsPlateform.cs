@@ -18,19 +18,24 @@ namespace LayoutFarm.Drawing
 
         public abstract LinearGradientBrush CreateLinearGradientBrush(PointF startPoint, PointF stopPoint, Color startColor, Color stopColor);
         public abstract LinearGradientBrush CreateLinearGradientBrush(RectangleF rect, Color startColor, Color stopColor, float angle);
-      
+        public abstract Matrix CreateMatrix();
+        public abstract Matrix CreateMatrix(float m11, float m12, float m21, float m22, float dx, float dy);
+
+        public abstract GraphicsPath CreateGraphicPath();
 
 
 
-        public static string GenericSerifFontName
-        {
-            get;
-            set;
-        }
+    }
 
+    public static class CurrentGraphicPlatform
+    {
         static bool isInit;
         static GraphicPlatform platform;
 
+        public static GraphicPlatform P
+        {
+            get { return platform; }
+        }
         public static void SetCurrentPlatform(GraphicPlatform platform)
         {
             if (isInit)
@@ -38,7 +43,7 @@ namespace LayoutFarm.Drawing
                 return;
             }
             isInit = true;
-            GraphicPlatform.platform = platform;
+            CurrentGraphicPlatform.platform = platform;
         }
 
         public static SolidBrush CreateSolidBrushFromColor(Color c)
@@ -49,6 +54,20 @@ namespace LayoutFarm.Drawing
         {
             return platform.CreateSolidPen(c);
         }
+        public static Matrix CreateMatrix()
+        {
+            return platform.CreateMatrix();
+        }
+        public static GraphicsPath CreateGraphicPath()
+        {
+            return platform.CreateGraphicPath();
+        }
+        public static string GenericSerifFontName
+        {
+            get;
+            set;
+        }
+
     }
 
 

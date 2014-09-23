@@ -88,13 +88,14 @@ namespace LayoutFarm.Drawing
 
 
 
-        internal static Color ColorFromDrawingColor(System.Drawing.Color c)
-        {
-            return new Color(c.A, c.R, c.G, c.B);
-        }
+        //internal static Color ColorFromDrawingColor(System.Drawing.Color c)
+        //{
+        //    return new Color(c.A, c.R, c.G, c.B);
+        //}
         public static Color FromName(string name)
         {
-            var color = System.Drawing.Color.FromName(name);
+
+            var color = KnownColors.FromKnownColor(name);
             return new Color(color.A, color.R, color.G, color.B);
 
         }

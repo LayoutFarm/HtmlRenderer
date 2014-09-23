@@ -21,7 +21,7 @@ namespace Svg.Transforms
         {
             get
             {
-                var matrix = new Matrix();
+                var matrix = CurrentGraphicPlatform.CreateMatrix();
                 matrix.Shear(
                     (float)Math.Tan(AngleX/180*Math.PI),
                     (float)Math.Tan(AngleY/180*Math.PI));

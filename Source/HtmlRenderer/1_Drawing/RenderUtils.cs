@@ -89,7 +89,7 @@ namespace LayoutFarm.Drawing
                 if (!_brushesCache.TryGetValue(color, out brush))
                 {
 
-                    _brushesCache[color] = brush = GraphicPlatform.CreateSolidBrushFromColor(color);
+                    _brushesCache[color] = brush = CurrentGraphicPlatform.CreateSolidBrushFromColor(color);
 
                 }
                 return brush;
@@ -106,7 +106,7 @@ namespace LayoutFarm.Drawing
             Pen pen;
             if (!_penCache.TryGetValue(color, out pen))
             {
-                pen = GraphicPlatform.CreatePen(color);
+                pen = CurrentGraphicPlatform.CreatePen(color);
                 //pen = new Pen(GetSolidBrush(color));
                 _penCache[color] = pen;
             }
@@ -156,7 +156,7 @@ namespace LayoutFarm.Drawing
             //  |       |
             //  SW-----SE
 
-            var path = new GraphicsPath();
+            var path = CurrentGraphicPlatform.P.CreateGraphicPath();
 
             nwRadius *= 2;
             neRadius *= 2;
