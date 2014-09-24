@@ -39,43 +39,35 @@ namespace HtmlRenderer.Drawing
     /// Utils for fonts and fonts families handling.
     /// </summary>
     static class FontsUtils
-    {
-
-
-        #region Fields and Consts
+    { 
 
         /// <summary>
         /// Allow to map not installed fonts to different
         /// </summary>
-        private static readonly Dictionary<string, string> _fontsMapping = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+        static readonly Dictionary<string, string> _fontsMapping = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 
         /// <summary>
         /// collection of all installed and added font families to check if font exists
         /// </summary>
-        private static readonly Dictionary<string, System.Drawing.FontFamily> _existingFontFamilies = new Dictionary<string, System.Drawing.FontFamily>(StringComparer.InvariantCultureIgnoreCase);
+        static readonly Dictionary<string, System.Drawing.FontFamily> _existingFontFamilies = new Dictionary<string, System.Drawing.FontFamily>(StringComparer.InvariantCultureIgnoreCase);
 
 
         /// <summary>
         /// cache of H fonts for managed fonts
         /// </summary>
-        private static readonly Dictionary<System.Drawing.Font, IntPtr> _fontsUnmanagedCache = new Dictionary<System.Drawing.Font, IntPtr>();
+        static readonly Dictionary<System.Drawing.Font, IntPtr> _fontsUnmanagedCache = new Dictionary<System.Drawing.Font, IntPtr>();
 
         /// <summary>
         /// cache of fonts height.<br/>
         /// Not to call Font.GetHeight() each time it is required
         /// </summary>
-        private static readonly Dictionary<System.Drawing.Font, float> _fontHeightCache = new Dictionary<System.Drawing.Font, float>();
+        static readonly Dictionary<System.Drawing.Font, float> _fontHeightCache = new Dictionary<System.Drawing.Font, float>();
 
 
         static readonly Dictionary<System.Drawing.Font, LayoutFarm.Drawing.FontInfo> _fontInfoCache = new Dictionary<System.Drawing.Font, LayoutFarm.Drawing.FontInfo>();
         static readonly Dictionary<FontKey, LayoutFarm.Drawing.FontInfo> _fontsCache = new Dictionary<FontKey, LayoutFarm.Drawing.FontInfo>();
         static readonly Dictionary<System.Drawing.Font, float> _fontWsCache = new Dictionary<System.Drawing.Font, float>();
-
-
-        #endregion
-
-
-
+         
 
 
         /// <summary>

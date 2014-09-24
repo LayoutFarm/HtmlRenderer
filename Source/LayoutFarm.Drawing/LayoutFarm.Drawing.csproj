@@ -57,6 +57,8 @@
     <Compile Include="2_Drawing_Art\ColorComponentStepup.cs" />
     <Compile Include="2_Drawing_Art\GfxProcessorModule.cs" />
     <Compile Include="0_Start\GraphicsPlateform.cs" />
+    <Compile Include="4_Animation\ArtAnimationTimelines.cs" />
+    <Compile Include="4_Animation\ArtParallelTimeline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

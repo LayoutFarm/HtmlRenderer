@@ -64,8 +64,6 @@
     <Compile Include="1_Drawing\FontDefaultConfig.cs" />
     <Compile Include="1_Drawing\RenderGraphicObjects.cs" />
     <Compile Include="4_Boxes\7_HitAndSelections\SelectionRange.cs" />
-    <Compile Include="4_Boxes\4_Animation\ArtAnimationTimelines.cs" />
-    <Compile Include="4_Boxes\4_Animation\ArtParallelTimeline.cs" />
     <Compile Include="4_Boxes\1_CoreBox\CssBox_Spec_Snap.cs" />
     <Compile Include="4_Boxes\2_Runs\CssBlockRun.cs" />
     <Compile Include="4_Boxes\7_HitAndSelections\BoxHitChain.cs" />

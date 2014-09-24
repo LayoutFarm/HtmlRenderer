@@ -184,7 +184,8 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         }
 
     }
-    public class MyLinearGradientBrush : LinearGradientBrush
+     
+    class MyLinearGradientBrush : LinearGradientBrush
     {
         PointF startPoint;
         PointF stopPoint;

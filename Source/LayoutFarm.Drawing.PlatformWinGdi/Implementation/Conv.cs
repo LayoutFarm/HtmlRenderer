@@ -1,7 +1,6 @@
 ﻿//BSD 2014, WinterDev
 using System;
-using System.Collections.Generic;
-
+using System.Collections.Generic; 
 
 namespace LayoutFarm.Drawing
 {
@@ -9,7 +8,7 @@ namespace LayoutFarm.Drawing
     /// conversion helper
     /// </summary>
     public static class Conv
-    {
+    {   
         public static System.Drawing.PointF ConvFromPointF(LayoutFarm.Drawing.PointF pointf)
         {
             return new System.Drawing.PointF(pointf.X, pointf.Y);

@@ -9,8 +9,7 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm.Drawing.Animation
 {
-
-
+     
     /// <summary>
     /// describe property change in an interval ?
     /// </summary>

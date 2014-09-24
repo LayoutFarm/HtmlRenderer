@@ -4,7 +4,7 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
 {
 
 
-    public class MyGraphicsPath : GraphicsPath
+    class MyGraphicsPath : GraphicsPath
     {
         System.Drawing.Drawing2D.GraphicsPath p;
         public MyGraphicsPath()
