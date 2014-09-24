@@ -10,17 +10,17 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using System; 
+using System;
 using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Drawing.Drawing2D;
- 
-namespace HtmlRenderer.Drawing.Win32
+
+namespace HtmlRenderer.Drawing 
 {
     /// <summary>
     /// Utility for Win32 API.
     /// </summary>
-    public static class Win32Utils
+    static class Win32Utils
     {
         /// <summary>
         /// Const for BitBlt copy raster-operation code.
@@ -176,7 +176,7 @@ namespace HtmlRenderer.Drawing.Win32
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct BlendFunction
+    struct BlendFunction
     {
         public byte BlendOp;
         public byte BlendFlags;
@@ -193,7 +193,7 @@ namespace HtmlRenderer.Drawing.Win32
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct BitMapInfo
+    struct BitMapInfo
     {
         public int biSize;
         public int biWidth;

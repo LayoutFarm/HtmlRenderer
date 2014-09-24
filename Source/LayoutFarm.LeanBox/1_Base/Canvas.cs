@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
-using System.Drawing.Drawing2D;
+using LayoutFarm.Drawing;
+
 namespace LayoutFarm
 {
 
@@ -28,7 +28,7 @@ namespace LayoutFarm
             get;
             set;
         }
-        public abstract Graphics GetGfx();
+        public abstract IGraphics2 GetGfx();
         public abstract void MarkAsFirstTimeInvalidateAndUpdateContent();
 
         public abstract bool IsFromPrinter
@@ -59,7 +59,7 @@ namespace LayoutFarm
 
         public abstract void DisableClipArea();
         public abstract void EnableClipArea();
-        public abstract void SetClip(RectangleF clip, System.Drawing.Drawing2D.CombineMode combineMode);
+        public abstract void SetClip(RectangleF clip, CombineMode combineMode);
 
         public abstract Rectangle CurrentClipRect
         {

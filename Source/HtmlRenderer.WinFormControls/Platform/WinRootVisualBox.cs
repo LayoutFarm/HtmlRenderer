@@ -10,7 +10,9 @@ using HtmlRenderer.WebDom;
 using HtmlRenderer.Drawing;
 using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Diagnostics;
+ 
 
+ 
 
 namespace HtmlRenderer
 {
@@ -122,10 +124,11 @@ namespace HtmlRenderer
                 Region prevClip = null;
                 if (this.MaxSize.Height > 0)
                 {
+                    
                     prevClip = g.Clip;
-                    g.SetClip(new System.Drawing.RectangleF(
-                       LayoutFarm.Drawing.Conv.ConvFromPointF(this.Location),
-                       LayoutFarm.Drawing.Conv.ConvFromSizeF(this.MaxSize)));
+                    g.SetClip(new System.Drawing.RectangleF(                       
+                       LayoutFarm.Drawing.Conv.ToPointF(this.Location),
+                       LayoutFarm.Drawing.Conv.ToSizeF(this.MaxSize)));
                 }
                 //------------------------------------------------------
 

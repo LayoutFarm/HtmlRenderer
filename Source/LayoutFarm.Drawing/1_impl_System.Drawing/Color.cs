@@ -30,7 +30,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System.Drawing;
+
 namespace LayoutFarm.Drawing
 {
     public struct Color
@@ -59,7 +59,10 @@ namespace LayoutFarm.Drawing
         {
             get { return this.a; }
         }
-        
+        public static Color FromArgb(int a, Color c)
+        {
+            return new Color((byte)a, c.R, c.G, c.B);
+        }
         public static Color FromArgb(int a, int r, int g, int b)
         {
             return new Color((byte)a, (byte)r, (byte)g, (byte)b);
@@ -79,13 +82,13 @@ namespace LayoutFarm.Drawing
         public static readonly Color Yellow = new Color(255, 255, 255, 0);
         public static readonly Color LightGray = new Color(0xFF, 0xD3, 0xD3, 0xD3);
         public static readonly Color Gray = new Color(0xFF, 0x80, 0x80, 0x80);
-       
-        
+
+
         public static readonly Color Green = new Color(0xFF, 0x00, 0x80, 0x00);
         public static readonly Color OrangeRed = new Color(0xFF, 0xFF, 0x45, 0x00);//0xFF FF 45 00
         public static readonly Color DeepPink = new Color(0xFF, 0xFF, 0x14, 0x93);
-
-
+        public static readonly Color Magenta = new Color(0xFF, 0xFF, 0,0xFF);
+       
 
 
         //internal static Color ColorFromDrawingColor(System.Drawing.Color c)

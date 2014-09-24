@@ -47,6 +47,7 @@
     <Compile Include="HtmlPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Platform\WinGdiPlatform.cs" />
     <Compile Include="Platform\WinHtmlRootVisualBoxExtension.cs" />
     <Compile Include="Platform\WinRootVisualBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

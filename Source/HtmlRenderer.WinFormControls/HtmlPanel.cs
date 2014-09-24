@@ -19,6 +19,8 @@ using HtmlRenderer.Drawing;
 using HtmlRenderer.Css;
 using HtmlRenderer.ContentManagers;
 
+using Conv = LayoutFarm.Drawing.Conv;
+
 namespace HtmlRenderer
 {
     /// <summary>
@@ -79,7 +81,6 @@ namespace HtmlRenderer
         /// the base stylesheet data used in the control
         /// </summary>
         private WebDom.CssActiveSheet _baseCssData;
-
 
 
 
@@ -352,11 +353,10 @@ namespace HtmlRenderer
             if (_visualRootBox != null)
             {
 
-                _visualRootBox.ScrollOffset = LayoutFarm.Drawing.Conv.ConvToPointF(AutoScrollPosition);
-                _visualRootBox.PhysicalViewportBound = LayoutFarm.Drawing.Conv.ConvToRectF(this.Bounds);
-
+                _visualRootBox.ScrollOffset = Conv.ToPointF(AutoScrollPosition);
+                _visualRootBox.PhysicalViewportBound = Conv.ToRectF(this.Bounds);
+                
                 _visualRootBox.PerformPaint(e.Graphics);
-
                 // call mouse move to handle paint after scroll or html change affecting mouse cursor.
                 //var mp = PointToClient(MousePosition);
                 //_htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0));
@@ -551,7 +551,7 @@ namespace HtmlRenderer
         private void UpdateScroll(Point location)
         {
             AutoScrollPosition = location;
-            _visualRootBox.ScrollOffset = LayoutFarm.Drawing.Conv.ConvToPoint( AutoScrollPosition);
+            _visualRootBox.ScrollOffset = Conv.ToPoint(AutoScrollPosition);
         }
 
         /// <summary>

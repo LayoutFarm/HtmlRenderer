@@ -65,7 +65,11 @@ namespace TestGraphicPackage2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = new TextFontInfo(new Font("tahoma", 10), new BasicGdi32FontHelper());
+            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = new
+                TextFontInfo(
+                    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
+                    new System.Drawing.Font("tahoma", 10)),
+                new BasicGdi32FontHelper());
 
 
             UISurfaceViewportControl viewport;

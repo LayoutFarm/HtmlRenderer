@@ -7,8 +7,8 @@ using System.ComponentModel;
 
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Drawing.Drawing2D;
-using System.Drawing;
+
+using LayoutFarm.Drawing;
 
 namespace LayoutFarm.Text
 {

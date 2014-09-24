@@ -38,44 +38,36 @@ namespace HtmlRenderer.Drawing
     /// <summary>
     /// Utils for fonts and fonts families handling.
     /// </summary>
-    public static class FontsUtils
-    {
-
-
-        #region Fields and Consts
+    static class FontsUtils
+    { 
 
         /// <summary>
         /// Allow to map not installed fonts to different
         /// </summary>
-        private static readonly Dictionary<string, string> _fontsMapping = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+        static readonly Dictionary<string, string> _fontsMapping = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 
         /// <summary>
         /// collection of all installed and added font families to check if font exists
         /// </summary>
-        private static readonly Dictionary<string, System.Drawing.FontFamily> _existingFontFamilies = new Dictionary<string, System.Drawing.FontFamily>(StringComparer.InvariantCultureIgnoreCase);
+        static readonly Dictionary<string, System.Drawing.FontFamily> _existingFontFamilies = new Dictionary<string, System.Drawing.FontFamily>(StringComparer.InvariantCultureIgnoreCase);
 
 
         /// <summary>
         /// cache of H fonts for managed fonts
         /// </summary>
-        private static readonly Dictionary<System.Drawing.Font, IntPtr> _fontsUnmanagedCache = new Dictionary<System.Drawing.Font, IntPtr>();
+        static readonly Dictionary<System.Drawing.Font, IntPtr> _fontsUnmanagedCache = new Dictionary<System.Drawing.Font, IntPtr>();
 
         /// <summary>
         /// cache of fonts height.<br/>
         /// Not to call Font.GetHeight() each time it is required
         /// </summary>
-        private static readonly Dictionary<System.Drawing.Font, float> _fontHeightCache = new Dictionary<System.Drawing.Font, float>();
+        static readonly Dictionary<System.Drawing.Font, float> _fontHeightCache = new Dictionary<System.Drawing.Font, float>();
 
 
         static readonly Dictionary<System.Drawing.Font, LayoutFarm.Drawing.FontInfo> _fontInfoCache = new Dictionary<System.Drawing.Font, LayoutFarm.Drawing.FontInfo>();
         static readonly Dictionary<FontKey, LayoutFarm.Drawing.FontInfo> _fontsCache = new Dictionary<FontKey, LayoutFarm.Drawing.FontInfo>();
         static readonly Dictionary<System.Drawing.Font, float> _fontWsCache = new Dictionary<System.Drawing.Font, float>();
-
-
-        #endregion
-
-
-
+         
 
 
         /// <summary>
@@ -329,7 +321,8 @@ namespace HtmlRenderer.Drawing
                 int fontAscent = newFont.FontFamily.GetCellAscent(newFont.Style);
                 float descent = newFont.FontFamily.GetCellDescent(newFont.Style);
 
-                fontInfo = new LayoutFarm.Drawing.FontInfo(new LayoutFarm.Drawing.WinGdiPlatform.MyFont(newFont),
+                fontInfo = new LayoutFarm.Drawing.FontInfo(
+                    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(newFont),                     
                     fontHeight,
                     (fontAscent * fontSize / fontEmHeight),
                     (descent * fontSize / fontEmHeight),

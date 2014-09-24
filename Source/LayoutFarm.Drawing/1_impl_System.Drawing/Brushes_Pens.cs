@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿
 namespace LayoutFarm.Drawing
 {
     public abstract class Brush : System.IDisposable
@@ -30,11 +30,11 @@ namespace LayoutFarm.Drawing
 
     public static class Brushes
     {
-        public static SolidBrush White = CurrentGraphicPlatform.CreateSolidBrushFromColor(Color.White);
-        public static SolidBrush Black = CurrentGraphicPlatform.CreateSolidBrushFromColor(Color.Black);
-        public static SolidBrush Transparent = CurrentGraphicPlatform.CreateSolidBrushFromColor(Color.Transparent);
-        public static SolidBrush Red = CurrentGraphicPlatform.CreateSolidBrushFromColor(Color.Red);
-        public static SolidBrush LightGray = CurrentGraphicPlatform.CreateSolidBrushFromColor(Color.LightGray);
+        public static SolidBrush White = CurrentGraphicPlatform.CreateSolidBrush(Color.White);
+        public static SolidBrush Black = CurrentGraphicPlatform.CreateSolidBrush(Color.Black);
+        public static SolidBrush Transparent = CurrentGraphicPlatform.CreateSolidBrush(Color.Transparent);
+        public static SolidBrush Red = CurrentGraphicPlatform.CreateSolidBrush(Color.Red);
+        public static SolidBrush LightGray = CurrentGraphicPlatform.CreateSolidBrush(Color.LightGray);
     }
 
     public static class Pens

@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.IO; 
+using LayoutFarm.Drawing;
+
+using System.IO;
 
 namespace LayoutFarm
 {
@@ -125,7 +125,7 @@ namespace LayoutFarm
         public ArtSolidBrush(Color color)
         {
             this.color = color;
-            this.myBrush = new SolidBrush(color);
+            this.myBrush = CurrentGraphicPlatform.CreateSolidBrush(color);
         }
         public Color Color
         {
@@ -185,13 +185,13 @@ namespace LayoutFarm
         {
             if (colors.Count == 2)
             {
-                return new System.Drawing.Drawing2D.LinearGradientBrush(
+                return CurrentGraphicPlatform.P.CreateLinearGradientBrush(
                      positions[0], positions[1], colors[0], colors[1]);
             }
             else if (colors.Count > 2)
             {
-                return new System.Drawing.Drawing2D.LinearGradientBrush(
-    positions[0], positions[1], colors[0], colors[1]);
+                return CurrentGraphicPlatform.P.CreateLinearGradientBrush(
+                    positions[0], positions[1], colors[0], colors[1]);
             }
             else
             {

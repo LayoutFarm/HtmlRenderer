@@ -49,7 +49,14 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         public override string Name
         {
             get { return this.myFont.Name; }
-
+        }
+        public override int Height
+        {
+            get { return this.myFont.Height; }
+        }
+        public override System.IntPtr ToHfont()
+        {
+            return this.myFont.ToHfont();
         }
         public override float Size
         {
@@ -177,7 +184,8 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         }
 
     }
-    public class MyLinearGradientBrush : LinearGradientBrush
+
+    class MyLinearGradientBrush : LinearGradientBrush
     {
         PointF startPoint;
         PointF stopPoint;

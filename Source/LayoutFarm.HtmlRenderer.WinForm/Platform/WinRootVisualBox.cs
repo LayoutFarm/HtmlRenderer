@@ -7,9 +7,12 @@ using System.Diagnostics;
 
 using HtmlRenderer.Boxes;
 using HtmlRenderer.WebDom;
-using LayoutFarm.Drawing;
+
 using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Diagnostics;
+
+
+using LayoutFarm.Drawing;
 
 namespace HtmlRenderer
 {
@@ -109,6 +112,11 @@ namespace HtmlRenderer
             this.activeCssSheet = activeCss;
             base.SetRootCssBox(rootBox);
         }
+        public void PerformPaint(IGraphics2 g)
+        {
+
+            PerformPaint(g.GetInnerGraphic() as Graphics);
+        }
         public void PerformPaint(Graphics g)
         {
             if (doc == null)
@@ -118,14 +126,13 @@ namespace HtmlRenderer
 
             using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
             {
-                Region prevClip = null;
+                System.Drawing.Region prevClip = null;
                 if (this.MaxSize.Height > 0)
                 {
                     prevClip = g.Clip;
                     g.SetClip(new System.Drawing.RectangleF(
-                        Conv.ConvFromPointF(this.Location),
-                        Conv.ConvFromSizeF(this.MaxSize)));
-
+                        this.Location.ToPointF(),
+                        Conv.ToSizeF(this.MaxSize)));
                 }
 
                 //------------------------------------------------------

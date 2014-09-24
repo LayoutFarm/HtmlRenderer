@@ -1,6 +1,6 @@
 ﻿//BSD 2014,WinterDev
 using System;
-using System.Drawing;
+
 namespace LayoutFarm.Drawing
 {   
     public class ImageBinder

@@ -11,8 +11,7 @@
 // "The Art of War"
 
 using System;
-using HtmlRenderer.Drawing.Win32;
-
+using HtmlRenderer.Drawing;
 
 namespace LayoutFarm.Drawing
 {
@@ -22,7 +21,6 @@ namespace LayoutFarm.Drawing
     /// </summary>
     public sealed class WinGraphics : LayoutFarm.Drawing.IGraphics
     {
-        #region Fields and Consts
 
         /// <summary>
         /// used for <see cref="MeasureString(string,System.Drawing.Font,float,out int,out int)"/> calculation.
@@ -59,7 +57,7 @@ namespace LayoutFarm.Drawing
         /// </summary>
         private IntPtr _hdc;
 
-        #endregion
+
 
         float canvasOriginX = 0;
         float canvasOriginY = 0;
@@ -83,7 +81,7 @@ namespace LayoutFarm.Drawing
             _g = g;
             _useGdiPlusTextRendering = useGdiPlusTextRendering;
         }
-        public GraphicPlatform  Platform
+        public GraphicPlatform Platform
         {
             get { return WinGdiPlatform.WinGdi.Platform; }
         }
@@ -140,7 +138,7 @@ namespace LayoutFarm.Drawing
         public void SetClip(RectangleF rect, CombineMode combineMode = CombineMode.Replace)
         {
             ReleaseHdc();
-            _g.SetClip(Conv.ConvFromRectF(rect), Conv.FromCombineMode(combineMode));
+            _g.SetClip(rect.ToRectF(), (System.Drawing.Drawing2D.CombineMode)combineMode);
         }
 
         /// <summary>
@@ -172,7 +170,7 @@ namespace LayoutFarm.Drawing
 
                 var size = new System.Drawing.Size();
                 Win32Utils.GetTextExtentPoint32(_hdc, str, str.Length, ref size);
-                return Conv.ConvToSize(size);
+                return size.ToSize();
 
             }
         }
@@ -203,7 +201,7 @@ namespace LayoutFarm.Drawing
                         Win32Utils.UnsafeGetTextExtentPoint32(_hdc, startAddr + startAt, len, ref size);
                     }
                 }
-                return Conv.ConvToSize(size);
+                return size.ToSize();
             }
         }
         /// <summary>
@@ -242,7 +240,7 @@ namespace LayoutFarm.Drawing
                 }
                 charFit = _charFit[0];
                 charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
-                return Conv.ConvToSize(size);
+                return size.ToSize();
             }
         }
         public Size MeasureString(string str, LayoutFarm.Drawing.Font font,
@@ -264,11 +262,11 @@ namespace LayoutFarm.Drawing
                     (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
                 charFit = _charFit[0];
                 charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
-                return Conv.ConvToSize(size);
+                return size.ToSize();
             }
         }
 #if DEBUG
-        public static class dbugCounter
+        static class dbugCounter
         {
             public static int dbugDrawStringCount;
         }
@@ -276,7 +274,7 @@ namespace LayoutFarm.Drawing
         public void DrawString(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size)
         {
 
-#if DEBUG  
+#if DEBUG
             dbugCounter.dbugDrawStringCount++;
 #endif
             if (_useGdiPlusTextRendering)
@@ -345,12 +343,12 @@ namespace LayoutFarm.Drawing
             get
             {
                 ReleaseHdc();
-                return Conv.ToCombineMode(_g.SmoothingMode);
+                return (SmoothingMode)(_g.SmoothingMode);
             }
             set
             {
                 ReleaseHdc();
-                _g.SmoothingMode = Conv.FromSmoothMode(value);
+                _g.SmoothingMode = (System.Drawing.Drawing2D.SmoothingMode)value;
             }
         }
 
@@ -391,8 +389,8 @@ namespace LayoutFarm.Drawing
         {
             ReleaseHdc();
             _g.DrawImage(image.InnerImage as System.Drawing.Image,
-                Conv.ConvFromRectF(destRect),
-                Conv.ConvFromRectF(srcRect),
+                destRect.ToRectF(),
+                srcRect.ToRectF(),
                 System.Drawing.GraphicsUnit.Pixel);
         }
 
@@ -403,7 +401,7 @@ namespace LayoutFarm.Drawing
         public void DrawImage(Image image, RectangleF destRect)
         {
             ReleaseHdc();
-            _g.DrawImage(image.InnerImage as System.Drawing.Image, Conv.ConvFromRectF(destRect));
+            _g.DrawImage(image.InnerImage as System.Drawing.Image, destRect.ToRectF());
         }
 
         /// <summary>
@@ -440,7 +438,7 @@ namespace LayoutFarm.Drawing
             int j = points.Length;
             for (int i = 0; i < j; ++i)
             {
-                pps[i] = Conv.ConvFromPointF(points[i]);
+                pps[i] = points[i].ToPointF();
             }
             _g.FillPolygon(brush.InnerBrush as System.Drawing.Brush, pps);
 
@@ -537,9 +535,9 @@ namespace LayoutFarm.Drawing
         {
             return HtmlRenderer.Drawing.FontsUtils.GetCachedFont(f.InnerFont as System.Drawing.Font);
         }
-        public LayoutFarm.Drawing.FontInfo GetFontInfo(string fontname, float fsize,FontStyle st)
+        public LayoutFarm.Drawing.FontInfo GetFontInfo(string fontname, float fsize, FontStyle st)
         {
-            return HtmlRenderer.Drawing.FontsUtils.GetCachedFont(fontname, fsize, Conv.FromFonStyle( st));
+            return HtmlRenderer.Drawing.FontsUtils.GetCachedFont(fontname, fsize, (System.Drawing.FontStyle)st);
         }
         public float MeasureWhitespace(LayoutFarm.Drawing.Font f)
         {

@@ -13,7 +13,11 @@ namespace TestGraphicPackage2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+             
+            LayoutFarm.WinGdiPlatform.Start();
             Application.Run(new Form1());
+            LayoutFarm.WinGdiPlatform.End();
+             
         }
     }
 }
