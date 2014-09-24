@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("LayoutFarm.HtmlComposers")]
+[assembly: AssemblyTitle("HtmlRenderer.WebDom")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("LayoutFarm.HtmlComposers")]
+[assembly: AssemblyProduct("HtmlRenderer.WebDom")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("248afb0a-4d4a-4333-a5c6-83f076988d25")]
+[assembly: Guid("395090eb-0db8-4abf-aba7-37527a288580")]
 
 // Version information for an assembly consists of the following four values:
 //

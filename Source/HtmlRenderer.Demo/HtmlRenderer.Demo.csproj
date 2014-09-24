@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8AD34FE8-8382-4A8A-B3AA-A0392ED42423}</ProjectGuid>
+    <ProjectGuid>{2D211739-D392-4FA9-BBA1-77278C68E5EA}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HtmlRenderer.Demo</RootNamespace>
@@ -123,21 +123,21 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HtmlRenderer.Composers\HtmlRenderer.Composers.csproj">
-      <Project>{401603CD-34FB-431F-9E1C-59C952932B94}</Project>
-      <Name>HtmlRenderer.Composers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\HtmlRenderer.WinFormControls\HtmlRenderer.WinFormControls.csproj">
       <Project>{0D90518E-B04A-460E-97C1-732197742A29}</Project>
       <Name>HtmlRenderer.WinFormControls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HtmlRenderer\HtmlRenderer.csproj">
-      <Project>{1B058920-24B4-4140-8AE7-C8C6C38CA52D}</Project>
-      <Name>HtmlRenderer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
       <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
       <Name>LayoutFarm.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.HtmlComposers\LayoutFarm.HtmlComposers.csproj">
+      <Project>{E3923302-7376-451D-BE12-26B2C8DDA08C}</Project>
+      <Name>LayoutFarm.HtmlComposers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
+      <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>
+      <Name>LayoutFarm.HtmlRenderer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
