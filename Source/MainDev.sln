@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlRenderer.Demo", "HtmlRe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.HtmlRenderer", "LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj", "{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.HtmlComposers", "LayoutFarm.HtmlComposers\LayoutFarm.HtmlComposers.csproj", "{E3923302-7376-451D-BE12-26B2C8DDA08C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Composers", "LayoutFarm.Composers\LayoutFarm.Composers.csproj", "{1AF17E34-4C2D-4657-B993-E0608C555111}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,10 +93,10 @@ Global
 		{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E3923302-7376-451D-BE12-26B2C8DDA08C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E3923302-7376-451D-BE12-26B2C8DDA08C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E3923302-7376-451D-BE12-26B2C8DDA08C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E3923302-7376-451D-BE12-26B2C8DDA08C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AF17E34-4C2D-4657-B993-E0608C555111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AF17E34-4C2D-4657-B993-E0608C555111}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AF17E34-4C2D-4657-B993-E0608C555111}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AF17E34-4C2D-4657-B993-E0608C555111}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -55,9 +55,7 @@ namespace LayoutFarm.Drawing
         /// <summary>
         /// the initialized HDC used
         /// </summary>
-        IntPtr _hdc;
-
-
+        IntPtr _hdc; 
 
         float canvasOriginX = 0;
         float canvasOriginY = 0;

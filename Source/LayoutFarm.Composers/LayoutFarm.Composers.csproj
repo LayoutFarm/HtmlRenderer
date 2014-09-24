@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E3923302-7376-451D-BE12-26B2C8DDA08C}</ProjectGuid>
+    <ProjectGuid>{1AF17E34-4C2D-4657-B993-E0608C555111}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HtmlRenderer.Composers</RootNamespace>

@@ -133,10 +133,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\ErrorImage.png" />
-    <Content Include="Images\LoadImage.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="0_Start\" />
   </ItemGroup>
   <ItemGroup>
