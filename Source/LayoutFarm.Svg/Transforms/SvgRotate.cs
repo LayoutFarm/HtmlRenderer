@@ -4,8 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing.Drawing2D;
+using LayoutFarm.Drawing;
 using System.Globalization;
+using HtmlRenderer;
 
 namespace Svg.Transforms
 {
@@ -33,7 +34,7 @@ namespace Svg.Transforms
         {
             get
             {
-                Matrix matrix = new Matrix();
+                Matrix matrix = CurrentGraphicPlatform.CreateMatrix();
                 matrix.Translate(this.CenterX, this.CenterY);
                 matrix.Rotate(this.Angle);
                 matrix.Translate(-this.CenterX, -this.CenterY);

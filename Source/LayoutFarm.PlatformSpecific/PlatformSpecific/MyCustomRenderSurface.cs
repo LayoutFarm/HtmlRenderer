@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-
-
+using LayoutFarm.Drawing;
 
 namespace LayoutFarm
 {
@@ -79,11 +76,11 @@ namespace LayoutFarm
         public override Size OwnerInnerContentSize
         {
             get
-            {   
+            {
                 return new Size(ownerVisualElement.ElementDesiredWidth, ownerVisualElement.ElementDesiredHeight);
 
             }
-        } 
+        }
         public override void DrawToThisPage(Canvas destPage, InternalRect updateArea)
         {
             if (quadPages.pageA == null)
@@ -142,7 +139,7 @@ namespace LayoutFarm
 #endif
 
                 ownerVisualElement.CustomDrawToThisPage(internalCanvas, updateArea);
-                
+
 
 #if DEBUG
 
@@ -175,7 +172,7 @@ namespace LayoutFarm
 
         void EvaluateScrollBar()
         {
-            System.Drawing.Size innerContentSize = this.OwnerInnerContentSize;
+            System.Drawing.Size innerContentSize = Conv.ToSize(this.OwnerInnerContentSize);
 
             //viewport_v_largeChange = 32;
             //viewport_v_smallChange = viewport_v_largeChange / 4;

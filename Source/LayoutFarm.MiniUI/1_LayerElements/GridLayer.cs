@@ -1,7 +1,7 @@
 ﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using LayoutFarm.Drawing;
 using System.Text;
 using LayoutFarm;
 
@@ -22,11 +22,11 @@ namespace LayoutFarm
             this.OwnerRenderElement = owner;
             this.cellSizeStyle = flexgridType;
             this.gridTable = new GridTable();
-            
+
             gridRows = gridTable.Rows;
             gridCols = gridTable.Columns;
 
-            int columnWidth = owner.Width; 
+            int columnWidth = owner.Width;
             if (nColumns > 0)
             {
                 columnWidth = columnWidth / nColumns;
@@ -41,7 +41,7 @@ namespace LayoutFarm
             int cx = 0;
             for (int c = 0; c < nColumns; c++)
             {
-                GridColumn col = new GridColumn(columnWidth);                 
+                GridColumn col = new GridColumn(columnWidth);
                 col.Width = columnWidth;
                 col.Left = cx;
 
@@ -49,7 +49,7 @@ namespace LayoutFarm
                 gridCols.Add(col);
             }
             //------------------------------------------------------------
-            
+
             if (nRows > 0)
             {
                 int rowHeight = owner.Height / nRows;
@@ -792,7 +792,7 @@ namespace LayoutFarm
                 GridCell stopGridItemInColumn = currentColumn.GetCell(stopRowId - 1);
 
 
-                canvasPage.DrawLine(Color.DarkGray,
+                canvasPage.DrawLine(Color.Gray,
                     startGridItemInColumn.RightTopCorner,
                     stopGridItemInColumn.RightBottomCorner);
 
@@ -810,7 +810,7 @@ namespace LayoutFarm
 
 
                         canvasPage.DrawLine(
-                            Color.DarkGray,
+                            Color.Gray,
                             x, gBottom,
                             x + horizontalLineWidth, gBottom);
 

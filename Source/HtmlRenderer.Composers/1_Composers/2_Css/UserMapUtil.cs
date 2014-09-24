@@ -1,6 +1,6 @@
 ﻿//BSD, 2014 WinterDev
 using System;
-using System.Drawing;
+using LayoutFarm.Drawing;
 using System.Collections.Generic;
 
 using HtmlRenderer.Css;
@@ -743,7 +743,7 @@ namespace HtmlRenderer.Composers
             }
             return value.GetCacheCssLength();
         }
-        internal static System.Drawing.Color AsColor(this WebDom.CssCodeValueExpression value)
+        internal static Color AsColor(this WebDom.CssCodeValueExpression value)
         {
             if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.Color)
             {

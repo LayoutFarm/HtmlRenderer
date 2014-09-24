@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using System.Drawing; 
- 
+
+using LayoutFarm.Drawing; 
 
 namespace LayoutFarm
 {
@@ -16,15 +16,18 @@ namespace LayoutFarm
             Form form1 = new Form();
             canvasViewport = new UISurfaceViewportControl();
             UISurfaceViewportControl innerViewport = canvasViewport;
-            Rectangle screenClientAreaRect = Screen.PrimaryScreen.WorkingArea;
-             
+            Rectangle screenClientAreaRect = Conv.ToRect(Screen.PrimaryScreen.WorkingArea);
+
             //----------------------
-            var visualRoot = new MyRootGraphic(800,600);
+            var visualRoot = new MyRootGraphic(800, 600);
             var windowRoot = new MyTopWindowRenderBox(visualRoot, form1.Width, form1.Height);
-             
+
 
             canvasViewport.SetupWindowRoot(windowRoot);
-            canvasViewport.Bounds = new Rectangle(0, 0, screenClientAreaRect.Width, screenClientAreaRect.Height);
+            canvasViewport.Bounds =
+                new System.Drawing.Rectangle(0, 0,
+                    screenClientAreaRect.Width,
+                    screenClientAreaRect.Height);
             //----------------------
 
             form1.Controls.Add(canvasViewport);
@@ -32,7 +35,7 @@ namespace LayoutFarm
             MakeFormCanvas(form1, canvasViewport);
             //----------------------
             form1.SizeChanged += (s, e) =>
-            {   
+            {
                 if (form1.WindowState == FormWindowState.Maximized)
                 {
                     Screen currentScreen = GetScreenFromX(form1.Left);

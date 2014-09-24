@@ -186,16 +186,16 @@ namespace HtmlRenderer.Demo
         /// </summary>
         private void LoadCustomFonts()
         {
-            // load custom font font into private fonts collection
-            var file = Path.GetTempFileName();
-            File.WriteAllBytes(file, HtmlRenderer.Demo.Resource.CustomFont);
-            _privateFont.AddFontFile(file);
+            //// load custom font font into private fonts collection
+            //var file = Path.GetTempFileName();
+            //File.WriteAllBytes(file, HtmlRenderer.Demo.Resource.CustomFont);
+            //_privateFont.AddFontFile(file);
 
-            // add the fonts to renderer
-            foreach (var fontFamily in _privateFont.Families)
-            {
-                HtmlRender.AddFontFamily(fontFamily);
-            }
+            //// add the fonts to renderer
+            //foreach (var fontFamily in _privateFont.Families)
+            //{
+            //    HtmlRender.AddFontFamily(fontFamily);
+            //}
         }
 
         ///// <summary>
@@ -400,16 +400,14 @@ namespace HtmlRenderer.Demo
             return null;
         }
 
+         
         /// <summary>
         /// On image load in renderer set the image by event async.
         /// </summary>
         private void OnImageLoad(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
         {
-
-
-
             var img = TryLoadResourceImage(e.ImagSource);
-            e.SetResultImage(img);
+            e.SetResultImage(LayoutFarm.Drawing.CurrentGraphicPlatform.P.CreateBitmap(img));
 
             //if (!e.Handled && htmlTag != null)
             //{

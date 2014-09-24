@@ -2,9 +2,10 @@
 //MS-PL,  
 
 using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Collections.Generic; 
+using LayoutFarm.Drawing;
+using LayoutFarm.Drawing;
+using System.Collections.Generic;
+using HtmlRenderer;
 using HtmlRenderer.Css;
 using LayoutFarm.SvgDom;
 

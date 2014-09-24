@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
-using System.Drawing.Drawing2D; 
+using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
     public class BasicGdi32FontHelper : IFonts2
     {
-        Bitmap bmp;
+        System.Drawing.Bitmap bmp;
         IntPtr hdc;
         bool isInit;
         public BasicGdi32FontHelper()
@@ -22,13 +21,13 @@ namespace LayoutFarm
             {
                 bmp.Dispose();
                 bmp = null;
-            } 
-        } 
+            }
+        }
         void Init()
         {
 
-            bmp = new Bitmap(2, 2);
-            Graphics g = Graphics.FromImage(bmp);
+            bmp = new System.Drawing.Bitmap(2, 2);
+            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp);
             hdc = g.GetHdc();
             isInit = true;
 
@@ -92,10 +91,18 @@ namespace LayoutFarm
 
         static FontManager()
         {
-            defaultTextFontInfo = new TextFontInfo(new Font("Tahoma", 10), gdiFontHelper);
+
+
+            defaultTextFontInfo = new TextFontInfo(
+                LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
+                new System.Drawing.Font("Tahoma", 10)),
+                gdiFontHelper);
             fontDics.Add(defaultTextFontInfo.GetFontSignature(), defaultTextFontInfo);
 
-            RegisterFont(new Font("Tahoma", 14, FontStyle.Bold));
+           
+            RegisterFont(
+                  LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
+                 new System.Drawing.Font("Tahoma", 14, System.Drawing.FontStyle.Bold)));
 
         }
 
@@ -131,12 +138,16 @@ namespace LayoutFarm
             else
             {
 
-
-                textFontInfo = new TextFontInfo(new Font(fontface, size, fontStyle), gdiFontHelper);
+                textFontInfo = new TextFontInfo(
+                    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont( 
+                      new System.Drawing.Font(fontface,
+                          size, (System.Drawing.FontStyle)fontStyle)),
+                    gdiFontHelper);
                 fontDics.Add(fontsig, textFontInfo);
                 return textFontInfo;
             }
         }
+
         public static TextFontInfo GetTextFontInfo(FontSignature fontSig)
         {
             TextFontInfo textFontInfo;
@@ -147,7 +158,13 @@ namespace LayoutFarm
             else
             {
 
-                textFontInfo = new TextFontInfo(new Font(fontSig.FontName, fontSig.FontSize, fontSig.FontStyle), gdiFontHelper);
+                textFontInfo = new TextFontInfo(
+                     LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
+                        new System.Drawing.Font(
+                            fontSig.FontName,
+                            fontSig.FontSize,
+                            (System.Drawing.FontStyle)fontSig.FontStyle)),
+                        gdiFontHelper);
 
                 fontDics.Add(textFontInfo.GetFontSignature(), textFontInfo);
                 return textFontInfo;
@@ -166,7 +183,10 @@ namespace LayoutFarm
             }
             else
             {
-                textFontInfo = new TextFontInfo(new Font(fontface, size), gdiFontHelper);
+                textFontInfo = new TextFontInfo(
+                     LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
+                        new System.Drawing.Font(fontface, size)),
+                    gdiFontHelper);
                 fontDics.Add(fontSig, textFontInfo);
                 return textFontInfo;
             }

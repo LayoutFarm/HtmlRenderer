@@ -34,7 +34,7 @@ namespace LayoutFarm.SampleControls
         {
 
             //sample bg
-            using (Brush brush = new SolidBrush(BackColor))
+            using (var brush = LayoutFarm.Drawing.CurrentGraphicPlatform.CreateSolidBrush(ConvColor(BackColor)))
             {
                 canvasPage.FillRectangle(brush, updateArea.ToRectangle());
                 if (this.Layers != null)
@@ -43,7 +43,10 @@ namespace LayoutFarm.SampleControls
                 }
             }
         }
-
+        static LayoutFarm.Drawing.Color ConvColor(System.Drawing.Color c)
+        {
+            return new Drawing.Color(c.A, c.R, c.G, c.B);
+        }
 
     }
 

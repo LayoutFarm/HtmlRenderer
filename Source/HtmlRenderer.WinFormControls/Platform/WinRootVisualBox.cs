@@ -10,6 +10,9 @@ using HtmlRenderer.WebDom;
 using HtmlRenderer.Drawing;
 using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Diagnostics;
+ 
+
+ 
 
 namespace HtmlRenderer
 {
@@ -61,9 +64,9 @@ namespace HtmlRenderer
         }
 
 
-        public override IGraphics GetSampleGraphics()
+        public override LayoutFarm.Drawing.IGraphics GetSampleGraphics()
         {
-            return new WinGraphics(Graphics.FromImage(tempBmp), false);
+            return new LayoutFarm.Drawing.WinGraphics(Graphics.FromImage(tempBmp), false);
         }
         protected override void RequestRefresh(bool layout)
         {
@@ -73,13 +76,13 @@ namespace HtmlRenderer
                 this.Refresh(this, arg);
             }
         }
-        protected override void OnRequestImage(ImageBinder binder, CssBox requestBox, bool _sync)
+        protected override void OnRequestImage(LayoutFarm.Drawing.ImageBinder binder, CssBox requestBox, bool _sync)
         {
 
             //manage image loading 
             if (imageContentManager != null)
             {
-                if (binder.State == ImageBinderState.Unload)
+                if (binder.State == LayoutFarm.Drawing.ImageBinderState.Unload)
                 {
                     imageContentManager.AddRequestImage(new ImageContentRequest(binder, requestBox));
                 }
@@ -116,16 +119,19 @@ namespace HtmlRenderer
                 return;
             }
 
-            using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
+            using (var gfx = new LayoutFarm.Drawing.WinGraphics(g, this.UseGdiPlusTextRendering))
             {
                 Region prevClip = null;
                 if (this.MaxSize.Height > 0)
                 {
+                    
                     prevClip = g.Clip;
-                    g.SetClip(new RectangleF(this.Location, this.MaxSize));
-                } 
+                    g.SetClip(new System.Drawing.RectangleF(                       
+                       LayoutFarm.Drawing.Conv.ToPointF(this.Location),
+                       LayoutFarm.Drawing.Conv.ToSizeF(this.MaxSize)));
+                }
                 //------------------------------------------------------
-               
+
                 if (doc.DocumentState == DocumentState.ChangedAfterIdle)
                 {
 
@@ -180,7 +186,7 @@ namespace HtmlRenderer
         {
             if (this.isRootCreated)
             {
-                using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
+                using (var gfx = new LayoutFarm.Drawing.WinGraphics(g, this.UseGdiPlusTextRendering))
                 {
                     this.PerformLayout(gfx);
                 }

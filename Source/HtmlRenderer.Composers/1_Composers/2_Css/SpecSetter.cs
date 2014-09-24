@@ -14,7 +14,7 @@
 // "The Art of War"
 
 using System;
-using System.Drawing;
+using LayoutFarm.Drawing;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.Css;
 using HtmlRenderer.Boxes;
@@ -159,7 +159,7 @@ namespace HtmlRenderer.Composers
                     spec.BackgroundColor = cssValue.AsColor();
                     break;
                 case WellknownCssPropertyName.BackgroundImage:
-                    spec.BackgroundImageBinder = new Drawing.ImageBinder(cssValue.GetTranslatedStringValue());
+                    spec.BackgroundImageBinder = new  ImageBinder(cssValue.GetTranslatedStringValue());
                     break;
                 case WellknownCssPropertyName.BackgroundPosition:
 
