@@ -139,13 +139,13 @@ namespace HtmlRenderer.Demo
             string execFromFolder = Path.GetDirectoryName(Application.ExecutablePath);
 
             //only from debug ?
-            if (!execFromFolder.EndsWith("\\Source\\Demo\\bin\\Debug"))
+            if (!execFromFolder.EndsWith("\\Source\\HtmlRenderer.Demo\\bin\\Debug"))
             {
                 return;
             }
 
-            int index = execFromFolder.LastIndexOf("\\Source\\Demo\\bin\\Debug");
-            string rootSampleFolder = execFromFolder.Substring(0, index) + "\\Source\\Demo\\Samples";
+            int index = execFromFolder.LastIndexOf("\\Source\\HtmlRenderer.Demo\\bin\\Debug");
+            string rootSampleFolder = execFromFolder.Substring(0, index) + "\\Source\\HtmlRenderer.Demo\\Samples";
 
             var root = new TreeNode("HTML Renderer");
             _samplesTreeView.Nodes.Add(root);

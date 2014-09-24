@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test2_CoreUIFoundamentalUI_
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.PlatformSpecific", "LayoutFarm.PlatformSpecific\LayoutFarm.PlatformSpecific.csproj", "{8424932F-2499-4A72-87D8-1E1246EF8E59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlRenderer.WinFormControls", "HtmlRenderer.WinFormControls\HtmlRenderer.WinFormControls.csproj", "{0D90518E-B04A-460E-97C1-732197742A29}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test3_MixHtml", "Test3_MixHtml\Test3_MixHtml.csproj", "{14840A73-6D38-4A2A-A71C-F84DC4FB4620}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.HtmlRenderer.WinForm", "LayoutFarm.HtmlRenderer.WinForm\LayoutFarm.HtmlRenderer.WinForm.csproj", "{C66B2968-E6F6-4BBC-BC7B-9780F7B1A628}"
@@ -69,10 +67,6 @@ Global
 		{8424932F-2499-4A72-87D8-1E1246EF8E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8424932F-2499-4A72-87D8-1E1246EF8E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8424932F-2499-4A72-87D8-1E1246EF8E59}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D90518E-B04A-460E-97C1-732197742A29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D90518E-B04A-460E-97C1-732197742A29}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D90518E-B04A-460E-97C1-732197742A29}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D90518E-B04A-460E-97C1-732197742A29}.Release|Any CPU.Build.0 = Release|Any CPU
 		{14840A73-6D38-4A2A-A71C-F84DC4FB4620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{14840A73-6D38-4A2A-A71C-F84DC4FB4620}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14840A73-6D38-4A2A-A71C-F84DC4FB4620}.Release|Any CPU.ActiveCfg = Release|Any CPU
