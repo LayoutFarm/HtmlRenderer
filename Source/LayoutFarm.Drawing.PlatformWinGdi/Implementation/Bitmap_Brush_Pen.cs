@@ -71,8 +71,11 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         }
         public override void Dispose()
         {
-            myFont.Dispose();
-            myFont = null;
+            if (myFont != null)
+            {
+                myFont.Dispose();
+                myFont = null;
+            }
         }
 
         public override object InnerFont

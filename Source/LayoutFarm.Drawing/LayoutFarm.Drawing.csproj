@@ -58,13 +58,17 @@
     <Compile Include="2_Drawing_Art\ColorComponentStepup.cs" />
     <Compile Include="2_Drawing_Art\GfxProcessorModule.cs" />
     <Compile Include="0_Start\GraphicsPlateform.cs" />
+    <Compile Include="3_LeanBoxDrawing\ArtColorPalette.cs" />
+    <Compile Include="3_LeanBoxDrawing\ArtImageBrush.cs" />
+    <Compile Include="3_LeanBoxDrawing\Canvas.cs" />
+    <Compile Include="3_LeanBoxDrawing\CustomRenderSurface.cs" />
+    <Compile Include="3_LeanBoxDrawing\FontSystem.cs" />
+    <Compile Include="3_LeanBoxDrawing\InternalRect.cs" />
     <Compile Include="4_Animation\ArtAnimationTimelines.cs" />
     <Compile Include="4_Animation\ArtParallelTimeline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="3_LeanBoxDrawing\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

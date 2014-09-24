@@ -51,7 +51,7 @@
     <Compile Include="6_Root\2_RenderRequest.cs" />
     <Compile Include="7_debug\dbug.cs" />
     <Compile Include="7_debug\dbugVisitorMessage.cs" />
-    <Compile Include="1_Base\VisualDrawingChain.cs" />
+    <Compile Include="2_RenderElement\VisualDrawingChain.cs" />
     <Compile Include="2_RenderElement\RenderElement.cs" />
     <Compile Include="2_RenderElement\RenderElement.ElementPositioning_0_DirectSetBounds.cs" />
     <Compile Include="2_RenderElement\RenderElement.ElementPositioning_1_WithSizeChanged.cs" />
@@ -62,17 +62,11 @@
     <Compile Include="2_RenderElement\IParentLink.cs" />
     <Compile Include="2_RenderElement\x_RenderElement.debug.cs" />
     <Compile Include="4_Boxes\RenderBoxBase.cs" />
-    <Compile Include="1_Base\CustomRenderSurface.cs" />
     <Compile Include="3_Layers\1_VisualLayer.cs" />
     <Compile Include="3_Layers\2_VisualPlainLayer.cs" />
     <Compile Include="5_HitTest\HitPointChain.cs" />
     <Compile Include="7_debug\dbugHitTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="1_Base\Canvas.cs" />
-    <Compile Include="1_Base\InternalRect.cs" />
-    <Compile Include="1_Base\ArtColorPalette.cs" />
-    <Compile Include="1_Base\ArtImageBrush.cs" />
-    <Compile Include="1_Base\FontSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
