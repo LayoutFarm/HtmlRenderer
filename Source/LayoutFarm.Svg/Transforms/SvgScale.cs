@@ -4,9 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing.Drawing2D;
+using LayoutFarm.Drawing;
 using System.Globalization;
-
+using HtmlRenderer;
 namespace Svg.Transforms
 {
     public sealed class SvgScale : SvgTransform
@@ -26,11 +26,11 @@ namespace Svg.Transforms
             set { this.scaleFactorY = value; }
         }
 
-        public override System.Drawing.Drawing2D.Matrix Matrix
+        public override  Matrix Matrix
         {
             get
             {
-                System.Drawing.Drawing2D.Matrix matrix = new System.Drawing.Drawing2D.Matrix();
+                Matrix matrix = CurrentGraphicPlatform.CreateMatrix();
                 matrix.Scale(this.X, this.Y);
                 return matrix;
             }

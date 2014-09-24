@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
+using LayoutFarm.Drawing;
 namespace LayoutFarm.Text
 {
 
@@ -15,12 +15,12 @@ namespace LayoutFarm.Text
             this.internalLinkedNode = linkNode;
             this.ownerLine = ownerLine;
         }
-        public RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, System.Drawing.Point point)
+        public RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
             return null;
         }
-        
-       
+
+
         public bool MayHasOverlapChild
         {
             get
@@ -72,7 +72,7 @@ namespace LayoutFarm.Text
             }
             return parentVisualElem;
         }
-          
+
         internal EditableTextFlowLayer OwnerFlowLayer
         {
             get
@@ -132,8 +132,8 @@ namespace LayoutFarm.Text
                 }
             }
         }
-        
-        public void AdjustLocation(ref System.Drawing.Point p)
+
+        public void AdjustLocation(ref Point p)
         {
             p.Y += this.OwnerLine.LineTop;
         }

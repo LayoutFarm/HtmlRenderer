@@ -45,10 +45,6 @@ namespace TestGraphicPackage2
             formCanvas.WindowState = FormWindowState.Maximized;
             formCanvas.Show();
 
-
-
-
-
         }
         private void cmdMixHtml_Click(object sender, EventArgs e)
         {
@@ -65,20 +61,15 @@ namespace TestGraphicPackage2
             viewport.AddContent(htmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
             htmlBox.LoadHtmlText(html);
-
-
-            htmlBox.InvalidateGraphic();
-
-            //================================================== 
-
-
-
-            viewport.PaintMe();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = new TextFontInfo(new Font("tahoma", 10), new BasicGdi32FontHelper());
+            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = new
+                TextFontInfo(
+                    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
+                    new System.Drawing.Font("tahoma", 10)),
+                new BasicGdi32FontHelper());
 
 
             UISurfaceViewportControl viewport;
@@ -86,37 +77,19 @@ namespace TestGraphicPackage2
             CreateReadyForm(
                 out viewport,
                 out formCanvas);
-
-
-
             ////==================================================
             //html box
             UIHtmlBox htmlBox = new UIHtmlBox(800, 400);
             viewport.AddContent(htmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
-            //ArtVisualHtmlBox.DirectSetVisualElementLocation(innerHtmlBox, 100, 100);
             htmlBox.LoadHtmlText(html);
-
-            htmlBox.InvalidateGraphic();
-
             //================================================== 
 
             //textbox
-            var textbox = new LayoutFarm.SampleControls.UIMultiLineTextBox(400, 100, true);
-            var renderTextBox = textbox.GetPrimaryRenderElement(viewport.WinTop.RootGraphic);
+            var textbox = new LayoutFarm.SampleControls.UITextBox(400, 100, true);
+            textbox.SetLocation(0, 200);
             viewport.AddContent(textbox);
-
-            //var vinv2 = visualTextBox.WinRoot.GetVInv(); 
-            textbox.InvalidateGraphic();
-            //visualTextBox.WinRoot.FreeVInv();
-
-            RenderElement.DirectSetVisualElementLocation(renderTextBox, 0, 200);
-            //vinv2 = visualTextBox.WinRoot.GetVInv();
-            textbox.InvalidateGraphic();
-
-
-            viewport.WinTop.CurrentKeyboardFocusedElement = renderTextBox;
-            viewport.PaintMe();
+            textbox.Focus();
         }
 
 

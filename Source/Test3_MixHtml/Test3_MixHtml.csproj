@@ -39,7 +39,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomUI.Sample\UIMultilineTextBox.cs" />
+    <Compile Include="CustomUI.Sample\UIBox.cs" />
     <Compile Include="CustomUI.Sample\UITextBox.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -51,17 +51,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HtmlRenderer.Composers\HtmlRenderer.Composers.csproj">
-      <Project>{401603CD-34FB-431F-9E1C-59C952932B94}</Project>
-      <Name>HtmlRenderer.Composers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HtmlRenderer.WinFormControls\HtmlRenderer.WinFormControls.csproj">
-      <Project>{0D90518E-B04A-460E-97C1-732197742A29}</Project>
-      <Name>HtmlRenderer.WinFormControls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HtmlRenderer\HtmlRenderer.csproj">
-      <Project>{1B058920-24B4-4140-8AE7-C8C6C38CA52D}</Project>
-      <Name>HtmlRenderer</Name>
+    <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
+      <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
+      <Name>LayoutFarm.Drawing</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlRenderer.WinForm\LayoutFarm.HtmlRenderer.WinForm.csproj">
       <Project>{C66B2968-E6F6-4BBC-BC7B-9780F7B1A628}</Project>

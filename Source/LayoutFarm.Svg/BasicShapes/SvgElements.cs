@@ -2,12 +2,10 @@
 //2014, WinterDev
 
 using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
+using LayoutFarm.Drawing;
 using System.Collections.Generic;
 
-
-using HtmlRenderer.Drawing;
+using HtmlRenderer;
 using HtmlRenderer.Css;
 using LayoutFarm.SvgDom;
 
@@ -112,7 +110,7 @@ namespace LayoutFarm.SvgDom
         }
 
 
-        public virtual void Paint(HtmlRenderer.Drawing.IGraphics g)
+        public virtual void Paint(IGraphics g)
         {
 
         }
@@ -264,7 +262,7 @@ namespace LayoutFarm.SvgDom
         }
         static GraphicsPath CreateRectGraphicPath(float x, float y, float w, float h)
         {
-            var _path = new GraphicsPath();
+            var _path = CurrentGraphicPlatform.CreateGraphicPath();
             _path.StartFigure();
             _path.AddRectangle(new RectangleF(x, y, w, h));
             _path.CloseFigure();
@@ -272,7 +270,7 @@ namespace LayoutFarm.SvgDom
         }
         static GraphicsPath CreateRoundRectGraphicPath(float x, float y, float w, float h, float c_rx, float c_ry)
         {
-            var _path = new GraphicsPath();
+            var _path = CurrentGraphicPlatform.CreateGraphicPath();
             var arcBounds = new RectangleF();
             var lineStart = new PointF();
             var lineEnd = new PointF();
@@ -353,16 +351,15 @@ namespace LayoutFarm.SvgDom
         public override void Paint(IGraphics g)
         {
 
-            using (SolidBrush sb = new SolidBrush(this.fillColor))
+            using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
             {
                 g.FillPath(sb, this._path);
-
             }
             if (this.strokeColor != Color.Transparent
                 && this.ActualStrokeWidth > 0)
             {
-                using (SolidBrush sb = new SolidBrush(this.strokeColor))
-                using (Pen pen = new Pen(sb))
+                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
+                using (Pen pen = g.Platform.CreatePen(sb))
                 {
                     pen.Width = this.ActualStrokeWidth;
                     g.DrawPath(pen, this._path);
@@ -417,7 +414,7 @@ namespace LayoutFarm.SvgDom
             this.ActualRadius = ConvertToPx(myspec.Radius, containerW, emHeight);
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
 
-            _path = new GraphicsPath();
+            _path = CurrentGraphicPlatform.CreateGraphicPath();
             _path.StartFigure();
             _path.AddEllipse(this.ActualX - this.ActualRadius, this.ActualY - this.ActualRadius, 2 * this.ActualRadius, 2 * ActualRadius);
             _path.CloseFigure();
@@ -434,7 +431,7 @@ namespace LayoutFarm.SvgDom
         public override void Paint(IGraphics g)
         {
 
-            using (SolidBrush sb = new SolidBrush(this.fillColor))
+            using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
             {
                 g.FillPath(sb, this._path);
 
@@ -442,8 +439,8 @@ namespace LayoutFarm.SvgDom
             if (this.strokeColor != Color.Transparent
                 && this.ActualStrokeWidth > 0)
             {
-                using (SolidBrush sb = new SolidBrush(this.strokeColor))
-                using (Pen pen = new Pen(sb))
+                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
+                using (Pen pen = g.Platform.CreatePen(sb))
                 {
                     pen.Width = this.ActualStrokeWidth;
                     g.DrawPath(pen, this._path);
@@ -503,7 +500,7 @@ namespace LayoutFarm.SvgDom
 
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
 
-            this._path = new GraphicsPath();
+            this._path = CurrentGraphicPlatform.CreateGraphicPath();
             _path.StartFigure();
             _path.AddEllipse(this.ActualX - this.ActualRadiusX, this.ActualY - this.ActualRadiusY, 2 * this.ActualRadiusX, 2 * this.ActualRadiusY);
             _path.CloseFigure();
@@ -519,7 +516,7 @@ namespace LayoutFarm.SvgDom
         public override void Paint(IGraphics g)
         {
 
-            using (SolidBrush sb = new SolidBrush(this.fillColor))
+            using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
             {
                 g.FillPath(sb, this._path);
 
@@ -527,8 +524,8 @@ namespace LayoutFarm.SvgDom
             if (this.strokeColor != Color.Transparent
                 && this.ActualStrokeWidth > 0)
             {
-                using (SolidBrush sb = new SolidBrush(this.strokeColor))
-                using (Pen pen = new Pen(sb))
+                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
+                using (Pen pen = g.Platform.CreatePen(sb))
                 {
                     pen.Width = this.ActualStrokeWidth;
                     g.DrawPath(pen, this._path);
@@ -562,7 +559,7 @@ namespace LayoutFarm.SvgDom
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
 
 
-            this._path = new GraphicsPath();
+            this._path = CurrentGraphicPlatform.CreateGraphicPath();
             this._path.StartFigure();
 
 
@@ -594,16 +591,15 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(IGraphics g)
         {
-            using (SolidBrush sb = new SolidBrush(this.fillColor))
-            {
+            using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
+            {   
                 g.FillPath(sb, this._path);
-
             }
             if (this.strokeColor != Color.Transparent
                 && this.ActualStrokeWidth > 0)
             {
-                using (SolidBrush sb = new SolidBrush(this.strokeColor))
-                using (Pen pen = new Pen(sb))
+                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
+                using (Pen pen =g.Platform.CreatePen(sb))
                 {
                     pen.Width = this.ActualStrokeWidth;
                     g.DrawPath(pen, this._path);
@@ -635,7 +631,7 @@ namespace LayoutFarm.SvgDom
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
 
 
-            this._path = new GraphicsPath();
+            this._path = CurrentGraphicPlatform.CreateGraphicPath();
             PointF[] plist = this.pointList;
             int lim = plist.Length - 1;
             for (int i = 0; i < lim; ++i)
@@ -652,8 +648,8 @@ namespace LayoutFarm.SvgDom
             if (this.strokeColor != Color.Transparent
                 && this.ActualStrokeWidth > 0)
             {
-                using (SolidBrush sb = new SolidBrush(this.strokeColor))
-                using (Pen pen = new Pen(sb))
+                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
+                using (Pen pen = g.Platform.CreatePen(sb))
                 {
                     pen.Width = this.ActualStrokeWidth;
                     g.DrawPath(pen, this._path);

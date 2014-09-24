@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HtmlRenderer</RootNamespace>
+    <AssemblyName>HtmlRenderer</AssemblyName>
+    <StartupObject>
+    </StartupObject>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\DebugNet20\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\ReleaseNet20\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Platform\FontDefaultConfig.cs" />
+    <Compile Include="2_Boxes\5_HitAndSelections\SelectionRange.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox_Spec_Snap.cs" />
+    <Compile Include="2_Boxes\2_Runs\CssBlockRun.cs" />
+    <Compile Include="2_Boxes\5_HitAndSelections\BoxHitChain.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox_BoxFlags.cs" />
+    <Compile Include="2_Boxes\0_Root\CssBoxConstConfig.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox_OtherActualValues.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\BoxVisitor.cs" />
+    <Compile Include="2_Boxes\3_Layout\CssBoxLayoutExtension.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox_Positions.cs" />
+    <Compile Include="2_Boxes\3_Layout\LayoutVisitor.cs" />
+    <Compile Include="2_Boxes\4_Render\Painter.cs" />
+    <Compile Include="2_Boxes\3_Layout\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
+    <Compile Include="2_Boxes\3_Layout\CssTableLayoutEngine.TableColumns.cs" />
+    <Compile Include="1_Css\BoxSpec.cs" />
+    <Compile Include="1_Css\BoxSpec_CopyAndVersioning.cs" />
+    <Compile Include="3_Boxes_SpecialBoxes\CssBoxListItem.cs" />
+    <Compile Include="4_Diagnostics\DeprecatedAttribute.cs" />
+    <Compile Include="4_Diagnostics\HtmlGenerator.cs" />
+    <Compile Include="Platform\MapAttribute.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBoxCollection.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox_Unsafe.cs" />
+    <Compile Include="1_Css\CssFeatures.cs" />
+    <Compile Include="4_Diagnostics\dbug.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox_Fields.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox_Paint.cs" />
+    <Compile Include="1_Css\CssProps.cs" />
+    <Compile Include="2_Boxes\2_Runs\CssTextRun.cs" />
+    <Compile Include="2_Boxes\2_Runs\CssImageRun.cs" />
+    <Compile Include="3_Boxes_SpecialBoxes\CssBoxFrame.cs" />
+    <Compile Include="3_Boxes_SpecialBoxes\CssBoxHr.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox.cs" />
+    <Compile Include="3_Boxes_SpecialBoxes\CssBoxImage.cs" />
+    <Compile Include="2_Boxes\2_Runs\CssRun.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox_Spec_ReadOnly.cs" />
+    <Compile Include="2_Boxes\3_Layout\CssLayoutEngine.cs" />
+    <Compile Include="1_Css\CssLength.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssLineBox.cs" />
+    <Compile Include="2_Boxes\3_Layout\CssTableLayoutEngine.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssSideAndOrientation.cs" />
+    <Compile Include="4_Diagnostics\HtmlRenderErrorType.cs" />
+    <Compile Include="4_Diagnostics\HtmlGenerationStyle.cs" />
+    <Compile Include="2_Boxes\4_Render\BackgroundImagePaintHelper.cs" />
+    <Compile Include="2_Boxes\4_Render\BorderPaintHelper.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssValueParser.cs" />
+    <Compile Include="2_Boxes\0_Root\RootVisualBox.cs" />
+    <Compile Include="4_Diagnostics\ArgCheckNotNullAttribute.cs" />
+    <Compile Include="1_Css\CssConstants.cs" />
+    <Compile Include="1_Css\CssUnitOrNames.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="2_Boxes\3_Layout\BoxUtils.cs" />
+    <Compile Include="Platform\RenderUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\ErrorImage.png" />
+    <Content Include="Images\LoadImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="0_Start\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
+      <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
+      <Name>LayoutFarm.Drawing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

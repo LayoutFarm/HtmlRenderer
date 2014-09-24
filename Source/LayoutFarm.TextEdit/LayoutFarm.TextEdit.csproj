@@ -53,7 +53,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="2.2_TextRenderBox\CaretRenderElement.cs" />
@@ -110,6 +109,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
+      <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
+      <Name>LayoutFarm.Drawing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.LeanBox\LayoutFarm.LeanBox.csproj">
       <Project>{5CDDBA62-67E4-40AA-A3C0-AFAE030E6969}</Project>
       <Name>LayoutFarm.LeanBox</Name>

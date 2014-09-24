@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 using HtmlRenderer.Boxes;
 using HtmlRenderer.WebDom;
-using HtmlRenderer.Drawing;
+using LayoutFarm.Drawing;
 using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Diagnostics;
 
@@ -30,7 +30,7 @@ namespace HtmlRenderer
 
             var htmldoc = builder.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
 
-            using (var img = new Bitmap(1, 1))
+            using (var img = new System.Drawing.Bitmap(1, 1))
             using (var g = Graphics.FromImage(img))
             {
                 WinGraphics winGfx = new WinGraphics(g, false);
@@ -59,7 +59,7 @@ namespace HtmlRenderer
             };
 
 
-            using (var img = new Bitmap(1, 1))
+            using (var img = new System.Drawing.Bitmap(1, 1))
             using (var g = Graphics.FromImage(img))
             {
                 WinGraphics winGfx = new WinGraphics(g, false);
@@ -87,7 +87,7 @@ namespace HtmlRenderer
                     textContentManager.AddStyleSheetRequest(e);
                 }
             };
-            using (var img = new Bitmap(1, 1))
+            using (var img = new System.Drawing.Bitmap(1, 1))
             using (var g = Graphics.FromImage(img))
             {
                 WinGraphics winGfx = new WinGraphics(g, false);
@@ -109,7 +109,7 @@ namespace HtmlRenderer
                     textContentManager.AddStyleSheetRequest(e);
                 }
             };
-            using (var img = new Bitmap(1, 1))
+            using (var img = new System.Drawing.Bitmap(1, 1))
             using (var g = Graphics.FromImage(img))
             {
                 WinGraphics winGfx = new WinGraphics(g, false);
