@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using LayoutFarm.Drawing;
 
+using LayoutFarm.Drawing; 
 
 namespace LayoutFarm
 {
@@ -16,7 +16,7 @@ namespace LayoutFarm
             Form form1 = new Form();
             canvasViewport = new UISurfaceViewportControl();
             UISurfaceViewportControl innerViewport = canvasViewport;
-            Rectangle screenClientAreaRect = Conv.ConvToRect(Screen.PrimaryScreen.WorkingArea);
+            Rectangle screenClientAreaRect = Conv.ToRect(Screen.PrimaryScreen.WorkingArea);
 
             //----------------------
             var visualRoot = new MyRootGraphic(800, 600);

@@ -42,9 +42,9 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
     class MyFont : Font
     {
         System.Drawing.Font myFont;
-        public MyFont(object f)
+        public MyFont(System.Drawing.Font f)
         {
-            this.myFont = (System.Drawing.Font)f;
+            this.myFont = f;
         }
         public override string Name
         {

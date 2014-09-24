@@ -40,11 +40,11 @@
     <Compile Include="Implementation\FontsUtils.cs" />
     <Compile Include="Implementation\Win32Utils.cs" />
     <Compile Include="Implementation\WinGraphics.cs" />
-    <Compile Include="impl_System.Drawing.Drawing2D\Region.cs" />
-    <Compile Include="impl_System.Drawing\Bitmap_Brush_Pen.cs" />
-    <Compile Include="impl_System.Drawing\MyMatrix.cs" />
+    <Compile Include="Implementation\Region.cs" />
+    <Compile Include="Implementation\Bitmap_Brush_Pen.cs" />
+    <Compile Include="Implementation\MyMatrix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="impl_System.Drawing\WinGdiGraphics.cs" />
+    <Compile Include="Implementation\WinGdiGraphics.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
@@ -56,7 +56,7 @@
     <Folder Include="0_Start\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="impl_System.Drawing.Drawing2D\MyGraphicPath.cs" />
+    <Compile Include="Implementation\MyGraphicPath.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

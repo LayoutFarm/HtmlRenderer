@@ -106,7 +106,6 @@
     <Compile Include="4_Boxes\1_CoreBox\CssSideAndOrientation.cs" />
     <Compile Include="9_Diagnostics\HtmlRenderErrorType.cs" />
     <Compile Include="9_Diagnostics\HtmlGenerationStyle.cs" />
-    <Compile Include="Platform\ExtensionAttribute.cs" />
     <Compile Include="4_Boxes\5_Render\BackgroundImagePaintHelper.cs" />
     <Compile Include="4_Boxes\5_Render\BorderPaintHelper.cs" />
     <Compile Include="4_Boxes\1_CoreBox\CssValueParser.cs" />

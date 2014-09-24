@@ -7,9 +7,12 @@ using System.Diagnostics;
 
 using HtmlRenderer.Boxes;
 using HtmlRenderer.WebDom;
-using LayoutFarm.Drawing;
+
 using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Diagnostics;
+
+
+using LayoutFarm.Drawing;
 
 namespace HtmlRenderer
 {
@@ -128,8 +131,8 @@ namespace HtmlRenderer
                 {
                     prevClip = g.Clip;
                     g.SetClip(new System.Drawing.RectangleF(
-                        Conv.ConvFromPointF(this.Location),
-                        Conv.ConvFromSizeF(this.MaxSize)));
+                        this.Location.ToPointF(),
+                        Conv.ToSizeF(this.MaxSize)));
                 }
 
                 //------------------------------------------------------

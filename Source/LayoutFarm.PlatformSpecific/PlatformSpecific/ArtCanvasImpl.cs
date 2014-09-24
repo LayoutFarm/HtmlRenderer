@@ -8,7 +8,7 @@ namespace LayoutFarm
 {
 
 
-    public class CanvasImpl : Canvas,IGraphics2
+    public class CanvasImpl : Canvas, IGraphics2
     {
 
         private readonly static int[] _charFit = new int[1];
@@ -245,7 +245,7 @@ namespace LayoutFarm
 
             System.Drawing.Rectangle intersectResult = System.Drawing.Rectangle.Intersect(
                 currentClipRect,
-                Conv.ConvFromRect(updateArea.ToRectangle()));
+                updateArea.ToRectangle().ToRect());                 
 
             if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
             {
@@ -267,7 +267,7 @@ namespace LayoutFarm
                 System.Drawing.Rectangle.Intersect(
                     currentClipRect,
                     System.Drawing.Rectangle.Intersect(
-                    Conv.ConvFromRect(updateArea.ToRectangle()),
+                    updateArea.ToRectangle().ToRect(),
                     new System.Drawing.Rectangle(0, 0, width, height)));
 
 
@@ -292,14 +292,14 @@ namespace LayoutFarm
         }
         public override void SetClip(RectangleF clip, CombineMode combineMode)
         {
-            gx.SetClip(Conv.ConvFromRectF(clip), (System.Drawing.Drawing2D.CombineMode)combineMode);
+            gx.SetClip(clip.ToRectF(), (System.Drawing.Drawing2D.CombineMode)combineMode);
         }
 
         public override Rectangle CurrentClipRect
         {
             get
             {
-                return Conv.ConvToRect(currentClipRect);
+                return currentClipRect.ToRect();                
             }
         }
 
@@ -443,14 +443,14 @@ namespace LayoutFarm
                     new string(buffer),
                     ConvFont(prevFonts.Peek().Font),
                     internalBrush,
-                   Conv.ConvFromRect(logicalTextBox));
+                    logicalTextBox.ToRect());
             }
             else
             {
                 IntPtr gxdc = gx.GetHdc();
                 MyWin32.SetViewportOrgEx(gxdc, internalCanvasOriginX, internalCanvasOriginY, IntPtr.Zero);
                 System.Drawing.Rectangle clipRect =
-                    System.Drawing.Rectangle.Intersect(Conv.ConvFromRect(logicalTextBox), currentClipRect);
+                    System.Drawing.Rectangle.Intersect(logicalTextBox.ToRect(), currentClipRect);
                 clipRect.Offset(internalCanvasOriginX, internalCanvasOriginY);
                 MyWin32.SetRectRgn(hRgn, clipRect.X, clipRect.Y, clipRect.Right, clipRect.Bottom);
                 MyWin32.SelectClipRgn(gxdc, hRgn);
@@ -571,10 +571,10 @@ namespace LayoutFarm
                 int phySrcY = logicalSrcY - s1.top;
 
                 System.Drawing.Rectangle postIntersect =
-                    System.Drawing.Rectangle.Intersect(currentClipRect, Conv.ConvFromRect(destArea));
+                    System.Drawing.Rectangle.Intersect(currentClipRect, destArea.ToRect());
                 phySrcX += postIntersect.X - destArea.X;
                 phySrcY += postIntersect.Y - destArea.Y;
-                destArea = Conv.ConvToRect(postIntersect);
+                destArea = postIntersect.ToRect();
 
                 IntPtr gxdc = gx.GetHdc();
 
@@ -808,26 +808,25 @@ namespace LayoutFarm
         public override void FillRectangle(Color color, Rectangle rect)
         {
             internalBrush.Color = ConvColor(color);
-            gx.FillRectangle(internalBrush, Conv.ConvFromRect(rect));
+            gx.FillRectangle(internalBrush, rect.ToRect());
         }
         public override void FillRectangle(Color color, RectangleF rectf)
         {
             internalBrush.Color = ConvColor(color);
-            gx.FillRectangle(internalBrush, Conv.ConvFromRectF(rectf));
+            gx.FillRectangle(internalBrush, rectf.ToRectF());
         }
         public override void FillRectangle(Brush brush, Rectangle rect)
         {
-
-            gx.FillRectangle(ConvBrush(brush), Conv.ConvFromRect(rect));
+            gx.FillRectangle(ConvBrush(brush), rect.ToRect());
         }
         public override void FillRectangle(Brush brush, RectangleF rectf)
         {
-            gx.FillRectangle(ConvBrush(brush), Conv.ConvFromRectF(rectf));
+            gx.FillRectangle(ConvBrush(brush), rectf.ToRectF());
         }
         public override void FillRectangle(ArtColorBrush brush, RectangleF rectf)
         {
 
-            gx.FillRectangle(ConvBrush(brush.myBrush), Conv.ConvFromRectF(rectf));
+            gx.FillRectangle(ConvBrush(brush.myBrush), rectf.ToRectF());
         }
         public override void FillRectangle(Color color, int left, int top, int right, int bottom)
         {
@@ -841,7 +840,7 @@ namespace LayoutFarm
         }
         public override RectangleF GetBound(Region rgn)
         {
-            return Conv.ConvToRectF(ConvRgn(rgn).GetBounds(gx));
+            return (ConvRgn(rgn).GetBounds(gx)).ToRectF();
 
         }
         public override float GetFontHeight(Font f)
@@ -903,7 +902,7 @@ namespace LayoutFarm
         }
         public override void DrawRectangle(Pen p, Rectangle rect)
         {
-            gx.DrawRectangle(ConvPen(p), Conv.ConvFromRect(rect));
+            gx.DrawRectangle(ConvPen(p), rect.ToRect());
 
         }
         public override void DrawRectangle(Pen p, float x, float y, float width, float height)
@@ -946,26 +945,26 @@ namespace LayoutFarm
         public override void DrawRectangle(Color color, Rectangle rect)
         {
             internalPen.Color = ConvColor(color);
-            gx.DrawRectangle(internalPen, Conv.ConvFromRect(rect));
+            gx.DrawRectangle(internalPen, rect.ToRect());
 
         }
         public override void DrawImage(Image image, RectangleF dest, RectangleF src)
         {
             gx.DrawImage(image.InnerImage as System.Drawing.Bitmap,
-               Conv.ConvFromRectF(dest),
-               Conv.ConvFromRectF(src),
+               dest.ToRectF(),
+               src.ToRectF(),
                System.Drawing.GraphicsUnit.Pixel);
 
         }
         public override void DrawImage(Image image, RectangleF rect)
         {
-            gx.DrawImage(ConvBitmap(image), Conv.ConvFromRectF(rect));
+            gx.DrawImage(ConvBitmap(image), rect.ToRectF());
         }
         public override void DrawImage(Image image, Rectangle rect)
         {
             gx.DrawImage(
                 ConvBitmap(image),
-                Conv.ConvFromRect(rect));
+                rect.ToRect());
         }
         public override void DrawImage(Bitmap image, int x, int y, int w, int h)
         {
@@ -998,7 +997,7 @@ namespace LayoutFarm
         }
         public override void DrawLine(Pen pen, Point p1, Point p2)
         {
-            gx.DrawLine(ConvPen(pen), Conv.ConvFromPoint(p1), Conv.ConvFromPoint(p2));
+            gx.DrawLine(ConvPen(pen), p1.ToPoint(), p2.ToPoint());
         }
         public override void DrawLine(Color c, int x1, int y1, int x2, int y2)
         {
@@ -1023,7 +1022,7 @@ namespace LayoutFarm
         {
             System.Drawing.Color prevColor = internalPen.Color;
             internalPen.Color = ConvColor(color);
-            gx.DrawLine(internalPen, Conv.ConvFromPoint(p1), Conv.ConvFromPoint(p2));
+            gx.DrawLine(internalPen, p1.ToPoint(), p2.ToPoint());
             internalPen.Color = prevColor;
         }
         public override void DrawLine(Color color, Point p1, Point p2, DashStyle lineDashStyle)
@@ -1033,8 +1032,8 @@ namespace LayoutFarm
 
             internalPen.Color = ConvColor(color);
             gx.DrawLine(internalPen,
-                Conv.ConvFromPoint(p1),
-                Conv.ConvFromPoint(p2));
+                p1.ToPoint(),
+                p2.ToPoint());
             internalPen.DashStyle = prevLineDashStyle;
 
         }
@@ -1042,7 +1041,7 @@ namespace LayoutFarm
         {
             gx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             gx.DrawArc(ConvPen(pen),
-                Conv.ConvFromRect(r),
+                r.ToRect(),
                 startAngle,
                 sweepAngle);
         }
@@ -1068,7 +1067,7 @@ namespace LayoutFarm
         public override void FillEllipse(Color color, Rectangle rect)
         {
             internalBrush.Color = ConvColor(color);
-            gx.FillEllipse(internalBrush, Conv.ConvFromRect(rect));
+            gx.FillEllipse(internalBrush, rect.ToRect());
 
         }
         static System.Drawing.Point[] ConvPointArray(Point[] points)
@@ -1077,7 +1076,7 @@ namespace LayoutFarm
             System.Drawing.Point[] outputPoints = new System.Drawing.Point[j];
             for (int i = 0; i < j; ++i)
             {
-                outputPoints[i] = Conv.ConvFromPoint(points[i]);
+                outputPoints[i] = points[i].ToPoint();
             }
             return outputPoints;
         }
@@ -1087,7 +1086,7 @@ namespace LayoutFarm
             System.Drawing.PointF[] outputPoints = new System.Drawing.PointF[j];
             for (int i = 0; i < j; ++i)
             {
-                outputPoints[i] = Conv.ConvFromPointF(points[i]);
+                outputPoints[i] = points[i].ToPointF();
             }
             return outputPoints;
         }

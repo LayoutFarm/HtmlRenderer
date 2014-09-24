@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace HtmlRenderer.Drawing.Win32
+namespace HtmlRenderer.Drawing 
 {
     /// <summary>
     /// Utility for Win32 API.
