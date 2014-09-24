@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿
 namespace LayoutFarm.Drawing
 {
     public abstract class Brush : System.IDisposable

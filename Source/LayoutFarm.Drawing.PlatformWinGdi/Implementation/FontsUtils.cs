@@ -38,7 +38,7 @@ namespace HtmlRenderer.Drawing
     /// <summary>
     /// Utils for fonts and fonts families handling.
     /// </summary>
-    public static class FontsUtils
+    static class FontsUtils
     {
 
 
