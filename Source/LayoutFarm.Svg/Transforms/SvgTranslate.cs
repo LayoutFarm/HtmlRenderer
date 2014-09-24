@@ -3,9 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing.Drawing2D;
+using LayoutFarm.Drawing;
 using System.Globalization;
 using System.Text;
+using HtmlRenderer;
 
 namespace Svg.Transforms
 {
@@ -26,11 +27,11 @@ namespace Svg.Transforms
             set { this.y = value; }
         }
 
-        public override System.Drawing.Drawing2D.Matrix Matrix
+        public override  Matrix Matrix
         {
             get
             {
-                Matrix matrix = new Matrix();
+                Matrix matrix = CurrentGraphicPlatform.CreateMatrix();
                 matrix.Translate(this.X, this.Y);
                 return matrix;
             }

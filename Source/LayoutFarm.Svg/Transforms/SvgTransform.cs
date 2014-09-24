@@ -4,9 +4,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
-using System.Drawing.Drawing2D;
+using LayoutFarm.Drawing;
+using LayoutFarm.Drawing;
 
+using HtmlRenderer;
 namespace Svg.Transforms
 {
     public abstract class SvgTransform : ICloneable

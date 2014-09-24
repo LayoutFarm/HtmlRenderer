@@ -2,8 +2,9 @@
 //license : Microsoft Public License (MS-PL) 
 
 ﻿using System;
-﻿using System.Drawing.Drawing2D;
+using LayoutFarm.Drawing;
 using System.Globalization;
+using HtmlRenderer;
 
 namespace Svg.Transforms
 {
@@ -20,7 +21,7 @@ namespace Svg.Transforms
         {
             get
             {
-                var matrix = new Matrix();
+                var matrix = CurrentGraphicPlatform.CreateMatrix();
                 matrix.Shear(
                     (float)Math.Tan(AngleX/180*Math.PI),
                     (float)Math.Tan(AngleY/180*Math.PI));

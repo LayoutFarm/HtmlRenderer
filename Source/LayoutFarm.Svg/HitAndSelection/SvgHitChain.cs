@@ -1,8 +1,8 @@
 ﻿//2014, Apache2 WinterDev
 //MS-PL, 
 using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
+using LayoutFarm.Drawing;
+using LayoutFarm.Drawing;
 using System.Collections.Generic;
 using HtmlRenderer.Css;
 
