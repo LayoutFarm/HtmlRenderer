@@ -9,14 +9,14 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm.Drawing.Animation
 {   
-    public class ArtParallelTimeline
+    public class ParallelTimeline
     {  
-        public List<ArtTimelineSeries> animationLines = new List<ArtTimelineSeries>();    
+        public List<TimelineSeriesBase> animationLines = new List<TimelineSeriesBase>();    
         public int endFrame; 
-        public ArtParallelTimeline()
+        public ParallelTimeline()
         { 
         } 
-        public void Add(ArtTimelineSeries artAnimationline)
+        public void Add(TimelineSeriesBase artAnimationline)
         {
             animationLines.Add(artAnimationline);
         } 

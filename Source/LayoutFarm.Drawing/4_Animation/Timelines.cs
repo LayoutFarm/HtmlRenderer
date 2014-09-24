@@ -13,8 +13,8 @@ namespace LayoutFarm.Drawing.Animation
     /// <summary>
     /// describe property change in an interval ?
     /// </summary>
-    public abstract class ArtTimeline
-    {
+    public abstract class TimelineBase
+    {     
         //-------------------------------------------- 
         internal int stateFlags;
         int startFrame;
@@ -106,7 +106,7 @@ namespace LayoutFarm.Drawing.Animation
     /// <summary>
     /// describe double value change
     /// </summary>
-    public class ArtDoubleValueTimeline : ArtTimeline
+    public class DoubleValueTimeline : TimelineBase
     {
 
         double fromValue; //start value
@@ -203,13 +203,13 @@ namespace LayoutFarm.Drawing.Animation
     }
 
 
-    public class ArtSolidColorTimeline : ArtTimeline
+    public class ColorTimeline : TimelineBase
     {
 
         Color fromValue;
         Color toValue;
         Color[] inbetweenValues;
-        public ArtSolidColorTimeline()
+        public ColorTimeline()
         {
         }
         public Color FromValue
@@ -295,14 +295,14 @@ namespace LayoutFarm.Drawing.Animation
         }
     }
 
-    public class ArtGradientColorTimeline : ArtTimeline
+    public class GradientColorTimeline : TimelineBase
     {
 
         ArtGradientColorInfo fromValue;
         ArtGradientColorInfo toValue;
         ArtGradientColorInfo[] inbetweenValues;
 
-        public ArtGradientColorTimeline()
+        public GradientColorTimeline()
         {
 
         }
@@ -429,30 +429,30 @@ namespace LayoutFarm.Drawing.Animation
 
 
 
-    public class ArtDoubleValueTimelineSeries : ArtTimelineSeries
+    public class DoubleValueTimelineSeries : TimelineSeriesBase
     {
-        public ArtDoubleValueTimelineSeries(ArtGfxInstructionInfo prop)
+        public DoubleValueTimelineSeries(ArtGfxInstructionInfo prop)
             : base(prop)
         {
         }
 
-        public void AppendLast(ArtDoubleValueTimeline doubleValueAnimation)
+        public void AppendLast(DoubleValueTimeline doubleValueAnimation)
         {
             base.InnerAppendLast(doubleValueAnimation);
         }
 
     }
-    public class ArtColorTimelineSeries : ArtTimelineSeries
+    public class ColorTimelineSeries : TimelineSeriesBase
     {
-        public ArtColorTimelineSeries(ArtGfxInstructionInfo prop)
+        public ColorTimelineSeries(ArtGfxInstructionInfo prop)
             : base(prop)
         {
         }
-        public void AppendLast(ArtSolidColorTimeline colorAnimation)
+        public void AppendLast(ColorTimeline colorAnimation)
         {
             base.InnerAppendLast(colorAnimation);
         }
-        public void AppendLast(ArtGradientColorTimeline colorAnimation)
+        public void AppendLast(GradientColorTimeline colorAnimation)
         {
             base.InnerAppendLast(colorAnimation);
         }
@@ -463,36 +463,36 @@ namespace LayoutFarm.Drawing.Animation
     /// <summary>
     /// timeline for each property
     /// </summary>
-    public abstract class ArtTimelineSeries
+    public abstract class TimelineSeriesBase
     {
          
-        List<ArtTimeline> timelines;  
+        List<TimelineBase> timelines;  
         int lastestFrame; 
         int lastestTimelineIndex; 
 
         public readonly ArtGfxInstructionInfo targetGfxInfo;
         public readonly int moduleId;
 
-        public ArtTimelineSeries(ArtGfxInstructionInfo gfxInfo)
+        public TimelineSeriesBase(ArtGfxInstructionInfo gfxInfo)
         {
             this.targetGfxInfo = gfxInfo;
             this.moduleId = gfxInfo.moduleId;
         }
-        protected void InnerAdd(ArtTimeline timeline)
+        protected void InnerAdd(TimelineBase timeline)
         {
             if (timelines == null)
             {
-                timelines = new List<ArtTimeline>();
+                timelines = new List<TimelineBase>();
             }
             timelines.Add(timeline);
         }
       
-        protected void InnerAppendLast(ArtTimeline timeline)
+        protected void InnerAppendLast(TimelineBase timeline)
         {
             if (timelines == null)
             {
                 
-                timelines = new List<ArtTimeline>();
+                timelines = new List<TimelineBase>();
             }
             if (timelines.Count > 0)
             {
@@ -506,13 +506,13 @@ namespace LayoutFarm.Drawing.Animation
             }
         }
         
-        public ArtTimeline GetTimelineAtFrame(int frameNumber)
+        public TimelineBase GetTimelineAtFrame(int frameNumber)
         {
             
             if (timelines != null)
             {
                 
-                ArtTimeline timeline = timelines[lastestTimelineIndex];
+                TimelineBase timeline = timelines[lastestTimelineIndex];
                 if (frameNumber > lastestFrame)
                 {
                     

@@ -35,25 +35,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="0_Start\ExtensionAttribute.cs" />
-    <Compile Include="1_impl_System.Drawing.Drawing2D\CombineMode.cs" />
-    <Compile Include="1_impl_System.Drawing.Drawing2D\Matrix.cs" />
-    <Compile Include="1_impl_System.Drawing.Drawing2D\SmoothingMode.cs" />
-    <Compile Include="1_impl_System.Drawing\Brushes_Pens.cs" />
-    <Compile Include="1_impl_System.Drawing\Color.cs" />
-    <Compile Include="1_impl_System.Drawing\DashStyle.cs" />
-    <Compile Include="1_impl_System.Drawing\Font.cs" />
-    <Compile Include="1_impl_System.Drawing.Drawing2D\GraphicsPath.cs" />
-    <Compile Include="1_impl_System.Drawing\FontStyle.cs" />
-    <Compile Include="1_impl_System.Drawing\Image.cs" />
-    <Compile Include="1_impl_System.Drawing\KnownColors.cs" />
-    <Compile Include="1_impl_System.Drawing\Rectangle.cs" />
-    <Compile Include="1_impl_System.Drawing\RectangleF.cs" />
-    <Compile Include="1_impl_System.Drawing\Region.cs" />
+    <Compile Include="1_impl\CombineMode.cs" />
+    <Compile Include="1_impl\Matrix.cs" />
+    <Compile Include="1_impl\SmoothingMode.cs" />
+    <Compile Include="1_impl\Brushes_Pens.cs" />
+    <Compile Include="1_impl\Color.cs" />
+    <Compile Include="1_impl\DashStyle.cs" />
+    <Compile Include="1_impl\Font.cs" />
+    <Compile Include="1_impl\GraphicsPath.cs" />
+    <Compile Include="1_impl\FontStyle.cs" />
+    <Compile Include="1_impl\Image.cs" />
+    <Compile Include="1_impl\KnownColors.cs" />
+    <Compile Include="1_impl\Rectangle.cs" />
+    <Compile Include="1_impl\RectangleF.cs" />
+    <Compile Include="1_impl\Region.cs" />
     <Compile Include="2_Drawing_TextAndGraphics\FontInfo.cs" />
     <Compile Include="2_Drawing_TextAndGraphics\IFonts.cs" />
     <Compile Include="2_Drawing_TextAndGraphics\IGraphics.cs" />
     <Compile Include="2_Drawing_TextAndGraphics\ImageBinder.cs" />
-    <Compile Include="1_impl_System.Drawing\BasicGeometryObjects.cs" />
+    <Compile Include="1_impl\BasicGeometryObjects.cs" />
     <Compile Include="2_Drawing_Art\ArtColorPalette.cs" />
     <Compile Include="2_Drawing_Art\ColorComponentStepup.cs" />
     <Compile Include="2_Drawing_Art\GfxProcessorModule.cs" />
@@ -64,8 +64,8 @@
     <Compile Include="3_LeanBoxDrawing\CustomRenderSurface.cs" />
     <Compile Include="3_LeanBoxDrawing\FontSystem.cs" />
     <Compile Include="3_LeanBoxDrawing\InternalRect.cs" />
-    <Compile Include="4_Animation\ArtAnimationTimelines.cs" />
-    <Compile Include="4_Animation\ArtParallelTimeline.cs" />
+    <Compile Include="4_Animation\Timelines.cs" />
+    <Compile Include="4_Animation\ParallelTimeline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
