@@ -170,7 +170,7 @@ namespace LayoutFarm.Drawing
 
                 var size = new System.Drawing.Size();
                 Win32Utils.GetTextExtentPoint32(_hdc, str, str.Length, ref size);
-                return size.ToSize();                
+                return size.ToSize();
 
             }
         }
@@ -266,7 +266,7 @@ namespace LayoutFarm.Drawing
             }
         }
 #if DEBUG
-        public static class dbugCounter
+        static class dbugCounter
         {
             public static int dbugDrawStringCount;
         }

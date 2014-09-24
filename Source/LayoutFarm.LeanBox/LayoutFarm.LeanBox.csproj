@@ -43,7 +43,6 @@
     <Compile Include="6_Root\1_RootGraphic_p1.cs" />
     <Compile Include="6_Root\1_RootGraphic_p2.cs" />
     <Compile Include="0_Start\dbugCoreConst.cs" />
-    <Compile Include="0_Start\ExtensionAttribute.cs" />
     <Compile Include="4_Boxes\TopWindowRenderBox.cs" />
     <Compile Include="6_Root\3_GraphicIntervalTask.cs" />
     <Compile Include="7_debug\dbugVisualEvalScrollBarTrace.cs" />

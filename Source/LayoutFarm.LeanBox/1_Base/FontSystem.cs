@@ -7,9 +7,7 @@ using System.Text;
 using LayoutFarm.Drawing;
 
 namespace LayoutFarm
-{
-
-
+{   
 
     public struct FontSignature
     {

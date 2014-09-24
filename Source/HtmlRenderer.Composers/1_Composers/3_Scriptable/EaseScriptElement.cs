@@ -8,9 +8,7 @@ using HtmlRenderer.Boxes;
 using HtmlRenderer.Composers.BridgeHtml;
 
 namespace HtmlRenderer.Composers
-{
-
-
+{   
     public struct EaseScriptElement
     {
         HtmlElement elem;

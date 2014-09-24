@@ -24,33 +24,28 @@ namespace LayoutFarm.Drawing
     /// Provides some drawing functionallity
     /// </summary>
     static class RenderUtils
-    {
-
-
-
-        #region Fields and Consts
-
+    { 
         /// <summary>
         /// cache of brush color to brush instance
         /// </summary>
-        private static readonly Dictionary<Color, Brush> _brushesCache = new Dictionary<Color, Brush>();
+        static readonly Dictionary<Color, Brush> _brushesCache = new Dictionary<Color, Brush>();
 
         /// <summary>
         /// cache of pen color to pen instance
         /// </summary>
-        private static readonly Dictionary<Color, Pen> _penCache = new Dictionary<Color, Pen>();
+        static readonly Dictionary<Color, Pen> _penCache = new Dictionary<Color, Pen>();
 
         /// <summary>
         /// image used to draw loading image icon
         /// </summary>
-        private static Image _loadImage;
+        static Image _loadImage;
 
         /// <summary>
         /// image used to draw error image icon
         /// </summary>
-        private static Image _errorImage;
+        static Image _errorImage;
 
-        #endregion
+
 
 
         /// <summary>

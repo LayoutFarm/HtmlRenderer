@@ -61,8 +61,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="1_Drawing\FontDefaultConfig.cs" />
-    <Compile Include="1_Drawing\RenderGraphicObjects.cs" />
+    <Compile Include="Platform\FontDefaultConfig.cs" />
     <Compile Include="4_Boxes\7_HitAndSelections\SelectionRange.cs" />
     <Compile Include="4_Boxes\1_CoreBox\CssBox_Spec_Snap.cs" />
     <Compile Include="4_Boxes\2_Runs\CssBlockRun.cs" />
@@ -82,7 +81,6 @@
     <Compile Include="5_Boxes_SpecialBoxes\CssBoxListItem.cs" />
     <Compile Include="9_Diagnostics\DeprecatedAttribute.cs" />
     <Compile Include="9_Diagnostics\HtmlGenerator.cs" />
-    <Compile Include="Platform\Delegates.cs" />
     <Compile Include="Platform\MapAttribute.cs" />
     <Compile Include="4_Boxes\1_CoreBox\CssBoxCollection.cs" />
     <Compile Include="4_Boxes\1_CoreBox\CssBox_Unsafe.cs" />
@@ -115,7 +113,7 @@
     <Compile Include="3_Css\CssUnitOrNames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="4_Boxes\3_Layout\BoxUtils.cs" />
-    <Compile Include="1_Drawing\RenderUtils.cs" />
+    <Compile Include="Platform\RenderUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
