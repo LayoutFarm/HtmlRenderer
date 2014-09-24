@@ -94,13 +94,14 @@ namespace LayoutFarm
 
 
             defaultTextFontInfo = new TextFontInfo(
-                new LayoutFarm.Drawing.WinGdiPlatform.MyFont(
+                LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
                 new System.Drawing.Font("Tahoma", 10)),
                 gdiFontHelper);
             fontDics.Add(defaultTextFontInfo.GetFontSignature(), defaultTextFontInfo);
 
+           
             RegisterFont(
-                 new LayoutFarm.Drawing.WinGdiPlatform.MyFont(
+                  LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
                  new System.Drawing.Font("Tahoma", 14, System.Drawing.FontStyle.Bold)));
 
         }
@@ -138,7 +139,7 @@ namespace LayoutFarm
             {
 
                 textFontInfo = new TextFontInfo(
-                    new LayoutFarm.Drawing.WinGdiPlatform.MyFont(
+                    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont( 
                       new System.Drawing.Font(fontface,
                           size, (System.Drawing.FontStyle)fontStyle)),
                     gdiFontHelper);
@@ -158,7 +159,7 @@ namespace LayoutFarm
             {
 
                 textFontInfo = new TextFontInfo(
-                    new LayoutFarm.Drawing.WinGdiPlatform.MyFont(
+                     LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
                         new System.Drawing.Font(
                             fontSig.FontName,
                             fontSig.FontSize,
@@ -183,7 +184,7 @@ namespace LayoutFarm
             else
             {
                 textFontInfo = new TextFontInfo(
-                    new LayoutFarm.Drawing.WinGdiPlatform.MyFont(
+                     LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
                         new System.Drawing.Font(fontface, size)),
                     gdiFontHelper);
                 fontDics.Add(fontSig, textFontInfo);

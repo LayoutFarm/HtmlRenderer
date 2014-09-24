@@ -39,7 +39,7 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         }
     }
 
-    public class MyFont : Font
+    class MyFont : Font
     {
         System.Drawing.Font myFont;
         public MyFont(object f)
@@ -184,7 +184,7 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         }
 
     }
-     
+
     class MyLinearGradientBrush : LinearGradientBrush
     {
         PointF startPoint;
