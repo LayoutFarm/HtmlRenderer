@@ -81,7 +81,8 @@ namespace LayoutFarm.Drawing
         {
             get { return WinGdiPlatform.WinGdi.Platform; }
         }
-        object IGraphics2.GetInnerGraphic()
+        
+        public object GetInnerGraphic()
         {
             return this._g;
         }

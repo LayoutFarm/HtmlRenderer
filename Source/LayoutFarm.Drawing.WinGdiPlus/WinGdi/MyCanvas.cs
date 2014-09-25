@@ -7,7 +7,7 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
 
-    partial class MyCanvas : Canvas, IGraphics2
+    partial class MyCanvas : Canvas
     {
 
         private readonly static int[] _charFit = new int[1];
@@ -55,6 +55,7 @@ namespace LayoutFarm
 
         bool isFromPrinter = false;
         SolidBrush sharedSolidBrush;
+        WinGraphics winGfx;
 
         public MyCanvas(int horizontalPageNum, int verticalPageNum, int left, int top, int width, int height)
         {
@@ -92,29 +93,15 @@ namespace LayoutFarm
 #endif
         }
 
-        public MyCanvas(IGraphics2 gx, int verticalPageNum, int horizontalPageNum, int left, int top, int width, int height)
+        public override IGraphics GetIGraphics()
         {
-
-            this.pageNumFlags = (horizontalPageNum << 8) | verticalPageNum;
-            this.left = left;
-            this.top = top;
-            this.right = left + width;
-            this.bottom = top + height;
-            internalPen = new System.Drawing.Pen(System.Drawing.Color.Black);
-            internalBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
-
-            this.gx = gx.GetInnerGraphic() as System.Drawing.Graphics;
-
-
-            isFromPrinter = true;
-            currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
-
-            PushFontInfoAndTextColor(FontManager.DefaultTextFontInfo, Color.Black);
-
-#if DEBUG
-            debug_canvas_id = dbug_canvasCount + 1;
-            dbug_canvasCount += 1;
-#endif
+            if (winGfx == null)
+            {
+                winGfx = new WinGraphics(
+                    this.gx,
+                    false);
+            }
+            return winGfx;
 
         }
 
@@ -140,11 +127,8 @@ namespace LayoutFarm
         {
             canvasFlags = FIRSTTIME_INVALID_AND_UPDATED_CONTENT;
         }
-        public override IGraphics2 GetGfx()
-        {
-            return this;
-        }
-        public object GetInnerGraphic()
+
+        public override object GetGfx()
         {
             return this.gx;
         }

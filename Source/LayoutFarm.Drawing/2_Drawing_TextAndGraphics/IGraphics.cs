@@ -9,7 +9,7 @@ namespace LayoutFarm.Drawing
 {
 
 
-    public interface IGraphics : IFonts, IGraphics2, IDisposable
+    public interface IGraphics : IFonts,   IDisposable
     {
         //--------------------------------------------------
         float CanvasOriginX { get; }
@@ -92,10 +92,6 @@ namespace LayoutFarm.Drawing
         void FillPath(Brush brush, GraphicsPath path);
         //------------------------------------------   
     }
-
-    public interface IGraphics2
-    {
-        object GetInnerGraphic();
-    }
+     
 
 }

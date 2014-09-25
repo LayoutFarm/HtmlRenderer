@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 using System.Text;
-using System.Drawing;
 using System.Diagnostics;
 using HtmlRenderer.Boxes;
 using HtmlRenderer.WebDom;
@@ -39,7 +38,6 @@ namespace HtmlRenderer
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
 
 
-        System.Drawing.Bitmap tempBmp = new System.Drawing.Bitmap(1, 1);
 
         public WinRootVisualBox()
         {
@@ -105,49 +103,49 @@ namespace HtmlRenderer
             this.activeCssSheet = activeCss;
             base.SetRootCssBox(rootBox);
         }
-        public void PerformPaint(IGraphics2 g)
+        public void PerformPaint(LayoutFarm.Canvas canvas)
         {
-            PerformPaint2(g.GetInnerGraphic() as Graphics);
+            if (doc == null) return; 
+            base.PerformPaint(canvas.GetIGraphics());
+            //PerformPaint(canvas.GetIGraphics());
         }
-        void PerformPaint2(Graphics g)
-        {
-            if (doc == null)
-            {
-                return;
-            }
+        //void PerformPaint(System.Drawing.Graphics g)
+        //{
+        //    if (doc == null)
+        //    {
+        //        return;
+        //    }
 
-            using (var gfx = CurrentGraphicPlatform.P.CreateIGraphics(g))
-            {
-                System.Drawing.Region prevClip = null;
-                if (this.MaxSize.Height > 0)
-                {
-                    prevClip = g.Clip;
-                    g.SetClip(new System.Drawing.RectangleF(
-                        this.Location.ToPointF(),
-                        Conv.ToSizeF(this.MaxSize)));
-                }
+        //    using (var gfx = CurrentGraphicPlatform.P.CreateIGraphics(g))
+        //    {
+        //        System.Drawing.Region prevClip = null;
+        //        if (this.MaxSize.Height > 0)
+        //        {
+        //            prevClip = g.Clip;
+        //            g.SetClip(new System.Drawing.RectangleF(
+        //                this.Location.ToPointF(),
+        //                Conv.ToSizeF(this.MaxSize)));
+        //        }
 
-                //------------------------------------------------------
-                //
-                if (doc.DocumentState == DocumentState.ChangedAfterIdle)
-                {
+        //        if (doc.DocumentState == DocumentState.ChangedAfterIdle)
+        //        {
 
-                    WinHtmlRootVisualBoxExtension.RefreshHtmlDomChange(
-                        this,
-                        doc,
-                        this.activeCssSheet);
+        //            WinHtmlRootVisualBoxExtension.RefreshHtmlDomChange(
+        //                this,
+        //                doc,
+        //                this.activeCssSheet);
 
-                    this.PerformLayout(gfx);
-                }
+        //            this.PerformLayout(gfx);
+        //        }
 
-                base.PerformPaint(gfx);
+        //        base.PerformPaint(gfx);
 
-                if (prevClip != null)
-                {
-                    g.SetClip(prevClip, System.Drawing.Drawing2D.CombineMode.Replace);
-                }
-            }
-        }
+        //        if (prevClip != null)
+        //        {
+        //            g.SetClip(prevClip, System.Drawing.Drawing2D.CombineMode.Replace);
+        //        }
+        //    }
+        //}
 
         protected override void OnRootDisposed()
         {

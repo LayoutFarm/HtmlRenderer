@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 using System.Text;
-using System.Drawing;
 using System.Diagnostics;
 
 using HtmlRenderer.Boxes;
@@ -13,7 +12,7 @@ using HtmlRenderer.Diagnostics;
 
 namespace HtmlRenderer
 {
-    public static class WinHtmlRootVisualBoxExtension
+    static class WinHtmlRootVisualBoxExtension
     {
         public static void SetHtml(this WinRootVisualBox container, string html, CssActiveSheet cssData)
         {
@@ -100,7 +99,7 @@ namespace HtmlRenderer
                 }
             };
 
-          
+
             var rootBox2 = builder.RefreshCssTree(doc, CurrentGraphicPlatform.P.SampleIGraphics, container);
         }
     }

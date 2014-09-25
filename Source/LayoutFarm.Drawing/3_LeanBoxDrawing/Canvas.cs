@@ -28,7 +28,7 @@ namespace LayoutFarm
             get;
             set;
         }
-        public abstract IGraphics2 GetGfx();
+        public abstract object GetGfx();
         public abstract void MarkAsFirstTimeInvalidateAndUpdateContent();
 
         public abstract bool IsFromPrinter
@@ -251,6 +251,7 @@ namespace LayoutFarm
         public abstract bool IsContentUpdated { get; }
         public abstract void Invalidate(InternalRect rect);
 
+        public abstract IGraphics GetIGraphics();
 
     }
 }

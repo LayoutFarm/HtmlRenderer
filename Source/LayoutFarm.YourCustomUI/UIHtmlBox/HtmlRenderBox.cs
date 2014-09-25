@@ -45,7 +45,6 @@ namespace LayoutFarm
 
             //-------------------------------------------------------
             _boxComposer = new BoxComposer();
-
             _visualRootBox = new WinRootVisualBox();
             _visualRootBox.BoxComposer = _boxComposer;
 
@@ -125,7 +124,7 @@ namespace LayoutFarm
         protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
         {
             _visualRootBox.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
-            _visualRootBox.PerformPaint(canvasPage.GetGfx());
+            _visualRootBox.PerformPaint(canvasPage);
         }
         public override void ChildrenHitTestCore(HitPointChain artHitResult)
         {

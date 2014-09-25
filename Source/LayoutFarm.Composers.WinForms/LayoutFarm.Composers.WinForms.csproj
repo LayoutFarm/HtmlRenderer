@@ -43,8 +43,6 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HtmlRenderer_Platform\WinHtmlRootVisualBoxExtension.cs" />
-    <Compile Include="HtmlRenderer_Platform\WinRootVisualBox.cs" />
     <Compile Include="PlatformSpecific\CanvasCollection.cs" />
     <Compile Include="PlatformSpecific\UISurfaceViewportControl.cs">
       <SubType>UserControl</SubType>

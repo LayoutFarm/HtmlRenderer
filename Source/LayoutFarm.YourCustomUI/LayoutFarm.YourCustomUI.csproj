@@ -44,6 +44,9 @@
     <Compile Include="CustomUI.Sample\UITextBox.cs" />
     <Compile Include="CustomUI.Sample_Composites\UIListView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UIHtmlBox\HtmlRenderBox.cs" />
+    <Compile Include="UIHtmlBox\UIHtmlBox.cs" />
+    <Compile Include="UIHtmlBox\WinHtmlRootVisualBoxExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
