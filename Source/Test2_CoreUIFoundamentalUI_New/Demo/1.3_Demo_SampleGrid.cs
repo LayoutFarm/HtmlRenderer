@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
+using LayoutFarm.Drawing; 
 
 using LayoutFarm.Text;
 using LayoutFarm.UI;
@@ -32,7 +32,7 @@ namespace LayoutFarm
                 viewport.AddContent(gridBox);
 
                 var simpleButton = new LayoutFarm.SampleControls.UIButton(20, 20);
-                simpleButton.BackColor = Color.OliveDrab;
+                simpleButton.BackColor = KnownColors.FromKnownColor(KnownColor.OliveDrab);
                 gridBox.AddUI(simpleButton, 1, 1); 
             }
 

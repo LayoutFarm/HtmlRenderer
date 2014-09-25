@@ -3,8 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
-
+using LayoutFarm.Drawing; 
 using LayoutFarm.Text;
 using LayoutFarm.UI;
 
@@ -17,7 +16,7 @@ namespace LayoutFarm
         {
             var listview = new LayoutFarm.SampleControls.UIListView(300, 400);
             listview.SetLocation(10, 10);
-            listview.BackColor = Color.LightGray;
+            listview.BackColor = KnownColors.FromKnownColor(KnownColor.LightGray); 
             viewport.AddContent(listview);
             
             //add 
@@ -26,11 +25,11 @@ namespace LayoutFarm
                 var listItem = new LayoutFarm.SampleControls.UIListItem(400, 20);
                 if ((i % 2) == 0)
                 {
-                    listItem.BackColor = Color.OrangeRed;
+                    listItem.BackColor = KnownColors.FromKnownColor(KnownColor.OrangeRed);
                 }
                 else
                 {
-                    listItem.BackColor = Color.Orange;
+                    listItem.BackColor = KnownColors.FromKnownColor(KnownColor.Orange);
                 }
                 listview.AddItem(listItem);
             }

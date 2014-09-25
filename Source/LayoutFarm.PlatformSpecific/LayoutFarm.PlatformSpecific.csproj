@@ -43,6 +43,10 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HtmlRenderer_Events\HtmlRefreshEventArgs.cs" />
+    <Compile Include="HtmlRenderer_Events\HtmlRenderErrorEventArgs.cs" />
+    <Compile Include="HtmlRenderer_Platform\WinHtmlRootVisualBoxExtension.cs" />
+    <Compile Include="HtmlRenderer_Platform\WinRootVisualBox.cs" />
     <Compile Include="PlatformSpecific\ArtSurfaceViewportControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -77,6 +81,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
+      <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
+      <Name>LayoutFarm.Composers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.Drawing.PlatformWinGdi\LayoutFarm.Drawing.PlatformWinGdi.csproj">
       <Project>{E22C7CED-9DD7-4758-95B4-B315659965C3}</Project>
       <Name>LayoutFarm.Drawing.PlatformWinGdi</Name>
@@ -84,6 +92,10 @@
     <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
       <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
       <Name>LayoutFarm.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
+      <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>
+      <Name>LayoutFarm.HtmlRenderer</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.LeanBox\LayoutFarm.LeanBox.csproj">
       <Project>{5CDDBA62-67E4-40AA-A3C0-AFAE030E6969}</Project>

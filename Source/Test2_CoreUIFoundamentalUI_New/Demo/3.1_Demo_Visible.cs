@@ -10,8 +10,8 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm
 {
-    [DemoNote("1.5 DemoDrag")]
-    class Demo_Drag : DemoBase
+    [DemoNote("3.1 DemoVisible")]
+    class Demo_Visible : DemoBase
     {
         protected override void OnStartDemo(UISurfaceViewportControl viewport)
         {
@@ -26,8 +26,7 @@ namespace LayoutFarm
             //--------------------------------
             {
                 var box2 = new LayoutFarm.SampleControls.UIButton(30, 30);
-                box2.SetLocation(50, 50);
-                SetupActiveBoxProperties(box2);
+                box2.SetLocation(50, 50); 
                 viewport.AddContent(box2);
             }
         }
@@ -39,27 +38,11 @@ namespace LayoutFarm
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
                 box.InvalidateGraphic();
             };
-
-            //2. mouse up
-            box.MouseUp += (s, e) =>
+            box.MouseDown += (s, e) =>
             {
-                box.BackColor = Color.LightGray;
+                box.BackColor = Color.Red;
                 box.InvalidateGraphic();
-            };
-            //3. drag
-            box.Dragging += (s, e) =>
-            {
-                box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
-                Point pos = box.Position;
-                box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
-
-
-            };
-            box.DragStop += (s, e) =>
-            {
-                box.BackColor = Color.LightGray;
-                box.InvalidateGraphic();
-            };
+            }; 
         }
 
     }

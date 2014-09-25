@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
+using LayoutFarm.Drawing;
 
 using LayoutFarm.Text;
 using LayoutFarm.UI;
@@ -34,7 +34,7 @@ namespace LayoutFarm.SampleControls
         {
 
             //sample bg
-            using (var brush = LayoutFarm.Drawing.CurrentGraphicPlatform.CreateSolidBrush(ConvColor(BackColor)))
+            using (var brush = LayoutFarm.Drawing.CurrentGraphicPlatform.CreateSolidBrush(BackColor))
             {
                 canvasPage.FillRectangle(brush, updateArea.ToRectangle());
                 if (this.Layers != null)

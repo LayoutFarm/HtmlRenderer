@@ -25,39 +25,37 @@ namespace LayoutFarm.Drawing
         /// <summary>
         /// used for <see cref="MeasureString(string,System.Drawing.Font,float,out int,out int)"/> calculation.
         /// </summary>
-        private static readonly int[] _charFit = new int[1];
+        static readonly int[] _charFit = new int[1];
 
         /// <summary>
         /// used for <see cref="MeasureString(string,System.Drawing.Font,float,out int,out int)"/> calculation.
         /// </summary>
-        private static readonly int[] _charFitWidth = new int[1000];
+        static readonly int[] _charFitWidth = new int[1000];
 
         /// <summary>
         /// Used for GDI+ measure string.
         /// </summary>
-        private static readonly System.Drawing.CharacterRange[] _characterRanges = new System.Drawing.CharacterRange[1];
+        static readonly System.Drawing.CharacterRange[] _characterRanges = new System.Drawing.CharacterRange[1];
 
         /// <summary>
         /// The string format to use for measuring strings for GDI+ text rendering
         /// </summary>
-        private static readonly System.Drawing.StringFormat _stringFormat;
+        static readonly System.Drawing.StringFormat _stringFormat;
 
         /// <summary>
         /// The wrapped WinForms graphics object
         /// </summary>
-        private readonly System.Drawing.Graphics _g;
+        readonly System.Drawing.Graphics _g;
 
         /// <summary>
         /// Use GDI+ text rendering to measure/draw text.
         /// </summary>
-        private readonly bool _useGdiPlusTextRendering;
+        readonly bool _useGdiPlusTextRendering;
 
         /// <summary>
         /// the initialized HDC used
         /// </summary>
-        private IntPtr _hdc;
-
-
+        IntPtr _hdc; 
 
         float canvasOriginX = 0;
         float canvasOriginY = 0;
