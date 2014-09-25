@@ -16,8 +16,8 @@ using HtmlRenderer.Drawing;
 namespace LayoutFarm.Drawing
 {
 
-    
-    public sealed class WinGraphics : LayoutFarm.Drawing.IGraphics
+
+    sealed class WinGraphics : LayoutFarm.Drawing.IGraphics
     {
 
         /// <summary>

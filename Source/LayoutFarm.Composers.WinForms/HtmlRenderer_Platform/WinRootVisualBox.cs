@@ -60,10 +60,7 @@ namespace HtmlRenderer
         }
 
 
-        public override IGraphics GetSampleGraphics()
-        {
-            return new WinGraphics(Graphics.FromImage(tempBmp), false);
-        }
+
         protected override void RequestRefresh(bool layout)
         {
             if (this.Refresh != null)
@@ -119,7 +116,7 @@ namespace HtmlRenderer
                 return;
             }
 
-            using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
+            using (var gfx = CurrentGraphicPlatform.P.CreateIGraphics(g))
             {
                 System.Drawing.Region prevClip = null;
                 if (this.MaxSize.Height > 0)
@@ -142,16 +139,16 @@ namespace HtmlRenderer
 
                     this.PerformLayout(gfx);
                 }
-                
+
                 base.PerformPaint(gfx);
-                
+
                 if (prevClip != null)
                 {
                     g.SetClip(prevClip, System.Drawing.Drawing2D.CombineMode.Replace);
                 }
-            } 
+            }
         }
-       
+
         protected override void OnRootDisposed()
         {
 

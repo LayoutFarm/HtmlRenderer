@@ -138,14 +138,14 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
                     }
 
                     System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(sampleBmp);
-                    sampleIGraphics =new WinGraphics(g, false);
+                    sampleIGraphics = new WinGraphics(g, false);
                 }
                 return this.sampleIGraphics;
             }
         }
         public override IGraphics CreateIGraphics(object nativeObj)
         {
-            throw new System.NotImplementedException();
+            return new WinGraphics((System.Drawing.Graphics)nativeObj, false);
         }
     }
 }

@@ -100,12 +100,8 @@ namespace HtmlRenderer
                 }
             };
 
-            using (var img = new System.Drawing.Bitmap(1, 1))
-            using (var g = Graphics.FromImage(img))
-            {
-                WinGraphics winGfx = new WinGraphics(g, false);
-                var rootBox = builder.RefreshCssTree(doc, winGfx, container);
-            }
+          
+            var rootBox2 = builder.RefreshCssTree(doc, CurrentGraphicPlatform.P.SampleIGraphics, container);
         }
     }
 

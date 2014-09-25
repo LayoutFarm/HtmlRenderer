@@ -104,15 +104,12 @@ namespace HtmlRenderer
                     textContentManager.AddStyleSheetRequest(e);
                 }
             };
-            using (var img = new Bitmap(1, 1))
-            using (var g = Graphics.FromImage(img))
-            {
-                LayoutFarm.Drawing.WinGraphics winGfx = new LayoutFarm.Drawing.WinGraphics(g, false);
-                var rootBox = builder.RefreshCssTree(doc, winGfx, container);
 
-                //container.SetHtmlDoc(doc);
-                //container.SetRootCssBox(rootBox, cssData);
-            }
+            var rootBox = builder.RefreshCssTree(doc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, container);
+
+            //container.SetHtmlDoc(doc);
+            //container.SetRootCssBox(rootBox, cssData);
+
         }
     }
 

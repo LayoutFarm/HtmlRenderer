@@ -22,7 +22,7 @@ namespace HtmlRenderer.Composers
         bool _isMouseDown;
         //----------------------------------------------- 
         SelectionRange _currentSelectionRange = null;
-        IGraphics sampleGraphics;
+      
         bool _isBinded;
         public InputEventBridge()
         {
@@ -33,7 +33,7 @@ namespace HtmlRenderer.Composers
             {
                 this._container = container;
             }
-            this.sampleGraphics = container.GetSampleGraphics();
+             
             _isBinded = true;
         }
         public void Unbind()
@@ -106,7 +106,7 @@ namespace HtmlRenderer.Composers
                     {
                         _currentSelectionRange = new SelectionRange(
                             _latestMouseDownHitChain,
-                            hitChain, sampleGraphics);
+                            hitChain, CurrentGraphicPlatform.P.SampleIGraphics);
 
                     }
                     else

@@ -44,7 +44,6 @@ namespace HtmlRenderer
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
 
 
-        Bitmap tempBmp = new Bitmap(1, 1);
 
         public WinRootVisualBox()
         {
@@ -64,10 +63,7 @@ namespace HtmlRenderer
         }
 
 
-        public override LayoutFarm.Drawing.IGraphics GetSampleGraphics()
-        {
-            return new LayoutFarm.Drawing.WinGraphics(Graphics.FromImage(tempBmp), false);
-        }
+
         protected override void RequestRefresh(bool layout)
         {
             if (this.Refresh != null)
@@ -119,7 +115,7 @@ namespace HtmlRenderer
                 return;
             }
 
-            using (var gfx = new LayoutFarm.Drawing.WinGraphics(g, this.UseGdiPlusTextRendering))
+            using (var gfx = LayoutFarm.Drawing.CurrentGraphicPlatform.P.CreateIGraphics(g))
             {
                 Region prevClip = null;
                 if (this.MaxSize.Height > 0)
@@ -138,7 +134,7 @@ namespace HtmlRenderer
                     WinHtmlRootVisualBoxExtension.RefreshHtmlDomChange(
                         this,
                         doc,
-                        this.activeCssSheet); 
+                        this.activeCssSheet);
                     this.PerformLayout(gfx);
                 }
                 //------------------------------------------------------ 
