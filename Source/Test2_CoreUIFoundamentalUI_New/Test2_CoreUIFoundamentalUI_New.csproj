@@ -75,6 +75,7 @@
     <Compile Include="Demo\1.7_Demo_ListView.cs" />
     <Compile Include="Demo\2.1_Demo_SingleLineTextBox.cs" />
     <Compile Include="Demo\2.2_Demo_MultilineTextBox.cs" />
+    <Compile Include="Demo\3.1_Demo_Visible.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

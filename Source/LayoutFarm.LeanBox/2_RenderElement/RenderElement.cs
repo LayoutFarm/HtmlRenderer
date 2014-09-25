@@ -11,7 +11,7 @@ namespace LayoutFarm
 
     public abstract partial class RenderElement
     {
-
+         
         IParentLink visualParentLink;
         //special 
         bool isWindowRoot;
