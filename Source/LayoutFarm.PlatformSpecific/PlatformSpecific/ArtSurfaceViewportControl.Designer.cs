@@ -2,9 +2,10 @@
 {
     partial class UISurfaceViewportControl
     {
-                                private System.ComponentModel.IContainer components = null;
 
-                                        protected override void Dispose(bool disposing)
+        private System.ComponentModel.IContainer components = null;
+
+        protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
             {
@@ -15,10 +16,10 @@
 
         #region Component Designer generated code
 
-                                        private void InitializeComponent()
+        private void InitializeComponent()
         {
             this.SuspendLayout();
-                                                this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Name = "TextSurface";

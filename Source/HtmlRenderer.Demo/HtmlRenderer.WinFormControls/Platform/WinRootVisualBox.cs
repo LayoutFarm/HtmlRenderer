@@ -118,7 +118,7 @@ namespace HtmlRenderer
             {
                 return;
             }
-
+            
             using (var gfx = new LayoutFarm.Drawing.WinGraphics(g, this.UseGdiPlusTextRendering))
             {
                 Region prevClip = null;

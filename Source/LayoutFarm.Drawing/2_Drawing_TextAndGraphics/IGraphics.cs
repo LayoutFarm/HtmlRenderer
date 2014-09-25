@@ -9,7 +9,7 @@ namespace LayoutFarm.Drawing
 {
 
 
-    public interface IGraphics : IFonts, IDisposable
+    public interface IGraphics : IFonts, IGraphics2, IDisposable
     {
         //--------------------------------------------------
         float CanvasOriginX { get; }

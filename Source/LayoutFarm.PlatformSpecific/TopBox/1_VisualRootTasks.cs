@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
-
-
-
+using LayoutFarm.Drawing; 
 namespace LayoutFarm
 {
     public abstract class VisualRootTimerTask
@@ -31,9 +28,7 @@ namespace LayoutFarm
             if (isEnabled)
             {
                 if (!isInQueue)
-                {
-
-
+                {   
                     if (winroot != null)
                     {
                         winroot.AddTimerTask(this);

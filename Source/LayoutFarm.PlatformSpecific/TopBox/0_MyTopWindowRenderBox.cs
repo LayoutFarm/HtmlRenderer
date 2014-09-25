@@ -19,7 +19,7 @@ namespace LayoutFarm
 
         MyRootGraphic rootGraphic;
         CanvasEventsStock eventStock = new CanvasEventsStock();
-        IEventListener currentMouseUIFocus = null;
+       
 
 
         public MyTopWindowRenderBox(

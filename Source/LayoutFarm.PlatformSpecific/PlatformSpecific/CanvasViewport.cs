@@ -1,14 +1,13 @@
 ﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
+using System.Text; 
 using LayoutFarm.Drawing;
 
 namespace LayoutFarm
 {
 
-    public partial class CanvasViewport
+    public class CanvasViewport
     {
         int viewportX;
         int viewportY;
@@ -25,11 +24,8 @@ namespace LayoutFarm
         int v_smallChange = 0;
         int v_largeChange = 0;
         EventHandler<UIInvalidateEventArgs> canvasInvalidateHandler;
-        EventHandler<UICursorEventArgs> canvasCursorChangedHandler;
-         
-        EventHandler<EventArgs> canvasSizeChangedHandler;
-
-
+        EventHandler<UICursorEventArgs> canvasCursorChangedHandler; 
+        EventHandler<EventArgs> canvasSizeChangedHandler; 
         bool fullMode = true;
         ISurfaceViewportControl outputWindow;
         public CanvasViewport(ISurfaceViewportControl outputWindow,
@@ -44,15 +40,15 @@ namespace LayoutFarm
             this.viewportWidth = viewportSize.Width;
             this.viewportHeight = viewportSize.Height;
 
-             
+
             canvasInvalidateHandler = Canvas_Invalidate;
             canvasCursorChangedHandler = Canvas_CursorChange;
             canvasSizeChangedHandler = Canvas_SizeChanged;
 
-            
-            wintop.CursorStyleEventHandler += canvasCursorChangedHandler;
+
+           
             wintop.CanvasInvalidatedEvent += canvasInvalidateHandler;
-            
+
             viewportX = 0;
             viewportY = 0;
             CalculateCanvasPages();
@@ -85,7 +81,7 @@ namespace LayoutFarm
         {
 
         }
-         
+
         void Canvas_SizeChanged(object sender, EventArgs e)
         {
             EvaluateScrollBar();
@@ -238,7 +234,7 @@ namespace LayoutFarm
             topWindowBox.OnMouseDown(e);
 
             e.OffsetCanvasOrigin(viewportX, viewportY);
-            
+
             if (!quadPages.IsValid)
             {
                 PaintMe();
@@ -287,18 +283,18 @@ namespace LayoutFarm
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
 #if DEBUG
             topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-            topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (Keys)e.KeyData);
+            topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UIKeys)e.KeyData);
             topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
 #endif
 
             topWindowBox.OnKeyDown(e);
 
             e.OffsetCanvasOrigin(viewportX, viewportY);
-          
-           
+
+
             if (!quadPages.IsValid)
-            { 
-                PaintMe(); 
+            {
+                PaintMe();
             }
         }
         internal void OnKeyPress(UIKeyPressEventArgs e)
@@ -313,18 +309,18 @@ namespace LayoutFarm
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
             topWindowBox.OnKeyPress(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY); 
-            
+            e.OffsetCanvasOrigin(viewportX, viewportY);
+
             if (!quadPages.IsValid)
-            {   
-                PaintMe();  
+            {
+                PaintMe();
             }
         }
         internal void OnKeyUp(UIKeyEventArgs e)
         {
             topWindowBox.MyVisualRoot.TempStopCaret();
 
-            fullMode = false; 
+            fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
             topWindowBox.OnKeyUp(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
@@ -337,10 +333,10 @@ namespace LayoutFarm
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY); bool result = topWindowBox.OnProcessDialogKey(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
-          
+
             if (!quadPages.IsValid)
             {
-                PaintMe(); 
+                PaintMe();
             }
             return result;
         }
@@ -565,16 +561,16 @@ namespace LayoutFarm
                 outputWindow.viewport_VScrollRequest(this, vScrollSupportEventArgs);
             }
         }
-        
+
         public void SetFullMode(bool value)
         {
             fullMode = value;
         }
-        
+
         public void Close()
         {
             topWindowBox.CloseWinRoot();
-            
+
         }
     }
 }

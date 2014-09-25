@@ -55,7 +55,7 @@ namespace LayoutFarm.Drawing
         /// <summary>
         /// the initialized HDC used
         /// </summary>
-        IntPtr _hdc; 
+        IntPtr _hdc;
 
         float canvasOriginX = 0;
         float canvasOriginY = 0;
@@ -82,6 +82,10 @@ namespace LayoutFarm.Drawing
         public GraphicPlatform Platform
         {
             get { return WinGdiPlatform.WinGdi.Platform; }
+        }
+        object IGraphics2.GetInnerGraphic()
+        {
+            return this._g;
         }
         public void SetCanvasOrigin(float x, float y)
         {
