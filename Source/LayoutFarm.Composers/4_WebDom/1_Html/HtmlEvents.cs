@@ -1,35 +1,22 @@
 ﻿//BSD  2014 ,WinterDev  
 using HtmlRenderer.Boxes;
 using System.Collections.Generic;
-
+using LayoutFarm;
 namespace HtmlRenderer.WebDom
-{  
+{
 
-    public enum EventName
+
+    public class HtmlEventArgs : LayoutFarm.UIEventArgs
     {
-        MouseDown,
-        MouseMove,
-        MouseUp,
-        MouseOver,
-        MouseLeave,
-        Click,
-        DoubleClick,
-
-        KeyDown,
-        KeyUp
-    }
-
-    public class HtmlEventArgs
-    {
-        EventName name;
+        UIEventName name;
         DomElement srcElement;
         DomElement currentContextElement;
-        
-        public HtmlEventArgs(EventName name)
+
+        public HtmlEventArgs(UIEventName name)
         {
             this.name = name;
         }
-        public EventName EventName
+        public UIEventName EventName
         {
             get { return this.name; }
         }
@@ -71,8 +58,8 @@ namespace HtmlRenderer.WebDom
 
     }
 
-    
-    
+
+
     public delegate void HtmlEventHandler(HtmlEventArgs e);
 
 }

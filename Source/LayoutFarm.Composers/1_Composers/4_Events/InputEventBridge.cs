@@ -75,7 +75,7 @@ namespace HtmlRenderer.Composers
             BoxUtils.HitTest(rootbox, x, y, hitChain);
             //2. invoke css event and script event   
 
-            HtmlEventArgs eventArgs = new HtmlEventArgs(EventName.MouseDown);
+            HtmlEventArgs eventArgs = new HtmlEventArgs(UIEventName.MouseDown);
             PropagateEventOnBubblingPhase(hitChain, eventArgs);
 
         }
@@ -244,12 +244,12 @@ namespace HtmlRenderer.Composers
                     //dispatch 
                     switch (eventArgs.EventName)
                     {
-                        case EventName.MouseDown:
+                        case UIEventName.MouseDown:
                             {
                                 UIMouseEventArgs mouseE = new UIMouseEventArgs();
                                 controller.ListenMouseEvent(UIMouseEventName.MouseDown, mouseE);
                             } break;
-                        case EventName.MouseUp:
+                        case UIEventName.MouseUp:
                             {
                                 UIMouseEventArgs mouseE = new UIMouseEventArgs();
                                 controller.ListenMouseEvent(UIMouseEventName.MouseUp, mouseE);

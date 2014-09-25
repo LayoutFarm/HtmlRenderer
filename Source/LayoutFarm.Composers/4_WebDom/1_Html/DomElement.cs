@@ -282,36 +282,7 @@ namespace HtmlRenderer.WebDom
             get { return this.LocalName; }
         }
         
-        public void AttachEvent(EventName eventName, HtmlEventHandler handler)
-        {
-            switch (eventName)
-            {
-                case EventName.MouseDown:
-                    {
-                        this.evhMouseDown += handler;
-                    } break;
-                case EventName.MouseUp:
-                    {
-                        this.evhMouseUp += handler;
-                    } break;
-            }
-        }
-        public void DetachEvent(EventName eventName, HtmlEventHandler handler)
-        {
-            switch (eventName)
-            {
-                case EventName.MouseDown:
-                    {
-                        this.evhMouseDown -= handler;
-                    } break;
-                case EventName.MouseUp:
-                    {
-                        this.evhMouseUp -= handler;
-                    } break;
-            }
-
-        }
-        //-------------------------------------------------------
+       
     }
 
 

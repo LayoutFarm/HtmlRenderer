@@ -189,7 +189,7 @@ namespace LayoutFarm
         public void OnDoubleClick(UIMouseEventArgs e)
         {
 
-            RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.DblClick);
+            RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.DblClick);
             if (currentMouseActiveElement != null)
             {
                 e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
@@ -234,7 +234,7 @@ namespace LayoutFarm
 
             msgChainVersion = 1;
             int local_msgVersion = 1;
-            RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.MouseDown);
+            RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseDown);
             if (hitElement == this || hitElement == null)
             {
                 hitPointChain.SwapHitChain(); return;
@@ -304,7 +304,7 @@ namespace LayoutFarm
 #endif
 
         }
-        RenderElement HitTestCoreWithPrevChainHint(int x, int y, HitEventName hitEvent)
+        RenderElement HitTestCoreWithPrevChainHint(int x, int y, UIEventName hitEvent)
         {
             hitPointChain.SetVisualRootStartTestPoint(x, y);
             RenderElement commonElement = hitPointChain.HitTestOnPrevChain();
@@ -321,7 +321,7 @@ namespace LayoutFarm
 #if DEBUG
 
 #endif
-            RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.MouseMove);
+            RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseMove);
 
             hoverMonitoringTask.Reset(); hoverMonitoringTask.SetEnable(true, this);
 
@@ -392,7 +392,7 @@ namespace LayoutFarm
         }
         void OnMouseHover(object sender, EventArgs e)
         {
-            RenderElement hitElement = HitTestCoreWithPrevChainHint(hitPointChain.LastestRootX, hitPointChain.LastestRootY, HitEventName.MouseHover);
+            RenderElement hitElement = HitTestCoreWithPrevChainHint(hitPointChain.LastestRootX, hitPointChain.LastestRootY, UIEventName.MouseHover);
             if (hitElement != null && RenderElement.IsTestableElement(hitElement))
             {
                 DisableGraphicOutputFlush = true;
@@ -434,7 +434,7 @@ namespace LayoutFarm
             currentDragingElement = HitTestCoreWithPrevChainHint(
                 hitPointChain.LastestRootX,
                 hitPointChain.LastestRootY,
-                HitEventName.DragStart);
+                UIEventName.DragStart);
 
             if (currentDragingElement != null && currentDragingElement != this)
             {
@@ -681,7 +681,7 @@ namespace LayoutFarm
 
 #endif
 
-            RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, HitEventName.MouseUp);
+            RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseUp);
             if (hitElement != null)
             {
                 DisableGraphicOutputFlush = true;

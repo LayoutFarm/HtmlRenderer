@@ -25,8 +25,6 @@ namespace LayoutFarm
         int y;
         RenderElement sourceVisualElement;
         public bool CancelBubbling = false;
-
-
         int canvasXOrigin;
         int canvasYOrigin;
         TopWindowRenderBox winRoot;
@@ -171,8 +169,7 @@ namespace LayoutFarm
         {
             this.XDiff = xdiff;
             this.YDiff = ydiff;
-        }
-
+        } 
         public void SetEventInfo(Point location, UIMouseButtons button, int clicks, int delta)
         {
             Location = location;

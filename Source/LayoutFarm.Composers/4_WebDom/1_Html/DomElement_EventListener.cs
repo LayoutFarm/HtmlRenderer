@@ -95,7 +95,37 @@ namespace HtmlRenderer.WebDom
                     } break;
             }
         }
+        //------------------------------------------------------
+        public void AttachEvent(UIEventName eventName, HtmlEventHandler handler)
+        {
+            switch (eventName)
+            {
+                case UIEventName.MouseDown:
+                    {
+                        this.evhMouseDown += handler;
+                    } break;
+                case UIEventName.MouseUp:
+                    {
+                        this.evhMouseUp += handler;
+                    } break;
+            }
+        }
+        public void DetachEvent(UIEventName eventName, HtmlEventHandler handler)
+        {
+            switch (eventName)
+            {
+                case UIEventName.MouseDown:
+                    {
+                        this.evhMouseDown -= handler;
+                    } break;
+                case UIEventName.MouseUp:
+                    {
+                        this.evhMouseUp -= handler;
+                    } break;
+            }
 
+        }
+        //-------------------------------------------------------
         protected virtual void OnLostFocus(UIFocusEventArgs e)
         {
         }
@@ -115,7 +145,8 @@ namespace HtmlRenderer.WebDom
         {
             if (this.evhMouseDown != null)
             {
-                evhMouseDown(new HtmlEventArgs(EventName.MouseDown));
+
+                evhMouseDown(new HtmlEventArgs(UIEventName.MouseDown));
             }
 
         }
@@ -191,7 +222,7 @@ namespace HtmlRenderer.WebDom
         {
             if (evhMouseUp != null)
             {
-                evhMouseUp(new HtmlEventArgs(EventName.MouseUp));
+                evhMouseUp(new HtmlEventArgs(UIEventName.MouseUp));
             }
         }
         protected virtual void OnMouseEnter(UIMouseEventArgs e)
