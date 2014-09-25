@@ -4,9 +4,9 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
-using LayoutFarm.Drawing;
 using HtmlRenderer.Boxes;
 using HtmlRenderer.WebDom;
+using LayoutFarm;
 
 namespace HtmlRenderer.Composers
 {
@@ -22,7 +22,7 @@ namespace HtmlRenderer.Composers
         bool _isMouseDown;
         //----------------------------------------------- 
         SelectionRange _currentSelectionRange = null;
-      
+
         bool _isBinded;
         public InputEventBridge()
         {
@@ -33,7 +33,7 @@ namespace HtmlRenderer.Composers
             {
                 this._container = container;
             }
-             
+
             _isBinded = true;
         }
         public void Unbind()
@@ -214,7 +214,7 @@ namespace HtmlRenderer.Composers
             {
                 //propagate up 
                 var hitInfo = hitChain.GetHitInfo(i);
-                DomElement controller = null; 
+                LayoutFarm.IEventListener controller = null;
 
                 switch (hitInfo.hitObjectKind)
                 {
@@ -225,13 +225,13 @@ namespace HtmlRenderer.Composers
                     case HitObjectKind.Run:
                         {
                             CssRun run = (CssRun)hitInfo.hitObject;
-                            controller = CssBox.UnsafeGetController(run.OwnerBox) as DomElement;
+                            controller = CssBox.UnsafeGetController(run.OwnerBox) as LayoutFarm.IEventListener;
 
                         } break;
                     case HitObjectKind.CssBox:
                         {
                             CssBox box = (CssBox)hitInfo.hitObject;
-                            controller = CssBox.UnsafeGetController(box) as DomElement;
+                            controller = CssBox.UnsafeGetController(box) as LayoutFarm.IEventListener;
                         } break;
                 }
 
@@ -240,10 +240,22 @@ namespace HtmlRenderer.Composers
                 {
                     eventArgs.X = hitInfo.localX;
                     eventArgs.Y = hitInfo.localY;
-
-                    controller.DispatchEvent(eventArgs);
-                    
-
+                    //---------------------------------
+                    //dispatch 
+                    switch (eventArgs.EventName)
+                    {
+                        case EventName.MouseDown:
+                            {
+                                UIMouseEventArgs mouseE = new UIMouseEventArgs();
+                                controller.ListenMouseEvent(UIMouseEventName.MouseDown, mouseE);
+                            } break;
+                        case EventName.MouseUp:
+                            {
+                                UIMouseEventArgs mouseE = new UIMouseEventArgs();
+                                controller.ListenMouseEvent(UIMouseEventName.MouseUp, mouseE);
+                            } break;
+                    }
+                     
                     if (eventArgs.IsCanceled)
                     {
                         break;

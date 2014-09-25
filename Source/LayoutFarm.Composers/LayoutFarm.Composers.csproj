@@ -49,6 +49,8 @@
     <Compile Include="1_Composers\2_Css\ValueMaps.cs" />
     <Compile Include="2_BridgeHtmlDom\BoxCreator.cs" />
     <Compile Include="2_BridgeHtmlDom\BridgeHtmlDocument.cs" />
+    <Compile Include="4_WebDom\1_Html\DomElement.cs" />
+    <Compile Include="4_WebDom\1_Html\DomElement_EventListener.cs" />
     <Compile Include="7_BridgeHtmlRenderer\HtmlRefreshEventArgs.cs" />
     <Compile Include="7_BridgeHtmlRenderer\HtmlRenderErrorEventArgs.cs" />
     <Compile Include="3_ContentManagers\ImageContentManager.cs" />

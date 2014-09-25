@@ -483,10 +483,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 SvgElement svg = hitInfo.svg;
                 if (svg != null)
                 {
-                    BridgeHtml.HtmlElement elem = SvgElement.UnsafeGetController(hitInfo.svg) as BridgeHtml.HtmlElement;
-                    if (elem != null)
-                    {
-                        elem.DispatchEvent(eventArgs);
+                    var controller = SvgElement.UnsafeGetController(hitInfo.svg) as LayoutFarm.IEventListener;
+                    if (controller != null)
+                    { 
+                        //dispatch event 
                     }
                 }
             }

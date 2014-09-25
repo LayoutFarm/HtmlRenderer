@@ -3,8 +3,7 @@ using HtmlRenderer.Boxes;
 using System.Collections.Generic;
 
 namespace HtmlRenderer.WebDom
-{
-
+{  
 
     public enum EventName
     {
@@ -19,6 +18,7 @@ namespace HtmlRenderer.WebDom
         KeyDown,
         KeyUp
     }
+
     public class HtmlEventArgs
     {
         EventName name;
