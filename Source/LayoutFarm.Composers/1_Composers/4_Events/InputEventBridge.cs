@@ -75,8 +75,10 @@ namespace HtmlRenderer.Composers
             BoxUtils.HitTest(rootbox, x, y, hitChain);
             //2. invoke css event and script event   
 
-            HtmlEventArgs eventArgs = new HtmlEventArgs(UIEventName.MouseDown);
-            PropagateEventOnBubblingPhase(hitChain, eventArgs);
+             
+            UIMouseEventArgs mouseDownE = new UIMouseEventArgs();
+            mouseDownE.EventName = UIEventName.MouseDown;
+            PropagateEventOnBubblingPhase(hitChain, mouseDownE);
 
         }
         public void MouseMove(int x, int y, int button)
@@ -202,12 +204,12 @@ namespace HtmlRenderer.Composers
         }
 
         //-----------------------------------
-        static void PropagateEventOnCapturingPhase(BoxHitChain hitChain, HtmlEventArgs eventArgs)
+        static void PropagateEventOnCapturingPhase(BoxHitChain hitChain, UIEventArgs eventArgs)
         {
             //TODO: consider implement capture phase
 
         }
-        static void PropagateEventOnBubblingPhase(BoxHitChain hitChain, HtmlEventArgs eventArgs)
+        static void PropagateEventOnBubblingPhase(BoxHitChain hitChain, UIEventArgs eventArgs)
         {
 
             for (int i = hitChain.Count - 1; i >= 0; --i)
@@ -238,10 +240,12 @@ namespace HtmlRenderer.Composers
                 //---------------------
                 if (controller != null)
                 {
-                    eventArgs.X = hitInfo.localX;
-                    eventArgs.Y = hitInfo.localY;
+                     
+                    eventArgs.SetLocation(hitInfo.localX, hitInfo.localY);
                     //---------------------------------
                     //dispatch 
+
+
                     switch (eventArgs.EventName)
                     {
                         case UIEventName.MouseDown:

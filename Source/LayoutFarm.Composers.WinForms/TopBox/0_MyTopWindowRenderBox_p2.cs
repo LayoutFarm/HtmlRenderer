@@ -194,7 +194,7 @@ namespace LayoutFarm
             {
                 e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
                 e.Location = hitPointChain.CurrentHitPoint;
-                e.SourceVisualElement = currentMouseActiveElement;
+                e.SourceRenderElement = currentMouseActiveElement;
 
                 IEventListener ui = currentMouseActiveElement.GetController() as IEventListener;
                 if (ui != null)
@@ -243,7 +243,7 @@ namespace LayoutFarm
 
             e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
             e.Location = hitPointChain.CurrentHitPoint;
-            e.SourceVisualElement = hitElement;
+            e.SourceRenderElement = hitElement;
 
 
             currentMouseActiveElement = hitElement;
@@ -334,7 +334,7 @@ namespace LayoutFarm
                         Point prevElementGlobalLocation = currentMouseActiveElement.GetGlobalLocation();
                         e.TranslateCanvasOrigin(prevElementGlobalLocation);
                         e.Location = hitPointChain.PrevHitPoint;
-                        e.SourceVisualElement = currentMouseActiveElement;
+                        e.SourceRenderElement = currentMouseActiveElement;
                         IEventListener ui = currentMouseActiveElement.GetController() as IEventListener;
                         if (ui != null)
                         {
@@ -353,7 +353,7 @@ namespace LayoutFarm
 
                         e.TranslateCanvasOrigin(hitPointChain.LastestElementGlobalX, hitPointChain.LastestElementGlobalY);
                         e.Location = hitPointChain.CurrentHitPoint;
-                        e.SourceVisualElement = hitElement;
+                        e.SourceRenderElement = hitElement;
 
                         IEventListener ui = hitElement.GetController() as IEventListener;
                         if (ui != null)
@@ -374,7 +374,7 @@ namespace LayoutFarm
                 {
                     e.TranslateCanvasOrigin(hitPointChain.LastestElementGlobalX, hitPointChain.LastestElementGlobalY);
                     e.Location = hitPointChain.CurrentHitPoint;
-                    e.SourceVisualElement = hitElement;
+                    e.SourceRenderElement = hitElement;
 
                     IEventListener ui = hitElement.GetController() as IEventListener;
                     if (ui != null)
@@ -401,7 +401,7 @@ namespace LayoutFarm
                 UIMouseEventArgs e2 = new UIMouseEventArgs();
                 e2.WinTop = this;
                 e2.Location = hitPointChain.CurrentHitPoint;
-                e2.SourceVisualElement = hitElement;
+                e2.SourceRenderElement = hitElement;
                 IEventListener ui = hitElement.GetController() as IEventListener;
                 if (ui != null)
                 {
@@ -443,7 +443,7 @@ namespace LayoutFarm
                 e.TranslateCanvasOrigin(globalLocation);
                 e.Location = hitPointChain.CurrentHitPoint;
                 e.DragingElement = currentDragingElement;
-                e.SourceVisualElement = currentDragingElement;
+                e.SourceRenderElement = currentDragingElement;
                 IEventListener ui = currentDragingElement.GetController() as IEventListener;
                 if (ui != null)
                 {
@@ -483,7 +483,7 @@ namespace LayoutFarm
 
             Point globalDragingElementLocation = currentDragingElement.GetGlobalLocation();
             e.TranslateCanvasOrigin(globalDragingElementLocation);
-            e.SourceVisualElement = currentDragingElement;
+            e.SourceRenderElement = currentDragingElement;
             Point dragPoint = hitPointChain.PrevHitPoint;
             dragPoint.Offset(currentXDistanceFromDragPoint, currentYDistanceFromDragPoint);
             e.Location = dragPoint;
@@ -612,7 +612,7 @@ namespace LayoutFarm
             dragPoint.Offset(currentXDistanceFromDragPoint, currentYDistanceFromDragPoint);
             e.Location = dragPoint;
 
-            e.SourceVisualElement = currentDragingElement;
+            e.SourceRenderElement = currentDragingElement;
             var script = currentDragingElement.GetController() as IEventListener;
             if (script != null)
             {
@@ -634,7 +634,7 @@ namespace LayoutFarm
                 {
                     Point globalLocation = elem.GetGlobalLocation();
                     d_eventArg.TranslateCanvasOrigin(globalLocation);
-                    d_eventArg.SourceVisualElement = elem;
+                    d_eventArg.SourceRenderElement = elem;
                     d_eventArg.DragingElement = currentDragingElement;
 
                     var script2 = elem.GetController();
@@ -690,7 +690,7 @@ namespace LayoutFarm
                 e.TranslateCanvasOrigin(globalLocation);
                 e.Location = hitPointChain.CurrentHitPoint;
 
-                e.SourceVisualElement = hitElement;
+                e.SourceRenderElement = hitElement;
                 IEventListener ui = hitElement.GetController() as IEventListener;
                 if (ui != null)
                 {
@@ -721,7 +721,7 @@ namespace LayoutFarm
             {
 
                 e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
-                e.SourceVisualElement = currentKeyboardFocusedElement;
+                e.SourceRenderElement = currentKeyboardFocusedElement;
                 IEventListener ui = currentKeyboardFocusedElement.GetController() as IEventListener;
                 if (ui != null)
                 {
@@ -740,7 +740,7 @@ namespace LayoutFarm
             if (currentKeyboardFocusedElement != null)
             {
                 e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
-                e.SourceVisualElement = currentKeyboardFocusedElement;
+                e.SourceRenderElement = currentKeyboardFocusedElement;
 
                 IEventListener ui = currentKeyboardFocusedElement.GetController() as IEventListener;
                 if (ui != null)
@@ -760,7 +760,7 @@ namespace LayoutFarm
             {
 
                 e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
-                e.SourceVisualElement = currentKeyboardFocusedElement;
+                e.SourceRenderElement = currentKeyboardFocusedElement;
                 IEventListener ui = currentKeyboardFocusedElement.GetController() as IEventListener;
                 if (ui != null)
                 {
@@ -778,7 +778,7 @@ namespace LayoutFarm
             {
                 e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
 
-                e.SourceVisualElement = currentKeyboardFocusedElement;
+                e.SourceRenderElement = currentKeyboardFocusedElement;
 
 
                 IEventListener ui = currentKeyboardFocusedElement.GetController() as IEventListener;

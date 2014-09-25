@@ -465,7 +465,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
     static class SvgElementPortal
     {
 
-        public static void HandleSvgMouseDown(CssBoxSvgRoot svgBox, HtmlEventArgs e)
+        public static void HandleSvgMouseDown(CssBoxSvgRoot svgBox, LayoutFarm.UIEventArgs e)
         {
 
             SvgHitChain hitChain = new SvgHitChain();
@@ -473,7 +473,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             PropagateEventOnBubblingPhase(hitChain, e);
         }
 
-        static void PropagateEventOnBubblingPhase(SvgHitChain hitChain, HtmlEventArgs eventArgs)
+        static void PropagateEventOnBubblingPhase(SvgHitChain hitChain, LayoutFarm.UIEventArgs eventArgs)
         {
             int hitCount = hitChain.Count;
             //then propagate

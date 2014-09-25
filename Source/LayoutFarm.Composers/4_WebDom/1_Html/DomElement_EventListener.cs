@@ -7,6 +7,8 @@ using LayoutFarm;
 
 namespace HtmlRenderer.WebDom
 {
+    public delegate void HtmlEventHandler(UIEventArgs e);
+
     partial class DomElement
     {
 
@@ -86,7 +88,6 @@ namespace HtmlRenderer.WebDom
             {
                 case UIFocusEventName.Focus:
                     {
-
                         OnGotFocus(e);
                     } break;
                 case UIFocusEventName.LossingFocus:
@@ -146,7 +147,7 @@ namespace HtmlRenderer.WebDom
             if (this.evhMouseDown != null)
             {
 
-                evhMouseDown(new HtmlEventArgs(UIEventName.MouseDown));
+                evhMouseDown(e);
             }
 
         }
@@ -222,7 +223,7 @@ namespace HtmlRenderer.WebDom
         {
             if (evhMouseUp != null)
             {
-                evhMouseUp(new HtmlEventArgs(UIEventName.MouseUp));
+                evhMouseUp(e);
             }
         }
         protected virtual void OnMouseEnter(UIMouseEventArgs e)

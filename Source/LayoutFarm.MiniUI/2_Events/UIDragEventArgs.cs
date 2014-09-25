@@ -81,7 +81,7 @@ namespace LayoutFarm
         {
             get
             {
-                return SourceVisualElement.ContainPoint(this.X, this.Y);
+                return SourceRenderElement.ContainPoint(this.X, this.Y);
             }
         }
 
