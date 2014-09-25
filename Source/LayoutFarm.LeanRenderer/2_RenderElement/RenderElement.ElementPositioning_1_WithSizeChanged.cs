@@ -105,7 +105,7 @@ namespace LayoutFarm
         }
         public void SetSize(int width, int height)
         {
-            if (visualParentLink == null)
+            if (parentLink == null)
             {
                 this.b_width = width;
                 this.b_Height = height;
@@ -122,7 +122,7 @@ namespace LayoutFarm
         }
         public void SetLocation(int left, int top)
         {
-            if (visualParentLink == null)
+            if (parentLink == null)
             {
                 this.b_left = left;
                 this.b_top = top;

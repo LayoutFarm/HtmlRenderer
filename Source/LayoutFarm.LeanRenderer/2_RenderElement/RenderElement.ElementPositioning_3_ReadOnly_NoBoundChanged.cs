@@ -204,7 +204,7 @@ namespace LayoutFarm
             if (parentVisualElement != null)
             {
                 Point parentGlobalLocation = GetGlobalLocationStatic(parentVisualElement);
-                ui.visualParentLink.AdjustLocation(ref parentGlobalLocation);
+                ui.parentLink.AdjustLocation(ref parentGlobalLocation);
 
                 if (parentVisualElement.MayHasViewport)
                 {
@@ -510,7 +510,7 @@ namespace LayoutFarm
         {
             MarkInvalidContentSize();
             MarkInvalidContentArrangement();
-            if (this.visualParentLink != null)
+            if (this.parentLink != null)
             {
                 StartBubbleUpLayoutInvalidState();
             }
@@ -528,7 +528,7 @@ namespace LayoutFarm
 
             ve.MarkInvalidContentSize();
 
-            if (ve.visualParentLink == null)
+            if (ve.parentLink == null)
             {
 #if DEBUG
                 if (ve.IsTopWindow)
@@ -557,7 +557,7 @@ namespace LayoutFarm
 #endif
 
             bool goFinalExit;
-            RenderElement parentVisualElem = ve.visualParentLink.NotifyParentToInvalidate(out goFinalExit
+            RenderElement parentVisualElem = ve.parentLink.NotifyParentToInvalidate(out goFinalExit
 #if DEBUG
 ,
 ve
@@ -619,7 +619,7 @@ ve
 
         public TopWindowRenderBox GetTopWindowRenderBox()
         {
-            if (visualParentLink == null)
+            if (parentLink == null)
             {
                 if (this.IsTopWindow)
                 {
@@ -633,7 +633,7 @@ ve
             else
             {
 
-                var parentVisualElement = visualParentLink.ParentVisualElement;
+                var parentVisualElement = parentLink.ParentVisualElement;
                 return parentVisualElement.GetTopWindowRenderBox();
 
 

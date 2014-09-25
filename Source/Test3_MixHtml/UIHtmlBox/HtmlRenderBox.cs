@@ -3,7 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text; 
+using System.Text;
 using HtmlRenderer.WebDom;
 using LayoutFarm.Drawing;
 using HtmlRenderer;
@@ -121,9 +121,9 @@ namespace LayoutFarm
         public override void ClearAllChildren()
         {
 
-        } 
+        }
         protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
-        {  
+        {
             _visualRootBox.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
             _visualRootBox.PerformPaint(canvasPage.GetGfx());
         }

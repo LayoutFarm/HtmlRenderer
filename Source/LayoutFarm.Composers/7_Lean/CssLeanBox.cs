@@ -2,19 +2,17 @@
 //2014, WinterDev
 
 using LayoutFarm.Drawing;
-using System.Collections.Generic;
-using LayoutFarm.Drawing;
-
+using System.Collections.Generic; 
 using LayoutFarm.SvgDom;
 
 namespace HtmlRenderer.Boxes
 {
 
-    public sealed class CssBoxSvgRoot : CssBox
-    {   
-        public CssBoxSvgRoot(object controller, Css.BoxSpec spec, SvgElement svgSpec)
+    public sealed class CssLeanBox : CssBox
+    {
+        public CssLeanBox(object controller, Css.BoxSpec spec, SvgElement svgSpec)
             : base(controller, spec, Css.CssDisplay.Block)
-        {
+        {   
             //create svg node 
             this.SvgSpec = svgSpec;
             ChangeDisplayType(this, Css.CssDisplay.Block);
@@ -51,7 +49,7 @@ namespace HtmlRenderer.Boxes
         {
             get;
             set;
-        } 
+        }
         public void HitTestCore(SvgHitChain chain, float x, float y)
         {
             //1.

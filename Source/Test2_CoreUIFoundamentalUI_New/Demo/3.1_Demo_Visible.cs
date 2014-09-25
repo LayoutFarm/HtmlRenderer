@@ -31,8 +31,7 @@ namespace LayoutFarm
             box1.MouseDown += (s, e) =>
             {
                 box1.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
-                box1.InvalidateGraphic();
-
+                box1.InvalidateGraphic(); 
                 box2.Visible = false;
                 
             };

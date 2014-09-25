@@ -12,8 +12,8 @@ namespace LayoutFarm
     public abstract partial class RenderElement
     {
          
-        IParentLink visualParentLink;
-        //special 
+        IParentLink parentLink;
+       
         bool isWindowRoot;
         bool mayHasChild;
         bool mayHasViewport;
@@ -40,7 +40,7 @@ namespace LayoutFarm
         {
             get
             {
-                return visualParentLink == null;
+                return parentLink == null;
             }
         }
         public virtual void ClearAllChildren()
@@ -51,24 +51,24 @@ namespace LayoutFarm
         {
             get
             {
-                return visualParentLink;
+                return parentLink;
             }
         }
 
 
         public static void RemoveParentLink(RenderElement visual)
         {
-            visual.visualParentLink = null;
+            visual.parentLink = null;
         }
         public virtual RenderElement ParentVisualElement
         {
             get
             {
-                if (visualParentLink == null)
+                if (parentLink == null)
                 {
                     return null;
                 }
-                return visualParentLink.ParentVisualElement;
+                return parentLink.ParentVisualElement;
             }
         }
 
@@ -87,7 +87,7 @@ namespace LayoutFarm
         public void SetVisible(bool value)
         {
 
-            if (visualParentLink == null)
+            if (parentLink == null)
             {
 
                 if (value)
@@ -118,7 +118,7 @@ namespace LayoutFarm
 
         public static bool IsTestableElement(RenderElement ui)
         {
-            return (ui != null) && ((ui.uiFlags & HIDDEN) == 0) && (ui.visualParentLink != null);
+            return (ui != null) && ((ui.uiFlags & HIDDEN) == 0) && (ui.parentLink != null);
         }
 
         public bool Focusable
@@ -411,32 +411,32 @@ namespace LayoutFarm
         public static void ClearVisualElementInternalLinkedNode(RenderElement childElement)
         {
 
-            childElement.visualParentLink = null;
+            childElement.parentLink = null;
         }
 
         public static void SetVisualElementAsChildOfOther(RenderElement childElement, IParentLink lineLinkedNode)
         {
 
-            childElement.visualParentLink = lineLinkedNode;
+            childElement.parentLink = lineLinkedNode;
         }
         public static void SetVisualElementAsChildOfSimpleContainer(RenderElement childElement, IParentLink lineLinkedNode)
         {
 
-            childElement.visualParentLink = lineLinkedNode;
+            childElement.parentLink = lineLinkedNode;
         }
 
         public bool HasOwner
         {
             get
             {
-                return this.visualParentLink != null;
+                return this.parentLink != null;
             }
         }
         public RenderElement GetOwnerRenderElement()
         {
-            if (this.visualParentLink != null)
+            if (this.parentLink != null)
             {
-                return visualParentLink.ParentVisualElement as RenderBoxBase;
+                return parentLink.ParentVisualElement as RenderBoxBase;
             }
             return null;
         }
