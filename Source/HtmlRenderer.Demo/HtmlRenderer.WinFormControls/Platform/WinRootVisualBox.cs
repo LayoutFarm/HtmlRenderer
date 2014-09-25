@@ -10,9 +10,9 @@ using HtmlRenderer.WebDom;
 using HtmlRenderer.Drawing;
 using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Diagnostics;
- 
 
- 
+
+
 
 namespace HtmlRenderer
 {
@@ -118,15 +118,15 @@ namespace HtmlRenderer
             {
                 return;
             }
-            
+
             using (var gfx = new LayoutFarm.Drawing.WinGraphics(g, this.UseGdiPlusTextRendering))
             {
                 Region prevClip = null;
                 if (this.MaxSize.Height > 0)
                 {
-                    
+
                     prevClip = g.Clip;
-                    g.SetClip(new System.Drawing.RectangleF(                       
+                    g.SetClip(new System.Drawing.RectangleF(
                        LayoutFarm.Drawing.Conv.ToPointF(this.Location),
                        LayoutFarm.Drawing.Conv.ToSizeF(this.MaxSize)));
                 }
@@ -138,8 +138,7 @@ namespace HtmlRenderer
                     WinHtmlRootVisualBoxExtension.RefreshHtmlDomChange(
                         this,
                         doc,
-                        this.activeCssSheet);
-
+                        this.activeCssSheet); 
                     this.PerformLayout(gfx);
                 }
                 //------------------------------------------------------ 
@@ -186,10 +185,7 @@ namespace HtmlRenderer
         {
             if (this.isRootCreated)
             {
-                using (var gfx = new LayoutFarm.Drawing.WinGraphics(g, this.UseGdiPlusTextRendering))
-                {
-                    this.PerformLayout(gfx);
-                }
+                this.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
             }
         }
 

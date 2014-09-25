@@ -16,9 +16,7 @@ using HtmlRenderer.Drawing;
 namespace LayoutFarm.Drawing
 {
 
-    /// <summary>
-    /// 
-    /// </summary>
+    
     public sealed class WinGraphics : LayoutFarm.Drawing.IGraphics
     {
 

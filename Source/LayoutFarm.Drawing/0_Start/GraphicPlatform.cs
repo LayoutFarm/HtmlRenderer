@@ -26,6 +26,16 @@ namespace LayoutFarm.Drawing
 
         public abstract Region CreateRegion();
 
+        public abstract Canvas CreateCanvas(int horizontalPageNum,
+            int verticalPageNum,
+            int left,
+            int top,
+            int width,
+            int height);
+
+        public abstract IGraphics CreateIGraphics(int w, int h);
+        public abstract IGraphics CreateIGraphics(object nativeObj);
+        public abstract IGraphics SampleIGraphics { get; }
     }
 
     public static class CurrentGraphicPlatform

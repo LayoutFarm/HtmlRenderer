@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
- 
+
 namespace LayoutFarm
 {
 
@@ -95,7 +95,13 @@ namespace LayoutFarm
             }
             else
             {
-                return new CanvasImpl(hPageNum, vPageNum, hPageNum * eachPageWidth, eachPageHeight * vPageNum, eachPageWidth, eachPageHeight);
+                return CurrentGraphicPlatform.P.CreateCanvas(
+                    hPageNum,
+                    vPageNum,
+                    hPageNum * eachPageWidth,
+                    eachPageHeight * vPageNum,
+                    eachPageWidth,
+                    eachPageHeight);
 
             }
         }

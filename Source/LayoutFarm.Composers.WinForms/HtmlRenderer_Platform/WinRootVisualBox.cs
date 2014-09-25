@@ -110,9 +110,9 @@ namespace HtmlRenderer
         }
         public void PerformPaint(IGraphics2 g)
         {
-            PerformPaint(g.GetInnerGraphic() as Graphics);
+            PerformPaint2(g.GetInnerGraphic() as Graphics);
         }
-        void PerformPaint(Graphics g)
+        void PerformPaint2(Graphics g)
         {
             if (doc == null)
             {
@@ -142,28 +142,16 @@ namespace HtmlRenderer
 
                     this.PerformLayout(gfx);
                 }
-                //------------------------------------------------------ 
-
-                this.PerformPaint(gfx);
-
+                
+                base.PerformPaint(gfx);
+                
                 if (prevClip != null)
                 {
                     g.SetClip(prevClip, System.Drawing.Drawing2D.CombineMode.Replace);
                 }
-            }
-
+            } 
         }
-        //public void PerformLayout(Graphics g)
-        //{
-        //    if (this.isRootCreated)
-        //    {
-        //        using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
-        //        {
-        //            this.PerformLayout(gfx);
-        //        }
-        //    }
-        //}
-
+       
         protected override void OnRootDisposed()
         {
 

@@ -7,8 +7,7 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
 
-
-    public class CanvasImpl : Canvas, IGraphics2
+    partial class MyCanvas : Canvas, IGraphics2
     {
 
         private readonly static int[] _charFit = new int[1];
@@ -57,7 +56,7 @@ namespace LayoutFarm
         bool isFromPrinter = false;
         SolidBrush sharedSolidBrush;
 
-        public CanvasImpl(int horizontalPageNum, int verticalPageNum, int left, int top, int width, int height)
+        public MyCanvas(int horizontalPageNum, int verticalPageNum, int left, int top, int width, int height)
         {
 
             this.pageNumFlags = (horizontalPageNum << 8) | verticalPageNum;
@@ -93,7 +92,7 @@ namespace LayoutFarm
 #endif
         }
 
-        public CanvasImpl(IGraphics2 gx, int verticalPageNum, int horizontalPageNum, int left, int top, int width, int height)
+        public MyCanvas(IGraphics2 gx, int verticalPageNum, int horizontalPageNum, int left, int top, int width, int height)
         {
 
             this.pageNumFlags = (horizontalPageNum << 8) | verticalPageNum;
@@ -245,7 +244,7 @@ namespace LayoutFarm
 
             System.Drawing.Rectangle intersectResult = System.Drawing.Rectangle.Intersect(
                 currentClipRect,
-                updateArea.ToRectangle().ToRect());                 
+                updateArea.ToRectangle().ToRect());
 
             if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
             {
@@ -299,7 +298,7 @@ namespace LayoutFarm
         {
             get
             {
-                return currentClipRect.ToRect();                
+                return currentClipRect.ToRect();
             }
         }
 
@@ -355,7 +354,7 @@ namespace LayoutFarm
 
 
 
-        ~CanvasImpl()
+        ~MyCanvas()
         {
             ReleaseUnManagedResource();
 
@@ -563,7 +562,7 @@ namespace LayoutFarm
         }
         public override void CopyFrom(Canvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea)
         {
-            CanvasImpl s1 = (CanvasImpl)sourceCanvas;
+            MyCanvas s1 = (MyCanvas)sourceCanvas;
 
             if (s1.gx != null)
             {

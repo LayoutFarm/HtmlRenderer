@@ -30,21 +30,17 @@ namespace HtmlRenderer
 
             var htmldoc = builder.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
 
-            using (var img = new System.Drawing.Bitmap(1, 1))
-            using (var g = Graphics.FromImage(img))
+
+            //build rootbox from htmldoc
+            var rootBox = builder.BuildCssTree(htmldoc, CurrentGraphicPlatform.P.SampleIGraphics, container, cssData);
+            WinRootVisualBox containerImp = container as WinRootVisualBox;
+            if (containerImp != null)
             {
-                WinGraphics winGfx = new WinGraphics(g, false);
-
-                //build rootbox from htmldoc
-                var rootBox = builder.BuildCssTree(htmldoc, winGfx, container, cssData);
-                WinRootVisualBox containerImp = container as WinRootVisualBox;
-                if (containerImp != null)
-                {
-                    containerImp.SetHtmlDoc(htmldoc);
-                    containerImp.SetRootCssBox(rootBox, cssData);
-                }
-
+                containerImp.SetHtmlDoc(htmldoc);
+                containerImp.SetRootCssBox(rootBox, cssData);
             }
+
+
         }
         public static void SetHtml(this WinRootVisualBox container, HtmlRenderer.WebDom.WebDocument doc, CssActiveSheet cssData)
         {
@@ -59,14 +55,11 @@ namespace HtmlRenderer
             };
 
 
-            using (var img = new System.Drawing.Bitmap(1, 1))
-            using (var g = Graphics.FromImage(img))
-            {
-                WinGraphics winGfx = new WinGraphics(g, false);
-                var rootBox = builder.BuildCssTree(doc, winGfx, container, cssData);
-                container.SetHtmlDoc(doc);
-                container.SetRootCssBox(rootBox, cssData);
-            }
+
+            var rootBox = builder.BuildCssTree(doc, CurrentGraphicPlatform.P.SampleIGraphics, container, cssData);
+            container.SetHtmlDoc(doc);
+            container.SetRootCssBox(rootBox, cssData);
+
         }
         public static void RefreshHtmlDomChange(this WinRootVisualBox container,
             HtmlRenderer.WebDom.WebDocument doc, CssActiveSheet cssData)
@@ -87,15 +80,12 @@ namespace HtmlRenderer
                     textContentManager.AddStyleSheetRequest(e);
                 }
             };
-            using (var img = new System.Drawing.Bitmap(1, 1))
-            using (var g = Graphics.FromImage(img))
-            {
-                WinGraphics winGfx = new WinGraphics(g, false);
-                var rootBox = builder.BuildCssTree(doc, winGfx, container, cssData);
 
-                container.SetHtmlDoc(doc);
-                container.SetRootCssBox(rootBox, cssData);
-            }
+
+            var rootBox = builder.BuildCssTree(doc, CurrentGraphicPlatform.P.SampleIGraphics, container, cssData);
+            container.SetHtmlDoc(doc);
+            container.SetRootCssBox(rootBox, cssData);
+
         }
         static void PartialRebuildCssTree(WinRootVisualBox container,
             HtmlRenderer.WebDom.WebDocument doc)
@@ -109,14 +99,12 @@ namespace HtmlRenderer
                     textContentManager.AddStyleSheetRequest(e);
                 }
             };
+
             using (var img = new System.Drawing.Bitmap(1, 1))
             using (var g = Graphics.FromImage(img))
             {
                 WinGraphics winGfx = new WinGraphics(g, false);
                 var rootBox = builder.RefreshCssTree(doc, winGfx, container);
-
-                //container.SetHtmlDoc(doc);
-                //container.SetRootCssBox(rootBox, cssData);
             }
         }
     }

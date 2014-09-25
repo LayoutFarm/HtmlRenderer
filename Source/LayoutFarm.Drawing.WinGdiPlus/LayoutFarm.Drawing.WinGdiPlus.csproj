@@ -36,7 +36,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WinGdi\ArtCanvasImpl.cs" />
+    <Compile Include="WinGdi\MyCanvas.cs" />
     <Compile Include="WinGdi\FontManager.cs" />
     <Compile Include="WinGdi\GfxWin32InterOp.cs" />
     <Compile Include="WinGdi\MyWin32.cs" />

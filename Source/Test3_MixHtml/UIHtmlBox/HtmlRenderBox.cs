@@ -134,13 +134,7 @@ namespace LayoutFarm
         internal void LoadHtmlText(string html)
         {
             _visualRootBox.SetHtml(html, _baseCssData);
-
-            using (System.Drawing.Bitmap bb = new System.Drawing.Bitmap(2, 2))
-            using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bb))
-            using (WinGraphics winGfx = new WinGraphics(g, false))
-            {
-                this.PerformHtmlLayout(winGfx);
-            }
+            this.PerformHtmlLayout(CurrentGraphicPlatform.P.SampleIGraphics);
 
         }
     }
