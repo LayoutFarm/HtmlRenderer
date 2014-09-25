@@ -3,8 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
-
+using LayoutFarm.Drawing; 
 using LayoutFarm.Text;
 using LayoutFarm.UI; 
 
@@ -157,7 +156,7 @@ namespace LayoutFarm.SampleControls
         {
 
             var min_button = new UIScrollButton(this.Width, minmax_boxHeight);
-            min_button.BackColor = Color.DarkGray;
+            min_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
 
             min_button.MouseUp += (s, e) => this.StepSmallToMin();
 
@@ -168,7 +167,7 @@ namespace LayoutFarm.SampleControls
         void SetupMaxButtonProperties(VisualPlainLayer plain)
         {
             var max_button = new UIScrollButton(this.Width, minmax_boxHeight);
-            max_button.BackColor = Color.DarkGray;
+            max_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
             max_button.SetLocation(0, this.Height - minmax_boxHeight);
 
 
@@ -234,7 +233,7 @@ namespace LayoutFarm.SampleControls
 
 
             var scroll_button = new UIScrollButton(this.Width, thumbBoxLength);
-            scroll_button.BackColor = Color.DarkBlue;
+            scroll_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkBlue);
 
             int thumbPosY = CalculateThumbPosition() + minmax_boxHeight;
             scroll_button.SetLocation(0, thumbPosY);
