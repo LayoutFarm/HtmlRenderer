@@ -84,13 +84,13 @@ namespace LayoutFarm
         {
         }
 
-  
+
 
         internal MyRootGraphic MyVisualRoot
         {
             get
             {
-                return this.rootGraphic;
+                return (MyRootGraphic)this.rootGraphic;
             }
         }
         public void CloseWinRoot()

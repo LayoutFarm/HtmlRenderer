@@ -1,7 +1,7 @@
 ﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using System.Text; 
+using System.Text;
 using LayoutFarm.Drawing;
 
 namespace LayoutFarm
@@ -24,8 +24,8 @@ namespace LayoutFarm
         int v_smallChange = 0;
         int v_largeChange = 0;
         EventHandler<UIInvalidateEventArgs> canvasInvalidateHandler;
-        EventHandler<UICursorEventArgs> canvasCursorChangedHandler; 
-        EventHandler<EventArgs> canvasSizeChangedHandler; 
+        EventHandler<UICursorEventArgs> canvasCursorChangedHandler;
+        EventHandler<EventArgs> canvasSizeChangedHandler;
         bool fullMode = true;
         ISurfaceViewportControl outputWindow;
         public CanvasViewport(ISurfaceViewportControl outputWindow,
@@ -46,7 +46,7 @@ namespace LayoutFarm
             canvasSizeChangedHandler = Canvas_SizeChanged;
 
 
-           
+
             wintop.CanvasInvalidatedEvent += canvasInvalidateHandler;
 
             viewportX = 0;
@@ -91,9 +91,14 @@ namespace LayoutFarm
             quadPages.CanvasInvalidate(e.InvalidArea);
         }
 
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        static extern IntPtr GetDC(IntPtr hWnd);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hdc);
+
         void PaintMe()
         {
-            IntPtr hdc = MyWin32.GetDC(outputWindow.Handle);
+            IntPtr hdc = GetDC(outputWindow.Handle);
             topWindowBox.PrepareRender();
             topWindowBox.ClearNotificationSizeChangeList();
             topWindowBox.BeginRenderPhase();
@@ -124,7 +129,7 @@ namespace LayoutFarm
 #endif
 
 
-            MyWin32.ReleaseDC(outputWindow.Handle, hdc);
+            ReleaseDC(outputWindow.Handle, hdc);
 #if DEBUG
 
             if (MyTopWindowRenderBox.dbugVE_HighlightMe != null)

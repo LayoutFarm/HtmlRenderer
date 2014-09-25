@@ -28,7 +28,7 @@ namespace LayoutFarm
             dbug_Init();
 #endif
         }
-        public void CloseWinRoot()
+        public override void CloseWinRoot()
         {
             this.graphicTimer1.Enabled = false;
         }

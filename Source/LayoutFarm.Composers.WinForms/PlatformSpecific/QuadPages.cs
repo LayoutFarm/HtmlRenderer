@@ -106,9 +106,9 @@ namespace LayoutFarm
         public const int PAGE_ABCD = 3;
 
         public void RenderToOutputWindowFullMode(
-TopWindowRenderBox rootElement,
-IntPtr destOutputHdc,
-int viewportX, int viewportY, int viewportWidth, int viewportHeight)
+        TopWindowRenderBox rootElement,
+        IntPtr destOutputHdc,
+        int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
 
 

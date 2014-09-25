@@ -46,7 +46,7 @@ namespace LayoutFarm
             get;
             set;
         }
-
+        public abstract void CloseWinRoot();
         public void BeginGraphicUpdate()
         {
             GraphicUpdateBlockCount++;

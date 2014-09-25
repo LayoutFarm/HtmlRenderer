@@ -49,8 +49,8 @@
     <Compile Include="1_Composers\2_Css\ValueMaps.cs" />
     <Compile Include="2_BridgeHtmlDom\BoxCreator.cs" />
     <Compile Include="2_BridgeHtmlDom\BridgeHtmlDocument.cs" />
-    <Compile Include="2_BridgeHtmlDom\HtmlRefreshEventArgs.cs" />
-    <Compile Include="2_BridgeHtmlDom\HtmlRenderErrorEventArgs.cs" />
+    <Compile Include="7_BridgeHtmlRenderer\HtmlRefreshEventArgs.cs" />
+    <Compile Include="7_BridgeHtmlRenderer\HtmlRenderErrorEventArgs.cs" />
     <Compile Include="3_ContentManagers\ImageContentManager.cs" />
     <Compile Include="3_ContentManagers\ImageRequestEventArgs.cs" />
     <Compile Include="3_ContentManagers\StylesheetLoadEventArgs.cs" />
@@ -69,7 +69,7 @@
     <Compile Include="4_WebDom\3_Gen\HtmlGenerator.cs" />
     <Compile Include="6_SvgDom\CssBoxSvgRoot.cs" />
     <Compile Include="6_SvgDom\SvgCreator.cs" />
-    <Compile Include="7_Lean\CssLeanBox.cs" />
+    <Compile Include="8_Lean\CssLeanBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="5_WebDom.Parser\CssParser.cs" />
     <Compile Include="5_WebDom.Parser\dbugLexerReport.cs" />

@@ -51,6 +51,10 @@
     <Compile Include="UIHtmlBox\UIHtmlBox.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LayoutFarm.Composers.WinForms\LayoutFarm.Composers.WinForms.csproj">
+      <Project>{8CBF9902-1A77-4FA9-AC57-CE2179098BED}</Project>
+      <Name>LayoutFarm.Composers.WinForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
       <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
       <Name>LayoutFarm.Composers</Name>
@@ -74,10 +78,6 @@
     <ProjectReference Include="..\LayoutFarm.MiniUI\LayoutFarm.MiniUI.csproj">
       <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
       <Name>LayoutFarm.MiniUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.PlatformSpecific\LayoutFarm.PlatformSpecific.csproj">
-      <Project>{8424932F-2499-4A72-87D8-1E1246EF8E59}</Project>
-      <Name>LayoutFarm.PlatformSpecific</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
       <Project>{CFB41C52-614E-476C-8BBE-D07C26FB582D}</Project>
