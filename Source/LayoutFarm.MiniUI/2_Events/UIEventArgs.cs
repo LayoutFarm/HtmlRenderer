@@ -65,12 +65,13 @@ namespace LayoutFarm
                 srcRenderElement = value;
             }
         }
-        public object SourceController
+       
+        public object SrcElement
         {
             get;
             set;
         }
-        public object CurrentContextController
+        public object CurentContextElement
         {
             get;
             set;
@@ -188,6 +189,7 @@ namespace LayoutFarm
         None
     }
 
+     
 
     public class UIMouseEventArgs : UIEventArgs
     {

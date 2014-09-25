@@ -36,9 +36,11 @@ namespace HtmlRenderer.Demo
             Application.SetCompatibleTextRenderingDefault(false);
 
              
-            LayoutFarm.WinGdiPlatform2.Start();
+              
+            LayoutFarm.Drawing.WinGdiPlatform.WinGdi.Start();
             Application.Run(new DevForm());
-            LayoutFarm.WinGdiPlatform2.End();
+            LayoutFarm.Drawing.WinGdiPlatform.WinGdi.End();
+             
 
             //            Application.Run(new PerfForm());
 

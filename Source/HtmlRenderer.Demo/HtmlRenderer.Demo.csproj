@@ -92,9 +92,8 @@
     <Compile Include="HtmlRenderer.WinFormControls\HtmlPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="HtmlRenderer.WinFormControls\Platform\WinGdiPlatform.cs" />
     <Compile Include="HtmlRenderer.WinFormControls\Platform\WinHtmlRootVisualBoxExtension.cs" />
-    <Compile Include="HtmlRenderer.WinFormControls\Platform\WinRootVisualBox.cs" />
+    <Compile Include="HtmlRenderer.WinFormControls\Platform\MyImplWinRootVisualBox.cs" />
     <Compile Include="HtmlRenderServices\HtmlRender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
