@@ -20,7 +20,7 @@ namespace HtmlRenderer.Boxes
         //---------------------      
         List<CssLineBox> selectedLines;
 
-        public SelectionRange(BoxHitChain startChain, BoxHitChain endChain, IGraphics g)
+        public SelectionRange(BoxHitChain startChain, BoxHitChain endChain, IFonts ifonts)
         {
 
 
@@ -53,9 +53,9 @@ namespace HtmlRenderer.Boxes
             //}
 
             //1.
-            this.SetupStartHitPoint(startChain, g);
+            this.SetupStartHitPoint(startChain, ifonts);
             //2. 
-            this.SetupEndHitPoint(endChain, g);
+            this.SetupEndHitPoint(endChain, ifonts);
 
         }
         static bool IsOnTheSameLine(BoxHitChain startChain, BoxHitChain endChain)
@@ -216,7 +216,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-        void SetupStartHitPoint(BoxHitChain startChain,  IGraphics g)
+        void SetupStartHitPoint(BoxHitChain startChain, IFonts ifonts)
         {
             HitInfo startHit = startChain.GetLastHit();
             //-----------------------------
@@ -228,7 +228,7 @@ namespace HtmlRenderer.Boxes
                         int sel_index;
                         int sel_offset;
 
-                        run.FindSelectionPoint(g,
+                        run.FindSelectionPoint(ifonts,
                              startHit.localX,
                              out sel_index,
                              out sel_offset);
@@ -327,7 +327,7 @@ namespace HtmlRenderer.Boxes
 
         //static int dbugCounter = 0;
 
-        void SetupEndHitPoint(BoxHitChain endChain, IGraphics g)
+        void SetupEndHitPoint(BoxHitChain endChain, IFonts ifonts)
         {
 
             //dbugCounter++;
@@ -356,7 +356,7 @@ namespace HtmlRenderer.Boxes
 
                         int sel_index;
                         int sel_offset;
-                        run.FindSelectionPoint(g,
+                        run.FindSelectionPoint(ifonts,
                              endHit.localX,
                              out sel_index,
                              out sel_offset);

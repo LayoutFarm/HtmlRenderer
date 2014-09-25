@@ -54,11 +54,8 @@ namespace TestGraphicPackage
             viewport.Bounds = new Rectangle(0, 0, screenClientAreaRect.Width, screenClientAreaRect.Height);
             simpleForm.Controls.Add(viewport);
 
-            var visualRoot = new MyRootGraphic(800, 600);
-            var windowRoot = new MyTopWindowRenderBox(visualRoot, this.Width, this.Height);
-
-
-            viewport.SetupWindowRoot(windowRoot);
+           
+            viewport.InitRootGraphics(800, 600); 
             viewport.PaintMe();
 
             simpleForm.Show();

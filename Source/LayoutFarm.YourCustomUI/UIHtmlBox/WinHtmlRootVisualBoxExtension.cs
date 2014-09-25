@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 
 using System.Text;
-using System.Drawing;
 using System.Diagnostics;
 
 using HtmlRenderer.Boxes;
 using HtmlRenderer.WebDom;
-using HtmlRenderer.Drawing;
+using LayoutFarm.Drawing;
 using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Diagnostics;
 
 namespace HtmlRenderer
 {
-    public static class WinHtmlRootVisualBoxExtension
+    static class WinHtmlRootVisualBoxExtension
     {
         public static void SetHtml(this WinRootVisualBox container, string html, CssActiveSheet cssData)
         {
@@ -32,9 +31,7 @@ namespace HtmlRenderer
 
 
             //build rootbox from htmldoc
-            var rootBox = builder.BuildCssTree(htmldoc,
-                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
-                container, cssData);
+            var rootBox = builder.BuildCssTree(htmldoc, CurrentGraphicPlatform.P.SampleIGraphics, container, cssData);
             WinRootVisualBox containerImp = container as WinRootVisualBox;
             if (containerImp != null)
             {
@@ -58,10 +55,7 @@ namespace HtmlRenderer
 
 
 
-            var rootBox = builder.BuildCssTree(doc,
-                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
-                container, cssData);
-
+            var rootBox = builder.BuildCssTree(doc, CurrentGraphicPlatform.P.SampleIGraphics, container, cssData);
             container.SetHtmlDoc(doc);
             container.SetRootCssBox(rootBox, cssData);
 
@@ -86,8 +80,8 @@ namespace HtmlRenderer
                 }
             };
 
-            var rootBox = builder.BuildCssTree(doc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, container, cssData);
 
+            var rootBox = builder.BuildCssTree(doc, CurrentGraphicPlatform.P.SampleIGraphics, container, cssData);
             container.SetHtmlDoc(doc);
             container.SetRootCssBox(rootBox, cssData);
 
@@ -105,11 +99,8 @@ namespace HtmlRenderer
                 }
             };
 
-            var rootBox = builder.RefreshCssTree(doc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, container);
 
-            //container.SetHtmlDoc(doc);
-            //container.SetRootCssBox(rootBox, cssData);
-
+            var rootBox2 = builder.RefreshCssTree(doc, CurrentGraphicPlatform.P.SampleIGraphics, container);
         }
     }
 

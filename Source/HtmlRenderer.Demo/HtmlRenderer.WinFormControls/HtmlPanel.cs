@@ -354,8 +354,8 @@ namespace HtmlRenderer
             {
 
                 _visualRootBox.ScrollOffset = Conv.ToPointF(AutoScrollPosition);
-                _visualRootBox.PhysicalViewportBound = Conv.ToRectF(this.Bounds);
-                
+                _visualRootBox.PhysicalViewportBound = Conv.ToRectF(this.Bounds); 
+
                 _visualRootBox.PerformPaint(e.Graphics);
                 // call mouse move to handle paint after scroll or html change affecting mouse cursor.
                 //var mp = PointToClient(MousePosition);

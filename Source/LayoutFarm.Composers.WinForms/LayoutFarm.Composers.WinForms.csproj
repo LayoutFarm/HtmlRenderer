@@ -3,15 +3,20 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{14840A73-6D38-4A2A-A71C-F84DC4FB4620}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{8CBF9902-1A77-4FA9-AC57-CE2179098BED}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Test3_MixHtml</RootNamespace>
-    <AssemblyName>Test3_MixHtml</AssemblyName>
+    <RootNamespace>LayoutFarm.PlatformSpecfic</RootNamespace>
+    <AssemblyName>LayoutFarm.PlatformSpecfic</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,9 +35,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -39,20 +43,36 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
+    <Compile Include="PlatformSpecific\CanvasCollection.cs" />
+    <Compile Include="PlatformSpecific\UISurfaceViewportControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="PlatformSpecific\UISurfaceViewportControl.Designer.cs">
+      <DependentUpon>UISurfaceViewportControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="PlatformSpecific\CanvasViewport.cs" />
+    <Compile Include="PlatformSpecific\dbugHelper.cs" />
+    <Compile Include="PlatformSpecific\FormCanvasHelper.cs" />
+    <Compile Include="PlatformSpecific\ISurfaceViewportControl.cs" />
+    <Compile Include="PlatformSpecific\QuadPages.cs" />
+    <Compile Include="PlatformSpecific\WinGdiPlatform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TopBox\0_MyTopWindowRenderBox.cs" />
+    <Compile Include="TopBox\0_MyTopWindowRenderBox_dbug.cs" />
+    <Compile Include="TopBox\0_MyTopWindowRenderBox_Graphics.cs" />
+    <Compile Include="TopBox\0_MyTopWindowRenderBox_p2.cs" />
+    <Compile Include="TopBox\1_VisualRootTasks.cs" />
+    <Compile Include="TopBox\CanvasEventStock.cs" />
+    <Compile Include="TopBox\MyIntervalTaskEventArgs.cs" />
+    <Compile Include="TopBox\MyRootGraphic.cs" />
+    <Compile Include="TopBox\MyTimerSheet.cs" />
+    <Compile Include="TopBox\UIHoverMonitor.cs" />
+    <Compile Include="PlatformSpecific\MyCustomRenderSurface.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LayoutFarm.Composers.WinForms\LayoutFarm.Composers.WinForms.csproj">
-      <Project>{8CBF9902-1A77-4FA9-AC57-CE2179098BED}</Project>
-      <Name>LayoutFarm.Composers.WinForms</Name>
-    </ProjectReference>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
       <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
       <Name>LayoutFarm.Composers</Name>
@@ -77,24 +97,8 @@
       <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
       <Name>LayoutFarm.MiniUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
-      <Project>{CFB41C52-614E-476C-8BBE-D07C26FB582D}</Project>
-      <Name>LayoutFarm.TextEdit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.YourCustomUI\LayoutFarm.YourCustomUI.csproj">
-      <Project>{E4A293C9-B7FB-4A5E-B559-E97150AC3FC3}</Project>
-      <Name>LayoutFarm.YourCustomUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Test0_PresentationDevHelper_New\Test0_PresentationDevHelper_New.csproj">
-      <Project>{05C84CAB-2F5D-4D74-9A62-EADDF5B4CC0B}</Project>
-      <Name>Test0_PresentationDevHelper_New</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
