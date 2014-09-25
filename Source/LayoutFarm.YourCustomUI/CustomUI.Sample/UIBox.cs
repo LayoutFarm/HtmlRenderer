@@ -17,7 +17,7 @@ namespace LayoutFarm.SampleControls
         int _top;
         int _width;
         int _height;
-
+        bool _hide;
 
 #if DEBUG
         static int dbugTotalId;
@@ -169,9 +169,22 @@ namespace LayoutFarm.SampleControls
         {
             get { return 0; }
         }
-        public virtual void SetViewport(int x,int y)
+        public virtual void SetViewport(int x, int y)
         {
 
+        }
+
+        public bool Visible
+        {
+            get { return !this._hide; }
+            set
+            {
+                this._hide = !value;
+                if (this.HasReadyRenderElement)
+                {
+                    this.CurrentPrimaryRenderElement.SetVisible(value);                  
+                }
+            }
         }
     }
 }
