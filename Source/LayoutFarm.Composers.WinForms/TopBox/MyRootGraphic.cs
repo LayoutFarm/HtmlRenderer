@@ -7,7 +7,7 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
 
-    public class MyRootGraphic : RootGraphic
+      class MyRootGraphic : RootGraphic
     {
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
         System.Windows.Forms.Timer graphicTimer1 = new System.Windows.Forms.Timer();

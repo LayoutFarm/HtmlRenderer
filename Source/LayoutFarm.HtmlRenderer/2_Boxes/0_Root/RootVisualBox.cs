@@ -23,12 +23,9 @@ using HtmlRenderer.Css;
 
 
 namespace HtmlRenderer
-{
-
-
+{ 
     public abstract class RootVisualBox : IDisposable
-    {
-
+    { 
 
         /// <summary>
         /// the root css box of the parsed html

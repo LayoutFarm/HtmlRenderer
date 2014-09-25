@@ -3,16 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
-
-
-
-
-
 namespace LayoutFarm
 {
 
 
-    public class UIHoverMonitorTask : VisualRootTimerTask
+    class UIHoverMonitorTask : VisualRootTimerTask
     {
 
         int mouseMoveCounter = -1;

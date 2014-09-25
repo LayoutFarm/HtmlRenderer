@@ -45,14 +45,15 @@
   <ItemGroup>
     <Compile Include="HtmlRenderer_Platform\WinHtmlRootVisualBoxExtension.cs" />
     <Compile Include="HtmlRenderer_Platform\WinRootVisualBox.cs" />
-    <Compile Include="PlatformSpecific\ArtCanvasCollection.cs" />
-    <Compile Include="PlatformSpecific\ArtSurfaceViewportControl.cs">
+    <Compile Include="PlatformSpecific\CanvasCollection.cs" />
+    <Compile Include="PlatformSpecific\UISurfaceViewportControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PlatformSpecific\ArtSurfaceViewportControl.Designer.cs">
-      <DependentUpon>ArtSurfaceViewportControl.cs</DependentUpon>
+    <Compile Include="PlatformSpecific\UISurfaceViewportControl.Designer.cs">
+      <DependentUpon>UISurfaceViewportControl.cs</DependentUpon>
     </Compile>
     <Compile Include="PlatformSpecific\CanvasViewport.cs" />
+    <Compile Include="PlatformSpecific\dbugHelper.cs" />
     <Compile Include="PlatformSpecific\FormCanvasHelper.cs" />
     <Compile Include="PlatformSpecific\ISurfaceViewportControl.cs" />
     <Compile Include="PlatformSpecific\QuadPages.cs" />

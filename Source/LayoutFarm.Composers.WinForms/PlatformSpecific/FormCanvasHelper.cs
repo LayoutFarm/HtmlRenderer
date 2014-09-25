@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-using LayoutFarm.Drawing; 
+using LayoutFarm.Drawing;
 
 namespace LayoutFarm
 {
@@ -19,11 +19,9 @@ namespace LayoutFarm
             Rectangle screenClientAreaRect = Conv.ToRect(Screen.PrimaryScreen.WorkingArea);
 
             //----------------------
-            var visualRoot = new MyRootGraphic(800, 600);
-            var windowRoot = new MyTopWindowRenderBox(visualRoot, form1.Width, form1.Height);
 
 
-            canvasViewport.SetupWindowRoot(windowRoot);
+            canvasViewport.InitRootGraphics(800, 600); 
             canvasViewport.Bounds =
                 new System.Drawing.Rectangle(0, 0,
                     screenClientAreaRect.Width,

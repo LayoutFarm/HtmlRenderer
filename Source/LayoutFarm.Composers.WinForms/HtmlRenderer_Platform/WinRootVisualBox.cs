@@ -4,14 +4,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Diagnostics;
-
 using HtmlRenderer.Boxes;
 using HtmlRenderer.WebDom;
 
 using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Diagnostics;
-
-
 using LayoutFarm.Drawing;
 
 namespace HtmlRenderer
@@ -20,12 +17,10 @@ namespace HtmlRenderer
     public class WinRootVisualBox : RootVisualBox
     {
 
-
         WebDocument doc;
         CssActiveSheet activeCssSheet;
         ImageContentManager imageContentManager;
         TextContentManager textContentManager;
-
         ///// <summary>
         ///// Raised when Html Renderer request scroll to specific location.<br/>
         ///// This can occur on document anchor click.
@@ -54,6 +49,7 @@ namespace HtmlRenderer
             imageContentManager = new ImageContentManager(this);
             textContentManager = new TextContentManager(this);
         }
+
         /// <summary>
         /// connect to box composer 
         /// </summary>
@@ -114,9 +110,9 @@ namespace HtmlRenderer
         }
         public void PerformPaint(IGraphics2 g)
         {
-             PerformPaint(g.GetInnerGraphic() as Graphics);
+            PerformPaint(g.GetInnerGraphic() as Graphics);
         }
-        public void PerformPaint(Graphics g)
+        void PerformPaint(Graphics g)
         {
             if (doc == null)
             {

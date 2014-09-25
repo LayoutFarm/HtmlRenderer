@@ -9,7 +9,7 @@ namespace LayoutFarm
 {
 
 
-    public interface ISurfaceViewportControl
+    interface ISurfaceViewportControl
     {
 
         IntPtr Handle { get; }
@@ -22,8 +22,7 @@ namespace LayoutFarm
         void Invoke(Delegate del, object req);
         void PaintMe();
         void WhenParentFormClosed(EventHandler<EventArgs> handler);
-        void SetupWindowRoot(MyTopWindowRenderBox winroot);
-
+     
 #if DEBUG
         List<dbugLayoutMsg> dbug_rootDocDebugMsgs { get; }
         void dbug_InvokeVisualRootDrawMsg();

@@ -7,7 +7,7 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
 
-    public class CanvasViewport
+    class CanvasViewport
     {
         int viewportX;
         int viewportY;
@@ -28,6 +28,9 @@ namespace LayoutFarm
         EventHandler<EventArgs> canvasSizeChangedHandler;
         bool fullMode = true;
         ISurfaceViewportControl outputWindow;
+
+
+
         public CanvasViewport(ISurfaceViewportControl outputWindow,
             MyTopWindowRenderBox wintop,
             Size viewportSize, int cachedPageNum)
@@ -132,9 +135,9 @@ namespace LayoutFarm
             ReleaseDC(outputWindow.Handle, hdc);
 #if DEBUG
 
-            if (MyTopWindowRenderBox.dbugVE_HighlightMe != null)
+            if (dbugHelper01.dbugVE_HighlightMe != null)
             {
-                outputWindow.dbug_HighlightMeNow(MyTopWindowRenderBox.dbugVE_HighlightMe.GetGlobalRect());
+                outputWindow.dbug_HighlightMeNow(dbugHelper01.dbugVE_HighlightMe.GetGlobalRect());
 
             }
 #endif

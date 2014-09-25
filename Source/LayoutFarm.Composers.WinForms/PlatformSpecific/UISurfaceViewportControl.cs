@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 using System.Text;
 using System.Windows.Forms;
- 
+
 using LayoutFarm.Drawing;
 
 namespace LayoutFarm
@@ -40,12 +40,19 @@ namespace LayoutFarm
             InitializeComponent();
         }
 
+        public void InitRootGraphics(int width, int height)
+        {
+            var visualRoot = new MyRootGraphic(width, height);
+            var windowRoot = new MyTopWindowRenderBox(visualRoot, width, height);
+            SetupWindowRoot(windowRoot);
+        }
+
         public void WhenParentFormClosed(EventHandler<EventArgs> handler)
         {
             this.parentFormClosedHandler = handler;
             this.ParentForm.FormClosed += new FormClosedEventHandler(ParentForm_FormClosed);
         }
-        public void SetupWindowRoot(MyTopWindowRenderBox winroot)
+        void SetupWindowRoot(MyTopWindowRenderBox winroot)
         {
 
             this.wintop = winroot;

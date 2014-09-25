@@ -6,7 +6,7 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm
 {
-    public class MyCustomRenderSurface : CustomRenderSurface
+    class MyCustomRenderSurface : CustomRenderSurface
     {
 
 

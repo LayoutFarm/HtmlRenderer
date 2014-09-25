@@ -8,7 +8,7 @@ namespace LayoutFarm
 {
 
 
-    public partial class MyTopWindowRenderBox : TopWindowRenderBox
+    partial class MyTopWindowRenderBox : TopWindowRenderBox
     {
 
 
@@ -19,7 +19,7 @@ namespace LayoutFarm
 
         MyRootGraphic rootGraphic;
         CanvasEventsStock eventStock = new CanvasEventsStock();
-       
+
 
 
         public MyTopWindowRenderBox(

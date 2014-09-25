@@ -53,7 +53,7 @@ namespace LayoutFarm
             hitPointChain.dbugHitTracker = this.dbugVRoot.dbugHitTracker;
         }
 
-        public static RenderElement dbugVE_HighlightMe;
+
 
         public override void dbugShowRenderPart(Canvas canvasPage, InternalRect updateArea)
         {
