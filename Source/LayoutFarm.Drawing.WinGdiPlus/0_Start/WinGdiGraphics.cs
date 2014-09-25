@@ -93,5 +93,11 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         {
             return new MyRegion();
         }
+        public override TextFontInfo CreateTexFontInfo(object nativeFont)
+        {
+            return new TextFontInfo(
+                new MyFont((System.Drawing.Font)nativeFont),
+                new BasicGdi32FontHelper());             
+        }
     }
 }

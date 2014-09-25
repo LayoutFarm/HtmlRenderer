@@ -5,7 +5,7 @@ using System.Text;
 using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
-    public class BasicGdi32FontHelper : IFonts2
+    class BasicGdi32FontHelper : IFonts2
     {
         System.Drawing.Bitmap bmp;
         IntPtr hdc;
@@ -83,7 +83,7 @@ namespace LayoutFarm
         }
     }
 
-    public static class FontManager
+    static class FontManager
     {
         static Dictionary<FontSignature, TextFontInfo> fontDics = new Dictionary<FontSignature, TextFontInfo>();
         static TextFontInfo defaultTextFontInfo;
@@ -99,7 +99,7 @@ namespace LayoutFarm
                 gdiFontHelper);
             fontDics.Add(defaultTextFontInfo.GetFontSignature(), defaultTextFontInfo);
 
-           
+
             RegisterFont(
                   LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
                  new System.Drawing.Font("Tahoma", 14, System.Drawing.FontStyle.Bold)));
@@ -139,7 +139,7 @@ namespace LayoutFarm
             {
 
                 textFontInfo = new TextFontInfo(
-                    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont( 
+                    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
                       new System.Drawing.Font(fontface,
                           size, (System.Drawing.FontStyle)fontStyle)),
                     gdiFontHelper);

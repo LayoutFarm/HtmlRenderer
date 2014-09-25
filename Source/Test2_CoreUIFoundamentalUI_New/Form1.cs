@@ -67,11 +67,13 @@ namespace TestGraphicPackage2
           out UISurfaceViewportControl viewport,
           out Form formCanvas)
         {
-            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo =
-                new TextFontInfo(
-                    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
-                     new System.Drawing.Font("tahoma", 10)),
-                    new BasicGdi32FontHelper());
+            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = 
+                LayoutFarm.Drawing.CurrentGraphicPlatform.CreateTexFontInfo(
+                    new System.Drawing.Font("tahoma", 10));
+            //new TextFontInfo(
+            //    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
+            //     new System.Drawing.Font("tahoma", 10)),
+            //     new BasicGdi32FontHelper());
 
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(out viewport);
             formCanvas.Text = "FormCanvas 1";

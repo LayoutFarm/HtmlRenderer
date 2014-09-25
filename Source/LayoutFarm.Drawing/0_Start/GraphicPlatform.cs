@@ -8,6 +8,7 @@ namespace LayoutFarm.Drawing
         public abstract Bitmap CreateBitmap(int width, int height);
         public abstract Bitmap CreateBitmap(object bmp);
         public abstract Font CreateFont(object font);
+        public abstract TextFontInfo CreateTexFontInfo(object nativeFont);
 
         public abstract SolidBrush CreateSolidBrush(Color color);
         public abstract Pen CreatePen(Brush brush);
@@ -71,7 +72,10 @@ namespace LayoutFarm.Drawing
         {
             return platform.CreateFont(f);
         }
-
+        public static TextFontInfo CreateTexFontInfo(object nativeFont)
+        {
+            return platform.CreateTexFontInfo(nativeFont);
+        }
     }
 
 

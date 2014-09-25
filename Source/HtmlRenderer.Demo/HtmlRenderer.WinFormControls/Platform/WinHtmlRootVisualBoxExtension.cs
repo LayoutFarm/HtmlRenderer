@@ -58,7 +58,7 @@ namespace HtmlRenderer
                 }
             };
 
-
+            //sample graphic ?
             using (var img = new Bitmap(1, 1))
             using (var g = Graphics.FromImage(img))
             {
