@@ -276,59 +276,12 @@ namespace HtmlRenderer.WebDom
                 return null;
             }
         }
-
-        //public virtual void DispatchEvent(HtmlEventArgs eventArgs)
-        //{
-
-        //    switch (eventArgs.EventName)
-        //    {
-        //        //--------------------------
-        //        //primary mouse event
-        //        case EventName.MouseDown:
-        //            {
-        //                OnMouseDown(eventArgs);
-        //            } break;
-        //        case EventName.MouseUp:
-        //            {
-        //                OnMouseUp(eventArgs);
-        //            } break;
-        //        case EventName.MouseMove:
-        //            {
-
-
-        //            } break;
-        //        //-----------------------------
-        //        //secondary mouse event
-        //        case EventName.MouseOver:
-        //            {
-        //            } break;
-        //        case EventName.MouseLeave:
-        //            {
-        //            } break;
-        //        //-----------------------------
-        //    }
-        //}
+         
         public string Name
         {
             get { return this.LocalName; }
         }
-        //------------------------------------------------------------------------ 
-        protected virtual void OnMouseDown(HtmlEventArgs e)
-        {
-            //some element has intrinsic reponse to event 
-            //eg. click on link  
-            if (this.evhMouseDown != null)
-            {
-                this.evhMouseDown(e);
-            } 
-        }
-        protected virtual void OnMouseUp(HtmlEventArgs e)
-        {
-            if (this.evhMouseUp != null)
-            {
-                this.evhMouseUp(e);
-            }
-        }
+        
         public void AttachEvent(EventName eventName, HtmlEventHandler handler)
         {
             switch (eventName)

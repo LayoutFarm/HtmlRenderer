@@ -113,11 +113,15 @@ namespace HtmlRenderer.WebDom
         }
         protected virtual void OnMouseDown(UIMouseEventArgs e)
         {
-
+            if (this.evhMouseDown != null)
+            {
+                evhMouseDown(new HtmlEventArgs(EventName.MouseDown));
+            }
 
         }
         protected virtual void OnMouseWheel(UIMouseEventArgs e)
         {
+
         }
         protected virtual void OnDragStart(UIDragEventArgs e)
         {
@@ -155,14 +159,14 @@ namespace HtmlRenderer.WebDom
         protected virtual void OnElementLanded()
         {
 
-        } 
+        }
         protected virtual void OnShown()
         {
         }
         protected virtual void OnHide()
         {
         }
-         
+
         protected virtual void OnKeyDown(UIKeyEventArgs e)
         {
         }
@@ -185,6 +189,10 @@ namespace HtmlRenderer.WebDom
         }
         protected virtual void OnMouseUp(UIMouseEventArgs e)
         {
+            if (evhMouseUp != null)
+            {
+                evhMouseUp(new HtmlEventArgs(EventName.MouseUp));
+            }
         }
         protected virtual void OnMouseEnter(UIMouseEventArgs e)
         {

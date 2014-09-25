@@ -131,10 +131,8 @@ namespace LayoutFarm
             {
                 x -= dx; y -= dy; canvasXOrigin += dx;
                 canvasYOrigin += dy;
-            }
-
-        }
-
+            } 
+        } 
         public TopWindowRenderBox WinRoot
         {
             get
@@ -144,11 +142,8 @@ namespace LayoutFarm
         }
         public void SetWinRoot(TopWindowRenderBox winRoot)
         {
-            this.winRoot = winRoot;
-
-        } 
-      
-
+            this.winRoot = winRoot; 
+        }  
     }
 
 
