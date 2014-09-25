@@ -18,6 +18,7 @@ namespace LayoutFarm
         Stack<UICaretEventArgs> caretEventQ = new Stack<UICaretEventArgs>();
         Stack<UICursorEventArgs> cursorEventQ = new Stack<UICursorEventArgs>();
         Stack<UIPopupEventArgs> popEventQ = new Stack<UIPopupEventArgs>();
+        Stack<UIDragEventArgs> dragEventQ = new Stack<UIDragEventArgs>();
 
         public CanvasEventsStock()
         {
@@ -30,6 +31,8 @@ namespace LayoutFarm
             caretEventQ.Push(new UICaretEventArgs());
             cursorEventQ.Push(new UICursorEventArgs());
             popEventQ.Push(new UIPopupEventArgs());
+
+            dragEventQ.Push(new UIDragEventArgs());
         }
         public UIPopupEventArgs GetFreeCanvasPopupEventArgs()
         {
@@ -174,10 +177,39 @@ namespace LayoutFarm
         {
             e.Clear();
             canvasFocusEventsQ.Push(e);
-
         }
-
-
+        public UIDragEventArgs GetFreeDragEventArgs(Point p,
+            UIMouseButtons button,
+            int lastestLogicalViewportMouseDownX,
+            int lastestLogicalViewportMouseDownY,
+            int currentLogicalX,
+            int currentLogicalY,
+            int lastestXDiff,
+            int lastestYDiff)
+        {
+            UIDragEventArgs e = null;
+            if (dragEventQ.Count > 0)
+            {
+                e = dragEventQ.Pop(); 
+            }
+            else
+            {
+                e = new UIDragEventArgs(); 
+            }
+            e.SetEventInfo(p, button,
+                lastestLogicalViewportMouseDownX,
+                lastestLogicalViewportMouseDownY,
+                currentLogicalX,
+                currentLogicalY,
+                lastestXDiff,
+                lastestYDiff);
+            return e;
+        }
+        public void ReleaseEventArgs(UIDragEventArgs e)
+        {
+            e.Clear();
+            dragEventQ.Push(e);
+        }
     }
 
 

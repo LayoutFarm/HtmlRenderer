@@ -627,7 +627,7 @@ namespace LayoutFarm
 
             //}
 
-            UIDragEventArgs d_eventArg = UIDragEventArgs.GetFreeDragEventArgs();
+            UIDragEventArgs d_eventArg = new UIDragEventArgs();
             if (hitPointChain.DragHitElementCount > 0)
             {
                 foreach (RenderElement elem in hitPointChain.GetDragHitElementIter())
@@ -646,8 +646,7 @@ namespace LayoutFarm
                 }
             }
 
-            hitPointChain.ClearDragHitElements();
-            UIDragEventArgs.ReleaseEventArgs(d_eventArg);
+            hitPointChain.ClearDragHitElements(); 
 
 
             currentDragingElement = null;

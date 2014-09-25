@@ -20,28 +20,12 @@ namespace LayoutFarm
         public RenderElement DragingElement;
         public UIMouseEventArgs MouseInfo;
 
-        static Stack<UIDragEventArgs> dragEventArgsPool = new Stack<UIDragEventArgs>();
-
-        private UIDragEventArgs()
+        
+        public UIDragEventArgs()
         {
             EventType = UIMouseEventType.Drag;
         }
-        public static UIDragEventArgs GetFreeDragEventArgs()
-        {
-            if (dragEventArgsPool.Count > 0)
-            {
-                return dragEventArgsPool.Pop();
-            }
-            else
-            {
-                return new UIDragEventArgs();
-            }
-        }
-        public static void ReleaseEventArgs(UIDragEventArgs e)
-        {
-            e.Clear();
-            dragEventArgsPool.Push(e);
-        }
+        
         public void SetEventInfo(Point loca, UIMouseButtons button, int lastestLogicalViewportMouseDownX,
             int lastestLogicalViewportMouseDownY,
             int currentLogicalX,

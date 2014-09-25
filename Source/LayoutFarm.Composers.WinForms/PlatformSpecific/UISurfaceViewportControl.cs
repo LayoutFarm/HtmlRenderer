@@ -222,31 +222,31 @@ namespace LayoutFarm
             {
                 int xdiff = (viewLocation.X + e.X) - prevLogicalMouseX; int ydiff = (viewLocation.Y + e.Y) - prevLogicalMouseY; if (!isDraging)
                 {
-                    UIDragEventArgs dragEventArg = UIDragEventArgs.GetFreeDragEventArgs();
-                    dragEventArg.SetWinRoot(this.wintop);
-                    dragEventArg.SetEventInfo(
+                    UIDragEventArgs dragEventArg = eventStock.GetFreeDragEventArgs(
                         e.Location.ToPoint(),
                         GetArtMouseButton(e.Button),
                         lastestLogicalMouseDownX, lastestLogicalMouseDownY,
                         (viewLocation.X + e.X), (viewLocation.Y + e.Y),
                         xdiff, ydiff);
+
+                    dragEventArg.SetWinRoot(this.wintop);
                     canvasViewport.OnDragStart(dragEventArg);
                     isDraging = true;
-                    UIDragEventArgs.ReleaseEventArgs(dragEventArg);
+                    eventStock.ReleaseEventArgs(dragEventArg);
+
                 }
                 else
                 {
                     if (!(xdiff == 0 && ydiff == 0))
                     {
-                        UIDragEventArgs dragEventArg = UIDragEventArgs.GetFreeDragEventArgs();
-                        dragEventArg.SetWinRoot(this.wintop);
-                        dragEventArg.SetEventInfo(e.Location.ToPoint(),
+                        UIDragEventArgs dragEventArg = eventStock.GetFreeDragEventArgs(e.Location.ToPoint(),
                             GetArtMouseButton(e.Button),
                             lastestLogicalMouseDownX, lastestLogicalMouseDownY,
                             (viewLocation.X + e.X), (viewLocation.Y + e.Y),
                             xdiff, ydiff);
+                        dragEventArg.SetWinRoot(this.wintop);
                         canvasViewport.OnDrag(dragEventArg);
-                        UIDragEventArgs.ReleaseEventArgs(dragEventArg);
+                        eventStock.ReleaseEventArgs(dragEventArg);
                     }
                 }
             }
@@ -270,19 +270,23 @@ namespace LayoutFarm
         protected override void OnMouseUp(MouseEventArgs e)
         {
 
-            isMouseDown = false; if (isDraging)
+            isMouseDown = false;
+            if (isDraging)
             {
-                UIDragEventArgs mouseDragEventArg = UIDragEventArgs.GetFreeDragEventArgs();
+
                 Point viewLocation = canvasViewport.LogicalViewportLocation;
+
+                var mouseDragEventArg = eventStock.GetFreeDragEventArgs(
+                   e.Location.ToPoint(),
+                   GetArtMouseButton(e.Button),
+                   lastestLogicalMouseDownX, lastestLogicalMouseDownY,
+                   (viewLocation.X + e.X), (viewLocation.Y + e.Y),
+                   (viewLocation.X + e.X) - lastestLogicalMouseDownX, (viewLocation.Y + e.Y) - lastestLogicalMouseDownY);
                 mouseDragEventArg.SetWinRoot(this.wintop);
-                mouseDragEventArg.SetEventInfo(e.Location.ToPoint(),
-                    GetArtMouseButton(e.Button),
-                    lastestLogicalMouseDownX, lastestLogicalMouseDownY,
-                    (viewLocation.X + e.X), (viewLocation.Y + e.Y),
-                    (viewLocation.X + e.X) - lastestLogicalMouseDownX, (viewLocation.Y + e.Y) - lastestLogicalMouseDownY);
                 base.OnMouseUp(e);
                 canvasViewport.OnDragStop(mouseDragEventArg);
-                UIDragEventArgs.ReleaseEventArgs(mouseDragEventArg);
+                eventStock.ReleaseEventArgs(mouseDragEventArg);
+
             }
             else
             {
