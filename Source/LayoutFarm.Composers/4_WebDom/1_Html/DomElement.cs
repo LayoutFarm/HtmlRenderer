@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace HtmlRenderer.WebDom
 {   
-    public abstract partial class DomElement : DomNode, LayoutFarm.IEventListener
+    public abstract partial class DomElement : DomNode
     {
 
         internal int nodePrefixNameIndex;

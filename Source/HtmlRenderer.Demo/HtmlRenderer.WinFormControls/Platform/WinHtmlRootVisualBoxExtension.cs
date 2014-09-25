@@ -13,7 +13,7 @@ using HtmlRenderer.Diagnostics;
 
 namespace HtmlRenderer
 {
-    static class WinHtmlRootVisualBoxExtension
+    public static class WinHtmlRootVisualBoxExtension
     {
         public static void SetHtml(this MyImplWinRootVisualBox container, string html, CssActiveSheet cssData)
         {

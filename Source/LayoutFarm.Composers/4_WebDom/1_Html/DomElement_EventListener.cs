@@ -9,7 +9,7 @@ namespace HtmlRenderer.WebDom
 {
     public delegate void HtmlEventHandler(UIEventArgs e);
 
-    partial class DomElement
+    partial class DomElement : IEventListener
     {
 
         void IEventListener.ListenKeyPressEvent(UIKeyPressEventArgs args)

@@ -105,10 +105,6 @@
       <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
       <Name>LayoutFarm.MiniUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Svg\LayoutFarm.Svg.csproj">
-      <Project>{4E185663-158F-4B19-A86D-435D9F203A07}</Project>
-      <Name>LayoutFarm.Svg</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="6_SvgDom\0_License.txt" />
