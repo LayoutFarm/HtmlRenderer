@@ -42,12 +42,7 @@ namespace LayoutFarm.SampleControls
                     this.Layers.LayersDrawContent(canvasPage, updateArea);
                 }
             }
-        }
-        static LayoutFarm.Drawing.Color ConvColor(System.Drawing.Color c)
-        {
-            return new Drawing.Color(c.A, c.R, c.G, c.B);
-        }
-
+        } 
     }
 
 

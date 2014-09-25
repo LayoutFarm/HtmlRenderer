@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{14840A73-6D38-4A2A-A71C-F84DC4FB4620}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{E4A293C9-B7FB-4A5E-B559-E97150AC3FC3}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Test3_MixHtml</RootNamespace>
-    <AssemblyName>Test3_MixHtml</AssemblyName>
+    <RootNamespace>LayoutFarm.YourCustomUI</RootNamespace>
+    <AssemblyName>LayoutFarm.YourCustomUI</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,42 +30,25 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="CustomUI.Sample\CustomRenderElements.cs" />
+    <Compile Include="CustomUI.Sample\LayerHelper.cs" />
+    <Compile Include="CustomUI.Sample\UIBox.cs" />
+    <Compile Include="CustomUI.Sample\UIButton.cs" />
+    <Compile Include="CustomUI.Sample\UIGridBox.cs" />
+    <Compile Include="CustomUI.Sample\UIPanel.cs" />
+    <Compile Include="CustomUI.Sample\UIScrollBar.cs" />
+    <Compile Include="CustomUI.Sample\UITextBox.cs" />
+    <Compile Include="CustomUI.Sample_Composites\UIListView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UIHtmlBox\HtmlRenderBox.cs" />
-    <Compile Include="UIHtmlBox\UIHtmlBox.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
-      <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
-      <Name>LayoutFarm.Composers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Drawing.PlatformWinGdi\LayoutFarm.Drawing.PlatformWinGdi.csproj">
-      <Project>{E22C7CED-9DD7-4758-95B4-B315659965C3}</Project>
-      <Name>LayoutFarm.Drawing.PlatformWinGdi</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
       <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
       <Name>LayoutFarm.Drawing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
-      <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>
-      <Name>LayoutFarm.HtmlRenderer</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.LeanBox\LayoutFarm.LeanBox.csproj">
       <Project>{5CDDBA62-67E4-40AA-A3C0-AFAE030E6969}</Project>
@@ -75,27 +58,10 @@
       <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
       <Name>LayoutFarm.MiniUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.PlatformSpecific\LayoutFarm.PlatformSpecific.csproj">
-      <Project>{8424932F-2499-4A72-87D8-1E1246EF8E59}</Project>
-      <Name>LayoutFarm.PlatformSpecific</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
       <Project>{CFB41C52-614E-476C-8BBE-D07C26FB582D}</Project>
       <Name>LayoutFarm.TextEdit</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.YourCustomUI\LayoutFarm.YourCustomUI.csproj">
-      <Project>{E4A293C9-B7FB-4A5E-B559-E97150AC3FC3}</Project>
-      <Name>LayoutFarm.YourCustomUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Test0_PresentationDevHelper_New\Test0_PresentationDevHelper_New.csproj">
-      <Project>{05C84CAB-2F5D-4D74-9A62-EADDF5B4CC0B}</Project>
-      <Name>Test0_PresentationDevHelper_New</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
