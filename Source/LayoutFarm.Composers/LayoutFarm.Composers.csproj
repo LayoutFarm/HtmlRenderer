@@ -72,7 +72,6 @@
     <Compile Include="6_SvgDom\CssBoxSvgRoot.cs" />
     <Compile Include="6_SvgDom\SvgCreator.cs" />
     <Compile Include="7_BridgeHtmlRenderer\MyHtmlIsland.cs" />
-    <Compile Include="7_BridgeHtmlRenderer\WinHtmlRootVisualBoxExtension.cs" />
     <Compile Include="8_Lean\CssLeanBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="5_WebDom.Parser\CssParser.cs" />

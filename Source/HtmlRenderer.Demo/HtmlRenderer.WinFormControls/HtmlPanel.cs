@@ -62,8 +62,8 @@ namespace HtmlRenderer
     /// </summary>
     public class HtmlPanel : ScrollableControl
     {
-         
-        MyHtmlIsland myHtmlIsland; 
+
+        MyHtmlIsland myHtmlIsland;
         Composers.InputEventBridge _htmlEventBridge;
 
 
@@ -78,6 +78,10 @@ namespace HtmlRenderer
         private WebDom.CssActiveSheet _baseCssData;
 
         Timer timer01 = new Timer();
+
+        ImageContentManager imgContentMan = new ImageContentManager();
+        TextContentManager textContentMan = new TextContentManager();
+
 
         /// <summary>
         /// Creates a new HtmlPanel and sets a basic css for it's styling.
@@ -95,16 +99,18 @@ namespace HtmlRenderer
 
             myHtmlIsland = new MyHtmlIsland();
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
-             
-            myHtmlIsland.ImageContentMan = new ImageContentManager();
-            myHtmlIsland.TextContentMan = new TextContentManager();
-
-
             myHtmlIsland.RenderError += OnRenderError;
             myHtmlIsland.Refresh += OnRefresh;
+            myHtmlIsland.RequestResource += myHtmlIsland_RequestResource;
+
+            //myHtmlIsland.ImageContentMan = new ImageContentManager();
+            //myHtmlIsland.TextContentMan = new TextContentManager();
+            //myHtmlIsland.TextContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
+            //myHtmlIsland.ImageContentMan.ImageLoadingRequest += OnImageLoad;
+
             //myHtmlIsland.ScrollChange += OnScrollChange;
-            myHtmlIsland.TextContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
-            myHtmlIsland.ImageContentMan.ImageLoadingRequest += OnImageLoad;
+            this.imgContentMan.ImageLoadingRequest += OnImageLoad;
+            this.textContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
 
             timer01.Interval = 20;//20ms?
             timer01.Enabled = true;
@@ -116,10 +122,88 @@ namespace HtmlRenderer
             timer01.Enabled = true;
             //-------------------------------------------
             _htmlEventBridge = new Composers.InputEventBridge();
-            _htmlEventBridge.Bind(myHtmlIsland);
+            _htmlEventBridge.Bind(myHtmlIsland, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
             //------------------------------------------- 
         }
+        void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
+        {
 
+
+        }
+        void SetHtml(MyHtmlIsland container, string html, CssActiveSheet cssData)
+        {
+
+            HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
+            builder.RequestStyleSheet += (e) =>
+            {
+                //var textContentManager = container.TextContentMan;
+                //if (textContentManager != null)
+                //{
+                //    textContentManager.AddStyleSheetRequest(e);
+                //}
+            };
+
+            var htmldoc = builder.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
+
+
+            //build rootbox from htmldoc
+            var rootBox = builder.BuildCssTree(htmldoc,
+                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
+                container,
+                cssData);
+
+            MyHtmlIsland containerImp = container as MyHtmlIsland;
+            if (containerImp != null)
+            {
+                containerImp.SetHtmlDoc(htmldoc);
+                containerImp.SetRootCssBox(rootBox, cssData);
+            }
+
+
+        }
+        void SetHtml(MyHtmlIsland container, HtmlRenderer.WebDom.WebDocument doc, CssActiveSheet cssData)
+        {
+            HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
+            builder.RequestStyleSheet += (e) =>
+            {
+                //var textContentManager = container.TextContentMan;
+                //if (textContentManager != null)
+                //{
+                //    textContentManager.AddStyleSheetRequest(e);
+                //}
+            };
+
+            var rootBox = builder.BuildCssTree(doc,
+                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
+                container,
+                cssData);
+            container.SetHtmlDoc(doc);
+            container.SetRootCssBox(rootBox, cssData);
+
+        }
+        void RefreshHtmlDomChange(MyHtmlIsland container,
+        HtmlRenderer.WebDom.WebDocument doc, CssActiveSheet cssData)
+        {
+
+            PartialRebuildCssTree(container, doc);
+        }
+
+        void PartialRebuildCssTree(MyHtmlIsland htmlIsland,
+          HtmlRenderer.WebDom.WebDocument doc)
+        {
+            HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
+            builder.RequestStyleSheet += (e) =>
+            {
+                this.textContentMan.AddStyleSheetRequest(e);
+                
+            };
+
+
+            var rootBox2 = builder.RefreshCssTree(doc,
+                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
+                htmlIsland);
+
+        }
         /// <summary>
         /// Raised when the user clicks on a link in the html.<br/>
         /// Allows canceling the execution of the link.
@@ -244,21 +328,18 @@ namespace HtmlRenderer
                 if (!IsDisposed)
                 {
                     VerticalScroll.Value = VerticalScroll.Minimum;
-
-                    myHtmlIsland.SetHtml(Text, _baseCssData);
+                    SetHtml(myHtmlIsland, Text, _baseCssData);
                     PerformLayout();
                     Invalidate();
                 }
             }
         }
 
-
-
         public void LoadHtmlDom(HtmlRenderer.WebDom.WebDocument doc, string defaultCss)
         {
             _baseRawCssData = defaultCss;
             _baseCssData = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(defaultCss, true);
-            myHtmlIsland.SetHtml(doc, _baseCssData);
+            SetHtml(myHtmlIsland, doc, _baseCssData);
 
             PerformLayout();
             Invalidate();
@@ -266,7 +347,7 @@ namespace HtmlRenderer
         public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.WebDocument doc)
         {
 
-            myHtmlIsland.RefreshHtmlDomChange(doc, _baseCssData);
+            RefreshHtmlDomChange(myHtmlIsland, doc, _baseCssData);
             PerformLayout();
             Invalidate();
         }
@@ -586,8 +667,8 @@ namespace HtmlRenderer
                 myHtmlIsland.RenderError -= OnRenderError;
                 myHtmlIsland.Refresh -= OnRefresh;
                 //myHtmlIsland.ScrollChange -= OnScrollChange;
-                myHtmlIsland.TextContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
-                myHtmlIsland.ImageContentMan.ImageLoadingRequest -= OnImageLoad;
+                //myHtmlIsland.TextContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
+                //myHtmlIsland.ImageContentMan.ImageLoadingRequest -= OnImageLoad;
                 myHtmlIsland.Dispose();
                 myHtmlIsland = null;
             }

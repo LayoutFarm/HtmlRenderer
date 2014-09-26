@@ -94,7 +94,9 @@ namespace LayoutFarm
                 return page;
             }
             else
-            {
+            { 
+                 
+               
                 return CurrentGraphicPlatform.P.CreateCanvas(
                     hPageNum,
                     vPageNum,
