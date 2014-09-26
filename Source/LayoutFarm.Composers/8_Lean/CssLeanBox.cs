@@ -4,7 +4,7 @@ using LayoutFarm.Drawing;
 using System.Collections.Generic;
 
 
-namespace HtmlRenderer.Boxes.Lean
+namespace HtmlRenderer.Boxes 
 {
 
     public sealed class CssLeanBox : CssBox

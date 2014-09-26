@@ -15,7 +15,7 @@ namespace HtmlRenderer
 {
     public static class WinHtmlRootVisualBoxExtension
     {
-        public static void SetHtml(this WinRootVisualBox container, string html, CssActiveSheet cssData)
+        public static void SetHtml(this MyImplWinRootVisualBox container, string html, CssActiveSheet cssData)
         {
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>
@@ -35,7 +35,7 @@ namespace HtmlRenderer
             var rootBox = builder.BuildCssTree(htmldoc,
                 LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
                 container, cssData);
-            WinRootVisualBox containerImp = container as WinRootVisualBox;
+            MyImplWinRootVisualBox containerImp = container as MyImplWinRootVisualBox;
             if (containerImp != null)
             {
                 containerImp.SetHtmlDoc(htmldoc);
@@ -44,7 +44,7 @@ namespace HtmlRenderer
 
 
         }
-        public static void SetHtml(this WinRootVisualBox container, HtmlRenderer.WebDom.WebDocument doc, CssActiveSheet cssData)
+        public static void SetHtml(this MyImplWinRootVisualBox container, HtmlRenderer.WebDom.WebDocument doc, CssActiveSheet cssData)
         {
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>
@@ -66,13 +66,13 @@ namespace HtmlRenderer
             container.SetRootCssBox(rootBox, cssData);
 
         }
-        public static void RefreshHtmlDomChange(this WinRootVisualBox container,
+        public static void RefreshHtmlDomChange(this MyImplWinRootVisualBox container,
             HtmlRenderer.WebDom.WebDocument doc, CssActiveSheet cssData)
         {
 
             PartialRebuildCssTree(container, doc);
         }
-        static void FullRebuildCssTree(WinRootVisualBox container,
+        static void FullRebuildCssTree(MyImplWinRootVisualBox container,
             HtmlRenderer.WebDom.WebDocument doc,
             CssActiveSheet cssData)
         {
@@ -92,7 +92,7 @@ namespace HtmlRenderer
             container.SetRootCssBox(rootBox, cssData);
 
         }
-        static void PartialRebuildCssTree(WinRootVisualBox container,
+        static void PartialRebuildCssTree(MyImplWinRootVisualBox container,
             HtmlRenderer.WebDom.WebDocument doc)
         {
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();

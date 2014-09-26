@@ -49,6 +49,8 @@
     <Compile Include="1_Composers\2_Css\ValueMaps.cs" />
     <Compile Include="2_BridgeHtmlDom\BoxCreator.cs" />
     <Compile Include="2_BridgeHtmlDom\BridgeHtmlDocument.cs" />
+    <Compile Include="4_WebDom\1_Html\DomElement.cs" />
+    <Compile Include="4_WebDom\1_Html\DomElement_EventListener.cs" />
     <Compile Include="7_BridgeHtmlRenderer\HtmlRefreshEventArgs.cs" />
     <Compile Include="7_BridgeHtmlRenderer\HtmlRenderErrorEventArgs.cs" />
     <Compile Include="3_ContentManagers\ImageContentManager.cs" />
@@ -79,7 +81,6 @@
     <Compile Include="5_WebDom.Parser\HtmlUtils.cs" />
     <Compile Include="5_WebDom.Parser\TextSnapshot.cs" />
     <Compile Include="4_WebDom\1_Html\WebDocument.cs" />
-    <Compile Include="4_WebDom\1_Html\HtmlEvents.cs" />
     <Compile Include="4_WebDom\1_Html\DomNodes.cs" />
     <Compile Include="4_WebDom\1_Html\StringTable.cs" />
     <Compile Include="4_WebDom\1_Html\WellknownElementName.cs" />
@@ -103,10 +104,6 @@
     <ProjectReference Include="..\LayoutFarm.MiniUI\LayoutFarm.MiniUI.csproj">
       <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
       <Name>LayoutFarm.MiniUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Svg\LayoutFarm.Svg.csproj">
-      <Project>{4E185663-158F-4B19-A86D-435D9F203A07}</Project>
-      <Name>LayoutFarm.Svg</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

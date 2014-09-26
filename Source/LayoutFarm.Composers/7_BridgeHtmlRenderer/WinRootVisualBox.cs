@@ -3,12 +3,13 @@ using System.Collections.Generic;
 
 using System.Text;
 using System.Diagnostics;
-using HtmlRenderer.Boxes;
+using LayoutFarm.Drawing;
 using HtmlRenderer.WebDom;
 
 using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Diagnostics;
-using LayoutFarm.Drawing;
+
+using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer
 {
@@ -105,7 +106,7 @@ namespace HtmlRenderer
         }
         public void PerformPaint(LayoutFarm.Canvas canvas)
         {
-            if (doc == null) return; 
+            if (doc == null) return;
             base.PerformPaint(canvas.GetIGraphics());
             //PerformPaint(canvas.GetIGraphics());
         }

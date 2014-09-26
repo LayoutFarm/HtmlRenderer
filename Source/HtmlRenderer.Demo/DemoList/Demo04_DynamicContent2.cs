@@ -1,7 +1,7 @@
 ﻿using System;
 using HtmlRenderer.Composers;
 using HtmlRenderer.WebDom;
-
+using LayoutFarm;
  
 namespace HtmlRenderer.Demo
 {
@@ -55,7 +55,7 @@ namespace HtmlRenderer.Demo
                         });
                     });
                     //----------------------
-                    div.AttachEvent(EventName.MouseDown, e =>
+                    div.AttachEvent(UIEventName.MouseDown, e =>
                     {
 #if DEBUG
                         //this will not print 

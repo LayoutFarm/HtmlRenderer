@@ -8,7 +8,8 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
 
-    public enum HitEventName
+
+    public enum UIEventName
     {
         Unknown,
         Click,
