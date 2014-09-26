@@ -17,8 +17,7 @@ namespace LayoutFarm
 
     public class HtmlRenderBox : RenderBoxBase
     {
-        WinRootVisualBox _visualRootBox;
-        BoxComposer _boxComposer;
+        MyHtmlIsland _htmlIsland;
         InputEventBridge _htmlEventBridge;
 
         public event EventHandler<StylesheetLoadEventArgs> StylesheetLoad;
@@ -43,24 +42,21 @@ namespace LayoutFarm
             this.myWidth = width;
             this.myHeight = height;
 
-            //-------------------------------------------------------
-            _boxComposer = new BoxComposer();
-            _visualRootBox = new WinRootVisualBox();
-            _visualRootBox.BoxComposer = _boxComposer;
+            _htmlIsland = new MyHtmlIsland();
+            _htmlIsland.TextContentMan = new TextContentManager();
+            _htmlIsland.ImageContentMan = new ImageContentManager();
 
-            //_visualRootBox.RenderError += OnRenderError;
-            _visualRootBox.Refresh += OnRefresh;
-            //_visualRootBox.ScrollChange += OnScrollChange;
-            _visualRootBox.TextContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
-            _visualRootBox.ImageContentMan.ImageLoadingRequest += OnImageLoad;
+            _htmlIsland.Refresh += OnRefresh;
+            _htmlIsland.TextContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
+            _htmlIsland.ImageContentMan.ImageLoadingRequest += OnImageLoad;
 
             //-------------------------------------------
             _htmlEventBridge = new InputEventBridge();
-            _htmlEventBridge.Bind(_visualRootBox);
+            _htmlEventBridge.Bind(_htmlIsland);
             //-------------------------------------------
             _baseCssData = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
-
         }
+
         /// <summary>
         /// Propagate the stylesheet load event from root container.
         /// </summary>
@@ -105,10 +101,10 @@ namespace LayoutFarm
         /// </summary>
         void PerformHtmlLayout(IGraphics g)
         {
-            if (_visualRootBox != null)
+            if (_htmlIsland != null)
             {
-                _visualRootBox.MaxSize = new LayoutFarm.Drawing.SizeF(this.myWidth, 0);
-                _visualRootBox.PerformLayout(g);
+                _htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this.myWidth, 0);
+                _htmlIsland.PerformLayout(g);
 
                 //using (var g = CreateGraphics())
                 //{
@@ -123,16 +119,16 @@ namespace LayoutFarm
         }
         protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
         {
-            _visualRootBox.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
-            _visualRootBox.PerformPaint(canvasPage);
+            _htmlIsland.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
+            _htmlIsland.PerformPaint(canvasPage);
         }
         public override void ChildrenHitTestCore(HitPointChain artHitResult)
         {
             //hit test in another system 
         }
-        internal void LoadHtmlText(string html)
+        public void LoadHtmlText(string html)
         {
-            _visualRootBox.SetHtml(html, _baseCssData);
+            _htmlIsland.SetHtml(html, _baseCssData);
             this.PerformHtmlLayout(CurrentGraphicPlatform.P.SampleIGraphics);
 
         }

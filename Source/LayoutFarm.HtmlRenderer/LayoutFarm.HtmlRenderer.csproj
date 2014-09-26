@@ -119,7 +119,7 @@
     <Compile Include="2_Boxes\4_Render\BackgroundImagePaintHelper.cs" />
     <Compile Include="2_Boxes\4_Render\BorderPaintHelper.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssValueParser.cs" />
-    <Compile Include="2_Boxes\0_Root\RootVisualBox.cs" />
+    <Compile Include="2_Boxes\0_Root\HtmlIsland.cs" />
     <Compile Include="5_Diagnostics\ArgCheckNotNullAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="2_Boxes\3_Layout\BoxUtils.cs" />
@@ -149,6 +149,10 @@
     <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
       <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
       <Name>LayoutFarm.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.LeanRenderer\LayoutFarm.LeanRenderer.csproj">
+      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
+      <Name>LayoutFarm.LeanRenderer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -17,14 +17,13 @@ using HtmlRenderer.Diagnostics;
 namespace HtmlRenderer
 {
 
-    public class MyImplWinRootVisualBox : RootVisualBox
+    class MyHtmlIslandImpl : HtmlIsland
     {
 
 
         WebDocument doc;
         CssActiveSheet activeCssSheet;
-        ImageContentManager imageContentManager;
-        TextContentManager textContentManager;
+         
 
         /// <summary>
         /// Raised when Html Renderer request scroll to specific location.<br/>
@@ -44,26 +43,35 @@ namespace HtmlRenderer
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
 
 
-
-        public MyImplWinRootVisualBox()
+        //-----------------------------------------------------------
+        //controll task of this container 
+        List<LayoutFarm.Drawing.ImageBinder> requestImageBinderUpdates = new List<LayoutFarm.Drawing.ImageBinder>();
+        //----------------------------------------------------------- 
+        public MyHtmlIslandImpl()
         {
 
             this.IsSelectionEnabled = true;
-
-            imageContentManager = new ImageContentManager(this);
-            textContentManager = new TextContentManager(this);
+             
+            //timTask.Interval = 20;//20 ms task
+            //timTask.Elapsed += new System.Timers.ElapsedEventHandler(timTask_Elapsed);
+            //timTask.Enabled = true;
         }
-        /// <summary>
-        /// connect to box composer 
-        /// </summary>
-        public Composers.BoxComposer BoxComposer
+        internal void InternalRefreshRequest()
         {
-            get;
-            set;
+            if (requestImageBinderUpdates.Count > 0)
+            {
+                requestImageBinderUpdates.Clear();
+                this.RequestRefresh(false);
+#if DEBUG
+                dbugCount02++;
+                //Console.WriteLine(dd);
+#endif
+            }
         }
-
-
-
+        public override void AddRequestImageBinderUpdate(LayoutFarm.Drawing.ImageBinder binder)
+        {
+            this.requestImageBinderUpdates.Add(binder);
+        }
         protected override void RequestRefresh(bool layout)
         {
             if (this.Refresh != null)
@@ -76,27 +84,23 @@ namespace HtmlRenderer
         {
 
             //manage image loading 
-            if (imageContentManager != null)
+            if (this.ImageContentMan != null)
             {
                 if (binder.State == LayoutFarm.Drawing.ImageBinderState.Unload)
                 {
-                    imageContentManager.AddRequestImage(new ImageContentRequest(binder, requestBox));
+                    ImageContentMan.AddRequestImage(new ImageContentRequest(binder, requestBox, this));
                 }
             }
         }
         public ImageContentManager ImageContentMan
         {
-            get
-            {
-                return this.imageContentManager;
-            }
+            get;
+            set;
         }
         public TextContentManager TextContentMan
         {
-            get
-            {
-                return this.textContentManager;
-            }
+            get;
+            set;
         }
 
         public void SetHtmlDoc(HtmlRenderer.WebDom.WebDocument doc)
