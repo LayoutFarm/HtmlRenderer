@@ -270,7 +270,7 @@ namespace HtmlRenderer.Boxes
                 txt.Replace(' ', '-').Replace("\n", "\\n"), txt.Length, txt.Length != 1 ? "s" : string.Empty);
         }
 
-        public void FindSelectionPoint(IGraphics g,
+        public void FindSelectionPoint(IFonts g,
             int offset, out int selectionIndex,
             out int selectionOffset)
         {

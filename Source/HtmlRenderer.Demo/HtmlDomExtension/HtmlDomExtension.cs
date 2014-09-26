@@ -1,6 +1,7 @@
 ﻿using System;
 using HtmlRenderer.Composers;
 using HtmlRenderer.WebDom;
+using LayoutFarm;
 
 namespace HtmlRenderer.Demo
 {
@@ -46,11 +47,13 @@ namespace HtmlRenderer.Demo
         //level 2
         public static void AttachMouseDownEvent(this DomElement elem, HtmlEventHandler hdl)
         {
-            elem.AttachEvent(EventName.MouseDown, hdl);
+
+            elem.AttachEvent(UIEventName.MouseDown, hdl);
         }
         public static void AttachMouseUpEvent(this DomElement elem, HtmlEventHandler hdl)
         {
-            elem.AttachEvent(EventName.MouseUp, hdl);
+
+            elem.AttachEvent(UIEventName.MouseUp, hdl);
         }
     }
 }

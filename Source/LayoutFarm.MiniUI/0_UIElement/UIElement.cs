@@ -7,11 +7,10 @@ namespace LayoutFarm.UI
 {
     public abstract partial class UIElement : IEventListener
     {
+        int oneBitNativeEventFlags;
         public UIElement()
         {
-        }
-
-        int oneBitNativeEventFlags;
+        } 
         protected void RegisterNativeEvent(int eventFlags)
         {
             this.oneBitNativeEventFlags |= eventFlags;

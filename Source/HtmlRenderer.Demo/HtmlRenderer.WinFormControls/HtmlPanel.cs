@@ -67,7 +67,7 @@ namespace HtmlRenderer
 
 
 
-        WinRootVisualBox _visualRootBox;
+        MyImplWinRootVisualBox _visualRootBox;
         Composers.BoxComposer _boxComposer;
         Composers.InputEventBridge _htmlEventBridge;
 
@@ -99,7 +99,7 @@ namespace HtmlRenderer
             //-------------------------------------------------------
             _boxComposer = new Composers.BoxComposer();
 
-            _visualRootBox = new WinRootVisualBox();
+            _visualRootBox = new MyImplWinRootVisualBox();
             _visualRootBox.BoxComposer = _boxComposer;
 
 
@@ -354,8 +354,8 @@ namespace HtmlRenderer
             {
 
                 _visualRootBox.ScrollOffset = Conv.ToPointF(AutoScrollPosition);
-                _visualRootBox.PhysicalViewportBound = Conv.ToRectF(this.Bounds);
-                
+                _visualRootBox.PhysicalViewportBound = Conv.ToRectF(this.Bounds); 
+
                 _visualRootBox.PerformPaint(e.Graphics);
                 // call mouse move to handle paint after scroll or html change affecting mouse cursor.
                 //var mp = PointToClient(MousePosition);

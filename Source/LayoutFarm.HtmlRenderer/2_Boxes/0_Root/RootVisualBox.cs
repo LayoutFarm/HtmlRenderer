@@ -15,8 +15,7 @@
 
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing;
-using LayoutFarm.Drawing;
+using LayoutFarm.Drawing; 
 using HtmlRenderer.Boxes;
 using HtmlRenderer.Diagnostics;
 using HtmlRenderer.Css;
@@ -24,11 +23,8 @@ using HtmlRenderer.Css;
 
 namespace HtmlRenderer
 {
-
-
     public abstract class RootVisualBox : IDisposable
     {
-
 
         /// <summary>
         /// the root css box of the parsed html
@@ -340,7 +336,7 @@ namespace HtmlRenderer
             get;
             set;
         }
-         
+
         /// <summary>
         /// Render the html using the given device.
         /// </summary>
@@ -350,7 +346,7 @@ namespace HtmlRenderer
             if (_rootBox == null)
             {
                 return;
-            } 
+            }
             Painter args = new Painter(this, ig);
             float scX = this.ScrollOffset.X;
             float scY = this.ScrollOffset.Y;
@@ -385,14 +381,13 @@ namespace HtmlRenderer
             CssBox requestBox,
             bool _sync)
         {
-            
+
             rootBox.OnRequestImage(binder, requestBox, false);
         }
         //------------------------------------------------------------------
 
         protected abstract void RequestRefresh(bool layout);
-        public abstract IGraphics GetSampleGraphics();
-
+         
 
 
         /// <summary>

@@ -11,7 +11,7 @@ namespace HtmlRenderer.Boxes
 {
 
     public sealed class CssBoxSvgRoot : CssBox
-    {
+    {   
         public CssBoxSvgRoot(object controller, Css.BoxSpec spec, SvgElement svgSpec)
             : base(controller, spec, Css.CssDisplay.Block)
         {
@@ -51,10 +51,7 @@ namespace HtmlRenderer.Boxes
         {
             get;
             set;
-        }
-
-
-
+        } 
         public void HitTestCore(SvgHitChain chain, float x, float y)
         {
             //1.

@@ -51,7 +51,7 @@
     <Compile Include="2_Events\UIEventArgs.cs" />
     <Compile Include="3_Others\RenderSurfaceScrollRelation.cs" />
     <Compile Include="0_UIElement\UIEventIdentifier.cs" />
-    <Compile Include="0_UIElement\HitEventName.cs" />
+    <Compile Include="0_UIElement\UIEventName.cs" />
     <Compile Include="2_Events\ToNotifySizeChangedEvent.cs" />
     <Compile Include="0_UIElement\UIElement.cs" />
     <Compile Include="0_UIElement\IEventListener.cs" />
@@ -67,9 +67,9 @@
       <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
       <Name>LayoutFarm.Drawing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.LeanBox\LayoutFarm.LeanBox.csproj">
-      <Project>{5CDDBA62-67E4-40AA-A3C0-AFAE030E6969}</Project>
-      <Name>LayoutFarm.LeanBox</Name>
+    <ProjectReference Include="..\LayoutFarm.LeanRenderer\LayoutFarm.LeanRenderer.csproj">
+      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
+      <Name>LayoutFarm.LeanRenderer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
