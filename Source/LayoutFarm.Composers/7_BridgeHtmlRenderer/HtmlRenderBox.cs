@@ -17,7 +17,7 @@ namespace LayoutFarm
 
     public class HtmlRenderBox : RenderBoxBase
     {
-        MyHtmlRenderBox _visualRootBox;
+        MyHtmlIsland _visualRootBox;
         BoxComposer _boxComposer;
         InputEventBridge _htmlEventBridge;
 
@@ -45,7 +45,7 @@ namespace LayoutFarm
 
             //-------------------------------------------------------
             _boxComposer = new BoxComposer();
-            _visualRootBox = new MyHtmlRenderBox();
+            _visualRootBox = new MyHtmlIsland();
             _visualRootBox.BoxComposer = _boxComposer;
 
             //_visualRootBox.RenderError += OnRenderError;
@@ -130,7 +130,7 @@ namespace LayoutFarm
         {
             //hit test in another system 
         }
-        internal void LoadHtmlText(string html)
+        public void LoadHtmlText(string html)
         {
             _visualRootBox.SetHtml(html, _baseCssData);
             this.PerformHtmlLayout(CurrentGraphicPlatform.P.SampleIGraphics);

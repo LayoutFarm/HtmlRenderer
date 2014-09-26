@@ -2,26 +2,35 @@
 using System.Collections.Generic;
 
 using System.Text;
+using System.Drawing;
 using System.Diagnostics;
-using LayoutFarm.Drawing;
-using HtmlRenderer.WebDom;
 
+using HtmlRenderer.Boxes;
+using HtmlRenderer.WebDom;
+using HtmlRenderer.Drawing;
 using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Diagnostics;
 
-using HtmlRenderer.Boxes;
+
+
 
 namespace HtmlRenderer
 {
 
-    public class MyHtmlRenderBox : HtmlRenderBox
+    public class MyHtmlIslandImpl : HtmlIsland
     {
+
 
         WebDocument doc;
         CssActiveSheet activeCssSheet;
         ImageContentManager imageContentManager;
         TextContentManager textContentManager;
-    
+
+        /// <summary>
+        /// Raised when Html Renderer request scroll to specific location.<br/>
+        /// This can occur on document anchor click.
+        /// </summary>
+        public event EventHandler<HtmlScrollEventArgs> ScrollChange;
 
         bool isRootCreated;
 
@@ -36,7 +45,7 @@ namespace HtmlRenderer
 
 
 
-        public MyHtmlRenderBox()
+        public MyHtmlIslandImpl()
         {
 
             this.IsSelectionEnabled = true;
@@ -44,7 +53,6 @@ namespace HtmlRenderer
             imageContentManager = new ImageContentManager(this);
             textContentManager = new TextContentManager(this);
         }
-
         /// <summary>
         /// connect to box composer 
         /// </summary>
@@ -53,6 +61,9 @@ namespace HtmlRenderer
             get;
             set;
         }
+
+
+
         protected override void RequestRefresh(bool layout)
         {
             if (this.Refresh != null)
@@ -61,13 +72,13 @@ namespace HtmlRenderer
                 this.Refresh(this, arg);
             }
         }
-        protected override void OnRequestImage(ImageBinder binder, CssBox requestBox, bool _sync)
+        protected override void OnRequestImage(LayoutFarm.Drawing.ImageBinder binder, CssBox requestBox, bool _sync)
         {
 
             //manage image loading 
             if (imageContentManager != null)
             {
-                if (binder.State == ImageBinderState.Unload)
+                if (binder.State == LayoutFarm.Drawing.ImageBinderState.Unload)
                 {
                     imageContentManager.AddRequestImage(new ImageContentRequest(binder, requestBox));
                 }
@@ -97,49 +108,82 @@ namespace HtmlRenderer
             this.activeCssSheet = activeCss;
             base.SetRootCssBox(rootBox);
         }
-        public void PerformPaint(LayoutFarm.Canvas canvas)
+        public void PerformPaint(Graphics g)
         {
-            if (doc == null) return;
-            base.PerformPaint(canvas.GetIGraphics());
-            //PerformPaint(canvas.GetIGraphics());
+            if (doc == null)
+            {
+                return;
+            }
+
+            using (var gfx = LayoutFarm.Drawing.CurrentGraphicPlatform.P.CreateIGraphics(g))
+            {
+                Region prevClip = null;
+                if (this.MaxSize.Height > 0)
+                {
+
+                    prevClip = g.Clip;
+                    g.SetClip(new System.Drawing.RectangleF(
+                       LayoutFarm.Drawing.Conv.ToPointF(this.Location),
+                       LayoutFarm.Drawing.Conv.ToSizeF(this.MaxSize)));
+                }
+                //------------------------------------------------------
+
+                if (doc.DocumentState == DocumentState.ChangedAfterIdle)
+                {
+
+                    WinHtmlRootVisualBoxExtension.RefreshHtmlDomChange(
+                        this,
+                        doc,
+                        this.activeCssSheet);
+                    this.PerformLayout(gfx);
+                }
+                //------------------------------------------------------ 
+
+                this.PerformPaint(gfx);
+
+                if (prevClip != null)
+                {
+                    g.SetClip(prevClip, System.Drawing.Drawing2D.CombineMode.Replace);
+                }
+            }
+
+            //=============
+            //System.Diagnostics.Stopwatch sw = new Stopwatch();
+            //for (int i = 0; i < 200; ++i)
+            //{
+            //    dbugCounter.ResetPaintCount();
+            //    long ticks = dbugCounter.Snap(sw, () =>
+            //    {
+            //        using (var gfx = new WinGraphics(g, this.UseGdiPlusTextRendering))
+            //        {
+            //            Region prevClip = null;
+            //            if (this.MaxSize.Height > 0)
+            //            {
+            //                prevClip = g.Clip;
+            //                g.SetClip(new RectangleF(this.Location, this.MaxSize));
+            //            }
+
+            //            this.PerformPaint(gfx);
+
+            //            if (prevClip != null)
+            //            {
+            //                g.SetClip(prevClip, System.Drawing.Drawing2D.CombineMode.Replace);
+            //            }
+            //        }
+
+            //    });
+            //    //Console.WriteLine(string.Format("boxes{0}, lines{1}, runs{2}", dbugCounter.dbugBoxPaintCount, dbugCounter.dbugLinePaintCount, dbugCounter.dbugRunPaintCount));
+            //    Console.WriteLine(ticks);
+            //}
+            //System.Diagnostics.Debugger.Break();
         }
-        //void PerformPaint(System.Drawing.Graphics g)
-        //{
-        //    if (doc == null)
-        //    {
-        //        return;
-        //    }
-
-        //    using (var gfx = CurrentGraphicPlatform.P.CreateIGraphics(g))
-        //    {
-        //        System.Drawing.Region prevClip = null;
-        //        if (this.MaxSize.Height > 0)
-        //        {
-        //            prevClip = g.Clip;
-        //            g.SetClip(new System.Drawing.RectangleF(
-        //                this.Location.ToPointF(),
-        //                Conv.ToSizeF(this.MaxSize)));
-        //        }
-
-        //        if (doc.DocumentState == DocumentState.ChangedAfterIdle)
-        //        {
-
-        //            WinHtmlRootVisualBoxExtension.RefreshHtmlDomChange(
-        //                this,
-        //                doc,
-        //                this.activeCssSheet);
-
-        //            this.PerformLayout(gfx);
-        //        }
-
-        //        base.PerformPaint(gfx);
-
-        //        if (prevClip != null)
-        //        {
-        //            g.SetClip(prevClip, System.Drawing.Drawing2D.CombineMode.Replace);
-        //        }
-        //    }
-        //}
+        public void PerformLayout(Graphics g)
+        {
+            if (this.isRootCreated)
+            {
+                this.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
+            }
+        }
 
         protected override void OnRootDisposed()
         {

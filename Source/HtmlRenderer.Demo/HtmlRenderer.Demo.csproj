@@ -93,7 +93,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="HtmlRenderer.WinFormControls\Platform\WinHtmlRootVisualBoxExtension.cs" />
-    <Compile Include="HtmlRenderer.WinFormControls\Platform\MyHtmlRenderBoxImpl.cs" />
+    <Compile Include="HtmlRenderer.WinFormControls\Platform\MyHtmlIslandImpl.cs" />
     <Compile Include="HtmlRenderServices\HtmlRender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

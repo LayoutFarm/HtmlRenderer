@@ -17,7 +17,7 @@ namespace HtmlRenderer.Boxes
 
         PointF htmlContainerScrollOffset;
 
-        HtmlRenderBox visualRootBox;
+        HtmlIsland visualRootBox;
         IGraphics ig;
 
         RectangleF latestClip = new RectangleF(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
@@ -28,7 +28,7 @@ namespace HtmlRenderer.Boxes
         float physicalViewportY;
 
         bool aviodGeometyAntialias;
-        public Painter(HtmlRenderBox container, IGraphics ig)
+        public Painter(HtmlIsland container, IGraphics ig)
         {
             this.visualRootBox = container;
             this.htmlContainerScrollOffset = container.ScrollOffset;
@@ -113,7 +113,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="requestFrom"></param>
         internal void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, CssBox requestFrom)
         {
-            HtmlRenderBox.RaiseRequestImage(
+            HtmlIsland.RaiseRequestImage(
             this.visualRootBox,
             binder,
             requestFrom,

@@ -119,7 +119,7 @@
     <Compile Include="2_Boxes\4_Render\BackgroundImagePaintHelper.cs" />
     <Compile Include="2_Boxes\4_Render\BorderPaintHelper.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssValueParser.cs" />
-    <Compile Include="2_Boxes\0_Root\HtmlRenderBox.cs" />
+    <Compile Include="2_Boxes\0_Root\HtmlIsland.cs" />
     <Compile Include="5_Diagnostics\ArgCheckNotNullAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="2_Boxes\3_Layout\BoxUtils.cs" />

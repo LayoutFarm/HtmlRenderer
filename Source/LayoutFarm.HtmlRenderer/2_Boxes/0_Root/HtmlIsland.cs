@@ -22,7 +22,7 @@ using HtmlRenderer.Css;
 
 namespace HtmlRenderer
 {
-    public abstract class HtmlRenderBox : IDisposable
+    public abstract class HtmlIsland : IDisposable
     {
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace HtmlRenderer
         List<ImageBinder> requestImageBinderUpdates = new List<ImageBinder>();
         //-----------------------------------------------------------
 
-        public HtmlRenderBox()
+        public HtmlIsland()
         {
             timTask.Interval = 20;//20 ms task
             timTask.Elapsed += new System.Timers.ElapsedEventHandler(timTask_Elapsed);
@@ -348,7 +348,7 @@ namespace HtmlRenderer
         protected abstract void OnRequestImage(ImageBinder binder,
             CssBox requestBox, bool _sync);
 
-        internal static void RaiseRequestImage(HtmlRenderBox rootBox,
+        internal static void RaiseRequestImage(HtmlIsland rootBox,
             ImageBinder binder,
             CssBox requestBox,
             bool _sync)

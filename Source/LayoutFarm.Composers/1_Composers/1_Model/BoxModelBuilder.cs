@@ -179,7 +179,7 @@ namespace HtmlRenderer.Composers
 
         public CssBox BuildCssTree(WebDocument htmldoc,
             IFonts iFonts,
-            HtmlRenderBox htmlContainer,
+            HtmlIsland htmlContainer,
             CssActiveSheet cssData)
         {
 
@@ -210,7 +210,7 @@ namespace HtmlRenderer.Composers
         //----------------------------------------------------------------
         public CssBox RefreshCssTree(WebDocument htmldoc,
           IFonts iFonts,
-          HtmlRenderBox htmlContainer)
+          HtmlIsland htmlContainer)
         {
 
             CssBox rootBox = null;
@@ -391,7 +391,7 @@ namespace HtmlRenderer.Composers
         /// </summary>
         /// <param name="htmlContainer"> </param>
         /// <param name="cssData">the style data</param>
-        static void SetTextSelectionStyle(HtmlRenderBox htmlContainer, CssActiveSheet cssData)
+        static void SetTextSelectionStyle(HtmlIsland htmlContainer, CssActiveSheet cssData)
         {
             //comment out for another technique
  
