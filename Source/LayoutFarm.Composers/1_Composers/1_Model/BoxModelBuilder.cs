@@ -225,6 +225,7 @@ namespace HtmlRenderer.Composers
             //----------------------------------------------------------------  
             CssBox principalBox = RootElement.InternalGetPrincipalBox(bridgeRoot);
             principalBox.Clear();
+
             BoxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, false);
 
             htmldoc.SetDocumentState(DocumentState.Idle);

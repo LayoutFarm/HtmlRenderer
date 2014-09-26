@@ -47,10 +47,12 @@ namespace HtmlRenderer.Composers
                 elem.ElementRuleSet = existingRuleSet = new CssRuleSet();
                 elem.IsStyleEvaluated = true;
             }
+
             existingRuleSet.AddCssCodeProperty(
                 new CssPropertyDeclaration(
                     WellknownCssPropertyName.Color,
                     new CssCodeColor(newcolor)));
+
             HtmlElement.InvokeNotifyChangeOnIdleState(elem, ElementChangeKind.Spec);
         }
         public void ChangeBackgroundColor(Color backgroundColor)
@@ -78,6 +80,7 @@ namespace HtmlRenderer.Composers
             }
          
             //-------------------------------------
+
             existingRuleSet.AddCssCodeProperty(
                new CssPropertyDeclaration(
                    WellknownCssPropertyName.BackgroundColor,

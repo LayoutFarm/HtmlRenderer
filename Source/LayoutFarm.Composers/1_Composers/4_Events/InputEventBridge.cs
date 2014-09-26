@@ -12,17 +12,15 @@ namespace HtmlRenderer.Composers
 {
 
     public class InputEventBridge
-    {
-
+    {   
         //-----------------------------------------------
-        HtmlIsland _container;
+        HtmlIsland _htmlIsland;
         BoxHitChain _latestMouseDownHitChain = null;
         int _mousedownX;
         int _mousedownY;
         bool _isMouseDown;
         //----------------------------------------------- 
-        SelectionRange _currentSelectionRange = null;
-
+        SelectionRange _currentSelectionRange = null; 
         bool _isBinded;
         public InputEventBridge()
         {
@@ -31,14 +29,14 @@ namespace HtmlRenderer.Composers
         {
             if (container != null)
             {
-                this._container = container;
+                this._htmlIsland = container;
             }
 
             _isBinded = true;
         }
         public void Unbind()
         {
-            this._container = null;
+            this._htmlIsland = null;
             this._isBinded = false;
         }
 
@@ -48,7 +46,7 @@ namespace HtmlRenderer.Composers
             {
                 return;
             }
-            var rootbox = _container.GetRootCssBox();
+            var rootbox = _htmlIsland.GetRootCssBox();
             if (rootbox == null)
             {
                 return;
@@ -87,7 +85,7 @@ namespace HtmlRenderer.Composers
             {
                 return;
             }
-            var rootbox = _container.GetRootCssBox();
+            var rootbox = _htmlIsland.GetRootCssBox();
             if (rootbox == null)
             {
                 return;
@@ -132,7 +130,7 @@ namespace HtmlRenderer.Composers
                 return;
             }
             this._isMouseDown = false;
-            var rootbox = _container.GetRootCssBox();
+            var rootbox = _htmlIsland.GetRootCssBox();
             if (rootbox == null)
             {
                 return;
@@ -242,6 +240,7 @@ namespace HtmlRenderer.Composers
                 {
                      
                     eventArgs.SetLocation(hitInfo.localX, hitInfo.localY);
+                   
                     //---------------------------------
                     //dispatch 
 

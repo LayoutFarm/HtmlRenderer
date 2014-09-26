@@ -67,8 +67,8 @@ namespace HtmlRenderer
 
 
 
-        MyHtmlIslandImpl myHtmlIsland;
-     
+        MyHtmlIsland myHtmlIsland;
+
         Composers.InputEventBridge _htmlEventBridge;
 
 
@@ -95,26 +95,28 @@ namespace HtmlRenderer
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
-            timer01.Interval = 20;//20ms?
-            
+
             //-------------------------------------------------------
-           
-            myHtmlIsland = new MyHtmlIslandImpl();
+
+            myHtmlIsland = new MyHtmlIsland();
             myHtmlIsland.ImageContentMan = new ImageContentManager();
             myHtmlIsland.TextContentMan = new TextContentManager();
 
 
             myHtmlIsland.RenderError += OnRenderError;
             myHtmlIsland.Refresh += OnRefresh;
-            myHtmlIsland.ScrollChange += OnScrollChange;
+            //myHtmlIsland.ScrollChange += OnScrollChange;
             myHtmlIsland.TextContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
             myHtmlIsland.ImageContentMan.ImageLoadingRequest += OnImageLoad;
 
+            timer01.Interval = 20;//20ms?
+            timer01.Enabled = true;
             timer01.Tick += (s, e) =>
             {
                 myHtmlIsland.InternalRefreshRequest();
             };
 
+            timer01.Enabled = true;
             //-------------------------------------------
             _htmlEventBridge = new Composers.InputEventBridge();
             _htmlEventBridge.Bind(myHtmlIsland);
@@ -334,10 +336,9 @@ namespace HtmlRenderer
             {
                 myHtmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(ClientSize.Width, 0);
 
-                using (var g = CreateGraphics())
-                {
-                    myHtmlIsland.PerformLayout(g);
-                }
+
+                myHtmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
+
                 var asize = myHtmlIsland.ActualSize;
                 AutoScrollMinSize = Size.Round(new SizeF(asize.Width, asize.Height));
             }
@@ -354,9 +355,10 @@ namespace HtmlRenderer
             {
 
                 myHtmlIsland.ScrollOffset = Conv.ToPointF(AutoScrollPosition);
-                myHtmlIsland.PhysicalViewportBound = Conv.ToRectF(this.Bounds); 
+                myHtmlIsland.PhysicalViewportBound = Conv.ToRectF(this.Bounds);
 
-                myHtmlIsland.PerformPaint(e.Graphics);
+                var g = LayoutFarm.Drawing.CurrentGraphicPlatform.P.CreateIGraphics(e.Graphics);
+                myHtmlIsland.PerformPaint(g);
                 // call mouse move to handle paint after scroll or html change affecting mouse cursor.
                 //var mp = PointToClient(MousePosition);
                 //_htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0));
@@ -582,10 +584,11 @@ namespace HtmlRenderer
         {
             if (myHtmlIsland != null)
             {
-                //_htmlContainer.LinkClicked -= OnLinkClicked;
+                this.timer01.Enabled = false;
+
                 myHtmlIsland.RenderError -= OnRenderError;
                 myHtmlIsland.Refresh -= OnRefresh;
-                myHtmlIsland.ScrollChange -= OnScrollChange;
+                //myHtmlIsland.ScrollChange -= OnScrollChange;
                 myHtmlIsland.TextContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
                 myHtmlIsland.ImageContentMan.ImageLoadingRequest -= OnImageLoad;
                 myHtmlIsland.Dispose();

@@ -90,9 +90,6 @@
     <Compile Include="HtmlRenderer.WinFormControls\HtmlPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="HtmlRenderer.WinFormControls\Platform\WinHtmlRootVisualBoxExtension.cs" />
-    <Compile Include="HtmlRenderer.WinFormControls\Platform\MyHtmlIslandImpl.cs" />
-    <Compile Include="HtmlRenderServices\HtmlRender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DemoList\Demo01_CreateHtmlDomStyle1.cs" />

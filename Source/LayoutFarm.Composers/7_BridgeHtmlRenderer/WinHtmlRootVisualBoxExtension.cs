@@ -12,7 +12,7 @@ using HtmlRenderer.Diagnostics;
 
 namespace HtmlRenderer
 {
-    static class WinHtmlRootVisualBoxExtension
+    public static class WinHtmlRootVisualBoxExtension
     {
         public static void SetHtml(this MyHtmlIsland container, string html, CssActiveSheet cssData)
         {

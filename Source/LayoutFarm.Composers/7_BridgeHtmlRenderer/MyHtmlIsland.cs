@@ -14,12 +14,11 @@ using HtmlRenderer.Boxes;
 namespace HtmlRenderer
 {
 
-    class MyHtmlIsland : HtmlIsland
+    public class MyHtmlIsland : HtmlIsland
     {
 
         WebDocument doc;
         CssActiveSheet activeCssSheet;
-         
 
 
         bool isRootCreated;
@@ -41,7 +40,7 @@ namespace HtmlRenderer
             this.IsSelectionEnabled = true;
         }
 
-        internal void InternalRefreshRequest()
+        public  void InternalRefreshRequest()
         {
             if (requestImageBinderUpdates.Count > 0)
             {
@@ -88,12 +87,11 @@ namespace HtmlRenderer
             get;
             set;
         }
-
-        public void SetHtmlDoc(HtmlRenderer.WebDom.WebDocument doc)
+        public void SetHtmlDoc(WebDocument doc)
         {
             this.doc = doc;
         }
-        public void SetRootCssBox(CssBox rootBox, HtmlRenderer.WebDom.CssActiveSheet activeCss)
+        public void SetRootCssBox(CssBox rootBox, CssActiveSheet activeCss)
         {
             this.activeCssSheet = activeCss;
             base.SetRootCssBox(rootBox);

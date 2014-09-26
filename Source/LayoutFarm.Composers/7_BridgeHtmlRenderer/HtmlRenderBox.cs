@@ -54,13 +54,14 @@ namespace LayoutFarm
             _htmlEventBridge = new InputEventBridge();
             _htmlEventBridge.Bind(_htmlIsland);
             //-------------------------------------------
+            //setup default css
             _baseCssData = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
         }
 
         /// <summary>
         /// Propagate the stylesheet load event from root container.
         /// </summary>
-        private void OnStylesheetLoad(object sender, StylesheetLoadEventArgs e)
+        void OnStylesheetLoad(object sender, StylesheetLoadEventArgs e)
         {
             if (StylesheetLoad != null)
             {
@@ -71,7 +72,7 @@ namespace LayoutFarm
         /// <summary>
         /// Propagate the image load event from root container.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
+        void OnImageLoad(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
         {
             if (ImageLoad != null)
             {
@@ -81,7 +82,7 @@ namespace LayoutFarm
         /// <summary>
         /// Handle html renderer invalidate and re-layout as requested.
         /// </summary>
-        private void OnRefresh(object sender, HtmlRefreshEventArgs e)
+        void OnRefresh(object sender, HtmlRefreshEventArgs e)
         {
             //if (e.Layout)
             //{

@@ -36,7 +36,7 @@ namespace HtmlRenderer.Boxes
             this.ig = ig;
         }
 
-        public GraphicPlatform Platform
+        public GraphicPlatform P
         {
             get { return this.ig.Platform; }
         }
