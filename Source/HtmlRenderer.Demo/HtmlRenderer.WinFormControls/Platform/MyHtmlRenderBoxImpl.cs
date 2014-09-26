@@ -17,7 +17,7 @@ using HtmlRenderer.Diagnostics;
 namespace HtmlRenderer
 {
 
-    public class MyImplWinRootVisualBox : RootVisualBox
+    public class MyHtmlRenderBoxImpl : HtmlRenderBox
     {
 
 
@@ -45,7 +45,7 @@ namespace HtmlRenderer
 
 
 
-        public MyImplWinRootVisualBox()
+        public MyHtmlRenderBoxImpl()
         {
 
             this.IsSelectionEnabled = true;

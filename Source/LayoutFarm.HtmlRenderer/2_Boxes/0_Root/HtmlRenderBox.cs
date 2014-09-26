@@ -15,68 +15,56 @@
 
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing; 
+using LayoutFarm.Drawing;
 using HtmlRenderer.Boxes;
 using HtmlRenderer.Diagnostics;
 using HtmlRenderer.Css;
 
-
 namespace HtmlRenderer
 {
-    public abstract class RootVisualBox : IDisposable
+    public abstract class HtmlRenderBox : IDisposable
     {
 
         /// <summary>
         /// the root css box of the parsed html
         /// </summary>
         CssBox _rootBox;
-
-        /// <summary>
-        /// the text fore color use for selected text
-        /// </summary>
-        private Color _selectionForeColor;
-
-        /// <summary>
-        /// the backcolor to use for selected text
-        /// </summary>
-        private Color _selectionBackColor;
-
         /// <summary>
         /// Gets or sets a value indicating if antialiasing should be avoided 
         /// for geometry like backgrounds and borders
         /// </summary>
-        private bool _avoidGeometryAntialias;
+        bool _avoidGeometryAntialias;
 
         /// <summary>
         /// Gets or sets a value indicating if image asynchronous loading should be avoided (default - false).<br/>
         /// </summary>
-        private bool _avoidAsyncImagesLoading;
+        bool _avoidAsyncImagesLoading;
 
         /// <summary>
         /// Gets or sets a value indicating if image loading only when visible should be avoided (default - false).<br/>
         /// </summary>
-        private bool _avoidImagesLateLoading;
+        bool _avoidImagesLateLoading;
 
         /// <summary>
         /// Use GDI+ text rendering to measure/draw text.
         /// </summary>
-        private bool _useGdiPlusTextRendering;
+        bool _useGdiPlusTextRendering;
 
         /// <summary>
         /// the top-left most location of the rendered html
         /// </summary>
-        private PointF _location;
+        PointF _location;
 
         /// <summary>
         /// the max width and height of the rendered html, effects layout, actual size cannot exceed this values.<br/>
         /// Set zero for unlimited.<br/>
         /// </summary>
-        private SizeF _maxSize;
+        SizeF _maxSize;
 
         /// <summary>
         /// Gets or sets the scroll offset of the document for scroll controls
         /// </summary>
-        private PointF _scrollOffset;
+        PointF _scrollOffset;
 
         /// <summary>
         /// The actual size of the rendered html (after layout)
@@ -94,7 +82,7 @@ namespace HtmlRenderer
         List<ImageBinder> requestImageBinderUpdates = new List<ImageBinder>();
         //-----------------------------------------------------------
 
-        public RootVisualBox()
+        public HtmlRenderBox()
         {
             timTask.Interval = 20;//20 ms task
             timTask.Elapsed += new System.Timers.ElapsedEventHandler(timTask_Elapsed);
@@ -250,23 +238,7 @@ namespace HtmlRenderer
         }
 
 
-        /// <summary>
-        /// the text fore color use for selected text
-        /// </summary>
-        public Color SelectionForeColor
-        {
-            get { return _selectionForeColor; }
-            set { _selectionForeColor = value; }
-        }
-
-        /// <summary>
-        /// the back-color to use for selected text
-        /// </summary>
-        public Color SelectionBackColor
-        {
-            get { return _selectionBackColor; }
-            set { _selectionBackColor = value; }
-        }
+         
         public CssBox GetRootCssBox()
         {
             return this._rootBox;
@@ -376,7 +348,7 @@ namespace HtmlRenderer
         protected abstract void OnRequestImage(ImageBinder binder,
             CssBox requestBox, bool _sync);
 
-        internal static void RaiseRequestImage(RootVisualBox rootBox,
+        internal static void RaiseRequestImage(HtmlRenderBox rootBox,
             ImageBinder binder,
             CssBox requestBox,
             bool _sync)
@@ -387,7 +359,7 @@ namespace HtmlRenderer
         //------------------------------------------------------------------
 
         protected abstract void RequestRefresh(bool layout);
-         
+
 
 
         /// <summary>

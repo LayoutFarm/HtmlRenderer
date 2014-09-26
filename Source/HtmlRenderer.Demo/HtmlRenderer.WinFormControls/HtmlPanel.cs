@@ -67,7 +67,7 @@ namespace HtmlRenderer
 
 
 
-        MyImplWinRootVisualBox _visualRootBox;
+        MyHtmlRenderBoxImpl _visualRootBox;
         Composers.BoxComposer _boxComposer;
         Composers.InputEventBridge _htmlEventBridge;
 
@@ -99,7 +99,7 @@ namespace HtmlRenderer
             //-------------------------------------------------------
             _boxComposer = new Composers.BoxComposer();
 
-            _visualRootBox = new MyImplWinRootVisualBox();
+            _visualRootBox = new MyHtmlRenderBoxImpl();
             _visualRootBox.BoxComposer = _boxComposer;
 
 
@@ -271,7 +271,7 @@ namespace HtmlRenderer
             PerformLayout();
             Invalidate();
         }
-        public RootVisualBox GetHtmlContainer()
+        public HtmlRenderBox GetHtmlContainer()
         {
             return this._visualRootBox;
         }

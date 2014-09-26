@@ -49,7 +49,7 @@ namespace HtmlRenderer.ContentManagers
         LinkedList<ImageContentRequest> inputList = new LinkedList<ImageContentRequest>();
         LinkedList<ImageBinder> outputList = new LinkedList<ImageBinder>();
 
-        RootVisualBox parentRootBox;
+        HtmlRenderBox parentRootBox;
         ImageCacheSystem imageCacheLevel0 = new ImageCacheSystem();
 
         System.Timers.Timer timImageLoadMonitor = new System.Timers.Timer();
@@ -62,7 +62,7 @@ namespace HtmlRenderer.ContentManagers
         object inputListSync = new object();
         
 
-        public ImageContentManager(RootVisualBox parentHtmlContainer)
+        public ImageContentManager(HtmlRenderBox parentHtmlContainer)
         {
             this.parentRootBox = parentHtmlContainer;
             timImageLoadMonitor.Interval = 50;//30 ms check state

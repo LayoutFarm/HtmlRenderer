@@ -179,7 +179,7 @@ namespace HtmlRenderer.Composers
 
         public CssBox BuildCssTree(WebDocument htmldoc,
             IFonts iFonts,
-            RootVisualBox htmlContainer,
+            HtmlRenderBox htmlContainer,
             CssActiveSheet cssData)
         {
 
@@ -210,7 +210,7 @@ namespace HtmlRenderer.Composers
         //----------------------------------------------------------------
         public CssBox RefreshCssTree(WebDocument htmldoc,
           IFonts iFonts,
-          RootVisualBox htmlContainer)
+          HtmlRenderBox htmlContainer)
         {
 
             CssBox rootBox = null;
@@ -391,11 +391,10 @@ namespace HtmlRenderer.Composers
         /// </summary>
         /// <param name="htmlContainer"> </param>
         /// <param name="cssData">the style data</param>
-        static void SetTextSelectionStyle(RootVisualBox htmlContainer, CssActiveSheet cssData)
+        static void SetTextSelectionStyle(HtmlRenderBox htmlContainer, CssActiveSheet cssData)
         {
             //comment out for another technique
-            htmlContainer.SelectionForeColor = Color.Empty;
-            htmlContainer.SelectionBackColor = Color.Empty;
+ 
 
             //foreach (var block in cssData.GetCssRuleSetIter("::selection"))
             //{

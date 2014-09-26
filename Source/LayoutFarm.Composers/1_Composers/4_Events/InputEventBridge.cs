@@ -15,7 +15,7 @@ namespace HtmlRenderer.Composers
     {
 
         //-----------------------------------------------
-        RootVisualBox _container;
+        HtmlRenderBox _container;
         BoxHitChain _latestMouseDownHitChain = null;
         int _mousedownX;
         int _mousedownY;
@@ -27,7 +27,7 @@ namespace HtmlRenderer.Composers
         public InputEventBridge()
         {
         }
-        public void Bind(RootVisualBox container)
+        public void Bind(HtmlRenderBox container)
         {
             if (container != null)
             {

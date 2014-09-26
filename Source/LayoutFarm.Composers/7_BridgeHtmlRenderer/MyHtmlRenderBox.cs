@@ -14,18 +14,14 @@ using HtmlRenderer.Boxes;
 namespace HtmlRenderer
 {
 
-    public class WinRootVisualBox : RootVisualBox
+    public class MyHtmlRenderBox : HtmlRenderBox
     {
 
         WebDocument doc;
         CssActiveSheet activeCssSheet;
         ImageContentManager imageContentManager;
         TextContentManager textContentManager;
-        ///// <summary>
-        ///// Raised when Html Renderer request scroll to specific location.<br/>
-        ///// This can occur on document anchor click.
-        ///// </summary>
-        //public event EventHandler<HtmlScrollEventArgs> ScrollChange;
+    
 
         bool isRootCreated;
 
@@ -40,7 +36,7 @@ namespace HtmlRenderer
 
 
 
-        public WinRootVisualBox()
+        public MyHtmlRenderBox()
         {
 
             this.IsSelectionEnabled = true;
@@ -57,9 +53,6 @@ namespace HtmlRenderer
             get;
             set;
         }
-
-
-
         protected override void RequestRefresh(bool layout)
         {
             if (this.Refresh != null)

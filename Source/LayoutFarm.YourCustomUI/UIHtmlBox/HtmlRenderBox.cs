@@ -17,7 +17,7 @@ namespace LayoutFarm
 
     public class HtmlRenderBox : RenderBoxBase
     {
-        WinRootVisualBox _visualRootBox;
+        MyHtmlRenderBox _visualRootBox;
         BoxComposer _boxComposer;
         InputEventBridge _htmlEventBridge;
 
@@ -45,7 +45,7 @@ namespace LayoutFarm
 
             //-------------------------------------------------------
             _boxComposer = new BoxComposer();
-            _visualRootBox = new WinRootVisualBox();
+            _visualRootBox = new MyHtmlRenderBox();
             _visualRootBox.BoxComposer = _boxComposer;
 
             //_visualRootBox.RenderError += OnRenderError;
