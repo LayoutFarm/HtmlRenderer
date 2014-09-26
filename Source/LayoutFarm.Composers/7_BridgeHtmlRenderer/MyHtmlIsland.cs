@@ -39,8 +39,9 @@ namespace HtmlRenderer
         {
             this.IsSelectionEnabled = true;
         }
+        public WebDom.CssActiveSheet BaseStylesheet { get; set; }
 
-        public  void InternalRefreshRequest()
+        public void InternalRefreshRequest()
         {
             if (requestImageBinderUpdates.Count > 0)
             {

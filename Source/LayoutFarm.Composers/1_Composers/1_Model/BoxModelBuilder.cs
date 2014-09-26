@@ -210,7 +210,7 @@ namespace HtmlRenderer.Composers
         //----------------------------------------------------------------
         public CssBox RefreshCssTree(WebDocument htmldoc,
           IFonts iFonts,
-          HtmlIsland htmlContainer)
+          HtmlIsland htmlIsland)
         {
 
             CssBox rootBox = null;
@@ -390,9 +390,9 @@ namespace HtmlRenderer.Composers
         /// <summary>
         /// Set the selected text style (selection text color and background color).
         /// </summary>
-        /// <param name="htmlContainer"> </param>
+        /// <param name="htmlIsland"> </param>
         /// <param name="cssData">the style data</param>
-        static void SetTextSelectionStyle(HtmlIsland htmlContainer, CssActiveSheet cssData)
+        static void SetTextSelectionStyle(HtmlIsland htmlIsland, CssActiveSheet cssData)
         {
             //comment out for another technique
  

@@ -62,13 +62,8 @@ namespace HtmlRenderer
     /// </summary>
     public class HtmlPanel : ScrollableControl
     {
-
-
-
-
-
-        MyHtmlIsland myHtmlIsland;
-
+         
+        MyHtmlIsland myHtmlIsland; 
         Composers.InputEventBridge _htmlEventBridge;
 
 
@@ -99,6 +94,8 @@ namespace HtmlRenderer
             //-------------------------------------------------------
 
             myHtmlIsland = new MyHtmlIsland();
+            myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
+             
             myHtmlIsland.ImageContentMan = new ImageContentManager();
             myHtmlIsland.TextContentMan = new TextContentManager();
 
