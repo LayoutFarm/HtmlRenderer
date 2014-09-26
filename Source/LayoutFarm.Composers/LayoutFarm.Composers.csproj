@@ -37,7 +37,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="0_Start\BoxComposer.cs" />
     <Compile Include="1_Composers\2_Css\ActiveCssTemplate.cs" />
     <Compile Include="1_Composers\1_Model\CustomCssBoxGenerator.cs" />
     <Compile Include="1_Composers\1_Model\BoxModelBuilder.cs" />
@@ -111,7 +110,9 @@
   <ItemGroup>
     <Content Include="6_SvgDom\0_License.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="0_Start\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -14,14 +14,13 @@ using HtmlRenderer.Boxes;
 namespace HtmlRenderer
 {
 
-    public class MyHtmlIsland : HtmlIsland
+    class MyHtmlIsland : HtmlIsland
     {
 
         WebDocument doc;
         CssActiveSheet activeCssSheet;
-        ImageContentManager imageContentManager;
-        TextContentManager textContentManager;
-    
+         
+
 
         bool isRootCreated;
 
@@ -35,23 +34,29 @@ namespace HtmlRenderer
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
 
 
-
+        List<LayoutFarm.Drawing.ImageBinder> requestImageBinderUpdates = new List<LayoutFarm.Drawing.ImageBinder>();
+        //----------------------------------------------------------- 
         public MyHtmlIsland()
         {
-
             this.IsSelectionEnabled = true;
-
-            imageContentManager = new ImageContentManager(this);
-            textContentManager = new TextContentManager(this);
         }
 
-        /// <summary>
-        /// connect to box composer 
-        /// </summary>
-        public Composers.BoxComposer BoxComposer
+        internal void InternalRefreshRequest()
         {
-            get;
-            set;
+            if (requestImageBinderUpdates.Count > 0)
+            {
+                requestImageBinderUpdates.Clear();
+                this.RequestRefresh(false);
+#if DEBUG
+                dbugCount02++;
+                //Console.WriteLine(dd);
+#endif
+            }
+
+        }
+        public override void AddRequestImageBinderUpdate(ImageBinder binder)
+        {
+            this.requestImageBinderUpdates.Add(binder);
         }
         protected override void RequestRefresh(bool layout)
         {
@@ -65,27 +70,23 @@ namespace HtmlRenderer
         {
 
             //manage image loading 
-            if (imageContentManager != null)
+            if (ImageContentMan != null)
             {
                 if (binder.State == ImageBinderState.Unload)
                 {
-                    imageContentManager.AddRequestImage(new ImageContentRequest(binder, requestBox));
+                    ImageContentMan.AddRequestImage(new ImageContentRequest(binder, requestBox, this));
                 }
             }
         }
         public ImageContentManager ImageContentMan
         {
-            get
-            {
-                return this.imageContentManager;
-            }
+            get;
+            set;
         }
         public TextContentManager TextContentMan
         {
-            get
-            {
-                return this.textContentManager;
-            }
+            get;
+            set;
         }
 
         public void SetHtmlDoc(HtmlRenderer.WebDom.WebDocument doc)

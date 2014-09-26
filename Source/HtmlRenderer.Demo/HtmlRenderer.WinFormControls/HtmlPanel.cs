@@ -67,8 +67,8 @@ namespace HtmlRenderer
 
 
 
-        MyHtmlIslandImpl _visualRootBox;
-        Composers.BoxComposer _boxComposer;
+        MyHtmlIslandImpl myHtmlIsland;
+     
         Composers.InputEventBridge _htmlEventBridge;
 
 
@@ -82,7 +82,7 @@ namespace HtmlRenderer
         /// </summary>
         private WebDom.CssActiveSheet _baseCssData;
 
-
+        Timer timer01 = new Timer();
 
         /// <summary>
         /// Creates a new HtmlPanel and sets a basic css for it's styling.
@@ -95,30 +95,30 @@ namespace HtmlRenderer
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
-
+            timer01.Interval = 20;//20ms?
+            
             //-------------------------------------------------------
-            _boxComposer = new Composers.BoxComposer();
-
-            _visualRootBox = new MyHtmlIslandImpl();
-            _visualRootBox.BoxComposer = _boxComposer;
-
-
-
-            _visualRootBox.RenderError += OnRenderError;
-            _visualRootBox.Refresh += OnRefresh;
-            _visualRootBox.ScrollChange += OnScrollChange;
-            _visualRootBox.TextContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
-            _visualRootBox.ImageContentMan.ImageLoadingRequest += OnImageLoad;
+           
+            myHtmlIsland = new MyHtmlIslandImpl();
+            myHtmlIsland.ImageContentMan = new ImageContentManager();
+            myHtmlIsland.TextContentMan = new TextContentManager();
 
 
+            myHtmlIsland.RenderError += OnRenderError;
+            myHtmlIsland.Refresh += OnRefresh;
+            myHtmlIsland.ScrollChange += OnScrollChange;
+            myHtmlIsland.TextContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
+            myHtmlIsland.ImageContentMan.ImageLoadingRequest += OnImageLoad;
+
+            timer01.Tick += (s, e) =>
+            {
+                myHtmlIsland.InternalRefreshRequest();
+            };
 
             //-------------------------------------------
             _htmlEventBridge = new Composers.InputEventBridge();
-            _htmlEventBridge.Bind(_visualRootBox);
-            //-------------------------------------------
-
-
-
+            _htmlEventBridge.Bind(myHtmlIsland);
+            //------------------------------------------- 
         }
 
         /// <summary>
@@ -150,8 +150,8 @@ namespace HtmlRenderer
         /// </summary>
         public bool AvoidGeometryAntialias
         {
-            get { return _visualRootBox.AvoidGeometryAntialias; }
-            set { _visualRootBox.AvoidGeometryAntialias = value; }
+            get { return myHtmlIsland.AvoidGeometryAntialias; }
+            set { myHtmlIsland.AvoidGeometryAntialias = value; }
         }
 
         /// <summary>
@@ -169,8 +169,8 @@ namespace HtmlRenderer
         /// </remarks>
         public bool AvoidImagesLateLoading
         {
-            get { return _visualRootBox.AvoidImagesLateLoading; }
-            set { _visualRootBox.AvoidImagesLateLoading = value; }
+            get { return myHtmlIsland.AvoidImagesLateLoading; }
+            set { myHtmlIsland.AvoidImagesLateLoading = value; }
         }
 
         /// <summary>
@@ -185,8 +185,8 @@ namespace HtmlRenderer
         [Description("Is content selection is enabled for the rendered html.")]
         public bool IsSelectionEnabled
         {
-            get { return _visualRootBox.IsSelectionEnabled; }
-            set { _visualRootBox.IsSelectionEnabled = value; }
+            get { return myHtmlIsland.IsSelectionEnabled; }
+            set { myHtmlIsland.IsSelectionEnabled = value; }
         }
 
         /// <summary>
@@ -200,8 +200,8 @@ namespace HtmlRenderer
         [Description("Is the build-in context menu enabled and will be shown on mouse right click.")]
         public bool IsContextMenuEnabled
         {
-            get { return _visualRootBox.IsContextMenuEnabled; }
-            set { _visualRootBox.IsContextMenuEnabled = value; }
+            get { return myHtmlIsland.IsContextMenuEnabled; }
+            set { myHtmlIsland.IsContextMenuEnabled = value; }
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace HtmlRenderer
                 {
                     VerticalScroll.Value = VerticalScroll.Minimum;
 
-                    _visualRootBox.SetHtml(Text, _baseCssData);
+                    myHtmlIsland.SetHtml(Text, _baseCssData);
                     PerformLayout();
                     Invalidate();
                 }
@@ -259,7 +259,7 @@ namespace HtmlRenderer
         {
             _baseRawCssData = defaultCss;
             _baseCssData = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(defaultCss, true);
-            _visualRootBox.SetHtml(doc, _baseCssData);
+            myHtmlIsland.SetHtml(doc, _baseCssData);
 
             PerformLayout();
             Invalidate();
@@ -267,13 +267,13 @@ namespace HtmlRenderer
         public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.WebDocument doc)
         {
 
-            _visualRootBox.RefreshHtmlDomChange(doc, _baseCssData);
+            myHtmlIsland.RefreshHtmlDomChange(doc, _baseCssData);
             PerformLayout();
             Invalidate();
         }
         public HtmlIsland GetHtmlContainer()
         {
-            return this._visualRootBox;
+            return this.myHtmlIsland;
         }
 
 
@@ -283,7 +283,7 @@ namespace HtmlRenderer
         /// <returns>generated html</returns>
         public string GetHtml()
         {
-            return _visualRootBox != null ? _visualRootBox.GetHtml() : null;
+            return myHtmlIsland != null ? myHtmlIsland.GetHtml() : null;
         }
 
 
@@ -318,7 +318,7 @@ namespace HtmlRenderer
             base.OnLayout(levent);
 
             // to handle if vertical scrollbar is appearing or disappearing
-            if (_visualRootBox != null && Math.Abs(_visualRootBox.MaxSize.Width - ClientSize.Width) > 0.1)
+            if (myHtmlIsland != null && Math.Abs(myHtmlIsland.MaxSize.Width - ClientSize.Width) > 0.1)
             {
                 PerformHtmlLayout();
                 base.OnLayout(levent);
@@ -330,15 +330,15 @@ namespace HtmlRenderer
         /// </summary>
         void PerformHtmlLayout()
         {
-            if (_visualRootBox != null)
+            if (myHtmlIsland != null)
             {
-                _visualRootBox.MaxSize = new LayoutFarm.Drawing.SizeF(ClientSize.Width, 0);
+                myHtmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(ClientSize.Width, 0);
 
                 using (var g = CreateGraphics())
                 {
-                    _visualRootBox.PerformLayout(g);
+                    myHtmlIsland.PerformLayout(g);
                 }
-                var asize = _visualRootBox.ActualSize;
+                var asize = myHtmlIsland.ActualSize;
                 AutoScrollMinSize = Size.Round(new SizeF(asize.Width, asize.Height));
             }
         }
@@ -350,13 +350,13 @@ namespace HtmlRenderer
         {
             base.OnPaint(e);
 
-            if (_visualRootBox != null)
+            if (myHtmlIsland != null)
             {
 
-                _visualRootBox.ScrollOffset = Conv.ToPointF(AutoScrollPosition);
-                _visualRootBox.PhysicalViewportBound = Conv.ToRectF(this.Bounds); 
+                myHtmlIsland.ScrollOffset = Conv.ToPointF(AutoScrollPosition);
+                myHtmlIsland.PhysicalViewportBound = Conv.ToRectF(this.Bounds); 
 
-                _visualRootBox.PerformPaint(e.Graphics);
+                myHtmlIsland.PerformPaint(e.Graphics);
                 // call mouse move to handle paint after scroll or html change affecting mouse cursor.
                 //var mp = PointToClient(MousePosition);
                 //_htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0));
@@ -551,7 +551,7 @@ namespace HtmlRenderer
         private void UpdateScroll(Point location)
         {
             AutoScrollPosition = location;
-            _visualRootBox.ScrollOffset = Conv.ToPoint(AutoScrollPosition);
+            myHtmlIsland.ScrollOffset = Conv.ToPoint(AutoScrollPosition);
         }
 
         /// <summary>
@@ -580,16 +580,16 @@ namespace HtmlRenderer
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if (_visualRootBox != null)
+            if (myHtmlIsland != null)
             {
                 //_htmlContainer.LinkClicked -= OnLinkClicked;
-                _visualRootBox.RenderError -= OnRenderError;
-                _visualRootBox.Refresh -= OnRefresh;
-                _visualRootBox.ScrollChange -= OnScrollChange;
-                _visualRootBox.TextContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
-                _visualRootBox.ImageContentMan.ImageLoadingRequest -= OnImageLoad;
-                _visualRootBox.Dispose();
-                _visualRootBox = null;
+                myHtmlIsland.RenderError -= OnRenderError;
+                myHtmlIsland.Refresh -= OnRefresh;
+                myHtmlIsland.ScrollChange -= OnScrollChange;
+                myHtmlIsland.TextContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
+                myHtmlIsland.ImageContentMan.ImageLoadingRequest -= OnImageLoad;
+                myHtmlIsland.Dispose();
+                myHtmlIsland = null;
             }
             base.Dispose(disposing);
         }

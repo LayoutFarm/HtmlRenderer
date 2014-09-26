@@ -86,8 +86,6 @@
     <Compile Include="HtmlDomExtension\HtmlDomExtension.cs" />
     <Compile Include="HtmlRenderer.WinFormControls\Events\HtmlLinkClickedEventArgs.cs" />
     <Compile Include="HtmlRenderer.WinFormControls\Events\HtmlLinkClickedException.cs" />
-    <Compile Include="HtmlRenderer.WinFormControls\Events\HtmlRefreshEventArgs.cs" />
-    <Compile Include="HtmlRenderer.WinFormControls\Events\HtmlRenderErrorEventArgs.cs" />
     <Compile Include="HtmlRenderer.WinFormControls\Events\HtmlScrollEventArgs.cs" />
     <Compile Include="HtmlRenderer.WinFormControls\HtmlPanel.cs">
       <SubType>Component</SubType>

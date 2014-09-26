@@ -76,39 +76,21 @@ namespace HtmlRenderer
         /// 99999
         /// </summary>
         const int MAX_WIDTH = 99999;
-        //-----------------------------------------------------------
-        //controll task of this container
-        System.Timers.Timer timTask = new System.Timers.Timer();
-        List<ImageBinder> requestImageBinderUpdates = new List<ImageBinder>();
-        //-----------------------------------------------------------
-
+        ////-----------------------------------------------------------
+        ////controll task of this container
+       
         public HtmlIsland()
         {
-            timTask.Interval = 20;//20 ms task
-            timTask.Elapsed += new System.Timers.ElapsedEventHandler(timTask_Elapsed);
-            timTask.Enabled = true;
+             
         }
 
 #if DEBUG
-        static int dd = 0;
+        public static int dbugCount02 = 0;
 #endif
 
-        void timTask_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            if (requestImageBinderUpdates.Count > 0)
-            {
-                requestImageBinderUpdates.Clear();
-                this.RequestRefresh(false);
-#if DEBUG
-                dd++;
-                //Console.WriteLine(dd);
-#endif
-            }
-        }
-        public void AddRequestImageBinderUpdate(ImageBinder binder)
-        {
-            this.requestImageBinderUpdates.Add(binder);
-        }
+
+        public abstract void AddRequestImageBinderUpdate(ImageBinder binder);
+       
 
         /// <summary>
         /// Gets or sets a value indicating if anti-aliasing should be avoided for geometry like backgrounds and borders (default - false).
@@ -238,7 +220,7 @@ namespace HtmlRenderer
         }
 
 
-         
+
         public CssBox GetRootCssBox()
         {
             return this._rootBox;
