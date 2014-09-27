@@ -30,31 +30,9 @@ namespace HtmlRenderer.ContentManagers
     /// </summary>
     public sealed class StylesheetLoadEventArgs : EventArgs
     {
-        #region Fields and Consts
-
-        /// <summary>
-        /// the source of the stylesheet as found in the HTML (file path or URL)
-        /// </summary>
-        private readonly string _src;
-
-        /// <summary>
-        /// provide the new source (file path or URL) to load stylesheet from
-        /// </summary>
-        private string _setSrc;
-
-        /// <summary>
-        /// provide the stylesheet to load
-        /// </summary>
-        private string _setStyleSheet;
-
-        /// <summary>
-        /// provide the stylesheet data to load
-        /// </summary>
-        private HtmlRenderer.WebDom.CssActiveSheet _setStyleSheetData;
-
-        #endregion
 
 
+        string _src;
         /// <summary>
         /// Init.
         /// </summary>
@@ -79,8 +57,8 @@ namespace HtmlRenderer.ContentManagers
         /// </summary>
         public string SetSrc
         {
-            get { return _setSrc; }
-            set { _setSrc = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -88,8 +66,8 @@ namespace HtmlRenderer.ContentManagers
         /// </summary>
         public string SetStyleSheet
         {
-            get { return _setStyleSheet; }
-            set { _setStyleSheet = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -97,8 +75,8 @@ namespace HtmlRenderer.ContentManagers
         /// </summary>
         public WebDom.CssActiveSheet SetStyleSheetData
         {
-            get { return _setStyleSheetData; }
-            set { _setStyleSheetData = value; }
+            get;
+            set;
         }
     }
 }

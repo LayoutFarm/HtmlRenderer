@@ -84,15 +84,10 @@
       <DependentUpon>DemoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HtmlDomExtension\HtmlDomExtension.cs" />
-    <Compile Include="HtmlRenderer.WinFormControls\Events\HtmlLinkClickedEventArgs.cs" />
-    <Compile Include="HtmlRenderer.WinFormControls\Events\HtmlLinkClickedException.cs" />
-    <Compile Include="HtmlRenderer.WinFormControls\Events\HtmlScrollEventArgs.cs" />
+    <Compile Include="HtmlRenderer.WinFormControls\HtmlScrollEventArgs.cs" />
     <Compile Include="HtmlRenderer.WinFormControls\HtmlPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="HtmlRenderer.WinFormControls\Platform\WinHtmlRootVisualBoxExtension.cs" />
-    <Compile Include="HtmlRenderer.WinFormControls\Platform\MyHtmlIslandImpl.cs" />
-    <Compile Include="HtmlRenderServices\HtmlRender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DemoList\Demo01_CreateHtmlDomStyle1.cs" />
@@ -134,6 +129,10 @@
     <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
       <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
       <Name>LayoutFarm.Composers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.ContentManagers\LayoutFarm.ContentManagers.csproj">
+      <Project>{2BDF9E02-15AA-4416-BF1F-4A8F398DCAFB}</Project>
+      <Name>LayoutFarm.ContentManagers</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.Drawing.WinGdiPlus\LayoutFarm.Drawing.WinGdiPlus.csproj">
       <Project>{2675BAD6-52A7-4DEE-BC1D-25E9CA6994D1}</Project>

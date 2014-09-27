@@ -147,5 +147,9 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         {
             return new WinGraphics((System.Drawing.Graphics)nativeObj, false);
         }
+        public override IGraphics SampleIFonts
+        {
+            get { return this.SampleIGraphics; }
+        }
     }
 }

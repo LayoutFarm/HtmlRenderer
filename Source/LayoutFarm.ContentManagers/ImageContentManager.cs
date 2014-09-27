@@ -4,24 +4,26 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
-using LayoutFarm.Drawing;
-using HtmlRenderer.Boxes;
 using System.Threading;
 
 
 namespace HtmlRenderer.ContentManagers
 {
 
-    public struct ImageContentRequest
+
+
+    public class ImageContentRequest
     {
         public readonly ImageBinder binder;
-        public readonly CssBox box;
-        public readonly HtmlIsland htmlIsland;
-        public ImageContentRequest(ImageBinder binder, CssBox box, HtmlIsland htmlIsland)
+        public readonly object requestBy;
+        public readonly LayoutFarm.IUpdateStateChangedListener listener;
+        public ImageContentRequest(ImageBinder binder,
+            object requestBy,
+            LayoutFarm.IUpdateStateChangedListener listener)
         {
             this.binder = binder;
-            this.box = box;
-            this.htmlIsland = htmlIsland;
+            this.requestBy = requestBy;
+            this.listener = listener;
         }
     }
 
@@ -51,7 +53,7 @@ namespace HtmlRenderer.ContentManagers
         LinkedList<ImageContentRequest> inputList = new LinkedList<ImageContentRequest>();
         LinkedList<ImageBinder> outputList = new LinkedList<ImageBinder>();
 
-        
+
         ImageCacheSystem imageCacheLevel0 = new ImageCacheSystem();
 
         System.Timers.Timer timImageLoadMonitor = new System.Timers.Timer();
@@ -66,7 +68,7 @@ namespace HtmlRenderer.ContentManagers
 
         public ImageContentManager()
         {
-             
+
             timImageLoadMonitor.Interval = 50;//30 ms check state
             timImageLoadMonitor.Elapsed += new System.Timers.ElapsedEventHandler(timImageLoadMonitor_Elapsed);
             timImageLoadMonitor.Start();
@@ -119,7 +121,10 @@ namespace HtmlRenderer.ContentManagers
                                 imageCacheLevel0.AddCacheImage(binder.ImageSource, binder.Image);
                                 //send ready image notification to
                                 //parent html container
-                                req.htmlIsland.AddRequestImageBinderUpdate(binder); 
+
+                                //send data update to owner
+
+                                req.listener.AddRequestImageBinderUpdate(binder);
                             }
                         }
                         else
@@ -130,7 +135,7 @@ namespace HtmlRenderer.ContentManagers
                             binder.SetImage(foundImage);
                             //send ready image notification to
                             //parent html container                             
-                            req.htmlIsland.AddRequestImageBinderUpdate(binder);
+                            req.listener.AddRequestImageBinderUpdate(binder);
                         }
 
                         //next image

@@ -62,16 +62,10 @@ namespace HtmlRenderer
     /// </summary>
     public class HtmlPanel : ScrollableControl
     {
+        HtmlRenderer.WebDom.WebDocument currentDoc;
 
-
-
-
-
-        MyHtmlIslandImpl myHtmlIsland;
-     
+        MyHtmlIsland myHtmlIsland;
         Composers.InputEventBridge _htmlEventBridge;
-
-
         /// <summary>
         /// the raw base stylesheet data used in the control
         /// </summary>
@@ -84,6 +78,12 @@ namespace HtmlRenderer
 
         Timer timer01 = new Timer();
 
+
+        ImageContentManager imageContentMan = new ImageContentManager();
+        TextContentManager textContentMan = new TextContentManager();
+
+        LayoutFarm.Canvas renderCanvas = LayoutFarm.Drawing.CurrentGraphicPlatform.P.CreateCanvas(0, 0, 0, 0, 800, 600);
+
         /// <summary>
         /// Creates a new HtmlPanel and sets a basic css for it's styling.
         /// </summary>
@@ -91,53 +91,85 @@ namespace HtmlRenderer
         {
             AutoScroll = true;
             BackColor = SystemColors.Window;
-            DoubleBuffered = true;
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
             timer01.Interval = 20;//20ms?
-            
+
             //-------------------------------------------------------
-           
-            myHtmlIsland = new MyHtmlIslandImpl();
-            myHtmlIsland.ImageContentMan = new ImageContentManager();
-            myHtmlIsland.TextContentMan = new TextContentManager();
 
-
-            myHtmlIsland.RenderError += OnRenderError;
+            myHtmlIsland = new MyHtmlIsland();
+            myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             myHtmlIsland.Refresh += OnRefresh;
-            myHtmlIsland.ScrollChange += OnScrollChange;
-            myHtmlIsland.TextContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
-            myHtmlIsland.ImageContentMan.ImageLoadingRequest += OnImageLoad;
+            myHtmlIsland.NeedUpdateDom += new EventHandler<EventArgs>(myHtmlIsland_NeedUpdateDom);
+            //myHtmlIsland.ScrollChange += OnScrollChange;
+            this.imageContentMan.ImageLoadingRequest += OnImageLoad;
+            this.textContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
+
 
             timer01.Tick += (s, e) =>
             {
-                myHtmlIsland.InternalRefreshRequest();
+                if (myHtmlIsland != null)
+                {
+                    myHtmlIsland.InternalRefreshRequest();
+                }
             };
-
+            timer01.Enabled = true;
             //-------------------------------------------
             _htmlEventBridge = new Composers.InputEventBridge();
-            _htmlEventBridge.Bind(myHtmlIsland);
+            _htmlEventBridge.Bind(myHtmlIsland, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
             //------------------------------------------- 
         }
 
-        /// <summary>
-        /// Raised when the user clicks on a link in the html.<br/>
-        /// Allows canceling the execution of the link.
-        /// </summary>
-        public event EventHandler<HtmlLinkClickedEventArgs> LinkClicked;
+        void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
+        {
+            //need updater dom
+            HtmlRenderer.Composers.BoxModelBuilder builder = new HtmlRenderer.Composers.BoxModelBuilder();
+            builder.RequestStyleSheet += (e2) =>
+            {
 
-        /// <summary>
-        /// Raised when an error occurred during html rendering.<br/>
-        /// </summary>
-        public event EventHandler<HtmlRenderErrorEventArgs> RenderError;
+                TextLoadRequestEventArgs req = new TextLoadRequestEventArgs(e2.Src);
+                this.textContentMan.AddStyleSheetRequest(req);
+                e2.SetStyleSheet = req.SetStyleSheet;
+            };
+            var rootBox2 = builder.RefreshCssTree(this.currentDoc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, this.myHtmlIsland);
+            this.myHtmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
+        }
+
+        void RefreshHtmlDomChange(CssActiveSheet cssData)
+        {
+
+            HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
+            builder.RequestStyleSheet += (e) =>
+            {
+                var req = new TextLoadRequestEventArgs(e.Src);
+                this.textContentMan.AddStyleSheetRequest(req);
+                e.SetStyleSheet = req.SetStyleSheet;
+            };
+
+            var rootBox = builder.RefreshCssTree(this.currentDoc,
+                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
+                this.myHtmlIsland);
+        }
+
+
+        ///// <summary>
+        ///// Raised when the user clicks on a link in the html.<br/>
+        ///// Allows canceling the execution of the link.
+        ///// </summary>
+        //public event EventHandler<HtmlLinkClickedEventArgs> LinkClicked;
+
+        ///// <summary>
+        ///// Raised when an error occurred during html rendering.<br/>
+        ///// </summary>
+        //public event EventHandler<HtmlRenderErrorEventArgs> RenderError;
 
         /// <summary>
         /// Raised when a stylesheet is about to be loaded by file path or URI by link element.<br/>
         /// This event allows to provide the stylesheet manually or provide new source (file or uri) to load from.<br/>
         /// If no alternative data is provided the original source will be used.<br/>
         /// </summary>
-        public event EventHandler<StylesheetLoadEventArgs> StylesheetLoad;
+        public event EventHandler<TextLoadRequestEventArgs> StylesheetLoad;
 
         /// <summary>
         /// Raised when an image is about to be loaded by file path or URI.<br/>
@@ -245,29 +277,65 @@ namespace HtmlRenderer
                 if (!IsDisposed)
                 {
                     VerticalScroll.Value = VerticalScroll.Minimum;
-
-                    myHtmlIsland.SetHtml(Text, _baseCssData);
+                    SetHtml(myHtmlIsland, Text, _baseCssData);
                     PerformLayout();
                     Invalidate();
                 }
             }
         }
+        void SetHtml(MyHtmlIsland htmlIsland, string html, CssActiveSheet cssData)
+        {
+            HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
+            builder.RequestStyleSheet += (e) =>
+            {
+                var req = new TextLoadRequestEventArgs(e.Src);                 
+                this.textContentMan.AddStyleSheetRequest(req);
+                e.SetStyleSheet = req.SetStyleSheet;
+            };
+            var htmldoc = builder.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
+            //build rootbox from htmldoc
+            var rootBox = builder.BuildCssTree(htmldoc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, htmlIsland, cssData);
 
-
+            htmlIsland.SetHtmlDoc(htmldoc);
+            htmlIsland.SetRootCssBox(rootBox, cssData);
+        }
 
         public void LoadHtmlDom(HtmlRenderer.WebDom.WebDocument doc, string defaultCss)
         {
             _baseRawCssData = defaultCss;
             _baseCssData = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(defaultCss, true);
-            myHtmlIsland.SetHtml(doc, _baseCssData);
+            this.currentDoc = doc;
 
+            BuildCssBoxTree(myHtmlIsland, _baseCssData);
+            //---------------------
             PerformLayout();
             Invalidate();
+        }
+        void BuildCssBoxTree(MyHtmlIsland htmlIsland, CssActiveSheet cssData)
+        {
+
+            HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
+            builder.RequestStyleSheet += (e) =>
+            {
+                var req = new TextLoadRequestEventArgs(e.Src);
+                this.textContentMan.AddStyleSheetRequest(req);
+                e.SetStyleSheet = req.SetStyleSheet;
+
+            };
+
+
+            var rootBox = builder.BuildCssTree(this.currentDoc,
+                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
+                htmlIsland, cssData);
+
+            htmlIsland.SetHtmlDoc(this.currentDoc);
+            htmlIsland.SetRootCssBox(rootBox, cssData);
+
         }
         public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.WebDocument doc)
         {
 
-            myHtmlIsland.RefreshHtmlDomChange(doc, _baseCssData);
+            RefreshHtmlDomChange(_baseCssData);
             PerformLayout();
             Invalidate();
         }
@@ -334,35 +402,58 @@ namespace HtmlRenderer
             {
                 myHtmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(ClientSize.Width, 0);
 
-                using (var g = CreateGraphics())
-                {
-                    myHtmlIsland.PerformLayout(g);
-                }
+                //using (var g = CreateGraphics())
+                //{
+                //    myHtmlIsland.PerformLayout(g);
+                //}
+                myHtmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
                 var asize = myHtmlIsland.ActualSize;
                 AutoScrollMinSize = Size.Round(new SizeF(asize.Width, asize.Height));
             }
         }
+        int count01;
 
         /// <summary>
         /// Perform paint of the html in the control.
         /// </summary>
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
+            PaintMe(e);
+        }
 
+        void PaintMe(PaintEventArgs e)
+        {
             if (myHtmlIsland != null)
             {
 
                 myHtmlIsland.ScrollOffset = Conv.ToPointF(AutoScrollPosition);
-                myHtmlIsland.PhysicalViewportBound = Conv.ToRectF(this.Bounds); 
+                myHtmlIsland.PhysicalViewportBound = Conv.ToRectF(this.Bounds);
 
-                myHtmlIsland.PerformPaint(e.Graphics);
+
+
+                myHtmlIsland.CheckDocUpdate();
+                renderCanvas.ClearSurface();
+                myHtmlIsland.PerformPaint(renderCanvas);
+
+                IntPtr hdc = GetDC(this.Handle);
+                renderCanvas.RenderTo(hdc, 0, 0, new LayoutFarm.Drawing.Rectangle(0, 0, 800, 600));
+                ReleaseDC(this.Handle, hdc);
                 // call mouse move to handle paint after scroll or html change affecting mouse cursor.
                 //var mp = PointToClient(MousePosition);
                 //_htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0));
             }
-        }
 
+            if (e != null)
+            {
+                e.Graphics.DrawString(count01.ToString(), this.Font, Brushes.Black, new PointF(0, 0));
+            }
+            count01++;
+
+        }
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        static extern IntPtr GetDC(IntPtr hWnd);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hdc);
 
         /// <summary>
         /// Set focus on the control for keyboard scrrollbars handling.
@@ -380,7 +471,8 @@ namespace HtmlRenderer
         {
             base.OnMouseMove(e);
             _htmlEventBridge.MouseMove(e.X, e.Y, (int)e.Button);
-            this.Invalidate();
+            PaintMe(null);
+
         }
 
         /// <summary>
@@ -402,7 +494,8 @@ namespace HtmlRenderer
         {
             base.OnMouseDown(e);
             this._htmlEventBridge.MouseDown(e.X, e.Y, (int)e.Button);
-            this.Invalidate();
+            PaintMe(null);
+            //this.Invalidate();
         }
 
         /// <summary>
@@ -412,7 +505,8 @@ namespace HtmlRenderer
         {
             base.OnMouseClick(e);
             this._htmlEventBridge.MouseUp(e.X, e.Y, (int)e.Button);
-            this.Invalidate();
+            PaintMe(null);
+            // this.Invalidate();
         }
 
         /// <summary>
@@ -482,24 +576,24 @@ namespace HtmlRenderer
         //    }
         //}
 
-        /// <summary>
-        /// Propagate the Render Error event from root container.
-        /// </summary>
-        private void OnRenderError(object sender, HtmlRenderErrorEventArgs e)
-        {
-            if (RenderError != null)
-            {
-                if (InvokeRequired)
-                    Invoke(RenderError, this, e);
-                else
-                    RenderError(this, e);
-            }
-        }
+        ///// <summary>
+        ///// Propagate the Render Error event from root container.
+        ///// </summary>
+        //private void OnRenderError(object sender, HtmlRenderErrorEventArgs e)
+        //{
+        //    //if (RenderError != null)
+        //    //{
+        //    //    if (InvokeRequired)
+        //    //        Invoke(RenderError, this, e);
+        //    //    else
+        //    //        RenderError(this, e);
+        //    //}
+        //}
 
         /// <summary>
         /// Propagate the stylesheet load event from root container.
         /// </summary>
-        private void OnStylesheetLoad(object sender, StylesheetLoadEventArgs e)
+        private void OnStylesheetLoad(object sender, TextLoadRequestEventArgs e)
         {
             if (StylesheetLoad != null)
             {
@@ -583,11 +677,12 @@ namespace HtmlRenderer
             if (myHtmlIsland != null)
             {
                 //_htmlContainer.LinkClicked -= OnLinkClicked;
-                myHtmlIsland.RenderError -= OnRenderError;
+                //myHtmlIsland.RenderError -= OnRenderError;
                 myHtmlIsland.Refresh -= OnRefresh;
-                myHtmlIsland.ScrollChange -= OnScrollChange;
-                myHtmlIsland.TextContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
-                myHtmlIsland.ImageContentMan.ImageLoadingRequest -= OnImageLoad;
+                // myHtmlIsland.ScrollChange -= OnScrollChange;
+                this.textContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
+                this.imageContentMan.ImageLoadingRequest -= OnImageLoad;
+
                 myHtmlIsland.Dispose();
                 myHtmlIsland = null;
             }

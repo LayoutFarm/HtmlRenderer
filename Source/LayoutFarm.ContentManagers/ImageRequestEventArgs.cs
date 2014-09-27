@@ -2,18 +2,16 @@
 
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing; 
 using LayoutFarm.Drawing;
-
 namespace HtmlRenderer.ContentManagers
 {
     public class ImageRequestEventArgs : EventArgs
     {
         public ImageRequestEventArgs(ImageBinder binder)
-        { 
+        {
             this.ImageBinder = binder;
         }
-         
+
         public ImageBinder ImageBinder { get; private set; }
         public string ImagSource
         {

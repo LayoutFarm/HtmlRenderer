@@ -13,13 +13,18 @@ using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer
 {
+    public class HtmlResourceRequestEventArgs : EventArgs
+    {
+        public ImageBinder binder;
+        public object requestBy;
+        public LayoutFarm.IUpdateStateChangedListener updateChangeListener;
+    }
 
-    class MyHtmlIsland : HtmlIsland
+    public class MyHtmlIsland : HtmlIsland, LayoutFarm.IUpdateStateChangedListener
     {
 
         WebDocument doc;
         CssActiveSheet activeCssSheet;
-         
 
 
         bool isRootCreated;
@@ -30,8 +35,10 @@ namespace HtmlRenderer
         /// <remarks>
         /// There is no guarantee that the event will be raised on the main thread, it can be raised on thread-pool thread.
         /// </remarks>
-        public event EventHandler<HtmlRenderErrorEventArgs> RenderError;
+        //public event EventHandler<HtmlRenderErrorEventArgs> RenderError;
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
+        public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
+        public event EventHandler<EventArgs> NeedUpdateDom;
 
 
         List<LayoutFarm.Drawing.ImageBinder> requestImageBinderUpdates = new List<LayoutFarm.Drawing.ImageBinder>();
@@ -41,7 +48,13 @@ namespace HtmlRenderer
             this.IsSelectionEnabled = true;
         }
 
-        internal void InternalRefreshRequest()
+        public WebDom.CssActiveSheet BaseStylesheet
+        {
+            get;
+            set;
+
+        }
+        public void InternalRefreshRequest()
         {
             if (requestImageBinderUpdates.Count > 0)
             {
@@ -52,7 +65,6 @@ namespace HtmlRenderer
                 //Console.WriteLine(dd);
 #endif
             }
-
         }
         public override void AddRequestImageBinderUpdate(ImageBinder binder)
         {
@@ -60,50 +72,60 @@ namespace HtmlRenderer
         }
         protected override void RequestRefresh(bool layout)
         {
-            if (this.Refresh != null)
-            {
-                HtmlRefreshEventArgs arg = new HtmlRefreshEventArgs(layout);
-                this.Refresh(this, arg);
-            }
+            //    if (this.Refresh != null)
+            //    {
+            //        HtmlRefreshEventArgs arg = new HtmlRefreshEventArgs(layout);
+            //        this.Refresh(this, arg);
+            //    }
+
         }
         protected override void OnRequestImage(ImageBinder binder, CssBox requestBox, bool _sync)
         {
 
             //manage image loading 
-            if (ImageContentMan != null)
+            if (this.RequestResource != null)
             {
                 if (binder.State == ImageBinderState.Unload)
                 {
-                    ImageContentMan.AddRequestImage(new ImageContentRequest(binder, requestBox, this));
+                    HtmlResourceRequestEventArgs resReq = new HtmlResourceRequestEventArgs();
+                    resReq.binder = binder;
+                    resReq.requestBy = requestBox;
+                    resReq.updateChangeListener = this;
+
+                    RequestResource(this, resReq);
+
+                    //RequestResource(this, new HtmlResourceRequestEventArgs());
+
+                    //ImageContentMan.AddRequestImage(new ImageContentRequest(binder, requestBox, this));
                 }
             }
         }
-        public ImageContentManager ImageContentMan
-        {
-            get;
-            set;
-        }
-        public TextContentManager TextContentMan
-        {
-            get;
-            set;
-        }
 
-        public void SetHtmlDoc(HtmlRenderer.WebDom.WebDocument doc)
+        public void SetHtmlDoc(WebDocument doc)
         {
             this.doc = doc;
         }
-        public void SetRootCssBox(CssBox rootBox, HtmlRenderer.WebDom.CssActiveSheet activeCss)
+        public void SetRootCssBox(CssBox rootBox, CssActiveSheet activeCss)
         {
             this.activeCssSheet = activeCss;
             base.SetRootCssBox(rootBox);
+        }
+        public void CheckDocUpdate()
+        {   
+            if (doc != null &&
+                doc.DocumentState == DocumentState.ChangedAfterIdle &&
+                NeedUpdateDom != null)
+            { 
+                NeedUpdateDom(this, EventArgs.Empty); 
+            }
         }
         public void PerformPaint(LayoutFarm.Canvas canvas)
         {
             if (doc == null) return;
             base.PerformPaint(canvas.GetIGraphics());
-            //PerformPaint(canvas.GetIGraphics());
         }
+
+
         //void PerformPaint(System.Drawing.Graphics g)
         //{
         //    if (doc == null)

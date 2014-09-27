@@ -15,30 +15,32 @@ namespace HtmlRenderer.Composers
     {
 
         //-----------------------------------------------
-        HtmlIsland _container;
+        HtmlIsland _htmlIsland;
         BoxHitChain _latestMouseDownHitChain = null;
         int _mousedownX;
         int _mousedownY;
         bool _isMouseDown;
         //----------------------------------------------- 
         SelectionRange _currentSelectionRange = null;
+        IFonts ifonts;
 
         bool _isBinded;
         public InputEventBridge()
         {
         }
-        public void Bind(HtmlIsland container)
+        public void Bind(HtmlIsland htmlIsland, IFonts ifonts)
         {
-            if (container != null)
+            this.ifonts = ifonts;
+            if (htmlIsland != null)
             {
-                this._container = container;
+                this._htmlIsland = htmlIsland;
             }
 
             _isBinded = true;
         }
         public void Unbind()
         {
-            this._container = null;
+            this._htmlIsland = null;
             this._isBinded = false;
         }
 
@@ -48,7 +50,7 @@ namespace HtmlRenderer.Composers
             {
                 return;
             }
-            var rootbox = _container.GetRootCssBox();
+            var rootbox = _htmlIsland.GetRootCssBox();
             if (rootbox == null)
             {
                 return;
@@ -75,7 +77,7 @@ namespace HtmlRenderer.Composers
             BoxUtils.HitTest(rootbox, x, y, hitChain);
             //2. invoke css event and script event   
 
-             
+
             UIMouseEventArgs mouseDownE = new UIMouseEventArgs();
             mouseDownE.EventName = UIEventName.MouseDown;
             PropagateEventOnBubblingPhase(hitChain, mouseDownE);
@@ -87,7 +89,7 @@ namespace HtmlRenderer.Composers
             {
                 return;
             }
-            var rootbox = _container.GetRootCssBox();
+            var rootbox = _htmlIsland.GetRootCssBox();
             if (rootbox == null)
             {
                 return;
@@ -108,7 +110,8 @@ namespace HtmlRenderer.Composers
                     {
                         _currentSelectionRange = new SelectionRange(
                             _latestMouseDownHitChain,
-                            hitChain, CurrentGraphicPlatform.P.SampleIGraphics);
+                            hitChain,
+                            this.ifonts);
 
                     }
                     else
@@ -132,7 +135,7 @@ namespace HtmlRenderer.Composers
                 return;
             }
             this._isMouseDown = false;
-            var rootbox = _container.GetRootCssBox();
+            var rootbox = _htmlIsland.GetRootCssBox();
             if (rootbox == null)
             {
                 return;
@@ -240,7 +243,7 @@ namespace HtmlRenderer.Composers
                 //---------------------
                 if (controller != null)
                 {
-                     
+
                     eventArgs.SetLocation(hitInfo.localX, hitInfo.localY);
                     //---------------------------------
                     //dispatch 
@@ -259,7 +262,7 @@ namespace HtmlRenderer.Composers
                                 controller.ListenMouseEvent(UIMouseEventName.MouseUp, mouseE);
                             } break;
                     }
-                     
+
                     if (eventArgs.IsCanceled)
                     {
                         break;
