@@ -77,7 +77,7 @@ namespace HtmlRenderer.Demo
 
 
 
-            _htmlPanel.RenderError += OnRenderError;
+           // _htmlPanel.RenderError += OnRenderError;
             _htmlPanel.LinkClicked += OnLinkClicked;
             _htmlPanel.StylesheetLoad += OnStylesheetLoad;
             _htmlPanel.ImageLoad += OnImageLoad;
@@ -488,13 +488,13 @@ namespace HtmlRenderer.Demo
             return image;
         }
 
-        /// <summary>
-        /// Show error raised from html renderer.
-        /// </summary>
-        private static void OnRenderError(object sender, HtmlRenderErrorEventArgs e)
-        {
-            MessageBox.Show(e.Message + (e.Exception != null ? "\r\n" + e.Exception : null), "Error in Html Renderer", MessageBoxButtons.OK);
-        }
+        ///// <summary>
+        ///// Show error raised from html renderer.
+        ///// </summary>
+        //private static void OnRenderError(object sender, HtmlRenderErrorEventArgs e)
+        //{
+        //    MessageBox.Show(e.Message + (e.Exception != null ? "\r\n" + e.Exception : null), "Error in Html Renderer", MessageBoxButtons.OK);
+        //}
 
         /// <summary>
         /// On specific link click handle it here.

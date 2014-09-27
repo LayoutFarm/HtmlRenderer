@@ -16,6 +16,8 @@ namespace LayoutFarm
         HtmlRenderBox myHtmlBox;
         int _width, _height;
         MyHtmlIsland myHtmlIsland;
+        HtmlRenderer.WebDom.WebDocument currentdoc;
+
         HtmlRenderer.Composers.InputEventBridge _htmlEventBridge;
 
         public event EventHandler<StylesheetLoadEventArgs2> StylesheetLoad;
@@ -27,17 +29,35 @@ namespace LayoutFarm
         {
             this._width = width;
             this._height = height;
-
-            myHtmlIsland = new MyHtmlIsland();
-            myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
-
-            myHtmlIsland.Refresh += OnRefresh;
-
             _textMan = new TextContentManager();
             _imageMan = new ImageContentManager();
 
+
+            myHtmlIsland = new MyHtmlIsland();
+            myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
+            myHtmlIsland.Refresh += OnRefresh;
+            myHtmlIsland.NeedUpdateDom += new EventHandler<EventArgs>(myHtmlIsland_NeedUpdateDom);
+
+
             _textMan.StylesheetLoadingRequest += OnStylesheetLoad;
             _imageMan.ImageLoadingRequest += OnImageLoad;
+
+        }
+
+        void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
+        {
+            
+            HtmlRenderer.Composers.BoxModelBuilder builder = new HtmlRenderer.Composers.BoxModelBuilder();
+            builder.RequestStyleSheet += (e2) =>
+            {
+
+                StylesheetLoadEventArgs2 req = new StylesheetLoadEventArgs2();
+                req.Src = e2.Src;
+                _textMan.AddStyleSheetRequest(req);
+                e2.SetStyleSheet = req.SetStyleSheet; 
+            };
+            var rootBox2 = builder.RefreshCssTree(this.currentdoc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, this.myHtmlIsland);
+            this.myHtmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);             
 
         }
         /// <summary>
@@ -105,7 +125,7 @@ namespace LayoutFarm
 
 
             var htmldoc = builder.ParseDocument(new HtmlRenderer.WebDom.Parser.TextSnapshot(html.ToCharArray()));
-
+            this.currentdoc = htmldoc;
 
             //build rootbox from htmldoc
             var rootBox = builder.BuildCssTree(htmldoc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, htmlIsland, cssData);

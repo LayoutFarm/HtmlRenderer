@@ -20,7 +20,6 @@ using HtmlRenderer.Css;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.WebDom.Parser;
 using HtmlRenderer.Boxes;
-using LayoutFarm.Drawing;
 using HtmlRenderer.Composers.BridgeHtml;
 
 namespace HtmlRenderer.Composers
