@@ -29,13 +29,11 @@ namespace LayoutFarm
             this.myWidth = width;
             this.myHeight = height;
             this._htmlIsland = htmlIsland;
-
-
         }
         /// <summary>
         /// Perform html container layout by the current panel client size.
         /// </summary>
-        void PerformHtmlLayout(IGraphics g)
+        public void PerformHtmlLayout(IGraphics g)
         {
             if (_htmlIsland != null)
             {
@@ -56,12 +54,7 @@ namespace LayoutFarm
         {
             //hit test in another system 
         }
-        public void LoadHtmlText(string html)
-        {
-            _htmlIsland.SetHtml(html, _htmlIsland.BaseStylesheet);
-            this.PerformHtmlLayout(CurrentGraphicPlatform.P.SampleIGraphics);
-
-        }
+        
     }
 }
 

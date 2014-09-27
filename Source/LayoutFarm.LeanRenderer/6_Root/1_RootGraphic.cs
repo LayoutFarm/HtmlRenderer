@@ -16,6 +16,8 @@ namespace LayoutFarm
             this.Width = width;
             this.Height = heigth;
         }
+        public abstract IGraphics SampleIGraphics { get; }
+        public abstract IFonts SampleIFonts { get; }
         public int GraphicUpdateBlockCount
         {
             get;
@@ -46,6 +48,8 @@ namespace LayoutFarm
             get;
             set;
         }
+      
+
         public abstract void CloseWinRoot();
         public void BeginGraphicUpdate()
         {
@@ -110,6 +114,9 @@ namespace LayoutFarm
             }
             this.GraphicUpdateBlockCount = 0;
         }
+
+     
+
         void InvalidateGraphicArea(RenderElement fromElement, InternalRect elementClientRect, out TopWindowRenderBox wintop)
         {
             if (this.IsInRenderPhase)
