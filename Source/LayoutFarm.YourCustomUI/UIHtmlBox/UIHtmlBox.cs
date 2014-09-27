@@ -21,6 +21,8 @@ namespace LayoutFarm
         public event EventHandler<StylesheetLoadEventArgs> StylesheetLoad;
         public event EventHandler<ImageRequestEventArgs> ImageLoad;
 
+        TextContentManager _textMan;
+        ImageContentManager _imageMan;
         public UIHtmlBox(int width, int height)
         {
             this._width = width;
@@ -28,18 +30,15 @@ namespace LayoutFarm
 
             myHtmlIsland = new MyHtmlIsland();
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
-            myHtmlIsland.TextContentMan = new TextContentManager();
-            myHtmlIsland.ImageContentMan = new ImageContentManager();
 
             myHtmlIsland.Refresh += OnRefresh;
-            myHtmlIsland.TextContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
-            myHtmlIsland.ImageContentMan.ImageLoadingRequest += OnImageLoad;
 
-            //-------------------------------------------
-            _htmlEventBridge = new HtmlRenderer.Composers.InputEventBridge();
-            _htmlEventBridge.Bind(myHtmlIsland);
-            //-------------------------------------------
-           
+            _textMan = new TextContentManager();
+            _imageMan = new ImageContentManager();
+
+            _textMan.StylesheetLoadingRequest += OnStylesheetLoad;
+            _imageMan.ImageLoadingRequest += OnImageLoad;
+
         }
         /// <summary>
         /// Handle html renderer invalidate and re-layout as requested.
@@ -84,15 +83,41 @@ namespace LayoutFarm
         {
             if (myHtmlBox == null)
             {
+                _htmlEventBridge = new HtmlRenderer.Composers.InputEventBridge();
+                _htmlEventBridge.Bind(myHtmlIsland, rootgfx.SampleIFonts);
+
                 myHtmlBox = new HtmlRenderBox(rootgfx, _width, _height, myHtmlIsland);
+
             }
             return myHtmlBox;
         }
+        void SetHtml(MyHtmlIsland htmlIsland, string html, HtmlRenderer.WebDom.CssActiveSheet cssData)
+        {
+
+            HtmlRenderer.Composers.BoxModelBuilder builder = new HtmlRenderer.Composers.BoxModelBuilder();
+            builder.RequestStyleSheet += (e) =>
+            {
+                this._textMan.AddStyleSheetRequest(e);
+            };
+
+
+            var htmldoc = builder.ParseDocument(new HtmlRenderer.WebDom.Parser.TextSnapshot(html.ToCharArray()));
+
+
+            //build rootbox from htmldoc
+            var rootBox = builder.BuildCssTree(htmldoc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, htmlIsland, cssData);
+
+            htmlIsland.SetHtmlDoc(htmldoc);
+            htmlIsland.SetRootCssBox(rootBox, cssData);
+        }
         public void LoadHtmlText(string html)
         {
-            myHtmlBox.LoadHtmlText(html);
+            //myHtmlBox.LoadHtmlText(html);
+            SetHtml(myHtmlIsland, html, myHtmlIsland.BaseStylesheet);
             myHtmlBox.InvalidateGraphic();
         }
+
+
         public override void InvalidateGraphic()
         {
             myHtmlBox.InvalidateGraphic();

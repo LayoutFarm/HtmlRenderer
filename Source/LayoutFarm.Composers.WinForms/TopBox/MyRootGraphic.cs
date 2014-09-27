@@ -7,7 +7,7 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
 
-      class MyRootGraphic : RootGraphic
+    class MyRootGraphic : RootGraphic
     {
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
         System.Windows.Forms.Timer graphicTimer1 = new System.Windows.Forms.Timer();
@@ -28,6 +28,15 @@ namespace LayoutFarm
             dbug_Init();
 #endif
         }
+        public override IGraphics SampleIGraphics
+        {
+            get { return CurrentGraphicPlatform.P.SampleIGraphics; }
+        }
+        public override IFonts SampleIFonts
+        {
+            get { return CurrentGraphicPlatform.P.SampleIGraphics; }
+        }
+
         public override void CloseWinRoot()
         {
             this.graphicTimer1.Enabled = false;

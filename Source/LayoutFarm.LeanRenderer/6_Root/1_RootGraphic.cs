@@ -16,6 +16,8 @@ namespace LayoutFarm
             this.Width = width;
             this.Height = heigth;
         }
+        public abstract IGraphics SampleIGraphics { get; }
+        public abstract IFonts SampleIFonts { get; }
         public int GraphicUpdateBlockCount
         {
             get;

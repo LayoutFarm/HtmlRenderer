@@ -14,92 +14,52 @@ namespace HtmlRenderer
 {
     static class WinHtmlRootVisualBoxExtension
     {
-        public static void SetHtml(this MyHtmlIsland htmlIsland, string html, CssActiveSheet cssData)
-        {
-            HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
-            builder.RequestStyleSheet += (e) =>
-            {
-                var textContentManager = htmlIsland.TextContentMan;
-                if (textContentManager != null)
-                {
-                    textContentManager.AddStyleSheetRequest(e);
-                }
-            };
-
-
-            var htmldoc = builder.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
-
-
-            //build rootbox from htmldoc
-            var rootBox = builder.BuildCssTree(htmldoc, CurrentGraphicPlatform.P.SampleIGraphics, htmlIsland, cssData);
-
-            htmlIsland.SetHtmlDoc(htmldoc);
-            htmlIsland.SetRootCssBox(rootBox, cssData);
-
-
-
-        }
-        public static void SetHtml(this MyHtmlIsland htmlIsland, HtmlRenderer.WebDom.WebDocument doc, CssActiveSheet cssData)
-        {
-            HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
-            builder.RequestStyleSheet += (e) =>
-            {
-                var textContentManager = htmlIsland.TextContentMan;
-                if (textContentManager != null)
-                {
-                    textContentManager.AddStyleSheetRequest(e);
-                }
-            };
-
-
-
-            var rootBox = builder.BuildCssTree(doc, CurrentGraphicPlatform.P.SampleIGraphics, htmlIsland, cssData);
-            htmlIsland.SetHtmlDoc(doc);
-            htmlIsland.SetRootCssBox(rootBox, cssData);
-
-        }
+        
+     
         public static void RefreshHtmlDomChange(this MyHtmlIsland htmlIsland,
             HtmlRenderer.WebDom.WebDocument doc, CssActiveSheet cssData)
         {
 
             PartialRebuildCssTree(htmlIsland, doc);
         }
-        static void FullRebuildCssTree(MyHtmlIsland htmlIsland,
-            HtmlRenderer.WebDom.WebDocument doc,
-            CssActiveSheet cssData)
-        {
-            HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
-            builder.RequestStyleSheet += (e) =>
-            {
-                var textContentManager = htmlIsland.TextContentMan;
-                if (textContentManager != null)
-                {
-                    textContentManager.AddStyleSheetRequest(e);
-                }
-            };
+        //static void FullRebuildCssTree(MyHtmlIsland htmlIsland,
+        //    HtmlRenderer.WebDom.WebDocument doc,
+        //    CssActiveSheet cssData)
+        //{
+        //    HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
+        //    builder.RequestStyleSheet += (e) =>
+        //    {
+        //        var textContentManager = htmlIsland.TextContentMan;
+        //        if (textContentManager != null)
+        //        {
+        //            textContentManager.AddStyleSheetRequest(e);
+        //        }
+        //    };
 
 
-            var rootBox = builder.BuildCssTree(doc, CurrentGraphicPlatform.P.SampleIGraphics, htmlIsland, cssData);
-            htmlIsland.SetHtmlDoc(doc);
-            htmlIsland.SetRootCssBox(rootBox, cssData);
+        //    var rootBox = builder.BuildCssTree(doc, CurrentGraphicPlatform.P.SampleIGraphics, htmlIsland, cssData);
+        //    htmlIsland.SetHtmlDoc(doc);
+        //    htmlIsland.SetRootCssBox(rootBox, cssData);
 
-        }
+        //}
         static void PartialRebuildCssTree(MyHtmlIsland htmlIsland,
             HtmlRenderer.WebDom.WebDocument doc)
         {
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>
             {
-                var textContentManager = htmlIsland.TextContentMan;
-                if (textContentManager != null)
-                {
-                    textContentManager.AddStyleSheetRequest(e);
-                }
+                //var textContentManager = htmlIsland.TextContentMan;
+                //if (textContentManager != null)
+                //{
+                //    textContentManager.AddStyleSheetRequest(e);
+                //}
             };
 
 
             var rootBox2 = builder.RefreshCssTree(doc, CurrentGraphicPlatform.P.SampleIGraphics, htmlIsland);
         }
+
+        
     }
 
 }

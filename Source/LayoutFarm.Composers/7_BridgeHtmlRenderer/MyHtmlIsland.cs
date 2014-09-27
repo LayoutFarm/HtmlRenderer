@@ -13,6 +13,10 @@ using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer
 {
+    public class HtmlResourceRequestEventArgs : EventArgs
+    {
+
+    }
 
     public class MyHtmlIsland : HtmlIsland
     {
@@ -31,6 +35,7 @@ namespace HtmlRenderer
         /// </remarks>
         public event EventHandler<HtmlRenderErrorEventArgs> RenderError;
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
+        public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
 
 
         List<LayoutFarm.Drawing.ImageBinder> requestImageBinderUpdates = new List<LayoutFarm.Drawing.ImageBinder>();
@@ -75,24 +80,18 @@ namespace HtmlRenderer
         {
 
             //manage image loading 
-            if (ImageContentMan != null)
+            if (this.RequestResource != null)
             {
                 if (binder.State == ImageBinderState.Unload)
                 {
-                    ImageContentMan.AddRequestImage(new ImageContentRequest(binder, requestBox, this));
+                    RequestResource(this, new HtmlResourceRequestEventArgs());
+
+                    //ImageContentMan.AddRequestImage(new ImageContentRequest(binder, requestBox, this));
                 }
             }
+            
         }
-        public ImageContentManager ImageContentMan
-        {
-            get;
-            set;
-        }
-        public TextContentManager TextContentMan
-        {
-            get;
-            set;
-        }
+        
         public void SetHtmlDoc(WebDocument doc)
         {
             this.doc = doc;

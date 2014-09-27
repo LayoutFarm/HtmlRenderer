@@ -66,12 +66,7 @@ namespace LayoutFarm
         {
             //hit test in another system 
         }
-        public void LoadHtmlText(string html)
-        {
-            _htmlIsland.SetHtml(html, this._htmlIsland.BaseStylesheet);
-            this.PerformHtmlLayout(CurrentGraphicPlatform.P.SampleIGraphics);
 
-        }
     }
 }
 

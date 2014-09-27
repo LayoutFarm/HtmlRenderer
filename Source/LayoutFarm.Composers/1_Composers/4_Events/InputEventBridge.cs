@@ -22,13 +22,15 @@ namespace HtmlRenderer.Composers
         bool _isMouseDown;
         //----------------------------------------------- 
         SelectionRange _currentSelectionRange = null;
+        IFonts ifonts;
 
         bool _isBinded;
         public InputEventBridge()
         {
         }
-        public void Bind(HtmlIsland htmlIsland)
+        public void Bind(HtmlIsland htmlIsland, IFonts ifonts)
         {
+            this.ifonts = ifonts;
             if (htmlIsland != null)
             {
                 this._htmlIsland = htmlIsland;
@@ -75,7 +77,7 @@ namespace HtmlRenderer.Composers
             BoxUtils.HitTest(rootbox, x, y, hitChain);
             //2. invoke css event and script event   
 
-             
+
             UIMouseEventArgs mouseDownE = new UIMouseEventArgs();
             mouseDownE.EventName = UIEventName.MouseDown;
             PropagateEventOnBubblingPhase(hitChain, mouseDownE);
@@ -108,7 +110,8 @@ namespace HtmlRenderer.Composers
                     {
                         _currentSelectionRange = new SelectionRange(
                             _latestMouseDownHitChain,
-                            hitChain, CurrentGraphicPlatform.P.SampleIGraphics);
+                            hitChain,
+                            this.ifonts);
 
                     }
                     else
@@ -240,7 +243,7 @@ namespace HtmlRenderer.Composers
                 //---------------------
                 if (controller != null)
                 {
-                     
+
                     eventArgs.SetLocation(hitInfo.localX, hitInfo.localY);
                     //---------------------------------
                     //dispatch 
@@ -259,7 +262,7 @@ namespace HtmlRenderer.Composers
                                 controller.ListenMouseEvent(UIMouseEventName.MouseUp, mouseE);
                             } break;
                     }
-                     
+
                     if (eventArgs.IsCanceled)
                     {
                         break;
