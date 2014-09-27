@@ -23,22 +23,26 @@ namespace LayoutFarm
     {
         int x;
         int y;
-        RenderElement sourceVisualElement;
-        public bool CancelBubbling = false;
 
-
+        RenderElement srcRenderElement;        
         int canvasXOrigin;
         int canvasYOrigin;
         TopWindowRenderBox winRoot;
+        UIEventName evName;
+         
         public UIEventArgs()
         {
 
         }
-
+        public UIEventName EventName
+        {
+            get { return this.evName; }
+            set { this.evName = value; }
+        }
         public virtual void Clear()
         {
 
-            sourceVisualElement = null;
+            srcRenderElement = null;
             x = 0;
             y = 0;
             CancelBubbling = false;
@@ -48,17 +52,32 @@ namespace LayoutFarm
 
             this.winRoot = null;
         }
-        public RenderElement SourceVisualElement
+
+
+        public RenderElement SourceRenderElement
         {
             get
             {
-                return sourceVisualElement;
+                return srcRenderElement;
             }
             set
             {
-                sourceVisualElement = value;
+                srcRenderElement = value;
             }
         }
+       
+        public object SrcElement
+        {
+            get;
+            set;
+        }
+        public object CurentContextElement
+        {
+            get;
+            set;
+        }
+
+
         public bool IsShiftKeyDown
         {
             get;
@@ -89,7 +108,7 @@ namespace LayoutFarm
                 y = value.Y;
             }
         }
-        protected void SetLocation(int x, int y)
+        public void SetLocation(int x, int y)
         {
             this.x = x;
             this.y = y;
@@ -132,9 +151,7 @@ namespace LayoutFarm
                 x -= dx; y -= dy; canvasXOrigin += dx;
                 canvasYOrigin += dy;
             }
-
         }
-
         public TopWindowRenderBox WinRoot
         {
             get
@@ -145,10 +162,22 @@ namespace LayoutFarm
         public void SetWinRoot(TopWindowRenderBox winRoot)
         {
             this.winRoot = winRoot;
-
-        } 
-      
-
+        }
+        //-----------------------------------------------
+        public bool IsCanceled
+        {
+            get;
+            private set;
+        }
+        public void StopPropagation()
+        {
+            this.IsCanceled = true;
+        }
+        public bool CancelBubbling
+        {
+            get { return this.IsCanceled; }
+            set { this.IsCanceled = value; }
+        }
     }
 
 
@@ -159,13 +188,16 @@ namespace LayoutFarm
         Middle,
         None
     }
+
+     
+
     public class UIMouseEventArgs : UIEventArgs
     {
         public UIMouseButtons Button;
         public int Delta;
         public int Clicks;
         public int XDiff;
-        public int YDiff;        
+        public int YDiff;
         public UIMouseEventType EventType;
         public TopWindowRenderBox WinTop;
 
@@ -177,7 +209,6 @@ namespace LayoutFarm
             this.XDiff = xdiff;
             this.YDiff = ydiff;
         }
-
         public void SetEventInfo(Point location, UIMouseButtons button, int clicks, int delta)
         {
             Location = location;
@@ -302,7 +333,7 @@ namespace LayoutFarm
         static Stack<UISizeChangedEventArgs> pool = new Stack<UISizeChangedEventArgs>();
         private UISizeChangedEventArgs(RenderElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
         {
-            this.SourceVisualElement = sourceElement;
+            this.SourceRenderElement = sourceElement;
             this.SetLocation(widthDiff, heightDiff);
             this.changeFromSideFlags = changeFromSideFlags;
         }
@@ -319,7 +350,7 @@ namespace LayoutFarm
             {
                 UISizeChangedEventArgs e = pool.Pop();
                 e.SetLocation(widthDiff, heightDiff);
-                e.SourceVisualElement = sourceElement;
+                e.SourceRenderElement = sourceElement;
                 e.changeFromSideFlags = changeFromSideFlags;
                 return e;
             }
@@ -433,6 +464,6 @@ namespace LayoutFarm
             base.Clear();
         }
 
-    } 
+    }
 
 }

@@ -14,20 +14,23 @@ namespace LayoutFarm.Text
         static bool caretRegistered = false;
         static EventHandler<IntervalTaskEventArgs> tickHandler;
         static object caretBlinkTask = new object();
+        static GraphicIntervalTask task;
 
         static GlobalCaretController()
         {
             tickHandler = new EventHandler<IntervalTaskEventArgs>(caret_TickHandler);
         }
-        internal static void RegisterCaretBlink(RootGraphic gfx)
+        internal static void RegisterCaretBlink(RootGraphic root)
         {
             if (caretRegistered)
             {
                 return;
             }
             caretRegistered = true;
-            GraphicIntervalTask task = gfx.RequestGraphicInternvalTask(caretBlinkTask,
-                300, tickHandler);
+            task = root.RequestGraphicInternvalTask(
+                caretBlinkTask,
+                300,
+                tickHandler);
         }
         static void caret_TickHandler(object sender, IntervalTaskEventArgs e)
         {
@@ -61,19 +64,19 @@ namespace LayoutFarm.Text
                 {
                     //make lost focus on current textbox
                     if (textEditBox != null)
-                    {   
+                    {
                         //stop caret on prev element
                         textEditBox.SetCaretState(false);
                         var evlistener = textEditBox.GetController() as IEventListener;
 
                         textEditBox = null;
-                       
+
                         if (evlistener != null)
                         {
                             evlistener.ListenFocusEvent(UIFocusEventName.LossingFocus, null);
                         }
                     }
-                } 
+                }
                 textEditBox = value;
             }
         }

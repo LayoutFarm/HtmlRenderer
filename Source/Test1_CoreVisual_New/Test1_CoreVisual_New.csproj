@@ -52,17 +52,17 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LayoutFarm.LeanBox\LayoutFarm.LeanBox.csproj">
-      <Project>{5CDDBA62-67E4-40AA-A3C0-AFAE030E6969}</Project>
-      <Name>LayoutFarm.LeanBox</Name>
+    <ProjectReference Include="..\LayoutFarm.Composers.WinForms\LayoutFarm.Composers.WinForms.csproj">
+      <Project>{8CBF9902-1A77-4FA9-AC57-CE2179098BED}</Project>
+      <Name>LayoutFarm.Composers.WinForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.LeanRenderer\LayoutFarm.LeanRenderer.csproj">
+      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
+      <Name>LayoutFarm.LeanRenderer</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.MiniUI\LayoutFarm.MiniUI.csproj">
       <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
       <Name>LayoutFarm.MiniUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.PlatformSpecific\LayoutFarm.PlatformSpecific.csproj">
-      <Project>{8424932F-2499-4A72-87D8-1E1246EF8E59}</Project>
-      <Name>LayoutFarm.PlatformSpecific</Name>
     </ProjectReference>
     <ProjectReference Include="..\Test0_PresentationDevHelper_New\Test0_PresentationDevHelper_New.csproj">
       <Project>{05C84CAB-2F5D-4D74-9A62-EADDF5B4CC0B}</Project>

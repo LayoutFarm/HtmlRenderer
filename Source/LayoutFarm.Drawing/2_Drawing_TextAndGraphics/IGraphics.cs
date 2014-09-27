@@ -9,7 +9,7 @@ namespace LayoutFarm.Drawing
 {
 
 
-    public interface IGraphics : IFonts, IDisposable
+    public interface IGraphics : IFonts,   IDisposable
     {
         //--------------------------------------------------
         float CanvasOriginX { get; }
@@ -36,29 +36,8 @@ namespace LayoutFarm.Drawing
         /// <PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/></PermissionSet>
         SmoothingMode SmoothingMode { get; set; }
 
-        /// <summary>
-        /// Measure the width and height of string <paramref name="str"/> when drawn on device context HDC
-        /// using the given font <paramref name="font"/>.
-        /// </summary>
-        /// <param name="str">the string to measure</param>
-        /// <param name="font">the font to measure string with</param>
-        /// <returns>the size of the string</returns>
-        Size MeasureString(string str, Font font);
-        Size MeasureString2(char[] str, int startAt, int len, Font font);
-        /// <summary>
-        /// Measure the width and height of string <paramref name="str"/> when drawn on device context HDC
-        /// using the given font <paramref name="font"/>.<br/>
-        /// Restrict the width of the string and get the number of characters able to fit in the restriction and
-        /// the width those characters take.
-        /// </summary>
-        /// <param name="str">the string to measure</param>
-        /// <param name="font">the font to measure string with</param>
-        /// <param name="maxWidth">the max width to render the string in</param>
-        /// <param name="charFit">the number of characters that will fit under <see cref="maxWidth"/> restriction</param>
-        /// <param name="charFitWidth"></param>
-        /// <returns>the size of the string</returns>
-        Size MeasureString(string str, Font font, float maxWidth, out int charFit, out int charFitWidth);
-        Size MeasureString2(char[] str, int startAt, int len, Font font, float maxWidth, out int charFit, out int charFitWidth);
+       
+
         void DrawString(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size);
         /// <summary>
         /// Draws a line connecting the two points specified by the coordinate pairs.
@@ -113,10 +92,6 @@ namespace LayoutFarm.Drawing
         void FillPath(Brush brush, GraphicsPath path);
         //------------------------------------------   
     }
-
-    public interface IGraphics2
-    {
-        object GetInnerGraphic();
-    }
+     
 
 }

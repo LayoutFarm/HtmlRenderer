@@ -11,7 +11,7 @@ namespace HtmlRenderer.Boxes
 
     public class LayoutVisitor : BoxVisitor
     {
-        RootVisualBox visualRootBox;
+        HtmlIsland htmlIsland;
         float totalMarginLeftAndRight;
 
 
@@ -26,10 +26,10 @@ namespace HtmlRenderer.Boxes
         static int totalLayoutIdEpisode = 0;
         readonly int episodeId = ++totalLayoutIdEpisode;
 
-        internal LayoutVisitor(IGraphics gfx, RootVisualBox visualRootBox)
+        internal LayoutVisitor(IGraphics gfx, HtmlIsland visualRootBox)
         {
             this.Gfx = gfx;
-            this.visualRootBox = visualRootBox;
+            this.htmlIsland = visualRootBox;
 
             if (episodeId == ushort.MaxValue - 1)
             {
@@ -64,7 +64,7 @@ namespace HtmlRenderer.Boxes
             float candidateRootWidth = Math.Max(box.CalculateMinimumWidth(this.episodeId) + CalculateWidthMarginTotalUp(box),
                          (box.SizeWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.SizeWidth : 0);
 
-            this.visualRootBox.UpdateSizeIfWiderOrHeigher(
+            this.htmlIsland.UpdateSizeIfWiderOrHeigher(
                 this.ContainerBlockGlobalX + candidateRootWidth,
                 this.ContainerBlockGlobalY + box.SizeHeight);
         }
@@ -86,13 +86,13 @@ namespace HtmlRenderer.Boxes
 
         internal bool AvoidImageAsyncLoadOrLateBind
         {
-            get { return this.visualRootBox.AvoidAsyncImagesLoading || this.visualRootBox.AvoidImagesLateLoading; }
+            get { return this.htmlIsland.AvoidAsyncImagesLoading || this.htmlIsland.AvoidImagesLateLoading; }
         }
 
         internal void RequestImage(ImageBinder binder, CssBox requestFrom)
         {
-            RootVisualBox.RaiseRequestImage(
-                this.visualRootBox,
+            HtmlIsland.RaiseRequestImage(
+                this.htmlIsland,
                 binder,
                 requestFrom,
                 false);

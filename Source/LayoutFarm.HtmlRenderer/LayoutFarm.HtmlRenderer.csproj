@@ -68,6 +68,16 @@
     <Compile Include="1_Css\CssLength.cs" />
     <Compile Include="1_Css\CssProps.cs" />
     <Compile Include="1_Css\CssUnitOrNames.cs" />
+    <Compile Include="4_Svg\BasicShapes\SvgElements.cs" />
+    <Compile Include="4_Svg\BasicShapes\SvgSpec.cs" />
+    <Compile Include="4_Svg\HitAndSelection\SvgHitChain.cs" />
+    <Compile Include="4_Svg\Transforms\SvgMatrix.cs" />
+    <Compile Include="4_Svg\Transforms\SvgRotate.cs" />
+    <Compile Include="4_Svg\Transforms\SvgScale.cs" />
+    <Compile Include="4_Svg\Transforms\SvgShear.cs" />
+    <Compile Include="4_Svg\Transforms\SvgSkew.cs" />
+    <Compile Include="4_Svg\Transforms\SvgTransform.cs" />
+    <Compile Include="4_Svg\Transforms\SvgTranslate.cs" />
     <Compile Include="Platform\FontDefaultConfig.cs" />
     <Compile Include="2_Boxes\5_HitAndSelections\SelectionRange.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Spec_Snap.cs" />
@@ -84,12 +94,12 @@
     <Compile Include="2_Boxes\3_Layout\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
     <Compile Include="2_Boxes\3_Layout\CssTableLayoutEngine.TableColumns.cs" />
     <Compile Include="3_Boxes_SpecialBoxes\CssBoxListItem.cs" />
-    <Compile Include="4_Diagnostics\DeprecatedAttribute.cs" />
-    <Compile Include="4_Diagnostics\HtmlGenerator.cs" />
+    <Compile Include="5_Diagnostics\DeprecatedAttribute.cs" />
+    <Compile Include="5_Diagnostics\HtmlGenerator.cs" />
     <Compile Include="Platform\MapAttribute.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBoxCollection.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Unsafe.cs" />
-    <Compile Include="4_Diagnostics\dbug.cs" />
+    <Compile Include="5_Diagnostics\dbug.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Fields.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Paint.cs" />
     <Compile Include="2_Boxes\2_Runs\CssTextRun.cs" />
@@ -104,13 +114,13 @@
     <Compile Include="2_Boxes\1_CoreBox\CssLineBox.cs" />
     <Compile Include="2_Boxes\3_Layout\CssTableLayoutEngine.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssSideAndOrientation.cs" />
-    <Compile Include="4_Diagnostics\HtmlRenderErrorType.cs" />
-    <Compile Include="4_Diagnostics\HtmlGenerationStyle.cs" />
+    <Compile Include="5_Diagnostics\HtmlRenderErrorType.cs" />
+    <Compile Include="5_Diagnostics\HtmlGenerationStyle.cs" />
     <Compile Include="2_Boxes\4_Render\BackgroundImagePaintHelper.cs" />
     <Compile Include="2_Boxes\4_Render\BorderPaintHelper.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssValueParser.cs" />
-    <Compile Include="2_Boxes\0_Root\RootVisualBox.cs" />
-    <Compile Include="4_Diagnostics\ArgCheckNotNullAttribute.cs" />
+    <Compile Include="2_Boxes\0_Root\HtmlIsland.cs" />
+    <Compile Include="5_Diagnostics\ArgCheckNotNullAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="2_Boxes\3_Layout\BoxUtils.cs" />
     <Compile Include="Platform\RenderUtils.cs" />
@@ -140,6 +150,13 @@
       <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
       <Name>LayoutFarm.Drawing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.LeanRenderer\LayoutFarm.LeanRenderer.csproj">
+      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
+      <Name>LayoutFarm.LeanRenderer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="4_Svg\license.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

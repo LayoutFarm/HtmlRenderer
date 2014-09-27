@@ -47,9 +47,7 @@ namespace HtmlRenderer.Boxes
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
         public int dbugMark;
-#endif
-
-
+#endif   
         public CssBox(object controller, BoxSpec spec)
         {
 

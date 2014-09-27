@@ -4,9 +4,9 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
-using LayoutFarm.Drawing;
 using HtmlRenderer.Boxes;
 using HtmlRenderer.WebDom;
+using LayoutFarm;
 
 namespace HtmlRenderer.Composers
 {
@@ -15,30 +15,32 @@ namespace HtmlRenderer.Composers
     {
 
         //-----------------------------------------------
-        RootVisualBox _container;
+        HtmlIsland _htmlIsland;
         BoxHitChain _latestMouseDownHitChain = null;
         int _mousedownX;
         int _mousedownY;
         bool _isMouseDown;
         //----------------------------------------------- 
         SelectionRange _currentSelectionRange = null;
-        IGraphics sampleGraphics;
+        IFonts ifonts;
+
         bool _isBinded;
         public InputEventBridge()
         {
         }
-        public void Bind(RootVisualBox container)
+        public void Bind(HtmlIsland htmlIsland, IFonts ifonts)
         {
-            if (container != null)
+            this.ifonts = ifonts;
+            if (htmlIsland != null)
             {
-                this._container = container;
+                this._htmlIsland = htmlIsland;
             }
-            this.sampleGraphics = container.GetSampleGraphics();
+
             _isBinded = true;
         }
         public void Unbind()
         {
-            this._container = null;
+            this._htmlIsland = null;
             this._isBinded = false;
         }
 
@@ -48,7 +50,7 @@ namespace HtmlRenderer.Composers
             {
                 return;
             }
-            var rootbox = _container.GetRootCssBox();
+            var rootbox = _htmlIsland.GetRootCssBox();
             if (rootbox == null)
             {
                 return;
@@ -75,8 +77,10 @@ namespace HtmlRenderer.Composers
             BoxUtils.HitTest(rootbox, x, y, hitChain);
             //2. invoke css event and script event   
 
-            HtmlEventArgs eventArgs = new HtmlEventArgs(EventName.MouseDown);
-            PropagateEventOnBubblingPhase(hitChain, eventArgs);
+
+            UIMouseEventArgs mouseDownE = new UIMouseEventArgs();
+            mouseDownE.EventName = UIEventName.MouseDown;
+            PropagateEventOnBubblingPhase(hitChain, mouseDownE);
 
         }
         public void MouseMove(int x, int y, int button)
@@ -85,7 +89,7 @@ namespace HtmlRenderer.Composers
             {
                 return;
             }
-            var rootbox = _container.GetRootCssBox();
+            var rootbox = _htmlIsland.GetRootCssBox();
             if (rootbox == null)
             {
                 return;
@@ -106,7 +110,8 @@ namespace HtmlRenderer.Composers
                     {
                         _currentSelectionRange = new SelectionRange(
                             _latestMouseDownHitChain,
-                            hitChain, sampleGraphics);
+                            hitChain,
+                            this.ifonts);
 
                     }
                     else
@@ -130,7 +135,7 @@ namespace HtmlRenderer.Composers
                 return;
             }
             this._isMouseDown = false;
-            var rootbox = _container.GetRootCssBox();
+            var rootbox = _htmlIsland.GetRootCssBox();
             if (rootbox == null)
             {
                 return;
@@ -202,19 +207,19 @@ namespace HtmlRenderer.Composers
         }
 
         //-----------------------------------
-        static void PropagateEventOnCapturingPhase(BoxHitChain hitChain, HtmlEventArgs eventArgs)
+        static void PropagateEventOnCapturingPhase(BoxHitChain hitChain, UIEventArgs eventArgs)
         {
             //TODO: consider implement capture phase
 
         }
-        static void PropagateEventOnBubblingPhase(BoxHitChain hitChain, HtmlEventArgs eventArgs)
+        static void PropagateEventOnBubblingPhase(BoxHitChain hitChain, UIEventArgs eventArgs)
         {
 
             for (int i = hitChain.Count - 1; i >= 0; --i)
             {
                 //propagate up 
                 var hitInfo = hitChain.GetHitInfo(i);
-                DomElement controller = null; 
+                LayoutFarm.IEventListener controller = null;
 
                 switch (hitInfo.hitObjectKind)
                 {
@@ -225,24 +230,38 @@ namespace HtmlRenderer.Composers
                     case HitObjectKind.Run:
                         {
                             CssRun run = (CssRun)hitInfo.hitObject;
-                            controller = CssBox.UnsafeGetController(run.OwnerBox) as DomElement;
+                            controller = CssBox.UnsafeGetController(run.OwnerBox) as LayoutFarm.IEventListener;
 
                         } break;
                     case HitObjectKind.CssBox:
                         {
                             CssBox box = (CssBox)hitInfo.hitObject;
-                            controller = CssBox.UnsafeGetController(box) as DomElement;
+                            controller = CssBox.UnsafeGetController(box) as LayoutFarm.IEventListener;
                         } break;
                 }
 
                 //---------------------
                 if (controller != null)
                 {
-                    eventArgs.X = hitInfo.localX;
-                    eventArgs.Y = hitInfo.localY;
 
-                    controller.DispatchEvent(eventArgs);
-                    
+                    eventArgs.SetLocation(hitInfo.localX, hitInfo.localY);
+                    //---------------------------------
+                    //dispatch 
+
+
+                    switch (eventArgs.EventName)
+                    {
+                        case UIEventName.MouseDown:
+                            {
+                                UIMouseEventArgs mouseE = new UIMouseEventArgs();
+                                controller.ListenMouseEvent(UIMouseEventName.MouseDown, mouseE);
+                            } break;
+                        case UIEventName.MouseUp:
+                            {
+                                UIMouseEventArgs mouseE = new UIMouseEventArgs();
+                                controller.ListenMouseEvent(UIMouseEventName.MouseUp, mouseE);
+                            } break;
+                    }
 
                     if (eventArgs.IsCanceled)
                     {

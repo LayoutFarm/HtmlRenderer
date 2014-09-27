@@ -84,18 +84,10 @@
       <DependentUpon>DemoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HtmlDomExtension\HtmlDomExtension.cs" />
-    <Compile Include="HtmlRenderer.WinFormControls\Events\HtmlLinkClickedEventArgs.cs" />
-    <Compile Include="HtmlRenderer.WinFormControls\Events\HtmlLinkClickedException.cs" />
-    <Compile Include="HtmlRenderer.WinFormControls\Events\HtmlRefreshEventArgs.cs" />
-    <Compile Include="HtmlRenderer.WinFormControls\Events\HtmlRenderErrorEventArgs.cs" />
-    <Compile Include="HtmlRenderer.WinFormControls\Events\HtmlScrollEventArgs.cs" />
+    <Compile Include="HtmlRenderer.WinFormControls\HtmlScrollEventArgs.cs" />
     <Compile Include="HtmlRenderer.WinFormControls\HtmlPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="HtmlRenderer.WinFormControls\Platform\WinGdiPlatform.cs" />
-    <Compile Include="HtmlRenderer.WinFormControls\Platform\WinHtmlRootVisualBoxExtension.cs" />
-    <Compile Include="HtmlRenderer.WinFormControls\Platform\WinRootVisualBox.cs" />
-    <Compile Include="HtmlRenderServices\HtmlRender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DemoList\Demo01_CreateHtmlDomStyle1.cs" />
@@ -138,9 +130,13 @@
       <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
       <Name>LayoutFarm.Composers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Drawing.PlatformWinGdi\LayoutFarm.Drawing.PlatformWinGdi.csproj">
-      <Project>{E22C7CED-9DD7-4758-95B4-B315659965C3}</Project>
-      <Name>LayoutFarm.Drawing.PlatformWinGdi</Name>
+    <ProjectReference Include="..\LayoutFarm.ContentManagers\LayoutFarm.ContentManagers.csproj">
+      <Project>{2BDF9E02-15AA-4416-BF1F-4A8F398DCAFB}</Project>
+      <Name>LayoutFarm.ContentManagers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.Drawing.WinGdiPlus\LayoutFarm.Drawing.WinGdiPlus.csproj">
+      <Project>{2675BAD6-52A7-4DEE-BC1D-25E9CA6994D1}</Project>
+      <Name>LayoutFarm.Drawing.WinGdiPlus</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
       <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
@@ -149,6 +145,10 @@
     <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
       <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>
       <Name>LayoutFarm.HtmlRenderer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.MiniUI\LayoutFarm.MiniUI.csproj">
+      <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
+      <Name>LayoutFarm.MiniUI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

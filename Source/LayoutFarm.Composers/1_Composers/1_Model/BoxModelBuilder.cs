@@ -20,7 +20,6 @@ using HtmlRenderer.Css;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.WebDom.Parser;
 using HtmlRenderer.Boxes;
-using LayoutFarm.Drawing;
 using HtmlRenderer.Composers.BridgeHtml;
 
 namespace HtmlRenderer.Composers
@@ -70,7 +69,7 @@ namespace HtmlRenderer.Composers
                 return;
             }
 
-            ContentManagers.StylesheetLoadEventArgs e = new ContentManagers.StylesheetLoadEventArgs(hrefSource);
+            var e = new ContentManagers.StylesheetLoadEventArgs(hrefSource);
             RequestStyleSheet(e);
             stylesheet = e.SetStyleSheet;
             stylesheetData = e.SetStyleSheetData;
@@ -179,7 +178,7 @@ namespace HtmlRenderer.Composers
 
         public CssBox BuildCssTree(WebDocument htmldoc,
             IFonts iFonts,
-            RootVisualBox htmlContainer,
+            HtmlIsland htmlContainer,
             CssActiveSheet cssData)
         {
 
@@ -210,7 +209,7 @@ namespace HtmlRenderer.Composers
         //----------------------------------------------------------------
         public CssBox RefreshCssTree(WebDocument htmldoc,
           IFonts iFonts,
-          RootVisualBox htmlContainer)
+          HtmlIsland htmlContainer)
         {
 
             CssBox rootBox = null;
@@ -391,11 +390,10 @@ namespace HtmlRenderer.Composers
         /// </summary>
         /// <param name="htmlContainer"> </param>
         /// <param name="cssData">the style data</param>
-        static void SetTextSelectionStyle(RootVisualBox htmlContainer, CssActiveSheet cssData)
+        static void SetTextSelectionStyle(HtmlIsland htmlContainer, CssActiveSheet cssData)
         {
             //comment out for another technique
-            htmlContainer.SelectionForeColor = Color.Empty;
-            htmlContainer.SelectionBackColor = Color.Empty;
+
 
             //foreach (var block in cssData.GetCssRuleSetIter("::selection"))
             //{

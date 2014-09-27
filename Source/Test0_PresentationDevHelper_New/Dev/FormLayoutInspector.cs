@@ -56,7 +56,7 @@ namespace LayoutFarm.Dev
                 case dbugLayoutMsgOwnerKind.VisualElement:
                     {
                         RenderElement ve = (RenderElement)msg.owner;
-                        MyTopWindowRenderBox.dbugVE_HighlightMe = ve;
+                        dbugHelper01.dbugVE_HighlightMe = ve;
                         lastestSelectVE = ve;
 
                         vwport.PaintMe();
@@ -89,7 +89,7 @@ namespace LayoutFarm.Dev
                 case dbugLayoutMsgOwnerKind.VisualElement:
                     {
                         RenderElement ve = (RenderElement)msg.owner;
-                        MyTopWindowRenderBox.dbugVE_HighlightMe = ve;
+                        dbugHelper01.dbugVE_HighlightMe = ve;
                         lastestSelectVE = ve;
 
                         vwport.PaintMe();
