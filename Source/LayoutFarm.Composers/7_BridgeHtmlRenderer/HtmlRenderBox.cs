@@ -20,22 +20,21 @@ namespace LayoutFarm
         MyHtmlIsland _htmlIsland;
         InputEventBridge _htmlEventBridge;
 
-         
-        /// <summary>
-        /// the base stylesheet data used in the control
-        /// </summary>
-        CssActiveSheet _baseCssData;
+
 
         int myWidth;
         int myHeight;
-        public HtmlRenderBox(RootGraphic rootgfx, int width, int height)
+        public HtmlRenderBox(RootGraphic rootgfx,
+            int width, int height,
+            MyHtmlIsland htmlIsland)
             : base(rootgfx, width, height)
         {
             this.myWidth = width;
-            this.myHeight = height; 
+            this.myHeight = height;
+            this._htmlIsland = htmlIsland;
         }
 
-        
+
 
         /// <summary>
         /// Perform html container layout by the current panel client size.
@@ -69,7 +68,7 @@ namespace LayoutFarm
         }
         public void LoadHtmlText(string html)
         {
-            _htmlIsland.SetHtml(html, _baseCssData);
+            _htmlIsland.SetHtml(html, this._htmlIsland.BaseStylesheet);
             this.PerformHtmlLayout(CurrentGraphicPlatform.P.SampleIGraphics);
 
         }
