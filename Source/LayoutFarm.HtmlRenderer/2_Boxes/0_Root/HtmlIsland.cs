@@ -295,12 +295,13 @@ namespace HtmlRenderer
         /// Render the html using the given device.
         /// </summary>
         /// <param name="g"></param>
-        public void PerformPaint(IGraphics ig)
+        protected void PerformPaint(IGraphics ig)
         {
             if (_rootBox == null)
             {
                 return;
             }
+
             Painter args = new Painter(this, ig);
             float scX = this.ScrollOffset.X;
             float scY = this.ScrollOffset.Y;

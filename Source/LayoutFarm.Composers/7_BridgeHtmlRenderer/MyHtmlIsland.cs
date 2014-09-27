@@ -18,7 +18,10 @@ namespace HtmlRenderer
 
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> v_retro01
     public class MyHtmlIsland : HtmlIsland
     {
 
@@ -47,6 +50,15 @@ namespace HtmlRenderer
         }
         public WebDom.CssActiveSheet BaseStylesheet { get; set; }
 
+<<<<<<< HEAD
+=======
+        public WebDom.CssActiveSheet BaseStylesheet
+        {
+            get;
+            set;
+
+        }
+>>>>>>> v_retro01
         public void InternalRefreshRequest()
         {
             if (requestImageBinderUpdates.Count > 0)
@@ -58,7 +70,6 @@ namespace HtmlRenderer
                 //Console.WriteLine(dd);
 #endif
             }
-
         }
         public override void AddRequestImageBinderUpdate(ImageBinder binder)
         {
@@ -66,16 +77,18 @@ namespace HtmlRenderer
         }
         protected override void RequestRefresh(bool layout)
         {
-            if (this.Refresh != null)
-            {
-                HtmlRefreshEventArgs arg = new HtmlRefreshEventArgs(layout);
-                this.Refresh(this, arg);
-            }
+            //    if (this.Refresh != null)
+            //    {
+            //        HtmlRefreshEventArgs arg = new HtmlRefreshEventArgs(layout);
+            //        this.Refresh(this, arg);
+            //    }
+
         }
         protected override void OnRequestImage(ImageBinder binder, CssBox requestBox, bool _sync)
         {
 
             //manage image loading 
+<<<<<<< HEAD
             //if (ImageContentMan != null)
             //{
             //    if (binder.State == ImageBinderState.Unload)
@@ -94,6 +107,20 @@ namespace HtmlRenderer
         //    get;
         //    set;
         //}
+=======
+            if (this.RequestResource != null)
+            {
+                if (binder.State == ImageBinderState.Unload)
+                {
+                    RequestResource(this, new HtmlResourceRequestEventArgs());
+
+                    //ImageContentMan.AddRequestImage(new ImageContentRequest(binder, requestBox, this));
+                }
+            }
+            
+        }
+        
+>>>>>>> v_retro01
         public void SetHtmlDoc(WebDocument doc)
         {
             this.doc = doc;
@@ -103,10 +130,23 @@ namespace HtmlRenderer
             this.activeCssSheet = activeCss;
             base.SetRootCssBox(rootBox);
         }
+     
+
         public void PerformPaint(LayoutFarm.Canvas canvas)
         {
             if (doc == null) return;
-            base.PerformPaint(canvas.GetIGraphics());
+
+            var gfx = canvas.GetIGraphics();
+            if (doc.DocumentState == DocumentState.ChangedAfterIdle)
+            {
+                WinHtmlRootVisualBoxExtension.RefreshHtmlDomChange(
+                    this,
+                    doc,
+                    this.activeCssSheet);
+                this.PerformLayout(gfx);
+            }
+            base.PerformPaint(gfx); 
+          
             //PerformPaint(canvas.GetIGraphics());
         }
         //void PerformPaint(System.Drawing.Graphics g)

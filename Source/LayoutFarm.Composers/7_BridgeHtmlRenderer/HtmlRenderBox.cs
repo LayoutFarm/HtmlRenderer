@@ -18,6 +18,12 @@ namespace LayoutFarm
     public class HtmlRenderBox : RenderBoxBase
     {
         MyHtmlIsland _htmlIsland;
+<<<<<<< HEAD
+=======
+        InputEventBridge _htmlEventBridge;
+
+
+>>>>>>> v_retro01
 
         int myWidth;
         int myHeight;
@@ -30,6 +36,12 @@ namespace LayoutFarm
             this.myHeight = height;
             this._htmlIsland = htmlIsland;
         }
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> v_retro01
         /// <summary>
         /// Perform html container layout by the current panel client size.
         /// </summary>
@@ -54,7 +66,11 @@ namespace LayoutFarm
         {
             //hit test in another system 
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> v_retro01
     }
 }
 

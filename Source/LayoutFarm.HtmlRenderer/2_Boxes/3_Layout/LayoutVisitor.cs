@@ -29,7 +29,11 @@ namespace HtmlRenderer.Boxes
         internal LayoutVisitor(IGraphics gfx, HtmlIsland htmlIsland)
         {
             this.Gfx = gfx;
+<<<<<<< HEAD
             this.htmlIsland = htmlIsland;
+=======
+            this.htmlIsland = visualRootBox;
+>>>>>>> v_retro01
 
             if (episodeId == ushort.MaxValue - 1)
             {
