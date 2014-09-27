@@ -18,10 +18,6 @@ namespace HtmlRenderer
 
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> v_retro01
     public class MyHtmlIsland : HtmlIsland
     {
 
@@ -48,17 +44,13 @@ namespace HtmlRenderer
         {
             this.IsSelectionEnabled = true;
         }
-        public WebDom.CssActiveSheet BaseStylesheet { get; set; }
 
-<<<<<<< HEAD
-=======
         public WebDom.CssActiveSheet BaseStylesheet
         {
             get;
             set;
 
         }
->>>>>>> v_retro01
         public void InternalRefreshRequest()
         {
             if (requestImageBinderUpdates.Count > 0)
@@ -88,26 +80,6 @@ namespace HtmlRenderer
         {
 
             //manage image loading 
-<<<<<<< HEAD
-            //if (ImageContentMan != null)
-            //{
-            //    if (binder.State == ImageBinderState.Unload)
-            //    {
-            //        ImageContentMan.AddRequestImage(new ImageContentRequest(binder, requestBox, this));
-            //    }
-            //}
-        }
-        //public ImageContentManager ImageContentMan
-        //{
-        //    get;
-        //    set;
-        //}
-        //public TextContentManager TextContentMan
-        //{
-        //    get;
-        //    set;
-        //}
-=======
             if (this.RequestResource != null)
             {
                 if (binder.State == ImageBinderState.Unload)
@@ -120,7 +92,6 @@ namespace HtmlRenderer
             
         }
         
->>>>>>> v_retro01
         public void SetHtmlDoc(WebDocument doc)
         {
             this.doc = doc;

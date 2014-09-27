@@ -18,12 +18,9 @@ namespace LayoutFarm
     public class HtmlRenderBox : RenderBoxBase
     {
         MyHtmlIsland _htmlIsland;
-<<<<<<< HEAD
-=======
         InputEventBridge _htmlEventBridge;
 
 
->>>>>>> v_retro01
 
         int myWidth;
         int myHeight;
@@ -36,21 +33,24 @@ namespace LayoutFarm
             this.myHeight = height;
             this._htmlIsland = htmlIsland;
         }
-<<<<<<< HEAD
-=======
 
 
 
->>>>>>> v_retro01
         /// <summary>
         /// Perform html container layout by the current panel client size.
         /// </summary>
-        public void PerformHtmlLayout(IGraphics g)
+        void PerformHtmlLayout(IGraphics g)
         {
             if (_htmlIsland != null)
             {
                 _htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this.myWidth, 0);
                 _htmlIsland.PerformLayout(g);
+
+                //using (var g = CreateGraphics())
+                //{
+                //    _visualRootBox.PerformLayout(g);
+                //}
+                //AutoScrollMinSize = Size.Round(_visualRootBox.ActualSize);
             }
         }
         public override void ClearAllChildren()
@@ -59,18 +59,14 @@ namespace LayoutFarm
         }
         protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
         {
-            _htmlIsland.PhysicalViewportBound = new RectangleF(0, 0, myWidth, myHeight);
+            _htmlIsland.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
             _htmlIsland.PerformPaint(canvasPage);
         }
         public override void ChildrenHitTestCore(HitPointChain artHitResult)
         {
             //hit test in another system 
         }
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> v_retro01
     }
 }
 

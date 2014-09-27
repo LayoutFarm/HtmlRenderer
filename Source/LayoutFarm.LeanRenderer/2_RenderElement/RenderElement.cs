@@ -19,7 +19,6 @@ namespace LayoutFarm
         bool mayHasViewport;
 
         RootGraphic rootGfx;
-
         public RenderElement(RootGraphic rootGfx, int width, int height)
         {
             this.b_width = width;

@@ -63,16 +63,12 @@ namespace HtmlRenderer
     public class HtmlPanel : ScrollableControl
     {
 
-<<<<<<< HEAD
-        MyHtmlIsland myHtmlIsland;
-=======
 
 
 
 
         MyHtmlIsland myHtmlIsland;
 
->>>>>>> v_retro01
         Composers.InputEventBridge _htmlEventBridge;
 
 
@@ -88,17 +84,11 @@ namespace HtmlRenderer
 
         Timer timer01 = new Timer();
 
-<<<<<<< HEAD
-        ImageContentManager imgContentMan = new ImageContentManager();
-        TextContentManager textContentMan = new TextContentManager();
-
-=======
 
         ImageContentManager imageContentMan = new ImageContentManager();
         TextContentManager textContentMan = new TextContentManager();
 
         LayoutFarm.Canvas renderCanvas = LayoutFarm.Drawing.CurrentGraphicPlatform.P.CreateCanvas(0, 0, 0, 0, 800, 600);
->>>>>>> v_retro01
 
         /// <summary>
         /// Creates a new HtmlPanel and sets a basic css for it's styling.
@@ -110,42 +100,21 @@ namespace HtmlRenderer
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
-<<<<<<< HEAD
-=======
             timer01.Interval = 20;//20ms?
 
             //-------------------------------------------------------
 
             myHtmlIsland = new MyHtmlIsland();
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
->>>>>>> v_retro01
 
-            //-------------------------------------------------------
 
-            myHtmlIsland = new MyHtmlIsland();
-            myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             myHtmlIsland.RenderError += OnRenderError;
             myHtmlIsland.Refresh += OnRefresh;
-<<<<<<< HEAD
-            myHtmlIsland.RequestResource += myHtmlIsland_RequestResource;
-
-            //myHtmlIsland.ImageContentMan = new ImageContentManager();
-            //myHtmlIsland.TextContentMan = new TextContentManager();
-            //myHtmlIsland.TextContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
-            //myHtmlIsland.ImageContentMan.ImageLoadingRequest += OnImageLoad;
-
-            //myHtmlIsland.ScrollChange += OnScrollChange;
-            this.imgContentMan.ImageLoadingRequest += OnImageLoad;
-            this.textContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
-=======
             //myHtmlIsland.ScrollChange += OnScrollChange;
             this.imageContentMan.ImageLoadingRequest += OnImageLoad;
             this.textContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
 
->>>>>>> v_retro01
 
-            timer01.Interval = 20;//20ms?
-            timer01.Enabled = true;
             timer01.Tick += (s, e) =>
             {
                 if (myHtmlIsland != null)
@@ -153,97 +122,12 @@ namespace HtmlRenderer
                     myHtmlIsland.InternalRefreshRequest();
                 }
             };
-<<<<<<< HEAD
-
-=======
->>>>>>> v_retro01
             timer01.Enabled = true;
             //-------------------------------------------
             _htmlEventBridge = new Composers.InputEventBridge();
             _htmlEventBridge.Bind(myHtmlIsland, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
             //------------------------------------------- 
         }
-        void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
-        {
-
-
-        }
-        void SetHtml(MyHtmlIsland container, string html, CssActiveSheet cssData)
-        {
-
-            HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
-            builder.RequestStyleSheet += (e) =>
-            {
-                //var textContentManager = container.TextContentMan;
-                //if (textContentManager != null)
-                //{
-                //    textContentManager.AddStyleSheetRequest(e);
-                //}
-            };
-
-            var htmldoc = builder.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
-
-
-            //build rootbox from htmldoc
-            var rootBox = builder.BuildCssTree(htmldoc,
-                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
-                container,
-                cssData);
-
-            MyHtmlIsland containerImp = container as MyHtmlIsland;
-            if (containerImp != null)
-            {
-                containerImp.SetHtmlDoc(htmldoc);
-                containerImp.SetRootCssBox(rootBox, cssData);
-            }
-
-
-<<<<<<< HEAD
-        }
-        void SetHtml(MyHtmlIsland container, HtmlRenderer.WebDom.WebDocument doc, CssActiveSheet cssData)
-        {
-            HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
-            builder.RequestStyleSheet += (e) =>
-            {
-                //var textContentManager = container.TextContentMan;
-                //if (textContentManager != null)
-                //{
-                //    textContentManager.AddStyleSheetRequest(e);
-                //}
-            };
-
-            var rootBox = builder.BuildCssTree(doc,
-                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
-                container,
-                cssData);
-            container.SetHtmlDoc(doc);
-            container.SetRootCssBox(rootBox, cssData);
-
-        }
-        void RefreshHtmlDomChange(MyHtmlIsland container,
-        HtmlRenderer.WebDom.WebDocument doc, CssActiveSheet cssData)
-        {
-
-            PartialRebuildCssTree(container, doc);
-        }
-
-        void PartialRebuildCssTree(MyHtmlIsland htmlIsland,
-          HtmlRenderer.WebDom.WebDocument doc)
-        {
-            HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
-            builder.RequestStyleSheet += (e) =>
-            {
-                this.textContentMan.AddStyleSheetRequest(e);
-                
-            };
-
-
-            var rootBox2 = builder.RefreshCssTree(doc,
-                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
-                htmlIsland);
-
-        }
-=======
 
 
 
@@ -258,7 +142,7 @@ namespace HtmlRenderer
 
 
 
->>>>>>> v_retro01
+
         /// <summary>
         /// Raised when the user clicks on a link in the html.<br/>
         /// Allows canceling the execution of the link.
@@ -398,8 +282,6 @@ namespace HtmlRenderer
                 this.textContentMan.AddStyleSheetRequest(e);
             };
 
-<<<<<<< HEAD
-=======
 
             var htmldoc = builder.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
 
@@ -412,7 +294,6 @@ namespace HtmlRenderer
         }
 
 
->>>>>>> v_retro01
         public void LoadHtmlDom(HtmlRenderer.WebDom.WebDocument doc, string defaultCss)
         {
             _baseRawCssData = defaultCss;
@@ -444,7 +325,7 @@ namespace HtmlRenderer
         public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.WebDocument doc)
         {
 
-            RefreshHtmlDomChange(myHtmlIsland, doc, _baseCssData);
+            myHtmlIsland.RefreshHtmlDomChange(doc, _baseCssData);
             PerformLayout();
             Invalidate();
         }
@@ -511,17 +392,11 @@ namespace HtmlRenderer
             {
                 myHtmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(ClientSize.Width, 0);
 
-<<<<<<< HEAD
-
-                myHtmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
-
-=======
                 //using (var g = CreateGraphics())
                 //{
                 //    myHtmlIsland.PerformLayout(g);
                 //}
                 myHtmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
->>>>>>> v_retro01
                 var asize = myHtmlIsland.ActualSize;
                 AutoScrollMinSize = Size.Round(new SizeF(asize.Width, asize.Height));
             }
@@ -542,11 +417,6 @@ namespace HtmlRenderer
 
                 myHtmlIsland.ScrollOffset = Conv.ToPointF(AutoScrollPosition);
                 myHtmlIsland.PhysicalViewportBound = Conv.ToRectF(this.Bounds);
-<<<<<<< HEAD
-
-                var g = LayoutFarm.Drawing.CurrentGraphicPlatform.P.CreateIGraphics(e.Graphics);
-                myHtmlIsland.PerformPaint(g);
-=======
 
                 renderCanvas.ClearSurface();
                 myHtmlIsland.PerformPaint(renderCanvas);
@@ -554,7 +424,6 @@ namespace HtmlRenderer
                 IntPtr hdc = GetDC(this.Handle);
                 renderCanvas.RenderTo(hdc, 0, 0, new LayoutFarm.Drawing.Rectangle(0, 0, 800, 600));
                 ReleaseDC(this.Handle, hdc);
->>>>>>> v_retro01
                 // call mouse move to handle paint after scroll or html change affecting mouse cursor.
                 //var mp = PointToClient(MousePosition);
                 //_htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0));
@@ -793,20 +662,13 @@ namespace HtmlRenderer
         {
             if (myHtmlIsland != null)
             {
-                this.timer01.Enabled = false;
-
+                //_htmlContainer.LinkClicked -= OnLinkClicked;
                 myHtmlIsland.RenderError -= OnRenderError;
                 myHtmlIsland.Refresh -= OnRefresh;
-<<<<<<< HEAD
-                //myHtmlIsland.ScrollChange -= OnScrollChange;
-                //myHtmlIsland.TextContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
-                //myHtmlIsland.ImageContentMan.ImageLoadingRequest -= OnImageLoad;
-=======
                 // myHtmlIsland.ScrollChange -= OnScrollChange;
                 this.textContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
                 this.imageContentMan.ImageLoadingRequest -= OnImageLoad;
 
->>>>>>> v_retro01
                 myHtmlIsland.Dispose();
                 myHtmlIsland = null;
             }

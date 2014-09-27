@@ -26,14 +26,10 @@ namespace HtmlRenderer.Boxes
         static int totalLayoutIdEpisode = 0;
         readonly int episodeId = ++totalLayoutIdEpisode;
 
-        internal LayoutVisitor(IGraphics gfx, HtmlIsland htmlIsland)
+        internal LayoutVisitor(IGraphics gfx, HtmlIsland visualRootBox)
         {
             this.Gfx = gfx;
-<<<<<<< HEAD
-            this.htmlIsland = htmlIsland;
-=======
             this.htmlIsland = visualRootBox;
->>>>>>> v_retro01
 
             if (episodeId == ushort.MaxValue - 1)
             {

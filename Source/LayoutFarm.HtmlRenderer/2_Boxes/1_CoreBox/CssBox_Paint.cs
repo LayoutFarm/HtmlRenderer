@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
-
+ 
 
 namespace HtmlRenderer.Boxes
 {
@@ -248,7 +248,7 @@ namespace HtmlRenderer.Boxes
 
                 if (BackgroundGradient != Color.Transparent)
                 {
-                    brush = p.P.CreateLinearGradientBrush(rect,
+                    brush = p.Platform.CreateLinearGradientBrush(rect,
                         ActualBackgroundColor,
                         ActualBackgroundGradient,
                         ActualBackgroundGradientAngle);
@@ -275,13 +275,7 @@ namespace HtmlRenderer.Boxes
                     bool hasSomeRoundCorner = this.HasSomeRoundCorner;
                     if (hasSomeRoundCorner)
                     {
-                        roundrect = p.P.CreateGraphicPath();
-                        RenderUtils.BuildRoundRect(roundrect,
-                          rect,
-                          ActualCornerNW,
-                          ActualCornerNE,
-                          ActualCornerSE,
-                          ActualCornerSW);
+                        roundrect = RenderUtils.GetRoundRect(rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
                     }
 
                     if (!p.AvoidGeometryAntialias && hasSomeRoundCorner)

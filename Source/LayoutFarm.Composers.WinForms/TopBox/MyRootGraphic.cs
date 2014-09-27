@@ -28,10 +28,6 @@ namespace LayoutFarm
             dbug_Init();
 #endif
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> v_retro01
         public override IGraphics SampleIGraphics
         {
             get { return CurrentGraphicPlatform.P.SampleIGraphics; }
@@ -40,10 +36,7 @@ namespace LayoutFarm
         {
             get { return CurrentGraphicPlatform.P.SampleIGraphics; }
         }
-<<<<<<< HEAD
-=======
 
->>>>>>> v_retro01
         public override void CloseWinRoot()
         {
             this.graphicTimer1.Enabled = false;

@@ -224,8 +224,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             //----------------------------------
         }
 
-        internal static CssBox CreateBox(CssBox parentBox, HtmlElement childElement, 
-            out bool alreadyHandleChildrenNodes)
+        internal static CssBox CreateBox(CssBox parentBox, HtmlElement childElement, out bool alreadyHandleChildrenNodes)
         {
 
             alreadyHandleChildrenNodes = false;

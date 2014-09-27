@@ -210,7 +210,7 @@ namespace HtmlRenderer.Composers
         //----------------------------------------------------------------
         public CssBox RefreshCssTree(WebDocument htmldoc,
           IFonts iFonts,
-          HtmlIsland htmlIsland)
+          HtmlIsland htmlContainer)
         {
 
             CssBox rootBox = null;
@@ -225,7 +225,6 @@ namespace HtmlRenderer.Composers
             //----------------------------------------------------------------  
             CssBox principalBox = RootElement.InternalGetPrincipalBox(bridgeRoot);
             principalBox.Clear();
-
             BoxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, false);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
@@ -390,9 +389,9 @@ namespace HtmlRenderer.Composers
         /// <summary>
         /// Set the selected text style (selection text color and background color).
         /// </summary>
-        /// <param name="htmlIsland"> </param>
+        /// <param name="htmlContainer"> </param>
         /// <param name="cssData">the style data</param>
-        static void SetTextSelectionStyle(HtmlIsland htmlIsland, CssActiveSheet cssData)
+        static void SetTextSelectionStyle(HtmlIsland htmlContainer, CssActiveSheet cssData)
         {
             //comment out for another technique
  

@@ -13,6 +13,7 @@ namespace HtmlRenderer.Composers
 
     public class InputEventBridge
     {
+
         //-----------------------------------------------
         HtmlIsland _htmlIsland;
         BoxHitChain _latestMouseDownHitChain = null;
@@ -244,7 +245,6 @@ namespace HtmlRenderer.Composers
                 {
 
                     eventArgs.SetLocation(hitInfo.localX, hitInfo.localY);
-
                     //---------------------------------
                     //dispatch 
 
