@@ -70,7 +70,7 @@ namespace HtmlRenderer.Composers
                 return;
             }
 
-            ContentManagers.StylesheetLoadEventArgs e = new ContentManagers.StylesheetLoadEventArgs(hrefSource);
+            var e = new ContentManagers.StylesheetLoadEventArgs(hrefSource);
             RequestStyleSheet(e);
             stylesheet = e.SetStyleSheet;
             stylesheetData = e.SetStyleSheetData;
@@ -394,7 +394,7 @@ namespace HtmlRenderer.Composers
         static void SetTextSelectionStyle(HtmlIsland htmlContainer, CssActiveSheet cssData)
         {
             //comment out for another technique
- 
+
 
             //foreach (var block in cssData.GetCssRuleSetIter("::selection"))
             //{

@@ -55,7 +55,7 @@
     <Compile Include="7_BridgeHtmlRenderer\HtmlRenderErrorEventArgs.cs" />
     <Compile Include="3_ContentManagers\ImageContentManager.cs" />
     <Compile Include="3_ContentManagers\ImageRequestEventArgs.cs" />
-    <Compile Include="3_ContentManagers\StylesheetLoadEventArgs.cs" />
+    <Compile Include="7_BridgeHtmlRenderer\StylesheetLoadEventArgs.cs" />
     <Compile Include="1_Composers\4_Events\InputEventBridge.cs" />
     <Compile Include="3_ContentManagers\TextContentManager.cs" />
     <Compile Include="4_WebDom\1_Html\ElementChangeKind.cs" />
