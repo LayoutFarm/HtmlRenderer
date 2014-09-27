@@ -153,11 +153,11 @@ namespace HtmlRenderer
         }
 
 
-        /// <summary>
-        /// Raised when the user clicks on a link in the html.<br/>
-        /// Allows canceling the execution of the link.
-        /// </summary>
-        public event EventHandler<HtmlLinkClickedEventArgs> LinkClicked;
+        ///// <summary>
+        ///// Raised when the user clicks on a link in the html.<br/>
+        ///// Allows canceling the execution of the link.
+        ///// </summary>
+        //public event EventHandler<HtmlLinkClickedEventArgs> LinkClicked;
 
         ///// <summary>
         ///// Raised when an error occurred during html rendering.<br/>
