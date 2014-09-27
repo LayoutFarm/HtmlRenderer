@@ -128,8 +128,7 @@ namespace HtmlRenderer
             builder.RequestStyleSheet += (e2) =>
             {
 
-                StylesheetLoadEventArgs2 req = new StylesheetLoadEventArgs2();
-                req.Src = e2.Src;
+                TextLoadRequestEventArgs req = new TextLoadRequestEventArgs(e2.Src);
                 this.textContentMan.AddStyleSheetRequest(req);
                 e2.SetStyleSheet = req.SetStyleSheet;
             };
@@ -143,8 +142,7 @@ namespace HtmlRenderer
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>
             {
-                var req = new StylesheetLoadEventArgs2();
-                req.Src = e.Src;
+                var req = new TextLoadRequestEventArgs(e.Src);
                 this.textContentMan.AddStyleSheetRequest(req);
                 e.SetStyleSheet = req.SetStyleSheet;
             };
@@ -171,7 +169,7 @@ namespace HtmlRenderer
         /// This event allows to provide the stylesheet manually or provide new source (file or uri) to load from.<br/>
         /// If no alternative data is provided the original source will be used.<br/>
         /// </summary>
-        public event EventHandler<StylesheetLoadEventArgs2> StylesheetLoad;
+        public event EventHandler<TextLoadRequestEventArgs> StylesheetLoad;
 
         /// <summary>
         /// Raised when an image is about to be loaded by file path or URI.<br/>
@@ -290,8 +288,7 @@ namespace HtmlRenderer
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>
             {
-                var req = new StylesheetLoadEventArgs2();
-                req.Src = e.Src;
+                var req = new TextLoadRequestEventArgs(e.Src);                 
                 this.textContentMan.AddStyleSheetRequest(req);
                 e.SetStyleSheet = req.SetStyleSheet;
             };
@@ -320,8 +317,7 @@ namespace HtmlRenderer
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>
             {
-                var req = new StylesheetLoadEventArgs2();
-                req.Src = e.Src;
+                var req = new TextLoadRequestEventArgs(e.Src);
                 this.textContentMan.AddStyleSheetRequest(req);
                 e.SetStyleSheet = req.SetStyleSheet;
 
@@ -424,7 +420,7 @@ namespace HtmlRenderer
         {
             PaintMe(e);
         }
-         
+
         void PaintMe(PaintEventArgs e)
         {
             if (myHtmlIsland != null)
@@ -434,7 +430,7 @@ namespace HtmlRenderer
                 myHtmlIsland.PhysicalViewportBound = Conv.ToRectF(this.Bounds);
 
 
-             
+
                 myHtmlIsland.CheckDocUpdate();
                 renderCanvas.ClearSurface();
                 myHtmlIsland.PerformPaint(renderCanvas);
@@ -597,7 +593,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Propagate the stylesheet load event from root container.
         /// </summary>
-        private void OnStylesheetLoad(object sender, StylesheetLoadEventArgs2 e)
+        private void OnStylesheetLoad(object sender, TextLoadRequestEventArgs e)
         {
             if (StylesheetLoad != null)
             {

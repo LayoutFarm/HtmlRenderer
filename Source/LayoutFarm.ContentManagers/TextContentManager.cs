@@ -8,11 +8,16 @@ using LayoutFarm.Drawing;
 
 namespace HtmlRenderer.ContentManagers
 {
-    public class StylesheetLoadEventArgs2 : EventArgs
+    public class TextLoadRequestEventArgs : EventArgs
     {
-        public string Src { get; set; }
+        public TextLoadRequestEventArgs(string src)
+        {
+            this.Src = src;
+        }
+        public string Src { get; private set; }
         public string SetStyleSheet { get; set; }
     }
+
     public class TextContentManager
     {
         /// <summary>
@@ -20,12 +25,12 @@ namespace HtmlRenderer.ContentManagers
         /// This event allows to provide the stylesheet manually or provide new source (file or Uri) to load from.<br/>
         /// If no alternative data is provided the original source will be used.<br/>
         /// </summary>
-        public event EventHandler<StylesheetLoadEventArgs2> StylesheetLoadingRequest;
+        public event EventHandler<TextLoadRequestEventArgs> StylesheetLoadingRequest;
         public TextContentManager()
         {
 
         }
-        public void AddStyleSheetRequest(StylesheetLoadEventArgs2 arg)
+        public void AddStyleSheetRequest(TextLoadRequestEventArgs arg)
         {
             this.StylesheetLoadingRequest(this, arg);
         }

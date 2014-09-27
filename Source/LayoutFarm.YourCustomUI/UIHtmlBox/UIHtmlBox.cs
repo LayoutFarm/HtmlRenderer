@@ -20,7 +20,7 @@ namespace LayoutFarm
 
         HtmlRenderer.Composers.InputEventBridge _htmlEventBridge;
 
-        public event EventHandler<StylesheetLoadEventArgs2> StylesheetLoad;
+        public event EventHandler<TextLoadRequestEventArgs> StylesheetLoad;
         public event EventHandler<ImageRequestEventArgs> ImageLoad;
 
         TextContentManager _textMan;
@@ -51,8 +51,7 @@ namespace LayoutFarm
             builder.RequestStyleSheet += (e2) =>
             {
 
-                StylesheetLoadEventArgs2 req = new StylesheetLoadEventArgs2();
-                req.Src = e2.Src;
+                TextLoadRequestEventArgs req = new TextLoadRequestEventArgs(e2.Src); 
                 _textMan.AddStyleSheetRequest(req);
                 e2.SetStyleSheet = req.SetStyleSheet; 
             };
@@ -81,7 +80,7 @@ namespace LayoutFarm
         /// <summary>
         /// Propagate the stylesheet load event from root container.
         /// </summary>
-        void OnStylesheetLoad(object sender, StylesheetLoadEventArgs2 e)
+        void OnStylesheetLoad(object sender, TextLoadRequestEventArgs e)
         {
             if (StylesheetLoad != null)
             {
@@ -117,8 +116,7 @@ namespace LayoutFarm
             HtmlRenderer.Composers.BoxModelBuilder builder = new HtmlRenderer.Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>
             {
-                var req = new StylesheetLoadEventArgs2();
-                req.Src = e.Src;
+                var req = new TextLoadRequestEventArgs(e.Src); 
                 this._textMan.AddStyleSheetRequest(req);
                 e.SetStyleSheet = req.SetStyleSheet;
             };
