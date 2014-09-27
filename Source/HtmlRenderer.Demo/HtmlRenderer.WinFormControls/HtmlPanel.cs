@@ -159,7 +159,7 @@ namespace HtmlRenderer
         /// This event allows to provide the stylesheet manually or provide new source (file or uri) to load from.<br/>
         /// If no alternative data is provided the original source will be used.<br/>
         /// </summary>
-        public event EventHandler<StylesheetLoadEventArgs> StylesheetLoad;
+        public event EventHandler<StylesheetLoadEventArgs2> StylesheetLoad;
 
         /// <summary>
         /// Raised when an image is about to be loaded by file path or URI.<br/>
@@ -278,8 +278,10 @@ namespace HtmlRenderer
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>
             {
-                
-                this.textContentMan.AddStyleSheetRequest(e);
+                var req = new StylesheetLoadEventArgs2();
+                req.Src = e.Src;
+                this.textContentMan.AddStyleSheetRequest(req);
+                e.SetStyleSheet = req.SetStyleSheet;
             };
 
 
@@ -308,8 +310,11 @@ namespace HtmlRenderer
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>
             {
+                var req = new StylesheetLoadEventArgs2();
+                req.Src = e.Src;
+                this.textContentMan.AddStyleSheetRequest(req);
+                e.SetStyleSheet = req.SetStyleSheet;
 
-                this.textContentMan.AddStyleSheetRequest(e);
             };
 
 
@@ -579,7 +584,7 @@ namespace HtmlRenderer
         /// <summary>
         /// Propagate the stylesheet load event from root container.
         /// </summary>
-        private void OnStylesheetLoad(object sender, StylesheetLoadEventArgs e)
+        private void OnStylesheetLoad(object sender, StylesheetLoadEventArgs2 e)
         {
             if (StylesheetLoad != null)
             {

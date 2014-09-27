@@ -366,7 +366,7 @@ namespace HtmlRenderer.Demo
         /// <summary>
         /// Handle stylesheet resolve.
         /// </summary>
-        private static void OnStylesheetLoad(object sender, HtmlRenderer.ContentManagers.StylesheetLoadEventArgs e)
+        private static void OnStylesheetLoad(object sender, HtmlRenderer.ContentManagers.StylesheetLoadEventArgs2 e)
         {
             var stylesheet = GetStylesheet(e.Src);
             if (stylesheet != null)

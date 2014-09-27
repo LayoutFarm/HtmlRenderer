@@ -18,7 +18,7 @@ namespace LayoutFarm
         MyHtmlIsland myHtmlIsland;
         HtmlRenderer.Composers.InputEventBridge _htmlEventBridge;
 
-        public event EventHandler<StylesheetLoadEventArgs> StylesheetLoad;
+        public event EventHandler<StylesheetLoadEventArgs2> StylesheetLoad;
         public event EventHandler<ImageRequestEventArgs> ImageLoad;
 
         TextContentManager _textMan;
@@ -61,7 +61,7 @@ namespace LayoutFarm
         /// <summary>
         /// Propagate the stylesheet load event from root container.
         /// </summary>
-        void OnStylesheetLoad(object sender, StylesheetLoadEventArgs e)
+        void OnStylesheetLoad(object sender, StylesheetLoadEventArgs2 e)
         {
             if (StylesheetLoad != null)
             {
@@ -97,7 +97,10 @@ namespace LayoutFarm
             HtmlRenderer.Composers.BoxModelBuilder builder = new HtmlRenderer.Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>
             {
-                this._textMan.AddStyleSheetRequest(e);
+                var req = new StylesheetLoadEventArgs2();
+                req.Src = e.Src;
+                this._textMan.AddStyleSheetRequest(req);
+                e.SetStyleSheet = req.SetStyleSheet;
             };
 
 

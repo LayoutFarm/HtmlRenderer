@@ -15,10 +15,12 @@ namespace HtmlRenderer
 {
     public class HtmlResourceRequestEventArgs : EventArgs
     {
-
+        public ImageBinder binder;
+        public object requestBy;
+        public LayoutFarm.IUpdateStateChangedListener updateChangeListener;
     }
 
-    public class MyHtmlIsland : HtmlIsland
+    public class MyHtmlIsland : HtmlIsland, LayoutFarm.IUpdateStateChangedListener
     {
 
         WebDocument doc;
@@ -84,14 +86,20 @@ namespace HtmlRenderer
             {
                 if (binder.State == ImageBinderState.Unload)
                 {
-                    RequestResource(this, new HtmlResourceRequestEventArgs());
+                    HtmlResourceRequestEventArgs resReq = new HtmlResourceRequestEventArgs();
+                    resReq.binder = binder;
+                    resReq.requestBy = requestBox;
+                    resReq.updateChangeListener = this;
+                    RequestResource(this, resReq);
+
+                    //RequestResource(this, new HtmlResourceRequestEventArgs());
 
                     //ImageContentMan.AddRequestImage(new ImageContentRequest(binder, requestBox, this));
                 }
             }
-            
+
         }
-        
+
         public void SetHtmlDoc(WebDocument doc)
         {
             this.doc = doc;
@@ -101,7 +109,7 @@ namespace HtmlRenderer
             this.activeCssSheet = activeCss;
             base.SetRootCssBox(rootBox);
         }
-     
+
 
         public void PerformPaint(LayoutFarm.Canvas canvas)
         {
@@ -116,8 +124,8 @@ namespace HtmlRenderer
                     this.activeCssSheet);
                 this.PerformLayout(gfx);
             }
-            base.PerformPaint(gfx); 
-          
+            base.PerformPaint(gfx);
+
             //PerformPaint(canvas.GetIGraphics());
         }
         //void PerformPaint(System.Drawing.Graphics g)

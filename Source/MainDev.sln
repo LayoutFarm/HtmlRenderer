@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Composers.WinFor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Drawing.WinGdiPlus", "LayoutFarm.Drawing.WinGdiPlus\LayoutFarm.Drawing.WinGdiPlus.csproj", "{2675BAD6-52A7-4DEE-BC1D-25E9CA6994D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.ContentManagers", "LayoutFarm.ContentManagers\LayoutFarm.ContentManagers.csproj", "{2BDF9E02-15AA-4416-BF1F-4A8F398DCAFB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{2675BAD6-52A7-4DEE-BC1D-25E9CA6994D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2675BAD6-52A7-4DEE-BC1D-25E9CA6994D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2675BAD6-52A7-4DEE-BC1D-25E9CA6994D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BDF9E02-15AA-4416-BF1F-4A8F398DCAFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BDF9E02-15AA-4416-BF1F-4A8F398DCAFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BDF9E02-15AA-4416-BF1F-4A8F398DCAFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BDF9E02-15AA-4416-BF1F-4A8F398DCAFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
