@@ -14,12 +14,11 @@ using HtmlRenderer.Boxes;
 namespace HtmlRenderer
 {
 
-    class MyHtmlIsland : HtmlIsland
+    public class MyHtmlIsland : HtmlIsland
     {
 
         WebDocument doc;
         CssActiveSheet activeCssSheet;
-         
 
 
         bool isRootCreated;
@@ -41,7 +40,7 @@ namespace HtmlRenderer
             this.IsSelectionEnabled = true;
         }
 
-        internal void InternalRefreshRequest()
+        public void InternalRefreshRequest()
         {
             if (requestImageBinderUpdates.Count > 0)
             {
@@ -52,7 +51,6 @@ namespace HtmlRenderer
                 //Console.WriteLine(dd);
 #endif
             }
-
         }
         public override void AddRequestImageBinderUpdate(ImageBinder binder)
         {
@@ -60,11 +58,12 @@ namespace HtmlRenderer
         }
         protected override void RequestRefresh(bool layout)
         {
-            if (this.Refresh != null)
-            {
-                HtmlRefreshEventArgs arg = new HtmlRefreshEventArgs(layout);
-                this.Refresh(this, arg);
-            }
+            //    if (this.Refresh != null)
+            //    {
+            //        HtmlRefreshEventArgs arg = new HtmlRefreshEventArgs(layout);
+            //        this.Refresh(this, arg);
+            //    }
+
         }
         protected override void OnRequestImage(ImageBinder binder, CssBox requestBox, bool _sync)
         {
@@ -88,20 +87,32 @@ namespace HtmlRenderer
             get;
             set;
         }
-
-        public void SetHtmlDoc(HtmlRenderer.WebDom.WebDocument doc)
+        public void SetHtmlDoc(WebDocument doc)
         {
             this.doc = doc;
         }
-        public void SetRootCssBox(CssBox rootBox, HtmlRenderer.WebDom.CssActiveSheet activeCss)
+        public void SetRootCssBox(CssBox rootBox, CssActiveSheet activeCss)
         {
             this.activeCssSheet = activeCss;
             base.SetRootCssBox(rootBox);
         }
+     
+
         public void PerformPaint(LayoutFarm.Canvas canvas)
         {
             if (doc == null) return;
-            base.PerformPaint(canvas.GetIGraphics());
+
+            var gfx = canvas.GetIGraphics();
+            if (doc.DocumentState == DocumentState.ChangedAfterIdle)
+            {
+                WinHtmlRootVisualBoxExtension.RefreshHtmlDomChange(
+                    this,
+                    doc,
+                    this.activeCssSheet);
+                this.PerformLayout(gfx);
+            }
+            base.PerformPaint(gfx); 
+          
             //PerformPaint(canvas.GetIGraphics());
         }
         //void PerformPaint(System.Drawing.Graphics g)

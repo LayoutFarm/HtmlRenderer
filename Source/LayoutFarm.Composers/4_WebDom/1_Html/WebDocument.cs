@@ -6,7 +6,7 @@ namespace HtmlRenderer.WebDom
 {
 
     public abstract class WebDocument
-    {   
+    {
         UniqueStringTable uniqueStringTable;
         Dictionary<string, DomElement> registerElementsById = new Dictionary<string, DomElement>();
         public WebDocument(UniqueStringTable uniqueStringTable)
@@ -59,13 +59,13 @@ namespace HtmlRenderer.WebDom
         public DomCDataNode CreateCDataNode()
         {
             return new DomCDataNode(this);
-        } 
+        }
         //-------------------------------------------------------
         internal void RegisterElementById(DomElement element)
         {
             //replace exisitng if exists *** 
             registerElementsById[element.AttrElementId] = element;
-        } 
+        }
         //-------------------------------------------------------
         public DocumentState DocumentState
         {
@@ -79,13 +79,20 @@ namespace HtmlRenderer.WebDom
     }
 
     public enum DocumentState
-    {  
+    {
         Init,
-        Building, 
+        Building,
         Idle,
         ChangedAfterIdle
     }
 
-
+    public class WebDocumentFragment
+    {
+        WebDocument owner;
+        public WebDocumentFragment(WebDocument owner)
+        {
+            this.owner = owner;
+        }
+    }
 
 }

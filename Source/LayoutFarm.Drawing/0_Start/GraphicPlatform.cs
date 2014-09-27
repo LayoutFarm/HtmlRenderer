@@ -35,7 +35,7 @@ namespace LayoutFarm.Drawing
 
         public abstract IGraphics CreateIGraphics(int w, int h);
         public abstract IGraphics CreateIGraphics(object nativeObj);
-        public abstract IGraphics SampleIGraphics { get; }
+        public abstract IGraphics SampleIGraphics { get; } 
     }
 
     public static class CurrentGraphicPlatform

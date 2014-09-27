@@ -15,7 +15,7 @@ namespace HtmlRenderer
 {
       static class WinHtmlRootVisualBoxExtension
     {
-        public static void SetHtml(this MyHtmlIslandImpl container, string html, CssActiveSheet cssData)
+        public static void SetHtml(this MyHtmlIsland container, string html, CssActiveSheet cssData)
         {
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>
@@ -35,7 +35,7 @@ namespace HtmlRenderer
             var rootBox = builder.BuildCssTree(htmldoc,
                 LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
                 container, cssData);
-            MyHtmlIslandImpl containerImp = container as MyHtmlIslandImpl;
+            MyHtmlIsland containerImp = container as MyHtmlIsland;
             if (containerImp != null)
             {
                 containerImp.SetHtmlDoc(htmldoc);
@@ -44,7 +44,7 @@ namespace HtmlRenderer
 
 
         }
-        public static void SetHtml(this MyHtmlIslandImpl container, HtmlRenderer.WebDom.WebDocument doc, CssActiveSheet cssData)
+        public static void SetHtml(this MyHtmlIsland container, HtmlRenderer.WebDom.WebDocument doc, CssActiveSheet cssData)
         {
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>
@@ -66,13 +66,13 @@ namespace HtmlRenderer
             container.SetRootCssBox(rootBox, cssData);
 
         }
-        public static void RefreshHtmlDomChange(this MyHtmlIslandImpl container,
+        public static void RefreshHtmlDomChange(this MyHtmlIsland container,
             HtmlRenderer.WebDom.WebDocument doc, CssActiveSheet cssData)
         {
 
             PartialRebuildCssTree(container, doc);
         }
-        static void FullRebuildCssTree(MyHtmlIslandImpl container,
+        static void FullRebuildCssTree(MyHtmlIsland container,
             HtmlRenderer.WebDom.WebDocument doc,
             CssActiveSheet cssData)
         {
@@ -92,7 +92,7 @@ namespace HtmlRenderer
             container.SetRootCssBox(rootBox, cssData);
 
         }
-        static void PartialRebuildCssTree(MyHtmlIslandImpl container,
+        static void PartialRebuildCssTree(MyHtmlIsland container,
             HtmlRenderer.WebDom.WebDocument doc)
         {
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
