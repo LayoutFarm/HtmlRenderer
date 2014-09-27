@@ -27,11 +27,11 @@ namespace HtmlRenderer.Composers
         public InputEventBridge()
         {
         }
-        public void Bind(HtmlIsland container)
+        public void Bind(HtmlIsland htmlIsland)
         {
-            if (container != null)
+            if (htmlIsland != null)
             {
-                this._htmlIsland = container;
+                this._htmlIsland = htmlIsland;
             }
 
             _isBinded = true;
