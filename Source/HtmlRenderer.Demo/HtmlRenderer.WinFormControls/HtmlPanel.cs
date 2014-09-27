@@ -69,12 +69,12 @@ namespace HtmlRenderer
         /// <summary>
         /// the raw base stylesheet data used in the control
         /// </summary>
-        private string _baseRawCssData;
+        string _baseRawCssData;
 
         /// <summary>
         /// the base stylesheet data used in the control
         /// </summary>
-        private WebDom.CssActiveSheet _baseCssData;
+        WebDom.CssActiveSheet _baseCssData;
 
         Timer timer01 = new Timer();
 
@@ -102,6 +102,7 @@ namespace HtmlRenderer
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             myHtmlIsland.Refresh += OnRefresh;
             myHtmlIsland.NeedUpdateDom += new EventHandler<EventArgs>(myHtmlIsland_NeedUpdateDom);
+            myHtmlIsland.RequestResource += new EventHandler<HtmlResourceRequestEventArgs>(myHtmlIsland_RequestResource);
             //myHtmlIsland.ScrollChange += OnScrollChange;
             this.imageContentMan.ImageLoadingRequest += OnImageLoad;
             this.textContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
@@ -119,6 +120,12 @@ namespace HtmlRenderer
             _htmlEventBridge = new Composers.InputEventBridge();
             _htmlEventBridge.Bind(myHtmlIsland, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
             //------------------------------------------- 
+        }
+        void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
+        {
+
+            this.imageContentMan.AddRequestImage(
+                new ImageContentRequest(e.binder, null, this.myHtmlIsland));
         }
 
         void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
@@ -288,7 +295,7 @@ namespace HtmlRenderer
             HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>
             {
-                var req = new TextLoadRequestEventArgs(e.Src);                 
+                var req = new TextLoadRequestEventArgs(e.Src);
                 this.textContentMan.AddStyleSheetRequest(req);
                 e.SetStyleSheet = req.SetStyleSheet;
             };
@@ -420,7 +427,10 @@ namespace HtmlRenderer
         {
             PaintMe(e);
         }
-
+        void PaintMe()
+        {
+            PaintMe(null);
+        }
         void PaintMe(PaintEventArgs e)
         {
             if (myHtmlIsland != null)
@@ -625,9 +635,11 @@ namespace HtmlRenderer
                     PerformLayout();
             }
             if (InvokeRequired)
-                Invoke(new MethodInvoker(Invalidate));
+                // Invoke(new MethodInvoker(Invalidate));
+                Invoke(new MethodInvoker(this.PaintMe));
             else
-                Invalidate();
+                this.PaintMe();
+            //Invalidate();
         }
 
         /// <summary>

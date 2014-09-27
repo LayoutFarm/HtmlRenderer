@@ -122,8 +122,7 @@ namespace HtmlRenderer.ContentManagers
                                 //send ready image notification to
                                 //parent html container
 
-                                //send data update to owner
-
+                                //send data update to owner 
                                 req.listener.AddRequestImageBinderUpdate(binder);
                             }
                         }

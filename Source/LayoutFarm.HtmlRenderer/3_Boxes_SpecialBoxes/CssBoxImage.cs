@@ -140,7 +140,7 @@ namespace HtmlRenderer.Boxes
                             {
                                 g.DrawImage(img,
                                     new RectangleF(r.Left, r.Top,
-                                        img.Width, img.Height)); 
+                                      img.Width, img.Height));
                                 // g.DrawImage(img, Rectangle.Round(r));
                             }
                             else

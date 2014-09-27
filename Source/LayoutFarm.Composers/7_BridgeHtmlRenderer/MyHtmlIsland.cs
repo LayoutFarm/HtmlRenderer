@@ -57,7 +57,7 @@ namespace HtmlRenderer
         public void InternalRefreshRequest()
         {
             if (requestImageBinderUpdates.Count > 0)
-            {
+            { 
                 requestImageBinderUpdates.Clear();
                 this.RequestRefresh(false);
 #if DEBUG
@@ -66,17 +66,18 @@ namespace HtmlRenderer
 #endif
             }
         }
+
         public override void AddRequestImageBinderUpdate(ImageBinder binder)
         {
             this.requestImageBinderUpdates.Add(binder);
         }
         protected override void RequestRefresh(bool layout)
         {
-            //    if (this.Refresh != null)
-            //    {
-            //        HtmlRefreshEventArgs arg = new HtmlRefreshEventArgs(layout);
-            //        this.Refresh(this, arg);
-            //    }
+            if (this.Refresh != null)
+            {
+                this.Refresh(this, new HtmlRefreshEventArgs(layout));
+            }
+             
 
         }
         protected override void OnRequestImage(ImageBinder binder, CssBox requestBox, bool _sync)
@@ -91,12 +92,7 @@ namespace HtmlRenderer
                     resReq.binder = binder;
                     resReq.requestBy = requestBox;
                     resReq.updateChangeListener = this;
-
-                    RequestResource(this, resReq);
-
-                    //RequestResource(this, new HtmlResourceRequestEventArgs());
-
-                    //ImageContentMan.AddRequestImage(new ImageContentRequest(binder, requestBox, this));
+                    RequestResource(this, resReq); 
                 }
             }
         }
