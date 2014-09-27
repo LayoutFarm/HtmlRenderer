@@ -17,11 +17,7 @@ namespace LayoutFarm
 
     public class HtmlRenderBox : RenderBoxBase
     {
-        MyHtmlIsland _htmlIsland;
-        InputEventBridge _htmlEventBridge;
-
-
-
+        MyHtmlIsland myHtmlIsland;  
         int myWidth;
         int myHeight;
         public HtmlRenderBox(RootGraphic rootgfx,
@@ -31,20 +27,17 @@ namespace LayoutFarm
         {
             this.myWidth = width;
             this.myHeight = height;
-            this._htmlIsland = htmlIsland;
-        }
-
-
-
+            this.myHtmlIsland = htmlIsland;
+        } 
         /// <summary>
         /// Perform html container layout by the current panel client size.
         /// </summary>
         void PerformHtmlLayout(IGraphics g)
         {
-            if (_htmlIsland != null)
+            if (myHtmlIsland != null)
             {
-                _htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this.myWidth, 0);
-                _htmlIsland.PerformLayout(g);
+                myHtmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this.myWidth, 0);
+                myHtmlIsland.PerformLayout(g);
 
                 //using (var g = CreateGraphics())
                 //{
@@ -59,8 +52,9 @@ namespace LayoutFarm
         }
         protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
         {
-            _htmlIsland.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
-            _htmlIsland.PerformPaint(canvasPage);
+            myHtmlIsland.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
+            myHtmlIsland.CheckDocUpdate();
+            myHtmlIsland.PerformPaint(canvasPage);
         }
         public override void ChildrenHitTestCore(HitPointChain artHitResult)
         {

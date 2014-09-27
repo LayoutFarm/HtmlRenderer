@@ -35,9 +35,10 @@ namespace HtmlRenderer
         /// <remarks>
         /// There is no guarantee that the event will be raised on the main thread, it can be raised on thread-pool thread.
         /// </remarks>
-        public event EventHandler<HtmlRenderErrorEventArgs> RenderError;
+        //public event EventHandler<HtmlRenderErrorEventArgs> RenderError;
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
         public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
+        public event EventHandler<EventArgs> NeedUpdateDom;
 
 
         List<LayoutFarm.Drawing.ImageBinder> requestImageBinderUpdates = new List<LayoutFarm.Drawing.ImageBinder>();
@@ -90,6 +91,7 @@ namespace HtmlRenderer
                     resReq.binder = binder;
                     resReq.requestBy = requestBox;
                     resReq.updateChangeListener = this;
+
                     RequestResource(this, resReq);
 
                     //RequestResource(this, new HtmlResourceRequestEventArgs());
@@ -97,7 +99,6 @@ namespace HtmlRenderer
                     //ImageContentMan.AddRequestImage(new ImageContentRequest(binder, requestBox, this));
                 }
             }
-
         }
 
         public void SetHtmlDoc(WebDocument doc)
@@ -109,25 +110,22 @@ namespace HtmlRenderer
             this.activeCssSheet = activeCss;
             base.SetRootCssBox(rootBox);
         }
-
-
+        public void CheckDocUpdate()
+        {   
+            if (doc != null &&
+                doc.DocumentState == DocumentState.ChangedAfterIdle &&
+                NeedUpdateDom != null)
+            { 
+                NeedUpdateDom(this, EventArgs.Empty); 
+            }
+        }
         public void PerformPaint(LayoutFarm.Canvas canvas)
         {
             if (doc == null) return;
-
-            var gfx = canvas.GetIGraphics();
-            if (doc.DocumentState == DocumentState.ChangedAfterIdle)
-            {
-                WinHtmlRootVisualBoxExtension.RefreshHtmlDomChange(
-                    this,
-                    doc,
-                    this.activeCssSheet);
-                this.PerformLayout(gfx);
-            }
-            base.PerformPaint(gfx);
-
-            //PerformPaint(canvas.GetIGraphics());
+            base.PerformPaint(canvas.GetIGraphics());
         }
+
+
         //void PerformPaint(System.Drawing.Graphics g)
         //{
         //    if (doc == null)

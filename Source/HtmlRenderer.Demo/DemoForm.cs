@@ -77,10 +77,12 @@ namespace HtmlRenderer.Demo
 
 
 
-            _htmlPanel.RenderError += OnRenderError;
-            _htmlPanel.LinkClicked += OnLinkClicked;
+            //_htmlPanel.RenderError += OnRenderError;
+            //_htmlPanel.LinkClicked += OnLinkClicked;
+
             _htmlPanel.StylesheetLoad += OnStylesheetLoad;
             _htmlPanel.ImageLoad += OnImageLoad;
+
             //_htmlToolTip.ImageLoad += OnImageLoad; 
             //_htmlToolTip.SetToolTip(_htmlPanel, Resources.Tooltip);
 
@@ -366,7 +368,7 @@ namespace HtmlRenderer.Demo
         /// <summary>
         /// Handle stylesheet resolve.
         /// </summary>
-        private static void OnStylesheetLoad(object sender, HtmlRenderer.ContentManagers.StylesheetLoadEventArgs2 e)
+        private static void OnStylesheetLoad(object sender, HtmlRenderer.ContentManagers.TextLoadRequestEventArgs e)
         {
             var stylesheet = GetStylesheet(e.Src);
             if (stylesheet != null)
@@ -400,7 +402,7 @@ namespace HtmlRenderer.Demo
             return null;
         }
 
-         
+
         /// <summary>
         /// On image load in renderer set the image by event async.
         /// </summary>
@@ -488,33 +490,33 @@ namespace HtmlRenderer.Demo
             return image;
         }
 
-        /// <summary>
-        /// Show error raised from html renderer.
-        /// </summary>
-        private static void OnRenderError(object sender, HtmlRenderErrorEventArgs e)
-        {
-            MessageBox.Show(e.Message + (e.Exception != null ? "\r\n" + e.Exception : null), "Error in Html Renderer", MessageBoxButtons.OK);
-        }
+        ///// <summary>
+        ///// Show error raised from html renderer.
+        ///// </summary>
+        //private static void OnRenderError(object sender, HtmlRenderErrorEventArgs e)
+        //{
+        //    MessageBox.Show(e.Message + (e.Exception != null ? "\r\n" + e.Exception : null), "Error in Html Renderer", MessageBoxButtons.OK);
+        //}
 
-        /// <summary>
-        /// On specific link click handle it here.
-        /// </summary>
-        private static void OnLinkClicked(object sender, HtmlLinkClickedEventArgs e)
-        {
-            if (e.Link == "SayHello")
-            {
-                MessageBox.Show("Hello you!");
-                e.Handled = true;
-            }
-            else if (e.Link == "ShowSampleForm")
-            {
-                //using (var f = new SampleForm())
-                //{
-                //    f.ShowDialog();
-                //    e.Handled = true;
-                //}
-            }
-        }
+        ///// <summary>
+        ///// On specific link click handle it here.
+        ///// </summary>
+        //private static void OnLinkClicked(object sender, HtmlLinkClickedEventArgs e)
+        //{
+        //    if (e.Link == "SayHello")
+        //    {
+        //        MessageBox.Show("Hello you!");
+        //        e.Handled = true;
+        //    }
+        //    else if (e.Link == "ShowSampleForm")
+        //    {
+        //        //using (var f = new SampleForm())
+        //        //{
+        //        //    f.ShowDialog();
+        //        //    e.Handled = true;
+        //        //}
+        //    }
+        //}
 
         /// <summary>
         /// Execute performance test by setting all sample htmls in a loop.
