@@ -27,13 +27,13 @@ namespace LayoutFarm
             //==================================================
             //html box
             var htmlBox = new UIHtmlBox(800, 600);
-            htmlBox.RequestImage += new EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs>(htmlBox_ImageLoad);
+            htmlBox.RequestImage += new EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs>(html_ImageReq);
 
             viewport.AddContent(htmlBox);
             string html = "<html><head></head><body><div>OK1</div><div>3 Images</div><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img></body></html>";
             htmlBox.LoadHtmlText(html);
         }
-        void htmlBox_ImageLoad(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
+        void html_ImageReq(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
         {
             //load resource -- sync or async?
 
@@ -45,7 +45,7 @@ namespace LayoutFarm
 
             System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath);
             e.SetResultImage(CurrentGraphicPlatform.P.CreateBitmap(bmp));
-
+            
         }
 
     }

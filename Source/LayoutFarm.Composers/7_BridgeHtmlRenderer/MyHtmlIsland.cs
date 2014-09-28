@@ -94,6 +94,7 @@ namespace HtmlRenderer
                     resReq.updateChangeListener = this;
                     RequestResource(this, resReq); 
                 }
+                 
             }
         }
 

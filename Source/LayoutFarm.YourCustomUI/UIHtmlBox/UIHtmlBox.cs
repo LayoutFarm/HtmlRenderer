@@ -22,8 +22,7 @@ namespace LayoutFarm.SampleControls
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
         public event EventHandler<ImageRequestEventArgs> RequestImage;
 
-        //TextContentManager _textMan;
-        //ImageContentManager _imageMan;
+        System.Timers.Timer tim = new System.Timers.Timer();
 
         public UIHtmlBox(int width, int height)
         {
@@ -36,21 +35,30 @@ namespace LayoutFarm.SampleControls
             myHtmlIsland.NeedUpdateDom += myHtmlIsland_NeedUpdateDom;
             myHtmlIsland.RequestResource += myHtmlIsland_RequestResource;
 
+            tim.Interval = 30;
+            tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
+        }
+
+        void tim_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (this.myHtmlIsland != null)
+            {
+                this.myHtmlIsland.InternalRefreshRequest();
+            }
         }
         internal MyHtmlIsland HtmlIsland
         {
             get { return this.myHtmlIsland; }
         }
 
-        
-        
-    
+
+
+
         void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
         {
             if (this.RequestImage != null)
             {
                 RequestImage(this, new ImageRequestEventArgs(e.binder));
-
             }
         }
         void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
@@ -152,7 +160,9 @@ namespace LayoutFarm.SampleControls
         public void LoadHtmlText(string html)
         {
             //myHtmlBox.LoadHtmlText(html);
+            this.tim.Enabled = false;
             SetHtml(myHtmlIsland, html, myHtmlIsland.BaseStylesheet);
+            this.tim.Enabled = true;
             myHtmlBox.InvalidateGraphic();
         }
 
