@@ -8,11 +8,11 @@ using System.Windows.Forms;
 using LayoutFarm;
 
 
-namespace TestGraphicPackage2
+namespace LayoutFarm.Dev
 {
-    public partial class Form1 : Form
+    public partial class FormDemoList : Form
     {
-        public Form1()
+        public FormDemoList()
         {
             InitializeComponent();
             this.Load += new EventHandler(Form1_Load);
@@ -20,7 +20,7 @@ namespace TestGraphicPackage2
 
         void Form1_Load(object sender, EventArgs e)
         {
-            LoadDemoList();
+          
             this.lstDemoList.DoubleClick += new EventHandler(lstDemoList_DoubleClick);
         }
 
@@ -67,9 +67,7 @@ namespace TestGraphicPackage2
           out UISurfaceViewportControl viewport,
           out Form formCanvas)
         {
-            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = 
-                LayoutFarm.Drawing.CurrentGraphicPlatform.CreateTexFontInfo(
-                    new System.Drawing.Font("tahoma", 10));
+
             //new TextFontInfo(
             //    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
             //     new System.Drawing.Font("tahoma", 10)),
@@ -81,28 +79,8 @@ namespace TestGraphicPackage2
             viewport.PaintMe();
 
             formCanvas.WindowState = FormWindowState.Maximized;
-            formCanvas.Show();
-
-        }
-
-
-
-
-        void LoadHtmlTestView(string filename)
-        {
-
-            UISurfaceViewportControl viewport;
-
-            Form formCanvas;
-            CreateReadyForm(
-                out viewport,
-                out formCanvas);
-
-            ShowFormlayoutInspectIfNeed(viewport);
-
-        }
-
-
+            formCanvas.Show(); 
+        }  
         void ShowFormlayoutInspectIfNeed(UISurfaceViewportControl viewport)
         {
             if (this.chkShowLayoutInspector.Checked)
@@ -110,18 +88,16 @@ namespace TestGraphicPackage2
                 ShowFormLayoutInspector(viewport);
             }
         }
-
-
-
-
-
-
-        void LoadDemoList()
+        public void ClearDemoList()
         {
             this.lstDemoList.Items.Clear();
+        }
+        public void LoadDemoList(Type sampleAssemblySpecificType)
+        {
+         
 
             var demoBaseType = typeof(DemoBase);
-            var thisAssem = System.Reflection.Assembly.GetAssembly(this.GetType());
+            var thisAssem = System.Reflection.Assembly.GetAssembly(sampleAssemblySpecificType);
             List<DemoInfo> demoInfoList = new List<DemoInfo>();
             foreach (var t in thisAssem.GetTypes())
             {

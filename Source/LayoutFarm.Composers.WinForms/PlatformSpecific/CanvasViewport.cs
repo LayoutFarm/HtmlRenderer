@@ -589,6 +589,7 @@ namespace LayoutFarm
         } 
         public void Close()
         {
+            this.isClosed = true;
             topWindowBox.CloseWinRoot();
             
         }
