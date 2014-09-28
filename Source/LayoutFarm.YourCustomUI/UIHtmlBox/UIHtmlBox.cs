@@ -46,17 +46,17 @@ namespace LayoutFarm
 
         void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
         {
-            
+
             HtmlRenderer.Composers.BoxModelBuilder builder = new HtmlRenderer.Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e2) =>
             {
 
-                TextLoadRequestEventArgs req = new TextLoadRequestEventArgs(e2.Src); 
+                TextLoadRequestEventArgs req = new TextLoadRequestEventArgs(e2.Src);
                 _textMan.AddStyleSheetRequest(req);
-                e2.SetStyleSheet = req.SetStyleSheet; 
+                e2.SetStyleSheet = req.SetStyleSheet;
             };
             var rootBox2 = builder.RefreshCssTree(this.currentdoc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, this.myHtmlIsland);
-            this.myHtmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);             
+            this.myHtmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
 
         }
         /// <summary>
@@ -106,6 +106,7 @@ namespace LayoutFarm
                 _htmlEventBridge.Bind(myHtmlIsland, rootgfx.SampleIFonts);
 
                 myHtmlBox = new HtmlRenderBox(rootgfx, _width, _height, myHtmlIsland);
+                myHtmlBox.HasSpecificSize = true;
 
             }
             return myHtmlBox;
@@ -116,7 +117,7 @@ namespace LayoutFarm
             HtmlRenderer.Composers.BoxModelBuilder builder = new HtmlRenderer.Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>
             {
-                var req = new TextLoadRequestEventArgs(e.Src); 
+                var req = new TextLoadRequestEventArgs(e.Src);
                 this._textMan.AddStyleSheetRequest(req);
                 e.SetStyleSheet = req.SetStyleSheet;
             };
@@ -130,6 +131,9 @@ namespace LayoutFarm
 
             htmlIsland.SetHtmlDoc(htmldoc);
             htmlIsland.SetRootCssBox(rootBox, cssData);
+            htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
+            htmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
+
         }
         public void LoadHtmlText(string html)
         {
