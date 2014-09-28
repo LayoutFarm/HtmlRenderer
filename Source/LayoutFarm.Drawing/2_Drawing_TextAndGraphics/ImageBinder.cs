@@ -2,7 +2,7 @@
 using System;
 
 namespace LayoutFarm.Drawing
-{   
+{
     public class ImageBinder
     {
         Image _image;

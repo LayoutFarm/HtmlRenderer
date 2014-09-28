@@ -3,12 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.UI;
-
 using HtmlRenderer;
 using HtmlRenderer.ContentManagers;
+using LayoutFarm.UI;
 
-namespace LayoutFarm
+namespace LayoutFarm.SampleControls
 {
 
     public class UIHtmlBox : UIElement
@@ -16,44 +15,56 @@ namespace LayoutFarm
         HtmlRenderBox myHtmlBox;
         int _width, _height;
         MyHtmlIsland myHtmlIsland;
-        HtmlRenderer.WebDom.WebDocument currentdoc;
 
+        HtmlRenderer.WebDom.WebDocument currentdoc;
         HtmlRenderer.Composers.InputEventBridge _htmlEventBridge;
 
-        public event EventHandler<TextLoadRequestEventArgs> StylesheetLoad;
-        public event EventHandler<ImageRequestEventArgs> ImageLoad;
+        public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
+        public event EventHandler<ImageRequestEventArgs> RequestImage;
 
-        TextContentManager _textMan;
-        ImageContentManager _imageMan;
+        //TextContentManager _textMan;
+        //ImageContentManager _imageMan;
+
         public UIHtmlBox(int width, int height)
         {
             this._width = width;
             this._height = height;
-            _textMan = new TextContentManager();
-            _imageMan = new ImageContentManager();
-
 
             myHtmlIsland = new MyHtmlIsland();
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             myHtmlIsland.Refresh += OnRefresh;
-            myHtmlIsland.NeedUpdateDom += new EventHandler<EventArgs>(myHtmlIsland_NeedUpdateDom);
-
-
-            _textMan.StylesheetLoadingRequest += OnStylesheetLoad;
-            _imageMan.ImageLoadingRequest += OnImageLoad;
+            myHtmlIsland.NeedUpdateDom += myHtmlIsland_NeedUpdateDom;
+            myHtmlIsland.RequestResource += myHtmlIsland_RequestResource;
 
         }
+        internal MyHtmlIsland HtmlIsland
+        {
+            get { return this.myHtmlIsland; }
+        }
 
+        
+        
+    
+        void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
+        {
+            if (this.RequestImage != null)
+            {
+                RequestImage(this, new ImageRequestEventArgs(e.binder));
+
+            }
+        }
         void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
         {
 
-            HtmlRenderer.Composers.BoxModelBuilder builder = new HtmlRenderer.Composers.BoxModelBuilder();
+            var builder = new HtmlRenderer.Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e2) =>
             {
-
-                TextLoadRequestEventArgs req = new TextLoadRequestEventArgs(e2.Src);
-                _textMan.AddStyleSheetRequest(req);
-                e2.SetStyleSheet = req.SetStyleSheet;
+                if (this.RequestStylesheet != null)
+                {
+                    var req = new TextLoadRequestEventArgs(e2.Src);
+                    RequestStylesheet(this, req);
+                    e2.SetStyleSheet = req.SetStyleSheet;
+                }
             };
             var rootBox2 = builder.RefreshCssTree(this.currentdoc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, this.myHtmlIsland);
             this.myHtmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
@@ -77,27 +88,27 @@ namespace LayoutFarm
             //    Invalidate();
         }
 
-        /// <summary>
-        /// Propagate the stylesheet load event from root container.
-        /// </summary>
-        void OnStylesheetLoad(object sender, TextLoadRequestEventArgs e)
-        {
-            if (StylesheetLoad != null)
-            {
-                StylesheetLoad(this, e);
-            }
-        }
+        ///// <summary>
+        ///// Propagate the stylesheet load event from root container.
+        ///// </summary>
+        //void OnStylesheetLoad(object sender, TextLoadRequestEventArgs e)
+        //{
+        //    if (RequestStylesheet != null)
+        //    {
+        //        RequestStylesheet(this, e);
+        //    }
+        //}
 
-        /// <summary>
-        /// Propagate the image load event from root container.
-        /// </summary>
-        void OnImageLoad(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
-        {
-            if (ImageLoad != null)
-            {
-                ImageLoad(this, e);
-            }
-        }
+        ///// <summary>
+        ///// Propagate the image load event from root container.
+        ///// </summary>
+        //void OnImageLoad(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
+        //{
+        //    if (RequestImage != null)
+        //    {
+        //        RequestImage(this, e);
+        //    }
+        //}
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (myHtmlBox == null)
@@ -117,9 +128,12 @@ namespace LayoutFarm
             HtmlRenderer.Composers.BoxModelBuilder builder = new HtmlRenderer.Composers.BoxModelBuilder();
             builder.RequestStyleSheet += (e) =>
             {
-                var req = new TextLoadRequestEventArgs(e.Src);
-                this._textMan.AddStyleSheetRequest(req);
-                e.SetStyleSheet = req.SetStyleSheet;
+                if (this.RequestStylesheet != null)
+                {
+                    var req = new TextLoadRequestEventArgs(e.Src);
+                    RequestStylesheet(this, req);
+                    e.SetStyleSheet = req.SetStyleSheet;
+                }
             };
 
 

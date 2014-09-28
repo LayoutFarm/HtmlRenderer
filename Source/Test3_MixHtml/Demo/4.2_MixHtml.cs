@@ -4,12 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
-
-using LayoutFarm.UI;
+using LayoutFarm.SampleControls;
 
 namespace LayoutFarm
 {
-    [DemoNote("4.2 UIHtmlBox")]
+    [DemoNote("4.2 MixHtml and Text")]
     class Demo_MixHtml : DemoBase
     {
         protected override void OnStartDemo(UISurfaceViewportControl viewport)
