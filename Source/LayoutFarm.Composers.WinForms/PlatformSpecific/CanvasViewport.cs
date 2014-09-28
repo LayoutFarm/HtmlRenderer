@@ -29,6 +29,7 @@ namespace LayoutFarm
         bool fullMode = true;
         ISurfaceViewportControl outputWindow;
 
+        bool isClosed;//is this viewport closed
 
 
         public CanvasViewport(ISurfaceViewportControl outputWindow,
@@ -99,8 +100,13 @@ namespace LayoutFarm
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hdc);
 
+        
+
         void PaintMe()
         {
+            if (isClosed) return;
+            //------------------------------------
+
             IntPtr hdc = GetDC(outputWindow.Handle);
             topWindowBox.PrepareRender();
             topWindowBox.ClearNotificationSizeChangeList();
@@ -144,18 +150,20 @@ namespace LayoutFarm
         }
 
         public void PaintMe(object sender, EventArgs e)
-        {
+        {  
             PaintMe();
-        }
-
+        } 
 
 #if DEBUG
         int debug_render_to_output_count = -1;
 #endif
         internal void OnMouseMove(UIMouseEventArgs e)
         {
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); topWindowBox.OnMouseMove(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY); if (!quadPages.IsValid)
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
+            topWindowBox.OnMouseMove(e);
+            e.OffsetCanvasOrigin(viewportX, viewportY);
+
+            if (!quadPages.IsValid)
             {
                 PaintMe();
             }
@@ -163,8 +171,11 @@ namespace LayoutFarm
 
         internal void OnDoubleClick(UIMouseEventArgs e)
         {
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); topWindowBox.OnDoubleClick(e);
+
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
+            topWindowBox.OnDoubleClick(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
+
             if (!quadPages.IsValid)
             {
                 PaintMe();
@@ -173,8 +184,10 @@ namespace LayoutFarm
         internal void OnMouseWheel(UIMouseEventArgs e)
         {
             fullMode = true;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); topWindowBox.OnMouseWheel(e);
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
+            topWindowBox.OnMouseWheel(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
+
             if (!quadPages.IsValid)
             {
                 PaintMe();
@@ -240,7 +253,6 @@ namespace LayoutFarm
 #endif
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
             topWindowBox.OnMouseDown(e);
-
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
             if (!quadPages.IsValid)
@@ -264,6 +276,7 @@ namespace LayoutFarm
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
             topWindowBox.OnDragStart(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
+
             if (!quadPages.IsValid)
             {
                 PaintMe();
@@ -339,7 +352,8 @@ namespace LayoutFarm
         {
             topWindowBox.MyVisualRoot.TempStopCaret();
             fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); bool result = topWindowBox.OnProcessDialogKey(e);
+            e.OffsetCanvasOrigin(-viewportX, -viewportY); 
+            bool result = topWindowBox.OnProcessDialogKey(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
             if (!quadPages.IsValid)
@@ -568,17 +582,15 @@ namespace LayoutFarm
             {
                 outputWindow.viewport_VScrollRequest(this, vScrollSupportEventArgs);
             }
-        }
-
+        } 
         public void SetFullMode(bool value)
         {
             fullMode = value;
-        }
-
+        } 
         public void Close()
         {
             topWindowBox.CloseWinRoot();
-
+            
         }
     }
 }
