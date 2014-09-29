@@ -13,9 +13,19 @@ namespace TestGraphicPackage2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-             
+
+
             LayoutFarm.WinGdiPlatform.Start();
-            Application.Run(new Form1());
+
+            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo =
+                LayoutFarm.Drawing.CurrentGraphicPlatform.CreateTexFontInfo(
+                    new System.Drawing.Font("tahoma", 10));
+
+            var formDemo = new LayoutFarm.Dev.FormDemoList();
+            formDemo.LoadDemoList(typeof(Program));
+
+
+            Application.Run(formDemo);
             LayoutFarm.WinGdiPlatform.End();
 
         }

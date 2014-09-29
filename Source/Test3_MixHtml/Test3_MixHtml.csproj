@@ -39,12 +39,10 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Demo\4.1_UIHtmlBox.cs" />
+    <Compile Include="Demo\4.2_MixHtml.cs" />
+    <Compile Include="Demo\4.3.2_UIHtmlBox_ContentMx.cs" />
+    <Compile Include="Demo\4.3.1_UIHtmlBoxWithResReq.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -56,6 +54,10 @@
     <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
       <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
       <Name>LayoutFarm.Composers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.ContentManagers\LayoutFarm.ContentManagers.csproj">
+      <Project>{2BDF9E02-15AA-4416-BF1F-4A8F398DCAFB}</Project>
+      <Name>LayoutFarm.ContentManagers</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.Drawing.WinGdiPlus\LayoutFarm.Drawing.WinGdiPlus.csproj">
       <Project>{2675BAD6-52A7-4DEE-BC1D-25E9CA6994D1}</Project>
@@ -89,11 +91,6 @@
       <Project>{05C84CAB-2F5D-4D74-9A62-EADDF5B4CC0B}</Project>
       <Name>Test0_PresentationDevHelper_New</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

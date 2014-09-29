@@ -1,10 +1,10 @@
-﻿namespace TestGraphicPackage2
+﻿namespace LayoutFarm.Dev
 {
-    partial class Form1
+    partial class FormDemoList
     {
-                                private System.ComponentModel.IContainer components = null;
+        private System.ComponentModel.IContainer components = null;
 
-                                        protected override void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
             {
@@ -15,7 +15,7 @@
 
         #region Windows Form Designer generated code
 
-                                        private void InitializeComponent()
+        private void InitializeComponent()
         {
             this.chkShowLayoutInspector = new System.Windows.Forms.CheckBox();
             this.lstHtmlTestFiles = new System.Windows.Forms.ListBox();
@@ -64,7 +64,7 @@
 
         #endregion
 
-                                        private System.Windows.Forms.CheckBox chkShowLayoutInspector;
+        private System.Windows.Forms.CheckBox chkShowLayoutInspector;
         private System.Windows.Forms.ListBox lstHtmlTestFiles;
         private System.Windows.Forms.ListBox lstDemoList;
     }

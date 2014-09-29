@@ -29,23 +29,7 @@ namespace LayoutFarm
             this.myHeight = height;
             this.myHtmlIsland = htmlIsland;
         } 
-        /// <summary>
-        /// Perform html container layout by the current panel client size.
-        /// </summary>
-        void PerformHtmlLayout(IGraphics g)
-        {
-            if (myHtmlIsland != null)
-            {
-                myHtmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this.myWidth, 0);
-                myHtmlIsland.PerformLayout(g);
-
-                //using (var g = CreateGraphics())
-                //{
-                //    _visualRootBox.PerformLayout(g);
-                //}
-                //AutoScrollMinSize = Size.Round(_visualRootBox.ActualSize);
-            }
-        }
+         
         public override void ClearAllChildren()
         {
 
