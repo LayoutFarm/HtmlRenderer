@@ -125,7 +125,7 @@ namespace HtmlRenderer.Boxes
                 return (this._boxCompactFlags & BoxFlags.IS_BR_ELEM) != 0;
             }
         }
-        public bool IsSvgRootElement
+        public bool IsCustomCssBox
         {
             get
             {

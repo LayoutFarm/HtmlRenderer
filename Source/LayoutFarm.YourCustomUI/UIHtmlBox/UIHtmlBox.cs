@@ -83,11 +83,13 @@ namespace LayoutFarm.SampleControls
         /// </summary>
         void OnRefresh(object sender, HtmlRenderer.WebDom.HtmlRefreshEventArgs e)
         {
+            this.InvalidateGraphic();
+
             //if (e.Layout)
             //{
             //    if (InvokeRequired)
             //        Invoke(new MethodInvoker(PerformLayout));
-            //    else
+            //    elsedf 
             //        PerformLayout();
             //}
             //if (InvokeRequired)

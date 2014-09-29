@@ -1,8 +1,8 @@
 ﻿//BSD 2014,WinterDev  
 using System.Collections.Generic;
-using HtmlRenderer.Css;
-
+using HtmlRenderer.Css; 
 using HtmlRenderer.Boxes;
+
 namespace HtmlRenderer.Composers 
 { 
     class ContentTextSplitter
@@ -10,9 +10,7 @@ namespace HtmlRenderer.Composers
         Stack<List<CssRun>> myRunPool = new Stack<List<CssRun>>(3);
         public ContentTextSplitter()
         {
-
         }
-
         enum WordParsingState
         {
             Init,

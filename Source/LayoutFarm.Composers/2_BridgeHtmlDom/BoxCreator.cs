@@ -280,6 +280,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 //test extension box
                 case WellKnownDomNodeName.X:
                     {
+                        alreadyHandleChildrenNodes = true; 
                         newBox = CreateCustomBox(parentBox, childElement, childElement.Spec);
                         if (newBox == null)
                         {
@@ -291,9 +292,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 case WellKnownDomNodeName.svg:
                     {
                         //1. create svg container node
-                        alreadyHandleChildrenNodes = true;
-                   
-
+                        alreadyHandleChildrenNodes = true; 
                         return SvgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
                     }
                 //---------------------------------------------------

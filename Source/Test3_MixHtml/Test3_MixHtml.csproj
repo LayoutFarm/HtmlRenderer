@@ -43,6 +43,7 @@
     <Compile Include="Demo\4.2_MixHtml.cs" />
     <Compile Include="Demo\4.3.2_UIHtmlBox_ContentMx.cs" />
     <Compile Include="Demo\4.3.1_UIHtmlBoxWithResReq.cs" />
+    <Compile Include="Demo\4.4_CssLeanBox.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
