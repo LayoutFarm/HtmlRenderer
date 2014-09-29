@@ -34,6 +34,7 @@ namespace LayoutFarm
 
         MyTopWindowRenderBox wintop;
         EventHandler<EventArgs> parentFormClosedHandler;
+        MyRootGraphic myRootGraphic;
 
         public UISurfaceViewportControl()
         {
@@ -42,11 +43,14 @@ namespace LayoutFarm
 
         public void InitRootGraphics(int width, int height)
         {
-            var visualRoot = new MyRootGraphic(width, height);
-            var windowRoot = new MyTopWindowRenderBox(visualRoot, width, height);
+            this.myRootGraphic = new MyRootGraphic(width, height);
+            var windowRoot = new MyTopWindowRenderBox(this.myRootGraphic, width, height);
             SetupWindowRoot(windowRoot);
         }
-
+        public RootGraphic RootGfx
+        {
+            get { return this.myRootGraphic; }
+        }
         public void WhenParentFormClosed(EventHandler<EventArgs> handler)
         {
             this.parentFormClosedHandler = handler;

@@ -37,13 +37,7 @@ namespace HtmlRenderer.Composers
         ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
         public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
 
-        static BoxModelBuilder()
-        {
-            //temporary init here
-            BoxCreator.RegisterCustomCssBoxGenerator(
-                new HtmlRenderer.Boxes.LeanBox.LeanBoxCreator());
-
-        }
+        
         public BoxModelBuilder()
         {
 

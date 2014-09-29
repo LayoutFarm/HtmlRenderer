@@ -24,8 +24,14 @@ namespace LayoutFarm.SampleControls
 
         System.Timers.Timer tim = new System.Timers.Timer();
 
-        public UIHtmlBox(int width, int height)
+        static UIHtmlBox()
         {
+             HtmlRenderer.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator( 
+                new HtmlRenderer.Boxes.LeanBox.LeanBoxCreator());
+        }
+
+        public UIHtmlBox(int width, int height)
+        {   
             this._width = width;
             this._height = height;
 

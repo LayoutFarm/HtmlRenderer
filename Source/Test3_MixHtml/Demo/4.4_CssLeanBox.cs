@@ -18,7 +18,6 @@ namespace LayoutFarm
             //html box
             UIHtmlBox htmlBox = new UIHtmlBox(800, 400);
             viewport.AddContent(htmlBox);
-
             StringBuilder stbuilder = new StringBuilder();
             stbuilder.Append("<html><head></head><body>");
             stbuilder.Append("<div>custom box1</div>");
@@ -28,8 +27,8 @@ namespace LayoutFarm
             stbuilder.Append("</body></html>");
 
             htmlBox.LoadHtmlText(stbuilder.ToString());
-            //================================================== 
- 
+
+            //==================================================  
         }
 
     }

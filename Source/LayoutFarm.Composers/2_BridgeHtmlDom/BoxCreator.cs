@@ -8,7 +8,7 @@ using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer.Composers.BridgeHtml
 {
-    static class BoxCreator
+    public static class BoxCreator
     {
 
         static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
@@ -33,7 +33,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             return boxImage;
         }
 
-        public static void GenerateChildBoxes(HtmlElement parentElement, bool fullmode)
+        internal  static void GenerateChildBoxes(HtmlElement parentElement, bool fullmode)
         {
             //recursive ***  
             //first just generate into primary pricipal box
