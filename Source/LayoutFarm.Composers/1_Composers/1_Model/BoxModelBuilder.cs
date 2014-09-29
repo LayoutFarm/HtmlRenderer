@@ -177,9 +177,9 @@ namespace HtmlRenderer.Composers
         }
 
 
-        public CssBox BuildCssTree(WebDocument htmldoc,
-            IFonts iFonts,
-            HtmlIsland htmlContainer,
+        public CssBox BuildCssRenderTree(WebDocument htmldoc,
+            IFonts ifonts,
+            HtmlIsland htmlIsland,
             CssActiveSheet cssData)
         {
 
@@ -196,14 +196,14 @@ namespace HtmlRenderer.Composers
             PrepareStylesAndContentOfChildNodes(bridgeRoot, activeCssTemplate);
 
             //----------------------------------------------------------------  
-            rootBox = BoxCreator.CreateRootBlock(iFonts);
+            rootBox = BoxCreator.CreateCssRenderRoot(ifonts);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
             BoxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
-            SetTextSelectionStyle(htmlContainer, cssData);
+            SetTextSelectionStyle(htmlIsland, cssData);
             return rootBox;
         }
 

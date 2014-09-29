@@ -23,7 +23,7 @@ namespace LayoutFarm
             stbuilder.Append("<div>custom box1</div>");
             stbuilder.Append("<x id=\"my_custombox1\"></x>");
             stbuilder.Append("<div>custom box2</div>");
-            stbuilder.Append("<x id=\"my_custombox2\"></x>");
+            stbuilder.Append("<x type=\"textbox\" id=\"my_custombox1\"></x>");
             stbuilder.Append("</body></html>");
 
             htmlBox.LoadHtmlText(stbuilder.ToString());

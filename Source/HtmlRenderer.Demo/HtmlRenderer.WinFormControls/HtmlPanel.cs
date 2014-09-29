@@ -301,7 +301,7 @@ namespace HtmlRenderer
             };
             var htmldoc = builder.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
             //build rootbox from htmldoc
-            var rootBox = builder.BuildCssTree(htmldoc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, htmlIsland, cssData);
+            var rootBox = builder.BuildCssRenderTree(htmldoc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, htmlIsland, cssData);
 
             htmlIsland.SetHtmlDoc(htmldoc);
             htmlIsland.SetRootCssBox(rootBox, cssData);
@@ -331,7 +331,7 @@ namespace HtmlRenderer
             };
 
 
-            var rootBox = builder.BuildCssTree(this.currentDoc,
+            var rootBox = builder.BuildCssRenderTree(this.currentDoc,
                 LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
                 htmlIsland, cssData);
 

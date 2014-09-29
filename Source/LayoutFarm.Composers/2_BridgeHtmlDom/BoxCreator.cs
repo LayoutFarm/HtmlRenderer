@@ -334,7 +334,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         /// Create new css block box.
         /// </summary>
         /// <returns>the new block box</returns>
-        internal static CssBox CreateRootBlock(IFonts iFonts)
+        internal static CssBox CreateCssRenderRoot(IFonts iFonts)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
