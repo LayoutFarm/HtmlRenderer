@@ -132,6 +132,7 @@ namespace LayoutFarm.SampleControls
                 _htmlEventBridge = new HtmlRenderer.Composers.InputEventBridge();
                 _htmlEventBridge.Bind(myHtmlIsland, rootgfx.SampleIFonts);
 
+
                 myHtmlBox = new HtmlRenderBox(rootgfx, _width, _height, myHtmlIsland);
                 myHtmlBox.HasSpecificSize = true;
 
@@ -157,7 +158,10 @@ namespace LayoutFarm.SampleControls
             this.currentdoc = htmldoc;
 
             //build rootbox from htmldoc
-            var rootBox = builder.BuildCssRenderTree(htmldoc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, htmlIsland, cssData);
+            var rootBox = builder.BuildCssRenderTree(htmldoc,
+                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
+                htmlIsland,
+                cssData);
 
             htmlIsland.SetHtmlDoc(htmldoc);
             htmlIsland.SetRootCssBox(rootBox, cssData);
@@ -171,13 +175,19 @@ namespace LayoutFarm.SampleControls
             this.tim.Enabled = false;
             SetHtml(myHtmlIsland, html, myHtmlIsland.BaseStylesheet);
             this.tim.Enabled = true;
-            myHtmlBox.InvalidateGraphic();
+            if (this.myHtmlBox != null)
+            {
+                myHtmlBox.InvalidateGraphic();
+            }
         }
 
 
         public override void InvalidateGraphic()
         {
-            myHtmlBox.InvalidateGraphic();
+            if (this.myHtmlBox != null)
+            {
+                myHtmlBox.InvalidateGraphic();
+            }
         }
     }
 }
