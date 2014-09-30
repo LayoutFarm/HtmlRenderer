@@ -495,8 +495,7 @@ namespace LayoutFarm
             else if (y > 0)
             {
                 if (y > topWindowBox.Height - viewportHeight)
-                {
-
+                {   
                     y = topWindowBox.Height - viewportHeight;
                     if (y < 0)
                     {

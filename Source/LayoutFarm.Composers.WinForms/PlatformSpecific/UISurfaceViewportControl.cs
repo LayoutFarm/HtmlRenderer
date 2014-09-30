@@ -36,6 +36,8 @@ namespace LayoutFarm
         EventHandler<EventArgs> parentFormClosedHandler;
         MyRootGraphic myRootGraphic;
 
+        LayoutFarm.TopBoxInputEventBridge topBoxInputEventBridge = new TopBoxInputEventBridge();
+
         public UISurfaceViewportControl()
         {
             InitializeComponent();
@@ -43,9 +45,8 @@ namespace LayoutFarm
 
         public void InitRootGraphics(int width, int height)
         {
-            this.myRootGraphic = new MyRootGraphic(width, height);
-            var windowRoot = new MyTopWindowRenderBox(this.myRootGraphic, width, height);
-            SetupWindowRoot(windowRoot);
+            this.myRootGraphic = new MyRootGraphic(width, height); 
+            SetupWindowRoot(new MyTopWindowRenderBox(this.myRootGraphic, width, height));
         }
         public RootGraphic RootGfx
         {
@@ -56,14 +57,15 @@ namespace LayoutFarm
             this.parentFormClosedHandler = handler;
             this.ParentForm.FormClosed += new FormClosedEventHandler(ParentForm_FormClosed);
         }
-        void SetupWindowRoot(MyTopWindowRenderBox winroot)
+        void SetupWindowRoot(MyTopWindowRenderBox wintop)
         {
 
-            this.wintop = winroot;
-            canvasViewport = new CanvasViewport(this, winroot, this.Size.ToSize(), 4);
-            //if request from winroot
-            winroot.CanvasForcePaint += canvasViewport.PaintMe;
-
+            this.wintop = wintop;
+            canvasViewport = new CanvasViewport(this, wintop, this.Size.ToSize(), 4);
+            
+            wintop.CanvasForcePaint += canvasViewport.PaintMe; 
+            
+            this.topBoxInputEventBridge.Bind(wintop);
         }
         void ParentForm_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -114,7 +116,7 @@ namespace LayoutFarm
         }
         public void AddContent(LayoutFarm.UI.UIElement ui)
         {
-            AddContent(ui.GetPrimaryRenderElement(wintop.RootGraphic));
+            AddContent(ui.GetPrimaryRenderElement(wintop.Root));
         }
         public void Close()
         {
@@ -215,7 +217,9 @@ namespace LayoutFarm
             SetArtMouseEventArgsInfo(mouseEventArg, e);
 
             base.OnMouseDown(e);
+
             canvasViewport.OnMouseDown(mouseEventArg);
+
             eventStock.ReleaseEventArgs(mouseEventArg);
 
         }
@@ -319,8 +323,11 @@ namespace LayoutFarm
         }
         static void SetArtMouseEventArgsInfo(UIMouseEventArgs mouseEventArg, MouseEventArgs e)
         {
-            mouseEventArg.SetEventInfo(e.Location.ToPoint(),
-                GetArtMouseButton(e.Button), e.Clicks, e.Delta);
+            mouseEventArg.SetEventInfo(
+                e.Location.ToPoint(),
+                GetArtMouseButton(e.Button), 
+                e.Clicks, 
+                e.Delta);
         }
         protected override void OnPaint(PaintEventArgs e)
         {

@@ -10,12 +10,12 @@ namespace LayoutFarm
 
     public abstract class TopWindowRenderBox : RenderBoxBase
     {
-        RootGraphic rootGfx;
+         
         VisualPlainLayer groundLayer;
         public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
-            this.rootGfx = rootGfx;
+            
             groundLayer = new VisualPlainLayer(this);
             this.Layers = new VisualLayerCollection();
             this.Layers.AddLayer(groundLayer);
@@ -26,10 +26,8 @@ namespace LayoutFarm
         {
             groundLayer.AddChild(renderE);
         }
-        public RootGraphic RootGraphic
-        {
-            get { return this.rootGfx; }
-        }
+        
+        
         public abstract RenderElement CurrentKeyboardFocusedElement
         {
             get;
@@ -59,7 +57,7 @@ namespace LayoutFarm
         {
             get
             {
-                return this.rootGfx;
+                return this.Root;
             }
         }
 #endif

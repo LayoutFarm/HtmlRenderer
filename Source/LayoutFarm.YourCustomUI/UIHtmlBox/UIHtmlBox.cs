@@ -17,7 +17,7 @@ namespace LayoutFarm.SampleControls
         MyHtmlIsland myHtmlIsland;
 
         HtmlRenderer.WebDom.WebDocument currentdoc;
-        HtmlRenderer.Composers.InputEventBridge _htmlEventBridge;
+        HtmlRenderer.HtmlInputEventBridge _htmlEventBridge;
 
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
         public event EventHandler<ImageRequestEventArgs> RequestImage;
@@ -111,8 +111,8 @@ namespace LayoutFarm.SampleControls
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
             //mouse down on html box
-            //base.OnMouseDown(e);
             this._htmlEventBridge.MouseDown(e.X, e.Y, (int)e.Button);
+
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
@@ -120,11 +120,12 @@ namespace LayoutFarm.SampleControls
         }
         protected override void OnKeyDown(UIKeyEventArgs e)
         {
-            base.OnKeyDown(e);
+            this._htmlEventBridge.KeyDown('a');
         }
         protected override void OnKeyPress(UIKeyPressEventArgs e)
         {
-            base.OnKeyPress(e);
+
+            this._htmlEventBridge.KeyDown(e.KeyChar);
         }
         protected override void OnKeyUp(UIKeyEventArgs e)
         {
@@ -134,7 +135,7 @@ namespace LayoutFarm.SampleControls
         {
             if (myHtmlBox == null)
             {
-                _htmlEventBridge = new HtmlRenderer.Composers.InputEventBridge();
+                _htmlEventBridge = new HtmlInputEventBridge();
                 _htmlEventBridge.Bind(myHtmlIsland, rootgfx.SampleIFonts);
                 myHtmlBox = new HtmlRenderBox(rootgfx, _width, _height, myHtmlIsland);
                 myHtmlBox.SetController(this);

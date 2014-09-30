@@ -11,14 +11,13 @@ namespace LayoutFarm
 
     public abstract partial class RenderElement
     {
-         
+
         IParentLink parentLink;
-       
         bool isWindowRoot;
         bool mayHasChild;
         bool mayHasViewport;
-
         RootGraphic rootGfx;
+
         public RenderElement(RootGraphic rootGfx, int width, int height)
         {
             this.b_width = width;
@@ -34,7 +33,7 @@ namespace LayoutFarm
         {
             get { return this.rootGfx; }
         }
-        
+
 
         public bool IsFreeElement
         {
@@ -102,7 +101,7 @@ namespace LayoutFarm
             else
             {
 
-                InvalidateGraphic(); 
+                InvalidateGraphic();
                 if (value)
                 {
                     uiFlags &= ~HIDDEN;
@@ -402,9 +401,9 @@ namespace LayoutFarm
                 return 0;
             }
 
-        } 
+        }
         public virtual RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
-        { 
+        {
             return null;
         }
 

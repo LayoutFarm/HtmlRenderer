@@ -13,37 +13,38 @@ namespace LayoutFarm
     partial class MyTopWindowRenderBox
     {
 
-        RenderElement currentKeyboardFocusedElement = null; 
-        Stack<VisualDrawingChain> renderingChainStock = new Stack<VisualDrawingChain>(); 
+        RenderElement currentKeyboardFocusedElement = null;
+        Stack<VisualDrawingChain> renderingChainStock = new Stack<VisualDrawingChain>();
 
-        int GraphicUpdateSuspendCount
+        internal int GraphicUpdateSuspendCount
         {
             get { return this.rootGraphic.GraphicUpdateBlockCount; }
             set { this.rootGraphic.GraphicUpdateBlockCount = value; }
         }
-        bool LayoutQueueClearing
+        internal bool LayoutQueueClearing
         {
             get { return this.rootGraphic.LayoutQueueClearing; }
             set { this.rootGraphic.LayoutQueueClearing = value; }
         }
-        bool DisableGraphicOutputFlush
+        internal bool DisableGraphicOutputFlush
         {
             get { return this.rootGraphic.DisableGraphicOutputFlush; }
             set { this.rootGraphic.DisableGraphicOutputFlush = value; }
         }
         public override void FlushGraphic(Rectangle rect)
         {
-            UIInvalidateEventArgs e = this.eventStock.GetFreeCanvasInvalidatedEventArgs(); 
+            UIInvalidateEventArgs e = this.eventStock.GetFreeCanvasInvalidatedEventArgs();
             e.InvalidArea = rect;
-            CanvasInvalidatedEvent(this, e); 
+            CanvasInvalidatedEvent(this, e);
             eventStock.ReleaseEventArgs(e);
         }
-        void FlushAccumGraphicUpdate()
+
+        internal void FlushAccumGraphicUpdate()
         {
-            this.rootGraphic.FlushAccumGraphicUpdate(this); 
+            this.rootGraphic.FlushAccumGraphicUpdate(this);
         }
 
-         
+
         public override void RootBeginGraphicUpdate()
         {
             GraphicUpdateSuspendCount++;
@@ -68,7 +69,7 @@ namespace LayoutFarm
                 {
                     ToNotifySizeChangedEvent item = tobeNotifySizeChangedList[i];
                     UISizeChangedEventArgs sizeChangedEventArg = UISizeChangedEventArgs.GetFreeOne(
-                        null, item.xdiff, item.ydiff, item.affectedSideFlags); 
+                        null, item.xdiff, item.ydiff, item.affectedSideFlags);
                     UISizeChangedEventArgs.ReleaseOne(sizeChangedEventArg);
                 }
                 tobeNotifySizeChangedList.Clear();

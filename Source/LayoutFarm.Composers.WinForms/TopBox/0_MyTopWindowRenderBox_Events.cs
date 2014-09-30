@@ -4,42 +4,24 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
 
-
-using LayoutFarm;
-
-
-
 namespace LayoutFarm
 {
 
     partial class MyTopWindowRenderBox
-    {
+    {  
 
 
-        System.Timers.Timer centralAnimationClock;
-
-
-        RenderElement currentMouseActiveElement = null;
-
-        RenderElement currentDragingElement = null;
-
-
+        System.Timers.Timer centralAnimationClock; 
+        RenderElement currentMouseActiveElement = null; 
+        RenderElement currentDragingElement = null; 
 
         int globalXOfCurrentUI = 0;
-        int globalYOfCurrentUI = 0;
-
-
+        int globalYOfCurrentUI = 0; 
 
         int currentXDistanceFromDragPoint = 0;
-        int currentYDistanceFromDragPoint = 0;
+        int currentYDistanceFromDragPoint = 0; 
 
-
-
-
-
-        readonly HitPointChain hitPointChain = new HitPointChain();
-
-
+        readonly HitPointChain hitPointChain = new HitPointChain(); 
 
         LinkedList<VisualRootTimerTask> rootTimerTasks = new LinkedList<VisualRootTimerTask>();
         System.Timers.Timer rootTasksTimer;
@@ -47,9 +29,7 @@ namespace LayoutFarm
         UIHoverMonitorTask hoverMonitoringTask;
 
 
-        public event EventHandler<UIInvalidateEventArgs> CanvasInvalidatedEvent;
-
-        public event EventHandler<UICursorEventArgs> CursorStyleEventHandler;
+        public event EventHandler<UIInvalidateEventArgs> CanvasInvalidatedEvent;  
         public event EventHandler<EventArgs> CanvasForcePaint;
 
         public event EventHandler CurrentFocusElementChanged;
@@ -66,18 +46,7 @@ namespace LayoutFarm
         {
 
         }
-        //void SetCaretVisible(bool visible)
-        //{
-        //    if (CanvasCaretEvent != null)
-        //    {
-
-        //        var e = eventStock.GetFreeCaretEventArgs();
-        //        e.Visible = visible;
-        //        CanvasCaretEvent.Invoke(this, e);
-        //        eventStock.ReleaseEventArgs(e);
-        //    }
-        //}
-
+        
         public override RenderElement CurrentKeyboardFocusedElement
         {
             get
@@ -104,21 +73,10 @@ namespace LayoutFarm
                     if (currentKeyboardFocusedElement == value)
                     {
                         return;
-                    }
-
+                    } 
 
                     UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(value, currentKeyboardFocusedElement);
-                    focusEventArg.SetWinRoot(this);
-                    //var script = currentKeyboardFocusedElement.GetController();
-                    //if (script != null)
-                    //{
-                    //} 
-                    //if (currentKeyboardFocusedElement.NeedSystemCaret)
-                    //{
-                    //    SetCaretVisible(false); 
-                    //    currentKeyboardFocusedElement.InvalidateGraphic();
-
-                    //}
+                    focusEventArg.SetWinRoot(this); 
                     eventStock.ReleaseEventArgs(focusEventArg);
                 }
                 currentKeyboardFocusedElement = value;
@@ -136,16 +94,7 @@ namespace LayoutFarm
                     {
 
                     }
-                    eventStock.ReleaseEventArgs(focusEventArg);
-                    //if (currentKeyboardFocusedElement.NeedSystemCaret)
-                    //{
-
-                    //    SetCaretVisible(true);
-                    //}
-                    //else
-                    //{
-                    //    SetCaretVisible(false);
-                    //}
+                    eventStock.ReleaseEventArgs(focusEventArg); 
                     if (CurrentFocusElementChanged != null)
                     {
                         CurrentFocusElementChanged.Invoke(this, EventArgs.Empty);
@@ -291,9 +240,7 @@ namespace LayoutFarm
 
 
             if (hitElement.Focusable)
-            {
-
-                //hitElement.Focus();                 
+            {   
                 e.WinTop.CurrentKeyboardFocusedElement = hitElement;
             }
             DisableGraphicOutputFlush = false;
@@ -447,6 +394,9 @@ namespace LayoutFarm
                 e.Location = hitPointChain.CurrentHitPoint;
                 e.DragingElement = currentDragingElement;
                 e.SourceRenderElement = currentDragingElement;
+
+
+
                 IEventListener ui = currentDragingElement.GetController() as IEventListener;
                 if (ui != null)
                 {
@@ -479,7 +429,8 @@ namespace LayoutFarm
             }
 
             //--------------
-            currentXDistanceFromDragPoint += e.XDiff; currentYDistanceFromDragPoint += e.YDiff;
+            currentXDistanceFromDragPoint += e.XDiff;
+            currentYDistanceFromDragPoint += e.YDiff;
             
 
             DisableGraphicOutputFlush = true;
@@ -491,6 +442,8 @@ namespace LayoutFarm
             dragPoint.Offset(currentXDistanceFromDragPoint, currentYDistanceFromDragPoint);
             e.Location = dragPoint;
             e.DragingElement = currentDragingElement; 
+
+
 
             IEventListener ui = currentDragingElement.GetController() as IEventListener;
             if (ui != null)
@@ -592,8 +545,6 @@ namespace LayoutFarm
             //    }
             //}
             //UIDragEventArgs.ReleaseEventArgs(d_eventArg);
-
-
         }
         public void OnDragStop(UIDragEventArgs e)
         {
@@ -698,8 +649,7 @@ namespace LayoutFarm
                 DisableGraphicOutputFlush = false;
 
                 if (hitElement.Focusable)
-                {
-                    //hitElement.Focus(); 
+                {   
                     e.WinTop.CurrentKeyboardFocusedElement = hitElement;
                 }
                 FlushAccumGraphicUpdate();
@@ -782,8 +732,7 @@ namespace LayoutFarm
                 if (ui != null)
                 {
                     result = ui.ListenProcessDialogKey(e);
-                }
-
+                } 
 
                 if (result && currentKeyboardFocusedElement != null)
                 {

@@ -80,6 +80,7 @@ namespace LayoutFarm.SampleControls
         {
             this.Focus();
             visualTextEdit.OnMouseDown(e);
+            e.CancelBubbling = true;
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {

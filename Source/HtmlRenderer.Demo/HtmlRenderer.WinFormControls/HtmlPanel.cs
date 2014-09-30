@@ -65,7 +65,7 @@ namespace HtmlRenderer
         HtmlRenderer.WebDom.WebDocument currentDoc;
 
         MyHtmlIsland myHtmlIsland;
-        Composers.InputEventBridge _htmlEventBridge;
+        HtmlInputEventBridge _htmlEventBridge;
         /// <summary>
         /// the raw base stylesheet data used in the control
         /// </summary>
@@ -117,7 +117,7 @@ namespace HtmlRenderer
             };
             timer01.Enabled = true;
             //-------------------------------------------
-            _htmlEventBridge = new Composers.InputEventBridge();
+            _htmlEventBridge = new HtmlInputEventBridge();
             _htmlEventBridge.Bind(myHtmlIsland, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
             //------------------------------------------- 
         }

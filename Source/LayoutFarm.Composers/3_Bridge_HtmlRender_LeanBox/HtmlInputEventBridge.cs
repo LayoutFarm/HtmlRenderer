@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using LayoutFarm.Drawing;
 using HtmlRenderer.Boxes;
 using HtmlRenderer.WebDom;
-using LayoutFarm;
+using LayoutFarm; 
 
-namespace HtmlRenderer.Composers
+namespace HtmlRenderer
 {
 
-    public class InputEventBridge
+    public class HtmlInputEventBridge
     {
 
         //-----------------------------------------------
@@ -22,11 +22,11 @@ namespace HtmlRenderer.Composers
         bool _isMouseDown;
         //----------------------------------------------- 
         SelectionRange _currentSelectionRange = null;
-        IFonts ifonts;
-
+        IFonts ifonts; 
         bool _isBinded;
-        public InputEventBridge()
+        public HtmlInputEventBridge()
         {
+
         }
         public void Bind(HtmlIsland htmlIsland, IFonts ifonts)
         {
@@ -50,6 +50,8 @@ namespace HtmlRenderer.Composers
             {
                 return;
             }
+
+            //find top root 
             var rootbox = _htmlIsland.GetRootCssBox();
             if (rootbox == null)
             {
@@ -73,11 +75,10 @@ namespace HtmlRenderer.Composers
             _latestMouseDownHitChain = hitChain;
 
             hitChain.SetRootGlobalPosition(x, y);
+            
             //1. prob hit chain only
             BoxUtils.HitTest(rootbox, x, y, hitChain);
-            //2. invoke css event and script event   
-
-
+            //2. invoke css event and script event    
             UIMouseEventArgs mouseDownE = new UIMouseEventArgs();
             mouseDownE.EventName = UIEventName.MouseDown;
             PropagateEventOnBubblingPhase(hitChain, mouseDownE);
@@ -145,6 +146,7 @@ namespace HtmlRenderer.Composers
             BoxHitChain hitChain = GetFreeHitChain();
             hitChain.SetRootGlobalPosition(x, y);
             //1. prob hit chain only
+
             BoxUtils.HitTest(rootbox, x, y, hitChain);
 
             //2. invoke css event and script event 
@@ -177,9 +179,11 @@ namespace HtmlRenderer.Composers
                 _currentSelectionRange = null;
             }
         }
-
-        public void KeyDown()
+        public void KeyDown(char keyChar)
         {
+            //send focus to current input element
+             
+
         }
         public void KeyUp()
         {

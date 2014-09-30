@@ -10,6 +10,8 @@ namespace LayoutFarm
 
     public class HitPointChain
     {
+
+
         public struct HitPair
         {
             public Point point;
@@ -44,11 +46,12 @@ namespace LayoutFarm
                 return elem.ToString();
             }
 #endif
-        }
+        } 
 
-
-
-        LinkedList<HitPair> currentHitChain; LinkedList<HitPair> prevHitChain; readonly LinkedList<HitPair> hitChainA = new LinkedList<HitPair>(); readonly LinkedList<HitPair> hitChainB = new LinkedList<HitPair>();
+        LinkedList<HitPair> currentHitChain;
+        LinkedList<HitPair> prevHitChain;
+        readonly LinkedList<HitPair> hitChainA = new LinkedList<HitPair>();
+        readonly LinkedList<HitPair> hitChainB = new LinkedList<HitPair>();
 
         int globalOffsetX = 0;
         int globalOffsetY = 0;

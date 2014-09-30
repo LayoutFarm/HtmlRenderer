@@ -232,6 +232,7 @@ namespace LayoutFarm
             }
             return ContainPoint(testPoint.X, testPoint.Y);
         }
+
         public bool HitTestCore(HitPointChain artHitResult)
         {
 
