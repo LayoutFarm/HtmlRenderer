@@ -16,11 +16,7 @@ namespace LayoutFarm
         RenderElement currentKeyboardFocusedElement = null;
         Stack<VisualDrawingChain> renderingChainStock = new Stack<VisualDrawingChain>();
 
-        internal int GraphicUpdateSuspendCount
-        {
-            get { return this.rootGraphic.GraphicUpdateBlockCount; }
-            set { this.rootGraphic.GraphicUpdateBlockCount = value; }
-        }
+
         internal bool LayoutQueueClearing
         {
             get { return this.rootGraphic.LayoutQueueClearing; }
@@ -30,6 +26,11 @@ namespace LayoutFarm
         {
             get { return this.rootGraphic.DisableGraphicOutputFlush; }
             set { this.rootGraphic.DisableGraphicOutputFlush = value; }
+        }
+        int GraphicUpdateSuspendCount
+        {
+            get { return this.rootGraphic.GraphicUpdateBlockCount; }
+            set { this.rootGraphic.GraphicUpdateBlockCount = value; }
         }
         public override void FlushGraphic(Rectangle rect)
         {

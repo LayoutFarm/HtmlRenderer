@@ -11,8 +11,6 @@ namespace LayoutFarm
     {
 
         CanvasEventsStock eventStock = new CanvasEventsStock();
-
-        System.Timers.Timer centralAnimationClock;
         RenderElement currentMouseActiveElement = null;
         RenderElement currentDragingElement = null;
 
@@ -24,26 +22,16 @@ namespace LayoutFarm
 
         readonly HitPointChain hitPointChain = new HitPointChain();
 
-        LinkedList<VisualRootTimerTask> rootTimerTasks = new LinkedList<VisualRootTimerTask>();
-        System.Timers.Timer rootTasksTimer;
-
         UIHoverMonitorTask hoverMonitoringTask;
-
-
-        public event EventHandler<UIInvalidateEventArgs> CanvasInvalidatedEvent;
-        public event EventHandler<EventArgs> CanvasForcePaint;
 
         public event EventHandler CurrentFocusElementChanged;
         int msgChainVersion;
-        LinkedList<LinkedListNode<VisualRootTimerTask>> tobeRemoveTasks = new LinkedList<LinkedListNode<VisualRootTimerTask>>();
 
         MyTopWindowRenderBox topwin;
         RenderElement currentKeyboardFocusedElement;
         RootGraphic rootGraphic;
 
-#if DEBUG
-        RootGraphic dbugVRoot;
-#endif
+
         public TopBoxInputEventBridge()
         {
 
@@ -175,7 +163,7 @@ namespace LayoutFarm
                 hitPointChain.SwapHitChain();
                 return;
             }
-            this.topwin.DisableGraphicOutputFlush = true;
+            DisableGraphicOutputFlush = true;
 
             e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
             e.Location = hitPointChain.CurrentHitPoint;
@@ -192,7 +180,7 @@ namespace LayoutFarm
             }
             e.TranslateCanvasOriginBack();
 #if DEBUG
-            RootGraphic visualroot = this.dbugVRoot;
+            RootGraphic visualroot = this.rootGraphic;
             if (visualroot.dbug_RecordHitChain)
             {
                 visualroot.dbug_rootHitChainMsg.Clear();
@@ -229,8 +217,8 @@ namespace LayoutFarm
             {
                 e.WinTop.CurrentKeyboardFocusedElement = hitElement;
             }
-            this.topwin.DisableGraphicOutputFlush = false;
-            this.topwin.FlushAccumGraphicUpdate();
+            DisableGraphicOutputFlush = false;
+            FlushAccumGraphicUpdate();
 
 #if DEBUG
             visualroot.dbugHitTracker.Write("stop-mousedown");
@@ -249,12 +237,18 @@ namespace LayoutFarm
             commonElement.HitTestCore(hitPointChain);
             return hitPointChain.CurrentHitElement;
         }
-
+        bool DisableGraphicOutputFlush
+        {
+            get { return this.rootGraphic.DisableGraphicOutputFlush; }
+            set { this.rootGraphic.DisableGraphicOutputFlush = value; }
+        }
+        void FlushAccumGraphicUpdate()
+        {
+            this.rootGraphic.FlushAccumGraphicUpdate(this.topwin);
+        } 
         public void OnMouseMove(UIMouseEventArgs e)
         {
-#if DEBUG
 
-#endif
             RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseMove);
 
             hoverMonitoringTask.Reset();
@@ -262,7 +256,7 @@ namespace LayoutFarm
 
             if (hitElement != currentMouseActiveElement)
             {
-                this.topwin.DisableGraphicOutputFlush = true;
+                DisableGraphicOutputFlush = true;
                 {
                     if (RenderElement.IsTestableElement(currentMouseActiveElement))
                     {
@@ -270,6 +264,7 @@ namespace LayoutFarm
                         e.TranslateCanvasOrigin(prevElementGlobalLocation);
                         e.Location = hitPointChain.PrevHitPoint;
                         e.SourceRenderElement = currentMouseActiveElement;
+
                         IEventListener ui = currentMouseActiveElement.GetController() as IEventListener;
                         if (ui != null)
                         {
@@ -301,12 +296,12 @@ namespace LayoutFarm
 
                     }
                 }
-                this.topwin.DisableGraphicOutputFlush = false;
-                this.topwin.FlushAccumGraphicUpdate();
+                DisableGraphicOutputFlush = false;
+                FlushAccumGraphicUpdate();
             }
             else if (hitElement != null)
             {
-                this.topwin.DisableGraphicOutputFlush = true;
+                DisableGraphicOutputFlush = true;
                 {
                     e.TranslateCanvasOrigin(hitPointChain.LastestElementGlobalX, hitPointChain.LastestElementGlobalY);
                     e.Location = hitPointChain.CurrentHitPoint;
@@ -320,8 +315,8 @@ namespace LayoutFarm
 
                     e.TranslateCanvasOriginBack();
                 }
-                this.topwin.DisableGraphicOutputFlush = false;
-                this.topwin.FlushAccumGraphicUpdate();
+                DisableGraphicOutputFlush = false;
+                FlushAccumGraphicUpdate();
             }
 
             hitPointChain.SwapHitChain();
@@ -331,7 +326,7 @@ namespace LayoutFarm
             RenderElement hitElement = HitTestCoreWithPrevChainHint(hitPointChain.LastestRootX, hitPointChain.LastestRootY, UIEventName.MouseHover);
             if (hitElement != null && RenderElement.IsTestableElement(hitElement))
             {
-                this.topwin.DisableGraphicOutputFlush = true;
+                DisableGraphicOutputFlush = true;
                 Point hitElementGlobalLocation = hitElement.GetGlobalLocation();
 
                 UIMouseEventArgs e2 = new UIMouseEventArgs();
@@ -344,14 +339,12 @@ namespace LayoutFarm
                     ui.ListenMouseEvent(UIMouseEventName.MouseHover, e2);
                 }
 
-                topwin.DisableGraphicOutputFlush = false;
-                topwin.FlushAccumGraphicUpdate();
+                DisableGraphicOutputFlush = false;
+                FlushAccumGraphicUpdate();
             }
-            hitPointChain.SwapHitChain();
-
+            hitPointChain.SwapHitChain(); 
             hoverMonitoringTask.SetEnable(false, this.topwin);
-        }
-
+        } 
         public void OnDragStart(UIDragEventArgs e)
         {
 
@@ -374,7 +367,7 @@ namespace LayoutFarm
 
             if (currentDragingElement != null && currentDragingElement != this.topwin)
             {
-                this.topwin.DisableGraphicOutputFlush = true;
+                DisableGraphicOutputFlush = true;
                 Point globalLocation = currentDragingElement.GetGlobalLocation();
                 e.TranslateCanvasOrigin(globalLocation);
                 e.Location = hitPointChain.CurrentHitPoint;
@@ -389,8 +382,8 @@ namespace LayoutFarm
                     ui.ListenDragEvent(UIDragEventName.DragStart, e);
                 }
                 e.TranslateCanvasOriginBack();
-                topwin.DisableGraphicOutputFlush = false;
-                topwin.FlushAccumGraphicUpdate();
+                DisableGraphicOutputFlush = false;
+                FlushAccumGraphicUpdate();
                 hitPointChain.ClearDragHitElements();
             }
             hitPointChain.SwapHitChain();
@@ -399,7 +392,7 @@ namespace LayoutFarm
         {
 
 #if DEBUG
-            this.dbugVRoot.dbugEventIsDragging = true;
+            this.rootGraphic.dbugEventIsDragging = true;
 #endif
 
             if (currentDragingElement == null)
@@ -416,7 +409,7 @@ namespace LayoutFarm
             currentYDistanceFromDragPoint += e.YDiff;
 
 
-            this.topwin.DisableGraphicOutputFlush = true;
+            DisableGraphicOutputFlush = true;
 
             Point globalDragingElementLocation = currentDragingElement.GetGlobalLocation();
             e.TranslateCanvasOrigin(globalDragingElementLocation);
@@ -438,7 +431,7 @@ namespace LayoutFarm
                 BroadcastDragHitEvents(e);
             }
 
-            this.topwin.FlushAccumGraphicUpdate();
+            FlushAccumGraphicUpdate();
         }
 
 
@@ -532,14 +525,14 @@ namespace LayoutFarm
 
 
 #if DEBUG
-            this.dbugVRoot.dbugEventIsDragging = false;
+            this.rootGraphic.dbugEventIsDragging = false;
 #endif
             if (currentDragingElement == null)
             {
                 return;
             }
 
-            this.topwin.DisableGraphicOutputFlush = true;
+            DisableGraphicOutputFlush = true;
 
             Point globalDragingElementLocation = currentDragingElement.GetGlobalLocation();
             e.TranslateCanvasOrigin(globalDragingElementLocation);
@@ -580,8 +573,8 @@ namespace LayoutFarm
 
 
             currentDragingElement = null;
-            this.topwin.DisableGraphicOutputFlush = false;
-            this.topwin.FlushAccumGraphicUpdate();
+            DisableGraphicOutputFlush = false;
+            FlushAccumGraphicUpdate();
 
         }
         public void OnGotFocus(UIFocusEventArgs e)
@@ -614,7 +607,7 @@ namespace LayoutFarm
             RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseUp);
             if (hitElement != null)
             {
-                this.topwin.DisableGraphicOutputFlush = true;
+                DisableGraphicOutputFlush = true;
 
                 Point globalLocation = hitElement.GetGlobalLocation();
                 e.TranslateCanvasOrigin(globalLocation);
@@ -628,13 +621,13 @@ namespace LayoutFarm
                 }
                 e.TranslateCanvasOriginBack();
 
-                this.topwin.DisableGraphicOutputFlush = false;
+                DisableGraphicOutputFlush = false;
 
                 if (hitElement.Focusable)
                 {
                     e.WinTop.CurrentKeyboardFocusedElement = hitElement;
                 }
-                this.topwin.FlushAccumGraphicUpdate();
+                FlushAccumGraphicUpdate();
             }
 
             hitPointChain.SwapHitChain();

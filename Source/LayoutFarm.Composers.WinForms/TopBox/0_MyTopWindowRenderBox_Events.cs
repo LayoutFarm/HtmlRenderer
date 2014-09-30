@@ -8,20 +8,20 @@ namespace LayoutFarm
 {
 
     partial class MyTopWindowRenderBox
-    {  
+    {
 
 
-        System.Timers.Timer centralAnimationClock; 
-        RenderElement currentMouseActiveElement = null; 
-        RenderElement currentDragingElement = null; 
+        System.Timers.Timer centralAnimationClock;
+        RenderElement currentMouseActiveElement = null;
+        RenderElement currentDragingElement = null;
 
         int globalXOfCurrentUI = 0;
-        int globalYOfCurrentUI = 0; 
+        int globalYOfCurrentUI = 0;
 
         int currentXDistanceFromDragPoint = 0;
-        int currentYDistanceFromDragPoint = 0; 
+        int currentYDistanceFromDragPoint = 0;
 
-        readonly HitPointChain hitPointChain = new HitPointChain(); 
+        readonly HitPointChain hitPointChain = new HitPointChain();
 
         LinkedList<VisualRootTimerTask> rootTimerTasks = new LinkedList<VisualRootTimerTask>();
         System.Timers.Timer rootTasksTimer;
@@ -29,7 +29,7 @@ namespace LayoutFarm
         UIHoverMonitorTask hoverMonitoringTask;
 
 
-        public event EventHandler<UIInvalidateEventArgs> CanvasInvalidatedEvent;  
+        public event EventHandler<UIInvalidateEventArgs> CanvasInvalidatedEvent;
         public event EventHandler<EventArgs> CanvasForcePaint;
 
         public event EventHandler CurrentFocusElementChanged;
@@ -46,7 +46,7 @@ namespace LayoutFarm
         {
 
         }
-        
+
         public override RenderElement CurrentKeyboardFocusedElement
         {
             get
@@ -73,10 +73,10 @@ namespace LayoutFarm
                     if (currentKeyboardFocusedElement == value)
                     {
                         return;
-                    } 
+                    }
 
                     UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(value, currentKeyboardFocusedElement);
-                    focusEventArg.SetWinRoot(this); 
+                    focusEventArg.SetWinRoot(this);
                     eventStock.ReleaseEventArgs(focusEventArg);
                 }
                 currentKeyboardFocusedElement = value;
@@ -94,7 +94,7 @@ namespace LayoutFarm
                     {
 
                     }
-                    eventStock.ReleaseEventArgs(focusEventArg); 
+                    eventStock.ReleaseEventArgs(focusEventArg);
                     if (CurrentFocusElementChanged != null)
                     {
                         CurrentFocusElementChanged.Invoke(this, EventArgs.Empty);
@@ -240,7 +240,7 @@ namespace LayoutFarm
 
 
             if (hitElement.Focusable)
-            {   
+            {
                 e.WinTop.CurrentKeyboardFocusedElement = hitElement;
             }
             DisableGraphicOutputFlush = false;
@@ -271,7 +271,7 @@ namespace LayoutFarm
 #endif
             RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseMove);
 
-            hoverMonitoringTask.Reset(); 
+            hoverMonitoringTask.Reset();
             hoverMonitoringTask.SetEnable(true, this);
 
             if (hitElement != currentMouseActiveElement)
@@ -290,7 +290,7 @@ namespace LayoutFarm
                             ui.ListenMouseEvent(UIMouseEventName.MouseLeave, e);
                         }
 
-                        e.TranslateCanvasOriginBack(); 
+                        e.TranslateCanvasOriginBack();
                         currentMouseActiveElement = null;
                     }
 
@@ -431,7 +431,7 @@ namespace LayoutFarm
             //--------------
             currentXDistanceFromDragPoint += e.XDiff;
             currentYDistanceFromDragPoint += e.YDiff;
-            
+
 
             DisableGraphicOutputFlush = true;
 
@@ -441,13 +441,13 @@ namespace LayoutFarm
             Point dragPoint = hitPointChain.PrevHitPoint;
             dragPoint.Offset(currentXDistanceFromDragPoint, currentYDistanceFromDragPoint);
             e.Location = dragPoint;
-            e.DragingElement = currentDragingElement; 
+            e.DragingElement = currentDragingElement;
 
 
 
             IEventListener ui = currentDragingElement.GetController() as IEventListener;
             if (ui != null)
-            {  
+            {
                 ui.ListenDragEvent(UIDragEventName.Dragging, e);
             }
             e.TranslateCanvasOriginBack();
@@ -456,7 +456,7 @@ namespace LayoutFarm
             {
                 BroadcastDragHitEvents(e);
             }
-          
+
             FlushAccumGraphicUpdate();
         }
 
@@ -573,7 +573,7 @@ namespace LayoutFarm
                 script.ListenDragEvent(UIDragEventName.DragStop, e);
             }
 
-            e.TranslateCanvasOriginBack(); 
+            e.TranslateCanvasOriginBack();
 
             UIDragEventArgs d_eventArg = new UIDragEventArgs();
             if (hitPointChain.DragHitElementCount > 0)
@@ -594,7 +594,7 @@ namespace LayoutFarm
                 }
             }
 
-            hitPointChain.ClearDragHitElements(); 
+            hitPointChain.ClearDragHitElements();
 
 
             currentDragingElement = null;
@@ -649,7 +649,7 @@ namespace LayoutFarm
                 DisableGraphicOutputFlush = false;
 
                 if (hitElement.Focusable)
-                {   
+                {
                     e.WinTop.CurrentKeyboardFocusedElement = hitElement;
                 }
                 FlushAccumGraphicUpdate();
@@ -732,7 +732,7 @@ namespace LayoutFarm
                 if (ui != null)
                 {
                     result = ui.ListenProcessDialogKey(e);
-                } 
+                }
 
                 if (result && currentKeyboardFocusedElement != null)
                 {
@@ -744,7 +744,7 @@ namespace LayoutFarm
             }
 
             return result;
-        } 
+        }
 
     }
 }
