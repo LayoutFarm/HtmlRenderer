@@ -131,11 +131,10 @@ namespace HtmlRenderer
         void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
         {
             //need updater dom
-            var builder = new HtmlRenderer.Composers.RenderTreeBuilder();
+            var builder = new HtmlRenderer.Composers.RenderTreeBuilder(null);
             builder.RequestStyleSheet += (e2) =>
             {
-
-                TextLoadRequestEventArgs req = new TextLoadRequestEventArgs(e2.Src);
+                var req = new TextLoadRequestEventArgs(e2.Src);
                 this.textContentMan.AddStyleSheetRequest(req);
                 e2.SetStyleSheet = req.SetStyleSheet;
             };
@@ -143,21 +142,22 @@ namespace HtmlRenderer
             this.myHtmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
         }
 
-        void RefreshHtmlDomChange(CssActiveSheet cssData)
-        {
+        //void RefreshHtmlDomChange()
+        //{
 
-            var builder = new Composers.RenderTreeBuilder();
-            builder.RequestStyleSheet += (e) =>
-            {
-                var req = new TextLoadRequestEventArgs(e.Src);
-                this.textContentMan.AddStyleSheetRequest(req);
-                e.SetStyleSheet = req.SetStyleSheet;
-            };
+        //    var builder = new Composers.RenderTreeBuilder();
+        //    builder.RequestStyleSheet += (e) =>
+        //    {
+        //        var req = new TextLoadRequestEventArgs(e.Src);
+        //        this.textContentMan.AddStyleSheetRequest(req);
+        //        e.SetStyleSheet = req.SetStyleSheet;
+        //    };
 
-            var rootBox = builder.RefreshCssTree(this.currentDoc,
-                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
-                this.myHtmlIsland);
-        }
+        //    var rootBox = builder.RefreshCssTree(this.currentDoc,
+        //        LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
+        //        this.myHtmlIsland);
+        //    this.myHtmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
+        //}
 
 
         ///// <summary>
@@ -295,9 +295,7 @@ namespace HtmlRenderer
 
 
             var htmldoc = HtmlRenderer.Composers.WebDocumentParser.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
-
-
-            var builder = new Composers.RenderTreeBuilder();
+            var builder = new Composers.RenderTreeBuilder(null);
             builder.RequestStyleSheet += (e) =>
             {
                 var req = new TextLoadRequestEventArgs(e.Src);
@@ -306,7 +304,9 @@ namespace HtmlRenderer
             };
 
             //build rootbox from htmldoc
-            var rootBox = builder.BuildCssRenderTree(htmldoc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, htmlIsland, cssData);
+            var rootBox = builder.BuildCssRenderTree(htmldoc,
+                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
+                htmlIsland, cssData);
 
             htmlIsland.SetHtmlDoc(htmldoc);
             htmlIsland.SetRootCssBox(rootBox, cssData);
@@ -326,7 +326,7 @@ namespace HtmlRenderer
         void BuildCssBoxTree(MyHtmlIsland htmlIsland, CssActiveSheet cssData)
         {
 
-            var builder = new Composers.RenderTreeBuilder();
+            var builder = new Composers.RenderTreeBuilder(null);
             builder.RequestStyleSheet += (e) =>
             {
                 var req = new TextLoadRequestEventArgs(e.Src);
@@ -345,9 +345,9 @@ namespace HtmlRenderer
 
         }
         public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.WebDocument doc)
-        {
-
-            RefreshHtmlDomChange(_baseCssData);
+        {   
+            //RefreshHtmlDomChange(_baseCssData);
+            myHtmlIsland_NeedUpdateDom(this, EventArgs.Empty);
             this.PaintMe();
 
         }

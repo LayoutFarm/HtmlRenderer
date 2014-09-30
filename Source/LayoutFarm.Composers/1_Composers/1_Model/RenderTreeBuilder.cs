@@ -25,7 +25,7 @@ using HtmlRenderer.Composers.BridgeHtml;
 namespace HtmlRenderer.Composers
 {
 
-    
+
     /// <summary>
     /// Handle css DOM tree generation from raw html and stylesheet.
     /// </summary>
@@ -34,12 +34,12 @@ namespace HtmlRenderer.Composers
 
         WebDom.Parser.CssParser miniCssParser = new CssParser();
         ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
-        public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet; 
-        
-        public RenderTreeBuilder()
+        public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
+        LayoutFarm.RootGraphic rootgfx;
+        public RenderTreeBuilder(LayoutFarm.RootGraphic rootgfx)
         {
-
-        } 
+            this.rootgfx = rootgfx;
+        }
         void RaiseRequestStyleSheet(
             string hrefSource,
             out string stylesheet,
@@ -55,7 +55,7 @@ namespace HtmlRenderer.Composers
             var e = new ContentManagers.StylesheetLoadEventArgs(hrefSource);
             RequestStyleSheet(e);
             stylesheet = e.SetStyleSheet;
-            stylesheetData = e.SetStyleSheetData; 
+            stylesheetData = e.SetStyleSheetData;
         }
 
 
@@ -180,7 +180,7 @@ namespace HtmlRenderer.Composers
             rootBox = BoxCreator.CreateCssRenderRoot(ifonts);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
-            BoxCreator boxCreator = new BoxCreator(null);
+            BoxCreator boxCreator = new BoxCreator(this.rootgfx);
             boxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
@@ -207,7 +207,7 @@ namespace HtmlRenderer.Composers
             //----------------------------------------------------------------  
             CssBox principalBox = RootElement.InternalGetPrincipalBox(bridgeRoot);
             principalBox.Clear();
-            BoxCreator boxCreator = new BoxCreator(null);
+            BoxCreator boxCreator = new BoxCreator(this.rootgfx);
             boxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, false);
 
             htmldoc.SetDocumentState(DocumentState.Idle);

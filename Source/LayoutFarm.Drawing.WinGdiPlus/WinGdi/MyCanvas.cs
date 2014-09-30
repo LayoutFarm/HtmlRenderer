@@ -100,6 +100,8 @@ namespace LayoutFarm
                 winGfx = new WinGraphics(
                     this.gx,
                     false);
+                winGfx.CurrentCanvas = this;
+
             }
             return winGfx;
 

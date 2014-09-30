@@ -77,6 +77,11 @@ namespace LayoutFarm.Drawing
             _g = g;
             _useGdiPlusTextRendering = useGdiPlusTextRendering;
         }
+        public Canvas CurrentCanvas
+        {
+            get;
+            set;
+        }
         public GraphicPlatform Platform
         {
             get { return WinGdiPlatform.WinGdi.Platform; }

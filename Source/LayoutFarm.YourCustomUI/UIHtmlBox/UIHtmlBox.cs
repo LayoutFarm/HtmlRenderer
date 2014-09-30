@@ -23,6 +23,8 @@ namespace LayoutFarm.SampleControls
         public event EventHandler<ImageRequestEventArgs> RequestImage;
 
         System.Timers.Timer tim = new System.Timers.Timer();
+        bool hasWaitingDocToLoad;
+        HtmlRenderer.WebDom.CssActiveSheet waitingCssData;
 
         static UIHtmlBox()
         {
@@ -65,8 +67,12 @@ namespace LayoutFarm.SampleControls
         }
         void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
         {
+            hasWaitingDocToLoad = true;
+            //---------------------------
+            if (myHtmlBox == null) return;
+            //---------------------------
 
-            var builder = new HtmlRenderer.Composers.RenderTreeBuilder();
+            var builder = new HtmlRenderer.Composers.RenderTreeBuilder(myHtmlBox.Root);
             builder.RequestStyleSheet += (e2) =>
             {
                 if (this.RequestStylesheet != null)
@@ -103,27 +109,6 @@ namespace LayoutFarm.SampleControls
             //    Invalidate();
         }
 
-        ///// <summary>
-        ///// Propagate the stylesheet load event from root container.
-        ///// </summary>
-        //void OnStylesheetLoad(object sender, TextLoadRequestEventArgs e)
-        //{
-        //    if (RequestStylesheet != null)
-        //    {
-        //        RequestStylesheet(this, e);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Propagate the image load event from root container.
-        ///// </summary>
-        //void OnImageLoad(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
-        //{
-        //    if (RequestImage != null)
-        //    {
-        //        RequestImage(this, e);
-        //    }
-        //}
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (myHtmlBox == null)
@@ -131,19 +116,19 @@ namespace LayoutFarm.SampleControls
                 _htmlEventBridge = new HtmlRenderer.Composers.InputEventBridge();
                 _htmlEventBridge.Bind(myHtmlIsland, rootgfx.SampleIFonts);
 
-
                 myHtmlBox = new HtmlRenderBox(rootgfx, _width, _height, myHtmlIsland);
                 myHtmlBox.HasSpecificSize = true;
+            }
 
+            if (this.hasWaitingDocToLoad)
+            {
+                UpdateWaitingHtmlDoc(this.myHtmlBox.Root);
             }
             return myHtmlBox;
         }
-        void SetHtml(MyHtmlIsland htmlIsland, string html, HtmlRenderer.WebDom.CssActiveSheet cssData)
-        {   
-            var htmldoc = HtmlRenderer.Composers.WebDocumentParser.ParseDocument(
-                             new HtmlRenderer.WebDom.Parser.TextSnapshot(html.ToCharArray()));
-
-            var builder = new HtmlRenderer.Composers.RenderTreeBuilder();
+        void UpdateWaitingHtmlDoc(RootGraphic rootgfx)
+        {
+            var builder = new HtmlRenderer.Composers.RenderTreeBuilder(rootgfx);
             builder.RequestStyleSheet += (e) =>
             {
                 if (this.RequestStylesheet != null)
@@ -154,20 +139,29 @@ namespace LayoutFarm.SampleControls
                 }
             };
 
-
-
-            this.currentdoc = htmldoc;
-
             //build rootbox from htmldoc
-            var rootBox = builder.BuildCssRenderTree(htmldoc,
+            var rootBox = builder.BuildCssRenderTree(this.currentdoc,
                 LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
-                htmlIsland,
-                cssData);
+                this.myHtmlIsland,
+                this.waitingCssData);
 
-            htmlIsland.SetHtmlDoc(htmldoc);
-            htmlIsland.SetRootCssBox(rootBox, cssData);
+            var htmlIsland = this.myHtmlIsland;
+            htmlIsland.SetHtmlDoc(this.currentdoc);
+            htmlIsland.SetRootCssBox(rootBox, this.waitingCssData);
             htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
             htmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
+        }
+        void SetHtml(MyHtmlIsland htmlIsland, string html, HtmlRenderer.WebDom.CssActiveSheet cssData)
+        {
+            var htmldoc = HtmlRenderer.Composers.WebDocumentParser.ParseDocument(
+                             new HtmlRenderer.WebDom.Parser.TextSnapshot(html.ToCharArray()));
+            this.currentdoc = htmldoc;
+            this.hasWaitingDocToLoad = true;
+            this.waitingCssData = cssData;
+            //---------------------------
+            if (myHtmlBox == null) return;
+            //---------------------------
+            UpdateWaitingHtmlDoc(this.myHtmlBox.Root);
 
         }
         public void LoadHtmlText(string html)
