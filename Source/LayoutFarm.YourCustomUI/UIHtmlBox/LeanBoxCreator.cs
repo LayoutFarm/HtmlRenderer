@@ -8,7 +8,7 @@ namespace HtmlRenderer.Boxes.LeanBox
 
     class LeanBoxCreator : CustomCssBoxGenerator
     {
-        public override CssBox CreateCssBox(object tag, CssBox parentBox, BoxSpec spec)
+        public override CssBox CreateCssBox(object tag, CssBox parentBox, BoxSpec spec, LayoutFarm.RootGraphic roogfx)
         {
             //check if this is a proper tag 
             DomElement domE = tag as DomElement;
@@ -24,11 +24,13 @@ namespace HtmlRenderer.Boxes.LeanBox
                     case "textbox":
                         {
 
+
                             var textbox = new LayoutFarm.SampleControls.UITextBox(100, 20, false);
+
+
 
                             CssLeanBox leanTextBox = new CssLeanBox(tag, spec, null);
                             parentBox.AppendChild(leanTextBox);
-
                             return leanTextBox;
                         }
                 }

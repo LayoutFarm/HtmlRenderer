@@ -37,9 +37,10 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="1_Composers\1_Model\WebDocumentParser.cs" />
     <Compile Include="1_Composers\2_Css\ActiveCssTemplate.cs" />
     <Compile Include="1_Composers\1_Model\CustomCssBoxGenerator.cs" />
-    <Compile Include="1_Composers\1_Model\BoxModelBuilder.cs" />
+    <Compile Include="1_Composers\1_Model\RenderTreeBuilder.cs" />
     <Compile Include="1_Composers\3_Scriptable\EaseScriptElement.cs" />
     <Compile Include="2_BridgeHtmlDom\BulletNumberFormatter.cs" />
     <Compile Include="1_Composers\1_Model\ContentTextSplitter.cs" />

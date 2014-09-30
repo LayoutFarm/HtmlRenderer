@@ -8,7 +8,7 @@ using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer.Composers.BridgeHtml
 {
-    public static class BoxCreator
+    public class BoxCreator
     {
 
         static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
@@ -33,7 +33,14 @@ namespace HtmlRenderer.Composers.BridgeHtml
             return boxImage;
         }
 
-        internal  static void GenerateChildBoxes(HtmlElement parentElement, bool fullmode)
+
+        LayoutFarm.RootGraphic rootgfx;
+        internal BoxCreator(LayoutFarm.RootGraphic rootgfx)
+        {
+            this.rootgfx = rootgfx;
+
+        }
+        internal void GenerateChildBoxes(HtmlElement parentElement, bool fullmode)
         {
             //recursive ***  
             //first just generate into primary pricipal box
@@ -75,7 +82,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                     if (fullmode)
                                     {
                                         bool alreadyHandleChildrenNode;
-                                        CssBox newbox = BoxCreator.CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
+                                        CssBox newbox = CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
                                         childElement.SetPrincipalBox(newbox);
                                         if (!alreadyHandleChildrenNode)
                                         {
@@ -88,7 +95,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                         if (existing == null)
                                         {
                                             bool alreadyHandleChildrenNode;
-                                            CssBox box = BoxCreator.CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
+                                            CssBox box = CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
                                             childElement.SetPrincipalBox(box);
                                             if (!alreadyHandleChildrenNode)
                                             {
@@ -174,7 +181,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                         if (fullmode)
                                         {
                                             bool alreadyHandleChildrenNode;
-                                            CssBox box = BoxCreator.CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
+                                            CssBox box = CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
                                             childElement.SetPrincipalBox(box);
                                             if (!alreadyHandleChildrenNode)
                                             {
@@ -188,7 +195,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                             if (existingCssBox == null)
                                             {
                                                 bool alreadyHandleChildrenNode;
-                                                CssBox box = BoxCreator.CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
+                                                CssBox box = CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
                                                 childElement.SetPrincipalBox(box);
                                                 if (!alreadyHandleChildrenNode)
                                                 {
@@ -224,7 +231,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             //----------------------------------
         }
 
-        internal static CssBox CreateBox(CssBox parentBox, HtmlElement childElement, out bool alreadyHandleChildrenNodes)
+        internal CssBox CreateBox(CssBox parentBox, HtmlElement childElement, out bool alreadyHandleChildrenNodes)
         {
 
             alreadyHandleChildrenNodes = false;
@@ -280,7 +287,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 //test extension box
                 case WellKnownDomNodeName.X:
                     {
-                        alreadyHandleChildrenNodes = true; 
+                        alreadyHandleChildrenNodes = true;
                         newBox = CreateCustomBox(parentBox, childElement, childElement.Spec);
                         if (newBox == null)
                         {
@@ -292,7 +299,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 case WellKnownDomNodeName.svg:
                     {
                         //1. create svg container node
-                        alreadyHandleChildrenNodes = true; 
+                        alreadyHandleChildrenNodes = true;
                         return SvgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
                     }
                 //---------------------------------------------------
@@ -317,11 +324,11 @@ namespace HtmlRenderer.Composers.BridgeHtml
             }
         }
 
-        static CssBox CreateCustomBox(CssBox parent, object tag, BoxSpec boxspec)
+        CssBox CreateCustomBox(CssBox parent, object tag, BoxSpec boxspec)
         {
             for (int i = generators.Count - 1; i >= 0; --i)
             {
-                var newbox = generators[i].CreateCssBox(tag, parent, boxspec);
+                var newbox = generators[i].CreateCssBox(tag, parent, boxspec, this.rootgfx);
                 if (newbox != null)
                 {
                     return newbox;
@@ -451,7 +458,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
                 //create sub item collection 
                 var itemBulletBox = new CssBox(null, spec.GetAnonVersion());
-                newBox.BulletBox = itemBulletBox; 
+                newBox.BulletBox = itemBulletBox;
 
                 CssBox.UnsafeSetParent(itemBulletBox, newBox);
                 CssBox.ChangeDisplayType(itemBulletBox, CssDisplay.Inline);

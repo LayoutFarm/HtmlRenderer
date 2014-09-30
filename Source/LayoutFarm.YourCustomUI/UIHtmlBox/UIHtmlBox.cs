@@ -26,12 +26,12 @@ namespace LayoutFarm.SampleControls
 
         static UIHtmlBox()
         {
-             HtmlRenderer.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator( 
-                new HtmlRenderer.Boxes.LeanBox.LeanBoxCreator());
+            HtmlRenderer.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(
+               new HtmlRenderer.Boxes.LeanBox.LeanBoxCreator());
         }
 
         public UIHtmlBox(int width, int height)
-        {   
+        {
             this._width = width;
             this._height = height;
 
@@ -56,10 +56,6 @@ namespace LayoutFarm.SampleControls
         {
             get { return this.myHtmlIsland; }
         }
-
-
-
-
         void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
         {
             if (this.RequestImage != null)
@@ -70,7 +66,7 @@ namespace LayoutFarm.SampleControls
         void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
         {
 
-            var builder = new HtmlRenderer.Composers.BoxModelBuilder();
+            var builder = new HtmlRenderer.Composers.RenderTreeBuilder();
             builder.RequestStyleSheet += (e2) =>
             {
                 if (this.RequestStylesheet != null)
@@ -80,7 +76,10 @@ namespace LayoutFarm.SampleControls
                     e2.SetStyleSheet = req.SetStyleSheet;
                 }
             };
-            var rootBox2 = builder.RefreshCssTree(this.currentdoc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, this.myHtmlIsland);
+            var rootBox2 = builder.RefreshCssTree(this.currentdoc,
+                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
+                this.myHtmlIsland);
+
             this.myHtmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
 
         }
@@ -140,9 +139,11 @@ namespace LayoutFarm.SampleControls
             return myHtmlBox;
         }
         void SetHtml(MyHtmlIsland htmlIsland, string html, HtmlRenderer.WebDom.CssActiveSheet cssData)
-        {
+        {   
+            var htmldoc = HtmlRenderer.Composers.WebDocumentParser.ParseDocument(
+                             new HtmlRenderer.WebDom.Parser.TextSnapshot(html.ToCharArray()));
 
-            HtmlRenderer.Composers.BoxModelBuilder builder = new HtmlRenderer.Composers.BoxModelBuilder();
+            var builder = new HtmlRenderer.Composers.RenderTreeBuilder();
             builder.RequestStyleSheet += (e) =>
             {
                 if (this.RequestStylesheet != null)
@@ -154,7 +155,7 @@ namespace LayoutFarm.SampleControls
             };
 
 
-            var htmldoc = builder.ParseDocument(new HtmlRenderer.WebDom.Parser.TextSnapshot(html.ToCharArray()));
+
             this.currentdoc = htmldoc;
 
             //build rootbox from htmldoc

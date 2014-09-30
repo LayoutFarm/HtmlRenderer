@@ -131,7 +131,7 @@ namespace HtmlRenderer
         void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
         {
             //need updater dom
-            HtmlRenderer.Composers.BoxModelBuilder builder = new HtmlRenderer.Composers.BoxModelBuilder();
+            var builder = new HtmlRenderer.Composers.RenderTreeBuilder();
             builder.RequestStyleSheet += (e2) =>
             {
 
@@ -146,7 +146,7 @@ namespace HtmlRenderer
         void RefreshHtmlDomChange(CssActiveSheet cssData)
         {
 
-            HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
+            var builder = new Composers.RenderTreeBuilder();
             builder.RequestStyleSheet += (e) =>
             {
                 var req = new TextLoadRequestEventArgs(e.Src);
@@ -292,14 +292,19 @@ namespace HtmlRenderer
         }
         void SetHtml(MyHtmlIsland htmlIsland, string html, CssActiveSheet cssData)
         {
-            HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
+
+
+            var htmldoc = HtmlRenderer.Composers.WebDocumentParser.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
+
+
+            var builder = new Composers.RenderTreeBuilder();
             builder.RequestStyleSheet += (e) =>
             {
                 var req = new TextLoadRequestEventArgs(e.Src);
                 this.textContentMan.AddStyleSheetRequest(req);
                 e.SetStyleSheet = req.SetStyleSheet;
             };
-            var htmldoc = builder.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
+
             //build rootbox from htmldoc
             var rootBox = builder.BuildCssRenderTree(htmldoc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, htmlIsland, cssData);
 
@@ -315,13 +320,13 @@ namespace HtmlRenderer
 
             BuildCssBoxTree(myHtmlIsland, _baseCssData);
             //---------------------
-            
+
             this.PaintMe();
         }
         void BuildCssBoxTree(MyHtmlIsland htmlIsland, CssActiveSheet cssData)
         {
 
-            HtmlRenderer.Composers.BoxModelBuilder builder = new Composers.BoxModelBuilder();
+            var builder = new Composers.RenderTreeBuilder();
             builder.RequestStyleSheet += (e) =>
             {
                 var req = new TextLoadRequestEventArgs(e.Src);

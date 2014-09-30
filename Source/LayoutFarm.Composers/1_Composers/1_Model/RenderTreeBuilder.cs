@@ -25,39 +25,21 @@ using HtmlRenderer.Composers.BridgeHtml;
 namespace HtmlRenderer.Composers
 {
 
-
-
+    
     /// <summary>
     /// Handle css DOM tree generation from raw html and stylesheet.
     /// </summary>
-    public class BoxModelBuilder
+    public class RenderTreeBuilder
     {
 
         WebDom.Parser.CssParser miniCssParser = new CssParser();
         ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
-        public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
-
+        public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet; 
         
-        public BoxModelBuilder()
+        public RenderTreeBuilder()
         {
 
-        }
-
-        /// <summary>
-        /// Parses the source html to css boxes tree structure.
-        /// </summary>
-        /// <param name="source">the html source to parse</param>
-        public WebDocument ParseDocument(TextSnapshot snapSource)
-        {
-            var parser = new HtmlParser();
-            //------------------------
-            var blankHtmlDoc = new BridgeHtmlDocument();
-            parser.Parse(snapSource, blankHtmlDoc);
-            return blankHtmlDoc;
-        }
-        //-----------------------------------------------------------------
-
-
+        } 
         void RaiseRequestStyleSheet(
             string hrefSource,
             out string stylesheet,
@@ -73,8 +55,7 @@ namespace HtmlRenderer.Composers
             var e = new ContentManagers.StylesheetLoadEventArgs(hrefSource);
             RequestStyleSheet(e);
             stylesheet = e.SetStyleSheet;
-            stylesheetData = e.SetStyleSheetData;
-
+            stylesheetData = e.SetStyleSheetData; 
         }
 
 
@@ -199,7 +180,8 @@ namespace HtmlRenderer.Composers
             rootBox = BoxCreator.CreateCssRenderRoot(ifonts);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
-            BoxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, true);
+            BoxCreator boxCreator = new BoxCreator(null);
+            boxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
@@ -225,7 +207,8 @@ namespace HtmlRenderer.Composers
             //----------------------------------------------------------------  
             CssBox principalBox = RootElement.InternalGetPrincipalBox(bridgeRoot);
             principalBox.Clear();
-            BoxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, false);
+            BoxCreator boxCreator = new BoxCreator(null);
+            boxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, false);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
