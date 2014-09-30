@@ -237,7 +237,8 @@ namespace LayoutFarm
             RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseDown);
             if (hitElement == this || hitElement == null)
             {
-                hitPointChain.SwapHitChain(); return;
+                hitPointChain.SwapHitChain();
+                return;
             }
             DisableGraphicOutputFlush = true;
 
@@ -323,7 +324,8 @@ namespace LayoutFarm
 #endif
             RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseMove);
 
-            hoverMonitoringTask.Reset(); hoverMonitoringTask.SetEnable(true, this);
+            hoverMonitoringTask.Reset(); 
+            hoverMonitoringTask.SetEnable(true, this);
 
             if (hitElement != currentMouseActiveElement)
             {
@@ -341,7 +343,8 @@ namespace LayoutFarm
                             ui.ListenMouseEvent(UIMouseEventName.MouseLeave, e);
                         }
 
-                        e.TranslateCanvasOriginBack(); currentMouseActiveElement = null;
+                        e.TranslateCanvasOriginBack(); 
+                        currentMouseActiveElement = null;
                     }
 
 
@@ -619,13 +622,7 @@ namespace LayoutFarm
                 script.ListenDragEvent(UIDragEventName.DragStop, e);
             }
 
-            e.TranslateCanvasOriginBack();
-
-            //if (currentMouseActiveElement != null)
-            //{
-            //    SetCaretVisible(currentMouseActiveElement.NeedSystemCaret);
-
-            //}
+            e.TranslateCanvasOriginBack(); 
 
             UIDragEventArgs d_eventArg = new UIDragEventArgs();
             if (hitPointChain.DragHitElementCount > 0)
@@ -798,45 +795,7 @@ namespace LayoutFarm
             }
 
             return result;
-        }
-
-        //public Point CaretPosition
-        //{
-        //    get
-        //    {
-        //        RenderElement currentElem = this.currentKeyboardFocusedElement;
-        //        if (currentElem != null && currentElem.IsTextEditContainer)
-        //        {
-
-        //            Point elementCaretPosition = ((MultiLayerRenderBox)currentElem).CaretPosition;
-
-        //            bool caretOutOfScope = false;
-        //            if (elementCaretPosition.X >= currentElem.Right)
-        //            {
-        //                caretOutOfScope = true;
-        //            }
-        //            if (elementCaretPosition.Y >= currentElem.Bottom)
-        //            {
-        //                caretOutOfScope = true;
-        //            } 
-        //            if (!caretOutOfScope)
-        //            {
-        //                elementCaretPosition.Offset(currentElem.GetGlobalLocation());
-        //                return elementCaretPosition;
-        //            }
-        //            else
-        //            {
-
-        //                return new Point(-10, -10);
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            return new Point(-10, -10);
-        //        }
-        //    }
-        //}
+        } 
 
     }
 }

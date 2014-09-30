@@ -14,7 +14,7 @@ namespace LayoutFarm
 #if DEBUG
     partial class MyTopWindowRenderBox
     {
-#if DEBUG
+ 
         public static bool dbugMark01;
         static void dbug_WriteInfo(dbugVisualLayoutTracer debugVisualLay, dbugVisitorMessage msg, RenderElement ve)
         {
@@ -39,7 +39,7 @@ namespace LayoutFarm
                 debugVisualLay.EndCurrentContext();
             }
         }
-#endif
+ 
 
         public void dbug_DumpAllVisualElementProps(dbugLayoutMsgWriter writer)
         {

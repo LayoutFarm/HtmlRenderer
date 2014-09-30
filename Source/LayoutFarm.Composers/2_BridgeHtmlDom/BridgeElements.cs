@@ -125,7 +125,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 CssBoxSvgRoot svgBox = box as CssBoxSvgRoot;
                 if (svgBox != null)
                 {
-                    //SvgElementPortal.HandleSvgMouseDown(svgBox, e);
+                    SvgElementPortal.HandleSvgMouseDown(svgBox, e);
 
                 }
             }

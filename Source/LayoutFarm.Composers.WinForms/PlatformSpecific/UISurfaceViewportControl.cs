@@ -214,7 +214,8 @@ namespace LayoutFarm
             mouseEventArg.SetWinRoot(wintop);
             SetArtMouseEventArgsInfo(mouseEventArg, e);
 
-            base.OnMouseDown(e); canvasViewport.OnMouseDown(mouseEventArg);
+            base.OnMouseDown(e);
+            canvasViewport.OnMouseDown(mouseEventArg);
             eventStock.ReleaseEventArgs(mouseEventArg);
 
         }
@@ -399,7 +400,8 @@ namespace LayoutFarm
                 eventStock.ReleaseEventArgs(keyEventArg);
                 return true;
             }
-            eventStock.ReleaseEventArgs(keyEventArg); return base.ProcessDialogKey(keyData);
+            eventStock.ReleaseEventArgs(keyEventArg); 
+            return base.ProcessDialogKey(keyData);
         }
 
 #if DEBUG

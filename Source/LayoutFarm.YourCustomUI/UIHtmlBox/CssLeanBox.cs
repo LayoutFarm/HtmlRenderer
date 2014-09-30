@@ -10,6 +10,7 @@ namespace HtmlRenderer.Boxes.LeanBox
     public sealed class CssLeanBox : CssBox
     {
         LayoutFarm.RenderElement renderElement;
+
         public CssLeanBox(object controller,
             Css.BoxSpec spec,
             LayoutFarm.RenderElement renderElement)
@@ -18,8 +19,7 @@ namespace HtmlRenderer.Boxes.LeanBox
             this.renderElement = renderElement;
             ChangeDisplayType(this, Css.CssDisplay.Block);
             SetAsCustomCssBox(this);
-            this.SetSize(100, 20);
-
+            this.SetSize(100, 20); 
         }
         public LayoutFarm.RenderElement RenderElement
         {
@@ -64,7 +64,7 @@ namespace HtmlRenderer.Boxes.LeanBox
                     0, 0, 100, 20);
             }
         }
-
+        
     }
 
 

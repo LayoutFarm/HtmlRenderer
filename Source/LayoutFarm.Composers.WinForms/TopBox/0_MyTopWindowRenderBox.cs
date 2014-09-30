@@ -37,7 +37,7 @@ namespace LayoutFarm
             rootTasksTimer = new System.Timers.Timer();
             rootTasksTimer.Interval = 100;
             rootTasksTimer.Elapsed += new System.Timers.ElapsedEventHandler(rootTasksTimer_Elapsed);
-            rootTasksTimer.Enabled = false;
+             rootTasksTimer.Enabled = false;
             hoverMonitoringTask = new UIHoverMonitorTask(this, this.OnMouseHover);
 #if DEBUG
             dbug_hide_objIden = true;

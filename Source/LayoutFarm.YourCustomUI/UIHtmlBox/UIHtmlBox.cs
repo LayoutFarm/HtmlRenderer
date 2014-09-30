@@ -108,15 +108,36 @@ namespace LayoutFarm.SampleControls
             //else
             //    Invalidate();
         }
-
+        protected override void OnMouseDown(UIMouseEventArgs e)
+        {
+            //mouse down on html box
+            //base.OnMouseDown(e);
+            this._htmlEventBridge.MouseDown(e.X, e.Y, (int)e.Button);
+        }
+        protected override void OnMouseUp(UIMouseEventArgs e)
+        {
+            this._htmlEventBridge.MouseUp(e.X, e.Y, (int)e.Button);
+        }
+        protected override void OnKeyDown(UIKeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+        }
+        protected override void OnKeyPress(UIKeyPressEventArgs e)
+        {
+            base.OnKeyPress(e);
+        }
+        protected override void OnKeyUp(UIKeyEventArgs e)
+        {
+            base.OnKeyUp(e);
+        }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (myHtmlBox == null)
             {
                 _htmlEventBridge = new HtmlRenderer.Composers.InputEventBridge();
                 _htmlEventBridge.Bind(myHtmlIsland, rootgfx.SampleIFonts);
-
                 myHtmlBox = new HtmlRenderBox(rootgfx, _width, _height, myHtmlIsland);
+                myHtmlBox.SetController(this);
                 myHtmlBox.HasSpecificSize = true;
             }
 

@@ -68,10 +68,7 @@ namespace LayoutFarm
                 {
                     ToNotifySizeChangedEvent item = tobeNotifySizeChangedList[i];
                     UISizeChangedEventArgs sizeChangedEventArg = UISizeChangedEventArgs.GetFreeOne(
-                        null, item.xdiff, item.ydiff, item.affectedSideFlags);
-
-
-
+                        null, item.xdiff, item.ydiff, item.affectedSideFlags); 
                     UISizeChangedEventArgs.ReleaseOne(sizeChangedEventArg);
                 }
                 tobeNotifySizeChangedList.Clear();
