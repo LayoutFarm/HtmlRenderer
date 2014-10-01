@@ -46,7 +46,7 @@ namespace LayoutFarm
             hitPointChain.dbugHitTracker = this.rootGraphic.dbugHitTracker;
 #endif
         }
-         
+
 
         public RenderElement CurrentKeyboardFocusedElement
         {
@@ -157,7 +157,7 @@ namespace LayoutFarm
                 this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("MOUSEDOWN");
                 this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
-#endif  
+#endif
             msgChainVersion = 1;
             int local_msgVersion = 1;
             RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseDown);
@@ -188,7 +188,7 @@ namespace LayoutFarm
             {
                 visualroot.dbug_rootHitChainMsg.Clear();
                 int i = 0;
-                foreach (HitPointChain.HitPair hp in hitPointChain.HitPairIter)
+                foreach (HitPoint hp in hitPointChain.dbugGetHitPairIter())
                 {
 
                     RenderElement ve = hp.elem;
@@ -629,7 +629,7 @@ namespace LayoutFarm
 
                 if (hitElement.Focusable)
                 {
-                    this.CurrentKeyboardFocusedElement = hitElement; 
+                    this.CurrentKeyboardFocusedElement = hitElement;
                     //e.WinTop.CurrentKeyboardFocusedElement = hitElement;
                 }
                 FlushAccumGraphicUpdate();

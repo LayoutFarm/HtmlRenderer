@@ -7,51 +7,49 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm
 {
-
-    public class HitPointChain
+    public struct HitPoint
     {
+        public Point point;
+        public RenderElement elem;
 
-
-        public struct HitPair
+        public static readonly HitPoint Empty = new HitPoint();
+        public HitPoint(RenderElement elem, Point point)
         {
-            public Point point;
-            public RenderElement elem;
-
-            public static readonly HitPair Empty = new HitPair();
-            public HitPair(RenderElement elem, Point point)
-            {
-                this.point = point;
-                this.elem = elem;
-            }
-            public static bool operator ==(HitPair pair1, HitPair pair2)
-            {
-                return ((pair1.elem == pair2.elem) && (pair1.point == pair2.point));
-            }
-            public static bool operator !=(HitPair pair1, HitPair pair2)
-            {
-                return ((pair1.elem == pair2.elem) && (pair1.point == pair2.point));
-            }
-            public override int GetHashCode()
-            {
-                return base.GetHashCode();
-            }
-            public override bool Equals(object obj)
-            {
-                return base.Equals(obj);
-            }
+            this.point = point;
+            this.elem = elem;
+        }
+        public static bool operator ==(HitPoint pair1, HitPoint pair2)
+        {
+            return ((pair1.elem == pair2.elem) && (pair1.point == pair2.point));
+        }
+        public static bool operator !=(HitPoint pair1, HitPoint pair2)
+        {
+            return ((pair1.elem == pair2.elem) && (pair1.point == pair2.point));
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
 
 #if DEBUG
-            public override string ToString()
-            {
-                return elem.ToString();
-            }
+        public override string ToString()
+        {
+            return elem.ToString();
+        }
 #endif
-        } 
+    }
 
-        LinkedList<HitPair> currentHitChain;
-        LinkedList<HitPair> prevHitChain;
-        readonly LinkedList<HitPair> hitChainA = new LinkedList<HitPair>();
-        readonly LinkedList<HitPair> hitChainB = new LinkedList<HitPair>();
+
+    public class HitPointChain
+    { 
+        LinkedList<HitPoint> currentHitChain;
+        LinkedList<HitPoint> prevHitChain;
+        readonly LinkedList<HitPoint> hitChainA = new LinkedList<HitPoint>();
+        readonly LinkedList<HitPoint> hitChainB = new LinkedList<HitPoint>();
 
         int globalOffsetX = 0;
         int globalOffsetY = 0;
@@ -185,7 +183,7 @@ namespace LayoutFarm
                 }
             }
         }
-        public LinkedListNode<HitPair> CurrentHitNode
+        public LinkedListNode<HitPoint> CurrentHitNode
         {
             get
             {
@@ -203,7 +201,7 @@ namespace LayoutFarm
 
         public void AddHit(RenderElement aobj)
         {
-            currentHitChain.AddLast(new HitPair(aobj, new Point(testPointX, testPointY)));
+            currentHitChain.AddLast(new HitPoint(aobj, new Point(testPointX, testPointY)));
 #if DEBUG
             dbugHitTracker.WriteTrackNode(currentHitChain.Count, new Point(testPointX, testPointY).ToString() + " on " + aobj.BoundRect.ToString() + aobj.GetType().Name);
 #endif
@@ -215,7 +213,7 @@ namespace LayoutFarm
                 return currentHitChain.Count;
             }
         }
-        public void RemoveHit(LinkedListNode<HitPair> hitPair)
+        public void RemoveHit(LinkedListNode<HitPoint> hitPair)
         {
             currentHitChain.Remove(hitPair);
         }
@@ -237,7 +235,7 @@ namespace LayoutFarm
         {
             if (prevHitChain.Count > 0)
             {
-                foreach (HitPair hp in prevHitChain)
+                foreach (HitPoint hp in prevHitChain)
                 {
                     RenderElement elem = hp.elem;
                     if (RenderElement.IsTestableElement(elem))
@@ -254,7 +252,7 @@ namespace LayoutFarm
                                 testPointX += leftTop.X;
                                 testPointY += leftTop.Y;
 
-                                currentHitChain.AddLast(new HitPair(elem, new Point(testPointX, testPointY)));
+                                currentHitChain.AddLast(new HitPoint(elem, new Point(testPointX, testPointY)));
                             }
                             else
                             {
@@ -332,15 +330,13 @@ namespace LayoutFarm
             }
         }
 #if DEBUG
-        public IEnumerable<HitPair> HitPairIter
+        public IEnumerable<HitPoint> dbugGetHitPairIter()
         {
-            get
+            foreach (HitPoint hitPair in currentHitChain)
             {
-                foreach (HitPair hitPair in currentHitChain)
-                {
-                    yield return hitPair;
-                }
+                yield return hitPair;
             }
+
         }
 #endif
 
