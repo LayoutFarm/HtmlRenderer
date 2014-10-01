@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using System.Diagnostics;
 using LayoutFarm.Drawing;
 
@@ -13,16 +12,21 @@ namespace LayoutFarm
     partial class MyTopWindowRenderBox
     {
 
-        RenderElement currentKeyboardFocusedElement = null;
+        public event EventHandler<UIInvalidateEventArgs> CanvasInvalidatedEvent;
+        public event EventHandler<EventArgs> CanvasForcePaint;
+
         Stack<VisualDrawingChain> renderingChainStock = new Stack<VisualDrawingChain>();
+        LinkedList<VisualRootTimerTask> rootTimerTasks = new LinkedList<VisualRootTimerTask>();
+        System.Timers.Timer rootTasksTimer;
+        LinkedList<LinkedListNode<VisualRootTimerTask>> tobeRemoveTasks = new LinkedList<LinkedListNode<VisualRootTimerTask>>();
 
 
-        internal bool LayoutQueueClearing
+        bool LayoutQueueClearing
         {
             get { return this.rootGraphic.LayoutQueueClearing; }
             set { this.rootGraphic.LayoutQueueClearing = value; }
         }
-        internal bool DisableGraphicOutputFlush
+        bool DisableGraphicOutputFlush
         {
             get { return this.rootGraphic.DisableGraphicOutputFlush; }
             set { this.rootGraphic.DisableGraphicOutputFlush = value; }
@@ -89,7 +93,22 @@ namespace LayoutFarm
         public void EndRenderPhase()
         {
             this.rootGraphic.IsInRenderPhase = false;
+        } 
+        public void ChangeVisualRootSize(int width, int height)
+        {
+            this.ChangeRootElementSize(width, height); 
         }
+        public void Dispose()
+        {
 
+        } 
+        public void ClearAllResources()
+        {
+            if (centralAnimationClock != null)
+            {
+                centralAnimationClock.Stop();
+            } 
+            ClearAllChildren();
+        }
     }
 }

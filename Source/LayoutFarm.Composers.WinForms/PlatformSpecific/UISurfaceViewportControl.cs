@@ -36,8 +36,7 @@ namespace LayoutFarm
         EventHandler<EventArgs> parentFormClosedHandler;
         MyRootGraphic myRootGraphic;
 
-        LayoutFarm.TopBoxInputEventBridge topBoxInputEventBridge = new TopBoxInputEventBridge();
-
+      
         public UISurfaceViewportControl()
         {
             InitializeComponent();
@@ -65,7 +64,7 @@ namespace LayoutFarm
             
             wintop.CanvasForcePaint += canvasViewport.PaintMe; 
             
-            this.topBoxInputEventBridge.Bind(wintop);
+            
         }
         void ParentForm_FormClosed(object sender, FormClosedEventArgs e)
         {

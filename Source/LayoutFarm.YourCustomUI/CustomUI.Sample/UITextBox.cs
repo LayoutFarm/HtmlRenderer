@@ -59,13 +59,11 @@ namespace LayoutFarm.SampleControls
          
         protected override void OnKeyPress(UIKeyPressEventArgs e)
         {
-
             visualTextEdit.OnKeyPress(e);
         }
         protected override void OnKeyDown(UIKeyEventArgs e)
         {
             visualTextEdit.OnKeyDown(e);
-
         }
         protected override void OnKeyUp(UIKeyEventArgs e)
         {

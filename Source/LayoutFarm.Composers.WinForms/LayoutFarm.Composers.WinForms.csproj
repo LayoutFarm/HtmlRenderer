@@ -60,7 +60,6 @@
     <Compile Include="TopBox\0_MyTopWindowRenderBox.cs" />
     <Compile Include="TopBox\0_MyTopWindowRenderBox_dbug.cs" />
     <Compile Include="TopBox\0_MyTopWindowRenderBox_Graphics.cs" />
-    <Compile Include="TopBox\0_MyTopWindowRenderBox_Events.cs" />
     <Compile Include="TopBox\1_VisualRootTasks.cs" />
     <Compile Include="TopBox\CanvasEventStock.cs" />
     <Compile Include="TopBox\MyIntervalTaskEventArgs.cs" />

@@ -23,8 +23,8 @@ namespace LayoutFarm
         readonly HitPointChain hitPointChain = new HitPointChain();
 
         UIHoverMonitorTask hoverMonitoringTask;
-
         public event EventHandler CurrentFocusElementChanged;
+
         int msgChainVersion;
 
         MyTopWindowRenderBox topwin;
@@ -35,13 +35,18 @@ namespace LayoutFarm
         public TopBoxInputEventBridge()
         {
 
+
         }
         public void Bind(MyTopWindowRenderBox topwin)
         {
             this.topwin = topwin;
             this.rootGraphic = topwin.Root;
+            this.hoverMonitoringTask = new UIHoverMonitorTask(this.topwin, OnMouseHover);
+#if DEBUG
+            hitPointChain.dbugHitTracker = this.rootGraphic.dbugHitTracker;
+#endif
         }
-
+         
 
         public RenderElement CurrentKeyboardFocusedElement
         {
@@ -152,9 +157,7 @@ namespace LayoutFarm
                 this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("MOUSEDOWN");
                 this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
-#endif
-
-
+#endif  
             msgChainVersion = 1;
             int local_msgVersion = 1;
             RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseDown);
@@ -215,7 +218,8 @@ namespace LayoutFarm
 
             if (hitElement.Focusable)
             {
-                e.WinTop.CurrentKeyboardFocusedElement = hitElement;
+                this.CurrentKeyboardFocusedElement = hitElement;
+                //e.WinTop.CurrentKeyboardFocusedElement = hitElement;
             }
             DisableGraphicOutputFlush = false;
             FlushAccumGraphicUpdate();
@@ -245,7 +249,7 @@ namespace LayoutFarm
         void FlushAccumGraphicUpdate()
         {
             this.rootGraphic.FlushAccumGraphicUpdate(this.topwin);
-        } 
+        }
         public void OnMouseMove(UIMouseEventArgs e)
         {
 
@@ -342,9 +346,9 @@ namespace LayoutFarm
                 DisableGraphicOutputFlush = false;
                 FlushAccumGraphicUpdate();
             }
-            hitPointChain.SwapHitChain(); 
+            hitPointChain.SwapHitChain();
             hoverMonitoringTask.SetEnable(false, this.topwin);
-        } 
+        }
         public void OnDragStart(UIDragEventArgs e)
         {
 
@@ -625,7 +629,8 @@ namespace LayoutFarm
 
                 if (hitElement.Focusable)
                 {
-                    e.WinTop.CurrentKeyboardFocusedElement = hitElement;
+                    this.CurrentKeyboardFocusedElement = hitElement; 
+                    //e.WinTop.CurrentKeyboardFocusedElement = hitElement;
                 }
                 FlushAccumGraphicUpdate();
             }

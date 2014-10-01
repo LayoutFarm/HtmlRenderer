@@ -26,13 +26,9 @@ namespace LayoutFarm
         {
             groundLayer.AddChild(renderE);
         }
-        
-        
-        public abstract RenderElement CurrentKeyboardFocusedElement
-        {
-            get;
-            set;
-        }
+
+
+       
 
         
         protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
