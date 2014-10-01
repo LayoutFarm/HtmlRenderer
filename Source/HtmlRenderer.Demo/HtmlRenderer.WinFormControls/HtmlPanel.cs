@@ -320,8 +320,8 @@ namespace HtmlRenderer
 
             BuildCssBoxTree(myHtmlIsland, _baseCssData);
             //---------------------
-
-            this.PaintMe();
+            PerformLayout();
+            Invalidate(); 
         }
         void BuildCssBoxTree(MyHtmlIsland htmlIsland, CssActiveSheet cssData)
         {
@@ -345,7 +345,7 @@ namespace HtmlRenderer
 
         }
         public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.WebDocument doc)
-        {   
+        {
             //RefreshHtmlDomChange(_baseCssData);
             myHtmlIsland_NeedUpdateDom(this, EventArgs.Empty);
             this.PaintMe();
