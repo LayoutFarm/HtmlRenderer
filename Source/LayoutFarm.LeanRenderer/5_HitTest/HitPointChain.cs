@@ -13,6 +13,7 @@ namespace LayoutFarm
         public IHitElement elem;
 
         public static readonly HitPoint Empty = new HitPoint();
+
         public HitPoint(IHitElement elem, Point point)
         {
             this.point = point;
@@ -26,6 +27,7 @@ namespace LayoutFarm
         {
             return ((pair1.elem == pair2.elem) && (pair1.point == pair2.point));
         }
+
         public override int GetHashCode()
         {
             return base.GetHashCode();
@@ -44,31 +46,22 @@ namespace LayoutFarm
     }
 
 
-    public class HitPointChain
+
+    public abstract class HitPointChain
     {
-        LinkedList<HitPoint> currentHitChain;
-        LinkedList<HitPoint> prevHitChain;
-        readonly LinkedList<HitPoint> hitChainA = new LinkedList<HitPoint>();
-        readonly LinkedList<HitPoint> hitChainB = new LinkedList<HitPoint>();
 
-        int globalOffsetX = 0;
-        int globalOffsetY = 0;
+        protected int globalOffsetX = 0;
+        protected int globalOffsetY = 0;
 
-        int visualrootStartTestX;
-        int visualrootStartTestY;
+        int startTestX;
+        int startTestY;
 
-        int testPointX;
-        int testPointY;
-
-#if DEBUG
-        public dbugHitTestTracker dbugHitTracker;
-
-#endif
+        protected int testPointX;
+        protected int testPointY;
 
         public HitPointChain()
         {
-            currentHitChain = hitChainA;
-            prevHitChain = hitChainB;
+
         }
         public Point TestPoint
         {
@@ -82,29 +75,26 @@ namespace LayoutFarm
             x = this.testPointX;
             y = this.testPointY;
         }
-
-
-
-        public void SetVisualRootStartTestPoint(int x, int y)
+        public void SetStartTestPoint(int x, int y)
         {
 
             testPointX = x;
             testPointY = y;
-            visualrootStartTestX = x;
-            visualrootStartTestY = y;
+            startTestX = x;
+            startTestY = y;
         }
         public int LastestRootX
         {
             get
             {
-                return visualrootStartTestX;
+                return startTestX;
             }
         }
         public int LastestRootY
         {
             get
             {
-                return visualrootStartTestY;
+                return startTestY;
             }
         }
         public void OffsetTestPoint(int dx, int dy)
@@ -113,163 +103,27 @@ namespace LayoutFarm
             globalOffsetY += dy;
             testPointX += dx;
             testPointY += dy;
-
         }
         public void ClearAll()
         {
             globalOffsetX = 0;
             globalOffsetY = 0;
-            currentHitChain.Clear();
-            prevHitChain.Clear();
             testPointX = 0;
             testPointY = 0;
+            OnClearAll();
 
-        } 
-        public Point PrevHitPoint
-        {
-            get
-            {
-
-                if (prevHitChain.Count > 0)
-                {
-                    return prevHitChain.Last.Value.point;
-                }
-                else
-                {
-                    return Point.Empty;
-                }
-            }
         }
-        public IHitElement CurrentHitElement
-        {
-            get
-            {
-                if (currentHitChain.Count > 0)
-                {
-                    return currentHitChain.Last.Value.elem;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-        public Point CurrentHitPoint
-        {
-            get
-            {
-                if (currentHitChain.Count > 0)
-                {
-                    return currentHitChain.Last.Value.point;
-                }
-                else
-                {
-                    return Point.Empty;
-                }
-            }
-        }
-        public LinkedListNode<HitPoint> CurrentHitNode
-        {
-            get
-            {
-                if (currentHitChain.Count > 0)
-                {
-                    return currentHitChain.Last;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
+        protected abstract void OnClearAll();
 
 
-        public void AddHit(IHitElement aobj)
-        {
-            currentHitChain.AddLast(new HitPoint(aobj, new Point(testPointX, testPointY)));
-#if DEBUG
-            dbugHitTracker.WriteTrackNode(currentHitChain.Count,
-                new Point(testPointX, testPointY).ToString() + " on " 
-                + aobj.ElementBoundRect.ToString() + aobj.GetType().Name);
-#endif
-        }
-        public int Level
-        {
-            get
-            {
-                return currentHitChain.Count;
-            }
-        }
-        public void RemoveHit(LinkedListNode<HitPoint> hitPair)
-        {
-            currentHitChain.Remove(hitPair);
-        }
-        public void SwapHitChain()
-        {
-            if (currentHitChain == hitChainA)
-            {
-                prevHitChain = hitChainA;
-                currentHitChain = hitChainB;
-            }
-            else
-            {
-                prevHitChain = hitChainB;
-                currentHitChain = hitChainA;
-            }
-            currentHitChain.Clear();
-        }
-        public IHitElement HitTestOnPrevChain()
-        {
-            if (prevHitChain.Count > 0)
-            {
-                foreach (HitPoint hp in prevHitChain)
-                {
-                    IHitElement elem = hp.elem;
-                    if (elem != null &&elem.IsTestable())
-                    {   
-                        if (elem.HitTestCoreNoRecursive(hp.point))
-                        {
-                            IHitElement foundOverlapChild = elem.FindOverlapSibling(hp.point); 
+        public abstract Point PrevHitPoint { get; }
+        public abstract IHitElement CurrentHitElement { get; }
+        public abstract Point CurrentHitPoint { get; }
 
-                            if (foundOverlapChild == null)
-                            {
-                                Point leftTop = elem.ElementLocation;
-                                globalOffsetX -= leftTop.X;
-                                globalOffsetY -= leftTop.Y;
-                                testPointX += leftTop.X;
-                                testPointY += leftTop.Y;
+        public abstract void AddHit(IHitElement hitElement);
+        
+        public abstract void RemoveCurrentHitNode();
 
-                                currentHitChain.AddLast(new HitPoint(elem, new Point(testPointX, testPointY)));
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                if (currentHitChain.Count > 0)
-                {
-                    return currentHitChain.Last.Value.elem;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
         public int LastestElementGlobalX
         {
             get
@@ -285,46 +139,16 @@ namespace LayoutFarm
             }
         }
 
-        LinkedList<RenderElement> dragHitElements = new LinkedList<RenderElement>();
-        public void ClearDragHitElements()
-        {
-            dragHitElements.Clear();
-        }
+        //-----------------------------------------------------
+        //element dragging feature , plan move to another place ?
+        public abstract void ClearDragHitElements();
+        public abstract void AddDragHitElement(IHitElement element);
+        public abstract void RemoveDragHitElement(IHitElement element);
+        public abstract IEnumerable<IHitElement> GetDragHitElementIter();
+        public abstract int DragHitElementCount { get; }
 
-
-        public void AddDragHitElement(RenderElement element)
-        {
-            dragHitElements.AddLast(element);
-        }
-        public void RemoveDragHitElement(RenderElement element)
-        {
-            dragHitElements.Remove(element);
-        }
-        public IEnumerable<RenderElement> GetDragHitElementIter()
-        {
-            LinkedListNode<RenderElement> node = dragHitElements.First;
-            while (node != null)
-            {
-                yield return node.Value;
-                node = node.Next;
-            }
-        }
-        public int DragHitElementCount
-        {
-            get
-            {
-                return dragHitElements.Count;
-            }
-        }
 #if DEBUG
-        public IEnumerable<HitPoint> dbugGetHitPairIter()
-        {
-            foreach (HitPoint hitPair in currentHitChain)
-            {
-                yield return hitPair;
-            }
-
-        }
+        public bool dbugBreak;
 #endif
 
     }

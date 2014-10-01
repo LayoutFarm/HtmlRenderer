@@ -183,7 +183,7 @@ namespace LayoutFarm
 
         }
 
-        public abstract bool HitTestCore(HitPointChain artHitResult);
+        public abstract bool HitTestCore(HitPointChain hitChain);
         public abstract void TopDownReCalculateContentSize();
         public abstract void TopDownReArrangeContent();
 

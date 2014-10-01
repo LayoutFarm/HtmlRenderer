@@ -134,13 +134,13 @@ namespace LayoutFarm
 #endif
 
 
-        public override bool HitTestCore(HitPointChain artHitResult)
+        public override bool HitTestCore(HitPointChain hitChain)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) == 0)
             {
                 foreach (RenderElement ui in this.GetHitTestIter())
                 {
-                    if (ui.HitTestCore(artHitResult))
+                    if (ui.HitTestCore(hitChain))
                     {
                         return true;
                     }

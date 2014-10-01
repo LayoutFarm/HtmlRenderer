@@ -112,11 +112,11 @@ namespace LayoutFarm
                 layers.PrepareOriginalChildContentDrawingChain(chain);
             }
         }
-        public virtual void ChildrenHitTestCore(HitPointChain artHitResult)
+        public virtual void ChildrenHitTestCore(HitPointChain hitChain)
         {
             if (this.layers != null)
             {
-                layers.ChildrenHitTestCore(artHitResult);
+                layers.ChildrenHitTestCore(hitChain);
             }
         }
 

@@ -183,7 +183,7 @@ namespace LayoutFarm
                 }
             }
         }
-        public static void ChildrenHitTestCore(this VisualLayerCollection layers, HitPointChain artHitResult)
+        public static void ChildrenHitTestCore(this VisualLayerCollection layers, HitPointChain htiChain)
         {
             if (layers == null) return;
 
@@ -197,13 +197,13 @@ namespace LayoutFarm
                     } break;
                 case 1:
                     {
-                        layers.Layer0.HitTestCore(artHitResult);
+                        layers.Layer0.HitTestCore(htiChain);
                     } break;
                 case 2:
                     {
-                        if (layers.Layer1.HitTestCore(artHitResult))
+                        if (layers.Layer1.HitTestCore(htiChain))
                         {
-                            layers.Layer0.HitTestCore(artHitResult);
+                            layers.Layer0.HitTestCore(htiChain);
                         }
                     } break;
                 default:
@@ -211,7 +211,7 @@ namespace LayoutFarm
                         for (int i = j - 1; i >= 0; --i)
                         {
                             var layer = layers.GetLayer(i);
-                            if (!layer.HitTestCore(artHitResult))
+                            if (!layer.HitTestCore(htiChain))
                             {
                                 return;
                             }

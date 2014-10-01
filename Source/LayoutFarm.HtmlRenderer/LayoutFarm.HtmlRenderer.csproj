@@ -71,6 +71,7 @@
     <Compile Include="2_Boxes\1_CoreBox\CssBox_IHitElement.cs" />
     <Compile Include="4_Svg\BasicShapes\SvgElements.cs" />
     <Compile Include="4_Svg\BasicShapes\SvgSpec.cs" />
+    <Compile Include="4_Svg\BasicShapes\SvgVisualElements.cs" />
     <Compile Include="4_Svg\HitAndSelection\SvgHitChain.cs" />
     <Compile Include="4_Svg\Transforms\SvgMatrix.cs" />
     <Compile Include="4_Svg\Transforms\SvgRotate.cs" />

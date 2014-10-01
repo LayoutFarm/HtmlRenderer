@@ -298,18 +298,15 @@ namespace LayoutFarm.Text
         }
 
 
-        public override bool HitTestCore(HitPointChain artHitResult)
+        public override bool HitTestCore(HitPointChain hitChain)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) == 0)
-            {
-
-
-
+            {   
                 if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
                 {
                     List<EditableVisualElementLine> lines = (List<EditableVisualElementLine>)lineCollection;
                     int j = lines.Count;
-                    int testYPos = artHitResult.TestPoint.Y;
+                    int testYPos = hitChain.TestPoint.Y;
 
                     for (int i = 0; i < j; ++i)
                     {
@@ -318,7 +315,7 @@ namespace LayoutFarm.Text
                         {
                             continue;
                         }
-                        else if (line.HitTestCore(artHitResult))
+                        else if (line.HitTestCore(hitChain))
                         {
                             return true;
                         }
@@ -331,7 +328,7 @@ namespace LayoutFarm.Text
                 else
                 {
                     EditableVisualElementLine onlyLine = (EditableVisualElementLine)lineCollection;
-                    return onlyLine.HitTestCore(artHitResult);
+                    return onlyLine.HitTestCore(hitChain);
                 }
             }
             return false;

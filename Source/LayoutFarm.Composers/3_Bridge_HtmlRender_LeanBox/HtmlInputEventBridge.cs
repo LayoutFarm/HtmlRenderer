@@ -73,9 +73,7 @@ namespace HtmlRenderer
 
             BoxHitChain hitChain = GetFreeHitChain();
             _latestMouseDownHitChain = hitChain;
-
-            hitChain.SetRootGlobalPosition(x, y);
-            
+            hitChain.SetRootGlobalPosition(x, y); 
             //1. prob hit chain only
             BoxUtils.HitTest(rootbox, x, y, hitChain);
             //2. invoke css event and script event    
@@ -124,9 +122,7 @@ namespace HtmlRenderer
             }
             else
             {
-                //mouse move 
-
-
+                //mouse move  
             }
         }
         public void MouseUp(int x, int y, int button)

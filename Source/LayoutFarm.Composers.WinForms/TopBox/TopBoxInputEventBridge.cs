@@ -6,7 +6,7 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm
 {
-
+     
     class TopBoxInputEventBridge
     {
 
@@ -20,7 +20,7 @@ namespace LayoutFarm
         int currentXDistanceFromDragPoint = 0;
         int currentYDistanceFromDragPoint = 0;
 
-        readonly HitPointChain hitPointChain = new HitPointChain();
+        readonly MyHitPointChain hitPointChain = new MyHitPointChain();
 
         UIHoverMonitorTask hoverMonitoringTask;
         public event EventHandler CurrentFocusElementChanged;
@@ -134,7 +134,7 @@ namespace LayoutFarm
             hitPointChain.SwapHitChain();
         }
         public void OnMouseWheel(UIMouseEventArgs e)
-        {  
+        {
             if (currentMouseActiveElement != null)
             {
                 IEventListener ui = currentMouseActiveElement.GetController() as IEventListener;
@@ -145,7 +145,7 @@ namespace LayoutFarm
             }
         }
         public void OnMouseDown(UIMouseEventArgs e)
-        {  
+        {
 #if DEBUG
             if (this.rootGraphic.dbugEnableGraphicInvalidateTrace)
             {
@@ -156,22 +156,26 @@ namespace LayoutFarm
 #endif
             msgChainVersion = 1;
             int local_msgVersion = 1;
+
+#if DEBUG
+            hitPointChain.dbugBreak = true;
+#endif
             IHitElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseDown);
             if (hitElement == this.topwin || hitElement == null)
             {
+
                 hitPointChain.SwapHitChain();
                 return;
             }
             DisableGraphicOutputFlush = true;
-
             e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
             e.Location = hitPointChain.CurrentHitPoint;
             e.SourceHitElement = hitElement;
-
-
             currentMouseActiveElement = hitElement;
+            //---------------------------------------------------------------
 
 
+            //---------------------------------------------------------------
             IEventListener ui = hitElement.GetController() as IEventListener;
             if (ui != null)
             {
@@ -231,13 +235,15 @@ namespace LayoutFarm
         }
         IHitElement HitTestCoreWithPrevChainHint(int x, int y, UIEventName hitEvent)
         {
-            hitPointChain.SetVisualRootStartTestPoint(x, y);
+            hitPointChain.SetStartTestPoint(x, y);
             IHitElement commonElement = hitPointChain.HitTestOnPrevChain();
             if (commonElement == null)
             {
                 commonElement = this.topwin;
             }
             commonElement.HitTestCore(hitPointChain);
+
+
             return hitPointChain.CurrentHitElement;
         }
         bool DisableGraphicOutputFlush

@@ -233,7 +233,7 @@ namespace LayoutFarm
             return ContainPoint(testPoint.X, testPoint.Y);
         }
 
-        public bool HitTestCore(HitPointChain artHitResult)
+        public bool HitTestCore(HitPointChain hitChain)
         {
 
             if ((uiFlags & HIDDEN) != 0)
@@ -243,44 +243,44 @@ namespace LayoutFarm
 
             int testX;
             int testY;
-            artHitResult.GetTestPoint(out testX, out testY);
+            hitChain.GetTestPoint(out testX, out testY);
             if ((testY >= b_top && testY <= (b_top + b_Height)
             && (testX >= b_left && testX <= (b_left + b_width))))
             {
 
                 if (this.MayHasViewport)
                 {
-                    artHitResult.OffsetTestPoint(
+                    hitChain.OffsetTestPoint(
                         -b_left + this.ViewportX,
                         -b_top + this.ViewportY);
                 }
                 else
                 {
-                    artHitResult.OffsetTestPoint(-b_left, -b_top);
+                    hitChain.OffsetTestPoint(-b_left, -b_top);
                 }
 
-                artHitResult.AddHit(this);
+                hitChain.AddHit(this);
 
                 if (this.MayHasChild)
                 {
-                    ((RenderBoxBase)this).ChildrenHitTestCore(artHitResult);
+                    ((RenderBoxBase)this).ChildrenHitTestCore(hitChain);
                 }
 
                 if (this.MayHasViewport)
                 {
-                    artHitResult.OffsetTestPoint(
+                    hitChain.OffsetTestPoint(
                             b_left - this.ViewportX,
                             b_top - this.ViewportY);
                 }
                 else
                 {
-                    artHitResult.OffsetTestPoint(b_left, b_top);
+                    hitChain.OffsetTestPoint(b_left, b_top);
                 }
 
                 if ((uiFlags & TRANSPARENT_FOR_ALL_EVENTS) != 0 && 
-                    artHitResult.CurrentHitElement == this)
+                    hitChain.CurrentHitElement == this)
                 {
-                    artHitResult.RemoveHit(artHitResult.CurrentHitNode);
+                    hitChain.RemoveCurrentHitNode();
                     return false;
                 }
                 else

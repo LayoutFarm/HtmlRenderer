@@ -1,8 +1,7 @@
 ﻿//BSD 2014 ,WinterDev 
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing;
-using LayoutFarm.Drawing;
+using LayoutFarm.Drawing; 
 
 namespace HtmlRenderer.Boxes
 {
@@ -20,10 +19,10 @@ namespace HtmlRenderer.Boxes
         //---------------------      
         List<CssLineBox> selectedLines;
 
-        public SelectionRange(BoxHitChain startChain, BoxHitChain endChain, IFonts ifonts)
-        {
-
-
+        public SelectionRange(BoxHitChain startChain,
+            BoxHitChain endChain,
+            IFonts ifonts)
+        {   
             if (IsOnTheSameLine(startChain, endChain))
             {
                 //on the same line
@@ -45,13 +44,7 @@ namespace HtmlRenderer.Boxes
                     startChain = tmp;
                 }
             }
-            //Console.WriteLine(endChain.RootGlobalY);
-            //if (endChain.RootGlobalY > 91)
-            //{
-
-
-            //}
-
+             
             //1.
             this.SetupStartHitPoint(startChain, ifonts);
             //2. 

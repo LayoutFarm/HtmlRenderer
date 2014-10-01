@@ -7,17 +7,17 @@ using System.Text;
 using HtmlRenderer.WebDom;
 using LayoutFarm.Drawing;
 using HtmlRenderer;
-
 using HtmlRenderer.Css;
 using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Composers;
+using HtmlRenderer.Boxes;
 
 namespace LayoutFarm
 {
 
     public class HtmlRenderBox : RenderBoxBase
     {
-        MyHtmlIsland myHtmlIsland;  
+        MyHtmlIsland myHtmlIsland;
         int myWidth;
         int myHeight;
         public HtmlRenderBox(RootGraphic rootgfx,
@@ -28,8 +28,8 @@ namespace LayoutFarm
             this.myWidth = width;
             this.myHeight = height;
             this.myHtmlIsland = htmlIsland;
-        } 
-         
+            this.Focusable = false;
+        }
         public override void ClearAllChildren()
         {
 
@@ -40,11 +40,24 @@ namespace LayoutFarm
             myHtmlIsland.CheckDocUpdate();
             myHtmlIsland.PerformPaint(canvasPage);
         }
-        public override void ChildrenHitTestCore(HitPointChain artHitResult)
+        public override void ChildrenHitTestCore(HitPointChain hitChain)
         {
-            //hit test in another system ***
+            // bridge to another system
+            if (hitChain.dbugBreak)
+            {
+                //hit test in another system ***  
+                BoxHitChain boxHitChain = new BoxHitChain();
+                //_latestMouseDownHitChain = hitChain;
+                Point testPoint = hitChain.TestPoint;
+                boxHitChain.SetRootGlobalPosition(testPoint.X, testPoint.Y);
+                ////1. prob hit chain only
+                BoxUtils.HitTest(myHtmlIsland.GetRootCssBox(), testPoint.X, testPoint.Y, boxHitChain);
+                ///-----------------------------
+                //add box hit chain to hit point chain
 
-            
+
+
+            }
 
         }
 
