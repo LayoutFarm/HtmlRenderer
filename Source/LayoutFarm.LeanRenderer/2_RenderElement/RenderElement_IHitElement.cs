@@ -31,7 +31,7 @@ namespace LayoutFarm
         {
             get { return this.Location; }
         }
-        Point IHitElement.GetElementGloablLocation()
+        Point IHitElement.GetElementGlobalLocation()
         {
             return this.GetGlobalLocation();
         }

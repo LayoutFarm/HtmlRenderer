@@ -14,7 +14,7 @@ namespace LayoutFarm
         bool HitTestCore(HitPointChain chain);
 
         LayoutFarm.Drawing.Point ElementLocation { get; }
-        LayoutFarm.Drawing.Point GetElementGloablLocation();
+        LayoutFarm.Drawing.Point GetElementGlobalLocation();
         LayoutFarm.Drawing.Rectangle ElementBoundRect { get; }
         bool Focusable { get; }
         bool HasParent { get; }

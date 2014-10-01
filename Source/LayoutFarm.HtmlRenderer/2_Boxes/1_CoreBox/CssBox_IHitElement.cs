@@ -38,7 +38,7 @@ namespace HtmlRenderer.Boxes
         {
             get { return new Point(0, 0); }
         }
-        Point IHitElement.GetElementGloablLocation()
+        Point IHitElement.GetElementGlobalLocation()
         {
             return new Point(0, 0);
         }

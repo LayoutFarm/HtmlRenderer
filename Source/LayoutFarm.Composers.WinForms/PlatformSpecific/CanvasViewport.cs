@@ -163,7 +163,7 @@ namespace LayoutFarm
 #endif
         internal void OnMouseMove(UIMouseEventArgs e)
         {
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); 
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
             topBoxInputEventBridge.OnMouseMove(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
@@ -176,7 +176,7 @@ namespace LayoutFarm
         internal void OnDoubleClick(UIMouseEventArgs e)
         {
 
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); 
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
             topBoxInputEventBridge.OnDoubleClick(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
@@ -188,7 +188,7 @@ namespace LayoutFarm
         internal void OnMouseWheel(UIMouseEventArgs e)
         {
             fullMode = true;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); 
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
             topBoxInputEventBridge.OnMouseWheel(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
@@ -203,20 +203,20 @@ namespace LayoutFarm
             dbugMouseDown = false;
 #endif
             fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); 
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
             topBoxInputEventBridge.OnMouseUp(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
             if (!quadPages.IsValid)
             {
                 PaintMe();
-            } 
+            }
         }
         internal void OnLostFocus(UIFocusEventArgs e)
         {
 
             fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); 
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
             topBoxInputEventBridge.OnLostFocus(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
@@ -224,7 +224,7 @@ namespace LayoutFarm
         internal void OnGotFocus(UIFocusEventArgs e)
         {
             fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); 
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
             topBoxInputEventBridge.OnGotFocus(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
@@ -233,7 +233,7 @@ namespace LayoutFarm
         internal void OnDrag(UIDragEventArgs e)
         {
             fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); 
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
             topBoxInputEventBridge.OnDrag(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
             if (!quadPages.IsValid)
@@ -250,8 +250,8 @@ namespace LayoutFarm
 #if DEBUG
             dbugMouseDown = true;
 #endif
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); 
-            topBoxInputEventBridge.OnMouseWheel(e);
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
+            topBoxInputEventBridge.OnMouseDown(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
             if (!quadPages.IsValid)
@@ -272,7 +272,7 @@ namespace LayoutFarm
         internal void OnDragStart(UIDragEventArgs e)
         {
             fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); 
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
             topBoxInputEventBridge.OnDragStart(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
@@ -285,7 +285,7 @@ namespace LayoutFarm
         internal void OnDragStop(UIDragEventArgs e)
         {
             fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); 
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
             topBoxInputEventBridge.OnDragStop(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
@@ -307,7 +307,7 @@ namespace LayoutFarm
             topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
 #endif
 
-            
+
             topBoxInputEventBridge.OnKeyDown(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
@@ -327,7 +327,7 @@ namespace LayoutFarm
 #endif
 
             fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); 
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
             topBoxInputEventBridge.OnKeyPress(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
@@ -341,7 +341,7 @@ namespace LayoutFarm
             topWindowBox.MyVisualRoot.TempStopCaret();
 
             fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); 
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
             topBoxInputEventBridge.OnKeyUp(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
@@ -351,7 +351,7 @@ namespace LayoutFarm
         {
             topWindowBox.MyVisualRoot.TempStopCaret();
             fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY); 
+            e.OffsetCanvasOrigin(-viewportX, -viewportY);
             bool result = topBoxInputEventBridge.OnProcessDialogKey(e);
             e.OffsetCanvasOrigin(viewportX, viewportY);
 
@@ -367,8 +367,8 @@ namespace LayoutFarm
             get
             {
                 return new Point(viewportX, viewportY);
-            } 
-        } 
+            }
+        }
 
         void CalculateCanvasPages()
         {
@@ -530,7 +530,7 @@ namespace LayoutFarm
         }
         void EvaluateScrollBar(out ScrollSurfaceRequestEventArgs hScrollSupportEventArgs,
             out ScrollSurfaceRequestEventArgs vScrollSupportEventArgs)
-        {   
+        {
 
             hScrollSupportEventArgs = null;
             vScrollSupportEventArgs = null;

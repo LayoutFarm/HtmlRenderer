@@ -76,7 +76,7 @@ namespace LayoutFarm
                 {
                     UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(value, currentKeyboardFocusedElement);
                     focusEventArg.SetWinRoot(topwin);
-                    Point globalLocation = value.GetElementGloablLocation();
+                    Point globalLocation = value.GetElementGlobalLocation();
                     globalXOfCurrentUI = globalLocation.X;
                     globalYOfCurrentUI = globalLocation.Y;
                     focusEventArg.SetWinRoot(topwin);
@@ -146,8 +146,7 @@ namespace LayoutFarm
             }
         }
         public void OnMouseDown(UIMouseEventArgs e)
-        {
-
+        {  
 #if DEBUG
             if (this.rootGraphic.dbugEnableGraphicInvalidateTrace)
             {
@@ -265,7 +264,7 @@ namespace LayoutFarm
                 {
                     if (currentMouseActiveElement != null && currentMouseActiveElement.IsTestable())
                     {
-                        Point prevElementGlobalLocation = currentMouseActiveElement.GetElementGloablLocation();
+                        Point prevElementGlobalLocation = currentMouseActiveElement.GetElementGlobalLocation();
                         e.TranslateCanvasOrigin(prevElementGlobalLocation);
                         e.Location = hitPointChain.PrevHitPoint;
                         e.SourceHitElement = currentMouseActiveElement;
@@ -330,7 +329,7 @@ namespace LayoutFarm
             if (hitElement != null && hitElement.IsTestable())
             {
                 DisableGraphicOutputFlush = true;
-                Point hitElementGlobalLocation = hitElement.GetElementGloablLocation();
+                Point hitElementGlobalLocation = hitElement.GetElementGlobalLocation();
 
                 UIMouseEventArgs e2 = new UIMouseEventArgs();
                 e2.WinTop = this.topwin;
@@ -371,7 +370,7 @@ namespace LayoutFarm
             if (currentDragingElement != null && currentDragingElement != this.topwin)
             {
                 DisableGraphicOutputFlush = true;
-                Point globalLocation = currentDragingElement.GetElementGloablLocation();
+                Point globalLocation = currentDragingElement.GetElementGlobalLocation();
                 e.TranslateCanvasOrigin(globalLocation);
                 e.Location = hitPointChain.CurrentHitPoint;
                 e.DragingElement = currentDragingElement;
@@ -414,7 +413,7 @@ namespace LayoutFarm
 
             DisableGraphicOutputFlush = true;
 
-            Point globalDragingElementLocation = currentDragingElement.GetElementGloablLocation();
+            Point globalDragingElementLocation = currentDragingElement.GetElementGlobalLocation();
             e.TranslateCanvasOrigin(globalDragingElementLocation);
             e.SourceHitElement = currentDragingElement;
             Point dragPoint = hitPointChain.PrevHitPoint;
@@ -537,7 +536,7 @@ namespace LayoutFarm
 
             DisableGraphicOutputFlush = true;
 
-            Point globalDragingElementLocation = currentDragingElement.GetElementGloablLocation();
+            Point globalDragingElementLocation = currentDragingElement.GetElementGlobalLocation();
             e.TranslateCanvasOrigin(globalDragingElementLocation);
 
             Point dragPoint = hitPointChain.PrevHitPoint;
@@ -612,7 +611,7 @@ namespace LayoutFarm
             {
                 DisableGraphicOutputFlush = true;
 
-                Point globalLocation = hitElement.GetElementGloablLocation();
+                Point globalLocation = hitElement.GetElementGlobalLocation();
                 e.TranslateCanvasOrigin(globalLocation);
                 e.Location = hitPointChain.CurrentHitPoint;
 
