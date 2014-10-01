@@ -277,7 +277,8 @@ namespace LayoutFarm
                     artHitResult.OffsetTestPoint(b_left, b_top);
                 }
 
-                if ((uiFlags & TRANSPARENT_FOR_ALL_EVENTS) != 0 && artHitResult.CurrentHitElement == this)
+                if ((uiFlags & TRANSPARENT_FOR_ALL_EVENTS) != 0 && 
+                    artHitResult.CurrentHitElement == this)
                 {
                     artHitResult.RemoveHit(artHitResult.CurrentHitNode);
                     return false;

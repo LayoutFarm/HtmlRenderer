@@ -10,10 +10,10 @@ namespace LayoutFarm
     public struct HitPoint
     {
         public Point point;
-        public RenderElement elem;
+        public IHitElement elem;
 
         public static readonly HitPoint Empty = new HitPoint();
-        public HitPoint(RenderElement elem, Point point)
+        public HitPoint(IHitElement elem, Point point)
         {
             this.point = point;
             this.elem = elem;
@@ -45,7 +45,7 @@ namespace LayoutFarm
 
 
     public class HitPointChain
-    { 
+    {
         LinkedList<HitPoint> currentHitChain;
         LinkedList<HitPoint> prevHitChain;
         readonly LinkedList<HitPoint> hitChainA = new LinkedList<HitPoint>();
@@ -124,22 +124,7 @@ namespace LayoutFarm
             testPointX = 0;
             testPointY = 0;
 
-        }
-        public RenderElement PrevHitElement
-        {
-            get
-            {
-                if (prevHitChain.Count > 0)
-                {
-                    return prevHitChain.Last.Value.elem;
-                }
-                else
-                {
-                    return null;
-                }
-
-            }
-        }
+        } 
         public Point PrevHitPoint
         {
             get
@@ -155,7 +140,7 @@ namespace LayoutFarm
                 }
             }
         }
-        public RenderElement CurrentHitElement
+        public IHitElement CurrentHitElement
         {
             get
             {
@@ -199,11 +184,13 @@ namespace LayoutFarm
         }
 
 
-        public void AddHit(RenderElement aobj)
+        public void AddHit(IHitElement aobj)
         {
             currentHitChain.AddLast(new HitPoint(aobj, new Point(testPointX, testPointY)));
 #if DEBUG
-            dbugHitTracker.WriteTrackNode(currentHitChain.Count, new Point(testPointX, testPointY).ToString() + " on " + aobj.BoundRect.ToString() + aobj.GetType().Name);
+            dbugHitTracker.WriteTrackNode(currentHitChain.Count,
+                new Point(testPointX, testPointY).ToString() + " on " 
+                + aobj.ElementBoundRect.ToString() + aobj.GetType().Name);
 #endif
         }
         public int Level
@@ -231,22 +218,22 @@ namespace LayoutFarm
             }
             currentHitChain.Clear();
         }
-        public RenderElement HitTestOnPrevChain()
+        public IHitElement HitTestOnPrevChain()
         {
             if (prevHitChain.Count > 0)
             {
                 foreach (HitPoint hp in prevHitChain)
                 {
-                    RenderElement elem = hp.elem;
-                    if (RenderElement.IsTestableElement(elem))
-                    {
+                    IHitElement elem = hp.elem;
+                    if (elem != null &&elem.IsTestable())
+                    {   
                         if (elem.HitTestCoreNoRecursive(hp.point))
                         {
-                            RenderElement foundOverlapChild = elem.ParentVisualElement.FindOverlapedChildElementAtPoint(elem, hp.point);
+                            IHitElement foundOverlapChild = elem.FindOverlapSibling(hp.point); 
 
                             if (foundOverlapChild == null)
                             {
-                                Point leftTop = elem.Location;
+                                Point leftTop = elem.ElementLocation;
                                 globalOffsetX -= leftTop.X;
                                 globalOffsetY -= leftTop.Y;
                                 testPointX += leftTop.X;

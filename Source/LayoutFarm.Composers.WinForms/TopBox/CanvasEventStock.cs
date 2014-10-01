@@ -155,7 +155,7 @@ namespace LayoutFarm
         }
         Stack<UIFocusEventArgs> canvasFocusEventsQ = new Stack<UIFocusEventArgs>();
 
-        public UIFocusEventArgs GetFreeFocusEventArgs(RenderElement tobeFocusElement, RenderElement tobeLostFocusElement)
+        public UIFocusEventArgs GetFreeFocusEventArgs(IHitElement tobeFocusElement, IHitElement tobeLostFocusElement)
         {
             if (canvasFocusEventsQ.Count > 0)
             {

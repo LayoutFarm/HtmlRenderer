@@ -115,11 +115,7 @@ namespace LayoutFarm
 
         }
 
-        public static bool IsTestableElement(RenderElement ui)
-        {
-            return (ui != null) && ((ui.uiFlags & HIDDEN) == 0) && (ui.parentLink != null);
-        }
-
+      
         public bool Focusable
         {
             get

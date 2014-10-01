@@ -24,12 +24,12 @@ namespace LayoutFarm
         int x;
         int y;
 
-        RenderElement srcRenderElement;        
+        RenderElement srcRenderElement;
         int canvasXOrigin;
         int canvasYOrigin;
         TopWindowRenderBox winRoot;
         UIEventName evName;
-         
+
         public UIEventArgs()
         {
 
@@ -58,14 +58,16 @@ namespace LayoutFarm
         {
             get
             {
-                return srcRenderElement;
+                return SourceHitElement as RenderElement;
             }
-            set
-            {
-                srcRenderElement = value;
-            }
+
         }
-       
+        public IHitElement SourceHitElement
+        {
+            get;
+            set;
+        }
+
         public object SrcElement
         {
             get;
@@ -189,7 +191,7 @@ namespace LayoutFarm
         None
     }
 
-     
+
 
     public class UIMouseEventArgs : UIEventArgs
     {
@@ -333,7 +335,7 @@ namespace LayoutFarm
         static Stack<UISizeChangedEventArgs> pool = new Stack<UISizeChangedEventArgs>();
         private UISizeChangedEventArgs(RenderElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
         {
-            this.SourceRenderElement = sourceElement;
+            this.SourceHitElement = sourceElement;
             this.SetLocation(widthDiff, heightDiff);
             this.changeFromSideFlags = changeFromSideFlags;
         }
@@ -350,7 +352,7 @@ namespace LayoutFarm
             {
                 UISizeChangedEventArgs e = pool.Pop();
                 e.SetLocation(widthDiff, heightDiff);
-                e.SourceRenderElement = sourceElement;
+                e.SourceHitElement = sourceElement;
                 e.changeFromSideFlags = changeFromSideFlags;
                 return e;
             }
@@ -416,8 +418,8 @@ namespace LayoutFarm
 
     public class UIFocusEventArgs : UIEventArgs
     {
-        RenderElement tobeFocusElement;
-        RenderElement tobeLostFocusElement;
+        IHitElement tobeFocusElement;
+        IHitElement tobeLostFocusElement;
         FocusEventType focusEventType = FocusEventType.PreviewLostFocus;
         public UIFocusEventArgs()
         {
@@ -434,7 +436,7 @@ namespace LayoutFarm
                 focusEventType = value;
             }
         }
-        public RenderElement ToBeFocusElement
+        public IHitElement ToBeFocusElement
         {
             get
             {
@@ -445,7 +447,7 @@ namespace LayoutFarm
                 tobeFocusElement = value;
             }
         }
-        public RenderElement ToBeLostFocusElement
+        public IHitElement ToBeLostFocusElement
         {
             get
             {

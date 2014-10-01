@@ -47,7 +47,7 @@ namespace HtmlRenderer.Boxes
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
         public int dbugMark;
-#endif   
+#endif
         public CssBox(object controller, BoxSpec spec)
         {
 
@@ -87,10 +87,11 @@ namespace HtmlRenderer.Boxes
             //----------------------------
             this._myspec = spec;
             EvaluateSpec(spec);
-            ChangeDisplayType(this, _myspec.CssDisplay); 
+            ChangeDisplayType(this, _myspec.CssDisplay);
 
         }
 
+       
         /// <summary>
         /// Gets the parent box of this box
         /// </summary>

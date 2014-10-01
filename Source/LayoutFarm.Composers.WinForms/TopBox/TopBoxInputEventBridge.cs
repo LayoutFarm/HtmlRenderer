@@ -11,8 +11,8 @@ namespace LayoutFarm
     {
 
         CanvasEventsStock eventStock = new CanvasEventsStock();
-        RenderElement currentMouseActiveElement = null;
-        RenderElement currentDragingElement = null;
+        IHitElement currentMouseActiveElement = null;
+        IHitElement currentDragingElement = null;
 
         int globalXOfCurrentUI = 0;
         int globalYOfCurrentUI = 0;
@@ -28,10 +28,8 @@ namespace LayoutFarm
         int msgChainVersion;
 
         MyTopWindowRenderBox topwin;
-        RenderElement currentKeyboardFocusedElement;
+        IHitElement currentKeyboardFocusedElement;
         RootGraphic rootGraphic;
-
-
         public TopBoxInputEventBridge()
         {
 
@@ -48,7 +46,7 @@ namespace LayoutFarm
         }
 
 
-        public RenderElement CurrentKeyboardFocusedElement
+        public IHitElement CurrentKeyboardFocusedElement
         {
             get
             {
@@ -78,7 +76,7 @@ namespace LayoutFarm
                 {
                     UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(value, currentKeyboardFocusedElement);
                     focusEventArg.SetWinRoot(topwin);
-                    Point globalLocation = value.GetGlobalLocation();
+                    Point globalLocation = value.GetElementGloablLocation();
                     globalXOfCurrentUI = globalLocation.X;
                     globalYOfCurrentUI = globalLocation.Y;
                     focusEventArg.SetWinRoot(topwin);
@@ -102,7 +100,7 @@ namespace LayoutFarm
             }
         }
 
-        internal RenderElement CurrentMouseFocusedElement
+        internal IHitElement CurrentMouseFocusedElement
         {
             get
             {
@@ -119,12 +117,12 @@ namespace LayoutFarm
         public void OnDoubleClick(UIMouseEventArgs e)
         {
 
-            RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.DblClick);
+            IHitElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.DblClick);
             if (currentMouseActiveElement != null)
             {
                 e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
                 e.Location = hitPointChain.CurrentHitPoint;
-                e.SourceRenderElement = currentMouseActiveElement;
+                e.SourceHitElement = currentMouseActiveElement;
 
                 IEventListener ui = currentMouseActiveElement.GetController() as IEventListener;
                 if (ui != null)
@@ -160,7 +158,7 @@ namespace LayoutFarm
 #endif
             msgChainVersion = 1;
             int local_msgVersion = 1;
-            RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseDown);
+            IHitElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseDown);
             if (hitElement == this.topwin || hitElement == null)
             {
                 hitPointChain.SwapHitChain();
@@ -170,7 +168,7 @@ namespace LayoutFarm
 
             e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
             e.Location = hitPointChain.CurrentHitPoint;
-            e.SourceRenderElement = hitElement;
+            e.SourceHitElement = hitElement;
 
 
             currentMouseActiveElement = hitElement;
@@ -191,20 +189,23 @@ namespace LayoutFarm
                 foreach (HitPoint hp in hitPointChain.dbugGetHitPairIter())
                 {
 
-                    RenderElement ve = hp.elem;
-                    ve.dbug_WriteOwnerLayerInfo(visualroot, i);
-                    ve.dbug_WriteOwnerLineInfo(visualroot, i);
+                    var ve = hp.elem as RenderElement;
+                    if (ve != null)
+                    {
+                        ve.dbug_WriteOwnerLayerInfo(visualroot, i);
+                        ve.dbug_WriteOwnerLineInfo(visualroot, i);
 
-                    string hit_info = new string('.', i) + " [" + i + "] "
-                        + "(" + hp.point.X + "," + hp.point.Y + ") "
-                        + ve.dbug_FullElementDescription();
-                    visualroot.dbug_rootHitChainMsg.AddLast(new dbugLayoutMsg(ve, hit_info));
+                        string hit_info = new string('.', i) + " [" + i + "] "
+                            + "(" + hp.point.X + "," + hp.point.Y + ") "
+                            + ve.dbug_FullElementDescription();
+                        visualroot.dbug_rootHitChainMsg.AddLast(new dbugLayoutMsg(ve, hit_info));
+                    }
                     i++;
                 }
             }
 #endif
             hitPointChain.SwapHitChain();
-            if (hitElement.ParentVisualElement == null)
+            if (!hitElement.HasParent)
             {
                 currentMouseActiveElement = null;
                 return;
@@ -230,10 +231,10 @@ namespace LayoutFarm
 #endif
 
         }
-        RenderElement HitTestCoreWithPrevChainHint(int x, int y, UIEventName hitEvent)
+        IHitElement HitTestCoreWithPrevChainHint(int x, int y, UIEventName hitEvent)
         {
             hitPointChain.SetVisualRootStartTestPoint(x, y);
-            RenderElement commonElement = hitPointChain.HitTestOnPrevChain();
+            IHitElement commonElement = hitPointChain.HitTestOnPrevChain();
             if (commonElement == null)
             {
                 commonElement = this.topwin;
@@ -253,7 +254,7 @@ namespace LayoutFarm
         public void OnMouseMove(UIMouseEventArgs e)
         {
 
-            RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseMove);
+            IHitElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseMove);
 
             hoverMonitoringTask.Reset();
             hoverMonitoringTask.SetEnable(true, this.topwin);
@@ -262,12 +263,12 @@ namespace LayoutFarm
             {
                 DisableGraphicOutputFlush = true;
                 {
-                    if (RenderElement.IsTestableElement(currentMouseActiveElement))
+                    if (currentMouseActiveElement != null && currentMouseActiveElement.IsTestable())
                     {
-                        Point prevElementGlobalLocation = currentMouseActiveElement.GetGlobalLocation();
+                        Point prevElementGlobalLocation = currentMouseActiveElement.GetElementGloablLocation();
                         e.TranslateCanvasOrigin(prevElementGlobalLocation);
                         e.Location = hitPointChain.PrevHitPoint;
-                        e.SourceRenderElement = currentMouseActiveElement;
+                        e.SourceHitElement = currentMouseActiveElement;
 
                         IEventListener ui = currentMouseActiveElement.GetController() as IEventListener;
                         if (ui != null)
@@ -279,16 +280,14 @@ namespace LayoutFarm
                         currentMouseActiveElement = null;
                     }
 
-
-                    if (RenderElement.IsTestableElement(hitElement))
+                    if (hitElement != null && hitElement.IsTestable())
                     {
 
                         currentMouseActiveElement = hitElement;
 
-
                         e.TranslateCanvasOrigin(hitPointChain.LastestElementGlobalX, hitPointChain.LastestElementGlobalY);
                         e.Location = hitPointChain.CurrentHitPoint;
-                        e.SourceRenderElement = hitElement;
+                        e.SourceHitElement = hitElement;
 
                         IEventListener ui = hitElement.GetController() as IEventListener;
                         if (ui != null)
@@ -309,7 +308,7 @@ namespace LayoutFarm
                 {
                     e.TranslateCanvasOrigin(hitPointChain.LastestElementGlobalX, hitPointChain.LastestElementGlobalY);
                     e.Location = hitPointChain.CurrentHitPoint;
-                    e.SourceRenderElement = hitElement;
+                    e.SourceHitElement = hitElement;
 
                     IEventListener ui = hitElement.GetController() as IEventListener;
                     if (ui != null)
@@ -327,16 +326,16 @@ namespace LayoutFarm
         }
         void OnMouseHover(object sender, EventArgs e)
         {
-            RenderElement hitElement = HitTestCoreWithPrevChainHint(hitPointChain.LastestRootX, hitPointChain.LastestRootY, UIEventName.MouseHover);
-            if (hitElement != null && RenderElement.IsTestableElement(hitElement))
+            IHitElement hitElement = HitTestCoreWithPrevChainHint(hitPointChain.LastestRootX, hitPointChain.LastestRootY, UIEventName.MouseHover);
+            if (hitElement != null && hitElement.IsTestable())
             {
                 DisableGraphicOutputFlush = true;
-                Point hitElementGlobalLocation = hitElement.GetGlobalLocation();
+                Point hitElementGlobalLocation = hitElement.GetElementGloablLocation();
 
                 UIMouseEventArgs e2 = new UIMouseEventArgs();
                 e2.WinTop = this.topwin;
                 e2.Location = hitPointChain.CurrentHitPoint;
-                e2.SourceRenderElement = hitElement;
+                e2.SourceHitElement = hitElement;
                 IEventListener ui = hitElement.GetController() as IEventListener;
                 if (ui != null)
                 {
@@ -372,11 +371,11 @@ namespace LayoutFarm
             if (currentDragingElement != null && currentDragingElement != this.topwin)
             {
                 DisableGraphicOutputFlush = true;
-                Point globalLocation = currentDragingElement.GetGlobalLocation();
+                Point globalLocation = currentDragingElement.GetElementGloablLocation();
                 e.TranslateCanvasOrigin(globalLocation);
                 e.Location = hitPointChain.CurrentHitPoint;
                 e.DragingElement = currentDragingElement;
-                e.SourceRenderElement = currentDragingElement;
+                e.SourceHitElement = currentDragingElement;
 
 
 
@@ -415,9 +414,9 @@ namespace LayoutFarm
 
             DisableGraphicOutputFlush = true;
 
-            Point globalDragingElementLocation = currentDragingElement.GetGlobalLocation();
+            Point globalDragingElementLocation = currentDragingElement.GetElementGloablLocation();
             e.TranslateCanvasOrigin(globalDragingElementLocation);
-            e.SourceRenderElement = currentDragingElement;
+            e.SourceHitElement = currentDragingElement;
             Point dragPoint = hitPointChain.PrevHitPoint;
             dragPoint.Offset(currentXDistanceFromDragPoint, currentYDistanceFromDragPoint);
             e.Location = dragPoint;
@@ -430,10 +429,10 @@ namespace LayoutFarm
             }
             e.TranslateCanvasOriginBack();
 
-            if (currentDragingElement.HasDragBroadcastable)
-            {
-                BroadcastDragHitEvents(e);
-            }
+            //if (currentDragingElement.HasDragBroadcastable)
+            //{
+            //    BroadcastDragHitEvents(e);
+            //}
 
             FlushAccumGraphicUpdate();
         }
@@ -538,14 +537,14 @@ namespace LayoutFarm
 
             DisableGraphicOutputFlush = true;
 
-            Point globalDragingElementLocation = currentDragingElement.GetGlobalLocation();
+            Point globalDragingElementLocation = currentDragingElement.GetElementGloablLocation();
             e.TranslateCanvasOrigin(globalDragingElementLocation);
 
             Point dragPoint = hitPointChain.PrevHitPoint;
             dragPoint.Offset(currentXDistanceFromDragPoint, currentYDistanceFromDragPoint);
             e.Location = dragPoint;
 
-            e.SourceRenderElement = currentDragingElement;
+            e.SourceHitElement = currentDragingElement;
             var script = currentDragingElement.GetController() as IEventListener;
             if (script != null)
             {
@@ -561,7 +560,7 @@ namespace LayoutFarm
                 {
                     Point globalLocation = elem.GetGlobalLocation();
                     d_eventArg.TranslateCanvasOrigin(globalLocation);
-                    d_eventArg.SourceRenderElement = elem;
+                    d_eventArg.SourceHitElement = elem;
                     d_eventArg.DragingElement = currentDragingElement;
 
                     var script2 = elem.GetController();
@@ -608,16 +607,16 @@ namespace LayoutFarm
 
 #endif
 
-            RenderElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseUp);
+            IHitElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseUp);
             if (hitElement != null)
             {
                 DisableGraphicOutputFlush = true;
 
-                Point globalLocation = hitElement.GetGlobalLocation();
+                Point globalLocation = hitElement.GetElementGloablLocation();
                 e.TranslateCanvasOrigin(globalLocation);
                 e.Location = hitPointChain.CurrentHitPoint;
 
-                e.SourceRenderElement = hitElement;
+                e.SourceHitElement = hitElement;
                 IEventListener ui = hitElement.GetController() as IEventListener;
                 if (ui != null)
                 {
@@ -630,7 +629,6 @@ namespace LayoutFarm
                 if (hitElement.Focusable)
                 {
                     this.CurrentKeyboardFocusedElement = hitElement;
-                    //e.WinTop.CurrentKeyboardFocusedElement = hitElement;
                 }
                 FlushAccumGraphicUpdate();
             }
@@ -648,7 +646,7 @@ namespace LayoutFarm
             {
 
                 e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
-                e.SourceRenderElement = currentKeyboardFocusedElement;
+                e.SourceHitElement = currentKeyboardFocusedElement;
                 IEventListener ui = currentKeyboardFocusedElement.GetController() as IEventListener;
                 if (ui != null)
                 {
@@ -667,7 +665,7 @@ namespace LayoutFarm
             if (currentKeyboardFocusedElement != null)
             {
                 e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
-                e.SourceRenderElement = currentKeyboardFocusedElement;
+                e.SourceHitElement = currentKeyboardFocusedElement;
 
                 IEventListener ui = currentKeyboardFocusedElement.GetController() as IEventListener;
                 if (ui != null)
@@ -687,7 +685,7 @@ namespace LayoutFarm
             {
 
                 e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
-                e.SourceRenderElement = currentKeyboardFocusedElement;
+                e.SourceHitElement = currentKeyboardFocusedElement;
                 IEventListener ui = currentKeyboardFocusedElement.GetController() as IEventListener;
                 if (ui != null)
                 {
@@ -705,7 +703,7 @@ namespace LayoutFarm
             {
                 e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
 
-                e.SourceRenderElement = currentKeyboardFocusedElement;
+                e.SourceHitElement = currentKeyboardFocusedElement;
 
 
                 IEventListener ui = currentKeyboardFocusedElement.GetController() as IEventListener;
@@ -717,7 +715,7 @@ namespace LayoutFarm
                 if (result && currentKeyboardFocusedElement != null)
                 {
 
-                    currentKeyboardFocusedElement.InvalidateGraphic();
+                    //currentKeyboardFocusedElement.InvalidateGraphic();
 
                 }
                 e.TranslateCanvasOriginBack();

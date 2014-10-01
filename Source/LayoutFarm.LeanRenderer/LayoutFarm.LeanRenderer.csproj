@@ -36,8 +36,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="2_RenderElement\BitpackProperties.cs" />
+    <Compile Include="5_HitTest\IHitElement.cs" />
     <Compile Include="2_RenderElement\RenderElementHelper.cs" />
-    <Compile Include="2_RenderElement\RenderElement_Controller.cs" />
+    <Compile Include="2_RenderElement\RenderElement_IHitElement.cs" />
     <Compile Include="3_Layers\3_LayerCollection.cs" />
     <Compile Include="6_Root\1_RootGraphic.cs" />
     <Compile Include="6_Root\1_RootGraphic_p1.cs" />
