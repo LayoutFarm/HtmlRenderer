@@ -337,22 +337,31 @@ namespace HtmlRenderer.Composers.BridgeHtml
             return null;
         }
 
-        /// <summary>
-        /// Create new css block box.
-        /// </summary>
-        /// <returns>the new block box</returns>
-        internal static CssBox CreateCssRenderRoot(IFonts iFonts)
+        internal static CssBox CreateCssRenderRoot(IFonts iFonts, LayoutFarm.RenderElement containerElement)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
-            var box = new CssBox(null, spec);
+            var box = new CssRenderRoot(spec, containerElement);
             //------------------------------------
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
             return box;
         }
+
+        class CssRenderRoot : CssBox
+        {
+            LayoutFarm.RenderElement containerElement;
+            public CssRenderRoot(BoxSpec spec, LayoutFarm.RenderElement containerElement)
+                : base(null, spec)
+            {
+                this.containerElement = containerElement;
+            }
+        }
+
     }
+
+
 
     static class TableBoxCreator
     {

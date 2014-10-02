@@ -49,13 +49,13 @@
     <Compile Include="1_HtmlRenderer\2_Css\ValueMaps.cs" />
     <Compile Include="2_Bridge_HtmlRenderer_WebDom\BoxCreator.cs" />
     <Compile Include="2_Bridge_HtmlRenderer_WebDom\BridgeHtmlDocument.cs" />
+    <Compile Include="3_Bridge_HtmlRender_LeanBox\BridgeClasses.cs" />
     <Compile Include="3_Bridge_HtmlRender_LeanBox\HtmlInputEventBridge.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="4_WebDom\1_Html\DomElement.cs" />
     <Compile Include="4_WebDom\1_Html\DomElement_EventListener.cs" />
     <Compile Include="3_Bridge_HtmlRender_LeanBox\HtmlRefreshEventArgs.cs" />
-    <Compile Include="3_Bridge_HtmlRender_LeanBox\CssBoxWrapperRenderBox.cs" />
     <Compile Include="3_Bridge_HtmlRender_LeanBox\StylesheetLoadEventArgs.cs" />
     <Compile Include="4_WebDom\1_Html\ElementChangeKind.cs" />
     <Compile Include="4_WebDom\2_Css\CssAttributeSelector.cs" />

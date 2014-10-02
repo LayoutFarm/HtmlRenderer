@@ -6,7 +6,7 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm
 {
-    public class MyHitPointChain : HitPointChain
+    class MyHitPointChain : HitPointChain
     {
         List<HitPoint> currentHitChain;
         List<HitPoint> prevHitChain;
@@ -99,16 +99,19 @@ namespace LayoutFarm
             }
             currentHitChain.Clear();
         }
+
         public IHitElement HitTestOnPrevChain()
         {
             if (prevHitChain.Count > 0)
             {
                 foreach (HitPoint hp in prevHitChain)
                 {
+                    //top down test
+
                     IHitElement elem = hp.elem;
                     if (elem != null && elem.IsTestable())
                     {
-                        if (elem.HitTestCoreNoRecursive(hp.point))
+                        if (elem.Contains(hp.point))
                         {
                             IHitElement foundOverlapChild = elem.FindOverlapSibling(hp.point);
 
@@ -139,7 +142,7 @@ namespace LayoutFarm
                 }
                 if (currentHitChain.Count > 0)
                 {
-                    return currentHitChain[currentHitChain.Count - 1].elem;                     
+                    return currentHitChain[currentHitChain.Count - 1].elem;
                 }
                 else
                 {

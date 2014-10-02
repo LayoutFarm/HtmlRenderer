@@ -115,7 +115,7 @@ namespace LayoutFarm
 
 
 
-            Rectangle r = visualElement.GetGlobalRect();
+            Rectangle r = visualElement.dbugGetGlobalRect();
             stBuilder.Append(" global(" + r.X + "," + r.Y + "," + r.Width + "," + r.Height + ")");
 
             Rectangle currentClipRect = currentCanvas.CurrentClipRect;

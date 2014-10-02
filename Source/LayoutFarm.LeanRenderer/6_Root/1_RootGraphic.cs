@@ -10,7 +10,7 @@ namespace LayoutFarm
     {
         Rectangle flushRect;
         InternalRect accumulateInvalidRect;
-        
+
         public RootGraphic(int width, int heigth)
         {
             this.Width = width;
@@ -68,7 +68,7 @@ namespace LayoutFarm
         public abstract GraphicIntervalTask RequestGraphicInternvalTask(object uniqueName,
             int intervalMs, EventHandler<IntervalTaskEventArgs> tickhandler);
         public abstract void RemoveIntervalTask(object uniqueName);
-        
+
 
 
 
@@ -112,7 +112,9 @@ namespace LayoutFarm
             }
             this.GraphicUpdateBlockCount = 0;
         }
-        void InvalidateGraphicArea(RenderElement fromElement, InternalRect elementClientRect, out TopWindowRenderBox wintop)
+        void InvalidateGraphicArea(RenderElement fromElement,
+            InternalRect elementClientRect,
+            out TopWindowRenderBox wintop)
         {
             if (this.IsInRenderPhase)
             {
@@ -124,7 +126,6 @@ namespace LayoutFarm
             bool isBubbleUp = false;
 
             RenderElement startVisualElement = fromElement;
-
 #if DEBUG
 
             RootGraphic dbugMyroot = this.dbugVRoot;
@@ -213,17 +214,17 @@ namespace LayoutFarm
                 if (fromElement.MayHasViewport && isBubbleUp)
                 {
 
-                    RenderBoxBase container = (RenderBoxBase)fromElement;
+
                     elementClientRect.Offset(globalX, globalY);
                     if (fromElement.HasDoubleScrollableSurface)
                     {
                         //container.VisualScrollableSurface.WindowRootNotifyInvalidArea(elementClientRect);
                     }
                     Rectangle elementRect = fromElement.BoundRect;
-                    elementRect.Offset(container.ViewportX, container.ViewportY);
+                    elementRect.Offset(fromElement.ViewportX, fromElement.ViewportY);
                     elementClientRect.Intersect(elementRect);
-                    globalX = -container.ViewportX;
-                    globalY = -container.ViewportY;
+                    globalX = -fromElement.ViewportX;
+                    globalY = -fromElement.ViewportY;
                 }
 
                 if (fromElement.IsTopWindow)
@@ -234,9 +235,9 @@ namespace LayoutFarm
                 else
                 {
 
-#if DEBUG 
+#if DEBUG
                     if (fromElement.dbugParentVisualElement == null)
-                    {   
+                    {
                         if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
                             dbugMyroot.dbugGraphicInvalidateTracer != null)
                         {
@@ -260,7 +261,9 @@ namespace LayoutFarm
                         return;
                     }
                 }
+
                 isBubbleUp = true;
+
             } while (true);
 
 #if DEBUG

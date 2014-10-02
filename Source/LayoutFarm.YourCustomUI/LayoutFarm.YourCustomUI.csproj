@@ -44,7 +44,6 @@
     <Compile Include="CustomUI.Sample\UITextBox.cs" />
     <Compile Include="CustomUI.Sample_Composites\UIListView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UIHtmlBox\CssLeanBox.cs" />
     <Compile Include="UIHtmlBox\LeanBoxCreator.cs" />
     <Compile Include="UIHtmlBox\UIHtmlBox.cs" />
     <Compile Include="UIHtmlBox\UIHtmlBoxContentManager.cs" />

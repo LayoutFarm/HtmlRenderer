@@ -43,7 +43,10 @@ namespace LayoutFarm
 
     partial class RenderElement
     {
-
+        public Rectangle dbugGetGlobalRect()
+        {
+            return new Rectangle(GetGlobalLocationStatic(this), Size);
+        }
         public virtual void dbug_WriteOwnerLayerInfo(RootGraphic visualroot, int i)
         {
 

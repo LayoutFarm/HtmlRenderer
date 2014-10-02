@@ -2,6 +2,7 @@
 using HtmlRenderer.WebDom;
 using HtmlRenderer.Css;
 using HtmlRenderer.Composers;
+using LayoutFarm;
 
 namespace HtmlRenderer.Boxes.LeanBox
 {
@@ -23,7 +24,7 @@ namespace HtmlRenderer.Boxes.LeanBox
                     case "textbox":
                         {
                             var textbox = new LayoutFarm.SampleControls.UITextBox(100, 20, false);
-                            LeanWrapper leanTextBox = new LeanWrapper(textbox, spec, textbox.GetPrimaryRenderElement(rootgfx));
+                            LeanWrapperCssBox leanTextBox = new LeanWrapperCssBox(textbox, spec, textbox.GetPrimaryRenderElement(rootgfx));
                             leanTextBox.AcceptKeyboardFocus = true;
                             parentBox.AppendChild(leanTextBox);
                             
@@ -34,7 +35,7 @@ namespace HtmlRenderer.Boxes.LeanBox
             var simpleBox = new LayoutFarm.SampleControls.UIButton(100, 20);
             simpleBox.BackColor = LayoutFarm.Drawing.Color.LightGray;
 
-            LeanWrapper leanBox = new LeanWrapper(simpleBox, spec, simpleBox.GetPrimaryRenderElement(rootgfx));
+            LeanWrapperCssBox leanBox = new LeanWrapperCssBox(simpleBox, spec, simpleBox.GetPrimaryRenderElement(rootgfx));
             parentBox.AppendChild(leanBox);
             return leanBox;
             //return leanBox;

@@ -59,9 +59,77 @@ namespace LayoutFarm
             //add box hit chain to hit point chain  
             hitChain.AddHit(new BoxHitChainWrapper(boxHitChain));
 
-
         }
     }
+
+
+
+    public sealed class LeanWrapperCssBox : CssBox
+    {
+        //bridge between parent CssBox and  inner RenderElement
+
+        RenderElement renderElement;
+        public LeanWrapperCssBox(object controller,
+             BoxSpec spec,
+            RenderElement renderElement)
+            : base(controller, spec, CssDisplay.Block)
+        {
+            this.renderElement = renderElement;
+            ChangeDisplayType(this, CssDisplay.Block);
+            SetAsCustomCssBox(this);
+            this.SetSize(100, 20);
+        }
+
+        public LayoutFarm.RenderElement RenderElement
+        {
+            get { return this.renderElement; }
+        }
+        public override void CustomRecomputedValue(CssBox containingBlock)
+        {
+            this.SetSize(100, 20);
+
+            //var svgElement = this.SvgSpec;
+            ////recompute value if need 
+            //var cnode = svgElement.GetFirstNode();
+            //float containerW = containingBlock.SizeWidth;
+            //float emH = containingBlock.GetEmHeight();
+            //while (cnode != null)
+            //{
+            //    cnode.Value.ReEvaluateComputeValue(containerW, 100, emH);
+            //    cnode = cnode.Next;
+            //} 
+            //this.SetSize(500, 500);
+        }
+        protected override void PaintImp(IGraphics g, Painter p)
+        {
+            if (renderElement != null)
+            {
+                LayoutFarm.InternalRect rect = LayoutFarm.InternalRect.CreateFromRect(
+                    new Rectangle(0, 0, renderElement.Width, renderElement.Height));
+                this.renderElement.DrawToThisPage(g.CurrentCanvas, rect);
+                LayoutFarm.InternalRect.FreeInternalRect(rect);
+
+
+
+            }
+            else
+            {
+                //for debug!
+                g.FillRectangle(LayoutFarm.Drawing.Brushes.Red,
+                    0, 0, 100, 20);
+            }
+        }
+
+    }
+
+
+
+
+
+
+
+
+
 
     public class BoxHitChainWrapper : LayoutFarm.IHitElement
     {
@@ -112,7 +180,7 @@ namespace LayoutFarm
         {
             get { return true; }
         }
-        bool IHitElement.HitTestCoreNoRecursive(LayoutFarm.Drawing.Point p)
+        bool IHitElement.Contains(LayoutFarm.Drawing.Point p)
         {
             return true;
         }

@@ -9,7 +9,7 @@ namespace LayoutFarm
         object GetController();
         bool IsTestable();
         
-        bool HitTestCoreNoRecursive(LayoutFarm.Drawing.Point p);
+        bool Contains(LayoutFarm.Drawing.Point p);
         IHitElement FindOverlapSibling(LayoutFarm.Drawing.Point p);
         bool HitTestCore(HitPointChain chain);
 

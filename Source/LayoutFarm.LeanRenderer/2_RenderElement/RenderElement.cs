@@ -10,15 +10,12 @@ namespace LayoutFarm
 
 
     public abstract partial class RenderElement
-    {
-
-     
+    { 
         bool isWindowRoot;
         bool mayHasChild;
-        bool mayHasViewport;
-        
+        bool mayHasViewport; 
         RootGraphic rootGfx;
-        IParentLink parentLink;
+        IParentLink parentLink; 
 
         public RenderElement(RootGraphic rootGfx, int width, int height)
         {
@@ -28,7 +25,7 @@ namespace LayoutFarm
 #if DEBUG
             dbug_totalObjectId++;
             dbug_obj_id = dbug_totalObjectId;
-            this.dbug_SetFixedElementCode(this.GetType().Name);
+            //this.dbug_SetFixedElementCode(this.GetType().Name);
 #endif
         }
         public RootGraphic Root
@@ -54,18 +51,14 @@ namespace LayoutFarm
             {
                 return parentLink;
             }
-        }
-
-        public static void RemoveParentLink(RenderElement visual)
-        {
-            visual.parentLink = null;
-        }
+        } 
 #if DEBUG
         public RenderElement dbugParentVisualElement
         {
             get { return this.ParentVisualElement; }
         }
 #endif
+
         public virtual RenderElement ParentVisualElement
         {
             get
@@ -76,8 +69,7 @@ namespace LayoutFarm
                 }
                 return parentLink.ParentVisualElement;
             }
-        }
-
+        } 
 
         public bool Visible
         {
@@ -87,9 +79,7 @@ namespace LayoutFarm
                 return ((uiFlags & HIDDEN) == 0);
             }
 
-        }
-
-
+        } 
         public void SetVisible(bool value)
         {
 
@@ -240,14 +230,14 @@ namespace LayoutFarm
             }
         }
 
-        public bool ActAsFloatingWindow
-        {
-            get
-            {
-                return this.CanbeFloatingWindow &&
-                    this.ParentVisualElement == this.GetTopWindowRenderBox();
-            }
-        }
+        //public bool ActAsFloatingWindow
+        //{
+        //    get
+        //    {
+        //        return this.CanbeFloatingWindow &&
+        //            this.ParentVisualElement == this.GetTopWindowRenderBox();
+        //    }
+        //}
 
         public bool IsPageWindow
         {

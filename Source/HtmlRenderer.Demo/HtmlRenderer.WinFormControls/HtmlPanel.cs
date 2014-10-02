@@ -306,7 +306,8 @@ namespace HtmlRenderer
             //build rootbox from htmldoc
             var rootBox = builder.BuildCssRenderTree(htmldoc,
                 LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
-                htmlIsland, cssData);
+                htmlIsland, cssData,
+                null);
 
             htmlIsland.SetHtmlDoc(htmldoc);
             htmlIsland.SetRootCssBox(rootBox, cssData);
@@ -338,7 +339,8 @@ namespace HtmlRenderer
 
             var rootBox = builder.BuildCssRenderTree(this.currentDoc,
                 LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
-                htmlIsland, cssData);
+                htmlIsland, cssData,
+                null);
 
             htmlIsland.SetHtmlDoc(this.currentDoc);
             htmlIsland.SetRootCssBox(rootBox, cssData);

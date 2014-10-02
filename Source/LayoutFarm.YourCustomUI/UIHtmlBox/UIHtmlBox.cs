@@ -165,7 +165,8 @@ namespace LayoutFarm.SampleControls
             var rootBox = builder.BuildCssRenderTree(this.currentdoc,
                 LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
                 this.myHtmlIsland,
-                this.waitingCssData);
+                this.waitingCssData,
+                this.myCssBoxWrapper);
 
             var htmlIsland = this.myHtmlIsland;
             htmlIsland.SetHtmlDoc(this.currentdoc);

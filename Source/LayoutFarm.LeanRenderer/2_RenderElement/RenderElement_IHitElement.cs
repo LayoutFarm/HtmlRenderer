@@ -45,7 +45,7 @@ namespace LayoutFarm
         }
         bool IHitElement.HasParent
         {
-            get { return this.ParentVisualElement != null; }
+            get { return this.parentLink != null; }
         }
         bool IHitElement.ContainsSubChain
         {

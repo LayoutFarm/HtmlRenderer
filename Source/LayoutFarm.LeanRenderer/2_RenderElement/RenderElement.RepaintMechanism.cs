@@ -31,15 +31,15 @@ namespace LayoutFarm
             TopWindowRenderBox wintop;
             RootInvalidateGraphicArea(ve, ref localArea, out wintop);
         }
-        public static void InvalidateGraphicLocalArea(RenderElement ve, Rectangle localArea, out TopWindowRenderBox wintop)
-        {
-            if (localArea.Height == 0 || localArea.Width == 0)
-            {
-                wintop = null;
-                return;
-            }
-            RootInvalidateGraphicArea(ve, ref localArea, out wintop);
-        }
+        //public static void InvalidateGraphicLocalArea(RenderElement ve, Rectangle localArea, out TopWindowRenderBox wintop)
+        //{
+        //    if (localArea.Height == 0 || localArea.Width == 0)
+        //    {
+        //        wintop = null;
+        //        return;
+        //    }
+        //    RootInvalidateGraphicArea(ve, ref localArea, out wintop);
+        //}
 
         protected bool vinv_ForceReArrange
         {
@@ -107,11 +107,9 @@ namespace LayoutFarm
             {
                 this.rootGfx.EndGraphicUpdate(wintop);
             }
-        }
-
+        } 
         void BeforeBoundChangedInvalidateGraphics()
-        {
-
+        { 
             InvalidateGraphic();
             this.rootGfx.BeginGraphicUpdate();
             this.uiLayoutFlags |= LY_SUSPEND_GRAPHIC;

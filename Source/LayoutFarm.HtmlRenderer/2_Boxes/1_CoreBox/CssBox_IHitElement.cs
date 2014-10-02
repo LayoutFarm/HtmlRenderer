@@ -21,7 +21,7 @@ namespace HtmlRenderer.Boxes
         {
             return true;
         }
-        bool IHitElement.HitTestCoreNoRecursive(LayoutFarm.Drawing.Point p)
+        bool IHitElement.Contains(LayoutFarm.Drawing.Point p)
         {
             return false;
         }

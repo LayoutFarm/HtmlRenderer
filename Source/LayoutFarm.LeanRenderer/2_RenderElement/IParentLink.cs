@@ -46,7 +46,7 @@ namespace LayoutFarm
             while (curnode != null)
             {
                 var element = curnode.Value;
-                if (element.HitTestCoreNoRecursive(point))
+                if (element.Contains(point))
                 {
                     return element;
                 }

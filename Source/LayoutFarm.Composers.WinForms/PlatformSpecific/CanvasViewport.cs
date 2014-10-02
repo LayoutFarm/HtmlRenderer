@@ -147,7 +147,7 @@ namespace LayoutFarm
 
             if (dbugHelper01.dbugVE_HighlightMe != null)
             {
-                outputWindow.dbug_HighlightMeNow(dbugHelper01.dbugVE_HighlightMe.GetGlobalRect());
+                outputWindow.dbug_HighlightMeNow(dbugHelper01.dbugVE_HighlightMe.dbugGetGlobalRect());
 
             }
 #endif

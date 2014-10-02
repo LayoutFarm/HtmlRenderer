@@ -18,9 +18,6 @@ using System.Collections.Generic;
 using LayoutFarm.Drawing;
 using System.Globalization;
 using System.Text;
-
-
-using LayoutFarm.Drawing;
 using HtmlRenderer.Css;
 
 namespace HtmlRenderer.Boxes
@@ -48,7 +45,7 @@ namespace HtmlRenderer.Boxes
         static int dbugTotalId;
         public int dbugMark;
 #endif
-        public CssBox(object controller, BoxSpec spec)
+        public CssBox(object controller, BoxSpec spec) 
         {
 
             this._aa_boxes = new CssBoxCollection();
@@ -68,7 +65,7 @@ namespace HtmlRenderer.Boxes
             ChangeDisplayType(this, _myspec.CssDisplay);
 
         }
-        public CssBox(object controller, BoxSpec spec, CssDisplay fixDisplayType)
+        public CssBox(object controller, BoxSpec spec, CssDisplay fixDisplayType)             
         {
             this._aa_boxes = new CssBoxCollection();
             this._controller = controller;
@@ -91,7 +88,7 @@ namespace HtmlRenderer.Boxes
 
         }
 
-       
+
         /// <summary>
         /// Gets the parent box of this box
         /// </summary>

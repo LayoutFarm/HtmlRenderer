@@ -55,10 +55,7 @@ namespace LayoutFarm
                 }
             }
             return false;
-        }
-
-
-
+        } 
         public bool IntersectOnHorizontalWith(InternalRect r)
         {
             int left = this.b_left;
@@ -69,10 +66,7 @@ namespace LayoutFarm
                 return true;
             }
             return false;
-        }
-
-
-
+        } 
         protected Rectangle GetLocalArea()
         {
             return new Rectangle(0, 0, b_width, b_Height);
@@ -144,64 +138,14 @@ namespace LayoutFarm
                 return b_Height;
             }
         }
-
-
-
-
-
         public Point GetGlobalLocation()
-        {
-
+        {   
             return GetGlobalLocationStatic(this);
-        }
-        public Point GetLocationLimitTo(RenderElement parentHint)
-        {
-            RenderElement parentVisualElement = this.ParentVisualElement;
-            if (parentVisualElement == parentHint)
-            {
-                return new Point(this.b_left, this.b_top);
-            }
-            else
-            {
-                if (parentVisualElement != null)
-                {
-                    Point parentPos = parentVisualElement.GetLocationLimitTo(parentHint); return new Point(b_left + parentPos.X, b_top + parentPos.Y);
-                }
-                else
-                {
-                    return new Point(b_left, b_top);
-                }
-            }
-        }
-        public Point GetGlobalLocationRelativeTo(RenderElement relativeElement)
-        {
-
-            Point relativeElemLoca = relativeElement.Location;
-            Point relativeElementGlobalLocation = relativeElement.GetGlobalLocation();
-            relativeElementGlobalLocation.Offset(
-               b_left - relativeElemLoca.X, b_top - relativeElemLoca.Y); return relativeElementGlobalLocation;
-        }
-        public Point GetLocationAsChildOf(RenderElement relativeElement)
-        {
-            Point relativeElementGlobalLocation = relativeElement.GetGlobalLocation();
-            Point thisGlobalLoca = GetGlobalLocation();
-            return new Point(thisGlobalLoca.X - relativeElementGlobalLocation.X, thisGlobalLoca.Y - relativeElementGlobalLocation.Y);
-        }
-        public Point GetLocationAsSiblingOf(RenderElement relativeElement)
-        {
-            RenderElement parent = relativeElement.ParentVisualElement;
-            return GetLocationAsChildOf(parent);
-        }
-        public Rectangle GetGlobalRect()
-        {
-            return new Rectangle(GetGlobalLocationStatic(this), Size);
-        }
-
+        } 
         static Point GetGlobalLocationStatic(RenderElement ui)
         {
 
-            RenderElement parentVisualElement = ui.ParentVisualElement;
-
+            RenderElement parentVisualElement = ui.ParentVisualElement; 
             if (parentVisualElement != null)
             {
                 Point parentGlobalLocation = GetGlobalLocationStatic(parentVisualElement);
@@ -225,7 +169,7 @@ namespace LayoutFarm
             }
         }
 
-        public bool HitTestCoreNoRecursive(Point testPoint)
+        public bool Contains(Point testPoint)
         {
             if ((uiFlags & HIDDEN) != 0)
             {
@@ -278,7 +222,7 @@ namespace LayoutFarm
                     hitChain.OffsetTestPoint(b_left, b_top);
                 }
 
-                if ((uiFlags & TRANSPARENT_FOR_ALL_EVENTS) != 0 && 
+                if ((uiFlags & TRANSPARENT_FOR_ALL_EVENTS) != 0 &&
                     hitChain.CurrentHitElement == this)
                 {
                     hitChain.RemoveCurrentHitNode();
@@ -582,12 +526,14 @@ ve
                 //    parentVisualElem.IsInLayoutQueueChainUp = true;
                 //    goto finalExit;
                 //}
-                if (parentVisualElem.ActAsFloatingWindow)
-                {
-                    parentVisualElem.MarkInvalidContentArrangement();
-                    parentVisualElem.IsInLayoutQueueChainUp = true;
-                    goto finalExit;
-                }
+                //if (parentVisualElem.ActAsFloatingWindow)
+                //{
+                //    parentVisualElem.MarkInvalidContentArrangement();
+                //    parentVisualElem.IsInLayoutQueueChainUp = true;
+                //    goto finalExit;
+                //}
+
+
                 parentVisualElem.MarkInvalidContentSize();
                 parentVisualElem.MarkInvalidContentArrangement();
 
@@ -634,8 +580,8 @@ ve
                 }
             }
             else
-            {    
-                return parentLink.ParentVisualElement.GetTopWindowRenderBox();    
+            {
+                return parentLink.ParentVisualElement.GetTopWindowRenderBox();
             }
         }
         public void StartBubbleUpLayoutInvalidState()

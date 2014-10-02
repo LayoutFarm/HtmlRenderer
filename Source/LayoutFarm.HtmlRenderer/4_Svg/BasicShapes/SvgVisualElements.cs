@@ -34,7 +34,7 @@ namespace LayoutFarm.SvgDom
         {
             return true;
         }
-        bool IHitElement.HitTestCoreNoRecursive(LayoutFarm.Drawing.Point p)
+        bool IHitElement.Contains(LayoutFarm.Drawing.Point p)
         {
             return false;
         }
