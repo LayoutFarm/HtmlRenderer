@@ -56,10 +56,6 @@
       <Project>{8CBF9902-1A77-4FA9-AC57-CE2179098BED}</Project>
       <Name>LayoutFarm.Composers.WinForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.LeanRenderer\LayoutFarm.LeanRenderer.csproj">
-      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
-      <Name>LayoutFarm.LeanRenderer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.MiniUI\LayoutFarm.MiniUI.csproj">
       <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
       <Name>LayoutFarm.MiniUI</Name>

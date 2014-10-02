@@ -347,21 +347,23 @@ namespace HtmlRenderer.Composers.BridgeHtml
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
             return box;
-        }
-
-        class CssRenderRoot : CssBox
-        {
-            LayoutFarm.RenderElement containerElement;
-            public CssRenderRoot(BoxSpec spec, LayoutFarm.RenderElement containerElement)
-                : base(null, spec)
-            {
-                this.containerElement = containerElement;
-            }
-        }
-
+        } 
     }
-
-
+    
+    class CssRenderRoot : CssBox
+    {
+        LayoutFarm.RenderElement containerElement;
+        public CssRenderRoot(BoxSpec spec, LayoutFarm.RenderElement containerElement)
+            : base(null, spec)
+        {
+            this.containerElement = containerElement;
+        }
+        public LayoutFarm.RenderElement ContainerElement
+        {
+            get { return this.containerElement; }
+        }
+            
+    }
 
     static class TableBoxCreator
     {

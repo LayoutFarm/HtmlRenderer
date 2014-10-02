@@ -64,20 +64,25 @@ namespace LayoutFarm
 
 
 
+
+
     public sealed class LeanWrapperCssBox : CssBox
     {
-        //bridge between parent CssBox and  inner RenderElement
 
         RenderElement renderElement;
         public LeanWrapperCssBox(object controller,
              BoxSpec spec,
-            RenderElement renderElement)
+             RenderElement renderElement)
             : base(controller, spec, CssDisplay.Block)
         {
             this.renderElement = renderElement;
             ChangeDisplayType(this, CssDisplay.Block);
             SetAsCustomCssBox(this);
             this.SetSize(100, 20);
+
+            LayoutFarm.RenderElement.SetVisualElementAsChildOfOther(
+                renderElement,
+                new LeapWrapperLink(this));
         }
 
         public LayoutFarm.RenderElement RenderElement
@@ -109,8 +114,6 @@ namespace LayoutFarm
                 this.renderElement.DrawToThisPage(g.CurrentCanvas, rect);
                 LayoutFarm.InternalRect.FreeInternalRect(rect);
 
-
-
             }
             else
             {
@@ -118,6 +121,58 @@ namespace LayoutFarm
                 g.FillRectangle(LayoutFarm.Drawing.Brushes.Red,
                     0, 0, 100, 20);
             }
+        }
+
+        class LeapWrapperLink : IParentLink
+        {
+            CssBox box;
+            public LeapWrapperLink(CssBox box)
+            {
+                this.box = box;
+            }
+            RenderElement GetParentRenderElement()
+            {
+                CssBox cbox = this.box;
+                while (cbox != null)
+                {
+                    var renderRoot = cbox as HtmlRenderer.Composers.BridgeHtml.CssRenderRoot;
+                    if (renderRoot != null)
+                    {
+                        return renderRoot.ContainerElement;
+                    }
+                    cbox = cbox.ParentBox;
+                }
+
+                return null;
+
+            }
+            public bool MayHasOverlapChild { get { return false; } }
+            public RenderElement ParentVisualElement { get { return GetParentRenderElement(); } }
+            public void AdjustLocation(ref Point p) { }
+
+            public RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
+            {
+                return null;
+            }
+            public RenderElement NotifyParentToInvalidate(out bool goToFinalExit
+
+#if DEBUG
+, RenderElement ve
+#endif
+)
+            {
+                goToFinalExit = false;
+                var parent = GetParentRenderElement();
+                if (parent != null)
+                {
+                    parent.InvalidateGraphic();
+                }
+                return parent;
+            }
+
+#if DEBUG
+            public string dbugGetLinkInfo() { return this.GetParentRenderElement().ToString(); }
+#endif
         }
 
     }

@@ -8,7 +8,7 @@ namespace HtmlRenderer.Boxes.LeanBox
 {
 
     class LeanBoxCreator : CustomCssBoxGenerator
-    {
+    { 
         public override CssBox CreateCssBox(object tag, CssBox parentBox, BoxSpec spec, LayoutFarm.RootGraphic rootgfx)
         {
             //check if this is a proper tag 
@@ -24,6 +24,7 @@ namespace HtmlRenderer.Boxes.LeanBox
                     case "textbox":
                         {
                             var textbox = new LayoutFarm.SampleControls.UITextBox(100, 20, false);
+
                             LeanWrapperCssBox leanTextBox = new LeanWrapperCssBox(textbox, spec, textbox.GetPrimaryRenderElement(rootgfx));
                             leanTextBox.AcceptKeyboardFocus = true;
                             parentBox.AppendChild(leanTextBox);

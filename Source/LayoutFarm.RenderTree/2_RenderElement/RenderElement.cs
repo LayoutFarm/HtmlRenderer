@@ -411,11 +411,7 @@ namespace LayoutFarm
 
             childElement.parentLink = lineLinkedNode;
         }
-        public static void SetVisualElementAsChildOfSimpleContainer(RenderElement childElement, IParentLink lineLinkedNode)
-        {
-
-            childElement.parentLink = lineLinkedNode;
-        }
+         
 
         public bool HasOwner
         {

@@ -72,13 +72,13 @@
       <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>
       <Name>LayoutFarm.HtmlRenderer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.LeanRenderer\LayoutFarm.LeanRenderer.csproj">
-      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
-      <Name>LayoutFarm.LeanRenderer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.MiniUI\LayoutFarm.MiniUI.csproj">
       <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
       <Name>LayoutFarm.MiniUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.RenderTree\LayoutFarm.RenderTree.csproj">
+      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
+      <Name>LayoutFarm.RenderTree</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
       <Project>{CFB41C52-614E-476C-8BBE-D07C26FB582D}</Project>
