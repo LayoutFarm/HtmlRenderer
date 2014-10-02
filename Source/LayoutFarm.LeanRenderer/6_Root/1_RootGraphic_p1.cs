@@ -124,9 +124,9 @@ namespace LayoutFarm
                 "," + currentClipRect.Y + "," + currentClipRect.Width + "," + currentClipRect.Height + ") ");
 
 
-            if (visualElement.ParentVisualElement != null)
+            if (visualElement.dbugParentVisualElement != null)
             {
-                stBuilder.Append(" of " + visualElement.ParentVisualElement.dbug_FullElementDescription());
+                stBuilder.Append(" of " + visualElement.dbugParentVisualElement.dbug_FullElementDescription());
             }
 
             dbug_rootDrawingMsg.AddLast(new dbugLayoutMsg(visualElement, stBuilder.ToString()));

@@ -116,12 +116,15 @@ namespace LayoutFarm
         protected abstract void OnClearAll();
 
 
+        public abstract int Count { get; }
+        public abstract HitPoint GetHitPoint(int index);
+        
+
         public abstract Point PrevHitPoint { get; }
         public abstract IHitElement CurrentHitElement { get; }
         public abstract Point CurrentHitPoint { get; }
 
-        public abstract void AddHit(IHitElement hitElement);
-        
+        public abstract void AddHit(IHitElement hitElement);        
         public abstract void RemoveCurrentHitNode();
 
         public int LastestElementGlobalX

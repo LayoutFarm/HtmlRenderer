@@ -5,14 +5,14 @@ using System.Text;
 using LayoutFarm.Drawing;
 
 namespace LayoutFarm
-{   
+{
     public class MyHitPointChain : HitPointChain
     {
-        LinkedList<HitPoint> currentHitChain;
-        LinkedList<HitPoint> prevHitChain;
-        readonly LinkedList<HitPoint> hitChainA = new LinkedList<HitPoint>();
-        readonly LinkedList<HitPoint> hitChainB = new LinkedList<HitPoint>();
-        LinkedList<IHitElement> dragHitElements = new LinkedList<IHitElement>();
+        List<HitPoint> currentHitChain;
+        List<HitPoint> prevHitChain;
+        readonly List<HitPoint> hitChainA = new List<HitPoint>();
+        readonly List<HitPoint> hitChainB = new List<HitPoint>();
+        List<IHitElement> dragHitElements = new List<IHitElement>();
 
         public MyHitPointChain()
         {
@@ -26,17 +26,27 @@ namespace LayoutFarm
         }
         public override void RemoveCurrentHitNode()
         {
-            currentHitChain.RemoveLast();
+            if (currentHitChain.Count > 0)
+            {
+                currentHitChain.RemoveAt(currentHitChain.Count - 1);
+            }
         }
-
+        public override int Count
+        {
+            get { return this.currentHitChain.Count; }
+        }
+        public override HitPoint GetHitPoint(int index)
+        {
+            return currentHitChain[index];
+        }
         public override Point PrevHitPoint
         {
             get
             {
-
                 if (prevHitChain.Count > 0)
                 {
-                    return prevHitChain.Last.Value.point;
+                    //?
+                    return prevHitChain[prevHitChain.Count - 1].point;
                 }
                 else
                 {
@@ -46,7 +56,7 @@ namespace LayoutFarm
         }
         public override Point CurrentHitPoint
         {
-            get { return currentHitChain.Last.Value.point; }
+            get { return currentHitChain[currentHitChain.Count - 1].point; }
         }
         public override IHitElement CurrentHitElement
         {
@@ -54,7 +64,7 @@ namespace LayoutFarm
             {
                 if (currentHitChain.Count > 0)
                 {
-                    return currentHitChain.Last.Value.elem;
+                    return currentHitChain[currentHitChain.Count - 1].elem;
                 }
                 else
                 {
@@ -66,7 +76,7 @@ namespace LayoutFarm
         {
 
 
-            currentHitChain.AddLast(new HitPoint(hitElement, new Point(testPointX, testPointY)));
+            currentHitChain.Add(new HitPoint(hitElement, new Point(testPointX, testPointY)));
 #if DEBUG
             dbugHitTracker.WriteTrackNode(currentHitChain.Count,
                 new Point(testPointX, testPointY).ToString() + " on "
@@ -110,7 +120,7 @@ namespace LayoutFarm
                                 testPointX += leftTop.X;
                                 testPointY += leftTop.Y;
 
-                                currentHitChain.AddLast(new HitPoint(elem, new Point(testPointX, testPointY)));
+                                currentHitChain.Add(new HitPoint(elem, new Point(testPointX, testPointY)));
                             }
                             else
                             {
@@ -129,7 +139,7 @@ namespace LayoutFarm
                 }
                 if (currentHitChain.Count > 0)
                 {
-                    return currentHitChain.Last.Value.elem;
+                    return currentHitChain[currentHitChain.Count - 1].elem;                     
                 }
                 else
                 {
@@ -147,7 +157,7 @@ namespace LayoutFarm
         }
         public override void AddDragHitElement(IHitElement element)
         {
-            dragHitElements.AddLast(element);
+            dragHitElements.Add(element);
         }
         public override void RemoveDragHitElement(IHitElement element)
         {
@@ -155,11 +165,10 @@ namespace LayoutFarm
         }
         public override IEnumerable<IHitElement> GetDragHitElementIter()
         {
-            LinkedListNode<IHitElement> node = dragHitElements.First;
-            while (node != null)
+            int j = dragHitElements.Count;
+            for (int i = 0; i < j; ++i)
             {
-                yield return node.Value;
-                node = node.Next;
+                yield return dragHitElements[i];
             }
         }
         public override int DragHitElementCount

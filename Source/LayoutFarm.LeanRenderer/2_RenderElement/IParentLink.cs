@@ -11,8 +11,9 @@ namespace LayoutFarm
     public interface IParentLink
     {
         bool MayHasOverlapChild { get; }
-        RenderElement ParentVisualElement { get; }
-        void AdjustLocation(ref  Point p);
+        RenderElement ParentVisualElement { get; } 
+        void AdjustLocation(ref Point p);
+
         RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point);
         RenderElement NotifyParentToInvalidate(out bool goToFinalExit
 
@@ -38,6 +39,7 @@ namespace LayoutFarm
             this.ownerLayer = ownerLayer;
             this.internalLinkedNode = internalLinkedNode;
         }
+         
         public RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
             var curnode = internalLinkedNode.Previous;

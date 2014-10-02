@@ -234,11 +234,9 @@ namespace LayoutFarm
                 else
                 {
 
-#if DEBUG
-                    if (fromElement.ParentVisualElement == null)
-                    {
-
-
+#if DEBUG 
+                    if (fromElement.dbugParentVisualElement == null)
+                    {   
                         if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
                             dbugMyroot.dbugGraphicInvalidateTracer != null)
                         {

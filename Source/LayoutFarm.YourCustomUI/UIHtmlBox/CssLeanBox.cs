@@ -2,16 +2,17 @@
 //2014, WinterDev 
 using LayoutFarm.Drawing;
 using System.Collections.Generic;
-
-
 namespace HtmlRenderer.Boxes.LeanBox
 {
 
-    public sealed class CssLeanBox : CssBox
-    {
-        LayoutFarm.RenderElement renderElement;
 
-        public CssLeanBox(object controller,
+
+    sealed class LeanWrapper : CssBox
+    {
+        //bridge between parent CssBox and  inner RenderElement
+
+        LayoutFarm.RenderElement renderElement;
+        public LeanWrapper(object controller,
             Css.BoxSpec spec,
             LayoutFarm.RenderElement renderElement)
             : base(controller, spec, Css.CssDisplay.Block)
@@ -19,8 +20,11 @@ namespace HtmlRenderer.Boxes.LeanBox
             this.renderElement = renderElement;
             ChangeDisplayType(this, Css.CssDisplay.Block);
             SetAsCustomCssBox(this);
-            this.SetSize(100, 20); 
+            this.SetSize(100, 20);
+
+
         }
+
         public LayoutFarm.RenderElement RenderElement
         {
             get { return this.renderElement; }
@@ -64,7 +68,7 @@ namespace HtmlRenderer.Boxes.LeanBox
                     0, 0, 100, 20);
             }
         }
-        
+
     }
 
 

@@ -65,6 +65,10 @@ namespace LayoutFarm.SvgDom
         bool IHitElement.HasParent
         {
             get { return true; }
+        }
+        bool IHitElement.ContainsSubChain
+        {
+            get { return false; }
         } 
     }
 

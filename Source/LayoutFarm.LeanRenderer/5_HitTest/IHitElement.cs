@@ -16,8 +16,10 @@ namespace LayoutFarm
         LayoutFarm.Drawing.Point ElementLocation { get; }
         LayoutFarm.Drawing.Point GetElementGlobalLocation();
         LayoutFarm.Drawing.Rectangle ElementBoundRect { get; }
+
         bool Focusable { get; }
         bool HasParent { get; }
+        bool ContainsSubChain { get; }
     }
 
 }

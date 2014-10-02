@@ -112,11 +112,11 @@ namespace LayoutFarm
                 layers.PrepareOriginalChildContentDrawingChain(chain);
             }
         }
-        public virtual void ChildrenHitTestCore(HitPointChain hitChain)
+        public virtual void ChildrenHitTestCore(HitPointChain artHitResult)
         {
             if (this.layers != null)
             {
-                layers.ChildrenHitTestCore(hitChain);
+                layers.ChildrenHitTestCore(artHitResult);
             }
         }
 
@@ -253,7 +253,7 @@ namespace LayoutFarm
         public override RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
 #if DEBUG
-            if (afterThisChild.ParentVisualElement != this)
+            if (afterThisChild.dbugParentVisualElement != this)
             {
                 throw new Exception("not a parent-child relation");
             }

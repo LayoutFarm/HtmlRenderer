@@ -47,5 +47,9 @@ namespace LayoutFarm
         {
             get { return this.ParentVisualElement != null; }
         }
+        bool IHitElement.ContainsSubChain
+        {
+            get { return false; }
+        }
     }
 }

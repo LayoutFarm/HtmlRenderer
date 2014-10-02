@@ -201,6 +201,7 @@ namespace LayoutFarm
         {
 
             RenderElement parentVisualElement = ui.ParentVisualElement;
+
             if (parentVisualElement != null)
             {
                 Point parentGlobalLocation = GetGlobalLocationStatic(parentVisualElement);
@@ -633,12 +634,8 @@ ve
                 }
             }
             else
-            {
-
-                var parentVisualElement = parentLink.ParentVisualElement;
-                return parentVisualElement.GetTopWindowRenderBox();
-
-
+            {    
+                return parentLink.ParentVisualElement.GetTopWindowRenderBox();    
             }
         }
         public void StartBubbleUpLayoutInvalidState()

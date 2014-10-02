@@ -12,11 +12,13 @@ namespace LayoutFarm
     public abstract partial class RenderElement
     {
 
-        IParentLink parentLink;
+     
         bool isWindowRoot;
         bool mayHasChild;
         bool mayHasViewport;
+        
         RootGraphic rootGfx;
+        IParentLink parentLink;
 
         public RenderElement(RootGraphic rootGfx, int width, int height)
         {
@@ -54,11 +56,16 @@ namespace LayoutFarm
             }
         }
 
-
         public static void RemoveParentLink(RenderElement visual)
         {
             visual.parentLink = null;
         }
+#if DEBUG
+        public RenderElement dbugParentVisualElement
+        {
+            get { return this.ParentVisualElement; }
+        }
+#endif
         public virtual RenderElement ParentVisualElement
         {
             get

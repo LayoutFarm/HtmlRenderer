@@ -14,8 +14,7 @@ namespace HtmlRenderer.Boxes.LeanBox
             DomElement domE = tag as DomElement;
             if (domE == null) return null;
             //------
-            var typeAttr = domE.FindAttribute("type");
-
+            var typeAttr = domE.FindAttribute("type"); 
 
             if (typeAttr != null)
             {
@@ -24,16 +23,18 @@ namespace HtmlRenderer.Boxes.LeanBox
                     case "textbox":
                         {
                             var textbox = new LayoutFarm.SampleControls.UITextBox(100, 20, false);
-                            CssLeanBox leanTextBox = new CssLeanBox(textbox, spec, textbox.GetPrimaryRenderElement(rootgfx));
-
+                            LeanWrapper leanTextBox = new LeanWrapper(textbox, spec, textbox.GetPrimaryRenderElement(rootgfx));
+                            leanTextBox.AcceptKeyboardFocus = true;
                             parentBox.AppendChild(leanTextBox);
+                            
                             return leanTextBox;
                         }
                 }
             }
             var simpleBox = new LayoutFarm.SampleControls.UIButton(100, 20);
             simpleBox.BackColor = LayoutFarm.Drawing.Color.LightGray;
-            CssLeanBox leanBox = new CssLeanBox(simpleBox, spec, simpleBox.GetPrimaryRenderElement(rootgfx));
+
+            LeanWrapper leanBox = new LeanWrapper(simpleBox, spec, simpleBox.GetPrimaryRenderElement(rootgfx));
             parentBox.AppendChild(leanBox);
             return leanBox;
             //return leanBox;

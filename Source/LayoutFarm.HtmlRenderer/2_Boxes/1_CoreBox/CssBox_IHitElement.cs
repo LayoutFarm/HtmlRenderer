@@ -12,7 +12,7 @@ namespace HtmlRenderer.Boxes
 
     partial class CssBox : IHitElement
     {
-       
+
         object LayoutFarm.IHitElement.GetController()
         {
             return this._controller;
@@ -48,13 +48,24 @@ namespace HtmlRenderer.Boxes
         }
         bool IHitElement.Focusable
         {
-            get { return false; }
+            get
+            {
+                return this.AcceptKeyboardFocus;
+            }
         }
         bool IHitElement.HasParent
         {
             get { return this.ParentBox != null; }
         }
 
-        
+        bool IHitElement.ContainsSubChain
+        {
+            get { return false; }
+        }
+        public bool AcceptKeyboardFocus
+        {
+            get;
+            set;
+        }
     }
 }
