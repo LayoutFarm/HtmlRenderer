@@ -9,7 +9,42 @@ using System.Text;
 
 namespace LayoutFarm
 {
+    [StructLayout(LayoutKind.Sequential)]
+    struct BlendFunction
+    {
+        public byte BlendOp;
+        public byte BlendFlags;
+        public byte SourceConstantAlpha;
+        public byte AlphaFormat;
 
+        public BlendFunction(byte alpha)
+        {
+            BlendOp = 0;
+            BlendFlags = 0;
+            AlphaFormat = 0;
+            SourceConstantAlpha = alpha;
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    struct BitMapInfo
+    {
+        public int biSize;
+        public int biWidth;
+        public int biHeight;
+        public short biPlanes;
+        public short biBitCount;
+        public int biCompression;
+        public int biSizeImage;
+        public int biXPelsPerMeter;
+        public int biYPelsPerMeter;
+        public int biClrUsed;
+        public int biClrImportant;
+        public byte bmiColors_rgbBlue;
+        public byte bmiColors_rgbGreen;
+        public byte bmiColors_rgbRed;
+        public byte bmiColors_rgbReserved;
+    }
     static class MyWin32
     {
          

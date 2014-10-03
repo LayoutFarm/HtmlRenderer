@@ -14,8 +14,8 @@ namespace LayoutFarm
         IHitElement currentMouseActiveElement = null;
         IHitElement currentDragingElement = null;
 
-        int globalXOfCurrentUI = 0;
-        int globalYOfCurrentUI = 0;
+        int kbFocusGlobalX = 0;
+        int kbFocusGlobalY = 0;
 
         int currentXDistanceFromDragPoint = 0;
         int currentYDistanceFromDragPoint = 0;
@@ -77,15 +77,11 @@ namespace LayoutFarm
                     UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(value, currentKeyboardFocusedElement);
                     focusEventArg.SetWinRoot(topwin);
                     Point globalLocation = value.GetElementGlobalLocation();
-                    globalXOfCurrentUI = globalLocation.X;
-                    globalYOfCurrentUI = globalLocation.Y;
+                    kbFocusGlobalX = globalLocation.X;
+                    kbFocusGlobalY = globalLocation.Y;
                     focusEventArg.SetWinRoot(topwin);
 
-                    //IEventListener ui = value.GetController() as IEventListener;
-                    //if (ui != null)
-                    //{
-
-                    //}
+                    
                     eventStock.ReleaseEventArgs(focusEventArg);
                     if (CurrentFocusElementChanged != null)
                     {
@@ -94,8 +90,8 @@ namespace LayoutFarm
                 }
                 else
                 {
-                    globalXOfCurrentUI = 0;
-                    globalYOfCurrentUI = 0;
+                    kbFocusGlobalX = 0;
+                    kbFocusGlobalY = 0;
                 }
             }
         }
@@ -157,7 +153,7 @@ namespace LayoutFarm
             int local_msgVersion = 1;
 
 #if DEBUG
-            hitPointChain.dbugBreak = true;
+             
 #endif
 
             HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseDown);
@@ -171,7 +167,7 @@ namespace LayoutFarm
 
             DisableGraphicOutputFlush = true;
 
-            e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
+            e.TranslateCanvasOrigin(kbFocusGlobalX, kbFocusGlobalY);
             e.Location = hitPointChain.CurrentHitPoint;
             e.SourceHitElement = hitElement;
 
@@ -207,6 +203,10 @@ namespace LayoutFarm
                             var box2EvListener = box2.GetController() as IEventListener;
                             if (box2EvListener != null)
                             {
+
+                                e.Location = new Point(hit2.localX, hit2.localY);
+                                e.SourceHitElement = hit2.hitObject as IHitElement;
+
                                 box2EvListener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
                                 hitElement = box2;
                                 currentMouseActiveElement = hitElement;
@@ -233,7 +233,7 @@ namespace LayoutFarm
 
 
             //---------------------------------------------------------------
-            e.TranslateCanvasOriginBack();
+            e.TranslateCanvasOriginBack(); 
 #if DEBUG
             RootGraphic visualroot = this.rootGraphic;
             if (visualroot.dbug_RecordHitChain)
@@ -694,7 +694,7 @@ namespace LayoutFarm
                     if (hitElem is IEventListener)
                     {
                         IEventListener listener = hitElem.GetController() as IEventListener;
-                        listener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
+                        listener.ListenMouseEvent(UIMouseEventName.MouseUp, e);
                         //may propagate next or not 
                         hitElement = hitElem;
                         currentMouseActiveElement = hitElement;
@@ -714,7 +714,10 @@ namespace LayoutFarm
                                 var box2EvListener = box2.GetController() as IEventListener;
                                 if (box2EvListener != null)
                                 {
-                                    box2EvListener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
+                                    e.Location = new Point(hit2.localX, hit2.localY);
+                                    e.SourceHitElement = hit2.hitObject as IHitElement;
+
+                                    box2EvListener.ListenMouseEvent(UIMouseEventName.MouseUp, e);
                                     hitElement = box2;
                                     currentMouseActiveElement = hitElement;
                                     isOk = true;
@@ -752,7 +755,7 @@ namespace LayoutFarm
             if (currentKeyboardFocusedElement != null)
             {
 
-                e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
+                e.TranslateCanvasOrigin(kbFocusGlobalX, kbFocusGlobalY);
                 e.SourceHitElement = currentKeyboardFocusedElement;
                 IEventListener ui = currentKeyboardFocusedElement.GetController() as IEventListener;
                 if (ui != null)
@@ -771,7 +774,7 @@ namespace LayoutFarm
 
             if (currentKeyboardFocusedElement != null)
             {
-                e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
+                e.TranslateCanvasOrigin(kbFocusGlobalX, kbFocusGlobalY);
                 e.SourceHitElement = currentKeyboardFocusedElement;
 
                 IEventListener ui = currentKeyboardFocusedElement.GetController() as IEventListener;
@@ -791,7 +794,7 @@ namespace LayoutFarm
             if (currentKeyboardFocusedElement != null)
             {
 
-                e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
+                e.TranslateCanvasOrigin(kbFocusGlobalX, kbFocusGlobalY);
                 e.SourceHitElement = currentKeyboardFocusedElement;
                 IEventListener ui = currentKeyboardFocusedElement.GetController() as IEventListener;
                 if (ui != null)
@@ -808,7 +811,7 @@ namespace LayoutFarm
             bool result = false;
             if (currentKeyboardFocusedElement != null)
             {
-                e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI); 
+                e.TranslateCanvasOrigin(kbFocusGlobalX, kbFocusGlobalY); 
                 e.SourceHitElement = currentKeyboardFocusedElement; 
                 IEventListener ui = currentKeyboardFocusedElement.GetController() as IEventListener;
                 if (ui != null)

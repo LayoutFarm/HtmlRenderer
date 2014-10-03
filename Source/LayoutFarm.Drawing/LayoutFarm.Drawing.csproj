@@ -58,12 +58,11 @@
     <Compile Include="2_Drawing_Art\ColorComponentStepup.cs" />
     <Compile Include="2_Drawing_Art\GfxProcessorModule.cs" />
     <Compile Include="0_Start\GraphicPlatform.cs" />
-    <Compile Include="3_LeanBoxDrawing\ArtColorPalette.cs" />
-    <Compile Include="3_LeanBoxDrawing\ArtImageBrush.cs" />
-    <Compile Include="3_LeanBoxDrawing\Canvas.cs" />
-    <Compile Include="3_LeanBoxDrawing\CustomRenderSurface.cs" />
-    <Compile Include="3_LeanBoxDrawing\FontSystem.cs" />
-    <Compile Include="3_LeanBoxDrawing\InternalRect.cs" />
+    <Compile Include="2_Drawing_Art\ArtBrushes.cs" />
+    <Compile Include="3_Drawing\Canvas.cs" />
+    <Compile Include="3_Drawing\CustomRenderSurface.cs" />
+    <Compile Include="3_Drawing\FontSystem.cs" />
+    <Compile Include="3_Drawing\InternalRect.cs" />
     <Compile Include="4_Animation\Timelines.cs" />
     <Compile Include="4_Animation\ParallelTimeline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

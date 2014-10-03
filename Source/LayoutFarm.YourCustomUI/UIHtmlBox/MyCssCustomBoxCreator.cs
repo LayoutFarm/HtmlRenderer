@@ -25,7 +25,7 @@ namespace HtmlRenderer.Boxes.LeanBox
                         {
                             var textbox = new LayoutFarm.SampleControls.UITextBox(100, 20, false);
 
-                            LeanWrapperCssBox leanTextBox = new LeanWrapperCssBox(textbox, spec, textbox.GetPrimaryRenderElement(rootgfx));
+                            RenderElementInsideCssBox leanTextBox = new RenderElementInsideCssBox(textbox, spec, textbox.GetPrimaryRenderElement(rootgfx));
                             leanTextBox.AcceptKeyboardFocus = true;
                             parentBox.AppendChild(leanTextBox);
                             
@@ -36,7 +36,7 @@ namespace HtmlRenderer.Boxes.LeanBox
             var simpleBox = new LayoutFarm.SampleControls.UIButton(100, 20);
             simpleBox.BackColor = LayoutFarm.Drawing.Color.LightGray;
 
-            LeanWrapperCssBox leanBox = new LeanWrapperCssBox(simpleBox, spec, simpleBox.GetPrimaryRenderElement(rootgfx));
+            RenderElementInsideCssBox leanBox = new RenderElementInsideCssBox(simpleBox, spec, simpleBox.GetPrimaryRenderElement(rootgfx));
             parentBox.AppendChild(leanBox);
             return leanBox;
             //return leanBox;

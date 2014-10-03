@@ -40,6 +40,10 @@ namespace HtmlRenderer.Boxes
         }
         Point IHitElement.GetElementGlobalLocation()
         {
+            return GetElementGlobalLocationImpl();
+        }
+        protected virtual Point GetElementGlobalLocationImpl()
+        {
             return new Point(0, 0);
         }
         Rectangle IHitElement.ElementBoundRect
@@ -67,5 +71,6 @@ namespace HtmlRenderer.Boxes
             get;
             set;
         }
+        
     }
 }

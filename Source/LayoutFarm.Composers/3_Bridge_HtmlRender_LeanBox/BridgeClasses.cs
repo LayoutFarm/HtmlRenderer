@@ -15,13 +15,13 @@ using HtmlRenderer.Boxes;
 namespace LayoutFarm
 {
 
-    public class CssBoxWrapperRenderBox : RenderBoxBase
+    public class HtmlRenderBox : RenderBoxBase
     {
 
         MyHtmlIsland myHtmlIsland;
         int myWidth;
         int myHeight;
-        public CssBoxWrapperRenderBox(RootGraphic rootgfx,
+        public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height,
             MyHtmlIsland htmlIsland)
             : base(rootgfx, width, height)
@@ -46,7 +46,6 @@ namespace LayoutFarm
             // bridge to another system
             // test only ***
 
-            hitChain.dbugBreak = false;
 
             //hit test in another system ***  
             BoxHitChain boxHitChain = new BoxHitChain();
@@ -63,32 +62,43 @@ namespace LayoutFarm
     }
 
 
-
-
-
-    public sealed class LeanWrapperCssBox : CssBox
+    public sealed class RenderElementInsideCssBox : CssBox
     {
 
-        RenderElement renderElement;
-        public LeanWrapperCssBox(object controller,
+        CssBoxInsideRenderElement wrapper;
+
+        int globalXForRenderElement;
+        int globalYForRenderElement;
+
+        public RenderElementInsideCssBox(object controller,
              BoxSpec spec,
              RenderElement renderElement)
             : base(controller, spec, CssDisplay.Block)
         {
-            this.renderElement = renderElement;
+            int mmw = 100;
+            int mmh = 20;
+
+            this.wrapper = new CssBoxInsideRenderElement(renderElement.Root, mmw, mmh, renderElement);
+
             ChangeDisplayType(this, CssDisplay.Block);
             SetAsCustomCssBox(this);
-            this.SetSize(100, 20);
+            this.SetSize(mmw, mmh);
+
+            LayoutFarm.RenderElement.SetParentLink(
+             wrapper,
+             new RenderBoxWrapperLink(this));
 
             LayoutFarm.RenderElement.SetParentLink(
                 renderElement,
-                new LeapWrapperLink(this));
+                new RenderBoxWrapperLink2(wrapper));
+
+
+        }
+        protected override Point GetElementGlobalLocationImpl()
+        {
+            return new Point(globalXForRenderElement, globalYForRenderElement);
         }
 
-        public LayoutFarm.RenderElement RenderElement
-        {
-            get { return this.renderElement; }
-        }
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
             this.SetSize(100, 20);
@@ -105,13 +115,18 @@ namespace LayoutFarm
             //} 
             //this.SetSize(500, 500);
         }
+
         protected override void PaintImp(IGraphics g, Painter p)
         {
-            if (renderElement != null)
+            if (wrapper != null)
             {
+
+                GetParentRenderElement(out this.globalXForRenderElement, out this.globalYForRenderElement);
+
                 LayoutFarm.InternalRect rect = LayoutFarm.InternalRect.CreateFromRect(
-                    new Rectangle(0, 0, renderElement.Width, renderElement.Height));
-                this.renderElement.DrawToThisPage(g.CurrentCanvas, rect);
+                    new Rectangle(0, 0, wrapper.Width, wrapper.Height));
+                var canvas = g.CurrentCanvas;
+                this.wrapper.DrawToThisPage(canvas, rect); 
                 LayoutFarm.InternalRect.FreeInternalRect(rect);
 
             }
@@ -122,43 +137,113 @@ namespace LayoutFarm
                     0, 0, 100, 20);
             }
         }
-
-        class LeapWrapperLink : IParentLink
+        RenderElement GetParentRenderElement(out int globalX, out int globalY)
         {
-            CssBox box;
-            int globalX;
-            int globalY;
-            public LeapWrapperLink(CssBox box)
+            CssBox cbox = this;
+            globalX = 0;
+            globalY = 0;//reset
+
+            while (cbox != null)
+            {
+                globalX += (int)cbox.LocalX;
+                globalY += (int)cbox.LocalY;
+                var renderRoot = cbox as HtmlRenderer.Composers.BridgeHtml.CssRenderRoot;
+                if (renderRoot != null)
+                {
+                    this.wrapper.AdjustX = globalX;
+                    this.wrapper.AdjustY = globalY;
+                    return renderRoot.ContainerElement;
+                }
+                cbox = cbox.ParentBox;
+            }
+            return null;
+        }
+
+        class CssBoxInsideRenderElement : RenderElement
+        {
+            RenderElement renderElement;
+            int adjustX;
+            int adjustY;
+
+            public CssBoxInsideRenderElement(RootGraphic rootgfx, int w, int h, RenderElement renderElement)
+                : base(rootgfx, w, h)
+            {
+                this.renderElement = renderElement;
+            }
+            public int AdjustX
+            {
+                get { return this.adjustX; }
+                set
+                {
+                    this.adjustX = value;
+                }
+            }
+            public int AdjustY
+            {
+                get { return this.adjustY; }
+                set
+                {
+                    if (this.adjustY > 0 && value == 0)
+                    {
+
+                    }
+                    this.adjustY = value;
+                }
+            }
+            public override int BubbleUpX
+            {
+                get
+                {
+                    //return base.BubbleUpX;
+                    return this.AdjustX;
+                }
+            }
+            public override int BubbleUpY
+            {
+                get
+                {
+                    return this.AdjustY;
+                    //return base.BubbleUpY;
+                    //return this.AdjustY;
+                }
+            }
+
+            public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
+            {
+                int x = this.adjustX;
+                int y = this.adjustY;
+
+                // canvasPage.OffsetCanvasOrigin(x, y);
+                //updateArea.Offset(-x, -y);
+
+
+                renderElement.CustomDrawToThisPage(canvasPage, updateArea);
+
+                //canvasPage.OffsetCanvasOrigin(-x, -y);
+                //updateArea.Offset(x, y);
+
+            }
+        }
+
+        class RenderBoxWrapperLink : IParentLink
+        {
+            RenderElementInsideCssBox box;
+            public RenderBoxWrapperLink(RenderElementInsideCssBox box)
             {
                 this.box = box;
             }
-            RenderElement GetParentRenderElement()
-            {
-                CssBox cbox = this.box;
-                globalX = globalY = 0;//reset
-                 
-                while (cbox != null)
-                {
-                    globalX += (int)cbox.LocalX;
-                    globalY += (int)cbox.LocalY;
-                    var renderRoot = cbox as HtmlRenderer.Composers.BridgeHtml.CssRenderRoot;
-                    if (renderRoot != null)
-                    {
-                        return renderRoot.ContainerElement;
-                    }
-                    cbox = cbox.ParentBox;
-                }
 
-                return null;
-
-            }
             public bool MayHasOverlapChild { get { return false; } }
-            public RenderElement ParentVisualElement { get { return GetParentRenderElement(); } }
-            public void AdjustLocation(ref Point p)
+            public RenderElement ParentVisualElement
             {
-                 
+                get
+                {
+                    int globalX;
+                    int globalY;
+                    return box.GetParentRenderElement(out globalX, out globalY);
+                }
             }
-
+            public void AdjustLocation(ref Point p) { }
             public RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
             {
                 return null;
@@ -171,7 +256,10 @@ namespace LayoutFarm
 )
             {
                 goToFinalExit = false;
-                var parent = GetParentRenderElement();
+                int globalX;
+                int globalY;
+                var parent = box.GetParentRenderElement(out globalX, out globalY);
+
                 if (parent != null)
                 {
                     parent.InvalidateGraphic();
@@ -180,10 +268,53 @@ namespace LayoutFarm
             }
 
 #if DEBUG
-            public string dbugGetLinkInfo() { return this.GetParentRenderElement().ToString(); }
+            public string dbugGetLinkInfo() { return ""; }
 #endif
         }
+        class RenderBoxWrapperLink2 : IParentLink
+        {
+            RenderElement box;
+            public RenderBoxWrapperLink2(RenderElement box)
+            {
+                this.box = box;
+            }
 
+            public bool MayHasOverlapChild { get { return false; } }
+            public RenderElement ParentVisualElement
+            {
+                get
+                {
+                    return box;
+                }
+            }
+            public void AdjustLocation(ref Point p) { }
+            public RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
+            {
+                return null;
+            }
+            public RenderElement NotifyParentToInvalidate(out bool goToFinalExit
+
+#if DEBUG
+, RenderElement ve
+#endif
+)
+            {
+                goToFinalExit = false;
+                int globalX;
+                int globalY;
+                var parent = box.ParentVisualElement;
+
+                if (parent != null)
+                {
+                    parent.InvalidateGraphic();
+                }
+                return parent;
+            }
+
+#if DEBUG
+            public string dbugGetLinkInfo() { return ""; }
+#endif
+        }
     }
 
 

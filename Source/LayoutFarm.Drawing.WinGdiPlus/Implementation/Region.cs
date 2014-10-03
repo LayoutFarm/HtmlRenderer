@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace LayoutFarm.Drawing.WinGdiPlatform
+namespace LayoutFarm.Drawing 
 {
 
     class MyRegion : Region

@@ -32,10 +32,10 @@ namespace LayoutFarm
             //==================================================  
 
             //textbox
-            var textbox = new LayoutFarm.SampleControls.UITextBox(400, 100, true);
-            textbox.SetLocation(0, 200);
-            viewport.AddContent(textbox);
-            textbox.Focus();
+            //var textbox = new LayoutFarm.SampleControls.UITextBox(400, 100, true);
+            //textbox.SetLocation(0, 200);
+            //viewport.AddContent(textbox);
+            //textbox.Focus();
 
         }
 

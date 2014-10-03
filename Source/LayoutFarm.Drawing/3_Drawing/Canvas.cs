@@ -28,7 +28,7 @@ namespace LayoutFarm
             get;
             set;
         }
-        public abstract object GetGfx();
+      
         public abstract void MarkAsFirstTimeInvalidateAndUpdateContent();
 
         public abstract bool IsFromPrinter
@@ -65,19 +65,9 @@ namespace LayoutFarm
         {
             get;
         }
-
-#if DEBUG
-
-        public abstract int InternalOriginX
-        {
-            get;
-        }
-        public abstract int InternalOriginY
-        {
-            get;
-        }
-
-#endif
+         
+       
+         
         public abstract bool PushClipArea(int x, int y, int width, int height);
 
 
@@ -251,7 +241,7 @@ namespace LayoutFarm
         public abstract bool IsContentUpdated { get; }
         public abstract void Invalidate(InternalRect rect);
 
-        public abstract IGraphics GetIGraphics();
 
+        public abstract IGraphics GetIGraphics();
     }
 }

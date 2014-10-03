@@ -207,8 +207,8 @@ namespace LayoutFarm
 #endif
 
 
-                globalX += fromElement.X;
-                globalY += fromElement.Y;
+                globalX += fromElement.BubbleUpX;
+                globalY += fromElement.BubbleUpY;
 
 
                 if (fromElement.MayHasViewport && isBubbleUp)

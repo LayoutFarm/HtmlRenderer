@@ -33,8 +33,8 @@ namespace LayoutFarm.Drawing
             int width,
             int height);
 
-        public abstract IGraphics CreateIGraphics(int w, int h);
-        public abstract IGraphics CreateIGraphics(object nativeObj);
+        
+        
         public abstract IGraphics SampleIGraphics { get; }
         public abstract IGraphics SampleIFonts { get; } 
     }
