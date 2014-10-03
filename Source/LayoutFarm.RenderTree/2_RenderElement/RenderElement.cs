@@ -402,8 +402,7 @@ namespace LayoutFarm
         public static void RemoveParentLink(RenderElement childElement)
         {
             childElement.parentLink = null;
-        }
-
+        } 
         public static void SetParentLink(RenderElement childElement, IParentLink lineLinkedNode)
         { 
             childElement.parentLink = lineLinkedNode;

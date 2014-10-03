@@ -93,15 +93,21 @@ namespace LayoutFarm
             {
                 return b_left;
             }
-
+        }
+        public virtual int BubbleUpX
+        {
+            get { return this.X; }
+        }
+        public virtual int BubbleUpY
+        {
+            get { return this.Y; }
         }
         public int Y
         {
             get
             {
                 return b_top;
-            }
-
+            } 
         }
         public int Right
         {

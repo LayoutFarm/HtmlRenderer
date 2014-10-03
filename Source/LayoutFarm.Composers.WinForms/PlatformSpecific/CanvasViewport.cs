@@ -122,7 +122,9 @@ namespace LayoutFarm
             }
             else
             {
-                quadPages.RenderToOutputWindowPartialMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
+                //temp to full mode
+                quadPages.RenderToOutputWindowFullMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
+                //quadPages.RenderToOutputWindowPartialMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
             }
 
             topWindowBox.EndRenderPhase();

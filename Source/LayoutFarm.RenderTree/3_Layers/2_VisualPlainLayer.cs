@@ -5,7 +5,7 @@ using LayoutFarm.Drawing;
 using System.Text;
 namespace LayoutFarm
 {
-   
+
     public class VisualPlainLayer : VisualLayer
     {
         LinkedList<RenderElement> myElements = new LinkedList<RenderElement>();
@@ -47,8 +47,7 @@ namespace LayoutFarm
 #endif
 
             LinkedListNode<RenderElement> linkNode = myElements.AddLast(visualElement);
-            RenderElement.SetParentLink(visualElement,
-                new SimpleLinkListParentLink(this, linkNode));
+            RenderElement.SetParentLink(visualElement, new SimpleLinkListParentLink(this, linkNode));
             //position of new visual element
 
         }

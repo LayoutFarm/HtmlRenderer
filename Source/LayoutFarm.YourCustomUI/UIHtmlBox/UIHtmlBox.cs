@@ -12,7 +12,7 @@ namespace LayoutFarm.SampleControls
 
     public class UIHtmlBox : UIElement
     {
-        CssBoxWrapperRenderBox myCssBoxWrapper;
+        HtmlRenderBox myCssBoxWrapper;
         int _width, _height;
         MyHtmlIsland myHtmlIsland;
 
@@ -137,7 +137,7 @@ namespace LayoutFarm.SampleControls
             {
                 _htmlEventBridge = new HtmlInputEventBridge();
                 _htmlEventBridge.Bind(myHtmlIsland, rootgfx.SampleIFonts);
-                myCssBoxWrapper = new CssBoxWrapperRenderBox(rootgfx, _width, _height, myHtmlIsland);
+                myCssBoxWrapper = new HtmlRenderBox(rootgfx, _width, _height, myHtmlIsland);
                 myCssBoxWrapper.SetController(this);
                 myCssBoxWrapper.HasSpecificSize = true;
             }

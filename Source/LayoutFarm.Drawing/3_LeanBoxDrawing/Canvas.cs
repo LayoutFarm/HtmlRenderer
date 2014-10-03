@@ -65,9 +65,7 @@ namespace LayoutFarm
         {
             get;
         }
-
-#if DEBUG
-
+         
         public abstract int InternalOriginX
         {
             get;
@@ -76,8 +74,7 @@ namespace LayoutFarm
         {
             get;
         }
-
-#endif
+         
         public abstract bool PushClipArea(int x, int y, int width, int height);
 
 

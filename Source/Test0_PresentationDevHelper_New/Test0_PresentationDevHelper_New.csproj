@@ -80,6 +80,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Dev\FormDemoList.resx">
       <DependentUpon>FormDemoList.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

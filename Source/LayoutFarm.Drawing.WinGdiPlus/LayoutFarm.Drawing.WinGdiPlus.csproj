@@ -36,15 +36,14 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WinGdi\MyCanvas.cs" />
-    <Compile Include="WinGdi\FontManager.cs" />
-    <Compile Include="WinGdi\GfxWin32InterOp.cs" />
-    <Compile Include="WinGdi\MyWin32.cs" />
-    <Compile Include="WinGdi\NativeTextWin32.cs" />
+    <Compile Include="MyCanvas\MyCanvas.cs" />
+    <Compile Include="Implementation\FontManager.cs" />
+    <Compile Include="Implementation\GfxWin32InterOp.cs" />
+    <Compile Include="Implementation\MyWin32.cs" />
+    <Compile Include="Implementation\NativeTextWin32.cs" />
     <Compile Include="Implementation\Conv.cs" />
     <Compile Include="Implementation\FontsUtils.cs" />
     <Compile Include="Implementation\Win32Utils.cs" />
-    <Compile Include="Implementation\WinGraphics.cs" />
     <Compile Include="Implementation\Region.cs" />
     <Compile Include="Implementation\Bitmap_Brush_Pen.cs" />
     <Compile Include="Implementation\MyMatrix.cs" />

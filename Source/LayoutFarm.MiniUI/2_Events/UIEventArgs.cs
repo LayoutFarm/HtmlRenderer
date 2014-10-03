@@ -134,12 +134,14 @@ namespace LayoutFarm
         int beforeTranslateOriginY = 0;
         public void TranslateCanvasOrigin(Point newOrigin)
         {
-            beforeTranslateOriginX = canvasXOrigin; beforeTranslateOriginY = canvasYOrigin;
+            beforeTranslateOriginX = canvasXOrigin;
+            beforeTranslateOriginY = canvasYOrigin;
             OffsetCanvasOrigin(newOrigin.X - canvasXOrigin, newOrigin.Y - canvasYOrigin);
         }
         public void TranslateCanvasOrigin(int newXOrigin, int newYOrigin)
         {
-            beforeTranslateOriginX = canvasXOrigin; beforeTranslateOriginY = canvasYOrigin;
+            beforeTranslateOriginX = canvasXOrigin;
+            beforeTranslateOriginY = canvasYOrigin;
             OffsetCanvasOrigin(newXOrigin - canvasXOrigin, newYOrigin - canvasYOrigin);
         }
         public void TranslateCanvasOriginBack()
@@ -150,7 +152,9 @@ namespace LayoutFarm
         {
             if (dx != 0 || dy != 0)
             {
-                x -= dx; y -= dy; canvasXOrigin += dx;
+                x -= dx; 
+                y -= dy; 
+                canvasXOrigin += dx;
                 canvasYOrigin += dy;
             }
         }

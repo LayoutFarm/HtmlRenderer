@@ -16,19 +16,13 @@ namespace LayoutFarm.Text
 
         void AddNormalRunToLast(EditableTextSpan v)
         {
-            EditableTextSpan.SetParentLink(v, new VisualEditableLineParentLink(this, base.AddLast(v)));
-
-#if DEBUG
-#endif
+            EditableTextSpan.SetParentLink(v, new VisualEditableLineParentLink(this, base.AddLast(v))); 
+ 
             if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
             {
                 return;
-            }
-
-            v.StartBubbleUpLayoutInvalidState();
-
-#if DEBUG
-#endif
+            } 
+            v.StartBubbleUpLayoutInvalidState(); 
 
         }
         void AddNormalRunToFirst(EditableTextSpan v)
