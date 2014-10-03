@@ -399,20 +399,15 @@ namespace LayoutFarm
         {
             return null;
         }
-
-        public static void ClearVisualElementInternalLinkedNode(RenderElement childElement)
+        public static void RemoveParentLink(RenderElement childElement)
         {
-
             childElement.parentLink = null;
         }
 
-        public static void SetVisualElementAsChildOfOther(RenderElement childElement, IParentLink lineLinkedNode)
-        {
-
+        public static void SetParentLink(RenderElement childElement, IParentLink lineLinkedNode)
+        { 
             childElement.parentLink = lineLinkedNode;
-        }
-         
-
+        } 
         public bool HasOwner
         {
             get

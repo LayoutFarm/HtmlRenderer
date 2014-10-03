@@ -47,7 +47,7 @@ namespace LayoutFarm
 #endif
 
             LinkedListNode<RenderElement> linkNode = myElements.AddLast(visualElement);
-            RenderElement.SetVisualElementAsChildOfOther(visualElement,
+            RenderElement.SetParentLink(visualElement,
                 new SimpleLinkListParentLink(this, linkNode));
             //position of new visual element
 

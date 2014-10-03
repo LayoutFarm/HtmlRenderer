@@ -80,7 +80,7 @@ namespace LayoutFarm
             SetAsCustomCssBox(this);
             this.SetSize(100, 20);
 
-            LayoutFarm.RenderElement.SetVisualElementAsChildOfOther(
+            LayoutFarm.RenderElement.SetParentLink(
                 renderElement,
                 new LeapWrapperLink(this));
         }
@@ -126,6 +126,8 @@ namespace LayoutFarm
         class LeapWrapperLink : IParentLink
         {
             CssBox box;
+            int globalX;
+            int globalY;
             public LeapWrapperLink(CssBox box)
             {
                 this.box = box;
@@ -133,8 +135,12 @@ namespace LayoutFarm
             RenderElement GetParentRenderElement()
             {
                 CssBox cbox = this.box;
+                globalX = globalY = 0;//reset
+                 
                 while (cbox != null)
                 {
+                    globalX += (int)cbox.LocalX;
+                    globalY += (int)cbox.LocalY;
                     var renderRoot = cbox as HtmlRenderer.Composers.BridgeHtml.CssRenderRoot;
                     if (renderRoot != null)
                     {
@@ -148,7 +154,10 @@ namespace LayoutFarm
             }
             public bool MayHasOverlapChild { get { return false; } }
             public RenderElement ParentVisualElement { get { return GetParentRenderElement(); } }
-            public void AdjustLocation(ref Point p) { }
+            public void AdjustLocation(ref Point p)
+            {
+                 
+            }
 
             public RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
             {
