@@ -15,7 +15,6 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
 using HtmlRenderer.WebDom;
-using HtmlRenderer.Drawing;
 using HtmlRenderer.Css;
 using HtmlRenderer.ContentManagers;
 
@@ -322,7 +321,7 @@ namespace HtmlRenderer
             BuildCssBoxTree(myHtmlIsland, _baseCssData);
             //---------------------
             PerformLayout();
-            Invalidate(); 
+            Invalidate();
         }
         void BuildCssBoxTree(MyHtmlIsland htmlIsland, CssActiveSheet cssData)
         {

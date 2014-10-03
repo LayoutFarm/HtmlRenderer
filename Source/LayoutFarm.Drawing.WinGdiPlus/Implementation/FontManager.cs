@@ -1,9 +1,9 @@
 ﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using System.Text;
-using LayoutFarm.Drawing;
-namespace LayoutFarm
+using System.Text; 
+
+namespace LayoutFarm.Drawing 
 {
     class BasicGdi32FontHelper : IFonts2
     {

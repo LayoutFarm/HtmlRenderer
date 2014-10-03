@@ -126,8 +126,7 @@ namespace LayoutFarm
                 LayoutFarm.InternalRect rect = LayoutFarm.InternalRect.CreateFromRect(
                     new Rectangle(0, 0, wrapper.Width, wrapper.Height));
                 var canvas = g.CurrentCanvas;
-                this.wrapper.DrawToThisPage(canvas, rect);
-
+                this.wrapper.DrawToThisPage(canvas, rect); 
                 LayoutFarm.InternalRect.FreeInternalRect(rect);
 
             }

@@ -1,7 +1,6 @@
 ﻿//BSD 2014, WinterDev
 using System;
-using System.Collections.Generic;
-
+using System.Collections.Generic; 
 namespace LayoutFarm.Drawing 
 {
     
