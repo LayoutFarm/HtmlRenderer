@@ -50,19 +50,19 @@ namespace LayoutFarm
 
                 IntPtr gxdc = gx.GetHdc();
 
-                MyWin32.SetViewportOrgEx(gxdc, internalCanvasOriginX, internalCanvasOriginY, IntPtr.Zero);
+                MyWin32.SetViewportOrgEx(gxdc, CanvasOrgX, CanvasOrgY, IntPtr.Zero);
                 IntPtr source_gxdc = s1.gx.GetHdc();
-                MyWin32.SetViewportOrgEx(source_gxdc, s1.internalCanvasOriginX, s1.internalCanvasOriginY, IntPtr.Zero);
+                MyWin32.SetViewportOrgEx(source_gxdc, s1.CanvasOrgX, s1.CanvasOrgY, IntPtr.Zero);
 
 
                 MyWin32.BitBlt(gxdc, destArea.X, destArea.Y, destArea.Width, destArea.Height, source_gxdc, phySrcX, phySrcY, MyWin32.SRCCOPY);
 
 
-                MyWin32.SetViewportOrgEx(source_gxdc, -s1.internalCanvasOriginX, -s1.internalCanvasOriginY, IntPtr.Zero);
+                MyWin32.SetViewportOrgEx(source_gxdc, -s1.CanvasOrgX, -s1.CanvasOrgY, IntPtr.Zero);
 
                 s1.gx.ReleaseHdc();
 
-                MyWin32.SetViewportOrgEx(gxdc, -internalCanvasOriginX, -internalCanvasOriginY, IntPtr.Zero);
+                MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
                 gx.ReleaseHdc();
 
 
@@ -72,10 +72,10 @@ namespace LayoutFarm
         public override void RenderTo(IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea)
         {
             IntPtr gxdc = gx.GetHdc();
-            MyWin32.SetViewportOrgEx(gxdc, internalCanvasOriginX, internalCanvasOriginY, IntPtr.Zero);
+            MyWin32.SetViewportOrgEx(gxdc, CanvasOrgX, CanvasOrgY, IntPtr.Zero);
             MyWin32.BitBlt(destHdc, destArea.X, destArea.Y,
             destArea.Width, destArea.Height, gxdc, sourceX, sourceY, MyWin32.SRCCOPY);
-            MyWin32.SetViewportOrgEx(gxdc, -internalCanvasOriginX, -internalCanvasOriginY, IntPtr.Zero);
+            MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
             gx.ReleaseHdc();
 
         }

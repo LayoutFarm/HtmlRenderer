@@ -35,8 +35,7 @@ namespace LayoutFarm
 
         System.Drawing.Graphics gx; 
         //-------------------------------
-        int internalCanvasOriginX = 0;
-        int internalCanvasOriginY = 0;
+        
         float canvasOriginX = 0;
         float canvasOriginY = 0;
         //-------------------------------
@@ -123,8 +122,10 @@ namespace LayoutFarm
         }
         void ClearPreviousStoredValues()
         {
-            internalCanvasOriginX = 0;
-            internalCanvasOriginY = 0;
+            this.gx.RenderingOrigin = new System.Drawing.Point(0, 0);
+            this.canvasOriginX = 0;
+            this.canvasOriginY = 0;
+
             this.clipRectStack.Clear();
             this.prevHFonts.Clear();
             this.prevRegionRects.Clear();

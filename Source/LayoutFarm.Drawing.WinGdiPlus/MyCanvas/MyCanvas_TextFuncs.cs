@@ -53,9 +53,9 @@ namespace LayoutFarm
             else
             {
                 IntPtr gxdc = gx.GetHdc();
-                MyWin32.SetViewportOrgEx(gxdc, internalCanvasOriginX, internalCanvasOriginY, IntPtr.Zero);
+                MyWin32.SetViewportOrgEx(gxdc, CanvasOrgX, CanvasOrgY, IntPtr.Zero);
                 NativeTextWin32.TextOut(gxdc, x, y, buffer, buffer.Length);
-                MyWin32.SetViewportOrgEx(gxdc, -internalCanvasOriginX, -internalCanvasOriginY, IntPtr.Zero);
+                MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
                 gx.ReleaseHdc(gxdc);
             }
         }
@@ -73,16 +73,16 @@ namespace LayoutFarm
             else
             {
                 IntPtr gxdc = gx.GetHdc();
-                MyWin32.SetViewportOrgEx(gxdc, internalCanvasOriginX, internalCanvasOriginY, IntPtr.Zero);
+                MyWin32.SetViewportOrgEx(gxdc, CanvasOrgX, CanvasOrgY, IntPtr.Zero);
                 System.Drawing.Rectangle clipRect =
                     System.Drawing.Rectangle.Intersect(logicalTextBox.ToRect(), currentClipRect);
-                clipRect.Offset(internalCanvasOriginX, internalCanvasOriginY);
+                clipRect.Offset(CanvasOrgX, CanvasOrgY);
                 MyWin32.SetRectRgn(hRgn, clipRect.X, clipRect.Y, clipRect.Right, clipRect.Bottom);
                 MyWin32.SelectClipRgn(gxdc, hRgn);
                 NativeTextWin32.TextOut(gxdc, logicalTextBox.X, logicalTextBox.Y, buffer, buffer.Length);
                 MyWin32.SelectClipRgn(gxdc, IntPtr.Zero);
 
-                MyWin32.SetViewportOrgEx(gxdc, -internalCanvasOriginX, -internalCanvasOriginY, IntPtr.Zero);
+                MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
                 gx.ReleaseHdc();
             }
         }

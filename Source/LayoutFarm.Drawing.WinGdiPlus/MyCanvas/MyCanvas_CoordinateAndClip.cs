@@ -23,10 +23,11 @@ namespace LayoutFarm
 {
     partial class MyCanvas
     {
-        void IGraphics.SetCanvasOrigin(float x, float y)
+        public void SetCanvasOrigin(float x, float y)
         {
             ReleaseHdc();
             //-----------
+            //move back to original ?
             this.gx.TranslateTransform(-this.canvasOriginX, -this.canvasOriginY);
             this.gx.TranslateTransform(x, y);
 
@@ -41,43 +42,29 @@ namespace LayoutFarm
         {
             get { return this.canvasOriginY; }
         }
+        int CanvasOrgX { get { return (int)this.canvasOriginX; } }
+        int CanvasOrgY { get { return (int)this.canvasOriginY; } }
 
         public override void OffsetCanvasOrigin(int dx, int dy)
         {
-            internalCanvasOriginX += dx;
-            internalCanvasOriginY += dy;
-            gx.TranslateTransform(dx, dy);
+            
+            SetCanvasOrigin(this.canvasOriginX + dx, this.canvasOriginY + dy);
             currentClipRect.Offset(-dx, -dy);
         }
         public override void OffsetCanvasOriginX(int dx)
         {
-            internalCanvasOriginX += dx;
-            gx.TranslateTransform(dx, 0);
+            
+            SetCanvasOrigin(this.canvasOriginX + dx, this.canvasOriginY);
             currentClipRect.Offset(-dx, 0);
         }
         public override void OffsetCanvasOriginY(int dy)
         {
-            internalCanvasOriginY += dy;
-            gx.TranslateTransform(0, dy);
+            
+            SetCanvasOrigin(this.canvasOriginX, this.canvasOriginY + dy);
             currentClipRect.Offset(0, -dy);
         }
-        public override int InternalOriginX
-        {
-            get
-            {
-                return internalCanvasOriginX;
-            }
-        }
-        public override int InternalOriginY
-        {
-            get
-            {
-                return internalCanvasOriginY;
-            }
-        }
 
-
-
+        //--------------------------------------------------------------------
 
         /// <summary>
         /// Sets the clipping region of this <see cref="T:System.Drawing.Graphics"/> to the result of the specified operation combining the current clip region and the rectangle specified by a <see cref="T:System.Drawing.RectangleF"/> structure.

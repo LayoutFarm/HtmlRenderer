@@ -27,10 +27,7 @@ namespace LayoutFarm.Text
         }
         protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
         {
-            if (this.Text != null && this.Text.Length > 0)
-            {
 
-            }
 
             if (vscrollableSurface != null)
             {
@@ -51,19 +48,14 @@ namespace LayoutFarm.Text
             else
             {
                 if (this.Layers != null)
-                {  
+                {
                     this.Layers.LayersDrawContent(canvasPage, updateArea);
                 }
             }
 
 #if DEBUG
-            if (this.dbug_obj_id == 5)
-            { 
-
-            }
             //for debug
-            canvasPage.FillRectangle(Color.Blue, new Rectangle(0, 0, 5, 5));
-            Console.WriteLine(updateArea.ToString());
+            canvasPage.FillRectangle(Color.Red, new Rectangle(0, 0, 5, 5));
 #endif
 
             //4. caret 

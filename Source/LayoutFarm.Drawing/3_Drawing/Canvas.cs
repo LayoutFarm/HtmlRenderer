@@ -66,14 +66,7 @@ namespace LayoutFarm
             get;
         }
          
-        public abstract int InternalOriginX
-        {
-            get;
-        }
-        public abstract int InternalOriginY
-        {
-            get;
-        }
+       
          
         public abstract bool PushClipArea(int x, int y, int width, int height);
 
