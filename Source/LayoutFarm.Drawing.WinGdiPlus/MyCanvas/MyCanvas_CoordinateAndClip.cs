@@ -42,7 +42,6 @@ namespace LayoutFarm
             get { return this.canvasOriginY; }
         }
 
-
         public override void OffsetCanvasOrigin(int dx, int dy)
         {
             internalCanvasOriginX += dx;
@@ -62,9 +61,23 @@ namespace LayoutFarm
             gx.TranslateTransform(0, dy);
             currentClipRect.Offset(0, -dy);
         }
+        public override int InternalOriginX
+        {
+            get
+            {
+                return internalCanvasOriginX;
+            }
+        }
+        public override int InternalOriginY
+        {
+            get
+            {
+                return internalCanvasOriginY;
+            }
+        }
 
-        
-      
+
+
 
         /// <summary>
         /// Sets the clipping region of this <see cref="T:System.Drawing.Graphics"/> to the result of the specified operation combining the current clip region and the rectangle specified by a <see cref="T:System.Drawing.RectangleF"/> structure.
@@ -142,20 +155,6 @@ namespace LayoutFarm
         }
 
 
-        public override int InternalOriginX
-        {
-            get
-            {
-                return internalCanvasOriginX;
-            }
-        }
-        public override int InternalOriginY
-        {
-            get
-            {
-                return internalCanvasOriginY;
-            }
-        }
 
         public override bool PushClipArea(int x, int y, int width, int height)
         {
@@ -241,5 +240,5 @@ namespace LayoutFarm
         }
 
     }
-         
+
 }
