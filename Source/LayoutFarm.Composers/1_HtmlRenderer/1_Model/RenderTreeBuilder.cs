@@ -161,7 +161,8 @@ namespace HtmlRenderer.Composers
         public CssBox BuildCssRenderTree(WebDocument htmldoc,
             IFonts ifonts,
             HtmlIsland htmlIsland,
-            CssActiveSheet cssData)
+            CssActiveSheet cssData,
+            LayoutFarm.RenderElement containerElement)
         {
 
             CssBox rootBox = null;
@@ -177,7 +178,7 @@ namespace HtmlRenderer.Composers
             PrepareStylesAndContentOfChildNodes(bridgeRoot, activeCssTemplate);
 
             //----------------------------------------------------------------  
-            rootBox = BoxCreator.CreateCssRenderRoot(ifonts);
+            rootBox = BoxCreator.CreateCssRenderRoot(ifonts, containerElement);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
             BoxCreator boxCreator = new BoxCreator(this.rootgfx);

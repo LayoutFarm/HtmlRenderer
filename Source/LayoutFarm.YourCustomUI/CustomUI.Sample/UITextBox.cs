@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
- 
+
 using LayoutFarm;
 using LayoutFarm.UI;
 using LayoutFarm.Text;
@@ -17,17 +17,17 @@ namespace LayoutFarm.SampleControls
     {
 
         TextEditRenderBox visualTextEdit;
-        bool _multiline; 
+        bool _multiline;
         public UITextBox(int width, int height, bool multiline)
             : base(width, height)
         {
             this._multiline = multiline;
-        } 
+        }
         public void Focus()
         {
             //request keyboard focus
             visualTextEdit.Focus();
-        }        
+        }
         protected override bool HasReadyRenderElement
         {
             get { return this.visualTextEdit != null; }
@@ -56,7 +56,7 @@ namespace LayoutFarm.SampleControls
             }
             return visualTextEdit;
         }
-         
+
         protected override void OnKeyPress(UIKeyPressEventArgs e)
         {
             visualTextEdit.OnKeyPress(e);

@@ -12,7 +12,7 @@ namespace HtmlRenderer.Boxes
 
     partial class CssBox : IHitElement
     {
-       
+
         object LayoutFarm.IHitElement.GetController()
         {
             return this._controller;
@@ -21,7 +21,7 @@ namespace HtmlRenderer.Boxes
         {
             return true;
         }
-        bool IHitElement.HitTestCoreNoRecursive(LayoutFarm.Drawing.Point p)
+        bool IHitElement.Contains(LayoutFarm.Drawing.Point p)
         {
             return false;
         }
@@ -40,6 +40,10 @@ namespace HtmlRenderer.Boxes
         }
         Point IHitElement.GetElementGlobalLocation()
         {
+            return GetElementGlobalLocationImpl();
+        }
+        protected virtual Point GetElementGlobalLocationImpl()
+        {
             return new Point(0, 0);
         }
         Rectangle IHitElement.ElementBoundRect
@@ -48,13 +52,25 @@ namespace HtmlRenderer.Boxes
         }
         bool IHitElement.Focusable
         {
-            get { return false; }
+            get
+            {
+                return this.AcceptKeyboardFocus;
+            }
         }
         bool IHitElement.HasParent
         {
             get { return this.ParentBox != null; }
         }
 
+        bool IHitElement.ContainsSubChain
+        {
+            get { return false; }
+        }
+        public bool AcceptKeyboardFocus
+        {
+            get;
+            set;
+        }
         
     }
 }

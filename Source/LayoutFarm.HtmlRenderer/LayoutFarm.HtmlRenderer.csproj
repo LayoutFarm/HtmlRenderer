@@ -71,6 +71,7 @@
     <Compile Include="2_Boxes\1_CoreBox\CssBox_IHitElement.cs" />
     <Compile Include="4_Svg\BasicShapes\SvgElements.cs" />
     <Compile Include="4_Svg\BasicShapes\SvgSpec.cs" />
+    <Compile Include="4_Svg\BasicShapes\SvgVisualElements.cs" />
     <Compile Include="4_Svg\HitAndSelection\SvgHitChain.cs" />
     <Compile Include="4_Svg\Transforms\SvgMatrix.cs" />
     <Compile Include="4_Svg\Transforms\SvgRotate.cs" />
@@ -151,9 +152,9 @@
       <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
       <Name>LayoutFarm.Drawing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.LeanRenderer\LayoutFarm.LeanRenderer.csproj">
+    <ProjectReference Include="..\LayoutFarm.RenderTree\LayoutFarm.RenderTree.csproj">
       <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
-      <Name>LayoutFarm.LeanRenderer</Name>
+      <Name>LayoutFarm.RenderTree</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

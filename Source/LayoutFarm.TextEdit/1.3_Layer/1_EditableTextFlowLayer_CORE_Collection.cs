@@ -79,12 +79,7 @@ namespace LayoutFarm.Text
         }
         public void AddTop(EditableTextSpan visualElement)
         {
-#if DEBUG
-            if (visualElement.ParentLink != null)
-            {
-
-            }
-#endif
+ 
 
             if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
             {

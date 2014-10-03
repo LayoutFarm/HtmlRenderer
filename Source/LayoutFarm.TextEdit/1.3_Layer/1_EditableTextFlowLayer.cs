@@ -245,20 +245,25 @@ namespace LayoutFarm.Text
                         }
                     }
 
-                    updateArea.OffsetY(-y); canvasPage.OffsetCanvasOriginY(y); while (curNode != null)
+                    updateArea.OffsetY(-y);
+                    canvasPage.OffsetCanvasOriginY(y); 
+                    while (curNode != null)
                     {
                         EditableTextSpan child = curNode.Value;
                         if (child.IntersectOnHorizontalWith(updateArea))
                         {
                             int x = child.X;
-                            canvasPage.OffsetCanvasOriginX(x); updateArea.OffsetX(-x);
+                            canvasPage.OffsetCanvasOriginX(x); 
+                            updateArea.OffsetX(-x);
                             child.DrawToThisPage(canvasPage, updateArea);
 
-                            canvasPage.OffsetCanvasOriginX(-x); updateArea.OffsetX(x);
+                            canvasPage.OffsetCanvasOriginX(-x); 
+                            updateArea.OffsetX(x);
                         }
                         curNode = curNode.Next;
                     }
-                    canvasPage.OffsetCanvasOriginY(-y); updateArea.OffsetY(y);
+                    canvasPage.OffsetCanvasOriginY(-y); 
+                    updateArea.OffsetY(y);
                 }
             }
             else
@@ -277,19 +282,25 @@ namespace LayoutFarm.Text
                 {
 
                     int y = line.Top;
-                    canvasPage.OffsetCanvasOriginY(y); updateArea.OffsetY(-y); while (curNode != null)
+                    canvasPage.OffsetCanvasOriginY(y); 
+                    updateArea.OffsetY(-y);
+                    while (curNode != null)
                     {
                         EditableTextSpan child = curNode.Value;
                         if (child.IntersectOnHorizontalWith(updateArea))
                         {
                             int x = child.X;
-                            canvasPage.OffsetCanvasOriginX(x); updateArea.OffsetX(-x); child.DrawToThisPage(canvasPage, updateArea);
+                            canvasPage.OffsetCanvasOriginX(x);
+                            updateArea.OffsetX(-x);
+                            child.DrawToThisPage(canvasPage, updateArea);
 
-                            canvasPage.OffsetCanvasOriginX(-x); updateArea.OffsetX(x);
+                            canvasPage.OffsetCanvasOriginX(-x);
+                            updateArea.OffsetX(x);
                         }
                         curNode = curNode.Next;
                     }
-                    canvasPage.OffsetCanvasOriginY(-y); updateArea.OffsetY(y);
+                    canvasPage.OffsetCanvasOriginY(-y);
+                    updateArea.OffsetY(y);
                 }
 
             }
@@ -298,18 +309,15 @@ namespace LayoutFarm.Text
         }
 
 
-        public override bool HitTestCore(HitPointChain artHitResult)
+        public override bool HitTestCore(HitPointChain hitChain)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) == 0)
             {
-
-
-
                 if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
                 {
                     List<EditableVisualElementLine> lines = (List<EditableVisualElementLine>)lineCollection;
                     int j = lines.Count;
-                    int testYPos = artHitResult.TestPoint.Y;
+                    int testYPos = hitChain.TestPoint.Y;
 
                     for (int i = 0; i < j; ++i)
                     {
@@ -318,7 +326,7 @@ namespace LayoutFarm.Text
                         {
                             continue;
                         }
-                        else if (line.HitTestCore(artHitResult))
+                        else if (line.HitTestCore(hitChain))
                         {
                             return true;
                         }
@@ -331,7 +339,7 @@ namespace LayoutFarm.Text
                 else
                 {
                     EditableVisualElementLine onlyLine = (EditableVisualElementLine)lineCollection;
-                    return onlyLine.HitTestCore(artHitResult);
+                    return onlyLine.HitTestCore(hitChain);
                 }
             }
             return false;
@@ -609,8 +617,8 @@ namespace LayoutFarm.Text
             }
         }
         void PerformHorizontalFlowArrangeForMultilineText(
-int ownerClientLeft, int ownerClientWidth,
-int ownerClientTop)
+            int ownerClientLeft, int ownerClientWidth,
+            int ownerClientTop)
         {
 
 
@@ -633,7 +641,8 @@ int ownerClientTop)
             {
                 EditableVisualElementLine line = lines[i];
                 curX = ownerClientLeft;
-                lastestIsBlock = false; line.SetTop(curY_fromTop);
+                lastestIsBlock = false; 
+                line.SetTop(curY_fromTop);
 
                 if (!line.NeedArrange)
                 {
@@ -645,7 +654,8 @@ int ownerClientTop)
                 }
                 else
                 {
-                    maxHeightInRow = EditableVisualElementLine.DEFAULT_LINE_HEIGHT; EditableVisualElementLine newLine = null;
+                    maxHeightInRow = EditableVisualElementLine.DEFAULT_LINE_HEIGHT;
+                    EditableVisualElementLine newLine = null;
                     line.ValidateContentArrangement();
 
                     bool isFirstRunInThisLine = true;
@@ -751,7 +761,7 @@ int ownerClientTop)
             }
 
             ValidateArrangement();
- 
+
         }
 
 
@@ -835,8 +845,7 @@ int ownerClientTop)
                         }
 
                         EditableTextSpan.DirectSetVisualElementSize(currentRun,
-       v_desired_width, v_desired_height);
-
+                            v_desired_width, v_desired_height); 
 
 
                         curX += v_desired_width;
@@ -854,9 +863,10 @@ int ownerClientTop)
                         EditableTextSpan.DirectSetVisualElementLocation(currentRun, curX, 0);
 
                         EditableTextSpan.DirectSetVisualElementSize(
-    currentRun,
-    v_desired_width,
-    v_desired_height);
+                            currentRun,
+                            v_desired_width,
+                            v_desired_height);
+
                         curX += v_desired_width;
                     }
 #if DEBUG
@@ -895,7 +905,7 @@ int ownerClientTop)
 
                 }
             }
- 
+
 
             if (curX > maxWidth)
             {
@@ -903,11 +913,7 @@ int ownerClientTop)
             }
 
 
-            int finalHeight = curY_fromTop + maxHeightInRow;
-
-
-
-
+            int finalHeight = curY_fromTop + maxHeightInRow; 
 
 
             ValidateArrangement();
@@ -940,7 +946,10 @@ int ownerClientTop)
                 {
 
                     EditableVisualElementLine line = lines[insertAt];
-                    int cy = line.Top; textLine.SetTop(cy); textLine.SetLineNumber(insertAt); cy += line.ActualLineHeight;
+                    int cy = line.Top; 
+                    textLine.SetTop(cy); 
+                    textLine.SetLineNumber(insertAt);
+                    cy += line.ActualLineHeight;
 
                     for (int i = insertAt; i < j; i++)
                     {
@@ -971,7 +980,9 @@ int ownerClientTop)
                 {
 
                     EditableVisualElementLine line = lines[insertAt];
-                    int cy = line.Top; textLine.SetTop(cy); textLine.SetLineNumber(insertAt);
+                    int cy = line.Top;
+                    textLine.SetTop(cy); 
+                    textLine.SetLineNumber(insertAt);
                     cy += line.ActualLineHeight;
 
                     for (int i = insertAt; i < j; i++)

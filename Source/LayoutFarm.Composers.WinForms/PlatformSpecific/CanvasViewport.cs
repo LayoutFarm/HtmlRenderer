@@ -122,7 +122,9 @@ namespace LayoutFarm
             }
             else
             {
-                quadPages.RenderToOutputWindowPartialMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
+                //temp to full mode
+                quadPages.RenderToOutputWindowFullMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
+                //quadPages.RenderToOutputWindowPartialMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
             }
 
             topWindowBox.EndRenderPhase();
@@ -147,7 +149,7 @@ namespace LayoutFarm
 
             if (dbugHelper01.dbugVE_HighlightMe != null)
             {
-                outputWindow.dbug_HighlightMeNow(dbugHelper01.dbugVE_HighlightMe.GetGlobalRect());
+                outputWindow.dbug_HighlightMeNow(dbugHelper01.dbugVE_HighlightMe.dbugGetGlobalRect());
 
             }
 #endif

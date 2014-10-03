@@ -40,8 +40,7 @@ namespace HtmlRenderer.Boxes
             return box._myspec;
         }
         public static void UnsafeSetParent(CssBox box, CssBox parent)
-        {
-           
+        {  
             box._parentBox = parent;
         }
         public static object UnsafeGetController(CssBox box)

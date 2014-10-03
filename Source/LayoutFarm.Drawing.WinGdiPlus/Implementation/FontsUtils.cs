@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace HtmlRenderer.Drawing
+namespace LayoutFarm 
 {
 
     struct FontKey
@@ -39,7 +39,7 @@ namespace HtmlRenderer.Drawing
     /// Utils for fonts and fonts families handling.
     /// </summary>
     static class FontsUtils
-    { 
+    {
 
         /// <summary>
         /// Allow to map not installed fonts to different
@@ -67,7 +67,7 @@ namespace HtmlRenderer.Drawing
         static readonly Dictionary<System.Drawing.Font, LayoutFarm.Drawing.FontInfo> _fontInfoCache = new Dictionary<System.Drawing.Font, LayoutFarm.Drawing.FontInfo>();
         static readonly Dictionary<FontKey, LayoutFarm.Drawing.FontInfo> _fontsCache = new Dictionary<FontKey, LayoutFarm.Drawing.FontInfo>();
         static readonly Dictionary<System.Drawing.Font, float> _fontWsCache = new Dictionary<System.Drawing.Font, float>();
-         
+
 
 
         /// <summary>
@@ -322,7 +322,7 @@ namespace HtmlRenderer.Drawing
                 float descent = newFont.FontFamily.GetCellDescent(newFont.Style);
 
                 fontInfo = new LayoutFarm.Drawing.FontInfo(
-                    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(newFont),                     
+                    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(newFont),
                     fontHeight,
                     (fontAscent * fontSize / fontEmHeight),
                     (descent * fontSize / fontEmHeight),
