@@ -126,7 +126,7 @@ namespace LayoutFarm
                 LayoutFarm.InternalRect rect = LayoutFarm.InternalRect.CreateFromRect(
                     new Rectangle(0, 0, wrapper.Width, wrapper.Height));
                 var canvas = g.CurrentCanvas;
-                this.wrapper.DrawToThisPage(canvas, rect); 
+                this.wrapper.DrawToThisPage(canvas, rect);
                 LayoutFarm.InternalRect.FreeInternalRect(rect);
 
             }
@@ -316,26 +316,21 @@ namespace LayoutFarm
 #endif
         }
     }
-
-
-
-
-
-
-
-
-
-
-    public class BoxHitChainWrapper : LayoutFarm.IHitElement
+    public class BoxHitChainWrapper : LayoutFarm.HitObjectWrapper
     {
         object controller;
         BoxHitChain boxHitChain;
+
         public BoxHitChainWrapper(BoxHitChain boxHitChain)
         {
             this.boxHitChain = boxHitChain;
             this.controller = boxHitChain;
         }
-        public object GetController()
+        public override object HitObject
+        {
+            get { return this.boxHitChain; }
+        }
+        public override object GetController()
         {
             return controller;
         }
@@ -343,44 +338,44 @@ namespace LayoutFarm
         {
             this.controller = controller;
         }
-        bool IHitElement.IsTestable()
+        public override bool IsTestable()
         {
             return true;
         }
-        IHitElement IHitElement.FindOverlapSibling(Drawing.Point p)
+        public override HitObjectWrapper FindOverlapSibling(Drawing.Point p)
         {
             return null;
         }
-        Point IHitElement.ElementLocation
+        public override Point ElementLocation
         {
             get { return Point.Empty; }
         }
-        Point IHitElement.GetElementGlobalLocation()
+        public override Point GetElementGlobalLocation()
         {
             return Point.Empty;
         }
-        Rectangle IHitElement.ElementBoundRect
+        public override Rectangle ElementBoundRect
         {
             get { return Rectangle.Empty; }
         }
-        bool IHitElement.Focusable
+        public override bool Focusable
         {
             get { return false; }
         }
-        bool IHitElement.HasParent
+        public override bool HasParent
         {
             get { return true; }
         }
-        bool IHitElement.ContainsSubChain
+        public override bool ContainsSubChain
         {
             get { return true; }
         }
-        bool IHitElement.Contains(LayoutFarm.Drawing.Point p)
+        public override bool Contains(LayoutFarm.Drawing.Point p)
         {
             return true;
         }
 
-        bool IHitElement.HitTestCore(HitPointChain chain)
+        public override bool HitTestCore(HitPointChain chain)
         {
             return true;
         }

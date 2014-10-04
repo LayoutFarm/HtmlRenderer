@@ -12,7 +12,7 @@ namespace LayoutFarm
         List<HitPoint> prevHitChain;
         readonly List<HitPoint> hitChainA = new List<HitPoint>();
         readonly List<HitPoint> hitChainB = new List<HitPoint>();
-        List<IHitElement> dragHitElements = new List<IHitElement>();
+        List<HitObjectWrapper> dragHitElements = new List<HitObjectWrapper>();
 
         public MyHitPointChain()
         {
@@ -58,7 +58,7 @@ namespace LayoutFarm
         {
             get { return currentHitChain[currentHitChain.Count - 1].point; }
         }
-        public override IHitElement CurrentHitElement
+        public override HitObjectWrapper CurrentHitElement
         {
             get
             {
@@ -72,7 +72,7 @@ namespace LayoutFarm
                 }
             }
         }
-        public override void AddHit(IHitElement hitElement)
+        public override void AddHit(HitObjectWrapper hitElement)
         {
 
 
@@ -100,7 +100,7 @@ namespace LayoutFarm
             currentHitChain.Clear();
         }
 
-        public IHitElement HitTestOnPrevChain()
+        public HitObjectWrapper HitTestOnPrevChain()
         {
             if (prevHitChain.Count > 0)
             {
@@ -108,12 +108,12 @@ namespace LayoutFarm
                 {
                     //top down test
 
-                    IHitElement elem = hp.elem;
+                    HitObjectWrapper elem = hp.elem;
                     if (elem != null && elem.IsTestable())
                     {
                         if (elem.Contains(hp.point))
                         {
-                            IHitElement foundOverlapChild = elem.FindOverlapSibling(hp.point);
+                            HitObjectWrapper foundOverlapChild = elem.FindOverlapSibling(hp.point);
 
                             if (foundOverlapChild == null)
                             {
@@ -158,15 +158,15 @@ namespace LayoutFarm
         {
             dragHitElements.Clear();
         }
-        public override void AddDragHitElement(IHitElement element)
+        public override void AddDragHitElement(HitObjectWrapper element)
         {
             dragHitElements.Add(element);
         }
-        public override void RemoveDragHitElement(IHitElement element)
+        public override void RemoveDragHitElement(HitObjectWrapper element)
         {
             dragHitElements.Remove(element);
         }
-        public override IEnumerable<IHitElement> GetDragHitElementIter()
+        public override IEnumerable<HitObjectWrapper> GetDragHitElementIter()
         {
             int j = dragHitElements.Count;
             for (int i = 0; i < j; ++i)

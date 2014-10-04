@@ -68,7 +68,7 @@
     <Compile Include="1_Css\CssLength.cs" />
     <Compile Include="1_Css\CssProps.cs" />
     <Compile Include="1_Css\CssUnitOrNames.cs" />
-    <Compile Include="2_Boxes\1_CoreBox\CssBox_IHitElement.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBoxHitElement.cs" />
     <Compile Include="4_Svg\BasicShapes\SvgElements.cs" />
     <Compile Include="4_Svg\BasicShapes\SvgSpec.cs" />
     <Compile Include="4_Svg\BasicShapes\SvgVisualElements.cs" />

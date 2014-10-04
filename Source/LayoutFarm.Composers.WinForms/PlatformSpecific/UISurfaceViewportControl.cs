@@ -217,7 +217,7 @@ namespace LayoutFarm
 
             base.OnMouseDown(e);
 
-            canvasViewport.OnMouseDown(mouseEventArg);
+            canvasViewport.MouseDown(mouseEventArg);
 
             eventStock.ReleaseEventArgs(mouseEventArg);
 
@@ -238,7 +238,7 @@ namespace LayoutFarm
                         xdiff, ydiff);
 
                     dragEventArg.SetWinRoot(this.wintop);
-                    canvasViewport.OnDragStart(dragEventArg);
+                    canvasViewport.DragStart(dragEventArg);
                     isDraging = true;
                     eventStock.ReleaseEventArgs(dragEventArg);
 

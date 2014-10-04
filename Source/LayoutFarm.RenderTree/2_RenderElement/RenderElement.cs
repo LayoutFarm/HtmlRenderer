@@ -15,8 +15,8 @@ namespace LayoutFarm
         bool mayHasChild;
         bool mayHasViewport; 
         RootGraphic rootGfx;
-        IParentLink parentLink; 
-
+        IParentLink parentLink;
+        object controller;
         public RenderElement(RootGraphic rootGfx, int width, int height)
         {
             this.b_width = width;
@@ -32,7 +32,15 @@ namespace LayoutFarm
         {
             get { return this.rootGfx; }
         }
-
+       
+        public object GetController()
+        {
+            return controller;
+        }
+        public void SetController(object controller)
+        {
+            this.controller = controller;
+        }
 
         public bool IsFreeElement
         {

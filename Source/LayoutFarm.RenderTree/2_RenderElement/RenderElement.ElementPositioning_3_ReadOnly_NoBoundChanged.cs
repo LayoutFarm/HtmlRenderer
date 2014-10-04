@@ -55,7 +55,7 @@ namespace LayoutFarm
                 }
             }
             return false;
-        } 
+        }
         public bool IntersectOnHorizontalWith(InternalRect r)
         {
             int left = this.b_left;
@@ -66,7 +66,7 @@ namespace LayoutFarm
                 return true;
             }
             return false;
-        } 
+        }
         protected Rectangle GetLocalArea()
         {
             return new Rectangle(0, 0, b_width, b_Height);
@@ -107,7 +107,7 @@ namespace LayoutFarm
             get
             {
                 return b_top;
-            } 
+            }
         }
         public int Right
         {
@@ -145,13 +145,13 @@ namespace LayoutFarm
             }
         }
         public Point GetGlobalLocation()
-        {   
+        {
             return GetGlobalLocationStatic(this);
-        } 
+        }
         static Point GetGlobalLocationStatic(RenderElement ui)
         {
 
-            RenderElement parentVisualElement = ui.ParentVisualElement; 
+            RenderElement parentVisualElement = ui.ParentVisualElement;
             if (parentVisualElement != null)
             {
                 Point parentGlobalLocation = GetGlobalLocationStatic(parentVisualElement);
@@ -183,7 +183,10 @@ namespace LayoutFarm
             }
             return ContainPoint(testPoint.X, testPoint.Y);
         }
-
+        public bool IsTestable
+        {
+            get { return ((this.uiFlags & HIDDEN) == 0) && (this.parentLink != null); }
+        }
         public bool HitTestCore(HitPointChain hitChain)
         {
 
@@ -210,7 +213,7 @@ namespace LayoutFarm
                     hitChain.OffsetTestPoint(-b_left, -b_top);
                 }
 
-                hitChain.AddHit(this);
+                hitChain.AddHit(new HitRenderElementWrapper(this));
 
                 if (this.MayHasChild)
                 {
@@ -229,7 +232,7 @@ namespace LayoutFarm
                 }
 
                 if ((uiFlags & TRANSPARENT_FOR_ALL_EVENTS) != 0 &&
-                    hitChain.CurrentHitElement == this)
+                    hitChain.CurrentHitElement.HitObject == this)
                 {
                     hitChain.RemoveCurrentHitNode();
                     return false;

@@ -11,8 +11,8 @@ namespace LayoutFarm
     {
 
         CanvasEventsStock eventStock = new CanvasEventsStock();
-        IHitElement currentMouseActiveElement = null;
-        IHitElement currentDragingElement = null;
+        HitObjectWrapper currentMouseActiveElement = null;
+        HitObjectWrapper currentDragingElement = null;
 
         int kbFocusGlobalX = 0;
         int kbFocusGlobalY = 0;
@@ -28,7 +28,7 @@ namespace LayoutFarm
         int msgChainVersion;
 
         MyTopWindowRenderBox topwin;
-        IHitElement currentKeyboardFocusedElement;
+        HitObjectWrapper currentKeyboardFocusedElement;
         RootGraphic rootGraphic;
         public TopBoxInputEventBridge()
         {
@@ -46,7 +46,7 @@ namespace LayoutFarm
         }
 
 
-        public IHitElement CurrentKeyboardFocusedElement
+        public HitObjectWrapper CurrentKeyboardFocusedElement
         {
             get
             {
@@ -81,7 +81,7 @@ namespace LayoutFarm
                     kbFocusGlobalY = globalLocation.Y;
                     focusEventArg.SetWinRoot(topwin);
 
-                    
+
                     eventStock.ReleaseEventArgs(focusEventArg);
                     if (CurrentFocusElementChanged != null)
                     {
@@ -96,7 +96,7 @@ namespace LayoutFarm
             }
         }
 
-        internal IHitElement CurrentMouseFocusedElement
+        internal HitObjectWrapper CurrentMouseFocusedElement
         {
             get
             {
@@ -108,23 +108,47 @@ namespace LayoutFarm
             CurrentKeyboardFocusedElement = null;
             this.currentDragingElement = null;
         }
+        void HitTestCoreWithPrevChainHint(int x, int y, UIEventName hitEvent)
+        {
+            hitPointChain.SetStartTestPoint(x, y);
+            HitObjectWrapper commonElement = hitPointChain.HitTestOnPrevChain();
+            if (commonElement == null)
+            {
+                commonElement = new HitRenderElementWrapper(this.topwin);
+            }
+            commonElement.HitTestCore(hitPointChain);
+
+        }
+        bool DisableGraphicOutputFlush
+        {
+            get { return this.rootGraphic.DisableGraphicOutputFlush; }
+            set { this.rootGraphic.DisableGraphicOutputFlush = value; }
+        }
+        void FlushAccumGraphicUpdate()
+        {
+            this.rootGraphic.FlushAccumGraphicUpdate(this.topwin);
+        }
+
+
+        //--------------------------------------------------
         public void OnDoubleClick(UIMouseEventArgs e)
         {
 
-            //IHitElement hitElement = HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.DblClick);
-            //if (currentMouseActiveElement != null)
-            //{
-            //    e.TranslateCanvasOrigin(globalXOfCurrentUI, globalYOfCurrentUI);
-            //    e.Location = hitPointChain.CurrentHitPoint;
-            //    e.SourceHitElement = currentMouseActiveElement;
+            HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.DblClick);
+            HitObjectWrapper hitElement = this.hitPointChain.CurrentHitElement;
+            if (currentMouseActiveElement != null)
+            {
+                e.TranslateCanvasOrigin(kbFocusGlobalX, kbFocusGlobalY);
+                e.Location = hitPointChain.CurrentHitPoint;
+                e.SourceHitElement = currentMouseActiveElement;
 
-            //    IEventListener ui = currentMouseActiveElement.GetController() as IEventListener;
-            //    if (ui != null)
-            //    {
-            //    }
-            //    e.TranslateCanvasOriginBack(); 
-            //}
-            //hitPointChain.SwapHitChain();
+                IEventListener ui = currentMouseActiveElement.GetController() as IEventListener;
+                if (ui != null)
+                {
+                }
+                e.TranslateCanvasOriginBack();
+            }
+            hitPointChain.SwapHitChain();
         }
         public void OnMouseWheel(UIMouseEventArgs e)
         {
@@ -153,12 +177,12 @@ namespace LayoutFarm
             int local_msgVersion = 1;
 
 #if DEBUG
-             
+
 #endif
 
             HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseDown);
-            var hitElement = this.hitPointChain.CurrentHitElement;
-            if (hitElement == this.topwin || hitElement == null)
+            HitObjectWrapper hitElement = this.hitPointChain.CurrentHitElement;
+            if (hitElement.HitObject == this.topwin || hitElement == null)
             {
 
                 hitPointChain.SwapHitChain();
@@ -179,38 +203,44 @@ namespace LayoutFarm
             {
 
                 HitPoint hitPoint = hitPointChain.GetHitPoint(i);
-                IHitElement hitElem = hitPoint.elem;
-                if (hitElem is IEventListener)
+                HitObjectWrapper hitElem = hitPoint.elem;
+                object hitObject = hitElem.HitObject;
+                if (hitObject is RenderElement)
                 {
-                    IEventListener listener = hitElem.GetController() as IEventListener;
+                    IEventListener listener = ((RenderElement)hitObject).GetController() as IEventListener;
                     listener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
                     //may propagate next or not 
                     hitElement = hitElem;
                     currentMouseActiveElement = hitElement;
                     break;
                 }
-                else if (hitElem is BoxHitChainWrapper)
+                else if (hitObject is HtmlRenderer.Boxes.BoxHitChain)
                 {
-                    HtmlRenderer.Boxes.BoxHitChain hitChain2 = ((BoxHitChainWrapper)hitElem).HitChain;
+                    HtmlRenderer.Boxes.BoxHitChain hitChain2 = ((HtmlRenderer.Boxes.BoxHitChain)hitObject);
                     bool isOk = false;
 
                     for (int n = hitChain2.Count - 1; n >= 0; --n)
                     {
                         var hit2 = hitChain2.GetHitInfo(n);
-                        var box2 = hit2.hitObject as IHitElement;
+                        var box2 = hit2.hitObject as HtmlRenderer.Boxes.CssBox;
+                        var controller2 = HtmlRenderer.Boxes.CssBox.UnsafeGetController(box2);
                         if (box2 != null)
                         {
-                            var box2EvListener = box2.GetController() as IEventListener;
+                            var box2EvListener = controller2 as IEventListener;
                             if (box2EvListener != null)
                             {
 
                                 e.Location = new Point(hit2.localX, hit2.localY);
-                                e.SourceHitElement = hit2.hitObject as IHitElement;
+                                e.SourceHitElement = hit2.hitObject as HitObjectWrapper;
 
                                 box2EvListener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
-                                hitElement = box2;
-                                currentMouseActiveElement = hitElement;
-                                isOk = true;                                
+                                //hitElement = box2;
+                                if (box2.AcceptKeyboardFocus)
+                                {
+                                    hitElement = new HtmlRenderer.Boxes.CssBoxHitElement(box2);
+                                }
+                                currentMouseActiveElement = new HtmlRenderer.Boxes.CssBoxHitElement(box2);
+                                isOk = true;
                                 break; //break loop for
                             }
                         }
@@ -222,18 +252,10 @@ namespace LayoutFarm
                 }
             }
             //---------------------------------------------------------------
-
-            //IEventListener ui = hitElement.GetController() as IEventListener;
-            //if (ui != null)
-            //{
-            //    ui.ListenMouseEvent(UIMouseEventName.MouseDown, e);
-            //}
-            //---------------------------------------------------------------
-
-
+ 
 
             //---------------------------------------------------------------
-            e.TranslateCanvasOriginBack(); 
+            e.TranslateCanvasOriginBack();
 #if DEBUG
             RootGraphic visualroot = this.rootGraphic;
             if (visualroot.dbug_RecordHitChain)
@@ -243,7 +265,7 @@ namespace LayoutFarm
                 foreach (HitPoint hp in hitPointChain.dbugGetHitPairIter())
                 {
 
-                    var ve = hp.elem as RenderElement;
+                    var ve = hp.elem.HitObject as RenderElement;
                     if (ve != null)
                     {
                         ve.dbug_WriteOwnerLayerInfo(visualroot, i);
@@ -268,11 +290,10 @@ namespace LayoutFarm
             if (local_msgVersion != msgChainVersion)
             {
                 return;
-            } 
+            }
             if (hitElement.Focusable)
             {
                 this.CurrentKeyboardFocusedElement = hitElement;
-                //e.WinTop.CurrentKeyboardFocusedElement = hitElement;
             }
             DisableGraphicOutputFlush = false;
             FlushAccumGraphicUpdate();
@@ -283,26 +304,7 @@ namespace LayoutFarm
 #endif
 
         }
-        void HitTestCoreWithPrevChainHint(int x, int y, UIEventName hitEvent)
-        {
-            hitPointChain.SetStartTestPoint(x, y);
-            IHitElement commonElement = hitPointChain.HitTestOnPrevChain();
-            if (commonElement == null)
-            {
-                commonElement = this.topwin;
-            }
-            commonElement.HitTestCore(hitPointChain);
 
-        }
-        bool DisableGraphicOutputFlush
-        {
-            get { return this.rootGraphic.DisableGraphicOutputFlush; }
-            set { this.rootGraphic.DisableGraphicOutputFlush = value; }
-        }
-        void FlushAccumGraphicUpdate()
-        {
-            this.rootGraphic.FlushAccumGraphicUpdate(this.topwin);
-        }
         public void OnMouseMove(UIMouseEventArgs e)
         {
 
@@ -383,7 +385,7 @@ namespace LayoutFarm
             HitTestCoreWithPrevChainHint(hitPointChain.LastestRootX,
                  hitPointChain.LastestRootY,
                  UIEventName.MouseHover);
-            IHitElement hitElement = this.hitPointChain.CurrentHitElement;
+            HitObjectWrapper hitElement = this.hitPointChain.CurrentHitElement;
             if (hitElement != null && hitElement.IsTestable())
             {
                 DisableGraphicOutputFlush = true;
@@ -427,7 +429,8 @@ namespace LayoutFarm
               UIEventName.DragStart);
 
             currentDragingElement = this.hitPointChain.CurrentHitElement;
-            if (currentDragingElement != null && currentDragingElement != this.topwin)
+            if (currentDragingElement != null &&
+                currentDragingElement.HitObject != this.topwin)
             {
                 DisableGraphicOutputFlush = true;
                 Point globalLocation = currentDragingElement.GetElementGlobalLocation();
@@ -615,8 +618,13 @@ namespace LayoutFarm
             UIDragEventArgs d_eventArg = new UIDragEventArgs();
             if (hitPointChain.DragHitElementCount > 0)
             {
-                foreach (RenderElement elem in hitPointChain.GetDragHitElementIter())
+                foreach (HitObjectWrapper hit in hitPointChain.GetDragHitElementIter())
                 {
+                    RenderElement elem = hit.HitObject as RenderElement;
+
+                    if (elem == null) { continue; }
+
+
                     Point globalLocation = elem.GetGlobalLocation();
                     d_eventArg.TranslateCanvasOrigin(globalLocation);
                     d_eventArg.SourceHitElement = elem;
@@ -667,7 +675,7 @@ namespace LayoutFarm
 #endif
 
             HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseUp);
-            IHitElement hitElement = this.hitPointChain.CurrentHitElement;
+            HitObjectWrapper hitElement = this.hitPointChain.CurrentHitElement;
 
             if (hitElement != null)
             {
@@ -690,32 +698,33 @@ namespace LayoutFarm
                 {
 
                     HitPoint hitPoint = hitPointChain.GetHitPoint(i);
-                    IHitElement hitElem = hitPoint.elem;
-                    if (hitElem is IEventListener)
+                    HitObjectWrapper hitElem = hitPoint.elem;
+                    object hitObject = hitElem.HitObject;
+                    if (hitObject is RenderElement)
                     {
-                        IEventListener listener = hitElem.GetController() as IEventListener;
+                        IEventListener listener = ((RenderElement)hitObject).GetController() as IEventListener;
                         listener.ListenMouseEvent(UIMouseEventName.MouseUp, e);
                         //may propagate next or not 
                         hitElement = hitElem;
                         currentMouseActiveElement = hitElement;
                         break;
                     }
-                    else if (hitElem is BoxHitChainWrapper)
+                    else if (hitObject is HtmlRenderer.Boxes.BoxHitChain)
                     {
-                        HtmlRenderer.Boxes.BoxHitChain hitChain2 = ((BoxHitChainWrapper)hitElem).HitChain;
+                        HtmlRenderer.Boxes.BoxHitChain hitChain2 = ((HtmlRenderer.Boxes.BoxHitChain)hitObject);
                         bool isOk = false;
 
                         for (int n = hitChain2.Count - 1; n >= 0; --n)
                         {
                             var hit2 = hitChain2.GetHitInfo(n);
-                            var box2 = hit2.hitObject as IHitElement;
+                            var box2 = hit2.hitObject as HitObjectWrapper;
                             if (box2 != null)
                             {
                                 var box2EvListener = box2.GetController() as IEventListener;
                                 if (box2EvListener != null)
                                 {
                                     e.Location = new Point(hit2.localX, hit2.localY);
-                                    e.SourceHitElement = hit2.hitObject as IHitElement;
+                                    e.SourceHitElement = hit2.hitObject as HitObjectWrapper;
 
                                     box2EvListener.ListenMouseEvent(UIMouseEventName.MouseUp, e);
                                     hitElement = box2;
@@ -736,10 +745,10 @@ namespace LayoutFarm
 
                 e.TranslateCanvasOriginBack();
                 DisableGraphicOutputFlush = false;
-                if (hitElement.Focusable)
-                {
-                    this.CurrentKeyboardFocusedElement = hitElement;
-                }
+                //if (hitElement.Focusable)
+                //{
+                //    this.CurrentKeyboardFocusedElement = hitElement.HitObject as RenderElement;
+                //}
                 FlushAccumGraphicUpdate();
             }
 
@@ -811,8 +820,8 @@ namespace LayoutFarm
             bool result = false;
             if (currentKeyboardFocusedElement != null)
             {
-                e.TranslateCanvasOrigin(kbFocusGlobalX, kbFocusGlobalY); 
-                e.SourceHitElement = currentKeyboardFocusedElement; 
+                e.TranslateCanvasOrigin(kbFocusGlobalX, kbFocusGlobalY);
+                e.SourceHitElement = currentKeyboardFocusedElement;
                 IEventListener ui = currentKeyboardFocusedElement.GetController() as IEventListener;
                 if (ui != null)
                 {

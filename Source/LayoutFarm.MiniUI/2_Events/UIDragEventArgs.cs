@@ -17,7 +17,7 @@ namespace LayoutFarm
         int lastestXDiff, lastestYDiff;
 
         public UIMouseEventType EventType;
-        public IHitElement DragingElement;
+        public HitObjectWrapper DragingElement;
         public UIMouseEventArgs MouseInfo;
 
         
@@ -77,13 +77,13 @@ namespace LayoutFarm
                 return lastestYDiff;
             }
         }
-        public bool IsDragOut
-        {
-            get
-            {
-                return SourceRenderElement.ContainPoint(this.X, this.Y);
-            }
-        }
+        //public bool IsDragOut
+        //{
+        //    get
+        //    {
+        //        return SourceRenderElement.ContainPoint(this.X, this.Y);
+        //    }
+        //}
 
        
        

@@ -246,7 +246,7 @@ namespace LayoutFarm
 #if DEBUG
         public static bool dbugMouseDown = false;
 #endif
-        internal void OnMouseDown(UIMouseEventArgs e)
+        internal void MouseDown(UIMouseEventArgs e)
         {
 
 #if DEBUG
@@ -271,7 +271,7 @@ namespace LayoutFarm
             }
 #endif
         }
-        internal void OnDragStart(UIDragEventArgs e)
+        internal void DragStart(UIDragEventArgs e)
         {
             fullMode = false;
             e.OffsetCanvasOrigin(-viewportX, -viewportY);
