@@ -62,6 +62,7 @@
     <Compile Include="TopBox\0_MyTopWindowRenderBox_Graphics.cs" />
     <Compile Include="TopBox\1_VisualRootTasks.cs" />
     <Compile Include="TopBox\CanvasEventStock.cs" />
+    <Compile Include="TopBox\CssBoxHitWrapper.cs" />
     <Compile Include="TopBox\MyHitPointChain.cs" />
     <Compile Include="TopBox\MyIntervalTaskEventArgs.cs" />
     <Compile Include="TopBox\MyRootGraphic.cs" />

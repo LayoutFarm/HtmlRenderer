@@ -232,14 +232,19 @@ namespace LayoutFarm
 
                                 e.Location = new Point(hit2.localX, hit2.localY);
                                 e.SourceHitElement = hit2.hitObject as HitObjectWrapper;
-
                                 box2EvListener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
-                                //hitElement = box2;
+                                //hitElement = box2;                                
                                 if (box2.AcceptKeyboardFocus)
                                 {
-                                    hitElement = new HtmlRenderer.Boxes.CssBoxHitElement(box2);
+                                    hitElement = new CssBoxHitWrapper(box2);
                                 }
-                                currentMouseActiveElement = new HtmlRenderer.Boxes.CssBoxHitElement(box2);
+                                currentMouseActiveElement = new CssBoxHitWrapper(box2);
+
+                                //if (box2.AcceptKeyboardFocus)
+                                //{
+                                //    hitElement = new HtmlRenderer.Boxes.CssBoxHitElement(box2);
+                                //}
+                                //currentMouseActiveElement = new HtmlRenderer.Boxes.CssBoxHitElement(box2); 
                                 isOk = true;
                                 break; //break loop for
                             }
@@ -252,7 +257,7 @@ namespace LayoutFarm
                 }
             }
             //---------------------------------------------------------------
- 
+
 
             //---------------------------------------------------------------
             e.TranslateCanvasOriginBack();
@@ -281,6 +286,7 @@ namespace LayoutFarm
             }
 #endif
             hitPointChain.SwapHitChain();
+
             if (!hitElement.HasParent)
             {
                 currentMouseActiveElement = null;
@@ -304,6 +310,8 @@ namespace LayoutFarm
 #endif
 
         }
+
+
 
         public void OnMouseMove(UIMouseEventArgs e)
         {
@@ -841,4 +849,6 @@ namespace LayoutFarm
         }
 
     }
+
+
 }
