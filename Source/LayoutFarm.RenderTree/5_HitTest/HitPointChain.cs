@@ -9,32 +9,25 @@ namespace LayoutFarm
 {
     public struct HitPoint
     {
-        public Point point;
-        public RenderElement elem;
-        public object externalObject;
+        public readonly Point point;
+        public readonly object hitObject;
 
         public static readonly HitPoint Empty = new HitPoint();
 
-        public HitPoint(RenderElement elem, Point point)
+
+        public HitPoint(object hitObject, Point point)
         {
             this.point = point;
-            this.elem = elem;
-            this.externalObject = null;
-        }
-        public HitPoint(object externalObject, Point point)
-        {
-            this.point = point;
-            this.elem = null;
-            this.externalObject = externalObject;
+            this.hitObject = hitObject; 
         }
 
         public static bool operator ==(HitPoint pair1, HitPoint pair2)
         {
-            return ((pair1.elem == pair2.elem) && (pair1.point == pair2.point));
+            return ((pair1.hitObject == pair2.hitObject) && (pair1.point == pair2.point));
         }
         public static bool operator !=(HitPoint pair1, HitPoint pair2)
         {
-            return ((pair1.elem == pair2.elem) && (pair1.point == pair2.point));
+            return ((pair1.hitObject == pair2.hitObject) && (pair1.point == pair2.point));
         }
 
         public override int GetHashCode()
@@ -45,11 +38,11 @@ namespace LayoutFarm
         {
             return base.Equals(obj);
         }
-
+        
 #if DEBUG
         public override string ToString()
         {
-            return elem.ToString();
+            return hitObject.ToString();
         }
 #endif
     }

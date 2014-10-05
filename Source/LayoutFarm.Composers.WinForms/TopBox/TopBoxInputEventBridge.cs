@@ -194,12 +194,13 @@ namespace LayoutFarm
                 //---------------------------------------------------------------
                 //propagate : bubble up model *** 
                 bool isOk = false;
+
                 for (int i = this.hitPointChain.Count - 1; i >= 0 && !isOk; --i)
                 {
 
                     HitPoint hitPoint = hitPointChain.GetHitPoint(i);
-                    RenderElement hitElem = hitPoint.elem;
-                    if (hitElem is RenderElement)
+                    RenderElement hitElem = hitPoint.hitObject as RenderElement;
+                    if (hitElem != null)
                     {
                         IEventListener listener = hitElem.GetController() as IEventListener;
                         listener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
@@ -210,92 +211,30 @@ namespace LayoutFarm
                     }
                     else
                     {
-                        var boxChain = (HtmlRenderer.Boxes.CssBoxHitChain)hitPoint.externalObject;
+                        var boxChain = (HtmlRenderer.Boxes.CssBoxHitChain)hitPoint.hitObject;
                         //loop
                         for (int n = boxChain.Count - 1; n >= 0; --n)
                         {
                             var hit2 = boxChain.GetHitInfo(n);
                             var box2 = hit2.hitObject as HtmlRenderer.Boxes.CssBox;
-                            var controller2 = HtmlRenderer.Boxes.CssBox.UnsafeGetController(box2);
-                            if (box2 != null)
+                            var box2EvListener = HtmlRenderer.Boxes.CssBox.UnsafeGetController(box2) as IEventListener;
+                            if (box2EvListener != null)
                             {
-                                var box2EvListener = controller2 as IEventListener;
-                                if (box2EvListener != null)
-                                {
 
-                                    e.Location = new Point(hit2.localX, hit2.localY);
-                                    e.SourceHitElement = box2;
-                                    box2EvListener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
-                                    //hitElement = box2;                                
-                                    if (box2.AcceptKeyboardFocus)
-                                    {
-                                        this.CurrentKeyboardFocusedElement = box2EvListener;
-                                    } 
-                                    isOk = true;
-                                    break; //break loop for
+                                e.Location = new Point(hit2.localX, hit2.localY);
+                                e.SourceHitElement = box2;
+                                box2EvListener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
+                                //hitElement = box2;                                
+                                if (box2.AcceptKeyboardFocus)
+                                {
+                                    this.CurrentKeyboardFocusedElement = box2EvListener;
                                 }
+                                isOk = true;
+                                break; //break loop for 
                             }
                         }
                     }
-                }
-                //---------------------------------------------------------------
-                //if (this.hitPointChain.TailObject != null)
-                //{
-                //    //if has tail
-                //    HtmlRenderer.Boxes.CssBoxHitChain boxChain = (HtmlRenderer.Boxes.CssBoxHitChain)this.hitPointChain.TailObject;
-                //    for (int n = boxChain.Count - 1; n >= 0; --n)
-                //    {
-                //        var hit2 = boxChain.GetHitInfo(n);
-                //        var box2 = hit2.hitObject as HtmlRenderer.Boxes.CssBox;
-                //        var controller2 = HtmlRenderer.Boxes.CssBox.UnsafeGetController(box2);
-                //        if (box2 != null)
-                //        {
-                //            var box2EvListener = controller2 as IEventListener;
-                //            if (box2EvListener != null)
-                //            {
-
-                //                e.Location = new Point(hit2.localX, hit2.localY);
-                //                e.SourceHitElement = box2;
-                //                box2EvListener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
-                //                //hitElement = box2;                                
-                //                if (box2.AcceptKeyboardFocus)
-                //                {
-                //                    this.CurrentKeyboardFocusedElement = box2EvListener;
-                //                }
-                //                //currentMouseActiveElement = new CssBoxHitWrapper(box2); 
-                //                //if (box2.AcceptKeyboardFocus)
-                //                //{
-                //                //    hitElement = new HtmlRenderer.Boxes.CssBoxHitElement(box2);
-                //                //}
-                //                //currentMouseActiveElement = new HtmlRenderer.Boxes.CssBoxHitElement(box2); 
-                //                isOk = true;
-                //                break; //break loop for
-                //            }
-                //        }
-                //    }
-
-                //}
-                //if (!isOk)
-                //{
-                //    for (int i = this.hitPointChain.Count - 1; i >= 0; --i)
-                //    {
-
-                //        HitPoint hitPoint = hitPointChain.GetHitPoint(i);
-                //        RenderElement hitElem = hitPoint.elem;
-                //        if (hitElem is RenderElement)
-                //        {
-                //            IEventListener listener = hitElem.GetController() as IEventListener;
-                //            listener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
-                //            //may propagate next or not 
-                //            hitElement = hitElem;
-                //            currentMouseActiveElement = hitElement;
-                //            break;
-                //        }
-
-                //    }
-                //}
-                //---------------------------------------------------------------
-
+                } 
             }
             //---------------------------------------------------------------
             e.TranslateCanvasOriginBack();
@@ -308,7 +247,7 @@ namespace LayoutFarm
                 foreach (HitPoint hp in hitPointChain.dbugGetHitPairIter())
                 {
 
-                    RenderElement ve = hp.elem;
+                    RenderElement ve = hp.hitObject as RenderElement;
                     if (ve != null)
                     {
                         ve.dbug_WriteOwnerLayerInfo(visualroot, i);
@@ -385,7 +324,6 @@ namespace LayoutFarm
                     {
 
                         currentMouseActiveElement = hitElement;
-
                         e.TranslateCanvasOrigin(hitPointChain.LastestElementGlobalX, hitPointChain.LastestElementGlobalY);
                         e.Location = hitPointChain.CurrentHitPoint;
                         e.SourceHitElement = hitElement;
@@ -695,10 +633,6 @@ namespace LayoutFarm
         public void OnGotFocus(UIFocusEventArgs e)
         {
 
-            if (currentMouseActiveElement != null)
-            {
-
-            }
 
         }
         public void OnLostFocus(UIFocusEventArgs e)
@@ -737,7 +671,7 @@ namespace LayoutFarm
                 {
 
                     HitPoint hitPoint = hitPointChain.GetHitPoint(i);
-                    RenderElement hitElem = hitPoint.elem;
+                    RenderElement hitElem = hitPoint.hitObject as RenderElement;
                     if (hitElem is RenderElement)
                     {
                         IEventListener listener = hitElem.GetController() as IEventListener;
@@ -749,7 +683,7 @@ namespace LayoutFarm
                     }
                     else
                     {
-                        var boxChain = (HtmlRenderer.Boxes.CssBoxHitChain)hitPoint.externalObject;
+                        var boxChain = (HtmlRenderer.Boxes.CssBoxHitChain)hitPoint.hitObject;
                         //loop
                         for (int n = boxChain.Count - 1; n >= 0; --n)
                         {

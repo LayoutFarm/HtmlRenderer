@@ -66,7 +66,7 @@ namespace LayoutFarm
             {
                 if (currentHitChain.Count > 0)
                 {
-                    return currentHitChain[currentHitChain.Count - 1].elem;
+                    return currentHitChain[currentHitChain.Count - 1].hitObject as RenderElement;
                 }
                 else
                 {
@@ -113,8 +113,7 @@ namespace LayoutFarm
                 foreach (HitPoint hp in prevHitChain)
                 {
                     //top down test
-
-                    RenderElement elem = hp.elem;
+                    RenderElement elem = hp.hitObject as RenderElement;
                     if (elem != null && elem.IsTestable)
                     {
                         if (elem.Contains(hp.point))
@@ -148,7 +147,7 @@ namespace LayoutFarm
                 }
                 if (currentHitChain.Count > 0)
                 {
-                    return currentHitChain[currentHitChain.Count - 1].elem;
+                    return currentHitChain[currentHitChain.Count - 1].hitObject as RenderElement;
                 }
                 else
                 {
