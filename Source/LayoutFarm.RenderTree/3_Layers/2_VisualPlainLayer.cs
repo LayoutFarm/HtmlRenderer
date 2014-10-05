@@ -133,7 +133,7 @@ namespace LayoutFarm
 #endif
 
 
-        public override bool HitTestCore(HitPointChain hitChain)
+        public override bool HitTestCore(HitChain hitChain)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) == 0)
             {

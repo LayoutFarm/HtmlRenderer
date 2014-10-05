@@ -187,7 +187,7 @@ namespace LayoutFarm
         {
             get { return ((this.uiFlags & HIDDEN) == 0) && (this.parentLink != null); }
         }
-        public bool HitTestCore(HitPointChain hitChain)
+        public bool HitTestCore(HitChain hitChain)
         {
 
             if ((uiFlags & HIDDEN) != 0)
@@ -217,7 +217,7 @@ namespace LayoutFarm
 
                 if (this.MayHasChild)
                 {
-                    ((RenderBoxBase)this).ChildrenHitTestCore(hitChain);
+                    this.ChildrenHitTestCore(hitChain);
                 }
 
                 if (this.MayHasViewport)
@@ -232,7 +232,7 @@ namespace LayoutFarm
                 }
 
                 if ((uiFlags & TRANSPARENT_FOR_ALL_EVENTS) != 0 &&
-                    hitChain.CurrentHitElement  == this)
+                    hitChain.CurrentHitElement == this)
                 {
                     hitChain.RemoveCurrentHitNode();
                     return false;

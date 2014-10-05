@@ -10,10 +10,10 @@ namespace LayoutFarm
 
 
     public abstract partial class RenderElement
-    { 
+    {
         bool isWindowRoot;
         bool mayHasChild;
-        bool mayHasViewport; 
+        bool mayHasViewport;
         RootGraphic rootGfx;
         IParentLink parentLink;
         object controller;
@@ -32,7 +32,7 @@ namespace LayoutFarm
         {
             get { return this.rootGfx; }
         }
-       
+
         public object GetController()
         {
             return controller;
@@ -59,7 +59,7 @@ namespace LayoutFarm
             {
                 return parentLink;
             }
-        } 
+        }
 #if DEBUG
         public RenderElement dbugParentVisualElement
         {
@@ -77,7 +77,7 @@ namespace LayoutFarm
                 }
                 return parentLink.ParentVisualElement;
             }
-        } 
+        }
 
         public bool Visible
         {
@@ -87,7 +87,7 @@ namespace LayoutFarm
                 return ((uiFlags & HIDDEN) == 0);
             }
 
-        } 
+        }
         public void SetVisible(bool value)
         {
 
@@ -120,7 +120,7 @@ namespace LayoutFarm
 
         }
 
-      
+
         public bool Focusable
         {
             get
@@ -350,7 +350,9 @@ namespace LayoutFarm
                 }
             }
         }
-
+        public virtual void ChildrenHitTestCore(HitChain hitChain)
+        {
+        }
         internal static void SetIsWindowRoot(RenderElement e, bool isWinRoot)
         {
             e.isWindowRoot = isWinRoot;
@@ -358,19 +360,16 @@ namespace LayoutFarm
         public bool MayHasChild
         {
             get { return this.mayHasChild; }
+            protected set { this.mayHasChild = value; }
         }
-        internal static void SetMayHasChild(RenderElement e, bool mayHasChild)
-        {
-            e.mayHasChild = mayHasChild;
-        }
+
         public bool MayHasViewport
         {
             get { return this.mayHasViewport; }
+            protected set { this.mayHasViewport = value; }
         }
-        internal static void SetMayHasViewport(RenderElement e, bool mayHasViewport)
-        {
-            e.mayHasViewport = mayHasViewport;
-        }
+         
+        
 
 
         public int ViewportBottom
@@ -410,11 +409,11 @@ namespace LayoutFarm
         public static void RemoveParentLink(RenderElement childElement)
         {
             childElement.parentLink = null;
-        } 
+        }
         public static void SetParentLink(RenderElement childElement, IParentLink lineLinkedNode)
-        { 
+        {
             childElement.parentLink = lineLinkedNode;
-        } 
+        }
         public bool HasOwner
         {
             get

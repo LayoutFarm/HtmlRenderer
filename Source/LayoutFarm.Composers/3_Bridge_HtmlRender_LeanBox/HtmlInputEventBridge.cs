@@ -16,7 +16,7 @@ namespace HtmlRenderer
 
         //-----------------------------------------------
         HtmlIsland _htmlIsland;
-        BoxHitChain _latestMouseDownHitChain = null;
+        CssBoxHitChain _latestMouseDownHitChain = null;
         int _mousedownX;
         int _mousedownY;
         bool _isMouseDown;
@@ -71,7 +71,7 @@ namespace HtmlRenderer
             _mousedownY = y;
             this._isMouseDown = true;
 
-            BoxHitChain hitChain = GetFreeHitChain();
+            CssBoxHitChain hitChain = GetFreeHitChain();
             _latestMouseDownHitChain = hitChain;
             hitChain.SetRootGlobalPosition(x, y); 
             //1. prob hit chain only
@@ -102,7 +102,7 @@ namespace HtmlRenderer
                 if (this._mousedownX != x || this._mousedownY != y)
                 {
                     //handle mouse drag
-                    BoxHitChain hitChain = GetFreeHitChain();
+                    CssBoxHitChain hitChain = GetFreeHitChain();
 
                     hitChain.SetRootGlobalPosition(x, y);
                     BoxUtils.HitTest(rootbox, x, y, hitChain);
@@ -141,7 +141,7 @@ namespace HtmlRenderer
             }
             //-----------------------------------------
 
-            BoxHitChain hitChain = GetFreeHitChain();
+            CssBoxHitChain hitChain = GetFreeHitChain();
             hitChain.SetRootGlobalPosition(x, y);
             //1. prob hit chain only
 
@@ -189,32 +189,32 @@ namespace HtmlRenderer
         //-----------------------------------
 
 
-        Queue<BoxHitChain> hitChainPools = new Queue<BoxHitChain>();
-        BoxHitChain GetFreeHitChain()
+        Queue<CssBoxHitChain> hitChainPools = new Queue<CssBoxHitChain>();
+        CssBoxHitChain GetFreeHitChain()
         {
 
             if (hitChainPools.Count == 0)
             {
-                return new BoxHitChain();
+                return new CssBoxHitChain();
             }
             else
             {
                 return hitChainPools.Dequeue();
             }
         }
-        void ReleaseHitChain(BoxHitChain hitChain)
+        void ReleaseHitChain(CssBoxHitChain hitChain)
         {
             hitChain.Clear();
             hitChainPools.Enqueue(hitChain);
         }
 
         //-----------------------------------
-        static void PropagateEventOnCapturingPhase(BoxHitChain hitChain, UIEventArgs eventArgs)
+        static void PropagateEventOnCapturingPhase(CssBoxHitChain hitChain, UIEventArgs eventArgs)
         {
             //TODO: consider implement capture phase
 
         }
-        static void PropagateEventOnBubblingPhase(BoxHitChain hitChain, UIEventArgs eventArgs)
+        static void PropagateEventOnBubblingPhase(CssBoxHitChain hitChain, UIEventArgs eventArgs)
         {
 
             for (int i = hitChain.Count - 1; i >= 0; --i)

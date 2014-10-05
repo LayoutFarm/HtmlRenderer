@@ -6,7 +6,7 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm
 {
-    class MyHitPointChain : HitPointChain
+    class MyHitChain : HitChain
     {
         List<HitPoint> currentHitChain;
         List<HitPoint> prevHitChain;
@@ -16,7 +16,7 @@ namespace LayoutFarm
 
         List<RenderElement> dragHitElements = new List<RenderElement>();
 
-        public MyHitPointChain()
+        public MyHitChain()
         {
             currentHitChain = hitChainA;
             prevHitChain = hitChainB;
@@ -75,9 +75,7 @@ namespace LayoutFarm
             }
         }
         public override void AddHit(RenderElement hitElement)
-        {
-
-
+        {   
             currentHitChain.Add(new HitPoint(hitElement, new Point(testPointX, testPointY)));
 #if DEBUG
             dbugHitTracker.WriteTrackNode(currentHitChain.Count,
@@ -86,7 +84,10 @@ namespace LayoutFarm
 #endif
 
         }
-
+        public override void AddExternalHitObject(object hitObject)
+        {
+             
+        }
        
         public void SwapHitChain()
         {

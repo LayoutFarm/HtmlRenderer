@@ -11,6 +11,7 @@ namespace LayoutFarm
     {
         public Point point;
         public RenderElement elem;
+        public object externalObject;
 
         public static readonly HitPoint Empty = new HitPoint();
 
@@ -18,7 +19,15 @@ namespace LayoutFarm
         {
             this.point = point;
             this.elem = elem;
+            this.externalObject = null;
         }
+        public HitPoint(object externalObject, Point point)
+        {
+            this.point = point;
+            this.elem = null;
+            this.externalObject = externalObject;
+        }
+
         public static bool operator ==(HitPoint pair1, HitPoint pair2)
         {
             return ((pair1.elem == pair2.elem) && (pair1.point == pair2.point));
@@ -47,7 +56,7 @@ namespace LayoutFarm
 
 
 
-    public abstract class HitPointChain
+    public abstract class HitChain
     {
 
         protected int globalOffsetX = 0;
@@ -59,7 +68,7 @@ namespace LayoutFarm
         protected int testPointX;
         protected int testPointY;
 
-        public HitPointChain()
+        public HitChain()
         {
 
         }
@@ -115,16 +124,15 @@ namespace LayoutFarm
         }
         protected abstract void OnClearAll();
 
-
         public abstract int Count { get; }
         public abstract HitPoint GetHitPoint(int index);
-        
 
         public abstract Point PrevHitPoint { get; }
         public abstract RenderElement CurrentHitElement { get; }
         public abstract Point CurrentHitPoint { get; }
 
-        public abstract void AddHit(RenderElement hitElement);        
+        public abstract void AddHit(RenderElement hitElement);
+        public abstract void AddExternalHitObject(object hitObject);
         public abstract void RemoveCurrentHitNode();
 
         public int LastestElementGlobalX
@@ -141,7 +149,6 @@ namespace LayoutFarm
                 return globalOffsetY;
             }
         }
-
         //-----------------------------------------------------
         //element dragging feature , plan move to another place ?
         public abstract void ClearDragHitElements();
@@ -154,6 +161,7 @@ namespace LayoutFarm
             get;
             set;
         }
+
 #if DEBUG
         public bool dbugBreak;
 #endif

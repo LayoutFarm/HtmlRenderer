@@ -67,7 +67,7 @@ namespace LayoutFarm
             }
             //------------------------------------------------------------
         }
-        public override bool HitTestCore(HitPointChain hitChain)
+        public override bool HitTestCore(HitChain hitChain)
         {
             int testX;
             int testY;

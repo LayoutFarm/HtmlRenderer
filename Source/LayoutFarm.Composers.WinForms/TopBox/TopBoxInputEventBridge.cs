@@ -20,7 +20,7 @@ namespace LayoutFarm
         int currentXDistanceFromDragPoint = 0;
         int currentYDistanceFromDragPoint = 0;
 
-        readonly MyHitPointChain hitPointChain = new MyHitPointChain();
+        readonly MyHitChain hitPointChain = new MyHitChain();
 
         UIHoverMonitorTask hoverMonitoringTask;
         public event EventHandler CurrentFocusElementChanged;
@@ -176,11 +176,7 @@ namespace LayoutFarm
             }
 #endif
             msgChainVersion = 1;
-            int local_msgVersion = 1;
-
-#if DEBUG
-
-#endif
+            int local_msgVersion = 1; 
 
             HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseDown);
             RenderElement hitElement = this.hitPointChain.CurrentHitElement;
@@ -205,7 +201,7 @@ namespace LayoutFarm
             if (this.hitPointChain.TailObject != null)
             {
                 //if has tail
-                HtmlRenderer.Boxes.BoxHitChain boxChain = (HtmlRenderer.Boxes.BoxHitChain)this.hitPointChain.TailObject;
+                HtmlRenderer.Boxes.CssBoxHitChain boxChain = (HtmlRenderer.Boxes.CssBoxHitChain)this.hitPointChain.TailObject;
                 for (int n = boxChain.Count - 1; n >= 0; --n)
                 {
                     var hit2 = boxChain.GetHitInfo(n);
@@ -698,7 +694,7 @@ namespace LayoutFarm
                 bool isOk = false;
                 if (hitPointChain.TailObject != null)
                 {
-                    HtmlRenderer.Boxes.BoxHitChain boxChain = (HtmlRenderer.Boxes.BoxHitChain)this.hitPointChain.TailObject;
+                    HtmlRenderer.Boxes.CssBoxHitChain boxChain = (HtmlRenderer.Boxes.CssBoxHitChain)this.hitPointChain.TailObject;
                     for (int n = boxChain.Count - 1; n >= 0; --n)
                     {
                         var hit2 = boxChain.GetHitInfo(n);
