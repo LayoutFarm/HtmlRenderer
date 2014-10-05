@@ -316,76 +316,7 @@ namespace LayoutFarm
 #endif
         }
     }
-
-    //public class BoxHitChainWrapper : HitObjectWrapper
-    //{
-    //    object controller;
-    //    BoxHitChain boxHitChain;
-
-    //    public BoxHitChainWrapper(BoxHitChain boxHitChain)
-    //    {
-    //        this.boxHitChain = boxHitChain;
-    //        this.controller = boxHitChain;
-    //    }
-    //    public override object HitObject
-    //    {
-    //        get { return this.boxHitChain; }
-    //    }
-    //    public override object GetController()
-    //    {
-    //        return controller;
-    //    }
-    //    public void SetController(object controller)
-    //    {
-    //        this.controller = controller;
-    //    }
-    //    public override bool IsTestable()
-    //    {
-    //        return true;
-    //    }
-    //    public override HitObjectWrapper FindOverlapSibling(Drawing.Point p)
-    //    {
-    //        return null;
-    //    }
-    //    public override Point ElementLocation
-    //    {
-    //        get { return Point.Empty; }
-    //    }
-    //    public override Point GetElementGlobalLocation()
-    //    {
-    //        return Point.Empty;
-    //    }
-    //    public override Rectangle ElementBoundRect
-    //    {
-    //        get { return Rectangle.Empty; }
-    //    }
-    //    public override bool Focusable
-    //    {
-    //        get { return false; }
-    //    }
-    //    public override bool HasParent
-    //    {
-    //        get { return true; }
-    //    }
-    //    public override bool ContainsSubChain
-    //    {
-    //        get { return true; }
-    //    }
-    //    public override bool Contains(LayoutFarm.Drawing.Point p)
-    //    {
-    //        return true;
-    //    }
-
-    //    public override bool HitTestCore(HitPointChain chain)
-    //    {
-    //        return true;
-    //    }
-
-    //    public BoxHitChain HitChain
-    //    {
-    //        get { return this.boxHitChain; }
-    //    }
-    //}
+     
 }
 
 
