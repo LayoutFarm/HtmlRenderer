@@ -176,67 +176,25 @@ namespace LayoutFarm
             }
 #endif
             msgChainVersion = 1;
-            int local_msgVersion = 1; 
+            int local_msgVersion = 1;
 
             HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseDown);
+            int hitCount = this.hitPointChain.Count;
+
             RenderElement hitElement = this.hitPointChain.CurrentHitElement;
-            if (hitElement == this.topwin || hitElement == null)
+            if (hitCount > 0)
             {
+                DisableGraphicOutputFlush = true;
 
-                hitPointChain.SwapHitChain();
-                return;
-            }
+                e.TranslateCanvasOrigin(kbFocusGlobalX, kbFocusGlobalY);
+                e.Location = hitPointChain.CurrentHitPoint;
+                e.SourceHitElement = hitElement;
 
-            DisableGraphicOutputFlush = true;
-
-            e.TranslateCanvasOrigin(kbFocusGlobalX, kbFocusGlobalY);
-            e.Location = hitPointChain.CurrentHitPoint;
-            e.SourceHitElement = hitElement;
-
-            currentMouseActiveElement = hitElement;
-            //---------------------------------------------------------------
-            //propagate : bubble up model *** 
-            bool isOk = false;
-
-            if (this.hitPointChain.TailObject != null)
-            {
-                //if has tail
-                HtmlRenderer.Boxes.CssBoxHitChain boxChain = (HtmlRenderer.Boxes.CssBoxHitChain)this.hitPointChain.TailObject;
-                for (int n = boxChain.Count - 1; n >= 0; --n)
-                {
-                    var hit2 = boxChain.GetHitInfo(n);
-                    var box2 = hit2.hitObject as HtmlRenderer.Boxes.CssBox;
-                    var controller2 = HtmlRenderer.Boxes.CssBox.UnsafeGetController(box2);
-                    if (box2 != null)
-                    {
-                        var box2EvListener = controller2 as IEventListener;
-                        if (box2EvListener != null)
-                        {
-
-                            e.Location = new Point(hit2.localX, hit2.localY);
-                            e.SourceHitElement = box2;
-                            box2EvListener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
-                            //hitElement = box2;                                
-                            if (box2.AcceptKeyboardFocus)
-                            {
-                                this.CurrentKeyboardFocusedElement = box2EvListener;
-                            }
-                            //currentMouseActiveElement = new CssBoxHitWrapper(box2); 
-                            //if (box2.AcceptKeyboardFocus)
-                            //{
-                            //    hitElement = new HtmlRenderer.Boxes.CssBoxHitElement(box2);
-                            //}
-                            //currentMouseActiveElement = new HtmlRenderer.Boxes.CssBoxHitElement(box2); 
-                            isOk = true;
-                            break; //break loop for
-                        }
-                    }
-                }
-
-            }
-            if (!isOk)
-            {
-                for (int i = this.hitPointChain.Count - 1; i >= 0; --i)
+                currentMouseActiveElement = hitElement;
+                //---------------------------------------------------------------
+                //propagate : bubble up model *** 
+                bool isOk = false;
+                for (int i = this.hitPointChain.Count - 1; i >= 0 && !isOk; --i)
                 {
 
                     HitPoint hitPoint = hitPointChain.GetHitPoint(i);
@@ -250,12 +208,95 @@ namespace LayoutFarm
                         currentMouseActiveElement = hitElement;
                         break;
                     }
+                    else
+                    {
+                        var boxChain = (HtmlRenderer.Boxes.CssBoxHitChain)hitPoint.externalObject;
+                        //loop
+                        for (int n = boxChain.Count - 1; n >= 0; --n)
+                        {
+                            var hit2 = boxChain.GetHitInfo(n);
+                            var box2 = hit2.hitObject as HtmlRenderer.Boxes.CssBox;
+                            var controller2 = HtmlRenderer.Boxes.CssBox.UnsafeGetController(box2);
+                            if (box2 != null)
+                            {
+                                var box2EvListener = controller2 as IEventListener;
+                                if (box2EvListener != null)
+                                {
 
+                                    e.Location = new Point(hit2.localX, hit2.localY);
+                                    e.SourceHitElement = box2;
+                                    box2EvListener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
+                                    //hitElement = box2;                                
+                                    if (box2.AcceptKeyboardFocus)
+                                    {
+                                        this.CurrentKeyboardFocusedElement = box2EvListener;
+                                    } 
+                                    isOk = true;
+                                    break; //break loop for
+                                }
+                            }
+                        }
+                    }
                 }
+                //---------------------------------------------------------------
+                //if (this.hitPointChain.TailObject != null)
+                //{
+                //    //if has tail
+                //    HtmlRenderer.Boxes.CssBoxHitChain boxChain = (HtmlRenderer.Boxes.CssBoxHitChain)this.hitPointChain.TailObject;
+                //    for (int n = boxChain.Count - 1; n >= 0; --n)
+                //    {
+                //        var hit2 = boxChain.GetHitInfo(n);
+                //        var box2 = hit2.hitObject as HtmlRenderer.Boxes.CssBox;
+                //        var controller2 = HtmlRenderer.Boxes.CssBox.UnsafeGetController(box2);
+                //        if (box2 != null)
+                //        {
+                //            var box2EvListener = controller2 as IEventListener;
+                //            if (box2EvListener != null)
+                //            {
+
+                //                e.Location = new Point(hit2.localX, hit2.localY);
+                //                e.SourceHitElement = box2;
+                //                box2EvListener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
+                //                //hitElement = box2;                                
+                //                if (box2.AcceptKeyboardFocus)
+                //                {
+                //                    this.CurrentKeyboardFocusedElement = box2EvListener;
+                //                }
+                //                //currentMouseActiveElement = new CssBoxHitWrapper(box2); 
+                //                //if (box2.AcceptKeyboardFocus)
+                //                //{
+                //                //    hitElement = new HtmlRenderer.Boxes.CssBoxHitElement(box2);
+                //                //}
+                //                //currentMouseActiveElement = new HtmlRenderer.Boxes.CssBoxHitElement(box2); 
+                //                isOk = true;
+                //                break; //break loop for
+                //            }
+                //        }
+                //    }
+
+                //}
+                //if (!isOk)
+                //{
+                //    for (int i = this.hitPointChain.Count - 1; i >= 0; --i)
+                //    {
+
+                //        HitPoint hitPoint = hitPointChain.GetHitPoint(i);
+                //        RenderElement hitElem = hitPoint.elem;
+                //        if (hitElem is RenderElement)
+                //        {
+                //            IEventListener listener = hitElem.GetController() as IEventListener;
+                //            listener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
+                //            //may propagate next or not 
+                //            hitElement = hitElem;
+                //            currentMouseActiveElement = hitElement;
+                //            break;
+                //        }
+
+                //    }
+                //}
+                //---------------------------------------------------------------
+
             }
-            //---------------------------------------------------------------
-
-
             //---------------------------------------------------------------
             e.TranslateCanvasOriginBack();
 #if DEBUG
@@ -284,20 +325,20 @@ namespace LayoutFarm
 #endif
             hitPointChain.SwapHitChain();
 
-            if (hitElement.ParentLink == null)
-            {
-                currentMouseActiveElement = null;
-                return;
-            }
+            //if (hitElement.ParentLink == null)
+            //{
+            //    currentMouseActiveElement = null;
+            //    return;
+            //}
 
             if (local_msgVersion != msgChainVersion)
             {
                 return;
             }
-            if (hitElement.Focusable)
-            {
-                this.CurrentKeyboardFocusedElement = hitElement.GetController() as IEventListener;
-            }
+            //if (hitElement.Focusable)
+            //{
+            //    this.CurrentKeyboardFocusedElement = hitElement.GetController() as IEventListener;
+            //}
             DisableGraphicOutputFlush = false;
             FlushAccumGraphicUpdate();
 
@@ -434,6 +475,7 @@ namespace LayoutFarm
               UIEventName.DragStart);
 
             currentDragingElement = this.hitPointChain.CurrentHitElement;
+
             if (currentDragingElement != null &&
                 currentDragingElement != this.topwin)
             {
@@ -674,65 +716,65 @@ namespace LayoutFarm
                 this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("MOUSEUP");
                 this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
-
 #endif
 
             HitTestCoreWithPrevChainHint(e.X, e.Y, UIEventName.MouseUp);
-            RenderElement hitElement = this.hitPointChain.CurrentHitElement;
-
-            if (hitElement != null)
+            int hitCount = this.hitPointChain.Count;
+            if (hitCount > 0)
             {
+                RenderElement hitElement = this.hitPointChain.CurrentHitElement;
                 DisableGraphicOutputFlush = true;
 
-                Point globalLocation = hitElement.GetGlobalLocation();
-                e.TranslateCanvasOrigin(globalLocation);
+                //Point globalLocation = hitElement.GetGlobalLocation();
+                //e.TranslateCanvasOrigin(globalLocation);
                 e.Location = hitPointChain.CurrentHitPoint;
                 e.SourceHitElement = hitElement;
-
                 //---------------------------------------------------------------
                 //propagate : bubble up model *** 
                 bool isOk = false;
-                if (hitPointChain.TailObject != null)
+
+                for (int i = this.hitPointChain.Count - 1; i >= 0 && !isOk; --i)
                 {
-                    HtmlRenderer.Boxes.CssBoxHitChain boxChain = (HtmlRenderer.Boxes.CssBoxHitChain)this.hitPointChain.TailObject;
-                    for (int n = boxChain.Count - 1; n >= 0; --n)
+
+                    HitPoint hitPoint = hitPointChain.GetHitPoint(i);
+                    RenderElement hitElem = hitPoint.elem;
+                    if (hitElem is RenderElement)
                     {
-                        var hit2 = boxChain.GetHitInfo(n);
-                        var box2 = hit2.hitObject as HtmlRenderer.Boxes.CssBox;
-                        var controller2 = HtmlRenderer.Boxes.CssBox.UnsafeGetController(box2);
-                        if (box2 != null)
-                        {
-                            var box2EvListener = controller2 as IEventListener;
-                            if (box2EvListener != null)
-                            {
-
-                                e.Location = new Point(hit2.localX, hit2.localY);
-                                e.SourceHitElement = box2;
-                                box2EvListener.ListenMouseEvent(UIMouseEventName.MouseUp, e);
-
-                                if (box2.AcceptKeyboardFocus)
-                                {
-                                    this.CurrentKeyboardFocusedElement = box2EvListener;
-                                }
-                                isOk = true;
-                                break; //break loop for
-                            }
-                        }
-                    }
-                }
-                if (!isOk)
-                {
-                    for (int i = this.hitPointChain.Count - 1; i >= 0; --i)
-                    {
-
-                        HitPoint hitPoint = hitPointChain.GetHitPoint(i);
-                        RenderElement hitElem = hitPoint.elem;
                         IEventListener listener = hitElem.GetController() as IEventListener;
-                        listener.ListenMouseEvent(UIMouseEventName.MouseUp, e);
+                        listener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
                         //may propagate next or not 
                         hitElement = hitElem;
                         currentMouseActiveElement = hitElement;
                         break;
+                    }
+                    else
+                    {
+                        var boxChain = (HtmlRenderer.Boxes.CssBoxHitChain)hitPoint.externalObject;
+                        //loop
+                        for (int n = boxChain.Count - 1; n >= 0; --n)
+                        {
+                            var hit2 = boxChain.GetHitInfo(n);
+                            var box2 = hit2.hitObject as HtmlRenderer.Boxes.CssBox;
+                            var controller2 = HtmlRenderer.Boxes.CssBox.UnsafeGetController(box2);
+                            if (box2 != null)
+                            {
+                                var box2EvListener = controller2 as IEventListener;
+                                if (box2EvListener != null)
+                                {
+
+                                    e.Location = new Point(hit2.localX, hit2.localY);
+                                    e.SourceHitElement = box2;
+                                    box2EvListener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
+                                    //hitElement = box2;                                
+                                    if (box2.AcceptKeyboardFocus)
+                                    {
+                                        this.CurrentKeyboardFocusedElement = box2EvListener;
+                                    }
+                                    isOk = true;
+                                    break; //break loop for
+                                }
+                            }
+                        }
                     }
                 }
                 //--------------------------------------------------------------- 
@@ -783,7 +825,7 @@ namespace LayoutFarm
 
 
                 e.TranslateCanvasOriginBack();
-            } 
+            }
         }
         public void OnKeyPress(UIKeyPressEventArgs e)
         {

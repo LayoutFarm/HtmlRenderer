@@ -86,22 +86,21 @@ namespace LayoutFarm
         }
         public override void AddExternalHitObject(object hitObject)
         {
-             
+            currentHitChain.Add(new HitPoint(hitObject, new Point(testPointX, testPointY)));
         }
-       
+        
         public void SwapHitChain()
         {
             if (currentHitChain == hitChainA)
             {
                 prevHitChain = hitChainA;
                 currentHitChain = hitChainB;
-                this.TailObject = null;
+                
             }
             else
             {
                 prevHitChain = hitChainB;
-                currentHitChain = hitChainA;
-                this.TailObject = null;
+                currentHitChain = hitChainA; 
                 
             }
             currentHitChain.Clear();

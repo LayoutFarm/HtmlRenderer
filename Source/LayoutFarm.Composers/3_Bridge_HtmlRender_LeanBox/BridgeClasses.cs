@@ -58,7 +58,7 @@ namespace LayoutFarm
             if (boxHitChain.Count > 0)
             {
                 hitChain.AddExternalHitObject(boxHitChain);
-                hitChain.TailObject = boxHitChain;
+                
             }
         }
     }

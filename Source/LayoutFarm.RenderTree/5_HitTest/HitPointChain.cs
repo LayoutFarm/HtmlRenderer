@@ -156,11 +156,7 @@ namespace LayoutFarm
         public abstract void RemoveDragHitElement(RenderElement element);
         public abstract IEnumerable<RenderElement> GetDragHitElementIter();
         public abstract int DragHitElementCount { get; }
-        public object TailObject
-        {
-            get;
-            set;
-        }
+       
 
 #if DEBUG
         public bool dbugBreak;
