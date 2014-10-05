@@ -50,6 +50,8 @@
     <Compile Include="2_Bridge_HtmlRenderer_WebDom\BoxCreator.cs" />
     <Compile Include="2_Bridge_HtmlRenderer_WebDom\BridgeHtmlDocument.cs" />
     <Compile Include="3_Bridge_HtmlRender_LeanBox\BridgeClasses.cs" />
+    <Compile Include="3_Bridge_HtmlRender_LeanBox\HitObjectWrapper.cs" />
+    <Compile Include="3_Bridge_HtmlRender_LeanBox\HitRenderElementWrapper.cs" />
     <Compile Include="3_Bridge_HtmlRender_LeanBox\HtmlInputEventBridge.cs">
       <SubType>Code</SubType>
     </Compile>

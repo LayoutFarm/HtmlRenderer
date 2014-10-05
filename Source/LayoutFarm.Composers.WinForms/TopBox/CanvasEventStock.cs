@@ -155,7 +155,7 @@ namespace LayoutFarm
         }
         Stack<UIFocusEventArgs> canvasFocusEventsQ = new Stack<UIFocusEventArgs>();
 
-        public UIFocusEventArgs GetFreeFocusEventArgs(HitObjectWrapper tobeFocusElement, HitObjectWrapper tobeLostFocusElement)
+        public UIFocusEventArgs GetFreeFocusEventArgs(RenderElement tobeFocusElement, RenderElement tobeLostFocusElement)
         {
             if (canvasFocusEventsQ.Count > 0)
             {
@@ -190,11 +190,11 @@ namespace LayoutFarm
             UIDragEventArgs e = null;
             if (dragEventQ.Count > 0)
             {
-                e = dragEventQ.Pop(); 
+                e = dragEventQ.Pop();
             }
             else
             {
-                e = new UIDragEventArgs(); 
+                e = new UIDragEventArgs();
             }
             e.SetEventInfo(p, button,
                 lastestLogicalViewportMouseDownX,

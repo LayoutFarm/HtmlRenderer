@@ -17,7 +17,7 @@ namespace LayoutFarm
         int lastestXDiff, lastestYDiff;
 
         public UIMouseEventType EventType;
-        public HitObjectWrapper DragingElement;
+        public RenderElement DragingElement;
         public UIMouseEventArgs MouseInfo;
 
         

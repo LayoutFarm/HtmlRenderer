@@ -213,7 +213,7 @@ namespace LayoutFarm
                     hitChain.OffsetTestPoint(-b_left, -b_top);
                 }
 
-                hitChain.AddHit(new HitRenderElementWrapper(this));
+                hitChain.AddHit(this);
 
                 if (this.MayHasChild)
                 {
@@ -232,7 +232,7 @@ namespace LayoutFarm
                 }
 
                 if ((uiFlags & TRANSPARENT_FOR_ALL_EVENTS) != 0 &&
-                    hitChain.CurrentHitElement.HitObject == this)
+                    hitChain.CurrentHitElement  == this)
                 {
                     hitChain.RemoveCurrentHitNode();
                     return false;

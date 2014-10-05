@@ -12,7 +12,9 @@ namespace LayoutFarm
         List<HitPoint> prevHitChain;
         readonly List<HitPoint> hitChainA = new List<HitPoint>();
         readonly List<HitPoint> hitChainB = new List<HitPoint>();
-        List<HitObjectWrapper> dragHitElements = new List<HitObjectWrapper>();
+        
+
+        List<RenderElement> dragHitElements = new List<RenderElement>();
 
         public MyHitPointChain()
         {
@@ -58,7 +60,7 @@ namespace LayoutFarm
         {
             get { return currentHitChain[currentHitChain.Count - 1].point; }
         }
-        public override HitObjectWrapper CurrentHitElement
+        public override RenderElement CurrentHitElement
         {
             get
             {
@@ -72,7 +74,7 @@ namespace LayoutFarm
                 }
             }
         }
-        public override void AddHit(HitObjectWrapper hitElement)
+        public override void AddHit(RenderElement hitElement)
         {
 
 
@@ -80,27 +82,31 @@ namespace LayoutFarm
 #if DEBUG
             dbugHitTracker.WriteTrackNode(currentHitChain.Count,
                 new Point(testPointX, testPointY).ToString() + " on "
-                + hitElement.ElementBoundRect.ToString() + hitElement.GetType().Name);
+                + hitElement.BoundRect.ToString() + hitElement.GetType().Name);
 #endif
 
         }
 
+       
         public void SwapHitChain()
         {
             if (currentHitChain == hitChainA)
             {
                 prevHitChain = hitChainA;
                 currentHitChain = hitChainB;
+                this.TailObject = null;
             }
             else
             {
                 prevHitChain = hitChainB;
                 currentHitChain = hitChainA;
+                this.TailObject = null;
+                
             }
             currentHitChain.Clear();
         }
 
-        public HitObjectWrapper HitTestOnPrevChain()
+        public RenderElement HitTestOnPrevChain()
         {
             if (prevHitChain.Count > 0)
             {
@@ -108,16 +114,16 @@ namespace LayoutFarm
                 {
                     //top down test
 
-                    HitObjectWrapper elem = hp.elem;
-                    if (elem != null && elem.IsTestable())
+                    RenderElement elem = hp.elem;
+                    if (elem != null && elem.IsTestable)
                     {
                         if (elem.Contains(hp.point))
                         {
-                            HitObjectWrapper foundOverlapChild = elem.FindOverlapSibling(hp.point);
+                            RenderElement foundOverlapChild = elem.FindOverlapedChildElementAtPoint(elem, hp.point);
 
                             if (foundOverlapChild == null)
                             {
-                                Point leftTop = elem.ElementLocation;
+                                Point leftTop = elem.Location;
                                 globalOffsetX -= leftTop.X;
                                 globalOffsetY -= leftTop.Y;
                                 testPointX += leftTop.X;
@@ -158,15 +164,15 @@ namespace LayoutFarm
         {
             dragHitElements.Clear();
         }
-        public override void AddDragHitElement(HitObjectWrapper element)
+        public override void AddDragHitElement(RenderElement element)
         {
             dragHitElements.Add(element);
         }
-        public override void RemoveDragHitElement(HitObjectWrapper element)
+        public override void RemoveDragHitElement(RenderElement element)
         {
             dragHitElements.Remove(element);
         }
-        public override IEnumerable<HitObjectWrapper> GetDragHitElementIter()
+        public override IEnumerable<RenderElement> GetDragHitElementIter()
         {
             int j = dragHitElements.Count;
             for (int i = 0; i < j; ++i)

@@ -10,11 +10,11 @@ namespace LayoutFarm
     public struct HitPoint
     {
         public Point point;
-        public HitObjectWrapper elem;
+        public RenderElement elem;
 
         public static readonly HitPoint Empty = new HitPoint();
 
-        public HitPoint(HitObjectWrapper elem, Point point)
+        public HitPoint(RenderElement elem, Point point)
         {
             this.point = point;
             this.elem = elem;
@@ -121,10 +121,10 @@ namespace LayoutFarm
         
 
         public abstract Point PrevHitPoint { get; }
-        public abstract HitObjectWrapper CurrentHitElement { get; }
+        public abstract RenderElement CurrentHitElement { get; }
         public abstract Point CurrentHitPoint { get; }
 
-        public abstract void AddHit(HitObjectWrapper hitElement);        
+        public abstract void AddHit(RenderElement hitElement);        
         public abstract void RemoveCurrentHitNode();
 
         public int LastestElementGlobalX
@@ -145,11 +145,15 @@ namespace LayoutFarm
         //-----------------------------------------------------
         //element dragging feature , plan move to another place ?
         public abstract void ClearDragHitElements();
-        public abstract void AddDragHitElement(HitObjectWrapper element);
-        public abstract void RemoveDragHitElement(HitObjectWrapper element);
-        public abstract IEnumerable<HitObjectWrapper> GetDragHitElementIter();
+        public abstract void AddDragHitElement(RenderElement element);
+        public abstract void RemoveDragHitElement(RenderElement element);
+        public abstract IEnumerable<RenderElement> GetDragHitElementIter();
         public abstract int DragHitElementCount { get; }
-
+        public object TailObject
+        {
+            get;
+            set;
+        }
 #if DEBUG
         public bool dbugBreak;
 #endif
