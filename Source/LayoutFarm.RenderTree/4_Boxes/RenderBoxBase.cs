@@ -21,8 +21,8 @@ namespace LayoutFarm
         public RenderBoxBase(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
         {
-            SetMayHasViewport(this, true);
-            SetMayHasChild(this, true);
+            this.MayHasViewport = true;
+            this.MayHasChild = true;
         }
         public VisualLayerCollection Layers
         {
@@ -31,7 +31,7 @@ namespace LayoutFarm
         }
         public sealed override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
         {
-            
+
             canvasPage.OffsetCanvasOrigin(-myviewportX, -myviewportY);
             updateArea.Offset(myviewportX, myviewportY);
 
@@ -112,11 +112,11 @@ namespace LayoutFarm
                 layers.PrepareOriginalChildContentDrawingChain(chain);
             }
         }
-        public virtual void ChildrenHitTestCore(HitPointChain artHitResult)
+        public override void ChildrenHitTestCore(HitChain hitChain)
         {
             if (this.layers != null)
             {
-                layers.ChildrenHitTestCore(artHitResult);
+                layers.ChildrenHitTestCore(hitChain);
             }
         }
 

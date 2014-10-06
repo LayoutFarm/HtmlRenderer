@@ -51,7 +51,7 @@ namespace HtmlRenderer.Boxes
 
 
 
-    public class BoxHitChain
+    public class CssBoxHitChain
     {
 
         float globalOffsetX;
@@ -61,7 +61,7 @@ namespace HtmlRenderer.Boxes
         int rootGlobalY;
 
         List<HitInfo> hitInfoList = new List<HitInfo>();
-        public BoxHitChain()
+        public CssBoxHitChain()
         {
 
         }

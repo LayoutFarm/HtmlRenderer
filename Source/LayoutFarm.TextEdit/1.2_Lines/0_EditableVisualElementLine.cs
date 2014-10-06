@@ -108,7 +108,7 @@ namespace LayoutFarm.Text
             }
         }
 
-        internal bool HitTestCore(HitPointChain hitChain)
+        internal bool HitTestCore(HitChain hitChain)
         {
 
             int testX;

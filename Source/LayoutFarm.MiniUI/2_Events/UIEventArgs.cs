@@ -53,16 +53,7 @@ namespace LayoutFarm
             this.winRoot = null;
         }
 
-
-        public RenderElement SourceRenderElement
-        {
-            get
-            {
-                return SourceHitElement as RenderElement;
-            }
-
-        }
-        public IHitElement SourceHitElement
+        public object SourceHitElement
         {
             get;
             set;
@@ -152,8 +143,8 @@ namespace LayoutFarm
         {
             if (dx != 0 || dy != 0)
             {
-                x -= dx; 
-                y -= dy; 
+                x -= dx;
+                y -= dy;
                 canvasXOrigin += dx;
                 canvasYOrigin += dy;
             }
@@ -422,8 +413,8 @@ namespace LayoutFarm
 
     public class UIFocusEventArgs : UIEventArgs
     {
-        IHitElement tobeFocusElement;
-        IHitElement tobeLostFocusElement;
+        object tobeFocusElement;
+        object tobeLostFocusElement;
         FocusEventType focusEventType = FocusEventType.PreviewLostFocus;
         public UIFocusEventArgs()
         {
@@ -440,7 +431,7 @@ namespace LayoutFarm
                 focusEventType = value;
             }
         }
-        public IHitElement ToBeFocusElement
+        public object ToBeFocusElement
         {
             get
             {
@@ -451,7 +442,7 @@ namespace LayoutFarm
                 tobeFocusElement = value;
             }
         }
-        public IHitElement ToBeLostFocusElement
+        public object ToBeLostFocusElement
         {
             get
             {

@@ -9,23 +9,25 @@ namespace LayoutFarm
 {
     public struct HitPoint
     {
-        public Point point;
-        public IHitElement elem;
+        public readonly Point point;
+        public readonly object hitObject;
 
         public static readonly HitPoint Empty = new HitPoint();
 
-        public HitPoint(IHitElement elem, Point point)
+
+        public HitPoint(object hitObject, Point point)
         {
             this.point = point;
-            this.elem = elem;
+            this.hitObject = hitObject; 
         }
+
         public static bool operator ==(HitPoint pair1, HitPoint pair2)
         {
-            return ((pair1.elem == pair2.elem) && (pair1.point == pair2.point));
+            return ((pair1.hitObject == pair2.hitObject) && (pair1.point == pair2.point));
         }
         public static bool operator !=(HitPoint pair1, HitPoint pair2)
         {
-            return ((pair1.elem == pair2.elem) && (pair1.point == pair2.point));
+            return ((pair1.hitObject == pair2.hitObject) && (pair1.point == pair2.point));
         }
 
         public override int GetHashCode()
@@ -36,18 +38,18 @@ namespace LayoutFarm
         {
             return base.Equals(obj);
         }
-
+        
 #if DEBUG
         public override string ToString()
         {
-            return elem.ToString();
+            return hitObject.ToString();
         }
 #endif
     }
 
 
 
-    public abstract class HitPointChain
+    public abstract class HitChain
     {
 
         protected int globalOffsetX = 0;
@@ -59,7 +61,7 @@ namespace LayoutFarm
         protected int testPointX;
         protected int testPointY;
 
-        public HitPointChain()
+        public HitChain()
         {
 
         }
@@ -115,17 +117,16 @@ namespace LayoutFarm
         }
         protected abstract void OnClearAll();
 
-
         public abstract int Count { get; }
         public abstract HitPoint GetHitPoint(int index);
-        
 
         public abstract Point PrevHitPoint { get; }
-        public abstract IHitElement CurrentHitElement { get; }
+        public abstract RenderElement CurrentHitElement { get; }
         public abstract Point CurrentHitPoint { get; }
 
-        public abstract void AddHit(IHitElement hitElement);        
-        public abstract void RemoveCurrentHitNode();
+       
+        public abstract void AddHitObject(object hitObject);
+        public abstract void RemoveCurrentHit();
 
         public int LastestElementGlobalX
         {
@@ -141,14 +142,14 @@ namespace LayoutFarm
                 return globalOffsetY;
             }
         }
-
         //-----------------------------------------------------
         //element dragging feature , plan move to another place ?
         public abstract void ClearDragHitElements();
-        public abstract void AddDragHitElement(IHitElement element);
-        public abstract void RemoveDragHitElement(IHitElement element);
-        public abstract IEnumerable<IHitElement> GetDragHitElementIter();
+        public abstract void AddDragHitElement(RenderElement element);
+        public abstract void RemoveDragHitElement(RenderElement element);
+        public abstract IEnumerable<RenderElement> GetDragHitElementIter();
         public abstract int DragHitElementCount { get; }
+       
 
 #if DEBUG
         public bool dbugBreak;

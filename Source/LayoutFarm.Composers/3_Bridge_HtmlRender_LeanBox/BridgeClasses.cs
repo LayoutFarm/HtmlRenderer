@@ -41,23 +41,25 @@ namespace LayoutFarm
             myHtmlIsland.CheckDocUpdate();
             myHtmlIsland.PerformPaint(canvasPage);
         }
-        public override void ChildrenHitTestCore(HitPointChain hitChain)
+        public override void ChildrenHitTestCore(HitChain hitChain)
         {
             // bridge to another system
-            // test only ***
-
+            // test only *** 
 
             //hit test in another system ***  
-            BoxHitChain boxHitChain = new BoxHitChain();
+            CssBoxHitChain boxHitChain = new CssBoxHitChain();
             //_latestMouseDownHitChain = hitChain;
             Point testPoint = hitChain.TestPoint;
             boxHitChain.SetRootGlobalPosition(testPoint.X, testPoint.Y);
             ////1. prob hit chain only
             BoxUtils.HitTest(myHtmlIsland.GetRootCssBox(), testPoint.X, testPoint.Y, boxHitChain);
             ///-----------------------------
-            //add box hit chain to hit point chain  
-            hitChain.AddHit(new BoxHitChainWrapper(boxHitChain));
-
+            //add box hit chain to hit point chain    
+            if (boxHitChain.Count > 0)
+            {
+                hitChain.AddHitObject(boxHitChain);
+                
+            }
         }
     }
 
@@ -66,7 +68,6 @@ namespace LayoutFarm
     {
 
         CssBoxInsideRenderElement wrapper;
-
         int globalXForRenderElement;
         int globalYForRenderElement;
 
@@ -94,11 +95,12 @@ namespace LayoutFarm
 
 
         }
+
+
         protected override Point GetElementGlobalLocationImpl()
         {
             return new Point(globalXForRenderElement, globalYForRenderElement);
         }
-
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
             this.SetSize(100, 20);
@@ -115,7 +117,6 @@ namespace LayoutFarm
             //} 
             //this.SetSize(500, 500);
         }
-
         protected override void PaintImp(IGraphics g, Painter p)
         {
             if (wrapper != null)
@@ -126,7 +127,7 @@ namespace LayoutFarm
                 LayoutFarm.InternalRect rect = LayoutFarm.InternalRect.CreateFromRect(
                     new Rectangle(0, 0, wrapper.Width, wrapper.Height));
                 var canvas = g.CurrentCanvas;
-                this.wrapper.DrawToThisPage(canvas, rect); 
+                this.wrapper.DrawToThisPage(canvas, rect);
                 LayoutFarm.InternalRect.FreeInternalRect(rect);
 
             }
@@ -194,7 +195,7 @@ namespace LayoutFarm
             {
                 get
                 {
-                    //return base.BubbleUpX;
+                     
                     return this.AdjustX;
                 }
             }
@@ -202,25 +203,15 @@ namespace LayoutFarm
             {
                 get
                 {
-                    return this.AdjustY;
-                    //return base.BubbleUpY;
-                    //return this.AdjustY;
+                    return this.AdjustY; 
                 }
             }
 
             public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
             {
                 int x = this.adjustX;
-                int y = this.adjustY;
-
-                // canvasPage.OffsetCanvasOrigin(x, y);
-                //updateArea.Offset(-x, -y);
-
-
-                renderElement.CustomDrawToThisPage(canvasPage, updateArea);
-
-                //canvasPage.OffsetCanvasOrigin(-x, -y);
-                //updateArea.Offset(x, y);
+                int y = this.adjustY; 
+                renderElement.CustomDrawToThisPage(canvasPage, updateArea);                
 
             }
         }
@@ -316,80 +307,7 @@ namespace LayoutFarm
 #endif
         }
     }
-
-
-
-
-
-
-
-
-
-
-    public class BoxHitChainWrapper : LayoutFarm.IHitElement
-    {
-        object controller;
-        BoxHitChain boxHitChain;
-        public BoxHitChainWrapper(BoxHitChain boxHitChain)
-        {
-            this.boxHitChain = boxHitChain;
-            this.controller = boxHitChain;
-        }
-        public object GetController()
-        {
-            return controller;
-        }
-        public void SetController(object controller)
-        {
-            this.controller = controller;
-        }
-        bool IHitElement.IsTestable()
-        {
-            return true;
-        }
-        IHitElement IHitElement.FindOverlapSibling(Drawing.Point p)
-        {
-            return null;
-        }
-        Point IHitElement.ElementLocation
-        {
-            get { return Point.Empty; }
-        }
-        Point IHitElement.GetElementGlobalLocation()
-        {
-            return Point.Empty;
-        }
-        Rectangle IHitElement.ElementBoundRect
-        {
-            get { return Rectangle.Empty; }
-        }
-        bool IHitElement.Focusable
-        {
-            get { return false; }
-        }
-        bool IHitElement.HasParent
-        {
-            get { return true; }
-        }
-        bool IHitElement.ContainsSubChain
-        {
-            get { return true; }
-        }
-        bool IHitElement.Contains(LayoutFarm.Drawing.Point p)
-        {
-            return true;
-        }
-
-        bool IHitElement.HitTestCore(HitPointChain chain)
-        {
-            return true;
-        }
-
-        public BoxHitChain HitChain
-        {
-            get { return this.boxHitChain; }
-        }
-    }
+     
 }
 
 

@@ -183,7 +183,7 @@ namespace LayoutFarm
                 }
             }
         }
-        public static void ChildrenHitTestCore(this VisualLayerCollection layers, HitPointChain hitChain)
+        public static void ChildrenHitTestCore(this VisualLayerCollection layers, HitChain hitChain)
         {
             if (layers == null) return;
 

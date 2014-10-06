@@ -6,15 +6,17 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm
 {
-    class MyHitPointChain : HitPointChain
+    class MyHitChain : HitChain
     {
         List<HitPoint> currentHitChain;
         List<HitPoint> prevHitChain;
         readonly List<HitPoint> hitChainA = new List<HitPoint>();
         readonly List<HitPoint> hitChainB = new List<HitPoint>();
-        List<IHitElement> dragHitElements = new List<IHitElement>();
+        
 
-        public MyHitPointChain()
+        List<RenderElement> dragHitElements = new List<RenderElement>();
+
+        public MyHitChain()
         {
             currentHitChain = hitChainA;
             prevHitChain = hitChainB;
@@ -24,7 +26,7 @@ namespace LayoutFarm
             currentHitChain.Clear();
             prevHitChain.Clear();
         }
-        public override void RemoveCurrentHitNode()
+        public override void RemoveCurrentHit()
         {
             if (currentHitChain.Count > 0)
             {
@@ -58,66 +60,66 @@ namespace LayoutFarm
         {
             get { return currentHitChain[currentHitChain.Count - 1].point; }
         }
-        public override IHitElement CurrentHitElement
+        public override RenderElement CurrentHitElement
         {
             get
             {
                 if (currentHitChain.Count > 0)
                 {
-                    return currentHitChain[currentHitChain.Count - 1].elem;
+                    return currentHitChain[currentHitChain.Count - 1].hitObject as RenderElement;
                 }
                 else
                 {
                     return null;
                 }
             }
-        }
-        public override void AddHit(IHitElement hitElement)
+        } 
+        public override void AddHitObject(object hitObject)
         {
-
-
-            currentHitChain.Add(new HitPoint(hitElement, new Point(testPointX, testPointY)));
+            currentHitChain.Add(new HitPoint(hitObject, new Point(testPointX, testPointY)));
 #if DEBUG
             dbugHitTracker.WriteTrackNode(currentHitChain.Count,
                 new Point(testPointX, testPointY).ToString() + " on "
-                + hitElement.ElementBoundRect.ToString() + hitElement.GetType().Name);
+                + hitObject.ToString());
 #endif
-
         }
-
+        
         public void SwapHitChain()
         {
             if (currentHitChain == hitChainA)
             {
                 prevHitChain = hitChainA;
                 currentHitChain = hitChainB;
+                
             }
             else
             {
                 prevHitChain = hitChainB;
-                currentHitChain = hitChainA;
+                currentHitChain = hitChainA; 
+                
             }
             currentHitChain.Clear();
         }
 
-        public IHitElement HitTestOnPrevChain()
+
+        
+        public RenderElement HitTestOnPrevChain()
         {
             if (prevHitChain.Count > 0)
             {
                 foreach (HitPoint hp in prevHitChain)
                 {
                     //top down test
-
-                    IHitElement elem = hp.elem;
-                    if (elem != null && elem.IsTestable())
+                    RenderElement elem = hp.hitObject as RenderElement;
+                    if (elem != null && elem.IsTestable)
                     {
                         if (elem.Contains(hp.point))
                         {
-                            IHitElement foundOverlapChild = elem.FindOverlapSibling(hp.point);
+                            RenderElement foundOverlapChild = elem.FindOverlapedChildElementAtPoint(elem, hp.point);
 
                             if (foundOverlapChild == null)
                             {
-                                Point leftTop = elem.ElementLocation;
+                                Point leftTop = elem.Location;
                                 globalOffsetX -= leftTop.X;
                                 globalOffsetY -= leftTop.Y;
                                 testPointX += leftTop.X;
@@ -142,7 +144,7 @@ namespace LayoutFarm
                 }
                 if (currentHitChain.Count > 0)
                 {
-                    return currentHitChain[currentHitChain.Count - 1].elem;
+                    return currentHitChain[currentHitChain.Count - 1].hitObject as RenderElement;
                 }
                 else
                 {
@@ -158,15 +160,15 @@ namespace LayoutFarm
         {
             dragHitElements.Clear();
         }
-        public override void AddDragHitElement(IHitElement element)
+        public override void AddDragHitElement(RenderElement element)
         {
             dragHitElements.Add(element);
         }
-        public override void RemoveDragHitElement(IHitElement element)
+        public override void RemoveDragHitElement(RenderElement element)
         {
             dragHitElements.Remove(element);
         }
-        public override IEnumerable<IHitElement> GetDragHitElementIter()
+        public override IEnumerable<RenderElement> GetDragHitElementIter()
         {
             int j = dragHitElements.Count;
             for (int i = 0; i < j; ++i)

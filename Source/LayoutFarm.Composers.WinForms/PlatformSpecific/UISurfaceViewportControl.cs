@@ -1,9 +1,7 @@
 ﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-
-
+using System.ComponentModel; 
 using System.Text;
 using System.Windows.Forms;
 
@@ -12,13 +10,13 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
 
-
-
-
     public partial class UISurfaceViewportControl : UserControl, ISurfaceViewportControl
     {
         CanvasEventsStock eventStock = new CanvasEventsStock();
+
+        //control graphic output
         CanvasViewport canvasViewport;
+        
         bool isMouseDown = false;
         bool isDraging = false;
 
@@ -217,7 +215,7 @@ namespace LayoutFarm
 
             base.OnMouseDown(e);
 
-            canvasViewport.OnMouseDown(mouseEventArg);
+            canvasViewport.MouseDown(mouseEventArg);
 
             eventStock.ReleaseEventArgs(mouseEventArg);
 
@@ -238,7 +236,7 @@ namespace LayoutFarm
                         xdiff, ydiff);
 
                     dragEventArg.SetWinRoot(this.wintop);
-                    canvasViewport.OnDragStart(dragEventArg);
+                    canvasViewport.DragStart(dragEventArg);
                     isDraging = true;
                     eventStock.ReleaseEventArgs(dragEventArg);
 

@@ -10,14 +10,17 @@ namespace LayoutFarm.UI
         int oneBitNativeEventFlags;
         public UIElement()
         {
-        } 
+        }
         protected void RegisterNativeEvent(int eventFlags)
         {
             this.oneBitNativeEventFlags |= eventFlags;
         }
-
-        public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx); 
-        public abstract void InvalidateGraphic();   
+        public virtual bool AcceptKeyboardFocus
+        {
+            get { return false; }
+        }
+        public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
+        public abstract void InvalidateGraphic();
 
         protected virtual void OnLostFocus(UIFocusEventArgs e)
         {

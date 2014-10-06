@@ -23,6 +23,13 @@ namespace LayoutFarm.SampleControls
         {
             this._multiline = multiline;
         }
+        public override bool AcceptKeyboardFocus
+        {
+            get
+            {
+                return true; 
+            }
+        }
         public void Focus()
         {
             //request keyboard focus
