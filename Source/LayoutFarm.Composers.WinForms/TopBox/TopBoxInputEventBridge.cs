@@ -213,9 +213,9 @@ namespace LayoutFarm
                         }
                     }
                 }
-            } 
+            }
         }
-        
+
 
         public void OnMouseDown(UIMouseEventArgs e)
         {
@@ -320,8 +320,19 @@ namespace LayoutFarm
                     e.Location = hitobj.Location;
                     currentMouseActiveElement.ListenMouseEvent(
                         UIMouseEventName.MouseLeave, e);
+                    currentMouseActiveElement = null;
                 }
-
+                if (currentMouseActiveElement == listener)
+                {
+                    currentMouseActiveElement.ListenMouseEvent(
+                           UIMouseEventName.MouseMove, e);
+                }
+                else
+                {
+                    currentMouseActiveElement = listener;
+                    currentMouseActiveElement.ListenMouseEvent(
+                          UIMouseEventName.MouseEnter, e);
+                }
 
                 return true;//stop
             });

@@ -23,7 +23,7 @@ namespace LayoutFarm
     {
         int x;
         int y;
-        TopWindowRenderBox winRoot;
+       
         UIEventName evName;
         public UIEventArgs()
         {
@@ -39,8 +39,7 @@ namespace LayoutFarm
             x = 0;
             y = 0;
             CancelBubbling = false; 
-            this.winRoot = null;
-           
+         
         }
 
         public object SourceHitElement
@@ -106,17 +105,7 @@ namespace LayoutFarm
                 y -= dy;
             }
         }
-        public TopWindowRenderBox WinRoot
-        {
-            get
-            {
-                return winRoot;
-            }
-        }
-        public void SetWinRoot(TopWindowRenderBox winRoot)
-        {
-            this.winRoot = winRoot;
-        }
+       
         //-----------------------------------------------
         public bool IsCanceled
         {
