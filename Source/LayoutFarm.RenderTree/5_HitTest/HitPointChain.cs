@@ -124,9 +124,9 @@ namespace LayoutFarm
         public abstract RenderElement CurrentHitElement { get; }
         public abstract Point CurrentHitPoint { get; }
 
-        public abstract void AddHit(RenderElement hitElement);
-        public abstract void AddExternalHitObject(object hitObject);
-        public abstract void RemoveCurrentHitNode();
+       
+        public abstract void AddHitObject(object hitObject);
+        public abstract void RemoveCurrentHit();
 
         public int LastestElementGlobalX
         {

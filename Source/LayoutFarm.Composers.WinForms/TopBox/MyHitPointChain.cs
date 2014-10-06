@@ -26,7 +26,7 @@ namespace LayoutFarm
             currentHitChain.Clear();
             prevHitChain.Clear();
         }
-        public override void RemoveCurrentHitNode()
+        public override void RemoveCurrentHit()
         {
             if (currentHitChain.Count > 0)
             {
@@ -73,20 +73,15 @@ namespace LayoutFarm
                     return null;
                 }
             }
-        }
-        public override void AddHit(RenderElement hitElement)
-        {   
-            currentHitChain.Add(new HitPoint(hitElement, new Point(testPointX, testPointY)));
+        } 
+        public override void AddHitObject(object hitObject)
+        {
+            currentHitChain.Add(new HitPoint(hitObject, new Point(testPointX, testPointY)));
 #if DEBUG
             dbugHitTracker.WriteTrackNode(currentHitChain.Count,
                 new Point(testPointX, testPointY).ToString() + " on "
-                + hitElement.BoundRect.ToString() + hitElement.GetType().Name);
+                + hitObject.ToString());
 #endif
-
-        }
-        public override void AddExternalHitObject(object hitObject)
-        {
-            currentHitChain.Add(new HitPoint(hitObject, new Point(testPointX, testPointY)));
         }
         
         public void SwapHitChain()

@@ -26,9 +26,9 @@ namespace LayoutFarm
 
         int msgChainVersion;
         MyTopWindowRenderBox topwin;
-        IEventListener currentKeyboardFocusedElement;
-
+        IEventListener currentKbFocusElem;
         RootGraphic rootGraphic;
+
         public TopBoxInputEventBridge()
         {
 
@@ -50,14 +50,18 @@ namespace LayoutFarm
             get
             {
 
-                return this.currentKeyboardFocusedElement;
+                return this.currentKbFocusElem;
             }
             set
             {
+                //1. lost keyboard focus
+                if (this.currentKbFocusElem != null && this.currentKbFocusElem != value)
+                {
 
 
-                currentKeyboardFocusedElement = value;
-
+                }
+                //2. keyboard focus
+                currentKbFocusElem = value;
 
                 //1. send lost focus to existing ui
 
@@ -81,8 +85,6 @@ namespace LayoutFarm
                 //    kbFocusGlobalX = globalLocation.X;
                 //    kbFocusGlobalY = globalLocation.Y;
                 //    focusEventArg.SetWinRoot(topwin);
-
-
                 //    eventStock.ReleaseEventArgs(focusEventArg);
                 //    if (CurrentFocusElementChanged != null)
                 //    {
@@ -165,14 +167,15 @@ namespace LayoutFarm
 
         delegate bool SimpleAction(IEventListener listener);
 
-        static void ForEachHitBubble(MyHitChain hitPointChain, SimpleAction evaluateListener)
+        static void ForEachEventListener(MyHitChain hitPointChain, SimpleAction evaluateListener)
         {
-            bool stop = false;
-            for (int i = hitPointChain.Count - 1; i >= 0 && !stop; --i)
+            //for known element 
+            for (int i = hitPointChain.Count - 1; i >= 0; --i)
             {
-
                 HitPoint hitPoint = hitPointChain.GetHitPoint(i);
+
                 RenderElement hitElem = hitPoint.hitObject as RenderElement;
+
                 if (hitElem != null)
                 {
                     IEventListener listener = hitElem.GetController() as IEventListener;
@@ -228,9 +231,9 @@ namespace LayoutFarm
                 e.TranslateCanvasOrigin(kbFocusGlobalX, kbFocusGlobalY);
                 e.Location = hitPointChain.CurrentHitPoint;
                 e.SourceHitElement = hitElement;
-                currentMouseActiveElement = hitElement; 
+                currentMouseActiveElement = hitElement;
 
-                ForEachHitBubble(this.hitPointChain, (listener) =>
+                ForEachEventListener(this.hitPointChain, (listener) =>
                 {
                     listener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
                     if (listener.AcceptKeyboardFocus)
@@ -238,7 +241,7 @@ namespace LayoutFarm
                         this.CurrentKeyboardFocusedElement = listener;
                     }
                     return true;
-                }); 
+                });
             }
             //---------------------------------------------------------------
             e.TranslateCanvasOriginBack();
@@ -290,10 +293,7 @@ namespace LayoutFarm
             visualroot.dbugHitTracker.Play = false;
 #endif
 
-        }
-
-
-
+        } 
         public void OnMouseMove(UIMouseEventArgs e)
         {
 
@@ -668,7 +668,7 @@ namespace LayoutFarm
                 e.Location = hitPointChain.CurrentHitPoint;
                 e.SourceHitElement = hitElement;
                 //---------------------------------------------------------------
-                ForEachHitBubble(this.hitPointChain, (listener) =>
+                ForEachEventListener(this.hitPointChain, (listener) =>
                 {
                     listener.ListenMouseEvent(UIMouseEventName.MouseUp, e);
                     if (listener.AcceptKeyboardFocus)
@@ -676,10 +676,10 @@ namespace LayoutFarm
                         this.CurrentKeyboardFocusedElement = listener;
                     }
                     return true;
-                });  
+                });
                 //--------------------------------------------------------------- 
                 e.TranslateCanvasOriginBack();
-                DisableGraphicOutputFlush = false; 
+                DisableGraphicOutputFlush = false;
                 FlushAccumGraphicUpdate();
             }
 
@@ -692,14 +692,14 @@ namespace LayoutFarm
             e.IsAltKeyDown = e.Alt;
             e.IsCtrlKeyDown = e.Control;
 
-            if (currentKeyboardFocusedElement != null)
+            if (currentKbFocusElem != null)
             {
 
                 e.TranslateCanvasOrigin(kbFocusGlobalX, kbFocusGlobalY);
-                e.SourceHitElement = currentKeyboardFocusedElement;
+                e.SourceHitElement = currentKbFocusElem;
 
 
-                currentKeyboardFocusedElement.ListenKeyEvent(UIKeyEventName.KeyDown, e);
+                currentKbFocusElem.ListenKeyEvent(UIKeyEventName.KeyDown, e);
 
                 e.TranslateCanvasOriginBack();
             }
@@ -711,13 +711,13 @@ namespace LayoutFarm
             e.IsAltKeyDown = e.Alt;
             e.IsCtrlKeyDown = e.Control;
 
-            if (currentKeyboardFocusedElement != null)
+            if (currentKbFocusElem != null)
             {
                 e.TranslateCanvasOrigin(kbFocusGlobalX, kbFocusGlobalY);
-                e.SourceHitElement = currentKeyboardFocusedElement;
+                e.SourceHitElement = currentKbFocusElem;
 
 
-                currentKeyboardFocusedElement.ListenKeyEvent(UIKeyEventName.KeyUp, e);
+                currentKbFocusElem.ListenKeyEvent(UIKeyEventName.KeyUp, e);
 
 
                 e.TranslateCanvasOriginBack();
@@ -726,13 +726,13 @@ namespace LayoutFarm
         public void OnKeyPress(UIKeyPressEventArgs e)
         {
 
-            if (currentKeyboardFocusedElement != null)
+            if (currentKbFocusElem != null)
             {
 
                 e.TranslateCanvasOrigin(kbFocusGlobalX, kbFocusGlobalY);
-                e.SourceHitElement = currentKeyboardFocusedElement;
+                e.SourceHitElement = currentKbFocusElem;
 
-                currentKeyboardFocusedElement.ListenKeyPressEvent(e);
+                currentKbFocusElem.ListenKeyPressEvent(e);
 
                 e.TranslateCanvasOriginBack();
             }
@@ -742,15 +742,15 @@ namespace LayoutFarm
         {
 
             bool result = false;
-            if (currentKeyboardFocusedElement != null)
+            if (currentKbFocusElem != null)
             {
                 e.TranslateCanvasOrigin(kbFocusGlobalX, kbFocusGlobalY);
-                e.SourceHitElement = currentKeyboardFocusedElement;
+                e.SourceHitElement = currentKbFocusElem;
 
-                result = currentKeyboardFocusedElement.ListenProcessDialogKey(e);
+                result = currentKbFocusElem.ListenProcessDialogKey(e);
 
 
-                if (result && currentKeyboardFocusedElement != null)
+                if (result && currentKbFocusElem != null)
                 {
 
                     //currentKeyboardFocusedElement.InvalidateGraphic();
