@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
-using System.Windows.Forms; 
+using System.Windows.Forms;
 using LayoutFarm.Drawing;
 
 namespace LayoutFarm
@@ -32,8 +32,8 @@ namespace LayoutFarm
 
             this.canvasViewport = new CanvasViewport(winBridge, wintop, this.Size.ToSize(), 4);
 
-            this.winBridge.BindCanvasViewPort(this.canvasViewport);
-            wintop.CanvasForcePaint += canvasViewport.PaintMe;
+            this.winBridge.BindCanvasViewPort(this.canvasViewport); 
+            this.winBridge.BindWinTop(this.wintop); 
         }
         protected override void OnSizeChanged(EventArgs e)
         {
@@ -68,9 +68,9 @@ namespace LayoutFarm
         }
         public void PaintMe()
         {
-            canvasViewport.PaintMe(this, EventArgs.Empty);
+            canvasViewport.PaintMe();
         }
-        
+
         //-----------------------------------------------------------------------------
         protected override void OnGotFocus(EventArgs e)
         {

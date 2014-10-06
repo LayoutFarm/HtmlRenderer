@@ -23,7 +23,7 @@ namespace LayoutFarm
     {
         int x;
         int y;
-       
+
         UIEventName evName;
         public UIEventArgs()
         {
@@ -35,11 +35,11 @@ namespace LayoutFarm
             set { this.evName = value; }
         }
         public virtual void Clear()
-        {    
+        {
             x = 0;
             y = 0;
-            CancelBubbling = false; 
-         
+            CancelBubbling = false;
+
         }
 
         public object SourceHitElement
@@ -66,7 +66,7 @@ namespace LayoutFarm
         public bool IsCtrlKeyDown
         {
             get;
-            set; 
+            set;
         }
         public Point Location
         {
@@ -80,7 +80,7 @@ namespace LayoutFarm
                 y = value.Y;
             }
         }
-       
+
         public int X
         {
             get
@@ -97,15 +97,12 @@ namespace LayoutFarm
         }
 
 
-        public void OffsetCanvasOrigin(int dx, int dy)
+      
+        public void OffsetCanvasOrigin(Point p)
         {
-            if (dx != 0 || dy != 0)
-            {
-                x -= dx;
-                y -= dy;
-            }
+            x += p.X;
+            y += p.Y;
         }
-       
         //-----------------------------------------------
         public bool IsCanceled
         {
@@ -155,7 +152,7 @@ namespace LayoutFarm
         public void SetEventInfo(Point location, UIMouseButtons button, int clicks, int delta)
         {
             Location = location;
-            
+
             Button = button;
             Clicks = clicks;
             Delta = delta;
@@ -275,7 +272,7 @@ namespace LayoutFarm
         static Stack<UISizeChangedEventArgs> pool = new Stack<UISizeChangedEventArgs>();
         private UISizeChangedEventArgs(RenderElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
         {
-            this.SourceHitElement = sourceElement;             
+            this.SourceHitElement = sourceElement;
             this.Location = new Point(widthDiff, heightDiff);
             this.changeFromSideFlags = changeFromSideFlags;
         }
@@ -291,7 +288,7 @@ namespace LayoutFarm
             if (pool.Count > 0)
             {
                 UISizeChangedEventArgs e = pool.Pop();
-                 
+
                 e.Location = new Point(widthDiff, heightDiff);
                 e.SourceHitElement = sourceElement;
                 e.changeFromSideFlags = changeFromSideFlags;

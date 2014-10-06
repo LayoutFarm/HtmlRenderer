@@ -12,9 +12,9 @@ namespace LayoutFarm
 
     class WinSurfaceViewportControl : ISurfaceViewportControl
     {
-        CanvasEventsStock eventStock = new CanvasEventsStock();  
+        CanvasEventsStock eventStock = new CanvasEventsStock();
         CanvasViewport canvasViewport;
-
+        LayoutFarm.TopBoxInputEventBridge topBoxInputEventBridge = new TopBoxInputEventBridge();
         bool isMouseDown = false;
         bool isDraging = false;
 
@@ -35,6 +35,7 @@ namespace LayoutFarm
         public WinSurfaceViewportControl()
         {
         }
+
         public void BindWindowControl(Control windowControl)
         {
             this.windowControl = windowControl;
@@ -43,13 +44,18 @@ namespace LayoutFarm
         {
             this.canvasViewport = canvasViewport;
         }
-        IntPtr ISurfaceViewportControl.Handle
+        public void BindWinTop(MyTopWindowRenderBox wintop)
         {
-            get
+            //create view port ?
+            this.wintop = wintop;
+            // canvasViewport = new CanvasViewport(this.windowControl, wintop, this.Size.ToSize(), 4);
+            wintop.CanvasForcePaint += (s, e) =>
             {
-                return this.windowControl.Handle;
-            }
+                canvasViewport.PaintMe();
+            };
+            topBoxInputEventBridge.Bind(wintop);
         }
+
         System.Drawing.Size Size
         {
             get { return this.windowControl.Size; }
@@ -62,189 +68,8 @@ namespace LayoutFarm
         {
             get { return this.windowControl.Height; }
         }
-        void SetupWindowRoot(MyTopWindowRenderBox wintop)
-        {
-            //create view port ?
-            this.wintop = wintop;
-            // canvasViewport = new CanvasViewport(this.windowControl, wintop, this.Size.ToSize(), 4);
-            wintop.CanvasForcePaint += canvasViewport.PaintMe;
-        } 
-        public void Invoke(Delegate d, object o)
-        {
-            this.Invoke(d, o);
-        } 
-        public void Close()
-        {
-            canvasViewport.Close();
-        }
-        public void PaintMe()
-        {
-            canvasViewport.PaintMe(this, EventArgs.Empty);
-        }
-        public void ScrollBy(int dx, int dy)
-        {
-            canvasViewport.ScrollBy(dx, dy);
-        }
-        public void ScrollTo(int x, int y)
-        {
-            canvasViewport.ScrollTo(x, y);
-        }
-        public void viewport_HScrollChanged(object sender, UIScrollEventArgs e)
-        {
-            if (HScrollChanged != null)
-            {
-                HScrollChanged.Invoke(sender, e);
-            }
-        }
-        public void viewport_HScrollRequest(object sender, ScrollSurfaceRequestEventArgs e)
-        {
-            if (HScrollRequest != null)
-            {
-                HScrollRequest.Invoke(sender, e);
-            }
-        }
-        public void viewport_VScrollChanged(object sender, UIScrollEventArgs e)
-        {  
-            if (VScrollChanged != null)
-            {
-                VScrollChanged.Invoke(sender, e);
-            }
-        }
-        public void viewport_VScrollRequest(object sender, ScrollSurfaceRequestEventArgs e)
-        {
-            if (VScrollRequest != null)
-            {
-                VScrollRequest.Invoke(sender, e);
-            }
-        }
 
-        public void OnGotFocus(EventArgs e)
-        {
-            UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
-            canvasViewport.OnGotFocus(focusEventArg);
-
-            eventStock.ReleaseEventArgs(focusEventArg);
-        }
-        public void OnLostFocus(EventArgs e)
-        { 
-            UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
-            canvasViewport.OnLostFocus(focusEventArg); 
-            eventStock.ReleaseEventArgs(focusEventArg); 
-        }
-        public void OnDoubleClick(EventArgs e) 
-        { 
-            MouseEventArgs newMouseEventArgs = new MouseEventArgs(MouseButtons.Left, 1,
-                lastestLogicalMouseDownX,
-                lastestLogicalMouseDownY, 0);
-            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop); 
-            SetArtMouseEventArgsInfo(mouseEventArg, newMouseEventArgs);  
-            canvasViewport.OnDoubleClick(mouseEventArg);
-            eventStock.ReleaseEventArgs(mouseEventArg); 
-        }
-
-        public void OnMouseDown(MouseEventArgs e)
-        {
-            MyRootGraphic.CurrentTopWindowRenderBox = this.wintop;
-
-            isMouseDown = true;
-            isDraging = false;
-
-            Point viewLocation = canvasViewport.LogicalViewportLocation;
-            lastestLogicalMouseDownX = (viewLocation.X + e.X);
-            lastestLogicalMouseDownY = (viewLocation.Y + e.Y);
-
-            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
-
-            SetArtMouseEventArgsInfo(mouseEventArg, e); 
-            canvasViewport.MouseDown(mouseEventArg); 
-            eventStock.ReleaseEventArgs(mouseEventArg);
-
-        }
-        public void OnMouseMove(MouseEventArgs e)
-        {
-            Point viewLocation = canvasViewport.LogicalViewportLocation;
-
-            if (isMouseDown)
-            {
-                int xdiff = (viewLocation.X + e.X) - prevLogicalMouseX;
-                int ydiff = (viewLocation.Y + e.Y) - prevLogicalMouseY;
-                if (!isDraging)
-                {
-                    UIDragEventArgs dragEventArg = eventStock.GetFreeDragEventArgs(
-                        e.Location.ToPoint(),
-                        GetArtMouseButton(e.Button),
-                        lastestLogicalMouseDownX, lastestLogicalMouseDownY,
-                        (viewLocation.X + e.X), (viewLocation.Y + e.Y),
-                        xdiff, ydiff);
-
-
-                    canvasViewport.DragStart(dragEventArg);
-                    isDraging = true;
-                    eventStock.ReleaseEventArgs(dragEventArg);
-
-                }
-                else
-                {
-                    if (!(xdiff == 0 && ydiff == 0))
-                    {
-                        UIDragEventArgs dragEventArg = eventStock.GetFreeDragEventArgs(e.Location.ToPoint(),
-                            GetArtMouseButton(e.Button),
-                            lastestLogicalMouseDownX, lastestLogicalMouseDownY,
-                            (viewLocation.X + e.X), (viewLocation.Y + e.Y),
-                            xdiff, ydiff);
-                        canvasViewport.OnDrag(dragEventArg);
-                        eventStock.ReleaseEventArgs(dragEventArg);
-                    }
-                }
-            }
-            else
-            {
-                UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
-
-
-                SetArtMouseEventArgsInfo(mouseEventArg, e);
-                mouseEventArg.SetDiff(
-                    (viewLocation.X + e.X) - prevLogicalMouseX, (viewLocation.Y + e.Y) - prevLogicalMouseY);
-                canvasViewport.OnMouseMove(mouseEventArg);
-                eventStock.ReleaseEventArgs(mouseEventArg);
-            }
-            prevLogicalMouseX = (viewLocation.X + e.X);
-            prevLogicalMouseY = (viewLocation.Y + e.Y);
-
-
-
-        }
-        public void OnMouseUp(MouseEventArgs e)
-        {
-
-            isMouseDown = false;
-            if (isDraging)
-            {
-
-                Point viewLocation = canvasViewport.LogicalViewportLocation;
-
-                var mouseDragEventArg = eventStock.GetFreeDragEventArgs(
-                   e.Location.ToPoint(),
-                   GetArtMouseButton(e.Button),
-                   lastestLogicalMouseDownX, lastestLogicalMouseDownY,
-                   (viewLocation.X + e.X), (viewLocation.Y + e.Y),
-                   (viewLocation.X + e.X) - lastestLogicalMouseDownX, (viewLocation.Y + e.Y) - lastestLogicalMouseDownY);
-
-
-                canvasViewport.OnDragStop(mouseDragEventArg);
-                eventStock.ReleaseEventArgs(mouseDragEventArg);
-
-            }
-            else
-            {
-                UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
-
-                SetArtMouseEventArgsInfo(mouseEventArg, e);
-                canvasViewport.OnMouseUp(mouseEventArg);
-                eventStock.ReleaseEventArgs(mouseEventArg);
-            }
-        }
-        static UIMouseButtons GetArtMouseButton(MouseButtons mouseButton)
+        static UIMouseButtons GetUIMouseButton(MouseButtons mouseButton)
         {
             switch (mouseButton)
             {
@@ -258,31 +83,273 @@ namespace LayoutFarm
                     return UIMouseButtons.Left;
             }
         }
-        static void SetArtMouseEventArgsInfo(UIMouseEventArgs mouseEventArg, MouseEventArgs e)
+        void SetUIMouseEventArgsInfo(UIMouseEventArgs mouseEventArg, MouseEventArgs e)
         {
             mouseEventArg.SetEventInfo(
                 e.Location.ToPoint(),
-                GetArtMouseButton(e.Button),
+                GetUIMouseButton(e.Button),
                 e.Clicks,
                 e.Delta);
+
+            mouseEventArg.OffsetCanvasOrigin(this.canvasViewport.LogicalViewportLocation);
+
         }
+
+        public void Invoke(Delegate d, object o)
+        {
+            this.Invoke(d, o);
+        }
+        public void Close()
+        {
+            canvasViewport.Close();
+        }
+        public void PaintMe()
+        {
+            canvasViewport.PaintMe();
+        }
+        public void ScrollBy(int dx, int dy)
+        {
+            canvasViewport.ScrollBy(dx, dy);
+        }
+        public void ScrollTo(int x, int y)
+        {
+            canvasViewport.ScrollTo(x, y);
+        }
+
+        void ISurfaceViewportControl.viewport_HScrollChanged(object sender, UIScrollEventArgs e)
+        {
+            if (HScrollChanged != null)
+            {
+                HScrollChanged.Invoke(sender, e);
+            }
+        }
+        void ISurfaceViewportControl.viewport_HScrollRequest(object sender, ScrollSurfaceRequestEventArgs e)
+        {
+            if (HScrollRequest != null)
+            {
+                HScrollRequest.Invoke(sender, e);
+            }
+        }
+        void ISurfaceViewportControl.viewport_VScrollChanged(object sender, UIScrollEventArgs e)
+        {
+            if (VScrollChanged != null)
+            {
+                VScrollChanged.Invoke(sender, e);
+            }
+        }
+        void ISurfaceViewportControl.viewport_VScrollRequest(object sender, ScrollSurfaceRequestEventArgs e)
+        {
+            if (VScrollRequest != null)
+            {
+                VScrollRequest.Invoke(sender, e);
+            }
+        }
+        IntPtr ISurfaceViewportControl.Handle
+        {
+            get
+            {
+                return this.windowControl.Handle;
+            }
+        }
+        public void OnGotFocus(EventArgs e)
+        {
+            UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
+            
+            canvasViewport.FullMode = false;
+
+            focusEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
+            topBoxInputEventBridge.OnGotFocus(focusEventArg);
+            canvasViewport.PaintIfNeed();
+
+            eventStock.ReleaseEventArgs(focusEventArg);
+        }
+        public void OnLostFocus(EventArgs e)
+        {
+            UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
+            canvasViewport.FullMode = false; 
+            focusEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
+            topBoxInputEventBridge.OnLostFocus(focusEventArg);
+            eventStock.ReleaseEventArgs(focusEventArg);
+        }
+        public void OnDoubleClick(EventArgs e)
+        {
+            MouseEventArgs newMouseEventArgs = new MouseEventArgs(MouseButtons.Left, 1,
+                lastestLogicalMouseDownX,
+                lastestLogicalMouseDownY, 0);
+
+            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
+            SetUIMouseEventArgsInfo(mouseEventArg, newMouseEventArgs);
+            canvasViewport.FullMode = false;
+            topBoxInputEventBridge.OnDoubleClick(mouseEventArg);
+
+            canvasViewport.PaintIfNeed();
+
+            eventStock.ReleaseEventArgs(mouseEventArg);
+        }
+
+        public void OnMouseDown(MouseEventArgs e)
+        {
+            MyRootGraphic.CurrentTopWindowRenderBox = this.wintop;
+
+            isMouseDown = true;
+            isDraging = false;
+
+            Point viewLocation = canvasViewport.LogicalViewportLocation;
+            lastestLogicalMouseDownX = (viewLocation.X + e.X);
+            lastestLogicalMouseDownY = (viewLocation.Y + e.Y);
+
+
+            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
+            SetUIMouseEventArgsInfo(mouseEventArg, e);
+            canvasViewport.FullMode = false;
+
+            topBoxInputEventBridge.OnMouseDown(mouseEventArg);
+
+            this.canvasViewport.PaintIfNeed();
+            //---------------
+#if DEBUG
+            RootGraphic visualroot = this.wintop.dbugVRoot;
+            if (visualroot.dbug_RecordHitChain)
+            {
+                dbug_rootDocHitChainMsgs.Clear();
+                visualroot.dbug_DumpCurrentHitChain(dbug_rootDocHitChainMsgs);
+                dbug_InvokeHitChainMsg();
+            }
+#endif
+            //----------- 
+            eventStock.ReleaseEventArgs(mouseEventArg);
+        }
+        public void OnMouseMove(MouseEventArgs e)
+        {
+            Point viewLocation = canvasViewport.LogicalViewportLocation;
+
+            if (isMouseDown)
+            {
+                int xdiff = (viewLocation.X + e.X) - prevLogicalMouseX;
+                int ydiff = (viewLocation.Y + e.Y) - prevLogicalMouseY;
+                if (!isDraging)
+                {
+                    UIDragEventArgs dragEventArg = eventStock.GetFreeDragEventArgs(
+                        e.Location.ToPoint(),
+                        GetUIMouseButton(e.Button),
+                        lastestLogicalMouseDownX, lastestLogicalMouseDownY,
+                        (viewLocation.X + e.X), (viewLocation.Y + e.Y),
+                        xdiff, ydiff);
+
+                    dragEventArg.OffsetCanvasOrigin(viewLocation);
+                    canvasViewport.FullMode = false;
+                    this.topBoxInputEventBridge.OnDragStart(dragEventArg);
+                    canvasViewport.PaintIfNeed();
+
+                    isDraging = true;
+                    eventStock.ReleaseEventArgs(dragEventArg);
+
+                }
+                else
+                {
+                    if (!(xdiff == 0 && ydiff == 0))
+                    {
+                        UIDragEventArgs dragEventArg = eventStock.GetFreeDragEventArgs(e.Location.ToPoint(),
+                            GetUIMouseButton(e.Button),
+                            lastestLogicalMouseDownX, lastestLogicalMouseDownY,
+                            (viewLocation.X + e.X), (viewLocation.Y + e.Y),
+                            xdiff, ydiff);
+
+                        canvasViewport.FullMode = false;
+                        dragEventArg.OffsetCanvasOrigin(viewLocation);
+                        topBoxInputEventBridge.OnDrag(dragEventArg);
+                        canvasViewport.PaintIfNeed();
+
+
+                        eventStock.ReleaseEventArgs(dragEventArg);
+                    }
+                }
+            }
+            else
+            {
+                UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
+
+
+                SetUIMouseEventArgsInfo(mouseEventArg, e);
+                mouseEventArg.SetDiff(
+                    (viewLocation.X + e.X) - prevLogicalMouseX, (viewLocation.Y + e.Y) - prevLogicalMouseY);
+
+                mouseEventArg.OffsetCanvasOrigin(viewLocation);
+                topBoxInputEventBridge.OnMouseMove(mouseEventArg);
+
+                canvasViewport.PaintIfNeed();
+
+                eventStock.ReleaseEventArgs(mouseEventArg);
+            }
+            prevLogicalMouseX = (viewLocation.X + e.X);
+            prevLogicalMouseY = (viewLocation.Y + e.Y);
+
+
+
+        }
+        public void OnMouseUp(MouseEventArgs e)
+        {
+
+            isMouseDown = false;
+           
+            if (isDraging)
+            {
+
+
+                Point viewLocation = canvasViewport.LogicalViewportLocation;
+                var mouseDragEventArg = eventStock.GetFreeDragEventArgs(
+                   e.Location.ToPoint(),
+                   GetUIMouseButton(e.Button),
+                   lastestLogicalMouseDownX, lastestLogicalMouseDownY,
+                   (viewLocation.X + e.X), (viewLocation.Y + e.Y),
+                   (viewLocation.X + e.X) - lastestLogicalMouseDownX, (viewLocation.Y + e.Y) - lastestLogicalMouseDownY);
+
+                canvasViewport.FullMode = false;
+                mouseDragEventArg.OffsetCanvasOrigin(viewLocation);
+                topBoxInputEventBridge.OnDragStop(mouseDragEventArg);
+                canvasViewport.PaintIfNeed();
+
+                eventStock.ReleaseEventArgs(mouseDragEventArg);
+
+            }
+            else
+            {
+
+                UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
+
+                SetUIMouseEventArgsInfo(mouseEventArg, e);
+                canvasViewport.FullMode = false;
+                mouseEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
+                topBoxInputEventBridge.OnMouseUp(mouseEventArg);
+                canvasViewport.PaintIfNeed();
+
+                eventStock.ReleaseEventArgs(mouseEventArg);
+            }
+        }
+
         public void OnPaint(PaintEventArgs e)
         {
             if (canvasViewport != null)
             {
-                canvasViewport.SetFullMode(true);
-                canvasViewport.PaintMe(this, e);
+                //temp ? for debug
+                canvasViewport.FullMode = true;
+                canvasViewport.PaintMe();
             }
         }
 
         public void OnMouseWheel(MouseEventArgs e)
         {
+
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
+     
 
+            SetUIMouseEventArgsInfo(mouseEventArg, e);
+            canvasViewport.FullMode = true;
 
-            SetArtMouseEventArgsInfo(mouseEventArg, e);
+            mouseEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
+            topBoxInputEventBridge.OnMouseWheel(mouseEventArg);
+            canvasViewport.PaintIfNeed();
 
-            canvasViewport.OnMouseWheel(mouseEventArg);
             eventStock.ReleaseEventArgs(mouseEventArg);
         }
         public void OnKeyDown(KeyEventArgs e)
@@ -294,7 +361,18 @@ namespace LayoutFarm
 
             SetKeyData(keyEventArgs, e);
 
-            canvasViewport.OnKeyDown(keyEventArgs);
+
+            this.wintop.MyVisualRoot.TempStopCaret();
+            canvasViewport.FullMode = false; 
+            keyEventArgs.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
+#if DEBUG
+            wintop.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+            wintop.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UIKeys)e.KeyData);
+            wintop.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+#endif
+
+            topBoxInputEventBridge.OnKeyDown(keyEventArgs);
+            canvasViewport.PaintIfNeed();
             eventStock.ReleaseEventArgs(keyEventArgs);
         }
         public void OnKeyUp(KeyEventArgs e)
@@ -302,7 +380,16 @@ namespace LayoutFarm
             MyRootGraphic.CurrentTopWindowRenderBox = this.wintop;
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
             SetKeyData(keyEventArgs, e);
-            canvasViewport.OnKeyUp(keyEventArgs);
+ 
+            wintop.MyVisualRoot.TempStopCaret();
+
+            canvasViewport.FullMode = false;
+            keyEventArgs.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
+            topBoxInputEventBridge.OnKeyUp(keyEventArgs);
+
+
+            wintop.MyVisualRoot.TempRunCaret();
+
             eventStock.ReleaseEventArgs(keyEventArgs);
         }
         static void SetKeyData(UIKeyEventArgs keyEventArgs, KeyEventArgs e)
@@ -316,9 +403,22 @@ namespace LayoutFarm
                 return;
             }
 
+            
             UIKeyPressEventArgs keyPressEventArgs = eventStock.GetFreeKeyPressEventArgs();
             keyPressEventArgs.SetKeyChar(e.KeyChar);
-            canvasViewport.OnKeyPress(keyPressEventArgs);
+
+            wintop.MyVisualRoot.TempStopCaret();
+#if DEBUG
+            wintop.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+            wintop.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYPRESS " + e.KeyChar);
+            wintop.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+#endif
+
+            canvasViewport.FullMode = false;
+            keyPressEventArgs.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
+            topBoxInputEventBridge.OnKeyPress(keyPressEventArgs);
+            canvasViewport.PaintIfNeed();
+
 
             eventStock.ReleaseEventArgs(keyPressEventArgs);
         }
@@ -328,12 +428,19 @@ namespace LayoutFarm
             UIKeyEventArgs keyEventArg = eventStock.GetFreeKeyEventArgs();
 
             keyEventArg.KeyData = (int)keyData;
-            if (canvasViewport.OnProcessDialogKey(keyEventArg))
+             
+            wintop.MyVisualRoot.TempStopCaret();
+            canvasViewport.FullMode = false;
+
+            keyEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
+            bool result = topBoxInputEventBridge.OnProcessDialogKey(keyEventArg);
+            eventStock.ReleaseEventArgs(keyEventArg);
+
+            if (result)
             {
-                eventStock.ReleaseEventArgs(keyEventArg);
+                canvasViewport.PaintIfNeed();
                 return true;
             }
-            eventStock.ReleaseEventArgs(keyEventArg);
             return false;
         }
 

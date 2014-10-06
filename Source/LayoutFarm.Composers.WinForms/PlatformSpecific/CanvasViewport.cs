@@ -14,24 +14,23 @@ namespace LayoutFarm
         int viewportWidth;
         int viewportHeight;
 
+        ISurfaceViewportControl outputWindow;
 
         MyTopWindowRenderBox topWindowBox;
-
+        
         QuadPages quadPages = null;
 
         int h_smallChange = 0;
         int h_largeChange = 0;
         int v_smallChange = 0;
         int v_largeChange = 0;
+
         EventHandler<UIInvalidateEventArgs> canvasInvalidateHandler;
         EventHandler<UICursorEventArgs> canvasCursorChangedHandler;
         EventHandler<EventArgs> canvasSizeChangedHandler;
-        bool fullMode = true;
-        ISurfaceViewportControl outputWindow;
-
+        bool fullMode = true; 
         bool isClosed;//is this viewport closed
-        LayoutFarm.TopBoxInputEventBridge topBoxInputEventBridge = new TopBoxInputEventBridge();
-
+        
         public CanvasViewport(ISurfaceViewportControl outputWindow,
             MyTopWindowRenderBox wintop,
             Size viewportSize, int cachedPageNum)
@@ -57,9 +56,12 @@ namespace LayoutFarm
             viewportY = 0;
             CalculateCanvasPages();
             EvaluateScrollBar();
+             
+        }
 
-
-            topBoxInputEventBridge.Bind(wintop);
+        ~CanvasViewport()
+        {
+            quadPages.Dispose();
         }
 
         public void UpdateCanvasViewportSize(int viewportWidth, int viewportHeight)
@@ -78,11 +80,7 @@ namespace LayoutFarm
 
         }
 
-        ~CanvasViewport()
-        {
-            quadPages.Dispose();
-        }
-
+       
 
         void Canvas_CursorChange(object sender, UICursorEventArgs e)
         {
@@ -103,9 +101,14 @@ namespace LayoutFarm
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hdc);
 
-
-
-        void PaintMe()
+        internal void PaintIfNeed()
+        {
+            if (!quadPages.IsValid)
+            {
+                PaintMe();
+            }
+        }
+        public void PaintMe()
         {
             if (isClosed) return;
             //------------------------------------
@@ -154,215 +157,22 @@ namespace LayoutFarm
 #endif
         }
 
-        public void PaintMe(object sender, EventArgs e)
-        {
-            PaintMe();
-        }
+        
 
 #if DEBUG
         int debug_render_to_output_count = -1;
-#endif
-        internal void OnMouseMove(UIMouseEventArgs e)
+#endif   
+
+        public int ViewportX { get { return this.viewportX; } }
+        public int ViewportY { get { return this.viewportY; } }
+        internal bool FullMode
         {
-            e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            topBoxInputEventBridge.OnMouseMove(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY);
-
-            if (!quadPages.IsValid)
-            {
-                PaintMe();
-            }
+            get { return this.fullMode; }
+            set { this.fullMode = value; }
         }
-
-        internal void OnDoubleClick(UIMouseEventArgs e)
-        {
-
-            e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            topBoxInputEventBridge.OnDoubleClick(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY);
-
-            if (!quadPages.IsValid)
-            {
-                PaintMe();
-            }
-        }
-        internal void OnMouseWheel(UIMouseEventArgs e)
-        {
-            fullMode = true;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            topBoxInputEventBridge.OnMouseWheel(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY);
-
-            if (!quadPages.IsValid)
-            {
-                PaintMe();
-            }
-        }
-        internal void OnMouseUp(UIMouseEventArgs e)
-        {
-#if DEBUG
-            dbugMouseDown = false;
-#endif
-            fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            topBoxInputEventBridge.OnMouseUp(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY);
-
-            if (!quadPages.IsValid)
-            {
-                PaintMe();
-            }
-        }
-        internal void OnLostFocus(UIFocusEventArgs e)
-        {
-
-            fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            topBoxInputEventBridge.OnLostFocus(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY);
-
-        }
-        internal void OnGotFocus(UIFocusEventArgs e)
-        {
-            fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            topBoxInputEventBridge.OnGotFocus(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY);
-
-
-        }
-        internal void OnDrag(UIDragEventArgs e)
-        {
-            fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            topBoxInputEventBridge.OnDrag(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY);
-            if (!quadPages.IsValid)
-            {
-                PaintMe();
-            }
-        }
-#if DEBUG
-        public static bool dbugMouseDown = false;
-#endif
-        internal void MouseDown(UIMouseEventArgs e)
-        {
-
-#if DEBUG
-            dbugMouseDown = true;
-#endif
-            e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            topBoxInputEventBridge.OnMouseDown(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY);
-
-            if (!quadPages.IsValid)
-            {
-                PaintMe();
-            }
-
-#if DEBUG
-            RootGraphic visualroot = topWindowBox.dbugVRoot;
-            if (visualroot.dbug_RecordHitChain)
-            {
-                outputWindow.dbug_rootDocHitChainMsgs.Clear();
-                visualroot.dbug_DumpCurrentHitChain(outputWindow.dbug_rootDocHitChainMsgs);
-                outputWindow.dbug_InvokeHitChainMsg();
-            }
-#endif
-        }
-        internal void DragStart(UIDragEventArgs e)
-        {
-            fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            topBoxInputEventBridge.OnDragStart(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY);
-
-            if (!quadPages.IsValid)
-            {
-                PaintMe();
-            }
-        }
-
-        internal void OnDragStop(UIDragEventArgs e)
-        {
-            fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            topBoxInputEventBridge.OnDragStop(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY);
-
-            if (!quadPages.IsValid)
-            {
-                PaintMe();
-            }
-
-        }
-        internal void OnKeyDown(UIKeyEventArgs e)
-        {
-            topWindowBox.MyVisualRoot.TempStopCaret();
-
-            fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY);
-#if DEBUG
-            topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-            topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UIKeys)e.KeyData);
-            topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-#endif
-
-
-            topBoxInputEventBridge.OnKeyDown(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY);
-
-
-            if (!quadPages.IsValid)
-            {
-                PaintMe();
-            }
-        }
-        internal void OnKeyPress(UIKeyPressEventArgs e)
-        {
-            topWindowBox.MyVisualRoot.TempStopCaret();
-#if DEBUG
-            topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-            topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYPRESS " + e.KeyChar);
-            topWindowBox.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-#endif
-
-            fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            topBoxInputEventBridge.OnKeyPress(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY);
-
-            if (!quadPages.IsValid)
-            {
-                PaintMe();
-            }
-        }
-        internal void OnKeyUp(UIKeyEventArgs e)
-        {
-            topWindowBox.MyVisualRoot.TempStopCaret();
-
-            fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            topBoxInputEventBridge.OnKeyUp(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY);
-
-            topWindowBox.MyVisualRoot.TempRunCaret();
-        }
-        internal bool OnProcessDialogKey(UIKeyEventArgs e)
-        {
-            topWindowBox.MyVisualRoot.TempStopCaret();
-            fullMode = false;
-            e.OffsetCanvasOrigin(-viewportX, -viewportY);
-            bool result = topBoxInputEventBridge.OnProcessDialogKey(e);
-            e.OffsetCanvasOrigin(viewportX, viewportY);
-
-            if (!quadPages.IsValid)
-            {
-                PaintMe();
-            }
-            return result;
-        }
-
+       
+          
+        
         public Point LogicalViewportLocation
         {
             get
@@ -577,10 +387,7 @@ namespace LayoutFarm
                 outputWindow.viewport_VScrollRequest(this, vScrollSupportEventArgs);
             }
         }
-        public void SetFullMode(bool value)
-        {
-            fullMode = value;
-        }
+       
         public void Close()
         {
             this.isClosed = true;
