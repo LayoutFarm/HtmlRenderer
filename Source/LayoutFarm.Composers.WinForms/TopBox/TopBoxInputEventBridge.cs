@@ -170,6 +170,10 @@ namespace LayoutFarm
                 this.y = y;
                 this.hitObject = hitObject;
             }
+            public Point Location
+            {
+                get { return new Point(x, y); }
+            }
         }
 
         static void ForEachEventListener(MyHitChain hitPointChain, SimpleAction evaluateListener)
@@ -198,26 +202,20 @@ namespace LayoutFarm
                         {
                             var hitInfo = boxChain.GetHitInfo(n);
                             var cssbox = hitInfo.hitObject as HtmlRenderer.Boxes.CssBox;
-                            var listener = HtmlRenderer.Boxes.CssBox.UnsafeGetController(cssbox) as IEventListener;
-                            if (listener != null && evaluateListener(new HitInfo(cssbox, hitInfo.localX, hitInfo.localY), listener))
+                            if (cssbox != null)
                             {
-                                return;
+                                var listener = HtmlRenderer.Boxes.CssBox.UnsafeGetController(cssbox) as IEventListener;
+                                if (listener != null && evaluateListener(new HitInfo(cssbox, hitInfo.localX, hitInfo.localY), listener))
+                                {
+                                    return;
+                                }
                             }
                         }
                     }
                 }
-            }
-
-
+            } 
         }
-        static void ForEachDraggingObjects(MyHitChain hitPointChain, SimpleAction evaluateListener)
-        {
-            //foreach (RenderElement elem in hitPointChain.GetDragHitElementIter())
-            //{
-
-            //}
-
-        }
+        
 
         public void OnMouseDown(UIMouseEventArgs e)
         {
@@ -244,7 +242,7 @@ namespace LayoutFarm
                 //currentMouseActiveElement = hitElement; 
                 ForEachEventListener(this.hitPointChain, (hitobj, listener) =>
                 {
-                    e.Location = new Point(hitobj.x, hitobj.y);
+                    e.Location = hitobj.Location;
                     e.SourceHitElement = hitobj.hitObject;
                     listener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
                     if (listener.AcceptKeyboardFocus)
@@ -309,14 +307,35 @@ namespace LayoutFarm
         {
 
             HitTestCoreWithPrevChainHint(e.X, e.Y);
-            RenderElement hitElement = this.hitPointChain.CurrentHitElement as RenderElement;
+            //-------------------------------------------------------
+            //when mousemove -> reset hover!
             hoverMonitoringTask.Reset();
             hoverMonitoringTask.SetEnable(true, this.topwin);
+            //-------------------------------------------------------
+            DisableGraphicOutputFlush = true;
+            ForEachEventListener(this.hitPointChain, (hitobj, listener) =>
+            {
+                if (currentMouseActiveElement != null && currentMouseActiveElement != listener)
+                {
+                    e.Location = hitobj.Location;
+                    currentMouseActiveElement.ListenMouseEvent(
+                        UIMouseEventName.MouseLeave, e);
+                }
 
+
+                return true;//stop
+            });
+            DisableGraphicOutputFlush = false;
+
+
+
+
+            RenderElement hitElement = this.hitPointChain.CurrentHitElement as RenderElement;
             if (hitElement != currentMouseActiveElement)
             {
                 DisableGraphicOutputFlush = true;
                 {
+
                     //leave from existing element
                     //if (currentMouseActiveElement != null &&
                     //    currentMouseActiveElement.IsTestable)
@@ -675,7 +694,7 @@ namespace LayoutFarm
             int hitCount = this.hitPointChain.Count;
             if (hitCount > 0)
             {
-                RenderElement hitElement = this.hitPointChain.CurrentHitElement as RenderElement;
+
                 DisableGraphicOutputFlush = true;
 
                 //Point globalLocation = hitElement.GetGlobalLocation();
@@ -685,7 +704,7 @@ namespace LayoutFarm
                 //---------------------------------------------------------------
                 ForEachEventListener(this.hitPointChain, (hitobj, listener) =>
                 {
-                    e.Location = new Point(hitobj.x, hitobj.y);
+                    e.Location = hitobj.Location;
                     e.SourceHitElement = hitobj.hitObject;
                     listener.ListenMouseEvent(UIMouseEventName.MouseUp, e);
                     if (listener.AcceptKeyboardFocus)
@@ -738,7 +757,7 @@ namespace LayoutFarm
                 currentKbFocusElem.ListenKeyEvent(UIKeyEventName.KeyUp, e);
 
 
-               // e.TranslateCanvasOriginBack();
+                // e.TranslateCanvasOriginBack();
             }
         }
         public void OnKeyPress(UIKeyPressEventArgs e)
@@ -763,15 +782,11 @@ namespace LayoutFarm
             if (currentKbFocusElem != null)
             {
                 //e.TranslateCanvasOrigin(kbFocusGlobalX, kbFocusGlobalY);
-                e.SourceHitElement = currentKbFocusElem; 
+                e.SourceHitElement = currentKbFocusElem;
                 result = currentKbFocusElem.ListenProcessDialogKey(e);
-
-
                 if (result && currentKbFocusElem != null)
                 {
-
-                    //currentKeyboardFocusedElement.InvalidateGraphic();
-
+                    //currentKeyboardFocusedElement.InvalidateGraphic(); 
                 }
                 //e.TranslateCanvasOriginBack();
             }

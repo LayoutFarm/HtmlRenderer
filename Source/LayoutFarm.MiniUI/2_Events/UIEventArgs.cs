@@ -81,11 +81,7 @@ namespace LayoutFarm
                 y = value.Y;
             }
         }
-        public void SetLocation(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
+       
         public int X
         {
             get
@@ -170,6 +166,7 @@ namespace LayoutFarm
         public void SetEventInfo(Point location, UIMouseButtons button, int clicks, int delta)
         {
             Location = location;
+            
             Button = button;
             Clicks = clicks;
             Delta = delta;
@@ -187,8 +184,6 @@ namespace LayoutFarm
     {
         int keyData;
         bool shift, alt, control;
-
-
         public UIKeyEventArgs()
         {
         }
@@ -291,8 +286,8 @@ namespace LayoutFarm
         static Stack<UISizeChangedEventArgs> pool = new Stack<UISizeChangedEventArgs>();
         private UISizeChangedEventArgs(RenderElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
         {
-            this.SourceHitElement = sourceElement;
-            this.SetLocation(widthDiff, heightDiff);
+            this.SourceHitElement = sourceElement;             
+            this.Location = new Point(widthDiff, heightDiff);
             this.changeFromSideFlags = changeFromSideFlags;
         }
         public AffectedElementSideFlags ChangeFromSideFlags
@@ -307,7 +302,8 @@ namespace LayoutFarm
             if (pool.Count > 0)
             {
                 UISizeChangedEventArgs e = pool.Pop();
-                e.SetLocation(widthDiff, heightDiff);
+                 
+                e.Location = new Point(widthDiff, heightDiff);
                 e.SourceHitElement = sourceElement;
                 e.changeFromSideFlags = changeFromSideFlags;
                 return e;
