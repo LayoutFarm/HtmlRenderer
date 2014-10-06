@@ -662,11 +662,11 @@ namespace HtmlRenderer.Boxes
 
 
 
-        public bool AcceptKeyboardFocus
-        {
-            get;
-            set;
-        }
+        //public bool AcceptKeyboardFocus
+        //{
+        //    get;
+        //    set;
+        //}
 
         ///// <summary>
         ///// Get brush for selection background depending if it has external and if alpha is required for images.

@@ -106,6 +106,8 @@ namespace LayoutFarm
             currentHitChain.Clear();
         }
 
+
+        
         public RenderElement HitTestOnPrevChain()
         {
             if (prevHitChain.Count > 0)
