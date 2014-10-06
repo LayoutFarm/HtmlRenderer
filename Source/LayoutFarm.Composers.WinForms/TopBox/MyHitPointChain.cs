@@ -13,9 +13,7 @@ namespace LayoutFarm
         readonly List<HitPoint> hitChainA = new List<HitPoint>();
         readonly List<HitPoint> hitChainB = new List<HitPoint>();
         
-
-        List<RenderElement> dragHitElements = new List<RenderElement>();
-
+         
         public MyHitChain()
         {
             currentHitChain = hitChainA;
@@ -60,7 +58,7 @@ namespace LayoutFarm
         {
             get { return currentHitChain[currentHitChain.Count - 1].point; }
         }
-        public override RenderElement CurrentHitElement
+        public override object CurrentHitElement
         {
             get
             {
@@ -156,43 +154,10 @@ namespace LayoutFarm
                 return null;
             }
         }
-        public override void ClearDragHitElements()
-        {
-            dragHitElements.Clear();
-        }
-        public override void AddDragHitElement(RenderElement element)
-        {
-            dragHitElements.Add(element);
-        }
-        public override void RemoveDragHitElement(RenderElement element)
-        {
-            dragHitElements.Remove(element);
-        }
-        public override IEnumerable<RenderElement> GetDragHitElementIter()
-        {
-            int j = dragHitElements.Count;
-            for (int i = 0; i < j; ++i)
-            {
-                yield return dragHitElements[i];
-            }
-        }
-        public override int DragHitElementCount
-        {
-            get
-            {
-                return dragHitElements.Count;
-            }
-        }
+        
+         
 #if DEBUG
-        public IEnumerable<HitPoint> dbugGetHitPairIter()
-        {
-            foreach (HitPoint hitPair in currentHitChain)
-            {
-                yield return hitPair;
-            }
-
-        }
-
+       
         public dbugHitTestTracker dbugHitTracker;
 #endif
     }

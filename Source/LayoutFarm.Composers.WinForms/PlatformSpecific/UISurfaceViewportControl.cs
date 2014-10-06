@@ -189,7 +189,7 @@ namespace LayoutFarm
                 lastestLogicalMouseDownY, 0);
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
 
-            mouseEventArg.SetWinRoot(wintop);
+          
             SetArtMouseEventArgsInfo(mouseEventArg, newMouseEventArgs);
 
 
@@ -210,7 +210,7 @@ namespace LayoutFarm
             lastestLogicalMouseDownY = (viewLocation.Y + e.Y);
 
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
-            mouseEventArg.SetWinRoot(wintop);
+           
             SetArtMouseEventArgsInfo(mouseEventArg, e);
 
             base.OnMouseDown(e);
@@ -235,7 +235,7 @@ namespace LayoutFarm
                         (viewLocation.X + e.X), (viewLocation.Y + e.Y),
                         xdiff, ydiff);
 
-                    dragEventArg.SetWinRoot(this.wintop);
+                  
                     canvasViewport.DragStart(dragEventArg);
                     isDraging = true;
                     eventStock.ReleaseEventArgs(dragEventArg);
@@ -249,8 +249,7 @@ namespace LayoutFarm
                             GetArtMouseButton(e.Button),
                             lastestLogicalMouseDownX, lastestLogicalMouseDownY,
                             (viewLocation.X + e.X), (viewLocation.Y + e.Y),
-                            xdiff, ydiff);
-                        dragEventArg.SetWinRoot(this.wintop);
+                            xdiff, ydiff); 
                         canvasViewport.OnDrag(dragEventArg);
                         eventStock.ReleaseEventArgs(dragEventArg);
                     }
@@ -259,7 +258,7 @@ namespace LayoutFarm
             else
             {
                 UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
-                mouseEventArg.SetWinRoot(wintop);
+                
 
                 SetArtMouseEventArgsInfo(mouseEventArg, e);
                 mouseEventArg.SetDiff(
@@ -288,7 +287,7 @@ namespace LayoutFarm
                    lastestLogicalMouseDownX, lastestLogicalMouseDownY,
                    (viewLocation.X + e.X), (viewLocation.Y + e.Y),
                    (viewLocation.X + e.X) - lastestLogicalMouseDownX, (viewLocation.Y + e.Y) - lastestLogicalMouseDownY);
-                mouseDragEventArg.SetWinRoot(this.wintop);
+                
                 base.OnMouseUp(e);
                 canvasViewport.OnDragStop(mouseDragEventArg);
                 eventStock.ReleaseEventArgs(mouseDragEventArg);
@@ -297,7 +296,7 @@ namespace LayoutFarm
             else
             {
                 UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
-                mouseEventArg.SetWinRoot(wintop);
+               
                 SetArtMouseEventArgsInfo(mouseEventArg, e);
                 base.OnMouseUp(e);
                 canvasViewport.OnMouseUp(mouseEventArg);
@@ -340,7 +339,7 @@ namespace LayoutFarm
         {
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
 
-            mouseEventArg.SetWinRoot(wintop);
+          
             SetArtMouseEventArgsInfo(mouseEventArg, e);
 
             base.OnMouseWheel(e);
@@ -352,8 +351,8 @@ namespace LayoutFarm
             MyRootGraphic.CurrentTopWindowRenderBox = this.wintop;
 
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
-            keyEventArgs.SetWinRoot(wintop);
-            SetArtKeyData(keyEventArgs, e);
+ 
+            SetKeyData(keyEventArgs, e);
             base.OnKeyDown(e);
 
             canvasViewport.OnKeyDown(keyEventArgs);
@@ -365,14 +364,14 @@ namespace LayoutFarm
 
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
 
-            keyEventArgs.SetWinRoot(wintop);
-            SetArtKeyData(keyEventArgs, e);
+          
+            SetKeyData(keyEventArgs, e);
             base.OnKeyUp(e);
 
             canvasViewport.OnKeyUp(keyEventArgs);
             eventStock.ReleaseEventArgs(keyEventArgs);
         }
-        static void SetArtKeyData(UIKeyEventArgs keyEventArgs, KeyEventArgs e)
+        static void SetKeyData(UIKeyEventArgs keyEventArgs, KeyEventArgs e)
         {
             keyEventArgs.SetEventInfo((int)e.KeyCode, e.Shift, e.Alt, e.Control);
         }
@@ -385,7 +384,7 @@ namespace LayoutFarm
 
             UIKeyPressEventArgs keyPressEventArgs = eventStock.GetFreeKeyPressEventArgs();
 
-            keyPressEventArgs.SetWinRoot(wintop);
+            
             keyPressEventArgs.SetKeyChar(e.KeyChar);
 
             base.OnKeyPress(e);
@@ -397,7 +396,7 @@ namespace LayoutFarm
         {
 
             UIKeyEventArgs keyEventArg = eventStock.GetFreeKeyEventArgs();
-            keyEventArg.SetWinRoot(wintop);
+           
             keyEventArg.KeyData = (int)keyData;
             if (canvasViewport.OnProcessDialogKey(keyEventArg))
             {

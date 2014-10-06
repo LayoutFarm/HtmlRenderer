@@ -121,7 +121,7 @@ namespace LayoutFarm
         public abstract HitPoint GetHitPoint(int index);
 
         public abstract Point PrevHitPoint { get; }
-        public abstract RenderElement CurrentHitElement { get; }
+        public abstract object CurrentHitElement { get; }
         public abstract Point CurrentHitPoint { get; }
 
        
@@ -142,14 +142,7 @@ namespace LayoutFarm
                 return globalOffsetY;
             }
         }
-        //-----------------------------------------------------
-        //element dragging feature , plan move to another place ?
-        public abstract void ClearDragHitElements();
-        public abstract void AddDragHitElement(RenderElement element);
-        public abstract void RemoveDragHitElement(RenderElement element);
-        public abstract IEnumerable<RenderElement> GetDragHitElementIter();
-        public abstract int DragHitElementCount { get; }
-       
+        
 
 #if DEBUG
         public bool dbugBreak;

@@ -33,8 +33,9 @@ namespace LayoutFarm
             int lastestXDiff,
             int lastestYDiff)
         {
-            Location = loca;
+             
             Button = button;
+            this.Location = loca;
 
             this.currentLogicalX = currentLogicalX;
             this.currentLogicalY = currentLogicalY;

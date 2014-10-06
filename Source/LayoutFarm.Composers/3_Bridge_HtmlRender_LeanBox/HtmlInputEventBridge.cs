@@ -246,7 +246,8 @@ namespace HtmlRenderer
                 if (controller != null)
                 {
 
-                    eventArgs.SetLocation(hitInfo.localX, hitInfo.localY);
+                
+                    eventArgs.Location = new Point(hitInfo.localX, hitInfo.localY);
                     //---------------------------------
                     //dispatch 
 
