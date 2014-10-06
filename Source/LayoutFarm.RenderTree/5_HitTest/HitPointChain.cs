@@ -121,7 +121,7 @@ namespace LayoutFarm
         public abstract HitPoint GetHitPoint(int index);
 
         public abstract Point PrevHitPoint { get; }
-        public abstract RenderElement CurrentHitElement { get; }
+        public abstract object CurrentHitElement { get; }
         public abstract Point CurrentHitPoint { get; }
 
        

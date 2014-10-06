@@ -23,13 +23,8 @@ namespace LayoutFarm
     {
         int x;
         int y;
-
-        RenderElement srcRenderElement;
-        int canvasXOrigin;
-        int canvasYOrigin;
         TopWindowRenderBox winRoot;
         UIEventName evName;
-
         public UIEventArgs()
         {
 
@@ -40,26 +35,15 @@ namespace LayoutFarm
             set { this.evName = value; }
         }
         public virtual void Clear()
-        {
-
-            srcRenderElement = null;
+        {    
             x = 0;
             y = 0;
-            CancelBubbling = false;
-
-            canvasXOrigin = 0;
-            canvasYOrigin = 0;
-
+            CancelBubbling = false; 
             this.winRoot = null;
+           
         }
 
         public object SourceHitElement
-        {
-            get;
-            set;
-        }
-
-        public object SrcElement
         {
             get;
             set;
@@ -70,24 +54,20 @@ namespace LayoutFarm
             set;
         }
 
-
         public bool IsShiftKeyDown
         {
             get;
             set;
-
         }
         public bool IsAltKeyDown
         {
             get;
             set;
-
         }
         public bool IsCtrlKeyDown
         {
             get;
-            set;
-
+            set; 
         }
         public Point Location
         {
@@ -121,32 +101,13 @@ namespace LayoutFarm
             }
         }
 
-        int beforeTranslateOriginX = 0;
-        int beforeTranslateOriginY = 0;
-        public void TranslateCanvasOrigin(Point newOrigin)
-        {
-            beforeTranslateOriginX = canvasXOrigin;
-            beforeTranslateOriginY = canvasYOrigin;
-            OffsetCanvasOrigin(newOrigin.X - canvasXOrigin, newOrigin.Y - canvasYOrigin);
-        }
-        public void TranslateCanvasOrigin(int newXOrigin, int newYOrigin)
-        {
-            beforeTranslateOriginX = canvasXOrigin;
-            beforeTranslateOriginY = canvasYOrigin;
-            OffsetCanvasOrigin(newXOrigin - canvasXOrigin, newYOrigin - canvasYOrigin);
-        }
-        public void TranslateCanvasOriginBack()
-        {
-            OffsetCanvasOrigin(beforeTranslateOriginX - canvasXOrigin, beforeTranslateOriginY - canvasYOrigin);
-        }
+
         public void OffsetCanvasOrigin(int dx, int dy)
         {
             if (dx != 0 || dy != 0)
             {
                 x -= dx;
                 y -= dy;
-                canvasXOrigin += dx;
-                canvasYOrigin += dy;
             }
         }
         public TopWindowRenderBox WinRoot

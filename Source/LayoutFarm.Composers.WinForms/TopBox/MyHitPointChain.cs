@@ -58,7 +58,7 @@ namespace LayoutFarm
         {
             get { return currentHitChain[currentHitChain.Count - 1].point; }
         }
-        public override RenderElement CurrentHitElement
+        public override object CurrentHitElement
         {
             get
             {
