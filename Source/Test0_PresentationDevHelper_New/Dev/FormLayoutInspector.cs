@@ -9,9 +9,7 @@ using System.IO;
 using LayoutFarm;
 
 namespace LayoutFarm.Dev
-{
-
-
+{   
     public partial class FormLayoutInspector : Form
     {
 

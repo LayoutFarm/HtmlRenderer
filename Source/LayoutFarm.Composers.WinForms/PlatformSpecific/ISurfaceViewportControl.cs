@@ -13,16 +13,12 @@ namespace LayoutFarm
     {
 
         IntPtr Handle { get; }
+        void PaintMe();
         void viewport_HScrollChanged(object sender, UIScrollEventArgs e);
         void viewport_HScrollRequest(object sender, ScrollSurfaceRequestEventArgs e);
         void viewport_VScrollChanged(object sender, UIScrollEventArgs e);
         void viewport_VScrollRequest(object sender, ScrollSurfaceRequestEventArgs e);
-        int WindowWidth { get; }
-        int WindowHeight { get; }
-        void Invoke(Delegate del, object req);
-        void PaintMe();
-        void WhenParentFormClosed(EventHandler<EventArgs> handler);
-     
+
 #if DEBUG
         List<dbugLayoutMsg> dbug_rootDocDebugMsgs { get; }
         void dbug_InvokeVisualRootDrawMsg();

@@ -1,7 +1,7 @@
 ﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using System.ComponentModel; 
+using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
 
@@ -10,13 +10,11 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
 
-    public partial class UISurfaceViewportControl : UserControl, ISurfaceViewportControl
+    class WinSurfaceViewportControl : ISurfaceViewportControl
     {
-        CanvasEventsStock eventStock = new CanvasEventsStock();
-
-        //control graphic output
+        CanvasEventsStock eventStock = new CanvasEventsStock();  
         CanvasViewport canvasViewport;
-        
+
         bool isMouseDown = false;
         bool isDraging = false;
 
@@ -32,89 +30,49 @@ namespace LayoutFarm
 
         MyTopWindowRenderBox wintop;
         EventHandler<EventArgs> parentFormClosedHandler;
-        MyRootGraphic myRootGraphic;
+        Control windowControl;
 
-      
-        public UISurfaceViewportControl()
+        public WinSurfaceViewportControl()
         {
-            InitializeComponent();
         }
-
-        public void InitRootGraphics(int width, int height)
+        public void BindWindowControl(Control windowControl)
         {
-            this.myRootGraphic = new MyRootGraphic(width, height); 
-            SetupWindowRoot(new MyTopWindowRenderBox(this.myRootGraphic, width, height));
+            this.windowControl = windowControl;
         }
-        public RootGraphic RootGfx
+        public void BindCanvasViewPort(CanvasViewport canvasViewport)
         {
-            get { return this.myRootGraphic; }
+            this.canvasViewport = canvasViewport;
         }
-        public void WhenParentFormClosed(EventHandler<EventArgs> handler)
+        IntPtr ISurfaceViewportControl.Handle
         {
-            this.parentFormClosedHandler = handler;
-            this.ParentForm.FormClosed += new FormClosedEventHandler(ParentForm_FormClosed);
+            get
+            {
+                return this.windowControl.Handle;
+            }
+        }
+        System.Drawing.Size Size
+        {
+            get { return this.windowControl.Size; }
+        }
+        int Width
+        {
+            get { return this.windowControl.Width; }
+        }
+        int Height
+        {
+            get { return this.windowControl.Height; }
         }
         void SetupWindowRoot(MyTopWindowRenderBox wintop)
         {
-
+            //create view port ?
             this.wintop = wintop;
-            canvasViewport = new CanvasViewport(this, wintop, this.Size.ToSize(), 4);
-            
-            wintop.CanvasForcePaint += canvasViewport.PaintMe; 
-            
-            
-        }
-        void ParentForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            if (parentFormClosedHandler != null)
-            {
-                parentFormClosedHandler(sender, e);
-            }
-        }
-        internal void UpdateRootdocViewportSize()
-        {
-            canvasViewport.UpdateCanvasViewportSize(this.Width, this.Height);
-        }
-
+            // canvasViewport = new CanvasViewport(this.windowControl, wintop, this.Size.ToSize(), 4);
+            wintop.CanvasForcePaint += canvasViewport.PaintMe;
+        } 
         public void Invoke(Delegate d, object o)
         {
             this.Invoke(d, o);
-        }
-        public int WindowWidth
-        {
-            get
-            {
-                return this.Width;
-            }
-        }
-
-        public int WindowHeight
-        {
-            get
-            {
-                return this.Height;
-            }
-        }
-        public TopWindowRenderBox WinTop
-        {
-            get
-            {
-                return wintop;
-            }
-        }
-        public void AddContent(RenderElement vi)
-        {
-            var layer0 = wintop.Layers.Layer0 as VisualPlainLayer;
-            if (layer0 != null)
-            {
-                layer0.AddChild(vi);
-                vi.InvalidateGraphic();
-            }
-        }
-        public void AddContent(LayoutFarm.UI.UIElement ui)
-        {
-            AddContent(ui.GetPrimaryRenderElement(wintop.Root));
-        }
+        } 
         public void Close()
         {
             canvasViewport.Close();
@@ -146,9 +104,7 @@ namespace LayoutFarm
             }
         }
         public void viewport_VScrollChanged(object sender, UIScrollEventArgs e)
-        {
-
-
+        {  
             if (VScrollChanged != null)
             {
                 VScrollChanged.Invoke(sender, e);
@@ -162,43 +118,31 @@ namespace LayoutFarm
             }
         }
 
-
-
-        protected override void OnGotFocus(EventArgs e)
+        public void OnGotFocus(EventArgs e)
         {
             UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
             canvasViewport.OnGotFocus(focusEventArg);
-            base.OnGotFocus(e);
+
             eventStock.ReleaseEventArgs(focusEventArg);
         }
-        protected override void OnLostFocus(EventArgs e)
-        {
-
+        public void OnLostFocus(EventArgs e)
+        { 
             UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
-            canvasViewport.OnLostFocus(focusEventArg);
-            base.OnLostFocus(e); eventStock.ReleaseEventArgs(focusEventArg);
-
-
+            canvasViewport.OnLostFocus(focusEventArg); 
+            eventStock.ReleaseEventArgs(focusEventArg); 
         }
-        protected override void OnDoubleClick(EventArgs e)
-        {
-            base.OnDoubleClick(e);
-
+        public void OnDoubleClick(EventArgs e) 
+        { 
             MouseEventArgs newMouseEventArgs = new MouseEventArgs(MouseButtons.Left, 1,
                 lastestLogicalMouseDownX,
                 lastestLogicalMouseDownY, 0);
-            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
-
-          
-            SetArtMouseEventArgsInfo(mouseEventArg, newMouseEventArgs);
-
-
+            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop); 
+            SetArtMouseEventArgsInfo(mouseEventArg, newMouseEventArgs);  
             canvasViewport.OnDoubleClick(mouseEventArg);
-            eventStock.ReleaseEventArgs(mouseEventArg);
-
+            eventStock.ReleaseEventArgs(mouseEventArg); 
         }
 
-        protected override void OnMouseDown(MouseEventArgs e)
+        public void OnMouseDown(MouseEventArgs e)
         {
             MyRootGraphic.CurrentTopWindowRenderBox = this.wintop;
 
@@ -210,23 +154,21 @@ namespace LayoutFarm
             lastestLogicalMouseDownY = (viewLocation.Y + e.Y);
 
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
-           
-            SetArtMouseEventArgsInfo(mouseEventArg, e);
 
-            base.OnMouseDown(e);
-
-            canvasViewport.MouseDown(mouseEventArg);
-
+            SetArtMouseEventArgsInfo(mouseEventArg, e); 
+            canvasViewport.MouseDown(mouseEventArg); 
             eventStock.ReleaseEventArgs(mouseEventArg);
 
         }
-        protected override void OnMouseMove(MouseEventArgs e)
+        public void OnMouseMove(MouseEventArgs e)
         {
             Point viewLocation = canvasViewport.LogicalViewportLocation;
 
             if (isMouseDown)
             {
-                int xdiff = (viewLocation.X + e.X) - prevLogicalMouseX; int ydiff = (viewLocation.Y + e.Y) - prevLogicalMouseY; if (!isDraging)
+                int xdiff = (viewLocation.X + e.X) - prevLogicalMouseX;
+                int ydiff = (viewLocation.Y + e.Y) - prevLogicalMouseY;
+                if (!isDraging)
                 {
                     UIDragEventArgs dragEventArg = eventStock.GetFreeDragEventArgs(
                         e.Location.ToPoint(),
@@ -235,7 +177,7 @@ namespace LayoutFarm
                         (viewLocation.X + e.X), (viewLocation.Y + e.Y),
                         xdiff, ydiff);
 
-                  
+
                     canvasViewport.DragStart(dragEventArg);
                     isDraging = true;
                     eventStock.ReleaseEventArgs(dragEventArg);
@@ -249,7 +191,7 @@ namespace LayoutFarm
                             GetArtMouseButton(e.Button),
                             lastestLogicalMouseDownX, lastestLogicalMouseDownY,
                             (viewLocation.X + e.X), (viewLocation.Y + e.Y),
-                            xdiff, ydiff); 
+                            xdiff, ydiff);
                         canvasViewport.OnDrag(dragEventArg);
                         eventStock.ReleaseEventArgs(dragEventArg);
                     }
@@ -258,7 +200,7 @@ namespace LayoutFarm
             else
             {
                 UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
-                
+
 
                 SetArtMouseEventArgsInfo(mouseEventArg, e);
                 mouseEventArg.SetDiff(
@@ -269,10 +211,10 @@ namespace LayoutFarm
             prevLogicalMouseX = (viewLocation.X + e.X);
             prevLogicalMouseY = (viewLocation.Y + e.Y);
 
-            base.OnMouseMove(e);
+
 
         }
-        protected override void OnMouseUp(MouseEventArgs e)
+        public void OnMouseUp(MouseEventArgs e)
         {
 
             isMouseDown = false;
@@ -287,8 +229,8 @@ namespace LayoutFarm
                    lastestLogicalMouseDownX, lastestLogicalMouseDownY,
                    (viewLocation.X + e.X), (viewLocation.Y + e.Y),
                    (viewLocation.X + e.X) - lastestLogicalMouseDownX, (viewLocation.Y + e.Y) - lastestLogicalMouseDownY);
-                
-                base.OnMouseUp(e);
+
+
                 canvasViewport.OnDragStop(mouseDragEventArg);
                 eventStock.ReleaseEventArgs(mouseDragEventArg);
 
@@ -296,9 +238,8 @@ namespace LayoutFarm
             else
             {
                 UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
-               
+
                 SetArtMouseEventArgsInfo(mouseEventArg, e);
-                base.OnMouseUp(e);
                 canvasViewport.OnMouseUp(mouseEventArg);
                 eventStock.ReleaseEventArgs(mouseEventArg);
             }
@@ -321,53 +262,46 @@ namespace LayoutFarm
         {
             mouseEventArg.SetEventInfo(
                 e.Location.ToPoint(),
-                GetArtMouseButton(e.Button), 
-                e.Clicks, 
+                GetArtMouseButton(e.Button),
+                e.Clicks,
                 e.Delta);
         }
-        protected override void OnPaint(PaintEventArgs e)
+        public void OnPaint(PaintEventArgs e)
         {
             if (canvasViewport != null)
             {
                 canvasViewport.SetFullMode(true);
                 canvasViewport.PaintMe(this, e);
             }
-            base.OnPaint(e);
         }
 
-        protected override void OnMouseWheel(MouseEventArgs e)
+        public void OnMouseWheel(MouseEventArgs e)
         {
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
 
-          
+
             SetArtMouseEventArgsInfo(mouseEventArg, e);
 
-            base.OnMouseWheel(e);
             canvasViewport.OnMouseWheel(mouseEventArg);
             eventStock.ReleaseEventArgs(mouseEventArg);
         }
-        protected override void OnKeyDown(KeyEventArgs e)
+        public void OnKeyDown(KeyEventArgs e)
         {
+
             MyRootGraphic.CurrentTopWindowRenderBox = this.wintop;
 
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
- 
+
             SetKeyData(keyEventArgs, e);
-            base.OnKeyDown(e);
 
             canvasViewport.OnKeyDown(keyEventArgs);
             eventStock.ReleaseEventArgs(keyEventArgs);
         }
-        protected override void OnKeyUp(KeyEventArgs e)
+        public void OnKeyUp(KeyEventArgs e)
         {
             MyRootGraphic.CurrentTopWindowRenderBox = this.wintop;
-
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
-
-          
             SetKeyData(keyEventArgs, e);
-            base.OnKeyUp(e);
-
             canvasViewport.OnKeyUp(keyEventArgs);
             eventStock.ReleaseEventArgs(keyEventArgs);
         }
@@ -375,7 +309,7 @@ namespace LayoutFarm
         {
             keyEventArgs.SetEventInfo((int)e.KeyCode, e.Shift, e.Alt, e.Control);
         }
-        protected override void OnKeyPress(KeyPressEventArgs e)
+        public void OnKeyPress(KeyPressEventArgs e)
         {
             if (char.IsControl(e.KeyChar))
             {
@@ -383,28 +317,24 @@ namespace LayoutFarm
             }
 
             UIKeyPressEventArgs keyPressEventArgs = eventStock.GetFreeKeyPressEventArgs();
-
-            
             keyPressEventArgs.SetKeyChar(e.KeyChar);
-
-            base.OnKeyPress(e);
             canvasViewport.OnKeyPress(keyPressEventArgs);
 
             eventStock.ReleaseEventArgs(keyPressEventArgs);
         }
-        protected override bool ProcessDialogKey(Keys keyData)
+        public bool ProcessDialogKey(Keys keyData)
         {
 
             UIKeyEventArgs keyEventArg = eventStock.GetFreeKeyEventArgs();
-           
+
             keyEventArg.KeyData = (int)keyData;
             if (canvasViewport.OnProcessDialogKey(keyEventArg))
             {
                 eventStock.ReleaseEventArgs(keyEventArg);
                 return true;
             }
-            eventStock.ReleaseEventArgs(keyEventArg); 
-            return base.ProcessDialogKey(keyData);
+            eventStock.ReleaseEventArgs(keyEventArg);
+            return false;
         }
 
 #if DEBUG
@@ -426,11 +356,15 @@ namespace LayoutFarm
                 return this.dbugrootDocHitChainMsgs;
             }
         }
+        System.Drawing.Graphics dbugCreateGraphics()
+        {
+            return this.windowControl.CreateGraphics();
+        }
         public void dbug_HighlightMeNow(Rectangle rect)
         {
 
             using (System.Drawing.Pen mpen = new System.Drawing.Pen(System.Drawing.Brushes.White, 2))
-            using (System.Drawing.Graphics g = this.CreateGraphics())
+            using (System.Drawing.Graphics g = this.dbugCreateGraphics())
             {
 
                 System.Drawing.Rectangle r = rect.ToRect();

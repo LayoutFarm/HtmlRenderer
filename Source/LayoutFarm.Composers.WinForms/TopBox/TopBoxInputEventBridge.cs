@@ -11,9 +11,8 @@ namespace LayoutFarm
     {
 
         CanvasEventsStock eventStock = new CanvasEventsStock();
-        int kbFocusGlobalX = 0;
-        int kbFocusGlobalY = 0;
-
+    
+        
         int currentXDistanceFromDragPoint = 0;
         int currentYDistanceFromDragPoint = 0;
 

@@ -30,7 +30,6 @@ namespace LayoutFarm
         ISurfaceViewportControl outputWindow;
 
         bool isClosed;//is this viewport closed
-
         LayoutFarm.TopBoxInputEventBridge topBoxInputEventBridge = new TopBoxInputEventBridge();
 
         public CanvasViewport(ISurfaceViewportControl outputWindow,

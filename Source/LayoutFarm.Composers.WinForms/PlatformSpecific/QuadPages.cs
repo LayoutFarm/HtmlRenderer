@@ -15,8 +15,7 @@ namespace LayoutFarm
         public Canvas pageA;
         public Canvas pageB;
         public Canvas pageC;
-        public Canvas pageD;
-
+        public Canvas pageD; 
 
         CanvasCollection physicalCanvasCollection;
 
