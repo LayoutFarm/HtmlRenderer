@@ -49,6 +49,20 @@ namespace LayoutFarm
             this.myviewportX = viewportX;
             this.myviewportY = viewportY;
         }
+        public override int ViewportX
+        {
+            get
+            {
+                return this.myviewportX;
+            }
+        }
+        public override int ViewportY
+        {
+            get
+            {
+                return this.myviewportY;
+            }
+        }
         public void InvalidateContentArrangementFromContainerSizeChanged()
         {
             this.MarkInvalidContentArrangement();
