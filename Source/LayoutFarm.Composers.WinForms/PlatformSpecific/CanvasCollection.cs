@@ -59,7 +59,8 @@ namespace LayoutFarm
         }
         public Canvas GetCanvasPage(int hPageNum, int vPageNum)
         {
-            int j = cachePages.Count; for (int i = j - 1; i > -1; i--)
+            int j = cachePages.Count; 
+            for (int i = j - 1; i > -1; i--)
             {
                 Canvas page = cachePages[i];
                 if (page.IsPageNumber(hPageNum, vPageNum))

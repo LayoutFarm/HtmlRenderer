@@ -16,23 +16,23 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing; 
+using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
 
     partial class MyCanvas
     {
-       
+
 
         public override SolidBrush GetSharedSolidBrush()
         {
             if (sharedSolidBrush == null)
             {
-                sharedSolidBrush = CurrentGraphicPlatform.CreateSolidBrush(Color.Black);// new System.Drawing.SolidBrush(Color.Black);
+                sharedSolidBrush = platform.CreateSolidBrush(Color.Black);// new System.Drawing.SolidBrush(Color.Black);
             }
             return sharedSolidBrush;
         }
-         
+
         public override void CopyFrom(Canvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea)
         {
             MyCanvas s1 = (MyCanvas)sourceCanvas;
@@ -157,7 +157,7 @@ namespace LayoutFarm
                 ArtSolidBrush solidBrush = (ArtSolidBrush)colorBrush;
                 if (solidBrush.myBrush == null)
                 {
-                    solidBrush.myBrush = CurrentGraphicPlatform.CreateSolidBrush(solidBrush.Color);
+                    solidBrush.myBrush = this.platform.CreateSolidBrush(solidBrush.Color);
                 }
                 gx.FillPath(ConvBrush(solidBrush.myBrush), ConvPath(gfxPath));
 
@@ -228,8 +228,8 @@ namespace LayoutFarm
             return (ConvRgn(rgn).GetBounds(gx)).ToRectF();
 
         }
-       
-        
+
+
         public override void FillRectangle(ArtColorBrush colorBrush, int left, int top, int right, int bottom)
         {
             if (colorBrush is ArtSolidBrush)
@@ -238,7 +238,7 @@ namespace LayoutFarm
 
                 if (solidBrush.myBrush == null)
                 {
-                    solidBrush.myBrush = CurrentGraphicPlatform.CreateSolidBrush(solidBrush.Color);
+                    solidBrush.myBrush = this.platform.CreateSolidBrush(solidBrush.Color);
                 }
                 gx.FillRectangle(solidBrush.myBrush.InnerBrush as System.Drawing.Brush,
                     System.Drawing.Rectangle.FromLTRB(left, top, right, bottom));
@@ -416,7 +416,7 @@ namespace LayoutFarm
             gxPath.Dispose();
         }
 
-       
+
         /// <summary>
         /// Gets or sets the rendering quality for this <see cref="T:System.Drawing.Graphics"/>.
         /// </summary>
@@ -525,8 +525,8 @@ namespace LayoutFarm
         {
             ReleaseHdc();
             //create Point
-            var pps = ConvPointFArray(points); 
-            gx.FillPolygon(brush.InnerBrush as System.Drawing.Brush, pps); 
+            var pps = ConvPointFArray(points);
+            gx.FillPolygon(brush.InnerBrush as System.Drawing.Brush, pps);
         }
 
 #if DEBUG

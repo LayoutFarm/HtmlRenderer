@@ -33,7 +33,7 @@ namespace LayoutFarm
         }
         GraphicPlatform IGraphics.Platform
         {
-            get { return LayoutFarm.Drawing.CurrentGraphicPlatform.P; }
+            get { return this.platform; }
         }
 
         /// <summary>

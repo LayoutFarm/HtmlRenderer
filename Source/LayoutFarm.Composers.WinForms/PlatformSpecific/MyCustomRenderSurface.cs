@@ -23,11 +23,8 @@ namespace LayoutFarm
 
             this.ownerVisualElement = ownerVisualElement;
             FullModeUpdate = true;
-            quadPages = new QuadPages(4, width, height);
-
-
-            EvaluateScrollBar();
-
+            quadPages = new QuadPages(4, width, height); 
+            EvaluateScrollBar(); 
             FullModeUpdate = false;
         }
 

@@ -17,8 +17,9 @@ namespace LayoutFarm
             this.Width = width;
             this.Height = heigth;
         }
-        public abstract IGraphics SampleIGraphics { get; }
-        public abstract IFonts SampleIFonts { get; }
+        public abstract GraphicPlatform P { get; }
+        public IGraphics SampleIGraphics { get { return this.P.SampleIGraphics; } }
+        public IFonts SampleIFonts { get { return this.P.SampleIFonts; } }
         public int GraphicUpdateBlockCount
         {
             get;
@@ -68,7 +69,7 @@ namespace LayoutFarm
 
         public abstract GraphicIntervalTask RequestGraphicInternvalTask(object uniqueName,
             int intervalMs, EventHandler<IntervalTaskEventArgs> tickhandler);
-        public abstract void RemoveIntervalTask(object uniqueName); 
+        public abstract void RemoveIntervalTask(object uniqueName);
 
 #if DEBUG
         RootGraphic dbugVRoot
@@ -98,7 +99,7 @@ namespace LayoutFarm
             }
 
             Rect elemRect = Rect.CreateFromRect(elementClientRect);
-            InvalidateGraphicArea(fromElement, elemRect, out wintop); 
+            InvalidateGraphicArea(fromElement, elemRect, out wintop);
         }
         public void FlushAccumGraphicUpdate(TopWindowRenderBox topbox)
         {
@@ -322,7 +323,7 @@ namespace LayoutFarm
                     wintop.FlushGraphic(rootGlobalArea);
                     this.flushRect = accumulateInvalidRect.ToRectangle();
 
-                   
+
                     hasAccumRect = false;
                 }
                 else

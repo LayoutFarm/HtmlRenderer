@@ -163,7 +163,7 @@ namespace LayoutFarm.SampleControls
 
             //build rootbox from htmldoc
             var rootBox = builder.BuildCssRenderTree(this.currentdoc,
-                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
+                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIFonts,
                 this.myHtmlIsland,
                 this.waitingCssData,
                 this.myCssBoxWrapper);
@@ -172,7 +172,7 @@ namespace LayoutFarm.SampleControls
             htmlIsland.SetHtmlDoc(this.currentdoc);
             htmlIsland.SetRootCssBox(rootBox, this.waitingCssData);
             htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
-            htmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
+            htmlIsland.PerformLayout(rootgfx.SampleIGraphics);
         }
         void SetHtml(MyHtmlIsland htmlIsland, string html, HtmlRenderer.WebDom.CssActiveSheet cssData)
         {
