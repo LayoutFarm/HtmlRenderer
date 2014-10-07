@@ -7,7 +7,7 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
 
-    class TopBoxInputEventBridge
+    class UserInputEventBridge
     {
 
         CanvasEventsStock eventStock = new CanvasEventsStock();
@@ -29,7 +29,7 @@ namespace LayoutFarm
 
         RootGraphic rootGraphic;
 
-        public TopBoxInputEventBridge()
+        public UserInputEventBridge()
         {
 
 

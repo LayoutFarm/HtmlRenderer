@@ -3,14 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-
 using LayoutFarm.Drawing;
 
 namespace LayoutFarm
 {
     public static class FormCanvasHelper
-    {
-    
+    {     
 
         public static Form CreateNewFormCanvas(out UISurfaceViewportControl canvasViewport)
         {

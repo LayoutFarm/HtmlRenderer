@@ -12,8 +12,8 @@ namespace LayoutFarm
     public partial class UISurfaceViewportControl : UserControl
     {
 
-        CanvasViewport canvasViewport;
-        WinSurfaceViewportControl winBridge;
+       
+        WinViewportBridge winBridge;
         MyTopWindowRenderBox wintop;
 
 
@@ -27,20 +27,21 @@ namespace LayoutFarm
             var myRootGraphic = new MyRootGraphic(width, height);
             this.wintop = new MyTopWindowRenderBox(myRootGraphic, width, height);
 
-            this.winBridge = new WinSurfaceViewportControl();
-            this.winBridge.BindWindowControl(this);
-
-            this.canvasViewport = new CanvasViewport(winBridge, wintop, this.Size.ToSize(), 4);
-
-            this.winBridge.BindCanvasViewPort(this.canvasViewport); 
-            this.winBridge.BindWinTop(this.wintop); 
+            this.winBridge = new WinViewportBridge(this.wintop);
+            this.winBridge.BindWindowControl(this);      
         }
+
+        public IdbugOutputWindow IOutputWin
+        {
+            get { return this.winBridge; }
+        }
+
         protected override void OnSizeChanged(EventArgs e)
         {
-            if (canvasViewport != null)
+            if (this.winBridge != null)
             {
-                canvasViewport.UpdateCanvasViewportSize(this.Width, this.Height);
-            }
+                this.winBridge.UpdateCanvasViewportSize(this.Width, this.Height);
+            }             
             base.OnSizeChanged(e);
         }
 
@@ -64,11 +65,13 @@ namespace LayoutFarm
         }
         public void Close()
         {
-            canvasViewport.Close();
+            this.winBridge.Close();
+             
         }
         public void PaintMe()
         {
-            canvasViewport.PaintMe();
+            this.winBridge.PaintMe();
+             
         }
 
         //-----------------------------------------------------------------------------
@@ -109,7 +112,7 @@ namespace LayoutFarm
         }
         protected override void OnPaint(PaintEventArgs e)
         {
-            this.winBridge.OnPaint(e);
+            this.winBridge.PaintMe(e);
             base.OnPaint(e);
         }
 
@@ -142,78 +145,7 @@ namespace LayoutFarm
             return base.ProcessDialogKey(keyData);
         }
 
-#if DEBUG
-        public event EventHandler dbug_VisualRootDrawMsg;
-        public event EventHandler dbug_VisualRootHitChainMsg;
-        List<dbugLayoutMsg> dbugrootDocDebugMsgs = new List<dbugLayoutMsg>();
-        List<dbugLayoutMsg> dbugrootDocHitChainMsgs = new List<dbugLayoutMsg>();
-        public List<dbugLayoutMsg> dbug_rootDocDebugMsgs
-        {
-            get
-            {
-                return this.dbugrootDocDebugMsgs;
-            }
-        }
-        public List<dbugLayoutMsg> dbug_rootDocHitChainMsgs
-        {
-            get
-            {
-                return this.dbugrootDocHitChainMsgs;
-            }
-        }
-        public void dbug_HighlightMeNow(Rectangle rect)
-        {
 
-            using (System.Drawing.Pen mpen = new System.Drawing.Pen(System.Drawing.Brushes.White, 2))
-            using (System.Drawing.Graphics g = this.CreateGraphics())
-            {
-
-                System.Drawing.Rectangle r = rect.ToRect();
-                g.DrawRectangle(mpen, r);
-                g.DrawLine(mpen, new System.Drawing.Point(r.X, r.Y), new System.Drawing.Point(r.Right, r.Bottom));
-                g.DrawLine(mpen, new System.Drawing.Point(r.X, r.Bottom), new System.Drawing.Point(r.Right, r.Y));
-            }
-
-        }
-        public void dbug_InvokeVisualRootDrawMsg()
-        {
-            if (dbug_VisualRootDrawMsg != null)
-            {
-                dbug_VisualRootDrawMsg(this, EventArgs.Empty);
-            }
-        }
-        public void dbug_InvokeHitChainMsg()
-        {
-            if (dbug_VisualRootHitChainMsg != null)
-            {
-                dbug_VisualRootHitChainMsg(this, EventArgs.Empty);
-            }
-        }
-        public void dbug_BeginLayoutTraceSession(string beginMsg)
-        {
-            this.wintop.dbugVisualRoot.dbug_BeginLayoutTraceSession(beginMsg);
-        }
-        public void dbug_DisableAllDebugInfo()
-        {
-            this.wintop.dbugVisualRoot.dbug_DisableAllDebugInfo();
-        }
-        public void dbug_EnableAllDebugInfo()
-        {
-            this.wintop.dbugVisualRoot.dbug_EnableAllDebugInfo();
-        }
-        public void dbug_ReArrangeWithBreakOnSelectedNode()
-        {
-
-            vinv_dbugBreakOnSelectedVisuallElement = true;
-            this.wintop.TopDownReArrangeContentIfNeed();
-
-        }
-        protected bool vinv_dbugBreakOnSelectedVisuallElement
-        {
-            get;
-            set;
-        }
-#endif
 
     }
 

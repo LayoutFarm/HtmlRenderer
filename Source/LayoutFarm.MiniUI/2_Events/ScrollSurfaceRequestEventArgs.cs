@@ -35,6 +35,7 @@ namespace LayoutFarm
         //
         VerticalScroll = 1,
     }
+
     public class UIScrollEventArgs : EventArgs
     {
         UIScrollEventType eventType;

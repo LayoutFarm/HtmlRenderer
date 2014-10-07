@@ -53,10 +53,11 @@
     <Compile Include="PlatformSpecific\CanvasViewport.cs" />
     <Compile Include="PlatformSpecific\dbugHelper.cs" />
     <Compile Include="PlatformSpecific\FormCanvasHelper.cs" />
-    <Compile Include="PlatformSpecific\ISurfaceViewportControl.cs" />
+    <Compile Include="PlatformSpecific\IdbugOutputWindow.cs" />
     <Compile Include="PlatformSpecific\QuadPages.cs" />
     <Compile Include="PlatformSpecific\WinGdiPlatform.cs" />
-    <Compile Include="PlatformSpecific\WinSurfaceViewportControl.cs" />
+    <Compile Include="PlatformSpecific\WinViewportBridge.cs" />
+    <Compile Include="PlatformSpecific\WinViewportBridge_dbug.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TopBox\0_MyTopWindowRenderBox.cs" />
     <Compile Include="TopBox\0_MyTopWindowRenderBox_dbug.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="TopBox\MyIntervalTaskEventArgs.cs" />
     <Compile Include="TopBox\MyRootGraphic.cs" />
     <Compile Include="TopBox\MyTimerSheet.cs" />
-    <Compile Include="TopBox\TopBoxInputEventBridge.cs" />
+    <Compile Include="TopBox\UserInputEventBridge.cs" />
     <Compile Include="TopBox\UIHoverMonitor.cs" />
     <Compile Include="PlatformSpecific\MyCustomRenderSurface.cs" />
   </ItemGroup>

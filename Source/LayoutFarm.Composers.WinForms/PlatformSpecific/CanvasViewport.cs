@@ -13,11 +13,9 @@ namespace LayoutFarm
         int viewportY;
         int viewportWidth;
         int viewportHeight;
-
-        ISurfaceViewportControl outputWindow;
-
+ 
         MyTopWindowRenderBox topWindowBox;
-        
+
         QuadPages quadPages = null;
 
         int h_smallChange = 0;
@@ -26,44 +24,42 @@ namespace LayoutFarm
         int v_largeChange = 0;
 
         EventHandler<UIInvalidateEventArgs> canvasInvalidateHandler;
-        EventHandler<UICursorEventArgs> canvasCursorChangedHandler;
         EventHandler<EventArgs> canvasSizeChangedHandler;
-        bool fullMode = true; 
+
+        bool fullMode = true;
         bool isClosed;//is this viewport closed
-        
-        public CanvasViewport(ISurfaceViewportControl outputWindow,
-            MyTopWindowRenderBox wintop,
+
+        public CanvasViewport(MyTopWindowRenderBox wintop,
             Size viewportSize, int cachedPageNum)
         {
-            this.outputWindow = outputWindow;
+            
             this.topWindowBox = wintop;
-
             quadPages = new QuadPages(cachedPageNum, viewportSize.Width, viewportSize.Height * 2);
 
             this.viewportWidth = viewportSize.Width;
             this.viewportHeight = viewportSize.Height;
 
-
             canvasInvalidateHandler = Canvas_Invalidate;
-            canvasCursorChangedHandler = Canvas_CursorChange;
             canvasSizeChangedHandler = Canvas_SizeChanged;
-
-
 
             wintop.CanvasInvalidatedEvent += canvasInvalidateHandler;
 
             viewportX = 0;
             viewportY = 0;
-            CalculateCanvasPages();
-            EvaluateScrollBar();
-             
-        }
 
+            CalculateCanvasPages();
+        }
         ~CanvasViewport()
         {
             quadPages.Dispose();
         }
-
+#if DEBUG
+        public IdbugOutputWindow dbugOutputWindow
+        {
+            get;
+            set;
+        }
+#endif
         public void UpdateCanvasViewportSize(int viewportWidth, int viewportHeight)
         {
 
@@ -79,41 +75,27 @@ namespace LayoutFarm
             }
 
         }
-
-       
-
         void Canvas_CursorChange(object sender, UICursorEventArgs e)
         {
-
         }
-
         void Canvas_SizeChanged(object sender, EventArgs e)
         {
-            EvaluateScrollBar();
+            //EvaluateScrollBar();
         }
         void Canvas_Invalidate(object sender, UIInvalidateEventArgs e)
         {
             quadPages.CanvasInvalidate(e.InvalidArea);
         }
 
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        static extern IntPtr GetDC(IntPtr hWnd);
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hdc);
 
-        internal void PaintIfNeed()
+        public bool IsQuadPageValid
         {
-            if (!quadPages.IsValid)
-            {
-                PaintMe();
-            }
+            get { return this.quadPages.IsValid; }
         }
-        public void PaintMe()
+        public void PaintMe(IntPtr hdc)
         {
             if (isClosed) return;
-            //------------------------------------
-
-            IntPtr hdc = GetDC(outputWindow.Handle);
+            //------------------------------------ 
             topWindowBox.PrepareRender();
             topWindowBox.ClearNotificationSizeChangeList();
             topWindowBox.BeginRenderPhase();
@@ -136,43 +118,36 @@ namespace LayoutFarm
             RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
             if (visualroot.dbug_RecordDrawingChain)
             {
-                List<dbugLayoutMsg> outputMsgs = outputWindow.dbug_rootDocDebugMsgs;
+                List<dbugLayoutMsg> outputMsgs = dbugOutputWindow.dbug_rootDocDebugMsgs;
                 outputMsgs.Clear();
                 outputMsgs.Add(new dbugLayoutMsg(null as RenderElement, "[" + debug_render_to_output_count + "]"));
                 visualroot.dbug_DumpRootDrawingMsg(outputMsgs);
-                outputWindow.dbug_InvokeVisualRootDrawMsg();
+                dbugOutputWindow.dbug_InvokeVisualRootDrawMsg();
                 debug_render_to_output_count++;
             }
-#endif
 
-
-            ReleaseDC(outputWindow.Handle, hdc);
-#if DEBUG
 
             if (dbugHelper01.dbugVE_HighlightMe != null)
             {
-                outputWindow.dbug_HighlightMeNow(dbugHelper01.dbugVE_HighlightMe.dbugGetGlobalRect());
+                dbugOutputWindow.dbug_HighlightMeNow(dbugHelper01.dbugVE_HighlightMe.dbugGetGlobalRect());
 
             }
 #endif
         }
 
-        
+
 
 #if DEBUG
         int debug_render_to_output_count = -1;
-#endif   
+#endif
 
-        public int ViewportX { get { return this.viewportX; } }
-        public int ViewportY { get { return this.viewportY; } }
+
         internal bool FullMode
         {
             get { return this.fullMode; }
             set { this.fullMode = value; }
         }
-       
-          
-        
+
         public Point LogicalViewportLocation
         {
             get
@@ -266,22 +241,7 @@ namespace LayoutFarm
             CalculateCanvasPages();
 
         }
-        internal void ScrollBy(int dx, int dy)
-        {
-            UIScrollEventArgs hScrollEventArgs;
-            UIScrollEventArgs vScrollEventArgs;
-            ScrollByNotRaiseEvent(dx, dy, out hScrollEventArgs, out vScrollEventArgs);
-            if (vScrollEventArgs != null)
-            {
-                outputWindow.viewport_VScrollChanged(this, vScrollEventArgs);
 
-            }
-            if (hScrollEventArgs != null)
-            {
-                outputWindow.viewport_HScrollChanged(this, hScrollEventArgs);
-            }
-            PaintMe();
-        }
         public void ScrollToNotRaiseScrollChangedEvent(int x, int y, out UIScrollEventArgs hScrollEventArgs, out UIScrollEventArgs vScrollEventArgs)
         {
             hScrollEventArgs = null;
@@ -316,31 +276,9 @@ namespace LayoutFarm
             CalculateCanvasPages();
 
         }
-        public void ScrollTo(int x, int y)
-        {
-            if (this.viewportY == y && this.viewportX == x)
-            {
-                return;
-            }
-            UIScrollEventArgs hScrollEventArgs;
-            UIScrollEventArgs vScrollEventArgs;
-            ScrollToNotRaiseScrollChangedEvent(x, y, out hScrollEventArgs, out vScrollEventArgs);
 
-            if (vScrollEventArgs != null)
-            {
-                outputWindow.viewport_VScrollChanged(this, vScrollEventArgs);
-
-            }
-            if (hScrollEventArgs != null)
-            {
-
-                outputWindow.viewport_HScrollChanged(this, vScrollEventArgs);
-            }
-
-            PaintMe();
-        }
-        void EvaluateScrollBar(out ScrollSurfaceRequestEventArgs hScrollSupportEventArgs,
-            out ScrollSurfaceRequestEventArgs vScrollSupportEventArgs)
+        public void EvaluateScrollBar(out ScrollSurfaceRequestEventArgs hScrollSupportEventArgs,
+             out ScrollSurfaceRequestEventArgs vScrollSupportEventArgs)
         {
 
             hScrollSupportEventArgs = null;
@@ -372,27 +310,12 @@ namespace LayoutFarm
                 hScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(true);
             }
         }
-        void EvaluateScrollBar()
-        {
 
-            ScrollSurfaceRequestEventArgs hScrollSupportEventArgs;
-            ScrollSurfaceRequestEventArgs vScrollSupportEventArgs;
-            EvaluateScrollBar(out hScrollSupportEventArgs, out vScrollSupportEventArgs);
-            if (hScrollSupportEventArgs != null)
-            {
-                outputWindow.viewport_HScrollRequest(this, hScrollSupportEventArgs);
-            }
-            if (vScrollSupportEventArgs != null)
-            {
-                outputWindow.viewport_VScrollRequest(this, vScrollSupportEventArgs);
-            }
-        }
-       
+
         public void Close()
         {
             this.isClosed = true;
             topWindowBox.CloseWinRoot();
-
         }
     }
 }

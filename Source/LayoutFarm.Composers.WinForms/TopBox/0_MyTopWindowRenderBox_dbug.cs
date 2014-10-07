@@ -71,7 +71,7 @@ namespace LayoutFarm
                 visualroot.dbug_RootUpdateCounter++;
             }
         }
-
+        
     }
 #endif
 }

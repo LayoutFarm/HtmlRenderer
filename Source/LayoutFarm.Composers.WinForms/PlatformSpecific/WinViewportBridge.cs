@@ -10,11 +10,12 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
 
-    class WinSurfaceViewportControl : ISurfaceViewportControl
+    partial class WinViewportBridge 
     {
         CanvasEventsStock eventStock = new CanvasEventsStock();
-        CanvasViewport canvasViewport;
-        LayoutFarm.TopBoxInputEventBridge topBoxInputEventBridge = new TopBoxInputEventBridge();
+        CanvasViewport canvasViewport;        
+        UserInputEventBridge userInputEventBridge = new UserInputEventBridge();
+
         bool isMouseDown = false;
         bool isDraging = false;
 
@@ -28,33 +29,49 @@ namespace LayoutFarm
         public event EventHandler<UIScrollEventArgs> VScrollChanged;
         public event EventHandler<UIScrollEventArgs> HScrollChanged;
 
-        MyTopWindowRenderBox wintop;
+        MyTopWindowRenderBox topwin;
         EventHandler<EventArgs> parentFormClosedHandler;
         Control windowControl;
 
-        public WinSurfaceViewportControl()
+        public WinViewportBridge(MyTopWindowRenderBox wintop)
         {
+            //create view port ?
+            this.topwin = wintop;
+            wintop.CanvasForcePaint += (s, e) =>
+            {
+                PaintToOutputWindow();
+            };
+            userInputEventBridge.Bind(wintop);
         }
-
+        void PaintToOutputWindow()
+        {
+            IntPtr hdc = GetDC(this.windowControl.Handle);
+            canvasViewport.PaintMe(hdc);
+            ReleaseDC(this.windowControl.Handle, hdc);
+        }
+        void PaintToOutputWindowIfNeed()
+        {
+            if (!this.canvasViewport.IsQuadPageValid)
+            {
+                IntPtr hdc = GetDC(this.windowControl.Handle);
+                canvasViewport.PaintMe(hdc);
+                ReleaseDC(this.windowControl.Handle, hdc);
+            }
+        }
         public void BindWindowControl(Control windowControl)
         {
             this.windowControl = windowControl;
+            this.canvasViewport = new CanvasViewport(topwin, this.Size.ToSize(), 4);
+#if DEBUG
+            this.canvasViewport.dbugOutputWindow = this;
+#endif
+            this.EvaluateScrollbar();
         }
-        public void BindCanvasViewPort(CanvasViewport canvasViewport)
+        public void UpdateCanvasViewportSize(int w, int h)
         {
-            this.canvasViewport = canvasViewport;
+            this.canvasViewport.UpdateCanvasViewportSize(w, h);
         }
-        public void BindWinTop(MyTopWindowRenderBox wintop)
-        {
-            //create view port ?
-            this.wintop = wintop;
-            // canvasViewport = new CanvasViewport(this.windowControl, wintop, this.Size.ToSize(), 4);
-            wintop.CanvasForcePaint += (s, e) =>
-            {
-                canvasViewport.PaintMe();
-            };
-            topBoxInputEventBridge.Bind(wintop);
-        }
+
 
         System.Drawing.Size Size
         {
@@ -95,80 +112,117 @@ namespace LayoutFarm
 
         }
 
-        public void Invoke(Delegate d, object o)
-        {
-            this.Invoke(d, o);
-        }
         public void Close()
         {
             canvasViewport.Close();
         }
-        public void PaintMe()
+
+
+        public void EvaluateScrollbar()
         {
-            canvasViewport.PaintMe();
+            ScrollSurfaceRequestEventArgs hScrollSupportEventArgs;
+            ScrollSurfaceRequestEventArgs vScrollSupportEventArgs;
+            canvasViewport.EvaluateScrollBar(out hScrollSupportEventArgs, out vScrollSupportEventArgs);
+            if (hScrollSupportEventArgs != null)
+            {
+                viewport_HScrollRequest(this, hScrollSupportEventArgs);
+            }
+            if (vScrollSupportEventArgs != null)
+            {
+                viewport_VScrollRequest(this, vScrollSupportEventArgs);
+            }
         }
         public void ScrollBy(int dx, int dy)
         {
-            canvasViewport.ScrollBy(dx, dy);
+
+            UIScrollEventArgs hScrollEventArgs;
+            UIScrollEventArgs vScrollEventArgs;
+            canvasViewport.ScrollByNotRaiseEvent(dx, dy, out hScrollEventArgs, out vScrollEventArgs);
+            if (vScrollEventArgs != null)
+            {
+                viewport_VScrollChanged(this, vScrollEventArgs);
+            }
+            if (hScrollEventArgs != null)
+            {
+                viewport_HScrollChanged(this, hScrollEventArgs);
+            }
+             
+
+            PaintToOutputWindow();
         }
         public void ScrollTo(int x, int y)
         {
-            canvasViewport.ScrollTo(x, y);
+            Point viewporyLocation = canvasViewport.LogicalViewportLocation;
+
+            if (viewporyLocation.Y == y && viewporyLocation.X == x)
+            {
+                return;
+            }
+            UIScrollEventArgs hScrollEventArgs;
+            UIScrollEventArgs vScrollEventArgs;
+            canvasViewport.ScrollToNotRaiseScrollChangedEvent(x, y, out hScrollEventArgs, out vScrollEventArgs);
+
+            if (vScrollEventArgs != null)
+            {
+                viewport_VScrollChanged(this, vScrollEventArgs);
+
+            }
+            if (hScrollEventArgs != null)
+            {
+                viewport_HScrollChanged(this, vScrollEventArgs);
+            }
+
+            PaintToOutputWindow();
         }
 
-        void ISurfaceViewportControl.viewport_HScrollChanged(object sender, UIScrollEventArgs e)
+        void viewport_HScrollChanged(object sender, UIScrollEventArgs e)
         {
             if (HScrollChanged != null)
             {
                 HScrollChanged.Invoke(sender, e);
             }
         }
-        void ISurfaceViewportControl.viewport_HScrollRequest(object sender, ScrollSurfaceRequestEventArgs e)
+        void viewport_HScrollRequest(object sender, ScrollSurfaceRequestEventArgs e)
         {
             if (HScrollRequest != null)
             {
                 HScrollRequest.Invoke(sender, e);
             }
         }
-        void ISurfaceViewportControl.viewport_VScrollChanged(object sender, UIScrollEventArgs e)
+        void viewport_VScrollChanged(object sender, UIScrollEventArgs e)
         {
             if (VScrollChanged != null)
             {
                 VScrollChanged.Invoke(sender, e);
             }
         }
-        void ISurfaceViewportControl.viewport_VScrollRequest(object sender, ScrollSurfaceRequestEventArgs e)
+        void viewport_VScrollRequest(object sender, ScrollSurfaceRequestEventArgs e)
         {
             if (VScrollRequest != null)
             {
                 VScrollRequest.Invoke(sender, e);
             }
         }
-        IntPtr ISurfaceViewportControl.Handle
-        {
-            get
-            {
-                return this.windowControl.Handle;
-            }
-        }
+
+       
         public void OnGotFocus(EventArgs e)
         {
             UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
-            
+
             canvasViewport.FullMode = false;
 
             focusEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
-            topBoxInputEventBridge.OnGotFocus(focusEventArg);
-            canvasViewport.PaintIfNeed();
+            userInputEventBridge.OnGotFocus(focusEventArg);
+            PaintToOutputWindowIfNeed();
 
             eventStock.ReleaseEventArgs(focusEventArg);
         }
         public void OnLostFocus(EventArgs e)
         {
             UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
-            canvasViewport.FullMode = false; 
+            canvasViewport.FullMode = false;
             focusEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
-            topBoxInputEventBridge.OnLostFocus(focusEventArg);
+            userInputEventBridge.OnLostFocus(focusEventArg);
             eventStock.ReleaseEventArgs(focusEventArg);
         }
         public void OnDoubleClick(EventArgs e)
@@ -177,19 +231,19 @@ namespace LayoutFarm
                 lastestLogicalMouseDownX,
                 lastestLogicalMouseDownY, 0);
 
-            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
+            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
             SetUIMouseEventArgsInfo(mouseEventArg, newMouseEventArgs);
             canvasViewport.FullMode = false;
-            topBoxInputEventBridge.OnDoubleClick(mouseEventArg);
+            userInputEventBridge.OnDoubleClick(mouseEventArg);
 
-            canvasViewport.PaintIfNeed();
+            PaintToOutputWindowIfNeed();
 
             eventStock.ReleaseEventArgs(mouseEventArg);
         }
 
         public void OnMouseDown(MouseEventArgs e)
         {
-            MyRootGraphic.CurrentTopWindowRenderBox = this.wintop;
+            MyRootGraphic.CurrentTopWindowRenderBox = this.topwin;
 
             isMouseDown = true;
             isDraging = false;
@@ -199,16 +253,16 @@ namespace LayoutFarm
             lastestLogicalMouseDownY = (viewLocation.Y + e.Y);
 
 
-            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
+            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
             SetUIMouseEventArgsInfo(mouseEventArg, e);
             canvasViewport.FullMode = false;
 
-            topBoxInputEventBridge.OnMouseDown(mouseEventArg);
+            userInputEventBridge.OnMouseDown(mouseEventArg);
 
-            this.canvasViewport.PaintIfNeed();
+            PaintToOutputWindowIfNeed();
             //---------------
 #if DEBUG
-            RootGraphic visualroot = this.wintop.dbugVRoot;
+            RootGraphic visualroot = this.topwin.dbugVRoot;
             if (visualroot.dbug_RecordHitChain)
             {
                 dbug_rootDocHitChainMsgs.Clear();
@@ -238,8 +292,8 @@ namespace LayoutFarm
 
                     dragEventArg.OffsetCanvasOrigin(viewLocation);
                     canvasViewport.FullMode = false;
-                    this.topBoxInputEventBridge.OnDragStart(dragEventArg);
-                    canvasViewport.PaintIfNeed();
+                    this.userInputEventBridge.OnDragStart(dragEventArg);
+                    PaintToOutputWindowIfNeed();
 
                     isDraging = true;
                     eventStock.ReleaseEventArgs(dragEventArg);
@@ -257,8 +311,8 @@ namespace LayoutFarm
 
                         canvasViewport.FullMode = false;
                         dragEventArg.OffsetCanvasOrigin(viewLocation);
-                        topBoxInputEventBridge.OnDrag(dragEventArg);
-                        canvasViewport.PaintIfNeed();
+                        userInputEventBridge.OnDrag(dragEventArg);
+                        PaintToOutputWindowIfNeed();
 
 
                         eventStock.ReleaseEventArgs(dragEventArg);
@@ -267,7 +321,7 @@ namespace LayoutFarm
             }
             else
             {
-                UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
+                UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
 
 
                 SetUIMouseEventArgsInfo(mouseEventArg, e);
@@ -275,23 +329,20 @@ namespace LayoutFarm
                     (viewLocation.X + e.X) - prevLogicalMouseX, (viewLocation.Y + e.Y) - prevLogicalMouseY);
 
                 mouseEventArg.OffsetCanvasOrigin(viewLocation);
-                topBoxInputEventBridge.OnMouseMove(mouseEventArg);
+                userInputEventBridge.OnMouseMove(mouseEventArg);
 
-                canvasViewport.PaintIfNeed();
+                PaintToOutputWindowIfNeed();
 
                 eventStock.ReleaseEventArgs(mouseEventArg);
             }
             prevLogicalMouseX = (viewLocation.X + e.X);
-            prevLogicalMouseY = (viewLocation.Y + e.Y);
-
-
-
+            prevLogicalMouseY = (viewLocation.Y + e.Y); 
         }
         public void OnMouseUp(MouseEventArgs e)
         {
 
             isMouseDown = false;
-           
+
             if (isDraging)
             {
 
@@ -306,8 +357,8 @@ namespace LayoutFarm
 
                 canvasViewport.FullMode = false;
                 mouseDragEventArg.OffsetCanvasOrigin(viewLocation);
-                topBoxInputEventBridge.OnDragStop(mouseDragEventArg);
-                canvasViewport.PaintIfNeed();
+                userInputEventBridge.OnDragStop(mouseDragEventArg);
+                PaintToOutputWindowIfNeed();
 
                 eventStock.ReleaseEventArgs(mouseDragEventArg);
 
@@ -315,80 +366,82 @@ namespace LayoutFarm
             else
             {
 
-                UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
+                UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
 
                 SetUIMouseEventArgsInfo(mouseEventArg, e);
                 canvasViewport.FullMode = false;
                 mouseEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
-                topBoxInputEventBridge.OnMouseUp(mouseEventArg);
-                canvasViewport.PaintIfNeed();
-
+                userInputEventBridge.OnMouseUp(mouseEventArg);
+                 
+                PaintToOutputWindowIfNeed();
                 eventStock.ReleaseEventArgs(mouseEventArg);
             }
         }
-
-        public void OnPaint(PaintEventArgs e)
+        public void PaintMe()
         {
             if (canvasViewport != null)
             {
                 //temp ? for debug
                 canvasViewport.FullMode = true;
-                canvasViewport.PaintMe();
+                PaintToOutputWindow();
             }
+        }
+
+        public void PaintMe(PaintEventArgs e)
+        {
+            PaintMe();
         }
 
         public void OnMouseWheel(MouseEventArgs e)
         {
 
-            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.wintop);
-     
-
+            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
             SetUIMouseEventArgsInfo(mouseEventArg, e);
             canvasViewport.FullMode = true;
 
             mouseEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
-            topBoxInputEventBridge.OnMouseWheel(mouseEventArg);
-            canvasViewport.PaintIfNeed();
+            userInputEventBridge.OnMouseWheel(mouseEventArg);
+            PaintToOutputWindowIfNeed();
 
             eventStock.ReleaseEventArgs(mouseEventArg);
         }
         public void OnKeyDown(KeyEventArgs e)
         {
 
-            MyRootGraphic.CurrentTopWindowRenderBox = this.wintop;
+            MyRootGraphic.CurrentTopWindowRenderBox = this.topwin;
 
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
 
             SetKeyData(keyEventArgs, e);
 
 
-            this.wintop.MyVisualRoot.TempStopCaret();
-            canvasViewport.FullMode = false; 
+            this.topwin.MyVisualRoot.TempStopCaret();
+            canvasViewport.FullMode = false;
             keyEventArgs.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
 #if DEBUG
-            wintop.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-            wintop.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UIKeys)e.KeyData);
-            wintop.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UIKeys)e.KeyData);
+            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
 #endif
 
-            topBoxInputEventBridge.OnKeyDown(keyEventArgs);
-            canvasViewport.PaintIfNeed();
+            userInputEventBridge.OnKeyDown(keyEventArgs);
+            PaintToOutputWindowIfNeed();
             eventStock.ReleaseEventArgs(keyEventArgs);
         }
         public void OnKeyUp(KeyEventArgs e)
         {
-            MyRootGraphic.CurrentTopWindowRenderBox = this.wintop;
+            MyRootGraphic.CurrentTopWindowRenderBox = this.topwin;
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
             SetKeyData(keyEventArgs, e);
- 
-            wintop.MyVisualRoot.TempStopCaret();
+
+            topwin.MyVisualRoot.TempStopCaret();
 
             canvasViewport.FullMode = false;
             keyEventArgs.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
-            topBoxInputEventBridge.OnKeyUp(keyEventArgs);
+            userInputEventBridge.OnKeyUp(keyEventArgs);
 
 
-            wintop.MyVisualRoot.TempRunCaret();
+            topwin.MyVisualRoot.TempRunCaret();
 
             eventStock.ReleaseEventArgs(keyEventArgs);
         }
@@ -403,21 +456,21 @@ namespace LayoutFarm
                 return;
             }
 
-            
+
             UIKeyPressEventArgs keyPressEventArgs = eventStock.GetFreeKeyPressEventArgs();
             keyPressEventArgs.SetKeyChar(e.KeyChar);
 
-            wintop.MyVisualRoot.TempStopCaret();
+            topwin.MyVisualRoot.TempStopCaret();
 #if DEBUG
-            wintop.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-            wintop.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYPRESS " + e.KeyChar);
-            wintop.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYPRESS " + e.KeyChar);
+            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
 #endif
 
             canvasViewport.FullMode = false;
             keyPressEventArgs.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
-            topBoxInputEventBridge.OnKeyPress(keyPressEventArgs);
-            canvasViewport.PaintIfNeed();
+            userInputEventBridge.OnKeyPress(keyPressEventArgs);
+            PaintToOutputWindowIfNeed();
 
 
             eventStock.ReleaseEventArgs(keyPressEventArgs);
@@ -428,98 +481,28 @@ namespace LayoutFarm
             UIKeyEventArgs keyEventArg = eventStock.GetFreeKeyEventArgs();
 
             keyEventArg.KeyData = (int)keyData;
-             
-            wintop.MyVisualRoot.TempStopCaret();
+
+            topwin.MyVisualRoot.TempStopCaret();
             canvasViewport.FullMode = false;
 
             keyEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
-            bool result = topBoxInputEventBridge.OnProcessDialogKey(keyEventArg);
+            bool result = userInputEventBridge.OnProcessDialogKey(keyEventArg);
             eventStock.ReleaseEventArgs(keyEventArg);
 
             if (result)
             {
-                canvasViewport.PaintIfNeed();
+                PaintToOutputWindowIfNeed();
                 return true;
             }
             return false;
         }
 
-#if DEBUG
-        public event EventHandler dbug_VisualRootDrawMsg;
-        public event EventHandler dbug_VisualRootHitChainMsg;
-        List<dbugLayoutMsg> dbugrootDocDebugMsgs = new List<dbugLayoutMsg>();
-        List<dbugLayoutMsg> dbugrootDocHitChainMsgs = new List<dbugLayoutMsg>();
-        public List<dbugLayoutMsg> dbug_rootDocDebugMsgs
-        {
-            get
-            {
-                return this.dbugrootDocDebugMsgs;
-            }
-        }
-        public List<dbugLayoutMsg> dbug_rootDocHitChainMsgs
-        {
-            get
-            {
-                return this.dbugrootDocHitChainMsgs;
-            }
-        }
-        System.Drawing.Graphics dbugCreateGraphics()
-        {
-            return this.windowControl.CreateGraphics();
-        }
-        public void dbug_HighlightMeNow(Rectangle rect)
-        {
 
-            using (System.Drawing.Pen mpen = new System.Drawing.Pen(System.Drawing.Brushes.White, 2))
-            using (System.Drawing.Graphics g = this.dbugCreateGraphics())
-            {
 
-                System.Drawing.Rectangle r = rect.ToRect();
-                g.DrawRectangle(mpen, r);
-                g.DrawLine(mpen, new System.Drawing.Point(r.X, r.Y), new System.Drawing.Point(r.Right, r.Bottom));
-                g.DrawLine(mpen, new System.Drawing.Point(r.X, r.Bottom), new System.Drawing.Point(r.Right, r.Y));
-            }
-
-        }
-        public void dbug_InvokeVisualRootDrawMsg()
-        {
-            if (dbug_VisualRootDrawMsg != null)
-            {
-                dbug_VisualRootDrawMsg(this, EventArgs.Empty);
-            }
-        }
-        public void dbug_InvokeHitChainMsg()
-        {
-            if (dbug_VisualRootHitChainMsg != null)
-            {
-                dbug_VisualRootHitChainMsg(this, EventArgs.Empty);
-            }
-        }
-        public void dbug_BeginLayoutTraceSession(string beginMsg)
-        {
-            this.wintop.dbugVisualRoot.dbug_BeginLayoutTraceSession(beginMsg);
-        }
-        public void dbug_DisableAllDebugInfo()
-        {
-            this.wintop.dbugVisualRoot.dbug_DisableAllDebugInfo();
-        }
-        public void dbug_EnableAllDebugInfo()
-        {
-            this.wintop.dbugVisualRoot.dbug_EnableAllDebugInfo();
-        }
-        public void dbug_ReArrangeWithBreakOnSelectedNode()
-        {
-
-            vinv_dbugBreakOnSelectedVisuallElement = true;
-            this.wintop.TopDownReArrangeContentIfNeed();
-
-        }
-        protected bool vinv_dbugBreakOnSelectedVisuallElement
-        {
-            get;
-            set;
-        }
-#endif
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        static extern IntPtr GetDC(IntPtr hWnd);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hdc);
 
     }
 
