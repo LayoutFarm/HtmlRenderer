@@ -1,29 +1,29 @@
 ﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing; 
-namespace LayoutFarm
-{   
-    public class InternalRect
+
+namespace LayoutFarm.Drawing
+{
+    public struct Rect
     {
         public int _left;
         public int _top;
         public int _right;
-        public int _bottom; 
-        private InternalRect()
-        {
-        }
-        private InternalRect(int left, int top, int right, int bottom)
+        public int _bottom;
+        
+        private Rect(int left, int top, int right, int bottom)
         {
             this._left = left;
             this._top = top;
             this._bottom = bottom;
             this._right = right;
         }
-        private InternalRect(int width, int height)
+        private Rect(int width, int height)
         {
             this._right = width;
             this._bottom = height;
+            this._left = 0;
+            this._top  = 0;
         }
 
         public Rectangle ToRectangle()
@@ -32,75 +32,36 @@ namespace LayoutFarm
 
         }
 
-        public void LoadValues(InternalRect anotherRect)
+        public void LoadValues(Rect anotherRect)
         {
             this._left = anotherRect._left;
             this._right = anotherRect._right;
             this._top = anotherRect._top;
             this._bottom = anotherRect._bottom;
         }
-        public static InternalRect CreateFromLTRB(int left, int top, int right, int bottom)
+        public static Rect CreateFromLTRB(int left, int top, int right, int bottom)
         {
-            if (rectPool.Count > 0)
-            {
-                InternalRect rectInPool = rectPool.Pop();
-                rectInPool._left = left;
-                rectInPool._top = top;
-                rectInPool._right = right;
-                rectInPool._bottom = bottom;
-                return rectInPool;
-            }
-            else
-            {
-                return new InternalRect(left, top, right, bottom);
-            }
-
+            return new Rect(left, top, right, bottom); 
         }
-        public static InternalRect CreateFromWH(int width, int height)
+        public static Rect CreateFromWH(int width, int height)
         {
-            if (rectPool.Count > 0)
-            {
-                InternalRect rectInPool = rectPool.Pop();
-                rectInPool._left = 0;
-                rectInPool._top = 0;
-                rectInPool._right = width;
-                rectInPool._bottom = height;
-                return rectInPool;
-            }
-            else
-            {
-                return new InternalRect(width, height);
-            }
+            return new Rect(width, height);
+             
         }
-        public static InternalRect CreateFromRect(int left, int top, int width, int height)
+        public static Rect CreateFromRect(int left, int top, int width, int height)
         {
-            if (rectPool.Count > 0)
-            {
-                InternalRect rectInPool = rectPool.Pop();
-                rectInPool._left = left;
-                rectInPool._top = top;
-                rectInPool._right = left + width;
-                rectInPool._bottom = top + height;
-                return rectInPool;
-            }
-            else
-            {
-                return new InternalRect(left, top, left + width, top + height);
-            }
+            return new Rect(left, top, left + width, top + height);
+           
 
         }
 
-        static Stack<InternalRect> rectPool = new Stack<InternalRect>(20);
-        public static InternalRect CreateFromRect(Rectangle r)
+      
+        public static Rect CreateFromRect(Rectangle r)
         {
             return CreateFromLTRB(r.Left, r.Top, r.Right, r.Bottom);
         }
 
-        public static void FreeInternalRect(InternalRect rect)
-        {
-            rectPool.Push(rect);
-
-        }
+       
         public int Width
         {
             get
@@ -115,7 +76,7 @@ namespace LayoutFarm
                 return _bottom - _top;
             }
         }
-        public void MergeRect(InternalRect r2)
+        public void MergeRect(Rect r2)
         {
 
             if (r2._left < _left)
@@ -258,18 +219,13 @@ namespace LayoutFarm
         {
             if (((_left <= left) && (_right > left)) || ((_left >= left) && (_left < right)))
             {
-                if (((_top <= top) && (_bottom > top))
-|| ((_top >= top) && (_top < bottom)))
+                if (((_top <= top) && (_bottom > top)) || ((_top >= top) && (_top < bottom)))
                 {
                     return true;
                 }
             }
             return false;
         }
-
-
-
-
 #if DEBUG
         public override string ToString()
         {

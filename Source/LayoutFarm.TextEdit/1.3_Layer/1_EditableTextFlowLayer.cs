@@ -17,7 +17,7 @@ namespace LayoutFarm.Text
 
         public event EventHandler Reflow;
 
-        public static TextFontInfo DefaultFontInfo
+        public static FontInfo DefaultFontInfo
         {
             get;
             set;
@@ -193,7 +193,7 @@ namespace LayoutFarm.Text
 
         }
 #endif
-        public override void DrawChildContent(Canvas canvasPage, InternalRect updateArea)
+        public override void DrawChildContent(Canvas canvasPage, Rect updateArea)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) != 0)
             {

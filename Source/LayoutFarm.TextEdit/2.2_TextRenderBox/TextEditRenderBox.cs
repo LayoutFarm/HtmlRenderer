@@ -25,7 +25,7 @@ namespace LayoutFarm.Text
             get { return this.scrollRelation; }
             set { this.scrollRelation = value; }
         }
-        protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
+        protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
         {
 
 

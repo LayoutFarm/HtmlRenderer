@@ -79,7 +79,7 @@ namespace LayoutFarm
 
             }
         }
-        public override void DrawToThisPage(Canvas destPage, InternalRect updateArea)
+        public override void DrawToThisPage(Canvas destPage, Rect updateArea)
         {
             if (quadPages.pageA == null)
             {
@@ -91,7 +91,7 @@ namespace LayoutFarm
                 return;
             }
 
-            InternalRect logicalArea = InternalRect.CreateFromRect(destPage.CurrentClipRect);
+            Rect logicalArea = Rect.CreateFromRect(destPage.CurrentClipRect);
 
             logicalArea.Offset(viewportX, viewportY);
             if (this.FullModeUpdate)
@@ -109,14 +109,13 @@ namespace LayoutFarm
                     this.Width,
                     this.Height,
                     destPage);
-
-            InternalRect.FreeInternalRect(logicalArea);
+             
 
         }
 
         //------------------------------------
 
-        void UpdateInternalCanvas(Canvas internalCanvas, InternalRect updateArea)
+        void UpdateInternalCanvas(Canvas internalCanvas, Rect updateArea)
         {
 
             int logicalCanvasX = internalCanvas.Left;
@@ -186,10 +185,10 @@ namespace LayoutFarm
         }
 
 
-        void DirectDrawToThisPage(Canvas destPage, InternalRect updateArea)
+        void DirectDrawToThisPage(Canvas destPage, Rect updateArea)
         {
 
-            InternalRect internalRect = InternalRect.CreateFromWH(this.Width, this.Height);
+            Rect internalRect = Rect.CreateFromWH(this.Width, this.Height);
             if (destPage.PushClipAreaForNativeScrollableElement(internalRect))
             {
                 destPage.ClearSurface();
@@ -197,10 +196,10 @@ namespace LayoutFarm
 
             }
             destPage.PopClipArea();
-            InternalRect.FreeInternalRect(internalRect);
+             
 
         }
-        void UpdateInternalCanvasFullMode(InternalRect internalUpdateArea)
+        void UpdateInternalCanvasFullMode(Rect internalUpdateArea)
         {
             switch (quadPages.RenderParts)
             {
@@ -208,9 +207,9 @@ namespace LayoutFarm
                     {
                         if (!quadPages.pageA.IsContentUpdated)
                         {
-                            InternalRect pageARect = InternalRect.CreateFromRect(quadPages.pageA.Rect);
+                            Rect pageARect = Rect.CreateFromRect(quadPages.pageA.Rect);
                             UpdateInternalCanvas(quadPages.pageA, pageARect);
-                            InternalRect.FreeInternalRect(pageARect);
+                            
 #if DEBUG
                             dbug_DrawRuler(quadPages.pageA, 0);
 #endif
@@ -221,9 +220,9 @@ namespace LayoutFarm
                         if (!quadPages.pageA.IsContentUpdated)
                         {
 
-                            InternalRect pageARect = InternalRect.CreateFromRect(quadPages.pageA.Rect);
+                            Rect pageARect = Rect.CreateFromRect(quadPages.pageA.Rect);
                             UpdateInternalCanvas(quadPages.pageA, pageARect);
-                            InternalRect.FreeInternalRect(pageARect);
+                        
 #if DEBUG
                             dbug_DrawRuler(quadPages.pageA, 0);
 #endif
@@ -231,9 +230,9 @@ namespace LayoutFarm
                         if (!quadPages.pageB.IsContentUpdated)
                         {
 
-                            InternalRect pageBRect = InternalRect.CreateFromRect(quadPages.pageB.Rect);
+                            Rect pageBRect = Rect.CreateFromRect(quadPages.pageB.Rect);
                             UpdateInternalCanvas(quadPages.pageB, pageBRect);
-                            InternalRect.FreeInternalRect(pageBRect);
+                            
 #if DEBUG
                             dbug_DrawRuler(quadPages.pageB, 10);
 #endif
@@ -245,18 +244,18 @@ namespace LayoutFarm
                         if (!quadPages.pageA.IsContentUpdated)
                         {
 
-                            InternalRect pageARect = InternalRect.CreateFromRect(quadPages.pageA.Rect);
+                            Rect pageARect = Rect.CreateFromRect(quadPages.pageA.Rect);
                             UpdateInternalCanvas(quadPages.pageA, pageARect);
-                            InternalRect.FreeInternalRect(pageARect);
+                           
 #if DEBUG
                             dbug_DrawRuler(quadPages.pageA, 0);
 #endif
                         }
                         if (!quadPages.pageC.IsContentUpdated)
                         {
-                            InternalRect pageCRect = InternalRect.CreateFromRect(quadPages.pageC.Rect);
+                            Rect pageCRect = Rect.CreateFromRect(quadPages.pageC.Rect);
                             UpdateInternalCanvas(quadPages.pageC, pageCRect);
-                            InternalRect.FreeInternalRect(pageCRect);
+                            
 #if DEBUG
                             dbug_DrawRuler(quadPages.pageC, 0);
 #endif
@@ -266,34 +265,34 @@ namespace LayoutFarm
                     {
                         if (!quadPages.pageA.IsContentUpdated)
                         {
-                            InternalRect pageARect = InternalRect.CreateFromRect(quadPages.pageA.Rect);
+                            Rect pageARect = Rect.CreateFromRect(quadPages.pageA.Rect);
                             UpdateInternalCanvas(quadPages.pageA, pageARect);
-                            InternalRect.FreeInternalRect(pageARect);
+                           
 #if DEBUG
                             dbug_DrawRuler(quadPages.pageA, 0);
 #endif
                         }
                         if (!quadPages.pageB.IsContentUpdated)
                         {
-                            InternalRect pageBRect = InternalRect.CreateFromRect(quadPages.pageB.Rect);
+                            Rect pageBRect = Rect.CreateFromRect(quadPages.pageB.Rect);
                             UpdateInternalCanvas(quadPages.pageB, pageBRect);
-                            InternalRect.FreeInternalRect(pageBRect);
+                            
 #if DEBUG
                             dbug_DrawRuler(quadPages.pageB, 10);
 #endif
                         }
                         if (!quadPages.pageC.IsContentUpdated)
                         {
-                            InternalRect pageCRect = InternalRect.CreateFromRect(quadPages.pageC.Rect);
+                            Rect pageCRect = Rect.CreateFromRect(quadPages.pageC.Rect);
                             UpdateInternalCanvas(quadPages.pageC, pageCRect);
-                            InternalRect.FreeInternalRect(pageCRect);
+                          
 #if DEBUG
                             dbug_DrawRuler(quadPages.pageC, 0);
 #endif
                         }
                         if (!quadPages.pageD.IsContentUpdated)
                         {
-                            InternalRect pageDRect = InternalRect.CreateFromRect(quadPages.pageD.Rect);
+                            Rect pageDRect = Rect.CreateFromRect(quadPages.pageD.Rect);
                             UpdateInternalCanvas(quadPages.pageD, pageDRect);
 #if DEBUG
                             dbug_DrawRuler(quadPages.pageC, 10);
@@ -305,7 +304,7 @@ namespace LayoutFarm
         }
 
 
-        void UpdateInternalCanvasPartialMode(InternalRect internalUpdateArea)
+        void UpdateInternalCanvasPartialMode(Rect internalUpdateArea)
         {
 
 

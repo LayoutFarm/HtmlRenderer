@@ -749,7 +749,7 @@ namespace LayoutFarm
             return false;
 
         }
-        public override void DrawChildContent(Canvas canvasPage, InternalRect updateArea)
+        public override void DrawChildContent(Canvas canvasPage, Rect updateArea)
         {
             GridCell leftTopGridItem = GetGridItemByPosition(updateArea._left, updateArea._top);
             if (leftTopGridItem == null)

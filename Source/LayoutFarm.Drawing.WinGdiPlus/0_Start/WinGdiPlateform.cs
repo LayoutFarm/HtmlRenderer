@@ -1,11 +1,13 @@
 ﻿
-
+using System;
 namespace LayoutFarm.Drawing.WinGdiPlatform
 {
     public static class WinGdi
     {
-        static WinGdiGraphicsPlateform platform;
+        static WinGdiPlateform platform;
         static bool isInit;
+       
+
         public static void Start()
         {
             if (isInit)
@@ -14,30 +16,31 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
             }
             isInit = true;
 
-            platform = new WinGdiGraphicsPlateform();
+            platform = new WinGdiPlateform();
             CurrentGraphicPlatform.SetCurrentPlatform(platform);
             CurrentGraphicPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
-        }
+
+            
+             
+        } 
         public static void End()
         {
 
         }
-        public static GraphicPlatform Platform
-        {
-            get { return platform; }
-        }
+     
     }
 
 
-    class WinGdiGraphicsPlateform : GraphicPlatform
+    class WinGdiPlateform : GraphicPlatform
     {
         System.Drawing.Bitmap sampleBmp;
         IGraphics sampleIGraphics;
-        public WinGdiGraphicsPlateform()
+
+        public WinGdiPlateform()
         {
         }
 
-        ~WinGdiGraphicsPlateform()
+        ~WinGdiPlateform()
         {
             if (sampleBmp != null)
             {
@@ -109,18 +112,17 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         {
             return new MyRegion();
         }
-        public override TextFontInfo CreateTexFontInfo(object nativeFont)
+        public override FontInfo CreateTexFontInfo(object nativeFont)
         {
-            return new TextFontInfo(
-                new MyFont((System.Drawing.Font)nativeFont),
-                new BasicGdi32FontHelper());
+            return LayoutFarm.FontsUtils.GetCachedFont((System.Drawing.Font)nativeFont);
+
         }
         public override Canvas CreateCanvas(int horizontalPageNum, int verticalPageNum, int left, int top, int width, int height)
         {
             return new MyCanvas(horizontalPageNum, verticalPageNum,
                 left, top, width, height);
         }
-        
+
         public override IGraphics SampleIGraphics
         {
             get
@@ -138,8 +140,8 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
                 return this.sampleIGraphics;
             }
         }
-         
-        public override IGraphics SampleIFonts
+
+        public override IFonts SampleIFonts
         {
             get { return this.SampleIGraphics; }
         }

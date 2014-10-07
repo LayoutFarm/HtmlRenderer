@@ -31,7 +31,7 @@ namespace LayoutFarm
        
 
         
-        protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
+        protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
         {
             canvasPage.FillRectangle(Color.White, new RectangleF(0, 0, this.Width, this.Height));
             base.BoxDrawContent(canvasPage, updateArea);
@@ -48,7 +48,7 @@ namespace LayoutFarm
         }
 
 #if DEBUG
-        public abstract void dbugShowRenderPart(Canvas canvasPage, InternalRect updateArea);
+        public abstract void dbugShowRenderPart(Canvas canvasPage, Rect updateArea);
         public RootGraphic dbugVisualRoot
         {
             get

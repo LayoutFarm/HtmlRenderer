@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm
+namespace LayoutFarm.Drawing
 {
 
     public abstract class Canvas
@@ -53,9 +53,9 @@ namespace LayoutFarm
         public abstract void ReleaseUnManagedResource();
 
 
-        public abstract bool IntersectsWith(InternalRect clientRect);
-        public abstract bool PushClipAreaForNativeScrollableElement(InternalRect updateArea);
-        public abstract bool PushClipArea(int width, int height, InternalRect updateArea);
+        public abstract bool IntersectsWith(Rect clientRect);
+        public abstract bool PushClipAreaForNativeScrollableElement(Rect updateArea);
+        public abstract bool PushClipArea(int width, int height, Rect updateArea);
 
         public abstract void DisableClipArea();
         public abstract void EnableClipArea();
@@ -93,11 +93,11 @@ namespace LayoutFarm
         public const int SAME_FONT_DIFF_TEXT_COLOR = 1;
         public const int DIFF_FONT_SAME_TEXT_COLOR = 2;
         public const int DIFF_FONT_DIFF_TEXT_COLOR = 3;
-        public abstract int EvaluateFontAndTextColor(TextFontInfo textFontInfo, Color color);
+        public abstract int EvaluateFontAndTextColor(FontInfo FontInfo, Color color);
 
-        public abstract void PushFont(TextFontInfo textFontInfo);
+        public abstract void PushFont(FontInfo FontInfo);
         public abstract void PopFont();
-        public abstract void PushFontInfoAndTextColor(TextFontInfo textFontInfo, Color color);
+        public abstract void PushFontInfoAndTextColor(FontInfo FontInfo, Color color);
 
         public abstract void PopFontInfoAndTextColor();
 
@@ -123,7 +123,7 @@ namespace LayoutFarm
 
         public abstract void Reset(int hPageNum, int vPageNum, int newWidth, int newHeight);
 
-        public abstract void ClearSurface(InternalRect rect);
+        public abstract void ClearSurface(Rect rect);
 
         public abstract void ClearSurface();
         public abstract void FillPolygon(Brush brush, PointF[] points);
@@ -164,9 +164,7 @@ namespace LayoutFarm
         public abstract RectangleF GetBound(Region rgn);
 
         public abstract float GetFontHeight(Font f);
-
-        public abstract Region[] MeasureCharacterRanges(string text, Font f, RectangleF layoutRectF, StringFormat strFormat);
-
+ 
         public abstract Size MeasureString(string str, Font font, float maxWidth, out int charFit, out int charFitWidth);
 
         public abstract void FillRectangle(ArtColorBrush colorBrush, int left, int top, int right, int bottom);
@@ -237,9 +235,9 @@ namespace LayoutFarm
 
 
 
-        public abstract InternalRect InvalidateArea { get; }
+        public abstract Rect InvalidateArea { get; }
         public abstract bool IsContentUpdated { get; }
-        public abstract void Invalidate(InternalRect rect);
+        public abstract void Invalidate(Rect rect);
 
 
         public abstract IGraphics GetIGraphics();

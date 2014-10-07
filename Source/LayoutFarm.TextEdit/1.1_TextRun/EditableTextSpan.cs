@@ -38,10 +38,10 @@ namespace LayoutFarm.Text
         }
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
-            TextFontInfo textFontInfo = GetTextFontInfo();
+            FontInfo FontInfo = GetFontInfo();
             return new Size(
-                 textFontInfo.GetStringWidth(buffer, length),
-                 textFontInfo.FontHeight);
+                 FontInfo.GetStringWidth(buffer, length),
+                 FontInfo.FontHeight);
         }
         public bool IsInsertable
         {

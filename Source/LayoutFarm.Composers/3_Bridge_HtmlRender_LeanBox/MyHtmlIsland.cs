@@ -116,7 +116,7 @@ namespace HtmlRenderer
                 NeedUpdateDom(this, EventArgs.Empty); 
             }
         }
-        public void PerformPaint(LayoutFarm.Canvas canvas)
+        public void PerformPaint(LayoutFarm.Drawing.Canvas canvas)
         {
             if (doc == null) return;
             base.PerformPaint(canvas.GetIGraphics());

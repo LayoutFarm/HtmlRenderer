@@ -2,13 +2,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-
-using LayoutFarm.Drawing;
+using System.Text; 
 
 using LayoutFarm;
 
-namespace LayoutFarm
+namespace LayoutFarm.Drawing
 {
 
     public abstract class CustomRenderSurface
@@ -44,7 +42,7 @@ namespace LayoutFarm
         }
 
        
-        public abstract void DrawToThisPage(Canvas destPage, InternalRect updateArea);
+        public abstract void DrawToThisPage(Canvas destPage, Rect updateArea);
         //------------------------------------
     }
 

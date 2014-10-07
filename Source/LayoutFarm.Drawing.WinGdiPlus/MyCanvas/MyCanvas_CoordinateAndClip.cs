@@ -76,11 +76,11 @@ namespace LayoutFarm
             ReleaseHdc();
             gx.SetClip(rect.ToRectF(), (System.Drawing.Drawing2D.CombineMode)combineMode);
         }
-        public override bool IntersectsWith(InternalRect clientRect)
+        public override bool IntersectsWith(Rect clientRect)
         {
             return clientRect.IntersectsWith(left, top, right, bottom);
         }
-        public override bool PushClipAreaForNativeScrollableElement(InternalRect updateArea)
+        public override bool PushClipAreaForNativeScrollableElement(Rect updateArea)
         {
 
             clipRectStack.Push(currentClipRect);
@@ -101,7 +101,7 @@ namespace LayoutFarm
         }
 
 
-        public override bool PushClipArea(int width, int height, InternalRect updateArea)
+        public override bool PushClipArea(int width, int height, Rect updateArea)
         {
             clipRectStack.Push(currentClipRect);
 

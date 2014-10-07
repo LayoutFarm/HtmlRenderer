@@ -63,7 +63,7 @@ namespace LayoutFarm.Text
         }
         int GetCharacterWidth(char c)
         {
-            return GetTextFontInfo().GetCharWidth(c);
+            return GetFontInfo().GetCharWidth(c);
         }
         public VisualLocationInfo GetCharacterFromPixelOffset(int pixelOffset)
         {

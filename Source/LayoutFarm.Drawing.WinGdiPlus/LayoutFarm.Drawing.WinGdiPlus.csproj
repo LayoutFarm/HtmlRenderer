@@ -39,8 +39,7 @@
   <ItemGroup>
     <Compile Include="MyCanvas\MyCanvas_CanvasProps.cs" />
     <Compile Include="MyCanvas\MyCanvas_DrawGraphics.cs" />
-    <Compile Include="Implementation\FontManager.cs" />
-    <Compile Include="Implementation\GfxWin32InterOp.cs" />
+    <Compile Include="Implementation\MyFontInfo.cs" />
     <Compile Include="Implementation\MyWin32.cs" />
     <Compile Include="Implementation\NativeTextWin32.cs" />
     <Compile Include="0_Start\Conv.cs" />
@@ -57,7 +56,7 @@
     <Compile Include="MyCanvas\MyCanvas_InvalidateArea.cs" />
     <Compile Include="MyCanvas\MyCanvas_TextFuncs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="0_Start\WinGdiGraphics.cs" />
+    <Compile Include="0_Start\WinGdiPlateform.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">

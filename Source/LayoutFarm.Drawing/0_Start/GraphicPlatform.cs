@@ -8,7 +8,7 @@ namespace LayoutFarm.Drawing
         public abstract Bitmap CreateBitmap(int width, int height);
         public abstract Bitmap CreateBitmap(object bmp);
         public abstract Font CreateFont(object font);
-        public abstract TextFontInfo CreateTexFontInfo(object nativeFont);
+        public abstract FontInfo CreateTexFontInfo(object nativeFont);
 
         public abstract SolidBrush CreateSolidBrush(Color color);
         public abstract Pen CreatePen(Brush brush);
@@ -23,7 +23,6 @@ namespace LayoutFarm.Drawing
         public abstract Matrix CreateMatrix(float m11, float m12, float m21, float m22, float dx, float dy);
 
         public abstract GraphicsPath CreateGraphicPath();
-
         public abstract Region CreateRegion();
 
         public abstract Canvas CreateCanvas(int horizontalPageNum,
@@ -36,7 +35,7 @@ namespace LayoutFarm.Drawing
         
         
         public abstract IGraphics SampleIGraphics { get; }
-        public abstract IGraphics SampleIFonts { get; } 
+        public abstract IFonts SampleIFonts { get; } 
     }
 
     public static class CurrentGraphicPlatform
@@ -83,7 +82,7 @@ namespace LayoutFarm.Drawing
         {
             return platform.CreateFont(f);
         }
-        public static TextFontInfo CreateTexFontInfo(object nativeFont)
+        public static FontInfo CreateTexFontInfo(object nativeFont)
         {
             return platform.CreateTexFontInfo(nativeFont);
         }

@@ -89,8 +89,9 @@ namespace LayoutFarm
                     page.Reuse(hPageNum, vPageNum);
                 }
 
-                InternalRect rect = InternalRect.CreateFromRect(page.Rect);
-                page.Invalidate(rect); InternalRect.FreeInternalRect(rect);
+                Rect rect = Rect.CreateFromRect(page.Rect);
+                page.Invalidate(rect); 
+                 
                 return page;
             }
             else

@@ -68,7 +68,7 @@ namespace LayoutFarm.Dev
           out Form formCanvas)
         {
 
-            //new TextFontInfo(
+            //new FontInfo(
             //    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
             //     new System.Drawing.Font("tahoma", 10)),
             //     new BasicGdi32FontHelper());
