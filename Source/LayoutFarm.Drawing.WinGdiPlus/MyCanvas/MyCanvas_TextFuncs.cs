@@ -117,7 +117,8 @@ namespace LayoutFarm
 
         public override void PushFont(TextFontInfo textFontInfo)
         {
-            prevFonts.Push(currentTextFont); currentTextFont = textFontInfo;
+            prevFonts.Push(currentTextFont); 
+            currentTextFont = textFontInfo;
             IntPtr hdc = gx.GetHdc();
             prevHFonts.Push(MyWin32.SelectObject(hdc, textFontInfo.HFont));
             gx.ReleaseHdc();

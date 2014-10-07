@@ -4,7 +4,7 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
 {
     public static class WinGdi
     {
-        static WinGdiGraphicsPlateform platform;
+        static WinGdiPlateform platform;
         static bool isInit;
         public static void Start()
         {
@@ -14,7 +14,7 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
             }
             isInit = true;
 
-            platform = new WinGdiGraphicsPlateform();
+            platform = new WinGdiPlateform();
             CurrentGraphicPlatform.SetCurrentPlatform(platform);
             CurrentGraphicPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
         }
@@ -29,15 +29,16 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
     }
 
 
-    class WinGdiGraphicsPlateform : GraphicPlatform
+    class WinGdiPlateform : GraphicPlatform
     {
         System.Drawing.Bitmap sampleBmp;
         IGraphics sampleIGraphics;
-        public WinGdiGraphicsPlateform()
+
+        public WinGdiPlateform()
         {
         }
 
-        ~WinGdiGraphicsPlateform()
+        ~WinGdiPlateform()
         {
             if (sampleBmp != null)
             {
@@ -111,7 +112,7 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         }
         public override TextFontInfo CreateTexFontInfo(object nativeFont)
         {
-            return new TextFontInfo(
+            return new MyTextFontInfo(
                 new MyFont((System.Drawing.Font)nativeFont),
                 new BasicGdi32FontHelper());
         }
@@ -120,7 +121,7 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
             return new MyCanvas(horizontalPageNum, verticalPageNum,
                 left, top, width, height);
         }
-        
+
         public override IGraphics SampleIGraphics
         {
             get
@@ -138,8 +139,8 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
                 return this.sampleIGraphics;
             }
         }
-         
-        public override IGraphics SampleIFonts
+
+        public override IFonts SampleIFonts
         {
             get { return this.SampleIGraphics; }
         }

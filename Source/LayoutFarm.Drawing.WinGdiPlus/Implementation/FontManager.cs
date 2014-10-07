@@ -1,11 +1,11 @@
 ﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using System.Text; 
+using System.Text;
 
-namespace LayoutFarm.Drawing 
+namespace LayoutFarm.Drawing
 {
-    class BasicGdi32FontHelper : IFonts2
+    class BasicGdi32FontHelper 
     {
         System.Drawing.Bitmap bmp;
         IntPtr hdc;
@@ -81,6 +81,105 @@ namespace LayoutFarm.Drawing
             NativeTextWin32.GetTextExtentPoint32(hdc, buffer, length, out size);
             return size.Width;
         }
+
+    }
+
+    class MyTextFontInfo : TextFontInfo
+    {
+
+        int[] charWidths;
+        Font myFont;
+        IntPtr hFont;
+        int fontHeight;
+        bool disposed;
+        BasicGdi32FontHelper gdiFontHelper;
+
+        public MyTextFontInfo(Font font, BasicGdi32FontHelper gdiFontHelper)
+        {
+            fontHeight = font.Height;
+            myFont = font;
+            hFont = myFont.ToHfont();
+            this.gdiFontHelper = gdiFontHelper;
+
+            charWidths = gdiFontHelper.MeasureCharWidths(hFont);
+        }
+
+        public void Dispose()
+        {
+            myFont.Dispose();
+            disposed = true;
+        }
+        ~MyTextFontInfo()
+        {
+            Dispose();
+        }
+        public override int FontHeight
+        {
+            get
+            {
+                return fontHeight;
+            }
+        }
+        public override Font Font
+        {
+            get
+            {
+                return myFont;
+            }
+
+        }
+        public override IntPtr HFont
+        {
+            get
+            {
+                return hFont;
+            }
+        }
+        public override int GetCharWidth(char c)
+        {
+            int converted = (int)c;
+            if (converted > 160)
+            {
+                converted -= 3424;
+            }
+            if (converted < 256 && converted > -1)
+            {
+                return charWidths[converted];
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        public override int GetStringWidth(char[] buffer)
+        {
+            if (buffer == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return gdiFontHelper.MeasureStringWidth(this.hFont, buffer);
+
+            }
+        }
+        public override int GetStringWidth(char[] buffer, int length)
+        {
+            if (buffer == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return this.gdiFontHelper.MeasureStringWidth(this.hFont, buffer, length);
+
+            }
+        }
+        public override FontSignature GetFontSignature()
+        {
+            return new FontSignature(myFont.Name, myFont.Size, myFont.Style);
+
+        }
     }
 
     static class FontManager
@@ -93,7 +192,7 @@ namespace LayoutFarm.Drawing
         {
 
 
-            defaultTextFontInfo = new TextFontInfo(
+            defaultTextFontInfo = new MyTextFontInfo(
                 LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
                 new System.Drawing.Font("Tahoma", 10)),
                 gdiFontHelper);
@@ -108,8 +207,8 @@ namespace LayoutFarm.Drawing
 
         static void RegisterFont(Font fontInfo)
         {
-            TextFontInfo textfontInfo = new TextFontInfo(fontInfo, gdiFontHelper);
-            fontDics.Add(textfontInfo.GetFontSignature(), new TextFontInfo(fontInfo, gdiFontHelper));
+            MyTextFontInfo textfontInfo = new MyTextFontInfo(fontInfo, gdiFontHelper);
+            fontDics.Add(textfontInfo.GetFontSignature(), textfontInfo);
 
         }
         public static TextFontInfo GetTextFontInfo(string fontface, float size, bool bold, bool itatic)
@@ -138,7 +237,7 @@ namespace LayoutFarm.Drawing
             else
             {
 
-                textFontInfo = new TextFontInfo(
+                textFontInfo = new MyTextFontInfo(
                     LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
                       new System.Drawing.Font(fontface,
                           size, (System.Drawing.FontStyle)fontStyle)),
@@ -158,7 +257,7 @@ namespace LayoutFarm.Drawing
             else
             {
 
-                textFontInfo = new TextFontInfo(
+                textFontInfo = new MyTextFontInfo(
                      LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
                         new System.Drawing.Font(
                             fontSig.FontName,
@@ -183,7 +282,7 @@ namespace LayoutFarm.Drawing
             }
             else
             {
-                textFontInfo = new TextFontInfo(
+                textFontInfo = new MyTextFontInfo(
                      LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
                         new System.Drawing.Font(fontface, size)),
                     gdiFontHelper);

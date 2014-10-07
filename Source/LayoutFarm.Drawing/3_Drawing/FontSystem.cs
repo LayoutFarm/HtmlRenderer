@@ -7,7 +7,7 @@ using System.Text;
 using LayoutFarm.Drawing;
 
 namespace LayoutFarm
-{   
+{
 
     public struct FontSignature
     {
@@ -45,108 +45,18 @@ namespace LayoutFarm
 
     }
 
+     
 
-    public interface IFonts2
+
+    public abstract class TextFontInfo
     {
-        int[] MeasureCharWidths(IntPtr hFont);
-        int MeasureStringWidth(IntPtr hFont, char[] buffer);
-        int MeasureStringWidth(IntPtr hFont, char[] buffer, int length);
-    }
+        public abstract int FontHeight { get; }
+        public abstract Font Font { get; }
+        public abstract IntPtr HFont { get; }
+        public abstract int GetCharWidth(char c);
 
-
-    public class TextFontInfo
-    {
-
-        int[] charWidths;
-        Font myFont;
-        IntPtr hFont;
-        int fontHeight;
-        bool disposed;
-        IFonts2 gdiFontHelper;
-
-        public TextFontInfo(Font font, IFonts2 gdiFontHelper)
-        {
-            fontHeight = font.Height; myFont = font;
-            hFont = myFont.ToHfont();
-            this.gdiFontHelper = gdiFontHelper;
-            charWidths = gdiFontHelper.MeasureCharWidths(hFont);
-        }
-
-        public void Dispose()
-        {
-            myFont.Dispose();
-            disposed = true;
-        }
-        ~TextFontInfo()
-        {
-            Dispose();
-        }
-        public int FontHeight
-        {
-            get
-            {
-                return fontHeight;
-            }
-        }
-        public Font Font
-        {
-            get
-            {
-                return myFont;
-            }
-
-        }
-        public IntPtr HFont
-        {
-            get
-            {
-                return hFont;
-            }
-        }
-        public int GetCharWidth(char c)
-        {
-            int converted = (int)c;
-            if (converted > 160)
-            {
-                converted -= 3424;
-            }
-            if (converted < 256 && converted > -1)
-            {
-                return charWidths[converted];
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        public int GetStringWidth(char[] buffer)
-        {
-            if (buffer == null)
-            {
-                return 0;
-            }
-            else
-            {
-                return gdiFontHelper.MeasureStringWidth(this.hFont, buffer);
-
-            }
-        }
-        public int GetStringWidth(char[] buffer, int length)
-        {
-            if (buffer == null)
-            {
-                return 0;
-            }
-            else
-            {
-                return this.gdiFontHelper.MeasureStringWidth(this.hFont, buffer, length);
-
-            }
-        }
-        public FontSignature GetFontSignature()
-        {
-            return new FontSignature(myFont.Name, myFont.Size, myFont.Style);
-
-        }
+        public abstract int GetStringWidth(char[] buffer);
+        public abstract int GetStringWidth(char[] buffer, int length);
+        public abstract FontSignature GetFontSignature();
     }
 }

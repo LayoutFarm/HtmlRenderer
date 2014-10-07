@@ -36,7 +36,7 @@ namespace LayoutFarm.Drawing
         
         
         public abstract IGraphics SampleIGraphics { get; }
-        public abstract IGraphics SampleIFonts { get; } 
+        public abstract IFonts SampleIFonts { get; } 
     }
 
     public static class CurrentGraphicPlatform

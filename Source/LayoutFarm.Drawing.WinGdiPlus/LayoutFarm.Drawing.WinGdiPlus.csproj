@@ -57,7 +57,7 @@
     <Compile Include="MyCanvas\MyCanvas_InvalidateArea.cs" />
     <Compile Include="MyCanvas\MyCanvas_TextFuncs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="0_Start\WinGdiGraphics.cs" />
+    <Compile Include="0_Start\WinGdiPlateform.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
