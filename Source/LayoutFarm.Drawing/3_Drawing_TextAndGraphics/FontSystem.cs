@@ -3,17 +3,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
-using LayoutFarm.Drawing;
+using System.Text; 
 
-namespace LayoutFarm
+namespace LayoutFarm.Drawing
 {
 
     public struct FontSignature
     {
         public static readonly FontSignature Empty = new FontSignature();
         string _fontName;
-        float _fontSize; FontStyle style;
+        float _fontSize; 
+        FontStyle style;
         public FontSignature(string fontName, float fontSize, FontStyle style)
         {
             this._fontName = fontName;

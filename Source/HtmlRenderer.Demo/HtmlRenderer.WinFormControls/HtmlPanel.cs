@@ -81,7 +81,7 @@ namespace HtmlRenderer
         ImageContentManager imageContentMan = new ImageContentManager();
         TextContentManager textContentMan = new TextContentManager();
 
-        LayoutFarm.Canvas renderCanvas = LayoutFarm.Drawing.CurrentGraphicPlatform.P.CreateCanvas(0, 0, 0, 0, 800, 600);
+        LayoutFarm.Drawing.Canvas renderCanvas = LayoutFarm.Drawing.CurrentGraphicPlatform.P.CreateCanvas(0, 0, 0, 0, 800, 600);
 
         /// <summary>
         /// Creates a new HtmlPanel and sets a basic css for it's styling.

@@ -2,12 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using LayoutFarm.Drawing;
-
-
-
-namespace LayoutFarm
+using System.Text; 
+namespace LayoutFarm.Drawing
 {
     public abstract class ArtColorBrush
     {
@@ -139,8 +135,6 @@ namespace LayoutFarm
 
 
     }
-
-
 
 
 

@@ -58,7 +58,7 @@ namespace LayoutFarm
             if (boxHitChain.Count > 0)
             {
                 hitChain.AddHitObject(boxHitChain);
-                
+
             }
         }
     }
@@ -124,11 +124,10 @@ namespace LayoutFarm
 
                 GetParentRenderElement(out this.globalXForRenderElement, out this.globalYForRenderElement);
 
-                LayoutFarm.InternalRect rect = LayoutFarm.InternalRect.CreateFromRect(
-                    new Rectangle(0, 0, wrapper.Width, wrapper.Height));
-                var canvas = g.CurrentCanvas;
-                this.wrapper.DrawToThisPage(canvas, rect);
-                LayoutFarm.InternalRect.FreeInternalRect(rect);
+                InternalRect rect = InternalRect.CreateFromRect(
+                     new Rectangle(0, 0, wrapper.Width, wrapper.Height));
+                this.wrapper.DrawToThisPage(g.CurrentCanvas, rect);
+                InternalRect.FreeInternalRect(rect);
 
             }
             else
@@ -195,7 +194,7 @@ namespace LayoutFarm
             {
                 get
                 {
-                     
+
                     return this.AdjustX;
                 }
             }
@@ -203,15 +202,15 @@ namespace LayoutFarm
             {
                 get
                 {
-                    return this.AdjustY; 
+                    return this.AdjustY;
                 }
             }
 
             public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
             {
                 int x = this.adjustX;
-                int y = this.adjustY; 
-                renderElement.CustomDrawToThisPage(canvasPage, updateArea);                
+                int y = this.adjustY;
+                renderElement.CustomDrawToThisPage(canvasPage, updateArea);
 
             }
         }
@@ -307,7 +306,7 @@ namespace LayoutFarm
 #endif
         }
     }
-     
+
 }
 
 

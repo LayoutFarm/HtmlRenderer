@@ -1,15 +1,15 @@
 ﻿//2014 Apache2, WinterDev
 using System;
-using System.Collections.Generic;
-using LayoutFarm.Drawing; 
-namespace LayoutFarm
-{   
+using System.Collections.Generic; 
+
+namespace LayoutFarm.Drawing
+{
     public class InternalRect
     {
         public int _left;
         public int _top;
         public int _right;
-        public int _bottom; 
+        public int _bottom;
         private InternalRect()
         {
         }
@@ -258,18 +258,13 @@ namespace LayoutFarm
         {
             if (((_left <= left) && (_right > left)) || ((_left >= left) && (_left < right)))
             {
-                if (((_top <= top) && (_bottom > top))
-|| ((_top >= top) && (_top < bottom)))
+                if (((_top <= top) && (_bottom > top)) || ((_top >= top) && (_top < bottom)))
                 {
                     return true;
                 }
             }
             return false;
-        }
-
-
-
-
+        } 
 #if DEBUG
         public override string ToString()
         {
