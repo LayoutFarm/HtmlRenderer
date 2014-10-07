@@ -90,6 +90,7 @@ namespace LayoutFarm.Drawing
         int[] charWidths;
         IntPtr hFont;
         BasicGdi32FontHelper gdiFontHelper; 
+
         public MyFontInfo(Font f,
             int lineHeight, float ascentPx,
             float descentPx, float baseline,
@@ -105,7 +106,7 @@ namespace LayoutFarm.Drawing
             this.gdiFontHelper = gdiFontHelper;
             System.Drawing.Font innerFont = ((System.Drawing.Font)(f.InnerFont));
             hFont = innerFont.ToHfont();
-
+            charWidths = gdiFontHelper.MeasureCharWidths(hFont);
 
         }
         public override IntPtr HFont
