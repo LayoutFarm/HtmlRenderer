@@ -13,10 +13,8 @@ namespace Svg.Transforms
     /// </summary>
     public sealed class SvgSkew : SvgTransform
     {
-        public float AngleX { get; set; }
-
-        public float AngleY { get; set; }
-
+        public float AngleX { get; set; } 
+        public float AngleY { get; set; } 
         public override Matrix Matrix
         {
             get

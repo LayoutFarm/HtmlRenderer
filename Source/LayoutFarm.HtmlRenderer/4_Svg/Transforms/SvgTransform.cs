@@ -14,7 +14,6 @@ namespace Svg.Transforms
     {
         public abstract Matrix Matrix { get; }
         public abstract string WriteToString();
-
     	public abstract object Clone();
     	
     	#region Equals implementation

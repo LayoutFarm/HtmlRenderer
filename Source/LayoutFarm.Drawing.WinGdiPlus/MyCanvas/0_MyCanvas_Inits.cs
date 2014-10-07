@@ -112,6 +112,7 @@ namespace LayoutFarm
             dbug_canvasCount += 1;
 #endif
         }
+
         ~MyCanvas()
         {
             ReleaseUnManagedResource();
@@ -122,6 +123,10 @@ namespace LayoutFarm
         public void Dispose()
         {
             ReleaseHdc();
+        }
+        public override GraphicPlatform Platform
+        {
+            get { return this.platform; }
         }
         void ClearPreviousStoredValues()
         {

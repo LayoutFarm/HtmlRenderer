@@ -322,8 +322,9 @@ namespace LayoutFarm
                 int fontAscent = newFont.FontFamily.GetCellAscent(newFont.Style);
                 float descent = newFont.FontFamily.GetCellDescent(newFont.Style);
 
+                
                 fontInfo = new LayoutFarm.Drawing.MyFontInfo(
-                    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(newFont),
+                    LayoutFarm.Drawing.WinGdiPlatform.WinGdiPlatformInstance.P.CreateFont(newFont),
                     fontHeight,
                     (fontAscent * fontSize / fontEmHeight),
                     (descent * fontSize / fontEmHeight),

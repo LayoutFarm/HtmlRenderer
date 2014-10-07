@@ -31,11 +31,7 @@ namespace LayoutFarm
         {
             get { return this; }
         }
-        GraphicPlatform IGraphics.Platform
-        {
-            get { return this.platform; }
-        }
-
+       
         /// <summary>
         /// Gets the bounding clipping region of this graphics.
         /// </summary>

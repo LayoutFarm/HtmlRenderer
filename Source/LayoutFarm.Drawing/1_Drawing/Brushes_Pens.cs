@@ -26,8 +26,6 @@ namespace LayoutFarm.Drawing
         public abstract object InnerPen { get; }
     }
 
-
-
     public static class Brushes
     {
         public static SolidBrush White = CurrentGraphicPlatform.CreateSolidBrush(Color.White);
