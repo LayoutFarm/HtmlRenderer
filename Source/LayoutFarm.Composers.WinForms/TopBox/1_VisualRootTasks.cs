@@ -5,6 +5,7 @@ using System.Text;
 using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
+
     abstract class VisualRootTimerTask
     {
         RenderElement targetVisualElement;
@@ -32,7 +33,8 @@ namespace LayoutFarm
                     if (winroot != null)
                     {
                         winroot.AddTimerTask(this);
-                        isInQueue = true; winroot.EnableTaskTimer();
+                        isInQueue = true;
+                        winroot.EnableTaskTimer();
                     }
                 }
             }

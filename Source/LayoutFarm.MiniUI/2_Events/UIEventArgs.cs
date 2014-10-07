@@ -24,12 +24,7 @@ namespace LayoutFarm
         int x;
         int y;
 
-        RenderElement srcRenderElement;        
-        int canvasXOrigin;
-        int canvasYOrigin;
-        TopWindowRenderBox winRoot;
         UIEventName evName;
-         
         public UIEventArgs()
         {
 
@@ -41,32 +36,13 @@ namespace LayoutFarm
         }
         public virtual void Clear()
         {
-
-            srcRenderElement = null;
             x = 0;
             y = 0;
             CancelBubbling = false;
 
-            canvasXOrigin = 0;
-            canvasYOrigin = 0;
-
-            this.winRoot = null;
         }
 
-
-        public RenderElement SourceRenderElement
-        {
-            get
-            {
-                return srcRenderElement;
-            }
-            set
-            {
-                srcRenderElement = value;
-            }
-        }
-       
-        public object SrcElement
+        public object SourceHitElement
         {
             get;
             set;
@@ -77,25 +53,36 @@ namespace LayoutFarm
             set;
         }
 
-
         public bool IsShiftKeyDown
         {
-            get;
-            set;
-
+            get { return this.Shift; }
         }
         public bool IsAltKeyDown
         {
-            get;
-            set;
-
+            get { return this.Alt; }
         }
         public bool IsCtrlKeyDown
         {
-            get;
-            set;
+            get { return this.Control; }
 
         }
+
+        public bool Shift
+        {
+            get;
+            set;
+        }
+        public bool Alt
+        {
+            get;
+            set;
+        }
+        public bool Control
+        {
+            get;
+            set;
+        }
+
         public Point Location
         {
             get
@@ -108,11 +95,7 @@ namespace LayoutFarm
                 y = value.Y;
             }
         }
-        public void SetLocation(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
+
         public int X
         {
             get
@@ -128,40 +111,12 @@ namespace LayoutFarm
             }
         }
 
-        int beforeTranslateOriginX = 0;
-        int beforeTranslateOriginY = 0;
-        public void TranslateCanvasOrigin(Point newOrigin)
+
+
+        public void OffsetCanvasOrigin(Point p)
         {
-            beforeTranslateOriginX = canvasXOrigin; beforeTranslateOriginY = canvasYOrigin;
-            OffsetCanvasOrigin(newOrigin.X - canvasXOrigin, newOrigin.Y - canvasYOrigin);
-        }
-        public void TranslateCanvasOrigin(int newXOrigin, int newYOrigin)
-        {
-            beforeTranslateOriginX = canvasXOrigin; beforeTranslateOriginY = canvasYOrigin;
-            OffsetCanvasOrigin(newXOrigin - canvasXOrigin, newYOrigin - canvasYOrigin);
-        }
-        public void TranslateCanvasOriginBack()
-        {
-            OffsetCanvasOrigin(beforeTranslateOriginX - canvasXOrigin, beforeTranslateOriginY - canvasYOrigin);
-        }
-        public void OffsetCanvasOrigin(int dx, int dy)
-        {
-            if (dx != 0 || dy != 0)
-            {
-                x -= dx; y -= dy; canvasXOrigin += dx;
-                canvasYOrigin += dy;
-            }
-        }
-        public TopWindowRenderBox WinRoot
-        {
-            get
-            {
-                return winRoot;
-            }
-        }
-        public void SetWinRoot(TopWindowRenderBox winRoot)
-        {
-            this.winRoot = winRoot;
+            x += p.X;
+            y += p.Y;
         }
         //-----------------------------------------------
         public bool IsCanceled
@@ -189,7 +144,7 @@ namespace LayoutFarm
         None
     }
 
-     
+
 
     public class UIMouseEventArgs : UIEventArgs
     {
@@ -212,6 +167,7 @@ namespace LayoutFarm
         public void SetEventInfo(Point location, UIMouseButtons button, int clicks, int delta)
         {
             Location = location;
+
             Button = button;
             Clicks = clicks;
             Delta = delta;
@@ -228,9 +184,6 @@ namespace LayoutFarm
     public class UIKeyEventArgs : UIEventArgs
     {
         int keyData;
-        bool shift, alt, control;
-
-
         public UIKeyEventArgs()
         {
         }
@@ -246,27 +199,7 @@ namespace LayoutFarm
             }
         }
 
-        public bool Shift
-        {
-            get
-            {
-                return this.shift;
-            }
-        }
-        public bool Alt
-        {
-            get
-            {
-                return this.alt;
-            }
-        }
-        public bool Control
-        {
-            get
-            {
-                return this.control;
-            }
-        }
+
         public bool HasKeyData
         {
             get
@@ -278,9 +211,9 @@ namespace LayoutFarm
         public void SetEventInfo(int keydata, bool shift, bool alt, bool control)
         {
             this.keyData = keydata;
-            this.shift = shift;
-            this.alt = alt;
-            this.control = control;
+            this.Shift = shift;
+            this.Alt = alt;
+            this.Control = control;   
         }
 
     }
@@ -333,8 +266,8 @@ namespace LayoutFarm
         static Stack<UISizeChangedEventArgs> pool = new Stack<UISizeChangedEventArgs>();
         private UISizeChangedEventArgs(RenderElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
         {
-            this.SourceRenderElement = sourceElement;
-            this.SetLocation(widthDiff, heightDiff);
+            this.SourceHitElement = sourceElement;
+            this.Location = new Point(widthDiff, heightDiff);
             this.changeFromSideFlags = changeFromSideFlags;
         }
         public AffectedElementSideFlags ChangeFromSideFlags
@@ -349,8 +282,9 @@ namespace LayoutFarm
             if (pool.Count > 0)
             {
                 UISizeChangedEventArgs e = pool.Pop();
-                e.SetLocation(widthDiff, heightDiff);
-                e.SourceRenderElement = sourceElement;
+
+                e.Location = new Point(widthDiff, heightDiff);
+                e.SourceHitElement = sourceElement;
                 e.changeFromSideFlags = changeFromSideFlags;
                 return e;
             }
@@ -416,8 +350,8 @@ namespace LayoutFarm
 
     public class UIFocusEventArgs : UIEventArgs
     {
-        RenderElement tobeFocusElement;
-        RenderElement tobeLostFocusElement;
+        object tobeFocusElement;
+        object tobeLostFocusElement;
         FocusEventType focusEventType = FocusEventType.PreviewLostFocus;
         public UIFocusEventArgs()
         {
@@ -434,7 +368,7 @@ namespace LayoutFarm
                 focusEventType = value;
             }
         }
-        public RenderElement ToBeFocusElement
+        public object ToBeFocusElement
         {
             get
             {
@@ -445,7 +379,7 @@ namespace LayoutFarm
                 tobeFocusElement = value;
             }
         }
-        public RenderElement ToBeLostFocusElement
+        public object ToBeLostFocusElement
         {
             get
             {

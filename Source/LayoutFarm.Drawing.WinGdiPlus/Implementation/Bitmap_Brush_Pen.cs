@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace LayoutFarm.Drawing.WinGdiPlatform
+namespace LayoutFarm.Drawing 
 {
     class MyBitmap : Bitmap
     {
@@ -16,6 +16,9 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         public MyBitmap(System.Drawing.Bitmap bmp)
         {
             this.bmp = bmp;
+            this.width = bmp.Width;
+            this.height = bmp.Height;
+
         }
         public override object InnerImage
         {

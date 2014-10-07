@@ -29,6 +29,7 @@ namespace HtmlRenderer
         /// the root css box of the parsed html
         /// </summary>
         CssBox _rootBox;
+
         /// <summary>
         /// Gets or sets a value indicating if antialiasing should be avoided 
         /// for geometry like backgrounds and borders
@@ -217,10 +218,7 @@ namespace HtmlRenderer
             {
                 this._actualHeight = newHeight;
             }
-        }
-
-
-
+        } 
         public CssBox GetRootCssBox()
         {
             return this._rootBox;
@@ -249,10 +247,7 @@ namespace HtmlRenderer
         }
         protected virtual void OnAllDisposed()
         {
-        }
-
-
-
+        } 
         public void PerformLayout(IGraphics ig)
         {
 

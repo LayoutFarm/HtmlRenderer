@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
- 
+
 using LayoutFarm;
 using LayoutFarm.UI;
 using LayoutFarm.Text;
@@ -17,17 +17,24 @@ namespace LayoutFarm.SampleControls
     {
 
         TextEditRenderBox visualTextEdit;
-        bool _multiline; 
+        bool _multiline;
         public UITextBox(int width, int height, bool multiline)
             : base(width, height)
         {
             this._multiline = multiline;
-        } 
+        }
+        public override bool AcceptKeyboardFocus
+        {
+            get
+            {
+                return true; 
+            }
+        }
         public void Focus()
         {
             //request keyboard focus
             visualTextEdit.Focus();
-        }        
+        }
         protected override bool HasReadyRenderElement
         {
             get { return this.visualTextEdit != null; }
@@ -56,16 +63,14 @@ namespace LayoutFarm.SampleControls
             }
             return visualTextEdit;
         }
-         
+
         protected override void OnKeyPress(UIKeyPressEventArgs e)
         {
-
             visualTextEdit.OnKeyPress(e);
         }
         protected override void OnKeyDown(UIKeyEventArgs e)
         {
             visualTextEdit.OnKeyDown(e);
-
         }
         protected override void OnKeyUp(UIKeyEventArgs e)
         {
@@ -80,6 +85,7 @@ namespace LayoutFarm.SampleControls
         {
             this.Focus();
             visualTextEdit.OnMouseDown(e);
+            e.CancelBubbling = true;
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {

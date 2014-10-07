@@ -13,9 +13,8 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 
-namespace HtmlRenderer.Drawing 
+namespace DrawingBridge
 {
     /// <summary>
     /// Utility for Win32 API.
@@ -49,7 +48,7 @@ namespace HtmlRenderer.Drawing
             SetBkMode(memoryHdc, 1);
 
             // Create a device-independent bitmap and select it into our DC
-            var info = new BitMapInfo();
+            var info = new LayoutFarm.BitMapInfo();
             info.biSize = Marshal.SizeOf(info);
             info.biWidth = width;
             info.biHeight = -height;
@@ -163,7 +162,7 @@ namespace HtmlRenderer.Drawing
         public static extern bool BitBlt(IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hdcSrc, int nXSrc, int nYSrc, int dwRop);
 
         [DllImport("gdi32.dll", EntryPoint = "GdiAlphaBlend")]
-        public static extern bool AlphaBlend(IntPtr hdcDest, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, IntPtr hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, BlendFunction blendFunction);
+        public static extern bool AlphaBlend(IntPtr hdcDest, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, IntPtr hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, LayoutFarm.BlendFunction blendFunction);
 
         [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
         public static extern bool DeleteDC(IntPtr hdc);
@@ -172,43 +171,8 @@ namespace HtmlRenderer.Drawing
         public static extern IntPtr CreateCompatibleDC(IntPtr hdc);
 
         [DllImport("gdi32.dll")]
-        public static extern IntPtr CreateDIBSection(IntPtr hdc, [In] ref BitMapInfo pbmi, uint iUsage, out IntPtr ppvBits, IntPtr hSection, uint dwOffset);
+        public static extern IntPtr CreateDIBSection(IntPtr hdc, [In] ref  LayoutFarm.BitMapInfo pbmi, uint iUsage, out IntPtr ppvBits, IntPtr hSection, uint dwOffset);
     }
 
-    [StructLayout(LayoutKind.Sequential)]
-    struct BlendFunction
-    {
-        public byte BlendOp;
-        public byte BlendFlags;
-        public byte SourceConstantAlpha;
-        public byte AlphaFormat;
-
-        public BlendFunction(byte alpha)
-        {
-            BlendOp = 0;
-            BlendFlags = 0;
-            AlphaFormat = 0;
-            SourceConstantAlpha = alpha;
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    struct BitMapInfo
-    {
-        public int biSize;
-        public int biWidth;
-        public int biHeight;
-        public short biPlanes;
-        public short biBitCount;
-        public int biCompression;
-        public int biSizeImage;
-        public int biXPelsPerMeter;
-        public int biYPelsPerMeter;
-        public int biClrUsed;
-        public int biClrImportant;
-        public byte bmiColors_rgbBlue;
-        public byte bmiColors_rgbGreen;
-        public byte bmiColors_rgbRed;
-        public byte bmiColors_rgbReserved;
-    }
+    
 }

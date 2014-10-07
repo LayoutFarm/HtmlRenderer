@@ -41,7 +41,7 @@ namespace HtmlRenderer.Boxes
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
             return newBox;
         }
-        public static bool HitTest(CssBox box, float x, float y, BoxHitChain hitChain)
+        public static bool HitTest(CssBox box, float x, float y, CssBoxHitChain hitChain)
         {
             //recursive  
             if (box.IsPointInArea(x, y))
@@ -103,8 +103,7 @@ namespace HtmlRenderer.Boxes
                 return true;
             }
             else
-            {
-                //switch (box.WellknownTagName)
+            { 
                 switch (box.CssDisplay)
                 {
 

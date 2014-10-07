@@ -27,9 +27,9 @@ namespace HtmlRenderer.Boxes
         /// Init.
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
-        /// <param name="tag">the html tag data of this box</param>
-        public CssBoxHr(object tag, Css.BoxSpec spec)
-            : base(tag, spec)
+        /// <param name="controller">the html tag data of this box</param>
+        public CssBoxHr(object controller, Css.BoxSpec spec)
+            : base(controller, spec)
         {
             ChangeDisplayType(this, Css.CssDisplay.Block);
         }

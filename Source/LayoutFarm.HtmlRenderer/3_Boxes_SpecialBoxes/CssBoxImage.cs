@@ -35,9 +35,9 @@ namespace HtmlRenderer.Boxes
         /// Init.
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
-        /// <param name="tag">the html tag data of this box</param>
-        public CssBoxImage(object tag, Css.BoxSpec boxSpec, ImageBinder binder)
-            : base(tag, boxSpec)
+        /// <param name="controller">the html tag data of this box</param>
+        public CssBoxImage(object controller, Css.BoxSpec boxSpec, ImageBinder binder)
+            : base(controller, boxSpec)
         {
 
             this._imgRun = new CssImageRun();
@@ -140,7 +140,7 @@ namespace HtmlRenderer.Boxes
                             {
                                 g.DrawImage(img,
                                     new RectangleF(r.Left, r.Top,
-                                        img.Width, img.Height)); 
+                                      img.Width, img.Height));
                                 // g.DrawImage(img, Rectangle.Round(r));
                             }
                             else

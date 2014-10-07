@@ -27,6 +27,8 @@ namespace LayoutFarm.Text
         }
         protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
         {
+
+
             if (vscrollableSurface != null)
             {
                 vscrollableSurface.DrawToThisPage(canvasPage, updateArea);

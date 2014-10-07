@@ -18,9 +18,6 @@ using System.Collections.Generic;
 using LayoutFarm.Drawing;
 using System.Globalization;
 using System.Text;
-
-
-using LayoutFarm.Drawing;
 using HtmlRenderer.Css;
 
 namespace HtmlRenderer.Boxes
@@ -47,8 +44,8 @@ namespace HtmlRenderer.Boxes
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
         public int dbugMark;
-#endif   
-        public CssBox(object controller, BoxSpec spec)
+#endif
+        public CssBox(object controller, BoxSpec spec) 
         {
 
             this._aa_boxes = new CssBoxCollection();
@@ -68,7 +65,7 @@ namespace HtmlRenderer.Boxes
             ChangeDisplayType(this, _myspec.CssDisplay);
 
         }
-        public CssBox(object controller, BoxSpec spec, CssDisplay fixDisplayType)
+        public CssBox(object controller, BoxSpec spec, CssDisplay fixDisplayType)             
         {
             this._aa_boxes = new CssBoxCollection();
             this._controller = controller;
@@ -87,9 +84,10 @@ namespace HtmlRenderer.Boxes
             //----------------------------
             this._myspec = spec;
             EvaluateSpec(spec);
-            ChangeDisplayType(this, _myspec.CssDisplay); 
+            ChangeDisplayType(this, _myspec.CssDisplay);
 
         }
+
 
         /// <summary>
         /// Gets the parent box of this box
@@ -125,7 +123,7 @@ namespace HtmlRenderer.Boxes
                 return (this._boxCompactFlags & BoxFlags.IS_BR_ELEM) != 0;
             }
         }
-        public bool IsSvgRootElement
+        public bool IsCustomCssBox
         {
             get
             {
@@ -664,7 +662,11 @@ namespace HtmlRenderer.Boxes
 
 
 
-
+        //public bool AcceptKeyboardFocus
+        //{
+        //    get;
+        //    set;
+        //}
 
         ///// <summary>
         ///// Get brush for selection background depending if it has external and if alpha is required for images.

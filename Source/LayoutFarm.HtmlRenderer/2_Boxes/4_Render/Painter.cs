@@ -114,10 +114,10 @@ namespace HtmlRenderer.Boxes
         internal void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, CssBox requestFrom)
         {
             HtmlIsland.RaiseRequestImage(
-            this.visualRootBox,
-            binder,
-            requestFrom,
-            false);
+                this.visualRootBox,
+                binder,
+                requestFrom,
+                false);
             //--------------------------------------------------
             if (binder.State == ImageBinderState.Loaded)
             {

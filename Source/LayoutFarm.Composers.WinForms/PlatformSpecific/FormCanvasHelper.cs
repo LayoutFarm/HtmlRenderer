@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-
 using LayoutFarm.Drawing;
 
 namespace LayoutFarm
 {
     public static class FormCanvasHelper
-    {
+    {     
+
         public static Form CreateNewFormCanvas(out UISurfaceViewportControl canvasViewport)
         {
 
@@ -18,10 +18,8 @@ namespace LayoutFarm
             UISurfaceViewportControl innerViewport = canvasViewport;
             Rectangle screenClientAreaRect = Conv.ToRect(Screen.PrimaryScreen.WorkingArea);
 
-            //----------------------
-
-
-            canvasViewport.InitRootGraphics(800, 600); 
+            //---------------------- 
+            canvasViewport.InitRootGraphics(800, 600);
             canvasViewport.Bounds =
                 new System.Drawing.Rectangle(0, 0,
                     screenClientAreaRect.Width,
@@ -41,7 +39,7 @@ namespace LayoutFarm
                     if (innerViewport != null)
                     {
                         innerViewport.Size = currentScreen.WorkingArea.Size;
-                        innerViewport.UpdateRootdocViewportSize();
+
                     }
                 }
             };

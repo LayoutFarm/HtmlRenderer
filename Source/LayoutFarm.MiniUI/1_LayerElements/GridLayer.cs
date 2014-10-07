@@ -67,23 +67,23 @@ namespace LayoutFarm
             }
             //------------------------------------------------------------
         }
-        public override bool HitTestCore(HitPointChain artHitResult)
+        public override bool HitTestCore(HitChain hitChain)
         {
             int testX;
             int testY;
-            artHitResult.GetTestPoint(out testX, out testY);
+            hitChain.GetTestPoint(out testX, out testY);
             GridCell cell = GetGridItemByPosition(testX, testY);
 
             if (cell != null && cell.HasContent)
             {
-                artHitResult.OffsetTestPoint(-cell.X, -cell.Y);
+                hitChain.OffsetTestPoint(-cell.X, -cell.Y);
                 var renderE = cell.ContentElement as RenderElement;
                 if (renderE != null)
                 {
-                    renderE.HitTestCore(artHitResult);
+                    renderE.HitTestCore(hitChain);
                 }
 
-                artHitResult.OffsetTestPoint(cell.X, cell.Y);
+                hitChain.OffsetTestPoint(cell.X, cell.Y);
                 return true;
             }
             return false;
