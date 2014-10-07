@@ -55,19 +55,34 @@ namespace LayoutFarm
 
         public bool IsShiftKeyDown
         {
-            get;
-            set;
+            get { return this.Shift; }
         }
         public bool IsAltKeyDown
         {
-            get;
-            set;
+            get { return this.Alt; }
         }
         public bool IsCtrlKeyDown
+        {
+            get { return this.Control; }
+
+        }
+
+        public bool Shift
         {
             get;
             set;
         }
+        public bool Alt
+        {
+            get;
+            set;
+        }
+        public bool Control
+        {
+            get;
+            set;
+        }
+
         public Point Location
         {
             get
@@ -97,7 +112,7 @@ namespace LayoutFarm
         }
 
 
-      
+
         public void OffsetCanvasOrigin(Point p)
         {
             x += p.X;
@@ -169,7 +184,6 @@ namespace LayoutFarm
     public class UIKeyEventArgs : UIEventArgs
     {
         int keyData;
-        bool shift, alt, control;
         public UIKeyEventArgs()
         {
         }
@@ -185,27 +199,7 @@ namespace LayoutFarm
             }
         }
 
-        public bool Shift
-        {
-            get
-            {
-                return this.shift;
-            }
-        }
-        public bool Alt
-        {
-            get
-            {
-                return this.alt;
-            }
-        }
-        public bool Control
-        {
-            get
-            {
-                return this.control;
-            }
-        }
+
         public bool HasKeyData
         {
             get
@@ -217,9 +211,9 @@ namespace LayoutFarm
         public void SetEventInfo(int keydata, bool shift, bool alt, bool control)
         {
             this.keyData = keydata;
-            this.shift = shift;
-            this.alt = alt;
-            this.control = control;
+            this.Shift = shift;
+            this.Alt = alt;
+            this.Control = control;   
         }
 
     }

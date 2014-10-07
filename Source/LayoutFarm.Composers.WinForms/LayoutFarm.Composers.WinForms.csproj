@@ -68,7 +68,7 @@
     <Compile Include="TopBox\MyIntervalTaskEventArgs.cs" />
     <Compile Include="TopBox\MyRootGraphic.cs" />
     <Compile Include="TopBox\MyTimerSheet.cs" />
-    <Compile Include="TopBox\UserInputEventBridge.cs" />
+    <Compile Include="PlatformSpecific\UserInputEventBridge.cs" />
     <Compile Include="TopBox\UIHoverMonitor.cs" />
     <Compile Include="PlatformSpecific\MyCustomRenderSurface.cs" />
   </ItemGroup>

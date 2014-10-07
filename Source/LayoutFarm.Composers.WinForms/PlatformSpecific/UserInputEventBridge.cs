@@ -8,16 +8,9 @@ namespace LayoutFarm
 {
 
     class UserInputEventBridge
-    {
-
-        CanvasEventsStock eventStock = new CanvasEventsStock();
-    
-        
-        int currentXDistanceFromDragPoint = 0;
-        int currentYDistanceFromDragPoint = 0;
+    { 
 
         readonly MyHitChain hitPointChain = new MyHitChain();
-
         UIHoverMonitorTask hoverMonitoringTask;
 
         int msgChainVersion;
@@ -25,10 +18,8 @@ namespace LayoutFarm
 
         IEventListener currentKbFocusElem;
         IEventListener currentMouseActiveElement;
-
-
-        RootGraphic rootGraphic;
-
+        IEventListener currentDragElem;
+         
         public UserInputEventBridge()
         {
 
@@ -36,14 +27,28 @@ namespace LayoutFarm
         }
         public void Bind(MyTopWindowRenderBox topwin)
         {
-            this.topwin = topwin;
-            this.rootGraphic = topwin.Root;
+            this.topwin = topwin;             
             this.hoverMonitoringTask = new UIHoverMonitorTask(this.topwin, OnMouseHover);
 #if DEBUG
             hitPointChain.dbugHitTracker = this.rootGraphic.dbugHitTracker;
 #endif
         }
-
+ 
+        RootGraphic rootGraphic
+        {
+            get { return topwin.Root; }
+        }
+ 
+        //---------------------------------------------------------------------
+        bool DisableGraphicOutputFlush
+        {
+            get { return this.rootGraphic.DisableGraphicOutputFlush; }
+            set { this.rootGraphic.DisableGraphicOutputFlush = value; }
+        }
+        void FlushAccumGraphicUpdate()
+        {
+            this.rootGraphic.FlushAccumGraphicUpdate(this.topwin);
+        }
 
         public IEventListener CurrentKeyboardFocusedElement
         {
@@ -116,16 +121,7 @@ namespace LayoutFarm
             commonElement.HitTestCore(hitPointChain);
 
         }
-        bool DisableGraphicOutputFlush
-        {
-            get { return this.rootGraphic.DisableGraphicOutputFlush; }
-            set { this.rootGraphic.DisableGraphicOutputFlush = value; }
-        }
-        void FlushAccumGraphicUpdate()
-        {
-            this.rootGraphic.FlushAccumGraphicUpdate(this.topwin);
-        }
-
+        
 
         //--------------------------------------------------
         public void OnDoubleClick(UIMouseEventArgs e)
@@ -135,7 +131,6 @@ namespace LayoutFarm
             ForEachEventListener(this.hitPointChain, (hit, listener) =>
             {
                 //on double click 
-
                 return true;
             });
 
@@ -270,7 +265,7 @@ namespace LayoutFarm
 
                 return true;//stop
             });
-            DisableGraphicOutputFlush = false; 
+            DisableGraphicOutputFlush = false;
             hitPointChain.SwapHitChain();
         }
         void OnMouseHover(object sender, EventArgs e)
@@ -312,13 +307,22 @@ namespace LayoutFarm
 #endif
 
 
-            currentXDistanceFromDragPoint = 0;
-            currentYDistanceFromDragPoint = 0;
+            
 
             HitTestCoreWithPrevChainHint(
               hitPointChain.LastestRootX,
               hitPointChain.LastestRootY);
 
+            DisableGraphicOutputFlush = true;
+            this.currentDragElem = null;
+            ForEachEventListener(this.hitPointChain, (hit, listener) =>
+            {
+                currentDragElem = listener;
+                listener.ListenDragEvent(UIDragEventName.DragStart, e);
+                return true;
+            });
+            DisableGraphicOutputFlush = false;
+            FlushAccumGraphicUpdate();
             //currentDragingElement = this.hitPointChain.CurrentHitElement;
 
             //if (currentDragingElement != null &&
@@ -347,6 +351,10 @@ namespace LayoutFarm
         }
         public void OnDrag(UIDragEventArgs e)
         {
+            if (currentDragElem == null)
+            {
+                return;
+            }
 
 #if DEBUG
             this.rootGraphic.dbugEventIsDragging = true;
@@ -362,11 +370,13 @@ namespace LayoutFarm
             //}
 
             //--------------
-            currentXDistanceFromDragPoint += e.XDiff;
-            currentYDistanceFromDragPoint += e.YDiff;
-
-
+          
             DisableGraphicOutputFlush = true;
+
+            currentDragElem.ListenDragEvent(UIDragEventName.Dragging, e); 
+
+            DisableGraphicOutputFlush = false;
+            FlushAccumGraphicUpdate();
 
             //Point globalDragingElementLocation = currentDragingElement.GetGlobalLocation();
             //e.TranslateCanvasOrigin(globalDragingElementLocation);
@@ -383,7 +393,7 @@ namespace LayoutFarm
             //}
             //e.TranslateCanvasOriginBack();
 
-            FlushAccumGraphicUpdate();
+
         }
 
 
@@ -475,10 +485,21 @@ namespace LayoutFarm
         public void OnDragStop(UIDragEventArgs e)
         {
 
-
+            if (currentDragElem == null)
+            {
+                return;
+            }
 #if DEBUG
             this.rootGraphic.dbugEventIsDragging = false;
-#endif
+#endif  
+            
+            DisableGraphicOutputFlush = true;
+
+            currentDragElem.ListenDragEvent(UIDragEventName.DragStop, e);
+
+            DisableGraphicOutputFlush = false;
+            FlushAccumGraphicUpdate();
+
             //if (currentDragingElement == null)
             //{
             //    return;
@@ -533,13 +554,9 @@ namespace LayoutFarm
 
             //    //    d_eventArg.TranslateCanvasOriginBack();
             //    //}
-            //}
-
-
-
+            //} 
             DisableGraphicOutputFlush = false;
-            FlushAccumGraphicUpdate();
-
+            FlushAccumGraphicUpdate(); 
         }
         public void OnGotFocus(UIFocusEventArgs e)
         {
@@ -568,7 +585,7 @@ namespace LayoutFarm
             if (hitCount > 0)
             {
 
-                DisableGraphicOutputFlush = true; 
+                DisableGraphicOutputFlush = true;
                 //---------------------------------------------------------------
                 ForEachEventListener(this.hitPointChain, (hitobj, listener) =>
                 {
@@ -581,7 +598,7 @@ namespace LayoutFarm
                     }
                     return true;
                 });
-              
+
                 DisableGraphicOutputFlush = false;
                 FlushAccumGraphicUpdate();
             }
@@ -591,39 +608,34 @@ namespace LayoutFarm
         public void OnKeyDown(UIKeyEventArgs e)
         {
             var visualroot = this.rootGraphic;
-            e.IsShiftKeyDown = e.Shift;
-            e.IsAltKeyDown = e.Alt;
-            e.IsCtrlKeyDown = e.Control;
-
+         
             if (currentKbFocusElem != null)
-            { 
+            {
                 e.SourceHitElement = currentKbFocusElem;
-                currentKbFocusElem.ListenKeyEvent(UIKeyEventName.KeyDown, e); 
+                currentKbFocusElem.ListenKeyEvent(UIKeyEventName.KeyDown, e);
             }
         }
         public void OnKeyUp(UIKeyEventArgs e)
         {
-            var visualroot = this.rootGraphic;
-            e.IsShiftKeyDown = e.Shift;
-            e.IsAltKeyDown = e.Alt;
-            e.IsCtrlKeyDown = e.Control;
+           
+          
             if (currentKbFocusElem != null)
-            {                 
-                e.SourceHitElement = currentKbFocusElem; 
-                currentKbFocusElem.ListenKeyEvent(UIKeyEventName.KeyUp, e); 
+            {
+                e.SourceHitElement = currentKbFocusElem;
+                currentKbFocusElem.ListenKeyEvent(UIKeyEventName.KeyUp, e);
             }
         }
         public void OnKeyPress(UIKeyPressEventArgs e)
         {
 
             if (currentKbFocusElem != null)
-            {   
+            {
                 e.SourceHitElement = currentKbFocusElem;
-                currentKbFocusElem.ListenKeyPressEvent(e); 
+                currentKbFocusElem.ListenKeyPressEvent(e);
             }
         }
         public bool OnProcessDialogKey(UIKeyEventArgs e)
-        {   
+        {
             bool result = false;
             if (currentKbFocusElem != null)
             {
